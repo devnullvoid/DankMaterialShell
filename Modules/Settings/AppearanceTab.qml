@@ -447,7 +447,7 @@ ScrollView {
                             if (Theme.isDynamicTheme)
                                 return "Wallpaper-based dynamic colors";
 
-                            var descriptions = ["Material blue inspired by modern interfaces", "Deep blue inspired by material 3", "Rich purple tones for BB elegance", "Natural green for productivity", "Energetic orange for creativity", "Bold red for impact", "Cool cyan for tranquility", "Vibrant pink for expression", "Warm amber for comfort", "Soft coral for gentle warmth"];
+                            var descriptions = ["Material blue inspired by modern interfaces", "Deep blue inspired by material 3", "Rich purple tones for BB elegance", "Natural green for productivity", "Energetic orange for creativity", "Bold red for impact", "Cool cyan for tranquility", "Vibrant pink for expression", "Warm amber for comfort", "Soft coral for gentle warmth", "Soothing pastel theme for the high-spirited"];
                             return descriptions[Theme.currentThemeIndex] || "Select a theme";
                         }
                         font.pixelSize: Theme.fontSizeSmall
@@ -541,7 +541,7 @@ ScrollView {
                         anchors.horizontalCenter: parent.horizontalCenter
 
                         Repeater {
-                            model: 5
+                            model: Theme.themes.length - 5
 
                             Rectangle {
                                 property int themeIndex: index + 5

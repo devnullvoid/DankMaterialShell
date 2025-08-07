@@ -169,6 +169,22 @@ Singleton {
         "outline": "#968b8a",
         "surfaceContainer": "#201a19",
         "surfaceContainerHigh": "#2b2221"
+    }, {
+        "name": "Catppuccin Mocha",
+        "primary": "#cba6f7",
+        "primaryText": "#cdd6f4",
+        "primaryContainer": "#585b70",
+        "secondary": "#f5c2e7",
+        "surface": "#11111b",
+        "surfaceText": "#cdd6f4",
+        "surfaceVariant": "#313244",
+        "surfaceVariantText": "#a6adc8",
+        "surfaceTint": "#cba6f7",
+        "background": "#11111b",
+        "backgroundText": "#cdd6f4",
+        "outline": "#6c7086",
+        "surfaceContainer": "#181825",
+        "surfaceContainerHigh": "#1e1e2e"
     }]
     property var lightThemes: [{
         "name": "Blue Light",
@@ -330,6 +346,22 @@ Singleton {
         "outline": "#79747e",
         "surfaceContainer": "#f3f3f3",
         "surfaceContainerHigh": "#ececec"
+    }, {
+        "name": "Catppuccin Latte",
+        "primary": "#8839ef",
+        "primaryText": "#eff1f5",
+        "primaryContainer": "#acb0be",
+        "secondary": "#ea76cb",
+        "surface": "#e6e9ef",
+        "surfaceText": "#4c4f69",
+        "surfaceVariant": "#ccd0da",
+        "surfaceVariantText": "#6c6f85",
+        "surfaceTint": "#8839ef",
+        "background": "#eff1f5",
+        "backgroundText": "#4c4f69",
+        "outline": "#9ca0b0",
+        "surfaceContainer": "#ccd0da",
+        "surfaceContainerHigh": "#bcc0cc"
     }]
     property int currentThemeIndex: 0
     property bool isDynamicTheme: false
