@@ -3,32 +3,39 @@ import QtQuick.Controls
 import qs.Common
 import qs.Widgets
 
-ScrollView {
+Item {
     id: timeWeatherTab
 
-    // Qt 6.9+ scrolling: Enhanced mouse wheel and touchpad responsiveness
-    // Custom wheel handler for Qt 6.9+ responsive mouse wheel scrolling
-    WheelHandler {
-        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-        onWheel: (event) => {
-            let delta = event.pixelDelta.y !== 0 ? event.pixelDelta.y * 1.8 : event.angleDelta.y / 120 * 80
-            let flickable = timeWeatherTab.contentItem
-            let newY = flickable.contentY - delta
-            newY = Math.max(0, Math.min(flickable.contentHeight - flickable.height, newY))
-            flickable.contentY = newY
-            event.accepted = true
+    DankFlickable {
+        anchors.fill: parent
+        anchors.topMargin: Theme.spacingL
+        anchors.bottomMargin: Theme.spacingXL
+        clip: true
+        contentHeight: mainColumn.height
+        contentWidth: width
+        mouseWheelSpeed: 20
+        
+        Column {
+            id: mainColumn
+            width: parent.width
+            spacing: Theme.spacingXL
+            
+            Loader {
+                width: parent.width
+                sourceComponent: timeComponent
+            }
+            
+            Loader {
+                width: parent.width
+                sourceComponent: weatherComponent
+            }
         }
     }
 
-    contentHeight: column.implicitHeight
-    clip: true
-
-    Column {
-        id: column
-
-        width: parent.width
-        spacing: Theme.spacingXL
-
+    // Time Format Component
+    Component {
+        id: timeComponent
+        
         StyledRect {
             width: parent.width
             height: timeSection.implicitHeight + Theme.spacingL * 2
@@ -76,9 +83,13 @@ ScrollView {
                 }
 
             }
-
         }
+    }
 
+    // Weather Component
+    Component {
+        id: weatherComponent
+        
         StyledRect {
             width: parent.width
             height: weatherSection.implicitHeight + Theme.spacingL * 2
@@ -171,9 +182,6 @@ ScrollView {
                 }
 
             }
-
         }
-
     }
-
 }

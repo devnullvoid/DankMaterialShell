@@ -370,17 +370,49 @@ PanelWindow {
 
                         DankListView {
                             id: appList
+                            mouseWheelSpeed: 20
+
+                            property int itemHeight: 72
+                            property int iconSize: 56
+                            property bool showDescription: true
+                            property int itemSpacing: Theme.spacingS
+                            property bool hoverUpdatesSelection: false
+                            property bool keyboardNavigationActive: appLauncher.keyboardNavigationActive
+
+                            signal keyboardNavigationReset()
+                            signal itemClicked(int index, var modelData)
+                            signal itemHovered(int index)
+                            signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
+
+                            function ensureVisible(index) {
+                                if (index < 0 || index >= count)
+                                    return;
+
+                                var itemY = index * (itemHeight + itemSpacing);
+                                var itemBottom = itemY + itemHeight;
+                                if (itemY < contentY)
+                                    contentY = itemY;
+                                else if (itemBottom > contentY + height)
+                                    contentY = itemBottom - height;
+                            }
 
                             anchors.fill: parent
                             anchors.margins: Theme.spacingS
                             visible: appLauncher.viewMode === "list"
                             model: appLauncher.model
                             currentIndex: appLauncher.selectedIndex
-                            itemHeight: 72
-                            iconSize: 56
-                            showDescription: true
-                            hoverUpdatesSelection: false
-                            keyboardNavigationActive: appLauncher.keyboardNavigationActive
+                            clip: true
+                            spacing: itemSpacing
+                            focus: true
+                            interactive: true
+                            cacheBuffer: Math.max(0, Math.min(height * 2, 1000))
+                            reuseItems: true
+
+                            onCurrentIndexChanged: {
+                                if (keyboardNavigationActive)
+                                    ensureVisible(currentIndex);
+                            }
+
                             onItemClicked: function(index, modelData) {
                                 appLauncher.launchApp(modelData);
                             }
@@ -392,21 +424,171 @@ PanelWindow {
                             }
                             onKeyboardNavigationReset: {
                                 appLauncher.keyboardNavigationActive = false;
+                            }
+
+                            ScrollBar.vertical: ScrollBar {
+                                policy: ScrollBar.AlwaysOn
+                            }
+
+                            ScrollBar.horizontal: ScrollBar {
+                                policy: ScrollBar.AlwaysOff
+                            }
+
+                            delegate: Rectangle {
+                                width: ListView.view.width
+                                height: appList.itemHeight
+                                radius: Theme.cornerRadiusLarge
+                                color: ListView.isCurrentItem ? Theme.primaryPressed : mouseArea.containsMouse ? Theme.primaryHoverLight : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.03)
+                                border.color: ListView.isCurrentItem ? Theme.primarySelected : Theme.outlineMedium
+                                border.width: ListView.isCurrentItem ? 2 : 1
+
+                                Row {
+                                    anchors.fill: parent
+                                    anchors.margins: Theme.spacingM
+                                    spacing: Theme.spacingL
+
+                                    Item {
+                                        width: appList.iconSize
+                                        height: appList.iconSize
+                                        anchors.verticalCenter: parent.verticalCenter
+
+                                        IconImage {
+                                            id: iconImg
+
+                                            anchors.fill: parent
+                                            source: (model.icon) ? Quickshell.iconPath(model.icon, SettingsData.iconTheme === "System Default" ? "" : SettingsData.iconTheme) : ""
+                                            smooth: true
+                                            asynchronous: true
+                                            visible: status === Image.Ready
+                                        }
+
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            visible: !iconImg.visible
+                                            color: Theme.surfaceLight
+                                            radius: Theme.cornerRadiusLarge
+                                            border.width: 1
+                                            border.color: Theme.primarySelected
+
+                                            StyledText {
+                                                anchors.centerIn: parent
+                                                text: (model.name && model.name.length > 0) ? model.name.charAt(0).toUpperCase() : "A"
+                                                font.pixelSize: appList.iconSize * 0.4
+                                                color: Theme.primary
+                                                font.weight: Font.Bold
+                                            }
+                                        }
+                                    }
+
+                                    Column {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        width: parent.width - appList.iconSize - Theme.spacingL
+                                        spacing: Theme.spacingXS
+
+                                        StyledText {
+                                            width: parent.width
+                                            text: model.name || ""
+                                            font.pixelSize: Theme.fontSizeLarge
+                                            color: Theme.surfaceText
+                                            font.weight: Font.Medium
+                                            elide: Text.ElideRight
+                                        }
+
+                                        StyledText {
+                                            width: parent.width
+                                            text: model.comment || "Application"
+                                            font.pixelSize: Theme.fontSizeMedium
+                                            color: Theme.surfaceVariantText
+                                            elide: Text.ElideRight
+                                            visible: appList.showDescription && model.comment && model.comment.length > 0
+                                        }
+                                    }
+                                }
+
+                                MouseArea {
+                                    id: mouseArea
+
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                    z: 10
+                                    onEntered: {
+                                        if (appList.hoverUpdatesSelection && !appList.keyboardNavigationActive)
+                                            appList.currentIndex = index;
+
+                                        appList.itemHovered(index);
+                                    }
+                                    onPositionChanged: {
+                                        appList.keyboardNavigationReset();
+                                    }
+                                    onClicked: (mouse) => {
+                                        if (mouse.button === Qt.LeftButton) {
+                                            appList.itemClicked(index, model);
+                                        } else if (mouse.button === Qt.RightButton) {
+                                            var globalPos = mapToGlobal(mouse.x, mouse.y);
+                                            appList.itemRightClicked(index, model, globalPos.x, globalPos.y);
+                                        }
+                                    }
+                                }
                             }
                         }
 
                         DankGridView {
                             id: appGrid
 
+                            property int currentIndex: appLauncher.selectedIndex
+                            property int columns: 4
+                            property bool adaptiveColumns: false
+                            property int minCellWidth: 120
+                            property int maxCellWidth: 160
+                            property int cellPadding: 8
+                            property real iconSizeRatio: 0.6
+                            property int maxIconSize: 56
+                            property int minIconSize: 32
+                            property bool hoverUpdatesSelection: false
+                            property bool keyboardNavigationActive: appLauncher.keyboardNavigationActive
+                            property int baseCellWidth: adaptiveColumns ? Math.max(minCellWidth, Math.min(maxCellWidth, width / columns)) : (width - Theme.spacingS * 2) / columns
+                            property int baseCellHeight: baseCellWidth + 20
+                            property int actualColumns: adaptiveColumns ? Math.floor(width / cellWidth) : columns
+                            property int remainingSpace: width - (actualColumns * cellWidth)
+
+                            signal keyboardNavigationReset()
+                            signal itemClicked(int index, var modelData)
+                            signal itemHovered(int index)
+                            signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
+
+                            function ensureVisible(index) {
+                                if (index < 0 || index >= count)
+                                    return;
+
+                                var itemY = Math.floor(index / actualColumns) * cellHeight;
+                                var itemBottom = itemY + cellHeight;
+                                if (itemY < contentY)
+                                    contentY = itemY;
+                                else if (itemBottom > contentY + height)
+                                    contentY = itemBottom - height;
+                            }
+
                             anchors.fill: parent
                             anchors.margins: Theme.spacingS
                             visible: appLauncher.viewMode === "grid"
                             model: appLauncher.model
-                            columns: 4
-                            adaptiveColumns: false
-                            currentIndex: appLauncher.selectedIndex
-                            hoverUpdatesSelection: false
-                            keyboardNavigationActive: appLauncher.keyboardNavigationActive
+                            clip: true
+                            cellWidth: baseCellWidth
+                            cellHeight: baseCellHeight
+                            leftMargin: Math.max(Theme.spacingS, remainingSpace / 2)
+                            rightMargin: leftMargin
+                            focus: true
+                            interactive: true
+                            cacheBuffer: Math.max(0, Math.min(height * 2, 1000))
+                            reuseItems: true
+
+                            onCurrentIndexChanged: {
+                                if (keyboardNavigationActive)
+                                    ensureVisible(currentIndex);
+                            }
+
                             onItemClicked: function(index, modelData) {
                                 appLauncher.launchApp(modelData);
                             }
@@ -418,6 +600,103 @@ PanelWindow {
                             }
                             onKeyboardNavigationReset: {
                                 appLauncher.keyboardNavigationActive = false;
+                            }
+
+                            ScrollBar.vertical: ScrollBar {
+                                policy: ScrollBar.AsNeeded
+                            }
+
+                            ScrollBar.horizontal: ScrollBar {
+                                policy: ScrollBar.AlwaysOff
+                            }
+
+                            delegate: Rectangle {
+                                width: appGrid.cellWidth - appGrid.cellPadding
+                                height: appGrid.cellHeight - appGrid.cellPadding
+                                radius: Theme.cornerRadiusLarge
+                                color: appGrid.currentIndex === index ? Theme.primaryPressed : mouseArea.containsMouse ? Theme.primaryHoverLight : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.03)
+                                border.color: appGrid.currentIndex === index ? Theme.primarySelected : Theme.outlineMedium
+                                border.width: appGrid.currentIndex === index ? 2 : 1
+
+                                Column {
+                                    anchors.centerIn: parent
+                                    spacing: Theme.spacingS
+
+                                    Item {
+                                        property int iconSize: Math.min(appGrid.maxIconSize, Math.max(appGrid.minIconSize, appGrid.cellWidth * appGrid.iconSizeRatio))
+
+                                        width: iconSize
+                                        height: iconSize
+                                        anchors.horizontalCenter: parent.horizontalCenter
+
+                                        IconImage {
+                                            id: iconImg
+
+                                            anchors.fill: parent
+                                            source: (model.icon) ? Quickshell.iconPath(model.icon, SettingsData.iconTheme === "System Default" ? "" : SettingsData.iconTheme) : ""
+                                            smooth: true
+                                            asynchronous: true
+                                            visible: status === Image.Ready
+                                        }
+
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            visible: !iconImg.visible
+                                            color: Theme.surfaceLight
+                                            radius: Theme.cornerRadiusLarge
+                                            border.width: 1
+                                            border.color: Theme.primarySelected
+
+                                            StyledText {
+                                                anchors.centerIn: parent
+                                                text: (model.name && model.name.length > 0) ? model.name.charAt(0).toUpperCase() : "A"
+                                                font.pixelSize: Math.min(28, parent.width * 0.5)
+                                                color: Theme.primary
+                                                font.weight: Font.Bold
+                                            }
+                                        }
+                                    }
+
+                                    StyledText {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        width: appGrid.cellWidth - 12
+                                        text: model.name || ""
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.surfaceText
+                                        font.weight: Font.Medium
+                                        elide: Text.ElideRight
+                                        horizontalAlignment: Text.AlignHCenter
+                                        maximumLineCount: 2
+                                        wrapMode: Text.WordWrap
+                                    }
+                                }
+
+                                MouseArea {
+                                    id: mouseArea
+
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                    z: 10
+                                    onEntered: {
+                                        if (appGrid.hoverUpdatesSelection && !appGrid.keyboardNavigationActive)
+                                            appGrid.currentIndex = index;
+
+                                        appGrid.itemHovered(index);
+                                    }
+                                    onPositionChanged: {
+                                        appGrid.keyboardNavigationReset();
+                                    }
+                                    onClicked: (mouse) => {
+                                        if (mouse.button === Qt.LeftButton) {
+                                            appGrid.itemClicked(index, model);
+                                        } else if (mouse.button === Qt.RightButton) {
+                                            var globalPos = mapToGlobal(mouse.x, mouse.y);
+                                            appGrid.itemRightClicked(index, model, globalPos.x, globalPos.y);
+                                        }
+                                    }
+                                }
                             }
                         }
 

@@ -12,33 +12,39 @@ import qs.Widgets
 Item {
     id: bluetoothTab
 
-    ScrollView {
+    property alias bluetoothContextMenuWindow: bluetoothContextMenuWindow
+
+    DankFlickable {
         anchors.fill: parent
         clip: true
-        ScrollBar.vertical.policy: ScrollBar.AsNeeded
-        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-
+        contentHeight: mainColumn.height
+        contentWidth: width
+        mouseWheelSpeed: 20
+        
         Column {
+            id: mainColumn
             width: parent.width
             spacing: Theme.spacingL
-
-            BluetoothToggle {
+            
+            Loader {
+                width: parent.width
+                sourceComponent: toggleComponent
             }
-
-            PairedDevicesList {
-                bluetoothContextMenuWindow: bluetoothContextMenuWindow
+            
+            Loader {
+                width: parent.width
+                sourceComponent: pairedComponent
             }
-
-            AvailableDevicesList {
+            
+            Loader {
+                width: parent.width
+                sourceComponent: availableComponent
             }
-
         }
-
     }
 
     BluetoothContextMenu {
         id: bluetoothContextMenuWindow
-
         parentItem: bluetoothTab
     }
 
@@ -57,7 +63,26 @@ Item {
             onClicked: {
             }
         }
-
     }
 
+    Component {
+        id: toggleComponent
+        BluetoothToggle {
+            width: parent.width
+        }
+    }
+    
+    Component {
+        id: pairedComponent
+        PairedDevicesList {
+            width: parent.width
+        }
+    }
+    
+    Component {
+        id: availableComponent
+        AvailableDevicesList {
+            width: parent.width
+        }
+    }
 }

@@ -56,36 +56,35 @@ update_theme_settings() {
 
 update_gtk_css() {
     local config_dir="$1"
-    local import_line="@import url(\"$config_dir/gtk-4.0/dank-colors.css\");"
+    local is_light="$2"
+    local shell_dir="$3"
     
-    echo "Updating GTK CSS imports..."
+    echo "Updating GTK CSS..."
     
-    # Update GTK-4.0
+    # GTK-3.0: Copy the appropriate template file
+    local gtk3_css="$config_dir/gtk-3.0/gtk.css"
+    if [ "$is_light" = "true" ]; then
+        echo "Copying light GTK-3.0 template..."
+        cp "$shell_dir/templates/gtk3-colloid-light.css" "$gtk3_css"
+    else
+        echo "Copying dark GTK-3.0 template..."
+        cp "$shell_dir/templates/gtk3-colloid-dark.css" "$gtk3_css"
+    fi
+    echo "Updated GTK-3.0 CSS"
+    
+    # GTK-4.0: Use simplified import
+    local gtk4_import="@import url(\"dank-colors.css\");"
     local gtk4_css="$config_dir/gtk-4.0/gtk.css"
     if [ -f "$gtk4_css" ]; then
         # Remove existing import if present
         sed -i '/^@import url.*dank-colors\.css.*);$/d' "$gtk4_css"
         # Add import at the top
-        sed -i "1i\\$import_line" "$gtk4_css"
+        sed -i "1i\\$gtk4_import" "$gtk4_css"
     else
         # Create new gtk.css with import
-        echo "$import_line" > "$gtk4_css"
+        echo "$gtk4_import" > "$gtk4_css"
     fi
     echo "Updated GTK-4.0 CSS import"
-    
-    # Update GTK-3.0 with its own path
-    local gtk3_import="@import url(\"$config_dir/gtk-3.0/dank-colors.css\");"
-    local gtk3_css="$config_dir/gtk-3.0/gtk.css"
-    if [ -f "$gtk3_css" ]; then
-        # Remove existing import if present
-        sed -i '/^@import url.*dank-colors\.css.*);$/d' "$gtk3_css"
-        # Add import at the top
-        sed -i "1i\\$gtk3_import" "$gtk3_css"
-    else
-        # Create new gtk.css with import
-        echo "$gtk3_import" > "$gtk3_css"
-    fi
-    echo "Updated GTK-3.0 CSS import"
 }
 
 update_qt_config() {
@@ -240,7 +239,7 @@ update_theme_settings "$color_scheme" "$ICON_THEME"
 
 # Update GTK CSS imports if GTK theming is enabled
 if [ "$GTK_THEMING" = "true" ]; then
-    update_gtk_css "$CONFIG_DIR"
+    update_gtk_css "$CONFIG_DIR" "$IS_LIGHT" "$SHELL_DIR"
     echo "GTK theming updated"
 else
     echo "GTK theming disabled - skipping GTK CSS updates"

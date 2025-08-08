@@ -250,7 +250,7 @@ Item {
             anchors.fill: parent
             anchors.margins: Theme.spacingS
 
-            ListView {
+            DankListView {
                 id: searchResultsList
 
                 anchors.fill: parent

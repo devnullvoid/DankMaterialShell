@@ -20,6 +20,7 @@ Column {
     signal compactModeChanged(string widgetId, bool enabled)
 
     width: parent.width
+    height: implicitHeight
     spacing: Theme.spacingM
 
     Row {
@@ -258,6 +259,7 @@ Column {
                         drag.axis: Drag.YAxis
                         drag.minimumY: -delegateItem.height
                         drag.maximumY: itemsList.height
+                        preventStealing: true
                         onPressed: {
                             delegateItem.z = 2;
                             delegateItem.originalY = delegateItem.y;

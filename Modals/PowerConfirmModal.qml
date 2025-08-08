@@ -3,6 +3,7 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Io
 import qs.Common
+import qs.Services
 import qs.Widgets
 
 DankModal {
@@ -14,24 +15,19 @@ DankModal {
     property string powerConfirmMessage: ""
 
     function executePowerAction(action) {
-        
-        let command = [];
         switch (action) {
         case "logout":
-            command = ["niri", "msg", "action", "quit", "-s"];
+            NiriService.quit();
             break;
         case "suspend":
-            command = ["systemctl", "suspend"];
+            Quickshell.execDetached(["systemctl", "suspend"]);
             break;
         case "reboot":
-            command = ["systemctl", "reboot"];
+            Quickshell.execDetached(["systemctl", "reboot"]);
             break;
         case "poweroff":
-            command = ["systemctl", "poweroff"];
+            Quickshell.execDetached(["systemctl", "poweroff"]);
             break;
-        }
-        if (command.length > 0) {
-            Quickshell.execDetached(command);
         }
     }
 

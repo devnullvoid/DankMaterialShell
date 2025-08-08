@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Effects
 import Quickshell
 import Quickshell.Io
+import Quickshell.Widgets
 import qs.Common
 import qs.Modules.AppDrawer
 import qs.Services
@@ -284,17 +285,49 @@ DankModal {
 
                     DankListView {
                         id: resultsList
+                        mouseWheelSpeed: 20
+
+                        property int itemHeight: 60
+                        property int iconSize: 40
+                        property bool showDescription: true
+                        property int itemSpacing: Theme.spacingS
+                        property bool hoverUpdatesSelection: false
+                        property bool keyboardNavigationActive: appLauncher.keyboardNavigationActive
+
+                        signal keyboardNavigationReset()
+                        signal itemClicked(int index, var modelData)
+                        signal itemHovered(int index)
+                        signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
+
+                        function ensureVisible(index) {
+                            if (index < 0 || index >= count)
+                                return;
+
+                            var itemY = index * (itemHeight + itemSpacing);
+                            var itemBottom = itemY + itemHeight;
+                            if (itemY < contentY)
+                                contentY = itemY;
+                            else if (itemBottom > contentY + height)
+                                contentY = itemBottom - height;
+                        }
 
                         anchors.fill: parent
                         anchors.margins: Theme.spacingS
                         visible: appLauncher.viewMode === "list"
                         model: appLauncher.model
                         currentIndex: appLauncher.selectedIndex
-                        itemHeight: 60
-                        iconSize: 40
-                        showDescription: true
-                        hoverUpdatesSelection: false
-                        keyboardNavigationActive: appLauncher.keyboardNavigationActive
+                        clip: true
+                        spacing: itemSpacing
+                        focus: true
+                        interactive: true
+                        cacheBuffer: Math.max(0, Math.min(height * 2, 1000))
+                        reuseItems: true
+
+                        onCurrentIndexChanged: {
+                            if (keyboardNavigationActive)
+                                ensureVisible(currentIndex);
+                        }
+
                         onItemClicked: function(index, modelData) {
                             appLauncher.launchApp(modelData);
                         }
@@ -306,25 +339,171 @@ DankModal {
                         }
                         onKeyboardNavigationReset: {
                             appLauncher.keyboardNavigationActive = false;
+                        }
+
+                        ScrollBar.vertical: ScrollBar {
+                            policy: ScrollBar.AlwaysOn
+                        }
+
+                        ScrollBar.horizontal: ScrollBar {
+                            policy: ScrollBar.AlwaysOff
+                        }
+
+                        delegate: Rectangle {
+                            width: ListView.view.width
+                            height: resultsList.itemHeight
+                            radius: Theme.cornerRadiusLarge
+                            color: ListView.isCurrentItem ? Theme.primaryPressed : mouseArea.containsMouse ? Theme.primaryHoverLight : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.03)
+                            border.color: ListView.isCurrentItem ? Theme.primarySelected : Theme.outlineMedium
+                            border.width: ListView.isCurrentItem ? 2 : 1
+
+                            Row {
+                                anchors.fill: parent
+                                anchors.margins: Theme.spacingM
+                                spacing: Theme.spacingL
+
+                                Item {
+                                    width: resultsList.iconSize
+                                    height: resultsList.iconSize
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    IconImage {
+                                        id: iconImg
+
+                                        anchors.fill: parent
+                                        source: (model.icon) ? Quickshell.iconPath(model.icon, SettingsData.iconTheme === "System Default" ? "" : SettingsData.iconTheme) : ""
+                                        smooth: true
+                                        asynchronous: true
+                                        visible: status === Image.Ready
+                                    }
+
+                                    Rectangle {
+                                        anchors.fill: parent
+                                        visible: !iconImg.visible
+                                        color: Theme.surfaceLight
+                                        radius: Theme.cornerRadiusLarge
+                                        border.width: 1
+                                        border.color: Theme.primarySelected
+
+                                        StyledText {
+                                            anchors.centerIn: parent
+                                            text: (model.name && model.name.length > 0) ? model.name.charAt(0).toUpperCase() : "A"
+                                            font.pixelSize: resultsList.iconSize * 0.4
+                                            color: Theme.primary
+                                            font.weight: Font.Bold
+                                        }
+                                    }
+                                }
+
+                                Column {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width: parent.width - resultsList.iconSize - Theme.spacingL
+                                    spacing: Theme.spacingXS
+
+                                    StyledText {
+                                        width: parent.width
+                                        text: model.name || ""
+                                        font.pixelSize: Theme.fontSizeLarge
+                                        color: Theme.surfaceText
+                                        font.weight: Font.Medium
+                                        elide: Text.ElideRight
+                                    }
+
+                                    StyledText {
+                                        width: parent.width
+                                        text: model.comment || "Application"
+                                        font.pixelSize: Theme.fontSizeMedium
+                                        color: Theme.surfaceVariantText
+                                        elide: Text.ElideRight
+                                        visible: resultsList.showDescription && model.comment && model.comment.length > 0
+                                    }
+                                }
+                            }
+
+                            MouseArea {
+                                id: mouseArea
+
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                z: 10
+                                onEntered: {
+                                    if (resultsList.hoverUpdatesSelection && !resultsList.keyboardNavigationActive)
+                                        resultsList.currentIndex = index;
+
+                                    resultsList.itemHovered(index);
+                                }
+                                onPositionChanged: {
+                                    resultsList.keyboardNavigationReset();
+                                }
+                                onClicked: (mouse) => {
+                                    if (mouse.button === Qt.LeftButton) {
+                                        resultsList.itemClicked(index, model);
+                                    } else if (mouse.button === Qt.RightButton) {
+                                        var globalPos = mapToGlobal(mouse.x, mouse.y);
+                                        resultsList.itemRightClicked(index, model, globalPos.x, globalPos.y);
+                                    }
+                                }
+                            }
                         }
                     }
 
                     DankGridView {
                         id: resultsGrid
 
+                        property int currentIndex: appLauncher.selectedIndex
+                        property int columns: 4
+                        property bool adaptiveColumns: false
+                        property int minCellWidth: 120
+                        property int maxCellWidth: 160
+                        property int cellPadding: 8
+                        property real iconSizeRatio: 0.55
+                        property int maxIconSize: 48
+                        property int minIconSize: 32
+                        property bool hoverUpdatesSelection: false
+                        property bool keyboardNavigationActive: appLauncher.keyboardNavigationActive
+                        property int baseCellWidth: adaptiveColumns ? Math.max(minCellWidth, Math.min(maxCellWidth, width / columns)) : (width - Theme.spacingS * 2) / columns
+                        property int baseCellHeight: baseCellWidth + 20
+                        property int actualColumns: adaptiveColumns ? Math.floor(width / cellWidth) : columns
+                        property int remainingSpace: width - (actualColumns * cellWidth)
+
+                        signal keyboardNavigationReset()
+                        signal itemClicked(int index, var modelData)
+                        signal itemHovered(int index)
+                        signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
+
+                        function ensureVisible(index) {
+                            if (index < 0 || index >= count)
+                                return;
+
+                            var itemY = Math.floor(index / actualColumns) * cellHeight;
+                            var itemBottom = itemY + cellHeight;
+                            if (itemY < contentY)
+                                contentY = itemY;
+                            else if (itemBottom > contentY + height)
+                                contentY = itemBottom - height;
+                        }
+
                         anchors.fill: parent
                         anchors.margins: Theme.spacingS
                         visible: appLauncher.viewMode === "grid"
                         model: appLauncher.model
-                        columns: 4
-                        adaptiveColumns: false
-                        minCellWidth: 120
-                        maxCellWidth: 160
-                        iconSizeRatio: 0.55
-                        maxIconSize: 48
-                        currentIndex: appLauncher.selectedIndex
-                        hoverUpdatesSelection: false
-                        keyboardNavigationActive: appLauncher.keyboardNavigationActive
+                        clip: true
+                        cellWidth: baseCellWidth
+                        cellHeight: baseCellHeight
+                        leftMargin: Math.max(Theme.spacingS, remainingSpace / 2)
+                        rightMargin: leftMargin
+                        focus: true
+                        interactive: true
+                        cacheBuffer: Math.max(0, Math.min(height * 2, 1000))
+                        reuseItems: true
+
+                        onCurrentIndexChanged: {
+                            if (keyboardNavigationActive)
+                                ensureVisible(currentIndex);
+                        }
+
                         onItemClicked: function(index, modelData) {
                             appLauncher.launchApp(modelData);
                         }
@@ -336,6 +515,103 @@ DankModal {
                         }
                         onKeyboardNavigationReset: {
                             appLauncher.keyboardNavigationActive = false;
+                        }
+
+                        ScrollBar.vertical: ScrollBar {
+                            policy: ScrollBar.AsNeeded
+                        }
+
+                        ScrollBar.horizontal: ScrollBar {
+                            policy: ScrollBar.AlwaysOff
+                        }
+
+                        delegate: Rectangle {
+                            width: resultsGrid.cellWidth - resultsGrid.cellPadding
+                            height: resultsGrid.cellHeight - resultsGrid.cellPadding
+                            radius: Theme.cornerRadiusLarge
+                            color: resultsGrid.currentIndex === index ? Theme.primaryPressed : mouseArea.containsMouse ? Theme.primaryHoverLight : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.03)
+                            border.color: resultsGrid.currentIndex === index ? Theme.primarySelected : Theme.outlineMedium
+                            border.width: resultsGrid.currentIndex === index ? 2 : 1
+
+                            Column {
+                                anchors.centerIn: parent
+                                spacing: Theme.spacingS
+
+                                Item {
+                                    property int iconSize: Math.min(resultsGrid.maxIconSize, Math.max(resultsGrid.minIconSize, resultsGrid.cellWidth * resultsGrid.iconSizeRatio))
+
+                                    width: iconSize
+                                    height: iconSize
+                                    anchors.horizontalCenter: parent.horizontalCenter
+
+                                    IconImage {
+                                        id: iconImg
+
+                                        anchors.fill: parent
+                                        source: (model.icon) ? Quickshell.iconPath(model.icon, SettingsData.iconTheme === "System Default" ? "" : SettingsData.iconTheme) : ""
+                                        smooth: true
+                                        asynchronous: true
+                                        visible: status === Image.Ready
+                                    }
+
+                                    Rectangle {
+                                        anchors.fill: parent
+                                        visible: !iconImg.visible
+                                        color: Theme.surfaceLight
+                                        radius: Theme.cornerRadiusLarge
+                                        border.width: 1
+                                        border.color: Theme.primarySelected
+
+                                        StyledText {
+                                            anchors.centerIn: parent
+                                            text: (model.name && model.name.length > 0) ? model.name.charAt(0).toUpperCase() : "A"
+                                            font.pixelSize: Math.min(28, parent.width * 0.5)
+                                            color: Theme.primary
+                                            font.weight: Font.Bold
+                                        }
+                                    }
+                                }
+
+                                StyledText {
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    width: resultsGrid.cellWidth - 12
+                                    text: model.name || ""
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                    elide: Text.ElideRight
+                                    horizontalAlignment: Text.AlignHCenter
+                                    maximumLineCount: 2
+                                    wrapMode: Text.WordWrap
+                                }
+                            }
+
+                            MouseArea {
+                                id: mouseArea
+
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                z: 10
+                                onEntered: {
+                                    if (resultsGrid.hoverUpdatesSelection && !resultsGrid.keyboardNavigationActive)
+                                        resultsGrid.currentIndex = index;
+
+                                    resultsGrid.itemHovered(index);
+                                }
+                                onPositionChanged: {
+                                    resultsGrid.keyboardNavigationReset();
+                                }
+                                onClicked: (mouse) => {
+                                    if (mouse.button === Qt.LeftButton) {
+                                        resultsGrid.itemClicked(index, model);
+                                    } else if (mouse.button === Qt.RightButton) {
+                                        var globalPos = mapToGlobal(mouse.x, mouse.y);
+                                        resultsGrid.itemRightClicked(index, model, globalPos.x, globalPos.y);
+                                    }
+                                }
+                            }
                         }
                     }
 

@@ -9,7 +9,6 @@ import qs.Services
 import qs.Common
 
 Singleton {
-
     id: root
 
     readonly property string _homeUrl: StandardPaths.writableLocation(StandardPaths.HomeLocation)
@@ -23,8 +22,7 @@ Singleton {
     property bool qtThemingEnabled: false
     property bool systemThemeGenerationInProgress: false
     property string matugenJson: ""
-    property var matugenColors: ({
-    })
+    property var matugenColors: ({})
     property bool extractionRequested: false
     property int colorUpdateTrigger: 0
     property string lastWallpaperTimestamp: ""
@@ -48,13 +46,13 @@ Singleton {
     property color accentHi: primary
     property color accentLo: secondary
 
-    signal colorsUpdated()
+    signal colorsUpdated
 
     function onLightModeChanged() {
         if (matugenColors && Object.keys(matugenColors).length > 0) {
             colorUpdateTrigger++;
             colorsUpdated();
-            
+
             if (typeof Theme !== "undefined" && Theme.isDynamicTheme) {
                 generateSystemThemes();
             }
@@ -98,12 +96,12 @@ Singleton {
         id: matugenCheck
 
         command: ["which", "matugen"]
-        onExited: (code) => {
+        onExited: code => {
             matugenAvailable = (code === 0);
             if (!matugenAvailable) {
                 ToastService.wallpaperErrorStatus = "matugen_missing";
                 ToastService.showWarning("matugen not found - dynamic theming disabled");
-                return ;
+                return;
             }
             if (extractionRequested) {
                 fileChecker.running = true;
@@ -115,7 +113,7 @@ Singleton {
         id: fileChecker
 
         command: ["test", "-r", wallpaperPath]
-        onExited: (code) => {
+        onExited: code => {
             if (code === 0) {
                 matugenProcess.running = true;
             } else {
@@ -138,7 +136,7 @@ Singleton {
                 if (!out.length) {
                     ToastService.wallpaperErrorStatus = "error";
                     ToastService.showError("Wallpaper Processing Failed");
-                    return ;
+                    return;
                 }
                 try {
                     root.matugenJson = out;
@@ -156,7 +154,6 @@ Singleton {
         stderr: StdioCollector {
             id: matugenErr
         }
-
     }
 
     function generateAppConfigs() {
@@ -166,18 +163,18 @@ Singleton {
 
         generateNiriConfig();
         generateGhosttyConfig();
-        
+
         if (gtkThemingEnabled && typeof SettingsData !== "undefined" && SettingsData.gtkThemingEnabled) {
-            generateGtkThemes();
-        }
-        if (qtThemingEnabled && typeof SettingsData !== "undefined" && SettingsData.qtThemingEnabled) {
-            generateQtThemes();
+            generateSystemThemes();
+        } else if (qtThemingEnabled && typeof SettingsData !== "undefined" && SettingsData.qtThemingEnabled) {
+            generateSystemThemes();
         }
     }
 
     function generateNiriConfig() {
         var dark = matugenColors.colors.dark;
-        if (!dark) return;
+        if (!dark)
+            return;
 
         var bg = dark.background || "#1a1c1e";
         var primary = dark.primary || "#42a5f5";
@@ -201,7 +198,8 @@ Singleton {
     function generateGhosttyConfig() {
         var dark = matugenColors.colors.dark;
         var light = matugenColors.colors.light;
-        if (!dark || !light) return;
+        if (!dark || !light)
+            return;
 
         var bg = dark.background || "#1a1c1e";
         var fg = dark.on_background || "#e3e8ef";
@@ -245,116 +243,108 @@ palette = 15=${fg_b}`;
 
         var ghosttyConfigDir = configDir + "/ghostty";
         var ghosttyConfigPath = ghosttyConfigDir + "/config-dankcolors";
-        
+
         Quickshell.execDetached(["bash", "-c", `mkdir -p '${ghosttyConfigDir}' && echo '${content}' > '${ghosttyConfigPath}'`]);
     }
-    
+
     function checkGtkThemingAvailability() {
         gtkAvailabilityChecker.running = true;
     }
-    
+
     function checkQtThemingAvailability() {
         qtAvailabilityChecker.running = true;
     }
-    
+
     function generateSystemThemes() {
         if (systemThemeGenerationInProgress) {
             return;
         }
-        
+
         if (!matugenAvailable) {
             return;
         }
-        
+
         if (!wallpaperPath || wallpaperPath === "") {
             return;
         }
-        
+
         const isLight = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "true" : "false";
         const iconTheme = (typeof SettingsData !== "undefined" && SettingsData.iconTheme) ? SettingsData.iconTheme : "System Default";
         const gtkTheming = (typeof SettingsData !== "undefined" && SettingsData.gtkThemingEnabled) ? "true" : "false";
         const qtTheming = (typeof SettingsData !== "undefined" && SettingsData.qtThemingEnabled) ? "true" : "false";
-        
+
         systemThemeGenerationInProgress = true;
         systemThemeGenerator.command = [shellDir + "/generate-themes.sh", wallpaperPath, shellDir, configDir, "generate", isLight, iconTheme, gtkTheming, qtTheming];
         systemThemeGenerator.running = true;
     }
-    
-    function generateGtkThemes() {
-        generateSystemThemes();
-    }
-    
-    function generateQtThemes() {
-        generateSystemThemes();
-    }
-    
+
     function restoreSystemThemes() {
         const shellDir = root.shellDir;
         if (!shellDir) {
             return;
         }
-        
+
         const isLight = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "true" : "false";
         const iconTheme = (typeof SettingsData !== "undefined" && SettingsData.iconTheme) ? SettingsData.iconTheme : "System Default";
         const gtkTheming = (typeof SettingsData !== "undefined" && SettingsData.gtkThemingEnabled) ? "true" : "false";
         const qtTheming = (typeof SettingsData !== "undefined" && SettingsData.qtThemingEnabled) ? "true" : "false";
-        
+
         systemThemeRestoreProcess.command = [shellDir + "/generate-themes.sh", "", shellDir, configDir, "restore", isLight, iconTheme, gtkTheming, qtTheming];
         systemThemeRestoreProcess.running = true;
     }
-    
+
     Process {
         id: gtkAvailabilityChecker
         command: ["bash", "-c", "command -v gsettings >/dev/null && [ -d " + configDir + "/gtk-3.0 -o -d " + configDir + "/gtk-4.0 ]"]
         running: false
-        onExited: (exitCode) => {
+        onExited: exitCode => {
             gtkThemingEnabled = (exitCode === 0);
         }
     }
-    
+
     Process {
         id: qtAvailabilityChecker
         command: ["bash", "-c", "command -v qt5ct >/dev/null || command -v qt6ct >/dev/null"]
         running: false
-        onExited: (exitCode) => {
+        onExited: exitCode => {
             qtThemingEnabled = (exitCode === 0);
         }
     }
-    
+
     Process {
         id: systemThemeGenerator
         running: false
-        
+
         stdout: StdioCollector {
             id: systemThemeStdout
         }
-        
+
         stderr: StdioCollector {
             id: systemThemeStderr
         }
-        
-        onExited: (exitCode) => {
+
+        onExited: exitCode => {
             systemThemeGenerationInProgress = false;
-            
+
             if (exitCode !== 0) {
                 ToastService.showError("Failed to generate system themes: " + systemThemeStderr.text);
             }
         }
     }
-    
+
     Process {
         id: systemThemeRestoreProcess
         running: false
-        
+
         stdout: StdioCollector {
             id: restoreThemeStdout
         }
-        
+
         stderr: StdioCollector {
             id: restoreThemeStderr
         }
-        
-        onExited: (exitCode) => {
+
+        onExited: exitCode => {
             if (exitCode === 0) {
                 ToastService.showInfo("System themes restored to default");
             } else {
@@ -362,6 +352,4 @@ palette = 15=${fg_b}`;
             }
         }
     }
-    
-
 }

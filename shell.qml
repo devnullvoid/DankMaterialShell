@@ -1,3 +1,4 @@
+//@ pragma UseQApplication
 
 import QtQuick
 import Quickshell
@@ -21,8 +22,7 @@ import qs.Services
 ShellRoot {
     id: root
 
-    WallpaperBackground {
-    }
+    WallpaperBackground {}
 
     Lock {
         id: lock
@@ -36,7 +36,6 @@ ShellRoot {
         delegate: TopBar {
             modelData: item
         }
-
     }
 
     Variants {
@@ -47,15 +46,10 @@ ShellRoot {
             contextMenu: dockContextMenu
             windowsMenu: dockWindowsMenu
         }
-
     }
 
     CentcomPopout {
         id: centcomPopout
-    }
-
-    SystemTrayContextMenu {
-        id: systemTrayContextMenu
     }
 
     DockContextMenu {
@@ -76,7 +70,6 @@ ShellRoot {
         delegate: NotificationPopupManager {
             modelData: item
         }
-
     }
 
     ControlCenterPopout {
@@ -141,7 +134,6 @@ ShellRoot {
         ProcessListModal {
             id: processListModal
         }
-
     }
 
     IpcHandler {
@@ -177,7 +169,6 @@ ShellRoot {
         delegate: Toast {
             modelData: item
         }
-
     }
 
     Variants {
@@ -186,7 +177,6 @@ ShellRoot {
         delegate: VolumePopup {
             modelData: item
         }
-
     }
 
     Variants {
@@ -195,7 +185,6 @@ ShellRoot {
         delegate: MicMutePopup {
             modelData: item
         }
-
     }
 
     Variants {
@@ -204,7 +193,5 @@ ShellRoot {
         delegate: BrightnessPopup {
             modelData: item
         }
-
     }
-
 }

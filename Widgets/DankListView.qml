@@ -1,219 +1,212 @@
 import QtQuick
 import QtQuick.Controls
-import Quickshell
-import Quickshell.Widgets
-import qs.Common
 
 ListView {
     id: listView
 
-    property int itemHeight: 72
-    property int iconSize: 56
-    property bool showDescription: true
-    property int itemSpacing: Theme.spacingS
-    property bool hoverUpdatesSelection: true
-    property bool keyboardNavigationActive: false
+    property real mouseWheelSpeed: 12
 
-    signal keyboardNavigationReset()
-    signal itemClicked(int index, var modelData)
-    signal itemHovered(int index)
-    signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
+    // Simple position preservation
+    property real savedY: 0
+    property bool justChanged: false
+    property bool isUserScrolling: false
 
-    function ensureVisible(index) {
-        if (index < 0 || index >= count)
-            return ;
+    // Kinetic scrolling momentum properties
+    property real momentumVelocity: 0
+    property bool isMomentumActive: false
+    property real friction: 0.95
+    property real minMomentumVelocity: 50
+    property real maxMomentumVelocity: 2500
 
-        var itemY = index * (itemHeight + itemSpacing);
-        var itemBottom = itemY + itemHeight;
-        if (itemY < contentY)
-            contentY = itemY;
-        else if (itemBottom > contentY + height)
-            contentY = itemBottom - height;
-    }
-
-    onCurrentIndexChanged: {
-        if (keyboardNavigationActive)
-            ensureVisible(currentIndex);
-    }
-    
-    clip: true
-    anchors.margins: itemSpacing
-    spacing: itemSpacing
-    focus: true
-    interactive: true
-    
-    // Qt 6.9+ scrolling: flickDeceleration/maximumFlickVelocity only affect touch now
     flickDeceleration: 1500
     maximumFlickVelocity: 2000
     boundsBehavior: Flickable.StopAtBounds
     boundsMovement: Flickable.FollowBoundsBehavior
     pressDelay: 0
     flickableDirection: Flickable.VerticalFlick
+
+    onMovementStarted: isUserScrolling = true
+    onMovementEnded: isUserScrolling = false
     
-    // Performance optimizations
-    cacheBuffer: Math.min(height * 2, 1000)
-    reuseItems: true
+    onContentYChanged: {
+        if (!justChanged && isUserScrolling) {
+            savedY = contentY;
+        }
+        justChanged = false;
+    }
     
-    // Custom wheel handler for Qt 6.9+ responsive mouse wheel scrolling
+    // Restore position when model changes
+    onModelChanged: {
+        justChanged = true;
+        contentY = savedY;
+    }
+
     WheelHandler {
         id: wheelHandler
-        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-        
+
         // Tunable parameters for responsive scrolling
-        property real mouseWheelSpeed: 20    // Higher = faster mouse wheel
-        property real touchpadSpeed: 1.8     // Touchpad sensitivity
+        property real touchpadSpeed: 1.8       // Touchpad sensitivity
         property real momentumRetention: 0.92
         property real lastWheelTime: 0
         property real momentum: 0
+        property var velocitySamples: []
+
+        function startMomentum() {
+            isMomentumActive = true;
+            momentumTimer.start();
+        }
+
+        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
         
         onWheel: (event) => {
-            let currentTime = Date.now()
-            let timeDelta = currentTime - lastWheelTime
-            lastWheelTime = currentTime
+            isUserScrolling = true;  // Mark as user interaction
             
-            // Calculate scroll delta based on input type
-            let delta = 0
-            if (event.pixelDelta.y !== 0) {
-                // Touchpad with pixel precision
-                delta = event.pixelDelta.y * touchpadSpeed
+            let currentTime = Date.now();
+            let timeDelta = currentTime - lastWheelTime;
+            lastWheelTime = currentTime;
+            
+            // Detect mouse wheel vs touchpad, seems like assuming based on the increments is the only way in QT
+            const deltaY = event.angleDelta.y;
+            const isMouseWheel = Math.abs(deltaY) >= 120 && (Math.abs(deltaY) % 120) === 0;
+            
+            if (isMouseWheel) {
+                momentumTimer.stop();
+                isMomentumActive = false;
+                velocitySamples = [];
+                momentum = 0;
+                
+                const lines = Math.floor(Math.abs(deltaY) / 120);
+                const scrollAmount = (deltaY > 0 ? -lines : lines) * mouseWheelSpeed; 
+                let newY = listView.contentY + scrollAmount;
+                newY = Math.max(0, Math.min(listView.contentHeight - listView.height, newY));
+                
+                if (listView.flicking)
+                    listView.cancelFlick();
+                
+                listView.contentY = newY;
+                savedY = newY;
             } else {
-                // Mouse wheel - larger steps for faster scrolling
-                delta = event.angleDelta.y / 120 * itemHeight * 2.5 // 2.5 items per wheel step
+                momentumTimer.stop();
+                isMomentumActive = false;
+                
+                // Calculate scroll delta based on input type
+                let delta = 0;
+                if (event.pixelDelta.y !== 0) {
+                    // Touchpad with pixel precision
+                    delta = event.pixelDelta.y * touchpadSpeed;
+                } else {
+                    // Fallback for touchpad without pixel delta
+                    delta = event.angleDelta.y / 8 * touchpadSpeed;
+                }
+                    
+                // Track velocity for momentum
+                velocitySamples.push({
+                    "delta": delta,
+                    "time": currentTime
+                });
+                velocitySamples = velocitySamples.filter((s) => {
+                    return currentTime - s.time < 100;
+                });
+                
+                // Calculate momentum velocity from samples
+                if (velocitySamples.length > 1) {
+                    let totalDelta = velocitySamples.reduce((sum, s) => {
+                        return sum + s.delta;
+                    }, 0);
+                    let timeSpan = currentTime - velocitySamples[0].time;
+                    if (timeSpan > 0)
+                        momentumVelocity = Math.max(-maxMomentumVelocity, 
+                                         Math.min(maxMomentumVelocity, 
+                                                totalDelta / timeSpan * 1000));
+                }
+                
+                // Apply momentum for touchpad (smooth continuous scrolling)
+                if (event.pixelDelta.y !== 0 && timeDelta < 50) {
+                    momentum = momentum * momentumRetention + delta * 0.15;
+                    delta += momentum;
+                } else {
+                    momentum = 0;
+                }
+                
+                // Apply scrolling with proper bounds checking
+                let newY = listView.contentY - delta;
+                newY = Math.max(0, Math.min(listView.contentHeight - listView.height, newY));
+                
+                // Cancel any conflicting flicks and apply new position
+                if (listView.flicking)
+                    listView.cancelFlick();
+
+                listView.contentY = newY;
+                savedY = newY;  // Update saved position
             }
             
-            // Apply momentum for touchpad (smooth continuous scrolling)
-            if (event.pixelDelta.y !== 0 && timeDelta < 50) {
-                momentum = momentum * momentumRetention + delta * 0.15
-                delta += momentum
-            } else {
-                momentum = 0
+            event.accepted = true;
+        }
+        
+        onActiveChanged: {
+            if (!active) {
+                isUserScrolling = false;
+                
+                // Start momentum if applicable (touchpad only)
+                if (Math.abs(momentumVelocity) >= minMomentumVelocity) {
+                    startMomentum();
+                } else {
+                    velocitySamples = [];
+                    momentumVelocity = 0;
+                }
             }
-            
-            // Apply scrolling with proper bounds checking
-            let newY = listView.contentY - delta
-            newY = Math.max(0, Math.min(
-                listView.contentHeight - listView.height, newY))
-            
-            // Cancel any conflicting flicks and apply new position
-            if (listView.flicking) {
-                listView.cancelFlick()
-            }
-            
-            listView.contentY = newY
-            event.accepted = true
         }
     }
 
-    ScrollBar.vertical: ScrollBar {
-        policy: ScrollBar.AlwaysOn
-    }
-
-    ScrollBar.horizontal: ScrollBar {
-        policy: ScrollBar.AlwaysOff
-    }
-
-    delegate: Rectangle {
-        width: ListView.view.width
-        height: itemHeight
-        radius: Theme.cornerRadiusLarge
-        color: ListView.isCurrentItem ? Theme.primaryPressed : mouseArea.containsMouse ? Theme.primaryHoverLight : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.03)
-        border.color: ListView.isCurrentItem ? Theme.primarySelected : Theme.outlineMedium
-        border.width: ListView.isCurrentItem ? 2 : 1
-
-        Row {
-            anchors.fill: parent
-            anchors.margins: Theme.spacingM
-            spacing: Theme.spacingL
-
-            Item {
-                width: iconSize
-                height: iconSize
-                anchors.verticalCenter: parent.verticalCenter
-
-                IconImage {
-                    id: iconImg
-
-                    anchors.fill: parent
-                    source: (model.icon) ? Quickshell.iconPath(model.icon, SettingsData.iconTheme === "System Default" ? "" : SettingsData.iconTheme) : ""
-                    smooth: true
-                    asynchronous: true
-                    visible: status === Image.Ready
-                }
-
-                Rectangle {
-                    anchors.fill: parent
-                    visible: !iconImg.visible
-                    color: Theme.surfaceLight
-                    radius: Theme.cornerRadiusLarge
-                    border.width: 1
-                    border.color: Theme.primarySelected
-
-                    StyledText {
-                        anchors.centerIn: parent
-                        text: (model.name && model.name.length > 0) ? model.name.charAt(0).toUpperCase() : "A"
-                        font.pixelSize: iconSize * 0.4
-                        color: Theme.primary
-                        font.weight: Font.Bold
-                    }
-
-                }
-
+    // Physics-based momentum timer for kinetic scrolling (touchpad only)
+    Timer {
+        id: momentumTimer
+        interval: 16 // ~60 FPS
+        repeat: true
+        
+        onTriggered: {
+            // Apply velocity to position
+            let newY = contentY - momentumVelocity * 0.016;
+            let maxY = Math.max(0, contentHeight - height);
+            
+            // Stop momentum at boundaries instead of bouncing
+            if (newY < 0) {
+                contentY = 0;
+                savedY = 0;
+                stop();
+                isMomentumActive = false;
+                momentumVelocity = 0;
+                return;
+            } else if (newY > maxY) {
+                contentY = maxY;
+                savedY = maxY;
+                stop();
+                isMomentumActive = false;
+                momentumVelocity = 0;
+                return;
             }
-
-            Column {
-                anchors.verticalCenter: parent.verticalCenter
-                width: parent.width - iconSize - Theme.spacingL
-                spacing: Theme.spacingXS
-
-                StyledText {
-                    width: parent.width
-                    text: model.name || ""
-                    font.pixelSize: Theme.fontSizeLarge
-                    color: Theme.surfaceText
-                    font.weight: Font.Medium
-                    elide: Text.ElideRight
-                }
-
-                StyledText {
-                    width: parent.width
-                    text: model.comment || "Application"
-                    font.pixelSize: Theme.fontSizeMedium
-                    color: Theme.surfaceVariantText
-                    elide: Text.ElideRight
-                    visible: showDescription && model.comment && model.comment.length > 0
-                }
-
-            }
-
-        }
-
-        MouseArea {
-            id: mouseArea
-
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            acceptedButtons: Qt.LeftButton | Qt.RightButton
-            z: 10
-            onEntered: {
-                if (hoverUpdatesSelection && !keyboardNavigationActive)
-                    currentIndex = index;
-
-                itemHovered(index);
-            }
-            onPositionChanged: {
-                keyboardNavigationReset();
-            }
-            onClicked: (mouse) => {
-                if (mouse.button === Qt.LeftButton) {
-                    itemClicked(index, model);
-                } else if (mouse.button === Qt.RightButton) {
-                    var globalPos = mapToGlobal(mouse.x, mouse.y);
-                    itemRightClicked(index, model, globalPos.x, globalPos.y);
-                }
+            
+            contentY = newY;
+            savedY = newY;  // Keep updating saved position during momentum
+            
+            // Apply friction
+            momentumVelocity *= friction;
+            
+            // Stop if velocity too low
+            if (Math.abs(momentumVelocity) < 5) {
+                stop();
+                isMomentumActive = false;
+                momentumVelocity = 0;
             }
         }
-
     }
 
+    // Smooth return to bounds animation
+    NumberAnimation {
+        id: returnToBoundsAnimation
+        target: listView
+        property: "contentY"
+        duration: 300
+        easing.type: Easing.OutQuad
+    }
 }

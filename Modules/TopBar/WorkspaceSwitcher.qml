@@ -121,7 +121,7 @@ Rectangle {
                     enabled: !isPlaceholder
                     onClicked: {
                         if (!isPlaceholder)
-                            Quickshell.execDetached(["niri", "msg", "action", "focus-workspace", (modelData - 1).toString()]);
+                            NiriService.switchToWorkspace(modelData - 1);
 
                     }
                 }

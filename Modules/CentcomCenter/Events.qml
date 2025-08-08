@@ -101,7 +101,7 @@ Rectangle {
 
     }
 
-    ListView {
+    DankListView {
         id: eventsList
 
         anchors.top: headerRow.bottom

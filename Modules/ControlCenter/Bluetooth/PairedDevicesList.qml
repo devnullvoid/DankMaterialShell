@@ -11,7 +11,15 @@ import qs.Widgets
 Column {
     id: root
 
-    property var bluetoothContextMenuWindow
+    function findBluetoothContextMenu() {
+        var p = parent;
+        while (p) {
+            if (p.bluetoothContextMenuWindow)
+                return p.bluetoothContextMenuWindow;
+            p = p.parent;
+        }
+        return null;
+    }
 
     width: parent.width
     spacing: Theme.spacingM
@@ -117,10 +125,11 @@ Column {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        if (bluetoothContextMenuWindow) {
-                            bluetoothContextMenuWindow.deviceData = modelData;
-                            let localPos = btMenuButtonArea.mapToItem(bluetoothContextMenuWindow.parentItem, btMenuButtonArea.width / 2, btMenuButtonArea.height);
-                            bluetoothContextMenuWindow.show(localPos.x, localPos.y);
+                        var contextMenu = root.findBluetoothContextMenu();
+                        if (contextMenu) {
+                            contextMenu.deviceData = modelData;
+                            let localPos = btMenuButtonArea.mapToItem(contextMenu.parentItem, btMenuButtonArea.width / 2, btMenuButtonArea.height);
+                            contextMenu.show(localPos.x, localPos.y);
                         }
                     }
                 }

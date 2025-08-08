@@ -3,22 +3,8 @@ import QtQuick.Controls
 import qs.Common
 import qs.Widgets
 
-ScrollView {
+Item {
     id: widgetsTab
-
-    // Qt 6.9+ scrolling: Enhanced mouse wheel and touchpad responsiveness
-    // Custom wheel handler for Qt 6.9+ responsive mouse wheel scrolling
-    WheelHandler {
-        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-        onWheel: (event) => {
-            let delta = event.pixelDelta.y !== 0 ? event.pixelDelta.y * 1.8 : event.angleDelta.y / 120 * 80
-            let flickable = widgetsTab.contentItem
-            let newY = flickable.contentY - delta
-            newY = Math.max(0, Math.min(flickable.contentHeight - flickable.height, newY))
-            flickable.contentY = newY
-            event.accepted = true
-        }
-    }
 
     property var baseWidgetDefinitions: [{
         "id": "launcherButton",
@@ -305,8 +291,6 @@ ScrollView {
         return widgets;
     }
 
-    contentHeight: column.implicitHeight + Theme.spacingXL
-    clip: true
     Component.onCompleted: {
         if (!SettingsData.topBarLeftWidgets || SettingsData.topBarLeftWidgets.length === 0)
             SettingsData.setTopBarLeftWidgets(defaultLeftWidgets);
@@ -347,14 +331,46 @@ ScrollView {
         });
     }
 
-    Column {
-        id: column
+    DankFlickable {
+        anchors.fill: parent
+        anchors.topMargin: Theme.spacingL
+        anchors.bottomMargin: Theme.spacingXL
+        clip: true
+        contentHeight: mainColumn.height
+        contentWidth: width
+        mouseWheelSpeed: 20
+        
+        Column {
+            id: mainColumn
+            width: parent.width
+            spacing: Theme.spacingXL
+            
+            Loader {
+                width: parent.width
+                sourceComponent: headerComponent
+            }
+            
+            Loader {
+                width: parent.width
+                sourceComponent: messageComponent
+            }
+            
+            Loader {
+                width: parent.width
+                sourceComponent: sectionsComponent
+            }
+            
+            Loader {
+                width: parent.width
+                sourceComponent: workspaceComponent
+            }
+        }
+    }
 
-        width: parent.width
-        spacing: Theme.spacingXL
-        topPadding: Theme.spacingL
-        bottomPadding: Theme.spacingXL
-
+    // Header Component
+    Component {
+        id: headerComponent
+        
         Row {
             width: parent.width
             spacing: Theme.spacingM
@@ -406,7 +422,6 @@ ScrollView {
                         color: Theme.surfaceText
                         anchors.verticalCenter: parent.verticalCenter
                     }
-
                 }
 
                 MouseArea {
@@ -427,7 +442,6 @@ ScrollView {
                         duration: Theme.shortDuration
                         easing.type: Theme.standardEasing
                     }
-
                 }
 
                 Behavior on border.color {
@@ -435,13 +449,15 @@ ScrollView {
                         duration: Theme.shortDuration
                         easing.type: Theme.standardEasing
                     }
-
                 }
-
             }
-
         }
+    }
 
+    // Message Component
+    Component {
+        id: messageComponent
+        
         Rectangle {
             width: parent.width
             height: messageText.contentHeight + Theme.spacingM * 2
@@ -449,9 +465,6 @@ ScrollView {
             color: Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.3)
             border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
             border.width: 1
-            visible: true
-            opacity: 1
-            z: 1
 
             StyledText {
                 id: messageText
@@ -463,9 +476,13 @@ ScrollView {
                 width: parent.width - Theme.spacingM * 2
                 wrapMode: Text.WordWrap
             }
-
         }
+    }
 
+    // Sections Component
+    Component {
+        id: sectionsComponent
+        
         Column {
             width: parent.width
             spacing: Theme.spacingL
@@ -568,9 +585,13 @@ ScrollView {
                     }
                 }
             }
-
         }
+    }
 
+    // Workspace Settings Component
+    Component {
+        id: workspaceComponent
+        
         StyledRect {
             width: parent.width
             height: workspaceSection.implicitHeight + Theme.spacingL * 2
@@ -604,7 +625,6 @@ ScrollView {
                         color: Theme.surfaceText
                         anchors.verticalCenter: parent.verticalCenter
                     }
-
                 }
 
                 DankToggle {
@@ -626,44 +646,10 @@ ScrollView {
                         return SettingsData.setShowWorkspacePadding(checked);
                     }
                 }
-
             }
-
         }
-
     }
 
-    Rectangle {
-        width: tooltipText.contentWidth + Theme.spacingM * 2
-        height: tooltipText.contentHeight + Theme.spacingS * 2
-        radius: Theme.cornerRadius
-        color: Theme.surfaceContainer
-        border.color: Theme.outline
-        border.width: 1
-        visible: resetArea.containsMouse
-        opacity: resetArea.containsMouse ? 1 : 0
-        y: column.y + 48
-        x: parent.width - width - Theme.spacingM
-        z: 100
-
-        StyledText {
-            id: tooltipText
-
-            anchors.centerIn: parent
-            text: "Reset widget layout to defaults"
-            font.pixelSize: Theme.fontSizeSmall
-            color: Theme.surfaceText
-        }
-
-        Behavior on opacity {
-            NumberAnimation {
-                duration: Theme.shortDuration
-                easing.type: Theme.standardEasing
-            }
-
-        }
-
-    }
 
     DankWidgetSelectionPopup {
         id: widgetSelectionPopup

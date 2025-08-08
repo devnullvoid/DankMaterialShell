@@ -96,7 +96,7 @@ Popup {
                 height: parent.height - 120 // Leave space for header and description
                 clip: true
 
-                ListView {
+                DankListView {
                     id: widgetList
 
                     spacing: Theme.spacingS

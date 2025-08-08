@@ -8,7 +8,7 @@ import qs.Modules
 import qs.Services
 import qs.Widgets
 
-ScrollView {
+Item {
     id: displayTab
 
     property var brightnessDebounceTimer
@@ -16,19 +16,61 @@ ScrollView {
     brightnessDebounceTimer: Timer {
         property int pendingValue: 0
 
-        interval: BrightnessService.ddcAvailable ? 500 : 50 // 500ms for slow DDC (i2c), 50ms for fast laptop backlight
+        interval: BrightnessService.ddcAvailable ? 500 : 50
         repeat: false
         onTriggered: {
-            
             BrightnessService.setBrightnessInternal(pendingValue);
         }
     }
 
-    clip: true
-    Column {
-        width: parent.width
-        spacing: Theme.spacingL
+    DankFlickable {
+        anchors.fill: parent
+        clip: true
+        contentHeight: mainColumn.height
+        contentWidth: width
+        mouseWheelSpeed: 20
+        
+        Column {
+            id: mainColumn
+            width: parent.width
+            spacing: Theme.spacingL
+            
+            Loader {
+                width: parent.width
+                sourceComponent: brightnessComponent
+            }
+            
+            Loader {
+                width: parent.width
+                sourceComponent: settingsComponent
+            }
+        }
+    }
 
+    Process {
+        id: nightModeEnableProcess
+        command: ["bash", "-c", "if command -v wlsunset > /dev/null; then pkill wlsunset; wlsunset -t 3000 & elif command -v redshift > /dev/null; then pkill redshift; redshift -P -O 3000 & else echo 'No night mode tool available'; fi"]
+        running: false
+        onExited: (exitCode) => {
+            if (exitCode !== 0) {
+                SettingsData.setNightModeEnabled(false);
+            }
+        }
+    }
+
+    Process {
+        id: nightModeDisableProcess
+        command: ["bash", "-c", "pkill wlsunset; pkill redshift; if command -v wlsunset > /dev/null; then wlsunset -t 6500 -T 6500 & sleep 1; pkill wlsunset; elif command -v redshift > /dev/null; then redshift -P -O 6500; redshift -x; fi"]
+        running: false
+        onExited: (exitCode) => {
+            if (exitCode !== 0) {
+                
+            }
+        }
+    }
+
+    Component {
+        id: brightnessComponent
         Column {
             width: parent.width
             spacing: Theme.spacingM
@@ -48,12 +90,10 @@ ScrollView {
                 rightIcon: "brightness_high"
                 enabled: BrightnessService.brightnessAvailable
                 onSliderValueChanged: function(newValue) {
-                    
                     brightnessDebounceTimer.pendingValue = newValue;
                     brightnessDebounceTimer.restart();
                 }
                 onSliderDragFinished: function(finalValue) {
-                    
                     brightnessDebounceTimer.stop();
                     BrightnessService.setBrightnessInternal(finalValue);
                 }
@@ -66,9 +106,11 @@ ScrollView {
                 visible: BrightnessService.ddcAvailable && !BrightnessService.laptopBacklightAvailable
                 anchors.horizontalCenter: parent.horizontalCenter
             }
-
         }
-
+    }
+    
+    Component {
+        id: settingsComponent
         Column {
             width: parent.width
             spacing: Theme.spacingM
@@ -110,12 +152,10 @@ ScrollView {
                             font.weight: Font.Medium
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
-
                     }
 
                     MouseArea {
                         id: nightModeToggle
-
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
@@ -129,7 +169,6 @@ ScrollView {
                             }
                         }
                     }
-
                 }
 
                 Rectangle {
@@ -158,12 +197,10 @@ ScrollView {
                             font.weight: Font.Medium
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
-
                     }
 
                     MouseArea {
                         id: lightModeToggle
-
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
@@ -177,40 +214,9 @@ ScrollView {
                             duration: Theme.shortDuration
                             easing.type: Theme.standardEasing
                         }
-
                     }
-
                 }
-
-            }
-
-        }
-
-    }
-
-    Process {
-        id: nightModeEnableProcess
-
-        command: ["bash", "-c", "if command -v wlsunset > /dev/null; then pkill wlsunset; wlsunset -t 3000 & elif command -v redshift > /dev/null; then pkill redshift; redshift -P -O 3000 & else echo 'No night mode tool available'; fi"]
-        running: false
-        onExited: (exitCode) => {
-            if (exitCode !== 0) {
-                
-                SettingsData.setNightModeEnabled(false);
             }
         }
     }
-
-    Process {
-        id: nightModeDisableProcess
-
-        command: ["bash", "-c", "pkill wlsunset; pkill redshift; if command -v wlsunset > /dev/null; then wlsunset -t 6500 -T 6500 & sleep 1; pkill wlsunset; elif command -v redshift > /dev/null; then redshift -P -O 6500; redshift -x; fi"]
-        running: false
-        onExited: (exitCode) => {
-            if (exitCode !== 0)
-                
-
-        }
-    }
-
 }

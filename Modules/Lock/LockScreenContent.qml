@@ -928,7 +928,7 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
                                 logoutDialog.close()
-                                Quickshell.execDetached(["niri", "msg", "action", "quit", "-s"])
+                                NiriService.quit()
                             }
                         }
                     }

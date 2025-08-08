@@ -1,13 +1,16 @@
 import QtQuick
+import Quickshell
 import Quickshell.Services.SystemTray
 import qs.Common
 
 Rectangle {
     id: root
+    
+    property var parentWindow: null
+    property var parentScreen: null
 
     readonly property int calculatedWidth: SystemTray.items.values.length > 0 ? SystemTray.items.values.length * 24 + (SystemTray.items.values.length - 1) * Theme.spacingXS + Theme.spacingS * 2 : 0
 
-    signal menuRequested(var menu, var item, real x, real y)
 
     width: calculatedWidth
     height: 30
@@ -84,16 +87,19 @@ Rectangle {
                     cursorShape: Qt.PointingHandCursor
                     onClicked: (mouse) => {
                         if (!trayItem)
-                            return ;
+                            return
 
-                        if (mouse.button === Qt.LeftButton) {
-                            if (!trayItem.onlyMenu)
-                                trayItem.activate();
-
-                        } else if (mouse.button === Qt.RightButton) {
-                            if (trayItem && trayItem.hasMenu)
-                                root.menuRequested(null, trayItem, mouse.x, mouse.y);
-
+                        if (trayItem.hasMenu) {
+                            var globalPos = mapToGlobal(0, 0)
+                            var currentScreen = parentScreen || Screen
+                            var screenX = currentScreen.x || 0
+                            var relativeX = globalPos.x - screenX
+                            menuAnchor.menu = trayItem.menu
+                            menuAnchor.anchor.window = parentWindow
+                            menuAnchor.anchor.rect = Qt.rect(relativeX, Theme.barHeight + Theme.spacingS, parent.width, 1)
+                            menuAnchor.open()
+                        } else if (mouse.button === Qt.LeftButton) {
+                            trayItem.activate()
                         }
                     }
                 }
@@ -102,6 +108,10 @@ Rectangle {
 
         }
 
+    }
+
+    QsMenuAnchor {
+        id: menuAnchor
     }
 
 }

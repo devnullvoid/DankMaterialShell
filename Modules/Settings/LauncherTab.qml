@@ -4,34 +4,44 @@ import Quickshell.Widgets
 import qs.Common
 import qs.Widgets
 
-ScrollView {
+Item {
     id: launcherTab
 
-    // Qt 6.9+ scrolling: Enhanced mouse wheel and touchpad responsiveness
-    // Custom wheel handler for Qt 6.9+ responsive mouse wheel scrolling
-    WheelHandler {
-        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-        onWheel: (event) => {
-            let delta = event.pixelDelta.y !== 0 ? event.pixelDelta.y * 1.8 : event.angleDelta.y / 120 * 80
-            let flickable = launcherTab.contentItem
-            let newY = flickable.contentY - delta
-            newY = Math.max(0, Math.min(flickable.contentHeight - flickable.height, newY))
-            flickable.contentY = newY
-            event.accepted = true
+    DankFlickable {
+        anchors.fill: parent
+        anchors.topMargin: Theme.spacingL
+        anchors.bottomMargin: Theme.spacingXL
+        clip: true
+        contentHeight: mainColumn.height
+        contentWidth: width
+        mouseWheelSpeed: 20
+        
+        Column {
+            id: mainColumn
+            width: parent.width
+            spacing: Theme.spacingXL
+            
+            Loader {
+                width: parent.width
+                sourceComponent: appLauncherComponent
+            }
+            
+            Loader {
+                width: parent.width
+                sourceComponent: dockComponent
+            }
+            
+            Loader {
+                width: parent.width
+                sourceComponent: recentlyUsedComponent
+            }
         }
     }
 
-    contentHeight: column.implicitHeight + Theme.spacingXL
-    clip: true
-
-    Column {
-        id: column
-
-        width: parent.width
-        spacing: Theme.spacingXL
-        topPadding: Theme.spacingL
-        bottomPadding: Theme.spacingXL
-
+    // App Launcher Component
+    Component {
+        id: appLauncherComponent
+        
         StyledRect {
             width: parent.width
             height: appLauncherSection.implicitHeight + Theme.spacingL * 2
@@ -159,9 +169,13 @@ ScrollView {
                 }
 
             }
-
         }
+    }
 
+    // Dock Component
+    Component {
+        id: dockComponent
+        
         StyledRect {
             width: parent.width
             height: dockSection.implicitHeight + Theme.spacingL * 2
@@ -262,7 +276,12 @@ ScrollView {
 
             }
         }
+    }
 
+    // Recently Used Apps Component
+    Component {
+        id: recentlyUsedComponent
+        
         StyledRect {
             width: parent.width
             height: recentlyUsedSection.implicitHeight + Theme.spacingL * 2
@@ -474,9 +493,6 @@ ScrollView {
                 }
 
             }
-
         }
-
     }
-
 }

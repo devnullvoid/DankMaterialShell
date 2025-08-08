@@ -429,7 +429,7 @@ DankModal {
                 border.width: 1
                 clip: true
 
-                ListView {
+                DankListView {
                     id: clipboardListView
 
                     anchors.fill: parent

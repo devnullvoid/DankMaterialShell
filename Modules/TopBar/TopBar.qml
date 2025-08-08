@@ -542,16 +542,8 @@ PanelWindow {
                 id: systemTrayComponent
 
                 SystemTrayBar {
-                    onMenuRequested: (menu, item, x, y) => {
-                        systemTrayContextMenu.currentTrayMenu = menu;
-                        systemTrayContextMenu.currentTrayItem = item;
-                        systemTrayContextMenu.contextMenuX = rightSection.x + rightSection.width - 400 - Theme.spacingL;
-                        systemTrayContextMenu.contextMenuY = Theme.barHeight - Theme.spacingXS;
-                        systemTrayContextMenu.showContextMenu = true;
-                        if (menu) {
-                            menu.menuVisible = true;
-                        }
-                    }
+                    parentWindow: root
+                    parentScreen: root.screen
                 }
 
             }

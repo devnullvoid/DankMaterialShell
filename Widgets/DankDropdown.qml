@@ -269,7 +269,7 @@ Rectangle {
                             visible: root.enableFuzzySearch
                         }
 
-                        ListView {
+                        DankListView {
                             id: listView
 
                             width: parent.width

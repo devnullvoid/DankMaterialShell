@@ -23,24 +23,31 @@ A modern Wayland desktop shell built with [Quickshell](https://quickshell.org/) 
 <div align="center">
 
 ### Application Launcher
+
 <img src="https://github.com/user-attachments/assets/2da00ea1-8921-4473-a2a9-44a44535a822" width="450" alt="Spotlight Launcher" />
 
 ### System Monitor
+
 <img src="https://github.com/user-attachments/assets/b3c817ec-734d-4974-929f-2d11a1065349" width="600" alt="System Monitor" />
 
 ### Widget Customization
+
 <img src="https://github.com/user-attachments/assets/903f7c60-146f-4fb3-a75d-a4823828f298" width="500" alt="Widget Customization" />
 
 ### Lock Screen
+
 <img src="https://github.com/user-attachments/assets/3fa07de2-c1b0-4e57-8f25-3830ac6baf4f" width="600" alt="Lock Screen" />
 
 ### Dynamic Theming
+
 <img src="https://github.com/user-attachments/assets/1994e616-f9d9-424a-9f60-6f06708bf12e" width="700" alt="Auto Theme" />
 
 ### Notification Center
+
 <img src="https://github.com/user-attachments/assets/07cbde9a-0242-4989-9f97-5765c6458c85" width="350" alt="Notification Center" />
 
 ### Dock
+
 <img src="https://github.com/user-attachments/assets/e6999daf-f7bf-4329-98fa-0ce4f0e7219c" width="400" alt="Dock" />
 
 </div>
@@ -50,6 +57,7 @@ A modern Wayland desktop shell built with [Quickshell](https://quickshell.org/) 
 ## What's Inside
 
 **Core Widgets:**
+
 - **TopBar**: fully customizable bar where widgets can be added, removed, and re-arranged.
   - **App Launcher** with fuzzy search, categories, and auto-sorting by most used apps.
   - **Workspace Switcher** Dynamically resizing niri workspace switcher.
@@ -71,6 +79,7 @@ A modern Wayland desktop shell built with [Quickshell](https://quickshell.org/) 
 - **Lock Screen** Using quickshell's WlSessionLock
 
 **Features:**
+
 - Dynamic wallpaper-based theming with matugen integration
 - Numerous IPCs to trigger actions and open various modals.
 - Calendar integration with [khal](https://github.com/pimutils/khal)
@@ -83,17 +92,24 @@ A modern Wayland desktop shell built with [Quickshell](https://quickshell.org/) 
 
 ### Quick Start
 
+\*If you do not already have niri, see [#]
+
 **Dependencies:**
+
 ```bash
 # Arch Linux
 paru -S quickshell-git ttf-material-symbols-variable-git inter-font ttf-fira-code
 
-# Fedora  
-sudo dnf copr enable errornointernet/quickshell && sudo dnf install quickshell-git
-# Install fonts manually (see instructions below)
+# Fedora
+sudo dnf copr enable errornointernet/quickshell && sudo dnf install quickshell-git rsms-inter-fonts fira-code-fonts
+# Install icon fonts manually
+mkdir -p ~/.local/share/fonts
+curl -L "https://github.com/google/material-design-icons/raw/master/variablefont/MaterialSymbolsRounded%5BFILL%2CGRAD%2Copsz%2Cwght%5D.ttf" -o ~/.local/share/fonts/MaterialSymbolsRounded.ttf
+fc-cache -f
 ```
 
 **Get the shell:**
+
 ```bash
 # Arch linux available via AUR
 paru -S dankmaterialshell-git
@@ -109,6 +125,7 @@ qs -c DankMaterialShell
 <details><summary>Font Installation</summary>
 
 **Material Symbols (Required):**
+
 ```bash
 # Manual installation
 mkdir -p ~/.local/share/fonts
@@ -120,6 +137,7 @@ paru -S ttf-material-symbols-variable-git
 ```
 
 **Typography (Recommended):**
+
 ```bash
 # Inter Variable Font
 curl -L "https://github.com/rsms/inter/releases/download/v4.0/Inter-4.0.zip" -o /tmp/Inter.zip
@@ -137,23 +155,24 @@ rm /tmp/FiraCode.zip && fc-cache -f
 <details><summary>Optional Features</summary>
 
 **Enhanced Functionality:**
+
 ```bash
 # Arch Linux
-pacman -S cava wl-clipboard cliphist ddcutil brightnessctl qt5ct qt6ct
+pacman -S cava wl-clipboard cliphist ddcutil brightnessctl
 paru -S matugen
 
 # Fedora
-sudo dnf install cava wl-clipboard ddcutil brightnessctl qt5ct qt6ct
+sudo dnf install cava wl-clipboard ddcutil brightnessctl
 sudo dnf copr enable wef/cliphist && sudo dnf install cliphist
 sudo dnf copr enable heus-sueh/packages && sudo dnf install matugen
 ```
 
 **What you get:**
+
 - `matugen`: Wallpaper-based dynamic theming
-- `ddcutil`: External monitor brightness control  
+- `ddcutil`: External monitor brightness control
 - `brightnessctl`: Laptop display brightness
 - `wl-clipboard`: Required for copying various elements to clipboard.
-- `qt5ct/qt6ct`: Qt application theming
 - `cava`: Audio visualizer
 - `cliphist`: Clipboard history
 
@@ -166,6 +185,14 @@ sudo dnf copr enable heus-sueh/packages && sudo dnf install matugen
 Add to your niri config
 
 ```bash
+// Required for clipboard history integration
+spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
+
+// Recommended (must install polkit-mate before hand) for elevation prompts
+spawn-at-startup "/usr/lib/mate-polkit/polkit-mate-authentication-agent-1"
+// This may be a different path on different distributions, the above is for the arch linux mate-polkit package
+
+// Starts DankShell
 spawn-at-startup "qs" "-c" "DankMaterialShell"
 
 // Dank keybinds
@@ -206,7 +233,7 @@ binds {
    }
    XF86MonBrightnessDown allow-when-locked=true {
       spawn "qs" "-c" "DankMaterialShell" "ipc" "call" "brightness" "decrement" "5";
-   }  
+   }
 }
 ```
 
@@ -219,7 +246,7 @@ Control everything from the command line, or via keybinds:
 qs -c DankMaterialShell ipc call audio setvolume 50
 qs -c DankMaterialShell ipc call audio mute
 
-# Launch applications  
+# Launch applications
 qs -c DankMaterialShell ipc call spotlight toggle
 qs -c DankMaterialShell ipc call processlist toggle
 
@@ -237,54 +264,98 @@ qs -c DankMaterialShell ipc call mpris next
 
 ### System App Integration
 
+There's two toggles in the appearance section of settings, for GTK and QT apps.
+
+These settings will override some local GTK and QT configuration files, you can still integrate auto-theming if you do not wish DankShell to mess with your QTCT/GTK files.
+
+No matter what when matugen is enabled the files will be created on wallpaper changes:
+
+- ~/.config/gtk-3.0/dank-colors.css
+- ~/.config/gtk-4.0/dank-colors.css
+- ~/.config/qt6ct/colors/matugen.conf
+- ~/.config/qt5ct/colors/matugen.conf
+
+If you do not like our theme path, you can integrate this with other GTK themes, matugen themes, etc.
+
 **GTK Apps:**
-Install [Colloid](https://github.com/vinceliuice/Colloid-gtk-theme) or similar Material theme:
+
+1. Install [Colloid](https://github.com/vinceliuice/Colloid-gtk-theme)
+
+Colloid is a hard requirement for the auto-theming because of how it integrates with colloid css files, however you can integrate auto-theming with other themes, you just have to do it manually (so leave the toggle OFF in settings)
+
+It will still create `~/.config/gtk-3.0/4.0/dank-colors.css` on theme updates, these you can import into other compatible GTK themes.
+
 ```bash
+# Some default install settings for colloid
 ./install.sh -s standard -l --tweaks normal
 ```
 
-Configure in `~/.config/gtk-3.0/settings.ini`:
+Configure in `~/.config/gtk-3.0/settings.ini` and `~/.config/gtk-4.0/settings.ini`:
+
 ```ini
 [Settings]
 gtk-theme-name=Colloid
 ```
 
 **Qt Apps:**
-```bash
-# Install Breeze
-pacman -S breeze breeze5  # Arch
-sudo dnf install breeze  # Fedora
 
-# Configure qt5ct/qt6ct
-echo 'style=Breeze' >> ~/.config/qt5ct/qt5ct.conf
+You have **two** paths for QT theming, first path is to use **gtk3**. To do that, add the following to your niri config.
+
+```kdl
+environment {
+  // Add to existing environment block
+  QT_QPA_PLATFORMTHEME "gtk3"
+  QT_QPA_PLATFORMTHEME_QT6 "gtk3"
+}
 ```
 
-**Dynamic Theming:**
-Enable wallpaper-based theming in **Settings → Appearance → System App Theming** after installing matugen.
+**Done** - if you're not happy with this and wish to use Breeze or another QT theme then continue on.
+
+1. Install qt6ct and qt5ct
+
+```bash
+# Arch
+pacman -S qt5ct qt6ct
+# Fedora
+dnf install qt5ct qt6ct
+```
+
+2. Configure Environment in niri
+
+```kdl
+  // Add to existing environment block
+  QT_QPA_PLATFORMTHEME "qt5ct"
+  QT_QPA_PLATFORMTHEME_QT6 "qt6ct"
+```
+
+You'll have to restart your session for themes to take effect.
 
 ### Terminal Integration
 
 **Ghostty users** can add automatic color theming:
+
 ```bash
 echo "config-file = ./config-dankcolors" >> ~/.config/ghostty/config
 ```
 
 ## Calendar Setup
 
-Sync your Google Calendar for dashboard integration:
+Sync your caldev compatible calendar (Google, Office365, etc.) for dashboard integration:
 
 <details><summary>Configuration Steps</summary>
 
 **Install dependencies:**
+
 ```bash
 # Arch
 pacman -S vdirsyncer khal python-aiohttp-oauthlib
 
-# Fedora  
+# Fedora
 sudo dnf install python3-vdirsyncer khal python3-aiohttp-oauthlib
 ```
 
 **Configure vdirsyncer** (`~/.vdirsyncer/config`):
+
 ```ini
 [general]
 status_path = "~/.calendars/status"
@@ -309,6 +380,7 @@ fileext = ".ics"
 ```
 
 **Setup sync:**
+
 ```bash
 vdirsyncer sync
 khal configure
@@ -325,8 +397,9 @@ crontab -e
 All settings are configurable in `~/.config/DankMaterialShell/settings.json`, or more intuitively the built-in settings modal.
 
 **Key configuration areas:**
+
 - Widget positioning and behavior
-- Theme and color preferences  
+- Theme and color preferences
 - Time format, weather units and location
 - Light/Dark modes
 - Wallpaper and Profile picture
@@ -335,12 +408,14 @@ All settings are configurable in `~/.config/DankMaterialShell/settings.json`, or
 ## Troubleshooting
 
 **Common issues:**
+
 - **Missing icons:** Verify Material Symbols font installation with `fc-list | grep Material`
 - **No dynamic theming:** Install matugen and enable in settings
 - **Qt apps not themed:** Configure qt5ct/qt6ct and set QT_QPA_PLATFORMTHEME
 - **Calendar not syncing:** Check vdirsyncer credentials and network connectivity
 
 **Getting help:**
+
 - Check the [issues](https://github.com/bbedward/DankMaterialShell/issues) for known problems
 - Share logs from `qs -c DankMaterialShell` for debugging
 - Join the niri community for compositor-specific questions
@@ -350,6 +425,7 @@ All settings are configurable in `~/.config/DankMaterialShell/settings.json`, or
 DankMaterialShell welcomes contributions! Whether it's bug fixes, new widgets, theme improvements, or documentation updates - all help is appreciated.
 
 **Areas that need attention:**
+
 - More widget options and customization
 - Additional compositor compatibility
 - Performance optimizations

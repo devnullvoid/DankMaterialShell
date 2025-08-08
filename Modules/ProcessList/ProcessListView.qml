@@ -49,9 +49,7 @@ Column {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    processListView.captureAnchor();
                     SysMonitorService.setSortBy("name");
-                    processListView.restoreAnchor();
                 }
             }
 
@@ -90,9 +88,7 @@ Column {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    processListView.captureAnchor();
                     SysMonitorService.setSortBy("cpu");
-                    processListView.restoreAnchor();
                 }
             }
 
@@ -131,9 +127,7 @@ Column {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    processListView.captureAnchor();
                     SysMonitorService.setSortBy("memory");
-                    processListView.restoreAnchor();
                 }
             }
 
@@ -173,9 +167,7 @@ Column {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    processListView.captureAnchor();
                     SysMonitorService.setSortBy("pid");
-                    processListView.restoreAnchor();
                 }
             }
 
@@ -211,9 +203,7 @@ Column {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    processListView.captureAnchor();
                     SysMonitorService.toggleSortOrder();
-                    processListView.restoreAnchor();
                 }
             }
 
@@ -228,101 +218,21 @@ Column {
 
     }
 
-    ListView {
+    DankListView {
         id: processListView
 
-        property real stableY: 0
-        property bool isUserScrolling: false
-        property bool isScrollBarDragging: false
         property string keyRoleName: "pid"
-        property var _anchorKey: undefined
-        property real _anchorOffset: 0
-
-        function captureAnchor() {
-            const y = contentY + 1;
-            const idx = indexAt(0, y);
-            if (idx < 0 || !model || idx >= model.length)
-                return ;
-
-            _anchorKey = model[idx][keyRoleName];
-            const it = itemAtIndex(idx);
-            _anchorOffset = it ? (y - it.y) : 0;
-        }
-
-        function restoreAnchor() {
-            Qt.callLater(function() {
-                if (_anchorKey === undefined || !model)
-                    return ;
-
-                var i = -1;
-                for (var j = 0; j < model.length; ++j) {
-                    if (model[j][keyRoleName] === _anchorKey) {
-                        i = j;
-                        break;
-                    }
-                }
-                if (i < 0)
-                    return ;
-
-                positionViewAtIndex(i, ListView.Beginning);
-                const maxY = Math.max(0, contentHeight - height);
-                contentY = Math.max(0, Math.min(maxY, contentY + _anchorOffset - 1));
-            });
-        }
 
         width: parent.width
         height: parent.height - columnHeaders.height
         clip: true
         spacing: 4
         model: SysMonitorService.processes
-        boundsBehavior: Flickable.StopAtBounds
         
-                // Qt 6.9+ scrolling: flickDeceleration/maximumFlickVelocity only affect touch now
-        interactive: true
-        flickDeceleration: 1500  // Touch only in Qt 6.9+      // Lower = more momentum, longer scrolling
-        maximumFlickVelocity: 2000  // Touch only in Qt 6.9+   // Higher = faster maximum scroll speed
-        boundsMovement: Flickable.FollowBoundsBehavior
-        pressDelay: 0
-        flickableDirection: Flickable.VerticalFlick
-        
-        onMovementStarted: isUserScrolling = true
-        onMovementEnded: {
-            isUserScrolling = false;
-            if (contentY > 40)
-                stableY = contentY;
-        }
-        onContentYChanged: {
-            if (!isUserScrolling && !isScrollBarDragging && visible && stableY > 40 && Math.abs(contentY - stableY) > 10)
-                contentY = stableY;
-        }
-        onModelChanged: {
-            if (model && model.length > 0 && !isUserScrolling && stableY > 40)
-                Qt.callLater(function() {
-                    contentY = stableY;
-                });
-        }
-
         delegate: ProcessListItem {
             process: modelData
             contextMenu: root.contextMenu
         }
-
-        ScrollBar.vertical: ScrollBar {
-            id: verticalScrollBar
-
-            policy: ScrollBar.AsNeeded
-            onPressedChanged: {
-                processListView.isScrollBarDragging = pressed;
-                if (!pressed && processListView.contentY > 40)
-                    processListView.stableY = processListView.contentY;
-
-            }
-        }
-
-        ScrollBar.horizontal: ScrollBar {
-            policy: ScrollBar.AlwaysOff
-        }
-
     }
 
 }

@@ -5,35 +5,49 @@ import qs.Common
 import qs.Services
 import qs.Widgets
 
-ScrollView {
+Item {
     id: appearanceTab
 
-    // Qt 6.9+ scrolling: Enhanced mouse wheel and touchpad responsiveness
-    // Custom wheel handler for Qt 6.9+ responsive mouse wheel scrolling
-    WheelHandler {
-        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
-        onWheel: (event) => {
-            let delta = event.pixelDelta.y !== 0 ? event.pixelDelta.y * 1.8 : event.angleDelta.y / 120 * 80
-            let flickable = appearanceTab.contentItem
-            let newY = flickable.contentY - delta
-            newY = Math.max(0, Math.min(flickable.contentHeight - flickable.height, newY))
-            flickable.contentY = newY
-            event.accepted = true
+    DankFlickable {
+        anchors.fill: parent
+        anchors.topMargin: Theme.spacingL
+        anchors.bottomMargin: Theme.spacingXL
+        clip: true
+        contentHeight: mainColumn.height
+        contentWidth: width
+        mouseWheelSpeed: 20
+        
+        Column {
+            id: mainColumn
+            width: parent.width
+            spacing: Theme.spacingXL
+            
+            Loader {
+                width: parent.width
+                sourceComponent: displayComponent
+            }
+            
+            Loader {
+                width: parent.width
+                sourceComponent: transparencyComponent
+            }
+            
+            Loader {
+                width: parent.width
+                sourceComponent: themeComponent
+            }
+            
+            Loader {
+                width: parent.width
+                sourceComponent: systemThemingComponent
+            }
         }
     }
 
-    contentWidth: availableWidth
-    contentHeight: column.implicitHeight + Theme.spacingXL
-    clip: true
-
-    Column {
-        id: column
-
-        width: parent.width
-        spacing: Theme.spacingXL
-        topPadding: Theme.spacingL
-        bottomPadding: Theme.spacingXL
-
+    // Display Settings Component
+    Component {
+        id: displayComponent
+        
         StyledRect {
             width: parent.width
             height: displaySection.implicitHeight + Theme.spacingL * 2
@@ -273,9 +287,13 @@ ScrollView {
                 }
 
             }
-
         }
+    }
 
+    // Transparency Settings Component
+    Component {
+        id: transparencyComponent
+        
         StyledRect {
             width: parent.width
             height: transparencySection.implicitHeight + Theme.spacingL * 2
@@ -391,9 +409,13 @@ ScrollView {
                 }
 
             }
-
         }
+    }
 
+    // Theme Color Component
+    Component {
+        id: themeComponent
+        
         StyledRect {
             width: parent.width
             height: themeSection.implicitHeight + Theme.spacingL * 2
@@ -759,9 +781,13 @@ ScrollView {
                 }
 
             }
-
         }
+    }
 
+    // System App Theming Component
+    Component {
+        id: systemThemingComponent
+        
         StyledRect {
             width: parent.width
             height: systemThemingSection.implicitHeight + Theme.spacingL * 2
@@ -828,9 +854,7 @@ ScrollView {
                 }
 
             }
-
         }
-
     }
 
     Process {
