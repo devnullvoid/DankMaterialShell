@@ -1,5 +1,4 @@
 //@ pragma UseQApplication
-
 import QtQuick
 import Quickshell
 import Quickshell.Io
@@ -20,178 +19,178 @@ import qs.Modules.Dock
 import qs.Services
 
 ShellRoot {
-    id: root
+  id: root
 
-    WallpaperBackground {}
+  WallpaperBackground {}
 
-    Lock {
-        id: lock
+  Lock {
+    id: lock
 
-        anchors.fill: parent
+    anchors.fill: parent
+  }
+
+  Variants {
+    model: Quickshell.screens
+
+    delegate: TopBar {
+      modelData: item
+    }
+  }
+
+  Variants {
+    model: Quickshell.screens
+
+    delegate: Dock {
+      modelData: item
+      contextMenu: dockContextMenu
+      windowsMenu: dockWindowsMenu
+    }
+  }
+
+  CentcomPopout {
+    id: centcomPopout
+  }
+
+  DockContextMenu {
+    id: dockContextMenu
+  }
+
+  DockWindowsMenu {
+    id: dockWindowsMenu
+  }
+
+  NotificationCenterPopout {
+    id: notificationCenter
+  }
+
+  Variants {
+    model: Quickshell.screens
+
+    delegate: NotificationPopupManager {
+      modelData: item
+    }
+  }
+
+  ControlCenterPopout {
+    id: controlCenterPopout
+
+    onPowerActionRequested: (action, title, message) => {
+                              powerConfirmModal.powerConfirmAction = action
+                              powerConfirmModal.powerConfirmTitle = title
+                              powerConfirmModal.powerConfirmMessage = message
+                              powerConfirmModal.powerConfirmVisible = true
+                            }
+    onLockRequested: {
+      lock.activate()
+    }
+  }
+
+  WifiPasswordModal {
+    id: wifiPasswordModal
+  }
+
+  NetworkInfoModal {
+    id: networkInfoModal
+  }
+
+  BatteryPopout {
+    id: batteryPopout
+  }
+
+  PowerMenu {
+    id: powerMenu
+  }
+
+  PowerConfirmModal {
+    id: powerConfirmModal
+  }
+
+  ProcessListPopout {
+    id: processListPopout
+  }
+
+  SettingsModal {
+    id: settingsModal
+  }
+
+  AppDrawerPopout {
+    id: appDrawerPopout
+  }
+
+  SpotlightModal {
+    id: spotlightModal
+  }
+
+  ClipboardHistoryModal {
+    id: clipboardHistoryModalPopup
+  }
+
+  LazyLoader {
+    id: processListModalLoader
+
+    active: false
+
+    ProcessListModal {
+      id: processListModal
+    }
+  }
+
+  IpcHandler {
+    function open() {
+      processListModalLoader.active = true
+      if (processListModalLoader.item)
+        processListModalLoader.item.show()
+
+      return "PROCESSLIST_OPEN_SUCCESS"
     }
 
-    Variants {
-        model: Quickshell.screens
+    function close() {
+      if (processListModalLoader.item)
+        processListModalLoader.item.hide()
 
-        delegate: TopBar {
-            modelData: item
-        }
+      return "PROCESSLIST_CLOSE_SUCCESS"
     }
 
-    Variants {
-        model: Quickshell.screens
+    function toggle() {
+      processListModalLoader.active = true
+      if (processListModalLoader.item)
+        processListModalLoader.item.toggle()
 
-        delegate: Dock {
-            modelData: item
-            contextMenu: dockContextMenu
-            windowsMenu: dockWindowsMenu
-        }
+      return "PROCESSLIST_TOGGLE_SUCCESS"
     }
 
-    CentcomPopout {
-        id: centcomPopout
+    target: "processlist"
+  }
+
+  Variants {
+    model: Quickshell.screens
+
+    delegate: Toast {
+      modelData: item
     }
+  }
 
-    DockContextMenu {
-        id: dockContextMenu
+  Variants {
+    model: Quickshell.screens
+
+    delegate: VolumePopup {
+      modelData: item
     }
+  }
 
-    DockWindowsMenu {
-        id: dockWindowsMenu
+  Variants {
+    model: Quickshell.screens
+
+    delegate: MicMutePopup {
+      modelData: item
     }
+  }
 
-    NotificationCenterPopout {
-        id: notificationCenter
+  Variants {
+    model: Quickshell.screens
+
+    delegate: BrightnessPopup {
+      modelData: item
     }
-
-    Variants {
-        model: Quickshell.screens
-
-        delegate: NotificationPopupManager {
-            modelData: item
-        }
-    }
-
-    ControlCenterPopout {
-        id: controlCenterPopout
-
-        onPowerActionRequested: (action, title, message) => {
-            powerConfirmModal.powerConfirmAction = action;
-            powerConfirmModal.powerConfirmTitle = title;
-            powerConfirmModal.powerConfirmMessage = message;
-            powerConfirmModal.powerConfirmVisible = true;
-        }
-        onLockRequested: {
-            lock.activate();
-        }
-    }
-
-    WifiPasswordModal {
-        id: wifiPasswordModal
-    }
-
-    NetworkInfoModal {
-        id: networkInfoModal
-    }
-
-    BatteryPopout {
-        id: batteryPopout
-    }
-
-    PowerMenu {
-        id: powerMenu
-    }
-
-    PowerConfirmModal {
-        id: powerConfirmModal
-    }
-
-    ProcessListPopout {
-        id: processListPopout
-    }
-
-    SettingsModal {
-        id: settingsModal
-    }
-
-    AppDrawerPopout {
-        id: appDrawerPopout
-    }
-
-    SpotlightModal {
-        id: spotlightModal
-    }
-
-    ClipboardHistoryModal {
-        id: clipboardHistoryModalPopup
-    }
-
-    LazyLoader {
-        id: processListModalLoader
-
-        active: false
-
-        ProcessListModal {
-            id: processListModal
-        }
-    }
-
-    IpcHandler {
-        function open() {
-            processListModalLoader.active = true;
-            if (processListModalLoader.item)
-                processListModalLoader.item.show();
-
-            return "PROCESSLIST_OPEN_SUCCESS";
-        }
-
-        function close() {
-            if (processListModalLoader.item)
-                processListModalLoader.item.hide();
-
-            return "PROCESSLIST_CLOSE_SUCCESS";
-        }
-
-        function toggle() {
-            processListModalLoader.active = true;
-            if (processListModalLoader.item)
-                processListModalLoader.item.toggle();
-
-            return "PROCESSLIST_TOGGLE_SUCCESS";
-        }
-
-        target: "processlist"
-    }
-
-    Variants {
-        model: Quickshell.screens
-
-        delegate: Toast {
-            modelData: item
-        }
-    }
-
-    Variants {
-        model: Quickshell.screens
-
-        delegate: VolumePopup {
-            modelData: item
-        }
-    }
-
-    Variants {
-        model: Quickshell.screens
-
-        delegate: MicMutePopup {
-            modelData: item
-        }
-    }
-
-    Variants {
-        model: Quickshell.screens
-
-        delegate: BrightnessPopup {
-            modelData: item
-        }
-    }
+  }
 }

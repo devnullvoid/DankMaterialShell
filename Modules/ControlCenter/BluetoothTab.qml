@@ -10,79 +10,79 @@ import qs.Services
 import qs.Widgets
 
 Item {
-    id: bluetoothTab
+  id: bluetoothTab
 
-    property alias bluetoothContextMenuWindow: bluetoothContextMenuWindow
+  property alias bluetoothContextMenuWindow: bluetoothContextMenuWindow
 
-    DankFlickable {
-        anchors.fill: parent
-        clip: true
-        contentHeight: mainColumn.height
-        contentWidth: width
-        mouseWheelSpeed: 20
-        
-        Column {
-            id: mainColumn
-            width: parent.width
-            spacing: Theme.spacingL
-            
-            Loader {
-                width: parent.width
-                sourceComponent: toggleComponent
-            }
-            
-            Loader {
-                width: parent.width
-                sourceComponent: pairedComponent
-            }
-            
-            Loader {
-                width: parent.width
-                sourceComponent: availableComponent
-            }
-        }
+  DankFlickable {
+    anchors.fill: parent
+    clip: true
+    contentHeight: mainColumn.height
+    contentWidth: width
+
+    Column {
+      id: mainColumn
+      width: parent.width
+      spacing: Theme.spacingL
+
+      Loader {
+        width: parent.width
+        sourceComponent: toggleComponent
+      }
+
+      Loader {
+        width: parent.width
+        sourceComponent: pairedComponent
+      }
+
+      Loader {
+        width: parent.width
+        sourceComponent: availableComponent
+      }
     }
+  }
 
-    BluetoothContextMenu {
-        id: bluetoothContextMenuWindow
-        parentItem: bluetoothTab
+  BluetoothContextMenu {
+    id: bluetoothContextMenuWindow
+    parentItem: bluetoothTab
+  }
+
+  MouseArea {
+    anchors.fill: parent
+    visible: bluetoothContextMenuWindow.visible
+    onClicked: {
+      bluetoothContextMenuWindow.hide()
     }
 
     MouseArea {
-        anchors.fill: parent
-        visible: bluetoothContextMenuWindow.visible
-        onClicked: {
-            bluetoothContextMenuWindow.hide();
-        }
+      x: bluetoothContextMenuWindow.x
+      y: bluetoothContextMenuWindow.y
+      width: bluetoothContextMenuWindow.width
+      height: bluetoothContextMenuWindow.height
+      onClicked: {
 
-        MouseArea {
-            x: bluetoothContextMenuWindow.x
-            y: bluetoothContextMenuWindow.y
-            width: bluetoothContextMenuWindow.width
-            height: bluetoothContextMenuWindow.height
-            onClicked: {
-            }
-        }
+      }
     }
+  }
 
-    Component {
-        id: toggleComponent
-        BluetoothToggle {
-            width: parent.width
-        }
+  Component {
+    id: toggleComponent
+    BluetoothToggle {
+      width: parent.width
     }
-    
-    Component {
-        id: pairedComponent
-        PairedDevicesList {
-            width: parent.width
-        }
+  }
+
+  Component {
+    id: pairedComponent
+    PairedDevicesList {
+      width: parent.width
     }
-    
-    Component {
-        id: availableComponent
-        AvailableDevicesList {
-            width: parent.width
-        }
+  }
+
+  Component {
+    id: availableComponent
+    AvailableDevicesList {
+      width: parent.width
     }
+  }
 }

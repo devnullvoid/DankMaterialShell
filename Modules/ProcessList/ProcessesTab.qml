@@ -5,25 +5,24 @@ import qs.Modules.ProcessList
 import qs.Services
 
 ColumnLayout {
-    id: processesTab
+  id: processesTab
 
-    property var contextMenu: null
+  property var contextMenu: null
 
-    anchors.fill: parent
-    spacing: Theme.spacingM
+  anchors.fill: parent
+  spacing: Theme.spacingM
 
-    SystemOverview {
-        Layout.fillWidth: true
-    }
+  SystemOverview {
+    Layout.fillWidth: true
+  }
 
-    ProcessListView {
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        contextMenu: processesTab.contextMenu || localContextMenu
-    }
+  ProcessListView {
+    Layout.fillWidth: true
+    Layout.fillHeight: true
+    contextMenu: processesTab.contextMenu || localContextMenu
+  }
 
-    ProcessContextMenu {
-        id: localContextMenu
-    }
-
+  ProcessContextMenu {
+    id: localContextMenu
+  }
 }

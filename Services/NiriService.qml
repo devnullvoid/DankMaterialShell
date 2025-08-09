@@ -1,299 +1,303 @@
 pragma Singleton
-pragma ComponentBehavior: Bound
+
+pragma ComponentBehavior
 
 import QtQuick
 import Quickshell
 import Quickshell.Io
 
 Singleton {
-    id: root
+  id: root
 
-    // Workspace management
-    property var workspaces: ({})
-    property var allWorkspaces: []
-    property int focusedWorkspaceIndex: 0
-    property string focusedWorkspaceId: ""
-    property var currentOutputWorkspaces: []
-    property string currentOutput: ""
+  // Workspace management
+  property var workspaces: ({})
+  property var allWorkspaces: []
+  property int focusedWorkspaceIndex: 0
+  property string focusedWorkspaceId: ""
+  property var currentOutputWorkspaces: []
+  property string currentOutput: ""
 
-    // Window management
-    property var windows: []
-    property int focusedWindowIndex: -1
-    property string focusedWindowTitle: "(No active window)"
-    property string focusedWindowId: ""
+  // Window management
+  property var windows: []
+  property int focusedWindowIndex: -1
+  property string focusedWindowTitle: "(No active window)"
+  property string focusedWindowId: ""
 
-    // Overview state
-    property bool inOverview: false
+  // Overview state
+  property bool inOverview: false
 
-    signal windowOpenedOrChanged(var windowData)
+  signal windowOpenedOrChanged(var windowData)
 
-    // Feature availability
-    property bool niriAvailable: false
+  // Feature availability
+  property bool niriAvailable: false
 
-    readonly property string socketPath: Quickshell.env("NIRI_SOCKET")
+  readonly property string socketPath: Quickshell.env("NIRI_SOCKET")
 
-    Component.onCompleted: checkNiriAvailability()
+  Component.onCompleted: checkNiriAvailability()
 
-    Process {
-        id: niriCheck
-        command: ["test", "-S", root.socketPath]
+  Process {
+    id: niriCheck
+    command: ["test", "-S", root.socketPath]
 
-        onExited: exitCode => {
-            root.niriAvailable = exitCode === 0;
-            if (root.niriAvailable) {
-                eventStreamSocket.connected = true;
-            }
+    onExited: exitCode => {
+      root.niriAvailable = exitCode === 0
+      if (root.niriAvailable) {
+        eventStreamSocket.connected = true
+      }
+    }
+  }
+
+  function checkNiriAvailability() {
+    niriCheck.running = true
+  }
+
+  Socket {
+    id: eventStreamSocket
+    path: root.socketPath
+    connected: false
+
+    onConnectionStateChanged: {
+      if (connected) {
+        write('"EventStream"\n')
+      }
+    }
+
+    parser: SplitParser {
+      onRead: line => {
+        try {
+          const event = JSON.parse(line)
+          handleNiriEvent(event)
+        } catch (e) {
+          console.warn("NiriService: Failed to parse event:", line, e)
         }
+      }
+    }
+  }
+
+  Socket {
+    id: requestSocket
+    path: root.socketPath
+    connected: root.niriAvailable
+  }
+
+  function handleNiriEvent(event) {
+    if (event.WorkspacesChanged) {
+      handleWorkspacesChanged(event.WorkspacesChanged)
+    } else if (event.WorkspaceActivated) {
+      handleWorkspaceActivated(event.WorkspaceActivated)
+    } else if (event.WindowsChanged) {
+      handleWindowsChanged(event.WindowsChanged)
+    } else if (event.WindowClosed) {
+      handleWindowClosed(event.WindowClosed)
+    } else if (event.WindowFocusChanged) {
+      handleWindowFocusChanged(event.WindowFocusChanged)
+    } else if (event.WindowOpenedOrChanged) {
+      handleWindowOpenedOrChanged(event.WindowOpenedOrChanged)
+    } else if (event.OverviewOpenedOrClosed) {
+      handleOverviewChanged(event.OverviewOpenedOrClosed)
+    }
+  }
+
+  function handleWorkspacesChanged(data) {
+    const workspaces = {}
+
+    for (const ws of data.workspaces) {
+      workspaces[ws.id] = ws
     }
 
-    function checkNiriAvailability() {
-        niriCheck.running = true;
+    root.workspaces = workspaces
+    allWorkspaces = [...data.workspaces].sort((a, b) => a.idx - b.idx)
+
+    focusedWorkspaceIndex = allWorkspaces.findIndex(w => w.is_focused)
+    if (focusedWorkspaceIndex >= 0) {
+      var focusedWs = allWorkspaces[focusedWorkspaceIndex]
+      focusedWorkspaceId = focusedWs.id
+      currentOutput = focusedWs.output || ""
+    } else {
+      focusedWorkspaceIndex = 0
+      focusedWorkspaceId = ""
     }
 
-    Socket {
-        id: eventStreamSocket
-        path: root.socketPath
-        connected: false
+    updateCurrentOutputWorkspaces()
+  }
 
-        onConnectionStateChanged: {
-            if (connected) {
-                write('"EventStream"\n');
-            }
-        }
+  function handleWorkspaceActivated(data) {
+    const ws = root.workspaces[data.id]
+    if (!ws)
+      return
+    const output = ws.output
 
-        parser: SplitParser {
-            onRead: line => {
-                try {
-                    const event = JSON.parse(line);
-                    handleNiriEvent(event);
-                } catch (e) {
-                    console.warn("NiriService: Failed to parse event:", line, e);
-                }
-            }
-        }
+    for (const id in root.workspaces) {
+      const workspace = root.workspaces[id]
+      const got_activated = workspace.id === data.id
+
+      if (workspace.output === output) {
+        workspace.is_active = got_activated
+      }
+
+      if (data.focused) {
+        workspace.is_focused = got_activated
+      }
     }
 
-    Socket {
-        id: requestSocket
-        path: root.socketPath
-        connected: root.niriAvailable
+    focusedWorkspaceId = data.id
+    focusedWorkspaceIndex = allWorkspaces.findIndex(w => w.id === data.id)
+
+    if (focusedWorkspaceIndex >= 0) {
+      currentOutput = allWorkspaces[focusedWorkspaceIndex].output || ""
     }
 
-    function handleNiriEvent(event) {
-        if (event.WorkspacesChanged) {
-            handleWorkspacesChanged(event.WorkspacesChanged);
-        } else if (event.WorkspaceActivated) {
-            handleWorkspaceActivated(event.WorkspaceActivated);
-        } else if (event.WindowsChanged) {
-            handleWindowsChanged(event.WindowsChanged);
-        } else if (event.WindowClosed) {
-            handleWindowClosed(event.WindowClosed);
-        } else if (event.WindowFocusChanged) {
-            handleWindowFocusChanged(event.WindowFocusChanged);
-        } else if (event.WindowOpenedOrChanged) {
-            handleWindowOpenedOrChanged(event.WindowOpenedOrChanged);
-        } else if (event.OverviewOpenedOrClosed) {
-            handleOverviewChanged(event.OverviewOpenedOrClosed);
-        }
+    allWorkspaces = Object.values(root.workspaces).sort((a, b) => a.idx - b.idx)
+
+    updateCurrentOutputWorkspaces()
+    workspacesChanged()
+  }
+
+  function handleWindowsChanged(data) {
+    windows = [...data.windows].sort((a, b) => a.id - b.id)
+    updateFocusedWindow()
+  }
+
+  function handleWindowClosed(data) {
+    windows = windows.filter(w => w.id !== data.id)
+    updateFocusedWindow()
+  }
+
+  function handleWindowFocusChanged(data) {
+    if (data.id) {
+      focusedWindowId = data.id
+      focusedWindowIndex = windows.findIndex(w => w.id === data.id)
+    } else {
+      focusedWindowId = ""
+      focusedWindowIndex = -1
+    }
+    updateFocusedWindow()
+  }
+
+  function handleWindowOpenedOrChanged(data) {
+    if (!data.window)
+      return
+
+    const window = data.window
+    const existingIndex = windows.findIndex(w => w.id === window.id)
+
+    if (existingIndex >= 0) {
+      let updatedWindows = [...windows]
+      updatedWindows[existingIndex] = window
+      windows = updatedWindows.sort((a, b) => a.id - b.id)
+    } else {
+      windows = [...windows, window].sort((a, b) => a.id - b.id)
     }
 
-    function handleWorkspacesChanged(data) {
-        const workspaces = {};
-
-        for (const ws of data.workspaces) {
-            workspaces[ws.id] = ws;
-        }
-
-        root.workspaces = workspaces;
-        allWorkspaces = [...data.workspaces].sort((a, b) => a.idx - b.idx);
-
-        focusedWorkspaceIndex = allWorkspaces.findIndex(w => w.is_focused);
-        if (focusedWorkspaceIndex >= 0) {
-            var focusedWs = allWorkspaces[focusedWorkspaceIndex];
-            focusedWorkspaceId = focusedWs.id;
-            currentOutput = focusedWs.output || "";
-        } else {
-            focusedWorkspaceIndex = 0;
-            focusedWorkspaceId = "";
-        }
-
-        updateCurrentOutputWorkspaces();
+    if (window.is_focused) {
+      focusedWindowId = window.id
+      focusedWindowIndex = windows.findIndex(w => w.id === window.id)
     }
 
-    function handleWorkspaceActivated(data) {
-        const ws = root.workspaces[data.id];
-        if (!ws)
-            return;
-        const output = ws.output;
+    updateFocusedWindow()
 
-        for (const id in root.workspaces) {
-            const workspace = root.workspaces[id];
-            const got_activated = workspace.id === data.id;
+    windowOpenedOrChanged(window)
+  }
 
-            if (workspace.output === output) {
-                workspace.is_active = got_activated;
-            }
+  function handleOverviewChanged(data) {
+    inOverview = data.is_open
+  }
 
-            if (data.focused) {
-                workspace.is_focused = got_activated;
-            }
-        }
-
-        focusedWorkspaceId = data.id;
-        focusedWorkspaceIndex = allWorkspaces.findIndex(w => w.id === data.id);
-
-        if (focusedWorkspaceIndex >= 0) {
-            currentOutput = allWorkspaces[focusedWorkspaceIndex].output || "";
-        }
-
-        allWorkspaces = Object.values(root.workspaces).sort((a, b) => a.idx - b.idx);
-
-        updateCurrentOutputWorkspaces();
-        workspacesChanged();
+  function updateCurrentOutputWorkspaces() {
+    if (!currentOutput) {
+      currentOutputWorkspaces = allWorkspaces
+      return
     }
 
-    function handleWindowsChanged(data) {
-        windows = [...data.windows].sort((a, b) => a.id - b.id);
-        updateFocusedWindow();
+    var outputWs = allWorkspaces.filter(w => w.output === currentOutput)
+    currentOutputWorkspaces = outputWs
+  }
+
+  function updateFocusedWindow() {
+    if (focusedWindowIndex >= 0 && focusedWindowIndex < windows.length) {
+      var focusedWin = windows[focusedWindowIndex]
+      focusedWindowTitle = focusedWin.title || "(Unnamed window)"
+    } else {
+      focusedWindowTitle = "(No active window)"
     }
+  }
 
-    function handleWindowClosed(data) {
-        windows = windows.filter(w => w.id !== data.id);
-        updateFocusedWindow();
-    }
+  function send(request) {
+    if (!niriAvailable || !requestSocket.connected)
+      return false
+    requestSocket.write(JSON.stringify(request) + "\n")
+    return true
+  }
 
-    function handleWindowFocusChanged(data) {
-        if (data.id) {
-            focusedWindowId = data.id;
-            focusedWindowIndex = windows.findIndex(w => w.id === data.id);
-        } else {
-            focusedWindowId = "";
-            focusedWindowIndex = -1;
-        }
-        updateFocusedWindow();
-    }
-
-    function handleWindowOpenedOrChanged(data) {
-        if (!data.window)
-            return;
-
-        const window = data.window;
-        const existingIndex = windows.findIndex(w => w.id === window.id);
-
-        if (existingIndex >= 0) {
-            let updatedWindows = [...windows];
-            updatedWindows[existingIndex] = window;
-            windows = updatedWindows.sort((a, b) => a.id - b.id);
-        } else {
-            windows = [...windows, window].sort((a, b) => a.id - b.id);
-        }
-
-        if (window.is_focused) {
-            focusedWindowId = window.id;
-            focusedWindowIndex = windows.findIndex(w => w.id === window.id);
-        }
-
-        updateFocusedWindow();
-
-        windowOpenedOrChanged(window);
-    }
-
-    function handleOverviewChanged(data) {
-        inOverview = data.is_open;
-    }
-
-    function updateCurrentOutputWorkspaces() {
-        if (!currentOutput) {
-            currentOutputWorkspaces = allWorkspaces;
-            return;
-        }
-
-        var outputWs = allWorkspaces.filter(w => w.output === currentOutput);
-        currentOutputWorkspaces = outputWs;
-    }
-
-    function updateFocusedWindow() {
-        if (focusedWindowIndex >= 0 && focusedWindowIndex < windows.length) {
-            var focusedWin = windows[focusedWindowIndex];
-            focusedWindowTitle = focusedWin.title || "(Unnamed window)";
-        } else {
-            focusedWindowTitle = "(No active window)";
-        }
-    }
-
-    function send(request) {
-        if (!niriAvailable || !requestSocket.connected)
-            return false;
-        requestSocket.write(JSON.stringify(request) + "\n");
-        return true;
-    }
-
-    function switchToWorkspace(workspaceIndex) {
-        return send({
-            Action: {
-                FocusWorkspace: {
-                    reference: {
-                        Index: workspaceIndex
+  function switchToWorkspace(workspaceIndex) {
+    return send({
+                  "Action": {
+                    "FocusWorkspace": {
+                      "reference": {
+                        "Index": workspaceIndex
+                      }
                     }
-                }
-            }
-        });
-    }
+                  }
+                })
+  }
 
-    function getCurrentOutputWorkspaceNumbers() {
-        return currentOutputWorkspaces.map(w => w.idx + 1); // niri uses 0-based, UI shows 1-based
-    }
+  function getCurrentOutputWorkspaceNumbers() {
+    return currentOutputWorkspaces.map(
+          w => w.idx + 1) // niri uses 0-based, UI shows 1-based
+  }
 
-    function getCurrentWorkspaceNumber() {
-        if (focusedWorkspaceIndex >= 0 && focusedWorkspaceIndex < allWorkspaces.length) {
-            return allWorkspaces[focusedWorkspaceIndex].idx + 1;
-        }
-        return 1;
+  function getCurrentWorkspaceNumber() {
+    if (focusedWorkspaceIndex >= 0
+        && focusedWorkspaceIndex < allWorkspaces.length) {
+      return allWorkspaces[focusedWorkspaceIndex].idx + 1
     }
+    return 1
+  }
 
-    function focusWindow(windowId) {
-        return send({
-            Action: {
-                FocusWindow: {
-                    id: windowId
-                }
-            }
-        });
-    }
+  function focusWindow(windowId) {
+    return send({
+                  "Action": {
+                    "FocusWindow": {
+                      "id": windowId
+                    }
+                  }
+                })
+  }
 
-    function closeWindow(windowId) {
-        return send({
-            Action: {
-                CloseWindow: {
-                    id: windowId
-                }
-            }
-        });
-    }
+  function closeWindow(windowId) {
+    return send({
+                  "Action": {
+                    "CloseWindow": {
+                      "id": windowId
+                    }
+                  }
+                })
+  }
 
-    function quit() {
-        return send({
-            Action: {
-                Quit: {
-                    skip_confirmation: true
-                }
-            }
-        });
-    }
+  function quit() {
+    return send({
+                  "Action": {
+                    "Quit": {
+                      "skip_confirmation": true
+                    }
+                  }
+                })
+  }
 
-    function getWindowsByAppId(appId) {
-        if (!appId)
-            return [];
-        return windows.filter(w => w.app_id && w.app_id.toLowerCase() === appId.toLowerCase());
-    }
+  function getWindowsByAppId(appId) {
+    if (!appId)
+      return []
+    return windows.filter(w => w.app_id && w.app_id.toLowerCase(
+                            ) === appId.toLowerCase())
+  }
 
-    function getRunningAppIds() {
-        var appIds = new Set();
-        windows.forEach(w => {
-            if (w.app_id) {
-                appIds.add(w.app_id.toLowerCase());
-            }
-        });
-        return Array.from(appIds);
-    }
+  function getRunningAppIds() {
+    var appIds = new Set()
+    windows.forEach(w => {
+                      if (w.app_id) {
+                        appIds.add(w.app_id.toLowerCase())
+                      }
+                    })
+    return Array.from(appIds)
+  }
 }

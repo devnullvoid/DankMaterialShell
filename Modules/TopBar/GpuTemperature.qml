@@ -13,12 +13,26 @@ Rectangle {
   property string section: "right"
   property var popupTarget: null
   property var parentScreen: null
+  property var widgetData: null
+  property int selectedGpuIndex: (widgetData && widgetData.selectedGpuIndex
+                                  !== undefined) ? widgetData.selectedGpuIndex : 0
+
+  Connections {
+    target: SettingsData
+    function onWidgetDataChanged() {
+      // Force property re-evaluation by triggering change detection
+      root.selectedGpuIndex = Qt.binding(() => {
+                                           return (root.widgetData
+                                                   && root.widgetData.selectedGpuIndex !== undefined) ? root.widgetData.selectedGpuIndex : 0
+                                         })
+    }
+  }
 
   width: 55
   height: 30
   radius: Theme.cornerRadius
   color: {
-    const baseColor = cpuArea.containsMouse ? Theme.primaryPressed : Theme.secondaryHover
+    const baseColor = gpuArea.containsMouse ? Theme.primaryPressed : Theme.secondaryHover
     return Qt.rgba(baseColor.r, baseColor.g, baseColor.b,
                    baseColor.a * Theme.widgetTransparency)
   }
@@ -29,8 +43,19 @@ Rectangle {
     SysMonitorService.removeRef()
   }
 
+  property real displayTemp: {
+    if (!SysMonitorService.availableGpus
+        || SysMonitorService.availableGpus.length === 0)
+      return 0
+    if (selectedGpuIndex >= 0
+        && selectedGpuIndex < SysMonitorService.availableGpus.length) {
+      return SysMonitorService.availableGpus[selectedGpuIndex].temperature || 0
+    }
+    return 0
+  }
+
   MouseArea {
-    id: cpuArea
+    id: gpuArea
 
     anchors.fill: parent
     hoverEnabled: true
@@ -56,13 +81,13 @@ Rectangle {
     spacing: 3
 
     DankIcon {
-      name: "memory"
+      name: "auto_awesome_mosaic"
       size: Theme.iconSize - 8
       color: {
-        if (SysMonitorService.cpuUsage > 80)
+        if (root.displayTemp > 80)
           return Theme.tempDanger
 
-        if (SysMonitorService.cpuUsage > 60)
+        if (root.displayTemp > 65)
           return Theme.tempWarning
 
         return Theme.surfaceText
@@ -72,17 +97,23 @@ Rectangle {
 
     StyledText {
       text: {
-        if (SysMonitorService.cpuUsage === undefined
-            || SysMonitorService.cpuUsage === null
-            || SysMonitorService.cpuUsage === 0) {
-          return "--%"
+        if (root.displayTemp === undefined || root.displayTemp === null
+            || root.displayTemp === 0) {
+          return "--°"
         }
-        return SysMonitorService.cpuUsage.toFixed(0) + "%"
+        return Math.round(root.displayTemp) + "°"
       }
       font.pixelSize: Theme.fontSizeSmall
       font.weight: Font.Medium
       color: Theme.surfaceText
       anchors.verticalCenter: parent.verticalCenter
+    }
+  }
+
+  Behavior on color {
+    ColorAnimation {
+      duration: Theme.shortDuration
+      easing.type: Theme.standardEasing
     }
   }
 }

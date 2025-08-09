@@ -18,7 +18,7 @@ Rectangle {
   height: 30
   radius: Theme.cornerRadius
   color: {
-    const baseColor = cpuArea.containsMouse ? Theme.primaryPressed : Theme.secondaryHover
+    const baseColor = cpuTempArea.containsMouse ? Theme.primaryPressed : Theme.secondaryHover
     return Qt.rgba(baseColor.r, baseColor.g, baseColor.b,
                    baseColor.a * Theme.widgetTransparency)
   }
@@ -30,7 +30,7 @@ Rectangle {
   }
 
   MouseArea {
-    id: cpuArea
+    id: cpuTempArea
 
     anchors.fill: parent
     hoverEnabled: true
@@ -59,10 +59,10 @@ Rectangle {
       name: "memory"
       size: Theme.iconSize - 8
       color: {
-        if (SysMonitorService.cpuUsage > 80)
+        if (SysMonitorService.cpuTemperature > 85)
           return Theme.tempDanger
 
-        if (SysMonitorService.cpuUsage > 60)
+        if (SysMonitorService.cpuTemperature > 69)
           return Theme.tempWarning
 
         return Theme.surfaceText
@@ -72,17 +72,24 @@ Rectangle {
 
     StyledText {
       text: {
-        if (SysMonitorService.cpuUsage === undefined
-            || SysMonitorService.cpuUsage === null
-            || SysMonitorService.cpuUsage === 0) {
-          return "--%"
+        if (SysMonitorService.cpuTemperature === undefined
+            || SysMonitorService.cpuTemperature === null
+            || SysMonitorService.cpuTemperature < 0) {
+          return "--°"
         }
-        return SysMonitorService.cpuUsage.toFixed(0) + "%"
+        return Math.round(SysMonitorService.cpuTemperature) + "°"
       }
       font.pixelSize: Theme.fontSizeSmall
       font.weight: Font.Medium
       color: Theme.surfaceText
       anchors.verticalCenter: parent.verticalCenter
+    }
+  }
+
+  Behavior on color {
+    ColorAnimation {
+      duration: Theme.shortDuration
+      easing.type: Theme.standardEasing
     }
   }
 }
