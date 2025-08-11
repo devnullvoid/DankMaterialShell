@@ -80,6 +80,11 @@ Item {
     opacity: 0.4
   }
 
+  SystemClock {
+    id: systemClock
+    precision: SystemClock.Seconds
+  }
+
   Rectangle {
     anchors.fill: parent
     color: "transparent"
@@ -95,24 +100,13 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
         text: SettingsData.use24HourClock ? Qt.formatTime(
-                                              new Date(),
+                                              systemClock.date,
                                               "H:mm") : Qt.formatTime(
-                                              new Date(), "h:mm AP")
+                                              systemClock.date, "h:mm AP")
         font.pixelSize: 120
         font.weight: Font.Light
         color: "white"
         lineHeight: 0.8
-
-        Timer {
-          interval: 1000
-          running: true
-          repeat: true
-          onTriggered: parent.text = SettingsData.use24HourClock ? Qt.formatTime(
-                                                                     new Date(),
-                                                                     "H:mm") : Qt.formatTime(
-                                                                     new Date(),
-                                                                     "h:mm AP")
-        }
       }
 
       StyledText {

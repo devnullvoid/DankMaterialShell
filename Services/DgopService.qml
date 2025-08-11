@@ -11,7 +11,7 @@ Singleton {
     property int refCount: 0
     property int updateInterval: refCount > 0 ? 3000 : 30000
     property bool isUpdating: false
-    property bool dankgopAvailable: false
+    property bool dgopAvailable: false
 
     property var moduleRefCounts: ({})
     property var enabledModules: []
@@ -21,9 +21,9 @@ Singleton {
     property string processSort: "cpu"
     property bool noCpu: false
 
-    // Sampling data
-    property var cpuSampleData: null
-    property var procSampleData: null
+    // Cursor data for accurate CPU calculations
+    property string cpuCursor: ""
+    property string procCursor: ""
     property int cpuSampleCount: 0
     property int processSampleCount: 0
 
@@ -137,11 +137,11 @@ Singleton {
             
             // Clear cursor data when CPU or process modules are no longer active
             if (!enabledModules.includes("cpu")) {
-                cpuSampleData = null
+                cpuCursor = ""
                 cpuSampleCount = 0
             }
             if (!enabledModules.includes("processes")) {
-                procSampleData = null
+                procCursor = ""
                 processSampleCount = 0
             }
         }
@@ -205,22 +205,22 @@ Singleton {
     }
 
     function updateAllStats() {
-        if (dankgopAvailable && refCount > 0 && enabledModules.length > 0) {
+        if (dgopAvailable && refCount > 0 && enabledModules.length > 0) {
             isUpdating = true
-            dankgopProcess.running = true
+            dgopProcess.running = true
         } else {
             isUpdating = false
         }
     }
 
     function initializeGpuMetadata() {
-        if (!dankgopAvailable) return
+        if (!dgopAvailable) return
         // Load GPU metadata once at startup for basic info
         gpuInitProcess.running = true
     }
 
-    function buildDankgopCommand() {
-        const cmd = ["dankgop", "meta", "--json"]
+    function buildDgopCommand() {
+        const cmd = ["dgop", "meta", "--json"]
         
         if (enabledModules.length === 0) {
             // Don't run if no modules are needed
@@ -251,12 +251,12 @@ Singleton {
             return []
         }
 
-        // Add sampling data if available
-        if ((enabledModules.includes("cpu") || enabledModules.includes("all")) && cpuSampleData) {
-            cmd.push("--cpu-sample", JSON.stringify(cpuSampleData))
+        // Add cursor data if available for accurate CPU percentages
+        if ((enabledModules.includes("cpu") || enabledModules.includes("all")) && cpuCursor) {
+            cmd.push("--cpu-cursor", cpuCursor)
         }
-        if ((enabledModules.includes("processes") || enabledModules.includes("all")) && procSampleData) {
-            cmd.push("--proc-sample", JSON.stringify(procSampleData))
+        if ((enabledModules.includes("processes") || enabledModules.includes("all")) && procCursor) {
+            cmd.push("--proc-cursor", procCursor)
         }
 
         if (gpuPciIds.length > 0) {
@@ -281,24 +281,18 @@ Singleton {
             const cpu = data.cpu
             cpuSampleCount++
             
-            // Only update CPU data if we have had at least 2 samples (first sample is inaccurate)
-            if (cpuSampleCount >= 2) {
-                cpuUsage = cpu.usage || 0
-                cpuFrequency = cpu.frequency || 0
-                cpuTemperature = cpu.temperature || 0
-                cpuCores = cpu.count || 1
-                cpuModel = cpu.model || ""
-                perCoreCpuUsage = cpu.coreUsage || []
-                addToHistory(cpuHistory, cpuUsage)
-            }
+            // Use dgop CPU numbers directly without modification
+            cpuUsage = cpu.usage || 0
+            cpuFrequency = cpu.frequency || 0
+            cpuTemperature = cpu.temperature || 0
+            cpuCores = cpu.count || 1
+            cpuModel = cpu.model || ""
+            perCoreCpuUsage = cpu.coreUsage || []
+            addToHistory(cpuHistory, cpuUsage)
 
-            // Always update cursor data for next sampling
+            // Store the opaque cursor string for next sampling
             if (cpu.cursor) {
-                cpuSampleData = {
-                    previousTotal: cpu.cursor.total,
-                    previousCores: cpu.cursor.cores,
-                    timestamp: cpu.cursor.timestamp
-                }
+                cpuCursor = cpu.cursor
             }
         }
 
@@ -376,7 +370,6 @@ Singleton {
 
         if (data.processes && Array.isArray(data.processes)) {
             const newProcesses = []
-            const newProcSample = []
             processSampleCount++
             
             for (const proc of data.processes) {
@@ -394,19 +387,12 @@ Singleton {
                     "displayName": (proc.command && proc.command.length > 15) ? 
                                    proc.command.substring(0, 15) + "..." : (proc.command || "")
                 })
-
-                // Always extract cursor data from pticks for next sampling call
-                if (proc.pid && typeof proc.pticks !== 'undefined') {
-                    newProcSample.push({
-                        pid: proc.pid,
-                        previousTicks: proc.pticks,
-                        timestamp: new Date().getTime()
-                    })
-                }
             }
             processes = newProcesses
-            if (newProcSample.length > 0) {
-                procSampleData = newProcSample
+            
+            // Store the single opaque cursor string for the entire process list
+            if (data.cursor) {
+                procCursor = data.cursor
             }
         }
 
@@ -530,22 +516,22 @@ Singleton {
     Timer {
         id: updateTimer
         interval: root.updateInterval
-        running: root.dankgopAvailable && root.refCount > 0 && root.enabledModules.length > 0
+        running: root.dgopAvailable && root.refCount > 0 && root.enabledModules.length > 0
         repeat: true
         triggeredOnStart: true
         onTriggered: root.updateAllStats()
     }
 
     Process {
-        id: dankgopProcess
-        command: root.buildDankgopCommand()
+        id: dgopProcess
+        command: root.buildDgopCommand()
         running: false
         onCommandChanged: {
-            //console.log("DankgopService command:", JSON.stringify(command))
+            //console.log("DgopService command:", JSON.stringify(command))
         }
         onExited: exitCode => {
             if (exitCode !== 0) {
-                console.warn("Dankgop process failed with exit code:", exitCode)
+                console.warn("Dgop process failed with exit code:", exitCode)
                 isUpdating = false
             }
         }
@@ -556,7 +542,7 @@ Singleton {
                         const data = JSON.parse(text.trim())
                         parseData(data)
                     } catch (e) {
-                        console.warn("Failed to parse dankgop JSON:", e)
+                        console.warn("Failed to parse dgop JSON:", e)
                         console.warn("Raw text was:", text.substring(0, 200))
                         isUpdating = false
                     }
@@ -567,7 +553,7 @@ Singleton {
 
     Process {
         id: gpuInitProcess
-        command: ["dankgop", "gpu", "--json"]
+        command: ["dgop", "gpu", "--json"]
         running: false
         onExited: exitCode => {
             if (exitCode !== 0) {
@@ -589,12 +575,12 @@ Singleton {
     }
 
     Process {
-        id: dankgopCheckProcess
-        command: ["which", "dankgop"]
+        id: dgopCheckProcess
+        command: ["which", "dgop"]
         running: false
         onExited: exitCode => {
-            dankgopAvailable = (exitCode === 0)
-            if (dankgopAvailable) {
+            dgopAvailable = (exitCode === 0)
+            if (dgopAvailable) {
                 initializeGpuMetadata()
                 // Load persisted GPU PCI IDs from session state
                 if (SessionData.enabledGpuPciIds && SessionData.enabledGpuPciIds.length > 0) {
@@ -607,12 +593,12 @@ Singleton {
                     }
                 }
             } else {
-                console.warn("dankgop is not installed or not in PATH")
+                console.warn("dgop is not installed or not in PATH")
             }
         }
     }
 
     Component.onCompleted: {
-        dankgopCheckProcess.running = true
+        dgopCheckProcess.running = true
     }
 }

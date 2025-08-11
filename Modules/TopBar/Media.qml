@@ -10,9 +10,19 @@ Rectangle {
   readonly property MprisPlayer activePlayer: MprisController.activePlayer
   readonly property bool playerAvailable: activePlayer !== null
   property bool compactMode: false
-  readonly property int baseContentWidth: mediaRow.implicitWidth + Theme.spacingS * 2
-  readonly property int normalContentWidth: Math.min(280, baseContentWidth)
-  readonly property int compactContentWidth: Math.min(120, baseContentWidth)
+  readonly property int textWidth: {
+    switch(SettingsData.mediaSize) {
+      case 0: return 0  // No text in small mode
+      case 2: return 180  // Large text area
+      default: return 120  // Medium text area  
+    }
+  }
+  
+  readonly property int currentContentWidth: {
+    // AudioViz (20) + spacing + text + spacing + controls (~90) + padding
+    const baseWidth = 20 + Theme.spacingXS + 90 + Theme.spacingS * 2
+    return baseWidth + textWidth + (textWidth > 0 ? Theme.spacingXS : 0)
+  }
   property string section: "center"
   property var popupTarget: null
   property var parentScreen: null
@@ -34,7 +44,7 @@ Rectangle {
       PropertyChanges {
         target: root
         opacity: 1
-        width: SettingsData.mediaCompactMode ? compactContentWidth : normalContentWidth
+        width: currentContentWidth
       }
     },
     State {
@@ -92,13 +102,17 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
       }
 
-      StyledText {
-        id: mediaText
-
+      Rectangle {
+        id: textContainer
+        
         anchors.verticalCenter: parent.verticalCenter
-        width: SettingsData.mediaCompactMode ? 60 : 140
-        visible: !SettingsData.mediaCompactMode
-        text: {
+        width: textWidth
+        height: 20
+        visible: SettingsData.mediaSize > 0
+        clip: true
+        color: "transparent"
+        
+        property string displayText: {
           if (!activePlayer || !activePlayer.trackTitle)
             return ""
 
@@ -119,12 +133,54 @@ Rectangle {
           }
           return subtitle.length > 0 ? title + " • " + subtitle : title
         }
-        font.pixelSize: Theme.fontSizeSmall
-        color: Theme.surfaceText
-        font.weight: Font.Medium
-        elide: Text.ElideRight
-        wrapMode: Text.NoWrap
-        maximumLineCount: 1
+
+        StyledText {
+          id: mediaText
+
+          anchors.verticalCenter: parent.verticalCenter
+          text: textContainer.displayText
+          font.pixelSize: Theme.fontSizeSmall
+          color: Theme.surfaceText
+          font.weight: Font.Medium
+          wrapMode: Text.NoWrap
+          
+          property bool needsScrolling: implicitWidth > textContainer.width
+          property real scrollOffset: 0
+          
+          x: needsScrolling ? -scrollOffset : 0
+          
+          SequentialAnimation {
+            id: scrollAnimation
+            running: mediaText.needsScrolling && textContainer.visible
+            loops: Animation.Infinite
+            
+            PauseAnimation { duration: 2000 }
+            
+            NumberAnimation {
+              target: mediaText
+              property: "scrollOffset"
+              from: 0
+              to: mediaText.implicitWidth - textContainer.width + 5
+              duration: Math.max(1000, (mediaText.implicitWidth - textContainer.width + 5) * 60)
+              easing.type: Easing.Linear
+            }
+            
+            PauseAnimation { duration: 2000 }
+            
+            NumberAnimation {
+              target: mediaText
+              property: "scrollOffset"
+              to: 0
+              duration: Math.max(1000, (mediaText.implicitWidth - textContainer.width + 5) * 60)
+              easing.type: Easing.Linear
+            }
+          }
+          
+          onTextChanged: {
+            scrollOffset = 0
+            scrollAnimation.restart()
+          }
+        }
 
         MouseArea {
           anchors.fill: parent

@@ -54,29 +54,29 @@ Item {
       "text": "CPU Usage",
       "description": "CPU usage indicator",
       "icon": "memory",
-      "enabled": DankgopService.dankgopAvailable,
-      "warning": !DankgopService.dankgopAvailable ? "Requires 'dankgop' tool" : undefined
+      "enabled": DgopService.dgopAvailable,
+      "warning": !DgopService.dgopAvailable ? "Requires 'dgop' tool" : undefined
     }, {
       "id": "memUsage",
       "text": "Memory Usage",
       "description": "Memory usage indicator",
       "icon": "storage",
-      "enabled": DankgopService.dankgopAvailable,
-      "warning": !DankgopService.dankgopAvailable ? "Requires 'dankgop' tool" : undefined
+      "enabled": DgopService.dgopAvailable,
+      "warning": !DgopService.dgopAvailable ? "Requires 'dgop' tool" : undefined
     }, {
       "id": "cpuTemp",
       "text": "CPU Temperature",
       "description": "CPU temperature display",
       "icon": "device_thermostat",
-      "enabled": DankgopService.dankgopAvailable,
-      "warning": !DankgopService.dankgopAvailable ? "Requires 'dankgop' tool" : undefined
+      "enabled": DgopService.dgopAvailable,
+      "warning": !DgopService.dgopAvailable ? "Requires 'dgop' tool" : undefined
     }, {
       "id": "gpuTemp",
       "text": "GPU Temperature",
       "description": "GPU temperature display",
       "icon": "auto_awesome_mosaic",
-      "warning": !DankgopService.dankgopAvailable ? "Requires 'dankgop' tool" : "This widget prevents GPU power off states, which can significantly impact battery life on laptops. It is not recommended to use this on laptops with hybrid graphics.",
-      "enabled": DankgopService.dankgopAvailable
+      "warning": !DgopService.dgopAvailable ? "Requires 'dgop' tool" : "This widget prevents GPU power off states, which can significantly impact battery life on laptops. It is not recommended to use this on laptops with hybrid graphics.",
+      "enabled": DgopService.dgopAvailable
     }, {
       "id": "systemTray",
       "text": "System Tray",
@@ -315,14 +315,14 @@ Item {
           "id": widget,
           "enabled": true,
           "selectedGpuIndex": selectedGpuIndex,
-          "pciId": DankgopService.availableGpus && DankgopService.availableGpus.length > selectedGpuIndex ? DankgopService.availableGpus[selectedGpuIndex].pciId : ""
+          "pciId": DgopService.availableGpus && DgopService.availableGpus.length > selectedGpuIndex ? DgopService.availableGpus[selectedGpuIndex].pciId : ""
         }
       } else {
         var newWidget = {
           "id": widget.id,
           "enabled": widget.enabled,
           "selectedGpuIndex": selectedGpuIndex,
-          "pciId": DankgopService.availableGpus && DankgopService.availableGpus.length > selectedGpuIndex ? DankgopService.availableGpus[selectedGpuIndex].pciId : ""
+          "pciId": DgopService.availableGpus && DgopService.availableGpus.length > selectedGpuIndex ? DgopService.availableGpus[selectedGpuIndex].pciId : ""
         }
         if (widget.size !== undefined) newWidget.size = widget.size
         widgets[widgetIndex] = newWidget
@@ -614,11 +614,11 @@ Item {
                                                                   itemId,
                                                                   newSize)
                              }
-        onCompactModeChanged: (widgetId, enabled) => {
+        onCompactModeChanged: (widgetId, value) => {
                                 if (widgetId === "clock") {
-                                  SettingsData.setClockCompactMode(enabled)
+                                  SettingsData.setClockCompactMode(value)
                                 } else if (widgetId === "music") {
-                                  SettingsData.setMediaCompactMode(enabled)
+                                  SettingsData.setMediaSize(value)
                                 }
                               }
         onGpuSelectionChanged: (sectionId, widgetIndex, selectedIndex) => {
@@ -657,11 +657,11 @@ Item {
                                                                   itemId,
                                                                   newSize)
                              }
-        onCompactModeChanged: (widgetId, enabled) => {
+        onCompactModeChanged: (widgetId, value) => {
                                 if (widgetId === "clock") {
-                                  SettingsData.setClockCompactMode(enabled)
+                                  SettingsData.setClockCompactMode(value)
                                 } else if (widgetId === "music") {
-                                  SettingsData.setMediaCompactMode(enabled)
+                                  SettingsData.setMediaSize(value)
                                 }
                               }
         onGpuSelectionChanged: (sectionId, widgetIndex, selectedIndex) => {
@@ -700,11 +700,11 @@ Item {
                                                                   itemId,
                                                                   newSize)
                              }
-        onCompactModeChanged: (widgetId, enabled) => {
+        onCompactModeChanged: (widgetId, value) => {
                                 if (widgetId === "clock") {
-                                  SettingsData.setClockCompactMode(enabled)
+                                  SettingsData.setClockCompactMode(value)
                                 } else if (widgetId === "music") {
-                                  SettingsData.setMediaCompactMode(enabled)
+                                  SettingsData.setMediaSize(value)
                                 }
                               }
         onGpuSelectionChanged: (sectionId, widgetIndex, selectedIndex) => {

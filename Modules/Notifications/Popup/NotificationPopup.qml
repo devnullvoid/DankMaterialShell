@@ -58,8 +58,17 @@ PanelWindow {
   }
 
   visible: hasValidData
-  WlrLayershell.layer: notificationData && notificationData.urgency
-                       === NotificationUrgency.Critical ? WlrLayershell.Overlay : WlrLayershell.Top
+  WlrLayershell.layer: {
+    if (!notificationData) return WlrLayershell.Top
+    
+    SettingsData.notificationOverlayEnabled
+    
+    // If overlay is enabled for all notifications, or if it's a critical notification
+    const shouldUseOverlay = (SettingsData.notificationOverlayEnabled) || 
+                           (notificationData.urgency === NotificationUrgency.Critical)
+    
+    return shouldUseOverlay ? WlrLayershell.Overlay : WlrLayershell.Top
+  }
   WlrLayershell.exclusiveZone: -1
   WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
   color: "transparent"

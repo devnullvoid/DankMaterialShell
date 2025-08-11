@@ -33,54 +33,64 @@ Item {
       }
     }
 
-    // Output Tab - DankFlickable
-    DankFlickable {
+    // Output Tab - Loader
+    Loader {
       width: parent.width
       height: parent.height - 48
-      visible: audioTab.audioSubTab === 0
-      clip: true
-      contentHeight: outputColumn.height
-      contentWidth: width
+      active: audioTab.audioSubTab === 0
+      asynchronous: true
+      sourceComponent: Component {
+        DankFlickable {
+          clip: true
+          contentHeight: outputColumn.height
+          contentWidth: width
 
-      Column {
-        id: outputColumn
-        width: parent.width
-        spacing: Theme.spacingL
+          Column {
+            id: outputColumn
+            width: parent.width
+            spacing: Theme.spacingL
 
-        Loader {
-          width: parent.width
-          sourceComponent: volumeComponent
-        }
+            Loader {
+              width: parent.width
+              sourceComponent: volumeComponent
+            }
 
-        Loader {
-          width: parent.width
-          sourceComponent: outputDevicesComponent
+            Loader {
+              width: parent.width
+              sourceComponent: outputDevicesComponent
+            }
+          }
         }
       }
     }
 
-    // Input Tab - DankFlickable
-    DankFlickable {
+    // Input Tab - Loader
+    Loader {
       width: parent.width
       height: parent.height - 48
-      visible: audioTab.audioSubTab === 1
-      clip: true
-      contentHeight: inputColumn.height
-      contentWidth: width
+      active: audioTab.audioSubTab === 1
+      asynchronous: true
+      sourceComponent: Component {
+        DankFlickable {
+          clip: true
+          contentHeight: inputColumn.height
+          contentWidth: width
 
-      Column {
-        id: inputColumn
-        width: parent.width
-        spacing: Theme.spacingL
+          Column {
+            id: inputColumn
+            width: parent.width
+            spacing: Theme.spacingL
 
-        Loader {
-          width: parent.width
-          sourceComponent: microphoneComponent
-        }
+            Loader {
+              width: parent.width
+              sourceComponent: microphoneComponent
+            }
 
-        Loader {
-          width: parent.width
-          sourceComponent: inputDevicesComponent
+            Loader {
+              width: parent.width
+              sourceComponent: inputDevicesComponent
+            }
+          }
         }
       }
     }

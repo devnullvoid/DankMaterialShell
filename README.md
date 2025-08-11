@@ -157,15 +157,15 @@ rm /tmp/FiraCode.zip && fc-cache -f
 **Enhanced Functionality:**
 
 ```bash
-# Install dankgop on any distro (requires go 1.23+):
-git clone https://github.com/AvengeMedia/dankgop.git && cd dankgop
+# Install dgop on any distro (requires go 1.23+):
+git clone https://github.com/AvengeMedia/dgop.git && cd dgop
 make && sudo make install
 ```
 
 ```bash
 # Arch Linux
 pacman -S cava wl-clipboard cliphist ddcutil brightnessctl
-paru -S matugen dankgop-git
+paru -S matugen dgop-git
 
 # Fedora
 sudo dnf install cava wl-clipboard ddcutil brightnessctl
@@ -175,7 +175,7 @@ sudo dnf copr enable heus-sueh/packages && sudo dnf install matugen
 
 **What you get:**
 
-- `dankgop-git`: Ability to have system resource widgets, process list modal, and temperature monitoring.
+- `dgop-git`: Ability to have system resource widgets, process list modal, and temperature monitoring.
 - `matugen`: Wallpaper-based dynamic theming
 - `ddcutil`: External monitor brightness control
 - `brightnessctl`: Laptop display brightness

@@ -30,9 +30,58 @@ Rectangle {
     spacing: 4
 
     DankIcon {
-      name: Theme.getBatteryIcon(BatteryService.batteryLevel,
-                                 BatteryService.isCharging,
-                                 BatteryService.batteryAvailable)
+      name: {
+        if (!BatteryService.batteryAvailable)
+          return "power"
+
+        if (BatteryService.isCharging) {
+          if (BatteryService.batteryLevel >= 90)
+            return "battery_charging_full"
+          if (BatteryService.batteryLevel >= 80)
+            return "battery_charging_90"
+          if (BatteryService.batteryLevel >= 60)
+            return "battery_charging_80"
+          if (BatteryService.batteryLevel >= 50)
+            return "battery_charging_60"
+          if (BatteryService.batteryLevel >= 30)
+            return "battery_charging_50"
+          if (BatteryService.batteryLevel >= 20)
+            return "battery_charging_30"
+          return "battery_charging_20"
+        }
+
+        // Check if plugged in but not charging (like at 80% charge limit)
+        if (BatteryService.isPluggedIn) {
+          if (BatteryService.batteryLevel >= 90)
+            return "battery_charging_full"
+          if (BatteryService.batteryLevel >= 80)
+            return "battery_charging_90"
+          if (BatteryService.batteryLevel >= 60)
+            return "battery_charging_80"
+          if (BatteryService.batteryLevel >= 50)
+            return "battery_charging_60"
+          if (BatteryService.batteryLevel >= 30)
+            return "battery_charging_50"
+          if (BatteryService.batteryLevel >= 20)
+            return "battery_charging_30"
+          return "battery_charging_20"
+        }
+
+        // On battery power
+        if (BatteryService.batteryLevel >= 95)
+          return "battery_full"
+        if (BatteryService.batteryLevel >= 85)
+          return "battery_6_bar"
+        if (BatteryService.batteryLevel >= 70)
+          return "battery_5_bar"
+        if (BatteryService.batteryLevel >= 55)
+          return "battery_4_bar"
+        if (BatteryService.batteryLevel >= 40)
+          return "battery_3_bar"
+        if (BatteryService.batteryLevel >= 25)
+          return "battery_2_bar"
+        return "battery_1_bar"
+      }
       size: Theme.iconSize - 6
       color: {
         if (!BatteryService.batteryAvailable)
@@ -41,31 +90,12 @@ Rectangle {
         if (BatteryService.isLowBattery && !BatteryService.isCharging)
           return Theme.error
 
-        if (BatteryService.isCharging)
+        if (BatteryService.isCharging || BatteryService.isPluggedIn)
           return Theme.primary
 
         return Theme.surfaceText
       }
       anchors.verticalCenter: parent.verticalCenter
-
-      SequentialAnimation on opacity {
-        running: BatteryService.isCharging
-        loops: Animation.Infinite
-
-        NumberAnimation {
-          to: 0.6
-          duration: Anims.durLong
-          easing.type: Easing.BezierSpline
-          easing.bezierCurve: Anims.standard
-        }
-
-        NumberAnimation {
-          to: 1
-          duration: Anims.durLong
-          easing.type: Easing.BezierSpline
-          easing.bezierCurve: Anims.standard
-        }
-      }
     }
 
     StyledText {

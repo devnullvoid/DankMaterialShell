@@ -6,6 +6,7 @@ import QtCore
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import qs.Services
 
 Singleton {
 
@@ -21,6 +22,10 @@ Singleton {
   property bool nvidiaGpuTempEnabled: false  
   property bool nonNvidiaGpuTempEnabled: false
   property var enabledGpuPciIds: []
+  property bool wallpaperCyclingEnabled: false
+  property string wallpaperCyclingMode: "interval" // "interval" or "time"
+  property int wallpaperCyclingInterval: 300 // seconds (5 minutes)
+  property string wallpaperCyclingTime: "06:00" // HH:mm format
 
   Component.onCompleted: {
     loadSettings()
@@ -45,6 +50,10 @@ Singleton {
         nvidiaGpuTempEnabled = settings.nvidiaGpuTempEnabled !== undefined ? settings.nvidiaGpuTempEnabled : false
         nonNvidiaGpuTempEnabled = settings.nonNvidiaGpuTempEnabled !== undefined ? settings.nonNvidiaGpuTempEnabled : false
         enabledGpuPciIds = settings.enabledGpuPciIds !== undefined ? settings.enabledGpuPciIds : []
+        wallpaperCyclingEnabled = settings.wallpaperCyclingEnabled !== undefined ? settings.wallpaperCyclingEnabled : false
+        wallpaperCyclingMode = settings.wallpaperCyclingMode !== undefined ? settings.wallpaperCyclingMode : "interval"
+        wallpaperCyclingInterval = settings.wallpaperCyclingInterval !== undefined ? settings.wallpaperCyclingInterval : 300
+        wallpaperCyclingTime = settings.wallpaperCyclingTime !== undefined ? settings.wallpaperCyclingTime : "06:00"
       }
     } catch (e) {
 
@@ -62,7 +71,11 @@ Singleton {
                                           "selectedGpuIndex": selectedGpuIndex,
                                           "nvidiaGpuTempEnabled": nvidiaGpuTempEnabled,
                                           "nonNvidiaGpuTempEnabled": nonNvidiaGpuTempEnabled,
-                                          "enabledGpuPciIds": enabledGpuPciIds
+                                          "enabledGpuPciIds": enabledGpuPciIds,
+                                          "wallpaperCyclingEnabled": wallpaperCyclingEnabled,
+                                          "wallpaperCyclingMode": wallpaperCyclingMode,
+                                          "wallpaperCyclingInterval": wallpaperCyclingInterval,
+                                          "wallpaperCyclingTime": wallpaperCyclingTime
                                         }, null, 2))
   }
 
@@ -147,6 +160,26 @@ Singleton {
     saveSettings()
   }
 
+  function setWallpaperCyclingEnabled(enabled) {
+    wallpaperCyclingEnabled = enabled
+    saveSettings()
+  }
+
+  function setWallpaperCyclingMode(mode) {
+    wallpaperCyclingMode = mode
+    saveSettings()
+  }
+
+  function setWallpaperCyclingInterval(interval) {
+    wallpaperCyclingInterval = interval
+    saveSettings()
+  }
+
+  function setWallpaperCyclingTime(time) {
+    wallpaperCyclingTime = time
+    saveSettings()
+  }
+
   FileView {
     id: settingsFile
 
@@ -188,6 +221,32 @@ Singleton {
     function clear(): string {
       root.setWallpaper("")
       return "SUCCESS: Wallpaper cleared"
+    }
+
+    function next(): string {
+      if (!root.wallpaperPath) {
+        return "ERROR: No wallpaper set"
+      }
+      
+      try {
+        WallpaperCyclingService.cycleNextManually()
+        return "SUCCESS: Cycling to next wallpaper"
+      } catch (e) {
+        return "ERROR: Failed to cycle wallpaper: " + e.toString()
+      }
+    }
+
+    function prev(): string {
+      if (!root.wallpaperPath) {
+        return "ERROR: No wallpaper set"
+      }
+      
+      try {
+        WallpaperCyclingService.cyclePrevManually()
+        return "SUCCESS: Cycling to previous wallpaper"
+      } catch (e) {
+        return "ERROR: Failed to cycle wallpaper: " + e.toString()
+      }
     }
   }
 

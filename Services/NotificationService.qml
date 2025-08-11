@@ -35,6 +35,21 @@ Singleton {
     }
   }
 
+  // Global timer to update all notification timestamps
+  Timer {
+    id: timeUpdateTimer
+    interval: 30000 // Update every 30 seconds
+    repeat: true
+    running: root.allWrappers.length > 0
+    triggeredOnStart: false
+    onTriggered: {
+      root.timeUpdateTick = !root.timeUpdateTick
+    }
+  }
+  
+  property bool timeUpdateTick: false
+  property bool clockFormatChanged: false
+
   // Android 16-style grouped notifications
   readonly property var groupedNotifications: getGroupedNotifications()
   readonly property var groupedPopups: getGroupedPopups()
@@ -98,18 +113,54 @@ Singleton {
         wrapper.popup = false
       }
     }
+    
+    
     readonly property date time: new Date()
     readonly property string timeStr: {
+      root.timeUpdateTick
+      root.clockFormatChanged
+      
       const now = new Date()
       const diff = now.getTime() - time.getTime()
-      const m = Math.floor(diff / 60000)
-      const h = Math.floor(m / 60)
-
-      if (h < 1 && m < 1)
-      return "now"
-      if (h < 1)
-      return `${m}m`
-      return `${h}h`
+      const minutes = Math.floor(diff / 60000)
+      const hours = Math.floor(minutes / 60)
+      
+      if (hours < 1) {
+        if (minutes < 1)
+          return "now"
+        return `${minutes}m ago`
+      }
+      
+      const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+      const timeDate = new Date(time.getFullYear(), time.getMonth(), time.getDate())
+      const daysDiff = Math.floor((nowDate - timeDate) / (1000 * 60 * 60 * 24))
+      
+      if (daysDiff === 0) {
+        return formatTime(time)
+      }
+      
+      if (daysDiff === 1) {
+        return `yesterday, ${formatTime(time)}`
+      }
+      
+      return `${daysDiff} days ago`
+    }
+    
+    function formatTime(date) {
+      let use24Hour = true
+      try {
+        if (typeof SettingsData !== "undefined" && SettingsData.use24HourClock !== undefined) {
+          use24Hour = SettingsData.use24HourClock
+        }
+      } catch (e) {
+        use24Hour = true
+      }
+      
+      if (use24Hour) {
+        return date.toLocaleTimeString(Qt.locale(), "HH:mm")
+      } else {
+        return date.toLocaleTimeString(Qt.locale(), "h:mm AP")
+      }
     }
 
     required property Notification notification
@@ -453,6 +504,14 @@ Singleton {
         // Re-enable popup processing when DND is disabled
         processQueue()
       }
+    }
+  }
+
+  // Watch for clock format changes to update notification timestamps
+  Connections {
+    target: typeof SettingsData !== "undefined" ? SettingsData : null
+    function onUse24HourClockChanged() {
+      root.clockFormatChanged = !root.clockFormatChanged
     }
   }
 }

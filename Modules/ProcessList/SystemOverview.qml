@@ -8,10 +8,10 @@ Row {
     width: parent.width
     spacing: Theme.spacingM
     Component.onCompleted: {
-        DankgopService.addRef(["cpu", "memory", "system"]);
+        DgopService.addRef(["cpu", "memory", "system"]);
     }
     Component.onDestruction: {
-        DankgopService.removeRef(["cpu", "memory", "system"]);
+        DgopService.removeRef(["cpu", "memory", "system"]);
     }
 
     Rectangle {
@@ -19,15 +19,15 @@ Row {
         height: 80
         radius: Theme.cornerRadius
         color: {
-            if (DankgopService.sortBy === "cpu")
+            if (DgopService.sortBy === "cpu")
                 return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.16);
             else if (cpuCardMouseArea.containsMouse)
                 return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12);
             else
                 return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.08);
         }
-        border.color: DankgopService.sortBy === "cpu" ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.4) : Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2)
-        border.width: DankgopService.sortBy === "cpu" ? 2 : 1
+        border.color: DgopService.sortBy === "cpu" ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.4) : Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2)
+        border.width: DgopService.sortBy === "cpu" ? 2 : 1
 
         MouseArea {
             id: cpuCardMouseArea
@@ -35,7 +35,7 @@ Row {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: DankgopService.setSortBy("cpu")
+            onClicked: DgopService.setSortBy("cpu")
         }
 
         Column {
@@ -48,8 +48,8 @@ Row {
                 text: "CPU"
                 font.pixelSize: Theme.fontSizeSmall
                 font.weight: Font.Medium
-                color: DankgopService.sortBy === "cpu" ? Theme.primary : Theme.secondary
-                opacity: DankgopService.sortBy === "cpu" ? 1 : 0.8
+                color: DgopService.sortBy === "cpu" ? Theme.primary : Theme.secondary
+                opacity: DgopService.sortBy === "cpu" ? 1 : 0.8
             }
 
             Row {
@@ -57,9 +57,9 @@ Row {
 
                 StyledText {
                     text: {
-                        if (DankgopService.cpuUsage === undefined || DankgopService.cpuUsage === null)
+                        if (DgopService.cpuUsage === undefined || DgopService.cpuUsage === null)
                             return "--%"
-                        return DankgopService.cpuUsage.toFixed(1) + "%"
+                        return DgopService.cpuUsage.toFixed(1) + "%"
                     }
                     font.pixelSize: Theme.fontSizeLarge
                     font.family: SettingsData.monoFontFamily
@@ -77,19 +77,19 @@ Row {
 
                 StyledText {
                     text: {
-                        if (DankgopService.cpuTemperature === undefined || DankgopService.cpuTemperature === null || DankgopService.cpuTemperature <= 0)
+                        if (DgopService.cpuTemperature === undefined || DgopService.cpuTemperature === null || DgopService.cpuTemperature <= 0)
                             return "--°";
 
-                        return Math.round(DankgopService.cpuTemperature) + "°";
+                        return Math.round(DgopService.cpuTemperature) + "°";
                     }
                     font.pixelSize: Theme.fontSizeMedium
                     font.family: SettingsData.monoFontFamily
                     font.weight: Font.Medium
                     color: {
-                        if (DankgopService.cpuTemperature > 80)
+                        if (DgopService.cpuTemperature > 80)
                             return Theme.error;
 
-                        if (DankgopService.cpuTemperature > 60)
+                        if (DgopService.cpuTemperature > 60)
                             return Theme.warning;
 
                         return Theme.surfaceText;
@@ -100,7 +100,7 @@ Row {
             }
 
             StyledText {
-                text: DankgopService.cpuCores + " cores"
+                text: DgopService.cpuCores + " cores"
                 font.pixelSize: Theme.fontSizeSmall
                 font.family: SettingsData.monoFontFamily
                 color: Theme.surfaceText
@@ -130,15 +130,15 @@ Row {
         height: 80
         radius: Theme.cornerRadius
         color: {
-            if (DankgopService.sortBy === "memory")
+            if (DgopService.sortBy === "memory")
                 return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.16);
             else if (memoryCardMouseArea.containsMouse)
                 return Qt.rgba(Theme.secondary.r, Theme.secondary.g, Theme.secondary.b, 0.12);
             else
                 return Qt.rgba(Theme.secondary.r, Theme.secondary.g, Theme.secondary.b, 0.08);
         }
-        border.color: DankgopService.sortBy === "memory" ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.4) : Qt.rgba(Theme.secondary.r, Theme.secondary.g, Theme.secondary.b, 0.2)
-        border.width: DankgopService.sortBy === "memory" ? 2 : 1
+        border.color: DgopService.sortBy === "memory" ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.4) : Qt.rgba(Theme.secondary.r, Theme.secondary.g, Theme.secondary.b, 0.2)
+        border.width: DgopService.sortBy === "memory" ? 2 : 1
 
         MouseArea {
             id: memoryCardMouseArea
@@ -146,7 +146,7 @@ Row {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: DankgopService.setSortBy("memory")
+            onClicked: DgopService.setSortBy("memory")
         }
 
         Column {
@@ -159,15 +159,15 @@ Row {
                 text: "Memory"
                 font.pixelSize: Theme.fontSizeSmall
                 font.weight: Font.Medium
-                color: DankgopService.sortBy === "memory" ? Theme.primary : Theme.secondary
-                opacity: DankgopService.sortBy === "memory" ? 1 : 0.8
+                color: DgopService.sortBy === "memory" ? Theme.primary : Theme.secondary
+                opacity: DgopService.sortBy === "memory" ? 1 : 0.8
             }
 
             Row {
                 spacing: Theme.spacingS
 
                 StyledText {
-                    text: DankgopService.formatSystemMemory(DankgopService.usedMemoryKB)
+                    text: DgopService.formatSystemMemory(DgopService.usedMemoryKB)
                     font.pixelSize: Theme.fontSizeLarge
                     font.family: SettingsData.monoFontFamily
                     font.weight: Font.Bold
@@ -180,27 +180,27 @@ Row {
                     height: 20
                     color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.3)
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: DankgopService.totalSwapKB > 0
+                    visible: DgopService.totalSwapKB > 0
                 }
 
                 StyledText {
-                    text: DankgopService.totalSwapKB > 0 ? DankgopService.formatSystemMemory(DankgopService.usedSwapKB) : ""
+                    text: DgopService.totalSwapKB > 0 ? DgopService.formatSystemMemory(DgopService.usedSwapKB) : ""
                     font.pixelSize: Theme.fontSizeMedium
                     font.family: SettingsData.monoFontFamily
                     font.weight: Font.Medium
-                    color: DankgopService.usedSwapKB > 0 ? Theme.warning : Theme.surfaceText
+                    color: DgopService.usedSwapKB > 0 ? Theme.warning : Theme.surfaceText
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: DankgopService.totalSwapKB > 0
+                    visible: DgopService.totalSwapKB > 0
                 }
 
             }
 
             StyledText {
                 text: {
-                    if (DankgopService.totalSwapKB > 0)
-                        return "of " + DankgopService.formatSystemMemory(DankgopService.totalMemoryKB) + " + swap";
+                    if (DgopService.totalSwapKB > 0)
+                        return "of " + DgopService.formatSystemMemory(DgopService.totalMemoryKB) + " + swap";
 
-                    return "of " + DankgopService.formatSystemMemory(DankgopService.totalMemoryKB);
+                    return "of " + DgopService.formatSystemMemory(DgopService.totalMemoryKB);
                 }
                 font.pixelSize: Theme.fontSizeSmall
                 font.family: SettingsData.monoFontFamily
@@ -231,40 +231,40 @@ Row {
         height: 80
         radius: Theme.cornerRadius
         color: {
-            if (!DankgopService.availableGpus || DankgopService.availableGpus.length === 0) {
-                if (gpuCardMouseArea.containsMouse && DankgopService.availableGpus.length > 1)
+            if (!DgopService.availableGpus || DgopService.availableGpus.length === 0) {
+                if (gpuCardMouseArea.containsMouse && DgopService.availableGpus.length > 1)
                     return Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.16);
                 else
                     return Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.08);
             }
-            var gpu = DankgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DankgopService.availableGpus.length - 1)];
+            var gpu = DgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DgopService.availableGpus.length - 1)];
             var vendor = gpu.vendor.toLowerCase();
             if (vendor.includes("nvidia")) {
-                if (gpuCardMouseArea.containsMouse && DankgopService.availableGpus.length > 1)
+                if (gpuCardMouseArea.containsMouse && DgopService.availableGpus.length > 1)
                     return Qt.rgba(Theme.success.r, Theme.success.g, Theme.success.b, 0.2);
                 else
                     return Qt.rgba(Theme.success.r, Theme.success.g, Theme.success.b, 0.12);
             } else if (vendor.includes("amd")) {
-                if (gpuCardMouseArea.containsMouse && DankgopService.availableGpus.length > 1)
+                if (gpuCardMouseArea.containsMouse && DgopService.availableGpus.length > 1)
                     return Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 0.2);
                 else
                     return Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 0.12);
             } else if (vendor.includes("intel")) {
-                if (gpuCardMouseArea.containsMouse && DankgopService.availableGpus.length > 1)
+                if (gpuCardMouseArea.containsMouse && DgopService.availableGpus.length > 1)
                     return Qt.rgba(Theme.info.r, Theme.info.g, Theme.info.b, 0.2);
                 else
                     return Qt.rgba(Theme.info.r, Theme.info.g, Theme.info.b, 0.12);
             }
-            if (gpuCardMouseArea.containsMouse && DankgopService.availableGpus.length > 1)
+            if (gpuCardMouseArea.containsMouse && DgopService.availableGpus.length > 1)
                 return Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.16);
             else
                 return Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.08);
         }
         border.color: {
-            if (!DankgopService.availableGpus || DankgopService.availableGpus.length === 0)
+            if (!DgopService.availableGpus || DgopService.availableGpus.length === 0)
                 return Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.2);
 
-            var gpu = DankgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DankgopService.availableGpus.length - 1)];
+            var gpu = DgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DgopService.availableGpus.length - 1)];
             var vendor = gpu.vendor.toLowerCase();
             if (vendor.includes("nvidia"))
                 return Qt.rgba(Theme.success.r, Theme.success.g, Theme.success.b, 0.3);
@@ -282,11 +282,11 @@ Row {
             anchors.fill: parent
             hoverEnabled: true
             acceptedButtons: Qt.LeftButton | Qt.RightButton
-            cursorShape: DankgopService.availableGpus.length > 1 ? Qt.PointingHandCursor : Qt.ArrowCursor
+            cursorShape: DgopService.availableGpus.length > 1 ? Qt.PointingHandCursor : Qt.ArrowCursor
             onClicked: (mouse) => {
                 if (mouse.button === Qt.LeftButton) {
-                    if (DankgopService.availableGpus.length > 1) {
-                        var nextIndex = (SessionData.selectedGpuIndex + 1) % DankgopService.availableGpus.length;
+                    if (DgopService.availableGpus.length > 1) {
+                        var nextIndex = (SessionData.selectedGpuIndex + 1) % DgopService.availableGpus.length;
                         SessionData.setSelectedGpuIndex(nextIndex);
                     }
                 } else if (mouse.button === Qt.RightButton) {
@@ -311,10 +311,10 @@ Row {
 
             StyledText {
                 text: {
-                    if (!DankgopService.availableGpus || DankgopService.availableGpus.length === 0)
+                    if (!DgopService.availableGpus || DgopService.availableGpus.length === 0)
                         return "No GPU";
 
-                    var gpu = DankgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DankgopService.availableGpus.length - 1)];
+                    var gpu = DgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DgopService.availableGpus.length - 1)];
                     // Check if temperature monitoring is enabled for this GPU
                     var tempEnabled = SessionData.enabledGpuPciIds && SessionData.enabledGpuPciIds.indexOf(gpu.pciId) !== -1;
                     var temp = gpu.temperature;
@@ -328,10 +328,10 @@ Row {
                 font.family: SettingsData.monoFontFamily
                 font.weight: Font.Bold
                 color: {
-                    if (!DankgopService.availableGpus || DankgopService.availableGpus.length === 0)
+                    if (!DgopService.availableGpus || DgopService.availableGpus.length === 0)
                         return Theme.surfaceText;
 
-                    var gpu = DankgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DankgopService.availableGpus.length - 1)];
+                    var gpu = DgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DgopService.availableGpus.length - 1)];
                     var tempEnabled = SessionData.enabledGpuPciIds && SessionData.enabledGpuPciIds.indexOf(gpu.pciId) !== -1;
                     var temp = gpu.temperature || 0;
                     if (tempEnabled && temp > 80)
@@ -346,10 +346,10 @@ Row {
 
             StyledText {
                 text: {
-                    if (!DankgopService.availableGpus || DankgopService.availableGpus.length === 0)
+                    if (!DgopService.availableGpus || DgopService.availableGpus.length === 0)
                         return "No GPUs detected";
 
-                    var gpu = DankgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DankgopService.availableGpus.length - 1)];
+                    var gpu = DgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DgopService.availableGpus.length - 1)];
                     var tempEnabled = SessionData.enabledGpuPciIds && SessionData.enabledGpuPciIds.indexOf(gpu.pciId) !== -1;
                     var temp = gpu.temperature;
                     var hasTemp = tempEnabled && temp !== undefined && temp !== null && temp !== 0;
@@ -376,21 +376,21 @@ Row {
                 text: "Enable GPU Temperature"
                 checkable: true
                 checked: {
-                    if (!DankgopService.availableGpus || DankgopService.availableGpus.length === 0) {
+                    if (!DgopService.availableGpus || DgopService.availableGpus.length === 0) {
                         return false
                     }
                     
-                    var gpu = DankgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DankgopService.availableGpus.length - 1)]
+                    var gpu = DgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DgopService.availableGpus.length - 1)]
                     if (!gpu.pciId) return false
                     
                     return SessionData.enabledGpuPciIds ? SessionData.enabledGpuPciIds.indexOf(gpu.pciId) !== -1 : false
                 }
                 onTriggered: {
-                    if (!DankgopService.availableGpus || DankgopService.availableGpus.length === 0) {
+                    if (!DgopService.availableGpus || DgopService.availableGpus.length === 0) {
                         return
                     }
                     
-                    var gpu = DankgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DankgopService.availableGpus.length - 1)]
+                    var gpu = DgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DgopService.availableGpus.length - 1)]
                     if (!gpu.pciId) return
                     
                     var enabledIds = SessionData.enabledGpuPciIds ? SessionData.enabledGpuPciIds.slice() : []
@@ -398,10 +398,10 @@ Row {
                     
                     if (checked && index === -1) {
                         enabledIds.push(gpu.pciId)
-                        DankgopService.addGpuPciId(gpu.pciId)
+                        DgopService.addGpuPciId(gpu.pciId)
                     } else if (!checked && index !== -1) {
                         enabledIds.splice(index, 1)
-                        DankgopService.removeGpuPciId(gpu.pciId)
+                        DgopService.removeGpuPciId(gpu.pciId)
                     }
                     
                     SessionData.setEnabledGpuPciIds(enabledIds)

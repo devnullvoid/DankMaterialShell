@@ -85,21 +85,6 @@ Rectangle {
         anchors.rightMargin: -2
         anchors.topMargin: -1
 
-        SequentialAnimation on opacity {
-          id: pulseAnimation
-          running: parent.visible && hasActivePrivacy
-                   && PrivacyService.cameraActive
-          loops: Animation.Infinite
-
-          NumberAnimation {
-            to: 0.3
-            duration: Theme.longDuration
-          }
-          NumberAnimation {
-            to: 1.0
-            duration: Theme.longDuration
-          }
-        }
       }
     }
 

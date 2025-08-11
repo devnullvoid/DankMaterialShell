@@ -10,10 +10,10 @@ ScrollView {
   ScrollBar.vertical.policy: ScrollBar.AsNeeded
   ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
   Component.onCompleted: {
-    DankgopService.addRef(["system", "hardware", "diskmounts"])
+    DgopService.addRef(["system", "hardware", "diskmounts"])
   }
   Component.onDestruction: {
-    DankgopService.removeRef(["system", "hardware", "diskmounts"])
+    DgopService.removeRef(["system", "hardware", "diskmounts"])
   }
 
   Column {
@@ -52,7 +52,7 @@ ScrollView {
             spacing: Theme.spacingS
 
             StyledText {
-              text: DankgopService.hostname
+              text: DgopService.hostname
               font.pixelSize: Theme.fontSizeXLarge
               font.family: SettingsData.monoFontFamily
               font.weight: Font.Light
@@ -61,8 +61,8 @@ ScrollView {
             }
 
             StyledText {
-              text: DankgopService.distribution + " • " + DankgopService.architecture
-                    + " • " + DankgopService.kernelVersion
+              text: DgopService.distribution + " • " + DgopService.architecture
+                    + " • " + DgopService.kernelVersion
               font.pixelSize: Theme.fontSizeMedium
               font.family: SettingsData.monoFontFamily
               color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g,
@@ -71,7 +71,7 @@ ScrollView {
             }
 
             StyledText {
-              text: "Up " + UserInfoService.uptime + " • Boot: " + DankgopService.bootTime
+              text: "Up " + UserInfoService.uptime + " • Boot: " + DgopService.bootTime
               font.pixelSize: Theme.fontSizeSmall
               font.family: SettingsData.monoFontFamily
               color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g,
@@ -80,9 +80,9 @@ ScrollView {
             }
 
             StyledText {
-              text: "Load: " + DankgopService.loadAverage + " • "
-                    + DankgopService.processCount + " processes, "
-                    + DankgopService.threadCount + " threads"
+              text: "Load: " + DgopService.loadAverage + " • "
+                    + DgopService.processCount + " processes, "
+                    + DgopService.threadCount + " threads"
               font.pixelSize: Theme.fontSizeSmall
               font.family: SettingsData.monoFontFamily
               color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g,
@@ -144,7 +144,7 @@ ScrollView {
               }
 
               StyledText {
-                text: DankgopService.cpuModel
+                text: DgopService.cpuModel
                 font.pixelSize: Theme.fontSizeSmall
                 font.family: SettingsData.monoFontFamily
                 font.weight: Font.Medium
@@ -157,7 +157,7 @@ ScrollView {
               }
 
               StyledText {
-                text: DankgopService.motherboard
+                text: DgopService.motherboard
                 font.pixelSize: Theme.fontSizeSmall
                 font.family: SettingsData.monoFontFamily
                 color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g,
@@ -170,7 +170,7 @@ ScrollView {
               }
 
               StyledText {
-                text: "BIOS " + DankgopService.biosVersion
+                text: "BIOS " + DgopService.biosVersion
                 font.pixelSize: Theme.fontSizeSmall
                 font.family: SettingsData.monoFontFamily
                 color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g,
@@ -181,8 +181,8 @@ ScrollView {
               }
 
               StyledText {
-                text: DankgopService.formatSystemMemory(
-                        DankgopService.totalMemoryKB) + " RAM"
+                text: DgopService.formatSystemMemory(
+                        DgopService.totalMemoryKB) + " RAM"
                 font.pixelSize: Theme.fontSizeSmall
                 font.family: SettingsData.monoFontFamily
                 color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g,
@@ -206,11 +206,11 @@ ScrollView {
                                       Theme.surfaceContainerHigh.g,
                                       Theme.surfaceContainerHigh.b, 0.6)
               
-              if (!DankgopService.availableGpus || DankgopService.availableGpus.length === 0) {
-                return gpuCardMouseArea.containsMouse && DankgopService.availableGpus.length > 1 ? hoverColor : baseColor
+              if (!DgopService.availableGpus || DgopService.availableGpus.length === 0) {
+                return gpuCardMouseArea.containsMouse && DgopService.availableGpus.length > 1 ? hoverColor : baseColor
               }
               
-              var gpu = DankgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DankgopService.availableGpus.length - 1)]
+              var gpu = DgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DgopService.availableGpus.length - 1)]
               var vendor = gpu.fullName.split(' ')[0].toLowerCase()
               var tintColor
               
@@ -221,10 +221,10 @@ ScrollView {
               } else if (vendor.includes("intel")) {
                 tintColor = Theme.info
               } else {
-                return gpuCardMouseArea.containsMouse && DankgopService.availableGpus.length > 1 ? hoverColor : baseColor
+                return gpuCardMouseArea.containsMouse && DgopService.availableGpus.length > 1 ? hoverColor : baseColor
               }
               
-              if (gpuCardMouseArea.containsMouse && DankgopService.availableGpus.length > 1) {
+              if (gpuCardMouseArea.containsMouse && DgopService.availableGpus.length > 1) {
                 return Qt.rgba((hoverColor.r + tintColor.r * 0.1) / 1.1,
                               (hoverColor.g + tintColor.g * 0.1) / 1.1,
                               (hoverColor.b + tintColor.b * 0.1) / 1.1, 0.6)
@@ -236,11 +236,11 @@ ScrollView {
             }
             border.width: 1
             border.color: {
-              if (!DankgopService.availableGpus || DankgopService.availableGpus.length === 0) {
+              if (!DgopService.availableGpus || DgopService.availableGpus.length === 0) {
                 return Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.1)
               }
               
-              var gpu = DankgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DankgopService.availableGpus.length - 1)]
+              var gpu = DgopService.availableGpus[Math.min(SessionData.selectedGpuIndex, DgopService.availableGpus.length - 1)]
               var vendor = gpu.fullName.split(' ')[0].toLowerCase()
               
               if (vendor.includes("nvidia")) {
@@ -258,12 +258,12 @@ ScrollView {
               id: gpuCardMouseArea
               anchors.fill: parent
               hoverEnabled: true
-              cursorShape: DankgopService.availableGpus.length
+              cursorShape: DgopService.availableGpus.length
                            > 1 ? Qt.PointingHandCursor : Qt.ArrowCursor
               onClicked: {
-                if (DankgopService.availableGpus.length > 1) {
+                if (DgopService.availableGpus.length > 1) {
                   var nextIndex = (SessionData.selectedGpuIndex + 1)
-                      % DankgopService.availableGpus.length
+                      % DgopService.availableGpus.length
                   SessionData.setSelectedGpuIndex(nextIndex)
                 }
               }
@@ -301,13 +301,13 @@ ScrollView {
 
               StyledText {
                 text: {
-                  if (!DankgopService.availableGpus
-                      || DankgopService.availableGpus.length === 0) {
+                  if (!DgopService.availableGpus
+                      || DgopService.availableGpus.length === 0) {
                     return "No GPUs detected"
                   }
-                  var gpu = DankgopService.availableGpus[Math.min(
+                  var gpu = DgopService.availableGpus[Math.min(
                                                               SessionData.selectedGpuIndex,
-                                                              DankgopService.availableGpus.length
+                                                              DgopService.availableGpus.length
                                                               - 1)]
                   return gpu.fullName
                 }
@@ -323,13 +323,13 @@ ScrollView {
 
               StyledText {
                 text: {
-                  if (!DankgopService.availableGpus
-                      || DankgopService.availableGpus.length === 0) {
+                  if (!DgopService.availableGpus
+                      || DgopService.availableGpus.length === 0) {
                     return "Device: N/A"
                   }
-                  var gpu = DankgopService.availableGpus[Math.min(
+                  var gpu = DgopService.availableGpus[Math.min(
                                                               SessionData.selectedGpuIndex,
-                                                              DankgopService.availableGpus.length
+                                                              DgopService.availableGpus.length
                                                               - 1)]
                   return "Device: " + gpu.pciId
                 }
@@ -345,13 +345,13 @@ ScrollView {
 
               StyledText {
                 text: {
-                  if (!DankgopService.availableGpus
-                      || DankgopService.availableGpus.length === 0) {
+                  if (!DgopService.availableGpus
+                      || DgopService.availableGpus.length === 0) {
                     return "Driver: N/A"
                   }
-                  var gpu = DankgopService.availableGpus[Math.min(
+                  var gpu = DgopService.availableGpus[Math.min(
                                                               SessionData.selectedGpuIndex,
-                                                              DankgopService.availableGpus.length
+                                                              DgopService.availableGpus.length
                                                               - 1)]
                   return "Driver: " + gpu.driver
                 }
@@ -366,13 +366,13 @@ ScrollView {
 
               StyledText {
                 text: {
-                  if (!DankgopService.availableGpus
-                      || DankgopService.availableGpus.length === 0) {
+                  if (!DgopService.availableGpus
+                      || DgopService.availableGpus.length === 0) {
                     return "Temp: --°"
                   }
-                  var gpu = DankgopService.availableGpus[Math.min(
+                  var gpu = DgopService.availableGpus[Math.min(
                                                               SessionData.selectedGpuIndex,
-                                                              DankgopService.availableGpus.length
+                                                              DgopService.availableGpus.length
                                                               - 1)]
                   var temp = gpu.temperature
                   return "Temp: " + ((temp === undefined || temp === null
@@ -382,14 +382,14 @@ ScrollView {
                 font.pixelSize: Theme.fontSizeSmall
                 font.family: SettingsData.monoFontFamily
                 color: {
-                  if (!DankgopService.availableGpus
-                      || DankgopService.availableGpus.length === 0) {
+                  if (!DgopService.availableGpus
+                      || DgopService.availableGpus.length === 0) {
                     return Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g,
                                    Theme.surfaceText.b, 0.7)
                   }
-                  var gpu = DankgopService.availableGpus[Math.min(
+                  var gpu = DgopService.availableGpus[Math.min(
                                                               SessionData.selectedGpuIndex,
-                                                              DankgopService.availableGpus.length
+                                                              DgopService.availableGpus.length
                                                               - 1)]
                   var temp = gpu.temperature || 0
                   if (temp > 80)
@@ -532,7 +532,7 @@ ScrollView {
           Repeater {
             id: diskMountRepeater
 
-            model: DankgopService.diskMounts
+            model: DgopService.diskMounts
 
             Rectangle {
               width: parent.width

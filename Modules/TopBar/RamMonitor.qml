@@ -23,10 +23,10 @@ Rectangle {
                    baseColor.a * Theme.widgetTransparency)
   }
   Component.onCompleted: {
-    DankgopService.addRef(["memory"])
+    DgopService.addRef(["memory"])
   }
   Component.onDestruction: {
-    DankgopService.removeRef(["memory"])
+    DgopService.removeRef(["memory"])
   }
 
   MouseArea {
@@ -45,7 +45,7 @@ Rectangle {
                                        Theme.barHeight + Theme.spacingXS,
                                        width, section, currentScreen)
       }
-      DankgopService.setSortBy("memory")
+      DgopService.setSortBy("memory")
       if (root.toggleProcessList)
         root.toggleProcessList()
     }
@@ -59,10 +59,10 @@ Rectangle {
       name: "developer_board"
       size: Theme.iconSize - 8
       color: {
-        if (DankgopService.memoryUsage > 90)
+        if (DgopService.memoryUsage > 90)
           return Theme.tempDanger
 
-        if (DankgopService.memoryUsage > 75)
+        if (DgopService.memoryUsage > 75)
           return Theme.tempWarning
 
         return Theme.surfaceText
@@ -72,12 +72,12 @@ Rectangle {
 
     StyledText {
       text: {
-        if (DankgopService.memoryUsage === undefined
-            || DankgopService.memoryUsage === null
-            || DankgopService.memoryUsage === 0) {
+        if (DgopService.memoryUsage === undefined
+            || DgopService.memoryUsage === null
+            || DgopService.memoryUsage === 0) {
           return "--%"
         }
-        return DankgopService.memoryUsage.toFixed(0) + "%"
+        return DgopService.memoryUsage.toFixed(0) + "%"
       }
       font.pixelSize: Theme.fontSizeSmall
       font.weight: Font.Medium

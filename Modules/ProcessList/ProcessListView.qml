@@ -10,10 +10,10 @@ Column {
   property var contextMenu: null
 
   Component.onCompleted: {
-    DankgopService.addRef(["processes"])
+    DgopService.addRef(["processes"])
   }
   Component.onDestruction: {
-    DankgopService.removeRef(["processes"])
+    DgopService.removeRef(["processes"])
   }
 
   Item {
@@ -39,9 +39,9 @@ Column {
         text: "Process"
         font.pixelSize: Theme.fontSizeSmall
         font.family: SettingsData.monoFontFamily
-        font.weight: DankgopService.sortBy === "name" ? Font.Bold : Font.Medium
+        font.weight: DgopService.sortBy === "name" ? Font.Bold : Font.Medium
         color: Theme.surfaceText
-        opacity: DankgopService.sortBy === "name" ? 1 : 0.7
+        opacity: DgopService.sortBy === "name" ? 1 : 0.7
         anchors.centerIn: parent
       }
 
@@ -52,7 +52,7 @@ Column {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-          DankgopService.setSortBy("name")
+          DgopService.setSortBy("name")
         }
       }
 
@@ -79,9 +79,9 @@ Column {
         text: "CPU"
         font.pixelSize: Theme.fontSizeSmall
         font.family: SettingsData.monoFontFamily
-        font.weight: DankgopService.sortBy === "cpu" ? Font.Bold : Font.Medium
+        font.weight: DgopService.sortBy === "cpu" ? Font.Bold : Font.Medium
         color: Theme.surfaceText
-        opacity: DankgopService.sortBy === "cpu" ? 1 : 0.7
+        opacity: DgopService.sortBy === "cpu" ? 1 : 0.7
         anchors.centerIn: parent
       }
 
@@ -92,7 +92,7 @@ Column {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-          DankgopService.setSortBy("cpu")
+          DgopService.setSortBy("cpu")
         }
       }
 
@@ -119,9 +119,9 @@ Column {
         text: "RAM"
         font.pixelSize: Theme.fontSizeSmall
         font.family: SettingsData.monoFontFamily
-        font.weight: DankgopService.sortBy === "memory" ? Font.Bold : Font.Medium
+        font.weight: DgopService.sortBy === "memory" ? Font.Bold : Font.Medium
         color: Theme.surfaceText
-        opacity: DankgopService.sortBy === "memory" ? 1 : 0.7
+        opacity: DgopService.sortBy === "memory" ? 1 : 0.7
         anchors.centerIn: parent
       }
 
@@ -132,7 +132,7 @@ Column {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-          DankgopService.setSortBy("memory")
+          DgopService.setSortBy("memory")
         }
       }
 
@@ -159,9 +159,9 @@ Column {
         text: "PID"
         font.pixelSize: Theme.fontSizeSmall
         font.family: SettingsData.monoFontFamily
-        font.weight: DankgopService.sortBy === "pid" ? Font.Bold : Font.Medium
+        font.weight: DgopService.sortBy === "pid" ? Font.Bold : Font.Medium
         color: Theme.surfaceText
-        opacity: DankgopService.sortBy === "pid" ? 1 : 0.7
+        opacity: DgopService.sortBy === "pid" ? 1 : 0.7
         horizontalAlignment: Text.AlignHCenter
         anchors.centerIn: parent
       }
@@ -173,7 +173,7 @@ Column {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-          DankgopService.setSortBy("pid")
+          DgopService.setSortBy("pid")
         }
       }
 
@@ -197,7 +197,7 @@ Column {
       anchors.verticalCenter: parent.verticalCenter
 
       StyledText {
-        text: DankgopService.sortDescending ? "↓" : "↑"
+        text: DgopService.sortDescending ? "↓" : "↑"
         font.pixelSize: Theme.fontSizeMedium
         color: Theme.surfaceText
         anchors.centerIn: parent
@@ -210,7 +210,7 @@ Column {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-          // ! TODO - we lost this with dankgop
+          // ! TODO - we lost this with dgop
         }
       }
 
@@ -231,7 +231,7 @@ Column {
     height: parent.height - columnHeaders.height
     clip: true
     spacing: 4
-    model: DankgopService.processes
+    model: DgopService.processes
 
     delegate: ProcessListItem {
       process: modelData

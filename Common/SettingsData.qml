@@ -44,7 +44,7 @@ Singleton {
   property bool showWorkspaceIndex: false
   property bool showWorkspacePadding: false
   property bool clockCompactMode: false
-  property bool mediaCompactMode: false
+  property int mediaSize: 1
   property var topBarLeftWidgets: ["launcherButton", "workspaceSwitcher", "focusedWindow"]
   property var topBarCenterWidgets: ["music", "clock", "weather"]
   property var topBarRightWidgets: ["systemTray", "clipboard", "cpuUsage", "memUsage", "notificationButton", "battery", "controlCenterButton"]
@@ -89,6 +89,8 @@ Singleton {
   property bool showDock: false
   property bool dockAutoHide: false
   property real cornerRadius: 12
+  property bool notificationOverlayEnabled: false
+  property bool topBarAutoHide: false
 
   readonly property string defaultFontFamily: "Inter Variable"
   readonly property string defaultMonoFontFamily: "Fira Code"
@@ -202,8 +204,7 @@ Singleton {
             !== undefined ? settings.showWorkspacePadding : false
         clockCompactMode = settings.clockCompactMode
             !== undefined ? settings.clockCompactMode : false
-        mediaCompactMode = settings.mediaCompactMode
-            !== undefined ? settings.mediaCompactMode : false
+        mediaSize = settings.mediaSize !== undefined ? settings.mediaSize : (settings.mediaCompactMode !== undefined ? (settings.mediaCompactMode ? 0 : 1) : 1)
         if (settings.topBarWidgetOrder) {
           topBarLeftWidgets = settings.topBarWidgetOrder.filter(
                 w => ["launcherButton", "workspaceSwitcher", "focusedWindow"].includes(
@@ -254,6 +255,8 @@ Singleton {
         showDock = settings.showDock !== undefined ? settings.showDock : false
         dockAutoHide = settings.dockAutoHide !== undefined ? settings.dockAutoHide : false
         cornerRadius = settings.cornerRadius !== undefined ? settings.cornerRadius : 12
+        notificationOverlayEnabled = settings.notificationOverlayEnabled !== undefined ? settings.notificationOverlayEnabled : false
+        topBarAutoHide = settings.topBarAutoHide !== undefined ? settings.topBarAutoHide : false
         applyStoredTheme()
         detectAvailableIconThemes()
         detectQtTools()
@@ -302,7 +305,7 @@ Singleton {
                                           "showWorkspaceIndex": showWorkspaceIndex,
                                           "showWorkspacePadding": showWorkspacePadding,
                                           "clockCompactMode": clockCompactMode,
-                                          "mediaCompactMode": mediaCompactMode,
+                                          "mediaSize": mediaSize,
                                           "topBarLeftWidgets": topBarLeftWidgets,
                                           "topBarCenterWidgets": topBarCenterWidgets,
                                           "topBarRightWidgets": topBarRightWidgets,
@@ -322,7 +325,9 @@ Singleton {
                                           "qtThemingEnabled": qtThemingEnabled,
                                           "showDock": showDock,
                                           "dockAutoHide": dockAutoHide,
-                                          "cornerRadius": cornerRadius
+                                          "cornerRadius": cornerRadius,
+                                          "notificationOverlayEnabled": notificationOverlayEnabled,
+                                          "topBarAutoHide": topBarAutoHide
                                         }, null, 2))
   }
 
@@ -341,8 +346,8 @@ Singleton {
     saveSettings()
   }
 
-  function setMediaCompactMode(enabled) {
-    mediaCompactMode = enabled
+  function setMediaSize(size) {
+    mediaSize = size
     saveSettings()
   }
 
@@ -736,6 +741,16 @@ Singleton {
 
   function setCornerRadius(radius) {
     cornerRadius = radius
+    saveSettings()
+  }
+
+  function setNotificationOverlayEnabled(enabled) {
+    notificationOverlayEnabled = enabled
+    saveSettings()
+  }
+
+  function setTopBarAutoHide(enabled) {
+    topBarAutoHide = enabled
     saveSettings()
   }
 

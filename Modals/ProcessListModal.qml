@@ -18,8 +18,8 @@ DankModal {
   property var tabNames: ["Processes", "Performance", "System"]
 
   function show() {
-    if (!DankgopService.dankgopAvailable) {
-      console.warn("ProcessListModal: dankgop is not available")
+    if (!DgopService.dgopAvailable) {
+      console.warn("ProcessListModal: dgop is not available")
       return
     }
     processListModal.visible = true
@@ -33,8 +33,8 @@ DankModal {
   }
 
   function toggle() {
-    if (!DankgopService.dankgopAvailable) {
-      console.warn("ProcessListModal: dankgop is not available")
+    if (!DgopService.dgopAvailable) {
+      console.warn("ProcessListModal: dgop is not available")
       return
     }
     if (processListModal.visible)
@@ -97,16 +97,16 @@ DankModal {
         }
       }
 
-      // Show error message when dankgop is not available
+      // Show error message when dgop is not available
       Rectangle {
         anchors.centerIn: parent
         width: 400
         height: 200
         radius: Theme.cornerRadius
-        color: Theme.errorBackground
+        color: Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 0.1)
         border.color: Theme.error
         border.width: 2
-        visible: !DankgopService.dankgopAvailable
+        visible: !DgopService.dgopAvailable
 
         Column {
           anchors.centerIn: parent
@@ -128,7 +128,7 @@ DankModal {
           }
 
           StyledText {
-            text: "The 'dankgop' tool is required for system monitoring.\nPlease install dankgop to use this feature."
+            text: "The 'dgop' tool is required for system monitoring.\nPlease install dgop to use this feature."
             font.pixelSize: Theme.fontSizeMedium
             color: Theme.surfaceText
             anchors.horizontalCenter: parent.horizontalCenter
@@ -142,7 +142,7 @@ DankModal {
         anchors.fill: parent
         anchors.margins: Theme.spacingL
         spacing: Theme.spacingL
-        visible: DankgopService.dankgopAvailable
+        visible: DgopService.dgopAvailable
 
         RowLayout {
           Layout.fillWidth: true

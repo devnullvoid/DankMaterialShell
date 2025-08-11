@@ -28,10 +28,10 @@ Column {
   anchors.fill: parent
   spacing: Theme.spacingM
   Component.onCompleted: {
-    DankgopService.addRef(["cpu", "memory", "network", "disk"])
+    DgopService.addRef(["cpu", "memory", "network", "disk"])
   }
   Component.onDestruction: {
-    DankgopService.removeRef(["cpu", "memory", "network", "disk"])
+    DgopService.removeRef(["cpu", "memory", "network", "disk"])
   }
 
   Rectangle {
@@ -71,7 +71,7 @@ Column {
           anchors.verticalCenter: parent.verticalCenter
 
           StyledText {
-            text: DankgopService.cpuUsage.toFixed(1) + "%"
+            text: DgopService.cpuUsage.toFixed(1) + "%"
             font.pixelSize: Theme.fontSizeSmall
             font.weight: Font.Bold
             color: Theme.primary
@@ -85,7 +85,7 @@ Column {
         }
 
         StyledText {
-          text: DankgopService.cpuCores + " cores"
+          text: DgopService.cpuCores + " cores"
           font.pixelSize: Theme.fontSizeSmall
           color: Theme.surfaceVariantText
           anchors.verticalCenter: parent.verticalCenter
@@ -104,7 +104,7 @@ Column {
           spacing: 6
 
           Repeater {
-            model: DankgopService.perCoreCpuUsage
+            model: DgopService.perCoreCpuUsage
 
             Row {
               width: parent.width
@@ -193,9 +193,9 @@ Column {
         }
 
         StyledText {
-          text: DankgopService.formatSystemMemory(
-                  DankgopService.usedMemoryKB) + " / " + DankgopService.formatSystemMemory(
-                  DankgopService.totalMemoryKB)
+          text: DgopService.formatSystemMemory(
+                  DgopService.usedMemoryKB) + " / " + DgopService.formatSystemMemory(
+                  DgopService.totalMemoryKB)
           font.pixelSize: Theme.fontSizeSmall
           color: Theme.surfaceVariantText
         }
@@ -218,15 +218,15 @@ Column {
           color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
 
           Rectangle {
-            width: DankgopService.totalMemoryKB
-                   > 0 ? parent.width * (DankgopService.usedMemoryKB
-                                         / DankgopService.totalMemoryKB) : 0
+            width: DgopService.totalMemoryKB
+                   > 0 ? parent.width * (DgopService.usedMemoryKB
+                                         / DgopService.totalMemoryKB) : 0
             height: parent.height
             radius: parent.radius
             color: {
-              const usage = DankgopService.totalMemoryKB
-                          > 0 ? (DankgopService.usedMemoryKB
-                                 / DankgopService.totalMemoryKB) : 0
+              const usage = DgopService.totalMemoryKB
+                          > 0 ? (DgopService.usedMemoryKB
+                                 / DgopService.totalMemoryKB) : 0
               if (usage > 0.9)
                 return Theme.error
 
@@ -245,9 +245,9 @@ Column {
         }
 
         StyledText {
-          text: DankgopService.totalMemoryKB
-                > 0 ? ((DankgopService.usedMemoryKB
-                        / DankgopService.totalMemoryKB) * 100).toFixed(
+          text: DgopService.totalMemoryKB
+                > 0 ? ((DgopService.usedMemoryKB
+                        / DgopService.totalMemoryKB) * 100).toFixed(
                         1) + "% used" : "No data"
           font.pixelSize: Theme.fontSizeSmall
           font.weight: Font.Bold
@@ -272,11 +272,11 @@ Column {
         }
 
         StyledText {
-          text: DankgopService.totalSwapKB
-                > 0 ? DankgopService.formatSystemMemory(
-                        DankgopService.usedSwapKB) + " / "
-                      + DankgopService.formatSystemMemory(
-                        DankgopService.totalSwapKB) : "No swap configured"
+          text: DgopService.totalSwapKB
+                > 0 ? DgopService.formatSystemMemory(
+                        DgopService.usedSwapKB) + " / "
+                      + DgopService.formatSystemMemory(
+                        DgopService.totalSwapKB) : "No swap configured"
           font.pixelSize: Theme.fontSizeSmall
           color: Theme.surfaceVariantText
         }
@@ -299,17 +299,17 @@ Column {
           color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
 
           Rectangle {
-            width: DankgopService.totalSwapKB
-                   > 0 ? parent.width * (DankgopService.usedSwapKB
-                                         / DankgopService.totalSwapKB) : 0
+            width: DgopService.totalSwapKB
+                   > 0 ? parent.width * (DgopService.usedSwapKB
+                                         / DgopService.totalSwapKB) : 0
             height: parent.height
             radius: parent.radius
             color: {
-              if (!DankgopService.totalSwapKB)
+              if (!DgopService.totalSwapKB)
                 return Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g,
                                Theme.surfaceText.b, 0.3)
 
-              const usage = DankgopService.usedSwapKB / DankgopService.totalSwapKB
+              const usage = DgopService.usedSwapKB / DgopService.totalSwapKB
               if (usage > 0.9)
                 return Theme.error
 
@@ -328,9 +328,9 @@ Column {
         }
 
         StyledText {
-          text: DankgopService.totalSwapKB
-                > 0 ? ((DankgopService.usedSwapKB
-                        / DankgopService.totalSwapKB) * 100).toFixed(
+          text: DgopService.totalSwapKB
+                > 0 ? ((DgopService.usedSwapKB
+                        / DgopService.totalSwapKB) * 100).toFixed(
                         1) + "% used" : "Not available"
           font.pixelSize: Theme.fontSizeSmall
           font.weight: Font.Bold
@@ -381,9 +381,9 @@ Column {
             }
 
             StyledText {
-              text: DankgopService.networkRxRate
+              text: DgopService.networkRxRate
                     > 0 ? formatNetworkSpeed(
-                            DankgopService.networkRxRate) : "0 B/s"
+                            DgopService.networkRxRate) : "0 B/s"
               font.pixelSize: Theme.fontSizeSmall
               font.weight: Font.Bold
               color: Theme.surfaceText
@@ -400,9 +400,9 @@ Column {
             }
 
             StyledText {
-              text: DankgopService.networkTxRate
+              text: DgopService.networkTxRate
                     > 0 ? formatNetworkSpeed(
-                            DankgopService.networkTxRate) : "0 B/s"
+                            DgopService.networkTxRate) : "0 B/s"
               font.pixelSize: Theme.fontSizeSmall
               font.weight: Font.Bold
               color: Theme.surfaceText
@@ -448,7 +448,7 @@ Column {
             }
 
             StyledText {
-              text: formatDiskSpeed(DankgopService.diskReadRate)
+              text: formatDiskSpeed(DgopService.diskReadRate)
               font.pixelSize: Theme.fontSizeSmall
               font.weight: Font.Bold
               color: Theme.surfaceText
@@ -465,7 +465,7 @@ Column {
             }
 
             StyledText {
-              text: formatDiskSpeed(DankgopService.diskWriteRate)
+              text: formatDiskSpeed(DgopService.diskWriteRate)
               font.pixelSize: Theme.fontSizeSmall
               font.weight: Font.Bold
               color: Theme.surfaceText

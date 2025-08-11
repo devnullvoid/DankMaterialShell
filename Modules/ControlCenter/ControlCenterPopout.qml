@@ -719,102 +719,43 @@ PanelWindow {
                                 Theme.outline.b, 0.05)
           border.width: 1
 
-          NetworkTab {
+          Loader {
             anchors.fill: parent
             anchors.margins: Theme.spacingS
-            visible: root.currentTab === "network"
+            active: root.currentTab === "network"
+            asynchronous: true
+            sourceComponent: Component {
+              NetworkTab {}
+            }
           }
 
-          AudioTab {
+          Loader {
             anchors.fill: parent
             anchors.margins: Theme.spacingS
-            visible: root.currentTab === "audio"
+            active: root.currentTab === "audio"
+            asynchronous: true
+            sourceComponent: Component {
+              AudioTab {}
+            }
           }
 
-          BluetoothTab {
+          Loader {
             anchors.fill: parent
             anchors.margins: Theme.spacingS
-            visible: BluetoothService.available
-                     && root.currentTab === "bluetooth"
+            active: BluetoothService.available && root.currentTab === "bluetooth"
+            asynchronous: true
+            sourceComponent: Component {
+              BluetoothTab {}
+            }
           }
 
-          Column {
-            property var brightnessDebounceTimer
-
-            brightnessDebounceTimer: Timer {
-              property int pendingValue: 0
-
-              interval: BrightnessService.ddcAvailable ? 500 : 50
-              repeat: false
-              onTriggered: {
-                BrightnessService.setBrightnessInternal(pendingValue)
-              }
-            }
-
+          Loader {
             anchors.fill: parent
             anchors.margins: Theme.spacingS
-            visible: root.currentTab === "display"
-            spacing: Theme.spacingL
-            Column {
-              width: parent.width
-              spacing: Theme.spacingS
-              visible: BrightnessService.brightnessAvailable
-
-              StyledText {
-                text: "Brightness"
-                font.pixelSize: Theme.fontSizeMedium
-                color: Theme.surfaceText
-                font.weight: Font.Medium
-              }
-
-              DankSlider {
-                width: parent.width
-                height: 24
-                value: BrightnessService.brightnessLevel
-                leftIcon: "brightness_low"
-                rightIcon: "brightness_high"
-                enabled: BrightnessService.brightnessAvailable
-                showValue: true
-                onSliderValueChanged: function (newValue) {
-                  parent.parent.brightnessDebounceTimer.pendingValue = newValue
-                  parent.parent.brightnessDebounceTimer.restart()
-                }
-                onSliderDragFinished: function (finalValue) {
-                  parent.parent.brightnessDebounceTimer.stop()
-                  BrightnessService.setBrightnessInternal(finalValue)
-                }
-              }
-
-              StyledText {
-                text: "ddc changes can be slow to respond"
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.surfaceVariantText
-                visible: BrightnessService.ddcAvailable
-                         && !BrightnessService.laptopBacklightAvailable
-                anchors.horizontalCenter: parent.horizontalCenter
-              }
-            }
-
-            DankToggle {
-              width: parent.width
-              text: "Night Mode"
-              description: "Apply warm color temperature to reduce eye strain"
-              checked: SettingsData.nightModeEnabled
-              onToggled: checked => {
-                           SettingsData.setNightModeEnabled(checked)
-                         }
-            }
-
-            DankToggle {
-              width: parent.width
-              text: "Light Mode"
-              description: "Use light theme instead of dark theme"
-              checked: SessionData.isLightMode
-              onToggled: checked => {
-                           SessionData.setLightMode(checked)
-                           Theme.isLightMode = checked
-                           PortalService.setLightMode(checked)
-                         }
+            active: root.currentTab === "display"
+            asynchronous: true
+            sourceComponent: Component {
+              DisplayTab {}
             }
           }
 

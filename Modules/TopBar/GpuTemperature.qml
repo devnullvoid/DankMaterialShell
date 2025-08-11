@@ -37,12 +37,12 @@ Rectangle {
                    baseColor.a * Theme.widgetTransparency)
   }
   Component.onCompleted: {
-    DankgopService.addRef(["gpu"])
+    DgopService.addRef(["gpu"])
     console.log("GpuTemperature widget - pciId:", widgetData ? widgetData.pciId : "no widgetData", "selectedGpuIndex:", widgetData ? widgetData.selectedGpuIndex : "no widgetData")
     // Add this widget's PCI ID to the service
     if (widgetData && widgetData.pciId) {
       console.log("Adding GPU PCI ID to service:", widgetData.pciId)
-      DankgopService.addGpuPciId(widgetData.pciId)
+      DgopService.addGpuPciId(widgetData.pciId)
     } else {
       console.log("No PCI ID in widget data, starting auto-detection")
       // No PCI ID saved, auto-detect and save the first GPU
@@ -50,20 +50,20 @@ Rectangle {
     }
   }
   Component.onDestruction: {
-    DankgopService.removeRef(["gpu"])
+    DgopService.removeRef(["gpu"])
     // Remove this widget's PCI ID from the service
     if (widgetData && widgetData.pciId) {
-      DankgopService.removeGpuPciId(widgetData.pciId)
+      DgopService.removeGpuPciId(widgetData.pciId)
     }
   }
 
   property real displayTemp: {
-    if (!DankgopService.availableGpus
-        || DankgopService.availableGpus.length === 0)
+    if (!DgopService.availableGpus
+        || DgopService.availableGpus.length === 0)
       return 0
     if (selectedGpuIndex >= 0
-        && selectedGpuIndex < DankgopService.availableGpus.length) {
-      return DankgopService.availableGpus[selectedGpuIndex].temperature || 0
+        && selectedGpuIndex < DgopService.availableGpus.length) {
+      return DgopService.availableGpus[selectedGpuIndex].temperature || 0
     }
     return 0
   }
@@ -84,7 +84,7 @@ Rectangle {
                                        Theme.barHeight + Theme.spacingXS,
                                        width, section, currentScreen)
       }
-      DankgopService.setSortBy("cpu")
+      DgopService.setSortBy("cpu")
       if (root.toggleProcessList)
         root.toggleProcessList()
     }
@@ -136,12 +136,12 @@ Rectangle {
     interval: 100
     running: false
     onTriggered: {
-      if (DankgopService.availableGpus && DankgopService.availableGpus.length > 0) {
-        const firstGpu = DankgopService.availableGpus[0]
+      if (DgopService.availableGpus && DgopService.availableGpus.length > 0) {
+        const firstGpu = DgopService.availableGpus[0]
         if (firstGpu && firstGpu.pciId) {
           // Save the first GPU's PCI ID to this widget's settings
           updateWidgetPciId(firstGpu.pciId)
-          DankgopService.addGpuPciId(firstGpu.pciId)
+          DgopService.addGpuPciId(firstGpu.pciId)
         }
       }
     }

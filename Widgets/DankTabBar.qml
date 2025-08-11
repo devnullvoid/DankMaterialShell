@@ -28,9 +28,10 @@ Item {
       Rectangle {
         property int tabCount: tabRepeater.count
         property bool isActive: tabBar.currentIndex === index
-        property bool hasIcon: tabBar.showIcons && modelData.icon
-                               && modelData.icon.length > 0
-        property bool hasText: modelData.text && modelData.text.length > 0
+        property bool hasIcon: tabBar.showIcons && modelData && ("icon" in modelData) 
+                               && modelData.icon && modelData.icon.length > 0
+        property bool hasText: modelData && ("text" in modelData) 
+                               && modelData.text && modelData.text.length > 0
 
         width: tabBar.equalWidthTabs ? (tabBar.width - tabBar.spacing * (tabCount - 1))
                                        / tabCount : contentRow.implicitWidth + Theme.spacingM * 2
