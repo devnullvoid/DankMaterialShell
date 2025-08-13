@@ -437,347 +437,457 @@ Item {
       width: parent.width
       spacing: Theme.spacingXL
 
-      Loader {
+      Row {
         width: parent.width
-        sourceComponent: headerComponent
-      }
+        spacing: Theme.spacingM
 
-      Loader {
-        width: parent.width
-        sourceComponent: messageComponent
-      }
+        DankIcon {
+          name: "widgets"
+          size: Theme.iconSize
+          color: Theme.primary
+          anchors.verticalCenter: parent.verticalCenter
+        }
 
-      Loader {
-        width: parent.width
-        sourceComponent: sectionsComponent
-      }
+        StyledText {
+          text: "Top Bar Widget Management"
+          font.pixelSize: Theme.fontSizeLarge
+          font.weight: Font.Medium
+          color: Theme.surfaceText
+          anchors.verticalCenter: parent.verticalCenter
+        }
 
-      Loader {
-        width: parent.width
-        sourceComponent: workspaceComponent
-      }
-    }
-  }
+        Item {
+          width: parent.width - 400
+          height: 1
+        }
 
-  // Header Component
-  Component {
-    id: headerComponent
+        Rectangle {
+          width: 80
+          height: 28
+          radius: Theme.cornerRadius
+          color: resetArea.containsMouse ? Theme.surfacePressed : Theme.surfaceVariant
+          anchors.verticalCenter: parent.verticalCenter
+          border.width: 1
+          border.color: resetArea.containsMouse ? Theme.outline : Qt.rgba(
+                                                    Theme.outline.r,
+                                                    Theme.outline.g,
+                                                    Theme.outline.b, 0.5)
 
-    Row {
-      width: parent.width
-      spacing: Theme.spacingM
+          Row {
+            anchors.centerIn: parent
+            spacing: Theme.spacingXS
 
-      DankIcon {
-        name: "widgets"
-        size: Theme.iconSize
-        color: Theme.primary
-        anchors.verticalCenter: parent.verticalCenter
-      }
+            DankIcon {
+              name: "refresh"
+              size: 14
+              color: Theme.surfaceText
+              anchors.verticalCenter: parent.verticalCenter
+            }
 
-      StyledText {
-        text: "Top Bar Widget Management"
-        font.pixelSize: Theme.fontSizeLarge
-        font.weight: Font.Medium
-        color: Theme.surfaceText
-        anchors.verticalCenter: parent.verticalCenter
-      }
+            StyledText {
+              text: "Reset"
+              font.pixelSize: Theme.fontSizeSmall
+              font.weight: Font.Medium
+              color: Theme.surfaceText
+              anchors.verticalCenter: parent.verticalCenter
+            }
+          }
 
-      Item {
-        width: parent.width - 400
-        height: 1
+          MouseArea {
+            id: resetArea
+
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: {
+              SettingsData.setTopBarLeftWidgets(defaultLeftWidgets)
+              SettingsData.setTopBarCenterWidgets(defaultCenterWidgets)
+              SettingsData.setTopBarRightWidgets(defaultRightWidgets)
+            }
+          }
+
+          Behavior on color {
+            ColorAnimation {
+              duration: Theme.shortDuration
+              easing.type: Theme.standardEasing
+            }
+          }
+
+          Behavior on border.color {
+            ColorAnimation {
+              duration: Theme.shortDuration
+              easing.type: Theme.standardEasing
+            }
+          }
+        }
       }
 
       Rectangle {
-        width: 80
-        height: 28
+        width: parent.width
+        height: messageText.contentHeight + Theme.spacingM * 2
         radius: Theme.cornerRadius
-        color: resetArea.containsMouse ? Theme.surfacePressed : Theme.surfaceVariant
-        anchors.verticalCenter: parent.verticalCenter
+        color: Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g,
+                       Theme.surfaceVariant.b, 0.3)
+        border.color: Qt.rgba(Theme.outline.r, Theme.outline.g,
+                              Theme.outline.b, 0.2)
         border.width: 1
-        border.color: resetArea.containsMouse ? Theme.outline : Qt.rgba(
-                                                  Theme.outline.r,
-                                                  Theme.outline.g,
-                                                  Theme.outline.b, 0.5)
 
-        Row {
+        StyledText {
+          id: messageText
+
           anchors.centerIn: parent
-          spacing: Theme.spacingXS
-
-          DankIcon {
-            name: "refresh"
-            size: 14
-            color: Theme.surfaceText
-            anchors.verticalCenter: parent.verticalCenter
-          }
-
-          StyledText {
-            text: "Reset"
-            font.pixelSize: Theme.fontSizeSmall
-            font.weight: Font.Medium
-            color: Theme.surfaceText
-            anchors.verticalCenter: parent.verticalCenter
-          }
-        }
-
-        MouseArea {
-          id: resetArea
-
-          anchors.fill: parent
-          hoverEnabled: true
-          cursorShape: Qt.PointingHandCursor
-          onClicked: {
-            SettingsData.setTopBarLeftWidgets(defaultLeftWidgets)
-            SettingsData.setTopBarCenterWidgets(defaultCenterWidgets)
-            SettingsData.setTopBarRightWidgets(defaultRightWidgets)
-          }
-        }
-
-        Behavior on color {
-          ColorAnimation {
-            duration: Theme.shortDuration
-            easing.type: Theme.standardEasing
-          }
-        }
-
-        Behavior on border.color {
-          ColorAnimation {
-            duration: Theme.shortDuration
-            easing.type: Theme.standardEasing
-          }
+          text: "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely."
+          font.pixelSize: Theme.fontSizeSmall
+          color: Theme.outline
+          width: parent.width - Theme.spacingM * 2
+          wrapMode: Text.WordWrap
         }
       }
-    }
-  }
-
-  // Message Component
-  Component {
-    id: messageComponent
-
-    Rectangle {
-      width: parent.width
-      height: messageText.contentHeight + Theme.spacingM * 2
-      radius: Theme.cornerRadius
-      color: Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g,
-                     Theme.surfaceVariant.b, 0.3)
-      border.color: Qt.rgba(Theme.outline.r, Theme.outline.g,
-                            Theme.outline.b, 0.2)
-      border.width: 1
-
-      StyledText {
-        id: messageText
-
-        anchors.centerIn: parent
-        text: "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely."
-        font.pixelSize: Theme.fontSizeSmall
-        color: Theme.outline
-        width: parent.width - Theme.spacingM * 2
-        wrapMode: Text.WordWrap
-      }
-    }
-  }
-
-  // Sections Component
-  Component {
-    id: sectionsComponent
-
-    Column {
-      width: parent.width
-      spacing: Theme.spacingL
-
-      WidgetsTabSection {
-        width: parent.width
-        title: "Left Section"
-        titleIcon: "format_align_left"
-        sectionId: "left"
-        allWidgets: widgetsTab.baseWidgetDefinitions
-        items: widgetsTab.getItemsForSection("left")
-        onItemEnabledChanged: (sectionId, itemId, enabled) => {
-                                widgetsTab.handleItemEnabledChanged(sectionId,
-                                                                    itemId,
-                                                                    enabled)
-                              }
-        onItemOrderChanged: newOrder => {
-                              widgetsTab.handleItemOrderChanged("left",
-                                                                newOrder)
-                            }
-        onAddWidget: sectionId => {
-                       widgetSelectionPopup.allWidgets = widgetsTab.baseWidgetDefinitions
-                       widgetSelectionPopup.targetSection = sectionId
-                       widgetSelectionPopup.safeOpen()
-                     }
-        onRemoveWidget: (sectionId, widgetIndex) => {
-                          widgetsTab.removeWidgetFromSection(sectionId,
-                                                             widgetIndex)
-                        }
-        onSpacerSizeChanged: (sectionId, itemId, newSize) => {
-                               widgetsTab.handleSpacerSizeChanged(sectionId,
-                                                                  itemId,
-                                                                  newSize)
-                             }
-        onCompactModeChanged: (widgetId, value) => {
-                                if (widgetId === "clock") {
-                                  SettingsData.setClockCompactMode(value)
-                                } else if (widgetId === "music") {
-                                  SettingsData.setMediaSize(value)
-                                }
-                              }
-        onGpuSelectionChanged: (sectionId, widgetIndex, selectedIndex) => {
-                                 widgetsTab.handleGpuSelectionChanged(
-                                   sectionId, widgetIndex, selectedIndex)
-                               }
-      }
-
-      WidgetsTabSection {
-        width: parent.width
-        title: "Center Section"
-        titleIcon: "format_align_center"
-        sectionId: "center"
-        allWidgets: widgetsTab.baseWidgetDefinitions
-        items: widgetsTab.getItemsForSection("center")
-        onItemEnabledChanged: (sectionId, itemId, enabled) => {
-                                widgetsTab.handleItemEnabledChanged(sectionId,
-                                                                    itemId,
-                                                                    enabled)
-                              }
-        onItemOrderChanged: newOrder => {
-                              widgetsTab.handleItemOrderChanged("center",
-                                                                newOrder)
-                            }
-        onAddWidget: sectionId => {
-                       widgetSelectionPopup.allWidgets = widgetsTab.baseWidgetDefinitions
-                       widgetSelectionPopup.targetSection = sectionId
-                       widgetSelectionPopup.safeOpen()
-                     }
-        onRemoveWidget: (sectionId, widgetIndex) => {
-                          widgetsTab.removeWidgetFromSection(sectionId,
-                                                             widgetIndex)
-                        }
-        onSpacerSizeChanged: (sectionId, itemId, newSize) => {
-                               widgetsTab.handleSpacerSizeChanged(sectionId,
-                                                                  itemId,
-                                                                  newSize)
-                             }
-        onCompactModeChanged: (widgetId, value) => {
-                                if (widgetId === "clock") {
-                                  SettingsData.setClockCompactMode(value)
-                                } else if (widgetId === "music") {
-                                  SettingsData.setMediaSize(value)
-                                }
-                              }
-        onGpuSelectionChanged: (sectionId, widgetIndex, selectedIndex) => {
-                                 widgetsTab.handleGpuSelectionChanged(
-                                   sectionId, widgetIndex, selectedIndex)
-                               }
-      }
-
-      WidgetsTabSection {
-        width: parent.width
-        title: "Right Section"
-        titleIcon: "format_align_right"
-        sectionId: "right"
-        allWidgets: widgetsTab.baseWidgetDefinitions
-        items: widgetsTab.getItemsForSection("right")
-        onItemEnabledChanged: (sectionId, itemId, enabled) => {
-                                widgetsTab.handleItemEnabledChanged(sectionId,
-                                                                    itemId,
-                                                                    enabled)
-                              }
-        onItemOrderChanged: newOrder => {
-                              widgetsTab.handleItemOrderChanged("right",
-                                                                newOrder)
-                            }
-        onAddWidget: sectionId => {
-                       widgetSelectionPopup.allWidgets = widgetsTab.baseWidgetDefinitions
-                       widgetSelectionPopup.targetSection = sectionId
-                       widgetSelectionPopup.safeOpen()
-                     }
-        onRemoveWidget: (sectionId, widgetIndex) => {
-                          widgetsTab.removeWidgetFromSection(sectionId,
-                                                             widgetIndex)
-                        }
-        onSpacerSizeChanged: (sectionId, itemId, newSize) => {
-                               widgetsTab.handleSpacerSizeChanged(sectionId,
-                                                                  itemId,
-                                                                  newSize)
-                             }
-        onCompactModeChanged: (widgetId, value) => {
-                                if (widgetId === "clock") {
-                                  SettingsData.setClockCompactMode(value)
-                                } else if (widgetId === "music") {
-                                  SettingsData.setMediaSize(value)
-                                }
-                              }
-        onGpuSelectionChanged: (sectionId, widgetIndex, selectedIndex) => {
-                                 widgetsTab.handleGpuSelectionChanged(
-                                   sectionId, widgetIndex, selectedIndex)
-                               }
-      }
-    }
-  }
-
-  // Workspace Settings Component
-  Component {
-    id: workspaceComponent
-
-    StyledRect {
-      width: parent.width
-      height: workspaceSection.implicitHeight + Theme.spacingL * 2
-      radius: Theme.cornerRadius
-      color: Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g,
-                     Theme.surfaceVariant.b, 0.3)
-      border.color: Qt.rgba(Theme.outline.r, Theme.outline.g,
-                            Theme.outline.b, 0.2)
-      border.width: 1
 
       Column {
-        id: workspaceSection
+        width: parent.width
+        spacing: Theme.spacingL
 
-        anchors.fill: parent
-        anchors.margins: Theme.spacingL
-        spacing: Theme.spacingM
-
-        Row {
+        WidgetsTabSection {
           width: parent.width
+          title: "Left Section"
+          titleIcon: "format_align_left"
+          sectionId: "left"
+          allWidgets: widgetsTab.baseWidgetDefinitions
+          items: widgetsTab.getItemsForSection("left")
+          onItemEnabledChanged: (sectionId, itemId, enabled) => {
+                                  widgetsTab.handleItemEnabledChanged(sectionId,
+                                                                      itemId,
+                                                                      enabled)
+                                }
+          onItemOrderChanged: newOrder => {
+                                widgetsTab.handleItemOrderChanged("left",
+                                                                  newOrder)
+                              }
+          onAddWidget: sectionId => {
+                         widgetSelectionPopup.allWidgets = widgetsTab.baseWidgetDefinitions
+                         widgetSelectionPopup.targetSection = sectionId
+                         widgetSelectionPopup.safeOpen()
+                       }
+          onRemoveWidget: (sectionId, widgetIndex) => {
+                            widgetsTab.removeWidgetFromSection(sectionId,
+                                                               widgetIndex)
+                          }
+          onSpacerSizeChanged: (sectionId, itemId, newSize) => {
+                                 widgetsTab.handleSpacerSizeChanged(sectionId,
+                                                                    itemId,
+                                                                    newSize)
+                               }
+          onCompactModeChanged: (widgetId, value) => {
+                                  if (widgetId === "clock") {
+                                    SettingsData.setClockCompactMode(value)
+                                  } else if (widgetId === "music") {
+                                    SettingsData.setMediaSize(value)
+                                  }
+                                }
+          onGpuSelectionChanged: (sectionId, widgetIndex, selectedIndex) => {
+                                   widgetsTab.handleGpuSelectionChanged(
+                                     sectionId, widgetIndex, selectedIndex)
+                                 }
+        }
+
+        WidgetsTabSection {
+          width: parent.width
+          title: "Center Section"
+          titleIcon: "format_align_center"
+          sectionId: "center"
+          allWidgets: widgetsTab.baseWidgetDefinitions
+          items: widgetsTab.getItemsForSection("center")
+          onItemEnabledChanged: (sectionId, itemId, enabled) => {
+                                  widgetsTab.handleItemEnabledChanged(sectionId,
+                                                                      itemId,
+                                                                      enabled)
+                                }
+          onItemOrderChanged: newOrder => {
+                                widgetsTab.handleItemOrderChanged("center",
+                                                                  newOrder)
+                              }
+          onAddWidget: sectionId => {
+                         widgetSelectionPopup.allWidgets = widgetsTab.baseWidgetDefinitions
+                         widgetSelectionPopup.targetSection = sectionId
+                         widgetSelectionPopup.safeOpen()
+                       }
+          onRemoveWidget: (sectionId, widgetIndex) => {
+                            widgetsTab.removeWidgetFromSection(sectionId,
+                                                               widgetIndex)
+                          }
+          onSpacerSizeChanged: (sectionId, itemId, newSize) => {
+                                 widgetsTab.handleSpacerSizeChanged(sectionId,
+                                                                    itemId,
+                                                                    newSize)
+                               }
+          onCompactModeChanged: (widgetId, value) => {
+                                  if (widgetId === "clock") {
+                                    SettingsData.setClockCompactMode(value)
+                                  } else if (widgetId === "music") {
+                                    SettingsData.setMediaSize(value)
+                                  }
+                                }
+          onGpuSelectionChanged: (sectionId, widgetIndex, selectedIndex) => {
+                                   widgetsTab.handleGpuSelectionChanged(
+                                     sectionId, widgetIndex, selectedIndex)
+                                 }
+        }
+
+        WidgetsTabSection {
+          width: parent.width
+          title: "Right Section"
+          titleIcon: "format_align_right"
+          sectionId: "right"
+          allWidgets: widgetsTab.baseWidgetDefinitions
+          items: widgetsTab.getItemsForSection("right")
+          onItemEnabledChanged: (sectionId, itemId, enabled) => {
+                                  widgetsTab.handleItemEnabledChanged(sectionId,
+                                                                      itemId,
+                                                                      enabled)
+                                }
+          onItemOrderChanged: newOrder => {
+                                widgetsTab.handleItemOrderChanged("right",
+                                                                  newOrder)
+                              }
+          onAddWidget: sectionId => {
+                         widgetSelectionPopup.allWidgets = widgetsTab.baseWidgetDefinitions
+                         widgetSelectionPopup.targetSection = sectionId
+                         widgetSelectionPopup.safeOpen()
+                       }
+          onRemoveWidget: (sectionId, widgetIndex) => {
+                            widgetsTab.removeWidgetFromSection(sectionId,
+                                                               widgetIndex)
+                          }
+          onSpacerSizeChanged: (sectionId, itemId, newSize) => {
+                                 widgetsTab.handleSpacerSizeChanged(sectionId,
+                                                                    itemId,
+                                                                    newSize)
+                               }
+          onCompactModeChanged: (widgetId, value) => {
+                                  if (widgetId === "clock") {
+                                    SettingsData.setClockCompactMode(value)
+                                  } else if (widgetId === "music") {
+                                    SettingsData.setMediaSize(value)
+                                  }
+                                }
+          onGpuSelectionChanged: (sectionId, widgetIndex, selectedIndex) => {
+                                   widgetsTab.handleGpuSelectionChanged(
+                                     sectionId, widgetIndex, selectedIndex)
+                                 }
+        }
+      }
+
+      StyledRect {
+        width: parent.width
+        height: workspaceSection.implicitHeight + Theme.spacingL * 2
+        radius: Theme.cornerRadius
+        color: Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g,
+                       Theme.surfaceVariant.b, 0.3)
+        border.color: Qt.rgba(Theme.outline.r, Theme.outline.g,
+                              Theme.outline.b, 0.2)
+        border.width: 1
+
+        Column {
+          id: workspaceSection
+
+          anchors.fill: parent
+          anchors.margins: Theme.spacingL
           spacing: Theme.spacingM
 
-          DankIcon {
-            name: "view_module"
-            size: Theme.iconSize
-            color: Theme.primary
-            anchors.verticalCenter: parent.verticalCenter
+          Row {
+            width: parent.width
+            spacing: Theme.spacingM
+
+            DankIcon {
+              name: "view_module"
+              size: Theme.iconSize
+              color: Theme.primary
+              anchors.verticalCenter: parent.verticalCenter
+            }
+
+            StyledText {
+              text: "Workspace Settings"
+              font.pixelSize: Theme.fontSizeLarge
+              font.weight: Font.Medium
+              color: Theme.surfaceText
+              anchors.verticalCenter: parent.verticalCenter
+            }
+          }
+
+          DankToggle {
+            width: parent.width
+            text: "Workspace Index Numbers"
+            description: "Show workspace index numbers in the top bar workspace switcher"
+            checked: SettingsData.showWorkspaceIndex
+            onToggled: checked => {
+                         return SettingsData.setShowWorkspaceIndex(checked)
+                       }
+          }
+
+          DankToggle {
+            width: parent.width
+            text: "Workspace Padding"
+            description: "Always show a minimum of 3 workspaces, even if fewer are available"
+            checked: SettingsData.showWorkspacePadding
+            onToggled: checked => {
+                         return SettingsData.setShowWorkspacePadding(checked)
+                       }
+          }
+        }
+      }
+
+      StyledRect {
+        width: parent.width
+        height: workspaceIconsSection.implicitHeight + Theme.spacingL * 2
+        radius: Theme.cornerRadius
+        color: Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g,
+                       Theme.surfaceVariant.b, 0.3)
+        border.color: Qt.rgba(Theme.outline.r, Theme.outline.g,
+                              Theme.outline.b, 0.2)
+        border.width: 1
+        visible: SettingsData.hasNamedWorkspaces()
+
+        Column {
+          id: workspaceIconsSection
+
+          anchors.fill: parent
+          anchors.margins: Theme.spacingL
+          spacing: Theme.spacingM
+
+          Row {
+            width: parent.width
+            spacing: Theme.spacingM
+
+            DankIcon {
+              name: "label"
+              size: Theme.iconSize
+              color: Theme.primary
+              anchors.verticalCenter: parent.verticalCenter
+            }
+
+            StyledText {
+              text: "Named Workspace Icons"
+              font.pixelSize: Theme.fontSizeLarge
+              font.weight: Font.Medium
+              color: Theme.surfaceText
+              anchors.verticalCenter: parent.verticalCenter
+            }
           }
 
           StyledText {
-            text: "Workspace Settings"
-            font.pixelSize: Theme.fontSizeLarge
-            font.weight: Font.Medium
-            color: Theme.surfaceText
-            anchors.verticalCenter: parent.verticalCenter
+            width: parent.width
+            text: "Configure icons for named workspaces. Icons take priority over numbers when both are enabled."
+            font.pixelSize: Theme.fontSizeSmall
+            color: Theme.outline
+            wrapMode: Text.WordWrap
           }
-        }
 
-        DankToggle {
-          width: parent.width
-          text: "Workspace Index Numbers"
-          description: "Show workspace index numbers in the top bar workspace switcher"
-          checked: SettingsData.showWorkspaceIndex
-          onToggled: checked => {
-                       return SettingsData.setShowWorkspaceIndex(checked)
-                     }
-        }
+          Repeater {
+            model: SettingsData.getNamedWorkspaces()
 
-        DankToggle {
-          width: parent.width
-          text: "Workspace Padding"
-          description: "Always show a minimum of 3 workspaces, even if fewer are available"
-          checked: SettingsData.showWorkspacePadding
-          onToggled: checked => {
-                       return SettingsData.setShowWorkspacePadding(checked)
-                     }
+            Rectangle {
+              width: parent.width
+              height: workspaceIconRow.implicitHeight + Theme.spacingM
+              radius: Theme.cornerRadius
+              color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g,
+                             Theme.surfaceContainer.b, 0.5)
+              border.color: Qt.rgba(Theme.outline.r, Theme.outline.g,
+                                    Theme.outline.b, 0.3)
+              border.width: 1
+
+              Row {
+                id: workspaceIconRow
+
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: Theme.spacingM
+                anchors.rightMargin: Theme.spacingM
+                spacing: Theme.spacingM
+
+                StyledText {
+                  text: "\"" + modelData + "\""
+                  font.pixelSize: Theme.fontSizeMedium
+                  font.weight: Font.Medium
+                  color: Theme.surfaceText
+                  anchors.verticalCenter: parent.verticalCenter
+                  width: 150
+                  elide: Text.ElideRight
+                }
+
+                DankIconPicker {
+                  id: iconPicker
+                  anchors.verticalCenter: parent.verticalCenter
+
+                  Component.onCompleted: {
+                    var iconData = SettingsData.getWorkspaceNameIcon(modelData)
+                    if (iconData) {
+                      setIcon(iconData.value, iconData.type)
+                    }
+                  }
+
+                  onIconSelected: (iconName, iconType) => {
+                    SettingsData.setWorkspaceNameIcon(modelData, {
+                      type: iconType,
+                      value: iconName
+                    })
+                    setIcon(iconName, iconType)
+                  }
+
+                  Connections {
+                    target: SettingsData
+                    function onWorkspaceIconsUpdated() {
+                      var iconData = SettingsData.getWorkspaceNameIcon(modelData)
+                      if (iconData) {
+                        iconPicker.setIcon(iconData.value, iconData.type)
+                      } else {
+                        iconPicker.setIcon("", "icon")
+                      }
+                    }
+                  }
+                }
+
+                Rectangle {
+                  width: 28
+                  height: 28
+                  radius: Theme.cornerRadius
+                  color: clearMouseArea.containsMouse ? Theme.errorHover : Theme.surfaceContainer
+                  border.color: clearMouseArea.containsMouse ? Theme.error : Theme.outline
+                  border.width: 1
+                  anchors.verticalCenter: parent.verticalCenter
+
+                  DankIcon {
+                    name: "close"
+                    size: 16
+                    color: clearMouseArea.containsMouse ? Theme.error : Theme.outline
+                    anchors.centerIn: parent
+                  }
+
+                  MouseArea {
+                    id: clearMouseArea
+
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+                      SettingsData.removeWorkspaceNameIcon(modelData)
+                    }
+                  }
+                }
+
+                Item {
+                  width: parent.width - 150 - 240 - 28 - Theme.spacingM * 4
+                  height: 1
+                }
+              }
+            }
+          }
         }
       }
     }
   }
+
 
   DankWidgetSelectionPopup {
     id: widgetSelectionPopup

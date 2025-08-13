@@ -589,7 +589,7 @@ PanelWindow {
                         id: launcherButtonComponent
 
                         LauncherButton {
-                            isActive: appDrawerPopout ? appDrawerPopout.isVisible : false
+                            isActive: appDrawerLoader.item ? appDrawerLoader.item.isVisible : false
                             section: {
                                 if (parent && parent.parent) {
                                     if (parent.parent === leftSection)
@@ -601,11 +601,12 @@ PanelWindow {
                                 }
                                 return "left"
                             }
-                            popupTarget: appDrawerPopout
+                            popupTarget: appDrawerLoader.item
                             parentScreen: root.screen
                             onClicked: {
-                                if (appDrawerPopout)
-                                    appDrawerPopout.toggle()
+                                appDrawerLoader.active = true
+                                if (appDrawerLoader.item)
+                                    appDrawerLoader.item.toggle()
                             }
                         }
                     }
@@ -641,10 +642,16 @@ PanelWindow {
                                     return "center"
                                 return "center"
                             }
-                            popupTarget: centcomPopout
+                            popupTarget: {
+                                centcomPopoutLoader.active = true
+                                return centcomPopoutLoader.item
+                            }
                             parentScreen: root.screen
                             onClockClicked: {
-                                centcomPopout.calendarVisible = !centcomPopout.calendarVisible
+                                centcomPopoutLoader.active = true
+                                if (centcomPopoutLoader.item) {
+                                    centcomPopoutLoader.item.calendarVisible = !centcomPopoutLoader.item.calendarVisible
+                                }
                             }
                         }
                     }
@@ -663,10 +670,16 @@ PanelWindow {
                                     return "center"
                                 return "center"
                             }
-                            popupTarget: centcomPopout
+                            popupTarget: {
+                                centcomPopoutLoader.active = true
+                                return centcomPopoutLoader.item
+                            }
                             parentScreen: root.screen
                             onClicked: {
-                                centcomPopout.calendarVisible = !centcomPopout.calendarVisible
+                                centcomPopoutLoader.active = true
+                                if (centcomPopoutLoader.item) {
+                                    centcomPopoutLoader.item.calendarVisible = !centcomPopoutLoader.item.calendarVisible
+                                }
                             }
                         }
                     }
@@ -684,10 +697,16 @@ PanelWindow {
                                     return "center"
                                 return "center"
                             }
-                            popupTarget: centcomPopout
+                            popupTarget: {
+                                centcomPopoutLoader.active = true
+                                return centcomPopoutLoader.item
+                            }
                             parentScreen: root.screen
                             onClicked: {
-                                centcomPopout.calendarVisible = !centcomPopout.calendarVisible
+                                centcomPopoutLoader.active = true
+                                if (centcomPopoutLoader.item) {
+                                    centcomPopoutLoader.item.calendarVisible = !centcomPopoutLoader.item.calendarVisible
+                                }
                             }
                         }
                     }
@@ -731,10 +750,15 @@ PanelWindow {
                                     return "center"
                                 return "right"
                             }
-                            popupTarget: processListPopout
+                            popupTarget: {
+                                processListPopoutLoader.active = true
+                                return processListPopoutLoader.item
+                            }
                             parentScreen: root.screen
                             toggleProcessList: () => {
-                                return processListPopout.toggle()
+                                processListPopoutLoader.active = true
+                                if (processListPopoutLoader.item)
+                                    return processListPopoutLoader.item.toggle()
                             }
                         }
                     }
@@ -752,10 +776,15 @@ PanelWindow {
                                     return "center"
                                 return "right"
                             }
-                            popupTarget: processListPopout
+                            popupTarget: {
+                                processListPopoutLoader.active = true
+                                return processListPopoutLoader.item
+                            }
                             parentScreen: root.screen
                             toggleProcessList: () => {
-                                return processListPopout.toggle()
+                                processListPopoutLoader.active = true
+                                if (processListPopoutLoader.item)
+                                    return processListPopoutLoader.item.toggle()
                             }
                         }
                     }
@@ -773,10 +802,15 @@ PanelWindow {
                                     return "center"
                                 return "right"
                             }
-                            popupTarget: processListPopout
+                            popupTarget: {
+                                processListPopoutLoader.active = true
+                                return processListPopoutLoader.item
+                            }
                             parentScreen: root.screen
                             toggleProcessList: () => {
-                                return processListPopout.toggle()
+                                processListPopoutLoader.active = true
+                                if (processListPopoutLoader.item)
+                                    return processListPopoutLoader.item.toggle()
                             }
                         }
                     }
@@ -794,11 +828,16 @@ PanelWindow {
                                     return "center"
                                 return "right"
                             }
-                            popupTarget: processListPopout
+                            popupTarget: {
+                                processListPopoutLoader.active = true
+                                return processListPopoutLoader.item
+                            }
                             parentScreen: root.screen
                             widgetData: parent.widgetData
                             toggleProcessList: () => {
-                                return processListPopout.toggle()
+                                processListPopoutLoader.active = true
+                                if (processListPopoutLoader.item)
+                                    return processListPopoutLoader.item.toggle()
                             }
                         }
                     }
@@ -808,7 +847,7 @@ PanelWindow {
 
                         NotificationCenterButton {
                             hasUnread: root.notificationCount > 0
-                            isActive: notificationCenter.notificationHistoryVisible
+                            isActive: notificationCenterLoader.item ? notificationCenterLoader.item.notificationHistoryVisible : false
                             section: {
                                 if (parent && parent.parent === leftSection)
                                     return "left"
@@ -818,11 +857,17 @@ PanelWindow {
                                     return "center"
                                 return "right"
                             }
-                            popupTarget: notificationCenter
+                            popupTarget: {
+                                notificationCenterLoader.active = true
+                                return notificationCenterLoader.item
+                            }
                             parentScreen: root.screen
                             onClicked: {
-                                notificationCenter.notificationHistoryVisible
-                                    = !notificationCenter.notificationHistoryVisible
+                                notificationCenterLoader.active = true
+                                if (notificationCenterLoader.item) {
+                                    notificationCenterLoader.item.notificationHistoryVisible
+                                        = !notificationCenterLoader.item.notificationHistoryVisible
+                                }
                             }
                         }
                     }
@@ -831,7 +876,7 @@ PanelWindow {
                         id: batteryComponent
 
                         Battery {
-                            batteryPopupVisible: batteryPopout.batteryPopupVisible
+                            batteryPopupVisible: batteryPopoutLoader.item ? batteryPopoutLoader.item.batteryPopupVisible : false
                             section: {
                                 if (parent && parent.parent === leftSection)
                                     return "left"
@@ -841,10 +886,16 @@ PanelWindow {
                                     return "center"
                                 return "right"
                             }
-                            popupTarget: batteryPopout
+                            popupTarget: {
+                                batteryPopoutLoader.active = true
+                                return batteryPopoutLoader.item
+                            }
                             parentScreen: root.screen
                             onToggleBatteryPopup: {
-                                batteryPopout.batteryPopupVisible = !batteryPopout.batteryPopupVisible
+                                batteryPopoutLoader.active = true
+                                if (batteryPopoutLoader.item) {
+                                    batteryPopoutLoader.item.batteryPopupVisible = !batteryPopoutLoader.item.batteryPopupVisible
+                                }
                             }
                         }
                     }
@@ -853,7 +904,7 @@ PanelWindow {
                         id: controlCenterButtonComponent
 
                         ControlCenterButton {
-                            isActive: controlCenterPopout.controlCenterVisible
+                            isActive: controlCenterLoader.item ? controlCenterLoader.item.controlCenterVisible : false
                             section: {
                                 if (parent && parent.parent === leftSection)
                                     return "left"
@@ -863,14 +914,20 @@ PanelWindow {
                                     return "center"
                                 return "right"
                             }
-                            popupTarget: controlCenterPopout
+                            popupTarget: {
+                                controlCenterLoader.active = true
+                                return controlCenterLoader.item
+                            }
                             parentScreen: root.screen
                             onClicked: {
-                                controlCenterPopout.triggerScreen = root.screen
-                                controlCenterPopout.controlCenterVisible = !controlCenterPopout.controlCenterVisible
-                                if (controlCenterPopout.controlCenterVisible) {
-                                    if (NetworkService.wifiEnabled)
-                                        NetworkService.scanWifi()
+                                controlCenterLoader.active = true
+                                if (controlCenterLoader.item) {
+                                    controlCenterLoader.item.triggerScreen = root.screen
+                                    controlCenterLoader.item.controlCenterVisible = !controlCenterLoader.item.controlCenterVisible
+                                    if (controlCenterLoader.item.controlCenterVisible) {
+                                        if (NetworkService.wifiEnabled)
+                                            NetworkService.scanWifi()
+                                    }
                                 }
                             }
                         }

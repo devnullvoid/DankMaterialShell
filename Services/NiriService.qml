@@ -85,6 +85,8 @@ Singleton {
       handleWorkspacesChanged(event.WorkspacesChanged)
     } else if (event.WorkspaceActivated) {
       handleWorkspaceActivated(event.WorkspaceActivated)
+    } else if (event.WorkspaceActiveWindowChanged) {
+      handleWorkspaceActiveWindowChanged(event.WorkspaceActiveWindowChanged)
     } else if (event.WindowsChanged) {
       handleWindowsChanged(event.WindowsChanged)
     } else if (event.WindowClosed) {
@@ -151,6 +153,49 @@ Singleton {
 
     updateCurrentOutputWorkspaces()
     workspacesChanged()
+  }
+
+  function handleWorkspaceActiveWindowChanged(data) {
+    // Update the focused window when workspace's active window changes
+    // This is crucial for handling floating window close scenarios
+    if (data.active_window_id !== null && data.active_window_id !== undefined) {
+      focusedWindowId = String(data.active_window_id)
+      focusedWindowIndex = windows.findIndex(w => w.id == data.active_window_id)
+      
+      // Create new windows array with updated focus states to trigger property change
+      let updatedWindows = []
+      for (let i = 0; i < windows.length; i++) {
+        let w = windows[i]
+        let updatedWindow = {}
+        for (let prop in w) {
+          updatedWindow[prop] = w[prop]
+        }
+        updatedWindow.is_focused = (w.id == data.active_window_id)
+        updatedWindows.push(updatedWindow)
+      }
+      windows = updatedWindows
+      
+      updateFocusedWindow()
+    } else {
+      // No active window in this workspace
+      focusedWindowId = ""
+      focusedWindowIndex = -1
+      
+      // Create new windows array with cleared focus states for this workspace
+      let updatedWindows = []
+      for (let i = 0; i < windows.length; i++) {
+        let w = windows[i]
+        let updatedWindow = {}
+        for (let prop in w) {
+          updatedWindow[prop] = w[prop]
+        }
+        updatedWindow.is_focused = w.workspace_id == data.workspace_id ? false : w.is_focused
+        updatedWindows.push(updatedWindow)
+      }
+      windows = updatedWindows
+      
+      updateFocusedWindow()
+    }
   }
 
   function handleWindowsChanged(data) {

@@ -6,6 +6,9 @@ import qs.Widgets
 
 Item {
   id: root
+  
+  property var keyboardController: null
+  property bool showSettings: false
 
   width: parent.width
   height: 32
@@ -68,15 +71,80 @@ Item {
     }
   }
 
-  Rectangle {
-    id: clearAllButton
-
-    width: 120
-    height: 28
-    radius: Theme.cornerRadius
+  Row {
     anchors.right: parent.right
     anchors.verticalCenter: parent.verticalCenter
-    visible: NotificationService.notifications.length > 0
+    spacing: Theme.spacingXS
+    
+    // Settings button
+    Rectangle {
+      id: settingsButton
+      
+      width: 28
+      height: 28
+      radius: Theme.cornerRadius
+      color: settingsArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g,
+                                                   Theme.primary.b, 0.12) : (root.showSettings ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2) : "transparent")
+      border.color: settingsArea.containsMouse ? Theme.primary : Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.08)
+      border.width: 1
+      
+      DankIcon {
+        name: "settings"
+        size: 16
+        color: settingsArea.containsMouse ? Theme.primary : Theme.surfaceText
+        anchors.centerIn: parent
+      }
+      
+      MouseArea {
+        id: settingsArea
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onClicked: root.showSettings = !root.showSettings
+      }
+    }
+    
+    // Keyboard help button
+    Rectangle {
+      id: helpButton
+      
+      width: 28
+      height: 28
+      radius: Theme.cornerRadius
+      visible: keyboardController !== null
+      color: helpArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g,
+                                               Theme.primary.b, 0.12) : (keyboardController && keyboardController.showKeyboardHints ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2) : "transparent")
+      border.color: helpArea.containsMouse ? Theme.primary : Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.08)
+      border.width: 1
+      
+      StyledText {
+        text: "?"
+        font.pixelSize: Theme.fontSizeMedium
+        font.weight: Font.Bold
+        color: helpArea.containsMouse ? Theme.primary : Theme.surfaceText
+        anchors.centerIn: parent
+      }
+      
+      MouseArea {
+        id: helpArea
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onClicked: {
+          if (keyboardController) {
+            keyboardController.showKeyboardHints = !keyboardController.showKeyboardHints
+          }
+        }
+      }
+    }
+    
+    Rectangle {
+      id: clearAllButton
+
+      width: 120
+      height: 28
+      radius: Theme.cornerRadius
+      visible: NotificationService.notifications.length > 0
     color: clearArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g,
                                              Theme.primary.b, 0.12) : Qt.rgba(
                                        Theme.surfaceVariant.r,
@@ -128,6 +196,7 @@ Item {
         duration: Theme.shortDuration
         easing.type: Theme.standardEasing
       }
+    }
     }
   }
 }

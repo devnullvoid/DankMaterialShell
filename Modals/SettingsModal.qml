@@ -1,5 +1,6 @@
 pragma ComponentBehavior
 
+import Quickshell
 import Quickshell.Io
 import QtQuick
 import QtQuick.Controls
@@ -33,7 +34,7 @@ DankModal {
   keyboardFocus: "ondemand"
   onBackgroundClicked: hide()
 
-  content: Component {
+  property Component settingsContent: Component {
     Item {
       anchors.fill: parent
       focus: true
@@ -121,16 +122,18 @@ DankModal {
               color: "transparent"
 
               Loader {
+                id: personalizationLoader
                 anchors.fill: parent
                 active: settingsTabBar.currentIndex === 0
                 visible: active
-                asynchronous: false
+                asynchronous: true
                 sourceComponent: Component {
                   PersonalizationTab {}
                 }
               }
 
               Loader {
+                id: timeWeatherLoader
                 anchors.fill: parent
                 active: settingsTabBar.currentIndex === 1
                 visible: active
@@ -141,6 +144,7 @@ DankModal {
               }
 
               Loader {
+                id: widgetsLoader
                 anchors.fill: parent
                 active: settingsTabBar.currentIndex === 2
                 visible: active
@@ -151,6 +155,7 @@ DankModal {
               }
 
               Loader {
+                id: launcherLoader
                 anchors.fill: parent
                 active: settingsTabBar.currentIndex === 3
                 visible: active
@@ -161,10 +166,11 @@ DankModal {
               }
 
               Loader {
+                id: appearanceLoader
                 anchors.fill: parent
                 active: settingsTabBar.currentIndex === 4
                 visible: active
-                asynchronous: false
+                asynchronous: true
                 sourceComponent: Component {
                   AppearanceTab {}
                 }
@@ -175,6 +181,8 @@ DankModal {
       }
     }
   }
+
+  content: settingsContent
 
   IpcHandler {
     function open() {

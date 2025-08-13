@@ -118,6 +118,16 @@ Rectangle {
         property bool isPlaceholder: modelData === -1
         property bool isHovered: mouseArea.containsMouse
         property int sequentialNumber: index + 1
+        property var workspaceData: {
+          if (isPlaceholder || !NiriService.niriAvailable) return null
+          for (var i = 0; i < NiriService.allWorkspaces.length; i++) {
+            var ws = NiriService.allWorkspaces[i]
+            if (ws.idx + 1 === modelData) return ws
+          }
+          return null
+        }
+        property var iconData: workspaceData && workspaceData.name ? SettingsData.getWorkspaceNameIcon(workspaceData.name) : null
+        property bool hasIcon: iconData !== null
 
         width: isActive ? Theme.spacingXL + Theme.spacingM : Theme.spacingL + Theme.spacingXS
         height: Theme.spacingL
@@ -137,8 +147,37 @@ Rectangle {
           }
         }
 
+        // Icon display (priority over numbers)
+        DankIcon {
+          visible: hasIcon && iconData.type === "icon"
+          anchors.centerIn: parent
+          name: hasIcon && iconData.type === "icon" ? iconData.value : ""
+          size: Theme.fontSizeSmall
+          color: isActive ? Qt.rgba(
+                              Theme.surfaceContainer.r,
+                              Theme.surfaceContainer.g,
+                              Theme.surfaceContainer.b,
+                              0.95) : Theme.surfaceTextMedium
+          weight: isActive && !isPlaceholder ? 500 : 400
+        }
+
+        // Custom text display (priority over numbers)
         StyledText {
-          visible: SettingsData.showWorkspaceIndex
+          visible: hasIcon && iconData.type === "text"
+          anchors.centerIn: parent
+          text: hasIcon && iconData.type === "text" ? iconData.value : ""
+          color: isActive ? Qt.rgba(
+                              Theme.surfaceContainer.r,
+                              Theme.surfaceContainer.g,
+                              Theme.surfaceContainer.b,
+                              0.95) : Theme.surfaceTextMedium
+          font.pixelSize: Theme.fontSizeSmall
+          font.weight: isActive && !isPlaceholder ? Font.DemiBold : Font.Normal
+        }
+
+        // Number display (secondary priority, only when no icon)
+        StyledText {
+          visible: SettingsData.showWorkspaceIndex && !hasIcon
           anchors.centerIn: parent
           text: isPlaceholder ? sequentialNumber : sequentialNumber
           color: isActive ? Qt.rgba(

@@ -11,8 +11,14 @@ import qs.Modules.ControlCenter.Network
 Item {
   id: networkTab
 
-  property var wifiPasswordModalRef: wifiPasswordModal
-  property var networkInfoModalRef: networkInfoModal
+  property var wifiPasswordModalRef: {
+    wifiPasswordModalLoader.active = true
+    return wifiPasswordModalLoader.item
+  }
+  property var networkInfoModalRef: {
+    networkInfoModalLoader.active = true
+    return networkInfoModalLoader.item
+  }
 
   property var sortedWifiNetworks: {
     if (!NetworkService.wifiAvailable || !NetworkService.wifiEnabled) {
@@ -22,7 +28,7 @@ Item {
     var allNetworks = NetworkService.wifiNetworks
     var savedNetworks = NetworkService.savedWifiNetworks
     var currentSSID = NetworkService.currentWifiSSID
-    var signalStrength = NetworkService.wifiSignalStrength
+    var signalStrength = NetworkService.wifiSignalStrengthStr
     var refreshTrigger = forceRefresh
 
     // Force recalculation
@@ -60,15 +66,12 @@ Item {
 
   Component.onCompleted: {
     NetworkService.addRef()
-    NetworkService.autoRefreshEnabled = true
     if (NetworkService.wifiEnabled)
       NetworkService.scanWifi()
-    wifiMonitorTimer.start()
   }
 
   Component.onDestruction: {
     NetworkService.removeRef()
-    NetworkService.autoRefreshEnabled = false
   }
 
   Row {
@@ -79,6 +82,7 @@ Item {
       width: (parent.width - Theme.spacingM) / 2
       height: parent.height
       spacing: Theme.spacingS
+      anchors.verticalCenter: parent.verticalCenter
 
       Flickable {
         width: parent.width
@@ -110,9 +114,7 @@ Item {
           width: parent.width
           spacing: Theme.spacingM
 
-          WiFiCard {
-            refreshTimer: refreshTimer
-          }
+          WiFiCard {}
         }
 
         ScrollBar.vertical: ScrollBar {
@@ -125,6 +127,7 @@ Item {
       width: (parent.width - Theme.spacingM) / 2
       height: parent.height
       spacing: Theme.spacingS
+      anchors.verticalCenter: parent.verticalCenter
 
       Flickable {
         width: parent.width
@@ -212,104 +215,20 @@ Item {
     wifiPasswordModalRef: networkTab.wifiPasswordModalRef
   }
 
-  Timer {
-    id: refreshTimer
-    interval: 2000
-    running: visible && refreshTimer.triggered
-    property bool triggered: false
-    onTriggered: {
-      NetworkService.refreshNetworkStatus()
-      if (NetworkService.wifiEnabled && !NetworkService.isScanning) {
-        NetworkService.scanWifi()
-      }
-      triggered = false
-    }
-  }
-
   Connections {
     target: NetworkService
     function onWifiEnabledChanged() {
       if (NetworkService.wifiEnabled && visible) {
-        wifiScanDelayTimer.start()
-        wifiMonitorTimer.start()
-      } else {
-        NetworkService.currentWifiSSID = ""
-        NetworkService.wifiSignalStrength = "excellent"
-        NetworkService.wifiNetworks = []
-        NetworkService.savedWifiNetworks = []
-        NetworkService.connectionStatus = ""
-        NetworkService.connectingSSID = ""
-        NetworkService.isScanning = false
-        NetworkService.refreshNetworkStatus()
-        wifiMonitorTimer.stop()
-      }
-    }
-  }
-
-  Timer {
-    id: wifiScanDelayTimer
-    interval: 1500
-    running: false
-    repeat: false
-    onTriggered: {
-      if (NetworkService.wifiEnabled && visible) {
-        if (!NetworkService.isScanning) {
-          NetworkService.scanWifi()
-        } else {
-          wifiRetryTimer.start()
-        }
-      }
-    }
-  }
-
-  Timer {
-    id: wifiRetryTimer
-    interval: 2000
-    running: false
-    repeat: false
-    onTriggered: {
-      if (NetworkService.wifiEnabled && visible
-          && NetworkService.wifiNetworks.length === 0) {
-        if (!NetworkService.isScanning) {
-          NetworkService.scanWifi()
-        }
-      }
-    }
-  }
-
-  Timer {
-    id: wifiMonitorTimer
-    interval: 8000 // Check every 8 seconds
-    running: false
-    repeat: true
-    onTriggered: {
-      if (!visible || !NetworkService.wifiEnabled) {
-        running = false
-        return
-      }
-
-      var shouldScan = false
-      var reason = ""
-
-      if (NetworkService.networkStatus !== "wifi") {
-        shouldScan = true
-        reason = "not connected to WiFi"
-      } else if (NetworkService.wifiNetworks.length === 0) {
-        shouldScan = true
-        reason = "no networks cached"
-      }
-
-      if (shouldScan && !NetworkService.isScanning) {
+        // Trigger a scan when WiFi is enabled
         NetworkService.scanWifi()
       }
     }
   }
 
   onVisibleChanged: {
-    if (visible && NetworkService.wifiEnabled) {
-      wifiMonitorTimer.start()
-    } else {
-      wifiMonitorTimer.stop()
+    if (visible && NetworkService.wifiEnabled && NetworkService.wifiNetworks.length === 0) {
+      // Scan when tab becomes visible if we don't have networks cached
+      NetworkService.scanWifi()
     }
   }
 

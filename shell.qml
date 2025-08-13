@@ -42,25 +42,50 @@ ShellRoot {
 
     delegate: Dock {
       modelData: item
-      contextMenu: dockContextMenu
-      windowsMenu: dockWindowsMenu
+      contextMenu: dockContextMenuLoader.item ? dockContextMenuLoader.item : null
+      windowsMenu: dockWindowsMenuLoader.item ? dockWindowsMenuLoader.item : null
+      
+      Component.onCompleted: {
+        dockContextMenuLoader.active = true
+        dockWindowsMenuLoader.active = true
+      }
     }
   }
 
-  CentcomPopout {
-    id: centcomPopout
+  LazyLoader {
+    id: centcomPopoutLoader
+    active: false
+    
+    CentcomPopout {
+      id: centcomPopout
+    }
   }
 
-  DockContextMenu {
-    id: dockContextMenu
+  LazyLoader {
+    id: dockContextMenuLoader
+    active: false
+    
+    DockContextMenu {
+      id: dockContextMenu
+    }
   }
 
-  DockWindowsMenu {
-    id: dockWindowsMenu
+  LazyLoader {
+    id: dockWindowsMenuLoader
+    active: false
+    
+    DockWindowsMenu {
+      id: dockWindowsMenu
+    }
   }
 
-  NotificationCenterPopout {
-    id: notificationCenter
+  LazyLoader {
+    id: notificationCenterLoader
+    active: false
+    
+    NotificationCenterPopout {
+      id: notificationCenter
+    }
   }
 
   Variants {
@@ -71,50 +96,93 @@ ShellRoot {
     }
   }
 
-  ControlCenterPopout {
-    id: controlCenterPopout
+  LazyLoader {
+    id: controlCenterLoader
+    active: false
+    
+    ControlCenterPopout {
+      id: controlCenterPopout
 
-    onPowerActionRequested: (action, title, message) => {
-                              powerConfirmModal.powerConfirmAction = action
-                              powerConfirmModal.powerConfirmTitle = title
-                              powerConfirmModal.powerConfirmMessage = message
-                              powerConfirmModal.powerConfirmVisible = true
+      onPowerActionRequested: (action, title, message) => {
+                              powerConfirmModalLoader.active = true
+                              if (powerConfirmModalLoader.item) {
+                                powerConfirmModalLoader.item.powerConfirmAction = action
+                                powerConfirmModalLoader.item.powerConfirmTitle = title
+                                powerConfirmModalLoader.item.powerConfirmMessage = message
+                                powerConfirmModalLoader.item.powerConfirmVisible = true
+                              }
                             }
-    onLockRequested: {
-      lock.activate()
+      onLockRequested: {
+        lock.activate()
+      }
     }
   }
 
-  WifiPasswordModal {
-    id: wifiPasswordModal
+  LazyLoader {
+    id: wifiPasswordModalLoader
+    active: false
+    
+    WifiPasswordModal {
+      id: wifiPasswordModal
+    }
   }
 
-  NetworkInfoModal {
-    id: networkInfoModal
+  LazyLoader {
+    id: networkInfoModalLoader
+    active: false
+    
+    NetworkInfoModal {
+      id: networkInfoModal
+    }
   }
 
-  BatteryPopout {
-    id: batteryPopout
+  LazyLoader {
+    id: batteryPopoutLoader
+    active: false
+    
+    BatteryPopout {
+      id: batteryPopout
+    }
   }
 
-  PowerMenu {
-    id: powerMenu
+  LazyLoader {
+    id: powerMenuLoader
+    active: false
+    
+    PowerMenu {
+      id: powerMenu
+    }
   }
 
-  PowerConfirmModal {
-    id: powerConfirmModal
+  LazyLoader {
+    id: powerConfirmModalLoader
+    active: false
+    
+    PowerConfirmModal {
+      id: powerConfirmModal
+    }
   }
 
-  ProcessListPopout {
-    id: processListPopout
+  LazyLoader {
+    id: processListPopoutLoader
+    active: false
+    
+    ProcessListPopout {
+      id: processListPopout
+    }
   }
 
   SettingsModal {
     id: settingsModal
   }
 
-  AppDrawerPopout {
-    id: appDrawerPopout
+  LazyLoader {
+    id: appDrawerLoader
+    active: false
+    
+    AppDrawerPopout {
+      id: appDrawerPopout
+    }
   }
 
   SpotlightModal {
@@ -123,6 +191,10 @@ ShellRoot {
 
   ClipboardHistoryModal {
     id: clipboardHistoryModalPopup
+  }
+
+  NotificationModal {
+    id: notificationModal
   }
 
   LazyLoader {

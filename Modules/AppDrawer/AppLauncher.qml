@@ -46,7 +46,7 @@ Item {
     var apps = []
     if (searchQuery.length === 0) {
       if (selectedCategory === "All") {
-        apps = AppSearchService.applications || []
+        apps = AppSearchService.getAppsInCategory("All") // HACK: Use function call instead of property
       } else {
         var categoryApps = AppSearchService.getAppsInCategory(selectedCategory)
         apps = categoryApps.slice(0, maxResults)

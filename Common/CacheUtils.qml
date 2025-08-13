@@ -1,5 +1,4 @@
 import Quickshell
-import qs.Common
 pragma Singleton
 
 Singleton {

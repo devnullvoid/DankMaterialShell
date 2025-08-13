@@ -26,10 +26,15 @@ Column {
     Rectangle {
       width: 60
       height: 20
-      color: processHeaderArea.containsMouse ? Qt.rgba(Theme.surfaceText.r,
-                                                       Theme.surfaceText.g,
-                                                       Theme.surfaceText.b,
-                                                       0.08) : "transparent"
+      color: {
+        if (DgopService.currentSort === "name") {
+          return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12)
+        }
+        return processHeaderArea.containsMouse ? Qt.rgba(Theme.surfaceText.r,
+                                                         Theme.surfaceText.g,
+                                                         Theme.surfaceText.b,
+                                                         0.08) : "transparent"
+      }
       radius: Theme.cornerRadius
       anchors.left: parent.left
       anchors.leftMargin: 0
@@ -39,9 +44,9 @@ Column {
         text: "Process"
         font.pixelSize: Theme.fontSizeSmall
         font.family: SettingsData.monoFontFamily
-        font.weight: DgopService.sortBy === "name" ? Font.Bold : Font.Medium
+        font.weight: DgopService.currentSort === "name" ? Font.Bold : Font.Medium
         color: Theme.surfaceText
-        opacity: DgopService.sortBy === "name" ? 1 : 0.7
+        opacity: DgopService.currentSort === "name" ? 1 : 0.7
         anchors.centerIn: parent
       }
 
@@ -66,10 +71,15 @@ Column {
     Rectangle {
       width: 80
       height: 20
-      color: cpuHeaderArea.containsMouse ? Qt.rgba(Theme.surfaceText.r,
-                                                   Theme.surfaceText.g,
-                                                   Theme.surfaceText.b,
-                                                   0.08) : "transparent"
+      color: {
+        if (DgopService.currentSort === "cpu") {
+          return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12)
+        }
+        return cpuHeaderArea.containsMouse ? Qt.rgba(Theme.surfaceText.r,
+                                                     Theme.surfaceText.g,
+                                                     Theme.surfaceText.b,
+                                                     0.08) : "transparent"
+      }
       radius: Theme.cornerRadius
       anchors.right: parent.right
       anchors.rightMargin: 200
@@ -79,9 +89,9 @@ Column {
         text: "CPU"
         font.pixelSize: Theme.fontSizeSmall
         font.family: SettingsData.monoFontFamily
-        font.weight: DgopService.sortBy === "cpu" ? Font.Bold : Font.Medium
+        font.weight: DgopService.currentSort === "cpu" ? Font.Bold : Font.Medium
         color: Theme.surfaceText
-        opacity: DgopService.sortBy === "cpu" ? 1 : 0.7
+        opacity: DgopService.currentSort === "cpu" ? 1 : 0.7
         anchors.centerIn: parent
       }
 
@@ -106,10 +116,15 @@ Column {
     Rectangle {
       width: 80
       height: 20
-      color: memoryHeaderArea.containsMouse ? Qt.rgba(Theme.surfaceText.r,
-                                                      Theme.surfaceText.g,
-                                                      Theme.surfaceText.b,
-                                                      0.08) : "transparent"
+      color: {
+        if (DgopService.currentSort === "memory") {
+          return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12)
+        }
+        return memoryHeaderArea.containsMouse ? Qt.rgba(Theme.surfaceText.r,
+                                                        Theme.surfaceText.g,
+                                                        Theme.surfaceText.b,
+                                                        0.08) : "transparent"
+      }
       radius: Theme.cornerRadius
       anchors.right: parent.right
       anchors.rightMargin: 112
@@ -119,9 +134,9 @@ Column {
         text: "RAM"
         font.pixelSize: Theme.fontSizeSmall
         font.family: SettingsData.monoFontFamily
-        font.weight: DgopService.sortBy === "memory" ? Font.Bold : Font.Medium
+        font.weight: DgopService.currentSort === "memory" ? Font.Bold : Font.Medium
         color: Theme.surfaceText
-        opacity: DgopService.sortBy === "memory" ? 1 : 0.7
+        opacity: DgopService.currentSort === "memory" ? 1 : 0.7
         anchors.centerIn: parent
       }
 
@@ -146,10 +161,15 @@ Column {
     Rectangle {
       width: 50
       height: 20
-      color: pidHeaderArea.containsMouse ? Qt.rgba(Theme.surfaceText.r,
-                                                   Theme.surfaceText.g,
-                                                   Theme.surfaceText.b,
-                                                   0.08) : "transparent"
+      color: {
+        if (DgopService.currentSort === "pid") {
+          return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12)
+        }
+        return pidHeaderArea.containsMouse ? Qt.rgba(Theme.surfaceText.r,
+                                                     Theme.surfaceText.g,
+                                                     Theme.surfaceText.b,
+                                                     0.08) : "transparent"
+      }
       radius: Theme.cornerRadius
       anchors.right: parent.right
       anchors.rightMargin: 53
@@ -159,9 +179,9 @@ Column {
         text: "PID"
         font.pixelSize: Theme.fontSizeSmall
         font.family: SettingsData.monoFontFamily
-        font.weight: DgopService.sortBy === "pid" ? Font.Bold : Font.Medium
+        font.weight: DgopService.currentSort === "pid" ? Font.Bold : Font.Medium
         color: Theme.surfaceText
-        opacity: DgopService.sortBy === "pid" ? 1 : 0.7
+        opacity: DgopService.currentSort === "pid" ? 1 : 0.7
         horizontalAlignment: Text.AlignHCenter
         anchors.centerIn: parent
       }

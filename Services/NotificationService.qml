@@ -35,10 +35,9 @@ Singleton {
     }
   }
 
-  // Global timer to update all notification timestamps
   Timer {
     id: timeUpdateTimer
-    interval: 30000 // Update every 30 seconds
+    interval: 30000
     repeat: true
     running: root.allWrappers.length > 0
     triggeredOnStart: false
@@ -50,7 +49,6 @@ Singleton {
   property bool timeUpdateTick: false
   property bool clockFormatChanged: false
 
-  // Android 16-style grouped notifications
   readonly property var groupedNotifications: getGroupedNotifications()
   readonly property var groupedPopups: getGroupedPopups()
 
@@ -69,6 +67,7 @@ Singleton {
     bodyMarkupSupported: true
     imageSupported: true
     inlineReplySupported: true
+    persistenceSupported: true
 
     onNotification: notif => {
       notif.tracked = true
@@ -106,11 +105,24 @@ Singleton {
     }
 
     readonly property Timer timer: Timer {
-      interval: 5000
+      interval: {
+        if (!wrapper.notification) return 5000
+        
+        switch (wrapper.notification.urgency) {
+          case NotificationUrgency.Low:
+            return SettingsData.notificationTimeoutLow
+          case NotificationUrgency.Critical:
+            return SettingsData.notificationTimeoutCritical
+          default:
+            return SettingsData.notificationTimeoutNormal
+        }
+      }
       repeat: false
       running: false
       onTriggered: {
-        wrapper.popup = false
+        if (interval > 0) {
+          wrapper.popup = false
+        }
       }
     }
     
@@ -175,7 +187,6 @@ Singleton {
     readonly property string appIcon: notification.appIcon
     readonly property string appName: {
       if (notification.appName == "") {
-        // try to get the app name from the desktop entry
         const entry = DesktopEntries.byId(notification.desktopEntry)
         if (entry && entry.name) {
           return entry.name.toLowerCase()
@@ -196,8 +207,6 @@ Singleton {
     readonly property int urgency: notification.urgency
     readonly property list<NotificationAction> actions: notification.actions
 
-    readonly property bool hasImage: image && image.length > 0
-    readonly property bool hasAppIcon: appIcon && appIcon.length > 0
 
     readonly property Connections conn: Connections {
       target: wrapper.notification.Retainable
@@ -302,6 +311,10 @@ Singleton {
     visibleNotifications = [...visibleNotifications, next]
     next.popup = true
 
+    if (next.timer.interval > 0) {
+      next.timer.start()
+    }
+
     addGateBusy = true
     addGate.restart()
   }
@@ -317,7 +330,6 @@ Singleton {
   }
 
   function releaseWrapper(w) {
-    // Remove from visible
     let v = visibleNotifications.slice()
     const vi = v.indexOf(w)
     if (vi !== -1) {
@@ -325,7 +337,6 @@ Singleton {
       visibleNotifications = v
     }
 
-    // Remove from queue
     let q = notificationQueue.slice()
     const qi = q.indexOf(w)
     if (qi !== -1) {
@@ -333,20 +344,16 @@ Singleton {
       notificationQueue = q
     }
 
-    // Destroy wrapper if non-persistent
     if (w && w.destroy && !w.isPersistent) {
       w.destroy()
     }
   }
 
-  // Android 16-style notification grouping functions
   function getGroupKey(wrapper) {
-    // Priority 1: Use desktopEntry if available
     if (wrapper.desktopEntry && wrapper.desktopEntry !== "") {
       return wrapper.desktopEntry.toLowerCase()
     }
 
-    // Priority 2: Use appName as fallback
     return wrapper.appName.toLowerCase()
   }
 
@@ -507,7 +514,6 @@ Singleton {
     }
   }
 
-  // Watch for clock format changes to update notification timestamps
   Connections {
     target: typeof SettingsData !== "undefined" ? SettingsData : null
     function onUse24HourClockChanged() {

@@ -63,7 +63,6 @@ PanelWindow {
     
     SettingsData.notificationOverlayEnabled
     
-    // If overlay is enabled for all notifications, or if it's a critical notification
     const shouldUseOverlay = (SettingsData.notificationOverlayEnabled) || 
                            (notificationData.urgency === NotificationUrgency.Critical)
     
@@ -398,7 +397,7 @@ PanelWindow {
             StyledText {
               id: actionText
 
-              text: modelData.text || ""
+              text: modelData.text || "View"
               color: parent.isHovered ? Theme.primary : Theme.surfaceVariantText
               font.pixelSize: Theme.fontSizeSmall
               font.weight: Font.Medium

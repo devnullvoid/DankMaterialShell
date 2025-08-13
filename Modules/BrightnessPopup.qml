@@ -20,12 +20,16 @@ PanelWindow {
     interval: BrightnessService.ddcAvailable ? 500 : 50
     repeat: false
     onTriggered: {
-      BrightnessService.setBrightnessInternal(pendingValue)
+      BrightnessService.setBrightnessInternal(pendingValue, BrightnessService.lastIpcDevice)
     }
   }
 
   function show() {
     root.brightnessPopupVisible = true
+    // Update slider to current device brightness when showing
+    if (BrightnessService.brightnessAvailable) {
+      brightnessSlider.value = BrightnessService.brightnessLevel
+    }
     hideTimer.restart()
   }
 
@@ -111,9 +115,20 @@ PanelWindow {
 
           DankIcon {
             anchors.centerIn: parent
-            name: BrightnessService.brightnessLevel
-                  < 30 ? "brightness_low" : BrightnessService.brightnessLevel
-                         < 70 ? "brightness_medium" : "brightness_high"
+            name: {
+              const deviceInfo = BrightnessService.getCurrentDeviceInfo();
+              
+              if (!deviceInfo || deviceInfo.class === "backlight") {
+                // Display backlight
+                return "brightness_medium";
+              } else if (deviceInfo.name.includes("kbd")) {
+                // Keyboard brightness
+                return "keyboard";
+              } else {
+                // Other devices (LEDs, etc.)
+                return "lightbulb";
+              }
+            }
             size: Theme.iconSize
             color: Theme.primary
           }
@@ -145,12 +160,16 @@ PanelWindow {
           onSliderDragFinished: function (finalValue) {
             if (BrightnessService.brightnessAvailable) {
               brightnessDebounceTimer.stop()
-              BrightnessService.setBrightnessInternal(finalValue)
+              BrightnessService.setBrightnessInternal(finalValue, BrightnessService.lastIpcDevice)
             }
           }
 
           Connections {
             function onBrightnessChanged() {
+              brightnessSlider.value = BrightnessService.brightnessLevel
+            }
+            
+            function onDeviceSwitched() {
               brightnessSlider.value = BrightnessService.brightnessLevel
             }
 

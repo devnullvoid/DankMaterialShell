@@ -48,30 +48,31 @@ Rectangle {
   border.width: NetworkService.networkStatus === "wifi" ? 2 : 1
   visible: NetworkService.wifiAvailable
 
-  Column {
+  Row {
     anchors.left: parent.left
     anchors.leftMargin: Theme.spacingM
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: wifiToggle.left
     anchors.rightMargin: Theme.spacingM
-    spacing: Theme.spacingS
+    spacing: Theme.spacingM
 
-    Row {
-      spacing: Theme.spacingM
-
-      DankIcon {
-        name: {
-          if (!NetworkService.wifiEnabled)
-            return "wifi_off"
-          else if (NetworkService.currentWifiSSID !== "")
-            return getWiFiSignalIcon(NetworkService.wifiSignalStrength)
-          else
-            return "wifi"
-        }
-        size: Theme.iconSize
-        color: NetworkService.networkStatus === "wifi" ? Theme.primary : Theme.surfaceText
-        anchors.verticalCenter: parent.verticalCenter
+    DankIcon {
+      name: {
+        if (!NetworkService.wifiEnabled)
+          return "wifi_off"
+        else if (NetworkService.currentWifiSSID !== "")
+          return getWiFiSignalIcon(NetworkService.wifiSignalStrength)
+        else
+          return "wifi"
       }
+      size: Theme.iconSize
+      color: NetworkService.networkStatus === "wifi" ? Theme.primary : Theme.surfaceText
+      anchors.verticalCenter: parent.verticalCenter
+    }
+
+    Column {
+      anchors.verticalCenter: parent.verticalCenter
+      spacing: 2
 
       StyledText {
         text: {
@@ -85,25 +86,23 @@ Rectangle {
         font.pixelSize: Theme.fontSizeMedium
         color: NetworkService.networkStatus === "wifi" ? Theme.primary : Theme.surfaceText
         font.weight: Font.Medium
-        anchors.verticalCenter: parent.verticalCenter
         elide: Text.ElideRight
       }
-    }
 
-    StyledText {
-      text: {
-        if (!NetworkService.wifiEnabled)
-          return "Turn on WiFi to see networks"
-        else if (NetworkService.wifiEnabled && NetworkService.currentWifiSSID)
-          return NetworkService.wifiIP || "Connected"
-        else
-          return "Select a network below"
+      StyledText {
+        text: {
+          if (!NetworkService.wifiEnabled)
+            return "Turn on WiFi to see networks"
+          else if (NetworkService.wifiEnabled && NetworkService.currentWifiSSID)
+            return NetworkService.wifiIP || "Connected"
+          else
+            return "Select a network below"
+        }
+        font.pixelSize: Theme.fontSizeSmall
+        color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g,
+                       Theme.surfaceText.b, 0.7)
+        elide: Text.ElideRight
       }
-      font.pixelSize: Theme.fontSizeSmall
-      color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g,
-                     Theme.surfaceText.b, 0.7)
-      leftPadding: Theme.iconSize + Theme.spacingM
-      elide: Text.ElideRight
     }
   }
 
@@ -143,7 +142,7 @@ Rectangle {
     onClicked: {
       if (NetworkService.wifiEnabled) {
         NetworkService.currentWifiSSID = ""
-        NetworkService.wifiSignalStrength = "excellent"
+        NetworkService.wifiSignalStrength = 100
         NetworkService.wifiNetworks = []
         NetworkService.savedWifiNetworks = []
         NetworkService.connectionStatus = ""

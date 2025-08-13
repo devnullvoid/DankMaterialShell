@@ -56,6 +56,8 @@ Singleton {
     property var diskDevices: []
 
     property var processes: []
+    property var allProcesses: []
+    property string currentSort: "cpu"
     property var availableGpus: []
 
     property string kernelVersion: ""
@@ -264,10 +266,8 @@ Singleton {
         }
 
         if (enabledModules.indexOf("processes") !== -1 || enabledModules.indexOf("all") !== -1) {
-            if (processLimit > 0) {
-                cmd.push("--limit", processLimit.toString())
-            }
-            cmd.push("--sort", processSort)
+            cmd.push("--limit", "100") // Get more data for client sorting
+            cmd.push("--sort", "cpu") // Always get CPU sorted data
             if (noCpu) {
                 cmd.push("--no-cpu")
             }
@@ -388,7 +388,8 @@ Singleton {
                                    proc.command.substring(0, 15) + "..." : (proc.command || "")
                 })
             }
-            processes = newProcesses
+            allProcesses = newProcesses
+            applySorting()
             
             // Store the single opaque cursor string for the entire process list
             if (data.cursor) {
@@ -508,9 +509,42 @@ Singleton {
     }
 
     function setSortBy(newSortBy) {
-        if (newSortBy !== processSort) {
-            processSort = newSortBy
+        if (newSortBy !== currentSort) {
+            currentSort = newSortBy
+            applySorting()
         }
+    }
+    
+    function applySorting() {
+        if (!allProcesses || allProcesses.length === 0) return
+        
+        const sorted = allProcesses.slice()
+        sorted.sort((a, b) => {
+            let valueA, valueB
+            
+            switch (currentSort) {
+                case "cpu":
+                    valueA = a.cpu || 0
+                    valueB = b.cpu || 0
+                    return valueB - valueA
+                case "memory":
+                    valueA = a.memoryKB || 0
+                    valueB = b.memoryKB || 0
+                    return valueB - valueA
+                case "name":
+                    valueA = (a.command || "").toLowerCase()
+                    valueB = (b.command || "").toLowerCase()
+                    return valueA.localeCompare(valueB)
+                case "pid":
+                    valueA = a.pid || 0
+                    valueB = b.pid || 0
+                    return valueA - valueB
+                default:
+                    return 0
+            }
+        })
+        
+        processes = sorted.slice(0, processLimit)
     }
 
     Timer {

@@ -16,6 +16,11 @@ Rectangle {
   property bool descriptionExpanded: NotificationService.expandedMessages[notificationGroup?.latestNotification?.notification?.id + "_desc"]
                                      || false
   property bool userInitiatedExpansion: false
+  
+  // Selection properties for keyboard navigation
+  property bool isGroupSelected: false
+  property int selectedNotificationIndex: -1
+  property bool keyboardNavigationActive: false
 
   width: parent ? parent.width : 400
   height: {
@@ -29,18 +34,62 @@ Rectangle {
     return baseHeight
   }
   radius: Theme.cornerRadius
-  color: Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g,
-                 Theme.surfaceVariant.b, 0.1)
-  border.color: notificationGroup?.latestNotification?.urgency
-                === NotificationUrgency.Critical ? Qt.rgba(Theme.primary.r,
-                                                           Theme.primary.g,
-                                                           Theme.primary.b,
-                                                           0.3) : Qt.rgba(
-                                                     Theme.outline.r,
-                                                     Theme.outline.g,
-                                                     Theme.outline.b, 0.05)
-  border.width: notificationGroup?.latestNotification?.urgency
-                === NotificationUrgency.Critical ? 2 : 1
+  
+  Behavior on color {
+    ColorAnimation {
+      duration: Theme.shortDuration
+      easing.type: Theme.standardEasing
+    }
+  }
+  
+  Behavior on border.color {
+    ColorAnimation {
+      duration: Theme.shortDuration
+      easing.type: Theme.standardEasing
+    }
+  }
+  
+  color: {
+    // Keyboard selection highlighting for groups (both collapsed and expanded)
+    if (isGroupSelected && keyboardNavigationActive) {
+      return Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.2)
+    }
+    // Very subtle group highlighting when navigating within expanded group
+    if (keyboardNavigationActive && expanded && selectedNotificationIndex >= 0) {
+      return Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.12)
+    }
+    return Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.1)
+  }
+  border.color: {
+    // Keyboard selection highlighting for groups (both collapsed and expanded)
+    if (isGroupSelected && keyboardNavigationActive) {
+      return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.5)
+    }
+    // Subtle group border when navigating within expanded group
+    if (keyboardNavigationActive && expanded && selectedNotificationIndex >= 0) {
+      return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2)
+    }
+    // Critical notification styling
+    if (notificationGroup?.latestNotification?.urgency === NotificationUrgency.Critical) {
+      return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3)
+    }
+    return Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.05)
+  }
+  border.width: {
+    // Keyboard selection highlighting for groups (both collapsed and expanded)
+    if (isGroupSelected && keyboardNavigationActive) {
+      return 1.5
+    }
+    // Subtle group border when navigating within expanded group
+    if (keyboardNavigationActive && expanded && selectedNotificationIndex >= 0) {
+      return 1
+    }
+    // Critical notification styling
+    if (notificationGroup?.latestNotification?.urgency === NotificationUrgency.Critical) {
+      return 2
+    }
+    return 1
+  }
   clip: true
 
   Rectangle {
@@ -260,6 +309,7 @@ Rectangle {
     Item {
       width: parent.width
       height: 40
+      
 
       Row {
         anchors.left: parent.left
@@ -308,8 +358,10 @@ Rectangle {
 
         delegate: Rectangle {
           required property var modelData
+          required property int index
           readonly property bool messageExpanded: NotificationService.expandedMessages[modelData?.notification?.id]
                                                   || false
+          readonly property bool isSelected: root.selectedNotificationIndex === index
 
           width: parent.width
           height: {
@@ -324,10 +376,23 @@ Rectangle {
             return baseHeight
           }
           radius: Theme.cornerRadius
-          color: "transparent"
-          border.color: Qt.rgba(Theme.outline.r, Theme.outline.g,
-                                Theme.outline.b, 0.05)
-          border.width: 1
+          color: isSelected ? Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.25) : "transparent"
+          border.color: isSelected ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.4) : Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.05)
+          border.width: isSelected ? 1 : 1
+          
+          Behavior on color {
+            ColorAnimation {
+              duration: Theme.shortDuration
+              easing.type: Theme.standardEasing
+            }
+          }
+          
+          Behavior on border.color {
+            ColorAnimation {
+              duration: Theme.shortDuration
+              easing.type: Theme.standardEasing
+            }
+          }
 
           Behavior on height {
             enabled: false
@@ -498,7 +563,13 @@ Rectangle {
 
                       StyledText {
                         id: actionText
-                        text: modelData.text || ""
+                        text: {
+                          const baseText = modelData.text || "View"
+                          if (keyboardNavigationActive && (isGroupSelected || selectedNotificationIndex >= 0)) {
+                            return `${baseText} (${index + 1})`
+                          }
+                          return baseText
+                        }
                         color: parent.isHovered ? Theme.primary : Theme.surfaceVariantText
                         font.pixelSize: Theme.fontSizeSmall
                         font.weight: Font.Medium
@@ -582,7 +653,13 @@ Rectangle {
 
         StyledText {
           id: actionText
-          text: modelData.text || ""
+          text: {
+            const baseText = modelData.text || "View"
+            if (keyboardNavigationActive && isGroupSelected) {
+              return `${baseText} (${index + 1})`
+            }
+            return baseText
+          }
           color: parent.isHovered ? Theme.primary : Theme.surfaceVariantText
           font.pixelSize: Theme.fontSizeSmall
           font.weight: Font.Medium

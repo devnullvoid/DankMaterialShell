@@ -17,6 +17,8 @@ Singleton {
   property string wallpaperLastPath: ""
   property string profileLastPath: ""
   property bool doNotDisturb: false
+  property bool nightModeEnabled: false
+  property int nightModeTemperature: 4500
   property var pinnedApps: []
   property int selectedGpuIndex: 0
   property bool nvidiaGpuTempEnabled: false  
@@ -45,6 +47,8 @@ Singleton {
             !== undefined ? settings.wallpaperLastPath : ""
         profileLastPath = settings.profileLastPath !== undefined ? settings.profileLastPath : ""
         doNotDisturb = settings.doNotDisturb !== undefined ? settings.doNotDisturb : false
+        nightModeEnabled = settings.nightModeEnabled !== undefined ? settings.nightModeEnabled : false
+        nightModeTemperature = settings.nightModeTemperature !== undefined ? settings.nightModeTemperature : 4500
         pinnedApps = settings.pinnedApps !== undefined ? settings.pinnedApps : []
         selectedGpuIndex = settings.selectedGpuIndex !== undefined ? settings.selectedGpuIndex : 0
         nvidiaGpuTempEnabled = settings.nvidiaGpuTempEnabled !== undefined ? settings.nvidiaGpuTempEnabled : false
@@ -67,6 +71,8 @@ Singleton {
                                           "wallpaperLastPath": wallpaperLastPath,
                                           "profileLastPath": profileLastPath,
                                           "doNotDisturb": doNotDisturb,
+                                          "nightModeEnabled": nightModeEnabled,
+                                          "nightModeTemperature": nightModeTemperature,
                                           "pinnedApps": pinnedApps,
                                           "selectedGpuIndex": selectedGpuIndex,
                                           "nvidiaGpuTempEnabled": nvidiaGpuTempEnabled,
@@ -86,6 +92,16 @@ Singleton {
 
   function setDoNotDisturb(enabled) {
     doNotDisturb = enabled
+    saveSettings()
+  }
+
+  function setNightModeEnabled(enabled) {
+    nightModeEnabled = enabled
+    saveSettings()
+  }
+
+  function setNightModeTemperature(temperature) {
+    nightModeTemperature = temperature
     saveSettings()
   }
 

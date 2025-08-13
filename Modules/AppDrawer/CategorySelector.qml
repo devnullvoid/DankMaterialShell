@@ -63,20 +63,17 @@ Item {
     spacing: Theme.spacingS
 
     Row {
-      property var topRowCategories: ["All", "Development", "Graphics", "Games"]
-
+      property var firstRowCategories: categories.slice(0, Math.min(4, categories.length))
+      
       width: parent.width
       spacing: Theme.spacingS
 
       Repeater {
-        model: parent.topRowCategories.filter(cat => {
-                                                return categories.includes(cat)
-                                              })
+        model: parent.firstRowCategories
 
         Rectangle {
           height: 36
-          width: (parent.width - (parent.topRowCategories.length - 1)
-                  * Theme.spacingS) / parent.topRowCategories.length
+          width: (parent.width - (parent.firstRowCategories.length - 1) * Theme.spacingS) / parent.firstRowCategories.length
           radius: Theme.cornerRadius
           color: selectedCategory === modelData ? Theme.primary : "transparent"
           border.color: selectedCategory === modelData ? "transparent" : Qt.rgba(
@@ -107,21 +104,18 @@ Item {
     }
 
     Row {
-      property var bottomRowCategories: ["Internet", "Media", "Office", "Settings", "System"]
-
+      property var secondRowCategories: categories.slice(4, categories.length)
+      
       width: parent.width
       spacing: Theme.spacingS
+      visible: secondRowCategories.length > 0
 
       Repeater {
-        model: parent.bottomRowCategories.filter(cat => {
-                                                   return categories.includes(
-                                                     cat)
-                                                 })
+        model: parent.secondRowCategories
 
         Rectangle {
           height: 36
-          width: (parent.width - (parent.bottomRowCategories.length - 1)
-                  * Theme.spacingS) / parent.bottomRowCategories.length
+          width: (parent.width - (parent.secondRowCategories.length - 1) * Theme.spacingS) / parent.secondRowCategories.length
           radius: Theme.cornerRadius
           color: selectedCategory === modelData ? Theme.primary : "transparent"
           border.color: selectedCategory === modelData ? "transparent" : Qt.rgba(

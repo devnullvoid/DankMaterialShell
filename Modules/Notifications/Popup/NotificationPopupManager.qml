@@ -172,10 +172,44 @@ QtObject {
     if (activeWindows.length <= maxTargetNotifications + 1)
       return
 
-    const b = _bottom()
-    if (b && !b.exiting) {
-      b.notificationData.removedByLimit = true
-      b.notificationData.popup = false
+    const expiredCandidates = activeWindows.filter(p => {
+      if (!p.notificationData || !p.notificationData.notification) return false
+      if (p.notificationData.notification.urgency === 2) return false
+      
+      const timeoutMs = p.notificationData.timer ? p.notificationData.timer.interval : 5000
+      if (timeoutMs === 0) return false
+      
+      return !p.notificationData.timer.running
+    }).sort((a, b) => b.screenY - a.screenY)
+    
+    if (expiredCandidates.length > 0) {
+      const toRemove = expiredCandidates[0]
+      if (toRemove && !toRemove.exiting) {
+        toRemove.notificationData.removedByLimit = true
+        toRemove.notificationData.popup = false
+      }
+      return
+    }
+
+    const timeoutCandidates = activeWindows.filter(p => {
+      if (!p.notificationData || !p.notificationData.notification) return false
+      if (p.notificationData.notification.urgency === 2) return false
+      
+      const timeoutMs = p.notificationData.timer ? p.notificationData.timer.interval : 5000
+      return timeoutMs > 0
+    }).sort((a, b) => {
+      const aTimeout = a.notificationData.timer ? a.notificationData.timer.interval : 5000
+      const bTimeout = b.notificationData.timer ? b.notificationData.timer.interval : 5000
+      if (aTimeout !== bTimeout) return aTimeout - bTimeout
+      return b.screenY - a.screenY
+    })
+    
+    if (timeoutCandidates.length > 0) {
+      const toRemove = timeoutCandidates[0]
+      if (toRemove && !toRemove.exiting) {
+        toRemove.notificationData.removedByLimit = true
+        toRemove.notificationData.popup = false
+      }
     }
   }
 

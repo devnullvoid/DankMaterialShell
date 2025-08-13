@@ -1,3 +1,4 @@
+.pragma library
 // This exists only beacause I haven't been able to get linkColor to work with MarkdownText
 // May not be necessary if that's possible tbh.
 function markdownToHtml(text) {

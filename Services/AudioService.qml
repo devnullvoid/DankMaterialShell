@@ -121,6 +121,9 @@ Singleton {
 
     function increment(step: string): string {
       if (root.sink && root.sink.audio) {
+        if (root.sink.audio.muted) {
+          root.sink.audio.muted = false
+        }
         const currentVolume = Math.round(root.sink.audio.volume * 100)
         const newVolume = Math.max(0, Math.min(100, currentVolume + parseInt(
                                                  step || "5")))
@@ -133,6 +136,9 @@ Singleton {
 
     function decrement(step: string): string {
       if (root.sink && root.sink.audio) {
+        if (root.sink.audio.muted) {
+          root.sink.audio.muted = false
+        }
         const currentVolume = Math.round(root.sink.audio.volume * 100)
         const newVolume = Math.max(0, Math.min(100, currentVolume - parseInt(
                                                  step || "5")))
