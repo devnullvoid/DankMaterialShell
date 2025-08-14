@@ -77,63 +77,26 @@ Item {
     spacing: Theme.spacingXS
     
     // Settings button
-    Rectangle {
+    DankActionButton {
       id: settingsButton
-      
-      width: 28
-      height: 28
-      radius: Theme.cornerRadius
-      color: settingsArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g,
-                                                   Theme.primary.b, 0.12) : (root.showSettings ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2) : "transparent")
-      border.color: settingsArea.containsMouse ? Theme.primary : Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.08)
-      border.width: 1
-      
-      DankIcon {
-        name: "settings"
-        size: 16
-        color: settingsArea.containsMouse ? Theme.primary : Theme.surfaceText
-        anchors.centerIn: parent
-      }
-      
-      MouseArea {
-        id: settingsArea
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-        onClicked: root.showSettings = !root.showSettings
-      }
+      iconName: "settings"
+      iconColor: root.showSettings ? Theme.primary : Theme.surfaceText
+      buttonSize: 28
+      anchors.verticalCenter: parent.verticalCenter
+      onClicked: root.showSettings = !root.showSettings
     }
     
     // Keyboard help button
-    Rectangle {
+    DankActionButton {
       id: helpButton
-      
-      width: 28
-      height: 28
-      radius: Theme.cornerRadius
+      iconName: "help"
+      iconColor: keyboardController && keyboardController.showKeyboardHints ? Theme.primary : Theme.surfaceText
+      buttonSize: 28
       visible: keyboardController !== null
-      color: helpArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g,
-                                               Theme.primary.b, 0.12) : (keyboardController && keyboardController.showKeyboardHints ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2) : "transparent")
-      border.color: helpArea.containsMouse ? Theme.primary : Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.08)
-      border.width: 1
-      
-      StyledText {
-        text: "?"
-        font.pixelSize: Theme.fontSizeMedium
-        font.weight: Font.Bold
-        color: helpArea.containsMouse ? Theme.primary : Theme.surfaceText
-        anchors.centerIn: parent
-      }
-      
-      MouseArea {
-        id: helpArea
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-        onClicked: {
-          if (keyboardController) {
-            keyboardController.showKeyboardHints = !keyboardController.showKeyboardHints
-          }
+      anchors.verticalCenter: parent.verticalCenter
+      onClicked: {
+        if (keyboardController) {
+          keyboardController.showKeyboardHints = !keyboardController.showKeyboardHints
         }
       }
     }

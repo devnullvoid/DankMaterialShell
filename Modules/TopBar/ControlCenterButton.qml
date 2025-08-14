@@ -76,10 +76,17 @@ Rectangle {
       DankIcon {
         id: audioIcon
 
-        name: (AudioService.sink && AudioService.sink.audio
-               && AudioService.sink.audio.muted) ? "volume_off" : (AudioService.sink
-                                                                   && AudioService.sink.audio
-                                                                   && AudioService.sink.audio.volume * 100) < 33 ? "volume_down" : "volume_up"
+        name: {
+          if (AudioService.sink && AudioService.sink.audio) {
+            if (AudioService.sink.audio.muted || AudioService.sink.audio.volume === 0)
+              return "volume_off"
+            else if (AudioService.sink.audio.volume * 100 < 33)
+              return "volume_down"
+            else
+              return "volume_up"
+          }
+          return "volume_up"
+        }
         size: Theme.iconSize - 8
         color: audioWheelArea.containsMouse || controlCenterArea.containsMouse
                || root.isActive ? Theme.primary : Theme.surfaceText

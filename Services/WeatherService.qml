@@ -100,7 +100,6 @@ Singleton {
 
     const location = SettingsData.weatherCoordinates || "40.7128,-74.0060"
     const url = `wttr.in/${encodeURIComponent(location)}?format=j1`
-    console.log("Using manual location:", location, "URL:", url)
     return url
   }
 

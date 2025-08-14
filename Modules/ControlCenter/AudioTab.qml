@@ -33,64 +33,62 @@ Item {
       }
     }
 
-    // Output Tab - Loader
+    // Single Loader that switches between Output and Input
     Loader {
       width: parent.width
       height: parent.height - 48
-      active: audioTab.audioSubTab === 0
       asynchronous: true
-      sourceComponent: Component {
-        DankFlickable {
-          clip: true
-          contentHeight: outputColumn.height
-          contentWidth: width
+      sourceComponent: audioTab.audioSubTab === 0 ? outputTabComponent : inputTabComponent
+    }
+  }
 
-          Column {
-            id: outputColumn
-            width: parent.width
-            spacing: Theme.spacingL
+  // Output Tab Component
+  Component {
+    id: outputTabComponent
+    DankFlickable {
+      clip: true
+      contentHeight: outputColumn.height
+      contentWidth: width
 
-            Loader {
-              width: parent.width
-              sourceComponent: volumeComponent
-            }
+      Column {
+        id: outputColumn
+        width: parent.width
+        spacing: Theme.spacingL
 
-            Loader {
-              width: parent.width
-              sourceComponent: outputDevicesComponent
-            }
-          }
+        Loader {
+          width: parent.width
+          sourceComponent: volumeComponent
+        }
+
+        Loader {
+          width: parent.width
+          sourceComponent: outputDevicesComponent
         }
       }
     }
+  }
 
-    // Input Tab - Loader
-    Loader {
-      width: parent.width
-      height: parent.height - 48
-      active: audioTab.audioSubTab === 1
-      asynchronous: true
-      sourceComponent: Component {
-        DankFlickable {
-          clip: true
-          contentHeight: inputColumn.height
-          contentWidth: width
+  // Input Tab Component
+  Component {
+    id: inputTabComponent
+    DankFlickable {
+      clip: true
+      contentHeight: inputColumn.height
+      contentWidth: width
 
-          Column {
-            id: inputColumn
-            width: parent.width
-            spacing: Theme.spacingL
+      Column {
+        id: inputColumn
+        width: parent.width
+        spacing: Theme.spacingL
 
-            Loader {
-              width: parent.width
-              sourceComponent: microphoneComponent
-            }
+        Loader {
+          width: parent.width
+          sourceComponent: microphoneComponent
+        }
 
-            Loader {
-              width: parent.width
-              sourceComponent: inputDevicesComponent
-            }
-          }
+        Loader {
+          width: parent.width
+          sourceComponent: inputDevicesComponent
         }
       }
     }

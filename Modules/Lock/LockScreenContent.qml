@@ -16,30 +16,24 @@ Item {
 
     property string passwordBuffer: ""
     property bool demoMode: false
-    property bool unlocking: false
     property var powerModal: null
     property string confirmAction: ""
-    property var facts: ["Light takes 100,000 years to escape the Sun's core, then just 8 minutes to reach us.", "A teaspoon of neutron star matter would weigh a billion tons here on Earth.", "Right now, 100 trillion solar neutrinos are passing through your body every second.", "The Sun burns 4 million tons of itself into pure energy every second.", "The universe still glows with leftover heat from the Big Bang—just 2.7 degrees above absolute zero.", "There's a nebula out there that's actually colder than empty space itself.", "We've detected black holes crashing together by measuring spacetime stretch by less than 1/10,000th the width of a proton.", "Some cosmic radio bursts release more energy in milliseconds than our Sun does in days.", "Our galaxy might be crawling with billions of rogue planets drifting alone in the dark.", "Distant galaxies can move away from us faster than light because space itself is stretching.", "The edge of what we can see is 46.5 billion light-years away, even though the universe is only 13.8 billion years old.", "The universe is mostly invisible: 5% regular matter, 27% dark matter, 68% dark energy.", "A day on Venus lasts longer than its entire year around the Sun.", "On Mercury, the time between sunrises is 176 Earth days long.", "In about 4.5 billion years, our galaxy will smash into Andromeda.", "Most of the gold in your jewelry was forged when neutron stars collided somewhere in space.", "A black hole the mass of our Sun would take longer to evaporate than the current age of the universe... times a trillion trillion trillion trillion trillion.", "The fastest spinning star we know rotates 716 times per second.", "Cosmic rays create particles that shouldn't make it to Earth's surface, but time dilation lets them sneak through.", "Jupiter's magnetic field is so huge that if we could see it, it would look bigger than the Moon in our sky."]
-    property string randomFact: ""
 
-    signal unlockRequested()
-
-    function pickRandomFact() {
-        randomFact = facts[Math.floor(Math.random() * facts.length)];
-    }
+    signal unlockRequested
 
     Component.onCompleted: {
-        pickRandomFact();
-        WeatherService.addRef();
-        UserInfoService.refreshUserInfo();
+        if (demoMode)
+            LockScreenService.pickRandomFact()
+
+        WeatherService.addRef()
+        UserInfoService.refreshUserInfo()
     }
     onDemoModeChanged: {
         if (demoMode)
-            pickRandomFact();
-
+            LockScreenService.pickRandomFact()
     }
     Component.onDestruction: {
-        WeatherService.removeRef();
+        WeatherService.removeRef()
     }
 
     Image {
@@ -67,9 +61,7 @@ Item {
                 duration: Theme.mediumDuration
                 easing.type: Theme.standardEasing
             }
-
         }
-
     }
 
     Rectangle {
@@ -99,7 +91,11 @@ Item {
 
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
-                text: SettingsData.use24HourClock ? Qt.formatTime(systemClock.date, "H:mm") : Qt.formatTime(systemClock.date, "h:mm AP")
+                text: SettingsData.use24HourClock ? Qt.formatTime(
+                                                        systemClock.date,
+                                                        "H:mm") : Qt.formatTime(
+                                                        systemClock.date,
+                                                        "h:mm AP")
                 font.pixelSize: 120
                 font.weight: Font.Light
                 color: "white"
@@ -110,12 +106,12 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: clockText.bottom
                 anchors.topMargin: -20
-                text: Qt.formatDate(systemClock.date, SettingsData.lockDateFormat)
+                text: Qt.formatDate(systemClock.date,
+                                    SettingsData.lockDateFormat)
                 font.pixelSize: Theme.fontSizeXLarge
                 color: "white"
                 opacity: 0.9
             }
-
         }
 
         ColumnLayout {
@@ -150,12 +146,12 @@ Item {
 
                         source: {
                             if (PortalService.profileImage === "")
-                                return "";
+                                return ""
 
                             if (PortalService.profileImage.startsWith("/"))
-                                return "file://" + PortalService.profileImage;
+                                return "file://" + PortalService.profileImage
 
-                            return PortalService.profileImage;
+                            return PortalService.profileImage
                         }
                         smooth: true
                         asynchronous: true
@@ -190,7 +186,6 @@ Item {
                             color: "black"
                             antialiasing: true
                         }
-
                     }
 
                     Rectangle {
@@ -205,7 +200,6 @@ Item {
                             size: Theme.iconSize + 4
                             color: Theme.primaryText
                         }
-
                     }
 
                     DankIcon {
@@ -213,9 +207,9 @@ Item {
                         name: "warning"
                         size: Theme.iconSize + 4
                         color: Theme.primaryText
-                        visible: PortalService.profileImage !== "" && profileImageLoader.status === Image.Error
+                        visible: PortalService.profileImage !== ""
+                                 && profileImageLoader.status === Image.Error
                     }
-
                 }
 
                 Rectangle {
@@ -224,8 +218,11 @@ Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 60
                     radius: Theme.cornerRadius
-                    color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.9)
-                    border.color: passwordField.activeFocus ? Theme.primary : Qt.rgba(1, 1, 1, 0.3)
+                    color: Qt.rgba(Theme.surfaceContainer.r,
+                                   Theme.surfaceContainer.g,
+                                   Theme.surfaceContainer.b, 0.9)
+                    border.color: passwordField.activeFocus ? Theme.primary : Qt.rgba(
+                                                                  1, 1, 1, 0.3)
                     border.width: passwordField.activeFocus ? 2 : 1
 
                     DankIcon {
@@ -251,25 +248,26 @@ Item {
                         echoMode: parent.showPassword ? TextInput.Normal : TextInput.Password
                         onTextChanged: {
                             if (!demoMode)
-                                root.passwordBuffer = text;
-
+                                root.passwordBuffer = text
                         }
                         onAccepted: {
-                            if (!demoMode && root.passwordBuffer.length > 0 && !pam.active) {
-                                console.log("Enter pressed, starting PAM authentication");
-                                pam.start();
+                            if (!demoMode && root.passwordBuffer.length > 0
+                                    && !pam.active) {
+                                console.log("Enter pressed, starting PAM authentication")
+                                pam.start()
                             }
                         }
-                        Keys.onPressed: (event) => {
-                            if (demoMode)
-                                return ;
+                        Keys.onPressed: event => {
+                                            if (demoMode)
+                                            return
 
-                            if (pam.active) {
-                                console.log("PAM is active, ignoring input");
-                                event.accepted = true;
-                                return ;
-                            }
-                        }
+                                            if (pam.active) {
+                                                console.log(
+                                                    "PAM is active, ignoring input")
+                                                event.accepted = true
+                                                return
+                                            }
+                                        }
 
                         Timer {
                             id: focusTimer
@@ -278,7 +276,6 @@ Item {
                             running: !demoMode
                             onTriggered: passwordField.forceActiveFocus()
                         }
-
                     }
 
                     StyledText {
@@ -293,26 +290,26 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         text: {
                             if (demoMode)
-                                return "";
+                                return ""
 
-                            if (root.unlocking)
-                                return "Unlocking...";
+                            if (LockScreenService.unlocking)
+                                return "Unlocking..."
 
                             if (pam.active)
-                                return "Authenticating...";
+                                return "Authenticating..."
 
-                            return "hunter2";
+                            return "Password..."
                         }
-                        color: root.unlocking ? Theme.primary : (pam.active ? Theme.primary : Theme.outline)
+                        color: LockScreenService.unlocking ? Theme.primary : (pam.active ? Theme.primary : Theme.outline)
                         font.pixelSize: Theme.fontSizeMedium
-                        opacity: (demoMode || root.passwordBuffer.length === 0) ? 1 : 0
+                        opacity: (demoMode
+                                  || root.passwordBuffer.length === 0) ? 1 : 0
 
                         Behavior on opacity {
                             NumberAnimation {
                                 duration: Theme.mediumDuration
                                 easing.type: Theme.standardEasing
                             }
-
                         }
 
                         Behavior on color {
@@ -320,9 +317,7 @@ Item {
                                 duration: Theme.shortDuration
                                 easing.type: Theme.standardEasing
                             }
-
                         }
-
                     }
 
                     StyledText {
@@ -333,15 +328,18 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         text: {
                             if (demoMode)
-                                return "••••••••";
+                                return "••••••••"
                             else if (parent.showPassword)
-                                return root.passwordBuffer;
+                                return root.passwordBuffer
                             else
-                                return "•".repeat(Math.min(root.passwordBuffer.length, 25));
+                                return "•".repeat(
+                                            Math.min(
+                                                root.passwordBuffer.length, 25))
                         }
                         color: Theme.surfaceText
                         font.pixelSize: parent.showPassword ? Theme.fontSizeMedium : Theme.fontSizeLarge
-                        opacity: (demoMode || root.passwordBuffer.length > 0) ? 1 : 0
+                        opacity: (demoMode
+                                  || root.passwordBuffer.length > 0) ? 1 : 0
                         elide: Text.ElideRight
 
                         Behavior on opacity {
@@ -349,9 +347,7 @@ Item {
                                 duration: Theme.mediumDuration
                                 easing.type: Theme.standardEasing
                             }
-
                         }
-
                     }
 
                     DankActionButton {
@@ -362,7 +358,8 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         iconName: parent.showPassword ? "visibility_off" : "visibility"
                         buttonSize: 32
-                        visible: !demoMode && root.passwordBuffer.length > 0 && !pam.active && !root.unlocking
+                        visible: !demoMode && root.passwordBuffer.length > 0
+                                 && !pam.active && !LockScreenService.unlocking
                         enabled: visible
                         onClicked: parent.showPassword = !parent.showPassword
                     }
@@ -377,17 +374,18 @@ Item {
                         height: 24
                         radius: 12
                         color: "transparent"
-                        visible: !demoMode && (pam.active || root.unlocking)
+                        visible: !demoMode && (pam.active
+                                               || LockScreenService.unlocking)
 
                         DankIcon {
                             anchors.centerIn: parent
                             name: "check_circle"
                             size: 20
                             color: Theme.primary
-                            visible: root.unlocking
+                            visible: LockScreenService.unlocking
 
                             SequentialAnimation on scale {
-                                running: root.unlocking
+                                running: LockScreenService.unlocking
 
                                 NumberAnimation {
                                     from: 0
@@ -404,14 +402,12 @@ Item {
                                     easing.type: Easing.BezierSpline
                                     easing.bezierCurve: Anims.emphasizedAccel
                                 }
-
                             }
-
                         }
 
                         Item {
                             anchors.fill: parent
-                            visible: pam.active && !root.unlocking
+                            visible: pam.active && !LockScreenService.unlocking
 
                             Rectangle {
                                 width: 20
@@ -419,7 +415,9 @@ Item {
                                 radius: 10
                                 anchors.centerIn: parent
                                 color: "transparent"
-                                border.color: Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3)
+                                border.color: Qt.rgba(Theme.primary.r,
+                                                      Theme.primary.g,
+                                                      Theme.primary.b, 0.3)
                                 border.width: 2
                             }
 
@@ -437,21 +435,22 @@ Item {
                                     height: parent.height / 2
                                     anchors.top: parent.top
                                     anchors.horizontalCenter: parent.horizontalCenter
-                                    color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.9)
+                                    color: Qt.rgba(Theme.surfaceContainer.r,
+                                                   Theme.surfaceContainer.g,
+                                                   Theme.surfaceContainer.b,
+                                                   0.9)
                                 }
 
                                 RotationAnimation on rotation {
-                                    running: pam.active && !root.unlocking
+                                    running: pam.active
+                                             && !LockScreenService.unlocking
                                     loops: Animation.Infinite
                                     duration: Anims.durLong
                                     from: 0
                                     to: 360
                                 }
-
                             }
-
                         }
-
                     }
 
                     DankActionButton {
@@ -462,12 +461,14 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         iconName: "keyboard_return"
                         buttonSize: 36
-                        visible: (demoMode || (root.passwordBuffer.length > 0 && !pam.active && !root.unlocking))
+                        visible: (demoMode || (root.passwordBuffer.length > 0
+                                               && !pam.active
+                                               && !LockScreenService.unlocking))
                         enabled: !demoMode
                         onClicked: {
                             if (!demoMode) {
-                                console.log("Enter button clicked, starting PAM authentication");
-                                pam.start();
+                                console.log("Enter button clicked, starting PAM authentication")
+                                pam.start()
                             }
                         }
 
@@ -476,9 +477,7 @@ Item {
                                 duration: Theme.shortDuration
                                 easing.type: Theme.standardEasing
                             }
-
                         }
-
                     }
 
                     Behavior on border.color {
@@ -486,40 +485,36 @@ Item {
                             duration: Theme.shortDuration
                             easing.type: Theme.standardEasing
                         }
-
                     }
-
                 }
-
             }
 
             StyledText {
                 Layout.fillWidth: true
-                Layout.preferredHeight: placeholder.pamState ? 20 : 0
+                Layout.preferredHeight: LockScreenService.pamState ? 20 : 0
                 text: {
-                    if (placeholder.pamState === "error")
-                        return "Authentication error - try again";
+                    if (LockScreenService.pamState === "error")
+                        return "Authentication error - try again"
 
-                    if (placeholder.pamState === "max")
-                        return "Too many attempts - locked out";
+                    if (LockScreenService.pamState === "max")
+                        return "Too many attempts - locked out"
 
-                    if (placeholder.pamState === "fail")
-                        return "Incorrect password - try again";
+                    if (LockScreenService.pamState === "fail")
+                        return "Incorrect password - try again"
 
-                    return "";
+                    return ""
                 }
                 color: Theme.error
                 font.pixelSize: Theme.fontSizeSmall
                 horizontalAlignment: Text.AlignHCenter
-                visible: placeholder.pamState !== ""
-                opacity: placeholder.pamState !== "" ? 1 : 0
+                visible: LockScreenService.pamState !== ""
+                opacity: LockScreenService.pamState !== "" ? 1 : 0
 
                 Behavior on opacity {
                     NumberAnimation {
                         duration: Theme.shortDuration
                         easing.type: Theme.standardEasing
                     }
-
                 }
 
                 Behavior on Layout.preferredHeight {
@@ -527,11 +522,8 @@ Item {
                         duration: Theme.shortDuration
                         easing.type: Theme.standardEasing
                     }
-
                 }
-
             }
-
         }
 
         StyledText {
@@ -545,25 +537,229 @@ Item {
             visible: demoMode
         }
 
-        StyledText {
+        // Status bar at top
+        Row {
             anchors.top: parent.top
             anchors.right: parent.right
             anchors.margins: Theme.spacingXL
-            text: WeatherService.weather.available && WeatherService.weather.city && WeatherService.weather.city !== "Unknown" ? `${WeatherService.weather.city} ${(SettingsData.useFahrenheit ? WeatherService.weather.tempF : WeatherService.weather.temp)}°${(SettingsData.useFahrenheit ? "F" : "C")}` : ""
-            font.pixelSize: Theme.fontSizeMedium
-            color: "white"
-            horizontalAlignment: Text.AlignRight
-            visible: text !== ""
-        }
+            spacing: Theme.spacingL
 
-        StyledText {
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
-            anchors.margins: Theme.spacingXL
-            text: BatteryService.batteryAvailable ? `Battery: ${BatteryService.batteryLevel}%` : ""
-            font.pixelSize: Theme.fontSizeMedium
-            color: "white"
-            visible: text !== ""
+            // Weather section
+            Row {
+                spacing: 6
+                visible: WeatherService.weather.available
+                anchors.verticalCenter: parent.verticalCenter
+
+                DankIcon {
+                    name: WeatherService.getWeatherIcon(
+                              WeatherService.weather.wCode)
+                    size: Theme.iconSize
+                    color: "white"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                StyledText {
+                    text: (SettingsData.useFahrenheit ? WeatherService.weather.tempF : WeatherService.weather.temp) + "°"
+                    font.pixelSize: Theme.fontSizeLarge
+                    font.weight: Font.Light
+                    color: "white"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            // Separator
+            Rectangle {
+                width: 1
+                height: 24
+                color: Qt.rgba(255, 255, 255, 0.2)
+                anchors.verticalCenter: parent.verticalCenter
+                visible: WeatherService.weather.available
+                         && (NetworkService.networkStatus !== "disconnected"
+                             || BluetoothService.enabled
+                             || (AudioService.sink && AudioService.sink.audio)
+                             || BatteryService.batteryAvailable)
+            }
+
+            // System status icons
+            Row {
+                spacing: Theme.spacingM
+                anchors.verticalCenter: parent.verticalCenter
+                visible: NetworkService.networkStatus !== "disconnected"
+                         || (BluetoothService.available
+                             && BluetoothService.enabled)
+                         || (AudioService.sink && AudioService.sink.audio)
+
+                // Network icon
+                DankIcon {
+                    name: {
+                        if (NetworkService.networkStatus === "ethernet") {
+                            return "lan"
+                        } else if (NetworkService.networkStatus === "wifi") {
+                            switch (NetworkService.wifiSignalStrengthStr) {
+                            case "excellent":
+                                return "wifi"
+                            case "good":
+                                return "wifi_2_bar"
+                            case "fair":
+                                return "wifi_1_bar"
+                            case "poor":
+                                return "signal_wifi_0_bar"
+                            default:
+                                return "wifi"
+                            }
+                        } else {
+                            return "wifi_off"
+                        }
+                    }
+                    size: Theme.iconSize - 2
+                    color: NetworkService.networkStatus
+                           !== "disconnected" ? "white" : Qt.rgba(255,
+                                                                  255, 255, 0.5)
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: NetworkService.networkStatus !== "disconnected"
+                }
+
+                // Bluetooth icon
+                DankIcon {
+                    name: "bluetooth"
+                    size: Theme.iconSize - 2
+                    color: "white"
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: BluetoothService.available
+                             && BluetoothService.enabled
+                }
+
+                // Volume icon
+                DankIcon {
+                    name: {
+                        if (AudioService.sink && AudioService.sink.audio) {
+                            if (AudioService.sink.audio.muted
+                                    || AudioService.sink.audio.volume === 0)
+                                return "volume_off"
+                            else if (AudioService.sink.audio.volume * 100 < 33)
+                                return "volume_down"
+                            else
+                                return "volume_up"
+                        }
+                        return "volume_up"
+                    }
+                    size: Theme.iconSize - 2
+                    color: (AudioService.sink && AudioService.sink.audio
+                            && (AudioService.sink.audio.muted
+                                || AudioService.sink.audio.volume
+                                === 0)) ? Qt.rgba(255, 255, 255, 0.5) : "white"
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: AudioService.sink && AudioService.sink.audio
+                }
+            }
+
+            // Separator
+            Rectangle {
+                width: 1
+                height: 24
+                color: Qt.rgba(255, 255, 255, 0.2)
+                anchors.verticalCenter: parent.verticalCenter
+                visible: BatteryService.batteryAvailable
+                         && (NetworkService.networkStatus !== "disconnected"
+                             || BluetoothService.enabled
+                             || (AudioService.sink && AudioService.sink.audio))
+            }
+
+            // Battery section
+            Row {
+                spacing: 4
+                visible: BatteryService.batteryAvailable
+                anchors.verticalCenter: parent.verticalCenter
+
+                DankIcon {
+                    name: {
+                        if (BatteryService.isCharging) {
+                            if (BatteryService.batteryLevel >= 90)
+                                return "battery_charging_full"
+
+                            if (BatteryService.batteryLevel >= 80)
+                                return "battery_charging_90"
+
+                            if (BatteryService.batteryLevel >= 60)
+                                return "battery_charging_80"
+
+                            if (BatteryService.batteryLevel >= 50)
+                                return "battery_charging_60"
+
+                            if (BatteryService.batteryLevel >= 30)
+                                return "battery_charging_50"
+
+                            if (BatteryService.batteryLevel >= 20)
+                                return "battery_charging_30"
+
+                            return "battery_charging_20"
+                        }
+                        // Check if plugged in but not charging (like at 80% charge limit)
+                        if (BatteryService.isPluggedIn) {
+                            if (BatteryService.batteryLevel >= 90)
+                                return "battery_charging_full"
+
+                            if (BatteryService.batteryLevel >= 80)
+                                return "battery_charging_90"
+
+                            if (BatteryService.batteryLevel >= 60)
+                                return "battery_charging_80"
+
+                            if (BatteryService.batteryLevel >= 50)
+                                return "battery_charging_60"
+
+                            if (BatteryService.batteryLevel >= 30)
+                                return "battery_charging_50"
+
+                            if (BatteryService.batteryLevel >= 20)
+                                return "battery_charging_30"
+
+                            return "battery_charging_20"
+                        }
+                        // On battery power
+                        if (BatteryService.batteryLevel >= 95)
+                            return "battery_full"
+
+                        if (BatteryService.batteryLevel >= 85)
+                            return "battery_6_bar"
+
+                        if (BatteryService.batteryLevel >= 70)
+                            return "battery_5_bar"
+
+                        if (BatteryService.batteryLevel >= 55)
+                            return "battery_4_bar"
+
+                        if (BatteryService.batteryLevel >= 40)
+                            return "battery_3_bar"
+
+                        if (BatteryService.batteryLevel >= 25)
+                            return "battery_2_bar"
+
+                        return "battery_1_bar"
+                    }
+                    size: Theme.iconSize
+                    color: {
+                        if (BatteryService.isLowBattery
+                                && !BatteryService.isCharging)
+                            return Theme.error
+
+                        if (BatteryService.isCharging
+                                || BatteryService.isPluggedIn)
+                            return Theme.primary
+
+                        return "white"
+                    }
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                StyledText {
+                    text: BatteryService.batteryLevel + "%"
+                    font.pixelSize: Theme.fontSizeLarge
+                    font.weight: Font.Light
+                    color: "white"
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
         }
 
         Row {
@@ -578,9 +774,9 @@ Item {
                 buttonSize: 40
                 onClicked: {
                     if (demoMode)
-                        console.log("Demo: Power");
+                        console.log("Demo: Power")
                     else
-                        powerDialog.open();
+                        LockScreenService.showPowerDialog()
                 }
             }
 
@@ -589,9 +785,9 @@ Item {
                 buttonSize: 40
                 onClicked: {
                     if (demoMode)
-                        console.log("Demo: Reboot");
+                        console.log("Demo: Reboot")
                     else
-                        rebootDialog.open();
+                        LockScreenService.showRebootDialog()
                 }
             }
 
@@ -600,12 +796,11 @@ Item {
                 buttonSize: 40
                 onClicked: {
                     if (demoMode)
-                        console.log("Demo: Logout");
+                        console.log("Demo: Logout")
                     else
-                        logoutDialog.open();
+                        LockScreenService.showLogoutDialog()
                 }
             }
-
         }
 
         StyledText {
@@ -613,15 +808,14 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.margins: Theme.spacingL
             width: Math.min(parent.width - Theme.spacingXL * 2, implicitWidth)
-            text: randomFact
+            text: LockScreenService.randomFact
             font.pixelSize: Theme.fontSizeSmall
             color: "white"
             opacity: 0.8
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.NoWrap
-            visible: randomFact !== ""
+            visible: LockScreenService.randomFact !== ""
         }
-
     }
 
     FileView {
@@ -637,44 +831,46 @@ Item {
         config: pamConfigWatcher.loaded ? "dankshell" : "login"
         onResponseRequiredChanged: {
             if (demoMode)
-                return ;
+                return
 
-            console.log("PAM response required:", responseRequired);
+            console.log("PAM response required:", responseRequired)
             if (!responseRequired)
-                return ;
+                return
 
-            console.log("Responding to PAM with password buffer length:", root.passwordBuffer.length);
-            respond(root.passwordBuffer);
+            console.log("Responding to PAM with password buffer length:",
+                        root.passwordBuffer.length)
+            respond(root.passwordBuffer)
         }
-        onCompleted: (res) => {
-            if (demoMode)
-                return ;
+        onCompleted: res => {
+                         if (demoMode)
+                         return
 
-            console.log("PAM authentication completed with result:", res);
-            if (res === PamResult.Success) {
-                console.log("Authentication successful, unlocking");
-                root.unlocking = true;
-                passwordField.text = "";
-                root.passwordBuffer = "";
-                root.unlockRequested();
-                return ;
-            }
-            console.log("Authentication failed:", res);
-            if (res === PamResult.Error)
-                placeholder.pamState = "error";
-            else if (res === PamResult.MaxTries)
-                placeholder.pamState = "max";
-            else if (res === PamResult.Failed)
-                placeholder.pamState = "fail";
-            placeholderDelay.restart();
-        }
+                         console.log(
+                             "PAM authentication completed with result:", res)
+                         if (res === PamResult.Success) {
+                             console.log("Authentication successful, unlocking")
+                             LockScreenService.setUnlocking(true)
+                             passwordField.text = ""
+                             root.passwordBuffer = ""
+                             root.unlockRequested()
+                             return
+                         }
+                         console.log("Authentication failed:", res)
+                         if (res === PamResult.Error)
+                         LockScreenService.setPamState("error")
+                         else if (res === PamResult.MaxTries)
+                         LockScreenService.setPamState("max")
+                         else if (res === PamResult.Failed)
+                         LockScreenService.setPamState("fail")
+                         placeholderDelay.restart()
+                     }
     }
 
     Timer {
         id: placeholderDelay
 
         interval: 4000
-        onTriggered: placeholder.pamState = ""
+        onTriggered: LockScreenService.setPamState("")
     }
 
     MouseArea {
@@ -687,16 +883,16 @@ Item {
         id: powerDialog
 
         function open() {
-            visible = true;
+            LockScreenService.showPowerDialog()
         }
 
         function close() {
-            visible = false;
+            LockScreenService.hidePowerDialog()
         }
 
         anchors.fill: parent
         color: Qt.rgba(0, 0, 0, 0.8)
-        visible: false
+        visible: LockScreenService.powerDialogVisible
         z: 1000
 
         Rectangle {
@@ -735,7 +931,11 @@ Item {
                         width: 100
                         height: 40
                         radius: Theme.cornerRadius
-                        color: cancelMouse1.pressed ? Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.7) : cancelMouse1.containsMouse ? Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.9) : Theme.surfaceVariant
+                        color: cancelMouse1.pressed ? Qt.rgba(
+                                                          Theme.surfaceVariant.r,
+                                                          Theme.surfaceVariant.g,
+                                                          Theme.surfaceVariant.b,
+                                                          0.7) : cancelMouse1.containsMouse ? Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.9) : Theme.surfaceVariant
 
                         StyledText {
                             anchors.centerIn: parent
@@ -752,14 +952,17 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             onClicked: powerDialog.close()
                         }
-
                     }
 
                     Rectangle {
                         width: 100
                         height: 40
                         radius: Theme.cornerRadius
-                        color: powerMouse.pressed ? Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 0.8) : powerMouse.containsMouse ? Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 1) : Theme.error
+                        color: powerMouse.pressed ? Qt.rgba(
+                                                        Theme.error.r,
+                                                        Theme.error.g,
+                                                        Theme.error.b,
+                                                        0.8) : powerMouse.containsMouse ? Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 1) : Theme.error
 
                         StyledText {
                             anchors.centerIn: parent
@@ -776,35 +979,31 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                powerDialog.close();
-                                Quickshell.execDetached(["systemctl", "poweroff"]);
+                                powerDialog.close()
+                                Quickshell.execDetached(
+                                            ["systemctl", "poweroff"])
                             }
                         }
-
                     }
-
                 }
-
             }
-
         }
-
     }
 
     Rectangle {
         id: rebootDialog
 
         function open() {
-            visible = true;
+            LockScreenService.showRebootDialog()
         }
 
         function close() {
-            visible = false;
+            LockScreenService.hideRebootDialog()
         }
 
         anchors.fill: parent
         color: Qt.rgba(0, 0, 0, 0.8)
-        visible: false
+        visible: LockScreenService.rebootDialogVisible
         z: 1000
 
         Rectangle {
@@ -843,7 +1042,11 @@ Item {
                         width: 100
                         height: 40
                         radius: Theme.cornerRadius
-                        color: cancelMouse2.pressed ? Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.7) : cancelMouse2.containsMouse ? Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.9) : Theme.surfaceVariant
+                        color: cancelMouse2.pressed ? Qt.rgba(
+                                                          Theme.surfaceVariant.r,
+                                                          Theme.surfaceVariant.g,
+                                                          Theme.surfaceVariant.b,
+                                                          0.7) : cancelMouse2.containsMouse ? Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.9) : Theme.surfaceVariant
 
                         StyledText {
                             anchors.centerIn: parent
@@ -860,14 +1063,17 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             onClicked: rebootDialog.close()
                         }
-
                     }
 
                     Rectangle {
                         width: 100
                         height: 40
                         radius: Theme.cornerRadius
-                        color: rebootMouse.pressed ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.8) : rebootMouse.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 1) : Theme.primary
+                        color: rebootMouse.pressed ? Qt.rgba(
+                                                         Theme.primary.r,
+                                                         Theme.primary.g,
+                                                         Theme.primary.b,
+                                                         0.8) : rebootMouse.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 1) : Theme.primary
 
                         StyledText {
                             anchors.centerIn: parent
@@ -884,35 +1090,30 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                rebootDialog.close();
-                                Quickshell.execDetached(["systemctl", "reboot"]);
+                                rebootDialog.close()
+                                Quickshell.execDetached(["systemctl", "reboot"])
                             }
                         }
-
                     }
-
                 }
-
             }
-
         }
-
     }
 
     Rectangle {
         id: logoutDialog
 
         function open() {
-            visible = true;
+            LockScreenService.showLogoutDialog()
         }
 
         function close() {
-            visible = false;
+            LockScreenService.hideLogoutDialog()
         }
 
         anchors.fill: parent
         color: Qt.rgba(0, 0, 0, 0.8)
-        visible: false
+        visible: LockScreenService.logoutDialogVisible
         z: 1000
 
         Rectangle {
@@ -951,7 +1152,11 @@ Item {
                         width: 100
                         height: 40
                         radius: Theme.cornerRadius
-                        color: cancelMouse3.pressed ? Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.7) : cancelMouse3.containsMouse ? Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.9) : Theme.surfaceVariant
+                        color: cancelMouse3.pressed ? Qt.rgba(
+                                                          Theme.surfaceVariant.r,
+                                                          Theme.surfaceVariant.g,
+                                                          Theme.surfaceVariant.b,
+                                                          0.7) : cancelMouse3.containsMouse ? Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.9) : Theme.surfaceVariant
 
                         StyledText {
                             anchors.centerIn: parent
@@ -968,14 +1173,17 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             onClicked: logoutDialog.close()
                         }
-
                     }
 
                     Rectangle {
                         width: 100
                         height: 40
                         radius: Theme.cornerRadius
-                        color: logoutMouse.pressed ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.8) : logoutMouse.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 1) : Theme.primary
+                        color: logoutMouse.pressed ? Qt.rgba(
+                                                         Theme.primary.r,
+                                                         Theme.primary.g,
+                                                         Theme.primary.b,
+                                                         0.8) : logoutMouse.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 1) : Theme.primary
 
                         StyledText {
                             anchors.centerIn: parent
@@ -992,19 +1200,13 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                logoutDialog.close();
-                                NiriService.quit();
+                                logoutDialog.close()
+                                NiriService.quit()
                             }
                         }
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }

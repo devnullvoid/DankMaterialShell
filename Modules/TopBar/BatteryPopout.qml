@@ -76,9 +76,6 @@ PanelWindow {
     readonly property real screenHeight: root.screen ? root.screen.height : Screen.height
     readonly property real targetWidth: Math.min(
                                           380, screenWidth - Theme.spacingL * 2)
-    readonly property real targetHeight: Math.min(
-                                           450,
-                                           screenHeight - Theme.barHeight - Theme.spacingS * 2)
     readonly property real calculatedX: {
       var centerX = root.triggerX + (root.triggerWidth / 2) - (targetWidth / 2)
 
@@ -101,7 +98,7 @@ PanelWindow {
     asynchronous: true
     active: batteryPopupVisible
     width: targetWidth
-    height: targetHeight
+    height: item ? item.implicitHeight : 0
     x: calculatedX
     y: root.triggerY
     opacity: batteryPopupVisible ? 1 : 0
@@ -124,6 +121,7 @@ PanelWindow {
     }
 
     sourceComponent: Rectangle {
+      implicitHeight: contentColumn.height + Theme.spacingL * 2
       color: Theme.popupBackground()
       radius: Theme.cornerRadius
       border.color: Theme.outlineMedium
@@ -181,17 +179,17 @@ PanelWindow {
         z: -1
       }
 
-      ScrollView {
-        anchors.fill: parent
+      Column {
+        id: contentColumn
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
         anchors.margins: Theme.spacingL
-        clip: true
+        spacing: Theme.spacingL
 
-        Column {
-          width: parent.width
-          spacing: Theme.spacingL
-
-          Row {
+          Item {
             width: parent.width
+            height: 32
 
             StyledText {
               text: BatteryService.batteryAvailable ? "Battery Information" : "Power Management"
@@ -201,16 +199,13 @@ PanelWindow {
               anchors.verticalCenter: parent.verticalCenter
             }
 
-            Item {
-              width: parent.width - 200
-              height: 1
-            }
-
             Rectangle {
               width: 32
               height: 32
               radius: 16
               color: closeBatteryArea.containsMouse ? Theme.errorHover : "transparent"
+              anchors.right: parent.right
+              anchors.verticalCenter: parent.verticalCenter
 
               DankIcon {
                 anchors.centerIn: parent
@@ -601,7 +596,6 @@ PanelWindow {
               }
             }
           }
-        }
       }
     }
   }

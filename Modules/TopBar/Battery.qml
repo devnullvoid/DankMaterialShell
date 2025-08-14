@@ -27,7 +27,7 @@ Rectangle {
 
   Row {
     anchors.centerIn: parent
-    spacing: 4
+    spacing: 2
 
     DankIcon {
       name: {
