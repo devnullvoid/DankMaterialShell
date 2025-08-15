@@ -15,18 +15,20 @@ Rectangle {
   property string lastValidArtist: ""
   property string lastValidAlbum: ""
   property string lastValidArtUrl: ""
-  property real currentPosition: 0
+  property real currentPosition: activePlayer && activePlayer.positionSupported ? activePlayer.position : 0
 
   function ratio() {
-    return activePlayer
-        && activePlayer.length > 0 ? currentPosition / activePlayer.length : 0
+    if (!activePlayer || activePlayer.length <= 0) {
+      return 0
+    }
+    let calculatedRatio = currentPosition / activePlayer.length
+    return Math.max(0, Math.min(1, calculatedRatio))
   }
 
   onActivePlayerChanged: {
-    if (!activePlayer)
-      updateTimer.start()
-    else
-      updateTimer.stop()
+    if (activePlayer && activePlayer.positionSupported) {
+      activePlayer.positionChanged()
+    }
   }
   width: parent.width
   height: parent.height
@@ -38,42 +40,39 @@ Rectangle {
   layer.enabled: true
 
   Timer {
-    id: updateTimer
+    id: positionTimer
 
-    interval: 2000
-    running: {
-      return (!activePlayer)
-          || (activePlayer
-              && activePlayer.playbackState === MprisPlaybackState.Playing
-              && activePlayer.length > 0 && !progressMouseArea.isSeeking)
-    }
+    interval: 500
+    running: activePlayer && activePlayer.playbackState === MprisPlaybackState.Playing
+             && !progressMouseArea.isSeeking
     repeat: true
     onTriggered: {
-      if (!activePlayer) {
-        lastValidTitle = ""
-        lastValidArtist = ""
-        lastValidAlbum = ""
-        lastValidArtUrl = ""
-        stop() // Stop after clearing cache
-      } else if (activePlayer.playbackState === MprisPlaybackState.Playing
-                 && !progressMouseArea.isSeeking) {
-        currentPosition = activePlayer.position
+      if (activePlayer && activePlayer.positionSupported) {
+        activePlayer.positionChanged()
       }
     }
   }
 
+  Timer {
+    id: cleanupTimer
+
+    interval: 2000
+    running: !activePlayer
+    onTriggered: {
+      lastValidTitle = ""
+      lastValidArtist = ""
+      lastValidAlbum = ""
+      lastValidArtUrl = ""
+      currentPosition = 0
+      stop()
+    }
+  }
+
   Connections {
-    function onPositionChanged() {
-      if (!progressMouseArea.isSeeking)
-        currentPosition = activePlayer.position
-    }
-
-    function onPostTrackChanged() {
-      currentPosition = activePlayer && activePlayer.position || 0
-    }
-
-    function onTrackTitleChanged() {
-      currentPosition = activePlayer && activePlayer.position || 0
+    function onTrackChanged() {
+      if (activePlayer && activePlayer.positionSupported) {
+        activePlayer.positionChanged()
+      }
     }
 
     target: activePlayer
@@ -238,7 +237,7 @@ Rectangle {
             height: parent.height
             radius: parent.radius
             color: Theme.primary
-            width: parent.width * ratio()
+            width: Math.max(0, Math.min(parent.width, parent.width * ratio()))
 
             Behavior on width {
               NumberAnimation {
@@ -284,12 +283,11 @@ Rectangle {
           preventStealing: true
           onPressed: function (mouse) {
             isSeeking = true
-            if (activePlayer && activePlayer.length > 0) {
+            if (activePlayer && activePlayer.length > 0 && activePlayer.canSeek) {
               let ratio = Math.max(0, Math.min(
                                      1, mouse.x / progressBarBackground.width))
               let seekPosition = ratio * activePlayer.length
               activePlayer.position = seekPosition
-              currentPosition = seekPosition
             }
           }
           onReleased: {
@@ -297,21 +295,19 @@ Rectangle {
           }
           onPositionChanged: function (mouse) {
             if (pressed && isSeeking && activePlayer
-                && activePlayer.length > 0) {
+                && activePlayer.length > 0 && activePlayer.canSeek) {
               let ratio = Math.max(0, Math.min(
                                      1, mouse.x / progressBarBackground.width))
               let seekPosition = ratio * activePlayer.length
               activePlayer.position = seekPosition
-              currentPosition = seekPosition
             }
           }
           onClicked: function (mouse) {
-            if (activePlayer && activePlayer.length > 0) {
+            if (activePlayer && activePlayer.length > 0 && activePlayer.canSeek) {
               let ratio = Math.max(0, Math.min(
                                      1, mouse.x / progressBarBackground.width))
               let seekPosition = ratio * activePlayer.length
               activePlayer.position = seekPosition
-              currentPosition = seekPosition
             }
           }
         }
@@ -328,13 +324,12 @@ Rectangle {
           preventStealing: true
           onPositionChanged: function (mouse) {
             if (progressMouseArea.isSeeking && activePlayer
-                && activePlayer.length > 0) {
+                && activePlayer.length > 0 && activePlayer.canSeek) {
               let globalPos = mapToItem(progressBarBackground, mouse.x, mouse.y)
               let ratio = Math.max(
                     0, Math.min(1, globalPos.x / progressBarBackground.width))
               let seekPosition = ratio * activePlayer.length
               activePlayer.position = seekPosition
-              currentPosition = seekPosition
             }
           }
           onReleased: {
@@ -379,9 +374,8 @@ Rectangle {
                 if (!activePlayer)
                   return
 
-                if (currentPosition > 8 && activePlayer.canSeek) {
+                if (activePlayer.position > 8 && activePlayer.canSeek) {
                   activePlayer.position = 0
-                  currentPosition = 0
                 } else {
                   activePlayer.previous()
                 }

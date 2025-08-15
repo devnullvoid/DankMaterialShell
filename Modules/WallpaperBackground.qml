@@ -104,13 +104,21 @@ LazyLoader {
           fillMode: Image.PreserveAspectCrop
           smooth: true
           asynchronous: true
-          cache: true
+          cache: false
+          sourceSize.width: parent.width
+          sourceSize.height: parent.height
 
           opacity: 0
 
           onStatusChanged: {
-            if (status === Image.Ready)
+            if (status === Image.Ready) {
               root.current = this
+              if (root.current === one && two.source) {
+                two.source = ""
+              } else if (root.current === two && one.source) {
+                one.source = ""
+              }
+            }
           }
 
           states: State {

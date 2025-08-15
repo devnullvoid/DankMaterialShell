@@ -3,6 +3,7 @@
 <div align=center>
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/AvengeMedia/DankMaterialShell?style=for-the-badge&labelColor=101418&color=9ccbfb)
+![GitHub stars](https://img.shields.io/github/stars/AvengeMedia/DankMaterialShell?style=for-the-badge&labelColor=101418&color=ffd700)
 ![GitHub License](https://img.shields.io/github/license/AvengeMedia/DankMaterialShell?style=for-the-badge&labelColor=101418&color=b9c8da)
 ![GitHub repo size](https://img.shields.io/github/repo-size/AvengeMedia/DankMaterialShell?style=for-the-badge&labelColor=101418&color=d3bfe6)
 
@@ -13,14 +14,22 @@ A modern Wayland desktop shell built with [Quickshell](https://quickshell.org/) 
 ## Screenshots
 
 <div align="center">
-<img src="https://github.com/user-attachments/assets/203a9678-c3b7-4720-bb97-853a511ac5c8" width="600" alt="DankMaterialShell Desktop" />
+<div style="max-width: 700px; margin: 0 auto;">
+
+https://github.com/user-attachments/assets/5ad934bb-e7aa-4c04-8d40-149181bd2d29
+
+</div>
 </div>
 
-<details><summary><strong>View More</strong></summary>
+<details><summary><strong>View More Screenshots</strong></summary>
 
 <br>
 
 <div align="center">
+
+### Desktop Overview
+
+<img src="https://github.com/user-attachments/assets/203a9678-c3b7-4720-bb97-853a511ac5c8" width="600" alt="DankMaterialShell Desktop" />
 
 ### Application Launcher
 

@@ -391,6 +391,7 @@ Item {
                                 font.pixelSize: Theme.fontSizeLarge
                                 color: Theme.surfaceText
                                 elide: Text.ElideMiddle
+                                maximumLineCount: 1
                                 width: parent.width
                             }
 
@@ -399,6 +400,7 @@ Item {
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.surfaceVariantText
                                 elide: Text.ElideMiddle
+                                maximumLineCount: 1
                                 width: parent.width
                                 visible: SessionData.wallpaperPath !== ""
                             }
@@ -524,7 +526,8 @@ Item {
                                             text: "Automatically cycle through wallpapers in the same folder"
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.surfaceVariantText
-                                            wrapMode: Text.WordWrap
+                                            elide: Text.ElideRight
+                                            maximumLineCount: 1
                                             width: parent.width
                                         }
 

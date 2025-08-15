@@ -14,9 +14,17 @@ DankModal {
     
     width: 500
     height: 700
-    visible: notificationModalOpen
+    visible: false
     keyboardFocus: "ondemand"
     onBackgroundClicked: hide()
+    onDialogClosed: {
+        notificationModalOpen = false
+        modalKeyboardController.reset()
+    }
+    
+    modalFocusScope.Keys.onPressed: function(event) {
+        modalKeyboardController.handleKey(event)
+    }
     
     NotificationKeyboardController {
         id: modalKeyboardController
@@ -32,6 +40,7 @@ DankModal {
 
     function show() {
         notificationModalOpen = true
+        visible = true
         modalKeyboardController.reset()
         
         if (modalKeyboardController && notificationListRef) {
@@ -42,6 +51,7 @@ DankModal {
 
     function hide() {
         notificationModalOpen = false
+        visible = false
         modalKeyboardController.reset()
     }
 
@@ -73,19 +83,10 @@ DankModal {
     }
 
     property Component notificationContent: Component {
-        FocusScope {
+        Item {
             id: notificationKeyHandler
 
             anchors.fill: parent
-            focus: true
-            
-            Keys.onPressed: function(event) {
-                modalKeyboardController.handleKey(event)
-            }
-            
-            Component.onCompleted: {
-                forceActiveFocus()
-            }
 
             Column {
                 anchors.fill: parent
@@ -127,27 +128,6 @@ DankModal {
                 anchors.right: parent.right
                 anchors.margins: Theme.spacingL
                 showHints: modalKeyboardController.showKeyboardHints
-            }
-
-            Connections {
-                function onNotificationModalOpenChanged() {
-                    if (notificationModal.notificationModalOpen) {
-                        Qt.callLater(function () {
-                            notificationKeyHandler.forceActiveFocus()
-                        })
-                    }
-                }
-                target: notificationModal
-            }
-
-
-            Connections {
-                function onOpened() {
-                    Qt.callLater(function () {
-                        notificationKeyHandler.forceActiveFocus()
-                    })
-                }
-                target: notificationModal
             }
 
         }
