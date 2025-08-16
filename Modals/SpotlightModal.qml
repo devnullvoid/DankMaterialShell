@@ -223,7 +223,6 @@ DankModal {
 
                         signal keyboardNavigationReset()
                         signal itemClicked(int index, var modelData)
-                        signal itemHovered(int index)
                         signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
 
                         function ensureVisible(index) {
@@ -256,9 +255,6 @@ DankModal {
                         }
                         onItemClicked: function(index, modelData) {
                             appLauncher.launchApp(modelData);
-                        }
-                        onItemHovered: function(index) {
-                            appLauncher.selectedIndex = index;
                         }
                         onItemRightClicked: function(index, modelData, mouseX, mouseY) {
                             contextMenu.show(mouseX, mouseY, modelData);
@@ -361,8 +357,6 @@ DankModal {
                                 onEntered: {
                                     if (resultsList.hoverUpdatesSelection && !resultsList.keyboardNavigationActive)
                                         resultsList.currentIndex = index;
-
-                                    resultsList.itemHovered(index);
                                 }
                                 onPositionChanged: {
                                     resultsList.keyboardNavigationReset();
@@ -402,7 +396,6 @@ DankModal {
 
                         signal keyboardNavigationReset()
                         signal itemClicked(int index, var modelData)
-                        signal itemHovered(int index)
                         signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
 
                         function ensureVisible(index) {
@@ -437,9 +430,6 @@ DankModal {
                         }
                         onItemClicked: function(index, modelData) {
                             appLauncher.launchApp(modelData);
-                        }
-                        onItemHovered: function(index) {
-                            appLauncher.selectedIndex = index;
                         }
                         onItemRightClicked: function(index, modelData, mouseX, mouseY) {
                             contextMenu.show(mouseX, mouseY, modelData);
@@ -531,8 +521,6 @@ DankModal {
                                 onEntered: {
                                     if (resultsGrid.hoverUpdatesSelection && !resultsGrid.keyboardNavigationActive)
                                         resultsGrid.currentIndex = index;
-
-                                    resultsGrid.itemHovered(index);
                                 }
                                 onPositionChanged: {
                                     resultsGrid.keyboardNavigationReset();

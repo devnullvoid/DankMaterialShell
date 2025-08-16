@@ -47,6 +47,26 @@ PanelWindow {
         
         // Configure GPU temperature monitoring based on widget configuration
         updateGpuTempConfig()
+        
+        // Force widget initialization after brief delay to ensure services are loaded
+        Qt.callLater(() => {
+            Qt.callLater(() => {
+                forceWidgetRefresh()
+            })
+        })
+    }
+    
+    function forceWidgetRefresh() {
+        // Force reload of all widget sections to handle race condition on desktop hardware
+        if (leftSection) leftSection.visible = false
+        if (centerSection) centerSection.visible = false  
+        if (rightSection) rightSection.visible = false
+        
+        Qt.callLater(() => {
+            if (leftSection) leftSection.visible = true
+            if (centerSection) centerSection.visible = true
+            if (rightSection) rightSection.visible = true
+        })
     }
     
     function updateGpuTempConfig() {
@@ -292,6 +312,8 @@ PanelWindow {
                             return true
                         case "controlCenterButton":
                             return true
+                        case "idleInhibitor":
+                            return true
                         case "spacer":
                             return true
                         case "separator":
@@ -335,6 +357,8 @@ PanelWindow {
                             return batteryComponent
                         case "controlCenterButton":
                             return controlCenterButtonComponent
+                        case "idleInhibitor":
+                            return idleInhibitorComponent
                         case "spacer":
                             return spacerComponent
                         case "separator":
@@ -371,7 +395,7 @@ PanelWindow {
                                 active: topBarContent.getWidgetVisible(model.widgetId)
                                 sourceComponent: topBarContent.getWidgetComponent(model.widgetId)
                                 opacity: topBarContent.getWidgetEnabled(model.enabled) ? 1 : 0
-                                asynchronous: true
+                                asynchronous: false
                             }
                         }
                     }
@@ -492,7 +516,7 @@ PanelWindow {
                                 active: topBarContent.getWidgetVisible(model.widgetId)
                                 sourceComponent: topBarContent.getWidgetComponent(model.widgetId)
                                 opacity: topBarContent.getWidgetEnabled(model.enabled) ? 1 : 0
-                                asynchronous: true
+                                asynchronous: false
                                 
                                 onLoaded: {
                                     if (item) {
@@ -539,7 +563,7 @@ PanelWindow {
                                 active: topBarContent.getWidgetVisible(model.widgetId)
                                 sourceComponent: topBarContent.getWidgetComponent(model.widgetId)
                                 opacity: topBarContent.getWidgetEnabled(model.enabled) ? 1 : 0
-                                asynchronous: true
+                                asynchronous: false
                             }
                         }
                     }
@@ -930,6 +954,23 @@ PanelWindow {
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    Component {
+                        id: idleInhibitorComponent
+
+                        IdleInhibitor {
+                            section: {
+                                if (parent && parent.parent === leftSection)
+                                    return "left"
+                                if (parent && parent.parent === rightSection)
+                                    return "right"
+                                if (parent && parent.parent === centerSection)
+                                    return "center"
+                                return "right"
+                            }
+                            parentScreen: root.screen
                         }
                     }
 

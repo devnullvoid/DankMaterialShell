@@ -55,6 +55,46 @@ Rectangle {
       width: parent.width
       height: 60
 
+      DankIcon {
+        id: refreshButton
+        name: "refresh"
+        size: Theme.iconSize - 6
+        color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.3)
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.rightMargin: -Theme.spacingS
+        anchors.topMargin: -Theme.spacingS
+        
+        property bool isRefreshing: false
+        enabled: !isRefreshing
+        
+        MouseArea {
+          anchors.fill: parent
+          hoverEnabled: true
+          cursorShape: parent.enabled ? Qt.PointingHandCursor : Qt.ForbiddenCursor
+          onClicked: {
+            refreshButton.isRefreshing = true
+            WeatherService.forceRefresh()
+            refreshTimer.restart()
+          }
+          enabled: parent.enabled
+        }
+        
+        Timer {
+          id: refreshTimer
+          interval: 2000
+          onTriggered: refreshButton.isRefreshing = false
+        }
+        
+        NumberAnimation on rotation {
+          running: refreshButton.isRefreshing
+          from: 0
+          to: 360
+          duration: 1000
+          loops: Animation.Infinite
+        }
+      }
+
       Row {
         anchors.centerIn: parent
         spacing: Theme.spacingL

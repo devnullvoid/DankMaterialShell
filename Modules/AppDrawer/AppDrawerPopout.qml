@@ -23,6 +23,9 @@ PanelWindow {
   function show() {
     appDrawerPopout.isVisible = true
     appLauncher.searchQuery = ""
+    appLauncher.selectedIndex = 0
+    appLauncher.setCategory("All")
+    appLauncher.keyboardNavigationActive = false
   }
 
   function hide() {
@@ -411,7 +414,6 @@ PanelWindow {
 
               signal keyboardNavigationReset
               signal itemClicked(int index, var modelData)
-              signal itemHovered(int index)
               signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
 
               function ensureVisible(index) {
@@ -445,9 +447,6 @@ PanelWindow {
 
               onItemClicked: function (index, modelData) {
                 appLauncher.launchApp(modelData)
-              }
-              onItemHovered: function (index) {
-                appLauncher.selectedIndex = index
               }
               onItemRightClicked: function (index, modelData, mouseX, mouseY) {
                 contextMenu.show(mouseX, mouseY, modelData)
@@ -553,8 +552,6 @@ PanelWindow {
                     if (appList.hoverUpdatesSelection
                         && !appList.keyboardNavigationActive)
                       appList.currentIndex = index
-
-                    appList.itemHovered(index)
                   }
                   onPositionChanged: {
                     appList.keyboardNavigationReset()
@@ -599,7 +596,6 @@ PanelWindow {
 
               signal keyboardNavigationReset
               signal itemClicked(int index, var modelData)
-              signal itemHovered(int index)
               signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
 
               function ensureVisible(index) {
@@ -635,9 +631,6 @@ PanelWindow {
 
               onItemClicked: function (index, modelData) {
                 appLauncher.launchApp(modelData)
-              }
-              onItemHovered: function (index) {
-                appLauncher.selectedIndex = index
               }
               onItemRightClicked: function (index, modelData, mouseX, mouseY) {
                 contextMenu.show(mouseX, mouseY, modelData)
@@ -736,8 +729,6 @@ PanelWindow {
                     if (appGrid.hoverUpdatesSelection
                         && !appGrid.keyboardNavigationActive)
                       appGrid.currentIndex = index
-
-                    appGrid.itemHovered(index)
                   }
                   onPositionChanged: {
                     appGrid.keyboardNavigationReset()

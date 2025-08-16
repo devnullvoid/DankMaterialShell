@@ -29,7 +29,7 @@ Singleton {
       root.focusedAppName = getDisplayName(focusedWindow.app_id || "")
       root.focusedWindowId = parseInt(focusedWindow.id) || -1
     } else {
-      clearFocusedWindow()
+      setWorkspaceFallback()
     }
   }
 
@@ -37,9 +37,29 @@ Singleton {
     root.focusedAppId = ""
     root.focusedAppName = ""
     root.focusedWindowTitle = ""
+    root.focusedWindowId = -1
+  }
+  
+  function setWorkspaceFallback() {
+    if (NiriService.focusedWorkspaceIndex >= 0 && NiriService.allWorkspaces.length > 0) {
+      const workspace = NiriService.allWorkspaces[NiriService.focusedWorkspaceIndex]
+      if (workspace) {
+        root.focusedAppId = "niri"
+        root.focusedAppName = "niri"
+        if (workspace.name && workspace.name.length > 0) {
+          root.focusedWindowTitle = workspace.name
+        } else {
+          root.focusedWindowTitle = "workspace " + workspace.idx
+        }
+        root.focusedWindowId = -1
+      } else {
+        clearFocusedWindow()
+      }
+    } else {
+      clearFocusedWindow()
+    }
   }
 
-  // Convert app_id to a more user-friendly display name
   function getDisplayName(appId) {
     if (!appId)
       return ""
@@ -62,7 +82,7 @@ Singleton {
     function onFocusedWindowIdChanged() {
       const focusedWindowId = NiriService.focusedWindowId
       if (!focusedWindowId) {
-        clearFocusedWindow()
+        setWorkspaceFallback()
         return
       }
 
@@ -74,7 +94,7 @@ Singleton {
         root.focusedAppName = getDisplayName(focusedWindow.app_id || "")
         root.focusedWindowId = parseInt(focusedWindow.id) || -1
       } else {
-        clearFocusedWindow()
+        setWorkspaceFallback()
       }
     }
 

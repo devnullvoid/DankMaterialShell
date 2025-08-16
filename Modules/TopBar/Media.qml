@@ -184,8 +184,9 @@ Rectangle {
 
         MouseArea {
           anchors.fill: parent
-          hoverEnabled: true
-          cursorShape: Qt.PointingHandCursor
+          enabled: root.playerAvailable && root.opacity > 0 && root.width > 0 && textContainer.visible
+          hoverEnabled: enabled
+          cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
           onClicked: {
             if (root.popupTarget && root.popupTarget.setTriggerPosition) {
               var globalPos = mapToGlobal(0, 0)
@@ -226,8 +227,9 @@ Rectangle {
           id: prevArea
 
           anchors.fill: parent
-          hoverEnabled: true
-          cursorShape: Qt.PointingHandCursor
+          enabled: root.playerAvailable && root.width > 0
+          hoverEnabled: enabled
+          cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
           onClicked: {
             if (activePlayer)
               activePlayer.previous()
@@ -256,8 +258,9 @@ Rectangle {
 
         MouseArea {
           anchors.fill: parent
-          hoverEnabled: true
-          cursorShape: Qt.PointingHandCursor
+          enabled: root.playerAvailable && root.width > 0
+          hoverEnabled: enabled
+          cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
           onClicked: {
             if (activePlayer)
               activePlayer.togglePlaying()
@@ -285,8 +288,9 @@ Rectangle {
           id: nextArea
 
           anchors.fill: parent
-          hoverEnabled: true
-          cursorShape: Qt.PointingHandCursor
+          enabled: root.playerAvailable && root.width > 0
+          hoverEnabled: enabled
+          cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
           onClicked: {
             if (activePlayer)
               activePlayer.next()
