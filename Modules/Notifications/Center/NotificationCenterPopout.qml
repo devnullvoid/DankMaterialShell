@@ -14,7 +14,7 @@ PanelWindow {
 
   property bool notificationHistoryVisible: false
   property real triggerX: Screen.width - 400 - Theme.spacingL
-  property real triggerY: Theme.barHeight + Theme.spacingXS
+  property real triggerY: Theme.barHeight - 4 + SettingsData.topBarSpacing + Theme.spacingXS
   property real triggerWidth: 40
   property string triggerSection: "right"
   

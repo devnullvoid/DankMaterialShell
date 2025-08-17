@@ -73,7 +73,7 @@ PanelWindow {
   color: "transparent"
   implicitWidth: 400
   implicitHeight: 122
-  onScreenYChanged: margins.top = Theme.barHeight + 4 + screenY
+  onScreenYChanged: margins.top = Theme.barHeight - 4 + SettingsData.topBarSpacing + 4 + screenY
   onHasValidDataChanged: {
     if (!hasValidData && !exiting && !_isDestroying) {
 
@@ -116,7 +116,7 @@ PanelWindow {
   }
 
   margins {
-    top: Theme.barHeight + 4
+    top: Theme.barHeight - 4 + SettingsData.topBarSpacing + 4
     right: 12
   }
 

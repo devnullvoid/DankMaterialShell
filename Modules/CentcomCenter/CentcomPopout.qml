@@ -15,7 +15,7 @@ PanelWindow {
   readonly property bool hasActiveMedia: MprisController.activePlayer !== null
   property bool calendarVisible: false
   property real triggerX: (Screen.width - 480) / 2
-  property real triggerY: Theme.barHeight + 4
+  property real triggerY: Theme.barHeight - 4 + SettingsData.topBarSpacing + 4
   property real triggerWidth: 80
   property string triggerSection: "center"
   property var triggerScreen: null

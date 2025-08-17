@@ -24,7 +24,7 @@ PanelWindow {
     property bool reveal: !autoHide || topBarMouseArea.containsMouse
 
     screen: modelData
-    implicitHeight: Theme.barHeight - 4
+    implicitHeight: Theme.barHeight - 4 + SettingsData.topBarSpacing
     color: "transparent"
     Component.onCompleted: {
         let fonts = Qt.fontFamilies()
@@ -139,7 +139,7 @@ PanelWindow {
         right: true
     }
 
-    exclusiveZone: autoHide ? -1 : Theme.barHeight - 4
+    exclusiveZone: autoHide ? -1 : Theme.barHeight - 4 + SettingsData.topBarSpacing
 
     mask: Region {
         item: topBarMouseArea
@@ -147,7 +147,7 @@ PanelWindow {
 
     MouseArea {
         id: topBarMouseArea
-        height: root.reveal ? Theme.barHeight - 4 : 4
+        height: root.reveal ? Theme.barHeight - 4 + SettingsData.topBarSpacing : 4
         anchors {
             top: parent.top
             left: parent.left
@@ -180,15 +180,14 @@ PanelWindow {
 
             Item {
                 anchors.fill: parent
-                anchors.margins: 2
-                anchors.topMargin: 6
+                anchors.topMargin: SettingsData.topBarSpacing
                 anchors.bottomMargin: 0
-                anchors.leftMargin: 8
-                anchors.rightMargin: 8
+                anchors.leftMargin: SettingsData.topBarSpacing
+                anchors.rightMargin: SettingsData.topBarSpacing
 
                 Rectangle {
                     anchors.fill: parent
-                    radius: Theme.cornerRadius
+                    radius: SettingsData.topBarSquareCorners ? 0 : Theme.cornerRadius
                     color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g,
                                    Theme.surfaceContainer.b, root.backgroundTransparency)
                     layer.enabled: true

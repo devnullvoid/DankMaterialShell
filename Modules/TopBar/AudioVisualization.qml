@@ -14,8 +14,13 @@ Item {
   width: 20
   height: Theme.iconSize
 
-  Ref {
-    service: CavaService
+  Loader {
+    active: isPlaying
+    sourceComponent: Component {
+      Ref {
+        service: CavaService
+      }
+    }
   }
 
   Timer {

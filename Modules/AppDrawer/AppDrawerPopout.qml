@@ -15,7 +15,7 @@ PanelWindow {
 
   property bool isVisible: false
   property real triggerX: Theme.spacingL
-  property real triggerY: Theme.barHeight + Theme.spacingXS
+  property real triggerY: Theme.barHeight - 4 + SettingsData.topBarSpacing + Theme.spacingXS
   property real triggerWidth: 40
   property string triggerSection: "left"
   property var triggerScreen: null

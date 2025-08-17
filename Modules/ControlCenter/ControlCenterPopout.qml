@@ -19,7 +19,7 @@ PanelWindow {
   property bool powerOptionsExpanded: false
   property var triggerScreen: null
   property real triggerX: Screen.width - 600 - Theme.spacingL
-  property real triggerY: Theme.barHeight + Theme.spacingXS
+  property real triggerY: Theme.barHeight - 4 + SettingsData.topBarSpacing + Theme.spacingXS
   property real triggerWidth: 80
   property string triggerSection: "right"
 
@@ -71,7 +71,7 @@ PanelWindow {
     active: controlCenterVisible
     width: targetWidth
     height: root.powerOptionsExpanded ? 570 : 500
-    y: Theme.barHeight + Theme.spacingXS
+    y: Theme.barHeight - 4 + SettingsData.topBarSpacing + Theme.spacingXS
     x: {
       var centerX = root.triggerX + (root.triggerWidth / 2) - (targetWidth / 2)
 

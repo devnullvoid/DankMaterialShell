@@ -26,6 +26,10 @@ Singleton {
   // Overview state
   property bool inOverview: false
 
+  // Config validation
+  property string configValidationOutput: ""
+  property bool hasInitialConnection: false
+
   signal windowOpenedOrChanged(var windowData)
 
   // Feature availability
@@ -97,6 +101,8 @@ Singleton {
       handleWindowOpenedOrChanged(event.WindowOpenedOrChanged)
     } else if (event.OverviewOpenedOrClosed) {
       handleOverviewChanged(event.OverviewOpenedOrClosed)
+    } else if (event.ConfigLoaded) {
+      handleConfigLoaded(event.ConfigLoaded)
     }
   }
 
@@ -246,6 +252,48 @@ Singleton {
 
   function handleOverviewChanged(data) {
     inOverview = data.is_open
+  }
+
+  function handleConfigLoaded(data) {
+    if (data.failed) {
+      validateProcess.running = true
+    } else {
+      configValidationOutput = ""
+      if (ToastService.toastVisible && ToastService.currentLevel === ToastService.levelError) {
+        ToastService.hideToast()
+      }
+      if (hasInitialConnection) {
+        ToastService.showInfo("niri: config reloaded")
+      }
+    }
+    
+    if (!hasInitialConnection) {
+      hasInitialConnection = true
+    }
+  }
+
+  Process {
+    id: validateProcess
+    command: ["niri", "validate"]
+    running: false
+
+    stderr: StdioCollector {
+      onStreamFinished: {
+        const lines = text.split('\n')
+        const trimmedLines = lines.map(line => line.replace(/\s+$/, ''))
+                                  .filter(line => line.length > 0)
+        configValidationOutput = trimmedLines.join('\n').trim()
+        if (hasInitialConnection) {
+          ToastService.showError("niri: failed to load config", configValidationOutput)
+        }
+      }
+    }
+
+    onExited: exitCode => {
+      if (exitCode === 0) {
+        configValidationOutput = ""
+      }
+    }
   }
 
   function updateCurrentOutputWorkspaces() {

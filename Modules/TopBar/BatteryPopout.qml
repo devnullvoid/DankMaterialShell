@@ -13,7 +13,7 @@ PanelWindow {
 
   property bool batteryPopupVisible: false
   property real triggerX: Screen.width - 380 - Theme.spacingL
-  property real triggerY: Theme.barHeight + Theme.spacingS
+  property real triggerY: Theme.barHeight - 4 + SettingsData.topBarSpacing + Theme.spacingS
   property real triggerWidth: 70
   property string triggerSection: "right"
   property var triggerScreen: null

@@ -239,6 +239,7 @@ ShellRoot {
 
     delegate: Toast {
       modelData: item
+      visible: ToastService.toastVisible
     }
   }
 

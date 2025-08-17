@@ -493,6 +493,83 @@ Item {
 
             }
 
+
+            // Top Bar Spacing
+            StyledRect {
+                width: parent.width
+                height: topBarSpacingSection.implicitHeight + Theme.spacingL * 2
+                radius: Theme.cornerRadius
+                color: Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.3)
+                border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
+                border.width: 1
+
+                Column {
+                    id: topBarSpacingSection
+
+                    anchors.fill: parent
+                    anchors.margins: Theme.spacingL
+                    spacing: Theme.spacingM
+
+                    Row {
+                        width: parent.width
+                        spacing: Theme.spacingM
+
+                        DankIcon {
+                            name: "space_bar"
+                            size: Theme.iconSize
+                            color: Theme.primary
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        StyledText {
+                            text: "Top Bar Spacing"
+                            font.pixelSize: Theme.fontSizeLarge
+                            font.weight: Font.Medium
+                            color: Theme.surfaceText
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: Theme.spacingS
+
+                        StyledText {
+                            text: "Gap Around Top Bar (0 = edge-to-edge)"
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                        }
+
+                        DankSlider {
+                            width: parent.width
+                            height: 24
+                            value: SettingsData.topBarSpacing
+                            minimum: 0
+                            maximum: 32
+                            unit: ""
+                            showValue: true
+                            onSliderValueChanged: (newValue) => {
+                                SettingsData.setTopBarSpacing(newValue);
+                            }
+                        }
+
+                    }
+
+                    DankToggle {
+                        width: parent.width
+                        text: "Square Corners"
+                        description: "Disable corner radius for the top bar (always square corners)"
+                        checked: SettingsData.topBarSquareCorners
+                        onToggled: (checked) => {
+                            SettingsData.setTopBarSquareCorners(checked);
+                        }
+                    }
+
+                }
+
+            }
             // Theme Color
             StyledRect {
                 width: parent.width

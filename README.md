@@ -2,10 +2,10 @@
 
 <div align=center>
 
-![GitHub last commit](https://img.shields.io/github/last-commit/AvengeMedia/DankMaterialShell?style=for-the-badge&labelColor=101418&color=9ccbfb)
 ![GitHub stars](https://img.shields.io/github/stars/AvengeMedia/DankMaterialShell?style=for-the-badge&labelColor=101418&color=ffd700)
 ![GitHub License](https://img.shields.io/github/license/AvengeMedia/DankMaterialShell?style=for-the-badge&labelColor=101418&color=b9c8da)
-![GitHub repo size](https://img.shields.io/github/repo-size/AvengeMedia/DankMaterialShell?style=for-the-badge&labelColor=101418&color=d3bfe6)
+![GitHub release](https://img.shields.io/github/v/release/AvengeMedia/DankMaterialShell?style=for-the-badge&labelColor=101418&color=9ccbfb)
+![GitHub last commit](https://img.shields.io/github/last-commit/AvengeMedia/DankMaterialShell?style=for-the-badge&labelColor=101418&color=9ccbfb)
 
 </div>
 
@@ -210,6 +210,12 @@ spawn-at-startup "/usr/lib/mate-polkit/polkit-mate-authentication-agent-1"
 
 // Starts DankShell
 spawn-at-startup "qs" "-c" "DankMaterialShell"
+
+// If using niri newer than 271534e115e5915231c99df287bbfe396185924d (~aug 17 2025)
+// you can add this to disable built in config load errors since dank shell provides this
+config-notification {
+    disable-failed
+}
 
 // Dank keybinds
 // 1. These should not be in conflict with any pre-existing keybindings

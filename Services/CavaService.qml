@@ -17,10 +17,14 @@ Singleton {
     id: cavaCheck
 
     command: ["which", "cava"]
-    running: true
+    running: false
     onExited: exitCode => {
       root.cavaAvailable = exitCode === 0
     }
+  }
+
+  Component.onCompleted: {
+    cavaCheck.running = true
   }
 
   Process {

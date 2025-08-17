@@ -75,6 +75,8 @@ Singleton {
     property real cornerRadius: 12
     property bool notificationOverlayEnabled: false
     property bool topBarAutoHide: false
+    property real topBarSpacing: 4
+    property bool topBarSquareCorners: false
     property int notificationTimeoutLow: 5000
     property int notificationTimeoutNormal: 5000
     property int notificationTimeoutCritical: 0
@@ -182,6 +184,8 @@ Singleton {
                 notificationTimeoutLow = settings.notificationTimeoutLow !== undefined ? settings.notificationTimeoutLow : 5000;
                 notificationTimeoutNormal = settings.notificationTimeoutNormal !== undefined ? settings.notificationTimeoutNormal : 5000;
                 notificationTimeoutCritical = settings.notificationTimeoutCritical !== undefined ? settings.notificationTimeoutCritical : 0;
+                topBarSpacing = settings.topBarSpacing !== undefined ? settings.topBarSpacing : 4;
+                topBarSquareCorners = settings.topBarSquareCorners !== undefined ? settings.topBarSquareCorners : false;
                 applyStoredTheme();
                 detectAvailableIconThemes();
                 detectQtTools();
@@ -256,6 +260,8 @@ Singleton {
             "cornerRadius": cornerRadius,
             "notificationOverlayEnabled": notificationOverlayEnabled,
             "topBarAutoHide": topBarAutoHide,
+            "topBarSpacing": topBarSpacing,
+            "topBarSquareCorners": topBarSquareCorners,
             "notificationTimeoutLow": notificationTimeoutLow,
             "notificationTimeoutNormal": notificationTimeoutNormal,
             "notificationTimeoutCritical": notificationTimeoutCritical
@@ -720,6 +726,16 @@ Singleton {
 
     function setNotificationTimeoutCritical(timeout) {
         notificationTimeoutCritical = timeout;
+        saveSettings();
+    }
+
+    function setTopBarSpacing(spacing) {
+        topBarSpacing = spacing;
+        saveSettings();
+    }
+
+    function setTopBarSquareCorners(enabled) {
+        topBarSquareCorners = enabled;
         saveSettings();
     }
 
