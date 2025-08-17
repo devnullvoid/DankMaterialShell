@@ -390,6 +390,23 @@ QtObject {
     }
     
     function handleKey(event) {
+        if ((event.key === Qt.Key_Delete || event.key === Qt.Key_Backspace) && (event.modifiers & Qt.ShiftModifier)) {
+            NotificationService.clearAllNotifications()
+            rebuildFlatNavigation()
+            if (flatNavigation.length === 0) {
+                keyboardNavigationActive = false
+                if (listView) {
+                    listView.keyboardActive = false
+                }
+            } else {
+                selectedFlatIndex = 0
+                updateSelectedIdFromIndex()
+            }
+            selectionVersion++
+            event.accepted = true
+            return
+        }
+        
         if (event.key === Qt.Key_Escape) {
             if (keyboardNavigationActive) {
                 keyboardNavigationActive = false
@@ -461,7 +478,7 @@ QtObject {
             }
         }
         
-        if (event.key === Qt.Key_Question || event.key === Qt.Key_H) {
+        if (event.key === Qt.Key_F10) {
             showKeyboardHints = !showKeyboardHints
             event.accepted = true
         }

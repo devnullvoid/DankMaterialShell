@@ -150,8 +150,15 @@ Singleton {
           ToastService.showError("Wallpaper Processing Failed: Empty JSON extracted from matugen output.")
           return
         }
+        const extractedJson = extractJsonFromText(matugenCollector.text)
+        if (!extractedJson) {
+          ToastService.wallpaperErrorStatus = "error"
+          ToastService.showError("Wallpaper Processing Failed: Invalid JSON extracted from matugen output.")
+          console.log("Raw matugen output:", matugenCollector.text)
+          return
+        }
         try {
-          root.matugenColors = JSON.parse(matugenCollector.text)
+          root.matugenColors = JSON.parse(extractedJson)
           root.colorsUpdated()
           generateAppConfigs()
           ToastService.clearWallpaperError()
@@ -317,6 +324,58 @@ Singleton {
 
     systemThemeRestoreProcess.command = [shellDir + "/generate-themes.sh", "", shellDir, configDir, "restore", isLight, iconTheme, gtkTheming, qtTheming]
     systemThemeRestoreProcess.running = true
+  }
+
+  // Returns the first complete JSON substring (object or array) or null.
+  function extractJsonFromText(text) {
+    if (!text) return null;
+
+    const start = text.search(/[{\[]/);
+    if (start === -1) return null;
+
+    const open = text[start];
+    const pairs = { '{': '}', '[': ']' };
+    const close = pairs[open];
+    if (!close) return null;
+
+    let inString = false;
+    let escape = false;
+    const stack = [open];
+
+    for (let i = start + 1; i < text.length; i++) {
+      const ch = text[i];
+
+      if (inString) {
+        if (escape) {
+          escape = false;
+        } else if (ch === '\\') {
+          escape = true;
+        } else if (ch === '"') {
+          inString = false;
+        }
+        continue;
+      }
+
+      if (ch === '"') {
+        inString = true;
+        continue;
+      }
+      if (ch === '{' || ch === '[') {
+        stack.push(ch);
+        continue;
+      }
+      if (ch === '}' || ch === ']') {
+        const last = stack.pop();
+        if (!last || pairs[last] !== ch) {
+          return null;
+        }
+        if (stack.length === 0) {
+          return text.slice(start, i + 1);
+        }
+      }
+    }
+
+    return null;
   }
 
   Process {

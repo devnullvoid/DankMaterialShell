@@ -14,7 +14,6 @@ PanelWindow {
 
   readonly property bool hasActiveMedia: MprisController.activePlayer !== null
   property bool calendarVisible: false
-  property bool internalVisible: false
   property real triggerX: (Screen.width - 480) / 2
   property real triggerY: Theme.barHeight + 4
   property real triggerWidth: 80
@@ -29,17 +28,13 @@ PanelWindow {
     triggerScreen = screen
   }
 
-  visible: internalVisible
+  visible: calendarVisible
   screen: triggerScreen
   onCalendarVisibleChanged: {
     if (calendarVisible) {
-      internalVisible = true
       Qt.callLater(() => {
-                     internalVisible = true
                      calendarGrid.loadEventsForMonth()
                    })
-    } else {
-      internalVisible = false
     }
   }
   onVisibleChanged: {

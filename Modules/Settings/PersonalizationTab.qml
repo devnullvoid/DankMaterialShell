@@ -10,8 +10,8 @@ import qs.Widgets
 Item {
     id: personalizationTab
 
-    property alias profileBrowser: profileBrowserLoader.item
-    property alias wallpaperBrowser: wallpaperBrowserLoader.item
+    property alias profileBrowser: profileBrowser
+    property alias wallpaperBrowser: wallpaperBrowser
 
     Component.onCompleted: {
         // Access WallpaperCyclingService to ensure it's initialized
@@ -238,7 +238,6 @@ Item {
                                         anchors.fill: parent
                                         cursorShape: Qt.PointingHandCursor
                                         onClicked: {
-                                            profileBrowserLoader.active = true;
                                             profileBrowser.visible = true;
                                         }
                                     }
@@ -438,7 +437,6 @@ Item {
                                         anchors.fill: parent
                                         cursorShape: Qt.PointingHandCursor
                                         onClicked: {
-                                            wallpaperBrowserLoader.active = true;
                                             wallpaperBrowser.visible = true;
                                         }
                                     }
@@ -908,48 +906,30 @@ Item {
 
     }
 
-    LazyLoader {
-        id: profileBrowserLoader
+    FileBrowserModal {
+        id: profileBrowser
 
-        active: false
-
-        FileBrowserModal {
-            id: profileBrowser
-
-            browserTitle: "Select Profile Image"
-            browserIcon: "person"
-            browserType: "profile"
-            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
-            onFileSelected: (path) => {
-                PortalService.setProfileImage(path);
-                visible = false;
-            }
-            onDialogClosed: {
-            }
+        browserTitle: "Select Profile Image"
+        browserIcon: "person"
+        browserType: "profile"
+        fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
+        onFileSelected: (path) => {
+            PortalService.setProfileImage(path);
+            visible = false;
         }
-
     }
 
-    LazyLoader {
-        id: wallpaperBrowserLoader
+    FileBrowserModal {
+        id: wallpaperBrowser
 
-        active: false
-
-        FileBrowserModal {
-            id: wallpaperBrowser
-
-            browserTitle: "Select Wallpaper"
-            browserIcon: "wallpaper"
-            browserType: "wallpaper"
-            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
-            onFileSelected: (path) => {
-                SessionData.setWallpaper(path);
-                visible = false;
-            }
-            onDialogClosed: {
-            }
+        browserTitle: "Select Wallpaper"
+        browserIcon: "wallpaper"
+        browserType: "wallpaper"
+        fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
+        onFileSelected: (path) => {
+            SessionData.setWallpaper(path);
+            visible = false;
         }
-
     }
 
 }

@@ -105,7 +105,7 @@ Item {
                                 filteredModel.count - 1)
         selectedIndex = newIndex
       } else {
-        selectedIndex = (selectedIndex + 1) % filteredModel.count
+        selectedIndex = Math.min(selectedIndex + 1, filteredModel.count - 1)
       }
     }
   }
@@ -117,7 +117,7 @@ Item {
         var newIndex = Math.max(selectedIndex - gridColumns, 0)
         selectedIndex = newIndex
       } else {
-        selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : filteredModel.count - 1
+        selectedIndex = Math.max(selectedIndex - 1, 0)
       }
     }
   }
