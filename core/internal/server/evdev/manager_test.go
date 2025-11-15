@@ -194,6 +194,10 @@ func TestIsKeyboard(t *testing.T) {
 			mockDevice := mocks.NewMockEvdevDevice(t)
 			mockDevice.EXPECT().Name().Return(tt.devName, nil).Once()
 
+			if !tt.expected {
+				mockDevice.EXPECT().State(evdev.EvType(evKeyType)).Return(evdev.StateMap{}, nil).Maybe()
+			}
+
 			result := isKeyboard(mockDevice)
 			assert.Equal(t, tt.expected, result)
 		})
