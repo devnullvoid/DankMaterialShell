@@ -30,9 +30,8 @@ func NewManager() (*Manager, error) {
 			PairedDevices:    []Device{},
 			ConnectedDevices: []Device{},
 		},
-		stateMutex:         sync.RWMutex{},
-		subscribers:        make(map[string]chan BluetoothState),
-		subMutex:           sync.RWMutex{},
+		stateMutex: sync.RWMutex{},
+
 		stopChan:           make(chan struct{}),
 		dbusConn:           conn,
 		signals:            make(chan *dbus.Signal, 256),
@@ -430,28 +429,21 @@ func (m *Manager) notifier() {
 			}
 			m.updateDevices()
 
-			m.subMutex.RLock()
-			if len(m.subscribers) == 0 {
-				m.subMutex.RUnlock()
-				pending = false
-				continue
-			}
-
 			currentState := m.snapshotState()
 
 			if m.lastNotifiedState != nil && !stateChanged(m.lastNotifiedState, &currentState) {
-				m.subMutex.RUnlock()
 				pending = false
 				continue
 			}
 
-			for _, ch := range m.subscribers {
+			m.subscribers.Range(func(key, value interface{}) bool {
+				ch := value.(chan BluetoothState)
 				select {
 				case ch <- currentState:
 				default:
 				}
-			}
-			m.subMutex.RUnlock()
+				return true
+			})
 
 			stateCopy := currentState
 			m.lastNotifiedState = &stateCopy
@@ -484,19 +476,14 @@ func (m *Manager) snapshotState() BluetoothState {
 
 func (m *Manager) Subscribe(id string) chan BluetoothState {
 	ch := make(chan BluetoothState, 64)
-	m.subMutex.Lock()
-	m.subscribers[id] = ch
-	m.subMutex.Unlock()
+	m.subscribers.Store(id, ch)
 	return ch
 }
 
 func (m *Manager) Unsubscribe(id string) {
-	m.subMutex.Lock()
-	if ch, ok := m.subscribers[id]; ok {
-		close(ch)
-		delete(m.subscribers, id)
+	if val, ok := m.subscribers.LoadAndDelete(id); ok {
+		close(val.(chan BluetoothState))
 	}
-	m.subMutex.Unlock()
 }
 
 func (m *Manager) SubscribePairing(id string) chan PairingPrompt {
@@ -618,12 +605,12 @@ func (m *Manager) Close() {
 		m.agent.Close()
 	}
 
-	m.subMutex.Lock()
-	for _, ch := range m.subscribers {
+	m.subscribers.Range(func(key, value interface{}) bool {
+		ch := value.(chan BluetoothState)
 		close(ch)
-	}
-	m.subscribers = make(map[string]chan BluetoothState)
-	m.subMutex.Unlock()
+		m.subscribers.Delete(key)
+		return true
+	})
 
 	m.pairingSubMutex.Lock()
 	for _, ch := range m.pairingSubscribers {

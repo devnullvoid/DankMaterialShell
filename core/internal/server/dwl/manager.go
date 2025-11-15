@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	wlclient "github.com/yaslama/go-wayland/wayland/client"
+	wlclient "github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/dwl_ipc"
@@ -18,9 +18,9 @@ func NewManager(display *wlclient.Display) (*Manager, error) {
 		cmdq:           make(chan cmd, 128),
 		outputSetupReq: make(chan uint32, 16),
 		stopChan:       make(chan struct{}),
-		subscribers:    make(map[string]chan State),
-		dirty:          make(chan struct{}, 1),
-		layouts:        make([]string, 0),
+
+		dirty:   make(chan struct{}, 1),
+		layouts: make([]string, 0),
 	}
 
 	if err := m.setupRegistry(); err != nil {
@@ -365,14 +365,6 @@ func (m *Manager) notifier() {
 			if !pending {
 				continue
 			}
-			m.subMutex.RLock()
-			subCount := len(m.subscribers)
-			m.subMutex.RUnlock()
-
-			if subCount == 0 {
-				pending = false
-				continue
-			}
 
 			currentState := m.GetState()
 
@@ -381,15 +373,15 @@ func (m *Manager) notifier() {
 				continue
 			}
 
-			m.subMutex.RLock()
-			for _, ch := range m.subscribers {
+			m.subscribers.Range(func(key, value interface{}) bool {
+				ch := value.(chan State)
 				select {
 				case ch <- currentState:
 				default:
 					log.Warn("DWL: subscriber channel full, dropping update")
 				}
-			}
-			m.subMutex.RUnlock()
+				return true
+			})
 
 			stateCopy := currentState
 			m.lastNotified = &stateCopy
@@ -518,12 +510,12 @@ func (m *Manager) Close() {
 	m.wg.Wait()
 	m.notifierWg.Wait()
 
-	m.subMutex.Lock()
-	for _, ch := range m.subscribers {
+	m.subscribers.Range(func(key, value interface{}) bool {
+		ch := value.(chan State)
 		close(ch)
-	}
-	m.subscribers = make(map[string]chan State)
-	m.subMutex.Unlock()
+		m.subscribers.Delete(key)
+		return true
+	})
 
 	m.outputsMutex.Lock()
 	for _, out := range m.outputs {

@@ -8,8 +8,8 @@ import (
 	"syscall"
 	"time"
 
+	wlclient "github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
 	"github.com/godbus/dbus/v5"
-	wlclient "github.com/yaslama/go-wayland/wayland/client"
 	"golang.org/x/sys/unix"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/errdefs"
@@ -23,14 +23,14 @@ func NewManager(display *wlclient.Display, config Config) (*Manager, error) {
 	}
 
 	m := &Manager{
-		config:         config,
-		display:        display,
-		ctx:            display.Context(),
-		outputs:        make(map[uint32]*outputState),
-		cmdq:           make(chan cmd, 128),
-		stopChan:       make(chan struct{}),
-		updateTrigger:  make(chan struct{}, 1),
-		subscribers:    make(map[string]chan State),
+		config:        config,
+		display:       display,
+		ctx:           display.Context(),
+		outputs:       make(map[uint32]*outputState),
+		cmdq:          make(chan cmd, 128),
+		stopChan:      make(chan struct{}),
+		updateTrigger: make(chan struct{}, 1),
+
 		dirty:          make(chan struct{}, 1),
 		dbusSignal:     make(chan *dbus.Signal, 16),
 		transitionChan: make(chan int, 1),
@@ -935,28 +935,22 @@ func (m *Manager) notifier() {
 			if !pending {
 				continue
 			}
-			m.subMutex.RLock()
-			if len(m.subscribers) == 0 {
-				m.subMutex.RUnlock()
-				pending = false
-				continue
-			}
 
 			currentState := m.GetState()
 
 			if m.lastNotified != nil && !stateChanged(m.lastNotified, &currentState) {
-				m.subMutex.RUnlock()
 				pending = false
 				continue
 			}
 
-			for _, ch := range m.subscribers {
+			m.subscribers.Range(func(key, value interface{}) bool {
+				ch := value.(chan State)
 				select {
 				case ch <- currentState:
 				default:
 				}
-			}
-			m.subMutex.RUnlock()
+				return true
+			})
 
 			stateCopy := currentState
 			m.lastNotified = &stateCopy
@@ -1332,12 +1326,12 @@ func (m *Manager) Close() {
 	m.wg.Wait()
 	m.notifierWg.Wait()
 
-	m.subMutex.Lock()
-	for _, ch := range m.subscribers {
+	m.subscribers.Range(func(key, value interface{}) bool {
+		ch := value.(chan State)
 		close(ch)
-	}
-	m.subscribers = make(map[string]chan State)
-	m.subMutex.Unlock()
+		m.subscribers.Delete(key)
+		return true
+	})
 
 	m.outputsMutex.Lock()
 	for _, out := range m.outputs {

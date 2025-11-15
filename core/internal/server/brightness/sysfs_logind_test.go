@@ -41,13 +41,11 @@ func TestManager_SetBrightness_LogindSuccess(t *testing.T) {
 	}
 
 	m := &Manager{
-		logindBackend:     mockLogind,
-		sysfsBackend:      sysfs,
-		logindReady:       true,
-		sysfsReady:        true,
-		subscribers:       make(map[string]chan State),
-		updateSubscribers: make(map[string]chan DeviceUpdate),
-		stopChan:          make(chan struct{}),
+		logindBackend: mockLogind,
+		sysfsBackend:  sysfs,
+		logindReady:   true,
+		sysfsReady:    true,
+		stopChan:      make(chan struct{}),
 	}
 
 	m.state = State{
@@ -115,13 +113,11 @@ func TestManager_SetBrightness_LogindFailsFallbackToSysfs(t *testing.T) {
 	}
 
 	m := &Manager{
-		logindBackend:     mockLogind,
-		sysfsBackend:      sysfs,
-		logindReady:       true,
-		sysfsReady:        true,
-		subscribers:       make(map[string]chan State),
-		updateSubscribers: make(map[string]chan DeviceUpdate),
-		stopChan:          make(chan struct{}),
+		logindBackend: mockLogind,
+		sysfsBackend:  sysfs,
+		logindReady:   true,
+		sysfsReady:    true,
+		stopChan:      make(chan struct{}),
 	}
 
 	m.state = State{
@@ -185,13 +181,11 @@ func TestManager_SetBrightness_NoLogind(t *testing.T) {
 	}
 
 	m := &Manager{
-		logindBackend:     nil,
-		sysfsBackend:      sysfs,
-		logindReady:       false,
-		sysfsReady:        true,
-		subscribers:       make(map[string]chan State),
-		updateSubscribers: make(map[string]chan DeviceUpdate),
-		stopChan:          make(chan struct{}),
+		logindBackend: nil,
+		sysfsBackend:  sysfs,
+		logindReady:   false,
+		sysfsReady:    true,
+		stopChan:      make(chan struct{}),
 	}
 
 	m.state = State{
@@ -250,13 +244,11 @@ func TestManager_SetBrightness_LEDWithLogind(t *testing.T) {
 	}
 
 	m := &Manager{
-		logindBackend:     mockLogind,
-		sysfsBackend:      sysfs,
-		logindReady:       true,
-		sysfsReady:        true,
-		subscribers:       make(map[string]chan State),
-		updateSubscribers: make(map[string]chan DeviceUpdate),
-		stopChan:          make(chan struct{}),
+		logindBackend: mockLogind,
+		sysfsBackend:  sysfs,
+		logindReady:   true,
+		sysfsReady:    true,
+		stopChan:      make(chan struct{}),
 	}
 
 	m.state = State{

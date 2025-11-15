@@ -51,9 +51,8 @@ type Manager struct {
 	stateMutex sync.RWMutex
 	state      State
 
-	subscribers       map[string]chan State
-	updateSubscribers map[string]chan DeviceUpdate
-	subMutex          sync.RWMutex
+	subscribers       sync.Map
+	updateSubscribers sync.Map
 
 	broadcastMutex   sync.Mutex
 	broadcastTimer   *time.Timer
@@ -121,36 +120,31 @@ type SetBrightnessParams struct {
 
 func (m *Manager) Subscribe(id string) chan State {
 	ch := make(chan State, 16)
-	m.subMutex.Lock()
-	m.subscribers[id] = ch
-	m.subMutex.Unlock()
+
+	m.subscribers.Store(id, ch)
+
 	return ch
 }
 
 func (m *Manager) Unsubscribe(id string) {
-	m.subMutex.Lock()
-	if ch, ok := m.subscribers[id]; ok {
-		close(ch)
-		delete(m.subscribers, id)
+
+	if val, ok := m.subscribers.LoadAndDelete(id); ok {
+		close(val.(chan State))
+
 	}
-	m.subMutex.Unlock()
+
 }
 
 func (m *Manager) SubscribeUpdates(id string) chan DeviceUpdate {
 	ch := make(chan DeviceUpdate, 16)
-	m.subMutex.Lock()
-	m.updateSubscribers[id] = ch
-	m.subMutex.Unlock()
+	m.updateSubscribers.Store(id, ch)
 	return ch
 }
 
 func (m *Manager) UnsubscribeUpdates(id string) {
-	m.subMutex.Lock()
-	if ch, ok := m.updateSubscribers[id]; ok {
-		close(ch)
-		delete(m.updateSubscribers, id)
+	if val, ok := m.updateSubscribers.LoadAndDelete(id); ok {
+		close(val.(chan DeviceUpdate))
 	}
-	m.subMutex.Unlock()
 }
 
 func (m *Manager) NotifySubscribers() {
@@ -158,15 +152,14 @@ func (m *Manager) NotifySubscribers() {
 	state := m.state
 	m.stateMutex.RUnlock()
 
-	m.subMutex.RLock()
-	defer m.subMutex.RUnlock()
-
-	for _, ch := range m.subscribers {
+	m.subscribers.Range(func(key, value interface{}) bool {
+		ch := value.(chan State)
 		select {
 		case ch <- state:
 		default:
 		}
-	}
+		return true
+	})
 }
 
 func (m *Manager) GetState() State {
@@ -178,16 +171,18 @@ func (m *Manager) GetState() State {
 func (m *Manager) Close() {
 	close(m.stopChan)
 
-	m.subMutex.Lock()
-	for _, ch := range m.subscribers {
+	m.subscribers.Range(func(key, value interface{}) bool {
+		ch := value.(chan State)
 		close(ch)
-	}
-	m.subscribers = make(map[string]chan State)
-	for _, ch := range m.updateSubscribers {
+		m.subscribers.Delete(key)
+		return true
+	})
+	m.updateSubscribers.Range(func(key, value interface{}) bool {
+		ch := value.(chan DeviceUpdate)
 		close(ch)
-	}
-	m.updateSubscribers = make(map[string]chan DeviceUpdate)
-	m.subMutex.Unlock()
+		m.updateSubscribers.Delete(key)
+		return true
+	})
 
 	if m.logindBackend != nil {
 		m.logindBackend.Close()

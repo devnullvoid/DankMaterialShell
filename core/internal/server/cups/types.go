@@ -39,8 +39,7 @@ type Manager struct {
 	client            CUPSClientInterface
 	subscription      SubscriptionManagerInterface
 	stateMutex        sync.RWMutex
-	subscribers       map[string]chan CUPSState
-	subMutex          sync.RWMutex
+	subscribers       sync.Map
 	stopChan          chan struct{}
 	eventWG           sync.WaitGroup
 	dirty             chan struct{}

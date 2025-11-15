@@ -35,8 +35,7 @@ type Manager struct {
 	monitoredPaths map[string]bool
 	state          State
 	stateMutex     sync.RWMutex
-	subscribers    map[string]chan State
-	subMutex       sync.RWMutex
+	subscribers    sync.Map
 	closeChan      chan struct{}
 	closeOnce      sync.Once
 	watcher        *fsnotify.Watcher
@@ -69,9 +68,9 @@ func NewManager() (*Manager, error) {
 		devices:        devices,
 		monitoredPaths: monitoredPaths,
 		state:          State{Available: true, CapsLock: initialCapsLock},
-		subscribers:    make(map[string]chan State),
-		closeChan:      make(chan struct{}),
-		watcher:        watcher,
+
+		closeChan: make(chan struct{}),
+		watcher:   watcher,
 	}
 
 	for i, device := range devices {
@@ -332,37 +331,26 @@ func (m *Manager) GetState() State {
 }
 
 func (m *Manager) Subscribe(id string) chan State {
-	m.subMutex.Lock()
-	defer m.subMutex.Unlock()
-
 	ch := make(chan State, 16)
-	m.subscribers[id] = ch
+	m.subscribers.Store(id, ch)
 	return ch
 }
 
 func (m *Manager) Unsubscribe(id string) {
-	m.subMutex.Lock()
-	defer m.subMutex.Unlock()
-
-	ch, ok := m.subscribers[id]
-	if !ok {
-		return
+	if val, ok := m.subscribers.LoadAndDelete(id); ok {
+		close(val.(chan State))
 	}
-
-	close(ch)
-	delete(m.subscribers, id)
 }
 
 func (m *Manager) notifySubscribers(state State) {
-	m.subMutex.RLock()
-	defer m.subMutex.RUnlock()
-
-	for _, ch := range m.subscribers {
+	m.subscribers.Range(func(key, value interface{}) bool {
+		ch := value.(chan State)
 		select {
 		case ch <- state:
 		default:
 		}
-	}
+		return true
+	})
 }
 
 func (m *Manager) Close() {
@@ -384,12 +372,12 @@ func (m *Manager) Close() {
 		}
 		m.devicesMutex.Unlock()
 
-		m.subMutex.Lock()
-		for id, ch := range m.subscribers {
+		m.subscribers.Range(func(key, value interface{}) bool {
+			ch := value.(chan State)
 			close(ch)
-			delete(m.subscribers, id)
-		}
-		m.subMutex.Unlock()
+			m.subscribers.Delete(key)
+			return true
+		})
 	})
 }
 

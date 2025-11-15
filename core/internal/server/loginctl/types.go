@@ -50,8 +50,7 @@ type SessionEvent struct {
 type Manager struct {
 	state                 *SessionState
 	stateMutex            sync.RWMutex
-	subscribers           map[string]chan SessionState
-	subMutex              sync.RWMutex
+	subscribers           sync.Map
 	stopChan              chan struct{}
 	conn                  *dbus.Conn
 	sessionPath           dbus.ObjectPath

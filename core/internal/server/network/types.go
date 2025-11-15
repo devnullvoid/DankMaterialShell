@@ -108,8 +108,7 @@ type Manager struct {
 	backend               Backend
 	state                 *NetworkState
 	stateMutex            sync.RWMutex
-	subscribers           map[string]chan NetworkState
-	subMutex              sync.RWMutex
+	subscribers           sync.Map
 	stopChan              chan struct{}
 	dirty                 chan struct{}
 	notifierWg            sync.WaitGroup

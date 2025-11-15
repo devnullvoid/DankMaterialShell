@@ -59,8 +59,7 @@ type PairingPrompt struct {
 type Manager struct {
 	state              *BluetoothState
 	stateMutex         sync.RWMutex
-	subscribers        map[string]chan BluetoothState
-	subMutex           sync.RWMutex
+	subscribers        sync.Map
 	stopChan           chan struct{}
 	dbusConn           *dbus.Conn
 	signals            chan *dbus.Signal
