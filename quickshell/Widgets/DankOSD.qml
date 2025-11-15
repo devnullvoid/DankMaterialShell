@@ -133,6 +133,14 @@ PanelWindow {
         readonly property real popupSurfaceAlpha: SettingsData.popupTransparency
         readonly property real effectiveShadowAlpha: Math.max(0, Math.min(1, shadowBaseAlpha * popupSurfaceAlpha * osdContainer.opacity))
 
+        DankRectangle {
+            id: background
+            anchors.fill: parent
+            radius: Theme.cornerRadius
+            color: Theme.withAlpha(Theme.surfaceContainer, osdContainer.popupSurfaceAlpha)
+            z: -1
+        }
+
         Item {
             id: bgShadowLayer
             anchors.fill: parent
