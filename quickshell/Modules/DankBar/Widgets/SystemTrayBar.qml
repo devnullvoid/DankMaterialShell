@@ -375,7 +375,6 @@ Item {
         onVisibleChanged: {
             if (visible) {
                 updatePosition()
-                Qt.callLater(() => overflowFocusScope.forceActiveFocus())
             }
         }
 
@@ -677,11 +676,6 @@ Item {
                 showMenu = false
                 if (root.overflowWasOpenBeforeTrayMenu) {
                     root.menuOpen = true
-                    Qt.callLater(() => {
-                        if (overflowMenu.visible && overflowFocusScope) {
-                            overflowFocusScope.forceActiveFocus()
-                        }
-                    })
                 }
                 root.overflowWasOpenBeforeTrayMenu = false
             }
@@ -739,7 +733,6 @@ Item {
                 onVisibleChanged: {
                     if (visible) {
                         updatePosition()
-                        Qt.callLater(() => menuFocusScope.forceActiveFocus())
                     }
                 }
 
