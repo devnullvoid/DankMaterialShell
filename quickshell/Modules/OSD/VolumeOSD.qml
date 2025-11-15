@@ -15,13 +15,13 @@ DankOSD {
         target: AudioService.sink && AudioService.sink.audio ? AudioService.sink.audio : null
 
         function onVolumeChanged() {
-            if (!AudioService.suppressOSD) {
+            if (!AudioService.suppressOSD && SettingsData.osdVolumeEnabled) {
                 root.show()
             }
         }
 
         function onMutedChanged() {
-            if (!AudioService.suppressOSD) {
+            if (!AudioService.suppressOSD && SettingsData.osdVolumeEnabled) {
                 root.show()
             }
         }
@@ -31,7 +31,7 @@ DankOSD {
         target: AudioService
 
         function onSinkChanged() {
-            if (root.shouldBeVisible) {
+            if (root.shouldBeVisible && SettingsData.osdVolumeEnabled) {
                 root.show()
             }
         }

@@ -17,7 +17,7 @@ DankOSD {
         target: DMSService
 
         function onCapsLockStateChanged() {
-            if (lastCapsLockState !== DMSService.capsLockState) {
+            if (lastCapsLockState !== DMSService.capsLockState && SettingsData.osdCapsLockEnabled) {
                 root.show()
             }
             lastCapsLockState = DMSService.capsLockState

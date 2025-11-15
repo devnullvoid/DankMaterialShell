@@ -215,6 +215,12 @@ var SPEC = {
     notificationPopupPosition: { def: 0 },
 
     osdAlwaysShowValue: { def: false },
+    osdVolumeEnabled: { def: true },
+    osdBrightnessEnabled: { def: true },
+    osdIdleInhibitorEnabled: { def: true },
+    osdMicMuteEnabled: { def: true },
+    osdCapsLockEnabled: { def: true },
+    osdPowerProfileEnabled: { def: true },
 
     powerActionConfirm: { def: true },
     powerMenuActions: { def: ["reboot", "logout", "poweroff", "lock", "suspend", "restart"] },

@@ -14,7 +14,9 @@ DankOSD {
     Connections {
         target: AudioService
         function onMicMuteChanged() {
-            root.show()
+            if (SettingsData.osdMicMuteEnabled) {
+                root.show()
+            }
         }
     }
 

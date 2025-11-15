@@ -305,6 +305,12 @@ Singleton {
     property int notificationPopupPosition: SettingsData.Position.Top
 
     property bool osdAlwaysShowValue: false
+    property bool osdVolumeEnabled: true
+    property bool osdBrightnessEnabled: true
+    property bool osdIdleInhibitorEnabled: true
+    property bool osdMicMuteEnabled: true
+    property bool osdCapsLockEnabled: true
+    property bool osdPowerProfileEnabled: true
 
     property bool powerActionConfirm: true
     property var powerMenuActions: ["reboot", "logout", "poweroff", "lock", "suspend", "restart"]

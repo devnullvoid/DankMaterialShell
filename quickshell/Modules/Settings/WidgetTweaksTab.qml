@@ -700,6 +700,104 @@ Item {
                     }
                 }
             }
+
+            StyledRect {
+                width: parent.width
+                height: osdSection.implicitHeight + Theme.spacingL * 2
+                radius: Theme.cornerRadius
+                color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                border.color: Qt.rgba(Theme.outline.r, Theme.outline.g,
+                                      Theme.outline.b, 0.2)
+                border.width: 0
+
+                Column {
+                    id: osdSection
+
+                    anchors.fill: parent
+                    anchors.margins: Theme.spacingL
+                    spacing: Theme.spacingM
+
+                    Row {
+                        width: parent.width
+                        spacing: Theme.spacingM
+
+                        DankIcon {
+                            name: "notification_important"
+                            size: Theme.iconSize
+                            color: Theme.primary
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        StyledText {
+                            text: I18n.tr("On-screen Displays")
+                            font.pixelSize: Theme.fontSizeLarge
+                            font.weight: Font.Medium
+                            color: Theme.surfaceText
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
+
+                    DankToggle {
+                        width: parent.width
+                        text: I18n.tr("Volume OSD")
+                        description: I18n.tr("Show on-screen display when volume changes")
+                        checked: SettingsData.osdVolumeEnabled
+                        onToggled: checked => {
+                            return SettingsData.set("osdVolumeEnabled", checked)
+                        }
+                    }
+
+                    DankToggle {
+                        width: parent.width
+                        text: I18n.tr("Brightness OSD")
+                        description: I18n.tr("Show on-screen display when brightness changes")
+                        checked: SettingsData.osdBrightnessEnabled
+                        onToggled: checked => {
+                            return SettingsData.set("osdBrightnessEnabled", checked)
+                        }
+                    }
+
+                    DankToggle {
+                        width: parent.width
+                        text: I18n.tr("Idle Inhibitor OSD")
+                        description: I18n.tr("Show on-screen display when idle inhibitor state changes")
+                        checked: SettingsData.osdIdleInhibitorEnabled
+                        onToggled: checked => {
+                            return SettingsData.set("osdIdleInhibitorEnabled", checked)
+                        }
+                    }
+
+                    DankToggle {
+                        width: parent.width
+                        text: I18n.tr("Microphone Mute OSD")
+                        description: I18n.tr("Show on-screen display when microphone is muted/unmuted")
+                        checked: SettingsData.osdMicMuteEnabled
+                        onToggled: checked => {
+                            return SettingsData.set("osdMicMuteEnabled", checked)
+                        }
+                    }
+
+                    DankToggle {
+                        width: parent.width
+                        text: I18n.tr("Caps Lock OSD")
+                        description: I18n.tr("Show on-screen display when caps lock state changes")
+                        checked: SettingsData.osdCapsLockEnabled
+                        onToggled: checked => {
+                            return SettingsData.set("osdCapsLockEnabled", checked)
+                        }
+                    }
+
+                    DankToggle {
+                        width: parent.width
+                        text: I18n.tr("Power Profile OSD")
+                        description: I18n.tr("Show on-screen display when power profile changes")
+                        checked: SettingsData.osdPowerProfileEnabled
+                        onToggled: checked => {
+                            return SettingsData.set("osdPowerProfileEnabled", checked)
+                        }
+                    }
+                }
+            }
         }
     }
 }

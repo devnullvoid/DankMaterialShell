@@ -14,7 +14,9 @@ DankOSD {
     Connections {
         target: SessionService
         function onInhibitorChanged() {
-            root.show()
+            if (SettingsData.osdIdleInhibitorEnabled) {
+                root.show()
+            }
         }
     }
 

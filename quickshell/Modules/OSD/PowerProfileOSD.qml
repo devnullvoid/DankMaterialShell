@@ -18,7 +18,7 @@ DankOSD {
         target: typeof PowerProfiles !== "undefined" ? PowerProfiles : null
 
         function onProfileChanged() {
-            if (lastProfile !== -1 && lastProfile !== PowerProfiles.profile) {
+            if (lastProfile !== -1 && lastProfile !== PowerProfiles.profile && SettingsData.osdPowerProfileEnabled) {
                 root.show()
             }
             lastProfile = PowerProfiles.profile

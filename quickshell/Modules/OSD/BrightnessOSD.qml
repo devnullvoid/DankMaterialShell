@@ -14,7 +14,7 @@ DankOSD {
     Connections {
         target: DisplayService
         function onBrightnessChanged(showOsd) {
-            if (showOsd) {
+            if (showOsd && SettingsData.osdBrightnessEnabled) {
                 root.show()
             }
         }
