@@ -145,9 +145,18 @@ func isKeyboard(device EvdevDevice) bool {
 		return true
 	case strings.Contains(name, "input") && strings.Contains(name, "key"):
 		return true
-	default:
+	}
+
+	keyStates, err := device.State(evKeyType)
+	if err != nil {
 		return false
 	}
+
+	hasKeyA := len(keyStates) > 30
+	hasKeyZ := len(keyStates) > 44
+	hasEnter := len(keyStates) > 28
+
+	return hasKeyA && hasKeyZ && hasEnter && len(keyStates) > 100
 }
 
 func (m *Manager) watchForNewKeyboards() {
