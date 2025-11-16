@@ -149,13 +149,13 @@ Item {
                              if (currentIndex === -1) {
                                  nextIndex = 0
                              } else {
-                                 nextIndex = (currentIndex + 1) % windows.length
+                                 nextIndex = Math.min(currentIndex + 1, windows.length - 1)
                              }
                          } else {
                              if (currentIndex === -1) {
                                  nextIndex = windows.length - 1
                              } else {
-                                 nextIndex = (currentIndex - 1 + windows.length) % windows.length
+                                 nextIndex = Math.max(currentIndex - 1, 0)
                              }
                          }
 
@@ -181,13 +181,13 @@ Item {
                                  if (currentIndex === -1) {
                                      nextIndex = 0
                                  } else {
-                                     nextIndex = (currentIndex + 1) % windows.length
+                                     nextIndex = Math.min(currentIndex + 1, windows.length - 1)
                                  }
                              } else {
                                  if (currentIndex === -1) {
                                      nextIndex = windows.length - 1
                                  } else {
-                                     nextIndex = (currentIndex - 1 + windows.length) % windows.length
+                                     nextIndex = Math.max(currentIndex - 1, 0)
                                  }
                              }
 
