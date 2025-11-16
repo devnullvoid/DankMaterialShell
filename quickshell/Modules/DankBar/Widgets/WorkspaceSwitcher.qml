@@ -438,9 +438,15 @@ Item {
         }
     }
 
-    width: isVertical ? barThickness : visualWidth
-    height: isVertical ? visualHeight : barThickness
-    visible: CompositorService.isNiri || CompositorService.isHyprland || CompositorService.isDwl || CompositorService.isSway || useExtWorkspace
+    readonly property bool hasWorkspaces: {
+        const realWorkspaces = getRealWorkspaces()
+        return realWorkspaces.length > 0
+    }
+    readonly property bool shouldShow: (CompositorService.isNiri || CompositorService.isHyprland || CompositorService.isDwl || CompositorService.isSway || useExtWorkspace) && hasWorkspaces
+
+    width: shouldShow ? (isVertical ? barThickness : visualWidth) : 0
+    height: shouldShow ? (isVertical ? visualHeight : barThickness) : 0
+    visible: shouldShow
 
     Rectangle {
         id: visualBackground
