@@ -276,7 +276,7 @@
     "Brightness": "亮度"
   },
   "Brightness OSD": {
-    "Brightness OSD": ""
+    "Brightness OSD": "OSD亮度"
   },
   "Browse": {
     "Browse": "浏览"
@@ -318,7 +318,7 @@
     "Caps Lock Indicator": "大小写指示灯"
   },
   "Caps Lock OSD": {
-    "Caps Lock OSD": ""
+    "Caps Lock OSD": "OSD大小写"
   },
   "Center Section": {
     "Center Section": "中间区域"
@@ -346,6 +346,9 @@
   },
   "Choose where notification popups appear on screen": {
     "Choose where notification popups appear on screen": "设置通知弹窗的出现位置"
+  },
+  "Choose where on-screen displays appear on screen": {
+    "Choose where on-screen displays appear on screen": ""
   },
   "Clear": {
     "Clear": "清除"
@@ -622,6 +625,9 @@
   },
   "Dismiss": {
     "Dismiss": "忽略"
+  },
+  "Display Name Format": {
+    "Display Name Format": ""
   },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "显示一个包含固定和运行中应用的程序坞，可放置在屏幕四边任意位置"
@@ -966,7 +972,7 @@
     "Idle Inhibitor": "待机抑制器"
   },
   "Idle Inhibitor OSD": {
-    "Idle Inhibitor OSD": ""
+    "Idle Inhibitor OSD": "OSD空闲抑制"
   },
   "Idle Settings": {
     "Idle Settings": "待机设置"
@@ -1185,7 +1191,7 @@
     "Microphone": "麦克风"
   },
   "Microphone Mute OSD": {
-    "Microphone Mute OSD": ""
+    "Microphone Mute OSD": "OSD麦克风静音"
   },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "围绕单一色调构建的简约配色。"
@@ -1198,6 +1204,9 @@
   },
   "Mode: ": {
     "Mode: ": "模式: "
+  },
+  "Model": {
+    "Model": ""
   },
   "Monitor Selection:": {
     "Monitor Selection:": "选择显示器："
@@ -1222,6 +1231,9 @@
   },
   "NM not supported": {
     "NM not supported": "不支持 NM"
+  },
+  "Name": {
+    "Name": ""
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "已命名工作区图标"
@@ -1349,6 +1361,9 @@
   "OS Logo": {
     "OS Logo": "系统 Logo"
   },
+  "OSD Position": {
+    "OSD Position": ""
+  },
   "Office": {
     "Office": "办公"
   },
@@ -1359,7 +1374,7 @@
     "On-Screen Displays": "屏幕显示"
   },
   "On-screen Displays": {
-    "On-screen Displays": ""
+    "On-screen Displays": "屏上显示"
   },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "根据时间或位置调节伽马值。"
@@ -1509,7 +1524,7 @@
     "Power Profile Degradation": "电源配置性能下降"
   },
   "Power Profile OSD": {
-    "Power Profile OSD": ""
+    "Power Profile OSD": "OSD电源配置"
   },
   "Pressure": {
     "Pressure": "气压"
@@ -1800,22 +1815,22 @@
     "Show on screens:": "选择显示的屏幕："
   },
   "Show on-screen display when brightness changes": {
-    "Show on-screen display when brightness changes": ""
+    "Show on-screen display when brightness changes": "当亮度改变时显示OSD"
   },
   "Show on-screen display when caps lock state changes": {
-    "Show on-screen display when caps lock state changes": ""
+    "Show on-screen display when caps lock state changes": "当大小写状态变化时显示OSD"
   },
   "Show on-screen display when idle inhibitor state changes": {
-    "Show on-screen display when idle inhibitor state changes": ""
+    "Show on-screen display when idle inhibitor state changes": "当空闲抑制状态改变时显示OSD"
   },
   "Show on-screen display when microphone is muted/unmuted": {
-    "Show on-screen display when microphone is muted/unmuted": ""
+    "Show on-screen display when microphone is muted/unmuted": "当麦克风静音状态切换时显示OSD"
   },
   "Show on-screen display when power profile changes": {
-    "Show on-screen display when power profile changes": ""
+    "Show on-screen display when power profile changes": "当电源配置改变时显示OSD"
   },
   "Show on-screen display when volume changes": {
-    "Show on-screen display when volume changes": ""
+    "Show on-screen display when volume changes": "当音量变化时显示OSD"
   },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "仅显示当前工作区中的活动应用"
@@ -2178,7 +2193,7 @@
     "Volume Changed": "音量变化"
   },
   "Volume OSD": {
-    "Volume OSD": ""
+    "Volume OSD": "OSD音量"
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "音量、亮度和其他系统屏幕显示"

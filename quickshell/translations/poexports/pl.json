@@ -276,7 +276,7 @@
     "Brightness": "Jasność"
   },
   "Brightness OSD": {
-    "Brightness OSD": ""
+    "Brightness OSD": "OSD Jasności"
   },
   "Browse": {
     "Browse": "Przeglądaj"
@@ -318,7 +318,7 @@
     "Caps Lock Indicator": "Wskaźnik caps locka"
   },
   "Caps Lock OSD": {
-    "Caps Lock OSD": ""
+    "Caps Lock OSD": "OSD Caps Lock"
   },
   "Center Section": {
     "Center Section": "Sekcja środkowa"
@@ -346,6 +346,9 @@
   },
   "Choose where notification popups appear on screen": {
     "Choose where notification popups appear on screen": "Wybierz, gdzie na ekranie mają pojawiać się powiadomienia"
+  },
+  "Choose where on-screen displays appear on screen": {
+    "Choose where on-screen displays appear on screen": ""
   },
   "Clear": {
     "Clear": "Wyczyść"
@@ -622,6 +625,9 @@
   },
   "Dismiss": {
     "Dismiss": "Odrzuć"
+  },
+  "Display Name Format": {
+    "Display Name Format": ""
   },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "Wyświetla dok z przypiętymi i uruchomionymi aplikacjami, który można umieścić na górze, na dole, po lewej lub po prawej stronie ekranu."
@@ -966,7 +972,7 @@
     "Idle Inhibitor": "Inhibitor bezczynności"
   },
   "Idle Inhibitor OSD": {
-    "Idle Inhibitor OSD": ""
+    "Idle Inhibitor OSD": "OSD Inhibitora Bezczynności"
   },
   "Idle Settings": {
     "Idle Settings": "Ustawienia bezczynności"
@@ -1185,7 +1191,7 @@
     "Microphone": "Mikrofon"
   },
   "Microphone Mute OSD": {
-    "Microphone Mute OSD": ""
+    "Microphone Mute OSD": "OSD Wyciszenia Mikrofonu"
   },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "Minimalna paleta zbudowana wokół jednego odcienia."
@@ -1198,6 +1204,9 @@
   },
   "Mode: ": {
     "Mode: ": "Tryb: "
+  },
+  "Model": {
+    "Model": ""
   },
   "Monitor Selection:": {
     "Monitor Selection:": "Wybór monitora:"
@@ -1222,6 +1231,9 @@
   },
   "NM not supported": {
     "NM not supported": "NM nie jest obsługiwany"
+  },
+  "Name": {
+    "Name": ""
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "Ikony nazwanych obszarów roboczych"
@@ -1349,6 +1361,9 @@
   "OS Logo": {
     "OS Logo": "Logo OS"
   },
+  "OSD Position": {
+    "OSD Position": ""
+  },
   "Office": {
     "Office": "Biuro"
   },
@@ -1359,7 +1374,7 @@
     "On-Screen Displays": "Wyświetlacze ekranowe"
   },
   "On-screen Displays": {
-    "On-screen Displays": ""
+    "On-screen Displays": "Powiadomienia ekranowe"
   },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "Dostosuj gamma tylko na podstawie reguł czasu lub lokalizacji."
@@ -1509,7 +1524,7 @@
     "Power Profile Degradation": "Pogorszenie profilu zasilania"
   },
   "Power Profile OSD": {
-    "Power Profile OSD": ""
+    "Power Profile OSD": "OSD Profilu Zasilania"
   },
   "Pressure": {
     "Pressure": "Ciśnienie"
@@ -1800,22 +1815,22 @@
     "Show on screens:": "Pokaż na ekranach:"
   },
   "Show on-screen display when brightness changes": {
-    "Show on-screen display when brightness changes": ""
+    "Show on-screen display when brightness changes": "Wyświetlaj powiadomienie ekranowe przy zmianie jasności"
   },
   "Show on-screen display when caps lock state changes": {
-    "Show on-screen display when caps lock state changes": ""
+    "Show on-screen display when caps lock state changes": "Wyświetlaj powiadomienie ekranowe przy zmianie stanu Caps Lock"
   },
   "Show on-screen display when idle inhibitor state changes": {
-    "Show on-screen display when idle inhibitor state changes": ""
+    "Show on-screen display when idle inhibitor state changes": "Wyświetlaj powiadomienie ekranowe przy zmianie stanu inhibitora bezczynności"
   },
   "Show on-screen display when microphone is muted/unmuted": {
-    "Show on-screen display when microphone is muted/unmuted": ""
+    "Show on-screen display when microphone is muted/unmuted": "Wyświetlaj powiadomienie ekranowe przy wyciszaniu/włączaniu mikrofonu"
   },
   "Show on-screen display when power profile changes": {
-    "Show on-screen display when power profile changes": ""
+    "Show on-screen display when power profile changes": "Wyświetlaj powiadomienie ekranowe przy zmianie profilu zasilania"
   },
   "Show on-screen display when volume changes": {
-    "Show on-screen display when volume changes": ""
+    "Show on-screen display when volume changes": "Wyświetlaj powiadomienie ekranowe przy zmianie głośności"
   },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "Pokaż tylko aplikacje uruchomione w bieżącym obszarze roboczym"
@@ -2178,7 +2193,7 @@
     "Volume Changed": "Zmieniony wolumen"
   },
   "Volume OSD": {
-    "Volume OSD": ""
+    "Volume OSD": "OSD Głośności"
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "Głośność, jasność i inne systemowe menu ekranowe"

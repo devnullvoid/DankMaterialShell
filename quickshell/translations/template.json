@@ -812,6 +812,13 @@
     "comment": ""
   },
   {
+    "term": "Choose where on-screen displays appear on screen",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Clear",
     "translation": "",
     "context": "",
@@ -1450,6 +1457,13 @@
   },
   {
     "term": "Dismiss",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Display Name Format",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2793,6 +2807,13 @@
     "comment": ""
   },
   {
+    "term": "Model",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Monitor Selection:",
     "translation": "",
     "context": "",
@@ -2843,6 +2864,13 @@
   },
   {
     "term": "NM not supported",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Name",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3137,6 +3165,13 @@
   },
   {
     "term": "OS Logo",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "OSD Position",
     "translation": "",
     "context": "",
     "reference": "",

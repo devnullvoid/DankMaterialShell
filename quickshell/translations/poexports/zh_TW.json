@@ -347,6 +347,9 @@
   "Choose where notification popups appear on screen": {
     "Choose where notification popups appear on screen": "選擇通知彈出視窗在螢幕上出現的位置"
   },
+  "Choose where on-screen displays appear on screen": {
+    "Choose where on-screen displays appear on screen": ""
+  },
   "Clear": {
     "Clear": "清除"
   },
@@ -622,6 +625,9 @@
   },
   "Dismiss": {
     "Dismiss": "忽略"
+  },
+  "Display Name Format": {
+    "Display Name Format": ""
   },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "顯示一個帶有固定和正在運行的應用程式的 Dock，這些應用程式可以放置在螢幕的頂部、底部、左側或右側邊緣"
@@ -1199,6 +1205,9 @@
   "Mode: ": {
     "Mode: ": "模式："
   },
+  "Model": {
+    "Model": ""
+  },
   "Monitor Selection:": {
     "Monitor Selection:": "螢幕選擇:"
   },
@@ -1222,6 +1231,9 @@
   },
   "NM not supported": {
     "NM not supported": "NM 不支援"
+  },
+  "Name": {
+    "Name": ""
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "命名工作區圖示"
@@ -1348,6 +1360,9 @@
   },
   "OS Logo": {
     "OS Logo": "發行版 Logo"
+  },
+  "OSD Position": {
+    "OSD Position": ""
   },
   "Office": {
     "Office": "辦公"

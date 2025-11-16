@@ -276,7 +276,7 @@
     "Brightness": "明るさ"
   },
   "Brightness OSD": {
-    "Brightness OSD": ""
+    "Brightness OSD": "明るさOSD"
   },
   "Browse": {
     "Browse": "ブラウズ"
@@ -318,7 +318,7 @@
     "Caps Lock Indicator": "Caps Lock インジケーター"
   },
   "Caps Lock OSD": {
-    "Caps Lock OSD": ""
+    "Caps Lock OSD": "Caps Lock OSD"
   },
   "Center Section": {
     "Center Section": "センターセクション"
@@ -346,6 +346,9 @@
   },
   "Choose where notification popups appear on screen": {
     "Choose where notification popups appear on screen": "通知ポップアップが画面に表示される場所を選ぶ"
+  },
+  "Choose where on-screen displays appear on screen": {
+    "Choose where on-screen displays appear on screen": ""
   },
   "Clear": {
     "Clear": "クリア"
@@ -622,6 +625,9 @@
   },
   "Dismiss": {
     "Dismiss": "解除"
+  },
+  "Display Name Format": {
+    "Display Name Format": ""
   },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "画面の上、下、左、右の端に配置できる、ピン留めされた実行中のアプリケーションを含むドックを表示します"
@@ -966,7 +972,7 @@
     "Idle Inhibitor": "アイドルインヒビター"
   },
   "Idle Inhibitor OSD": {
-    "Idle Inhibitor OSD": ""
+    "Idle Inhibitor OSD": "アイドルインヒビターOSD"
   },
   "Idle Settings": {
     "Idle Settings": "アイドル設定"
@@ -1185,7 +1191,7 @@
     "Microphone": "マイク"
   },
   "Microphone Mute OSD": {
-    "Microphone Mute OSD": ""
+    "Microphone Mute OSD": "マイクミュートOSD"
   },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "単一の色相を中心に構築された最小限のパレット。"
@@ -1198,6 +1204,9 @@
   },
   "Mode: ": {
     "Mode: ": "モード: "
+  },
+  "Model": {
+    "Model": ""
   },
   "Monitor Selection:": {
     "Monitor Selection:": "モニターの選択："
@@ -1222,6 +1231,9 @@
   },
   "NM not supported": {
     "NM not supported": "NMが利用できません"
+  },
+  "Name": {
+    "Name": ""
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "名前付きワークスペースアイコン"
@@ -1349,6 +1361,9 @@
   "OS Logo": {
     "OS Logo": "OSロゴ"
   },
+  "OSD Position": {
+    "OSD Position": ""
+  },
   "Office": {
     "Office": "オフィス"
   },
@@ -1359,7 +1374,7 @@
     "On-Screen Displays": "オンスクリーンディスプレイ"
   },
   "On-screen Displays": {
-    "On-screen Displays": ""
+    "On-screen Displays": "オンスクリーンディスプレイ"
   },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "ガンマは、時間または場所のルールに基づいてのみ調整します。"
@@ -1509,7 +1524,7 @@
     "Power Profile Degradation": "電源プロファイルの劣化"
   },
   "Power Profile OSD": {
-    "Power Profile OSD": ""
+    "Power Profile OSD": "電源プロファイルOSD"
   },
   "Pressure": {
     "Pressure": "プレッシャー"
@@ -1800,22 +1815,22 @@
     "Show on screens:": "画面に表示:"
   },
   "Show on-screen display when brightness changes": {
-    "Show on-screen display when brightness changes": ""
+    "Show on-screen display when brightness changes": "明るさが変化した時にOSDを表示"
   },
   "Show on-screen display when caps lock state changes": {
-    "Show on-screen display when caps lock state changes": ""
+    "Show on-screen display when caps lock state changes": "Caps Lock の状態が変化した時にOSDを表示"
   },
   "Show on-screen display when idle inhibitor state changes": {
-    "Show on-screen display when idle inhibitor state changes": ""
+    "Show on-screen display when idle inhibitor state changes": "アイドルインヒビターの状態が変化した時にOSDを表示"
   },
   "Show on-screen display when microphone is muted/unmuted": {
-    "Show on-screen display when microphone is muted/unmuted": ""
+    "Show on-screen display when microphone is muted/unmuted": "マイクがミュート/ミュート解除された時にOSDを表示"
   },
   "Show on-screen display when power profile changes": {
-    "Show on-screen display when power profile changes": ""
+    "Show on-screen display when power profile changes": "電源プロファイルが変化した時にOSDを表示"
   },
   "Show on-screen display when volume changes": {
-    "Show on-screen display when volume changes": ""
+    "Show on-screen display when volume changes": "音量が変化したときにOSDを表示"
   },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "現在のワークスペースで実行されているアプリのみを表示"
@@ -2178,7 +2193,7 @@
     "Volume Changed": "音量変更"
   },
   "Volume OSD": {
-    "Volume OSD": ""
+    "Volume OSD": "音量OSD"
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "音量、明るさ、その他のシステム OSD"

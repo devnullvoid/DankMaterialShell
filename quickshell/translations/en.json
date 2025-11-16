@@ -38,7 +38,7 @@
   {
     "term": "24-hour format",
     "context": "24-hour format",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1333",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1358",
     "comment": ""
   },
   {
@@ -134,7 +134,7 @@
   {
     "term": "All displays",
     "context": "All displays",
-    "reference": "Modules/Settings/DisplaysTab.qml:702",
+    "reference": "Modules/Settings/DisplaysTab.qml:748",
     "comment": ""
   },
   {
@@ -164,7 +164,7 @@
   {
     "term": "Animation Speed",
     "context": "Animation Speed",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1555",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1580",
     "comment": ""
   },
   {
@@ -368,7 +368,7 @@
   {
     "term": "Automatic Cycling",
     "context": "Automatic Cycling",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1086",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1111",
     "comment": ""
   },
   {
@@ -380,7 +380,7 @@
   {
     "term": "Automatically cycle through wallpapers in the same folder",
     "context": "Automatically cycle through wallpapers in the same folder",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1093",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1118",
     "comment": ""
   },
   {
@@ -398,7 +398,7 @@
   {
     "term": "Automatically extract colors from wallpaper",
     "context": "Automatically extract colors from wallpaper",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1759",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1784",
     "comment": ""
   },
   {
@@ -440,7 +440,7 @@
   {
     "term": "Available Screens (",
     "context": "Available Screens (",
-    "reference": "Modules/Settings/DisplaysTab.qml:546",
+    "reference": "Modules/Settings/DisplaysTab.qml:554",
     "comment": ""
   },
   {
@@ -488,7 +488,7 @@
   {
     "term": "Blur Layer",
     "context": "Blur Layer",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1442",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1467",
     "comment": ""
   },
   {
@@ -554,7 +554,7 @@
   {
     "term": "Brightness OSD",
     "context": "Brightness OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:751",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:805",
     "comment": ""
   },
   {
@@ -638,7 +638,7 @@
   {
     "term": "Caps Lock OSD",
     "context": "Caps Lock OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:781",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:835",
     "comment": ""
   },
   {
@@ -693,6 +693,12 @@
     "term": "Choose where notification popups appear on screen",
     "context": "Choose where notification popups appear on screen",
     "reference": "Modules/Settings/WidgetTweaksTab.qml:603",
+    "comment": ""
+  },
+  {
+    "term": "Choose where on-screen displays appear on screen",
+    "context": "Choose where on-screen displays appear on screen",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:748",
     "comment": ""
   },
   {
@@ -1082,7 +1088,7 @@
   {
     "term": "Daily at:",
     "context": "Daily at:",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1258",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1283",
     "comment": ""
   },
   {
@@ -1248,6 +1254,12 @@
     "comment": ""
   },
   {
+    "term": "Display Name Format",
+    "context": "Display Name Format",
+    "reference": "Modules/Settings/DisplaysTab.qml:571",
+    "comment": ""
+  },
+  {
     "term": "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen",
     "context": "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen",
     "reference": "Modules/Settings/DockTab.qml:134",
@@ -1364,13 +1376,13 @@
   {
     "term": "Duration",
     "context": "Duration",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1608",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1633",
     "comment": ""
   },
   {
     "term": "Dynamic Theming",
     "context": "Dynamic Theming",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1752",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1777",
     "comment": ""
   },
   {
@@ -1406,7 +1418,7 @@
   {
     "term": "Enable System Sounds",
     "context": "Enable System Sounds",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1908",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1933",
     "comment": ""
   },
   {
@@ -1424,7 +1436,7 @@
   {
     "term": "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.",
     "context": "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1449",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1474",
     "comment": ""
   },
   {
@@ -1526,7 +1538,7 @@
   {
     "term": "Execute templates from ~/.config/matugen/config.toml",
     "context": "Execute templates from ~/.config/matugen/config.toml",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1845",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1870",
     "comment": ""
   },
   {
@@ -1850,7 +1862,7 @@
   {
     "term": "Hibernate",
     "context": "Hibernate",
-    "reference": "Modals/PowerMenuModal.qml:121, Modals/PowerMenuModal.qml:161, Modules/Lock/LockPowerMenu.qml:312",
+    "reference": "Modals/PowerMenuModal.qml:121, Modals/PowerMenuModal.qml:161, Modules/Lock/LockPowerMenu.qml:90",
     "comment": ""
   },
   {
@@ -1886,7 +1898,7 @@
   {
     "term": "How often to change wallpaper",
     "context": "How often to change wallpaper",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1204",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1229",
     "comment": ""
   },
   {
@@ -1928,7 +1940,7 @@
   {
     "term": "Idle Inhibitor OSD",
     "context": "Idle Inhibitor OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:761",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:815",
     "comment": ""
   },
   {
@@ -1952,7 +1964,7 @@
   {
     "term": "Include Transitions",
     "context": "Include Transitions",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1370",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1395",
     "comment": ""
   },
   {
@@ -2006,7 +2018,7 @@
   {
     "term": "Interval",
     "context": "Interval",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1203",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1228",
     "comment": ""
   },
   {
@@ -2132,7 +2144,7 @@
   {
     "term": "Light Mode",
     "context": "Light Mode",
-    "reference": "Modules/Settings/PersonalizationTab.qml:509, Modules/Settings/PersonalizationTab.qml:1499",
+    "reference": "Modules/Settings/PersonalizationTab.qml:509, Modules/Settings/PersonalizationTab.qml:1524",
     "comment": ""
   },
   {
@@ -2186,7 +2198,7 @@
   {
     "term": "Log Out",
     "context": "Log Out",
-    "reference": "Modals/PowerMenuModal.qml:97, Modals/PowerMenuModal.qml:153, Modules/Lock/LockPowerMenu.qml:209, Modules/ControlCenter/PowerMenu.qml:14",
+    "reference": "Modals/PowerMenuModal.qml:97, Modals/PowerMenuModal.qml:153, Modules/Lock/LockPowerMenu.qml:84",
     "comment": ""
   },
   {
@@ -2270,19 +2282,19 @@
   {
     "term": "Matugen Palette",
     "context": "Matugen Palette",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:594, Modules/Settings/PersonalizationTab.qml:1784",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:594, Modules/Settings/PersonalizationTab.qml:1809",
     "comment": ""
   },
   {
     "term": "Matugen Settings",
     "context": "Matugen Settings",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1727",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1752",
     "comment": ""
   },
   {
     "term": "Matugen Target Monitor",
     "context": "Matugen Target Monitor",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1027",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1041",
     "comment": ""
   },
   {
@@ -2366,7 +2378,7 @@
   {
     "term": "Microphone Mute OSD",
     "context": "Microphone Mute OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:771",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:825",
     "comment": ""
   },
   {
@@ -2384,13 +2396,19 @@
   {
     "term": "Mode:",
     "context": "Mode:",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1135",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1160",
     "comment": ""
   },
   {
     "term": "Mode: ",
     "context": "Mode: ",
     "reference": "Modals/DisplayConfirmationModal.qml:138",
+    "comment": ""
+  },
+  {
+    "term": "Model",
+    "context": "Model",
+    "reference": "Modules/Settings/DisplaysTab.qml:579",
     "comment": ""
   },
   {
@@ -2402,7 +2420,7 @@
   {
     "term": "Monitor whose wallpaper drives dynamic theming colors",
     "context": "Monitor whose wallpaper drives dynamic theming colors",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1028",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1042",
     "comment": ""
   },
   {
@@ -2439,6 +2457,12 @@
     "term": "NM not supported",
     "context": "NM not supported",
     "reference": "Modules/ControlCenter/Components/DragDropGrid.qml:202",
+    "comment": ""
+  },
+  {
+    "term": "Name",
+    "context": "Name",
+    "reference": "Modules/Settings/DisplaysTab.qml:579",
     "comment": ""
   },
   {
@@ -2504,7 +2528,7 @@
   {
     "term": "New Notification",
     "context": "New Notification",
-    "reference": "Modules/Settings/PersonalizationTab.qml:2022",
+    "reference": "Modules/Settings/PersonalizationTab.qml:2047",
     "comment": ""
   },
   {
@@ -2618,7 +2642,7 @@
   {
     "term": "Notepad",
     "context": "Notepad",
-    "reference": "DMSShell.qml:455, Modules/Settings/DankBarTab.qml:191",
+    "reference": "DMSShell.qml:413, Modules/Settings/DankBarTab.qml:191",
     "comment": ""
   },
   {
@@ -2691,6 +2715,12 @@
     "term": "OS Logo",
     "context": "OS Logo",
     "reference": "Modules/Settings/LauncherTab.qml:88",
+    "comment": ""
+  },
+  {
+    "term": "OSD Position",
+    "context": "OSD Position",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:747",
     "comment": ""
   },
   {
@@ -2894,31 +2924,31 @@
   {
     "term": "Play sound when new notification arrives",
     "context": "Play sound when new notification arrives",
-    "reference": "Modules/Settings/PersonalizationTab.qml:2028",
+    "reference": "Modules/Settings/PersonalizationTab.qml:2053",
     "comment": ""
   },
   {
     "term": "Play sound when power cable is connected",
     "context": "Play sound when power cable is connected",
-    "reference": "Modules/Settings/PersonalizationTab.qml:2097",
+    "reference": "Modules/Settings/PersonalizationTab.qml:2122",
     "comment": ""
   },
   {
     "term": "Play sound when volume is adjusted",
     "context": "Play sound when volume is adjusted",
-    "reference": "Modules/Settings/PersonalizationTab.qml:2062",
+    "reference": "Modules/Settings/PersonalizationTab.qml:2087",
     "comment": ""
   },
   {
     "term": "Play sounds for system events",
     "context": "Play sounds for system events",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1915",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1940",
     "comment": ""
   },
   {
     "term": "Plugged In",
     "context": "Plugged In",
-    "reference": "Modules/Settings/PersonalizationTab.qml:2091",
+    "reference": "Modules/Settings/PersonalizationTab.qml:2116",
     "comment": ""
   },
   {
@@ -2996,13 +3026,13 @@
   {
     "term": "Power Off",
     "context": "Power Off",
-    "reference": "Modals/PowerMenuModal.qml:103, Modals/PowerMenuModal.qml:169, Modules/Lock/LockPowerMenu.qml:432, Modules/ControlCenter/PowerMenu.qml:17",
+    "reference": "Modals/PowerMenuModal.qml:103, Modals/PowerMenuModal.qml:169, Modules/Lock/LockPowerMenu.qml:86",
     "comment": ""
   },
   {
     "term": "Power Options",
     "context": "Power Options",
-    "reference": "Modules/Lock/LockPowerMenu.qml:154, Modules/ControlCenter/PowerMenu.qml:13",
+    "reference": "Modules/Lock/LockPowerMenu.qml:331",
     "comment": ""
   },
   {
@@ -3014,7 +3044,7 @@
   {
     "term": "Power Profile OSD",
     "context": "Power Profile OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:791",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:845",
     "comment": ""
   },
   {
@@ -3134,7 +3164,7 @@
   {
     "term": "Reboot",
     "context": "Reboot",
-    "reference": "Modals/PowerMenuModal.qml:91, Modals/PowerMenuModal.qml:165, Modules/Lock/LockPowerMenu.qml:372, Modules/ControlCenter/PowerMenu.qml:16",
+    "reference": "Modals/PowerMenuModal.qml:91, Modals/PowerMenuModal.qml:165, Modules/Lock/LockPowerMenu.qml:82",
     "comment": ""
   },
   {
@@ -3254,7 +3284,7 @@
   {
     "term": "Run User Templates",
     "context": "Run User Templates",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1838",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1863",
     "comment": ""
   },
   {
@@ -3380,7 +3410,7 @@
   {
     "term": "Select a preset or drag the slider to customize",
     "context": "Select a preset or drag the slider to customize",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1689",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1714",
     "comment": ""
   },
   {
@@ -3422,19 +3452,19 @@
   {
     "term": "Select system sound theme",
     "context": "Select system sound theme",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1986",
+    "reference": "Modules/Settings/PersonalizationTab.qml:2011",
     "comment": ""
   },
   {
     "term": "Select the palette algorithm used for wallpaper-based colors",
     "context": "Select the palette algorithm used for wallpaper-based colors",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:595, Modules/Settings/PersonalizationTab.qml:1785",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:595, Modules/Settings/PersonalizationTab.qml:1810",
     "comment": ""
   },
   {
     "term": "Select which transitions to include in randomization",
     "context": "Select which transitions to include in randomization",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1377",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1402",
     "comment": ""
   },
   {
@@ -3566,7 +3596,7 @@
   {
     "term": "Show on Last Display",
     "context": "Show on Last Display",
-    "reference": "Modules/Settings/DisplaysTab.qml:719",
+    "reference": "Modules/Settings/DisplaysTab.qml:768",
     "comment": ""
   },
   {
@@ -3578,49 +3608,49 @@
   {
     "term": "Show on all connected displays",
     "context": "Show on all connected displays",
-    "reference": "Modules/Settings/DisplaysTab.qml:703",
+    "reference": "Modules/Settings/DisplaysTab.qml:749",
     "comment": ""
   },
   {
     "term": "Show on screens:",
     "context": "Show on screens:",
-    "reference": "Modules/Settings/DisplaysTab.qml:688",
+    "reference": "Modules/Settings/DisplaysTab.qml:734",
     "comment": ""
   },
   {
     "term": "Show on-screen display when brightness changes",
     "context": "Show on-screen display when brightness changes",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:752",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:806",
     "comment": ""
   },
   {
     "term": "Show on-screen display when caps lock state changes",
     "context": "Show on-screen display when caps lock state changes",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:782",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:836",
     "comment": ""
   },
   {
     "term": "Show on-screen display when idle inhibitor state changes",
     "context": "Show on-screen display when idle inhibitor state changes",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:762",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:816",
     "comment": ""
   },
   {
     "term": "Show on-screen display when microphone is muted/unmuted",
     "context": "Show on-screen display when microphone is muted/unmuted",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:772",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:826",
     "comment": ""
   },
   {
     "term": "Show on-screen display when power profile changes",
     "context": "Show on-screen display when power profile changes",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:792",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:846",
     "comment": ""
   },
   {
     "term": "Show on-screen display when volume changes",
     "context": "Show on-screen display when volume changes",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:742",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:796",
     "comment": ""
   },
   {
@@ -3716,7 +3746,7 @@
   {
     "term": "Sound Theme",
     "context": "Sound Theme",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1985",
+    "reference": "Modules/Settings/PersonalizationTab.qml:2010",
     "comment": ""
   },
   {
@@ -3800,7 +3830,7 @@
   {
     "term": "Suspend",
     "context": "Suspend",
-    "reference": "Modals/PowerMenuModal.qml:115, Modals/PowerMenuModal.qml:157, Modules/Lock/LockPowerMenu.qml:260, Modules/ControlCenter/PowerMenu.qml:15",
+    "reference": "Modals/PowerMenuModal.qml:115, Modals/PowerMenuModal.qml:157, Modules/Lock/LockPowerMenu.qml:88",
     "comment": ""
   },
   {
@@ -4088,7 +4118,7 @@
   {
     "term": "Transition Effect",
     "context": "Transition Effect",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1350",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1375",
     "comment": ""
   },
   {
@@ -4190,7 +4220,7 @@
   {
     "term": "Use System Theme",
     "context": "Use System Theme",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1957",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1982",
     "comment": ""
   },
   {
@@ -4214,13 +4244,13 @@
   {
     "term": "Use light theme instead of dark theme",
     "context": "Use light theme instead of dark theme",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1506",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1531",
     "comment": ""
   },
   {
     "term": "Use sound theme from system settings",
     "context": "Use sound theme from system settings",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1963",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1988",
     "comment": ""
   },
   {
@@ -4322,19 +4352,19 @@
   {
     "term": "Visual effect used when wallpaper changes",
     "context": "Visual effect used when wallpaper changes",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1351",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1376",
     "comment": ""
   },
   {
     "term": "Volume Changed",
     "context": "Volume Changed",
-    "reference": "Modules/Settings/PersonalizationTab.qml:2056",
+    "reference": "Modules/Settings/PersonalizationTab.qml:2081",
     "comment": ""
   },
   {
     "term": "Volume OSD",
     "context": "Volume OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:741",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:795",
     "comment": ""
   },
   {
@@ -4508,7 +4538,7 @@
   {
     "term": "matugen not detected - dynamic theming unavailable",
     "context": "matugen not detected - dynamic theming unavailable",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1865",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1890",
     "comment": ""
   },
   {

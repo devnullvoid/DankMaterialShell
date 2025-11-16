@@ -347,6 +347,9 @@
   "Choose where notification popups appear on screen": {
     "Choose where notification popups appear on screen": "Escolher onde as notificações irão aparecer na tela"
   },
+  "Choose where on-screen displays appear on screen": {
+    "Choose where on-screen displays appear on screen": ""
+  },
   "Clear": {
     "Clear": "Limpar"
   },
@@ -622,6 +625,9 @@
   },
   "Dismiss": {
     "Dismiss": "Descartar"
+  },
+  "Display Name Format": {
+    "Display Name Format": ""
   },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "Exibir um dock com aplicativos que estão sendo utilizados, e que pode ser posicionada no superior, inferior, esquerda ou direita dos cantos da tela"
@@ -1199,6 +1205,9 @@
   "Mode: ": {
     "Mode: ": ""
   },
+  "Model": {
+    "Model": ""
+  },
   "Monitor Selection:": {
     "Monitor Selection:": "Seleção de Monitor:"
   },
@@ -1222,6 +1231,9 @@
   },
   "NM not supported": {
     "NM not supported": "NM não suportado"
+  },
+  "Name": {
+    "Name": ""
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "Ícones de Áreas de Trabalho Nomeadas"
@@ -1348,6 +1360,9 @@
   },
   "OS Logo": {
     "OS Logo": "Logo do SO"
+  },
+  "OSD Position": {
+    "OSD Position": ""
   },
   "Office": {
     "Office": "Escritório"
