@@ -157,6 +157,16 @@ type ZdwlIpcOutputV2 struct {
 	appidHandler            ZdwlIpcOutputV2AppidHandlerFunc
 	layoutSymbolHandler     ZdwlIpcOutputV2LayoutSymbolHandlerFunc
 	frameHandler            ZdwlIpcOutputV2FrameHandlerFunc
+	fullscreenHandler       ZdwlIpcOutputV2FullscreenHandlerFunc
+	floatingHandler         ZdwlIpcOutputV2FloatingHandlerFunc
+	xHandler                ZdwlIpcOutputV2XHandlerFunc
+	yHandler                ZdwlIpcOutputV2YHandlerFunc
+	widthHandler            ZdwlIpcOutputV2WidthHandlerFunc
+	heightHandler           ZdwlIpcOutputV2HeightHandlerFunc
+	lastLayerHandler        ZdwlIpcOutputV2LastLayerHandlerFunc
+	kbLayoutHandler         ZdwlIpcOutputV2KbLayoutHandlerFunc
+	keymodeHandler          ZdwlIpcOutputV2KeymodeHandlerFunc
+	scalefactorHandler      ZdwlIpcOutputV2ScalefactorHandlerFunc
 }
 
 // NewZdwlIpcOutputV2 : control dwl output
@@ -248,6 +258,60 @@ func (i *ZdwlIpcOutputV2) SetLayout(index uint32) error {
 	client.PutUint32(_reqBuf[l:l+4], uint32(index))
 	l += 4
 	err := i.Context().WriteMsg(_reqBuf[:], nil)
+	return err
+}
+
+// Quit : Quit mango
+// This request allows clients to instruct the compositor to quit mango.
+func (i *ZdwlIpcOutputV2) Quit() error {
+	const opcode = 4
+	const _reqBufLen = 8
+	var _reqBuf [_reqBufLen]byte
+	l := 0
+	client.PutUint32(_reqBuf[l:4], i.ID())
+	l += 4
+	client.PutUint32(_reqBuf[l:l+4], uint32(_reqBufLen<<16|opcode&0x0000ffff))
+	l += 4
+	err := i.Context().WriteMsg(_reqBuf[:], nil)
+	return err
+}
+
+// SendDispatch : Set the active tags of this output
+//
+//	dispatch: dispatch name.
+//	arg1: arg1.
+//	arg2: arg2.
+//	arg3: arg3.
+//	arg4: arg4.
+//	arg5: arg5.
+func (i *ZdwlIpcOutputV2) SendDispatch(dispatch, arg1, arg2, arg3, arg4, arg5 string) error {
+	const opcode = 5
+	dispatchLen := client.PaddedLen(len(dispatch) + 1)
+	arg1Len := client.PaddedLen(len(arg1) + 1)
+	arg2Len := client.PaddedLen(len(arg2) + 1)
+	arg3Len := client.PaddedLen(len(arg3) + 1)
+	arg4Len := client.PaddedLen(len(arg4) + 1)
+	arg5Len := client.PaddedLen(len(arg5) + 1)
+	_reqBufLen := 8 + (4 + dispatchLen) + (4 + arg1Len) + (4 + arg2Len) + (4 + arg3Len) + (4 + arg4Len) + (4 + arg5Len)
+	_reqBuf := make([]byte, _reqBufLen)
+	l := 0
+	client.PutUint32(_reqBuf[l:4], i.ID())
+	l += 4
+	client.PutUint32(_reqBuf[l:l+4], uint32(_reqBufLen<<16|opcode&0x0000ffff))
+	l += 4
+	client.PutString(_reqBuf[l:l+(4+dispatchLen)], dispatch)
+	l += (4 + dispatchLen)
+	client.PutString(_reqBuf[l:l+(4+arg1Len)], arg1)
+	l += (4 + arg1Len)
+	client.PutString(_reqBuf[l:l+(4+arg2Len)], arg2)
+	l += (4 + arg2Len)
+	client.PutString(_reqBuf[l:l+(4+arg3Len)], arg3)
+	l += (4 + arg3Len)
+	client.PutString(_reqBuf[l:l+(4+arg4Len)], arg4)
+	l += (4 + arg4Len)
+	client.PutString(_reqBuf[l:l+(4+arg5Len)], arg5)
+	l += (4 + arg5Len)
+	err := i.Context().WriteMsg(_reqBuf, nil)
 	return err
 }
 
@@ -399,6 +463,136 @@ func (i *ZdwlIpcOutputV2) SetFrameHandler(f ZdwlIpcOutputV2FrameHandlerFunc) {
 	i.frameHandler = f
 }
 
+// ZdwlIpcOutputV2FullscreenEvent : Update fullscreen status
+//
+// Indicates if the selected client on this output is fullscreen.
+type ZdwlIpcOutputV2FullscreenEvent struct {
+	IsFullscreen uint32
+}
+type ZdwlIpcOutputV2FullscreenHandlerFunc func(ZdwlIpcOutputV2FullscreenEvent)
+
+// SetFullscreenHandler : sets handler for ZdwlIpcOutputV2FullscreenEvent
+func (i *ZdwlIpcOutputV2) SetFullscreenHandler(f ZdwlIpcOutputV2FullscreenHandlerFunc) {
+	i.fullscreenHandler = f
+}
+
+// ZdwlIpcOutputV2FloatingEvent : Update the floating status
+//
+// Indicates if the selected client on this output is floating.
+type ZdwlIpcOutputV2FloatingEvent struct {
+	IsFloating uint32
+}
+type ZdwlIpcOutputV2FloatingHandlerFunc func(ZdwlIpcOutputV2FloatingEvent)
+
+// SetFloatingHandler : sets handler for ZdwlIpcOutputV2FloatingEvent
+func (i *ZdwlIpcOutputV2) SetFloatingHandler(f ZdwlIpcOutputV2FloatingHandlerFunc) {
+	i.floatingHandler = f
+}
+
+// ZdwlIpcOutputV2XEvent : Update the x coordinates
+//
+// Indicates if x coordinates of the selected client.
+type ZdwlIpcOutputV2XEvent struct {
+	X int32
+}
+type ZdwlIpcOutputV2XHandlerFunc func(ZdwlIpcOutputV2XEvent)
+
+// SetXHandler : sets handler for ZdwlIpcOutputV2XEvent
+func (i *ZdwlIpcOutputV2) SetXHandler(f ZdwlIpcOutputV2XHandlerFunc) {
+	i.xHandler = f
+}
+
+// ZdwlIpcOutputV2YEvent : Update the y coordinates
+//
+// Indicates if y coordinates of the selected client.
+type ZdwlIpcOutputV2YEvent struct {
+	Y int32
+}
+type ZdwlIpcOutputV2YHandlerFunc func(ZdwlIpcOutputV2YEvent)
+
+// SetYHandler : sets handler for ZdwlIpcOutputV2YEvent
+func (i *ZdwlIpcOutputV2) SetYHandler(f ZdwlIpcOutputV2YHandlerFunc) {
+	i.yHandler = f
+}
+
+// ZdwlIpcOutputV2WidthEvent : Update the width
+//
+// Indicates if width of the selected client.
+type ZdwlIpcOutputV2WidthEvent struct {
+	Width int32
+}
+type ZdwlIpcOutputV2WidthHandlerFunc func(ZdwlIpcOutputV2WidthEvent)
+
+// SetWidthHandler : sets handler for ZdwlIpcOutputV2WidthEvent
+func (i *ZdwlIpcOutputV2) SetWidthHandler(f ZdwlIpcOutputV2WidthHandlerFunc) {
+	i.widthHandler = f
+}
+
+// ZdwlIpcOutputV2HeightEvent : Update the height
+//
+// Indicates if height of the selected client.
+type ZdwlIpcOutputV2HeightEvent struct {
+	Height int32
+}
+type ZdwlIpcOutputV2HeightHandlerFunc func(ZdwlIpcOutputV2HeightEvent)
+
+// SetHeightHandler : sets handler for ZdwlIpcOutputV2HeightEvent
+func (i *ZdwlIpcOutputV2) SetHeightHandler(f ZdwlIpcOutputV2HeightHandlerFunc) {
+	i.heightHandler = f
+}
+
+// ZdwlIpcOutputV2LastLayerEvent : last map layer.
+//
+// last map layer.
+type ZdwlIpcOutputV2LastLayerEvent struct {
+	LastLayer string
+}
+type ZdwlIpcOutputV2LastLayerHandlerFunc func(ZdwlIpcOutputV2LastLayerEvent)
+
+// SetLastLayerHandler : sets handler for ZdwlIpcOutputV2LastLayerEvent
+func (i *ZdwlIpcOutputV2) SetLastLayerHandler(f ZdwlIpcOutputV2LastLayerHandlerFunc) {
+	i.lastLayerHandler = f
+}
+
+// ZdwlIpcOutputV2KbLayoutEvent : current keyboard layout.
+//
+// current keyboard layout.
+type ZdwlIpcOutputV2KbLayoutEvent struct {
+	KbLayout string
+}
+type ZdwlIpcOutputV2KbLayoutHandlerFunc func(ZdwlIpcOutputV2KbLayoutEvent)
+
+// SetKbLayoutHandler : sets handler for ZdwlIpcOutputV2KbLayoutEvent
+func (i *ZdwlIpcOutputV2) SetKbLayoutHandler(f ZdwlIpcOutputV2KbLayoutHandlerFunc) {
+	i.kbLayoutHandler = f
+}
+
+// ZdwlIpcOutputV2KeymodeEvent : current keybind mode.
+//
+// current keybind mode.
+type ZdwlIpcOutputV2KeymodeEvent struct {
+	Keymode string
+}
+type ZdwlIpcOutputV2KeymodeHandlerFunc func(ZdwlIpcOutputV2KeymodeEvent)
+
+// SetKeymodeHandler : sets handler for ZdwlIpcOutputV2KeymodeEvent
+func (i *ZdwlIpcOutputV2) SetKeymodeHandler(f ZdwlIpcOutputV2KeymodeHandlerFunc) {
+	i.keymodeHandler = f
+}
+
+// ZdwlIpcOutputV2ScalefactorEvent : scale factor of monitor.
+//
+// scale factor of monitor.
+type ZdwlIpcOutputV2ScalefactorEvent struct {
+	Scalefactor uint32
+}
+type ZdwlIpcOutputV2ScalefactorHandlerFunc func(ZdwlIpcOutputV2ScalefactorEvent)
+
+// SetScalefactorHandler : sets handler for ZdwlIpcOutputV2ScalefactorEvent
+func (i *ZdwlIpcOutputV2) SetScalefactorHandler(f ZdwlIpcOutputV2ScalefactorHandlerFunc) {
+	i.scalefactorHandler = f
+}
+
 func (i *ZdwlIpcOutputV2) Dispatch(opcode uint32, fd int, data []byte) {
 	switch opcode {
 	case 0:
@@ -487,5 +681,111 @@ func (i *ZdwlIpcOutputV2) Dispatch(opcode uint32, fd int, data []byte) {
 		var e ZdwlIpcOutputV2FrameEvent
 
 		i.frameHandler(e)
+	case 8:
+		if i.fullscreenHandler == nil {
+			return
+		}
+		var e ZdwlIpcOutputV2FullscreenEvent
+		l := 0
+		e.IsFullscreen = client.Uint32(data[l : l+4])
+		l += 4
+
+		i.fullscreenHandler(e)
+	case 9:
+		if i.floatingHandler == nil {
+			return
+		}
+		var e ZdwlIpcOutputV2FloatingEvent
+		l := 0
+		e.IsFloating = client.Uint32(data[l : l+4])
+		l += 4
+
+		i.floatingHandler(e)
+	case 10:
+		if i.xHandler == nil {
+			return
+		}
+		var e ZdwlIpcOutputV2XEvent
+		l := 0
+		e.X = int32(client.Uint32(data[l : l+4]))
+		l += 4
+
+		i.xHandler(e)
+	case 11:
+		if i.yHandler == nil {
+			return
+		}
+		var e ZdwlIpcOutputV2YEvent
+		l := 0
+		e.Y = int32(client.Uint32(data[l : l+4]))
+		l += 4
+
+		i.yHandler(e)
+	case 12:
+		if i.widthHandler == nil {
+			return
+		}
+		var e ZdwlIpcOutputV2WidthEvent
+		l := 0
+		e.Width = int32(client.Uint32(data[l : l+4]))
+		l += 4
+
+		i.widthHandler(e)
+	case 13:
+		if i.heightHandler == nil {
+			return
+		}
+		var e ZdwlIpcOutputV2HeightEvent
+		l := 0
+		e.Height = int32(client.Uint32(data[l : l+4]))
+		l += 4
+
+		i.heightHandler(e)
+	case 14:
+		if i.lastLayerHandler == nil {
+			return
+		}
+		var e ZdwlIpcOutputV2LastLayerEvent
+		l := 0
+		lastLayerLen := client.PaddedLen(int(client.Uint32(data[l : l+4])))
+		l += 4
+		e.LastLayer = client.String(data[l : l+lastLayerLen])
+		l += lastLayerLen
+
+		i.lastLayerHandler(e)
+	case 15:
+		if i.kbLayoutHandler == nil {
+			return
+		}
+		var e ZdwlIpcOutputV2KbLayoutEvent
+		l := 0
+		kbLayoutLen := client.PaddedLen(int(client.Uint32(data[l : l+4])))
+		l += 4
+		e.KbLayout = client.String(data[l : l+kbLayoutLen])
+		l += kbLayoutLen
+
+		i.kbLayoutHandler(e)
+	case 16:
+		if i.keymodeHandler == nil {
+			return
+		}
+		var e ZdwlIpcOutputV2KeymodeEvent
+		l := 0
+		keymodeLen := client.PaddedLen(int(client.Uint32(data[l : l+4])))
+		l += 4
+		e.Keymode = client.String(data[l : l+keymodeLen])
+		l += keymodeLen
+
+		i.keymodeHandler(e)
+	case 17:
+		if i.scalefactorHandler == nil {
+			return
+		}
+		var e ZdwlIpcOutputV2ScalefactorEvent
+		l := 0
+		e.Scalefactor = client.Uint32(data[l : l+4])
+		l += 4
+
+		i.scalefactorHandler(e)
 	}
 }

@@ -19,7 +19,7 @@ I would probably just submit raphi's patchset but I don't think that would be po
       reset.
   </description>
 
-  <interface name="zdwl_ipc_manager_v2" version="1">
+  <interface name="zdwl_ipc_manager_v2" version="2">
     <description summary="manage dwl state">
       This interface is exposed as a global in wl_registry.
 
@@ -60,7 +60,7 @@ I would probably just submit raphi's patchset but I don't think that would be po
     </event>
   </interface>
 
-  <interface name="zdwl_ipc_output_v2" version="1">
+  <interface name="zdwl_ipc_output_v2" version="2">
     <description summary="control dwl output">
       Observe and control a dwl output.
 
@@ -162,5 +162,91 @@ I would probably just submit raphi's patchset but I don't think that would be po
       <description summary="Set the layout of this output"/>
       <arg name="index" type="uint" summary="index of a layout recieved by dwl_ipc_manager.layout"/>
     </request>
+
+    <request name="quit" since="2">
+      <description summary="Quit mango">This request allows clients to instruct the compositor to quit mango.</description>
+    </request>
+
+    <request name="dispatch" since="2">
+      <description summary="Set the active tags of this output"/>
+      <arg name="dispatch" type="string" summary="dispatch name."/>
+      <arg name="arg1" type="string" summary="arg1."/>
+      <arg name="arg2" type="string" summary="arg2."/>
+      <arg name="arg3" type="string" summary="arg3."/>
+      <arg name="arg4" type="string" summary="arg4."/>
+      <arg name="arg5" type="string" summary="arg5."/>
+    </request>
+
+    <!-- Version 2 -->
+    <event name="fullscreen" since="2">
+      <description summary="Update fullscreen status">
+          Indicates if the selected client on this output is fullscreen.
+      </description>
+      <arg name="is_fullscreen" type="uint" summary="If the selected client is fullscreen. Nonzero is valid, zero invalid"/>
+    </event>
+
+    <event name="floating" since="2">
+      <description summary="Update the floating status">
+          Indicates if the selected client on this output is floating.
+      </description>
+      <arg name="is_floating" type="uint" summary="If the selected client is floating. Nonzero is valid, zero invalid"/>
+    </event>
+
+    <event name="x" since="2">
+      <description summary="Update the x coordinates">
+          Indicates if x coordinates of the selected client.
+      </description>
+      <arg name="x" type="int" summary="x coordinate of the selected client"/>
+    </event>
+
+    <event name="y" since="2">
+      <description summary="Update the y coordinates">
+          Indicates if y coordinates of the selected client.
+      </description>
+      <arg name="y" type="int" summary="y coordinate of the selected client"/>
+    </event>
+
+    <event name="width" since="2">
+      <description summary="Update the width">
+          Indicates if width of the selected client.
+      </description>
+      <arg name="width" type="int" summary="width of the selected client"/>
+    </event>
+
+    <event name="height" since="2">
+      <description summary="Update the height">
+          Indicates if height of the selected client.
+      </description>
+      <arg name="height" type="int" summary="height of the selected client"/>
+    </event>
+
+    <event name="last_layer" since="2">
+      <description summary="last map layer.">
+        last map layer.
+      </description>
+      <arg name="last_layer" type="string" summary="last map layer."/>
+    </event>
+
+    <event name="kb_layout" since="2">
+      <description summary="current keyboard layout.">
+        current keyboard layout.
+      </description>
+      <arg name="kb_layout" type="string" summary="current keyboard layout."/>
+    </event>
+
+    <event name="keymode" since="2">
+      <description summary="current keybind mode.">
+        current keybind mode.
+      </description>
+      <arg name="keymode" type="string" summary="current keybind mode."/>
+    </event>
+
+    <event name="scalefactor" since="2">
+      <description summary="scale factor of monitor.">
+        scale factor of monitor.
+      </description>
+      <arg name="scalefactor" type="uint" summary="scale factor of monitor."/>
+    </event>
+
   </interface>
 </protocol>

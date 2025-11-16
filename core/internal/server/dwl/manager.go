@@ -100,8 +100,8 @@ func (m *Manager) setupRegistry() error {
 			log.Infof("DWL: found %s", dwl_ipc.ZdwlIpcManagerV2InterfaceName)
 			manager := dwl_ipc.NewZdwlIpcManagerV2(m.ctx)
 			version := e.Version
-			if version > 1 {
-				version = 1
+			if version > 2 {
+				version = 2
 			}
 			if err := registry.Bind(e.Name, e.Interface, version, manager); err == nil {
 				dwlMgr = manager
@@ -282,6 +282,14 @@ func (m *Manager) setupOutput(manager *dwl_ipc.ZdwlIpcManagerV2, output *wlclien
 		outState.layoutSymbol = e.Layout
 	})
 
+	ipcOutput.SetKbLayoutHandler(func(e dwl_ipc.ZdwlIpcOutputV2KbLayoutEvent) {
+		outState.kbLayout = e.KbLayout
+	})
+
+	ipcOutput.SetKeymodeHandler(func(e dwl_ipc.ZdwlIpcOutputV2KeymodeEvent) {
+		outState.keymode = e.Keymode
+	})
+
 	ipcOutput.SetFrameHandler(func(e dwl_ipc.ZdwlIpcOutputV2FrameEvent) {
 		m.updateState()
 	})
@@ -310,6 +318,8 @@ func (m *Manager) updateState() {
 			LayoutSymbol: out.layoutSymbol,
 			Title:        out.title,
 			AppID:        out.appID,
+			KbLayout:     out.kbLayout,
+			Keymode:      out.keymode,
 		}
 
 		if out.active != 0 {

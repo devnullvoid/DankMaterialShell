@@ -13,7 +13,14 @@ BasePill {
     id: root
 
     property bool compactMode: SettingsData.keyboardLayoutNameCompactMode
-    property string currentLayout: CompositorService.isNiri ? NiriService.getCurrentKeyboardLayoutName() : ""
+    property string currentLayout: {
+        if (CompositorService.isNiri) {
+            return NiriService.getCurrentKeyboardLayoutName()
+        } else if (CompositorService.isDwl) {
+            return DwlService.currentKeyboardLayout
+        }
+        return ""
+    }
     property string hyprlandKeyboard: ""
 
     content: Component {
@@ -79,6 +86,8 @@ BasePill {
                     root.hyprlandKeyboard,
                     "next"
                 ])
+            } else if (CompositorService.isDwl) {
+                Quickshell.execDetached(["mmsg", "-d", "switch_keyboard_layout"])
             }
         }
     }

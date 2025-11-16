@@ -31,7 +31,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
-const APIVersion = 18
+const APIVersion = 19
 
 type Capabilities struct {
 	Capabilities []string `json:"capabilities"`
@@ -1141,11 +1141,18 @@ func Start(printDocs bool) error {
 		log.Info(" cups.cancelJob                        - Cancel job (params: printerName, jobID)")
 		log.Info(" cups.purgeJobs                        - Cancel all jobs (params: printerName)")
 		log.Info("DWL:")
-		log.Info(" dwl.getState                          - Get current dwl state (tags, windows, layouts)")
+		log.Info(" dwl.getState                          - Get current dwl state (tags, windows, layouts, keyboard)")
 		log.Info(" dwl.setTags                           - Set active tags (params: output, tagmask, toggleTagset)")
 		log.Info(" dwl.setClientTags                     - Set focused client tags (params: output, andTags, xorTags)")
 		log.Info(" dwl.setLayout                         - Set layout (params: output, index)")
 		log.Info(" dwl.subscribe                         - Subscribe to dwl state changes (streaming)")
+		log.Info("   Output state includes:")
+		log.Info("     - tags         : Tag states (active, clients, focused)")
+		log.Info("     - layoutSymbol : Current layout name")
+		log.Info("     - title        : Focused window title")
+		log.Info("     - appId        : Focused window app ID")
+		log.Info("     - kbLayout     : Current keyboard layout")
+		log.Info("     - keymode      : Current keybind mode")
 		log.Info("ExtWorkspace:")
 		log.Info(" extworkspace.getState                 - Get current workspace state (groups, workspaces)")
 		log.Info(" extworkspace.activateWorkspace        - Activate workspace (params: groupID, workspaceID)")

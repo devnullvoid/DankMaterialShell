@@ -22,6 +22,8 @@ type OutputState struct {
 	LayoutSymbol string     `json:"layoutSymbol"`
 	Title        string     `json:"title"`
 	AppID        string     `json:"appId"`
+	KbLayout     string     `json:"kbLayout"`
+	Keymode      string     `json:"keymode"`
 }
 
 type State struct {
@@ -73,6 +75,8 @@ type outputState struct {
 	layoutSymbol string
 	title        string
 	appID        string
+	kbLayout     string
+	keymode      string
 }
 
 func (m *Manager) GetState() State {
@@ -145,6 +149,12 @@ func stateChanged(old, new *State) bool {
 			return true
 		}
 		if oldOut.AppID != newOut.AppID {
+			return true
+		}
+		if oldOut.KbLayout != newOut.KbLayout {
+			return true
+		}
+		if oldOut.Keymode != newOut.Keymode {
 			return true
 		}
 		if len(oldOut.Tags) != len(newOut.Tags) {

@@ -14,6 +14,11 @@ Singleton {
     property var layouts: []
     property string activeOutput: ""
     property var outputScales: ({})
+    property string currentKeyboardLayout: {
+        if (!outputs || !activeOutput) return ""
+        const output = outputs[activeOutput]
+        return (output && output.kbLayout) || ""
+    }
 
     signal stateChanged()
 
