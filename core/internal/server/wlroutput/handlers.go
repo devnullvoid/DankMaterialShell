@@ -155,8 +155,7 @@ func (m *Manager) ApplyConfiguration(heads []HeadConfig, test bool) error {
 		})
 
 		headsByName := make(map[string]*headState)
-		m.heads.Range(func(key, value interface{}) bool {
-			head := value.(*headState)
+		m.heads.Range(func(key uint32, head *headState) bool {
 			if !head.finished {
 				headsByName[head.name] = head
 			}
@@ -188,14 +187,13 @@ func (m *Manager) ApplyConfiguration(heads []HeadConfig, test bool) error {
 			}
 
 			if headCfg.ModeID != nil {
-				val, exists := m.modes.Load(*headCfg.ModeID)
+				mode, exists := m.modes.Load(*headCfg.ModeID)
 
 				if !exists {
 					config.Destroy()
 					resultChan <- fmt.Errorf("mode not found: %d", *headCfg.ModeID)
 					return
 				}
-				mode := val.(*modeState)
 
 				if err := headConfig.SetMode(mode.handle); err != nil {
 					config.Destroy()

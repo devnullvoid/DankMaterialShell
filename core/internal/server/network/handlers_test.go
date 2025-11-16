@@ -247,7 +247,7 @@ func TestManager_Subscribe_Unsubscribe(t *testing.T) {
 		ch := manager.Subscribe("client1")
 		assert.NotNil(t, ch)
 		count := 0
-		manager.subscribers.Range(func(key, value interface{}) bool {
+		manager.subscribers.Range(func(key string, ch chan NetworkState) bool {
 			count++
 			return true
 		})
@@ -257,7 +257,7 @@ func TestManager_Subscribe_Unsubscribe(t *testing.T) {
 	t.Run("unsubscribe removes channel", func(t *testing.T) {
 		manager.Unsubscribe("client1")
 		count := 0
-		manager.subscribers.Range(func(key, value interface{}) bool { count++; return true })
+		manager.subscribers.Range(func(key string, ch chan NetworkState) bool { count++; return true })
 		assert.Equal(t, 0, count)
 	})
 

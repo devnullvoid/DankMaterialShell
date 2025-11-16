@@ -274,8 +274,7 @@ func (m *Manager) handleMode(headID uint32, e wlr_output_management.ZwlrOutputHe
 
 	m.modes.Store(modeID, mode)
 
-	if val, ok := m.heads.Load(headID); ok {
-		head := val.(*headState)
+	if head, ok := m.heads.Load(headID); ok {
 		head.modeIDs = append(head.modeIDs, modeID)
 		m.heads.Store(headID, head)
 	}
@@ -324,8 +323,7 @@ func (m *Manager) handleMode(headID uint32, e wlr_output_management.ZwlrOutputHe
 func (m *Manager) updateState() {
 	outputs := make([]Output, 0)
 
-	m.heads.Range(func(key, value interface{}) bool {
-		head := value.(*headState)
+	m.heads.Range(func(key uint32, head *headState) bool {
 		if head.finished {
 			return true
 		}
@@ -334,11 +332,10 @@ func (m *Manager) updateState() {
 		var currentMode *OutputMode
 
 		for _, modeID := range head.modeIDs {
-			val, exists := m.modes.Load(modeID)
+			mode, exists := m.modes.Load(modeID)
 			if !exists {
 				continue
 			}
-			mode := val.(*modeState)
 			if mode.finished {
 				continue
 			}
@@ -439,8 +436,7 @@ func (m *Manager) notifier() {
 				continue
 			}
 
-			m.subscribers.Range(func(key, value interface{}) bool {
-				ch := value.(chan State)
+			m.subscribers.Range(func(key string, ch chan State) bool {
 				select {
 				case ch <- currentState:
 				default:
@@ -461,15 +457,13 @@ func (m *Manager) Close() {
 	m.wg.Wait()
 	m.notifierWg.Wait()
 
-	m.subscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan State)
+	m.subscribers.Range(func(key string, ch chan State) bool {
 		close(ch)
 		m.subscribers.Delete(key)
 		return true
 	})
 
-	m.modes.Range(func(key, value interface{}) bool {
-		mode := value.(*modeState)
+	m.modes.Range(func(key uint32, mode *modeState) bool {
 		if mode.handle != nil {
 			mode.handle.Release()
 		}
@@ -477,8 +471,7 @@ func (m *Manager) Close() {
 		return true
 	})
 
-	m.heads.Range(func(key, value interface{}) bool {
-		head := value.(*headState)
+	m.heads.Range(func(key uint32, head *headState) bool {
 		if head.handle != nil {
 			head.handle.Release()
 		}

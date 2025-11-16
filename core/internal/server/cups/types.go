@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/ipp"
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
 type CUPSState struct {
@@ -39,7 +40,7 @@ type Manager struct {
 	client            CUPSClientInterface
 	subscription      SubscriptionManagerInterface
 	stateMutex        sync.RWMutex
-	subscribers       sync.Map
+	subscribers       syncmap.Map[string, chan CUPSState]
 	stopChan          chan struct{}
 	eventWG           sync.WaitGroup
 	dirty             chan struct{}

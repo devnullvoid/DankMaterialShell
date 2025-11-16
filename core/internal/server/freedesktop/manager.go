@@ -210,14 +210,13 @@ func (m *Manager) Subscribe(id string) chan FreedeskState {
 
 func (m *Manager) Unsubscribe(id string) {
 	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan FreedeskState))
+		close(val)
 	}
 }
 
 func (m *Manager) NotifySubscribers() {
 	state := m.GetState()
-	m.subscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan FreedeskState)
+	m.subscribers.Range(func(key string, ch chan FreedeskState) bool {
 		select {
 		case ch <- state:
 		default:
@@ -227,8 +226,7 @@ func (m *Manager) NotifySubscribers() {
 }
 
 func (m *Manager) Close() {
-	m.subscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan FreedeskState)
+	m.subscribers.Range(func(key string, ch chan FreedeskState) bool {
 		close(ch)
 		m.subscribers.Delete(key)
 		return true

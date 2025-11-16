@@ -7,6 +7,7 @@ import (
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/errdefs"
 	wlclient "github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 	"github.com/godbus/dbus/v5"
 )
 
@@ -48,9 +49,8 @@ type Manager struct {
 	registry            *wlclient.Registry
 	gammaControl        interface{}
 	availableOutputs    []*wlclient.Output
-	outputRegNames      map[uint32]uint32
-	outputs             map[uint32]*outputState
-	outputsMutex        sync.RWMutex
+	outputRegNames      syncmap.Map[uint32, uint32]
+	outputs             syncmap.Map[uint32, *outputState]
 	controlsInitialized bool
 
 	cmdq  chan cmd
@@ -69,7 +69,7 @@ type Manager struct {
 	cachedIPLon   *float64
 	locationMutex sync.RWMutex
 
-	subscribers  sync.Map
+	subscribers  syncmap.Map[string, chan State]
 	dirty        chan struct{}
 	notifierWg   sync.WaitGroup
 	lastNotified *State
@@ -152,7 +152,7 @@ func (m *Manager) Subscribe(id string) chan State {
 
 func (m *Manager) Unsubscribe(id string) {
 	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan State))
+		close(val)
 	}
 }
 

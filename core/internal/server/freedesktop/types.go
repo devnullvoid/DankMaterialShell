@@ -3,6 +3,7 @@ package freedesktop
 import (
 	"sync"
 
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 	"github.com/godbus/dbus/v5"
 )
 
@@ -41,5 +42,5 @@ type Manager struct {
 	accountsObj dbus.BusObject
 	settingsObj dbus.BusObject
 	currentUID  uint64
-	subscribers sync.Map
+	subscribers syncmap.Map[string, chan FreedeskState]
 }

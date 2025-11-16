@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	wlclient "github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
 type TagState struct {
@@ -40,8 +41,7 @@ type Manager struct {
 	registry *wlclient.Registry
 	manager  interface{}
 
-	outputs      map[uint32]*outputState
-	outputsMutex sync.RWMutex
+	outputs syncmap.Map[uint32, *outputState]
 
 	tagCount uint32
 	layouts  []string
@@ -52,7 +52,7 @@ type Manager struct {
 	stopChan       chan struct{}
 	wg             sync.WaitGroup
 
-	subscribers  sync.Map
+	subscribers  syncmap.Map[string, chan State]
 	dirty        chan struct{}
 	notifierWg   sync.WaitGroup
 	lastNotified *State
@@ -98,12 +98,9 @@ func (m *Manager) Subscribe(id string) chan State {
 }
 
 func (m *Manager) Unsubscribe(id string) {
-
 	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan State))
-
+		close(val)
 	}
-
 }
 
 func (m *Manager) notifySubscribers() {

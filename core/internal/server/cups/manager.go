@@ -148,8 +148,7 @@ func (m *Manager) notifier() {
 				continue
 			}
 
-			m.subscribers.Range(func(key, value interface{}) bool {
-				ch := value.(chan CUPSState)
+			m.subscribers.Range(func(key string, ch chan CUPSState) bool {
 				select {
 				case ch <- currentState:
 				default:
@@ -193,7 +192,7 @@ func (m *Manager) Subscribe(id string) chan CUPSState {
 	ch := make(chan CUPSState, 64)
 
 	wasEmpty := true
-	m.subscribers.Range(func(key, value interface{}) bool {
+	m.subscribers.Range(func(key string, ch chan CUPSState) bool {
 		wasEmpty = false
 		return false
 	})
@@ -214,11 +213,11 @@ func (m *Manager) Subscribe(id string) chan CUPSState {
 
 func (m *Manager) Unsubscribe(id string) {
 	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan CUPSState))
+		close(val)
 	}
 
 	isEmpty := true
-	m.subscribers.Range(func(key, value interface{}) bool {
+	m.subscribers.Range(func(key string, ch chan CUPSState) bool {
 		isEmpty = false
 		return false
 	})
@@ -239,8 +238,7 @@ func (m *Manager) Close() {
 	m.eventWG.Wait()
 	m.notifierWg.Wait()
 
-	m.subscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan CUPSState)
+	m.subscribers.Range(func(key string, ch chan CUPSState) bool {
 		close(ch)
 		m.subscribers.Delete(key)
 		return true

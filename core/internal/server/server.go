@@ -28,6 +28,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/wayland"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/wlcontext"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/wlroutput"
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
 const APIVersion = 18
@@ -59,8 +60,8 @@ var wlrOutputManager *wlroutput.Manager
 var evdevManager *evdev.Manager
 var wlContext *wlcontext.SharedContext
 
-var capabilitySubscribers sync.Map
-var cupsSubscribers sync.Map
+var capabilitySubscribers syncmap.Map[string, chan ServerInfo]
+var cupsSubscribers syncmap.Map[string, bool]
 var cupsSubscriberCount atomic.Int32
 
 func getSocketDir() string {
@@ -434,8 +435,7 @@ func getServerInfo() ServerInfo {
 
 func notifyCapabilityChange() {
 	info := getServerInfo()
-	capabilitySubscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan ServerInfo)
+	capabilitySubscribers.Range(func(key string, ch chan ServerInfo) bool {
 		select {
 		case ch <- info:
 		default:

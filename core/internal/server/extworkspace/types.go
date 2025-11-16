@@ -5,6 +5,7 @@ import (
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/ext_workspace"
 	wlclient "github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
 type Workspace struct {
@@ -37,22 +38,18 @@ type Manager struct {
 	registry *wlclient.Registry
 	manager  *ext_workspace.ExtWorkspaceManagerV1
 
-	outputsMutex sync.RWMutex
-	outputs      map[uint32]*wlclient.Output
-	outputNames  map[uint32]string
+	outputNames syncmap.Map[uint32, string]
 
-	groupsMutex sync.RWMutex
-	groups      map[uint32]*workspaceGroupState
+	groups syncmap.Map[uint32, *workspaceGroupState]
 
-	workspacesMutex sync.RWMutex
-	workspaces      map[uint32]*workspaceState
+	workspaces syncmap.Map[uint32, *workspaceState]
 
 	wlMutex  sync.Mutex
 	cmdq     chan cmd
 	stopChan chan struct{}
 	wg       sync.WaitGroup
 
-	subscribers  sync.Map
+	subscribers  syncmap.Map[string, chan State]
 	dirty        chan struct{}
 	notifierWg   sync.WaitGroup
 	lastNotified *State
@@ -101,12 +98,9 @@ func (m *Manager) Subscribe(id string) chan State {
 }
 
 func (m *Manager) Unsubscribe(id string) {
-
-	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan State))
-
+	if ch, ok := m.subscribers.LoadAndDelete(id); ok {
+		close(ch)
 	}
-
 }
 
 func (m *Manager) notifySubscribers() {

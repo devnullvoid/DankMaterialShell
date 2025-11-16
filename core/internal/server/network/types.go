@@ -3,6 +3,7 @@ package network
 import (
 	"sync"
 
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 	"github.com/godbus/dbus/v5"
 )
 
@@ -108,13 +109,12 @@ type Manager struct {
 	backend               Backend
 	state                 *NetworkState
 	stateMutex            sync.RWMutex
-	subscribers           sync.Map
+	subscribers           syncmap.Map[string, chan NetworkState]
 	stopChan              chan struct{}
 	dirty                 chan struct{}
 	notifierWg            sync.WaitGroup
 	lastNotifiedState     *NetworkState
-	credentialSubscribers map[string]chan CredentialPrompt
-	credSubMutex          sync.RWMutex
+	credentialSubscribers syncmap.Map[string, chan CredentialPrompt]
 }
 
 type EventType string

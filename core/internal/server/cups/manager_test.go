@@ -60,7 +60,7 @@ func TestManager_Subscribe(t *testing.T) {
 	assert.NotNil(t, ch)
 
 	count := 0
-	m.subscribers.Range(func(key, value interface{}) bool {
+	m.subscribers.Range(func(key string, ch chan CUPSState) bool {
 		count++
 		return true
 	})
@@ -68,7 +68,7 @@ func TestManager_Subscribe(t *testing.T) {
 
 	m.Unsubscribe("test-client")
 	count = 0
-	m.subscribers.Range(func(key, value interface{}) bool {
+	m.subscribers.Range(func(key string, ch chan CUPSState) bool {
 		count++
 		return true
 	})
@@ -101,7 +101,7 @@ func TestManager_Close(t *testing.T) {
 
 	m.Close()
 	count := 0
-	m.subscribers.Range(func(key, value interface{}) bool {
+	m.subscribers.Range(func(key string, ch chan CUPSState) bool {
 		count++
 		return true
 	})

@@ -3,6 +3,8 @@ package brightness
 import (
 	"sync"
 	"time"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
 type DeviceClass string
@@ -51,8 +53,8 @@ type Manager struct {
 	stateMutex sync.RWMutex
 	state      State
 
-	subscribers       sync.Map
-	updateSubscribers sync.Map
+	subscribers       syncmap.Map[string, chan State]
+	updateSubscribers syncmap.Map[string, chan DeviceUpdate]
 
 	broadcastMutex   sync.Mutex
 	broadcastTimer   *time.Timer
@@ -66,8 +68,7 @@ type SysfsBackend struct {
 	basePath string
 	classes  []string
 
-	deviceCache      map[string]*sysfsDevice
-	deviceCacheMutex sync.RWMutex
+	deviceCache syncmap.Map[string, *sysfsDevice]
 }
 
 type sysfsDevice struct {
@@ -79,8 +80,7 @@ type sysfsDevice struct {
 }
 
 type DDCBackend struct {
-	devices      map[string]*ddcDevice
-	devicesMutex sync.RWMutex
+	devices syncmap.Map[string, *ddcDevice]
 
 	scanMutex    sync.Mutex
 	lastScan     time.Time
@@ -129,7 +129,7 @@ func (m *Manager) Subscribe(id string) chan State {
 func (m *Manager) Unsubscribe(id string) {
 
 	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan State))
+		close(val)
 
 	}
 
@@ -143,7 +143,7 @@ func (m *Manager) SubscribeUpdates(id string) chan DeviceUpdate {
 
 func (m *Manager) UnsubscribeUpdates(id string) {
 	if val, ok := m.updateSubscribers.LoadAndDelete(id); ok {
-		close(val.(chan DeviceUpdate))
+		close(val)
 	}
 }
 
@@ -152,8 +152,7 @@ func (m *Manager) NotifySubscribers() {
 	state := m.state
 	m.stateMutex.RUnlock()
 
-	m.subscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan State)
+	m.subscribers.Range(func(key string, ch chan State) bool {
 		select {
 		case ch <- state:
 		default:
@@ -171,14 +170,12 @@ func (m *Manager) GetState() State {
 func (m *Manager) Close() {
 	close(m.stopChan)
 
-	m.subscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan State)
+	m.subscribers.Range(func(key string, ch chan State) bool {
 		close(ch)
 		m.subscribers.Delete(key)
 		return true
 	})
-	m.updateSubscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan DeviceUpdate)
+	m.updateSubscribers.Range(func(key string, ch chan DeviceUpdate) bool {
 		close(ch)
 		m.updateSubscribers.Delete(key)
 		return true

@@ -163,7 +163,7 @@ func TestManager_Close(t *testing.T) {
 	assert.False(t, ok2, "ch2 should be closed")
 
 	count := 0
-	manager.subscribers.Range(func(key, value interface{}) bool {
+	manager.subscribers.Range(func(key string, ch chan SessionState) bool {
 		count++
 		return true
 	})

@@ -72,7 +72,7 @@ func TestManager_Subscribe(t *testing.T) {
 	ch := m.Subscribe("test-client")
 	assert.NotNil(t, ch)
 	count := 0
-	m.subscribers.Range(func(key, value interface{}) bool {
+	m.subscribers.Range(func(key string, ch chan State) bool {
 		count++
 		return true
 	})
@@ -92,7 +92,7 @@ func TestManager_Unsubscribe(t *testing.T) {
 
 	ch := m.Subscribe("test-client")
 	count := 0
-	m.subscribers.Range(func(key, value interface{}) bool {
+	m.subscribers.Range(func(key string, ch chan State) bool {
 		count++
 		return true
 	})
@@ -100,7 +100,7 @@ func TestManager_Unsubscribe(t *testing.T) {
 
 	m.Unsubscribe("test-client")
 	count = 0
-	m.subscribers.Range(func(key, value interface{}) bool {
+	m.subscribers.Range(func(key string, ch chan State) bool {
 		count++
 		return true
 	})
@@ -180,7 +180,7 @@ func TestManager_Close(t *testing.T) {
 	}
 
 	count := 0
-	m.subscribers.Range(func(key, value interface{}) bool {
+	m.subscribers.Range(func(key string, ch chan State) bool {
 		count++
 		return true
 	})

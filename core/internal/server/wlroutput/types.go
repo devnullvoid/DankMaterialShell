@@ -5,6 +5,7 @@ import (
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/wlr_output_management"
 	wlclient "github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
 type OutputMode struct {
@@ -49,8 +50,8 @@ type Manager struct {
 	registry *wlclient.Registry
 	manager  *wlr_output_management.ZwlrOutputManagerV1
 
-	heads sync.Map // map[uint32]*headState
-	modes sync.Map // map[uint32]*modeState
+	heads syncmap.Map[uint32, *headState]
+	modes syncmap.Map[uint32, *modeState]
 
 	serial uint32
 
@@ -59,7 +60,7 @@ type Manager struct {
 	stopChan chan struct{}
 	wg       sync.WaitGroup
 
-	subscribers  sync.Map
+	subscribers  syncmap.Map[string, chan State]
 	dirty        chan struct{}
 	notifierWg   sync.WaitGroup
 	lastNotified *State
@@ -125,7 +126,7 @@ func (m *Manager) Subscribe(id string) chan State {
 func (m *Manager) Unsubscribe(id string) {
 
 	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan State))
+		close(val)
 
 	}
 

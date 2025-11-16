@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 	"github.com/fsnotify/fsnotify"
 	evdev "github.com/holoplot/go-evdev"
 )
@@ -35,7 +36,7 @@ type Manager struct {
 	monitoredPaths map[string]bool
 	state          State
 	stateMutex     sync.RWMutex
-	subscribers    sync.Map
+	subscribers    syncmap.Map[string, chan State]
 	closeChan      chan struct{}
 	closeOnce      sync.Once
 	watcher        *fsnotify.Watcher
@@ -338,13 +339,12 @@ func (m *Manager) Subscribe(id string) chan State {
 
 func (m *Manager) Unsubscribe(id string) {
 	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan State))
+		close(val)
 	}
 }
 
 func (m *Manager) notifySubscribers(state State) {
-	m.subscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan State)
+	m.subscribers.Range(func(key string, ch chan State) bool {
 		select {
 		case ch <- state:
 		default:
@@ -372,8 +372,7 @@ func (m *Manager) Close() {
 		}
 		m.devicesMutex.Unlock()
 
-		m.subscribers.Range(func(key, value interface{}) bool {
-			ch := value.(chan State)
+		m.subscribers.Range(func(key string, ch chan State) bool {
 			close(ch)
 			m.subscribers.Delete(key)
 			return true

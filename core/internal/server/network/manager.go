@@ -68,10 +68,8 @@ func NewManager() (*Manager, error) {
 		},
 		stateMutex: sync.RWMutex{},
 
-		stopChan:              make(chan struct{}),
-		dirty:                 make(chan struct{}, 1),
-		credentialSubscribers: make(map[string]chan CredentialPrompt),
-		credSubMutex:          sync.RWMutex{},
+		stopChan: make(chan struct{}),
+		dirty:    make(chan struct{}, 1),
 	}
 
 	broker := NewSubscriptionBroker(m.broadcastCredentialPrompt)
@@ -275,37 +273,30 @@ func (m *Manager) Subscribe(id string) chan NetworkState {
 
 func (m *Manager) Unsubscribe(id string) {
 	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan NetworkState))
+		close(val)
 	}
 }
 
 func (m *Manager) SubscribeCredentials(id string) chan CredentialPrompt {
 	ch := make(chan CredentialPrompt, 16)
-	m.credSubMutex.Lock()
-	m.credentialSubscribers[id] = ch
-	m.credSubMutex.Unlock()
+	m.credentialSubscribers.Store(id, ch)
 	return ch
 }
 
 func (m *Manager) UnsubscribeCredentials(id string) {
-	m.credSubMutex.Lock()
-	if ch, ok := m.credentialSubscribers[id]; ok {
+	if ch, ok := m.credentialSubscribers.LoadAndDelete(id); ok {
 		close(ch)
-		delete(m.credentialSubscribers, id)
 	}
-	m.credSubMutex.Unlock()
 }
 
 func (m *Manager) broadcastCredentialPrompt(prompt CredentialPrompt) {
-	m.credSubMutex.RLock()
-	defer m.credSubMutex.RUnlock()
-
-	for _, ch := range m.credentialSubscribers {
+	m.credentialSubscribers.Range(func(key string, ch chan CredentialPrompt) bool {
 		select {
 		case ch <- prompt:
 		default:
 		}
-	}
+		return true
+	})
 }
 
 func (m *Manager) notifier() {
@@ -337,8 +328,7 @@ func (m *Manager) notifier() {
 				continue
 			}
 
-			m.subscribers.Range(func(key, value interface{}) bool {
-				ch := value.(chan NetworkState)
+			m.subscribers.Range(func(key string, ch chan NetworkState) bool {
 				select {
 				case ch <- currentState:
 				default:
@@ -384,8 +374,7 @@ func (m *Manager) Close() {
 		m.backend.Close()
 	}
 
-	m.subscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan NetworkState)
+	m.subscribers.Range(func(key string, ch chan NetworkState) bool {
 		close(ch)
 		m.subscribers.Delete(key)
 		return true

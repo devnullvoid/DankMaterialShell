@@ -31,9 +31,8 @@ func TestManager_SetBrightness_LogindSuccess(t *testing.T) {
 	mockLogind := NewLogindBackendWithConn(mockConn)
 
 	sysfs := &SysfsBackend{
-		basePath:    tmpDir,
-		classes:     []string{"backlight"},
-		deviceCache: make(map[string]*sysfsDevice),
+		basePath: tmpDir,
+		classes:  []string{"backlight"},
 	}
 
 	if err := sysfs.scanDevices(); err != nil {
@@ -103,9 +102,8 @@ func TestManager_SetBrightness_LogindFailsFallbackToSysfs(t *testing.T) {
 	mockLogind := NewLogindBackendWithConn(mockConn)
 
 	sysfs := &SysfsBackend{
-		basePath:    tmpDir,
-		classes:     []string{"backlight"},
-		deviceCache: make(map[string]*sysfsDevice),
+		basePath: tmpDir,
+		classes:  []string{"backlight"},
 	}
 
 	if err := sysfs.scanDevices(); err != nil {
@@ -171,9 +169,8 @@ func TestManager_SetBrightness_NoLogind(t *testing.T) {
 	}
 
 	sysfs := &SysfsBackend{
-		basePath:    tmpDir,
-		classes:     []string{"backlight"},
-		deviceCache: make(map[string]*sysfsDevice),
+		basePath: tmpDir,
+		classes:  []string{"backlight"},
 	}
 
 	if err := sysfs.scanDevices(); err != nil {
@@ -234,9 +231,8 @@ func TestManager_SetBrightness_LEDWithLogind(t *testing.T) {
 	mockLogind := NewLogindBackendWithConn(mockConn)
 
 	sysfs := &SysfsBackend{
-		basePath:    tmpDir,
-		classes:     []string{"leds"},
-		deviceCache: make(map[string]*sysfsDevice),
+		basePath: tmpDir,
+		classes:  []string{"leds"},
 	}
 
 	if err := sysfs.scanDevices(); err != nil {

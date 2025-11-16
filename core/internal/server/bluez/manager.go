@@ -32,14 +32,11 @@ func NewManager() (*Manager, error) {
 		},
 		stateMutex: sync.RWMutex{},
 
-		stopChan:           make(chan struct{}),
-		dbusConn:           conn,
-		signals:            make(chan *dbus.Signal, 256),
-		pairingSubscribers: make(map[string]chan PairingPrompt),
-		pairingSubMutex:    sync.RWMutex{},
-		dirty:              make(chan struct{}, 1),
-		pendingPairings:    make(map[string]bool),
-		eventQueue:         make(chan func(), 32),
+		stopChan:   make(chan struct{}),
+		dbusConn:   conn,
+		signals:    make(chan *dbus.Signal, 256),
+		dirty:      make(chan struct{}, 1),
+		eventQueue: make(chan func(), 32),
 	}
 
 	broker := NewSubscriptionBroker(m.broadcastPairingPrompt)
@@ -359,12 +356,7 @@ func (m *Manager) handleDevicePropertiesChanged(path dbus.ObjectPath, changed ma
 	if hasPaired {
 		if paired, ok := pairedVar.Value().(bool); ok && paired {
 			devicePath := string(path)
-			m.pendingPairingsMux.Lock()
-			wasPending := m.pendingPairings[devicePath]
-			if wasPending {
-				delete(m.pendingPairings, devicePath)
-			}
-			m.pendingPairingsMux.Unlock()
+			_, wasPending := m.pendingPairings.LoadAndDelete(devicePath)
 
 			if wasPending {
 				select {
@@ -436,8 +428,7 @@ func (m *Manager) notifier() {
 				continue
 			}
 
-			m.subscribers.Range(func(key, value interface{}) bool {
-				ch := value.(chan BluetoothState)
+			m.subscribers.Range(func(key string, ch chan BluetoothState) bool {
 				select {
 				case ch <- currentState:
 				default:
@@ -481,38 +472,31 @@ func (m *Manager) Subscribe(id string) chan BluetoothState {
 }
 
 func (m *Manager) Unsubscribe(id string) {
-	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan BluetoothState))
+	if ch, ok := m.subscribers.LoadAndDelete(id); ok {
+		close(ch)
 	}
 }
 
 func (m *Manager) SubscribePairing(id string) chan PairingPrompt {
 	ch := make(chan PairingPrompt, 16)
-	m.pairingSubMutex.Lock()
-	m.pairingSubscribers[id] = ch
-	m.pairingSubMutex.Unlock()
+	m.pairingSubscribers.Store(id, ch)
 	return ch
 }
 
 func (m *Manager) UnsubscribePairing(id string) {
-	m.pairingSubMutex.Lock()
-	if ch, ok := m.pairingSubscribers[id]; ok {
+	if ch, ok := m.pairingSubscribers.LoadAndDelete(id); ok {
 		close(ch)
-		delete(m.pairingSubscribers, id)
 	}
-	m.pairingSubMutex.Unlock()
 }
 
 func (m *Manager) broadcastPairingPrompt(prompt PairingPrompt) {
-	m.pairingSubMutex.RLock()
-	defer m.pairingSubMutex.RUnlock()
-
-	for _, ch := range m.pairingSubscribers {
+	m.pairingSubscribers.Range(func(key string, ch chan PairingPrompt) bool {
 		select {
 		case ch <- prompt:
 		default:
 		}
-	}
+		return true
+	})
 }
 
 func (m *Manager) SubmitPairing(token string, secrets map[string]string, accept bool) error {
@@ -553,17 +537,13 @@ func (m *Manager) SetPowered(powered bool) error {
 }
 
 func (m *Manager) PairDevice(devicePath string) error {
-	m.pendingPairingsMux.Lock()
-	m.pendingPairings[devicePath] = true
-	m.pendingPairingsMux.Unlock()
+	m.pendingPairings.Store(devicePath, true)
 
 	obj := m.dbusConn.Object(bluezService, dbus.ObjectPath(devicePath))
 	err := obj.Call(device1Iface+".Pair", 0).Err
 
 	if err != nil {
-		m.pendingPairingsMux.Lock()
-		delete(m.pendingPairings, devicePath)
-		m.pendingPairingsMux.Unlock()
+		m.pendingPairings.Delete(devicePath)
 	}
 
 	return err
@@ -605,19 +585,17 @@ func (m *Manager) Close() {
 		m.agent.Close()
 	}
 
-	m.subscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan BluetoothState)
+	m.subscribers.Range(func(key string, ch chan BluetoothState) bool {
 		close(ch)
 		m.subscribers.Delete(key)
 		return true
 	})
 
-	m.pairingSubMutex.Lock()
-	for _, ch := range m.pairingSubscribers {
+	m.pairingSubscribers.Range(func(key string, ch chan PairingPrompt) bool {
 		close(ch)
-	}
-	m.pairingSubscribers = make(map[string]chan PairingPrompt)
-	m.pairingSubMutex.Unlock()
+		m.pairingSubscribers.Delete(key)
+		return true
+	})
 
 	if m.dbusConn != nil {
 		m.dbusConn.Close()

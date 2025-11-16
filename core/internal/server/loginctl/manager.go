@@ -356,7 +356,7 @@ func (m *Manager) Subscribe(id string) chan SessionState {
 
 func (m *Manager) Unsubscribe(id string) {
 	if val, ok := m.subscribers.LoadAndDelete(id); ok {
-		close(val.(chan SessionState))
+		close(val)
 	}
 }
 
@@ -389,8 +389,7 @@ func (m *Manager) notifier() {
 				continue
 			}
 
-			m.subscribers.Range(func(key, value interface{}) bool {
-				ch := value.(chan SessionState)
+			m.subscribers.Range(func(key string, ch chan SessionState) bool {
 				select {
 				case ch <- currentState:
 				default:
@@ -572,8 +571,7 @@ func (m *Manager) Close() {
 
 	m.releaseSleepInhibitor()
 
-	m.subscribers.Range(func(key, value interface{}) bool {
-		ch := value.(chan SessionState)
+	m.subscribers.Range(func(key string, ch chan SessionState) bool {
 		close(ch)
 		m.subscribers.Delete(key)
 		return true
