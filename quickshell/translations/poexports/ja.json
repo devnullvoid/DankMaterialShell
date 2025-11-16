@@ -57,7 +57,7 @@
     "Add a VPN in NetworkManager": "NetworkManagerでVPNを追加"
   },
   "Adjust the number of columns in grid view mode.": {
-    "Adjust the number of columns in grid view mode.": ""
+    "Adjust the number of columns in grid view mode.": "グリッド表示モードでの列数を調整します。"
   },
   "All": {
     "All": "全て"
@@ -75,7 +75,7 @@
     "Always Show OSD Percentage": "常に OSD パーセンテージを表示"
   },
   "Always on icons": {
-    "Always on icons": ""
+    "Always on icons": "常時表示アイコン"
   },
   "Always show a minimum of 3 workspaces, even if fewer are available": {
     "Always show a minimum of 3 workspaces, even if fewer are available": "使用可能なワークスペースが少ない場合でも、常に最低 3 つを表示"
@@ -275,6 +275,9 @@
   "Brightness": {
     "Brightness": "明るさ"
   },
+  "Brightness OSD": {
+    "Brightness OSD": ""
+  },
   "Browse": {
     "Browse": "ブラウズ"
   },
@@ -303,7 +306,7 @@
     "CUPS Missing Filter Warning": "CUPS の欠落フィルターの警告"
   },
   "Camera": {
-    "Camera": ""
+    "Camera": "カメラ"
   },
   "Cancel": {
     "Cancel": "キャンセル"
@@ -313,6 +316,9 @@
   },
   "Caps Lock Indicator": {
     "Caps Lock Indicator": "Caps Lock インジケーター"
+  },
+  "Caps Lock OSD": {
+    "Caps Lock OSD": ""
   },
   "Center Section": {
     "Center Section": "センターセクション"
@@ -900,7 +906,7 @@
     "Grid": "グリッド"
   },
   "Grid Columns": {
-    "Grid Columns": ""
+    "Grid Columns": "グリッド列"
   },
   "Group by App": {
     "Group by App": "アプリ別にグループ化"
@@ -924,7 +930,7 @@
     "Hibernate": "休止状態"
   },
   "Hide Delay (ms)": {
-    "Hide Delay (ms)": ""
+    "Hide Delay (ms)": "遅延を隠す (ms)"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "使用していないときはドックを非表示にし、ドックエリアの近くにホバーすると表示されます"
@@ -958,6 +964,9 @@
   },
   "Idle Inhibitor": {
     "Idle Inhibitor": "アイドルインヒビター"
+  },
+  "Idle Inhibitor OSD": {
+    "Idle Inhibitor OSD": ""
   },
   "Idle Settings": {
     "Idle Settings": "アイドル設定"
@@ -1173,7 +1182,10 @@
     "Memory usage indicator": "メモリ使用率インジケーター"
   },
   "Microphone": {
-    "Microphone": ""
+    "Microphone": "マイク"
+  },
+  "Microphone Mute OSD": {
+    "Microphone Mute OSD": ""
   },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "単一の色相を中心に構築された最小限のパレット。"
@@ -1346,6 +1358,9 @@
   "On-Screen Displays": {
     "On-Screen Displays": "オンスクリーンディスプレイ"
   },
+  "On-screen Displays": {
+    "On-screen Displays": ""
+  },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "ガンマは、時間または場所のルールに基づいてのみ調整します。"
   },
@@ -1492,6 +1507,9 @@
   },
   "Power Profile Degradation": {
     "Power Profile Degradation": "電源プロファイルの劣化"
+  },
+  "Power Profile OSD": {
+    "Power Profile OSD": ""
   },
   "Pressure": {
     "Pressure": "プレッシャー"
@@ -1647,7 +1665,7 @@
     "Science": "科学"
   },
   "Screen sharing": {
-    "Screen sharing": ""
+    "Screen sharing": "画面共有"
   },
   "Scrolling": {
     "Scrolling": "スクロール"
@@ -1780,6 +1798,24 @@
   },
   "Show on screens:": {
     "Show on screens:": "画面に表示:"
+  },
+  "Show on-screen display when brightness changes": {
+    "Show on-screen display when brightness changes": ""
+  },
+  "Show on-screen display when caps lock state changes": {
+    "Show on-screen display when caps lock state changes": ""
+  },
+  "Show on-screen display when idle inhibitor state changes": {
+    "Show on-screen display when idle inhibitor state changes": ""
+  },
+  "Show on-screen display when microphone is muted/unmuted": {
+    "Show on-screen display when microphone is muted/unmuted": ""
+  },
+  "Show on-screen display when power profile changes": {
+    "Show on-screen display when power profile changes": ""
+  },
+  "Show on-screen display when volume changes": {
+    "Show on-screen display when volume changes": ""
   },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "現在のワークスペースで実行されているアプリのみを表示"
@@ -2140,6 +2176,9 @@
   },
   "Volume Changed": {
     "Volume Changed": "音量変更"
+  },
+  "Volume OSD": {
+    "Volume OSD": ""
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "音量、明るさ、その他のシステム OSD"

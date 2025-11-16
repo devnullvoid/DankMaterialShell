@@ -275,6 +275,9 @@
   "Brightness": {
     "Brightness": "亮度"
   },
+  "Brightness OSD": {
+    "Brightness OSD": ""
+  },
   "Browse": {
     "Browse": "瀏覽"
   },
@@ -313,6 +316,9 @@
   },
   "Caps Lock Indicator": {
     "Caps Lock Indicator": ""
+  },
+  "Caps Lock OSD": {
+    "Caps Lock OSD": ""
   },
   "Center Section": {
     "Center Section": "中間區塊"
@@ -959,6 +965,9 @@
   "Idle Inhibitor": {
     "Idle Inhibitor": "空閒抑制器"
   },
+  "Idle Inhibitor OSD": {
+    "Idle Inhibitor OSD": ""
+  },
   "Idle Settings": {
     "Idle Settings": "閒置設定"
   },
@@ -1175,6 +1184,9 @@
   "Microphone": {
     "Microphone": ""
   },
+  "Microphone Mute OSD": {
+    "Microphone Mute OSD": ""
+  },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "圍繞單一色調構建的最小調色板。"
   },
@@ -1346,6 +1358,9 @@
   "On-Screen Displays": {
     "On-Screen Displays": "螢幕顯示"
   },
+  "On-screen Displays": {
+    "On-screen Displays": ""
+  },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "僅根據時間或位置規則調整 gamma。"
   },
@@ -1492,6 +1507,9 @@
   },
   "Power Profile Degradation": {
     "Power Profile Degradation": "電源配置降級"
+  },
+  "Power Profile OSD": {
+    "Power Profile OSD": ""
   },
   "Pressure": {
     "Pressure": "氣壓"
@@ -1780,6 +1798,24 @@
   },
   "Show on screens:": {
     "Show on screens:": "在螢幕上顯示:"
+  },
+  "Show on-screen display when brightness changes": {
+    "Show on-screen display when brightness changes": ""
+  },
+  "Show on-screen display when caps lock state changes": {
+    "Show on-screen display when caps lock state changes": ""
+  },
+  "Show on-screen display when idle inhibitor state changes": {
+    "Show on-screen display when idle inhibitor state changes": ""
+  },
+  "Show on-screen display when microphone is muted/unmuted": {
+    "Show on-screen display when microphone is muted/unmuted": ""
+  },
+  "Show on-screen display when power profile changes": {
+    "Show on-screen display when power profile changes": ""
+  },
+  "Show on-screen display when volume changes": {
+    "Show on-screen display when volume changes": ""
   },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "僅顯示目前工作區中正在執行的應用程式"
@@ -2140,6 +2176,9 @@
   },
   "Volume Changed": {
     "Volume Changed": "音量改變"
+  },
+  "Volume OSD": {
+    "Volume OSD": ""
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "音量、亮度及其他系統OSD"

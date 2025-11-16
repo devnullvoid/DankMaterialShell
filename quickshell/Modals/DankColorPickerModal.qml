@@ -60,7 +60,7 @@ DankModal {
     }
 
     function copyColorToClipboard(colorValue) {
-        Quickshell.execDetached(["sh", "-c", `echo "${colorValue}" | wl-copy`])
+        Quickshell.execDetached(["sh", "-c", `echo -n "${colorValue}" | wl-copy`])
         ToastService.showInfo(`Color ${colorValue} copied`)
         SessionData.addRecentColor(currentColor)
     }
@@ -571,7 +571,7 @@ DankModal {
                                         } else {
                                             rgbString = `rgb(${r}, ${g}, ${b})`
                                         }
-                                        Quickshell.execDetached(["sh", "-c", `echo "${rgbString}" | wl-copy`])
+                                        Quickshell.execDetached(["sh", "-c", `echo -n "${rgbString}" | wl-copy`])
                                         ToastService.showInfo(`${rgbString} copied`)
                                     }
                                 }
@@ -635,7 +635,7 @@ DankModal {
                                         } else {
                                             hsvString = `${h}, ${s}, ${v}`
                                         }
-                                        Quickshell.execDetached(["sh", "-c", `echo "${hsvString}" | wl-copy`])
+                                        Quickshell.execDetached(["sh", "-c", `echo -n "${hsvString}" | wl-copy`])
                                         ToastService.showInfo(`HSV ${hsvString} copied`)
                                     }
                                 }

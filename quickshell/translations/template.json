@@ -644,6 +644,13 @@
     "comment": ""
   },
   {
+    "term": "Brightness OSD",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Browse",
     "translation": "",
     "context": "",
@@ -729,6 +736,13 @@
   },
   {
     "term": "Caps Lock Indicator",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Caps Lock OSD",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2233,6 +2247,13 @@
     "comment": ""
   },
   {
+    "term": "Idle Inhibitor OSD",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Idle Settings",
     "translation": "",
     "context": "",
@@ -2737,6 +2758,13 @@
     "comment": ""
   },
   {
+    "term": "Microphone Mute OSD",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Minimal palette built around a single hue.",
     "translation": "",
     "context": "",
@@ -3136,6 +3164,13 @@
     "comment": ""
   },
   {
+    "term": "On-screen Displays",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Only adjust gamma based on time or location rules.",
     "translation": "",
     "context": "",
@@ -3473,6 +3508,13 @@
   },
   {
     "term": "Power Profile Degradation",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Power Profile OSD",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4138,6 +4180,48 @@
   },
   {
     "term": "Show on screens:",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show on-screen display when brightness changes",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show on-screen display when caps lock state changes",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show on-screen display when idle inhibitor state changes",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show on-screen display when microphone is muted/unmuted",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show on-screen display when power profile changes",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show on-screen display when volume changes",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4964,6 +5048,13 @@
   },
   {
     "term": "Volume Changed",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Volume OSD",
     "translation": "",
     "context": "",
     "reference": "",

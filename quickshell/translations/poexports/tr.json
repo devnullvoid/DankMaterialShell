@@ -57,7 +57,7 @@
     "Add a VPN in NetworkManager": "NetworkManager'da VPN ekle"
   },
   "Adjust the number of columns in grid view mode.": {
-    "Adjust the number of columns in grid view mode.": ""
+    "Adjust the number of columns in grid view mode.": "Izgara görünümü modunda sütun sayısını ayarla"
   },
   "All": {
     "All": "Tümü"
@@ -75,7 +75,7 @@
     "Always Show OSD Percentage": "OSD Yüzdesini Her Zaman Göster"
   },
   "Always on icons": {
-    "Always on icons": ""
+    "Always on icons": "Her zaman açık simgeler"
   },
   "Always show a minimum of 3 workspaces, even if fewer are available": {
     "Always show a minimum of 3 workspaces, even if fewer are available": "Her zaman en az 3 çalışma alanı göster, daha azı kullanılabilir olsa da"
@@ -275,6 +275,9 @@
   "Brightness": {
     "Brightness": "Parlaklık"
   },
+  "Brightness OSD": {
+    "Brightness OSD": ""
+  },
   "Browse": {
     "Browse": "Göz at"
   },
@@ -303,7 +306,7 @@
     "CUPS Missing Filter Warning": "CUPS Eksik Filtre Uyarısı"
   },
   "Camera": {
-    "Camera": ""
+    "Camera": "Kamera"
   },
   "Cancel": {
     "Cancel": "İptal"
@@ -312,7 +315,10 @@
     "Capacity": "Kapasite"
   },
   "Caps Lock Indicator": {
-    "Caps Lock Indicator": ""
+    "Caps Lock Indicator": "Caps Lock Göstergesi"
+  },
+  "Caps Lock OSD": {
+    "Caps Lock OSD": ""
   },
   "Center Section": {
     "Center Section": "Orta Bölüm"
@@ -633,7 +639,7 @@
     "Display currently focused application title": "Şu anda odaklanmış uygulamanın başlığını göster"
   },
   "Display power menu actions in a grid instead of a list": {
-    "Display power menu actions in a grid instead of a list": ""
+    "Display power menu actions in a grid instead of a list": "Güç menüsü eylemlerini liste yerine ızgara şeklinde göster"
   },
   "Display settings for ": {
     "Display settings for ": "Ekran ayarları: "
@@ -846,7 +852,7 @@
     "Force Kill Process": "Süreci Zorla Kapat"
   },
   "Force terminal applications to always use dark color schemes": {
-    "Force terminal applications to always use dark color schemes": ""
+    "Force terminal applications to always use dark color schemes": "Terminal uygulamalarının her zaman koyu renk şemalarını kullanmasını zorla"
   },
   "Forget Device": {
     "Forget Device": "Aygıtı Unut"
@@ -900,7 +906,7 @@
     "Grid": "Izgara"
   },
   "Grid Columns": {
-    "Grid Columns": ""
+    "Grid Columns": "Izgara Sütunları"
   },
   "Group by App": {
     "Group by App": "Uygulamaya Göre Gruplandır"
@@ -924,7 +930,7 @@
     "Hibernate": "Hazırda Beklet"
   },
   "Hide Delay (ms)": {
-    "Hide Delay (ms)": ""
+    "Hide Delay (ms)": "Gizleme Gecikmesi (ms)"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Kullanılmadığında dock'u gizle ve dock alanının yakınına geldiğinizde göster"
@@ -958,6 +964,9 @@
   },
   "Idle Inhibitor": {
     "Idle Inhibitor": "Boşta Kalma Engelleyici"
+  },
+  "Idle Inhibitor OSD": {
+    "Idle Inhibitor OSD": ""
   },
   "Idle Settings": {
     "Idle Settings": "Boşta Kalma Ayarları"
@@ -1173,7 +1182,10 @@
     "Memory usage indicator": "Bellek kullanım göstergesi"
   },
   "Microphone": {
-    "Microphone": ""
+    "Microphone": "Mikrofon"
+  },
+  "Microphone Mute OSD": {
+    "Microphone Mute OSD": ""
   },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "Tek bir renk tonu etrafında oluşturulmuş minimal palet."
@@ -1346,6 +1358,9 @@
   "On-Screen Displays": {
     "On-Screen Displays": "Ekran Üstü Gösterimler"
   },
+  "On-screen Displays": {
+    "On-screen Displays": ""
+  },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "Gamayı yalnızca zaman veya konum kurallarına göre ayarlayın."
   },
@@ -1492,6 +1507,9 @@
   },
   "Power Profile Degradation": {
     "Power Profile Degradation": "Güç Profili Dejenerasyonu"
+  },
+  "Power Profile OSD": {
+    "Power Profile OSD": ""
   },
   "Pressure": {
     "Pressure": "Basınç"
@@ -1647,7 +1665,7 @@
     "Science": "Bilim"
   },
   "Screen sharing": {
-    "Screen sharing": ""
+    "Screen sharing": "Ekran paylaşımı"
   },
   "Scrolling": {
     "Scrolling": "Kaydırma"
@@ -1781,6 +1799,24 @@
   "Show on screens:": {
     "Show on screens:": "Şu ekranda göster:"
   },
+  "Show on-screen display when brightness changes": {
+    "Show on-screen display when brightness changes": ""
+  },
+  "Show on-screen display when caps lock state changes": {
+    "Show on-screen display when caps lock state changes": ""
+  },
+  "Show on-screen display when idle inhibitor state changes": {
+    "Show on-screen display when idle inhibitor state changes": ""
+  },
+  "Show on-screen display when microphone is muted/unmuted": {
+    "Show on-screen display when microphone is muted/unmuted": ""
+  },
+  "Show on-screen display when power profile changes": {
+    "Show on-screen display when power profile changes": ""
+  },
+  "Show on-screen display when volume changes": {
+    "Show on-screen display when volume changes": ""
+  },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "Yalnızca mevcut çalışma alanında çalışan uygulamaları göster"
   },
@@ -1809,7 +1845,7 @@
     "Shows current workspace and allows switching": "Mevcut çalışma alanı gösterir ve değiştirmeye izin verir"
   },
   "Shows when caps lock is active": {
-    "Shows when caps lock is active": ""
+    "Shows when caps lock is active": "Caps Lock tuşunun etkin olduğunu gösterir"
   },
   "Shows when microphone, camera, or screen sharing is active": {
     "Shows when microphone, camera, or screen sharing is active": "Mikrofon, kamera veya ekran paylaşımı aktif olduğunda gösterir"
@@ -1938,7 +1974,7 @@
     "Terminal custom additional parameters": "Terminal özel ek parametreleri"
   },
   "Terminals - Always use Dark Theme": {
-    "Terminals - Always use Dark Theme": ""
+    "Terminals - Always use Dark Theme": "Terminaller - Her zaman Karanlı Tema kullan"
   },
   "Text": {
     "Text": "Metin"
@@ -2055,16 +2091,16 @@
     "Use Fahrenheit instead of Celsius for temperature": "Sıcaklık için Celsius yerine Fahrenhayt kullan"
   },
   "Use Grid Layout": {
-    "Use Grid Layout": ""
+    "Use Grid Layout": "Izgara Düzeni Kullan"
   },
   "Use IP Location": {
     "Use IP Location": "IP Konumunu Kullan"
   },
   "Use Imperial Units": {
-    "Use Imperial Units": ""
+    "Use Imperial Units": "İngiliz Ölçü Birimini Kullan"
   },
   "Use Imperial units (°F, mph, inHg) instead of Metric (°C, km/h, hPa)": {
-    "Use Imperial units (°F, mph, inHg) instead of Metric (°C, km/h, hPa)": ""
+    "Use Imperial units (°F, mph, inHg) instead of Metric (°C, km/h, hPa)": "Metrik birimler (°C, km/h, hPa) yerine İngiliz birimleri (°F, mph, inHg) kullan"
   },
   "Use Monospace Font": {
     "Use Monospace Font": "Sabit Aralıklı Yazı Tipi Kullan"
@@ -2140,6 +2176,9 @@
   },
   "Volume Changed": {
     "Volume Changed": "Ses Seviyesi Değişti"
+  },
+  "Volume OSD": {
+    "Volume OSD": ""
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "Ses, parlaklık ve diğer sistem ekran üstü gösterimleri"

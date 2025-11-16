@@ -57,7 +57,7 @@
     "Add a VPN in NetworkManager": "在 NetworkManager 中添加 VPN"
   },
   "Adjust the number of columns in grid view mode.": {
-    "Adjust the number of columns in grid view mode.": ""
+    "Adjust the number of columns in grid view mode.": "在网格模式中按需调整列的数量。"
   },
   "All": {
     "All": "全部"
@@ -75,7 +75,7 @@
     "Always Show OSD Percentage": "始终显示 OSD 百分比"
   },
   "Always on icons": {
-    "Always on icons": ""
+    "Always on icons": "总显示的图标"
   },
   "Always show a minimum of 3 workspaces, even if fewer are available": {
     "Always show a minimum of 3 workspaces, even if fewer are available": "即使不足也总是显示至少三个工作区"
@@ -275,6 +275,9 @@
   "Brightness": {
     "Brightness": "亮度"
   },
+  "Brightness OSD": {
+    "Brightness OSD": ""
+  },
   "Browse": {
     "Browse": "浏览"
   },
@@ -303,7 +306,7 @@
     "CUPS Missing Filter Warning": "CUPS 警告：缺少打印过滤器"
   },
   "Camera": {
-    "Camera": ""
+    "Camera": "摄像头"
   },
   "Cancel": {
     "Cancel": "取消"
@@ -313,6 +316,9 @@
   },
   "Caps Lock Indicator": {
     "Caps Lock Indicator": "大小写指示灯"
+  },
+  "Caps Lock OSD": {
+    "Caps Lock OSD": ""
   },
   "Center Section": {
     "Center Section": "中间区域"
@@ -531,7 +537,7 @@
     "DMS_SOCKET not available": "DMS_SOCKET 不可用"
   },
   "DWL service not available": {
-    "DWL service not available": "DWL服务不可用"
+    "DWL service not available": "DWL 服务不可用"
   },
   "Daily at:": {
     "Daily at:": "在每日："
@@ -624,7 +630,7 @@
     "Display all priorities over fullscreen apps": "应用全屏时仍显示所有优先级的通知"
   },
   "Display and switch DWL layouts": {
-    "Display and switch DWL layouts": "显示与切换DWL布局"
+    "Display and switch DWL layouts": "显示与切换 DWL 布局"
   },
   "Display application icons in workspace indicators": {
     "Display application icons in workspace indicators": "在工作区指示器中显示应用程序图标"
@@ -846,7 +852,7 @@
     "Force Kill Process": "强制结束进程"
   },
   "Force terminal applications to always use dark color schemes": {
-    "Force terminal applications to always use dark color schemes": "强制终端应用总使用暗色"
+    "Force terminal applications to always use dark color schemes": "强制终端应用使用暗色"
   },
   "Forget Device": {
     "Forget Device": "取消配对"
@@ -900,7 +906,7 @@
     "Grid": "网格"
   },
   "Grid Columns": {
-    "Grid Columns": ""
+    "Grid Columns": "网格列"
   },
   "Group by App": {
     "Group by App": "按应用分组"
@@ -924,7 +930,7 @@
     "Hibernate": "休眠"
   },
   "Hide Delay (ms)": {
-    "Hide Delay (ms)": ""
+    "Hide Delay (ms)": "隐藏延迟 (ms)"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "在未使用时隐藏程序坞，鼠标悬停到程序坞区域时显示"
@@ -958,6 +964,9 @@
   },
   "Idle Inhibitor": {
     "Idle Inhibitor": "待机抑制器"
+  },
+  "Idle Inhibitor OSD": {
+    "Idle Inhibitor OSD": ""
   },
   "Idle Settings": {
     "Idle Settings": "待机设置"
@@ -1020,13 +1029,13 @@
     "Last launched %1": "上次启动于 %1"
   },
   "Last launched %1 day%2 ago": {
-    "Last launched %1 day%2 ago": "上次启动于 %1 天%2 前"
+    "Last launched %1 day%2 ago": "上次启动于 %1 天 前"
   },
   "Last launched %1 hour%2 ago": {
-    "Last launched %1 hour%2 ago": "上次启动于 %1 小时%2 前"
+    "Last launched %1 hour%2 ago": "上次启动于 %1 小时 前"
   },
   "Last launched %1 minute%2 ago": {
-    "Last launched %1 minute%2 ago": "上次启动于 %1 分钟%2 前"
+    "Last launched %1 minute%2 ago": "上次启动于 %1 分钟 前"
   },
   "Last launched just now": {
     "Last launched just now": "刚刚启动"
@@ -1173,7 +1182,10 @@
     "Memory usage indicator": "内存占用情况"
   },
   "Microphone": {
-    "Microphone": ""
+    "Microphone": "麦克风"
+  },
+  "Microphone Mute OSD": {
+    "Microphone Mute OSD": ""
   },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "围绕单一色调构建的简约配色。"
@@ -1346,6 +1358,9 @@
   "On-Screen Displays": {
     "On-Screen Displays": "屏幕显示"
   },
+  "On-screen Displays": {
+    "On-screen Displays": ""
+  },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "根据时间或位置调节伽马值。"
   },
@@ -1493,6 +1508,9 @@
   "Power Profile Degradation": {
     "Power Profile Degradation": "电源配置性能下降"
   },
+  "Power Profile OSD": {
+    "Power Profile OSD": ""
+  },
   "Pressure": {
     "Pressure": "气压"
   },
@@ -1575,7 +1593,7 @@
     "Request confirmation on power off, restart, suspend, hibernate and logout actions": "关机、重启、挂起、休眠和注销前请求确认"
   },
   "Requires DWL compositor": {
-    "Requires DWL compositor": "需要DWL合成器"
+    "Requires DWL compositor": "需要 DWL 合成器"
   },
   "Reset": {
     "Reset": "重置"
@@ -1587,10 +1605,10 @@
     "Restart": "重启"
   },
   "Restart DMS": {
-    "Restart DMS": "重启DMS"
+    "Restart DMS": "重启 DMS"
   },
   "Restart the DankMaterialShell": {
-    "Restart the DankMaterialShell": "重启DankMaterialShell"
+    "Restart the DankMaterialShell": "重启 DankMaterialShell"
   },
   "Resume": {
     "Resume": "恢复"
@@ -1611,7 +1629,7 @@
     "Right Tiling": "右侧平铺"
   },
   "Right-click bar widget to cycle": {
-    "Right-click bar widget to cycle": "点击bar上小部件以轮换"
+    "Right-click bar widget to cycle": "点击  bar 上小部件以轮换"
   },
   "Run User Templates": {
     "Run User Templates": "运行用户模板"
@@ -1647,7 +1665,7 @@
     "Science": "科学"
   },
   "Screen sharing": {
-    "Screen sharing": ""
+    "Screen sharing": "屏幕分享"
   },
   "Scrolling": {
     "Scrolling": "滚动"
@@ -1755,7 +1773,7 @@
     "Show Reboot": "显示重启"
   },
   "Show Restart DMS": {
-    "Show Restart DMS": "显示重启DMS"
+    "Show Restart DMS": "显示重启 DMS"
   },
   "Show Suspend": {
     "Show Suspend": "显示挂起"
@@ -1780,6 +1798,24 @@
   },
   "Show on screens:": {
     "Show on screens:": "选择显示的屏幕："
+  },
+  "Show on-screen display when brightness changes": {
+    "Show on-screen display when brightness changes": ""
+  },
+  "Show on-screen display when caps lock state changes": {
+    "Show on-screen display when caps lock state changes": ""
+  },
+  "Show on-screen display when idle inhibitor state changes": {
+    "Show on-screen display when idle inhibitor state changes": ""
+  },
+  "Show on-screen display when microphone is muted/unmuted": {
+    "Show on-screen display when microphone is muted/unmuted": ""
+  },
+  "Show on-screen display when power profile changes": {
+    "Show on-screen display when power profile changes": ""
+  },
+  "Show on-screen display when volume changes": {
+    "Show on-screen display when volume changes": ""
   },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "仅显示当前工作区中的活动应用"
@@ -2115,7 +2151,7 @@
     "VRR: ": "可变刷新率: "
   },
   "Vertical Deck": {
-    "Vertical Deck": "垂直Deck"
+    "Vertical Deck": "垂直 Deck"
   },
   "Vertical Grid": {
     "Vertical Grid": "垂直网格"
@@ -2140,6 +2176,9 @@
   },
   "Volume Changed": {
     "Volume Changed": "音量变化"
+  },
+  "Volume OSD": {
+    "Volume OSD": ""
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "音量、亮度和其他系统屏幕显示"

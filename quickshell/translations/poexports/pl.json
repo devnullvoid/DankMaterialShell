@@ -30,7 +30,7 @@
     "A file with this name already exists. Do you want to overwrite it?": "Plik o takiej nazwie już istnieje. Czy chcesz go nadpisać?"
   },
   "About": {
-    "About": "O..."
+    "About": "O programie"
   },
   "Access clipboard history": {
     "Access clipboard history": "Dostęp do historii schowka"
@@ -57,7 +57,7 @@
     "Add a VPN in NetworkManager": "Dodaj sieć VPN w NetworkManager"
   },
   "Adjust the number of columns in grid view mode.": {
-    "Adjust the number of columns in grid view mode.": ""
+    "Adjust the number of columns in grid view mode.": "Dostosuj liczbę kolumn w widoku siatki."
   },
   "All": {
     "All": "Wszystkie"
@@ -66,16 +66,16 @@
     "All day": "Cały dzień"
   },
   "All displays": {
-    "All displays": "Wszystkie wyświetlacze"
+    "All displays": "Wszystkie ekrany"
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: Wstecz • F1/I: Informacje o pliku • F10: Pomoc • Esc: Zamknij"
   },
   "Always Show OSD Percentage": {
-    "Always Show OSD Percentage": "Zawsze pokazuj procent OSD"
+    "Always Show OSD Percentage": "Zawsze pokazuj procent w OSD"
   },
   "Always on icons": {
-    "Always on icons": ""
+    "Always on icons": "Ikony zawsze włączone"
   },
   "Always show a minimum of 3 workspaces, even if fewer are available": {
     "Always show a minimum of 3 workspaces, even if fewer are available": "Zawsze pokazuj co najmniej 3 obszary robocze, nawet jeśli jest ich mniej."
@@ -87,7 +87,7 @@
     "Anonymous Identity (optional)": "Tożsamość anonimowa (opcjonalnie)"
   },
   "App Launcher": {
-    "App Launcher": "App Launcher"
+    "App Launcher": "Program Uruchamiający"
   },
   "Application Dock": {
     "Application Dock": "Aplikacja Dok"
@@ -171,7 +171,7 @@
     "Auto-hide Dock": "Automatyczne ukrywanie doku"
   },
   "Auto-saving...": {
-    "Auto-saving...": "Automatyczne zapisywanie..."
+    "Auto-saving...": "Automatyczny zapis..."
   },
   "Autoconnect disabled": {
     "Autoconnect disabled": "Automatyczne łączenie wyłączone"
@@ -183,13 +183,13 @@
     "Automatic Control": "Automatyczna kontrola"
   },
   "Automatic Cycling": {
-    "Automatic Cycling": "Automatyczne przełączanie"
+    "Automatic Cycling": "Automatyczne cykl"
   },
   "Automatically calculate popup distance from bar edge.": {
     "Automatically calculate popup distance from bar edge.": "Automatycznie obliczaj odległość wyskakującego okienka od krawędzi paska."
   },
   "Automatically cycle through wallpapers in the same folder": {
-    "Automatically cycle through wallpapers in the same folder": "Automatycznie zmieniaj tapety z tego samego folderu"
+    "Automatically cycle through wallpapers in the same folder": "Automatycznie zmieniaj tapety z tego samego katalogu"
   },
   "Automatically detect location based on IP address": {
     "Automatically detect location based on IP address": "Automatycznie wykrywaj lokalizację na podstawie adresu IP"
@@ -198,7 +198,7 @@
     "Automatically determine your location using your IP address": "Automatycznie określ swoją lokalizację na podstawie adresu IP"
   },
   "Automatically extract colors from wallpaper": {
-    "Automatically extract colors from wallpaper": "Automatycznie dopasuj kolory z tapety"
+    "Automatically extract colors from wallpaper": "Automatycznie wyciągnij kolory z tapety"
   },
   "Automatically hide the top bar to expand screen real estate": {
     "Automatically hide the top bar to expand screen real estate": "Automatycznie ukryj górny pasek, aby zwiększyć powierzchnię ekranu"
@@ -252,7 +252,7 @@
     "Blur wallpaper when niri overview is open": "Rozmyj tapetę, gdy podgląd niri jest otwarty"
   },
   "Border": {
-    "Border": "Obramowanie"
+    "Border": "Ramka"
   },
   "Border Color": {
     "Border Color": "Kolor obramowania"
@@ -275,6 +275,9 @@
   "Brightness": {
     "Brightness": "Jasność"
   },
+  "Brightness OSD": {
+    "Brightness OSD": ""
+  },
   "Browse": {
     "Browse": "Przeglądaj"
   },
@@ -291,7 +294,7 @@
     "CPU Usage": "Użycie CPU"
   },
   "CPU temperature display": {
-    "CPU temperature display": "Temperatura CPU"
+    "CPU temperature display": "Wskaźnik temperatury procesora"
   },
   "CPU usage indicator": {
     "CPU usage indicator": "Wskaźnik użycia procesora"
@@ -303,7 +306,7 @@
     "CUPS Missing Filter Warning": "CUPS: Ostrzeżenie o brakującym filtrze"
   },
   "Camera": {
-    "Camera": ""
+    "Camera": "Kamera"
   },
   "Cancel": {
     "Cancel": "Anuluj"
@@ -312,7 +315,10 @@
     "Capacity": "Pojemność"
   },
   "Caps Lock Indicator": {
-    "Caps Lock Indicator": ""
+    "Caps Lock Indicator": "Wskaźnik caps locka"
+  },
+  "Caps Lock OSD": {
+    "Caps Lock OSD": ""
   },
   "Center Section": {
     "Center Section": "Sekcja środkowa"
@@ -339,7 +345,7 @@
     "Choose the logo displayed on the launcher button in DankBar": "Wybierz logo wyświetlane na przycisku launchera w DankBar"
   },
   "Choose where notification popups appear on screen": {
-    "Choose where notification popups appear on screen": "Wybierz, gdzie na ekranie mają pojawiać się wyskakujące powiadomienia"
+    "Choose where notification popups appear on screen": "Wybierz, gdzie na ekranie mają pojawiać się powiadomienia"
   },
   "Clear": {
     "Clear": "Wyczyść"
@@ -435,7 +441,7 @@
     "Connect to Wi-Fi": "Połącz z siecią Wi-Fi"
   },
   "Connected Displays": {
-    "Connected Displays": "Podłączone wyświetlacze"
+    "Connected Displays": "Podłączone ekrany"
   },
   "Connecting to Device": {
     "Connecting to Device": "Łączenie z urządzeniem"
@@ -447,7 +453,7 @@
     "Control Center": "Centrum sterowania"
   },
   "Control currently playing media": {
-    "Control currently playing media": "Steruj aktualnie odtwarzanymi mediami"
+    "Control currently playing media": "Steruj aktualnie odtwarzanymi multimediami"
   },
   "Controls opacity of all popouts, modals, and their content layers (DankDash, Settings, App Drawer, Control Center, etc.)": {
     "Controls opacity of all popouts, modals, and their content layers (DankDash, Settings, App Drawer, Control Center, etc.)": "Kontroluje przezroczystość wszystkich wyskakujących okienek, okien modalnych i ich warstw zawartości (DankDash, Ustawienia, Szuflada aplikacji, Centrum sterowania itp.)"
@@ -633,7 +639,7 @@
     "Display currently focused application title": "Wyświetlaj tytuł aktywnej aplikacji"
   },
   "Display power menu actions in a grid instead of a list": {
-    "Display power menu actions in a grid instead of a list": ""
+    "Display power menu actions in a grid instead of a list": "Wyświetl elementy menu zasilania w siatce zamiast listy"
   },
   "Display settings for ": {
     "Display settings for ": "Ustawienia wyświetlania dla "
@@ -642,7 +648,7 @@
     "Display volume and brightness percentage values by default in OSD popups": "Domyślnie wyświetlaj wartości procentowe głośności i jasności w wyskakujących okienkach OSD"
   },
   "Displays": {
-    "Displays": "Wyświetlacze"
+    "Displays": "Ekrany"
   },
   "Displays the active keyboard layout and allows switching": {
     "Displays the active keyboard layout and allows switching": "Wyświetla aktywny układ klawiatury i umożliwia przełączanie"
@@ -828,13 +834,13 @@
     "Focused Window": "Aktywne okno"
   },
   "Font Family": {
-    "Font Family": "Rodzina czcionek"
+    "Font Family": "Rodzina czcionki"
   },
   "Font Scale": {
     "Font Scale": "Skala czcionki"
   },
   "Font Settings": {
-    "Font Settings": "Ustawienia czcionek"
+    "Font Settings": "Ustawienia czcionki"
   },
   "Font Size": {
     "Font Size": "Rozmiar czcionki"
@@ -846,7 +852,7 @@
     "Force Kill Process": "Wymuś zamknięcie procesu"
   },
   "Force terminal applications to always use dark color schemes": {
-    "Force terminal applications to always use dark color schemes": ""
+    "Force terminal applications to always use dark color schemes": "Wymuś ciemny motyw na aplikacjach terminala"
   },
   "Forget Device": {
     "Forget Device": "Zapomnij urządzenie"
@@ -870,7 +876,7 @@
     "GPU Temperature": "Temperatura GPU"
   },
   "GPU temperature display": {
-    "GPU temperature display": "Wyświetlanie temperatury GPU"
+    "GPU temperature display": "Wskaźnik temperatury GPU"
   },
   "Games": {
     "Games": "Gry"
@@ -900,7 +906,7 @@
     "Grid": "Siatka"
   },
   "Grid Columns": {
-    "Grid Columns": ""
+    "Grid Columns": "Kolumny siatki"
   },
   "Group by App": {
     "Group by App": "Grupuj według aplikacji"
@@ -924,7 +930,7 @@
     "Hibernate": "Hibernacja"
   },
   "Hide Delay (ms)": {
-    "Hide Delay (ms)": ""
+    "Hide Delay (ms)": "Opóźnienie ukrycia (ms)"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Ukryj dok, gdy nie jest używany, i odkryj go po najechaniu kursorem w jego pobliże"
@@ -958,6 +964,9 @@
   },
   "Idle Inhibitor": {
     "Idle Inhibitor": "Inhibitor bezczynności"
+  },
+  "Idle Inhibitor OSD": {
+    "Idle Inhibitor OSD": ""
   },
   "Idle Settings": {
     "Idle Settings": "Ustawienia bezczynności"
@@ -1074,7 +1083,7 @@
     "Location Search": "Wyszukiwanie lokalizacji"
   },
   "Lock": {
-    "Lock": "Zamek"
+    "Lock": "Zablokuj"
   },
   "Lock Screen": {
     "Lock Screen": "Ekran blokady"
@@ -1173,7 +1182,10 @@
     "Memory usage indicator": "Wskaźnik zużycia pamięci"
   },
   "Microphone": {
-    "Microphone": ""
+    "Microphone": "Mikrofon"
+  },
+  "Microphone Mute OSD": {
+    "Microphone Mute OSD": ""
   },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "Minimalna paleta zbudowana wokół jednego odcienia."
@@ -1346,6 +1358,9 @@
   "On-Screen Displays": {
     "On-Screen Displays": "Wyświetlacze ekranowe"
   },
+  "On-screen Displays": {
+    "On-screen Displays": ""
+  },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "Dostosuj gamma tylko na podstawie reguł czasu lub lokalizacji."
   },
@@ -1492,6 +1507,9 @@
   },
   "Power Profile Degradation": {
     "Power Profile Degradation": "Pogorszenie profilu zasilania"
+  },
+  "Power Profile OSD": {
+    "Power Profile OSD": ""
   },
   "Pressure": {
     "Pressure": "Ciśnienie"
@@ -1647,7 +1665,7 @@
     "Science": "Nauka"
   },
   "Screen sharing": {
-    "Screen sharing": ""
+    "Screen sharing": "Udostępnianie ekranu"
   },
   "Scrolling": {
     "Scrolling": "Przewijanie"
@@ -1781,6 +1799,24 @@
   "Show on screens:": {
     "Show on screens:": "Pokaż na ekranach:"
   },
+  "Show on-screen display when brightness changes": {
+    "Show on-screen display when brightness changes": ""
+  },
+  "Show on-screen display when caps lock state changes": {
+    "Show on-screen display when caps lock state changes": ""
+  },
+  "Show on-screen display when idle inhibitor state changes": {
+    "Show on-screen display when idle inhibitor state changes": ""
+  },
+  "Show on-screen display when microphone is muted/unmuted": {
+    "Show on-screen display when microphone is muted/unmuted": ""
+  },
+  "Show on-screen display when power profile changes": {
+    "Show on-screen display when power profile changes": ""
+  },
+  "Show on-screen display when volume changes": {
+    "Show on-screen display when volume changes": ""
+  },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "Pokaż tylko aplikacje uruchomione w bieżącym obszarze roboczym"
   },
@@ -1809,7 +1845,7 @@
     "Shows current workspace and allows switching": "Pokazuje bieżący obszar roboczy i pozwala na przełączanie"
   },
   "Shows when caps lock is active": {
-    "Shows when caps lock is active": ""
+    "Shows when caps lock is active": "Pojawia się gdy 'Caps Lock' jest aktywny"
   },
   "Shows when microphone, camera, or screen sharing is active": {
     "Shows when microphone, camera, or screen sharing is active": "Pokazuje, gdy mikrofon, kamera lub udostępnianie ekranu są aktywne"
@@ -1938,7 +1974,7 @@
     "Terminal custom additional parameters": "Niestandardowe dodatkowe parametry terminala"
   },
   "Terminals - Always use Dark Theme": {
-    "Terminals - Always use Dark Theme": ""
+    "Terminals - Always use Dark Theme": "Terminal - Zawsze używaj ciemnego motywu"
   },
   "Text": {
     "Text": "Tekst"
@@ -2055,16 +2091,16 @@
     "Use Fahrenheit instead of Celsius for temperature": "Użyj Fahrenheita zamiast Celsjusza dla temperatury"
   },
   "Use Grid Layout": {
-    "Use Grid Layout": ""
+    "Use Grid Layout": "Użyj układu siatki"
   },
   "Use IP Location": {
     "Use IP Location": "Użyj lokalizacji IP"
   },
   "Use Imperial Units": {
-    "Use Imperial Units": ""
+    "Use Imperial Units": "Użyj imperialnych jednostek"
   },
   "Use Imperial units (°F, mph, inHg) instead of Metric (°C, km/h, hPa)": {
-    "Use Imperial units (°F, mph, inHg) instead of Metric (°C, km/h, hPa)": ""
+    "Use Imperial units (°F, mph, inHg) instead of Metric (°C, km/h, hPa)": "Użyj imperialnych jednostek (°F, mph, inHg) zamiast metrycznych (°C, km/h, hPa)"
   },
   "Use Monospace Font": {
     "Use Monospace Font": "Użyj czcionki o stałej szerokości"
@@ -2140,6 +2176,9 @@
   },
   "Volume Changed": {
     "Volume Changed": "Zmieniony wolumen"
+  },
+  "Volume OSD": {
+    "Volume OSD": ""
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "Głośność, jasność i inne systemowe menu ekranowe"

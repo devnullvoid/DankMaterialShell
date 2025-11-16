@@ -275,6 +275,9 @@
   "Brightness": {
     "Brightness": "Luminosità"
   },
+  "Brightness OSD": {
+    "Brightness OSD": ""
+  },
   "Browse": {
     "Browse": "Sfoglia"
   },
@@ -313,6 +316,9 @@
   },
   "Caps Lock Indicator": {
     "Caps Lock Indicator": "Indicatore Maiuscolo"
+  },
+  "Caps Lock OSD": {
+    "Caps Lock OSD": ""
   },
   "Center Section": {
     "Center Section": "Sezione Centrale"
@@ -959,6 +965,9 @@
   "Idle Inhibitor": {
     "Idle Inhibitor": "Inibitore Riposo"
   },
+  "Idle Inhibitor OSD": {
+    "Idle Inhibitor OSD": ""
+  },
   "Idle Settings": {
     "Idle Settings": "Impostazioni Riposo"
   },
@@ -1175,6 +1184,9 @@
   "Microphone": {
     "Microphone": ""
   },
+  "Microphone Mute OSD": {
+    "Microphone Mute OSD": ""
+  },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "Tavolozza minima costruita attorno a una singola tonalità."
   },
@@ -1346,6 +1358,9 @@
   "On-Screen Displays": {
     "On-Screen Displays": "Visualizzazione A Schermo"
   },
+  "On-screen Displays": {
+    "On-screen Displays": ""
+  },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "Regolare gamma solo in base alle regole di tempo o di posizione."
   },
@@ -1492,6 +1507,9 @@
   },
   "Power Profile Degradation": {
     "Power Profile Degradation": "Degradamento profilo energetico"
+  },
+  "Power Profile OSD": {
+    "Power Profile OSD": ""
   },
   "Pressure": {
     "Pressure": "Pressione"
@@ -1780,6 +1798,24 @@
   },
   "Show on screens:": {
     "Show on screens:": "Mostra sullo schermo:"
+  },
+  "Show on-screen display when brightness changes": {
+    "Show on-screen display when brightness changes": ""
+  },
+  "Show on-screen display when caps lock state changes": {
+    "Show on-screen display when caps lock state changes": ""
+  },
+  "Show on-screen display when idle inhibitor state changes": {
+    "Show on-screen display when idle inhibitor state changes": ""
+  },
+  "Show on-screen display when microphone is muted/unmuted": {
+    "Show on-screen display when microphone is muted/unmuted": ""
+  },
+  "Show on-screen display when power profile changes": {
+    "Show on-screen display when power profile changes": ""
+  },
+  "Show on-screen display when volume changes": {
+    "Show on-screen display when volume changes": ""
   },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "Mostra solo apps eseguite nel workspace attuale"
@@ -2140,6 +2176,9 @@
   },
   "Volume Changed": {
     "Volume Changed": "Volume Cambiato"
+  },
+  "Volume OSD": {
+    "Volume OSD": ""
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "Volume, luminosità, e altri OSD di sistema"
