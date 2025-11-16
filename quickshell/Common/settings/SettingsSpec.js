@@ -237,6 +237,7 @@ var SPEC = {
     updaterCustomCommand: { def: "" },
     updaterTerminalAdditionalParams: { def: "" },
 
+    displayNameMode: { def: "system" },
     screenPreferences: { def: {} },
     showOnLastDisplay: { def: {} }
 };

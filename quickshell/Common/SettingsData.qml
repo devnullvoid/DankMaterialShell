@@ -327,6 +327,7 @@ Singleton {
     property string updaterCustomCommand: ""
     property string updaterTerminalAdditionalParams: ""
 
+    property string displayNameMode: "system"
     property var screenPreferences: ({})
     property var showOnLastDisplay: ({})
 
@@ -637,12 +638,35 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         return { "x": 0, "y": 0, "width": 0, "height": 0, "wingSize": 0 }
     }
 
+    function getScreenDisplayName(screen) {
+        if (!screen) return ""
+        if (displayNameMode === "model" && screen.model) {
+            return screen.model
+        }
+        return screen.name
+    }
+
+    function isScreenInPreferences(screen, prefs) {
+        if (!screen) return false
+
+        return prefs.some(pref => {
+            if (typeof pref === "string") {
+                return pref === "all" || pref === screen.name || pref === screen.model
+            }
+
+            if (displayNameMode === "model") {
+                return pref.model && screen.model && pref.model === screen.model
+            }
+            return pref.name === screen.name
+        })
+    }
+
     function getFilteredScreens(componentId) {
         var prefs = screenPreferences && screenPreferences[componentId] || ["all"]
-        if (prefs.includes("all")) {
+        if (prefs.includes("all") || (typeof prefs[0] === "string" && prefs[0] === "all")) {
             return Quickshell.screens
         }
-        var filtered = Quickshell.screens.filter(screen => prefs.includes(screen.name))
+        var filtered = Quickshell.screens.filter(screen => isScreenInPreferences(screen, prefs))
         if (filtered.length === 0 && showOnLastDisplay && showOnLastDisplay[componentId] && Quickshell.screens.length === 1) {
             return Quickshell.screens
         }

@@ -542,11 +542,57 @@ Item {
                         width: parent.width
                         spacing: Theme.spacingS
 
-                        StyledText {
-                            text: I18n.tr("Available Screens (") + Quickshell.screens.length + ")"
-                            font.pixelSize: Theme.fontSizeMedium
-                            font.weight: Font.Medium
-                            color: Theme.surfaceText
+                        Column {
+                            width: parent.width
+                            spacing: Theme.spacingXS
+
+                            Row {
+                                width: parent.width
+                                spacing: Theme.spacingM
+
+                                StyledText {
+                                    text: I18n.tr("Available Screens (") + Quickshell.screens.length + ")"
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    font.weight: Font.Medium
+                                    color: Theme.surfaceText
+                                }
+
+                                Item {
+                                    width: 1
+                                    height: 1
+                                    Layout.fillWidth: true
+                                }
+
+                                Column {
+                                    spacing: Theme.spacingXS
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    StyledText {
+                                        text: I18n.tr("Display Name Format")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.surfaceVariantText
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                    }
+
+                                    DankButtonGroup {
+                                        id: displayModeGroup
+                                        model: [I18n.tr("Name"), I18n.tr("Model")]
+                                        currentIndex: SettingsData.displayNameMode === "model" ? 1 : 0
+                                        onSelectionChanged: (index, selected) => {
+                                            if (!selected) return
+                                            SettingsData.displayNameMode = index === 1 ? "model" : "system"
+                                            SettingsData.saveSettings()
+                                        }
+
+                                        Connections {
+                                            target: SettingsData
+                                            function onDisplayNameModeChanged() {
+                                                displayModeGroup.currentIndex = SettingsData.displayNameMode === "model" ? 1 : 0
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
 
                         Repeater {
@@ -580,7 +626,7 @@ Item {
                                         spacing: Theme.spacingXS / 2
 
                                         StyledText {
-                                            text: modelData.name
+                                            text: SettingsData.getScreenDisplayName(modelData)
                                             font.pixelSize: Theme.fontSizeMedium
                                             font.weight: Font.Medium
                                             color: Theme.surfaceText
@@ -602,7 +648,7 @@ Item {
                                             }
 
                                             StyledText {
-                                                text: modelData.model || "Unknown Model"
+                                                text: SettingsData.displayNameMode === "system" ? (modelData.model || "Unknown Model") : modelData.name
                                                 font.pixelSize: Theme.fontSizeSmall
                                                 color: Theme.surfaceVariantText
                                             }
@@ -701,14 +747,17 @@ Item {
                                         width: parent.width
                                         text: I18n.tr("All displays")
                                         description: I18n.tr("Show on all connected displays")
-                                        checked: displaysTab.getScreenPreferences(parent.componentId).includes("all")
+                                        checked: {
+                                            var prefs = displaysTab.getScreenPreferences(parent.componentId)
+                                            return prefs.includes("all") || (typeof prefs[0] === "string" && prefs[0] === "all")
+                                        }
                                         onToggled: (checked) => {
                                             if (checked) {
-                                                displaysTab.setScreenPreferences(parent.componentId, ["all"]);
+                                                displaysTab.setScreenPreferences(parent.componentId, ["all"])
                                             } else {
-                                                displaysTab.setScreenPreferences(parent.componentId, []);
+                                                displaysTab.setScreenPreferences(parent.componentId, [])
                                                 if (["dankBar", "dock", "notifications", "osd", "toast"].includes(parent.componentId)) {
-                                                    displaysTab.setShowOnLastDisplay(parent.componentId, true);
+                                                    displaysTab.setShowOnLastDisplay(parent.componentId, true)
                                                 }
                                             }
                                         }
@@ -719,9 +768,13 @@ Item {
                                         text: I18n.tr("Show on Last Display")
                                         description: I18n.tr("Always show when there's only one connected display")
                                         checked: displaysTab.getShowOnLastDisplay(parent.componentId)
-                                        visible: !displaysTab.getScreenPreferences(parent.componentId).includes("all") && ["dankBar", "dock", "notifications", "osd", "toast", "notepad", "systemTray"].includes(parent.componentId)
+                                        visible: {
+                                            var prefs = displaysTab.getScreenPreferences(parent.componentId)
+                                            var isAll = prefs.includes("all") || (typeof prefs[0] === "string" && prefs[0] === "all")
+                                            return !isAll && ["dankBar", "dock", "notifications", "osd", "toast", "notepad", "systemTray"].includes(parent.componentId)
+                                        }
                                         onToggled: (checked) => {
-                                            displaysTab.setShowOnLastDisplay(parent.componentId, checked);
+                                            displaysTab.setShowOnLastDisplay(parent.componentId, checked)
                                         }
                                     }
 
@@ -730,45 +783,54 @@ Item {
                                         height: 1
                                         color: Theme.outline
                                         opacity: 0.2
-                                        visible: !displaysTab.getScreenPreferences(parent.componentId).includes("all")
+                                        visible: {
+                                            var prefs = displaysTab.getScreenPreferences(parent.componentId)
+                                            return !prefs.includes("all") && !(typeof prefs[0] === "string" && prefs[0] === "all")
+                                        }
                                     }
 
                                     Column {
                                         width: parent.width
                                         spacing: Theme.spacingXS
-                                        visible: !displaysTab.getScreenPreferences(parent.componentId).includes("all")
+                                        visible: {
+                                            var prefs = displaysTab.getScreenPreferences(parent.componentId)
+                                            return !prefs.includes("all") && !(typeof prefs[0] === "string" && prefs[0] === "all")
+                                        }
 
                                         Repeater {
                                             model: Quickshell.screens
 
                                             delegate: DankToggle {
-                                                property string screenName: modelData.name
+                                                property var screenData: modelData
                                                 property string componentId: parent.parent.componentId
 
                                                 width: parent.width
-                                                text: screenName
-                                                description: modelData.width + "×" + modelData.height + " • " + (modelData.model || "Unknown Model")
+                                                text: SettingsData.getScreenDisplayName(screenData)
+                                                description: screenData.width + "×" + screenData.height + " • " + (SettingsData.displayNameMode === "system" ? (screenData.model || "Unknown Model") : screenData.name)
                                                 checked: {
-                                                    var prefs = displaysTab.getScreenPreferences(componentId);
-                                                    return !prefs.includes("all") && prefs.includes(screenName);
+                                                    var prefs = displaysTab.getScreenPreferences(componentId)
+                                                    if (typeof prefs[0] === "string" && prefs[0] === "all") return false
+                                                    return SettingsData.isScreenInPreferences(screenData, prefs)
                                                 }
                                                 onToggled: (checked) => {
-                                                    var currentPrefs = displaysTab.getScreenPreferences(componentId);
-                                                    if (currentPrefs.includes("all"))
-                                                        currentPrefs = [];
-
-                                                    var newPrefs = currentPrefs.slice();
-                                                    if (checked) {
-                                                        if (!newPrefs.includes(screenName))
-                                                            newPrefs.push(screenName);
-
-                                                    } else {
-                                                        var index = newPrefs.indexOf(screenName);
-                                                        if (index > -1)
-                                                            newPrefs.splice(index, 1);
-
+                                                    var currentPrefs = displaysTab.getScreenPreferences(componentId)
+                                                    if (typeof currentPrefs[0] === "string" && currentPrefs[0] === "all") {
+                                                        currentPrefs = []
                                                     }
-                                                    displaysTab.setScreenPreferences(componentId, newPrefs);
+
+                                                    var newPrefs = currentPrefs.filter(pref => {
+                                                        if (typeof pref === "string") return false
+                                                        return pref.name !== screenData.name || pref.model !== screenData.model
+                                                    })
+
+                                                    if (checked) {
+                                                        newPrefs.push({
+                                                            name: screenData.name,
+                                                            model: screenData.model || ""
+                                                        })
+                                                    }
+
+                                                    displaysTab.setScreenPreferences(componentId, newPrefs)
                                                 }
                                             }
 
