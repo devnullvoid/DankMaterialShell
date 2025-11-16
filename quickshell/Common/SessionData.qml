@@ -422,29 +422,59 @@ Singleton {
     }
 
     function setMonitorWallpaper(screenName, path) {
-        var newMonitorWallpapers = Object.assign({}, monitorWallpapers)
-        if (path && path !== "") {
-            newMonitorWallpapers[screenName] = path
-        } else {
-            delete newMonitorWallpapers[screenName]
+        var screen = null
+        var screens = Quickshell.screens
+        for (var i = 0; i < screens.length; i++) {
+            if (screens[i].name === screenName) {
+                screen = screens[i]
+                break
+            }
         }
+
+        if (!screen) {
+            console.warn("SessionData: Screen not found:", screenName)
+            return
+        }
+
+        var identifier = typeof SettingsData !== "undefined" ? SettingsData.getScreenDisplayName(screen) : screen.name
+
+        var newMonitorWallpapers = {}
+        for (var key in monitorWallpapers) {
+            var isThisScreen = key === screen.name || (screen.model && key === screen.model)
+            if (!isThisScreen) {
+                newMonitorWallpapers[key] = monitorWallpapers[key]
+            }
+        }
+
+        if (path && path !== "") {
+            newMonitorWallpapers[identifier] = path
+        }
+
         monitorWallpapers = newMonitorWallpapers
 
         if (perModeWallpaper) {
             if (isLightMode) {
-                var newLight = Object.assign({}, monitorWallpapersLight)
+                var newLight = {}
+                for (var key in monitorWallpapersLight) {
+                    var isThisScreen = key === screen.name || (screen.model && key === screen.model)
+                    if (!isThisScreen) {
+                        newLight[key] = monitorWallpapersLight[key]
+                    }
+                }
                 if (path && path !== "") {
-                    newLight[screenName] = path
-                } else {
-                    delete newLight[screenName]
+                    newLight[identifier] = path
                 }
                 monitorWallpapersLight = newLight
             } else {
-                var newDark = Object.assign({}, monitorWallpapersDark)
+                var newDark = {}
+                for (var key in monitorWallpapersDark) {
+                    var isThisScreen = key === screen.name || (screen.model && key === screen.model)
+                    if (!isThisScreen) {
+                        newDark[key] = monitorWallpapersDark[key]
+                    }
+                }
                 if (path && path !== "") {
-                    newDark[screenName] = path
-                } else {
-                    delete newDark[screenName]
+                    newDark[identifier] = path
                 }
                 monitorWallpapersDark = newDark
             }
@@ -489,61 +519,153 @@ Singleton {
     }
 
     function setMonitorCyclingEnabled(screenName, enabled) {
-        var newSettings = Object.assign({}, monitorCyclingSettings)
-        if (!newSettings[screenName]) {
-            newSettings[screenName] = {
+        var screen = null
+        var screens = Quickshell.screens
+        for (var i = 0; i < screens.length; i++) {
+            if (screens[i].name === screenName) {
+                screen = screens[i]
+                break
+            }
+        }
+
+        if (!screen) {
+            console.warn("SessionData: Screen not found:", screenName)
+            return
+        }
+
+        var identifier = typeof SettingsData !== "undefined" ? SettingsData.getScreenDisplayName(screen) : screen.name
+
+        var newSettings = {}
+        for (var key in monitorCyclingSettings) {
+            var isThisScreen = key === screen.name || (screen.model && key === screen.model)
+            if (!isThisScreen) {
+                newSettings[key] = monitorCyclingSettings[key]
+            }
+        }
+
+        if (!newSettings[identifier]) {
+            newSettings[identifier] = {
                 "enabled": false,
                 "mode": "interval",
                 "interval": 300,
                 "time": "06:00"
             }
         }
-        newSettings[screenName].enabled = enabled
+        newSettings[identifier].enabled = enabled
         monitorCyclingSettings = newSettings
         saveSettings()
     }
 
     function setMonitorCyclingMode(screenName, mode) {
-        var newSettings = Object.assign({}, monitorCyclingSettings)
-        if (!newSettings[screenName]) {
-            newSettings[screenName] = {
+        var screen = null
+        var screens = Quickshell.screens
+        for (var i = 0; i < screens.length; i++) {
+            if (screens[i].name === screenName) {
+                screen = screens[i]
+                break
+            }
+        }
+
+        if (!screen) {
+            console.warn("SessionData: Screen not found:", screenName)
+            return
+        }
+
+        var identifier = typeof SettingsData !== "undefined" ? SettingsData.getScreenDisplayName(screen) : screen.name
+
+        var newSettings = {}
+        for (var key in monitorCyclingSettings) {
+            var isThisScreen = key === screen.name || (screen.model && key === screen.model)
+            if (!isThisScreen) {
+                newSettings[key] = monitorCyclingSettings[key]
+            }
+        }
+
+        if (!newSettings[identifier]) {
+            newSettings[identifier] = {
                 "enabled": false,
                 "mode": "interval",
                 "interval": 300,
                 "time": "06:00"
             }
         }
-        newSettings[screenName].mode = mode
+        newSettings[identifier].mode = mode
         monitorCyclingSettings = newSettings
         saveSettings()
     }
 
     function setMonitorCyclingInterval(screenName, interval) {
-        var newSettings = Object.assign({}, monitorCyclingSettings)
-        if (!newSettings[screenName]) {
-            newSettings[screenName] = {
+        var screen = null
+        var screens = Quickshell.screens
+        for (var i = 0; i < screens.length; i++) {
+            if (screens[i].name === screenName) {
+                screen = screens[i]
+                break
+            }
+        }
+
+        if (!screen) {
+            console.warn("SessionData: Screen not found:", screenName)
+            return
+        }
+
+        var identifier = typeof SettingsData !== "undefined" ? SettingsData.getScreenDisplayName(screen) : screen.name
+
+        var newSettings = {}
+        for (var key in monitorCyclingSettings) {
+            var isThisScreen = key === screen.name || (screen.model && key === screen.model)
+            if (!isThisScreen) {
+                newSettings[key] = monitorCyclingSettings[key]
+            }
+        }
+
+        if (!newSettings[identifier]) {
+            newSettings[identifier] = {
                 "enabled": false,
                 "mode": "interval",
                 "interval": 300,
                 "time": "06:00"
             }
         }
-        newSettings[screenName].interval = interval
+        newSettings[identifier].interval = interval
         monitorCyclingSettings = newSettings
         saveSettings()
     }
 
     function setMonitorCyclingTime(screenName, time) {
-        var newSettings = Object.assign({}, monitorCyclingSettings)
-        if (!newSettings[screenName]) {
-            newSettings[screenName] = {
+        var screen = null
+        var screens = Quickshell.screens
+        for (var i = 0; i < screens.length; i++) {
+            if (screens[i].name === screenName) {
+                screen = screens[i]
+                break
+            }
+        }
+
+        if (!screen) {
+            console.warn("SessionData: Screen not found:", screenName)
+            return
+        }
+
+        var identifier = typeof SettingsData !== "undefined" ? SettingsData.getScreenDisplayName(screen) : screen.name
+
+        var newSettings = {}
+        for (var key in monitorCyclingSettings) {
+            var isThisScreen = key === screen.name || (screen.model && key === screen.model)
+            if (!isThisScreen) {
+                newSettings[key] = monitorCyclingSettings[key]
+            }
+        }
+
+        if (!newSettings[identifier]) {
+            newSettings[identifier] = {
                 "enabled": false,
                 "mode": "interval",
                 "interval": 300,
                 "time": "06:00"
             }
         }
-        newSettings[screenName].time = time
+        newSettings[identifier].time = time
         monitorCyclingSettings = newSettings
         saveSettings()
     }
@@ -770,11 +892,57 @@ Singleton {
         if (!perMonitorWallpaper) {
             return wallpaperPath
         }
-        return monitorWallpapers[screenName] || wallpaperPath
+
+        var screen = null
+        var screens = Quickshell.screens
+        for (var i = 0; i < screens.length; i++) {
+            if (screens[i].name === screenName) {
+                screen = screens[i]
+                break
+            }
+        }
+
+        if (!screen) {
+            return monitorWallpapers[screenName] || wallpaperPath
+        }
+
+        if (monitorWallpapers[screen.name]) {
+            return monitorWallpapers[screen.name]
+        }
+        if (screen.model && monitorWallpapers[screen.model]) {
+            return monitorWallpapers[screen.model]
+        }
+
+        return wallpaperPath
     }
 
     function getMonitorCyclingSettings(screenName) {
-        return monitorCyclingSettings[screenName] || {
+        var screen = null
+        var screens = Quickshell.screens
+        for (var i = 0; i < screens.length; i++) {
+            if (screens[i].name === screenName) {
+                screen = screens[i]
+                break
+            }
+        }
+
+        if (!screen) {
+            return monitorCyclingSettings[screenName] || {
+                "enabled": false,
+                "mode": "interval",
+                "interval": 300,
+                "time": "06:00"
+            }
+        }
+
+        if (monitorCyclingSettings[screen.name]) {
+            return monitorCyclingSettings[screen.name]
+        }
+        if (screen.model && monitorCyclingSettings[screen.model]) {
+            return monitorCyclingSettings[screen.model]
+        }
+
+        return {
             "enabled": false,
             "mode": "interval",
             "interval": 300,
