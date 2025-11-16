@@ -111,13 +111,20 @@ DankPopout {
             implicitHeight: {
                 let baseHeight = Theme.spacingL * 2
                 baseHeight += cachedHeaderHeight
-                baseHeight += (notificationSettings.expanded ? notificationSettings.contentHeight : 0)
                 baseHeight += Theme.spacingM * 2
+
+                const settingsHeight = notificationSettings.expanded ? notificationSettings.contentHeight : 0
                 let listHeight = notificationList.listContentHeight
                 if (NotificationService.groupedNotifications.length === 0) {
                     listHeight = 200
                 }
-                baseHeight += Math.min(listHeight, 600)
+
+                const maxContentArea = 600
+                const availableListSpace = Math.max(200, maxContentArea - settingsHeight)
+
+                baseHeight += settingsHeight
+                baseHeight += Math.min(listHeight, availableListSpace)
+
                 const maxHeight = root.screen ? root.screen.height * 0.8 : Screen.height * 0.8
                 return Math.max(300, Math.min(baseHeight, maxHeight))
             }
@@ -197,13 +204,6 @@ DankPopout {
                 anchors.margins: Theme.spacingL
                 showHints: (externalKeyboardController && externalKeyboardController.showKeyboardHints) || false
                 z: 200
-            }
-
-            Behavior on implicitHeight {
-                NumberAnimation {
-                    duration: 180
-                    easing.type: Easing.OutQuart
-                }
             }
         }
     }

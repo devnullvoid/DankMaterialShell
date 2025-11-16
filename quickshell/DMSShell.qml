@@ -298,48 +298,6 @@ Item {
     }
 
     LazyLoader {
-        id: powerMenuLoader
-
-        active: false
-
-        PowerMenu {
-            id: powerMenu
-
-            onPowerActionRequested: (action, title, message) => {
-                                        if (SettingsData.powerActionConfirm) {
-                                            powerConfirmModalLoader.active = true
-                                            if (powerConfirmModalLoader.item) {
-                                                powerConfirmModalLoader.item.confirmButtonColor = action === "poweroff" ? Theme.error : action === "reboot" ? Theme.warning : Theme.primary
-                                                powerConfirmModalLoader.item.show(title, message, () => actionApply(action), function () {})
-                                            }
-                                        } else {
-                                            actionApply(action)
-                                        }
-                                    }
-
-            function actionApply(action) {
-                switch (action) {
-                case "logout":
-                    SessionService.logout()
-                    break
-                case "suspend":
-                    SessionService.suspend()
-                    break
-                case "hibernate":
-                    SessionService.hibernate()
-                    break
-                case "reboot":
-                    SessionService.reboot()
-                    break
-                case "poweroff":
-                    SessionService.poweroff()
-                    break
-                }
-            }
-        }
-    }
-
-    LazyLoader {
         id: powerConfirmModalLoader
 
         active: false

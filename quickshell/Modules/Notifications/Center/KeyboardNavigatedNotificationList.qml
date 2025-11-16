@@ -40,7 +40,8 @@ DankListView {
 
     NotificationEmptyState {
         visible: listView.count === 0
-        anchors.centerIn: parent
+        y: 20
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 
     onModelChanged: {

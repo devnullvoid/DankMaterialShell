@@ -421,15 +421,44 @@ Singleton {
         }
         return typeof SettingsData !== "undefined" ? SettingsData.cornerRadius : 12
     }
+
+    property string fontFamily: {
+        if (typeof SessionData !== "undefined" && SessionData.isGreeterMode && typeof GreetdSettings !== "undefined") {
+            return GreetdSettings.fontFamily
+        }
+        return typeof SettingsData !== "undefined" ? SettingsData.fontFamily : "Inter Variable"
+    }
+
+    property string monoFontFamily: {
+        if (typeof SessionData !== "undefined" && SessionData.isGreeterMode && typeof GreetdSettings !== "undefined") {
+            return GreetdSettings.monoFontFamily
+        }
+        return typeof SettingsData !== "undefined" ? SettingsData.monoFontFamily : "Fira Code"
+    }
+
+    property int fontWeight: {
+        if (typeof SessionData !== "undefined" && SessionData.isGreeterMode && typeof GreetdSettings !== "undefined") {
+            return GreetdSettings.fontWeight
+        }
+        return typeof SettingsData !== "undefined" ? SettingsData.fontWeight : Font.Normal
+    }
+
+    property real fontScale: {
+        if (typeof SessionData !== "undefined" && SessionData.isGreeterMode && typeof GreetdSettings !== "undefined") {
+            return GreetdSettings.fontScale
+        }
+        return typeof SettingsData !== "undefined" ? SettingsData.fontScale : 1.0
+    }
+
     property real spacingXS: 4
     property real spacingS: 8
     property real spacingM: 12
     property real spacingL: 16
     property real spacingXL: 24
-    property real fontSizeSmall: (typeof SettingsData !== "undefined" ? SettingsData.fontScale : 1.0) * 12
-    property real fontSizeMedium: (typeof SettingsData !== "undefined" ? SettingsData.fontScale : 1.0) * 14
-    property real fontSizeLarge: (typeof SettingsData !== "undefined" ? SettingsData.fontScale : 1.0) * 16
-    property real fontSizeXLarge: (typeof SettingsData !== "undefined" ? SettingsData.fontScale : 1.0) * 20
+    property real fontSizeSmall: fontScale * 12
+    property real fontSizeMedium: fontScale * 14
+    property real fontSizeLarge: fontScale * 16
+    property real fontSizeXLarge: fontScale * 20
     property real barHeight: 48
     property real iconSize: 24
     property real iconSizeSmall: 16

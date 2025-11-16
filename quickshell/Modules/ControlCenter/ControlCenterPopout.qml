@@ -72,6 +72,13 @@ DankPopout {
     screen: triggerScreen
     shouldBeVisible: false
 
+    WlrLayershell.keyboardFocus: {
+        if (!shouldBeVisible) return WlrKeyboardFocus.None
+        if (powerMenuOpen) return WlrKeyboardFocus.None
+        if (CompositorService.isHyprland) return WlrKeyboardFocus.OnDemand
+        return WlrKeyboardFocus.Exclusive
+    }
+
     onBackgroundClicked: close()
 
     onShouldBeVisibleChanged: {
