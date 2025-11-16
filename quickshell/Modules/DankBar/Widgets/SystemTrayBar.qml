@@ -1088,7 +1088,7 @@ Item {
                                         width: 16
                                         height: 16
                                         anchors.verticalCenter: parent.verticalCenter
-                                        visible: menuEntry?.icon && menuEntry.icon !== ""
+                                        visible: (menuEntry?.icon ?? "") !== ""
 
                                         Image {
                                             anchors.fill: parent
