@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Services.SystemTray
 import Quickshell.Wayland
 import Quickshell.Widgets
@@ -49,7 +50,17 @@ Item {
     visible: allTrayItems.length > 0
 
     property bool menuOpen: false
-    property bool overflowWasOpenBeforeTrayMenu: false
+    property var currentTrayMenu: null
+
+    Component.onCompleted: {
+        if (!parentScreen) return
+        TrayMenuManager.register(parentScreen.name, root)
+    }
+
+    Component.onDestruction: {
+        if (!parentScreen) return
+        TrayMenuManager.unregister(parentScreen.name)
+    }
 
     Rectangle {
         id: visualBackground
@@ -171,7 +182,7 @@ Item {
 
                             if (!delegateRoot.trayItem.hasMenu) return
 
-                            root.overflowWasOpenBeforeTrayMenu = root.menuOpen
+                            root.menuOpen = false
                             root.showForTrayItem(delegateRoot.trayItem, visualContent, parentScreen, root.isAtBottom, root.isVertical, root.axis)
                         }
                     }
@@ -304,7 +315,7 @@ Item {
 
                             if (!delegateRoot.trayItem.hasMenu) return
 
-                            root.overflowWasOpenBeforeTrayMenu = root.menuOpen
+                            root.menuOpen = false
                             root.showForTrayItem(delegateRoot.trayItem, visualContent, parentScreen, root.isAtBottom, root.isVertical, root.axis)
                         }
                     }
@@ -356,9 +367,18 @@ Item {
         screen: root.parentScreen
         WlrLayershell.layer: WlrLayershell.Top
         WlrLayershell.exclusiveZone: -1
-        WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+        WlrLayershell.keyboardFocus: {
+            if (!root.menuOpen) return WlrKeyboardFocus.None
+            if (CompositorService.isHyprland) return WlrKeyboardFocus.OnDemand
+            return WlrKeyboardFocus.Exclusive
+        }
         WlrLayershell.namespace: "dms:tray-overflow-menu"
         color: "transparent"
+
+        HyprlandFocusGrab {
+            windows: [overflowMenu]
+            active: CompositorService.isHyprland && root.menuOpen
+        }
 
         anchors {
             top: true
@@ -372,9 +392,105 @@ Item {
             : (screen?.devicePixelRatio || 1)
         property point anchorPos: Qt.point(screen.width / 2, screen.height / 2)
 
+        readonly property var barBounds: {
+            if (!overflowMenu.screen) {
+                return { "x": 0, "y": 0, "width": 0, "height": 0, "wingSize": 0 }
+            }
+            return SettingsData.getBarBounds(overflowMenu.screen, root.barThickness + SettingsData.dankBarSpacing)
+        }
+
+        readonly property real barX: barBounds.x
+        readonly property real barY: barBounds.y
+        readonly property real barWidth: barBounds.width
+        readonly property real barHeight: barBounds.height
+
+        readonly property real maskX: {
+            switch (SettingsData.dankBarPosition) {
+            case SettingsData.Position.Left:
+                return barWidth > 0 ? barWidth : 0
+            case SettingsData.Position.Right:
+            case SettingsData.Position.Top:
+            case SettingsData.Position.Bottom:
+            default:
+                return 0
+            }
+        }
+
+        readonly property real maskY: {
+            switch (SettingsData.dankBarPosition) {
+            case SettingsData.Position.Top:
+                return barHeight > 0 ? barHeight : 0
+            case SettingsData.Position.Bottom:
+            case SettingsData.Position.Left:
+            case SettingsData.Position.Right:
+            default:
+                return 0
+            }
+        }
+
+        readonly property real maskWidth: {
+            switch (SettingsData.dankBarPosition) {
+            case SettingsData.Position.Left:
+                return barWidth > 0 ? width - barWidth : width
+            case SettingsData.Position.Right:
+                return barWidth > 0 ? width - barWidth : width
+            case SettingsData.Position.Top:
+            case SettingsData.Position.Bottom:
+            default:
+                return width
+            }
+        }
+
+        readonly property real maskHeight: {
+            switch (SettingsData.dankBarPosition) {
+            case SettingsData.Position.Top:
+                return barHeight > 0 ? height - barHeight : height
+            case SettingsData.Position.Bottom:
+                return barHeight > 0 ? height - barHeight : height
+            case SettingsData.Position.Left:
+            case SettingsData.Position.Right:
+            default:
+                return height
+            }
+        }
+
+        mask: Region {
+            item: Rectangle {
+                x: overflowMenu.maskX
+                y: overflowMenu.maskY
+                width: overflowMenu.maskWidth
+                height: overflowMenu.maskHeight
+            }
+        }
+
         onVisibleChanged: {
             if (visible) {
+                if (currentTrayMenu) {
+                    currentTrayMenu.showMenu = false
+                }
+                PopoutManager.closeAllPopouts()
+                ModalManager.closeAllModalsExcept(null)
                 updatePosition()
+            }
+        }
+
+        MouseArea {
+            x: overflowMenu.maskX
+            y: overflowMenu.maskY
+            width: overflowMenu.maskWidth
+            height: overflowMenu.maskHeight
+            z: -1
+            enabled: root.menuOpen
+            acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
+            onClicked: mouse => {
+                const clickX = mouse.x + overflowMenu.maskX
+                const clickY = mouse.y + overflowMenu.maskY
+                const outsideContent = clickX < menuContainer.x || clickX > menuContainer.x + menuContainer.width ||
+                                       clickY < menuContainer.y || clickY > menuContainer.y + menuContainer.height
+
+                if (!outsideContent) return
+
+                root.menuOpen = false
             }
         }
 
@@ -613,7 +729,6 @@ Item {
 
                                 if (!trayItem.hasMenu) return
 
-                                root.overflowWasOpenBeforeTrayMenu = true
                                 root.menuOpen = false
                                 root.showForTrayItem(trayItem, parent, parentScreen, root.isAtBottom, root.isVertical, root.axis)
                             }
@@ -621,12 +736,6 @@ Item {
                     }
                 }
             }
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            z: -1
-            onClicked: root.menuOpen = false
         }
     }
 
@@ -674,14 +783,9 @@ Item {
 
             function close() {
                 showMenu = false
-                if (root.overflowWasOpenBeforeTrayMenu) {
-                    root.menuOpen = true
-                }
-                root.overflowWasOpenBeforeTrayMenu = false
             }
 
             function closeWithAction() {
-                root.overflowWasOpenBeforeTrayMenu = false
                 close()
             }
 
@@ -715,8 +819,17 @@ Item {
                 visible: menuRoot.showMenu && (menuRoot.trayItem?.hasMenu ?? false)
                 WlrLayershell.layer: WlrLayershell.Top
                 WlrLayershell.exclusiveZone: -1
-                WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+                WlrLayershell.keyboardFocus: {
+                    if (!menuRoot.showMenu) return WlrKeyboardFocus.None
+                    if (CompositorService.isHyprland) return WlrKeyboardFocus.OnDemand
+                    return WlrKeyboardFocus.Exclusive
+                }
                 color: "transparent"
+
+                HyprlandFocusGrab {
+                    windows: [menuWindow]
+                    active: CompositorService.isHyprland && menuRoot.showMenu
+                }
 
                 anchors {
                     top: true
@@ -730,9 +843,103 @@ Item {
                     : (screen?.devicePixelRatio || 1)
                 property point anchorPos: Qt.point(screen.width / 2, screen.height / 2)
 
+                readonly property var barBounds: {
+                    if (!menuWindow.screen) {
+                        return { "x": 0, "y": 0, "width": 0, "height": 0, "wingSize": 0 }
+                    }
+                    return SettingsData.getBarBounds(menuWindow.screen, root.barThickness + SettingsData.dankBarSpacing)
+                }
+
+                readonly property real barX: barBounds.x
+                readonly property real barY: barBounds.y
+                readonly property real barWidth: barBounds.width
+                readonly property real barHeight: barBounds.height
+
+                readonly property real maskX: {
+                    switch (SettingsData.dankBarPosition) {
+                    case SettingsData.Position.Left:
+                        return barWidth > 0 ? barWidth : 0
+                    case SettingsData.Position.Right:
+                    case SettingsData.Position.Top:
+                    case SettingsData.Position.Bottom:
+                    default:
+                        return 0
+                    }
+                }
+
+                readonly property real maskY: {
+                    switch (SettingsData.dankBarPosition) {
+                    case SettingsData.Position.Top:
+                        return barHeight > 0 ? barHeight : 0
+                    case SettingsData.Position.Bottom:
+                    case SettingsData.Position.Left:
+                    case SettingsData.Position.Right:
+                    default:
+                        return 0
+                    }
+                }
+
+                readonly property real maskWidth: {
+                    switch (SettingsData.dankBarPosition) {
+                    case SettingsData.Position.Left:
+                        return barWidth > 0 ? width - barWidth : width
+                    case SettingsData.Position.Right:
+                        return barWidth > 0 ? width - barWidth : width
+                    case SettingsData.Position.Top:
+                    case SettingsData.Position.Bottom:
+                    default:
+                        return width
+                    }
+                }
+
+                readonly property real maskHeight: {
+                    switch (SettingsData.dankBarPosition) {
+                    case SettingsData.Position.Top:
+                        return barHeight > 0 ? height - barHeight : height
+                    case SettingsData.Position.Bottom:
+                        return barHeight > 0 ? height - barHeight : height
+                    case SettingsData.Position.Left:
+                    case SettingsData.Position.Right:
+                    default:
+                        return height
+                    }
+                }
+
+                mask: Region {
+                    item: Rectangle {
+                        x: menuWindow.maskX
+                        y: menuWindow.maskY
+                        width: menuWindow.maskWidth
+                        height: menuWindow.maskHeight
+                    }
+                }
+
                 onVisibleChanged: {
                     if (visible) {
+                        root.menuOpen = false
+                        PopoutManager.closeAllPopouts()
+                        ModalManager.closeAllModalsExcept(null)
                         updatePosition()
+                    }
+                }
+
+                MouseArea {
+                    x: menuWindow.maskX
+                    y: menuWindow.maskY
+                    width: menuWindow.maskWidth
+                    height: menuWindow.maskHeight
+                    z: -1
+                    enabled: menuRoot.showMenu
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
+                    onClicked: mouse => {
+                        const clickX = mouse.x + menuWindow.maskX
+                        const clickY = mouse.y + menuWindow.maskY
+                        const outsideContent = clickX < menuContainer.x || clickX > menuContainer.x + menuContainer.width ||
+                                               clickY < menuContainer.y || clickY > menuContainer.y + menuContainer.height
+
+                        if (!outsideContent) return
+
+                        menuRoot.close()
                     }
                 }
 
@@ -1128,40 +1335,23 @@ Item {
                         }
                     }
                 }
-
-                MouseArea {
-                    anchors.fill: parent
-                    z: -1
-                    onClicked: menuRoot.close()
-                }
-            }
-        }
-    }
-
-    property var currentTrayMenu: null
-
-    Connections {
-        target: currentTrayMenu
-        enabled: currentTrayMenu !== null
-        function onShowMenuChanged() {
-            if (parentWindow && typeof parentWindow.systemTrayMenuOpen !== "undefined") {
-                parentWindow.systemTrayMenuOpen = currentTrayMenu.showMenu
             }
         }
     }
 
     function showForTrayItem(item, anchor, screen, atBottom, vertical, axisObj) {
-        if (parentWindow && typeof parentWindow.systemTrayMenuOpen !== "undefined") {
-            parentWindow.systemTrayMenuOpen = true
-        }
+        if (!screen) return
 
         if (currentTrayMenu) {
+            currentTrayMenu.showMenu = false
             currentTrayMenu.destroy()
+            currentTrayMenu = null
         }
+
         currentTrayMenu = trayMenuComponent.createObject(null)
-        if (currentTrayMenu) {
-            currentTrayMenu.showForTrayItem(item, anchor, screen, atBottom, vertical ?? false, axisObj)
-        }
+        if (!currentTrayMenu) return
+
+        currentTrayMenu.showForTrayItem(item, anchor, screen, atBottom, vertical ?? false, axisObj)
     }
 
 }

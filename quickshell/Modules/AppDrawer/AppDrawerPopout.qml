@@ -17,9 +17,6 @@ DankPopout {
 
     property var triggerScreen: null
 
-    // Setting to Exclusive, so virtual keyboards can send input to app drawer
-    WlrLayershell.keyboardFocus: shouldBeVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None 
-
     function show() {
         open()
     }
@@ -39,6 +36,8 @@ DankPopout {
     triggerWidth: 40
     positioning: ""
     screen: triggerScreen
+
+    onBackgroundClicked: close()
 
     onShouldBeVisibleChanged: {
         if (shouldBeVisible) {

@@ -18,7 +18,6 @@ DankPopout {
     property var triggerScreen: null
     property int currentTabIndex: 0
 
-    keyboardFocusMode: WlrKeyboardFocus.Exclusive
 
     function setTriggerPosition(x, y, width, section, screen) {
         triggerSection = section
@@ -44,8 +43,8 @@ DankPopout {
     triggerX: Screen.width - 620 - Theme.spacingL
     triggerY: Math.max(26 + SettingsData.dankBarInnerPadding + 4, Theme.barHeight - 4 - (8 - SettingsData.dankBarInnerPadding)) + SettingsData.dankBarSpacing + SettingsData.dankBarBottomGap - 2
     triggerWidth: 80
+    screen: triggerScreen
     shouldBeVisible: dashVisible
-    visible: shouldBeVisible
 
     property bool __focusArmed: false
     property bool __contentReady: false

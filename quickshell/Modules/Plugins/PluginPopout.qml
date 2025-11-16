@@ -8,8 +8,6 @@ DankPopout {
 
     layerNamespace: "dms-plugin:" + layerNamespacePlugin
 
-    WlrLayershell.keyboardFocus: shouldBeVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None 
-
     property var triggerScreen: null
     property Component pluginContent: null
     property real contentWidth: 400
@@ -27,7 +25,6 @@ DankPopout {
     popupHeight: contentHeight
     screen: triggerScreen
     shouldBeVisible: false
-    visible: shouldBeVisible
 
     content: Component {
         Rectangle {
