@@ -137,21 +137,42 @@ Singleton {
         }
     }
 
-    // * Apps
+    function escapeShellArg(arg) {
+        return "'" + arg.replace(/'/g, "'\\''") + "'"
+    }
+
+    function needsShellExecution(prefix) {
+        if (!prefix || prefix.length === 0) return false
+        return /[;&|<>()$`\\"']/.test(prefix)
+    }
+
     function launchDesktopEntry(desktopEntry, usePrimeRun) {
         let cmd = desktopEntry.command
         if (usePrimeRun && hasPrimeRun) {
             cmd = ["prime-run"].concat(cmd)
         }
-        if (SettingsData.launchPrefix && SettingsData.launchPrefix.length > 0) {
-            const launchPrefix = SettingsData.launchPrefix.trim().split(" ")
-            cmd = launchPrefix.concat(cmd)
-        }
 
-        Quickshell.execDetached({
-            command: cmd,
-            workingDirectory: desktopEntry.workingDirectory || Quickshell.env("HOME"),
-        });
+        const prefix = SettingsData.launchPrefix?.trim() || ""
+
+        if (prefix.length > 0 && needsShellExecution(prefix)) {
+            const escapedCmd = cmd.map(arg => escapeShellArg(arg)).join(" ")
+            const shellCmd = `${prefix} ${escapedCmd}`
+
+            Quickshell.execDetached({
+                command: ["sh", "-c", shellCmd],
+                workingDirectory: desktopEntry.workingDirectory || Quickshell.env("HOME"),
+            })
+        } else {
+            if (prefix.length > 0) {
+                const launchPrefix = prefix.split(" ")
+                cmd = launchPrefix.concat(cmd)
+            }
+
+            Quickshell.execDetached({
+                command: cmd,
+                workingDirectory: desktopEntry.workingDirectory || Quickshell.env("HOME"),
+            })
+        }
     }
 
     function launchDesktopAction(desktopEntry, action, usePrimeRun) {
@@ -159,15 +180,28 @@ Singleton {
         if (usePrimeRun && hasPrimeRun) {
             cmd = ["prime-run"].concat(cmd)
         }
-        if (SettingsData.launchPrefix && SettingsData.launchPrefix.length > 0) {
-            const launchPrefix = SettingsData.launchPrefix.trim().split(" ")
-            cmd = launchPrefix.concat(cmd)
-        }
 
-        Quickshell.execDetached({
-            command: cmd,
-            workingDirectory: desktopEntry.workingDirectory || Quickshell.env("HOME"),
-        });
+        const prefix = SettingsData.launchPrefix?.trim() || ""
+
+        if (prefix.length > 0 && needsShellExecution(prefix)) {
+            const escapedCmd = cmd.map(arg => escapeShellArg(arg)).join(" ")
+            const shellCmd = `${prefix} ${escapedCmd}`
+
+            Quickshell.execDetached({
+                command: ["sh", "-c", shellCmd],
+                workingDirectory: desktopEntry.workingDirectory || Quickshell.env("HOME"),
+            })
+        } else {
+            if (prefix.length > 0) {
+                const launchPrefix = prefix.split(" ")
+                cmd = launchPrefix.concat(cmd)
+            }
+
+            Quickshell.execDetached({
+                command: cmd,
+                workingDirectory: desktopEntry.workingDirectory || Quickshell.env("HOME"),
+            })
+        }
     }
 
     // * Session management
