@@ -645,41 +645,9 @@ Item {
             property bool showMenu: false
             property var menuHandle: null
 
-            property bool shouldLoadMenu: false
-            property var menuItems: []
-
             ListModel { id: entryStack }
             function topEntry() {
                 return entryStack.count ? entryStack.get(entryStack.count - 1).handle : null
-            }
-
-            onShouldLoadMenuChanged: {
-                if (shouldLoadMenu) {
-                    loadMenuItemsSafely()
-                }
-            }
-
-            function loadMenuItemsSafely() {
-                menuLoadTimer.start()
-            }
-
-            Timer {
-                id: menuLoadTimer
-                interval: 50
-                repeat: false
-                onTriggered: {
-                    try {
-                        const currentOpener = entryStack.count ? subOpener : rootOpener
-                        if (currentOpener && currentOpener.children && currentOpener.children.values) {
-                            const values = currentOpener.children.values
-                            if (values && values.length > 0) {
-                                menuRoot.menuItems = [...values]
-                            }
-                        }
-                    } catch (e) {
-                        console.warn("Failed to load menu items:", e)
-                    }
-                }
             }
 
             function showForTrayItem(item, anchor, screen, atBottom, vertical, axisObj) {
@@ -689,12 +657,7 @@ Item {
                 isAtBottom = atBottom
                 isVertical = vertical
                 axis = axisObj
-
-                if (item && item.menu) {
-                    menuHandle = item.menu
-                }
-
-                menuItems = []
+                menuHandle = item?.menu
 
                 if (parentScreen) {
                     for (var i = 0; i < Quickshell.screens.length; i++) {
@@ -706,7 +669,6 @@ Item {
                     }
                 }
 
-                shouldLoadMenu = true
                 showMenu = true
             }
 
@@ -728,17 +690,17 @@ Item {
 
                 entryStack.append({ handle: entry });
 
-                menuItems = []
+                const h = entry.menu || entry;
+                if (h && typeof h.updateLayout === "function") h.updateLayout();
 
-                shouldLoadMenu = true
+                submenuHydrator.menu = h;
+                submenuHydrator.open();
+                Qt.callLater(() => submenuHydrator.close());
             }
 
             function goBack() {
                 if (!entryStack.count) return;
                 entryStack.remove(entryStack.count - 1);
-
-                menuItems = []
-                Qt.callLater(() => loadMenuItemsSafely())
             }
 
             width: 0
@@ -917,16 +879,14 @@ Item {
                         }
                     }
 
+                    QsMenuAnchor {
+                        id: submenuHydrator
+                        anchor.window: menuWindow
+                    }
+
                     QsMenuOpener {
                         id: rootOpener
                         menu: menuRoot.menuHandle
-
-                        onMenuChanged: {
-                            if (menuRoot.shouldLoadMenu && !entryStack.count) {
-                                menuRoot.menuItems = []
-                                Qt.callLater(() => menuRoot.loadMenuItemsSafely())
-                            }
-                        }
                     }
 
                     QsMenuOpener {
@@ -934,13 +894,6 @@ Item {
                         menu: {
                             const e = menuRoot.topEntry();
                             return e ? (e.menu || e) : null;
-                        }
-
-                        onMenuChanged: {
-                            if (menuRoot.shouldLoadMenu && entryStack.count) {
-                                menuRoot.menuItems = []
-                                Qt.callLater(() => menuRoot.loadMenuItemsSafely())
-                            }
                         }
                     }
 
@@ -1052,7 +1005,10 @@ Item {
                         }
 
                         Repeater {
-                            model: menuRoot.menuItems
+                            model: entryStack.count
+                                   ? (subOpener.children ? subOpener.children
+                                                         : (menuRoot.topEntry()?.children || []))
+                                   : rootOpener.children
 
                             Rectangle {
                                 property var menuEntry: modelData
