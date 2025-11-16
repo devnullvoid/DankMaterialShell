@@ -34,6 +34,10 @@ Variants {
 
         color: "transparent"
 
+        mask: Region {
+            item: Item {}
+        }
+
         Item {
             id: root
             anchors.fill: parent
