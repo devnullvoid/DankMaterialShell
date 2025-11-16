@@ -438,11 +438,9 @@ Item {
         }
     }
 
-    readonly property bool hasWorkspaces: {
-        const realWorkspaces = getRealWorkspaces()
-        return realWorkspaces.length > 0
-    }
-    readonly property bool shouldShow: (CompositorService.isNiri || CompositorService.isHyprland || CompositorService.isDwl || CompositorService.isSway || useExtWorkspace) && hasWorkspaces
+    readonly property bool hasNativeWorkspaceSupport: CompositorService.isNiri || CompositorService.isHyprland || CompositorService.isDwl || CompositorService.isSway
+    readonly property bool hasWorkspaces: getRealWorkspaces().length > 0
+    readonly property bool shouldShow: hasNativeWorkspaceSupport || (useExtWorkspace && hasWorkspaces)
 
     width: shouldShow ? (isVertical ? barThickness : visualWidth) : 0
     height: shouldShow ? (isVertical ? visualHeight : barThickness) : 0
