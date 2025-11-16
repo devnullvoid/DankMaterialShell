@@ -1007,18 +1007,32 @@ Item {
 
                                 text: I18n.tr("Wallpaper Monitor")
                                 description: I18n.tr("Select monitor to configure wallpaper")
-                                currentValue: selectedMonitorName || "No monitors"
+                                currentValue: {
+                                    var screens = Quickshell.screens
+                                    for (var i = 0; i < screens.length; i++) {
+                                        if (screens[i].name === selectedMonitorName) {
+                                            return SettingsData.getScreenDisplayName(screens[i])
+                                        }
+                                    }
+                                    return "No monitors"
+                                }
                                 options: {
                                     var screenNames = []
                                     var screens = Quickshell.screens
                                     for (var i = 0; i < screens.length; i++) {
-                                        screenNames.push(screens[i].name)
+                                        screenNames.push(SettingsData.getScreenDisplayName(screens[i]))
                                     }
                                     return screenNames
                                 }
                                 onValueChanged: value => {
-                                                    selectedMonitorName = value
-                                                }
+                                    var screens = Quickshell.screens
+                                    for (var i = 0; i < screens.length; i++) {
+                                        if (SettingsData.getScreenDisplayName(screens[i]) === value) {
+                                            selectedMonitorName = screens[i].name
+                                            return
+                                        }
+                                    }
+                                }
                             }
 
                             DankDropdown {
@@ -1027,9 +1041,14 @@ Item {
                                 text: I18n.tr("Matugen Target Monitor")
                                 description: I18n.tr("Monitor whose wallpaper drives dynamic theming colors")
                                 currentValue: {
+                                    var screens = Quickshell.screens
                                     if (!SettingsData.matugenTargetMonitor || SettingsData.matugenTargetMonitor === "") {
-                                        var screens = Quickshell.screens
-                                        return screens.length > 0 ? screens[0].name + " (Default)" : "No monitors"
+                                        return screens.length > 0 ? SettingsData.getScreenDisplayName(screens[0]) + " (Default)" : "No monitors"
+                                    }
+                                    for (var i = 0; i < screens.length; i++) {
+                                        if (screens[i].name === SettingsData.matugenTargetMonitor) {
+                                            return SettingsData.getScreenDisplayName(screens[i])
+                                        }
                                     }
                                     return SettingsData.matugenTargetMonitor
                                 }
@@ -1037,7 +1056,7 @@ Item {
                                     var screenNames = []
                                     var screens = Quickshell.screens
                                     for (var i = 0; i < screens.length; i++) {
-                                        var label = screens[i].name
+                                        var label = SettingsData.getScreenDisplayName(screens[i])
                                         if (i === 0 && (!SettingsData.matugenTargetMonitor || SettingsData.matugenTargetMonitor === "")) {
                                             label += " (Default)"
                                         }
@@ -1046,9 +1065,15 @@ Item {
                                     return screenNames
                                 }
                                 onValueChanged: value => {
-                                                    var cleanValue = value.replace(" (Default)", "")
-                                                    SettingsData.setMatugenTargetMonitor(cleanValue)
-                                                }
+                                    var cleanValue = value.replace(" (Default)", "")
+                                    var screens = Quickshell.screens
+                                    for (var i = 0; i < screens.length; i++) {
+                                        if (SettingsData.getScreenDisplayName(screens[i]) === cleanValue) {
+                                            SettingsData.setMatugenTargetMonitor(screens[i].name)
+                                            return
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
