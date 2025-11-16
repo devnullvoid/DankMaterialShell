@@ -736,6 +736,60 @@ Item {
                         }
                     }
 
+                    Column {
+                        width: parent.width
+                        spacing: 0
+                        leftPadding: Theme.spacingM
+                        rightPadding: Theme.spacingM
+
+                        DankDropdown {
+                            width: parent.width - parent.leftPadding - parent.rightPadding
+                            text: I18n.tr("OSD Position")
+                            description: I18n.tr("Choose where on-screen displays appear on screen")
+                            currentValue: {
+                                switch (SettingsData.osdPosition) {
+                                case SettingsData.Position.Top:
+                                    return "Top Right"
+                                case SettingsData.Position.Left:
+                                    return "Top Left"
+                                case SettingsData.Position.TopCenter:
+                                    return "Top Center"
+                                case SettingsData.Position.Right:
+                                    return "Bottom Right"
+                                case SettingsData.Position.Bottom:
+                                    return "Bottom Left"
+                                case SettingsData.Position.BottomCenter:
+                                    return "Bottom Center"
+                                default:
+                                    return "Bottom Center"
+                                }
+                            }
+                            options: ["Top Right", "Top Left", "Top Center", "Bottom Right", "Bottom Left", "Bottom Center"]
+                            onValueChanged: value => {
+                                switch (value) {
+                                case "Top Right":
+                                    SettingsData.set("osdPosition", SettingsData.Position.Top)
+                                    break
+                                case "Top Left":
+                                    SettingsData.set("osdPosition", SettingsData.Position.Left)
+                                    break
+                                case "Top Center":
+                                    SettingsData.set("osdPosition", SettingsData.Position.TopCenter)
+                                    break
+                                case "Bottom Right":
+                                    SettingsData.set("osdPosition", SettingsData.Position.Right)
+                                    break
+                                case "Bottom Left":
+                                    SettingsData.set("osdPosition", SettingsData.Position.Bottom)
+                                    break
+                                case "Bottom Center":
+                                    SettingsData.set("osdPosition", SettingsData.Position.BottomCenter)
+                                    break
+                                }
+                            }
+                        }
+                    }
+
                     DankToggle {
                         width: parent.width
                         text: I18n.tr("Volume OSD")

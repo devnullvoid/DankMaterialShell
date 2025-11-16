@@ -215,6 +215,7 @@ var SPEC = {
     notificationPopupPosition: { def: 0 },
 
     osdAlwaysShowValue: { def: false },
+    osdPosition: { def: 5 },
     osdVolumeEnabled: { def: true },
     osdBrightnessEnabled: { def: true },
     osdIdleInhibitorEnabled: { def: true },

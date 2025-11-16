@@ -74,16 +74,55 @@ PanelWindow {
     readonly property real screenHeight: screen.height
     readonly property real alignedWidth: Theme.px(osdWidth, dpr)
     readonly property real alignedHeight: Theme.px(osdHeight, dpr)
-    readonly property real alignedX: Theme.snap((screenWidth - alignedWidth) / 2, dpr)
-    readonly property real barOffsetWhenBottom: {
-        if (SettingsData.dankBarPosition === SettingsData.Position.Bottom && SettingsData.dankBarVisible) {
-            const widgetThickness = Math.max(20, 26 + SettingsData.dankBarInnerPadding * 0.6)
-            const effectiveBarThickness = Math.max(widgetThickness + SettingsData.dankBarInnerPadding + 4, Theme.barHeight - 4 - (8 - SettingsData.dankBarInnerPadding))
-            return effectiveBarThickness + SettingsData.dankBarSpacing + SettingsData.dankBarBottomGap
-        }
-        return 0
+
+    readonly property real barThickness: {
+        if (!SettingsData.dankBarVisible) return 0
+        const widgetThickness = Math.max(20, 26 + SettingsData.dankBarInnerPadding * 0.6)
+        return Math.max(widgetThickness + SettingsData.dankBarInnerPadding + 4, Theme.barHeight - 4 - (8 - SettingsData.dankBarInnerPadding))
     }
-    readonly property real alignedY: Theme.snap(screenHeight - alignedHeight - Theme.spacingM - barOffsetWhenBottom, dpr)
+
+    readonly property real barOffset: {
+        if (!SettingsData.dankBarVisible) return 0
+        return barThickness + SettingsData.dankBarSpacing + SettingsData.dankBarBottomGap
+    }
+
+    readonly property real alignedX: {
+        const margin = Theme.spacingM
+        const centerX = (screenWidth - alignedWidth) / 2
+
+        switch (SettingsData.osdPosition) {
+        case SettingsData.Position.Left:
+        case SettingsData.Position.Bottom:
+            const leftOffset = SettingsData.dankBarPosition === SettingsData.Position.Left ? barOffset : 0
+            return Theme.snap(margin + leftOffset, dpr)
+        case SettingsData.Position.Top:
+        case SettingsData.Position.Right:
+            const rightOffset = SettingsData.dankBarPosition === SettingsData.Position.Right ? barOffset : 0
+            return Theme.snap(screenWidth - alignedWidth - margin - rightOffset, dpr)
+        case SettingsData.Position.TopCenter:
+        case SettingsData.Position.BottomCenter:
+        default:
+            return Theme.snap(centerX, dpr)
+        }
+    }
+
+    readonly property real alignedY: {
+        const margin = Theme.spacingM
+
+        switch (SettingsData.osdPosition) {
+        case SettingsData.Position.Top:
+        case SettingsData.Position.Left:
+        case SettingsData.Position.TopCenter:
+            const topOffset = SettingsData.dankBarPosition === SettingsData.Position.Top ? barOffset : 0
+            return Theme.snap(margin + topOffset, dpr)
+        case SettingsData.Position.Right:
+        case SettingsData.Position.Bottom:
+        case SettingsData.Position.BottomCenter:
+        default:
+            const bottomOffset = SettingsData.dankBarPosition === SettingsData.Position.Bottom ? barOffset : 0
+            return Theme.snap(screenHeight - alignedHeight - margin - bottomOffset, dpr)
+        }
+    }
 
     anchors {
         top: true

@@ -23,7 +23,9 @@ Singleton {
         Top,
         Bottom,
         Left,
-        Right
+        Right,
+        TopCenter,
+        BottomCenter
     }
 
     enum AnimationSpeed {
@@ -305,6 +307,7 @@ Singleton {
     property int notificationPopupPosition: SettingsData.Position.Top
 
     property bool osdAlwaysShowValue: false
+    property int osdPosition: SettingsData.Position.BottomCenter
     property bool osdVolumeEnabled: true
     property bool osdBrightnessEnabled: true
     property bool osdIdleInhibitorEnabled: true
