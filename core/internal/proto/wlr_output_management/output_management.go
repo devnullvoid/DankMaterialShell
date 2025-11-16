@@ -31,10 +31,10 @@ package wlr_output_management
 
 import (
 	"reflect"
-	"sync"
 	"unsafe"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
 func registerServerProxy(ctx *client.Context, proxy client.Proxy, serverID uint32) {
@@ -49,7 +49,7 @@ func registerServerProxy(ctx *client.Context, proxy client.Proxy, serverID uint3
 		return
 	}
 	objectsMapPtr := unsafe.Pointer(objectsField.UnsafeAddr())
-	objectsMap := (*sync.Map)(objectsMapPtr)
+	objectsMap := (*syncmap.Map[uint32, client.Proxy])(objectsMapPtr)
 	objectsMap.Store(serverID, proxy)
 }
 

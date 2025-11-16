@@ -33,10 +33,10 @@ package ext_workspace
 
 import (
 	"reflect"
-	"sync"
 	"unsafe"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
 // registerServerProxy registers a proxy with a server-assigned ID.
@@ -63,7 +63,7 @@ func registerServerProxy(ctx *client.Context, proxy client.Proxy, serverID uint3
 	}
 
 	objectsMapPtr := unsafe.Pointer(objectsField.UnsafeAddr())
-	objectsMap := (*sync.Map)(objectsMapPtr)
+	objectsMap := (*syncmap.Map[uint32, client.Proxy])(objectsMapPtr)
 	objectsMap.Store(serverID, proxy)
 }
 

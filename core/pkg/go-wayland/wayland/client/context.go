@@ -6,11 +6,13 @@ import (
 	"net"
 	"os"
 	"sync"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
 type Context struct {
 	conn      *net.UnixConn
-	objects   sync.Map // map[uint32]Proxy - thread-safe concurrent map
+	objects   syncmap.Map[uint32, Proxy] // map[uint32]Proxy - thread-safe concurrent map
 	currentID uint32
 	idMu      sync.Mutex // protects currentID increment
 }
@@ -32,7 +34,7 @@ func (ctx *Context) Unregister(p Proxy) {
 
 func (ctx *Context) GetProxy(id uint32) Proxy {
 	if val, ok := ctx.objects.Load(id); ok {
-		return val.(Proxy)
+		return val
 	}
 	return nil
 }
@@ -68,12 +70,12 @@ func (ctx *Context) GetDispatch() func() error {
 	}
 
 	return func() error {
-		val, ok := ctx.objects.Load(senderID)
+		proxy, ok := ctx.objects.Load(senderID)
 		if !ok {
 			return fmt.Errorf("%w (senderID=%d)", ErrDispatchSenderNotFound, senderID)
 		}
 
-		sender, ok := val.(Dispatcher)
+		sender, ok := proxy.(Dispatcher)
 		if !ok {
 			return fmt.Errorf("%w (senderID=%d)", ErrDispatchSenderUnsupported, senderID)
 		}
