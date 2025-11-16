@@ -455,10 +455,10 @@ Singleton {
     property real spacingM: 12
     property real spacingL: 16
     property real spacingXL: 24
-    property real fontSizeSmall: fontScale * 12
-    property real fontSizeMedium: fontScale * 14
-    property real fontSizeLarge: fontScale * 16
-    property real fontSizeXLarge: fontScale * 20
+    property real fontSizeSmall: Math.round(fontScale * 12)
+    property real fontSizeMedium: Math.round(fontScale * 14)
+    property real fontSizeLarge: Math.round(fontScale * 16)
+    property real fontSizeXLarge: Math.round(fontScale * 20)
     property real barHeight: 48
     property real iconSize: 24
     property real iconSizeSmall: 16
@@ -679,10 +679,10 @@ Singleton {
         const scale = barThickness / 48
         const dankBarScale = (typeof SettingsData !== "undefined" ? SettingsData.dankBarFontScale : 1.0)
         if (scale <= 0.75)
-            return fontSizeSmall * 0.9 * dankBarScale
+            return Math.round(fontSizeSmall * 0.9 * dankBarScale)
         if (scale >= 1.25)
-            return fontSizeMedium * dankBarScale
-        return fontSizeSmall * dankBarScale
+            return Math.round(fontSizeMedium * dankBarScale)
+        return Math.round(fontSizeSmall * dankBarScale)
     }
 
     function getBatteryIcon(level, isCharging, batteryAvailable) {

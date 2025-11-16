@@ -19,7 +19,7 @@ BasePill {
                 id: clockColumn
                 visible: root.isVerticalOrientation
                 anchors.centerIn: parent
-                spacing: -2
+                spacing: 0
 
                 Row {
                     spacing: 0
@@ -37,7 +37,6 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness)
                         color: Theme.surfaceText
-                        width: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -54,7 +53,6 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness)
                         color: Theme.surfaceText
-                        width: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -68,7 +66,6 @@ BasePill {
                         text: String(systemClock?.date?.getMinutes()).padStart(2, '0').charAt(0)
                         font.pixelSize: Theme.barTextSize(root.barThickness)
                         color: Theme.surfaceText
-                        width: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -77,7 +74,6 @@ BasePill {
                         text: String(systemClock?.date?.getMinutes()).padStart(2, '0').charAt(1)
                         font.pixelSize: Theme.barTextSize(root.barThickness)
                         color: Theme.surfaceText
-                        width: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -92,7 +88,6 @@ BasePill {
                         text: String(systemClock?.date?.getSeconds()).padStart(2, '0').charAt(0)
                         font.pixelSize: Theme.barTextSize(root.barThickness)
                         color: Theme.surfaceText
-                        width: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -101,19 +96,18 @@ BasePill {
                         text: String(systemClock?.date?.getSeconds()).padStart(2, '0').charAt(1)
                         font.pixelSize: Theme.barTextSize(root.barThickness)
                         color: Theme.surfaceText
-                        width: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
                 }
 
                 Item {
-                    width: 12
+                    width: parent.width
                     height: Theme.spacingM
                     anchors.horizontalCenter: parent.horizontalCenter
 
                     Rectangle {
-                        width: 12
+                        width: parent.width * 0.6
                         height: 1
                         color: Theme.outlineButton
                         anchors.centerIn: parent
@@ -134,7 +128,6 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness)
                         color: Theme.primary
-                        width: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -149,7 +142,6 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness)
                         color: Theme.primary
-                        width: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -169,7 +161,6 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness)
                         color: Theme.primary
-                        width: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -184,7 +175,6 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness)
                         color: Theme.primary
-                        width: 9
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }

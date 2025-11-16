@@ -38,8 +38,7 @@ Text {
     wrapMode: Text.WordWrap
     elide: Text.ElideRight
     verticalAlignment: Text.AlignVCenter
-    antialiasing: true
-    renderType: Text.NativeRendering
+    //renderType: Text.NativeRendering
 
     Behavior on opacity {
         NumberAnimation {

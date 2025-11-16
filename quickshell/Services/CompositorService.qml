@@ -38,7 +38,7 @@ Singleton {
         if (WlrOutputService.wlrOutputAvailable && screen) {
             const wlrOutput = WlrOutputService.getOutput(screen.name)
             if (wlrOutput?.enabled && wlrOutput.scale !== undefined && wlrOutput.scale > 0) {
-                return wlrOutput.scale
+                return Math.round(wlrOutput.scale * 20) / 20
             }
         }
 
