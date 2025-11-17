@@ -75,6 +75,9 @@ func (m *Manager) setupRegistry() error {
 				output.SetNameHandler(func(ev wlclient.OutputNameEvent) {
 					m.outputNames.Store(outputID, ev.Name)
 					log.Debugf("ExtWorkspace: Output %d (%s) name received", outputID, ev.Name)
+					m.post(func() {
+						m.updateState()
+					})
 				})
 			}
 			return
@@ -295,14 +298,8 @@ func (m *Manager) updateState() {
 
 		outputs := make([]string, 0)
 		for outputID := range group.outputIDs {
-			if name, ok := m.outputNames.Load(outputID); ok {
-				if name != "" {
-					outputs = append(outputs, name)
-				} else {
-					outputs = append(outputs, fmt.Sprintf("output-%d", outputID))
-				}
-			} else {
-				outputs = append(outputs, fmt.Sprintf("output-%d", outputID))
+			if name, ok := m.outputNames.Load(outputID); ok && name != "" {
+				outputs = append(outputs, name)
 			}
 		}
 
