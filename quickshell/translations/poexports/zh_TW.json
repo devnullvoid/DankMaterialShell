@@ -686,6 +686,9 @@
   "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": {
     "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": "拖曳部件即可在版塊內重新排序。使用眼睛圖示隱藏/顯示部件 (會保持間距)，或使用 X 將其完全移除。"
   },
+  "Duplicate Wallpaper with Blur": {
+    "Duplicate Wallpaper with Blur": ""
+  },
   "Duration": {
     "Duration": "持續時間"
   },

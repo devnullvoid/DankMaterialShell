@@ -686,6 +686,9 @@
   "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": {
     "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": "ウィジェットをドラッグしてセクション内で順序を変更できます。目のアイコンでウィジェットを表示/非表示に（スペースは維持）、Xで完全に削除できます。"
   },
+  "Duplicate Wallpaper with Blur": {
+    "Duplicate Wallpaper with Blur": ""
+  },
   "Duration": {
     "Duration": "期間"
   },

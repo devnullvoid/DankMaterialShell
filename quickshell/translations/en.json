@@ -486,12 +486,6 @@
     "comment": ""
   },
   {
-    "term": "Blur Layer",
-    "context": "Blur Layer",
-    "reference": "Modules/Settings/PersonalizationTab.qml:1467",
-    "comment": ""
-  },
-  {
     "term": "Blur on Overview",
     "context": "Blur on Overview",
     "reference": "Modules/Settings/PersonalizationTab.qml:911",
@@ -1371,6 +1365,12 @@
     "term": "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.",
     "context": "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.",
     "reference": "Modules/Settings/DankBarTab.qml:1964",
+    "comment": ""
+  },
+  {
+    "term": "Duplicate Wallpaper with Blur",
+    "context": "Duplicate Wallpaper with Blur",
+    "reference": "Modules/Settings/PersonalizationTab.qml:1467",
     "comment": ""
   },
   {

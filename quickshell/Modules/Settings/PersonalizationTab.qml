@@ -1464,7 +1464,7 @@ Item {
                             anchors.verticalCenter: parent.verticalCenter
 
                             StyledText {
-                                text: I18n.tr("Blur Layer")
+                                text: I18n.tr("Duplicate Wallpaper with Blur")
                                 font.pixelSize: Theme.fontSizeLarge
                                 font.weight: Font.Medium
                                 color: Theme.surfaceText
