@@ -2,7 +2,6 @@ package extworkspace
 
 import (
 	"fmt"
-	"sync"
 	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
@@ -21,31 +20,21 @@ func CheckCapability() bool {
 	if err != nil {
 		return false
 	}
+	defer registry.Destroy()
 
 	found := false
-	var mu sync.Mutex
-	done := make(chan struct{})
 
 	registry.SetGlobalHandler(func(e wlclient.RegistryGlobalEvent) {
 		if e.Interface == ext_workspace.ExtWorkspaceManagerV1InterfaceName {
-			mu.Lock()
 			found = true
-			mu.Unlock()
 		}
 	})
 
-	go func() {
-		for i := 0; i < 10 && !found; i++ {
-			if err := display.Context().Dispatch(); err != nil {
-				break
-			}
-			time.Sleep(10 * time.Millisecond)
-		}
-		registry.Destroy()
-		close(done)
-	}()
+	// Roundtrip to ensure all registry events are processed
+	if err := display.Roundtrip(); err != nil {
+		return false
+	}
 
-	<-done
 	return found
 }
 
