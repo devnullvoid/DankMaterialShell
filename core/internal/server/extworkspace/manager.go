@@ -2,12 +2,52 @@ package extworkspace
 
 import (
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/ext_workspace"
 	wlclient "github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
 )
+
+func CheckCapability() bool {
+	display, err := wlclient.Connect("")
+	if err != nil {
+		return false
+	}
+	defer display.Destroy()
+
+	registry, err := display.GetRegistry()
+	if err != nil {
+		return false
+	}
+
+	found := false
+	var mu sync.Mutex
+	done := make(chan struct{})
+
+	registry.SetGlobalHandler(func(e wlclient.RegistryGlobalEvent) {
+		if e.Interface == ext_workspace.ExtWorkspaceManagerV1InterfaceName {
+			mu.Lock()
+			found = true
+			mu.Unlock()
+		}
+	})
+
+	go func() {
+		for i := 0; i < 10 && !found; i++ {
+			if err := display.Context().Dispatch(); err != nil {
+				break
+			}
+			time.Sleep(10 * time.Millisecond)
+		}
+		registry.Destroy()
+		close(done)
+	}()
+
+	<-done
+	return found
+}
 
 func NewManager(display *wlclient.Display) (*Manager, error) {
 	m := &Manager{

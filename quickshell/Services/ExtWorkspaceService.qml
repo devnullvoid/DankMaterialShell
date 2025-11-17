@@ -46,8 +46,17 @@ Singleton {
 
         const hasExtWorkspace = DMSService.capabilities.includes("extworkspace")
         if (hasExtWorkspace && !extWorkspaceAvailable) {
+            if (typeof CompositorService !== "undefined") {
+                const useExtWorkspace = !CompositorService.isNiri && !CompositorService.isHyprland && !CompositorService.isDwl && !CompositorService.isSway
+                if (!useExtWorkspace) {
+                    console.info("ExtWorkspaceService: ext-workspace available but compositor has native support")
+                    extWorkspaceAvailable = false
+                    return
+                }
+            }
             extWorkspaceAvailable = true
             console.info("ExtWorkspaceService: ext-workspace capability detected")
+            DMSService.addSubscription("extworkspace")
             requestState()
         } else if (!hasExtWorkspace) {
             extWorkspaceAvailable = false
@@ -181,12 +190,17 @@ Singleton {
 
     function getVisibleWorkspaces(outputName) {
         const workspaces = getWorkspacesForOutput(outputName)
-        const visible = workspaces.filter(ws => !ws.hidden).sort((a, b) => {
-            const coordsA = a.coordinates || [0, 0]
-            const coordsB = b.coordinates || [0, 0]
-            if (coordsA[0] !== coordsB[0]) return coordsA[0] - coordsB[0]
-            return coordsA[1] - coordsB[1]
-        })
+        let visible = workspaces.filter(ws => !ws.hidden)
+
+        const hasValidCoordinates = visible.some(ws => ws.coordinates && ws.coordinates.length > 0)
+        if (hasValidCoordinates) {
+            visible = visible.sort((a, b) => {
+                const coordsA = a.coordinates || [0, 0]
+                const coordsB = b.coordinates || [0, 0]
+                if (coordsA[0] !== coordsB[0]) return coordsA[0] - coordsB[0]
+                return coordsA[1] - coordsB[1]
+            })
+        }
 
         const cacheKey = outputName
         if (!_cachedWorkspaces[cacheKey]) {

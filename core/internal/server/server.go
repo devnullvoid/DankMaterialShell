@@ -63,6 +63,8 @@ var wlContext *wlcontext.SharedContext
 var capabilitySubscribers syncmap.Map[string, chan ServerInfo]
 var cupsSubscribers syncmap.Map[string, bool]
 var cupsSubscriberCount atomic.Int32
+var extWorkspaceAvailable atomic.Bool
+var extWorkspaceInitMutex sync.Mutex
 
 func getSocketDir() string {
 	if runtime := os.Getenv("XDG_RUNTIME_DIR"); runtime != "" {
@@ -361,7 +363,7 @@ func getCapabilities() Capabilities {
 		caps = append(caps, "dwl")
 	}
 
-	if extWorkspaceManager != nil {
+	if extWorkspaceAvailable.Load() {
 		caps = append(caps, "extworkspace")
 	}
 
@@ -411,7 +413,7 @@ func getServerInfo() ServerInfo {
 		caps = append(caps, "dwl")
 	}
 
-	if extWorkspaceManager != nil {
+	if extWorkspaceAvailable.Load() {
 		caps = append(caps, "extworkspace")
 	}
 
@@ -810,12 +812,14 @@ func handleSubscribe(conn net.Conn, req models.Request) {
 	}
 
 	if shouldSubscribe("extworkspace") {
-		if extWorkspaceManager == nil {
-			if err := InitializeExtWorkspaceManager(); err != nil {
-				log.Warnf("Failed to initialize ExtWorkspace manager for subscription: %v", err)
-			} else {
-				notifyCapabilityChange()
+		if extWorkspaceManager == nil && extWorkspaceAvailable.Load() {
+			extWorkspaceInitMutex.Lock()
+			if extWorkspaceManager == nil {
+				if err := InitializeExtWorkspaceManager(); err != nil {
+					log.Warnf("Failed to initialize ExtWorkspace manager for subscription: %v", err)
+				}
 			}
+			extWorkspaceInitMutex.Unlock()
 		}
 
 		if extWorkspaceManager != nil {
@@ -1246,6 +1250,14 @@ func Start(printDocs bool) error {
 
 	if err := InitializeDwlManager(); err != nil {
 		log.Debugf("DWL manager unavailable: %v", err)
+	}
+
+	if extworkspace.CheckCapability() {
+		extWorkspaceAvailable.Store(true)
+		log.Info("ExtWorkspace capability detected and will be available on subscription")
+	} else {
+		log.Debug("ExtWorkspace capability not available")
+		extWorkspaceAvailable.Store(false)
 	}
 
 	if err := InitializeWlrOutputManager(); err != nil {

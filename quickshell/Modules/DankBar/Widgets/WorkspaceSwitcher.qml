@@ -316,12 +316,19 @@ Item {
             return [{"id": "1", "name": "1", "active": false}]
         }
 
-        const visible = group.workspaces.filter(ws => !ws.hidden).sort((a, b) => {
-            const coordsA = a.coordinates || [0, 0]
-            const coordsB = b.coordinates || [0, 0]
-            if (coordsA[0] !== coordsB[0]) return coordsA[0] - coordsB[0]
-            return coordsA[1] - coordsB[1]
-        }).map(ws => ({
+        let visible = group.workspaces.filter(ws => !ws.hidden)
+
+        const hasValidCoordinates = visible.some(ws => ws.coordinates && ws.coordinates.length > 0)
+        if (hasValidCoordinates) {
+            visible = visible.sort((a, b) => {
+                const coordsA = a.coordinates || [0, 0]
+                const coordsB = b.coordinates || [0, 0]
+                if (coordsA[0] !== coordsB[0]) return coordsA[0] - coordsB[0]
+                return coordsA[1] - coordsB[1]
+            })
+        }
+
+        visible = visible.map(ws => ({
             id: ws.id,
             name: ws.name,
             coordinates: ws.coordinates,
@@ -350,7 +357,7 @@ Item {
 
     function getRealWorkspaces() {
         return root.workspaceList.filter(ws => {
-                                             if (useExtWorkspace) return ws && ws.id !== "" && !ws.hidden
+                                             if (useExtWorkspace) return ws && (ws.id !== "" || ws.name !== "") && !ws.hidden
                                              if (CompositorService.isHyprland) return ws && ws.id !== -1
                                              if (CompositorService.isDwl) return ws && ws.tag !== -1
                                              if (CompositorService.isSway) return ws && ws.num !== -1
@@ -893,7 +900,7 @@ Item {
 
                                 if (isPlaceholder) return index + 1
 
-                                if (root.useExtWorkspace) return modelData?.name || modelData?.id || ""
+                                if (root.useExtWorkspace) return index + 1
                                 if (CompositorService.isHyprland) return modelData?.id || ""
                                 if (CompositorService.isDwl) return (modelData?.tag !== undefined) ? (modelData.tag + 1) : ""
                                 if (CompositorService.isSway) return modelData?.num || ""

@@ -140,8 +140,20 @@ func RouteRequest(conn net.Conn, req models.Request) {
 
 	if strings.HasPrefix(req.Method, "extworkspace.") {
 		if extWorkspaceManager == nil {
-			models.RespondError(conn, req.ID, "extworkspace manager not initialized")
-			return
+			if extWorkspaceAvailable.Load() {
+				extWorkspaceInitMutex.Lock()
+				if extWorkspaceManager == nil {
+					if err := InitializeExtWorkspaceManager(); err != nil {
+						extWorkspaceInitMutex.Unlock()
+						models.RespondError(conn, req.ID, "extworkspace manager not available")
+						return
+					}
+				}
+				extWorkspaceInitMutex.Unlock()
+			} else {
+				models.RespondError(conn, req.ID, "extworkspace manager not initialized")
+				return
+			}
 		}
 		extWorkspaceReq := extworkspace.Request{
 			ID:     req.ID,
