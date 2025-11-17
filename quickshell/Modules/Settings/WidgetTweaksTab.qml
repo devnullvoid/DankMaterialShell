@@ -760,11 +760,15 @@ Item {
                                     return "Bottom Left"
                                 case SettingsData.Position.BottomCenter:
                                     return "Bottom Center"
+                                case SettingsData.Position.LeftCenter:
+                                    return "Left Center"
+                                case SettingsData.Position.RightCenter:
+                                    return "Right Center"
                                 default:
                                     return "Bottom Center"
                                 }
                             }
-                            options: ["Top Right", "Top Left", "Top Center", "Bottom Right", "Bottom Left", "Bottom Center"]
+                            options: ["Top Right", "Top Left", "Top Center", "Bottom Right", "Bottom Left", "Bottom Center", "Left Center", "Right Center"]
                             onValueChanged: value => {
                                 switch (value) {
                                 case "Top Right":
@@ -784,6 +788,12 @@ Item {
                                     break
                                 case "Bottom Center":
                                     SettingsData.set("osdPosition", SettingsData.Position.BottomCenter)
+                                    break
+                                case "Left Center":
+                                    SettingsData.set("osdPosition", SettingsData.Position.LeftCenter)
+                                    break
+                                case "Right Center":
+                                    SettingsData.set("osdPosition", SettingsData.Position.RightCenter)
                                     break
                                 }
                             }

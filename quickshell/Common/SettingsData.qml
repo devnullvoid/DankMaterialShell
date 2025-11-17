@@ -25,7 +25,9 @@ Singleton {
         Left,
         Right,
         TopCenter,
-        BottomCenter
+        BottomCenter,
+        LeftCenter,
+        RightCenter
     }
 
     enum AnimationSpeed {

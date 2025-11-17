@@ -78,10 +78,15 @@ Singleton {
             }
         }
 
+        const oldValue = deviceBrightness[device.id]
         const newBrightness = Object.assign({}, deviceBrightness)
         newBrightness[device.id] = displayValue
         deviceBrightness = newBrightness
         brightnessVersion++
+
+        if (oldValue !== undefined && oldValue !== displayValue && brightnessInitialized) {
+            brightnessChanged(true)
+        }
     }
 
     function updateFromBrightnessState(state) {
@@ -110,9 +115,12 @@ Singleton {
         deviceMaxCache = newMaxCache
 
         const newBrightness = {}
+        let anyDeviceBrightnessChanged = false
+
         for (const device of state.devices) {
             const isExponential = SessionData.getBrightnessExponential(device.id)
             const userSetValue = deviceBrightnessUserSet[device.id]
+            const oldValue = deviceBrightness[device.id]
 
             if (isExponential) {
                 if (userSetValue !== undefined) {
@@ -122,6 +130,11 @@ Singleton {
                 }
             } else {
                 newBrightness[device.id] = device.currentPercent
+            }
+
+            const newValue = newBrightness[device.id]
+            if (oldValue !== undefined && oldValue !== newValue) {
+                anyDeviceBrightnessChanged = true
             }
         }
         deviceBrightness = newBrightness
@@ -142,8 +155,14 @@ Singleton {
             }
         }
 
+        const shouldShowOsd = brightnessInitialized && anyDeviceBrightnessChanged
+
         if (!brightnessInitialized) {
             brightnessInitialized = true
+        }
+
+        if (shouldShowOsd) {
+            brightnessChanged(true)
         }
     }
 
