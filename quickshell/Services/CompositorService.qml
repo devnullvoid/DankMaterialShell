@@ -441,6 +441,7 @@ Singleton {
         if (isHyprland) return Hyprland.dispatch("dpms off")
         if (isDwl) return _dwlPowerOffMonitors()
         if (isSway) { try { I3.dispatch("output * dpms off") } catch(_){} return }
+        if (isLabwc) { Quickshell.execDetached(["dms", "dpms", "off"]) }
         console.warn("CompositorService: Cannot power off monitors, unknown compositor")
     }
 
@@ -449,6 +450,7 @@ Singleton {
         if (isHyprland) return Hyprland.dispatch("dpms on")
         if (isDwl) return _dwlPowerOnMonitors()
         if (isSway) { try { I3.dispatch("output * dpms on") } catch(_){} return }
+        if (isLabwc) { Quickshell.execDetached(["dms", "dpms", "on"]) }
         console.warn("CompositorService: Cannot power on monitors, unknown compositor")
     }
 
