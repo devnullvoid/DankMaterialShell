@@ -61,7 +61,6 @@ PanelWindow {
     }
 
     function close() {
-        console.log("DankModal.close() called on:", layerNamespace, "Stack trace:", new Error().stack)
         shouldBeVisible = false
         shouldHaveFocus = false
         closeTimer.restart()

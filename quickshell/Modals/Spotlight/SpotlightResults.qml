@@ -12,7 +12,9 @@ Rectangle {
 
     function resetScroll() {
         resultsList.contentY = 0
-        resultsGrid.contentY = 0
+        if (gridLoader.item) {
+            gridLoader.item.contentY = 0
+        }
     }
 
     radius: Theme.cornerRadius
@@ -92,88 +94,106 @@ Rectangle {
         }
     }
 
-    DankGridView {
-        id: resultsGrid
+    Loader {
+        id: gridLoader
 
-        property int currentIndex: appLauncher ? appLauncher.selectedIndex : -1
-        property int columns: appLauncher ? appLauncher.gridColumns : 4
-        property bool adaptiveColumns: false
-        property int minCellWidth: 120
-        property int maxCellWidth: 160
-        property int cellPadding: 8
-        property real iconSizeRatio: 0.55
-        property int maxIconSize: 48
-        property int minIconSize: 32
-        property bool hoverUpdatesSelection: false
-        property bool keyboardNavigationActive: appLauncher ? appLauncher.keyboardNavigationActive : false
-        property int baseCellWidth: adaptiveColumns ? Math.max(minCellWidth, Math.min(maxCellWidth, width / columns)) : (width - Theme.spacingS * 2) / columns
-        property int baseCellHeight: baseCellWidth + 20
-        property int actualColumns: adaptiveColumns ? Math.floor(width / cellWidth) : columns
-        property int remainingSpace: width - (actualColumns * cellWidth)
-
-        signal keyboardNavigationReset
-        signal itemClicked(int index, var modelData)
-        signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
-
-        function ensureVisible(index) {
-            if (index < 0 || index >= count)
-                return
-
-            const itemY = Math.floor(index / actualColumns) * cellHeight
-            const itemBottom = itemY + cellHeight
-            if (itemY < contentY)
-                contentY = itemY
-            else if (itemBottom > contentY + height)
-                contentY = itemBottom - height
-        }
+        property real _lastWidth: 0
 
         anchors.fill: parent
         anchors.margins: Theme.spacingS
         visible: appLauncher && appLauncher.viewMode === "grid"
-        model: appLauncher ? appLauncher.model : null
-        clip: true
-        cellWidth: baseCellWidth
-        cellHeight: baseCellHeight
-        leftMargin: Math.max(Theme.spacingS, remainingSpace / 2)
-        rightMargin: leftMargin
-        focus: true
-        interactive: true
-        cacheBuffer: Math.max(0, Math.min(height * 2, 1000))
-        reuseItems: true
-        onCurrentIndexChanged: {
-            if (keyboardNavigationActive)
-                ensureVisible(currentIndex)
-        }
-        onItemClicked: (index, modelData) => {
-                           if (appLauncher)
-                           appLauncher.launchApp(modelData)
-                       }
-        onItemRightClicked: (index, modelData, mouseX, mouseY) => {
-                                if (contextMenu)
-                                contextMenu.show(mouseX, mouseY, modelData)
-                            }
-        onKeyboardNavigationReset: () => {
-                                       if (appLauncher)
-                                       appLauncher.keyboardNavigationActive = false
-                                   }
-
-        delegate: AppLauncherGridDelegate {
-            gridView: resultsGrid
-            cellWidth: resultsGrid.cellWidth
-            cellHeight: resultsGrid.cellHeight
-            cellPadding: resultsGrid.cellPadding
-            minIconSize: resultsGrid.minIconSize
-            maxIconSize: resultsGrid.maxIconSize
-            iconSizeRatio: resultsGrid.iconSizeRatio
-            hoverUpdatesSelection: resultsGrid.hoverUpdatesSelection
-            keyboardNavigationActive: resultsGrid.keyboardNavigationActive
-            currentIndex: resultsGrid.currentIndex
-            onItemClicked: (idx, modelData) => resultsGrid.itemClicked(idx, modelData)
-            onItemRightClicked: (idx, modelData, mouseX, mouseY) => {
-                const modalPos = resultsContainer.parent.mapFromItem(null, mouseX, mouseY)
-                resultsGrid.itemRightClicked(idx, modelData, modalPos.x, modalPos.y)
+        active: appLauncher && appLauncher.viewMode === "grid"
+        onWidthChanged: {
+            if (visible && Math.abs(width - _lastWidth) > 1) {
+                _lastWidth = width
+                active = false
+                Qt.callLater(() => {
+                    active = true
+                })
             }
-            onKeyboardNavigationReset: resultsGrid.keyboardNavigationReset
+        }
+        sourceComponent: Component {
+            DankGridView {
+                id: resultsGrid
+
+                property int currentIndex: appLauncher ? appLauncher.selectedIndex : -1
+                property int columns: appLauncher ? appLauncher.gridColumns : 4
+                property bool adaptiveColumns: false
+                property int minCellWidth: 120
+                property int maxCellWidth: 160
+                property int cellPadding: 8
+                property real iconSizeRatio: 0.55
+                property int maxIconSize: 48
+                property int minIconSize: 32
+                property bool hoverUpdatesSelection: false
+                property bool keyboardNavigationActive: appLauncher ? appLauncher.keyboardNavigationActive : false
+                property int baseCellWidth: adaptiveColumns ? Math.max(minCellWidth, Math.min(maxCellWidth, width / columns)) : (width - Theme.spacingS * 2) / columns
+                property int baseCellHeight: baseCellWidth + 20
+                property int actualColumns: adaptiveColumns ? Math.floor(width / cellWidth) : columns
+                property int remainingSpace: width - (actualColumns * cellWidth)
+
+                signal keyboardNavigationReset
+                signal itemClicked(int index, var modelData)
+                signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
+
+                function ensureVisible(index) {
+                    if (index < 0 || index >= count)
+                        return
+
+                    const itemY = Math.floor(index / actualColumns) * cellHeight
+                    const itemBottom = itemY + cellHeight
+                    if (itemY < contentY)
+                        contentY = itemY
+                    else if (itemBottom > contentY + height)
+                        contentY = itemBottom - height
+                }
+
+                model: appLauncher ? appLauncher.model : null
+                clip: true
+                cellWidth: baseCellWidth
+                cellHeight: baseCellHeight
+                leftMargin: Math.max(Theme.spacingS, remainingSpace / 2)
+                rightMargin: leftMargin
+                focus: true
+                interactive: true
+                cacheBuffer: Math.max(0, Math.min(height * 2, 1000))
+                reuseItems: true
+                onCurrentIndexChanged: {
+                    if (keyboardNavigationActive)
+                        ensureVisible(currentIndex)
+                }
+                onItemClicked: (index, modelData) => {
+                                   if (appLauncher)
+                                   appLauncher.launchApp(modelData)
+                               }
+                onItemRightClicked: (index, modelData, mouseX, mouseY) => {
+                                        if (contextMenu)
+                                        contextMenu.show(mouseX, mouseY, modelData)
+                                    }
+                onKeyboardNavigationReset: () => {
+                                               if (appLauncher)
+                                               appLauncher.keyboardNavigationActive = false
+                                           }
+
+                delegate: AppLauncherGridDelegate {
+                    gridView: resultsGrid
+                    cellWidth: resultsGrid.cellWidth
+                    cellHeight: resultsGrid.cellHeight
+                    cellPadding: resultsGrid.cellPadding
+                    minIconSize: resultsGrid.minIconSize
+                    maxIconSize: resultsGrid.maxIconSize
+                    iconSizeRatio: resultsGrid.iconSizeRatio
+                    hoverUpdatesSelection: resultsGrid.hoverUpdatesSelection
+                    keyboardNavigationActive: resultsGrid.keyboardNavigationActive
+                    currentIndex: resultsGrid.currentIndex
+                    onItemClicked: (idx, modelData) => resultsGrid.itemClicked(idx, modelData)
+                    onItemRightClicked: (idx, modelData, mouseX, mouseY) => {
+                        const modalPos = resultsContainer.parent.mapFromItem(null, mouseX, mouseY)
+                        resultsGrid.itemRightClicked(idx, modelData, modalPos.x, modalPos.y)
+                    }
+                    onKeyboardNavigationReset: resultsGrid.keyboardNavigationReset
+                }
+            }
         }
     }
 }
