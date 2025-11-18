@@ -505,11 +505,6 @@ Item {
         }
 
         function updatePosition() {
-            if (!root.parentWindow) {
-                anchorPos = Qt.point(screen.width / 2, screen.height / 2)
-                return
-            }
-
             const globalPos = root.mapToGlobal(0, 0)
             const screenX = screen.x || 0
             const screenY = screen.y || 0
@@ -958,12 +953,8 @@ Item {
                 }
 
                 function updatePosition() {
-                    if (!root.parentWindow) {
-                        anchorPos = Qt.point(screen.width / 2, screen.height / 2)
-                        return
-                    }
-
-                    const globalPos = root.mapToGlobal(0, 0)
+                    const targetItem = (typeof menuRoot !== "undefined" && menuRoot.anchorItem) ? menuRoot.anchorItem : root
+                    const globalPos = targetItem.mapToGlobal(0, 0)
                     const screenX = screen.x || 0
                     const screenY = screen.y || 0
                     const relativeX = globalPos.x - screenX
@@ -977,12 +968,12 @@ Item {
                         let targetX = edge === "left"
                             ? effectiveBarThickness + SettingsData.dankBarSpacing + Theme.popupDistance
                             : screen.width - (effectiveBarThickness + SettingsData.dankBarSpacing + Theme.popupDistance)
-                        anchorPos = Qt.point(targetX, relativeY + root.height / 2)
+                        anchorPos = Qt.point(targetX, relativeY + targetItem.height / 2)
                     } else {
                         let targetY = root.isAtBottom
                             ? screen.height - (effectiveBarThickness + SettingsData.dankBarSpacing + SettingsData.dankBarBottomGap + Theme.popupDistance)
                             : effectiveBarThickness + SettingsData.dankBarSpacing + SettingsData.dankBarBottomGap + Theme.popupDistance
-                        anchorPos = Qt.point(relativeX + root.width / 2, targetY)
+                        anchorPos = Qt.point(relativeX + targetItem.width / 2, targetY)
                     }
                 }
 
