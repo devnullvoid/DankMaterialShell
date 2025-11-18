@@ -23,6 +23,7 @@ PanelWindow {
 
     required property var rootWindow
     property var modelData: item
+    property var hyprlandOverviewLoader: rootWindow ? rootWindow.hyprlandOverviewLoader : null
 
     property var controlCenterButtonRef: null
     property var clockButtonRef: null

@@ -479,7 +479,7 @@ Item {
             section: topBarContent.getWidgetSection(parent)
             popoutTarget: appDrawerLoader.item
             parentScreen: barWindow.screen
-            hyprlandOverviewLoader: rootWindow ? rootWindow.hyprlandOverviewLoader : null
+            hyprlandOverviewLoader: barWindow ? barWindow.hyprlandOverviewLoader : null
             onClicked: {
                 appDrawerLoader.active = true
                 if (appDrawerLoader.item && appDrawerLoader.item.setTriggerPosition) {
@@ -504,7 +504,7 @@ Item {
             widgetHeight: barWindow.widgetThickness
             barThickness: barWindow.effectiveBarThickness
             parentScreen: barWindow.screen
-            hyprlandOverviewLoader: rootWindow ? rootWindow.hyprlandOverviewLoader : null
+            hyprlandOverviewLoader: barWindow ? barWindow.hyprlandOverviewLoader : null
         }
     }
 
