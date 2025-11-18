@@ -1,10 +1,9 @@
 pragma Singleton
 
-pragma ComponentBehavior: Bound
+pragma ComponentBehavior
 
 import QtQuick
 import Quickshell
-import "../Common/fzf.js" as Fzf
 import qs.Common
 
 Singleton {
@@ -12,7 +11,141 @@ Singleton {
 
     property var applications: DesktopEntries.applications.values.filter(app => !app.noDisplay && !app.runInTerminal)
 
+    readonly property int maxResults: 10
+    readonly property int frecencySampleSize: 10
 
+    readonly property var timeBuckets: [{
+            "maxDays": 4,
+            "weight": 100
+        }, {
+            "maxDays": 14,
+            "weight": 70
+        }, {
+            "maxDays": 31,
+            "weight": 50
+        }, {
+            "maxDays": 90,
+            "weight": 30
+        }, {
+            "maxDays": 99999,
+            "weight": 10
+        }]
+
+    function tokenize(text) {
+        return text.toLowerCase().trim().split(/[\s\-_]+/).filter(w => w.length > 0)
+    }
+
+    function wordBoundaryMatch(text, query) {
+        const textWords = tokenize(text)
+        const queryWords = tokenize(query)
+
+        if (queryWords.length === 0)
+            return false
+        if (queryWords.length > textWords.length)
+            return false
+
+        for (var i = 0; i <= textWords.length - queryWords.length; i++) {
+            let allMatch = true
+            for (var j = 0; j < queryWords.length; j++) {
+                if (!textWords[i + j].startsWith(queryWords[j])) {
+                    allMatch = false
+                    break
+                }
+            }
+            if (allMatch)
+                return true
+        }
+        return false
+    }
+
+    function levenshteinDistance(s1, s2) {
+        const len1 = s1.length
+        const len2 = s2.length
+        const matrix = []
+
+        for (var i = 0; i <= len1; i++) {
+            matrix[i] = [i]
+        }
+        for (var j = 0; j <= len2; j++) {
+            matrix[0][j] = j
+        }
+
+        for (var i = 1; i <= len1; i++) {
+            for (var j = 1; j <= len2; j++) {
+                const cost = s1[i - 1] === s2[j - 1] ? 0 : 1
+                matrix[i][j] = Math.min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j - 1] + cost)
+            }
+        }
+        return matrix[len1][len2]
+    }
+
+    function fuzzyMatchScore(text, query) {
+        const queryLower = query.toLowerCase()
+        const maxDistance = query.length <= 2 ? 0 : query.length === 3 ? 1 : query.length <= 6 ? 2 : 3
+
+        let bestScore = 0
+
+        const distance = levenshteinDistance(text.toLowerCase(), queryLower)
+        if (distance <= maxDistance) {
+            const maxLen = Math.max(text.length, query.length)
+            bestScore = 1 - (distance / maxLen)
+        }
+
+        const words = tokenize(text)
+        for (const word of words) {
+            const wordDistance = levenshteinDistance(word, queryLower)
+            if (wordDistance <= maxDistance) {
+                const maxLen = Math.max(word.length, query.length)
+                const score = 1 - (wordDistance / maxLen)
+                bestScore = Math.max(bestScore, score)
+            }
+        }
+
+        return bestScore
+    }
+
+    function calculateFrecency(app) {
+        const usageRanking = AppUsageHistoryData.appUsageRanking || {}
+        const appId = app.id || (app.execString || app.exec || "")
+        const idVariants = [appId, appId.replace(".desktop", ""), app.id, app.id ? app.id.replace(".desktop", "") : null].filter(id => id)
+
+        let usageData = null
+        for (const variant of idVariants) {
+            if (usageRanking[variant]) {
+                usageData = usageRanking[variant]
+                break
+            }
+        }
+
+        if (!usageData || !usageData.usageCount) {
+            return {
+                "frecency": 0,
+                "daysSinceUsed": 999999
+            }
+        }
+
+        const usageCount = usageData.usageCount || 0
+        const lastUsed = usageData.lastUsed || 0
+        const now = Date.now()
+        const daysSinceUsed = (now - lastUsed) / (1000 * 60 * 60 * 24)
+
+        let timeBucketWeight = 10
+        for (const bucket of timeBuckets) {
+            if (daysSinceUsed <= bucket.maxDays) {
+                timeBucketWeight = bucket.weight
+                break
+            }
+        }
+
+        const contextBonus = 100
+        const sampleSize = Math.min(usageCount, frecencySampleSize)
+        const frecency = (timeBucketWeight * contextBonus * sampleSize) / 100
+
+        return {
+            "frecency": frecency,
+            "daysSinceUsed": daysSinceUsed
+        }
+    }
 
     function searchApplications(query) {
         if (!query || query.length === 0) {
@@ -23,7 +156,7 @@ Singleton {
 
         const queryLower = query.toLowerCase().trim()
         const scoredApps = []
-        const usageRanking = AppUsageHistoryData.appUsageRanking || {}
+        const results = []
 
         for (const app of applications) {
             const name = (app.name || "").toLowerCase()
@@ -31,123 +164,83 @@ Singleton {
             const comment = (app.comment || "").toLowerCase()
             const keywords = app.keywords ? app.keywords.map(k => k.toLowerCase()) : []
 
-            let score = 0
-            let matched = false
-
-            const nameWords = name.trim().split(/\s+/).filter(w => w.length > 0)
-            const containsAsWord = nameWords.includes(queryLower)
-            const startsWithAsWord = nameWords.some(word => word.startsWith(queryLower))
+            let textScore = 0
+            let matchType = "none"
 
             if (name === queryLower) {
-                score = 10000
-                matched = true
-            } else if (containsAsWord) {
-                score = 9500 + (100 - Math.min(name.length, 100))
-                matched = true
+                textScore = 10000
+                matchType = "exact"
             } else if (name.startsWith(queryLower)) {
-                score = 9000 + (100 - Math.min(name.length, 100))
-                matched = true
-            } else if (startsWithAsWord) {
-                score = 8500 + (100 - Math.min(name.length, 100))
-                matched = true
+                textScore = 5000
+                matchType = "prefix"
+            } else if (wordBoundaryMatch(name, queryLower)) {
+                textScore = 1000
+                matchType = "word_boundary"
             } else if (name.includes(queryLower)) {
-                score = 8000 + (100 - Math.min(name.length, 100))
-                matched = true
-            } else if (keywords.length > 0) {
+                textScore = 500
+                matchType = "substring"
+            } else if (genericName && genericName.startsWith(queryLower)) {
+                textScore = 800
+                matchType = "generic_prefix"
+            } else if (genericName && genericName.includes(queryLower)) {
+                textScore = 400
+                matchType = "generic"
+            }
+
+            if (matchType === "none" && keywords.length > 0) {
                 for (const keyword of keywords) {
-                    if (keyword === queryLower) {
-                        score = 6000
-                        matched = true
-                        break
-                    } else if (keyword.startsWith(queryLower)) {
-                        score = 5500
-                        matched = true
+                    if (keyword.startsWith(queryLower)) {
+                        textScore = 300
+                        matchType = "keyword_prefix"
                         break
                     } else if (keyword.includes(queryLower)) {
-                        score = 5000
-                        matched = true
+                        textScore = 150
+                        matchType = "keyword"
                         break
                     }
                 }
             }
-            if (!matched && genericName.includes(queryLower)) {
-                if (genericName === queryLower) {
-                    score = 9000
-                } else if (genericName.startsWith(queryLower)) {
-                    score = 8500
-                } else {
-                    const genericWords = genericName.trim().split(/\s+/).filter(w => w.length > 0)
-                    if (genericWords.includes(queryLower)) {
-                        score = 8000
-                    } else if (genericWords.some(word => word.startsWith(queryLower))) {
-                        score = 7500
-                    } else {
-                        score = 7000
-                    }
-                }
-                matched = true
-            } else if (!matched && comment.includes(queryLower)) {
-                score = 3000
-                matched = true
-            } else if (!matched) {
-                const nameFinder = new Fzf.Finder([app], {
-                                                      "selector": a => a.name || "",
-                                                      "casing": "case-insensitive",
-                                                      "fuzzy": "v2"
-                                                  })
-                const fuzzyResults = nameFinder.find(query)
-                if (fuzzyResults.length > 0 && fuzzyResults[0].score > 0) {
-                    score = Math.min(fuzzyResults[0].score, 2000)
-                    matched = true
+
+            if (matchType === "none" && comment && comment.includes(queryLower)) {
+                textScore = 50
+                matchType = "comment"
+            }
+
+            if (matchType === "none") {
+                const fuzzyScore = fuzzyMatchScore(name, queryLower)
+                if (fuzzyScore > 0) {
+                    textScore = fuzzyScore * 100
+                    matchType = "fuzzy"
                 }
             }
 
-            if (matched) {
-                const appId = app.id || (app.execString || app.exec || "")
-                const idVariants = [
-                    appId,
-                    appId.replace(".desktop", ""),
-                    app.id,
-                    app.id ? app.id.replace(".desktop", "") : null
-                ].filter(id => id)
+            if (matchType !== "none") {
+                const frecencyData = calculateFrecency(app)
 
-                let usageData = null
-                for (const variant of idVariants) {
-                    if (usageRanking[variant]) {
-                        usageData = usageRanking[variant]
-                        break
-                    }
-                }
-
-                if (usageData) {
-                    const usageCount = usageData.usageCount || 0
-                    const lastUsed = usageData.lastUsed || 0
-                    const now = Date.now()
-                    const daysSinceUsed = (now - lastUsed) / (1000 * 60 * 60 * 24)
-
-                    let usageBonus = 0
-                    usageBonus += Math.min(usageCount * 100, 2000)
-
-                    if (daysSinceUsed < 1) {
-                        usageBonus += 1500
-                    } else if (daysSinceUsed < 7) {
-                        usageBonus += 1000
-                    } else if (daysSinceUsed < 30) {
-                        usageBonus += 500
-                    }
-
-                    score += usageBonus
-                }
-
-                scoredApps.push({
-                                    "app": app,
-                                    "score": score
-                                })
+                results.push({
+                                 "app": app,
+                                 "textScore": textScore,
+                                 "frecency": frecencyData.frecency,
+                                 "daysSinceUsed": frecencyData.daysSinceUsed,
+                                 "matchType": matchType
+                             })
             }
         }
 
+        for (const result of results) {
+            const frecencyBonus = result.frecency > 0 ? Math.min(result.frecency / 10, 2000) : 0
+            const recencyBonus = result.daysSinceUsed < 1 ? 1500 : result.daysSinceUsed < 7 ? 1000 : result.daysSinceUsed < 30 ? 500 : 0
+
+            const finalScore = result.textScore + frecencyBonus + recencyBonus
+
+            scoredApps.push({
+                                "app": result.app,
+                                "score": finalScore
+                            })
+        }
+
         scoredApps.sort((a, b) => b.score - a.score)
-        return scoredApps.slice(0, 50).map(item => item.app)
+        return scoredApps.slice(0, maxResults).map(item => item.app)
     }
 
     function getCategoriesForApp(app) {
@@ -265,7 +358,8 @@ Singleton {
     }
 
     function getPluginCategoryIcon(category) {
-        if (typeof PluginService === "undefined") return null
+        if (typeof PluginService === "undefined")
+            return null
 
         const launchers = PluginService.getLauncherPlugins()
         for (const pluginId in launchers) {
@@ -295,7 +389,8 @@ Singleton {
     }
 
     function getPluginItems(category, query) {
-        if (typeof PluginService === "undefined") return []
+        if (typeof PluginService === "undefined")
+            return []
 
         const launchers = PluginService.getLauncherPlugins()
         for (const pluginId in launchers) {
@@ -313,12 +408,13 @@ Singleton {
         }
 
         const component = PluginService.pluginLauncherComponents[pluginId]
-        if (!component) return []
+        if (!component)
+            return []
 
         try {
             const instance = component.createObject(root, {
-                "pluginService": PluginService
-            })
+                                                        "pluginService": PluginService
+                                                    })
 
             if (instance && typeof instance.getItems === "function") {
                 const items = instance.getItems(query || "")
@@ -337,15 +433,17 @@ Singleton {
     }
 
     function executePluginItem(item, pluginId) {
-        if (typeof PluginService === "undefined") return false
+        if (typeof PluginService === "undefined")
+            return false
 
         const component = PluginService.pluginLauncherComponents[pluginId]
-        if (!component) return false
+        if (!component)
+            return false
 
         try {
             const instance = component.createObject(root, {
-                "pluginService": PluginService
-            })
+                                                        "pluginService": PluginService
+                                                    })
 
             if (instance && typeof instance.executeItem === "function") {
                 instance.executeItem(item)
@@ -364,7 +462,8 @@ Singleton {
     }
 
     function searchPluginItems(query) {
-        if (typeof PluginService === "undefined") return []
+        if (typeof PluginService === "undefined")
+            return []
 
         let allItems = []
         const launchers = PluginService.getLauncherPlugins()
