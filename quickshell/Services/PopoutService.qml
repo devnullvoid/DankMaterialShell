@@ -23,6 +23,7 @@ Singleton {
     property var colorPickerModal: null
     property var notificationModal: null
     property var wifiPasswordModal: null
+    property var bluetoothPairingModal: null
     property var networkInfoModal: null
 
     property var notepadSlideouts: []

@@ -354,21 +354,25 @@ func (m *Manager) handleDevicePropertiesChanged(path dbus.ObjectPath, changed ma
 	_, hasTrusted := changed["Trusted"]
 
 	if hasPaired {
-		if paired, ok := pairedVar.Value().(bool); ok && paired {
-			devicePath := string(path)
-			_, wasPending := m.pendingPairings.LoadAndDelete(devicePath)
+		devicePath := string(path)
+		if paired, ok := pairedVar.Value().(bool); ok {
+			if paired {
+				_, wasPending := m.pendingPairings.LoadAndDelete(devicePath)
 
-			if wasPending {
-				select {
-				case m.eventQueue <- func() {
-					time.Sleep(300 * time.Millisecond)
-					log.Infof("[Bluetooth] Auto-connecting newly paired device: %s", devicePath)
-					if err := m.ConnectDevice(devicePath); err != nil {
-						log.Warnf("[Bluetooth] Auto-connect failed: %v", err)
+				if wasPending {
+					select {
+					case m.eventQueue <- func() {
+						time.Sleep(300 * time.Millisecond)
+						log.Infof("[Bluetooth] Auto-connecting newly paired device: %s", devicePath)
+						if err := m.ConnectDevice(devicePath); err != nil {
+							log.Warnf("[Bluetooth] Auto-connect failed: %v", err)
+						}
+					}:
+					default:
 					}
-				}:
-				default:
 				}
+			} else {
+				m.pendingPairings.Delete(devicePath)
 			}
 		}
 	}

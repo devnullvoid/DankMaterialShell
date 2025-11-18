@@ -217,6 +217,14 @@ Item {
         id: polkitAuthModal
     }
 
+    BluetoothPairingModal {
+        id: bluetoothPairingModal
+
+        Component.onCompleted: {
+            PopoutService.bluetoothPairingModal = bluetoothPairingModal
+        }
+    }
+
     property string lastCredentialsToken: ""
     property var lastCredentialsTime: 0
 

@@ -49,20 +49,20 @@ Singleton {
         return devices.sort((a, b) => {
                                 const aName = a.name || a.deviceName || ""
                                 const bName = b.name || b.deviceName || ""
+                                const aAddr = a.address || ""
+                                const bAddr = b.address || ""
 
                                 const aHasRealName = aName.includes(" ") && aName.length > 3
                                 const bHasRealName = bName.includes(" ") && bName.length > 3
 
-                                if (aHasRealName && !bHasRealName) {
-                                    return -1
-                                }
-                                if (!aHasRealName && bHasRealName) {
-                                    return 1
+                                if (aHasRealName && !bHasRealName) return -1
+                                if (!aHasRealName && bHasRealName) return 1
+
+                                if (aHasRealName && bHasRealName) {
+                                    return aName.localeCompare(bName)
                                 }
 
-                                const aSignal = (a.signalStrength !== undefined && a.signalStrength > 0) ? a.signalStrength : 0
-                                const bSignal = (b.signalStrength !== undefined && b.signalStrength > 0) ? b.signalStrength : 0
-                                return bSignal - aSignal
+                                return aAddr.localeCompare(bAddr)
                             })
     }
 

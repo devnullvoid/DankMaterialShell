@@ -165,12 +165,11 @@ func (a *BluezAgent) DisplayPasskey(device dbus.ObjectPath, passkey uint32, ente
 	log.Infof("[BluezAgent] DisplayPasskey: device=%s, passkey=%06d, entered=%d", device, passkey, entered)
 
 	if entered == 0 {
-		pk := passkey
-		_, err := a.promptFor(device, "display-passkey", []string{}, nil)
+		passkeyStr := strconv.FormatUint(uint64(passkey), 10)
+		_, err := a.promptFor(device, "display-passkey", []string{}, &passkeyStr)
 		if err != nil {
 			log.Warnf("[BluezAgent] DisplayPasskey acknowledgment failed: %v", err)
 		}
-		_ = pk
 	}
 
 	return nil
@@ -179,7 +178,8 @@ func (a *BluezAgent) DisplayPasskey(device dbus.ObjectPath, passkey uint32, ente
 func (a *BluezAgent) RequestConfirmation(device dbus.ObjectPath, passkey uint32) *dbus.Error {
 	log.Infof("[BluezAgent] RequestConfirmation: device=%s, passkey=%06d", device, passkey)
 
-	secrets, err := a.promptFor(device, "confirm", []string{"decision"}, nil)
+	passkeyStr := strconv.FormatUint(uint64(passkey), 10)
+	secrets, err := a.promptFor(device, "confirm", []string{"decision"}, &passkeyStr)
 	if err != nil {
 		log.Warnf("[BluezAgent] RequestConfirmation failed: %v", err)
 		return a.errorFrom(err)

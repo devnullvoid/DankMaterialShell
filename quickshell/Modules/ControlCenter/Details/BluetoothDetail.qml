@@ -29,11 +29,13 @@ Rectangle {
         if (!device) return
 
         const deviceAddr = device.address
-        devicesBeingPaired.add(deviceAddr)
+        const pairingSet = devicesBeingPaired
+
+        pairingSet.add(deviceAddr)
         devicesBeingPairedChanged()
 
         BluetoothService.pairDevice(device, function(response) {
-            devicesBeingPaired.delete(deviceAddr)
+            pairingSet.delete(deviceAddr)
             devicesBeingPairedChanged()
 
             if (response.error) {
@@ -625,15 +627,14 @@ Rectangle {
         }
     }
 
-    BluetoothPairingModal {
-        id: bluetoothPairingModal
-    }
-
     Connections {
         target: DMSService
 
         function onBluetoothPairingRequest(data) {
-            bluetoothPairingModal.show(data)
+            const modal = PopoutService.bluetoothPairingModal
+            if (modal && modal.token !== data.token) {
+                modal.show(data)
+            }
         }
     }
 }

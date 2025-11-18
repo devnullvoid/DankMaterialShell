@@ -136,7 +136,9 @@ Singleton {
             popout.currentTabIndex = tabIndex
         }
 
-        ModalManager.closeAllModalsExcept(null)
+        if (currentPopout !== popout) {
+            ModalManager.closeAllModalsExcept(null)
+        }
         TrayMenuManager.closeAllMenus()
 
         if (justClosedSamePopout) {

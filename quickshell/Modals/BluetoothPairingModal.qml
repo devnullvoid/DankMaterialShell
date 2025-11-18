@@ -18,6 +18,7 @@ DankModal {
     property string passkeyInput: ""
 
     function show(pairingData) {
+        console.log("BluetoothPairingModal.show() called:", JSON.stringify(pairingData))
         token = pairingData.token || ""
         deviceName = pairingData.deviceName || ""
         deviceAddress = pairingData.deviceAddr || ""
@@ -26,6 +27,7 @@ DankModal {
         pinInput = ""
         passkeyInput = ""
 
+        console.log("BluetoothPairingModal: Calling open()")
         open()
         Qt.callLater(() => {
             if (contentLoader.item) {
@@ -39,6 +41,8 @@ DankModal {
     }
 
     shouldBeVisible: false
+    allowStacking: true
+    keepPopoutsOpen: true
     width: 420
     height: contentLoader.item ? contentLoader.item.implicitHeight + Theme.spacingM * 2 : 240
 
@@ -62,8 +66,11 @@ DankModal {
     }
 
     onBackgroundClicked: () => {
-        DMSService.bluetoothCancelPairing(token)
+        if (token) {
+            DMSService.bluetoothCancelPairing(token)
+        }
         close()
+        token = ""
         pinInput = ""
         passkeyInput = ""
     }
@@ -80,8 +87,11 @@ DankModal {
             implicitHeight: mainColumn.implicitHeight
 
             Keys.onEscapePressed: event => {
-                DMSService.bluetoothCancelPairing(token)
+                if (token) {
+                    DMSService.bluetoothCancelPairing(token)
+                }
                 close()
+                token = ""
                 pinInput = ""
                 passkeyInput = ""
                 event.accepted = true
@@ -110,17 +120,22 @@ DankModal {
 
                     StyledText {
                         text: {
-                            if (requestType === "confirm")
+                            switch (requestType) {
+                            case "confirm":
                                 return I18n.tr("Confirm passkey for ") + deviceName
-                            if (requestType === "authorize")
+                            case "display-passkey":
+                                return I18n.tr("Enter this passkey on ") + deviceName
+                            case "authorize":
                                 return I18n.tr("Authorize pairing with ") + deviceName
-                            if (requestType.startsWith("authorize-service"))
-                                return I18n.tr("Authorize service for ") + deviceName
-                            if (requestType === "pin")
+                            case "pin":
                                 return I18n.tr("Enter PIN for ") + deviceName
-                            if (requestType === "passkey")
+                            case "passkey":
                                 return I18n.tr("Enter passkey for ") + deviceName
-                            return deviceName
+                            default:
+                                if (requestType.startsWith("authorize-service"))
+                                    return I18n.tr("Authorize service for ") + deviceName
+                                return deviceName
+                            }
                         }
                         font.pixelSize: Theme.fontSizeMedium
                         color: Theme.surfaceTextMedium
@@ -204,7 +219,7 @@ DankModal {
                     height: 56
                     radius: Theme.cornerRadius
                     color: Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency)
-                    visible: requestType === "confirm"
+                    visible: requestType === "confirm" || requestType === "display-passkey"
 
                     Column {
                         anchors.centerIn: parent
@@ -261,8 +276,11 @@ DankModal {
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
                                 onClicked: () => {
-                                    DMSService.bluetoothCancelPairing(token)
+                                    if (token) {
+                                        DMSService.bluetoothCancelPairing(token)
+                                    }
                                     close()
+                                    token = ""
                                     pinInput = ""
                                     passkeyInput = ""
                                 }
@@ -288,11 +306,17 @@ DankModal {
 
                                 anchors.centerIn: parent
                                 text: {
-                                    if (requestType === "confirm")
+                                    switch (requestType) {
+                                    case "confirm":
+                                    case "display-passkey":
                                         return I18n.tr("Confirm")
-                                    if (requestType === "authorize" || requestType.startsWith("authorize-service"))
+                                    case "authorize":
                                         return I18n.tr("Authorize")
-                                    return I18n.tr("Pair")
+                                    default:
+                                        if (requestType.startsWith("authorize-service"))
+                                            return I18n.tr("Authorize")
+                                        return I18n.tr("Pair")
+                                    }
                                 }
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: Theme.background
@@ -331,8 +355,11 @@ DankModal {
                 iconSize: Theme.iconSize - 4
                 iconColor: Theme.surfaceText
                 onClicked: () => {
-                    DMSService.bluetoothCancelPairing(token)
+                    if (token) {
+                        DMSService.bluetoothCancelPairing(token)
+                    }
                     close()
+                    token = ""
                     pinInput = ""
                     passkeyInput = ""
                 }
@@ -343,12 +370,23 @@ DankModal {
     function submitPairing() {
         const secrets = {}
 
-        if (requestType === "pin") {
+        switch (requestType) {
+        case "pin":
             secrets["pin"] = pinInput
-        } else if (requestType === "passkey") {
+            break
+        case "passkey":
             secrets["passkey"] = passkeyInput
-        } else if (requestType === "confirm" || requestType === "authorize" || requestType.startsWith("authorize-service")) {
+            break
+        case "confirm":
+        case "display-passkey":
+        case "authorize":
             secrets["decision"] = "yes"
+            break
+        default:
+            if (requestType.startsWith("authorize-service")) {
+                secrets["decision"] = "yes"
+            }
+            break
         }
 
         DMSService.bluetoothSubmitPairing(token, secrets, true, response => {
@@ -358,6 +396,7 @@ DankModal {
         })
 
         close()
+        token = ""
         pinInput = ""
         passkeyInput = ""
     }
