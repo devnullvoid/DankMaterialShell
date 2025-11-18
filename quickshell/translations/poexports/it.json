@@ -57,7 +57,7 @@
     "Add a VPN in NetworkManager": "Aggiungi una VPN in NetworkManager"
   },
   "Adjust the number of columns in grid view mode.": {
-    "Adjust the number of columns in grid view mode.": ""
+    "Adjust the number of columns in grid view mode.": "Regola il numero di colonne nella modalità di visualizzazione a griglia."
   },
   "All": {
     "All": "Tutto"
@@ -306,7 +306,7 @@
     "CUPS Missing Filter Warning": "Avviso Filtro Mancante CUPS"
   },
   "Camera": {
-    "Camera": ""
+    "Camera": "Fotocamera"
   },
   "Cancel": {
     "Cancel": "Annulla"
@@ -687,7 +687,7 @@
     "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": "Trascina i widget per riordinarli nelle sezioni. Usa l'icona occhio per nascondere/mostrare i widget (mantenendo la spaziatura), o X per rimuoverli completamente."
   },
   "Duplicate Wallpaper with Blur": {
-    "Duplicate Wallpaper with Blur": ""
+    "Duplicate Wallpaper with Blur": "Duplica Sfondo con Sfocatura"
   },
   "Duration": {
     "Duration": "Durata"
@@ -763,6 +763,9 @@
   },
   "Enter password for ": {
     "Enter password for ": "Inserisci password per"
+  },
+  "Enter this passkey on ": {
+    "Enter this passkey on ": ""
   },
   "Error": {
     "Error": "Errore"
@@ -915,7 +918,7 @@
     "Grid": "Griglia"
   },
   "Grid Columns": {
-    "Grid Columns": ""
+    "Grid Columns": "Colonne Griglia"
   },
   "Group by App": {
     "Group by App": "Raggruppa per App"
@@ -1191,7 +1194,7 @@
     "Memory usage indicator": "Indicatore uso memoria"
   },
   "Microphone": {
-    "Microphone": ""
+    "Microphone": "Microfono"
   },
   "Microphone Mute OSD": {
     "Microphone Mute OSD": ""
@@ -1209,7 +1212,7 @@
     "Mode: ": "Modalità:"
   },
   "Model": {
-    "Model": ""
+    "Model": "Modello"
   },
   "Monitor Selection:": {
     "Monitor Selection:": "Selezione Monitor:"
@@ -1236,7 +1239,7 @@
     "NM not supported": "NM non supportato"
   },
   "Name": {
-    "Name": ""
+    "Name": "Nome"
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "Icone Workspace con Nome"
@@ -1683,7 +1686,7 @@
     "Science": "Scienza"
   },
   "Screen sharing": {
-    "Screen sharing": ""
+    "Screen sharing": "Condivisione schermo"
   },
   "Scrolling": {
     "Scrolling": "Scorrimento"

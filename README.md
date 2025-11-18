@@ -183,6 +183,10 @@ For documentation contributions, see [DankLinux-Docs](https://github.com/AvengeM
 - [soramanew](https://github.com/soramanew) - [Caelestia](https://github.com/caelestia-dots/shell) inspiration
 - [end-4](https://github.com/end-4) - [dots-hyprland](https://github.com/end-4/dots-hyprland) inspiration
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=AvengeMedia/DankMaterialShell&type=date&legend=top-left)](https://www.star-history.com/#AvengeMedia/DankMaterialShell&type=date&legend=top-left)
+
 ## License
 
 MIT License - See [LICENSE](LICENSE) for details.

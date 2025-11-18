@@ -348,7 +348,7 @@
     "Choose where notification popups appear on screen": "设置通知弹窗的出现位置"
   },
   "Choose where on-screen displays appear on screen": {
-    "Choose where on-screen displays appear on screen": ""
+    "Choose where on-screen displays appear on screen": "选择OSD在屏幕上出现的位置"
   },
   "Clear": {
     "Clear": "清除"
@@ -627,7 +627,7 @@
     "Dismiss": "忽略"
   },
   "Display Name Format": {
-    "Display Name Format": ""
+    "Display Name Format": "显示名称格式"
   },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "显示一个包含固定和运行中应用的程序坞，可放置在屏幕四边任意位置"
@@ -687,7 +687,7 @@
     "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": "拖动组件以在各区块内重新排序。点击眼睛图标可隐藏/显示组件（保留间距），点击 X 可彻底移除。"
   },
   "Duplicate Wallpaper with Blur": {
-    "Duplicate Wallpaper with Blur": ""
+    "Duplicate Wallpaper with Blur": "带模糊效果的壁纸复本"
   },
   "Duration": {
     "Duration": "持续时间"
@@ -763,6 +763,9 @@
   },
   "Enter password for ": {
     "Enter password for ": "输入密码"
+  },
+  "Enter this passkey on ": {
+    "Enter this passkey on ": ""
   },
   "Error": {
     "Error": "错误"
@@ -1209,7 +1212,7 @@
     "Mode: ": "模式: "
   },
   "Model": {
-    "Model": ""
+    "Model": "模型"
   },
   "Monitor Selection:": {
     "Monitor Selection:": "选择显示器："
@@ -1236,7 +1239,7 @@
     "NM not supported": "不支持 NM"
   },
   "Name": {
-    "Name": ""
+    "Name": "名称"
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "已命名工作区图标"
@@ -1365,7 +1368,7 @@
     "OS Logo": "系统 Logo"
   },
   "OSD Position": {
-    "OSD Position": ""
+    "OSD Position": "OSD位置"
   },
   "Office": {
     "Office": "办公"

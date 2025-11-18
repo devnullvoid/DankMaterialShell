@@ -276,7 +276,7 @@
     "Brightness": "Parlaklık"
   },
   "Brightness OSD": {
-    "Brightness OSD": ""
+    "Brightness OSD": "Parlaklık OSD"
   },
   "Browse": {
     "Browse": "Göz at"
@@ -318,7 +318,7 @@
     "Caps Lock Indicator": "Caps Lock Göstergesi"
   },
   "Caps Lock OSD": {
-    "Caps Lock OSD": ""
+    "Caps Lock OSD": "Caps Lock OSD"
   },
   "Center Section": {
     "Center Section": "Orta Bölüm"
@@ -348,7 +348,7 @@
     "Choose where notification popups appear on screen": "Bildirim açılır pencerelerinin ekranda nerede görüneceğini seçin"
   },
   "Choose where on-screen displays appear on screen": {
-    "Choose where on-screen displays appear on screen": ""
+    "Choose where on-screen displays appear on screen": "Ekran gösterimlerinin ekranda nerede gösterileceğini seç"
   },
   "Clear": {
     "Clear": "Temizle"
@@ -627,7 +627,7 @@
     "Dismiss": "Reddet"
   },
   "Display Name Format": {
-    "Display Name Format": ""
+    "Display Name Format": "Ekran İsim Formatı"
   },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "Ekranın üst, alt, sol veya sağ kenarına yerleştirilebilen, sabitlenmiş ve çalışan uygulamaları içeren bir dock görüntüleyin."
@@ -687,7 +687,7 @@
     "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": "Widget'ları sürükleyerek bölümler içinde yeniden sıralayın. Göz simgesini kullanarak widget'ları gizleyin/gösterin (aralıkları korur) veya X simgesini kullanarak tamamen kaldırın."
   },
   "Duplicate Wallpaper with Blur": {
-    "Duplicate Wallpaper with Blur": ""
+    "Duplicate Wallpaper with Blur": "Duvar kağıdını bulanıklık ile çoğalt"
   },
   "Duration": {
     "Duration": "Süre"
@@ -763,6 +763,9 @@
   },
   "Enter password for ": {
     "Enter password for ": "Parolayı girin "
+  },
+  "Enter this passkey on ": {
+    "Enter this passkey on ": ""
   },
   "Error": {
     "Error": "Hata"
@@ -975,7 +978,7 @@
     "Idle Inhibitor": "Boşta Kalma Engelleyici"
   },
   "Idle Inhibitor OSD": {
-    "Idle Inhibitor OSD": ""
+    "Idle Inhibitor OSD": "Boşta Kalma Engelleyici OSD"
   },
   "Idle Settings": {
     "Idle Settings": "Boşta Kalma Ayarları"
@@ -1194,7 +1197,7 @@
     "Microphone": "Mikrofon"
   },
   "Microphone Mute OSD": {
-    "Microphone Mute OSD": ""
+    "Microphone Mute OSD": "Mikrofon Sessiz OSD"
   },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "Tek bir renk tonu etrafında oluşturulmuş minimal palet."
@@ -1209,7 +1212,7 @@
     "Mode: ": "Mod: "
   },
   "Model": {
-    "Model": ""
+    "Model": "Model"
   },
   "Monitor Selection:": {
     "Monitor Selection:": "Monitör Seçimi:"
@@ -1236,7 +1239,7 @@
     "NM not supported": "NM desteklenmiyor"
   },
   "Name": {
-    "Name": ""
+    "Name": "İsim"
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "Adlandırılmış Çalışma Alanı Simgeleri"
@@ -1365,7 +1368,7 @@
     "OS Logo": "OS Logo"
   },
   "OSD Position": {
-    "OSD Position": ""
+    "OSD Position": "OSD Pozisyonu"
   },
   "Office": {
     "Office": "Ofis"
@@ -1377,7 +1380,7 @@
     "On-Screen Displays": "Ekran Üstü Gösterimler"
   },
   "On-screen Displays": {
-    "On-screen Displays": ""
+    "On-screen Displays": "Ekran Gösterimleri"
   },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "Gamayı yalnızca zaman veya konum kurallarına göre ayarlayın."
@@ -1527,7 +1530,7 @@
     "Power Profile Degradation": "Güç Profili Dejenerasyonu"
   },
   "Power Profile OSD": {
-    "Power Profile OSD": ""
+    "Power Profile OSD": "Güç Profili OSD"
   },
   "Pressure": {
     "Pressure": "Basınç"
@@ -1818,22 +1821,22 @@
     "Show on screens:": "Şu ekranda göster:"
   },
   "Show on-screen display when brightness changes": {
-    "Show on-screen display when brightness changes": ""
+    "Show on-screen display when brightness changes": "Parlaklık değiştiğinde ekran gösterimi göster"
   },
   "Show on-screen display when caps lock state changes": {
-    "Show on-screen display when caps lock state changes": ""
+    "Show on-screen display when caps lock state changes": "Caps lock durumu değiştiğinde ekran gösterimi göster"
   },
   "Show on-screen display when idle inhibitor state changes": {
-    "Show on-screen display when idle inhibitor state changes": ""
+    "Show on-screen display when idle inhibitor state changes": "Boşta kalma engelleyici durumu değiştiğinde ekran gösterimi göster"
   },
   "Show on-screen display when microphone is muted/unmuted": {
-    "Show on-screen display when microphone is muted/unmuted": ""
+    "Show on-screen display when microphone is muted/unmuted": "Mikrofon sessize alındığında/sessizden çıkarıldığında ekran gösterimi göster"
   },
   "Show on-screen display when power profile changes": {
-    "Show on-screen display when power profile changes": ""
+    "Show on-screen display when power profile changes": "Güç profili değiştiğinde ekran gösterimi göster"
   },
   "Show on-screen display when volume changes": {
-    "Show on-screen display when volume changes": ""
+    "Show on-screen display when volume changes": "Ses değiştiğinde ekran gösterimi göster"
   },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "Yalnızca mevcut çalışma alanında çalışan uygulamaları göster"
@@ -2196,7 +2199,7 @@
     "Volume Changed": "Ses Seviyesi Değişti"
   },
   "Volume OSD": {
-    "Volume OSD": ""
+    "Volume OSD": "Ses OSD"
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "Ses, parlaklık ve diğer sistem ekran üstü gösterimleri"

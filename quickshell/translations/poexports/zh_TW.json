@@ -57,7 +57,7 @@
     "Add a VPN in NetworkManager": "新增VPN至網路管理器"
   },
   "Adjust the number of columns in grid view mode.": {
-    "Adjust the number of columns in grid view mode.": ""
+    "Adjust the number of columns in grid view mode.": "調整網格檢視模式中的欄數。"
   },
   "All": {
     "All": "所有"
@@ -75,7 +75,7 @@
     "Always Show OSD Percentage": "OSD 始終顯示百分比"
   },
   "Always on icons": {
-    "Always on icons": ""
+    "Always on icons": "始終顯示圖示"
   },
   "Always show a minimum of 3 workspaces, even if fewer are available": {
     "Always show a minimum of 3 workspaces, even if fewer are available": "始終顯示至少 3 個工作區，即使可用的工作區較少"
@@ -276,7 +276,7 @@
     "Brightness": "亮度"
   },
   "Brightness OSD": {
-    "Brightness OSD": ""
+    "Brightness OSD": "亮度 OSD"
   },
   "Browse": {
     "Browse": "瀏覽"
@@ -306,7 +306,7 @@
     "CUPS Missing Filter Warning": "CUPS 缺少過濾器警告"
   },
   "Camera": {
-    "Camera": ""
+    "Camera": "相機"
   },
   "Cancel": {
     "Cancel": "取消"
@@ -315,10 +315,10 @@
     "Capacity": "容量"
   },
   "Caps Lock Indicator": {
-    "Caps Lock Indicator": ""
+    "Caps Lock Indicator": "大小寫鎖定指示器"
   },
   "Caps Lock OSD": {
-    "Caps Lock OSD": ""
+    "Caps Lock OSD": "大小寫鎖定 OSD"
   },
   "Center Section": {
     "Center Section": "中間區塊"
@@ -348,7 +348,7 @@
     "Choose where notification popups appear on screen": "選擇通知彈出視窗在螢幕上出現的位置"
   },
   "Choose where on-screen displays appear on screen": {
-    "Choose where on-screen displays appear on screen": ""
+    "Choose where on-screen displays appear on screen": "選擇螢幕顯示出現在螢幕上的位置"
   },
   "Clear": {
     "Clear": "清除"
@@ -627,7 +627,7 @@
     "Dismiss": "忽略"
   },
   "Display Name Format": {
-    "Display Name Format": ""
+    "Display Name Format": "顯示名稱格式"
   },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "顯示一個帶有固定和正在運行的應用程式的 Dock，這些應用程式可以放置在螢幕的頂部、底部、左側或右側邊緣"
@@ -645,7 +645,7 @@
     "Display currently focused application title": "顯示目前焦點應用程式的標題"
   },
   "Display power menu actions in a grid instead of a list": {
-    "Display power menu actions in a grid instead of a list": ""
+    "Display power menu actions in a grid instead of a list": "以網格而非列表顯示電源選單操作"
   },
   "Display settings for ": {
     "Display settings for ": "顯示設定適用於"
@@ -687,7 +687,7 @@
     "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": "拖曳部件即可在版塊內重新排序。使用眼睛圖示隱藏/顯示部件 (會保持間距)，或使用 X 將其完全移除。"
   },
   "Duplicate Wallpaper with Blur": {
-    "Duplicate Wallpaper with Blur": ""
+    "Duplicate Wallpaper with Blur": "模糊化重複桌布"
   },
   "Duration": {
     "Duration": "持續時間"
@@ -763,6 +763,9 @@
   },
   "Enter password for ": {
     "Enter password for ": "輸入密碼 "
+  },
+  "Enter this passkey on ": {
+    "Enter this passkey on ": ""
   },
   "Error": {
     "Error": "錯誤"
@@ -915,7 +918,7 @@
     "Grid": "網格"
   },
   "Grid Columns": {
-    "Grid Columns": ""
+    "Grid Columns": "網格欄數"
   },
   "Group by App": {
     "Group by App": "App 分組"
@@ -939,7 +942,7 @@
     "Hibernate": "休眠"
   },
   "Hide Delay (ms)": {
-    "Hide Delay (ms)": ""
+    "Hide Delay (ms)": "隱藏延遲 (毫秒)"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "不使用時隱藏 Dock，並在 Dock 區域附近懸停時顯示 Dock"
@@ -975,7 +978,7 @@
     "Idle Inhibitor": "空閒抑制器"
   },
   "Idle Inhibitor OSD": {
-    "Idle Inhibitor OSD": ""
+    "Idle Inhibitor OSD": "閒置抑制器 OSD"
   },
   "Idle Settings": {
     "Idle Settings": "閒置設定"
@@ -1191,10 +1194,10 @@
     "Memory usage indicator": "記憶體使用率指示器"
   },
   "Microphone": {
-    "Microphone": ""
+    "Microphone": "麥克風"
   },
   "Microphone Mute OSD": {
-    "Microphone Mute OSD": ""
+    "Microphone Mute OSD": "麥克風靜音 OSD"
   },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "圍繞單一色調構建的最小調色板。"
@@ -1209,7 +1212,7 @@
     "Mode: ": "模式："
   },
   "Model": {
-    "Model": ""
+    "Model": "型號"
   },
   "Monitor Selection:": {
     "Monitor Selection:": "螢幕選擇:"
@@ -1236,7 +1239,7 @@
     "NM not supported": "NM 不支援"
   },
   "Name": {
-    "Name": ""
+    "Name": "名稱"
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "命名工作區圖示"
@@ -1365,7 +1368,7 @@
     "OS Logo": "發行版 Logo"
   },
   "OSD Position": {
-    "OSD Position": ""
+    "OSD Position": "OSD 位置"
   },
   "Office": {
     "Office": "辦公"
@@ -1377,7 +1380,7 @@
     "On-Screen Displays": "螢幕顯示"
   },
   "On-screen Displays": {
-    "On-screen Displays": ""
+    "On-screen Displays": "螢幕顯示"
   },
   "Only adjust gamma based on time or location rules.": {
     "Only adjust gamma based on time or location rules.": "僅根據時間或位置規則調整 gamma。"
@@ -1527,7 +1530,7 @@
     "Power Profile Degradation": "電源配置降級"
   },
   "Power Profile OSD": {
-    "Power Profile OSD": ""
+    "Power Profile OSD": "電源設定檔 OSD"
   },
   "Pressure": {
     "Pressure": "氣壓"
@@ -1683,7 +1686,7 @@
     "Science": "科學"
   },
   "Screen sharing": {
-    "Screen sharing": ""
+    "Screen sharing": "螢幕分享"
   },
   "Scrolling": {
     "Scrolling": "滾動"
@@ -1818,22 +1821,22 @@
     "Show on screens:": "在螢幕上顯示:"
   },
   "Show on-screen display when brightness changes": {
-    "Show on-screen display when brightness changes": ""
+    "Show on-screen display when brightness changes": "亮度改變時顯示螢幕顯示"
   },
   "Show on-screen display when caps lock state changes": {
-    "Show on-screen display when caps lock state changes": ""
+    "Show on-screen display when caps lock state changes": "大小寫鎖定狀態改變時顯示螢幕顯示"
   },
   "Show on-screen display when idle inhibitor state changes": {
-    "Show on-screen display when idle inhibitor state changes": ""
+    "Show on-screen display when idle inhibitor state changes": "閒置抑制器狀態改變時顯示螢幕顯示"
   },
   "Show on-screen display when microphone is muted/unmuted": {
-    "Show on-screen display when microphone is muted/unmuted": ""
+    "Show on-screen display when microphone is muted/unmuted": "麥克風靜音/取消靜音時顯示螢幕顯示"
   },
   "Show on-screen display when power profile changes": {
-    "Show on-screen display when power profile changes": ""
+    "Show on-screen display when power profile changes": "電源設定檔改變時顯示螢幕顯示"
   },
   "Show on-screen display when volume changes": {
-    "Show on-screen display when volume changes": ""
+    "Show on-screen display when volume changes": "音量改變時顯示螢幕顯示"
   },
   "Show only apps running in current workspace": {
     "Show only apps running in current workspace": "僅顯示目前工作區中正在執行的應用程式"
@@ -1863,7 +1866,7 @@
     "Shows current workspace and allows switching": "顯示目前工作區並允許切換"
   },
   "Shows when caps lock is active": {
-    "Shows when caps lock is active": ""
+    "Shows when caps lock is active": "顯示大小寫鎖定啟用時"
   },
   "Shows when microphone, camera, or screen sharing is active": {
     "Shows when microphone, camera, or screen sharing is active": "顯示麥克風、攝影機或螢幕共用處於活動狀態"
@@ -2109,7 +2112,7 @@
     "Use Fahrenheit instead of Celsius for temperature": "使用華氏度代替攝氏度來表示溫度"
   },
   "Use Grid Layout": {
-    "Use Grid Layout": ""
+    "Use Grid Layout": "使用網格佈局"
   },
   "Use IP Location": {
     "Use IP Location": "使用 IP 位置"
@@ -2196,7 +2199,7 @@
     "Volume Changed": "音量改變"
   },
   "Volume OSD": {
-    "Volume OSD": ""
+    "Volume OSD": "音量 OSD"
   },
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "音量、亮度及其他系統OSD"

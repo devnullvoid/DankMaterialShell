@@ -348,7 +348,7 @@
     "Choose where notification popups appear on screen": "通知ポップアップが画面に表示される場所を選ぶ"
   },
   "Choose where on-screen displays appear on screen": {
-    "Choose where on-screen displays appear on screen": ""
+    "Choose where on-screen displays appear on screen": "OSDの表示する場所を選んでください"
   },
   "Clear": {
     "Clear": "クリア"
@@ -627,7 +627,7 @@
     "Dismiss": "解除"
   },
   "Display Name Format": {
-    "Display Name Format": ""
+    "Display Name Format": "名称形式を表示"
   },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "画面の上、下、左、右の端に配置できる、ピン留めされた実行中のアプリケーションを含むドックを表示します"
@@ -687,7 +687,7 @@
     "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": "ウィジェットをドラッグしてセクション内で順序を変更できます。目のアイコンでウィジェットを表示/非表示に（スペースは維持）、Xで完全に削除できます。"
   },
   "Duplicate Wallpaper with Blur": {
-    "Duplicate Wallpaper with Blur": ""
+    "Duplicate Wallpaper with Blur": "ぼかしで壁紙を複製"
   },
   "Duration": {
     "Duration": "期間"
@@ -763,6 +763,9 @@
   },
   "Enter password for ": {
     "Enter password for ": "パスワードを入力"
+  },
+  "Enter this passkey on ": {
+    "Enter this passkey on ": ""
   },
   "Error": {
     "Error": "エラー"
@@ -1209,7 +1212,7 @@
     "Mode: ": "モード: "
   },
   "Model": {
-    "Model": ""
+    "Model": "モデル"
   },
   "Monitor Selection:": {
     "Monitor Selection:": "モニターの選択："
@@ -1236,7 +1239,7 @@
     "NM not supported": "NMが利用できません"
   },
   "Name": {
-    "Name": ""
+    "Name": "名称"
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "名前付きワークスペースアイコン"
@@ -1365,7 +1368,7 @@
     "OS Logo": "OSロゴ"
   },
   "OSD Position": {
-    "OSD Position": ""
+    "OSD Position": "OSD位置"
   },
   "Office": {
     "Office": "オフィス"

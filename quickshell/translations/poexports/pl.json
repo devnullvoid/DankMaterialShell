@@ -348,7 +348,7 @@
     "Choose where notification popups appear on screen": "Wybierz, gdzie na ekranie mają pojawiać się powiadomienia"
   },
   "Choose where on-screen displays appear on screen": {
-    "Choose where on-screen displays appear on screen": ""
+    "Choose where on-screen displays appear on screen": "Wybierz miejsce wyświetlania informacji na ekranie"
   },
   "Clear": {
     "Clear": "Wyczyść"
@@ -627,7 +627,7 @@
     "Dismiss": "Odrzuć"
   },
   "Display Name Format": {
-    "Display Name Format": ""
+    "Display Name Format": "Format nazwy wyświetlanej"
   },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "Wyświetla dok z przypiętymi i uruchomionymi aplikacjami, który można umieścić na górze, na dole, po lewej lub po prawej stronie ekranu."
@@ -687,7 +687,7 @@
     "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": "Przeciągnij widżety, aby zmienić kolejność w sekcjach. Użyj ikony oka, aby ukryć/pokazać widżety (zachowując odstępy), lub X, aby je całkowicie usunąć."
   },
   "Duplicate Wallpaper with Blur": {
-    "Duplicate Wallpaper with Blur": ""
+    "Duplicate Wallpaper with Blur": "Powiel tapetę z rozmyciem"
   },
   "Duration": {
     "Duration": "Czas trwania"
@@ -763,6 +763,9 @@
   },
   "Enter password for ": {
     "Enter password for ": "Wprowadź hasło dla "
+  },
+  "Enter this passkey on ": {
+    "Enter this passkey on ": ""
   },
   "Error": {
     "Error": "Błąd"
@@ -1209,7 +1212,7 @@
     "Mode: ": "Tryb: "
   },
   "Model": {
-    "Model": ""
+    "Model": "Model"
   },
   "Monitor Selection:": {
     "Monitor Selection:": "Wybór monitora:"
@@ -1236,7 +1239,7 @@
     "NM not supported": "NM nie jest obsługiwany"
   },
   "Name": {
-    "Name": ""
+    "Name": "Nazwa"
   },
   "Named Workspace Icons": {
     "Named Workspace Icons": "Ikony nazwanych obszarów roboczych"
@@ -1365,7 +1368,7 @@
     "OS Logo": "Logo OS"
   },
   "OSD Position": {
-    "OSD Position": ""
+    "OSD Position": "Pozycja OSD"
   },
   "Office": {
     "Office": "Biuro"

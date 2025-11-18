@@ -122,7 +122,7 @@
   {
     "term": "All",
     "context": "All",
-    "reference": "Services/AppSearchService.qml:217, Services/AppSearchService.qml:233, Modals/Spotlight/SpotlightModal.qml:61, Modules/AppDrawer/CategorySelector.qml:11, Modules/AppDrawer/AppLauncher.qml:16, Modules/AppDrawer/AppLauncher.qml:27, Modules/AppDrawer/AppLauncher.qml:28, Modules/AppDrawer/AppLauncher.qml:45, Modules/AppDrawer/AppLauncher.qml:46, Modules/AppDrawer/AppLauncher.qml:80, Modules/AppDrawer/AppDrawerPopout.qml:46",
+    "reference": "Services/AppSearchService.qml:310, Services/AppSearchService.qml:326, Modals/Spotlight/SpotlightModal.qml:61, Modules/AppDrawer/CategorySelector.qml:11, Modules/AppDrawer/AppLauncher.qml:16, Modules/AppDrawer/AppLauncher.qml:27, Modules/AppDrawer/AppLauncher.qml:28, Modules/AppDrawer/AppLauncher.qml:45, Modules/AppDrawer/AppLauncher.qml:46, Modules/AppDrawer/AppLauncher.qml:80, Modules/AppDrawer/AppDrawerPopout.qml:46",
     "comment": ""
   },
   {
@@ -254,7 +254,7 @@
   {
     "term": "Audio Codec",
     "context": "Audio Codec",
-    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:570",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:572",
     "comment": ""
   },
   {
@@ -302,19 +302,19 @@
   {
     "term": "Authorize",
     "context": "Authorize",
-    "reference": "Modals/BluetoothPairingModal.qml:294",
+    "reference": "Modals/BluetoothPairingModal.qml:314, Modals/BluetoothPairingModal.qml:317",
     "comment": ""
   },
   {
     "term": "Authorize pairing with ",
     "context": "Authorize pairing with ",
-    "reference": "Modals/BluetoothPairingModal.qml:116",
+    "reference": "Modals/BluetoothPairingModal.qml:129",
     "comment": ""
   },
   {
     "term": "Authorize service for ",
     "context": "Authorize service for ",
-    "reference": "Modals/BluetoothPairingModal.qml:118",
+    "reference": "Modals/BluetoothPairingModal.qml:136",
     "comment": ""
   },
   {
@@ -446,7 +446,7 @@
   {
     "term": "Back",
     "context": "Back",
-    "reference": "Modules/DankBar/Widgets/SystemTrayBar.qml:1191",
+    "reference": "Modules/DankBar/Widgets/SystemTrayBar.qml:1182",
     "comment": ""
   },
   {
@@ -482,7 +482,7 @@
   {
     "term": "Bluetooth Settings",
     "context": "Bluetooth Settings",
-    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:71",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:73",
     "comment": ""
   },
   {
@@ -548,7 +548,7 @@
   {
     "term": "Brightness OSD",
     "context": "Brightness OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:805",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:815",
     "comment": ""
   },
   {
@@ -614,7 +614,7 @@
   {
     "term": "Cancel",
     "context": "Cancel",
-    "reference": "Modals/BluetoothPairingModal.qml:251, Modals/PolkitAuthModal.qml:291, Modals/WifiPasswordModal.qml:494, Modals/FileBrowser/FileBrowserOverwriteDialog.qml:83, Modules/Settings/PluginBrowser.qml:650",
+    "reference": "Modals/BluetoothPairingModal.qml:266, Modals/PolkitAuthModal.qml:291, Modals/WifiPasswordModal.qml:494, Modals/FileBrowser/FileBrowserOverwriteDialog.qml:83, Modules/Settings/PluginBrowser.qml:650",
     "comment": ""
   },
   {
@@ -632,7 +632,7 @@
   {
     "term": "Caps Lock OSD",
     "context": "Caps Lock OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:835",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:845",
     "comment": ""
   },
   {
@@ -848,7 +848,7 @@
   {
     "term": "Confirm",
     "context": "Confirm",
-    "reference": "Modals/BluetoothPairingModal.qml:292",
+    "reference": "Modals/BluetoothPairingModal.qml:312",
     "comment": ""
   },
   {
@@ -860,7 +860,7 @@
   {
     "term": "Confirm passkey for ",
     "context": "Confirm passkey for ",
-    "reference": "Modals/BluetoothPairingModal.qml:114",
+    "reference": "Modals/BluetoothPairingModal.qml:125",
     "comment": ""
   },
   {
@@ -1190,7 +1190,7 @@
   {
     "term": "Development",
     "context": "Development",
-    "reference": "Services/AppSearchService.qml:161, Services/AppSearchService.qml:162, Services/AppSearchService.qml:163, Widgets/DankIconPicker.qml:31",
+    "reference": "Services/AppSearchService.qml:254, Services/AppSearchService.qml:255, Services/AppSearchService.qml:256, Widgets/DankIconPicker.qml:31",
     "comment": ""
   },
   {
@@ -1202,7 +1202,7 @@
   {
     "term": "Device paired",
     "context": "Device paired",
-    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:42",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:44",
     "comment": ""
   },
   {
@@ -1394,7 +1394,7 @@
   {
     "term": "Education",
     "context": "Education",
-    "reference": "Services/AppSearchService.qml:164",
+    "reference": "Services/AppSearchService.qml:257",
     "comment": ""
   },
   {
@@ -1466,19 +1466,19 @@
   {
     "term": "Enter 6-digit passkey",
     "context": "Enter 6-digit passkey",
-    "reference": "Modals/BluetoothPairingModal.qml:190",
+    "reference": "Modals/BluetoothPairingModal.qml:205",
     "comment": ""
   },
   {
     "term": "Enter PIN",
     "context": "Enter PIN",
-    "reference": "Modals/BluetoothPairingModal.qml:155",
+    "reference": "Modals/BluetoothPairingModal.qml:170",
     "comment": ""
   },
   {
     "term": "Enter PIN for ",
     "context": "Enter PIN for ",
-    "reference": "Modals/BluetoothPairingModal.qml:120",
+    "reference": "Modals/BluetoothPairingModal.qml:131",
     "comment": ""
   },
   {
@@ -1514,13 +1514,19 @@
   {
     "term": "Enter passkey for ",
     "context": "Enter passkey for ",
-    "reference": "Modals/BluetoothPairingModal.qml:122",
+    "reference": "Modals/BluetoothPairingModal.qml:133",
     "comment": ""
   },
   {
     "term": "Enter password for ",
     "context": "Enter password for ",
     "reference": "Modals/WifiPasswordModal.qml:200, Modals/WifiPasswordModal.qml:202",
+    "comment": ""
+  },
+  {
+    "term": "Enter this passkey on ",
+    "context": "Enter this passkey on ",
+    "reference": "Modals/BluetoothPairingModal.qml:127",
     "comment": ""
   },
   {
@@ -1610,7 +1616,7 @@
   {
     "term": "Failed to remove device",
     "context": "Failed to remove device",
-    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:617",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:619",
     "comment": ""
   },
   {
@@ -1724,7 +1730,7 @@
   {
     "term": "Forget Device",
     "context": "Forget Device",
-    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:595",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:597",
     "comment": ""
   },
   {
@@ -1772,7 +1778,7 @@
   {
     "term": "Games",
     "context": "Games",
-    "reference": "Services/AppSearchService.qml:165",
+    "reference": "Services/AppSearchService.qml:258",
     "comment": ""
   },
   {
@@ -1814,7 +1820,7 @@
   {
     "term": "Graphics",
     "context": "Graphics",
-    "reference": "Services/AppSearchService.qml:166, Services/AppSearchService.qml:167",
+    "reference": "Services/AppSearchService.qml:259, Services/AppSearchService.qml:260",
     "comment": ""
   },
   {
@@ -1940,7 +1946,7 @@
   {
     "term": "Idle Inhibitor OSD",
     "context": "Idle Inhibitor OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:815",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:825",
     "comment": ""
   },
   {
@@ -2012,7 +2018,7 @@
   {
     "term": "Internet",
     "context": "Internet",
-    "reference": "Services/AppSearchService.qml:168, Services/AppSearchService.qml:169, Services/AppSearchService.qml:170",
+    "reference": "Services/AppSearchService.qml:261, Services/AppSearchService.qml:262, Services/AppSearchService.qml:263",
     "comment": ""
   },
   {
@@ -2306,7 +2312,7 @@
   {
     "term": "Media",
     "context": "Media",
-    "reference": "Services/AppSearchService.qml:158, Services/AppSearchService.qml:159, Services/AppSearchService.qml:160, Widgets/DankIconPicker.qml:37, Modules/DankDash/DankDashPopout.qml:210",
+    "reference": "Services/AppSearchService.qml:251, Services/AppSearchService.qml:252, Services/AppSearchService.qml:253, Widgets/DankIconPicker.qml:37, Modules/DankDash/DankDashPopout.qml:210",
     "comment": ""
   },
   {
@@ -2378,7 +2384,7 @@
   {
     "term": "Microphone Mute OSD",
     "context": "Microphone Mute OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:825",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:835",
     "comment": ""
   },
   {
@@ -2564,7 +2570,7 @@
   {
     "term": "No Bluetooth adapter found",
     "context": "No Bluetooth adapter found",
-    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:519",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:521",
     "comment": ""
   },
   {
@@ -2642,7 +2648,7 @@
   {
     "term": "Notepad",
     "context": "Notepad",
-    "reference": "DMSShell.qml:413, Modules/Settings/DankBarTab.qml:191",
+    "reference": "DMSShell.qml:421, Modules/Settings/DankBarTab.qml:191",
     "comment": ""
   },
   {
@@ -2726,7 +2732,7 @@
   {
     "term": "Office",
     "context": "Office",
-    "reference": "Services/AppSearchService.qml:171, Services/AppSearchService.qml:172, Services/AppSearchService.qml:173, Services/AppSearchService.qml:174",
+    "reference": "Services/AppSearchService.qml:264, Services/AppSearchService.qml:265, Services/AppSearchService.qml:266, Services/AppSearchService.qml:267",
     "comment": ""
   },
   {
@@ -2828,25 +2834,25 @@
   {
     "term": "Pair",
     "context": "Pair",
-    "reference": "Modals/BluetoothPairingModal.qml:295",
+    "reference": "Modals/BluetoothPairingModal.qml:318",
     "comment": ""
   },
   {
     "term": "Pair Bluetooth Device",
     "context": "Pair Bluetooth Device",
-    "reference": "Modals/BluetoothPairingModal.qml:105",
+    "reference": "Modals/BluetoothPairingModal.qml:115",
     "comment": ""
   },
   {
     "term": "Pairing failed",
     "context": "Pairing failed",
-    "reference": "Modals/BluetoothPairingModal.qml:356, Modules/ControlCenter/Details/BluetoothDetail.qml:40",
+    "reference": "Modals/BluetoothPairingModal.qml:394, Modules/ControlCenter/Details/BluetoothDetail.qml:42",
     "comment": ""
   },
   {
     "term": "Passkey:",
     "context": "Passkey:",
-    "reference": "Modals/BluetoothPairingModal.qml:214",
+    "reference": "Modals/BluetoothPairingModal.qml:229",
     "comment": ""
   },
   {
@@ -3044,7 +3050,7 @@
   {
     "term": "Power Profile OSD",
     "context": "Power Profile OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:845",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:855",
     "comment": ""
   },
   {
@@ -3344,7 +3350,7 @@
   {
     "term": "Science",
     "context": "Science",
-    "reference": "Services/AppSearchService.qml:175",
+    "reference": "Services/AppSearchService.qml:268",
     "comment": ""
   },
   {
@@ -3494,7 +3500,7 @@
   {
     "term": "Settings",
     "context": "Settings",
-    "reference": "Services/AppSearchService.qml:176, Modals/Settings/SettingsModal.qml:205, Modules/DankDash/DankDashPopout.qml:225",
+    "reference": "Services/AppSearchService.qml:269, Modals/Settings/SettingsModal.qml:205, Modules/DankDash/DankDashPopout.qml:225",
     "comment": ""
   },
   {
@@ -3620,37 +3626,37 @@
   {
     "term": "Show on-screen display when brightness changes",
     "context": "Show on-screen display when brightness changes",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:806",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:816",
     "comment": ""
   },
   {
     "term": "Show on-screen display when caps lock state changes",
     "context": "Show on-screen display when caps lock state changes",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:836",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:846",
     "comment": ""
   },
   {
     "term": "Show on-screen display when idle inhibitor state changes",
     "context": "Show on-screen display when idle inhibitor state changes",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:816",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:826",
     "comment": ""
   },
   {
     "term": "Show on-screen display when microphone is muted/unmuted",
     "context": "Show on-screen display when microphone is muted/unmuted",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:826",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:836",
     "comment": ""
   },
   {
     "term": "Show on-screen display when power profile changes",
     "context": "Show on-screen display when power profile changes",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:846",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:856",
     "comment": ""
   },
   {
     "term": "Show on-screen display when volume changes",
     "context": "Show on-screen display when volume changes",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:796",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:806",
     "comment": ""
   },
   {
@@ -3872,7 +3878,7 @@
   {
     "term": "System",
     "context": "System",
-    "reference": "Services/AppSearchService.qml:177, Widgets/DankIconPicker.qml:40, Modules/ProcessList/SystemTab.qml:130",
+    "reference": "Services/AppSearchService.qml:270, Widgets/DankIconPicker.qml:40, Modules/ProcessList/SystemTab.qml:130",
     "comment": ""
   },
   {
@@ -4280,7 +4286,7 @@
   {
     "term": "Utilities",
     "context": "Utilities",
-    "reference": "Services/AppSearchService.qml:178, Services/AppSearchService.qml:179, Services/AppSearchService.qml:180, Services/AppSearchService.qml:181",
+    "reference": "Services/AppSearchService.qml:271, Services/AppSearchService.qml:272, Services/AppSearchService.qml:273, Services/AppSearchService.qml:274",
     "comment": ""
   },
   {
@@ -4364,7 +4370,7 @@
   {
     "term": "Volume OSD",
     "context": "Volume OSD",
-    "reference": "Modules/Settings/WidgetTweaksTab.qml:795",
+    "reference": "Modules/Settings/WidgetTweaksTab.qml:805",
     "comment": ""
   },
   {
