@@ -245,7 +245,7 @@ PanelWindow {
             clip: false
             layer.enabled: true
             layer.smooth: false
-            layer.textureSize: Qt.size(width * root.dpr, height * root.dpr)
+            layer.textureSize: Qt.size(Math.round(width * root.dpr), Math.round(height * root.dpr))
             opacity: root.shouldBeVisible ? 1 : 0
             scale: modalContainer.scaleValue
             x: Theme.snap(modalContainer.animX + (parent.width - width) * (1 - modalContainer.scaleValue) * 0.5, root.dpr)
