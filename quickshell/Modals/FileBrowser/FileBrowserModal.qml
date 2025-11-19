@@ -13,6 +13,8 @@ DankModal {
 
     layerNamespace: "dms:file-browser"
 
+    keepPopoutsOpen: true
+
     property string homeDir: StandardPaths.writableLocation(StandardPaths.HomeLocation)
     property string docsDir: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
     property string musicDir: StandardPaths.writableLocation(StandardPaths.MusicLocation)
