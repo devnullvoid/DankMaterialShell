@@ -635,7 +635,7 @@ Item {
         id: systemTrayComponent
 
         SystemTrayBar {
-            parentWindow: rootWindow
+            parentWindow: barWindow
             parentScreen: barWindow.screen
             widgetThickness: barWindow.widgetThickness
             isAtBottom: SettingsData.dankBarPosition === SettingsData.Position.Bottom
@@ -981,7 +981,7 @@ Item {
             section: topBarContent.getWidgetSection(parent) || "right"
             parentScreen: barWindow.screen
             onColorPickerRequested: {
-                rootWindow.colorPickerRequested()
+                barWindow.colorPickerRequested()
             }
         }
     }

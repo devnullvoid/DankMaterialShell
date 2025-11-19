@@ -530,6 +530,7 @@ Item {
 
         Item {
             id: menuContainer
+            objectName: "overflowMenuContainer"
 
             readonly property real rawWidth: {
                 const itemCount = root.hiddenBarItems.length
@@ -724,8 +725,7 @@ Item {
 
                                 if (!trayItem.hasMenu) return
 
-                                root.menuOpen = false
-                                root.showForTrayItem(trayItem, parent, parentScreen, root.isAtBottom, root.isVertical, root.axis)
+                                root.showForTrayItem(trayItem, menuContainer, parentScreen, root.isAtBottom, root.isVertical, root.axis)
                             }
                         }
                     }
@@ -911,10 +911,10 @@ Item {
 
                 onVisibleChanged: {
                     if (visible) {
+                        updatePosition()
                         root.menuOpen = false
                         PopoutManager.closeAllPopouts()
                         ModalManager.closeAllModalsExcept(null)
-                        updatePosition()
                     }
                 }
 
@@ -954,11 +954,20 @@ Item {
 
                 function updatePosition() {
                     const targetItem = (typeof menuRoot !== "undefined" && menuRoot.anchorItem) ? menuRoot.anchorItem : root
-                    const globalPos = targetItem.mapToGlobal(0, 0)
-                    const screenX = screen.x || 0
-                    const screenY = screen.y || 0
-                    const relativeX = globalPos.x - screenX
-                    const relativeY = globalPos.y - screenY
+
+                    const isFromOverflowMenu = targetItem.objectName === "overflowMenuContainer"
+
+                    let relativeX, relativeY
+                    if (isFromOverflowMenu) {
+                        relativeX = targetItem.x
+                        relativeY = targetItem.y
+                    } else {
+                        const globalPos = targetItem.mapToGlobal(0, 0)
+                        const screenX = screen.x || 0
+                        const screenY = screen.y || 0
+                        relativeX = globalPos.x - screenX
+                        relativeY = globalPos.y - screenY
+                    }
 
                     const widgetThickness = Math.max(20, 26 + SettingsData.dankBarInnerPadding * 0.6)
                     const effectiveBarThickness = Math.max(widgetThickness + SettingsData.dankBarInnerPadding + 4, Theme.barHeight - 4 - (8 - SettingsData.dankBarInnerPadding))
