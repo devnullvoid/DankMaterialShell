@@ -375,6 +375,11 @@ Item {
         WlrLayershell.namespace: "dms:tray-overflow-menu"
         color: "transparent"
 
+        HyprlandFocusGrab {
+            windows: [overflowMenu]
+            active: CompositorService.isHyprland && root.menuOpen
+        }
+
         anchors {
             top: true
             left: true
@@ -815,6 +820,11 @@ Item {
                     return WlrKeyboardFocus.Exclusive
                 }
                 color: "transparent"
+
+                HyprlandFocusGrab {
+                    windows: [menuWindow]
+                    active: CompositorService.isHyprland && menuRoot.showMenu
+                }
 
                 anchors {
                     top: true
