@@ -1,5 +1,7 @@
 import QtQuick
 import QtQuick.Effects
+import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import qs.Common
 import qs.Modals.Common
@@ -12,6 +14,11 @@ DankModal {
     id: settingsModal
 
     layerNamespace: "dms:settings"
+
+    HyprlandFocusGrab {
+        windows: [settingsModal]
+        active: CompositorService.isHyprland && settingsModal.shouldHaveFocus
+    }
 
     property Component settingsContent
     property alias profileBrowser: profileBrowser

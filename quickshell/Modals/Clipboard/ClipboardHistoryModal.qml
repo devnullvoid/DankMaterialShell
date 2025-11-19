@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import qs.Common
 import qs.Modals.Common
@@ -13,6 +14,11 @@ DankModal {
     id: clipboardHistoryModal
 
     layerNamespace: "dms:clipboard"
+
+    HyprlandFocusGrab {
+        windows: [clipboardHistoryModal]
+        active: CompositorService.isHyprland && clipboardHistoryModal.shouldHaveFocus
+    }
 
     property int totalCount: 0
     property var clipboardEntries: []

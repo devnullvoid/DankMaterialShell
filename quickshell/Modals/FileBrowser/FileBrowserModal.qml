@@ -2,6 +2,8 @@ import Qt.labs.folderlistmodel
 import QtCore
 import QtQuick
 import QtQuick.Controls
+import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import qs.Common
 import qs.Modals.Common
@@ -12,6 +14,11 @@ DankModal {
     id: fileBrowserModal
 
     layerNamespace: "dms:file-browser"
+
+    HyprlandFocusGrab {
+        windows: [fileBrowserModal]
+        active: CompositorService.isHyprland && fileBrowserModal.shouldHaveFocus
+    }
 
     keepPopoutsOpen: true
 

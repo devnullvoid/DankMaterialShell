@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import Quickshell.Hyprland
 import qs.Common
 import qs.Modals.Common
 import qs.Services
@@ -9,6 +10,11 @@ DankModal {
     id: root
 
     layerNamespace: "dms:power-menu"
+
+    HyprlandFocusGrab {
+        windows: [root]
+        active: CompositorService.isHyprland && root.shouldHaveFocus
+    }
 
     property int selectedIndex: 0
     property int selectedRow: 0

@@ -1,4 +1,6 @@
 import QtQuick
+import Quickshell
+import Quickshell.Hyprland
 import qs.Common
 import qs.Modals.Common
 import qs.Services
@@ -8,6 +10,11 @@ DankModal {
     id: root
 
     layerNamespace: "dms:wifi-password"
+
+    HyprlandFocusGrab {
+        windows: [root]
+        active: CompositorService.isHyprland && root.shouldHaveFocus
+    }
 
     property string wifiPasswordSSID: ""
     property string wifiPasswordInput: ""

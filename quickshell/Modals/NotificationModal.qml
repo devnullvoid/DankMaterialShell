@@ -1,4 +1,6 @@
 import QtQuick
+import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import qs.Common
 import qs.Modals.Common
@@ -10,6 +12,11 @@ DankModal {
     id: notificationModal
 
     layerNamespace: "dms:notification-center-modal"
+
+    HyprlandFocusGrab {
+        windows: [notificationModal]
+        active: CompositorService.isHyprland && notificationModal.shouldHaveFocus
+    }
 
     property bool notificationModalOpen: false
     property var notificationListRef: null

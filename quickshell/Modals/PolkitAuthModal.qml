@@ -1,4 +1,6 @@
 import QtQuick
+import Quickshell
+import Quickshell.Hyprland
 import qs.Common
 import qs.Modals.Common
 import qs.Services
@@ -8,6 +10,11 @@ DankModal {
     id: root
 
     layerNamespace: "dms:polkit"
+
+    HyprlandFocusGrab {
+        windows: [root]
+        active: CompositorService.isHyprland && root.shouldHaveFocus
+    }
 
     property string passwordInput: ""
     property var currentFlow: PolkitService.agent?.flow

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Widgets
 import qs.Common
@@ -13,6 +14,11 @@ DankModal {
     id: spotlightModal
 
     layerNamespace: "dms:spotlight"
+
+    HyprlandFocusGrab {
+        windows: [spotlightModal]
+        active: CompositorService.isHyprland && spotlightModal.shouldHaveFocus
+    }
 
     property bool spotlightOpen: false
     property alias spotlightContent: spotlightContentInstance
