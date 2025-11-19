@@ -506,6 +506,14 @@ func (f *FedoraDistribution) installDNFPackages(ctx context.Context, packages []
 	f.log(fmt.Sprintf("Installing DNF packages: %s", strings.Join(packages, ", ")))
 
 	args := []string{"dnf", "install", "-y"}
+
+	for _, pkg := range packages {
+		if pkg == "niri" || pkg == "niri-git" {
+			args = append(args, "--setopt=install_weak_deps=False")
+			break
+		}
+	}
+
 	args = append(args, packages...)
 
 	progressChan <- InstallProgressMsg{
