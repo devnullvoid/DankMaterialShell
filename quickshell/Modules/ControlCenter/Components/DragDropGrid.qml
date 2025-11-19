@@ -593,13 +593,13 @@ Column {
             text: {
                 switch (widgetData.id || "") {
                 case "nightMode":
-                    return "Night Mode"
+                    return I18n.tr("Night Mode")
                 case "darkMode":
-                    return SessionData.isLightMode ? "Light Mode" : "Dark Mode"
+                    return I18n.tr("Dark Mode")
                 case "doNotDisturb":
-                    return "Do Not Disturb"
+                    return I18n.tr("Do Not Disturb")
                 case "idleInhibitor":
-                    return SessionService.idleInhibited ? "Keeping Awake" : "Keep Awake"
+                    return SessionService.idleInhibited ? I18n.tr("Keeping Awake") : I18n.tr("Keep Awake")
                 default:
                     return "Unknown"
                 }
@@ -619,7 +619,7 @@ Column {
                 case "nightMode":
                     return DisplayService.nightModeEnabled || false
                 case "darkMode":
-                    return SessionData.isLightMode
+                    return !SessionData.isLightMode
                 case "doNotDisturb":
                     return SessionData.doNotDisturb || false
                 case "idleInhibitor":
@@ -700,7 +700,7 @@ Column {
                 case "nightMode":
                     return DisplayService.nightModeEnabled || false
                 case "darkMode":
-                    return SessionData.isLightMode
+                    return !SessionData.isLightMode
                 case "doNotDisturb":
                     return SessionData.doNotDisturb || false
                 case "idleInhibitor":

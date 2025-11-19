@@ -143,6 +143,8 @@ Row {
     }
 
     DankSlider {
+        id: brightnessSlider
+
         anchors.verticalCenter: parent.verticalCenter
         width: parent.width - (Theme.iconSize + Theme.spacingS * 2)
         enabled: DisplayService.brightnessAvailable && targetDeviceName.length > 0
@@ -162,7 +164,7 @@ Row {
             }
             return targetDevice.displayMax || 100
         }
-        value: targetBrightness
+        value: !isDragging ? targetBrightness : value
         showValue: true
         unit: {
             if (!targetDevice) return "%"

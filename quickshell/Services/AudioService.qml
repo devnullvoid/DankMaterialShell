@@ -412,7 +412,7 @@ Singleton {
         interval: 50
         repeat: false
         onTriggered: {
-            if (!root.suppressOSD && SettingsData.soundsEnabled && SettingsData.soundVolumeChanged) {
+            if (SettingsData.soundsEnabled && SettingsData.soundVolumeChanged) {
                 root.playVolumeChangeSound()
             }
         }

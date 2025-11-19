@@ -292,6 +292,7 @@ DankPopout {
                         tabBarItem: tabBar
                         keyForwardTarget: mainContainer
                         targetScreen: root.triggerScreen
+                        parentPopout: root
                     }
 
                     WeatherTab {

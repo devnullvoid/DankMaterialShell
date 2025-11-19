@@ -69,6 +69,15 @@ Row {
         valueOverride: actualVolumePercent
         thumbOutlineColor: Theme.surfaceContainer
         trackColor: root.sliderTrackColor.a > 0 ? root.sliderTrackColor : Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+
+        onIsDraggingChanged: {
+            if (isDragging) {
+                AudioService.suppressOSD = true
+            } else {
+                Qt.callLater(() => { AudioService.suppressOSD = false })
+            }
+        }
+
         onSliderValueChanged: function(newValue) {
             if (defaultSink) {
                 defaultSink.audio.volume = newValue / 100.0

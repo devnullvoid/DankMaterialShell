@@ -5,6 +5,7 @@ import QtQuick.Controls
 import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Wayland
 import qs.Common
 import qs.Modals.FileBrowser
 import qs.Services
@@ -25,6 +26,7 @@ Item {
     property Item tabBarItem: null
     property int gridIndex: 0
     property Item keyForwardTarget: null
+    property var parentPopout: null
     property int lastPage: 0
     property bool enableAnimation: false
     property string homeDir: StandardPaths.writableLocation(StandardPaths.HomeLocation)
@@ -293,6 +295,12 @@ Item {
         active: false
         asynchronous: true
 
+        onActiveChanged: {
+            if (active && parentPopout) {
+                parentPopout.WlrLayershell.keyboardFocus = WlrKeyboardFocus.None
+            }
+        }
+
         sourceComponent: FileBrowserModal {
             Component.onCompleted: {
                 open()
@@ -318,6 +326,13 @@ Item {
                             }
 
             onDialogClosed: {
+                if (parentPopout) {
+                    if (CompositorService.isHyprland) {
+                        parentPopout.WlrLayershell.keyboardFocus = WlrKeyboardFocus.OnDemand
+                    } else {
+                        parentPopout.WlrLayershell.keyboardFocus = WlrKeyboardFocus.Exclusive
+                    }
+                }
                 Qt.callLater(() => wallpaperBrowserLoader.active = false)
             }
         }
