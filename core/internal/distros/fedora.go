@@ -19,8 +19,10 @@ func init() {
 	Register("fedora-asahi-remix", "#0B57A4", FamilyFedora, func(config DistroConfig, logChan chan<- string) Distribution {
 		return NewFedoraDistribution(config, logChan)
 	})
-
 	Register("bluefin", "#0B57A4", FamilyFedora, func(config DistroConfig, logChan chan<- string) Distribution {
+		return NewFedoraDistribution(config, logChan)
+	})
+	Register("ultramarine", "#00078b", FamilyFedora, func(config DistroConfig, logChan chan<- string) Distribution {
 		return NewFedoraDistribution(config, logChan)
 	})
 }
