@@ -71,6 +71,10 @@ Scope {
                     return WlrKeyboardFocus.Exclusive
                 }
 
+                mask: Region {
+                    item: shouldShowSpotlight ? spotlightContainer : null
+                }
+
                 onShouldShowSpotlightChanged: {
                     if (!shouldShowSpotlight && isActiveScreen) {
                         Qt.callLater(() => keyboardFocusScope.forceActiveFocus())
@@ -153,6 +157,7 @@ Scope {
 
                     scale: scaleValue
                     opacity: overlayWindow.shouldShowSpotlight ? 1 : 0
+                    enabled: overlayWindow.shouldShowSpotlight
 
                     layer.enabled: true
                     layer.smooth: false
