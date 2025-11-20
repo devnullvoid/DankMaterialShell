@@ -34,7 +34,7 @@ Singleton {
     }
 
     PwObjectTracker {
-        objects: Pipewire.nodes.values.filter(node => node.audio && !node.isStream)
+        objects: Pipewire.nodes.values.filter(node => !node.isStream)
     }
 
     readonly property bool cameraActive: {
@@ -47,7 +47,7 @@ Singleton {
             if (!node || !node.ready) {
                 continue
             }
-
+            
             if (node.properties && node.properties["media.class"] === "Stream/Input/Video") {
                 if (node.properties["stream.is-live"] === "true") {
                     return true
