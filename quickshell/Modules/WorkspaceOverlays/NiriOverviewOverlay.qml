@@ -11,6 +11,15 @@ Scope {
     // Only show overlay when in overview and spotlight is not open
     property bool overlayActive: NiriService.inOverview && !(PopoutService.spotlightModal?.spotlightOpen ?? false)
 
+    Connections {
+        target: NiriService
+        function onInOverviewChanged() {
+            if (!NiriService.inOverview && PopoutService.spotlightModal?.openedFromOverview) {
+                PopoutService.spotlightModal.hide()
+            }
+        }
+    }
+
     Loader {
         id: niriOverlayLoader
         active: NiriService.inOverview
@@ -93,6 +102,7 @@ Scope {
                                             Qt.callLater(() => {
                                                              if (PopoutService.spotlightModal) {
                                                                  if (event.text) {
+                                                                     PopoutService.spotlightModal.openedFromOverview = true
                                                                      PopoutService.spotlightModal.showWithQuery(event.text.trim())
                                                                  }
                                                              }

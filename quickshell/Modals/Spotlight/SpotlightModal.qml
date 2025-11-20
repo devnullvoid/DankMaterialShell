@@ -22,8 +22,10 @@ DankModal {
 
     property bool spotlightOpen: false
     property alias spotlightContent: spotlightContentInstance
+    property bool openedFromOverview: false
 
     function show() {
+        openedFromOverview = false
         spotlightOpen = true
         open()
 
@@ -55,6 +57,7 @@ DankModal {
     }
 
     function hide() {
+        openedFromOverview = false
         spotlightOpen = false
         close()
     }
