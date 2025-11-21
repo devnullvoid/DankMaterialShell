@@ -64,7 +64,12 @@ DankPopout {
     }
 
     popupWidth: 550
-    popupHeight: Math.min((triggerScreen?.height ?? 1080) - 100, contentLoader.item && contentLoader.item.implicitHeight > 0 ? contentLoader.item.implicitHeight + 20 : 400)
+    popupHeight: {
+        const screenHeight = (triggerScreen?.height ?? 1080)
+        const maxHeight = screenHeight - 100
+        const contentHeight = contentLoader.item && contentLoader.item.implicitHeight > 0 ? contentLoader.item.implicitHeight + 20 : 400
+        return Math.min(maxHeight, contentHeight)
+    }
     triggerX: (triggerScreen?.width ?? 1920) - 600 - Theme.spacingL
     triggerY: Theme.barHeight - 4 + SettingsData.dankBarSpacing
     triggerWidth: 80

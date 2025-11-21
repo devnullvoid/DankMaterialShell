@@ -88,7 +88,12 @@ Rectangle {
         SettingsData.set("brightnessDevicePins", pins)
     }
 
-    implicitHeight: brightnessContent.height + Theme.spacingM
+    implicitHeight: {
+        if (height > 0) {
+            return height
+        }
+        return brightnessContent.height + Theme.spacingM
+    }
     radius: Theme.cornerRadius
     color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
     border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.08)

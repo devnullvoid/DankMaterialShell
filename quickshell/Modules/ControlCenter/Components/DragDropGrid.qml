@@ -160,8 +160,9 @@ Column {
             }
 
             DetailHost {
+                id: detailHost
                 width: parent.width
-                height: active ? (250 + Theme.spacingS) : 0
+                height: active ? (getDetailHeight(root.expandedSection) + Theme.spacingS) : 0
                 property bool active: {
                     if (root.expandedSection === "")
                         return false

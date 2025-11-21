@@ -180,7 +180,11 @@ Rectangle {
 
                         Column {
                             anchors.verticalCenter: parent.verticalCenter
-                            width: parent.parent.width - parent.parent.anchors.leftMargin - parent.spacing - Theme.iconSize - Theme.spacingM
+                            width: {
+                                const iconWidth = Theme.iconSize
+                                const pinButtonWidth = pinInputRow.width + Theme.spacingS * 4 + Theme.spacingM
+                                return parent.parent.width - iconWidth - parent.spacing - pinButtonWidth - Theme.spacingM * 2
+                            }
 
                             StyledText {
                                 text: AudioService.displayName(modelData)

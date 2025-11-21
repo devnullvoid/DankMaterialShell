@@ -16,10 +16,18 @@ Item {
     property var widgetModel: null
     property var collapseCallback: null
 
+    function getDetailHeight(section) {
+        const maxAvailable = parent ? parent.height - Theme.spacingS : 9999
+        if (section === "wifi") return Math.min(350, maxAvailable)
+        if (section === "bluetooth") return Math.min(350, maxAvailable)
+        if (section.startsWith("brightnessSlider_")) return Math.min(400, maxAvailable)
+        return Math.min(250, maxAvailable)
+    }
+
     Loader {
         id: pluginDetailLoader
         width: parent.width
-        height: 250
+        height: parent.height - Theme.spacingS
         y: Theme.spacingS
         active: false
         sourceComponent: null
@@ -28,7 +36,7 @@ Item {
     Loader {
         id: coreDetailLoader
         width: parent.width
-        height: 250
+        height: parent.height - Theme.spacingS
         y: Theme.spacingS
         active: false
         sourceComponent: null

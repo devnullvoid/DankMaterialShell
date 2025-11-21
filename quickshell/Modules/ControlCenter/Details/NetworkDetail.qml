@@ -10,6 +10,9 @@ Rectangle {
     id: root
 
     implicitHeight: {
+        if (height > 0) {
+            return height
+        }
         if (NetworkService.wifiToggling) {
             return headerRow.height + wifiToggleContent.height + Theme.spacingM
         }
