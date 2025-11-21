@@ -407,24 +407,9 @@ Singleton {
         }
     }
 
-    Timer {
-        id: volumeSoundDebounce
-        interval: 50
-        repeat: false
-        onTriggered: {
-            if (SettingsData.soundsEnabled && SettingsData.soundVolumeChanged) {
-                root.playVolumeChangeSound()
-            }
-        }
-    }
-
-    Connections {
-        target: root.sink && root.sink.audio ? root.sink.audio : null
-        enabled: root.sink && root.sink.audio
-        ignoreUnknownSignals: true
-
-        function onVolumeChanged() {
-            volumeSoundDebounce.restart()
+    function playVolumeChangeSoundIfEnabled() {
+        if (SettingsData.soundsEnabled && SettingsData.soundVolumeChanged) {
+            playVolumeChangeSound()
         }
     }
 
@@ -559,6 +544,7 @@ Singleton {
             const newVolume = Math.max(0, Math.min(100, currentVolume + stepValue))
 
             root.sink.audio.volume = newVolume / 100
+            root.playVolumeChangeSoundIfEnabled()
             return `Volume increased to ${newVolume}%`
         }
 
@@ -576,6 +562,7 @@ Singleton {
             const newVolume = Math.max(0, Math.min(100, currentVolume - stepValue))
 
             root.sink.audio.volume = newVolume / 100
+            root.playVolumeChangeSoundIfEnabled()
             return `Volume decreased to ${newVolume}%`
         }
 

@@ -104,6 +104,7 @@ BasePill {
                             if (AudioService.sink && AudioService.sink.audio) {
                                 AudioService.sink.audio.muted = false
                                 AudioService.sink.audio.volume = newVolume / 100
+                                AudioService.playVolumeChangeSoundIfEnabled()
                             }
                             wheelEvent.accepted = true
                         }
@@ -210,6 +211,7 @@ BasePill {
                             if (AudioService.sink && AudioService.sink.audio) {
                                 AudioService.sink.audio.muted = false;
                                 AudioService.sink.audio.volume = newVolume / 100;
+                                AudioService.playVolumeChangeSoundIfEnabled();
                             }
                             wheelEvent.accepted = true;
                         }

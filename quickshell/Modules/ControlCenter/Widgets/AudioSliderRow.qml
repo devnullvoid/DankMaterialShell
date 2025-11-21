@@ -84,6 +84,7 @@ Row {
                 if (newValue > 0 && defaultSink.audio.muted) {
                     defaultSink.audio.muted = false
                 }
+                AudioService.playVolumeChangeSoundIfEnabled()
             }
         }
     }

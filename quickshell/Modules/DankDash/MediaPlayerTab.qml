@@ -165,6 +165,7 @@ Item {
         if (newVolume > 0 && defaultSink.audio.muted) {
             defaultSink.audio.muted = false
         }
+        AudioService.playVolumeChangeSoundIfEnabled()
     }
 
     Process {
@@ -1392,6 +1393,7 @@ Item {
                             if (volume > 0 && defaultSink.audio.muted) {
                                 defaultSink.audio.muted = false
                             }
+                            AudioService.playVolumeChangeSoundIfEnabled()
                         }
                     }
                 }
