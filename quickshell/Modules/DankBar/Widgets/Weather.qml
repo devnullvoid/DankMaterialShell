@@ -31,7 +31,7 @@ BasePill {
                 DankIcon {
                     name: WeatherService.getWeatherIcon(WeatherService.weather.wCode)
                     size: Theme.barIconSize(root.barThickness, -6)
-                    color: Theme.primary
+                    color: Theme.widgetIconColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
@@ -44,7 +44,7 @@ BasePill {
                         return temp;
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
@@ -58,7 +58,7 @@ BasePill {
                 DankIcon {
                     name: WeatherService.getWeatherIcon(WeatherService.weather.wCode)
                     size: Theme.barIconSize(root.barThickness, -6)
-                    color: Theme.primary
+                    color: Theme.widgetIconColor
                     anchors.verticalCenter: parent.verticalCenter
                 }
 
@@ -72,7 +72,7 @@ BasePill {
                         return temp + "°" + (SettingsData.useFahrenheit ? "F" : "C");
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }

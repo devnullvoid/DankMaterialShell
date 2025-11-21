@@ -31,7 +31,7 @@ BasePill {
                     size: Theme.barIconSize(battery.barThickness)
                     color: {
                         if (!BatteryService.batteryAvailable) {
-                            return Theme.surfaceText
+                            return Theme.widgetIconColor
                         }
 
                         if (BatteryService.isLowBattery && !BatteryService.isCharging) {
@@ -42,7 +42,7 @@ BasePill {
                             return Theme.primary
                         }
 
-                        return Theme.surfaceText
+                        return Theme.widgetIconColor
                     }
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -50,7 +50,7 @@ BasePill {
                 StyledText {
                     text: BatteryService.batteryLevel.toString()
                     font.pixelSize: Theme.barTextSize(battery.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: BatteryService.batteryAvailable
                 }
@@ -67,7 +67,7 @@ BasePill {
                     size: Theme.barIconSize(battery.barThickness, -4)
                     color: {
                         if (!BatteryService.batteryAvailable) {
-                            return Theme.surfaceText;
+                            return Theme.widgetIconColor;
                         }
 
                         if (BatteryService.isLowBattery && !BatteryService.isCharging) {
@@ -78,7 +78,7 @@ BasePill {
                             return Theme.primary;
                         }
 
-                        return Theme.surfaceText;
+                        return Theme.widgetIconColor;
                     }
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -86,7 +86,7 @@ BasePill {
                 StyledText {
                     text: `${BatteryService.batteryLevel}%`
                     font.pixelSize: Theme.barTextSize(battery.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     visible: BatteryService.batteryAvailable
                 }

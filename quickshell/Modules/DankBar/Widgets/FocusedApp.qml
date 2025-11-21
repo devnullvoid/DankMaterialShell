@@ -124,7 +124,7 @@ BasePill {
                 anchors.centerIn: parent
                 size: 18
                 name: "sports_esports"
-                color: Theme.surfaceText
+                color: Theme.widgetTextColor
                 visible: {
                     if (!root.isVerticalOrientation || !activeWindow || !activeWindow.appId) return false
                     const moddedId = Paths.moddedAppId(activeWindow.appId)
@@ -148,7 +148,7 @@ BasePill {
                     return activeWindow.appId.charAt(0).toUpperCase()
                 }
                 font.pixelSize: 10
-                color: Theme.surfaceText
+                color: Theme.widgetTextColor
             }
 
             Row {
@@ -168,7 +168,7 @@ BasePill {
                         return desktopEntry && desktopEntry.name ? desktopEntry.name : activeWindow.appId;
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     elide: Text.ElideRight
                     maximumLineCount: 1
@@ -204,7 +204,7 @@ BasePill {
                         return title;
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     elide: Text.ElideRight
                     maximumLineCount: 1

@@ -704,6 +704,57 @@ Item {
                         }
                     }
 
+                    Row {
+                        width: parent.width
+                        height: 40
+                        spacing: Theme.spacingM
+
+                        Column {
+                            width: parent.width - widgetColorModeGroup.width - parent.spacing
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 2
+
+                            StyledText {
+                                text: I18n.tr("Widget Style")
+                                font.pixelSize: Theme.fontSizeMedium
+                                color: Theme.surfaceText
+                                font.weight: Font.Medium
+                                elide: Text.ElideRight
+                                width: parent.width
+                            }
+
+                            StyledText {
+                                text: I18n.tr("Change bar appearance")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                                elide: Text.ElideRight
+                                width: parent.width
+                            }
+                        }
+
+                        DankButtonGroup {
+                            id: widgetColorModeGroup
+                            property int currentColorModeIndex: {
+                                switch (SettingsData.widgetColorMode) {
+                                    case "default": return 0
+                                    case "colorful": return 1
+                                    default: return 0
+                                }
+                            }
+
+                            model: ["default", "colorful"]
+                            currentIndex: currentColorModeIndex
+                            selectionMode: "single"
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            onSelectionChanged: (index, selected) => {
+                                if (!selected) return
+                                const colorModeOptions = ["default", "colorful"]
+                                SettingsData.set("widgetColorMode", colorModeOptions[index])
+                            }
+                        }
+                    }
+
                     Column {
                         width: parent.width
                         spacing: Theme.spacingS

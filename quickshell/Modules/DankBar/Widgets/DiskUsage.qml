@@ -115,7 +115,7 @@ BasePill {
                         return root.diskUsagePercent.toFixed(0)
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
@@ -149,7 +149,7 @@ BasePill {
                         return root.selectedMount.mount
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     horizontalAlignment: Text.AlignLeft
                     elide: Text.ElideNone
@@ -163,7 +163,7 @@ BasePill {
                         return root.diskUsagePercent.toFixed(0) + "%"
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     horizontalAlignment: Text.AlignLeft
                     elide: Text.ElideNone

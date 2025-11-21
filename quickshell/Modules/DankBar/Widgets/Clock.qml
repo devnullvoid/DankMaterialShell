@@ -36,7 +36,7 @@ BasePill {
                             }
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness)
-                        color: Theme.surfaceText
+                        color: Theme.widgetTextColor
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -52,7 +52,7 @@ BasePill {
                             }
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness)
-                        color: Theme.surfaceText
+                        color: Theme.widgetTextColor
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -65,7 +65,7 @@ BasePill {
                     StyledText {
                         text: String(systemClock?.date?.getMinutes()).padStart(2, '0').charAt(0)
                         font.pixelSize: Theme.barTextSize(root.barThickness)
-                        color: Theme.surfaceText
+                        color: Theme.widgetTextColor
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -73,7 +73,7 @@ BasePill {
                     StyledText {
                         text: String(systemClock?.date?.getMinutes()).padStart(2, '0').charAt(1)
                         font.pixelSize: Theme.barTextSize(root.barThickness)
-                        color: Theme.surfaceText
+                        color: Theme.widgetTextColor
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -87,7 +87,7 @@ BasePill {
                     StyledText {
                         text: String(systemClock?.date?.getSeconds()).padStart(2, '0').charAt(0)
                         font.pixelSize: Theme.barTextSize(root.barThickness)
-                        color: Theme.surfaceText
+                        color: Theme.widgetTextColor
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -95,7 +95,7 @@ BasePill {
                     StyledText {
                         text: String(systemClock?.date?.getSeconds()).padStart(2, '0').charAt(1)
                         font.pixelSize: Theme.barTextSize(root.barThickness)
-                        color: Theme.surfaceText
+                        color: Theme.widgetTextColor
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -193,7 +193,7 @@ BasePill {
                         return systemClock?.date?.toLocaleTimeString(Qt.locale(), SettingsData.getEffectiveTimeFormat())
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.baseline: dateText.baseline
                 }
 
@@ -215,7 +215,7 @@ BasePill {
                         return systemClock?.date?.toLocaleDateString(Qt.locale(), "ddd d")
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     visible: !SettingsData.clockCompactMode
                 }

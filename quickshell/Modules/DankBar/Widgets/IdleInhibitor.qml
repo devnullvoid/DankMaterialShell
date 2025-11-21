@@ -18,7 +18,7 @@ BasePill {
                 anchors.centerIn: parent
                 name: SessionService.idleInhibited ? "motion_sensor_active" : "motion_sensor_idle"
                 size: Theme.barIconSize(root.barThickness, -4)
-                color: Theme.surfaceText
+                color: Theme.widgetTextColor
             }
         }
     }

@@ -18,7 +18,7 @@ BasePill {
                 anchors.centerIn: parent
                 name: "content_paste"
                 size: Theme.barIconSize(root.barThickness)
-                color: Theme.surfaceText
+                color: Theme.widgetIconColor
             }
         }
     }

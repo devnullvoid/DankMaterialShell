@@ -47,7 +47,7 @@ BasePill {
                             return Theme.tempWarning;
                         }
 
-                        return Theme.surfaceText;
+                        return Theme.widgetIconColor;
                     }
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -61,7 +61,7 @@ BasePill {
                         return DgopService.memoryUsage.toFixed(0);
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
@@ -92,7 +92,7 @@ BasePill {
                             return Theme.tempWarning;
                         }
 
-                        return Theme.surfaceText;
+                        return Theme.widgetIconColor;
                     }
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -110,7 +110,7 @@ BasePill {
                         return ramText;
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     horizontalAlignment: Text.AlignLeft
                     elide: Text.ElideNone

@@ -81,7 +81,7 @@ Item {
                 DankIcon {
                     name: "camera_video"
                     size: Theme.iconSizeSmall
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     filled: true
                     anchors.centerIn: parent
                 }
@@ -213,7 +213,7 @@ Item {
             anchors.centerIn: parent
             text: PrivacyService.getPrivacySummary()
             font.pixelSize: Theme.barTextSize(barThickness)
-            color: Theme.surfaceText
+            color: Theme.widgetTextColor
         }
 
         Rectangle {

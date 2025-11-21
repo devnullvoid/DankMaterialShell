@@ -727,7 +727,7 @@ Item {
                                             anchors.centerIn: parent
                                             size: 18
                                             name: "sports_esports"
-                                            color: Theme.surfaceText
+                                            color: Theme.widgetTextColor
                                             opacity: modelData.active ? 1.0 : appMouseArea.containsMouse ? 0.8 : 0.6
                                             visible: modelData.isSteamApp
                                         }
@@ -798,7 +798,7 @@ Item {
                                             anchors.centerIn: parent
                                             size: 18
                                             name: "sports_esports"
-                                            color: Theme.surfaceText
+                                            color: Theme.widgetTextColor
                                             opacity: modelData.active ? 1.0 : appMouseArea.containsMouse ? 0.8 : 0.6
                                             visible: modelData.isSteamApp
                                         }

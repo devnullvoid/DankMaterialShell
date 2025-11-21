@@ -665,6 +665,34 @@ Singleton {
         }
     }
 
+    property color widgetIconColor: {
+        if (typeof SettingsData === "undefined") {
+            return surfaceText
+        }
+
+        switch (SettingsData.widgetColorMode) {
+            case "colorful":
+            return surfaceText
+            case "default":
+            default:
+            return surfaceText
+        }
+    }
+
+    property color widgetTextColor: {
+        if (typeof SettingsData === "undefined") {
+            return surfaceText
+        }
+
+        switch (SettingsData.widgetColorMode) {
+            case "colorful":
+            return primary
+            case "default":
+            default:
+            return surfaceText
+        }
+    }
+
 
     function isColorDark(c) {
         return (0.299 * c.r + 0.587 * c.g + 0.114 * c.b) < 0.5

@@ -292,7 +292,7 @@ Item {
                             anchors.verticalCenter: parent.verticalCenter
                             size: Theme.barIconSize(root.barThickness)
                             name: "sports_esports"
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                             visible: {
                                 const moddedId = Paths.moddedAppId(appId)
                                 return moddedId.toLowerCase().includes("steam_app")
@@ -321,7 +321,7 @@ Item {
                                 return appId.charAt(0).toUpperCase()
                             }
                             font.pixelSize: 10
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                         }
 
                         Rectangle {
@@ -354,7 +354,7 @@ Item {
                             visible: !SettingsData.runningAppsCompactMode
                             text: windowTitle
                             font.pixelSize: Theme.barTextSize(barThickness)
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                             elide: Text.ElideRight
                             maximumLineCount: 1
                         }
@@ -527,7 +527,7 @@ Item {
                             anchors.verticalCenter: parent.verticalCenter
                             size: Theme.barIconSize(root.barThickness)
                             name: "sports_esports"
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                             visible: {
                                 const moddedId = Paths.moddedAppId(appId)
                                 return moddedId.toLowerCase().includes("steam_app")
@@ -555,7 +555,7 @@ Item {
                                 return appId.charAt(0).toUpperCase()
                             }
                             font.pixelSize: 10
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                         }
 
                         Rectangle {
@@ -587,7 +587,7 @@ Item {
                             visible: !SettingsData.runningAppsCompactMode
                             text: windowTitle
                             font.pixelSize: Theme.barTextSize(barThickness)
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                             elide: Text.ElideRight
                             maximumLineCount: 1
                         }
@@ -777,7 +777,7 @@ Item {
                     anchors.centerIn: parent
                     text: I18n.tr("Close")
                     font.pixelSize: Theme.fontSizeSmall
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                 }
 
                 MouseArea {

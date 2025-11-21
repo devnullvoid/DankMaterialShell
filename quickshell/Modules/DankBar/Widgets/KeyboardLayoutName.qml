@@ -37,7 +37,7 @@ BasePill {
                 DankIcon {
                     name: "keyboard"
                     size: Theme.barIconSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
@@ -51,7 +51,7 @@ BasePill {
                         return root.currentLayout.substring(0, 2).toUpperCase()
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
@@ -65,7 +65,7 @@ BasePill {
                 StyledText {
                     text: root.currentLayout
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }

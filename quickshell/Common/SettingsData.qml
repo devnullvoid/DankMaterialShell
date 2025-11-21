@@ -44,6 +44,11 @@ Singleton {
         SuspendThenHibernate
     }
 
+    enum WidgetColorMode {
+        Default,
+        Colorful
+    }
+
     readonly property string defaultFontFamily: "Inter Variable"
     readonly property string defaultMonoFontFamily: "Fira Code"
     readonly property string _homeUrl: StandardPaths.writableLocation(StandardPaths.HomeLocation)
@@ -70,6 +75,7 @@ Singleton {
     property real popupTransparency: 1.0
     property real dockTransparency: 1
     property string widgetBackgroundColor: "sch"
+    property string widgetColorMode: "default"
     property real cornerRadius: 12
 
     property bool use24HourClock: true

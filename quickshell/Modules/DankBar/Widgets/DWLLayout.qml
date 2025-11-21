@@ -58,14 +58,14 @@ BasePill {
                 DankIcon {
                     name: layout.getLayoutIcon(layout.currentLayoutSymbol)
                     size: Theme.barIconSize(layout.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
                 StyledText {
                     text: layout.currentLayoutSymbol
                     font.pixelSize: Theme.barTextSize(layout.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
@@ -79,14 +79,14 @@ BasePill {
                 DankIcon {
                     name: layout.getLayoutIcon(layout.currentLayoutSymbol)
                     size: Theme.barIconSize(layout.barThickness, -4)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                 }
 
                 StyledText {
                     text: layout.currentLayoutSymbol
                     font.pixelSize: Theme.barTextSize(layout.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }

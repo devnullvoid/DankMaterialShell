@@ -175,7 +175,7 @@ BasePill {
                             anchors.verticalCenter: parent.verticalCenter
                             text: textContainer.displayText
                             font.pixelSize: Theme.barTextSize(root.barThickness)
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                             wrapMode: Text.NoWrap
                             x: needsScrolling ? -scrollOffset : 0
                             onTextChanged: {
@@ -249,7 +249,7 @@ BasePill {
                             anchors.centerIn: parent
                             name: "skip_previous"
                             size: 12
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                         }
 
                         MouseArea {
@@ -306,7 +306,7 @@ BasePill {
                             anchors.centerIn: parent
                             name: "skip_next"
                             size: 12
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                         }
 
                         MouseArea {

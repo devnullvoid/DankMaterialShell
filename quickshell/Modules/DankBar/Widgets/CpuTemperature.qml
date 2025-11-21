@@ -45,7 +45,7 @@ BasePill {
                             return Theme.tempWarning;
                         }
 
-                        return Theme.surfaceText;
+                        return Theme.widgetIconColor;
                     }
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -59,7 +59,7 @@ BasePill {
                         return Math.round(DgopService.cpuTemperature).toString();
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
@@ -82,7 +82,7 @@ BasePill {
                             return Theme.tempWarning;
                         }
 
-                        return Theme.surfaceText;
+                        return Theme.widgetIconColor;
                     }
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -96,7 +96,7 @@ BasePill {
                         return Math.round(DgopService.cpuTemperature) + "°";
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                     horizontalAlignment: Text.AlignLeft
                     elide: Text.ElideNone

@@ -161,7 +161,7 @@ Item {
                                 return itemId.charAt(0).toUpperCase()
                             }
                             font.pixelSize: 10
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                         }
                     }
 
@@ -206,7 +206,7 @@ Item {
                         anchors.centerIn: parent
                         name: root.menuOpen ? "expand_less" : "expand_more"
                         size: Theme.barIconSize(root.barThickness)
-                        color: Theme.surfaceText
+                        color: Theme.widgetTextColor
                     }
 
                     MouseArea {
@@ -294,7 +294,7 @@ Item {
                                 return itemId.charAt(0).toUpperCase()
                             }
                             font.pixelSize: 10
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                         }
                     }
 
@@ -346,7 +346,7 @@ Item {
                             }
                         }
                         size: Theme.barIconSize(root.barThickness)
-                        color: Theme.surfaceText
+                        color: Theme.widgetTextColor
                     }
 
                     MouseArea {
@@ -705,7 +705,7 @@ Item {
                                 return itemId.charAt(0).toUpperCase()
                             }
                             font.pixelSize: 10
-                            color: Theme.surfaceText
+                            color: Theme.widgetTextColor
                         }
 
                         MouseArea {
@@ -1138,7 +1138,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 name: SessionData.isHiddenTrayId(menuRoot.trayItem?.id || "") ? "visibility" : "visibility_off"
                                 size: 16
-                                color: Theme.surfaceText
+                                color: Theme.widgetTextColor
                             }
 
                             MouseArea {
@@ -1183,14 +1183,14 @@ Item {
                                 DankIcon {
                                     name: "arrow_back"
                                     size: 16
-                                    color: Theme.surfaceText
+                                    color: Theme.widgetTextColor
                                     anchors.verticalCenter: parent.verticalCenter
                                 }
 
                                 StyledText {
                                     text: I18n.tr("Back")
                                     font.pixelSize: Theme.fontSizeSmall
-                                    color: Theme.surfaceText
+                                    color: Theme.widgetTextColor
                                     anchors.verticalCenter: parent.verticalCenter
                                 }
                             }
@@ -1326,7 +1326,7 @@ Item {
                                             anchors.centerIn: parent
                                             name: "chevron_right"
                                             size: 14
-                                            color: Theme.surfaceText
+                                            color: Theme.widgetTextColor
                                             visible: menuEntry?.hasChildren ?? false
                                         }
                                     }

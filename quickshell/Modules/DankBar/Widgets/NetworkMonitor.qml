@@ -42,7 +42,7 @@ BasePill {
                 DankIcon {
                     name: "network_check"
                     size: Theme.barIconSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
 
@@ -80,7 +80,7 @@ BasePill {
                 DankIcon {
                     name: "network_check"
                     size: Theme.barIconSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
                 }
 
@@ -97,7 +97,7 @@ BasePill {
                     StyledText {
                         text: DgopService.networkRxRate > 0 ? root.formatNetworkSpeed(DgopService.networkRxRate) : "0 B/s"
                         font.pixelSize: Theme.barTextSize(root.barThickness)
-                        color: Theme.surfaceText
+                        color: Theme.widgetTextColor
                         anchors.verticalCenter: parent.verticalCenter
                         horizontalAlignment: Text.AlignLeft
                         elide: Text.ElideNone
@@ -133,7 +133,7 @@ BasePill {
                     StyledText {
                         text: DgopService.networkTxRate > 0 ? root.formatNetworkSpeed(DgopService.networkTxRate) : "0 B/s"
                         font.pixelSize: Theme.barTextSize(root.barThickness)
-                        color: Theme.surfaceText
+                        color: Theme.widgetTextColor
                         anchors.verticalCenter: parent.verticalCenter
                         horizontalAlignment: Text.AlignLeft
                         elide: Text.ElideNone

@@ -112,7 +112,7 @@ BasePill {
                     anchors.verticalCenter: parent.verticalCenter
                     text: SystemUpdateService.updateCount.toString()
                     font.pixelSize: Theme.barTextSize(root.barThickness)
-                    color: Theme.surfaceText
+                    color: Theme.widgetTextColor
                     visible: root.hasUpdates && !root.isChecking
                 }
             }

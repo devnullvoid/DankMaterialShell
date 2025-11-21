@@ -23,7 +23,7 @@ BasePill {
                 anchors.centerIn: parent
                 name: "apps"
                 size: Theme.barIconSize(root.barThickness, -4)
-                color: Theme.surfaceText
+                color: Theme.widgetIconColor
             }
 
             SystemLogo {
