@@ -37,10 +37,10 @@ BasePill {
 
                 StyledText {
                     text: {
-                        const temp = SettingsData.useFahrenheit ? WeatherService.weather.tempF : WeatherService.weather.temp;
-                        if (temp === undefined || temp === null || temp === 0) {
+                        if (!WeatherService.weather.available) {
                             return "--";
                         }
+                        const temp = SettingsData.useFahrenheit ? WeatherService.weather.tempF : WeatherService.weather.temp;
                         return temp;
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
@@ -64,11 +64,10 @@ BasePill {
 
                 StyledText {
                     text: {
-                        const temp = SettingsData.useFahrenheit ? WeatherService.weather.tempF : WeatherService.weather.temp;
-                        if (temp === undefined || temp === null || temp === 0) {
+                        if (!WeatherService.weather.available) {
                             return "--°" + (SettingsData.useFahrenheit ? "F" : "C");
                         }
-
+                        const temp = SettingsData.useFahrenheit ? WeatherService.weather.tempF : WeatherService.weather.temp;
                         return temp + "°" + (SettingsData.useFahrenheit ? "F" : "C");
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness)
