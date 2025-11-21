@@ -235,7 +235,7 @@ func (b *NetworkManagerBackend) ConnectVPN(uuidOrName string, singleActive bool)
 	}
 
 	nm := b.nmConn.(gonetworkmanager.NetworkManager)
-	activeConn, err := nm.ActivateConnection(targetConn, nil, nil)
+	_, err = nm.ActivateConnection(targetConn, nil, nil)
 	if err != nil {
 		b.stateMutex.Lock()
 		b.state.IsConnectingVPN = false
@@ -247,20 +247,6 @@ func (b *NetworkManagerBackend) ConnectVPN(uuidOrName string, singleActive bool)
 		}
 
 		return fmt.Errorf("failed to activate VPN: %w", err)
-	}
-
-	if activeConn != nil {
-		state, _ := activeConn.GetPropertyState()
-		if state == 2 {
-			b.stateMutex.Lock()
-			b.state.IsConnectingVPN = false
-			b.state.ConnectingVPNUUID = ""
-			b.stateMutex.Unlock()
-			b.ListActiveVPN()
-			if b.onStateChange != nil {
-				b.onStateChange()
-			}
-		}
 	}
 
 	return nil

@@ -77,9 +77,12 @@ DankPopout {
     screen: triggerScreen
     shouldBeVisible: false
 
+    property bool credentialsPromptOpen: NetworkService.credentialsRequested
+
     WlrLayershell.keyboardFocus: {
         if (!shouldBeVisible) return WlrKeyboardFocus.None
         if (powerMenuOpen) return WlrKeyboardFocus.None
+        if (credentialsPromptOpen) return WlrKeyboardFocus.None
         if (CompositorService.isHyprland) return WlrKeyboardFocus.OnDemand
         return WlrKeyboardFocus.Exclusive
     }

@@ -10,6 +10,7 @@ DankModal {
     id: root
 
     layerNamespace: "dms:wifi-password"
+    keepPopoutsOpen: true
 
     HyprlandFocusGrab {
         windows: [root]
@@ -108,7 +109,11 @@ DankModal {
 
     shouldBeVisible: false
     width: 420
-    height: requiresEnterprise ? 430 : 230
+    height: {
+        if (requiresEnterprise) return 430
+        if (isVpnPrompt) return 260
+        return 230
+    }
     onShouldBeVisibleChanged: () => {
                                   if (!shouldBeVisible) {
                                       wifiPasswordInput = ""
@@ -321,7 +326,7 @@ DankModal {
                                                 if (passwordInput.text) secrets["password"] = passwordInput.text
                                                 if (wifiAnonymousIdentityInput) secrets["anonymous-identity"] = wifiAnonymousIdentityInput
                                             }
-                                            NetworkService.submitCredentials(promptToken, secrets, true)
+                                            NetworkService.submitCredentials(promptToken, secrets, savePasswordCheckbox.checked)
                                         } else {
                                             const username = requiresEnterprise ? usernameInput.text : ""
                                             NetworkService.connectToWifi(
@@ -436,44 +441,91 @@ DankModal {
                     }
                 }
 
-                Row {
+                Column {
                     spacing: Theme.spacingS
+                    width: parent.width
 
-                    Rectangle {
-                        id: showPasswordCheckbox
+                    Row {
+                        spacing: Theme.spacingS
 
-                        property bool checked: false
+                        Rectangle {
+                            id: showPasswordCheckbox
 
-                        width: 20
-                        height: 20
-                        radius: 4
-                        color: checked ? Theme.primary : "transparent"
-                        border.color: checked ? Theme.primary : Theme.outlineButton
-                        border.width: 2
+                            property bool checked: false
 
-                        DankIcon {
-                            anchors.centerIn: parent
-                            name: "check"
-                            size: 12
-                            color: Theme.background
-                            visible: parent.checked
+                            width: 20
+                            height: 20
+                            radius: 4
+                            color: checked ? Theme.primary : "transparent"
+                            border.color: checked ? Theme.primary : Theme.outlineButton
+                            border.width: 2
+
+                            DankIcon {
+                                anchors.centerIn: parent
+                                name: "check"
+                                size: 12
+                                color: Theme.background
+                                visible: parent.checked
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: () => {
+                                               showPasswordCheckbox.checked = !showPasswordCheckbox.checked
+                                           }
+                            }
                         }
 
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: () => {
-                                           showPasswordCheckbox.checked = !showPasswordCheckbox.checked
-                                       }
+                        StyledText {
+                            text: I18n.tr("Show password")
+                            font.pixelSize: Theme.fontSizeMedium
+                            color: Theme.surfaceText
+                            anchors.verticalCenter: parent.verticalCenter
                         }
                     }
 
-                    StyledText {
-                        text: I18n.tr("Show password")
-                        font.pixelSize: Theme.fontSizeMedium
-                        color: Theme.surfaceText
-                        anchors.verticalCenter: parent.verticalCenter
+                    Row {
+                        spacing: Theme.spacingS
+                        visible: isVpnPrompt
+
+                        Rectangle {
+                            id: savePasswordCheckbox
+
+                            property bool checked: false
+
+                            width: 20
+                            height: 20
+                            radius: 4
+                            color: checked ? Theme.primary : "transparent"
+                            border.color: checked ? Theme.primary : Theme.outlineButton
+                            border.width: 2
+
+                            DankIcon {
+                                anchors.centerIn: parent
+                                name: "check"
+                                size: 12
+                                color: Theme.background
+                                visible: parent.checked
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: () => {
+                                               savePasswordCheckbox.checked = !savePasswordCheckbox.checked
+                                           }
+                            }
+                        }
+
+                        StyledText {
+                            text: I18n.tr("Save password")
+                            font.pixelSize: Theme.fontSizeMedium
+                            color: Theme.surfaceText
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
                     }
                 }
 
@@ -565,7 +617,7 @@ DankModal {
                                                        if (passwordInput.text) secrets["password"] = passwordInput.text
                                                        if (wifiAnonymousIdentityInput) secrets["anonymous-identity"] = wifiAnonymousIdentityInput
                                                    }
-                                                   NetworkService.submitCredentials(promptToken, secrets, true)
+                                                   NetworkService.submitCredentials(promptToken, secrets, savePasswordCheckbox.checked)
                                                } else {
                                                    const username = requiresEnterprise ? usernameInput.text : ""
                                                    NetworkService.connectToWifi(
