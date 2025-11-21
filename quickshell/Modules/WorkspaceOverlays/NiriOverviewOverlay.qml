@@ -41,6 +41,15 @@ Scope {
         }
     }
 
+    Connections {
+        target: PopoutService.spotlightModal
+        function onSpotlightOpenChanged() {
+            if (PopoutService.spotlightModal?.spotlightOpen && searchActive) {
+                hideSpotlight()
+            }
+        }
+    }
+
     Loader {
         id: niriOverlayLoader
         active: overlayActive
