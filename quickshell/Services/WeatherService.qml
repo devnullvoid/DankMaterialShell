@@ -467,17 +467,17 @@ Singleton {
                     const currentUnits = data.current_units || {}
 
                     const tempC = current.temperature_2m || 0
-                    const tempF = SettingsData.useFahrenheit ? tempC : (tempC * 9/5 + 32)
+                    const tempF = (tempC * 9/5 + 32)
                     const feelsLikeC = current.apparent_temperature || tempC
-                    const feelsLikeF = SettingsData.useFahrenheit ? feelsLikeC : (feelsLikeC * 9/5 + 32)
+                    const feelsLikeF = (feelsLikeC * 9/5 + 32)
 
                     const forecast = []
                     if (daily.time && daily.time.length > 0) {
                         for (let i = 0; i < Math.min(daily.time.length, 7); i++) {
                             const tempMinC = daily.temperature_2m_min?.[i] || 0
                             const tempMaxC = daily.temperature_2m_max?.[i] || 0
-                            const tempMinF = SettingsData.useFahrenheit ? tempMinC : (tempMinC * 9/5 + 32)
-                            const tempMaxF = SettingsData.useFahrenheit ? tempMaxC : (tempMaxC * 9/5 + 32)
+                            const tempMinF = (tempMinC * 9/5 + 32)
+                            const tempMaxF = (tempMaxC * 9/5 + 32)
 
                             forecast.push({
                                 "day": formatForecastDay(daily.time[i], i),
