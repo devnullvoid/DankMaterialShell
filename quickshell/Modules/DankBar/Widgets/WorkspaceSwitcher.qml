@@ -532,6 +532,9 @@ Item {
             if ((barConfig?.noBackground ?? false))
                 return "transparent";
             const baseColor = Theme.widgetBaseBackgroundColor;
+            if (Theme.widgetBackgroundHasAlpha) {
+                return baseColor;
+            }
             const transparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
             return Theme.withAlpha(baseColor, transparency);
         }

@@ -634,6 +634,11 @@ Singleton {
 
     property real notepadTransparency: SettingsData.notepadTransparencyOverride >= 0 ? SettingsData.notepadTransparencyOverride : popupTransparency
 
+    property bool widgetBackgroundHasAlpha: {
+        const colorMode = typeof SettingsData !== "undefined" ? SettingsData.widgetBackgroundColor : "sch"
+        return colorMode === "sth"
+    }
+
     property var widgetBaseBackgroundColor: {
         const colorMode = typeof SettingsData !== "undefined" ? SettingsData.widgetBackgroundColor : "sch"
         switch (colorMode) {
