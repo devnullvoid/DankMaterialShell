@@ -635,10 +635,6 @@ func (m *Manager) transitionWorker() {
 						m.targetTemp = identityTemp
 						m.transitionMutex.Unlock()
 
-						if _, err := m.display.Sync(); err != nil {
-							log.Warnf("Failed to sync Wayland display after destroying controls: %v", err)
-						}
-
 						log.Info("All gamma controls destroyed")
 					})
 				}
@@ -1291,10 +1287,6 @@ func (m *Manager) SetEnabled(enabled bool) {
 					m.currentTemp = identityTemp
 					m.targetTemp = identityTemp
 					m.transitionMutex.Unlock()
-
-					if _, err := m.display.Sync(); err != nil {
-						log.Warnf("Failed to sync Wayland display after destroying controls: %v", err)
-					}
 
 					log.Info("All gamma controls destroyed")
 				})
