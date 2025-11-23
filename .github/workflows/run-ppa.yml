@@ -7,6 +7,10 @@ on:
         description: 'Package to upload (dms, dms-git, or all)'
         required: false
         default: 'dms-git'
+      rebuild_release:
+        description: 'Release number for rebuilds (e.g., 2, 3, 4 for ppa2, ppa3, ppa4)'
+        required: false
+        default: ''
   schedule:
     - cron: '0 */3 * * *'  # Every 3 hours for dms-git builds
 
@@ -54,6 +58,8 @@ jobs:
           fi
       
       - name: Upload to PPA
+        env:
+          REBUILD_RELEASE: ${{ github.event.inputs.rebuild_release }}
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
           
@@ -62,6 +68,9 @@ jobs:
           if [[ "$PACKAGES" == "all" ]]; then
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms to PPA..."
+            if [ -n "$REBUILD_RELEASE" ]; then
+              echo "🔄 Using rebuild release number: ppa$REBUILD_RELEASE"
+            fi
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             bash create-and-upload.sh "../dms" dms questing
             

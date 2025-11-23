@@ -497,14 +497,46 @@ esac
 
 cd - > /dev/null
 
+# Check if this version already exists on PPA (only in CI environment)
+if command -v rmadison >/dev/null 2>&1; then
+    info "Checking if version already exists on PPA..."
+    PPA_VERSION_CHECK=$(rmadison -u ppa:avengemedia/dms "$PACKAGE_NAME" 2>/dev/null | grep "$VERSION" || true)
+    if [ -n "$PPA_VERSION_CHECK" ]; then
+        warn "Version $VERSION already exists on PPA:"
+        echo "$PPA_VERSION_CHECK"
+        echo
+        warn "Skipping upload to avoid duplicate. If this is a rebuild, increment the ppa number."
+        cd "$PACKAGE_DIR"
+        # Still clean up extracted sources
+        case "$PACKAGE_NAME" in
+            dms-git)
+                rm -rf DankMaterialShell-*
+                success "Cleaned up DankMaterialShell-*/ directory"
+                ;;
+        esac
+        exit 0
+    fi
+fi
+
 # Build source package
 info "Building source package..."
 echo
 
-# Use -S for source only, -sa to include original source
+# Determine if we need to include orig tarball (-sa) or just debian changes (-sd)
+# Check if .orig.tar.xz already exists in parent directory (previous build)
+ORIG_TARBALL="${PACKAGE_NAME}_${VERSION%.ppa*}.orig.tar.xz"
+if [ -f "../$ORIG_TARBALL" ]; then
+    info "Found existing orig tarball, using -sd (debian changes only)"
+    DEBUILD_SOURCE_FLAG="-sd"
+else
+    info "No existing orig tarball found, using -sa (include original source)"
+    DEBUILD_SOURCE_FLAG="-sa"
+fi
+
+# Use -S for source only, -sa/-sd for source inclusion
 # -d skips dependency checking (we're building on Fedora, not Ubuntu)
 # Pipe yes to automatically answer prompts (e.g., "continue anyway?")
-if yes | DEBIAN_FRONTEND=noninteractive debuild -S -sa -d; then
+if yes | DEBIAN_FRONTEND=noninteractive debuild -S $DEBUILD_SOURCE_FLAG -d; then
     echo
     success "Source package built successfully!"
 

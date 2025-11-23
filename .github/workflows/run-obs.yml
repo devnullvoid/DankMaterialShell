@@ -7,6 +7,10 @@ on:
         description: 'Package to update (dms, dms-git, or all)'
         required: false
         default: 'all'
+      rebuild_release:
+        description: 'Release number for rebuilds (e.g., 2, 3, 4 to increment spec Release)'
+        required: false
+        default: ''
   push:
     tags:
       - 'v*'
@@ -80,6 +84,8 @@ jobs:
           chmod 600 ~/.config/osc/oscrc
       
       - name: Upload to OBS
+        env:
+          REBUILD_RELEASE: ${{ github.event.inputs.rebuild_release }}
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
           MESSAGE="Automated update from GitHub Actions"

@@ -1,4 +1,4 @@
-name: DMS Copr Stable Release (Manual)
+name: DMS Copr Stable Release
 
 on:
   workflow_dispatch:
