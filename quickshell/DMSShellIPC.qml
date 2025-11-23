@@ -15,6 +15,7 @@ Item {
     required property var hyprKeybindsModalLoader
     required property var dankBarRepeater
     required property var hyprlandOverviewLoader
+    required property var settingsModal
 
     function getFirstBar() {
         if (!root.dankBarRepeater || root.dankBarRepeater.count === 0)
@@ -528,5 +529,38 @@ Item {
         }
 
         target: "bar"
+    }
+
+    IpcHandler {
+        function open(): string {
+            root.settingsModal.show();
+            return "SETTINGS_OPEN_SUCCESS";
+        }
+
+        function close(): string {
+            root.settingsModal.hide();
+            return "SETTINGS_CLOSE_SUCCESS";
+        }
+
+        function toggle(): string {
+            root.settingsModal.toggle();
+            return "SETTINGS_TOGGLE_SUCCESS";
+        }
+
+        target: "settings"
+    }
+
+    IpcHandler {
+        function browse(type: string) {
+            if (type === "wallpaper") {
+                root.settingsModal.wallpaperBrowser.allowStacking = false;
+                root.settingsModal.wallpaperBrowser.open();
+            } else if (type === "profile") {
+                root.settingsModal.profileBrowser.allowStacking = false;
+                root.settingsModal.profileBrowser.open();
+            }
+        }
+
+        target: "file"
     }
 }

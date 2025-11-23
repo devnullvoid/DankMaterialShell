@@ -508,6 +508,7 @@ Item {
         hyprKeybindsModalLoader: hyprKeybindsModalLoader
         dankBarRepeater: dankBarRepeater
         hyprlandOverviewLoader: hyprlandOverviewLoader
+        settingsModal: settingsModal
     }
 
     Variants {

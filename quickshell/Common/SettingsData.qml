@@ -1236,7 +1236,6 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
                     const txt = settingsFile.text()
                     const obj = (txt && txt.trim()) ? JSON.parse(txt) : null
                     Store.parse(root, obj)
-                    Store.migrate(root, obj)
                 } catch (e) {
                     console.warn("SettingsData: Failed to reload settings:", e.message)
                 }
