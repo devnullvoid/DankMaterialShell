@@ -194,7 +194,7 @@ var SPEC = {
     osdIdleInhibitorEnabled: { def: true },
     osdMicMuteEnabled: { def: true },
     osdCapsLockEnabled: { def: true },
-    osdPowerProfileEnabled: { def: true },
+    osdPowerProfileEnabled: { def: false },
 
     powerActionConfirm: { def: true },
     powerMenuActions: { def: ["reboot", "logout", "poweroff", "lock", "suspend", "restart"] },

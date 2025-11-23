@@ -11,10 +11,6 @@ Singleton {
 
     property bool suppressSound: true
     property bool previousPluggedState: false
-    property int currentPowerProfile: -1
-    property int previousPowerProfile: -1
-
-    signal powerProfileChanged
 
     Timer {
         id: startupTimer
@@ -22,27 +18,6 @@ Singleton {
         repeat: false
         running: true
         onTriggered: root.suppressSound = false
-    }
-
-    Connections {
-        target: typeof PowerProfiles !== "undefined" ? PowerProfiles : null
-
-        function onProfileChanged() {
-            if (typeof PowerProfiles !== "undefined") {
-                root.previousPowerProfile = root.currentPowerProfile;
-                root.currentPowerProfile = PowerProfiles.profile;
-                if (root.previousPowerProfile !== -1) {
-                    root.powerProfileChanged();
-                }
-            }
-        }
-    }
-
-    Component.onCompleted: {
-        if (typeof PowerProfiles !== "undefined") {
-            root.currentPowerProfile = PowerProfiles.profile;
-            root.previousPowerProfile = PowerProfiles.profile;
-        }
     }
 
     readonly property string preferredBatteryOverride: Quickshell.env("DMS_PREFERRED_BATTERY")
@@ -160,7 +135,7 @@ Singleton {
         return isCharging ? "Charging" : (isPluggedIn ? "Plugged In" : "Discharging");
     }
 
-    readonly property bool suggestPowerSaver: batteryAvailable && isLowBattery && UPower.onBattery && (typeof PowerProfiles !== "undefined" && PowerProfiles.profile !== PowerProfile.PowerSaver)
+    readonly property bool suggestPowerSaver: false
 
     readonly property var bluetoothDevices: {
         const btDevices = [];
