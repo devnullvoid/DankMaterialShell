@@ -334,7 +334,7 @@ Item {
             id: iconImg
 
             anchors.centerIn: parent
-            implicitSize: actualIconSize
+            implicitSize: appData && appData.appId === "org.quickshell" ? actualIconSize * 0.85 : actualIconSize
             source: {
                 if (!appData || appData.appId === "__SEPARATOR__") {
                     return "";
