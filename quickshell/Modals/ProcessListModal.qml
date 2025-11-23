@@ -17,7 +17,7 @@ DankModal {
     function show() {
         if (!DgopService.dgopAvailable) {
             console.warn("ProcessListModal: dgop is not available");
-            return ;
+            return;
         }
         open();
         UserInfoService.getUptime();
@@ -28,13 +28,12 @@ DankModal {
         if (processContextMenu.visible) {
             processContextMenu.close();
         }
-
     }
 
     function toggle() {
         if (!DgopService.dgopAvailable) {
             console.warn("ProcessListModal: dgop is not available");
-            return ;
+            return;
         }
         if (shouldBeVisible) {
             hide();
@@ -43,9 +42,8 @@ DankModal {
         }
     }
 
-    width: 900
-    height: 680
-    visible: false
+    modalWidth: 900
+    modalHeight: 680
     backgroundColor: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
     cornerRadius: Theme.cornerRadius
     enableShadow: true
@@ -59,23 +57,18 @@ DankModal {
         ProcessesTab {
             contextMenu: processContextMenu
         }
-
     }
 
     Component {
         id: performanceTabComponent
 
-        PerformanceTab {
-        }
-
+        PerformanceTab {}
     }
 
     Component {
         id: systemTabComponent
 
-        SystemTab {
-        }
-
+        SystemTab {}
     }
 
     ProcessContextMenu {
@@ -86,7 +79,7 @@ DankModal {
         Item {
             anchors.fill: parent
             focus: true
-            Keys.onPressed: (event) => {
+            Keys.onPressed: event => {
                 if (event.key === Qt.Key_Escape) {
                     processListModal.hide();
                     event.accepted = true;
@@ -140,9 +133,7 @@ DankModal {
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WordWrap
                     }
-
                 }
-
             }
 
             ColumnLayout {
@@ -177,7 +168,6 @@ DankModal {
                         }
                         Layout.alignment: Qt.AlignVCenter
                     }
-
                 }
 
                 Rectangle {
@@ -222,9 +212,7 @@ DankModal {
                                             ColorAnimation {
                                                 duration: Theme.shortDuration
                                             }
-
                                         }
-
                                     }
 
                                     StyledText {
@@ -239,11 +227,8 @@ DankModal {
                                             ColorAnimation {
                                                 duration: Theme.shortDuration
                                             }
-
                                         }
-
                                     }
-
                                 }
 
                                 MouseArea {
@@ -261,22 +246,16 @@ DankModal {
                                     ColorAnimation {
                                         duration: Theme.shortDuration
                                     }
-
                                 }
 
                                 Behavior on border.color {
                                     ColorAnimation {
                                         duration: Theme.shortDuration
                                     }
-
                                 }
-
                             }
-
                         }
-
                     }
-
                 }
 
                 Rectangle {
@@ -292,7 +271,7 @@ DankModal {
 
                         anchors.fill: parent
                         anchors.margins: Theme.spacingS
-                        active: processListModal.visible && currentTab === 0
+                        active: processListModal.shouldBeVisible && currentTab === 0
                         visible: currentTab === 0
                         opacity: currentTab === 0 ? 1 : 0
                         sourceComponent: processesTabComponent
@@ -302,9 +281,7 @@ DankModal {
                                 duration: Theme.mediumDuration
                                 easing.type: Theme.emphasizedEasing
                             }
-
                         }
-
                     }
 
                     Loader {
@@ -312,7 +289,7 @@ DankModal {
 
                         anchors.fill: parent
                         anchors.margins: Theme.spacingS
-                        active: processListModal.visible && currentTab === 1
+                        active: processListModal.shouldBeVisible && currentTab === 1
                         visible: currentTab === 1
                         opacity: currentTab === 1 ? 1 : 0
                         sourceComponent: performanceTabComponent
@@ -322,9 +299,7 @@ DankModal {
                                 duration: Theme.mediumDuration
                                 easing.type: Theme.emphasizedEasing
                             }
-
                         }
-
                     }
 
                     Loader {
@@ -332,7 +307,7 @@ DankModal {
 
                         anchors.fill: parent
                         anchors.margins: Theme.spacingS
-                        active: processListModal.visible && currentTab === 2
+                        active: processListModal.shouldBeVisible && currentTab === 2
                         visible: currentTab === 2
                         opacity: currentTab === 2 ? 1 : 0
                         sourceComponent: systemTabComponent
@@ -342,17 +317,10 @@ DankModal {
                                 duration: Theme.mediumDuration
                                 easing.type: Theme.emphasizedEasing
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }

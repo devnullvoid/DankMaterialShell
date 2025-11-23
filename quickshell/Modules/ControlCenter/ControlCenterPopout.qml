@@ -154,9 +154,8 @@ DankPopout {
                         if (powerMenuModalLoader) {
                             powerMenuModalLoader.active = true;
                             if (powerMenuModalLoader.item) {
-                                const popoutPos = controlContent.mapToItem(null, 0, 0);
-                                const bounds = Qt.rect(popoutPos.x, popoutPos.y, controlContent.width, controlContent.height);
-                                powerMenuModalLoader.item.openFromControlCenter(bounds, root.triggerScreen);
+                                const bounds = Qt.rect(root.alignedX, root.alignedY, root.popupWidth, root.popupHeight);
+                                powerMenuModalLoader.item.openFromControlCenter(bounds, root.screen);
                             }
                         }
                     }
