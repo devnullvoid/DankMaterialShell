@@ -81,6 +81,9 @@ Singleton {
                 settingsLoaded = true
 
                 if (typeof Theme !== "undefined") {
+                    if (currentThemeName === "custom" && customThemeFile) {
+                        Theme.loadCustomThemeFromFile(customThemeFile)
+                    }
                     Theme.applyGreeterTheme(currentThemeName)
                 }
             }

@@ -16,8 +16,8 @@ Text {
     }
 
     readonly property string resolvedFontFamily: {
-        const requestedFont = isMonospace ? SettingsData.monoFontFamily : SettingsData.fontFamily
-        const defaultFont = isMonospace ? SettingsData.defaultMonoFontFamily : SettingsData.defaultFontFamily
+        const requestedFont = isMonospace ? Theme.monoFontFamily : Theme.fontFamily
+        const defaultFont = isMonospace ? "Fira Code" : "Inter Variable"
 
         if (requestedFont === defaultFont) {
             return isMonospace ? firaCodeFont.name : interFont.name
@@ -34,7 +34,7 @@ Text {
     color: Theme.surfaceText
     font.pixelSize: Appearance.fontSize.normal
     font.family: resolvedFontFamily
-    font.weight: SettingsData.fontWeight
+    font.weight: Theme.fontWeight
     wrapMode: Text.WordWrap
     elide: Text.ElideRight
     verticalAlignment: Text.AlignVCenter
