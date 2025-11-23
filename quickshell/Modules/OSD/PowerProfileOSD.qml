@@ -12,22 +12,19 @@ DankOSD {
     autoHideInterval: 2000
     enableMouseInteraction: false
 
-    property int lastProfile: -1
-
     Connections {
-        target: typeof PowerProfiles !== "undefined" ? PowerProfiles : null
+        target: BatteryService
 
-        function onProfileChanged() {
-            if (lastProfile !== -1 && lastProfile !== PowerProfiles.profile && SettingsData.osdPowerProfileEnabled) {
+        function onPowerProfileChanged() {
+            if (SettingsData.osdPowerProfileEnabled) {
                 root.show()
             }
-            lastProfile = PowerProfiles.profile
         }
     }
 
     Component.onCompleted: {
-        if (typeof PowerProfiles !== "undefined") {
-            lastProfile = PowerProfiles.profile
+        if (SettingsData.osdPowerProfileEnabled) {
+            root.show()
         }
     }
 

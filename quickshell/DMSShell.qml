@@ -558,7 +558,7 @@ Item {
 
     LazyLoader {
         id: powerProfileOSDLoader
-        active: SettingsData.osdPowerProfileEnabled
+        active: false
 
         Variants {
             model: SettingsData.getFilteredScreens("osd")
@@ -566,6 +566,14 @@ Item {
             delegate: PowerProfileOSD {
                 modelData: item
             }
+        }
+    }
+
+    Connections {
+        target: BatteryService
+
+        function onPowerProfileChanged() {
+            powerProfileOSDLoader.active = true
         }
     }
 
