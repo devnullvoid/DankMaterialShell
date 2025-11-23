@@ -1132,6 +1132,7 @@ Item {
                 radius: Theme.cornerRadius
                 color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                 border.width: 0
+                visible: selectedBarConfig?.enabled
 
                 Column {
                     id: screenAssignmentSection
@@ -1258,7 +1259,6 @@ Item {
                 }
             }
 
-            // Position Section
             StyledRect {
                 width: parent.width
                 height: positionSection.implicitHeight + Theme.spacingL * 2
@@ -1266,6 +1266,7 @@ Item {
                 color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                 border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
                 border.width: 0
+                visible: selectedBarConfig?.enabled
 
                 Column {
                     id: positionSection
@@ -1352,7 +1353,6 @@ Item {
                 }
             }
 
-            // DankBar Auto-hide Section
             StyledRect {
                 width: parent.width
                 height: dankBarAutoHideSection.implicitHeight + Theme.spacingL * 2
@@ -1360,6 +1360,7 @@ Item {
                 color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                 border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
                 border.width: 0
+                visible: selectedBarConfig?.enabled
 
                 Column {
                     id: dankBarAutoHideSection
@@ -1608,7 +1609,6 @@ Item {
                     }
                 }
             }
-            // Spacing
             StyledRect {
                 width: parent.width
                 height: dankBarSpacingSection.implicitHeight + Theme.spacingL * 2
@@ -1616,6 +1616,7 @@ Item {
                 color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                 border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
                 border.width: 0
+                visible: selectedBarConfig?.enabled
 
                 Column {
                     id: dankBarSpacingSection
@@ -2614,7 +2615,6 @@ Item {
                 }
             }
 
-            // Widget Management Section
             StyledRect {
                 width: parent.width
                 height: widgetManagementSection.implicitHeight + Theme.spacingL * 2
@@ -2622,6 +2622,7 @@ Item {
                 color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                 border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
                 border.width: 0
+                visible: selectedBarConfig?.enabled
 
                 Column {
                     id: widgetManagementSection
@@ -2728,8 +2729,8 @@ Item {
             Column {
                 width: parent.width
                 spacing: Theme.spacingL
+                visible: selectedBarConfig?.enabled
 
-                // Left/Top Section
                 StyledRect {
                     width: parent.width
                     height: leftSection.implicitHeight + Theme.spacingL * 2
