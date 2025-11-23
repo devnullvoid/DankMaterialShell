@@ -16,7 +16,7 @@ DankModal {
         active: CompositorService.isHyprland && root.shouldHaveFocus
     }
 
-    property string pickerTitle: "Choose Color"
+    property string pickerTitle: I18n.tr("Choose Color")
     property color selectedColor: SessionData.recentColors.length > 0 ? SessionData.recentColors[0] : Theme.primary
     property var onColorSelectedCallback: null
 

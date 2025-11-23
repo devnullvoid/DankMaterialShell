@@ -38,7 +38,7 @@ FloatingWindow {
     }
 
     objectName: "settingsModal"
-    title: "Settings"
+    title: I18n.tr("Settings", "settings window title")
     implicitWidth: 800
     implicitHeight: 800
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
@@ -71,7 +71,7 @@ FloatingWindow {
 
         allowStacking: true
         parentModal: settingsModal
-        browserTitle: "Select Profile Image"
+        browserTitle: I18n.tr("Select Profile Image", "profile image file browser title")
         browserIcon: "person"
         browserType: "profile"
         showHiddenFiles: true
@@ -90,7 +90,7 @@ FloatingWindow {
 
         allowStacking: true
         parentModal: settingsModal
-        browserTitle: "Select Wallpaper"
+        browserTitle: I18n.tr("Select Wallpaper", "wallpaper file browser title")
         browserIcon: "wallpaper"
         browserType: "wallpaper"
         showHiddenFiles: true

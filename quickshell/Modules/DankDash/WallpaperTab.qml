@@ -305,7 +305,7 @@ Item {
             Component.onCompleted: {
                 open()
             }
-            browserTitle: "Select Wallpaper Directory"
+            browserTitle: I18n.tr("Select Wallpaper Directory", "wallpaper directory file browser title")
             browserIcon: "folder_open"
             browserType: "wallpaper"
             showHiddenFiles: false

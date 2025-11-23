@@ -1452,7 +1452,7 @@ Item {
 
     FileBrowserModal {
         id: fileBrowserModal
-        browserTitle: "Select Custom Theme"
+        browserTitle: I18n.tr("Select Custom Theme", "custom theme file browser title")
         filterExtensions: ["*.json"]
         showHiddenFiles: true
 

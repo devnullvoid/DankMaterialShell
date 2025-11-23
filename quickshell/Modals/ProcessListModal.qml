@@ -41,7 +41,7 @@ FloatingWindow {
     }
 
     objectName: "processListModal"
-    title: "System Monitor"
+    title: I18n.tr("System Monitor", "sysmon window title")
     implicitWidth: 900
     implicitHeight: 680
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)

@@ -2152,7 +2152,7 @@ Item {
             Component.onCompleted: {
                 open()
             }
-            browserTitle: "Select Wallpaper"
+            browserTitle: I18n.tr("Select Wallpaper", "wallpaper file browser title")
             browserIcon: "wallpaper"
             browserType: "wallpaper"
             showHiddenFiles: true
@@ -2181,7 +2181,7 @@ Item {
             Component.onCompleted: {
                 open()
             }
-            browserTitle: "Select Light Mode Wallpaper"
+            browserTitle: I18n.tr("Select Wallpaper", "light mode wallpaper file browser title")
             browserIcon: "light_mode"
             browserType: "wallpaper"
             showHiddenFiles: true
@@ -2208,7 +2208,7 @@ Item {
             Component.onCompleted: {
                 open()
             }
-            browserTitle: "Select Dark Mode Wallpaper"
+            browserTitle: I18n.tr("Select Wallpaper", "dark mode wallpaper file browser title")
             browserIcon: "dark_mode"
             browserType: "wallpaper"
             showHiddenFiles: true
