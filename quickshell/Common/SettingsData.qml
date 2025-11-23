@@ -1,5 +1,4 @@
 pragma Singleton
-
 pragma ComponentBehavior: Bound
 
 import QtCore
@@ -49,8 +48,6 @@ Singleton {
         Colorful
     }
 
-    readonly property string defaultFontFamily: "Inter Variable"
-    readonly property string defaultMonoFontFamily: "Fira Code"
     readonly property string _homeUrl: StandardPaths.writableLocation(StandardPaths.HomeLocation)
     readonly property string _configUrl: StandardPaths.writableLocation(StandardPaths.ConfigLocation)
     readonly property string _configDir: Paths.strip(_configUrl)
@@ -113,39 +110,48 @@ Singleton {
     property bool privacyShowCameraIcon: false
     property bool privacyShowScreenShareIcon: false
 
-    property var controlCenterWidgets: [{
+    property var controlCenterWidgets: [
+        {
             "id": "volumeSlider",
             "enabled": true,
             "width": 50
-        }, {
+        },
+        {
             "id": "brightnessSlider",
             "enabled": true,
             "width": 50
-        }, {
+        },
+        {
             "id": "wifi",
             "enabled": true,
             "width": 50
-        }, {
+        },
+        {
             "id": "bluetooth",
             "enabled": true,
             "width": 50
-        }, {
+        },
+        {
             "id": "audioOutput",
             "enabled": true,
             "width": 50
-        }, {
+        },
+        {
             "id": "audioInput",
             "enabled": true,
             "width": 50
-        }, {
+        },
+        {
             "id": "nightMode",
             "enabled": true,
             "width": 50
-        }, {
+        },
+        {
             "id": "darkMode",
             "enabled": true,
             "width": 50
-        }]
+        }
+    ]
 
     property bool showWorkspaceIndex: false
     property bool showWorkspacePadding: false
@@ -165,7 +171,6 @@ Singleton {
     property string clockDateFormat: ""
     property string lockDateFormat: ""
     property int mediaSize: 1
-
 
     property string appLauncherViewMode: "list"
     property string spotlightModalViewMode: "list"
@@ -215,9 +220,9 @@ Singleton {
     onNotepadShowLineNumbersChanged: saveSettings()
     onNotepadTransparencyOverrideChanged: {
         if (notepadTransparencyOverride > 0) {
-            notepadLastCustomTransparency = notepadTransparencyOverride
+            notepadLastCustomTransparency = notepadTransparencyOverride;
         }
-        saveSettings()
+        saveSettings();
     }
     onNotepadLastCustomTransparencyChanged: saveSettings()
 
@@ -308,38 +313,40 @@ Singleton {
     property var screenPreferences: ({})
     property var showOnLastDisplay: ({})
 
-    property var barConfigs: [{
-        id: "default",
-        name: "Main Bar",
-        enabled: true,
-        position: 0,
-        screenPreferences: ["all"],
-        showOnLastDisplay: true,
-        leftWidgets: ["launcherButton", "workspaceSwitcher", "focusedWindow"],
-        centerWidgets: ["music", "clock", "weather"],
-        rightWidgets: ["systemTray", "clipboard", "cpuUsage", "memUsage", "notificationButton", "battery", "controlCenterButton"],
-        spacing: 4,
-        innerPadding: 4,
-        bottomGap: 0,
-        transparency: 1.0,
-        widgetTransparency: 1.0,
-        squareCorners: false,
-        noBackground: false,
-        gothCornersEnabled: false,
-        gothCornerRadiusOverride: false,
-        gothCornerRadiusValue: 12,
-        borderEnabled: false,
-        borderColor: "surfaceText",
-        borderOpacity: 1.0,
-        borderThickness: 1,
-        fontScale: 1.0,
-        autoHide: false,
-        autoHideDelay: 250,
-        openOnOverview: false,
-        visible: true,
-        popupGapsAuto: true,
-        popupGapsManual: 4
-    }]
+    property var barConfigs: [
+        {
+            id: "default",
+            name: "Main Bar",
+            enabled: true,
+            position: 0,
+            screenPreferences: ["all"],
+            showOnLastDisplay: true,
+            leftWidgets: ["launcherButton", "workspaceSwitcher", "focusedWindow"],
+            centerWidgets: ["music", "clock", "weather"],
+            rightWidgets: ["systemTray", "clipboard", "cpuUsage", "memUsage", "notificationButton", "battery", "controlCenterButton"],
+            spacing: 4,
+            innerPadding: 4,
+            bottomGap: 0,
+            transparency: 1.0,
+            widgetTransparency: 1.0,
+            squareCorners: false,
+            noBackground: false,
+            gothCornersEnabled: false,
+            gothCornerRadiusOverride: false,
+            gothCornerRadiusValue: 12,
+            borderEnabled: false,
+            borderColor: "surfaceText",
+            borderOpacity: 1.0,
+            borderThickness: 1,
+            fontScale: 1.0,
+            autoHide: false,
+            autoHideDelay: 250,
+            openOnOverview: false,
+            visible: true,
+            popupGapsAuto: true,
+            popupGapsManual: 4
+        }
+    ]
 
     signal forceDankBarLayoutRefresh
     signal forceDockLayoutRefresh
@@ -348,49 +355,49 @@ Singleton {
 
     Component.onCompleted: {
         if (!isGreeterMode) {
-            Processes.settingsRoot = root
-            loadSettings()
-            initializeListModels()
-            Processes.detectFprintd()
-            Processes.checkPluginSettings()
+            Processes.settingsRoot = root;
+            loadSettings();
+            initializeListModels();
+            Processes.detectFprintd();
+            Processes.checkPluginSettings();
         }
     }
 
     function applyStoredTheme() {
         if (typeof Theme !== "undefined") {
-            Theme.switchTheme(currentThemeName, false, false)
+            Theme.switchTheme(currentThemeName, false, false);
         } else {
-            Qt.callLater(function() {
+            Qt.callLater(function () {
                 if (typeof Theme !== "undefined") {
-                    Theme.switchTheme(currentThemeName, false, false)
+                    Theme.switchTheme(currentThemeName, false, false);
                 }
-            })
+            });
         }
     }
 
     function regenSystemThemes() {
         if (typeof Theme !== "undefined") {
-            Theme.generateSystemThemesFromCurrentTheme()
+            Theme.generateSystemThemesFromCurrentTheme();
         }
     }
 
     function updateNiriLayout() {
         if (typeof NiriService !== "undefined" && typeof CompositorService !== "undefined" && CompositorService.isNiri) {
-            NiriService.generateNiriLayoutConfig()
+            NiriService.generateNiriLayoutConfig();
         }
     }
 
     function applyStoredIconTheme() {
-        updateGtkIconTheme()
-        updateQtIconTheme()
+        updateGtkIconTheme();
+        updateQtIconTheme();
     }
 
     function updateGtkIconTheme() {
-        const gtkThemeName = (iconTheme === "System Default") ? systemDefaultIconTheme : iconTheme
-        if (gtkThemeName === "System Default" || gtkThemeName === "") return
-
+        const gtkThemeName = (iconTheme === "System Default") ? systemDefaultIconTheme : iconTheme;
+        if (gtkThemeName === "System Default" || gtkThemeName === "")
+            return;
         if (typeof DMSService !== "undefined" && DMSService.apiVersion >= 3 && typeof PortalService !== "undefined") {
-            PortalService.setSystemIconTheme(gtkThemeName)
+            PortalService.setSystemIconTheme(gtkThemeName);
         }
 
         const configScript = `mkdir -p ${_configDir}/gtk-3.0 ${_configDir}/gtk-4.0
@@ -413,17 +420,17 @@ for config_dir in ${_configDir}/gtk-3.0 ${_configDir}/gtk-4.0; do
 done
 
 rm -rf ~/.cache/icon-cache ~/.cache/thumbnails 2>/dev/null || true
-pkill -HUP -f 'gtk' 2>/dev/null || true`
+pkill -HUP -f 'gtk' 2>/dev/null || true`;
 
-        Quickshell.execDetached(["sh", "-lc", configScript])
+        Quickshell.execDetached(["sh", "-lc", configScript]);
     }
 
     function updateQtIconTheme() {
-        const qtThemeName = (iconTheme === "System Default") ? "" : iconTheme
-        if (!qtThemeName) return
-
-        const home = _homeUrl.replace("file://", "").replace(/'/g, "'\\''")
-        const qtThemeNameEscaped = qtThemeName.replace(/'/g, "'\\''")
+        const qtThemeName = (iconTheme === "System Default") ? "" : iconTheme;
+        if (!qtThemeName)
+            return;
+        const home = _homeUrl.replace("file://", "").replace(/'/g, "'\\''");
+        const qtThemeNameEscaped = qtThemeName.replace(/'/g, "'\\''");
 
         const script = `mkdir -p ${_configDir}/qt5ct ${_configDir}/qt6ct ${_configDir}/environment.d 2>/dev/null || true
 update_qt_icon_theme() {
@@ -445,310 +452,335 @@ update_qt_icon_theme() {
 }
 update_qt_icon_theme ${_configDir}/qt5ct/qt5ct.conf '${qtThemeNameEscaped}'
 update_qt_icon_theme ${_configDir}/qt6ct/qt6ct.conf '${qtThemeNameEscaped}'
-rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || true`
+rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || true`;
 
-        Quickshell.execDetached(["sh", "-lc", script])
+        Quickshell.execDetached(["sh", "-lc", script]);
     }
 
     readonly property var _hooks: ({
-        applyStoredTheme: applyStoredTheme,
-        regenSystemThemes: regenSystemThemes,
-        updateNiriLayout: updateNiriLayout,
-        applyStoredIconTheme: applyStoredIconTheme,
-        updateBarConfigs: updateBarConfigs
-    })
+            applyStoredTheme: applyStoredTheme,
+            regenSystemThemes: regenSystemThemes,
+            updateNiriLayout: updateNiriLayout,
+            applyStoredIconTheme: applyStoredIconTheme,
+            updateBarConfigs: updateBarConfigs
+        })
 
     function set(key, value) {
-        Spec.set(root, key, value, saveSettings, _hooks)
+        Spec.set(root, key, value, saveSettings, _hooks);
     }
 
     function loadSettings() {
-        _loading = true
+        _loading = true;
         try {
-            const txt = settingsFile.text()
-            let obj = (txt && txt.trim()) ? JSON.parse(txt) : null
+            const txt = settingsFile.text();
+            let obj = (txt && txt.trim()) ? JSON.parse(txt) : null;
 
-            const oldVersion = obj?.configVersion ?? 0
+            const oldVersion = obj?.configVersion ?? 0;
             if (oldVersion < settingsConfigVersion) {
-                const migrated = Store.migrateToVersion(obj, settingsConfigVersion)
+                const migrated = Store.migrateToVersion(obj, settingsConfigVersion);
                 if (migrated) {
-                    settingsFile.setText(JSON.stringify(migrated, null, 2))
-                    obj = migrated
+                    settingsFile.setText(JSON.stringify(migrated, null, 2));
+                    obj = migrated;
                 }
             }
 
-            Store.parse(root, obj)
-            applyStoredTheme()
-            applyStoredIconTheme()
-            Processes.detectIcons()
-            Processes.detectQtTools()
+            Store.parse(root, obj);
+            applyStoredTheme();
+            applyStoredIconTheme();
+            Processes.detectIcons();
+            Processes.detectQtTools();
         } catch (e) {
-            console.warn("SettingsData: Failed to load settings:", e.message)
-            applyStoredTheme()
-            applyStoredIconTheme()
+            console.warn("SettingsData: Failed to load settings:", e.message);
+            applyStoredTheme();
+            applyStoredIconTheme();
         } finally {
-            _loading = false
+            _loading = false;
         }
-        loadPluginSettings()
+        loadPluginSettings();
     }
 
     function loadPluginSettings() {
-        _pluginSettingsLoading = true
-        parsePluginSettings(pluginSettingsFile.text())
-        _pluginSettingsLoading = false
+        _pluginSettingsLoading = true;
+        parsePluginSettings(pluginSettingsFile.text());
+        _pluginSettingsLoading = false;
     }
 
     function parsePluginSettings(content) {
-        _pluginSettingsLoading = true
+        _pluginSettingsLoading = true;
         try {
             if (content && content.trim()) {
-                pluginSettings = JSON.parse(content)
+                pluginSettings = JSON.parse(content);
             } else {
-                pluginSettings = {}
+                pluginSettings = {};
             }
         } catch (e) {
-            console.warn("SettingsData: Failed to parse plugin settings:", e.message)
-            pluginSettings = {}
+            console.warn("SettingsData: Failed to parse plugin settings:", e.message);
+            pluginSettings = {};
         } finally {
-            _pluginSettingsLoading = false
+            _pluginSettingsLoading = false;
         }
     }
 
     function saveSettings() {
-        if (_loading) return
-        settingsFile.setText(JSON.stringify(Store.toJson(root), null, 2))
+        if (_loading)
+            return;
+        settingsFile.setText(JSON.stringify(Store.toJson(root), null, 2));
     }
 
     function savePluginSettings() {
-        if (_pluginSettingsLoading) return
-        pluginSettingsFile.setText(JSON.stringify(pluginSettings, null, 2))
+        if (_pluginSettingsLoading)
+            return;
+        pluginSettingsFile.setText(JSON.stringify(pluginSettings, null, 2));
     }
 
     function detectAvailableIconThemes() {
-        Processes.detectIcons()
+        Processes.detectIcons();
     }
 
     function getEffectiveTimeFormat() {
         if (use24HourClock) {
-            return showSeconds ? "hh:mm:ss" : "hh:mm"
+            return showSeconds ? "hh:mm:ss" : "hh:mm";
         } else {
-            return showSeconds ? "h:mm:ss AP" : "h:mm AP"
+            return showSeconds ? "h:mm:ss AP" : "h:mm AP";
         }
     }
 
     function getEffectiveClockDateFormat() {
-        return clockDateFormat && clockDateFormat.length > 0 ? clockDateFormat : "ddd d"
+        return clockDateFormat && clockDateFormat.length > 0 ? clockDateFormat : "ddd d";
     }
 
     function getEffectiveLockDateFormat() {
-        return lockDateFormat && lockDateFormat.length > 0 ? lockDateFormat : Locale.LongFormat
+        return lockDateFormat && lockDateFormat.length > 0 ? lockDateFormat : Locale.LongFormat;
     }
 
     function initializeListModels() {
-        const defaultBar = barConfigs[0] || getBarConfig("default")
+        const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
-            Lists.init(leftWidgetsModel, centerWidgetsModel, rightWidgetsModel, defaultBar.leftWidgets, defaultBar.centerWidgets, defaultBar.rightWidgets)
+            Lists.init(leftWidgetsModel, centerWidgetsModel, rightWidgetsModel, defaultBar.leftWidgets, defaultBar.centerWidgets, defaultBar.rightWidgets);
         }
     }
 
     function updateListModel(listModel, order) {
-        Lists.update(listModel, order)
-        widgetDataChanged()
+        Lists.update(listModel, order);
+        widgetDataChanged();
     }
 
     function hasNamedWorkspaces() {
-        if (typeof NiriService === "undefined" || !CompositorService.isNiri) return false
+        if (typeof NiriService === "undefined" || !CompositorService.isNiri)
+            return false;
 
         for (var i = 0; i < NiriService.allWorkspaces.length; i++) {
-            var ws = NiriService.allWorkspaces[i]
-            if (ws.name && ws.name.trim() !== "") return true
+            var ws = NiriService.allWorkspaces[i];
+            if (ws.name && ws.name.trim() !== "")
+                return true;
         }
-        return false
+        return false;
     }
 
     function getNamedWorkspaces() {
-        var namedWorkspaces = []
-        if (typeof NiriService === "undefined" || !CompositorService.isNiri) return namedWorkspaces
+        var namedWorkspaces = [];
+        if (typeof NiriService === "undefined" || !CompositorService.isNiri)
+            return namedWorkspaces;
 
         for (const ws of NiriService.allWorkspaces) {
             if (ws.name && ws.name.trim() !== "") {
-                namedWorkspaces.push(ws.name)
+                namedWorkspaces.push(ws.name);
             }
         }
-        return namedWorkspaces
+        return namedWorkspaces;
     }
 
     function getPopupYPosition(barHeight) {
-        const defaultBar = barConfigs[0] || getBarConfig("default")
-        const gothOffset = defaultBar?.gothCornersEnabled ? Theme.cornerRadius : 0
-        const spacing = defaultBar?.spacing ?? 4
-        const bottomGap = defaultBar?.bottomGap ?? 0
-        return barHeight + spacing + bottomGap - gothOffset + Theme.popupDistance
+        const defaultBar = barConfigs[0] || getBarConfig("default");
+        const gothOffset = defaultBar?.gothCornersEnabled ? Theme.cornerRadius : 0;
+        const spacing = defaultBar?.spacing ?? 4;
+        const bottomGap = defaultBar?.bottomGap ?? 0;
+        return barHeight + spacing + bottomGap - gothOffset + Theme.popupDistance;
     }
 
     function getPopupTriggerPosition(globalPos, screen, barThickness, widgetWidth, barSpacing, barPosition, barConfig) {
-        const screenX = screen ? screen.x : 0
-        const screenY = screen ? screen.y : 0
-        const relativeX = globalPos.x - screenX
-        const relativeY = globalPos.y - screenY
-        const defaultBar = barConfigs[0] || getBarConfig("default")
-        const spacing = barSpacing !== undefined ? barSpacing : (defaultBar?.spacing ?? 4)
-        const position = barPosition !== undefined ? barPosition : (defaultBar?.position ?? SettingsData.Position.Top)
-        const bottomGap = barConfig ? (barConfig.bottomGap !== undefined ? barConfig.bottomGap : (defaultBar?.bottomGap ?? 0)) : (defaultBar?.bottomGap ?? 0)
+        const screenX = screen ? screen.x : 0;
+        const screenY = screen ? screen.y : 0;
+        const relativeX = globalPos.x - screenX;
+        const relativeY = globalPos.y - screenY;
+        const defaultBar = barConfigs[0] || getBarConfig("default");
+        const spacing = barSpacing !== undefined ? barSpacing : (defaultBar?.spacing ?? 4);
+        const position = barPosition !== undefined ? barPosition : (defaultBar?.position ?? SettingsData.Position.Top);
+        const bottomGap = barConfig ? (barConfig.bottomGap !== undefined ? barConfig.bottomGap : (defaultBar?.bottomGap ?? 0)) : (defaultBar?.bottomGap ?? 0);
 
-        const useAutoGaps = (barConfig && barConfig.popupGapsAuto !== undefined) ? barConfig.popupGapsAuto : (defaultBar?.popupGapsAuto ?? true)
-        const manualGapValue = (barConfig && barConfig.popupGapsManual !== undefined) ? barConfig.popupGapsManual : (defaultBar?.popupGapsManual ?? 4)
-        const popupGap = useAutoGaps ? Math.max(4, spacing) : manualGapValue
-        
+        const useAutoGaps = (barConfig && barConfig.popupGapsAuto !== undefined) ? barConfig.popupGapsAuto : (defaultBar?.popupGapsAuto ?? true);
+        const manualGapValue = (barConfig && barConfig.popupGapsManual !== undefined) ? barConfig.popupGapsManual : (defaultBar?.popupGapsManual ?? 4);
+        const popupGap = useAutoGaps ? Math.max(4, spacing) : manualGapValue;
+
         switch (position) {
         case SettingsData.Position.Left:
             return {
                 "x": barThickness + spacing + popupGap,
                 "y": relativeY,
                 "width": widgetWidth
-            }
+            };
         case SettingsData.Position.Right:
             return {
                 "x": (screen?.width || 0) - (barThickness + spacing + popupGap),
                 "y": relativeY,
                 "width": widgetWidth
-            }
+            };
         case SettingsData.Position.Bottom:
             return {
                 "x": relativeX,
                 "y": (screen?.height || 0) - (barThickness + spacing + bottomGap + popupGap),
                 "width": widgetWidth
-            }
+            };
         default:
             return {
                 "x": relativeX,
                 "y": barThickness + spacing + bottomGap + popupGap,
                 "width": widgetWidth
-            }
+            };
         }
     }
 
     function getAdjacentBarInfo(screen, barPosition, barConfig) {
         if (!screen || !barConfig) {
-            return { "topBar": 0, "bottomBar": 0, "leftBar": 0, "rightBar": 0 }
+            return {
+                "topBar": 0,
+                "bottomBar": 0,
+                "leftBar": 0,
+                "rightBar": 0
+            };
         }
 
         if (barConfig.autoHide) {
-            return { "topBar": 0, "bottomBar": 0, "leftBar": 0, "rightBar": 0 }
+            return {
+                "topBar": 0,
+                "bottomBar": 0,
+                "leftBar": 0,
+                "rightBar": 0
+            };
         }
 
-        const enabledBars = getEnabledBarConfigs()
-        const defaultBar = barConfigs[0] || getBarConfig("default")
-        const position = barPosition !== undefined ? barPosition : (defaultBar?.position ?? SettingsData.Position.Top)
-        let topBar = 0
-        let bottomBar = 0
-        let leftBar = 0
-        let rightBar = 0
+        const enabledBars = getEnabledBarConfigs();
+        const defaultBar = barConfigs[0] || getBarConfig("default");
+        const position = barPosition !== undefined ? barPosition : (defaultBar?.position ?? SettingsData.Position.Top);
+        let topBar = 0;
+        let bottomBar = 0;
+        let leftBar = 0;
+        let rightBar = 0;
 
         for (let i = 0; i < enabledBars.length; i++) {
-            const other = enabledBars[i]
-            if (other.id === barConfig.id) continue
-            if (other.autoHide) continue
+            const other = enabledBars[i];
+            if (other.id === barConfig.id)
+                continue;
+            if (other.autoHide)
+                continue;
+            const otherScreens = other.screenPreferences || ["all"];
+            const barScreens = barConfig.screenPreferences || ["all"];
+            const onSameScreen = otherScreens.includes("all") || barScreens.includes("all") || otherScreens.some(s => isScreenInPreferences(screen, [s]));
 
-            const otherScreens = other.screenPreferences || ["all"]
-            const barScreens = barConfig.screenPreferences || ["all"]
-            const onSameScreen = otherScreens.includes("all") || barScreens.includes("all") ||
-                                otherScreens.some(s => isScreenInPreferences(screen, [s]))
+            if (!onSameScreen)
+                continue;
+            const otherSpacing = other.spacing !== undefined ? other.spacing : (defaultBar?.spacing ?? 4);
+            const otherPadding = other.innerPadding !== undefined ? other.innerPadding : (defaultBar?.innerPadding ?? 4);
+            const otherThickness = Math.max(26 + otherPadding * 0.6, Theme.barHeight - 4 - (8 - otherPadding)) + otherSpacing;
 
-            if (!onSameScreen) continue
-
-            const otherSpacing = other.spacing !== undefined ? other.spacing : (defaultBar?.spacing ?? 4)
-            const otherPadding = other.innerPadding !== undefined ? other.innerPadding : (defaultBar?.innerPadding ?? 4)
-            const otherThickness = Math.max(26 + otherPadding * 0.6, Theme.barHeight - 4 - (8 - otherPadding)) + otherSpacing
-
-            const useAutoGaps = other.popupGapsAuto !== undefined ? other.popupGapsAuto : (defaultBar?.popupGapsAuto ?? true)
-            const manualGap = other.popupGapsManual !== undefined ? other.popupGapsManual : (defaultBar?.popupGapsManual ?? 4)
-            const popupGap = useAutoGaps ? Math.max(4, otherSpacing) : manualGap
+            const useAutoGaps = other.popupGapsAuto !== undefined ? other.popupGapsAuto : (defaultBar?.popupGapsAuto ?? true);
+            const manualGap = other.popupGapsManual !== undefined ? other.popupGapsManual : (defaultBar?.popupGapsManual ?? 4);
+            const popupGap = useAutoGaps ? Math.max(4, otherSpacing) : manualGap;
 
             switch (other.position) {
             case SettingsData.Position.Top:
-                topBar = Math.max(topBar, otherThickness + popupGap)
-                break
+                topBar = Math.max(topBar, otherThickness + popupGap);
+                break;
             case SettingsData.Position.Bottom:
-                bottomBar = Math.max(bottomBar, otherThickness + popupGap)
-                break
+                bottomBar = Math.max(bottomBar, otherThickness + popupGap);
+                break;
             case SettingsData.Position.Left:
-                leftBar = Math.max(leftBar, otherThickness + popupGap)
-                break
+                leftBar = Math.max(leftBar, otherThickness + popupGap);
+                break;
             case SettingsData.Position.Right:
-                rightBar = Math.max(rightBar, otherThickness + popupGap)
-                break
+                rightBar = Math.max(rightBar, otherThickness + popupGap);
+                break;
             }
         }
 
-        return { "topBar": topBar, "bottomBar": bottomBar, "leftBar": leftBar, "rightBar": rightBar }
+        return {
+            "topBar": topBar,
+            "bottomBar": bottomBar,
+            "leftBar": leftBar,
+            "rightBar": rightBar
+        };
     }
 
     function getBarBounds(screen, barThickness, barPosition, barConfig) {
         if (!screen) {
-            return { "x": 0, "y": 0, "width": 0, "height": 0, "wingSize": 0 }
+            return {
+                "x": 0,
+                "y": 0,
+                "width": 0,
+                "height": 0,
+                "wingSize": 0
+            };
         }
 
-        const defaultBar = barConfigs[0] || getBarConfig("default")
-        const wingRadius = (defaultBar?.gothCornerRadiusOverride ?? false) ? (defaultBar?.gothCornerRadiusValue ?? 12) : Theme.cornerRadius
-        const wingSize = (defaultBar?.gothCornersEnabled ?? false) ? Math.max(0, wingRadius) : 0
-        const screenWidth = screen.width
-        const screenHeight = screen.height
-        const position = barPosition !== undefined ? barPosition : (defaultBar?.position ?? SettingsData.Position.Top)
-        const bottomGap = barConfig ? (barConfig.bottomGap !== undefined ? barConfig.bottomGap : (defaultBar?.bottomGap ?? 0)) : (defaultBar?.bottomGap ?? 0)
+        const defaultBar = barConfigs[0] || getBarConfig("default");
+        const wingRadius = (defaultBar?.gothCornerRadiusOverride ?? false) ? (defaultBar?.gothCornerRadiusValue ?? 12) : Theme.cornerRadius;
+        const wingSize = (defaultBar?.gothCornersEnabled ?? false) ? Math.max(0, wingRadius) : 0;
+        const screenWidth = screen.width;
+        const screenHeight = screen.height;
+        const position = barPosition !== undefined ? barPosition : (defaultBar?.position ?? SettingsData.Position.Top);
+        const bottomGap = barConfig ? (barConfig.bottomGap !== undefined ? barConfig.bottomGap : (defaultBar?.bottomGap ?? 0)) : (defaultBar?.bottomGap ?? 0);
 
-        let topOffset = 0
-        let bottomOffset = 0
-        let leftOffset = 0
-        let rightOffset = 0
+        let topOffset = 0;
+        let bottomOffset = 0;
+        let leftOffset = 0;
+        let rightOffset = 0;
 
         if (barConfig) {
-            const enabledBars = getEnabledBarConfigs()
+            const enabledBars = getEnabledBarConfigs();
             for (let i = 0; i < enabledBars.length; i++) {
-                const other = enabledBars[i]
-                if (other.id === barConfig.id) continue
+                const other = enabledBars[i];
+                if (other.id === barConfig.id)
+                    continue;
+                const otherScreens = other.screenPreferences || ["all"];
+                const barScreens = barConfig.screenPreferences || ["all"];
+                const onSameScreen = otherScreens.includes("all") || barScreens.includes("all") || otherScreens.some(s => isScreenInPreferences(screen, [s]));
 
-                const otherScreens = other.screenPreferences || ["all"]
-                const barScreens = barConfig.screenPreferences || ["all"]
-                const onSameScreen = otherScreens.includes("all") || barScreens.includes("all") ||
-                                    otherScreens.some(s => isScreenInPreferences(screen, [s]))
-
-                if (!onSameScreen) continue
-
-                const otherSpacing = other.spacing !== undefined ? other.spacing : (defaultBar?.spacing ?? 4)
-                const otherPadding = other.innerPadding !== undefined ? other.innerPadding : (defaultBar?.innerPadding ?? 4)
-                const otherThickness = Math.max(26 + otherPadding * 0.6, Theme.barHeight - 4 - (8 - otherPadding)) + otherSpacing + wingSize
-                const otherBottomGap = other.bottomGap !== undefined ? other.bottomGap : (defaultBar?.bottomGap ?? 0)
+                if (!onSameScreen)
+                    continue;
+                const otherSpacing = other.spacing !== undefined ? other.spacing : (defaultBar?.spacing ?? 4);
+                const otherPadding = other.innerPadding !== undefined ? other.innerPadding : (defaultBar?.innerPadding ?? 4);
+                const otherThickness = Math.max(26 + otherPadding * 0.6, Theme.barHeight - 4 - (8 - otherPadding)) + otherSpacing + wingSize;
+                const otherBottomGap = other.bottomGap !== undefined ? other.bottomGap : (defaultBar?.bottomGap ?? 0);
 
                 switch (other.position) {
                 case SettingsData.Position.Top:
                     if (position === SettingsData.Position.Top && other.id < barConfig.id) {
-                        topOffset += otherThickness // Simple stacking for same pos
+                        topOffset += otherThickness; // Simple stacking for same pos
                     } else if (position === SettingsData.Position.Left || position === SettingsData.Position.Right) {
-                        topOffset = Math.max(topOffset, otherThickness)
+                        topOffset = Math.max(topOffset, otherThickness);
                     }
-                    break
+                    break;
                 case SettingsData.Position.Bottom:
                     if (position === SettingsData.Position.Bottom && other.id < barConfig.id) {
-                        bottomOffset += (otherThickness + otherBottomGap)
+                        bottomOffset += (otherThickness + otherBottomGap);
                     } else if (position === SettingsData.Position.Left || position === SettingsData.Position.Right) {
-                        bottomOffset = Math.max(bottomOffset, otherThickness + otherBottomGap)
+                        bottomOffset = Math.max(bottomOffset, otherThickness + otherBottomGap);
                     }
-                    break
+                    break;
                 case SettingsData.Position.Left:
                     if (position === SettingsData.Position.Top || position === SettingsData.Position.Bottom) {
-                        leftOffset = Math.max(leftOffset, otherThickness)
+                        leftOffset = Math.max(leftOffset, otherThickness);
                     } else if (position === SettingsData.Position.Left && other.id < barConfig.id) {
-                        leftOffset += otherThickness
+                        leftOffset += otherThickness;
                     }
-                    break
+                    break;
                 case SettingsData.Position.Right:
                     if (position === SettingsData.Position.Top || position === SettingsData.Position.Bottom) {
-                        rightOffset = Math.max(rightOffset, otherThickness)
+                        rightOffset = Math.max(rightOffset, otherThickness);
                     } else if (position === SettingsData.Position.Right && other.id < barConfig.id) {
-                        rightOffset += otherThickness
+                        rightOffset += otherThickness;
                     }
-                    break
+                    break;
                 }
             }
         }
@@ -761,7 +793,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
                 "width": screenWidth - leftOffset - rightOffset,
                 "height": barThickness + wingSize,
                 "wingSize": wingSize
-            }
+            };
         case SettingsData.Position.Bottom:
             return {
                 "x": leftOffset,
@@ -769,7 +801,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
                 "width": screenWidth - leftOffset - rightOffset,
                 "height": barThickness + wingSize,
                 "wingSize": wingSize
-            }
+            };
         case SettingsData.Position.Left:
             return {
                 "x": 0,
@@ -777,7 +809,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
                 "width": barThickness + wingSize,
                 "height": screenHeight - topOffset - bottomOffset,
                 "wingSize": wingSize
-            }
+            };
         case SettingsData.Position.Right:
             return {
                 "x": screenWidth - barThickness - wingSize,
@@ -785,405 +817,427 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
                 "width": barThickness + wingSize,
                 "height": screenHeight - topOffset - bottomOffset,
                 "wingSize": wingSize
-            }
+            };
         }
-        
-        return { "x": 0, "y": 0, "width": 0, "height": 0, "wingSize": 0 }
+
+        return {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0,
+            "wingSize": 0
+        };
     }
 
     function updateBarConfigs() {
-        barConfigsChanged()
-        saveSettings()
+        barConfigsChanged();
+        saveSettings();
     }
 
     function getBarConfig(barId) {
-        return barConfigs.find(cfg => cfg.id === barId) || null
+        return barConfigs.find(cfg => cfg.id === barId) || null;
     }
 
     function addBarConfig(config) {
-        const configs = JSON.parse(JSON.stringify(barConfigs))
-        configs.push(config)
-        barConfigs = configs
-        updateBarConfigs()
+        const configs = JSON.parse(JSON.stringify(barConfigs));
+        configs.push(config);
+        barConfigs = configs;
+        updateBarConfigs();
     }
 
     function updateBarConfig(barId, updates) {
-        const configs = JSON.parse(JSON.stringify(barConfigs))
-        const index = configs.findIndex(cfg => cfg.id === barId)
-        if (index === -1) return
+        const configs = JSON.parse(JSON.stringify(barConfigs));
+        const index = configs.findIndex(cfg => cfg.id === barId);
+        if (index === -1)
+            return;
+        const positionChanged = updates.position !== undefined && configs[index].position !== updates.position;
 
-        const positionChanged = updates.position !== undefined && configs[index].position !== updates.position
-
-        Object.assign(configs[index], updates)
-        barConfigs = configs
-        updateBarConfigs()
+        Object.assign(configs[index], updates);
+        barConfigs = configs;
+        updateBarConfigs();
 
         if (positionChanged) {
-            NotificationService.clearAllPopups()
+            NotificationService.clearAllPopups();
         }
     }
 
     function checkBarCollisions(barId) {
-        const bar = getBarConfig(barId)
-        if (!bar || !bar.enabled) return []
+        const bar = getBarConfig(barId);
+        if (!bar || !bar.enabled)
+            return [];
 
-        const conflicts = []
-        const enabledBars = getEnabledBarConfigs()
+        const conflicts = [];
+        const enabledBars = getEnabledBarConfigs();
 
         for (let i = 0; i < enabledBars.length; i++) {
-            const other = enabledBars[i]
-            if (other.id === barId) continue
+            const other = enabledBars[i];
+            if (other.id === barId)
+                continue;
+            const samePosition = bar.position === other.position;
+            if (!samePosition)
+                continue;
+            const barScreens = bar.screenPreferences || ["all"];
+            const otherScreens = other.screenPreferences || ["all"];
 
-            const samePosition = bar.position === other.position
-            if (!samePosition) continue
-
-            const barScreens = bar.screenPreferences || ["all"]
-            const otherScreens = other.screenPreferences || ["all"]
-
-            const hasAll = barScreens.includes("all") || otherScreens.includes("all")
+            const hasAll = barScreens.includes("all") || otherScreens.includes("all");
             if (hasAll) {
                 conflicts.push({
                     barId: other.id,
                     barName: other.name,
                     reason: "Same position on all screens"
-                })
-                continue
+                });
+                continue;
             }
 
-            const overlapping = barScreens.some(screen => otherScreens.includes(screen))
+            const overlapping = barScreens.some(screen => otherScreens.includes(screen));
             if (overlapping) {
                 conflicts.push({
                     barId: other.id,
                     barName: other.name,
                     reason: "Same position on overlapping screens"
-                })
+                });
             }
         }
 
-        return conflicts
+        return conflicts;
     }
 
     function deleteBarConfig(barId) {
-        if (barId === "default") return
-
-        const configs = barConfigs.filter(cfg => cfg.id !== barId)
-        barConfigs = configs
-        updateBarConfigs()
+        if (barId === "default")
+            return;
+        const configs = barConfigs.filter(cfg => cfg.id !== barId);
+        barConfigs = configs;
+        updateBarConfigs();
     }
 
     function getEnabledBarConfigs() {
-        return barConfigs.filter(cfg => cfg.enabled)
+        return barConfigs.filter(cfg => cfg.enabled);
     }
 
     function getScreenDisplayName(screen) {
-        if (!screen) return ""
+        if (!screen)
+            return "";
         if (displayNameMode === "model" && screen.model) {
-            return screen.model
+            return screen.model;
         }
-        return screen.name
+        return screen.name;
     }
 
     function isScreenInPreferences(screen, prefs) {
-        if (!screen) return false
+        if (!screen)
+            return false;
 
         return prefs.some(pref => {
             if (typeof pref === "string") {
-                return pref === "all" || pref === screen.name || pref === screen.model
+                return pref === "all" || pref === screen.name || pref === screen.model;
             }
 
             if (displayNameMode === "model") {
-                return pref.model && screen.model && pref.model === screen.model
+                return pref.model && screen.model && pref.model === screen.model;
             }
-            return pref.name === screen.name
-        })
+            return pref.name === screen.name;
+        });
     }
 
     function getFilteredScreens(componentId) {
-        var prefs = screenPreferences && screenPreferences[componentId] || ["all"]
+        var prefs = screenPreferences && screenPreferences[componentId] || ["all"];
         if (prefs.includes("all") || (typeof prefs[0] === "string" && prefs[0] === "all")) {
-            return Quickshell.screens
+            return Quickshell.screens;
         }
-        var filtered = Quickshell.screens.filter(screen => isScreenInPreferences(screen, prefs))
+        var filtered = Quickshell.screens.filter(screen => isScreenInPreferences(screen, prefs));
         if (filtered.length === 0 && showOnLastDisplay && showOnLastDisplay[componentId] && Quickshell.screens.length === 1) {
-            return Quickshell.screens
+            return Quickshell.screens;
         }
-        return filtered
+        return filtered;
     }
 
     function sendTestNotifications() {
-        NotificationService.clearAllPopups()
-        sendTestNotification(0)
-        testNotifTimer1.start()
-        testNotifTimer2.start()
+        NotificationService.clearAllPopups();
+        sendTestNotification(0);
+        testNotifTimer1.start();
+        testNotifTimer2.start();
     }
 
     function sendTestNotification(index) {
-        const notifications = [["Notification Position Test", "DMS test notification 1 of 3 ~ Hi there!", "preferences-system"], ["Second Test", "DMS Notification 2 of 3 ~ Check it out!", "applications-graphics"], ["Third Test", "DMS notification 3 of 3 ~ Enjoy!", "face-smile"]]
+        const notifications = [["Notification Position Test", "DMS test notification 1 of 3 ~ Hi there!", "preferences-system"], ["Second Test", "DMS Notification 2 of 3 ~ Check it out!", "applications-graphics"], ["Third Test", "DMS notification 3 of 3 ~ Enjoy!", "face-smile"]];
 
         if (index < 0 || index >= notifications.length) {
-            return
+            return;
         }
 
-        const notif = notifications[index]
-        testNotificationProcess.command = ["notify-send", "-h", "int:transient:1", "-a", "DMS", "-i", notif[2], notif[0], notif[1]]
-        testNotificationProcess.running = true
+        const notif = notifications[index];
+        testNotificationProcess.command = ["notify-send", "-h", "int:transient:1", "-a", "DMS", "-i", notif[2], notif[0], notif[1]];
+        testNotificationProcess.running = true;
     }
 
-
     function setMatugenScheme(scheme) {
-        var normalized = scheme || "scheme-tonal-spot"
-        if (matugenScheme === normalized) return
-        set("matugenScheme", normalized)
+        var normalized = scheme || "scheme-tonal-spot";
+        if (matugenScheme === normalized)
+            return;
+        set("matugenScheme", normalized);
         if (typeof Theme !== "undefined") {
-            Theme.generateSystemThemesFromCurrentTheme()
+            Theme.generateSystemThemesFromCurrentTheme();
         }
     }
 
     function setRunUserMatugenTemplates(enabled) {
-        if (runUserMatugenTemplates === enabled) return
-        set("runUserMatugenTemplates", enabled)
+        if (runUserMatugenTemplates === enabled)
+            return;
+        set("runUserMatugenTemplates", enabled);
         if (typeof Theme !== "undefined") {
-            Theme.generateSystemThemesFromCurrentTheme()
+            Theme.generateSystemThemesFromCurrentTheme();
         }
     }
 
     function setMatugenTargetMonitor(monitorName) {
-        if (matugenTargetMonitor === monitorName) return
-        set("matugenTargetMonitor", monitorName)
+        if (matugenTargetMonitor === monitorName)
+            return;
+        set("matugenTargetMonitor", monitorName);
         if (typeof Theme !== "undefined") {
-            Theme.generateSystemThemesFromCurrentTheme()
+            Theme.generateSystemThemesFromCurrentTheme();
         }
     }
 
-
     function setCornerRadius(radius) {
-        set("cornerRadius", radius)
-        NiriService.generateNiriLayoutConfig()
+        set("cornerRadius", radius);
+        NiriService.generateNiriLayoutConfig();
     }
 
     function setWeatherLocation(displayName, coordinates) {
-        weatherLocation = displayName
-        weatherCoordinates = coordinates
-        saveSettings()
+        weatherLocation = displayName;
+        weatherCoordinates = coordinates;
+        saveSettings();
     }
 
     function setIconTheme(themeName) {
-        iconTheme = themeName
-        updateGtkIconTheme()
-        updateQtIconTheme()
-        saveSettings()
-        if (typeof Theme !== "undefined" && Theme.currentTheme === Theme.dynamic) Theme.generateSystemThemesFromCurrentTheme()
+        iconTheme = themeName;
+        updateGtkIconTheme();
+        updateQtIconTheme();
+        saveSettings();
+        if (typeof Theme !== "undefined" && Theme.currentTheme === Theme.dynamic)
+            Theme.generateSystemThemesFromCurrentTheme();
     }
 
     function setGtkThemingEnabled(enabled) {
-        set("gtkThemingEnabled", enabled)
+        set("gtkThemingEnabled", enabled);
         if (enabled && typeof Theme !== "undefined") {
-            Theme.generateSystemThemesFromCurrentTheme()
+            Theme.generateSystemThemesFromCurrentTheme();
         }
     }
 
     function setQtThemingEnabled(enabled) {
-        set("qtThemingEnabled", enabled)
+        set("qtThemingEnabled", enabled);
         if (enabled && typeof Theme !== "undefined") {
-            Theme.generateSystemThemesFromCurrentTheme()
+            Theme.generateSystemThemesFromCurrentTheme();
         }
     }
 
     function setShowDock(enabled) {
-        showDock = enabled
-        const defaultBar = barConfigs[0] || getBarConfig("default")
-        const barPos = defaultBar?.position ?? SettingsData.Position.Top
+        showDock = enabled;
+        const defaultBar = barConfigs[0] || getBarConfig("default");
+        const barPos = defaultBar?.position ?? SettingsData.Position.Top;
         if (enabled && dockPosition === barPos) {
             if (barPos === SettingsData.Position.Top) {
-                setDockPosition(SettingsData.Position.Bottom)
-                return
+                setDockPosition(SettingsData.Position.Bottom);
+                return;
             }
             if (barPos === SettingsData.Position.Bottom) {
-                setDockPosition(SettingsData.Position.Top)
-                return
+                setDockPosition(SettingsData.Position.Top);
+                return;
             }
             if (barPos === SettingsData.Position.Left) {
-                setDockPosition(SettingsData.Position.Right)
-                return
+                setDockPosition(SettingsData.Position.Right);
+                return;
             }
             if (barPos === SettingsData.Position.Right) {
-                setDockPosition(SettingsData.Position.Left)
-                return
+                setDockPosition(SettingsData.Position.Left);
+                return;
             }
         }
-        saveSettings()
+        saveSettings();
     }
 
     function setDockPosition(position) {
-        dockPosition = position
-        const defaultBar = barConfigs[0] || getBarConfig("default")
-        const barPos = defaultBar?.position ?? SettingsData.Position.Top
+        dockPosition = position;
+        const defaultBar = barConfigs[0] || getBarConfig("default");
+        const barPos = defaultBar?.position ?? SettingsData.Position.Top;
         if (position === SettingsData.Position.Bottom && barPos === SettingsData.Position.Bottom && showDock) {
-            setDankBarPosition(SettingsData.Position.Top)
+            setDankBarPosition(SettingsData.Position.Top);
         }
         if (position === SettingsData.Position.Top && barPos === SettingsData.Position.Top && showDock) {
-            setDankBarPosition(SettingsData.Position.Bottom)
+            setDankBarPosition(SettingsData.Position.Bottom);
         }
         if (position === SettingsData.Position.Left && barPos === SettingsData.Position.Left && showDock) {
-            setDankBarPosition(SettingsData.Position.Right)
+            setDankBarPosition(SettingsData.Position.Right);
         }
         if (position === SettingsData.Position.Right && barPos === SettingsData.Position.Right && showDock) {
-            setDankBarPosition(SettingsData.Position.Left)
+            setDankBarPosition(SettingsData.Position.Left);
         }
-        saveSettings()
-        Qt.callLater(() => forceDockLayoutRefresh())
+        saveSettings();
+        Qt.callLater(() => forceDockLayoutRefresh());
     }
 
     function setDankBarSpacing(spacing) {
-        const defaultBar = barConfigs[0] || getBarConfig("default")
+        const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
-            updateBarConfig(defaultBar.id, { spacing: spacing })
+            updateBarConfig(defaultBar.id, {
+                spacing: spacing
+            });
         }
         if (typeof NiriService !== "undefined" && CompositorService.isNiri) {
-            NiriService.generateNiriLayoutConfig()
+            NiriService.generateNiriLayoutConfig();
         }
     }
 
     function setDankBarPosition(position) {
-        const defaultBar = barConfigs[0] || getBarConfig("default")
-        if (!defaultBar) return
-
+        const defaultBar = barConfigs[0] || getBarConfig("default");
+        if (!defaultBar)
+            return;
         if (position === SettingsData.Position.Bottom && dockPosition === SettingsData.Position.Bottom && showDock) {
-            setDockPosition(SettingsData.Position.Top)
-            return
+            setDockPosition(SettingsData.Position.Top);
+            return;
         }
         if (position === SettingsData.Position.Top && dockPosition === SettingsData.Position.Top && showDock) {
-            setDockPosition(SettingsData.Position.Bottom)
-            return
+            setDockPosition(SettingsData.Position.Bottom);
+            return;
         }
         if (position === SettingsData.Position.Left && dockPosition === SettingsData.Position.Left && showDock) {
-            setDockPosition(SettingsData.Position.Right)
-            return
+            setDockPosition(SettingsData.Position.Right);
+            return;
         }
         if (position === SettingsData.Position.Right && dockPosition === SettingsData.Position.Right && showDock) {
-            setDockPosition(SettingsData.Position.Left)
-            return
+            setDockPosition(SettingsData.Position.Left);
+            return;
         }
-        updateBarConfig(defaultBar.id, { position: position })
+        updateBarConfig(defaultBar.id, {
+            position: position
+        });
     }
 
     function setDankBarLeftWidgets(order) {
-        const defaultBar = barConfigs[0] || getBarConfig("default")
+        const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
-            updateBarConfig(defaultBar.id, { leftWidgets: order })
-            updateListModel(leftWidgetsModel, order)
+            updateBarConfig(defaultBar.id, {
+                leftWidgets: order
+            });
+            updateListModel(leftWidgetsModel, order);
         }
     }
 
     function setDankBarCenterWidgets(order) {
-        const defaultBar = barConfigs[0] || getBarConfig("default")
+        const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
-            updateBarConfig(defaultBar.id, { centerWidgets: order })
-            updateListModel(centerWidgetsModel, order)
+            updateBarConfig(defaultBar.id, {
+                centerWidgets: order
+            });
+            updateListModel(centerWidgetsModel, order);
         }
     }
 
     function setDankBarRightWidgets(order) {
-        const defaultBar = barConfigs[0] || getBarConfig("default")
+        const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
-            updateBarConfig(defaultBar.id, { rightWidgets: order })
-            updateListModel(rightWidgetsModel, order)
+            updateBarConfig(defaultBar.id, {
+                rightWidgets: order
+            });
+            updateListModel(rightWidgetsModel, order);
         }
     }
 
     function resetDankBarWidgetsToDefault() {
-        var defaultLeft = ["launcherButton", "workspaceSwitcher", "focusedWindow"]
-        var defaultCenter = ["music", "clock", "weather"]
-        var defaultRight = ["systemTray", "clipboard", "notificationButton", "battery", "controlCenterButton"]
-        const defaultBar = barConfigs[0] || getBarConfig("default")
+        var defaultLeft = ["launcherButton", "workspaceSwitcher", "focusedWindow"];
+        var defaultCenter = ["music", "clock", "weather"];
+        var defaultRight = ["systemTray", "clipboard", "notificationButton", "battery", "controlCenterButton"];
+        const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
             updateBarConfig(defaultBar.id, {
                 leftWidgets: defaultLeft,
                 centerWidgets: defaultCenter,
                 rightWidgets: defaultRight
-            })
+            });
         }
-        updateListModel(leftWidgetsModel, defaultLeft)
-        updateListModel(centerWidgetsModel, defaultCenter)
-        updateListModel(rightWidgetsModel, defaultRight)
-        showLauncherButton = true
-        showWorkspaceSwitcher = true
-        showFocusedWindow = true
-        showWeather = true
-        showMusic = true
-        showClipboard = true
-        showCpuUsage = true
-        showMemUsage = true
-        showCpuTemp = true
-        showGpuTemp = true
-        showSystemTray = true
-        showClock = true
-        showNotificationButton = true
-        showBattery = true
-        showControlCenterButton = true
-        showCapsLockIndicator = true
+        updateListModel(leftWidgetsModel, defaultLeft);
+        updateListModel(centerWidgetsModel, defaultCenter);
+        updateListModel(rightWidgetsModel, defaultRight);
+        showLauncherButton = true;
+        showWorkspaceSwitcher = true;
+        showFocusedWindow = true;
+        showWeather = true;
+        showMusic = true;
+        showClipboard = true;
+        showCpuUsage = true;
+        showMemUsage = true;
+        showCpuTemp = true;
+        showGpuTemp = true;
+        showSystemTray = true;
+        showClock = true;
+        showNotificationButton = true;
+        showBattery = true;
+        showControlCenterButton = true;
+        showCapsLockIndicator = true;
     }
 
     function setWorkspaceNameIcon(workspaceName, iconData) {
-        var iconMap = JSON.parse(JSON.stringify(workspaceNameIcons))
-        iconMap[workspaceName] = iconData
-        workspaceNameIcons = iconMap
-        saveSettings()
-        workspaceIconsUpdated()
+        var iconMap = JSON.parse(JSON.stringify(workspaceNameIcons));
+        iconMap[workspaceName] = iconData;
+        workspaceNameIcons = iconMap;
+        saveSettings();
+        workspaceIconsUpdated();
     }
 
     function removeWorkspaceNameIcon(workspaceName) {
-        var iconMap = JSON.parse(JSON.stringify(workspaceNameIcons))
-        delete iconMap[workspaceName]
-        workspaceNameIcons = iconMap
-        saveSettings()
-        workspaceIconsUpdated()
+        var iconMap = JSON.parse(JSON.stringify(workspaceNameIcons));
+        delete iconMap[workspaceName];
+        workspaceNameIcons = iconMap;
+        saveSettings();
+        workspaceIconsUpdated();
     }
 
     function getWorkspaceNameIcon(workspaceName) {
-        return workspaceNameIcons[workspaceName] || null
+        return workspaceNameIcons[workspaceName] || null;
     }
 
     function toggleDankBarVisible() {
-        const defaultBar = barConfigs[0] || getBarConfig("default")
+        const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
-            updateBarConfig(defaultBar.id, { visible: !defaultBar.visible })
+            updateBarConfig(defaultBar.id, {
+                visible: !defaultBar.visible
+            });
         }
     }
 
     function toggleShowDock() {
-        setShowDock(!showDock)
+        setShowDock(!showDock);
     }
 
     function getPluginSetting(pluginId, key, defaultValue) {
         if (!pluginSettings[pluginId]) {
-            return defaultValue
+            return defaultValue;
         }
-        return pluginSettings[pluginId][key] !== undefined ? pluginSettings[pluginId][key] : defaultValue
+        return pluginSettings[pluginId][key] !== undefined ? pluginSettings[pluginId][key] : defaultValue;
     }
 
     function setPluginSetting(pluginId, key, value) {
-        const updated = JSON.parse(JSON.stringify(pluginSettings))
+        const updated = JSON.parse(JSON.stringify(pluginSettings));
         if (!updated[pluginId]) {
-            updated[pluginId] = {}
+            updated[pluginId] = {};
         }
-        updated[pluginId][key] = value
-        pluginSettings = updated
-        savePluginSettings()
+        updated[pluginId][key] = value;
+        pluginSettings = updated;
+        savePluginSettings();
     }
 
     function removePluginSettings(pluginId) {
         if (pluginSettings[pluginId]) {
-            delete pluginSettings[pluginId]
-            savePluginSettings()
+            delete pluginSettings[pluginId];
+            savePluginSettings();
         }
     }
 
     function getPluginSettingsForPlugin(pluginId) {
-        const settings = pluginSettings[pluginId]
-        return settings ? JSON.parse(JSON.stringify(settings)) : {}
+        const settings = pluginSettings[pluginId];
+        return settings ? JSON.parse(JSON.stringify(settings)) : {};
     }
-
 
     ListModel {
         id: leftWidgetsModel
@@ -1233,21 +1287,21 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         onLoaded: {
             if (!isGreeterMode) {
                 try {
-                    const txt = settingsFile.text()
-                    const obj = (txt && txt.trim()) ? JSON.parse(txt) : null
-                    Store.parse(root, obj)
+                    const txt = settingsFile.text();
+                    const obj = (txt && txt.trim()) ? JSON.parse(txt) : null;
+                    Store.parse(root, obj);
                 } catch (e) {
-                    console.warn("SettingsData: Failed to reload settings:", e.message)
+                    console.warn("SettingsData: Failed to reload settings:", e.message);
                 }
-                hasTriedDefaultSettings = false
+                hasTriedDefaultSettings = false;
             }
         }
         onLoadFailed: error => {
             if (!isGreeterMode && !hasTriedDefaultSettings) {
-                hasTriedDefaultSettings = true
-                Processes.checkDefaultSettings()
+                hasTriedDefaultSettings = true;
+                Processes.checkDefaultSettings();
             } else if (!isGreeterMode) {
-                applyStoredTheme()
+                applyStoredTheme();
             }
         }
     }
@@ -1262,12 +1316,12 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         watchChanges: !isGreeterMode
         onLoaded: {
             if (!isGreeterMode) {
-                parsePluginSettings(pluginSettingsFile.text())
+                parsePluginSettings(pluginSettingsFile.text());
             }
         }
         onLoadFailed: error => {
             if (!isGreeterMode) {
-                pluginSettings = {}
+                pluginSettings = {};
             }
         }
     }
@@ -1276,22 +1330,22 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
 
     IpcHandler {
         function reveal(): string {
-            root.setShowDock(true)
-            return "DOCK_SHOW_SUCCESS"
+            root.setShowDock(true);
+            return "DOCK_SHOW_SUCCESS";
         }
 
         function hide(): string {
-            root.setShowDock(false)
-            return "DOCK_HIDE_SUCCESS"
+            root.setShowDock(false);
+            return "DOCK_HIDE_SUCCESS";
         }
 
         function toggle(): string {
-            root.toggleShowDock()
-            return root.showDock ? "DOCK_SHOW_SUCCESS" : "DOCK_HIDE_SUCCESS"
+            root.toggleShowDock();
+            return root.showDock ? "DOCK_SHOW_SUCCESS" : "DOCK_HIDE_SUCCESS";
         }
 
         function status(): string {
-            return root.showDock ? "visible" : "hidden"
+            return root.showDock ? "visible" : "hidden";
         }
 
         target: "dock"

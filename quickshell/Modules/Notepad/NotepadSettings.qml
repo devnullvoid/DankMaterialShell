@@ -23,7 +23,7 @@ Item {
             var fontName = availableFonts[i];
             if (fontName.startsWith("."))
                 continue;
-            if (fontName === SettingsData.defaultFontFamily)
+            if (fontName === Theme.defaultFontFamily)
                 continue;
             var rootName = fontName.replace(/ (Thin|Extra Light|Light|Regular|Medium|Semi Bold|Demi Bold|Bold|Extra Bold|Black|Heavy)$/i, "").replace(/ (Italic|Oblique|Condensed|Extended|Narrow|Wide)$/i, "").replace(/ (UI|Display|Text|Mono|Sans|Serif)$/i, function (match, suffix) {
                 return match;
