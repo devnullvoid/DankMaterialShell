@@ -182,13 +182,19 @@ FloatingWindow {
                     }
                 }
 
-                SettingsContent {
-                    id: content
-
+                Item {
                     width: parent.width - sidebar.width
                     height: parent.height
-                    parentModal: settingsModal
-                    currentIndex: settingsModal.currentTabIndex
+
+                    SettingsContent {
+                        id: content
+
+                        width: Math.min(550, parent.width)
+                        height: parent.height
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        parentModal: settingsModal
+                        currentIndex: settingsModal.currentTabIndex
+                    }
                 }
             }
         }
