@@ -14,10 +14,11 @@ Item {
     property Item directContent: null
     property real modalWidth: 400
     property real modalHeight: 300
-    property var targetScreen: Quickshell.screens[0]
-    readonly property real screenWidth: targetScreen ? targetScreen.width : 1920
-    readonly property real screenHeight: targetScreen ? targetScreen.height : 1080
-    readonly property real dpr: targetScreen ? CompositorService.getScreenScale(targetScreen) : 1
+    property var targetScreen
+    readonly property var effectiveScreen: targetScreen || contentWindow.screen
+    readonly property real screenWidth: effectiveScreen?.width
+    readonly property real screenHeight: effectiveScreen?.height
+    readonly property real dpr: effectiveScreen ? CompositorService.getScreenScale(effectiveScreen) : 1
     property bool showBackground: true
     property real backgroundOpacity: 0.5
     property string positioning: "center"
@@ -130,7 +131,6 @@ Item {
 
     PanelWindow {
         id: backgroundWindow
-        screen: root.targetScreen
         visible: false
         color: "transparent"
 
@@ -179,7 +179,6 @@ Item {
 
     PanelWindow {
         id: contentWindow
-        screen: root.targetScreen
         visible: false
         color: "transparent"
 
