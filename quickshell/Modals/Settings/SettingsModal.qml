@@ -14,6 +14,9 @@ FloatingWindow {
     property bool shouldHaveFocus: visible
     property bool allowFocusOverride: false
     property alias shouldBeVisible: settingsModal.visible
+    property bool isCompactMode: width < 700
+    property bool menuVisible: !isCompactMode
+    property bool enableAnimations: true
 
     signal closingModal
 
@@ -29,12 +32,27 @@ FloatingWindow {
         visible = !visible;
     }
 
+    function toggleMenu() {
+        enableAnimations = true;
+        menuVisible = !menuVisible;
+    }
+
     objectName: "settingsModal"
     title: "Settings"
     implicitWidth: 800
     implicitHeight: 800
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
     visible: false
+
+    onIsCompactModeChanged: {
+        enableAnimations = false;
+        if (!isCompactMode) {
+            menuVisible = true;
+        }
+        Qt.callLater(() => {
+            enableAnimations = true;
+        });
+    }
 
     onVisibleChanged: {
         if (!visible) {
@@ -123,20 +141,36 @@ FloatingWindow {
 
         Column {
             anchors.fill: parent
-            anchors.leftMargin: Theme.spacingL
-            anchors.rightMargin: Theme.spacingL
-            anchors.topMargin: Theme.spacingM
-            anchors.bottomMargin: Theme.spacingL
             spacing: 0
 
             Item {
                 width: parent.width
-                height: 35
+                height: 48
+                z: 10
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: Theme.surfaceContainer
+                    opacity: 0.5
+                }
 
                 Row {
                     anchors.left: parent.left
+                    anchors.leftMargin: Theme.spacingL
                     anchors.verticalCenter: parent.verticalCenter
                     spacing: Theme.spacingM
+
+                    DankActionButton {
+                        visible: settingsModal.isCompactMode
+                        circular: false
+                        iconName: "menu"
+                        iconSize: Theme.iconSize - 4
+                        iconColor: Theme.surfaceText
+                        anchors.verticalCenter: parent.verticalCenter
+                        onClicked: () => {
+                            settingsModal.toggleMenu();
+                        }
+                    }
 
                     DankIcon {
                         name: "settings"
@@ -156,7 +190,9 @@ FloatingWindow {
 
                 DankActionButton {
                     anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.rightMargin: Theme.spacingM
+                    anchors.top: parent.top
+                    anchors.topMargin: Theme.spacingM
                     circular: false
                     iconName: "close"
                     iconSize: Theme.iconSize - 4
@@ -167,33 +203,50 @@ FloatingWindow {
                 }
             }
 
-            Row {
+            Item {
                 width: parent.width
-                height: parent.height - 35
-                spacing: 0
+                height: parent.height - 48
+                clip: true
 
                 SettingsSidebar {
                     id: sidebar
 
+                    x: 0
+                    width: settingsModal.isCompactMode ? parent.width : 270
+                    visible: settingsModal.isCompactMode ? settingsModal.menuVisible : true
                     parentModal: settingsModal
                     currentIndex: settingsModal.currentTabIndex
                     onCurrentIndexChanged: {
                         settingsModal.currentTabIndex = currentIndex;
+                        if (settingsModal.isCompactMode) {
+                            settingsModal.enableAnimations = true;
+                            settingsModal.menuVisible = false;
+                        }
                     }
                 }
 
                 Item {
-                    width: parent.width - sidebar.width
+                    x: settingsModal.isCompactMode ? (settingsModal.menuVisible ? parent.width : 0) : sidebar.width
+                    width: settingsModal.isCompactMode ? parent.width : parent.width - sidebar.width
                     height: parent.height
+                    clip: true
 
                     SettingsContent {
                         id: content
 
-                        width: Math.min(550, parent.width)
+                        width: Math.min(550, parent.width - Theme.spacingL * 2)
                         height: parent.height
                         anchors.horizontalCenter: parent.horizontalCenter
                         parentModal: settingsModal
                         currentIndex: settingsModal.currentTabIndex
+                    }
+
+                    Behavior on x {
+                        enabled: settingsModal.enableAnimations
+                        NumberAnimation {
+                            duration: Theme.mediumDuration
+                            easing.bezierCurve: Theme.expressiveCurves.emphasizedDecel
+                        }
                     }
                 }
             }
