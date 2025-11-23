@@ -1,0 +1,8 @@
+dms-git (0.6.2+git) nightly; urgency=medium
+
+  * Build dms binary from source for true git version strings
+  * Match Fedora COPR git build behavior
+  * Now shows proper git version (e.g., v0.6.2-11-g12e91534)
+  * Add golang-go and make as build dependencies
+
+ -- Avenge Media <AvengeMedia.US@gmail.com>  Fri, 22 Nov 2025 00:00:00 -0500

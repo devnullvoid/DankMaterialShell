@@ -1,0 +1,54 @@
+#!/usr/bin/make -f
+
+DEB_VERSION := $(shell dpkg-parsechangelog -S Version)
+UPSTREAM_VERSION := $(shell echo $(DEB_VERSION) | sed 's/-[^-]*$$//')
+DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	if [ "$(DEB_HOST_ARCH)" = "amd64" ]; then \
+		if [ -f dms-distropkg-amd64.gz ]; then \
+			gunzip -c dms-distropkg-amd64.gz > dms; \
+		elif [ -f ../SOURCES/dms-distropkg-amd64.gz ]; then \
+			gunzip -c ../SOURCES/dms-distropkg-amd64.gz > dms; \
+		else \
+			echo "ERROR: dms-distropkg-amd64.gz not found!" && exit 1; \
+		fi \
+	elif [ "$(DEB_HOST_ARCH)" = "arm64" ]; then \
+		if [ -f dms-distropkg-arm64.gz ]; then \
+			gunzip -c dms-distropkg-arm64.gz > dms; \
+		elif [ -f ../SOURCES/dms-distropkg-arm64.gz ]; then \
+			gunzip -c ../SOURCES/dms-distropkg-arm64.gz > dms; \
+		else \
+			echo "ERROR: dms-distropkg-arm64.gz not found!" && exit 1; \
+		fi \
+	else \
+		echo "Unsupported architecture: $(DEB_HOST_ARCH)" && exit 1; \
+	fi
+	chmod +x dms
+
+override_dh_auto_install:
+	install -Dm755 dms debian/dms-git/usr/bin/dms
+
+	mkdir -p debian/dms-git/usr/share/quickshell/dms debian/dms-git/usr/lib/systemd/user
+	if [ -d quickshell ]; then \
+		cp -r quickshell/* debian/dms-git/usr/share/quickshell/dms/; \
+		install -Dm644 quickshell/assets/systemd/dms.service debian/dms-git/usr/lib/systemd/user/dms.service; \
+	elif [ -d dms-git-source/quickshell ]; then \
+		cp -r dms-git-source/quickshell/* debian/dms-git/usr/share/quickshell/dms/; \
+		install -Dm644 dms-git-source/quickshell/assets/systemd/dms.service debian/dms-git/usr/lib/systemd/user/dms.service; \
+	else \
+		echo "ERROR: quickshell directory not found (checked root and dms-git-source/)!" && \
+		echo "Contents of current directory:" && ls -la && \
+		exit 1; \
+	fi
+
+	rm -rf debian/dms-git/usr/share/quickshell/dms/core \
+		debian/dms-git/usr/share/quickshell/dms/distro
+
+override_dh_auto_clean:
+	rm -f dms
+	[ ! -d dms-git-source ] || rm -rf dms-git-source
+	dh_auto_clean

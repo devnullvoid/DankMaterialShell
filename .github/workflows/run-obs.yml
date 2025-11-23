@@ -1,0 +1,108 @@
+name: Update OBS Packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: 'Package to update (dms, dms-git, or all)'
+        required: false
+        default: 'all'
+  push:
+    tags:
+      - 'v*'
+  schedule:
+    - cron: '0 */3 * * *'  # Every 3 hours for dms-git builds
+
+jobs:
+  update-obs:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Determine packages to update
+        id: packages
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" =~ ^refs/tags/ ]]; then
+            echo "packages=dms" >> $GITHUB_OUTPUT
+            VERSION="${GITHUB_REF#refs/tags/}"
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+            echo "Triggered by tag: $VERSION"
+          elif [[ "${{ github.event_name }}" == "schedule" ]]; then
+            echo "packages=dms-git" >> $GITHUB_OUTPUT
+            echo "Triggered by schedule: updating git package"
+          elif [[ -n "${{ github.event.inputs.package }}" ]]; then
+            echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
+            echo "Manual trigger: ${{ github.event.inputs.package }}"
+          else
+            echo "packages=all" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Update version in packaging files
+        if: steps.packages.outputs.version != ''
+        run: |
+          VERSION="${{ steps.packages.outputs.version }}"
+          VERSION_NO_V="${VERSION#v}"
+          echo "Updating packaging to version $VERSION_NO_V"
+          
+          # Update openSUSE spec files
+          sed -i "s/^Version:.*/Version:        $VERSION_NO_V/" distro/opensuse/*.spec
+          
+          # Update Debian _service files
+          for service in distro/debian/*/_service; do
+            if [[ -f "$service" ]]; then
+              sed -i "s|<param name=\"revision\">v[0-9.]*</param>|<param name=\"revision\">$VERSION</param>|" "$service"
+            fi
+          done
+          
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add distro/
+          git commit -m "chore: update packaging to $VERSION" || echo "No changes to commit"
+      
+      - name: Install OSC
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y osc
+          
+          mkdir -p ~/.config/osc
+          cat > ~/.config/osc/oscrc << EOF
+          [general]
+          apiurl = https://api.opensuse.org
+          
+          [https://api.opensuse.org]
+          user = ${{ secrets.OBS_USERNAME }}
+          pass = ${{ secrets.OBS_PASSWORD }}
+          EOF
+          chmod 600 ~/.config/osc/oscrc
+      
+      - name: Upload to OBS
+        run: |
+          PACKAGES="${{ steps.packages.outputs.packages }}"
+          MESSAGE="Automated update from GitHub Actions"
+          
+          if [[ -n "${{ steps.packages.outputs.version }}" ]]; then
+            MESSAGE="Update to ${{ steps.packages.outputs.version }}"
+          fi
+          
+          cd distro
+          
+          if [[ "$PACKAGES" == "all" ]]; then
+            bash scripts/obs-upload.sh dms "$MESSAGE"
+            bash scripts/obs-upload.sh dms-git "Automated git update"
+          else
+            bash scripts/obs-upload.sh "$PACKAGES" "$MESSAGE"
+          fi
+      
+      - name: Summary
+        run: |
+          echo "### OBS Package Update Complete" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Packages**: ${{ steps.packages.outputs.packages }}" >> $GITHUB_STEP_SUMMARY
+          if [[ -n "${{ steps.packages.outputs.version }}" ]]; then
+            echo "- **Version**: ${{ steps.packages.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "- **Project**: https://build.opensuse.org/project/show/home:AvengeMedia" >> $GITHUB_STEP_SUMMARY

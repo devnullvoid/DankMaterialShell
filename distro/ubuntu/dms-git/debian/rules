@@ -1,0 +1,45 @@
+#!/usr/bin/make -f
+
+export DH_VERBOSE = 1
+
+# Get git commit date for version
+GIT_DATE := $(shell date +%Y%m%d)
+GIT_COMMIT := HEAD
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	# Git source is already included in source package (cloned by build-source.sh)
+	# Launchpad build environment has no internet access
+	test -d dms-git-repo || (echo "ERROR: dms-git-repo directory not found!" && exit 1)
+	test -f dms-distropkg-amd64.gz || (echo "ERROR: dms-distropkg-amd64.gz not found!" && exit 1)
+
+	# Extract pre-built binary from latest release
+	# Note: For git versions, we use the latest release binary
+	# The QML files come from git master
+	gunzip -c dms-distropkg-amd64.gz > dms
+	chmod +x dms
+
+override_dh_auto_install:
+	# Install binary
+	install -Dm755 dms debian/dms-git/usr/bin/dms
+
+	# Install QML files from git clone
+	mkdir -p debian/dms-git/usr/share/quickshell/dms
+	cp -r dms-git-repo/* debian/dms-git/usr/share/quickshell/dms/
+
+	# Remove unnecessary directories
+	rm -rf debian/dms-git/usr/share/quickshell/dms/core
+	rm -rf debian/dms-git/usr/share/quickshell/dms/distro
+
+	# Install systemd user service
+	install -Dm644 dms-git-repo/quickshell/assets/systemd/dms.service \
+		debian/dms-git/usr/lib/systemd/user/dms.service
+
+override_dh_auto_clean:
+	# Don't delete dms-git-repo directory - it's part of the source package (native format)
+	# Clean up build artifacts (but keep dms-distropkg-amd64.gz for Launchpad)
+	rm -f dms
+	# Don't remove dms-distropkg-amd64.gz - it needs to be included in the source package for Launchpad builds
+	dh_auto_clean
