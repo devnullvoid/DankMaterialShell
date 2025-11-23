@@ -218,16 +218,9 @@ window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
 }
-// Open dms settings as floating by default
+// Open dms windows as floating by default
 window-rule {
     match app-id=r#"org.quickshell$"#
-    match title="Settings"
-    open-floating true
-}
-// dms file browser
-window-rule {
-    match app-id=r#"org.quickshell$"#
-    match title=r#"File$"#
     open-floating true
 }
 binds {
