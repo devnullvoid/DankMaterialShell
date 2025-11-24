@@ -53,6 +53,120 @@ Item {
         }
     }
 
+    Timer {
+        id: edgeSpacingDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 4
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                spacing: pendingValue
+            });
+            notifyHorizontalBarChange();
+        }
+    }
+
+    Timer {
+        id: exclusiveZoneDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 0
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                bottomGap: pendingValue
+            });
+            notifyHorizontalBarChange();
+        }
+    }
+
+    Timer {
+        id: sizeDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 4
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                innerPadding: pendingValue
+            });
+            notifyHorizontalBarChange();
+        }
+    }
+
+    Timer {
+        id: popupGapsManualDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 4
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                popupGapsManual: pendingValue
+            });
+            notifyHorizontalBarChange();
+        }
+    }
+
+    Timer {
+        id: gothCornerRadiusDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 12
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                gothCornerRadiusValue: pendingValue
+            });
+        }
+    }
+
+    Timer {
+        id: borderOpacityDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 1.0
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                borderOpacity: pendingValue
+            });
+        }
+    }
+
+    Timer {
+        id: borderThicknessDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 1
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                borderThickness: pendingValue
+            });
+        }
+    }
+
+    Timer {
+        id: barTransparencyDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 1.0
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                transparency: pendingValue
+            });
+            notifyHorizontalBarChange();
+        }
+    }
+
+    Timer {
+        id: widgetTransparencyDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 1.0
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                widgetTransparency: pendingValue
+            });
+            notifyHorizontalBarChange();
+        }
+    }
+
     // ! Hacky workaround because we want to re-register any vertical bars after changing a hBar
     // ! That allows them to re-make with the right exclusiveZone
     function notifyHorizontalBarChange() {
@@ -1710,10 +1824,8 @@ Item {
                             wheelEnabled: false
                             thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                             onSliderValueChanged: newValue => {
-                                SettingsData.updateBarConfig(selectedBarId, {
-                                    spacing: newValue
-                                });
-                                notifyHorizontalBarChange();
+                                edgeSpacingDebounce.pendingValue = newValue;
+                                edgeSpacingDebounce.restart();
                             }
 
                             Binding {
@@ -1786,10 +1898,8 @@ Item {
                             wheelEnabled: false
                             thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                             onSliderValueChanged: newValue => {
-                                SettingsData.updateBarConfig(selectedBarId, {
-                                    bottomGap: newValue
-                                });
-                                notifyHorizontalBarChange();
+                                exclusiveZoneDebounce.pendingValue = newValue;
+                                exclusiveZoneDebounce.restart();
                             }
 
                             Binding {
@@ -1862,10 +1972,8 @@ Item {
                             wheelEnabled: false
                             thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                             onSliderValueChanged: newValue => {
-                                SettingsData.updateBarConfig(selectedBarId, {
-                                    innerPadding: newValue
-                                });
-                                notifyHorizontalBarChange();
+                                sizeDebounce.pendingValue = newValue;
+                                sizeDebounce.restart();
                             }
 
                             Binding {
@@ -1968,10 +2076,8 @@ Item {
                                     wheelEnabled: false
                                     thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                                     onSliderValueChanged: newValue => {
-                                        SettingsData.updateBarConfig(selectedBarId, {
-                                            popupGapsManual: newValue
-                                        });
-                                        notifyHorizontalBarChange();
+                                        popupGapsManualDebounce.pendingValue = newValue;
+                                        popupGapsManualDebounce.restart();
                                     }
 
                                     Binding {
@@ -2100,9 +2206,8 @@ Item {
                                 wheelEnabled: false
                                 thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                                 onSliderValueChanged: newValue => {
-                                    SettingsData.updateBarConfig(selectedBarId, {
-                                        gothCornerRadiusValue: newValue
-                                    });
+                                    gothCornerRadiusDebounce.pendingValue = newValue;
+                                    gothCornerRadiusDebounce.restart();
                                 }
 
                                 Binding {
@@ -2267,9 +2372,8 @@ Item {
                                     wheelEnabled: false
                                     thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                                     onSliderValueChanged: newValue => {
-                                        SettingsData.updateBarConfig(selectedBarId, {
-                                            borderOpacity: newValue / 100
-                                        });
+                                        borderOpacityDebounce.pendingValue = newValue / 100;
+                                        borderOpacityDebounce.restart();
                                     }
 
                                     Binding {
@@ -2342,9 +2446,8 @@ Item {
                                     wheelEnabled: false
                                     thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                                     onSliderValueChanged: newValue => {
-                                        SettingsData.updateBarConfig(selectedBarId, {
-                                            borderThickness: newValue
-                                        });
+                                        borderThicknessDebounce.pendingValue = newValue;
+                                        borderThicknessDebounce.restart();
                                     }
 
                                     Binding {
@@ -2426,10 +2529,8 @@ Item {
                             wheelEnabled: false
                             thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                             onSliderValueChanged: newValue => {
-                                SettingsData.updateBarConfig(selectedBarId, {
-                                    transparency: newValue / 100
-                                });
-                                notifyHorizontalBarChange();
+                                barTransparencyDebounce.pendingValue = newValue / 100;
+                                barTransparencyDebounce.restart();
                             }
 
                             Binding {
@@ -2503,10 +2604,8 @@ Item {
                             wheelEnabled: false
                             thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                             onSliderValueChanged: newValue => {
-                                SettingsData.updateBarConfig(selectedBarId, {
-                                    widgetTransparency: newValue / 100
-                                });
-                                notifyHorizontalBarChange();
+                                widgetTransparencyDebounce.pendingValue = newValue / 100;
+                                widgetTransparencyDebounce.restart();
                             }
 
                             Binding {
