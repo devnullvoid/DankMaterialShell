@@ -20,19 +20,21 @@ Item {
             Ref {
                 service: CavaService
             }
-
         }
-
     }
+
+    readonly property real maxBarHeight: Theme.iconSize - 2
+    readonly property real minBarHeight: 3
+    readonly property real heightRange: maxBarHeight - minBarHeight
 
     Timer {
         id: fallbackTimer
 
         running: !CavaService.cavaAvailable && isPlaying
-        interval: 256
+        interval: 500
         repeat: true
         onTriggered: {
-            CavaService.values = [Math.random() * 40 + 10, Math.random() * 60 + 20, Math.random() * 50 + 15, Math.random() * 35 + 20, Math.random() * 45 + 15, Math.random() * 55 + 25];
+            CavaService.values = [Math.random() * 20 + 5, Math.random() * 25 + 8, Math.random() * 22 + 6, Math.random() * 20 + 5, Math.random() * 22 + 6, Math.random() * 25 + 8];
         }
     }
 
@@ -44,17 +46,18 @@ Item {
             model: 6
 
             Rectangle {
-                width: 2
-                height: {
-                    if (root.isPlaying && CavaService.values.length > index) {
-                        const rawLevel = CavaService.values[index] || 0;
-                        const scaledLevel = Math.sqrt(Math.min(Math.max(rawLevel, 0), 100) / 100) * 100;
-                        const maxHeight = Theme.iconSize - 2;
-                        const minHeight = 3;
-                        return minHeight + (scaledLevel / 100) * (maxHeight - minHeight);
-                    }
-                    return 3;
+                readonly property real targetHeight: {
+                    if (!root.isPlaying || CavaService.values.length <= index)
+                        return root.minBarHeight;
+
+                    const rawLevel = CavaService.values[index];
+                    const clampedLevel = rawLevel < 0 ? 0 : (rawLevel > 100 ? 100 : rawLevel);
+                    const scaledLevel = Math.sqrt(clampedLevel * 0.01);
+                    return root.minBarHeight + scaledLevel * root.heightRange;
                 }
+
+                width: 2
+                height: targetHeight
                 radius: 1.5
                 color: Theme.primary
                 anchors.verticalCenter: parent.verticalCenter
@@ -65,13 +68,8 @@ Item {
                         easing.type: Easing.BezierSpline
                         easing.bezierCurve: Anims.standardDecel
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }
