@@ -76,10 +76,10 @@ Item {
                         checked: SessionService.loginctlAvailable && SettingsData.loginctlLockIntegration
                         enabled: SessionService.loginctlAvailable
                         onToggled: checked => {
-                                       if (SessionService.loginctlAvailable) {
-                                           SettingsData.set("loginctlLockIntegration", checked)
-                                       }
-                                   }
+                            if (SessionService.loginctlAvailable) {
+                                SettingsData.set("loginctlLockIntegration", checked);
+                            }
+                        }
                     }
 
                     DankToggle {
@@ -160,6 +160,40 @@ Item {
                         onToggled: checked => SettingsData.set("preventIdleForMedia", checked)
                     }
 
+                    DankToggle {
+                        width: parent.width
+                        text: I18n.tr("Fade to lock screen")
+                        description: I18n.tr("Gradually fade the screen before locking with a configurable grace period")
+                        checked: SettingsData.fadeToLockEnabled
+                        onToggled: checked => SettingsData.set("fadeToLockEnabled", checked)
+                    }
+
+                    DankDropdown {
+                        id: fadeGracePeriodDropdown
+                        property var periodOptions: ["1 second", "2 seconds", "3 seconds", "4 seconds", "5 seconds", "10 seconds", "15 seconds", "20 seconds", "30 seconds"]
+                        property var periodValues: [1, 2, 3, 4, 5, 10, 15, 20, 30]
+
+                        width: parent.width
+                        addHorizontalPadding: true
+                        text: I18n.tr("Fade grace period")
+                        options: periodOptions
+                        visible: SettingsData.fadeToLockEnabled
+                        enabled: SettingsData.fadeToLockEnabled
+
+                        Component.onCompleted: {
+                            const currentPeriod = SettingsData.fadeToLockGracePeriod;
+                            const index = periodValues.indexOf(currentPeriod);
+                            currentValue = index >= 0 ? periodOptions[index] : "5 seconds";
+                        }
+
+                        onValueChanged: value => {
+                            const index = periodOptions.indexOf(value);
+                            if (index >= 0) {
+                                SettingsData.set("fadeToLockGracePeriod", periodValues[index]);
+                            }
+                        }
+                    }
+
                     DankDropdown {
                         id: lockDropdown
                         property var timeoutOptions: ["Never", "1 minute", "2 minutes", "3 minutes", "5 minutes", "10 minutes", "15 minutes", "20 minutes", "30 minutes", "1 hour", "1 hour 30 minutes", "2 hours", "3 hours"]
@@ -172,29 +206,29 @@ Item {
                         Connections {
                             target: powerCategory
                             function onCurrentIndexChanged() {
-                                const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acLockTimeout : SettingsData.batteryLockTimeout
-                                const index = lockDropdown.timeoutValues.indexOf(currentTimeout)
-                                lockDropdown.currentValue = index >= 0 ? lockDropdown.timeoutOptions[index] : "Never"
+                                const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acLockTimeout : SettingsData.batteryLockTimeout;
+                                const index = lockDropdown.timeoutValues.indexOf(currentTimeout);
+                                lockDropdown.currentValue = index >= 0 ? lockDropdown.timeoutOptions[index] : "Never";
                             }
                         }
 
                         Component.onCompleted: {
-                            const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acLockTimeout : SettingsData.batteryLockTimeout
-                            const index = timeoutValues.indexOf(currentTimeout)
-                            currentValue = index >= 0 ? timeoutOptions[index] : "Never"
+                            const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acLockTimeout : SettingsData.batteryLockTimeout;
+                            const index = timeoutValues.indexOf(currentTimeout);
+                            currentValue = index >= 0 ? timeoutOptions[index] : "Never";
                         }
 
                         onValueChanged: value => {
-                                            const index = timeoutOptions.indexOf(value)
-                                            if (index >= 0) {
-                                                const timeout = timeoutValues[index]
-                                                if (powerCategory.currentIndex === 0) {
-                                                    SettingsData.set("acLockTimeout", timeout)
-                                                } else {
-                                                    SettingsData.set("batteryLockTimeout", timeout)
-                                                }
-                                            }
-                                        }
+                            const index = timeoutOptions.indexOf(value);
+                            if (index >= 0) {
+                                const timeout = timeoutValues[index];
+                                if (powerCategory.currentIndex === 0) {
+                                    SettingsData.set("acLockTimeout", timeout);
+                                } else {
+                                    SettingsData.set("batteryLockTimeout", timeout);
+                                }
+                            }
+                        }
                     }
 
                     DankDropdown {
@@ -209,29 +243,29 @@ Item {
                         Connections {
                             target: powerCategory
                             function onCurrentIndexChanged() {
-                                const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acMonitorTimeout : SettingsData.batteryMonitorTimeout
-                                const index = monitorDropdown.timeoutValues.indexOf(currentTimeout)
-                                monitorDropdown.currentValue = index >= 0 ? monitorDropdown.timeoutOptions[index] : "Never"
+                                const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acMonitorTimeout : SettingsData.batteryMonitorTimeout;
+                                const index = monitorDropdown.timeoutValues.indexOf(currentTimeout);
+                                monitorDropdown.currentValue = index >= 0 ? monitorDropdown.timeoutOptions[index] : "Never";
                             }
                         }
 
                         Component.onCompleted: {
-                            const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acMonitorTimeout : SettingsData.batteryMonitorTimeout
-                            const index = timeoutValues.indexOf(currentTimeout)
-                            currentValue = index >= 0 ? timeoutOptions[index] : "Never"
+                            const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acMonitorTimeout : SettingsData.batteryMonitorTimeout;
+                            const index = timeoutValues.indexOf(currentTimeout);
+                            currentValue = index >= 0 ? timeoutOptions[index] : "Never";
                         }
 
                         onValueChanged: value => {
-                                            const index = timeoutOptions.indexOf(value)
-                                            if (index >= 0) {
-                                                const timeout = timeoutValues[index]
-                                                if (powerCategory.currentIndex === 0) {
-                                                    SettingsData.set("acMonitorTimeout", timeout)
-                                                } else {
-                                                    SettingsData.set("batteryMonitorTimeout", timeout)
-                                                }
-                                            }
-                                        }
+                            const index = timeoutOptions.indexOf(value);
+                            if (index >= 0) {
+                                const timeout = timeoutValues[index];
+                                if (powerCategory.currentIndex === 0) {
+                                    SettingsData.set("acMonitorTimeout", timeout);
+                                } else {
+                                    SettingsData.set("batteryMonitorTimeout", timeout);
+                                }
+                            }
+                        }
                     }
 
                     DankDropdown {
@@ -246,29 +280,29 @@ Item {
                         Connections {
                             target: powerCategory
                             function onCurrentIndexChanged() {
-                                const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acSuspendTimeout : SettingsData.batterySuspendTimeout
-                                const index = suspendDropdown.timeoutValues.indexOf(currentTimeout)
-                                suspendDropdown.currentValue = index >= 0 ? suspendDropdown.timeoutOptions[index] : "Never"
+                                const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acSuspendTimeout : SettingsData.batterySuspendTimeout;
+                                const index = suspendDropdown.timeoutValues.indexOf(currentTimeout);
+                                suspendDropdown.currentValue = index >= 0 ? suspendDropdown.timeoutOptions[index] : "Never";
                             }
                         }
 
                         Component.onCompleted: {
-                            const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acSuspendTimeout : SettingsData.batterySuspendTimeout
-                            const index = timeoutValues.indexOf(currentTimeout)
-                            currentValue = index >= 0 ? timeoutOptions[index] : "Never"
+                            const currentTimeout = powerCategory.currentIndex === 0 ? SettingsData.acSuspendTimeout : SettingsData.batterySuspendTimeout;
+                            const index = timeoutValues.indexOf(currentTimeout);
+                            currentValue = index >= 0 ? timeoutOptions[index] : "Never";
                         }
 
                         onValueChanged: value => {
-                                            const index = timeoutOptions.indexOf(value)
-                                            if (index >= 0) {
-                                                const timeout = timeoutValues[index]
-                                                if (powerCategory.currentIndex === 0) {
-                                                    SettingsData.set("acSuspendTimeout", timeout)
-                                                } else {
-                                                    SettingsData.set("batterySuspendTimeout", timeout)
-                                                }
-                                            }
-                                        }
+                            const index = timeoutOptions.indexOf(value);
+                            if (index >= 0) {
+                                const timeout = timeoutValues[index];
+                                if (powerCategory.currentIndex === 0) {
+                                    SettingsData.set("acSuspendTimeout", timeout);
+                                } else {
+                                    SettingsData.set("batterySuspendTimeout", timeout);
+                                }
+                            }
+                        }
                     }
 
                     Column {
@@ -293,25 +327,25 @@ Item {
                             Connections {
                                 target: powerCategory
                                 function onCurrentIndexChanged() {
-                                    const behavior = powerCategory.currentIndex === 0 ? SettingsData.acSuspendBehavior : SettingsData.batterySuspendBehavior
-                                    suspendBehaviorSelector.currentIndex = behavior
+                                    const behavior = powerCategory.currentIndex === 0 ? SettingsData.acSuspendBehavior : SettingsData.batterySuspendBehavior;
+                                    suspendBehaviorSelector.currentIndex = behavior;
                                 }
                             }
 
                             Component.onCompleted: {
-                                const behavior = powerCategory.currentIndex === 0 ? SettingsData.acSuspendBehavior : SettingsData.batterySuspendBehavior
-                                currentIndex = behavior
+                                const behavior = powerCategory.currentIndex === 0 ? SettingsData.acSuspendBehavior : SettingsData.batterySuspendBehavior;
+                                currentIndex = behavior;
                             }
 
                             onSelectionChanged: (index, selected) => {
-                                                    if (selected) {
-                                                        if (powerCategory.currentIndex === 0) {
-                                                            SettingsData.set("acSuspendBehavior", index)
-                                                        } else {
-                                                            SettingsData.set("batterySuspendBehavior", index)
-                                                        }
-                                                    }
-                                                }
+                                if (selected) {
+                                    if (powerCategory.currentIndex === 0) {
+                                        SettingsData.set("acSuspendBehavior", index);
+                                    } else {
+                                        SettingsData.set("batterySuspendBehavior", index);
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -384,17 +418,17 @@ Item {
                         property var actionValues: ["reboot", "logout", "poweroff", "lock", "suspend", "restart", "hibernate"]
 
                         Component.onCompleted: {
-                            const currentAction = SettingsData.powerMenuDefaultAction || "logout"
-                            const index = actionValues.indexOf(currentAction)
-                            currentValue = index >= 0 ? options[index] : "Log Out"
+                            const currentAction = SettingsData.powerMenuDefaultAction || "logout";
+                            const index = actionValues.indexOf(currentAction);
+                            currentValue = index >= 0 ? options[index] : "Log Out";
                         }
 
                         onValueChanged: value => {
-                                            const index = options.indexOf(value)
-                                            if (index >= 0) {
-                                                SettingsData.set("powerMenuDefaultAction", actionValues[index])
-                                            }
-                                        }
+                            const index = options.indexOf(value);
+                            if (index >= 0) {
+                                SettingsData.set("powerMenuDefaultAction", actionValues[index]);
+                            }
+                        }
                     }
 
                     Column {
@@ -406,14 +440,14 @@ Item {
                             text: I18n.tr("Show Reboot")
                             checked: SettingsData.powerMenuActions.includes("reboot")
                             onToggled: checked => {
-                                           let actions = [...SettingsData.powerMenuActions]
-                                           if (checked && !actions.includes("reboot")) {
-                                               actions.push("reboot")
-                                           } else if (!checked) {
-                                               actions = actions.filter(a => a !== "reboot")
-                                           }
-                                           SettingsData.set("powerMenuActions", actions)
-                                       }
+                                let actions = [...SettingsData.powerMenuActions];
+                                if (checked && !actions.includes("reboot")) {
+                                    actions.push("reboot");
+                                } else if (!checked) {
+                                    actions = actions.filter(a => a !== "reboot");
+                                }
+                                SettingsData.set("powerMenuActions", actions);
+                            }
                         }
 
                         DankToggle {
@@ -421,14 +455,14 @@ Item {
                             text: I18n.tr("Show Log Out")
                             checked: SettingsData.powerMenuActions.includes("logout")
                             onToggled: checked => {
-                                           let actions = [...SettingsData.powerMenuActions]
-                                           if (checked && !actions.includes("logout")) {
-                                               actions.push("logout")
-                                           } else if (!checked) {
-                                               actions = actions.filter(a => a !== "logout")
-                                           }
-                                           SettingsData.set("powerMenuActions", actions)
-                                       }
+                                let actions = [...SettingsData.powerMenuActions];
+                                if (checked && !actions.includes("logout")) {
+                                    actions.push("logout");
+                                } else if (!checked) {
+                                    actions = actions.filter(a => a !== "logout");
+                                }
+                                SettingsData.set("powerMenuActions", actions);
+                            }
                         }
 
                         DankToggle {
@@ -436,14 +470,14 @@ Item {
                             text: I18n.tr("Show Power Off")
                             checked: SettingsData.powerMenuActions.includes("poweroff")
                             onToggled: checked => {
-                                           let actions = [...SettingsData.powerMenuActions]
-                                           if (checked && !actions.includes("poweroff")) {
-                                               actions.push("poweroff")
-                                           } else if (!checked) {
-                                               actions = actions.filter(a => a !== "poweroff")
-                                           }
-                                           SettingsData.set("powerMenuActions", actions)
-                                       }
+                                let actions = [...SettingsData.powerMenuActions];
+                                if (checked && !actions.includes("poweroff")) {
+                                    actions.push("poweroff");
+                                } else if (!checked) {
+                                    actions = actions.filter(a => a !== "poweroff");
+                                }
+                                SettingsData.set("powerMenuActions", actions);
+                            }
                         }
 
                         DankToggle {
@@ -451,14 +485,14 @@ Item {
                             text: I18n.tr("Show Lock")
                             checked: SettingsData.powerMenuActions.includes("lock")
                             onToggled: checked => {
-                                           let actions = [...SettingsData.powerMenuActions]
-                                           if (checked && !actions.includes("lock")) {
-                                               actions.push("lock")
-                                           } else if (!checked) {
-                                               actions = actions.filter(a => a !== "lock")
-                                           }
-                                           SettingsData.set("powerMenuActions", actions)
-                                       }
+                                let actions = [...SettingsData.powerMenuActions];
+                                if (checked && !actions.includes("lock")) {
+                                    actions.push("lock");
+                                } else if (!checked) {
+                                    actions = actions.filter(a => a !== "lock");
+                                }
+                                SettingsData.set("powerMenuActions", actions);
+                            }
                         }
 
                         DankToggle {
@@ -466,14 +500,14 @@ Item {
                             text: I18n.tr("Show Suspend")
                             checked: SettingsData.powerMenuActions.includes("suspend")
                             onToggled: checked => {
-                                           let actions = [...SettingsData.powerMenuActions]
-                                           if (checked && !actions.includes("suspend")) {
-                                               actions.push("suspend")
-                                           } else if (!checked) {
-                                               actions = actions.filter(a => a !== "suspend")
-                                           }
-                                           SettingsData.set("powerMenuActions", actions)
-                                       }
+                                let actions = [...SettingsData.powerMenuActions];
+                                if (checked && !actions.includes("suspend")) {
+                                    actions.push("suspend");
+                                } else if (!checked) {
+                                    actions = actions.filter(a => a !== "suspend");
+                                }
+                                SettingsData.set("powerMenuActions", actions);
+                            }
                         }
 
                         DankToggle {
@@ -482,14 +516,14 @@ Item {
                             description: I18n.tr("Restart the DankMaterialShell")
                             checked: SettingsData.powerMenuActions.includes("restart")
                             onToggled: checked => {
-                                           let actions = [...SettingsData.powerMenuActions]
-                                           if (checked && !actions.includes("restart")) {
-                                               actions.push("restart")
-                                           } else if (!checked) {
-                                               actions = actions.filter(a => a !== "restart")
-                                           }
-                                           SettingsData.set("powerMenuActions", actions)
-                                       }
+                                let actions = [...SettingsData.powerMenuActions];
+                                if (checked && !actions.includes("restart")) {
+                                    actions.push("restart");
+                                } else if (!checked) {
+                                    actions = actions.filter(a => a !== "restart");
+                                }
+                                SettingsData.set("powerMenuActions", actions);
+                            }
                         }
 
                         DankToggle {
@@ -499,14 +533,14 @@ Item {
                             checked: SettingsData.powerMenuActions.includes("hibernate")
                             visible: SessionService.hibernateSupported
                             onToggled: checked => {
-                                           let actions = [...SettingsData.powerMenuActions]
-                                           if (checked && !actions.includes("hibernate")) {
-                                               actions.push("hibernate")
-                                           } else if (!checked) {
-                                               actions = actions.filter(a => a !== "hibernate")
-                                           }
-                                           SettingsData.set("powerMenuActions", actions)
-                                       }
+                                let actions = [...SettingsData.powerMenuActions];
+                                if (checked && !actions.includes("hibernate")) {
+                                    actions.push("hibernate");
+                                } else if (!checked) {
+                                    actions = actions.filter(a => a !== "hibernate");
+                                }
+                                SettingsData.set("powerMenuActions", actions);
+                            }
                         }
                     }
                 }
@@ -612,12 +646,12 @@ Item {
 
                             Component.onCompleted: {
                                 if (SettingsData.customPowerActionLock) {
-                                    text = SettingsData.customPowerActionLock
+                                    text = SettingsData.customPowerActionLock;
                                 }
                             }
 
                             onTextEdited: {
-                                SettingsData.set("customPowerActionLock", text.trim())
+                                SettingsData.set("customPowerActionLock", text.trim());
                             }
                         }
                     }
@@ -644,12 +678,12 @@ Item {
 
                             Component.onCompleted: {
                                 if (SettingsData.customPowerActionLogout) {
-                                    text = SettingsData.customPowerActionLogout
+                                    text = SettingsData.customPowerActionLogout;
                                 }
                             }
 
                             onTextEdited: {
-                                SettingsData.set("customPowerActionLogout", text.trim())
+                                SettingsData.set("customPowerActionLogout", text.trim());
                             }
                         }
                     }
@@ -676,12 +710,12 @@ Item {
 
                             Component.onCompleted: {
                                 if (SettingsData.customPowerActionSuspend) {
-                                    text = SettingsData.customPowerActionSuspend
+                                    text = SettingsData.customPowerActionSuspend;
                                 }
                             }
 
                             onTextEdited: {
-                                SettingsData.set("customPowerActionSuspend", text.trim())
+                                SettingsData.set("customPowerActionSuspend", text.trim());
                             }
                         }
                     }
@@ -708,12 +742,12 @@ Item {
 
                             Component.onCompleted: {
                                 if (SettingsData.customPowerActionHibernate) {
-                                    text = SettingsData.customPowerActionHibernate
+                                    text = SettingsData.customPowerActionHibernate;
                                 }
                             }
 
                             onTextEdited: {
-                                SettingsData.set("customPowerActionHibernate", text.trim())
+                                SettingsData.set("customPowerActionHibernate", text.trim());
                             }
                         }
                     }
@@ -740,12 +774,12 @@ Item {
 
                             Component.onCompleted: {
                                 if (SettingsData.customPowerActionReboot) {
-                                    text = SettingsData.customPowerActionReboot
+                                    text = SettingsData.customPowerActionReboot;
                                 }
                             }
 
                             onTextEdited: {
-                                SettingsData.set("customPowerActionReboot", text.trim())
+                                SettingsData.set("customPowerActionReboot", text.trim());
                             }
                         }
                     }
@@ -772,12 +806,12 @@ Item {
 
                             Component.onCompleted: {
                                 if (SettingsData.customPowerActionPowerOff) {
-                                    text = SettingsData.customPowerActionPowerOff
+                                    text = SettingsData.customPowerActionPowerOff;
                                 }
                             }
 
                             onTextEdited: {
-                                SettingsData.set("customPowerActionPowerOff", text.trim())
+                                SettingsData.set("customPowerActionPowerOff", text.trim());
                             }
                         }
                     }

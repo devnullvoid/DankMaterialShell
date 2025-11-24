@@ -145,6 +145,8 @@ var SPEC = {
     lockBeforeSuspend: { def: false },
     preventIdleForMedia: { def: false },
     loginctlLockIntegration: { def: true },
+    fadeToLockEnabled: { def: false },
+    fadeToLockGracePeriod: { def: 5 },
     launchPrefix: { def: "" },
     brightnessDevicePins: { def: {} },
     wifiNetworkPins: { def: {} },

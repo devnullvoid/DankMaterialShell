@@ -63,6 +63,46 @@ Item {
         id: lock
     }
 
+    Variants {
+        model: Quickshell.screens
+
+        delegate: Loader {
+            id: fadeWindowLoader
+            required property var modelData
+            active: SettingsData.fadeToLockEnabled
+            asynchronous: false
+
+            sourceComponent: FadeToLockWindow {
+                screen: fadeWindowLoader.modelData
+
+                onFadeCompleted: {
+                    IdleService.lockRequested();
+                }
+
+                onFadeCancelled: {
+                    console.log("Fade to lock cancelled by user on screen:", fadeWindowLoader.modelData.name);
+                }
+            }
+
+            Connections {
+                target: IdleService
+                enabled: fadeWindowLoader.item !== null
+
+                function onFadeToLockRequested() {
+                    if (fadeWindowLoader.item) {
+                        fadeWindowLoader.item.startFade();
+                    }
+                }
+
+                function onCancelFadeToLock() {
+                    if (fadeWindowLoader.item) {
+                        fadeWindowLoader.item.cancelFade();
+                    }
+                }
+            }
+        }
+    }
+
     Repeater {
         id: dankBarRepeater
         model: ScriptModel {
