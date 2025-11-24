@@ -234,9 +234,7 @@ FloatingWindow {
                     SettingsContent {
                         id: content
 
-                        width: Math.min(550, parent.width - Theme.spacingL * 2)
-                        height: parent.height
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.fill: parent
                         parentModal: settingsModal
                         currentIndex: settingsModal.currentTabIndex
                     }

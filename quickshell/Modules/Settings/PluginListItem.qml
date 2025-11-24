@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Controls
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -15,10 +14,10 @@ StyledRect {
     property string pluginId: pluginData ? pluginData.id : ""
     property string pluginDirectoryName: {
         if (pluginData && pluginData.pluginDirectory) {
-            var path = pluginData.pluginDirectory
-            return path.substring(path.lastIndexOf('/') + 1)
+            var path = pluginData.pluginDirectory;
+            return path.substring(path.lastIndexOf('/') + 1);
         }
-        return pluginId
+        return pluginId;
     }
     property string pluginName: pluginData ? (pluginData.name || pluginData.id) : ""
     property string pluginVersion: pluginData ? (pluginData.version || "1.0.0") : ""
@@ -44,7 +43,7 @@ StyledRect {
         cursorShape: root.hasSettings ? Qt.PointingHandCursor : Qt.ArrowCursor
         enabled: root.hasSettings
         onClicked: {
-            root.expandedPluginId = root.expandedPluginId === root.pluginId ? "" : root.pluginId
+            root.expandedPluginId = root.expandedPluginId === root.pluginId ? "" : root.pluginId;
         }
     }
 
@@ -127,32 +126,32 @@ StyledRect {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            const currentPluginName = root.pluginName
-                            const currentPluginId = root.pluginId
+                            const currentPluginName = root.pluginName;
+                            const currentPluginId = root.pluginId;
                             DMSService.update(currentPluginName, response => {
                                 if (response.error) {
-                                    ToastService.showError("Update failed: " + response.error)
+                                    ToastService.showError("Update failed: " + response.error);
                                 } else {
-                                    ToastService.showInfo("Plugin updated: " + currentPluginName)
-                                    PluginService.forceRescanPlugin(currentPluginId)
+                                    ToastService.showInfo("Plugin updated: " + currentPluginName);
+                                    PluginService.forceRescanPlugin(currentPluginId);
                                     if (DMSService.apiVersion >= 8) {
-                                        DMSService.listInstalled()
+                                        DMSService.listInstalled();
                                     }
                                 }
-                            })
+                            });
                         }
                         onEntered: {
-                            tooltipLoader.active = true
+                            tooltipLoader.active = true;
                             if (tooltipLoader.item) {
-                                const p = mapToItem(null, width / 2, 0)
-                                tooltipLoader.item.show(I18n.tr("Update Plugin"), p.x, p.y - 40, null)
+                                const p = mapToItem(null, width / 2, 0);
+                                tooltipLoader.item.show(I18n.tr("Update Plugin"), p.x, p.y - 40, null);
                             }
                         }
                         onExited: {
                             if (tooltipLoader.item) {
-                                tooltipLoader.item.hide()
+                                tooltipLoader.item.hide();
                             }
-                            tooltipLoader.active = false
+                            tooltipLoader.active = false;
                         }
                     }
                 }
@@ -177,31 +176,31 @@ StyledRect {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            const currentPluginName = root.pluginName
+                            const currentPluginName = root.pluginName;
                             DMSService.uninstall(currentPluginName, response => {
                                 if (response.error) {
-                                    ToastService.showError("Uninstall failed: " + response.error)
+                                    ToastService.showError("Uninstall failed: " + response.error);
                                 } else {
-                                    ToastService.showInfo("Plugin uninstalled: " + currentPluginName)
-                                    PluginService.scanPlugins()
+                                    ToastService.showInfo("Plugin uninstalled: " + currentPluginName);
+                                    PluginService.scanPlugins();
                                     if (root.isExpanded) {
-                                        root.expandedPluginId = ""
+                                        root.expandedPluginId = "";
                                     }
                                 }
-                            })
+                            });
                         }
                         onEntered: {
-                            tooltipLoader.active = true
+                            tooltipLoader.active = true;
                             if (tooltipLoader.item) {
-                                const p = mapToItem(null, width / 2, 0)
-                                tooltipLoader.item.show(I18n.tr("Uninstall Plugin"), p.x, p.y - 40, null)
+                                const p = mapToItem(null, width / 2, 0);
+                                tooltipLoader.item.show(I18n.tr("Uninstall Plugin"), p.x, p.y - 40, null);
                             }
                         }
                         onExited: {
                             if (tooltipLoader.item) {
-                                tooltipLoader.item.hide()
+                                tooltipLoader.item.hide();
                             }
-                            tooltipLoader.active = false
+                            tooltipLoader.active = false;
                         }
                     }
                 }
@@ -226,28 +225,28 @@ StyledRect {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            const currentPluginId = root.pluginId
-                            const currentPluginName = root.pluginName
-                            root.isReloading = true
+                            const currentPluginId = root.pluginId;
+                            const currentPluginName = root.pluginName;
+                            root.isReloading = true;
                             if (PluginService.reloadPlugin(currentPluginId)) {
-                                ToastService.showInfo("Plugin reloaded: " + currentPluginName)
+                                ToastService.showInfo("Plugin reloaded: " + currentPluginName);
                             } else {
-                                ToastService.showError("Failed to reload plugin: " + currentPluginName)
-                                root.isReloading = false
+                                ToastService.showError("Failed to reload plugin: " + currentPluginName);
+                                root.isReloading = false;
                             }
                         }
                         onEntered: {
-                            tooltipLoader.active = true
+                            tooltipLoader.active = true;
                             if (tooltipLoader.item) {
-                                const p = mapToItem(null, width / 2, 0)
-                                tooltipLoader.item.show(I18n.tr("Reload Plugin"), p.x, p.y - 40, null)
+                                const p = mapToItem(null, width / 2, 0);
+                                tooltipLoader.item.show(I18n.tr("Reload Plugin"), p.x, p.y - 40, null);
                             }
                         }
                         onExited: {
                             if (tooltipLoader.item) {
-                                tooltipLoader.item.hide()
+                                tooltipLoader.item.hide();
                             }
-                            tooltipLoader.active = false
+                            tooltipLoader.active = false;
                         }
                     }
                 }
@@ -257,25 +256,25 @@ StyledRect {
                     anchors.verticalCenter: parent.verticalCenter
                     checked: PluginService.isPluginLoaded(root.pluginId)
                     onToggled: isChecked => {
-                        const currentPluginId = root.pluginId
-                        const currentPluginName = root.pluginName
+                        const currentPluginId = root.pluginId;
+                        const currentPluginName = root.pluginName;
 
                         if (isChecked) {
                             if (PluginService.enablePlugin(currentPluginId)) {
-                                ToastService.showInfo("Plugin enabled: " + currentPluginName)
+                                ToastService.showInfo("Plugin enabled: " + currentPluginName);
                             } else {
-                                ToastService.showError("Failed to enable plugin: " + currentPluginName)
-                                checked = false
+                                ToastService.showError("Failed to enable plugin: " + currentPluginName);
+                                checked = false;
                             }
                         } else {
                             if (PluginService.disablePlugin(currentPluginId)) {
-                                ToastService.showInfo("Plugin disabled: " + currentPluginName)
+                                ToastService.showInfo("Plugin disabled: " + currentPluginName);
                                 if (root.isExpanded) {
-                                    root.expandedPluginId = ""
+                                    root.expandedPluginId = "";
                                 }
                             } else {
-                                ToastService.showError("Failed to disable plugin: " + currentPluginName)
-                                checked = true
+                                ToastService.showError("Failed to disable plugin: " + currentPluginName);
+                                checked = true;
                             }
                         }
                     }
@@ -330,7 +329,7 @@ StyledRect {
         focus: root.isExpanded && root.hasSettings
 
         Keys.onPressed: event => {
-            event.accepted = true
+            event.accepted = true;
         }
 
         Rectangle {
@@ -350,38 +349,34 @@ StyledRect {
 
             source: {
                 if (active && root.pluginSettingsPath) {
-                    var path = root.pluginSettingsPath
+                    var path = root.pluginSettingsPath;
                     if (!path.startsWith("file://")) {
-                        path = "file://" + path
+                        path = "file://" + path;
                     }
-                    return path
+                    return path;
                 }
-                return ""
+                return "";
             }
 
             onLoaded: {
                 if (item && typeof PluginService !== "undefined") {
-                    item.pluginService = PluginService
+                    item.pluginService = PluginService;
                 }
                 if (item && typeof PopoutService !== "undefined" && "popoutService" in item) {
-                    item.popoutService = PopoutService
+                    item.popoutService = PopoutService;
                 }
                 if (item) {
                     Qt.callLater(() => {
-                        settingsContainer.focus = true
-                        item.forceActiveFocus()
-                    })
+                        settingsContainer.focus = true;
+                        item.forceActiveFocus();
+                    });
                 }
             }
         }
 
         StyledText {
             anchors.centerIn: parent
-            text: !PluginService.isPluginLoaded(root.pluginId) ?
-                  "Enable plugin to access settings" :
-                  (settingsLoader.status === Loader.Error ?
-                   "Failed to load settings" :
-                   "No configurable settings")
+            text: !PluginService.isPluginLoaded(root.pluginId) ? "Enable plugin to access settings" : (settingsLoader.status === Loader.Error ? "Failed to load settings" : "No configurable settings")
             font.pixelSize: Theme.fontSizeSmall
             color: Theme.surfaceVariantText
             visible: root.isExpanded && (!settingsLoader.active || settingsLoader.status === Loader.Error)

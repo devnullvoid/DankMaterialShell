@@ -1075,12 +1075,13 @@ Item {
     DankFlickable {
         anchors.fill: parent
         clip: true
-        contentHeight: mainColumn.height
+        contentHeight: mainColumn.height + Theme.spacingXL
         contentWidth: width
 
         Column {
             id: mainColumn
-            width: parent.width
+            width: Math.min(550, parent.width - Theme.spacingL * 2)
+            anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
 
             StyledRect {
