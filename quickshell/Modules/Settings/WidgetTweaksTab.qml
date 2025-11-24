@@ -137,6 +137,17 @@ Item {
 
                     DankToggle {
                         width: parent.width
+                        text: I18n.tr("Show Occupied Workspaces Only")
+                        description: I18n.tr("Display only workspaces that contain windows")
+                        checked: SettingsData.showOccupiedWorkspacesOnly
+                        visible: CompositorService.isNiri || CompositorService.isHyprland
+                        onToggled: checked => {
+                            return SettingsData.set("showOccupiedWorkspacesOnly", checked);
+                        }
+                    }
+
+                    DankToggle {
+                        width: parent.width
                         text: I18n.tr("Show All Tags")
                         description: I18n.tr("Show all 9 tags instead of only occupied tags (DWL only)")
                         checked: SettingsData.dwlShowAllTags

@@ -159,6 +159,7 @@ Singleton {
     property bool showWorkspaceApps: false
     property int maxWorkspaceIcons: 3
     property bool workspacesPerMonitor: true
+    property bool showOccupiedWorkspacesOnly: false
     property bool dwlShowAllTags: false
     property var workspaceNameIcons: ({})
     property bool waveProgressEnabled: true

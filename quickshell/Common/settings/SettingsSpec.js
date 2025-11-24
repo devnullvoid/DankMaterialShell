@@ -74,6 +74,7 @@ var SPEC = {
     showWorkspaceApps: { def: false },
     maxWorkspaceIcons: { def: 3 },
     workspacesPerMonitor: { def: true },
+    showOccupiedWorkspacesOnly: { def: false },
     dwlShowAllTags: { def: false },
     workspaceNameIcons: { def: {} },
     waveProgressEnabled: { def: true },
