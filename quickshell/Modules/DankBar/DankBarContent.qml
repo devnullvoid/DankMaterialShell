@@ -1144,6 +1144,8 @@ Item {
                 return controlCenterLoader.item;
             }
             parentScreen: barWindow.screen
+            screenName: barWindow.screen?.name || ""
+            screenModel: barWindow.screen?.model || ""
             widgetData: parent.widgetData
 
             Component.onCompleted: {

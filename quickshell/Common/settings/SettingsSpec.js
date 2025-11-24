@@ -51,6 +51,11 @@ var SPEC = {
     controlCenterShowNetworkIcon: { def: true },
     controlCenterShowBluetoothIcon: { def: true },
     controlCenterShowAudioIcon: { def: true },
+    controlCenterShowVpnIcon: { def: false },
+    controlCenterShowBrightnessIcon: { def: false },
+    controlCenterShowMicIcon: { def: false },
+    controlCenterShowBatteryIcon: { def: false },
+    controlCenterShowPrinterIcon: { def: false },
 
     showPrivacyButton: { def: true },
     privacyShowMicIcon: { def: false },

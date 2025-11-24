@@ -784,13 +784,31 @@ Item {
     }
 
     function handleControlCenterSettingChanged(sectionId, widgetIndex, settingName, value) {
-        // Control Center settings are global, not per-widget instance
-        if (settingName === "showNetworkIcon") {
-            SettingsData.set("controlCenterShowNetworkIcon", value);
-        } else if (settingName === "showBluetoothIcon") {
-            SettingsData.set("controlCenterShowBluetoothIcon", value);
-        } else if (settingName === "showAudioIcon") {
-            SettingsData.set("controlCenterShowAudioIcon", value);
+        switch (settingName) {
+        case "showNetworkIcon":
+            SettingsData.set("controlCenterShowNetworkIcon", value)
+            break
+        case "showBluetoothIcon":
+            SettingsData.set("controlCenterShowBluetoothIcon", value)
+            break
+        case "showAudioIcon":
+            SettingsData.set("controlCenterShowAudioIcon", value)
+            break
+        case "showVpnIcon":
+            SettingsData.set("controlCenterShowVpnIcon", value)
+            break
+        case "showBrightnessIcon":
+            SettingsData.set("controlCenterShowBrightnessIcon", value)
+            break
+        case "showMicIcon":
+            SettingsData.set("controlCenterShowMicIcon", value)
+            break
+        case "showBatteryIcon":
+            SettingsData.set("controlCenterShowBatteryIcon", value)
+            break
+        case "showPrinterIcon":
+            SettingsData.set("controlCenterShowPrinterIcon", value)
+            break
         }
     }
 

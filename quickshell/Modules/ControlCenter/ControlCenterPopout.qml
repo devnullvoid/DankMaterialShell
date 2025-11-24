@@ -82,6 +82,7 @@ DankPopout {
 
     onShouldBeVisibleChanged: {
         if (shouldBeVisible) {
+            collapseAll();
             Qt.callLater(() => {
                 if (NetworkService.activeService) {
                     NetworkService.activeService.autoRefreshEnabled = NetworkService.wifiEnabled;
@@ -179,6 +180,7 @@ DankPopout {
                     bluetoothCodecSelector: bluetoothCodecSelector
                     colorPickerModal: root.colorPickerModal
                     screenName: root.triggerScreen?.name || ""
+                    screenModel: root.triggerScreen?.model || ""
                     parentScreen: root.triggerScreen
                     onExpandClicked: (widgetData, globalIndex) => {
                         root.expandedWidgetIndex = globalIndex;
