@@ -281,7 +281,7 @@ Column {
                             onEntered: {
                                 var currentEnabled = modelData.minimumWidth !== undefined ? modelData.minimumWidth : true;
                                 const tooltipText = currentEnabled ? "Force Padding" : "Dynamic Width";
-                                sharedTooltip.show(tooltipText, minimumWidthButton, 0, 0);
+                                sharedTooltip.show(tooltipText, minimumWidthButton, 0, 0, "bottom");
                             }
                             onExited: {
                                 sharedTooltip.hide();
@@ -302,7 +302,7 @@ Column {
                             onEntered: {
                                 var currentEnabled = modelData.showSwap !== undefined ? modelData.showSwap : false;
                                 const tooltipText = currentEnabled ? "Hide Swap" : "Show Swap";
-                                sharedTooltip.show(tooltipText, showSwapButton, 0, 0);
+                                sharedTooltip.show(tooltipText, showSwapButton, 0, 0, "bottom");
                             }
                             onExited: {
                                 sharedTooltip.hide();
@@ -324,7 +324,7 @@ Column {
                                     root.compactModeChanged("music", 0);
                                 }
                                 onEntered: {
-                                    sharedTooltip.show("Small", smallSizeButton, 0, 0);
+                                    sharedTooltip.show("Small", smallSizeButton, 0, 0, "bottom");
                                 }
                                 onExited: {
                                     sharedTooltip.hide();
@@ -342,7 +342,7 @@ Column {
                                     root.compactModeChanged("music", 1);
                                 }
                                 onEntered: {
-                                    sharedTooltip.show("Medium", mediumSizeButton, 0, 0);
+                                    sharedTooltip.show("Medium", mediumSizeButton, 0, 0, "bottom");
                                 }
                                 onExited: {
                                     sharedTooltip.hide();
@@ -360,7 +360,7 @@ Column {
                                     root.compactModeChanged("music", 2);
                                 }
                                 onEntered: {
-                                    sharedTooltip.show("Large", largeSizeButton, 0, 0);
+                                    sharedTooltip.show("Large", largeSizeButton, 0, 0, "bottom");
                                 }
                                 onExited: {
                                     sharedTooltip.hide();
@@ -416,7 +416,7 @@ Column {
                                     } else if (modelData.id === "keyboard_layout_name") {
                                         tooltipText = SettingsData.keyboardLayoutNameCompactMode ? "Full Size" : "Compact";
                                     }
-                                    sharedTooltip.show(tooltipText, compactModeButton, 0, 0);
+                                    sharedTooltip.show(tooltipText, compactModeButton, 0, 0, "bottom");
                                 }
                                 onExited: {
                                     sharedTooltip.hide();
@@ -435,7 +435,7 @@ Column {
                                 }
                                 onEntered: {
                                     const tooltipText = SettingsData.runningAppsGroupByApp ? "Ungroup" : "Group by App";
-                                    sharedTooltip.show(tooltipText, groupByAppButton, 0, 0);
+                                    sharedTooltip.show(tooltipText, groupByAppButton, 0, 0, "bottom");
                                 }
                                 onExited: {
                                     sharedTooltip.hide();
@@ -523,7 +523,7 @@ Column {
                             }
                             onEntered: {
                                 const tooltipText = modelData.enabled ? "Hide" : "Show";
-                                sharedTooltip.show(tooltipText, visibilityButton, 0, 0);
+                                sharedTooltip.show(tooltipText, visibilityButton, 0, 0, "bottom");
                             }
                             onExited: {
                                 sharedTooltip.hide();

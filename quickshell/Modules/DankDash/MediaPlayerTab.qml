@@ -16,6 +16,10 @@ Item {
     property MprisPlayer activePlayer: MprisController.activePlayer
     property var allPlayers: MprisController.availablePlayers
 
+    DankTooltipV2 {
+        id: sharedTooltip
+    }
+
     readonly property bool isRightEdge: (SettingsData.barConfigs[0]?.position ?? SettingsData.Position.Top) === SettingsData.Position.Right
     readonly property bool volumeAvailable: (activePlayer && activePlayer.volumeSupported) || (AudioService.sink && AudioService.sink.audio)
     readonly property bool usePlayerVolume: activePlayer && activePlayer.volumeSupported
@@ -1070,6 +1074,12 @@ Item {
                 onClicked: {
                     parent.playersExpanded = !parent.playersExpanded;
                 }
+                onEntered: {
+                    sharedTooltip.show("Media Players", playerSelectorButton, 0, 0, isRightEdge ? "right" : "left");
+                }
+                onExited: {
+                    sharedTooltip.hide();
+                }
             }
         }
 
@@ -1181,6 +1191,12 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
                     parent.devicesExpanded = !parent.devicesExpanded;
+                }
+                onEntered: {
+                    sharedTooltip.show("Output Device", audioDevicesButton, 0, 0, isRightEdge ? "right" : "left");
+                }
+                onExited: {
+                    sharedTooltip.hide();
                 }
             }
         }

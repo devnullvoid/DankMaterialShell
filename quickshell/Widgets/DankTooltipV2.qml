@@ -7,20 +7,80 @@ Item {
 
     property string text: ""
 
-    function show(text, item, offsetX, offsetY) {
-        if (!item) return;
+    function show(text, item, offsetX, offsetY, preferredSide) {
+        if (!item)
+            return;
 
-        tooltip.parent = item.Window.window?.contentItem || item;
+        const windowContentItem = item.Window.window?.contentItem;
+        if (!windowContentItem)
+            return;
+
+        tooltip.parent = windowContentItem;
         tooltip.text = text;
 
-        const itemPos = item.mapToItem(tooltip.parent, 0, 0);
-        const itemCenterX = itemPos.x + item.width / 2;
-        const itemBottomY = itemPos.y + item.height;
+        const itemPos = item.mapToItem(windowContentItem, 0, 0);
+        const parentWidth = windowContentItem.width;
+        const parentHeight = windowContentItem.height;
+        const tooltipWidth = tooltip.implicitWidth;
+        const tooltipHeight = tooltip.implicitHeight;
 
-        tooltip.x = itemCenterX - tooltip.width / 2 + (offsetX || 0);
-        tooltip.y = itemBottomY + 8 + (offsetY || 0);
+        const side = preferredSide || _determineBestSide(itemPos, item, parentWidth, parentHeight, tooltipWidth, tooltipHeight);
+
+        let targetX = 0;
+        let targetY = 0;
+
+        switch (side) {
+        case "left":
+            targetX = itemPos.x - tooltipWidth - 8;
+            targetY = itemPos.y + (item.height - tooltipHeight) / 2;
+            break;
+        case "right":
+            targetX = itemPos.x + item.width + 8;
+            targetY = itemPos.y + (item.height - tooltipHeight) / 2;
+            break;
+        case "top":
+            targetX = itemPos.x + (item.width - tooltipWidth) / 2;
+            targetY = itemPos.y - tooltipHeight - 8;
+            break;
+        case "bottom":
+        default:
+            targetX = itemPos.x + (item.width - tooltipWidth) / 2;
+            targetY = itemPos.y + item.height + 8;
+            break;
+        }
+
+        tooltip.x = Math.max(4, Math.min(parentWidth - tooltipWidth - 4, targetX + (offsetX || 0)));
+        tooltip.y = Math.max(4, Math.min(parentHeight - tooltipHeight - 4, targetY + (offsetY || 0)));
 
         tooltip.open();
+    }
+
+    function _determineBestSide(itemPos, item, parentWidth, parentHeight, tooltipWidth, tooltipHeight) {
+        const itemCenterX = itemPos.x + item.width / 2;
+        const itemCenterY = itemPos.y + item.height / 2;
+
+        const spaceLeft = itemPos.x;
+        const spaceRight = parentWidth - (itemPos.x + item.width);
+        const spaceTop = itemPos.y;
+        const spaceBottom = parentHeight - (itemPos.y + item.height);
+
+        if (spaceRight >= tooltipWidth + 16) {
+            return "right";
+        }
+        if (spaceLeft >= tooltipWidth + 16) {
+            return "left";
+        }
+        if (spaceBottom >= tooltipHeight + 16) {
+            return "bottom";
+        }
+        if (spaceTop >= tooltipHeight + 16) {
+            return "top";
+        }
+
+        if (itemCenterX > parentWidth / 2) {
+            return "left";
+        }
+        return "right";
     }
 
     function hide() {
@@ -32,8 +92,10 @@ Item {
 
         property string text: ""
 
-        width: Math.min(300, Math.max(120, textContent.implicitWidth + Theme.spacingM * 2))
-        height: textContent.implicitHeight + Theme.spacingS * 2
+        implicitWidth: Math.min(300, Math.max(120, textContent.implicitWidth + Theme.spacingM * 2))
+        implicitHeight: textContent.implicitHeight + Theme.spacingS * 2
+        width: implicitWidth
+        height: implicitHeight
 
         padding: 0
         closePolicy: Popup.NoAutoClose
@@ -65,8 +127,8 @@ Item {
                 property: "opacity"
                 from: 0
                 to: 1
-                duration: 150
-                easing.type: Easing.OutQuad
+                duration: Theme.shortDuration
+                easing.type: Theme.standardEasing
             }
         }
 
@@ -75,8 +137,8 @@ Item {
                 property: "opacity"
                 from: 1
                 to: 0
-                duration: 100
-                easing.type: Easing.InQuad
+                duration: Theme.shorterDuration
+                easing.type: Theme.standardEasing
             }
         }
     }
