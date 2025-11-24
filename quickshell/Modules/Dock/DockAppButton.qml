@@ -276,7 +276,8 @@ Item {
                         }
                     } else {
                         if (contextMenu) {
-                            contextMenu.showForButton(root, appData, root.height + 25, true, cachedDesktopEntry, parentDockScreen);
+                            const shouldHidePin = appData.appId === "org.quickshell";
+                            contextMenu.showForButton(root, appData, root.height + 25, shouldHidePin, cachedDesktopEntry, parentDockScreen);
                         }
                     }
                 }
@@ -285,7 +286,8 @@ Item {
                     appData?.toplevel?.close();
                 } else if (appData?.type === "grouped") {
                     if (contextMenu) {
-                        contextMenu.showForButton(root, appData, root.height, false, cachedDesktopEntry, parentDockScreen);
+                        const shouldHidePin = appData.appId === "org.quickshell";
+                        contextMenu.showForButton(root, appData, root.height, shouldHidePin, cachedDesktopEntry, parentDockScreen);
                     }
                 } else if (appData && appData.appId) {
                     const desktopEntry = cachedDesktopEntry;
@@ -302,7 +304,8 @@ Item {
                 }
             } else if (mouse.button === Qt.RightButton) {
                 if (contextMenu && appData) {
-                    contextMenu.showForButton(root, appData, root.height, false, cachedDesktopEntry, parentDockScreen);
+                    const shouldHidePin = appData.appId === "org.quickshell";
+                    contextMenu.showForButton(root, appData, root.height, shouldHidePin, cachedDesktopEntry, parentDockScreen);
                 } else {
                     console.warn("No context menu or appData available");
                 }
