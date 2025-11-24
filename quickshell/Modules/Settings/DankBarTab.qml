@@ -11,6 +11,10 @@ Item {
     property var parentModal: null
     property string selectedBarId: "default"
 
+    DankTooltipV2 {
+        id: sharedTooltip
+    }
+
     property var selectedBarConfig: {
         selectedBarId;
         SettingsData.barConfigs;
@@ -2425,7 +2429,7 @@ Item {
                                 SettingsData.updateBarConfig(selectedBarId, {
                                     transparency: newValue / 100
                                 });
-                                notifyHorizontalBarChange()
+                                notifyHorizontalBarChange();
                             }
 
                             Binding {
@@ -2477,7 +2481,7 @@ Item {
                                     SettingsData.updateBarConfig(selectedBarId, {
                                         widgetTransparency: 1.0
                                     });
-                                    notifyHorizontalBarChange()
+                                    notifyHorizontalBarChange();
                                 }
                             }
 
@@ -2502,7 +2506,7 @@ Item {
                                 SettingsData.updateBarConfig(selectedBarId, {
                                     widgetTransparency: newValue / 100
                                 });
-                                notifyHorizontalBarChange()
+                                notifyHorizontalBarChange();
                             }
 
                             Binding {
@@ -2573,7 +2577,7 @@ Item {
                                     SettingsData.updateBarConfig(selectedBarId, {
                                         fontScale: newScale
                                     });
-                                    notifyHorizontalBarChange()
+                                    notifyHorizontalBarChange();
                                 }
                             }
 
@@ -2607,7 +2611,7 @@ Item {
                                     SettingsData.updateBarConfig(selectedBarId, {
                                         fontScale: newScale
                                     });
-                                    notifyHorizontalBarChange()
+                                    notifyHorizontalBarChange();
                                 }
                             }
                         }

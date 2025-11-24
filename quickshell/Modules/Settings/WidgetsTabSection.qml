@@ -13,6 +13,10 @@ Column {
     property string titleIcon: "widgets"
     property string sectionId: ""
 
+    DankTooltipV2 {
+        id: sharedTooltip
+    }
+
     signal itemEnabledChanged(string sectionId, string itemId, bool enabled)
     signal itemOrderChanged(var newOrder)
     signal addWidget(string sectionId)
@@ -80,11 +84,8 @@ Column {
                     anchors.fill: parent
                     anchors.margins: 2
                     radius: Theme.cornerRadius
-                    color: Qt.rgba(Theme.surfaceContainer.r,
-                                   Theme.surfaceContainer.g,
-                                   Theme.surfaceContainer.b, 0.8)
-                    border.color: Qt.rgba(Theme.outline.r, Theme.outline.g,
-                                          Theme.outline.b, 0.2)
+                    color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.8)
+                    border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
                     border.width: 0
 
                     DankIcon {
@@ -126,10 +127,7 @@ Column {
                         StyledText {
                             text: modelData.description
                             font.pixelSize: Theme.fontSizeSmall
-                            color: modelData.enabled ? Theme.outline : Qt.rgba(
-                                                           Theme.outline.r,
-                                                           Theme.outline.g,
-                                                           Theme.outline.b, 0.6)
+                            color: modelData.enabled ? Theme.outline : Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.6)
                             elide: Text.ElideRight
                             width: parent.width
                             wrapMode: Text.WordWrap
@@ -154,41 +152,29 @@ Column {
                                 anchors.fill: parent
                                 popupWidth: -1
                                 currentValue: {
-                                    var selectedIndex = modelData.selectedGpuIndex
-                                            !== undefined ? modelData.selectedGpuIndex : 0
-                                    if (DgopService.availableGpus
-                                            && DgopService.availableGpus.length > selectedIndex
-                                            && selectedIndex >= 0) {
-                                        var gpu = DgopService.availableGpus[selectedIndex]
-                                        return gpu.driver.toUpperCase()
+                                    var selectedIndex = modelData.selectedGpuIndex !== undefined ? modelData.selectedGpuIndex : 0;
+                                    if (DgopService.availableGpus && DgopService.availableGpus.length > selectedIndex && selectedIndex >= 0) {
+                                        var gpu = DgopService.availableGpus[selectedIndex];
+                                        return gpu.driver.toUpperCase();
                                     }
-                                    return DgopService.availableGpus
-                                            && DgopService.availableGpus.length
-                                            > 0 ? DgopService.availableGpus[0].driver.toUpperCase(
-                                                      ) : ""
+                                    return DgopService.availableGpus && DgopService.availableGpus.length > 0 ? DgopService.availableGpus[0].driver.toUpperCase() : "";
                                 }
                                 options: {
-                                    var gpuOptions = []
-                                    if (DgopService.availableGpus
-                                            && DgopService.availableGpus.length > 0) {
+                                    var gpuOptions = [];
+                                    if (DgopService.availableGpus && DgopService.availableGpus.length > 0) {
                                         for (var i = 0; i < DgopService.availableGpus.length; i++) {
-                                            var gpu = DgopService.availableGpus[i]
-                                            gpuOptions.push(
-                                                        gpu.driver.toUpperCase(
-                                                            ))
+                                            var gpu = DgopService.availableGpus[i];
+                                            gpuOptions.push(gpu.driver.toUpperCase());
                                         }
                                     }
-                                    return gpuOptions
+                                    return gpuOptions;
                                 }
                                 onValueChanged: value => {
-                                                    var gpuIndex = options.indexOf(
-                                                        value)
-                                                    if (gpuIndex >= 0) {
-                                                        root.gpuSelectionChanged(
-                                                            root.sectionId,
-                                                            index, gpuIndex)
-                                                    }
-                                                }
+                                    var gpuIndex = options.indexOf(value);
+                                    if (gpuIndex >= 0) {
+                                        root.gpuSelectionChanged(root.sectionId, index, gpuIndex);
+                                    }
+                                }
                             }
                         }
 
@@ -200,26 +186,26 @@ Column {
                                 id: diskMountDropdown
                                 anchors.fill: parent
                                 currentValue: {
-                                    const mountPath = modelData.mountPath || "/"
+                                    const mountPath = modelData.mountPath || "/";
                                     if (mountPath === "/") {
-                                        return "root (/)"
+                                        return "root (/)";
                                     }
-                                    return mountPath
+                                    return mountPath;
                                 }
                                 options: {
                                     if (!DgopService.diskMounts || DgopService.diskMounts.length === 0) {
-                                        return ["root (/)"]
+                                        return ["root (/)"];
                                     }
                                     return DgopService.diskMounts.map(mount => {
                                         if (mount.mount === "/") {
-                                            return "root (/)"
+                                            return "root (/)";
                                         }
-                                        return mount.mount
-                                    })
+                                        return mount.mount;
+                                    });
                                 }
                                 onValueChanged: value => {
-                                    const newPath = value === "root (/)" ? "/" : value
-                                    root.diskMountSelectionChanged(root.sectionId, index, newPath)
+                                    const newPath = value === "root (/)" ? "/" : value;
+                                    root.diskMountSelectionChanged(root.sectionId, index, newPath);
                                 }
                             }
                         }
@@ -247,20 +233,15 @@ Column {
                             Rectangle {
                                 id: warningTooltip
 
-                                property string warningText: (modelData.warning !== undefined
-                                                              && modelData.warning
-                                                              !== "") ? modelData.warning : ""
+                                property string warningText: (modelData.warning !== undefined && modelData.warning !== "") ? modelData.warning : ""
 
-                                width: Math.min(
-                                           250,
-                                           warningTooltipText.implicitWidth) + Theme.spacingM * 2
+                                width: Math.min(250, warningTooltipText.implicitWidth) + Theme.spacingM * 2
                                 height: warningTooltipText.implicitHeight + Theme.spacingS * 2
                                 radius: Theme.cornerRadius
                                 color: Theme.surfaceContainer
                                 border.color: Theme.outline
                                 border.width: 0
-                                visible: warningArea.containsMouse
-                                         && warningText !== ""
+                                visible: warningArea.containsMouse && warningText !== ""
                                 opacity: visible ? 1 : 0
                                 x: -width - Theme.spacingS
                                 y: (parent.height - height) / 2
@@ -289,31 +270,21 @@ Column {
                         DankActionButton {
                             id: minimumWidthButton
                             buttonSize: 28
-                            visible: modelData.id === "cpuUsage"
-                                     || modelData.id === "memUsage"
-                                     || modelData.id === "cpuTemp"
-                                     || modelData.id === "gpuTemp"
+                            visible: modelData.id === "cpuUsage" || modelData.id === "memUsage" || modelData.id === "cpuTemp" || modelData.id === "gpuTemp"
                             iconName: "straighten"
                             iconSize: 16
                             iconColor: (modelData.minimumWidth !== undefined ? modelData.minimumWidth : true) ? Theme.primary : Theme.outline
                             onClicked: {
-                                var currentEnabled = modelData.minimumWidth !== undefined ? modelData.minimumWidth : true
-                                root.minimumWidthChanged(root.sectionId, index, !currentEnabled)
+                                var currentEnabled = modelData.minimumWidth !== undefined ? modelData.minimumWidth : true;
+                                root.minimumWidthChanged(root.sectionId, index, !currentEnabled);
                             }
                             onEntered: {
-                                minimumWidthTooltipLoader.active = true
-                                if (minimumWidthTooltipLoader.item) {
-                                    var currentEnabled = modelData.minimumWidth !== undefined ? modelData.minimumWidth : true
-                                    const tooltipText = currentEnabled ? "Force Padding" : "Dynamic Width"
-                                    const p = minimumWidthButton.mapToItem(null, minimumWidthButton.width / 2, 0)
-                                    minimumWidthTooltipLoader.item.show(tooltipText, p.x, p.y - 40, null)
-                                }
+                                var currentEnabled = modelData.minimumWidth !== undefined ? modelData.minimumWidth : true;
+                                const tooltipText = currentEnabled ? "Force Padding" : "Dynamic Width";
+                                sharedTooltip.show(tooltipText, minimumWidthButton, 0, 0);
                             }
                             onExited: {
-                                if (minimumWidthTooltipLoader.item) {
-                                    minimumWidthTooltipLoader.item.hide()
-                                }
-                                minimumWidthTooltipLoader.active = false
+                                sharedTooltip.hide();
                             }
                         }
 
@@ -325,33 +296,22 @@ Column {
                             iconSize: 16
                             iconColor: (modelData.showSwap !== undefined ? modelData.showSwap : false) ? Theme.primary : Theme.outline
                             onClicked: {
-                                var currentEnabled = modelData.showSwap !== undefined ? modelData.showSwap : false
-                                root.showSwapChanged(root.sectionId, index, !currentEnabled)
+                                var currentEnabled = modelData.showSwap !== undefined ? modelData.showSwap : false;
+                                root.showSwapChanged(root.sectionId, index, !currentEnabled);
                             }
                             onEntered: {
-                                showSwapTooltipLoader.active = true
-                                if (showSwapTooltipLoader.item) {
-                                    var currentEnabled = modelData.showSwap !== undefined ? modelData.showSwap : false
-                                    const tooltipText = currentEnabled ? "Hide Swap" : "Show Swap"
-                                    const p = showSwapButton.mapToItem(null, showSwapButton.width / 2, 0)
-                                    showSwapTooltipLoader.item.show(tooltipText, p.x, p.y - 40, null)
-                                }
+                                var currentEnabled = modelData.showSwap !== undefined ? modelData.showSwap : false;
+                                const tooltipText = currentEnabled ? "Hide Swap" : "Show Swap";
+                                sharedTooltip.show(tooltipText, showSwapButton, 0, 0);
                             }
                             onExited: {
-                                if (showSwapTooltipLoader.item) {
-                                    showSwapTooltipLoader.item.hide()
-                                }
-                                showSwapTooltipLoader.active = false
+                                sharedTooltip.hide();
                             }
                         }
 
                         Row {
                             spacing: Theme.spacingXS
-                            visible: modelData.id === "clock"
-                                     || modelData.id === "music"
-                                     || modelData.id === "focusedWindow"
-                                     || modelData.id === "runningApps"
-									 || modelData.id === "keyboard_layout_name"
+                            visible: modelData.id === "clock" || modelData.id === "music" || modelData.id === "focusedWindow" || modelData.id === "runningApps" || modelData.id === "keyboard_layout_name"
 
                             DankActionButton {
                                 id: smallSizeButton
@@ -359,23 +319,15 @@ Column {
                                 visible: modelData.id === "music"
                                 iconName: "photo_size_select_small"
                                 iconSize: 16
-                                iconColor: SettingsData.mediaSize
-                                           === 0 ? Theme.primary : Theme.outline
+                                iconColor: SettingsData.mediaSize === 0 ? Theme.primary : Theme.outline
                                 onClicked: {
-                                    root.compactModeChanged("music", 0)
+                                    root.compactModeChanged("music", 0);
                                 }
                                 onEntered: {
-                                    smallTooltipLoader.active = true
-                                    if (smallTooltipLoader.item) {
-                                        const p = smallSizeButton.mapToItem(null, smallSizeButton.width / 2, 0)
-                                        smallTooltipLoader.item.show("Small", p.x, p.y - 40, null)
-                                    }
+                                    sharedTooltip.show("Small", smallSizeButton, 0, 0);
                                 }
                                 onExited: {
-                                    if (smallTooltipLoader.item) {
-                                        smallTooltipLoader.item.hide()
-                                    }
-                                    smallTooltipLoader.active = false
+                                    sharedTooltip.hide();
                                 }
                             }
 
@@ -385,23 +337,15 @@ Column {
                                 visible: modelData.id === "music"
                                 iconName: "photo_size_select_actual"
                                 iconSize: 16
-                                iconColor: SettingsData.mediaSize
-                                           === 1 ? Theme.primary : Theme.outline
+                                iconColor: SettingsData.mediaSize === 1 ? Theme.primary : Theme.outline
                                 onClicked: {
-                                    root.compactModeChanged("music", 1)
+                                    root.compactModeChanged("music", 1);
                                 }
                                 onEntered: {
-                                    mediumTooltipLoader.active = true
-                                    if (mediumTooltipLoader.item) {
-                                        const p = mediumSizeButton.mapToItem(null, mediumSizeButton.width / 2, 0)
-                                        mediumTooltipLoader.item.show("Medium", p.x, p.y - 40, null)
-                                    }
+                                    sharedTooltip.show("Medium", mediumSizeButton, 0, 0);
                                 }
                                 onExited: {
-                                    if (mediumTooltipLoader.item) {
-                                        mediumTooltipLoader.item.hide()
-                                    }
-                                    mediumTooltipLoader.active = false
+                                    sharedTooltip.hide();
                                 }
                             }
 
@@ -411,97 +355,71 @@ Column {
                                 visible: modelData.id === "music"
                                 iconName: "photo_size_select_large"
                                 iconSize: 16
-                                iconColor: SettingsData.mediaSize
-                                           === 2 ? Theme.primary : Theme.outline
+                                iconColor: SettingsData.mediaSize === 2 ? Theme.primary : Theme.outline
                                 onClicked: {
-                                    root.compactModeChanged("music", 2)
+                                    root.compactModeChanged("music", 2);
                                 }
                                 onEntered: {
-                                    largeTooltipLoader.active = true
-                                    if (largeTooltipLoader.item) {
-                                        const p = largeSizeButton.mapToItem(null, largeSizeButton.width / 2, 0)
-                                        largeTooltipLoader.item.show("Large", p.x, p.y - 40, null)
-                                    }
+                                    sharedTooltip.show("Large", largeSizeButton, 0, 0);
                                 }
                                 onExited: {
-                                    if (largeTooltipLoader.item) {
-                                        largeTooltipLoader.item.hide()
-                                    }
-                                    largeTooltipLoader.active = false
+                                    sharedTooltip.hide();
                                 }
                             }
 
                             DankActionButton {
                                 id: compactModeButton
                                 buttonSize: 28
-                                visible: modelData.id === "clock"
-                                         || modelData.id === "focusedWindow"
-                                         || modelData.id === "runningApps"
-										 || modelData.id === "keyboard_layout_name"
+                                visible: modelData.id === "clock" || modelData.id === "focusedWindow" || modelData.id === "runningApps" || modelData.id === "keyboard_layout_name"
                                 iconName: {
                                     if (modelData.id === "clock")
-                                        return SettingsData.clockCompactMode ? "zoom_out" : "zoom_in"
+                                        return SettingsData.clockCompactMode ? "zoom_out" : "zoom_in";
                                     if (modelData.id === "focusedWindow")
-                                        return SettingsData.focusedWindowCompactMode ? "zoom_out" : "zoom_in"
+                                        return SettingsData.focusedWindowCompactMode ? "zoom_out" : "zoom_in";
                                     if (modelData.id === "runningApps")
-                                        return SettingsData.runningAppsCompactMode ? "zoom_out" : "zoom_in"
+                                        return SettingsData.runningAppsCompactMode ? "zoom_out" : "zoom_in";
                                     if (modelData.id === "keyboard_layout_name")
-										return SettingsData.keyboardLayoutNameCompactMode ? "zoom_out" : "zoom_in"
-                                    return "zoom_in"
+                                        return SettingsData.keyboardLayoutNameCompactMode ? "zoom_out" : "zoom_in";
+                                    return "zoom_in";
                                 }
                                 iconSize: 16
                                 iconColor: {
                                     if (modelData.id === "clock")
-                                        return SettingsData.clockCompactMode ? Theme.primary : Theme.outline
+                                        return SettingsData.clockCompactMode ? Theme.primary : Theme.outline;
                                     if (modelData.id === "focusedWindow")
-                                        return SettingsData.focusedWindowCompactMode ? Theme.primary : Theme.outline
+                                        return SettingsData.focusedWindowCompactMode ? Theme.primary : Theme.outline;
                                     if (modelData.id === "runningApps")
-                                        return SettingsData.runningAppsCompactMode ? Theme.primary : Theme.outline
+                                        return SettingsData.runningAppsCompactMode ? Theme.primary : Theme.outline;
                                     if (modelData.id === "keyboard_layout_name")
-                                        return SettingsData.keyboardLayoutNameCompactMode ? Theme.primary : Theme.outline
-                                    return Theme.outline
+                                        return SettingsData.keyboardLayoutNameCompactMode ? Theme.primary : Theme.outline;
+                                    return Theme.outline;
                                 }
                                 onClicked: {
                                     if (modelData.id === "clock") {
-                                        root.compactModeChanged(
-                                                    "clock",
-                                                    !SettingsData.clockCompactMode)
+                                        root.compactModeChanged("clock", !SettingsData.clockCompactMode);
                                     } else if (modelData.id === "focusedWindow") {
-                                        root.compactModeChanged(
-                                                    "focusedWindow",
-                                                    !SettingsData.focusedWindowCompactMode)
+                                        root.compactModeChanged("focusedWindow", !SettingsData.focusedWindowCompactMode);
                                     } else if (modelData.id === "runningApps") {
-                                        root.compactModeChanged(
-                                                    "runningApps",
-                                                    !SettingsData.runningAppsCompactMode)
+                                        root.compactModeChanged("runningApps", !SettingsData.runningAppsCompactMode);
                                     } else if (modelData.id === "keyboard_layout_name") {
-										root.compactModeChanged(
-													"keyboard_layout_name",
-													!SettingsData.keyboardLayoutNameCompactMode)
+                                        root.compactModeChanged("keyboard_layout_name", !SettingsData.keyboardLayoutNameCompactMode);
                                     }
                                 }
                                 onEntered: {
-                                    compactTooltipLoader.active = true
-                                    if (compactTooltipLoader.item) {
-                                        let tooltipText = "Toggle Compact Mode"
-                                        if (modelData.id === "clock") {
-                                            tooltipText = SettingsData.clockCompactMode ? "Full Size" : "Compact"
-                                        } else if (modelData.id === "focusedWindow") {
-                                            tooltipText = SettingsData.focusedWindowCompactMode ? "Full Size" : "Compact"
-                                        } else if (modelData.id === "runningApps") {
-                                            tooltipText = SettingsData.runningAppsCompactMode ? "Full Size" : "Compact"
-                                        } else  if (modelData.id === "keyboard_layout_name") {
-                                            tooltipText = SettingsData.keyboardLayoutNameCompactMode ? "Full Size" : "Compact"
-                                        }
-                                        const p = compactModeButton.mapToItem(null, compactModeButton.width / 2, 0)
-                                        compactTooltipLoader.item.show(tooltipText, p.x, p.y - 40, null)
+                                    let tooltipText = "Toggle Compact Mode";
+                                    if (modelData.id === "clock") {
+                                        tooltipText = SettingsData.clockCompactMode ? "Full Size" : "Compact";
+                                    } else if (modelData.id === "focusedWindow") {
+                                        tooltipText = SettingsData.focusedWindowCompactMode ? "Full Size" : "Compact";
+                                    } else if (modelData.id === "runningApps") {
+                                        tooltipText = SettingsData.runningAppsCompactMode ? "Full Size" : "Compact";
+                                    } else if (modelData.id === "keyboard_layout_name") {
+                                        tooltipText = SettingsData.keyboardLayoutNameCompactMode ? "Full Size" : "Compact";
                                     }
+                                    sharedTooltip.show(tooltipText, compactModeButton, 0, 0);
                                 }
                                 onExited: {
-                                    if (compactTooltipLoader.item) {
-                                        compactTooltipLoader.item.hide()
-                                    }
-                                    compactTooltipLoader.active = false
+                                    sharedTooltip.hide();
                                 }
                             }
 
@@ -513,21 +431,14 @@ Column {
                                 iconSize: 16
                                 iconColor: SettingsData.runningAppsGroupByApp ? Theme.primary : Theme.outline
                                 onClicked: {
-                                    SettingsData.set("runningAppsGroupByApp", !SettingsData.runningAppsGroupByApp)
+                                    SettingsData.set("runningAppsGroupByApp", !SettingsData.runningAppsGroupByApp);
                                 }
                                 onEntered: {
-                                    groupByAppTooltipLoader.active = true
-                                    if (groupByAppTooltipLoader.item) {
-                                        const tooltipText = SettingsData.runningAppsGroupByApp ? "Ungroup" : "Group by App"
-                                        const p = groupByAppButton.mapToItem(null, groupByAppButton.width / 2, 0)
-                                        groupByAppTooltipLoader.item.show(tooltipText, p.x, p.y - 40, null)
-                                    }
+                                    const tooltipText = SettingsData.runningAppsGroupByApp ? "Ungroup" : "Group by App";
+                                    sharedTooltip.show(tooltipText, groupByAppButton, 0, 0);
                                 }
                                 onExited: {
-                                    if (groupByAppTooltipLoader.item) {
-                                        groupByAppTooltipLoader.item.hide()
-                                    }
-                                    groupByAppTooltipLoader.active = false
+                                    sharedTooltip.hide();
                                 }
                             }
 
@@ -569,15 +480,15 @@ Column {
                             iconSize: 18
                             iconColor: Theme.outline
                             onClicked: {
-                                console.log("Control Center three-dot button clicked for widget:", modelData.id)
-                                controlCenterContextMenu.widgetData = modelData
-                                controlCenterContextMenu.sectionId = root.sectionId
-                                controlCenterContextMenu.widgetIndex = index
+                                console.log("Control Center three-dot button clicked for widget:", modelData.id);
+                                controlCenterContextMenu.widgetData = modelData;
+                                controlCenterContextMenu.sectionId = root.sectionId;
+                                controlCenterContextMenu.widgetIndex = index;
                                 // Position relative to the action buttons row, not the specific button
-                                var parentPos = parent.mapToItem(root, 0, 0)
-                                controlCenterContextMenu.x = parentPos.x - 210 // Position to the left with margin
-                                controlCenterContextMenu.y = parentPos.y - 10 // Slightly above
-                                controlCenterContextMenu.open()
+                                var parentPos = parent.mapToItem(root, 0, 0);
+                                controlCenterContextMenu.x = parentPos.x - 210; // Position to the left with margin
+                                controlCenterContextMenu.y = parentPos.y - 10; // Slightly above
+                                controlCenterContextMenu.open();
                             }
                         }
 
@@ -588,15 +499,15 @@ Column {
                             iconSize: 18
                             iconColor: Theme.outline
                             onClicked: {
-                                console.log("Privacy three-dot button clicked for widget:", modelData.id)
-                                privacyContextMenu.widgetData = modelData
-                                privacyContextMenu.sectionId = root.sectionId
-                                privacyContextMenu.widgetIndex = index
+                                console.log("Privacy three-dot button clicked for widget:", modelData.id);
+                                privacyContextMenu.widgetData = modelData;
+                                privacyContextMenu.sectionId = root.sectionId;
+                                privacyContextMenu.widgetIndex = index;
                                 // Position relative to the action buttons row, not the specific button
-                                var parentPos = parent.mapToItem(root, 0, 0)
-                                privacyContextMenu.x = parentPos.x - 210 // Position to the left with margin
-                                privacyContextMenu.y = parentPos.y - 10 // Slightly above
-                                privacyContextMenu.open()
+                                var parentPos = parent.mapToItem(root, 0, 0);
+                                privacyContextMenu.x = parentPos.x - 210; // Position to the left with margin
+                                privacyContextMenu.y = parentPos.y - 10; // Slightly above
+                                privacyContextMenu.open();
                             }
                         }
 
@@ -608,23 +519,14 @@ Column {
                             iconSize: 18
                             iconColor: modelData.enabled ? Theme.primary : Theme.outline
                             onClicked: {
-                                root.itemEnabledChanged(root.sectionId,
-                                                        modelData.id,
-                                                        !modelData.enabled)
+                                root.itemEnabledChanged(root.sectionId, modelData.id, !modelData.enabled);
                             }
                             onEntered: {
-                                visibilityTooltipLoader.active = true
-                                if (visibilityTooltipLoader.item) {
-                                    const tooltipText = modelData.enabled ? "Hide" : "Show"
-                                    const p = visibilityButton.mapToItem(null, visibilityButton.width / 2, 0)
-                                    visibilityTooltipLoader.item.show(tooltipText, p.x, p.y - 40, null)
-                                }
+                                const tooltipText = modelData.enabled ? "Hide" : "Show";
+                                sharedTooltip.show(tooltipText, visibilityButton, 0, 0);
                             }
                             onExited: {
-                                if (visibilityTooltipLoader.item) {
-                                    visibilityTooltipLoader.item.hide()
-                                }
-                                visibilityTooltipLoader.active = false
+                                sharedTooltip.hide();
                             }
                         }
 
@@ -639,11 +541,9 @@ Column {
                                 iconSize: 14
                                 iconColor: Theme.outline
                                 onClicked: {
-                                    var currentSize = modelData.size || 20
-                                    var newSize = Math.max(5, currentSize - 5)
-                                    root.spacerSizeChanged(root.sectionId,
-                                                           index,
-                                                           newSize)
+                                    var currentSize = modelData.size || 20;
+                                    var newSize = Math.max(5, currentSize - 5);
+                                    root.spacerSizeChanged(root.sectionId, index, newSize);
                                 }
                             }
 
@@ -660,12 +560,9 @@ Column {
                                 iconSize: 14
                                 iconColor: Theme.outline
                                 onClicked: {
-                                    var currentSize = modelData.size || 20
-                                    var newSize = Math.min(5000,
-                                                           currentSize + 5)
-                                    root.spacerSizeChanged(root.sectionId,
-                                                           index,
-                                                           newSize)
+                                    var currentSize = modelData.size || 20;
+                                    var newSize = Math.min(5000, currentSize + 5);
+                                    root.spacerSizeChanged(root.sectionId, index, newSize);
                                 }
                             }
                         }
@@ -676,7 +573,7 @@ Column {
                             iconSize: 18
                             iconColor: Theme.error
                             onClicked: {
-                                root.removeWidget(root.sectionId, index)
+                                root.removeWidget(root.sectionId, index);
                             }
                         }
                     }
@@ -696,34 +593,29 @@ Column {
                         drag.maximumY: itemsList.height
                         preventStealing: true
                         onPressed: {
-                            delegateItem.z = 2
-                            delegateItem.originalY = delegateItem.y
+                            delegateItem.z = 2;
+                            delegateItem.originalY = delegateItem.y;
                         }
                         onReleased: {
-                            delegateItem.z = 1
+                            delegateItem.z = 1;
                             if (drag.active) {
-                                var newIndex = Math.round(
-                                            delegateItem.y / (delegateItem.height
-                                                              + itemsList.spacing))
-                                newIndex = Math.max(
-                                            0, Math.min(newIndex,
-                                                        root.items.length - 1))
+                                var newIndex = Math.round(delegateItem.y / (delegateItem.height + itemsList.spacing));
+                                newIndex = Math.max(0, Math.min(newIndex, root.items.length - 1));
                                 if (newIndex !== index) {
-                                    var newItems = root.items.slice()
-                                    var draggedItem = newItems.splice(index,
-                                                                      1)[0]
-                                    newItems.splice(newIndex, 0, draggedItem)
+                                    var newItems = root.items.slice();
+                                    var draggedItem = newItems.splice(index, 1)[0];
+                                    newItems.splice(newIndex, 0, draggedItem);
                                     root.itemOrderChanged(newItems.map(item => {
-                                                                           return ({
-                                                                                       "id": item.id,
-                                                                                       "enabled": item.enabled,
-                                                                                       "size": item.size
-                                                                                   })
-                                                                       }))
+                                        return ({
+                                                "id": item.id,
+                                                "enabled": item.enabled,
+                                                "size": item.size
+                                            });
+                                    }));
                                 }
                             }
-                            delegateItem.x = 0
-                            delegateItem.y = delegateItem.originalY
+                            delegateItem.x = 0;
+                            delegateItem.y = delegateItem.originalY;
                         }
                     }
 
@@ -744,12 +636,8 @@ Column {
         width: 200
         height: 40
         radius: Theme.cornerRadius
-        color: addButtonArea.containsMouse ? Theme.primaryContainer : Qt.rgba(
-                                                 Theme.surfaceVariant.r,
-                                                 Theme.surfaceVariant.g,
-                                                 Theme.surfaceVariant.b, 0.3)
-        border.color: Qt.rgba(Theme.outline.r, Theme.outline.g,
-                              Theme.outline.b, 0.2)
+        color: addButtonArea.containsMouse ? Theme.primaryContainer : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.3)
+        border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
         border.width: 0
         anchors.horizontalCenter: parent.horizontalCenter
 
@@ -769,7 +657,7 @@ Column {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                root.addWidget(root.sectionId)
+                root.addWidget(root.sectionId);
             }
         }
 
@@ -788,7 +676,6 @@ Column {
         property string sectionId: ""
         property int widgetIndex: -1
 
-
         width: 200
         height: 120
         padding: 0
@@ -797,11 +684,11 @@ Column {
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
         onOpened: {
-            console.log("Control Center context menu opened")
+            console.log("Control Center context menu opened");
         }
 
         onClosed: {
-            console.log("Control Center context menu closed")
+            console.log("Control Center context menu closed");
         }
 
         background: Rectangle {
@@ -856,7 +743,7 @@ Column {
                         height: 20
                         checked: SettingsData.controlCenterShowNetworkIcon
                         onToggled: {
-                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showNetworkIcon", toggled)
+                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showNetworkIcon", toggled);
                         }
                     }
 
@@ -866,8 +753,8 @@ Column {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onPressed: {
-                            networkToggle.checked = !networkToggle.checked
-                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showNetworkIcon", networkToggle.checked)
+                            networkToggle.checked = !networkToggle.checked;
+                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showNetworkIcon", networkToggle.checked);
                         }
                     }
                 }
@@ -909,7 +796,7 @@ Column {
                         height: 20
                         checked: SettingsData.controlCenterShowBluetoothIcon
                         onToggled: {
-                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showBluetoothIcon", toggled)
+                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showBluetoothIcon", toggled);
                         }
                     }
 
@@ -919,8 +806,8 @@ Column {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onPressed: {
-                            bluetoothToggle.checked = !bluetoothToggle.checked
-                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showBluetoothIcon", bluetoothToggle.checked)
+                            bluetoothToggle.checked = !bluetoothToggle.checked;
+                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showBluetoothIcon", bluetoothToggle.checked);
                         }
                     }
                 }
@@ -962,7 +849,7 @@ Column {
                         height: 20
                         checked: SettingsData.controlCenterShowAudioIcon
                         onToggled: {
-                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showAudioIcon", toggled)
+                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showAudioIcon", toggled);
                         }
                     }
 
@@ -972,13 +859,12 @@ Column {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onPressed: {
-                            audioToggle.checked = !audioToggle.checked
-                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showAudioIcon", audioToggle.checked)
+                            audioToggle.checked = !audioToggle.checked;
+                            root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, "showAudioIcon", audioToggle.checked);
                         }
                     }
                 }
             }
-
         }
     }
 
@@ -989,7 +875,6 @@ Column {
         property string sectionId: ""
         property int widgetIndex: -1
 
-
         width: 200
         height: 160
         padding: 0
@@ -998,11 +883,11 @@ Column {
         closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
         onOpened: {
-            console.log("Privacy context menu opened")
+            console.log("Privacy context menu opened");
         }
 
         onClosed: {
-            console.log("Privacy Center context menu closed")
+            console.log("Privacy Center context menu closed");
         }
 
         background: Rectangle {
@@ -1079,7 +964,7 @@ Column {
                         height: 20
                         checked: SettingsData.privacyShowMicIcon
                         onToggled: toggled => {
-                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showMicIcon", toggled)
+                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showMicIcon", toggled);
                         }
                     }
 
@@ -1089,8 +974,8 @@ Column {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onPressed: {
-                            micToggle.checked = !micToggle.checked
-                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showMicIcon", micToggle.checked)
+                            micToggle.checked = !micToggle.checked;
+                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showMicIcon", micToggle.checked);
                         }
                     }
                 }
@@ -1131,7 +1016,7 @@ Column {
                         height: 20
                         checked: SettingsData.privacyShowCameraIcon
                         onToggled: toggled => {
-                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showCameraIcon", toggled)
+                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showCameraIcon", toggled);
                         }
                     }
 
@@ -1141,8 +1026,8 @@ Column {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onPressed: {
-                            cameraToggle.checked = !cameraToggle.checked
-                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showCameraIcon", cameraToggle.checked)
+                            cameraToggle.checked = !cameraToggle.checked;
+                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showCameraIcon", cameraToggle.checked);
                         }
                     }
                 }
@@ -1183,7 +1068,7 @@ Column {
                         height: 20
                         checked: SettingsData.privacyShowScreenShareIcon
                         onToggled: toggled => {
-                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showScreenSharingIcon", toggled)
+                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showScreenSharingIcon", toggled);
                         }
                     }
 
@@ -1193,61 +1078,12 @@ Column {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onPressed: {
-                            screenshareToggle.checked = !screenshareToggle.checked
-                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showScreenSharingIcon", screenshareToggle.checked)
+                            screenshareToggle.checked = !screenshareToggle.checked;
+                            root.privacySettingChanged(privacyContextMenu.sectionId, privacyContextMenu.widgetIndex, "showScreenSharingIcon", screenshareToggle.checked);
                         }
                     }
                 }
             }
-
         }
-    }
-
-    Loader {
-        id: smallTooltipLoader
-        active: false
-        sourceComponent: DankTooltip {}
-    }
-
-    Loader {
-        id: mediumTooltipLoader
-        active: false
-        sourceComponent: DankTooltip {}
-    }
-
-    Loader {
-        id: largeTooltipLoader
-        active: false
-        sourceComponent: DankTooltip {}
-    }
-
-    Loader {
-        id: compactTooltipLoader
-        active: false
-        sourceComponent: DankTooltip {}
-    }
-
-    Loader {
-        id: visibilityTooltipLoader
-        active: false
-        sourceComponent: DankTooltip {}
-    }
-
-    Loader {
-        id: minimumWidthTooltipLoader
-        active: false
-        sourceComponent: DankTooltip {}
-    }
-
-    Loader {
-        id: groupByAppTooltipLoader
-        active: false
-        sourceComponent: DankTooltip {}
-    }
-
-    Loader {
-        id: showSwapTooltipLoader
-        active: false
-        sourceComponent: DankTooltip {}
     }
 }
