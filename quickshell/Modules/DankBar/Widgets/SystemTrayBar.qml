@@ -72,27 +72,70 @@ Item {
     property bool menuOpen: false
     property var currentTrayMenu: null
 
-    Rectangle {
+    Item {
         id: visualBackground
         width: root.visualWidth
         height: root.visualHeight
         anchors.centerIn: parent
-        radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
-        color: {
-            if (allTrayItems.length === 0) {
-                return "transparent";
-            }
 
-            if ((barConfig?.noBackground ?? false)) {
-                return "transparent";
+        Rectangle {
+            id: outline
+            anchors.centerIn: parent
+            width: {
+                const borderWidth = (barConfig?.widgetOutlineEnabled ?? false) ? (barConfig?.widgetOutlineThickness ?? 1) : 0;
+                return parent.width + borderWidth * 2;
             }
+            height: {
+                const borderWidth = (barConfig?.widgetOutlineEnabled ?? false) ? (barConfig?.widgetOutlineThickness ?? 1) : 0;
+                return parent.height + borderWidth * 2;
+            }
+            radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
+            color: "transparent"
+            border.width: {
+                if (barConfig?.widgetOutlineEnabled ?? false) {
+                    return barConfig?.widgetOutlineThickness ?? 1;
+                }
+                return 0;
+            }
+            border.color: {
+                if (!(barConfig?.widgetOutlineEnabled ?? false)) {
+                    return "transparent";
+                }
+                const colorOption = barConfig?.widgetOutlineColor || "primary";
+                const opacity = barConfig?.widgetOutlineOpacity ?? 1.0;
+                switch (colorOption) {
+                case "surfaceText":
+                    return Theme.withAlpha(Theme.surfaceText, opacity);
+                case "secondary":
+                    return Theme.withAlpha(Theme.secondary, opacity);
+                case "primary":
+                    return Theme.withAlpha(Theme.primary, opacity);
+                default:
+                    return Theme.withAlpha(Theme.primary, opacity);
+                }
+            }
+        }
 
-            const baseColor = Theme.widgetBaseBackgroundColor;
-            if (Theme.widgetBackgroundHasAlpha) {
-                return baseColor;
+        Rectangle {
+            id: background
+            anchors.fill: parent
+            radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
+            color: {
+                if (allTrayItems.length === 0) {
+                    return "transparent";
+                }
+
+                if ((barConfig?.noBackground ?? false)) {
+                    return "transparent";
+                }
+
+                const baseColor = Theme.widgetBaseBackgroundColor;
+                if (Theme.widgetBackgroundHasAlpha) {
+                    return baseColor;
+                }
+                const transparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
+                return Theme.withAlpha(baseColor, transparency);
             }
-            const transparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
-            return Theme.withAlpha(baseColor, transparency);
         }
     }
 

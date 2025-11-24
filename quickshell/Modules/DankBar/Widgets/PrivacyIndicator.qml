@@ -33,20 +33,63 @@ Item {
     opacity: hasActivePrivacy ? 1 : 0
     enabled: hasActivePrivacy
 
-    Rectangle {
+    Item {
         id: visualContent
         width: root.visualWidth
         height: root.visualHeight
         anchors.centerIn: parent
-        radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
-        color: {
-            if (barConfig?.noBackground ?? false) {
-                return "transparent";
-            }
 
-            const baseColor = privacyArea.containsMouse ? Theme.errorPressed : Theme.errorHover;
-            const transparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
-            return Theme.withAlpha(baseColor, transparency);
+        Rectangle {
+            id: outline
+            anchors.centerIn: parent
+            width: {
+                const borderWidth = (barConfig?.widgetOutlineEnabled ?? false) ? (barConfig?.widgetOutlineThickness ?? 1) : 0;
+                return parent.width + borderWidth * 2;
+            }
+            height: {
+                const borderWidth = (barConfig?.widgetOutlineEnabled ?? false) ? (barConfig?.widgetOutlineThickness ?? 1) : 0;
+                return parent.height + borderWidth * 2;
+            }
+            radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
+            color: "transparent"
+            border.width: {
+                if (barConfig?.widgetOutlineEnabled ?? false) {
+                    return barConfig?.widgetOutlineThickness ?? 1;
+                }
+                return 0;
+            }
+            border.color: {
+                if (!(barConfig?.widgetOutlineEnabled ?? false)) {
+                    return "transparent";
+                }
+                const colorOption = barConfig?.widgetOutlineColor || "primary";
+                const opacity = barConfig?.widgetOutlineOpacity ?? 1.0;
+                switch (colorOption) {
+                case "surfaceText":
+                    return Theme.withAlpha(Theme.surfaceText, opacity);
+                case "secondary":
+                    return Theme.withAlpha(Theme.secondary, opacity);
+                case "primary":
+                    return Theme.withAlpha(Theme.primary, opacity);
+                default:
+                    return Theme.withAlpha(Theme.primary, opacity);
+                }
+            }
+        }
+
+        Rectangle {
+            id: background
+            anchors.fill: parent
+            radius: (barConfig?.noBackground ?? false) ? 0 : Theme.cornerRadius
+            color: {
+                if (barConfig?.noBackground ?? false) {
+                    return "transparent";
+                }
+
+                const baseColor = privacyArea.containsMouse ? Theme.errorPressed : Theme.errorHover;
+                const transparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
+                return Theme.withAlpha(baseColor, transparency);
+            }
         }
 
         Column {

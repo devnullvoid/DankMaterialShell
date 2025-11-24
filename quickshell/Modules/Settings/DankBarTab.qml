@@ -142,6 +142,30 @@ Item {
     }
 
     Timer {
+        id: widgetOutlineOpacityDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 1.0
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                widgetOutlineOpacity: pendingValue
+            });
+        }
+    }
+
+    Timer {
+        id: widgetOutlineThicknessDebounce
+        interval: 100
+        repeat: false
+        property real pendingValue: 1
+        onTriggered: {
+            SettingsData.updateBarConfig(selectedBarId, {
+                widgetOutlineThickness: pendingValue
+            });
+        }
+    }
+
+    Timer {
         id: barTransparencyDebounce
         interval: 100
         repeat: false
@@ -207,6 +231,10 @@ Item {
             borderColor: defaultBar.borderColor || "surfaceText",
             borderOpacity: defaultBar.borderOpacity ?? 1.0,
             borderThickness: defaultBar.borderThickness ?? 1,
+            widgetOutlineEnabled: defaultBar.widgetOutlineEnabled ?? false,
+            widgetOutlineColor: defaultBar.widgetOutlineColor || "primary",
+            widgetOutlineOpacity: defaultBar.widgetOutlineOpacity ?? 1.0,
+            widgetOutlineThickness: defaultBar.widgetOutlineThickness ?? 1,
             fontScale: defaultBar.fontScale ?? 1.0,
             autoHide: defaultBar.autoHide ?? false,
             autoHideDelay: defaultBar.autoHideDelay ?? 250,
@@ -2454,6 +2482,247 @@ Item {
                                         target: borderThicknessSlider
                                         property: "value"
                                         value: selectedBarConfig?.borderThickness ?? 1
+                                        restoreMode: Binding.RestoreBinding
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: Theme.spacingM
+
+                        DankToggle {
+                            width: parent.width
+                            text: I18n.tr("Widget Outline")
+                            description: "Add outlines to individual widgets."
+                            checked: selectedBarConfig?.widgetOutlineEnabled ?? false
+                            onToggled: checked => {
+                                SettingsData.updateBarConfig(selectedBarId, {
+                                    widgetOutlineEnabled: checked
+                                });
+                            }
+                        }
+
+                        Column {
+                            width: parent.width
+                            leftPadding: Theme.spacingM
+                            spacing: Theme.spacingM
+                            visible: selectedBarConfig?.widgetOutlineEnabled ?? false
+
+                            Rectangle {
+                                width: parent.width - parent.leftPadding
+                                height: 1
+                                color: Theme.outline
+                                opacity: 0.2
+                            }
+
+                            Row {
+                                width: parent.width - parent.leftPadding
+                                spacing: Theme.spacingM
+
+                                Column {
+                                    width: parent.width - widgetOutlineColorGroup.width - Theme.spacingM
+                                    spacing: Theme.spacingXS
+
+                                    StyledText {
+                                        text: I18n.tr("Outline Color")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.surfaceText
+                                        font.weight: Font.Medium
+                                    }
+
+                                    StyledText {
+                                        text: I18n.tr("Choose the widget outline accent color")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.surfaceVariantText
+                                        width: parent.width
+                                    }
+                                }
+
+                                DankButtonGroup {
+                                    id: widgetOutlineColorGroup
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    model: ["Surface", "Secondary", "Primary"]
+                                    currentIndex: {
+                                        const colorOption = selectedBarConfig?.widgetOutlineColor || "primary";
+                                        switch (colorOption) {
+                                        case "surfaceText":
+                                            return 0;
+                                        case "secondary":
+                                            return 1;
+                                        case "primary":
+                                            return 2;
+                                        default:
+                                            return 2;
+                                        }
+                                    }
+                                    onSelectionChanged: (index, selected) => {
+                                        if (!selected)
+                                            return;
+                                        let newColor = "primary";
+                                        switch (index) {
+                                        case 0:
+                                            newColor = "surfaceText";
+                                            break;
+                                        case 1:
+                                            newColor = "secondary";
+                                            break;
+                                        case 2:
+                                            newColor = "primary";
+                                            break;
+                                        }
+                                        SettingsData.updateBarConfig(selectedBarId, {
+                                            widgetOutlineColor: newColor
+                                        });
+                                    }
+                                }
+                            }
+
+                            Column {
+                                width: parent.width - parent.leftPadding
+                                spacing: Theme.spacingS
+
+                                Row {
+                                    width: parent.width
+                                    spacing: Theme.spacingS
+
+                                    StyledText {
+                                        text: I18n.tr("Outline Opacity")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.surfaceText
+                                        font.weight: Font.Medium
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    Item {
+                                        width: parent.width - widgetOutlineOpacityText.implicitWidth - resetWidgetOutlineOpacityBtn.width - Theme.spacingS - Theme.spacingM
+                                        height: 1
+
+                                        StyledText {
+                                            id: widgetOutlineOpacityText
+                                            visible: false
+                                            text: I18n.tr("Outline Opacity")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                        }
+                                    }
+
+                                    DankActionButton {
+                                        id: resetWidgetOutlineOpacityBtn
+                                        buttonSize: 20
+                                        iconName: "refresh"
+                                        iconSize: 12
+                                        backgroundColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                                        iconColor: Theme.surfaceText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        onClicked: {
+                                            SettingsData.updateBarConfig(selectedBarId, {
+                                                widgetOutlineOpacity: 1.0
+                                            });
+                                        }
+                                    }
+
+                                    Item {
+                                        width: Theme.spacingS
+                                        height: 1
+                                    }
+                                }
+
+                                DankSlider {
+                                    id: widgetOutlineOpacitySlider
+                                    width: parent.width
+                                    height: 24
+                                    value: (selectedBarConfig?.widgetOutlineOpacity ?? 1.0) * 100
+                                    minimum: 0
+                                    maximum: 100
+                                    unit: "%"
+                                    showValue: true
+                                    wheelEnabled: false
+                                    thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                                    onSliderValueChanged: newValue => {
+                                        widgetOutlineOpacityDebounce.pendingValue = newValue / 100;
+                                        widgetOutlineOpacityDebounce.restart();
+                                    }
+
+                                    Binding {
+                                        target: widgetOutlineOpacitySlider
+                                        property: "value"
+                                        value: (selectedBarConfig?.widgetOutlineOpacity ?? 1.0) * 100
+                                        restoreMode: Binding.RestoreBinding
+                                    }
+                                }
+                            }
+
+                            Column {
+                                width: parent.width - parent.leftPadding
+                                spacing: Theme.spacingS
+
+                                Row {
+                                    width: parent.width
+                                    spacing: Theme.spacingS
+
+                                    StyledText {
+                                        text: I18n.tr("Outline Thickness")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.surfaceText
+                                        font.weight: Font.Medium
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    Item {
+                                        width: parent.width - widgetOutlineThicknessText.implicitWidth - resetWidgetOutlineThicknessBtn.width - Theme.spacingS - Theme.spacingM
+                                        height: 1
+
+                                        StyledText {
+                                            id: widgetOutlineThicknessText
+                                            visible: false
+                                            text: I18n.tr("Outline Thickness")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                        }
+                                    }
+
+                                    DankActionButton {
+                                        id: resetWidgetOutlineThicknessBtn
+                                        buttonSize: 20
+                                        iconName: "refresh"
+                                        iconSize: 12
+                                        backgroundColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                                        iconColor: Theme.surfaceText
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        onClicked: {
+                                            SettingsData.updateBarConfig(selectedBarId, {
+                                                widgetOutlineThickness: 1
+                                            });
+                                        }
+                                    }
+
+                                    Item {
+                                        width: Theme.spacingS
+                                        height: 1
+                                    }
+                                }
+
+                                DankSlider {
+                                    id: widgetOutlineThicknessSlider
+                                    width: parent.width
+                                    height: 24
+                                    value: selectedBarConfig?.widgetOutlineThickness ?? 1
+                                    minimum: 1
+                                    maximum: 10
+                                    unit: "px"
+                                    showValue: true
+                                    wheelEnabled: false
+                                    thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                                    onSliderValueChanged: newValue => {
+                                        widgetOutlineThicknessDebounce.pendingValue = newValue;
+                                        widgetOutlineThicknessDebounce.restart();
+                                    }
+
+                                    Binding {
+                                        target: widgetOutlineThicknessSlider
+                                        property: "value"
+                                        value: selectedBarConfig?.widgetOutlineThickness ?? 1
                                         restoreMode: Binding.RestoreBinding
                                     }
                                 }

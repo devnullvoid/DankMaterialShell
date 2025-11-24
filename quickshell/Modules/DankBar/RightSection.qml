@@ -31,7 +31,11 @@ Item {
     Component {
         id: rowComp
         Row {
-            readonly property real widgetSpacing: noBackground ? 2 : Theme.spacingXS
+            readonly property real widgetSpacing: {
+                const baseSpacing = noBackground ? 2 : Theme.spacingXS;
+                const outlineThickness = (barConfig?.widgetOutlineEnabled ?? false) ? (barConfig?.widgetOutlineThickness ?? 1) : 0;
+                return baseSpacing + (outlineThickness * 2);
+            }
             spacing: widgetSpacing
             anchors.right: parent ? parent.right : undefined
             Repeater {
@@ -72,7 +76,11 @@ Item {
         id: columnComp
         Column {
             width: parent.width
-            readonly property real widgetSpacing: noBackground ? 2 : Theme.spacingXS
+            readonly property real widgetSpacing: {
+                const baseSpacing = noBackground ? 2 : Theme.spacingXS;
+                const outlineThickness = (barConfig?.widgetOutlineEnabled ?? false) ? (barConfig?.widgetOutlineThickness ?? 1) : 0;
+                return baseSpacing + (outlineThickness * 2);
+            }
             spacing: widgetSpacing
             Repeater {
                 id: columnRepeater

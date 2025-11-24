@@ -19,7 +19,11 @@ Item {
     property bool forceVerticalLayout: false
 
     readonly property bool isVertical: overrideAxisLayout ? forceVerticalLayout : (axis?.isVertical ?? false)
-    readonly property real spacing: noBackground ? 2 : Theme.spacingXS
+    readonly property real spacing: {
+        const baseSpacing = noBackground ? 2 : Theme.spacingXS;
+        const outlineThickness = (barConfig?.widgetOutlineEnabled ?? false) ? (barConfig?.widgetOutlineThickness ?? 1) : 0;
+        return baseSpacing + (outlineThickness * 2);
+    }
 
     property var centerWidgets: []
     property int totalWidgets: 0
