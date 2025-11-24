@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Controls
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
@@ -15,7 +14,7 @@ BasePill {
     property var widgetData: null
     property bool minimumWidth: (widgetData && widgetData.minimumWidth !== undefined) ? widgetData.minimumWidth : true
 
-    signal cpuTempClicked()
+    signal cpuTempClicked
 
     Component.onCompleted: {
         DgopService.addRef(["cpu"]);
@@ -26,7 +25,7 @@ BasePill {
 
     content: Component {
         Item {
-            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : cpuTempContent.implicitWidth
+            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : cpuTempContentRoot.implicitWidth
             implicitHeight: root.isVerticalOrientation ? cpuTempColumn.implicitHeight : (root.widgetThickness - root.horizontalPadding * 2)
 
             Column {
@@ -66,55 +65,78 @@ BasePill {
                 }
             }
 
-            Row {
-                id: cpuTempContent
+            Item {
+                id: cpuTempContentRoot
                 visible: !root.isVerticalOrientation
-                anchors.centerIn: parent
-                spacing: 3
 
-                DankIcon {
-                    name: "device_thermostat"
-                    size: Theme.barIconSize(root.barThickness)
-                    color: {
-                        if (DgopService.cpuTemperature > 85) {
-                            return Theme.tempDanger;
+                implicitWidth: cpuTempRow.implicitWidth
+                implicitHeight: cpuTempRow.implicitHeight
+
+                Row {
+                    id: cpuTempRow
+                    anchors.centerIn: parent
+                    spacing: Theme.spacingXS
+
+                    DankIcon {
+                        id: cpuTempIcon
+                        name: "device_thermostat"
+                        size: Theme.barIconSize(root.barThickness)
+                        color: {
+                            if (DgopService.cpuTemperature > 85) {
+                                return Theme.tempDanger;
+                            }
+
+                            if (DgopService.cpuTemperature > 69) {
+                                return Theme.tempWarning;
+                            }
+
+                            return Theme.widgetIconColor;
                         }
 
-                        if (DgopService.cpuTemperature > 69) {
-                            return Theme.tempWarning;
+                        implicitWidth: size
+                        implicitHeight: size
+                        width: size
+                        height: size
+                    }
+
+                    Item {
+                        id: textBox
+
+                        implicitWidth: root.minimumWidth ? Math.max(tempBaseline.width, cpuTempText.paintedWidth) : cpuTempText.paintedWidth
+                        implicitHeight: cpuTempText.implicitHeight
+
+                        width: implicitWidth
+                        height: implicitHeight
+
+                        Behavior on width {
+                            NumberAnimation {
+                                duration: Theme.shortDuration
+                                easing.type: Easing.OutCubic
+                            }
                         }
 
-                        return Theme.widgetIconColor;
-                    }
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                StyledText {
-                    text: {
-                        if (DgopService.cpuTemperature === undefined || DgopService.cpuTemperature === null || DgopService.cpuTemperature < 0) {
-                            return "--°";
+                        StyledTextMetrics {
+                            id: tempBaseline
+                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                            text: "88°"
                         }
 
-                        return Math.round(DgopService.cpuTemperature) + "°";
-                    }
-                    font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                    color: Theme.widgetTextColor
-                    anchors.verticalCenter: parent.verticalCenter
-                    horizontalAlignment: Text.AlignLeft
-                    elide: Text.ElideNone
+                        StyledText {
+                            id: cpuTempText
+                            text: {
+                                if (DgopService.cpuTemperature === undefined || DgopService.cpuTemperature === null || DgopService.cpuTemperature < 0) {
+                                    return "--°";
+                                }
 
-                    StyledTextMetrics {
-                        id: tempBaseline
-                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                        text: "100°"
-                    }
+                                return Math.round(DgopService.cpuTemperature) + "°";
+                            }
+                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                            color: Theme.widgetTextColor
 
-                    width: root.minimumWidth ? Math.max(tempBaseline.width, paintedWidth) : paintedWidth
-
-                    Behavior on width {
-                        NumberAnimation {
-                            duration: 120
-                            easing.type: Easing.OutCubic
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideNone
                         }
                     }
                 }
@@ -127,8 +149,8 @@ BasePill {
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton
         onPressed: {
-            DgopService.setSortBy("cpu")
-            cpuTempClicked()
+            DgopService.setSortBy("cpu");
+            cpuTempClicked();
         }
     }
 }

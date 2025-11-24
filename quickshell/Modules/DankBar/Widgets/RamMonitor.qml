@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Controls
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
@@ -17,7 +16,7 @@ BasePill {
     property bool showSwap: (widgetData && widgetData.showSwap !== undefined) ? widgetData.showSwap : false
     readonly property real swapUsage: DgopService.totalSwapKB > 0 ? (DgopService.usedSwapKB / DgopService.totalSwapKB) * 100 : 0
 
-    signal ramClicked()
+    signal ramClicked
 
     Component.onCompleted: {
         DgopService.addRef(["memory"]);
@@ -28,7 +27,7 @@ BasePill {
 
     content: Component {
         Item {
-            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : ramContent.implicitWidth
+            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : ramContentRoot.implicitWidth
             implicitHeight: root.isVerticalOrientation ? ramColumn.implicitHeight : (root.widgetThickness - root.horizontalPadding * 2)
 
             Column {
@@ -76,68 +75,91 @@ BasePill {
                 }
             }
 
-            Row {
-                id: ramContent
+            Item {
+                id: ramContentRoot
                 visible: !root.isVerticalOrientation
-                anchors.centerIn: parent
-                spacing: 3
 
-                DankIcon {
-                    name: "developer_board"
-                    size: Theme.barIconSize(root.barThickness)
-                    color: {
-                        if (DgopService.memoryUsage > 90) {
-                            return Theme.tempDanger;
-                        }
+                implicitWidth: ramRow.implicitWidth
+                implicitHeight: ramRow.implicitHeight
 
-                        if (DgopService.memoryUsage > 75) {
-                            return Theme.tempWarning;
-                        }
+                Row {
+                    id: ramRow
+                    anchors.centerIn: parent
+                    spacing: Theme.spacingXS
 
-                        return Theme.widgetIconColor;
-                    }
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                StyledText {
-                    text: {
-                        if (DgopService.memoryUsage === undefined || DgopService.memoryUsage === null || DgopService.memoryUsage === 0) {
-                            return "--%";
-                        }
-
-                        let ramText = DgopService.memoryUsage.toFixed(0) + "%";
-                        if (root.showSwap && DgopService.totalSwapKB > 0) {
-                            return ramText + " · " + root.swapUsage.toFixed(0) + "%";
-                        }
-                        return ramText;
-                    }
-                    font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                    color: Theme.widgetTextColor
-                    anchors.verticalCenter: parent.verticalCenter
-                    horizontalAlignment: Text.AlignLeft
-                    elide: Text.ElideNone
-                    wrapMode: Text.NoWrap
-
-                    StyledTextMetrics {
-                        id: ramBaseline
-                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                        text: {
-                            if (!root.showSwap) {
-                                return "100%";
+                    DankIcon {
+                        id: ramIcon
+                        name: "developer_board"
+                        size: Theme.barIconSize(root.barThickness)
+                        color: {
+                            if (DgopService.memoryUsage > 90) {
+                                return Theme.tempDanger;
                             }
-                            if (root.swapUsage < 10) {
-                                return "100% · 0%";
+
+                            if (DgopService.memoryUsage > 75) {
+                                return Theme.tempWarning;
                             }
-                            return "100% · 100%";
+
+                            return Theme.widgetIconColor;
                         }
+
+                        implicitWidth: size
+                        implicitHeight: size
+                        width: size
+                        height: size
                     }
 
-                    width: root.minimumWidth ? Math.max(ramBaseline.width, paintedWidth) : paintedWidth
+                    Item {
+                        id: textBox
 
-                    Behavior on width {
-                        NumberAnimation {
-                            duration: 120
-                            easing.type: Easing.OutCubic
+                        implicitWidth: root.minimumWidth ? Math.max(ramBaseline.width, ramText.paintedWidth) : ramText.paintedWidth
+                        implicitHeight: ramText.implicitHeight
+
+                        width: implicitWidth
+                        height: implicitHeight
+
+                        Behavior on width {
+                            NumberAnimation {
+                                duration: Theme.shortDuration
+                                easing.type: Easing.OutCubic
+                            }
+                        }
+
+                        StyledTextMetrics {
+                            id: ramBaseline
+                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                            text: {
+                                if (!root.showSwap) {
+                                    return "88%";
+                                }
+                                if (root.swapUsage < 10) {
+                                    return "88% · 0%";
+                                }
+                                return "88% · 88%";
+                            }
+                        }
+
+                        StyledText {
+                            id: ramText
+                            text: {
+                                if (DgopService.memoryUsage === undefined || DgopService.memoryUsage === null || DgopService.memoryUsage === 0) {
+                                    return "--%";
+                                }
+
+                                let ramText = DgopService.memoryUsage.toFixed(0) + "%";
+                                if (root.showSwap && DgopService.totalSwapKB > 0) {
+                                    return ramText + " · " + root.swapUsage.toFixed(0) + "%";
+                                }
+                                return ramText;
+                            }
+                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                            color: Theme.widgetTextColor
+
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideNone
+                            wrapMode: Text.NoWrap
                         }
                     }
                 }
@@ -150,8 +172,8 @@ BasePill {
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton
         onPressed: {
-            DgopService.setSortBy("memory")
-            ramClicked()
+            DgopService.setSortBy("memory");
+            ramClicked();
         }
     }
 }

@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Layouts
 import Quickshell
 import qs.Common
 import qs.Modals.Common
@@ -18,108 +17,108 @@ DankModal {
     property bool isLoading: false
     property var parentModal: null
 
-    width: 600
-    height: 650
+    modalWidth: 600
+    modalHeight: 650
     allowStacking: true
     backgroundOpacity: 0
     closeOnEscapeKey: false
 
     function updateFilteredPlugins() {
-        var filtered = []
-        var query = searchQuery ? searchQuery.toLowerCase() : ""
+        var filtered = [];
+        var query = searchQuery ? searchQuery.toLowerCase() : "";
 
         for (var i = 0; i < allPlugins.length; i++) {
-            var plugin = allPlugins[i]
-            var isFirstParty = plugin.firstParty || false
+            var plugin = allPlugins[i];
+            var isFirstParty = plugin.firstParty || false;
 
             if (!SessionData.showThirdPartyPlugins && !isFirstParty) {
-                continue
+                continue;
             }
 
             if (query.length > 0) {
-                var name = plugin.name ? plugin.name.toLowerCase() : ""
-                var description = plugin.description ? plugin.description.toLowerCase() : ""
-                var author = plugin.author ? plugin.author.toLowerCase() : ""
+                var name = plugin.name ? plugin.name.toLowerCase() : "";
+                var description = plugin.description ? plugin.description.toLowerCase() : "";
+                var author = plugin.author ? plugin.author.toLowerCase() : "";
 
-                if (name.indexOf(query) !== -1 ||
-                    description.indexOf(query) !== -1 ||
-                    author.indexOf(query) !== -1) {
-                    filtered.push(plugin)
+                if (name.indexOf(query) !== -1 || description.indexOf(query) !== -1 || author.indexOf(query) !== -1) {
+                    filtered.push(plugin);
                 }
             } else {
-                filtered.push(plugin)
+                filtered.push(plugin);
             }
         }
 
-        filteredPlugins = filtered
-        selectedIndex = -1
-        keyboardNavigationActive = false
+        filteredPlugins = filtered;
+        selectedIndex = -1;
+        keyboardNavigationActive = false;
     }
 
     function selectNext() {
-        if (filteredPlugins.length === 0) return
-        keyboardNavigationActive = true
-        selectedIndex = Math.min(selectedIndex + 1, filteredPlugins.length - 1)
+        if (filteredPlugins.length === 0)
+            return;
+        keyboardNavigationActive = true;
+        selectedIndex = Math.min(selectedIndex + 1, filteredPlugins.length - 1);
     }
 
     function selectPrevious() {
-        if (filteredPlugins.length === 0) return
-        keyboardNavigationActive = true
-        selectedIndex = Math.max(selectedIndex - 1, -1)
+        if (filteredPlugins.length === 0)
+            return;
+        keyboardNavigationActive = true;
+        selectedIndex = Math.max(selectedIndex - 1, -1);
         if (selectedIndex === -1) {
-            keyboardNavigationActive = false
+            keyboardNavigationActive = false;
         }
     }
 
     function installPlugin(pluginName) {
-        ToastService.showInfo("Installing plugin: " + pluginName)
+        ToastService.showInfo("Installing plugin: " + pluginName);
         DMSService.install(pluginName, response => {
             if (response.error) {
-                ToastService.showError("Install failed: " + response.error)
+                ToastService.showError("Install failed: " + response.error);
             } else {
-                ToastService.showInfo("Plugin installed: " + pluginName)
-                PluginService.scanPlugins()
-                refreshPlugins()
+                ToastService.showInfo("Plugin installed: " + pluginName);
+                PluginService.scanPlugins();
+                refreshPlugins();
             }
-        })
+        });
     }
 
     function refreshPlugins() {
-        isLoading = true
-        DMSService.listPlugins()
+        isLoading = true;
+        DMSService.listPlugins();
         if (DMSService.apiVersion >= 8) {
-            DMSService.listInstalled()
+            DMSService.listInstalled();
         }
     }
 
     function show() {
         if (parentModal) {
-            parentModal.shouldHaveFocus = false
+            parentModal.shouldHaveFocus = false;
         }
-        open()
+        open();
         Qt.callLater(() => {
             if (contentLoader.item && contentLoader.item.searchField) {
-                contentLoader.item.searchField.forceActiveFocus()
+                contentLoader.item.searchField.forceActiveFocus();
             }
-        })
+        });
     }
 
     function hide() {
-        close()
+        close();
         if (parentModal) {
             parentModal.shouldHaveFocus = Qt.binding(() => {
-                return parentModal.shouldBeVisible
-            })
+                return parentModal.shouldBeVisible;
+            });
             Qt.callLater(() => {
                 if (parentModal.modalFocusScope) {
-                    parentModal.modalFocusScope.forceActiveFocus()
+                    parentModal.modalFocusScope.forceActiveFocus();
                 }
-            })
+            });
         }
     }
 
     onOpened: {
-        refreshPlugins()
+        refreshPlugins();
     }
 
     Connections {
@@ -127,23 +126,23 @@ DankModal {
         function onLoaded() {
             Qt.callLater(() => {
                 if (contentLoader.item && contentLoader.item.searchField) {
-                    contentLoader.item.searchField.forceActiveFocus()
+                    contentLoader.item.searchField.forceActiveFocus();
                 }
-            })
+            });
         }
     }
 
     onDialogClosed: () => {
-        allPlugins = []
-        searchQuery = ""
-        filteredPlugins = []
-        selectedIndex = -1
-        keyboardNavigationActive = false
-        isLoading = false
+        allPlugins = [];
+        searchQuery = "";
+        filteredPlugins = [];
+        selectedIndex = -1;
+        keyboardNavigationActive = false;
+        isLoading = false;
     }
 
     onBackgroundClicked: () => {
-        hide()
+        hide();
     }
 
     content: Component {
@@ -155,19 +154,19 @@ DankModal {
             focus: true
 
             Component.onCompleted: {
-                browserSearchField.forceActiveFocus()
+                browserSearchField.forceActiveFocus();
             }
 
             Keys.onPressed: event => {
                 if (event.key === Qt.Key_Escape) {
-                    root.close()
-                    event.accepted = true
+                    root.close();
+                    event.accepted = true;
                 } else if (event.key === Qt.Key_Down) {
-                    root.selectNext()
-                    event.accepted = true
+                    root.selectNext();
+                    event.accepted = true;
                 } else if (event.key === Qt.Key_Up) {
-                    root.selectPrevious()
-                    event.accepted = true
+                    root.selectPrevious();
+                    event.accepted = true;
                 }
             }
 
@@ -215,10 +214,10 @@ DankModal {
                             height: 28
                             onClicked: {
                                 if (SessionData.showThirdPartyPlugins) {
-                                    SessionData.setShowThirdPartyPlugins(false)
-                                    root.updateFilteredPlugins()
+                                    SessionData.setShowThirdPartyPlugins(false);
+                                    root.updateFilteredPlugins();
                                 } else {
-                                    thirdPartyConfirmModal.open()
+                                    thirdPartyConfirmModal.open();
                                 }
                             }
                         }
@@ -278,8 +277,8 @@ DankModal {
                     ignoreLeftRightKeys: true
                     keyForwardTargets: [browserKeyHandler]
                     onTextEdited: {
-                        root.searchQuery = text
-                        root.updateFilteredPlugins()
+                        root.searchQuery = text;
+                        root.updateFilteredPlugins();
                     }
                 }
 
@@ -350,13 +349,8 @@ DankModal {
                             property bool isSelected: root.keyboardNavigationActive && index === root.selectedIndex
                             property bool isInstalled: modelData.installed || false
                             property bool isFirstParty: modelData.firstParty || false
-                            color: isSelected ? Theme.primarySelected :
-                                   Qt.rgba(Theme.surfaceVariant.r,
-                                           Theme.surfaceVariant.g,
-                                           Theme.surfaceVariant.b,
-                                           0.3)
-                            border.color: isSelected ? Theme.primary : Qt.rgba(Theme.outline.r, Theme.outline.g,
-                                            Theme.outline.b, 0.2)
+                            color: isSelected ? Theme.primarySelected : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.3)
+                            border.color: isSelected ? Theme.primary : Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
                             border.width: isSelected ? 2 : 1
 
                             Column {
@@ -435,9 +429,9 @@ DankModal {
 
                                         StyledText {
                                             text: {
-                                                const author = "by " + (modelData.author || "Unknown")
-                                                const source = modelData.repo ? ` • <a href="${modelData.repo}" style="text-decoration:none; color:${Theme.primary};">source</a>` : ""
-                                                return author + source
+                                                const author = "by " + (modelData.author || "Unknown");
+                                                const source = modelData.repo ? ` • <a href="${modelData.repo}" style="text-decoration:none; color:${Theme.primary};">source</a>` : "";
+                                                return author + source;
                                             }
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.outline
@@ -502,7 +496,7 @@ DankModal {
                                             enabled: !isInstalled
                                             onClicked: {
                                                 if (!isInstalled) {
-                                                    root.installPlugin(modelData.name)
+                                                    root.installPlugin(modelData.name);
                                                 }
                                             }
                                         }
@@ -563,8 +557,8 @@ DankModal {
     DankModal {
         id: thirdPartyConfirmModal
 
-        width: 500
-        height: 300
+        modalWidth: 500
+        modalHeight: 300
         allowStacking: true
         backgroundOpacity: 0.4
         closeOnEscapeKey: true
@@ -576,8 +570,8 @@ DankModal {
 
                 Keys.onPressed: event => {
                     if (event.key === Qt.Key_Escape) {
-                        thirdPartyConfirmModal.close()
-                        event.accepted = true
+                        thirdPartyConfirmModal.close();
+                        event.accepted = true;
                     }
                 }
 
@@ -656,9 +650,9 @@ DankModal {
                             text: I18n.tr("I Understand")
                             iconName: "check"
                             onClicked: {
-                                SessionData.setShowThirdPartyPlugins(true)
-                                root.updateFilteredPlugins()
-                                thirdPartyConfirmModal.close()
+                                SessionData.setShowThirdPartyPlugins(true);
+                                root.updateFilteredPlugins();
+                                thirdPartyConfirmModal.close();
                             }
                         }
                     }

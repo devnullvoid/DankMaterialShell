@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Controls
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
@@ -16,7 +15,7 @@ BasePill {
     property int selectedGpuIndex: (widgetData && widgetData.selectedGpuIndex !== undefined) ? widgetData.selectedGpuIndex : 0
     property bool minimumWidth: (widgetData && widgetData.minimumWidth !== undefined) ? widgetData.minimumWidth : true
 
-    signal gpuTempClicked()
+    signal gpuTempClicked
 
     property real displayTemp: {
         if (!DgopService.availableGpus || DgopService.availableGpus.length === 0) {
@@ -32,9 +31,9 @@ BasePill {
 
     function updateWidgetPciId(pciId) {
         const sections = ["left", "center", "right"];
-        const defaultBar = SettingsData.barConfigs[0] || SettingsData.getBarConfig("default")
-        if (!defaultBar) return
-
+        const defaultBar = SettingsData.barConfigs[0] || SettingsData.getBarConfig("default");
+        if (!defaultBar)
+            return;
         for (let s = 0; s < sections.length; s++) {
             const sectionId = sections[s];
             let widgets = [];
@@ -61,7 +60,7 @@ BasePill {
                     } else if (sectionId === "right") {
                         SettingsData.setDankBarRightWidgets(widgets);
                     }
-                    return ;
+                    return;
                 }
             }
         }
@@ -94,7 +93,7 @@ BasePill {
 
     content: Component {
         Item {
-            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : gpuTempContent.implicitWidth
+            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : gpuTempContentRoot.implicitWidth
             implicitHeight: root.isVerticalOrientation ? gpuTempColumn.implicitHeight : (root.widgetThickness - root.horizontalPadding * 2)
 
             Column {
@@ -134,55 +133,78 @@ BasePill {
                 }
             }
 
-            Row {
-                id: gpuTempContent
+            Item {
+                id: gpuTempContentRoot
                 visible: !root.isVerticalOrientation
-                anchors.centerIn: parent
-                spacing: 3
 
-                DankIcon {
-                    name: "auto_awesome_mosaic"
-                    size: Theme.barIconSize(root.barThickness)
-                    color: {
-                        if (root.displayTemp > 80) {
-                            return Theme.tempDanger;
+                implicitWidth: gpuTempRow.implicitWidth
+                implicitHeight: gpuTempRow.implicitHeight
+
+                Row {
+                    id: gpuTempRow
+                    anchors.centerIn: parent
+                    spacing: Theme.spacingXS
+
+                    DankIcon {
+                        id: gpuTempIcon
+                        name: "auto_awesome_mosaic"
+                        size: Theme.barIconSize(root.barThickness)
+                        color: {
+                            if (root.displayTemp > 80) {
+                                return Theme.tempDanger;
+                            }
+
+                            if (root.displayTemp > 65) {
+                                return Theme.tempWarning;
+                            }
+
+                            return Theme.widgetIconColor;
                         }
 
-                        if (root.displayTemp > 65) {
-                            return Theme.tempWarning;
+                        implicitWidth: size
+                        implicitHeight: size
+                        width: size
+                        height: size
+                    }
+
+                    Item {
+                        id: textBox
+
+                        implicitWidth: root.minimumWidth ? Math.max(gpuTempBaseline.width, gpuTempText.paintedWidth) : gpuTempText.paintedWidth
+                        implicitHeight: gpuTempText.implicitHeight
+
+                        width: implicitWidth
+                        height: implicitHeight
+
+                        Behavior on width {
+                            NumberAnimation {
+                                duration: Theme.shortDuration
+                                easing.type: Easing.OutCubic
+                            }
                         }
 
-                        return Theme.widgetIconColor;
-                    }
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                StyledText {
-                    text: {
-                        if (root.displayTemp === undefined || root.displayTemp === null || root.displayTemp === 0) {
-                            return "--°";
+                        StyledTextMetrics {
+                            id: gpuTempBaseline
+                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                            text: "88°"
                         }
 
-                        return Math.round(root.displayTemp) + "°";
-                    }
-                    font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                    color: Theme.widgetTextColor
-                    anchors.verticalCenter: parent.verticalCenter
-                    horizontalAlignment: Text.AlignLeft
-                    elide: Text.ElideNone
+                        StyledText {
+                            id: gpuTempText
+                            text: {
+                                if (root.displayTemp === undefined || root.displayTemp === null || root.displayTemp === 0) {
+                                    return "--°";
+                                }
 
-                    StyledTextMetrics {
-                        id: gpuTempBaseline
-                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                        text: "100°"
-                    }
+                                return Math.round(root.displayTemp) + "°";
+                            }
+                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                            color: Theme.widgetTextColor
 
-                    width: root.minimumWidth ? Math.max(gpuTempBaseline.width, paintedWidth) : paintedWidth
-
-                    Behavior on width {
-                        NumberAnimation {
-                            duration: 120
-                            easing.type: Easing.OutCubic
+                            anchors.fill: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            elide: Text.ElideNone
                         }
                     }
                 }
@@ -195,8 +217,8 @@ BasePill {
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton
         onPressed: {
-            DgopService.setSortBy("cpu")
-            gpuTempClicked()
+            DgopService.setSortBy("cpu");
+            gpuTempClicked();
         }
     }
 
