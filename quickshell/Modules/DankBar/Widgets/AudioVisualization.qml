@@ -26,6 +26,7 @@ Item {
     readonly property real maxBarHeight: Theme.iconSize - 2
     readonly property real minBarHeight: 3
     readonly property real heightRange: maxBarHeight - minBarHeight
+    property var barHeights: [minBarHeight, minBarHeight, minBarHeight, minBarHeight, minBarHeight, minBarHeight]
 
     Timer {
         id: fallbackTimer
@@ -38,6 +39,34 @@ Item {
         }
     }
 
+    Connections {
+        target: CavaService
+        function onValuesChanged() {
+            if (!root.isPlaying) {
+                root.barHeights = [root.minBarHeight, root.minBarHeight, root.minBarHeight, root.minBarHeight, root.minBarHeight, root.minBarHeight];
+                return;
+            }
+
+            const newHeights = [];
+            for (let i = 0; i < 6; i++) {
+                if (CavaService.values.length <= i) {
+                    newHeights.push(root.minBarHeight);
+                    continue;
+                }
+
+                const rawLevel = CavaService.values[i];
+                if (rawLevel <= 0) {
+                    newHeights.push(root.minBarHeight);
+                } else if (rawLevel >= 100) {
+                    newHeights.push(root.maxBarHeight);
+                } else {
+                    newHeights.push(root.minBarHeight + Math.sqrt(rawLevel * 0.01) * root.heightRange);
+                }
+            }
+            root.barHeights = newHeights;
+        }
+    }
+
     Row {
         anchors.centerIn: parent
         spacing: 1.5
@@ -46,27 +75,17 @@ Item {
             model: 6
 
             Rectangle {
-                readonly property real targetHeight: {
-                    if (!root.isPlaying || CavaService.values.length <= index)
-                        return root.minBarHeight;
-
-                    const rawLevel = CavaService.values[index];
-                    const clampedLevel = rawLevel < 0 ? 0 : (rawLevel > 100 ? 100 : rawLevel);
-                    const scaledLevel = Math.sqrt(clampedLevel * 0.01);
-                    return root.minBarHeight + scaledLevel * root.heightRange;
-                }
-
                 width: 2
-                height: targetHeight
+                height: root.barHeights[index]
                 radius: 1.5
                 color: Theme.primary
                 anchors.verticalCenter: parent.verticalCenter
 
                 Behavior on height {
+                    enabled: root.isPlaying && !CavaService.cavaAvailable
                     NumberAnimation {
-                        duration: Anims.durShort
-                        easing.type: Easing.BezierSpline
-                        easing.bezierCurve: Anims.standardDecel
+                        duration: 100
+                        easing.type: Easing.Linear
                     }
                 }
             }

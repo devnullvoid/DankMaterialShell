@@ -1,5 +1,4 @@
 pragma Singleton
-
 pragma ComponentBehavior: Bound
 
 import QtQuick
@@ -19,12 +18,12 @@ Singleton {
         command: ["which", "cava"]
         running: false
         onExited: exitCode => {
-            root.cavaAvailable = exitCode === 0
+            root.cavaAvailable = exitCode === 0;
         }
     }
 
     Component.onCompleted: {
-        cavaCheck.running = true
+        cavaCheck.running = true;
     }
 
     Process {
@@ -35,21 +34,18 @@ Singleton {
 
         onRunningChanged: {
             if (!running) {
-                root.values = Array(6).fill(0)
+                root.values = Array(6).fill(0);
             }
         }
 
         stdout: SplitParser {
             splitMarker: "\n"
             onRead: data => {
-                if (root.refCount > 0 && data.trim()) {
-                    let points = data.split(";").map(p => {
-                                                         return parseInt(p.trim(), 10)
-                                                     }).filter(p => {
-                                                                   return !isNaN(p)
-                                                               })
-                    if (points.length >= 6) {
-                        root.values = points.slice(0, 6)
+                if (root.refCount > 0 && data.length > 0) {
+                    const parts = data.split(";");
+                    if (parts.length >= 6) {
+                        const points = [parseInt(parts[0], 10), parseInt(parts[1], 10), parseInt(parts[2], 10), parseInt(parts[3], 10), parseInt(parts[4], 10), parseInt(parts[5], 10)];
+                        root.values = points;
                     }
                 }
             }

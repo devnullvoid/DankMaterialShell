@@ -101,8 +101,23 @@ BasePill {
                 anchors.centerIn: parent
                 spacing: Theme.spacingXS
 
-                AudioVisualization {
+                Item {
+                    width: 20
+                    height: 20
                     anchors.horizontalCenter: parent.horizontalCenter
+
+                    AudioVisualization {
+                        anchors.fill: parent
+                        visible: CavaService.cavaAvailable
+                    }
+
+                    DankIcon {
+                        anchors.fill: parent
+                        name: "music_note"
+                        size: 20
+                        color: Theme.primary
+                        visible: !CavaService.cavaAvailable
+                    }
 
                     MouseArea {
                         anchors.fill: parent
@@ -165,28 +180,38 @@ BasePill {
                     id: mediaInfo
                     spacing: Theme.spacingXS
 
-                    AudioVisualization {
+                    Item {
+                        width: 20
+                        height: 20
                         anchors.verticalCenter: parent.verticalCenter
+
+                        AudioVisualization {
+                            anchors.fill: parent
+                            visible: CavaService.cavaAvailable
+                        }
+
+                        DankIcon {
+                            anchors.fill: parent
+                            name: "music_note"
+                            size: 20
+                            color: Theme.primary
+                            visible: !CavaService.cavaAvailable
+                        }
                     }
 
                     Rectangle {
                         id: textContainer
+                        readonly property string cachedIdentity: activePlayer ? (activePlayer.identity || "") : ""
+                        readonly property string lowerIdentity: cachedIdentity.toLowerCase()
+                        readonly property bool isWebMedia: lowerIdentity.includes("firefox") || lowerIdentity.includes("chrome") || lowerIdentity.includes("chromium") || lowerIdentity.includes("edge") || lowerIdentity.includes("safari")
+
                         property string displayText: {
                             if (!activePlayer || !activePlayer.trackTitle) {
                                 return "";
                             }
 
-                            let identity = activePlayer.identity || "";
-                            let isWebMedia = identity.toLowerCase().includes("firefox") || identity.toLowerCase().includes("chrome") || identity.toLowerCase().includes("chromium") || identity.toLowerCase().includes("edge") || identity.toLowerCase().includes("safari");
-                            let title = "";
-                            let subtitle = "";
-                            if (isWebMedia && activePlayer.trackTitle) {
-                                title = activePlayer.trackTitle;
-                                subtitle = activePlayer.trackArtist || identity;
-                            } else {
-                                title = activePlayer.trackTitle || "Unknown Track";
-                                subtitle = activePlayer.trackArtist || "";
-                            }
+                            const title = isWebMedia ? activePlayer.trackTitle : (activePlayer.trackTitle || "Unknown Track");
+                            const subtitle = isWebMedia ? (activePlayer.trackArtist || cachedIdentity) : (activePlayer.trackArtist || "");
                             return subtitle.length > 0 ? title + " • " + subtitle : title;
                         }
 
