@@ -25,8 +25,8 @@ BasePill {
 
     content: Component {
         Item {
-            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : cpuContentRoot.implicitWidth
-            implicitHeight: root.isVerticalOrientation ? cpuColumn.implicitHeight : (root.widgetThickness - root.horizontalPadding * 2)
+            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : cpuContent.implicitWidth
+            implicitHeight: root.isVerticalOrientation ? cpuColumn.implicitHeight : cpuContent.implicitHeight
 
             Column {
                 id: cpuColumn
@@ -65,79 +65,72 @@ BasePill {
                 }
             }
 
-            Item {
-                id: cpuContentRoot
+            Row {
+                id: cpuContent
                 visible: !root.isVerticalOrientation
+                anchors.centerIn: parent
+                spacing: Theme.spacingXS
 
-                implicitWidth: cpuRow.implicitWidth
-                implicitHeight: cpuRow.implicitHeight
-
-                Row {
-                    id: cpuRow
-                    anchors.centerIn: parent
-                    spacing: Theme.spacingXS
-
-                    DankIcon {
-                        id: cpuIcon
-                        name: "memory"
-                        size: Theme.barIconSize(root.barThickness)
-                        color: {
-                            if (DgopService.cpuUsage > 80) {
-                                return Theme.tempDanger;
-                            }
-
-                            if (DgopService.cpuUsage > 60) {
-                                return Theme.tempWarning;
-                            }
-
-                            return Theme.widgetIconColor;
+                DankIcon {
+                    id: cpuIcon
+                    name: "memory"
+                    size: Theme.barIconSize(root.barThickness)
+                    color: {
+                        if (DgopService.cpuUsage > 80) {
+                            return Theme.tempDanger;
                         }
 
-                        implicitWidth: size
-                        implicitHeight: size
-                        width: size
-                        height: size
+                        if (DgopService.cpuUsage > 60) {
+                            return Theme.tempWarning;
+                        }
+
+                        return Theme.widgetIconColor;
                     }
 
-                    Item {
-                        id: textBox
+                    implicitWidth: size
+                    implicitHeight: size
+                    width: size
+                    height: size
+                }
 
-                        implicitWidth: root.minimumWidth ? Math.max(cpuBaseline.width, cpuText.paintedWidth) : cpuText.paintedWidth
-                        implicitHeight: cpuText.implicitHeight
+                Item {
+                    id: textBox
 
-                        width: implicitWidth
-                        height: implicitHeight
+                    implicitWidth: root.minimumWidth ? Math.max(cpuBaseline.width, cpuText.paintedWidth) : cpuText.paintedWidth
+                    implicitHeight: cpuText.implicitHeight
 
-                        Behavior on width {
-                            NumberAnimation {
-                                duration: Theme.shortDuration
-                                easing.type: Easing.OutCubic
+                    width: implicitWidth
+                    height: implicitHeight
+
+                    Behavior on width {
+                        NumberAnimation {
+                            duration: Theme.shortDuration
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+
+                    StyledTextMetrics {
+                        id: cpuBaseline
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        text: "88%"
+                    }
+
+                    StyledText {
+                        id: cpuText
+                        text: {
+                            const v = DgopService.cpuUsage;
+                            if (v === undefined || v === null || v === 0) {
+                                return "--%";
                             }
+                            return v.toFixed(0) + "%";
                         }
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        color: Theme.widgetTextColor
 
-                        StyledTextMetrics {
-                            id: cpuBaseline
-                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                            text: "88%"
-                        }
-
-                        StyledText {
-                            id: cpuText
-                            text: {
-                                const v = DgopService.cpuUsage;
-                                if (v === undefined || v === null || v === 0) {
-                                    return "--%";
-                                }
-                                return v.toFixed(0) + "%";
-                            }
-                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                            color: Theme.widgetTextColor
-
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            elide: Text.ElideNone
-                        }
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideNone
                     }
                 }
             }

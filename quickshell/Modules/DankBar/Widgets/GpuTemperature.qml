@@ -93,8 +93,8 @@ BasePill {
 
     content: Component {
         Item {
-            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : gpuTempContentRoot.implicitWidth
-            implicitHeight: root.isVerticalOrientation ? gpuTempColumn.implicitHeight : (root.widgetThickness - root.horizontalPadding * 2)
+            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : gpuTempRow.implicitWidth
+            implicitHeight: root.isVerticalOrientation ? gpuTempColumn.implicitHeight : gpuTempRow.implicitHeight
 
             Column {
                 id: gpuTempColumn
@@ -133,79 +133,72 @@ BasePill {
                 }
             }
 
-            Item {
-                id: gpuTempContentRoot
+            Row {
+                id: gpuTempRow
                 visible: !root.isVerticalOrientation
+                anchors.centerIn: parent
+                spacing: Theme.spacingXS
 
-                implicitWidth: gpuTempRow.implicitWidth
-                implicitHeight: gpuTempRow.implicitHeight
-
-                Row {
-                    id: gpuTempRow
-                    anchors.centerIn: parent
-                    spacing: Theme.spacingXS
-
-                    DankIcon {
-                        id: gpuTempIcon
-                        name: "auto_awesome_mosaic"
-                        size: Theme.barIconSize(root.barThickness)
-                        color: {
-                            if (root.displayTemp > 80) {
-                                return Theme.tempDanger;
-                            }
-
-                            if (root.displayTemp > 65) {
-                                return Theme.tempWarning;
-                            }
-
-                            return Theme.widgetIconColor;
+                DankIcon {
+                    id: gpuTempIcon
+                    name: "auto_awesome_mosaic"
+                    size: Theme.barIconSize(root.barThickness)
+                    color: {
+                        if (root.displayTemp > 80) {
+                            return Theme.tempDanger;
                         }
 
-                        implicitWidth: size
-                        implicitHeight: size
-                        width: size
-                        height: size
+                        if (root.displayTemp > 65) {
+                            return Theme.tempWarning;
+                        }
+
+                        return Theme.widgetIconColor;
                     }
 
-                    Item {
-                        id: textBox
+                    implicitWidth: size
+                    implicitHeight: size
+                    width: size
+                    height: size
+                }
 
-                        implicitWidth: root.minimumWidth ? Math.max(gpuTempBaseline.width, gpuTempText.paintedWidth) : gpuTempText.paintedWidth
-                        implicitHeight: gpuTempText.implicitHeight
+                Item {
+                    id: textBox
 
-                        width: implicitWidth
-                        height: implicitHeight
+                    implicitWidth: root.minimumWidth ? Math.max(gpuTempBaseline.width, gpuTempText.paintedWidth) : gpuTempText.paintedWidth
+                    implicitHeight: gpuTempText.implicitHeight
 
-                        Behavior on width {
-                            NumberAnimation {
-                                duration: Theme.shortDuration
-                                easing.type: Easing.OutCubic
+                    width: implicitWidth
+                    height: implicitHeight
+
+                    Behavior on width {
+                        NumberAnimation {
+                            duration: Theme.shortDuration
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+
+                    StyledTextMetrics {
+                        id: gpuTempBaseline
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        text: "88°"
+                    }
+
+                    StyledText {
+                        id: gpuTempText
+                        text: {
+                            if (root.displayTemp === undefined || root.displayTemp === null || root.displayTemp === 0) {
+                                return "--°";
                             }
+
+                            return Math.round(root.displayTemp) + "°";
                         }
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        color: Theme.widgetTextColor
 
-                        StyledTextMetrics {
-                            id: gpuTempBaseline
-                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                            text: "88°"
-                        }
-
-                        StyledText {
-                            id: gpuTempText
-                            text: {
-                                if (root.displayTemp === undefined || root.displayTemp === null || root.displayTemp === 0) {
-                                    return "--°";
-                                }
-
-                                return Math.round(root.displayTemp) + "°";
-                            }
-                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                            color: Theme.widgetTextColor
-
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            elide: Text.ElideNone
-                        }
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideNone
                     }
                 }
             }
