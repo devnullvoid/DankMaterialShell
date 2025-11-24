@@ -11,6 +11,7 @@ import qs.Widgets
 Item {
     id: root
 
+    property var widgetData: null
     property var barConfig: null
     property bool isVertical: axis?.isVertical ?? false
     property var axis: null
@@ -129,7 +130,7 @@ Item {
         if (windowCount === 0) {
             return 0;
         }
-        if (SettingsData.runningAppsCompactMode) {
+        if (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) {
             return windowCount * 24 + (windowCount - 1) * Theme.spacingXS + horizontalPadding * 2;
         } else {
             return windowCount * (24 + Theme.spacingXS + 120) + (windowCount - 1) * Theme.spacingXS + horizontalPadding * 2;
@@ -334,7 +335,7 @@ Item {
                         }
                         return appName + (windowTitle ? " • " + windowTitle : "");
                     }
-                    readonly property real visualWidth: SettingsData.runningAppsCompactMode ? 24 : (24 + Theme.spacingXS + 120)
+                    readonly property real visualWidth: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? 24 : (24 + Theme.spacingXS + 120)
 
                     width: visualWidth
                     height: root.barThickness
@@ -357,7 +358,7 @@ Item {
                         IconImage {
                             id: iconImg
                             anchors.left: parent.left
-                            anchors.leftMargin: SettingsData.runningAppsCompactMode ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
+                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
                             width: Theme.barIconSize(root.barThickness)
                             height: Theme.barIconSize(root.barThickness)
@@ -384,7 +385,7 @@ Item {
 
                         DankIcon {
                             anchors.left: parent.left
-                            anchors.leftMargin: SettingsData.runningAppsCompactMode ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
+                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
                             size: Theme.barIconSize(root.barThickness)
                             name: "sports_esports"
@@ -419,7 +420,7 @@ Item {
                         Rectangle {
                             anchors.right: parent.right
                             anchors.bottom: parent.bottom
-                            anchors.rightMargin: SettingsData.runningAppsCompactMode ? -2 : 2
+                            anchors.rightMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? -2 : 2
                             anchors.bottomMargin: -2
                             width: 14
                             height: 14
@@ -443,7 +444,7 @@ Item {
                             anchors.right: parent.right
                             anchors.rightMargin: Theme.spacingS
                             anchors.verticalCenter: parent.verticalCenter
-                            visible: !SettingsData.runningAppsCompactMode
+                            visible: !(widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode)
                             text: windowTitle
                             font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale)
                             color: Theme.widgetTextColor
@@ -578,7 +579,7 @@ Item {
                         }
                         return appName + (windowTitle ? " • " + windowTitle : "");
                     }
-                    readonly property real visualWidth: SettingsData.runningAppsCompactMode ? 24 : (24 + Theme.spacingXS + 120)
+                    readonly property real visualWidth: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? 24 : (24 + Theme.spacingXS + 120)
 
                     width: root.barThickness
                     height: 24
@@ -600,7 +601,7 @@ Item {
                         IconImage {
                             id: iconImg
                             anchors.left: parent.left
-                            anchors.leftMargin: SettingsData.runningAppsCompactMode ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
+                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
                             width: Theme.barIconSize(root.barThickness)
                             height: Theme.barIconSize(root.barThickness)
@@ -627,7 +628,7 @@ Item {
 
                         DankIcon {
                             anchors.left: parent.left
-                            anchors.leftMargin: SettingsData.runningAppsCompactMode ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
+                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
                             size: Theme.barIconSize(root.barThickness)
                             name: "sports_esports"
@@ -661,7 +662,7 @@ Item {
                         Rectangle {
                             anchors.right: parent.right
                             anchors.bottom: parent.bottom
-                            anchors.rightMargin: SettingsData.runningAppsCompactMode ? -2 : 2
+                            anchors.rightMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? -2 : 2
                             anchors.bottomMargin: -2
                             width: 14
                             height: 14
@@ -684,7 +685,7 @@ Item {
                             anchors.right: parent.right
                             anchors.rightMargin: Theme.spacingS
                             anchors.verticalCenter: parent.verticalCenter
-                            visible: !SettingsData.runningAppsCompactMode
+                            visible: !(widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode)
                             text: windowTitle
                             font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale)
                             color: Theme.widgetTextColor

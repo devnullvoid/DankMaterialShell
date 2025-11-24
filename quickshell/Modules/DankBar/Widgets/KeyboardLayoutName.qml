@@ -1,25 +1,23 @@
 import QtQuick
-import QtQuick.Controls
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Io
 import qs.Common
 import qs.Modules.Plugins
-import qs.Modules.ProcessList
 import qs.Services
 import qs.Widgets
 
 BasePill {
     id: root
 
-    property bool compactMode: SettingsData.keyboardLayoutNameCompactMode
+    property var widgetData: null
+    property bool compactMode: widgetData?.keyboardLayoutNameCompactMode !== undefined ? widgetData.keyboardLayoutNameCompactMode : SettingsData.keyboardLayoutNameCompactMode
     property string currentLayout: {
         if (CompositorService.isNiri) {
-            return NiriService.getCurrentKeyboardLayoutName()
+            return NiriService.getCurrentKeyboardLayoutName();
         } else if (CompositorService.isDwl) {
-            return DwlService.currentKeyboardLayout
+            return DwlService.currentKeyboardLayout;
         }
-        return ""
+        return "";
     }
     property string hyprlandKeyboard: ""
 
@@ -43,12 +41,13 @@ BasePill {
 
                 StyledText {
                     text: {
-                        if (!root.currentLayout) return ""
-                        const parts = root.currentLayout.split(" ")
+                        if (!root.currentLayout)
+                            return "";
+                        const parts = root.currentLayout.split(" ");
                         if (parts.length > 0) {
-                            return parts[0].substring(0, 2).toUpperCase()
+                            return parts[0].substring(0, 2).toUpperCase();
                         }
-                        return root.currentLayout.substring(0, 2).toUpperCase()
+                        return root.currentLayout.substring(0, 2).toUpperCase();
                     }
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                     color: Theme.widgetTextColor
@@ -78,16 +77,11 @@ BasePill {
         cursorShape: Qt.PointingHandCursor
         onClicked: {
             if (CompositorService.isNiri) {
-                NiriService.cycleKeyboardLayout()
+                NiriService.cycleKeyboardLayout();
             } else if (CompositorService.isHyprland) {
-                Quickshell.execDetached([
-                    "hyprctl",
-                    "switchxkblayout",
-                    root.hyprlandKeyboard,
-                    "next"
-                ])
+                Quickshell.execDetached(["hyprctl", "switchxkblayout", root.hyprlandKeyboard, "next"]);
             } else if (CompositorService.isDwl) {
-                Quickshell.execDetached(["mmsg", "-d", "switch_keyboard_layout"])
+                Quickshell.execDetached(["mmsg", "-d", "switch_keyboard_layout"]);
             }
         }
     }
@@ -98,14 +92,14 @@ BasePill {
 
         function onRawEvent(event) {
             if (event.name === "activelayout") {
-                updateLayout()
+                updateLayout();
             }
         }
     }
 
     Component.onCompleted: {
         if (CompositorService.isHyprland) {
-            updateLayout()
+            updateLayout();
         }
     }
 
@@ -113,45 +107,45 @@ BasePill {
         if (CompositorService.isHyprland) {
             Proc.runCommand(null, ["hyprctl", "-j", "devices"], (output, exitCode) => {
                 if (exitCode !== 0) {
-                    root.currentLayout = "Unknown"
-                    return
+                    root.currentLayout = "Unknown";
+                    return;
                 }
                 try {
-                    const data = JSON.parse(output)
-                    const mainKeyboard = data.keyboards.find(kb => kb.main === true)
-                    root.hyprlandKeyboard = mainKeyboard.name
+                    const data = JSON.parse(output);
+                    const mainKeyboard = data.keyboards.find(kb => kb.main === true);
+                    root.hyprlandKeyboard = mainKeyboard.name;
 
                     if (mainKeyboard) {
-    					const layout = mainKeyboard.layout
-    					const variant = mainKeyboard.variant
-    					const index = mainKeyboard.active_layout_index
+                        const layout = mainKeyboard.layout;
+                        const variant = mainKeyboard.variant;
+                        const index = mainKeyboard.active_layout_index;
 
                         if (root.compactMode && layout && variant && index !== undefined) {
-    						const layouts = mainKeyboard.layout.split(",")
-    						const variants = mainKeyboard.variant.split(",")
-    						const index = mainKeyboard.active_layout_index
-    						
-    						if (layouts[index] && variants[index] !== undefined) {
-    							if (variants[index] === "") {
-    								root.currentLayout = layouts[index]
+                            const layouts = mainKeyboard.layout.split(",");
+                            const variants = mainKeyboard.variant.split(",");
+                            const index = mainKeyboard.active_layout_index;
+
+                            if (layouts[index] && variants[index] !== undefined) {
+                                if (variants[index] === "") {
+                                    root.currentLayout = layouts[index];
                                 } else {
-    								root.currentLayout = layouts[index] + "-" + variants[index]
+                                    root.currentLayout = layouts[index] + "-" + variants[index];
                                 }
                             } else {
-    							root.currentLayout = "Unknown"
+                                root.currentLayout = "Unknown";
                             }
                         } else if (mainKeyboard && mainKeyboard.active_keymap) {
-                            root.currentLayout = mainKeyboard.active_keymap
+                            root.currentLayout = mainKeyboard.active_keymap;
                         } else {
-                            root.currentLayout = "Unknown"
+                            root.currentLayout = "Unknown";
                         }
                     } else {
-                        root.currentLayout = "Unknown"
+                        root.currentLayout = "Unknown";
                     }
                 } catch (e) {
-                    root.currentLayout = "Unknown"
+                    root.currentLayout = "Unknown";
                 }
-            })
+            });
         }
     }
 }

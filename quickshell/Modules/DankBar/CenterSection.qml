@@ -416,6 +416,9 @@ Item {
                 if ("sectionSpacing" in item) {
                     item.sectionSpacing = Qt.binding(() => root.spacing);
                 }
+                if ("widgetData" in item) {
+                    item.widgetData = Qt.binding(() => widgetData);
+                }
 
                 if ("isFirst" in item) {
                     item.isFirst = Qt.binding(() => {

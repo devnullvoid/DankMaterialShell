@@ -870,6 +870,16 @@ Item {
                     newWidget.mountPath = widget.mountPath;
                 if (widget.minimumWidth !== undefined)
                     newWidget.minimumWidth = widget.minimumWidth;
+                if (widget.mediaSize !== undefined)
+                    newWidget.mediaSize = widget.mediaSize;
+                if (widget.clockCompactMode !== undefined)
+                    newWidget.clockCompactMode = widget.clockCompactMode;
+                if (widget.focusedWindowCompactMode !== undefined)
+                    newWidget.focusedWindowCompactMode = widget.focusedWindowCompactMode;
+                if (widget.runningAppsCompactMode !== undefined)
+                    newWidget.runningAppsCompactMode = widget.runningAppsCompactMode;
+                if (widget.keyboardLayoutNameCompactMode !== undefined)
+                    newWidget.keyboardLayoutNameCompactMode = widget.keyboardLayoutNameCompactMode;
                 if (widget.id === "controlCenterButton") {
                     newWidget.showNetworkIcon = widget.showNetworkIcon !== undefined ? widget.showNetworkIcon : true;
                     newWidget.showBluetoothIcon = widget.showBluetoothIcon !== undefined ? widget.showBluetoothIcon : true;
@@ -877,6 +887,85 @@ Item {
                 }
                 widgets[widgetIndex] = newWidget;
             }
+        }
+
+        setWidgetsForSection(sectionId, widgets);
+    }
+
+    function handleCompactModeChanged(sectionId, widgetId, value) {
+        var widgets = getWidgetsForSection(sectionId).slice();
+
+        for (var i = 0; i < widgets.length; i++) {
+            var widget = widgets[i];
+            var currentId = typeof widget === "string" ? widget : widget.id;
+
+            if (currentId !== widgetId) {
+                continue;
+            }
+
+            if (typeof widget === "string") {
+                widgets[i] = {
+                    "id": widget,
+                    "enabled": true
+                };
+                widget = widgets[i];
+            } else {
+                var newWidget = {
+                    "id": widget.id,
+                    "enabled": widget.enabled
+                };
+
+                if (widget.size !== undefined)
+                    newWidget.size = widget.size;
+                if (widget.selectedGpuIndex !== undefined)
+                    newWidget.selectedGpuIndex = widget.selectedGpuIndex;
+                if (widget.pciId !== undefined)
+                    newWidget.pciId = widget.pciId;
+                if (widget.mountPath !== undefined)
+                    newWidget.mountPath = widget.mountPath;
+                if (widget.minimumWidth !== undefined)
+                    newWidget.minimumWidth = widget.minimumWidth;
+                if (widget.showSwap !== undefined)
+                    newWidget.showSwap = widget.showSwap;
+                if (widget.mediaSize !== undefined)
+                    newWidget.mediaSize = widget.mediaSize;
+                if (widget.clockCompactMode !== undefined)
+                    newWidget.clockCompactMode = widget.clockCompactMode;
+                if (widget.focusedWindowCompactMode !== undefined)
+                    newWidget.focusedWindowCompactMode = widget.focusedWindowCompactMode;
+                if (widget.runningAppsCompactMode !== undefined)
+                    newWidget.runningAppsCompactMode = widget.runningAppsCompactMode;
+                if (widget.keyboardLayoutNameCompactMode !== undefined)
+                    newWidget.keyboardLayoutNameCompactMode = widget.keyboardLayoutNameCompactMode;
+                if (widget.id === "controlCenterButton") {
+                    newWidget.showNetworkIcon = widget.showNetworkIcon !== undefined ? widget.showNetworkIcon : true;
+                    newWidget.showBluetoothIcon = widget.showBluetoothIcon !== undefined ? widget.showBluetoothIcon : true;
+                    newWidget.showAudioIcon = widget.showAudioIcon !== undefined ? widget.showAudioIcon : true;
+                }
+
+                widgets[i] = newWidget;
+                widget = newWidget;
+            }
+
+            switch (widgetId) {
+            case "music":
+                widget.mediaSize = value;
+                break;
+            case "clock":
+                widget.clockCompactMode = value;
+                break;
+            case "focusedWindow":
+                widget.focusedWindowCompactMode = value;
+                break;
+            case "runningApps":
+                widget.runningAppsCompactMode = value;
+                break;
+            case "keyboard_layout_name":
+                widget.keyboardLayoutNameCompactMode = value;
+                break;
+            }
+
+            break;
         }
 
         setWidgetsForSection(sectionId, widgets);
@@ -897,6 +986,11 @@ Item {
             var widgetShowAudioIcon = typeof widget === "string" ? undefined : widget.showAudioIcon;
             var widgetMinimumWidth = typeof widget === "string" ? undefined : widget.minimumWidth;
             var widgetShowSwap = typeof widget === "string" ? undefined : widget.showSwap;
+            var widgetMediaSize = typeof widget === "string" ? undefined : widget.mediaSize;
+            var widgetClockCompactMode = typeof widget === "string" ? undefined : widget.clockCompactMode;
+            var widgetFocusedWindowCompactMode = typeof widget === "string" ? undefined : widget.focusedWindowCompactMode;
+            var widgetRunningAppsCompactMode = typeof widget === "string" ? undefined : widget.runningAppsCompactMode;
+            var widgetKeyboardLayoutNameCompactMode = typeof widget === "string" ? undefined : widget.keyboardLayoutNameCompactMode;
             var widgetDef = baseWidgetDefinitions.find(w => {
                 return w.id === widgetId;
             });
@@ -921,6 +1015,16 @@ Item {
                     item.minimumWidth = widgetMinimumWidth;
                 if (widgetShowSwap !== undefined)
                     item.showSwap = widgetShowSwap;
+                if (widgetMediaSize !== undefined)
+                    item.mediaSize = widgetMediaSize;
+                if (widgetClockCompactMode !== undefined)
+                    item.clockCompactMode = widgetClockCompactMode;
+                if (widgetFocusedWindowCompactMode !== undefined)
+                    item.focusedWindowCompactMode = widgetFocusedWindowCompactMode;
+                if (widgetRunningAppsCompactMode !== undefined)
+                    item.runningAppsCompactMode = widgetRunningAppsCompactMode;
+                if (widgetKeyboardLayoutNameCompactMode !== undefined)
+                    item.keyboardLayoutNameCompactMode = widgetKeyboardLayoutNameCompactMode;
 
                 widgets.push(item);
             }
@@ -3155,6 +3259,9 @@ Item {
                         onShowSwapChanged: (sectionId, index, enabled) => {
                             dankBarTab.handleShowSwapChanged(sectionId, index, enabled);
                         }
+                        onCompactModeChanged: (widgetId, value) => {
+                            dankBarTab.handleCompactModeChanged(sectionId, widgetId, value);
+                        }
                     }
                 }
 
@@ -3211,6 +3318,9 @@ Item {
                         onShowSwapChanged: (sectionId, index, enabled) => {
                             dankBarTab.handleShowSwapChanged(sectionId, index, enabled);
                         }
+                        onCompactModeChanged: (widgetId, value) => {
+                            dankBarTab.handleCompactModeChanged(sectionId, widgetId, value);
+                        }
                     }
                 }
 
@@ -3266,6 +3376,9 @@ Item {
                         }
                         onShowSwapChanged: (sectionId, index, enabled) => {
                             dankBarTab.handleShowSwapChanged(sectionId, index, enabled);
+                        }
+                        onCompactModeChanged: (widgetId, value) => {
+                            dankBarTab.handleCompactModeChanged(sectionId, widgetId, value);
                         }
                     }
                 }

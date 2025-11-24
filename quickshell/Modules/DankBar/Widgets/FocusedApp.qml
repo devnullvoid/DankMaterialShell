@@ -12,7 +12,8 @@ import qs.Widgets
 BasePill {
     id: root
 
-    property bool compactMode: SettingsData.focusedWindowCompactMode
+    property var widgetData: null
+    property bool compactMode: widgetData?.focusedWindowCompactMode !== undefined ? widgetData.focusedWindowCompactMode : SettingsData.focusedWindowCompactMode
     property int availableWidth: 400
     readonly property int maxNormalWidth: 456
     readonly property int maxCompactWidth: 288

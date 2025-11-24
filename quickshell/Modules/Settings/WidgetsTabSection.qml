@@ -319,7 +319,7 @@ Column {
                                 visible: modelData.id === "music"
                                 iconName: "photo_size_select_small"
                                 iconSize: 16
-                                iconColor: SettingsData.mediaSize === 0 ? Theme.primary : Theme.outline
+                                iconColor: (modelData.mediaSize !== undefined ? modelData.mediaSize : SettingsData.mediaSize) === 0 ? Theme.primary : Theme.outline
                                 onClicked: {
                                     root.compactModeChanged("music", 0);
                                 }
@@ -337,7 +337,7 @@ Column {
                                 visible: modelData.id === "music"
                                 iconName: "photo_size_select_actual"
                                 iconSize: 16
-                                iconColor: SettingsData.mediaSize === 1 ? Theme.primary : Theme.outline
+                                iconColor: (modelData.mediaSize !== undefined ? modelData.mediaSize : SettingsData.mediaSize) === 1 ? Theme.primary : Theme.outline
                                 onClicked: {
                                     root.compactModeChanged("music", 1);
                                 }
@@ -355,7 +355,7 @@ Column {
                                 visible: modelData.id === "music"
                                 iconName: "photo_size_select_large"
                                 iconSize: 16
-                                iconColor: SettingsData.mediaSize === 2 ? Theme.primary : Theme.outline
+                                iconColor: (modelData.mediaSize !== undefined ? modelData.mediaSize : SettingsData.mediaSize) === 2 ? Theme.primary : Theme.outline
                                 onClicked: {
                                     root.compactModeChanged("music", 2);
                                 }
@@ -372,50 +372,73 @@ Column {
                                 buttonSize: 28
                                 visible: modelData.id === "clock" || modelData.id === "focusedWindow" || modelData.id === "runningApps" || modelData.id === "keyboard_layout_name"
                                 iconName: {
-                                    if (modelData.id === "clock")
-                                        return SettingsData.clockCompactMode ? "zoom_out" : "zoom_in";
-                                    if (modelData.id === "focusedWindow")
-                                        return SettingsData.focusedWindowCompactMode ? "zoom_out" : "zoom_in";
-                                    if (modelData.id === "runningApps")
-                                        return SettingsData.runningAppsCompactMode ? "zoom_out" : "zoom_in";
-                                    if (modelData.id === "keyboard_layout_name")
-                                        return SettingsData.keyboardLayoutNameCompactMode ? "zoom_out" : "zoom_in";
-                                    return "zoom_in";
+                                    const isCompact = (() => {
+                                            switch (modelData.id) {
+                                            case "clock":
+                                                return modelData.clockCompactMode !== undefined ? modelData.clockCompactMode : SettingsData.clockCompactMode;
+                                            case "focusedWindow":
+                                                return modelData.focusedWindowCompactMode !== undefined ? modelData.focusedWindowCompactMode : SettingsData.focusedWindowCompactMode;
+                                            case "runningApps":
+                                                return modelData.runningAppsCompactMode !== undefined ? modelData.runningAppsCompactMode : SettingsData.runningAppsCompactMode;
+                                            case "keyboard_layout_name":
+                                                return modelData.keyboardLayoutNameCompactMode !== undefined ? modelData.keyboardLayoutNameCompactMode : SettingsData.keyboardLayoutNameCompactMode;
+                                            default:
+                                                return false;
+                                            }
+                                        })();
+                                    return isCompact ? "zoom_out" : "zoom_in";
                                 }
                                 iconSize: 16
                                 iconColor: {
-                                    if (modelData.id === "clock")
-                                        return SettingsData.clockCompactMode ? Theme.primary : Theme.outline;
-                                    if (modelData.id === "focusedWindow")
-                                        return SettingsData.focusedWindowCompactMode ? Theme.primary : Theme.outline;
-                                    if (modelData.id === "runningApps")
-                                        return SettingsData.runningAppsCompactMode ? Theme.primary : Theme.outline;
-                                    if (modelData.id === "keyboard_layout_name")
-                                        return SettingsData.keyboardLayoutNameCompactMode ? Theme.primary : Theme.outline;
-                                    return Theme.outline;
+                                    const isCompact = (() => {
+                                            switch (modelData.id) {
+                                            case "clock":
+                                                return modelData.clockCompactMode !== undefined ? modelData.clockCompactMode : SettingsData.clockCompactMode;
+                                            case "focusedWindow":
+                                                return modelData.focusedWindowCompactMode !== undefined ? modelData.focusedWindowCompactMode : SettingsData.focusedWindowCompactMode;
+                                            case "runningApps":
+                                                return modelData.runningAppsCompactMode !== undefined ? modelData.runningAppsCompactMode : SettingsData.runningAppsCompactMode;
+                                            case "keyboard_layout_name":
+                                                return modelData.keyboardLayoutNameCompactMode !== undefined ? modelData.keyboardLayoutNameCompactMode : SettingsData.keyboardLayoutNameCompactMode;
+                                            default:
+                                                return false;
+                                            }
+                                        })();
+                                    return isCompact ? Theme.primary : Theme.outline;
                                 }
                                 onClicked: {
-                                    if (modelData.id === "clock") {
-                                        root.compactModeChanged("clock", !SettingsData.clockCompactMode);
-                                    } else if (modelData.id === "focusedWindow") {
-                                        root.compactModeChanged("focusedWindow", !SettingsData.focusedWindowCompactMode);
-                                    } else if (modelData.id === "runningApps") {
-                                        root.compactModeChanged("runningApps", !SettingsData.runningAppsCompactMode);
-                                    } else if (modelData.id === "keyboard_layout_name") {
-                                        root.compactModeChanged("keyboard_layout_name", !SettingsData.keyboardLayoutNameCompactMode);
-                                    }
+                                    const currentValue = (() => {
+                                            switch (modelData.id) {
+                                            case "clock":
+                                                return modelData.clockCompactMode !== undefined ? modelData.clockCompactMode : SettingsData.clockCompactMode;
+                                            case "focusedWindow":
+                                                return modelData.focusedWindowCompactMode !== undefined ? modelData.focusedWindowCompactMode : SettingsData.focusedWindowCompactMode;
+                                            case "runningApps":
+                                                return modelData.runningAppsCompactMode !== undefined ? modelData.runningAppsCompactMode : SettingsData.runningAppsCompactMode;
+                                            case "keyboard_layout_name":
+                                                return modelData.keyboardLayoutNameCompactMode !== undefined ? modelData.keyboardLayoutNameCompactMode : SettingsData.keyboardLayoutNameCompactMode;
+                                            default:
+                                                return false;
+                                            }
+                                        })();
+                                    root.compactModeChanged(modelData.id, !currentValue);
                                 }
                                 onEntered: {
-                                    let tooltipText = "Toggle Compact Mode";
-                                    if (modelData.id === "clock") {
-                                        tooltipText = SettingsData.clockCompactMode ? "Full Size" : "Compact";
-                                    } else if (modelData.id === "focusedWindow") {
-                                        tooltipText = SettingsData.focusedWindowCompactMode ? "Full Size" : "Compact";
-                                    } else if (modelData.id === "runningApps") {
-                                        tooltipText = SettingsData.runningAppsCompactMode ? "Full Size" : "Compact";
-                                    } else if (modelData.id === "keyboard_layout_name") {
-                                        tooltipText = SettingsData.keyboardLayoutNameCompactMode ? "Full Size" : "Compact";
-                                    }
+                                    const isCompact = (() => {
+                                            switch (modelData.id) {
+                                            case "clock":
+                                                return modelData.clockCompactMode !== undefined ? modelData.clockCompactMode : SettingsData.clockCompactMode;
+                                            case "focusedWindow":
+                                                return modelData.focusedWindowCompactMode !== undefined ? modelData.focusedWindowCompactMode : SettingsData.focusedWindowCompactMode;
+                                            case "runningApps":
+                                                return modelData.runningAppsCompactMode !== undefined ? modelData.runningAppsCompactMode : SettingsData.runningAppsCompactMode;
+                                            case "keyboard_layout_name":
+                                                return modelData.keyboardLayoutNameCompactMode !== undefined ? modelData.keyboardLayoutNameCompactMode : SettingsData.keyboardLayoutNameCompactMode;
+                                            default:
+                                                return false;
+                                            }
+                                        })();
+                                    const tooltipText = isCompact ? "Full Size" : "Compact";
                                     sharedTooltip.show(tooltipText, compactModeButton, 0, 0, "bottom");
                                 }
                                 onExited: {

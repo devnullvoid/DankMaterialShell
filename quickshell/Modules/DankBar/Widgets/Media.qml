@@ -11,8 +11,10 @@ BasePill {
     readonly property MprisPlayer activePlayer: MprisController.activePlayer
     readonly property bool playerAvailable: activePlayer !== null
     property bool compactMode: false
+    property var widgetData: null
     readonly property int textWidth: {
-        switch (SettingsData.mediaSize) {
+        const size = widgetData?.mediaSize !== undefined ? widgetData.mediaSize : SettingsData.mediaSize;
+        switch (size) {
         case 0:
             return 0;
         case 2:
@@ -107,12 +109,12 @@ BasePill {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             if (root.popoutTarget && root.popoutTarget.setTriggerPosition) {
-                                const globalPos = parent.mapToGlobal(0, 0)
-                                const currentScreen = root.parentScreen || Screen
-                                const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, root.barThickness, parent.width)
-                                root.popoutTarget.setTriggerPosition(pos.x, pos.y, pos.width, root.section, currentScreen)
+                                const globalPos = parent.mapToGlobal(0, 0);
+                                const currentScreen = root.parentScreen || Screen;
+                                const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, root.barThickness, parent.width);
+                                root.popoutTarget.setTriggerPosition(pos.x, pos.y, pos.width, root.section, currentScreen);
                             }
-                            root.clicked()
+                            root.clicked();
                         }
                     }
                 }
@@ -138,14 +140,15 @@ BasePill {
                         enabled: root.playerAvailable
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.LeftButton | Qt.MiddleButton | Qt.RightButton
-                        onClicked: (mouse) => {
-                            if (!activePlayer) return
+                        onClicked: mouse => {
+                            if (!activePlayer)
+                                return;
                             if (mouse.button === Qt.LeftButton) {
-                                activePlayer.togglePlaying()
+                                activePlayer.togglePlaying();
                             } else if (mouse.button === Qt.MiddleButton) {
-                                activePlayer.previous()
+                                activePlayer.previous();
                             } else if (mouse.button === Qt.RightButton) {
-                                activePlayer.next()
+                                activePlayer.next();
                             }
                         }
                     }
@@ -190,7 +193,10 @@ BasePill {
                         anchors.verticalCenter: parent.verticalCenter
                         width: textWidth
                         height: root.widgetThickness
-                        visible: SettingsData.mediaSize > 0
+                        visible: {
+                            const size = widgetData?.mediaSize !== undefined ? widgetData.mediaSize : SettingsData.mediaSize;
+                            return size > 0;
+                        }
                         clip: true
                         color: "transparent"
 
@@ -248,12 +254,12 @@ BasePill {
                             cursorShape: Qt.PointingHandCursor
                             onPressed: {
                                 if (root.popoutTarget && root.popoutTarget.setTriggerPosition) {
-                                    const globalPos = mapToGlobal(0, 0)
-                                    const currentScreen = root.parentScreen || Screen
-                                    const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, root.barThickness, root.width)
-                                    root.popoutTarget.setTriggerPosition(pos.x, pos.y, pos.width, root.section, currentScreen)
+                                    const globalPos = mapToGlobal(0, 0);
+                                    const currentScreen = root.parentScreen || Screen;
+                                    const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, root.barThickness, root.width);
+                                    root.popoutTarget.setTriggerPosition(pos.x, pos.y, pos.width, root.section, currentScreen);
                                 }
-                                root.clicked()
+                                root.clicked();
                             }
                         }
                     }
