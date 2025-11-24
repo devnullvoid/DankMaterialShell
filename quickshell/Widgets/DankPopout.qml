@@ -91,10 +91,7 @@ Item {
         setBarContext(pos, bottomGap);
     }
 
-    readonly property bool useBackgroundWindow: {
-        const layerOverride = Quickshell.env("DMS_POPOUT_LAYER");
-        return !layerOverride || layerOverride === "overlay";
-    }
+    readonly property bool useBackgroundWindow: true
 
     function open() {
         if (!screen)
@@ -258,13 +255,15 @@ Item {
         WlrLayershell.layer: {
             switch (Quickshell.env("DMS_POPOUT_LAYER")) {
             case "bottom":
-                return WlrLayershell.Bottom;
-            case "top":
+                console.warn("DankPopout: 'bottom' layer is not valid for popouts. Defaulting to 'top' layer.");
                 return WlrLayershell.Top;
             case "background":
-                return WlrLayershell.Background;
-            default:
+                console.warn("DankPopout: 'background' layer is not valid for popouts. Defaulting to 'top' layer.");
+                return WlrLayershell.Top;
+            case "overlay":
                 return WlrLayershell.Overlay;
+            default:
+                return WlrLayershell.Top;
             }
         }
         WlrLayershell.exclusiveZone: -1

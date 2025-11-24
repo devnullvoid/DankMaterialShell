@@ -49,10 +49,7 @@ Item {
     signal dialogClosed
     signal backgroundClicked
 
-    readonly property bool useBackgroundWindow: {
-        const layerOverride = Quickshell.env("DMS_MODAL_LAYER");
-        return !layerOverride || layerOverride === "overlay";
-    }
+    readonly property bool useBackgroundWindow: true
 
     function open() {
         ModalManager.openModal(root);
@@ -146,6 +143,16 @@ Item {
             bottom: true
         }
 
+        mask: Region {
+            item: Rectangle {
+                x: root.alignedX
+                y: root.alignedY
+                width: root.shouldBeVisible ? root.alignedWidth : 0
+                height: root.shouldBeVisible ? root.alignedHeight : 0
+            }
+            intersection: Intersection.Xor
+        }
+
         MouseArea {
             anchors.fill: parent
             enabled: root.closeOnBackgroundClick && root.shouldBeVisible
@@ -186,13 +193,15 @@ Item {
         WlrLayershell.layer: {
             switch (Quickshell.env("DMS_MODAL_LAYER")) {
             case "bottom":
-                return WlrLayershell.Bottom;
-            case "top":
+                console.error("DankModal: 'bottom' layer is not valid for modals. Defaulting to 'top' layer.");
                 return WlrLayershell.Top;
             case "background":
-                return WlrLayershell.Background;
-            default:
+                console.error("DankModal: 'background' layer is not valid for modals. Defaulting to 'top' layer.");
+                return WlrLayershell.Top;
+            case "overlay":
                 return WlrLayershell.Overlay;
+            default:
+                return WlrLayershell.Top;
             }
         }
         WlrLayershell.exclusiveZone: -1
