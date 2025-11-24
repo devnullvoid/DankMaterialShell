@@ -364,6 +364,18 @@ Item {
         }
     }
 
+    BrowserPickerModal {
+        id: browserPickerModal
+    }
+
+    Connections {
+        target: DMSService
+        function onOpenUrlRequested(url) {
+            browserPickerModal.url = url
+            browserPickerModal.show()
+        }
+    }
+
     DankColorPickerModal {
         id: colorPickerModal
 

@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=DMS Browser Picker
+Comment=Select a browser to open links
+Exec=dms open %u
+Icon=danklogo
+Terminal=false
+NoDisplay=true
+MimeType=x-scheme-handler/http;x-scheme-handler/https;text/html;
+Categories=Network;WebBrowser;

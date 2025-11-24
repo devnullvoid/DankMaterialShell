@@ -17,6 +17,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/bluez"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/brightness"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/browser"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/cups"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/dwl"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/evdev"
@@ -52,6 +53,7 @@ var loginctlManager *loginctl.Manager
 var freedesktopManager *freedesktop.Manager
 var waylandManager *wayland.Manager
 var bluezManager *bluez.Manager
+var browserManager *browser.Manager
 var cupsManager *cups.Manager
 var dwlManager *dwl.Manager
 var extWorkspaceManager *extworkspace.Manager
@@ -195,6 +197,13 @@ func InitializeBluezManager() error {
 	bluezManager = manager
 
 	log.Info("Bluez manager initialized")
+	return nil
+}
+
+func InitializeBrowserManager() error {
+	manager := browser.NewManager()
+	browserManager = manager
+	log.Info("Browser manager initialized")
 	return nil
 }
 
@@ -355,6 +364,10 @@ func getCapabilities() Capabilities {
 		caps = append(caps, "bluetooth")
 	}
 
+	if browserManager != nil {
+		caps = append(caps, "browser")
+	}
+
 	if cupsManager != nil {
 		caps = append(caps, "cups")
 	}
@@ -403,6 +416,10 @@ func getServerInfo() ServerInfo {
 
 	if bluezManager != nil {
 		caps = append(caps, "bluetooth")
+	}
+
+	if browserManager != nil {
+		caps = append(caps, "browser")
 	}
 
 	if cupsManager != nil {
@@ -721,6 +738,31 @@ func handleSubscribe(conn net.Conn, req models.Request) {
 		}()
 	}
 
+	if shouldSubscribe("browser") && browserManager != nil {
+		wg.Add(1)
+		browserChan := browserManager.Subscribe(clientID + "-browser")
+		go func() {
+			defer wg.Done()
+			defer browserManager.Unsubscribe(clientID + "-browser")
+
+			for {
+				select {
+				case event, ok := <-browserChan:
+					if !ok {
+						return
+					}
+					select {
+					case eventChan <- ServiceEvent{Service: "browser.open_requested", Data: event}:
+					case <-stopChan:
+						return
+					}
+				case <-stopChan:
+					return
+				}
+			}
+		}()
+	}
+
 	if shouldSubscribe("cups") {
 		cupsSubscribers.Store(clientID+"-cups", true)
 		count := cupsSubscriberCount.Add(1)
@@ -1015,6 +1057,9 @@ func cleanupManagers() {
 	if bluezManager != nil {
 		bluezManager.Close()
 	}
+	if browserManager != nil {
+		browserManager.Close()
+	}
 	if cupsManager != nil {
 		cupsManager.Close()
 	}
@@ -1247,6 +1292,8 @@ func Start(printDocs bool) error {
 			notifyCapabilityChange()
 		}
 	}()
+
+	InitializeBrowserManager()
 
 	if err := InitializeDwlManager(); err != nil {
 		log.Debugf("DWL manager unavailable: %v", err)

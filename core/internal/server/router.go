@@ -7,6 +7,7 @@ import (
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/bluez"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/brightness"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/browser"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/cups"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/dwl"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/evdev"
@@ -93,6 +94,20 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			Params: req.Params,
 		}
 		bluez.HandleRequest(conn, bluezReq, bluezManager)
+		return
+	}
+
+	if strings.HasPrefix(req.Method, "browser.") {
+		if browserManager == nil {
+			models.RespondError(conn, req.ID, "browser manager not initialized")
+			return
+		}
+		browserReq := browser.Request{
+			ID:     req.ID,
+			Method: req.Method,
+			Params: req.Params,
+		}
+		browser.HandleRequest(conn, browserReq, browserManager)
 		return
 	}
 
