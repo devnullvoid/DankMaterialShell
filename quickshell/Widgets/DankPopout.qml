@@ -12,6 +12,8 @@ Item {
     property string layerNamespace: "dms:popout"
     property alias content: contentLoader.sourceComponent
     property alias contentLoader: contentLoader
+    property Component overlayContent: null
+    property alias overlayLoader: overlayLoader
     property real popupWidth: 400
     property real popupHeight: 300
     property real triggerX: 0
@@ -242,6 +244,13 @@ Item {
                     return;
                 backgroundClicked();
             }
+        }
+
+        Loader {
+            id: overlayLoader
+            anchors.fill: parent
+            active: root.overlayContent !== null && backgroundWindow.visible
+            sourceComponent: root.overlayContent
         }
     }
 
