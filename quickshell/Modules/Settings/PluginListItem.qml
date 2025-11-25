@@ -10,6 +10,7 @@ StyledRect {
     property string expandedPluginId: ""
     property bool hasUpdate: false
     property bool isReloading: false
+    property var sharedTooltip: null
 
     property string pluginId: pluginData ? pluginData.id : ""
     property string pluginDirectoryName: {
@@ -28,6 +29,10 @@ StyledRect {
     property var pluginPermissions: pluginData ? (pluginData.permissions || []) : []
     property bool hasSettings: pluginData && pluginData.settings !== undefined && pluginData.settings !== ""
     property bool isExpanded: expandedPluginId === pluginId
+    property bool isLoaded: {
+        PluginService.loadedPlugins;
+        return PluginService.loadedPlugins[pluginId] !== undefined;
+    }
 
     width: parent.width
     height: pluginItemColumn.implicitHeight + Theme.spacingM * 2 + settingsContainer.height
@@ -63,7 +68,7 @@ StyledRect {
             DankIcon {
                 name: root.pluginIcon
                 size: Theme.iconSize
-                color: PluginService.isPluginLoaded(root.pluginId) ? Theme.primary : Theme.surfaceVariantText
+                color: root.isLoaded ? Theme.primary : Theme.surfaceVariantText
                 anchors.verticalCenter: parent.verticalCenter
             }
 
@@ -111,7 +116,7 @@ StyledRect {
                     height: 28
                     radius: 14
                     color: updateArea.containsMouse ? Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency) : "transparent"
-                    visible: DMSService.dmsAvailable && PluginService.isPluginLoaded(root.pluginId) && root.hasUpdate
+                    visible: DMSService.dmsAvailable && root.isLoaded && root.hasUpdate
 
                     DankIcon {
                         anchors.centerIn: parent
@@ -131,27 +136,21 @@ StyledRect {
                             DMSService.update(currentPluginName, response => {
                                 if (response.error) {
                                     ToastService.showError("Update failed: " + response.error);
-                                } else {
-                                    ToastService.showInfo("Plugin updated: " + currentPluginName);
-                                    PluginService.forceRescanPlugin(currentPluginId);
-                                    if (DMSService.apiVersion >= 8) {
-                                        DMSService.listInstalled();
-                                    }
+                                    return;
                                 }
+                                ToastService.showInfo("Plugin updated: " + currentPluginName);
+                                PluginService.forceRescanPlugin(currentPluginId);
+                                if (DMSService.apiVersion >= 8)
+                                    DMSService.listInstalled();
                             });
                         }
                         onEntered: {
-                            tooltipLoader.active = true;
-                            if (tooltipLoader.item) {
-                                const p = mapToItem(null, width / 2, 0);
-                                tooltipLoader.item.show(I18n.tr("Update Plugin"), p.x, p.y - 40, null);
-                            }
+                            if (root.sharedTooltip)
+                                root.sharedTooltip.show(I18n.tr("Update Plugin"), parent, 0, 0, "top");
                         }
                         onExited: {
-                            if (tooltipLoader.item) {
-                                tooltipLoader.item.hide();
-                            }
-                            tooltipLoader.active = false;
+                            if (root.sharedTooltip)
+                                root.sharedTooltip.hide();
                         }
                     }
                 }
@@ -180,27 +179,21 @@ StyledRect {
                             DMSService.uninstall(currentPluginName, response => {
                                 if (response.error) {
                                     ToastService.showError("Uninstall failed: " + response.error);
-                                } else {
-                                    ToastService.showInfo("Plugin uninstalled: " + currentPluginName);
-                                    PluginService.scanPlugins();
-                                    if (root.isExpanded) {
-                                        root.expandedPluginId = "";
-                                    }
+                                    return;
                                 }
+                                ToastService.showInfo("Plugin uninstalled: " + currentPluginName);
+                                PluginService.scanPlugins();
+                                if (root.isExpanded)
+                                    root.expandedPluginId = "";
                             });
                         }
                         onEntered: {
-                            tooltipLoader.active = true;
-                            if (tooltipLoader.item) {
-                                const p = mapToItem(null, width / 2, 0);
-                                tooltipLoader.item.show(I18n.tr("Uninstall Plugin"), p.x, p.y - 40, null);
-                            }
+                            if (root.sharedTooltip)
+                                root.sharedTooltip.show(I18n.tr("Uninstall Plugin"), parent, 0, 0, "top");
                         }
                         onExited: {
-                            if (tooltipLoader.item) {
-                                tooltipLoader.item.hide();
-                            }
-                            tooltipLoader.active = false;
+                            if (root.sharedTooltip)
+                                root.sharedTooltip.hide();
                         }
                     }
                 }
@@ -210,7 +203,7 @@ StyledRect {
                     height: 28
                     radius: 14
                     color: reloadArea.containsMouse ? Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency) : "transparent"
-                    visible: PluginService.isPluginLoaded(root.pluginId)
+                    visible: root.isLoaded
 
                     DankIcon {
                         anchors.centerIn: parent
@@ -230,23 +223,18 @@ StyledRect {
                             root.isReloading = true;
                             if (PluginService.reloadPlugin(currentPluginId)) {
                                 ToastService.showInfo("Plugin reloaded: " + currentPluginName);
-                            } else {
-                                ToastService.showError("Failed to reload plugin: " + currentPluginName);
-                                root.isReloading = false;
+                                return;
                             }
+                            ToastService.showError("Failed to reload plugin: " + currentPluginName);
+                            root.isReloading = false;
                         }
                         onEntered: {
-                            tooltipLoader.active = true;
-                            if (tooltipLoader.item) {
-                                const p = mapToItem(null, width / 2, 0);
-                                tooltipLoader.item.show(I18n.tr("Reload Plugin"), p.x, p.y - 40, null);
-                            }
+                            if (root.sharedTooltip)
+                                root.sharedTooltip.show(I18n.tr("Reload Plugin"), parent, 0, 0, "top");
                         }
                         onExited: {
-                            if (tooltipLoader.item) {
-                                tooltipLoader.item.hide();
-                            }
-                            tooltipLoader.active = false;
+                            if (root.sharedTooltip)
+                                root.sharedTooltip.hide();
                         }
                     }
                 }
@@ -254,7 +242,7 @@ StyledRect {
                 DankToggle {
                     id: pluginToggle
                     anchors.verticalCenter: parent.verticalCenter
-                    checked: PluginService.isPluginLoaded(root.pluginId)
+                    checked: root.isLoaded
                     onToggled: isChecked => {
                         const currentPluginId = root.pluginId;
                         const currentPluginName = root.pluginName;
@@ -262,21 +250,18 @@ StyledRect {
                         if (isChecked) {
                             if (PluginService.enablePlugin(currentPluginId)) {
                                 ToastService.showInfo("Plugin enabled: " + currentPluginName);
-                            } else {
-                                ToastService.showError("Failed to enable plugin: " + currentPluginName);
-                                checked = false;
+                                return;
                             }
-                        } else {
-                            if (PluginService.disablePlugin(currentPluginId)) {
-                                ToastService.showInfo("Plugin disabled: " + currentPluginName);
-                                if (root.isExpanded) {
-                                    root.expandedPluginId = "";
-                                }
-                            } else {
-                                ToastService.showError("Failed to disable plugin: " + currentPluginName);
-                                checked = true;
-                            }
+                            ToastService.showError("Failed to enable plugin: " + currentPluginName);
+                            return;
                         }
+                        if (PluginService.disablePlugin(currentPluginId)) {
+                            ToastService.showInfo("Plugin disabled: " + currentPluginName);
+                            if (root.isExpanded)
+                                root.expandedPluginId = "";
+                            return;
+                        }
+                        ToastService.showError("Failed to disable plugin: " + currentPluginName);
                     }
                 }
             }
@@ -344,7 +329,7 @@ StyledRect {
             id: settingsLoader
             anchors.fill: parent
             anchors.margins: Theme.spacingL
-            active: root.isExpanded && root.hasSettings && PluginService.isPluginLoaded(root.pluginId)
+            active: root.isExpanded && root.hasSettings && root.isLoaded
             asynchronous: false
 
             source: {
@@ -376,16 +361,10 @@ StyledRect {
 
         StyledText {
             anchors.centerIn: parent
-            text: !PluginService.isPluginLoaded(root.pluginId) ? "Enable plugin to access settings" : (settingsLoader.status === Loader.Error ? "Failed to load settings" : "No configurable settings")
+            text: !root.isLoaded ? "Enable plugin to access settings" : (settingsLoader.status === Loader.Error ? "Failed to load settings" : "No configurable settings")
             font.pixelSize: Theme.fontSizeSmall
             color: Theme.surfaceVariantText
             visible: root.isExpanded && (!settingsLoader.active || settingsLoader.status === Loader.Error)
         }
-    }
-
-    Loader {
-        id: tooltipLoader
-        active: false
-        sourceComponent: DankTooltip {}
     }
 }

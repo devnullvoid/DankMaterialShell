@@ -11,8 +11,13 @@ FocusScope {
     property var parentModal: null
     property var installedPluginsData: ({})
     property bool isReloading: false
+    property alias sharedTooltip: sharedTooltip
 
     focus: true
+
+    DankTooltipV2 {
+        id: sharedTooltip
+    }
 
     DankFlickable {
         anchors.fill: parent
@@ -218,7 +223,7 @@ FocusScope {
 
                         Repeater {
                             id: pluginRepeater
-                            model: PluginService.getAvailablePlugins()
+                            model: PluginService.availablePluginsList
 
                             PluginListItem {
                                 pluginData: modelData
@@ -229,6 +234,7 @@ FocusScope {
                                     return pluginsTab.installedPluginsData[pluginId] || pluginsTab.installedPluginsData[pluginName] || false;
                                 }
                                 isReloading: pluginsTab.isReloading
+                                sharedTooltip: pluginsTab.sharedTooltip
                                 onExpandedPluginIdChanged: {
                                     pluginsTab.expandedPluginId = expandedPluginId;
                                 }
@@ -253,12 +259,7 @@ FocusScope {
     }
 
     function refreshPluginList() {
-        Qt.callLater(() => {
-            var plugins = PluginService.getAvailablePlugins();
-            pluginRepeater.model = null;
-            pluginRepeater.model = plugins;
-            pluginsTab.isRefreshingPlugins = false;
-        });
+        pluginsTab.isRefreshingPlugins = false;
     }
 
     Connections {
