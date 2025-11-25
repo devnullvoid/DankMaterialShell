@@ -179,6 +179,12 @@ Item {
 
         const volume = currentVolume;
 
+        if (usePlayerVolume) {
+            if (volume === 0.0)
+                return "music_off";
+            return "music_note";
+        }
+
         if (volume === 0.0)
             return "volume_off";
         if (volume <= 0.33)
