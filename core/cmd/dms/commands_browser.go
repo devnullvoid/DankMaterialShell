@@ -26,7 +26,16 @@ func init() {
 }
 
 func runOpen(url string) {
-	socketPath := server.GetSocketPath()
+	socketPath, err := server.FindSocket()
+	if err != nil {
+		log.Warnf("DMS socket not found, falling back to xdg-open: %v", err)
+		// Try xdg-open directly if we can't find the socket
+		// But wait, if we are the default handler, calling xdg-open might loop?
+		// We should probably just error out or try to find a browser manually.
+		fmt.Println("DMS is not running. Please start DMS first.")
+		os.Exit(1)
+	}
+
 	conn, err := net.Dial("unix", socketPath)
 	if err != nil {
 		// Fallback if DMS is not running

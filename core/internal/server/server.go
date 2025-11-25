@@ -87,6 +87,21 @@ func GetSocketPath() string {
 	return filepath.Join(getSocketDir(), fmt.Sprintf("danklinux-%d.sock", os.Getpid()))
 }
 
+func FindSocket() (string, error) {
+	dir := getSocketDir()
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		return "", err
+	}
+
+	for _, entry := range entries {
+		if strings.HasPrefix(entry.Name(), "danklinux-") && strings.HasSuffix(entry.Name(), ".sock") {
+			return filepath.Join(dir, entry.Name()), nil
+		}
+	}
+	return "", fmt.Errorf("no dms socket found")
+}
+
 func cleanupStaleSockets() {
 	dir := getSocketDir()
 	entries, err := os.ReadDir(dir)
