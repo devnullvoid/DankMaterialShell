@@ -143,6 +143,7 @@ Item {
             root.clicked();
         }
         onWheel: function (wheelEvent) {
+            wheelEvent.accepted = false;
             root.wheel(wheelEvent);
         }
     }
