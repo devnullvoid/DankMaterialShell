@@ -682,7 +682,7 @@ Item {
 
                         anchors.verticalCenter: parent.verticalCenter
                         checked: SettingsData.osdAlwaysShowValue
-                        onToggleCompleted: checked => {
+                        onToggled: checked => {
                             SettingsData.set("osdAlwaysShowValue", checked);
                         }
                     }

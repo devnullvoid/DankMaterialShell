@@ -124,7 +124,7 @@ FocusScope {
                             iconName: "store"
                             enabled: DMSService.dmsAvailable
                             onClicked: {
-                                pluginBrowserModal.show();
+                                pluginBrowser.show();
                             }
                         }
 
@@ -286,9 +286,9 @@ FocusScope {
     Connections {
         target: DMSService
         function onPluginsListReceived(plugins) {
-            pluginBrowserModal.isLoading = false;
-            pluginBrowserModal.allPlugins = plugins;
-            pluginBrowserModal.updateFilteredPlugins();
+            pluginBrowser.isLoading = false;
+            pluginBrowser.allPlugins = plugins;
+            pluginBrowser.updateFilteredPlugins();
         }
         function onInstalledPluginsReceived(plugins) {
             var pluginMap = {};
@@ -314,13 +314,12 @@ FocusScope {
     }
 
     Component.onCompleted: {
-        pluginBrowserModal.parentModal = pluginsTab.parentModal;
-        if (DMSService.dmsAvailable && DMSService.apiVersion >= 8) {
+        pluginBrowser.parentModal = pluginsTab.parentModal;
+        if (DMSService.dmsAvailable && DMSService.apiVersion >= 8)
             DMSService.listInstalled();
-        }
     }
 
     PluginBrowser {
-        id: pluginBrowserModal
+        id: pluginBrowser
     }
 }

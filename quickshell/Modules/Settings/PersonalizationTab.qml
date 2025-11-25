@@ -1,10 +1,7 @@
-import QtCore
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Effects
 import Quickshell
 import qs.Common
-import qs.Modals
 import qs.Modals.FileBrowser
 import qs.Services
 import qs.Widgets
@@ -1542,7 +1539,7 @@ Item {
 
                         anchors.verticalCenter: parent.verticalCenter
                         checked: SessionData.isLightMode
-                        onToggleCompleted: checked => {
+                        onToggled: checked => {
                             Theme.screenTransition();
                             Theme.setLightMode(checked);
                         }
