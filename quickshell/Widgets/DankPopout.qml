@@ -100,11 +100,15 @@ Item {
             return;
         closeTimer.stop();
         shouldBeVisible = true;
-        if (useBackgroundWindow)
-            backgroundWindow.visible = true;
-        contentWindow.visible = true;
-        PopoutManager.showPopout(root);
-        opened();
+        Qt.callLater(() => {
+            if (shouldBeVisible) {
+                if (useBackgroundWindow)
+                    backgroundWindow.visible = true;
+                contentWindow.visible = true;
+                PopoutManager.showPopout(root);
+                opened();
+            }
+        });
     }
 
     function close() {

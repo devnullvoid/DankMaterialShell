@@ -15,8 +15,6 @@ DankPopout {
 
     layerNamespace: "dms:app-launcher"
 
-    property var triggerScreen: null
-
     function show() {
         open()
     }
@@ -25,21 +23,16 @@ DankPopout {
     popupHeight: 600
     triggerWidth: 40
     positioning: ""
-    screen: triggerScreen
 
     onBackgroundClicked: close()
 
-    onShouldBeVisibleChanged: {
-        if (shouldBeVisible) {
-            appLauncher.searchQuery = ""
-            appLauncher.selectedIndex = 0
-            appLauncher.setCategory(I18n.tr("All"))
-            Qt.callLater(() => {
-                             if (contentLoader.item && contentLoader.item.searchField) {
-                                 contentLoader.item.searchField.text = ""
-                                 contentLoader.item.searchField.forceActiveFocus()
-                             }
-                         })
+    onOpened: {
+        appLauncher.searchQuery = ""
+        appLauncher.selectedIndex = 0
+        appLauncher.setCategory(I18n.tr("All"))
+        if (contentLoader.item?.searchField) {
+            contentLoader.item.searchField.text = ""
+            contentLoader.item.searchField.forceActiveFocus()
         }
     }
 
