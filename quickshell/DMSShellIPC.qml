@@ -563,4 +563,42 @@ Item {
 
         target: "file"
     }
+
+    IpcHandler {
+        function toggle(widgetId: string): string {
+            if (!widgetId)
+                return "ERROR: No widget ID specified";
+
+            if (!BarWidgetService.hasWidget(widgetId))
+                return `WIDGET_NOT_FOUND: ${widgetId}`;
+
+            const success = BarWidgetService.triggerWidgetPopout(widgetId);
+            return success ? `WIDGET_TOGGLE_SUCCESS: ${widgetId}` : `WIDGET_TOGGLE_FAILED: ${widgetId}`;
+        }
+
+        function list(): string {
+            const widgets = BarWidgetService.getRegisteredWidgetIds();
+            if (widgets.length === 0)
+                return "No widgets registered";
+            return widgets.join("\n");
+        }
+
+        function status(widgetId: string): string {
+            if (!widgetId)
+                return "ERROR: No widget ID specified";
+
+            if (!BarWidgetService.hasWidget(widgetId))
+                return `WIDGET_NOT_FOUND: ${widgetId}`;
+
+            const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);
+            if (!widget)
+                return `WIDGET_NOT_AVAILABLE: ${widgetId}`;
+
+            if (widget.popoutTarget?.shouldBeVisible)
+                return "visible";
+            return "hidden";
+        }
+
+        target: "widget"
+    }
 }

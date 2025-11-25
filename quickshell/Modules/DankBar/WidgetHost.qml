@@ -155,35 +155,56 @@ Loader {
     }
 
     onLoaded: {
-        if (item) {
-            contentItemReady(item);
-            if (axis && "isVertical" in item) {
-                try {
-                    item.isVertical = axis.isVertical;
-                } catch (e) {}
-            }
+        if (!item)
+            return;
 
-            if (item.pluginService !== undefined) {
-                var parts = widgetId.split(":");
-                var pluginId = parts[0];
-                var variantId = parts.length > 1 ? parts[1] : null;
+        contentItemReady(item);
 
-                if (item.pluginId !== undefined) {
-                    item.pluginId = pluginId;
-                }
-                if (item.variantId !== undefined) {
-                    item.variantId = variantId;
-                }
-                if (item.variantData !== undefined && variantId) {
-                    item.variantData = PluginService.getPluginVariantData(pluginId, variantId);
-                }
-                item.pluginService = PluginService;
-            }
-
-            if (item.popoutService !== undefined) {
-                item.popoutService = PopoutService;
-            }
+        if (axis && "isVertical" in item) {
+            try {
+                item.isVertical = axis.isVertical;
+            } catch (e) {}
         }
+
+        if (item.pluginService !== undefined) {
+            var parts = widgetId.split(":");
+            var pluginId = parts[0];
+            var variantId = parts.length > 1 ? parts[1] : null;
+
+            if (item.pluginId !== undefined)
+                item.pluginId = pluginId;
+            if (item.variantId !== undefined)
+                item.variantId = variantId;
+            if (item.variantData !== undefined && variantId)
+                item.variantData = PluginService.getPluginVariantData(pluginId, variantId);
+            item.pluginService = PluginService;
+        }
+
+        if (item.popoutService !== undefined)
+            item.popoutService = PopoutService;
+
+        registerWidgetIfEligible();
+    }
+
+    Component.onDestruction: {
+        unregisterWidget();
+    }
+
+    function registerWidgetIfEligible() {
+        if (!item || !widgetId || !parentScreen?.name)
+            return;
+
+        const hasPopout = item.popoutTarget !== undefined || typeof item.triggerPopout === "function" || typeof item.clicked === "function";
+        if (!hasPopout)
+            return;
+
+        BarWidgetService.registerWidget(widgetId, parentScreen.name, item);
+    }
+
+    function unregisterWidget() {
+        if (!widgetId || !parentScreen?.name)
+            return;
+        BarWidgetService.unregisterWidget(widgetId, parentScreen.name);
     }
 
     function getWidgetComponent(widgetId, components) {

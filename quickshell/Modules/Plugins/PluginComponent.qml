@@ -186,6 +186,32 @@ Item {
         }
     }
 
+    function triggerPopout() {
+        if (pillClickAction) {
+            if (pillClickAction.length === 0) {
+                pillClickAction();
+                return;
+            }
+            const pill = isVertical ? verticalPill : horizontalPill;
+            const globalPos = pill.mapToGlobal(0, 0);
+            const currentScreen = parentScreen || Screen;
+            const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, pill.width);
+            pillClickAction(pos.x, pos.y, pos.width, section, currentScreen);
+            return;
+        }
+        if (!hasPopout)
+            return;
+
+        const pill = isVertical ? verticalPill : horizontalPill;
+        const globalPos = pill.visualContent.mapToGlobal(0, 0);
+        const currentScreen = parentScreen || Screen;
+        const barPosition = axis?.edge === "left" ? 2 : (axis?.edge === "right" ? 3 : (axis?.edge === "top" ? 0 : 1));
+        const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, pill.visualWidth, barSpacing, barPosition, barConfig);
+
+        pluginPopout.setTriggerPosition(pos.x, pos.y, pos.width, section, currentScreen, barPosition, barThickness, barSpacing, barConfig);
+        pluginPopout.toggle();
+    }
+
     PluginPopout {
         id: pluginPopout
         contentWidth: root.popoutWidth
