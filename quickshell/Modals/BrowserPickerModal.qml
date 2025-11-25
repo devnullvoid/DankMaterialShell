@@ -19,14 +19,12 @@ DankModal {
 
     onOpened: {
         browsers = AppSearchService.applications.filter(app => {
-            if (app.noDisplay) return false
-            const categories = AppSearchService.getCategoriesForApp(app)
             // Filter for WebBrowser category
             return app.categories && (app.categories.includes("WebBrowser") || app.categories.includes("X-WebBrowser"))
         })
     }
     
-    onClosed: {
+    onDialogClosed: {
         url = ""
     }
 

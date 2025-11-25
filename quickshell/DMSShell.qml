@@ -372,7 +372,7 @@ Item {
         target: DMSService
         function onOpenUrlRequested(url) {
             browserPickerModal.url = url
-            browserPickerModal.show()
+            browserPickerModal.open()
         }
     }
 
