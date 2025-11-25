@@ -129,15 +129,11 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       needs.check-updates.outputs.has_updates == 'true'
     
-    permissions:
-      contents: write
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Determine packages to update
         id: packages
@@ -192,22 +188,6 @@ jobs:
               sed -i "s|<param name=\"revision\">v[0-9.]*</param>|<param name=\"revision\">$VERSION</param>|" "$service"
             fi
           done
-      
-      - name: Commit version updates
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          
-          if ! git diff --exit-code distro/opensuse/ >/dev/null 2>&1; then
-            git add distro/
-            git commit -m "chore: update packaging versions
-
-          🤖 Automated update by GitHub Actions
-          Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" || echo "No changes to commit"
-            git push || echo "Could not push (may need permissions)"
-          else
-            echo "No version changes to commit"
-          fi
       
       - name: Install OSC
         run: |
