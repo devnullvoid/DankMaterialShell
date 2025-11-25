@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:           dms-git
-Version:        0.6.2+git
+Version:        0.6.2+git2147.03073f68
 Release:        5%{?dist}
 Epoch:          1
 Summary:        DankMaterialShell - Material 3 inspired shell (git nightly)
@@ -102,6 +102,8 @@ fi
 %{_userunitdir}/dms.service
 
 %changelog
+* Tue Nov 25 2025 Avenge Media <AvengeMedia.US@gmail.com> - 0.6.2+git2147.03073f68-1
+- Git snapshot (commit 2147: 03073f68)
 * Fri Nov 22 2025 AvengeMedia <maintainer@avengemedia.com> - 0.6.2+git-5
 - Git nightly build from master branch
 - Multi-arch support (x86_64, aarch64)
