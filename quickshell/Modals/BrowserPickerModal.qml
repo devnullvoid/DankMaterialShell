@@ -9,23 +9,63 @@ DankModal {
     id: root
 
     property string url: ""
+    property int selectedIndex: 0
+    property int gridColumns: 4
+    property bool keyboardNavigationActive: false
 
     shouldBeVisible: false
     allowStacking: true
-    modalWidth: 600
-    modalHeight: 400
+    modalWidth: 620
+    modalHeight: 450
 
-    property var browsers: []
-
-    onOpened: {
-        browsers = AppSearchService.applications.filter(app => {
-            // Filter for WebBrowser category
-            return app.categories && (app.categories.includes("WebBrowser") || app.categories.includes("X-WebBrowser"))
-        })
-    }
-    
     onDialogClosed: {
         url = ""
+        selectedIndex = 0
+        keyboardNavigationActive = false
+    }
+
+    onOpened: {
+        browsersModel.clear()
+        const apps = AppSearchService.applications
+        let browserCount = 0
+
+        for (const app of apps) {
+            if (!app || !app.categories) continue
+
+            let isBrowser = false
+
+            try {
+                for (const cat of app.categories) {
+                    if (cat === "WebBrowser" || cat === "X-WebBrowser") {
+                        isBrowser = true
+                        break
+                    }
+                }
+            } catch (e) {
+                console.warn("BrowserPicker: Error iterating categories for", app.name, ":", e)
+                continue
+            }
+
+            if (isBrowser) {
+                browsersModel.append({
+                    name: app.name || "",
+                    icon: app.icon || "web-browser",
+                    exec: app.exec || app.execString || "",
+                    startupClass: app.startupWMClass || ""
+                })
+                browserCount++
+            }
+        }
+
+        console.log("BrowserPicker: Found " + browserCount + " browsers")
+        selectedIndex = 0
+        if (browserCount > 0) {
+            browserContent.forceActiveFocus()
+        }
+    }
+
+    ListModel {
+        id: browsersModel
     }
 
     content: Component {
@@ -39,72 +79,92 @@ DankModal {
                 event.accepted = true
             }
 
-            Column {
+            Keys.onPressed: event => {
+                if (browsersModel.count === 0) return
+
+                if (event.key === Qt.Key_Left) {
+                    root.keyboardNavigationActive = true
+                    root.selectedIndex = Math.max(0, root.selectedIndex - 1)
+                    event.accepted = true
+                } else if (event.key === Qt.Key_Right) {
+                    root.keyboardNavigationActive = true
+                    root.selectedIndex = Math.min(browsersModel.count - 1, root.selectedIndex + 1)
+                    event.accepted = true
+                } else if (event.key === Qt.Key_Up) {
+                    root.keyboardNavigationActive = true
+                    root.selectedIndex = Math.max(0, root.selectedIndex - root.gridColumns)
+                    event.accepted = true
+                } else if (event.key === Qt.Key_Down) {
+                    root.keyboardNavigationActive = true
+                    root.selectedIndex = Math.min(browsersModel.count - 1, root.selectedIndex + root.gridColumns)
+                    event.accepted = true
+                } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                    if (root.selectedIndex >= 0 && root.selectedIndex < browsersModel.count) {
+                        const browser = browsersModel.get(root.selectedIndex)
+                        launchBrowser(browser)
+                    }
+                    event.accepted = true
+                }
+            }
+
+            Item {
                 anchors.fill: parent
                 anchors.margins: Theme.spacingM
-                spacing: Theme.spacingM
 
-                StyledText {
-                    text: I18n.tr("Open with...")
-                    font.pixelSize: Theme.fontSizeLarge
-                    font.weight: Font.Bold
-                }
-                
-                StyledText {
-                    text: root.url
-                    font.pixelSize: Theme.fontSizeSmall
-                    color: Theme.surfaceTextMedium
-                    elide: Text.ElideMiddle
+                Column {
+                    id: headerCol
                     width: parent.width
+                    spacing: Theme.spacingXS
+
+                    StyledText {
+                        text: I18n.tr("Open with...")
+                        font.pixelSize: Theme.fontSizeLarge
+                        font.weight: Font.Bold
+                        color: Theme.surfaceText
+                    }
+
+                    StyledText {
+                        text: root.url
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.surfaceTextMedium
+                        elide: Text.ElideMiddle
+                        width: parent.width
+                    }
                 }
 
                 DankGridView {
                     id: browserGrid
-                    width: parent.width
-                    height: parent.height - y
-                    model: root.browsers
-                    cellWidth: 100
-                    cellHeight: 110
-                    
-                    delegate: Item {
-                        width: browserGrid.cellWidth
-                        height: browserGrid.cellHeight
-                        
-                        Rectangle {
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            radius: Theme.cornerRadius
-                            color: mouseArea.containsMouse ? Theme.surfaceContainerHigh : "transparent"
-                            
-                            MouseArea {
-                                id: mouseArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    launchBrowser(modelData)
-                                }
-                            }
+                    anchors.top: headerCol.bottom
+                    anchors.topMargin: Theme.spacingM
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.bottom: parent.bottom
+
+                    model: browsersModel
+                    cellWidth: width / root.gridColumns
+                    cellHeight: 120
+                    clip: true
+                    currentIndex: root.selectedIndex
+
+                    onCurrentIndexChanged: {
+                        root.selectedIndex = currentIndex
+                    }
+
+                    delegate: AppLauncherGridDelegate {
+                        gridView: browserGrid
+                        cellWidth: browserGrid.cellWidth
+                        cellHeight: browserGrid.cellHeight
+
+                        currentIndex: root.selectedIndex
+                        keyboardNavigationActive: root.keyboardNavigationActive
+                        hoverUpdatesSelection: true
+
+                        onItemClicked: (idx, modelData) => {
+                            launchBrowser(modelData)
                         }
 
-                        Column {
-                            anchors.centerIn: parent
-                            spacing: 8
-                            
-                            DankIcon {
-                                name: modelData.icon
-                                size: 48
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                            
-                            StyledText {
-                                text: modelData.name
-                                font.pixelSize: Theme.fontSizeSmall
-                                horizontalAlignment: Text.AlignHCenter
-                                width: parent.width - 8
-                                wrapMode: Text.Wrap
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
+                        onKeyboardNavigationReset: {
+                            root.keyboardNavigationActive = false
                         }
                     }
                 }
@@ -118,6 +178,8 @@ DankModal {
             }
 
             function launchBrowser(app) {
+                if (!app) return
+
                 let cmd = app.exec || ""
                 
                 // Simple replacement of %u, %U, %f, %F
