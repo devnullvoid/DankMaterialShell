@@ -129,11 +129,15 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       needs.check-updates.outputs.has_updates == 'true'
     
+    permissions:
+      contents: write
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Determine packages to update
         id: packages
@@ -153,15 +157,34 @@ jobs:
             echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
           fi
       
-      - name: Update version in packaging files
+      - name: Update dms-git spec version
+        if: contains(steps.packages.outputs.packages, 'dms-git') || steps.packages.outputs.packages == 'all'
+        run: |
+          # Get commit info for dms-git versioning
+          COMMIT_HASH=$(git rev-parse --short=8 HEAD)
+          COMMIT_COUNT=$(git rev-list --count HEAD)
+          BASE_VERSION=$(grep -oP '^Version:\s+\K[0-9.]+' distro/opensuse/dms.spec | head -1 || echo "0.6.2")
+          
+          NEW_VERSION="${BASE_VERSION}+git${COMMIT_COUNT}.${COMMIT_HASH}"
+          echo "📦 Updating dms-git.spec to version: $NEW_VERSION"
+          
+          # Update version in spec
+          sed -i "s/^Version:.*/Version:        $NEW_VERSION/" distro/opensuse/dms-git.spec
+          
+          # Add changelog entry
+          DATE_STR=$(date "+%a %b %d %Y")
+          CHANGELOG_ENTRY="* $DATE_STR Avenge Media <AvengeMedia.US@gmail.com> - ${NEW_VERSION}-1\n- Git snapshot (commit $COMMIT_COUNT: $COMMIT_HASH)"
+          sed -i "/%changelog/a\\$CHANGELOG_ENTRY" distro/opensuse/dms-git.spec
+      
+      - name: Update dms stable version
         if: steps.packages.outputs.version != ''
         run: |
           VERSION="${{ steps.packages.outputs.version }}"
           VERSION_NO_V="${VERSION#v}"
           echo "Updating packaging to version $VERSION_NO_V"
           
-          # Update openSUSE spec files
-          sed -i "s/^Version:.*/Version:        $VERSION_NO_V/" distro/opensuse/*.spec
+          # Update openSUSE dms spec (stable only)
+          sed -i "s/^Version:.*/Version:        $VERSION_NO_V/" distro/opensuse/dms.spec
           
           # Update Debian _service files
           for service in distro/debian/*/_service; do
@@ -169,11 +192,22 @@ jobs:
               sed -i "s|<param name=\"revision\">v[0-9.]*</param>|<param name=\"revision\">$VERSION</param>|" "$service"
             fi
           done
-          
+      
+      - name: Commit version updates
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add distro/
-          git commit -m "chore: update packaging to $VERSION" || echo "No changes to commit"
+          
+          if ! git diff --exit-code distro/opensuse/ >/dev/null 2>&1; then
+            git add distro/
+            git commit -m "chore: update packaging versions
+
+          🤖 Automated update by GitHub Actions
+          Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" || echo "No changes to commit"
+            git push || echo "Could not push (may need permissions)"
+          else
+            echo "No version changes to commit"
+          fi
       
       - name: Install OSC
         run: |
@@ -203,13 +237,11 @@ jobs:
             MESSAGE="Update to ${{ steps.packages.outputs.version }}"
           fi
           
-          cd distro
-          
           if [[ "$PACKAGES" == "all" ]]; then
-            bash scripts/obs-upload.sh dms "$MESSAGE"
-            bash scripts/obs-upload.sh dms-git "Automated git update"
+            bash distro/scripts/obs-upload.sh dms "$MESSAGE"
+            bash distro/scripts/obs-upload.sh dms-git "Automated git update"
           else
-            bash scripts/obs-upload.sh "$PACKAGES" "$MESSAGE"
+            bash distro/scripts/obs-upload.sh "$PACKAGES" "$MESSAGE"
           fi
       
       - name: Summary

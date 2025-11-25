@@ -63,8 +63,6 @@ jobs:
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
           
-          cd distro/ubuntu/ppa
-          
           if [[ "$PACKAGES" == "all" ]]; then
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms to PPA..."
@@ -72,19 +70,19 @@ jobs:
               echo "🔄 Using rebuild release number: ppa$REBUILD_RELEASE"
             fi
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            bash create-and-upload.sh "../dms" dms questing
+            bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms" dms questing
             
             echo ""
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms-git to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            bash create-and-upload.sh "../dms-git" dms-git questing
+            bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-git" dms-git questing
           else
             PPA_NAME="$PACKAGES"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading $PACKAGES to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            bash create-and-upload.sh "../$PACKAGES" "$PPA_NAME" questing
+            bash distro/scripts/ppa-upload.sh "distro/ubuntu/$PACKAGES" "$PPA_NAME" questing
           fi
       
       - name: Summary
