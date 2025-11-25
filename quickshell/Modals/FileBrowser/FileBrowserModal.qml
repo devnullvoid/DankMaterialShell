@@ -3,10 +3,8 @@ import QtCore
 import QtQuick
 import QtQuick.Controls
 import Quickshell
-import Quickshell.Io
 import qs.Common
 import qs.Modals.FileBrowser
-import qs.Services
 import qs.Widgets
 
 FloatingWindow {
@@ -215,6 +213,7 @@ FloatingWindow {
 
     objectName: "fileBrowserModal"
     title: "Files - " + browserTitle
+    minimumSize: Qt.size(500, 400)
     implicitWidth: 800
     implicitHeight: 600
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)

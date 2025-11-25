@@ -103,6 +103,7 @@ FloatingWindow {
 
     objectName: "pluginBrowser"
     title: I18n.tr("Browse Plugins")
+    minimumSize: Qt.size(450, 400)
     implicitWidth: 600
     implicitHeight: 650
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)

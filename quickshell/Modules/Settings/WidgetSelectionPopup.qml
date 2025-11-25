@@ -90,6 +90,7 @@ FloatingWindow {
 
     objectName: "widgetSelectionPopup"
     title: I18n.tr("Add Widget")
+    minimumSize: Qt.size(400, 350)
     implicitWidth: 500
     implicitHeight: 550
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)

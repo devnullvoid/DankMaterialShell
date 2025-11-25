@@ -42,6 +42,7 @@ FloatingWindow {
 
     objectName: "processListModal"
     title: I18n.tr("System Monitor", "sysmon window title")
+    minimumSize: Qt.size(650, 400)
     implicitWidth: 900
     implicitHeight: 680
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
