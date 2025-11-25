@@ -26,6 +26,9 @@ Singleton {
     property string wifiConnectionUuid: activeService?.wifiConnectionUuid ?? ""
     property string wifiDevicePath: activeService?.wifiDevicePath ?? ""
     property string activeAccessPointPath: activeService?.activeAccessPointPath ?? ""
+    property var wifiDevices: activeService?.wifiDevices ?? []
+    property string wifiDeviceOverride: activeService?.wifiDeviceOverride ?? ""
+    property string connectingDevice: activeService?.connectingDevice ?? ""
 
     property string currentWifiSSID: activeService?.currentWifiSSID ?? ""
     property int wifiSignalStrength: activeService?.wifiSignalStrength ?? 0
@@ -292,6 +295,12 @@ Singleton {
     function setWifiAutoconnect(ssid, autoconnect) {
         if (activeService && activeService.setWifiAutoconnect) {
             activeService.setWifiAutoconnect(ssid, autoconnect);
+        }
+    }
+
+    function setWifiDeviceOverride(deviceName) {
+        if (activeService && activeService.setWifiDeviceOverride) {
+            activeService.setWifiDeviceOverride(deviceName);
         }
     }
 }
