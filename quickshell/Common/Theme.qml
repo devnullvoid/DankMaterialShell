@@ -5,7 +5,6 @@ import QtCore
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import Quickshell.Services.UPower
 import qs.Common
 import qs.Services
 import qs.Modules.Greetd
@@ -705,7 +704,7 @@ Singleton {
 
     function getBatteryIcon(level, isCharging, batteryAvailable) {
         if (!batteryAvailable)
-            return _getBatteryPowerProfileIcon();
+            return "battery_std";
 
         if (isCharging) {
             if (level >= 90)
@@ -740,27 +739,13 @@ Singleton {
         }
     }
 
-    function _getBatteryPowerProfileIcon() {
-        if (typeof PowerProfiles === "undefined")
-            return "balance";
-
-        switch (PowerProfiles.profile) {
-        case PowerProfile.PowerSaver:
-            return "energy_savings_leaf";
-        case PowerProfile.Performance:
-            return "rocket_launch";
-        default:
-            return "balance";
-        }
-    }
-
     function getPowerProfileIcon(profile) {
         switch (profile) {
-        case PowerProfile.PowerSaver:
+        case 0:
             return "battery_saver";
-        case PowerProfile.Balanced:
+        case 1:
             return "battery_std";
-        case PowerProfile.Performance:
+        case 2:
             return "flash_on";
         default:
             return "settings";
@@ -769,24 +754,24 @@ Singleton {
 
     function getPowerProfileLabel(profile) {
         switch (profile) {
-        case PowerProfile.PowerSaver:
+        case 0:
             return "Power Saver";
-        case PowerProfile.Balanced:
+        case 1:
             return "Balanced";
-        case PowerProfile.Performance:
+        case 2:
             return "Performance";
         default:
-            return profile.charAt(0).toUpperCase() + profile.slice(1);
+            return "Unknown";
         }
     }
 
     function getPowerProfileDescription(profile) {
         switch (profile) {
-        case PowerProfile.PowerSaver:
+        case 0:
             return "Extend battery life";
-        case PowerProfile.Balanced:
+        case 1:
             return "Balance power and performance";
-        case PowerProfile.Performance:
+        case 2:
             return "Prioritize performance";
         default:
             return "Custom power profile";
