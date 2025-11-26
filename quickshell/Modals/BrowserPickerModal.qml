@@ -42,7 +42,7 @@ DankModal {
     function updateBrowserList() {
         browsersModel.clear()
         const apps = AppSearchService.applications
-        const appUsageRanking = AppUsageHistoryData.appUsageRanking || {}
+        const browserUsage = SettingsData.browserUsageHistory || {}
         let browsers = []
 
         for (const app of apps) {
@@ -82,8 +82,8 @@ DankModal {
         browsers.sort((a, b) => {
             const aId = a.appData.id || a.appData.execString || a.appData.exec || ""
             const bId = b.appData.id || b.appData.execString || b.appData.exec || ""
-            const aUsage = appUsageRanking[aId] ? appUsageRanking[aId].usageCount : 0
-            const bUsage = appUsageRanking[bId] ? appUsageRanking[bId].usageCount : 0
+            const aUsage = browserUsage[aId] ? browserUsage[aId].count : 0
+            const bUsage = browserUsage[bId] ? browserUsage[bId].count : 0
             if (aUsage !== bUsage) {
                 return bUsage - aUsage
             }
@@ -298,6 +298,22 @@ DankModal {
 
                     DankListView {
                         id: browserList
+
+                        property int itemHeight: 60
+                        property int itemSpacing: Theme.spacingS
+
+                        function ensureVisible(index) {
+                            if (index < 0 || index >= count) return
+
+                            const itemY = index * (itemHeight + itemSpacing)
+                            const itemBottom = itemY + itemHeight
+                            if (itemY < contentY) {
+                                contentY = itemY
+                            } else if (itemBottom > contentY + height) {
+                                contentY = itemBottom - height
+                            }
+                        }
+
                         anchors.fill: parent
                         anchors.leftMargin: Theme.spacingS
                         anchors.rightMargin: Theme.spacingS
@@ -307,10 +323,13 @@ DankModal {
                         model: browsersModel
                         currentIndex: root.selectedIndex
                         clip: true
-                        spacing: Theme.spacingS
+                        spacing: itemSpacing
 
                         onCurrentIndexChanged: {
                             root.selectedIndex = currentIndex
+                            if (root.keyboardNavigationActive) {
+                                ensureVisible(currentIndex)
+                            }
                         }
 
                         delegate: AppLauncherListDelegate {
@@ -335,6 +354,19 @@ DankModal {
 
                     DankGridView {
                         id: browserGrid
+
+                        function ensureVisible(index) {
+                            if (index < 0 || index >= count) return
+
+                            const itemY = Math.floor(index / root.gridColumns) * cellHeight
+                            const itemBottom = itemY + cellHeight
+                            if (itemY < contentY) {
+                                contentY = itemY
+                            } else if (itemBottom > contentY + height) {
+                                contentY = itemBottom - height
+                            }
+                        }
+
                         anchors.fill: parent
                         anchors.leftMargin: Theme.spacingS
                         anchors.rightMargin: Theme.spacingS
@@ -349,6 +381,9 @@ DankModal {
 
                         onCurrentIndexChanged: {
                             root.selectedIndex = currentIndex
+                            if (root.keyboardNavigationActive) {
+                                ensureVisible(currentIndex)
+                            }
                         }
 
                         delegate: AppLauncherGridDelegate {
@@ -389,6 +424,8 @@ DankModal {
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceTextMedium
                         elide: Text.ElideMiddle
+                        wrapMode: Text.NoWrap
+                        maximumLineCount: 1
                     }
                 }
             }
@@ -415,12 +452,14 @@ DankModal {
                 console.log("BrowserPicker: Launching", cmd)
 
                 if (app.appId) {
-                    AppUsageHistoryData.addAppUsage({
-                        id: app.appId,
-                        name: app.name,
-                        exec: app.exec,
-                        execString: app.exec
-                    })
+                    const browserUsage = SettingsData.browserUsageHistory || {}
+                    const currentCount = browserUsage[app.appId] ? browserUsage[app.appId].count : 0
+                    browserUsage[app.appId] = {
+                        count: currentCount + 1,
+                        lastUsed: Date.now(),
+                        name: app.name
+                    }
+                    SettingsData.set("browserUsageHistory", browserUsage)
                 }
 
                 Quickshell.execDetached({
