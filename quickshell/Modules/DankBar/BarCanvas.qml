@@ -115,7 +115,7 @@ Item {
         preferredRendererType: Shape.CurveRenderer
 
         readonly property real borderThickness: Math.max(1, barConfig?.borderThickness ?? 1)
-        readonly property real inset: 0.5
+        readonly property real inset: 1
         readonly property string borderColorKey: barConfig?.borderColor || "surfaceText"
         readonly property color baseColor: (borderColorKey === "surfaceText") ? Theme.surfaceText : (borderColorKey === "primary") ? Theme.primary : Theme.secondary
         readonly property color borderColor: Theme.withAlpha(baseColor, barConfig?.borderOpacity ?? 1.0)
@@ -562,10 +562,10 @@ Item {
             } else {
                 d = `M ${i + w} ${i + cr}`;
                 if (cr > 0)
-                    d += ` A ${cr} ${cr} 0 0 1 ${i + w - cr} ${i}`;
+                    d += ` A ${cr} ${cr} 0 0 0 ${i + w - cr} ${i}`;
                 d += ` L ${i + cr} ${i}`;
                 if (cr > 0)
-                    d += ` A ${cr} ${cr} 0 0 1 ${i} ${i + cr}`;
+                    d += ` A ${cr} ${cr} 0 0 0 ${i} ${i + cr}`;
             }
             return d;
         }
@@ -585,10 +585,10 @@ Item {
             } else {
                 d = `M ${i + w - cr} ${i + h}`;
                 if (cr > 0)
-                    d += ` A ${cr} ${cr} 0 0 1 ${i + w} ${i + h - cr}`;
+                    d += ` A ${cr} ${cr} 0 0 0 ${i + w} ${i + h - cr}`;
                 d += ` L ${i + w} ${i + cr}`;
                 if (cr > 0)
-                    d += ` A ${cr} ${cr} 0 0 1 ${i + w - cr} ${i}`;
+                    d += ` A ${cr} ${cr} 0 0 0 ${i + w - cr} ${i}`;
             }
             return d;
         }

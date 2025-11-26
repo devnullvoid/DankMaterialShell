@@ -1570,7 +1570,7 @@ Item {
                                     position: newPos
                                 });
                                 const isVertical = newPos === SettingsData.Position.Left || newPos === SettingsData.Position.Right;
-                                if (!wasVertical && !isVertical) {
+                                if (wasVertical !== isVertical || !isVertical) {
                                     notifyHorizontalBarChange();
                                 }
                             }

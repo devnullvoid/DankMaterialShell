@@ -106,18 +106,27 @@ Item {
     Repeater {
         id: dankBarRepeater
         model: ScriptModel {
-            values: SettingsData.barConfigs
+            id: barRepeaterModel
+            values: {
+                const configs = SettingsData.barConfigs;
+                return configs.map(c => ({
+                            id: c.id,
+                            position: c.position
+                        }));
+            }
         }
 
         property var hyprlandOverviewLoaderRef: hyprlandOverviewLoader
 
         delegate: Loader {
             id: barLoader
-            active: modelData.enabled
+            required property var modelData
+            property var barConfig: SettingsData.getBarConfig(modelData.id)
+            active: barConfig?.enabled ?? false
             asynchronous: false
 
             sourceComponent: DankBar {
-                barConfig: modelData
+                barConfig: barLoader.barConfig
                 hyprlandOverviewLoader: dankBarRepeater.hyprlandOverviewLoaderRef
 
                 onColorPickerRequested: {
