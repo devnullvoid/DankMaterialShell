@@ -583,10 +583,53 @@ Item {
 
                     DankToggle {
                         width: parent.width
-                        text: I18n.tr("Show Confirmation on Power Actions")
-                        description: I18n.tr("Request confirmation on power off, restart, suspend, hibernate and logout actions")
+                        text: I18n.tr("Hold to Confirm Power Actions")
+                        description: I18n.tr("Require holding button/key to confirm power off, restart, suspend, hibernate and logout")
                         checked: SettingsData.powerActionConfirm
                         onToggled: checked => SettingsData.set("powerActionConfirm", checked)
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: Theme.spacingS
+                        visible: SettingsData.powerActionConfirm
+
+                        Item {
+                            width: parent.width - Theme.spacingM * 2
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            height: holdDurationLabel.height
+
+                            StyledText {
+                                id: holdDurationLabel
+                                text: I18n.tr("Hold Duration")
+                                font.pixelSize: Appearance.fontSize.normal
+                                font.weight: Font.Medium
+                                anchors.left: parent.left
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+
+                            StyledText {
+                                text: SettingsData.powerActionHoldDuration + "s"
+                                font.pixelSize: Appearance.fontSize.normal
+                                font.weight: Font.Medium
+                                color: Theme.primary
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+
+                        DankSlider {
+                            width: parent.width - Theme.spacingM * 2
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            minimum: 1
+                            maximum: 10
+                            unit: "s"
+                            wheelEnabled: false
+                            showValue: false
+                            thumbOutlineColor: Theme.surfaceContainerHigh
+                            value: SettingsData.powerActionHoldDuration
+                            onSliderValueChanged: newValue => SettingsData.set("powerActionHoldDuration", newValue)
+                        }
                     }
                 }
             }

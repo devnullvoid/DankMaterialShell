@@ -303,6 +303,7 @@ Singleton {
     property bool osdPowerProfileEnabled: true
 
     property bool powerActionConfirm: true
+    property int powerActionHoldDuration: 1
     property var powerMenuActions: ["reboot", "logout", "poweroff", "lock", "suspend", "restart"]
     property string powerMenuDefaultAction: "logout"
     property bool powerMenuGridLayout: false

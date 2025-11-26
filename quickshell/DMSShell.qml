@@ -344,16 +344,6 @@ Item {
     }
 
     LazyLoader {
-        id: powerConfirmModalLoader
-
-        active: false
-
-        ConfirmModal {
-            id: powerConfirmModal
-        }
-    }
-
-    LazyLoader {
         id: processListPopoutLoader
 
         active: false
@@ -489,22 +479,6 @@ Item {
             id: powerMenuModal
 
             onPowerActionRequested: (action, title, message) => {
-                if (SettingsData.powerActionConfirm) {
-                    powerConfirmModalLoader.active = true;
-                    if (powerConfirmModalLoader.item) {
-                        powerConfirmModalLoader.item.confirmButtonColor = action === "poweroff" ? Theme.error : action === "reboot" ? Theme.warning : Theme.primary;
-                        powerConfirmModalLoader.item.show(title, message, () => actionApply(action), function () {});
-                    }
-                } else {
-                    actionApply(action);
-                }
-            }
-
-            onLockRequested: {
-                lock.activate();
-            }
-
-            function actionApply(action) {
                 switch (action) {
                 case "logout":
                     SessionService.logout();
@@ -522,6 +496,10 @@ Item {
                     SessionService.poweroff();
                     break;
                 }
+            }
+
+            onLockRequested: {
+                lock.activate();
             }
 
             Component.onCompleted: {

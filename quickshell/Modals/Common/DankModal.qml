@@ -55,12 +55,15 @@ Item {
         ModalManager.openModal(root);
         closeTimer.stop();
         shouldBeVisible = true;
+        contentWindow.visible = false;
         if (useBackgroundWindow)
             backgroundWindow.visible = true;
-        contentWindow.visible = true;
-        shouldHaveFocus = false;
         Qt.callLater(() => {
-            shouldHaveFocus = Qt.binding(() => shouldBeVisible);
+            contentWindow.visible = true;
+            shouldHaveFocus = false;
+            Qt.callLater(() => {
+                shouldHaveFocus = Qt.binding(() => shouldBeVisible);
+            });
         });
     }
 

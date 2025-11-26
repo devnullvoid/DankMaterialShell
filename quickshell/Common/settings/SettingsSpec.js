@@ -205,6 +205,7 @@ var SPEC = {
     osdPowerProfileEnabled: { def: false },
 
     powerActionConfirm: { def: true },
+    powerActionHoldDuration: { def: 1 },
     powerMenuActions: { def: ["reboot", "logout", "poweroff", "lock", "suspend", "restart"] },
     powerMenuDefaultAction: { def: "logout" },
     powerMenuGridLayout: { def: false },
