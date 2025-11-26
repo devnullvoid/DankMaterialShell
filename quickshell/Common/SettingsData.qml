@@ -174,6 +174,7 @@ Singleton {
 
     property string appLauncherViewMode: "list"
     property string spotlightModalViewMode: "list"
+    property string browserPickerViewMode: "grid"
     property bool sortAppsAlphabetically: false
     property int appLauncherGridColumns: 4
     property bool spotlightCloseNiriOverview: true
