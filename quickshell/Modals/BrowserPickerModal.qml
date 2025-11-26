@@ -11,7 +11,7 @@ DankModal {
     property string url: ""
     property string searchQuery: ""
     property int selectedIndex: 0
-    property int gridColumns: 4
+    property int gridColumns: SettingsData.appLauncherGridColumns
     property bool keyboardNavigationActive: false
     property string viewMode: SettingsData.browserPickerViewMode || "grid"
 
