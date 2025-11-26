@@ -12,10 +12,12 @@ Scope {
     property bool searchActive: false
     property string searchActiveScreen: ""
     property bool isClosing: false
+    property bool releaseKeyboard: false
     property bool overlayActive: (NiriService.inOverview && !(PopoutService.spotlightModal?.spotlightOpen ?? false)) || searchActive
 
     function showSpotlight(screenName) {
         isClosing = false;
+        releaseKeyboard = false;
         searchActive = true;
         searchActiveScreen = screenName;
     }
@@ -26,10 +28,16 @@ Scope {
         isClosing = true;
     }
 
+    function hideAndReleaseKeyboard() {
+        releaseKeyboard = true;
+        hideSpotlight();
+    }
+
     function completeHide() {
         searchActive = false;
         searchActiveScreen = "";
         isClosing = false;
+        releaseKeyboard = false;
     }
 
     Connections {
@@ -97,7 +105,7 @@ Scope {
                         return WlrKeyboardFocus.None;
                     if (!isActiveScreen)
                         return WlrKeyboardFocus.None;
-                    if (niriOverviewScope.isClosing)
+                    if (niriOverviewScope.releaseKeyboard)
                         return WlrKeyboardFocus.None;
                     return WlrKeyboardFocus.Exclusive;
                 }
@@ -247,6 +255,20 @@ Scope {
 
                         Component.onCompleted: {
                             parentModal = fakeParentModal;
+                        }
+
+                        Connections {
+                            target: spotlightContent.appLauncher
+                            function onAppLaunched() {
+                                niriOverviewScope.releaseKeyboard = true;
+                            }
+                        }
+
+                        Connections {
+                            target: spotlightContent.fileSearchController
+                            function onFileOpened() {
+                                niriOverviewScope.releaseKeyboard = true;
+                            }
                         }
                     }
                 }
