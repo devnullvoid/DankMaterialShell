@@ -115,7 +115,7 @@ Item {
         preferredRendererType: Shape.CurveRenderer
 
         readonly property real borderThickness: Math.max(1, barConfig?.borderThickness ?? 1)
-        readonly property real inset: 1
+        readonly property real inset: showFullBorder ? Math.ceil(borderThickness / 2) : borderThickness / 2
         readonly property string borderColorKey: barConfig?.borderColor || "surfaceText"
         readonly property color baseColor: (borderColorKey === "surfaceText") ? Theme.surfaceText : (borderColorKey === "primary") ? Theme.primary : Theme.secondary
         readonly property color borderColor: Theme.withAlpha(baseColor, barConfig?.borderOpacity ?? 1.0)
