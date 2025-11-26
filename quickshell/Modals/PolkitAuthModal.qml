@@ -11,7 +11,7 @@ DankModal {
     layerNamespace: "dms:polkit"
 
     HyprlandFocusGrab {
-        windows: [root]
+        windows: [root.contentWindow]
         active: CompositorService.isHyprland && root.shouldHaveFocus
     }
 

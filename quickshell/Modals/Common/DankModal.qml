@@ -44,6 +44,8 @@ Item {
     property bool keepContentLoaded: false
     property bool keepPopoutsOpen: false
     property var customKeyboardFocus: null
+    readonly property alias contentWindow: contentWindow
+    readonly property alias backgroundWindow: backgroundWindow
 
     signal opened
     signal dialogClosed

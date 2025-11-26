@@ -12,7 +12,7 @@ DankModal {
     keepPopoutsOpen: true
 
     HyprlandFocusGrab {
-        windows: [root]
+        windows: [root.contentWindow]
         active: CompositorService.isHyprland && root.shouldHaveFocus
     }
 
