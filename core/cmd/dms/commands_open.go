@@ -14,9 +14,9 @@ import (
 )
 
 var (
-	openMimeType     string
-	openCategories   []string
-	openRequestType  string
+	openMimeType    string
+	openCategories  []string
+	openRequestType string
 )
 
 var openCmd = &cobra.Command{
@@ -31,7 +31,7 @@ Examples:
   dms open file.pdf --mime application/pdf        # Open PDF with compatible apps
   dms open document.odt --category Office         # Open with office applications
   dms open --mime image/png image.png             # Open image with image viewers`,
-	Args:  cobra.ExactArgs(1),
+	Args: cobra.ExactArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		runOpen(args[0])
 	},
