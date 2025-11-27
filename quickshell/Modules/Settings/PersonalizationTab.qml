@@ -9,7 +9,6 @@ import qs.Widgets
 Item {
     id: personalizationTab
 
-    property var wallpaperBrowser: wallpaperBrowserLoader.item
     property var parentModal: null
     property var cachedFontFamilies: []
     property bool fontsEnumerated: false
@@ -207,9 +206,7 @@ Item {
                                         MouseArea {
                                             anchors.fill: parent
                                             cursorShape: Qt.PointingHandCursor
-                                            onClicked: {
-                                                wallpaperBrowserLoader.active = true;
-                                            }
+                                            onClicked: mainWallpaperBrowser.open()
                                         }
                                     }
 
@@ -598,7 +595,7 @@ Item {
                                                         anchors.fill: parent
                                                         cursorShape: Qt.PointingHandCursor
                                                         onClicked: {
-                                                            lightWallpaperBrowserLoader.active = true;
+                                                            lightWallpaperBrowser.open();
                                                         }
                                                     }
                                                 }
@@ -787,7 +784,7 @@ Item {
                                                         anchors.fill: parent
                                                         cursorShape: Qt.PointingHandCursor
                                                         onClicked: {
-                                                            darkWallpaperBrowserLoader.active = true;
+                                                            darkWallpaperBrowser.open();
                                                         }
                                                     }
                                                 }
@@ -2140,86 +2137,56 @@ Item {
         }
     }
 
-    Loader {
-        id: wallpaperBrowserLoader
-        active: false
-        asynchronous: true
+    FileBrowserModal {
+        id: mainWallpaperBrowser
 
-        sourceComponent: FileBrowserModal {
-            parentModal: personalizationTab.parentModal
-            Component.onCompleted: {
-                open();
+        parentModal: personalizationTab.parentModal
+        browserTitle: I18n.tr("Select Wallpaper", "wallpaper file browser title")
+        browserIcon: "wallpaper"
+        browserType: "wallpaper"
+        showHiddenFiles: true
+        fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
+        onFileSelected: path => {
+            if (SessionData.perMonitorWallpaper) {
+                SessionData.setMonitorWallpaper(selectedMonitorName, path);
+            } else {
+                SessionData.setWallpaper(path);
             }
-            browserTitle: I18n.tr("Select Wallpaper", "wallpaper file browser title")
-            browserIcon: "wallpaper"
-            browserType: "wallpaper"
-            showHiddenFiles: true
-            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
-            onFileSelected: path => {
-                if (SessionData.perMonitorWallpaper) {
-                    SessionData.setMonitorWallpaper(selectedMonitorName, path);
-                } else {
-                    SessionData.setWallpaper(path);
-                }
-                close();
-            }
-            onDialogClosed: {
-                Qt.callLater(() => wallpaperBrowserLoader.active = false);
-            }
+            close();
         }
     }
 
-    Loader {
-        id: lightWallpaperBrowserLoader
-        active: false
-        asynchronous: true
+    FileBrowserModal {
+        id: lightWallpaperBrowser
 
-        sourceComponent: FileBrowserModal {
-            parentModal: personalizationTab.parentModal
-            Component.onCompleted: {
-                open();
-            }
-            browserTitle: I18n.tr("Select Wallpaper", "light mode wallpaper file browser title")
-            browserIcon: "light_mode"
-            browserType: "wallpaper"
-            showHiddenFiles: true
-            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
-            onFileSelected: path => {
-                SessionData.wallpaperPathLight = path;
-                SessionData.syncWallpaperForCurrentMode();
-                SessionData.saveSettings();
-                close();
-            }
-            onDialogClosed: {
-                Qt.callLater(() => lightWallpaperBrowserLoader.active = false);
-            }
+        parentModal: personalizationTab.parentModal
+        browserTitle: I18n.tr("Select Wallpaper", "light mode wallpaper file browser title")
+        browserIcon: "light_mode"
+        browserType: "wallpaper"
+        showHiddenFiles: true
+        fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
+        onFileSelected: path => {
+            SessionData.wallpaperPathLight = path;
+            SessionData.syncWallpaperForCurrentMode();
+            SessionData.saveSettings();
+            close();
         }
     }
 
-    Loader {
-        id: darkWallpaperBrowserLoader
-        active: false
-        asynchronous: true
+    FileBrowserModal {
+        id: darkWallpaperBrowser
 
-        sourceComponent: FileBrowserModal {
-            parentModal: personalizationTab.parentModal
-            Component.onCompleted: {
-                open();
-            }
-            browserTitle: I18n.tr("Select Wallpaper", "dark mode wallpaper file browser title")
-            browserIcon: "dark_mode"
-            browserType: "wallpaper"
-            showHiddenFiles: true
-            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
-            onFileSelected: path => {
-                SessionData.wallpaperPathDark = path;
-                SessionData.syncWallpaperForCurrentMode();
-                SessionData.saveSettings();
-                close();
-            }
-            onDialogClosed: {
-                Qt.callLater(() => darkWallpaperBrowserLoader.active = false);
-            }
+        parentModal: personalizationTab.parentModal
+        browserTitle: I18n.tr("Select Wallpaper", "dark mode wallpaper file browser title")
+        browserIcon: "dark_mode"
+        browserType: "wallpaper"
+        showHiddenFiles: true
+        fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp"]
+        onFileSelected: path => {
+            SessionData.wallpaperPathDark = path;
+            SessionData.syncWallpaperForCurrentMode();
+            SessionData.saveSettings();
+            close();
         }
     }
 }
