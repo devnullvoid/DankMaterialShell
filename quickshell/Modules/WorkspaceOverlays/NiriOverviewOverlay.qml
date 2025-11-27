@@ -174,7 +174,6 @@ Scope {
                         if (!spotlightContent?.searchField)
                             return;
                         const trimmedText = event.text.trim();
-                        spotlightContainer.waitingForResults = true;
                         spotlightContent.searchField.text = trimmedText;
                         if (spotlightContent.appLauncher) {
                             spotlightContent.appLauncher.searchQuery = trimmedText;
@@ -193,18 +192,10 @@ Scope {
                     height: Theme.px(600, overlayWindow.dpr)
 
                     readonly property bool animatingOut: niriOverviewScope.isClosing && overlayWindow.isSpotlightScreen
-                    property bool waitingForResults: false
 
-                    Connections {
-                        target: spotlightContent.appLauncher?.model ?? null
-                        function onCountChanged() {
-                            spotlightContainer.waitingForResults = false;
-                        }
-                    }
-
-                    scale: (overlayWindow.shouldShowSpotlight && !waitingForResults) ? 1.0 : 0.96
-                    opacity: (overlayWindow.shouldShowSpotlight && !waitingForResults) ? 1 : 0
-                    visible: (overlayWindow.shouldShowSpotlight && !waitingForResults) || animatingOut
+                    scale: overlayWindow.shouldShowSpotlight ? 1.0 : 0.96
+                    opacity: overlayWindow.shouldShowSpotlight ? 1 : 0
+                    visible: overlayWindow.shouldShowSpotlight || animatingOut
                     enabled: overlayWindow.shouldShowSpotlight
 
                     layer.enabled: true
@@ -248,6 +239,19 @@ Scope {
                         property var fakeParentModal: QtObject {
                             property bool spotlightOpen: spotlightContainer.visible
                             function hide() {
+                                if (spotlightContent.searchField.text.length > 0) {
+                                    niriOverviewScope.hideSpotlight();
+                                    return;
+                                }
+                                NiriService.toggleOverview();
+                            }
+                        }
+
+                        Connections {
+                            target: spotlightContent.searchField
+                            function onTextChanged() {
+                                if (spotlightContent.searchField.text.length > 0 || !niriOverviewScope.searchActive)
+                                    return;
                                 niriOverviewScope.hideSpotlight();
                             }
                         }
