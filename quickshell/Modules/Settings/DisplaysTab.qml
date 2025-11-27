@@ -685,8 +685,16 @@ Item {
                                         Row {
                                             spacing: Theme.spacingS
 
+                                            property var wlrOutput: WlrOutputService.wlrOutputAvailable ? WlrOutputService.getOutput(modelData.name) : null
+                                            property var currentMode: wlrOutput?.currentMode
+
                                             StyledText {
-                                                text: modelData.width + "×" + modelData.height
+                                                text: {
+                                                    if (parent.currentMode) {
+                                                        return parent.currentMode.width + "×" + parent.currentMode.height + "@" + Math.round(parent.currentMode.refresh / 1000) + "Hz"
+                                                    }
+                                                    return modelData.width + "×" + modelData.height
+                                                }
                                                 font.pixelSize: Theme.fontSizeSmall
                                                 color: Theme.surfaceVariantText
                                             }
