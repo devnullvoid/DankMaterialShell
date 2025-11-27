@@ -16,21 +16,26 @@ AppPickerModal {
     usageHistoryKey: "browserUsageHistory"
     showTargetData: true
 
+    function shellEscape(str) {
+        return "'" + str.replace(/'/g, "'\\''") + "'"
+    }
+
     onApplicationSelected: (app, url) => {
         if (!app) return
 
         let cmd = app.exec || ""
+        const escapedUrl = shellEscape(url)
 
         let hasField = false
-        if (cmd.includes("%u")) { cmd = cmd.replace("%u", url); hasField = true }
-        else if (cmd.includes("%U")) { cmd = cmd.replace("%U", url); hasField = true }
-        else if (cmd.includes("%f")) { cmd = cmd.replace("%f", url); hasField = true }
-        else if (cmd.includes("%F")) { cmd = cmd.replace("%F", url); hasField = true }
+        if (cmd.includes("%u")) { cmd = cmd.replace("%u", escapedUrl); hasField = true }
+        else if (cmd.includes("%U")) { cmd = cmd.replace("%U", escapedUrl); hasField = true }
+        else if (cmd.includes("%f")) { cmd = cmd.replace("%f", escapedUrl); hasField = true }
+        else if (cmd.includes("%F")) { cmd = cmd.replace("%F", escapedUrl); hasField = true }
 
         cmd = cmd.replace(/%[ikc]/g, "")
 
         if (!hasField) {
-            cmd += " " + url
+            cmd += " " + escapedUrl
         }
 
         console.log("BrowserPicker: Launching", cmd)

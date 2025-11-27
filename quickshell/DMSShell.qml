@@ -372,21 +372,27 @@ Item {
         id: filePickerModal
         title: I18n.tr("Open with...")
 
+        function shellEscape(str) {
+            return "'" + str.replace(/'/g, "'\\''") + "'"
+        }
+
         onApplicationSelected: (app, filePath) => {
             if (!app) return
 
             let cmd = app.exec || ""
+            const escapedPath = shellEscape(filePath)
+            const escapedUri = shellEscape("file://" + filePath)
 
             let hasField = false
-            if (cmd.includes("%f")) { cmd = cmd.replace("%f", filePath); hasField = true }
-            else if (cmd.includes("%F")) { cmd = cmd.replace("%F", filePath); hasField = true }
-            else if (cmd.includes("%u")) { cmd = cmd.replace("%u", "file://" + filePath); hasField = true }
-            else if (cmd.includes("%U")) { cmd = cmd.replace("%U", "file://" + filePath); hasField = true }
+            if (cmd.includes("%f")) { cmd = cmd.replace("%f", escapedPath); hasField = true }
+            else if (cmd.includes("%F")) { cmd = cmd.replace("%F", escapedPath); hasField = true }
+            else if (cmd.includes("%u")) { cmd = cmd.replace("%u", escapedUri); hasField = true }
+            else if (cmd.includes("%U")) { cmd = cmd.replace("%U", escapedUri); hasField = true }
 
             cmd = cmd.replace(/%[ikc]/g, "")
 
             if (!hasField) {
-                cmd += " " + filePath
+                cmd += " " + escapedPath
             }
 
             console.log("FilePicker: Launching", cmd)
