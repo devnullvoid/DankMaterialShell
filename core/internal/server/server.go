@@ -15,9 +15,9 @@ import (
 	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/apppicker"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/bluez"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/brightness"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/browser"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/cups"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/dwl"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/evdev"
@@ -53,7 +53,7 @@ var loginctlManager *loginctl.Manager
 var freedesktopManager *freedesktop.Manager
 var waylandManager *wayland.Manager
 var bluezManager *bluez.Manager
-var browserManager *browser.Manager
+var appPickerManager *apppicker.Manager
 var cupsManager *cups.Manager
 var dwlManager *dwl.Manager
 var extWorkspaceManager *extworkspace.Manager
@@ -215,10 +215,10 @@ func InitializeBluezManager() error {
 	return nil
 }
 
-func InitializeBrowserManager() error {
-	manager := browser.NewManager()
-	browserManager = manager
-	log.Info("Browser manager initialized")
+func InitializeAppPickerManager() error {
+	manager := apppicker.NewManager()
+	appPickerManager = manager
+	log.Info("AppPicker manager initialized")
 	return nil
 }
 
@@ -379,7 +379,7 @@ func getCapabilities() Capabilities {
 		caps = append(caps, "bluetooth")
 	}
 
-	if browserManager != nil {
+	if appPickerManager != nil {
 		caps = append(caps, "browser")
 	}
 
@@ -433,7 +433,7 @@ func getServerInfo() ServerInfo {
 		caps = append(caps, "bluetooth")
 	}
 
-	if browserManager != nil {
+	if appPickerManager != nil {
 		caps = append(caps, "browser")
 	}
 
@@ -753,16 +753,16 @@ func handleSubscribe(conn net.Conn, req models.Request) {
 		}()
 	}
 
-	if shouldSubscribe("browser") && browserManager != nil {
+	if shouldSubscribe("browser") && appPickerManager != nil {
 		wg.Add(1)
-		browserChan := browserManager.Subscribe(clientID + "-browser")
+		appPickerChan := appPickerManager.Subscribe(clientID + "-browser")
 		go func() {
 			defer wg.Done()
-			defer browserManager.Unsubscribe(clientID + "-browser")
+			defer appPickerManager.Unsubscribe(clientID + "-browser")
 
 			for {
 				select {
-				case event, ok := <-browserChan:
+				case event, ok := <-appPickerChan:
 					if !ok {
 						return
 					}
@@ -1072,8 +1072,8 @@ func cleanupManagers() {
 	if bluezManager != nil {
 		bluezManager.Close()
 	}
-	if browserManager != nil {
-		browserManager.Close()
+	if appPickerManager != nil {
+		appPickerManager.Close()
 	}
 	if cupsManager != nil {
 		cupsManager.Close()
@@ -1308,7 +1308,7 @@ func Start(printDocs bool) error {
 		}
 	}()
 
-	InitializeBrowserManager()
+	InitializeAppPickerManager()
 
 	if err := InitializeDwlManager(); err != nil {
 		log.Debugf("DWL manager unavailable: %v", err)

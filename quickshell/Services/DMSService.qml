@@ -51,6 +51,7 @@ Singleton {
     signal wlrOutputStateUpdate(var data)
     signal evdevStateUpdate(var data)
     signal openUrlRequested(string url)
+    signal appPickerRequested(var data)
 
     property bool capsLockState: false
 
@@ -359,7 +360,13 @@ Singleton {
             }
             evdevStateUpdate(data)
         } else if (service === "browser.open_requested") {
-            if (data.url) {
+            if (data.target) {
+                if (data.requestType === "url" || !data.requestType) {
+                    openUrlRequested(data.target)
+                } else {
+                    appPickerRequested(data)
+                }
+            } else if (data.url) {
                 openUrlRequested(data.url)
             }
         }
