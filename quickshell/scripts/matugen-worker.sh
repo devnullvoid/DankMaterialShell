@@ -141,6 +141,17 @@ set_system_color_scheme() {
     dconf write /org/gnome/desktop/interface/color-scheme "'$scheme'" 2>/dev/null || true
 }
 
+sync_color_scheme_on_exit() {
+  [[ "$SYNC_MODE_WITH_PORTAL" != "true" ]] && return
+  [[ ! -f "$DESIRED_JSON" ]] && return
+  local json mode
+  json=$(cat "$DESIRED_JSON" 2>/dev/null) || return
+  mode=$(read_json_field "$json" "mode")
+  [[ -n "$mode" ]] && set_system_color_scheme "$mode"
+}
+
+trap sync_color_scheme_on_exit EXIT
+
 refresh_gtk() {
   local mode="$1"
   local gtk_css="$CONFIG_DIR/gtk-3.0/gtk.css"
@@ -249,7 +260,6 @@ build_once() {
   refresh_gtk "$mode"
   setup_vscode_extension "code" "$HOME/.vscode/extensions/local.dynamic-base16-dankshell-0.0.1" "$HOME/.vscode"
   setup_vscode_extension "codium" "$HOME/.vscode-oss/extensions/local.dynamic-base16-dankshell-0.0.1" "$HOME/.vscode-oss"
-  set_system_color_scheme "$mode"
   signal_terminals
 
   return 0
