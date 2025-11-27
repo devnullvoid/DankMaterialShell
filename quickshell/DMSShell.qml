@@ -368,11 +368,61 @@ Item {
         id: browserPickerModal
     }
 
+    AppPickerModal {
+        id: filePickerModal
+        title: I18n.tr("Open with...")
+
+        onApplicationSelected: (app, filePath) => {
+            if (!app) return
+
+            let cmd = app.exec || ""
+
+            let hasField = false
+            if (cmd.includes("%f")) { cmd = cmd.replace("%f", filePath); hasField = true }
+            else if (cmd.includes("%F")) { cmd = cmd.replace("%F", filePath); hasField = true }
+            else if (cmd.includes("%u")) { cmd = cmd.replace("%u", "file://" + filePath); hasField = true }
+            else if (cmd.includes("%U")) { cmd = cmd.replace("%U", "file://" + filePath); hasField = true }
+
+            cmd = cmd.replace(/%[ikc]/g, "")
+
+            if (!hasField) {
+                cmd += " " + filePath
+            }
+
+            console.log("FilePicker: Launching", cmd)
+
+            Quickshell.execDetached({
+                command: ["sh", "-c", cmd]
+            })
+        }
+    }
+
     Connections {
         target: DMSService
         function onOpenUrlRequested(url) {
             browserPickerModal.url = url
             browserPickerModal.open()
+        }
+
+        function onAppPickerRequested(data) {
+            console.log("DMSShell: App picker requested with data:", JSON.stringify(data))
+
+            if (!data || !data.target) {
+                console.warn("DMSShell: Invalid app picker request data")
+                return
+            }
+
+            filePickerModal.targetData = data.target
+            filePickerModal.targetDataLabel = data.requestType || "file"
+
+            if (data.categories && data.categories.length > 0) {
+                filePickerModal.categoryFilter = data.categories
+            } else {
+                filePickerModal.categoryFilter = []
+            }
+
+            filePickerModal.usageHistoryKey = "filePickerUsageHistory"
+            filePickerModal.open()
         }
     }
 

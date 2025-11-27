@@ -3,8 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"mime"
 	"net"
+	"net/url"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
@@ -44,6 +47,48 @@ func init() {
 	openCmd.Flags().StringVar(&openRequestType, "type", "url", "Request type (url, file, or custom)")
 }
 
+// mimeTypeToCategories maps MIME types to desktop file categories
+func mimeTypeToCategories(mimeType string) []string {
+	// Split MIME type to get the main type
+	parts := strings.Split(mimeType, "/")
+	if len(parts) < 1 {
+		return nil
+	}
+
+	mainType := parts[0]
+
+	switch mainType {
+	case "image":
+		return []string{"Graphics", "Viewer"}
+	case "video":
+		return []string{"Video", "AudioVideo"}
+	case "audio":
+		return []string{"Audio", "AudioVideo"}
+	case "text":
+		if strings.Contains(mimeType, "html") {
+			return []string{"WebBrowser"}
+		}
+		return []string{"TextEditor", "Office"}
+	case "application":
+		if strings.Contains(mimeType, "pdf") {
+			return []string{"Office", "Viewer"}
+		}
+		if strings.Contains(mimeType, "document") || strings.Contains(mimeType, "spreadsheet") ||
+			strings.Contains(mimeType, "presentation") || strings.Contains(mimeType, "msword") ||
+			strings.Contains(mimeType, "ms-excel") || strings.Contains(mimeType, "ms-powerpoint") ||
+			strings.Contains(mimeType, "opendocument") {
+			return []string{"Office"}
+		}
+		if strings.Contains(mimeType, "zip") || strings.Contains(mimeType, "tar") ||
+			strings.Contains(mimeType, "gzip") || strings.Contains(mimeType, "compress") {
+			return []string{"Archiving", "Utility"}
+		}
+		return []string{"Office", "Viewer"}
+	}
+
+	return nil
+}
+
 func runOpen(target string) {
 	socketPath, err := server.FindSocket()
 	if err != nil {
@@ -71,24 +116,85 @@ func runOpen(target string) {
 		}
 	}
 
+	// Parse file:// URIs to extract the actual file path
+	actualTarget := target
+	detectedMimeType := openMimeType
+	detectedCategories := openCategories
+	detectedRequestType := openRequestType
+
+	log.Infof("Processing target: %s", target)
+
+	if parsedURL, err := url.Parse(target); err == nil && parsedURL.Scheme == "file" {
+		// Extract file path from file:// URI
+		actualTarget = parsedURL.Path
+		if detectedRequestType == "url" || detectedRequestType == "" {
+			detectedRequestType = "file"
+		}
+
+		log.Infof("Detected file:// URI, extracted path: %s", actualTarget)
+
+		// Auto-detect MIME type if not provided
+		if detectedMimeType == "" {
+			ext := filepath.Ext(actualTarget)
+			if ext != "" {
+				detectedMimeType = mime.TypeByExtension(ext)
+				log.Infof("Detected MIME type from extension %s: %s", ext, detectedMimeType)
+			}
+		}
+
+		// Auto-detect categories based on MIME type if not provided
+		if len(detectedCategories) == 0 && detectedMimeType != "" {
+			detectedCategories = mimeTypeToCategories(detectedMimeType)
+			log.Infof("Detected categories from MIME type: %v", detectedCategories)
+		}
+	} else if strings.HasPrefix(target, "http://") || strings.HasPrefix(target, "https://") {
+		// Handle HTTP(S) URLs
+		if detectedRequestType == "" {
+			detectedRequestType = "url"
+		}
+		log.Infof("Detected HTTP(S) URL")
+	} else if _, err := os.Stat(target); err == nil {
+		// Handle local file paths directly (not file:// URIs)
+		if detectedRequestType == "url" || detectedRequestType == "" {
+			detectedRequestType = "file"
+		}
+
+		log.Infof("Detected local file path: %s", target)
+
+		// Auto-detect MIME type if not provided
+		if detectedMimeType == "" {
+			ext := filepath.Ext(target)
+			if ext != "" {
+				detectedMimeType = mime.TypeByExtension(ext)
+				log.Infof("Detected MIME type from extension %s: %s", ext, detectedMimeType)
+			}
+		}
+
+		// Auto-detect categories based on MIME type if not provided
+		if len(detectedCategories) == 0 && detectedMimeType != "" {
+			detectedCategories = mimeTypeToCategories(detectedMimeType)
+			log.Infof("Detected categories from MIME type: %v", detectedCategories)
+		}
+	}
+
 	params := map[string]interface{}{
-		"target": target,
+		"target": actualTarget,
 	}
 
-	if openMimeType != "" {
-		params["mimeType"] = openMimeType
+	if detectedMimeType != "" {
+		params["mimeType"] = detectedMimeType
 	}
 
-	if len(openCategories) > 0 {
-		params["categories"] = openCategories
+	if len(detectedCategories) > 0 {
+		params["categories"] = detectedCategories
 	}
 
-	if openRequestType != "" {
-		params["requestType"] = openRequestType
+	if detectedRequestType != "" {
+		params["requestType"] = detectedRequestType
 	}
 
 	method := "apppicker.open"
-	if openMimeType == "" && len(openCategories) == 0 && (strings.HasPrefix(target, "http://") || strings.HasPrefix(target, "https://")) {
+	if detectedMimeType == "" && len(detectedCategories) == 0 && (strings.HasPrefix(target, "http://") || strings.HasPrefix(target, "https://")) {
 		method = "browser.open"
 		params["url"] = target
 	}
@@ -99,7 +205,11 @@ func runOpen(target string) {
 		Params: params,
 	}
 
+	log.Infof("Sending request - Method: %s, Params: %+v", method, params)
+
 	if err := json.NewEncoder(conn).Encode(req); err != nil {
 		log.Fatalf("Failed to send request: %v", err)
 	}
+
+	log.Infof("Request sent successfully")
 }

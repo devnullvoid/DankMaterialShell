@@ -3,6 +3,7 @@ package apppicker
 import (
 	"net"
 
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 )
 
@@ -22,10 +23,13 @@ func HandleRequest(conn net.Conn, req Request, manager *Manager) {
 }
 
 func handleOpen(conn net.Conn, req Request, manager *Manager) {
+	log.Infof("AppPicker: Received %s request with params: %+v", req.Method, req.Params)
+
 	target, ok := req.Params["target"].(string)
 	if !ok {
 		target, ok = req.Params["url"].(string)
 		if !ok {
+			log.Warnf("AppPicker: Invalid target parameter in request")
 			models.RespondError(conn, req.ID, "invalid target parameter")
 			return
 		}
@@ -53,6 +57,8 @@ func handleOpen(conn net.Conn, req Request, manager *Manager) {
 		event.RequestType = requestType
 	}
 
+	log.Infof("AppPicker: Broadcasting event: %+v", event)
 	manager.RequestOpen(event)
 	models.Respond(conn, req.ID, "ok")
+	log.Infof("AppPicker: Request handled successfully")
 }
