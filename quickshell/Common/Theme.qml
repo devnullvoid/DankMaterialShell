@@ -1099,6 +1099,12 @@ Singleton {
     Process {
         id: systemThemeGenerator
         running: false
+        stdout: SplitParser {
+            onRead: data => console.info("Theme worker:", data)
+        }
+        stderr: SplitParser {
+            onRead: data => console.warn("Theme worker:", data)
+        }
 
         onExited: exitCode => {
             workerRunning = false;
