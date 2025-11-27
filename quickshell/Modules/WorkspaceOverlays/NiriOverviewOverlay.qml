@@ -48,7 +48,6 @@ Scope {
                     isClosing = true;
                     return;
                 }
-                closeOverviewAfterAnim = false;
                 searchActive = false;
                 searchActiveScreen = "";
                 isClosing = false;
