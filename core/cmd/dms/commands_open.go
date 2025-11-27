@@ -125,13 +125,17 @@ func runOpen(target string) {
 	log.Infof("Processing target: %s", target)
 
 	if parsedURL, err := url.Parse(target); err == nil && parsedURL.Scheme == "file" {
-		// Extract file path from file:// URI
+		// Extract file path from file:// URI and convert to absolute path
 		actualTarget = parsedURL.Path
+		if absPath, err := filepath.Abs(actualTarget); err == nil {
+			actualTarget = absPath
+		}
+
 		if detectedRequestType == "url" || detectedRequestType == "" {
 			detectedRequestType = "file"
 		}
 
-		log.Infof("Detected file:// URI, extracted path: %s", actualTarget)
+		log.Infof("Detected file:// URI, extracted absolute path: %s", actualTarget)
 
 		// Auto-detect MIME type if not provided
 		if detectedMimeType == "" {
@@ -155,15 +159,20 @@ func runOpen(target string) {
 		log.Infof("Detected HTTP(S) URL")
 	} else if _, err := os.Stat(target); err == nil {
 		// Handle local file paths directly (not file:// URIs)
+		// Convert to absolute path
+		if absPath, err := filepath.Abs(target); err == nil {
+			actualTarget = absPath
+		}
+
 		if detectedRequestType == "url" || detectedRequestType == "" {
 			detectedRequestType = "file"
 		}
 
-		log.Infof("Detected local file path: %s", target)
+		log.Infof("Detected local file path, converted to absolute: %s", actualTarget)
 
 		// Auto-detect MIME type if not provided
 		if detectedMimeType == "" {
-			ext := filepath.Ext(target)
+			ext := filepath.Ext(actualTarget)
 			if ext != "" {
 				detectedMimeType = mime.TypeByExtension(ext)
 				log.Infof("Detected MIME type from extension %s: %s", ext, detectedMimeType)
