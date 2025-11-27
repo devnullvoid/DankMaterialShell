@@ -39,9 +39,9 @@ Examples:
 
 func init() {
 	rootCmd.AddCommand(openCmd)
-	openCmd.Flags().StringVarP(&openMimeType, "mime", "m", "", "MIME type for filtering applications")
-	openCmd.Flags().StringSliceVarP(&openCategories, "category", "c", []string{}, "Application categories to filter (e.g., WebBrowser, Office, Graphics)")
-	openCmd.Flags().StringVarP(&openRequestType, "type", "t", "url", "Request type (url, file, or custom)")
+	openCmd.Flags().StringVar(&openMimeType, "mime", "", "MIME type for filtering applications")
+	openCmd.Flags().StringSliceVar(&openCategories, "category", []string{}, "Application categories to filter (e.g., WebBrowser, Office, Graphics)")
+	openCmd.Flags().StringVar(&openRequestType, "type", "url", "Request type (url, file, or custom)")
 }
 
 func runOpen(target string) {
