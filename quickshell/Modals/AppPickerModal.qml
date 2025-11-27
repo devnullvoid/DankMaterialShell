@@ -28,7 +28,6 @@ DankModal {
     modalHeight: 500
 
     onDialogClosed: {
-        targetData = ""
         searchQuery = ""
         selectedIndex = 0
         keyboardNavigationActive: false
@@ -134,6 +133,13 @@ DankModal {
 
             Keys.onPressed: event => {
                 if (applicationsModel.count === 0) return
+
+                // Toggle view mode with Tab key
+                if (event.key === Qt.Key_Tab) {
+                    root.viewMode = root.viewMode === "grid" ? "list" : "grid"
+                    event.accepted = true
+                    return
+                }
 
                 if (root.viewMode === "grid") {
                     if (event.key === Qt.Key_Left) {
