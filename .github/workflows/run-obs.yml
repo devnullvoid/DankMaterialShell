@@ -188,23 +188,28 @@ jobs:
               sed -i "s|<param name=\"revision\">v[0-9.]*</param>|<param name=\"revision\">$VERSION</param>|" "$service"
             fi
           done
-      
+
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
       - name: Install OSC
         run: |
           sudo apt-get update
           sudo apt-get install -y osc
-          
+
           mkdir -p ~/.config/osc
           cat > ~/.config/osc/oscrc << EOF
           [general]
           apiurl = https://api.opensuse.org
-          
+
           [https://api.opensuse.org]
           user = ${{ secrets.OBS_USERNAME }}
           pass = ${{ secrets.OBS_PASSWORD }}
           EOF
           chmod 600 ~/.config/osc/oscrc
-      
+
       - name: Upload to OBS
         env:
           FORCE_REBUILD: ${{ github.event_name == 'workflow_dispatch' && 'true' || '' }}

@@ -400,9 +400,32 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
         fi
         
         echo "    Found source directory: $SOURCE_DIR"
-        
+
+        # Vendor Go dependencies for dms-git 
+        if [[ "$PACKAGE" == "dms-git" ]] && [[ -d "$SOURCE_DIR/core" ]]; then
+            echo "  - Vendoring Go dependencies for offline OBS build..."
+            cd "$SOURCE_DIR/core"
+
+            if ! command -v go &> /dev/null; then
+                echo "ERROR: Go not found. Install Go to vendor dependencies."
+                echo "  Install: sudo apt-get install golang-go (Debian/Ubuntu)"
+                echo "      or: sudo dnf install golang (Fedora)"
+                exit 1
+            fi
+
+            # Vendor dependencies
+            go mod vendor
+            if [ ! -d "vendor" ]; then
+                echo "ERROR: Failed to vendor Go dependencies"
+                exit 1
+            fi
+
+            VENDOR_SIZE=$(du -sh vendor | cut -f1)
+            echo "    ✓ Go dependencies vendored ($VENDOR_SIZE)"
+            cd "$REPO_ROOT"
+        fi
+
         # Create OpenSUSE-compatible source tarballs BEFORE adding debian/ directory
-        # (OpenSUSE doesn't need debian/ directory)
         if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ -f "distro/opensuse/$PACKAGE.spec" ]]; then
             echo "  - Creating OpenSUSE-compatible source tarballs"
             
@@ -518,16 +541,29 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
             TARBALL_SIZE=$(stat -c%s "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null || stat -f%z "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null)
             TARBALL_MD5=$(md5sum "$WORK_DIR/$COMBINED_TARBALL" | cut -d' ' -f1)
             
-            BUILD_DEPS="debhelper-compat (= 13)"
-            if [[ -f "distro/debian/$PACKAGE/debian/control" ]]; then
-                CONTROL_DEPS=$(sed -n '/^Build-Depends:/,/^[A-Z]/p' "distro/debian/$PACKAGE/debian/control" | \
-                    sed '/^Build-Depends:/s/^Build-Depends: *//' | \
-                    sed '/^[A-Z]/d' | \
-                    tr '\n' ' ' | \
-                    sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/[[:space:]]\+/ /g')
-                if [[ -n "$CONTROL_DEPS" && "$CONTROL_DEPS" != "" ]]; then
-                    BUILD_DEPS="$CONTROL_DEPS"
+            # Extract Build-Depends from debian/control using awk for proper multi-line parsing
+            if [[ -f "$REPO_ROOT/distro/debian/$PACKAGE/debian/control" ]]; then
+                BUILD_DEPS=$(awk '
+                    /^Build-Depends:/ {
+                        in_build_deps=1;
+                        sub(/^Build-Depends:[[:space:]]*/, "");
+                        printf "%s", $0;
+                        next;
+                    }
+                    in_build_deps && /^[[:space:]]/ {
+                        sub(/^[[:space:]]+/, " ");
+                        printf "%s", $0;
+                        next;
+                    }
+                    in_build_deps { exit; }
+                ' "$REPO_ROOT/distro/debian/$PACKAGE/debian/control" | sed 's/[[:space:]]\+/ /g; s/^[[:space:]]*//; s/[[:space:]]*$//')
+
+                # If extraction failed or is empty, use default fallback
+                if [[ -z "$BUILD_DEPS" ]]; then
+                    BUILD_DEPS="debhelper-compat (= 13)"
                 fi
+            else
+                BUILD_DEPS="debhelper-compat (= 13)"
             fi
             
             cat > "$WORK_DIR/$PACKAGE.dsc" << EOF
@@ -774,16 +810,29 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
             TARBALL_SIZE=$(stat -c%s "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null || stat -f%z "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null)
             TARBALL_MD5=$(md5sum "$WORK_DIR/$COMBINED_TARBALL" | cut -d' ' -f1)
             
-            BUILD_DEPS="debhelper-compat (= 13)"
-            if [[ -f "distro/debian/$PACKAGE/debian/control" ]]; then
-                CONTROL_DEPS=$(sed -n '/^Build-Depends:/,/^[A-Z]/p' "distro/debian/$PACKAGE/debian/control" | \
-                    sed '/^Build-Depends:/s/^Build-Depends: *//' | \
-                    sed '/^[A-Z]/d' | \
-                    tr '\n' ' ' | \
-                    sed 's/^[[:space:]]*//;s/[[:space:]]*$//;s/[[:space:]]\+/ /g')
-                if [[ -n "$CONTROL_DEPS" && "$CONTROL_DEPS" != "" ]]; then
-                    BUILD_DEPS="$CONTROL_DEPS"
+            # Extract Build-Depends from debian/control using awk for proper multi-line parsing
+            if [[ -f "$REPO_ROOT/distro/debian/$PACKAGE/debian/control" ]]; then
+                BUILD_DEPS=$(awk '
+                    /^Build-Depends:/ {
+                        in_build_deps=1;
+                        sub(/^Build-Depends:[[:space:]]*/, "");
+                        printf "%s", $0;
+                        next;
+                    }
+                    in_build_deps && /^[[:space:]]/ {
+                        sub(/^[[:space:]]+/, " ");
+                        printf "%s", $0;
+                        next;
+                    }
+                    in_build_deps { exit; }
+                ' "$REPO_ROOT/distro/debian/$PACKAGE/debian/control" | sed 's/[[:space:]]\+/ /g; s/^[[:space:]]*//; s/[[:space:]]*$//')
+
+                # If extraction failed or is empty, use default fallback
+                if [[ -z "$BUILD_DEPS" ]]; then
+                    BUILD_DEPS="debhelper-compat (= 13)"
                 fi
+            else
+                BUILD_DEPS="debhelper-compat (= 13)"
             fi
             
             cat > "$WORK_DIR/$PACKAGE.dsc" << EOF

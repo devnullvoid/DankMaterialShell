@@ -9,10 +9,10 @@ Summary:        DankMaterialShell - Material 3 inspired shell (git nightly)
 License:        MIT
 URL:            https://github.com/AvengeMedia/DankMaterialShell
 Source0:        dms-git-source.tar.gz
-Source1:        dms-distropkg-amd64.gz
-Source2:        dms-distropkg-arm64.gz
 
-BuildRequires:  gzip
+BuildRequires:  golang >= 1.22
+BuildRequires:  golang-packaging
+BuildRequires:  git-core
 BuildRequires:  systemd-rpm-macros
 
 Requires:       (quickshell-git or quickshell)
@@ -44,15 +44,40 @@ and fixes. Includes pre-built dms CLI binary and QML shell files.
 %prep
 %setup -q -n dms-git-source
 
-%ifarch x86_64
-gunzip -c %{SOURCE1} > dms
-%endif
-%ifarch aarch64
-gunzip -c %{SOURCE2} > dms
-%endif
-chmod +x dms
+# Verify vendored Go dependencies exist (vendored by obs-upload.sh before packaging)
+# OBS build environment has no network access
+test -d core/vendor || (echo "ERROR: Go vendor directory missing!" && exit 1)
 
 %build
+# Create Go cache directories (OBS build env may have restricted HOME)
+export HOME=%{_builddir}/go-home
+export GOCACHE=%{_builddir}/go-cache
+export GOMODCACHE=%{_builddir}/go-mod
+mkdir -p $HOME $GOCACHE $GOMODCACHE
+
+# OBS has no network access, so use local toolchain only
+export GOTOOLCHAIN=local
+
+# Patch go.mod to use base Go version (e.g., go 1.24 instead of go 1.24.6)
+sed -i 's/^go 1\.24\.[0-9]*/go 1.24/' core/go.mod
+
+# Extract version info for embedding in binary
+VERSION="%{version}"
+COMMIT=$(echo "%{version}" | grep -oP '(?<=git)[0-9]+\.[a-f0-9]+' | cut -d. -f2 | head -c8 || echo "unknown")
+
+# Build dms-cli from source using vendored dependencies
+# Architecture mapping: RPM x86_64/aarch64 -> Makefile amd64/arm64
+cd core
+%ifarch x86_64
+make GOFLAGS="-mod=vendor" dist ARCH=amd64 VERSION="$VERSION" COMMIT="$COMMIT"
+mv bin/dms-linux-amd64 ../dms
+%endif
+%ifarch aarch64
+make GOFLAGS="-mod=vendor" dist ARCH=arm64 VERSION="$VERSION" COMMIT="$COMMIT"
+mv bin/dms-linux-arm64 ../dms
+%endif
+cd ..
+chmod +x dms
 
 %install
 install -Dm755 dms %{buildroot}%{_bindir}/dms
