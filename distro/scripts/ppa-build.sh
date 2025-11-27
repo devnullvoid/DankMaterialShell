@@ -296,6 +296,30 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
         # Now clone to source directory (without .git for inclusion in package)
         rm -rf "$SOURCE_DIR"
         cp -r "$TEMP_CLONE" "$SOURCE_DIR"
+
+        # Save version info for dms-git build process
+        if [ "$PACKAGE_NAME" = "dms-git" ]; then
+            info "Saving version info to .dms-version for build process..."
+            echo "VERSION=${UPSTREAM_VERSION}+git${GIT_COMMIT_COUNT}.${GIT_COMMIT_HASH}" > "$SOURCE_DIR/.dms-version"
+            echo "COMMIT=${GIT_COMMIT_HASH}" >> "$SOURCE_DIR/.dms-version"
+            success "Version info saved: ${UPSTREAM_VERSION}+git${GIT_COMMIT_COUNT}.${GIT_COMMIT_HASH}"
+
+            # Vendor Go dependencies (Launchpad has no internet access)
+            info "Vendoring Go dependencies for offline build..."
+            cd "$SOURCE_DIR/core"
+
+            # Create vendor directory with all dependencies
+            go mod vendor
+
+            if [ ! -d "vendor" ]; then
+                error "Failed to vendor Go dependencies"
+                exit 1
+            fi
+
+            success "Go dependencies vendored successfully"
+            cd "$PACKAGE_DIR"
+        fi
+
         rm -rf "$SOURCE_DIR/.git"
         rm -rf "$TEMP_CLONE"
 
@@ -349,21 +373,6 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
             fi
         fi
 
-        # Download pre-built binary for dms-git
-        # dms-git uses latest release binary with git master QML files
-        if [ "$PACKAGE_NAME" = "dms-git" ]; then
-            info "Downloading latest release binary for dms-git..."
-            if [ ! -f "dms-distropkg-amd64.gz" ]; then
-                if wget -O dms-distropkg-amd64.gz "https://github.com/AvengeMedia/DankMaterialShell/releases/latest/download/dms-distropkg-amd64.gz"; then
-                    success "Latest release binary downloaded"
-                else
-                    error "Failed to download dms-distropkg-amd64.gz"
-                    exit 1
-                fi
-            else
-                info "Release binary already downloaded"
-            fi
-        fi
 
         success "Source prepared for packaging"
     else

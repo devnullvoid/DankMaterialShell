@@ -218,12 +218,7 @@ if [ "$KEEP_BUILDS" = "false" ]; then
             fi
             ;;
         dms-git)
-            # Remove downloaded binary
-            if [ -f "$PACKAGE_DIR/dms-distropkg-amd64.gz" ]; then
-                rm -f "$PACKAGE_DIR/dms-distropkg-amd64.gz"
-                REMOVED=$((REMOVED + 1))
-            fi
-            # Remove git source directory
+            # Remove git source directory binary
             if [ -d "$PACKAGE_DIR/dms-git-repo" ]; then
                 rm -rf "$PACKAGE_DIR/dms-git-repo"
                 REMOVED=$((REMOVED + 1))
