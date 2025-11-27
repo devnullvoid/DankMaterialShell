@@ -691,9 +691,9 @@ Item {
                                             StyledText {
                                                 text: {
                                                     if (parent.currentMode) {
-                                                        return parent.currentMode.width + "×" + parent.currentMode.height + "@" + Math.round(parent.currentMode.refresh / 1000) + "Hz"
+                                                        return parent.currentMode.width + "×" + parent.currentMode.height + "@" + Math.round(parent.currentMode.refresh / 1000) + "Hz";
                                                     }
-                                                    return modelData.width + "×" + modelData.height
+                                                    return modelData.width + "×" + modelData.height;
                                                 }
                                                 font.pixelSize: Theme.fontSizeSmall
                                                 color: Theme.surfaceVariantText
@@ -870,17 +870,26 @@ Item {
                                                         currentPrefs = [];
                                                     }
 
+                                                    const screenModelIndex = SettingsData.getScreenModelIndex(screenData);
+
                                                     var newPrefs = currentPrefs.filter(pref => {
                                                         if (typeof pref === "string")
                                                             return false;
+                                                        if (pref.modelIndex !== undefined && screenModelIndex >= 0) {
+                                                            return !(pref.model === screenData.model && pref.modelIndex === screenModelIndex);
+                                                        }
                                                         return pref.name !== screenData.name || pref.model !== screenData.model;
                                                     });
 
                                                     if (checked) {
-                                                        newPrefs.push({
+                                                        const prefObj = {
                                                             name: screenData.name,
                                                             model: screenData.model || ""
-                                                        });
+                                                        };
+                                                        if (screenModelIndex >= 0) {
+                                                            prefObj.modelIndex = screenModelIndex;
+                                                        }
+                                                        newPrefs.push(prefObj);
                                                     }
 
                                                     displaysTab.setScreenPreferences(componentId, newPrefs);

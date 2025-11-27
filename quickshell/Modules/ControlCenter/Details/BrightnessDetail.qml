@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -16,10 +17,16 @@ Rectangle {
     property string currentDeviceName: ""
 
     function getScreenPinKey() {
+        if (!screenName)
+            return "";
+        const screen = Quickshell.screens.find(s => s.name === screenName);
+        if (screen) {
+            return SettingsData.getScreenDisplayName(screen);
+        }
         if (SettingsData.displayNameMode === "model" && screenModel && screenModel.length > 0) {
             return screenModel;
         }
-        return screenName || "";
+        return screenName;
     }
 
     function resolveDeviceName() {

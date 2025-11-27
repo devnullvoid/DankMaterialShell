@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
@@ -79,10 +80,16 @@ BasePill {
     }
 
     function getScreenPinKey() {
+        if (!root.screenName)
+            return "";
+        const screen = Quickshell.screens.find(s => s.name === root.screenName);
+        if (screen) {
+            return SettingsData.getScreenDisplayName(screen);
+        }
         if (SettingsData.displayNameMode === "model" && root.screenModel && root.screenModel.length > 0) {
             return root.screenModel;
         }
-        return root.screenName || "";
+        return root.screenName;
     }
 
     function getPinnedBrightnessDevice() {

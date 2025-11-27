@@ -1486,17 +1486,26 @@ Item {
                                             currentPrefs = [];
                                         }
 
+                                        const screenModelIndex = SettingsData.getScreenModelIndex(screenData);
+
                                         let newPrefs = currentPrefs.filter(pref => {
                                             if (typeof pref === "string")
                                                 return false;
+                                            if (pref.modelIndex !== undefined && screenModelIndex >= 0) {
+                                                return !(pref.model === screenData.model && pref.modelIndex === screenModelIndex);
+                                            }
                                             return pref.name !== screenData.name || pref.model !== screenData.model;
                                         });
 
                                         if (checked) {
-                                            newPrefs.push({
+                                            const prefObj = {
                                                 name: screenData.name,
                                                 model: screenData.model || ""
-                                            });
+                                            };
+                                            if (screenModelIndex >= 0) {
+                                                prefObj.modelIndex = screenModelIndex;
+                                            }
+                                            newPrefs.push(prefObj);
                                         }
 
                                         dankBarTab.setBarScreenPreferences(selectedBarId, newPrefs);
