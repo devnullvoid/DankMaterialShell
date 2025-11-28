@@ -38,7 +38,7 @@ Item {
         }
 
         WeatherService.addRef();
-        UserInfoService.refreshUserInfo();
+        UserInfoService.getUserInfo();
 
         if (CompositorService.isHyprland) {
             updateHyprlandLayout();

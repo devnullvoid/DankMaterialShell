@@ -22,7 +22,6 @@ FloatingWindow {
             return;
         }
         visible = true;
-        UserInfoService.getUptime();
     }
 
     function hide() {

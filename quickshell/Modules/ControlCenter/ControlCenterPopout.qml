@@ -84,11 +84,8 @@ DankPopout {
         if (shouldBeVisible) {
             collapseAll();
             Qt.callLater(() => {
-                if (NetworkService.activeService) {
+                if (NetworkService.activeService)
                     NetworkService.activeService.autoRefreshEnabled = NetworkService.wifiEnabled;
-                }
-                if (UserInfoService)
-                    UserInfoService.getUptime();
             });
         } else {
             Qt.callLater(() => {
