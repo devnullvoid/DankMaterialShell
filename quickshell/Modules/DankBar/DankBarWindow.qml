@@ -621,7 +621,7 @@ PanelWindow {
                     DankBarContent {
                         id: topBarContent
                         barWindow: barWindow
-                        rootWindow: rootWindow
+                        rootWindow: barWindow.rootWindow
                         barConfig: barWindow.barConfig
                         leftWidgetsModel: barWindow.leftWidgetsModel
                         centerWidgetsModel: barWindow.centerWidgetsModel
