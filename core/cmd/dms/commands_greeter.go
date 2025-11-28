@@ -322,11 +322,74 @@ func enableGreeter() error {
 	}
 
 	fmt.Printf("✓ Updated greetd configuration to use %s\n", selectedCompositor)
+
+	// Check and set graphical.target as default
+	getDefaultCmd := exec.Command("systemctl", "get-default")
+	currentTarget, err := getDefaultCmd.Output()
+	if err != nil {
+		fmt.Println("⚠ Warning: Could not detect current default systemd target")
+	} else {
+		currentTargetStr := strings.TrimSpace(string(currentTarget))
+		if currentTargetStr != "graphical.target" {
+			fmt.Printf("\nSetting graphical.target as default (current: %s)...\n", currentTargetStr)
+			setDefaultCmd := exec.Command("sudo", "systemctl", "set-default", "graphical.target")
+			setDefaultCmd.Stdout = os.Stdout
+			setDefaultCmd.Stderr = os.Stderr
+			if err := setDefaultCmd.Run(); err != nil {
+				fmt.Println("⚠ Warning: Failed to set graphical.target as default")
+				fmt.Println("  Greeter may not start on boot. Run manually:")
+				fmt.Println("  sudo systemctl set-default graphical.target")
+			} else {
+				fmt.Println("✓ Set graphical.target as default")
+			}
+		} else {
+			fmt.Println("✓ Default target already set to graphical.target")
+		}
+	}
+
+	// Check for conflicting display managers and disable them
+	fmt.Println("\nChecking for conflicting display managers...")
+	conflictingDMs := []string{"gdm", "lightdm", "sddm"}
+	disabledAny := false
+
+	for _, dm := range conflictingDMs {
+		checkCmd := exec.Command("systemctl", "is-enabled", dm)
+		output, err := checkCmd.Output()
+		if err == nil && strings.TrimSpace(string(output)) == "enabled" {
+			fmt.Printf("⚠ Found enabled display manager: %s\n", dm)
+			fmt.Printf("  Disabling %s...\n", dm)
+			disableCmd := exec.Command("sudo", "systemctl", "disable", dm)
+			disableCmd.Stdout = os.Stdout
+			disableCmd.Stderr = os.Stderr
+			if err := disableCmd.Run(); err != nil {
+				fmt.Printf("  ⚠ Warning: Failed to disable %s\n", dm)
+			} else {
+				fmt.Printf("  ✓ Disabled %s\n", dm)
+				disabledAny = true
+			}
+		}
+	}
+
+	if !disabledAny {
+		fmt.Println("✓ No conflicting display managers found")
+	}
+
+	// Enable greetd service
+	fmt.Println("\nEnabling greetd service...")
+	enableCmd := exec.Command("sudo", "systemctl", "enable", "greetd")
+	enableCmd.Stdout = os.Stdout
+	enableCmd.Stderr = os.Stderr
+	if err := enableCmd.Run(); err != nil {
+		fmt.Println("⚠ Warning: Failed to enable greetd service")
+		fmt.Println("  Run manually: sudo systemctl enable greetd")
+	} else {
+		fmt.Println("✓ Enabled greetd service")
+	}
+
 	fmt.Println("\n=== Enable Complete ===")
-	fmt.Println("\nTo start the greeter, run:")
+	fmt.Println("\nTo start the greeter now, run:")
 	fmt.Println("  sudo systemctl start greetd")
-	fmt.Println("\nTo enable on boot, run:")
-	fmt.Println("  sudo systemctl enable --now greetd")
+	fmt.Println("\nOr reboot to see the greeter at boot time.")
 
 	return nil
 }
