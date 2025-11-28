@@ -21,6 +21,22 @@ Singleton {
     property bool isLightMode: false
     property bool doNotDisturb: false
     property bool isSwitchingMode: false
+    property bool suppressOSD: true
+
+    Timer {
+        id: osdSuppressTimer
+        interval: 2000
+        running: true
+        onTriggered: root.suppressOSD = false
+    }
+
+    Connections {
+        target: SessionService
+        function onSessionResumed() {
+            root.suppressOSD = true;
+            osdSuppressTimer.restart();
+        }
+    }
 
     property string wallpaperPath: ""
     property bool perMonitorWallpaper: false
