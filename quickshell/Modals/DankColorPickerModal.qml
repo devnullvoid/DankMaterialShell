@@ -45,8 +45,7 @@ DankModal {
 
     function hideInstant() {
         onColorSelectedCallback = null;
-        shouldBeVisible = false;
-        visible = false;
+        instantClose();
     }
 
     onColorSelected: color => {
@@ -81,23 +80,54 @@ DankModal {
         selectedColor = currentColor;
     }
 
-    function pickColorFromScreen() {
-        hideInstant();
-        Proc.runCommand("hyprpicker", ["hyprpicker", "--format=hex"], (output, errorCode) => {
-            if (errorCode !== 0) {
-                console.warn("hyprpicker exited with code:", errorCode);
+    function applyPickedColor(colorStr) {
+        if (colorStr.length < 7 || !colorStr.startsWith('#'))
+            return;
+        const pickedColor = Qt.color(colorStr);
+        root.selectedColor = pickedColor;
+        root.currentColor = pickedColor;
+        root.updateFromColor(pickedColor);
+        copyColorToClipboard(colorStr);
+        root.show();
+    }
+
+    function runNiriPicker() {
+        Proc.runCommand("niri-pick-color", ["niri", "msg", "pick-color"], (output, exitCode) => {
+            if (exitCode !== 0) {
+                console.warn("niri msg pick-color exited with code:", exitCode);
                 root.show();
                 return;
             }
-            const colorStr = output.trim();
-            if (colorStr.length >= 7 && colorStr.startsWith('#')) {
-                const pickedColor = Qt.color(colorStr);
-                root.selectedColor = pickedColor;
-                root.currentColor = pickedColor;
-                root.updateFromColor(pickedColor);
-                copyColorToClipboard(colorStr);
+            const hexMatch = output.match(/Hex:\s*(#[0-9A-Fa-f]{6})/);
+            if (hexMatch) {
+                applyPickedColor(hexMatch[1]);
+            } else {
+                console.warn("Failed to parse niri pick-color output:", output);
                 root.show();
             }
+        });
+    }
+
+    function pickColorFromScreen() {
+        hideInstant();
+        Proc.runCommand("check-hyprpicker", ["which", "hyprpicker"], (output, exitCode) => {
+            if (exitCode === 0) {
+                Proc.runCommand("hyprpicker", ["hyprpicker", "--format=hex"], (hpOutput, hpCode) => {
+                    if (hpCode !== 0) {
+                        console.warn("hyprpicker exited with code:", hpCode);
+                        root.show();
+                        return;
+                    }
+                    applyPickedColor(hpOutput.trim());
+                });
+                return;
+            }
+            if (CompositorService.isNiri) {
+                runNiriPicker();
+                return;
+            }
+            console.warn("No color picker available");
+            root.show();
         });
     }
 

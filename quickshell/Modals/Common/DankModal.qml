@@ -51,6 +51,7 @@ Item {
     signal dialogClosed
     signal backgroundClicked
 
+    property bool animationsEnabled: true
     readonly property bool useBackgroundWindow: true
 
     function open() {
@@ -73,6 +74,18 @@ Item {
         shouldBeVisible = false;
         shouldHaveFocus = false;
         closeTimer.restart();
+    }
+
+    function instantClose() {
+        animationsEnabled = false;
+        shouldBeVisible = false;
+        shouldHaveFocus = false;
+        closeTimer.stop();
+        contentWindow.visible = false;
+        if (useBackgroundWindow)
+            backgroundWindow.visible = false;
+        dialogClosed();
+        Qt.callLater(() => animationsEnabled = true);
     }
 
     function toggle() {
@@ -180,6 +193,7 @@ Item {
             visible: root.showBackground && SettingsData.modalDarkenBackground
 
             Behavior on opacity {
+                enabled: root.animationsEnabled
                 NumberAnimation {
                     duration: root.animationDuration
                     easing.type: Easing.BezierSpline
@@ -272,6 +286,7 @@ Item {
             }
 
             Behavior on animX {
+                enabled: root.animationsEnabled
                 NumberAnimation {
                     duration: root.animationDuration
                     easing.type: Easing.BezierSpline
@@ -280,6 +295,7 @@ Item {
             }
 
             Behavior on animY {
+                enabled: root.animationsEnabled
                 NumberAnimation {
                     duration: root.animationDuration
                     easing.type: Easing.BezierSpline
@@ -288,6 +304,7 @@ Item {
             }
 
             Behavior on scaleValue {
+                enabled: root.animationsEnabled
                 NumberAnimation {
                     duration: root.animationDuration
                     easing.type: Easing.BezierSpline
@@ -312,6 +329,7 @@ Item {
                     y: Theme.snap(modalContainer.animY, root.dpr) + (parent.height - height) * (1 - modalContainer.scaleValue) * 0.5
 
                     Behavior on opacity {
+                        enabled: root.animationsEnabled
                         NumberAnimation {
                             duration: animationDuration
                             easing.type: Easing.BezierSpline
