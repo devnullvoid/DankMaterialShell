@@ -25,6 +25,7 @@ Requires(post): /usr/sbin/useradd
 Requires(post): /usr/sbin/groupadd
 
 Recommends:     policycoreutils-python-utils
+Recommends:     setfacl
 Suggests:       niri
 Suggests:       hyprland
 Suggests:       sway
