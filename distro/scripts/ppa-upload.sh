@@ -224,6 +224,13 @@ if [ "$KEEP_BUILDS" = "false" ]; then
                 REMOVED=$((REMOVED + 1))
             fi
             ;;
+        dms-greeter)
+            # Remove downloaded source
+            if [ -f "$PACKAGE_DIR/dms-greeter-source.tar.gz" ]; then
+                rm -f "$PACKAGE_DIR/dms-greeter-source.tar.gz"
+                REMOVED=$((REMOVED + 1))
+            fi
+            ;;
     esac
 
     if [ $REMOVED -gt 0 ]; then

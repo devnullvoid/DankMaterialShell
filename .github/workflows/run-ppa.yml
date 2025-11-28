@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: 'Package to upload (dms, dms-git, or all)'
+        description: 'Package to upload (dms, dms-git, dms-greeter, or all)'
         required: false
         default: 'dms-git'
       rebuild_release:
@@ -83,6 +83,12 @@ jobs:
             echo "Uploading dms-git to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-git" dms-git questing
+            
+            echo ""
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "Uploading dms-greeter to PPA..."
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-greeter" danklinux questing
           else
             PPA_NAME="$PACKAGES"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
@@ -101,10 +107,13 @@ jobs:
           if [[ "$PACKAGES" == "all" ]]; then
             echo "- **PPA dms**: https://launchpad.net/~avengemedia/+archive/ubuntu/dms/+packages" >> $GITHUB_STEP_SUMMARY
             echo "- **PPA dms-git**: https://launchpad.net/~avengemedia/+archive/ubuntu/dms-git/+packages" >> $GITHUB_STEP_SUMMARY
+            echo "- **PPA danklinux**: https://launchpad.net/~avengemedia/+archive/ubuntu/danklinux/+packages" >> $GITHUB_STEP_SUMMARY
           elif [[ "$PACKAGES" == "dms" ]]; then
             echo "- **PPA**: https://launchpad.net/~avengemedia/+archive/ubuntu/dms/+packages" >> $GITHUB_STEP_SUMMARY
           elif [[ "$PACKAGES" == "dms-git" ]]; then
             echo "- **PPA**: https://launchpad.net/~avengemedia/+archive/ubuntu/dms-git/+packages" >> $GITHUB_STEP_SUMMARY
+          elif [[ "$PACKAGES" == "dms-greeter" ]]; then
+            echo "- **PPA**: https://launchpad.net/~avengemedia/+archive/ubuntu/danklinux/+packages" >> $GITHUB_STEP_SUMMARY
           fi
           
           if [[ -n "${{ steps.packages.outputs.version }}" ]]; then

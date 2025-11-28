@@ -182,8 +182,23 @@ case "$PACKAGE_NAME" in
             fi
         fi
         ;;
+    dms-greeter)
+        GIT_REPO="AvengeMedia/DankMaterialShell"
+        info "Downloading source for dms-greeter..."
+        VERSION=$(dpkg-parsechangelog -S Version | sed 's/-[^-]*$//' | sed 's/ppa[0-9]*$//')
+
+        if [ ! -f "dms-greeter-source.tar.gz" ]; then
+            info "Downloading dms-greeter source..."
+            if wget -O dms-greeter-source.tar.gz "https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v${VERSION}.tar.gz"; then
+                success "source tarball downloaded"
+            else
+                error "Failed to download dms-greeter-source.tar.gz"
+                exit 1
+            fi
+        fi
+        ;;
     danksearch)
-        # danksearch uses pre-built binary from releases, like dgop
+        # danksearch uses pre-built binary from releases
         GIT_REPO="AvengeMedia/danksearch"
         ;;
     dgop)
