@@ -18,6 +18,7 @@ Singleton {
     property string ethernetInterface: ""
     property bool ethernetConnected: false
     property string ethernetConnectionUuid: ""
+    property var ethernetDevices: []
 
     property var wiredConnections: []
 
@@ -116,7 +117,7 @@ Singleton {
 
     signal networksUpdated
     signal connectionChanged
-    signal credentialsNeeded(string token, string ssid, string setting, var fields, var hints, string reason, string connType, string connName, string vpnService)
+    signal credentialsNeeded(string token, string ssid, string setting, var fields, var hints, string reason, string connType, string connName, string vpnService, var fieldsInfo)
 
     readonly property string socketPath: Quickshell.env("DMS_SOCKET")
 
@@ -197,8 +198,9 @@ Singleton {
         const connType = data.connType || "";
         const connName = data.name || data.connectionId || "";
         const vpnService = data.vpnService || "";
+        const fInfo = data.fieldsInfo || [];
 
-        credentialsNeeded(credentialsToken, credentialsSSID, credentialsSetting, credentialsFields, credentialsHints, credentialsReason, connType, connName, vpnService);
+        credentialsNeeded(credentialsToken, credentialsSSID, credentialsSetting, credentialsFields, credentialsHints, credentialsReason, connType, connName, vpnService, fInfo);
     }
 
     function addRef() {
@@ -244,6 +246,7 @@ Singleton {
         ethernetInterface = state.ethernetDevice || "";
         ethernetConnected = state.ethernetConnected || false;
         ethernetConnectionUuid = state.ethernetConnectionUuid || "";
+        ethernetDevices = state.ethernetDevices || [];
 
         wiredConnections = state.wiredConnections || [];
 
@@ -618,12 +621,20 @@ Singleton {
         if (!networkAvailable)
             return;
         if (type === "ethernet") {
-            if (networkStatus === "ethernet") {
+            if (ethernetConnected) {
                 DMSService.sendRequest("network.ethernet.disconnect", null, null);
             } else {
                 DMSService.sendRequest("network.ethernet.connect", null, null);
             }
         }
+    }
+
+    function disconnectEthernetDevice(deviceName) {
+        if (!networkAvailable)
+            return;
+        DMSService.sendRequest("network.ethernet.disconnect", {
+            device: deviceName
+        }, null);
     }
 
     function startAutoScan() {

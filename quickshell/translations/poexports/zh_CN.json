@@ -1,12 +1,18 @@
 {
+  "%1 adapter(s), none connected": {
+    "%1 adapter(s), none connected": ""
+  },
   "%1 characters": {
     "%1 characters": "%1个字符"
   },
+  "%1 connected": {
+    "%1 connected": ""
+  },
   "%1 display(s)": {
-    "%1 display(s)": ""
+    "%1 display(s)": "%1 显示"
   },
   "%1 widgets": {
-    "%1 widgets": ""
+    "%1 widgets": "%1 小挂件"
   },
   "(Unnamed)": {
     "(Unnamed)": "(未命名)"
@@ -50,17 +56,35 @@
   "Actions": {
     "Actions": "操作"
   },
+  "Activate": {
+    "Activate": ""
+  },
+  "Active": {
+    "Active": ""
+  },
+  "Active: ": {
+    "Active: ": ""
+  },
+  "Active: None": {
+    "Active: None": ""
+  },
+  "Adapters": {
+    "Adapters": ""
+  },
   "Add": {
     "Add": "添加"
   },
   "Add Bar": {
-    "Add Bar": ""
+    "Add Bar": "添加状态栏"
   },
   "Add Widget": {
     "Add Widget": "添加小组件"
   },
   "Add Widget to ": {
     "Add Widget to ": "添加小组件到"
+  },
+  "Add Widget to %1 Section": {
+    "Add Widget to %1 Section": ""
   },
   "Add a VPN in NetworkManager": {
     "Add a VPN in NetworkManager": "在 NetworkManager 中添加 VPN"
@@ -91,6 +115,9 @@
   },
   "Animation Speed": {
     "Animation Speed": "动画速度"
+  },
+  "Anonymous Identity": {
+    "Anonymous Identity": ""
   },
   "Anonymous Identity (optional)": {
     "Anonymous Identity (optional)": "匿名身份（可选）"
@@ -134,6 +161,9 @@
   "Are you sure you want to suspend the system?": {
     "Are you sure you want to suspend the system?": "你确定要挂起系统吗？"
   },
+  "Audio": {
+    "Audio": ""
+  },
   "Audio Codec": {
     "Audio Codec": "音频编解码器"
   },
@@ -149,8 +179,17 @@
   "Audio Output Devices (": {
     "Audio Output Devices (": "音频输出设备 ("
   },
+  "Auth": {
+    "Auth": ""
+  },
+  "Auth Type": {
+    "Auth Type": ""
+  },
   "Authenticate": {
     "Authenticate": "认证"
+  },
+  "Authentication": {
+    "Authentication": ""
   },
   "Authentication Required": {
     "Authentication Required": "需要认证"
@@ -167,6 +206,9 @@
   "Authorize service for ": {
     "Authorize service for ": "授权服务 "
   },
+  "Auto": {
+    "Auto": ""
+  },
   "Auto Location": {
     "Auto Location": "自动定位"
   },
@@ -181,6 +223,9 @@
   },
   "Auto-saving...": {
     "Auto-saving...": "自动保存中..."
+  },
+  "Autoconnect": {
+    "Autoconnect": ""
   },
   "Autoconnect disabled": {
     "Autoconnect disabled": "已禁用自动连接"
@@ -224,23 +269,32 @@
   "Available Layouts": {
     "Available Layouts": "可用布局"
   },
+  "Available Networks": {
+    "Available Networks": ""
+  },
   "Available Plugins": {
     "Available Plugins": "可用插件"
   },
   "Available Screens (": {
     "Available Screens (": "可用显示器 ("
   },
+  "BSSID": {
+    "BSSID": ""
+  },
   "Back": {
     "Back": "返回"
+  },
+  "Backend": {
+    "Backend": ""
   },
   "Balanced palette with focused accents (default).": {
     "Balanced palette with focused accents (default).": "均衡配色，强调重点（默认）"
   },
   "Bar Configurations": {
-    "Bar Configurations": ""
+    "Bar Configurations": "Bar状态栏"
   },
   "Bar Transparency": {
-    "Bar Transparency": ""
+    "Bar Transparency": "状态栏透明度"
   },
   "Battery": {
     "Battery": "电池"
@@ -250,6 +304,9 @@
   },
   "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": {
     "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": "将锁屏绑定到来自 loginctl 的 dbus 信号。如使用外部锁屏程序，请禁用此项"
+  },
+  "Bluetooth": {
+    "Bluetooth": ""
   },
   "Bluetooth Icon": {
     "Bluetooth Icon": "蓝牙图标"
@@ -341,17 +398,23 @@
   "Center Tiling": {
     "Center Tiling": "中心平铺"
   },
+  "Certificate Password": {
+    "Certificate Password": ""
+  },
   "Change bar appearance": {
-    "Change bar appearance": ""
+    "Change bar appearance": "更改状态栏外观"
   },
   "Changes:": {
     "Changes:": "更改:"
+  },
+  "Channel": {
+    "Channel": ""
   },
   "Check for system updates": {
     "Check for system updates": "检查系统更新"
   },
   "Choose Color": {
-    "Choose Color": ""
+    "Choose Color": "选择颜色"
   },
   "Choose Launcher Logo Color": {
     "Choose Launcher Logo Color": "设置启动器 Logo 颜色"
@@ -360,7 +423,7 @@
     "Choose icon": "选择图标"
   },
   "Choose the background color for widgets": {
-    "Choose the background color for widgets": ""
+    "Choose the background color for widgets": "选择小组件背景色"
   },
   "Choose the border accent color": {
     "Choose the border accent color": "选择边框强调色"
@@ -368,11 +431,17 @@
   "Choose the logo displayed on the launcher button in DankBar": {
     "Choose the logo displayed on the launcher button in DankBar": "选择在 Dank Bar 启动器按钮上显示的 Logo"
   },
+  "Choose the widget outline accent color": {
+    "Choose the widget outline accent color": ""
+  },
   "Choose where notification popups appear on screen": {
     "Choose where notification popups appear on screen": "设置通知弹窗的出现位置"
   },
   "Choose where on-screen displays appear on screen": {
     "Choose where on-screen displays appear on screen": "选择OSD在屏幕上出现的位置"
+  },
+  "Cipher": {
+    "Cipher": ""
   },
   "Clear": {
     "Clear": "清除"
@@ -382,6 +451,9 @@
   },
   "Clear All History?": {
     "Clear All History?": "清空历史记录？"
+  },
+  "Click Import to add a .ovpn or .conf": {
+    "Click Import to add a .ovpn or .conf": ""
   },
   "Clipboard History": {
     "Clipboard History": "剪切板历史记录"
@@ -399,7 +471,7 @@
     "Close": "关闭"
   },
   "Close Overview on Launch": {
-    "Close Overview on Launch": ""
+    "Close Overview on Launch": "在启动时关闭概览"
   },
   "Color Override": {
     "Color Override": "覆盖颜色"
@@ -469,6 +541,9 @@
   },
   "Connect to Wi-Fi": {
     "Connect to Wi-Fi": "连接到Wi-Fi"
+  },
+  "Connected": {
+    "Connected": ""
   },
   "Connected Displays": {
     "Connected Displays": "已连接显示器"
@@ -617,6 +692,12 @@
   "Del: Clear • Shift+Del: Clear All • 1-9: Actions • F10: Help • Esc: Close": {
     "Del: Clear • Shift+Del: Clear All • 1-9: Actions • F10: Help • Esc: Close": "Del: 清除 • Shift+Del: 清空 • 1-9: 操作 • F10: 帮助 • Esc: 关闭"
   },
+  "Delete": {
+    "Delete": ""
+  },
+  "Delete VPN": {
+    "Delete VPN": ""
+  },
   "Derives colors that closely match the underlying image.": {
     "Derives colors that closely match the underlying image.": "提取与壁纸高度匹配的颜色。"
   },
@@ -641,6 +722,9 @@
   "Disconnect": {
     "Disconnect": "断开连接"
   },
+  "Disconnected": {
+    "Disconnected": ""
+  },
   "Disconnected from WiFi": {
     "Disconnected from WiFi": "Wi-Fi 已断开"
   },
@@ -654,7 +738,7 @@
     "Dismiss": "忽略"
   },
   "Display Assignment": {
-    "Display Assignment": ""
+    "Display Assignment": "显示布局"
   },
   "Display Name Format": {
     "Display Name Format": "显示名称格式"
@@ -673,6 +757,9 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "显示当前聚焦应用的标题"
+  },
+  "Display only workspaces that contain windows": {
+    "Display only workspaces that contain windows": ""
   },
   "Display power menu actions in a grid instead of a list": {
     "Display power menu actions in a grid instead of a list": "通过网格而非列表显示电源菜单"
@@ -716,6 +803,9 @@
   "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": {
     "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": "拖动组件以在各区块内重新排序。点击眼睛图标可隐藏/显示组件（保留间距），点击 X 可彻底移除。"
   },
+  "Driver": {
+    "Driver": ""
+  },
   "Duplicate Wallpaper with Blur": {
     "Duplicate Wallpaper with Blur": "带模糊效果的壁纸复本"
   },
@@ -738,7 +828,7 @@
     "Enable Autoconnect": "启用自动连接"
   },
   "Enable Bar": {
-    "Enable Bar": ""
+    "Enable Bar": "启用状态栏"
   },
   "Enable GPU Temperature": {
     "Enable GPU Temperature": "显示 GPU 温度"
@@ -800,8 +890,14 @@
   "Enter this passkey on ": {
     "Enter this passkey on ": "在该处输入此通行密钥 "
   },
+  "Enterprise": {
+    "Enterprise": ""
+  },
   "Error": {
     "Error": "错误"
+  },
+  "Ethernet": {
+    "Ethernet": ""
   },
   "Exclusive Zone Offset": {
     "Exclusive Zone Offset": "独占区域偏移量"
@@ -811,6 +907,12 @@
   },
   "F1/I: Toggle • F10: Help": {
     "F1/I: Toggle • F10: Help": "F1/I: 切换 • F10: 帮助"
+  },
+  "Fade grace period": {
+    "Fade grace period": ""
+  },
+  "Fade to lock screen": {
+    "Fade to lock screen": ""
   },
   "Failed to activate configuration": {
     "Failed to activate configuration": "无法应用配置"
@@ -827,6 +929,9 @@
   "Failed to connect to ": {
     "Failed to connect to ": "无法连接至 "
   },
+  "Failed to delete VPN": {
+    "Failed to delete VPN": ""
+  },
   "Failed to disconnect VPN": {
     "Failed to disconnect VPN": "断开 VPN 失败"
   },
@@ -838,6 +943,12 @@
   },
   "Failed to enable WiFi": {
     "Failed to enable WiFi": "无法启用 Wi-Fi"
+  },
+  "Failed to import VPN": {
+    "Failed to import VPN": ""
+  },
+  "Failed to load VPN config": {
+    "Failed to load VPN config": ""
   },
   "Failed to pause printer": {
     "Failed to pause printer": "无法暂停打印机"
@@ -856,6 +967,9 @@
   },
   "Failed to start connection to ": {
     "Failed to start connection to ": "无法启动连接至 "
+  },
+  "Failed to update VPN": {
+    "Failed to update VPN": ""
   },
   "Failed to update autoconnect": {
     "Failed to update autoconnect": "无法更新自动连接"
@@ -899,6 +1013,9 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "强制终端应用使用暗色"
   },
+  "Forget": {
+    "Forget": ""
+  },
   "Forget Device": {
     "Forget Device": "取消配对"
   },
@@ -910,6 +1027,9 @@
   },
   "Format Legend": {
     "Format Legend": "参考格式"
+  },
+  "Frequency": {
+    "Frequency": ""
   },
   "Fun": {
     "Fun": "娱乐"
@@ -943,6 +1063,9 @@
   },
   "Goth Corners": {
     "Goth Corners": "哥特风格圆角"
+  },
+  "Gradually fade the screen before locking with a configurable grace period": {
+    "Gradually fade the screen before locking with a configurable grace period": ""
   },
   "Graphics": {
     "Graphics": "图形"
@@ -986,6 +1109,18 @@
   "High-fidelity palette that preserves source hues.": {
     "High-fidelity palette that preserves source hues.": "高保真配色，保留原始色调。"
   },
+  "Hold Duration": {
+    "Hold Duration": ""
+  },
+  "Hold longer to confirm": {
+    "Hold longer to confirm": ""
+  },
+  "Hold to Confirm Power Actions": {
+    "Hold to Confirm Power Actions": ""
+  },
+  "Hold to confirm (%1s)": {
+    "Hold to confirm (%1s)": ""
+  },
   "Hour": {
     "Hour": "小时"
   },
@@ -997,6 +1132,12 @@
   },
   "I Understand": {
     "I Understand": "我明白以上内容"
+  },
+  "IP": {
+    "IP": ""
+  },
+  "IP Address:": {
+    "IP Address:": ""
   },
   "Icon Size": {
     "Icon Size": "图标大小"
@@ -1022,6 +1163,12 @@
   "Image": {
     "Image": "图像"
   },
+  "Import": {
+    "Import": ""
+  },
+  "Import VPN": {
+    "Import VPN": ""
+  },
   "Include Transitions": {
     "Include Transitions": "包含过渡效果"
   },
@@ -1035,7 +1182,7 @@
     "Individual Batteries": "分别显示电池"
   },
   "Individual bar configuration": {
-    "Individual bar configuration": ""
+    "Individual bar configuration": "单栏配置"
   },
   "Inhibit idle timeout when audio or video is playing": {
     "Inhibit idle timeout when audio or video is playing": "在播放音频或视频时，禁止待机超时"
@@ -1045,6 +1192,9 @@
   },
   "Install plugins from the DMS plugin registry": {
     "Install plugins from the DMS plugin registry": "从 DMS 插件库安装插件"
+  },
+  "Interface:": {
+    "Interface:": ""
   },
   "Interlock Open": {
     "Interlock Open": "安全联锁已打开"
@@ -1065,13 +1215,13 @@
     "Jobs: ": "任务： "
   },
   "Keep Awake": {
-    "Keep Awake": ""
+    "Keep Awake": "保持活动"
   },
   "Keep Changes": {
     "Keep Changes": "保持更改"
   },
   "Keeping Awake": {
-    "Keeping Awake": ""
+    "Keeping Awake": "保持活动"
   },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "键盘布局名称"
@@ -1133,6 +1283,9 @@
   "Loading plugins...": {
     "Loading plugins...": "正在加载插件…..."
   },
+  "Loading...": {
+    "Loading...": ""
+  },
   "Location Search": {
     "Location Search": "位置搜索"
   },
@@ -1160,11 +1313,17 @@
   "Low Priority": {
     "Low Priority": "次要通知"
   },
+  "MAC": {
+    "MAC": ""
+  },
+  "MTU": {
+    "MTU": ""
+  },
   "Manage and configure plugins for extending DMS functionality": {
     "Manage and configure plugins for extending DMS functionality": "管理和配置插件以扩展 DMS 功能"
   },
   "Manage up to 4 independent bar configurations. Each bar has its own position, widgets, styling, and display assignment.": {
-    "Manage up to 4 independent bar configurations. Each bar has its own position, widgets, styling, and display assignment.": ""
+    "Manage up to 4 independent bar configurations. Each bar has its own position, widgets, styling, and display assignment.": "至多可管理4个独立的状态栏配置。每个状态栏都有自己的位置、控件、样式和显示布局。"
   },
   "Manual Coordinates": {
     "Manual Coordinates": "手动设置坐标"
@@ -1230,7 +1389,7 @@
     "Media Players (": "媒体播放器 ("
   },
   "Media Volume OSD": {
-    "Media Volume OSD": ""
+    "Media Volume OSD": "媒体音量OSD"
   },
   "Memory": {
     "Memory": "内存"
@@ -1248,13 +1407,16 @@
     "Microphone Mute OSD": "OSD麦克风静音"
   },
   "Middle Section": {
-    "Middle Section": ""
+    "Middle Section": "中间区域"
   },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "围绕单一色调构建的简约配色。"
   },
   "Minute": {
     "Minute": "分钟"
+  },
+  "Mode": {
+    "Mode": ""
   },
   "Mode:": {
     "Mode:": "模式："
@@ -1316,6 +1478,9 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "实时网速显示"
   },
+  "Network Status": {
+    "Network Status": ""
+  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "显示网络下载与上传速度"
   },
@@ -1334,6 +1499,9 @@
   "Night Temperature": {
     "Night Temperature": "夜间色温"
   },
+  "No": {
+    "No": ""
+  },
   "No Active Players": {
     "No Active Players": "没有正在播放的音频"
   },
@@ -1346,11 +1514,17 @@
   "No Media": {
     "No Media": "当前无播放内容"
   },
+  "No VPN profiles": {
+    "No VPN profiles": ""
+  },
   "No VPN profiles found": {
     "No VPN profiles found": "未找到 VPN 配置"
   },
   "No Weather Data Available": {
     "No Weather Data Available": "暂无天气数据"
+  },
+  "No adapters": {
+    "No adapters": ""
   },
   "No clipboard entries found": {
     "No clipboard entries found": "无可用记录"
@@ -1378,6 +1552,9 @@
   },
   "Normal Priority": {
     "Normal Priority": "标准通知"
+  },
+  "Not connected": {
+    "Not connected": ""
   },
   "Notepad": {
     "Notepad": "便签"
@@ -1454,6 +1631,15 @@
   "Other": {
     "Other": "其他"
   },
+  "Outline Color": {
+    "Outline Color": ""
+  },
+  "Outline Opacity": {
+    "Outline Opacity": ""
+  },
+  "Outline Thickness": {
+    "Outline Thickness": ""
+  },
   "Output Area Almost Full": {
     "Output Area Almost Full": "出纸盒即将饱和"
   },
@@ -1466,8 +1652,14 @@
   "Overview": {
     "Overview": "概览"
   },
+  "Overview of your network connections": {
+    "Overview of your network connections": ""
+  },
   "Overwrite": {
     "Overwrite": "覆盖"
+  },
+  "PIN": {
+    "PIN": ""
   },
   "Padding": {
     "Padding": "内边距"
@@ -1532,6 +1724,9 @@
   "Play sounds for system events": {
     "Play sounds for system events": "为系统事件播放声音"
   },
+  "Playback": {
+    "Playback": ""
+  },
   "Plugged In": {
     "Plugged In": "连接电源"
   },
@@ -1583,6 +1778,9 @@
   "Power Profile OSD": {
     "Power Profile OSD": "OSD电源配置"
   },
+  "Preference": {
+    "Preference": ""
+  },
   "Pressure": {
     "Pressure": "气压"
   },
@@ -1598,6 +1796,9 @@
   "Print Server not available": {
     "Print Server not available": "打印服务不可用"
   },
+  "Printer": {
+    "Printer": ""
+  },
   "Printers": {
     "Printers": "打印机"
   },
@@ -1606,6 +1807,9 @@
   },
   "Privacy Indicator": {
     "Privacy Indicator": "隐私指示器"
+  },
+  "Private Key Password": {
+    "Private Key Password": ""
   },
   "Process": {
     "Process": "进程"
@@ -1618,6 +1822,9 @@
   },
   "Profile image is too large. Please use a smaller image.": {
     "Profile image is too large. Please use a smaller image.": "个人资料图片过大，请选择更小的图片。"
+  },
+  "Protocol": {
+    "Protocol": ""
   },
   "Quick access to application launcher": {
     "Quick access to application launcher": "快捷访问应用启动器"
@@ -1636,6 +1843,9 @@
   },
   "Rain Chance": {
     "Rain Chance": "降雨概率"
+  },
+  "Rate": {
+    "Rate": ""
   },
   "Reason": {
     "Reason": "原因"
@@ -1663,6 +1873,9 @@
   },
   "Request confirmation on power off, restart, suspend, hibernate and logout actions": {
     "Request confirmation on power off, restart, suspend, hibernate and logout actions": "关机、重启、挂起、休眠和注销前请求确认"
+  },
+  "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
+    "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": ""
   },
   "Requires DWL compositor": {
     "Requires DWL compositor": "需要 DWL 合成器"
@@ -1722,10 +1935,13 @@
     "Save Notepad File": "保存便签"
   },
   "Save password": {
-    "Save password": ""
+    "Save password": "保存密码"
   },
   "Saved": {
     "Saved": "已保存"
+  },
+  "Saved Configurations": {
+    "Saved Configurations": ""
   },
   "Scale DankBar font sizes independently": {
     "Scale DankBar font sizes independently": "独立调整 Dank Bar 字体缩放"
@@ -1735,6 +1951,9 @@
   },
   "Scan": {
     "Scan": "扫描"
+  },
+  "Scanning...": {
+    "Scanning...": ""
   },
   "Science": {
     "Science": "科学"
@@ -1757,11 +1976,20 @@
   "Search plugins...": {
     "Search plugins...": "搜索插件中..."
   },
+  "Search widgets...": {
+    "Search widgets...": ""
+  },
   "Search...": {
     "Search...": "搜索中..."
   },
   "Searching...": {
     "Searching...": "检索中..."
+  },
+  "Secured": {
+    "Secured": ""
+  },
+  "Security": {
+    "Security": ""
   },
   "Select Launcher Logo": {
     "Select Launcher Logo": "选择启动器Logo"
@@ -1774,6 +2002,9 @@
   },
   "Select a widget to add to the ": {
     "Select a widget to add to the ": "选择一个小组件添加到 "
+  },
+  "Select a widget to add. You can add multiple instances of the same widget if needed.": {
+    "Select a widget to add. You can add multiple instances of the same widget if needed.": ""
   },
   "Select an image file...": {
     "Select an image file...": "选择一张图片..."
@@ -1804,6 +2035,9 @@
   },
   "Separator": {
     "Separator": "分隔符"
+  },
+  "Server": {
+    "Server": ""
   },
   "Set different wallpapers for each connected monitor": {
     "Set different wallpapers for each connected monitor": "分别为各个显示器设置壁纸"
@@ -1837,6 +2071,9 @@
   },
   "Show Log Out": {
     "Show Log Out": "显示注销"
+  },
+  "Show Occupied Workspaces Only": {
+    "Show Occupied Workspaces Only": ""
   },
   "Show Power Actions": {
     "Show Power Actions": "显示电源操作"
@@ -1884,7 +2121,7 @@
     "Show on-screen display when idle inhibitor state changes": "当空闲抑制状态改变时显示OSD"
   },
   "Show on-screen display when media player volume changes": {
-    "Show on-screen display when media player volume changes": ""
+    "Show on-screen display when media player volume changes": "当媒体音量改变时显示OSD"
   },
   "Show on-screen display when microphone is muted/unmuted": {
     "Show on-screen display when microphone is muted/unmuted": "当麦克风静音状态切换时显示OSD"
@@ -1931,6 +2168,12 @@
   "Shutdown": {
     "Shutdown": "关机"
   },
+  "Signal": {
+    "Signal": ""
+  },
+  "Signal:": {
+    "Signal:": ""
+  },
   "Size": {
     "Size": "尺寸"
   },
@@ -1949,6 +2192,9 @@
   "Spacing": {
     "Spacing": "间距"
   },
+  "Speed": {
+    "Speed": ""
+  },
   "Spool Area Full": {
     "Spool Area Full": "打印缓冲区已满"
   },
@@ -1960,6 +2206,9 @@
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "请在这里记录你的笔记..."
+  },
+  "State": {
+    "State": ""
   },
   "Status": {
     "Status": "状态"
@@ -2109,7 +2358,10 @@
     "Toggle top bar visibility manually (can be controlled via IPC)": "手动切换顶栏可见性（可通过 IPC 控制）"
   },
   "Toggle visibility of this bar configuration": {
-    "Toggle visibility of this bar configuration": ""
+    "Toggle visibility of this bar configuration": "显示/隐藏当前状态栏配置"
+  },
+  "Toggling...": {
+    "Toggling...": ""
   },
   "Tomorrow": {
     "Tomorrow": "明日"
@@ -2135,8 +2387,14 @@
   "Turn off monitors after": {
     "Turn off monitors after": "在此时间后关闭显示器"
   },
+  "Unavailable": {
+    "Unavailable": ""
+  },
   "Uninstall Plugin": {
     "Uninstall Plugin": "卸载插件"
+  },
+  "Unknown": {
+    "Unknown": ""
   },
   "Unpin from Dock": {
     "Unpin from Dock": "从程序坞取消固定"
@@ -2225,6 +2483,18 @@
   "VPN Connections": {
     "VPN Connections": "VPN 连接"
   },
+  "VPN Password": {
+    "VPN Password": ""
+  },
+  "VPN configuration updated": {
+    "VPN configuration updated": ""
+  },
+  "VPN deleted": {
+    "VPN deleted": ""
+  },
+  "VPN imported: ": {
+    "VPN imported: ": ""
+  },
   "VPN status and quick connect": {
     "VPN status and quick connect": "VPN 状态与快速连接"
   },
@@ -2264,6 +2534,9 @@
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "音量、亮度和其他系统屏幕显示"
   },
+  "WPA/WPA2": {
+    "WPA/WPA2": ""
+  },
   "Wallpaper": {
     "Wallpaper": "壁纸"
   },
@@ -2291,6 +2564,15 @@
   "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.": {
     "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.": "启用后，应用按字母顺序排序；禁用则按使用频率排序"
   },
+  "Wi-Fi Password": {
+    "Wi-Fi Password": ""
+  },
+  "WiFi": {
+    "WiFi": ""
+  },
+  "WiFi Device": {
+    "WiFi Device": ""
+  },
   "WiFi disabled": {
     "WiFi disabled": "Wi-Fi 已停用"
   },
@@ -2301,19 +2583,22 @@
     "WiFi is off": "Wi-Fi 已关闭"
   },
   "Widget Background Color": {
-    "Widget Background Color": ""
+    "Widget Background Color": "小挂件背景色"
   },
   "Widget Management": {
     "Widget Management": "小组件管理"
   },
+  "Widget Outline": {
+    "Widget Outline": ""
+  },
   "Widget Style": {
-    "Widget Style": ""
+    "Widget Style": "小挂件风格"
   },
   "Widget Styling": {
     "Widget Styling": "小组件样式"
   },
   "Widget Transparency": {
-    "Widget Transparency": ""
+    "Widget Transparency": "小挂件透明度"
   },
   "Widgets": {
     "Widgets": "小组件"
@@ -2336,6 +2621,9 @@
   "Workspace Switcher": {
     "Workspace Switcher": "工作区切换器"
   },
+  "Yes": {
+    "Yes": ""
+  },
   "You have unsaved changes. Save before closing this tab?": {
     "You have unsaved changes. Save before closing this tab?": "检测到未保存的更改，是否在关闭此标签页前保存？"
   },
@@ -2349,10 +2637,10 @@
     "You have unsaved changes. Save before opening a file?": "检测到未保存的更改，是否在打开文件前保存？"
   },
   "custom theme file browser title": {
-    "Select Custom Theme": ""
+    "Select Custom Theme": "选择自定义主题"
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
-    "Select Wallpaper": ""
+    "Select Wallpaper": "选择壁纸"
   },
   "events": {
     "events": "事件"
@@ -2367,19 +2655,19 @@
     "official": "官方"
   },
   "profile image file browser title": {
-    "Select Profile Image": ""
+    "Select Profile Image": "选择个人信息图像"
   },
   "settings window title": {
-    "Settings": ""
+    "Settings": "设置"
   },
   "sysmon window title": {
-    "System Monitor": ""
+    "System Monitor": "系统监视器"
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "更新 DMS 以集成 NM"
   },
   "wallpaper directory file browser title": {
-    "Select Wallpaper Directory": ""
+    "Select Wallpaper Directory": "选择壁纸位置"
   },
   "• Install only from trusted sources": {
     "• Install only from trusted sources": "• 仅从可信来源安装"

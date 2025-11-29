@@ -18,10 +18,12 @@ type Backend interface {
 	ForgetWiFiNetwork(ssid string) error
 	SetWiFiAutoconnect(ssid string, autoconnect bool) error
 
+	GetEthernetDevices() []EthernetDevice
 	GetWiredConnections() ([]WiredConnection, error)
 	GetWiredNetworkDetails(uuid string) (*WiredNetworkInfoResponse, error)
 	ConnectEthernet() error
 	DisconnectEthernet() error
+	DisconnectEthernetDevice(device string) error
 	ActivateWiredConnection(uuid string) error
 
 	ListVPNProfiles() ([]VPNProfile, error)
@@ -30,6 +32,12 @@ type Backend interface {
 	DisconnectVPN(uuidOrName string) error
 	DisconnectAllVPN() error
 	ClearVPNCredentials(uuidOrName string) error
+	ListVPNPlugins() ([]VPNPlugin, error)
+	ImportVPN(filePath string, name string) (*VPNImportResult, error)
+	GetVPNConfig(uuidOrName string) (*VPNConfig, error)
+	UpdateVPNConfig(uuid string, updates map[string]interface{}) error
+	SetVPNCredentials(uuid string, username string, password string, save bool) error
+	DeleteVPN(uuidOrName string) error
 
 	GetCurrentState() (*BackendState, error)
 
@@ -49,6 +57,7 @@ type BackendState struct {
 	EthernetDevice         string
 	EthernetConnected      bool
 	EthernetConnectionUuid string
+	EthernetDevices        []EthernetDevice
 	WiFiIP                 string
 	WiFiDevice             string
 	WiFiConnected          bool

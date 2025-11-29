@@ -1,6 +1,12 @@
 {
+  "%1 adapter(s), none connected": {
+    "%1 adapter(s), none connected": ""
+  },
   "%1 characters": {
     "%1 characters": "%1 caracteres"
+  },
+  "%1 connected": {
+    "%1 connected": ""
   },
   "%1 display(s)": {
     "%1 display(s)": ""
@@ -50,6 +56,21 @@
   "Actions": {
     "Actions": "Ações"
   },
+  "Activate": {
+    "Activate": ""
+  },
+  "Active": {
+    "Active": ""
+  },
+  "Active: ": {
+    "Active: ": ""
+  },
+  "Active: None": {
+    "Active: None": ""
+  },
+  "Adapters": {
+    "Adapters": ""
+  },
   "Add": {
     "Add": "Adicionar"
   },
@@ -61,6 +82,9 @@
   },
   "Add Widget to ": {
     "Add Widget to ": "Adicionar Widget para "
+  },
+  "Add Widget to %1 Section": {
+    "Add Widget to %1 Section": ""
   },
   "Add a VPN in NetworkManager": {
     "Add a VPN in NetworkManager": "Adicionar um VPN ao NetworkManager"
@@ -91,6 +115,9 @@
   },
   "Animation Speed": {
     "Animation Speed": "Velocidade de Animação"
+  },
+  "Anonymous Identity": {
+    "Anonymous Identity": ""
   },
   "Anonymous Identity (optional)": {
     "Anonymous Identity (optional)": "Identidade Anônima (opcional)"
@@ -134,6 +161,9 @@
   "Are you sure you want to suspend the system?": {
     "Are you sure you want to suspend the system?": "Você tem certeza que deseja suspender o sistema?"
   },
+  "Audio": {
+    "Audio": ""
+  },
   "Audio Codec": {
     "Audio Codec": "Codec de Áudio"
   },
@@ -149,8 +179,17 @@
   "Audio Output Devices (": {
     "Audio Output Devices (": "Dispositivos de Saída de Áudio ("
   },
+  "Auth": {
+    "Auth": ""
+  },
+  "Auth Type": {
+    "Auth Type": ""
+  },
   "Authenticate": {
     "Authenticate": "Autenticar"
+  },
+  "Authentication": {
+    "Authentication": ""
   },
   "Authentication Required": {
     "Authentication Required": "Autenticação Necessária"
@@ -167,6 +206,9 @@
   "Authorize service for ": {
     "Authorize service for ": "Autorizar serviço para "
   },
+  "Auto": {
+    "Auto": ""
+  },
   "Auto Location": {
     "Auto Location": "Localização Automática"
   },
@@ -181,6 +223,9 @@
   },
   "Auto-saving...": {
     "Auto-saving...": "Salvando automáticamente..."
+  },
+  "Autoconnect": {
+    "Autoconnect": ""
   },
   "Autoconnect disabled": {
     "Autoconnect disabled": ""
@@ -224,14 +269,23 @@
   "Available Layouts": {
     "Available Layouts": ""
   },
+  "Available Networks": {
+    "Available Networks": ""
+  },
   "Available Plugins": {
     "Available Plugins": "Plugins disponíveis"
   },
   "Available Screens (": {
     "Available Screens (": "Telas disponíveis("
   },
+  "BSSID": {
+    "BSSID": ""
+  },
   "Back": {
     "Back": "Voltar"
+  },
+  "Backend": {
+    "Backend": ""
   },
   "Balanced palette with focused accents (default).": {
     "Balanced palette with focused accents (default).": "Paleta equilibrada com destaques de cor focados (padrão)."
@@ -250,6 +304,9 @@
   },
   "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": {
     "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": "Vincular o bloqueio de tela aos sinais do DBus do loginctl. Desative se estiver usando um bloqueio de tela externo"
+  },
+  "Bluetooth": {
+    "Bluetooth": ""
   },
   "Bluetooth Icon": {
     "Bluetooth Icon": "ícone do Bluetooth"
@@ -341,11 +398,17 @@
   "Center Tiling": {
     "Center Tiling": ""
   },
+  "Certificate Password": {
+    "Certificate Password": ""
+  },
   "Change bar appearance": {
     "Change bar appearance": ""
   },
   "Changes:": {
     "Changes:": ""
+  },
+  "Channel": {
+    "Channel": ""
   },
   "Check for system updates": {
     "Check for system updates": "Verificar por atualizações de sistema"
@@ -368,11 +431,17 @@
   "Choose the logo displayed on the launcher button in DankBar": {
     "Choose the logo displayed on the launcher button in DankBar": "Escolher a logo que será exibida no botão do Lançador no DankBar"
   },
+  "Choose the widget outline accent color": {
+    "Choose the widget outline accent color": ""
+  },
   "Choose where notification popups appear on screen": {
     "Choose where notification popups appear on screen": "Escolher onde as notificações irão aparecer na tela"
   },
   "Choose where on-screen displays appear on screen": {
     "Choose where on-screen displays appear on screen": ""
+  },
+  "Cipher": {
+    "Cipher": ""
   },
   "Clear": {
     "Clear": "Limpar"
@@ -382,6 +451,9 @@
   },
   "Clear All History?": {
     "Clear All History?": "Apagar Todo o Histórico?"
+  },
+  "Click Import to add a .ovpn or .conf": {
+    "Click Import to add a .ovpn or .conf": ""
   },
   "Clipboard History": {
     "Clipboard History": "Histórico da Área de Transferência"
@@ -469,6 +541,9 @@
   },
   "Connect to Wi-Fi": {
     "Connect to Wi-Fi": "Conectar ao Wi-Fi"
+  },
+  "Connected": {
+    "Connected": ""
   },
   "Connected Displays": {
     "Connected Displays": "Telas Conectadas"
@@ -617,6 +692,12 @@
   "Del: Clear • Shift+Del: Clear All • 1-9: Actions • F10: Help • Esc: Close": {
     "Del: Clear • Shift+Del: Clear All • 1-9: Actions • F10: Help • Esc: Close": "Del: Limpar • Shift+Del: Limpar Tudo • 1-9: Ações • F10: Ajuda • Esc: Fechar"
   },
+  "Delete": {
+    "Delete": ""
+  },
+  "Delete VPN": {
+    "Delete VPN": ""
+  },
   "Derives colors that closely match the underlying image.": {
     "Derives colors that closely match the underlying image.": "Deriva cores que combinam de perto com a imagem de fundo."
   },
@@ -640,6 +721,9 @@
   },
   "Disconnect": {
     "Disconnect": "Desconectar"
+  },
+  "Disconnected": {
+    "Disconnected": ""
   },
   "Disconnected from WiFi": {
     "Disconnected from WiFi": "Disconectado do WiFi"
@@ -673,6 +757,9 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "Mostrar título do app em foco"
+  },
+  "Display only workspaces that contain windows": {
+    "Display only workspaces that contain windows": ""
   },
   "Display power menu actions in a grid instead of a list": {
     "Display power menu actions in a grid instead of a list": ""
@@ -715,6 +802,9 @@
   },
   "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": {
     "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.": "Arraste Widgets para reordená-los nas seções. Use o ícone de olho para esconder ou mostrá-los (manter o espaçamento), ou clique no X para removê-los por completo."
+  },
+  "Driver": {
+    "Driver": ""
   },
   "Duplicate Wallpaper with Blur": {
     "Duplicate Wallpaper with Blur": ""
@@ -800,8 +890,14 @@
   "Enter this passkey on ": {
     "Enter this passkey on ": ""
   },
+  "Enterprise": {
+    "Enterprise": ""
+  },
   "Error": {
     "Error": ""
+  },
+  "Ethernet": {
+    "Ethernet": ""
   },
   "Exclusive Zone Offset": {
     "Exclusive Zone Offset": "Ajuste da Zona Exclusiva"
@@ -811,6 +907,12 @@
   },
   "F1/I: Toggle • F10: Help": {
     "F1/I: Toggle • F10: Help": "F1/I: Ativar • F10: Ajuda"
+  },
+  "Fade grace period": {
+    "Fade grace period": ""
+  },
+  "Fade to lock screen": {
+    "Fade to lock screen": ""
   },
   "Failed to activate configuration": {
     "Failed to activate configuration": "Erro ao ativar configuração"
@@ -827,6 +929,9 @@
   "Failed to connect to ": {
     "Failed to connect to ": "Erro ao conectar a "
   },
+  "Failed to delete VPN": {
+    "Failed to delete VPN": ""
+  },
   "Failed to disconnect VPN": {
     "Failed to disconnect VPN": "Erro ao desconectar VPN"
   },
@@ -838,6 +943,12 @@
   },
   "Failed to enable WiFi": {
     "Failed to enable WiFi": "Erro ao habilitar WiFi"
+  },
+  "Failed to import VPN": {
+    "Failed to import VPN": ""
+  },
+  "Failed to load VPN config": {
+    "Failed to load VPN config": ""
   },
   "Failed to pause printer": {
     "Failed to pause printer": ""
@@ -856,6 +967,9 @@
   },
   "Failed to start connection to ": {
     "Failed to start connection to ": "Erro ao iniciar conexão a "
+  },
+  "Failed to update VPN": {
+    "Failed to update VPN": ""
   },
   "Failed to update autoconnect": {
     "Failed to update autoconnect": ""
@@ -899,6 +1013,9 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": ""
   },
+  "Forget": {
+    "Forget": ""
+  },
   "Forget Device": {
     "Forget Device": "Esquecer Dispositivo"
   },
@@ -910,6 +1027,9 @@
   },
   "Format Legend": {
     "Format Legend": "Formatar Legenda"
+  },
+  "Frequency": {
+    "Frequency": ""
   },
   "Fun": {
     "Fun": "Diversão"
@@ -943,6 +1063,9 @@
   },
   "Goth Corners": {
     "Goth Corners": "Cantos Gotícos"
+  },
+  "Gradually fade the screen before locking with a configurable grace period": {
+    "Gradually fade the screen before locking with a configurable grace period": ""
   },
   "Graphics": {
     "Graphics": "Gráficos"
@@ -986,6 +1109,18 @@
   "High-fidelity palette that preserves source hues.": {
     "High-fidelity palette that preserves source hues.": "Paleta de alta fidelidade que preserva tons da fonte."
   },
+  "Hold Duration": {
+    "Hold Duration": ""
+  },
+  "Hold longer to confirm": {
+    "Hold longer to confirm": ""
+  },
+  "Hold to Confirm Power Actions": {
+    "Hold to Confirm Power Actions": ""
+  },
+  "Hold to confirm (%1s)": {
+    "Hold to confirm (%1s)": ""
+  },
   "Hour": {
     "Hour": "Hora"
   },
@@ -997,6 +1132,12 @@
   },
   "I Understand": {
     "I Understand": "Entendi"
+  },
+  "IP": {
+    "IP": ""
+  },
+  "IP Address:": {
+    "IP Address:": ""
   },
   "Icon Size": {
     "Icon Size": "Tamanho do Ícone"
@@ -1022,6 +1163,12 @@
   "Image": {
     "Image": "Imagem"
   },
+  "Import": {
+    "Import": ""
+  },
+  "Import VPN": {
+    "Import VPN": ""
+  },
   "Include Transitions": {
     "Include Transitions": "Incluir Transições"
   },
@@ -1045,6 +1192,9 @@
   },
   "Install plugins from the DMS plugin registry": {
     "Install plugins from the DMS plugin registry": "Instale plugins a partir do registro de plugins do DMS"
+  },
+  "Interface:": {
+    "Interface:": ""
   },
   "Interlock Open": {
     "Interlock Open": ""
@@ -1133,6 +1283,9 @@
   "Loading plugins...": {
     "Loading plugins...": "Carregando plugins..."
   },
+  "Loading...": {
+    "Loading...": ""
+  },
   "Location Search": {
     "Location Search": "Procurar Localização"
   },
@@ -1159,6 +1312,12 @@
   },
   "Low Priority": {
     "Low Priority": "Baixa Prioridade"
+  },
+  "MAC": {
+    "MAC": ""
+  },
+  "MTU": {
+    "MTU": ""
   },
   "Manage and configure plugins for extending DMS functionality": {
     "Manage and configure plugins for extending DMS functionality": "Gerencia e configure plugins para extender funcionalidades do DMS"
@@ -1256,6 +1415,9 @@
   "Minute": {
     "Minute": "Minuto"
   },
+  "Mode": {
+    "Mode": ""
+  },
   "Mode:": {
     "Mode:": "Modo:"
   },
@@ -1316,6 +1478,9 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "Monitor de Velocidade da Rede"
   },
+  "Network Status": {
+    "Network Status": ""
+  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "Monitor de velocidades de download e upload da rede"
   },
@@ -1334,6 +1499,9 @@
   "Night Temperature": {
     "Night Temperature": "Temperatura Noturna"
   },
+  "No": {
+    "No": ""
+  },
   "No Active Players": {
     "No Active Players": "Sem Tocadores Ativos"
   },
@@ -1346,11 +1514,17 @@
   "No Media": {
     "No Media": "Sem Mídia"
   },
+  "No VPN profiles": {
+    "No VPN profiles": ""
+  },
   "No VPN profiles found": {
     "No VPN profiles found": "Nenhum perfil de VPN encontrado"
   },
   "No Weather Data Available": {
     "No Weather Data Available": "Informações de Clima não dispóniveis"
+  },
+  "No adapters": {
+    "No adapters": ""
   },
   "No clipboard entries found": {
     "No clipboard entries found": "Área de transferência vazia"
@@ -1378,6 +1552,9 @@
   },
   "Normal Priority": {
     "Normal Priority": "Prioridade Normal"
+  },
+  "Not connected": {
+    "Not connected": ""
   },
   "Notepad": {
     "Notepad": "Bloco de Nota"
@@ -1454,6 +1631,15 @@
   "Other": {
     "Other": ""
   },
+  "Outline Color": {
+    "Outline Color": ""
+  },
+  "Outline Opacity": {
+    "Outline Opacity": ""
+  },
+  "Outline Thickness": {
+    "Outline Thickness": ""
+  },
   "Output Area Almost Full": {
     "Output Area Almost Full": ""
   },
@@ -1466,8 +1652,14 @@
   "Overview": {
     "Overview": "Visão Geral"
   },
+  "Overview of your network connections": {
+    "Overview of your network connections": ""
+  },
   "Overwrite": {
     "Overwrite": "Sobrescrever"
+  },
+  "PIN": {
+    "PIN": ""
   },
   "Padding": {
     "Padding": "Preenchimento"
@@ -1532,6 +1724,9 @@
   "Play sounds for system events": {
     "Play sounds for system events": "Reproduzir sons para eventos do sistema"
   },
+  "Playback": {
+    "Playback": ""
+  },
   "Plugged In": {
     "Plugged In": "Conectado"
   },
@@ -1583,6 +1778,9 @@
   "Power Profile OSD": {
     "Power Profile OSD": ""
   },
+  "Preference": {
+    "Preference": ""
+  },
   "Pressure": {
     "Pressure": "Pressão"
   },
@@ -1598,6 +1796,9 @@
   "Print Server not available": {
     "Print Server not available": ""
   },
+  "Printer": {
+    "Printer": ""
+  },
   "Printers": {
     "Printers": ""
   },
@@ -1606,6 +1807,9 @@
   },
   "Privacy Indicator": {
     "Privacy Indicator": "Indicador de Privacidade"
+  },
+  "Private Key Password": {
+    "Private Key Password": ""
   },
   "Process": {
     "Process": "Processo"
@@ -1618,6 +1822,9 @@
   },
   "Profile image is too large. Please use a smaller image.": {
     "Profile image is too large. Please use a smaller image.": "A imagem de perfil é muito grande. Por favor use uma imagem menor."
+  },
+  "Protocol": {
+    "Protocol": ""
   },
   "Quick access to application launcher": {
     "Quick access to application launcher": "Acesso rápido ao lançador de aplicativos"
@@ -1636,6 +1843,9 @@
   },
   "Rain Chance": {
     "Rain Chance": "Chance de Chuva"
+  },
+  "Rate": {
+    "Rate": ""
   },
   "Reason": {
     "Reason": ""
@@ -1663,6 +1873,9 @@
   },
   "Request confirmation on power off, restart, suspend, hibernate and logout actions": {
     "Request confirmation on power off, restart, suspend, hibernate and logout actions": "Pedir confirmação ao desligar, reiniciar, suspender, hibernar e encerrar sessão"
+  },
+  "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
+    "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": ""
   },
   "Requires DWL compositor": {
     "Requires DWL compositor": ""
@@ -1727,6 +1940,9 @@
   "Saved": {
     "Saved": "Salvo"
   },
+  "Saved Configurations": {
+    "Saved Configurations": ""
+  },
   "Scale DankBar font sizes independently": {
     "Scale DankBar font sizes independently": "Ajustar tamanho da fonte da DankBar de forma independente"
   },
@@ -1735,6 +1951,9 @@
   },
   "Scan": {
     "Scan": "Escanear"
+  },
+  "Scanning...": {
+    "Scanning...": ""
   },
   "Science": {
     "Science": "Ciência"
@@ -1757,11 +1976,20 @@
   "Search plugins...": {
     "Search plugins...": "Buscar plugins..."
   },
+  "Search widgets...": {
+    "Search widgets...": ""
+  },
   "Search...": {
     "Search...": "Buscar..."
   },
   "Searching...": {
     "Searching...": "Pesquisando..."
+  },
+  "Secured": {
+    "Secured": ""
+  },
+  "Security": {
+    "Security": ""
   },
   "Select Launcher Logo": {
     "Select Launcher Logo": "Selecionar Logo do Lançador"
@@ -1774,6 +2002,9 @@
   },
   "Select a widget to add to the ": {
     "Select a widget to add to the ": "Selecione um widget para adicionar a "
+  },
+  "Select a widget to add. You can add multiple instances of the same widget if needed.": {
+    "Select a widget to add. You can add multiple instances of the same widget if needed.": ""
   },
   "Select an image file...": {
     "Select an image file...": "Selecione um arquivo de imagem..."
@@ -1804,6 +2035,9 @@
   },
   "Separator": {
     "Separator": "Separador"
+  },
+  "Server": {
+    "Server": ""
   },
   "Set different wallpapers for each connected monitor": {
     "Set different wallpapers for each connected monitor": "Use papéis de paredes diferentes para cada monitor conectado"
@@ -1837,6 +2071,9 @@
   },
   "Show Log Out": {
     "Show Log Out": ""
+  },
+  "Show Occupied Workspaces Only": {
+    "Show Occupied Workspaces Only": ""
   },
   "Show Power Actions": {
     "Show Power Actions": "Mostrar Ações de Energia"
@@ -1931,6 +2168,12 @@
   "Shutdown": {
     "Shutdown": ""
   },
+  "Signal": {
+    "Signal": ""
+  },
+  "Signal:": {
+    "Signal:": ""
+  },
   "Size": {
     "Size": "Tamanho"
   },
@@ -1949,6 +2192,9 @@
   "Spacing": {
     "Spacing": "Espaçamento"
   },
+  "Speed": {
+    "Speed": ""
+  },
   "Spool Area Full": {
     "Spool Area Full": ""
   },
@@ -1960,6 +2206,9 @@
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "Comece a digitar suas anotações aqui..."
+  },
+  "State": {
+    "State": ""
   },
   "Status": {
     "Status": "Status"
@@ -2111,6 +2360,9 @@
   "Toggle visibility of this bar configuration": {
     "Toggle visibility of this bar configuration": ""
   },
+  "Toggling...": {
+    "Toggling...": ""
+  },
   "Tomorrow": {
     "Tomorrow": "Amanhã"
   },
@@ -2135,8 +2387,14 @@
   "Turn off monitors after": {
     "Turn off monitors after": "Desligar monitores depois de"
   },
+  "Unavailable": {
+    "Unavailable": ""
+  },
   "Uninstall Plugin": {
     "Uninstall Plugin": "Desinstalar Plugin"
+  },
+  "Unknown": {
+    "Unknown": ""
   },
   "Unpin from Dock": {
     "Unpin from Dock": "Desafixar do Dock"
@@ -2225,6 +2483,18 @@
   "VPN Connections": {
     "VPN Connections": "Conexões de VPN"
   },
+  "VPN Password": {
+    "VPN Password": ""
+  },
+  "VPN configuration updated": {
+    "VPN configuration updated": ""
+  },
+  "VPN deleted": {
+    "VPN deleted": ""
+  },
+  "VPN imported: ": {
+    "VPN imported: ": ""
+  },
   "VPN status and quick connect": {
     "VPN status and quick connect": "Status de VPN e conexão rápida"
   },
@@ -2264,6 +2534,9 @@
   "Volume, brightness, and other system OSDs": {
     "Volume, brightness, and other system OSDs": "Volume, brilho, e outros OSDs do sistema"
   },
+  "WPA/WPA2": {
+    "WPA/WPA2": ""
+  },
   "Wallpaper": {
     "Wallpaper": "Papel de parede"
   },
@@ -2291,6 +2564,15 @@
   "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.": {
     "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.": "Quando ativado, apps são ordenados alfabeticamente. Quando desativado, apps são ordenados por frequência de uso."
   },
+  "Wi-Fi Password": {
+    "Wi-Fi Password": ""
+  },
+  "WiFi": {
+    "WiFi": ""
+  },
+  "WiFi Device": {
+    "WiFi Device": ""
+  },
   "WiFi disabled": {
     "WiFi disabled": "WiFi desativado"
   },
@@ -2305,6 +2587,9 @@
   },
   "Widget Management": {
     "Widget Management": "Gerenciamento de Widgets"
+  },
+  "Widget Outline": {
+    "Widget Outline": ""
   },
   "Widget Style": {
     "Widget Style": ""
@@ -2335,6 +2620,9 @@
   },
   "Workspace Switcher": {
     "Workspace Switcher": "Seletor de Áreas de Trabalho"
+  },
+  "Yes": {
+    "Yes": ""
   },
   "You have unsaved changes. Save before closing this tab?": {
     "You have unsaved changes. Save before closing this tab?": "Você tem mudanças não salvas. Salvar antes de fechar esta guia?"

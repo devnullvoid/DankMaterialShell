@@ -37,13 +37,21 @@ type wifiDeviceInfo struct {
 	hwAddress string
 }
 
+type ethernetDeviceInfo struct {
+	device    gonetworkmanager.Device
+	wired     gonetworkmanager.DeviceWired
+	name      string
+	hwAddress string
+}
+
 type NetworkManagerBackend struct {
-	nmConn         interface{}
-	ethernetDevice interface{}
-	wifiDevice     interface{}
-	settings       interface{}
-	wifiDev        interface{}
-	wifiDevices    map[string]*wifiDeviceInfo
+	nmConn          interface{}
+	ethernetDevice  interface{}
+	ethernetDevices map[string]*ethernetDeviceInfo
+	wifiDevice      interface{}
+	settings        interface{}
+	wifiDev         interface{}
+	wifiDevices     map[string]*wifiDeviceInfo
 
 	dbusConn *dbus.Conn
 	signals  chan *dbus.Signal
@@ -60,7 +68,25 @@ type NetworkManagerBackend struct {
 	lastFailedTime int64
 	failedMutex    sync.RWMutex
 
+	pendingVPNSave   *pendingVPNCredentials
+	pendingVPNSaveMu sync.Mutex
+	cachedVPNCreds   *cachedVPNCredentials
+	cachedVPNCredsMu sync.Mutex
+
 	onStateChange func()
+}
+
+type pendingVPNCredentials struct {
+	ConnectionPath string
+	Username       string
+	Password       string
+	SavePassword   bool
+}
+
+type cachedVPNCredentials struct {
+	ConnectionUUID string
+	Password       string
+	SavePassword   bool
 }
 
 func NewNetworkManagerBackend(nmConn ...gonetworkmanager.NetworkManager) (*NetworkManagerBackend, error) {
@@ -79,9 +105,10 @@ func NewNetworkManagerBackend(nmConn ...gonetworkmanager.NetworkManager) (*Netwo
 	}
 
 	backend := &NetworkManagerBackend{
-		nmConn:      nm,
-		stopChan:    make(chan struct{}),
-		wifiDevices: make(map[string]*wifiDeviceInfo),
+		nmConn:          nm,
+		stopChan:        make(chan struct{}),
+		ethernetDevices: make(map[string]*ethernetDeviceInfo),
+		wifiDevices:     make(map[string]*wifiDeviceInfo),
 		state: &BackendState{
 			Backend: "networkmanager",
 		},
@@ -113,11 +140,30 @@ func (b *NetworkManagerBackend) Initialize() error {
 			if managed, _ := dev.GetPropertyManaged(); !managed {
 				continue
 			}
-			b.ethernetDevice = dev
+			iface, err := dev.GetPropertyInterface()
+			if err != nil {
+				continue
+			}
+			w, err := gonetworkmanager.NewDeviceWired(dev.GetPath())
+			if err != nil {
+				continue
+			}
+			hwAddr, _ := w.GetPropertyHwAddress()
+
+			b.ethernetDevices[iface] = &ethernetDeviceInfo{
+				device:    dev,
+				wired:     w,
+				name:      iface,
+				hwAddress: hwAddr,
+			}
+
+			if b.ethernetDevice == nil {
+				b.ethernetDevice = dev
+			}
 			if err := b.updateEthernetState(); err != nil {
 				continue
 			}
-			_, err := b.listEthernetConnections()
+			_, err = b.listEthernetConnections()
 			if err != nil {
 				return fmt.Errorf("failed to get wired configurations: %w", err)
 			}
@@ -165,6 +211,8 @@ func (b *NetworkManagerBackend) Initialize() error {
 		b.updateAllWiFiDevices()
 	}
 
+	b.updateAllEthernetDevices()
+
 	if err := b.updatePrimaryConnection(); err != nil {
 		return err
 	}
@@ -197,6 +245,7 @@ func (b *NetworkManagerBackend) GetCurrentState() (*BackendState, error) {
 	state.WiFiNetworks = append([]WiFiNetwork(nil), b.state.WiFiNetworks...)
 	state.WiFiDevices = append([]WiFiDevice(nil), b.state.WiFiDevices...)
 	state.WiredConnections = append([]WiredConnection(nil), b.state.WiredConnections...)
+	state.EthernetDevices = append([]EthernetDevice(nil), b.state.EthernetDevices...)
 	state.VPNProfiles = append([]VPNProfile(nil), b.state.VPNProfiles...)
 	state.VPNActive = append([]VPNActive(nil), b.state.VPNActive...)
 

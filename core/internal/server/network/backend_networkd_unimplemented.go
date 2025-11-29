@@ -54,6 +54,30 @@ func (b *SystemdNetworkdBackend) ClearVPNCredentials(uuidOrName string) error {
 	return fmt.Errorf("VPN not supported by networkd backend")
 }
 
+func (b *SystemdNetworkdBackend) ListVPNPlugins() ([]VPNPlugin, error) {
+	return []VPNPlugin{}, nil
+}
+
+func (b *SystemdNetworkdBackend) ImportVPN(filePath string, name string) (*VPNImportResult, error) {
+	return nil, fmt.Errorf("VPN not supported by networkd backend")
+}
+
+func (b *SystemdNetworkdBackend) GetVPNConfig(uuidOrName string) (*VPNConfig, error) {
+	return nil, fmt.Errorf("VPN not supported by networkd backend")
+}
+
+func (b *SystemdNetworkdBackend) UpdateVPNConfig(uuid string, updates map[string]interface{}) error {
+	return fmt.Errorf("VPN not supported by networkd backend")
+}
+
+func (b *SystemdNetworkdBackend) DeleteVPN(uuidOrName string) error {
+	return fmt.Errorf("VPN not supported by networkd backend")
+}
+
+func (b *SystemdNetworkdBackend) SetVPNCredentials(uuid, username, password string, save bool) error {
+	return fmt.Errorf("VPN not supported by networkd backend")
+}
+
 func (b *SystemdNetworkdBackend) SetWiFiAutoconnect(ssid string, autoconnect bool) error {
 	return fmt.Errorf("WiFi autoconnect not supported by networkd backend")
 }

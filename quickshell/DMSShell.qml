@@ -3,7 +3,6 @@ import Quickshell
 import qs.Common
 import qs.Modals
 import qs.Modals.Clipboard
-import qs.Modals.Common
 import qs.Modals.Settings
 import qs.Modals.Spotlight
 import qs.Modules
@@ -253,6 +252,10 @@ Item {
 
     PolkitAuthModal {
         id: polkitAuthModal
+
+        Component.onCompleted: {
+            PopoutService.polkitAuthModal = polkitAuthModal;
+        }
     }
 
     BluetoothPairingModal {
@@ -269,21 +272,21 @@ Item {
     Connections {
         target: NetworkService
 
-        function onCredentialsNeeded(token, ssid, setting, fields, hints, reason, connType, connName, vpnService) {
+        function onCredentialsNeeded(token, ssid, setting, fields, hints, reason, connType, connName, vpnService, fieldsInfo) {
             const now = Date.now();
             const timeSinceLastPrompt = now - lastCredentialsTime;
 
-            if (wifiPasswordModal.shouldBeVisible && timeSinceLastPrompt < 1000) {
+            if (wifiPasswordModal.visible && timeSinceLastPrompt < 1000) {
                 NetworkService.cancelCredentials(lastCredentialsToken);
                 lastCredentialsToken = token;
                 lastCredentialsTime = now;
-                wifiPasswordModal.showFromPrompt(token, ssid, setting, fields, hints, reason, connType, connName, vpnService);
+                wifiPasswordModal.showFromPrompt(token, ssid, setting, fields, hints, reason, connType, connName, vpnService, fieldsInfo);
                 return;
             }
 
             lastCredentialsToken = token;
             lastCredentialsTime = now;
-            wifiPasswordModal.showFromPrompt(token, ssid, setting, fields, hints, reason, connType, connName, vpnService);
+            wifiPasswordModal.showFromPrompt(token, ssid, setting, fields, hints, reason, connType, connName, vpnService, fieldsInfo);
         }
     }
 

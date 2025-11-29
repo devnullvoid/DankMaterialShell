@@ -1,7 +1,7 @@
-import QtQuick
-import Quickshell
 pragma Singleton
 pragma ComponentBehavior: Bound
+import QtQuick
+import Quickshell
 
 Singleton {
     id: root
@@ -23,6 +23,7 @@ Singleton {
     property var colorPickerModal: null
     property var notificationModal: null
     property var wifiPasswordModal: null
+    property var polkitAuthModal: null
     property var bluetoothPairingModal: null
     property var networkInfoModal: null
 
@@ -30,267 +31,267 @@ Singleton {
 
     function setPosition(popout, x, y, width, section, screen) {
         if (popout && popout.setTriggerPosition && arguments.length >= 6) {
-            popout.setTriggerPosition(x, y, width, section, screen)
+            popout.setTriggerPosition(x, y, width, section, screen);
         }
     }
 
     function openControlCenter(x, y, width, section, screen) {
         if (controlCenterPopout) {
-            setPosition(controlCenterPopout, x, y, width, section, screen)
-            controlCenterPopout.open()
+            setPosition(controlCenterPopout, x, y, width, section, screen);
+            controlCenterPopout.open();
         }
     }
 
     function closeControlCenter() {
-        controlCenterPopout?.close()
+        controlCenterPopout?.close();
     }
 
     function toggleControlCenter(x, y, width, section, screen) {
         if (controlCenterPopout) {
-            setPosition(controlCenterPopout, x, y, width, section, screen)
-            controlCenterPopout.toggle()
+            setPosition(controlCenterPopout, x, y, width, section, screen);
+            controlCenterPopout.toggle();
         }
     }
 
     function openNotificationCenter(x, y, width, section, screen) {
         if (notificationCenterPopout) {
-            setPosition(notificationCenterPopout, x, y, width, section, screen)
-            notificationCenterPopout.open()
+            setPosition(notificationCenterPopout, x, y, width, section, screen);
+            notificationCenterPopout.open();
         }
     }
 
     function closeNotificationCenter() {
-        notificationCenterPopout?.close()
+        notificationCenterPopout?.close();
     }
 
     function toggleNotificationCenter(x, y, width, section, screen) {
         if (notificationCenterPopout) {
-            setPosition(notificationCenterPopout, x, y, width, section, screen)
-            notificationCenterPopout.toggle()
+            setPosition(notificationCenterPopout, x, y, width, section, screen);
+            notificationCenterPopout.toggle();
         }
     }
 
     function openAppDrawer(x, y, width, section, screen) {
         if (appDrawerPopout) {
-            setPosition(appDrawerPopout, x, y, width, section, screen)
-            appDrawerPopout.open()
+            setPosition(appDrawerPopout, x, y, width, section, screen);
+            appDrawerPopout.open();
         }
     }
 
     function closeAppDrawer() {
-        appDrawerPopout?.close()
+        appDrawerPopout?.close();
     }
 
     function toggleAppDrawer(x, y, width, section, screen) {
         if (appDrawerPopout) {
-            setPosition(appDrawerPopout, x, y, width, section, screen)
-            appDrawerPopout.toggle()
+            setPosition(appDrawerPopout, x, y, width, section, screen);
+            appDrawerPopout.toggle();
         }
     }
 
     function openProcessList(x, y, width, section, screen) {
         if (processListPopout) {
-            setPosition(processListPopout, x, y, width, section, screen)
-            processListPopout.open()
+            setPosition(processListPopout, x, y, width, section, screen);
+            processListPopout.open();
         }
     }
 
     function closeProcessList() {
-        processListPopout?.close()
+        processListPopout?.close();
     }
 
     function toggleProcessList(x, y, width, section, screen) {
         if (processListPopout) {
-            setPosition(processListPopout, x, y, width, section, screen)
-            processListPopout.toggle()
+            setPosition(processListPopout, x, y, width, section, screen);
+            processListPopout.toggle();
         }
     }
 
     function openDankDash(tabIndex, x, y, width, section, screen) {
         if (dankDashPopout) {
             if (arguments.length >= 6) {
-                setPosition(dankDashPopout, x, y, width, section, screen)
+                setPosition(dankDashPopout, x, y, width, section, screen);
             }
-            dankDashPopout.currentTabIndex = tabIndex || 0
-            dankDashPopout.dashVisible = true
+            dankDashPopout.currentTabIndex = tabIndex || 0;
+            dankDashPopout.dashVisible = true;
         }
     }
 
     function closeDankDash() {
         if (dankDashPopout) {
-            dankDashPopout.dashVisible = false
+            dankDashPopout.dashVisible = false;
         }
     }
 
     function toggleDankDash(tabIndex, x, y, width, section, screen) {
         if (dankDashPopout) {
             if (arguments.length >= 6) {
-                setPosition(dankDashPopout, x, y, width, section, screen)
+                setPosition(dankDashPopout, x, y, width, section, screen);
             }
             if (dankDashPopout.dashVisible) {
-                dankDashPopout.dashVisible = false
+                dankDashPopout.dashVisible = false;
             } else {
-                dankDashPopout.currentTabIndex = tabIndex || 0
-                dankDashPopout.dashVisible = true
+                dankDashPopout.currentTabIndex = tabIndex || 0;
+                dankDashPopout.dashVisible = true;
             }
         }
     }
 
     function openBattery(x, y, width, section, screen) {
         if (batteryPopout) {
-            setPosition(batteryPopout, x, y, width, section, screen)
-            batteryPopout.open()
+            setPosition(batteryPopout, x, y, width, section, screen);
+            batteryPopout.open();
         }
     }
 
     function closeBattery() {
-        batteryPopout?.close()
+        batteryPopout?.close();
     }
 
     function toggleBattery(x, y, width, section, screen) {
         if (batteryPopout) {
-            setPosition(batteryPopout, x, y, width, section, screen)
-            batteryPopout.toggle()
+            setPosition(batteryPopout, x, y, width, section, screen);
+            batteryPopout.toggle();
         }
     }
 
     function openVpn(x, y, width, section, screen) {
         if (vpnPopout) {
-            setPosition(vpnPopout, x, y, width, section, screen)
-            vpnPopout.open()
+            setPosition(vpnPopout, x, y, width, section, screen);
+            vpnPopout.open();
         }
     }
 
     function closeVpn() {
-        vpnPopout?.close()
+        vpnPopout?.close();
     }
 
     function toggleVpn(x, y, width, section, screen) {
         if (vpnPopout) {
-            setPosition(vpnPopout, x, y, width, section, screen)
-            vpnPopout.toggle()
+            setPosition(vpnPopout, x, y, width, section, screen);
+            vpnPopout.toggle();
         }
     }
 
     function openSystemUpdate(x, y, width, section, screen) {
         if (systemUpdatePopout) {
-            setPosition(systemUpdatePopout, x, y, width, section, screen)
-            systemUpdatePopout.open()
+            setPosition(systemUpdatePopout, x, y, width, section, screen);
+            systemUpdatePopout.open();
         }
     }
 
     function closeSystemUpdate() {
-        systemUpdatePopout?.close()
+        systemUpdatePopout?.close();
     }
 
     function toggleSystemUpdate(x, y, width, section, screen) {
         if (systemUpdatePopout) {
-            setPosition(systemUpdatePopout, x, y, width, section, screen)
-            systemUpdatePopout.toggle()
+            setPosition(systemUpdatePopout, x, y, width, section, screen);
+            systemUpdatePopout.toggle();
         }
     }
 
     function openSettings() {
-        settingsModal?.show()
+        settingsModal?.show();
     }
 
     function closeSettings() {
-        settingsModal?.close()
+        settingsModal?.close();
     }
 
     function openClipboardHistory() {
-        clipboardHistoryModal?.show()
+        clipboardHistoryModal?.show();
     }
 
     function closeClipboardHistory() {
-        clipboardHistoryModal?.close()
+        clipboardHistoryModal?.close();
     }
 
     function openSpotlight() {
-        spotlightModal?.show()
+        spotlightModal?.show();
     }
 
     function closeSpotlight() {
-        spotlightModal?.close()
+        spotlightModal?.close();
     }
 
     function openPowerMenu() {
-        powerMenuModal?.openCentered()
+        powerMenuModal?.openCentered();
     }
 
     function closePowerMenu() {
-        powerMenuModal?.close()
+        powerMenuModal?.close();
     }
 
     function togglePowerMenu() {
         if (powerMenuModal) {
             if (powerMenuModal.shouldBeVisible) {
-                powerMenuModal.close()
+                powerMenuModal.close();
             } else {
-                powerMenuModal.openCentered()
+                powerMenuModal.openCentered();
             }
         }
     }
 
     function showProcessListModal() {
-        processListModal?.show()
+        processListModal?.show();
     }
 
     function hideProcessListModal() {
-        processListModal?.hide()
+        processListModal?.hide();
     }
 
     function toggleProcessListModal() {
-        processListModal?.toggle()
+        processListModal?.toggle();
     }
 
     function showColorPicker() {
-        colorPickerModal?.show()
+        colorPickerModal?.show();
     }
 
     function hideColorPicker() {
-        colorPickerModal?.close()
+        colorPickerModal?.close();
     }
 
     function showNotificationModal() {
-        notificationModal?.show()
+        notificationModal?.show();
     }
 
     function hideNotificationModal() {
-        notificationModal?.close()
+        notificationModal?.close();
     }
 
     function showWifiPasswordModal() {
-        wifiPasswordModal?.show()
+        wifiPasswordModal?.show();
     }
 
     function hideWifiPasswordModal() {
-        wifiPasswordModal?.close()
+        wifiPasswordModal?.hide();
     }
 
     function showNetworkInfoModal() {
-        networkInfoModal?.show()
+        networkInfoModal?.show();
     }
 
     function hideNetworkInfoModal() {
-        networkInfoModal?.close()
+        networkInfoModal?.close();
     }
 
     function openNotepad() {
         if (notepadSlideouts.length > 0) {
-            notepadSlideouts[0]?.show()
+            notepadSlideouts[0]?.show();
         }
     }
 
     function closeNotepad() {
         if (notepadSlideouts.length > 0) {
-            notepadSlideouts[0]?.hide()
+            notepadSlideouts[0]?.hide();
         }
     }
 
     function toggleNotepad() {
         if (notepadSlideouts.length > 0) {
-            notepadSlideouts[0]?.toggle()
+            notepadSlideouts[0]?.toggle();
         }
     }
 }

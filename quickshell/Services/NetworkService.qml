@@ -16,6 +16,7 @@ Singleton {
     property string ethernetInterface: activeService?.ethernetInterface ?? ""
     property bool ethernetConnected: activeService?.ethernetConnected ?? false
     property string ethernetConnectionUuid: activeService?.ethernetConnectionUuid ?? ""
+    property var ethernetDevices: activeService?.ethernetDevices ?? []
 
     property var wiredConnections: activeService?.wiredConnections ?? []
 
@@ -88,7 +89,7 @@ Singleton {
 
     signal networksUpdated
     signal connectionChanged
-    signal credentialsNeeded(string token, string ssid, string setting, var fields, var hints, string reason, string connType, string connName, string vpnService)
+    signal credentialsNeeded(string token, string ssid, string setting, var fields, var hints, string reason, string connType, string connName, string vpnService, var fieldsInfo)
 
     property bool usingLegacy: false
     property var activeService: null
@@ -227,6 +228,12 @@ Singleton {
     function toggleNetworkConnection(type) {
         if (activeService && activeService.toggleNetworkConnection) {
             activeService.toggleNetworkConnection(type);
+        }
+    }
+
+    function disconnectEthernetDevice(deviceName) {
+        if (activeService && activeService.disconnectEthernetDevice) {
+            activeService.disconnectEthernetDevice(deviceName);
         }
     }
 

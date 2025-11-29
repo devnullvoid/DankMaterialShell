@@ -65,13 +65,16 @@ DankPopout {
     shouldBeVisible: false
 
     property bool credentialsPromptOpen: NetworkService.credentialsRequested
+    property bool wifiPasswordModalOpen: PopoutService.wifiPasswordModal?.visible ?? false
+    property bool polkitModalOpen: PopoutService.polkitAuthModal?.visible ?? false
+    property bool anyModalOpen: credentialsPromptOpen || wifiPasswordModalOpen || polkitModalOpen || powerMenuOpen
+
+    backgroundInteractive: !anyModalOpen
 
     customKeyboardFocus: {
         if (!shouldBeVisible)
             return WlrKeyboardFocus.None;
-        if (powerMenuOpen)
-            return WlrKeyboardFocus.None;
-        if (credentialsPromptOpen)
+        if (anyModalOpen)
             return WlrKeyboardFocus.None;
         if (CompositorService.isHyprland)
             return WlrKeyboardFocus.OnDemand;

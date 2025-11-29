@@ -28,6 +28,7 @@ Item {
     property list<real> animationExitCurve: Theme.expressiveCurves.emphasized
     property bool shouldBeVisible: false
     property var customKeyboardFocus: null
+    property bool backgroundInteractive: true
 
     property real storedBarThickness: Theme.barHeight - 4
     property real storedBarSpacing: 4
@@ -227,8 +228,8 @@ Item {
             item: Rectangle {
                 x: root.maskX
                 y: root.maskY
-                width: shouldBeVisible ? root.maskWidth : 0
-                height: shouldBeVisible ? root.maskHeight : 0
+                width: (shouldBeVisible && backgroundInteractive) ? root.maskWidth : 0
+                height: (shouldBeVisible && backgroundInteractive) ? root.maskHeight : 0
             }
         }
 
@@ -237,7 +238,7 @@ Item {
             y: root.maskY
             width: root.maskWidth
             height: root.maskHeight
-            enabled: shouldBeVisible
+            enabled: shouldBeVisible && backgroundInteractive
             acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
             onClicked: mouse => {
                 const clickX = mouse.x + root.maskX;

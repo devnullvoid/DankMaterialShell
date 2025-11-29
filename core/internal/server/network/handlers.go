@@ -70,6 +70,18 @@ func HandleRequest(conn net.Conn, req Request, manager *Manager) {
 		handleDisconnectAllVPN(conn, req, manager)
 	case "network.vpn.clearCredentials":
 		handleClearVPNCredentials(conn, req, manager)
+	case "network.vpn.plugins":
+		handleListVPNPlugins(conn, req, manager)
+	case "network.vpn.import":
+		handleImportVPN(conn, req, manager)
+	case "network.vpn.getConfig":
+		handleGetVPNConfig(conn, req, manager)
+	case "network.vpn.updateConfig":
+		handleUpdateVPNConfig(conn, req, manager)
+	case "network.vpn.delete":
+		handleDeleteVPN(conn, req, manager)
+	case "network.vpn.setCredentials":
+		handleSetVPNCredentials(conn, req, manager)
 	case "network.wifi.setAutoconnect":
 		handleSetWiFiAutoconnect(conn, req, manager)
 	default:
@@ -200,6 +212,24 @@ func handleConnectWiFi(conn net.Conn, req Request, manager *Manager) {
 	if domainSuffixMatch, ok := req.Params["domainSuffixMatch"].(string); ok {
 		connReq.DomainSuffixMatch = domainSuffixMatch
 	}
+	if eapMethod, ok := req.Params["eapMethod"].(string); ok {
+		connReq.EAPMethod = eapMethod
+	}
+	if phase2Auth, ok := req.Params["phase2Auth"].(string); ok {
+		connReq.Phase2Auth = phase2Auth
+	}
+	if caCertPath, ok := req.Params["caCertPath"].(string); ok {
+		connReq.CACertPath = caCertPath
+	}
+	if clientCertPath, ok := req.Params["clientCertPath"].(string); ok {
+		connReq.ClientCertPath = clientCertPath
+	}
+	if privateKeyPath, ok := req.Params["privateKeyPath"].(string); ok {
+		connReq.PrivateKeyPath = privateKeyPath
+	}
+	if useSystemCACerts, ok := req.Params["useSystemCACerts"].(bool); ok {
+		connReq.UseSystemCACerts = &useSystemCACerts
+	}
 
 	if err := manager.ConnectWiFi(connReq); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -287,7 +317,14 @@ func handleConnectEthernet(conn net.Conn, req Request, manager *Manager) {
 }
 
 func handleDisconnectEthernet(conn net.Conn, req Request, manager *Manager) {
-	if err := manager.DisconnectEthernet(); err != nil {
+	device, _ := req.Params["device"].(string)
+	var err error
+	if device != "" {
+		err = manager.DisconnectEthernetDevice(device)
+	} else {
+		err = manager.DisconnectEthernet()
+	}
+	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
@@ -501,4 +538,139 @@ func handleSetWiFiAutoconnect(conn net.Conn, req Request, manager *Manager) {
 	}
 
 	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "autoconnect updated"})
+}
+
+func handleListVPNPlugins(conn net.Conn, req Request, manager *Manager) {
+	plugins, err := manager.ListVPNPlugins()
+	if err != nil {
+		log.Warnf("handleListVPNPlugins: failed to list plugins: %v", err)
+		models.RespondError(conn, req.ID, fmt.Sprintf("failed to list VPN plugins: %v", err))
+		return
+	}
+
+	models.Respond(conn, req.ID, plugins)
+}
+
+func handleImportVPN(conn net.Conn, req Request, manager *Manager) {
+	filePath, ok := req.Params["file"].(string)
+	if !ok {
+		filePath, ok = req.Params["path"].(string)
+	}
+	if !ok {
+		models.RespondError(conn, req.ID, "missing 'file' or 'path' parameter")
+		return
+	}
+
+	name, _ := req.Params["name"].(string)
+
+	result, err := manager.ImportVPN(filePath, name)
+	if err != nil {
+		log.Warnf("handleImportVPN: failed to import: %v", err)
+		models.RespondError(conn, req.ID, fmt.Sprintf("failed to import VPN: %v", err))
+		return
+	}
+
+	models.Respond(conn, req.ID, result)
+}
+
+func handleGetVPNConfig(conn net.Conn, req Request, manager *Manager) {
+	uuidOrName, ok := req.Params["uuid"].(string)
+	if !ok {
+		uuidOrName, ok = req.Params["name"].(string)
+	}
+	if !ok {
+		uuidOrName, ok = req.Params["uuidOrName"].(string)
+	}
+	if !ok {
+		models.RespondError(conn, req.ID, "missing 'uuid', 'name', or 'uuidOrName' parameter")
+		return
+	}
+
+	config, err := manager.GetVPNConfig(uuidOrName)
+	if err != nil {
+		log.Warnf("handleGetVPNConfig: failed to get config: %v", err)
+		models.RespondError(conn, req.ID, fmt.Sprintf("failed to get VPN config: %v", err))
+		return
+	}
+
+	models.Respond(conn, req.ID, config)
+}
+
+func handleUpdateVPNConfig(conn net.Conn, req Request, manager *Manager) {
+	connUUID, ok := req.Params["uuid"].(string)
+	if !ok {
+		models.RespondError(conn, req.ID, "missing 'uuid' parameter")
+		return
+	}
+
+	updates := make(map[string]interface{})
+
+	if name, ok := req.Params["name"].(string); ok {
+		updates["name"] = name
+	}
+	if autoconnect, ok := req.Params["autoconnect"].(bool); ok {
+		updates["autoconnect"] = autoconnect
+	}
+	if data, ok := req.Params["data"].(map[string]interface{}); ok {
+		updates["data"] = data
+	}
+
+	if len(updates) == 0 {
+		models.RespondError(conn, req.ID, "no updates provided")
+		return
+	}
+
+	if err := manager.UpdateVPNConfig(connUUID, updates); err != nil {
+		log.Warnf("handleUpdateVPNConfig: failed to update: %v", err)
+		models.RespondError(conn, req.ID, fmt.Sprintf("failed to update VPN config: %v", err))
+		return
+	}
+
+	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "VPN config updated"})
+}
+
+func handleDeleteVPN(conn net.Conn, req Request, manager *Manager) {
+	uuidOrName, ok := req.Params["uuid"].(string)
+	if !ok {
+		uuidOrName, ok = req.Params["name"].(string)
+	}
+	if !ok {
+		uuidOrName, ok = req.Params["uuidOrName"].(string)
+	}
+	if !ok {
+		models.RespondError(conn, req.ID, "missing 'uuid', 'name', or 'uuidOrName' parameter")
+		return
+	}
+
+	if err := manager.DeleteVPN(uuidOrName); err != nil {
+		log.Warnf("handleDeleteVPN: failed to delete: %v", err)
+		models.RespondError(conn, req.ID, fmt.Sprintf("failed to delete VPN: %v", err))
+		return
+	}
+
+	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "VPN deleted"})
+}
+
+func handleSetVPNCredentials(conn net.Conn, req Request, manager *Manager) {
+	connUUID, ok := req.Params["uuid"].(string)
+	if !ok {
+		models.RespondError(conn, req.ID, "missing 'uuid' parameter")
+		return
+	}
+
+	username, _ := req.Params["username"].(string)
+	password, _ := req.Params["password"].(string)
+
+	save := true
+	if saveParam, ok := req.Params["save"].(bool); ok {
+		save = saveParam
+	}
+
+	if err := manager.SetVPNCredentials(connUUID, username, password, save); err != nil {
+		log.Warnf("handleSetVPNCredentials: failed to set credentials: %v", err)
+		models.RespondError(conn, req.ID, fmt.Sprintf("failed to set VPN credentials: %v", err))
+		return
+	}
+
+	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "VPN credentials set"})
 }

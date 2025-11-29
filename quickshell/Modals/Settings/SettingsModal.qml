@@ -112,7 +112,7 @@ FloatingWindow {
         focus: true
 
         Keys.onPressed: event => {
-            const tabCount = 11;
+            const tabCount = 12;
             if (event.key === Qt.Key_Escape) {
                 hide();
                 event.accepted = true;

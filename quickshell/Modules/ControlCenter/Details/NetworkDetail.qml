@@ -353,8 +353,9 @@ Rectangle {
         }
 
         MenuItem {
-            text: "Activate"
+            text: I18n.tr("Activate")
             height: !wiredNetworkContextMenu.currentConnected ? 32 : 0
+            visible: !wiredNetworkContextMenu.currentConnected
 
             contentItem: StyledText {
                 text: parent.text
@@ -370,15 +371,39 @@ Rectangle {
             }
 
             onTriggered: {
-                if (!networkContextMenu.currentConnected) {
+                if (!wiredNetworkContextMenu.currentConnected) {
                     NetworkService.connectToSpecificWiredConfig(wiredNetworkContextMenu.currentUUID);
                 }
             }
         }
 
         MenuItem {
+            text: I18n.tr("Disconnect")
+            height: wiredNetworkContextMenu.currentConnected ? 32 : 0
+            visible: wiredNetworkContextMenu.currentConnected
+
+            contentItem: StyledText {
+                text: parent.text
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.error
+                leftPadding: Theme.spacingS
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            background: Rectangle {
+                color: parent.hovered ? Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 0.08) : "transparent"
+                radius: Theme.cornerRadius / 2
+            }
+
+            onTriggered: {
+                NetworkService.toggleNetworkConnection("ethernet");
+            }
+        }
+
+        MenuItem {
             text: I18n.tr("Network Info")
             height: wiredNetworkContextMenu.currentConnected ? 32 : 0
+            visible: wiredNetworkContextMenu.currentConnected
 
             contentItem: StyledText {
                 text: parent.text

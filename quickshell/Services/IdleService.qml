@@ -177,15 +177,6 @@ Singleton {
     }
 
     Connections {
-        target: SessionService
-        function onPrepareForSleep() {
-            if (SettingsData.lockBeforeSuspend) {
-                root.lockRequested();
-            }
-        }
-    }
-
-    Connections {
         target: SettingsData
         function onPreventIdleForMediaChanged() {
             if (SettingsData.preventIdleForMedia) {

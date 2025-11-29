@@ -579,11 +579,37 @@ func (b *NetworkManagerBackend) createAndConnectWiFiOnDevice(req ConnectionReque
 				"key-mgmt": "wpa-eap",
 			}
 
+			eapMethod := "peap"
+			if req.EAPMethod != "" {
+				eapMethod = req.EAPMethod
+			}
+
+			phase2Auth := "mschapv2"
+			if req.Phase2Auth != "" {
+				phase2Auth = req.Phase2Auth
+			}
+
+			useSystemCACerts := false
+			if req.UseSystemCACerts != nil {
+				useSystemCACerts = *req.UseSystemCACerts
+			}
+
 			x := map[string]interface{}{
-				"eap":             []string{"peap"},
-				"phase2-auth":     "mschapv2",
-				"system-ca-certs": false,
+				"eap":             []string{eapMethod},
+				"system-ca-certs": useSystemCACerts,
 				"password-flags":  uint32(0),
+			}
+
+			switch eapMethod {
+			case "peap", "ttls":
+				x["phase2-auth"] = phase2Auth
+			case "tls":
+				if req.ClientCertPath != "" {
+					x["client-cert"] = []byte("file://" + req.ClientCertPath)
+				}
+				if req.PrivateKeyPath != "" {
+					x["private-key"] = []byte("file://" + req.PrivateKeyPath)
+				}
 			}
 
 			if req.Username != "" {
@@ -592,18 +618,20 @@ func (b *NetworkManagerBackend) createAndConnectWiFiOnDevice(req ConnectionReque
 			if req.Password != "" {
 				x["password"] = req.Password
 			}
-
 			if req.AnonymousIdentity != "" {
 				x["anonymous-identity"] = req.AnonymousIdentity
 			}
 			if req.DomainSuffixMatch != "" {
 				x["domain-suffix-match"] = req.DomainSuffixMatch
 			}
+			if req.CACertPath != "" {
+				x["ca-cert"] = []byte("file://" + req.CACertPath)
+			}
 
 			settings["802-1x"] = x
 
-			log.Infof("[createAndConnectWiFi] WPA-EAP settings: eap=peap, phase2-auth=mschapv2, identity=%s, interactive=%v, system-ca-certs=%v, domain-suffix-match=%q",
-				req.Username, req.Interactive, x["system-ca-certs"], req.DomainSuffixMatch)
+			log.Infof("[createAndConnectWiFi] WPA-EAP settings: eap=%s, phase2-auth=%s, identity=%s, interactive=%v, system-ca-certs=%v, domain-suffix-match=%q",
+				eapMethod, phase2Auth, req.Username, req.Interactive, useSystemCACerts, req.DomainSuffixMatch)
 
 		case isPsk:
 			sec := map[string]interface{}{
