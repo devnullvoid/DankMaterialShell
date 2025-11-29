@@ -22,6 +22,15 @@ BasePill {
     property bool showBatteryIcon: SettingsData.controlCenterShowBatteryIcon
     property bool showPrinterIcon: SettingsData.controlCenterShowPrinterIcon
 
+    Loader {
+        active: root.showPrinterIcon
+        sourceComponent: Component {
+            Ref {
+                service: CupsService
+            }
+        }
+    }
+
     function getNetworkIconName() {
         if (NetworkService.wifiToggling)
             return "sync";

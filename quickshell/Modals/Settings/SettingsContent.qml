@@ -146,10 +146,27 @@ FocusScope {
         }
 
         Loader {
-            id: launcherLoader
+            id: printerLoader
 
             anchors.fill: parent
             active: root.currentIndex === 7
+            visible: active
+            focus: active
+
+            sourceComponent: PrinterTab {}
+
+            onActiveChanged: {
+                if (active && item) {
+                    Qt.callLater(() => item.forceActiveFocus());
+                }
+            }
+        }
+
+        Loader {
+            id: launcherLoader
+
+            anchors.fill: parent
+            active: root.currentIndex === 8
             visible: active
             focus: active
 
@@ -166,7 +183,7 @@ FocusScope {
             id: themeColorsLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 8
+            active: root.currentIndex === 9
             visible: active
             focus: active
 
@@ -183,7 +200,7 @@ FocusScope {
             id: powerLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 9
+            active: root.currentIndex === 10
             visible: active
             focus: active
 
@@ -200,7 +217,7 @@ FocusScope {
             id: pluginsLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 10
+            active: root.currentIndex === 11
             visible: active
             focus: active
 
@@ -219,7 +236,7 @@ FocusScope {
             id: aboutLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 11
+            active: root.currentIndex === 12
             visible: active
             focus: active
 

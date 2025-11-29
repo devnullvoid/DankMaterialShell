@@ -31,7 +31,9 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
-const APIVersion = 21
+const APIVersion = 22
+
+var CLIVersion = "dev"
 
 type Capabilities struct {
 	Capabilities []string `json:"capabilities"`
@@ -39,6 +41,7 @@ type Capabilities struct {
 
 type ServerInfo struct {
 	APIVersion   int      `json:"apiVersion"`
+	CLIVersion   string   `json:"cliVersion,omitempty"`
 	Capabilities []string `json:"capabilities"`
 }
 
@@ -431,6 +434,7 @@ func getServerInfo() ServerInfo {
 
 	return ServerInfo{
 		APIVersion:   APIVersion,
+		CLIVersion:   CLIVersion,
 		Capabilities: caps,
 	}
 }

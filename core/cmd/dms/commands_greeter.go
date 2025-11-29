@@ -298,7 +298,8 @@ func ensureGreetdEnabled() error {
 		fmt.Println("  ✓ Unmasked greetd")
 	}
 
-	if state.EnabledState == "disabled" || state.EnabledState == "masked" || state.EnabledState == "masked-runtime" {
+	switch state.EnabledState {
+	case "disabled", "masked", "masked-runtime":
 		fmt.Println("  Enabling greetd service...")
 		enableCmd := exec.Command("sudo", "systemctl", "enable", "greetd")
 		enableCmd.Stdout = os.Stdout
@@ -307,9 +308,9 @@ func ensureGreetdEnabled() error {
 			return fmt.Errorf("failed to enable greetd: %w", err)
 		}
 		fmt.Println("  ✓ Enabled greetd service")
-	} else if state.EnabledState == "enabled" || state.EnabledState == "enabled-runtime" {
+	case "enabled", "enabled-runtime":
 		fmt.Println("  ✓ greetd is already enabled")
-	} else {
+	default:
 		fmt.Printf("  ℹ greetd is in state '%s' (should work, no action needed)\n", state.EnabledState)
 	}
 
