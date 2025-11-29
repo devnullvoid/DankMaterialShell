@@ -1,5 +1,5 @@
 #!/bin/bash
-# Generic PPA uploader for DMS packages
+# Ubuntu PPA uploader for DMS packages
 # Usage: ./upload-ppa.sh <changes-file> <ppa-name>
 #
 # Example:

@@ -39,6 +39,9 @@ override_dh_auto_build:
 		elif [ -f dms-source.tar.gz ]; then \
 			tar -xzf dms-source.tar.gz; \
 		fi; \
+		if [ ! -d DankMaterialShell-$(UPSTREAM_VERSION) ] && [ -d DankMaterialShell-0.6.2 ]; then \
+			mv DankMaterialShell-0.6.2 DankMaterialShell-$(UPSTREAM_VERSION); \
+		fi; \
 	fi
 
 
@@ -46,6 +49,10 @@ override_dh_auto_install:
 	install -Dm755 dms debian/dms/usr/bin/dms
 
 	mkdir -p debian/dms/usr/share/quickshell/dms debian/dms/usr/lib/systemd/user
+	# Handle directory name mismatch again for install step if needed
+	if [ ! -d DankMaterialShell-$(UPSTREAM_VERSION) ] && [ -d DankMaterialShell-0.6.2 ]; then \
+		mv DankMaterialShell-0.6.2 DankMaterialShell-$(UPSTREAM_VERSION); \
+	fi
 	if [ -d DankMaterialShell-$(UPSTREAM_VERSION) ]; then \
 		cp -r DankMaterialShell-$(UPSTREAM_VERSION)/quickshell/* debian/dms/usr/share/quickshell/dms/; \
 		install -Dm644 DankMaterialShell-$(UPSTREAM_VERSION)/quickshell/assets/systemd/dms.service debian/dms/usr/lib/systemd/user/dms.service; \

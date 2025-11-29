@@ -7,6 +7,7 @@ DankModal {
     id: root
 
     layerNamespace: "dms:confirm-modal"
+    keepPopoutsOpen: true
 
     property string confirmTitle: ""
     property string confirmMessage: ""

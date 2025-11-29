@@ -65,13 +65,16 @@ DankPopout {
     shouldBeVisible: false
 
     property bool credentialsPromptOpen: NetworkService.credentialsRequested
+    property bool wifiPasswordModalOpen: PopoutService.wifiPasswordModal?.visible ?? false
+    property bool polkitModalOpen: PopoutService.polkitAuthModal?.visible ?? false
+    property bool anyModalOpen: credentialsPromptOpen || wifiPasswordModalOpen || polkitModalOpen || powerMenuOpen
+
+    backgroundInteractive: !anyModalOpen
 
     customKeyboardFocus: {
         if (!shouldBeVisible)
             return WlrKeyboardFocus.None;
-        if (powerMenuOpen)
-            return WlrKeyboardFocus.None;
-        if (credentialsPromptOpen)
+        if (anyModalOpen)
             return WlrKeyboardFocus.None;
         if (CompositorService.isHyprland)
             return WlrKeyboardFocus.OnDemand;
@@ -82,12 +85,10 @@ DankPopout {
 
     onShouldBeVisibleChanged: {
         if (shouldBeVisible) {
+            collapseAll();
             Qt.callLater(() => {
-                if (NetworkService.activeService) {
+                if (NetworkService.activeService)
                     NetworkService.activeService.autoRefreshEnabled = NetworkService.wifiEnabled;
-                }
-                if (UserInfoService)
-                    UserInfoService.getUptime();
             });
         } else {
             Qt.callLater(() => {
@@ -179,6 +180,7 @@ DankPopout {
                     bluetoothCodecSelector: bluetoothCodecSelector
                     colorPickerModal: root.colorPickerModal
                     screenName: root.triggerScreen?.name || ""
+                    screenModel: root.triggerScreen?.model || ""
                     parentScreen: root.triggerScreen
                     onExpandClicked: (widgetData, globalIndex) => {
                         root.expandedWidgetIndex = globalIndex;

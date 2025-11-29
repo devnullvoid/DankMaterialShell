@@ -53,8 +53,8 @@ PPA_NAME="${ARGS[1]}"
 UBUNTU_SERIES="${ARGS[2]:-questing}"
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-BUILD_SCRIPT="$SCRIPT_DIR/create-source.sh"
-UPLOAD_SCRIPT="$SCRIPT_DIR/upload-ppa.sh"
+BUILD_SCRIPT="$SCRIPT_DIR/ppa-build.sh"
+UPLOAD_SCRIPT="$SCRIPT_DIR/ppa-dput.sh"
 
 # Validate scripts exist
 if [ ! -f "$BUILD_SCRIPT" ]; then
@@ -218,14 +218,16 @@ if [ "$KEEP_BUILDS" = "false" ]; then
             fi
             ;;
         dms-git)
-            # Remove downloaded binary
-            if [ -f "$PACKAGE_DIR/dms-distropkg-amd64.gz" ]; then
-                rm -f "$PACKAGE_DIR/dms-distropkg-amd64.gz"
-                REMOVED=$((REMOVED + 1))
-            fi
-            # Remove git source directory
+            # Remove git source directory binary
             if [ -d "$PACKAGE_DIR/dms-git-repo" ]; then
                 rm -rf "$PACKAGE_DIR/dms-git-repo"
+                REMOVED=$((REMOVED + 1))
+            fi
+            ;;
+        dms-greeter)
+            # Remove downloaded source
+            if [ -f "$PACKAGE_DIR/dms-greeter-source.tar.gz" ]; then
+                rm -f "$PACKAGE_DIR/dms-greeter-source.tar.gz"
                 REMOVED=$((REMOVED + 1))
             fi
             ;;

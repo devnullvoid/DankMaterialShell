@@ -27,8 +27,8 @@ BasePill {
 
     content: Component {
         Item {
-            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : ramContentRoot.implicitWidth
-            implicitHeight: root.isVerticalOrientation ? ramColumn.implicitHeight : (root.widgetThickness - root.horizontalPadding * 2)
+            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : ramContent.implicitWidth
+            implicitHeight: root.isVerticalOrientation ? ramColumn.implicitHeight : ramContent.implicitHeight
 
             Column {
                 id: ramColumn
@@ -75,92 +75,85 @@ BasePill {
                 }
             }
 
-            Item {
-                id: ramContentRoot
+            Row {
+                id: ramContent
                 visible: !root.isVerticalOrientation
+                anchors.centerIn: parent
+                spacing: Theme.spacingXS
 
-                implicitWidth: ramRow.implicitWidth
-                implicitHeight: ramRow.implicitHeight
-
-                Row {
-                    id: ramRow
-                    anchors.centerIn: parent
-                    spacing: Theme.spacingXS
-
-                    DankIcon {
-                        id: ramIcon
-                        name: "developer_board"
-                        size: Theme.barIconSize(root.barThickness)
-                        color: {
-                            if (DgopService.memoryUsage > 90) {
-                                return Theme.tempDanger;
-                            }
-
-                            if (DgopService.memoryUsage > 75) {
-                                return Theme.tempWarning;
-                            }
-
-                            return Theme.widgetIconColor;
+                DankIcon {
+                    id: ramIcon
+                    name: "developer_board"
+                    size: Theme.barIconSize(root.barThickness)
+                    color: {
+                        if (DgopService.memoryUsage > 90) {
+                            return Theme.tempDanger;
                         }
 
-                        implicitWidth: size
-                        implicitHeight: size
-                        width: size
-                        height: size
+                        if (DgopService.memoryUsage > 75) {
+                            return Theme.tempWarning;
+                        }
+
+                        return Theme.widgetIconColor;
                     }
 
-                    Item {
-                        id: textBox
+                    implicitWidth: size
+                    implicitHeight: size
+                    width: size
+                    height: size
+                }
 
-                        implicitWidth: root.minimumWidth ? Math.max(ramBaseline.width, ramText.paintedWidth) : ramText.paintedWidth
-                        implicitHeight: ramText.implicitHeight
+                Item {
+                    id: textBox
 
-                        width: implicitWidth
-                        height: implicitHeight
+                    implicitWidth: root.minimumWidth ? Math.max(ramBaseline.width, ramText.paintedWidth) : ramText.paintedWidth
+                    implicitHeight: ramText.implicitHeight
 
-                        Behavior on width {
-                            NumberAnimation {
-                                duration: Theme.shortDuration
-                                easing.type: Easing.OutCubic
-                            }
+                    width: implicitWidth
+                    height: implicitHeight
+
+                    Behavior on width {
+                        NumberAnimation {
+                            duration: Theme.shortDuration
+                            easing.type: Easing.OutCubic
                         }
+                    }
 
-                        StyledTextMetrics {
-                            id: ramBaseline
-                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                            text: {
-                                if (!root.showSwap) {
-                                    return "88%";
-                                }
-                                if (root.swapUsage < 10) {
-                                    return "88% · 0%";
-                                }
-                                return "88% · 88%";
+                    StyledTextMetrics {
+                        id: ramBaseline
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        text: {
+                            if (!root.showSwap) {
+                                return "88%";
                             }
-                        }
-
-                        StyledText {
-                            id: ramText
-                            text: {
-                                if (DgopService.memoryUsage === undefined || DgopService.memoryUsage === null || DgopService.memoryUsage === 0) {
-                                    return "--%";
-                                }
-
-                                let ramText = DgopService.memoryUsage.toFixed(0) + "%";
-                                if (root.showSwap && DgopService.totalSwapKB > 0) {
-                                    return ramText + " · " + root.swapUsage.toFixed(0) + "%";
-                                }
-                                return ramText;
+                            if (root.swapUsage < 10) {
+                                return "88% · 0%";
                             }
-                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                            color: Theme.widgetTextColor
-
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            elide: Text.ElideNone
-                            wrapMode: Text.NoWrap
+                            return "88% · 88%";
                         }
+                    }
+
+                    StyledText {
+                        id: ramText
+                        text: {
+                            if (DgopService.memoryUsage === undefined || DgopService.memoryUsage === null || DgopService.memoryUsage === 0) {
+                                return "--%";
+                            }
+
+                            let ramText = DgopService.memoryUsage.toFixed(0) + "%";
+                            if (root.showSwap && DgopService.totalSwapKB > 0) {
+                                return ramText + " · " + root.swapUsage.toFixed(0) + "%";
+                            }
+                            return ramText;
+                        }
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        color: Theme.widgetTextColor
+
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideNone
+                        wrapMode: Text.NoWrap
                     }
                 }
             }

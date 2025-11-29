@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Hyprland
 import qs.Common
@@ -10,9 +11,10 @@ DankModal {
     id: root
 
     layerNamespace: "dms:power-menu"
+    keepPopoutsOpen: true
 
     HyprlandFocusGrab {
-        windows: [root]
+        windows: [root.contentWindow]
         active: CompositorService.isHyprland && root.shouldHaveFocus
     }
 
@@ -25,8 +27,93 @@ DankModal {
     property int gridColumns: 3
     property int gridRows: 2
 
+    property string holdAction: ""
+    property int holdActionIndex: -1
+    property real holdProgress: 0
+    property bool showHoldHint: false
+
+    readonly property bool needsConfirmation: SettingsData.powerActionConfirm
+    readonly property int holdDurationMs: SettingsData.powerActionHoldDuration * 1000
+
     signal powerActionRequested(string action, string title, string message)
     signal lockRequested
+
+    function actionNeedsConfirm(action) {
+        return action !== "lock" && action !== "restart";
+    }
+
+    function startHold(action, actionIndex) {
+        if (!needsConfirmation || !actionNeedsConfirm(action)) {
+            executeAction(action);
+            return;
+        }
+        holdAction = action;
+        holdActionIndex = actionIndex;
+        holdProgress = 0;
+        showHoldHint = false;
+        holdTimer.start();
+    }
+
+    function cancelHold() {
+        if (holdAction === "")
+            return;
+        const wasHolding = holdProgress > 0;
+        holdTimer.stop();
+        if (wasHolding && holdProgress < 1) {
+            showHoldHint = true;
+            hintTimer.restart();
+        }
+        holdAction = "";
+        holdActionIndex = -1;
+        holdProgress = 0;
+    }
+
+    function completeHold() {
+        if (holdProgress < 1) {
+            cancelHold();
+            return;
+        }
+        const action = holdAction;
+        holdTimer.stop();
+        holdAction = "";
+        holdActionIndex = -1;
+        holdProgress = 0;
+        executeAction(action);
+    }
+
+    function executeAction(action) {
+        if (action === "lock") {
+            close();
+            lockRequested();
+            return;
+        }
+        if (action === "restart") {
+            close();
+            Quickshell.execDetached(["dms", "restart"]);
+            return;
+        }
+        close();
+        root.powerActionRequested(action, "", "");
+    }
+
+    Timer {
+        id: holdTimer
+        interval: 16
+        repeat: true
+        onTriggered: {
+            root.holdProgress = Math.min(1, root.holdProgress + (interval / root.holdDurationMs));
+            if (root.holdProgress >= 1) {
+                stop();
+                root.completeHold();
+            }
+        }
+    }
+
+    Timer {
+        id: hintTimer
+        interval: 2000
+        onTriggered: root.showHoldHint = false
+    }
 
     function openCentered() {
         parentBounds = Qt.rect(0, 0, 0, 0);
@@ -39,9 +126,7 @@ DankModal {
         parentBounds = bounds;
         parentScreen = targetScreen;
         backgroundOpacity = 0;
-        keepPopoutsOpen = true;
         open();
-        keepPopoutsOpen = false;
     }
 
     function updateVisibleActions() {
@@ -142,44 +227,8 @@ DankModal {
         }
     }
 
-    function selectOption(action) {
-        if (action === "lock") {
-            close();
-            lockRequested();
-            return;
-        }
-        if (action === "restart") {
-            close();
-            Quickshell.execDetached(["dms", "restart"]);
-            return;
-        }
-        close();
-        const actions = {
-            "logout": {
-                "title": I18n.tr("Log Out"),
-                "message": I18n.tr("Are you sure you want to log out?")
-            },
-            "suspend": {
-                "title": I18n.tr("Suspend"),
-                "message": I18n.tr("Are you sure you want to suspend the system?")
-            },
-            "hibernate": {
-                "title": I18n.tr("Hibernate"),
-                "message": I18n.tr("Are you sure you want to hibernate the system?")
-            },
-            "reboot": {
-                "title": I18n.tr("Reboot"),
-                "message": I18n.tr("Are you sure you want to reboot the system?")
-            },
-            "poweroff": {
-                "title": I18n.tr("Power Off"),
-                "message": I18n.tr("Are you sure you want to power off the system?")
-            }
-        };
-        const selected = actions[action];
-        if (selected) {
-            root.powerActionRequested(action, selected.title, selected.message);
-        }
+    function selectOption(action, actionIndex) {
+        startHold(action, actionIndex !== undefined ? actionIndex : -1);
     }
 
     shouldBeVisible: false
@@ -208,8 +257,15 @@ DankModal {
         }
         return Qt.point(0, 0);
     }
-    onBackgroundClicked: () => close()
+    onBackgroundClicked: () => {
+        cancelHold();
+        close();
+    }
     onOpened: () => {
+        holdAction = "";
+        holdActionIndex = -1;
+        holdProgress = 0;
+        showHoldHint = false;
         updateVisibleActions();
         const defaultIndex = getDefaultActionIndex();
         if (SettingsData.powerMenuGridLayout) {
@@ -221,16 +277,42 @@ DankModal {
         }
         Qt.callLater(() => modalFocusScope.forceActiveFocus());
     }
+    onDialogClosed: () => {
+        cancelHold();
+    }
     Component.onCompleted: updateVisibleActions()
     modalFocusScope.Keys.onPressed: event => {
+        if (event.isAutoRepeat) {
+            event.accepted = true;
+            return;
+        }
         if (SettingsData.powerMenuGridLayout) {
-            handleGridNavigation(event);
+            handleGridNavigation(event, true);
         } else {
-            handleListNavigation(event);
+            handleListNavigation(event, true);
+        }
+    }
+    modalFocusScope.Keys.onReleased: event => {
+        if (event.isAutoRepeat) {
+            event.accepted = true;
+            return;
+        }
+        if (SettingsData.powerMenuGridLayout) {
+            handleGridNavigation(event, false);
+        } else {
+            handleListNavigation(event, false);
         }
     }
 
-    function handleListNavigation(event) {
+    function handleListNavigation(event, isPressed) {
+        if (!isPressed) {
+            if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter || event.key === Qt.Key_R || event.key === Qt.Key_X || event.key === Qt.Key_L || event.key === Qt.Key_S || event.key === Qt.Key_H || event.key === Qt.Key_D || (event.key === Qt.Key_P && !(event.modifiers & Qt.ControlModifier))) {
+                cancelHold();
+                event.accepted = true;
+            }
+            return;
+        }
+
         switch (event.key) {
         case Qt.Key_Up:
         case Qt.Key_Backtab:
@@ -244,7 +326,7 @@ DankModal {
             break;
         case Qt.Key_Return:
         case Qt.Key_Enter:
-            selectOption(getActionAtIndex(selectedIndex));
+            startHold(getActionAtIndex(selectedIndex), selectedIndex);
             event.accepted = true;
             break;
         case Qt.Key_N:
@@ -255,7 +337,8 @@ DankModal {
             break;
         case Qt.Key_P:
             if (!(event.modifiers & Qt.ControlModifier)) {
-                selectOption("poweroff");
+                const idx = visibleActions.indexOf("poweroff");
+                startHold("poweroff", idx);
                 event.accepted = true;
             } else {
                 selectedIndex = (selectedIndex - 1 + visibleActions.length) % visibleActions.length;
@@ -275,33 +358,41 @@ DankModal {
             }
             break;
         case Qt.Key_R:
-            selectOption("reboot");
+            startHold("reboot", visibleActions.indexOf("reboot"));
             event.accepted = true;
             break;
         case Qt.Key_X:
-            selectOption("logout");
+            startHold("logout", visibleActions.indexOf("logout"));
             event.accepted = true;
             break;
         case Qt.Key_L:
-            selectOption("lock");
+            startHold("lock", visibleActions.indexOf("lock"));
             event.accepted = true;
             break;
         case Qt.Key_S:
-            selectOption("suspend");
+            startHold("suspend", visibleActions.indexOf("suspend"));
             event.accepted = true;
             break;
         case Qt.Key_H:
-            selectOption("hibernate");
+            startHold("hibernate", visibleActions.indexOf("hibernate"));
             event.accepted = true;
             break;
         case Qt.Key_D:
-            selectOption("restart");
+            startHold("restart", visibleActions.indexOf("restart"));
             event.accepted = true;
             break;
         }
     }
 
-    function handleGridNavigation(event) {
+    function handleGridNavigation(event, isPressed) {
+        if (!isPressed) {
+            if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter || event.key === Qt.Key_R || event.key === Qt.Key_X || event.key === Qt.Key_L || event.key === Qt.Key_S || event.key === Qt.Key_H || event.key === Qt.Key_D || (event.key === Qt.Key_P && !(event.modifiers & Qt.ControlModifier))) {
+                cancelHold();
+                event.accepted = true;
+            }
+            return;
+        }
+
         switch (event.key) {
         case Qt.Key_Left:
             selectedCol = (selectedCol - 1 + gridColumns) % gridColumns;
@@ -327,7 +418,7 @@ DankModal {
             break;
         case Qt.Key_Return:
         case Qt.Key_Enter:
-            selectOption(getActionAtIndex(selectedIndex));
+            startHold(getActionAtIndex(selectedIndex), selectedIndex);
             event.accepted = true;
             break;
         case Qt.Key_N:
@@ -339,7 +430,8 @@ DankModal {
             break;
         case Qt.Key_P:
             if (!(event.modifiers & Qt.ControlModifier)) {
-                selectOption("poweroff");
+                const idx = visibleActions.indexOf("poweroff");
+                startHold("poweroff", idx);
                 event.accepted = true;
             } else {
                 selectedCol = (selectedCol - 1 + gridColumns) % gridColumns;
@@ -362,27 +454,27 @@ DankModal {
             }
             break;
         case Qt.Key_R:
-            selectOption("reboot");
+            startHold("reboot", visibleActions.indexOf("reboot"));
             event.accepted = true;
             break;
         case Qt.Key_X:
-            selectOption("logout");
+            startHold("logout", visibleActions.indexOf("logout"));
             event.accepted = true;
             break;
         case Qt.Key_L:
-            selectOption("lock");
+            startHold("lock", visibleActions.indexOf("lock"));
             event.accepted = true;
             break;
         case Qt.Key_S:
-            selectOption("suspend");
+            startHold("suspend", visibleActions.indexOf("suspend"));
             event.accepted = true;
             break;
         case Qt.Key_H:
-            selectOption("hibernate");
+            startHold("hibernate", visibleActions.indexOf("hibernate"));
             event.accepted = true;
             break;
         case Qt.Key_D:
-            selectOption("restart");
+            startHold("restart", visibleActions.indexOf("restart"));
             event.accepted = true;
             break;
         }
@@ -391,12 +483,14 @@ DankModal {
     content: Component {
         Item {
             anchors.fill: parent
-            implicitHeight: SettingsData.powerMenuGridLayout ? buttonGrid.implicitHeight + Theme.spacingL * 2 : buttonColumn.implicitHeight + Theme.spacingL * 2
+            implicitHeight: (SettingsData.powerMenuGridLayout ? buttonGrid.implicitHeight : buttonColumn.implicitHeight) + Theme.spacingL * 2 + (root.needsConfirmation ? hintRow.height + Theme.spacingM : 0)
 
             Grid {
                 id: buttonGrid
                 visible: SettingsData.powerMenuGridLayout
-                anchors.centerIn: parent
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top: parent.top
+                anchors.topMargin: Theme.spacingL
                 columns: root.gridColumns
                 columnSpacing: Theme.spacingS
                 rowSpacing: Theme.spacingS
@@ -405,12 +499,14 @@ DankModal {
                     model: root.visibleActions
 
                     Rectangle {
+                        id: gridButtonRect
                         required property int index
                         required property string modelData
 
                         readonly property var actionData: root.getActionData(modelData)
                         readonly property bool isSelected: root.selectedIndex === index
                         readonly property bool showWarning: modelData === "reboot" || modelData === "poweroff"
+                        readonly property bool isHolding: root.holdActionIndex === index && root.holdProgress > 0
 
                         width: (root.modalWidth - Theme.spacingL * 2 - Theme.spacingS * (root.gridColumns - 1)) / root.gridColumns
                         height: 100
@@ -425,16 +521,50 @@ DankModal {
                         border.color: isSelected ? Theme.primary : "transparent"
                         border.width: isSelected ? 2 : 0
 
+                        Rectangle {
+                            id: gridProgressMask
+                            anchors.fill: parent
+                            radius: parent.radius
+                            visible: false
+                            layer.enabled: true
+                        }
+
+                        Item {
+                            anchors.fill: parent
+                            visible: gridButtonRect.isHolding
+                            layer.enabled: gridButtonRect.isHolding
+                            layer.effect: MultiEffect {
+                                maskEnabled: true
+                                maskSource: gridProgressMask
+                                maskSpreadAtMin: 1
+                                maskThresholdMin: 0.5
+                            }
+
+                            Rectangle {
+                                anchors.left: parent.left
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                width: parent.width * root.holdProgress
+                                color: {
+                                    if (gridButtonRect.modelData === "poweroff")
+                                        return Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 0.3);
+                                    if (gridButtonRect.modelData === "reboot")
+                                        return Qt.rgba(Theme.warning.r, Theme.warning.g, Theme.warning.b, 0.3);
+                                    return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3);
+                                }
+                            }
+                        }
+
                         Column {
                             anchors.centerIn: parent
                             spacing: Theme.spacingS
 
                             DankIcon {
-                                name: parent.parent.actionData.icon
+                                name: gridButtonRect.actionData.icon
                                 size: Theme.iconSize + 8
                                 color: {
-                                    if (parent.parent.showWarning && mouseArea.containsMouse) {
-                                        return parent.parent.modelData === "poweroff" ? Theme.error : Theme.warning;
+                                    if (gridButtonRect.showWarning && (mouseArea.containsMouse || gridButtonRect.isHolding)) {
+                                        return gridButtonRect.modelData === "poweroff" ? Theme.error : Theme.warning;
                                     }
                                     return Theme.surfaceText;
                                 }
@@ -442,11 +572,11 @@ DankModal {
                             }
 
                             StyledText {
-                                text: parent.parent.actionData.label
+                                text: gridButtonRect.actionData.label
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: {
-                                    if (parent.parent.showWarning && mouseArea.containsMouse) {
-                                        return parent.parent.modelData === "poweroff" ? Theme.error : Theme.warning;
+                                    if (gridButtonRect.showWarning && (mouseArea.containsMouse || gridButtonRect.isHolding)) {
+                                        return gridButtonRect.modelData === "poweroff" ? Theme.error : Theme.warning;
                                     }
                                     return Theme.surfaceText;
                                 }
@@ -462,7 +592,7 @@ DankModal {
                                 anchors.horizontalCenter: parent.horizontalCenter
 
                                 StyledText {
-                                    text: parent.parent.parent.actionData.key
+                                    text: gridButtonRect.actionData.key
                                     font.pixelSize: Theme.fontSizeSmall - 1
                                     color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.6)
                                     font.weight: Font.Medium
@@ -476,11 +606,14 @@ DankModal {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            onClicked: {
+                            onPressed: {
                                 root.selectedRow = Math.floor(index / root.gridColumns);
                                 root.selectedCol = index % root.gridColumns;
-                                root.selectOption(modelData);
+                                root.selectedIndex = index;
+                                root.startHold(modelData, index);
                             }
+                            onReleased: root.cancelHold()
+                            onCanceled: root.cancelHold()
                         }
                     }
                 }
@@ -492,9 +625,10 @@ DankModal {
                 anchors {
                     left: parent.left
                     right: parent.right
+                    top: parent.top
                     leftMargin: Theme.spacingL
                     rightMargin: Theme.spacingL
-                    verticalCenter: parent.verticalCenter
+                    topMargin: Theme.spacingL
                 }
                 spacing: Theme.spacingS
 
@@ -502,12 +636,14 @@ DankModal {
                     model: root.visibleActions
 
                     Rectangle {
+                        id: listButtonRect
                         required property int index
                         required property string modelData
 
                         readonly property var actionData: root.getActionData(modelData)
                         readonly property bool isSelected: root.selectedIndex === index
                         readonly property bool showWarning: modelData === "reboot" || modelData === "poweroff"
+                        readonly property bool isHolding: root.holdActionIndex === index && root.holdProgress > 0
 
                         width: parent.width
                         height: 56
@@ -522,6 +658,40 @@ DankModal {
                         border.color: isSelected ? Theme.primary : "transparent"
                         border.width: isSelected ? 2 : 0
 
+                        Rectangle {
+                            id: listProgressMask
+                            anchors.fill: parent
+                            radius: parent.radius
+                            visible: false
+                            layer.enabled: true
+                        }
+
+                        Item {
+                            anchors.fill: parent
+                            visible: listButtonRect.isHolding
+                            layer.enabled: listButtonRect.isHolding
+                            layer.effect: MultiEffect {
+                                maskEnabled: true
+                                maskSource: listProgressMask
+                                maskSpreadAtMin: 1
+                                maskThresholdMin: 0.5
+                            }
+
+                            Rectangle {
+                                anchors.left: parent.left
+                                anchors.top: parent.top
+                                anchors.bottom: parent.bottom
+                                width: parent.width * root.holdProgress
+                                color: {
+                                    if (listButtonRect.modelData === "poweroff")
+                                        return Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 0.3);
+                                    if (listButtonRect.modelData === "reboot")
+                                        return Qt.rgba(Theme.warning.r, Theme.warning.g, Theme.warning.b, 0.3);
+                                    return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3);
+                                }
+                            }
+                        }
+
                         Row {
                             anchors {
                                 left: parent.left
@@ -533,11 +703,11 @@ DankModal {
                             spacing: Theme.spacingM
 
                             DankIcon {
-                                name: parent.parent.actionData.icon
+                                name: listButtonRect.actionData.icon
                                 size: Theme.iconSize + 4
                                 color: {
-                                    if (parent.parent.showWarning && listMouseArea.containsMouse) {
-                                        return parent.parent.modelData === "poweroff" ? Theme.error : Theme.warning;
+                                    if (listButtonRect.showWarning && (listMouseArea.containsMouse || listButtonRect.isHolding)) {
+                                        return listButtonRect.modelData === "poweroff" ? Theme.error : Theme.warning;
                                     }
                                     return Theme.surfaceText;
                                 }
@@ -545,11 +715,11 @@ DankModal {
                             }
 
                             StyledText {
-                                text: parent.parent.actionData.label
+                                text: listButtonRect.actionData.label
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: {
-                                    if (parent.parent.showWarning && listMouseArea.containsMouse) {
-                                        return parent.parent.modelData === "poweroff" ? Theme.error : Theme.warning;
+                                    if (listButtonRect.showWarning && (listMouseArea.containsMouse || listButtonRect.isHolding)) {
+                                        return listButtonRect.modelData === "poweroff" ? Theme.error : Theme.warning;
                                     }
                                     return Theme.surfaceText;
                                 }
@@ -570,7 +740,7 @@ DankModal {
                             }
 
                             StyledText {
-                                text: parent.parent.actionData.key
+                                text: listButtonRect.actionData.key
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.6)
                                 font.weight: Font.Medium
@@ -583,12 +753,51 @@ DankModal {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            onClicked: {
+                            onPressed: {
                                 root.selectedIndex = index;
-                                root.selectOption(modelData);
+                                root.startHold(modelData, index);
                             }
+                            onReleased: root.cancelHold()
+                            onCanceled: root.cancelHold()
                         }
                     }
+                }
+            }
+
+            Row {
+                id: hintRow
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: Theme.spacingS
+                spacing: Theme.spacingXS
+                visible: root.needsConfirmation
+                opacity: root.showHoldHint ? 1 : 0.5
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 150
+                    }
+                }
+
+                DankIcon {
+                    name: root.showHoldHint ? "warning" : "touch_app"
+                    size: Theme.fontSizeSmall
+                    color: root.showHoldHint ? Theme.warning : Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.6)
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                StyledText {
+                    readonly property int remainingSeconds: Math.ceil(SettingsData.powerActionHoldDuration * (1 - root.holdProgress))
+                    text: {
+                        if (root.showHoldHint)
+                            return I18n.tr("Hold longer to confirm");
+                        if (root.holdProgress > 0)
+                            return I18n.tr("Hold to confirm (%1s)").arg(remainingSeconds);
+                        return I18n.tr("Hold to confirm (%1s)").arg(SettingsData.powerActionHoldDuration);
+                    }
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: root.showHoldHint ? Theme.warning : Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.6)
+                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
         }

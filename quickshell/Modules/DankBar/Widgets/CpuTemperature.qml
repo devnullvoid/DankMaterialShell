@@ -25,8 +25,8 @@ BasePill {
 
     content: Component {
         Item {
-            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : cpuTempContentRoot.implicitWidth
-            implicitHeight: root.isVerticalOrientation ? cpuTempColumn.implicitHeight : (root.widgetThickness - root.horizontalPadding * 2)
+            implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : cpuTempRow.implicitWidth
+            implicitHeight: root.isVerticalOrientation ? cpuTempColumn.implicitHeight : cpuTempRow.implicitHeight
 
             Column {
                 id: cpuTempColumn
@@ -65,79 +65,72 @@ BasePill {
                 }
             }
 
-            Item {
-                id: cpuTempContentRoot
+            Row {
+                id: cpuTempRow
                 visible: !root.isVerticalOrientation
+                anchors.centerIn: parent
+                spacing: Theme.spacingXS
 
-                implicitWidth: cpuTempRow.implicitWidth
-                implicitHeight: cpuTempRow.implicitHeight
-
-                Row {
-                    id: cpuTempRow
-                    anchors.centerIn: parent
-                    spacing: Theme.spacingXS
-
-                    DankIcon {
-                        id: cpuTempIcon
-                        name: "device_thermostat"
-                        size: Theme.barIconSize(root.barThickness)
-                        color: {
-                            if (DgopService.cpuTemperature > 85) {
-                                return Theme.tempDanger;
-                            }
-
-                            if (DgopService.cpuTemperature > 69) {
-                                return Theme.tempWarning;
-                            }
-
-                            return Theme.widgetIconColor;
+                DankIcon {
+                    id: cpuTempIcon
+                    name: "device_thermostat"
+                    size: Theme.barIconSize(root.barThickness)
+                    color: {
+                        if (DgopService.cpuTemperature > 85) {
+                            return Theme.tempDanger;
                         }
 
-                        implicitWidth: size
-                        implicitHeight: size
-                        width: size
-                        height: size
+                        if (DgopService.cpuTemperature > 69) {
+                            return Theme.tempWarning;
+                        }
+
+                        return Theme.widgetIconColor;
                     }
 
-                    Item {
-                        id: textBox
+                    implicitWidth: size
+                    implicitHeight: size
+                    width: size
+                    height: size
+                }
 
-                        implicitWidth: root.minimumWidth ? Math.max(tempBaseline.width, cpuTempText.paintedWidth) : cpuTempText.paintedWidth
-                        implicitHeight: cpuTempText.implicitHeight
+                Item {
+                    id: textBox
 
-                        width: implicitWidth
-                        height: implicitHeight
+                    implicitWidth: root.minimumWidth ? Math.max(tempBaseline.width, cpuTempText.paintedWidth) : cpuTempText.paintedWidth
+                    implicitHeight: cpuTempText.implicitHeight
 
-                        Behavior on width {
-                            NumberAnimation {
-                                duration: Theme.shortDuration
-                                easing.type: Easing.OutCubic
+                    width: implicitWidth
+                    height: implicitHeight
+
+                    Behavior on width {
+                        NumberAnimation {
+                            duration: Theme.shortDuration
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+
+                    StyledTextMetrics {
+                        id: tempBaseline
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        text: "88°"
+                    }
+
+                    StyledText {
+                        id: cpuTempText
+                        text: {
+                            if (DgopService.cpuTemperature === undefined || DgopService.cpuTemperature === null || DgopService.cpuTemperature < 0) {
+                                return "--°";
                             }
+
+                            return Math.round(DgopService.cpuTemperature) + "°";
                         }
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        color: Theme.widgetTextColor
 
-                        StyledTextMetrics {
-                            id: tempBaseline
-                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                            text: "88°"
-                        }
-
-                        StyledText {
-                            id: cpuTempText
-                            text: {
-                                if (DgopService.cpuTemperature === undefined || DgopService.cpuTemperature === null || DgopService.cpuTemperature < 0) {
-                                    return "--°";
-                                }
-
-                                return Math.round(DgopService.cpuTemperature) + "°";
-                            }
-                            font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
-                            color: Theme.widgetTextColor
-
-                            anchors.fill: parent
-                            horizontalAlignment: Text.AlignHCenter
-                            verticalAlignment: Text.AlignVCenter
-                            elide: Text.ElideNone
-                        }
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        elide: Text.ElideNone
                     }
                 }
             }

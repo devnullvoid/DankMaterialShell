@@ -39,6 +39,7 @@ FloatingWindow {
 
     objectName: "settingsModal"
     title: I18n.tr("Settings", "settings window title")
+    minimumSize: Qt.size(500, 400)
     implicitWidth: 800
     implicitHeight: 800
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
@@ -111,7 +112,7 @@ FloatingWindow {
         focus: true
 
         Keys.onPressed: event => {
-            const tabCount = 11;
+            const tabCount = 12;
             if (event.key === Qt.Key_Escape) {
                 hide();
                 event.accepted = true;
@@ -234,9 +235,7 @@ FloatingWindow {
                     SettingsContent {
                         id: content
 
-                        width: Math.min(550, parent.width - Theme.spacingL * 2)
-                        height: parent.height
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.fill: parent
                         parentModal: settingsModal
                         currentIndex: settingsModal.currentTabIndex
                     }

@@ -1,6 +1,20 @@
 [
   {
+    "term": "%1 adapter(s), none connected",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "%1 characters",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "%1 connected",
     "translation": "",
     "context": "",
     "reference": "",
@@ -119,6 +133,41 @@
     "comment": ""
   },
   {
+    "term": "Activate",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Active",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Active: ",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Active: None",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Adapters",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Add",
     "translation": "",
     "context": "",
@@ -140,14 +189,7 @@
     "comment": ""
   },
   {
-    "term": "Add Widget to ",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Add a VPN in NetworkManager",
+    "term": "Add Widget to %1 Section",
     "translation": "",
     "context": "",
     "reference": "",
@@ -217,6 +259,13 @@
     "comment": ""
   },
   {
+    "term": "Anonymous Identity",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Anonymous Identity (optional)",
     "translation": "",
     "context": "",
@@ -280,35 +329,7 @@
     "comment": ""
   },
   {
-    "term": "Are you sure you want to hibernate the system?",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Are you sure you want to log out?",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Are you sure you want to power off the system?",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Are you sure you want to reboot the system?",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Are you sure you want to suspend the system?",
+    "term": "Audio",
     "translation": "",
     "context": "",
     "reference": "",
@@ -336,13 +357,6 @@
     "comment": ""
   },
   {
-    "term": "Audio Icon",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Audio Output Devices (",
     "translation": "",
     "context": "",
@@ -350,7 +364,28 @@
     "comment": ""
   },
   {
+    "term": "Auth",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Auth Type",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Authenticate",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Authentication",
     "translation": "",
     "context": "",
     "reference": "",
@@ -392,6 +427,13 @@
     "comment": ""
   },
   {
+    "term": "Auto",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Auto Location",
     "translation": "",
     "context": "",
@@ -421,6 +463,13 @@
   },
   {
     "term": "Auto-saving...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Autoconnect",
     "translation": "",
     "context": "",
     "reference": "",
@@ -525,6 +574,13 @@
     "comment": ""
   },
   {
+    "term": "Available Networks",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Available Plugins",
     "translation": "",
     "context": "",
@@ -539,7 +595,21 @@
     "comment": ""
   },
   {
+    "term": "BSSID",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Back",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Backend",
     "translation": "",
     "context": "",
     "reference": "",
@@ -588,7 +658,7 @@
     "comment": ""
   },
   {
-    "term": "Bluetooth Icon",
+    "term": "Bluetooth",
     "translation": "",
     "context": "",
     "reference": "",
@@ -791,6 +861,13 @@
     "comment": ""
   },
   {
+    "term": "Certificate Password",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Change bar appearance",
     "translation": "",
     "context": "",
@@ -799,6 +876,13 @@
   },
   {
     "term": "Changes:",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Channel",
     "translation": "",
     "context": "",
     "reference": "",
@@ -854,6 +938,13 @@
     "comment": ""
   },
   {
+    "term": "Choose the widget outline accent color",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Choose where notification popups appear on screen",
     "translation": "",
     "context": "",
@@ -862,6 +953,13 @@
   },
   {
     "term": "Choose where on-screen displays appear on screen",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Cipher",
     "translation": "",
     "context": "",
     "reference": "",
@@ -883,6 +981,13 @@
   },
   {
     "term": "Clear All History?",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Click Import to add a .ovpn or .conf",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1086,6 +1191,13 @@
   },
   {
     "term": "Connect to Wi-Fi",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Connected",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1407,6 +1519,20 @@
     "comment": ""
   },
   {
+    "term": "Delete",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Delete VPN",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Derives colors that closely match the underlying image.",
     "translation": "",
     "context": "",
@@ -1457,6 +1583,13 @@
   },
   {
     "term": "Disconnect",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Disconnected",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1534,6 +1667,13 @@
   },
   {
     "term": "Display currently focused application title",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Display only workspaces that contain windows",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1632,6 +1772,13 @@
   },
   {
     "term": "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Driver",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1834,7 +1981,21 @@
     "comment": ""
   },
   {
+    "term": "Enterprise",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Error",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Ethernet",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1856,6 +2017,20 @@
   },
   {
     "term": "F1/I: Toggle • F10: Help",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Fade grace period",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Fade to lock screen",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1897,6 +2072,13 @@
     "comment": ""
   },
   {
+    "term": "Failed to delete VPN",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to disconnect VPN",
     "translation": "",
     "context": "",
@@ -1919,6 +2101,20 @@
   },
   {
     "term": "Failed to enable WiFi",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to import VPN",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to load VPN config",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1961,6 +2157,13 @@
   },
   {
     "term": "Failed to start connection to ",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to update VPN",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2065,6 +2268,13 @@
     "comment": ""
   },
   {
+    "term": "Forget",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Forget Device",
     "translation": "",
     "context": "",
@@ -2087,6 +2297,13 @@
   },
   {
     "term": "Format Legend",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Frequency",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2164,6 +2381,13 @@
   },
   {
     "term": "Goth Corners",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Gradually fade the screen before locking with a configurable grace period",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2261,6 +2485,34 @@
     "comment": ""
   },
   {
+    "term": "Hold Duration",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hold longer to confirm",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hold to Confirm Power Actions",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hold to confirm (%1s)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Hour",
     "translation": "",
     "context": "",
@@ -2283,6 +2535,20 @@
   },
   {
     "term": "I Understand",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "IP",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "IP Address:",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2345,6 +2611,20 @@
     "comment": ""
   },
   {
+    "term": "Import",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Import VPN",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Include Transitions",
     "translation": "",
     "context": "",
@@ -2395,6 +2675,13 @@
   },
   {
     "term": "Install plugins from the DMS plugin registry",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Interface:",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2604,6 +2891,13 @@
     "comment": ""
   },
   {
+    "term": "Loading...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Location Search",
     "translation": "",
     "context": "",
@@ -2661,6 +2955,20 @@
   },
   {
     "term": "Low Priority",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "MAC",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "MTU",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2891,6 +3199,13 @@
     "comment": ""
   },
   {
+    "term": "Mode",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Mode:",
     "translation": "",
     "context": "",
@@ -2996,13 +3311,6 @@
     "comment": ""
   },
   {
-    "term": "Network Icon",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Network Info",
     "translation": "",
     "context": "",
@@ -3025,6 +3333,13 @@
   },
   {
     "term": "Network Speed Monitor",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Network Status",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3073,6 +3388,13 @@
     "comment": ""
   },
   {
+    "term": "No",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "No Active Players",
     "translation": "",
     "context": "",
@@ -3101,7 +3423,7 @@
     "comment": ""
   },
   {
-    "term": "No VPN profiles found",
+    "term": "No VPN profiles",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3109,6 +3431,13 @@
   },
   {
     "term": "No Weather Data Available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No adapters",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3172,6 +3501,13 @@
   },
   {
     "term": "Normal Priority",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Not connected",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3353,6 +3689,27 @@
     "comment": ""
   },
   {
+    "term": "Outline Color",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Outline Opacity",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Outline Thickness",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Output Area Almost Full",
     "translation": "",
     "context": "",
@@ -3381,7 +3738,21 @@
     "comment": ""
   },
   {
+    "term": "Overview of your network connections",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Overwrite",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "PIN",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3535,6 +3906,13 @@
     "comment": ""
   },
   {
+    "term": "Playback",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Plugged In",
     "translation": "",
     "context": "",
@@ -3654,6 +4032,13 @@
     "comment": ""
   },
   {
+    "term": "Preference",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Pressure",
     "translation": "",
     "context": "",
@@ -3689,6 +4074,13 @@
     "comment": ""
   },
   {
+    "term": "Printer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Printers",
     "translation": "",
     "context": "",
@@ -3704,6 +4096,13 @@
   },
   {
     "term": "Privacy Indicator",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Private Key Password",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3732,6 +4131,13 @@
   },
   {
     "term": "Profile image is too large. Please use a smaller image.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Protocol",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3774,6 +4180,13 @@
   },
   {
     "term": "Rain Chance",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Rate",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3836,7 +4249,7 @@
     "comment": ""
   },
   {
-    "term": "Request confirmation on power off, restart, suspend, hibernate and logout actions",
+    "term": "Require holding button/key to confirm power off, restart, suspend, hibernate and logout",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3983,6 +4396,13 @@
     "comment": ""
   },
   {
+    "term": "Saved Configurations",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Scale DankBar font sizes independently",
     "translation": "",
     "context": "",
@@ -3998,6 +4418,13 @@
   },
   {
     "term": "Scan",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Scanning...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4053,6 +4480,13 @@
     "comment": ""
   },
   {
+    "term": "Search widgets...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Search...",
     "translation": "",
     "context": "",
@@ -4061,6 +4495,20 @@
   },
   {
     "term": "Searching...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Secured",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Security",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4116,7 +4564,7 @@
     "comment": ""
   },
   {
-    "term": "Select a widget to add to the ",
+    "term": "Select a widget to add. You can add multiple instances of the same widget if needed.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4193,6 +4641,13 @@
     "comment": ""
   },
   {
+    "term": "Server",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Set different wallpapers for each connected monitor",
     "translation": "",
     "context": "",
@@ -4228,13 +4683,6 @@
     "comment": ""
   },
   {
-    "term": "Show Confirmation on Power Actions",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Show Dock",
     "translation": "",
     "context": "",
@@ -4264,6 +4712,13 @@
   },
   {
     "term": "Show Log Out",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Occupied Workspaces Only",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4487,6 +4942,20 @@
     "comment": ""
   },
   {
+    "term": "Signal",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Signal:",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Size",
     "translation": "",
     "context": "",
@@ -4529,6 +4998,13 @@
     "comment": ""
   },
   {
+    "term": "Speed",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Spool Area Full",
     "translation": "",
     "context": "",
@@ -4551,6 +5027,13 @@
   },
   {
     "term": "Start typing your notes here...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "State",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4900,6 +5383,13 @@
     "comment": ""
   },
   {
+    "term": "Toggling...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Tomorrow",
     "translation": "",
     "context": "",
@@ -4956,7 +5446,21 @@
     "comment": ""
   },
   {
+    "term": "Unavailable",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Uninstall Plugin",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Unknown",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5152,6 +5656,34 @@
     "comment": ""
   },
   {
+    "term": "VPN Password",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "VPN configuration updated",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "VPN deleted",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "VPN imported: ",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "VPN status and quick connect",
     "translation": "",
     "context": "",
@@ -5243,6 +5775,13 @@
     "comment": ""
   },
   {
+    "term": "WPA/WPA2",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Wallpaper",
     "translation": "",
     "context": "",
@@ -5306,6 +5845,27 @@
     "comment": ""
   },
   {
+    "term": "Wi-Fi Password",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "WiFi",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "WiFi Device",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "WiFi disabled",
     "translation": "",
     "context": "",
@@ -5335,6 +5895,13 @@
   },
   {
     "term": "Widget Management",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Widget Outline",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5405,6 +5972,13 @@
   },
   {
     "term": "Workspace Switcher",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Yes",
     "translation": "",
     "context": "",
     "reference": "",

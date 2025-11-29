@@ -115,34 +115,48 @@ Item {
 
     function getHyprlandWorkspaces() {
         const workspaces = Hyprland.workspaces?.values || [];
-        if (workspaces.length === 0)
+        if (workspaces.length === 0) {
             return [
                 {
                     id: 1,
                     name: "1"
                 }
             ];
-
-        const filtered = workspaces.filter(ws => ws.id > -1);
-        if (filtered.length === 0)
-            return [
-                {
-                    id: 1,
-                    name: "1"
-                }
-            ];
-
-        if (!root.screenName || !SettingsData.workspacesPerMonitor) {
-            return filtered.slice().sort((a, b) => a.id - b.id);
         }
 
-        const monitorWorkspaces = filtered.filter(ws => ws.monitor?.name === root.screenName);
-        return monitorWorkspaces.length > 0 ? monitorWorkspaces.sort((a, b) => a.id - b.id) : [
-            {
-                id: 1,
-                name: "1"
-            }
-        ];
+        let filtered = workspaces.filter(ws => ws.id > -1);
+        if (filtered.length === 0) {
+            return [
+                {
+                    id: 1,
+                    name: "1"
+                }
+            ];
+        }
+
+        if (!root.screenName || !SettingsData.workspacesPerMonitor) {
+            filtered = filtered.slice().sort((a, b) => a.id - b.id);
+        } else {
+            const monitorWorkspaces = filtered.filter(ws => ws.monitor?.name === root.screenName);
+            filtered = monitorWorkspaces.length > 0 ? monitorWorkspaces.sort((a, b) => a.id - b.id) : [
+                {
+                    id: 1,
+                    name: "1"
+                }
+            ];
+        }
+
+        if (!SettingsData.showOccupiedWorkspacesOnly) {
+            return filtered;
+        }
+
+        const hyprlandToplevels = Array.from(Hyprland.toplevels?.values || []);
+        const activeWsId = root.currentWorkspace;
+        return filtered.filter(ws => {
+            if (ws.id === activeWsId)
+                return true;
+            return hyprlandToplevels.some(tl => tl.workspace?.id === ws.id);
+        });
     }
 
     function getHyprlandActiveWorkspace() {
@@ -287,12 +301,26 @@ Item {
             return [1, 2];
         }
 
+        let workspaces;
         if (!root.screenName || !SettingsData.workspacesPerMonitor) {
-            return NiriService.getCurrentOutputWorkspaceNumbers();
+            workspaces = NiriService.getCurrentOutputWorkspaceNumbers();
+        } else {
+            const displayWorkspaces = NiriService.allWorkspaces.filter(ws => ws.output === root.screenName).map(ws => ws.idx + 1);
+            workspaces = displayWorkspaces.length > 0 ? displayWorkspaces : [1, 2];
         }
 
-        const displayWorkspaces = NiriService.allWorkspaces.filter(ws => ws.output === root.screenName).map(ws => ws.idx + 1);
-        return displayWorkspaces.length > 0 ? displayWorkspaces : [1, 2];
+        if (!SettingsData.showOccupiedWorkspacesOnly) {
+            return workspaces;
+        }
+
+        return workspaces.filter(wsNum => {
+            const workspace = NiriService.allWorkspaces.find(w => w.idx + 1 === wsNum && w.output === root.screenName);
+            if (!workspace)
+                return false;
+            if (workspace.is_active)
+                return true;
+            return NiriService.windows?.some(win => win.workspace_id === workspace.id) ?? false;
+        });
     }
 
     function getNiriActiveWorkspace() {
@@ -573,10 +601,10 @@ Item {
                 if ((barConfig?.noBackground ?? false))
                     return "transparent";
                 const baseColor = Theme.widgetBaseBackgroundColor;
-                if (Theme.widgetBackgroundHasAlpha) {
-                    return baseColor;
-                }
                 const transparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
+                if (Theme.widgetBackgroundHasAlpha) {
+                    return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * transparency);
+                }
                 return Theme.withAlpha(baseColor, transparency);
             }
         }

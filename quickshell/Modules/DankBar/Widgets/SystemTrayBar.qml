@@ -130,10 +130,10 @@ Item {
                 }
 
                 const baseColor = Theme.widgetBaseBackgroundColor;
-                if (Theme.widgetBackgroundHasAlpha) {
-                    return baseColor;
-                }
                 const transparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
+                if (Theme.widgetBackgroundHasAlpha) {
+                    return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * transparency);
+                }
                 return Theme.withAlpha(baseColor, transparency);
             }
         }

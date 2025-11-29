@@ -3,7 +3,6 @@ import Quickshell
 import qs.Common
 import qs.Modals
 import qs.Modals.Clipboard
-import qs.Modals.Common
 import qs.Modals.Settings
 import qs.Modals.Spotlight
 import qs.Modules
@@ -63,21 +62,70 @@ Item {
         id: lock
     }
 
+    Variants {
+        model: Quickshell.screens
+
+        delegate: Loader {
+            id: fadeWindowLoader
+            required property var modelData
+            active: SettingsData.fadeToLockEnabled
+            asynchronous: false
+
+            sourceComponent: FadeToLockWindow {
+                screen: fadeWindowLoader.modelData
+
+                onFadeCompleted: {
+                    IdleService.lockRequested();
+                }
+
+                onFadeCancelled: {
+                    console.log("Fade to lock cancelled by user on screen:", fadeWindowLoader.modelData.name);
+                }
+            }
+
+            Connections {
+                target: IdleService
+                enabled: fadeWindowLoader.item !== null
+
+                function onFadeToLockRequested() {
+                    if (fadeWindowLoader.item) {
+                        fadeWindowLoader.item.startFade();
+                    }
+                }
+
+                function onCancelFadeToLock() {
+                    if (fadeWindowLoader.item) {
+                        fadeWindowLoader.item.cancelFade();
+                    }
+                }
+            }
+        }
+    }
+
     Repeater {
         id: dankBarRepeater
         model: ScriptModel {
-            values: SettingsData.barConfigs
+            id: barRepeaterModel
+            values: {
+                const configs = SettingsData.barConfigs;
+                return configs.map(c => ({
+                            id: c.id,
+                            position: c.position
+                        }));
+            }
         }
 
         property var hyprlandOverviewLoaderRef: hyprlandOverviewLoader
 
         delegate: Loader {
             id: barLoader
-            active: modelData.enabled
+            required property var modelData
+            property var barConfig: SettingsData.getBarConfig(modelData.id)
+            active: barConfig?.enabled ?? false
             asynchronous: false
 
             sourceComponent: DankBar {
-                barConfig: modelData
+                barConfig: barLoader.barConfig
                 hyprlandOverviewLoader: dankBarRepeater.hyprlandOverviewLoaderRef
 
                 onColorPickerRequested: {
@@ -204,6 +252,10 @@ Item {
 
     PolkitAuthModal {
         id: polkitAuthModal
+
+        Component.onCompleted: {
+            PopoutService.polkitAuthModal = polkitAuthModal;
+        }
     }
 
     BluetoothPairingModal {
@@ -220,21 +272,21 @@ Item {
     Connections {
         target: NetworkService
 
-        function onCredentialsNeeded(token, ssid, setting, fields, hints, reason, connType, connName, vpnService) {
+        function onCredentialsNeeded(token, ssid, setting, fields, hints, reason, connType, connName, vpnService, fieldsInfo) {
             const now = Date.now();
             const timeSinceLastPrompt = now - lastCredentialsTime;
 
-            if (wifiPasswordModal.shouldBeVisible && timeSinceLastPrompt < 1000) {
+            if (wifiPasswordModal.visible && timeSinceLastPrompt < 1000) {
                 NetworkService.cancelCredentials(lastCredentialsToken);
                 lastCredentialsToken = token;
                 lastCredentialsTime = now;
-                wifiPasswordModal.showFromPrompt(token, ssid, setting, fields, hints, reason, connType, connName, vpnService);
+                wifiPasswordModal.showFromPrompt(token, ssid, setting, fields, hints, reason, connType, connName, vpnService, fieldsInfo);
                 return;
             }
 
             lastCredentialsToken = token;
             lastCredentialsTime = now;
-            wifiPasswordModal.showFromPrompt(token, ssid, setting, fields, hints, reason, connType, connName, vpnService);
+            wifiPasswordModal.showFromPrompt(token, ssid, setting, fields, hints, reason, connType, connName, vpnService, fieldsInfo);
         }
     }
 
@@ -291,16 +343,6 @@ Item {
             Component.onCompleted: {
                 PopoutService.vpnPopout = vpnPopout;
             }
-        }
-    }
-
-    LazyLoader {
-        id: powerConfirmModalLoader
-
-        active: false
-
-        ConfirmModal {
-            id: powerConfirmModal
         }
     }
 
@@ -508,22 +550,6 @@ Item {
             id: powerMenuModal
 
             onPowerActionRequested: (action, title, message) => {
-                if (SettingsData.powerActionConfirm) {
-                    powerConfirmModalLoader.active = true;
-                    if (powerConfirmModalLoader.item) {
-                        powerConfirmModalLoader.item.confirmButtonColor = action === "poweroff" ? Theme.error : action === "reboot" ? Theme.warning : Theme.primary;
-                        powerConfirmModalLoader.item.show(title, message, () => actionApply(action), function () {});
-                    }
-                } else {
-                    actionApply(action);
-                }
-            }
-
-            onLockRequested: {
-                lock.activate();
-            }
-
-            function actionApply(action) {
                 switch (action) {
                 case "logout":
                     SessionService.logout();
@@ -541,6 +567,10 @@ Item {
                     SessionService.poweroff();
                     break;
                 }
+            }
+
+            onLockRequested: {
+                lock.activate();
             }
 
             Component.onCompleted: {

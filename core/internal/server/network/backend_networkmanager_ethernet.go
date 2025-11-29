@@ -315,3 +315,88 @@ func (b *NetworkManagerBackend) listEthernetConnections() ([]WiredConnection, er
 
 	return wiredConfigs, nil
 }
+
+func (b *NetworkManagerBackend) GetEthernetDevices() []EthernetDevice {
+	b.stateMutex.RLock()
+	defer b.stateMutex.RUnlock()
+	return append([]EthernetDevice(nil), b.state.EthernetDevices...)
+}
+
+func (b *NetworkManagerBackend) DisconnectEthernetDevice(device string) error {
+	info, ok := b.ethernetDevices[device]
+	if !ok {
+		return fmt.Errorf("ethernet device %s not found", device)
+	}
+
+	if err := info.device.Disconnect(); err != nil {
+		return fmt.Errorf("failed to disconnect %s: %w", device, err)
+	}
+
+	b.updateAllEthernetDevices()
+	b.updateEthernetState()
+	b.listEthernetConnections()
+	b.updatePrimaryConnection()
+
+	if b.onStateChange != nil {
+		b.onStateChange()
+	}
+
+	return nil
+}
+
+func (b *NetworkManagerBackend) updateAllEthernetDevices() {
+	devices := make([]EthernetDevice, 0, len(b.ethernetDevices))
+
+	for name, info := range b.ethernetDevices {
+		state, _ := info.device.GetPropertyState()
+		connected := state == gonetworkmanager.NmDeviceStateActivated
+		driver, _ := info.device.GetPropertyDriver()
+
+		var ip string
+		var speed uint32 = 0
+		if connected {
+			ip = b.getDeviceIP(info.device)
+		}
+		if info.wired != nil {
+			speed, _ = info.wired.GetPropertySpeed()
+		}
+
+		stateStr := "disconnected"
+		switch state {
+		case gonetworkmanager.NmDeviceStateActivated:
+			stateStr = "activated"
+		case gonetworkmanager.NmDeviceStatePrepare:
+			stateStr = "preparing"
+		case gonetworkmanager.NmDeviceStateConfig:
+			stateStr = "configuring"
+		case gonetworkmanager.NmDeviceStateIpConfig:
+			stateStr = "ip-config"
+		case gonetworkmanager.NmDeviceStateIpCheck:
+			stateStr = "ip-check"
+		case gonetworkmanager.NmDeviceStateSecondaries:
+			stateStr = "secondaries"
+		case gonetworkmanager.NmDeviceStateDeactivating:
+			stateStr = "deactivating"
+		case gonetworkmanager.NmDeviceStateFailed:
+			stateStr = "failed"
+		case gonetworkmanager.NmDeviceStateUnavailable:
+			stateStr = "unavailable"
+		case gonetworkmanager.NmDeviceStateUnmanaged:
+			stateStr = "unmanaged"
+		}
+
+		devices = append(devices, EthernetDevice{
+			Name:      name,
+			HwAddress: info.hwAddress,
+			State:     stateStr,
+			Connected: connected,
+			IP:        ip,
+			Speed:     speed,
+			Driver:    driver,
+		})
+	}
+
+	b.stateMutex.Lock()
+	b.state.EthernetDevices = devices
+	b.stateMutex.Unlock()
+}

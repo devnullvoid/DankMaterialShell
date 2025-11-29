@@ -32,7 +32,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
-const APIVersion = 19
+const APIVersion = 21
 
 type Capabilities struct {
 	Capabilities []string `json:"capabilities"`
@@ -1131,10 +1131,10 @@ func Start(printDocs bool) error {
 		log.Info(" plugins.search              - Search plugins (params: query, category?, compositor?, capability?)")
 		log.Info("Network:")
 		log.Info(" network.getState            - Get current network state")
-		log.Info(" network.wifi.scan           - Scan for WiFi networks")
+		log.Info(" network.wifi.scan           - Scan for WiFi networks (params: device?)")
 		log.Info(" network.wifi.networks       - Get WiFi network list")
-		log.Info(" network.wifi.connect        - Connect to WiFi (params: ssid, password?, username?)")
-		log.Info(" network.wifi.disconnect     - Disconnect WiFi")
+		log.Info(" network.wifi.connect        - Connect to WiFi (params: ssid, password?, username?, device?, eapMethod?, phase2Auth?, caCertPath?, clientCertPath?, privateKeyPath?, useSystemCACerts?)")
+		log.Info(" network.wifi.disconnect     - Disconnect WiFi (params: device?)")
 		log.Info(" network.wifi.forget         - Forget network (params: ssid)")
 		log.Info(" network.wifi.toggle         - Toggle WiFi radio")
 		log.Info(" network.wifi.enable         - Enable WiFi")
@@ -1149,6 +1149,11 @@ func Start(printDocs bool) error {
 		log.Info(" network.vpn.disconnect      - Disconnect VPN (params: uuidOrName|name|uuid)")
 		log.Info(" network.vpn.disconnectAll   - Disconnect all VPNs")
 		log.Info(" network.vpn.clearCredentials - Clear saved VPN credentials (params: uuidOrName|name|uuid)")
+		log.Info(" network.vpn.plugins         - List available VPN plugins")
+		log.Info(" network.vpn.import          - Import VPN from file (params: file|path, name?)")
+		log.Info(" network.vpn.getConfig       - Get VPN configuration (params: uuid|name|uuidOrName)")
+		log.Info(" network.vpn.updateConfig    - Update VPN configuration (params: uuid, name?, autoconnect?, data?)")
+		log.Info(" network.vpn.delete          - Delete VPN connection (params: uuid|name|uuidOrName)")
 		log.Info(" network.preference.set      - Set preference (params: preference [auto|wifi|ethernet])")
 		log.Info(" network.info                - Get network info (params: ssid)")
 		log.Info(" network.credentials.submit  - Submit credentials for prompt (params: token, secrets, save?)")

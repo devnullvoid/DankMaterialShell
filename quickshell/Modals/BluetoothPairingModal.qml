@@ -11,7 +11,7 @@ DankModal {
     layerNamespace: "dms:bluetooth-pairing"
 
     HyprlandFocusGrab {
-        windows: [root]
+        windows: [root.contentWindow]
         active: CompositorService.isHyprland && root.shouldHaveFocus
     }
 

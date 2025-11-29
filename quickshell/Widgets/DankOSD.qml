@@ -27,39 +27,41 @@ PanelWindow {
     signal osdHidden
 
     function show() {
-        OSDManager.showOSD(root)
-        closeTimer.stop()
-        shouldBeVisible = true
-        visible = true
-        hideTimer.restart()
-        osdShown()
+        if (SessionData.suppressOSD)
+            return;
+        OSDManager.showOSD(root);
+        closeTimer.stop();
+        shouldBeVisible = true;
+        visible = true;
+        hideTimer.restart();
+        osdShown();
     }
 
     function hide() {
-        shouldBeVisible = false
-        closeTimer.restart()
+        shouldBeVisible = false;
+        closeTimer.restart();
     }
 
     function resetHideTimer() {
         if (shouldBeVisible) {
-            hideTimer.restart()
+            hideTimer.restart();
         }
     }
 
     function updateHoverState() {
-        let isHovered = (enableMouseInteraction && mouseArea.containsMouse) || osdContainer.childHovered
+        let isHovered = (enableMouseInteraction && mouseArea.containsMouse) || osdContainer.childHovered;
         if (enableMouseInteraction) {
             if (isHovered) {
-                hideTimer.stop()
+                hideTimer.stop();
             } else if (shouldBeVisible) {
-                hideTimer.restart()
+                hideTimer.restart();
             }
         }
     }
 
     function setChildHovered(hovered) {
-        osdContainer.childHovered = hovered
-        updateHoverState()
+        osdContainer.childHovered = hovered;
+        updateHoverState();
     }
 
     screen: modelData
@@ -78,88 +80,92 @@ PanelWindow {
     readonly property bool isVerticalLayout: SettingsData.osdPosition === SettingsData.Position.LeftCenter || SettingsData.osdPosition === SettingsData.Position.RightCenter
 
     readonly property real barThickness: {
-        const defaultBar = SettingsData.barConfigs[0] || SettingsData.getBarConfig("default")
-        if (!defaultBar || !(defaultBar.visible ?? true)) return 0
-        const innerPadding = defaultBar.innerPadding ?? 4
-        const widgetThickness = Math.max(20, 26 + innerPadding * 0.6)
-        return Math.max(widgetThickness + innerPadding + 4, Theme.barHeight - 4 - (8 - innerPadding))
+        const defaultBar = SettingsData.barConfigs[0] || SettingsData.getBarConfig("default");
+        if (!defaultBar || !(defaultBar.visible ?? true))
+            return 0;
+        const innerPadding = defaultBar.innerPadding ?? 4;
+        const widgetThickness = Math.max(20, 26 + innerPadding * 0.6);
+        return Math.max(widgetThickness + innerPadding + 4, Theme.barHeight - 4 - (8 - innerPadding));
     }
 
     readonly property real barOffset: {
-        const defaultBar = SettingsData.barConfigs[0] || SettingsData.getBarConfig("default")
-        if (!defaultBar || !(defaultBar.visible ?? true)) return 0
-        const spacing = defaultBar.spacing ?? 4
-        const bottomGap = defaultBar.bottomGap ?? 0
-        return barThickness + spacing + bottomGap
+        const defaultBar = SettingsData.barConfigs[0] || SettingsData.getBarConfig("default");
+        if (!defaultBar || !(defaultBar.visible ?? true))
+            return 0;
+        const spacing = defaultBar.spacing ?? 4;
+        const bottomGap = defaultBar.bottomGap ?? 0;
+        return barThickness + spacing + bottomGap;
     }
 
     readonly property real dockThickness: {
-        if (!SettingsData.showDock) return 0
-        return SettingsData.dockIconSize + SettingsData.dockSpacing * 2 + 10
+        if (!SettingsData.showDock)
+            return 0;
+        return SettingsData.dockIconSize + SettingsData.dockSpacing * 2 + 10;
     }
 
     readonly property real dockOffset: {
-        if (!SettingsData.showDock || SettingsData.dockAutoHide) return 0
-        return dockThickness + SettingsData.dockSpacing + SettingsData.dockBottomGap + SettingsData.dockMargin
+        if (!SettingsData.showDock || SettingsData.dockAutoHide)
+            return 0;
+        return dockThickness + SettingsData.dockSpacing + SettingsData.dockBottomGap + SettingsData.dockMargin;
     }
 
     readonly property real alignedX: {
-        const margin = Theme.spacingM
-        const centerX = (screenWidth - alignedWidth) / 2
+        const margin = Theme.spacingM;
+        const centerX = (screenWidth - alignedWidth) / 2;
 
-        const defaultBar = SettingsData.barConfigs[0] || SettingsData.getBarConfig("default")
-        const barPos = defaultBar?.position ?? SettingsData.Position.Top
+        const defaultBar = SettingsData.barConfigs[0] || SettingsData.getBarConfig("default");
+        const barPos = defaultBar?.position ?? SettingsData.Position.Top;
 
         switch (SettingsData.osdPosition) {
         case SettingsData.Position.Left:
         case SettingsData.Position.Bottom:
-            const leftBarOffset = barPos === SettingsData.Position.Left ? barOffset : 0
-            const leftDockOffset = SettingsData.dockPosition === SettingsData.Position.Left ? dockOffset : 0
-            return Theme.snap(margin + Math.max(leftBarOffset, leftDockOffset), dpr)
+            const leftBarOffset = barPos === SettingsData.Position.Left ? barOffset : 0;
+            const leftDockOffset = SettingsData.dockPosition === SettingsData.Position.Left ? dockOffset : 0;
+            return Theme.snap(margin + Math.max(leftBarOffset, leftDockOffset), dpr);
         case SettingsData.Position.Top:
         case SettingsData.Position.Right:
-            const rightBarOffset = barPos === SettingsData.Position.Right ? barOffset : 0
-            const rightDockOffset = SettingsData.dockPosition === SettingsData.Position.Right ? dockOffset : 0
-            return Theme.snap(screenWidth - alignedWidth - margin - Math.max(rightBarOffset, rightDockOffset), dpr)
+            const rightBarOffset = barPos === SettingsData.Position.Right ? barOffset : 0;
+            const rightDockOffset = SettingsData.dockPosition === SettingsData.Position.Right ? dockOffset : 0;
+            return Theme.snap(screenWidth - alignedWidth - margin - Math.max(rightBarOffset, rightDockOffset), dpr);
         case SettingsData.Position.LeftCenter:
-            const leftCenterBarOffset = barPos === SettingsData.Position.Left ? barOffset : 0
-            const leftCenterDockOffset = SettingsData.dockPosition === SettingsData.Position.Left ? dockOffset : 0
-            return Theme.snap(margin + Math.max(leftCenterBarOffset, leftCenterDockOffset), dpr)
+            const leftCenterBarOffset = barPos === SettingsData.Position.Left ? barOffset : 0;
+            const leftCenterDockOffset = SettingsData.dockPosition === SettingsData.Position.Left ? dockOffset : 0;
+            return Theme.snap(margin + Math.max(leftCenterBarOffset, leftCenterDockOffset), dpr);
         case SettingsData.Position.RightCenter:
-            const rightCenterBarOffset = barPos === SettingsData.Position.Right ? barOffset : 0
-            const rightCenterDockOffset = SettingsData.dockPosition === SettingsData.Position.Right ? dockOffset : 0
-            return Theme.snap(screenWidth - alignedWidth - margin - Math.max(rightCenterBarOffset, rightCenterDockOffset), dpr)
+            const rightCenterBarOffset = barPos === SettingsData.Position.Right ? barOffset : 0;
+            const rightCenterDockOffset = SettingsData.dockPosition === SettingsData.Position.Right ? dockOffset : 0;
+            return Theme.snap(screenWidth - alignedWidth - margin - Math.max(rightCenterBarOffset, rightCenterDockOffset), dpr);
         case SettingsData.Position.TopCenter:
         case SettingsData.Position.BottomCenter:
         default:
-            return Theme.snap(centerX, dpr)
+            return Theme.snap(centerX, dpr);
         }
     }
 
     readonly property real alignedY: {
-        const margin = Theme.spacingM
-        const centerY = (screenHeight - alignedHeight) / 2
+        const margin = Theme.spacingM;
+        const centerY = (screenHeight - alignedHeight) / 2;
 
-        const defaultBar = SettingsData.barConfigs[0] || SettingsData.getBarConfig("default")
-        const barPos = defaultBar?.position ?? SettingsData.Position.Top
+        const defaultBar = SettingsData.barConfigs[0] || SettingsData.getBarConfig("default");
+        const barPos = defaultBar?.position ?? SettingsData.Position.Top;
 
         switch (SettingsData.osdPosition) {
         case SettingsData.Position.Top:
         case SettingsData.Position.Left:
         case SettingsData.Position.TopCenter:
-            const topBarOffset = barPos === SettingsData.Position.Top ? barOffset : 0
-            const topDockOffset = SettingsData.dockPosition === SettingsData.Position.Top ? dockOffset : 0
-            return Theme.snap(margin + Math.max(topBarOffset, topDockOffset), dpr)
+            const topBarOffset = barPos === SettingsData.Position.Top ? barOffset : 0;
+            const topDockOffset = SettingsData.dockPosition === SettingsData.Position.Top ? dockOffset : 0;
+            return Theme.snap(margin + Math.max(topBarOffset, topDockOffset), dpr);
         case SettingsData.Position.Right:
         case SettingsData.Position.Bottom:
         case SettingsData.Position.BottomCenter:
-            const bottomBarOffset = barPos === SettingsData.Position.Bottom ? barOffset : 0
-            const bottomDockOffset = SettingsData.dockPosition === SettingsData.Position.Bottom ? dockOffset : 0
-            return Theme.snap(screenHeight - alignedHeight - margin - Math.max(bottomBarOffset, bottomDockOffset), dpr)
+            const bottomBarOffset = barPos === SettingsData.Position.Bottom ? barOffset : 0;
+            const bottomDockOffset = SettingsData.dockPosition === SettingsData.Position.Bottom ? dockOffset : 0;
+            return Theme.snap(screenHeight - alignedHeight - margin - Math.max(bottomBarOffset, bottomDockOffset), dpr);
         case SettingsData.Position.LeftCenter:
         case SettingsData.Position.RightCenter:
         default:
-            return Theme.snap(centerY, dpr)
+            return Theme.snap(centerY, dpr);
         }
     }
 
@@ -177,9 +183,9 @@ PanelWindow {
         repeat: false
         onTriggered: {
             if (!enableMouseInteraction || !mouseArea.containsMouse) {
-                hide()
+                hide();
             } else {
-                hideTimer.restart()
+                hideTimer.restart();
             }
         }
     }
@@ -189,8 +195,8 @@ PanelWindow {
         interval: animationDuration + 50
         onTriggered: {
             if (!shouldBeVisible) {
-                visible = false
-                osdHidden()
+                visible = false;
+                osdHidden();
             }
         }
     }
@@ -239,8 +245,8 @@ PanelWindow {
                 shadowBlur: Math.max(0, Math.min(1, osdContainer.shadowBlurPx / bgShadowLayer.blurMax))
                 shadowScale: 1 + (2 * osdContainer.shadowSpreadPx) / Math.max(1, Math.min(bgShadowLayer.width, bgShadowLayer.height))
                 shadowColor: {
-                    const baseColor = Theme.isLightMode ? Qt.rgba(0, 0, 0, 1) : Theme.surfaceContainerHighest
-                    return Theme.withAlpha(baseColor, osdContainer.effectiveShadowAlpha)
+                    const baseColor = Theme.isLightMode ? Qt.rgba(0, 0, 0, 1) : Theme.surfaceContainerHighest;
+                    return Theme.withAlpha(baseColor, osdContainer.effectiveShadowAlpha);
                 }
             }
 

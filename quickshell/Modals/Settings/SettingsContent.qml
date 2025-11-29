@@ -13,7 +13,7 @@ FocusScope {
     Rectangle {
         anchors.fill: parent
         anchors.leftMargin: Theme.spacingS
-        anchors.rightMargin: 0
+        anchors.rightMargin: (parentModal && parentModal.isCompactMode) ? Theme.spacingS : (32 + Theme.spacingS)
         anchors.bottomMargin: 0
         anchors.topMargin: 0
         color: "transparent"
@@ -30,15 +30,13 @@ FocusScope {
                 PersonalizationTab {
                     parentModal: root.parentModal
                 }
-
             }
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
-
         }
 
         Loader {
@@ -49,15 +47,13 @@ FocusScope {
             visible: active
             focus: active
 
-            sourceComponent: TimeWeatherTab {
-            }
+            sourceComponent: TimeWeatherTab {}
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
-
         }
 
         Loader {
@@ -74,10 +70,9 @@ FocusScope {
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
-
         }
 
         Loader {
@@ -88,15 +83,13 @@ FocusScope {
             visible: active
             focus: active
 
-            sourceComponent: WidgetTweaksTab {
-            }
+            sourceComponent: WidgetTweaksTab {}
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
-
         }
 
         Loader {
@@ -108,17 +101,14 @@ FocusScope {
             focus: active
 
             sourceComponent: Component {
-                DockTab {
-                }
-
+                DockTab {}
             }
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
-
         }
 
         Loader {
@@ -129,79 +119,88 @@ FocusScope {
             visible: active
             focus: active
 
-            sourceComponent: DisplaysTab {
-            }
+            sourceComponent: DisplaysTab {}
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
-
         }
 
         Loader {
-            id: launcherLoader
+            id: networkLoader
 
             anchors.fill: parent
             active: root.currentIndex === 6
             visible: active
             focus: active
 
-            sourceComponent: LauncherTab {
-            }
+            sourceComponent: NetworkTab {}
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
-
         }
 
         Loader {
-            id: themeColorsLoader
+            id: launcherLoader
 
             anchors.fill: parent
             active: root.currentIndex === 7
             visible: active
             focus: active
 
-            sourceComponent: ThemeColorsTab {
-            }
+            sourceComponent: LauncherTab {}
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
-
         }
 
         Loader {
-            id: powerLoader
+            id: themeColorsLoader
 
             anchors.fill: parent
             active: root.currentIndex === 8
             visible: active
             focus: active
 
-            sourceComponent: PowerSettings {
-            }
+            sourceComponent: ThemeColorsTab {}
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
+        }
 
+        Loader {
+            id: powerLoader
+
+            anchors.fill: parent
+            active: root.currentIndex === 9
+            visible: active
+            focus: active
+
+            sourceComponent: PowerSettings {}
+
+            onActiveChanged: {
+                if (active && item) {
+                    Qt.callLater(() => item.forceActiveFocus());
+                }
+            }
         }
 
         Loader {
             id: pluginsLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 9
+            active: root.currentIndex === 10
             visible: active
             focus: active
 
@@ -211,31 +210,26 @@ FocusScope {
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
-
         }
 
         Loader {
             id: aboutLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 10
+            active: root.currentIndex === 11
             visible: active
             focus: active
 
-            sourceComponent: AboutTab {
-            }
+            sourceComponent: AboutTab {}
 
             onActiveChanged: {
                 if (active && item) {
-                    Qt.callLater(() => item.forceActiveFocus())
+                    Qt.callLater(() => item.forceActiveFocus());
                 }
             }
-
         }
-
     }
-
 }

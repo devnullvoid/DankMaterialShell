@@ -105,6 +105,11 @@ Singleton {
     property bool controlCenterShowNetworkIcon: true
     property bool controlCenterShowBluetoothIcon: true
     property bool controlCenterShowAudioIcon: true
+    property bool controlCenterShowVpnIcon: false
+    property bool controlCenterShowBrightnessIcon: false
+    property bool controlCenterShowMicIcon: false
+    property bool controlCenterShowBatteryIcon: false
+    property bool controlCenterShowPrinterIcon: false
     property bool showPrivacyButton: true
     property bool privacyShowMicIcon: false
     property bool privacyShowCameraIcon: false
@@ -159,6 +164,7 @@ Singleton {
     property bool showWorkspaceApps: false
     property int maxWorkspaceIcons: 3
     property bool workspacesPerMonitor: true
+    property bool showOccupiedWorkspacesOnly: false
     property bool dwlShowAllTags: false
     property var workspaceNameIcons: ({})
     property bool waveProgressEnabled: true
@@ -245,6 +251,8 @@ Singleton {
     property bool lockBeforeSuspend: false
     property bool preventIdleForMedia: false
     property bool loginctlLockIntegration: true
+    property bool fadeToLockEnabled: false
+    property int fadeToLockGracePeriod: 5
     property string launchPrefix: ""
     property var brightnessDevicePins: ({})
     property var wifiNetworkPins: ({})
@@ -297,6 +305,7 @@ Singleton {
     property bool osdPowerProfileEnabled: true
 
     property bool powerActionConfirm: true
+    property int powerActionHoldDuration: 1
     property var powerMenuActions: ["reboot", "logout", "poweroff", "lock", "suspend", "restart"]
     property string powerMenuDefaultAction: "logout"
     property bool powerMenuGridLayout: false
@@ -920,10 +929,46 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         return barConfigs.filter(cfg => cfg.enabled);
     }
 
+    function getScreensSortedByPosition() {
+        const screens = [];
+        for (let i = 0; i < Quickshell.screens.length; i++) {
+            screens.push(Quickshell.screens[i]);
+        }
+        screens.sort((a, b) => {
+            if (a.x !== b.x)
+                return a.x - b.x;
+            return a.y - b.y;
+        });
+        return screens;
+    }
+
+    function getScreenModelIndex(screen) {
+        if (!screen || !screen.model)
+            return -1;
+        const sorted = getScreensSortedByPosition();
+        let modelCount = 0;
+        let screenIndex = -1;
+        for (let i = 0; i < sorted.length; i++) {
+            if (sorted[i].model === screen.model) {
+                if (sorted[i].name === screen.name) {
+                    screenIndex = modelCount;
+                }
+                modelCount++;
+            }
+        }
+        if (modelCount <= 1)
+            return -1;
+        return screenIndex;
+    }
+
     function getScreenDisplayName(screen) {
         if (!screen)
             return "";
         if (displayNameMode === "model" && screen.model) {
+            const modelIndex = getScreenModelIndex(screen);
+            if (modelIndex >= 0) {
+                return screen.model + "-" + modelIndex;
+            }
             return screen.model;
         }
         return screen.name;
@@ -933,13 +978,27 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         if (!screen)
             return false;
 
+        const screenDisplayName = getScreenDisplayName(screen);
+
         return prefs.some(pref => {
             if (typeof pref === "string") {
-                return pref === "all" || pref === screen.name || pref === screen.model;
+                if (pref === "all" || pref === screen.name)
+                    return true;
+                if (displayNameMode === "model") {
+                    return pref === screenDisplayName;
+                }
+                return pref === screen.model;
             }
 
             if (displayNameMode === "model") {
-                return pref.model && screen.model && pref.model === screen.model;
+                if (pref.model && screen.model) {
+                    if (pref.modelIndex !== undefined) {
+                        const screenModelIndex = getScreenModelIndex(screen);
+                        return pref.model === screen.model && pref.modelIndex === screenModelIndex;
+                    }
+                    return pref.model === screen.model;
+                }
+                return false;
             }
             return pref.name === screen.name;
         });

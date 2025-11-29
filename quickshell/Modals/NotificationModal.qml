@@ -12,7 +12,7 @@ DankModal {
     layerNamespace: "dms:notification-center-modal"
 
     HyprlandFocusGrab {
-        windows: [notificationModal]
+        windows: [notificationModal.contentWindow]
         active: CompositorService.isHyprland && notificationModal.shouldHaveFocus
     }
 

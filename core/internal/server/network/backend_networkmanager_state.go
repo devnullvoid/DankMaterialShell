@@ -72,33 +72,34 @@ func (b *NetworkManagerBackend) updatePrimaryConnection() error {
 }
 
 func (b *NetworkManagerBackend) updateEthernetState() error {
-	if b.ethernetDevice == nil {
-		return nil
+	var connectedDevice string
+	var connectedIP string
+	var anyConnected bool
+
+	for name, info := range b.ethernetDevices {
+		state, err := info.device.GetPropertyState()
+		if err != nil {
+			continue
+		}
+
+		if state == gonetworkmanager.NmDeviceStateActivated {
+			anyConnected = true
+			connectedDevice = name
+			connectedIP = b.getDeviceIP(info.device)
+			break
+		}
 	}
 
-	dev := b.ethernetDevice.(gonetworkmanager.Device)
-
-	iface, err := dev.GetPropertyInterface()
-	if err != nil {
-		return err
-	}
-
-	state, err := dev.GetPropertyState()
-	if err != nil {
-		return err
-	}
-
-	connected := state == gonetworkmanager.NmDeviceStateActivated
-
-	var ip string
-	if connected {
-		ip = b.getDeviceIP(dev)
+	if !anyConnected && b.ethernetDevice != nil {
+		dev := b.ethernetDevice.(gonetworkmanager.Device)
+		iface, _ := dev.GetPropertyInterface()
+		connectedDevice = iface
 	}
 
 	b.stateMutex.Lock()
-	b.state.EthernetDevice = iface
-	b.state.EthernetConnected = connected
-	b.state.EthernetIP = ip
+	b.state.EthernetDevice = connectedDevice
+	b.state.EthernetConnected = anyConnected
+	b.state.EthernetIP = connectedIP
 	b.stateMutex.Unlock()
 
 	return nil

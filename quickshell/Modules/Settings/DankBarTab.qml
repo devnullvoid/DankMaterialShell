@@ -194,9 +194,9 @@ Item {
     // ! Hacky workaround because we want to re-register any vertical bars after changing a hBar
     // ! That allows them to re-make with the right exclusiveZone
     function notifyHorizontalBarChange() {
-        if (!selectedBarIsVertical) {
-            horizontalBarChangeDebounce.restart();
-        }
+        if (selectedBarIsVertical)
+            return;
+        horizontalBarChangeDebounce.restart();
     }
 
     function createNewBar() {
@@ -290,38 +290,44 @@ Item {
     }
 
     function getWidgetsForSection(sectionId) {
-        if (sectionId === "left")
+        switch (sectionId) {
+        case "left":
             return selectedBarConfig?.leftWidgets || [];
-        if (sectionId === "center")
+        case "center":
             return selectedBarConfig?.centerWidgets || [];
-        if (sectionId === "right")
+        case "right":
             return selectedBarConfig?.rightWidgets || [];
-        return [];
+        default:
+            return [];
+        }
     }
 
     function setWidgetsForSection(sectionId, widgets) {
-        if (sectionId === "left")
+        switch (sectionId) {
+        case "left":
             SettingsData.updateBarConfig(selectedBarId, {
                 leftWidgets: widgets
             });
-        else if (sectionId === "center")
+            break;
+        case "center":
             SettingsData.updateBarConfig(selectedBarId, {
                 centerWidgets: widgets
             });
-        else if (sectionId === "right")
+            break;
+        case "right":
             SettingsData.updateBarConfig(selectedBarId, {
                 rightWidgets: widgets
             });
+            break;
+        }
     }
 
     function getWidgetsForPopup() {
         return baseWidgetDefinitions.filter(widget => {
-            if (widget.warning && widget.warning.includes("Plugin is disabled")) {
+            if (widget.warning && widget.warning.includes("Plugin is disabled"))
                 return false;
-            }
-            if (widget.enabled === false) {
+            if (widget.enabled === false)
                 return false;
-            }
             return true;
         });
     }
@@ -646,36 +652,38 @@ Item {
         for (var i = 0; i < widgets.length; i++) {
             var widget = widgets[i];
             var widgetId = typeof widget === "string" ? widget : widget.id;
-            if (widgetId === itemId) {
-                if (typeof widget === "string") {
-                    widgets[i] = {
-                        "id": widget,
-                        "enabled": enabled
-                    };
-                } else {
-                    var newWidget = {
-                        "id": widget.id,
-                        "enabled": enabled
-                    };
-                    if (widget.size !== undefined)
-                        newWidget.size = widget.size;
-                    if (widget.selectedGpuIndex !== undefined)
-                        newWidget.selectedGpuIndex = widget.selectedGpuIndex;
-                    else if (widget.id === "gpuTemp")
-                        newWidget.selectedGpuIndex = 0;
-                    if (widget.pciId !== undefined)
-                        newWidget.pciId = widget.pciId;
-                    else if (widget.id === "gpuTemp")
-                        newWidget.pciId = "";
-                    if (widget.id === "controlCenterButton") {
-                        newWidget.showNetworkIcon = widget.showNetworkIcon !== undefined ? widget.showNetworkIcon : true;
-                        newWidget.showBluetoothIcon = widget.showBluetoothIcon !== undefined ? widget.showBluetoothIcon : true;
-                        newWidget.showAudioIcon = widget.showAudioIcon !== undefined ? widget.showAudioIcon : true;
-                    }
-                    widgets[i] = newWidget;
-                }
+            if (widgetId !== itemId)
+                continue;
+
+            if (typeof widget === "string") {
+                widgets[i] = {
+                    "id": widget,
+                    "enabled": enabled
+                };
                 break;
             }
+
+            var newWidget = {
+                "id": widget.id,
+                "enabled": enabled
+            };
+            if (widget.size !== undefined)
+                newWidget.size = widget.size;
+            if (widget.selectedGpuIndex !== undefined)
+                newWidget.selectedGpuIndex = widget.selectedGpuIndex;
+            else if (widget.id === "gpuTemp")
+                newWidget.selectedGpuIndex = 0;
+            if (widget.pciId !== undefined)
+                newWidget.pciId = widget.pciId;
+            else if (widget.id === "gpuTemp")
+                newWidget.pciId = "";
+            if (widget.id === "controlCenterButton") {
+                newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
+                newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
+                newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+            }
+            widgets[i] = newWidget;
+            break;
         }
         setWidgetsForSection(sectionId, widgets);
     }
@@ -686,209 +694,251 @@ Item {
 
     function handleSpacerSizeChanged(sectionId, widgetIndex, newSize) {
         var widgets = getWidgetsForSection(sectionId).slice();
-
-        if (widgetIndex >= 0 && widgetIndex < widgets.length) {
-            var widget = widgets[widgetIndex];
-            var widgetId = typeof widget === "string" ? widget : widget.id;
-            if (widgetId === "spacer") {
-                if (typeof widget === "string") {
-                    widgets[widgetIndex] = {
-                        "id": widget,
-                        "enabled": true,
-                        "size": newSize
-                    };
-                } else {
-                    var newWidget = {
-                        "id": widget.id,
-                        "enabled": widget.enabled,
-                        "size": newSize
-                    };
-                    if (widget.selectedGpuIndex !== undefined)
-                        newWidget.selectedGpuIndex = widget.selectedGpuIndex;
-                    if (widget.pciId !== undefined)
-                        newWidget.pciId = widget.pciId;
-                    if (widget.id === "controlCenterButton") {
-                        newWidget.showNetworkIcon = widget.showNetworkIcon !== undefined ? widget.showNetworkIcon : true;
-                        newWidget.showBluetoothIcon = widget.showBluetoothIcon !== undefined ? widget.showBluetoothIcon : true;
-                        newWidget.showAudioIcon = widget.showAudioIcon !== undefined ? widget.showAudioIcon : true;
-                    }
-                    widgets[widgetIndex] = newWidget;
-                }
-            }
+        if (widgetIndex < 0 || widgetIndex >= widgets.length) {
+            setWidgetsForSection(sectionId, widgets);
+            return;
         }
 
+        var widget = widgets[widgetIndex];
+        var widgetId = typeof widget === "string" ? widget : widget.id;
+        if (widgetId !== "spacer") {
+            setWidgetsForSection(sectionId, widgets);
+            return;
+        }
+
+        if (typeof widget === "string") {
+            widgets[widgetIndex] = {
+                "id": widget,
+                "enabled": true,
+                "size": newSize
+            };
+            setWidgetsForSection(sectionId, widgets);
+            return;
+        }
+
+        var newWidget = {
+            "id": widget.id,
+            "enabled": widget.enabled,
+            "size": newSize
+        };
+        if (widget.selectedGpuIndex !== undefined)
+            newWidget.selectedGpuIndex = widget.selectedGpuIndex;
+        if (widget.pciId !== undefined)
+            newWidget.pciId = widget.pciId;
+        if (widget.id === "controlCenterButton") {
+            newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
+            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
+            newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+        }
+        widgets[widgetIndex] = newWidget;
         setWidgetsForSection(sectionId, widgets);
     }
 
     function handleGpuSelectionChanged(sectionId, widgetIndex, selectedGpuIndex) {
         var widgets = getWidgetsForSection(sectionId).slice();
-
-        if (widgetIndex >= 0 && widgetIndex < widgets.length) {
-            var widget = widgets[widgetIndex];
-            if (typeof widget === "string") {
-                widgets[widgetIndex] = {
-                    "id": widget,
-                    "enabled": true,
-                    "selectedGpuIndex": selectedGpuIndex,
-                    "pciId": DgopService.availableGpus && DgopService.availableGpus.length > selectedGpuIndex ? DgopService.availableGpus[selectedGpuIndex].pciId : ""
-                };
-            } else {
-                var newWidget = {
-                    "id": widget.id,
-                    "enabled": widget.enabled,
-                    "selectedGpuIndex": selectedGpuIndex,
-                    "pciId": DgopService.availableGpus && DgopService.availableGpus.length > selectedGpuIndex ? DgopService.availableGpus[selectedGpuIndex].pciId : ""
-                };
-                if (widget.size !== undefined)
-                    newWidget.size = widget.size;
-                widgets[widgetIndex] = newWidget;
-            }
+        if (widgetIndex < 0 || widgetIndex >= widgets.length) {
+            setWidgetsForSection(sectionId, widgets);
+            return;
         }
 
+        var pciId = DgopService.availableGpus && DgopService.availableGpus.length > selectedGpuIndex ? DgopService.availableGpus[selectedGpuIndex].pciId : "";
+        var widget = widgets[widgetIndex];
+        if (typeof widget === "string") {
+            widgets[widgetIndex] = {
+                "id": widget,
+                "enabled": true,
+                "selectedGpuIndex": selectedGpuIndex,
+                "pciId": pciId
+            };
+            setWidgetsForSection(sectionId, widgets);
+            return;
+        }
+
+        var newWidget = {
+            "id": widget.id,
+            "enabled": widget.enabled,
+            "selectedGpuIndex": selectedGpuIndex,
+            "pciId": pciId
+        };
+        if (widget.size !== undefined)
+            newWidget.size = widget.size;
+        widgets[widgetIndex] = newWidget;
         setWidgetsForSection(sectionId, widgets);
     }
 
     function handleDiskMountSelectionChanged(sectionId, widgetIndex, mountPath) {
         var widgets = getWidgetsForSection(sectionId).slice();
-
-        if (widgetIndex >= 0 && widgetIndex < widgets.length) {
-            var widget = widgets[widgetIndex];
-            if (typeof widget === "string") {
-                widgets[widgetIndex] = {
-                    "id": widget,
-                    "enabled": true,
-                    "mountPath": mountPath
-                };
-            } else {
-                var newWidget = {
-                    "id": widget.id,
-                    "enabled": widget.enabled,
-                    "mountPath": mountPath
-                };
-                if (widget.size !== undefined)
-                    newWidget.size = widget.size;
-                if (widget.selectedGpuIndex !== undefined)
-                    newWidget.selectedGpuIndex = widget.selectedGpuIndex;
-                if (widget.pciId !== undefined)
-                    newWidget.pciId = widget.pciId;
-                if (widget.id === "controlCenterButton") {
-                    newWidget.showNetworkIcon = widget.showNetworkIcon !== undefined ? widget.showNetworkIcon : true;
-                    newWidget.showBluetoothIcon = widget.showBluetoothIcon !== undefined ? widget.showBluetoothIcon : true;
-                    newWidget.showAudioIcon = widget.showAudioIcon !== undefined ? widget.showAudioIcon : true;
-                }
-                widgets[widgetIndex] = newWidget;
-            }
+        if (widgetIndex < 0 || widgetIndex >= widgets.length) {
+            setWidgetsForSection(sectionId, widgets);
+            return;
         }
+
+        var widget = widgets[widgetIndex];
+        if (typeof widget === "string") {
+            widgets[widgetIndex] = {
+                "id": widget,
+                "enabled": true,
+                "mountPath": mountPath
+            };
+            setWidgetsForSection(sectionId, widgets);
+            return;
+        }
+
+        var newWidget = {
+            "id": widget.id,
+            "enabled": widget.enabled,
+            "mountPath": mountPath
+        };
+        if (widget.size !== undefined)
+            newWidget.size = widget.size;
+        if (widget.selectedGpuIndex !== undefined)
+            newWidget.selectedGpuIndex = widget.selectedGpuIndex;
+        if (widget.pciId !== undefined)
+            newWidget.pciId = widget.pciId;
+        if (widget.id === "controlCenterButton") {
+            newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
+            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
+            newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+        }
+        widgets[widgetIndex] = newWidget;
 
         setWidgetsForSection(sectionId, widgets);
     }
 
     function handleControlCenterSettingChanged(sectionId, widgetIndex, settingName, value) {
-        // Control Center settings are global, not per-widget instance
-        if (settingName === "showNetworkIcon") {
+        switch (settingName) {
+        case "showNetworkIcon":
             SettingsData.set("controlCenterShowNetworkIcon", value);
-        } else if (settingName === "showBluetoothIcon") {
+            break;
+        case "showBluetoothIcon":
             SettingsData.set("controlCenterShowBluetoothIcon", value);
-        } else if (settingName === "showAudioIcon") {
+            break;
+        case "showAudioIcon":
             SettingsData.set("controlCenterShowAudioIcon", value);
+            break;
+        case "showVpnIcon":
+            SettingsData.set("controlCenterShowVpnIcon", value);
+            break;
+        case "showBrightnessIcon":
+            SettingsData.set("controlCenterShowBrightnessIcon", value);
+            break;
+        case "showMicIcon":
+            SettingsData.set("controlCenterShowMicIcon", value);
+            break;
+        case "showBatteryIcon":
+            SettingsData.set("controlCenterShowBatteryIcon", value);
+            break;
+        case "showPrinterIcon":
+            SettingsData.set("controlCenterShowPrinterIcon", value);
+            break;
         }
     }
 
     function handlePrivacySettingChanged(sectionId, widgetIndex, settingName, value) {
-        if (settingName === "showMicIcon") {
+        switch (settingName) {
+        case "showMicIcon":
             SettingsData.set("privacyShowMicIcon", value);
-        } else if (settingName === "showCameraIcon") {
+            break;
+        case "showCameraIcon":
             SettingsData.set("privacyShowCameraIcon", value);
-        } else if (settingName === "showScreenSharingIcon") {
+            break;
+        case "showScreenSharingIcon":
             SettingsData.set("privacyShowScreenShareIcon", value);
+            break;
         }
     }
 
     function handleMinimumWidthChanged(sectionId, widgetIndex, enabled) {
         var widgets = getWidgetsForSection(sectionId).slice();
-
-        if (widgetIndex >= 0 && widgetIndex < widgets.length) {
-            var widget = widgets[widgetIndex];
-            if (typeof widget === "string") {
-                widgets[widgetIndex] = {
-                    "id": widget,
-                    "enabled": true,
-                    "minimumWidth": enabled
-                };
-            } else {
-                var newWidget = {
-                    "id": widget.id,
-                    "enabled": widget.enabled,
-                    "minimumWidth": enabled
-                };
-                if (widget.size !== undefined)
-                    newWidget.size = widget.size;
-                if (widget.selectedGpuIndex !== undefined)
-                    newWidget.selectedGpuIndex = widget.selectedGpuIndex;
-                if (widget.pciId !== undefined)
-                    newWidget.pciId = widget.pciId;
-                if (widget.mountPath !== undefined)
-                    newWidget.mountPath = widget.mountPath;
-                if (widget.showSwap !== undefined)
-                    newWidget.showSwap = widget.showSwap;
-                if (widget.id === "controlCenterButton") {
-                    newWidget.showNetworkIcon = widget.showNetworkIcon !== undefined ? widget.showNetworkIcon : true;
-                    newWidget.showBluetoothIcon = widget.showBluetoothIcon !== undefined ? widget.showBluetoothIcon : true;
-                    newWidget.showAudioIcon = widget.showAudioIcon !== undefined ? widget.showAudioIcon : true;
-                }
-                widgets[widgetIndex] = newWidget;
-            }
+        if (widgetIndex < 0 || widgetIndex >= widgets.length) {
+            setWidgetsForSection(sectionId, widgets);
+            return;
         }
 
+        var widget = widgets[widgetIndex];
+        if (typeof widget === "string") {
+            widgets[widgetIndex] = {
+                "id": widget,
+                "enabled": true,
+                "minimumWidth": enabled
+            };
+            setWidgetsForSection(sectionId, widgets);
+            return;
+        }
+
+        var newWidget = {
+            "id": widget.id,
+            "enabled": widget.enabled,
+            "minimumWidth": enabled
+        };
+        if (widget.size !== undefined)
+            newWidget.size = widget.size;
+        if (widget.selectedGpuIndex !== undefined)
+            newWidget.selectedGpuIndex = widget.selectedGpuIndex;
+        if (widget.pciId !== undefined)
+            newWidget.pciId = widget.pciId;
+        if (widget.mountPath !== undefined)
+            newWidget.mountPath = widget.mountPath;
+        if (widget.showSwap !== undefined)
+            newWidget.showSwap = widget.showSwap;
+        if (widget.id === "controlCenterButton") {
+            newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
+            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
+            newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+        }
+        widgets[widgetIndex] = newWidget;
         setWidgetsForSection(sectionId, widgets);
     }
 
     function handleShowSwapChanged(sectionId, widgetIndex, enabled) {
         var widgets = getWidgetsForSection(sectionId).slice();
-
-        if (widgetIndex >= 0 && widgetIndex < widgets.length) {
-            var widget = widgets[widgetIndex];
-            if (typeof widget === "string") {
-                widgets[widgetIndex] = {
-                    "id": widget,
-                    "enabled": true,
-                    "showSwap": enabled
-                };
-            } else {
-                var newWidget = {
-                    "id": widget.id,
-                    "enabled": widget.enabled,
-                    "showSwap": enabled
-                };
-                if (widget.size !== undefined)
-                    newWidget.size = widget.size;
-                if (widget.selectedGpuIndex !== undefined)
-                    newWidget.selectedGpuIndex = widget.selectedGpuIndex;
-                if (widget.pciId !== undefined)
-                    newWidget.pciId = widget.pciId;
-                if (widget.mountPath !== undefined)
-                    newWidget.mountPath = widget.mountPath;
-                if (widget.minimumWidth !== undefined)
-                    newWidget.minimumWidth = widget.minimumWidth;
-                if (widget.mediaSize !== undefined)
-                    newWidget.mediaSize = widget.mediaSize;
-                if (widget.clockCompactMode !== undefined)
-                    newWidget.clockCompactMode = widget.clockCompactMode;
-                if (widget.focusedWindowCompactMode !== undefined)
-                    newWidget.focusedWindowCompactMode = widget.focusedWindowCompactMode;
-                if (widget.runningAppsCompactMode !== undefined)
-                    newWidget.runningAppsCompactMode = widget.runningAppsCompactMode;
-                if (widget.keyboardLayoutNameCompactMode !== undefined)
-                    newWidget.keyboardLayoutNameCompactMode = widget.keyboardLayoutNameCompactMode;
-                if (widget.id === "controlCenterButton") {
-                    newWidget.showNetworkIcon = widget.showNetworkIcon !== undefined ? widget.showNetworkIcon : true;
-                    newWidget.showBluetoothIcon = widget.showBluetoothIcon !== undefined ? widget.showBluetoothIcon : true;
-                    newWidget.showAudioIcon = widget.showAudioIcon !== undefined ? widget.showAudioIcon : true;
-                }
-                widgets[widgetIndex] = newWidget;
-            }
+        if (widgetIndex < 0 || widgetIndex >= widgets.length) {
+            setWidgetsForSection(sectionId, widgets);
+            return;
         }
 
+        var widget = widgets[widgetIndex];
+        if (typeof widget === "string") {
+            widgets[widgetIndex] = {
+                "id": widget,
+                "enabled": true,
+                "showSwap": enabled
+            };
+            setWidgetsForSection(sectionId, widgets);
+            return;
+        }
+
+        var newWidget = {
+            "id": widget.id,
+            "enabled": widget.enabled,
+            "showSwap": enabled
+        };
+        if (widget.size !== undefined)
+            newWidget.size = widget.size;
+        if (widget.selectedGpuIndex !== undefined)
+            newWidget.selectedGpuIndex = widget.selectedGpuIndex;
+        if (widget.pciId !== undefined)
+            newWidget.pciId = widget.pciId;
+        if (widget.mountPath !== undefined)
+            newWidget.mountPath = widget.mountPath;
+        if (widget.minimumWidth !== undefined)
+            newWidget.minimumWidth = widget.minimumWidth;
+        if (widget.mediaSize !== undefined)
+            newWidget.mediaSize = widget.mediaSize;
+        if (widget.clockCompactMode !== undefined)
+            newWidget.clockCompactMode = widget.clockCompactMode;
+        if (widget.focusedWindowCompactMode !== undefined)
+            newWidget.focusedWindowCompactMode = widget.focusedWindowCompactMode;
+        if (widget.runningAppsCompactMode !== undefined)
+            newWidget.runningAppsCompactMode = widget.runningAppsCompactMode;
+        if (widget.keyboardLayoutNameCompactMode !== undefined)
+            newWidget.keyboardLayoutNameCompactMode = widget.keyboardLayoutNameCompactMode;
+        if (widget.id === "controlCenterButton") {
+            newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
+            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
+            newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+        }
+        widgets[widgetIndex] = newWidget;
         setWidgetsForSection(sectionId, widgets);
     }
 
@@ -914,7 +964,6 @@ Item {
                     "id": widget.id,
                     "enabled": widget.enabled
                 };
-
                 if (widget.size !== undefined)
                     newWidget.size = widget.size;
                 if (widget.selectedGpuIndex !== undefined)
@@ -938,11 +987,10 @@ Item {
                 if (widget.keyboardLayoutNameCompactMode !== undefined)
                     newWidget.keyboardLayoutNameCompactMode = widget.keyboardLayoutNameCompactMode;
                 if (widget.id === "controlCenterButton") {
-                    newWidget.showNetworkIcon = widget.showNetworkIcon !== undefined ? widget.showNetworkIcon : true;
-                    newWidget.showBluetoothIcon = widget.showBluetoothIcon !== undefined ? widget.showBluetoothIcon : true;
-                    newWidget.showAudioIcon = widget.showAudioIcon !== undefined ? widget.showAudioIcon : true;
+                    newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
+                    newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
+                    newWidget.showAudioIcon = widget.showAudioIcon ?? true;
                 }
-
                 widgets[i] = newWidget;
                 widget = newWidget;
             }
@@ -975,59 +1023,45 @@ Item {
         var widgets = [];
         var widgetData = getWidgetsForSection(sectionId);
         widgetData.forEach(widget => {
-            var widgetId = typeof widget === "string" ? widget : widget.id;
-            var widgetEnabled = typeof widget === "string" ? true : widget.enabled;
-            var widgetSize = typeof widget === "string" ? undefined : widget.size;
-            var widgetSelectedGpuIndex = typeof widget === "string" ? undefined : widget.selectedGpuIndex;
-            var widgetPciId = typeof widget === "string" ? undefined : widget.pciId;
-            var widgetMountPath = typeof widget === "string" ? undefined : widget.mountPath;
-            var widgetShowNetworkIcon = typeof widget === "string" ? undefined : widget.showNetworkIcon;
-            var widgetShowBluetoothIcon = typeof widget === "string" ? undefined : widget.showBluetoothIcon;
-            var widgetShowAudioIcon = typeof widget === "string" ? undefined : widget.showAudioIcon;
-            var widgetMinimumWidth = typeof widget === "string" ? undefined : widget.minimumWidth;
-            var widgetShowSwap = typeof widget === "string" ? undefined : widget.showSwap;
-            var widgetMediaSize = typeof widget === "string" ? undefined : widget.mediaSize;
-            var widgetClockCompactMode = typeof widget === "string" ? undefined : widget.clockCompactMode;
-            var widgetFocusedWindowCompactMode = typeof widget === "string" ? undefined : widget.focusedWindowCompactMode;
-            var widgetRunningAppsCompactMode = typeof widget === "string" ? undefined : widget.runningAppsCompactMode;
-            var widgetKeyboardLayoutNameCompactMode = typeof widget === "string" ? undefined : widget.keyboardLayoutNameCompactMode;
-            var widgetDef = baseWidgetDefinitions.find(w => {
-                return w.id === widgetId;
-            });
-            if (widgetDef) {
-                var item = Object.assign({}, widgetDef);
-                item.enabled = widgetEnabled;
-                if (widgetSize !== undefined)
-                    item.size = widgetSize;
-                if (widgetSelectedGpuIndex !== undefined)
-                    item.selectedGpuIndex = widgetSelectedGpuIndex;
-                if (widgetPciId !== undefined)
-                    item.pciId = widgetPciId;
-                if (widgetMountPath !== undefined)
-                    item.mountPath = widgetMountPath;
-                if (widgetShowNetworkIcon !== undefined)
-                    item.showNetworkIcon = widgetShowNetworkIcon;
-                if (widgetShowBluetoothIcon !== undefined)
-                    item.showBluetoothIcon = widgetShowBluetoothIcon;
-                if (widgetShowAudioIcon !== undefined)
-                    item.showAudioIcon = widgetShowAudioIcon;
-                if (widgetMinimumWidth !== undefined)
-                    item.minimumWidth = widgetMinimumWidth;
-                if (widgetShowSwap !== undefined)
-                    item.showSwap = widgetShowSwap;
-                if (widgetMediaSize !== undefined)
-                    item.mediaSize = widgetMediaSize;
-                if (widgetClockCompactMode !== undefined)
-                    item.clockCompactMode = widgetClockCompactMode;
-                if (widgetFocusedWindowCompactMode !== undefined)
-                    item.focusedWindowCompactMode = widgetFocusedWindowCompactMode;
-                if (widgetRunningAppsCompactMode !== undefined)
-                    item.runningAppsCompactMode = widgetRunningAppsCompactMode;
-                if (widgetKeyboardLayoutNameCompactMode !== undefined)
-                    item.keyboardLayoutNameCompactMode = widgetKeyboardLayoutNameCompactMode;
+            var isString = typeof widget === "string";
+            var widgetId = isString ? widget : widget.id;
+            var widgetDef = baseWidgetDefinitions.find(w => w.id === widgetId);
+            if (!widgetDef)
+                return;
 
-                widgets.push(item);
+            var item = Object.assign({}, widgetDef);
+            item.enabled = isString ? true : widget.enabled;
+            if (!isString) {
+                if (widget.size !== undefined)
+                    item.size = widget.size;
+                if (widget.selectedGpuIndex !== undefined)
+                    item.selectedGpuIndex = widget.selectedGpuIndex;
+                if (widget.pciId !== undefined)
+                    item.pciId = widget.pciId;
+                if (widget.mountPath !== undefined)
+                    item.mountPath = widget.mountPath;
+                if (widget.showNetworkIcon !== undefined)
+                    item.showNetworkIcon = widget.showNetworkIcon;
+                if (widget.showBluetoothIcon !== undefined)
+                    item.showBluetoothIcon = widget.showBluetoothIcon;
+                if (widget.showAudioIcon !== undefined)
+                    item.showAudioIcon = widget.showAudioIcon;
+                if (widget.minimumWidth !== undefined)
+                    item.minimumWidth = widget.minimumWidth;
+                if (widget.showSwap !== undefined)
+                    item.showSwap = widget.showSwap;
+                if (widget.mediaSize !== undefined)
+                    item.mediaSize = widget.mediaSize;
+                if (widget.clockCompactMode !== undefined)
+                    item.clockCompactMode = widget.clockCompactMode;
+                if (widget.focusedWindowCompactMode !== undefined)
+                    item.focusedWindowCompactMode = widget.focusedWindowCompactMode;
+                if (widget.runningAppsCompactMode !== undefined)
+                    item.runningAppsCompactMode = widget.runningAppsCompactMode;
+                if (widget.keyboardLayoutNameCompactMode !== undefined)
+                    item.keyboardLayoutNameCompactMode = widget.keyboardLayoutNameCompactMode;
             }
+            widgets.push(item);
         });
         return widgets;
     }
@@ -1075,12 +1109,13 @@ Item {
     DankFlickable {
         anchors.fill: parent
         clip: true
-        contentHeight: mainColumn.height
+        contentHeight: mainColumn.height + Theme.spacingXL
         contentWidth: width
 
         Column {
             id: mainColumn
-            width: parent.width
+            width: Math.min(550, parent.width - Theme.spacingL * 2)
+            anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
 
             StyledRect {
@@ -1120,49 +1155,13 @@ Item {
                             implicitHeight: 1
                         }
 
-                        Rectangle {
-                            id: addBarBtn
-                            width: 100
-                            height: 32
-                            radius: Theme.cornerRadius
-                            color: addBarArea.containsMouse ? Theme.primaryPressed : Theme.primary
+                        DankButton {
+                            text: I18n.tr("Add Bar")
+                            iconName: "add"
+                            buttonHeight: 32
                             visible: SettingsData.barConfigs.length < 4
                             Layout.alignment: Qt.AlignVCenter
-
-                            Row {
-                                anchors.centerIn: parent
-                                spacing: Theme.spacingXS
-
-                                DankIcon {
-                                    name: "add"
-                                    size: 14
-                                    color: Theme.onPrimary
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-
-                                StyledText {
-                                    text: I18n.tr("Add Bar")
-                                    font.pixelSize: Theme.fontSizeSmall
-                                    font.weight: Font.Medium
-                                    color: Theme.onPrimary
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-                            }
-
-                            MouseArea {
-                                id: addBarArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: dankBarTab.createNewBar()
-                            }
-
-                            Behavior on color {
-                                ColorAnimation {
-                                    duration: Theme.shortDuration
-                                    easing.type: Theme.standardEasing
-                                }
-                            }
+                            onClicked: dankBarTab.createNewBar()
                         }
                     }
 
@@ -1487,17 +1486,26 @@ Item {
                                             currentPrefs = [];
                                         }
 
+                                        const screenModelIndex = SettingsData.getScreenModelIndex(screenData);
+
                                         let newPrefs = currentPrefs.filter(pref => {
                                             if (typeof pref === "string")
                                                 return false;
+                                            if (pref.modelIndex !== undefined && screenModelIndex >= 0) {
+                                                return !(pref.model === screenData.model && pref.modelIndex === screenModelIndex);
+                                            }
                                             return pref.name !== screenData.name || pref.model !== screenData.model;
                                         });
 
                                         if (checked) {
-                                            newPrefs.push({
+                                            const prefObj = {
                                                 name: screenData.name,
                                                 model: screenData.model || ""
-                                            });
+                                            };
+                                            if (screenModelIndex >= 0) {
+                                                prefObj.modelIndex = screenModelIndex;
+                                            }
+                                            newPrefs.push(prefObj);
                                         }
 
                                         dankBarTab.setBarScreenPreferences(selectedBarId, newPrefs);
@@ -1571,7 +1579,7 @@ Item {
                                     position: newPos
                                 });
                                 const isVertical = newPos === SettingsData.Position.Left || newPos === SettingsData.Position.Right;
-                                if (!wasVertical && !isVertical) {
+                                if (wasVertical !== isVertical || !isVertical) {
                                     notifyHorizontalBarChange();
                                 }
                             }
@@ -3265,7 +3273,6 @@ Item {
                     }
                 }
 
-                // Center/Middle Section
                 StyledRect {
                     width: parent.width
                     height: centerSection.implicitHeight + Theme.spacingL * 2
@@ -3324,7 +3331,6 @@ Item {
                     }
                 }
 
-                // Right/Bottom Section
                 StyledRect {
                     width: parent.width
                     height: rightSection.implicitHeight + Theme.spacingL * 2

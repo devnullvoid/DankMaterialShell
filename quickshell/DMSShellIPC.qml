@@ -563,4 +563,99 @@ Item {
 
         target: "file"
     }
+
+    IpcHandler {
+        function toggle(widgetId: string): string {
+            if (!widgetId)
+                return "ERROR: No widget ID specified";
+
+            if (!BarWidgetService.hasWidget(widgetId))
+                return `WIDGET_NOT_FOUND: ${widgetId}`;
+
+            const success = BarWidgetService.triggerWidgetPopout(widgetId);
+            return success ? `WIDGET_TOGGLE_SUCCESS: ${widgetId}` : `WIDGET_TOGGLE_FAILED: ${widgetId}`;
+        }
+
+        function list(): string {
+            const widgets = BarWidgetService.getRegisteredWidgetIds();
+            if (widgets.length === 0)
+                return "No widgets registered";
+            return widgets.join("\n");
+        }
+
+        function status(widgetId: string): string {
+            if (!widgetId)
+                return "ERROR: No widget ID specified";
+
+            if (!BarWidgetService.hasWidget(widgetId))
+                return `WIDGET_NOT_FOUND: ${widgetId}`;
+
+            const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);
+            if (!widget)
+                return `WIDGET_NOT_AVAILABLE: ${widgetId}`;
+
+            if (widget.popoutTarget?.shouldBeVisible)
+                return "visible";
+            return "hidden";
+        }
+
+        target: "widget"
+    }
+
+    IpcHandler {
+        function reload(pluginId: string): string {
+            if (!pluginId)
+                return "ERROR: No plugin ID specified";
+
+            if (!PluginService.availablePlugins[pluginId])
+                return `PLUGIN_NOT_FOUND: ${pluginId}`;
+
+            if (!PluginService.isPluginLoaded(pluginId))
+                return `PLUGIN_NOT_LOADED: ${pluginId}`;
+
+            const success = PluginService.reloadPlugin(pluginId);
+            return success ? `PLUGIN_RELOAD_SUCCESS: ${pluginId}` : `PLUGIN_RELOAD_FAILED: ${pluginId}`;
+        }
+
+        function enable(pluginId: string): string {
+            if (!pluginId)
+                return "ERROR: No plugin ID specified";
+
+            if (!PluginService.availablePlugins[pluginId])
+                return `PLUGIN_NOT_FOUND: ${pluginId}`;
+
+            const success = PluginService.enablePlugin(pluginId);
+            return success ? `PLUGIN_ENABLE_SUCCESS: ${pluginId}` : `PLUGIN_ENABLE_FAILED: ${pluginId}`;
+        }
+
+        function disable(pluginId: string): string {
+            if (!pluginId)
+                return "ERROR: No plugin ID specified";
+
+            if (!PluginService.availablePlugins[pluginId])
+                return `PLUGIN_NOT_FOUND: ${pluginId}`;
+
+            const success = PluginService.disablePlugin(pluginId);
+            return success ? `PLUGIN_DISABLE_SUCCESS: ${pluginId}` : `PLUGIN_DISABLE_FAILED: ${pluginId}`;
+        }
+
+        function list(): string {
+            const plugins = PluginService.getAvailablePlugins();
+            if (plugins.length === 0)
+                return "No plugins available";
+            return plugins.map(p => `${p.id} [${p.loaded ? "loaded" : "disabled"}]`).join("\n");
+        }
+
+        function status(pluginId: string): string {
+            if (!pluginId)
+                return "ERROR: No plugin ID specified";
+
+            if (!PluginService.availablePlugins[pluginId])
+                return `PLUGIN_NOT_FOUND: ${pluginId}`;
+
+            return PluginService.isPluginLoaded(pluginId) ? "loaded" : "disabled";
+        }
+
+        target: "plugins"
+    }
 }

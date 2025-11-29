@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/errdefs"
@@ -176,8 +177,8 @@ func (a *SecretAgent) GetSecrets(
 					return nil, dbus.NewError("org.freedesktop.NetworkManager.SecretAgent.Error.NoSecrets", nil)
 				}
 
-				log.Infof("[SecretAgent] VPN with empty hints but we're connecting - prompting for password")
-				fields = []string{"password"}
+				fields = inferVPNFields(conn, vpnSvc)
+				log.Infof("[SecretAgent] VPN with empty hints but we're connecting - inferred fields: %v", fields)
 			} else {
 				log.Infof("[SecretAgent] VPN with empty hints - deferring to other agents for %s", vpnSvc)
 				return nil, dbus.NewError("org.freedesktop.NetworkManager.SecretAgent.Error.NoSecrets", nil)
@@ -251,6 +252,35 @@ func (a *SecretAgent) GetSecrets(
 		}
 	}
 
+	if settingName == "vpn" && a.backend != nil {
+		a.backend.cachedVPNCredsMu.Lock()
+		cached := a.backend.cachedVPNCreds
+		if cached != nil && cached.ConnectionUUID == connUuid {
+			a.backend.cachedVPNCreds = nil
+			a.backend.cachedVPNCredsMu.Unlock()
+
+			log.Infof("[SecretAgent] Using cached password from pre-activation prompt")
+
+			out := nmSettingMap{}
+			sec := nmVariantMap{}
+			sec["password"] = dbus.MakeVariant(cached.Password)
+			out[settingName] = sec
+
+			if cached.SavePassword {
+				a.backend.pendingVPNSaveMu.Lock()
+				a.backend.pendingVPNSave = &pendingVPNCredentials{
+					ConnectionPath: string(path),
+					Password:       cached.Password,
+					SavePassword:   true,
+				}
+				a.backend.pendingVPNSaveMu.Unlock()
+			}
+
+			return out, nil
+		}
+		a.backend.cachedVPNCredsMu.Unlock()
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
 
@@ -261,6 +291,7 @@ func (a *SecretAgent) GetSecrets(
 		VpnService:     vpnSvc,
 		SettingName:    settingName,
 		Fields:         fields,
+		FieldsInfo:     buildFieldsInfo(settingName, fields, vpnSvc),
 		Hints:          hints,
 		Reason:         reason,
 		ConnectionId:   connId,
@@ -283,6 +314,7 @@ func (a *SecretAgent) GetSecrets(
 			wasConnecting := a.backend.state.IsConnecting
 			wasConnectingVPN := a.backend.state.IsConnectingVPN
 			cancelledSSID := a.backend.state.ConnectingSSID
+			cancelledVPNUUID := a.backend.state.ConnectingVPNUUID
 			if wasConnecting || wasConnectingVPN {
 				log.Infof("[SecretAgent] Clearing connecting state due to cancelled prompt")
 				a.backend.state.IsConnecting = false
@@ -298,6 +330,14 @@ func (a *SecretAgent) GetSecrets(
 				log.Infof("[SecretAgent] Removing connection profile for cancelled WiFi connection: %s", cancelledSSID)
 				if err := a.backend.ForgetWiFiNetwork(cancelledSSID); err != nil {
 					log.Warnf("[SecretAgent] Failed to remove cancelled connection profile: %v", err)
+				}
+			}
+
+			// If this was a VPN connection that was cancelled, deactivate it
+			if wasConnectingVPN && cancelledVPNUUID != "" {
+				log.Infof("[SecretAgent] Deactivating cancelled VPN connection: %s", cancelledVPNUUID)
+				if err := a.backend.DisconnectVPN(cancelledVPNUUID); err != nil {
+					log.Warnf("[SecretAgent] Failed to deactivate cancelled VPN: %v", err)
 				}
 			}
 
@@ -320,7 +360,12 @@ func (a *SecretAgent) GetSecrets(
 
 	out := nmSettingMap{}
 	sec := nmVariantMap{}
+
+	var vpnUsername string
 	for k, v := range reply.Secrets {
+		if settingName == "vpn" && k == "username" {
+			vpnUsername = v
+		}
 		sec[k] = dbus.MakeVariant(v)
 	}
 	out[settingName] = sec
@@ -332,13 +377,22 @@ func (a *SecretAgent) GetSecrets(
 		log.Infof("[SecretAgent] Returning VPN secrets with %d fields for %s", len(sec), vpnSvc)
 	}
 
-	// If save=true, persist secrets in background after returning to NetworkManager
-	// This MUST happen after we return secrets, in a goroutine
-	if reply.Save {
+	if settingName == "vpn" && a.backend != nil && (vpnUsername != "" || reply.Save) {
+		pw, _ := reply.Secrets["password"]
+		a.backend.pendingVPNSaveMu.Lock()
+		a.backend.pendingVPNSave = &pendingVPNCredentials{
+			ConnectionPath: string(path),
+			Username:       vpnUsername,
+			Password:       pw,
+			SavePassword:   reply.Save,
+		}
+		a.backend.pendingVPNSaveMu.Unlock()
+		log.Infof("[SecretAgent] Queued credentials persist for after connection succeeds")
+	} else if reply.Save && settingName != "vpn" {
+		// Non-VPN save logic
 		go func() {
 			log.Infof("[SecretAgent] Persisting secrets with Update2: path=%s, setting=%s", path, settingName)
 
-			// Get existing connection settings
 			connObj := a.conn.Object("org.freedesktop.NetworkManager", path)
 			var existingSettings map[string]map[string]dbus.Variant
 			if err := connObj.Call("org.freedesktop.NetworkManager.Settings.Connection.GetSettings", 0).Store(&existingSettings); err != nil {
@@ -346,49 +400,12 @@ func (a *SecretAgent) GetSecrets(
 				return
 			}
 
-			// Build minimal settings with ONLY the section we're updating
-			// This avoids D-Bus type serialization issues with complex types like IPv6 addresses
 			settings := make(map[string]map[string]dbus.Variant)
-
-			// Copy connection section (required for Update2)
 			if connSection, ok := existingSettings["connection"]; ok {
 				settings["connection"] = connSection
 			}
 
-			// Update settings based on type
 			switch settingName {
-			case "vpn":
-				vpn, ok := existingSettings["vpn"]
-				if !ok {
-					vpn = make(map[string]dbus.Variant)
-				}
-
-				var data map[string]string
-				if dataVariant, ok := vpn["data"]; ok {
-					if dm, ok := dataVariant.Value().(map[string]string); ok {
-						data = make(map[string]string)
-						for k, v := range dm {
-							data[k] = v
-						}
-					} else {
-						data = make(map[string]string)
-					}
-				} else {
-					data = make(map[string]string)
-				}
-
-				data["password-flags"] = "0"
-				vpn["data"] = dbus.MakeVariant(data)
-
-				secs := make(map[string]string)
-				for k, v := range reply.Secrets {
-					secs[k] = v
-				}
-				vpn["secrets"] = dbus.MakeVariant(secs)
-				settings["vpn"] = vpn
-
-				log.Infof("[SecretAgent] Updated VPN settings: password-flags=0, secrets with %d fields", len(secs))
-
 			case "802-11-wireless-security":
 				wifiSec, ok := existingSettings["802-11-wireless-security"]
 				if !ok {
@@ -512,6 +529,102 @@ func fieldsNeeded(setting string, hints []string) []string {
 	default:
 		return []string{}
 	}
+}
+
+func buildFieldsInfo(setting string, fields []string, vpnService string) []FieldInfo {
+	result := make([]FieldInfo, 0, len(fields))
+	for _, f := range fields {
+		info := FieldInfo{Name: f}
+		switch setting {
+		case "802-11-wireless-security":
+			info.Label = "Password"
+			info.IsSecret = true
+		case "802-1x":
+			switch f {
+			case "identity":
+				info.Label = "Username"
+				info.IsSecret = false
+			case "password":
+				info.Label = "Password"
+				info.IsSecret = true
+			default:
+				info.Label = f
+				info.IsSecret = true
+			}
+		case "vpn":
+			info.Label, info.IsSecret = vpnFieldMeta(f, vpnService)
+		default:
+			info.Label = f
+			info.IsSecret = true
+		}
+		result = append(result, info)
+	}
+	return result
+}
+
+func inferVPNFields(conn map[string]nmVariantMap, vpnService string) []string {
+	fields := []string{"password"}
+
+	vpnSettings, ok := conn["vpn"]
+	if !ok {
+		return fields
+	}
+
+	dataVariant, ok := vpnSettings["data"]
+	if !ok {
+		return fields
+	}
+
+	dataMap, ok := dataVariant.Value().(map[string]string)
+	if !ok {
+		return fields
+	}
+
+	connType := dataMap["connection-type"]
+
+	switch {
+	case strings.Contains(vpnService, "openvpn"):
+		if connType == "password" || connType == "password-tls" {
+			if dataMap["username"] == "" {
+				fields = []string{"username", "password"}
+			}
+		}
+	case strings.Contains(vpnService, "vpnc"), strings.Contains(vpnService, "l2tp"),
+		strings.Contains(vpnService, "pptp"), strings.Contains(vpnService, "openconnect"):
+		if dataMap["username"] == "" {
+			fields = []string{"username", "password"}
+		}
+	}
+
+	return fields
+}
+
+func vpnFieldMeta(field, vpnService string) (label string, isSecret bool) {
+	switch field {
+	case "password":
+		return "Password", true
+	case "Xauth password":
+		return "IPSec Password", true
+	case "IPSec secret":
+		return "IPSec Pre-Shared Key", true
+	case "cert-pass":
+		return "Certificate Password", true
+	case "http-proxy-password":
+		return "HTTP Proxy Password", true
+	case "username":
+		return "Username", false
+	case "Xauth username":
+		return "IPSec Username", false
+	case "proxy-password":
+		return "Proxy Password", true
+	case "private-key-password":
+		return "Private Key Password", true
+	}
+	if strings.HasSuffix(field, "password") || strings.HasSuffix(field, "secret") ||
+		strings.HasSuffix(field, "pass") || strings.HasSuffix(field, "psk") {
+		return strings.Title(strings.ReplaceAll(field, "-", " ")), true
+	}
+	return strings.Title(strings.ReplaceAll(field, "-", " ")), false
 }
 
 func readVPNPasswordFlags(conn map[string]nmVariantMap, settingName string) uint32 {
