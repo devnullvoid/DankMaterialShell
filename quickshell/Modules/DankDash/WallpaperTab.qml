@@ -3,6 +3,7 @@ import QtCore
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
+import Quickshell
 import qs.Common
 import qs.Modals.FileBrowser
 import qs.Widgets
@@ -239,6 +240,12 @@ Item {
             }
         }
         function onMonitorWallpapersChanged() {
+            loadWallpaperDirectory();
+            if (visible && active) {
+                setInitialSelection();
+            }
+        }
+        function onPerMonitorWallpaperChanged() {
             loadWallpaperDirectory();
             if (visible && active) {
                 setInitialSelection();
