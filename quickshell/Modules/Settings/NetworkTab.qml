@@ -288,7 +288,7 @@ Item {
                                     return I18n.tr("%1 connected").arg(connected);
                                 }
                                 font.pixelSize: Theme.fontSizeSmall
-                                color: NetworkService.ethernetConnected ? Theme.success : Theme.surfaceVariantText
+                                color: NetworkService.ethernetConnected ? Theme.primary : Theme.surfaceVariantText
                             }
                         }
                     }
@@ -758,7 +758,7 @@ Item {
                                     return I18n.tr("Not connected");
                                 }
                                 font.pixelSize: Theme.fontSizeSmall
-                                color: NetworkService.wifiConnected ? Theme.success : Theme.surfaceVariantText
+                                color: NetworkService.wifiConnected ? Theme.primary : Theme.surfaceVariantText
                             }
                         }
 
@@ -1430,7 +1430,7 @@ Item {
                                     return names[0] + " +" + (names.length - 1);
                                 }
                                 font.pixelSize: Theme.fontSizeSmall
-                                color: DMSNetworkService.connected ? Theme.success : Theme.surfaceVariantText
+                                color: DMSNetworkService.connected ? Theme.primary : Theme.surfaceVariantText
                             }
                         }
 
