@@ -360,11 +360,33 @@ Item {
         }
     }
 
-    SettingsModal {
-        id: settingsModal
+    LazyLoader {
+        id: settingsModalLoader
+
+        active: false
 
         Component.onCompleted: {
-            PopoutService.settingsModal = settingsModal;
+            PopoutService.settingsModalLoader = settingsModalLoader;
+        }
+
+        onActiveChanged: {
+            if (active && item) {
+                PopoutService.settingsModal = item;
+                PopoutService._onSettingsModalLoaded();
+            }
+        }
+
+        SettingsModal {
+            id: settingsModal
+            property bool wasShown: false
+
+            onVisibleChanged: {
+                if (visible) {
+                    wasShown = true;
+                } else if (wasShown) {
+                    PopoutService.unloadSettings();
+                }
+            }
         }
     }
 
@@ -534,7 +556,6 @@ Item {
         hyprKeybindsModalLoader: hyprKeybindsModalLoader
         dankBarRepeater: dankBarRepeater
         hyprlandOverviewLoader: hyprlandOverviewLoader
-        settingsModal: settingsModal
     }
 
     Variants {

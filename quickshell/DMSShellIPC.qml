@@ -15,7 +15,6 @@ Item {
     required property var hyprKeybindsModalLoader
     required property var dankBarRepeater
     required property var hyprlandOverviewLoader
-    required property var settingsModal
 
     function getFirstBar() {
         if (!root.dankBarRepeater || root.dankBarRepeater.count === 0)
@@ -533,17 +532,17 @@ Item {
 
     IpcHandler {
         function open(): string {
-            root.settingsModal.show();
+            PopoutService.openSettings();
             return "SETTINGS_OPEN_SUCCESS";
         }
 
         function close(): string {
-            root.settingsModal.hide();
+            PopoutService.closeSettings();
             return "SETTINGS_CLOSE_SUCCESS";
         }
 
         function toggle(): string {
-            root.settingsModal.toggle();
+            PopoutService.toggleSettings();
             return "SETTINGS_TOGGLE_SUCCESS";
         }
 
@@ -552,12 +551,17 @@ Item {
 
     IpcHandler {
         function browse(type: string) {
-            if (type === "wallpaper") {
-                root.settingsModal.wallpaperBrowser.allowStacking = false;
-                root.settingsModal.wallpaperBrowser.open();
-            } else if (type === "profile") {
-                root.settingsModal.profileBrowser.allowStacking = false;
-                root.settingsModal.profileBrowser.open();
+            const modal = PopoutService.settingsModal;
+            if (modal) {
+                if (type === "wallpaper") {
+                    modal.wallpaperBrowser.allowStacking = false;
+                    modal.wallpaperBrowser.open();
+                } else if (type === "profile") {
+                    modal.profileBrowser.allowStacking = false;
+                    modal.profileBrowser.open();
+                }
+            } else {
+                PopoutService.openSettings();
             }
         }
 

@@ -16,6 +16,7 @@ Singleton {
     property var systemUpdatePopout: null
 
     property var settingsModal: null
+    property var settingsModalLoader: null
     property var clipboardHistoryModal: null
     property var spotlightModal: null
     property var powerMenuModal: null
@@ -191,12 +192,48 @@ Singleton {
         }
     }
 
+    property bool _settingsWantsOpen: false
+    property bool _settingsWantsToggle: false
+
     function openSettings() {
-        settingsModal?.show();
+        if (settingsModal) {
+            settingsModal.show();
+        } else if (settingsModalLoader) {
+            _settingsWantsOpen = true;
+            _settingsWantsToggle = false;
+            settingsModalLoader.activeAsync = true;
+        }
     }
 
     function closeSettings() {
         settingsModal?.close();
+    }
+
+    function toggleSettings() {
+        if (settingsModal) {
+            settingsModal.toggle();
+        } else if (settingsModalLoader) {
+            _settingsWantsToggle = true;
+            _settingsWantsOpen = false;
+            settingsModalLoader.activeAsync = true;
+        }
+    }
+
+    function unloadSettings() {
+        if (settingsModalLoader) {
+            settingsModal = null;
+            settingsModalLoader.active = false;
+        }
+    }
+
+    function _onSettingsModalLoaded() {
+        if (_settingsWantsOpen) {
+            _settingsWantsOpen = false;
+            settingsModal?.show();
+        } else if (_settingsWantsToggle) {
+            _settingsWantsToggle = false;
+            settingsModal?.toggle();
+        }
     }
 
     function openClipboardHistory() {
