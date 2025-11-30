@@ -28,32 +28,9 @@ Item {
     readonly property real wing: gothEnabled ? barWindow._wingR : 0
     readonly property real rt: (barConfig?.squareCorners ?? false) ? 0 : Theme.cornerRadius
 
-    property string _cachedMainPath: ""
-    property string _cachedBorderFullPath: ""
-    property string _cachedBorderEdgePath: ""
-    property string _pathKey: ""
-
-    readonly property string currentPathKey: `${width}|${height}|${barPos}|${wing}|${rt}|${barBorder.inset}`
-
-    onCurrentPathKeyChanged: {
-        if (_pathKey !== currentPathKey) {
-            _pathKey = currentPathKey;
-            _cachedMainPath = generatePathForPosition();
-            _cachedBorderFullPath = generateBorderFullPath();
-            _cachedBorderEdgePath = generateBorderEdgePath();
-        }
-    }
-
-    Component.onCompleted: {
-        _pathKey = currentPathKey;
-        _cachedMainPath = generatePathForPosition();
-        _cachedBorderFullPath = generateBorderFullPath();
-        _cachedBorderEdgePath = generateBorderEdgePath();
-    }
-
-    readonly property string mainPath: _cachedMainPath
-    readonly property string borderFullPath: _cachedBorderFullPath
-    readonly property string borderEdgePath: _cachedBorderEdgePath
+    readonly property string mainPath: generatePathForPosition()
+    readonly property string borderFullPath: generateBorderFullPath()
+    readonly property string borderEdgePath: generateBorderEdgePath()
 
     MouseArea {
         anchors.fill: parent
