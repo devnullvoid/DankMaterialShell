@@ -5,11 +5,20 @@
   "%1 characters": {
     "%1 characters": "%1 個字元"
   },
+  "%1 class(es)": {
+    "%1 class(es)": ""
+  },
   "%1 connected": {
     "%1 connected": ""
   },
   "%1 display(s)": {
     "%1 display(s)": ""
+  },
+  "%1 job(s)": {
+    "%1 job(s)": ""
+  },
+  "%1 printer(s)": {
+    "%1 printer(s)": ""
   },
   "%1 widgets": {
     "%1 widgets": ""
@@ -41,8 +50,20 @@
   "A file with this name already exists. Do you want to overwrite it?": {
     "A file with this name already exists. Do you want to overwrite it?": "檔案名稱已存在。是否要覆蓋它？"
   },
+  "API": {
+    "API": ""
+  },
+  "Aborted": {
+    "Aborted": ""
+  },
   "About": {
     "About": "關於"
+  },
+  "Accept Jobs": {
+    "Accept Jobs": ""
+  },
+  "Accepting": {
+    "Accepting": ""
   },
   "Access clipboard history": {
     "Access clipboard history": "剪貼簿歷史記錄"
@@ -76,6 +97,9 @@
   },
   "Add Bar": {
     "Add Bar": ""
+  },
+  "Add Printer": {
+    "Add Printer": ""
   },
   "Add Widget": {
     "Add Widget": "新增部件"
@@ -377,11 +401,20 @@
   "CUPS Missing Filter Warning": {
     "CUPS Missing Filter Warning": "CUPS 缺少過濾器警告"
   },
+  "CUPS Print Server": {
+    "CUPS Print Server": ""
+  },
   "Camera": {
     "Camera": "相機"
   },
   "Cancel": {
     "Cancel": "取消"
+  },
+  "Canceled": {
+    "Canceled": ""
+  },
+  "Capabilities": {
+    "Capabilities": ""
   },
   "Capacity": {
     "Capacity": "容量"
@@ -452,6 +485,9 @@
   "Clear All History?": {
     "Clear All History?": "清除所有紀錄?"
   },
+  "Clear All Jobs": {
+    "Clear All Jobs": ""
+  },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": ""
   },
@@ -512,11 +548,17 @@
   "Compact Mode": {
     "Compact Mode": "緊湊模式"
   },
+  "Completed": {
+    "Completed": ""
+  },
   "Compositor": {
     "Compositor": "合成器"
   },
   "Configuration activated": {
     "Configuration activated": "配置已啟動"
+  },
+  "Configure a new printer": {
+    "Configure a new printer": ""
   },
   "Configure icons for named workspaces. Icons take priority over numbers when both are enabled.": {
     "Configure icons for named workspaces. Icons take priority over numbers when both are enabled.": "為命名工作區配置圖示。當同時啟用圖示和數字時，圖示優先於數字。"
@@ -592,6 +634,12 @@
   },
   "Create Dir": {
     "Create Dir": "新建資料夾"
+  },
+  "Create Printer": {
+    "Create Printer": ""
+  },
+  "Creating...": {
+    "Creating...": ""
   },
   "Critical Priority": {
     "Critical Priority": "關鍵優先級"
@@ -695,11 +743,20 @@
   "Delete": {
     "Delete": ""
   },
+  "Delete Class": {
+    "Delete Class": ""
+  },
+  "Delete Printer": {
+    "Delete Printer": ""
+  },
   "Delete VPN": {
     "Delete VPN": ""
   },
   "Derives colors that closely match the underlying image.": {
     "Derives colors that closely match the underlying image.": "提取與底層圖像高度匹配的顏色。"
+  },
+  "Description": {
+    "Description": ""
   },
   "Desktop background images": {
     "Desktop background images": "桌面背景圖片"
@@ -917,6 +974,9 @@
   "Failed to activate configuration": {
     "Failed to activate configuration": "無法啟動配置"
   },
+  "Failed to add printer to class": {
+    "Failed to add printer to class": ""
+  },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "無法取消所有工作"
   },
@@ -929,8 +989,20 @@
   "Failed to connect to ": {
     "Failed to connect to ": "無法連線到 "
   },
+  "Failed to create printer": {
+    "Failed to create printer": ""
+  },
   "Failed to delete VPN": {
     "Failed to delete VPN": ""
+  },
+  "Failed to delete class": {
+    "Failed to delete class": ""
+  },
+  "Failed to delete printer": {
+    "Failed to delete printer": ""
+  },
+  "Failed to disable job acceptance": {
+    "Failed to disable job acceptance": ""
   },
   "Failed to disconnect VPN": {
     "Failed to disconnect VPN": "無法斷開 VPN"
@@ -944,17 +1016,35 @@
   "Failed to enable WiFi": {
     "Failed to enable WiFi": "無法啟用 WiFi"
   },
+  "Failed to enable job acceptance": {
+    "Failed to enable job acceptance": ""
+  },
+  "Failed to hold job": {
+    "Failed to hold job": ""
+  },
   "Failed to import VPN": {
     "Failed to import VPN": ""
   },
   "Failed to load VPN config": {
     "Failed to load VPN config": ""
   },
+  "Failed to move job": {
+    "Failed to move job": ""
+  },
   "Failed to pause printer": {
     "Failed to pause printer": "無法暫停印表機"
   },
+  "Failed to print test page": {
+    "Failed to print test page": ""
+  },
   "Failed to remove device": {
     "Failed to remove device": "無法移除裝置"
+  },
+  "Failed to remove printer from class": {
+    "Failed to remove printer from class": ""
+  },
+  "Failed to restart job": {
+    "Failed to restart job": ""
   },
   "Failed to resume printer": {
     "Failed to resume printer": "印表機恢復失敗"
@@ -974,8 +1064,20 @@
   "Failed to update autoconnect": {
     "Failed to update autoconnect": "自動連線更新失敗"
   },
+  "Failed to update description": {
+    "Failed to update description": ""
+  },
+  "Failed to update location": {
+    "Failed to update location": ""
+  },
+  "Failed to update sharing": {
+    "Failed to update sharing": ""
+  },
   "Feels Like": {
     "Feels Like": "體感溫度"
+  },
+  "File": {
+    "File": ""
   },
   "File Already Exists": {
     "File Already Exists": "檔案已經存在"
@@ -1090,6 +1192,9 @@
   },
   "Height to Edge Gap (Exclusive Zone)": {
     "Height to Edge Gap (Exclusive Zone)": "邊緣間隙高度 (獨佔區域)"
+  },
+  "Held": {
+    "Held": ""
   },
   "Hex": {
     "Hex": "Hex"
@@ -1285,6 +1390,12 @@
   },
   "Loading...": {
     "Loading...": ""
+  },
+  "Local": {
+    "Local": ""
+  },
+  "Location": {
+    "Location": ""
   },
   "Location Search": {
     "Location Search": "位置搜尋"
@@ -1529,6 +1640,12 @@
   "No clipboard entries found": {
     "No clipboard entries found": "剪貼簿無內容"
   },
+  "No devices found": {
+    "No devices found": ""
+  },
+  "No drivers found": {
+    "No drivers found": ""
+  },
   "No files found": {
     "No files found": "沒有找到"
   },
@@ -1546,6 +1663,12 @@
   },
   "No printer found": {
     "No printer found": "未找到印表機"
+  },
+  "No printers configured": {
+    "No printers configured": ""
+  },
+  "No printers found": {
+    "No printers found": ""
   },
   "None": {
     "None": "無"
@@ -1628,6 +1751,12 @@
   "Open search bar to find text": {
     "Open search bar to find text": "打開搜尋欄尋找文本"
   },
+  "Optional description": {
+    "Optional description": ""
+  },
+  "Optional location": {
+    "Optional location": ""
+  },
   "Other": {
     "Other": "其他"
   },
@@ -1684,6 +1813,9 @@
   },
   "Paused": {
     "Paused": "暫停"
+  },
+  "Pending": {
+    "Pending": ""
   },
   "Per-Mode Wallpapers": {
     "Per-Mode Wallpapers": "以主題區分桌布"
@@ -1799,6 +1931,18 @@
   "Printer": {
     "Printer": ""
   },
+  "Printer Classes": {
+    "Printer Classes": ""
+  },
+  "Printer created successfully": {
+    "Printer created successfully": ""
+  },
+  "Printer deleted": {
+    "Printer deleted": ""
+  },
+  "Printer name (no spaces)": {
+    "Printer name (no spaces)": ""
+  },
   "Printers": {
     "Printers": "印表機"
   },
@@ -1859,8 +2003,14 @@
   "Recently Used Apps": {
     "Recently Used Apps": "最近使用的應用程式"
   },
+  "Recommended available": {
+    "Recommended available": ""
+  },
   "Refresh": {
     "Refresh": "重新整理"
+  },
+  "Reject Jobs": {
+    "Reject Jobs": ""
   },
   "Reload Plugin": {
     "Reload Plugin": "重新載入插件"
@@ -2008,6 +2158,12 @@
   },
   "Select an image file...": {
     "Select an image file...": "選擇一張圖片..."
+  },
+  "Select device...": {
+    "Select device...": ""
+  },
+  "Select driver...": {
+    "Select driver...": ""
   },
   "Select font weight": {
     "Select font weight": "選擇字體粗細"
@@ -2303,6 +2459,12 @@
   "Terminals - Always use Dark Theme": {
     "Terminals - Always use Dark Theme": "終端 - 始終使用深色主題"
   },
+  "Test Page": {
+    "Test Page": ""
+  },
+  "Test page sent to printer": {
+    "Test page sent to printer": ""
+  },
   "Text": {
     "Text": "文字"
   },
@@ -2380,6 +2542,9 @@
   },
   "Top Section": {
     "Top Section": "上方區塊"
+  },
+  "Total Jobs": {
+    "Total Jobs": ""
   },
   "Transition Effect": {
     "Transition Effect": "切換動畫效果"
@@ -2500,6 +2665,9 @@
   },
   "VRR: ": {
     "VRR: ": "VRR："
+  },
+  "Version": {
+    "Version": ""
   },
   "Vertical Deck": {
     "Vertical Deck": "垂直甲板"

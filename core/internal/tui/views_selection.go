@@ -3,7 +3,6 @@ package tui
 import (
 	"context"
 	"fmt"
-	"os/exec"
 	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
@@ -177,11 +176,6 @@ func (m Model) updateSelectWindowManagerState(msg tea.Msg) (tea.Model, tea.Cmd) 
 		}
 	}
 	return m, m.listenForLogs()
-}
-
-func (m Model) commandExists(cmd string) bool {
-	_, err := exec.LookPath(cmd)
-	return err == nil
 }
 
 func (m Model) detectDependencies() tea.Cmd {

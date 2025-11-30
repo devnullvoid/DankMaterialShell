@@ -72,6 +72,13 @@ sudo make install  # Install to /usr/local/bin/dms
 
 ## Development
 
+**Setup pre-commit hooks:**
+```bash
+git config core.hooksPath .githooks
+```
+
+This runs gofmt, golangci-lint, tests, and builds before each commit when `core/` files are staged.
+
 **Regenerating Wayland Protocol Bindings:**
 ```bash
 go install github.com/rajveermalviya/go-wayland/cmd/go-wayland-scanner@latest
