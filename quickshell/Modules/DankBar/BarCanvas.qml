@@ -123,9 +123,6 @@ Item {
         const r = wing;
         const cr = rt;
 
-        if (w <= 0 || h <= 0)
-            return "";
-
         let d = `M ${cr} 0`;
         d += ` L ${w - cr} 0`;
         if (cr > 0)
@@ -155,9 +152,6 @@ Item {
         const h = height - wing;
         const r = wing;
         const cr = rt;
-
-        if (w <= 0 || h <= 0)
-            return "";
 
         let d = `M ${cr} ${height}`;
         d += ` L ${w - cr} ${height}`;
@@ -189,9 +183,6 @@ Item {
         const r = wing;
         const cr = rt;
 
-        if (w <= 0 || h <= 0)
-            return "";
-
         let d = `M 0 ${cr}`;
         d += ` L 0 ${h - cr}`;
         if (cr > 0)
@@ -221,9 +212,6 @@ Item {
         const h = height;
         const r = wing;
         const cr = rt;
-
-        if (w <= 0 || h <= 0)
-            return "";
 
         let d = `M ${width} ${cr}`;
         d += ` L ${width} ${h - cr}`;
@@ -255,9 +243,6 @@ Item {
         const r = wing;
         const cr = rt;
 
-        if (w <= 0 || h <= 0)
-            return "";
-
         let d = "";
         if (r > 0) {
             d = `M ${w} ${h + r}`;
@@ -279,9 +264,6 @@ Item {
         const w = barBorder.width;
         const r = wing;
         const cr = rt;
-
-        if (w <= 0)
-            return "";
 
         let d = "";
         if (r > 0) {
@@ -306,9 +288,6 @@ Item {
         const r = wing;
         const cr = rt;
 
-        if (h <= 0)
-            return "";
-
         let d = "";
         if (r > 0) {
             d = `M ${w + r} ${h}`;
@@ -330,9 +309,6 @@ Item {
         const h = barBorder.height;
         const r = wing;
         const cr = rt;
-
-        if (h <= 0)
-            return "";
 
         let d = "";
         if (r > 0) {
@@ -359,8 +335,6 @@ Item {
         if (isTop) {
             const w = width - i * 2;
             const h = height - wing - i * 2;
-            if (w <= 0 || h <= 0)
-                return "";
 
             let d = `M ${i + cr} ${i}`;
             d += ` L ${i + w - cr} ${i}`;
@@ -389,8 +363,6 @@ Item {
         if (isBottom) {
             const w = width - i * 2;
             const h = height - wing - i * 2;
-            if (w <= 0 || h <= 0)
-                return "";
 
             let d = `M ${i + cr} ${height - i}`;
             d += ` L ${i + w - cr} ${height - i}`;
@@ -419,8 +391,6 @@ Item {
         if (isLeft) {
             const w = width - wing - i * 2;
             const h = height - i * 2;
-            if (w <= 0 || h <= 0)
-                return "";
 
             let d = `M ${i} ${i + cr}`;
             d += ` L ${i} ${i + h - cr}`;
@@ -449,8 +419,6 @@ Item {
         if (isRight) {
             const w = width - wing - i * 2;
             const h = height - i * 2;
-            if (w <= 0 || h <= 0)
-                return "";
 
             let d = `M ${width - i} ${i + cr}`;
             d += ` L ${width - i} ${i + h - cr}`;
@@ -487,8 +455,6 @@ Item {
         if (isTop) {
             const w = width - i * 2;
             const h = height - wing - i * 2;
-            if (w <= 0 || h <= 0)
-                return "";
 
             let d = "";
             if (r > 0) {
@@ -509,8 +475,6 @@ Item {
 
         if (isBottom) {
             const w = width - i * 2;
-            if (w <= 0)
-                return "";
 
             let d = "";
             if (r > 0) {
@@ -532,8 +496,6 @@ Item {
         if (isLeft) {
             const w = width - wing - i * 2;
             const h = height - i * 2;
-            if (h <= 0)
-                return "";
 
             let d = "";
             if (r > 0) {
@@ -554,8 +516,6 @@ Item {
 
         if (isRight) {
             const h = height - i * 2;
-            if (h <= 0)
-                return "";
 
             let d = "";
             if (r > 0) {
