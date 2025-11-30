@@ -140,7 +140,9 @@ PanelWindow {
     property real wingtipsRadius: barConfig?.gothCornerRadiusOverride ? (barConfig?.gothCornerRadiusValue ?? 12) : Theme.cornerRadius
     readonly property real _wingR: Math.max(0, wingtipsRadius)
     readonly property color _surfaceContainer: Theme.surfaceContainer
-    readonly property real _backgroundAlpha: barConfig?.transparency ?? 1.0
+    readonly property string _barId: barConfig?.id ?? "default"
+    readonly property var _liveBarConfig: SettingsData.barConfigs.find(c => c.id === _barId) || barConfig
+    readonly property real _backgroundAlpha: _liveBarConfig?.transparency ?? 1.0
     readonly property color _bgColor: Theme.withAlpha(_surfaceContainer, _backgroundAlpha)
     readonly property real _dpr: CompositorService.getScreenScale(barWindow.screen)
 
