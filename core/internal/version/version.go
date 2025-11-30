@@ -7,6 +7,8 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 )
 
 type VersionInfo struct {
@@ -33,7 +35,11 @@ func (d *DefaultVersionFetcher) GetCurrentVersion(dmsPath string) (string, error
 		if err != nil {
 			return "", err
 		}
-		defer os.Chdir(originalDir)
+		defer func() {
+			if err := os.Chdir(originalDir); err != nil {
+				log.Warnf("failed to change back to original directory: %v", err)
+			}
+		}()
 
 		if err := os.Chdir(dmsPath); err != nil {
 			return "", fmt.Errorf("failed to change to DMS directory: %w", err)
@@ -70,7 +76,11 @@ func (d *DefaultVersionFetcher) GetLatestVersion(dmsPath string) (string, error)
 		if err != nil {
 			return "", err
 		}
-		defer os.Chdir(originalDir)
+		defer func() {
+			if err := os.Chdir(originalDir); err != nil {
+				log.Warnf("failed to change back to original directory: %v", err)
+			}
+		}()
 
 		if err := os.Chdir(dmsPath); err != nil {
 			return "", fmt.Errorf("failed to change to DMS directory: %w", err)
@@ -85,7 +95,9 @@ func (d *DefaultVersionFetcher) GetLatestVersion(dmsPath string) (string, error)
 			if _, err := tagCmd.Output(); err == nil {
 				// Add timeout to git fetch to prevent hanging
 				fetchCmd := exec.Command("timeout", "5s", "git", "fetch", "origin", "--tags", "--quiet")
-				fetchCmd.Run()
+				if err := fetchCmd.Run(); err != nil {
+					log.Debugf("git fetch tags failed (continuing with local tags): %v", err)
+				}
 
 				latestTagCmd := exec.Command("git", "tag", "-l", "v*", "--sort=-version:refname")
 				latestTagOutput, err := latestTagCmd.Output()
@@ -109,7 +121,9 @@ func (d *DefaultVersionFetcher) GetLatestVersion(dmsPath string) (string, error)
 
 			// Add timeout to git fetch to prevent hanging
 			fetchCmd := exec.Command("timeout", "5s", "git", "fetch", "origin", currentBranch, "--quiet")
-			fetchCmd.Run()
+			if err := fetchCmd.Run(); err != nil {
+				log.Debugf("git fetch branch failed (continuing with local ref): %v", err)
+			}
 
 			remoteRevCmd := exec.Command("git", "rev-parse", "--short", fmt.Sprintf("origin/%s", currentBranch))
 			remoteRevOutput, err := remoteRevCmd.Output()
@@ -236,10 +250,10 @@ func CompareVersions(v1, v2 string) int {
 	for i := 0; i < maxLen; i++ {
 		var p1, p2 int
 		if i < len(parts1) {
-			fmt.Sscanf(parts1[i], "%d", &p1)
+			fmt.Sscanf(parts1[i], "%d", &p1) //nolint:errcheck
 		}
 		if i < len(parts2) {
-			fmt.Sscanf(parts2[i], "%d", &p2)
+			fmt.Sscanf(parts2[i], "%d", &p2) //nolint:errcheck
 		}
 
 		if p1 < p2 {

@@ -72,10 +72,10 @@ func (m Model) viewSelectTerminal() string {
 	b.WriteString(title)
 	b.WriteString("\n\n")
 
-	options := []struct {
+	var options []struct {
 		name        string
 		description string
-	}{}
+	}
 
 	if m.osInfo != nil && m.osInfo.Distribution.ID == "gentoo" {
 		options = []struct {

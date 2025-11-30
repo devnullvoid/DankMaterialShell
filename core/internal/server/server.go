@@ -319,7 +319,6 @@ func handleConnection(conn net.Conn) {
 	capsData, _ := json.Marshal(caps)
 	conn.Write(capsData)
 	conn.Write([]byte("\n"))
-
 	scanner := bufio.NewScanner(conn)
 	for scanner.Scan() {
 		line := scanner.Bytes()

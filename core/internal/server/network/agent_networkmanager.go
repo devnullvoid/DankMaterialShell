@@ -11,6 +11,8 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/errdefs"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/godbus/dbus/v5"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 const (
@@ -117,12 +119,6 @@ func (a *SecretAgent) GetSecrets(
 ) (nmSettingMap, *dbus.Error) {
 	log.Infof("[SecretAgent] GetSecrets called: path=%s, setting=%s, hints=%v, flags=%d",
 		path, settingName, hints, flags)
-
-	const (
-		NM_SECRET_AGENT_GET_SECRETS_FLAG_ALLOW_INTERACTION = 0x1
-		NM_SECRET_AGENT_GET_SECRETS_FLAG_REQUEST_NEW       = 0x2
-		NM_SECRET_AGENT_GET_SECRETS_FLAG_USER_REQUESTED    = 0x4
-	)
 
 	connType, displayName, vpnSvc := readConnTypeAndName(conn)
 	ssid := readSSID(conn)
@@ -378,7 +374,7 @@ func (a *SecretAgent) GetSecrets(
 	}
 
 	if settingName == "vpn" && a.backend != nil && (vpnUsername != "" || reply.Save) {
-		pw, _ := reply.Secrets["password"]
+		pw := reply.Secrets["password"]
 		a.backend.pendingVPNSaveMu.Lock()
 		a.backend.pendingVPNSave = &pendingVPNCredentials{
 			ConnectionPath: string(path),
@@ -620,11 +616,12 @@ func vpnFieldMeta(field, vpnService string) (label string, isSecret bool) {
 	case "private-key-password":
 		return "Private Key Password", true
 	}
+	titleCaser := cases.Title(language.English)
 	if strings.HasSuffix(field, "password") || strings.HasSuffix(field, "secret") ||
 		strings.HasSuffix(field, "pass") || strings.HasSuffix(field, "psk") {
-		return strings.Title(strings.ReplaceAll(field, "-", " ")), true
+		return titleCaser.String(strings.ReplaceAll(field, "-", " ")), true
 	}
-	return strings.Title(strings.ReplaceAll(field, "-", " ")), false
+	return titleCaser.String(strings.ReplaceAll(field, "-", " ")), false
 }
 
 func readVPNPasswordFlags(conn map[string]nmVariantMap, settingName string) uint32 {

@@ -11,6 +11,8 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/greeter"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/spf13/cobra"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 var greeterCmd = &cobra.Command{
@@ -258,7 +260,7 @@ func disableDisplayManager(dmName string) (bool, error) {
 		} else if shouldDisable {
 			return actionTaken, fmt.Errorf("%s is still in state '%s' after %s operation", dmName, enabledState, actionVerb)
 		} else {
-			fmt.Printf("  ✓ %s %s (now: %s)\n", strings.Title(actionVerb), dmName, enabledState)
+			fmt.Printf("  ✓ %s %s (now: %s)\n", cases.Title(language.English).String(actionVerb), dmName, enabledState)
 		}
 
 		actionTaken = true

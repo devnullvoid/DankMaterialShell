@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/keybinds"
 )
@@ -118,7 +119,7 @@ func (j *JSONFileProvider) GetCheatSheet() (*keybinds.CheatSheet, error) {
 func expandPath(path string) (string, error) {
 	expandedPath := os.ExpandEnv(path)
 
-	if filepath.HasPrefix(expandedPath, "~") {
+	if strings.HasPrefix(expandedPath, "~") {
 		home, err := os.UserHomeDir()
 		if err != nil {
 			return "", err

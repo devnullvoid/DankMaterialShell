@@ -98,7 +98,7 @@ func (b *DDCBackend) probeDDCDevice(bus int) (*ddcDevice, error) {
 	}
 
 	dummy := make([]byte, 32)
-	syscall.Read(fd, dummy)
+	syscall.Read(fd, dummy) //nolint:errcheck
 
 	writebuf := []byte{0x00}
 	n, err := syscall.Write(fd, writebuf)

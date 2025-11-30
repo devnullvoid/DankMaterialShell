@@ -251,14 +251,14 @@ func (m *Manager) CreatePrinter(name, deviceURI, ppd string, shared bool, errorP
 	}
 
 	if usedPkHelper {
-		m.pkHelper.PrinterSetEnabled(name, true)
-		m.pkHelper.PrinterSetAcceptJobs(name, true, "")
+		m.pkHelper.PrinterSetEnabled(name, true)        //nolint:errcheck
+		m.pkHelper.PrinterSetAcceptJobs(name, true, "") //nolint:errcheck
 	} else {
 		if err := m.client.ResumePrinter(name); isAuthError(err) && m.pkHelper != nil {
-			m.pkHelper.PrinterSetEnabled(name, true)
+			m.pkHelper.PrinterSetEnabled(name, true) //nolint:errcheck
 		}
 		if err := m.client.AcceptJobs(name); isAuthError(err) && m.pkHelper != nil {
-			m.pkHelper.PrinterSetAcceptJobs(name, true, "")
+			m.pkHelper.PrinterSetAcceptJobs(name, true, "") //nolint:errcheck
 		}
 	}
 
