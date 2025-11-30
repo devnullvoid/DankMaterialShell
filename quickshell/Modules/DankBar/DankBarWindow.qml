@@ -479,6 +479,15 @@ PanelWindow {
             target: rootWindow
         }
 
+        Connections {
+            target: SettingsData
+            function onBarConfigsChanged() {
+                Qt.callLater(() => {
+                    topBarCore.backgroundTransparency = barConfig?.transparency ?? 1.0;
+                });
+            }
+        }
+
         function evaluateReveal() {
             if (!autoHide)
                 return;
