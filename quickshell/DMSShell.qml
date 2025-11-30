@@ -120,7 +120,10 @@ Item {
         delegate: Loader {
             id: barLoader
             required property var modelData
-            property var barConfig: SettingsData.getBarConfig(modelData.id)
+            property var barConfig: {
+                SettingsData.barConfigs;
+                return SettingsData.getBarConfig(modelData.id);
+            }
             active: barConfig?.enabled ?? false
             asynchronous: false
 
