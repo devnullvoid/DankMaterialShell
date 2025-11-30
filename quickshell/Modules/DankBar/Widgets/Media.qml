@@ -10,6 +10,13 @@ BasePill {
 
     readonly property MprisPlayer activePlayer: MprisController.activePlayer
     readonly property bool playerAvailable: activePlayer !== null
+    readonly property bool __isChromeBrowser: {
+        if (!activePlayer?.identity)
+            return false;
+        const id = activePlayer.identity.toLowerCase();
+        return id.includes("chrome") || id.includes("chromium");
+    }
+    readonly property bool usePlayerVolume: activePlayer && activePlayer.volumeSupported && !__isChromeBrowser
     property bool compactMode: false
     property var widgetData: null
     readonly property int textWidth: {
@@ -49,14 +56,8 @@ BasePill {
 
         wheelEvent.accepted = true;
 
-        // If volume is not supported, return early to avoid error logs but accepting the scroll,
-        // to keep the consistency of not scrolling workspaces when scrolling in the media widget.
-        if (!activePlayer.volumeSupported) {
-            return;
-        }
-
         const delta = wheelEvent.angleDelta.y;
-        const currentVolume = (activePlayer.volume * 100) || 0;
+        const currentVolume = usePlayerVolume ? (activePlayer.volume * 100) : ((AudioService.sink?.audio?.volume ?? 0) * 100);
 
         let newVolume;
         if (delta > 0) {
@@ -65,7 +66,11 @@ BasePill {
             newVolume = Math.max(0, currentVolume - 5);
         }
 
-        activePlayer.volume = newVolume / 100;
+        if (usePlayerVolume) {
+            activePlayer.volume = newVolume / 100;
+        } else if (AudioService.sink?.audio) {
+            AudioService.sink.audio.volume = newVolume / 100;
+        }
     }
 
     content: Component {
