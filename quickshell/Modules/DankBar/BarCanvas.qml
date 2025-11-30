@@ -28,9 +28,9 @@ Item {
     readonly property real wing: gothEnabled ? barWindow._wingR : 0
     readonly property real rt: (barConfig?.squareCorners ?? false) ? 0 : Theme.cornerRadius
 
-    readonly property string mainPath: { width; height; return generatePathForPosition(); }
-    readonly property string borderFullPath: { width; height; return generateBorderFullPath(); }
-    readonly property string borderEdgePath: { width; height; return generateBorderEdgePath(); }
+    readonly property string mainPath: generatePathForPosition(width, height)
+    readonly property string borderFullPath: generateBorderFullPath(width, height)
+    readonly property string borderEdgePath: generateBorderEdgePath(width, height)
 
     MouseArea {
         anchors.fill: parent
@@ -93,16 +93,16 @@ Item {
         }
     }
 
-    function generatePathForPosition() {
+    function generatePathForPosition(w, h) {
         if (isTop)
-            return generateTopPath();
+            return generateTopPath(w, h);
         if (isBottom)
-            return generateBottomPath();
+            return generateBottomPath(w, h);
         if (isLeft)
-            return generateLeftPath();
+            return generateLeftPath(w, h);
         if (isRight)
-            return generateRightPath();
-        return generateTopPath();
+            return generateRightPath(w, h);
+        return generateTopPath(w, h);
     }
 
     function generateBorderPathForPosition() {
@@ -117,9 +117,8 @@ Item {
         return generateTopBorderPath();
     }
 
-    function generateTopPath() {
-        const w = width;
-        const h = height - wing;
+    function generateTopPath(w, h) {
+        h = h - wing;
         const r = wing;
         const cr = rt;
 
@@ -147,16 +146,16 @@ Item {
         return d;
     }
 
-    function generateBottomPath() {
-        const w = width;
-        const h = height - wing;
+    function generateBottomPath(w, h) {
+        const fullH = h;
+        h = h - wing;
         const r = wing;
         const cr = rt;
 
-        let d = `M ${cr} ${height}`;
-        d += ` L ${w - cr} ${height}`;
+        let d = `M ${cr} ${fullH}`;
+        d += ` L ${w - cr} ${fullH}`;
         if (cr > 0)
-            d += ` A ${cr} ${cr} 0 0 0 ${w} ${height - cr}`;
+            d += ` A ${cr} ${cr} 0 0 0 ${w} ${fullH - cr}`;
         if (r > 0) {
             d += ` L ${w} 0`;
             d += ` A ${r} ${r} 0 0 1 ${w - r} ${r}`;
@@ -170,16 +169,15 @@ Item {
             if (cr > 0)
                 d += ` A ${cr} ${cr} 0 0 0 0 ${cr}`;
         }
-        d += ` L 0 ${height - cr}`;
+        d += ` L 0 ${fullH - cr}`;
         if (cr > 0)
-            d += ` A ${cr} ${cr} 0 0 0 ${cr} ${height}`;
+            d += ` A ${cr} ${cr} 0 0 0 ${cr} ${fullH}`;
         d += " Z";
         return d;
     }
 
-    function generateLeftPath() {
-        const w = width - wing;
-        const h = height;
+    function generateLeftPath(w, h) {
+        w = w - wing;
         const r = wing;
         const cr = rt;
 
@@ -207,16 +205,16 @@ Item {
         return d;
     }
 
-    function generateRightPath() {
-        const w = width - wing;
-        const h = height;
+    function generateRightPath(w, h) {
+        const fullW = w;
+        w = w - wing;
         const r = wing;
         const cr = rt;
 
-        let d = `M ${width} ${cr}`;
-        d += ` L ${width} ${h - cr}`;
+        let d = `M ${fullW} ${cr}`;
+        d += ` L ${fullW} ${h - cr}`;
         if (cr > 0)
-            d += ` A ${cr} ${cr} 0 0 1 ${width - cr} ${h}`;
+            d += ` A ${cr} ${cr} 0 0 1 ${fullW - cr} ${h}`;
         if (r > 0) {
             d += ` L 0 ${h}`;
             d += ` A ${r} ${r} 0 0 0 ${r} ${h - r}`;
@@ -230,9 +228,9 @@ Item {
             if (cr > 0)
                 d += ` A ${cr} ${cr} 0 0 1 ${cr} 0`;
         }
-        d += ` L ${width - cr} 0`;
+        d += ` L ${fullW - cr} 0`;
         if (cr > 0)
-            d += ` A ${cr} ${cr} 0 0 1 ${width} ${cr}`;
+            d += ` A ${cr} ${cr} 0 0 1 ${fullW} ${cr}`;
         d += " Z";
         return d;
     }
@@ -327,24 +325,24 @@ Item {
         return d;
     }
 
-    function generateBorderFullPath() {
+    function generateBorderFullPath(fullW, fullH) {
         const i = barBorder.inset;
         const r = wing;
         const cr = rt;
 
         if (isTop) {
-            const w = width - i * 2;
-            const h = height - wing - i * 2;
+            const w = fullW - i * 2;
+            const h = fullH - wing - i * 2;
 
             let d = `M ${i + cr} ${i}`;
             d += ` L ${i + w - cr} ${i}`;
             if (cr > 0)
                 d += ` A ${cr} ${cr} 0 0 1 ${i + w} ${i + cr}`;
             if (r > 0) {
-                d += ` L ${i + w} ${height - i}`;
+                d += ` L ${i + w} ${fullH - i}`;
                 d += ` A ${r} ${r} 0 0 0 ${i + w - r} ${i + h}`;
                 d += ` L ${i + r} ${i + h}`;
-                d += ` A ${r} ${r} 0 0 0 ${i} ${height - i}`;
+                d += ` A ${r} ${r} 0 0 0 ${i} ${fullH - i}`;
             } else {
                 d += ` L ${i + w} ${i + h - cr}`;
                 if (cr > 0)
@@ -361,13 +359,13 @@ Item {
         }
 
         if (isBottom) {
-            const w = width - i * 2;
-            const h = height - wing - i * 2;
+            const w = fullW - i * 2;
+            const h = fullH - wing - i * 2;
 
-            let d = `M ${i + cr} ${height - i}`;
-            d += ` L ${i + w - cr} ${height - i}`;
+            let d = `M ${i + cr} ${fullH - i}`;
+            d += ` L ${i + w - cr} ${fullH - i}`;
             if (cr > 0)
-                d += ` A ${cr} ${cr} 0 0 0 ${i + w} ${height - i - cr}`;
+                d += ` A ${cr} ${cr} 0 0 0 ${i + w} ${fullH - i - cr}`;
             if (r > 0) {
                 d += ` L ${i + w} ${i}`;
                 d += ` A ${r} ${r} 0 0 1 ${i + w - r} ${i + r}`;
@@ -381,26 +379,26 @@ Item {
                 if (cr > 0)
                     d += ` A ${cr} ${cr} 0 0 0 ${i} ${i + cr}`;
             }
-            d += ` L ${i} ${height - i - cr}`;
+            d += ` L ${i} ${fullH - i - cr}`;
             if (cr > 0)
-                d += ` A ${cr} ${cr} 0 0 0 ${i + cr} ${height - i}`;
+                d += ` A ${cr} ${cr} 0 0 0 ${i + cr} ${fullH - i}`;
             d += " Z";
             return d;
         }
 
         if (isLeft) {
-            const w = width - wing - i * 2;
-            const h = height - i * 2;
+            const w = fullW - wing - i * 2;
+            const h = fullH - i * 2;
 
             let d = `M ${i} ${i + cr}`;
             d += ` L ${i} ${i + h - cr}`;
             if (cr > 0)
                 d += ` A ${cr} ${cr} 0 0 0 ${i + cr} ${i + h}`;
             if (r > 0) {
-                d += ` L ${width - i} ${i + h}`;
+                d += ` L ${fullW - i} ${i + h}`;
                 d += ` A ${r} ${r} 0 0 1 ${i + w} ${i + h - r}`;
                 d += ` L ${i + w} ${i + r}`;
-                d += ` A ${r} ${r} 0 0 1 ${width - i} ${i}`;
+                d += ` A ${r} ${r} 0 0 1 ${fullW - i} ${i}`;
             } else {
                 d += ` L ${i + w - cr} ${i + h}`;
                 if (cr > 0)
@@ -417,13 +415,13 @@ Item {
         }
 
         if (isRight) {
-            const w = width - wing - i * 2;
-            const h = height - i * 2;
+            const w = fullW - wing - i * 2;
+            const h = fullH - i * 2;
 
-            let d = `M ${width - i} ${i + cr}`;
-            d += ` L ${width - i} ${i + h - cr}`;
+            let d = `M ${fullW - i} ${i + cr}`;
+            d += ` L ${fullW - i} ${i + h - cr}`;
             if (cr > 0)
-                d += ` A ${cr} ${cr} 0 0 1 ${width - i - cr} ${i + h}`;
+                d += ` A ${cr} ${cr} 0 0 1 ${fullW - i - cr} ${i + h}`;
             if (r > 0) {
                 d += ` L ${i} ${i + h}`;
                 d += ` A ${r} ${r} 0 0 0 ${i + r} ${i + h - r}`;
@@ -437,9 +435,9 @@ Item {
                 if (cr > 0)
                     d += ` A ${cr} ${cr} 0 0 1 ${wing + i + cr} ${i}`;
             }
-            d += ` L ${width - i - cr} ${i}`;
+            d += ` L ${fullW - i - cr} ${i}`;
             if (cr > 0)
-                d += ` A ${cr} ${cr} 0 0 1 ${width - i} ${i + cr}`;
+                d += ` A ${cr} ${cr} 0 0 1 ${fullW - i} ${i + cr}`;
             d += " Z";
             return d;
         }
@@ -447,14 +445,14 @@ Item {
         return "";
     }
 
-    function generateBorderEdgePath() {
+    function generateBorderEdgePath(fullW, fullH) {
         const i = barBorder.inset;
         const r = wing;
         const cr = rt;
 
         if (isTop) {
-            const w = width - i * 2;
-            const h = height - wing - i * 2;
+            const w = fullW - i * 2;
+            const h = fullH - wing - i * 2;
 
             let d = "";
             if (r > 0) {
@@ -474,7 +472,7 @@ Item {
         }
 
         if (isBottom) {
-            const w = width - i * 2;
+            const w = fullW - i * 2;
 
             let d = "";
             if (r > 0) {
@@ -494,8 +492,8 @@ Item {
         }
 
         if (isLeft) {
-            const w = width - wing - i * 2;
-            const h = height - i * 2;
+            const w = fullW - wing - i * 2;
+            const h = fullH - i * 2;
 
             let d = "";
             if (r > 0) {
@@ -515,7 +513,7 @@ Item {
         }
 
         if (isRight) {
-            const h = height - i * 2;
+            const h = fullH - i * 2;
 
             let d = "";
             if (r > 0) {
