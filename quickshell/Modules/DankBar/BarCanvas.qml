@@ -28,9 +28,9 @@ Item {
     readonly property real wing: gothEnabled ? barWindow._wingR : 0
     readonly property real rt: (barConfig?.squareCorners ?? false) ? 0 : Theme.cornerRadius
 
-    readonly property string mainPath: generatePathForPosition()
-    readonly property string borderFullPath: generateBorderFullPath()
-    readonly property string borderEdgePath: generateBorderEdgePath()
+    readonly property string mainPath: { width; height; return generatePathForPosition(); }
+    readonly property string borderFullPath: { width; height; return generateBorderFullPath(); }
+    readonly property string borderEdgePath: { width; height; return generateBorderEdgePath(); }
 
     MouseArea {
         anchors.fill: parent
