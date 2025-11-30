@@ -1,6 +1,7 @@
 name: Update Vendor Hash
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - "core/go.mod"
