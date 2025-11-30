@@ -140,20 +140,6 @@ func (m Model) updateSelectTerminalState(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.selectedTerminal++
 			}
 		case "enter":
-			if m.osInfo != nil && m.osInfo.Distribution.ID == "nixos" {
-				var wmInstalled bool
-				if m.selectedWM == 0 {
-					wmInstalled = m.commandExists("niri")
-				} else {
-					wmInstalled = m.commandExists("hyprland") || m.commandExists("Hyprland")
-				}
-
-				if !wmInstalled {
-					m.state = StateMissingWMInstructions
-					return m, m.listenForLogs()
-				}
-			}
-
 			m.state = StateDetectingDeps
 			m.isLoading = true
 			return m, tea.Batch(m.spinner.Tick, m.detectDependencies())
