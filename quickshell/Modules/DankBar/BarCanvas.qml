@@ -91,24 +91,6 @@ Item {
     }
 
     Shape {
-        id: barTint
-        anchors.fill: parent
-        preferredRendererType: Shape.CurveRenderer
-
-        readonly property real alphaTint: (barWindow._bgColor?.a ?? 1) < 0.99 ? (Theme.stateLayerOpacity ?? 0) : 0
-
-        ShapePath {
-            fillColor: Qt.rgba(Theme.surface.r, Theme.surface.g, Theme.surface.b, barTint.alphaTint)
-            strokeColor: "transparent"
-            strokeWidth: 0
-
-            PathSvg {
-                path: root.mainPath
-            }
-        }
-    }
-
-    Shape {
         id: barBorder
         anchors.fill: parent
         visible: barConfig?.borderEnabled ?? false
