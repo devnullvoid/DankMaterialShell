@@ -140,7 +140,7 @@ PanelWindow {
     property real wingtipsRadius: barConfig?.gothCornerRadiusOverride ? (barConfig?.gothCornerRadiusValue ?? 12) : Theme.cornerRadius
     readonly property real _wingR: Math.max(0, wingtipsRadius)
     readonly property color _surfaceContainer: Theme.surfaceContainer
-    readonly property real _backgroundAlpha: topBarCore?.backgroundTransparency ?? (barConfig?.transparency ?? 1.0)
+    readonly property real _backgroundAlpha: barConfig?.transparency ?? 1.0
     readonly property color _bgColor: Theme.withAlpha(_surfaceContainer, _backgroundAlpha)
     readonly property real _dpr: CompositorService.getScreenScale(barWindow.screen)
 
@@ -419,7 +419,6 @@ PanelWindow {
         anchors.fill: parent
         layer.enabled: true
 
-        property real backgroundTransparency: barConfig?.transparency ?? 1.0
         property bool autoHide: barConfig?.autoHide ?? false
         property bool revealSticky: false
 
@@ -471,21 +470,11 @@ PanelWindow {
 
         Connections {
             function onBarConfigChanged() {
-                topBarCore.backgroundTransparency = barConfig?.transparency ?? 1.0;
                 topBarCore.autoHide = barConfig?.autoHide ?? false;
                 revealHold.interval = barConfig?.autoHideDelay ?? 250;
             }
 
             target: rootWindow
-        }
-
-        Connections {
-            target: SettingsData
-            function onBarConfigsChanged() {
-                Qt.callLater(() => {
-                    topBarCore.backgroundTransparency = barConfig?.transparency ?? 1.0;
-                });
-            }
         }
 
         function evaluateReveal() {

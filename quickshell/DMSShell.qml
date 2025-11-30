@@ -108,10 +108,13 @@ Item {
             id: barRepeaterModel
             values: {
                 const configs = SettingsData.barConfigs;
-                return configs.map(c => ({
-                            id: c.id,
-                            position: c.position
-                        }));
+                return configs
+                    .map(c => ({ id: c.id, position: c.position }))
+                    .sort((a, b) => {
+                        const aVertical = a.position === SettingsData.Position.Left || a.position === SettingsData.Position.Right;
+                        const bVertical = b.position === SettingsData.Position.Left || b.position === SettingsData.Position.Right;
+                        return aVertical - bVertical;
+                    });
             }
         }
 
