@@ -231,7 +231,6 @@ Variants {
                 asynchronous: true
                 smooth: true
                 cache: true
-                sourceSize: Qt.size(modelData.width, modelData.height)
                 fillMode: root.getFillMode(SettingsData.wallpaperFillMode)
             }
 
@@ -244,7 +243,6 @@ Variants {
                 asynchronous: true
                 smooth: true
                 cache: true
-                sourceSize: Qt.size(modelData.width, modelData.height)
                 fillMode: root.getFillMode(SettingsData.wallpaperFillMode)
 
                 onStatusChanged: {
@@ -453,16 +451,14 @@ Variants {
                 duration: root.actualTransitionType === "none" ? 0 : 1000
                 easing.type: Easing.InOutCubic
                 onFinished: {
-                    const tempSource = nextWallpaper.source;
-                    if (tempSource && nextWallpaper.status === Image.Ready && !tempSource.toString().startsWith("#")) {
-                        currentWallpaper.source = tempSource;
-                    }
-                    root.transitionProgress = 0.0;
-                    currentWallpaper.visible = root.actualTransitionType === "none";
-
                     Qt.callLater(() => {
+                        if (nextWallpaper.source && nextWallpaper.status === Image.Ready && !nextWallpaper.source.toString().startsWith("#")) {
+                            currentWallpaper.source = nextWallpaper.source;
+                        }
                         nextWallpaper.source = "";
                         nextWallpaper.visible = false;
+                        currentWallpaper.visible = root.actualTransitionType === "none";
+                        root.transitionProgress = 0.0;
                     });
                 }
             }
