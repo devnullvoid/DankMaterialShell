@@ -34,7 +34,10 @@ func (m *UdevMonitor) run(manager *Manager) {
 	matcher := &netlink.RuleDefinitions{
 		Rules: []netlink.RuleDefinition{
 			{Env: map[string]string{"SUBSYSTEM": "backlight"}},
-			{Env: map[string]string{"SUBSYSTEM": "leds"}},
+			// ! TODO: most drivers dont emit this for leds?
+			// ! inotify brightness_hw_changed works, but thn some devices dont do that...
+			// ! So for now the GUI just shows OSDs for leds, without reflecting actual HW value
+			// {Env: map[string]string{"SUBSYSTEM": "leds"}},
 		},
 	}
 	if err := matcher.Compile(); err != nil {

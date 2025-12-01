@@ -402,9 +402,8 @@ Rectangle {
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
                                         if (modelData) {
-                                            AudioService.suppressOSD = true;
+                                            SessionData.suppressOSDTemporarily();
                                             modelData.audio.muted = !modelData.audio.muted;
-                                            AudioService.suppressOSD = false;
                                         }
                                     }
                                 }
@@ -446,18 +445,9 @@ Rectangle {
                                 thumbOutlineColor: Theme.surfaceContainer
                                 trackColor: appVolumeRow.sliderTrackColor.a > 0 ? appVolumeRow.sliderTrackColor : Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
 
-                                onIsDraggingChanged: {
-                                    if (isDragging) {
-                                        AudioService.suppressOSD = true;
-                                    } else {
-                                        Qt.callLater(() => {
-                                            AudioService.suppressOSD = false;
-                                        });
-                                    }
-                                }
-
                                 onSliderValueChanged: function (newValue) {
                                     if (modelData) {
+                                        SessionData.suppressOSDTemporarily();
                                         modelData.audio.volume = newValue / 100.0;
                                         if (newValue > 0 && modelData.audio.muted) {
                                             modelData.audio.muted = false;

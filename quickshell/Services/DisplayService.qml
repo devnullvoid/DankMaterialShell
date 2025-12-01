@@ -74,6 +74,10 @@ Singleton {
     }
 
     function updateSingleDevice(device) {
+        if (device.class === "leds") {
+            return;
+        }
+
         const isUserControlled = isDeviceUserControlled(device.id);
         if (isUserControlled) {
             return;
@@ -267,9 +271,11 @@ Singleton {
             return;
         }
 
+        const isLedDevice = deviceInfo?.class === "leds";
+
         if (suppressOsd) {
             markDeviceUserControlled(actualDevice);
-        } else {
+        } else if (!isLedDevice) {
             markDevicePendingOsd(actualDevice);
         }
 
@@ -277,6 +283,10 @@ Singleton {
         newBrightness[actualDevice] = clampedValue;
         deviceBrightness = newBrightness;
         brightnessVersion++;
+
+        if (isLedDevice && !suppressOsd) {
+            brightnessChanged(true);
+        }
 
         if (isExponential) {
             const newUserSet = Object.assign({}, deviceBrightnessUserSet);

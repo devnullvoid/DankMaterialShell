@@ -30,6 +30,11 @@ Singleton {
         onTriggered: root.suppressOSD = false
     }
 
+    function suppressOSDTemporarily() {
+        suppressOSD = true;
+        osdSuppressTimer.restart();
+    }
+
     Connections {
         target: SessionService
         function onSessionResumed() {

@@ -205,6 +205,7 @@ Item {
         const current = Math.round(currentVolume * 100);
         const newVolume = Math.min(100, Math.max(0, current + step));
 
+        SessionData.suppressOSDTemporarily();
         if (usePlayerVolume) {
             activePlayer.volume = newVolume / 100;
         } else if (AudioService.sink?.audio) {
@@ -790,6 +791,7 @@ Item {
                         volumeButtonExited();
                 }
                 onClicked: {
+                    SessionData.suppressOSDTemporarily();
                     if (currentVolume > 0) {
                         volumeButton.previousVolume = currentVolume;
                         if (usePlayerVolume) {
@@ -807,6 +809,7 @@ Item {
                     }
                 }
                 onWheel: wheelEvent => {
+                    SessionData.suppressOSDTemporarily();
                     const delta = wheelEvent.angleDelta.y;
                     const current = (currentVolume * 100) || 0;
                     const newVolume = delta > 0 ? Math.min(100, current + 5) : Math.max(0, current - 5);
