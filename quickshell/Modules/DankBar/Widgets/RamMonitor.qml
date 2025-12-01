@@ -96,15 +96,12 @@ BasePill {
 
                         return Theme.widgetIconColor;
                     }
-
-                    implicitWidth: size
-                    implicitHeight: size
-                    width: size
-                    height: size
+                    anchors.verticalCenter: parent.verticalCenter
                 }
 
                 Item {
                     id: textBox
+                    anchors.verticalCenter: parent.verticalCenter
 
                     implicitWidth: root.minimumWidth ? Math.max(ramBaseline.width, ramText.paintedWidth) : ramText.paintedWidth
                     implicitHeight: ramText.implicitHeight
