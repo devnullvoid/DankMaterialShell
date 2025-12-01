@@ -1390,27 +1390,4 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
     }
 
     property bool pluginSettingsFileExists: false
-
-    IpcHandler {
-        function reveal(): string {
-            root.setShowDock(true);
-            return "DOCK_SHOW_SUCCESS";
-        }
-
-        function hide(): string {
-            root.setShowDock(false);
-            return "DOCK_HIDE_SUCCESS";
-        }
-
-        function toggle(): string {
-            root.toggleShowDock();
-            return root.showDock ? "DOCK_SHOW_SUCCESS" : "DOCK_HIDE_SUCCESS";
-        }
-
-        function status(): string {
-            return root.showDock ? "visible" : "hidden";
-        }
-
-        target: "dock"
-    }
 }
