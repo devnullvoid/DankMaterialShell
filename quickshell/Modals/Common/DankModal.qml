@@ -44,6 +44,7 @@ Item {
     property bool keepContentLoaded: false
     property bool keepPopoutsOpen: false
     property var customKeyboardFocus: null
+    property bool useOverlayLayer: false
     readonly property alias contentWindow: contentWindow
     readonly property alias backgroundWindow: backgroundWindow
 
@@ -148,6 +149,7 @@ Item {
         id: backgroundWindow
         visible: false
         color: "transparent"
+        screen: root.effectiveScreen
 
         WlrLayershell.namespace: root.layerNamespace + ":background"
         WlrLayershell.layer: WlrLayershell.Top
@@ -207,9 +209,12 @@ Item {
         id: contentWindow
         visible: false
         color: "transparent"
+        screen: root.effectiveScreen
 
         WlrLayershell.namespace: root.layerNamespace
         WlrLayershell.layer: {
+            if (root.useOverlayLayer)
+                return WlrLayershell.Overlay;
             switch (Quickshell.env("DMS_MODAL_LAYER")) {
             case "bottom":
                 console.error("DankModal: 'bottom' layer is not valid for modals. Defaulting to 'top' layer.");

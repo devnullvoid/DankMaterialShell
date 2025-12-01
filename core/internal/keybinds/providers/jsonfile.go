@@ -84,6 +84,7 @@ func (j *JSONFileProvider) GetCheatSheet() (*keybinds.CheatSheet, error) {
 		var flatBinds []struct {
 			Key         string `json:"key"`
 			Description string `json:"desc"`
+			Action      string `json:"action,omitempty"`
 			Category    string `json:"cat,omitempty"`
 			Subcategory string `json:"subcat,omitempty"`
 		}
@@ -100,6 +101,7 @@ func (j *JSONFileProvider) GetCheatSheet() (*keybinds.CheatSheet, error) {
 			kb := keybinds.Keybind{
 				Key:         bind.Key,
 				Description: bind.Description,
+				Action:      bind.Action,
 				Subcategory: bind.Subcategory,
 			}
 			categorizedBinds[category] = append(categorizedBinds[category], kb)
