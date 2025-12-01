@@ -599,6 +599,9 @@ jobs:
 
           install -Dm644 assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
 
+          install -Dm644 assets/dms-open.desktop %{buildroot}%{_datadir}/applications/dms-open.desktop
+          install -Dm644 assets/danklogo.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
+
           install -dm755 %{buildroot}%{_datadir}/quickshell/dms
           cp -r %{_builddir}/dms-qml/* %{buildroot}%{_datadir}/quickshell/dms/
 
@@ -623,6 +626,8 @@ jobs:
           %doc README.md CONTRIBUTING.md
           %{_datadir}/quickshell/dms/
           %{_userunitdir}/dms.service
+          %{_datadir}/applications/dms-open.desktop
+          %{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
 
           %files -n dms-cli
           %{_bindir}/dms

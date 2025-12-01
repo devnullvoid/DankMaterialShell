@@ -129,8 +129,12 @@ core/bin/${DMS_BINARY} completion fish > %{buildroot}%{_datadir}/fish/vendor_com
 # Install dgop binary
 install -Dm755 %{_builddir}/dgop %{buildroot}%{_bindir}/dgop
 
-# Install systemd user service 
+# Install systemd user service
 install -Dm644 assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
+
+# Install desktop file and icon
+install -Dm644 assets/dms-open.desktop %{buildroot}%{_datadir}/applications/dms-open.desktop
+install -Dm644 assets/danklogo.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
 
 # Install shell files to shared data location (from quickshell/ subdirectory)
 install -dm755 %{buildroot}%{_datadir}/quickshell/dms
@@ -161,6 +165,8 @@ fi
 %doc quickshell/README.md
 %{_datadir}/quickshell/dms/
 %{_userunitdir}/dms.service
+%{_datadir}/applications/dms-open.desktop
+%{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
 
 %files -n dms-cli
 %{_bindir}/dms

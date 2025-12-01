@@ -65,6 +65,9 @@ install -d %{buildroot}%{_datadir}/fish/vendor_completions.d
 
 install -Dm644 assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
 
+install -Dm644 assets/dms-open.desktop %{buildroot}%{_datadir}/applications/dms-open.desktop
+install -Dm644 assets/danklogo.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
+
 install -dm755 %{buildroot}%{_datadir}/quickshell/dms
 cp -r quickshell/* %{buildroot}%{_datadir}/quickshell/dms/
 
@@ -100,6 +103,8 @@ fi
 %dir %{_datadir}/quickshell
 %{_datadir}/quickshell/dms/
 %{_userunitdir}/dms.service
+%{_datadir}/applications/dms-open.desktop
+%{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
 
 %changelog
 * Fri Nov 22 2025 AvengeMedia <maintainer@avengemedia.com> - 0.6.2-1
