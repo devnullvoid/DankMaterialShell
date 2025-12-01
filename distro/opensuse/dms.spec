@@ -63,7 +63,7 @@ install -d %{buildroot}%{_datadir}/fish/vendor_completions.d
 ./dms completion zsh > %{buildroot}%{_datadir}/zsh/site-functions/_dms || :
 ./dms completion fish > %{buildroot}%{_datadir}/fish/vendor_completions.d/dms.fish || :
 
-install -Dm644 quickshell/assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
+install -Dm644 assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
 
 install -dm755 %{buildroot}%{_datadir}/quickshell/dms
 cp -r quickshell/* %{buildroot}%{_datadir}/quickshell/dms/

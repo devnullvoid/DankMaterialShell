@@ -597,7 +597,7 @@ jobs:
           %{_builddir}/dms-cli completion zsh > %{buildroot}%{_datadir}/zsh/site-functions/_dms || :
           %{_builddir}/dms-cli completion fish > %{buildroot}%{_datadir}/fish/vendor_completions.d/dms.fish || :
 
-          install -Dm644 %{_builddir}/dms-qml/assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
+          install -Dm644 assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
 
           install -dm755 %{buildroot}%{_datadir}/quickshell/dms
           cp -r %{_builddir}/dms-qml/* %{buildroot}%{_datadir}/quickshell/dms/

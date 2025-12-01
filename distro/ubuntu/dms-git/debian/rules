@@ -53,7 +53,7 @@ override_dh_auto_install:
 	rm -rf debian/dms-git/usr/share/quickshell/dms/distro
 
 	# Install systemd user service
-	install -Dm644 dms-git-repo/quickshell/assets/systemd/dms.service \
+	install -Dm644 dms-git-repo/assets/systemd/dms.service \
 		debian/dms-git/usr/lib/systemd/user/dms.service
 
 override_dh_auto_clean:

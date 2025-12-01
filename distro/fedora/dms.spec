@@ -97,12 +97,12 @@ gunzip -c %{_builddir}/dgop.gz > %{_builddir}/dgop
 chmod +x %{_builddir}/dgop
 
 %build
-# Build DMS CLI from source (core/ subdirectory in monorepo)
+# Build DMS CLI from source (core/subdirectory)
 cd core
 make dist
 
 %install
-# Install dms-cli binary (built from source) - use architecture-specific path
+# Install dms-cli binary (built from source)
 case "%{_arch}" in
   x86_64)
     DMS_BINARY="dms-linux-amd64"
@@ -129,8 +129,8 @@ core/bin/${DMS_BINARY} completion fish > %{buildroot}%{_datadir}/fish/vendor_com
 # Install dgop binary
 install -Dm755 %{_builddir}/dgop %{buildroot}%{_bindir}/dgop
 
-# Install systemd user service (from quickshell/ subdirectory)
-install -Dm644 quickshell/assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
+# Install systemd user service 
+install -Dm644 assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
 
 # Install shell files to shared data location (from quickshell/ subdirectory)
 install -dm755 %{buildroot}%{_datadir}/quickshell/dms
@@ -143,9 +143,8 @@ rm -rf %{buildroot}%{_datadir}/quickshell/dms/.github
 rm -rf %{buildroot}%{_datadir}/quickshell/dms/distro
 
 %posttrans
-# Clean up old installation path from previous versions (only if empty)
+# Clean up old installation path from previous versions 
 if [ -d "%{_sysconfdir}/xdg/quickshell/dms" ]; then
-    # Remove directories only if empty (preserves any user-added files)
     rmdir "%{_sysconfdir}/xdg/quickshell/dms" 2>/dev/null || true
     rmdir "%{_sysconfdir}/xdg/quickshell" 2>/dev/null || true
     rmdir "%{_sysconfdir}/xdg" 2>/dev/null || true

@@ -55,7 +55,7 @@ override_dh_auto_install:
 	fi
 	if [ -d DankMaterialShell-$(UPSTREAM_VERSION) ]; then \
 		cp -r DankMaterialShell-$(UPSTREAM_VERSION)/quickshell/* debian/dms/usr/share/quickshell/dms/; \
-		install -Dm644 DankMaterialShell-$(UPSTREAM_VERSION)/quickshell/assets/systemd/dms.service debian/dms/usr/lib/systemd/user/dms.service; \
+		install -Dm644 DankMaterialShell-$(UPSTREAM_VERSION)/assets/systemd/dms.service debian/dms/usr/lib/systemd/user/dms.service; \
 	else \
 		echo "ERROR: DankMaterialShell-$(UPSTREAM_VERSION) directory not found!" && \
 		echo "Contents of current directory:" && ls -la && \

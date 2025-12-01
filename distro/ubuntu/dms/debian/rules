@@ -45,7 +45,7 @@ override_dh_auto_install:
 	rm -rf debian/dms/usr/share/quickshell/dms/distro
 
 	# Install systemd user service
-	install -Dm644 DankMaterialShell-$(BASE_VERSION)/quickshell/assets/systemd/dms.service \
+	install -Dm644 DankMaterialShell-$(BASE_VERSION)/assets/systemd/dms.service \
 		debian/dms/usr/lib/systemd/user/dms.service
 
 	# Generate and install shell completions (if applicable)
