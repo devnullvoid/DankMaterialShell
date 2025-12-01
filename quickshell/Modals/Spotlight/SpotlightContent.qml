@@ -152,7 +152,7 @@ Item {
             if (searchMode === "apps" && appLauncher.model.count > 0) {
                 const selectedApp = appLauncher.model.get(appLauncher.selectedIndex);
                 const menu = usePopupContextMenu ? popupContextMenu : layerContextMenuLoader.item;
-                
+
                 if (selectedApp && menu && resultsView) {
                     const itemPos = resultsView.getSelectedItemPosition();
                     const contentPos = resultsView.mapToItem(spotlightKeyHandler, itemPos.x, itemPos.y);
@@ -192,10 +192,9 @@ Item {
         }
     }
 
-    
     SpotlightContextMenuPopup {
         id: popupContextMenu
-        
+
         parent: spotlightKeyHandler
         appLauncher: spotlightKeyHandler.appLauncher
         parentHandler: spotlightKeyHandler
@@ -203,7 +202,7 @@ Item {
         visible: false
         z: 1000
     }
-    
+
     MouseArea {
         anchors.fill: parent
         visible: usePopupContextMenu && popupContextMenu.visible
@@ -211,7 +210,7 @@ Item {
         z: 999
         onClicked: popupContextMenu.hide()
     }
-    
+
     Loader {
         id: layerContextMenuLoader
         active: !spotlightKeyHandler.usePopupContextMenu
@@ -224,7 +223,7 @@ Item {
             }
         }
     }
-    
+
     Connections {
         target: parentModal
         function onSpotlightOpenChanged() {
@@ -244,16 +243,17 @@ Item {
         spacing: Theme.spacingM
         clip: false
 
-        Row {
-            width: parent.width
-            spacing: Theme.spacingM
-            leftPadding: Theme.spacingS
-            topPadding: Theme.spacingS
+        Item {
+            id: searchRow
+            width: parent.width - Theme.spacingS * 2
+            height: 56
+            anchors.horizontalCenter: parent.horizontalCenter
 
             DankTextField {
                 id: searchField
-
-                width: parent.width - 80 - Theme.spacingL
+                anchors.left: parent.left
+                anchors.right: buttonsContainer.left
+                anchors.rightMargin: Theme.spacingM
                 height: 56
                 cornerRadius: Theme.cornerRadius
                 backgroundColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
@@ -302,147 +302,159 @@ Item {
                 }
             }
 
-            Row {
-                spacing: Theme.spacingXS
-                visible: searchMode === "apps" && appLauncher.model.count > 0
+            Item {
+                id: buttonsContainer
+                width: viewModeButtons.visible ? viewModeButtons.width : (fileSearchButtons.visible ? fileSearchButtons.width : 0)
+                height: 36
+                anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
 
-                Rectangle {
-                    width: 36
-                    height: 36
-                    radius: Theme.cornerRadius
-                    color: appLauncher.viewMode === "list" ? Theme.primaryHover : listViewArea.containsMouse ? Theme.surfaceHover : "transparent"
+                Row {
+                    id: viewModeButtons
+                    spacing: Theme.spacingXS
+                    visible: searchMode === "apps" && appLauncher.model.count > 0
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
 
-                    DankIcon {
-                        anchors.centerIn: parent
-                        name: "view_list"
-                        size: 18
-                        color: appLauncher.viewMode === "list" ? Theme.primary : Theme.surfaceText
+                    Rectangle {
+                        width: 36
+                        height: 36
+                        radius: Theme.cornerRadius
+                        color: appLauncher.viewMode === "list" ? Theme.primaryHover : listViewArea.containsMouse ? Theme.surfaceHover : "transparent"
+
+                        DankIcon {
+                            anchors.centerIn: parent
+                            name: "view_list"
+                            size: 18
+                            color: appLauncher.viewMode === "list" ? Theme.primary : Theme.surfaceText
+                        }
+
+                        MouseArea {
+                            id: listViewArea
+
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: () => {
+                                appLauncher.setViewMode("list");
+                            }
+                        }
                     }
 
-                    MouseArea {
-                        id: listViewArea
+                    Rectangle {
+                        width: 36
+                        height: 36
+                        radius: Theme.cornerRadius
+                        color: appLauncher.viewMode === "grid" ? Theme.primaryHover : gridViewArea.containsMouse ? Theme.surfaceHover : "transparent"
 
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: () => {
-                            appLauncher.setViewMode("list");
+                        DankIcon {
+                            anchors.centerIn: parent
+                            name: "grid_view"
+                            size: 18
+                            color: appLauncher.viewMode === "grid" ? Theme.primary : Theme.surfaceText
+                        }
+
+                        MouseArea {
+                            id: gridViewArea
+
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: () => {
+                                appLauncher.setViewMode("grid");
+                            }
                         }
                     }
                 }
 
-                Rectangle {
-                    width: 36
-                    height: 36
-                    radius: Theme.cornerRadius
-                    color: appLauncher.viewMode === "grid" ? Theme.primaryHover : gridViewArea.containsMouse ? Theme.surfaceHover : "transparent"
+                Row {
+                    id: fileSearchButtons
+                    spacing: Theme.spacingXS
+                    visible: searchMode === "files"
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
 
-                    DankIcon {
-                        anchors.centerIn: parent
-                        name: "grid_view"
-                        size: 18
-                        color: appLauncher.viewMode === "grid" ? Theme.primary : Theme.surfaceText
-                    }
+                    Rectangle {
+                        id: filenameFilterButton
 
-                    MouseArea {
-                        id: gridViewArea
+                        width: 36
+                        height: 36
+                        radius: Theme.cornerRadius
+                        color: fileSearchController.searchField === "filename" ? Theme.primaryHover : filenameFilterArea.containsMouse ? Theme.surfaceHover : "transparent"
 
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: () => {
-                            appLauncher.setViewMode("grid");
+                        DankIcon {
+                            anchors.centerIn: parent
+                            name: "title"
+                            size: 18
+                            color: fileSearchController.searchField === "filename" ? Theme.primary : Theme.surfaceText
+                        }
+
+                        MouseArea {
+                            id: filenameFilterArea
+
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: () => {
+                                fileSearchController.searchField = "filename";
+                            }
+                            onEntered: {
+                                filenameTooltipLoader.active = true;
+                                Qt.callLater(() => {
+                                    if (filenameTooltipLoader.item) {
+                                        const p = mapToItem(null, width / 2, height + Theme.spacingXS);
+                                        filenameTooltipLoader.item.show(I18n.tr("Search filenames"), p.x, p.y, null);
+                                    }
+                                });
+                            }
+                            onExited: {
+                                if (filenameTooltipLoader.item)
+                                    filenameTooltipLoader.item.hide();
+
+                                filenameTooltipLoader.active = false;
+                            }
                         }
                     }
-                }
-            }
 
-            Row {
-                spacing: Theme.spacingXS
-                visible: searchMode === "files"
-                anchors.verticalCenter: parent.verticalCenter
+                    Rectangle {
+                        id: contentFilterButton
 
-                Rectangle {
-                    id: filenameFilterButton
+                        width: 36
+                        height: 36
+                        radius: Theme.cornerRadius
+                        color: fileSearchController.searchField === "body" ? Theme.primaryHover : contentFilterArea.containsMouse ? Theme.surfaceHover : "transparent"
 
-                    width: 36
-                    height: 36
-                    radius: Theme.cornerRadius
-                    color: fileSearchController.searchField === "filename" ? Theme.primaryHover : filenameFilterArea.containsMouse ? Theme.surfaceHover : "transparent"
-
-                    DankIcon {
-                        anchors.centerIn: parent
-                        name: "title"
-                        size: 18
-                        color: fileSearchController.searchField === "filename" ? Theme.primary : Theme.surfaceText
-                    }
-
-                    MouseArea {
-                        id: filenameFilterArea
-
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: () => {
-                            fileSearchController.searchField = "filename";
+                        DankIcon {
+                            anchors.centerIn: parent
+                            name: "description"
+                            size: 18
+                            color: fileSearchController.searchField === "body" ? Theme.primary : Theme.surfaceText
                         }
-                        onEntered: {
-                            filenameTooltipLoader.active = true;
-                            Qt.callLater(() => {
-                                if (filenameTooltipLoader.item) {
-                                    const p = mapToItem(null, width / 2, height + Theme.spacingXS);
-                                    filenameTooltipLoader.item.show(I18n.tr("Search filenames"), p.x, p.y, null);
-                                }
-                            });
-                        }
-                        onExited: {
-                            if (filenameTooltipLoader.item)
-                                filenameTooltipLoader.item.hide();
 
-                            filenameTooltipLoader.active = false;
-                        }
-                    }
-                }
+                        MouseArea {
+                            id: contentFilterArea
 
-                Rectangle {
-                    id: contentFilterButton
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: () => {
+                                fileSearchController.searchField = "body";
+                            }
+                            onEntered: {
+                                contentTooltipLoader.active = true;
+                                Qt.callLater(() => {
+                                    if (contentTooltipLoader.item) {
+                                        const p = mapToItem(null, width / 2, height + Theme.spacingXS);
+                                        contentTooltipLoader.item.show(I18n.tr("Search file contents"), p.x, p.y, null);
+                                    }
+                                });
+                            }
+                            onExited: {
+                                if (contentTooltipLoader.item)
+                                    contentTooltipLoader.item.hide();
 
-                    width: 36
-                    height: 36
-                    radius: Theme.cornerRadius
-                    color: fileSearchController.searchField === "body" ? Theme.primaryHover : contentFilterArea.containsMouse ? Theme.surfaceHover : "transparent"
-
-                    DankIcon {
-                        anchors.centerIn: parent
-                        name: "description"
-                        size: 18
-                        color: fileSearchController.searchField === "body" ? Theme.primary : Theme.surfaceText
-                    }
-
-                    MouseArea {
-                        id: contentFilterArea
-
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: () => {
-                            fileSearchController.searchField = "body";
-                        }
-                        onEntered: {
-                            contentTooltipLoader.active = true;
-                            Qt.callLater(() => {
-                                if (contentTooltipLoader.item) {
-                                    const p = mapToItem(null, width / 2, height + Theme.spacingXS);
-                                    contentTooltipLoader.item.show(I18n.tr("Search file contents"), p.x, p.y, null);
-                                }
-                            });
-                        }
-                        onExited: {
-                            if (contentTooltipLoader.item)
-                                contentTooltipLoader.item.hide();
-
-                            contentTooltipLoader.active = false;
+                                contentTooltipLoader.active = false;
+                            }
                         }
                     }
                 }
@@ -458,13 +470,13 @@ Item {
                 anchors.fill: parent
                 appLauncher: spotlightKeyHandler.appLauncher
                 visible: searchMode === "apps"
-                
+
                 onItemRightClicked: (index, modelData, mouseX, mouseY) => {
                     const menu = usePopupContextMenu ? popupContextMenu : layerContextMenuLoader.item;
-                    
+
                     if (menu?.show) {
                         const isPopup = menu.contentItem !== undefined;
-                        
+
                         if (isPopup) {
                             const localPos = popupContextMenu.parent.mapFromItem(null, mouseX, mouseY);
                             menu.show(localPos.x, localPos.y, modelData, false);

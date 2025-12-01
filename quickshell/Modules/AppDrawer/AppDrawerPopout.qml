@@ -252,18 +252,19 @@ DankPopout {
                         }
                     }
 
-                    Row {
-                        width: parent.width
+                    Item {
+                        width: parent.width - Theme.spacingS * 2
                         height: 40
-                        spacing: Theme.spacingM
+                        anchors.horizontalCenter: parent.horizontalCenter
                         visible: searchField.text.length === 0
-                        leftPadding: Theme.spacingS
 
                         Rectangle {
                             width: 180
                             height: 40
                             radius: Theme.cornerRadius
                             color: "transparent"
+                            anchors.left: parent.left
+                            anchors.verticalCenter: parent.verticalCenter
 
                             DankDropdown {
                                 anchors.fill: parent
@@ -278,13 +279,9 @@ DankPopout {
                             }
                         }
 
-                        Item {
-                            width: parent.width - 290
-                            height: 1
-                        }
-
                         Row {
                             spacing: 4
+                            anchors.right: parent.right
                             anchors.verticalCenter: parent.verticalCenter
 
                             DankActionButton {
@@ -314,7 +311,8 @@ DankPopout {
                     }
 
                     Rectangle {
-                        width: parent.width
+                        width: searchField.width
+                        x: searchField.x
                         height: {
                             let usedHeight = 40 + Theme.spacingS;
                             usedHeight += 52 + Theme.spacingS;
@@ -350,8 +348,6 @@ DankPopout {
                             }
 
                             anchors.fill: parent
-                            anchors.leftMargin: Theme.spacingS
-                            anchors.rightMargin: Theme.spacingS
                             anchors.bottomMargin: Theme.spacingS
                             visible: appLauncher.viewMode === "list"
                             model: appLauncher.model
@@ -410,14 +406,13 @@ DankPopout {
                             property bool adaptiveColumns: false
                             property int minCellWidth: 120
                             property int maxCellWidth: 160
-                            property int cellPadding: 8
                             property real iconSizeRatio: 0.6
                             property int maxIconSize: 56
                             property int minIconSize: 32
                             property bool hoverUpdatesSelection: false
                             property bool keyboardNavigationActive: appLauncher.keyboardNavigationActive
-                            property int baseCellWidth: adaptiveColumns ? Math.max(minCellWidth, Math.min(maxCellWidth, width / columns)) : (width - Theme.spacingS * 2) / columns
-                            property int baseCellHeight: baseCellWidth + 20
+                            property real baseCellWidth: adaptiveColumns ? Math.max(minCellWidth, Math.min(maxCellWidth, width / columns)) : width / columns
+                            property real baseCellHeight: baseCellWidth + 20
                             property int actualColumns: adaptiveColumns ? Math.floor(width / cellWidth) : columns
 
                             property int remainingSpace: width - (actualColumns * cellWidth)
@@ -438,16 +433,12 @@ DankPopout {
                             }
 
                             anchors.fill: parent
-                            anchors.leftMargin: Theme.spacingS
-                            anchors.rightMargin: Theme.spacingS
                             anchors.bottomMargin: Theme.spacingS
                             visible: appLauncher.viewMode === "grid"
                             model: appLauncher.model
                             clip: true
                             cellWidth: baseCellWidth
                             cellHeight: baseCellHeight
-                            leftMargin: Math.max(Theme.spacingS, remainingSpace / 2)
-                            rightMargin: leftMargin
                             focus: true
                             interactive: true
                             cacheBuffer: Math.max(0, Math.min(height * 2, 1000))
@@ -472,7 +463,6 @@ DankPopout {
                                 gridView: appGrid
                                 cellWidth: appGrid.cellWidth
                                 cellHeight: appGrid.cellHeight
-                                cellPadding: appGrid.cellPadding
                                 minIconSize: appGrid.minIconSize
                                 maxIconSize: appGrid.maxIconSize
                                 iconSizeRatio: appGrid.iconSizeRatio
