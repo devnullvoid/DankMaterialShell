@@ -149,7 +149,6 @@ Item {
         id: backgroundWindow
         visible: false
         color: "transparent"
-        screen: root.effectiveScreen
 
         WlrLayershell.namespace: root.layerNamespace + ":background"
         WlrLayershell.layer: WlrLayershell.Top
@@ -209,7 +208,6 @@ Item {
         id: contentWindow
         visible: false
         color: "transparent"
-        screen: root.effectiveScreen
 
         WlrLayershell.namespace: root.layerNamespace
         WlrLayershell.layer: {
