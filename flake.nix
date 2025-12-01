@@ -87,6 +87,14 @@
                     installPhase = ''
                         mkdir -p $out/etc/xdg/quickshell
                         cp -r ./ $out/etc/xdg/quickshell/dms
+
+                        # Install desktop file
+                        mkdir -p $out/share/applications
+                        cp ${./assets/dms-open.desktop} $out/share/applications/dms-open.desktop
+
+                        # Install icon
+                        mkdir -p $out/share/icons/hicolor/scalable/apps
+                        cp ${./core/assets/danklogo.svg} $out/share/icons/hicolor/scalable/apps/danklogo.svg
                     '';
                 };
 
