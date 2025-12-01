@@ -439,6 +439,34 @@ Rectangle {
 
         property var frozenNetworks: []
         property bool menuOpen: false
+        property var sortedNetworks: {
+            const ssid = NetworkService.currentWifiSSID;
+            const networks = NetworkService.wifiNetworks;
+            const pins = SettingsData.wifiNetworkPins || {};
+            const pinnedSSID = pins["preferredWifi"];
+
+            let sorted = [...networks];
+            sorted.sort((a, b) => {
+                if (a.ssid === pinnedSSID && b.ssid !== pinnedSSID)
+                    return -1;
+                if (b.ssid === pinnedSSID && a.ssid !== pinnedSSID)
+                    return 1;
+                if (a.ssid === ssid)
+                    return -1;
+                if (b.ssid === ssid)
+                    return 1;
+                return b.signal - a.signal;
+            });
+            return sorted;
+        }
+        onSortedNetworksChanged: {
+            if (!menuOpen)
+                frozenNetworks = sortedNetworks;
+        }
+        onMenuOpenChanged: {
+            if (menuOpen)
+                frozenNetworks = sortedNetworks;
+        }
 
         Column {
             id: wifiColumn
@@ -468,32 +496,7 @@ Rectangle {
 
             Repeater {
                 model: ScriptModel {
-                    values: {
-                        const ssid = NetworkService.currentWifiSSID;
-                        const networks = NetworkService.wifiNetworks;
-                        const pins = SettingsData.wifiNetworkPins || {};
-                        const pinnedSSID = pins["preferredWifi"];
-
-                        let sorted = [...networks];
-                        sorted.sort((a, b) => {
-                            // Pinned network first
-                            if (a.ssid === pinnedSSID && b.ssid !== pinnedSSID)
-                                return -1;
-                            if (b.ssid === pinnedSSID && a.ssid !== pinnedSSID)
-                                return 1;
-                            // Then currently connected
-                            if (a.ssid === ssid)
-                                return -1;
-                            if (b.ssid === ssid)
-                                return 1;
-                            // Then by signal strength
-                            return b.signal - a.signal;
-                        });
-                        if (!wifiContent.menuOpen) {
-                            wifiContent.frozenNetworks = sorted;
-                        }
-                        return wifiContent.menuOpen ? wifiContent.frozenNetworks : sorted;
-                    }
+                    values: wifiContent.menuOpen ? wifiContent.frozenNetworks : wifiContent.sortedNetworks
                 }
 
                 delegate: Rectangle {
