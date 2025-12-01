@@ -51,7 +51,21 @@ Item {
     anchors.fill: parent
     focus: true
     clip: false
+
+    onActiveFocusChanged: {
+        if (!activeFocus)
+            return;
+        if (!searchField)
+            return;
+        searchField.forceActiveFocus();
+    }
     Keys.onPressed: event => {
+        const menu = usePopupContextMenu ? popupContextMenu : layerContextMenuLoader.item;
+        if (menu?.visible) {
+            menu.handleKey(event);
+            return;
+        }
+
         if (event.key === Qt.Key_Escape) {
             if (parentModal)
                 parentModal.hide();
@@ -197,7 +211,6 @@ Item {
 
         parent: spotlightKeyHandler
         appLauncher: spotlightKeyHandler.appLauncher
-        parentHandler: spotlightKeyHandler
         searchField: spotlightKeyHandler.searchField
         visible: false
         z: 1000
@@ -218,8 +231,6 @@ Item {
         sourceComponent: Component {
             SpotlightContextMenu {
                 appLauncher: spotlightKeyHandler.appLauncher
-                parentHandler: spotlightKeyHandler
-                parentModal: spotlightKeyHandler.parentModal
             }
         }
     }
@@ -280,6 +291,12 @@ Item {
                     updateSearchMode();
                 }
                 Keys.onPressed: event => {
+                    const menu = spotlightKeyHandler.usePopupContextMenu ? popupContextMenu : layerContextMenuLoader.item;
+                    if (menu?.visible) {
+                        menu.handleKey(event);
+                        return;
+                    }
+
                     if (event.key === Qt.Key_Escape) {
                         if (parentModal)
                             parentModal.hide();
@@ -312,7 +329,7 @@ Item {
                 Row {
                     id: viewModeButtons
                     spacing: Theme.spacingXS
-                    visible: searchMode === "apps" && appLauncher.model.count > 0
+                    visible: searchMode === "apps"
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
 

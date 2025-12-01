@@ -1,10 +1,9 @@
 import QtQuick
 import qs.Common
-import qs.Services
 import qs.Widgets
 import qs.Modals.Clipboard
 
-Item {
+FocusScope {
     id: clipboardContent
 
     required property var modal
@@ -15,6 +14,7 @@ Item {
     property alias clipboardListView: clipboardListView
 
     anchors.fill: parent
+    focus: true
 
     Column {
         anchors.fill: parent
@@ -31,14 +31,13 @@ Item {
             onKeyboardHintsToggled: modal.showKeyboardHints = !modal.showKeyboardHints
             onClearAllClicked: {
                 clearConfirmDialog.show(I18n.tr("Clear All History?"), I18n.tr("This will permanently delete all clipboard history."), function () {
-                    modal.clearAll()
-                    modal.hide()
-                }, function () {})
+                    modal.clearAll();
+                    modal.hide();
+                }, function () {});
             }
             onCloseClicked: modal.hide()
         }
 
-        // Search Field
         DankTextField {
             id: searchField
             width: parent.width
@@ -47,27 +46,24 @@ Item {
             showClearButton: true
             focus: true
             ignoreTabKeys: true
-            keyForwardTargets: [modal.modalFocusScope]
             onTextChanged: {
-                modal.searchText = text
-                modal.updateFilteredModel()
+                modal.searchText = text;
+                modal.updateFilteredModel();
             }
-            Keys.onEscapePressed: function (event) {
-                modal.hide()
-                event.accepted = true
+            Keys.onPressed: event => {
+                if (event.key === Qt.Key_Escape) {
+                    modal.hide();
+                    event.accepted = true;
+                    return;
+                }
+                modal.keyboardController?.handleKey(event);
             }
-            Component.onCompleted: {
-                Qt.callLater(function () {
-                    forceActiveFocus()
-                })
-            }
+            Component.onCompleted: Qt.callLater(() => forceActiveFocus())
 
             Connections {
                 target: modal
                 function onOpened() {
-                    Qt.callLater(function () {
-                        searchField.forceActiveFocus()
-                    })
+                    Qt.callLater(() => searchField.forceActiveFocus());
                 }
             }
         }
@@ -97,21 +93,21 @@ Item {
 
                 function ensureVisible(index) {
                     if (index < 0 || index >= count) {
-                        return
+                        return;
                     }
-                    const itemHeight = ClipboardConstants.itemHeight + spacing
-                    const itemY = index * itemHeight
-                    const itemBottom = itemY + itemHeight
+                    const itemHeight = ClipboardConstants.itemHeight + spacing;
+                    const itemY = index * itemHeight;
+                    const itemBottom = itemY + itemHeight;
                     if (itemY < contentY) {
-                        contentY = itemY
+                        contentY = itemY;
                     } else if (itemBottom > contentY + height) {
-                        contentY = itemBottom - height
+                        contentY = itemBottom - height;
                     }
                 }
 
                 onCurrentIndexChanged: {
                     if (clipboardContent.modal && clipboardContent.modal.keyboardNavigationActive && currentIndex >= 0) {
-                        ensureVisible(currentIndex)
+                        ensureVisible(currentIndex);
                     }
                 }
 

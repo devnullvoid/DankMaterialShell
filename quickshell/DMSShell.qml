@@ -25,6 +25,8 @@ import qs.Services
 Item {
     id: root
 
+    readonly property bool _forceDisplayService: DisplayService.brightnessAvailable !== undefined
+
     Instantiator {
         id: daemonPluginInstantiator
         asynchronous: true

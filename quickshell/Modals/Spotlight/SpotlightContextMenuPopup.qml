@@ -8,51 +8,57 @@ Popup {
     id: root
 
     property var appLauncher: null
-    property var parentHandler: null
     property var searchField: null
 
     function show(x, y, app, fromKeyboard) {
         fromKeyboard = fromKeyboard || false;
         menuContent.currentApp = app;
-        
+
         root.x = x + 4;
         root.y = y + 4;
-        
+
         menuContent.selectedMenuIndex = fromKeyboard ? 0 : -1;
         menuContent.keyboardNavigation = true;
-        
-        if (parentHandler) {
-            parentHandler.enabled = false;
-        }
-        
+
         open();
     }
-    
-    onOpened: {
-        Qt.callLater(() => {
-            menuContent.keyboardHandler.forceActiveFocus();
-        });
+
+    function handleKey(event) {
+        switch (event.key) {
+        case Qt.Key_Down:
+            menuContent.selectNext();
+            event.accepted = true;
+            break;
+        case Qt.Key_Up:
+            menuContent.selectPrevious();
+            event.accepted = true;
+            break;
+        case Qt.Key_Return:
+        case Qt.Key_Enter:
+            menuContent.activateSelected();
+            event.accepted = true;
+            break;
+        case Qt.Key_Escape:
+        case Qt.Key_Menu:
+            hide();
+            event.accepted = true;
+            break;
+        }
     }
 
     function hide() {
-        if (parentHandler) {
-            parentHandler.enabled = true;
-        }
         close();
     }
 
     width: menuContent.implicitWidth
     height: menuContent.implicitHeight
     padding: 0
-    closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    closePolicy: Popup.CloseOnPressOutside
     modal: true
     dim: false
     background: Item {}
 
     onClosed: {
-        if (parentHandler) {
-            parentHandler.enabled = true;
-        }
         if (searchField) {
             Qt.callLater(() => {
                 searchField.forceActiveFocus();

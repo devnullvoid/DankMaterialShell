@@ -1,6 +1,5 @@
 import QtQuick
 import Quickshell
-import Quickshell.Hyprland
 import qs.Common
 import qs.Modals.Common
 import qs.Services
@@ -10,11 +9,6 @@ DankModal {
     id: root
 
     layerNamespace: "dms:color-picker"
-
-    HyprlandFocusGrab {
-        windows: [root.contentWindow]
-        active: CompositorService.isHyprland && root.shouldHaveFocus
-    }
 
     property string pickerTitle: I18n.tr("Choose Color")
     property color selectedColor: SessionData.recentColors.length > 0 ? SessionData.recentColors[0] : Theme.primary

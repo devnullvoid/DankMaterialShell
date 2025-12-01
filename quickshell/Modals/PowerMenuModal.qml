@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Effects
 import Quickshell
-import Quickshell.Hyprland
 import qs.Common
 import qs.Modals.Common
 import qs.Services
@@ -12,11 +11,6 @@ DankModal {
 
     layerNamespace: "dms:power-menu"
     keepPopoutsOpen: true
-
-    HyprlandFocusGrab {
-        windows: [root.contentWindow]
-        active: CompositorService.isHyprland && root.shouldHaveFocus
-    }
 
     property int selectedIndex: 0
     property int selectedRow: 0
@@ -275,34 +269,11 @@ DankModal {
         } else {
             selectedIndex = defaultIndex;
         }
-        Qt.callLater(() => modalFocusScope.forceActiveFocus());
     }
     onDialogClosed: () => {
         cancelHold();
     }
     Component.onCompleted: updateVisibleActions()
-    modalFocusScope.Keys.onPressed: event => {
-        if (event.isAutoRepeat) {
-            event.accepted = true;
-            return;
-        }
-        if (SettingsData.powerMenuGridLayout) {
-            handleGridNavigation(event, true);
-        } else {
-            handleListNavigation(event, true);
-        }
-    }
-    modalFocusScope.Keys.onReleased: event => {
-        if (event.isAutoRepeat) {
-            event.accepted = true;
-            return;
-        }
-        if (SettingsData.powerMenuGridLayout) {
-            handleGridNavigation(event, false);
-        } else {
-            handleListNavigation(event, false);
-        }
-    }
 
     function handleListNavigation(event, isPressed) {
         if (!isPressed) {
@@ -481,9 +452,32 @@ DankModal {
     }
 
     content: Component {
-        Item {
+        FocusScope {
             anchors.fill: parent
+            focus: true
             implicitHeight: (SettingsData.powerMenuGridLayout ? buttonGrid.implicitHeight : buttonColumn.implicitHeight) + Theme.spacingL * 2 + (root.needsConfirmation ? hintRow.height + Theme.spacingM : 0)
+
+            Keys.onPressed: event => {
+                if (event.isAutoRepeat) {
+                    event.accepted = true;
+                    return;
+                }
+                if (SettingsData.powerMenuGridLayout)
+                    root.handleGridNavigation(event, true);
+                else
+                    root.handleListNavigation(event, true);
+            }
+
+            Keys.onReleased: event => {
+                if (event.isAutoRepeat) {
+                    event.accepted = true;
+                    return;
+                }
+                if (SettingsData.powerMenuGridLayout)
+                    root.handleGridNavigation(event, false);
+                else
+                    root.handleListNavigation(event, false);
+            }
 
             Grid {
                 id: buttonGrid
