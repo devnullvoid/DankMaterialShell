@@ -89,6 +89,8 @@ Variants {
             property bool isInitialized: false
             property real transitionProgress: 0
             readonly property bool transitioning: transitionAnimation.running
+            property bool effectActive: false
+            property bool useNextForEffect: false
 
             onSourceChanged: {
                 const isColor = source.startsWith("#");
@@ -112,10 +114,21 @@ Variants {
             function setWallpaperImmediate(newSource) {
                 transitionAnimation.stop();
                 root.transitionProgress = 0.0;
+                root.effectActive = false;
                 currentWallpaper.source = newSource;
                 nextWallpaper.source = "";
-                currentWallpaper.opacity = 1;
-                nextWallpaper.opacity = 0;
+            }
+
+            function startTransition() {
+                currentWallpaper.cache = true;
+                nextWallpaper.cache = true;
+                root.useNextForEffect = true;
+                root.effectActive = true;
+                if (srcNext.scheduleUpdate)
+                    srcNext.scheduleUpdate();
+                Qt.callLater(() => {
+                    transitionAnimation.start();
+                });
             }
 
             function changeWallpaper(newPath) {
@@ -126,6 +139,7 @@ Variants {
                 if (root.transitioning) {
                     transitionAnimation.stop();
                     root.transitionProgress = 0;
+                    root.effectActive = false;
                     currentWallpaper.source = nextWallpaper.source;
                     nextWallpaper.source = "";
                 }
@@ -138,7 +152,7 @@ Variants {
                 nextWallpaper.source = newPath;
 
                 if (nextWallpaper.status === Image.Ready) {
-                    transitionAnimation.start();
+                    root.startTransition();
                 }
             }
 
@@ -152,6 +166,10 @@ Variants {
                 }
             }
 
+            property real screenScale: CompositorService.getScreenScale(modelData)
+            property int physicalWidth: Math.round(modelData.width * screenScale)
+            property int physicalHeight: Math.round(modelData.height * screenScale)
+
             Image {
                 id: currentWallpaper
                 anchors.fill: parent
@@ -160,7 +178,7 @@ Variants {
                 asynchronous: true
                 smooth: true
                 cache: true
-                sourceSize: Qt.size(modelData.width, modelData.height)
+                sourceSize: Qt.size(root.physicalWidth, root.physicalHeight)
                 fillMode: root.getFillMode(SessionData.isGreeterMode ? GreetdSettings.wallpaperFillMode : SettingsData.wallpaperFillMode)
             }
 
@@ -171,17 +189,44 @@ Variants {
                 opacity: 0
                 asynchronous: true
                 smooth: true
-                cache: true
-                sourceSize: Qt.size(modelData.width, modelData.height)
+                cache: false
+                sourceSize: Qt.size(root.physicalWidth, root.physicalHeight)
                 fillMode: root.getFillMode(SessionData.isGreeterMode ? GreetdSettings.wallpaperFillMode : SettingsData.wallpaperFillMode)
 
                 onStatusChanged: {
                     if (status !== Image.Ready)
                         return;
                     if (!root.transitioning) {
-                        transitionAnimation.start();
+                        root.startTransition();
                     }
                 }
+            }
+
+            ShaderEffectSource {
+                id: srcNext
+                sourceItem: root.effectActive ? nextWallpaper : null
+                hideSource: root.effectActive
+                live: root.effectActive
+                mipmap: false
+                recursive: false
+                textureSize: root.effectActive ? Qt.size(root.physicalWidth, root.physicalHeight) : Qt.size(1, 1)
+            }
+
+            Rectangle {
+                id: dummyRect
+                width: 1
+                height: 1
+                visible: false
+                color: "transparent"
+            }
+
+            ShaderEffectSource {
+                id: srcDummy
+                sourceItem: dummyRect
+                hideSource: true
+                live: false
+                mipmap: false
+                recursive: false
             }
 
             Item {
@@ -201,8 +246,8 @@ Variants {
 
                 MultiEffect {
                     anchors.fill: parent
-                    source: nextWallpaper
-                    visible: nextWallpaper.source !== ""
+                    source: root.useNextForEffect ? srcNext : srcDummy
+                    visible: nextWallpaper.source !== "" && root.useNextForEffect
                     blurEnabled: true
                     blur: 0.8
                     blurMax: 75
@@ -220,16 +265,18 @@ Variants {
                 duration: 1000
                 easing.type: Easing.InOutCubic
                 onFinished: {
-                    const tempSource = nextWallpaper.source;
-                    if (tempSource && nextWallpaper.status === Image.Ready && !tempSource.toString().startsWith("#")) {
-                        currentWallpaper.source = tempSource;
+                    if (nextWallpaper.source && nextWallpaper.status === Image.Ready) {
+                        currentWallpaper.source = nextWallpaper.source;
                     }
-                    root.transitionProgress = 0.0;
-                    currentWallpaper.opacity = 1;
-                    nextWallpaper.opacity = 0;
-
+                    root.useNextForEffect = false;
                     Qt.callLater(() => {
                         nextWallpaper.source = "";
+                        Qt.callLater(() => {
+                            root.effectActive = false;
+                            currentWallpaper.cache = true;
+                            nextWallpaper.cache = false;
+                            root.transitionProgress = 0.0;
+                        });
                     });
                 }
             }

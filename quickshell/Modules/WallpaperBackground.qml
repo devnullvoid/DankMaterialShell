@@ -68,12 +68,6 @@ Variants {
                 }
             }
 
-            onActualTransitionTypeChanged: {
-                if (actualTransitionType === "none") {
-                    currentWallpaper.visible = true;
-                    nextWallpaper.visible = false;
-                }
-            }
             property real transitionProgress: 0
             property real shaderFillMode: getFillMode(SettingsData.wallpaperFillMode)
             property vector4d fillColor: Qt.vector4d(0, 0, 0, 1)
@@ -86,9 +80,8 @@ Variants {
             property real stripesAngle: 0
 
             readonly property bool transitioning: transitionAnimation.running
-
-            property bool hasCurrent: currentWallpaper.status === Image.Ready && !!currentWallpaper.source
-            property bool booting: !hasCurrent && nextWallpaper.status === Image.Ready
+            property bool effectActive: false
+            property bool useNextForEffect: false
 
             function getFillMode(modeName) {
                 switch (modeName) {
@@ -143,10 +136,25 @@ Variants {
             function setWallpaperImmediate(newSource) {
                 transitionAnimation.stop();
                 root.transitionProgress = 0.0;
+                root.effectActive = false;
                 currentWallpaper.source = newSource;
                 nextWallpaper.source = "";
-                currentWallpaper.visible = true;
-                nextWallpaper.visible = false;
+            }
+
+            function startTransition() {
+                currentWallpaper.cache = true;
+                nextWallpaper.cache = true;
+                currentWallpaper.layer.enabled = true;
+                nextWallpaper.layer.enabled = true;
+                root.useNextForEffect = true;
+                root.effectActive = true;
+                if (srcCurrent.scheduleUpdate)
+                    srcCurrent.scheduleUpdate();
+                if (srcNext.scheduleUpdate)
+                    srcNext.scheduleUpdate();
+                Qt.callLater(() => {
+                    transitionAnimation.start();
+                });
             }
 
             function changeWallpaper(newPath, force) {
@@ -157,17 +165,16 @@ Variants {
                 if (root.transitioning) {
                     transitionAnimation.stop();
                     root.transitionProgress = 0;
+                    root.effectActive = false;
                     currentWallpaper.source = nextWallpaper.source;
                     nextWallpaper.source = "";
                 }
 
-                // If no current wallpaper, set immediately to avoid scaling issues
                 if (!currentWallpaper.source) {
                     setWallpaperImmediate(newPath);
                     return;
                 }
 
-                // If transition is "none", set immediately
                 if (root.transitionType === "random") {
                     if (SessionData.includedTransitions.length === 0) {
                         root.actualTransitionType = "none";
@@ -183,7 +190,7 @@ Variants {
 
                 if (root.actualTransitionType === "wipe") {
                     root.wipeDirection = Math.random() * 4;
-                } else if (root.actualTransitionType === "disc") {
+                } else if (root.actualTransitionType === "disc" || root.actualTransitionType === "pixelate" || root.actualTransitionType === "portal") {
                     root.discCenterX = Math.random();
                     root.discCenterY = Math.random();
                 } else if (root.actualTransitionType === "stripes") {
@@ -194,7 +201,7 @@ Variants {
                 nextWallpaper.source = newPath;
 
                 if (nextWallpaper.status === Image.Ready) {
-                    transitionAnimation.start();
+                    root.startTransition();
                 }
             }
 
@@ -208,41 +215,33 @@ Variants {
                 }
             }
 
-            Rectangle {
-                id: transparentRect
-                anchors.fill: parent
-                color: "transparent"
-                visible: false
-            }
-
-            ShaderEffectSource {
-                id: transparentSource
-                sourceItem: transparentRect
-                hideSource: true
-                live: false
-            }
+            property real screenScale: CompositorService.getScreenScale(modelData)
+            property int physicalWidth: Math.round(modelData.width * screenScale)
+            property int physicalHeight: Math.round(modelData.height * screenScale)
 
             Image {
                 id: currentWallpaper
                 anchors.fill: parent
-                visible: root.actualTransitionType === "none"
+                visible: true
                 opacity: 1
                 layer.enabled: false
                 asynchronous: true
                 smooth: true
                 cache: true
+                sourceSize: Qt.size(root.physicalWidth, root.physicalHeight)
                 fillMode: root.getFillMode(SettingsData.wallpaperFillMode)
             }
 
             Image {
                 id: nextWallpaper
                 anchors.fill: parent
-                visible: false
+                visible: true
                 opacity: 0
                 layer.enabled: false
                 asynchronous: true
                 smooth: true
-                cache: true
+                cache: false
+                sourceSize: Qt.size(root.physicalWidth, root.physicalHeight)
                 fillMode: root.getFillMode(SettingsData.wallpaperFillMode)
 
                 onStatusChanged: {
@@ -252,19 +251,53 @@ Variants {
                         currentWallpaper.source = source;
                         nextWallpaper.source = "";
                         root.transitionProgress = 0.0;
-                    } else {
-                        visible = true;
-                        if (!root.transitioning) {
-                            transitionAnimation.start();
-                        }
+                    } else if (!root.transitioning) {
+                        root.startTransition();
                     }
                 }
+            }
+
+            ShaderEffectSource {
+                id: srcCurrent
+                sourceItem: root.effectActive ? currentWallpaper : null
+                hideSource: root.effectActive
+                live: root.effectActive
+                mipmap: false
+                recursive: false
+                textureSize: root.effectActive ? Qt.size(root.physicalWidth, root.physicalHeight) : Qt.size(1, 1)
+            }
+
+            ShaderEffectSource {
+                id: srcNext
+                sourceItem: root.effectActive ? nextWallpaper : null
+                hideSource: root.effectActive
+                live: root.effectActive
+                mipmap: false
+                recursive: false
+                textureSize: root.effectActive ? Qt.size(root.physicalWidth, root.physicalHeight) : Qt.size(1, 1)
+            }
+
+            Rectangle {
+                id: dummyRect
+                width: 1
+                height: 1
+                visible: false
+                color: "transparent"
+            }
+
+            ShaderEffectSource {
+                id: srcDummy
+                sourceItem: dummyRect
+                hideSource: true
+                live: false
+                mipmap: false
+                recursive: false
             }
 
             Loader {
                 id: effectLoader
                 anchors.fill: parent
-                active: root.actualTransitionType !== "none" && (root.hasCurrent || root.booting)
+                active: root.effectActive
                 sourceComponent: {
                     switch (root.actualTransitionType) {
                     case "fade":
@@ -291,15 +324,15 @@ Variants {
                 id: fadeComp
                 ShaderEffect {
                     anchors.fill: parent
-                    property variant source1: root.hasCurrent ? currentWallpaper : transparentSource
-                    property variant source2: nextWallpaper
+                    property variant source1: srcCurrent
+                    property variant source2: root.useNextForEffect ? srcNext : srcDummy
                     property real progress: root.transitionProgress
                     property real fillMode: root.shaderFillMode
                     property vector4d fillColor: root.fillColor
-                    property real imageWidth1: Math.max(1, root.hasCurrent ? source1.sourceSize.width : modelData.width)
-                    property real imageHeight1: Math.max(1, root.hasCurrent ? source1.sourceSize.height : modelData.height)
-                    property real imageWidth2: Math.max(1, source2.sourceSize.width)
-                    property real imageHeight2: Math.max(1, source2.sourceSize.height)
+                    property real imageWidth1: modelData.width
+                    property real imageHeight1: modelData.height
+                    property real imageWidth2: modelData.width
+                    property real imageHeight2: modelData.height
                     property real screenWidth: modelData.width
                     property real screenHeight: modelData.height
                     fragmentShader: Qt.resolvedUrl("../Shaders/qsb/wp_fade.frag.qsb")
@@ -310,17 +343,17 @@ Variants {
                 id: wipeComp
                 ShaderEffect {
                     anchors.fill: parent
-                    property variant source1: root.hasCurrent ? currentWallpaper : transparentSource
-                    property variant source2: nextWallpaper
+                    property variant source1: srcCurrent
+                    property variant source2: root.useNextForEffect ? srcNext : srcDummy
                     property real progress: root.transitionProgress
                     property real smoothness: root.edgeSmoothness
                     property real direction: root.wipeDirection
                     property real fillMode: root.shaderFillMode
                     property vector4d fillColor: root.fillColor
-                    property real imageWidth1: Math.max(1, root.hasCurrent ? source1.sourceSize.width : modelData.width)
-                    property real imageHeight1: Math.max(1, root.hasCurrent ? source1.sourceSize.height : modelData.height)
-                    property real imageWidth2: Math.max(1, source2.sourceSize.width)
-                    property real imageHeight2: Math.max(1, source2.sourceSize.height)
+                    property real imageWidth1: modelData.width
+                    property real imageHeight1: modelData.height
+                    property real imageWidth2: modelData.width
+                    property real imageHeight2: modelData.height
                     property real screenWidth: modelData.width
                     property real screenHeight: modelData.height
                     fragmentShader: Qt.resolvedUrl("../Shaders/qsb/wp_wipe.frag.qsb")
@@ -331,8 +364,8 @@ Variants {
                 id: discComp
                 ShaderEffect {
                     anchors.fill: parent
-                    property variant source1: root.hasCurrent ? currentWallpaper : transparentSource
-                    property variant source2: nextWallpaper
+                    property variant source1: srcCurrent
+                    property variant source2: root.useNextForEffect ? srcNext : srcDummy
                     property real progress: root.transitionProgress
                     property real smoothness: root.edgeSmoothness
                     property real aspectRatio: root.width / root.height
@@ -340,10 +373,10 @@ Variants {
                     property real centerY: root.discCenterY
                     property real fillMode: root.shaderFillMode
                     property vector4d fillColor: root.fillColor
-                    property real imageWidth1: Math.max(1, root.hasCurrent ? source1.sourceSize.width : modelData.width)
-                    property real imageHeight1: Math.max(1, root.hasCurrent ? source1.sourceSize.height : modelData.height)
-                    property real imageWidth2: Math.max(1, source2.sourceSize.width)
-                    property real imageHeight2: Math.max(1, source2.sourceSize.height)
+                    property real imageWidth1: modelData.width
+                    property real imageHeight1: modelData.height
+                    property real imageWidth2: modelData.width
+                    property real imageHeight2: modelData.height
                     property real screenWidth: modelData.width
                     property real screenHeight: modelData.height
                     fragmentShader: Qt.resolvedUrl("../Shaders/qsb/wp_disc.frag.qsb")
@@ -354,8 +387,8 @@ Variants {
                 id: stripesComp
                 ShaderEffect {
                     anchors.fill: parent
-                    property variant source1: root.hasCurrent ? currentWallpaper : transparentSource
-                    property variant source2: nextWallpaper
+                    property variant source1: srcCurrent
+                    property variant source2: root.useNextForEffect ? srcNext : srcDummy
                     property real progress: root.transitionProgress
                     property real smoothness: root.edgeSmoothness
                     property real aspectRatio: root.width / root.height
@@ -363,10 +396,10 @@ Variants {
                     property real angle: root.stripesAngle
                     property real fillMode: root.shaderFillMode
                     property vector4d fillColor: root.fillColor
-                    property real imageWidth1: Math.max(1, root.hasCurrent ? source1.sourceSize.width : modelData.width)
-                    property real imageHeight1: Math.max(1, root.hasCurrent ? source1.sourceSize.height : modelData.height)
-                    property real imageWidth2: Math.max(1, source2.sourceSize.width)
-                    property real imageHeight2: Math.max(1, source2.sourceSize.height)
+                    property real imageWidth1: modelData.width
+                    property real imageHeight1: modelData.height
+                    property real imageWidth2: modelData.width
+                    property real imageHeight2: modelData.height
                     property real screenWidth: modelData.width
                     property real screenHeight: modelData.height
                     fragmentShader: Qt.resolvedUrl("../Shaders/qsb/wp_stripes.frag.qsb")
@@ -377,8 +410,8 @@ Variants {
                 id: irisComp
                 ShaderEffect {
                     anchors.fill: parent
-                    property variant source1: root.hasCurrent ? currentWallpaper : transparentSource
-                    property variant source2: nextWallpaper
+                    property variant source1: srcCurrent
+                    property variant source2: root.useNextForEffect ? srcNext : srcDummy
                     property real progress: root.transitionProgress
                     property real smoothness: root.edgeSmoothness
                     property real centerX: 0.5
@@ -386,10 +419,10 @@ Variants {
                     property real aspectRatio: root.width / root.height
                     property real fillMode: root.shaderFillMode
                     property vector4d fillColor: root.fillColor
-                    property real imageWidth1: Math.max(1, root.hasCurrent ? source1.sourceSize.width : modelData.width)
-                    property real imageHeight1: Math.max(1, root.hasCurrent ? source1.sourceSize.height : modelData.height)
-                    property real imageWidth2: Math.max(1, source2.sourceSize.width)
-                    property real imageHeight2: Math.max(1, source2.sourceSize.height)
+                    property real imageWidth1: modelData.width
+                    property real imageHeight1: modelData.height
+                    property real imageWidth2: modelData.width
+                    property real imageHeight2: modelData.height
                     property real screenWidth: modelData.width
                     property real screenHeight: modelData.height
                     fragmentShader: Qt.resolvedUrl("../Shaders/qsb/wp_iris_bloom.frag.qsb")
@@ -400,16 +433,16 @@ Variants {
                 id: pixelateComp
                 ShaderEffect {
                     anchors.fill: parent
-                    property variant source1: root.hasCurrent ? currentWallpaper : transparentSource
-                    property variant source2: nextWallpaper
+                    property variant source1: srcCurrent
+                    property variant source2: root.useNextForEffect ? srcNext : srcDummy
                     property real progress: root.transitionProgress
                     property real smoothness: root.edgeSmoothness
                     property real fillMode: root.shaderFillMode
                     property vector4d fillColor: root.fillColor
-                    property real imageWidth1: Math.max(1, root.hasCurrent ? source1.sourceSize.width : modelData.width)
-                    property real imageHeight1: Math.max(1, root.hasCurrent ? source1.sourceSize.height : modelData.height)
-                    property real imageWidth2: Math.max(1, source2.sourceSize.width)
-                    property real imageHeight2: Math.max(1, source2.sourceSize.height)
+                    property real imageWidth1: modelData.width
+                    property real imageHeight1: modelData.height
+                    property real imageWidth2: modelData.width
+                    property real imageHeight2: modelData.height
                     property real screenWidth: modelData.width
                     property real screenHeight: modelData.height
                     property real centerX: root.discCenterX
@@ -423,8 +456,8 @@ Variants {
                 id: portalComp
                 ShaderEffect {
                     anchors.fill: parent
-                    property variant source1: root.hasCurrent ? currentWallpaper : transparentSource
-                    property variant source2: nextWallpaper
+                    property variant source1: srcCurrent
+                    property variant source2: root.useNextForEffect ? srcNext : srcDummy
                     property real progress: root.transitionProgress
                     property real smoothness: root.edgeSmoothness
                     property real aspectRatio: root.width / root.height
@@ -432,10 +465,10 @@ Variants {
                     property real centerY: root.discCenterY
                     property real fillMode: root.shaderFillMode
                     property vector4d fillColor: root.fillColor
-                    property real imageWidth1: Math.max(1, root.hasCurrent ? source1.sourceSize.width : modelData.width)
-                    property real imageHeight1: Math.max(1, root.hasCurrent ? source1.sourceSize.height : modelData.height)
-                    property real imageWidth2: Math.max(1, source2.sourceSize.width)
-                    property real imageHeight2: Math.max(1, source2.sourceSize.height)
+                    property real imageWidth1: modelData.width
+                    property real imageHeight1: modelData.height
+                    property real imageWidth2: modelData.width
+                    property real imageHeight2: modelData.height
                     property real screenWidth: modelData.width
                     property real screenHeight: modelData.height
                     fragmentShader: Qt.resolvedUrl("../Shaders/qsb/wp_portal.frag.qsb")
@@ -451,14 +484,20 @@ Variants {
                 duration: root.actualTransitionType === "none" ? 0 : 1000
                 easing.type: Easing.InOutCubic
                 onFinished: {
+                    if (nextWallpaper.source && nextWallpaper.status === Image.Ready) {
+                        currentWallpaper.source = nextWallpaper.source;
+                    }
+                    root.useNextForEffect = false;
                     Qt.callLater(() => {
-                        if (nextWallpaper.source && nextWallpaper.status === Image.Ready && !nextWallpaper.source.toString().startsWith("#")) {
-                            currentWallpaper.source = nextWallpaper.source;
-                        }
                         nextWallpaper.source = "";
-                        nextWallpaper.visible = false;
-                        currentWallpaper.visible = root.actualTransitionType === "none";
-                        root.transitionProgress = 0.0;
+                        Qt.callLater(() => {
+                            root.effectActive = false;
+                            currentWallpaper.layer.enabled = false;
+                            nextWallpaper.layer.enabled = false;
+                            currentWallpaper.cache = true;
+                            nextWallpaper.cache = false;
+                            root.transitionProgress = 0.0;
+                        });
                     });
                 }
             }
