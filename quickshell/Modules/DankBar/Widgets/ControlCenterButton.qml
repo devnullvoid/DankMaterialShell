@@ -134,11 +134,12 @@ BasePill {
 
     function handleBrightnessWheel(delta) {
         const deviceName = getPinnedBrightnessDevice();
-        if (!deviceName)
+        if (!deviceName) {
             return;
+        }
         const currentBrightness = DisplayService.getDeviceBrightness(deviceName);
         const newBrightness = delta > 0 ? Math.min(100, currentBrightness + 5) : Math.max(1, currentBrightness - 5);
-        DisplayService.setBrightness(newBrightness, deviceName, false);
+        DisplayService.setBrightness(newBrightness, deviceName);
     }
 
     function getBatteryIconColor() {

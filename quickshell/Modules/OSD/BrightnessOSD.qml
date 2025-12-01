@@ -107,7 +107,6 @@ DankOSD {
                 }
                 thumbOutlineColor: Theme.surfaceContainer
                 alwaysShowValue: SettingsData.osdAlwaysShowValue
-                value: !isDragging ? root.targetBrightness : value
 
                 onSliderValueChanged: newValue => {
                     if (DisplayService.brightnessAvailable) {
@@ -118,6 +117,11 @@ DankOSD {
 
                 onContainsMouseChanged: {
                     setChildHovered(containsMouse);
+                }
+
+                Binding on value {
+                    value: root.targetBrightness
+                    when: !brightnessSlider.isDragging
                 }
             }
         }
@@ -163,7 +167,12 @@ DankOSD {
                 y: gap * 2 + Theme.iconSize
 
                 property bool dragging: false
-                property int value: !dragging ? root.targetBrightness : value
+                property int value: 50
+
+                Binding on value {
+                    value: root.targetBrightness
+                    when: !vertSlider.dragging
+                }
 
                 readonly property int minimum: {
                     const deviceInfo = DisplayService.getCurrentDeviceInfo();
@@ -255,12 +264,14 @@ DankOSD {
                     }
 
                     function updateBrightness(mouse) {
-                        if (DisplayService.brightnessAvailable) {
-                            const ratio = 1.0 - (mouse.y / height);
-                            const newValue = Math.round(vertSlider.minimum + ratio * (vertSlider.maximum - vertSlider.minimum));
-                            DisplayService.setBrightness(newValue, DisplayService.lastIpcDevice, true);
-                            resetHideTimer();
+                        if (!DisplayService.brightnessAvailable) {
+                            return;
                         }
+                        const ratio = 1.0 - (mouse.y / height);
+                        const newValue = Math.round(vertSlider.minimum + ratio * (vertSlider.maximum - vertSlider.minimum));
+                        vertSlider.value = newValue;
+                        DisplayService.setBrightness(newValue, DisplayService.lastIpcDevice, true);
+                        resetHideTimer();
                     }
                 }
             }

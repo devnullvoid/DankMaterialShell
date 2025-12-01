@@ -14,6 +14,8 @@ Singleton {
     property var deviceBrightness: ({})
     property var deviceBrightnessUserSet: ({})
     property var deviceMaxCache: ({})
+    property var userControlledDevices: ({})
+    property var pendingOsdDevices: ({})
     property int brightnessVersion: 0
     property string currentDevice: ""
     property string lastIpcDevice: ""
@@ -28,6 +30,7 @@ Singleton {
     }
     property int maxBrightness: 100
     property bool brightnessInitialized: false
+    property bool suppressOsd: true
 
     signal brightnessChanged(bool showOsd)
     signal deviceSwitched
@@ -38,11 +41,47 @@ Singleton {
     property bool automationAvailable: false
     property bool gammaControlAvailable: false
 
+    function markDeviceUserControlled(deviceId) {
+        const newControlled = Object.assign({}, userControlledDevices);
+        newControlled[deviceId] = Date.now();
+        userControlledDevices = newControlled;
+    }
+
+    function isDeviceUserControlled(deviceId) {
+        const controlTime = userControlledDevices[deviceId];
+        if (!controlTime) {
+            return false;
+        }
+        return (Date.now() - controlTime) < 1000;
+    }
+
+    function clearDeviceUserControlled(deviceId) {
+        const newControlled = Object.assign({}, userControlledDevices);
+        delete newControlled[deviceId];
+        userControlledDevices = newControlled;
+    }
+
+    function markDevicePendingOsd(deviceId) {
+        const newPending = Object.assign({}, pendingOsdDevices);
+        newPending[deviceId] = true;
+        pendingOsdDevices = newPending;
+    }
+
+    function clearDevicePendingOsd(deviceId) {
+        const newPending = Object.assign({}, pendingOsdDevices);
+        delete newPending[deviceId];
+        pendingOsdDevices = newPending;
+    }
+
     function updateSingleDevice(device) {
+        const isUserControlled = isDeviceUserControlled(device.id);
+        if (isUserControlled) {
+            return;
+        }
+
         const deviceIndex = devices.findIndex(d => d.id === device.id);
         if (deviceIndex !== -1) {
             const newDevices = [...devices];
-            const existingDevice = devices[deviceIndex];
             const cachedMax = deviceMaxCache[device.id];
 
             let displayMax = cachedMax || (device.class === "ddc" ? device.max : 100);
@@ -71,7 +110,17 @@ Singleton {
         let displayValue = device.currentPercent;
         if (isExponential) {
             if (userSetValue !== undefined) {
-                displayValue = userSetValue;
+                const exponent = SessionData.getBrightnessExponent(device.id);
+                const expectedHardware = Math.round(Math.pow(userSetValue / 100.0, exponent) * 100.0);
+                if (Math.abs(device.currentPercent - expectedHardware) > 2) {
+                    const newUserSet = Object.assign({}, deviceBrightnessUserSet);
+                    delete newUserSet[device.id];
+                    deviceBrightnessUserSet = newUserSet;
+                    SessionData.clearBrightnessUserSetValue(device.id);
+                    displayValue = linearToExponential(device.currentPercent, device.id);
+                } else {
+                    displayValue = userSetValue;
+                }
             } else {
                 displayValue = linearToExponential(device.currentPercent, device.id);
             }
@@ -83,9 +132,22 @@ Singleton {
         deviceBrightness = newBrightness;
         brightnessVersion++;
 
-        if (oldValue !== undefined && oldValue !== displayValue && brightnessInitialized) {
-            brightnessChanged(true);
+        const isPendingOsd = pendingOsdDevices[device.id] === true;
+        if (isPendingOsd) {
+            clearDevicePendingOsd(device.id);
+            if (!suppressOsd) {
+                brightnessChanged(true);
+            }
+            return;
         }
+
+        if (!brightnessInitialized || oldValue === displayValue) {
+            return;
+        }
+        if (suppressOsd) {
+            return;
+        }
+        brightnessChanged(true);
     }
 
     function updateFromBrightnessState(state) {
@@ -167,13 +229,12 @@ Singleton {
 
     function setBrightness(percentage, device, suppressOsd) {
         const actualDevice = device === "" ? getDefaultDevice() : (device || currentDevice || getDefaultDevice());
-
         if (!actualDevice) {
             console.warn("DisplayService: No device selected for brightness change");
             return;
         }
 
-        if (actualDevice && actualDevice !== lastIpcDevice) {
+        if (actualDevice !== lastIpcDevice) {
             lastIpcDevice = actualDevice;
         }
 
@@ -183,12 +244,15 @@ Singleton {
         let minValue = 0;
         let maxValue = 100;
 
-        if (isExponential) {
+        switch (true) {
+        case isExponential:
             minValue = 1;
             maxValue = 100;
-        } else {
+            break;
+        default:
             minValue = (deviceInfo && (deviceInfo.class === "backlight" || deviceInfo.class === "ddc")) ? 1 : 0;
             maxValue = deviceInfo?.displayMax || 100;
+            break;
         }
 
         if (maxValue <= 0) {
@@ -203,6 +267,12 @@ Singleton {
             return;
         }
 
+        if (suppressOsd) {
+            markDeviceUserControlled(actualDevice);
+        } else {
+            markDevicePendingOsd(actualDevice);
+        }
+
         const newBrightness = Object.assign({}, deviceBrightness);
         newBrightness[actualDevice] = clampedValue;
         deviceBrightness = newBrightness;
@@ -213,10 +283,6 @@ Singleton {
             newUserSet[actualDevice] = clampedValue;
             deviceBrightnessUserSet = newUserSet;
             SessionData.setBrightnessUserSetValue(actualDevice, clampedValue);
-        }
-
-        if (!suppressOsd) {
-            brightnessChanged(true);
         }
 
         const params = {
@@ -634,6 +700,13 @@ Singleton {
         brightnessChanged();
     }
 
+    Timer {
+        id: osdSuppressTimer
+        interval: 2000
+        running: true
+        onTriggered: suppressOsd = false
+    }
+
     Component.onCompleted: {
         nightModeEnabled = SessionData.nightModeEnabled;
         deviceBrightnessUserSet = Object.assign({}, SessionData.brightnessUserSetValues);
@@ -673,6 +746,13 @@ Singleton {
 
         function onBrightnessDeviceUpdate(device) {
             updateSingleDevice(device);
+        }
+
+        function onLoginctlEvent(event) {
+            if (event.event === "unlock" || event.event === "resume") {
+                suppressOsd = true;
+                osdSuppressTimer.restart();
+            }
         }
     }
 
@@ -746,7 +826,7 @@ Singleton {
             if (targetDevice && targetDevice !== root.currentDevice) {
                 root.setCurrentDevice(targetDevice, false);
             }
-            root.setBrightness(clampedValue, targetDevice, false);
+            root.setBrightness(clampedValue, targetDevice);
 
             if (targetDevice) {
                 return "Brightness set to " + clampedValue + "% on " + targetDevice;
@@ -787,7 +867,7 @@ Singleton {
 
             const newBrightness = Math.min(maxValue, currentBrightness + stepValue);
 
-            root.setBrightness(newBrightness, actualDevice, false);
+            root.setBrightness(newBrightness, actualDevice);
 
             return "Brightness increased by " + stepValue + "%" + (targetDevice ? " on " + targetDevice : "");
         }
@@ -824,7 +904,7 @@ Singleton {
 
             const newBrightness = Math.max(minValue, currentBrightness - stepValue);
 
-            root.setBrightness(newBrightness, actualDevice, false);
+            root.setBrightness(newBrightness, actualDevice);
 
             return "Brightness decreased by " + stepValue + "%" + (targetDevice ? " on " + targetDevice : "");
         }

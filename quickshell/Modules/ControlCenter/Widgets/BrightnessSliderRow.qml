@@ -159,7 +159,6 @@ Row {
             }
             return targetDevice.displayMax || 100;
         }
-        value: !isDragging ? targetBrightness : value
         showValue: true
         unit: {
             if (!targetDevice)
@@ -177,5 +176,10 @@ Row {
         }
         thumbOutlineColor: Theme.surfaceContainer
         trackColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+
+        Binding on value {
+            value: root.targetBrightness
+            when: !brightnessSlider.isDragging
+        }
     }
 }

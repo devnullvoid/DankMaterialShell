@@ -856,6 +856,13 @@ Singleton {
         return brightnessUserSetValues[deviceName];
     }
 
+    function clearBrightnessUserSetValue(deviceName) {
+        var newValues = Object.assign({}, brightnessUserSetValues);
+        delete newValues[deviceName];
+        brightnessUserSetValues = newValues;
+        saveSettings();
+    }
+
     function setBrightnessExponent(deviceName, exponent) {
         var newValues = Object.assign({}, brightnessExponentValues);
         if (exponent !== undefined && exponent !== null) {
