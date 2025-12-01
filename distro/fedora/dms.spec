@@ -136,6 +136,10 @@ install -Dm644 quickshell/assets/systemd/dms.service %{buildroot}%{_userunitdir}
 install -dm755 %{buildroot}%{_datadir}/quickshell/dms
 cp -r quickshell/* %{buildroot}%{_datadir}/quickshell/dms/
 
+# Install desktop file and icon
+install -Dm644 assets/dms-open.desktop %{buildroot}%{_datadir}/applications/dms-open.desktop
+install -Dm644 core/assets/danklogo.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
+
 # Remove build files
 rm -rf %{buildroot}%{_datadir}/quickshell/dms/.git*
 rm -f %{buildroot}%{_datadir}/quickshell/dms/.gitignore
@@ -162,6 +166,8 @@ fi
 %doc quickshell/README.md
 %{_datadir}/quickshell/dms/
 %{_userunitdir}/dms.service
+%{_datadir}/applications/dms-open.desktop
+%{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
 
 %files -n dms-cli
 %{_bindir}/dms
