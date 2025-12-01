@@ -175,6 +175,10 @@ var SPEC = {
     dockMargin: { def: 0 },
     dockIconSize: { def: 40 },
     dockIndicatorStyle: { def: "circle" },
+    dockBorderEnabled: { def: false },
+    dockBorderColor: { def: "surfaceText" },
+    dockBorderOpacity: { def: 1.0, coerce: percentToUnit },
+    dockBorderThickness: { def: 1 },
 
     notificationOverlayEnabled: { def: false },
     overviewRows: { def: 2, persist: false },

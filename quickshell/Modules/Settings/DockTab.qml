@@ -45,18 +45,18 @@ Item {
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
-                        StyledText {
-                            id: positionText
-                            text: I18n.tr("Dock Position")
-                            font.pixelSize: Theme.fontSizeLarge
-                            font.weight: Font.Medium
-                            color: Theme.surfaceText
+                        Column {
+                            width: Math.max(0, parent.width - Theme.iconSize - Theme.spacingM - positionButtonGroup.width - Theme.spacingM)
                             anchors.verticalCenter: parent.verticalCenter
-                        }
 
-                        Item {
-                            width: parent.width - Theme.iconSize - Theme.spacingM - positionText.width - positionButtonGroup.width - Theme.spacingM * 2
-                            anchors.verticalCenter: parent.verticalCenter
+                            StyledText {
+                                text: I18n.tr("Dock Position")
+                                font.pixelSize: Theme.fontSizeLarge
+                                font.weight: Font.Medium
+                                color: Theme.surfaceText
+                                elide: Text.ElideRight
+                                width: parent.width
+                            }
                         }
 
                         DankButtonGroup {
@@ -361,18 +361,18 @@ Item {
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
-                        StyledText {
-                            id: indicatorStyleText
-                            text: I18n.tr("Indicator Style")
-                            font.pixelSize: Theme.fontSizeLarge
-                            font.weight: Font.Medium
-                            color: Theme.surfaceText
+                        Column {
+                            width: Math.max(0, parent.width - Theme.iconSize - Theme.spacingM - indicatorStyleButtonGroup.width - Theme.spacingM)
                             anchors.verticalCenter: parent.verticalCenter
-                        }
 
-                        Item {
-                            width: parent.width - Theme.iconSize - Theme.spacingM - indicatorStyleText.width - indicatorStyleButtonGroup.width - Theme.spacingM * 2
-                            anchors.verticalCenter: parent.verticalCenter
+                            StyledText {
+                                text: I18n.tr("Indicator Style")
+                                font.pixelSize: Theme.fontSizeLarge
+                                font.weight: Font.Medium
+                                color: Theme.surfaceText
+                                elide: Text.ElideRight
+                                width: parent.width
+                            }
                         }
 
                         DankButtonGroup {
@@ -756,6 +756,231 @@ Item {
                         thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                         onSliderValueChanged: newValue => {
                             SettingsData.set("dockTransparency", newValue / 100);
+                        }
+                    }
+                }
+            }
+
+            StyledRect {
+                width: parent.width
+                height: borderSection.implicitHeight + Theme.spacingL * 2
+                radius: Theme.cornerRadius
+                color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                border.width: 0
+
+                Column {
+                    id: borderSection
+
+                    anchors.fill: parent
+                    anchors.margins: Theme.spacingL
+                    spacing: Theme.spacingM
+
+                    DankToggle {
+                        width: parent.width
+                        text: I18n.tr("Border")
+                        description: I18n.tr("Add a border around the dock")
+                        checked: SettingsData.dockBorderEnabled
+                        onToggled: checked => {
+                            SettingsData.set("dockBorderEnabled", checked);
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        leftPadding: Theme.spacingM
+                        spacing: Theme.spacingM
+                        visible: SettingsData.dockBorderEnabled
+
+                        Rectangle {
+                            width: parent.width - parent.leftPadding
+                            height: 1
+                            color: Theme.outline
+                            opacity: 0.2
+                        }
+
+                        Row {
+                            width: parent.width - parent.leftPadding
+                            spacing: Theme.spacingM
+
+                            Column {
+                                width: parent.width - dockBorderColorGroup.width - Theme.spacingM
+                                spacing: Theme.spacingXS
+
+                                StyledText {
+                                    text: I18n.tr("Border Color")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Choose the border accent color")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceVariantText
+                                    width: parent.width
+                                }
+                            }
+
+                            DankButtonGroup {
+                                id: dockBorderColorGroup
+                                anchors.verticalCenter: parent.verticalCenter
+                                model: ["Surface", "Secondary", "Primary"]
+                                currentIndex: {
+                                    switch (SettingsData.dockBorderColor) {
+                                    case "surfaceText":
+                                        return 0;
+                                    case "secondary":
+                                        return 1;
+                                    case "primary":
+                                        return 2;
+                                    default:
+                                        return 0;
+                                    }
+                                }
+                                onSelectionChanged: (index, selected) => {
+                                    if (!selected)
+                                        return;
+                                    switch (index) {
+                                    case 0:
+                                        SettingsData.set("dockBorderColor", "surfaceText");
+                                        break;
+                                    case 1:
+                                        SettingsData.set("dockBorderColor", "secondary");
+                                        break;
+                                    case 2:
+                                        SettingsData.set("dockBorderColor", "primary");
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        Column {
+                            width: parent.width - parent.leftPadding
+                            spacing: Theme.spacingS
+
+                            Row {
+                                width: parent.width
+                                spacing: Theme.spacingS
+
+                                StyledText {
+                                    text: I18n.tr("Border Opacity")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                Item {
+                                    width: parent.width - dockBorderOpacityText.implicitWidth - resetDockBorderOpacityBtn.width - Theme.spacingS - Theme.spacingM
+                                    height: 1
+
+                                    StyledText {
+                                        id: dockBorderOpacityText
+                                        visible: false
+                                        text: I18n.tr("Border Opacity")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                    }
+                                }
+
+                                DankActionButton {
+                                    id: resetDockBorderOpacityBtn
+                                    buttonSize: 20
+                                    iconName: "refresh"
+                                    iconSize: 12
+                                    backgroundColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                                    iconColor: Theme.surfaceText
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    onClicked: {
+                                        SettingsData.set("dockBorderOpacity", 1.0);
+                                    }
+                                }
+
+                                Item {
+                                    width: Theme.spacingS
+                                    height: 1
+                                }
+                            }
+
+                            DankSlider {
+                                id: dockBorderOpacitySlider
+                                width: parent.width
+                                height: 24
+                                value: SettingsData.dockBorderOpacity * 100
+                                minimum: 0
+                                maximum: 100
+                                unit: "%"
+                                showValue: true
+                                wheelEnabled: false
+                                thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                                onSliderValueChanged: newValue => {
+                                    SettingsData.set("dockBorderOpacity", newValue / 100);
+                                }
+                            }
+                        }
+
+                        Column {
+                            width: parent.width - parent.leftPadding
+                            spacing: Theme.spacingS
+
+                            Row {
+                                width: parent.width
+                                spacing: Theme.spacingS
+
+                                StyledText {
+                                    text: I18n.tr("Border Thickness")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                Item {
+                                    width: parent.width - dockBorderThicknessText.implicitWidth - resetDockBorderThicknessBtn.width - Theme.spacingS - Theme.spacingM
+                                    height: 1
+
+                                    StyledText {
+                                        id: dockBorderThicknessText
+                                        visible: false
+                                        text: I18n.tr("Border Thickness")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                    }
+                                }
+
+                                DankActionButton {
+                                    id: resetDockBorderThicknessBtn
+                                    buttonSize: 20
+                                    iconName: "refresh"
+                                    iconSize: 12
+                                    backgroundColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                                    iconColor: Theme.surfaceText
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    onClicked: {
+                                        SettingsData.set("dockBorderThickness", 1);
+                                    }
+                                }
+
+                                Item {
+                                    width: Theme.spacingS
+                                    height: 1
+                                }
+                            }
+
+                            DankSlider {
+                                id: dockBorderThicknessSlider
+                                width: parent.width
+                                height: 24
+                                value: SettingsData.dockBorderThickness
+                                minimum: 1
+                                maximum: 10
+                                unit: "px"
+                                showValue: true
+                                wheelEnabled: false
+                                thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                                onSliderValueChanged: newValue => {
+                                    SettingsData.set("dockBorderThickness", newValue);
+                                }
+                            }
                         }
                     }
                 }

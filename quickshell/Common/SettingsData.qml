@@ -275,6 +275,10 @@ Singleton {
     property real dockMargin: 0
     property real dockIconSize: 40
     property string dockIndicatorStyle: "circle"
+    property bool dockBorderEnabled: false
+    property string dockBorderColor: "surfaceText"
+    property real dockBorderOpacity: 1.0
+    property int dockBorderThickness: 1
 
     property bool notificationOverlayEnabled: false
     property int overviewRows: 2
