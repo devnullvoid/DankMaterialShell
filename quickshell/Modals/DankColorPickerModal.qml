@@ -44,7 +44,6 @@ DankModal {
     }
 
     function hideInstant() {
-        onColorSelectedCallback = null;
         instantClose();
     }
 
