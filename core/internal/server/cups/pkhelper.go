@@ -167,7 +167,7 @@ func (p *DBusPkHelper) JobSetHoldUntil(jobID int, holdUntil string) error {
 	return p.callSimple("JobSetHoldUntil", int32(jobID), holdUntil)
 }
 
-func (p *DBusPkHelper) callSimple(method string, args ...interface{}) error {
+func (p *DBusPkHelper) callSimple(method string, args ...any) error {
 	var errStr string
 
 	call := p.obj.Call(pkHelperInterface+"."+method, 0, args...)

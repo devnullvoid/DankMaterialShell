@@ -1346,7 +1346,7 @@ func Start(printDocs bool) error {
 	if wlContext != nil {
 		go func() {
 			err := <-wlContext.FatalError()
-			fatalErrChan <- fmt.Errorf("Wayland context fatal error: %w", err)
+			fatalErrChan <- fmt.Errorf("wayland context fatal error: %w", err)
 		}()
 	}
 

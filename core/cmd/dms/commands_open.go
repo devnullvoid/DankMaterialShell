@@ -186,7 +186,7 @@ func runOpen(target string) {
 		}
 	}
 
-	params := map[string]interface{}{
+	params := map[string]any{
 		"target": actualTarget,
 	}
 

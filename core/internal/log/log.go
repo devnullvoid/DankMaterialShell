@@ -104,13 +104,13 @@ func GetLogger() *Logger {
 
 // * Convenience wrappers
 
-func Debug(msg any, keyvals ...any)  { GetLogger().Logger.Debug(msg, keyvals...) }
-func Debugf(format string, v ...any) { GetLogger().Logger.Debugf(format, v...) }
-func Info(msg any, keyvals ...any)   { GetLogger().Logger.Info(msg, keyvals...) }
-func Infof(format string, v ...any)  { GetLogger().Logger.Infof(format, v...) }
-func Warn(msg any, keyvals ...any)   { GetLogger().Logger.Warn(msg, keyvals...) }
-func Warnf(format string, v ...any)  { GetLogger().Logger.Warnf(format, v...) }
-func Error(msg any, keyvals ...any)  { GetLogger().Logger.Error(msg, keyvals...) }
-func Errorf(format string, v ...any) { GetLogger().Logger.Errorf(format, v...) }
-func Fatal(msg any, keyvals ...any)  { GetLogger().Logger.Fatal(msg, keyvals...) }
-func Fatalf(format string, v ...any) { GetLogger().Logger.Fatalf(format, v...) }
+func Debug(msg any, keyvals ...any)  { GetLogger().Debug(msg, keyvals...) }
+func Debugf(format string, v ...any) { GetLogger().Debugf(format, v...) }
+func Info(msg any, keyvals ...any)   { GetLogger().Info(msg, keyvals...) }
+func Infof(format string, v ...any)  { GetLogger().Infof(format, v...) }
+func Warn(msg any, keyvals ...any)   { GetLogger().Warn(msg, keyvals...) }
+func Warnf(format string, v ...any)  { GetLogger().Warnf(format, v...) }
+func Error(msg any, keyvals ...any)  { GetLogger().Error(msg, keyvals...) }
+func Errorf(format string, v ...any) { GetLogger().Errorf(format, v...) }
+func Fatal(msg any, keyvals ...any)  { GetLogger().Fatal(msg, keyvals...) }
+func Fatalf(format string, v ...any) { GetLogger().Fatalf(format, v...) }

@@ -8,9 +8,9 @@ import (
 )
 
 type Request struct {
-	ID     int                    `json:"id"`
-	Method string                 `json:"method"`
-	Params map[string]interface{} `json:"params"`
+	ID     int            `json:"id"`
+	Method string         `json:"method"`
+	Params map[string]any `json:"params"`
 }
 
 func HandleRequest(conn net.Conn, req Request, manager *Manager) {
@@ -44,7 +44,7 @@ func handleOpen(conn net.Conn, req Request, manager *Manager) {
 		event.MimeType = mimeType
 	}
 
-	if categories, ok := req.Params["categories"].([]interface{}); ok {
+	if categories, ok := req.Params["categories"].([]any); ok {
 		event.Categories = make([]string, 0, len(categories))
 		for _, cat := range categories {
 			if catStr, ok := cat.(string); ok {

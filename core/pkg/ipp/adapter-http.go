@@ -122,7 +122,7 @@ func (h *HttpAdapter) GetHttpUri(namespace string, object any) string {
 }
 
 func (h *HttpAdapter) TestConnection() error {
-	conn, err := net.Dial("tcp", fmt.Sprintf("%s:%d", h.host, h.port))
+	conn, err := net.Dial("tcp", net.JoinHostPort(h.host, fmt.Sprintf("%d", h.port)))
 	if err != nil {
 		return err
 	}

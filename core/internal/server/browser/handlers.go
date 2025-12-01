@@ -7,9 +7,9 @@ import (
 )
 
 type Request struct {
-	ID     int                    `json:"id"`
-	Method string                 `json:"method"`
-	Params map[string]interface{} `json:"params"`
+	ID     int            `json:"id"`
+	Method string         `json:"method"`
+	Params map[string]any `json:"params"`
 }
 
 func HandleRequest(conn net.Conn, req Request, manager *Manager) {

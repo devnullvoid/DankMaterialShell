@@ -356,7 +356,7 @@ func TestHandleCreatePrinter(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.createPrinter",
-		Params: map[string]interface{}{
+		Params: map[string]any{
 			"name":      "newprinter",
 			"deviceURI": "usb://HP",
 			"ppd":       "generic.ppd",
@@ -377,10 +377,10 @@ func TestHandleCreatePrinter_MissingParams(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{ID: 1, Method: "cups.createPrinter", Params: map[string]interface{}{}}
+	req := Request{ID: 1, Method: "cups.createPrinter", Params: map[string]any{}}
 	handleCreatePrinter(conn, req, m)
 
-	var resp models.Response[interface{}]
+	var resp models.Response[any]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.Nil(t, resp.Result)
@@ -399,7 +399,7 @@ func TestHandleDeletePrinter(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.deletePrinter",
-		Params: map[string]interface{}{"printerName": "printer1"},
+		Params: map[string]any{"printerName": "printer1"},
 	}
 	handleDeletePrinter(conn, req, m)
 
@@ -422,7 +422,7 @@ func TestHandleAcceptJobs(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.acceptJobs",
-		Params: map[string]interface{}{"printerName": "printer1"},
+		Params: map[string]any{"printerName": "printer1"},
 	}
 	handleAcceptJobs(conn, req, m)
 
@@ -445,7 +445,7 @@ func TestHandleRejectJobs(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.rejectJobs",
-		Params: map[string]interface{}{"printerName": "printer1"},
+		Params: map[string]any{"printerName": "printer1"},
 	}
 	handleRejectJobs(conn, req, m)
 
@@ -468,7 +468,7 @@ func TestHandleSetPrinterShared(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.setPrinterShared",
-		Params: map[string]interface{}{"printerName": "printer1", "shared": true},
+		Params: map[string]any{"printerName": "printer1", "shared": true},
 	}
 	handleSetPrinterShared(conn, req, m)
 
@@ -491,7 +491,7 @@ func TestHandleSetPrinterLocation(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.setPrinterLocation",
-		Params: map[string]interface{}{"printerName": "printer1", "location": "Office"},
+		Params: map[string]any{"printerName": "printer1", "location": "Office"},
 	}
 	handleSetPrinterLocation(conn, req, m)
 
@@ -514,7 +514,7 @@ func TestHandleSetPrinterInfo(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.setPrinterInfo",
-		Params: map[string]interface{}{"printerName": "printer1", "info": "Main Printer"},
+		Params: map[string]any{"printerName": "printer1", "info": "Main Printer"},
 	}
 	handleSetPrinterInfo(conn, req, m)
 
@@ -537,7 +537,7 @@ func TestHandleMoveJob(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.moveJob",
-		Params: map[string]interface{}{"jobID": float64(1), "destPrinter": "printer2"},
+		Params: map[string]any{"jobID": float64(1), "destPrinter": "printer2"},
 	}
 	handleMoveJob(conn, req, m)
 
@@ -560,7 +560,7 @@ func TestHandlePrintTestPage(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.printTestPage",
-		Params: map[string]interface{}{"printerName": "printer1"},
+		Params: map[string]any{"printerName": "printer1"},
 	}
 	handlePrintTestPage(conn, req, m)
 
@@ -584,7 +584,7 @@ func TestHandleAddPrinterToClass(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.addPrinterToClass",
-		Params: map[string]interface{}{"className": "office", "printerName": "printer1"},
+		Params: map[string]any{"className": "office", "printerName": "printer1"},
 	}
 	handleAddPrinterToClass(conn, req, m)
 
@@ -607,7 +607,7 @@ func TestHandleRemovePrinterFromClass(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.removePrinterFromClass",
-		Params: map[string]interface{}{"className": "office", "printerName": "printer1"},
+		Params: map[string]any{"className": "office", "printerName": "printer1"},
 	}
 	handleRemovePrinterFromClass(conn, req, m)
 
@@ -630,7 +630,7 @@ func TestHandleDeleteClass(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.deleteClass",
-		Params: map[string]interface{}{"className": "office"},
+		Params: map[string]any{"className": "office"},
 	}
 	handleDeleteClass(conn, req, m)
 
@@ -653,7 +653,7 @@ func TestHandleRestartJob(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.restartJob",
-		Params: map[string]interface{}{"jobID": float64(1)},
+		Params: map[string]any{"jobID": float64(1)},
 	}
 	handleRestartJob(conn, req, m)
 
@@ -676,7 +676,7 @@ func TestHandleHoldJob(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.holdJob",
-		Params: map[string]interface{}{"jobID": float64(1)},
+		Params: map[string]any{"jobID": float64(1)},
 	}
 	handleHoldJob(conn, req, m)
 
@@ -699,7 +699,7 @@ func TestHandleHoldJob_WithHoldUntil(t *testing.T) {
 	req := Request{
 		ID:     1,
 		Method: "cups.holdJob",
-		Params: map[string]interface{}{"jobID": float64(1), "holdUntil": "no-hold"},
+		Params: map[string]any{"jobID": float64(1), "holdUntil": "no-hold"},
 	}
 	handleHoldJob(conn, req, m)
 

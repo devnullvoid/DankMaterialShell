@@ -64,7 +64,7 @@ func (l *FileLogger) writeToFile(message string) {
 	redacted := l.redactPassword(message)
 	timestamp := time.Now().Format("15:04:05.000")
 
-	l.writer.WriteString(fmt.Sprintf("[%s] %s\n", timestamp, redacted)) //nolint:errcheck
+	fmt.Fprintf(l.writer, "[%s] %s\n", timestamp, redacted)
 	l.writer.Flush()
 }
 

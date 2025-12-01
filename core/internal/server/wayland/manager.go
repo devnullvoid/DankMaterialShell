@@ -78,7 +78,7 @@ func NewManager(display *wlclient.Display, config Config) (*Manager, error) {
 			log.Info("Gamma control enabled at startup, initializing controls")
 			gammaMgr := m.gammaControl.(*wlr_gamma_control.ZwlrGammaControlManagerV1)
 			if err := func() error {
-				var outputs []*wlclient.Output = m.availableOutputs
+				outputs := m.availableOutputs
 				return m.setupOutputControls(outputs, gammaMgr)
 			}(); err != nil {
 				log.Errorf("Failed to initialize gamma controls: %v", err)
@@ -573,6 +573,7 @@ func (m *Manager) transitionWorker() {
 
 			log.Debugf("Starting smooth transition: %dK -> %dK over %v", currentTemp, targetTemp, dur)
 
+		stepLoop:
 			for i := 0; i <= steps; i++ {
 				select {
 				case newTarget := <-m.transitionChan:
@@ -580,7 +581,7 @@ func (m *Manager) transitionWorker() {
 					m.targetTemp = newTarget
 					m.transitionMutex.Unlock()
 					log.Debugf("Transition %dK -> %dK aborted (newer transition started)", currentTemp, targetTemp)
-					break
+					break stepLoop
 				default:
 				}
 
@@ -1214,7 +1215,7 @@ func (m *Manager) SetEnabled(enabled bool) {
 				log.Info("Creating gamma controls")
 				gammaMgr := m.gammaControl.(*wlr_gamma_control.ZwlrGammaControlManagerV1)
 				if err := func() error {
-					var outputs []*wlclient.Output = m.availableOutputs
+					outputs := m.availableOutputs
 					return m.setupOutputControls(outputs, gammaMgr)
 				}(); err != nil {
 					log.Errorf("Failed to create gamma controls: %v", err)
