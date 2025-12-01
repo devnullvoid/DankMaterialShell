@@ -1316,7 +1316,9 @@ func Start(printDocs bool) error {
 		}
 	}()
 
-	InitializeAppPickerManager()
+	if err := InitializeAppPickerManager(); err != nil {
+		log.Debugf("AppPicker manager unavailable: %v", err)
+	}
 
 	if err := InitializeDwlManager(); err != nil {
 		log.Debugf("DWL manager unavailable: %v", err)
