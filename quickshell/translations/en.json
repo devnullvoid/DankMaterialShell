@@ -12,6 +12,12 @@
     "comment": ""
   },
   {
+    "term": "%1 class(es)",
+    "context": "%1 class(es)",
+    "reference": "Modules/Settings/PrinterTab.qml:1239",
+    "comment": ""
+  },
+  {
     "term": "%1 connected",
     "context": "%1 connected",
     "reference": "Modules/Settings/NetworkTab.qml:288",
@@ -21,6 +27,18 @@
     "term": "%1 display(s)",
     "context": "%1 display(s)",
     "reference": "Modules/Settings/DankBarTab.qml:1243",
+    "comment": ""
+  },
+  {
+    "term": "%1 job(s)",
+    "context": "%1 job(s)",
+    "reference": "Modules/Settings/PrinterTab.qml:696",
+    "comment": ""
+  },
+  {
+    "term": "%1 printer(s)",
+    "context": "%1 printer(s)",
+    "reference": "Modules/Settings/PrinterTab.qml:550, Modules/Settings/PrinterTab.qml:1302",
     "comment": ""
   },
   {
@@ -84,9 +102,33 @@
     "comment": ""
   },
   {
+    "term": "API",
+    "context": "API",
+    "reference": "Modules/Settings/AboutTab.qml:664",
+    "comment": ""
+  },
+  {
+    "term": "Aborted",
+    "context": "Aborted",
+    "reference": "Services/CupsService.qml:751",
+    "comment": ""
+  },
+  {
     "term": "About",
     "context": "About",
-    "reference": "Modals/Settings/SettingsSidebar.qml:72, Modules/Settings/AboutTab.qml:408",
+    "reference": "Modals/Settings/SettingsSidebar.qml:78, Modules/Settings/AboutTab.qml:408",
+    "comment": ""
+  },
+  {
+    "term": "Accept Jobs",
+    "context": "Accept Jobs",
+    "reference": "Modules/Settings/PrinterTab.qml:970",
+    "comment": ""
+  },
+  {
+    "term": "Accepting",
+    "context": "Accepting",
+    "reference": "Modules/Settings/PrinterTab.qml:832",
     "comment": ""
   },
   {
@@ -153,6 +195,12 @@
     "term": "Add Bar",
     "context": "Add Bar",
     "reference": "Modules/Settings/DankBarTab.qml:1159",
+    "comment": ""
+  },
+  {
+    "term": "Add Printer",
+    "context": "Add Printer",
+    "reference": "Modules/Settings/PrinterTab.qml:210",
     "comment": ""
   },
   {
@@ -482,7 +530,7 @@
   {
     "term": "Available",
     "context": "Available",
-    "reference": "Modules/ProcessList/SystemTab.qml:464",
+    "reference": "Modules/ProcessList/SystemTab.qml:464, Modules/Settings/PrinterTab.qml:145",
     "comment": ""
   },
   {
@@ -524,7 +572,7 @@
   {
     "term": "Backend",
     "context": "Backend",
-    "reference": "Modules/Settings/NetworkTab.qml:116",
+    "reference": "Modules/Settings/AboutTab.qml:626, Modules/Settings/NetworkTab.qml:116",
     "comment": ""
   },
   {
@@ -686,13 +734,19 @@
   {
     "term": "CUPS Insecure Filter Warning",
     "context": "CUPS Insecure Filter Warning",
-    "reference": "Services/CupsService.qml:336",
+    "reference": "Services/CupsService.qml:807",
     "comment": ""
   },
   {
     "term": "CUPS Missing Filter Warning",
     "context": "CUPS Missing Filter Warning",
-    "reference": "Services/CupsService.qml:335",
+    "reference": "Services/CupsService.qml:806",
+    "comment": ""
+  },
+  {
+    "term": "CUPS Print Server",
+    "context": "CUPS Print Server",
+    "reference": "Modules/Settings/PrinterTab.qml:108",
     "comment": ""
   },
   {
@@ -705,6 +759,18 @@
     "term": "Cancel",
     "context": "Cancel",
     "reference": "Modals/BluetoothPairingModal.qml:272, Modals/PolkitAuthModal.qml:264, Modals/WifiPasswordModal.qml:605, Modals/FileBrowser/FileBrowserOverwriteDialog.qml:83, Modules/Settings/PluginBrowser.qml:634",
+    "comment": ""
+  },
+  {
+    "term": "Canceled",
+    "context": "Canceled",
+    "reference": "Services/CupsService.qml:749",
+    "comment": ""
+  },
+  {
+    "term": "Capabilities",
+    "context": "Capabilities",
+    "reference": "Modules/Settings/AboutTab.qml:719",
     "comment": ""
   },
   {
@@ -830,19 +896,25 @@
   {
     "term": "Clear",
     "context": "Clear",
-    "reference": "Modules/Notifications/Center/NotificationHeader.qml:98",
+    "reference": "Modules/Settings/PrinterTab.qml:1050, Modules/Notifications/Center/NotificationHeader.qml:98",
     "comment": ""
   },
   {
     "term": "Clear All",
     "context": "Clear All",
-    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:163",
+    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:163, Modules/Settings/PrinterTab.qml:1034",
     "comment": ""
   },
   {
     "term": "Clear All History?",
     "context": "Clear All History?",
     "reference": "Modals/Clipboard/ClipboardContent.qml:33",
+    "comment": ""
+  },
+  {
+    "term": "Clear All Jobs",
+    "context": "Clear All Jobs",
+    "reference": "Modules/Settings/PrinterTab.qml:1048",
     "comment": ""
   },
   {
@@ -966,6 +1038,12 @@
     "comment": ""
   },
   {
+    "term": "Completed",
+    "context": "Completed",
+    "reference": "Services/CupsService.qml:753",
+    "comment": ""
+  },
+  {
     "term": "Compositor",
     "context": "Compositor",
     "reference": "Modules/Settings/LauncherTab.qml:94",
@@ -975,6 +1053,12 @@
     "term": "Configuration activated",
     "context": "Configuration activated",
     "reference": "Services/DMSNetworkService.qml:389",
+    "comment": ""
+  },
+  {
+    "term": "Configure a new printer",
+    "context": "Configure a new printer",
+    "reference": "Modules/Settings/PrinterTab.qml:217",
     "comment": ""
   },
   {
@@ -1028,7 +1112,7 @@
   {
     "term": "Connected",
     "context": "Connected",
-    "reference": "Modules/Settings/NetworkTab.qml:384, Modules/Settings/NetworkTab.qml:1105, Modules/Settings/NetworkTab.qml:1429, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:21",
+    "reference": "Modules/Settings/AboutTab.qml:704, Modules/Settings/NetworkTab.qml:384, Modules/Settings/NetworkTab.qml:1105, Modules/Settings/NetworkTab.qml:1429, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:21",
     "comment": ""
   },
   {
@@ -1040,7 +1124,7 @@
   {
     "term": "Connecting to Device",
     "context": "Connecting to Device",
-    "reference": "Services/CupsService.qml:327",
+    "reference": "Services/CupsService.qml:798",
     "comment": ""
   },
   {
@@ -1106,13 +1190,25 @@
   {
     "term": "Cover Open",
     "context": "Cover Open",
-    "reference": "Services/CupsService.qml:316",
+    "reference": "Services/CupsService.qml:787",
     "comment": ""
   },
   {
     "term": "Create Dir",
     "context": "Create Dir",
     "reference": "Modules/Settings/PluginsTab.qml:150",
+    "comment": ""
+  },
+  {
+    "term": "Create Printer",
+    "context": "Create Printer",
+    "reference": "Modules/Settings/PrinterTab.qml:490",
+    "comment": ""
+  },
+  {
+    "term": "Creating...",
+    "context": "Creating...",
+    "reference": "Modules/Settings/PrinterTab.qml:490",
     "comment": ""
   },
   {
@@ -1202,7 +1298,7 @@
   {
     "term": "DMS out of date",
     "context": "DMS out of date",
-    "reference": "Services/DMSService.qml:304",
+    "reference": "Services/DMSService.qml:300",
     "comment": ""
   },
   {
@@ -1304,7 +1400,19 @@
   {
     "term": "Delete",
     "context": "Delete",
-    "reference": "Widgets/VpnDetailContent.qml:326, Modules/Settings/NetworkTab.qml:1692",
+    "reference": "Widgets/VpnDetailContent.qml:326, Modules/Settings/PrinterTab.qml:758, Modules/Settings/PrinterTab.qml:1338, Modules/Settings/NetworkTab.qml:1692",
+    "comment": ""
+  },
+  {
+    "term": "Delete Class",
+    "context": "Delete Class",
+    "reference": "Modules/Settings/PrinterTab.qml:1336",
+    "comment": ""
+  },
+  {
+    "term": "Delete Printer",
+    "context": "Delete Printer",
+    "reference": "Modules/Settings/PrinterTab.qml:756",
     "comment": ""
   },
   {
@@ -1317,6 +1425,12 @@
     "term": "Derives colors that closely match the underlying image.",
     "context": "Derives colors that closely match the underlying image.",
     "reference": "Common/Theme.qml:221",
+    "comment": ""
+  },
+  {
+    "term": "Description",
+    "context": "Description",
+    "reference": "Modules/Settings/PrinterTab.qml:466",
     "comment": ""
   },
   {
@@ -1334,7 +1448,7 @@
   {
     "term": "Device",
     "context": "Device",
-    "reference": "Modules/ProcessList/SystemTab.qml:420",
+    "reference": "Modules/ProcessList/SystemTab.qml:420, Modules/Settings/PrinterTab.qml:278",
     "comment": ""
   },
   {
@@ -1508,13 +1622,13 @@
   {
     "term": "Donate on Ko-fi",
     "context": "Donate on Ko-fi",
-    "reference": "Modules/Settings/AboutTab.qml:641",
+    "reference": "Modules/Settings/AboutTab.qml:794",
     "comment": ""
   },
   {
     "term": "Door Open",
     "context": "Door Open",
-    "reference": "Services/CupsService.qml:317",
+    "reference": "Services/CupsService.qml:788",
     "comment": ""
   },
   {
@@ -1526,7 +1640,7 @@
   {
     "term": "Driver",
     "context": "Driver",
-    "reference": "Modules/Settings/NetworkTab.qml:547",
+    "reference": "Modules/Settings/PrinterTab.qml:356, Modules/Settings/NetworkTab.qml:547",
     "comment": ""
   },
   {
@@ -1706,7 +1820,7 @@
   {
     "term": "Error",
     "context": "Error",
-    "reference": "Services/CupsService.qml:345",
+    "reference": "Services/CupsService.qml:816",
     "comment": ""
   },
   {
@@ -1752,15 +1866,21 @@
     "comment": ""
   },
   {
+    "term": "Failed to add printer to class",
+    "context": "Failed to add printer to class",
+    "reference": "Services/CupsService.qml:692",
+    "comment": ""
+  },
+  {
     "term": "Failed to cancel all jobs",
     "context": "Failed to cancel all jobs",
-    "reference": "Services/CupsService.qml:281",
+    "reference": "Services/CupsService.qml:436",
     "comment": ""
   },
   {
     "term": "Failed to cancel selected job",
     "context": "Failed to cancel selected job",
-    "reference": "Services/CupsService.qml:264",
+    "reference": "Services/CupsService.qml:420",
     "comment": ""
   },
   {
@@ -1776,9 +1896,33 @@
     "comment": ""
   },
   {
+    "term": "Failed to create printer",
+    "context": "Failed to create printer",
+    "reference": "Services/CupsService.qml:502",
+    "comment": ""
+  },
+  {
     "term": "Failed to delete VPN",
     "context": "Failed to delete VPN",
     "reference": "Services/VPNService.qml:156",
+    "comment": ""
+  },
+  {
+    "term": "Failed to delete class",
+    "context": "Failed to delete class",
+    "reference": "Services/CupsService.qml:725",
+    "comment": ""
+  },
+  {
+    "term": "Failed to delete printer",
+    "context": "Failed to delete printer",
+    "reference": "Services/CupsService.qml:519",
+    "comment": ""
+  },
+  {
+    "term": "Failed to disable job acceptance",
+    "context": "Failed to disable job acceptance",
+    "reference": "Services/CupsService.qml:555",
     "comment": ""
   },
   {
@@ -1806,6 +1950,18 @@
     "comment": ""
   },
   {
+    "term": "Failed to enable job acceptance",
+    "context": "Failed to enable job acceptance",
+    "reference": "Services/CupsService.qml:539",
+    "comment": ""
+  },
+  {
+    "term": "Failed to hold job",
+    "context": "Failed to hold job",
+    "reference": "Services/CupsService.qml:675",
+    "comment": ""
+  },
+  {
     "term": "Failed to import VPN",
     "context": "Failed to import VPN",
     "reference": "Services/VPNService.qml:84",
@@ -1818,9 +1974,21 @@
     "comment": ""
   },
   {
+    "term": "Failed to move job",
+    "context": "Failed to move job",
+    "reference": "Services/CupsService.qml:640",
+    "comment": ""
+  },
+  {
     "term": "Failed to pause printer",
     "context": "Failed to pause printer",
-    "reference": "Services/CupsService.qml:229",
+    "reference": "Services/CupsService.qml:387",
+    "comment": ""
+  },
+  {
+    "term": "Failed to print test page",
+    "context": "Failed to print test page",
+    "reference": "Services/CupsService.qml:622",
     "comment": ""
   },
   {
@@ -1830,9 +1998,21 @@
     "comment": ""
   },
   {
+    "term": "Failed to remove printer from class",
+    "context": "Failed to remove printer from class",
+    "reference": "Services/CupsService.qml:709",
+    "comment": ""
+  },
+  {
+    "term": "Failed to restart job",
+    "context": "Failed to restart job",
+    "reference": "Services/CupsService.qml:656",
+    "comment": ""
+  },
+  {
     "term": "Failed to resume printer",
     "context": "Failed to resume printer",
-    "reference": "Services/CupsService.qml:246",
+    "reference": "Services/CupsService.qml:403",
     "comment": ""
   },
   {
@@ -1866,9 +2046,33 @@
     "comment": ""
   },
   {
+    "term": "Failed to update description",
+    "context": "Failed to update description",
+    "reference": "Services/CupsService.qml:606",
+    "comment": ""
+  },
+  {
+    "term": "Failed to update location",
+    "context": "Failed to update location",
+    "reference": "Services/CupsService.qml:589",
+    "comment": ""
+  },
+  {
+    "term": "Failed to update sharing",
+    "context": "Failed to update sharing",
+    "reference": "Services/CupsService.qml:572",
+    "comment": ""
+  },
+  {
     "term": "Feels Like",
     "context": "Feels Like",
     "reference": "Modules/DankDash/WeatherTab.qml:260, Modules/Settings/TimeWeatherTab.qml:1082",
+    "comment": ""
+  },
+  {
+    "term": "File",
+    "context": "File",
+    "reference": "Services/CupsService.qml:134",
     "comment": ""
   },
   {
@@ -2094,6 +2298,12 @@
     "comment": ""
   },
   {
+    "term": "Held",
+    "context": "Held",
+    "reference": "Services/CupsService.qml:743",
+    "comment": ""
+  },
+  {
     "term": "Hex",
     "context": "Hex",
     "reference": "Modals/DankColorPickerModal.qml:524",
@@ -2204,7 +2414,7 @@
   {
     "term": "Idle",
     "context": "Idle",
-    "reference": "Services/CupsService.qml:289",
+    "reference": "Services/CupsService.qml:760",
     "comment": ""
   },
   {
@@ -2306,7 +2516,7 @@
   {
     "term": "Interlock Open",
     "context": "Interlock Open",
-    "reference": "Services/CupsService.qml:318",
+    "reference": "Services/CupsService.qml:789",
     "comment": ""
   },
   {
@@ -2330,7 +2540,7 @@
   {
     "term": "Jobs",
     "context": "Jobs",
-    "reference": "Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:169",
+    "reference": "Modules/Settings/PrinterTab.qml:1003, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:169",
     "comment": ""
   },
   {
@@ -2426,7 +2636,7 @@
   {
     "term": "Launcher",
     "context": "Launcher",
-    "reference": "Modals/Settings/SettingsSidebar.qml:52",
+    "reference": "Modals/Settings/SettingsSidebar.qml:58",
     "comment": ""
   },
   {
@@ -2480,7 +2690,19 @@
   {
     "term": "Loading...",
     "context": "Loading...",
-    "reference": "Widgets/VpnDetailContent.qml:363, Modules/Settings/NetworkTab.qml:617, Modules/Settings/NetworkTab.qml:1271, Modules/Settings/NetworkTab.qml:1729",
+    "reference": "Widgets/VpnDetailContent.qml:363, Modules/Settings/PrinterTab.qml:370, Modules/Settings/PrinterTab.qml:389, Modules/Settings/NetworkTab.qml:617, Modules/Settings/NetworkTab.qml:1271, Modules/Settings/NetworkTab.qml:1729",
+    "comment": ""
+  },
+  {
+    "term": "Local",
+    "context": "Local",
+    "reference": "Services/CupsService.qml:128",
+    "comment": ""
+  },
+  {
+    "term": "Location",
+    "context": "Location",
+    "reference": "Modules/Settings/PrinterTab.qml:444, Modules/Settings/PrinterTab.qml:828",
     "comment": ""
   },
   {
@@ -2588,25 +2810,25 @@
   {
     "term": "Marker Supply Empty",
     "context": "Marker Supply Empty",
-    "reference": "Services/CupsService.qml:303",
+    "reference": "Services/CupsService.qml:774",
     "comment": ""
   },
   {
     "term": "Marker Supply Low",
     "context": "Marker Supply Low",
-    "reference": "Services/CupsService.qml:302",
+    "reference": "Services/CupsService.qml:773",
     "comment": ""
   },
   {
     "term": "Marker Waste Almost Full",
     "context": "Marker Waste Almost Full",
-    "reference": "Services/CupsService.qml:304",
+    "reference": "Services/CupsService.qml:775",
     "comment": ""
   },
   {
     "term": "Marker Waste Full",
     "context": "Marker Waste Full",
-    "reference": "Services/CupsService.qml:305",
+    "reference": "Services/CupsService.qml:776",
     "comment": ""
   },
   {
@@ -2654,25 +2876,25 @@
   {
     "term": "Media Empty",
     "context": "Media Empty",
-    "reference": "Services/CupsService.qml:310",
+    "reference": "Services/CupsService.qml:781",
     "comment": ""
   },
   {
     "term": "Media Jam",
     "context": "Media Jam",
-    "reference": "Services/CupsService.qml:312",
+    "reference": "Services/CupsService.qml:783",
     "comment": ""
   },
   {
     "term": "Media Low",
     "context": "Media Low",
-    "reference": "Services/CupsService.qml:309",
+    "reference": "Services/CupsService.qml:780",
     "comment": ""
   },
   {
     "term": "Media Needed",
     "context": "Media Needed",
-    "reference": "Services/CupsService.qml:311",
+    "reference": "Services/CupsService.qml:782",
     "comment": ""
   },
   {
@@ -2762,7 +2984,7 @@
   {
     "term": "Model",
     "context": "Model",
-    "reference": "Modules/Settings/DisplaysTab.qml:628",
+    "reference": "Modules/Settings/PrinterTab.qml:823, Modules/Settings/DisplaysTab.qml:628",
     "comment": ""
   },
   {
@@ -2798,7 +3020,7 @@
   {
     "term": "Moving to Paused",
     "context": "Moving to Paused",
-    "reference": "Services/CupsService.qml:341",
+    "reference": "Services/CupsService.qml:812",
     "comment": ""
   },
   {
@@ -2816,7 +3038,7 @@
   {
     "term": "Name",
     "context": "Name",
-    "reference": "Modules/Settings/DisplaysTab.qml:628",
+    "reference": "Modules/Settings/PrinterTab.qml:422, Modules/Settings/DisplaysTab.qml:628",
     "comment": ""
   },
   {
@@ -2834,7 +3056,7 @@
   {
     "term": "Network",
     "context": "Network",
-    "reference": "Modals/Settings/SettingsSidebar.qml:46, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:757",
+    "reference": "Services/CupsService.qml:131, Modals/Settings/SettingsSidebar.qml:46, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:757",
     "comment": ""
   },
   {
@@ -2906,7 +3128,7 @@
   {
     "term": "No",
     "context": "No",
-    "reference": "Widgets/VpnDetailContent.qml:419, Modules/Settings/NetworkTab.qml:1785",
+    "reference": "Widgets/VpnDetailContent.qml:419, Modules/Settings/PrinterTab.qml:833, Modules/Settings/NetworkTab.qml:1785",
     "comment": ""
   },
   {
@@ -2958,6 +3180,18 @@
     "comment": ""
   },
   {
+    "term": "No devices found",
+    "context": "No devices found",
+    "reference": "Modules/Settings/PrinterTab.qml:300, Modules/Settings/PrinterTab.qml:304",
+    "comment": ""
+  },
+  {
+    "term": "No drivers found",
+    "context": "No drivers found",
+    "reference": "Modules/Settings/PrinterTab.qml:383, Modules/Settings/PrinterTab.qml:389",
+    "comment": ""
+  },
+  {
     "term": "No files found",
     "context": "No files found",
     "reference": "Modals/Spotlight/FileSearchResults.qml:234",
@@ -2994,9 +3228,21 @@
     "comment": ""
   },
   {
+    "term": "No printers configured",
+    "context": "No printers configured",
+    "reference": "Modules/Settings/PrinterTab.qml:549",
+    "comment": ""
+  },
+  {
+    "term": "No printers found",
+    "context": "No printers found",
+    "reference": "Modules/Settings/PrinterTab.qml:589",
+    "comment": ""
+  },
+  {
     "term": "None",
     "context": "None",
-    "reference": "Services/CupsService.qml:295",
+    "reference": "Services/CupsService.qml:766",
     "comment": ""
   },
   {
@@ -3014,7 +3260,7 @@
   {
     "term": "Notepad",
     "context": "Notepad",
-    "reference": "DMSShell.qml:452, Modules/Settings/DankBarTab.qml:527",
+    "reference": "DMSShell.qml:477, Modules/Settings/DankBarTab.qml:527",
     "comment": ""
   },
   {
@@ -3104,7 +3350,7 @@
   {
     "term": "Offline Report",
     "context": "Offline Report",
-    "reference": "Services/CupsService.qml:340",
+    "reference": "Services/CupsService.qml:811",
     "comment": ""
   },
   {
@@ -3156,9 +3402,21 @@
     "comment": ""
   },
   {
+    "term": "Optional description",
+    "context": "Optional description",
+    "reference": "Modules/Settings/PrinterTab.qml:477",
+    "comment": ""
+  },
+  {
+    "term": "Optional location",
+    "context": "Optional location",
+    "reference": "Modules/Settings/PrinterTab.qml:455",
+    "comment": ""
+  },
+  {
     "term": "Other",
     "context": "Other",
-    "reference": "Services/CupsService.qml:296",
+    "reference": "Services/CupsService.qml:767",
     "comment": ""
   },
   {
@@ -3182,19 +3440,19 @@
   {
     "term": "Output Area Almost Full",
     "context": "Output Area Almost Full",
-    "reference": "Services/CupsService.qml:320",
+    "reference": "Services/CupsService.qml:791",
     "comment": ""
   },
   {
     "term": "Output Area Full",
     "context": "Output Area Full",
-    "reference": "Services/CupsService.qml:321",
+    "reference": "Services/CupsService.qml:792",
     "comment": ""
   },
   {
     "term": "Output Tray Missing",
     "context": "Output Tray Missing",
-    "reference": "Services/CupsService.qml:319",
+    "reference": "Services/CupsService.qml:790",
     "comment": ""
   },
   {
@@ -3260,13 +3518,19 @@
   {
     "term": "Pause",
     "context": "Pause",
-    "reference": "Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:124",
+    "reference": "Modules/Settings/PrinterTab.qml:896, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:124",
     "comment": ""
   },
   {
     "term": "Paused",
     "context": "Paused",
-    "reference": "Services/CupsService.qml:325",
+    "reference": "Services/CupsService.qml:796",
+    "comment": ""
+  },
+  {
+    "term": "Pending",
+    "context": "Pending",
+    "reference": "Services/CupsService.qml:741",
     "comment": ""
   },
   {
@@ -3380,7 +3644,7 @@
   {
     "term": "Plugins",
     "context": "Plugins",
-    "reference": "Modals/Settings/SettingsSidebar.qml:67",
+    "reference": "Modals/Settings/SettingsSidebar.qml:73",
     "comment": ""
   },
   {
@@ -3416,7 +3680,7 @@
   {
     "term": "Power & Security",
     "context": "Power & Security",
-    "reference": "Modals/Settings/SettingsSidebar.qml:62",
+    "reference": "Modals/Settings/SettingsSidebar.qml:68",
     "comment": ""
   },
   {
@@ -3498,9 +3762,33 @@
     "comment": ""
   },
   {
+    "term": "Printer Classes",
+    "context": "Printer Classes",
+    "reference": "Modules/Settings/PrinterTab.qml:1232",
+    "comment": ""
+  },
+  {
+    "term": "Printer created successfully",
+    "context": "Printer created successfully",
+    "reference": "Services/CupsService.qml:504",
+    "comment": ""
+  },
+  {
+    "term": "Printer deleted",
+    "context": "Printer deleted",
+    "reference": "Services/CupsService.qml:521",
+    "comment": ""
+  },
+  {
+    "term": "Printer name (no spaces)",
+    "context": "Printer name (no spaces)",
+    "reference": "Modules/Settings/PrinterTab.qml:433",
+    "comment": ""
+  },
+  {
     "term": "Printers",
     "context": "Printers",
-    "reference": "Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:17",
+    "reference": "Modals/Settings/SettingsSidebar.qml:52, Modules/Settings/PrinterTab.qml:153, Modules/Settings/PrinterTab.qml:539, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:17",
     "comment": ""
   },
   {
@@ -3530,7 +3818,7 @@
   {
     "term": "Processing",
     "context": "Processing",
-    "reference": "Services/CupsService.qml:290",
+    "reference": "Services/CupsService.qml:745, Services/CupsService.qml:761",
     "comment": ""
   },
   {
@@ -3596,7 +3884,7 @@
   {
     "term": "Reason",
     "context": "Reason",
-    "reference": "Services/CupsService.qml:193",
+    "reference": "Services/CupsService.qml:352, Modules/Settings/PrinterTab.qml:818",
     "comment": ""
   },
   {
@@ -3618,9 +3906,21 @@
     "comment": ""
   },
   {
+    "term": "Recommended available",
+    "context": "Recommended available",
+    "reference": "Modules/Settings/PrinterTab.qml:379",
+    "comment": ""
+  },
+  {
     "term": "Refresh",
     "context": "Refresh",
     "reference": "Modules/DankDash/Overview/WeatherOverviewCard.qml:36",
+    "comment": ""
+  },
+  {
+    "term": "Reject Jobs",
+    "context": "Reject Jobs",
+    "reference": "Modules/Settings/PrinterTab.qml:970",
     "comment": ""
   },
   {
@@ -3638,7 +3938,7 @@
   {
     "term": "Report",
     "context": "Report",
-    "reference": "Services/CupsService.qml:347",
+    "reference": "Services/CupsService.qml:818",
     "comment": ""
   },
   {
@@ -3680,7 +3980,7 @@
   {
     "term": "Resume",
     "context": "Resume",
-    "reference": "Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:124",
+    "reference": "Modules/Settings/PrinterTab.qml:896, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:124",
     "comment": ""
   },
   {
@@ -3794,7 +4094,7 @@
   {
     "term": "Scanning...",
     "context": "Scanning...",
-    "reference": "Modules/Settings/NetworkTab.qml:987",
+    "reference": "Modules/Settings/PrinterTab.qml:292, Modules/Settings/PrinterTab.qml:304, Modules/Settings/NetworkTab.qml:987",
     "comment": ""
   },
   {
@@ -3848,7 +4148,7 @@
   {
     "term": "Search...",
     "context": "Search...",
-    "reference": "Widgets/DankDropdown.qml:268",
+    "reference": "Widgets/DankDropdown.qml:279",
     "comment": ""
   },
   {
@@ -3884,19 +4184,19 @@
   {
     "term": "Select Profile Image",
     "context": "profile image file browser title",
-    "reference": "Modals/Settings/SettingsModal.qml:75",
+    "reference": "Modals/Settings/SettingsModal.qml:84",
     "comment": ""
   },
   {
     "term": "Select Wallpaper",
     "context": "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title",
-    "reference": "Modals/Settings/SettingsModal.qml:94, Modules/Settings/PersonalizationTab.qml:2144, Modules/Settings/PersonalizationTab.qml:2163, Modules/Settings/PersonalizationTab.qml:2180",
+    "reference": "Modals/Settings/SettingsModal.qml:103, Modules/Settings/PersonalizationTab.qml:2144, Modules/Settings/PersonalizationTab.qml:2163, Modules/Settings/PersonalizationTab.qml:2180",
     "comment": ""
   },
   {
     "term": "Select Wallpaper Directory",
     "context": "wallpaper directory file browser title",
-    "reference": "Modules/DankDash/WallpaperTab.qml:292",
+    "reference": "Modules/DankDash/WallpaperTab.qml:299",
     "comment": ""
   },
   {
@@ -3921,6 +4221,18 @@
     "term": "Select an image file...",
     "context": "Select an image file...",
     "reference": "Modules/Settings/LauncherTab.qml:155",
+    "comment": ""
+  },
+  {
+    "term": "Select device...",
+    "context": "Select device...",
+    "reference": "Modules/Settings/PrinterTab.qml:295",
+    "comment": ""
+  },
+  {
+    "term": "Select driver...",
+    "context": "Select driver...",
+    "reference": "Modules/Settings/PrinterTab.qml:379",
     "comment": ""
   },
   {
@@ -3998,7 +4310,7 @@
   {
     "term": "Settings",
     "context": "settings window title",
-    "reference": "Services/AppSearchService.qml:269, Modals/Settings/SettingsModal.qml:41, Modals/Settings/SettingsModal.qml:184, Modules/DankDash/DankDashPopout.qml:290",
+    "reference": "Services/AppSearchService.qml:269, Modals/Settings/SettingsModal.qml:41, Modals/Settings/SettingsModal.qml:193, Modules/DankDash/DankDashPopout.qml:290",
     "comment": ""
   },
   {
@@ -4232,7 +4544,7 @@
   {
     "term": "Shutdown",
     "context": "Shutdown",
-    "reference": "Services/CupsService.qml:326",
+    "reference": "Services/CupsService.qml:797",
     "comment": ""
   },
   {
@@ -4292,7 +4604,7 @@
   {
     "term": "Spool Area Full",
     "context": "Spool Area Full",
-    "reference": "Services/CupsService.qml:334",
+    "reference": "Services/CupsService.qml:805",
     "comment": ""
   },
   {
@@ -4316,31 +4628,31 @@
   {
     "term": "State",
     "context": "State",
-    "reference": "Modules/Settings/NetworkTab.qml:551",
+    "reference": "Modules/Settings/PrinterTab.qml:813, Modules/Settings/NetworkTab.qml:551",
     "comment": ""
   },
   {
     "term": "Status",
     "context": "Status",
-    "reference": "Widgets/DankIconPicker.qml:49, Modules/Settings/NetworkTab.qml:128",
+    "reference": "Widgets/DankIconPicker.qml:49, Modules/Settings/AboutTab.qml:687, Modules/Settings/PrinterTab.qml:129, Modules/Settings/NetworkTab.qml:128",
     "comment": ""
   },
   {
     "term": "Stopped",
     "context": "Stopped",
-    "reference": "Services/CupsService.qml:291",
+    "reference": "Services/CupsService.qml:747, Services/CupsService.qml:762",
     "comment": ""
   },
   {
     "term": "Stopped Partly",
     "context": "Stopped Partly",
-    "reference": "Services/CupsService.qml:330",
+    "reference": "Services/CupsService.qml:801",
     "comment": ""
   },
   {
     "term": "Stopping",
     "context": "Stopping",
-    "reference": "Services/CupsService.qml:329",
+    "reference": "Services/CupsService.qml:800",
     "comment": ""
   },
   {
@@ -4352,7 +4664,7 @@
   {
     "term": "Support Development",
     "context": "Support Development",
-    "reference": "Modules/Settings/AboutTab.qml:626",
+    "reference": "Modules/Settings/AboutTab.qml:779",
     "comment": ""
   },
   {
@@ -4500,6 +4812,18 @@
     "comment": ""
   },
   {
+    "term": "Test Page",
+    "context": "Test Page",
+    "reference": "Modules/Settings/PrinterTab.qml:936",
+    "comment": ""
+  },
+  {
+    "term": "Test page sent to printer",
+    "context": "Test page sent to printer",
+    "reference": "Services/CupsService.qml:624",
+    "comment": ""
+  },
+  {
     "term": "Text",
     "context": "Text",
     "reference": "Modals/Clipboard/ClipboardEntry.qml:87",
@@ -4526,7 +4850,7 @@
   {
     "term": "Theme & Colors",
     "context": "Theme & Colors",
-    "reference": "Modals/Settings/SettingsSidebar.qml:57",
+    "reference": "Modals/Settings/SettingsSidebar.qml:63",
     "comment": ""
   },
   {
@@ -4574,7 +4898,7 @@
   {
     "term": "Timed Out",
     "context": "Timed Out",
-    "reference": "Services/CupsService.qml:328",
+    "reference": "Services/CupsService.qml:799",
     "comment": ""
   },
   {
@@ -4586,7 +4910,7 @@
   {
     "term": "To update, run the following command:",
     "context": "To update, run the following command:",
-    "reference": "Services/DMSService.qml:304",
+    "reference": "Services/DMSService.qml:300",
     "comment": ""
   },
   {
@@ -4628,13 +4952,13 @@
   {
     "term": "Toner Empty",
     "context": "Toner Empty",
-    "reference": "Services/CupsService.qml:301",
+    "reference": "Services/CupsService.qml:772",
     "comment": ""
   },
   {
     "term": "Toner Low",
     "context": "Toner Low",
-    "reference": "Services/CupsService.qml:300",
+    "reference": "Services/CupsService.qml:771",
     "comment": ""
   },
   {
@@ -4656,6 +4980,12 @@
     "comment": ""
   },
   {
+    "term": "Total Jobs",
+    "context": "Total Jobs",
+    "reference": "Modules/Settings/PrinterTab.qml:165",
+    "comment": ""
+  },
+  {
     "term": "Transition Effect",
     "context": "Transition Effect",
     "reference": "Modules/Settings/PersonalizationTab.qml:1370",
@@ -4670,7 +5000,7 @@
   {
     "term": "Unavailable",
     "context": "Unavailable",
-    "reference": "Modules/Settings/NetworkTab.qml:388",
+    "reference": "Modules/Settings/PrinterTab.qml:145, Modules/Settings/NetworkTab.qml:388",
     "comment": ""
   },
   {
@@ -4682,7 +5012,7 @@
   {
     "term": "Unknown",
     "context": "Unknown",
-    "reference": "Modules/Settings/NetworkTab.qml:121, Modules/Settings/NetworkTab.qml:163, Modules/Settings/NetworkTab.qml:369, Modules/Settings/NetworkTab.qml:390, Modules/Settings/NetworkTab.qml:552, Modules/Settings/NetworkTab.qml:681, Modules/Settings/NetworkTab.qml:1085",
+    "reference": "Modules/Settings/PrinterTab.qml:1296, Modules/Settings/NetworkTab.qml:121, Modules/Settings/NetworkTab.qml:163, Modules/Settings/NetworkTab.qml:369, Modules/Settings/NetworkTab.qml:390, Modules/Settings/NetworkTab.qml:552, Modules/Settings/NetworkTab.qml:681, Modules/Settings/NetworkTab.qml:1085",
     "comment": ""
   },
   {
@@ -4884,6 +5214,12 @@
     "comment": ""
   },
   {
+    "term": "Version",
+    "context": "Version",
+    "reference": "Modules/Settings/AboutTab.qml:641",
+    "comment": ""
+  },
+  {
     "term": "Vertical Deck",
     "context": "Vertical Deck",
     "reference": "Modules/DankBar/Popouts/DWLLayoutPopout.qml:58",
@@ -4976,7 +5312,7 @@
   {
     "term": "Warning",
     "context": "Warning",
-    "reference": "Services/CupsService.qml:346",
+    "reference": "Services/CupsService.qml:817",
     "comment": ""
   },
   {
@@ -5126,7 +5462,7 @@
   {
     "term": "Yes",
     "context": "Yes",
-    "reference": "Widgets/VpnDetailContent.qml:419, Modules/Settings/NetworkTab.qml:1785",
+    "reference": "Widgets/VpnDetailContent.qml:419, Modules/Settings/PrinterTab.qml:833, Modules/Settings/NetworkTab.qml:1785",
     "comment": ""
   },
   {

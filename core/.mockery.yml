@@ -34,12 +34,16 @@ packages:
       outpkg: mocks_network
     interfaces:
       Backend:
-  github.com/AvengeMedia/danklinux/internal/server/cups:
+  github.com/AvengeMedia/DankMaterialShell/core/internal/server/cups:
     config:
       dir: "internal/mocks/cups"
       outpkg: mocks_cups
     interfaces:
       CUPSClientInterface:
+      PkHelper:
+        config:
+          dir: "internal/mocks/cups_pkhelper"
+          outpkg: mocks_cups_pkhelper
   github.com/AvengeMedia/DankMaterialShell/core/internal/server/evdev:
     config:
       dir: "internal/mocks/evdev"

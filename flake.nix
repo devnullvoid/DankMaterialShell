@@ -51,7 +51,7 @@
 
                     pname = "dmsCli";
                     src = ./core;
-                    vendorHash = "sha256-nc4CvEPfJ6l16/zmhnXr1jqpi6BeSXd3g/51djbEfpQ=";
+                    vendorHash = "sha256-wruiGaQaixqYst/zkdxjOhjKCbj6GvSaM3IdtNTeo50=";
 
                     subPackages = ["cmd/dms"];
 

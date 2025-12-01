@@ -32,7 +32,9 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
-const APIVersion = 21
+const APIVersion = 22
+
+var CLIVersion = "dev"
 
 type Capabilities struct {
 	Capabilities []string `json:"capabilities"`
@@ -40,6 +42,7 @@ type Capabilities struct {
 
 type ServerInfo struct {
 	APIVersion   int      `json:"apiVersion"`
+	CLIVersion   string   `json:"cliVersion,omitempty"`
 	Capabilities []string `json:"capabilities"`
 }
 
@@ -340,7 +343,6 @@ func handleConnection(conn net.Conn) {
 	capsData, _ := json.Marshal(caps)
 	conn.Write(capsData)
 	conn.Write([]byte("\n"))
-
 	scanner := bufio.NewScanner(conn)
 	for scanner.Scan() {
 		line := scanner.Bytes()
@@ -463,6 +465,7 @@ func getServerInfo() ServerInfo {
 
 	return ServerInfo{
 		APIVersion:   APIVersion,
+		CLIVersion:   CLIVersion,
 		Capabilities: caps,
 	}
 }

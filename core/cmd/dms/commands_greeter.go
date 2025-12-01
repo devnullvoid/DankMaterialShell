@@ -11,6 +11,8 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/greeter"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/spf13/cobra"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 var greeterCmd = &cobra.Command{
@@ -258,7 +260,7 @@ func disableDisplayManager(dmName string) (bool, error) {
 		} else if shouldDisable {
 			return actionTaken, fmt.Errorf("%s is still in state '%s' after %s operation", dmName, enabledState, actionVerb)
 		} else {
-			fmt.Printf("  ✓ %s %s (now: %s)\n", strings.Title(actionVerb), dmName, enabledState)
+			fmt.Printf("  ✓ %s %s (now: %s)\n", cases.Title(language.English).String(actionVerb), dmName, enabledState)
 		}
 
 		actionTaken = true
@@ -298,7 +300,8 @@ func ensureGreetdEnabled() error {
 		fmt.Println("  ✓ Unmasked greetd")
 	}
 
-	if state.EnabledState == "disabled" || state.EnabledState == "masked" || state.EnabledState == "masked-runtime" {
+	switch state.EnabledState {
+	case "disabled", "masked", "masked-runtime":
 		fmt.Println("  Enabling greetd service...")
 		enableCmd := exec.Command("sudo", "systemctl", "enable", "greetd")
 		enableCmd.Stdout = os.Stdout
@@ -307,9 +310,9 @@ func ensureGreetdEnabled() error {
 			return fmt.Errorf("failed to enable greetd: %w", err)
 		}
 		fmt.Println("  ✓ Enabled greetd service")
-	} else if state.EnabledState == "enabled" || state.EnabledState == "enabled-runtime" {
+	case "enabled", "enabled-runtime":
 		fmt.Println("  ✓ greetd is already enabled")
-	} else {
+	default:
 		fmt.Printf("  ℹ greetd is in state '%s' (should work, no action needed)\n", state.EnabledState)
 	}
 

@@ -10,6 +10,18 @@ DankOSD {
     readonly property var player: MprisController.activePlayer
     readonly property int currentVolume: player ? Math.min(100, Math.round(player.volume * 100)) : 0
     readonly property bool volumeSupported: player?.volumeSupported ?? false
+    property bool _suppressNewPlayer: false
+
+    onPlayerChanged: {
+        _suppressNewPlayer = true;
+        _suppressTimer.restart();
+    }
+
+    Timer {
+        id: _suppressTimer
+        interval: 2000
+        onTriggered: _suppressNewPlayer = false
+    }
 
     osdWidth: useVertical ? (40 + Theme.spacingS * 2) : Math.min(260, Screen.width - Theme.spacingM * 2)
     osdHeight: useVertical ? Math.min(260, Screen.height - Theme.spacingM * 2) : (40 + Theme.spacingS * 2)
@@ -41,7 +53,7 @@ DankOSD {
         target: player
 
         function onVolumeChanged() {
-            if (SettingsData.osdMediaVolumeEnabled && volumeSupported) {
+            if (SettingsData.osdMediaVolumeEnabled && volumeSupported && !_suppressNewPlayer) {
                 root.show();
             }
         }

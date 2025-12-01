@@ -49,32 +49,44 @@ Rectangle {
             "tabIndex": 6
         },
         {
+            "text": I18n.tr("Printers"),
+            "icon": "print",
+            "cupsOnly": true,
+            "tabIndex": 7
+        },
+        {
             "text": I18n.tr("Launcher"),
             "icon": "apps",
-            "tabIndex": 7
+            "tabIndex": 8
         },
         {
             "text": I18n.tr("Theme & Colors"),
             "icon": "palette",
-            "tabIndex": 8
+            "tabIndex": 9
         },
         {
             "text": I18n.tr("Power & Security"),
             "icon": "power",
-            "tabIndex": 9
+            "tabIndex": 10
         },
         {
             "text": I18n.tr("Plugins"),
             "icon": "extension",
-            "tabIndex": 10
+            "tabIndex": 11
         },
         {
             "text": I18n.tr("About"),
             "icon": "info",
-            "tabIndex": 11
+            "tabIndex": 12
         }
     ]
-    readonly property var sidebarItems: allSidebarItems.filter(item => !item.dmsOnly || !NetworkService.usingLegacy)
+    readonly property var sidebarItems: allSidebarItems.filter(item => {
+        if (item.dmsOnly && NetworkService.usingLegacy)
+            return false;
+        if (item.cupsOnly && !CupsService.cupsAvailable)
+            return false;
+        return true;
+    })
 
     function navigateNext() {
         const currentItemIndex = sidebarItems.findIndex(item => item.tabIndex === currentIndex);

@@ -5,11 +5,20 @@
   "%1 characters": {
     "%1 characters": "%1 文字"
   },
+  "%1 class(es)": {
+    "%1 class(es)": ""
+  },
   "%1 connected": {
     "%1 connected": ""
   },
   "%1 display(s)": {
     "%1 display(s)": "%1 表示"
+  },
+  "%1 job(s)": {
+    "%1 job(s)": ""
+  },
+  "%1 printer(s)": {
+    "%1 printer(s)": ""
   },
   "%1 widgets": {
     "%1 widgets": "%1 ウィジェット"
@@ -41,8 +50,20 @@
   "A file with this name already exists. Do you want to overwrite it?": {
     "A file with this name already exists. Do you want to overwrite it?": "この名前のファイルは既に存在します。上書きしてもよろしいですか?"
   },
+  "API": {
+    "API": ""
+  },
+  "Aborted": {
+    "Aborted": ""
+  },
   "About": {
     "About": "詳細"
+  },
+  "Accept Jobs": {
+    "Accept Jobs": ""
+  },
+  "Accepting": {
+    "Accepting": ""
   },
   "Access clipboard history": {
     "Access clipboard history": "クリップボードの履歴へのアクセス"
@@ -76,6 +97,9 @@
   },
   "Add Bar": {
     "Add Bar": "バーを作る"
+  },
+  "Add Printer": {
+    "Add Printer": ""
   },
   "Add Widget": {
     "Add Widget": "ウィジェットを追加"
@@ -377,11 +401,20 @@
   "CUPS Missing Filter Warning": {
     "CUPS Missing Filter Warning": "CUPS の欠落フィルターの警告"
   },
+  "CUPS Print Server": {
+    "CUPS Print Server": ""
+  },
   "Camera": {
     "Camera": "カメラ"
   },
   "Cancel": {
     "Cancel": "キャンセル"
+  },
+  "Canceled": {
+    "Canceled": ""
+  },
+  "Capabilities": {
+    "Capabilities": ""
   },
   "Capacity": {
     "Capacity": "容量"
@@ -452,6 +485,9 @@
   "Clear All History?": {
     "Clear All History?": "すべての履歴をクリアしますか？"
   },
+  "Clear All Jobs": {
+    "Clear All Jobs": ""
+  },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": ""
   },
@@ -512,11 +548,17 @@
   "Compact Mode": {
     "Compact Mode": "コンパクトモード"
   },
+  "Completed": {
+    "Completed": ""
+  },
   "Compositor": {
     "Compositor": "コンポジター"
   },
   "Configuration activated": {
     "Configuration activated": "設定が適用されました"
+  },
+  "Configure a new printer": {
+    "Configure a new printer": ""
   },
   "Configure icons for named workspaces. Icons take priority over numbers when both are enabled.": {
     "Configure icons for named workspaces. Icons take priority over numbers when both are enabled.": "名前付きワークスペースのアイコンを設定します。両方が有効になっている場合、アイコンが数字よりも優先されます。"
@@ -592,6 +634,12 @@
   },
   "Create Dir": {
     "Create Dir": "ディレクトリを作成"
+  },
+  "Create Printer": {
+    "Create Printer": ""
+  },
+  "Creating...": {
+    "Creating...": ""
   },
   "Critical Priority": {
     "Critical Priority": "最優先事項"
@@ -695,11 +743,20 @@
   "Delete": {
     "Delete": ""
   },
+  "Delete Class": {
+    "Delete Class": ""
+  },
+  "Delete Printer": {
+    "Delete Printer": ""
+  },
   "Delete VPN": {
     "Delete VPN": ""
   },
   "Derives colors that closely match the underlying image.": {
     "Derives colors that closely match the underlying image.": "下にある画像に密接に一致する色を導き出します。"
+  },
+  "Description": {
+    "Description": ""
   },
   "Desktop background images": {
     "Desktop background images": "デスクトップの背景画像"
@@ -917,6 +974,9 @@
   "Failed to activate configuration": {
     "Failed to activate configuration": "設定が適用できませんでした"
   },
+  "Failed to add printer to class": {
+    "Failed to add printer to class": ""
+  },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "すべてのジョブの取り消しに失敗しました"
   },
@@ -929,8 +989,20 @@
   "Failed to connect to ": {
     "Failed to connect to ": "接続ができませんでした "
   },
+  "Failed to create printer": {
+    "Failed to create printer": ""
+  },
   "Failed to delete VPN": {
     "Failed to delete VPN": ""
+  },
+  "Failed to delete class": {
+    "Failed to delete class": ""
+  },
+  "Failed to delete printer": {
+    "Failed to delete printer": ""
+  },
+  "Failed to disable job acceptance": {
+    "Failed to disable job acceptance": ""
   },
   "Failed to disconnect VPN": {
     "Failed to disconnect VPN": "VPNへの切断が失敗しました"
@@ -944,17 +1016,35 @@
   "Failed to enable WiFi": {
     "Failed to enable WiFi": "WiFiを有効化にできませんでした"
   },
+  "Failed to enable job acceptance": {
+    "Failed to enable job acceptance": ""
+  },
+  "Failed to hold job": {
+    "Failed to hold job": ""
+  },
   "Failed to import VPN": {
     "Failed to import VPN": ""
   },
   "Failed to load VPN config": {
     "Failed to load VPN config": ""
   },
+  "Failed to move job": {
+    "Failed to move job": ""
+  },
   "Failed to pause printer": {
     "Failed to pause printer": "プリンターの一時中断に失敗しました"
   },
+  "Failed to print test page": {
+    "Failed to print test page": ""
+  },
   "Failed to remove device": {
     "Failed to remove device": "デバイスの削除に失敗しました"
+  },
+  "Failed to remove printer from class": {
+    "Failed to remove printer from class": ""
+  },
+  "Failed to restart job": {
+    "Failed to restart job": ""
   },
   "Failed to resume printer": {
     "Failed to resume printer": "プリンタの再開に失敗しました"
@@ -974,8 +1064,20 @@
   "Failed to update autoconnect": {
     "Failed to update autoconnect": "自動接続の更新が失敗しました"
   },
+  "Failed to update description": {
+    "Failed to update description": ""
+  },
+  "Failed to update location": {
+    "Failed to update location": ""
+  },
+  "Failed to update sharing": {
+    "Failed to update sharing": ""
+  },
   "Feels Like": {
     "Feels Like": "どうやら"
+  },
+  "File": {
+    "File": ""
   },
   "File Already Exists": {
     "File Already Exists": "ファイルが既に存在します"
@@ -1090,6 +1192,9 @@
   },
   "Height to Edge Gap (Exclusive Zone)": {
     "Height to Edge Gap (Exclusive Zone)": "エッジギャップまでの高さ（排他ゾーン）"
+  },
+  "Held": {
+    "Held": ""
   },
   "Hex": {
     "Hex": "16進数"
@@ -1285,6 +1390,12 @@
   },
   "Loading...": {
     "Loading...": ""
+  },
+  "Local": {
+    "Local": ""
+  },
+  "Location": {
+    "Location": ""
   },
   "Location Search": {
     "Location Search": "ロケーション検索"
@@ -1529,6 +1640,12 @@
   "No clipboard entries found": {
     "No clipboard entries found": "クリップボードのエントリが見つかりませんでした"
   },
+  "No devices found": {
+    "No devices found": ""
+  },
+  "No drivers found": {
+    "No drivers found": ""
+  },
   "No files found": {
     "No files found": "ファイルが見つかりませんでした"
   },
@@ -1546,6 +1663,12 @@
   },
   "No printer found": {
     "No printer found": "プリンターが見つかりませんでした"
+  },
+  "No printers configured": {
+    "No printers configured": ""
+  },
+  "No printers found": {
+    "No printers found": ""
   },
   "None": {
     "None": "ない"
@@ -1628,6 +1751,12 @@
   "Open search bar to find text": {
     "Open search bar to find text": "検索バーを開いてテキストを検索"
   },
+  "Optional description": {
+    "Optional description": ""
+  },
+  "Optional location": {
+    "Optional location": ""
+  },
   "Other": {
     "Other": "他"
   },
@@ -1684,6 +1813,9 @@
   },
   "Paused": {
     "Paused": "一時停止"
+  },
+  "Pending": {
+    "Pending": ""
   },
   "Per-Mode Wallpapers": {
     "Per-Mode Wallpapers": "モードごとの壁紙"
@@ -1799,6 +1931,18 @@
   "Printer": {
     "Printer": ""
   },
+  "Printer Classes": {
+    "Printer Classes": ""
+  },
+  "Printer created successfully": {
+    "Printer created successfully": ""
+  },
+  "Printer deleted": {
+    "Printer deleted": ""
+  },
+  "Printer name (no spaces)": {
+    "Printer name (no spaces)": ""
+  },
   "Printers": {
     "Printers": "プリンター"
   },
@@ -1859,8 +2003,14 @@
   "Recently Used Apps": {
     "Recently Used Apps": "最近使用したアプリ"
   },
+  "Recommended available": {
+    "Recommended available": ""
+  },
   "Refresh": {
     "Refresh": "リフレッシュ"
+  },
+  "Reject Jobs": {
+    "Reject Jobs": ""
   },
   "Reload Plugin": {
     "Reload Plugin": "プラグインをリロード"
@@ -2008,6 +2158,12 @@
   },
   "Select an image file...": {
     "Select an image file...": "画像ファイルを選ぶ..."
+  },
+  "Select device...": {
+    "Select device...": ""
+  },
+  "Select driver...": {
+    "Select driver...": ""
   },
   "Select font weight": {
     "Select font weight": "フォントの太さを選ぶ"
@@ -2303,6 +2459,12 @@
   "Terminals - Always use Dark Theme": {
     "Terminals - Always use Dark Theme": "端末 - 常にダークテーマを使用"
   },
+  "Test Page": {
+    "Test Page": ""
+  },
+  "Test page sent to printer": {
+    "Test page sent to printer": ""
+  },
   "Text": {
     "Text": "テキスト"
   },
@@ -2380,6 +2542,9 @@
   },
   "Top Section": {
     "Top Section": "トップセクション"
+  },
+  "Total Jobs": {
+    "Total Jobs": ""
   },
   "Transition Effect": {
     "Transition Effect": "トランジション効果"
@@ -2500,6 +2665,9 @@
   },
   "VRR: ": {
     "VRR: ": "VRR: "
+  },
+  "Version": {
+    "Version": ""
   },
   "Vertical Deck": {
     "Vertical Deck": "垂直デッキ"

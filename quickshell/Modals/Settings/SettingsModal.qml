@@ -67,6 +67,15 @@ FloatingWindow {
         }
     }
 
+    Loader {
+        active: settingsModal.visible
+        sourceComponent: Component {
+            Ref {
+                service: CupsService
+            }
+        }
+    }
+
     FileBrowserModal {
         id: profileBrowser
 
@@ -112,7 +121,7 @@ FloatingWindow {
         focus: true
 
         Keys.onPressed: event => {
-            const tabCount = 12;
+            const tabCount = 13;
             if (event.key === Qt.Key_Escape) {
                 hide();
                 event.accepted = true;

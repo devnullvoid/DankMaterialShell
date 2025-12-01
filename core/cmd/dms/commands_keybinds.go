@@ -64,6 +64,11 @@ func initializeProviders() {
 		log.Warnf("Failed to register Sway provider: %v", err)
 	}
 
+	niriProvider := providers.NewNiriProvider("")
+	if err := registry.Register(niriProvider); err != nil {
+		log.Warnf("Failed to register Niri provider: %v", err)
+	}
+
 	config := keybinds.DefaultDiscoveryConfig()
 	if err := keybinds.AutoDiscoverProviders(registry, config); err != nil {
 		log.Warnf("Failed to auto-discover providers: %v", err)
@@ -99,6 +104,8 @@ func runKeybindsShow(cmd *cobra.Command, args []string) {
 			provider = providers.NewMangoWCProvider(customPath)
 		case "sway":
 			provider = providers.NewSwayProvider(customPath)
+		case "niri":
+			provider = providers.NewNiriProvider(customPath)
 		default:
 			log.Fatalf("Provider %s does not support custom path", providerName)
 		}

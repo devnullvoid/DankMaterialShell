@@ -140,6 +140,7 @@ func runVersion(cmd *cobra.Command, args []string) {
 }
 
 func startDebugServer() error {
+	server.CLIVersion = Version
 	return server.Start(true)
 }
 

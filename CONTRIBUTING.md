@@ -4,6 +4,14 @@ Contributions are welcome and encouraged.
 
 To contribute fork this repository, make your changes, and open a pull request.
 
+## Setup
+
+Enable pre-commit hooks to catch CI failures before pushing:
+
+```bash
+git config core.hooksPath .githooks
+```
+
 ## VSCode Setup
 
 This is a monorepo, the easiest thing to do is to open an editor in either `quickshell`, `core`, or both depending on which part of the project you are working on.

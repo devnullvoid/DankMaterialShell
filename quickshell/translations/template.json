@@ -14,6 +14,13 @@
     "comment": ""
   },
   {
+    "term": "%1 class(es)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "%1 connected",
     "translation": "",
     "context": "",
@@ -22,6 +29,20 @@
   },
   {
     "term": "%1 display(s)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "%1 job(s)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "%1 printer(s)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -98,7 +119,35 @@
     "comment": ""
   },
   {
+    "term": "API",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Aborted",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "About",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Accept Jobs",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Accepting",
     "translation": "",
     "context": "",
     "reference": "",
@@ -176,6 +225,13 @@
   },
   {
     "term": "Add Bar",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Add Printer",
     "translation": "",
     "context": "",
     "reference": "",
@@ -812,6 +868,13 @@
     "comment": ""
   },
   {
+    "term": "CUPS Print Server",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Camera",
     "translation": "",
     "context": "",
@@ -820,6 +883,20 @@
   },
   {
     "term": "Cancel",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Canceled",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Capabilities",
     "translation": "",
     "context": "",
     "reference": "",
@@ -987,6 +1064,13 @@
     "comment": ""
   },
   {
+    "term": "Clear All Jobs",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Click Import to add a .ovpn or .conf",
     "translation": "",
     "context": "",
@@ -1127,6 +1211,13 @@
     "comment": ""
   },
   {
+    "term": "Completed",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Compositor",
     "translation": "",
     "context": "",
@@ -1135,6 +1226,13 @@
   },
   {
     "term": "Configuration activated",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Configure a new printer",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1296,6 +1394,20 @@
   },
   {
     "term": "Create Dir",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Create Printer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Creating...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1526,6 +1638,20 @@
     "comment": ""
   },
   {
+    "term": "Delete Class",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Delete Printer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Delete VPN",
     "translation": "",
     "context": "",
@@ -1534,6 +1660,13 @@
   },
   {
     "term": "Derives colors that closely match the underlying image.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Description",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2044,6 +2177,13 @@
     "comment": ""
   },
   {
+    "term": "Failed to add printer to class",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to cancel all jobs",
     "translation": "",
     "context": "",
@@ -2072,7 +2212,35 @@
     "comment": ""
   },
   {
+    "term": "Failed to create printer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to delete VPN",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to delete class",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to delete printer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to disable job acceptance",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2107,6 +2275,20 @@
     "comment": ""
   },
   {
+    "term": "Failed to enable job acceptance",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to hold job",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to import VPN",
     "translation": "",
     "context": "",
@@ -2121,6 +2303,13 @@
     "comment": ""
   },
   {
+    "term": "Failed to move job",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to pause printer",
     "translation": "",
     "context": "",
@@ -2128,7 +2317,28 @@
     "comment": ""
   },
   {
+    "term": "Failed to print test page",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to remove device",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to remove printer from class",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to restart job",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2177,7 +2387,35 @@
     "comment": ""
   },
   {
+    "term": "Failed to update description",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to update location",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to update sharing",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Feels Like",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "File",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2437,6 +2675,13 @@
   },
   {
     "term": "Health",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Held",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2892,6 +3137,20 @@
   },
   {
     "term": "Loading...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Local",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Location",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3451,6 +3710,20 @@
     "comment": ""
   },
   {
+    "term": "No devices found",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No drivers found",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "No files found",
     "translation": "",
     "context": "",
@@ -3487,6 +3760,20 @@
   },
   {
     "term": "No printer found",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No printers configured",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No printers found",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3682,6 +3969,20 @@
     "comment": ""
   },
   {
+    "term": "Optional description",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Optional location",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Other",
     "translation": "",
     "context": "",
@@ -3809,6 +4110,13 @@
   },
   {
     "term": "Paused",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Pending",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4081,6 +4389,34 @@
     "comment": ""
   },
   {
+    "term": "Printer Classes",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Printer created successfully",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Printer deleted",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Printer name (no spaces)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Printers",
     "translation": "",
     "context": "",
@@ -4221,7 +4557,21 @@
     "comment": ""
   },
   {
+    "term": "Recommended available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Refresh",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Reject Jobs",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4572,6 +4922,20 @@
   },
   {
     "term": "Select an image file...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Select device...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Select driver...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5250,6 +5614,20 @@
     "comment": ""
   },
   {
+    "term": "Test Page",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Test page sent to printer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Text",
     "translation": "",
     "context": "",
@@ -5426,6 +5804,13 @@
   },
   {
     "term": "Top Section",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Total Jobs",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5692,6 +6077,13 @@
   },
   {
     "term": "VRR: ",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Version",
     "translation": "",
     "context": "",
     "reference": "",

@@ -3,6 +3,7 @@ package keybinds
 type Keybind struct {
 	Key         string `json:"key"`
 	Description string `json:"desc"`
+	Action      string `json:"action,omitempty"`
 	Subcategory string `json:"subcat,omitempty"`
 }
 

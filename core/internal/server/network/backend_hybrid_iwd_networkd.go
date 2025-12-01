@@ -2,14 +2,12 @@ package network
 
 import (
 	"fmt"
-	"sync"
 )
 
 type HybridIwdNetworkdBackend struct {
 	wifi          *IWDBackend
 	l3            *SystemdNetworkdBackend
 	onStateChange func()
-	stateMutex    sync.RWMutex
 }
 
 func NewHybridIwdNetworkdBackend(w *IWDBackend, n *SystemdNetworkdBackend) (*HybridIwdNetworkdBackend, error) {
@@ -120,7 +118,7 @@ func (b *HybridIwdNetworkdBackend) ConnectWiFi(req ConnectionRequest) error {
 
 	ws, err := b.wifi.GetCurrentState()
 	if err == nil && ws.WiFiDevice != "" {
-		b.l3.EnsureDhcpUp(ws.WiFiDevice)
+		b.l3.EnsureDhcpUp(ws.WiFiDevice) //nolint:errcheck
 	}
 
 	return nil

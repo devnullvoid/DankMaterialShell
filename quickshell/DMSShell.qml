@@ -108,10 +108,13 @@ Item {
             id: barRepeaterModel
             values: {
                 const configs = SettingsData.barConfigs;
-                return configs.map(c => ({
-                            id: c.id,
-                            position: c.position
-                        }));
+                return configs
+                    .map(c => ({ id: c.id, position: c.position }))
+                    .sort((a, b) => {
+                        const aVertical = a.position === SettingsData.Position.Left || a.position === SettingsData.Position.Right;
+                        const bVertical = b.position === SettingsData.Position.Left || b.position === SettingsData.Position.Right;
+                        return aVertical - bVertical;
+                    });
             }
         }
 
@@ -120,7 +123,7 @@ Item {
         delegate: Loader {
             id: barLoader
             required property var modelData
-            property var barConfig: SettingsData.getBarConfig(modelData.id)
+            property var barConfig: SettingsData.barConfigs.find(cfg => cfg.id === modelData.id) || null
             active: barConfig?.enabled ?? false
             asynchronous: false
 
@@ -360,11 +363,33 @@ Item {
         }
     }
 
-    SettingsModal {
-        id: settingsModal
+    LazyLoader {
+        id: settingsModalLoader
+
+        active: false
 
         Component.onCompleted: {
-            PopoutService.settingsModal = settingsModal;
+            PopoutService.settingsModalLoader = settingsModalLoader;
+        }
+
+        onActiveChanged: {
+            if (active && item) {
+                PopoutService.settingsModal = item;
+                PopoutService._onSettingsModalLoaded();
+            }
+        }
+
+        SettingsModal {
+            id: settingsModal
+            property bool wasShown: false
+
+            onVisibleChanged: {
+                if (visible) {
+                    wasShown = true;
+                } else if (wasShown) {
+                    PopoutService.unloadSettings();
+                }
+            }
         }
     }
 
@@ -602,7 +627,6 @@ Item {
         hyprKeybindsModalLoader: hyprKeybindsModalLoader
         dankBarRepeater: dankBarRepeater
         hyprlandOverviewLoader: hyprlandOverviewLoader
-        settingsModal: settingsModal
     }
 
     Variants {

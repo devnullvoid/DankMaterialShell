@@ -595,6 +595,159 @@ Item {
                 }
             }
 
+            StyledRect {
+                visible: DMSService.isConnected
+                width: parent.width
+                height: backendSection.implicitHeight + Theme.spacingL * 2
+                radius: Theme.cornerRadius
+                color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
+                border.width: 0
+
+                Column {
+                    id: backendSection
+
+                    anchors.fill: parent
+                    anchors.margins: Theme.spacingL
+                    spacing: Theme.spacingM
+
+                    Row {
+                        width: parent.width
+                        spacing: Theme.spacingM
+
+                        DankIcon {
+                            name: "dns"
+                            size: Theme.iconSize
+                            color: Theme.primary
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        StyledText {
+                            text: I18n.tr("Backend")
+                            font.pixelSize: Theme.fontSizeLarge
+                            font.weight: Font.Medium
+                            color: Theme.surfaceText
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
+
+                    Row {
+                        spacing: Theme.spacingL
+
+                        Column {
+                            spacing: 2
+
+                            StyledText {
+                                text: I18n.tr("Version")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
+
+                            StyledText {
+                                text: DMSService.cliVersion || "—"
+                                font.pixelSize: Theme.fontSizeMedium
+                                font.weight: Font.Medium
+                                color: Theme.surfaceText
+                            }
+                        }
+
+                        Rectangle {
+                            width: 1
+                            height: 32
+                            color: Theme.outlineVariant
+                        }
+
+                        Column {
+                            spacing: 2
+
+                            StyledText {
+                                text: I18n.tr("API")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
+
+                            StyledText {
+                                text: `v${DMSService.apiVersion}`
+                                font.pixelSize: Theme.fontSizeMedium
+                                font.weight: Font.Medium
+                                color: Theme.surfaceText
+                            }
+                        }
+
+                        Rectangle {
+                            width: 1
+                            height: 32
+                            color: Theme.outlineVariant
+                        }
+
+                        Column {
+                            spacing: 2
+
+                            StyledText {
+                                text: I18n.tr("Status")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
+
+                            Row {
+                                spacing: 4
+
+                                Rectangle {
+                                    width: 8
+                                    height: 8
+                                    radius: 4
+                                    color: Theme.success
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Connected")
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    font.weight: Font.Medium
+                                    color: Theme.surfaceText
+                                }
+                            }
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: Theme.spacingS
+                        visible: DMSService.capabilities.length > 0
+
+                        StyledText {
+                            text: I18n.tr("Capabilities")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceVariantText
+                        }
+
+                        Flow {
+                            width: parent.width
+                            spacing: 6
+
+                            Repeater {
+                                model: DMSService.capabilities
+
+                                Rectangle {
+                                    width: capText.implicitWidth + 16
+                                    height: 26
+                                    radius: 13
+                                    color: Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12)
+
+                                    StyledText {
+                                        id: capText
+                                        anchors.centerIn: parent
+                                        text: modelData
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.primary
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             // Support Section
             StyledRect {
                 width: parent.width
