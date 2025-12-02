@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Shapes
 import qs.Common
+import qs.Services
 
 Item {
     id: root
@@ -13,7 +14,7 @@ Item {
 
     anchors.left: parent.left
     anchors.top: parent.top
-    readonly property bool gothEnabled: barConfig?.gothCornersEnabled ?? false
+    readonly property bool gothEnabled: (barConfig?.gothCornersEnabled ?? false) && !barWindow.hasMaximizedToplevel
     anchors.leftMargin: -(gothEnabled && axis.isVertical && axis.edge === "right" ? barWindow._wingR : 0)
     anchors.rightMargin: -(gothEnabled && axis.isVertical && axis.edge === "left" ? barWindow._wingR : 0)
     anchors.topMargin: -(gothEnabled && !axis.isVertical && axis.edge === "bottom" ? barWindow._wingR : 0)
@@ -25,8 +26,31 @@ Item {
     readonly property bool isLeft: barPos === SettingsData.Position.Left
     readonly property bool isRight: barPos === SettingsData.Position.Right
 
-    readonly property real wing: gothEnabled ? barWindow._wingR : 0
-    readonly property real rt: (barConfig?.squareCorners ?? false) ? 0 : Theme.cornerRadius
+    property real wing: gothEnabled ? barWindow._wingR : 0
+
+    Behavior on wing {
+        enabled: root.width > 0 && root.height > 0
+        NumberAnimation {
+            duration: Theme.shortDuration
+            easing.type: Easing.OutCubic
+        }
+    }
+
+    property real rt: {
+        if (barConfig?.squareCorners ?? false)
+            return 0;
+        if (barWindow.hasMaximizedToplevel)
+            return 0;
+        return Theme.cornerRadius;
+    }
+
+    Behavior on rt {
+        enabled: root.width > 0 && root.height > 0
+        NumberAnimation {
+            duration: Theme.shortDuration
+            easing.type: Easing.OutCubic
+        }
+    }
 
     readonly property string mainPath: generatePathForPosition(width, height)
     readonly property string borderFullPath: generateBorderFullPath(width, height)
@@ -36,18 +60,18 @@ Item {
     property bool borderEdgePathCorrectShape: false
 
     onMainPathChanged: {
-        if (width > 0 && height > 0){
-            root:mainPathCorrectShape = true;
+        if (width > 0 && height > 0) {
+            root: mainPathCorrectShape = true;
         }
     }
     onBorderFullPathChanged: {
-        if (width > 0 && height > 0){
-            root:borderFullPathCorrectShape = true;
+        if (width > 0 && height > 0) {
+            root: borderFullPathCorrectShape = true;
         }
     }
     onBorderEdgePathChanged: {
-        if (width > 0 && height > 0){
-            root:borderEdgePathCorrectShape = true;
+        if (width > 0 && height > 0) {
+            root: borderEdgePathCorrectShape = true;
         }
     }
 
@@ -70,7 +94,6 @@ Item {
         }
     }
 
-
     Loader {
         id: barShape
         anchors.fill: parent
@@ -91,13 +114,14 @@ Item {
         }
     }
 
-   Loader {
+    Loader {
         id: barBorder
         anchors.fill: parent
         active: borderFullPathCorrectShape && borderEdgePathCorrectShape
 
-        readonly property real borderThickness: Math.max(1, barConfig?.borderThickness ?? 1)
-        readonly property real inset: showFullBorder ? Math.ceil(borderThickness / 2) : borderThickness / 2
+        readonly property real _scale: CompositorService.getScreenScale(barWindow.screen)
+        readonly property real borderThickness: Theme.px(Math.max(1, barConfig?.borderThickness ?? 1), _scale)
+        readonly property real inset: borderThickness / 2
         readonly property string borderColorKey: barConfig?.borderColor || "surfaceText"
         readonly property color baseColor: (borderColorKey === "surfaceText") ? Theme.surfaceText : (borderColorKey === "primary") ? Theme.primary : Theme.secondary
         readonly property color borderColor: Theme.withAlpha(baseColor, barConfig?.borderOpacity ?? 1.0)
@@ -106,7 +130,7 @@ Item {
             id: barBorderShape
             anchors.fill: parent
             preferredRendererType: Shape.CurveRenderer
-            visible: barConfig?.borderEnabled ?? false
+            visible: (barConfig?.borderEnabled ?? false) && !barWindow.hasMaximizedToplevel
 
             ShapePath {
                 fillColor: "transparent"
