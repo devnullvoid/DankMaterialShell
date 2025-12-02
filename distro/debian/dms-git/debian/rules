@@ -60,8 +60,6 @@ override_dh_auto_install:
 	if [ -d quickshell ]; then \
 		cp -r quickshell/* debian/dms-git/usr/share/quickshell/dms/; \
 		install -Dm644 quickshell/assets/systemd/dms.service debian/dms-git/usr/lib/systemd/user/dms.service; \
-		install -Dm644 assets/dms-open.desktop debian/dms-git/usr/share/applications/dms-open.desktop; \
-		install -Dm644 core/assets/danklogo.svg debian/dms-git/usr/share/icons/hicolor/scalable/apps/danklogo.svg; \
 	else \
 		echo "ERROR: quickshell directory not found!" && \
 		echo "Contents of current directory:" && ls -la && \
