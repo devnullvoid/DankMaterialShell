@@ -43,6 +43,7 @@ install-shell:
 	@mkdir -p $(SHELL_INSTALL_DIR)
 	@cp -r $(SHELL_DIR)/* $(SHELL_INSTALL_DIR)/
 	@rm -rf $(SHELL_INSTALL_DIR)/.git* $(SHELL_INSTALL_DIR)/.github
+	@$(MAKE) --no-print-directory -C $(CORE_DIR) print-version > $(SHELL_INSTALL_DIR)/VERSION
 	@echo "Shell files installed"
 
 install-completions:
@@ -80,8 +81,7 @@ install: build install-bin install-shell install-completions install-systemd ins
 	@echo ""
 	@echo "Installation complete!"
 	@echo ""
-	@echo "To enable and start DMS:"
-	@echo "  systemctl --user enable --now dms"
+	@echo "=== The DMS Team! ==="
 
 # Uninstallation targets
 uninstall-bin:

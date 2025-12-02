@@ -162,7 +162,19 @@ Item {
                     }
 
                     StyledText {
-                        text: SystemUpdateService.shellVersion ? `dms ${SystemUpdateService.shellVersion}` : "dms"
+                        text: {
+                            if (!SystemUpdateService.shellVersion) return "dms";
+
+                            // Git versioning to show ex: "dms v0.6.2-2223"
+                            let version = SystemUpdateService.shellVersion;
+                            let match = version.match(/^([\d.]+)\+git(\d+)\./);
+
+                            if (match) {
+                                return `dms v${match[1]}-${match[2]}`;
+                            }
+
+                            return `dms ${version}`;
+                        }
                         font.pixelSize: Theme.fontSizeXLarge
                         font.weight: Font.Bold
                         color: Theme.surfaceText
