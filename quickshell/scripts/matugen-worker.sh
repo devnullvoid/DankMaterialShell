@@ -175,6 +175,56 @@ setup_vscode_extension() {
   mkdir -p "$theme_dir"
   cp "$SHELL_DIR/matugen/templates/vscode-package.json" "$ext_dir/package.json" 2>/dev/null || true
   cp "$SHELL_DIR/matugen/templates/vscode-vsixmanifest.xml" "$ext_dir/.vsixmanifest" 2>/dev/null || true
+  update_vscode_extensions_json "$config_dir/extensions" "$ext_dir"
+}
+
+update_vscode_extensions_json() {
+  local ext_list_dir="$1" ext_dir="$2"
+  local ext_json="$ext_list_dir/extensions.json"
+  [[ ! -f "$ext_json" ]] && return
+  grep -q "dynamic-base16-dankshell" "$ext_json" && return
+  cp "$ext_json" "$ext_json.bak"
+  local entry
+  entry=$(cat <<EOF
+{
+  "identifier": {
+    "id": "local.dynamic-base16-dankshell",
+    "uuid": "00000000-0000-0000-0000-000000000000"
+  },
+  "version": "0.0.1",
+  "location": {
+    "\$mid": 1,
+    "path": "$ext_dir",
+    "scheme": "file"
+  },
+  "relativeLocation": "local.dynamic-base16-dankshell-0.0.1",
+  "metadata": {
+    "isApplicationScoped": false,
+    "isMachineScoped": false,
+    "isBuiltin": false,
+    "installedTimestamp": $(date +%s)000,
+    "pinned": false,
+    "source": "local",
+    "id": "00000000-0000-0000-0000-000000000000",
+    "publisherId": "local",
+    "publisherDisplayName": "Dank Linux",
+    "targetPlatform": "undefined",
+    "updated": true,
+    "private": false,
+    "isPreReleaseVersion": false,
+    "hasPreReleaseVersion": false,
+    "preRelease": false
+  }
+}
+EOF
+)
+  local content
+  content=$(cat "$ext_json")
+  if [[ "$content" == "[]" ]]; then
+    echo "[$entry]" > "$ext_json"
+  else
+    echo "${content%]}, $entry]" > "$ext_json"
+  fi
 }
 
 signal_terminals() {
