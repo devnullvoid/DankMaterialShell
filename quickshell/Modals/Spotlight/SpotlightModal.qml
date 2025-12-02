@@ -130,6 +130,10 @@ DankModal {
         target: "spotlight"
     }
 
+    Component.onCompleted: {
+        DankModalWindow.persistentModal = spotlightModal;
+    }
+
     SpotlightContent {
         id: spotlightContentInstance
 
