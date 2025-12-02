@@ -169,6 +169,7 @@ fi
 
 CHANGELOG_VERSION=""
 if [[ -d "distro/debian/$PACKAGE/debian" ]]; then
+    # Format: 0.6.2+git{COMMIT_COUNT}.{COMMIT_HASH} (e.g., 0.6.2+git2256.9162e314)
     CHANGELOG_VERSION=$(grep -m1 "^$PACKAGE" "distro/debian/$PACKAGE/debian/changelog" 2>/dev/null | sed 's/.*(\([^)]*\)).*/\1/' || echo "")
     if [[ -n "$CHANGELOG_VERSION" ]] && [[ "$CHANGELOG_VERSION" == *"-"* ]]; then
         SOURCE_FORMAT_CHECK=$(cat "distro/debian/$PACKAGE/debian/source/format" 2>/dev/null || echo "3.0 (quilt)")
