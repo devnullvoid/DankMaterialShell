@@ -407,20 +407,6 @@ Item {
                                                         color: Theme.surfaceVariantText
                                                         visible: modelData.ip && modelData.ip.length > 0
                                                     }
-
-                                                    StyledText {
-                                                        text: "•"
-                                                        font.pixelSize: Theme.fontSizeSmall
-                                                        color: Theme.surfaceVariantText
-                                                        visible: modelData.speed && modelData.speed > 0
-                                                    }
-
-                                                    StyledText {
-                                                        text: modelData.speed ? modelData.speed + " Mbps" : ""
-                                                        font.pixelSize: Theme.fontSizeSmall
-                                                        color: Theme.surfaceVariantText
-                                                        visible: modelData.speed && modelData.speed > 0
-                                                    }
                                                 }
                                             }
                                         }
