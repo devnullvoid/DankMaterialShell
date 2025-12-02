@@ -477,11 +477,11 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
                         echo "    Creating $SOURCE0 (directory: $DIR_NAME)"
                         cp -r "$SOURCE_DIR" "$DIR_NAME"
                         if [[ "$SOURCE0" == *.tar.xz ]]; then
-                            tar --sort=name --mtime='2000-01-01 00:00:00' -cJf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
+                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cJf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
                         elif [[ "$SOURCE0" == *.tar.bz2 ]]; then
-                            tar --sort=name --mtime='2000-01-01 00:00:00' -cjf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
+                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cjf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
                         else
-                            tar --sort=name --mtime='2000-01-01 00:00:00' -czf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
+                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
                         fi
                         rm -rf "$DIR_NAME"
                         echo "    Created $SOURCE0 ($(stat -c%s "$WORK_DIR/$SOURCE0" 2>/dev/null || echo 0) bytes)"

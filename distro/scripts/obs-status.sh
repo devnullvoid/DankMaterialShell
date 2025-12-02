@@ -22,7 +22,16 @@ else
     PACKAGES=("${ALL_PACKAGES[@]}")
 fi
 
-cd "$OBS_BASE"
+# Ensure cache directory exists
+if [[ ! -d "$OBS_BASE" ]]; then
+    echo "Creating OBS cache directory: $OBS_BASE"
+    mkdir -p "$OBS_BASE"
+fi
+
+cd "$OBS_BASE" || {
+    echo "ERROR: Failed to access OBS cache directory: $OBS_BASE"
+    exit 1
+}
 
 for pkg in "${PACKAGES[@]}"; do
     case "$pkg" in
