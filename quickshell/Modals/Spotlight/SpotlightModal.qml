@@ -73,6 +73,10 @@ DankModal {
     borderWidth: 1
     enableShadow: true
     keepContentLoaded: true
+    animationScaleCollapsed: 0.96
+    animationDuration: Theme.expressiveDurations.expressiveDefaultSpatial
+    animationEnterCurve: Theme.expressiveCurves.expressiveDefaultSpatial
+    animationExitCurve: Theme.expressiveCurves.emphasized
     onVisibleChanged: () => {
         if (!visible)
             return;

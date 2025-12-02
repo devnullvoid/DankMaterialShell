@@ -79,6 +79,14 @@ Item {
             return "PROCESSLIST_TOGGLE_SUCCESS";
         }
 
+        function focusOrToggle(): string {
+            root.processListModalLoader.active = true;
+            if (root.processListModalLoader.item)
+                root.processListModalLoader.item.focusOrToggle();
+
+            return "PROCESSLIST_FOCUS_OR_TOGGLE_SUCCESS";
+        }
+
         target: "processlist"
     }
 
@@ -596,6 +604,11 @@ Item {
         function toggle(): string {
             PopoutService.toggleSettings();
             return "SETTINGS_TOGGLE_SUCCESS";
+        }
+
+        function focusOrToggle(): string {
+            PopoutService.focusOrToggleSettings();
+            return "SETTINGS_FOCUS_OR_TOGGLE_SUCCESS";
         }
 
         function get(key: string): string {

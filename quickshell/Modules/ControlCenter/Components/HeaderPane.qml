@@ -99,7 +99,7 @@ Rectangle {
             backgroundColor: "transparent"
             onClicked: {
                 root.settingsButtonClicked();
-                PopoutService.openSettings();
+                PopoutService.focusOrToggleSettings();
             }
         }
 

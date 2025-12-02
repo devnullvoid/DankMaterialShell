@@ -2,6 +2,8 @@ pragma Singleton
 pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
+import Quickshell.Wayland
+import qs.Common
 
 Singleton {
     id: root
@@ -217,6 +219,23 @@ Singleton {
             _settingsWantsOpen = false;
             settingsModalLoader.activeAsync = true;
         }
+    }
+
+    function focusOrToggleSettings() {
+        if (settingsModal?.visible) {
+            const settingsTitle = I18n.tr("Settings", "settings window title");
+            for (const toplevel of ToplevelManager.toplevels.values) {
+                if (toplevel.title !== "Settings" && toplevel.title !== settingsTitle)
+                    continue;
+                if (toplevel.activated) {
+                    settingsModal.hide();
+                    return;
+                }
+                toplevel.activate();
+                return;
+            }
+        }
+        openSettings();
     }
 
     function unloadSettings() {

@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Wayland
 import qs.Common
 import qs.Modules.ProcessList
 import qs.Services
@@ -37,6 +38,27 @@ FloatingWindow {
             return;
         }
         visible = !visible;
+    }
+
+    function focusOrToggle() {
+        if (!DgopService.dgopAvailable) {
+            console.warn("ProcessListModal: dgop is not available");
+            return;
+        }
+        if (visible) {
+            const modalTitle = I18n.tr("System Monitor", "sysmon window title");
+            for (const toplevel of ToplevelManager.toplevels.values) {
+                if (toplevel.title !== "System Monitor" && toplevel.title !== modalTitle)
+                    continue;
+                if (toplevel.activated) {
+                    hide();
+                    return;
+                }
+                toplevel.activate();
+                return;
+            }
+        }
+        show();
     }
 
     objectName: "processListModal"
