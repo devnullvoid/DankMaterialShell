@@ -14,31 +14,8 @@ Singleton {
     property var activeModal: null
     property bool windowsVisible: false
     property var targetScreen: null
-    property var persistentModal: null
-
     readonly property bool hasActiveModal: activeModal !== null
-    readonly property bool hasPersistentModal: persistentModal !== null
-    readonly property bool isPersistentModalActive: hasActiveModal && activeModal === persistentModal
     readonly property bool shouldShowModal: hasActiveModal
-    readonly property bool shouldKeepWindowsAlive: hasPersistentModal
-
-    onPersistentModalChanged: {
-        if (!persistentModal)
-            return;
-        cachedModal = persistentModal;
-        cachedModalWidth = Theme.px(persistentModal.modalWidth, dpr);
-        cachedModalHeight = Theme.px(persistentModal.modalHeight, dpr);
-        cachedModalX = calculateX(persistentModal);
-        cachedModalY = calculateY(persistentModal);
-        cachedAnimationDuration = persistentModal.animationDuration ?? Theme.shortDuration;
-        cachedEnterCurve = persistentModal.animationEnterCurve ?? Theme.expressiveCurves.expressiveFastSpatial;
-        cachedExitCurve = persistentModal.animationExitCurve ?? Theme.expressiveCurves.expressiveFastSpatial;
-        cachedScaleCollapsed = persistentModal.animationScaleCollapsed ?? 0.96;
-        if (persistentModal.directContent) {
-            persistentModal.directContent.parent = directContentWrapper;
-            persistentModal.directContent.anchors.fill = directContentWrapper;
-        }
-    }
     readonly property var screen: backgroundWindow.screen
     readonly property real dpr: screen ? CompositorService.getScreenScale(screen) : 1
     readonly property real shadowBuffer: 5
@@ -184,7 +161,7 @@ Singleton {
 
     PanelWindow {
         id: backgroundWindow
-        visible: root.windowsVisible || root.shouldKeepWindowsAlive
+        visible: root.windowsVisible
         screen: root.targetScreen
         color: "transparent"
 
@@ -246,7 +223,7 @@ Singleton {
 
     PanelWindow {
         id: contentWindow
-        visible: root.windowsVisible || root.shouldKeepWindowsAlive
+        visible: root.windowsVisible
         screen: root.targetScreen
         color: "transparent"
 
