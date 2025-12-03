@@ -15,9 +15,9 @@ Item {
     property real modalWidth: 400
     property real modalHeight: 300
     property var targetScreen
-    readonly property var effectiveScreen: targetScreen || contentWindow.screen
-    readonly property real screenWidth: effectiveScreen?.width
-    readonly property real screenHeight: effectiveScreen?.height
+    readonly property var effectiveScreen: contentWindow.screen ?? targetScreen
+    readonly property real screenWidth: effectiveScreen?.width ?? 1920
+    readonly property real screenHeight: effectiveScreen?.height ?? 1080
     readonly property real dpr: effectiveScreen ? CompositorService.getScreenScale(effectiveScreen) : 1
     property bool showBackground: true
     property real backgroundOpacity: 0.5
@@ -58,6 +58,12 @@ Item {
     function open() {
         ModalManager.openModal(root);
         closeTimer.stop();
+        const focusedScreen = CompositorService.getFocusedScreen();
+        if (focusedScreen) {
+            contentWindow.screen = focusedScreen;
+            if (useBackgroundWindow)
+                backgroundWindow.screen = focusedScreen;
+        }
         shouldBeVisible = true;
         contentWindow.visible = false;
         if (useBackgroundWindow)
@@ -98,6 +104,30 @@ Item {
         function onCloseAllModalsExcept(excludedModal) {
             if (excludedModal !== root && !allowStacking && shouldBeVisible) {
                 close();
+            }
+        }
+    }
+
+    Connections {
+        target: Quickshell
+        function onScreensChanged() {
+            if (!contentWindow.screen)
+                return;
+            const currentScreenName = contentWindow.screen.name;
+            let screenStillExists = false;
+            for (let i = 0; i < Quickshell.screens.length; i++) {
+                if (Quickshell.screens[i].name === currentScreenName) {
+                    screenStillExists = true;
+                    break;
+                }
+            }
+            if (screenStillExists)
+                return;
+            const newScreen = CompositorService.getFocusedScreen();
+            if (newScreen) {
+                contentWindow.screen = newScreen;
+                if (useBackgroundWindow)
+                    backgroundWindow.screen = newScreen;
             }
         }
     }

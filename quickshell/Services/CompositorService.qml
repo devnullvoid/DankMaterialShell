@@ -64,6 +64,28 @@ Singleton {
         return screen?.devicePixelRatio || 1;
     }
 
+    function getFocusedScreen() {
+        let screenName = "";
+        if (isHyprland && Hyprland.focusedWorkspace?.monitor)
+            screenName = Hyprland.focusedWorkspace.monitor.name;
+        else if (isNiri && NiriService.currentOutput)
+            screenName = NiriService.currentOutput;
+        else if (isSway) {
+            const focusedWs = I3.workspaces?.values?.find(ws => ws.focused === true);
+            screenName = focusedWs?.monitor?.name || "";
+        } else if (isDwl && DwlService.activeOutput)
+            screenName = DwlService.activeOutput;
+
+        if (!screenName)
+            return Quickshell.screens.length > 0 ? Quickshell.screens[0] : null;
+
+        for (let i = 0; i < Quickshell.screens.length; i++) {
+            if (Quickshell.screens[i].name === screenName)
+                return Quickshell.screens[i];
+        }
+        return Quickshell.screens.length > 0 ? Quickshell.screens[0] : null;
+    }
+
     Timer {
         id: sortDebounceTimer
         interval: 100
