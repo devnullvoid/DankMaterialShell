@@ -132,16 +132,17 @@ core/bin/${DMS_BINARY} completion fish > %{buildroot}%{_datadir}/fish/vendor_com
 # Install dgop binary
 install -Dm755 %{_builddir}/dgop %{buildroot}%{_bindir}/dgop
 
-# Install systemd & dbus user service
+# Install systemd user service
 install -Dm644 assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
-install -Dm644 assets/dbus/org.freedesktop.Notifications.service %{buildroot}%{_datadir}/dbus-1/services/org.freedesktop.Notifications.service
 
 install -Dm644 assets/dms-open.desktop %{buildroot}%{_datadir}/applications/dms-open.desktop
 install -Dm644 assets/danklogo.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
 
+# Install shell files to shared data location
 install -dm755 %{buildroot}%{_datadir}/quickshell/dms
 cp -r quickshell/* %{buildroot}%{_datadir}/quickshell/dms/
 
+# Remove build files
 rm -rf %{buildroot}%{_datadir}/quickshell/dms/.git*
 rm -f %{buildroot}%{_datadir}/quickshell/dms/.gitignore
 rm -rf %{buildroot}%{_datadir}/quickshell/dms/.github
@@ -162,7 +163,6 @@ fi
 %doc quickshell/README.md
 %{_datadir}/quickshell/dms/
 %{_userunitdir}/dms.service
-%{_datadir}/dbus-1/services/org.freedesktop.Notifications.service
 %{_datadir}/applications/dms-open.desktop
 %{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
 

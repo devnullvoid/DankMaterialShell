@@ -18,7 +18,7 @@ SHELL_INSTALL_DIR=$(DATA_DIR)/quickshell/dms
 ASSETS_DIR=assets
 APPLICATIONS_DIR=$(DATA_DIR)/applications
 
-.PHONY: all build clean install install-bin install-shell install-completions install-systemd install-dbus install-icon install-desktop uninstall uninstall-bin uninstall-shell uninstall-completions uninstall-systemd uninstall-dbus uninstall-icon uninstall-desktop help
+.PHONY: all build clean install install-bin install-shell install-completions install-systemd install-icon install-desktop uninstall uninstall-bin uninstall-shell uninstall-completions uninstall-systemd uninstall-icon uninstall-desktop help
 
 all: build
 
@@ -65,11 +65,6 @@ install-systemd:
 	@if [ -n "$(SUDO_USER)" ]; then chown $(SUDO_USER):$(SUDO_USER) $(SYSTEMD_USER_DIR)/dms.service; fi
 	@echo "Systemd service installed to $(SYSTEMD_USER_DIR)/dms.service"
 
-install-dbus:
-	@echo "Installing DBus service activation file..."
-	@install -D -m 644 $(ASSETS_DIR)/dbus/org.freedesktop.Notifications.service $(DATA_DIR)/dbus-1/services/org.freedesktop.Notifications.service
-	@echo "DBus service installed"
-
 install-icon:
 	@echo "Installing icon..."
 	@install -D -m 644 $(ASSETS_DIR)/danklogo.svg $(ICON_DIR)/danklogo.svg
@@ -82,11 +77,11 @@ install-desktop:
 	@update-desktop-database -q $(APPLICATIONS_DIR) 2>/dev/null || true
 	@echo "Desktop entry installed"
 
-install: build install-bin install-shell install-completions install-systemd install-dbus install-icon install-desktop
+install: build install-bin install-shell install-completions install-systemd install-icon install-desktop
 	@echo ""
 	@echo "Installation complete!"
 	@echo ""
-	@echo "=== Cheers, the DMS Team! ==="
+	@echo "=== The DMS Team! ==="
 
 # Uninstallation targets
 uninstall-bin:
@@ -112,11 +107,6 @@ uninstall-systemd:
 	@echo "Systemd service removed"
 	@echo "Note: Stop/disable service manually if running: systemctl --user stop dms"
 
-uninstall-dbus:
-	@echo "Removing DBus service activation file..."
-	@rm -f $(DATA_DIR)/dbus-1/services/org.freedesktop.Notifications.service
-	@echo "DBus service removed"
-
 uninstall-icon:
 	@echo "Removing icon..."
 	@rm -f $(ICON_DIR)/danklogo.svg
@@ -129,7 +119,7 @@ uninstall-desktop:
 	@update-desktop-database -q $(APPLICATIONS_DIR) 2>/dev/null || true
 	@echo "Desktop entry removed"
 
-uninstall: uninstall-systemd uninstall-dbus uninstall-desktop uninstall-icon uninstall-completions uninstall-shell uninstall-bin
+uninstall: uninstall-systemd uninstall-desktop uninstall-icon uninstall-completions uninstall-shell uninstall-bin
 	@echo ""
 	@echo "Uninstallation complete!"
 
@@ -148,7 +138,6 @@ help:
 	@echo "  install-shell        - Install only shell files"
 	@echo "  install-completions  - Install only shell completions"
 	@echo "  install-systemd      - Install only systemd service"
-	@echo "  install-dbus         - Install only DBus service activation file"
 	@echo "  install-icon         - Install only icon"
 	@echo "  install-desktop      - Install only desktop entry"
 	@echo ""
@@ -158,7 +147,6 @@ help:
 	@echo "  uninstall-shell      - Remove only shell files"
 	@echo "  uninstall-completions - Remove only shell completions"
 	@echo "  uninstall-systemd    - Remove only systemd service"
-	@echo "  uninstall-dbus       - Remove only DBus service activation file"
 	@echo "  uninstall-icon       - Remove only icon"
 	@echo "  uninstall-desktop    - Remove only desktop entry"
 	@echo ""

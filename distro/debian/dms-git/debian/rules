@@ -59,7 +59,6 @@ override_dh_auto_install:
 	if [ -d quickshell ]; then \
 		cp -r quickshell/* debian/dms-git/usr/share/quickshell/dms/; \
 		install -Dm644 assets/systemd/dms.service debian/dms-git/usr/lib/systemd/user/dms.service; \
-		install -Dm644 assets/dbus/org.freedesktop.Notifications.service debian/dms-git/usr/share/dbus-1/services/org.freedesktop.Notifications.service; \
 		install -Dm644 assets/dms-open.desktop debian/dms-git/usr/share/applications/dms-open.desktop; \
 		install -Dm644 assets/danklogo.svg debian/dms-git/usr/share/icons/hicolor/scalable/apps/danklogo.svg; \
 	else \
