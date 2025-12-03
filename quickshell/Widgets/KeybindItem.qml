@@ -26,6 +26,15 @@ Item {
     property string _actionType: ""
     property bool addingNewKey: false
     property bool useCustomCompositor: false
+    property var _shortcutInhibitor: null
+
+    readonly property bool _shortcutInhibitorAvailable: {
+        try {
+            return typeof ShortcutInhibitor !== "undefined";
+        } catch (e) {
+            return false;
+        }
+    }
 
     readonly property var keys: bindData.keys || []
     readonly property bool hasOverride: {
@@ -46,6 +55,8 @@ Item {
 
     implicitHeight: contentColumn.implicitHeight
     height: implicitHeight
+
+    Component.onDestruction: _destroyShortcutInhibitor()
 
     onIsExpandedChanged: {
         if (isExpanded)
@@ -118,7 +129,34 @@ Item {
         addingNewKey = false;
     }
 
+    function _createShortcutInhibitor() {
+        if (!_shortcutInhibitorAvailable || _shortcutInhibitor)
+            return;
+
+        const qmlString = `
+            import QtQuick
+            import Quickshell.Wayland
+
+            ShortcutInhibitor {
+                enabled: false
+                window: null
+            }
+        `;
+
+        _shortcutInhibitor = Qt.createQmlObject(qmlString, root, "KeybindItem.ShortcutInhibitor");
+        _shortcutInhibitor.enabled = Qt.binding(() => root.recording);
+        _shortcutInhibitor.window = Qt.binding(() => root.panelWindow);
+    }
+
+    function _destroyShortcutInhibitor() {
+        if (_shortcutInhibitor) {
+            _shortcutInhibitor.destroy();
+            _shortcutInhibitor = null;
+        }
+    }
+
     function startRecording() {
+        _createShortcutInhibitor();
         recording = true;
     }
 
@@ -287,12 +325,6 @@ Item {
             bottomRightRadius: Theme.cornerRadius
 
             property alias currentTitle: titleField.text
-
-            ShortcutInhibitor {
-                id: shortcutInhibitor
-                enabled: root.recording
-                window: root.panelWindow
-            }
 
             ColumnLayout {
                 id: expandedContent
