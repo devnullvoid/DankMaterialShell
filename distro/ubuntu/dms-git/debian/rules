@@ -56,6 +56,10 @@ override_dh_auto_install:
 	install -Dm644 dms-git-repo/assets/systemd/dms.service \
 		debian/dms-git/usr/lib/systemd/user/dms.service
 
+	# Install DBus service activation file
+	install -Dm644 dms-git-repo/assets/dbus/org.freedesktop.Notifications.service \
+		debian/dms-git/usr/share/dbus-1/services/org.freedesktop.Notifications.service
+
 	# Install desktop file and icon
 	install -Dm644 dms-git-repo/assets/dms-open.desktop \
 		debian/dms-git/usr/share/applications/dms-open.desktop

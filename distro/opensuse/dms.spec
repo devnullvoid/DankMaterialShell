@@ -64,6 +64,7 @@ install -d %{buildroot}%{_datadir}/fish/vendor_completions.d
 ./dms completion fish > %{buildroot}%{_datadir}/fish/vendor_completions.d/dms.fish || :
 
 install -Dm644 assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
+install -Dm644 assets/dbus/org.freedesktop.Notifications.service %{buildroot}%{_datadir}/dbus-1/services/org.freedesktop.Notifications.service
 
 install -Dm644 assets/dms-open.desktop %{buildroot}%{_datadir}/applications/dms-open.desktop
 install -Dm644 assets/danklogo.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
@@ -100,6 +101,7 @@ fi
 %dir %{_datadir}/quickshell
 %{_datadir}/quickshell/dms/
 %{_userunitdir}/dms.service
+%{_datadir}/dbus-1/services/org.freedesktop.Notifications.service
 %{_datadir}/applications/dms-open.desktop
 %dir %{_datadir}/icons/hicolor
 %dir %{_datadir}/icons/hicolor/scalable

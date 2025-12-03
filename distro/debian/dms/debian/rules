@@ -56,6 +56,7 @@ override_dh_auto_install:
 	if [ -d DankMaterialShell-$(UPSTREAM_VERSION) ]; then \
 		cp -r DankMaterialShell-$(UPSTREAM_VERSION)/quickshell/* debian/dms/usr/share/quickshell/dms/; \
 		install -Dm644 DankMaterialShell-$(UPSTREAM_VERSION)/assets/systemd/dms.service debian/dms/usr/lib/systemd/user/dms.service; \
+		install -Dm644 DankMaterialShell-$(UPSTREAM_VERSION)/assets/dbus/org.freedesktop.Notifications.service debian/dms/usr/share/dbus-1/services/org.freedesktop.Notifications.service; \
 		install -Dm644 DankMaterialShell-$(UPSTREAM_VERSION)/assets/dms-open.desktop debian/dms/usr/share/applications/dms-open.desktop; \
 		install -Dm644 DankMaterialShell-$(UPSTREAM_VERSION)/assets/danklogo.svg debian/dms/usr/share/icons/hicolor/scalable/apps/danklogo.svg; \
 	else \
