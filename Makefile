@@ -81,7 +81,7 @@ install: build install-bin install-shell install-completions install-systemd ins
 	@echo ""
 	@echo "Installation complete!"
 	@echo ""
-	@echo "=== The DMS Team! ==="
+	@echo "=== Cheers, the DMS Team! ==="
 
 # Uninstallation targets
 uninstall-bin:
