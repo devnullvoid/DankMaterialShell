@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/keybinds"
@@ -53,14 +54,29 @@ func (n *NiriProvider) GetCheatSheet() (*keybinds.CheatSheet, error) {
 	n.parsed = true
 
 	categorizedBinds := make(map[string][]keybinds.Keybind)
-	n.convertSection(result.Section, "", categorizedBinds)
+	n.convertSection(result.Section, "", categorizedBinds, result.ConflictingConfigs)
 
-	return &keybinds.CheatSheet{
+	sheet := &keybinds.CheatSheet{
 		Title:            "Niri Keybinds",
 		Provider:         n.Name(),
 		Binds:            categorizedBinds,
 		DMSBindsIncluded: result.DMSBindsIncluded,
-	}, nil
+	}
+
+	if result.DMSStatus != nil {
+		sheet.DMSStatus = &keybinds.DMSBindsStatus{
+			Exists:          result.DMSStatus.Exists,
+			Included:        result.DMSStatus.Included,
+			IncludePosition: result.DMSStatus.IncludePosition,
+			TotalIncludes:   result.DMSStatus.TotalIncludes,
+			BindsAfterDMS:   result.DMSStatus.BindsAfterDMS,
+			Effective:       result.DMSStatus.Effective,
+			OverriddenBy:    result.DMSStatus.OverriddenBy,
+			StatusMessage:   result.DMSStatus.StatusMessage,
+		}
+	}
+
+	return sheet, nil
 }
 
 func (n *NiriProvider) HasDMSBindsIncluded() bool {
@@ -78,7 +94,7 @@ func (n *NiriProvider) HasDMSBindsIncluded() bool {
 	return n.dmsBindsIncluded
 }
 
-func (n *NiriProvider) convertSection(section *NiriSection, subcategory string, categorizedBinds map[string][]keybinds.Keybind) {
+func (n *NiriProvider) convertSection(section *NiriSection, subcategory string, categorizedBinds map[string][]keybinds.Keybind, conflicts map[string]*NiriKeyBinding) {
 	currentSubcat := subcategory
 	if section.Name != "" {
 		currentSubcat = section.Name
@@ -86,12 +102,12 @@ func (n *NiriProvider) convertSection(section *NiriSection, subcategory string, 
 
 	for _, kb := range section.Keybinds {
 		category := n.categorizeByAction(kb.Action)
-		bind := n.convertKeybind(&kb, currentSubcat)
+		bind := n.convertKeybind(&kb, currentSubcat, conflicts)
 		categorizedBinds[category] = append(categorizedBinds[category], bind)
 	}
 
 	for _, child := range section.Children {
-		n.convertSection(&child, currentSubcat, categorizedBinds)
+		n.convertSection(&child, currentSubcat, categorizedBinds, conflicts)
 	}
 }
 
@@ -128,21 +144,35 @@ func (n *NiriProvider) categorizeByAction(action string) string {
 	}
 }
 
-func (n *NiriProvider) convertKeybind(kb *NiriKeyBinding, subcategory string) keybinds.Keybind {
+func (n *NiriProvider) convertKeybind(kb *NiriKeyBinding, subcategory string, conflicts map[string]*NiriKeyBinding) keybinds.Keybind {
 	rawAction := n.formatRawAction(kb.Action, kb.Args)
+	keyStr := n.formatKey(kb)
 
 	source := "config"
 	if strings.Contains(kb.Source, "dms/binds.kdl") {
 		source = "dms"
 	}
 
-	return keybinds.Keybind{
-		Key:         n.formatKey(kb),
+	bind := keybinds.Keybind{
+		Key:         keyStr,
 		Description: kb.Description,
 		Action:      rawAction,
 		Subcategory: subcategory,
 		Source:      source,
 	}
+
+	if source == "dms" && conflicts != nil {
+		if conflictKb, ok := conflicts[keyStr]; ok {
+			bind.Conflict = &keybinds.Keybind{
+				Key:         keyStr,
+				Description: conflictKb.Description,
+				Action:      n.formatRawAction(conflictKb.Action, conflictKb.Args),
+				Source:      "config",
+			}
+		}
+	}
+
+	return bind
 }
 
 func (n *NiriProvider) formatRawAction(action string, args []string) string {
@@ -386,6 +416,29 @@ func (n *NiriProvider) writeOverrideBinds(binds map[string]*overrideBind) error 
 	return os.WriteFile(overridePath, []byte(content), 0644)
 }
 
+func (n *NiriProvider) getBindSortPriority(action string) int {
+	switch {
+	case strings.HasPrefix(action, "spawn") && strings.Contains(action, "dms"):
+		return 0
+	case strings.Contains(action, "workspace"):
+		return 1
+	case strings.Contains(action, "window") || strings.Contains(action, "column") ||
+		strings.Contains(action, "focus") || strings.Contains(action, "move") ||
+		strings.Contains(action, "swap") || strings.Contains(action, "resize"):
+		return 2
+	case strings.HasPrefix(action, "focus-monitor") || strings.Contains(action, "monitor"):
+		return 3
+	case strings.Contains(action, "screenshot"):
+		return 4
+	case action == "quit" || action == "power-off-monitors" || strings.Contains(action, "dpms"):
+		return 5
+	case strings.HasPrefix(action, "spawn"):
+		return 6
+	default:
+		return 7
+	}
+}
+
 func (n *NiriProvider) generateBindsContent(binds map[string]*overrideBind) string {
 	if len(binds) == 0 {
 		return "binds {}\n"
@@ -400,6 +453,18 @@ func (n *NiriProvider) generateBindsContent(binds map[string]*overrideBind) stri
 			regularBinds = append(regularBinds, bind)
 		}
 	}
+
+	sort.Slice(regularBinds, func(i, j int) bool {
+		pi, pj := n.getBindSortPriority(regularBinds[i].Action), n.getBindSortPriority(regularBinds[j].Action)
+		if pi != pj {
+			return pi < pj
+		}
+		return regularBinds[i].Key < regularBinds[j].Key
+	})
+
+	sort.Slice(recentWindowsBinds, func(i, j int) bool {
+		return recentWindowsBinds[i].Key < recentWindowsBinds[j].Key
+	})
 
 	var sb strings.Builder
 

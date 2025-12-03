@@ -18,6 +18,9 @@ Item {
     property int _lastDataVersion: -1
     property var _cachedCategories: []
     property var _filteredBinds: []
+    property real _savedScrollY: 0
+    property bool _preserveScroll: false
+    property string _editingKey: ""
 
     function _updateFiltered() {
         const allBinds = KeybindsService.getFlatBinds();
@@ -87,6 +90,9 @@ Item {
     function saveNewBind(bindData) {
         KeybindsService.saveBind("", bindData);
         showingNewBind = false;
+        selectedCategory = "";
+        _editingKey = bindData.key;
+        expandedKey = bindData.action;
     }
 
     function scrollToTop() {
@@ -102,9 +108,24 @@ Item {
     Connections {
         target: KeybindsService
         function onBindsLoaded() {
+            const savedY = keybindsTab._savedScrollY;
+            const wasPreserving = keybindsTab._preserveScroll;
             keybindsTab._lastDataVersion = KeybindsService._dataVersion;
             keybindsTab._updateCategories();
             keybindsTab._updateFiltered();
+            keybindsTab._preserveScroll = false;
+            if (wasPreserving)
+                Qt.callLater(() => flickable.contentY = savedY);
+        }
+        function onBindSaved(key) {
+            keybindsTab._savedScrollY = flickable.contentY;
+            keybindsTab._preserveScroll = true;
+            keybindsTab._editingKey = key;
+        }
+        function onBindRemoved(key) {
+            keybindsTab._savedScrollY = flickable.contentY;
+            keybindsTab._preserveScroll = true;
+            keybindsTab._editingKey = "";
         }
     }
 
@@ -228,14 +249,33 @@ Item {
             }
 
             StyledRect {
+                id: warningBox
                 width: Math.min(650, parent.width - Theme.spacingL * 2)
                 height: warningSection.implicitHeight + Theme.spacingL * 2
                 anchors.horizontalCenter: parent.horizontalCenter
                 radius: Theme.cornerRadius
-                color: Theme.withAlpha(Theme.error, 0.15)
-                border.color: Theme.withAlpha(Theme.error, 0.3)
+
+                readonly property var status: KeybindsService.dmsStatus
+                readonly property bool showError: !status.included && status.exists
+                readonly property bool showWarning: status.included && status.overriddenBy > 0
+                readonly property bool showSetup: !status.exists
+
+                color: {
+                    if (showError || showSetup)
+                        return Theme.withAlpha(Theme.error, 0.15);
+                    if (showWarning)
+                        return Theme.withAlpha(Theme.warning ?? Theme.tertiary, 0.15);
+                    return "transparent";
+                }
+                border.color: {
+                    if (showError || showSetup)
+                        return Theme.withAlpha(Theme.error, 0.3);
+                    if (showWarning)
+                        return Theme.withAlpha(Theme.warning ?? Theme.tertiary, 0.3);
+                    return "transparent";
+                }
                 border.width: 1
-                visible: !KeybindsService.dmsBindsIncluded && !KeybindsService.loading
+                visible: (showError || showWarning || showSetup) && !KeybindsService.loading
 
                 Column {
                     id: warningSection
@@ -248,26 +288,44 @@ Item {
                         spacing: Theme.spacingM
 
                         DankIcon {
-                            name: "warning"
+                            name: warningBox.showWarning ? "info" : "warning"
                             size: Theme.iconSize
-                            color: Theme.error
+                            color: warningBox.showWarning ? (Theme.warning ?? Theme.tertiary) : Theme.error
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
                         Column {
-                            width: parent.width - Theme.iconSize - 100 - Theme.spacingM * 2
+                            width: parent.width - Theme.iconSize - (fixButton.visible ? fixButton.width + Theme.spacingM : 0) - Theme.spacingM
                             spacing: Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
 
                             StyledText {
-                                text: I18n.tr("Binds Include Missing")
+                                text: {
+                                    if (warningBox.showSetup)
+                                        return I18n.tr("First Time Setup");
+                                    if (warningBox.showError)
+                                        return I18n.tr("Binds Include Missing");
+                                    if (warningBox.showWarning)
+                                        return I18n.tr("Possible Override Conflicts");
+                                    return "";
+                                }
                                 font.pixelSize: Theme.fontSizeMedium
                                 font.weight: Font.Medium
-                                color: Theme.error
+                                color: warningBox.showWarning ? (Theme.warning ?? Theme.tertiary) : Theme.error
                             }
 
                             StyledText {
-                                text: I18n.tr("dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.")
+                                text: {
+                                    if (warningBox.showSetup)
+                                        return I18n.tr("Click 'Setup' to create dms/binds.kdl and add include to config.kdl.");
+                                    if (warningBox.showError)
+                                        return I18n.tr("dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.");
+                                    if (warningBox.showWarning) {
+                                        const count = warningBox.status.overriddenBy;
+                                        return I18n.tr("%1 DMS bind(s) may be overridden by config binds that come after the include.").arg(count);
+                                    }
+                                    return "";
+                                }
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.surfaceVariantText
                                 wrapMode: Text.WordWrap
@@ -280,12 +338,19 @@ Item {
                             width: fixButtonText.implicitWidth + Theme.spacingL * 2
                             height: 36
                             radius: Theme.cornerRadius
+                            visible: warningBox.showError || warningBox.showSetup
                             color: KeybindsService.fixing ? Theme.withAlpha(Theme.error, 0.6) : Theme.error
                             anchors.verticalCenter: parent.verticalCenter
 
                             StyledText {
                                 id: fixButtonText
-                                text: KeybindsService.fixing ? I18n.tr("Fixing...") : I18n.tr("Fix Now")
+                                text: {
+                                    if (KeybindsService.fixing)
+                                        return I18n.tr("Fixing...");
+                                    if (warningBox.showSetup)
+                                        return I18n.tr("Setup");
+                                    return I18n.tr("Fix Now");
+                                }
                                 font.pixelSize: Theme.fontSizeSmall
                                 font.weight: Font.Medium
                                 color: Theme.surface
@@ -532,6 +597,7 @@ Item {
                             anchors.horizontalCenter: parent.horizontalCenter
                             bindData: modelData
                             isExpanded: keybindsTab.expandedKey === modelData.action
+                            restoreKey: isExpanded ? keybindsTab._editingKey : ""
                             panelWindow: keybindsTab.parentModal
                             onToggleExpand: keybindsTab.toggleExpanded(modelData.action)
                             onSaveBind: (originalKey, newData) => {
@@ -539,6 +605,7 @@ Item {
                                 keybindsTab.expandedKey = modelData.action;
                             }
                             onRemoveBind: key => KeybindsService.removeBind(key)
+                            onRestoreKeyConsumed: keybindsTab._editingKey = ""
                         }
                     }
                 }

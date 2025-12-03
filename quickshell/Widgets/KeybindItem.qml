@@ -17,6 +17,7 @@ Item {
     property var panelWindow: null
     property bool recording: false
     property bool isNew: false
+    property string restoreKey: ""
 
     property int editingKeyIndex: -1
     property string editKey: ""
@@ -44,6 +45,8 @@ Item {
         }
         return false;
     }
+    readonly property var configConflict: bindData.conflict || null
+    readonly property bool hasConfigConflict: configConflict !== null
     readonly property string _originalKey: editingKeyIndex >= 0 && editingKeyIndex < keys.length ? keys[editingKeyIndex].key : ""
     readonly property var _conflicts: editKey ? KeyUtils.getConflictingBinds(editKey, bindData.action, KeybindsService.getFlatBinds()) : []
     readonly property bool hasConflict: _conflicts.length > 0
@@ -52,6 +55,7 @@ Item {
     signal saveBind(string originalKey, var newData)
     signal removeBind(string key)
     signal cancelEdit
+    signal restoreKeyConsumed
 
     implicitHeight: contentColumn.implicitHeight
     height: implicitHeight
@@ -59,8 +63,37 @@ Item {
     Component.onDestruction: _destroyShortcutInhibitor()
 
     onIsExpandedChanged: {
-        if (isExpanded)
+        if (!isExpanded)
+            return;
+        if (restoreKey) {
+            restoreToKey(restoreKey);
+            restoreKeyConsumed();
+        } else {
             resetEdits();
+        }
+    }
+
+    onRestoreKeyChanged: {
+        if (!isExpanded || !restoreKey)
+            return;
+        restoreToKey(restoreKey);
+        restoreKeyConsumed();
+    }
+
+    function restoreToKey(keyToFind) {
+        for (let i = 0; i < keys.length; i++) {
+            if (keys[i].key === keyToFind) {
+                editingKeyIndex = i;
+                editKey = keyToFind;
+                editAction = bindData.action || "";
+                editDesc = bindData.desc || "";
+                hasChanges = false;
+                _actionType = Actions.getActionType(editAction);
+                useCustomCompositor = _actionType === "compositor" && !Actions.isKnownCompositorAction(editAction);
+                return;
+            }
+        }
+        resetEdits();
     }
 
     onEditActionChanged: {
@@ -276,7 +309,21 @@ Item {
                             text: I18n.tr("Override")
                             font.pixelSize: Theme.fontSizeSmall
                             color: Theme.primary
-                            visible: root.hasOverride
+                            visible: root.hasOverride && !root.hasConfigConflict
+                        }
+
+                        DankIcon {
+                            name: "warning"
+                            size: 14
+                            color: Theme.warning ?? Theme.tertiary
+                            visible: root.hasConfigConflict
+                        }
+
+                        StyledText {
+                            text: I18n.tr("Overridden by config")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.warning ?? Theme.tertiary
+                            visible: root.hasConfigConflict
                         }
 
                         Item {
@@ -333,6 +380,58 @@ Item {
                 anchors.top: parent.top
                 anchors.margins: Theme.spacingL
                 spacing: Theme.spacingM
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: conflictColumn.implicitHeight + Theme.spacingM * 2
+                    radius: Theme.cornerRadius
+                    color: Theme.withAlpha(Theme.warning ?? Theme.tertiary, 0.15)
+                    border.color: Theme.withAlpha(Theme.warning ?? Theme.tertiary, 0.3)
+                    border.width: 1
+                    visible: root.hasConfigConflict
+
+                    Column {
+                        id: conflictColumn
+                        anchors.fill: parent
+                        anchors.margins: Theme.spacingM
+                        spacing: Theme.spacingS
+
+                        RowLayout {
+                            width: parent.width
+                            spacing: Theme.spacingS
+
+                            DankIcon {
+                                name: "warning"
+                                size: 16
+                                color: Theme.warning ?? Theme.tertiary
+                            }
+
+                            StyledText {
+                                text: I18n.tr("This bind is overridden by config.kdl")
+                                font.pixelSize: Theme.fontSizeSmall
+                                font.weight: Font.Medium
+                                color: Theme.warning ?? Theme.tertiary
+                                Layout.fillWidth: true
+                            }
+                        }
+
+                        StyledText {
+                            text: I18n.tr("Config action: %1").arg(root.configConflict?.action ?? "")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceVariantText
+                            width: parent.width
+                            wrapMode: Text.WordWrap
+                        }
+
+                        StyledText {
+                            text: I18n.tr("To use this DMS bind, remove or change the keybind in your config.kdl")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceVariantText
+                            width: parent.width
+                            wrapMode: Text.WordWrap
+                        }
+                    }
+                }
 
                 RowLayout {
                     Layout.fillWidth: true

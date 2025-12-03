@@ -39,6 +39,7 @@ Singleton {
     property string pendingScreenshotPath: ""
 
     signal windowUrgentChanged
+    signal configReloaded
 
     function setWorkspaces(newMap) {
         root.workspaces = newMap;
@@ -508,16 +509,19 @@ Singleton {
     function handleConfigLoaded(data) {
         if (data.failed) {
             validateProcess.running = true;
-        } else {
-            configValidationOutput = "";
-            ToastService.dismissCategory("niri-config");
-            fetchOutputs();
-            if (hasInitialConnection && !suppressConfigToast && !suppressNextConfigToast && !matugenSuppression) {
-                ToastService.showInfo("niri: config reloaded", "", "", "niri-config");
-            } else if (suppressNextConfigToast) {
-                suppressNextConfigToast = false;
-                suppressResetTimer.stop();
-            }
+            return;
+        }
+
+        configValidationOutput = "";
+        ToastService.dismissCategory("niri-config");
+        fetchOutputs();
+        configReloaded();
+
+        if (hasInitialConnection && !suppressConfigToast && !suppressNextConfigToast && !matugenSuppression) {
+            ToastService.showInfo("niri: config reloaded", "", "", "niri-config");
+        } else if (suppressNextConfigToast) {
+            suppressNextConfigToast = false;
+            suppressResetTimer.stop();
         }
 
         if (!hasInitialConnection) {

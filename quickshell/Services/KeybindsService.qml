@@ -28,6 +28,17 @@ Singleton {
     property string lastError: ""
     property bool dmsBindsIncluded: true
 
+    property var dmsStatus: ({
+            exists: true,
+            included: true,
+            includePosition: -1,
+            totalIncludes: 0,
+            bindsAfterDms: 0,
+            effective: true,
+            overriddenBy: 0,
+            statusMessage: ""
+        })
+
     property var _rawData: null
     property var keybinds: ({})
     property var _allBinds: ({})
@@ -57,6 +68,14 @@ Singleton {
         function onCompositorChanged() {
             if (CompositorService.isNiri)
                 Qt.callLater(root.loadBinds);
+        }
+    }
+
+    Connections {
+        target: NiriService
+        enabled: CompositorService.isNiri
+        function onConfigReloaded() {
+            Qt.callLater(root.loadBinds, false);
         }
     }
 
@@ -178,7 +197,7 @@ Singleton {
     }
 
     function loadBinds(showLoading) {
-        if (loading || !available)
+        if (loadProcess.running || !available)
             return;
         const hasData = Object.keys(_allBinds).length > 0;
         loading = showLoading !== false && !hasData;
@@ -188,8 +207,22 @@ Singleton {
 
     function _processData() {
         keybinds = _rawData || {};
-        if (currentProvider === "niri")
+        if (currentProvider === "niri") {
             dmsBindsIncluded = _rawData?.dmsBindsIncluded ?? true;
+            const status = _rawData?.dmsStatus;
+            if (status) {
+                dmsStatus = {
+                    exists: status.exists ?? true,
+                    included: status.included ?? true,
+                    includePosition: status.includePosition ?? -1,
+                    totalIncludes: status.totalIncludes ?? 0,
+                    bindsAfterDms: status.bindsAfterDms ?? 0,
+                    effective: status.effective ?? true,
+                    overriddenBy: status.overriddenBy ?? 0,
+                    statusMessage: status.statusMessage ?? ""
+                };
+            }
+        }
 
         if (!_rawData?.binds) {
             _allBinds = {};
@@ -239,12 +272,15 @@ Singleton {
                     actionMap[action].keys.push(keyData);
                     if (!actionMap[action].desc && bind.desc)
                         actionMap[action].desc = bind.desc;
+                    if (!actionMap[action].conflict && bind.conflict)
+                        actionMap[action].conflict = bind.conflict;
                 } else {
                     const entry = {
                         category: category,
                         action: action,
                         desc: bind.desc || "",
-                        keys: [keyData]
+                        keys: [keyData],
+                        conflict: bind.conflict || null
                     };
                     actionMap[action] = entry;
                     grouped.push(entry);

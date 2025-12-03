@@ -26,33 +26,76 @@ type NiriSection struct {
 }
 
 type NiriParser struct {
-	configDir        string
-	processedFiles   map[string]bool
-	bindMap          map[string]*NiriKeyBinding
-	bindOrder        []string
-	currentSource    string
-	dmsBindsIncluded bool
+	configDir          string
+	processedFiles     map[string]bool
+	bindMap            map[string]*NiriKeyBinding
+	bindOrder          []string
+	currentSource      string
+	dmsBindsIncluded   bool
+	dmsBindsExists     bool
+	includeCount       int
+	dmsIncludePos      int
+	bindsBeforeDMS     int
+	bindsAfterDMS      int
+	dmsBindKeys        map[string]bool
+	configBindKeys     map[string]bool
+	dmsProcessed       bool
+	dmsBindMap         map[string]*NiriKeyBinding
+	conflictingConfigs map[string]*NiriKeyBinding
 }
 
 func NewNiriParser(configDir string) *NiriParser {
 	return &NiriParser{
-		configDir:      configDir,
-		processedFiles: make(map[string]bool),
-		bindMap:        make(map[string]*NiriKeyBinding),
-		bindOrder:      []string{},
-		currentSource:  "",
+		configDir:          configDir,
+		processedFiles:     make(map[string]bool),
+		bindMap:            make(map[string]*NiriKeyBinding),
+		bindOrder:          []string{},
+		currentSource:      "",
+		dmsIncludePos:      -1,
+		dmsBindKeys:        make(map[string]bool),
+		configBindKeys:     make(map[string]bool),
+		dmsBindMap:         make(map[string]*NiriKeyBinding),
+		conflictingConfigs: make(map[string]*NiriKeyBinding),
 	}
 }
 
 func (p *NiriParser) Parse() (*NiriSection, error) {
+	dmsBindsPath := filepath.Join(p.configDir, "dms", "binds.kdl")
+	if _, err := os.Stat(dmsBindsPath); err == nil {
+		p.dmsBindsExists = true
+	}
+
 	configPath := filepath.Join(p.configDir, "config.kdl")
 	section, err := p.parseFile(configPath, "")
 	if err != nil {
 		return nil, err
 	}
 
+	if p.dmsBindsExists && !p.dmsProcessed {
+		p.parseDMSBindsDirectly(dmsBindsPath, section)
+	}
+
 	section.Keybinds = p.finalizeBinds()
 	return section, nil
+}
+
+func (p *NiriParser) parseDMSBindsDirectly(dmsBindsPath string, section *NiriSection) {
+	data, err := os.ReadFile(dmsBindsPath)
+	if err != nil {
+		return
+	}
+
+	doc, err := kdl.Parse(strings.NewReader(string(data)))
+	if err != nil {
+		return
+	}
+
+	prevSource := p.currentSource
+	p.currentSource = dmsBindsPath
+	baseDir := filepath.Dir(dmsBindsPath)
+	p.processNodes(doc.Nodes, section, baseDir)
+	p.currentSource = prevSource
+	p.dmsProcessed = true
 }
 
 func (p *NiriParser) finalizeBinds() []NiriKeyBinding {
@@ -67,6 +110,20 @@ func (p *NiriParser) finalizeBinds() []NiriKeyBinding {
 
 func (p *NiriParser) addBind(kb *NiriKeyBinding) {
 	key := p.formatBindKey(kb)
+	isDMSBind := strings.Contains(kb.Source, "dms/binds.kdl")
+
+	if isDMSBind {
+		p.dmsBindKeys[key] = true
+		p.dmsBindMap[key] = kb
+	} else if p.dmsBindKeys[key] {
+		p.bindsAfterDMS++
+		p.conflictingConfigs[key] = kb
+		p.configBindKeys[key] = true
+		return
+	} else {
+		p.configBindKeys[key] = true
+	}
+
 	if _, exists := p.bindMap[key]; !exists {
 		p.bindOrder = append(p.bindOrder, key)
 	}
@@ -105,9 +162,11 @@ func (p *NiriParser) parseFile(filePath, sectionName string) (*NiriSection, erro
 		Name: sectionName,
 	}
 
+	prevSource := p.currentSource
 	p.currentSource = absPath
 	baseDir := filepath.Dir(absPath)
 	p.processNodes(doc.Nodes, section, baseDir)
+	p.currentSource = prevSource
 
 	return section, nil
 }
@@ -133,13 +192,22 @@ func (p *NiriParser) handleInclude(node *document.Node, section *NiriSection, ba
 	}
 
 	includePath := strings.Trim(node.Arguments[0].String(), "\"")
-	if includePath == "dms/binds.kdl" || strings.HasSuffix(includePath, "/dms/binds.kdl") {
+	isDMSInclude := includePath == "dms/binds.kdl" || strings.HasSuffix(includePath, "/dms/binds.kdl")
+
+	p.includeCount++
+	if isDMSInclude {
 		p.dmsBindsIncluded = true
+		p.dmsIncludePos = p.includeCount
+		p.bindsBeforeDMS = len(p.bindMap)
 	}
 
 	fullPath := filepath.Join(baseDir, includePath)
 	if filepath.IsAbs(includePath) {
 		fullPath = includePath
+	}
+
+	if isDMSInclude {
+		p.dmsProcessed = true
 	}
 
 	includedSection, err := p.parseFile(fullPath, "")
@@ -230,8 +298,49 @@ func (p *NiriParser) parseKeyCombo(combo string) ([]string, string) {
 }
 
 type NiriParseResult struct {
-	Section          *NiriSection
-	DMSBindsIncluded bool
+	Section            *NiriSection
+	DMSBindsIncluded   bool
+	DMSStatus          *DMSBindsStatusInfo
+	ConflictingConfigs map[string]*NiriKeyBinding
+}
+
+type DMSBindsStatusInfo struct {
+	Exists          bool
+	Included        bool
+	IncludePosition int
+	TotalIncludes   int
+	BindsAfterDMS   int
+	Effective       bool
+	OverriddenBy    int
+	StatusMessage   string
+}
+
+func (p *NiriParser) buildDMSStatus() *DMSBindsStatusInfo {
+	status := &DMSBindsStatusInfo{
+		Exists:          p.dmsBindsExists,
+		Included:        p.dmsBindsIncluded,
+		IncludePosition: p.dmsIncludePos,
+		TotalIncludes:   p.includeCount,
+		BindsAfterDMS:   p.bindsAfterDMS,
+	}
+
+	switch {
+	case !p.dmsBindsExists:
+		status.Effective = false
+		status.StatusMessage = "dms/binds.kdl does not exist"
+	case !p.dmsBindsIncluded:
+		status.Effective = false
+		status.StatusMessage = "dms/binds.kdl is not included in config.kdl"
+	case p.bindsAfterDMS > 0:
+		status.Effective = true
+		status.OverriddenBy = p.bindsAfterDMS
+		status.StatusMessage = "Some DMS binds may be overridden by config binds"
+	default:
+		status.Effective = true
+		status.StatusMessage = "DMS binds are active"
+	}
+
+	return status
 }
 
 func ParseNiriKeys(configDir string) (*NiriParseResult, error) {
@@ -241,7 +350,9 @@ func ParseNiriKeys(configDir string) (*NiriParseResult, error) {
 		return nil, err
 	}
 	return &NiriParseResult{
-		Section:          section,
-		DMSBindsIncluded: parser.HasDMSBindsIncluded(),
+		Section:            section,
+		DMSBindsIncluded:   parser.HasDMSBindsIncluded(),
+		DMSStatus:          parser.buildDMSStatus(),
+		ConflictingConfigs: parser.conflictingConfigs,
 	}, nil
 }
