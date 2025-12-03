@@ -15,9 +15,70 @@ on:
     - cron: '0 */3 * * *'  # Every 3 hours for dms-git builds
 
 jobs:
-  upload-ppa:
+  check-updates:
+    name: Check for updates
     runs-on: ubuntu-latest
-    
+
+    outputs:
+      has_updates: ${{ steps.check.outputs.has_updates }}
+      packages: ${{ steps.check.outputs.packages }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for updates
+        id: check
+        run: |
+          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+            echo "packages=dms-git" >> $GITHUB_OUTPUT
+            echo "Checking if dms-git source has changed..."
+
+            # Get current commit hash (8 chars to match changelog format)
+            CURRENT_COMMIT=$(git rev-parse --short=8 HEAD)
+
+            # Extract commit hash from changelog
+            # Format: dms-git (0.6.2+git2264.c5c5ce84) questing; urgency=medium
+            CHANGELOG_FILE="distro/ubuntu/dms-git/debian/changelog"
+
+            if [[ -f "$CHANGELOG_FILE" ]]; then
+              CHANGELOG_COMMIT=$(head -1 "$CHANGELOG_FILE" | grep -oP '\.[a-f0-9]{8}' | tr -d '.' || echo "")
+
+              if [[ -n "$CHANGELOG_COMMIT" ]]; then
+                if [[ "$CURRENT_COMMIT" == "$CHANGELOG_COMMIT" ]]; then
+                  echo "has_updates=false" >> $GITHUB_OUTPUT
+                  echo "📋 Commit $CURRENT_COMMIT already in changelog, skipping upload"
+                else
+                  echo "has_updates=true" >> $GITHUB_OUTPUT
+                  echo "📋 New commit detected: $CURRENT_COMMIT (changelog has $CHANGELOG_COMMIT)"
+                fi
+              else
+                echo "has_updates=true" >> $GITHUB_OUTPUT
+                echo "📋 Could not extract commit from changelog, proceeding with upload"
+              fi
+            else
+              echo "has_updates=true" >> $GITHUB_OUTPUT
+              echo "📋 No changelog file found, proceeding with upload"
+            fi
+          elif [[ -n "${{ github.event.inputs.package }}" ]]; then
+            echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
+            echo "has_updates=true" >> $GITHUB_OUTPUT
+            echo "Manual trigger: ${{ github.event.inputs.package }}"
+          else
+            echo "packages=dms-git" >> $GITHUB_OUTPUT
+            echo "has_updates=true" >> $GITHUB_OUTPUT
+          fi
+
+  upload-ppa:
+    name: Upload to PPA
+    needs: check-updates
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      needs.check-updates.outputs.has_updates == 'true'
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,13 +115,13 @@ jobs:
         id: packages
         run: |
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
-            echo "packages=dms-git" >> $GITHUB_OUTPUT
+            echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
             echo "Triggered by schedule: uploading git package"
           elif [[ -n "${{ github.event.inputs.package }}" ]]; then
             echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
             echo "Manual trigger: ${{ github.event.inputs.package }}"
           else
-            echo "packages=dms-git" >> $GITHUB_OUTPUT
+            echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
           fi
       
       - name: Upload to PPA
@@ -102,7 +163,11 @@ jobs:
           echo "### PPA Package Upload Complete" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "- **Packages**: ${{ steps.packages.outputs.packages }}" >> $GITHUB_STEP_SUMMARY
-          
+
+          if [[ "${{ needs.check-updates.outputs.has_updates }}" == "false" ]]; then
+            echo "- **Status**: Skipped (no changes detected)" >> $GITHUB_STEP_SUMMARY
+          fi
+
           PACKAGES="${{ steps.packages.outputs.packages }}"
           if [[ "$PACKAGES" == "all" ]]; then
             echo "- **PPA dms**: https://launchpad.net/~avengemedia/+archive/ubuntu/dms/+packages" >> $GITHUB_STEP_SUMMARY
