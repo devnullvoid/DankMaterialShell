@@ -29,12 +29,6 @@
   "(Unnamed)": {
     "(Unnamed)": "(İsimsiz)"
   },
-  "- Stateless System Monitoring": {
-    "- Stateless System Monitoring": "- Durumsuz Sistem İzleme"
-  },
-  "- Support Us With a Star ⭐": {
-    "- Support Us With a Star ⭐": "- Bir yıldızla bize destek olun ⭐"
-  },
   "0 = square corners": {
     "0 = square corners": ""
   },
@@ -79,9 +73,6 @@
   },
   "5 seconds": {
     "5 seconds": ""
-  },
-  "7-Day Forecast": {
-    "7-Day Forecast": "7 Günlük Tahmin"
   },
   "8 seconds": {
     "8 seconds": ""
@@ -149,14 +140,8 @@
   "Add Widget": {
     "Add Widget": "Widget Ekle"
   },
-  "Add Widget to ": {
-    "Add Widget to ": "Şuraya Widget ekle:"
-  },
   "Add Widget to %1 Section": {
     "Add Widget to %1 Section": "%1 Bölümüne Widget Ekle"
-  },
-  "Add a VPN in NetworkManager": {
-    "Add a VPN in NetworkManager": "NetworkManager'da VPN ekle"
   },
   "Add a border around the dock": {
     "Add a border around the dock": "Dock etrafına kenarlık ekle"
@@ -181,9 +166,6 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: Geri • F1/I: Dosya bilgisi • F10: Yardım • Esc: Kapat"
-  },
-  "Always Show OSD Percentage": {
-    "Always Show OSD Percentage": "OSD Yüzdesini Her Zaman Göster"
   },
   "Always Show Percentage": {
     "Always Show Percentage": ""
@@ -227,21 +209,6 @@
   "Apps are ordered by usage frequency, then last used, then alphabetically.": {
     "Apps are ordered by usage frequency, then last used, then alphabetically.": "Uygulamalar önce kullanım sıklığına göre, daha sonra son kullanılana göre ve en son alfabetik olarak sıralanır."
   },
-  "Are you sure you want to hibernate the system?": {
-    "Are you sure you want to hibernate the system?": "Sistemi hazırda bekletme moduna almak istediğinizden emin misiniz?"
-  },
-  "Are you sure you want to log out?": {
-    "Are you sure you want to log out?": "Çıkış yapmak istediğinizden emin misiniz?"
-  },
-  "Are you sure you want to power off the system?": {
-    "Are you sure you want to power off the system?": "Sistemi kapatmak istediğinizden emin misiniz?"
-  },
-  "Are you sure you want to reboot the system?": {
-    "Are you sure you want to reboot the system?": "Sistemi yeniden başlatmak istediğinizden emin misiniz?"
-  },
-  "Are you sure you want to suspend the system?": {
-    "Are you sure you want to suspend the system?": "Sistemi askıya almak istediğinizden emin misiniz?"
-  },
   "Audio": {
     "Audio": "Ses"
   },
@@ -253,9 +220,6 @@
   },
   "Audio Devices": {
     "Audio Devices": "Ses Aygıtları"
-  },
-  "Audio Icon": {
-    "Audio Icon": "Ses Simgesi"
   },
   "Audio Output Devices (": {
     "Audio Output Devices (": "Ses Çıkış Aygıtları ("
@@ -332,9 +296,6 @@
   "Automatically determine your location using your IP address": {
     "Automatically determine your location using your IP address": "IP adresinizi kullanarak konumunuzu otomatik olarak belirleyin"
   },
-  "Automatically extract colors from wallpaper": {
-    "Automatically extract colors from wallpaper": "Duvar kağıdından renkleri otomatik olarak çıkarın"
-  },
   "Automatically hide the top bar to expand screen real estate": {
     "Automatically hide the top bar to expand screen real estate": "Ekran alanını genişletmek için üst çubuğu otomatik olarak gizle"
   },
@@ -397,9 +358,6 @@
   },
   "Bluetooth": {
     "Bluetooth": "Bluetooth"
-  },
-  "Bluetooth Icon": {
-    "Bluetooth Icon": "Bluetooth Simgesi"
   },
   "Bluetooth Settings": {
     "Bluetooth Settings": "Bluetooth Ayarları"
@@ -587,6 +545,9 @@
   "Close Overview on Launch": {
     "Close Overview on Launch": "Başlatmada Genel Görünümü Kapat"
   },
+  "Color": {
+    "Color": ""
+  },
   "Color Mode": {
     "Color Mode": ""
   },
@@ -722,11 +683,11 @@
   "Corner Radius": {
     "Corner Radius": ""
   },
-  "Corner Radius (0 = square corners)": {
-    "Corner Radius (0 = square corners)": "Köşe Yarıçapı (0 = kare köşeler)"
-  },
   "Corner Radius Override": {
     "Corner Radius Override": "Köşe Yarıçapı Değiştirme"
+  },
+  "Corners & Background": {
+    "Corners & Background": ""
   },
   "Cover Open": {
     "Cover Open": "Kapak Açık"
@@ -826,12 +787,6 @@
   },
   "Dank Bar": {
     "Dank Bar": "Dank Bar"
-  },
-  "Dank Bar Transparency": {
-    "Dank Bar Transparency": "Dank Bar Şeffaflığı"
-  },
-  "Dank Bar Widget Transparency": {
-    "Dank Bar Widget Transparency": "Dank Bar Widget Şeffaflığı"
   },
   "DankBar Font Scale": {
     "DankBar Font Scale": "DankBar Yazı Tipi Ölçeği"
@@ -941,9 +896,6 @@
   "Display a dock with pinned and running applications": {
     "Display a dock with pinned and running applications": ""
   },
-  "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
-    "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "Ekranın üst, alt, sol veya sağ kenarına yerleştirilebilen, sabitlenmiş ve çalışan uygulamaları içeren bir dock görüntüleyin."
-  },
   "Display all priorities over fullscreen apps": {
     "Display all priorities over fullscreen apps": "Tam ekran uygulamaların üzerinde tüm öncelikleri göster"
   },
@@ -967,9 +919,6 @@
   },
   "Display settings for ": {
     "Display settings for ": "Ekran ayarları: "
-  },
-  "Display volume and brightness percentage values by default in OSD popups": {
-    "Display volume and brightness percentage values by default in OSD popups": "OSD açılır pencerelerinde varsayılan olarak ses seviyesi ve parlaklık yüzdelik değerlerini göster"
   },
   "Display volume and brightness percentage values in OSD popups": {
     "Display volume and brightness percentage values in OSD popups": ""
@@ -1034,8 +983,8 @@
   "Dusk (Nautical Twilight)": {
     "Dusk (Nautical Twilight)": "Alacakaranlık (Denizci Alacakaranlığı)"
   },
-  "Dynamic Theming": {
-    "Dynamic Theming": "Dinamik Tema"
+  "Edge Spacing": {
+    "Edge Spacing": ""
   },
   "Edge Spacing (0 = edge-to-edge)": {
     "Edge Spacing (0 = edge-to-edge)": "Kenar Aralığı (0 = kenardan kenara)"
@@ -1051,6 +1000,9 @@
   },
   "Enable Bar": {
     "Enable Bar": "Barı Etkinleştir"
+  },
+  "Enable Border": {
+    "Enable Border": ""
   },
   "Enable Do Not Disturb": {
     "Enable Do Not Disturb": ""
@@ -1069,6 +1021,9 @@
   },
   "Enable WiFi": {
     "Enable WiFi": "WiFi Etkinleştir"
+  },
+  "Enable Widget Outline": {
+    "Enable Widget Outline": ""
   },
   "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": {
     "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": "Kompozitör tarafından hedeflenebilir bulanıklık katmanını etkinleştir (isim alanı: dms:blurwallpaper). Manuel Niri yapılandırması gerektirir."
@@ -1405,6 +1360,9 @@
   },
   "Hibernate": {
     "Hibernate": "Hazırda Beklet"
+  },
+  "Hide Delay": {
+    "Hide Delay": ""
   },
   "Hide Delay (ms)": {
     "Hide Delay (ms)": "Gizleme Gecikmesi (ms)"
@@ -2473,6 +2431,9 @@
   },
   "Select Application": {
     "Select Application": "Uygulama Seç"
+  },
+  "Select Bar": {
+    "Select Bar": ""
   },
   "Select Launcher Logo": {
     "Select Launcher Logo": "Başlatıcı Logosu Seç"

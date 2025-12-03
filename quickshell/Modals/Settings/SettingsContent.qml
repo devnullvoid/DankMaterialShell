@@ -381,5 +381,23 @@ FocusScope {
                 }
             }
         }
+
+        Loader {
+            id: widgetsLoader
+            anchors.fill: parent
+            active: root.currentIndex === 22
+            visible: active
+            focus: active
+
+            sourceComponent: WidgetsTab {
+                parentModal: root.parentModal
+            }
+
+            onActiveChanged: {
+                if (active && item) {
+                    Qt.callLater(() => item.forceActiveFocus());
+                }
+            }
+        }
     }
 }

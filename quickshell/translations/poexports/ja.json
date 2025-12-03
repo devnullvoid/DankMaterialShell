@@ -29,12 +29,6 @@
   "(Unnamed)": {
     "(Unnamed)": "（名前なし）"
   },
-  "- Stateless System Monitoring": {
-    "- Stateless System Monitoring": "- ステートレスシステム監視"
-  },
-  "- Support Us With a Star ⭐": {
-    "- Support Us With a Star ⭐": "- 星を付けて応援してください⭐"
-  },
   "0 = square corners": {
     "0 = square corners": ""
   },
@@ -79,9 +73,6 @@
   },
   "5 seconds": {
     "5 seconds": ""
-  },
-  "7-Day Forecast": {
-    "7-Day Forecast": "7日間予報"
   },
   "8 seconds": {
     "8 seconds": ""
@@ -149,14 +140,8 @@
   "Add Widget": {
     "Add Widget": "ウィジェットを追加"
   },
-  "Add Widget to ": {
-    "Add Widget to ": "ウィジェットを追加 "
-  },
   "Add Widget to %1 Section": {
     "Add Widget to %1 Section": ""
-  },
-  "Add a VPN in NetworkManager": {
-    "Add a VPN in NetworkManager": "NetworkManagerでVPNを追加"
   },
   "Add a border around the dock": {
     "Add a border around the dock": ""
@@ -181,9 +166,6 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: 戻る • F1/I: ファイル情報 • F10: ヘルプ • Esc: 閉じる"
-  },
-  "Always Show OSD Percentage": {
-    "Always Show OSD Percentage": "常に OSD パーセンテージを表示"
   },
   "Always Show Percentage": {
     "Always Show Percentage": ""
@@ -227,21 +209,6 @@
   "Apps are ordered by usage frequency, then last used, then alphabetically.": {
     "Apps are ordered by usage frequency, then last used, then alphabetically.": "アプリは使用頻度、最終使用日、アルファベット順の優先順位で並べられています。"
   },
-  "Are you sure you want to hibernate the system?": {
-    "Are you sure you want to hibernate the system?": "システムを休止状態にしますか?"
-  },
-  "Are you sure you want to log out?": {
-    "Are you sure you want to log out?": "ログアウトしてもよろしいですか?"
-  },
-  "Are you sure you want to power off the system?": {
-    "Are you sure you want to power off the system?": "システムの電源をオフにしてもよろしいですか?"
-  },
-  "Are you sure you want to reboot the system?": {
-    "Are you sure you want to reboot the system?": "システムを再起動してもよろしいですか?"
-  },
-  "Are you sure you want to suspend the system?": {
-    "Are you sure you want to suspend the system?": "システムを一時停止してもよろしいですか?"
-  },
   "Audio": {
     "Audio": ""
   },
@@ -253,9 +220,6 @@
   },
   "Audio Devices": {
     "Audio Devices": "オーディオデバイス"
-  },
-  "Audio Icon": {
-    "Audio Icon": "オーディオアイコン"
   },
   "Audio Output Devices (": {
     "Audio Output Devices (": "オーディオ出力デバイス（"
@@ -332,9 +296,6 @@
   "Automatically determine your location using your IP address": {
     "Automatically determine your location using your IP address": "IPアドレスを使用して現在地を自動的に特定します"
   },
-  "Automatically extract colors from wallpaper": {
-    "Automatically extract colors from wallpaper": "壁紙から色を自動的に抽出"
-  },
   "Automatically hide the top bar to expand screen real estate": {
     "Automatically hide the top bar to expand screen real estate": "画面のスペースを広げるために上部のバーを自動的に非表示"
   },
@@ -397,9 +358,6 @@
   },
   "Bluetooth": {
     "Bluetooth": ""
-  },
-  "Bluetooth Icon": {
-    "Bluetooth Icon": "Bluetoothアイコン"
   },
   "Bluetooth Settings": {
     "Bluetooth Settings": "Bluetooth設定"
@@ -587,6 +545,9 @@
   "Close Overview on Launch": {
     "Close Overview on Launch": "起動中のときに概要を閉じる"
   },
+  "Color": {
+    "Color": ""
+  },
   "Color Mode": {
     "Color Mode": ""
   },
@@ -722,11 +683,11 @@
   "Corner Radius": {
     "Corner Radius": ""
   },
-  "Corner Radius (0 = square corners)": {
-    "Corner Radius (0 = square corners)": "コーナー半径（0 = 角丸なし）"
-  },
   "Corner Radius Override": {
     "Corner Radius Override": "コーナー半径オーバーライド"
+  },
+  "Corners & Background": {
+    "Corners & Background": ""
   },
   "Cover Open": {
     "Cover Open": "カバーオープン"
@@ -826,12 +787,6 @@
   },
   "Dank Bar": {
     "Dank Bar": "Dank Bar"
-  },
-  "Dank Bar Transparency": {
-    "Dank Bar Transparency": "Dank Barの透明性"
-  },
-  "Dank Bar Widget Transparency": {
-    "Dank Bar Widget Transparency": "Dank Barウィジェットの透明度"
   },
   "DankBar Font Scale": {
     "DankBar Font Scale": "Dank Bar フォントスケール"
@@ -941,9 +896,6 @@
   "Display a dock with pinned and running applications": {
     "Display a dock with pinned and running applications": ""
   },
-  "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
-    "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "画面の上、下、左、右の端に配置できる、ピン留めされた実行中のアプリケーションを含むドックを表示します"
-  },
   "Display all priorities over fullscreen apps": {
     "Display all priorities over fullscreen apps": "フルスクリーンアプリよりもすべての優先度を表示する"
   },
@@ -967,9 +919,6 @@
   },
   "Display settings for ": {
     "Display settings for ": "以下の設定を表示 "
-  },
-  "Display volume and brightness percentage values by default in OSD popups": {
-    "Display volume and brightness percentage values by default in OSD popups": "OSDポップアップに音量と輝度のパーセンテージ値をデフォルトで表示"
   },
   "Display volume and brightness percentage values in OSD popups": {
     "Display volume and brightness percentage values in OSD popups": ""
@@ -1034,8 +983,8 @@
   "Dusk (Nautical Twilight)": {
     "Dusk (Nautical Twilight)": ""
   },
-  "Dynamic Theming": {
-    "Dynamic Theming": "ダイナミックテーマ"
+  "Edge Spacing": {
+    "Edge Spacing": ""
   },
   "Edge Spacing (0 = edge-to-edge)": {
     "Edge Spacing (0 = edge-to-edge)": "エッジ間隔（0 = エッジ・トゥ・エッジ）"
@@ -1051,6 +1000,9 @@
   },
   "Enable Bar": {
     "Enable Bar": "バーを起用"
+  },
+  "Enable Border": {
+    "Enable Border": ""
   },
   "Enable Do Not Disturb": {
     "Enable Do Not Disturb": ""
@@ -1069,6 +1021,9 @@
   },
   "Enable WiFi": {
     "Enable WiFi": "WiFiを有効にする"
+  },
+  "Enable Widget Outline": {
+    "Enable Widget Outline": ""
   },
   "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": {
     "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": "コンポジターをターゲットに設定できるぼかしレイヤー(名前空間：dms:blurwallpaper)を有効にします。Niri を手動で設定する必要があります。"
@@ -1405,6 +1360,9 @@
   },
   "Hibernate": {
     "Hibernate": "休止状態"
+  },
+  "Hide Delay": {
+    "Hide Delay": ""
   },
   "Hide Delay (ms)": {
     "Hide Delay (ms)": "遅延を隠す (ms)"
@@ -2473,6 +2431,9 @@
   },
   "Select Application": {
     "Select Application": ""
+  },
+  "Select Bar": {
+    "Select Bar": ""
   },
   "Select Launcher Logo": {
     "Select Launcher Logo": "ランチャーロゴを選ぶ"

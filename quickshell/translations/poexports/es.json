@@ -29,12 +29,6 @@
   "(Unnamed)": {
     "(Unnamed)": "(Sin nombre)"
   },
-  "- Stateless System Monitoring": {
-    "- Stateless System Monitoring": "- Monitoreo de sistema sin estado"
-  },
-  "- Support Us With a Star ⭐": {
-    "- Support Us With a Star ⭐": "- Apóyanos con una estrella"
-  },
   "0 = square corners": {
     "0 = square corners": ""
   },
@@ -79,9 +73,6 @@
   },
   "5 seconds": {
     "5 seconds": ""
-  },
-  "7-Day Forecast": {
-    "7-Day Forecast": "Clima de la semana"
   },
   "8 seconds": {
     "8 seconds": ""
@@ -149,14 +140,8 @@
   "Add Widget": {
     "Add Widget": "Añadir widget"
   },
-  "Add Widget to ": {
-    "Add Widget to ": "Añadir widget a "
-  },
   "Add Widget to %1 Section": {
     "Add Widget to %1 Section": "Agregar widget a la sección %1"
-  },
-  "Add a VPN in NetworkManager": {
-    "Add a VPN in NetworkManager": "Añadir una VPN en NetworkManager"
   },
   "Add a border around the dock": {
     "Add a border around the dock": ""
@@ -181,9 +166,6 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: Atrás • F1/I: Información del archivo • F10: Ayuda • Esc: Cerrar+"
-  },
-  "Always Show OSD Percentage": {
-    "Always Show OSD Percentage": "Siempre mostrar el porcentaje en el OSD"
   },
   "Always Show Percentage": {
     "Always Show Percentage": ""
@@ -227,21 +209,6 @@
   "Apps are ordered by usage frequency, then last used, then alphabetically.": {
     "Apps are ordered by usage frequency, then last used, then alphabetically.": "Las aplicaciones son ordenadas por frecuencia de uso, luego por último utilizado, y luego alfabéticamente."
   },
-  "Are you sure you want to hibernate the system?": {
-    "Are you sure you want to hibernate the system?": "¿Estás seguro de que quieres hibernar el sistema?"
-  },
-  "Are you sure you want to log out?": {
-    "Are you sure you want to log out?": "¿Estás seguro de que quieres cerrar sesión?"
-  },
-  "Are you sure you want to power off the system?": {
-    "Are you sure you want to power off the system?": "¿Estás seguro de que quieres apagar el sistema?"
-  },
-  "Are you sure you want to reboot the system?": {
-    "Are you sure you want to reboot the system?": "¿Estás seguro de que quieres reiniciar el sistema?"
-  },
-  "Are you sure you want to suspend the system?": {
-    "Are you sure you want to suspend the system?": "¿Estás seguro de que quieres suspender el sistema?"
-  },
   "Audio": {
     "Audio": "Audio"
   },
@@ -253,9 +220,6 @@
   },
   "Audio Devices": {
     "Audio Devices": "Dispositivos de audio"
-  },
-  "Audio Icon": {
-    "Audio Icon": "Icono de audio"
   },
   "Audio Output Devices (": {
     "Audio Output Devices (": "Salida de audio ("
@@ -332,9 +296,6 @@
   "Automatically determine your location using your IP address": {
     "Automatically determine your location using your IP address": "Determinar tu ubicación usando tu dirección IP"
   },
-  "Automatically extract colors from wallpaper": {
-    "Automatically extract colors from wallpaper": "Extraer colores desde tu fondo de pantalla"
-  },
   "Automatically hide the top bar to expand screen real estate": {
     "Automatically hide the top bar to expand screen real estate": "Ocultar la barra superior automáticamente para tener más espacio de pantalla"
   },
@@ -397,9 +358,6 @@
   },
   "Bluetooth": {
     "Bluetooth": "Bluetooth"
-  },
-  "Bluetooth Icon": {
-    "Bluetooth Icon": "Icono Bluetooth"
   },
   "Bluetooth Settings": {
     "Bluetooth Settings": "Ajustes Bluetooth"
@@ -587,6 +545,9 @@
   "Close Overview on Launch": {
     "Close Overview on Launch": "Cerrar vista general al iniciar"
   },
+  "Color": {
+    "Color": ""
+  },
   "Color Mode": {
     "Color Mode": ""
   },
@@ -722,11 +683,11 @@
   "Corner Radius": {
     "Corner Radius": ""
   },
-  "Corner Radius (0 = square corners)": {
-    "Corner Radius (0 = square corners)": "Redondeo de esquinas (0 = esquinas cuadradas)"
-  },
   "Corner Radius Override": {
     "Corner Radius Override": "Redondeo de esquinas personal"
+  },
+  "Corners & Background": {
+    "Corners & Background": ""
   },
   "Cover Open": {
     "Cover Open": "Cubierta abierta"
@@ -826,12 +787,6 @@
   },
   "Dank Bar": {
     "Dank Bar": "Dank Bar"
-  },
-  "Dank Bar Transparency": {
-    "Dank Bar Transparency": "Transparencia de Dank Bar"
-  },
-  "Dank Bar Widget Transparency": {
-    "Dank Bar Widget Transparency": "Transparencia del Widget de Dank Bar"
   },
   "DankBar Font Scale": {
     "DankBar Font Scale": "Tamaño de fuente"
@@ -941,9 +896,6 @@
   "Display a dock with pinned and running applications": {
     "Display a dock with pinned and running applications": ""
   },
-  "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
-    "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "Mostrar un panel con aplicaciones fijadas y activas que puede colocarse en el borde superior, inferior, izquierdo o derecho de la pantalla"
-  },
   "Display all priorities over fullscreen apps": {
     "Display all priorities over fullscreen apps": "Prioridades visibles sobre apps en pantalla completa"
   },
@@ -967,9 +919,6 @@
   },
   "Display settings for ": {
     "Display settings for ": "Ajustes de pantalla para "
-  },
-  "Display volume and brightness percentage values by default in OSD popups": {
-    "Display volume and brightness percentage values by default in OSD popups": "Mostrar porcentaje de volumen y brillo en los avisos OSD"
   },
   "Display volume and brightness percentage values in OSD popups": {
     "Display volume and brightness percentage values in OSD popups": ""
@@ -1034,8 +983,8 @@
   "Dusk (Nautical Twilight)": {
     "Dusk (Nautical Twilight)": ""
   },
-  "Dynamic Theming": {
-    "Dynamic Theming": "Tema dinámico"
+  "Edge Spacing": {
+    "Edge Spacing": ""
   },
   "Edge Spacing (0 = edge-to-edge)": {
     "Edge Spacing (0 = edge-to-edge)": "Espacio de borde (0 = borde a borde)"
@@ -1051,6 +1000,9 @@
   },
   "Enable Bar": {
     "Enable Bar": "Habilitar barra"
+  },
+  "Enable Border": {
+    "Enable Border": ""
   },
   "Enable Do Not Disturb": {
     "Enable Do Not Disturb": ""
@@ -1069,6 +1021,9 @@
   },
   "Enable WiFi": {
     "Enable WiFi": "Habilitar WiFi"
+  },
+  "Enable Widget Outline": {
+    "Enable Widget Outline": ""
   },
   "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": {
     "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": "Activar capa de desenfoque dirigida por el compositor (namespace: dms:blurwallpaper). Requiere configuración manual de Niri."
@@ -1405,6 +1360,9 @@
   },
   "Hibernate": {
     "Hibernate": "Hibernar"
+  },
+  "Hide Delay": {
+    "Hide Delay": ""
   },
   "Hide Delay (ms)": {
     "Hide Delay (ms)": "Duración antes de ocultar (ms)"
@@ -2473,6 +2431,9 @@
   },
   "Select Application": {
     "Select Application": ""
+  },
+  "Select Bar": {
+    "Select Bar": ""
   },
   "Select Launcher Logo": {
     "Select Launcher Logo": "Seleccionar logo del lanzador"

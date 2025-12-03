@@ -41,7 +41,7 @@ FloatingWindow {
     title: I18n.tr("Settings", "settings window title")
     minimumSize: Qt.size(500, 400)
     implicitWidth: 800
-    implicitHeight: 875
+    implicitHeight: 940
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
     visible: false
 

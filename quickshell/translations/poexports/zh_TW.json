@@ -29,12 +29,6 @@
   "(Unnamed)": {
     "(Unnamed)": "(未命名)"
   },
-  "- Stateless System Monitoring": {
-    "- Stateless System Monitoring": "- 無狀態系統監控"
-  },
-  "- Support Us With a Star ⭐": {
-    "- Support Us With a Star ⭐": "- 給我們點個 Star ⭐ 來支持我們"
-  },
   "0 = square corners": {
     "0 = square corners": ""
   },
@@ -79,9 +73,6 @@
   },
   "5 seconds": {
     "5 seconds": ""
-  },
-  "7-Day Forecast": {
-    "7-Day Forecast": "七天氣象預報"
   },
   "8 seconds": {
     "8 seconds": ""
@@ -149,14 +140,8 @@
   "Add Widget": {
     "Add Widget": "新增部件"
   },
-  "Add Widget to ": {
-    "Add Widget to ": "新增部件到 "
-  },
   "Add Widget to %1 Section": {
     "Add Widget to %1 Section": "將部件新增至 %1 部分"
-  },
-  "Add a VPN in NetworkManager": {
-    "Add a VPN in NetworkManager": "新增VPN至網路管理器"
   },
   "Add a border around the dock": {
     "Add a border around the dock": ""
@@ -181,9 +166,6 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: 返回 • F1/I: 檔案資訊 • F10: 幫助 • Esc: 關閉"
-  },
-  "Always Show OSD Percentage": {
-    "Always Show OSD Percentage": "OSD 始終顯示百分比"
   },
   "Always Show Percentage": {
     "Always Show Percentage": ""
@@ -227,21 +209,6 @@
   "Apps are ordered by usage frequency, then last used, then alphabetically.": {
     "Apps are ordered by usage frequency, then last used, then alphabetically.": "應用程式按使用頻率、最後使用時間、字母順序排列。"
   },
-  "Are you sure you want to hibernate the system?": {
-    "Are you sure you want to hibernate the system?": "你確定要進入系統休眠嗎?"
-  },
-  "Are you sure you want to log out?": {
-    "Are you sure you want to log out?": "你確定要登出嗎?"
-  },
-  "Are you sure you want to power off the system?": {
-    "Are you sure you want to power off the system?": "你確定要關機嗎?"
-  },
-  "Are you sure you want to reboot the system?": {
-    "Are you sure you want to reboot the system?": "你確定要重新啟動嗎?"
-  },
-  "Are you sure you want to suspend the system?": {
-    "Are you sure you want to suspend the system?": "你確定要暫停系統嗎?"
-  },
   "Audio": {
     "Audio": "音訊"
   },
@@ -253,9 +220,6 @@
   },
   "Audio Devices": {
     "Audio Devices": "音訊設備"
-  },
-  "Audio Icon": {
-    "Audio Icon": "音訊圖示"
   },
   "Audio Output Devices (": {
     "Audio Output Devices (": "音訊輸出設備 ("
@@ -332,9 +296,6 @@
   "Automatically determine your location using your IP address": {
     "Automatically determine your location using your IP address": "使用您的 IP 位址自動確定您的位置"
   },
-  "Automatically extract colors from wallpaper": {
-    "Automatically extract colors from wallpaper": "自動從桌布中提取顏色"
-  },
   "Automatically hide the top bar to expand screen real estate": {
     "Automatically hide the top bar to expand screen real estate": "自動隱藏頂部欄以擴大螢幕空間"
   },
@@ -397,9 +358,6 @@
   },
   "Bluetooth": {
     "Bluetooth": "藍牙"
-  },
-  "Bluetooth Icon": {
-    "Bluetooth Icon": "藍芽圖示"
   },
   "Bluetooth Settings": {
     "Bluetooth Settings": "藍芽設定"
@@ -587,6 +545,9 @@
   "Close Overview on Launch": {
     "Close Overview on Launch": "啟動時關閉概覽"
   },
+  "Color": {
+    "Color": ""
+  },
   "Color Mode": {
     "Color Mode": ""
   },
@@ -722,11 +683,11 @@
   "Corner Radius": {
     "Corner Radius": ""
   },
-  "Corner Radius (0 = square corners)": {
-    "Corner Radius (0 = square corners)": "圓角半徑 (0 = 方角)"
-  },
   "Corner Radius Override": {
     "Corner Radius Override": "圓角半徑覆寫"
+  },
+  "Corners & Background": {
+    "Corners & Background": ""
   },
   "Cover Open": {
     "Cover Open": "上蓋開啟"
@@ -826,12 +787,6 @@
   },
   "Dank Bar": {
     "Dank Bar": "Dank Bar"
-  },
-  "Dank Bar Transparency": {
-    "Dank Bar Transparency": "Dank Bar 透明度"
-  },
-  "Dank Bar Widget Transparency": {
-    "Dank Bar Widget Transparency": "Dank Bar 部件透明度"
   },
   "DankBar Font Scale": {
     "DankBar Font Scale": "Dank Bar 字體縮放"
@@ -941,9 +896,6 @@
   "Display a dock with pinned and running applications": {
     "Display a dock with pinned and running applications": ""
   },
-  "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
-    "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "顯示一個帶有固定和正在運行的應用程式的 Dock，這些應用程式可以放置在螢幕的頂部、底部、左側或右側邊緣"
-  },
   "Display all priorities over fullscreen apps": {
     "Display all priorities over fullscreen apps": "顯示全螢幕應用程式上的所有優先級"
   },
@@ -967,9 +919,6 @@
   },
   "Display settings for ": {
     "Display settings for ": "顯示設定適用於"
-  },
-  "Display volume and brightness percentage values by default in OSD popups": {
-    "Display volume and brightness percentage values by default in OSD popups": "在 OSD 彈出視窗中預設顯示音量和亮度百分比值"
   },
   "Display volume and brightness percentage values in OSD popups": {
     "Display volume and brightness percentage values in OSD popups": ""
@@ -1034,8 +983,8 @@
   "Dusk (Nautical Twilight)": {
     "Dusk (Nautical Twilight)": ""
   },
-  "Dynamic Theming": {
-    "Dynamic Theming": "動態主題"
+  "Edge Spacing": {
+    "Edge Spacing": ""
   },
   "Edge Spacing (0 = edge-to-edge)": {
     "Edge Spacing (0 = edge-to-edge)": "邊緣間隔 (0 = 無間隔)"
@@ -1051,6 +1000,9 @@
   },
   "Enable Bar": {
     "Enable Bar": "啟用欄"
+  },
+  "Enable Border": {
+    "Enable Border": ""
   },
   "Enable Do Not Disturb": {
     "Enable Do Not Disturb": ""
@@ -1069,6 +1021,9 @@
   },
   "Enable WiFi": {
     "Enable WiFi": "啟用 WiFi"
+  },
+  "Enable Widget Outline": {
+    "Enable Widget Outline": ""
   },
   "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": {
     "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": "啟用合成器可定位的模糊圖層（命名空間：dms:blurwallpaper）。需要手動配置 niri。"
@@ -1405,6 +1360,9 @@
   },
   "Hibernate": {
     "Hibernate": "休眠"
+  },
+  "Hide Delay": {
+    "Hide Delay": ""
   },
   "Hide Delay (ms)": {
     "Hide Delay (ms)": "隱藏延遲 (毫秒)"
@@ -2473,6 +2431,9 @@
   },
   "Select Application": {
     "Select Application": ""
+  },
+  "Select Bar": {
+    "Select Bar": ""
   },
   "Select Launcher Logo": {
     "Select Launcher Logo": "選擇啟動器 Logo"

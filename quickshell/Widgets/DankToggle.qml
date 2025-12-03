@@ -24,7 +24,7 @@ Item {
     readonly property int insetCircle: 24
 
     width: showText ? parent.width : trackWidth
-    height: showText ? 60 : trackHeight
+    height: showText ? (description.length > 0 ? 60 : 44) : trackHeight
 
     function handleClick() {
         if (!enabled) return

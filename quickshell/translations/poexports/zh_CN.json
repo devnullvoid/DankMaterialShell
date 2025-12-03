@@ -29,12 +29,6 @@
   "(Unnamed)": {
     "(Unnamed)": "(未命名)"
   },
-  "- Stateless System Monitoring": {
-    "- Stateless System Monitoring": "- 无状态系统监控"
-  },
-  "- Support Us With a Star ⭐": {
-    "- Support Us With a Star ⭐": "- 给个 Star ⭐来表示支持吧"
-  },
   "0 = square corners": {
     "0 = square corners": ""
   },
@@ -79,9 +73,6 @@
   },
   "5 seconds": {
     "5 seconds": ""
-  },
-  "7-Day Forecast": {
-    "7-Day Forecast": "七日天气预报"
   },
   "8 seconds": {
     "8 seconds": ""
@@ -149,14 +140,8 @@
   "Add Widget": {
     "Add Widget": "添加小组件"
   },
-  "Add Widget to ": {
-    "Add Widget to ": "添加小组件到"
-  },
   "Add Widget to %1 Section": {
     "Add Widget to %1 Section": ""
-  },
-  "Add a VPN in NetworkManager": {
-    "Add a VPN in NetworkManager": "在 NetworkManager 中添加 VPN"
   },
   "Add a border around the dock": {
     "Add a border around the dock": ""
@@ -181,9 +166,6 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/退格: 返回 • F1/I: 文件信息 • F10: 帮助 • Esc: 关闭"
-  },
-  "Always Show OSD Percentage": {
-    "Always Show OSD Percentage": "始终显示 OSD 百分比"
   },
   "Always Show Percentage": {
     "Always Show Percentage": ""
@@ -227,21 +209,6 @@
   "Apps are ordered by usage frequency, then last used, then alphabetically.": {
     "Apps are ordered by usage frequency, then last used, then alphabetically.": "应用按使用频率、最近使用时间和字母顺序排序。"
   },
-  "Are you sure you want to hibernate the system?": {
-    "Are you sure you want to hibernate the system?": "你确定要让系统休眠吗？"
-  },
-  "Are you sure you want to log out?": {
-    "Are you sure you want to log out?": "你确定要注销吗？"
-  },
-  "Are you sure you want to power off the system?": {
-    "Are you sure you want to power off the system?": "你确定要关机吗？"
-  },
-  "Are you sure you want to reboot the system?": {
-    "Are you sure you want to reboot the system?": "你确定要重启系统吗？"
-  },
-  "Are you sure you want to suspend the system?": {
-    "Are you sure you want to suspend the system?": "你确定要挂起系统吗？"
-  },
   "Audio": {
     "Audio": ""
   },
@@ -253,9 +220,6 @@
   },
   "Audio Devices": {
     "Audio Devices": "音频设备"
-  },
-  "Audio Icon": {
-    "Audio Icon": "音量图标"
   },
   "Audio Output Devices (": {
     "Audio Output Devices (": "音频输出设备 ("
@@ -332,9 +296,6 @@
   "Automatically determine your location using your IP address": {
     "Automatically determine your location using your IP address": "通过 IP 地址自动检测您的位置"
   },
-  "Automatically extract colors from wallpaper": {
-    "Automatically extract colors from wallpaper": "自动从壁纸中提取颜色"
-  },
   "Automatically hide the top bar to expand screen real estate": {
     "Automatically hide the top bar to expand screen real estate": "自动隐藏顶栏以扩展屏幕可用空间"
   },
@@ -397,9 +358,6 @@
   },
   "Bluetooth": {
     "Bluetooth": ""
-  },
-  "Bluetooth Icon": {
-    "Bluetooth Icon": "蓝牙图标"
   },
   "Bluetooth Settings": {
     "Bluetooth Settings": "蓝牙设置"
@@ -587,6 +545,9 @@
   "Close Overview on Launch": {
     "Close Overview on Launch": "在启动时关闭概览"
   },
+  "Color": {
+    "Color": ""
+  },
   "Color Mode": {
     "Color Mode": ""
   },
@@ -722,11 +683,11 @@
   "Corner Radius": {
     "Corner Radius": ""
   },
-  "Corner Radius (0 = square corners)": {
-    "Corner Radius (0 = square corners)": "圆角半径（0 = 直角）"
-  },
   "Corner Radius Override": {
     "Corner Radius Override": "圆角半径覆盖"
+  },
+  "Corners & Background": {
+    "Corners & Background": ""
   },
   "Cover Open": {
     "Cover Open": "打印机盖已打开"
@@ -826,12 +787,6 @@
   },
   "Dank Bar": {
     "Dank Bar": "Dank Bar"
-  },
-  "Dank Bar Transparency": {
-    "Dank Bar Transparency": "Dank Bar 透明度"
-  },
-  "Dank Bar Widget Transparency": {
-    "Dank Bar Widget Transparency": "Dank Bar 小组件透明度"
   },
   "DankBar Font Scale": {
     "DankBar Font Scale": "Dank Bar 字体缩放"
@@ -941,9 +896,6 @@
   "Display a dock with pinned and running applications": {
     "Display a dock with pinned and running applications": ""
   },
-  "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
-    "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "显示一个包含固定和运行中应用的程序坞，可放置在屏幕四边任意位置"
-  },
   "Display all priorities over fullscreen apps": {
     "Display all priorities over fullscreen apps": "应用全屏时仍显示所有优先级的通知"
   },
@@ -967,9 +919,6 @@
   },
   "Display settings for ": {
     "Display settings for ": "显示设置 "
-  },
-  "Display volume and brightness percentage values by default in OSD popups": {
-    "Display volume and brightness percentage values by default in OSD popups": "在OSD弹窗中默认显示音量与亮度数值"
   },
   "Display volume and brightness percentage values in OSD popups": {
     "Display volume and brightness percentage values in OSD popups": ""
@@ -1034,8 +983,8 @@
   "Dusk (Nautical Twilight)": {
     "Dusk (Nautical Twilight)": ""
   },
-  "Dynamic Theming": {
-    "Dynamic Theming": "动态主题"
+  "Edge Spacing": {
+    "Edge Spacing": ""
   },
   "Edge Spacing (0 = edge-to-edge)": {
     "Edge Spacing (0 = edge-to-edge)": "边缘间距（0 = 紧贴边缘）"
@@ -1051,6 +1000,9 @@
   },
   "Enable Bar": {
     "Enable Bar": "启用状态栏"
+  },
+  "Enable Border": {
+    "Enable Border": ""
   },
   "Enable Do Not Disturb": {
     "Enable Do Not Disturb": ""
@@ -1069,6 +1021,9 @@
   },
   "Enable WiFi": {
     "Enable WiFi": "启用 Wi-Fi"
+  },
+  "Enable Widget Outline": {
+    "Enable Widget Outline": ""
   },
   "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": {
     "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": "启用合成器可定位的模糊层（命名空间：dms:blurwallpaper），需要手动配置 niri。"
@@ -1405,6 +1360,9 @@
   },
   "Hibernate": {
     "Hibernate": "休眠"
+  },
+  "Hide Delay": {
+    "Hide Delay": ""
   },
   "Hide Delay (ms)": {
     "Hide Delay (ms)": "隐藏延迟 (ms)"
@@ -2473,6 +2431,9 @@
   },
   "Select Application": {
     "Select Application": ""
+  },
+  "Select Bar": {
+    "Select Bar": ""
   },
   "Select Launcher Logo": {
     "Select Launcher Logo": "选择启动器Logo"

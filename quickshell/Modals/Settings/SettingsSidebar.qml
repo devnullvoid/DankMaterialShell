@@ -52,7 +52,18 @@ Rectangle {
             "id": "dankbar",
             "text": I18n.tr("Dank Bar"),
             "icon": "toolbar",
-            "tabIndex": 3
+            "children": [
+                {
+                    "text": I18n.tr("Settings"),
+                    "icon": "tune",
+                    "tabIndex": 3
+                },
+                {
+                    "text": I18n.tr("Widgets"),
+                    "icon": "widgets",
+                    "tabIndex": 22
+                }
+            ]
         },
         {
             "id": "workspaces_widgets",
