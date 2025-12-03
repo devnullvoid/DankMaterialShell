@@ -77,12 +77,9 @@ rm -rf %{buildroot}%{_datadir}/quickshell/dms/.github
 rm -rf %{buildroot}%{_datadir}/quickshell/dms/distro
 rm -rf %{buildroot}%{_datadir}/quickshell/dms/core
 
+echo "%{version}" > %{buildroot}%{_datadir}/quickshell/dms/VERSION
+
 %posttrans
-if [ -d "%{_sysconfdir}/xdg/quickshell/dms" ]; then
-    rmdir "%{_sysconfdir}/xdg/quickshell/dms" 2>/dev/null || true
-    rmdir "%{_sysconfdir}/xdg/quickshell" 2>/dev/null || true
-    rmdir "%{_sysconfdir}/xdg" 2>/dev/null || true
-fi
 
 if [ "$1" -ge 2 ]; then
   pkill -USR1 -x dms >/dev/null 2>&1 || true

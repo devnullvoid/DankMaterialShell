@@ -62,6 +62,14 @@ override_dh_auto_install:
 	install -Dm644 dms-git-repo/assets/danklogo.svg \
 		debian/dms-git/usr/share/icons/hicolor/scalable/apps/danklogo.svg
 
+	# Create DMS Version file
+	@if [ -f dms-git-repo/.dms-version ]; then \
+		. dms-git-repo/.dms-version; \
+		echo "$$VERSION" > debian/dms-git/usr/share/quickshell/dms/VERSION; \
+	else \
+		echo "dev" > debian/dms-git/usr/share/quickshell/dms/VERSION; \
+	fi
+
 override_dh_auto_clean:
 	# Don't delete dms-git-repo directory - it's part of the source package (native format)
 	# Clean up build artifacts

@@ -88,6 +88,9 @@
                         mkdir -p $out/etc/xdg/quickshell
                         cp -r ./ $out/etc/xdg/quickshell/dms
 
+                        # Create DMS Version file
+                        echo "${version}" > $out/etc/xdg/quickshell/dms/VERSION
+
                         # Install desktop file
                         mkdir -p $out/share/applications
                         cp ${./assets/dms-open.desktop} $out/share/applications/dms-open.desktop

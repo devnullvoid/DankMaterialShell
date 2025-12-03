@@ -98,8 +98,11 @@ chmod +x %{_builddir}/dgop
 
 %build
 # Build DMS CLI from source (core/subdirectory)
+VERSION="%{version}"
+COMMIT=$(echo "%{version}" | grep -oP '[a-f0-9]{7,}' | head -n1 || echo "unknown")
+
 cd core
-make dist
+make dist VERSION="$VERSION" COMMIT="$COMMIT"
 
 %install
 # Install dms-cli binary (built from source)
@@ -132,11 +135,10 @@ install -Dm755 %{_builddir}/dgop %{buildroot}%{_bindir}/dgop
 # Install systemd user service
 install -Dm644 assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
 
-# Install desktop file and icon
 install -Dm644 assets/dms-open.desktop %{buildroot}%{_datadir}/applications/dms-open.desktop
 install -Dm644 assets/danklogo.svg %{buildroot}%{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
 
-# Install shell files to shared data location (from quickshell/ subdirectory)
+# Install shell files to shared data location
 install -dm755 %{buildroot}%{_datadir}/quickshell/dms
 cp -r quickshell/* %{buildroot}%{_datadir}/quickshell/dms/
 
@@ -146,13 +148,9 @@ rm -f %{buildroot}%{_datadir}/quickshell/dms/.gitignore
 rm -rf %{buildroot}%{_datadir}/quickshell/dms/.github
 rm -rf %{buildroot}%{_datadir}/quickshell/dms/distro
 
+echo "%{version}" > %{buildroot}%{_datadir}/quickshell/dms/VERSION
+
 %posttrans
-# Clean up old installation path from previous versions 
-if [ -d "%{_sysconfdir}/xdg/quickshell/dms" ]; then
-    rmdir "%{_sysconfdir}/xdg/quickshell/dms" 2>/dev/null || true
-    rmdir "%{_sysconfdir}/xdg/quickshell" 2>/dev/null || true
-    rmdir "%{_sysconfdir}/xdg" 2>/dev/null || true
-fi
 
 # Restart DMS for active users after upgrade
 if [ "$1" -ge 2 ]; then

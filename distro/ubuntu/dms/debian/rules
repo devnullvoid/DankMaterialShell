@@ -54,6 +54,9 @@ override_dh_auto_install:
 	install -Dm644 DankMaterialShell-$(BASE_VERSION)/assets/danklogo.svg \
 		debian/dms/usr/share/icons/hicolor/scalable/apps/danklogo.svg
 
+	# Create VERSION file for Quickshell (stable release format)
+	echo "$(BASE_VERSION)" > debian/dms/usr/share/quickshell/dms/VERSION
+
 	# Generate and install shell completions (if applicable)
 	# Uncomment if dms supports completion generation
 	# ./dms completion bash > dms.bash
