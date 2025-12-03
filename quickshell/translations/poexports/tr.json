@@ -6,7 +6,7 @@
     "%1 characters": "%1 karakter"
   },
   "%1 class(es)": {
-    "%1 class(es)": ""
+    "%1 class(es)": "%1 sınıf"
   },
   "%1 connected": {
     "%1 connected": "%1 bağlı"
@@ -15,10 +15,10 @@
     "%1 display(s)": "%1 ekran"
   },
   "%1 job(s)": {
-    "%1 job(s)": ""
+    "%1 job(s)": "%1 iş"
   },
   "%1 printer(s)": {
-    "%1 printer(s)": ""
+    "%1 printer(s)": "%1 yazıcı"
   },
   "%1 widgets": {
     "%1 widgets": "%1 widget"
@@ -51,19 +51,19 @@
     "A file with this name already exists. Do you want to overwrite it?": "Bu isimde bir dosya zaten var. Üzerine yazmak istiyor musunuz?"
   },
   "API": {
-    "API": ""
+    "API": "API"
   },
   "Aborted": {
-    "Aborted": ""
+    "Aborted": "Durduruldu"
   },
   "About": {
     "About": "Hakkında"
   },
   "Accept Jobs": {
-    "Accept Jobs": ""
+    "Accept Jobs": "İşleri Kabul Et"
   },
   "Accepting": {
-    "Accepting": ""
+    "Accepting": "Kabul ediliyor"
   },
   "Access clipboard history": {
     "Access clipboard history": "Pano geçmişine eriş"
@@ -99,7 +99,7 @@
     "Add Bar": "Bar Ekle"
   },
   "Add Printer": {
-    "Add Printer": ""
+    "Add Printer": "Yazıcı Ekle"
   },
   "Add Widget": {
     "Add Widget": "Widget Ekle"
@@ -113,8 +113,14 @@
   "Add a VPN in NetworkManager": {
     "Add a VPN in NetworkManager": "NetworkManager'da VPN ekle"
   },
+  "Add a border around the dock": {
+    "Add a border around the dock": ""
+  },
   "Adjust the number of columns in grid view mode.": {
     "Adjust the number of columns in grid view mode.": "Izgara görünümü modunda sütun sayısını ayarla"
+  },
+  "Afternoon": {
+    "Afternoon": ""
   },
   "All": {
     "All": "Tümü"
@@ -402,7 +408,7 @@
     "CUPS Missing Filter Warning": "CUPS Eksik Filtre Uyarısı"
   },
   "CUPS Print Server": {
-    "CUPS Print Server": ""
+    "CUPS Print Server": "CUPS Yazıcı Sunucusu"
   },
   "Camera": {
     "Camera": "Kamera"
@@ -411,10 +417,10 @@
     "Cancel": "İptal"
   },
   "Canceled": {
-    "Canceled": ""
+    "Canceled": "İptal Edildi"
   },
   "Capabilities": {
-    "Capabilities": ""
+    "Capabilities": "Yetenekler"
   },
   "Capacity": {
     "Capacity": "Kapasite"
@@ -486,7 +492,7 @@
     "Clear All History?": "Tüm Geçmişi Temizle?"
   },
   "Clear All Jobs": {
-    "Clear All Jobs": ""
+    "Clear All Jobs": "Tüm İşleri Temizle"
   },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": ".ovpn veya .conf dosyası eklemek için İçe Aktar'ı tıklayın."
@@ -549,7 +555,7 @@
     "Compact Mode": "Kompakt Mod"
   },
   "Completed": {
-    "Completed": ""
+    "Completed": "Tamamlandı"
   },
   "Compositor": {
     "Compositor": "Kompozitör"
@@ -558,7 +564,7 @@
     "Configuration activated": "Yapılandırma aktifleştirildi"
   },
   "Configure a new printer": {
-    "Configure a new printer": ""
+    "Configure a new printer": "Yeni bir yazıcı yapılandır"
   },
   "Configure icons for named workspaces. Icons take priority over numbers when both are enabled.": {
     "Configure icons for named workspaces. Icons take priority over numbers when both are enabled.": "Adlandırılmış çalışma alanları için simgeleri yapılandırın. Her ikisi de etkinleştirildiğinde simgeler sayılara göre önceliklidir."
@@ -636,10 +642,10 @@
     "Create Dir": "Dizin Oluştur"
   },
   "Create Printer": {
-    "Create Printer": ""
+    "Create Printer": "Yazıcı Oluştur"
   },
   "Creating...": {
-    "Creating...": ""
+    "Creating...": "Oluşturuluyor..."
   },
   "Critical Priority": {
     "Critical Priority": "Kritik Öncelik"
@@ -692,6 +698,9 @@
   "DWL service not available": {
     "DWL service not available": "DWL hizmeti kullanılamıyor"
   },
+  "Daily Forecast": {
+    "Daily Forecast": ""
+  },
   "Daily at:": {
     "Daily at:": "Her gün saat:"
   },
@@ -722,6 +731,15 @@
   "Date Format": {
     "Date Format": "Tarih Biçimi"
   },
+  "Dawn (Astronomical Twilight)": {
+    "Dawn (Astronomical Twilight)": ""
+  },
+  "Dawn (Civil Twilight)": {
+    "Dawn (Civil Twilight)": ""
+  },
+  "Dawn (Nautical Twilight)": {
+    "Dawn (Nautical Twilight)": ""
+  },
   "Day Temperature": {
     "Day Temperature": "Gündüz Sıcaklığı"
   },
@@ -744,10 +762,10 @@
     "Delete": "Sil"
   },
   "Delete Class": {
-    "Delete Class": ""
+    "Delete Class": "Sınıf Sil"
   },
   "Delete Printer": {
-    "Delete Printer": ""
+    "Delete Printer": "Yazıcı Sil"
   },
   "Delete VPN": {
     "Delete VPN": "VPN'i Sil"
@@ -756,7 +774,7 @@
     "Derives colors that closely match the underlying image.": "Altta yatan görüntüye çok yakın renkler türetir"
   },
   "Description": {
-    "Description": ""
+    "Description": "Tanım"
   },
   "Desktop background images": {
     "Desktop background images": "Masaüstü arkaplan resimleri"
@@ -869,6 +887,15 @@
   "Duration": {
     "Duration": "Süre"
   },
+  "Dusk (Astronomical Twilight)": {
+    "Dusk (Astronomical Twilight)": ""
+  },
+  "Dusk (Civil Twighlight)": {
+    "Dusk (Civil Twighlight)": ""
+  },
+  "Dusk (Nautical Twilight)": {
+    "Dusk (Nautical Twilight)": ""
+  },
   "Dynamic Theming": {
     "Dynamic Theming": "Dinamik Tema"
   },
@@ -889,6 +916,9 @@
   },
   "Enable GPU Temperature": {
     "Enable GPU Temperature": "GPU Sıcaklığını Etkinleştir"
+  },
+  "Enable Overview Overlay": {
+    "Enable Overview Overlay": ""
   },
   "Enable System Sounds": {
     "Enable System Sounds": "Sistem Seslerini Etkinleştir"
@@ -975,7 +1005,7 @@
     "Failed to activate configuration": "Yapılandırma etkinleştirilemedi"
   },
   "Failed to add printer to class": {
-    "Failed to add printer to class": ""
+    "Failed to add printer to class": "Yazıcı sınıfa eklenemedi"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "Tüm işler iptal edemedi"
@@ -990,19 +1020,19 @@
     "Failed to connect to ": "Bağlanılamadı "
   },
   "Failed to create printer": {
-    "Failed to create printer": ""
+    "Failed to create printer": "Yazıcı oluşturulamadı"
   },
   "Failed to delete VPN": {
     "Failed to delete VPN": "VPN silinemedi"
   },
   "Failed to delete class": {
-    "Failed to delete class": ""
+    "Failed to delete class": "Sınıf silinemedi"
   },
   "Failed to delete printer": {
-    "Failed to delete printer": ""
+    "Failed to delete printer": "Yazıcı silinemedi"
   },
   "Failed to disable job acceptance": {
-    "Failed to disable job acceptance": ""
+    "Failed to disable job acceptance": "İş kabulü devre dışı bırakılamadı"
   },
   "Failed to disconnect VPN": {
     "Failed to disconnect VPN": "VPN bağlantısı kesilemedi"
@@ -1017,10 +1047,10 @@
     "Failed to enable WiFi": "WiFi etkinleştirilemedi"
   },
   "Failed to enable job acceptance": {
-    "Failed to enable job acceptance": ""
+    "Failed to enable job acceptance": "İş kabulü etkinleştirilemedi"
   },
   "Failed to hold job": {
-    "Failed to hold job": ""
+    "Failed to hold job": "İş bekletilemedi"
   },
   "Failed to import VPN": {
     "Failed to import VPN": "VPN içe aktarılamadı"
@@ -1029,22 +1059,22 @@
     "Failed to load VPN config": "VPN ayarı yüklenemedi"
   },
   "Failed to move job": {
-    "Failed to move job": ""
+    "Failed to move job": "İş taşınamadı"
   },
   "Failed to pause printer": {
     "Failed to pause printer": "Yazıcıyı duraklatma başarısız"
   },
   "Failed to print test page": {
-    "Failed to print test page": ""
+    "Failed to print test page": "Test sayfası yazdırılamadı"
   },
   "Failed to remove device": {
     "Failed to remove device": "Cihaz kaldırılamadı"
   },
   "Failed to remove printer from class": {
-    "Failed to remove printer from class": ""
+    "Failed to remove printer from class": "Yazıcı sınıftan kaldırılamadı"
   },
   "Failed to restart job": {
-    "Failed to restart job": ""
+    "Failed to restart job": "İş yeniden başlatılamadı"
   },
   "Failed to resume printer": {
     "Failed to resume printer": "Yazıcıyı devam ettirme başarısız"
@@ -1065,19 +1095,19 @@
     "Failed to update autoconnect": "Otomatik bağlanma güncellenemedi"
   },
   "Failed to update description": {
-    "Failed to update description": ""
+    "Failed to update description": "Tanım güncellenemedi"
   },
   "Failed to update location": {
-    "Failed to update location": ""
+    "Failed to update location": "Konum güncellenemedi"
   },
   "Failed to update sharing": {
-    "Failed to update sharing": ""
+    "Failed to update sharing": "Paylaşım güncellenemedi"
   },
   "Feels Like": {
     "Feels Like": "Hissedilen"
   },
   "File": {
-    "File": ""
+    "File": "Dosya"
   },
   "File Already Exists": {
     "File Already Exists": "Dosya Zaten Mevcut"
@@ -1114,6 +1144,9 @@
   },
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "Terminal uygulamalarının her zaman koyu renk şemalarını kullanmasını zorla"
+  },
+  "Forecast Not Available": {
+    "Forecast Not Available": ""
   },
   "Forget": {
     "Forget": "Unut"
@@ -1157,6 +1190,9 @@
   "Github:": {
     "Github:": "Github:"
   },
+  "Golden Hour": {
+    "Golden Hour": ""
+  },
   "Good": {
     "Good": "İyi"
   },
@@ -1194,7 +1230,7 @@
     "Height to Edge Gap (Exclusive Zone)": "Kenar Boşluğu Yüksekliği (Özel Bölge)"
   },
   "Held": {
-    "Held": ""
+    "Held": "Bekletildi"
   },
   "Hex": {
     "Hex": "Hex"
@@ -1228,6 +1264,9 @@
   },
   "Hour": {
     "Hour": "Saat"
+  },
+  "Hourly Forecast": {
+    "Hourly Forecast": ""
   },
   "How often to change wallpaper": {
     "How often to change wallpaper": "Duvar kağıdı değiştirme sıklığı"
@@ -1392,10 +1431,10 @@
     "Loading...": "Yükleniyor..."
   },
   "Local": {
-    "Local": ""
+    "Local": "Yerel"
   },
   "Location": {
-    "Location": ""
+    "Location": "Konum"
   },
   "Location Search": {
     "Location Search": "Konum Arama"
@@ -1550,6 +1589,9 @@
   "Monospace Font": {
     "Monospace Font": "Sabit Aralıklı Yazı Tipi"
   },
+  "Morning": {
+    "Morning": ""
+  },
   "Mount": {
     "Mount": "Bağlı"
   },
@@ -1604,6 +1646,9 @@
   "New York, NY": {
     "New York, NY": "New York, NY"
   },
+  "Night": {
+    "Night": ""
+  },
   "Night Mode": {
     "Night Mode": "Gece Modu"
   },
@@ -1641,10 +1686,10 @@
     "No clipboard entries found": "Pano girişleri bulunamadı"
   },
   "No devices found": {
-    "No devices found": ""
+    "No devices found": "Aygıt bulunamadı"
   },
   "No drivers found": {
-    "No drivers found": ""
+    "No drivers found": "Sürücü bulunamadı"
   },
   "No files found": {
     "No files found": "Dosya bulunamadı"
@@ -1665,10 +1710,10 @@
     "No printer found": "Yazıcı Bulunamadı"
   },
   "No printers configured": {
-    "No printers configured": ""
+    "No printers configured": "Hiçbir yazıcı ayarlanmadı"
   },
   "No printers found": {
-    "No printers found": ""
+    "No printers found": "Hiçbir yazıcı bulunmadı"
   },
   "None": {
     "None": "Hiçbiri"
@@ -1751,11 +1796,14 @@
   "Open search bar to find text": {
     "Open search bar to find text": "Metin bulmak için arama çubuğunu aç"
   },
+  "Open with...": {
+    "Open with...": ""
+  },
   "Optional description": {
-    "Optional description": ""
+    "Optional description": "Opsiyonel tanım"
   },
   "Optional location": {
-    "Optional location": ""
+    "Optional location": "Opsiyonel konum"
   },
   "Other": {
     "Other": "Diğer"
@@ -1815,7 +1863,7 @@
     "Paused": "Duraklatıldı"
   },
   "Pending": {
-    "Pending": ""
+    "Pending": "Beklemede"
   },
   "Per-Mode Wallpapers": {
     "Per-Mode Wallpapers": "Moda Özel Duvar Kağıtları"
@@ -1910,6 +1958,9 @@
   "Power Profile OSD": {
     "Power Profile OSD": "Güç Profili OSD"
   },
+  "Precipitation Chance": {
+    "Precipitation Chance": ""
+  },
   "Preference": {
     "Preference": "Tercih"
   },
@@ -1932,16 +1983,16 @@
     "Printer": "Yazıcı"
   },
   "Printer Classes": {
-    "Printer Classes": ""
+    "Printer Classes": "Yazıcı Sınıfları"
   },
   "Printer created successfully": {
-    "Printer created successfully": ""
+    "Printer created successfully": "Yazıcı başarıyla oluşturuldu"
   },
   "Printer deleted": {
-    "Printer deleted": ""
+    "Printer deleted": "Yazıcı silindi"
   },
   "Printer name (no spaces)": {
-    "Printer name (no spaces)": ""
+    "Printer name (no spaces)": "Yazıcı adı (boşluksuz)"
   },
   "Printers": {
     "Printers": "Yazıcılar"
@@ -2004,13 +2055,16 @@
     "Recently Used Apps": "Son Kullanılan Uygulamalar"
   },
   "Recommended available": {
-    "Recommended available": ""
+    "Recommended available": "Önerilen mevcut"
   },
   "Refresh": {
     "Refresh": "Yenile"
   },
+  "Refresh Weather": {
+    "Refresh Weather": ""
+  },
   "Reject Jobs": {
-    "Reject Jobs": ""
+    "Reject Jobs": "İşleri Reddet"
   },
   "Reload Plugin": {
     "Reload Plugin": "Eklentiyi Yeniden Yükle"
@@ -2111,6 +2165,9 @@
   "Screen sharing": {
     "Screen sharing": "Ekran paylaşımı"
   },
+  "Scroll song title": {
+    "Scroll song title": ""
+  },
   "Scrolling": {
     "Scrolling": "Kaydırma"
   },
@@ -2141,6 +2198,9 @@
   "Security": {
     "Security": "Güvenlik"
   },
+  "Select Application": {
+    "Select Application": ""
+  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "Başlatıcı Logosu Seç"
   },
@@ -2160,10 +2220,10 @@
     "Select an image file...": "Bir resim dosyası seçin..."
   },
   "Select device...": {
-    "Select device...": ""
+    "Select device...": "Aygıt seç..."
   },
   "Select driver...": {
-    "Select driver...": ""
+    "Select driver...": "Sürücü seç..."
   },
   "Select font weight": {
     "Select font weight": "Yazı tipi ağırlığını seçin"
@@ -2381,6 +2441,12 @@
   "Storage & Disks": {
     "Storage & Disks": "Depolama & Diskler"
   },
+  "Sunrise": {
+    "Sunrise": ""
+  },
+  "Sunset": {
+    "Sunset": ""
+  },
   "Support Development": {
     "Support Development": "Gelişimi Destekle"
   },
@@ -2460,10 +2526,10 @@
     "Terminals - Always use Dark Theme": "Terminaller - Her zaman Karanlı Tema kullan"
   },
   "Test Page": {
-    "Test Page": ""
+    "Test Page": "Test Sayfası"
   },
   "Test page sent to printer": {
-    "Test page sent to printer": ""
+    "Test page sent to printer": "Test Sayfası yazıcıya gönderildi"
   },
   "Text": {
     "Text": "Metin"
@@ -2544,7 +2610,7 @@
     "Top Section": "Üst Bölüm"
   },
   "Total Jobs": {
-    "Total Jobs": ""
+    "Total Jobs": "Toplam İşler"
   },
   "Transition Effect": {
     "Transition Effect": "Geçiş Efekti"
@@ -2667,7 +2733,7 @@
     "VRR: ": "VRR: "
   },
   "Version": {
-    "Version": ""
+    "Version": "Sürüm"
   },
   "Vertical Deck": {
     "Vertical Deck": "Dikey Deck"
@@ -2732,6 +2798,9 @@
   "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.": {
     "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.": "Etkinleştirildiğinde, uygulamalar alfabetik olarak sıralanır. Devre dışı bırakıldığında, uygulamalar kullanım sıklığına göre sıralanır."
   },
+  "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.": {
+    "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.": ""
+  },
   "Wi-Fi Password": {
     "Wi-Fi Password": "Wi-Fi Parolası"
   },
@@ -2773,6 +2842,9 @@
   },
   "Wind": {
     "Wind": "Rüzgar"
+  },
+  "Wind Speed": {
+    "Wind Speed": ""
   },
   "Workspace": {
     "Workspace": "Çalışma Alanı"

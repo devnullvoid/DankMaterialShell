@@ -113,8 +113,14 @@
   "Add a VPN in NetworkManager": {
     "Add a VPN in NetworkManager": "在 NetworkManager 中添加 VPN"
   },
+  "Add a border around the dock": {
+    "Add a border around the dock": ""
+  },
   "Adjust the number of columns in grid view mode.": {
     "Adjust the number of columns in grid view mode.": "在网格模式中按需调整列的数量。"
+  },
+  "Afternoon": {
+    "Afternoon": ""
   },
   "All": {
     "All": "全部"
@@ -692,6 +698,9 @@
   "DWL service not available": {
     "DWL service not available": "DWL 服务不可用"
   },
+  "Daily Forecast": {
+    "Daily Forecast": ""
+  },
   "Daily at:": {
     "Daily at:": "在每日："
   },
@@ -721,6 +730,15 @@
   },
   "Date Format": {
     "Date Format": "日期格式"
+  },
+  "Dawn (Astronomical Twilight)": {
+    "Dawn (Astronomical Twilight)": ""
+  },
+  "Dawn (Civil Twilight)": {
+    "Dawn (Civil Twilight)": ""
+  },
+  "Dawn (Nautical Twilight)": {
+    "Dawn (Nautical Twilight)": ""
   },
   "Day Temperature": {
     "Day Temperature": "日间色温"
@@ -869,6 +887,15 @@
   "Duration": {
     "Duration": "持续时间"
   },
+  "Dusk (Astronomical Twilight)": {
+    "Dusk (Astronomical Twilight)": ""
+  },
+  "Dusk (Civil Twighlight)": {
+    "Dusk (Civil Twighlight)": ""
+  },
+  "Dusk (Nautical Twilight)": {
+    "Dusk (Nautical Twilight)": ""
+  },
   "Dynamic Theming": {
     "Dynamic Theming": "动态主题"
   },
@@ -889,6 +916,9 @@
   },
   "Enable GPU Temperature": {
     "Enable GPU Temperature": "显示 GPU 温度"
+  },
+  "Enable Overview Overlay": {
+    "Enable Overview Overlay": ""
   },
   "Enable System Sounds": {
     "Enable System Sounds": "启用系统声音"
@@ -1115,6 +1145,9 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "强制终端应用使用暗色"
   },
+  "Forecast Not Available": {
+    "Forecast Not Available": ""
+  },
   "Forget": {
     "Forget": ""
   },
@@ -1156,6 +1189,9 @@
   },
   "Github:": {
     "Github:": "Github:"
+  },
+  "Golden Hour": {
+    "Golden Hour": ""
   },
   "Good": {
     "Good": "良好"
@@ -1228,6 +1264,9 @@
   },
   "Hour": {
     "Hour": "小时"
+  },
+  "Hourly Forecast": {
+    "Hourly Forecast": ""
   },
   "How often to change wallpaper": {
     "How often to change wallpaper": "壁纸轮换频率"
@@ -1550,6 +1589,9 @@
   "Monospace Font": {
     "Monospace Font": "等宽字体"
   },
+  "Morning": {
+    "Morning": ""
+  },
   "Mount": {
     "Mount": "挂载"
   },
@@ -1603,6 +1645,9 @@
   },
   "New York, NY": {
     "New York, NY": "纽约，美国纽约州"
+  },
+  "Night": {
+    "Night": ""
   },
   "Night Mode": {
     "Night Mode": "夜间模式"
@@ -1750,6 +1795,9 @@
   },
   "Open search bar to find text": {
     "Open search bar to find text": "打开搜索栏以查找文本"
+  },
+  "Open with...": {
+    "Open with...": ""
   },
   "Optional description": {
     "Optional description": ""
@@ -1910,6 +1958,9 @@
   "Power Profile OSD": {
     "Power Profile OSD": "OSD电源配置"
   },
+  "Precipitation Chance": {
+    "Precipitation Chance": ""
+  },
   "Preference": {
     "Preference": ""
   },
@@ -2008,6 +2059,9 @@
   },
   "Refresh": {
     "Refresh": "刷新"
+  },
+  "Refresh Weather": {
+    "Refresh Weather": ""
   },
   "Reject Jobs": {
     "Reject Jobs": ""
@@ -2111,6 +2165,9 @@
   "Screen sharing": {
     "Screen sharing": "屏幕分享"
   },
+  "Scroll song title": {
+    "Scroll song title": ""
+  },
   "Scrolling": {
     "Scrolling": "滚动"
   },
@@ -2140,6 +2197,9 @@
   },
   "Security": {
     "Security": ""
+  },
+  "Select Application": {
+    "Select Application": ""
   },
   "Select Launcher Logo": {
     "Select Launcher Logo": "选择启动器Logo"
@@ -2380,6 +2440,12 @@
   },
   "Storage & Disks": {
     "Storage & Disks": "存储与磁盘"
+  },
+  "Sunrise": {
+    "Sunrise": ""
+  },
+  "Sunset": {
+    "Sunset": ""
   },
   "Support Development": {
     "Support Development": "支持开发"
@@ -2732,6 +2798,9 @@
   "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.": {
     "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.": "启用后，应用按字母顺序排序；禁用则按使用频率排序"
   },
+  "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.": {
+    "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.": ""
+  },
   "Wi-Fi Password": {
     "Wi-Fi Password": ""
   },
@@ -2773,6 +2842,9 @@
   },
   "Wind": {
     "Wind": "风速"
+  },
+  "Wind Speed": {
+    "Wind Speed": ""
   },
   "Workspace": {
     "Workspace": "工作区"

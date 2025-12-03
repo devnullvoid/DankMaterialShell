@@ -113,8 +113,14 @@
   "Add a VPN in NetworkManager": {
     "Add a VPN in NetworkManager": "NetworkManagerでVPNを追加"
   },
+  "Add a border around the dock": {
+    "Add a border around the dock": ""
+  },
   "Adjust the number of columns in grid view mode.": {
     "Adjust the number of columns in grid view mode.": "グリッド表示モードでの列数を調整します。"
+  },
+  "Afternoon": {
+    "Afternoon": ""
   },
   "All": {
     "All": "全て"
@@ -692,6 +698,9 @@
   "DWL service not available": {
     "DWL service not available": "DWLサービスが利用できません"
   },
+  "Daily Forecast": {
+    "Daily Forecast": ""
+  },
   "Daily at:": {
     "Daily at:": "毎日："
   },
@@ -721,6 +730,15 @@
   },
   "Date Format": {
     "Date Format": "日付形式"
+  },
+  "Dawn (Astronomical Twilight)": {
+    "Dawn (Astronomical Twilight)": ""
+  },
+  "Dawn (Civil Twilight)": {
+    "Dawn (Civil Twilight)": ""
+  },
+  "Dawn (Nautical Twilight)": {
+    "Dawn (Nautical Twilight)": ""
   },
   "Day Temperature": {
     "Day Temperature": "昼間の温度"
@@ -869,6 +887,15 @@
   "Duration": {
     "Duration": "期間"
   },
+  "Dusk (Astronomical Twilight)": {
+    "Dusk (Astronomical Twilight)": ""
+  },
+  "Dusk (Civil Twighlight)": {
+    "Dusk (Civil Twighlight)": ""
+  },
+  "Dusk (Nautical Twilight)": {
+    "Dusk (Nautical Twilight)": ""
+  },
   "Dynamic Theming": {
     "Dynamic Theming": "ダイナミックテーマ"
   },
@@ -889,6 +916,9 @@
   },
   "Enable GPU Temperature": {
     "Enable GPU Temperature": "GPU温度を有効にする"
+  },
+  "Enable Overview Overlay": {
+    "Enable Overview Overlay": ""
   },
   "Enable System Sounds": {
     "Enable System Sounds": "システムサウンドを有効に"
@@ -1115,6 +1145,9 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "端末アプリで常に暗い配色を強制使用"
   },
+  "Forecast Not Available": {
+    "Forecast Not Available": ""
+  },
   "Forget": {
     "Forget": ""
   },
@@ -1156,6 +1189,9 @@
   },
   "Github:": {
     "Github:": "GitHub:"
+  },
+  "Golden Hour": {
+    "Golden Hour": ""
   },
   "Good": {
     "Good": "良い"
@@ -1228,6 +1264,9 @@
   },
   "Hour": {
     "Hour": "時間"
+  },
+  "Hourly Forecast": {
+    "Hourly Forecast": ""
   },
   "How often to change wallpaper": {
     "How often to change wallpaper": "壁紙を切り替える間隔"
@@ -1550,6 +1589,9 @@
   "Monospace Font": {
     "Monospace Font": "等幅フォント"
   },
+  "Morning": {
+    "Morning": ""
+  },
   "Mount": {
     "Mount": "マウント"
   },
@@ -1603,6 +1645,9 @@
   },
   "New York, NY": {
     "New York, NY": "New York, NY"
+  },
+  "Night": {
+    "Night": ""
   },
   "Night Mode": {
     "Night Mode": "ナイトモード"
@@ -1750,6 +1795,9 @@
   },
   "Open search bar to find text": {
     "Open search bar to find text": "検索バーを開いてテキストを検索"
+  },
+  "Open with...": {
+    "Open with...": ""
   },
   "Optional description": {
     "Optional description": ""
@@ -1910,6 +1958,9 @@
   "Power Profile OSD": {
     "Power Profile OSD": "電源プロファイルOSD"
   },
+  "Precipitation Chance": {
+    "Precipitation Chance": ""
+  },
   "Preference": {
     "Preference": ""
   },
@@ -2008,6 +2059,9 @@
   },
   "Refresh": {
     "Refresh": "リフレッシュ"
+  },
+  "Refresh Weather": {
+    "Refresh Weather": ""
   },
   "Reject Jobs": {
     "Reject Jobs": ""
@@ -2111,6 +2165,9 @@
   "Screen sharing": {
     "Screen sharing": "画面共有"
   },
+  "Scroll song title": {
+    "Scroll song title": ""
+  },
   "Scrolling": {
     "Scrolling": "スクロール"
   },
@@ -2140,6 +2197,9 @@
   },
   "Security": {
     "Security": ""
+  },
+  "Select Application": {
+    "Select Application": ""
   },
   "Select Launcher Logo": {
     "Select Launcher Logo": "ランチャーロゴを選ぶ"
@@ -2380,6 +2440,12 @@
   },
   "Storage & Disks": {
     "Storage & Disks": "ストレージとディスク"
+  },
+  "Sunrise": {
+    "Sunrise": ""
+  },
+  "Sunset": {
+    "Sunset": ""
   },
   "Support Development": {
     "Support Development": "開発をサポート"
@@ -2732,6 +2798,9 @@
   "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.": {
     "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.": "有効にすると、アプリはアルファベット順に並べ替えられます。無効にすると、アプリは使用頻度で並べ替えられます。"
   },
+  "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.": {
+    "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.": ""
+  },
   "Wi-Fi Password": {
     "Wi-Fi Password": ""
   },
@@ -2773,6 +2842,9 @@
   },
   "Wind": {
     "Wind": "風"
+  },
+  "Wind Speed": {
+    "Wind Speed": ""
   },
   "Workspace": {
     "Workspace": "ワークスペース"

@@ -105,13 +105,6 @@
     "comment": ""
   },
   {
-    "term": "7-Day Forecast",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "A file with this name already exists. Do you want to overwrite it?",
     "translation": "",
     "context": "",
@@ -252,7 +245,21 @@
     "comment": ""
   },
   {
+    "term": "Add a border around the dock",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Adjust the number of columns in grid view mode.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Afternoon",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1533,6 +1540,13 @@
     "comment": ""
   },
   {
+    "term": "Daily Forecast",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Daily at:",
     "translation": "",
     "context": "",
@@ -1583,6 +1597,27 @@
   },
   {
     "term": "Date Format",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Dawn (Astronomical Twilight)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Dawn (Civil Twilight)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Dawn (Nautical Twilight)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1932,6 +1967,27 @@
     "comment": ""
   },
   {
+    "term": "Dusk (Astronomical Twilight)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Dusk (Civil Twighlight)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Dusk (Nautical Twilight)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Dynamic Theming",
     "translation": "",
     "context": "",
@@ -1975,6 +2031,13 @@
   },
   {
     "term": "Enable GPU Temperature",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Enable Overview Overlay",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2506,6 +2569,13 @@
     "comment": ""
   },
   {
+    "term": "Forecast Not Available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Forget",
     "translation": "",
     "context": "",
@@ -2598,6 +2668,13 @@
   },
   {
     "term": "Github:",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Golden Hour",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2759,6 +2836,13 @@
   },
   {
     "term": "Hour",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hourly Forecast",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3514,6 +3598,13 @@
     "comment": ""
   },
   {
+    "term": "Morning",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Mount",
     "translation": "",
     "context": "",
@@ -3627,6 +3718,13 @@
   },
   {
     "term": "New York, NY",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Night",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3963,6 +4061,13 @@
   },
   {
     "term": "Open search bar to find text",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Open with...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4340,6 +4445,13 @@
     "comment": ""
   },
   {
+    "term": "Precipitation Chance",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Preference",
     "translation": "",
     "context": "",
@@ -4571,6 +4683,13 @@
     "comment": ""
   },
   {
+    "term": "Refresh Weather",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Reject Jobs",
     "translation": "",
     "context": "",
@@ -4795,6 +4914,13 @@
     "comment": ""
   },
   {
+    "term": "Scroll song title",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Scrolling",
     "translation": "",
     "context": "",
@@ -4859,6 +4985,13 @@
   },
   {
     "term": "Security",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Select Application",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5433,6 +5566,20 @@
   },
   {
     "term": "Storage & Disks",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Sunrise",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Sunset",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6237,6 +6384,13 @@
     "comment": ""
   },
   {
+    "term": "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Wi-Fi Password",
     "translation": "",
     "context": "",
@@ -6329,6 +6483,13 @@
   },
   {
     "term": "Wind",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Wind Speed",
     "translation": "",
     "context": "",
     "reference": "",
