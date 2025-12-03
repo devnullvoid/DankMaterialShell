@@ -82,6 +82,10 @@ FloatingWindow {
         if (!parentModal)
             return;
         parentModal.shouldHaveFocus = Qt.binding(() => parentModal.shouldBeVisible);
+        Qt.callLater(() => {
+            if (parentModal && parentModal.modalFocusScope)
+                parentModal.modalFocusScope.forceActiveFocus();
+        });
     }
 
     objectName: "widgetSelectionPopup"
@@ -108,6 +112,10 @@ FloatingWindow {
         if (!parentModal)
             return;
         parentModal.shouldHaveFocus = Qt.binding(() => parentModal.shouldBeVisible);
+        Qt.callLater(() => {
+            if (parentModal && parentModal.modalFocusScope)
+                parentModal.modalFocusScope.forceActiveFocus();
+        });
     }
 
     FocusScope {

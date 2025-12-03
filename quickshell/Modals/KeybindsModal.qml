@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell.Hyprland
 import qs.Common
 import qs.Modals.Common
 import qs.Services
@@ -16,6 +17,12 @@ DankModal {
     modalWidth: _maxW
     modalHeight: _maxH
     onBackgroundClicked: close()
+    onOpened: () => Qt.callLater(() => modalFocusScope.forceActiveFocus())
+
+    HyprlandFocusGrab {
+        windows: [root.contentWindow]
+        active: CompositorService.isHyprland && root.shouldHaveFocus
+    }
 
     function scrollDown() {
         if (!root.activeFlickable)
@@ -33,35 +40,25 @@ DankModal {
         root.activeFlickable.contentY = newY;
     }
 
-    content: Component {
-        FocusScope {
-            anchors.fill: parent
-            focus: true
+    modalFocusScope.Keys.onPressed: event => {
+        if (event.key === Qt.Key_J && event.modifiers & Qt.ControlModifier) {
+            scrollDown();
+            event.accepted = true;
+        } else if (event.key === Qt.Key_K && event.modifiers & Qt.ControlModifier) {
+            scrollUp();
+            event.accepted = true;
+        } else if (event.key === Qt.Key_Down) {
+            scrollDown();
+            event.accepted = true;
+        } else if (event.key === Qt.Key_Up) {
+            scrollUp();
+            event.accepted = true;
+        }
+    }
 
-            Keys.onPressed: event => {
-                switch (event.key) {
-                case Qt.Key_J:
-                    if (!(event.modifiers & Qt.ControlModifier))
-                        return;
-                    root.scrollDown();
-                    event.accepted = true;
-                    break;
-                case Qt.Key_K:
-                    if (!(event.modifiers & Qt.ControlModifier))
-                        return;
-                    root.scrollUp();
-                    event.accepted = true;
-                    break;
-                case Qt.Key_Down:
-                    root.scrollDown();
-                    event.accepted = true;
-                    break;
-                case Qt.Key_Up:
-                    root.scrollUp();
-                    event.accepted = true;
-                    break;
-                }
-            }
+    content: Component {
+        Item {
+            anchors.fill: parent
 
             Column {
                 anchors.fill: parent

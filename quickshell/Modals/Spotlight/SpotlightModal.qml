@@ -1,12 +1,19 @@
 import QtQuick
+import Quickshell.Hyprland
 import Quickshell.Io
 import qs.Common
 import qs.Modals.Common
+import qs.Services
 
 DankModal {
     id: spotlightModal
 
     layerNamespace: "dms:spotlight"
+
+    HyprlandFocusGrab {
+        windows: [spotlightModal.contentWindow]
+        active: CompositorService.isHyprland && spotlightModal.shouldHaveFocus
+    }
 
     property bool spotlightOpen: false
     property alias spotlightContent: spotlightContentInstance
@@ -16,18 +23,32 @@ DankModal {
         openedFromOverview = false;
         spotlightOpen = true;
         open();
+
+        Qt.callLater(() => {
+            if (spotlightContent && spotlightContent.searchField) {
+                spotlightContent.searchField.forceActiveFocus();
+            }
+        });
     }
 
     function showWithQuery(query) {
         if (spotlightContent) {
-            if (spotlightContent.appLauncher)
+            if (spotlightContent.appLauncher) {
                 spotlightContent.appLauncher.searchQuery = query;
-            if (spotlightContent.searchField)
+            }
+            if (spotlightContent.searchField) {
                 spotlightContent.searchField.text = query;
+            }
         }
 
         spotlightOpen = true;
         open();
+
+        Qt.callLater(() => {
+            if (spotlightContent && spotlightContent.searchField) {
+                spotlightContent.searchField.forceActiveFocus();
+            }
+        });
     }
 
     function hide() {
@@ -36,24 +57,23 @@ DankModal {
         close();
     }
 
-    function onFullyClosed() {
-        resetContent();
-    }
-
-    function resetContent() {
-        if (!spotlightContent)
-            return;
-        if (spotlightContent.appLauncher) {
-            spotlightContent.appLauncher.searchQuery = "";
-            spotlightContent.appLauncher.selectedIndex = 0;
-            spotlightContent.appLauncher.setCategory(I18n.tr("All"));
+    onDialogClosed: {
+        if (spotlightContent) {
+            if (spotlightContent.appLauncher) {
+                spotlightContent.appLauncher.searchQuery = "";
+                spotlightContent.appLauncher.selectedIndex = 0;
+                spotlightContent.appLauncher.setCategory(I18n.tr("All"));
+            }
+            if (spotlightContent.fileSearchController) {
+                spotlightContent.fileSearchController.reset();
+            }
+            if (spotlightContent.resetScroll) {
+                spotlightContent.resetScroll();
+            }
+            if (spotlightContent.searchField) {
+                spotlightContent.searchField.text = "";
+            }
         }
-        if (spotlightContent.fileSearchController)
-            spotlightContent.fileSearchController.reset();
-        if (spotlightContent.resetScroll)
-            spotlightContent.resetScroll();
-        if (spotlightContent.searchField)
-            spotlightContent.searchField.text = "";
     }
 
     function toggle() {
@@ -78,10 +98,16 @@ DankModal {
     animationEnterCurve: Theme.expressiveCurves.expressiveDefaultSpatial
     animationExitCurve: Theme.expressiveCurves.emphasized
     onVisibleChanged: () => {
-        if (!visible)
-            return;
-        if (!spotlightOpen)
+        if (visible && !spotlightOpen) {
             show();
+        }
+        if (visible && spotlightContent) {
+            Qt.callLater(() => {
+                if (spotlightContent.searchField) {
+                    spotlightContent.searchField.forceActiveFocus();
+                }
+            });
+        }
     }
     onBackgroundClicked: () => {
         return hide();

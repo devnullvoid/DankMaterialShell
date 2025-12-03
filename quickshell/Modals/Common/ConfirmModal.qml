@@ -61,21 +61,29 @@ DankModal {
     shouldBeVisible: false
     allowStacking: true
     modalWidth: 350
-    modalHeight: 160
+    modalHeight: contentLoader.item ? contentLoader.item.implicitHeight + Theme.spacingM * 2 : 160
     enableShadow: true
     shouldHaveFocus: true
     onBackgroundClicked: {
         close();
-        if (onCancel)
+        if (onCancel) {
             onCancel();
+        }
     }
-
-    function handleKey(event) {
+    onOpened: {
+        Qt.callLater(function () {
+            modalFocusScope.forceActiveFocus();
+            modalFocusScope.focus = true;
+            shouldHaveFocus = true;
+        });
+    }
+    modalFocusScope.Keys.onPressed: function (event) {
         switch (event.key) {
         case Qt.Key_Escape:
             close();
-            if (onCancel)
+            if (onCancel) {
                 onCancel();
+            }
             event.accepted = true;
             break;
         case Qt.Key_Left:
@@ -91,46 +99,46 @@ DankModal {
             event.accepted = true;
             break;
         case Qt.Key_N:
-            if (!(event.modifiers & Qt.ControlModifier))
-                return;
-            keyboardNavigation = true;
-            selectedButton = (selectedButton + 1) % 2;
-            event.accepted = true;
+            if (event.modifiers & Qt.ControlModifier) {
+                keyboardNavigation = true;
+                selectedButton = (selectedButton + 1) % 2;
+                event.accepted = true;
+            }
             break;
         case Qt.Key_P:
-            if (!(event.modifiers & Qt.ControlModifier))
-                return;
-            keyboardNavigation = true;
-            selectedButton = selectedButton === -1 ? 1 : (selectedButton - 1 + 2) % 2;
-            event.accepted = true;
+            if (event.modifiers & Qt.ControlModifier) {
+                keyboardNavigation = true;
+                selectedButton = selectedButton === -1 ? 1 : (selectedButton - 1 + 2) % 2;
+                event.accepted = true;
+            }
             break;
         case Qt.Key_J:
-            if (!(event.modifiers & Qt.ControlModifier))
-                return;
-            keyboardNavigation = true;
-            selectedButton = 1;
-            event.accepted = true;
+            if (event.modifiers & Qt.ControlModifier) {
+                keyboardNavigation = true;
+                selectedButton = 1;
+                event.accepted = true;
+            }
             break;
         case Qt.Key_K:
-            if (!(event.modifiers & Qt.ControlModifier))
-                return;
-            keyboardNavigation = true;
-            selectedButton = 0;
-            event.accepted = true;
+            if (event.modifiers & Qt.ControlModifier) {
+                keyboardNavigation = true;
+                selectedButton = 0;
+                event.accepted = true;
+            }
             break;
         case Qt.Key_H:
-            if (!(event.modifiers & Qt.ControlModifier))
-                return;
-            keyboardNavigation = true;
-            selectedButton = 0;
-            event.accepted = true;
+            if (event.modifiers & Qt.ControlModifier) {
+                keyboardNavigation = true;
+                selectedButton = 0;
+                event.accepted = true;
+            }
             break;
         case Qt.Key_L:
-            if (!(event.modifiers & Qt.ControlModifier))
-                return;
-            keyboardNavigation = true;
-            selectedButton = 1;
-            event.accepted = true;
+            if (event.modifiers & Qt.ControlModifier) {
+                keyboardNavigation = true;
+                selectedButton = 1;
+                event.accepted = true;
+            }
             break;
         case Qt.Key_Tab:
             keyboardNavigation = true;
@@ -139,9 +147,9 @@ DankModal {
             break;
         case Qt.Key_Return:
         case Qt.Key_Enter:
-            if (selectedButton !== -1)
+            if (selectedButton !== -1) {
                 selectButton();
-            else {
+            } else {
                 selectedButton = 1;
                 selectButton();
             }
@@ -151,12 +159,9 @@ DankModal {
     }
 
     content: Component {
-        FocusScope {
+        Item {
             anchors.fill: parent
-            focus: true
             implicitHeight: mainColumn.implicitHeight
-
-            Keys.onPressed: event => root.handleKey(event)
 
             Column {
                 id: mainColumn

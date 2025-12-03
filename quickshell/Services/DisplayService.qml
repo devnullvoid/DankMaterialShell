@@ -666,7 +666,11 @@ Singleton {
                             return;
                         }
 
-                        evaluateNightMode();
+                        if (SessionData.nightModeAutoEnabled) {
+                            startAutomation();
+                        } else {
+                            applyNightModeDirectly();
+                        }
                     });
                 }
             }
@@ -676,7 +680,7 @@ Singleton {
     Timer {
         id: restartTimer
         property string nextAction: ""
-        interval: 250
+        interval: 100
         repeat: false
 
         onTriggered: {

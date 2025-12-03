@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
-import Quickshell.I3
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import qs.Common
@@ -23,31 +22,6 @@ Singleton {
     readonly property string swaySocket: Quickshell.env("SWAYSOCK")
     readonly property string labwcPid: Quickshell.env("LABWC_PID")
     property bool useNiriSorting: isNiri && NiriService
-
-    readonly property string focusedScreenName: {
-        if (isHyprland && Hyprland.focusedMonitor)
-            return Hyprland.focusedMonitor.name;
-        if (isNiri && NiriService.currentOutput)
-            return NiriService.currentOutput;
-        if (isDwl && DwlService.activeOutput)
-            return DwlService.activeOutput;
-        if (isSway) {
-            const focusedWs = I3.workspaces?.values?.find(ws => ws.focused === true);
-            if (focusedWs?.monitor?.name)
-                return focusedWs.monitor.name;
-        }
-        return Quickshell.screens[0]?.name ?? "";
-    }
-
-    readonly property var focusedScreen: {
-        if (!focusedScreenName)
-            return Quickshell.screens[0] ?? null;
-        for (const s of Quickshell.screens) {
-            if (s.name === focusedScreenName)
-                return s;
-        }
-        return Quickshell.screens[0] ?? null;
-    }
 
     property var sortedToplevels: []
     property bool _sortScheduled: false

@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell.Hyprland
 import qs.Common
 import qs.Modals.Common
 import qs.Services
@@ -8,6 +9,11 @@ DankModal {
     id: root
 
     layerNamespace: "dms:bluetooth-pairing"
+
+    HyprlandFocusGrab {
+        windows: [root.contentWindow]
+        active: CompositorService.isHyprland && root.shouldHaveFocus
+    }
 
     property string deviceName: ""
     property string deviceAddress: ""

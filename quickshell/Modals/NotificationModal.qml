@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell.Hyprland
 import Quickshell.Io
 import qs.Common
 import qs.Modals.Common
@@ -9,6 +10,11 @@ DankModal {
     id: notificationModal
 
     layerNamespace: "dms:notification-center-modal"
+
+    HyprlandFocusGrab {
+        windows: [notificationModal.contentWindow]
+        active: CompositorService.isHyprland && notificationModal.shouldHaveFocus
+    }
 
     property bool notificationModalOpen: false
     property var notificationListRef: null
@@ -55,6 +61,9 @@ DankModal {
     modalHeight: 700
     visible: false
     onBackgroundClicked: hide()
+    onOpened: () => {
+        Qt.callLater(() => modalFocusScope.forceActiveFocus());
+    }
     onShouldBeVisibleChanged: shouldBeVisible => {
         if (!shouldBeVisible) {
             notificationModalOpen = false;
@@ -62,6 +71,7 @@ DankModal {
             NotificationService.onOverlayClose();
         }
     }
+    modalFocusScope.Keys.onPressed: event => modalKeyboardController.handleKey(event)
 
     NotificationKeyboardController {
         id: modalKeyboardController
@@ -91,12 +101,10 @@ DankModal {
     }
 
     content: Component {
-        FocusScope {
+        Item {
             id: notificationKeyHandler
-            anchors.fill: parent
-            focus: true
 
-            Keys.onPressed: event => modalKeyboardController.handleKey(event)
+            anchors.fill: parent
 
             Column {
                 anchors.fill: parent

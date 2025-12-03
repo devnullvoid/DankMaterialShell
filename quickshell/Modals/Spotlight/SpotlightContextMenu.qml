@@ -1,6 +1,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Widgets
 import qs.Common
 import qs.Modals.Spotlight
 
@@ -10,66 +11,54 @@ PanelWindow {
     WlrLayershell.namespace: "dms:spotlight-context-menu"
     WlrLayershell.layer: WlrLayershell.Overlay
     WlrLayershell.exclusiveZone: -1
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
 
     property var appLauncher: null
+    property var parentHandler: null
+    property var parentModal: null
     property real menuPositionX: 0
     property real menuPositionY: 0
-
+    
     readonly property real shadowBuffer: 5
-
-    screen: DankModalWindow.targetScreen
+    
+    screen: parentModal?.effectiveScreen
 
     function show(x, y, app, fromKeyboard) {
         fromKeyboard = fromKeyboard || false;
         menuContent.currentApp = app;
-
+        
         let screenX = x;
         let screenY = y;
-
-        const modalX = DankModalWindow.modalX;
-        const modalY = DankModalWindow.modalY;
-
-        if (fromKeyboard) {
-            screenX = x + modalX;
-            screenY = y + modalY;
-        } else {
-            screenX = x + (modalX - shadowBuffer);
-            screenY = y + (modalY - shadowBuffer);
+        
+        if (parentModal) {
+            if (fromKeyboard) {
+                screenX = x + parentModal.alignedX;
+                screenY = y + parentModal.alignedY;
+            } else {
+                screenX = x + (parentModal.alignedX - shadowBuffer);
+                screenY = y + (parentModal.alignedY - shadowBuffer);
+            }
         }
-
+        
         menuPositionX = screenX;
         menuPositionY = screenY;
-
+        
         menuContent.selectedMenuIndex = fromKeyboard ? 0 : -1;
         menuContent.keyboardNavigation = true;
         visible = true;
-    }
-
-    function handleKey(event) {
-        switch (event.key) {
-        case Qt.Key_Down:
-            menuContent.selectNext();
-            event.accepted = true;
-            break;
-        case Qt.Key_Up:
-            menuContent.selectPrevious();
-            event.accepted = true;
-            break;
-        case Qt.Key_Return:
-        case Qt.Key_Enter:
-            menuContent.activateSelected();
-            event.accepted = true;
-            break;
-        case Qt.Key_Escape:
-        case Qt.Key_Menu:
-            hide();
-            event.accepted = true;
-            break;
+        
+        if (parentHandler) {
+            parentHandler.enabled = false;
         }
+        Qt.callLater(() => {
+            menuContent.keyboardHandler.forceActiveFocus();
+        });
     }
 
     function hide() {
+        if (parentHandler) {
+            parentHandler.enabled = true;
+        }
         visible = false;
     }
 
@@ -82,6 +71,11 @@ PanelWindow {
         bottom: true
     }
 
+    onVisibleChanged: {
+        if (!visible && parentHandler) {
+            parentHandler.enabled = true;
+        }
+    }
 
     SpotlightContextMenuContent {
         id: menuContent

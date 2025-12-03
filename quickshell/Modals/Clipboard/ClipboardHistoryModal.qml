@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import qs.Common
 import qs.Modals.Common
@@ -11,6 +12,11 @@ DankModal {
     id: clipboardHistoryModal
 
     layerNamespace: "dms:clipboard"
+
+    HyprlandFocusGrab {
+        windows: [clipboardHistoryModal.contentWindow]
+        active: CompositorService.isHyprland && clipboardHistoryModal.shouldHaveFocus
+    }
 
     property int totalCount: 0
     property var clipboardEntries: []
@@ -142,9 +148,10 @@ DankModal {
     borderWidth: 1
     enableShadow: true
     onBackgroundClicked: hide()
+    modalFocusScope.Keys.onPressed: function (event) {
+        keyboardController.handleKey(event);
+    }
     content: clipboardContent
-
-    property alias keyboardController: keyboardController
 
     ClipboardKeyboardController {
         id: keyboardController
@@ -158,11 +165,13 @@ DankModal {
         onVisibleChanged: {
             if (visible) {
                 clipboardHistoryModal.shouldHaveFocus = false;
-                return;
+            } else if (clipboardHistoryModal.shouldBeVisible) {
+                clipboardHistoryModal.shouldHaveFocus = true;
+                clipboardHistoryModal.modalFocusScope.forceActiveFocus();
+                if (clipboardHistoryModal.contentLoader.item && clipboardHistoryModal.contentLoader.item.searchField) {
+                    clipboardHistoryModal.contentLoader.item.searchField.forceActiveFocus();
+                }
             }
-            if (!clipboardHistoryModal.shouldBeVisible)
-                return;
-            clipboardHistoryModal.shouldHaveFocus = true;
         }
     }
 
