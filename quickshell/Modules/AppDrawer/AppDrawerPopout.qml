@@ -3,6 +3,7 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Widgets
 import qs.Common
+import qs.Modals.Spotlight
 import qs.Modules.AppDrawer
 import qs.Services
 import qs.Widgets
@@ -11,6 +12,27 @@ DankPopout {
     id: appDrawerPopout
 
     layerNamespace: "dms:app-launcher"
+
+    property string searchMode: "apps"
+    property alias fileSearch: fileSearchController
+
+    function updateSearchMode(text) {
+        if (text.startsWith("/")) {
+            if (searchMode === "files") {
+                fileSearchController.searchQuery = text.substring(1);
+                return;
+            }
+            searchMode = "files";
+            fileSearchController.searchQuery = text.substring(1);
+            return;
+        }
+        if (searchMode === "apps") {
+            return;
+        }
+        searchMode = "apps";
+        fileSearchController.reset();
+        appLauncher.searchQuery = text;
+    }
 
     function show() {
         open();
@@ -29,9 +51,11 @@ DankPopout {
     }
 
     onOpened: {
+        searchMode = "apps";
         appLauncher.searchQuery = "";
         appLauncher.selectedIndex = 0;
         appLauncher.setCategory(I18n.tr("All"));
+        fileSearchController.reset();
         if (contentLoader.item?.searchField) {
             contentLoader.item.searchField.text = "";
             contentLoader.item.searchField.forceActiveFocus();
@@ -47,6 +71,23 @@ DankPopout {
         onAppLaunched: appDrawerPopout.close()
         onViewModeSelected: function (mode) {
             SettingsData.set("appLauncherViewMode", mode);
+        }
+    }
+
+    FileSearchController {
+        id: fileSearchController
+
+        onFileOpened: appDrawerPopout.close()
+    }
+
+    onSearchModeChanged: {
+        switch (searchMode) {
+        case "files":
+            appLauncher.keyboardNavigationActive = false;
+            break;
+        case "apps":
+            fileSearchController.keyboardNavigationActive = false;
+            break;
         }
     }
 
@@ -96,17 +137,48 @@ DankPopout {
 
                 anchors.fill: parent
                 focus: true
+
+                function selectNext() {
+                    switch (appDrawerPopout.searchMode) {
+                    case "files":
+                        fileSearchController.selectNext();
+                        return;
+                    default:
+                        appLauncher.selectNext();
+                    }
+                }
+
+                function selectPrevious() {
+                    switch (appDrawerPopout.searchMode) {
+                    case "files":
+                        fileSearchController.selectPrevious();
+                        return;
+                    default:
+                        appLauncher.selectPrevious();
+                    }
+                }
+
+                function activateSelected() {
+                    switch (appDrawerPopout.searchMode) {
+                    case "files":
+                        fileSearchController.openSelected();
+                        return;
+                    default:
+                        appLauncher.launchSelected();
+                    }
+                }
+
                 readonly property var keyMappings: {
                     const mappings = {};
                     mappings[Qt.Key_Escape] = () => appDrawerPopout.close();
-                    mappings[Qt.Key_Down] = () => appLauncher.selectNext();
-                    mappings[Qt.Key_Up] = () => appLauncher.selectPrevious();
-                    mappings[Qt.Key_Return] = () => appLauncher.launchSelected();
-                    mappings[Qt.Key_Enter] = () => appLauncher.launchSelected();
-                    mappings[Qt.Key_Tab] = () => appLauncher.viewMode === "grid" ? appLauncher.selectNextInRow() : appLauncher.selectNext();
-                    mappings[Qt.Key_Backtab] = () => appLauncher.viewMode === "grid" ? appLauncher.selectPreviousInRow() : appLauncher.selectPrevious();
+                    mappings[Qt.Key_Down] = () => keyHandler.selectNext();
+                    mappings[Qt.Key_Up] = () => keyHandler.selectPrevious();
+                    mappings[Qt.Key_Return] = () => keyHandler.activateSelected();
+                    mappings[Qt.Key_Enter] = () => keyHandler.activateSelected();
+                    mappings[Qt.Key_Tab] = () => appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid" ? appLauncher.selectNextInRow() : keyHandler.selectNext();
+                    mappings[Qt.Key_Backtab] = () => appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid" ? appLauncher.selectPreviousInRow() : keyHandler.selectPrevious();
 
-                    if (appLauncher.viewMode === "grid") {
+                    if (appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid") {
                         mappings[Qt.Key_Right] = () => appLauncher.selectNextInRow();
                         mappings[Qt.Key_Left] = () => appLauncher.selectPreviousInRow();
                     }
@@ -121,42 +193,34 @@ DankPopout {
                         return;
                     }
 
-                    if (event.key === Qt.Key_N && event.modifiers & Qt.ControlModifier) {
-                        appLauncher.selectNext();
-                        event.accepted = true;
+                    const hasCtrl = event.modifiers & Qt.ControlModifier;
+                    if (!hasCtrl) {
                         return;
                     }
 
-                    if (event.key === Qt.Key_P && event.modifiers & Qt.ControlModifier) {
-                        appLauncher.selectPrevious();
+                    switch (event.key) {
+                    case Qt.Key_N:
+                    case Qt.Key_J:
+                        keyHandler.selectNext();
                         event.accepted = true;
                         return;
-                    }
-
-                    if (event.key === Qt.Key_J && event.modifiers & Qt.ControlModifier) {
-                        appLauncher.selectNext();
+                    case Qt.Key_P:
+                    case Qt.Key_K:
+                        keyHandler.selectPrevious();
                         event.accepted = true;
                         return;
-                    }
-
-                    if (event.key === Qt.Key_K && event.modifiers & Qt.ControlModifier) {
-                        appLauncher.selectPrevious();
-                        event.accepted = true;
-                        return;
-                    }
-
-                    if (appLauncher.viewMode === "grid") {
-                        if (event.key === Qt.Key_L && event.modifiers & Qt.ControlModifier) {
+                    case Qt.Key_L:
+                        if (appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid") {
                             appLauncher.selectNextInRow();
                             event.accepted = true;
-                            return;
                         }
-
-                        if (event.key === Qt.Key_H && event.modifiers & Qt.ControlModifier) {
+                        return;
+                    case Qt.Key_H:
+                        if (appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid") {
                             appLauncher.selectPreviousInRow();
                             event.accepted = true;
-                            return;
                         }
+                        return;
                     }
                 }
 
@@ -175,7 +239,7 @@ DankPopout {
                             anchors.left: parent.left
                             anchors.leftMargin: Theme.spacingS
                             anchors.verticalCenter: parent.verticalCenter
-                            text: I18n.tr("Applications")
+                            text: appDrawerPopout.searchMode === "files" ? I18n.tr("Files") : I18n.tr("Applications")
                             font.pixelSize: Theme.fontSizeLarge + 4
                             font.weight: Font.Bold
                             color: Theme.surfaceText
@@ -185,7 +249,14 @@ DankPopout {
                             anchors.right: parent.right
                             anchors.rightMargin: Theme.spacingS
                             anchors.verticalCenter: parent.verticalCenter
-                            text: appLauncher.model.count + " apps"
+                            text: {
+                                switch (appDrawerPopout.searchMode) {
+                                case "files":
+                                    return fileSearchController.model.count + " " + I18n.tr("files");
+                                default:
+                                    return appLauncher.model.count + " " + I18n.tr("apps");
+                                }
+                            }
                             font.pixelSize: Theme.fontSizeMedium
                             color: Theme.surfaceVariantText
                         }
@@ -201,18 +272,23 @@ DankPopout {
                         backgroundColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                         normalBorderColor: Theme.outlineMedium
                         focusedBorderColor: Theme.primary
-                        leftIconName: "search"
+                        leftIconName: appDrawerPopout.searchMode === "files" ? "folder" : "search"
                         leftIconSize: Theme.iconSize
                         leftIconColor: Theme.surfaceVariantText
                         leftIconFocusedColor: Theme.primary
                         showClearButton: true
                         font.pixelSize: Theme.fontSizeLarge
                         enabled: appDrawerPopout.shouldBeVisible
-                        ignoreLeftRightKeys: appLauncher.viewMode !== "list"
+                        ignoreLeftRightKeys: appDrawerPopout.searchMode === "apps" && appLauncher.viewMode !== "list"
                         ignoreTabKeys: true
                         keyForwardTargets: [keyHandler]
+                        onTextChanged: {
+                            if (appDrawerPopout.searchMode === "apps") {
+                                appLauncher.searchQuery = text;
+                            }
+                        }
                         onTextEdited: {
-                            appLauncher.searchQuery = text;
+                            appDrawerPopout.updateSearchMode(text);
                         }
                         Keys.onPressed: function (event) {
                             if (event.key === Qt.Key_Escape) {
@@ -225,13 +301,22 @@ DankPopout {
                             const hasText = text.length > 0;
 
                             if (isEnterKey && hasText) {
-                                if (appLauncher.keyboardNavigationActive && appLauncher.model.count > 0) {
-                                    appLauncher.launchSelected();
-                                } else if (appLauncher.model.count > 0) {
-                                    appLauncher.launchApp(appLauncher.model.get(0));
+                                switch (appDrawerPopout.searchMode) {
+                                case "files":
+                                    if (fileSearchController.model.count > 0) {
+                                        fileSearchController.openSelected();
+                                    }
+                                    event.accepted = true;
+                                    return;
+                                default:
+                                    if (appLauncher.keyboardNavigationActive && appLauncher.model.count > 0) {
+                                        appLauncher.launchSelected();
+                                    } else if (appLauncher.model.count > 0) {
+                                        appLauncher.launchApp(appLauncher.model.get(0));
+                                    }
+                                    event.accepted = true;
+                                    return;
                                 }
-                                event.accepted = true;
-                                return;
                             }
 
                             const navigationKeys = [Qt.Key_Down, Qt.Key_Up, Qt.Key_Left, Qt.Key_Right, Qt.Key_Tab, Qt.Key_Backtab];
@@ -256,7 +341,7 @@ DankPopout {
                         width: parent.width - Theme.spacingS * 2
                         height: 40
                         anchors.horizontalCenter: parent.horizontalCenter
-                        visible: searchField.text.length === 0
+                        visible: searchField.text.length === 0 && appDrawerPopout.searchMode === "apps"
 
                         Rectangle {
                             width: 180
@@ -316,7 +401,7 @@ DankPopout {
                         height: {
                             let usedHeight = 40 + Theme.spacingS;
                             usedHeight += 52 + Theme.spacingS;
-                            usedHeight += (searchField.text.length === 0 ? 40 : 0);
+                            usedHeight += (searchField.text.length === 0 && appDrawerPopout.searchMode === "apps" ? 40 : 0);
                             return parent.height - usedHeight;
                         }
                         radius: Theme.cornerRadius
@@ -349,7 +434,7 @@ DankPopout {
 
                             anchors.fill: parent
                             anchors.bottomMargin: Theme.spacingS
-                            visible: appLauncher.viewMode === "list"
+                            visible: appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "list"
                             model: appLauncher.model
                             currentIndex: appLauncher.selectedIndex
                             clip: true
@@ -434,7 +519,7 @@ DankPopout {
 
                             anchors.fill: parent
                             anchors.bottomMargin: Theme.spacingS
-                            visible: appLauncher.viewMode === "grid"
+                            visible: appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid"
                             model: appLauncher.model
                             clip: true
                             cellWidth: baseCellWidth
@@ -483,6 +568,12 @@ DankPopout {
                                 }
                                 onKeyboardNavigationReset: appGrid.keyboardNavigationReset
                             }
+                        }
+
+                        FileSearchResults {
+                            anchors.fill: parent
+                            fileSearchController: appDrawerPopout.fileSearch
+                            visible: appDrawerPopout.searchMode === "files"
                         }
                     }
                 }
