@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
-import Quickshell.Io
 import Quickshell.Services.Notifications
 import qs.Common
 import "../Common/markdown2html.js" as Markdown2Html
@@ -251,72 +250,6 @@ Singleton {
             }
 
             _recomputeGroupsLater();
-        }
-    }
-
-    // Conflict detection for competing notification daemons
-    Timer {
-        id: conflictCheckTimer
-        interval: 3000
-        running: true
-        repeat: false
-        onTriggered: {
-            checkForCompetingDaemons.running = true;
-        }
-    }
-
-    Process {
-        id: checkForCompetingDaemons
-        command: ["sh", "-c", "pgrep -x 'mako|dunst|deadd-notification-center|swaync' || true"]
-        running: false
-        
-        onExited: (exitCode, exitStatus) => {
-            if (stdout.trim() !== "") {
-                const pids = stdout.trim().split('\n');
-                console.warn("DMS: Detected competing notification daemon(s) running (PIDs: " + pids.join(", ") + ")");
-                console.warn("DMS: Attempting to terminate competing daemons...");
-                
-                killCompetingDaemons.running = true;
-            }
-        }
-    }
-
-    Process {
-        id: killCompetingDaemons
-        command: ["sh", "-c", "pkill -x 'mako|dunst|deadd-notification-center|swaync' 2>/dev/null || true"]
-        running: false
-        
-        onExited: (exitCode, exitStatus) => {
-            console.log("DMS: Attempted to terminate competing notification daemons");
-            Qt.callLater(() => {
-                verifyDaemonsKilled.running = true;
-            });
-        }
-    }
-
-    Process {
-        id: verifyDaemonsKilled
-        command: ["sh", "-c", "pgrep -x 'mako|dunst|deadd-notification-center|swaync' || true"]
-        running: false
-        
-        onExited: (exitCode, exitStatus) => {
-            if (stdout.trim() !== "") {
-                const pids = stdout.trim().split('\n');
-                const pidList = pids.join(", ");
-                console.error("DMS: Failed to terminate competing notification daemons (PIDs: " + pidList + ")");
-                console.error("DMS: Notifications may not work correctly.");
-                console.error("DMS: To fix, run: systemctl --user mask mako.service dunst.service");
-                
-                // Show user-visible alert via ToastService
-                ToastService.showWarning(
-                    "Notification Conflict Detected",
-                    "Another notification daemon (mako/dunst) is running. DMS attempted to stop it but failed.",
-                    "systemctl --user mask mako.service dunst.service",
-                    "notification-conflict"
-                );
-            } else {
-                console.log("DMS: Successfully claimed notification service");
-            }
         }
     }
 
