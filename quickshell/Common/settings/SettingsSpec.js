@@ -194,6 +194,8 @@ var SPEC = {
     enableFprint: { def: false },
     maxFprintTries: { def: 3 },
     fprintdAvailable: { def: false, persist: false },
+    lockScreenActiveMonitor: { def: "all" },
+    lockScreenInactiveColor: { def: "#000000" },
     hideBrightnessSlider: { def: false },
 
     notificationTimeoutLow: { def: 5000 },

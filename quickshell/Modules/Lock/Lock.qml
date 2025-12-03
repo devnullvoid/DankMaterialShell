@@ -84,13 +84,23 @@ Scope {
         WlSessionLockSurface {
             id: lockSurface
 
-            color: "transparent"
+            property string currentScreenName: screen?.name ?? ""
+            property bool isActiveScreen: {
+                if (Quickshell.screens.length <= 1)
+                    return true;
+                if (SettingsData.lockScreenActiveMonitor === "all")
+                    return true;
+                return currentScreenName === SettingsData.lockScreenActiveMonitor;
+            }
+
+            color: isActiveScreen ? "transparent" : SettingsData.lockScreenInactiveColor
 
             LockSurface {
                 anchors.fill: parent
+                visible: lockSurface.isActiveScreen
                 lock: sessionLock
                 sharedPasswordBuffer: root.sharedPasswordBuffer
-                screenName: lockSurface.screen?.name ?? ""
+                screenName: lockSurface.currentScreenName
                 isLocked: shouldLock
                 onUnlockRequested: {
                     root.unlock();

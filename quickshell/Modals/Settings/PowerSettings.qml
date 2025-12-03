@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -99,6 +100,147 @@ Item {
                         checked: SettingsData.enableFprint
                         visible: SettingsData.fprintdAvailable
                         onToggled: checked => SettingsData.set("enableFprint", checked)
+                    }
+                }
+            }
+
+            StyledRect {
+                width: parent.width
+                height: lockDisplaySection.implicitHeight + Theme.spacingL * 2
+                radius: Theme.cornerRadius
+                color: Theme.surfaceContainerHigh
+                border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
+                border.width: 0
+                visible: Quickshell.screens.length > 1
+
+                Column {
+                    id: lockDisplaySection
+                    anchors.fill: parent
+                    anchors.margins: Theme.spacingL
+                    spacing: Theme.spacingM
+
+                    Row {
+                        width: parent.width
+                        spacing: Theme.spacingM
+
+                        DankIcon {
+                            name: "monitor"
+                            size: Theme.iconSize
+                            color: Theme.primary
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        StyledText {
+                            text: I18n.tr("Lock Screen Display")
+                            font.pixelSize: Theme.fontSizeLarge
+                            font.weight: Font.Medium
+                            color: Theme.surfaceText
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
+
+                    StyledText {
+                        text: I18n.tr("Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.")
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.surfaceVariantText
+                        width: parent.width
+                        wrapMode: Text.Wrap
+                    }
+
+                    DankDropdown {
+                        id: lockScreenMonitorDropdown
+                        width: parent.width
+                        addHorizontalPadding: true
+                        text: I18n.tr("Active Lock Screen Monitor")
+                        options: {
+                            var opts = [I18n.tr("All Monitors")];
+                            var screens = Quickshell.screens;
+                            for (var i = 0; i < screens.length; i++) {
+                                opts.push(SettingsData.getScreenDisplayName(screens[i]));
+                            }
+                            return opts;
+                        }
+
+                        Component.onCompleted: {
+                            if (SettingsData.lockScreenActiveMonitor === "all") {
+                                currentValue = I18n.tr("All Monitors");
+                                return;
+                            }
+                            var screens = Quickshell.screens;
+                            for (var i = 0; i < screens.length; i++) {
+                                if (screens[i].name === SettingsData.lockScreenActiveMonitor) {
+                                    currentValue = SettingsData.getScreenDisplayName(screens[i]);
+                                    return;
+                                }
+                            }
+                            currentValue = I18n.tr("All Monitors");
+                        }
+
+                        onValueChanged: value => {
+                            if (value === I18n.tr("All Monitors")) {
+                                SettingsData.set("lockScreenActiveMonitor", "all");
+                                return;
+                            }
+                            var screens = Quickshell.screens;
+                            for (var i = 0; i < screens.length; i++) {
+                                if (SettingsData.getScreenDisplayName(screens[i]) === value) {
+                                    SettingsData.set("lockScreenActiveMonitor", screens[i].name);
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
+                    Row {
+                        width: parent.width
+                        spacing: Theme.spacingM
+                        visible: SettingsData.lockScreenActiveMonitor !== "all"
+
+                        Column {
+                            width: parent.width - inactiveColorPreview.width - Theme.spacingM
+                            spacing: Theme.spacingXS
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            StyledText {
+                                text: I18n.tr("Inactive Monitor Color")
+                                font.pixelSize: Theme.fontSizeMedium
+                                color: Theme.surfaceText
+                            }
+
+                            StyledText {
+                                text: I18n.tr("Color displayed on monitors without the lock screen")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                                width: parent.width
+                                wrapMode: Text.Wrap
+                            }
+                        }
+
+                        Rectangle {
+                            id: inactiveColorPreview
+                            width: 48
+                            height: 48
+                            radius: Theme.cornerRadius
+                            color: SettingsData.lockScreenInactiveColor
+                            border.color: Theme.outline
+                            border.width: 1
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: {
+                                    if (!PopoutService.colorPickerModal)
+                                        return;
+                                    PopoutService.colorPickerModal.selectedColor = SettingsData.lockScreenInactiveColor;
+                                    PopoutService.colorPickerModal.pickerTitle = I18n.tr("Inactive Monitor Color");
+                                    PopoutService.colorPickerModal.onColorSelectedCallback = function (selectedColor) {
+                                        SettingsData.set("lockScreenInactiveColor", selectedColor);
+                                    };
+                                    PopoutService.colorPickerModal.show();
+                                }
+                            }
+                        }
                     }
                 }
             }
