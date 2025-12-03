@@ -6,6 +6,8 @@ import Quickshell.Wayland
 import qs.Common
 import qs.Services
 import qs.Widgets
+import "../Common/KeyUtils.js" as KeyUtils
+import "../Common/KeybindActions.js" as Actions
 
 Item {
     id: root
@@ -34,6 +36,8 @@ Item {
         return false;
     }
     readonly property string _originalKey: editingKeyIndex >= 0 && editingKeyIndex < keys.length ? keys[editingKeyIndex].key : ""
+    readonly property var _conflicts: editKey ? KeyUtils.getConflictingBinds(editKey, bindData.action, KeybindsService.getFlatBinds()) : []
+    readonly property bool hasConflict: _conflicts.length > 0
 
     signal toggleExpand
     signal saveBind(string originalKey, var newData)
@@ -49,7 +53,7 @@ Item {
     }
 
     onEditActionChanged: {
-        _actionType = KeybindsService.getActionType(editAction);
+        _actionType = Actions.getActionType(editAction);
     }
 
     function resetEdits() {
@@ -59,22 +63,8 @@ Item {
         editAction = bindData.action || "";
         editDesc = bindData.desc || "";
         hasChanges = false;
-        _actionType = KeybindsService.getActionType(editAction);
-        useCustomCompositor = _actionType === "compositor" && !isKnownCompositorAction(editAction);
-    }
-
-    function isKnownCompositorAction(action) {
-        if (!action)
-            return false;
-        const cats = KeybindsService.getCompositorCategories();
-        for (const cat of cats) {
-            const actions = KeybindsService.getCompositorActions(cat);
-            for (const act of actions) {
-                if (act.id === action)
-                    return true;
-            }
-        }
-        return false;
+        _actionType = Actions.getActionType(editAction);
+        useCustomCompositor = _actionType === "compositor" && !Actions.isKnownCompositorAction(editAction);
     }
 
     function startAddingNewKey() {
@@ -107,7 +97,7 @@ Item {
     function canSave() {
         if (!editKey)
             return false;
-        if (!KeybindsService.isValidAction(editAction))
+        if (!Actions.isValidAction(editAction))
             return false;
         return true;
     }
@@ -134,150 +124,6 @@ Item {
 
     function stopRecording() {
         recording = false;
-    }
-
-    function modsFromEvent(mods) {
-        const result = [];
-        if (mods & Qt.ControlModifier)
-            result.push("Ctrl");
-        if (mods & Qt.ShiftModifier)
-            result.push("Shift");
-        const hasAlt = mods & Qt.AltModifier;
-        const hasSuper = mods & Qt.MetaModifier;
-        if (hasAlt && hasSuper) {
-            result.push("Mod");
-        } else {
-            if (hasAlt)
-                result.push("Alt");
-            if (hasSuper)
-                result.push("Super");
-        }
-        return result;
-    }
-
-    function normalizeKeyCombo(keyCombo) {
-        return keyCombo.toLowerCase().replace(/\bmod\b/g, "super").replace(/\bsuper\b/g, "super");
-    }
-
-    function getConflictingBinds(keyCombo) {
-        if (!keyCombo)
-            return [];
-        const conflicts = [];
-        const allBinds = KeybindsService.getFlatBinds();
-        const normalizedKey = normalizeKeyCombo(keyCombo);
-        for (let i = 0; i < allBinds.length; i++) {
-            const bind = allBinds[i];
-            if (bind.action === bindData.action)
-                continue;
-            for (let k = 0; k < bind.keys.length; k++) {
-                if (normalizeKeyCombo(bind.keys[k].key) === normalizedKey) {
-                    conflicts.push({
-                        action: bind.action,
-                        desc: bind.desc || bind.action
-                    });
-                    break;
-                }
-            }
-        }
-        return conflicts;
-    }
-
-    readonly property var _conflicts: editKey ? getConflictingBinds(editKey) : []
-    readonly property bool hasConflict: _conflicts.length > 0
-
-    readonly property var _keyMap: ({
-            [Qt.Key_Left]: "Left",
-            [Qt.Key_Right]: "Right",
-            [Qt.Key_Up]: "Up",
-            [Qt.Key_Down]: "Down",
-            [Qt.Key_Comma]: "Comma",
-            [Qt.Key_Period]: "Period",
-            [Qt.Key_Slash]: "Slash",
-            [Qt.Key_Semicolon]: "Semicolon",
-            [Qt.Key_Apostrophe]: "Apostrophe",
-            [Qt.Key_BracketLeft]: "BracketLeft",
-            [Qt.Key_BracketRight]: "BracketRight",
-            [Qt.Key_Backslash]: "Backslash",
-            [Qt.Key_Minus]: "Minus",
-            [Qt.Key_Equal]: "Equal",
-            [Qt.Key_QuoteLeft]: "grave",
-            [Qt.Key_Space]: "space",
-            [Qt.Key_Print]: "Print",
-            [Qt.Key_Return]: "Return",
-            [Qt.Key_Enter]: "Return",
-            [Qt.Key_Tab]: "Tab",
-            [Qt.Key_Backspace]: "BackSpace",
-            [Qt.Key_Delete]: "Delete",
-            [Qt.Key_Insert]: "Insert",
-            [Qt.Key_Home]: "Home",
-            [Qt.Key_End]: "End",
-            [Qt.Key_PageUp]: "Page_Up",
-            [Qt.Key_PageDown]: "Page_Down",
-            [Qt.Key_Escape]: "Escape",
-            [Qt.Key_CapsLock]: "Caps_Lock",
-            [Qt.Key_NumLock]: "Num_Lock",
-            [Qt.Key_ScrollLock]: "Scroll_Lock",
-            [Qt.Key_Pause]: "Pause",
-            [Qt.Key_VolumeUp]: "XF86AudioRaiseVolume",
-            [Qt.Key_VolumeDown]: "XF86AudioLowerVolume",
-            [Qt.Key_VolumeMute]: "XF86AudioMute",
-            [Qt.Key_MicMute]: "XF86AudioMicMute",
-            [Qt.Key_MediaPlay]: "XF86AudioPlay",
-            [Qt.Key_MediaPause]: "XF86AudioPause",
-            [Qt.Key_MediaStop]: "XF86AudioStop",
-            [Qt.Key_MediaNext]: "XF86AudioNext",
-            [Qt.Key_MediaPrevious]: "XF86AudioPrev",
-            [Qt.Key_MediaRecord]: "XF86AudioRecord",
-            [Qt.Key_MonBrightnessUp]: "XF86MonBrightnessUp",
-            [Qt.Key_MonBrightnessDown]: "XF86MonBrightnessDown",
-            [Qt.Key_KeyboardBrightnessUp]: "XF86KbdBrightnessUp",
-            [Qt.Key_KeyboardBrightnessDown]: "XF86KbdBrightnessDown",
-            [Qt.Key_PowerOff]: "XF86PowerOff",
-            [Qt.Key_Sleep]: "XF86Sleep",
-            [Qt.Key_WakeUp]: "XF86WakeUp",
-            [Qt.Key_Eject]: "XF86Eject",
-            [Qt.Key_Calculator]: "XF86Calculator",
-            [Qt.Key_Explorer]: "XF86Explorer",
-            [Qt.Key_HomePage]: "XF86HomePage",
-            [Qt.Key_Search]: "XF86Search",
-            [Qt.Key_LaunchMail]: "XF86Mail",
-            [Qt.Key_Launch0]: "XF86Launch0",
-            [Qt.Key_Launch1]: "XF86Launch1",
-            [Qt.Key_Exclam]: "1",
-            [Qt.Key_At]: "2",
-            [Qt.Key_NumberSign]: "3",
-            [Qt.Key_Dollar]: "4",
-            [Qt.Key_Percent]: "5",
-            [Qt.Key_AsciiCircum]: "6",
-            [Qt.Key_Ampersand]: "7",
-            [Qt.Key_Asterisk]: "8",
-            [Qt.Key_ParenLeft]: "9",
-            [Qt.Key_ParenRight]: "0",
-            [Qt.Key_Less]: "Comma",
-            [Qt.Key_Greater]: "Period",
-            [Qt.Key_Question]: "Slash",
-            [Qt.Key_Colon]: "Semicolon",
-            [Qt.Key_QuoteDbl]: "Apostrophe",
-            [Qt.Key_BraceLeft]: "BracketLeft",
-            [Qt.Key_BraceRight]: "BracketRight",
-            [Qt.Key_Bar]: "Backslash",
-            [Qt.Key_Underscore]: "Minus",
-            [Qt.Key_Plus]: "Equal",
-            [Qt.Key_AsciiTilde]: "grave"
-        })
-
-    function xkbKeyFromQtKey(qk) {
-        if (qk >= Qt.Key_A && qk <= Qt.Key_Z)
-            return String.fromCharCode(qk);
-        if (qk >= Qt.Key_0 && qk <= Qt.Key_9)
-            return String.fromCharCode(qk);
-        if (qk >= Qt.Key_F1 && qk <= Qt.Key_F35)
-            return "F" + (qk - Qt.Key_F1 + 1);
-        return _keyMap[qk] || "";
-    }
-
-    function formatToken(mods, key) {
-        return (mods.length ? mods.join("+") + "+" : "") + key;
     }
 
     Column {
@@ -330,12 +176,11 @@ Item {
                             }
 
                             StyledText {
-                                id: keyChipText
                                 text: modelData.key
                                 font.pixelSize: Theme.fontSizeSmall
-                                font.weight: isSelected ? Font.Medium : Font.Normal
+                                font.weight: parent.isSelected ? Font.Medium : Font.Normal
                                 isMonospace: true
-                                color: isSelected ? Theme.primaryText : Theme.surfaceVariantText
+                                color: parent.isSelected ? Theme.primaryText : Theme.surfaceVariantText
                                 anchors.centerIn: parent
                                 width: parent.width - Theme.spacingS
                                 horizontalAlignment: Text.AlignHCenter
@@ -491,16 +336,16 @@ Item {
                                 Rectangle {
                                     anchors.fill: parent
                                     radius: parent.radius
-                                    color: editKeyChipArea.pressed ? Theme.surfaceTextHover : (editKeyChipArea.containsMouse && !isSelected ? Theme.surfaceTextHover : "transparent")
+                                    color: editKeyChipArea.pressed ? Theme.surfaceTextHover : (editKeyChipArea.containsMouse && !parent.isSelected ? Theme.surfaceTextHover : "transparent")
                                 }
 
                                 StyledText {
                                     id: editKeyChipText
                                     text: modelData.key
                                     font.pixelSize: Theme.fontSizeSmall
-                                    font.weight: isSelected ? Font.Medium : Font.Normal
+                                    font.weight: parent.isSelected ? Font.Medium : Font.Normal
                                     isMonospace: true
-                                    color: isSelected ? Theme.primaryText : Theme.surfaceVariantText
+                                    color: parent.isSelected ? Theme.primaryText : Theme.surfaceVariantText
                                     anchors.centerIn: parent
                                 }
 
@@ -632,24 +477,11 @@ Item {
                                 return;
                             }
 
-                            const mods = [];
-                            if (event.modifiers & Qt.ControlModifier)
-                                mods.push("Ctrl");
-                            if (event.modifiers & Qt.ShiftModifier)
-                                mods.push("Shift");
-                            if ((event.modifiers & Qt.AltModifier) && (event.modifiers & Qt.MetaModifier)) {
-                                mods.push("Mod");
-                            } else {
-                                if (event.modifiers & Qt.AltModifier)
-                                    mods.push("Alt");
-                                if (event.modifiers & Qt.MetaModifier)
-                                    mods.push("Super");
-                            }
-
-                            const key = root.xkbKeyFromQtKey(event.key);
+                            const mods = KeyUtils.modsFromEvent(event.modifiers);
+                            const key = KeyUtils.xkbKeyFromQtKey(event.key);
                             if (key) {
                                 root.updateEdit({
-                                    key: root.formatToken(mods, key)
+                                    key: KeyUtils.formatToken(mods, key)
                                 });
                                 root.stopRecording();
                                 event.accepted = true;
@@ -777,26 +609,31 @@ Item {
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
-                                        if (typeDelegate.modelData.id === "dms") {
+                                        switch (typeDelegate.modelData.id) {
+                                        case "dms":
                                             root.updateEdit({
                                                 action: KeybindsService.dmsActions[0].id,
                                                 desc: KeybindsService.dmsActions[0].label
                                             });
-                                        } else if (typeDelegate.modelData.id === "compositor") {
+                                            break;
+                                        case "compositor":
                                             root.updateEdit({
                                                 action: "close-window",
                                                 desc: "Close Window"
                                             });
-                                        } else if (typeDelegate.modelData.id === "spawn") {
+                                            break;
+                                        case "spawn":
                                             root.updateEdit({
                                                 action: "spawn ",
                                                 desc: ""
                                             });
-                                        } else if (typeDelegate.modelData.id === "shell") {
+                                            break;
+                                        case "shell":
                                             root.updateEdit({
                                                 action: "spawn sh -c \"\"",
                                                 desc: ""
                                             });
+                                            break;
                                         }
                                     }
                                     onContainsMouseChanged: {
@@ -952,13 +789,12 @@ Item {
                         Layout.preferredHeight: 40
                         placeholderText: I18n.tr("e.g., focus-workspace 3, resize-column -10")
                         text: root._actionType === "compositor" ? root.editAction : ""
-                        onEditingFinished: {
+                        onTextChanged: {
                             if (root._actionType !== "compositor")
                                 return;
-                            if (text.trim())
-                                root.updateEdit({
-                                    action: text.trim()
-                                });
+                            root.updateEdit({
+                                action: text
+                            });
                         }
                     }
 
@@ -1015,20 +851,16 @@ Item {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 40
                         placeholderText: I18n.tr("e.g., firefox, kitty --title foo")
-                        readonly property var _parsed: root._actionType === "spawn" ? KeybindsService.parseSpawnCommand(root.editAction) : null
+                        readonly property var _parsed: root._actionType === "spawn" ? Actions.parseSpawnCommand(root.editAction) : null
                         text: _parsed ? (_parsed.command + " " + _parsed.args.join(" ")).trim() : ""
-                        onEditingFinished: {
+                        onTextChanged: {
                             if (root._actionType !== "spawn")
                                 return;
                             const parts = text.trim().split(" ").filter(p => p);
-                            if (parts.length === 0)
-                                return;
-                            const changes = {
-                                action: "spawn " + parts.join(" ")
-                            };
-                            if (!root.editDesc)
-                                changes.desc = parts[0];
-                            root.updateEdit(changes);
+                            const action = parts.length > 0 ? "spawn " + parts.join(" ") : "spawn ";
+                            root.updateEdit({
+                                action: action
+                            });
                         }
                     }
                 }
@@ -1051,15 +883,13 @@ Item {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 40
                         placeholderText: I18n.tr("e.g., notify-send 'Hello' && sleep 1")
-                        text: root._actionType === "shell" ? KeybindsService.parseShellCommand(root.editAction) : ""
-                        onEditingFinished: {
+                        text: root._actionType === "shell" ? Actions.parseShellCommand(root.editAction) : ""
+                        onTextChanged: {
                             if (root._actionType !== "shell")
                                 return;
-                            if (text.trim()) {
-                                root.updateEdit({
-                                    action: KeybindsService.buildShellAction(text.trim())
-                                });
-                            }
+                            root.updateEdit({
+                                action: Actions.buildShellAction(text)
+                            });
                         }
                     }
                 }
@@ -1082,7 +912,7 @@ Item {
                         Layout.preferredHeight: 40
                         placeholderText: I18n.tr("Hotkey overlay title (optional)")
                         text: root.editDesc
-                        onEditingFinished: root.updateEdit({
+                        onTextChanged: root.updateEdit({
                             desc: text
                         })
                     }
