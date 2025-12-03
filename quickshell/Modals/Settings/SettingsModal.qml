@@ -41,7 +41,7 @@ FloatingWindow {
     title: I18n.tr("Settings", "settings window title")
     minimumSize: Qt.size(500, 400)
     implicitWidth: 800
-    implicitHeight: 800
+    implicitHeight: 875
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
     visible: false
 
@@ -121,29 +121,18 @@ FloatingWindow {
         focus: true
 
         Keys.onPressed: event => {
-            const tabCount = 13;
             if (event.key === Qt.Key_Escape) {
                 hide();
                 event.accepted = true;
                 return;
             }
-            if (event.key === Qt.Key_Down) {
-                currentTabIndex = (currentTabIndex + 1) % tabCount;
+            if (event.key === Qt.Key_Down || (event.key === Qt.Key_Tab && !event.modifiers)) {
+                sidebar.navigateNext();
                 event.accepted = true;
                 return;
             }
-            if (event.key === Qt.Key_Up) {
-                currentTabIndex = (currentTabIndex - 1 + tabCount) % tabCount;
-                event.accepted = true;
-                return;
-            }
-            if (event.key === Qt.Key_Tab && !event.modifiers) {
-                currentTabIndex = (currentTabIndex + 1) % tabCount;
-                event.accepted = true;
-                return;
-            }
-            if (event.key === Qt.Key_Backtab || (event.key === Qt.Key_Tab && event.modifiers & Qt.ShiftModifier)) {
-                currentTabIndex = (currentTabIndex - 1 + tabCount) % tabCount;
+            if (event.key === Qt.Key_Up || event.key === Qt.Key_Backtab || (event.key === Qt.Key_Tab && event.modifiers & Qt.ShiftModifier)) {
+                sidebar.navigatePrevious();
                 event.accepted = true;
                 return;
             }

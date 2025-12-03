@@ -1,4 +1,7 @@
 {
+  "%1 DMS bind(s) may be overridden by config binds that come after the include.": {
+    "%1 DMS bind(s) may be overridden by config binds that come after the include.": ""
+  },
   "%1 adapter(s), none connected": {
     "%1 adapter(s), none connected": ""
   },
@@ -32,8 +35,29 @@
   "- Support Us With a Star ⭐": {
     "- Support Us With a Star ⭐": "- 星を付けて応援してください⭐"
   },
+  "0 = square corners": {
+    "0 = square corners": ""
+  },
   "1 event": {
     "1 event": "1件のイベント"
+  },
+  "1 minute": {
+    "1 minute": ""
+  },
+  "1 second": {
+    "1 second": ""
+  },
+  "10 minutes": {
+    "10 minutes": ""
+  },
+  "10 seconds": {
+    "10 seconds": ""
+  },
+  "15 seconds": {
+    "15 seconds": ""
+  },
+  "2 minutes": {
+    "2 minutes": ""
   },
   "24-Hour Format": {
     "24-Hour Format": "24時間形式"
@@ -41,11 +65,26 @@
   "24-hour format": {
     "24-hour format": "24時間形式"
   },
+  "3 seconds": {
+    "3 seconds": ""
+  },
+  "30 seconds": {
+    "30 seconds": ""
+  },
   "3rd party": {
     "3rd party": "サードパーティ"
   },
+  "5 minutes": {
+    "5 minutes": ""
+  },
+  "5 seconds": {
+    "5 seconds": ""
+  },
   "7-Day Forecast": {
     "7-Day Forecast": "7日間予報"
+  },
+  "8 seconds": {
+    "8 seconds": ""
   },
   "A file with this name already exists. Do you want to overwrite it?": {
     "A file with this name already exists. Do you want to overwrite it?": "この名前のファイルは既に存在します。上書きしてもよろしいですか?"
@@ -85,6 +124,9 @@
   },
   "Active": {
     "Active": ""
+  },
+  "Active Lock Screen Monitor": {
+    "Active Lock Screen Monitor": ""
   },
   "Active: ": {
     "Active: ": ""
@@ -128,6 +170,9 @@
   "All": {
     "All": "全て"
   },
+  "All Monitors": {
+    "All Monitors": ""
+  },
   "All day": {
     "All day": "毎日"
   },
@@ -139,6 +184,9 @@
   },
   "Always Show OSD Percentage": {
     "Always Show OSD Percentage": "常に OSD パーセンテージを表示"
+  },
+  "Always Show Percentage": {
+    "Always Show Percentage": ""
   },
   "Always on icons": {
     "Always on icons": "常時表示アイコン"
@@ -335,6 +383,9 @@
   "Battery level and power management": {
     "Battery level and power management": "バッテリーレベルおよび電源管理"
   },
+  "Behavior": {
+    "Behavior": ""
+  },
   "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": {
     "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": "ロック画面をloginctlからのdbus信号にバインド。外部ロック画面を使用している場合は無効に"
   },
@@ -434,6 +485,9 @@
   "Capacity": {
     "Capacity": "容量"
   },
+  "Caps Lock": {
+    "Caps Lock": ""
+  },
   "Caps Lock Indicator": {
     "Caps Lock Indicator": "Caps Lock インジケーター"
   },
@@ -488,6 +542,9 @@
   "Choose where on-screen displays appear on screen": {
     "Choose where on-screen displays appear on screen": "OSDの表示する場所を選んでください"
   },
+  "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
+    "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": ""
+  },
   "Cipher": {
     "Cipher": ""
   },
@@ -530,11 +587,17 @@
   "Close Overview on Launch": {
     "Close Overview on Launch": "起動中のときに概要を閉じる"
   },
+  "Color Mode": {
+    "Color Mode": ""
+  },
   "Color Override": {
     "Color Override": "色のオーバーライド"
   },
   "Color Picker": {
     "Color Picker": "カラーピッカー"
+  },
+  "Color displayed on monitors without the lock screen": {
+    "Color displayed on monitors without the lock screen": ""
   },
   "Color temperature for day time": {
     "Color temperature for day time": "昼間の色温度"
@@ -577,6 +640,9 @@
   },
   "Compositor": {
     "Compositor": "コンポジター"
+  },
+  "Config action: %1": {
+    "Config action: %1": ""
   },
   "Configuration activated": {
     "Configuration activated": "設定が適用されました"
@@ -629,6 +695,9 @@
   "Control currently playing media": {
     "Control currently playing media": "現在再生中のメディアを制御"
   },
+  "Controls opacity of all popouts, modals, and their content layers": {
+    "Controls opacity of all popouts, modals, and their content layers": ""
+  },
   "Controls opacity of all popouts, modals, and their content layers (DankDash, Settings, App Drawer, Control Center, etc.)": {
     "Controls opacity of all popouts, modals, and their content layers (DankDash, Settings, App Drawer, Control Center, etc.)": "すべてのポップアウト、モーダル、およびそれらのコンテンツレイヤー(DankDash、設定、アプリドロワー、コントロールセンターなど)の不透明度を制御"
   },
@@ -649,6 +718,9 @@
   },
   "Copy Process Name": {
     "Copy Process Name": "プロセス名をコピー"
+  },
+  "Corner Radius": {
+    "Corner Radius": ""
   },
   "Corner Radius (0 = square corners)": {
     "Corner Radius (0 = square corners)": "コーナー半径（0 = 角丸なし）"
@@ -686,11 +758,32 @@
   "Custom": {
     "Custom": "カスタム"
   },
+  "Custom Duration": {
+    "Custom Duration": ""
+  },
+  "Custom Hibernate Command": {
+    "Custom Hibernate Command": ""
+  },
   "Custom Location": {
     "Custom Location": "カスタムロケーション"
   },
+  "Custom Lock Command": {
+    "Custom Lock Command": ""
+  },
+  "Custom Logout Command": {
+    "Custom Logout Command": ""
+  },
   "Custom Power Actions": {
     "Custom Power Actions": "カスタム電源アクション"
+  },
+  "Custom Power Off Command": {
+    "Custom Power Off Command": ""
+  },
+  "Custom Reboot Command": {
+    "Custom Reboot Command": ""
+  },
+  "Custom Suspend Command": {
+    "Custom Suspend Command": ""
   },
   "Custom Transparency": {
     "Custom Transparency": "カスタム透明度"
@@ -745,6 +838,9 @@
   },
   "DankSearch not available": {
     "DankSearch not available": "DankSearchが利用できません"
+  },
+  "DankShell & System Icons (requires restart)": {
+    "DankShell & System Icons (requires restart)": ""
   },
   "Dark Mode": {
     "Dark Mode": "ダークモード"
@@ -842,6 +938,9 @@
   "Display Name Format": {
     "Display Name Format": "名称形式を表示"
   },
+  "Display a dock with pinned and running applications": {
+    "Display a dock with pinned and running applications": ""
+  },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "画面の上、下、左、右の端に配置できる、ピン留めされた実行中のアプリケーションを含むドックを表示します"
   },
@@ -863,11 +962,17 @@
   "Display power menu actions in a grid instead of a list": {
     "Display power menu actions in a grid instead of a list": "電源メニューのアクションをリストではなくグリッドに表示"
   },
+  "Display seconds in the clock": {
+    "Display seconds in the clock": ""
+  },
   "Display settings for ": {
     "Display settings for ": "以下の設定を表示 "
   },
   "Display volume and brightness percentage values by default in OSD popups": {
     "Display volume and brightness percentage values by default in OSD popups": "OSDポップアップに音量と輝度のパーセンテージ値をデフォルトで表示"
+  },
+  "Display volume and brightness percentage values in OSD popups": {
+    "Display volume and brightness percentage values in OSD popups": ""
   },
   "Displays": {
     "Displays": "表示"
@@ -884,11 +989,20 @@
   "Dock": {
     "Dock": "ドック"
   },
+  "Dock & Launcher": {
+    "Dock & Launcher": ""
+  },
   "Dock Position": {
     "Dock Position": "ドック位置"
   },
   "Dock Transparency": {
     "Dock Transparency": "ドックの透明度"
+  },
+  "Dock Visibility": {
+    "Dock Visibility": ""
+  },
+  "Docs": {
+    "Docs": ""
   },
   "Domain (optional)": {
     "Domain (optional)": "ドメイン (オプション)"
@@ -937,6 +1051,9 @@
   },
   "Enable Bar": {
     "Enable Bar": "バーを起用"
+  },
+  "Enable Do Not Disturb": {
+    "Enable Do Not Disturb": ""
   },
   "Enable GPU Temperature": {
     "Enable GPU Temperature": "GPU温度を有効にする"
@@ -1148,11 +1265,20 @@
   "File Information": {
     "File Information": "ファイル情報"
   },
+  "Files": {
+    "Files": ""
+  },
   "Find in Text": {
     "Find in Text": "テキスト内検索"
   },
   "Find in note...": {
     "Find in note...": "メモで検索..."
+  },
+  "Fine-tune animation timing in milliseconds": {
+    "Fine-tune animation timing in milliseconds": ""
+  },
+  "First Time Setup": {
+    "First Time Setup": ""
   },
   "Fix Now": {
     "Fix Now": ""
@@ -1225,6 +1351,9 @@
   },
   "Gamma control not available. Requires DMS API v6+.": {
     "Gamma control not available. Requires DMS API v6+.": "ガンマ制御は使用できません。DMS API v6+ が必要です。"
+  },
+  "GitHub": {
+    "GitHub": ""
   },
   "Github:": {
     "Github:": "GitHub:"
@@ -1310,6 +1439,9 @@
   "Hourly Forecast": {
     "Hourly Forecast": ""
   },
+  "How long to hold the button to confirm the action": {
+    "How long to hold the button to confirm the action": ""
+  },
   "How often to change wallpaper": {
     "How often to change wallpaper": "壁紙を切り替える間隔"
   },
@@ -1354,6 +1486,9 @@
   },
   "Import VPN": {
     "Import VPN": ""
+  },
+  "Inactive Monitor Color": {
+    "Inactive Monitor Color": ""
   },
   "Include Transitions": {
     "Include Transitions": "トランジションを含める"
@@ -1423,6 +1558,9 @@
   },
   "Kill Process": {
     "Kill Process": "プロセスを強制終了"
+  },
+  "Ko-fi": {
+    "Ko-fi": ""
   },
   "Last launched %1": {
     "Last launched %1": "最終起動日 %1"
@@ -1499,6 +1637,9 @@
   "Lock Screen": {
     "Lock Screen": "ロック画面"
   },
+  "Lock Screen Display": {
+    "Lock Screen Display": ""
+  },
   "Lock Screen Format": {
     "Lock Screen Format": "ロック画面のフォーマット"
   },
@@ -1507,6 +1648,9 @@
   },
   "Log Out": {
     "Log Out": "ログアウト"
+  },
+  "Long": {
+    "Long": ""
   },
   "Long Text": {
     "Long Text": "長文"
@@ -1586,14 +1730,23 @@
   "Media Needed": {
     "Media Needed": "メディアが必要"
   },
+  "Media Player": {
+    "Media Player": ""
+  },
   "Media Player Settings": {
     "Media Player Settings": "メディアプレーヤーの設定"
   },
   "Media Players (": {
     "Media Players (": "メディアプレーヤー（"
   },
+  "Media Volume": {
+    "Media Volume": ""
+  },
   "Media Volume OSD": {
     "Media Volume OSD": "メディア音量OSD"
+  },
+  "Medium": {
+    "Medium": ""
   },
   "Memory": {
     "Memory": "メモリ"
@@ -1606,6 +1759,9 @@
   },
   "Microphone": {
     "Microphone": "マイク"
+  },
+  "Microphone Mute": {
+    "Microphone Mute": ""
   },
   "Microphone Mute OSD": {
     "Microphone Mute OSD": "マイクミュートOSD"
@@ -1691,6 +1847,9 @@
   "Network download and upload speed display": {
     "Network download and upload speed display": "ネットワークのダウンロードおよびアップロード速度を表示"
   },
+  "Never": {
+    "Never": ""
+  },
   "New": {
     "New": "新しい"
   },
@@ -1714,6 +1873,9 @@
   },
   "Night Temperature": {
     "Night Temperature": "夜間の温度"
+  },
+  "Niri Integration": {
+    "Niri Integration": ""
   },
   "Niri compositor actions (focus, move, etc.)": {
     "Niri compositor actions (focus, move, etc.)": ""
@@ -1789,6 +1951,9 @@
   },
   "None": {
     "None": "ない"
+  },
+  "Normal Font": {
+    "Normal Font": ""
   },
   "Normal Priority": {
     "Normal Priority": "通常の優先度"
@@ -1897,6 +2062,9 @@
   },
   "Output Tray Missing": {
     "Output Tray Missing": "アウトプットトレイが見つかりませんでした"
+  },
+  "Overridden by config": {
+    "Overridden by config": ""
   },
   "Override": {
     "Override": ""
@@ -2015,8 +2183,14 @@
   "Position: ": {
     "Position: ": "位置: "
   },
+  "Possible Override Conflicts": {
+    "Possible Override Conflicts": ""
+  },
   "Power & Security": {
     "Power & Security": "電源とセキュリティ"
+  },
+  "Power & Sleep": {
+    "Power & Sleep": ""
   },
   "Power Action Confirmation": {
     "Power Action Confirmation": "電源アクションの確認"
@@ -2030,11 +2204,17 @@
   "Power Options": {
     "Power Options": "電源オプション"
   },
+  "Power Profile": {
+    "Power Profile": ""
+  },
   "Power Profile Degradation": {
     "Power Profile Degradation": "電源プロファイルの劣化"
   },
   "Power Profile OSD": {
     "Power Profile OSD": "電源プロファイルOSD"
+  },
+  "Power source": {
+    "Power source": ""
   },
   "Precipitation Chance": {
     "Precipitation Chance": ""
@@ -2240,6 +2420,9 @@
   "Scale all font sizes": {
     "Scale all font sizes": "すべてのフォントサイズを拡大縮小"
   },
+  "Scale all font sizes throughout the shell": {
+    "Scale all font sizes throughout the shell": ""
+  },
   "Scan": {
     "Scan": "スキャン"
   },
@@ -2318,6 +2501,9 @@
   "Select font weight": {
     "Select font weight": "フォントの太さを選ぶ"
   },
+  "Select font weight for UI text": {
+    "Select font weight for UI text": ""
+  },
   "Select monitor to configure wallpaper": {
     "Select monitor to configure wallpaper": "壁紙を設定するモニターを選ぶ"
   },
@@ -2329,6 +2515,9 @@
   },
   "Select system sound theme": {
     "Select system sound theme": "システムサウンドテーマを選ぶ"
+  },
+  "Select the font family for UI text": {
+    "Select the font family for UI text": ""
   },
   "Select the palette algorithm used for wallpaper-based colors": {
     "Select the palette algorithm used for wallpaper-based colors": "壁紙ベースの色で、使用するパレットアルゴリズムを選ぶ"
@@ -2360,11 +2549,17 @@
   "Settings": {
     "Settings": "設定"
   },
+  "Setup": {
+    "Setup": ""
+  },
   "Shell": {
     "Shell": ""
   },
   "Shift+Del: Clear All • Esc: Close": {
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: すべてクリア • Esc: 閉じる"
+  },
+  "Short": {
+    "Short": ""
   },
   "Shortcuts": {
     "Shortcuts": ""
@@ -2404,6 +2599,9 @@
   },
   "Show Restart DMS": {
     "Show Restart DMS": "DMS再起動を表示"
+  },
+  "Show Seconds": {
+    "Show Seconds": ""
   },
   "Show Suspend": {
     "Show Suspend": "一時停止を表示"
@@ -2498,11 +2696,20 @@
   "Size Offset": {
     "Size Offset": "サイズオフセット"
   },
+  "Sizing": {
+    "Sizing": ""
+  },
   "Sort Alphabetically": {
     "Sort Alphabetically": "アルファベット順に並べ替える"
   },
+  "Sorting & Layout": {
+    "Sorting & Layout": ""
+  },
   "Sound Theme": {
     "Sound Theme": "サウンドテーマ"
+  },
+  "Sounds": {
+    "Sounds": ""
   },
   "Spacer": {
     "Spacer": "間隔"
@@ -2552,6 +2759,9 @@
   "Support Development": {
     "Support Development": "開発をサポート"
   },
+  "Suppress notification popups while enabled": {
+    "Suppress notification popups while enabled": ""
+  },
   "Surface": {
     "Surface": "表面"
   },
@@ -2591,6 +2801,9 @@
   "System Monitoring:": {
     "System Monitoring:": "システム監視："
   },
+  "System Sounds": {
+    "System Sounds": ""
+  },
   "System Tray": {
     "System Tray": "システムトレイ"
   },
@@ -2608,6 +2821,9 @@
   },
   "System notification area icons": {
     "System notification area icons": "システム通知エリアアイコン"
+  },
+  "System sounds are not available. Install canberra-gtk-play for sound support.": {
+    "System sounds are not available. Install canberra-gtk-play for sound support.": ""
   },
   "System toast notifications": {
     "System toast notifications": "システムトースト通知"
@@ -2657,6 +2873,9 @@
   "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\\n\\nThese plugins may pose security and privacy risks - install at your own risk.": {
     "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\\n\\nThese plugins may pose security and privacy risks - install at your own risk.": "サードパーティプラグインはコミュニティによって作成されており、DankMaterialShellによる公式サポートはありません。\\n\\nこれらのプラグインはセキュリティやプライバシーのリスクをもたらす可能性があります - 自己責任でインストールしてください。"
   },
+  "This bind is overridden by config.kdl": {
+    "This bind is overridden by config.kdl": ""
+  },
   "This widget prevents GPU power off states, which can significantly impact battery life on laptops. It is not recommended to use this on laptops with hybrid graphics.": {
     "This widget prevents GPU power off states, which can significantly impact battery life on laptops. It is not recommended to use this on laptops with hybrid graphics.": "このウィジェットはGPUの省電力状態を防ぎ、ノートパソコンのバッテリー寿命に大きな影響を与える可能性があります。ハイブリッドグラフィックス搭載のノートパソコンでの使用は推奨されません。"
   },
@@ -2669,8 +2888,20 @@
   "Time & Weather": {
     "Time & Weather": "時間および天気"
   },
+  "Time Format": {
+    "Time Format": ""
+  },
   "Timed Out": {
     "Timed Out": "タイムアウト"
+  },
+  "Timeout for critical priority notifications": {
+    "Timeout for critical priority notifications": ""
+  },
+  "Timeout for low priority notifications": {
+    "Timeout for low priority notifications": ""
+  },
+  "Timeout for normal priority notifications": {
+    "Timeout for normal priority notifications": ""
   },
   "Title": {
     "Title": ""
@@ -2680,6 +2911,9 @@
   },
   "To update, run the following command:": {
     "To update, run the following command:": "更新するには以下のコマンドを実行してください："
+  },
+  "To use this DMS bind, remove or change the keybind in your config.kdl": {
+    "To use this DMS bind, remove or change the keybind in your config.kdl": ""
   },
   "Toast Messages": {
     "Toast Messages": "トーストメッセージ"
@@ -2720,11 +2954,20 @@
   "Transition Effect": {
     "Transition Effect": "トランジション効果"
   },
+  "Transparency": {
+    "Transparency": ""
+  },
   "Turn off monitors after": {
     "Turn off monitors after": "後にモニターの電源を切る"
   },
   "Type": {
     "Type": ""
+  },
+  "Typography": {
+    "Typography": ""
+  },
+  "Typography & Motion": {
+    "Typography & Motion": ""
   },
   "Unavailable": {
     "Unavailable": ""
@@ -2867,6 +3110,9 @@
   "Visual effect used when wallpaper changes": {
     "Visual effect used when wallpaper changes": "壁紙が変更される時に使用されるビジュアルエフェクト"
   },
+  "Volume": {
+    "Volume": ""
+  },
   "Volume Changed": {
     "Volume Changed": "音量変更"
   },
@@ -2969,6 +3215,12 @@
   "Workspace Switcher": {
     "Workspace Switcher": "ワークスペーススイッチャー"
   },
+  "Workspaces": {
+    "Workspaces": ""
+  },
+  "Workspaces & Widgets": {
+    "Workspaces & Widgets": ""
+  },
   "Yes": {
     "Yes": ""
   },
@@ -2984,11 +3236,17 @@
   "You have unsaved changes. Save before opening a file?": {
     "You have unsaved changes. Save before opening a file?": "保存されていない変更があります。ファイルを開く前に保存しますか?"
   },
+  "apps": {
+    "apps": ""
+  },
   "custom theme file browser title": {
     "Select Custom Theme": "カスタムテーマを選んでください"
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "壁紙を選んでください"
+  },
+  "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
+    "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
   },
   "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
     "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
@@ -3005,17 +3263,26 @@
   "events": {
     "events": "イベント"
   },
+  "files": {
+    "files": ""
+  },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctlが利用できません- ロック統合のためにDMS socketの接続が必要です。"
   },
   "matugen not detected - dynamic theming unavailable": {
     "matugen not detected - dynamic theming unavailable": "matugen が検出されません - ダイナミックテーマ設定は利用できません"
   },
+  "minutes": {
+    "minutes": ""
+  },
   "official": {
     "official": "公式"
   },
   "profile image file browser title": {
     "Select Profile Image": "プロファイル画像を選んでください"
+  },
+  "seconds": {
+    "seconds": ""
   },
   "settings window title": {
     "Settings": "設定"
@@ -3028,6 +3295,15 @@
   },
   "wallpaper directory file browser title": {
     "Select Wallpaper Directory": "壁紙のディレクトリを選んでください"
+  },
+  "wallpaper settings disable description": {
+    "Use an external wallpaper manager like swww, hyprpaper, or swaybg.": ""
+  },
+  "wallpaper settings disable toggle": {
+    "Disable Built-in Wallpapers": ""
+  },
+  "wallpaper settings external management": {
+    "External Wallpaper Management": ""
   },
   "• Install only from trusted sources": {
     "• Install only from trusted sources": "• 信頼できるソースからのみインストールする"

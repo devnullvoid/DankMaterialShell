@@ -1,4 +1,7 @@
 {
+  "%1 DMS bind(s) may be overridden by config binds that come after the include.": {
+    "%1 DMS bind(s) may be overridden by config binds that come after the include.": ""
+  },
   "%1 adapter(s), none connected": {
     "%1 adapter(s), none connected": "%1 個轉接器，未連接"
   },
@@ -32,8 +35,29 @@
   "- Support Us With a Star ⭐": {
     "- Support Us With a Star ⭐": "- 給我們點個 Star ⭐ 來支持我們"
   },
+  "0 = square corners": {
+    "0 = square corners": ""
+  },
   "1 event": {
     "1 event": "1 個活動"
+  },
+  "1 minute": {
+    "1 minute": ""
+  },
+  "1 second": {
+    "1 second": ""
+  },
+  "10 minutes": {
+    "10 minutes": ""
+  },
+  "10 seconds": {
+    "10 seconds": ""
+  },
+  "15 seconds": {
+    "15 seconds": ""
+  },
+  "2 minutes": {
+    "2 minutes": ""
   },
   "24-Hour Format": {
     "24-Hour Format": "24 小時制"
@@ -41,11 +65,26 @@
   "24-hour format": {
     "24-hour format": "24 小時制"
   },
+  "3 seconds": {
+    "3 seconds": ""
+  },
+  "30 seconds": {
+    "30 seconds": ""
+  },
   "3rd party": {
     "3rd party": "第三方"
   },
+  "5 minutes": {
+    "5 minutes": ""
+  },
+  "5 seconds": {
+    "5 seconds": ""
+  },
   "7-Day Forecast": {
     "7-Day Forecast": "七天氣象預報"
+  },
+  "8 seconds": {
+    "8 seconds": ""
   },
   "A file with this name already exists. Do you want to overwrite it?": {
     "A file with this name already exists. Do you want to overwrite it?": "檔案名稱已存在。是否要覆蓋它？"
@@ -85,6 +124,9 @@
   },
   "Active": {
     "Active": "啟用"
+  },
+  "Active Lock Screen Monitor": {
+    "Active Lock Screen Monitor": ""
   },
   "Active: ": {
     "Active: ": "啟用："
@@ -128,6 +170,9 @@
   "All": {
     "All": "所有"
   },
+  "All Monitors": {
+    "All Monitors": ""
+  },
   "All day": {
     "All day": "全天"
   },
@@ -139,6 +184,9 @@
   },
   "Always Show OSD Percentage": {
     "Always Show OSD Percentage": "OSD 始終顯示百分比"
+  },
+  "Always Show Percentage": {
+    "Always Show Percentage": ""
   },
   "Always on icons": {
     "Always on icons": "始終顯示圖示"
@@ -335,6 +383,9 @@
   "Battery level and power management": {
     "Battery level and power management": "電量與電源管理"
   },
+  "Behavior": {
+    "Behavior": ""
+  },
   "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": {
     "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": "將鎖定畫面綁定到 loginctl 的 dbus 訊號。如果使用外部鎖屏，請停用"
   },
@@ -434,6 +485,9 @@
   "Capacity": {
     "Capacity": "容量"
   },
+  "Caps Lock": {
+    "Caps Lock": ""
+  },
   "Caps Lock Indicator": {
     "Caps Lock Indicator": "大小寫鎖定指示器"
   },
@@ -488,6 +542,9 @@
   "Choose where on-screen displays appear on screen": {
     "Choose where on-screen displays appear on screen": "選擇螢幕顯示出現在螢幕上的位置"
   },
+  "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
+    "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": ""
+  },
   "Cipher": {
     "Cipher": "密碼"
   },
@@ -530,11 +587,17 @@
   "Close Overview on Launch": {
     "Close Overview on Launch": "啟動時關閉概覽"
   },
+  "Color Mode": {
+    "Color Mode": ""
+  },
   "Color Override": {
     "Color Override": "顏色覆蓋"
   },
   "Color Picker": {
     "Color Picker": "顏色選擇器"
+  },
+  "Color displayed on monitors without the lock screen": {
+    "Color displayed on monitors without the lock screen": ""
   },
   "Color temperature for day time": {
     "Color temperature for day time": "白天螢幕的顏色溫度"
@@ -577,6 +640,9 @@
   },
   "Compositor": {
     "Compositor": "合成器"
+  },
+  "Config action: %1": {
+    "Config action: %1": ""
   },
   "Configuration activated": {
     "Configuration activated": "配置已啟動"
@@ -629,6 +695,9 @@
   "Control currently playing media": {
     "Control currently playing media": "控制目前播放器"
   },
+  "Controls opacity of all popouts, modals, and their content layers": {
+    "Controls opacity of all popouts, modals, and their content layers": ""
+  },
   "Controls opacity of all popouts, modals, and their content layers (DankDash, Settings, App Drawer, Control Center, etc.)": {
     "Controls opacity of all popouts, modals, and their content layers (DankDash, Settings, App Drawer, Control Center, etc.)": "控制所有彈出式介面、模態對話框及其內容層級的不透明度 (適用於 DankDash、設定、應用程式抽屜、控制中心等)"
   },
@@ -649,6 +718,9 @@
   },
   "Copy Process Name": {
     "Copy Process Name": "複製程序名"
+  },
+  "Corner Radius": {
+    "Corner Radius": ""
   },
   "Corner Radius (0 = square corners)": {
     "Corner Radius (0 = square corners)": "圓角半徑 (0 = 方角)"
@@ -686,11 +758,32 @@
   "Custom": {
     "Custom": "自訂"
   },
+  "Custom Duration": {
+    "Custom Duration": ""
+  },
+  "Custom Hibernate Command": {
+    "Custom Hibernate Command": ""
+  },
   "Custom Location": {
     "Custom Location": "自訂位置"
   },
+  "Custom Lock Command": {
+    "Custom Lock Command": ""
+  },
+  "Custom Logout Command": {
+    "Custom Logout Command": ""
+  },
   "Custom Power Actions": {
     "Custom Power Actions": "自訂電源選項"
+  },
+  "Custom Power Off Command": {
+    "Custom Power Off Command": ""
+  },
+  "Custom Reboot Command": {
+    "Custom Reboot Command": ""
+  },
+  "Custom Suspend Command": {
+    "Custom Suspend Command": ""
   },
   "Custom Transparency": {
     "Custom Transparency": "自訂透明度"
@@ -745,6 +838,9 @@
   },
   "DankSearch not available": {
     "DankSearch not available": "DankSearch 不可用"
+  },
+  "DankShell & System Icons (requires restart)": {
+    "DankShell & System Icons (requires restart)": ""
   },
   "Dark Mode": {
     "Dark Mode": "深色主題"
@@ -842,6 +938,9 @@
   "Display Name Format": {
     "Display Name Format": "顯示名稱格式"
   },
+  "Display a dock with pinned and running applications": {
+    "Display a dock with pinned and running applications": ""
+  },
   "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": {
     "Display a dock with pinned and running applications that can be positioned at the top, bottom, left, or right edge of the screen": "顯示一個帶有固定和正在運行的應用程式的 Dock，這些應用程式可以放置在螢幕的頂部、底部、左側或右側邊緣"
   },
@@ -863,11 +962,17 @@
   "Display power menu actions in a grid instead of a list": {
     "Display power menu actions in a grid instead of a list": "以網格而非列表顯示電源選單操作"
   },
+  "Display seconds in the clock": {
+    "Display seconds in the clock": ""
+  },
   "Display settings for ": {
     "Display settings for ": "顯示設定適用於"
   },
   "Display volume and brightness percentage values by default in OSD popups": {
     "Display volume and brightness percentage values by default in OSD popups": "在 OSD 彈出視窗中預設顯示音量和亮度百分比值"
+  },
+  "Display volume and brightness percentage values in OSD popups": {
+    "Display volume and brightness percentage values in OSD popups": ""
   },
   "Displays": {
     "Displays": "螢幕"
@@ -884,11 +989,20 @@
   "Dock": {
     "Dock": "Dock"
   },
+  "Dock & Launcher": {
+    "Dock & Launcher": ""
+  },
   "Dock Position": {
     "Dock Position": "Dock 位置"
   },
   "Dock Transparency": {
     "Dock Transparency": "Dock 透明度"
+  },
+  "Dock Visibility": {
+    "Dock Visibility": ""
+  },
+  "Docs": {
+    "Docs": ""
   },
   "Domain (optional)": {
     "Domain (optional)": "網域 (可選)"
@@ -937,6 +1051,9 @@
   },
   "Enable Bar": {
     "Enable Bar": "啟用欄"
+  },
+  "Enable Do Not Disturb": {
+    "Enable Do Not Disturb": ""
   },
   "Enable GPU Temperature": {
     "Enable GPU Temperature": "啟用 GPU 溫度"
@@ -1148,11 +1265,20 @@
   "File Information": {
     "File Information": "檔案資訊"
   },
+  "Files": {
+    "Files": ""
+  },
   "Find in Text": {
     "Find in Text": "尋找文字"
   },
   "Find in note...": {
     "Find in note...": "尋找筆記..."
+  },
+  "Fine-tune animation timing in milliseconds": {
+    "Fine-tune animation timing in milliseconds": ""
+  },
+  "First Time Setup": {
+    "First Time Setup": ""
   },
   "Fix Now": {
     "Fix Now": ""
@@ -1225,6 +1351,9 @@
   },
   "Gamma control not available. Requires DMS API v6+.": {
     "Gamma control not available. Requires DMS API v6+.": "Gamma 控制不可用。需要 DMS API v6+。"
+  },
+  "GitHub": {
+    "GitHub": ""
   },
   "Github:": {
     "Github:": "Github:"
@@ -1310,6 +1439,9 @@
   "Hourly Forecast": {
     "Hourly Forecast": ""
   },
+  "How long to hold the button to confirm the action": {
+    "How long to hold the button to confirm the action": ""
+  },
   "How often to change wallpaper": {
     "How often to change wallpaper": "多久更換一次桌布"
   },
@@ -1354,6 +1486,9 @@
   },
   "Import VPN": {
     "Import VPN": "匯入 VPN"
+  },
+  "Inactive Monitor Color": {
+    "Inactive Monitor Color": ""
   },
   "Include Transitions": {
     "Include Transitions": "包括過渡"
@@ -1423,6 +1558,9 @@
   },
   "Kill Process": {
     "Kill Process": "結束程序"
+  },
+  "Ko-fi": {
+    "Ko-fi": ""
   },
   "Last launched %1": {
     "Last launched %1": "上次啟動於 %1"
@@ -1499,6 +1637,9 @@
   "Lock Screen": {
     "Lock Screen": "鎖定螢幕"
   },
+  "Lock Screen Display": {
+    "Lock Screen Display": ""
+  },
   "Lock Screen Format": {
     "Lock Screen Format": "鎖定螢幕格式"
   },
@@ -1507,6 +1648,9 @@
   },
   "Log Out": {
     "Log Out": "登出"
+  },
+  "Long": {
+    "Long": ""
   },
   "Long Text": {
     "Long Text": "長文字"
@@ -1586,14 +1730,23 @@
   "Media Needed": {
     "Media Needed": "需要媒體"
   },
+  "Media Player": {
+    "Media Player": ""
+  },
   "Media Player Settings": {
     "Media Player Settings": "媒體播放設定"
   },
   "Media Players (": {
     "Media Players (": "媒體播放 ("
   },
+  "Media Volume": {
+    "Media Volume": ""
+  },
   "Media Volume OSD": {
     "Media Volume OSD": "媒體音量 OSD"
+  },
+  "Medium": {
+    "Medium": ""
   },
   "Memory": {
     "Memory": "記憶體"
@@ -1606,6 +1759,9 @@
   },
   "Microphone": {
     "Microphone": "麥克風"
+  },
+  "Microphone Mute": {
+    "Microphone Mute": ""
   },
   "Microphone Mute OSD": {
     "Microphone Mute OSD": "麥克風靜音 OSD"
@@ -1691,6 +1847,9 @@
   "Network download and upload speed display": {
     "Network download and upload speed display": "顯示網路下載跟上傳速度"
   },
+  "Never": {
+    "Never": ""
+  },
   "New": {
     "New": "新"
   },
@@ -1714,6 +1873,9 @@
   },
   "Night Temperature": {
     "Night Temperature": "夜間色溫"
+  },
+  "Niri Integration": {
+    "Niri Integration": ""
   },
   "Niri compositor actions (focus, move, etc.)": {
     "Niri compositor actions (focus, move, etc.)": ""
@@ -1789,6 +1951,9 @@
   },
   "None": {
     "None": "無"
+  },
+  "Normal Font": {
+    "Normal Font": ""
   },
   "Normal Priority": {
     "Normal Priority": "普通優先級"
@@ -1897,6 +2062,9 @@
   },
   "Output Tray Missing": {
     "Output Tray Missing": "輸出托盤遺失"
+  },
+  "Overridden by config": {
+    "Overridden by config": ""
   },
   "Override": {
     "Override": ""
@@ -2015,8 +2183,14 @@
   "Position: ": {
     "Position: ": "位置："
   },
+  "Possible Override Conflicts": {
+    "Possible Override Conflicts": ""
+  },
   "Power & Security": {
     "Power & Security": "電源與安全"
+  },
+  "Power & Sleep": {
+    "Power & Sleep": ""
   },
   "Power Action Confirmation": {
     "Power Action Confirmation": "電源操作確認"
@@ -2030,11 +2204,17 @@
   "Power Options": {
     "Power Options": "電源選項"
   },
+  "Power Profile": {
+    "Power Profile": ""
+  },
   "Power Profile Degradation": {
     "Power Profile Degradation": "電源配置降級"
   },
   "Power Profile OSD": {
     "Power Profile OSD": "電源設定檔 OSD"
+  },
+  "Power source": {
+    "Power source": ""
   },
   "Precipitation Chance": {
     "Precipitation Chance": ""
@@ -2240,6 +2420,9 @@
   "Scale all font sizes": {
     "Scale all font sizes": "縮放所有字體大小"
   },
+  "Scale all font sizes throughout the shell": {
+    "Scale all font sizes throughout the shell": ""
+  },
   "Scan": {
     "Scan": "掃描"
   },
@@ -2318,6 +2501,9 @@
   "Select font weight": {
     "Select font weight": "選擇字體粗細"
   },
+  "Select font weight for UI text": {
+    "Select font weight for UI text": ""
+  },
   "Select monitor to configure wallpaper": {
     "Select monitor to configure wallpaper": "選擇指定螢幕桌布"
   },
@@ -2329,6 +2515,9 @@
   },
   "Select system sound theme": {
     "Select system sound theme": "選擇系統音效主題"
+  },
+  "Select the font family for UI text": {
+    "Select the font family for UI text": ""
   },
   "Select the palette algorithm used for wallpaper-based colors": {
     "Select the palette algorithm used for wallpaper-based colors": "請選擇調色板演算法，以桌布的顏色為基底。"
@@ -2360,11 +2549,17 @@
   "Settings": {
     "Settings": "設定"
   },
+  "Setup": {
+    "Setup": ""
+  },
   "Shell": {
     "Shell": ""
   },
   "Shift+Del: Clear All • Esc: Close": {
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: 清除所有 • Esc: 關閉"
+  },
+  "Short": {
+    "Short": ""
   },
   "Shortcuts": {
     "Shortcuts": ""
@@ -2404,6 +2599,9 @@
   },
   "Show Restart DMS": {
     "Show Restart DMS": "顯示重新啟動 DMS"
+  },
+  "Show Seconds": {
+    "Show Seconds": ""
   },
   "Show Suspend": {
     "Show Suspend": "顯示暫停"
@@ -2498,11 +2696,20 @@
   "Size Offset": {
     "Size Offset": "大小偏移"
   },
+  "Sizing": {
+    "Sizing": ""
+  },
   "Sort Alphabetically": {
     "Sort Alphabetically": "按字母順序排序"
   },
+  "Sorting & Layout": {
+    "Sorting & Layout": ""
+  },
   "Sound Theme": {
     "Sound Theme": "音效主題"
+  },
+  "Sounds": {
+    "Sounds": ""
   },
   "Spacer": {
     "Spacer": "空白間隔"
@@ -2552,6 +2759,9 @@
   "Support Development": {
     "Support Development": "支援開發"
   },
+  "Suppress notification popups while enabled": {
+    "Suppress notification popups while enabled": ""
+  },
   "Surface": {
     "Surface": "表面"
   },
@@ -2591,6 +2801,9 @@
   "System Monitoring:": {
     "System Monitoring:": "系統監視器:"
   },
+  "System Sounds": {
+    "System Sounds": ""
+  },
   "System Tray": {
     "System Tray": "系統匣"
   },
@@ -2608,6 +2821,9 @@
   },
   "System notification area icons": {
     "System notification area icons": "顯示常駐程式狀態圖示和系統通知"
+  },
+  "System sounds are not available. Install canberra-gtk-play for sound support.": {
+    "System sounds are not available. Install canberra-gtk-play for sound support.": ""
   },
   "System toast notifications": {
     "System toast notifications": "系統快顯通知"
@@ -2657,6 +2873,9 @@
   "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\\n\\nThese plugins may pose security and privacy risks - install at your own risk.": {
     "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\\n\\nThese plugins may pose security and privacy risks - install at your own risk.": "第三方插件由社群創建，不受 DankMaterialShell 官方支援。\\n\\n這些插件可能會帶來安全性和隱私風險 - 安裝後風險自負。"
   },
+  "This bind is overridden by config.kdl": {
+    "This bind is overridden by config.kdl": ""
+  },
   "This widget prevents GPU power off states, which can significantly impact battery life on laptops. It is not recommended to use this on laptops with hybrid graphics.": {
     "This widget prevents GPU power off states, which can significantly impact battery life on laptops. It is not recommended to use this on laptops with hybrid graphics.": "此部件可防止 GPU 電源關閉，這會嚴重影響筆記型電腦的電池續航時間。不建議在配備混合顯示卡的筆記型電腦上使用此功能。"
   },
@@ -2669,8 +2888,20 @@
   "Time & Weather": {
     "Time & Weather": "時間與天氣"
   },
+  "Time Format": {
+    "Time Format": ""
+  },
   "Timed Out": {
     "Timed Out": "逾時"
+  },
+  "Timeout for critical priority notifications": {
+    "Timeout for critical priority notifications": ""
+  },
+  "Timeout for low priority notifications": {
+    "Timeout for low priority notifications": ""
+  },
+  "Timeout for normal priority notifications": {
+    "Timeout for normal priority notifications": ""
   },
   "Title": {
     "Title": ""
@@ -2680,6 +2911,9 @@
   },
   "To update, run the following command:": {
     "To update, run the following command:": "若要更新，請執行以下命令："
+  },
+  "To use this DMS bind, remove or change the keybind in your config.kdl": {
+    "To use this DMS bind, remove or change the keybind in your config.kdl": ""
   },
   "Toast Messages": {
     "Toast Messages": "快顯通知"
@@ -2720,11 +2954,20 @@
   "Transition Effect": {
     "Transition Effect": "切換動畫效果"
   },
+  "Transparency": {
+    "Transparency": ""
+  },
   "Turn off monitors after": {
     "Turn off monitors after": "關閉螢幕之後"
   },
   "Type": {
     "Type": ""
+  },
+  "Typography": {
+    "Typography": ""
+  },
+  "Typography & Motion": {
+    "Typography & Motion": ""
   },
   "Unavailable": {
     "Unavailable": "不可用"
@@ -2867,6 +3110,9 @@
   "Visual effect used when wallpaper changes": {
     "Visual effect used when wallpaper changes": "桌布變更時所使用的視覺效果"
   },
+  "Volume": {
+    "Volume": ""
+  },
   "Volume Changed": {
     "Volume Changed": "音量改變"
   },
@@ -2969,6 +3215,12 @@
   "Workspace Switcher": {
     "Workspace Switcher": "工作區切換器"
   },
+  "Workspaces": {
+    "Workspaces": ""
+  },
+  "Workspaces & Widgets": {
+    "Workspaces & Widgets": ""
+  },
   "Yes": {
     "Yes": "是"
   },
@@ -2984,11 +3236,17 @@
   "You have unsaved changes. Save before opening a file?": {
     "You have unsaved changes. Save before opening a file?": "您有未儲存的變更。是否先保存再開檔案？"
   },
+  "apps": {
+    "apps": ""
+  },
   "custom theme file browser title": {
     "Select Custom Theme": "選擇自訂主題"
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "選擇桌布"
+  },
+  "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
+    "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
   },
   "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
     "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
@@ -3005,17 +3263,26 @@
   "events": {
     "events": "活動"
   },
+  "files": {
+    "files": ""
+  },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl 不可用 - 鎖定整合需要 DMS 套接字連接"
   },
   "matugen not detected - dynamic theming unavailable": {
     "matugen not detected - dynamic theming unavailable": "未偵測到 matugen - 動態主題不可用"
   },
+  "minutes": {
+    "minutes": ""
+  },
   "official": {
     "official": "官方"
   },
   "profile image file browser title": {
     "Select Profile Image": "選擇個人資料圖片"
+  },
+  "seconds": {
+    "seconds": ""
   },
   "settings window title": {
     "Settings": "設定"
@@ -3028,6 +3295,15 @@
   },
   "wallpaper directory file browser title": {
     "Select Wallpaper Directory": "選擇桌布目錄"
+  },
+  "wallpaper settings disable description": {
+    "Use an external wallpaper manager like swww, hyprpaper, or swaybg.": ""
+  },
+  "wallpaper settings disable toggle": {
+    "Disable Built-in Wallpapers": ""
+  },
+  "wallpaper settings external management": {
+    "External Wallpaper Management": ""
   },
   "• Install only from trusted sources": {
     "• Install only from trusted sources": "• 僅從受信任的來源安裝"

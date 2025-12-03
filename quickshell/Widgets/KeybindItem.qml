@@ -55,7 +55,6 @@ Item {
     signal saveBind(string originalKey, var newData)
     signal removeBind(string key)
     signal cancelEdit
-    signal restoreKeyConsumed
 
     implicitHeight: contentColumn.implicitHeight
     height: implicitHeight
@@ -67,7 +66,6 @@ Item {
             return;
         if (restoreKey) {
             restoreToKey(restoreKey);
-            restoreKeyConsumed();
         } else {
             resetEdits();
         }
@@ -77,7 +75,6 @@ Item {
         if (!isExpanded || !restoreKey)
             return;
         restoreToKey(restoreKey);
-        restoreKeyConsumed();
     }
 
     function restoreToKey(keyToFind) {

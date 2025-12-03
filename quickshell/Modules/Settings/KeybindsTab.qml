@@ -120,12 +120,10 @@ Item {
         function onBindSaved(key) {
             keybindsTab._savedScrollY = flickable.contentY;
             keybindsTab._preserveScroll = true;
-            keybindsTab._editingKey = key;
         }
         function onBindRemoved(key) {
             keybindsTab._savedScrollY = flickable.contentY;
             keybindsTab._preserveScroll = true;
-            keybindsTab._editingKey = "";
         }
     }
 
@@ -597,15 +595,50 @@ Item {
                             anchors.horizontalCenter: parent.horizontalCenter
                             bindData: modelData
                             isExpanded: keybindsTab.expandedKey === modelData.action
-                            restoreKey: isExpanded ? keybindsTab._editingKey : ""
                             panelWindow: keybindsTab.parentModal
                             onToggleExpand: keybindsTab.toggleExpanded(modelData.action)
                             onSaveBind: (originalKey, newData) => {
                                 KeybindsService.saveBind(originalKey, newData);
+                                keybindsTab._editingKey = newData.key;
                                 keybindsTab.expandedKey = modelData.action;
                             }
-                            onRemoveBind: key => KeybindsService.removeBind(key)
-                            onRestoreKeyConsumed: keybindsTab._editingKey = ""
+                            onRemoveBind: key => {
+                                const remainingKey = bindItem.keys.find(k => k.key !== key)?.key ?? "";
+                                KeybindsService.removeBind(key);
+                                keybindsTab._editingKey = remainingKey;
+                            }
+                            onIsExpandedChanged: {
+                                if (!isExpanded || !keybindsTab._editingKey)
+                                    return;
+                                const keyExists = keys.some(k => k.key === keybindsTab._editingKey);
+                                if (keyExists) {
+                                    restoreKey = keybindsTab._editingKey;
+                                    keybindsTab._editingKey = "";
+                                }
+                            }
+
+                            onKeysChanged: {
+                                if (!isExpanded || !keybindsTab._editingKey)
+                                    return;
+                                const keyExists = keys.some(k => k.key === keybindsTab._editingKey);
+                                if (keyExists) {
+                                    restoreKey = keybindsTab._editingKey;
+                                    keybindsTab._editingKey = "";
+                                }
+                            }
+
+                            Connections {
+                                target: keybindsTab
+                                function on_EditingKeyChanged() {
+                                    if (!bindItem.isExpanded || !keybindsTab._editingKey)
+                                        return;
+                                    const keyExists = bindItem.keys.some(k => k.key === keybindsTab._editingKey);
+                                    if (keyExists) {
+                                        bindItem.restoreKey = keybindsTab._editingKey;
+                                        keybindsTab._editingKey = "";
+                                    }
+                                }
+                            }
                         }
                     }
                 }
