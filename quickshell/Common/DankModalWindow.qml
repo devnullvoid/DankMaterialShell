@@ -15,30 +15,97 @@ Singleton {
     property bool windowsVisible: false
     property var targetScreen: null
     property var persistentModal: null
+    property Item currentDirectContent: null
 
     readonly property bool hasActiveModal: activeModal !== null
     readonly property bool hasPersistentModal: persistentModal !== null
     readonly property bool isPersistentModalActive: hasActiveModal && activeModal === persistentModal
     readonly property bool shouldShowModal: hasActiveModal
-    readonly property bool shouldKeepWindowsAlive: hasPersistentModal
+    readonly property bool shouldKeepWindowsAlive: hasPersistentModal && targetScreen !== null
 
     onPersistentModalChanged: {
-        if (!persistentModal)
+        if (!persistentModal) {
+            if (!hasActiveModal)
+                targetScreen = null;
             return;
+        }
+        if (!targetScreen)
+            targetScreen = CompositorService.focusedScreen;
         cachedModal = persistentModal;
-        cachedModalWidth = Theme.px(persistentModal.modalWidth, dpr);
-        cachedModalHeight = Theme.px(persistentModal.modalHeight, dpr);
-        cachedModalX = calculateX(persistentModal);
-        cachedModalY = calculateY(persistentModal);
-        cachedAnimationDuration = persistentModal.animationDuration ?? Theme.shortDuration;
-        cachedEnterCurve = persistentModal.animationEnterCurve ?? Theme.expressiveCurves.expressiveFastSpatial;
-        cachedExitCurve = persistentModal.animationExitCurve ?? Theme.expressiveCurves.expressiveFastSpatial;
-        cachedScaleCollapsed = persistentModal.animationScaleCollapsed ?? 0.96;
-        if (persistentModal.directContent) {
-            persistentModal.directContent.parent = directContentWrapper;
-            persistentModal.directContent.anchors.fill = directContentWrapper;
+        updateCachedModalProperties(persistentModal);
+    }
+
+    onActiveModalChanged: updateDirectContent()
+
+    function updateCachedModalProperties(modal) {
+        if (!modal)
+            return;
+        cachedModalWidth = Theme.px(modal.modalWidth, dpr);
+        cachedModalHeight = Theme.px(modal.modalHeight, dpr);
+        cachedModalX = calculateX(modal);
+        cachedModalY = calculateY(modal);
+        cachedAnimationDuration = modal.animationDuration ?? Theme.shortDuration;
+        cachedEnterCurve = modal.animationEnterCurve ?? Theme.expressiveCurves.expressiveFastSpatial;
+        cachedExitCurve = modal.animationExitCurve ?? Theme.expressiveCurves.expressiveFastSpatial;
+        cachedScaleCollapsed = modal.animationScaleCollapsed ?? 0.96;
+    }
+
+    function updateDirectContent() {
+        if (currentDirectContent) {
+            currentDirectContent.visible = false;
+            currentDirectContent.parent = null;
+            currentDirectContent = null;
+        }
+
+        if (!activeModal?.directContent)
+            return;
+
+        currentDirectContent = activeModal.directContent;
+        currentDirectContent.parent = directContentWrapper;
+        currentDirectContent.anchors.fill = directContentWrapper;
+        currentDirectContent.visible = true;
+    }
+
+    function isScreenValid(screen) {
+        if (!screen)
+            return false;
+        for (const s of Quickshell.screens) {
+            if (s === screen || s.name === screen.name)
+                return true;
+        }
+        return false;
+    }
+
+    function handleScreensChanged() {
+        if (!targetScreen)
+            return;
+        if (isScreenValid(targetScreen))
+            return;
+
+        const newScreen = CompositorService.focusedScreen;
+        if (hasActiveModal) {
+            targetScreen = newScreen;
+            if (cachedModal)
+                updateCachedModalProperties(cachedModal);
+            return;
+        }
+
+        if (hasPersistentModal) {
+            targetScreen = newScreen;
+            updateCachedModalProperties(persistentModal);
+            return;
+        }
+
+        targetScreen = null;
+    }
+
+    Connections {
+        target: Quickshell
+        function onScreensChanged() {
+            root.handleScreensChanged();
         }
     }
+
     readonly property var screen: backgroundWindow.screen
     readonly property real dpr: screen ? CompositorService.getScreenScale(screen) : 1
     readonly property real shadowBuffer: 5
@@ -88,18 +155,10 @@ Singleton {
     function showModal(modal) {
         wantsToHide = false;
         targetScreen = CompositorService.focusedScreen;
-
         activeModal = modal;
         cachedModal = modal;
         windowsVisible = true;
-        cachedModalWidth = Theme.px(modal.modalWidth, dpr);
-        cachedModalHeight = Theme.px(modal.modalHeight, dpr);
-        cachedModalX = calculateX(modal);
-        cachedModalY = calculateY(modal);
-        cachedAnimationDuration = modal.animationDuration ?? Theme.shortDuration;
-        cachedEnterCurve = modal.animationEnterCurve ?? Theme.expressiveCurves.expressiveFastSpatial;
-        cachedExitCurve = modal.animationExitCurve ?? Theme.expressiveCurves.expressiveFastSpatial;
-        cachedScaleCollapsed = modal.animationScaleCollapsed ?? 0.96;
+        updateCachedModalProperties(modal);
 
         if (modal.directContent)
             Qt.callLater(focusDirectContent);
@@ -127,18 +186,39 @@ Singleton {
 
     function hideModalInstant() {
         wantsToHide = false;
+        const closingModal = activeModal;
         activeModal = null;
-        windowsVisible = false;
+
+        if (shouldKeepWindowsAlive) {
+            cachedModal = persistentModal;
+            updateCachedModalProperties(persistentModal);
+        } else {
+            windowsVisible = false;
+            targetScreen = null;
+        }
+
         cleanupInputMethod();
+        if (closingModal && typeof closingModal.onFullyClosed === "function")
+            closingModal.onFullyClosed();
     }
 
     function onCloseAnimationFinished() {
         if (hasActiveModal)
             return;
+
         if (cachedModal && typeof cachedModal.onFullyClosed === "function")
             cachedModal.onFullyClosed();
+
         cleanupInputMethod();
+
+        if (shouldKeepWindowsAlive) {
+            cachedModal = persistentModal;
+            updateCachedModalProperties(persistentModal);
+            return;
+        }
+
         windowsVisible = false;
+        targetScreen = null;
     }
 
     function cleanupInputMethod() {
@@ -300,20 +380,10 @@ Singleton {
             width: root.modalWidth
             height: root.modalHeight
 
-            readonly property bool hasDirectContent: root.cachedModal ? (root.cachedModal.directContent !== null && root.cachedModal.directContent !== undefined) : false
+            readonly property bool hasDirectContent: root.currentDirectContent !== null
 
             opacity: root.shouldShowModal ? 1 : 0
             scale: root.shouldShowModal ? 1 : root.cachedScaleCollapsed
-
-            onHasDirectContentChanged: {
-                if (!hasDirectContent)
-                    return;
-                const dc = root.cachedModal.directContent;
-                if (dc.parent === directContentWrapper)
-                    return;
-                dc.parent = directContentWrapper;
-                dc.anchors.fill = directContentWrapper;
-            }
 
             Behavior on opacity {
                 NumberAnimation {
