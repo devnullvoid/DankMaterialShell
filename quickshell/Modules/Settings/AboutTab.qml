@@ -165,12 +165,24 @@ Item {
                         text: {
                             if (!SystemUpdateService.shellVersion) return "dms";
 
-                            // Git versioning to show ex: "dms v0.6.2-2223"
                             let version = SystemUpdateService.shellVersion;
-                            let match = version.match(/^([\d.]+)\+git(\d+)\./);
 
+                            // Debian/Ubuntu/OpenSUSE git format: 0.6.2+git2264.c5c5ce84
+                            let match = version.match(/^([\d.]+)\+git(\d+)\./);
                             if (match) {
-                                return `dms v${match[1]}-${match[2]}`;
+                                return `dms (git) v${match[1]}-${match[2]}`;
+                            }
+
+                            // Fedora COPR git format: 0.0.git.2267.d430cae9
+                            match = version.match(/^[\d.]+\.git\.(\d+)\./);
+                            if (match) {
+                                return `dms (git) v0.6.2-${match[1]}`;
+                            }
+
+                            // Stable release format: 0.6.2 
+                            match = version.match(/^([\d.]+)$/);
+                            if (match) {
+                                return `dms v${match[1]}`;
                             }
 
                             return `dms ${version}`;
