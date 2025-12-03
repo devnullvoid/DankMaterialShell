@@ -23,67 +23,75 @@ Rectangle {
             "tabIndex": 1
         },
         {
+            "text": I18n.tr("Keyboard Shortcuts"),
+            "icon": "keyboard",
+            "shortcutsOnly": true,
+            "tabIndex": 2
+        },
+        {
             "text": I18n.tr("Dank Bar"),
             "icon": "toolbar",
-            "tabIndex": 2
+            "tabIndex": 3
         },
         {
             "text": I18n.tr("Widgets"),
             "icon": "widgets",
-            "tabIndex": 3
+            "tabIndex": 4
         },
         {
             "text": I18n.tr("Dock"),
             "icon": "dock_to_bottom",
-            "tabIndex": 4
+            "tabIndex": 5
         },
         {
             "text": I18n.tr("Displays"),
             "icon": "monitor",
-            "tabIndex": 5
+            "tabIndex": 6
         },
         {
             "text": I18n.tr("Network"),
             "icon": "wifi",
             "dmsOnly": true,
-            "tabIndex": 6
+            "tabIndex": 7
         },
         {
             "text": I18n.tr("Printers"),
             "icon": "print",
             "cupsOnly": true,
-            "tabIndex": 7
+            "tabIndex": 8
         },
         {
             "text": I18n.tr("Launcher"),
             "icon": "apps",
-            "tabIndex": 8
+            "tabIndex": 9
         },
         {
             "text": I18n.tr("Theme & Colors"),
             "icon": "palette",
-            "tabIndex": 9
+            "tabIndex": 10
         },
         {
             "text": I18n.tr("Power & Security"),
             "icon": "power",
-            "tabIndex": 10
+            "tabIndex": 11
         },
         {
             "text": I18n.tr("Plugins"),
             "icon": "extension",
-            "tabIndex": 11
+            "tabIndex": 12
         },
         {
             "text": I18n.tr("About"),
             "icon": "info",
-            "tabIndex": 12
+            "tabIndex": 13
         }
     ]
     readonly property var sidebarItems: allSidebarItems.filter(item => {
         if (item.dmsOnly && NetworkService.usingLegacy)
             return false;
         if (item.cupsOnly && !CupsService.cupsAvailable)
+            return false;
+        if (item.shortcutsOnly && !KeybindsService.available)
             return false;
         return true;
     })

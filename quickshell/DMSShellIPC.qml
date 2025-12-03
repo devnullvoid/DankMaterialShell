@@ -329,79 +329,79 @@ Item {
 
     IpcHandler {
         function toggle(provider: string): string {
-            if (!provider) {
+            if (!provider)
                 return "ERROR: No provider specified";
-            }
 
-            KeybindsService.loadProvider(provider);
+            KeybindsService.currentProvider = provider;
+            KeybindsService.loadBinds();
             root.hyprKeybindsModalLoader.active = true;
 
-            if (root.hyprKeybindsModalLoader.item) {
-                if (root.hyprKeybindsModalLoader.item.shouldBeVisible) {
-                    root.hyprKeybindsModalLoader.item.close();
-                } else {
-                    root.hyprKeybindsModalLoader.item.open();
-                }
-                return `KEYBINDS_TOGGLE_SUCCESS: ${provider}`;
+            if (!root.hyprKeybindsModalLoader.item)
+                return `KEYBINDS_TOGGLE_FAILED: ${provider}`;
+
+            if (root.hyprKeybindsModalLoader.item.shouldBeVisible) {
+                root.hyprKeybindsModalLoader.item.close();
+            } else {
+                root.hyprKeybindsModalLoader.item.open();
             }
-            return `KEYBINDS_TOGGLE_FAILED: ${provider}`;
+            return `KEYBINDS_TOGGLE_SUCCESS: ${provider}`;
         }
 
         function toggleWithPath(provider: string, path: string): string {
-            if (!provider) {
+            if (!provider)
                 return "ERROR: No provider specified";
-            }
 
-            KeybindsService.loadProviderWithPath(provider, path);
+            KeybindsService.currentProvider = provider;
+            KeybindsService.loadBinds();
             root.hyprKeybindsModalLoader.active = true;
 
-            if (root.hyprKeybindsModalLoader.item) {
-                if (root.hyprKeybindsModalLoader.item.shouldBeVisible) {
-                    root.hyprKeybindsModalLoader.item.close();
-                } else {
-                    root.hyprKeybindsModalLoader.item.open();
-                }
-                return `KEYBINDS_TOGGLE_SUCCESS: ${provider} (${path})`;
+            if (!root.hyprKeybindsModalLoader.item)
+                return `KEYBINDS_TOGGLE_FAILED: ${provider}`;
+
+            if (root.hyprKeybindsModalLoader.item.shouldBeVisible) {
+                root.hyprKeybindsModalLoader.item.close();
+            } else {
+                root.hyprKeybindsModalLoader.item.open();
             }
-            return `KEYBINDS_TOGGLE_FAILED: ${provider}`;
+            return `KEYBINDS_TOGGLE_SUCCESS: ${provider} (${path})`;
         }
 
         function open(provider: string): string {
-            if (!provider) {
+            if (!provider)
                 return "ERROR: No provider specified";
-            }
 
-            KeybindsService.loadProvider(provider);
+            KeybindsService.currentProvider = provider;
+            KeybindsService.loadBinds();
             root.hyprKeybindsModalLoader.active = true;
 
-            if (root.hyprKeybindsModalLoader.item) {
-                root.hyprKeybindsModalLoader.item.open();
-                return `KEYBINDS_OPEN_SUCCESS: ${provider}`;
-            }
-            return `KEYBINDS_OPEN_FAILED: ${provider}`;
+            if (!root.hyprKeybindsModalLoader.item)
+                return `KEYBINDS_OPEN_FAILED: ${provider}`;
+
+            root.hyprKeybindsModalLoader.item.open();
+            return `KEYBINDS_OPEN_SUCCESS: ${provider}`;
         }
 
         function openWithPath(provider: string, path: string): string {
-            if (!provider) {
+            if (!provider)
                 return "ERROR: No provider specified";
-            }
 
-            KeybindsService.loadProviderWithPath(provider, path);
+            KeybindsService.currentProvider = provider;
+            KeybindsService.loadBinds();
             root.hyprKeybindsModalLoader.active = true;
 
-            if (root.hyprKeybindsModalLoader.item) {
-                root.hyprKeybindsModalLoader.item.open();
-                return `KEYBINDS_OPEN_SUCCESS: ${provider} (${path})`;
-            }
-            return `KEYBINDS_OPEN_FAILED: ${provider}`;
+            if (!root.hyprKeybindsModalLoader.item)
+                return `KEYBINDS_OPEN_FAILED: ${provider}`;
+
+            root.hyprKeybindsModalLoader.item.open();
+            return `KEYBINDS_OPEN_SUCCESS: ${provider} (${path})`;
         }
 
         function close(): string {
-            if (root.hyprKeybindsModalLoader.item) {
-                root.hyprKeybindsModalLoader.item.close();
-                return "KEYBINDS_CLOSE_SUCCESS";
-            }
-            return "KEYBINDS_CLOSE_FAILED";
+            if (!root.hyprKeybindsModalLoader.item)
+                return "KEYBINDS_CLOSE_FAILED";
+
+            root.hyprKeybindsModalLoader.item.close();
+            return "KEYBINDS_CLOSE_SUCCESS";
         }
 
         target: "keybinds"
@@ -409,44 +409,48 @@ Item {
 
     IpcHandler {
         function openBinds(): string {
-            if (!CompositorService.isHyprland) {
+            if (!CompositorService.isHyprland)
                 return "HYPR_NOT_AVAILABLE";
-            }
-            KeybindsService.loadProvider("hyprland");
+
+            KeybindsService.currentProvider = "hyprland";
+            KeybindsService.loadBinds();
             root.hyprKeybindsModalLoader.active = true;
-            if (root.hyprKeybindsModalLoader.item) {
-                root.hyprKeybindsModalLoader.item.open();
-                return "HYPR_KEYBINDS_OPEN_SUCCESS";
-            }
-            return "HYPR_KEYBINDS_OPEN_FAILED";
+
+            if (!root.hyprKeybindsModalLoader.item)
+                return "HYPR_KEYBINDS_OPEN_FAILED";
+
+            root.hyprKeybindsModalLoader.item.open();
+            return "HYPR_KEYBINDS_OPEN_SUCCESS";
         }
 
         function closeBinds(): string {
-            if (!CompositorService.isHyprland) {
+            if (!CompositorService.isHyprland)
                 return "HYPR_NOT_AVAILABLE";
-            }
-            if (root.hyprKeybindsModalLoader.item) {
-                root.hyprKeybindsModalLoader.item.close();
-                return "HYPR_KEYBINDS_CLOSE_SUCCESS";
-            }
-            return "HYPR_KEYBINDS_CLOSE_FAILED";
+
+            if (!root.hyprKeybindsModalLoader.item)
+                return "HYPR_KEYBINDS_CLOSE_FAILED";
+
+            root.hyprKeybindsModalLoader.item.close();
+            return "HYPR_KEYBINDS_CLOSE_SUCCESS";
         }
 
         function toggleBinds(): string {
-            if (!CompositorService.isHyprland) {
+            if (!CompositorService.isHyprland)
                 return "HYPR_NOT_AVAILABLE";
-            }
-            KeybindsService.loadProvider("hyprland");
+
+            KeybindsService.currentProvider = "hyprland";
+            KeybindsService.loadBinds();
             root.hyprKeybindsModalLoader.active = true;
-            if (root.hyprKeybindsModalLoader.item) {
-                if (root.hyprKeybindsModalLoader.item.shouldBeVisible) {
-                    root.hyprKeybindsModalLoader.item.close();
-                } else {
-                    root.hyprKeybindsModalLoader.item.open();
-                }
-                return "HYPR_KEYBINDS_TOGGLE_SUCCESS";
+
+            if (!root.hyprKeybindsModalLoader.item)
+                return "HYPR_KEYBINDS_TOGGLE_FAILED";
+
+            if (root.hyprKeybindsModalLoader.item.shouldBeVisible) {
+                root.hyprKeybindsModalLoader.item.close();
+            } else {
+                root.hyprKeybindsModalLoader.item.open();
             }
-            return "HYPR_KEYBINDS_TOGGLE_FAILED";
+            return "HYPR_KEYBINDS_TOGGLE_SUCCESS";
         }
 
         function toggleOverview(): string {
@@ -490,60 +494,108 @@ Item {
 
     function getBarConfig(selector: string, value: string): var {
         const barSelectors = ["id", "name", "index"];
-        if (!barSelectors.includes(selector)) return { error: "BAR_INVALID_SELECTOR" };
+        if (!barSelectors.includes(selector))
+            return {
+                error: "BAR_INVALID_SELECTOR"
+            };
         const index = selector === "index" ? Number(value) : SettingsData.barConfigs.findIndex(bar => bar[selector] == value);
         const barConfig = SettingsData.barConfigs?.[index];
-        if (!barConfig) return { error: "BAR_NOT_FOUND" };
-        return { barConfig };
+        if (!barConfig)
+            return {
+                error: "BAR_NOT_FOUND"
+            };
+        return {
+            barConfig
+        };
     }
 
     IpcHandler {
         function reveal(selector: string, value: string): string {
-            const { barConfig, error } = getBarConfig(selector, value);
-            if (error) return error;
-            SettingsData.updateBarConfig(barConfig.id, {visible: true});
+            const {
+                barConfig,
+                error
+            } = getBarConfig(selector, value);
+            if (error)
+                return error;
+            SettingsData.updateBarConfig(barConfig.id, {
+                visible: true
+            });
             return "BAR_SHOW_SUCCESS";
         }
 
         function hide(selector: string, value: string): string {
-            const { barConfig, error } = getBarConfig(selector, value);
-            if (error) return error;
-            SettingsData.updateBarConfig(barConfig.id, {visible: false});
+            const {
+                barConfig,
+                error
+            } = getBarConfig(selector, value);
+            if (error)
+                return error;
+            SettingsData.updateBarConfig(barConfig.id, {
+                visible: false
+            });
             return "BAR_HIDE_SUCCESS";
         }
 
         function toggle(selector: string, value: string): string {
-            const { barConfig, error } = getBarConfig(selector, value);
-            if (error) return error;
-            SettingsData.updateBarConfig(barConfig.id, {visible: !barConfig.visible});
+            const {
+                barConfig,
+                error
+            } = getBarConfig(selector, value);
+            if (error)
+                return error;
+            SettingsData.updateBarConfig(barConfig.id, {
+                visible: !barConfig.visible
+            });
             return !barConfig.visible ? "BAR_SHOW_SUCCESS" : "BAR_HIDE_SUCCESS";
         }
 
         function status(selector: string, value: string): string {
-            const { barConfig, error } = getBarConfig(selector, value);
-            if (error) return error;
+            const {
+                barConfig,
+                error
+            } = getBarConfig(selector, value);
+            if (error)
+                return error;
             return barConfig.visible ? "visible" : "hidden";
         }
 
         function autoHide(selector: string, value: string): string {
-            const { barConfig, error } = getBarConfig(selector, value);
-            if (error) return error;
-            SettingsData.updateBarConfig(barConfig.id, {autoHide: true});
+            const {
+                barConfig,
+                error
+            } = getBarConfig(selector, value);
+            if (error)
+                return error;
+            SettingsData.updateBarConfig(barConfig.id, {
+                autoHide: true
+            });
             return "BAR_AUTO_HIDE_SUCCESS";
         }
 
         function manualHide(selector: string, value: string): string {
-            const { barConfig, error } = getBarConfig(selector, value);
-            if (error) return error;
-            SettingsData.updateBarConfig(barConfig.id, {autoHide: false});
+            const {
+                barConfig,
+                error
+            } = getBarConfig(selector, value);
+            if (error)
+                return error;
+            SettingsData.updateBarConfig(barConfig.id, {
+                autoHide: false
+            });
             return "BAR_MANUAL_HIDE_SUCCESS";
         }
 
         function toggleAutoHide(selector: string, value: string): string {
-            const { barConfig, error } = getBarConfig(selector, value);
-            if (error) return error;
-            SettingsData.updateBarConfig(barConfig.id, {autoHide: !barConfig.autoHide});
-            return barConfig.autoHide ?  "BAR_MANUAL_HIDE_SUCCESS": "BAR_AUTO_HIDE_SUCCESS";
+            const {
+                barConfig,
+                error
+            } = getBarConfig(selector, value);
+            if (error)
+                return error;
+            SettingsData.updateBarConfig(barConfig.id, {
+                autoHide: !barConfig.autoHide
+            });
+            return barConfig.autoHide ? "BAR_MANUAL_HIDE_SUCCESS" : "BAR_AUTO_HIDE_SUCCESS";
         }
 
         target: "bar"
@@ -570,20 +622,20 @@ Item {
         }
 
         function autoHide(): string {
-            SettingsData.dockAutoHide = true
-            SettingsData.saveSettings()
+            SettingsData.dockAutoHide = true;
+            SettingsData.saveSettings();
             return "BAR_AUTO_HIDE_SUCCESS";
         }
 
         function manualHide(): string {
-            SettingsData.dockAutoHide = false
-            SettingsData.saveSettings()
+            SettingsData.dockAutoHide = false;
+            SettingsData.saveSettings();
             return "BAR_MANUAL_HIDE_SUCCESS";
         }
 
         function toggleAutoHide(): string {
-            SettingsData.dockAutoHide = !SettingsData.dockAutoHide
-            SettingsData.saveSettings()
+            SettingsData.dockAutoHide = !SettingsData.dockAutoHide;
+            SettingsData.saveSettings();
             return SettingsData.dockAutoHide ? "BAR_AUTO_HIDE_SUCCESS" : "BAR_MANUAL_HIDE_SUCCESS";
         }
 
@@ -612,49 +664,51 @@ Item {
         }
 
         function get(key: string): string {
-            return JSON.stringify(SettingsData?.[key])
+            return JSON.stringify(SettingsData?.[key]);
         }
 
         function set(key: string, value: string): string {
-
             if (!(key in SettingsData)) {
-                console.warn("Cannot set property, not found:", key)
-                return "SETTINGS_INVALID_KEY"
+                console.warn("Cannot set property, not found:", key);
+                return "SETTINGS_INVALID_KEY";
             }
 
-            const typeName = typeof SettingsData?.[key]
+            const typeName = typeof SettingsData?.[key];
 
             try {
                 switch (typeName) {
                 case "boolean":
-                    if (value === "true" || value === "false") value = (value === "true")
-                    else throw `${value} is not a Boolean`
-                    break
+                    if (value === "true" || value === "false")
+                        value = (value === "true");
+                    else
+                        throw `${value} is not a Boolean`;
+                    break;
                 case "number":
-                    value = Number(value)
-                    if (isNaN(value)) throw `${value} is not a Number`
-                    break
+                    value = Number(value);
+                    if (isNaN(value))
+                        throw `${value} is not a Number`;
+                    break;
                 case "string":
-                    value = String(value)
-                    break
+                    value = String(value);
+                    break;
                 case "object":
                     // NOTE: Parsing lists is messed up upstream and not sure if we want
                     // to make sure objects are well structured or just let people set
                     // whatever they want but risking messed up settings.
                     // Objects & Arrays are disabled for now
                     // https://github.com/quickshell-mirror/quickshell/pull/22
-                    throw "Setting Objects and Arrays not supported"
+                    throw "Setting Objects and Arrays not supported";
                 default:
-                    throw "Unsupported type"
+                    throw "Unsupported type";
                 }
 
-                console.warn("Setting:", key, value)
-                SettingsData[key] = value
-                SettingsData.saveSettings()
-                return "SETTINGS_SET_SUCCESS"
+                console.warn("Setting:", key, value);
+                SettingsData[key] = value;
+                SettingsData.saveSettings();
+                return "SETTINGS_SET_SUCCESS";
             } catch (e) {
-                console.warn("Failed to set property:", key, "error:", e)
-                return "SETTINGS_SET_FAILURE"
+                console.warn("Failed to set property:", key, "error:", e);
+                return "SETTINGS_SET_FAILURE";
             }
         }
 

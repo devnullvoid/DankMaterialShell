@@ -422,7 +422,6 @@ Singleton {
                     isLabwc = false;
                     compositor = "niri";
                     console.info("CompositorService: Detected Niri with socket:", niriSocket);
-                    NiriService.generateNiriBinds();
                     NiriService.generateNiriBlurrule();
                 }
             }, 0);

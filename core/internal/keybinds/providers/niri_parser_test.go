@@ -57,20 +57,20 @@ func TestNiriParseBasicBinds(t *testing.T) {
 		t.Fatalf("Failed to write test config: %v", err)
 	}
 
-	section, err := ParseNiriKeys(tmpDir)
+	result, err := ParseNiriKeys(tmpDir)
 	if err != nil {
 		t.Fatalf("ParseNiriKeys failed: %v", err)
 	}
 
-	if len(section.Keybinds) != 3 {
-		t.Errorf("Expected 3 keybinds, got %d", len(section.Keybinds))
+	if len(result.Section.Keybinds) != 3 {
+		t.Errorf("Expected 3 keybinds, got %d", len(result.Section.Keybinds))
 	}
 
 	foundClose := false
 	foundFullscreen := false
 	foundTerminal := false
 
-	for _, kb := range section.Keybinds {
+	for _, kb := range result.Section.Keybinds {
 		switch kb.Action {
 		case "close-window":
 			foundClose = true
@@ -116,19 +116,19 @@ func TestNiriParseRecentWindows(t *testing.T) {
 		t.Fatalf("Failed to write test config: %v", err)
 	}
 
-	section, err := ParseNiriKeys(tmpDir)
+	result, err := ParseNiriKeys(tmpDir)
 	if err != nil {
 		t.Fatalf("ParseNiriKeys failed: %v", err)
 	}
 
-	if len(section.Keybinds) != 2 {
-		t.Errorf("Expected 2 keybinds from recent-windows, got %d", len(section.Keybinds))
+	if len(result.Section.Keybinds) != 2 {
+		t.Errorf("Expected 2 keybinds from recent-windows, got %d", len(result.Section.Keybinds))
 	}
 
 	foundNext := false
 	foundPrev := false
 
-	for _, kb := range section.Keybinds {
+	for _, kb := range result.Section.Keybinds {
 		switch kb.Action {
 		case "next-window":
 			foundNext = true
@@ -172,13 +172,13 @@ include "dms/binds.kdl"
 		t.Fatalf("Failed to write include config: %v", err)
 	}
 
-	section, err := ParseNiriKeys(tmpDir)
+	result, err := ParseNiriKeys(tmpDir)
 	if err != nil {
 		t.Fatalf("ParseNiriKeys failed: %v", err)
 	}
 
-	if len(section.Keybinds) != 2 {
-		t.Errorf("Expected 2 keybinds (1 main + 1 include), got %d", len(section.Keybinds))
+	if len(result.Section.Keybinds) != 2 {
+		t.Errorf("Expected 2 keybinds (1 main + 1 include), got %d", len(result.Section.Keybinds))
 	}
 }
 
@@ -209,17 +209,17 @@ include "dms/binds.kdl"
 		t.Fatalf("Failed to write include config: %v", err)
 	}
 
-	section, err := ParseNiriKeys(tmpDir)
+	result, err := ParseNiriKeys(tmpDir)
 	if err != nil {
 		t.Fatalf("ParseNiriKeys failed: %v", err)
 	}
 
-	if len(section.Keybinds) != 1 {
-		t.Errorf("Expected 1 keybind (later overrides earlier), got %d", len(section.Keybinds))
+	if len(result.Section.Keybinds) != 1 {
+		t.Errorf("Expected 1 keybind (later overrides earlier), got %d", len(result.Section.Keybinds))
 	}
 
-	if len(section.Keybinds) > 0 {
-		kb := section.Keybinds[0]
+	if len(result.Section.Keybinds) > 0 {
+		kb := result.Section.Keybinds[0]
 		if kb.Description != "Override Terminal" {
 			t.Errorf("Expected description 'Override Terminal' (from include), got %q", kb.Description)
 		}
@@ -253,13 +253,13 @@ include "config.kdl"
 		t.Fatalf("Failed to write other config: %v", err)
 	}
 
-	section, err := ParseNiriKeys(tmpDir)
+	result, err := ParseNiriKeys(tmpDir)
 	if err != nil {
 		t.Fatalf("ParseNiriKeys failed (should handle circular includes): %v", err)
 	}
 
-	if len(section.Keybinds) != 2 {
-		t.Errorf("Expected 2 keybinds (circular include handled), got %d", len(section.Keybinds))
+	if len(result.Section.Keybinds) != 2 {
+		t.Errorf("Expected 2 keybinds (circular include handled), got %d", len(result.Section.Keybinds))
 	}
 }
 
@@ -276,13 +276,13 @@ include "nonexistent/file.kdl"
 		t.Fatalf("Failed to write test config: %v", err)
 	}
 
-	section, err := ParseNiriKeys(tmpDir)
+	result, err := ParseNiriKeys(tmpDir)
 	if err != nil {
 		t.Fatalf("ParseNiriKeys failed (should skip missing include): %v", err)
 	}
 
-	if len(section.Keybinds) != 1 {
-		t.Errorf("Expected 1 keybind (missing include skipped), got %d", len(section.Keybinds))
+	if len(result.Section.Keybinds) != 1 {
+		t.Errorf("Expected 1 keybind (missing include skipped), got %d", len(result.Section.Keybinds))
 	}
 }
 
@@ -305,13 +305,13 @@ input {
 		t.Fatalf("Failed to write test config: %v", err)
 	}
 
-	section, err := ParseNiriKeys(tmpDir)
+	result, err := ParseNiriKeys(tmpDir)
 	if err != nil {
 		t.Fatalf("ParseNiriKeys failed: %v", err)
 	}
 
-	if len(section.Keybinds) != 0 {
-		t.Errorf("Expected 0 keybinds, got %d", len(section.Keybinds))
+	if len(result.Section.Keybinds) != 0 {
+		t.Errorf("Expected 0 keybinds, got %d", len(result.Section.Keybinds))
 	}
 }
 
@@ -352,18 +352,18 @@ func TestNiriBindOverrideBehavior(t *testing.T) {
 		t.Fatalf("Failed to write test config: %v", err)
 	}
 
-	section, err := ParseNiriKeys(tmpDir)
+	result, err := ParseNiriKeys(tmpDir)
 	if err != nil {
 		t.Fatalf("ParseNiriKeys failed: %v", err)
 	}
 
-	if len(section.Keybinds) != 3 {
-		t.Fatalf("Expected 3 unique keybinds, got %d", len(section.Keybinds))
+	if len(result.Section.Keybinds) != 3 {
+		t.Fatalf("Expected 3 unique keybinds, got %d", len(result.Section.Keybinds))
 	}
 
 	var modT *NiriKeyBinding
-	for i := range section.Keybinds {
-		kb := &section.Keybinds[i]
+	for i := range result.Section.Keybinds {
+		kb := &result.Section.Keybinds[i]
 		if len(kb.Mods) == 1 && kb.Mods[0] == "Mod" && kb.Key == "T" {
 			modT = kb
 			break
@@ -416,18 +416,18 @@ binds {
 		t.Fatalf("Failed to write include config: %v", err)
 	}
 
-	section, err := ParseNiriKeys(tmpDir)
+	result, err := ParseNiriKeys(tmpDir)
 	if err != nil {
 		t.Fatalf("ParseNiriKeys failed: %v", err)
 	}
 
-	if len(section.Keybinds) != 4 {
-		t.Errorf("Expected 4 unique keybinds, got %d", len(section.Keybinds))
+	if len(result.Section.Keybinds) != 4 {
+		t.Errorf("Expected 4 unique keybinds, got %d", len(result.Section.Keybinds))
 	}
 
 	bindMap := make(map[string]*NiriKeyBinding)
-	for i := range section.Keybinds {
-		kb := &section.Keybinds[i]
+	for i := range result.Section.Keybinds {
+		kb := &result.Section.Keybinds[i]
 		key := ""
 		for _, m := range kb.Mods {
 			key += m + "+"
@@ -475,16 +475,16 @@ func TestNiriParseMultipleArgs(t *testing.T) {
 		t.Fatalf("Failed to write test config: %v", err)
 	}
 
-	section, err := ParseNiriKeys(tmpDir)
+	result, err := ParseNiriKeys(tmpDir)
 	if err != nil {
 		t.Fatalf("ParseNiriKeys failed: %v", err)
 	}
 
-	if len(section.Keybinds) != 1 {
-		t.Fatalf("Expected 1 keybind, got %d", len(section.Keybinds))
+	if len(result.Section.Keybinds) != 1 {
+		t.Fatalf("Expected 1 keybind, got %d", len(result.Section.Keybinds))
 	}
 
-	kb := section.Keybinds[0]
+	kb := result.Section.Keybinds[0]
 	if len(kb.Args) != 5 {
 		t.Errorf("Expected 5 args, got %d: %v", len(kb.Args), kb.Args)
 	}

@@ -16,6 +16,7 @@ type NiriKeyBinding struct {
 	Action      string
 	Args        []string
 	Description string
+	Source      string
 }
 
 type NiriSection struct {
@@ -25,10 +26,12 @@ type NiriSection struct {
 }
 
 type NiriParser struct {
-	configDir      string
-	processedFiles map[string]bool
-	bindMap        map[string]*NiriKeyBinding
-	bindOrder      []string
+	configDir        string
+	processedFiles   map[string]bool
+	bindMap          map[string]*NiriKeyBinding
+	bindOrder        []string
+	currentSource    string
+	dmsBindsIncluded bool
 }
 
 func NewNiriParser(configDir string) *NiriParser {
@@ -37,6 +40,7 @@ func NewNiriParser(configDir string) *NiriParser {
 		processedFiles: make(map[string]bool),
 		bindMap:        make(map[string]*NiriKeyBinding),
 		bindOrder:      []string{},
+		currentSource:  "",
 	}
 }
 
@@ -101,6 +105,7 @@ func (p *NiriParser) parseFile(filePath, sectionName string) (*NiriSection, erro
 		Name: sectionName,
 	}
 
+	p.currentSource = absPath
 	baseDir := filepath.Dir(absPath)
 	p.processNodes(doc.Nodes, section, baseDir)
 
@@ -127,14 +132,14 @@ func (p *NiriParser) handleInclude(node *document.Node, section *NiriSection, ba
 		return
 	}
 
-	includePath := node.Arguments[0].String()
-	includePath = strings.Trim(includePath, "\"")
+	includePath := strings.Trim(node.Arguments[0].String(), "\"")
+	if includePath == "dms/binds.kdl" || strings.HasSuffix(includePath, "/dms/binds.kdl") {
+		p.dmsBindsIncluded = true
+	}
 
-	var fullPath string
+	fullPath := filepath.Join(baseDir, includePath)
 	if filepath.IsAbs(includePath) {
 		fullPath = includePath
-	} else {
-		fullPath = filepath.Join(baseDir, includePath)
 	}
 
 	includedSection, err := p.parseFile(fullPath, "")
@@ -143,6 +148,10 @@ func (p *NiriParser) handleInclude(node *document.Node, section *NiriSection, ba
 	}
 
 	section.Children = append(section.Children, includedSection.Children...)
+}
+
+func (p *NiriParser) HasDMSBindsIncluded() bool {
+	return p.dmsBindsIncluded
 }
 
 func (p *NiriParser) handleRecentWindows(node *document.Node, section *NiriSection) {
@@ -172,7 +181,7 @@ func (p *NiriParser) extractBinds(node *document.Node, section *NiriSection, sub
 	}
 }
 
-func (p *NiriParser) parseKeybindNode(node *document.Node, subcategory string) *NiriKeyBinding {
+func (p *NiriParser) parseKeybindNode(node *document.Node, _ string) *NiriKeyBinding {
 	keyCombo := node.Name.String()
 	if keyCombo == "" {
 		return nil
@@ -182,19 +191,18 @@ func (p *NiriParser) parseKeybindNode(node *document.Node, subcategory string) *
 
 	var action string
 	var args []string
-
 	if len(node.Children) > 0 {
 		actionNode := node.Children[0]
 		action = actionNode.Name.String()
 		for _, arg := range actionNode.Arguments {
-			args = append(args, strings.Trim(arg.String(), "\""))
+			args = append(args, arg.ValueString())
 		}
 	}
 
-	description := ""
+	var description string
 	if node.Properties != nil {
 		if val, ok := node.Properties.Get("hotkey-overlay-title"); ok {
-			description = strings.Trim(val.String(), "\"")
+			description = val.ValueString()
 		}
 	}
 
@@ -204,26 +212,36 @@ func (p *NiriParser) parseKeybindNode(node *document.Node, subcategory string) *
 		Action:      action,
 		Args:        args,
 		Description: description,
+		Source:      p.currentSource,
 	}
 }
 
 func (p *NiriParser) parseKeyCombo(combo string) ([]string, string) {
 	parts := strings.Split(combo, "+")
-	if len(parts) == 0 {
+
+	switch len(parts) {
+	case 0:
 		return nil, combo
-	}
-
-	if len(parts) == 1 {
+	case 1:
 		return nil, parts[0]
+	default:
+		return parts[:len(parts)-1], parts[len(parts)-1]
 	}
-
-	mods := parts[:len(parts)-1]
-	key := parts[len(parts)-1]
-
-	return mods, key
 }
 
-func ParseNiriKeys(configDir string) (*NiriSection, error) {
+type NiriParseResult struct {
+	Section          *NiriSection
+	DMSBindsIncluded bool
+}
+
+func ParseNiriKeys(configDir string) (*NiriParseResult, error) {
 	parser := NewNiriParser(configDir)
-	return parser.Parse()
+	section, err := parser.Parse()
+	if err != nil {
+		return nil, err
+	}
+	return &NiriParseResult{
+		Section:          section,
+		DMSBindsIncluded: parser.HasDMSBindsIncluded(),
+	}, nil
 }

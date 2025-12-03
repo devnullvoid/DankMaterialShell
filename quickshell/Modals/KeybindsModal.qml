@@ -97,14 +97,12 @@ DankModal {
                                 const bind = binds[i];
                                 if (bind.subcat) {
                                     hasSubcats = true;
-                                    if (!subcats[bind.subcat]) {
+                                    if (!subcats[bind.subcat])
                                         subcats[bind.subcat] = [];
-                                    }
                                     subcats[bind.subcat].push(bind);
                                 } else {
-                                    if (!subcats["_root"]) {
+                                    if (!subcats["_root"])
                                         subcats["_root"] = [];
-                                    }
                                     subcats["_root"].push(bind);
                                 }
                             }
@@ -121,12 +119,10 @@ DankModal {
 
                     function distributeCategories(cols) {
                         const columns = [];
-                        for (let i = 0; i < cols; i++) {
+                        for (let i = 0; i < cols; i++)
                             columns.push([]);
-                        }
-                        for (let i = 0; i < categoryKeys.length; i++) {
+                        for (let i = 0; i < categoryKeys.length; i++)
                             columns[i % cols].push(categoryKeys[i]);
-                        }
                         return columns;
                     }
 

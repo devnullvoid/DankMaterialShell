@@ -57,10 +57,29 @@ FocusScope {
         }
 
         Loader {
-            id: topBarLoader
+            id: keybindsLoader
 
             anchors.fill: parent
             active: root.currentIndex === 2
+            visible: active
+            focus: active
+
+            sourceComponent: KeybindsTab {
+                parentModal: root.parentModal
+            }
+
+            onActiveChanged: {
+                if (active && item) {
+                    Qt.callLater(() => item.forceActiveFocus());
+                }
+            }
+        }
+
+        Loader {
+            id: topBarLoader
+
+            anchors.fill: parent
+            active: root.currentIndex === 3
             visible: active
             focus: active
 
@@ -79,7 +98,7 @@ FocusScope {
             id: widgetsLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 3
+            active: root.currentIndex === 4
             visible: active
             focus: active
 
@@ -96,7 +115,7 @@ FocusScope {
             id: dockLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 4
+            active: root.currentIndex === 5
             visible: active
             focus: active
 
@@ -115,7 +134,7 @@ FocusScope {
             id: displaysLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 5
+            active: root.currentIndex === 6
             visible: active
             focus: active
 
@@ -132,7 +151,7 @@ FocusScope {
             id: networkLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 6
+            active: root.currentIndex === 7
             visible: active
             focus: active
 
@@ -149,7 +168,7 @@ FocusScope {
             id: printerLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 7
+            active: root.currentIndex === 8
             visible: active
             focus: active
 
@@ -166,7 +185,7 @@ FocusScope {
             id: launcherLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 8
+            active: root.currentIndex === 9
             visible: active
             focus: active
 
@@ -183,7 +202,7 @@ FocusScope {
             id: themeColorsLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 9
+            active: root.currentIndex === 10
             visible: active
             focus: active
 
@@ -200,7 +219,7 @@ FocusScope {
             id: powerLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 10
+            active: root.currentIndex === 11
             visible: active
             focus: active
 
@@ -217,7 +236,7 @@ FocusScope {
             id: pluginsLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 11
+            active: root.currentIndex === 12
             visible: active
             focus: active
 
@@ -236,7 +255,7 @@ FocusScope {
             id: aboutLoader
 
             anchors.fill: parent
-            active: root.currentIndex === 12
+            active: root.currentIndex === 13
             visible: active
             focus: active
 

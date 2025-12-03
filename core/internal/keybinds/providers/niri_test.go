@@ -186,6 +186,144 @@ func TestNiriDefaultConfigDir(t *testing.T) {
 	}
 }
 
+func TestNiriGenerateBindsContent(t *testing.T) {
+	provider := NewNiriProvider("")
+
+	tests := []struct {
+		name     string
+		binds    map[string]*overrideBind
+		expected string
+	}{
+		{
+			name:     "empty binds",
+			binds:    map[string]*overrideBind{},
+			expected: "binds {}\n",
+		},
+		{
+			name: "simple spawn bind",
+			binds: map[string]*overrideBind{
+				"Mod+T": {
+					Key:         "Mod+T",
+					Action:      "spawn kitty",
+					Description: "Open Terminal",
+				},
+			},
+			expected: `binds {
+    Mod+T hotkey-overlay-title="Open Terminal" { spawn "kitty"; }
+}
+`,
+		},
+		{
+			name: "spawn with multiple args",
+			binds: map[string]*overrideBind{
+				"Mod+Space": {
+					Key:         "Mod+Space",
+					Action:      `spawn "dms" "ipc" "call" "spotlight" "toggle"`,
+					Description: "Application Launcher",
+				},
+			},
+			expected: `binds {
+    Mod+Space hotkey-overlay-title="Application Launcher" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+}
+`,
+		},
+		{
+			name: "bind with allow-when-locked",
+			binds: map[string]*overrideBind{
+				"XF86AudioMute": {
+					Key:     "XF86AudioMute",
+					Action:  `spawn "dms" "ipc" "call" "audio" "mute"`,
+					Options: map[string]any{"allow-when-locked": true},
+				},
+			},
+			expected: `binds {
+    XF86AudioMute allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
+}
+`,
+		},
+		{
+			name: "simple action without args",
+			binds: map[string]*overrideBind{
+				"Mod+Q": {
+					Key:         "Mod+Q",
+					Action:      "close-window",
+					Description: "Close Window",
+				},
+			},
+			expected: `binds {
+    Mod+Q hotkey-overlay-title="Close Window" { close-window; }
+}
+`,
+		},
+		{
+			name: "recent-windows action",
+			binds: map[string]*overrideBind{
+				"Alt+Tab": {
+					Key:    "Alt+Tab",
+					Action: "next-window",
+				},
+			},
+			expected: `binds {
+}
+
+recent-windows {
+    binds {
+        Alt+Tab { next-window; }
+    }
+}
+`,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := provider.generateBindsContent(tt.binds)
+			if result != tt.expected {
+				t.Errorf("generateBindsContent() =\n%q\nwant:\n%q", result, tt.expected)
+			}
+		})
+	}
+}
+
+func TestNiriGenerateBindsContentRoundTrip(t *testing.T) {
+	provider := NewNiriProvider("")
+
+	binds := map[string]*overrideBind{
+		"Mod+Space": {
+			Key:         "Mod+Space",
+			Action:      `spawn "dms" "ipc" "call" "spotlight" "toggle"`,
+			Description: "Application Launcher",
+		},
+		"XF86AudioMute": {
+			Key:     "XF86AudioMute",
+			Action:  `spawn "dms" "ipc" "call" "audio" "mute"`,
+			Options: map[string]any{"allow-when-locked": true},
+		},
+		"Mod+Q": {
+			Key:         "Mod+Q",
+			Action:      "close-window",
+			Description: "Close Window",
+		},
+	}
+
+	content := provider.generateBindsContent(binds)
+
+	tmpDir := t.TempDir()
+	configFile := filepath.Join(tmpDir, "config.kdl")
+	if err := os.WriteFile(configFile, []byte(content), 0644); err != nil {
+		t.Fatalf("Failed to write temp file: %v", err)
+	}
+
+	result, err := ParseNiriKeys(tmpDir)
+	if err != nil {
+		t.Fatalf("Failed to parse generated content: %v\nContent was:\n%s", err, content)
+	}
+
+	if len(result.Section.Keybinds) != 3 {
+		t.Errorf("Expected 3 keybinds after round-trip, got %d", len(result.Section.Keybinds))
+	}
+}
+
 func TestNiriProviderWithRealWorldConfig(t *testing.T) {
 	tmpDir := t.TempDir()
 	configFile := filepath.Join(tmpDir, "config.kdl")
