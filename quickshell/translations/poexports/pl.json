@@ -74,6 +74,9 @@
   "Access to system controls and settings": {
     "Access to system controls and settings": "Dostęp do elementów sterujących i ustawień systemu"
   },
+  "Action": {
+    "Action": ""
+  },
   "Actions": {
     "Actions": "Akcje"
   },
@@ -335,6 +338,12 @@
   "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": {
     "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": "Powiąż ekran blokady z sygnałami dbus z loginctl. Wyłącz, jeśli używasz zewnętrznego ekranu blokady"
   },
+  "Binds Include Missing": {
+    "Binds Include Missing": ""
+  },
+  "Binds include added": {
+    "Binds include added": ""
+  },
   "Bluetooth": {
     "Bluetooth": "Bluetooth"
   },
@@ -497,6 +506,12 @@
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "Kliknij Importuj, aby dodać plik .ovpn lub .conf"
   },
+  "Click any shortcut to edit. Changes save to dms/binds.kdl": {
+    "Click any shortcut to edit. Changes save to dms/binds.kdl": ""
+  },
+  "Click to capture": {
+    "Click to capture": ""
+  },
   "Clipboard History": {
     "Clipboard History": "Historia schowka"
   },
@@ -529,6 +544,9 @@
   },
   "Colorful mix of bright contrasting accents.": {
     "Colorful mix of bright contrasting accents.": "Kolorowa mieszanka jasnych kontrastujących akcentów."
+  },
+  "Command": {
+    "Command": ""
   },
   "Command or script to run instead of the standard hibernate procedure": {
     "Command or script to run instead of the standard hibernate procedure": "Polecenie lub skrypt do uruchomienia zamiast standardowej procedury hibernacji"
@@ -580,6 +598,9 @@
   },
   "Confirm passkey for ": {
     "Confirm passkey for ": "Potwierdź klucz dostępu dla "
+  },
+  "Conflicts with: %1": {
+    "Conflicts with: %1": ""
   },
   "Connect": {
     "Connect": "Połącz"
@@ -691,6 +712,9 @@
   },
   "DMS out of date": {
     "DMS out of date": "DMS nieaktualny"
+  },
+  "DMS shell actions (launcher, clipboard, etc.)": {
+    "DMS shell actions (launcher, clipboard, etc.)": ""
   },
   "DMS_SOCKET not available": {
     "DMS_SOCKET not available": "DMS_SOCKET niedostępny"
@@ -1004,6 +1028,9 @@
   "Failed to activate configuration": {
     "Failed to activate configuration": "Nie udało się aktywować konfiguracji"
   },
+  "Failed to add binds include": {
+    "Failed to add binds include": ""
+  },
   "Failed to add printer to class": {
     "Failed to add printer to class": "Nie udało się dodać drukarki do klasy"
   },
@@ -1070,6 +1097,9 @@
   "Failed to remove device": {
     "Failed to remove device": "Nie udało się usunąć urządzenia"
   },
+  "Failed to remove keybind": {
+    "Failed to remove keybind": ""
+  },
   "Failed to remove printer from class": {
     "Failed to remove printer from class": "Nie udało się usunąć drukarki z klasy"
   },
@@ -1078,6 +1108,9 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "Wznowienie drukarki nie powiodło się"
+  },
+  "Failed to save keybind": {
+    "Failed to save keybind": ""
   },
   "Failed to set profile image": {
     "Failed to set profile image": "Nie udało się ustawić zdjęcia profilowego"
@@ -1120,6 +1153,12 @@
   },
   "Find in note...": {
     "Find in note...": "Znajdź w notatce..."
+  },
+  "Fix Now": {
+    "Fix Now": ""
+  },
+  "Fixing...": {
+    "Fixing...": ""
   },
   "Focused Window": {
     "Focused Window": "Aktywne okno"
@@ -1262,6 +1301,9 @@
   "Hold to confirm (%1s)": {
     "Hold to confirm (%1s)": "Przytrzymaj, aby potwierdzić (%1s)"
   },
+  "Hotkey overlay title (optional)": {
+    "Hotkey overlay title (optional)": ""
+  },
   "Hour": {
     "Hour": "Godzina"
   },
@@ -1367,8 +1409,17 @@
   "Keeping Awake": {
     "Keeping Awake": "Utrzymywanie aktywności"
   },
+  "Key": {
+    "Key": ""
+  },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "Nazwa układu klawiatury"
+  },
+  "Keyboard Shortcuts": {
+    "Keyboard Shortcuts": ""
+  },
+  "Keys": {
+    "Keys": ""
   },
   "Kill Process": {
     "Kill Process": "Zabij proces"
@@ -1423,6 +1474,9 @@
   },
   "Lively palette with saturated accents.": {
     "Lively palette with saturated accents.": "Żywa paleta z nasyconymi akcentami."
+  },
+  "Loading keybinds...": {
+    "Loading keybinds...": ""
   },
   "Loading plugins...": {
     "Loading plugins...": "Ładowanie wtyczek..."
@@ -1640,6 +1694,12 @@
   "New": {
     "New": "Nowy"
   },
+  "New Key": {
+    "New Key": ""
+  },
+  "New Keybind": {
+    "New Keybind": ""
+  },
   "New Notification": {
     "New Notification": "Nowe powiadomienie"
   },
@@ -1654,6 +1714,9 @@
   },
   "Night Temperature": {
     "Night Temperature": "Temperatura w nocy"
+  },
+  "Niri compositor actions (focus, move, etc.)": {
+    "Niri compositor actions (focus, move, etc.)": ""
   },
   "No": {
     "No": "Nie"
@@ -1679,8 +1742,14 @@
   "No Weather Data Available": {
     "No Weather Data Available": "Brak danych pogodowych"
   },
+  "No action": {
+    "No action": ""
+  },
   "No adapters": {
     "No adapters": "Brak adapterów"
+  },
+  "No changes": {
+    "No changes": ""
   },
   "No clipboard entries found": {
     "No clipboard entries found": "Nie znaleziono wpisów w schowku"
@@ -1696,6 +1765,9 @@
   },
   "No items added yet": {
     "No items added yet": "Nie dodano jeszcze żadnych elementów"
+  },
+  "No keybinds found": {
+    "No keybinds found": ""
   },
   "No matches": {
     "No matches": "Brak wyników"
@@ -1825,6 +1897,12 @@
   },
   "Output Tray Missing": {
     "Output Tray Missing": "Brak tacy wyjściowej"
+  },
+  "Override": {
+    "Override": ""
+  },
+  "Overrides": {
+    "Overrides": ""
   },
   "Overview": {
     "Overview": "Podgląd"
@@ -1963,6 +2041,9 @@
   },
   "Preference": {
     "Preference": "Ustawienie"
+  },
+  "Press key...": {
+    "Press key...": ""
   },
   "Pressure": {
     "Pressure": "Ciśnienie"
@@ -2123,6 +2204,12 @@
   "Run User Templates": {
     "Run User Templates": "Uruchom szablony użytkownika"
   },
+  "Run a program (e.g., firefox, kitty)": {
+    "Run a program (e.g., firefox, kitty)": ""
+  },
+  "Run a shell command (e.g., notify-send)": {
+    "Run a shell command (e.g., notify-send)": ""
+  },
   "Running Apps": {
     "Running Apps": "Uruchomione aplikacje"
   },
@@ -2179,6 +2266,9 @@
   },
   "Search for a location...": {
     "Search for a location...": "Szukaj lokalizacji..."
+  },
+  "Search keybinds...": {
+    "Search keybinds...": ""
   },
   "Search plugins...": {
     "Search plugins...": "Szukaj wtyczek..."
@@ -2246,6 +2336,9 @@
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Wybierz, które przejścia uwzględnić w losowaniu"
   },
+  "Select...": {
+    "Select...": ""
+  },
   "Selected image file not found.": {
     "Selected image file not found.": "Nie znaleziono wybranego pliku obrazu."
   },
@@ -2261,11 +2354,20 @@
   "Set different wallpapers for light and dark mode": {
     "Set different wallpapers for light and dark mode": "Ustaw różne tapety dla trybu jasnego i ciemnego"
   },
+  "Set key and action to save": {
+    "Set key and action to save": ""
+  },
   "Settings": {
     "Settings": "Ustawienia"
   },
+  "Shell": {
+    "Shell": ""
+  },
   "Shift+Del: Clear All • Esc: Close": {
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: Wyczyść wszystko • Esc: Zamknij"
+  },
+  "Shortcuts": {
+    "Shortcuts": ""
   },
   "Show All Tags": {
     "Show All Tags": "Pokaż wszystkie tagi"
@@ -2570,6 +2672,9 @@
   "Timed Out": {
     "Timed Out": "Przekroczono limit czasu"
   },
+  "Title": {
+    "Title": ""
+  },
   "To Full": {
     "To Full": "Do pełna"
   },
@@ -2617,6 +2722,9 @@
   },
   "Turn off monitors after": {
     "Turn off monitors after": "Wyłącz monitory po"
+  },
+  "Type": {
+    "Type": ""
   },
   "Unavailable": {
     "Unavailable": "Niedostępny"
@@ -2881,6 +2989,18 @@
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "Wybierz tapetę"
+  },
+  "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
+    "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
+  },
+  "dms/binds.kdl is now included in config.kdl": {
+    "dms/binds.kdl is now included in config.kdl": ""
+  },
+  "e.g., firefox, kitty --title foo": {
+    "e.g., firefox, kitty --title foo": ""
+  },
+  "e.g., focus-workspace 3, resize-column -10": {
+    "e.g., focus-workspace 3, resize-column -10": ""
   },
   "events": {
     "events": "wydarzenia"

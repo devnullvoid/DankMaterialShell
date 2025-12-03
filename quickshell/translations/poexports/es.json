@@ -74,6 +74,9 @@
   "Access to system controls and settings": {
     "Access to system controls and settings": "Acceso a controles y ajustes del sistema"
   },
+  "Action": {
+    "Action": ""
+  },
   "Actions": {
     "Actions": "Acciones"
   },
@@ -335,6 +338,12 @@
   "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": {
     "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": "Conectar pantalla de bloqueo a las señales dbus de loginctl. Deshabilitar si se usa una pantalla de bloqueo externa"
   },
+  "Binds Include Missing": {
+    "Binds Include Missing": ""
+  },
+  "Binds include added": {
+    "Binds include added": ""
+  },
   "Bluetooth": {
     "Bluetooth": "Bluetooth"
   },
@@ -497,6 +506,12 @@
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "Clic en importar para añadir un archivo .ovpn o .conf"
   },
+  "Click any shortcut to edit. Changes save to dms/binds.kdl": {
+    "Click any shortcut to edit. Changes save to dms/binds.kdl": ""
+  },
+  "Click to capture": {
+    "Click to capture": ""
+  },
   "Clipboard History": {
     "Clipboard History": "Historial del portapapeles"
   },
@@ -529,6 +544,9 @@
   },
   "Colorful mix of bright contrasting accents.": {
     "Colorful mix of bright contrasting accents.": "Colores vivos con contrastes luminosos."
+  },
+  "Command": {
+    "Command": ""
   },
   "Command or script to run instead of the standard hibernate procedure": {
     "Command or script to run instead of the standard hibernate procedure": "Comando a ejecutar al hibernar"
@@ -580,6 +598,9 @@
   },
   "Confirm passkey for ": {
     "Confirm passkey for ": "Confirmar clave de acceso para "
+  },
+  "Conflicts with: %1": {
+    "Conflicts with: %1": ""
   },
   "Connect": {
     "Connect": "Conectar"
@@ -691,6 +712,9 @@
   },
   "DMS out of date": {
     "DMS out of date": "DMS desactualizado"
+  },
+  "DMS shell actions (launcher, clipboard, etc.)": {
+    "DMS shell actions (launcher, clipboard, etc.)": ""
   },
   "DMS_SOCKET not available": {
     "DMS_SOCKET not available": "DMS_SOCKET no disponible"
@@ -1004,6 +1028,9 @@
   "Failed to activate configuration": {
     "Failed to activate configuration": "Error al activar la configuración"
   },
+  "Failed to add binds include": {
+    "Failed to add binds include": ""
+  },
   "Failed to add printer to class": {
     "Failed to add printer to class": "Error al agregar la impresora a la clase"
   },
@@ -1070,6 +1097,9 @@
   "Failed to remove device": {
     "Failed to remove device": "Error al eliminar dispositivo"
   },
+  "Failed to remove keybind": {
+    "Failed to remove keybind": ""
+  },
   "Failed to remove printer from class": {
     "Failed to remove printer from class": "Error al quitar la impresora de la clase"
   },
@@ -1078,6 +1108,9 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "Error al reanudar la impresora"
+  },
+  "Failed to save keybind": {
+    "Failed to save keybind": ""
   },
   "Failed to set profile image": {
     "Failed to set profile image": "Hubo un error al poner la imágen de perfil"
@@ -1120,6 +1153,12 @@
   },
   "Find in note...": {
     "Find in note...": "Encontrar en notas..."
+  },
+  "Fix Now": {
+    "Fix Now": ""
+  },
+  "Fixing...": {
+    "Fixing...": ""
   },
   "Focused Window": {
     "Focused Window": "Ventana enfocada"
@@ -1262,6 +1301,9 @@
   "Hold to confirm (%1s)": {
     "Hold to confirm (%1s)": "Mantener pulsado para confirmar (%1s)"
   },
+  "Hotkey overlay title (optional)": {
+    "Hotkey overlay title (optional)": ""
+  },
   "Hour": {
     "Hour": "Hora"
   },
@@ -1367,8 +1409,17 @@
   "Keeping Awake": {
     "Keeping Awake": "Mantener despierto"
   },
+  "Key": {
+    "Key": ""
+  },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "Distribución de teclado"
+  },
+  "Keyboard Shortcuts": {
+    "Keyboard Shortcuts": ""
+  },
+  "Keys": {
+    "Keys": ""
   },
   "Kill Process": {
     "Kill Process": "Matar el proceso"
@@ -1423,6 +1474,9 @@
   },
   "Lively palette with saturated accents.": {
     "Lively palette with saturated accents.": "Paleta vibrante con acentos saturados."
+  },
+  "Loading keybinds...": {
+    "Loading keybinds...": ""
   },
   "Loading plugins...": {
     "Loading plugins...": "Cargando complementos..."
@@ -1640,6 +1694,12 @@
   "New": {
     "New": "Nuevo"
   },
+  "New Key": {
+    "New Key": ""
+  },
+  "New Keybind": {
+    "New Keybind": ""
+  },
   "New Notification": {
     "New Notification": "Nueva notificación"
   },
@@ -1654,6 +1714,9 @@
   },
   "Night Temperature": {
     "Night Temperature": "Temperatura nocturna"
+  },
+  "Niri compositor actions (focus, move, etc.)": {
+    "Niri compositor actions (focus, move, etc.)": ""
   },
   "No": {
     "No": "No"
@@ -1679,8 +1742,14 @@
   "No Weather Data Available": {
     "No Weather Data Available": "No hay datos meteorológicos disponibles"
   },
+  "No action": {
+    "No action": ""
+  },
   "No adapters": {
     "No adapters": "Sin adaptadores"
+  },
+  "No changes": {
+    "No changes": ""
   },
   "No clipboard entries found": {
     "No clipboard entries found": "No hay entradas en el portapapeles"
@@ -1696,6 +1765,9 @@
   },
   "No items added yet": {
     "No items added yet": "No hay nada añadido todavía"
+  },
+  "No keybinds found": {
+    "No keybinds found": ""
   },
   "No matches": {
     "No matches": "Sin coincidencias"
@@ -1825,6 +1897,12 @@
   },
   "Output Tray Missing": {
     "Output Tray Missing": "Bandeja de salida no encontrada"
+  },
+  "Override": {
+    "Override": ""
+  },
+  "Overrides": {
+    "Overrides": ""
   },
   "Overview": {
     "Overview": "Resumen"
@@ -1963,6 +2041,9 @@
   },
   "Preference": {
     "Preference": "Preferencia"
+  },
+  "Press key...": {
+    "Press key...": ""
   },
   "Pressure": {
     "Pressure": "Presión"
@@ -2123,6 +2204,12 @@
   "Run User Templates": {
     "Run User Templates": "Ejecutar plantillas de usuario"
   },
+  "Run a program (e.g., firefox, kitty)": {
+    "Run a program (e.g., firefox, kitty)": ""
+  },
+  "Run a shell command (e.g., notify-send)": {
+    "Run a shell command (e.g., notify-send)": ""
+  },
   "Running Apps": {
     "Running Apps": "Aplicaciones activas"
   },
@@ -2179,6 +2266,9 @@
   },
   "Search for a location...": {
     "Search for a location...": "Buscar una ubicación..."
+  },
+  "Search keybinds...": {
+    "Search keybinds...": ""
   },
   "Search plugins...": {
     "Search plugins...": "Buscar complementos..."
@@ -2246,6 +2336,9 @@
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Seleccionar transiciones para aplicar de forma aleatoria"
   },
+  "Select...": {
+    "Select...": ""
+  },
   "Selected image file not found.": {
     "Selected image file not found.": "La imagen seleccionada no se encuentra."
   },
@@ -2261,11 +2354,20 @@
   "Set different wallpapers for light and dark mode": {
     "Set different wallpapers for light and dark mode": "Configurar diferentes fondos de pantalla para los modos claro y oscuro"
   },
+  "Set key and action to save": {
+    "Set key and action to save": ""
+  },
   "Settings": {
     "Settings": "Ajustes"
   },
+  "Shell": {
+    "Shell": ""
+  },
   "Shift+Del: Clear All • Esc: Close": {
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: Borrar todo • Esc: Cerrar "
+  },
+  "Shortcuts": {
+    "Shortcuts": ""
   },
   "Show All Tags": {
     "Show All Tags": "Mostrar todas las etiquetas"
@@ -2570,6 +2672,9 @@
   "Timed Out": {
     "Timed Out": "Tiempo agotado"
   },
+  "Title": {
+    "Title": ""
+  },
   "To Full": {
     "To Full": "Carga completa"
   },
@@ -2617,6 +2722,9 @@
   },
   "Turn off monitors after": {
     "Turn off monitors after": "Apagar monitores después de"
+  },
+  "Type": {
+    "Type": ""
   },
   "Unavailable": {
     "Unavailable": "No disponible"
@@ -2881,6 +2989,18 @@
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "Seleccionar fondo de pantalla"
+  },
+  "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
+    "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
+  },
+  "dms/binds.kdl is now included in config.kdl": {
+    "dms/binds.kdl is now included in config.kdl": ""
+  },
+  "e.g., firefox, kitty --title foo": {
+    "e.g., firefox, kitty --title foo": ""
+  },
+  "e.g., focus-workspace 3, resize-column -10": {
+    "e.g., focus-workspace 3, resize-column -10": ""
   },
   "events": {
     "events": "eventos"

@@ -74,6 +74,9 @@
   "Access to system controls and settings": {
     "Access to system controls and settings": "システム制御へのアクセスおよび設定"
   },
+  "Action": {
+    "Action": ""
+  },
   "Actions": {
     "Actions": "アクション"
   },
@@ -335,6 +338,12 @@
   "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": {
     "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": "ロック画面をloginctlからのdbus信号にバインド。外部ロック画面を使用している場合は無効に"
   },
+  "Binds Include Missing": {
+    "Binds Include Missing": ""
+  },
+  "Binds include added": {
+    "Binds include added": ""
+  },
   "Bluetooth": {
     "Bluetooth": ""
   },
@@ -497,6 +506,12 @@
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": ""
   },
+  "Click any shortcut to edit. Changes save to dms/binds.kdl": {
+    "Click any shortcut to edit. Changes save to dms/binds.kdl": ""
+  },
+  "Click to capture": {
+    "Click to capture": ""
+  },
   "Clipboard History": {
     "Clipboard History": "クリップボード履歴"
   },
@@ -529,6 +544,9 @@
   },
   "Colorful mix of bright contrasting accents.": {
     "Colorful mix of bright contrasting accents.": "明るいコントラストのアクセントのカラフルなミックス。"
+  },
+  "Command": {
+    "Command": ""
   },
   "Command or script to run instead of the standard hibernate procedure": {
     "Command or script to run instead of the standard hibernate procedure": "標準の休止状態手順の代わりにコマンドまたはスクリプトで実行"
@@ -580,6 +598,9 @@
   },
   "Confirm passkey for ": {
     "Confirm passkey for ": "パスキーを確認 "
+  },
+  "Conflicts with: %1": {
+    "Conflicts with: %1": ""
   },
   "Connect": {
     "Connect": "接続"
@@ -691,6 +712,9 @@
   },
   "DMS out of date": {
     "DMS out of date": "DMSに更新があります"
+  },
+  "DMS shell actions (launcher, clipboard, etc.)": {
+    "DMS shell actions (launcher, clipboard, etc.)": ""
   },
   "DMS_SOCKET not available": {
     "DMS_SOCKET not available": "DMS_SOCKETが利用できません"
@@ -1004,6 +1028,9 @@
   "Failed to activate configuration": {
     "Failed to activate configuration": "設定が適用できませんでした"
   },
+  "Failed to add binds include": {
+    "Failed to add binds include": ""
+  },
   "Failed to add printer to class": {
     "Failed to add printer to class": ""
   },
@@ -1070,6 +1097,9 @@
   "Failed to remove device": {
     "Failed to remove device": "デバイスの削除に失敗しました"
   },
+  "Failed to remove keybind": {
+    "Failed to remove keybind": ""
+  },
   "Failed to remove printer from class": {
     "Failed to remove printer from class": ""
   },
@@ -1078,6 +1108,9 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "プリンタの再開に失敗しました"
+  },
+  "Failed to save keybind": {
+    "Failed to save keybind": ""
   },
   "Failed to set profile image": {
     "Failed to set profile image": "プロフィール画像の設定に失敗しました"
@@ -1120,6 +1153,12 @@
   },
   "Find in note...": {
     "Find in note...": "メモで検索..."
+  },
+  "Fix Now": {
+    "Fix Now": ""
+  },
+  "Fixing...": {
+    "Fixing...": ""
   },
   "Focused Window": {
     "Focused Window": "フォーカスされたウィンドウ"
@@ -1262,6 +1301,9 @@
   "Hold to confirm (%1s)": {
     "Hold to confirm (%1s)": ""
   },
+  "Hotkey overlay title (optional)": {
+    "Hotkey overlay title (optional)": ""
+  },
   "Hour": {
     "Hour": "時間"
   },
@@ -1367,8 +1409,17 @@
   "Keeping Awake": {
     "Keeping Awake": "活動状態を維持"
   },
+  "Key": {
+    "Key": ""
+  },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "キーボードレイアウト名"
+  },
+  "Keyboard Shortcuts": {
+    "Keyboard Shortcuts": ""
+  },
+  "Keys": {
+    "Keys": ""
   },
   "Kill Process": {
     "Kill Process": "プロセスを強制終了"
@@ -1423,6 +1474,9 @@
   },
   "Lively palette with saturated accents.": {
     "Lively palette with saturated accents.": "彩度の高いアクセントを備えた生き生きとしたパレット。"
+  },
+  "Loading keybinds...": {
+    "Loading keybinds...": ""
   },
   "Loading plugins...": {
     "Loading plugins...": "プラグインを読み込んでいます..."
@@ -1640,6 +1694,12 @@
   "New": {
     "New": "新しい"
   },
+  "New Key": {
+    "New Key": ""
+  },
+  "New Keybind": {
+    "New Keybind": ""
+  },
   "New Notification": {
     "New Notification": "新しい通知"
   },
@@ -1654,6 +1714,9 @@
   },
   "Night Temperature": {
     "Night Temperature": "夜間の温度"
+  },
+  "Niri compositor actions (focus, move, etc.)": {
+    "Niri compositor actions (focus, move, etc.)": ""
   },
   "No": {
     "No": ""
@@ -1679,8 +1742,14 @@
   "No Weather Data Available": {
     "No Weather Data Available": "気象データはありません"
   },
+  "No action": {
+    "No action": ""
+  },
   "No adapters": {
     "No adapters": ""
+  },
+  "No changes": {
+    "No changes": ""
   },
   "No clipboard entries found": {
     "No clipboard entries found": "クリップボードのエントリが見つかりませんでした"
@@ -1696,6 +1765,9 @@
   },
   "No items added yet": {
     "No items added yet": "まだアイテムが追加されていません"
+  },
+  "No keybinds found": {
+    "No keybinds found": ""
   },
   "No matches": {
     "No matches": "一致するものはありません"
@@ -1825,6 +1897,12 @@
   },
   "Output Tray Missing": {
     "Output Tray Missing": "アウトプットトレイが見つかりませんでした"
+  },
+  "Override": {
+    "Override": ""
+  },
+  "Overrides": {
+    "Overrides": ""
   },
   "Overview": {
     "Overview": "概要"
@@ -1963,6 +2041,9 @@
   },
   "Preference": {
     "Preference": ""
+  },
+  "Press key...": {
+    "Press key...": ""
   },
   "Pressure": {
     "Pressure": "プレッシャー"
@@ -2123,6 +2204,12 @@
   "Run User Templates": {
     "Run User Templates": "ユーザーのテンプレを実行"
   },
+  "Run a program (e.g., firefox, kitty)": {
+    "Run a program (e.g., firefox, kitty)": ""
+  },
+  "Run a shell command (e.g., notify-send)": {
+    "Run a shell command (e.g., notify-send)": ""
+  },
   "Running Apps": {
     "Running Apps": "実行中のアプリ"
   },
@@ -2179,6 +2266,9 @@
   },
   "Search for a location...": {
     "Search for a location...": "ロケーションを検索..."
+  },
+  "Search keybinds...": {
+    "Search keybinds...": ""
   },
   "Search plugins...": {
     "Search plugins...": "プラグインを検索..."
@@ -2246,6 +2336,9 @@
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "含めたいトランジションをランダム化に選択"
   },
+  "Select...": {
+    "Select...": ""
+  },
   "Selected image file not found.": {
     "Selected image file not found.": "選択した画像ファイルが見つかりませんでした。"
   },
@@ -2261,11 +2354,20 @@
   "Set different wallpapers for light and dark mode": {
     "Set different wallpapers for light and dark mode": "ライトモードとダークモードで異なる壁紙を設定する"
   },
+  "Set key and action to save": {
+    "Set key and action to save": ""
+  },
   "Settings": {
     "Settings": "設定"
   },
+  "Shell": {
+    "Shell": ""
+  },
   "Shift+Del: Clear All • Esc: Close": {
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: すべてクリア • Esc: 閉じる"
+  },
+  "Shortcuts": {
+    "Shortcuts": ""
   },
   "Show All Tags": {
     "Show All Tags": "すべてのタグを表示"
@@ -2570,6 +2672,9 @@
   "Timed Out": {
     "Timed Out": "タイムアウト"
   },
+  "Title": {
+    "Title": ""
+  },
   "To Full": {
     "To Full": "フルへ"
   },
@@ -2617,6 +2722,9 @@
   },
   "Turn off monitors after": {
     "Turn off monitors after": "後にモニターの電源を切る"
+  },
+  "Type": {
+    "Type": ""
   },
   "Unavailable": {
     "Unavailable": ""
@@ -2881,6 +2989,18 @@
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "壁紙を選んでください"
+  },
+  "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
+    "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
+  },
+  "dms/binds.kdl is now included in config.kdl": {
+    "dms/binds.kdl is now included in config.kdl": ""
+  },
+  "e.g., firefox, kitty --title foo": {
+    "e.g., firefox, kitty --title foo": ""
+  },
+  "e.g., focus-workspace 3, resize-column -10": {
+    "e.g., focus-workspace 3, resize-column -10": ""
   },
   "events": {
     "events": "イベント"

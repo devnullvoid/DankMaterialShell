@@ -56,13 +56,13 @@
   {
     "term": "- Stateless System Monitoring",
     "context": "- Stateless System Monitoring",
-    "reference": "Modules/Settings/AboutTab.qml:600",
+    "reference": "Modules/Settings/AboutTab.qml:612",
     "comment": ""
   },
   {
     "term": "- Support Us With a Star ⭐",
     "context": "- Support Us With a Star ⭐",
-    "reference": "Modules/Settings/AboutTab.qml:565",
+    "reference": "Modules/Settings/AboutTab.qml:577",
     "comment": ""
   },
   {
@@ -98,7 +98,7 @@
   {
     "term": "API",
     "context": "API",
-    "reference": "Modules/Settings/AboutTab.qml:676",
+    "reference": "Modules/Settings/AboutTab.qml:688",
     "comment": ""
   },
   {
@@ -110,7 +110,7 @@
   {
     "term": "About",
     "context": "About",
-    "reference": "Modals/Settings/SettingsSidebar.qml:78, Modules/Settings/AboutTab.qml:420",
+    "reference": "Modals/Settings/SettingsSidebar.qml:84, Modules/Settings/AboutTab.qml:432",
     "comment": ""
   },
   {
@@ -141,6 +141,12 @@
     "term": "Access to system controls and settings",
     "context": "Access to system controls and settings",
     "reference": "Modules/Settings/DankBarTab.qml:458",
+    "comment": ""
+  },
+  {
+    "term": "Action",
+    "context": "Action",
+    "reference": "Widgets/KeybindItem.qml:662, Widgets/KeybindItem.qml:697",
     "comment": ""
   },
   {
@@ -182,7 +188,7 @@
   {
     "term": "Add",
     "context": "Add",
-    "reference": "Modules/Plugins/ListSettingWithInput.qml:126",
+    "reference": "Widgets/KeybindItem.qml:970, Modules/Plugins/ListSettingWithInput.qml:126",
     "comment": ""
   },
   {
@@ -230,7 +236,7 @@
   {
     "term": "All",
     "context": "All",
-    "reference": "Services/AppSearchService.qml:310, Services/AppSearchService.qml:326, Modals/Spotlight/SpotlightModal.qml:49, Modules/AppDrawer/CategorySelector.qml:11, Modules/AppDrawer/AppLauncher.qml:16, Modules/AppDrawer/AppLauncher.qml:27, Modules/AppDrawer/AppLauncher.qml:28, Modules/AppDrawer/AppLauncher.qml:45, Modules/AppDrawer/AppLauncher.qml:46, Modules/AppDrawer/AppLauncher.qml:80, Modules/AppDrawer/AppDrawerPopout.qml:34",
+    "reference": "Services/AppSearchService.qml:310, Services/AppSearchService.qml:326, Modals/Spotlight/SpotlightModal.qml:49, Modules/AppDrawer/CategorySelector.qml:11, Modules/AppDrawer/AppLauncher.qml:16, Modules/AppDrawer/AppLauncher.qml:27, Modules/AppDrawer/AppLauncher.qml:28, Modules/AppDrawer/AppLauncher.qml:45, Modules/AppDrawer/AppLauncher.qml:46, Modules/AppDrawer/AppLauncher.qml:80, Modules/AppDrawer/AppDrawerPopout.qml:34, Modules/Settings/KeybindsTab.qml:332",
     "comment": ""
   },
   {
@@ -578,7 +584,7 @@
   {
     "term": "Backend",
     "context": "Backend",
-    "reference": "Modules/Settings/AboutTab.qml:638, Modules/Settings/NetworkTab.qml:116",
+    "reference": "Modules/Settings/AboutTab.qml:650, Modules/Settings/NetworkTab.qml:116",
     "comment": ""
   },
   {
@@ -615,6 +621,18 @@
     "term": "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen",
     "context": "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen",
     "reference": "Modals/Settings/PowerSettings.qml:76",
+    "comment": ""
+  },
+  {
+    "term": "Binds Include Missing",
+    "context": "Binds Include Missing",
+    "reference": "Modules/Settings/KeybindsTab.qml:263",
+    "comment": ""
+  },
+  {
+    "term": "Binds include added",
+    "context": "Binds include added",
+    "reference": "Services/KeybindsService.qml:153",
     "comment": ""
   },
   {
@@ -764,7 +782,7 @@
   {
     "term": "Cancel",
     "context": "Cancel",
-    "reference": "Modals/BluetoothPairingModal.qml:266, Modals/PolkitAuthModal.qml:264, Modals/WifiPasswordModal.qml:605, Modals/FileBrowser/FileBrowserOverwriteDialog.qml:83, Modules/Settings/PluginBrowser.qml:630",
+    "reference": "Modals/BluetoothPairingModal.qml:266, Modals/PolkitAuthModal.qml:264, Modals/WifiPasswordModal.qml:605, Widgets/KeybindItem.qml:954, Modals/FileBrowser/FileBrowserOverwriteDialog.qml:83, Modules/Settings/PluginBrowser.qml:630",
     "comment": ""
   },
   {
@@ -776,7 +794,7 @@
   {
     "term": "Capabilities",
     "context": "Capabilities",
-    "reference": "Modules/Settings/AboutTab.qml:731",
+    "reference": "Modules/Settings/AboutTab.qml:743",
     "comment": ""
   },
   {
@@ -930,6 +948,18 @@
     "comment": ""
   },
   {
+    "term": "Click any shortcut to edit. Changes save to dms/binds.kdl",
+    "context": "Click any shortcut to edit. Changes save to dms/binds.kdl",
+    "reference": "Modules/Settings/KeybindsTab.qml:188",
+    "comment": ""
+  },
+  {
+    "term": "Click to capture",
+    "context": "Click to capture",
+    "reference": "Widgets/KeybindItem.qml:439",
+    "comment": ""
+  },
+  {
     "term": "Clipboard History",
     "context": "Clipboard History",
     "reference": "Modals/Clipboard/ClipboardHeader.qml:31",
@@ -993,6 +1023,12 @@
     "term": "Colorful mix of bright contrasting accents.",
     "context": "Colorful mix of bright contrasting accents.",
     "reference": "Common/Theme.qml:233",
+    "comment": ""
+  },
+  {
+    "term": "Command",
+    "context": "Command",
+    "reference": "Widgets/KeybindItem.qml:842",
     "comment": ""
   },
   {
@@ -1098,6 +1134,12 @@
     "comment": ""
   },
   {
+    "term": "Conflicts with: %1",
+    "context": "Conflicts with: %1",
+    "reference": "Widgets/KeybindItem.qml:542",
+    "comment": ""
+  },
+  {
     "term": "Connect",
     "context": "Connect",
     "reference": "Modals/WifiPasswordModal.qml:645",
@@ -1118,7 +1160,7 @@
   {
     "term": "Connected",
     "context": "Connected",
-    "reference": "Modules/Settings/AboutTab.qml:716, Modules/Settings/NetworkTab.qml:384, Modules/Settings/NetworkTab.qml:1091, Modules/Settings/NetworkTab.qml:1415, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:21",
+    "reference": "Modules/Settings/AboutTab.qml:728, Modules/Settings/NetworkTab.qml:384, Modules/Settings/NetworkTab.qml:1091, Modules/Settings/NetworkTab.qml:1415, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:21",
     "comment": ""
   },
   {
@@ -1166,7 +1208,7 @@
   {
     "term": "Copied!",
     "context": "Copied!",
-    "reference": "Modules/Toast.qml:19",
+    "reference": "Modules/Toast.qml:17",
     "comment": ""
   },
   {
@@ -1250,7 +1292,7 @@
   {
     "term": "Custom",
     "context": "Custom",
-    "reference": "Modules/Settings/LauncherTab.qml:96, Modules/Settings/LauncherTab.qml:203",
+    "reference": "Widgets/KeybindItem.qml:779, Modules/Settings/LauncherTab.qml:96, Modules/Settings/LauncherTab.qml:203",
     "comment": ""
   },
   {
@@ -1308,6 +1350,12 @@
     "comment": ""
   },
   {
+    "term": "DMS shell actions (launcher, clipboard, etc.)",
+    "context": "DMS shell actions (launcher, clipboard, etc.)",
+    "reference": "Widgets/KeybindItem.qml:575",
+    "comment": ""
+  },
+  {
     "term": "DMS_SOCKET not available",
     "context": "DMS_SOCKET not available",
     "reference": "Modules/ControlCenter/Components/DragDropGrid.qml:203",
@@ -1340,7 +1388,7 @@
   {
     "term": "Dank Bar",
     "context": "Dank Bar",
-    "reference": "Modals/Settings/SettingsSidebar.qml:26",
+    "reference": "Modals/Settings/SettingsSidebar.qml:32",
     "comment": ""
   },
   {
@@ -1604,7 +1652,7 @@
   {
     "term": "Displays",
     "context": "Displays",
-    "reference": "Modals/Settings/SettingsSidebar.qml:41",
+    "reference": "Modals/Settings/SettingsSidebar.qml:47",
     "comment": ""
   },
   {
@@ -1628,7 +1676,7 @@
   {
     "term": "Dock",
     "context": "Dock",
-    "reference": "Modals/Settings/SettingsSidebar.qml:36",
+    "reference": "Modals/Settings/SettingsSidebar.qml:42",
     "comment": ""
   },
   {
@@ -1652,7 +1700,7 @@
   {
     "term": "Donate on Ko-fi",
     "context": "Donate on Ko-fi",
-    "reference": "Modules/Settings/AboutTab.qml:806",
+    "reference": "Modules/Settings/AboutTab.qml:818",
     "comment": ""
   },
   {
@@ -1920,6 +1968,12 @@
     "comment": ""
   },
   {
+    "term": "Failed to add binds include",
+    "context": "Failed to add binds include",
+    "reference": "Services/KeybindsService.qml:143",
+    "comment": ""
+  },
+  {
     "term": "Failed to add printer to class",
     "context": "Failed to add printer to class",
     "reference": "Services/CupsService.qml:692",
@@ -2052,6 +2106,12 @@
     "comment": ""
   },
   {
+    "term": "Failed to remove keybind",
+    "context": "Failed to remove keybind",
+    "reference": "Services/KeybindsService.qml:120",
+    "comment": ""
+  },
+  {
     "term": "Failed to remove printer from class",
     "context": "Failed to remove printer from class",
     "reference": "Services/CupsService.qml:709",
@@ -2067,6 +2127,12 @@
     "term": "Failed to resume printer",
     "context": "Failed to resume printer",
     "reference": "Services/CupsService.qml:403",
+    "comment": ""
+  },
+  {
+    "term": "Failed to save keybind",
+    "context": "Failed to save keybind",
+    "reference": "Services/KeybindsService.qml:96",
     "comment": ""
   },
   {
@@ -2151,6 +2217,18 @@
     "term": "Find in note...",
     "context": "Find in note...",
     "reference": "Modules/Notepad/NotepadTextEditor.qml:268",
+    "comment": ""
+  },
+  {
+    "term": "Fix Now",
+    "context": "Fix Now",
+    "reference": "Modules/Settings/KeybindsTab.qml:288",
+    "comment": ""
+  },
+  {
+    "term": "Fixing...",
+    "context": "Fixing...",
+    "reference": "Modules/Settings/KeybindsTab.qml:288",
     "comment": ""
   },
   {
@@ -2288,7 +2366,7 @@
   {
     "term": "Github:",
     "context": "Github:",
-    "reference": "Modules/Settings/AboutTab.qml:538",
+    "reference": "Modules/Settings/AboutTab.qml:550",
     "comment": ""
   },
   {
@@ -2427,6 +2505,12 @@
     "term": "Hold to confirm (%1s)",
     "context": "Hold to confirm (%1s)",
     "reference": "Modals/PowerMenuModal.qml:789, Modals/PowerMenuModal.qml:790",
+    "comment": ""
+  },
+  {
+    "term": "Hotkey overlay title (optional)",
+    "context": "Hotkey overlay title (optional)",
+    "reference": "Widgets/KeybindItem.qml:913",
     "comment": ""
   },
   {
@@ -2640,9 +2724,27 @@
     "comment": ""
   },
   {
+    "term": "Key",
+    "context": "Key",
+    "reference": "Widgets/KeybindItem.qml:398",
+    "comment": ""
+  },
+  {
     "term": "Keyboard Layout Name",
     "context": "Keyboard Layout Name",
     "reference": "Modules/Settings/DankBarTab.qml:521",
+    "comment": ""
+  },
+  {
+    "term": "Keyboard Shortcuts",
+    "context": "Keyboard Shortcuts",
+    "reference": "Modals/Settings/SettingsSidebar.qml:26, Modules/Settings/KeybindsTab.qml:181",
+    "comment": ""
+  },
+  {
+    "term": "Keys",
+    "context": "Keys",
+    "reference": "Widgets/KeybindItem.qml:311",
     "comment": ""
   },
   {
@@ -2708,7 +2810,7 @@
   {
     "term": "Launcher",
     "context": "Launcher",
-    "reference": "Modals/Settings/SettingsSidebar.qml:58",
+    "reference": "Modals/Settings/SettingsSidebar.qml:64",
     "comment": ""
   },
   {
@@ -2751,6 +2853,12 @@
     "term": "Lively palette with saturated accents.",
     "context": "Lively palette with saturated accents.",
     "reference": "Common/Theme.qml:213",
+    "comment": ""
+  },
+  {
+    "term": "Loading keybinds...",
+    "context": "Loading keybinds...",
+    "reference": "Modules/Settings/KeybindsTab.qml:496",
     "comment": ""
   },
   {
@@ -3134,7 +3242,7 @@
   {
     "term": "Network",
     "context": "Network",
-    "reference": "Services/CupsService.qml:131, Modals/Settings/SettingsSidebar.qml:46, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:800",
+    "reference": "Services/CupsService.qml:131, Modals/Settings/SettingsSidebar.qml:52, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:800",
     "comment": ""
   },
   {
@@ -3180,6 +3288,18 @@
     "comment": ""
   },
   {
+    "term": "New Key",
+    "context": "New Key",
+    "reference": "Widgets/KeybindItem.qml:398",
+    "comment": ""
+  },
+  {
+    "term": "New Keybind",
+    "context": "New Keybind",
+    "reference": "Modules/Settings/KeybindsTab.qml:410",
+    "comment": ""
+  },
+  {
     "term": "New Notification",
     "context": "New Notification",
     "reference": "Modules/Settings/PersonalizationTab.qml:2042",
@@ -3207,6 +3327,12 @@
     "term": "Night Temperature",
     "context": "Night Temperature",
     "reference": "Modules/Settings/DisplaysTab.qml:202",
+    "comment": ""
+  },
+  {
+    "term": "Niri compositor actions (focus, move, etc.)",
+    "context": "Niri compositor actions (focus, move, etc.)",
+    "reference": "Widgets/KeybindItem.qml:576",
     "comment": ""
   },
   {
@@ -3252,9 +3378,21 @@
     "comment": ""
   },
   {
+    "term": "No action",
+    "context": "No action",
+    "reference": "Widgets/KeybindItem.qml:211",
+    "comment": ""
+  },
+  {
     "term": "No adapters",
     "context": "No adapters",
     "reference": "Modules/Settings/NetworkTab.qml:285",
+    "comment": ""
+  },
+  {
+    "term": "No changes",
+    "context": "No changes",
+    "reference": "Widgets/KeybindItem.qml:947",
     "comment": ""
   },
   {
@@ -3285,6 +3423,12 @@
     "term": "No items added yet",
     "context": "No items added yet",
     "reference": "Modules/Plugins/ListSetting.qml:79, Modules/Plugins/ListSettingWithInput.qml:250",
+    "comment": ""
+  },
+  {
+    "term": "No keybinds found",
+    "context": "No keybinds found",
+    "reference": "Modules/Settings/KeybindsTab.qml:504",
     "comment": ""
   },
   {
@@ -3546,6 +3690,18 @@
     "comment": ""
   },
   {
+    "term": "Override",
+    "context": "Override",
+    "reference": "Widgets/KeybindItem.qml:238",
+    "comment": ""
+  },
+  {
+    "term": "Overrides",
+    "context": "Overrides",
+    "reference": "Modules/Settings/KeybindsTab.qml:70",
+    "comment": ""
+  },
+  {
     "term": "Overview",
     "context": "Overview",
     "reference": "Modules/DankDash/DankDashPopout.qml:269",
@@ -3734,13 +3890,13 @@
   {
     "term": "Plugins",
     "context": "Plugins",
-    "reference": "Modals/Settings/SettingsSidebar.qml:73",
+    "reference": "Modals/Settings/SettingsSidebar.qml:79",
     "comment": ""
   },
   {
     "term": "Plugins:",
     "context": "Plugins:",
-    "reference": "Modules/Settings/AboutTab.qml:515",
+    "reference": "Modules/Settings/AboutTab.qml:527",
     "comment": ""
   },
   {
@@ -3770,7 +3926,7 @@
   {
     "term": "Power & Security",
     "context": "Power & Security",
-    "reference": "Modals/Settings/SettingsSidebar.qml:68",
+    "reference": "Modals/Settings/SettingsSidebar.qml:74",
     "comment": ""
   },
   {
@@ -3819,6 +3975,12 @@
     "term": "Preference",
     "context": "Preference",
     "reference": "Modules/Settings/NetworkTab.qml:193, Modules/Settings/NetworkTab.qml:238",
+    "comment": ""
+  },
+  {
+    "term": "Press key...",
+    "context": "Press key...",
+    "reference": "Widgets/KeybindItem.qml:439",
     "comment": ""
   },
   {
@@ -3884,7 +4046,7 @@
   {
     "term": "Printers",
     "context": "Printers",
-    "reference": "Modals/Settings/SettingsSidebar.qml:52, Modules/Settings/PrinterTab.qml:153, Modules/Settings/PrinterTab.qml:539, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:17",
+    "reference": "Modals/Settings/SettingsSidebar.qml:58, Modules/Settings/PrinterTab.qml:153, Modules/Settings/PrinterTab.qml:539, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:17",
     "comment": ""
   },
   {
@@ -4064,7 +4226,7 @@
   {
     "term": "Resources",
     "context": "Resources",
-    "reference": "Modules/Settings/AboutTab.qml:477",
+    "reference": "Modules/Settings/AboutTab.qml:489",
     "comment": ""
   },
   {
@@ -4128,6 +4290,18 @@
     "comment": ""
   },
   {
+    "term": "Run a program (e.g., firefox, kitty)",
+    "context": "Run a program (e.g., firefox, kitty)",
+    "reference": "Widgets/KeybindItem.qml:577",
+    "comment": ""
+  },
+  {
+    "term": "Run a shell command (e.g., notify-send)",
+    "context": "Run a shell command (e.g., notify-send)",
+    "reference": "Widgets/KeybindItem.qml:578",
+    "comment": ""
+  },
+  {
     "term": "Running Apps",
     "context": "Running Apps",
     "reference": "Modules/Settings/DankBarTab.qml:368",
@@ -4148,7 +4322,7 @@
   {
     "term": "Save",
     "context": "Save",
-    "reference": "Modals/DankColorPickerModal.qml:704, Modals/FileBrowser/FileBrowserSaveRow.qml:55, Modules/Notepad/NotepadTextEditor.qml:511, Modules/Notepad/Notepad.qml:461",
+    "reference": "Modals/DankColorPickerModal.qml:704, Widgets/KeybindItem.qml:970, Modals/FileBrowser/FileBrowserSaveRow.qml:55, Modules/Notepad/NotepadTextEditor.qml:511, Modules/Notepad/Notepad.qml:461",
     "comment": ""
   },
   {
@@ -4239,6 +4413,12 @@
     "term": "Search for a location...",
     "context": "Search for a location...",
     "reference": "Widgets/DankLocationSearch.qml:21",
+    "comment": ""
+  },
+  {
+    "term": "Search keybinds...",
+    "context": "Search keybinds...",
+    "reference": "Modules/Settings/KeybindsTab.qml:205",
     "comment": ""
   },
   {
@@ -4392,6 +4572,12 @@
     "comment": ""
   },
   {
+    "term": "Select...",
+    "context": "Select...",
+    "reference": "Widgets/KeybindItem.qml:672, Widgets/KeybindItem.qml:726",
+    "comment": ""
+  },
+  {
     "term": "Selected image file not found.",
     "context": "Selected image file not found.",
     "reference": "Services/PortalService.qml:157",
@@ -4422,15 +4608,33 @@
     "comment": ""
   },
   {
+    "term": "Set key and action to save",
+    "context": "Set key and action to save",
+    "reference": "Widgets/KeybindItem.qml:947",
+    "comment": ""
+  },
+  {
     "term": "Settings",
     "context": "settings window title",
     "reference": "Services/AppSearchService.qml:269, Services/PopoutService.qml:226, Modals/Settings/SettingsModal.qml:41, Modals/Settings/SettingsModal.qml:193, Modules/DankDash/DankDashPopout.qml:290",
     "comment": ""
   },
   {
+    "term": "Shell",
+    "context": "Shell",
+    "reference": "Widgets/KeybindItem.qml:874",
+    "comment": ""
+  },
+  {
     "term": "Shift+Del: Clear All • Esc: Close",
     "context": "Shift+Del: Clear All • Esc: Close",
     "reference": "Modals/Clipboard/ClipboardKeyboardHints.qml:9",
+    "comment": ""
+  },
+  {
+    "term": "Shortcuts",
+    "context": "Shortcuts",
+    "reference": "Modules/Settings/KeybindsTab.qml:466, Modules/Settings/KeybindsTab.qml:466",
     "comment": ""
   },
   {
@@ -4748,7 +4952,7 @@
   {
     "term": "Status",
     "context": "Status",
-    "reference": "Widgets/DankIconPicker.qml:49, Modules/Settings/AboutTab.qml:699, Modules/Settings/PrinterTab.qml:129, Modules/Settings/NetworkTab.qml:128",
+    "reference": "Widgets/DankIconPicker.qml:49, Modules/Settings/AboutTab.qml:711, Modules/Settings/PrinterTab.qml:129, Modules/Settings/NetworkTab.qml:128",
     "comment": ""
   },
   {
@@ -4790,7 +4994,7 @@
   {
     "term": "Support Development",
     "context": "Support Development",
-    "reference": "Modules/Settings/AboutTab.qml:791",
+    "reference": "Modules/Settings/AboutTab.qml:803",
     "comment": ""
   },
   {
@@ -4868,7 +5072,7 @@
   {
     "term": "System Monitoring:",
     "context": "System Monitoring:",
-    "reference": "Modules/Settings/AboutTab.qml:573",
+    "reference": "Modules/Settings/AboutTab.qml:585",
     "comment": ""
   },
   {
@@ -4976,7 +5180,7 @@
   {
     "term": "Theme & Colors",
     "context": "Theme & Colors",
-    "reference": "Modals/Settings/SettingsSidebar.qml:63",
+    "reference": "Modals/Settings/SettingsSidebar.qml:69",
     "comment": ""
   },
   {
@@ -5025,6 +5229,12 @@
     "term": "Timed Out",
     "context": "Timed Out",
     "reference": "Services/CupsService.qml:799",
+    "comment": ""
+  },
+  {
+    "term": "Title",
+    "context": "Title",
+    "reference": "Widgets/KeybindItem.qml:902",
     "comment": ""
   },
   {
@@ -5124,6 +5334,12 @@
     "comment": ""
   },
   {
+    "term": "Type",
+    "context": "Type",
+    "reference": "Widgets/KeybindItem.qml:555",
+    "comment": ""
+  },
+  {
     "term": "Unavailable",
     "context": "Unavailable",
     "reference": "Modules/Settings/PrinterTab.qml:145, Modules/Settings/NetworkTab.qml:388",
@@ -5156,7 +5372,7 @@
   {
     "term": "Unsaved changes",
     "context": "Unsaved changes",
-    "reference": "Modules/Notepad/NotepadTextEditor.qml:588",
+    "reference": "Widgets/KeybindItem.qml:947, Modules/Notepad/NotepadTextEditor.qml:588",
     "comment": ""
   },
   {
@@ -5342,7 +5558,7 @@
   {
     "term": "Version",
     "context": "Version",
-    "reference": "Modules/Settings/AboutTab.qml:653",
+    "reference": "Modules/Settings/AboutTab.qml:665",
     "comment": ""
   },
   {
@@ -5462,7 +5678,7 @@
   {
     "term": "Website:",
     "context": "Website:",
-    "reference": "Modules/Settings/AboutTab.qml:492",
+    "reference": "Modules/Settings/AboutTab.qml:504",
     "comment": ""
   },
   {
@@ -5552,7 +5768,7 @@
   {
     "term": "Widgets",
     "context": "Widgets",
-    "reference": "Modals/Settings/SettingsSidebar.qml:31",
+    "reference": "Modals/Settings/SettingsSidebar.qml:37",
     "comment": ""
   },
   {
@@ -5625,6 +5841,30 @@
     "term": "You have unsaved changes. Save before opening a file?",
     "context": "You have unsaved changes. Save before opening a file?",
     "reference": "Modules/Notepad/Notepad.qml:382",
+    "comment": ""
+  },
+  {
+    "term": "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.",
+    "context": "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.",
+    "reference": "Modules/Settings/KeybindsTab.qml:270",
+    "comment": ""
+  },
+  {
+    "term": "dms/binds.kdl is now included in config.kdl",
+    "context": "dms/binds.kdl is now included in config.kdl",
+    "reference": "Services/KeybindsService.qml:153",
+    "comment": ""
+  },
+  {
+    "term": "e.g., firefox, kitty --title foo",
+    "context": "e.g., firefox, kitty --title foo",
+    "reference": "Widgets/KeybindItem.qml:853",
+    "comment": ""
+  },
+  {
+    "term": "e.g., focus-workspace 3, resize-column -10",
+    "context": "e.g., focus-workspace 3, resize-column -10",
+    "reference": "Widgets/KeybindItem.qml:790",
     "comment": ""
   },
   {

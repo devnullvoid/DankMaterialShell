@@ -74,6 +74,9 @@
   "Access to system controls and settings": {
     "Access to system controls and settings": "访问系统控制和设置"
   },
+  "Action": {
+    "Action": ""
+  },
   "Actions": {
     "Actions": "操作"
   },
@@ -335,6 +338,12 @@
   "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": {
     "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": "将锁屏绑定到来自 loginctl 的 dbus 信号。如使用外部锁屏程序，请禁用此项"
   },
+  "Binds Include Missing": {
+    "Binds Include Missing": ""
+  },
+  "Binds include added": {
+    "Binds include added": ""
+  },
   "Bluetooth": {
     "Bluetooth": ""
   },
@@ -497,6 +506,12 @@
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": ""
   },
+  "Click any shortcut to edit. Changes save to dms/binds.kdl": {
+    "Click any shortcut to edit. Changes save to dms/binds.kdl": ""
+  },
+  "Click to capture": {
+    "Click to capture": ""
+  },
   "Clipboard History": {
     "Clipboard History": "剪切板历史记录"
   },
@@ -529,6 +544,9 @@
   },
   "Colorful mix of bright contrasting accents.": {
     "Colorful mix of bright contrasting accents.": "色彩鲜明、对比强烈的配色。"
+  },
+  "Command": {
+    "Command": ""
   },
   "Command or script to run instead of the standard hibernate procedure": {
     "Command or script to run instead of the standard hibernate procedure": "用于替代标准休眠流程的命令或脚本"
@@ -580,6 +598,9 @@
   },
   "Confirm passkey for ": {
     "Confirm passkey for ": "确认密钥 "
+  },
+  "Conflicts with: %1": {
+    "Conflicts with: %1": ""
   },
   "Connect": {
     "Connect": "连接"
@@ -691,6 +712,9 @@
   },
   "DMS out of date": {
     "DMS out of date": "DMS 不是最新版本"
+  },
+  "DMS shell actions (launcher, clipboard, etc.)": {
+    "DMS shell actions (launcher, clipboard, etc.)": ""
   },
   "DMS_SOCKET not available": {
     "DMS_SOCKET not available": "DMS_SOCKET 不可用"
@@ -1004,6 +1028,9 @@
   "Failed to activate configuration": {
     "Failed to activate configuration": "无法应用配置"
   },
+  "Failed to add binds include": {
+    "Failed to add binds include": ""
+  },
   "Failed to add printer to class": {
     "Failed to add printer to class": ""
   },
@@ -1070,6 +1097,9 @@
   "Failed to remove device": {
     "Failed to remove device": "删除设备失败"
   },
+  "Failed to remove keybind": {
+    "Failed to remove keybind": ""
+  },
   "Failed to remove printer from class": {
     "Failed to remove printer from class": ""
   },
@@ -1078,6 +1108,9 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "无法恢复打印机"
+  },
+  "Failed to save keybind": {
+    "Failed to save keybind": ""
   },
   "Failed to set profile image": {
     "Failed to set profile image": "无法设置个人资料图片"
@@ -1120,6 +1153,12 @@
   },
   "Find in note...": {
     "Find in note...": "在便签中查找..."
+  },
+  "Fix Now": {
+    "Fix Now": ""
+  },
+  "Fixing...": {
+    "Fixing...": ""
   },
   "Focused Window": {
     "Focused Window": "当前窗口"
@@ -1262,6 +1301,9 @@
   "Hold to confirm (%1s)": {
     "Hold to confirm (%1s)": ""
   },
+  "Hotkey overlay title (optional)": {
+    "Hotkey overlay title (optional)": ""
+  },
   "Hour": {
     "Hour": "小时"
   },
@@ -1367,8 +1409,17 @@
   "Keeping Awake": {
     "Keeping Awake": "保持活动"
   },
+  "Key": {
+    "Key": ""
+  },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "键盘布局名称"
+  },
+  "Keyboard Shortcuts": {
+    "Keyboard Shortcuts": ""
+  },
+  "Keys": {
+    "Keys": ""
   },
   "Kill Process": {
     "Kill Process": "结束进程"
@@ -1423,6 +1474,9 @@
   },
   "Lively palette with saturated accents.": {
     "Lively palette with saturated accents.": "活力十足的配色，带有高饱和点缀色。"
+  },
+  "Loading keybinds...": {
+    "Loading keybinds...": ""
   },
   "Loading plugins...": {
     "Loading plugins...": "正在加载插件…..."
@@ -1640,6 +1694,12 @@
   "New": {
     "New": "新建"
   },
+  "New Key": {
+    "New Key": ""
+  },
+  "New Keybind": {
+    "New Keybind": ""
+  },
   "New Notification": {
     "New Notification": "新通知"
   },
@@ -1654,6 +1714,9 @@
   },
   "Night Temperature": {
     "Night Temperature": "夜间色温"
+  },
+  "Niri compositor actions (focus, move, etc.)": {
+    "Niri compositor actions (focus, move, etc.)": ""
   },
   "No": {
     "No": ""
@@ -1679,8 +1742,14 @@
   "No Weather Data Available": {
     "No Weather Data Available": "暂无天气数据"
   },
+  "No action": {
+    "No action": ""
+  },
   "No adapters": {
     "No adapters": ""
+  },
+  "No changes": {
+    "No changes": ""
   },
   "No clipboard entries found": {
     "No clipboard entries found": "无可用记录"
@@ -1696,6 +1765,9 @@
   },
   "No items added yet": {
     "No items added yet": "暂未添加任何项目"
+  },
+  "No keybinds found": {
+    "No keybinds found": ""
   },
   "No matches": {
     "No matches": "未找到匹配项"
@@ -1825,6 +1897,12 @@
   },
   "Output Tray Missing": {
     "Output Tray Missing": "未检测到出纸盒"
+  },
+  "Override": {
+    "Override": ""
+  },
+  "Overrides": {
+    "Overrides": ""
   },
   "Overview": {
     "Overview": "概览"
@@ -1963,6 +2041,9 @@
   },
   "Preference": {
     "Preference": ""
+  },
+  "Press key...": {
+    "Press key...": ""
   },
   "Pressure": {
     "Pressure": "气压"
@@ -2123,6 +2204,12 @@
   "Run User Templates": {
     "Run User Templates": "运行用户模板"
   },
+  "Run a program (e.g., firefox, kitty)": {
+    "Run a program (e.g., firefox, kitty)": ""
+  },
+  "Run a shell command (e.g., notify-send)": {
+    "Run a shell command (e.g., notify-send)": ""
+  },
   "Running Apps": {
     "Running Apps": "活动应用程序"
   },
@@ -2179,6 +2266,9 @@
   },
   "Search for a location...": {
     "Search for a location...": "搜索位置..."
+  },
+  "Search keybinds...": {
+    "Search keybinds...": ""
   },
   "Search plugins...": {
     "Search plugins...": "搜索插件中..."
@@ -2246,6 +2336,9 @@
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "选择在随机轮换中使用的过渡效果"
   },
+  "Select...": {
+    "Select...": ""
+  },
   "Selected image file not found.": {
     "Selected image file not found.": "未找到所选图像文件。"
   },
@@ -2261,11 +2354,20 @@
   "Set different wallpapers for light and dark mode": {
     "Set different wallpapers for light and dark mode": "分别设置浅色/深色模式下的壁纸"
   },
+  "Set key and action to save": {
+    "Set key and action to save": ""
+  },
   "Settings": {
     "Settings": "设置"
   },
+  "Shell": {
+    "Shell": ""
+  },
   "Shift+Del: Clear All • Esc: Close": {
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: 清空 • Esc: 关闭"
+  },
+  "Shortcuts": {
+    "Shortcuts": ""
   },
   "Show All Tags": {
     "Show All Tags": "显示所有标签"
@@ -2570,6 +2672,9 @@
   "Timed Out": {
     "Timed Out": "超时"
   },
+  "Title": {
+    "Title": ""
+  },
   "To Full": {
     "To Full": "充至满电"
   },
@@ -2617,6 +2722,9 @@
   },
   "Turn off monitors after": {
     "Turn off monitors after": "在此时间后关闭显示器"
+  },
+  "Type": {
+    "Type": ""
   },
   "Unavailable": {
     "Unavailable": ""
@@ -2881,6 +2989,18 @@
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "选择壁纸"
+  },
+  "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
+    "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
+  },
+  "dms/binds.kdl is now included in config.kdl": {
+    "dms/binds.kdl is now included in config.kdl": ""
+  },
+  "e.g., firefox, kitty --title foo": {
+    "e.g., firefox, kitty --title foo": ""
+  },
+  "e.g., focus-workspace 3, resize-column -10": {
+    "e.g., focus-workspace 3, resize-column -10": ""
   },
   "events": {
     "events": "事件"

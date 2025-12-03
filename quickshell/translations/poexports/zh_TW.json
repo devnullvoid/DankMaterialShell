@@ -74,6 +74,9 @@
   "Access to system controls and settings": {
     "Access to system controls and settings": "系統控制和設定"
   },
+  "Action": {
+    "Action": ""
+  },
   "Actions": {
     "Actions": "選項"
   },
@@ -335,6 +338,12 @@
   "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": {
     "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": "將鎖定畫面綁定到 loginctl 的 dbus 訊號。如果使用外部鎖屏，請停用"
   },
+  "Binds Include Missing": {
+    "Binds Include Missing": ""
+  },
+  "Binds include added": {
+    "Binds include added": ""
+  },
   "Bluetooth": {
     "Bluetooth": "藍牙"
   },
@@ -497,6 +506,12 @@
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "點擊匯入以新增 .ovpn 或 .conf"
   },
+  "Click any shortcut to edit. Changes save to dms/binds.kdl": {
+    "Click any shortcut to edit. Changes save to dms/binds.kdl": ""
+  },
+  "Click to capture": {
+    "Click to capture": ""
+  },
   "Clipboard History": {
     "Clipboard History": "剪貼簿歷史"
   },
@@ -529,6 +544,9 @@
   },
   "Colorful mix of bright contrasting accents.": {
     "Colorful mix of bright contrasting accents.": "明亮對比點綴的繽紛組合。"
+  },
+  "Command": {
+    "Command": ""
   },
   "Command or script to run instead of the standard hibernate procedure": {
     "Command or script to run instead of the standard hibernate procedure": "代替標準休眠的指令或腳本"
@@ -580,6 +598,9 @@
   },
   "Confirm passkey for ": {
     "Confirm passkey for ": "確認密碼 "
+  },
+  "Conflicts with: %1": {
+    "Conflicts with: %1": ""
   },
   "Connect": {
     "Connect": "連線"
@@ -691,6 +712,9 @@
   },
   "DMS out of date": {
     "DMS out of date": "DMS 已過期"
+  },
+  "DMS shell actions (launcher, clipboard, etc.)": {
+    "DMS shell actions (launcher, clipboard, etc.)": ""
   },
   "DMS_SOCKET not available": {
     "DMS_SOCKET not available": "DMS_SOCKET 不可用"
@@ -1004,6 +1028,9 @@
   "Failed to activate configuration": {
     "Failed to activate configuration": "無法啟動配置"
   },
+  "Failed to add binds include": {
+    "Failed to add binds include": ""
+  },
   "Failed to add printer to class": {
     "Failed to add printer to class": "無法將印表機新增至類別"
   },
@@ -1070,6 +1097,9 @@
   "Failed to remove device": {
     "Failed to remove device": "無法移除裝置"
   },
+  "Failed to remove keybind": {
+    "Failed to remove keybind": ""
+  },
   "Failed to remove printer from class": {
     "Failed to remove printer from class": "無法從類別中移除印表機"
   },
@@ -1078,6 +1108,9 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "印表機恢復失敗"
+  },
+  "Failed to save keybind": {
+    "Failed to save keybind": ""
   },
   "Failed to set profile image": {
     "Failed to set profile image": "無法設定個人資料圖片"
@@ -1120,6 +1153,12 @@
   },
   "Find in note...": {
     "Find in note...": "尋找筆記..."
+  },
+  "Fix Now": {
+    "Fix Now": ""
+  },
+  "Fixing...": {
+    "Fixing...": ""
   },
   "Focused Window": {
     "Focused Window": "視窗對焦"
@@ -1262,6 +1301,9 @@
   "Hold to confirm (%1s)": {
     "Hold to confirm (%1s)": "按住以確認 (%1s)"
   },
+  "Hotkey overlay title (optional)": {
+    "Hotkey overlay title (optional)": ""
+  },
   "Hour": {
     "Hour": "小時"
   },
@@ -1367,8 +1409,17 @@
   "Keeping Awake": {
     "Keeping Awake": "保持喚醒"
   },
+  "Key": {
+    "Key": ""
+  },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "鍵盤布局名稱"
+  },
+  "Keyboard Shortcuts": {
+    "Keyboard Shortcuts": ""
+  },
+  "Keys": {
+    "Keys": ""
   },
   "Kill Process": {
     "Kill Process": "結束程序"
@@ -1423,6 +1474,9 @@
   },
   "Lively palette with saturated accents.": {
     "Lively palette with saturated accents.": "活潑的色調，帶有飽和的色調。"
+  },
+  "Loading keybinds...": {
+    "Loading keybinds...": ""
   },
   "Loading plugins...": {
     "Loading plugins...": "讀取插件..."
@@ -1640,6 +1694,12 @@
   "New": {
     "New": "新"
   },
+  "New Key": {
+    "New Key": ""
+  },
+  "New Keybind": {
+    "New Keybind": ""
+  },
   "New Notification": {
     "New Notification": "新通知"
   },
@@ -1654,6 +1714,9 @@
   },
   "Night Temperature": {
     "Night Temperature": "夜間色溫"
+  },
+  "Niri compositor actions (focus, move, etc.)": {
+    "Niri compositor actions (focus, move, etc.)": ""
   },
   "No": {
     "No": "否"
@@ -1679,8 +1742,14 @@
   "No Weather Data Available": {
     "No Weather Data Available": "沒有氣象數據"
   },
+  "No action": {
+    "No action": ""
+  },
   "No adapters": {
     "No adapters": "沒有介面卡"
+  },
+  "No changes": {
+    "No changes": ""
   },
   "No clipboard entries found": {
     "No clipboard entries found": "剪貼簿無內容"
@@ -1696,6 +1765,9 @@
   },
   "No items added yet": {
     "No items added yet": "未新增任何項目"
+  },
+  "No keybinds found": {
+    "No keybinds found": ""
   },
   "No matches": {
     "No matches": "不匹配"
@@ -1825,6 +1897,12 @@
   },
   "Output Tray Missing": {
     "Output Tray Missing": "輸出托盤遺失"
+  },
+  "Override": {
+    "Override": ""
+  },
+  "Overrides": {
+    "Overrides": ""
   },
   "Overview": {
     "Overview": "概覽"
@@ -1963,6 +2041,9 @@
   },
   "Preference": {
     "Preference": "偏好設定"
+  },
+  "Press key...": {
+    "Press key...": ""
   },
   "Pressure": {
     "Pressure": "氣壓"
@@ -2123,6 +2204,12 @@
   "Run User Templates": {
     "Run User Templates": "執行使用者模板"
   },
+  "Run a program (e.g., firefox, kitty)": {
+    "Run a program (e.g., firefox, kitty)": ""
+  },
+  "Run a shell command (e.g., notify-send)": {
+    "Run a shell command (e.g., notify-send)": ""
+  },
   "Running Apps": {
     "Running Apps": "正在運行的應用程式"
   },
@@ -2179,6 +2266,9 @@
   },
   "Search for a location...": {
     "Search for a location...": "搜尋位置..."
+  },
+  "Search keybinds...": {
+    "Search keybinds...": ""
   },
   "Search plugins...": {
     "Search plugins...": "搜尋插件..."
@@ -2246,6 +2336,9 @@
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "選擇要包含在隨機中的轉換效果"
   },
+  "Select...": {
+    "Select...": ""
+  },
   "Selected image file not found.": {
     "Selected image file not found.": "未找到選定的圖片。"
   },
@@ -2261,11 +2354,20 @@
   "Set different wallpapers for light and dark mode": {
     "Set different wallpapers for light and dark mode": "為淺色/深色主題設定不同的桌布"
   },
+  "Set key and action to save": {
+    "Set key and action to save": ""
+  },
   "Settings": {
     "Settings": "設定"
   },
+  "Shell": {
+    "Shell": ""
+  },
   "Shift+Del: Clear All • Esc: Close": {
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: 清除所有 • Esc: 關閉"
+  },
+  "Shortcuts": {
+    "Shortcuts": ""
   },
   "Show All Tags": {
     "Show All Tags": "顯示所有標籤"
@@ -2570,6 +2672,9 @@
   "Timed Out": {
     "Timed Out": "逾時"
   },
+  "Title": {
+    "Title": ""
+  },
   "To Full": {
     "To Full": "全部"
   },
@@ -2617,6 +2722,9 @@
   },
   "Turn off monitors after": {
     "Turn off monitors after": "關閉螢幕之後"
+  },
+  "Type": {
+    "Type": ""
   },
   "Unavailable": {
     "Unavailable": "不可用"
@@ -2881,6 +2989,18 @@
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "選擇桌布"
+  },
+  "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
+    "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
+  },
+  "dms/binds.kdl is now included in config.kdl": {
+    "dms/binds.kdl is now included in config.kdl": ""
+  },
+  "e.g., firefox, kitty --title foo": {
+    "e.g., firefox, kitty --title foo": ""
+  },
+  "e.g., focus-workspace 3, resize-column -10": {
+    "e.g., focus-workspace 3, resize-column -10": ""
   },
   "events": {
     "events": "活動"

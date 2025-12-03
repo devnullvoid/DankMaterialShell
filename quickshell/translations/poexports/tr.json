@@ -74,6 +74,9 @@
   "Access to system controls and settings": {
     "Access to system controls and settings": "Sistem kontrolleri ve ayarlara eriş"
   },
+  "Action": {
+    "Action": ""
+  },
   "Actions": {
     "Actions": "Eylemler"
   },
@@ -335,6 +338,12 @@
   "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": {
     "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen": "Kilit ekranını loginctl'den gelen dbus sinyallerine bağlayın. Harici bir kilit ekranı kullanıyorsanız devre dışı bırakın"
   },
+  "Binds Include Missing": {
+    "Binds Include Missing": ""
+  },
+  "Binds include added": {
+    "Binds include added": ""
+  },
   "Bluetooth": {
     "Bluetooth": "Bluetooth"
   },
@@ -497,6 +506,12 @@
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": ".ovpn veya .conf dosyası eklemek için İçe Aktar'ı tıklayın."
   },
+  "Click any shortcut to edit. Changes save to dms/binds.kdl": {
+    "Click any shortcut to edit. Changes save to dms/binds.kdl": ""
+  },
+  "Click to capture": {
+    "Click to capture": ""
+  },
   "Clipboard History": {
     "Clipboard History": "Pano Geçmişi"
   },
@@ -529,6 +544,9 @@
   },
   "Colorful mix of bright contrasting accents.": {
     "Colorful mix of bright contrasting accents.": "Parlak kontrastlı vurguların renkli karışımı."
+  },
+  "Command": {
+    "Command": ""
   },
   "Command or script to run instead of the standard hibernate procedure": {
     "Command or script to run instead of the standard hibernate procedure": "Standart hazırda bekleme prosedürü yerine çalıştırılacak komut veya komut dosyası"
@@ -580,6 +598,9 @@
   },
   "Confirm passkey for ": {
     "Confirm passkey for ": "Şunun için şifreyi onayla: "
+  },
+  "Conflicts with: %1": {
+    "Conflicts with: %1": ""
   },
   "Connect": {
     "Connect": "Bağlan"
@@ -691,6 +712,9 @@
   },
   "DMS out of date": {
     "DMS out of date": "DMS güncel değil"
+  },
+  "DMS shell actions (launcher, clipboard, etc.)": {
+    "DMS shell actions (launcher, clipboard, etc.)": ""
   },
   "DMS_SOCKET not available": {
     "DMS_SOCKET not available": "DMS_SOCKET kullanılamıyor"
@@ -1004,6 +1028,9 @@
   "Failed to activate configuration": {
     "Failed to activate configuration": "Yapılandırma etkinleştirilemedi"
   },
+  "Failed to add binds include": {
+    "Failed to add binds include": ""
+  },
   "Failed to add printer to class": {
     "Failed to add printer to class": "Yazıcı sınıfa eklenemedi"
   },
@@ -1070,6 +1097,9 @@
   "Failed to remove device": {
     "Failed to remove device": "Cihaz kaldırılamadı"
   },
+  "Failed to remove keybind": {
+    "Failed to remove keybind": ""
+  },
   "Failed to remove printer from class": {
     "Failed to remove printer from class": "Yazıcı sınıftan kaldırılamadı"
   },
@@ -1078,6 +1108,9 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "Yazıcıyı devam ettirme başarısız"
+  },
+  "Failed to save keybind": {
+    "Failed to save keybind": ""
   },
   "Failed to set profile image": {
     "Failed to set profile image": "Profil resmi ayarlanamadı"
@@ -1120,6 +1153,12 @@
   },
   "Find in note...": {
     "Find in note...": "Notta bul..."
+  },
+  "Fix Now": {
+    "Fix Now": ""
+  },
+  "Fixing...": {
+    "Fixing...": ""
   },
   "Focused Window": {
     "Focused Window": "Odaklanılmış Pencere"
@@ -1262,6 +1301,9 @@
   "Hold to confirm (%1s)": {
     "Hold to confirm (%1s)": "Onaylamak için basılı tutun (%1s)"
   },
+  "Hotkey overlay title (optional)": {
+    "Hotkey overlay title (optional)": ""
+  },
   "Hour": {
     "Hour": "Saat"
   },
@@ -1367,8 +1409,17 @@
   "Keeping Awake": {
     "Keeping Awake": "Uyanık Tutuluyor"
   },
+  "Key": {
+    "Key": ""
+  },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "Klavye Düzeni Adı"
+  },
+  "Keyboard Shortcuts": {
+    "Keyboard Shortcuts": ""
+  },
+  "Keys": {
+    "Keys": ""
   },
   "Kill Process": {
     "Kill Process": "Süreci Öldür"
@@ -1423,6 +1474,9 @@
   },
   "Lively palette with saturated accents.": {
     "Lively palette with saturated accents.": "Doygun vurgularla canlı renk paleti."
+  },
+  "Loading keybinds...": {
+    "Loading keybinds...": ""
   },
   "Loading plugins...": {
     "Loading plugins...": "Eklentiler yükleniyor..."
@@ -1640,6 +1694,12 @@
   "New": {
     "New": "Yeni"
   },
+  "New Key": {
+    "New Key": ""
+  },
+  "New Keybind": {
+    "New Keybind": ""
+  },
   "New Notification": {
     "New Notification": "Yeni Bildirim"
   },
@@ -1654,6 +1714,9 @@
   },
   "Night Temperature": {
     "Night Temperature": "Gece Sıcaklığı"
+  },
+  "Niri compositor actions (focus, move, etc.)": {
+    "Niri compositor actions (focus, move, etc.)": ""
   },
   "No": {
     "No": "Hayır"
@@ -1679,8 +1742,14 @@
   "No Weather Data Available": {
     "No Weather Data Available": "Hava Durumu Verileri Mevcut Değil"
   },
+  "No action": {
+    "No action": ""
+  },
   "No adapters": {
     "No adapters": "Bağdaştırıcı yok"
+  },
+  "No changes": {
+    "No changes": ""
   },
   "No clipboard entries found": {
     "No clipboard entries found": "Pano girişleri bulunamadı"
@@ -1696,6 +1765,9 @@
   },
   "No items added yet": {
     "No items added yet": "Henüz eklenen öğe yok"
+  },
+  "No keybinds found": {
+    "No keybinds found": ""
   },
   "No matches": {
     "No matches": "Eşleşme yok"
@@ -1825,6 +1897,12 @@
   },
   "Output Tray Missing": {
     "Output Tray Missing": "Çıktı Tepsisi Yok"
+  },
+  "Override": {
+    "Override": ""
+  },
+  "Overrides": {
+    "Overrides": ""
   },
   "Overview": {
     "Overview": "Genel Görünüm"
@@ -1963,6 +2041,9 @@
   },
   "Preference": {
     "Preference": "Tercih"
+  },
+  "Press key...": {
+    "Press key...": ""
   },
   "Pressure": {
     "Pressure": "Basınç"
@@ -2123,6 +2204,12 @@
   "Run User Templates": {
     "Run User Templates": "Kullanıcı Şablonlarını Çalıştır"
   },
+  "Run a program (e.g., firefox, kitty)": {
+    "Run a program (e.g., firefox, kitty)": ""
+  },
+  "Run a shell command (e.g., notify-send)": {
+    "Run a shell command (e.g., notify-send)": ""
+  },
   "Running Apps": {
     "Running Apps": "Çalışan Uygulamalar"
   },
@@ -2179,6 +2266,9 @@
   },
   "Search for a location...": {
     "Search for a location...": "Bir konum ara..."
+  },
+  "Search keybinds...": {
+    "Search keybinds...": ""
   },
   "Search plugins...": {
     "Search plugins...": "Eklentileri ara..."
@@ -2246,6 +2336,9 @@
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Rastgele seçime dahil edilecek geçişleri seçin"
   },
+  "Select...": {
+    "Select...": ""
+  },
   "Selected image file not found.": {
     "Selected image file not found.": "Seçilen resim dosyası bulunamadı."
   },
@@ -2261,11 +2354,20 @@
   "Set different wallpapers for light and dark mode": {
     "Set different wallpapers for light and dark mode": "Karanlık ve aydınlık mod için farklı duvar kağıtları ayarlayın"
   },
+  "Set key and action to save": {
+    "Set key and action to save": ""
+  },
   "Settings": {
     "Settings": "Ayarlar"
   },
+  "Shell": {
+    "Shell": ""
+  },
   "Shift+Del: Clear All • Esc: Close": {
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: Tümünü Temizle • Esc: Kapat"
+  },
+  "Shortcuts": {
+    "Shortcuts": ""
   },
   "Show All Tags": {
     "Show All Tags": "Tüm Etiketleri Göster"
@@ -2570,6 +2672,9 @@
   "Timed Out": {
     "Timed Out": "Zaman Aşımı"
   },
+  "Title": {
+    "Title": ""
+  },
   "To Full": {
     "To Full": "Dolmasına"
   },
@@ -2617,6 +2722,9 @@
   },
   "Turn off monitors after": {
     "Turn off monitors after": "Şu zaman sonra monitörleri kapat"
+  },
+  "Type": {
+    "Type": ""
   },
   "Unavailable": {
     "Unavailable": "Mevcut Değil"
@@ -2881,6 +2989,18 @@
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "Duvar Kağıdı Seç"
+  },
+  "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
+    "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
+  },
+  "dms/binds.kdl is now included in config.kdl": {
+    "dms/binds.kdl is now included in config.kdl": ""
+  },
+  "e.g., firefox, kitty --title foo": {
+    "e.g., firefox, kitty --title foo": ""
+  },
+  "e.g., focus-workspace 3, resize-column -10": {
+    "e.g., focus-workspace 3, resize-column -10": ""
   },
   "events": {
     "events": "etkinlikler"

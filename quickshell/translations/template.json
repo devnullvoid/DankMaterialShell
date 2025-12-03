@@ -168,6 +168,13 @@
     "comment": ""
   },
   {
+    "term": "Action",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Actions",
     "translation": "",
     "context": "",
@@ -721,6 +728,20 @@
     "comment": ""
   },
   {
+    "term": "Binds Include Missing",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Binds include added",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Bluetooth",
     "translation": "",
     "context": "",
@@ -1085,6 +1106,20 @@
     "comment": ""
   },
   {
+    "term": "Click any shortcut to edit. Changes save to dms/binds.kdl",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Click to capture",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Clipboard History",
     "translation": "",
     "context": "",
@@ -1156,6 +1191,13 @@
   },
   {
     "term": "Colorful mix of bright contrasting accents.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Command",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1275,6 +1317,13 @@
   },
   {
     "term": "Confirm passkey for ",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Conflicts with: %1",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1520,6 +1569,13 @@
   },
   {
     "term": "DMS out of date",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "DMS shell actions (launcher, clipboard, etc.)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2240,6 +2296,13 @@
     "comment": ""
   },
   {
+    "term": "Failed to add binds include",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to add printer to class",
     "translation": "",
     "context": "",
@@ -2394,6 +2457,13 @@
     "comment": ""
   },
   {
+    "term": "Failed to remove keybind",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to remove printer from class",
     "translation": "",
     "context": "",
@@ -2409,6 +2479,13 @@
   },
   {
     "term": "Failed to resume printer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to save keybind",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2507,6 +2584,20 @@
   },
   {
     "term": "Find in note...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Fix Now",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Fixing...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2835,6 +2926,13 @@
     "comment": ""
   },
   {
+    "term": "Hotkey overlay title (optional)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Hour",
     "translation": "",
     "context": "",
@@ -3080,7 +3178,28 @@
     "comment": ""
   },
   {
+    "term": "Key",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Keyboard Layout Name",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Keyboard Shortcuts",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Keys",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3207,6 +3326,13 @@
   },
   {
     "term": "Lively palette with saturated accents.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Loading keybinds...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3710,6 +3836,20 @@
     "comment": ""
   },
   {
+    "term": "New Key",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "New Keybind",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "New Notification",
     "translation": "",
     "context": "",
@@ -3739,6 +3879,13 @@
   },
   {
     "term": "Night Temperature",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Niri compositor actions (focus, move, etc.)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3794,7 +3941,21 @@
     "comment": ""
   },
   {
+    "term": "No action",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "No adapters",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No changes",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3830,6 +3991,13 @@
   },
   {
     "term": "No items added yet",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No keybinds found",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4131,6 +4299,20 @@
   },
   {
     "term": "Output Tray Missing",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Override",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Overrides",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4453,6 +4635,13 @@
   },
   {
     "term": "Preference",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Press key...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4816,6 +5005,20 @@
     "comment": ""
   },
   {
+    "term": "Run a program (e.g., firefox, kitty)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Run a shell command (e.g., notify-send)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Running Apps",
     "translation": "",
     "context": "",
@@ -4943,6 +5146,13 @@
   },
   {
     "term": "Search for a location...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Search keybinds...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5124,6 +5334,13 @@
     "comment": ""
   },
   {
+    "term": "Select...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Selected image file not found.",
     "translation": "",
     "context": "",
@@ -5159,6 +5376,13 @@
     "comment": ""
   },
   {
+    "term": "Set key and action to save",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Settings",
     "translation": "",
     "context": "settings window title",
@@ -5166,7 +5390,21 @@
     "comment": ""
   },
   {
+    "term": "Shell",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Shift+Del: Clear All • Esc: Close",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Shortcuts",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5866,6 +6104,13 @@
     "comment": ""
   },
   {
+    "term": "Title",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "To Full",
     "translation": "",
     "context": "",
@@ -5972,6 +6217,13 @@
   },
   {
     "term": "Turn off monitors after",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Type",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6560,6 +6812,34 @@
   },
   {
     "term": "You have unsaved changes. Save before opening a file?",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "dms/binds.kdl is not included in config.kdl. Custom keybinds will not work until this is fixed.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "dms/binds.kdl is now included in config.kdl",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "e.g., firefox, kitty --title foo",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "e.g., focus-workspace 3, resize-column -10",
     "translation": "",
     "context": "",
     "reference": "",
