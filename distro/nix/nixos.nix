@@ -31,6 +31,6 @@ in {
             };
         };
 
-        environment.systemPackages = [cfg.quickshell.package] ++ common.packages;
+        environment.systemPackages = [cfg.quickshell.package dmsPkgs.dankMaterialShell] ++ common.packages;
     };
 }
