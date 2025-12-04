@@ -73,6 +73,27 @@ append_config() {
   echo "" >> "$cfg_file"
 }
 
+append_vscode_config() {
+  local name="$1" ext_dir="$2" cfg_file="$3"
+  [[ ! -d "$ext_dir" ]] && return
+  local template_dir="$SHELL_DIR/matugen/templates"
+  cat >> "$cfg_file" << EOF
+[templates.dms${name}default]
+input_path = '$template_dir/vscode-color-theme-default.json'
+output_path = '$ext_dir/themes/dankshell-default.json'
+
+[templates.dms${name}dark]
+input_path = '$template_dir/vscode-color-theme-dark.json'
+output_path = '$ext_dir/themes/dankshell-dark.json'
+
+[templates.dms${name}light]
+input_path = '$template_dir/vscode-color-theme-light.json'
+output_path = '$ext_dir/themes/dankshell-light.json'
+
+EOF
+  log "Added $name theme config (extension found at $ext_dir)"
+}
+
 build_merged_config() {
   local mode="$1" run_user="$2" cfg_file="$3"
 
@@ -107,8 +128,12 @@ EOF
   append_config "alacritty" "alacritty.toml" "$cfg_file"
   append_config "wezterm" "wezterm.toml" "$cfg_file"
   append_config "dgop" "dgop.toml" "$cfg_file"
-  append_config "code" "vscode.toml" "$cfg_file"
-  append_config "codium" "codium.toml" "$cfg_file"
+
+  append_vscode_config "vscode" "$HOME/.vscode/extensions/local.dynamic-base16-dankshell-0.0.1" "$cfg_file"
+  append_vscode_config "codium" "$HOME/.vscode-oss/extensions/local.dynamic-base16-dankshell-0.0.1" "$cfg_file"
+  append_vscode_config "codeoss" "$HOME/.config/Code - OSS/extensions/local.dynamic-base16-dankshell-0.0.1" "$cfg_file"
+  append_vscode_config "cursor" "$HOME/.cursor/extensions/local.dynamic-base16-dankshell-0.0.1" "$cfg_file"
+  append_vscode_config "windsurf" "$HOME/.windsurf/extensions/local.dynamic-base16-dankshell-0.0.1" "$cfg_file"
 
   if [[ "$run_user" == "true" && -f "$CONFIG_DIR/matugen/config.toml" ]]; then
     awk '/^\[templates\]/{p=1} p' "$CONFIG_DIR/matugen/config.toml" >> "$cfg_file"
@@ -165,66 +190,6 @@ refresh_gtk() {
   [[ "$should_run" != "true" ]] && return
   gsettings set org.gnome.desktop.interface gtk-theme "" 2>/dev/null || true
   gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3-${mode}" 2>/dev/null || true
-}
-
-setup_vscode_extension() {
-  local cmd="$1" ext_dir="$2" config_dir="$3"
-  command -v "$cmd" >/dev/null 2>&1 || return
-  [[ ! -d "$config_dir" ]] && return
-  local theme_dir="$ext_dir/themes"
-  mkdir -p "$theme_dir"
-  cp "$SHELL_DIR/matugen/templates/vscode-package.json" "$ext_dir/package.json" 2>/dev/null || true
-  cp "$SHELL_DIR/matugen/templates/vscode-vsixmanifest.xml" "$ext_dir/.vsixmanifest" 2>/dev/null || true
-  update_vscode_extensions_json "$config_dir/extensions" "$ext_dir"
-}
-
-update_vscode_extensions_json() {
-  local ext_list_dir="$1" ext_dir="$2"
-  local ext_json="$ext_list_dir/extensions.json"
-  [[ ! -f "$ext_json" ]] && return
-  grep -q "dynamic-base16-dankshell" "$ext_json" && return
-  cp "$ext_json" "$ext_json.bak"
-  local entry
-  entry=$(cat <<EOF
-{
-  "identifier": {
-    "id": "local.dynamic-base16-dankshell",
-    "uuid": "00000000-0000-0000-0000-000000000000"
-  },
-  "version": "0.0.1",
-  "location": {
-    "\$mid": 1,
-    "path": "$ext_dir",
-    "scheme": "file"
-  },
-  "relativeLocation": "local.dynamic-base16-dankshell-0.0.1",
-  "metadata": {
-    "isApplicationScoped": false,
-    "isMachineScoped": false,
-    "isBuiltin": false,
-    "installedTimestamp": $(date +%s)000,
-    "pinned": false,
-    "source": "local",
-    "id": "00000000-0000-0000-0000-000000000000",
-    "publisherId": "local",
-    "publisherDisplayName": "Dank Linux",
-    "targetPlatform": "undefined",
-    "updated": true,
-    "private": false,
-    "isPreReleaseVersion": false,
-    "hasPreReleaseVersion": false,
-    "preRelease": false
-  }
-}
-EOF
-)
-  local content
-  content=$(cat "$ext_json")
-  if [[ "$content" == "[]" ]]; then
-    echo "[$entry]" > "$ext_json"
-  else
-    echo "${content%]}, $entry]" > "$ext_json"
-  fi
 }
 
 signal_terminals() {
@@ -308,8 +273,6 @@ build_once() {
   fi
 
   refresh_gtk "$mode"
-  setup_vscode_extension "code" "$HOME/.vscode/extensions/local.dynamic-base16-dankshell-0.0.1" "$HOME/.vscode"
-  setup_vscode_extension "codium" "$HOME/.vscode-oss/extensions/local.dynamic-base16-dankshell-0.0.1" "$HOME/.vscode-oss"
   signal_terminals
 
   return 0
