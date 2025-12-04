@@ -357,6 +357,35 @@ Singleton {
         return devices.length > 0 ? devices[0].id : "";
     }
 
+    function getPinnedDeviceForFocusedScreen() {
+        const focusedScreen = CompositorService.getFocusedScreen();
+        if (!focusedScreen)
+            return "";
+
+        const pins = SettingsData.brightnessDevicePins || {};
+        const screenKey = SettingsData.getScreenDisplayName(focusedScreen);
+        if (!screenKey)
+            return "";
+
+        const pinnedDevice = pins[screenKey];
+        if (!pinnedDevice)
+            return "";
+
+        const deviceExists = devices.some(d => d.id === pinnedDevice);
+        if (!deviceExists)
+            return "";
+
+        return pinnedDevice;
+    }
+
+    function getPreferredDevice() {
+        const pinned = getPinnedDeviceForFocusedScreen();
+        if (pinned)
+            return pinned;
+
+        return getDefaultDevice();
+    }
+
     function getCurrentDeviceInfo() {
         const deviceToUse = lastIpcDevice === "" ? getDefaultDevice() : (lastIpcDevice || currentDevice);
         if (!deviceToUse) {
@@ -809,110 +838,95 @@ Singleton {
     // IPC Handler for external control
     IpcHandler {
         function set(percentage: string, device: string): string {
-            if (!root.brightnessAvailable) {
+            if (!root.brightnessAvailable)
                 return "Brightness control not available";
-            }
 
             const value = parseInt(percentage);
-            if (isNaN(value)) {
+            if (isNaN(value))
                 return "Invalid brightness value: " + percentage;
-            }
 
-            const targetDevice = device || "";
+            const actualDevice = device || root.getPreferredDevice();
 
-            if (targetDevice && !root.devices.some(d => d.id === targetDevice)) {
-                return "Device not found: " + targetDevice;
-            }
+            if (actualDevice && !root.devices.some(d => d.id === actualDevice))
+                return "Device not found: " + actualDevice;
 
-            const deviceInfo = targetDevice ? root.getCurrentDeviceInfoByName(targetDevice) : null;
+            const deviceInfo = actualDevice ? root.getCurrentDeviceInfoByName(actualDevice) : null;
             const minValue = (deviceInfo && (deviceInfo.class === "backlight" || deviceInfo.class === "ddc")) ? 1 : 0;
             const clampedValue = Math.max(minValue, Math.min(100, value));
 
-            root.lastIpcDevice = targetDevice;
-            if (targetDevice && targetDevice !== root.currentDevice) {
-                root.setCurrentDevice(targetDevice, false);
-            }
-            root.setBrightness(clampedValue, targetDevice);
+            root.lastIpcDevice = actualDevice;
+            if (actualDevice && actualDevice !== root.currentDevice)
+                root.setCurrentDevice(actualDevice, false);
 
-            if (targetDevice) {
-                return "Brightness set to " + clampedValue + "% on " + targetDevice;
-            } else {
-                return "Brightness set to " + clampedValue + "%";
-            }
+            root.setBrightness(clampedValue, actualDevice);
+
+            return actualDevice ? "Brightness set to " + clampedValue + "% on " + actualDevice : "Brightness set to " + clampedValue + "%";
         }
 
         function increment(step: string, device: string): string {
-            if (!root.brightnessAvailable) {
+            if (!root.brightnessAvailable)
                 return "Brightness control not available";
-            }
 
-            const targetDevice = device || "";
-            const actualDevice = targetDevice === "" ? root.getDefaultDevice() : targetDevice;
+            const actualDevice = device || root.getPreferredDevice();
 
-            if (actualDevice && !root.devices.some(d => d.id === actualDevice)) {
+            if (actualDevice && !root.devices.some(d => d.id === actualDevice))
                 return "Device not found: " + actualDevice;
-            }
 
             const stepValue = parseInt(step || "5");
 
             root.lastIpcDevice = actualDevice;
-            if (actualDevice && actualDevice !== root.currentDevice) {
+            if (actualDevice && actualDevice !== root.currentDevice)
                 root.setCurrentDevice(actualDevice, false);
-            }
 
             const isExponential = SessionData.getBrightnessExponential(actualDevice);
             const currentBrightness = root.getDeviceBrightness(actualDevice);
             const deviceInfo = root.getCurrentDeviceInfoByName(actualDevice);
 
-            let maxValue = 100;
-            if (isExponential) {
-                maxValue = 100;
-            } else {
-                maxValue = deviceInfo?.displayMax || 100;
-            }
-
+            const maxValue = isExponential ? 100 : (deviceInfo?.displayMax || 100);
             const newBrightness = Math.min(maxValue, currentBrightness + stepValue);
 
             root.setBrightness(newBrightness, actualDevice);
 
-            return "Brightness increased by " + stepValue + "%" + (targetDevice ? " on " + targetDevice : "");
+            return "Brightness increased by " + stepValue + "%" + (device ? " on " + actualDevice : "");
         }
 
         function decrement(step: string, device: string): string {
-            if (!root.brightnessAvailable) {
+            if (!root.brightnessAvailable)
                 return "Brightness control not available";
-            }
 
-            const targetDevice = device || "";
-            const actualDevice = targetDevice === "" ? root.getDefaultDevice() : targetDevice;
+            const actualDevice = device || root.getPreferredDevice();
 
-            if (actualDevice && !root.devices.some(d => d.id === actualDevice)) {
+            if (actualDevice && !root.devices.some(d => d.id === actualDevice))
                 return "Device not found: " + actualDevice;
-            }
 
             const stepValue = parseInt(step || "5");
 
             root.lastIpcDevice = actualDevice;
-            if (actualDevice && actualDevice !== root.currentDevice) {
+            if (actualDevice && actualDevice !== root.currentDevice)
                 root.setCurrentDevice(actualDevice, false);
-            }
 
             const isExponential = SessionData.getBrightnessExponential(actualDevice);
             const currentBrightness = root.getDeviceBrightness(actualDevice);
             const deviceInfo = root.getCurrentDeviceInfoByName(actualDevice);
 
             let minValue = 0;
-            if (isExponential) {
+            switch (true) {
+            case isExponential:
                 minValue = 1;
-            } else {
-                minValue = (deviceInfo && (deviceInfo.class === "backlight" || deviceInfo.class === "ddc")) ? 1 : 0;
+                break;
+            case deviceInfo && (deviceInfo.class === "backlight" || deviceInfo.class === "ddc"):
+                minValue = 1;
+                break;
+            default:
+                minValue = 0;
+                break;
             }
 
             const newBrightness = Math.max(minValue, currentBrightness - stepValue);
 
             root.setBrightness(newBrightness, actualDevice);
 
-            return "Brightness decreased by " + stepValue + "%" + (targetDevice ? " on " + targetDevice : "");
+            return "Brightness decreased by " + stepValue + "%" + (device ? " on " + actualDevice : "");
         }
 
         function status(): string {
