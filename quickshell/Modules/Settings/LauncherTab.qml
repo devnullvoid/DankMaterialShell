@@ -45,10 +45,14 @@ Item {
                 Item {
                     width: parent.width
                     height: logoModeGroup.implicitHeight
+                    clip: true
 
                     DankButtonGroup {
                         id: logoModeGroup
                         anchors.horizontalCenter: parent.horizontalCenter
+                        buttonPadding: parent.width < 480 ? Theme.spacingS : Theme.spacingL
+                        minButtonWidth: parent.width < 480 ? 44 : 64
+                        textSize: parent.width < 480 ? Theme.fontSizeSmall : Theme.fontSizeMedium
                         model: {
                             const modes = [I18n.tr("Apps Icon"), I18n.tr("OS Logo"), I18n.tr("Dank")];
                             if (CompositorService.isNiri) {
@@ -153,78 +157,88 @@ Item {
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
 
-                        Row {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            spacing: Theme.spacingM
+                        Item {
+                            width: parent.width
+                            height: colorOverrideRow.implicitHeight
+                            clip: true
 
-                            DankButtonGroup {
-                                id: colorModeGroup
-                                model: [I18n.tr("Default"), I18n.tr("Primary"), I18n.tr("Surface"), I18n.tr("Custom")]
-                                currentIndex: {
-                                    const override = SettingsData.launcherLogoColorOverride;
-                                    if (override === "")
-                                        return 0;
-                                    if (override === "primary")
-                                        return 1;
-                                    if (override === "surface")
-                                        return 2;
-                                    return 3;
-                                }
-                                onSelectionChanged: (index, selected) => {
-                                    if (!selected)
-                                        return;
-                                    switch (index) {
-                                    case 0:
-                                        SettingsData.set("launcherLogoColorOverride", "");
-                                        break;
-                                    case 1:
-                                        SettingsData.set("launcherLogoColorOverride", "primary");
-                                        break;
-                                    case 2:
-                                        SettingsData.set("launcherLogoColorOverride", "surface");
-                                        break;
-                                    case 3:
-                                        const currentOverride = SettingsData.launcherLogoColorOverride;
-                                        const isPreset = currentOverride === "" || currentOverride === "primary" || currentOverride === "surface";
-                                        if (isPreset) {
-                                            SettingsData.set("launcherLogoColorOverride", "#ffffff");
-                                        }
-                                        break;
+                            Row {
+                                id: colorOverrideRow
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                spacing: Theme.spacingM
+
+                                DankButtonGroup {
+                                    id: colorModeGroup
+                                    buttonPadding: parent.parent.width < 480 ? Theme.spacingS : Theme.spacingL
+                                    minButtonWidth: parent.parent.width < 480 ? 44 : 64
+                                    textSize: parent.parent.width < 480 ? Theme.fontSizeSmall : Theme.fontSizeMedium
+                                    model: [I18n.tr("Default"), I18n.tr("Primary"), I18n.tr("Surface"), I18n.tr("Custom")]
+                                    currentIndex: {
+                                        const override = SettingsData.launcherLogoColorOverride;
+                                        if (override === "")
+                                            return 0;
+                                        if (override === "primary")
+                                            return 1;
+                                        if (override === "surface")
+                                            return 2;
+                                        return 3;
                                     }
-                                }
-                            }
-
-                            Rectangle {
-                                visible: {
-                                    const override = SettingsData.launcherLogoColorOverride;
-                                    return override !== "" && override !== "primary" && override !== "surface";
-                                }
-                                width: 36
-                                height: 36
-                                radius: 18
-                                color: {
-                                    const override = SettingsData.launcherLogoColorOverride;
-                                    if (override !== "" && override !== "primary" && override !== "surface") {
-                                        return override;
-                                    }
-                                    return "#ffffff";
-                                }
-                                border.color: Theme.outline
-                                border.width: 1
-                                anchors.verticalCenter: parent.verticalCenter
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: {
-                                        if (!PopoutService.colorPickerModal)
+                                    onSelectionChanged: (index, selected) => {
+                                        if (!selected)
                                             return;
-                                        PopoutService.colorPickerModal.selectedColor = SettingsData.launcherLogoColorOverride;
-                                        PopoutService.colorPickerModal.pickerTitle = I18n.tr("Choose Launcher Logo Color");
-                                        PopoutService.colorPickerModal.onColorSelectedCallback = function (selectedColor) {
-                                            SettingsData.set("launcherLogoColorOverride", selectedColor);
-                                        };
-                                        PopoutService.colorPickerModal.show();
+                                        switch (index) {
+                                        case 0:
+                                            SettingsData.set("launcherLogoColorOverride", "");
+                                            break;
+                                        case 1:
+                                            SettingsData.set("launcherLogoColorOverride", "primary");
+                                            break;
+                                        case 2:
+                                            SettingsData.set("launcherLogoColorOverride", "surface");
+                                            break;
+                                        case 3:
+                                            const currentOverride = SettingsData.launcherLogoColorOverride;
+                                            const isPreset = currentOverride === "" || currentOverride === "primary" || currentOverride === "surface";
+                                            if (isPreset) {
+                                                SettingsData.set("launcherLogoColorOverride", "#ffffff");
+                                            }
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                Rectangle {
+                                    id: colorPickerCircle
+                                    visible: {
+                                        const override = SettingsData.launcherLogoColorOverride;
+                                        return override !== "" && override !== "primary" && override !== "surface";
+                                    }
+                                    width: 36
+                                    height: 36
+                                    radius: 18
+                                    color: {
+                                        const override = SettingsData.launcherLogoColorOverride;
+                                        if (override !== "" && override !== "primary" && override !== "surface")
+                                            return override;
+                                        return "#ffffff";
+                                    }
+                                    border.color: Theme.outline
+                                    border.width: 1
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: {
+                                            if (!PopoutService.colorPickerModal)
+                                                return;
+                                            PopoutService.colorPickerModal.selectedColor = SettingsData.launcherLogoColorOverride;
+                                            PopoutService.colorPickerModal.pickerTitle = I18n.tr("Choose Launcher Logo Color");
+                                            PopoutService.colorPickerModal.onColorSelectedCallback = function (selectedColor) {
+                                                SettingsData.set("launcherLogoColorOverride", selectedColor);
+                                            };
+                                            PopoutService.colorPickerModal.show();
+                                        }
                                     }
                                 }
                             }
@@ -329,28 +343,32 @@ Item {
 
                 SettingsToggleRow {
                     text: I18n.tr("Close Overview on Launch")
-                    description: I18n.tr("When enabled, launching an app from the launcher will automatically close the Niri overview if it's open.")
+                    description: I18n.tr("Auto-close Niri overview when launching apps.")
                     checked: SettingsData.spotlightCloseNiriOverview
                     onToggled: checked => SettingsData.set("spotlightCloseNiriOverview", checked)
                 }
 
                 SettingsToggleRow {
                     text: I18n.tr("Enable Overview Overlay")
-                    description: I18n.tr("When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.")
+                    description: I18n.tr("Show launcher overlay when typing in Niri overview. Disable to use another launcher.")
                     checked: SettingsData.niriOverviewOverlayEnabled
                     onToggled: checked => SettingsData.set("niriOverviewOverlayEnabled", checked)
                 }
             }
 
             SettingsCard {
+                id: recentAppsCard
                 width: parent.width
                 iconName: "history"
                 title: I18n.tr("Recently Used Apps")
 
                 property var rankedAppsModel: {
+                    var ranking = AppUsageHistoryData.appUsageRanking;
+                    if (!ranking)
+                        return [];
                     var apps = [];
-                    for (var appId in (AppUsageHistoryData.appUsageRanking || {})) {
-                        var appData = (AppUsageHistoryData.appUsageRanking || {})[appId];
+                    for (var appId in ranking) {
+                        var appData = ranking[appId];
                         apps.push({
                             "id": appId,
                             "name": appData.name,
@@ -401,7 +419,7 @@ Item {
                     spacing: Theme.spacingS
 
                     Repeater {
-                        model: parent.parent.rankedAppsModel
+                        model: recentAppsCard.rankedAppsModel
 
                         delegate: Rectangle {
                             width: rankedAppsList.width
@@ -496,11 +514,11 @@ Item {
 
                     StyledText {
                         width: parent.width
-                        text: parent.parent.rankedAppsModel.length === 0 ? "No apps have been launched yet." : ""
+                        text: "No apps have been launched yet."
                         font.pixelSize: Theme.fontSizeMedium
                         color: Theme.surfaceVariantText
                         horizontalAlignment: Text.AlignHCenter
-                        visible: parent.parent.rankedAppsModel.length === 0
+                        visible: recentAppsCard.rankedAppsModel.length === 0
                     }
                 }
             }
