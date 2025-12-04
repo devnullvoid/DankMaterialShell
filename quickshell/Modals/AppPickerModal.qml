@@ -27,10 +27,12 @@ DankModal {
     modalWidth: 520
     modalHeight: 500
 
+    onBackgroundClicked: close()
+
     onDialogClosed: {
         searchQuery = ""
         selectedIndex = 0
-        keyboardNavigationActive: false
+        keyboardNavigationActive = false
     }
 
     onOpened: {
