@@ -21,26 +21,31 @@ Rectangle {
             "icon": "palette",
             "children": [
                 {
+                    "id": "wallpaper",
                     "text": I18n.tr("Wallpaper"),
                     "icon": "wallpaper",
                     "tabIndex": 0
                 },
                 {
+                    "id": "theme",
                     "text": I18n.tr("Theme & Colors"),
                     "icon": "format_paint",
                     "tabIndex": 10
                 },
                 {
+                    "id": "typography",
                     "text": I18n.tr("Typography & Motion"),
                     "icon": "text_fields",
                     "tabIndex": 14
                 },
                 {
+                    "id": "time_weather",
                     "text": I18n.tr("Time & Weather"),
                     "icon": "schedule",
                     "tabIndex": 1
                 },
                 {
+                    "id": "sounds",
                     "text": I18n.tr("Sounds"),
                     "icon": "volume_up",
                     "tabIndex": 15,
@@ -54,11 +59,13 @@ Rectangle {
             "icon": "toolbar",
             "children": [
                 {
+                    "id": "dankbar_settings",
                     "text": I18n.tr("Settings"),
                     "icon": "tune",
                     "tabIndex": 3
                 },
                 {
+                    "id": "dankbar_widgets",
                     "text": I18n.tr("Widgets"),
                     "icon": "widgets",
                     "tabIndex": 22
@@ -72,32 +79,38 @@ Rectangle {
             "collapsedByDefault": true,
             "children": [
                 {
+                    "id": "workspaces",
                     "text": I18n.tr("Workspaces"),
                     "icon": "view_module",
                     "tabIndex": 4
                 },
                 {
+                    "id": "media_player",
                     "text": I18n.tr("Media Player"),
                     "icon": "music_note",
                     "tabIndex": 16
                 },
                 {
+                    "id": "notifications",
                     "text": I18n.tr("Notifications"),
                     "icon": "notifications",
                     "tabIndex": 17
                 },
                 {
+                    "id": "osd",
                     "text": I18n.tr("On-screen Displays"),
                     "icon": "tune",
                     "tabIndex": 18
                 },
                 {
+                    "id": "running_apps",
                     "text": I18n.tr("Running Apps"),
                     "icon": "apps",
                     "tabIndex": 19,
                     "hyprlandNiriOnly": true
                 },
                 {
+                    "id": "updater",
                     "text": I18n.tr("System Updater"),
                     "icon": "refresh",
                     "tabIndex": 20
@@ -111,11 +124,13 @@ Rectangle {
             "collapsedByDefault": true,
             "children": [
                 {
+                    "id": "dock",
                     "text": I18n.tr("Dock"),
                     "icon": "dock_to_bottom",
                     "tabIndex": 5
                 },
                 {
+                    "id": "launcher",
                     "text": I18n.tr("Launcher"),
                     "icon": "grid_view",
                     "tabIndex": 9
@@ -123,7 +138,7 @@ Rectangle {
             ]
         },
         {
-            "id": "input",
+            "id": "keybinds",
             "text": I18n.tr("Keyboard Shortcuts"),
             "icon": "keyboard",
             "tabIndex": 2,
@@ -156,11 +171,13 @@ Rectangle {
             "collapsedByDefault": true,
             "children": [
                 {
+                    "id": "lock_screen",
                     "text": I18n.tr("Lock Screen"),
                     "icon": "lock",
                     "tabIndex": 11
                 },
                 {
+                    "id": "power_sleep",
                     "text": I18n.tr("Power & Sleep"),
                     "icon": "power_settings_new",
                     "tabIndex": 21
@@ -336,6 +353,37 @@ Rectangle {
             }
         }
         return items;
+    }
+
+    function resolveTabIndex(name: string): int {
+        if (!name)
+            return -1;
+
+        var normalized = name.toLowerCase().replace(/[_\-\s]/g, "");
+
+        for (var i = 0; i < categoryStructure.length; i++) {
+            var cat = categoryStructure[i];
+            if (cat.separator)
+                continue;
+
+            var catId = (cat.id || "").toLowerCase().replace(/[_\-\s]/g, "");
+            if (catId === normalized) {
+                if (cat.tabIndex !== undefined)
+                    return cat.tabIndex;
+                if (cat.children && cat.children.length > 0)
+                    return cat.children[0].tabIndex;
+            }
+
+            if (cat.children) {
+                for (var j = 0; j < cat.children.length; j++) {
+                    var child = cat.children[j];
+                    var childId = (child.id || "").toLowerCase().replace(/[_\-\s]/g, "");
+                    if (childId === normalized)
+                        return child.tabIndex;
+                }
+            }
+        }
+        return -1;
     }
 
     width: 270

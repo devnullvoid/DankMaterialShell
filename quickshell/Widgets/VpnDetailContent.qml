@@ -133,6 +133,18 @@ Rectangle {
                     onClicked: DMSNetworkService.disconnectAllActive()
                 }
             }
+
+            DankActionButton {
+                Layout.alignment: Qt.AlignVCenter
+                iconName: "settings"
+                buttonSize: 28
+                iconSize: 16
+                iconColor: Theme.surfaceVariantText
+                onClicked: {
+                    PopoutService.closeControlCenter();
+                    PopoutService.openSettingsWithTab("network");
+                }
+            }
         }
 
         Rectangle {

@@ -10,6 +10,7 @@ FloatingWindow {
 
     property alias profileBrowser: profileBrowser
     property alias wallpaperBrowser: wallpaperBrowser
+    property alias sidebar: sidebar
     property int currentTabIndex: 0
     property bool shouldHaveFocus: visible
     property bool allowFocusOverride: false
@@ -30,6 +31,23 @@ FloatingWindow {
 
     function toggle() {
         visible = !visible;
+    }
+
+    function showWithTab(tabIndex: int) {
+        if (tabIndex >= 0)
+            currentTabIndex = tabIndex;
+        visible = true;
+    }
+
+    function showWithTabName(tabName: string) {
+        var idx = sidebar.resolveTabIndex(tabName);
+        if (idx >= 0)
+            currentTabIndex = idx;
+        visible = true;
+    }
+
+    function resolveTabIndex(tabName: string): int {
+        return sidebar.resolveTabIndex(tabName);
     }
 
     function toggleMenu() {

@@ -69,8 +69,8 @@ Rectangle {
         height: 40
 
         StyledText {
-            id: headerText
-            text: I18n.tr("Network Settings")
+            id: headerLeft
+            text: I18n.tr("Network")
             font.pixelSize: Theme.fontSizeLarge
             color: Theme.surfaceText
             font.weight: Font.Medium
@@ -79,7 +79,7 @@ Rectangle {
 
         Item {
             height: 1
-            width: parent.width - headerText.width - rightControls.width
+            width: parent.width - headerLeft.width - rightControls.width
         }
 
         Row {
@@ -115,6 +115,8 @@ Rectangle {
                 id: preferenceControls
                 anchors.verticalCenter: parent.verticalCenter
                 visible: NetworkService.backend === "networkmanager" && DMSService.apiVersion > 10
+                buttonHeight: 28
+                textSize: Theme.fontSizeSmall
 
                 model: ["Ethernet", "WiFi"]
                 currentIndex: currentPreferenceIndex
@@ -123,6 +125,18 @@ Rectangle {
                     if (!selected)
                         return;
                     NetworkService.setNetworkPreference(index === 0 ? "ethernet" : "wifi");
+                }
+            }
+
+            DankActionButton {
+                anchors.verticalCenter: parent.verticalCenter
+                iconName: "settings"
+                buttonSize: 28
+                iconSize: 16
+                iconColor: Theme.surfaceVariantText
+                onClicked: {
+                    PopoutService.closeControlCenter();
+                    PopoutService.openSettingsWithTab("network");
                 }
             }
         }

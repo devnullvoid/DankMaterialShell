@@ -11,7 +11,17 @@ Item {
         if (!item)
             return;
 
-        const windowContentItem = item.Window.window?.contentItem;
+        let windowContentItem = item.Window?.window?.contentItem;
+        if (!windowContentItem) {
+            let current = item;
+            while (current) {
+                if (current.Window?.window?.contentItem) {
+                    windowContentItem = current.Window.window.contentItem;
+                    break;
+                }
+                current = current.parent;
+            }
+        }
         if (!windowContentItem)
             return;
 

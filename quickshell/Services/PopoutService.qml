@@ -197,10 +197,25 @@ Singleton {
     property bool _settingsWantsOpen: false
     property bool _settingsWantsToggle: false
 
+    property string _settingsPendingTab: ""
+
     function openSettings() {
         if (settingsModal) {
             settingsModal.show();
         } else if (settingsModalLoader) {
+            _settingsWantsOpen = true;
+            _settingsWantsToggle = false;
+            settingsModalLoader.activeAsync = true;
+        }
+    }
+
+    function openSettingsWithTab(tabName: string) {
+        if (settingsModal) {
+            settingsModal.showWithTabName(tabName);
+            return;
+        }
+        if (settingsModalLoader) {
+            _settingsPendingTab = tabName;
             _settingsWantsOpen = true;
             _settingsWantsToggle = false;
             settingsModalLoader.activeAsync = true;
@@ -215,6 +230,22 @@ Singleton {
         if (settingsModal) {
             settingsModal.toggle();
         } else if (settingsModalLoader) {
+            _settingsWantsToggle = true;
+            _settingsWantsOpen = false;
+            settingsModalLoader.activeAsync = true;
+        }
+    }
+
+    function toggleSettingsWithTab(tabName: string) {
+        if (settingsModal) {
+            var idx = settingsModal.resolveTabIndex(tabName);
+            if (idx >= 0)
+                settingsModal.currentTabIndex = idx;
+            settingsModal.toggle();
+            return;
+        }
+        if (settingsModalLoader) {
+            _settingsPendingTab = tabName;
             _settingsWantsToggle = true;
             _settingsWantsOpen = false;
             settingsModalLoader.activeAsync = true;
@@ -238,6 +269,26 @@ Singleton {
         openSettings();
     }
 
+    function focusOrToggleSettingsWithTab(tabName: string) {
+        if (settingsModal?.visible) {
+            const settingsTitle = I18n.tr("Settings", "settings window title");
+            for (const toplevel of ToplevelManager.toplevels.values) {
+                if (toplevel.title !== "Settings" && toplevel.title !== settingsTitle)
+                    continue;
+                if (toplevel.activated) {
+                    settingsModal.hide();
+                    return;
+                }
+                var idx = settingsModal.resolveTabIndex(tabName);
+                if (idx >= 0)
+                    settingsModal.currentTabIndex = idx;
+                toplevel.activate();
+                return;
+            }
+        }
+        openSettingsWithTab(tabName);
+    }
+
     function unloadSettings() {
         if (settingsModalLoader) {
             settingsModal = null;
@@ -248,9 +299,22 @@ Singleton {
     function _onSettingsModalLoaded() {
         if (_settingsWantsOpen) {
             _settingsWantsOpen = false;
-            settingsModal?.show();
-        } else if (_settingsWantsToggle) {
+            if (_settingsPendingTab) {
+                settingsModal?.showWithTabName(_settingsPendingTab);
+                _settingsPendingTab = "";
+            } else {
+                settingsModal?.show();
+            }
+            return;
+        }
+        if (_settingsWantsToggle) {
             _settingsWantsToggle = false;
+            if (_settingsPendingTab) {
+                var idx = settingsModal?.resolveTabIndex(_settingsPendingTab) ?? -1;
+                if (idx >= 0)
+                    settingsModal.currentTabIndex = idx;
+                _settingsPendingTab = "";
+            }
             settingsModal?.toggle();
         }
     }

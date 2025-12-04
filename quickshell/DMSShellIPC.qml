@@ -648,6 +648,13 @@ Item {
             return "SETTINGS_OPEN_SUCCESS";
         }
 
+        function openWith(tab: string): string {
+            if (!tab)
+                return "SETTINGS_OPEN_FAILED: No tab specified";
+            PopoutService.openSettingsWithTab(tab);
+            return `SETTINGS_OPEN_SUCCESS: ${tab}`;
+        }
+
         function close(): string {
             PopoutService.closeSettings();
             return "SETTINGS_CLOSE_SUCCESS";
@@ -658,9 +665,45 @@ Item {
             return "SETTINGS_TOGGLE_SUCCESS";
         }
 
+        function toggleWith(tab: string): string {
+            if (!tab)
+                return "SETTINGS_TOGGLE_FAILED: No tab specified";
+            PopoutService.toggleSettingsWithTab(tab);
+            return `SETTINGS_TOGGLE_SUCCESS: ${tab}`;
+        }
+
         function focusOrToggle(): string {
             PopoutService.focusOrToggleSettings();
             return "SETTINGS_FOCUS_OR_TOGGLE_SUCCESS";
+        }
+
+        function focusOrToggleWith(tab: string): string {
+            if (!tab)
+                return "SETTINGS_FOCUS_OR_TOGGLE_FAILED: No tab specified";
+            PopoutService.focusOrToggleSettingsWithTab(tab);
+            return `SETTINGS_FOCUS_OR_TOGGLE_SUCCESS: ${tab}`;
+        }
+
+        function tabs(): string {
+            if (!PopoutService.settingsModal)
+                return "wallpaper\ntheme\ntypography\ntime_weather\nsounds\ndankbar\ndankbar_settings\ndankbar_widgets\nworkspaces\nmedia_player\nnotifications\nosd\nrunning_apps\nupdater\ndock\nlauncher\nkeybinds\ndisplays\nnetwork\nprinters\nlock_screen\npower_sleep\nplugins\nabout";
+            var modal = PopoutService.settingsModal;
+            var ids = [];
+            var structure = modal.sidebar?.categoryStructure ?? [];
+            for (var i = 0; i < structure.length; i++) {
+                var cat = structure[i];
+                if (cat.separator)
+                    continue;
+                if (cat.id)
+                    ids.push(cat.id);
+                if (cat.children) {
+                    for (var j = 0; j < cat.children.length; j++) {
+                        if (cat.children[j].id)
+                            ids.push(cat.children[j].id);
+                    }
+                }
+            }
+            return ids.join("\n");
         }
 
         function get(key: string): string {
