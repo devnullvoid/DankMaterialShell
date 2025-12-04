@@ -110,7 +110,7 @@ DankModal {
                 console.warn("Failed to parse dms color pick JSON:", e);
                 root.show();
             }
-        });
+        }, 0, Proc.noTimeout);
     }
 
     modalWidth: 680
