@@ -212,6 +212,7 @@ var SPEC = {
     osdMicMuteEnabled: { def: true },
     osdCapsLockEnabled: { def: true },
     osdPowerProfileEnabled: { def: false },
+    osdAudioOutputEnabled: { def: true },
 
     powerActionConfirm: { def: true },
     powerActionHoldDuration: { def: 1 },

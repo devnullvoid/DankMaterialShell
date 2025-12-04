@@ -700,6 +700,14 @@ Item {
         }
     }
 
+    Variants {
+        model: SettingsData.getFilteredScreens("osd")
+
+        delegate: AudioOutputOSD {
+            modelData: item
+        }
+    }
+
     LazyLoader {
         id: hyprlandOverviewLoader
         active: CompositorService.isHyprland

@@ -313,6 +313,7 @@ Singleton {
     property bool osdMicMuteEnabled: true
     property bool osdCapsLockEnabled: true
     property bool osdPowerProfileEnabled: true
+    property bool osdAudioOutputEnabled: true
 
     property bool powerActionConfirm: true
     property int powerActionHoldDuration: 1

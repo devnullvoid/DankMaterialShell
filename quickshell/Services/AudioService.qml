@@ -30,6 +30,33 @@ Singleton {
     property var mediaDevicesConnections: null
 
     signal micMuteChanged
+    signal audioOutputCycled(string deviceName)
+
+    function getAvailableSinks() {
+        return Pipewire.nodes.values.filter(node => node.audio && node.isSink && !node.isStream);
+    }
+
+    function cycleAudioOutput() {
+        const sinks = getAvailableSinks();
+        if (sinks.length < 2)
+            return null;
+
+        const currentSink = root.sink;
+        let currentIndex = -1;
+        for (let i = 0; i < sinks.length; i++) {
+            if (sinks[i] === currentSink) {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        const nextIndex = (currentIndex + 1) % sinks.length;
+        const nextSink = sinks[nextIndex];
+        Pipewire.preferredDefaultAudioSink = nextSink;
+        const name = displayName(nextSink);
+        audioOutputCycled(name);
+        return name;
+    }
 
     Connections {
         target: root.sink?.audio ?? null
@@ -594,6 +621,13 @@ Singleton {
             }
 
             return result;
+        }
+
+        function cycleoutput(): string {
+            const result = root.cycleAudioOutput();
+            if (!result)
+                return "Only one audio output available";
+            return `Switched to: ${result}`;
         }
     }
 

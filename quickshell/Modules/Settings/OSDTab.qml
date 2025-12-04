@@ -141,6 +141,13 @@ Item {
                     checked: SettingsData.osdPowerProfileEnabled
                     onToggled: checked => SettingsData.set("osdPowerProfileEnabled", checked)
                 }
+
+                SettingsToggleRow {
+                    text: I18n.tr("Audio Output Switch")
+                    description: I18n.tr("Show on-screen display when cycling audio output devices")
+                    checked: SettingsData.osdAudioOutputEnabled
+                    onToggled: checked => SettingsData.set("osdAudioOutputEnabled", checked)
+                }
             }
         }
     }
