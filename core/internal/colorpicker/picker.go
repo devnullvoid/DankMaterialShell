@@ -360,6 +360,7 @@ func (p *Picker) createLayerSurface(output *Output) (*LayerSurface, error) {
 		state:     NewSurfaceState(p.config.Format, p.config.Lowercase),
 		wlSurface: surface,
 		layerSurf: layerSurf,
+		hidden:    true, // Start hidden, will show overlay when pointer enters
 	}
 
 	if p.viewporter != nil {
