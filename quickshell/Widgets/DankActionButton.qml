@@ -37,6 +37,6 @@ StyledRect {
         onClicked: root.clicked()
         onEntered: root.entered()
         onExited: root.exited()
-        tooltipText: tooltipText
+        tooltipText: root.tooltipText
     }
 }
