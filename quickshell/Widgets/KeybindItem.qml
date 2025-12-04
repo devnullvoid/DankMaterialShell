@@ -312,14 +312,14 @@ Item {
                         DankIcon {
                             name: "warning"
                             size: 14
-                            color: Theme.warning ?? Theme.tertiary
+                            color: Theme.primary
                             visible: root.hasConfigConflict
                         }
 
                         StyledText {
                             text: I18n.tr("Overridden by config")
                             font.pixelSize: Theme.fontSizeSmall
-                            color: Theme.warning ?? Theme.tertiary
+                            color: Theme.primary
                             visible: root.hasConfigConflict
                         }
 
@@ -382,8 +382,8 @@ Item {
                     Layout.fillWidth: true
                     Layout.preferredHeight: conflictColumn.implicitHeight + Theme.spacingM * 2
                     radius: Theme.cornerRadius
-                    color: Theme.withAlpha(Theme.warning ?? Theme.tertiary, 0.15)
-                    border.color: Theme.withAlpha(Theme.warning ?? Theme.tertiary, 0.3)
+                    color: Theme.withAlpha(Theme.primary, 0.15)
+                    border.color: Theme.withAlpha(Theme.primary, 0.3)
                     border.width: 1
                     visible: root.hasConfigConflict
 
@@ -400,14 +400,14 @@ Item {
                             DankIcon {
                                 name: "warning"
                                 size: 16
-                                color: Theme.warning ?? Theme.tertiary
+                                color: Theme.primary
                             }
 
                             StyledText {
                                 text: I18n.tr("This bind is overridden by config.kdl")
                                 font.pixelSize: Theme.fontSizeSmall
                                 font.weight: Font.Medium
-                                color: Theme.warning ?? Theme.tertiary
+                                color: Theme.primary
                                 Layout.fillWidth: true
                             }
                         }
@@ -663,13 +663,13 @@ Item {
                     DankIcon {
                         name: "warning"
                         size: 16
-                        color: Theme.warning
+                        color: Theme.primary
                     }
 
                     StyledText {
                         text: I18n.tr("Conflicts with: %1").arg(root._conflicts.map(c => c.desc).join(", "))
                         font.pixelSize: Theme.fontSizeSmall
-                        color: Theme.warning
+                        color: Theme.primary
                         Layout.fillWidth: true
                         elide: Text.ElideRight
                     }

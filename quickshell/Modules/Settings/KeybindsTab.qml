@@ -258,20 +258,8 @@ Item {
                 readonly property bool showWarning: status.included && status.overriddenBy > 0
                 readonly property bool showSetup: !status.exists
 
-                color: {
-                    if (showError || showSetup)
-                        return Theme.withAlpha(Theme.error, 0.15);
-                    if (showWarning)
-                        return Theme.withAlpha(Theme.warning ?? Theme.tertiary, 0.15);
-                    return "transparent";
-                }
-                border.color: {
-                    if (showError || showSetup)
-                        return Theme.withAlpha(Theme.error, 0.3);
-                    if (showWarning)
-                        return Theme.withAlpha(Theme.warning ?? Theme.tertiary, 0.3);
-                    return "transparent";
-                }
+                color: (showError || showWarning || showSetup) ? Theme.withAlpha(Theme.primary, 0.15) : "transparent"
+                border.color: (showError || showWarning || showSetup) ? Theme.withAlpha(Theme.primary, 0.3) : "transparent"
                 border.width: 1
                 visible: (showError || showWarning || showSetup) && !KeybindsService.loading
 
@@ -288,7 +276,7 @@ Item {
                         DankIcon {
                             name: warningBox.showWarning ? "info" : "warning"
                             size: Theme.iconSize
-                            color: warningBox.showWarning ? (Theme.warning ?? Theme.tertiary) : Theme.error
+                            color: Theme.primary
                             anchors.verticalCenter: parent.verticalCenter
                         }
 
@@ -309,7 +297,7 @@ Item {
                                 }
                                 font.pixelSize: Theme.fontSizeMedium
                                 font.weight: Font.Medium
-                                color: warningBox.showWarning ? (Theme.warning ?? Theme.tertiary) : Theme.error
+                                color: Theme.primary
                             }
 
                             StyledText {
