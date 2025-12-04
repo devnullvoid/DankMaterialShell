@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/keyboard_shortcuts_inhibit"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/wlr_layer_shell"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/wlr_screencopy"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/wp_viewporter"
@@ -57,6 +58,9 @@ type Picker struct {
 	layerShell *wlr_layer_shell.ZwlrLayerShellV1
 	screencopy *wlr_screencopy.ZwlrScreencopyManagerV1
 	viewporter *wp_viewporter.WpViewporter
+
+	shortcutsInhibitMgr *keyboard_shortcuts_inhibit.ZwpKeyboardShortcutsInhibitManagerV1
+	shortcutsInhibitor  *keyboard_shortcuts_inhibit.ZwpKeyboardShortcutsInhibitorV1
 
 	outputs   map[uint32]*Output
 	outputsMu sync.Mutex
@@ -266,6 +270,12 @@ func (p *Picker) handleGlobal(e client.RegistryGlobalEvent) {
 		if err := p.registry.Bind(e.Name, e.Interface, e.Version, viewporter); err == nil {
 			p.viewporter = viewporter
 		}
+
+	case keyboard_shortcuts_inhibit.ZwpKeyboardShortcutsInhibitManagerV1InterfaceName:
+		mgr := keyboard_shortcuts_inhibit.NewZwpKeyboardShortcutsInhibitManagerV1(p.ctx)
+		if err := p.registry.Bind(e.Name, e.Interface, e.Version, mgr); err == nil {
+			p.shortcutsInhibitMgr = mgr
+		}
 	}
 }
 
@@ -390,6 +400,9 @@ func (p *Picker) createLayerSurface(output *Output) (*LayerSurface, error) {
 		} else {
 			p.redrawSurface(ls)
 		}
+
+		// Request shortcut inhibition once surface is configured
+		p.ensureShortcutsInhibitor(ls)
 	})
 
 	layerSurf.SetClosedHandler(func(e wlr_layer_shell.ZwlrLayerSurfaceV1ClosedEvent) {
@@ -413,6 +426,28 @@ func (p *Picker) computeSurfaceScale(ls *LayerSurface) int32 {
 		scale = 1
 	}
 	return scale
+}
+
+func (p *Picker) ensureShortcutsInhibitor(ls *LayerSurface) {
+	if p.shortcutsInhibitMgr == nil || p.seat == nil || p.shortcutsInhibitor != nil {
+		return
+	}
+
+	inhibitor, err := p.shortcutsInhibitMgr.InhibitShortcuts(ls.wlSurface, p.seat)
+	if err != nil {
+		log.Debug("failed to create shortcuts inhibitor", "err", err)
+		return
+	}
+
+	p.shortcutsInhibitor = inhibitor
+
+	inhibitor.SetActiveHandler(func(e keyboard_shortcuts_inhibit.ZwpKeyboardShortcutsInhibitorV1ActiveEvent) {
+		log.Debug("shortcuts inhibitor active")
+	})
+
+	inhibitor.SetInactiveHandler(func(e keyboard_shortcuts_inhibit.ZwpKeyboardShortcutsInhibitorV1InactiveEvent) {
+		log.Debug("shortcuts inhibitor deactivated by compositor")
+	})
 }
 
 func (p *Picker) captureForSurface(ls *LayerSurface) {
@@ -629,6 +664,20 @@ func (p *Picker) cleanup() {
 		if ls.state != nil {
 			ls.state.Destroy()
 		}
+	}
+
+	if p.shortcutsInhibitor != nil {
+		if err := p.shortcutsInhibitor.Destroy(); err != nil {
+			log.Debug("failed to destroy shortcuts inhibitor", "err", err)
+		}
+		p.shortcutsInhibitor = nil
+	}
+
+	if p.shortcutsInhibitMgr != nil {
+		if err := p.shortcutsInhibitMgr.Destroy(); err != nil {
+			log.Debug("failed to destroy shortcuts inhibit manager", "err", err)
+		}
+		p.shortcutsInhibitMgr = nil
 	}
 
 	if p.viewporter != nil {
