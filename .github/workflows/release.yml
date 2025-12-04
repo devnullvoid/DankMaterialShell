@@ -517,7 +517,6 @@ jobs:
           Recommends:     cava
           Recommends:     cliphist
           Recommends:     danksearch
-          Recommends:     hyprpicker
           Recommends:     matugen
           Recommends:     wl-clipboard
           Recommends:     NetworkManager

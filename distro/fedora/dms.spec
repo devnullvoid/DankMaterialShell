@@ -33,7 +33,6 @@ Requires:       dgop
 Recommends:     cava
 Recommends:     cliphist
 Recommends:     danksearch
-Recommends:     hyprpicker
 Recommends:     matugen
 Recommends:     quickshell-git
 Recommends:     wl-clipboard
