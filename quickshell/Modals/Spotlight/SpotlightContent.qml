@@ -312,7 +312,7 @@ Item {
                 Row {
                     id: viewModeButtons
                     spacing: Theme.spacingXS
-                    visible: searchMode === "apps" && appLauncher.model.count > 0
+                    visible: searchMode === "apps"
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
 
