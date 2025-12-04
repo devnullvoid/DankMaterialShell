@@ -372,7 +372,8 @@ Singleton {
             openOnOverview: false,
             visible: true,
             popupGapsAuto: true,
-            popupGapsManual: 4
+            popupGapsManual: 4,
+            maximizeDetection: true
         }
     ]
 

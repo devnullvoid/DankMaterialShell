@@ -236,7 +236,8 @@ Item {
             openOnOverview: defaultBar.openOnOverview ?? false,
             visible: defaultBar.visible ?? true,
             popupGapsAuto: defaultBar.popupGapsAuto ?? true,
-            popupGapsManual: defaultBar.popupGapsManual ?? 4
+            popupGapsManual: defaultBar.popupGapsManual ?? 4,
+            maximizeDetection: defaultBar.maximizeDetection ?? true
         };
         SettingsData.addBarConfig(newBar);
         selectedBarId = newId;
@@ -739,6 +740,17 @@ Item {
                 }
             }
 
+            SettingsToggleCard {
+                iconName: "fit_screen"
+                title: I18n.tr("Maximize Detection")
+                description: I18n.tr("Remove gaps and border when windows are maximized")
+                visible: selectedBarConfig?.enabled && (CompositorService.isNiri || CompositorService.isHyprland)
+                checked: selectedBarConfig?.maximizeDetection ?? true
+                onToggled: checked => SettingsData.updateBarConfig(selectedBarId, {
+                        maximizeDetection: checked
+                    })
+            }
+
             SettingsCard {
                 iconName: "space_bar"
                 title: I18n.tr("Spacing")
@@ -932,220 +944,178 @@ Item {
                 }
             }
 
-            SettingsCard {
+            SettingsToggleCard {
                 iconName: "border_style"
                 title: I18n.tr("Border")
                 visible: selectedBarConfig?.enabled
+                checked: selectedBarConfig?.borderEnabled ?? false
+                onToggled: checked => SettingsData.updateBarConfig(selectedBarId, {
+                        borderEnabled: checked
+                    })
 
-                SettingsToggleRow {
-                    text: I18n.tr("Enable Border")
-                    checked: selectedBarConfig?.borderEnabled ?? false
-                    onToggled: checked => SettingsData.updateBarConfig(selectedBarId, {
-                            borderEnabled: checked
-                        })
+                SettingsButtonGroupRow {
+                    text: I18n.tr("Color")
+                    model: ["Surface", "Secondary", "Primary"]
+                    currentIndex: {
+                        switch (selectedBarConfig?.borderColor || "surfaceText") {
+                        case "surfaceText":
+                            return 0;
+                        case "secondary":
+                            return 1;
+                        case "primary":
+                            return 2;
+                        default:
+                            return 0;
+                        }
+                    }
+                    onSelectionChanged: (index, selected) => {
+                        if (!selected)
+                            return;
+                        let newColor = "surfaceText";
+                        switch (index) {
+                        case 0:
+                            newColor = "surfaceText";
+                            break;
+                        case 1:
+                            newColor = "secondary";
+                            break;
+                        case 2:
+                            newColor = "primary";
+                            break;
+                        }
+                        SettingsData.updateBarConfig(selectedBarId, {
+                            borderColor: newColor
+                        });
+                    }
                 }
 
-                Column {
-                    width: parent.width
-                    leftPadding: Theme.spacingM
-                    spacing: Theme.spacingM
-                    visible: selectedBarConfig?.borderEnabled ?? false
-
-                    Rectangle {
-                        width: parent.width - parent.leftPadding
-                        height: 1
-                        color: Theme.outline
-                        opacity: 0.15
+                SettingsSliderRow {
+                    id: borderOpacitySlider
+                    text: I18n.tr("Opacity")
+                    value: (selectedBarConfig?.borderOpacity ?? 1.0) * 100
+                    minimum: 0
+                    maximum: 100
+                    unit: "%"
+                    defaultValue: 100
+                    onSliderValueChanged: newValue => {
+                        borderOpacityDebounce.pendingValue = newValue / 100;
+                        borderOpacityDebounce.restart();
                     }
 
-                    SettingsButtonGroupRow {
-                        width: parent.width - parent.parent.leftPadding
-                        text: I18n.tr("Color")
-                        model: ["Surface", "Secondary", "Primary"]
-                        currentIndex: {
-                            switch (selectedBarConfig?.borderColor || "surfaceText") {
-                            case "surfaceText":
-                                return 0;
-                            case "secondary":
-                                return 1;
-                            case "primary":
-                                return 2;
-                            default:
-                                return 0;
-                            }
-                        }
-                        onSelectionChanged: (index, selected) => {
-                            if (!selected)
-                                return;
-                            let newColor = "surfaceText";
-                            switch (index) {
-                            case 0:
-                                newColor = "surfaceText";
-                                break;
-                            case 1:
-                                newColor = "secondary";
-                                break;
-                            case 2:
-                                newColor = "primary";
-                                break;
-                            }
-                            SettingsData.updateBarConfig(selectedBarId, {
-                                borderColor: newColor
-                            });
-                        }
-                    }
-
-                    SettingsSliderRow {
-                        id: borderOpacitySlider
-                        width: parent.width - parent.parent.leftPadding
-                        text: I18n.tr("Border Opacity")
+                    Binding {
+                        target: borderOpacitySlider
+                        property: "value"
                         value: (selectedBarConfig?.borderOpacity ?? 1.0) * 100
-                        minimum: 0
-                        maximum: 100
-                        unit: "%"
-                        defaultValue: 100
-                        onSliderValueChanged: newValue => {
-                            borderOpacityDebounce.pendingValue = newValue / 100;
-                            borderOpacityDebounce.restart();
-                        }
+                        restoreMode: Binding.RestoreBinding
+                    }
+                }
 
-                        Binding {
-                            target: borderOpacitySlider
-                            property: "value"
-                            value: (selectedBarConfig?.borderOpacity ?? 1.0) * 100
-                            restoreMode: Binding.RestoreBinding
-                        }
+                SettingsSliderRow {
+                    id: borderThicknessSlider
+                    text: I18n.tr("Thickness")
+                    value: selectedBarConfig?.borderThickness ?? 1
+                    minimum: 1
+                    maximum: 10
+                    unit: "px"
+                    defaultValue: 1
+                    onSliderValueChanged: newValue => {
+                        borderThicknessDebounce.pendingValue = newValue;
+                        borderThicknessDebounce.restart();
                     }
 
-                    SettingsSliderRow {
-                        id: borderThicknessSlider
-                        width: parent.width - parent.parent.leftPadding
-                        text: I18n.tr("Border Thickness")
+                    Binding {
+                        target: borderThicknessSlider
+                        property: "value"
                         value: selectedBarConfig?.borderThickness ?? 1
-                        minimum: 1
-                        maximum: 10
-                        unit: "px"
-                        defaultValue: 1
-                        onSliderValueChanged: newValue => {
-                            borderThicknessDebounce.pendingValue = newValue;
-                            borderThicknessDebounce.restart();
-                        }
-
-                        Binding {
-                            target: borderThicknessSlider
-                            property: "value"
-                            value: selectedBarConfig?.borderThickness ?? 1
-                            restoreMode: Binding.RestoreBinding
-                        }
+                        restoreMode: Binding.RestoreBinding
                     }
                 }
             }
 
-            SettingsCard {
+            SettingsToggleCard {
                 iconName: "highlight"
                 title: I18n.tr("Widget Outline")
                 visible: selectedBarConfig?.enabled
+                checked: selectedBarConfig?.widgetOutlineEnabled ?? false
+                onToggled: checked => SettingsData.updateBarConfig(selectedBarId, {
+                        widgetOutlineEnabled: checked
+                    })
 
-                SettingsToggleRow {
-                    text: I18n.tr("Enable Widget Outline")
-                    checked: selectedBarConfig?.widgetOutlineEnabled ?? false
-                    onToggled: checked => SettingsData.updateBarConfig(selectedBarId, {
-                            widgetOutlineEnabled: checked
-                        })
+                SettingsButtonGroupRow {
+                    text: I18n.tr("Color")
+                    model: ["Surface", "Secondary", "Primary"]
+                    currentIndex: {
+                        switch (selectedBarConfig?.widgetOutlineColor || "primary") {
+                        case "surfaceText":
+                            return 0;
+                        case "secondary":
+                            return 1;
+                        case "primary":
+                            return 2;
+                        default:
+                            return 2;
+                        }
+                    }
+                    onSelectionChanged: (index, selected) => {
+                        if (!selected)
+                            return;
+                        let newColor = "primary";
+                        switch (index) {
+                        case 0:
+                            newColor = "surfaceText";
+                            break;
+                        case 1:
+                            newColor = "secondary";
+                            break;
+                        case 2:
+                            newColor = "primary";
+                            break;
+                        }
+                        SettingsData.updateBarConfig(selectedBarId, {
+                            widgetOutlineColor: newColor
+                        });
+                    }
                 }
 
-                Column {
-                    width: parent.width
-                    leftPadding: Theme.spacingM
-                    spacing: Theme.spacingM
-                    visible: selectedBarConfig?.widgetOutlineEnabled ?? false
-
-                    Rectangle {
-                        width: parent.width - parent.leftPadding
-                        height: 1
-                        color: Theme.outline
-                        opacity: 0.15
+                SettingsSliderRow {
+                    id: widgetOutlineOpacitySlider
+                    text: I18n.tr("Opacity")
+                    value: (selectedBarConfig?.widgetOutlineOpacity ?? 1.0) * 100
+                    minimum: 0
+                    maximum: 100
+                    unit: "%"
+                    defaultValue: 100
+                    onSliderValueChanged: newValue => {
+                        widgetOutlineOpacityDebounce.pendingValue = newValue / 100;
+                        widgetOutlineOpacityDebounce.restart();
                     }
 
-                    SettingsButtonGroupRow {
-                        width: parent.width - parent.parent.leftPadding
-                        text: I18n.tr("Color")
-                        model: ["Surface", "Secondary", "Primary"]
-                        currentIndex: {
-                            switch (selectedBarConfig?.widgetOutlineColor || "primary") {
-                            case "surfaceText":
-                                return 0;
-                            case "secondary":
-                                return 1;
-                            case "primary":
-                                return 2;
-                            default:
-                                return 2;
-                            }
-                        }
-                        onSelectionChanged: (index, selected) => {
-                            if (!selected)
-                                return;
-                            let newColor = "primary";
-                            switch (index) {
-                            case 0:
-                                newColor = "surfaceText";
-                                break;
-                            case 1:
-                                newColor = "secondary";
-                                break;
-                            case 2:
-                                newColor = "primary";
-                                break;
-                            }
-                            SettingsData.updateBarConfig(selectedBarId, {
-                                widgetOutlineColor: newColor
-                            });
-                        }
-                    }
-
-                    SettingsSliderRow {
-                        id: widgetOutlineOpacitySlider
-                        width: parent.width - parent.parent.leftPadding
-                        text: I18n.tr("Outline Opacity")
+                    Binding {
+                        target: widgetOutlineOpacitySlider
+                        property: "value"
                         value: (selectedBarConfig?.widgetOutlineOpacity ?? 1.0) * 100
-                        minimum: 0
-                        maximum: 100
-                        unit: "%"
-                        defaultValue: 100
-                        onSliderValueChanged: newValue => {
-                            widgetOutlineOpacityDebounce.pendingValue = newValue / 100;
-                            widgetOutlineOpacityDebounce.restart();
-                        }
+                        restoreMode: Binding.RestoreBinding
+                    }
+                }
 
-                        Binding {
-                            target: widgetOutlineOpacitySlider
-                            property: "value"
-                            value: (selectedBarConfig?.widgetOutlineOpacity ?? 1.0) * 100
-                            restoreMode: Binding.RestoreBinding
-                        }
+                SettingsSliderRow {
+                    id: widgetOutlineThicknessSlider
+                    text: I18n.tr("Thickness")
+                    value: selectedBarConfig?.widgetOutlineThickness ?? 1
+                    minimum: 1
+                    maximum: 10
+                    unit: "px"
+                    defaultValue: 1
+                    onSliderValueChanged: newValue => {
+                        widgetOutlineThicknessDebounce.pendingValue = newValue;
+                        widgetOutlineThicknessDebounce.restart();
                     }
 
-                    SettingsSliderRow {
-                        id: widgetOutlineThicknessSlider
-                        width: parent.width - parent.parent.leftPadding
-                        text: I18n.tr("Outline Thickness")
+                    Binding {
+                        target: widgetOutlineThicknessSlider
+                        property: "value"
                         value: selectedBarConfig?.widgetOutlineThickness ?? 1
-                        minimum: 1
-                        maximum: 10
-                        unit: "px"
-                        defaultValue: 1
-                        onSliderValueChanged: newValue => {
-                            widgetOutlineThicknessDebounce.pendingValue = newValue;
-                            widgetOutlineThicknessDebounce.restart();
-                        }
-
-                        Binding {
-                            target: widgetOutlineThicknessSlider
-                            property: "value"
-                            value: selectedBarConfig?.widgetOutlineThickness ?? 1
-                            restoreMode: Binding.RestoreBinding
-                        }
+                        restoreMode: Binding.RestoreBinding
                     }
                 }
             }
@@ -1198,31 +1168,27 @@ Item {
                 }
             }
 
-            SettingsCard {
+            SettingsSliderCard {
+                id: fontScaleSliderCard
                 iconName: "text_fields"
                 title: I18n.tr("Font Scale")
+                description: I18n.tr("Scale DankBar font sizes independently")
                 visible: selectedBarConfig?.enabled
+                minimum: 50
+                maximum: 200
+                value: Math.round((selectedBarConfig?.fontScale ?? 1.0) * 100)
+                unit: "%"
+                defaultValue: 100
+                onSliderValueChanged: newValue => {
+                    fontScaleDebounce.pendingValue = newValue / 100;
+                    fontScaleDebounce.restart();
+                }
 
-                SettingsSliderRow {
-                    id: fontScaleSlider
-                    text: I18n.tr("DankBar Font Scale")
-                    description: I18n.tr("Scale DankBar font sizes independently")
-                    minimum: 50
-                    maximum: 200
+                Binding {
+                    target: fontScaleSliderCard
+                    property: "value"
                     value: Math.round((selectedBarConfig?.fontScale ?? 1.0) * 100)
-                    unit: "%"
-                    defaultValue: 100
-                    onSliderValueChanged: newValue => {
-                        fontScaleDebounce.pendingValue = newValue / 100;
-                        fontScaleDebounce.restart();
-                    }
-
-                    Binding {
-                        target: fontScaleSlider
-                        property: "value"
-                        value: Math.round((selectedBarConfig?.fontScale ?? 1.0) * 100)
-                        restoreMode: Binding.RestoreBinding
-                    }
+                    restoreMode: Binding.RestoreBinding
                 }
             }
         }

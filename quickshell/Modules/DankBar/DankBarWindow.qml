@@ -149,6 +149,8 @@ PanelWindow {
     property string screenName: modelData.name
 
     readonly property bool hasMaximizedToplevel: {
+        if (!(barConfig?.maximizeDetection ?? true))
+            return false;
         if (!CompositorService.isHyprland && !CompositorService.isNiri)
             return false;
 
