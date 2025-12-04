@@ -122,9 +122,10 @@ PanelWindow {
             width: parent.width
             x: Theme.snap(slideContainer.slideOffset, root.dpr)
 
-            DankRectangle {
+            Rectangle {
                 anchors.fill: parent
                 color: Theme.surfaceContainer
+                radius: Theme.cornerRadius
             }
 
             Column {
