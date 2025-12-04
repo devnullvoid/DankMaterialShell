@@ -90,43 +90,26 @@ DankModal {
         root.show();
     }
 
-    function runNiriPicker() {
-        Proc.runCommand("niri-pick-color", ["niri", "msg", "pick-color"], (output, exitCode) => {
-            if (exitCode !== 0) {
-                console.warn("niri msg pick-color exited with code:", exitCode);
-                root.show();
-                return;
-            }
-            const hexMatch = output.match(/Hex:\s*(#[0-9A-Fa-f]{6})/);
-            if (hexMatch) {
-                applyPickedColor(hexMatch[1]);
-            } else {
-                console.warn("Failed to parse niri pick-color output:", output);
-                root.show();
-            }
-        });
-    }
-
     function pickColorFromScreen() {
         hideInstant();
-        Proc.runCommand("check-hyprpicker", ["which", "hyprpicker"], (output, exitCode) => {
-            if (exitCode === 0) {
-                Proc.runCommand("hyprpicker", ["hyprpicker", "--format=hex"], (hpOutput, hpCode) => {
-                    if (hpCode !== 0) {
-                        console.warn("hyprpicker exited with code:", hpCode);
-                        root.show();
-                        return;
-                    }
-                    applyPickedColor(hpOutput.trim());
-                });
+        Proc.runCommand("dms-color-pick", ["dms", "color", "pick", "--json"], (output, exitCode) => {
+            if (exitCode !== 0) {
+                console.warn("dms color pick exited with code:", exitCode);
+                root.show();
                 return;
             }
-            if (CompositorService.isNiri) {
-                runNiriPicker();
-                return;
+            try {
+                const result = JSON.parse(output);
+                if (result.hex) {
+                    applyPickedColor(result.hex);
+                } else {
+                    console.warn("Failed to parse dms color pick output: missing hex");
+                    root.show();
+                }
+            } catch (e) {
+                console.warn("Failed to parse dms color pick JSON:", e);
+                root.show();
             }
-            console.warn("No color picker available");
-            root.show();
         });
     }
 
