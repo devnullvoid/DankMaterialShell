@@ -274,6 +274,25 @@ func (s *SurfaceState) Redraw() *ShmBuffer {
 	return dst
 }
 
+// RedrawScreenOnly renders just the screenshot without any overlay (magnifier, preview).
+// Used for when pointer leaves the surface.
+func (s *SurfaceState) RedrawScreenOnly() *ShmBuffer {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if !s.readyForDisplay || s.screenBuf == nil {
+		return nil
+	}
+
+	dst := s.renderBufs[s.front]
+	if dst == nil {
+		return nil
+	}
+
+	copy(dst.data, s.screenBuf.data)
+	return dst
+}
+
 func (s *SurfaceState) PickColor() (Color, bool) {
 	s.mu.Lock()
 	defer s.mu.Unlock()

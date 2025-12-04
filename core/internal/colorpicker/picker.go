@@ -41,6 +41,7 @@ type LayerSurface struct {
 	wlPool     *client.ShmPool
 	wlBuffer   *client.Buffer
 	configured bool
+	hidden     bool
 }
 
 type Picker struct {
@@ -503,7 +504,13 @@ func (p *Picker) captureForSurface(ls *LayerSurface) {
 }
 
 func (p *Picker) redrawSurface(ls *LayerSurface) {
-	renderBuf := ls.state.Redraw()
+	var renderBuf *ShmBuffer
+	if ls.hidden {
+		// When hidden, just show the screenshot without overlay
+		renderBuf = ls.state.RedrawScreenOnly()
+	} else {
+		renderBuf = ls.state.Redraw()
+	}
 	if renderBuf == nil {
 		return
 	}
@@ -571,6 +578,15 @@ func (p *Picker) redrawSurface(ls *LayerSurface) {
 	ls.state.SwapBuffers()
 }
 
+func (p *Picker) hideSurface(ls *LayerSurface) {
+	if ls == nil || ls.wlSurface == nil || ls.hidden {
+		return
+	}
+	ls.hidden = true
+	// Redraw without the crosshair overlay
+	p.redrawSurface(ls)
+}
+
 func (p *Picker) setupInput() {
 	if p.seat == nil {
 		return
@@ -610,13 +626,22 @@ func (p *Picker) setupPointerHandlers() {
 		if p.activeSurface == nil {
 			return
 		}
+
+		// If surface was hidden, mark it as visible again
+		if p.activeSurface.hidden {
+			p.activeSurface.hidden = false
+		}
+
 		p.activeSurface.state.OnPointerMotion(e.SurfaceX, e.SurfaceY)
 		p.redrawSurface(p.activeSurface)
 	})
 
 	p.pointer.SetLeaveHandler(func(e client.PointerLeaveEvent) {
-		if p.activeSurface != nil && p.activeSurface.wlSurface.ID() == e.Surface.ID() {
-			p.activeSurface = nil
+		for _, ls := range p.surfaces {
+			if ls.wlSurface.ID() == e.Surface.ID() {
+				p.hideSurface(ls)
+				break
+			}
 		}
 	})
 
