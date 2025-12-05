@@ -750,11 +750,18 @@ Singleton {
         }
     }
 
+    Timer {
+        id: screenChangeRescanTimer
+        interval: 3000
+        repeat: false
+        onTriggered: rescanDevices()
+    }
+
     Connections {
         target: Quickshell
 
         function onScreensChanged() {
-            rescanDevices();
+            screenChangeRescanTimer.restart();
         }
     }
 
