@@ -217,9 +217,13 @@ func runScreenshot(config screenshot.Config) {
 	}
 
 	if config.Notify {
+		thumbData, thumbW, thumbH := bufferToRGBThumbnail(result.Buffer, 256)
 		screenshot.SendNotification(screenshot.NotifyResult{
 			FilePath:  filePath,
 			Clipboard: config.Clipboard,
+			ImageData: thumbData,
+			Width:     thumbW,
+			Height:    thumbH,
 		})
 	}
 }
@@ -257,6 +261,51 @@ func writeImageToStdout(buf *screenshot.ShmBuffer, format screenshot.Format, qua
 	default:
 		return screenshot.EncodePNG(os.Stdout, img)
 	}
+}
+
+func bufferToRGBThumbnail(buf *screenshot.ShmBuffer, maxSize int) ([]byte, int, int) {
+	srcW, srcH := buf.Width, buf.Height
+	scale := 1.0
+	if srcW > maxSize || srcH > maxSize {
+		if srcW > srcH {
+			scale = float64(maxSize) / float64(srcW)
+		} else {
+			scale = float64(maxSize) / float64(srcH)
+		}
+	}
+
+	dstW := int(float64(srcW) * scale)
+	dstH := int(float64(srcH) * scale)
+	if dstW < 1 {
+		dstW = 1
+	}
+	if dstH < 1 {
+		dstH = 1
+	}
+
+	data := buf.Data()
+	rgb := make([]byte, dstW*dstH*3)
+
+	for y := 0; y < dstH; y++ {
+		srcY := int(float64(y) / scale)
+		if srcY >= srcH {
+			srcY = srcH - 1
+		}
+		for x := 0; x < dstW; x++ {
+			srcX := int(float64(x) / scale)
+			if srcX >= srcW {
+				srcX = srcW - 1
+			}
+			si := srcY*buf.Stride + srcX*4
+			di := (y*dstW + x) * 3
+			if si+2 < len(data) {
+				rgb[di+0] = data[si+2] // R
+				rgb[di+1] = data[si+1] // G
+				rgb[di+2] = data[si+0] // B
+			}
+		}
+	}
+	return rgb, dstW, dstH
 }
 
 func runScreenshotRegion(cmd *cobra.Command, args []string) {

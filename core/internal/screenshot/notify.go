@@ -21,6 +21,9 @@ const (
 type NotifyResult struct {
 	FilePath  string
 	Clipboard bool
+	ImageData []byte
+	Width     int
+	Height    int
 }
 
 func SendNotification(result NotifyResult) {
@@ -36,8 +39,27 @@ func SendNotification(result NotifyResult) {
 	}
 
 	hints := map[string]dbus.Variant{}
-	if result.FilePath != "" && !result.Clipboard {
-		hints["image-path"] = dbus.MakeVariant(result.FilePath)
+	if len(result.ImageData) > 0 && result.Width > 0 && result.Height > 0 {
+		rowstride := result.Width * 3
+		hints["image_data"] = dbus.MakeVariant(struct {
+			Width         int32
+			Height        int32
+			Rowstride     int32
+			HasAlpha      bool
+			BitsPerSample int32
+			Channels      int32
+			Data          []byte
+		}{
+			Width:         int32(result.Width),
+			Height:        int32(result.Height),
+			Rowstride:     int32(rowstride),
+			HasAlpha:      false,
+			BitsPerSample: 8,
+			Channels:      3,
+			Data:          result.ImageData,
+		})
+	} else if result.FilePath != "" {
+		hints["image_path"] = dbus.MakeVariant(result.FilePath)
 	}
 
 	summary := "Screenshot captured"
