@@ -89,6 +89,13 @@ func (m *Manager) initDDC() {
 
 func (m *Manager) Rescan() {
 	log.Debug("Rescanning brightness devices...")
+
+	if m.ddcReady && m.ddcBackend != nil {
+		if err := m.ddcBackend.ForceRescan(); err != nil {
+			log.Debugf("DDC force rescan failed: %v", err)
+		}
+	}
+
 	m.updateState()
 }
 

@@ -5,13 +5,18 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+	"sync"
+	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/pilebones/go-udev/netlink"
 )
 
 type UdevMonitor struct {
-	stop chan struct{}
+	stop          chan struct{}
+	rescanMutex   sync.Mutex
+	rescanTimer   *time.Timer
+	rescanPending bool
 }
 
 func NewUdevMonitor(manager *Manager) *UdevMonitor {
@@ -34,10 +39,8 @@ func (m *UdevMonitor) run(manager *Manager) {
 	matcher := &netlink.RuleDefinitions{
 		Rules: []netlink.RuleDefinition{
 			{Env: map[string]string{"SUBSYSTEM": "backlight"}},
-			// ! TODO: most drivers dont emit this for leds?
-			// ! inotify brightness_hw_changed works, but thn some devices dont do that...
-			// ! So for now the GUI just shows OSDs for leds, without reflecting actual HW value
-			// {Env: map[string]string{"SUBSYSTEM": "leds"}},
+			{Env: map[string]string{"SUBSYSTEM": "drm"}},
+			{Env: map[string]string{"SUBSYSTEM": "i2c"}},
 		},
 	}
 	if err := matcher.Compile(); err != nil {
@@ -49,7 +52,7 @@ func (m *UdevMonitor) run(manager *Manager) {
 	errs := make(chan error)
 	conn.Monitor(events, errs, matcher)
 
-	log.Info("Udev monitor started for backlight/leds events")
+	log.Info("Udev monitor started for backlight/drm/i2c events")
 
 	for {
 		select {
@@ -75,11 +78,54 @@ func (m *UdevMonitor) handleEvent(manager *Manager, event netlink.UEvent) {
 	sysname := filepath.Base(devpath)
 	action := string(event.Action)
 
+	switch subsystem {
+	case "drm", "i2c":
+		m.handleDisplayEvent(manager, action, subsystem, sysname)
+	case "backlight":
+		m.handleBacklightEvent(manager, action, sysname)
+	}
+}
+
+func (m *UdevMonitor) handleDisplayEvent(manager *Manager, action, subsystem, sysname string) {
+	switch action {
+	case "add", "remove", "change":
+		log.Debugf("Udev %s event: %s:%s - queueing DDC rescan", action, subsystem, sysname)
+		m.debouncedRescan(manager)
+	}
+}
+
+func (m *UdevMonitor) debouncedRescan(manager *Manager) {
+	m.rescanMutex.Lock()
+	defer m.rescanMutex.Unlock()
+
+	m.rescanPending = true
+
+	if m.rescanTimer != nil {
+		m.rescanTimer.Reset(2 * time.Second)
+		return
+	}
+
+	m.rescanTimer = time.AfterFunc(2*time.Second, func() {
+		m.rescanMutex.Lock()
+		pending := m.rescanPending
+		m.rescanPending = false
+		m.rescanMutex.Unlock()
+
+		if !pending {
+			return
+		}
+
+		log.Debug("Executing debounced DDC rescan")
+		manager.Rescan()
+	})
+}
+
+func (m *UdevMonitor) handleBacklightEvent(manager *Manager, action, sysname string) {
 	switch action {
 	case "change":
-		m.handleChange(manager, subsystem, sysname)
+		m.handleChange(manager, "backlight", sysname)
 	case "add", "remove":
-		log.Debugf("Udev %s event: %s:%s - triggering rescan", action, subsystem, sysname)
+		log.Debugf("Udev %s event: backlight:%s - triggering rescan", action, sysname)
 		manager.Rescan()
 	}
 }

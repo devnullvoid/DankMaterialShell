@@ -752,15 +752,28 @@ Singleton {
 
     Timer {
         id: screenChangeRescanTimer
+        property int rescanAttempt: 0
         interval: 3000
         repeat: false
-        onTriggered: rescanDevices()
+        onTriggered: {
+            rescanDevices();
+            rescanAttempt++;
+            if (rescanAttempt < 3) {
+                interval = rescanAttempt === 1 ? 5000 : 8000;
+                restart();
+            } else {
+                rescanAttempt = 0;
+                interval = 3000;
+            }
+        }
     }
 
     Connections {
         target: Quickshell
 
         function onScreensChanged() {
+            screenChangeRescanTimer.rescanAttempt = 0;
+            screenChangeRescanTimer.interval = 3000;
             screenChangeRescanTimer.restart();
         }
     }

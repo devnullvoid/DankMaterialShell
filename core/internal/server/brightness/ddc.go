@@ -40,6 +40,10 @@ func (b *DDCBackend) scanI2CDevices() error {
 	return b.scanI2CDevicesInternal(false)
 }
 
+func (b *DDCBackend) ForceRescan() error {
+	return b.scanI2CDevicesInternal(true)
+}
+
 func (b *DDCBackend) scanI2CDevicesInternal(force bool) error {
 	b.scanMutex.Lock()
 	defer b.scanMutex.Unlock()
@@ -261,8 +265,16 @@ func (b *DDCBackend) setBrightnessImmediateWithExponent(id string, value int) er
 
 	busPath := fmt.Sprintf("/dev/i2c-%d", dev.bus)
 
+	if _, err := os.Stat(busPath); os.IsNotExist(err) {
+		b.devices.Delete(id)
+		log.Debugf("removed stale DDC device %s (bus no longer exists)", id)
+		return fmt.Errorf("device disconnected: %s", id)
+	}
+
 	fd, err := syscall.Open(busPath, syscall.O_RDWR, 0)
 	if err != nil {
+		b.devices.Delete(id)
+		log.Debugf("removed DDC device %s (open failed: %v)", id, err)
 		return fmt.Errorf("open i2c device: %w", err)
 	}
 	defer syscall.Close(fd)
