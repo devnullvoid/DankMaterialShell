@@ -16,7 +16,15 @@ Singleton {
         const currentOSD = currentOSDsByScreen[screenName];
 
         if (currentOSD && currentOSD !== osd) {
-            currentOSD.hide();
+            if (typeof currentOSD.hide === "function") {
+                try {
+                    currentOSD.hide();
+                } catch (e) {
+                    currentOSDsByScreen[screenName] = null;
+                }
+            } else {
+                currentOSDsByScreen[screenName] = null;
+            }
         }
 
         currentOSDsByScreen[screenName] = osd;

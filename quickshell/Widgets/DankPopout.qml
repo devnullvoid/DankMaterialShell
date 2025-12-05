@@ -68,6 +68,8 @@ Item {
     signal popoutClosed
     signal backgroundClicked
 
+    property var _lastOpenedScreen: null
+
     property int effectiveBarPosition: 0
     property real effectiveBarBottomGap: 0
 
@@ -100,9 +102,17 @@ Item {
         if (!screen)
             return;
         closeTimer.stop();
+
+        if (_lastOpenedScreen !== null && _lastOpenedScreen !== screen) {
+            contentWindow.visible = false;
+            if (useBackgroundWindow)
+                backgroundWindow.visible = false;
+        }
+        _lastOpenedScreen = screen;
+
         shouldBeVisible = true;
         Qt.callLater(() => {
-            if (shouldBeVisible) {
+            if (shouldBeVisible && screen) {
                 if (useBackgroundWindow)
                     backgroundWindow.visible = true;
                 contentWindow.visible = true;
