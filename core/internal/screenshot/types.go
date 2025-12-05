@@ -48,7 +48,7 @@ type Config struct {
 	OutputDir     string
 	Filename      string
 	Clipboard     bool
-	Freeze        bool
+	SaveFile      bool
 	Notify        bool
 	Stdout        bool
 }
@@ -61,8 +61,8 @@ func DefaultConfig() Config {
 		Quality:       90,
 		OutputDir:     "",
 		Filename:      "",
-		Clipboard:     false,
-		Freeze:        true,
+		Clipboard:     true,
+		SaveFile:      true,
 		Notify:        true,
 	}
 }

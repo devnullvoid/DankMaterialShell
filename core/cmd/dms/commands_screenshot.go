@@ -19,8 +19,8 @@ var (
 	ssQuality       int
 	ssOutputDir     string
 	ssFilename      string
-	ssClipboard     bool
-	ssNoFreeze      bool
+	ssNoClipboard   bool
+	ssNoFile        bool
 	ssNoNotify      bool
 	ssStdout        bool
 )
@@ -43,12 +43,13 @@ Output format (--format):
   ppm         - PPM format
 
 Examples:
-  dms screenshot                     # Interactive region selection
+  dms screenshot                     # Region select, save file + clipboard
   dms screenshot full                # Full screen of focused output
   dms screenshot all                 # All screens combined
-  dms screenshot output -o DP-1     # Specific output
+  dms screenshot output -o DP-1      # Specific output
   dms screenshot last                # Last region (pre-selected)
-  dms screenshot --clipboard         # Copy to clipboard
+  dms screenshot --no-clipboard      # Save file only
+  dms screenshot --no-file           # Clipboard only
   dms screenshot --cursor            # Include cursor
   dms screenshot -f jpg -q 85        # JPEG with quality 85`,
 }
@@ -106,9 +107,9 @@ func init() {
 	screenshotCmd.PersistentFlags().IntVarP(&ssQuality, "quality", "q", 90, "JPEG quality (1-100)")
 	screenshotCmd.PersistentFlags().StringVarP(&ssOutputDir, "dir", "d", "", "Output directory")
 	screenshotCmd.PersistentFlags().StringVar(&ssFilename, "filename", "", "Output filename (auto-generated if empty)")
-	screenshotCmd.PersistentFlags().BoolVar(&ssClipboard, "clipboard", false, "Copy to clipboard instead of file")
-	screenshotCmd.PersistentFlags().BoolVar(&ssNoFreeze, "no-freeze", false, "Don't freeze screen during region selection")
-	screenshotCmd.PersistentFlags().BoolVar(&ssNoNotify, "no-notify", false, "Don't show notification after capture")
+	screenshotCmd.PersistentFlags().BoolVar(&ssNoClipboard, "no-clipboard", false, "Don't copy to clipboard")
+	screenshotCmd.PersistentFlags().BoolVar(&ssNoFile, "no-file", false, "Don't save to file")
+	screenshotCmd.PersistentFlags().BoolVar(&ssNoNotify, "no-notify", false, "Don't show notification")
 	screenshotCmd.PersistentFlags().BoolVar(&ssStdout, "stdout", false, "Output image to stdout (for piping to swappy, etc.)")
 
 	screenshotCmd.AddCommand(ssRegionCmd)
@@ -126,8 +127,8 @@ func getScreenshotConfig(mode screenshot.Mode) screenshot.Config {
 	config.Mode = mode
 	config.OutputName = ssOutputName
 	config.IncludeCursor = ssIncludeCursor
-	config.Clipboard = ssClipboard
-	config.Freeze = !ssNoFreeze
+	config.Clipboard = !ssNoClipboard
+	config.SaveFile = !ssNoFile
 	config.Notify = !ssNoNotify
 	config.Stdout = ssStdout
 
@@ -184,39 +185,43 @@ func runScreenshot(config screenshot.Config) {
 		return
 	}
 
+	var filePath string
+
+	if config.SaveFile {
+		outputDir := config.OutputDir
+		if outputDir == "" {
+			outputDir = screenshot.GetOutputDir()
+		}
+
+		filename := config.Filename
+		if filename == "" {
+			filename = screenshot.GenerateFilename(config.Format)
+		}
+
+		filePath = filepath.Join(outputDir, filename)
+		if err := screenshot.WriteToFile(result.Buffer, filePath, config.Format, config.Quality); err != nil {
+			fmt.Fprintf(os.Stderr, "Error writing file: %v\n", err)
+			os.Exit(1)
+		}
+		fmt.Println(filePath)
+	}
+
 	if config.Clipboard {
 		if err := copyImageToClipboard(result.Buffer, config.Format, config.Quality); err != nil {
 			fmt.Fprintf(os.Stderr, "Error copying to clipboard: %v\n", err)
 			os.Exit(1)
 		}
-		if config.Notify {
-			screenshot.SendNotification(screenshot.NotifyResult{Clipboard: true})
+		if !config.SaveFile {
+			fmt.Println("Copied to clipboard")
 		}
-		fmt.Println("Screenshot copied to clipboard")
-		return
-	}
-
-	outputDir := config.OutputDir
-	if outputDir == "" {
-		outputDir = screenshot.GetOutputDir()
-	}
-
-	filename := config.Filename
-	if filename == "" {
-		filename = screenshot.GenerateFilename(config.Format)
-	}
-
-	path := filepath.Join(outputDir, filename)
-	if err := screenshot.WriteToFile(result.Buffer, path, config.Format, config.Quality); err != nil {
-		fmt.Fprintf(os.Stderr, "Error writing file: %v\n", err)
-		os.Exit(1)
 	}
 
 	if config.Notify {
-		screenshot.SendNotification(screenshot.NotifyResult{FilePath: path})
+		screenshot.SendNotification(screenshot.NotifyResult{
+			FilePath:  filePath,
+			Clipboard: config.Clipboard,
+		})
 	}
-
-	fmt.Println(path)
 }
 
 func copyImageToClipboard(buf *screenshot.ShmBuffer, format screenshot.Format, quality int) error {
