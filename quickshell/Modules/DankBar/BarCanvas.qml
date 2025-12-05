@@ -120,7 +120,7 @@ Item {
         active: borderFullPathCorrectShape && borderEdgePathCorrectShape
 
         readonly property real _scale: CompositorService.getScreenScale(barWindow.screen)
-        readonly property real borderThickness: Theme.px(Math.max(1, barConfig?.borderThickness ?? 1), _scale)
+        readonly property real borderThickness: Math.ceil(Math.max(1, barConfig?.borderThickness ?? 1) * _scale) / _scale
         readonly property real inset: borderThickness / 2
         readonly property string borderColorKey: barConfig?.borderColor || "surfaceText"
         readonly property color baseColor: (borderColorKey === "surfaceText") ? Theme.surfaceText : (borderColorKey === "primary") ? Theme.primary : Theme.secondary
