@@ -472,5 +472,7 @@ func getCommonCommands() []*cobra.Command {
 		greeterCmd,
 		setupCmd,
 		colorCmd,
+		screenshotCmd,
+		notifyActionCmd,
 	}
 }

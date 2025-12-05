@@ -4,15 +4,17 @@ import (
 	"math"
 	"strings"
 	"sync"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/wayland/shm"
 )
 
-type PixelFormat uint32
+type PixelFormat = shm.PixelFormat
 
 const (
-	FormatARGB8888 PixelFormat = 0
-	FormatXRGB8888 PixelFormat = 1
-	FormatABGR8888 PixelFormat = 0x34324241
-	FormatXBGR8888 PixelFormat = 0x34324258
+	FormatARGB8888 = shm.FormatARGB8888
+	FormatXRGB8888 = shm.FormatXRGB8888
+	FormatABGR8888 = shm.FormatABGR8888
+	FormatXBGR8888 = shm.FormatXBGR8888
 )
 
 type SurfaceState struct {
@@ -253,7 +255,7 @@ func (s *SurfaceState) Redraw() *ShmBuffer {
 		return nil
 	}
 
-	copy(dst.data, s.screenBuf.data)
+	dst.CopyFrom(s.screenBuf)
 
 	px := int(math.Round(float64(s.pointerX) * s.scaleX))
 	py := int(math.Round(float64(s.pointerY) * s.scaleY))
@@ -261,15 +263,15 @@ func (s *SurfaceState) Redraw() *ShmBuffer {
 	px = clamp(px, 0, dst.Width-1)
 	py = clamp(py, 0, dst.Height-1)
 
-	picked := s.screenBuf.GetPixel(px, py)
+	picked := GetPixelColor(s.screenBuf, px, py)
 
 	drawMagnifier(
-		dst.data, dst.Stride, dst.Width, dst.Height,
-		s.screenBuf.data, s.screenBuf.Stride, s.screenBuf.Width, s.screenBuf.Height,
+		dst.Data(), dst.Stride, dst.Width, dst.Height,
+		s.screenBuf.Data(), s.screenBuf.Stride, s.screenBuf.Width, s.screenBuf.Height,
 		px, py, picked,
 	)
 
-	drawColorPreview(dst.data, dst.Stride, dst.Width, dst.Height, px, py, picked, s.displayFormat, s.lowercase)
+	drawColorPreview(dst.Data(), dst.Stride, dst.Width, dst.Height, px, py, picked, s.displayFormat, s.lowercase)
 
 	return dst
 }
@@ -289,7 +291,7 @@ func (s *SurfaceState) RedrawScreenOnly() *ShmBuffer {
 		return nil
 	}
 
-	copy(dst.data, s.screenBuf.data)
+	dst.CopyFrom(s.screenBuf)
 	return dst
 }
 
@@ -311,7 +313,7 @@ func (s *SurfaceState) PickColor() (Color, bool) {
 		sy = s.screenBuf.Height - 1 - sy
 	}
 
-	return s.screenBuf.GetPixel(sx, sy), true
+	return GetPixelColor(s.screenBuf, sx, sy), true
 }
 
 func (s *SurfaceState) Destroy() {

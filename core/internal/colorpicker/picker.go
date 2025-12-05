@@ -10,6 +10,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/wlr_layer_shell"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/wlr_screencopy"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/wp_viewporter"
+	wlhelpers "github.com/AvengeMedia/DankMaterialShell/core/internal/wayland/client"
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
 )
 
@@ -165,26 +166,7 @@ func (p *Picker) connect() error {
 }
 
 func (p *Picker) roundtrip() error {
-	callback, err := p.display.Sync()
-	if err != nil {
-		return err
-	}
-
-	done := make(chan struct{})
-	callback.SetDoneHandler(func(e client.CallbackDoneEvent) {
-		close(done)
-	})
-
-	for {
-		select {
-		case <-done:
-			return nil
-		default:
-			if err := p.ctx.Dispatch(); err != nil {
-				return err
-			}
-		}
-	}
+	return wlhelpers.Roundtrip(p.display, p.ctx)
 }
 
 func (p *Picker) setupRegistry() error {
