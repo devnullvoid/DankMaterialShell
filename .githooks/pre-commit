@@ -37,7 +37,10 @@ if [[ -n "$STAGED_CORE_FILES" ]]; then
 
   # Tests
   echo "  Running tests..."
-  go test ./... >/dev/null
+  if ! go test ./... >/dev/null 2>&1; then
+    echo "Tests failed! Run 'go test ./...' for details."
+    exit 1
+  fi
 
   # Build checks
   echo "  Building..."
