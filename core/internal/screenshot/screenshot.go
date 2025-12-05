@@ -103,24 +103,19 @@ func (s *Screenshoter) captureLastRegion() (*CaptureResult, error) {
 
 func (s *Screenshoter) captureRegion() (*CaptureResult, error) {
 	selector := NewRegionSelector(s)
-	region, cancelled, err := selector.Run()
+	result, cancelled, err := selector.Run()
 	if err != nil {
 		return nil, fmt.Errorf("region selection: %w", err)
 	}
-	if cancelled {
+	if cancelled || result == nil {
 		return nil, nil
 	}
 
-	output := s.findOutputForRegion(region)
-	if output == nil {
-		return nil, fmt.Errorf("no output found for region")
-	}
-
-	if err := SaveLastRegion(region); err != nil {
+	if err := SaveLastRegion(result.Region); err != nil {
 		log.Debug("failed to save last region", "err", err)
 	}
 
-	return s.captureRegionOnOutput(output, region)
+	return result, nil
 }
 
 func (s *Screenshoter) captureFullScreen() (*CaptureResult, error) {

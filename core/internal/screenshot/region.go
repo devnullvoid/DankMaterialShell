@@ -14,8 +14,9 @@ import (
 )
 
 type SelectionState struct {
-	hasSelection bool // There's a selection to display (pre-loaded or user-drawn)
-	dragging     bool // User is actively drawing a new selection
+	hasSelection bool           // There's a selection to display (pre-loaded or user-drawn)
+	dragging     bool           // User is actively drawing a new selection
+	surface      *OutputSurface // Surface where selection was made
 	// Surface-local logical coordinates (from pointer events)
 	anchorX  float64
 	anchorY  float64
@@ -88,6 +89,9 @@ type RegionSelector struct {
 	running   bool
 	cancelled bool
 	result    Region
+
+	capturedBuffer *ShmBuffer
+	capturedRegion Region
 }
 
 func NewRegionSelector(s *Screenshoter) *RegionSelector {
@@ -98,59 +102,72 @@ func NewRegionSelector(s *Screenshoter) *RegionSelector {
 	}
 }
 
-func (r *RegionSelector) Run() (Region, bool, error) {
+func (r *RegionSelector) Run() (*CaptureResult, bool, error) {
 	r.preSelect = GetLastRegion()
 
 	if err := r.connect(); err != nil {
-		return Region{}, false, fmt.Errorf("wayland connect: %w", err)
+		return nil, false, fmt.Errorf("wayland connect: %w", err)
 	}
 	defer r.cleanup()
 
 	if err := r.setupRegistry(); err != nil {
-		return Region{}, false, fmt.Errorf("registry setup: %w", err)
+		return nil, false, fmt.Errorf("registry setup: %w", err)
 	}
 
 	if err := r.roundtrip(); err != nil {
-		return Region{}, false, fmt.Errorf("roundtrip after registry: %w", err)
+		return nil, false, fmt.Errorf("roundtrip after registry: %w", err)
 	}
 
 	switch {
 	case r.screencopy == nil:
-		return Region{}, false, fmt.Errorf("compositor does not support wlr-screencopy-unstable-v1")
+		return nil, false, fmt.Errorf("compositor does not support wlr-screencopy-unstable-v1")
 	case r.layerShell == nil:
-		return Region{}, false, fmt.Errorf("compositor does not support wlr-layer-shell-unstable-v1")
+		return nil, false, fmt.Errorf("compositor does not support wlr-layer-shell-unstable-v1")
 	case r.seat == nil:
-		return Region{}, false, fmt.Errorf("no seat available")
+		return nil, false, fmt.Errorf("no seat available")
 	case r.compositor == nil:
-		return Region{}, false, fmt.Errorf("compositor not available")
+		return nil, false, fmt.Errorf("compositor not available")
 	case r.shm == nil:
-		return Region{}, false, fmt.Errorf("wl_shm not available")
+		return nil, false, fmt.Errorf("wl_shm not available")
 	case len(r.outputs) == 0:
-		return Region{}, false, fmt.Errorf("no outputs available")
+		return nil, false, fmt.Errorf("no outputs available")
 	}
 
 	if err := r.roundtrip(); err != nil {
-		return Region{}, false, fmt.Errorf("roundtrip after protocol check: %w", err)
+		return nil, false, fmt.Errorf("roundtrip after protocol check: %w", err)
 	}
 
 	if err := r.createSurfaces(); err != nil {
-		return Region{}, false, fmt.Errorf("create surfaces: %w", err)
+		return nil, false, fmt.Errorf("create surfaces: %w", err)
 	}
 
 	_ = r.createCursor()
 
 	if err := r.roundtrip(); err != nil {
-		return Region{}, false, fmt.Errorf("roundtrip after surfaces: %w", err)
+		return nil, false, fmt.Errorf("roundtrip after surfaces: %w", err)
 	}
 
 	r.running = true
 	for r.running {
 		if err := r.ctx.Dispatch(); err != nil {
-			return Region{}, false, fmt.Errorf("dispatch: %w", err)
+			return nil, false, fmt.Errorf("dispatch: %w", err)
 		}
 	}
 
-	return r.result, r.cancelled, nil
+	if r.cancelled || r.capturedBuffer == nil {
+		return nil, r.cancelled, nil
+	}
+
+	yInverted := false
+	if r.selection.surface != nil {
+		yInverted = r.selection.surface.yInverted
+	}
+
+	return &CaptureResult{
+		Buffer:    r.capturedBuffer,
+		Region:    r.result, // Global coords for saving last region
+		YInverted: yInverted,
+	}, false, nil
 }
 
 func (r *RegionSelector) connect() error {
@@ -610,6 +627,7 @@ func (r *RegionSelector) applyPreSelection(os *OutputSurface) {
 
 	r.selection.hasSelection = true
 	r.selection.dragging = false
+	r.selection.surface = os
 	r.selection.anchorX = x1
 	r.selection.anchorY = y1
 	r.selection.currentX = x2

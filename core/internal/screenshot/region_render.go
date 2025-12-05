@@ -72,7 +72,7 @@ func (r *RegionSelector) drawOverlay(os *OutputSurface, renderBuf *ShmBuffer) {
 
 	r.drawHUD(data, stride, w, h)
 
-	if !r.selection.hasSelection || r.activeSurface != os {
+	if !r.selection.hasSelection || r.selection.surface != os {
 		return
 	}
 
