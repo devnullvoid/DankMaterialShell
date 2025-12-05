@@ -34,7 +34,7 @@ func SendNotification(result NotifyResult) {
 	}
 
 	var actions []string
-	if !result.Clipboard && result.FilePath != "" {
+	if result.FilePath != "" {
 		actions = []string{"default", "Open"}
 	}
 
@@ -64,9 +64,11 @@ func SendNotification(result NotifyResult) {
 
 	summary := "Screenshot captured"
 	body := ""
-	if result.Clipboard {
+	if result.Clipboard && result.FilePath != "" {
+		body = fmt.Sprintf("Copied to clipboard\n%s", filepath.Base(result.FilePath))
+	} else if result.Clipboard {
 		body = "Copied to clipboard"
-	} else {
+	} else if result.FilePath != "" {
 		body = filepath.Base(result.FilePath)
 	}
 
