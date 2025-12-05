@@ -114,6 +114,13 @@ func (r *RegionSelector) drawOverlay(os *OutputSurface, renderBuf *ShmBuffer) {
 	}
 
 	selW, selH := bx2-bx1+1, by2-by1+1
+	if r.shiftHeld && selW != selH {
+		if selW < selH {
+			selH = selW
+		} else {
+			selW = selH
+		}
+	}
 	r.drawBorder(data, stride, w, h, bx1, by1, selW, selH)
 	r.drawDimensions(data, stride, w, h, bx1, by1, selW, selH)
 }

@@ -51,12 +51,41 @@ func (r *RegionSelector) setupPointerHandlers() {
 		r.pointerX = e.SurfaceX
 		r.pointerY = e.SurfaceY
 
-		if r.selection.dragging {
-			r.selection.currentX = e.SurfaceX
-			r.selection.currentY = e.SurfaceY
-			for _, os := range r.surfaces {
-				r.redrawSurface(os)
+		if !r.selection.dragging {
+			return
+		}
+
+		curX, curY := e.SurfaceX, e.SurfaceY
+		if r.shiftHeld {
+			dx := curX - r.selection.anchorX
+			dy := curY - r.selection.anchorY
+			adx, ady := dx, dy
+			if adx < 0 {
+				adx = -adx
 			}
+			if ady < 0 {
+				ady = -ady
+			}
+			size := adx
+			if ady > adx {
+				size = ady
+			}
+			if dx < 0 {
+				curX = r.selection.anchorX - size
+			} else {
+				curX = r.selection.anchorX + size
+			}
+			if dy < 0 {
+				curY = r.selection.anchorY - size
+			} else {
+				curY = r.selection.anchorY + size
+			}
+		}
+
+		r.selection.currentX = curX
+		r.selection.currentY = curY
+		for _, os := range r.surfaces {
+			r.redrawSurface(os)
 		}
 	})
 
@@ -93,21 +122,25 @@ func (r *RegionSelector) setupPointerHandlers() {
 }
 
 func (r *RegionSelector) setupKeyboardHandlers() {
+	r.keyboard.SetModifiersHandler(func(e client.KeyboardModifiersEvent) {
+		r.shiftHeld = e.ModsDepressed&1 != 0
+	})
+
 	r.keyboard.SetKeyHandler(func(e client.KeyboardKeyEvent) {
 		if e.State != 1 {
 			return
 		}
 
 		switch e.Key {
-		case 1: // KEY_ESC
+		case 1:
 			r.cancelled = true
 			r.running = false
-		case 25: // KEY_P
+		case 25:
 			r.showCapturedCursor = !r.showCapturedCursor
 			for _, os := range r.surfaces {
 				r.redrawSurface(os)
 			}
-		case 28, 57: // KEY_ENTER, KEY_SPACE
+		case 28, 57:
 			if r.selection.hasSelection {
 				r.finishSelection()
 			}
@@ -163,7 +196,14 @@ func (r *RegionSelector) finishSelection() {
 		by2 = srcBuf.Height
 	}
 
-	w, h := bx2-bx1, by2-by1
+	w, h := bx2-bx1+1, by2-by1+1
+	if r.shiftHeld && w != h {
+		if w < h {
+			h = w
+		} else {
+			w = h
+		}
+	}
 	if w < 1 {
 		w = 1
 	}

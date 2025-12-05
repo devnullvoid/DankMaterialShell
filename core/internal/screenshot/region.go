@@ -85,6 +85,7 @@ type RegionSelector struct {
 	pointerY           float64
 	preSelect          Region
 	showCapturedCursor bool
+	shiftHeld          bool
 
 	running   bool
 	cancelled bool
