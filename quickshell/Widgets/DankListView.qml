@@ -23,130 +23,132 @@ ListView {
     flickableDirection: Flickable.VerticalFlick
 
     onMovementStarted: {
-        isUserScrolling = true
-        vbar._scrollBarActive = true
-        vbar.hideTimer.stop()
+        isUserScrolling = true;
+        vbar._scrollBarActive = true;
+        vbar.hideTimer.stop();
     }
     onMovementEnded: {
-        isUserScrolling = false
-        vbar.hideTimer.restart()
+        isUserScrolling = false;
+        vbar.hideTimer.restart();
     }
 
     onContentYChanged: {
         if (!justChanged && isUserScrolling) {
-            savedY = contentY
+            savedY = contentY;
         }
-        justChanged = false
+        justChanged = false;
     }
 
     onModelChanged: {
-        justChanged = true
-        contentY = savedY
+        justChanged = true;
+        contentY = savedY;
     }
 
     WheelHandler {
         id: wheelHandler
-        property real touchpadSpeed: 1.8
+        property real touchpadSpeed: 2.8
         property real lastWheelTime: 0
         property real momentum: 0
         property var velocitySamples: []
         property bool sessionUsedMouseWheel: false
 
         function startMomentum() {
-            isMomentumActive = true
-            momentumTimer.start()
+            isMomentumActive = true;
+            momentumTimer.start();
         }
 
         acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
 
         onWheel: event => {
-                     isUserScrolling = true
-                     vbar._scrollBarActive = true
-                     vbar.hideTimer.restart()
+            isUserScrolling = true;
+            vbar._scrollBarActive = true;
+            vbar.hideTimer.restart();
 
-                     const currentTime = Date.now()
-                     const timeDelta = currentTime - lastWheelTime
-                     lastWheelTime = currentTime
+            const currentTime = Date.now();
+            const timeDelta = currentTime - lastWheelTime;
+            lastWheelTime = currentTime;
 
-                     const deltaY = event.angleDelta.y
-                     const isMouseWheel = Math.abs(deltaY) >= 120 && (Math.abs(deltaY) % 120) === 0
+            const hasPixel = event.pixelDelta && event.pixelDelta.y !== 0;
+            const hasAngle = event.angleDelta && event.angleDelta.y !== 0;
+            const deltaY = event.angleDelta.y;
+            const isMouseWheel = !hasPixel && hasAngle;
 
-                     if (isMouseWheel) {
-                         sessionUsedMouseWheel = true
-                         momentumTimer.stop()
-                         isMomentumActive = false
-                         velocitySamples = []
-                         momentum = 0
-                         momentumVelocity = 0
+            if (isMouseWheel) {
+                sessionUsedMouseWheel = true;
+                momentumTimer.stop();
+                isMomentumActive = false;
+                velocitySamples = [];
+                momentum = 0;
+                momentumVelocity = 0;
 
-                         const lines = Math.floor(Math.abs(deltaY) / 120)
-                         const scrollAmount = (deltaY > 0 ? -lines : lines) * mouseWheelSpeed
-                         let newY = listView.contentY + scrollAmount
-                         const maxY = Math.max(0, listView.contentHeight - listView.height + listView.originY)
-                         newY = Math.max(listView.originY, Math.min(maxY, newY))
+                const lines = Math.floor(Math.abs(deltaY) / 120);
+                const scrollAmount = (deltaY > 0 ? -lines : lines) * mouseWheelSpeed;
+                let newY = listView.contentY + scrollAmount;
+                const maxY = Math.max(0, listView.contentHeight - listView.height + listView.originY);
+                newY = Math.max(listView.originY, Math.min(maxY, newY));
 
-                         if (listView.flicking) {
-                             listView.cancelFlick()
-                         }
+                if (listView.flicking) {
+                    listView.cancelFlick();
+                }
 
-                         listView.contentY = newY
-                         savedY = newY
-                     } else {
-                         sessionUsedMouseWheel = false
-                         momentumTimer.stop()
-                         isMomentumActive = false
+                listView.contentY = newY;
+                savedY = newY;
+            } else {
+                sessionUsedMouseWheel = false;
+                momentumTimer.stop();
+                isMomentumActive = false;
 
-                         let delta = 0
-                         if (event.pixelDelta.y !== 0) {
-                             delta = event.pixelDelta.y * touchpadSpeed
-                         } else {
-                             delta = event.angleDelta.y / 8 * touchpadSpeed
-                         }
+                let delta = 0;
+                if (event.pixelDelta.y !== 0) {
+                    delta = event.pixelDelta.y * touchpadSpeed;
+                } else {
+                    delta = event.angleDelta.y / 8 * touchpadSpeed;
+                }
 
-                         velocitySamples.push({
-                                                  "delta": delta,
-                                                  "time": currentTime
-                                              })
-                         velocitySamples = velocitySamples.filter(s => currentTime - s.time < 100)
+                velocitySamples.push({
+                    "delta": delta,
+                    "time": currentTime
+                });
+                velocitySamples = velocitySamples.filter(s => currentTime - s.time < 100);
 
-                         if (velocitySamples.length > 1) {
-                             const totalDelta = velocitySamples.reduce((sum, s) => sum + s.delta, 0)
-                             const timeSpan = currentTime - velocitySamples[0].time
-                             if (timeSpan > 0) {
-                                 momentumVelocity = Math.max(-maxMomentumVelocity, Math.min(maxMomentumVelocity, totalDelta / timeSpan * 1000))
-                             }
-                         }
+                if (velocitySamples.length > 1) {
+                    const totalDelta = velocitySamples.reduce((sum, s) => sum + s.delta, 0);
+                    const timeSpan = currentTime - velocitySamples[0].time;
+                    if (timeSpan > 0) {
+                        momentumVelocity = Math.max(-maxMomentumVelocity, Math.min(maxMomentumVelocity, totalDelta / timeSpan * 1000));
+                    }
+                }
 
-                         if (event.pixelDelta.y !== 0 && timeDelta < 50) {
-                             momentum = momentum * 0.92 + delta * 0.15
-                             delta += momentum
-                         } else {
-                             momentum = 0
-                         }
+                if (event.pixelDelta.y !== 0 && timeDelta < 50) {
+                    momentum = momentum * 0.92 + delta * 0.15;
+                    delta += momentum;
+                } else {
+                    momentum = 0;
+                }
 
-                         let newY = listView.contentY - delta
-                         const maxY = Math.max(0, listView.contentHeight - listView.height + listView.originY)
-                         newY = Math.max(listView.originY, Math.min(maxY, newY))
+                let newY = listView.contentY - delta;
+                const maxY = Math.max(0, listView.contentHeight - listView.height + listView.originY);
+                newY = Math.max(listView.originY, Math.min(maxY, newY));
 
-                         if (listView.flicking) {
-                             listView.cancelFlick()
-                         }
+                if (listView.flicking) {
+                    listView.cancelFlick();
+                }
 
-                         listView.contentY = newY
-                         savedY = newY
-                     }
+                listView.contentY = newY;
+                savedY = newY;
+            }
 
-                     event.accepted = true
-                 }
+            event.accepted = true;
+        }
 
         onActiveChanged: {
             if (!active) {
-                isUserScrolling = false
+                isUserScrolling = false;
                 if (!sessionUsedMouseWheel && Math.abs(momentumVelocity) >= minMomentumVelocity) {
-                    startMomentum()
+                    startMomentum();
                 } else {
-                    velocitySamples = []
-                    momentumVelocity = 0
+                    velocitySamples = [];
+                    momentumVelocity = 0;
                 }
             }
         }
@@ -158,27 +160,27 @@ ListView {
         repeat: true
 
         onTriggered: {
-            const newY = contentY - momentumVelocity * 0.016
-            const maxY = Math.max(0, contentHeight - height + originY)
-            const minY = originY
+            const newY = contentY - momentumVelocity * 0.016;
+            const maxY = Math.max(0, contentHeight - height + originY);
+            const minY = originY;
 
             if (newY < minY || newY > maxY) {
-                contentY = newY < minY ? minY : maxY
-                savedY = contentY
-                stop()
-                isMomentumActive = false
-                momentumVelocity = 0
-                return
+                contentY = newY < minY ? minY : maxY;
+                savedY = contentY;
+                stop();
+                isMomentumActive = false;
+                momentumVelocity = 0;
+                return;
             }
 
-            contentY = newY
-            savedY = newY
-            momentumVelocity *= friction
+            contentY = newY;
+            savedY = newY;
+            momentumVelocity *= friction;
 
             if (Math.abs(momentumVelocity) < 5) {
-                stop()
-                isMomentumActive = false
-                momentumVelocity = 0
+                stop();
+                isMomentumActive = false;
+                momentumVelocity = 0;
             }
         }
     }
