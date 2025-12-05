@@ -34,7 +34,7 @@ const DMS_ACTIONS = [
     { id: "spawn dms ipc call notepad toggle", label: "Notepad: Toggle" },
     { id: "spawn dms ipc call notepad open", label: "Notepad: Open" },
     { id: "spawn dms ipc call notepad close", label: "Notepad: Close" },
-    { id: "spawn dms ipc call dash toggle", label: "Dashboard: Toggle" },
+    { id: "spawn dms ipc call dash toggle \"\"", label: "Dashboard: Toggle" },
     { id: "spawn dms ipc call dash open overview", label: "Dashboard: Overview" },
     { id: "spawn dms ipc call dash open media", label: "Dashboard: Media" },
     { id: "spawn dms ipc call dash open weather", label: "Dashboard: Weather" },
@@ -109,9 +109,15 @@ const COMPOSITOR_ACTIONS = {
         { id: "fullscreen-window", label: "Fullscreen" },
         { id: "maximize-column", label: "Maximize Column" },
         { id: "center-column", label: "Center Column" },
+        { id: "center-visible-columns", label: "Center Visible Columns" },
         { id: "toggle-window-floating", label: "Toggle Floating" },
+        { id: "switch-focus-between-floating-and-tiling", label: "Switch Floating/Tiling Focus" },
         { id: "switch-preset-column-width", label: "Cycle Column Width" },
         { id: "switch-preset-window-height", label: "Cycle Window Height" },
+        { id: "set-column-width", label: "Set Column Width" },
+        { id: "set-window-height", label: "Set Window Height" },
+        { id: "reset-window-height", label: "Reset Window Height" },
+        { id: "expand-column-to-available-width", label: "Expand to Available Width" },
         { id: "consume-or-expel-window-left", label: "Consume/Expel Left" },
         { id: "consume-or-expel-window-right", label: "Consume/Expel Right" },
         { id: "toggle-column-tabbed-display", label: "Toggle Tabbed" }
@@ -136,8 +142,10 @@ const COMPOSITOR_ACTIONS = {
         { id: "focus-workspace-down", label: "Focus Workspace Down" },
         { id: "focus-workspace-up", label: "Focus Workspace Up" },
         { id: "focus-workspace-previous", label: "Focus Previous Workspace" },
+        { id: "focus-workspace", label: "Focus Workspace (by index)" },
         { id: "move-column-to-workspace-down", label: "Move to Workspace Down" },
         { id: "move-column-to-workspace-up", label: "Move to Workspace Up" },
+        { id: "move-column-to-workspace", label: "Move to Workspace (by index)" },
         { id: "move-workspace-down", label: "Move Workspace Down" },
         { id: "move-workspace-up", label: "Move Workspace Up" }
     ],
@@ -172,6 +180,52 @@ const COMPOSITOR_ACTIONS = {
 };
 
 const CATEGORY_ORDER = ["DMS", "Execute", "Workspace", "Window", "Monitor", "Screenshot", "System", "Overview", "Alt-Tab", "Other"];
+
+const ACTION_ARGS = {
+    "set-column-width": {
+        args: [{ name: "value", type: "text", label: "Width", placeholder: "+10%, -10%, 50%" }]
+    },
+    "set-window-height": {
+        args: [{ name: "value", type: "text", label: "Height", placeholder: "+10%, -10%, 50%" }]
+    },
+    "focus-workspace": {
+        args: [{ name: "index", type: "number", label: "Workspace", placeholder: "1, 2, 3..." }]
+    },
+    "move-column-to-workspace": {
+        args: [
+            { name: "index", type: "number", label: "Workspace", placeholder: "1, 2, 3..." },
+            { name: "focus", type: "bool", label: "Follow focus", default: false }
+        ]
+    },
+    "screenshot": {
+        args: [{ name: "opts", type: "screenshot", label: "Options" }]
+    },
+    "screenshot-screen": {
+        args: [{ name: "opts", type: "screenshot", label: "Options" }]
+    },
+    "screenshot-window": {
+        args: [{ name: "opts", type: "screenshot", label: "Options" }]
+    }
+};
+
+const DMS_ACTION_ARGS = {
+    "audio increment": {
+        base: "spawn dms ipc call audio increment",
+        args: [{ name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "" }]
+    },
+    "audio decrement": {
+        base: "spawn dms ipc call audio decrement",
+        args: [{ name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "" }]
+    },
+    "brightness increment": {
+        base: "spawn dms ipc call brightness increment",
+        args: [{ name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "" }]
+    },
+    "brightness decrement": {
+        base: "spawn dms ipc call brightness decrement",
+        args: [{ name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "" }]
+    }
+};
 
 function getActionTypes() {
     return ACTION_TYPES;
@@ -321,4 +375,121 @@ function parseShellCommand(action) {
     if ((content.startsWith('"') && content.endsWith('"')) || (content.startsWith("'") && content.endsWith("'")))
         content = content.slice(1, -1);
     return content.replace(/\\"/g, "\"");
+}
+
+function getActionArgConfig(action) {
+    if (!action)
+        return null;
+
+    var baseAction = action.split(" ")[0];
+    if (ACTION_ARGS[baseAction])
+        return { type: "compositor", base: baseAction, config: ACTION_ARGS[baseAction] };
+
+    for (var key in DMS_ACTION_ARGS) {
+        if (action.startsWith(DMS_ACTION_ARGS[key].base))
+            return { type: "dms", base: key, config: DMS_ACTION_ARGS[key] };
+    }
+
+    return null;
+}
+
+function parseCompositorActionArgs(action) {
+    if (!action)
+        return { base: "", args: {} };
+
+    var parts = action.split(" ");
+    var base = parts[0];
+    var args = {};
+
+    if (!ACTION_ARGS[base])
+        return { base: action, args: {} };
+
+    var argConfig = ACTION_ARGS[base];
+    var argParts = parts.slice(1);
+
+    if (base === "move-column-to-workspace") {
+        for (var i = 0; i < argParts.length; i++) {
+            if (argParts[i] === "focus=true" || argParts[i] === "focus=false") {
+                args.focus = argParts[i] === "focus=true";
+            } else if (!args.index) {
+                args.index = argParts[i];
+            }
+        }
+    } else if (base.startsWith("screenshot")) {
+        args.opts = {};
+        for (var j = 0; j < argParts.length; j += 2) {
+            if (j + 1 < argParts.length)
+                args.opts[argParts[j]] = argParts[j + 1];
+        }
+    } else if (argParts.length > 0) {
+        args.value = argParts.join(" ");
+    }
+
+    return { base: base, args: args };
+}
+
+function buildCompositorAction(base, args) {
+    if (!base)
+        return "";
+
+    var parts = [base];
+
+    if (!args || Object.keys(args).length === 0)
+        return base;
+
+    if (base === "move-column-to-workspace") {
+        if (args.index)
+            parts.push(args.index);
+        if (args.focus === true)
+            parts.push("focus=true");
+        else if (args.focus === false)
+            parts.push("focus=false");
+    } else if (base.startsWith("screenshot") && args.opts) {
+        for (var key in args.opts) {
+            if (args.opts[key] !== undefined && args.opts[key] !== "") {
+                parts.push(key);
+                parts.push(args.opts[key]);
+            }
+        }
+    } else if (args.value) {
+        parts.push(args.value);
+    } else if (args.index) {
+        parts.push(args.index);
+    }
+
+    return parts.join(" ");
+}
+
+function parseDmsActionArgs(action) {
+    if (!action)
+        return { base: "", args: {} };
+
+    for (var key in DMS_ACTION_ARGS) {
+        var config = DMS_ACTION_ARGS[key];
+        if (action.startsWith(config.base)) {
+            var rest = action.slice(config.base.length).trim();
+            return { base: key, args: { amount: rest || "" } };
+        }
+    }
+
+    return { base: action, args: {} };
+}
+
+function buildDmsAction(baseKey, args) {
+    var config = DMS_ACTION_ARGS[baseKey];
+    if (!config)
+        return "";
+
+    var action = config.base;
+    if (args && args.amount)
+        action += " " + args.amount;
+
+    return action;
+}
+
+function getScreenshotOptions() {
+    return [
+        { id: "write-to-disk", label: "Save to disk", type: "bool" },
+        { id: "show-pointer", label: "Show pointer", type: "bool" }
+    ];
 }

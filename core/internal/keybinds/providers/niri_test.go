@@ -397,3 +397,211 @@ recent-windows {
 		t.Errorf("Expected at least 2 Alt-Tab binds, got %d", len(cheatSheet.Binds["Alt-Tab"]))
 	}
 }
+
+func TestNiriGenerateBindsContentNumericArgs(t *testing.T) {
+	provider := NewNiriProvider("")
+
+	tests := []struct {
+		name     string
+		binds    map[string]*overrideBind
+		expected string
+	}{
+		{
+			name: "workspace with numeric arg",
+			binds: map[string]*overrideBind{
+				"Mod+1": {
+					Key:         "Mod+1",
+					Action:      "focus-workspace 1",
+					Description: "Focus Workspace 1",
+				},
+			},
+			expected: `binds {
+    Mod+1 hotkey-overlay-title="Focus Workspace 1" { focus-workspace 1; }
+}
+`,
+		},
+		{
+			name: "workspace with large numeric arg",
+			binds: map[string]*overrideBind{
+				"Mod+0": {
+					Key:         "Mod+0",
+					Action:      "focus-workspace 10",
+					Description: "Focus Workspace 10",
+				},
+			},
+			expected: `binds {
+    Mod+0 hotkey-overlay-title="Focus Workspace 10" { focus-workspace 10; }
+}
+`,
+		},
+		{
+			name: "percentage string arg (should be quoted)",
+			binds: map[string]*overrideBind{
+				"Super+Minus": {
+					Key:         "Super+Minus",
+					Action:      `set-column-width "-10%"`,
+					Description: "Adjust Column Width -10%",
+				},
+			},
+			expected: `binds {
+    Super+Minus hotkey-overlay-title="Adjust Column Width -10%" { set-column-width "-10%"; }
+}
+`,
+		},
+		{
+			name: "positive percentage string arg",
+			binds: map[string]*overrideBind{
+				"Super+Equal": {
+					Key:         "Super+Equal",
+					Action:      `set-column-width "+10%"`,
+					Description: "Adjust Column Width +10%",
+				},
+			},
+			expected: `binds {
+    Super+Equal hotkey-overlay-title="Adjust Column Width +10%" { set-column-width "+10%"; }
+}
+`,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := provider.generateBindsContent(tt.binds)
+			if result != tt.expected {
+				t.Errorf("generateBindsContent() =\n%q\nwant:\n%q", result, tt.expected)
+			}
+		})
+	}
+}
+
+func TestNiriGenerateActionWithUnquotedPercentArg(t *testing.T) {
+	provider := NewNiriProvider("")
+
+	binds := map[string]*overrideBind{
+		"Super+Equal": {
+			Key:         "Super+Equal",
+			Action:      "set-window-height +10%",
+			Description: "Adjust Window Height +10%",
+		},
+	}
+
+	content := provider.generateBindsContent(binds)
+	expected := `binds {
+    Super+Equal hotkey-overlay-title="Adjust Window Height +10%" { set-window-height "+10%"; }
+}
+`
+	if content != expected {
+		t.Errorf("Content mismatch.\nGot:\n%s\nWant:\n%s", content, expected)
+	}
+}
+
+func TestNiriGenerateSpawnWithNumericArgs(t *testing.T) {
+	provider := NewNiriProvider("")
+
+	binds := map[string]*overrideBind{
+		"XF86AudioLowerVolume": {
+			Key:     "XF86AudioLowerVolume",
+			Action:  `spawn "dms" "ipc" "call" "audio" "decrement" "3"`,
+			Options: map[string]any{"allow-when-locked": true},
+		},
+	}
+
+	content := provider.generateBindsContent(binds)
+	expected := `binds {
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "3"; }
+}
+`
+	if content != expected {
+		t.Errorf("Content mismatch.\nGot:\n%s\nWant:\n%s", content, expected)
+	}
+}
+
+func TestNiriGenerateSpawnNumericArgFromCLI(t *testing.T) {
+	provider := NewNiriProvider("")
+
+	binds := map[string]*overrideBind{
+		"XF86AudioLowerVolume": {
+			Key:     "XF86AudioLowerVolume",
+			Action:  "spawn dms ipc call audio decrement 3",
+			Options: map[string]any{"allow-when-locked": true},
+		},
+	}
+
+	content := provider.generateBindsContent(binds)
+	expected := `binds {
+    XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "3"; }
+}
+`
+	if content != expected {
+		t.Errorf("Content mismatch.\nGot:\n%s\nWant:\n%s", content, expected)
+	}
+}
+
+func TestNiriGenerateWorkspaceBindsRoundTrip(t *testing.T) {
+	provider := NewNiriProvider("")
+
+	binds := map[string]*overrideBind{
+		"Mod+1": {
+			Key:         "Mod+1",
+			Action:      "focus-workspace 1",
+			Description: "Focus Workspace 1",
+		},
+		"Mod+2": {
+			Key:         "Mod+2",
+			Action:      "focus-workspace 2",
+			Description: "Focus Workspace 2",
+		},
+		"Mod+Shift+1": {
+			Key:         "Mod+Shift+1",
+			Action:      "move-column-to-workspace 1",
+			Description: "Move to Workspace 1",
+		},
+		"Super+Minus": {
+			Key:         "Super+Minus",
+			Action:      "set-column-width -10%",
+			Description: "Adjust Column Width -10%",
+		},
+	}
+
+	content := provider.generateBindsContent(binds)
+
+	tmpDir := t.TempDir()
+	configFile := filepath.Join(tmpDir, "config.kdl")
+	if err := os.WriteFile(configFile, []byte(content), 0644); err != nil {
+		t.Fatalf("Failed to write temp file: %v", err)
+	}
+
+	result, err := ParseNiriKeys(tmpDir)
+	if err != nil {
+		t.Fatalf("Failed to parse generated content: %v\nContent was:\n%s", err, content)
+	}
+
+	if len(result.Section.Keybinds) != 4 {
+		t.Errorf("Expected 4 keybinds after round-trip, got %d", len(result.Section.Keybinds))
+	}
+
+	foundFocusWS1 := false
+	foundMoveWS1 := false
+	foundSetWidth := false
+
+	for _, kb := range result.Section.Keybinds {
+		switch {
+		case kb.Action == "focus-workspace" && len(kb.Args) > 0 && kb.Args[0] == "1":
+			foundFocusWS1 = true
+		case kb.Action == "move-column-to-workspace" && len(kb.Args) > 0 && kb.Args[0] == "1":
+			foundMoveWS1 = true
+		case kb.Action == "set-column-width" && len(kb.Args) > 0 && kb.Args[0] == "-10%":
+			foundSetWidth = true
+		}
+	}
+
+	if !foundFocusWS1 {
+		t.Error("focus-workspace 1 not found after round-trip")
+	}
+	if !foundMoveWS1 {
+		t.Error("move-column-to-workspace 1 not found after round-trip")
+	}
+	if !foundSetWidth {
+		t.Error("set-column-width -10% not found after round-trip")
+	}
+}

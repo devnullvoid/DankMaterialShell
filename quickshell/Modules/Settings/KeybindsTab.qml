@@ -89,10 +89,15 @@ Item {
 
     function saveNewBind(bindData) {
         KeybindsService.saveBind("", bindData);
-        showingNewBind = false;
-        selectedCategory = "";
         _editingKey = bindData.key;
         expandedKey = bindData.action;
+    }
+
+    function _onSaveSuccess() {
+        if (showingNewBind) {
+            showingNewBind = false;
+            selectedCategory = "";
+        }
     }
 
     function scrollToTop() {
@@ -120,6 +125,10 @@ Item {
         function onBindSaved(key) {
             keybindsTab._savedScrollY = flickable.contentY;
             keybindsTab._preserveScroll = true;
+        }
+        function onBindSaveCompleted(success) {
+            if (success)
+                keybindsTab._onSaveSuccess();
         }
         function onBindRemoved(key) {
             keybindsTab._savedScrollY = flickable.contentY;

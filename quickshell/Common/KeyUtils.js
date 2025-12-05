@@ -18,6 +18,7 @@ const KEY_MAP = {
     96: "grave",
     32: "space",
     16777225: "Print",
+    16777226: "Print",
     16777220: "Return",
     16777221: "Return",
     16777217: "Tab",
@@ -93,20 +94,20 @@ function xkbKeyFromQtKey(qk) {
 
 function modsFromEvent(mods) {
     var result = [];
-    if (mods & 0x04000000)
-        result.push("Ctrl");
-    if (mods & 0x02000000)
-        result.push("Shift");
     var hasAlt = mods & 0x08000000;
     var hasSuper = mods & 0x10000000;
     if (hasAlt && hasSuper) {
         result.push("Mod");
     } else {
-        if (hasAlt)
-            result.push("Alt");
         if (hasSuper)
             result.push("Super");
+        if (hasAlt)
+            result.push("Alt");
     }
+    if (mods & 0x04000000)
+        result.push("Ctrl");
+    if (mods & 0x02000000)
+        result.push("Shift");
     return result;
 }
 

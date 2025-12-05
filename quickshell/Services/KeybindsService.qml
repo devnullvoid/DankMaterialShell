@@ -55,6 +55,7 @@ Singleton {
 
     signal bindsLoaded
     signal bindSaved(string key)
+    signal bindSaveCompleted(bool success)
     signal bindRemoved(string key)
     signal dmsBindsFixed
 
@@ -118,12 +119,14 @@ Singleton {
 
         onExited: exitCode => {
             root.saving = false;
-            if (exitCode === 0) {
-                root.lastError = "";
-                root.loadBinds(false);
-            } else {
+            if (exitCode !== 0) {
                 console.error("[KeybindsService] Save failed with code:", exitCode);
+                root.bindSaveCompleted(false);
+                return;
             }
+            root.lastError = "";
+            root.bindSaveCompleted(true);
+            root.loadBinds(false);
         }
     }
 
@@ -141,12 +144,12 @@ Singleton {
         }
 
         onExited: exitCode => {
-            if (exitCode === 0) {
-                root.lastError = "";
-                root.loadBinds(false);
-            } else {
+            if (exitCode !== 0) {
                 console.error("[KeybindsService] Remove failed with code:", exitCode);
+                return;
             }
+            root.lastError = "";
+            root.loadBinds(false);
         }
     }
 
@@ -165,15 +168,15 @@ Singleton {
 
         onExited: exitCode => {
             root.fixing = false;
-            if (exitCode === 0) {
-                root.lastError = "";
-                root.dmsBindsIncluded = true;
-                root.dmsBindsFixed();
-                ToastService.showSuccess(I18n.tr("Binds include added"), I18n.tr("dms/binds.kdl is now included in config.kdl"), "", "keybinds");
-                Qt.callLater(root.forceReload);
-            } else {
+            if (exitCode !== 0) {
                 console.error("[KeybindsService] Fix failed with code:", exitCode);
+                return;
             }
+            root.lastError = "";
+            root.dmsBindsIncluded = true;
+            root.dmsBindsFixed();
+            ToastService.showSuccess(I18n.tr("Binds include added"), I18n.tr("dms/binds.kdl is now included in config.kdl"), "", "keybinds");
+            Qt.callLater(root.forceReload);
         }
     }
 

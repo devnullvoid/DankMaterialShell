@@ -333,35 +333,6 @@ func (n *NiriProvider) isRecentWindowsAction(action string) bool {
 	}
 }
 
-func (n *NiriProvider) parseSpawnArgs(s string) []string {
-	var args []string
-	var current strings.Builder
-	var inQuote, escaped bool
-
-	for _, r := range s {
-		switch {
-		case escaped:
-			current.WriteRune(r)
-			escaped = false
-		case r == '\\':
-			escaped = true
-		case r == '"':
-			inQuote = !inQuote
-		case r == ' ' && !inQuote:
-			if current.Len() > 0 {
-				args = append(args, current.String())
-				current.Reset()
-			}
-		default:
-			current.WriteRune(r)
-		}
-	}
-	if current.Len() > 0 {
-		args = append(args, current.String())
-	}
-	return args
-}
-
 func (n *NiriProvider) buildBindNode(bind *overrideBind) *document.Node {
 	node := document.NewNode()
 	node.SetName(bind.Key)
@@ -392,17 +363,46 @@ func (n *NiriProvider) buildActionNode(action string) *document.Node {
 	action = strings.TrimSpace(action)
 	node := document.NewNode()
 
-	if !strings.HasPrefix(action, "spawn ") {
+	parts := n.parseActionParts(action)
+	if len(parts) == 0 {
 		node.SetName(action)
 		return node
 	}
 
-	node.SetName("spawn")
-	args := n.parseSpawnArgs(strings.TrimPrefix(action, "spawn "))
-	for _, arg := range args {
+	node.SetName(parts[0])
+	for _, arg := range parts[1:] {
 		node.AddArgument(arg, "")
 	}
 	return node
+}
+
+func (n *NiriProvider) parseActionParts(action string) []string {
+	var parts []string
+	var current strings.Builder
+	var inQuote, escaped bool
+
+	for _, r := range action {
+		switch {
+		case escaped:
+			current.WriteRune(r)
+			escaped = false
+		case r == '\\':
+			escaped = true
+		case r == '"':
+			inQuote = !inQuote
+		case r == ' ' && !inQuote:
+			if current.Len() > 0 {
+				parts = append(parts, current.String())
+				current.Reset()
+			}
+		default:
+			current.WriteRune(r)
+		}
+	}
+	if current.Len() > 0 {
+		parts = append(parts, current.String())
+	}
+	return parts
 }
 
 func (n *NiriProvider) writeOverrideBinds(binds map[string]*overrideBind) error {
@@ -501,19 +501,44 @@ func (n *NiriProvider) writeBindNode(sb *strings.Builder, bind *overrideBind, in
 	sb.WriteString(" { ")
 	if len(node.Children) > 0 {
 		child := node.Children[0]
-		sb.WriteString(child.Name.String())
+		actionName := child.Name.String()
+		sb.WriteString(actionName)
+		forceQuote := actionName == "spawn"
 		for _, arg := range child.Arguments {
 			sb.WriteString(" ")
-			n.writeQuotedArg(sb, arg.ValueString())
+			n.writeArg(sb, arg.ValueString(), forceQuote)
 		}
 	}
 	sb.WriteString("; }\n")
 }
 
-func (n *NiriProvider) writeQuotedArg(sb *strings.Builder, val string) {
+func (n *NiriProvider) writeArg(sb *strings.Builder, val string, forceQuote bool) {
+	if !forceQuote && n.isNumericArg(val) {
+		sb.WriteString(val)
+		return
+	}
 	sb.WriteString("\"")
 	sb.WriteString(strings.ReplaceAll(val, "\"", "\\\""))
 	sb.WriteString("\"")
+}
+
+func (n *NiriProvider) isNumericArg(val string) bool {
+	if val == "" {
+		return false
+	}
+	start := 0
+	if val[0] == '-' || val[0] == '+' {
+		if len(val) == 1 {
+			return false
+		}
+		start = 1
+	}
+	for i := start; i < len(val); i++ {
+		if val[i] < '0' || val[i] > '9' {
+			return false
+		}
+	}
+	return true
 }
 
 func (n *NiriProvider) validateBindsContent(content string) error {

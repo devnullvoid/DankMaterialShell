@@ -496,3 +496,119 @@ func TestNiriParseMultipleArgs(t *testing.T) {
 		}
 	}
 }
+
+func TestNiriParseNumericWorkspaceBinds(t *testing.T) {
+	tmpDir := t.TempDir()
+	configFile := filepath.Join(tmpDir, "config.kdl")
+
+	content := `binds {
+    Mod+1 hotkey-overlay-title="Focus Workspace 1" { focus-workspace 1; }
+    Mod+2 hotkey-overlay-title="Focus Workspace 2" { focus-workspace 2; }
+    Mod+0 hotkey-overlay-title="Focus Workspace 10" { focus-workspace 10; }
+    Mod+Shift+1 hotkey-overlay-title="Move to Workspace 1" { move-column-to-workspace 1; }
+}
+`
+	if err := os.WriteFile(configFile, []byte(content), 0644); err != nil {
+		t.Fatalf("Failed to write test config: %v", err)
+	}
+
+	result, err := ParseNiriKeys(tmpDir)
+	if err != nil {
+		t.Fatalf("ParseNiriKeys failed: %v", err)
+	}
+
+	if len(result.Section.Keybinds) != 4 {
+		t.Errorf("Expected 4 keybinds, got %d", len(result.Section.Keybinds))
+	}
+
+	for _, kb := range result.Section.Keybinds {
+		switch kb.Key {
+		case "1":
+			if len(kb.Mods) == 1 && kb.Mods[0] == "Mod" {
+				if kb.Action != "focus-workspace" || len(kb.Args) != 1 || kb.Args[0] != "1" {
+					t.Errorf("Mod+1 action/args mismatch: %+v", kb)
+				}
+				if kb.Description != "Focus Workspace 1" {
+					t.Errorf("Mod+1 description = %q, want 'Focus Workspace 1'", kb.Description)
+				}
+			}
+		case "0":
+			if kb.Action != "focus-workspace" || len(kb.Args) != 1 || kb.Args[0] != "10" {
+				t.Errorf("Mod+0 action/args mismatch: %+v", kb)
+			}
+		}
+	}
+}
+
+func TestNiriParseQuotedStringArgs(t *testing.T) {
+	tmpDir := t.TempDir()
+	configFile := filepath.Join(tmpDir, "config.kdl")
+
+	content := `binds {
+    Super+Minus hotkey-overlay-title="Adjust Column Width -10%" { set-column-width "-10%"; }
+    Super+Equal hotkey-overlay-title="Adjust Column Width +10%" { set-column-width "+10%"; }
+    Super+Shift+Minus hotkey-overlay-title="Adjust Window Height -10%" { set-window-height "-10%"; }
+}
+`
+	if err := os.WriteFile(configFile, []byte(content), 0644); err != nil {
+		t.Fatalf("Failed to write test config: %v", err)
+	}
+
+	result, err := ParseNiriKeys(tmpDir)
+	if err != nil {
+		t.Fatalf("ParseNiriKeys failed: %v", err)
+	}
+
+	if len(result.Section.Keybinds) != 3 {
+		t.Errorf("Expected 3 keybinds, got %d", len(result.Section.Keybinds))
+	}
+
+	for _, kb := range result.Section.Keybinds {
+		if kb.Action == "set-column-width" {
+			if len(kb.Args) != 1 {
+				t.Errorf("set-column-width should have 1 arg, got %d", len(kb.Args))
+				continue
+			}
+			if kb.Args[0] != "-10%" && kb.Args[0] != "+10%" {
+				t.Errorf("set-column-width arg = %q, want -10%% or +10%%", kb.Args[0])
+			}
+		}
+	}
+}
+
+func TestNiriParseActionWithProperties(t *testing.T) {
+	tmpDir := t.TempDir()
+	configFile := filepath.Join(tmpDir, "config.kdl")
+
+	content := `binds {
+    Mod+Shift+1 hotkey-overlay-title="Move to Workspace 1" { move-column-to-workspace 1 focus=false; }
+    Mod+Shift+2 hotkey-overlay-title="Move to Workspace 2" { move-column-to-workspace 2 focus=false; }
+    Alt+Tab { next-window scope="output"; }
+}
+`
+	if err := os.WriteFile(configFile, []byte(content), 0644); err != nil {
+		t.Fatalf("Failed to write test config: %v", err)
+	}
+
+	result, err := ParseNiriKeys(tmpDir)
+	if err != nil {
+		t.Fatalf("ParseNiriKeys failed: %v", err)
+	}
+
+	if len(result.Section.Keybinds) != 3 {
+		t.Errorf("Expected 3 keybinds, got %d", len(result.Section.Keybinds))
+	}
+
+	for _, kb := range result.Section.Keybinds {
+		switch kb.Action {
+		case "move-column-to-workspace":
+			if len(kb.Args) != 1 {
+				t.Errorf("move-column-to-workspace should have 1 arg, got %d", len(kb.Args))
+			}
+		case "next-window":
+			if kb.Key != "Tab" {
+				t.Errorf("next-window key = %q, want 'Tab'", kb.Key)
+			}
+		}
+	}
+}

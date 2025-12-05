@@ -28,6 +28,7 @@ Item {
     property bool addingNewKey: false
     property bool useCustomCompositor: false
     property var _shortcutInhibitor: null
+    property bool _altShiftGhost: false
 
     readonly property bool _shortcutInhibitorAvailable: {
         try {
@@ -61,6 +62,11 @@ Item {
 
     Component.onDestruction: _destroyShortcutInhibitor()
 
+    Component.onCompleted: {
+        if (isNew && isExpanded)
+            resetEdits();
+    }
+
     onIsExpandedChanged: {
         if (!isExpanded)
             return;
@@ -86,7 +92,7 @@ Item {
                 editDesc = bindData.desc || "";
                 hasChanges = false;
                 _actionType = Actions.getActionType(editAction);
-                useCustomCompositor = _actionType === "compositor" && !Actions.isKnownCompositorAction(editAction);
+                useCustomCompositor = _actionType === "compositor" && editAction && !Actions.isKnownCompositorAction(editAction);
                 return;
             }
         }
@@ -105,7 +111,7 @@ Item {
         editDesc = bindData.desc || "";
         hasChanges = false;
         _actionType = Actions.getActionType(editAction);
-        useCustomCompositor = _actionType === "compositor" && !Actions.isKnownCompositorAction(editAction);
+        useCustomCompositor = _actionType === "compositor" && editAction && !Actions.isKnownCompositorAction(editAction);
     }
 
     function startAddingNewKey() {
@@ -590,37 +596,93 @@ Item {
                         Keys.onPressed: event => {
                             if (!root.recording)
                                 return;
-                            if (event.key === Qt.Key_Escape) {
-                                root.stopRecording();
-                                event.accepted = true;
-                                return;
-                            }
+
+                            event.accepted = true;
 
                             switch (event.key) {
                             case Qt.Key_Control:
                             case Qt.Key_Shift:
                             case Qt.Key_Alt:
                             case Qt.Key_Meta:
-                                event.accepted = true;
                                 return;
                             }
 
-                            const mods = KeyUtils.modsFromEvent(event.modifiers);
-                            const key = KeyUtils.xkbKeyFromQtKey(event.key);
-                            if (key) {
-                                root.updateEdit({
-                                    key: KeyUtils.formatToken(mods, key)
-                                });
-                                root.stopRecording();
-                                event.accepted = true;
+                            if (event.key === 0 && (event.modifiers & Qt.AltModifier)) {
+                                root._altShiftGhost = true;
+                                return;
                             }
+
+                            let mods = KeyUtils.modsFromEvent(event.modifiers);
+                            let qtKey = event.key;
+
+                            if (root._altShiftGhost && (event.modifiers & Qt.AltModifier) && !mods.includes("Shift")) {
+                                mods.push("Shift");
+                            }
+                            root._altShiftGhost = false;
+
+                            if (qtKey === Qt.Key_Backtab) {
+                                qtKey = Qt.Key_Tab;
+                                if (!mods.includes("Shift"))
+                                    mods.push("Shift");
+                            }
+
+                            const key = KeyUtils.xkbKeyFromQtKey(qtKey);
+                            if (!key) {
+                                console.warn("[KeybindItem] Unknown key:", event.key, "mods:", event.modifiers);
+                                return;
+                            }
+
+                            root.updateEdit({
+                                key: KeyUtils.formatToken(mods, key)
+                            });
+                            root.stopRecording();
                         }
 
                         MouseArea {
                             anchors.fill: parent
-                            enabled: !root.recording
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: root.startRecording()
+                            hoverEnabled: true
+                            cursorShape: root.recording ? Qt.CrossCursor : Qt.PointingHandCursor
+                            acceptedButtons: Qt.LeftButton
+
+                            onClicked: {
+                                if (!root.recording)
+                                    root.startRecording();
+                            }
+
+                            onWheel: wheel => {
+                                if (!root.recording)
+                                    return;
+
+                                wheel.accepted = true;
+
+                                const mods = [];
+                                if (wheel.modifiers & Qt.ControlModifier)
+                                    mods.push("Ctrl");
+                                if (wheel.modifiers & Qt.ShiftModifier)
+                                    mods.push("Shift");
+                                if (wheel.modifiers & Qt.AltModifier)
+                                    mods.push("Alt");
+                                if (wheel.modifiers & Qt.MetaModifier)
+                                    mods.push("Super");
+
+                                let wheelKey = "";
+                                if (wheel.angleDelta.y > 0)
+                                    wheelKey = "WheelScrollUp";
+                                else if (wheel.angleDelta.y < 0)
+                                    wheelKey = "WheelScrollDown";
+                                else if (wheel.angleDelta.x > 0)
+                                    wheelKey = "WheelScrollRight";
+                                else if (wheel.angleDelta.x < 0)
+                                    wheelKey = "WheelScrollLeft";
+
+                                if (!wheelKey)
+                                    return;
+
+                                root.updateEdit({
+                                    key: KeyUtils.formatToken(mods, wheelKey)
+                                });
+                                root.stopRecording();
+                            }
                         }
                     }
 
@@ -819,6 +881,69 @@ Item {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacingM
+
+                    property var dmsArgConfig: {
+                        const action = root.editAction;
+                        if (!action)
+                            return null;
+                        if (action.indexOf("audio increment") !== -1 || action.indexOf("audio decrement") !== -1 || action.indexOf("brightness increment") !== -1 || action.indexOf("brightness decrement") !== -1) {
+                            const parts = action.split(" ");
+                            const lastPart = parts[parts.length - 1];
+                            const hasAmount = /^\d+$/.test(lastPart);
+                            return {
+                                hasAmount: hasAmount,
+                                amount: hasAmount ? lastPart : ""
+                            };
+                        }
+                        return null;
+                    }
+
+                    visible: root._actionType === "dms" && dmsArgConfig !== null
+
+                    StyledText {
+                        text: I18n.tr("Amount")
+                        font.pixelSize: Theme.fontSizeSmall
+                        font.weight: Font.Medium
+                        color: Theme.surfaceVariantText
+                        Layout.preferredWidth: 60
+                    }
+
+                    DankTextField {
+                        Layout.preferredWidth: 80
+                        Layout.preferredHeight: 40
+                        placeholderText: "5"
+                        text: parent.dmsArgConfig?.amount || ""
+                        onTextChanged: {
+                            if (!parent.dmsArgConfig)
+                                return;
+                            const action = root.editAction;
+                            const parts = action.split(" ");
+                            const lastPart = parts[parts.length - 1];
+                            const hasOldAmount = /^\d+$/.test(lastPart);
+                            if (hasOldAmount)
+                                parts.pop();
+                            if (text && /^\d+$/.test(text))
+                                parts.push(text);
+                            root.updateEdit({
+                                action: parts.join(" ")
+                            });
+                        }
+                    }
+
+                    StyledText {
+                        text: "%"
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.surfaceVariantText
+                    }
+
+                    Item {
+                        Layout.fillWidth: true
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Theme.spacingM
                     visible: root._actionType === "compositor" && !root.useCustomCompositor
 
                     StyledText {
@@ -894,6 +1019,154 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: root.useCustomCompositor = true
+                        }
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Theme.spacingM
+                    visible: root._actionType === "compositor" && !root.useCustomCompositor && Actions.getActionArgConfig(root.editAction)
+
+                    property var argConfig: Actions.getActionArgConfig(root.editAction)
+                    property var parsedArgs: Actions.parseCompositorActionArgs(root.editAction)
+
+                    StyledText {
+                        text: I18n.tr("Options")
+                        font.pixelSize: Theme.fontSizeSmall
+                        font.weight: Font.Medium
+                        color: Theme.surfaceVariantText
+                        Layout.preferredWidth: 60
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: Theme.spacingS
+
+                        DankTextField {
+                            id: argValueField
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 40
+                            visible: {
+                                const cfg = parent.parent.argConfig;
+                                if (!cfg || !cfg.config || !cfg.config.args)
+                                    return false;
+                                const firstArg = cfg.config.args[0];
+                                return firstArg && (firstArg.type === "text" || firstArg.type === "number");
+                            }
+                            placeholderText: {
+                                const cfg = parent.parent.argConfig;
+                                if (!cfg || !cfg.config || !cfg.config.args)
+                                    return "";
+                                return cfg.config.args[0]?.placeholder || "";
+                            }
+                            text: parent.parent.parsedArgs?.args?.value || parent.parent.parsedArgs?.args?.index || ""
+                            onTextChanged: {
+                                const cfg = parent.parent.argConfig;
+                                if (!cfg)
+                                    return;
+                                const base = parent.parent.parsedArgs?.base || root.editAction.split(" ")[0];
+                                const args = cfg.config.args[0]?.type === "number" ? {
+                                    index: text
+                                } : {
+                                    value: text
+                                };
+                                root.updateEdit({
+                                    action: Actions.buildCompositorAction(base, args)
+                                });
+                            }
+                        }
+
+                        RowLayout {
+                            visible: {
+                                const cfg = parent.parent.argConfig;
+                                return cfg && cfg.base === "move-column-to-workspace";
+                            }
+                            spacing: Theme.spacingXS
+
+                            DankToggle {
+                                id: focusToggle
+                                checked: parent.parent.parent.parsedArgs?.args?.focus === true
+                                onCheckedChanged: {
+                                    const cfg = parent.parent.parent.argConfig;
+                                    if (!cfg)
+                                        return;
+                                    const parsed = parent.parent.parent.parsedArgs;
+                                    const args = {
+                                        index: parsed?.args?.index || "",
+                                        focus: checked
+                                    };
+                                    root.updateEdit({
+                                        action: Actions.buildCompositorAction("move-column-to-workspace", args)
+                                    });
+                                }
+                            }
+
+                            StyledText {
+                                text: I18n.tr("Follow focus")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
+                        }
+
+                        RowLayout {
+                            visible: {
+                                const cfg = parent.parent.argConfig;
+                                return cfg && cfg.base && cfg.base.startsWith("screenshot");
+                            }
+                            spacing: Theme.spacingM
+
+                            RowLayout {
+                                spacing: Theme.spacingXS
+
+                                DankToggle {
+                                    id: writeToDiskToggle
+                                    checked: parent.parent.parent.parent.parsedArgs?.args?.opts?.["write-to-disk"] === "true"
+                                    onCheckedChanged: {
+                                        const parsed = parent.parent.parent.parent.parsedArgs;
+                                        const base = parsed?.base || "screenshot";
+                                        const opts = parsed?.args?.opts || {};
+                                        opts["write-to-disk"] = checked ? "true" : "";
+                                        root.updateEdit({
+                                            action: Actions.buildCompositorAction(base, {
+                                                opts: opts
+                                            })
+                                        });
+                                    }
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Save")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceVariantText
+                                }
+                            }
+
+                            RowLayout {
+                                spacing: Theme.spacingXS
+
+                                DankToggle {
+                                    id: showPointerToggle
+                                    checked: parent.parent.parent.parent.parsedArgs?.args?.opts?.["show-pointer"] === "true"
+                                    onCheckedChanged: {
+                                        const parsed = parent.parent.parent.parent.parsedArgs;
+                                        const base = parsed?.base || "screenshot";
+                                        const opts = parsed?.args?.opts || {};
+                                        opts["show-pointer"] = checked ? "true" : "";
+                                        root.updateEdit({
+                                            action: Actions.buildCompositorAction(base, {
+                                                opts: opts
+                                            })
+                                        });
+                                    }
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Pointer")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceVariantText
+                                }
+                            }
                         }
                     }
                 }
