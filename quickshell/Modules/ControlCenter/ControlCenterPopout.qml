@@ -76,7 +76,7 @@ DankPopout {
             return WlrKeyboardFocus.None;
         if (anyModalOpen)
             return WlrKeyboardFocus.None;
-        if (CompositorService.isHyprland)
+        if (CompositorService.useHyprlandFocusGrab)
             return WlrKeyboardFocus.OnDemand;
         return WlrKeyboardFocus.Exclusive;
     }

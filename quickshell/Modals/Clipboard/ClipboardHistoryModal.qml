@@ -15,7 +15,7 @@ DankModal {
 
     HyprlandFocusGrab {
         windows: [clipboardHistoryModal.contentWindow]
-        active: CompositorService.isHyprland && clipboardHistoryModal.shouldHaveFocus
+        active: clipboardHistoryModal.useHyprlandFocusGrab && clipboardHistoryModal.shouldHaveFocus
     }
 
     property int totalCount: 0

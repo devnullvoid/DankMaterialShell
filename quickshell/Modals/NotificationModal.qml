@@ -13,7 +13,7 @@ DankModal {
 
     HyprlandFocusGrab {
         windows: [notificationModal.contentWindow]
-        active: CompositorService.isHyprland && notificationModal.shouldHaveFocus
+        active: notificationModal.useHyprlandFocusGrab && notificationModal.shouldHaveFocus
     }
 
     property bool notificationModalOpen: false

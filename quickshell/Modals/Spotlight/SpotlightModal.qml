@@ -12,7 +12,7 @@ DankModal {
 
     HyprlandFocusGrab {
         windows: [spotlightModal.contentWindow]
-        active: CompositorService.isHyprland && spotlightModal.shouldHaveFocus
+        active: spotlightModal.useHyprlandFocusGrab && spotlightModal.shouldHaveFocus
     }
 
     property bool spotlightOpen: false

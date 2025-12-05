@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import qs.Common
+import qs.Services
 
 Scope {
     id: overviewScope
@@ -32,7 +33,13 @@ Scope {
                 WlrLayershell.namespace: "dms:workspace-overview"
                 WlrLayershell.layer: WlrLayer.Overlay
                 WlrLayershell.exclusiveZone: -1
-                WlrLayershell.keyboardFocus: overviewScope.overviewOpen ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+                WlrLayershell.keyboardFocus: {
+                    if (!overviewScope.overviewOpen)
+                        return WlrKeyboardFocus.None;
+                    if (CompositorService.useHyprlandFocusGrab)
+                        return WlrKeyboardFocus.OnDemand;
+                    return WlrKeyboardFocus.Exclusive;
+                }
 
                 anchors {
                     top: true
@@ -63,7 +70,8 @@ Scope {
                 function onOverviewOpenChanged() {
                     if (overviewScope.overviewOpen) {
                         grab.hasBeenActivated = false
-                        delayedGrabTimer.start()
+                        if (CompositorService.useHyprlandFocusGrab)
+                            delayedGrabTimer.start()
                     } else {
                         delayedGrabTimer.stop()
                         grab.active = false
@@ -75,6 +83,8 @@ Scope {
             Connections {
                 target: root
                 function onMonitorIsFocusedChanged() {
+                    if (!CompositorService.useHyprlandFocusGrab)
+                        return;
                     if (overviewScope.overviewOpen && root.monitorIsFocused && !grab.active) {
                         grab.hasBeenActivated = false
                         grab.active = true
@@ -89,7 +99,7 @@ Scope {
                 interval: 150
                 repeat: false
                 onTriggered: {
-                    if (overviewScope.overviewOpen && root.monitorIsFocused) {
+                    if (CompositorService.useHyprlandFocusGrab && overviewScope.overviewOpen && root.monitorIsFocused) {
                         grab.active = true
                     }
                 }

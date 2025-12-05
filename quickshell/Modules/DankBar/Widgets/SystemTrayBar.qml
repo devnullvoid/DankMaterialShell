@@ -427,7 +427,7 @@ Item {
         WlrLayershell.keyboardFocus: {
             if (!root.menuOpen)
                 return WlrKeyboardFocus.None;
-            if (CompositorService.isHyprland)
+            if (CompositorService.useHyprlandFocusGrab)
                 return WlrKeyboardFocus.OnDemand;
             return WlrKeyboardFocus.Exclusive;
         }
@@ -436,7 +436,7 @@ Item {
 
         HyprlandFocusGrab {
             windows: [overflowMenu]
-            active: CompositorService.isHyprland && root.menuOpen
+            active: CompositorService.useHyprlandFocusGrab && root.menuOpen
         }
 
         Connections {
@@ -915,7 +915,7 @@ Item {
                 WlrLayershell.keyboardFocus: {
                     if (!menuRoot.showMenu)
                         return WlrKeyboardFocus.None;
-                    if (CompositorService.isHyprland)
+                    if (CompositorService.useHyprlandFocusGrab)
                         return WlrKeyboardFocus.OnDemand;
                     return WlrKeyboardFocus.Exclusive;
                 }
@@ -923,7 +923,7 @@ Item {
 
                 HyprlandFocusGrab {
                     windows: [menuWindow]
-                    active: CompositorService.isHyprland && menuRoot.showMenu
+                    active: CompositorService.useHyprlandFocusGrab && menuRoot.showMenu
                 }
 
                 anchors {

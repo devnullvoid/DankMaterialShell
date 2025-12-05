@@ -47,6 +47,7 @@ Item {
     property bool useOverlayLayer: false
     readonly property alias contentWindow: contentWindow
     readonly property alias backgroundWindow: backgroundWindow
+    readonly property bool useHyprlandFocusGrab: CompositorService.useHyprlandFocusGrab
 
     signal opened
     signal dialogClosed
@@ -262,7 +263,7 @@ Item {
                 return customKeyboardFocus;
             if (!shouldHaveFocus)
                 return WlrKeyboardFocus.None;
-            if (CompositorService.isHyprland)
+            if (root.useHyprlandFocusGrab)
                 return WlrKeyboardFocus.OnDemand;
             return WlrKeyboardFocus.Exclusive;
         }

@@ -15,7 +15,7 @@ DankModal {
 
     HyprlandFocusGrab {
         windows: [root.contentWindow]
-        active: CompositorService.isHyprland && root.shouldHaveFocus
+        active: root.useHyprlandFocusGrab && root.shouldHaveFocus
     }
 
     property int selectedIndex: 0
