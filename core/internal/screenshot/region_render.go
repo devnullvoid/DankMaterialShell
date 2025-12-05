@@ -55,6 +55,7 @@ func (r *RegionSelector) drawOverlay(os *OutputSurface, renderBuf *ShmBuffer) {
 	data := renderBuf.Data()
 	stride := renderBuf.Stride
 	w, h := renderBuf.Width, renderBuf.Height
+	format := os.screenFormat
 
 	// Dim the entire buffer
 	for y := 0; y < h; y++ {
@@ -70,7 +71,7 @@ func (r *RegionSelector) drawOverlay(os *OutputSurface, renderBuf *ShmBuffer) {
 		}
 	}
 
-	r.drawHUD(data, stride, w, h)
+	r.drawHUD(data, stride, w, h, format)
 
 	if !r.selection.hasSelection || r.selection.surface != os {
 		return
@@ -121,11 +122,11 @@ func (r *RegionSelector) drawOverlay(os *OutputSurface, renderBuf *ShmBuffer) {
 			selW = selH
 		}
 	}
-	r.drawBorder(data, stride, w, h, bx1, by1, selW, selH)
-	r.drawDimensions(data, stride, w, h, bx1, by1, selW, selH)
+	r.drawBorder(data, stride, w, h, bx1, by1, selW, selH, format)
+	r.drawDimensions(data, stride, w, h, bx1, by1, selW, selH, format)
 }
 
-func (r *RegionSelector) drawHUD(data []byte, stride, bufW, bufH int) {
+func (r *RegionSelector) drawHUD(data []byte, stride, bufW, bufH int, format uint32) {
 	if r.selection.dragging {
 		return
 	}
@@ -158,16 +159,16 @@ func (r *RegionSelector) drawHUD(data []byte, stride, bufW, bufH int) {
 	hudY := bufH - hudH - 20
 
 	r.fillRect(data, stride, bufW, bufH, hudX, hudY, hudW, hudH,
-		style.BackgroundR, style.BackgroundG, style.BackgroundB, style.BackgroundA)
+		style.BackgroundR, style.BackgroundG, style.BackgroundB, style.BackgroundA, format)
 
 	tx, ty := hudX+padding, hudY+padding
 	for i, item := range items {
 		r.drawText(data, stride, bufW, bufH, tx, ty, item.key,
-			style.AccentR, style.AccentG, style.AccentB)
+			style.AccentR, style.AccentG, style.AccentB, format)
 		tx += len(item.key) * (charW + 1)
 
 		r.drawText(data, stride, bufW, bufH, tx, ty, " "+item.desc,
-			style.TextR, style.TextG, style.TextB)
+			style.TextR, style.TextG, style.TextB, format)
 		tx += (1 + len(item.desc)) * (charW + 1)
 
 		if i < len(items)-1 {
@@ -176,17 +177,17 @@ func (r *RegionSelector) drawHUD(data []byte, stride, bufW, bufH int) {
 	}
 }
 
-func (r *RegionSelector) drawBorder(data []byte, stride, bufW, bufH, x, y, w, h int) {
+func (r *RegionSelector) drawBorder(data []byte, stride, bufW, bufH, x, y, w, h int, format uint32) {
 	const thickness = 2
 	for i := 0; i < thickness; i++ {
-		r.drawHLine(data, stride, bufW, bufH, x-i, y-i, w+2*i)
-		r.drawHLine(data, stride, bufW, bufH, x-i, y+h+i-1, w+2*i)
-		r.drawVLine(data, stride, bufW, bufH, x-i, y-i, h+2*i)
-		r.drawVLine(data, stride, bufW, bufH, x+w+i-1, y-i, h+2*i)
+		r.drawHLine(data, stride, bufW, bufH, x-i, y-i, w+2*i, format)
+		r.drawHLine(data, stride, bufW, bufH, x-i, y+h+i-1, w+2*i, format)
+		r.drawVLine(data, stride, bufW, bufH, x-i, y-i, h+2*i, format)
+		r.drawVLine(data, stride, bufW, bufH, x+w+i-1, y-i, h+2*i, format)
 	}
 }
 
-func (r *RegionSelector) drawHLine(data []byte, stride, bufW, bufH, x, y, length int) {
+func (r *RegionSelector) drawHLine(data []byte, stride, bufW, bufH, x, y, length int, _ uint32) {
 	if y < 0 || y >= bufH {
 		return
 	}
@@ -204,7 +205,7 @@ func (r *RegionSelector) drawHLine(data []byte, stride, bufW, bufH, x, y, length
 	}
 }
 
-func (r *RegionSelector) drawVLine(data []byte, stride, bufW, bufH, x, y, length int) {
+func (r *RegionSelector) drawVLine(data []byte, stride, bufW, bufH, x, y, length int, _ uint32) {
 	if x < 0 || x >= bufW {
 		return
 	}
@@ -221,7 +222,7 @@ func (r *RegionSelector) drawVLine(data []byte, stride, bufW, bufH, x, y, length
 	}
 }
 
-func (r *RegionSelector) drawDimensions(data []byte, stride, bufW, bufH, x, y, w, h int) {
+func (r *RegionSelector) drawDimensions(data []byte, stride, bufW, bufH, x, y, w, h int, format uint32) {
 	text := fmt.Sprintf("%dx%d", w, h)
 
 	const charW, charH = 8, 12
@@ -236,13 +237,18 @@ func (r *RegionSelector) drawDimensions(data []byte, stride, bufW, bufH, x, y, w
 	}
 	tx = clamp(tx, 0, bufW-textW)
 
-	r.fillRect(data, stride, bufW, bufH, tx-4, ty-2, textW+8, textH+4, 0, 0, 0, 200)
-	r.drawText(data, stride, bufW, bufH, tx, ty, text, 255, 255, 255)
+	r.fillRect(data, stride, bufW, bufH, tx-4, ty-2, textW+8, textH+4, 0, 0, 0, 200, format)
+	r.drawText(data, stride, bufW, bufH, tx, ty, text, 255, 255, 255, format)
 }
 
-func (r *RegionSelector) fillRect(data []byte, stride, bufW, bufH, x, y, w, h int, br, bg, bb, ba uint8) {
-	alpha := float64(ba) / 255.0
+func (r *RegionSelector) fillRect(data []byte, stride, bufW, bufH, x, y, w, h int, cr, cg, cb, ca uint8, format uint32) {
+	alpha := float64(ca) / 255.0
 	invAlpha := 1.0 - alpha
+
+	c0, c2 := cb, cr
+	if format == uint32(FormatABGR8888) || format == uint32(FormatXBGR8888) {
+		c0, c2 = cr, cb
+	}
 
 	for py := y; py < y+h && py < bufH; py++ {
 		if py < 0 {
@@ -256,24 +262,29 @@ func (r *RegionSelector) fillRect(data []byte, stride, bufW, bufH, x, y, w, h in
 			if off+3 >= len(data) {
 				continue
 			}
-			data[off+0] = uint8(float64(data[off+0])*invAlpha + float64(bb)*alpha)
-			data[off+1] = uint8(float64(data[off+1])*invAlpha + float64(bg)*alpha)
-			data[off+2] = uint8(float64(data[off+2])*invAlpha + float64(br)*alpha)
+			data[off+0] = uint8(float64(data[off+0])*invAlpha + float64(c0)*alpha)
+			data[off+1] = uint8(float64(data[off+1])*invAlpha + float64(cg)*alpha)
+			data[off+2] = uint8(float64(data[off+2])*invAlpha + float64(c2)*alpha)
 			data[off+3] = 255
 		}
 	}
 }
 
-func (r *RegionSelector) drawText(data []byte, stride, bufW, bufH, x, y int, text string, cr, cg, cb uint8) {
+func (r *RegionSelector) drawText(data []byte, stride, bufW, bufH, x, y int, text string, cr, cg, cb uint8, format uint32) {
 	for i, ch := range text {
-		r.drawChar(data, stride, bufW, bufH, x+i*9, y, ch, cr, cg, cb)
+		r.drawChar(data, stride, bufW, bufH, x+i*9, y, ch, cr, cg, cb, format)
 	}
 }
 
-func (r *RegionSelector) drawChar(data []byte, stride, bufW, bufH, x, y int, ch rune, cr, cg, cb uint8) {
+func (r *RegionSelector) drawChar(data []byte, stride, bufW, bufH, x, y int, ch rune, cr, cg, cb uint8, format uint32) {
 	glyph, ok := fontGlyphs[ch]
 	if !ok {
 		return
+	}
+
+	c0, c2 := cb, cr
+	if format == uint32(FormatABGR8888) || format == uint32(FormatXBGR8888) {
+		c0, c2 = cr, cb
 	}
 
 	for row := 0; row < 12; row++ {
@@ -294,7 +305,7 @@ func (r *RegionSelector) drawChar(data []byte, stride, bufW, bufH, x, y int, ch 
 			if off+3 >= len(data) {
 				continue
 			}
-			data[off], data[off+1], data[off+2], data[off+3] = cb, cg, cr, 255
+			data[off], data[off+1], data[off+2], data[off+3] = c0, cg, c2, 255
 		}
 	}
 }

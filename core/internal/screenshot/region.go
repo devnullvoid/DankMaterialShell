@@ -49,6 +49,13 @@ type OutputSurface struct {
 	slotsReady bool
 }
 
+type PreCapture struct {
+	screenBuf         *ShmBuffer
+	screenBufNoCursor *ShmBuffer
+	format            uint32
+	yInverted         bool
+}
+
 type RegionSelector struct {
 	screenshoter *Screenshoter
 
@@ -68,8 +75,9 @@ type RegionSelector struct {
 	shortcutsInhibitMgr *keyboard_shortcuts_inhibit.ZwpKeyboardShortcutsInhibitManagerV1
 	shortcutsInhibitor  *keyboard_shortcuts_inhibit.ZwpKeyboardShortcutsInhibitorV1
 
-	outputs   map[uint32]*WaylandOutput
-	outputsMu sync.Mutex
+	outputs    map[uint32]*WaylandOutput
+	outputsMu  sync.Mutex
+	preCapture map[*WaylandOutput]*PreCapture
 
 	surfaces      []*OutputSurface
 	activeSurface *OutputSurface
@@ -99,6 +107,7 @@ func NewRegionSelector(s *Screenshoter) *RegionSelector {
 	return &RegionSelector{
 		screenshoter:       s,
 		outputs:            make(map[uint32]*WaylandOutput),
+		preCapture:         make(map[*WaylandOutput]*PreCapture),
 		showCapturedCursor: true,
 	}
 }
@@ -136,6 +145,10 @@ func (r *RegionSelector) Run() (*CaptureResult, bool, error) {
 
 	if err := r.roundtrip(); err != nil {
 		return nil, false, fmt.Errorf("roundtrip after protocol check: %w", err)
+	}
+
+	if err := r.preCaptureAllOutputs(); err != nil {
+		return nil, false, fmt.Errorf("pre-capture: %w", err)
 	}
 
 	if err := r.createSurfaces(); err != nil {
@@ -320,6 +333,102 @@ func (r *RegionSelector) setupOutputHandlers(name uint32, output *client.Output)
 	})
 }
 
+func (r *RegionSelector) preCaptureAllOutputs() error {
+	r.outputsMu.Lock()
+	outputs := make([]*WaylandOutput, 0, len(r.outputs))
+	for _, o := range r.outputs {
+		outputs = append(outputs, o)
+	}
+	r.outputsMu.Unlock()
+
+	pending := len(outputs) * 2
+	done := make(chan struct{}, pending)
+
+	for _, output := range outputs {
+		pc := &PreCapture{}
+		r.preCapture[output] = pc
+
+		r.preCaptureOutput(output, pc, true, func() { done <- struct{}{} })
+		r.preCaptureOutput(output, pc, false, func() { done <- struct{}{} })
+	}
+
+	for i := 0; i < pending; i++ {
+		if err := r.ctx.Dispatch(); err != nil {
+			return err
+		}
+		select {
+		case <-done:
+		default:
+			i--
+		}
+	}
+	return nil
+}
+
+func (r *RegionSelector) preCaptureOutput(output *WaylandOutput, pc *PreCapture, withCursor bool, onReady func()) {
+	cursor := int32(0)
+	if withCursor {
+		cursor = 1
+	}
+
+	frame, err := r.screencopy.CaptureOutput(cursor, output.wlOutput)
+	if err != nil {
+		log.Error("screencopy capture failed", "err", err)
+		onReady()
+		return
+	}
+
+	frame.SetBufferHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1BufferEvent) {
+		buf, err := CreateShmBuffer(int(e.Width), int(e.Height), int(e.Stride))
+		if err != nil {
+			log.Error("create screen buffer failed", "err", err)
+			return
+		}
+
+		if withCursor {
+			pc.screenBuf = buf
+			pc.format = e.Format
+		} else {
+			pc.screenBufNoCursor = buf
+		}
+
+		pool, err := r.shm.CreatePool(buf.Fd(), int32(buf.Size()))
+		if err != nil {
+			log.Error("create shm pool failed", "err", err)
+			return
+		}
+
+		wlBuf, err := pool.CreateBuffer(0, int32(buf.Width), int32(buf.Height), int32(buf.Stride), e.Format)
+		if err != nil {
+			log.Error("create wl_buffer failed", "err", err)
+			pool.Destroy()
+			return
+		}
+
+		if err := frame.Copy(wlBuf); err != nil {
+			log.Error("frame copy failed", "err", err)
+		}
+		pool.Destroy()
+	})
+
+	frame.SetFlagsHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1FlagsEvent) {
+		if withCursor {
+			pc.yInverted = (e.Flags & 1) != 0
+		}
+	})
+
+	frame.SetReadyHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1ReadyEvent) {
+		frame.Destroy()
+		onReady()
+	})
+
+	frame.SetFailedHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1FailedEvent) {
+		log.Error("screencopy failed")
+		frame.Destroy()
+		onReady()
+	})
+}
+
 func (r *RegionSelector) createSurfaces() error {
 	r.outputsMu.Lock()
 	outputs := make([]*WaylandOutput, 0, len(r.outputs))
@@ -488,77 +597,19 @@ func (r *RegionSelector) ensureShortcutsInhibitor(os *OutputSurface) {
 }
 
 func (r *RegionSelector) captureForSurface(os *OutputSurface) {
-	r.captureWithCursor(os, true, func() {
-		r.captureWithCursor(os, false, func() {
-			r.initRenderBuffer(os)
-			r.applyPreSelection(os)
-			r.redrawSurface(os)
-		})
-	})
-}
-
-func (r *RegionSelector) captureWithCursor(os *OutputSurface, withCursor bool, onReady func()) {
-	cursor := int32(0)
-	if withCursor {
-		cursor = 1
-	}
-
-	frame, err := r.screencopy.CaptureOutput(cursor, os.output.wlOutput)
-	if err != nil {
-		log.Error("screencopy capture failed", "err", err)
+	pc := r.preCapture[os.output]
+	if pc == nil {
 		return
 	}
 
-	frame.SetBufferHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1BufferEvent) {
-		buf, err := CreateShmBuffer(int(e.Width), int(e.Height), int(e.Stride))
-		if err != nil {
-			log.Error("create screen buffer failed", "err", err)
-			return
-		}
+	os.screenBuf = pc.screenBuf
+	os.screenBufNoCursor = pc.screenBufNoCursor
+	os.screenFormat = pc.format
+	os.yInverted = pc.yInverted
 
-		if withCursor {
-			os.screenBuf = buf
-			os.screenFormat = e.Format
-		} else {
-			os.screenBufNoCursor = buf
-		}
-
-		pool, err := r.shm.CreatePool(buf.Fd(), int32(buf.Size()))
-		if err != nil {
-			log.Error("create shm pool failed", "err", err)
-			return
-		}
-
-		wlBuf, err := pool.CreateBuffer(0, int32(buf.Width), int32(buf.Height), int32(buf.Stride), e.Format)
-		if err != nil {
-			log.Error("create wl_buffer failed", "err", err)
-			pool.Destroy()
-			return
-		}
-
-		if err := frame.Copy(wlBuf); err != nil {
-			log.Error("frame copy failed", "err", err)
-		}
-		pool.Destroy()
-	})
-
-	frame.SetFlagsHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1FlagsEvent) {
-		if withCursor {
-			os.yInverted = (e.Flags & 1) != 0
-		}
-	})
-
-	frame.SetReadyHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1ReadyEvent) {
-		frame.Destroy()
-		if onReady != nil {
-			onReady()
-		}
-	})
-
-	frame.SetFailedHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1FailedEvent) {
-		log.Error("screencopy failed")
-		frame.Destroy()
-	})
+	r.initRenderBuffer(os)
+	r.applyPreSelection(os)
+	r.redrawSurface(os)
 }
 
 func (r *RegionSelector) initRenderBuffer(os *OutputSurface) {
