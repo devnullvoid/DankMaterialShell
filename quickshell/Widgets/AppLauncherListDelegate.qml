@@ -1,6 +1,4 @@
 import QtQuick
-import QtQuick.Controls
-import Quickshell
 import qs.Common
 import qs.Widgets
 
@@ -29,12 +27,12 @@ Rectangle {
 
     signal itemClicked(int index, var modelData)
     signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
-    signal keyboardNavigationReset()
+    signal keyboardNavigationReset
 
     width: listView.width
     height: itemHeight
     radius: Theme.cornerRadius
-    color: isCurrentItem ? Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency) : mouseArea.containsMouse ? Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency) : Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+    color: isCurrentItem ? Theme.widgetBaseHoverColor : mouseArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent"
 
     Row {
         anchors.fill: parent
@@ -97,27 +95,27 @@ Rectangle {
         z: 10
         onEntered: {
             if (root.hoverUpdatesSelection && !root.keyboardNavigationActive)
-                root.listView.currentIndex = root.index
+                root.listView.currentIndex = root.index;
         }
         onPositionChanged: {
-            root.keyboardNavigationReset()
+            root.keyboardNavigationReset();
         }
         onClicked: mouse => {
             if (mouse.button === Qt.LeftButton) {
-                root.itemClicked(root.index, root.model)
+                root.itemClicked(root.index, root.model);
             }
         }
         onPressAndHold: mouse => {
             if (!root.isPlugin) {
-                const globalPos = mapToItem(null, mouse.x, mouse.y)
-                root.itemRightClicked(root.index, root.model, globalPos.x, globalPos.y)
+                const globalPos = mapToItem(null, mouse.x, mouse.y);
+                root.itemRightClicked(root.index, root.model, globalPos.x, globalPos.y);
             }
         }
         onPressed: mouse => {
             if (mouse.button === Qt.RightButton && !root.isPlugin) {
-                const globalPos = mapToItem(null, mouse.x, mouse.y)
-                root.itemRightClicked(root.index, root.model, globalPos.x, globalPos.y)
-                mouse.accepted = true
+                const globalPos = mapToItem(null, mouse.x, mouse.y);
+                root.itemRightClicked(root.index, root.model, globalPos.x, globalPos.y);
+                mouse.accepted = true;
             }
         }
     }

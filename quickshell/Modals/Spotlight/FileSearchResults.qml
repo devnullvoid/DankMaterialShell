@@ -10,11 +10,30 @@ Rectangle {
     property var fileSearchController: null
 
     function resetScroll() {
-        filesList.contentY = 0
+        filesList.contentY = 0;
     }
 
     color: "transparent"
     clip: true
+
+    Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: 32
+        z: 100
+        visible: filesList.contentHeight > filesList.height && (filesList.currentIndex < filesList.count - 1 || filesList.contentY < filesList.contentHeight - filesList.height - 1)
+        gradient: Gradient {
+            GradientStop {
+                position: 0.0
+                color: "transparent"
+            }
+            GradientStop {
+                position: 1.0
+                color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+            }
+        }
+    }
 
     DankListView {
         id: filesList
@@ -30,18 +49,22 @@ Rectangle {
 
         function ensureVisible(index) {
             if (index < 0 || index >= count)
-                return
-
-            const itemY = index * (itemHeight + itemSpacing)
-            const itemBottom = itemY + itemHeight
+                return;
+            const itemY = index * (itemHeight + itemSpacing);
+            const itemBottom = itemY + itemHeight;
+            const fadeHeight = 32;
+            const isLastItem = index === count - 1;
             if (itemY < contentY)
-                contentY = itemY
-            else if (itemBottom > contentY + height)
-                contentY = itemBottom - height
+                contentY = itemY;
+            else if (itemBottom > contentY + height - (isLastItem ? 0 : fadeHeight))
+                contentY = Math.min(itemBottom - height + (isLastItem ? 0 : fadeHeight), contentHeight - height);
         }
 
         anchors.fill: parent
-        anchors.margins: Theme.spacingS
+        anchors.leftMargin: Theme.spacingS
+        anchors.rightMargin: Theme.spacingS
+        anchors.topMargin: Theme.spacingS
+        anchors.bottomMargin: 1
         model: fileSearchController ? fileSearchController.model : null
         currentIndex: fileSearchController ? fileSearchController.selectedIndex : -1
         clip: true
@@ -53,26 +76,26 @@ Rectangle {
 
         onCurrentIndexChanged: {
             if (keyboardNavigationActive)
-                ensureVisible(currentIndex)
+                ensureVisible(currentIndex);
         }
 
         onItemClicked: function (index) {
             if (fileSearchController) {
-                const item = fileSearchController.model.get(index)
-                fileSearchController.openFile(item.filePath)
+                const item = fileSearchController.model.get(index);
+                fileSearchController.openFile(item.filePath);
             }
         }
 
         onItemRightClicked: function (index) {
             if (fileSearchController) {
-                const item = fileSearchController.model.get(index)
-                fileSearchController.openFolder(item.filePath)
+                const item = fileSearchController.model.get(index);
+                fileSearchController.openFolder(item.filePath);
             }
         }
 
         onKeyboardNavigationReset: {
             if (fileSearchController)
-                fileSearchController.keyboardNavigationActive = false
+                fileSearchController.keyboardNavigationActive = false;
         }
 
         delegate: Rectangle {
@@ -86,7 +109,7 @@ Rectangle {
             width: ListView.view.width
             height: filesList.itemHeight
             radius: Theme.cornerRadius
-            color: ListView.isCurrentItem ? Theme.primaryPressed : fileMouseArea.containsMouse ? Theme.primaryHoverLight : Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+            color: ListView.isCurrentItem ? Theme.widgetBaseHoverColor : fileMouseArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent"
 
             Row {
                 anchors.fill: parent
@@ -109,16 +132,16 @@ Rectangle {
                             id: nerdIcon
                             anchors.centerIn: parent
                             name: {
-                                const lowerName = fileName.toLowerCase()
+                                const lowerName = fileName.toLowerCase();
                                 if (lowerName.startsWith("dockerfile"))
-                                    return "docker"
+                                    return "docker";
                                 if (lowerName.startsWith("makefile"))
-                                    return "makefile"
+                                    return "makefile";
                                 if (lowerName.startsWith("license"))
-                                    return "license"
+                                    return "license";
                                 if (lowerName.startsWith("readme"))
-                                    return "readme"
-                                return fileExtension.toLowerCase()
+                                    return "readme";
+                                return fileExtension.toLowerCase();
                             }
                             size: Theme.fontSizeXLarge
                             color: Theme.surfaceText
@@ -196,18 +219,18 @@ Rectangle {
                 z: 10
                 onEntered: {
                     if (filesList.hoverUpdatesSelection && !filesList.keyboardNavigationActive)
-                        filesList.currentIndex = index
+                        filesList.currentIndex = index;
                 }
                 onPositionChanged: {
-                    filesList.keyboardNavigationReset()
+                    filesList.keyboardNavigationReset();
                 }
                 onClicked: mouse => {
-                               if (mouse.button === Qt.LeftButton) {
-                                   filesList.itemClicked(index)
-                               } else if (mouse.button === Qt.RightButton) {
-                                   filesList.itemRightClicked(index)
-                               }
-                           }
+                    if (mouse.button === Qt.LeftButton) {
+                        filesList.itemClicked(index);
+                    } else if (mouse.button === Qt.RightButton) {
+                        filesList.itemRightClicked(index);
+                    }
+                }
             }
         }
     }
@@ -219,21 +242,21 @@ Rectangle {
         StyledText {
             property string displayText: {
                 if (!fileSearchController) {
-                    return ""
+                    return "";
                 }
                 if (!DSearchService.dsearchAvailable) {
-                    return I18n.tr("DankSearch not available")
+                    return I18n.tr("DankSearch not available");
                 }
                 if (fileSearchController.isSearching) {
-                    return I18n.tr("Searching...")
+                    return I18n.tr("Searching...");
                 }
                 if (fileSearchController.searchQuery.length === 0) {
-                    return I18n.tr("Enter a search query")
+                    return I18n.tr("Enter a search query");
                 }
                 if (!fileSearchController.model || fileSearchController.model.count === 0) {
-                    return I18n.tr("No files found")
+                    return I18n.tr("No files found");
                 }
-                return ""
+                return "";
             }
 
             text: displayText

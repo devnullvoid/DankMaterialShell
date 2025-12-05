@@ -406,6 +406,34 @@ DankPopout {
                         }
                         radius: Theme.cornerRadius
                         color: "transparent"
+                        clip: true
+
+                        Rectangle {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.bottom: parent.bottom
+                            height: 32
+                            z: 100
+                            visible: {
+                                if (appDrawerPopout.searchMode !== "apps")
+                                    return false;
+                                const view = appLauncher.viewMode === "list" ? appList : appGrid;
+                                const isLastItem = view.currentIndex >= view.count - 1;
+                                const hasOverflow = view.contentHeight > view.height;
+                                const atBottom = view.contentY >= view.contentHeight - view.height - 1;
+                                return hasOverflow && (!isLastItem || !atBottom);
+                            }
+                            gradient: Gradient {
+                                GradientStop {
+                                    position: 0.0
+                                    color: "transparent"
+                                }
+                                GradientStop {
+                                    position: 1.0
+                                    color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+                                }
+                            }
+                        }
 
                         DankListView {
                             id: appList
@@ -426,14 +454,16 @@ DankPopout {
                                     return;
                                 var itemY = index * (itemHeight + itemSpacing);
                                 var itemBottom = itemY + itemHeight;
+                                var fadeHeight = 32;
+                                var isLastItem = index === count - 1;
                                 if (itemY < contentY)
                                     contentY = itemY;
-                                else if (itemBottom > contentY + height)
-                                    contentY = itemBottom - height;
+                                else if (itemBottom > contentY + height - (isLastItem ? 0 : fadeHeight))
+                                    contentY = Math.min(itemBottom - height + (isLastItem ? 0 : fadeHeight), contentHeight - height);
                             }
 
                             anchors.fill: parent
-                            anchors.bottomMargin: Theme.spacingS
+                            anchors.bottomMargin: 1
                             visible: appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "list"
                             model: appLauncher.model
                             currentIndex: appLauncher.selectedIndex
@@ -511,14 +541,16 @@ DankPopout {
                                     return;
                                 var itemY = Math.floor(index / actualColumns) * cellHeight;
                                 var itemBottom = itemY + cellHeight;
+                                var fadeHeight = 32;
+                                var isLastRow = Math.floor(index / actualColumns) >= Math.floor((count - 1) / actualColumns);
                                 if (itemY < contentY)
                                     contentY = itemY;
-                                else if (itemBottom > contentY + height)
-                                    contentY = itemBottom - height;
+                                else if (itemBottom > contentY + height - (isLastRow ? 0 : fadeHeight))
+                                    contentY = Math.min(itemBottom - height + (isLastRow ? 0 : fadeHeight), contentHeight - height);
                             }
 
                             anchors.fill: parent
-                            anchors.bottomMargin: Theme.spacingS
+                            anchors.bottomMargin: 1
                             visible: appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid"
                             model: appLauncher.model
                             clip: true

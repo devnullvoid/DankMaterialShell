@@ -51,6 +51,33 @@ Rectangle {
     color: "transparent"
     clip: true
 
+    Rectangle {
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        height: 32
+        z: 100
+        visible: {
+            if (!appLauncher)
+                return false;
+            const view = appLauncher.viewMode === "list" ? resultsList : (gridLoader.item || resultsList);
+            const isLastItem = appLauncher.viewMode === "list" ? view.currentIndex >= view.count - 1 : (gridLoader.item ? Math.floor(view.currentIndex / view.actualColumns) >= Math.floor((view.count - 1) / view.actualColumns) : false);
+            const hasOverflow = view.contentHeight > view.height;
+            const atBottom = view.contentY >= view.contentHeight - view.height - 1;
+            return hasOverflow && (!isLastItem || !atBottom);
+        }
+        gradient: Gradient {
+            GradientStop {
+                position: 0.0
+                color: "transparent"
+            }
+            GradientStop {
+                position: 1.0
+                color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+            }
+        }
+    }
+
     DankListView {
         id: resultsList
 
@@ -70,14 +97,19 @@ Rectangle {
                 return;
             const itemY = index * (itemHeight + itemSpacing);
             const itemBottom = itemY + itemHeight;
+            const fadeHeight = 32;
+            const isLastItem = index === count - 1;
             if (itemY < contentY)
                 contentY = itemY;
-            else if (itemBottom > contentY + height)
-                contentY = itemBottom - height;
+            else if (itemBottom > contentY + height - (isLastItem ? 0 : fadeHeight))
+                contentY = Math.min(itemBottom - height + (isLastItem ? 0 : fadeHeight), contentHeight - height);
         }
 
         anchors.fill: parent
-        anchors.margins: Theme.spacingS
+        anchors.leftMargin: Theme.spacingS
+        anchors.rightMargin: Theme.spacingS
+        anchors.topMargin: Theme.spacingS
+        anchors.bottomMargin: 1
         visible: appLauncher && appLauncher.viewMode === "list"
         model: appLauncher ? appLauncher.model : null
         currentIndex: appLauncher ? appLauncher.selectedIndex : -1
@@ -127,7 +159,10 @@ Rectangle {
         property real _lastWidth: 0
 
         anchors.fill: parent
-        anchors.margins: Theme.spacingS
+        anchors.leftMargin: Theme.spacingS
+        anchors.rightMargin: Theme.spacingS
+        anchors.topMargin: Theme.spacingS
+        anchors.bottomMargin: 1
         visible: appLauncher && appLauncher.viewMode === "grid"
         active: appLauncher && appLauncher.viewMode === "grid"
         asynchronous: false
@@ -177,10 +212,12 @@ Rectangle {
                         return;
                     const itemY = Math.floor(index / actualColumns) * cellHeight;
                     const itemBottom = itemY + cellHeight;
+                    const fadeHeight = 32;
+                    const isLastRow = Math.floor(index / actualColumns) >= Math.floor((count - 1) / actualColumns);
                     if (itemY < contentY)
                         contentY = itemY;
-                    else if (itemBottom > contentY + height)
-                        contentY = itemBottom - height;
+                    else if (itemBottom > contentY + height - (isLastRow ? 0 : fadeHeight))
+                        contentY = Math.min(itemBottom - height + (isLastRow ? 0 : fadeHeight), contentHeight - height);
                 }
 
                 anchors.fill: parent
