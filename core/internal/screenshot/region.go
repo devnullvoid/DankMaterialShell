@@ -160,14 +160,17 @@ func (r *RegionSelector) Run() (*CaptureResult, bool, error) {
 	}
 
 	yInverted := false
+	var format uint32
 	if r.selection.surface != nil {
 		yInverted = r.selection.surface.yInverted
+		format = r.selection.surface.screenFormat
 	}
 
 	return &CaptureResult{
 		Buffer:    r.capturedBuffer,
-		Region:    r.result, // Global coords for saving last region
+		Region:    r.result,
 		YInverted: yInverted,
+		Format:    format,
 	}, false, nil
 }
 

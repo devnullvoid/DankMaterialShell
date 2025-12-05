@@ -98,9 +98,10 @@ func (r *RegionSelector) setupPointerHandlers() {
 		case 0x110: // BTN_LEFT
 			switch e.State {
 			case 1: // pressed
+				r.preSelect = Region{}
 				r.selection.hasSelection = true
 				r.selection.dragging = true
-				r.selection.surface = r.activeSurface // Lock to this surface
+				r.selection.surface = r.activeSurface
 				r.selection.anchorX = r.pointerX
 				r.selection.anchorY = r.pointerY
 				r.selection.currentX = r.pointerX

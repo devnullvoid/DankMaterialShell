@@ -34,15 +34,19 @@ type Output struct {
 }
 
 type LayerSurface struct {
-	output     *Output
-	state      *SurfaceState
-	wlSurface  *client.Surface
-	layerSurf  *wlr_layer_shell.ZwlrLayerSurfaceV1
-	viewport   *wp_viewporter.WpViewport
-	wlPool     *client.ShmPool
-	wlBuffer   *client.Buffer
-	configured bool
-	hidden     bool
+	output      *Output
+	state       *SurfaceState
+	wlSurface   *client.Surface
+	layerSurf   *wlr_layer_shell.ZwlrLayerSurfaceV1
+	viewport    *wp_viewporter.WpViewport
+	wlPool      *client.ShmPool
+	wlBuffer    *client.Buffer
+	bufferBusy  bool
+	oldPool     *client.ShmPool
+	oldBuffer   *client.Buffer
+	scopyBuffer *client.Buffer
+	configured  bool
+	hidden      bool
 }
 
 type Picker struct {
@@ -463,6 +467,12 @@ func (p *Picker) captureForSurface(ls *LayerSurface) {
 			return
 		}
 
+		if ls.scopyBuffer != nil {
+			ls.scopyBuffer.Destroy()
+		}
+		ls.scopyBuffer = wlBuffer
+		wlBuffer.SetReleaseHandler(func(e client.BufferReleaseEvent) {})
+
 		if err := frame.Copy(wlBuffer); err != nil {
 			log.Error("failed to copy frame", "err", err)
 		}
@@ -489,7 +499,6 @@ func (p *Picker) captureForSurface(ls *LayerSurface) {
 func (p *Picker) redrawSurface(ls *LayerSurface) {
 	var renderBuf *ShmBuffer
 	if ls.hidden {
-		// When hidden, just show the screenshot without overlay
 		renderBuf = ls.state.RedrawScreenOnly()
 	} else {
 		renderBuf = ls.state.Redraw()
@@ -498,14 +507,19 @@ func (p *Picker) redrawSurface(ls *LayerSurface) {
 		return
 	}
 
-	if ls.wlPool != nil {
-		ls.wlPool.Destroy()
-		ls.wlPool = nil
+	if ls.oldBuffer != nil {
+		ls.oldBuffer.Destroy()
+		ls.oldBuffer = nil
 	}
-	if ls.wlBuffer != nil {
-		ls.wlBuffer.Destroy()
-		ls.wlBuffer = nil
+	if ls.oldPool != nil {
+		ls.oldPool.Destroy()
+		ls.oldPool = nil
 	}
+
+	ls.oldPool = ls.wlPool
+	ls.oldBuffer = ls.wlBuffer
+	ls.wlPool = nil
+	ls.wlBuffer = nil
 
 	pool, err := p.shm.CreatePool(renderBuf.Fd(), int32(renderBuf.Size()))
 	if err != nil {
@@ -513,11 +527,17 @@ func (p *Picker) redrawSurface(ls *LayerSurface) {
 	}
 	ls.wlPool = pool
 
-	wlBuffer, err := pool.CreateBuffer(0, int32(renderBuf.Width), int32(renderBuf.Height), int32(renderBuf.Stride), uint32(FormatARGB8888))
+	wlBuffer, err := pool.CreateBuffer(0, int32(renderBuf.Width), int32(renderBuf.Height), int32(renderBuf.Stride), uint32(ls.state.ScreenFormat()))
 	if err != nil {
 		return
 	}
 	ls.wlBuffer = wlBuffer
+
+	lsRef := ls
+	wlBuffer.SetReleaseHandler(func(e client.BufferReleaseEvent) {
+		lsRef.bufferBusy = false
+	})
+	ls.bufferBusy = true
 
 	logicalW, logicalH := ls.state.LogicalSize()
 	if logicalW == 0 || logicalH == 0 {
@@ -533,30 +553,13 @@ func (p *Picker) redrawSurface(ls *LayerSurface) {
 	if ls.viewport != nil {
 		srcW := float64(renderBuf.Width) / float64(scale)
 		srcH := float64(renderBuf.Height) / float64(scale)
-		if err := ls.viewport.SetSource(0, 0, srcW, srcH); err != nil {
-			log.Warn("failed to set viewport source", "err", err)
-		}
-		if err := ls.viewport.SetDestination(int32(logicalW), int32(logicalH)); err != nil {
-			log.Warn("failed to set viewport destination", "err", err)
-		}
-		if err := ls.wlSurface.SetBufferScale(scale); err != nil {
-			log.Warn("failed to set buffer scale", "err", err)
-		}
-	} else {
-		if err := ls.wlSurface.SetBufferScale(scale); err != nil {
-			log.Warn("failed to set buffer scale", "err", err)
-		}
+		_ = ls.viewport.SetSource(0, 0, srcW, srcH)
+		_ = ls.viewport.SetDestination(int32(logicalW), int32(logicalH))
 	}
-
-	if err := ls.wlSurface.Attach(wlBuffer, 0, 0); err != nil {
-		log.Warn("failed to attach buffer", "err", err)
-	}
-	if err := ls.wlSurface.Damage(0, 0, int32(logicalW), int32(logicalH)); err != nil {
-		log.Warn("failed to damage surface", "err", err)
-	}
-	if err := ls.wlSurface.Commit(); err != nil {
-		log.Warn("failed to commit surface", "err", err)
-	}
+	_ = ls.wlSurface.SetBufferScale(scale)
+	_ = ls.wlSurface.Attach(wlBuffer, 0, 0)
+	_ = ls.wlSurface.Damage(0, 0, int32(logicalW), int32(logicalH))
+	_ = ls.wlSurface.Commit()
 
 	ls.state.SwapBuffers()
 }
@@ -599,9 +602,14 @@ func (p *Picker) setupPointerHandlers() {
 			log.Debug("failed to hide cursor", "err", err)
 		}
 
+		if e.Surface == nil {
+			return
+		}
+
 		p.activeSurface = nil
+		surfaceID := e.Surface.ID()
 		for _, ls := range p.surfaces {
-			if ls.wlSurface.ID() == e.Surface.ID() {
+			if ls.wlSurface.ID() == surfaceID {
 				p.activeSurface = ls
 				break
 			}
@@ -610,7 +618,6 @@ func (p *Picker) setupPointerHandlers() {
 			return
 		}
 
-		// If surface was hidden, mark it as visible again
 		if p.activeSurface.hidden {
 			p.activeSurface.hidden = false
 		}
@@ -620,8 +627,12 @@ func (p *Picker) setupPointerHandlers() {
 	})
 
 	p.pointer.SetLeaveHandler(func(e client.PointerLeaveEvent) {
+		if e.Surface == nil {
+			return
+		}
+		surfaceID := e.Surface.ID()
 		for _, ls := range p.surfaces {
-			if ls.wlSurface.ID() == e.Surface.ID() {
+			if ls.wlSurface.ID() == surfaceID {
 				p.hideSurface(ls)
 				break
 			}
@@ -654,6 +665,15 @@ func (p *Picker) setupKeyboardHandlers() {
 
 func (p *Picker) cleanup() {
 	for _, ls := range p.surfaces {
+		if ls.scopyBuffer != nil {
+			ls.scopyBuffer.Destroy()
+		}
+		if ls.oldBuffer != nil {
+			ls.oldBuffer.Destroy()
+		}
+		if ls.oldPool != nil {
+			ls.oldPool.Destroy()
+		}
 		if ls.wlBuffer != nil {
 			ls.wlBuffer.Destroy()
 		}

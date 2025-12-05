@@ -178,7 +178,7 @@ func runScreenshot(config screenshot.Config) {
 	}
 
 	if config.Stdout {
-		if err := writeImageToStdout(result.Buffer, config.Format, config.Quality); err != nil {
+		if err := writeImageToStdout(result.Buffer, config.Format, config.Quality, result.Format); err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing to stdout: %v\n", err)
 			os.Exit(1)
 		}
@@ -199,7 +199,7 @@ func runScreenshot(config screenshot.Config) {
 		}
 
 		filePath = filepath.Join(outputDir, filename)
-		if err := screenshot.WriteToFile(result.Buffer, filePath, config.Format, config.Quality); err != nil {
+		if err := screenshot.WriteToFileWithFormat(result.Buffer, filePath, config.Format, config.Quality, result.Format); err != nil {
 			fmt.Fprintf(os.Stderr, "Error writing file: %v\n", err)
 			os.Exit(1)
 		}
@@ -207,7 +207,7 @@ func runScreenshot(config screenshot.Config) {
 	}
 
 	if config.Clipboard {
-		if err := copyImageToClipboard(result.Buffer, config.Format, config.Quality); err != nil {
+		if err := copyImageToClipboard(result.Buffer, config.Format, config.Quality, result.Format); err != nil {
 			fmt.Fprintf(os.Stderr, "Error copying to clipboard: %v\n", err)
 			os.Exit(1)
 		}
@@ -217,7 +217,7 @@ func runScreenshot(config screenshot.Config) {
 	}
 
 	if config.Notify {
-		thumbData, thumbW, thumbH := bufferToRGBThumbnail(result.Buffer, 256)
+		thumbData, thumbW, thumbH := bufferToRGBThumbnail(result.Buffer, 256, result.Format)
 		screenshot.SendNotification(screenshot.NotifyResult{
 			FilePath:  filePath,
 			Clipboard: config.Clipboard,
@@ -228,11 +228,11 @@ func runScreenshot(config screenshot.Config) {
 	}
 }
 
-func copyImageToClipboard(buf *screenshot.ShmBuffer, format screenshot.Format, quality int) error {
+func copyImageToClipboard(buf *screenshot.ShmBuffer, format screenshot.Format, quality int, pixelFormat uint32) error {
 	var mimeType string
 	var data bytes.Buffer
 
-	img := screenshot.BufferToImage(buf)
+	img := screenshot.BufferToImageWithFormat(buf, pixelFormat)
 
 	switch format {
 	case screenshot.FormatJPEG:
@@ -252,8 +252,8 @@ func copyImageToClipboard(buf *screenshot.ShmBuffer, format screenshot.Format, q
 	return cmd.Run()
 }
 
-func writeImageToStdout(buf *screenshot.ShmBuffer, format screenshot.Format, quality int) error {
-	img := screenshot.BufferToImage(buf)
+func writeImageToStdout(buf *screenshot.ShmBuffer, format screenshot.Format, quality int, pixelFormat uint32) error {
+	img := screenshot.BufferToImageWithFormat(buf, pixelFormat)
 
 	switch format {
 	case screenshot.FormatJPEG:
@@ -263,7 +263,7 @@ func writeImageToStdout(buf *screenshot.ShmBuffer, format screenshot.Format, qua
 	}
 }
 
-func bufferToRGBThumbnail(buf *screenshot.ShmBuffer, maxSize int) ([]byte, int, int) {
+func bufferToRGBThumbnail(buf *screenshot.ShmBuffer, maxSize int, pixelFormat uint32) ([]byte, int, int) {
 	srcW, srcH := buf.Width, buf.Height
 	scale := 1.0
 	if srcW > maxSize || srcH > maxSize {
@@ -285,6 +285,7 @@ func bufferToRGBThumbnail(buf *screenshot.ShmBuffer, maxSize int) ([]byte, int, 
 
 	data := buf.Data()
 	rgb := make([]byte, dstW*dstH*3)
+	swapRB := pixelFormat == uint32(screenshot.FormatARGB8888) || pixelFormat == uint32(screenshot.FormatXRGB8888) || pixelFormat == 0
 
 	for y := 0; y < dstH; y++ {
 		srcY := int(float64(y) / scale)
@@ -299,9 +300,15 @@ func bufferToRGBThumbnail(buf *screenshot.ShmBuffer, maxSize int) ([]byte, int, 
 			si := srcY*buf.Stride + srcX*4
 			di := (y*dstW + x) * 3
 			if si+2 < len(data) {
-				rgb[di+0] = data[si+2] // R
-				rgb[di+1] = data[si+1] // G
-				rgb[di+2] = data[si+0] // B
+				if swapRB {
+					rgb[di+0] = data[si+2]
+					rgb[di+1] = data[si+1]
+					rgb[di+2] = data[si+0]
+				} else {
+					rgb[di+0] = data[si+0]
+					rgb[di+1] = data[si+1]
+					rgb[di+2] = data[si+2]
+				}
 			}
 		}
 	}

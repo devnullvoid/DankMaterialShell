@@ -100,6 +100,12 @@ func (s *SurfaceState) ScreenBuffer() *ShmBuffer {
 	return s.screenBuf
 }
 
+func (s *SurfaceState) ScreenFormat() PixelFormat {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	return s.screenFormat
+}
+
 func (s *SurfaceState) OnScreencopyFlags(flags uint32) {
 	s.mu.Lock()
 	s.yInverted = (flags & 1) != 0
@@ -263,7 +269,7 @@ func (s *SurfaceState) Redraw() *ShmBuffer {
 	px = clamp(px, 0, dst.Width-1)
 	py = clamp(py, 0, dst.Height-1)
 
-	picked := GetPixelColor(s.screenBuf, px, py)
+	picked := GetPixelColorWithFormat(s.screenBuf, px, py, s.screenFormat)
 
 	drawMagnifier(
 		dst.Data(), dst.Stride, dst.Width, dst.Height,
@@ -313,7 +319,7 @@ func (s *SurfaceState) PickColor() (Color, bool) {
 		sy = s.screenBuf.Height - 1 - sy
 	}
 
-	return GetPixelColor(s.screenBuf, sx, sy), true
+	return GetPixelColorWithFormat(s.screenBuf, sx, sy, s.screenFormat), true
 }
 
 func (s *SurfaceState) Destroy() {

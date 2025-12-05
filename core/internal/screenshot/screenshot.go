@@ -25,6 +25,7 @@ type CaptureResult struct {
 	Buffer    *ShmBuffer
 	Region    Region
 	YInverted bool
+	Format    uint32
 }
 
 type Screenshoter struct {
@@ -206,6 +207,7 @@ func (s *Screenshoter) captureAllScreens() (*CaptureResult, error) {
 
 	composite.Clear()
 
+	var format uint32
 	for _, output := range outputs {
 		result, err := s.captureWholeOutput(output)
 		if err != nil {
@@ -213,6 +215,9 @@ func (s *Screenshoter) captureAllScreens() (*CaptureResult, error) {
 			continue
 		}
 
+		if format == 0 {
+			format = result.Format
+		}
 		s.blitBuffer(composite, result.Buffer, int(output.x-minX), int(output.y-minY), result.YInverted)
 		result.Buffer.Close()
 	}
@@ -220,6 +225,7 @@ func (s *Screenshoter) captureAllScreens() (*CaptureResult, error) {
 	return &CaptureResult{
 		Buffer: composite,
 		Region: Region{X: minX, Y: minY, Width: totalW, Height: totalH},
+		Format: format,
 	}, nil
 }
 
@@ -379,6 +385,7 @@ func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1,
 		Buffer:    buf,
 		Region:    region,
 		YInverted: yInverted,
+		Format:    uint32(format),
 	}, nil
 }
 

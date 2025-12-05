@@ -13,8 +13,15 @@ import (
 )
 
 func BufferToImage(buf *ShmBuffer) *image.RGBA {
+	return BufferToImageWithFormat(buf, uint32(FormatARGB8888))
+}
+
+func BufferToImageWithFormat(buf *ShmBuffer, format uint32) *image.RGBA {
 	img := image.NewRGBA(image.Rect(0, 0, buf.Width, buf.Height))
 	data := buf.Data()
+
+	swapRB := format == uint32(FormatARGB8888) || format == uint32(FormatXRGB8888) || format == 0
+
 	for y := 0; y < buf.Height; y++ {
 		srcOff := y * buf.Stride
 		dstOff := y * img.Stride
@@ -24,10 +31,16 @@ func BufferToImage(buf *ShmBuffer) *image.RGBA {
 			if si+3 >= len(data) || di+3 >= len(img.Pix) {
 				continue
 			}
-			img.Pix[di+0] = data[si+2] // R
-			img.Pix[di+1] = data[si+1] // G
-			img.Pix[di+2] = data[si+0] // B
-			img.Pix[di+3] = 255        // A
+			if swapRB {
+				img.Pix[di+0] = data[si+2]
+				img.Pix[di+1] = data[si+1]
+				img.Pix[di+2] = data[si+0]
+			} else {
+				img.Pix[di+0] = data[si+0]
+				img.Pix[di+1] = data[si+1]
+				img.Pix[di+2] = data[si+2]
+			}
+			img.Pix[di+3] = 255
 		}
 	}
 	return img
@@ -162,13 +175,17 @@ func expandHome(path string) string {
 }
 
 func WriteToFile(buf *ShmBuffer, path string, format Format, quality int) error {
+	return WriteToFileWithFormat(buf, path, format, quality, uint32(FormatARGB8888))
+}
+
+func WriteToFileWithFormat(buf *ShmBuffer, path string, format Format, quality int, pixelFormat uint32) error {
 	f, err := os.Create(path)
 	if err != nil {
 		return err
 	}
 	defer f.Close()
 
-	img := BufferToImage(buf)
+	img := BufferToImageWithFormat(buf, pixelFormat)
 	switch format {
 	case FormatJPEG:
 		return EncodeJPEG(f, img, quality)
