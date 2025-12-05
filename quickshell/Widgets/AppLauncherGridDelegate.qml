@@ -30,8 +30,8 @@ Rectangle {
     signal itemRightClicked(int index, var modelData, real mouseX, real mouseY)
     signal keyboardNavigationReset
 
-    width: cellWidth
-    height: cellHeight
+    width: cellWidth - 1
+    height: cellHeight - 1
     radius: Theme.cornerRadius
     color: currentIndex === index ? Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency) : mouseArea.containsMouse ? Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency) : "transparent"
 
