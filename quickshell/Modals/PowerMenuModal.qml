@@ -787,12 +787,18 @@ DankModal {
                 }
 
                 StyledText {
-                    readonly property int remainingSeconds: Math.ceil(SettingsData.powerActionHoldDuration * (1 - root.holdProgress))
+                    readonly property real totalMs: SettingsData.powerActionHoldDuration * 1000
+                    readonly property int remainingMs: Math.ceil(totalMs * (1 - root.holdProgress))
                     text: {
                         if (root.showHoldHint)
                             return I18n.tr("Hold longer to confirm");
-                        if (root.holdProgress > 0)
-                            return I18n.tr("Hold to confirm (%1s)").arg(remainingSeconds);
+                        if (root.holdProgress > 0) {
+                            if (totalMs < 1000)
+                                return I18n.tr("Hold to confirm (%1 ms)").arg(remainingMs);
+                            return I18n.tr("Hold to confirm (%1s)").arg(Math.ceil(remainingMs / 1000));
+                        }
+                        if (totalMs < 1000)
+                            return I18n.tr("Hold to confirm (%1 ms)").arg(totalMs);
                         return I18n.tr("Hold to confirm (%1s)").arg(SettingsData.powerActionHoldDuration);
                     }
                     font.pixelSize: Theme.fontSizeSmall

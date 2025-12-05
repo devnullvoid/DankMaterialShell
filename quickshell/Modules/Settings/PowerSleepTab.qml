@@ -408,15 +408,27 @@ Item {
                     onToggled: checked => SettingsData.set("powerActionConfirm", checked)
                 }
 
-                SettingsSliderRow {
+                SettingsDropdownRow {
+                    id: holdDurationDropdown
+                    property var durationOptions: ["250 ms", "500 ms", "750 ms", "1 second", "2 seconds", "3 seconds", "5 seconds", "10 seconds"]
+                    property var durationValues: [0.25, 0.5, 0.75, 1, 2, 3, 5, 10]
+
                     text: I18n.tr("Hold Duration")
-                    description: I18n.tr("How long to hold the button to confirm the action")
-                    minimum: 1
-                    maximum: 10
-                    unit: "s"
+                    options: durationOptions
                     visible: SettingsData.powerActionConfirm
-                    value: SettingsData.powerActionHoldDuration
-                    onSliderValueChanged: newValue => SettingsData.set("powerActionHoldDuration", newValue)
+
+                    Component.onCompleted: {
+                        const currentDuration = SettingsData.powerActionHoldDuration;
+                        const index = durationValues.indexOf(currentDuration);
+                        currentValue = index >= 0 ? durationOptions[index] : "500 ms";
+                    }
+
+                    onValueChanged: value => {
+                        const index = durationOptions.indexOf(value);
+                        if (index < 0)
+                            return;
+                        SettingsData.set("powerActionHoldDuration", durationValues[index]);
+                    }
                 }
             }
 
