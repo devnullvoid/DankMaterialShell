@@ -237,7 +237,8 @@ Loader {
             "notepadButton": components.notepadButtonComponent,
             "colorPicker": components.colorPickerComponent,
             "systemUpdate": components.systemUpdateComponent,
-            "layout": components.layoutComponent
+            "layout": components.layoutComponent,
+            "powerMenuButton": components.powerMenuButtonComponent
         };
 
         if (componentMap[widgetId]) {
