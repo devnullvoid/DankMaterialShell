@@ -77,6 +77,8 @@ func (s *Screenshoter) Run() (*CaptureResult, error) {
 		return s.captureLastRegion()
 	case ModeRegion:
 		return s.captureRegion()
+	case ModeWindow:
+		return s.captureWindow()
 	case ModeOutput:
 		return s.captureOutput(s.config.OutputName)
 	case ModeFullScreen:
@@ -117,6 +119,27 @@ func (s *Screenshoter) captureRegion() (*CaptureResult, error) {
 	}
 
 	return result, nil
+}
+
+func (s *Screenshoter) captureWindow() (*CaptureResult, error) {
+	geom, err := GetActiveWindow()
+	if err != nil {
+		return nil, err
+	}
+
+	region := Region{
+		X:      geom.X,
+		Y:      geom.Y,
+		Width:  geom.Width,
+		Height: geom.Height,
+	}
+
+	output := s.findOutputForRegion(region)
+	if output == nil {
+		return nil, fmt.Errorf("could not find output for window")
+	}
+
+	return s.captureRegionOnOutput(output, region)
 }
 
 func (s *Screenshoter) captureFullScreen() (*CaptureResult, error) {

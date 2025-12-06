@@ -35,6 +35,7 @@ Modes:
   full        - Capture the focused output
   all         - Capture all outputs combined
   output      - Capture a specific output by name
+  window      - Capture the focused window (Hyprland only)
   last        - Capture the last selected region
 
 Output format (--format):
@@ -47,6 +48,7 @@ Examples:
   dms screenshot full                # Full screen of focused output
   dms screenshot all                 # All screens combined
   dms screenshot output -o DP-1      # Specific output
+  dms screenshot window              # Focused window (Hyprland)
   dms screenshot last                # Last region (pre-selected)
   dms screenshot --no-clipboard      # Save file only
   dms screenshot --no-file           # Clipboard only
@@ -86,6 +88,14 @@ If no previous region exists, falls back to interactive selection.`,
 	Run: runScreenshotLast,
 }
 
+var ssWindowCmd = &cobra.Command{
+	Use:   "window",
+	Short: "Capture the focused window",
+	Long: `Capture the currently focused window.
+Currently only supported on Hyprland.`,
+	Run: runScreenshotWindow,
+}
+
 var ssListCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List available outputs",
@@ -117,6 +127,7 @@ func init() {
 	screenshotCmd.AddCommand(ssAllCmd)
 	screenshotCmd.AddCommand(ssOutputCmd)
 	screenshotCmd.AddCommand(ssLastCmd)
+	screenshotCmd.AddCommand(ssWindowCmd)
 	screenshotCmd.AddCommand(ssListCmd)
 
 	screenshotCmd.Run = runScreenshotRegion
@@ -344,6 +355,11 @@ func runScreenshotOutput(cmd *cobra.Command, args []string) {
 
 func runScreenshotLast(cmd *cobra.Command, args []string) {
 	config := getScreenshotConfig(screenshot.ModeLastRegion)
+	runScreenshot(config)
+}
+
+func runScreenshotWindow(cmd *cobra.Command, args []string) {
+	config := getScreenshotConfig(screenshot.ModeWindow)
 	runScreenshot(config)
 }
 
