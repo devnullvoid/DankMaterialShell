@@ -330,7 +330,7 @@ Item {
             property var itemData: modelData
             readonly property real itemSpacing: root.widgetSpacing
 
-            width: widgetLoader.item ? widgetLoader.item.width : 0
+            width: root.isVertical ? root.width : (widgetLoader.item ? widgetLoader.item.width : 0)
             height: widgetLoader.item ? widgetLoader.item.height : 0
 
             readonly property bool active: widgetLoader.active
