@@ -130,7 +130,7 @@ Item {
             id: barBorderShape
             anchors.fill: parent
             preferredRendererType: Shape.CurveRenderer
-            visible: (barConfig?.borderEnabled ?? false) && !barWindow.hasMaximizedToplevel
+            visible: barConfig?.borderEnabled ?? false
 
             ShapePath {
                 fillColor: "transparent"
