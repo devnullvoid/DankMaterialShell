@@ -108,7 +108,6 @@ func (g *GentooDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 
 	dependencies = append(dependencies, g.detectMatugen())
 	dependencies = append(dependencies, g.detectDgop())
-	dependencies = append(dependencies, g.detectHyprpicker())
 	dependencies = append(dependencies, g.detectClipboardTools()...)
 
 	return dependencies, nil
@@ -190,7 +189,6 @@ func (g *GentooDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"xdg-desktop-portal-gtk": {Name: "sys-apps/xdg-desktop-portal-gtk", Repository: RepoTypeSystem, UseFlags: "wayland X"},
 		"mate-polkit":            {Name: "mate-extra/mate-polkit", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "sys-apps/accountsservice", Repository: RepoTypeSystem},
-		"hyprpicker":             g.getHyprpickerMapping(variants["hyprland"]),
 
 		"qtbase":        {Name: "dev-qt/qtbase", Repository: RepoTypeSystem, UseFlags: "wayland opengl vulkan widgets"},
 		"qtdeclarative": {Name: "dev-qt/qtdeclarative", Repository: RepoTypeSystem, UseFlags: "opengl vulkan"},
@@ -207,10 +205,7 @@ func (g *GentooDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 	switch wm {
 	case deps.WindowManagerHyprland:
 		packages["hyprland"] = g.getHyprlandMapping(variants["hyprland"])
-		packages["grim"] = PackageMapping{Name: "gui-apps/grim", Repository: RepoTypeSystem}
-		packages["slurp"] = PackageMapping{Name: "gui-apps/slurp", Repository: RepoTypeSystem}
 		packages["hyprctl"] = g.getHyprlandMapping(variants["hyprland"])
-		packages["grimblast"] = PackageMapping{Name: "gui-wm/hyprland-contrib", Repository: RepoTypeGURU, AcceptKeywords: archKeyword}
 		packages["jq"] = PackageMapping{Name: "app-misc/jq", Repository: RepoTypeSystem}
 	case deps.WindowManagerNiri:
 		packages["niri"] = g.getNiriMapping(variants["niri"])
@@ -234,10 +229,6 @@ func (g *GentooDistribution) getHyprlandMapping(variant deps.PackageVariant) Pac
 		return PackageMapping{Name: "gui-wm/hyprland", Repository: RepoTypeGURU, UseFlags: "X", AcceptKeywords: archKeyword}
 	}
 	return PackageMapping{Name: "gui-wm/hyprland", Repository: RepoTypeSystem, UseFlags: "X", AcceptKeywords: archKeyword}
-}
-
-func (g *GentooDistribution) getHyprpickerMapping(_ deps.PackageVariant) PackageMapping {
-	return PackageMapping{Name: "gui-apps/hyprpicker", Repository: RepoTypeGURU, AcceptKeywords: g.getArchKeyword()}
 }
 
 func (g *GentooDistribution) getNiriMapping(_ deps.PackageVariant) PackageMapping {

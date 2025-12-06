@@ -66,7 +66,6 @@ func (o *OpenSUSEDistribution) DetectDependenciesWithTerminal(ctx context.Contex
 	dependencies = append(dependencies, o.detectWindowManager(wm))
 	dependencies = append(dependencies, o.detectQuickshell())
 	dependencies = append(dependencies, o.detectXDGPortal())
-	dependencies = append(dependencies, o.detectPolkitAgent())
 	dependencies = append(dependencies, o.detectAccountsService())
 
 	// Hyprland-specific tools
@@ -101,20 +100,6 @@ func (o *OpenSUSEDistribution) detectXDGPortal() deps.Dependency {
 	}
 }
 
-func (o *OpenSUSEDistribution) detectPolkitAgent() deps.Dependency {
-	status := deps.StatusMissing
-	if o.packageInstalled("mate-polkit") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "mate-polkit",
-		Status:      status,
-		Description: "PolicyKit authentication agent",
-		Required:    true,
-	}
-}
-
 func (o *OpenSUSEDistribution) packageInstalled(pkg string) bool {
 	cmd := exec.Command("rpm", "-q", pkg)
 	err := cmd.Run()
@@ -134,7 +119,6 @@ func (o *OpenSUSEDistribution) GetPackageMappingWithVariants(wm deps.WindowManag
 		"alacritty":              {Name: "alacritty", Repository: RepoTypeSystem},
 		"wl-clipboard":           {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
-		"mate-polkit":            {Name: "mate-polkit", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
 		"cliphist":               {Name: "cliphist", Repository: RepoTypeSystem},
 
@@ -148,10 +132,7 @@ func (o *OpenSUSEDistribution) GetPackageMappingWithVariants(wm deps.WindowManag
 	switch wm {
 	case deps.WindowManagerHyprland:
 		packages["hyprland"] = PackageMapping{Name: "hyprland", Repository: RepoTypeSystem}
-		packages["grim"] = PackageMapping{Name: "grim", Repository: RepoTypeSystem}
-		packages["slurp"] = PackageMapping{Name: "slurp", Repository: RepoTypeSystem}
 		packages["hyprctl"] = PackageMapping{Name: "hyprland", Repository: RepoTypeSystem}
-		packages["grimblast"] = PackageMapping{Name: "grimblast", Repository: RepoTypeManual, BuildFunc: "installGrimblast"}
 		packages["jq"] = PackageMapping{Name: "jq", Repository: RepoTypeSystem}
 	case deps.WindowManagerNiri:
 		// Niri stable has native package support on openSUSE

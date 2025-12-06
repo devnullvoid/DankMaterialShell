@@ -61,7 +61,6 @@ func (d *DebianDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 	dependencies = append(dependencies, d.detectWindowManager(wm))
 	dependencies = append(dependencies, d.detectQuickshell())
 	dependencies = append(dependencies, d.detectXDGPortal())
-	dependencies = append(dependencies, d.detectPolkitAgent())
 	dependencies = append(dependencies, d.detectAccountsService())
 
 	if wm == deps.WindowManagerNiri {
@@ -85,20 +84,6 @@ func (d *DebianDistribution) detectXDGPortal() deps.Dependency {
 		Name:        "xdg-desktop-portal-gtk",
 		Status:      status,
 		Description: "Desktop integration portal for GTK",
-		Required:    true,
-	}
-}
-
-func (d *DebianDistribution) detectPolkitAgent() deps.Dependency {
-	status := deps.StatusMissing
-	if d.packageInstalled("mate-polkit") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "mate-polkit",
-		Status:      status,
-		Description: "PolicyKit authentication agent",
 		Required:    true,
 	}
 }
@@ -149,7 +134,6 @@ func (d *DebianDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"alacritty":              {Name: "alacritty", Repository: RepoTypeSystem},
 		"wl-clipboard":           {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
-		"mate-polkit":            {Name: "mate-polkit", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
 
 		// DMS packages from OBS with variant support
@@ -158,9 +142,7 @@ func (d *DebianDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"matugen":                 {Name: "matugen", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
 		"dgop":                    {Name: "dgop", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
 		"cliphist":                {Name: "cliphist", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
-
-		// Keep ghostty as manual (no OBS package yet)
-		"ghostty": {Name: "ghostty", Repository: RepoTypeManual, BuildFunc: "installGhostty"},
+		"ghostty":                 {Name: "ghostty", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
 	}
 
 	if wm == deps.WindowManagerNiri {
@@ -664,30 +646,6 @@ func (d *DebianDistribution) installGo(ctx context.Context, sudoPassword string,
 	return d.runWithProgress(installCmd, progressChan, PhaseSystemPackages, 0.87, 0.90)
 }
 
-func (d *DebianDistribution) installGhosttyDebian(ctx context.Context, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
-	d.log("Installing Ghostty using Debian installer script...")
-
-	progressChan <- InstallProgressMsg{
-		Phase:       PhaseSystemPackages,
-		Progress:    0.1,
-		Step:        "Running Ghostty Debian installer...",
-		IsComplete:  false,
-		NeedsSudo:   true,
-		CommandInfo: "curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh | sudo bash",
-		LogOutput:   "Installing Ghostty using pre-built Debian package",
-	}
-
-	installCmd := ExecSudoCommand(ctx, sudoPassword,
-		"/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)\"")
-
-	if err := d.runWithProgress(installCmd, progressChan, PhaseSystemPackages, 0.1, 0.9); err != nil {
-		return fmt.Errorf("failed to install Ghostty: %w", err)
-	}
-
-	d.log("Ghostty installed successfully using Debian installer")
-	return nil
-}
-
 func (d *DebianDistribution) InstallManualPackages(ctx context.Context, packages []string, variantMap map[string]deps.PackageVariant, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
 	if len(packages) == 0 {
 		return nil
@@ -697,10 +655,6 @@ func (d *DebianDistribution) InstallManualPackages(ctx context.Context, packages
 
 	for _, pkg := range packages {
 		switch pkg {
-		case "ghostty":
-			if err := d.installGhosttyDebian(ctx, sudoPassword, progressChan); err != nil {
-				return fmt.Errorf("failed to install ghostty: %w", err)
-			}
 		default:
 			if err := d.ManualPackageInstaller.InstallManualPackages(ctx, []string{pkg}, variantMap, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install %s: %w", pkg, err)

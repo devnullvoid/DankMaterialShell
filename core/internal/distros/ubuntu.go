@@ -3,9 +3,7 @@ package distros
 import (
 	"context"
 	"fmt"
-	"os"
 	"os/exec"
-	"path/filepath"
 	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
@@ -66,7 +64,6 @@ func (u *UbuntuDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 	dependencies = append(dependencies, u.detectWindowManager(wm))
 	dependencies = append(dependencies, u.detectQuickshell())
 	dependencies = append(dependencies, u.detectXDGPortal())
-	dependencies = append(dependencies, u.detectPolkitAgent())
 	dependencies = append(dependencies, u.detectAccountsService())
 
 	// Hyprland-specific tools
@@ -97,20 +94,6 @@ func (u *UbuntuDistribution) detectXDGPortal() deps.Dependency {
 		Name:        "xdg-desktop-portal-gtk",
 		Status:      status,
 		Description: "Desktop integration portal for GTK",
-		Required:    true,
-	}
-}
-
-func (u *UbuntuDistribution) detectPolkitAgent() deps.Dependency {
-	status := deps.StatusMissing
-	if u.packageInstalled("mate-polkit") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "mate-polkit",
-		Status:      status,
-		Description: "PolicyKit authentication agent",
 		Required:    true,
 	}
 }
@@ -161,7 +144,6 @@ func (u *UbuntuDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"alacritty":              {Name: "alacritty", Repository: RepoTypeSystem},
 		"wl-clipboard":           {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
-		"mate-polkit":            {Name: "mate-polkit", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
 
 		// DMS packages from PPAs
@@ -170,19 +152,14 @@ func (u *UbuntuDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"matugen":                 {Name: "matugen", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
 		"dgop":                    {Name: "dgop", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
 		"cliphist":                {Name: "cliphist", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
-
-		// Keep ghostty as manual (no PPA available)
-		"ghostty": {Name: "ghostty", Repository: RepoTypeManual, BuildFunc: "installGhostty"},
+		"ghostty":                 {Name: "ghostty", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
 	}
 
 	switch wm {
 	case deps.WindowManagerHyprland:
 		// Use the cppiber PPA for Hyprland
 		packages["hyprland"] = PackageMapping{Name: "hyprland", Repository: RepoTypePPA, RepoURL: "ppa:cppiber/hyprland"}
-		packages["grim"] = PackageMapping{Name: "grim", Repository: RepoTypeSystem}
-		packages["slurp"] = PackageMapping{Name: "slurp", Repository: RepoTypeSystem}
 		packages["hyprctl"] = PackageMapping{Name: "hyprland", Repository: RepoTypePPA, RepoURL: "ppa:cppiber/hyprland"}
-		packages["grimblast"] = PackageMapping{Name: "grimblast", Repository: RepoTypeManual, BuildFunc: "installGrimblast"}
 		packages["jq"] = PackageMapping{Name: "jq", Repository: RepoTypeSystem}
 	case deps.WindowManagerNiri:
 		niriVariant := variants["niri"]
@@ -577,10 +554,6 @@ func (u *UbuntuDistribution) installBuildDependencies(ctx context.Context, manua
 			buildDeps["libxcb1-dev"] = true
 			buildDeps["libpipewire-0.3-dev"] = true
 			buildDeps["libpam0g-dev"] = true
-		case "ghostty":
-			buildDeps["curl"] = true
-			buildDeps["libgtk-4-dev"] = true
-			buildDeps["libadwaita-1-dev"] = true
 		case "matugen":
 			buildDeps["curl"] = true
 		case "cliphist":
@@ -593,10 +566,6 @@ func (u *UbuntuDistribution) installBuildDependencies(ctx context.Context, manua
 		case "niri", "matugen":
 			if err := u.installRust(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install Rust: %w", err)
-			}
-		case "ghostty":
-			if err := u.installZig(ctx, sudoPassword, progressChan); err != nil {
-				return fmt.Errorf("failed to install Zig: %w", err)
 			}
 		case "cliphist", "dgop":
 			if err := u.installGo(ctx, sudoPassword, progressChan); err != nil {
@@ -661,40 +630,6 @@ func (u *UbuntuDistribution) installRust(ctx context.Context, sudoPassword strin
 	return nil
 }
 
-func (u *UbuntuDistribution) installZig(ctx context.Context, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
-	if u.commandExists("zig") {
-		return nil
-	}
-
-	homeDir, err := os.UserHomeDir()
-	if err != nil {
-		return fmt.Errorf("failed to get user home directory: %w", err)
-	}
-
-	cacheDir := filepath.Join(homeDir, ".cache", "dankinstall")
-	if err := os.MkdirAll(cacheDir, 0755); err != nil {
-		return fmt.Errorf("failed to create cache directory: %w", err)
-	}
-
-	zigUrl := "https://ziglang.org/download/0.11.0/zig-linux-x86_64-0.11.0.tar.xz"
-	zigTmp := filepath.Join(cacheDir, "zig.tar.xz")
-
-	downloadCmd := exec.CommandContext(ctx, "curl", "-L", zigUrl, "-o", zigTmp)
-	if err := u.runWithProgress(downloadCmd, progressChan, PhaseSystemPackages, 0.84, 0.85); err != nil {
-		return fmt.Errorf("failed to download Zig: %w", err)
-	}
-
-	extractCmd := ExecSudoCommand(ctx, sudoPassword,
-		fmt.Sprintf("tar -xf %s -C /opt/", zigTmp))
-	if err := u.runWithProgress(extractCmd, progressChan, PhaseSystemPackages, 0.85, 0.86); err != nil {
-		return fmt.Errorf("failed to extract Zig: %w", err)
-	}
-
-	linkCmd := ExecSudoCommand(ctx, sudoPassword,
-		"ln -sf /opt/zig-linux-x86_64-0.11.0/zig /usr/local/bin/zig")
-	return u.runWithProgress(linkCmd, progressChan, PhaseSystemPackages, 0.86, 0.87)
-}
-
 func (u *UbuntuDistribution) installGo(ctx context.Context, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
 	if u.commandExists("go") {
 		return nil
@@ -742,30 +677,6 @@ func (u *UbuntuDistribution) installGo(ctx context.Context, sudoPassword string,
 	return u.runWithProgress(installCmd, progressChan, PhaseSystemPackages, 0.89, 0.90)
 }
 
-func (u *UbuntuDistribution) installGhosttyUbuntu(ctx context.Context, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
-	u.log("Installing Ghostty using Ubuntu installer script...")
-
-	progressChan <- InstallProgressMsg{
-		Phase:       PhaseSystemPackages,
-		Progress:    0.1,
-		Step:        "Running Ghostty Ubuntu installer...",
-		IsComplete:  false,
-		NeedsSudo:   true,
-		CommandInfo: "curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh | sudo bash",
-		LogOutput:   "Installing Ghostty using pre-built Ubuntu package",
-	}
-
-	installCmd := ExecSudoCommand(ctx, sudoPassword,
-		"/bin/bash -c \"$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)\"")
-
-	if err := u.runWithProgress(installCmd, progressChan, PhaseSystemPackages, 0.1, 0.9); err != nil {
-		return fmt.Errorf("failed to install Ghostty: %w", err)
-	}
-
-	u.log("Ghostty installed successfully using Ubuntu installer")
-	return nil
-}
-
 func (u *UbuntuDistribution) InstallManualPackages(ctx context.Context, packages []string, variantMap map[string]deps.PackageVariant, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
 	if len(packages) == 0 {
 		return nil
@@ -775,10 +686,6 @@ func (u *UbuntuDistribution) InstallManualPackages(ctx context.Context, packages
 
 	for _, pkg := range packages {
 		switch pkg {
-		case "ghostty":
-			if err := u.installGhosttyUbuntu(ctx, sudoPassword, progressChan); err != nil {
-				return fmt.Errorf("failed to install ghostty: %w", err)
-			}
 		default:
 			if err := u.ManualPackageInstaller.InstallManualPackages(ctx, []string{pkg}, variantMap, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install %s: %w", pkg, err)

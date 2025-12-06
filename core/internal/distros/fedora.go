@@ -76,7 +76,6 @@ func (f *FedoraDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 	dependencies = append(dependencies, f.detectWindowManager(wm))
 	dependencies = append(dependencies, f.detectQuickshell())
 	dependencies = append(dependencies, f.detectXDGPortal())
-	dependencies = append(dependencies, f.detectPolkitAgent())
 	dependencies = append(dependencies, f.detectAccountsService())
 
 	// Hyprland-specific tools
@@ -92,7 +91,6 @@ func (f *FedoraDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 	// Base detections (common across distros)
 	dependencies = append(dependencies, f.detectMatugen())
 	dependencies = append(dependencies, f.detectDgop())
-	dependencies = append(dependencies, f.detectHyprpicker())
 	dependencies = append(dependencies, f.detectClipboardTools()...)
 
 	return dependencies, nil
@@ -108,20 +106,6 @@ func (f *FedoraDistribution) detectXDGPortal() deps.Dependency {
 		Name:        "xdg-desktop-portal-gtk",
 		Status:      status,
 		Description: "Desktop integration portal for GTK",
-		Required:    true,
-	}
-}
-
-func (f *FedoraDistribution) detectPolkitAgent() deps.Dependency {
-	status := deps.StatusMissing
-	if f.packageInstalled("mate-polkit") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "mate-polkit",
-		Status:      status,
-		Description: "PolicyKit authentication agent",
 		Required:    true,
 	}
 }
@@ -145,9 +129,7 @@ func (f *FedoraDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"alacritty":              {Name: "alacritty", Repository: RepoTypeSystem},
 		"wl-clipboard":           {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
-		"mate-polkit":            {Name: "mate-polkit", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
-		"hyprpicker":             f.getHyprpickerMapping(variants["hyprland"]),
 
 		// COPR packages
 		"quickshell":              f.getQuickshellMapping(variants["quickshell"]),
@@ -160,10 +142,7 @@ func (f *FedoraDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 	switch wm {
 	case deps.WindowManagerHyprland:
 		packages["hyprland"] = f.getHyprlandMapping(variants["hyprland"])
-		packages["grim"] = PackageMapping{Name: "grim", Repository: RepoTypeSystem}
-		packages["slurp"] = PackageMapping{Name: "slurp", Repository: RepoTypeSystem}
 		packages["hyprctl"] = f.getHyprlandMapping(variants["hyprland"])
-		packages["grimblast"] = PackageMapping{Name: "grimblast", Repository: RepoTypeManual, BuildFunc: "installGrimblast"}
 		packages["jq"] = PackageMapping{Name: "jq", Repository: RepoTypeSystem}
 	case deps.WindowManagerNiri:
 		packages["niri"] = f.getNiriMapping(variants["niri"])
@@ -192,13 +171,6 @@ func (f *FedoraDistribution) getHyprlandMapping(variant deps.PackageVariant) Pac
 		return PackageMapping{Name: "hyprland-git", Repository: RepoTypeCOPR, RepoURL: "solopasha/hyprland"}
 	}
 	return PackageMapping{Name: "hyprland", Repository: RepoTypeCOPR, RepoURL: "solopasha/hyprland"}
-}
-
-func (f *FedoraDistribution) getHyprpickerMapping(variant deps.PackageVariant) PackageMapping {
-	if variant == deps.VariantGit {
-		return PackageMapping{Name: "hyprpicker-git", Repository: RepoTypeCOPR, RepoURL: "solopasha/hyprland"}
-	}
-	return PackageMapping{Name: "hyprpicker", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"}
 }
 
 func (f *FedoraDistribution) getNiriMapping(variant deps.PackageVariant) PackageMapping {

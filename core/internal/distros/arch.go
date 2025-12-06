@@ -91,7 +91,6 @@ func (a *ArchDistribution) DetectDependenciesWithTerminal(ctx context.Context, w
 	dependencies = append(dependencies, a.detectWindowManager(wm))
 	dependencies = append(dependencies, a.detectQuickshell())
 	dependencies = append(dependencies, a.detectXDGPortal())
-	dependencies = append(dependencies, a.detectPolkitAgent())
 	dependencies = append(dependencies, a.detectAccountsService())
 
 	// Hyprland-specific tools
@@ -107,7 +106,6 @@ func (a *ArchDistribution) DetectDependenciesWithTerminal(ctx context.Context, w
 	// Base detections (common across distros)
 	dependencies = append(dependencies, a.detectMatugen())
 	dependencies = append(dependencies, a.detectDgop())
-	dependencies = append(dependencies, a.detectHyprpicker())
 	dependencies = append(dependencies, a.detectClipboardTools()...)
 
 	return dependencies, nil
@@ -123,20 +121,6 @@ func (a *ArchDistribution) detectXDGPortal() deps.Dependency {
 		Name:        "xdg-desktop-portal-gtk",
 		Status:      status,
 		Description: "Desktop integration portal for GTK",
-		Required:    true,
-	}
-}
-
-func (a *ArchDistribution) detectPolkitAgent() deps.Dependency {
-	status := deps.StatusMissing
-	if a.packageInstalled("mate-polkit") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "mate-polkit",
-		Status:      status,
-		Description: "PolicyKit authentication agent",
 		Required:    true,
 	}
 }
@@ -178,18 +162,13 @@ func (a *ArchDistribution) GetPackageMappingWithVariants(wm deps.WindowManager, 
 		"cliphist":                {Name: "cliphist", Repository: RepoTypeSystem},
 		"wl-clipboard":            {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk":  {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
-		"mate-polkit":             {Name: "mate-polkit", Repository: RepoTypeSystem},
 		"accountsservice":         {Name: "accountsservice", Repository: RepoTypeSystem},
-		"hyprpicker":              {Name: "hyprpicker", Repository: RepoTypeSystem},
 	}
 
 	switch wm {
 	case deps.WindowManagerHyprland:
 		packages["hyprland"] = a.getHyprlandMapping(variants["hyprland"])
-		packages["grim"] = PackageMapping{Name: "grim", Repository: RepoTypeSystem}
-		packages["slurp"] = PackageMapping{Name: "slurp", Repository: RepoTypeSystem}
 		packages["hyprctl"] = a.getHyprlandMapping(variants["hyprland"])
-		packages["grimblast"] = PackageMapping{Name: "grimblast", Repository: RepoTypeManual, BuildFunc: "installGrimblast"}
 		packages["jq"] = PackageMapping{Name: "jq", Repository: RepoTypeSystem}
 	case deps.WindowManagerNiri:
 		packages["niri"] = a.getNiriMapping(variants["niri"])
