@@ -139,6 +139,20 @@ esac
 OBS_PROJECT="${OBS_BASE_PROJECT}:${PROJECT}"
 
 echo "==> Target: $OBS_PROJECT / $PACKAGE"
+
+# Detect if this is a manual run or automated
+IS_MANUAL=false
+if [[ -n "${REBUILD_RELEASE:-}" ]]; then
+    IS_MANUAL=true
+    echo "==> Manual rebuild detected (REBUILD_RELEASE=$REBUILD_RELEASE)"
+elif [[ -n "${FORCE_REBUILD:-}" ]] && [[ "${FORCE_REBUILD}" == "true" ]]; then
+    IS_MANUAL=true
+    echo "==> Manual workflow trigger detected (FORCE_REBUILD=true)"
+elif [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
+    IS_MANUAL=true
+    echo "==> Local/manual run detected (not in CI)"
+fi
+
 if [[ "$UPLOAD_DEBIAN" == true && "$UPLOAD_OPENSUSE" == true ]]; then
     echo "==> Distributions: Debian + OpenSUSE"
 elif [[ "$UPLOAD_DEBIAN" == true ]]; then
@@ -192,9 +206,20 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ -f "distro/opensuse/$PACKAGE.spec" ]];
         if [[ "$NEW_VERSION" == "$OLD_VERSION" ]]; then
             if [[ "$OLD_RELEASE" =~ ^([0-9]+) ]]; then
                 BASE_RELEASE="${BASH_REMATCH[1]}"
-                NEXT_RELEASE=$((BASE_RELEASE + 1))
-                echo "  - Detected rebuild of same version $NEW_VERSION (release $OLD_RELEASE -> $NEXT_RELEASE)"
-                sed -i "s/^Release:[[:space:]]*${NEW_RELEASE}%{?dist}/Release:        ${NEXT_RELEASE}%{?dist}/" "$WORK_DIR/$PACKAGE.spec"
+                if [[ "$IS_MANUAL" == true ]]; then
+                    NEXT_RELEASE=$((BASE_RELEASE + 1))
+                    echo "  - Detected rebuild of same version $NEW_VERSION (release $OLD_RELEASE -> $NEXT_RELEASE)"
+                    sed -i "s/^Release:[[:space:]]*${NEW_RELEASE}%{?dist}/Release:        ${NEXT_RELEASE}%{?dist}/" "$WORK_DIR/$PACKAGE.spec"
+                else
+                    echo "  - Detected same version $NEW_VERSION (release $OLD_RELEASE). Not a manual run, skipping update."
+                    # For automated runs with no version change, we should stop here to avoid unnecessary rebuilds
+                    # However, we need to check if we are also updating Debian, or if this script is expected to continue.
+                    # If this is OpenSUSE only run, we can exit.
+                    if [[ "$UPLOAD_DEBIAN" == false ]]; then
+                         echo "✅ No changes needed for OpenSUSE (not manual). Exiting."
+                         exit 0
+                    fi
+                fi
             fi
         else
             echo "  - New version detected: $OLD_VERSION -> $NEW_VERSION (keeping release $NEW_RELEASE)"
@@ -643,175 +668,182 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
     CHANGELOG_BASE=$(echo "$CHANGELOG_VERSION" | sed 's/ppa[0-9]*$//')
     OLD_DSC_BASE=$(echo "$OLD_DSC_VERSION" | sed 's/ppa[0-9]*$//')
 
-    if [[ -n "$OLD_DSC_VERSION" ]] && [[ "$OLD_DSC_BASE" == "$CHANGELOG_BASE" ]] && [[ "$IS_MANUAL" == true ]]; then
-        echo "==> Detected rebuild of same base version $CHANGELOG_BASE, incrementing version"
+    if [[ -n "$OLD_DSC_VERSION" ]] && [[ "$OLD_DSC_BASE" == "$CHANGELOG_BASE" ]]; then
+        if [[ "$IS_MANUAL" == true ]]; then
+            echo "==> Detected rebuild of same base version $CHANGELOG_BASE, incrementing version"
         
-        if [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git$ ]]; then
-            BASE_VERSION="${BASH_REMATCH[1]}"
-            NEW_VERSION="${BASE_VERSION}+gitppa1"
-            echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-        elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)ppa([0-9]+)$ ]]; then
-            BASE_VERSION="${BASH_REMATCH[1]}"
-            PPA_NUM="${BASH_REMATCH[2]}"
-            NEW_PPA_NUM=$((PPA_NUM + 1))
-            NEW_VERSION="${BASE_VERSION}ppa${NEW_PPA_NUM}"
-            echo "  Incrementing PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-        elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git([0-9]+)(\.[a-f0-9]+)?(ppa([0-9]+))?$ ]]; then
-            BASE_VERSION="${BASH_REMATCH[1]}"
-            GIT_NUM="${BASH_REMATCH[2]}"
-            GIT_HASH="${BASH_REMATCH[3]}"
-            PPA_NUM="${BASH_REMATCH[5]}"
-
-            # Check if old DSC has ppa suffix even if changelog doesn't
-            if [[ -z "$PPA_NUM" ]] && [[ "$OLD_DSC_VERSION" =~ ppa([0-9]+)$ ]]; then
-                OLD_PPA_NUM="${BASH_REMATCH[1]}"
-                NEW_PPA_NUM=$((OLD_PPA_NUM + 1))
-                NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${NEW_PPA_NUM}"
-                echo "  Incrementing PPA number from old DSC: $OLD_DSC_VERSION -> $NEW_VERSION"
-            elif [[ -n "$PPA_NUM" ]]; then
-                NEW_PPA_NUM=$((PPA_NUM + 1))
-                NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${NEW_PPA_NUM}"
-                echo "  Incrementing PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-            else
-                NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa1"
+            if [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git$ ]]; then
+                BASE_VERSION="${BASH_REMATCH[1]}"
+                NEW_VERSION="${BASE_VERSION}+gitppa1"
                 echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-            fi
-        elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)(-([0-9]+))?$ ]]; then
-            BASE_VERSION="${BASH_REMATCH[1]}"
-            NEW_VERSION="${BASE_VERSION}ppa1"
-            echo "  Warning: Native format cannot have Debian revision, converting to PPA format: $CHANGELOG_VERSION -> $NEW_VERSION"
-        else
-            NEW_VERSION="${CHANGELOG_VERSION}ppa1"
-            echo "  Warning: Could not parse version format, appending ppa1: $CHANGELOG_VERSION -> $NEW_VERSION"
-        fi
-        
-        if [[ -z "$SOURCE_DIR" ]] || [[ ! -d "$SOURCE_DIR" ]] || [[ ! -d "$SOURCE_DIR/debian" ]]; then
-            echo "  Error: Source directory with debian/ not found for version increment"
-            exit 1
-        fi
-        
-        SOURCE_CHANGELOG="$SOURCE_DIR/debian/changelog"
-        if [[ ! -f "$SOURCE_CHANGELOG" ]]; then
-            echo "  Error: Changelog not found in source directory: $SOURCE_CHANGELOG"
-            exit 1
-        fi
-        
-        REPO_CHANGELOG="$REPO_ROOT/distro/debian/$PACKAGE/debian/changelog"
-        TEMP_CHANGELOG=$(mktemp)
-        {
-            echo "$PACKAGE ($NEW_VERSION) unstable; urgency=medium"
-            echo ""
-            echo "  * Rebuild to fix repository metadata issues"
-            echo ""
-            echo " -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
-            echo ""
-            if [[ -f "$REPO_CHANGELOG" ]]; then
-                OLD_ENTRY_START=$(grep -n "^$PACKAGE (" "$REPO_CHANGELOG" | sed -n '2p' | cut -d: -f1)
-                if [[ -n "$OLD_ENTRY_START" ]]; then
-                    tail -n +$OLD_ENTRY_START "$REPO_CHANGELOG"
+            elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)ppa([0-9]+)$ ]]; then
+                BASE_VERSION="${BASH_REMATCH[1]}"
+                PPA_NUM="${BASH_REMATCH[2]}"
+                NEW_PPA_NUM=$((PPA_NUM + 1))
+                NEW_VERSION="${BASE_VERSION}ppa${NEW_PPA_NUM}"
+                echo "  Incrementing PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
+            elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git([0-9]+)(\.[a-f0-9]+)?(ppa([0-9]+))?$ ]]; then
+                BASE_VERSION="${BASH_REMATCH[1]}"
+                GIT_NUM="${BASH_REMATCH[2]}"
+                GIT_HASH="${BASH_REMATCH[3]}"
+                PPA_NUM="${BASH_REMATCH[5]}"
+
+                # Check if old DSC has ppa suffix even if changelog doesn't
+                if [[ -z "$PPA_NUM" ]] && [[ "$OLD_DSC_VERSION" =~ ppa([0-9]+)$ ]]; then
+                    OLD_PPA_NUM="${BASH_REMATCH[1]}"
+                    NEW_PPA_NUM=$((OLD_PPA_NUM + 1))
+                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${NEW_PPA_NUM}"
+                    echo "  Incrementing PPA number from old DSC: $OLD_DSC_VERSION -> $NEW_VERSION"
+                elif [[ -n "$PPA_NUM" ]]; then
+                    NEW_PPA_NUM=$((PPA_NUM + 1))
+                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${NEW_PPA_NUM}"
+                    echo "  Incrementing PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
+                else
+                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa1"
+                    echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
                 fi
+            elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)(-([0-9]+))?$ ]]; then
+                BASE_VERSION="${BASH_REMATCH[1]}"
+                NEW_VERSION="${BASE_VERSION}ppa1"
+                echo "  Warning: Native format cannot have Debian revision, converting to PPA format: $CHANGELOG_VERSION -> $NEW_VERSION"
+            else
+                NEW_VERSION="${CHANGELOG_VERSION}ppa1"
+                echo "  Warning: Could not parse version format, appending ppa1: $CHANGELOG_VERSION -> $NEW_VERSION"
             fi
-        } > "$TEMP_CHANGELOG"
-        cp "$TEMP_CHANGELOG" "$SOURCE_CHANGELOG"
-        rm -f "$TEMP_CHANGELOG"
-        
-        CHANGELOG_VERSION="$NEW_VERSION"
-        VERSION="$NEW_VERSION"
-        COMBINED_TARBALL="${PACKAGE}_${VERSION}.tar.gz"
-        
-        for old_tarball in "${PACKAGE}"_*.tar.gz; do
-            if [[ -f "$old_tarball" ]] && [[ "$old_tarball" != "${PACKAGE}_${NEW_VERSION}.tar.gz" ]]; then
-                echo "  Removing old tarball from OBS: $old_tarball"
-                osc rm -f "$old_tarball" 2>/dev/null || rm -f "$old_tarball"
+            
+            if [[ -z "$SOURCE_DIR" ]] || [[ ! -d "$SOURCE_DIR" ]] || [[ ! -d "$SOURCE_DIR/debian" ]]; then
+                echo "  Error: Source directory with debian/ not found for version increment"
+                exit 1
             fi
-        done
-        
-        if [[ "$PACKAGE" == "dms" ]] && [[ -f "$WORK_DIR/dms-source.tar.gz" ]]; then
-            echo "  Recreating dms-source.tar.gz with new directory name for incremented version"
-            EXPECTED_SOURCE_DIR="DankMaterialShell-${NEW_VERSION}"
-            TEMP_SOURCE_DIR=$(mktemp -d)
-            cd "$TEMP_SOURCE_DIR"
-            tar -xzf "$WORK_DIR/dms-source.tar.gz" 2>/dev/null || tar -xJf "$WORK_DIR/dms-source.tar.gz" 2>/dev/null || tar -xjf "$WORK_DIR/dms-source.tar.gz" 2>/dev/null
-            EXTRACTED=$(find . -maxdepth 1 -type d -name "DankMaterialShell-*" | head -1)
-            if [[ -n "$EXTRACTED" ]] && [[ "$EXTRACTED" != "./$EXPECTED_SOURCE_DIR" ]]; then
-                echo "    Renaming $EXTRACTED to $EXPECTED_SOURCE_DIR"
-                mv "$EXTRACTED" "$EXPECTED_SOURCE_DIR"
-                rm -f "$WORK_DIR/dms-source.tar.gz"
-                tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/dms-source.tar.gz" "$EXPECTED_SOURCE_DIR"
-                ROOT_DIR=$(tar -tf "$WORK_DIR/dms-source.tar.gz" | head -1 | cut -d/ -f1)
-                if [[ "$ROOT_DIR" != "$EXPECTED_SOURCE_DIR" ]]; then
-                    echo "    Error: Recreated tarball has wrong root directory: $ROOT_DIR (expected $EXPECTED_SOURCE_DIR)"
-                    exit 1
+            
+            SOURCE_CHANGELOG="$SOURCE_DIR/debian/changelog"
+            if [[ ! -f "$SOURCE_CHANGELOG" ]]; then
+                echo "  Error: Changelog not found in source directory: $SOURCE_CHANGELOG"
+                exit 1
+            fi
+            
+            REPO_CHANGELOG="$REPO_ROOT/distro/debian/$PACKAGE/debian/changelog"
+            TEMP_CHANGELOG=$(mktemp)
+            {
+                echo "$PACKAGE ($NEW_VERSION) unstable; urgency=medium"
+                echo ""
+                echo "  * Rebuild to fix repository metadata issues"
+                echo ""
+                echo " -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+                echo ""
+                if [[ -f "$REPO_CHANGELOG" ]]; then
+                    OLD_ENTRY_START=$(grep -n "^$PACKAGE (" "$REPO_CHANGELOG" | sed -n '2p' | cut -d: -f1)
+                    if [[ -n "$OLD_ENTRY_START" ]]; then
+                        tail -n +$OLD_ENTRY_START "$REPO_CHANGELOG"
+                    fi
                 fi
+            } > "$TEMP_CHANGELOG"
+            cp "$TEMP_CHANGELOG" "$SOURCE_CHANGELOG"
+            rm -f "$TEMP_CHANGELOG"
+            
+            CHANGELOG_VERSION="$NEW_VERSION"
+            VERSION="$NEW_VERSION"
+            COMBINED_TARBALL="${PACKAGE}_${VERSION}.tar.gz"
+            
+            for old_tarball in "${PACKAGE}"_*.tar.gz; do
+                if [[ -f "$old_tarball" ]] && [[ "$old_tarball" != "${PACKAGE}_${NEW_VERSION}.tar.gz" ]]; then
+                    echo "  Removing old tarball from OBS: $old_tarball"
+                    osc rm -f "$old_tarball" 2>/dev/null || rm -f "$old_tarball"
+                fi
+            done
+            
+            if [[ "$PACKAGE" == "dms" ]] && [[ -f "$WORK_DIR/dms-source.tar.gz" ]]; then
+                echo "  Recreating dms-source.tar.gz with new directory name for incremented version"
+                EXPECTED_SOURCE_DIR="DankMaterialShell-${NEW_VERSION}"
+                TEMP_SOURCE_DIR=$(mktemp -d)
+                cd "$TEMP_SOURCE_DIR"
+                tar -xzf "$WORK_DIR/dms-source.tar.gz" 2>/dev/null || tar -xJf "$WORK_DIR/dms-source.tar.gz" 2>/dev/null || tar -xjf "$WORK_DIR/dms-source.tar.gz" 2>/dev/null
+                EXTRACTED=$(find . -maxdepth 1 -type d -name "DankMaterialShell-*" | head -1)
+                if [[ -n "$EXTRACTED" ]] && [[ "$EXTRACTED" != "./$EXPECTED_SOURCE_DIR" ]]; then
+                    echo "    Renaming $EXTRACTED to $EXPECTED_SOURCE_DIR"
+                    mv "$EXTRACTED" "$EXPECTED_SOURCE_DIR"
+                    rm -f "$WORK_DIR/dms-source.tar.gz"
+                    tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/dms-source.tar.gz" "$EXPECTED_SOURCE_DIR"
+                    ROOT_DIR=$(tar -tf "$WORK_DIR/dms-source.tar.gz" | head -1 | cut -d/ -f1)
+                    if [[ "$ROOT_DIR" != "$EXPECTED_SOURCE_DIR" ]]; then
+                        echo "    Error: Recreated tarball has wrong root directory: $ROOT_DIR (expected $EXPECTED_SOURCE_DIR)"
+                        exit 1
+                    fi
+                fi
+                cd "$REPO_ROOT"
+                rm -rf "$TEMP_SOURCE_DIR"
             fi
-            cd "$REPO_ROOT"
-            rm -rf "$TEMP_SOURCE_DIR"
-        fi
-        
-        echo "  Recreating tarball with new version: $COMBINED_TARBALL"
-        if [[ -n "$SOURCE_DIR" ]] && [[ -d "$SOURCE_DIR" ]] && [[ -d "$SOURCE_DIR/debian" ]]; then
-            if [[ "$PACKAGE" == "dms" ]]; then
-                cd "$(dirname "$SOURCE_DIR")"
-                CURRENT_DIR=$(basename "$SOURCE_DIR")
-                EXPECTED_DIR="DankMaterialShell-${NEW_VERSION}"
-                if [[ "$CURRENT_DIR" != "$EXPECTED_DIR" ]]; then
-                    echo "  Renaming directory from $CURRENT_DIR to $EXPECTED_DIR to match debian/rules"
-                    if [[ -d "$CURRENT_DIR" ]]; then
-                        mv "$CURRENT_DIR" "$EXPECTED_DIR"
-                        SOURCE_DIR="$(pwd)/$EXPECTED_DIR"
-                    else
-                        echo "  Warning: Source directory $CURRENT_DIR not found, extracting from existing tarball"
-                        OLD_TARBALL=$(ls "${PACKAGE}"_*.tar.gz 2>/dev/null | head -1)
-                        if [[ -f "$OLD_TARBALL" ]]; then
-                            EXTRACT_DIR=$(mktemp -d)
-                            cd "$EXTRACT_DIR"
-                            tar -xzf "$WORK_DIR/$OLD_TARBALL"
-                            EXTRACTED_DIR=$(find . -maxdepth 1 -type d -name "DankMaterialShell-*" | head -1)
-                            if [[ -n "$EXTRACTED_DIR" ]] && [[ "$EXTRACTED_DIR" != "./$EXPECTED_DIR" ]]; then
-                                mv "$EXTRACTED_DIR" "$EXPECTED_DIR"
-                                if [[ -f "$EXPECTED_DIR/debian/changelog" ]]; then
-                                    ACTUAL_VER=$(grep -m1 "^$PACKAGE" "$EXPECTED_DIR/debian/changelog" 2>/dev/null | sed 's/.*(\([^)]*\)).*/\1/')
-                                    if [[ "$ACTUAL_VER" != "$NEW_VERSION" ]]; then
-                                        echo "  Updating changelog version in extracted directory"
-                                        REPO_CHANGELOG="$REPO_ROOT/distro/debian/$PACKAGE/debian/changelog"
-                                        TEMP_CHANGELOG=$(mktemp)
-                                        {
-                                            echo "$PACKAGE ($NEW_VERSION) unstable; urgency=medium"
-                                            echo ""
-                                            echo "  * Rebuild to fix repository metadata issues"
-                                            echo ""
-                                            echo " -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
-                                            echo ""
-                                            if [[ -f "$REPO_CHANGELOG" ]]; then
-                                                OLD_ENTRY_START=$(grep -n "^$PACKAGE (" "$REPO_CHANGELOG" | sed -n '2p' | cut -d: -f1)
-                                                if [[ -n "$OLD_ENTRY_START" ]]; then
-                                                    tail -n +$OLD_ENTRY_START "$REPO_CHANGELOG"
-                                                fi
-                                            fi
-                                        } > "$TEMP_CHANGELOG"
-                                        cp "$TEMP_CHANGELOG" "$EXPECTED_DIR/debian/changelog"
-                                        rm -f "$TEMP_CHANGELOG"
-                                    fi
-                                fi
-                                SOURCE_DIR="$(pwd)/$EXPECTED_DIR"
-                                cd "$REPO_ROOT"
-                            else
-                                echo "  Error: Could not extract or find source directory"
-                                rm -rf "$EXTRACT_DIR"
-                                exit 1
-                            fi
+            
+            echo "  Recreating tarball with new version: $COMBINED_TARBALL"
+            if [[ -n "$SOURCE_DIR" ]] && [[ -d "$SOURCE_DIR" ]] && [[ -d "$SOURCE_DIR/debian" ]]; then
+                if [[ "$PACKAGE" == "dms" ]]; then
+                    cd "$(dirname "$SOURCE_DIR")"
+                    CURRENT_DIR=$(basename "$SOURCE_DIR")
+                    EXPECTED_DIR="DankMaterialShell-${NEW_VERSION}"
+                    if [[ "$CURRENT_DIR" != "$EXPECTED_DIR" ]]; then
+                        echo "  Renaming directory from $CURRENT_DIR to $EXPECTED_DIR to match debian/rules"
+                        if [[ -d "$CURRENT_DIR" ]]; then
+                            mv "$CURRENT_DIR" "$EXPECTED_DIR"
+                            SOURCE_DIR="$(pwd)/$EXPECTED_DIR"
                         else
-                            echo "  Error: No existing tarball found to extract"
-                            exit 1
+                            echo "  Warning: Source directory $CURRENT_DIR not found, extracting from existing tarball"
+                            OLD_TARBALL=$(ls "${PACKAGE}"_*.tar.gz 2>/dev/null | head -1)
+                            if [[ -f "$OLD_TARBALL" ]]; then
+                                EXTRACT_DIR=$(mktemp -d)
+                                cd "$EXTRACT_DIR"
+                                tar -xzf "$WORK_DIR/$OLD_TARBALL"
+                                EXTRACTED_DIR=$(find . -maxdepth 1 -type d -name "DankMaterialShell-*" | head -1)
+                                if [[ -n "$EXTRACTED_DIR" ]] && [[ "$EXTRACTED_DIR" != "./$EXPECTED_DIR" ]]; then
+                                    mv "$EXTRACTED_DIR" "$EXPECTED_DIR"
+                                    if [[ -f "$EXPECTED_DIR/debian/changelog" ]]; then
+                                        ACTUAL_VER=$(grep -m1 "^$PACKAGE" "$EXPECTED_DIR/debian/changelog" 2>/dev/null | sed 's/.*(\([^)]*\)).*/\1/')
+                                        if [[ "$ACTUAL_VER" != "$NEW_VERSION" ]]; then
+                                            echo "  Updating changelog version in extracted directory"
+                                            REPO_CHANGELOG="$REPO_ROOT/distro/debian/$PACKAGE/debian/changelog"
+                                            TEMP_CHANGELOG=$(mktemp)
+                                            {
+                                                echo "$PACKAGE ($NEW_VERSION) unstable; urgency=medium"
+                                                echo ""
+                                                echo "  * Rebuild to fix repository metadata issues"
+                                                echo ""
+                                                echo " -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+                                                echo ""
+                                                if [[ -f "$REPO_CHANGELOG" ]]; then
+                                                    OLD_ENTRY_START=$(grep -n "^$PACKAGE (" "$REPO_CHANGELOG" | sed -n '2p' | cut -d: -f1)
+                                                    if [[ -n "$OLD_ENTRY_START" ]]; then
+                                                        tail -n +$OLD_ENTRY_START "$REPO_CHANGELOG"
+                                                    fi
+                                                fi
+                                            } > "$TEMP_CHANGELOG"
+                                            cp "$TEMP_CHANGELOG" "$EXPECTED_DIR/debian/changelog"
+                                            rm -f "$TEMP_CHANGELOG"
+                                        fi
+                                    fi
+                                    SOURCE_DIR="$(pwd)/$EXPECTED_DIR"
+                                    cd "$REPO_ROOT"
+                                else
+                                    echo "  Error: Could not extract or find source directory"
+                                    rm -rf "$EXTRACT_DIR"
+                                    exit 1
+                                fi
+                            fi
                         fi
                     fi
                 fi
+                
+                rm -f "$WORK_DIR/$COMBINED_TARBALL"
+                
+                echo "    Creating combined tarball: $COMBINED_TARBALL"
+                cd "$(dirname "$SOURCE_DIR")"
+                TARBALL_BASE=$(basename "$SOURCE_DIR")
+                tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$COMBINED_TARBALL" "$TARBALL_BASE"
+                cd "$REPO_ROOT"
             fi
-            cd "$(dirname "$SOURCE_DIR")"
-            TARBALL_BASE=$(basename "$SOURCE_DIR")
-            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$COMBINED_TARBALL" "$TARBALL_BASE"
-            cd "$WORK_DIR"
-            
+        else
+            echo "==> Detected same version. Not a manual run, skipping Debian version increment."
+            echo "✅ No changes needed for Debian. Exiting."
+            exit 0
+        fi    
             TARBALL_SIZE=$(stat -c%s "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null || stat -f%z "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null)
             TARBALL_MD5=$(md5sum "$WORK_DIR/$COMBINED_TARBALL" | cut -d' ' -f1)
             
@@ -852,10 +884,7 @@ Files:
  $TARBALL_MD5 $TARBALL_SIZE $COMBINED_TARBALL
 EOF
             echo "  - Updated changelog and recreated tarball with version $NEW_VERSION"
-        else
-            echo "  Error: Source directory not found, cannot recreate tarball"
-            exit 1
-        fi
+
     fi
 fi
 

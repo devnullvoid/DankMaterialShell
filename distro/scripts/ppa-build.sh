@@ -103,6 +103,22 @@ if [ "$CHANGELOG_SERIES" != "$UBUNTU_SERIES" ] && [ "$CHANGELOG_SERIES" != "UNRE
     warn "Consider updating changelog with: dch -r '' -D $UBUNTU_SERIES"
 fi
 
+# Check if this is a manual run or automated
+IS_MANUAL=false
+if [[ -n "${REBUILD_RELEASE:-}" ]]; then
+    IS_MANUAL=true
+    echo "==> Manual rebuild detected (REBUILD_RELEASE=$REBUILD_RELEASE)"
+elif [[ -n "${FORCE_REBUILD:-}" ]] && [[ "${FORCE_REBUILD}" == "true" ]]; then
+    IS_MANUAL=true
+    echo "==> Manual workflow trigger detected (FORCE_REBUILD=true)"
+elif [[ "${GITHUB_EVENT_NAME:-}" == "workflow_dispatch" ]]; then
+    IS_MANUAL=true
+    echo "==> Manual workflow trigger detected (workflow_dispatch)"
+elif [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
+    IS_MANUAL=true
+    echo "==> Local/manual run detected (not in CI)"
+fi
+
 # Detect package type and update version automatically
 cd "$PACKAGE_DIR"
 
@@ -274,7 +290,13 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
         ESCAPED_BASE=$(echo "$BASE_VERSION" | sed 's/\./\\./g' | sed 's/+/\\+/g')
         if [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
             PPA_NUM=$((BASH_REMATCH[1] + 1))
-            info "Detected rebuild of same commit (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
+            if [[ "$IS_MANUAL" == true ]]; then
+                info "Detected rebuild of same commit (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
+            else
+                info "Detected rebuild of same commit (current: $CURRENT_VERSION). Not a manual run, skipping."
+                success "No changes needed (commit matches)."
+                exit 0
+            fi
         else
             info "New commit or first build, using PPA number $PPA_NUM"
         fi
@@ -427,7 +449,13 @@ elif [ -n "$GIT_REPO" ]; then
             ESCAPED_BASE=$(echo "$BASE_VERSION" | sed 's/\./\\./g' | sed 's/-/\\-/g')
             if [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
                 PPA_NUM=$((BASH_REMATCH[1] + 1))
-                info "Detected rebuild of same version (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
+                if [[ "$IS_MANUAL" == true ]]; then
+                    info "Detected rebuild of same version (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
+                else
+                    info "Detected rebuild of same version (current: $CURRENT_VERSION). Not a manual run, skipping."
+                    success "No changes needed (version matches)."
+                    exit 0
+                fi
             else
                 info "New version or first build, using PPA number $PPA_NUM"
             fi

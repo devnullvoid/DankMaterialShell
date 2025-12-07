@@ -84,8 +84,9 @@ fi
 CHANGES_FILE=$(find "$PARENT_DIR" -maxdepth 1 -name "${PACKAGE_NAME}_*_source.changes" -type f | sort -V | tail -1)
 
 if [ -z "$CHANGES_FILE" ]; then
-    error "Changes file not found in $PARENT_DIR"
-    exit 1
+    warn "Changes file not found in $PARENT_DIR"
+    warn "Assuming build was skipped (no changes needed) and exiting successfully."
+    exit 0
 fi
 
 info "Found changes file: $CHANGES_FILE"
