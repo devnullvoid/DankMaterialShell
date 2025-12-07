@@ -269,12 +269,17 @@ func (s *SurfaceState) Redraw() *ShmBuffer {
 	px = clamp(px, 0, dst.Width-1)
 	py = clamp(py, 0, dst.Height-1)
 
-	picked := GetPixelColorWithFormat(s.screenBuf, px, py, s.screenFormat)
+	sampleY := py
+	if s.yInverted {
+		sampleY = s.screenBuf.Height - 1 - py
+	}
 
-	drawMagnifier(
+	picked := GetPixelColorWithFormat(s.screenBuf, px, sampleY, s.screenFormat)
+
+	drawMagnifierWithInversion(
 		dst.Data(), dst.Stride, dst.Width, dst.Height,
 		s.screenBuf.Data(), s.screenBuf.Stride, s.screenBuf.Width, s.screenBuf.Height,
-		px, py, picked,
+		px, py, picked, s.yInverted,
 	)
 
 	drawColorPreview(dst.Data(), dst.Stride, dst.Width, dst.Height, px, py, picked, s.displayFormat, s.lowercase)
@@ -379,11 +384,12 @@ func blendColors(bg, fg Color, alpha float64) Color {
 	}
 }
 
-func drawMagnifier(
+func drawMagnifierWithInversion(
 	dst []byte, dstStride, dstW, dstH int,
 	src []byte, srcStride, srcW, srcH int,
 	cx, cy int,
 	borderColor Color,
+	yInverted bool,
 ) {
 	if dstW <= 0 || dstH <= 0 || srcW <= 0 || srcH <= 0 {
 		return
@@ -439,10 +445,11 @@ func drawMagnifier(
 				finalColor = blendColors(bgColor, borderColor, alpha)
 
 			case dist > innerRadius:
-				if dist > outerRadiusF-aaWidth {
+				switch {
+				case dist > outerRadiusF-aaWidth:
 					alpha := clampF((outerRadiusF-dist)/aaWidth, 0, 1)
 					finalColor = blendColors(borderColor, borderColor, alpha)
-				} else if dist < innerRadius+aaWidth {
+				case dist < innerRadius+aaWidth:
 					alpha := clampF((dist-innerRadius)/aaWidth, 0, 1)
 					fx := float64(dx) / zoom
 					fy := float64(dy) / zoom
@@ -450,6 +457,9 @@ func drawMagnifier(
 					sy := cy + int(math.Round(fy))
 					sx = clamp(sx, 0, srcW-1)
 					sy = clamp(sy, 0, srcH-1)
+					if yInverted {
+						sy = srcH - 1 - sy
+					}
 					srcOff := sy*srcStride + sx*4
 					if srcOff+4 <= len(src) {
 						magColor := Color{B: src[srcOff+0], G: src[srcOff+1], R: src[srcOff+2], A: 255}
@@ -457,7 +467,7 @@ func drawMagnifier(
 					} else {
 						finalColor = borderColor
 					}
-				} else {
+				default:
 					finalColor = borderColor
 				}
 
@@ -468,6 +478,9 @@ func drawMagnifier(
 				sy := cy + int(math.Round(fy))
 				sx = clamp(sx, 0, srcW-1)
 				sy = clamp(sy, 0, srcH-1)
+				if yInverted {
+					sy = srcH - 1 - sy
+				}
 				srcOff := sy*srcStride + sx*4
 				if srcOff+4 <= len(src) {
 					finalColor = Color{B: src[srcOff+0], G: src[srcOff+1], R: src[srcOff+2], A: 255}

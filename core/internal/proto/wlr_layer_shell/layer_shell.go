@@ -129,7 +129,7 @@ func (i *ZwlrLayerShellV1) GetLayerSurface(surface *client.Surface, output *clie
 // object any more. Objects that have been created through this instance
 // are not affected.
 func (i *ZwlrLayerShellV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -509,7 +509,7 @@ func (i *ZwlrLayerSurfaceV1) AckConfigure(serial uint32) error {
 //
 // This request destroys the layer surface.
 func (i *ZwlrLayerSurfaceV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 7
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte

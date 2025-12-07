@@ -66,7 +66,7 @@ func NewWpViewporter(ctx *client.Context) *WpViewporter {
 // protocol object anymore. This does not affect any other objects,
 // wp_viewport objects included.
 func (i *WpViewporter) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -267,7 +267,7 @@ func NewWpViewport(ctx *client.Context) *WpViewport {
 // The associated wl_surface's crop and scale state is removed.
 // The change is applied on the next wl_surface.commit.
 func (i *WpViewport) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte

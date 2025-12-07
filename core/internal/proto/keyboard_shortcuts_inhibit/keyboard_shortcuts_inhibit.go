@@ -54,7 +54,7 @@ func NewZwpKeyboardShortcutsInhibitManagerV1(ctx *client.Context) *ZwpKeyboardSh
 //
 // Destroy the keyboard shortcuts inhibitor manager.
 func (i *ZwpKeyboardShortcutsInhibitManagerV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -218,7 +218,7 @@ func NewZwpKeyboardShortcutsInhibitorV1(ctx *client.Context) *ZwpKeyboardShortcu
 //
 // Remove the keyboard shortcuts inhibitor from the associated wl_surface.
 func (i *ZwpKeyboardShortcutsInhibitorV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte

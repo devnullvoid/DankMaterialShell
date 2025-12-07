@@ -44,7 +44,7 @@ func NewZdwlIpcManagerV2(ctx *client.Context) *ZdwlIpcManagerV2 {
 // Indicates that the client will not the dwl_ipc_manager object anymore.
 // Objects created through this instance are not affected.
 func (i *ZdwlIpcManagerV2) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -188,7 +188,7 @@ func NewZdwlIpcOutputV2(ctx *client.Context) *ZdwlIpcOutputV2 {
 //
 // Indicates to that the client no longer needs this dwl_ipc_output.
 func (i *ZdwlIpcOutputV2) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte

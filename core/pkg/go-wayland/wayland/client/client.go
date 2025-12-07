@@ -113,7 +113,7 @@ func (i *Display) GetRegistry() (*Registry, error) {
 }
 
 func (i *Display) Destroy() error {
-	i.Context().Unregister(i)
+	i.MarkZombie()
 	return nil
 }
 
@@ -224,15 +224,16 @@ func (i *Display) Dispatch(opcode uint32, fd int, data []byte) {
 
 		i.errorHandler(e)
 	case 1:
-		if i.deleteIdHandler == nil {
-			return
-		}
 		var e DisplayDeleteIdEvent
 		l := 0
 		e.Id = Uint32(data[l : l+4])
 		l += 4
 
-		i.deleteIdHandler(e)
+		i.Context().DeleteID(e.Id)
+
+		if i.deleteIdHandler != nil {
+			i.deleteIdHandler(e)
+		}
 	}
 }
 
@@ -326,7 +327,7 @@ func (i *Registry) Bind(name uint32, iface string, version uint32, id Proxy) err
 }
 
 func (i *Registry) Destroy() error {
-	i.Context().Unregister(i)
+	i.MarkZombie()
 	return nil
 }
 
@@ -433,7 +434,7 @@ func NewCallback(ctx *Context) *Callback {
 }
 
 func (i *Callback) Destroy() error {
-	i.Context().Unregister(i)
+	i.MarkZombie()
 	return nil
 }
 
@@ -529,7 +530,7 @@ func (i *Compositor) CreateRegion() (*Region, error) {
 }
 
 func (i *Compositor) Destroy() error {
-	i.Context().Unregister(i)
+	i.MarkZombie()
 	return nil
 }
 
@@ -619,7 +620,7 @@ func (i *ShmPool) CreateBuffer(offset, width, height, stride int32, format uint3
 // buffers that have been created from this pool
 // are gone.
 func (i *ShmPool) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -735,7 +736,7 @@ func (i *Shm) CreatePool(fd int, size int32) (*ShmPool, error) {
 //
 // Objects created via this interface remain unaffected.
 func (i *Shm) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -1642,7 +1643,7 @@ func NewBuffer(ctx *Context) *Buffer {
 //
 // For possible side-effects to a surface, see wl_surface.attach.
 func (i *Buffer) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -1803,7 +1804,7 @@ func (i *DataOffer) Receive(mimeType string, fd int) error {
 //
 // Destroy the data offer.
 func (i *DataOffer) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 2
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -2120,7 +2121,7 @@ func (i *DataSource) Offer(mimeType string) error {
 //
 // Destroy the data source.
 func (i *DataSource) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -2540,7 +2541,7 @@ func (i *DataDevice) SetSelection(source *DataSource, serial uint32) error {
 //
 // This request destroys the data device.
 func (i *DataDevice) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 2
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -2859,7 +2860,7 @@ func (i *DataDeviceManager) GetDataDevice(seat *Seat) (*DataDevice, error) {
 }
 
 func (i *DataDeviceManager) Destroy() error {
-	i.Context().Unregister(i)
+	i.MarkZombie()
 	return nil
 }
 
@@ -3000,7 +3001,7 @@ func (i *Shell) GetShellSurface(surface *Surface) (*ShellSurface, error) {
 }
 
 func (i *Shell) Destroy() error {
-	i.Context().Unregister(i)
+	i.MarkZombie()
 	return nil
 }
 
@@ -3421,7 +3422,7 @@ func (i *ShellSurface) SetClass(class string) error {
 }
 
 func (i *ShellSurface) Destroy() error {
-	i.Context().Unregister(i)
+	i.MarkZombie()
 	return nil
 }
 
@@ -3798,7 +3799,7 @@ func NewSurface(ctx *Context) *Surface {
 //
 // Deletes the surface and invalidates its object ID.
 func (i *Surface) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -4618,7 +4619,7 @@ func (i *Seat) GetTouch() (*Touch, error) {
 // Using this request a client can tell the server that it is not going to
 // use the seat object anymore.
 func (i *Seat) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 3
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -4920,7 +4921,7 @@ func (i *Pointer) SetCursor(serial uint32, surface *Surface, hotspotX, hotspotY 
 // This request destroys the pointer proxy object, so clients must not call
 // wl_pointer_destroy() after using this request.
 func (i *Pointer) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -5685,7 +5686,7 @@ func NewKeyboard(ctx *Context) *Keyboard {
 
 // Release : release the keyboard object
 func (i *Keyboard) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -6091,7 +6092,7 @@ func NewTouch(ctx *Context) *Touch {
 
 // Release : release the touch object
 func (i *Touch) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -6406,7 +6407,7 @@ func NewOutput(ctx *Context) *Output {
 // Using this request a client can tell the server that it is not going to
 // use the output object anymore.
 func (i *Output) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -6923,7 +6924,7 @@ func NewRegion(ctx *Context) *Region {
 //
 // Destroy the region.  This will invalidate the object ID.
 func (i *Region) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -7057,7 +7058,7 @@ func NewSubcompositor(ctx *Context) *Subcompositor {
 // protocol object anymore. This does not affect any other
 // objects, wl_subsurface objects included.
 func (i *Subcompositor) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -7280,7 +7281,7 @@ func NewSubsurface(ctx *Context) *Subsurface {
 // wl_subcompositor.get_subsurface request. The wl_surface's association
 // to the parent is deleted. The wl_surface is unmapped immediately.
 func (i *Subsurface) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -7499,7 +7500,7 @@ func NewFixes(ctx *Context) *Fixes {
 
 // Destroy : destroys this object
 func (i *Fixes) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte

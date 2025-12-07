@@ -172,7 +172,7 @@ func (i *ZwlrOutputManagerV1) Stop() error {
 }
 
 func (i *ZwlrOutputManagerV1) Destroy() error {
-	i.Context().Unregister(i)
+	i.MarkZombie()
 	return nil
 }
 
@@ -334,7 +334,7 @@ func NewZwlrOutputHeadV1(ctx *client.Context) *ZwlrOutputHeadV1 {
 // This request indicates that the client will no longer use this head
 // object.
 func (i *ZwlrOutputHeadV1) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -879,7 +879,7 @@ func NewZwlrOutputModeV1(ctx *client.Context) *ZwlrOutputModeV1 {
 // This request indicates that the client will no longer use this mode
 // object.
 func (i *ZwlrOutputModeV1) Release() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -1132,7 +1132,7 @@ func (i *ZwlrOutputConfigurationV1) Test() error {
 // This request also destroys wlr_output_configuration_head objects created
 // via this object.
 func (i *ZwlrOutputConfigurationV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 4
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -1415,7 +1415,7 @@ func (i *ZwlrOutputConfigurationHeadV1) SetAdaptiveSync(state uint32) error {
 }
 
 func (i *ZwlrOutputConfigurationHeadV1) Destroy() error {
-	i.Context().Unregister(i)
+	i.MarkZombie()
 	return nil
 }
 

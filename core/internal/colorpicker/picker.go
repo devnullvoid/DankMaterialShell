@@ -2,7 +2,6 @@ package colorpicker
 
 import (
 	"fmt"
-	"math"
 	"sync"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
@@ -114,6 +113,11 @@ func (p *Picker) Run() (*Color, error) {
 
 	if err := p.roundtrip(); err != nil {
 		return nil, fmt.Errorf("roundtrip: %w", err)
+	}
+
+	// Extra roundtrip to ensure pointer/keyboard from seat capabilities are registered
+	if err := p.roundtrip(); err != nil {
+		return nil, fmt.Errorf("roundtrip after seat: %w", err)
 	}
 
 	if err := p.createSurfaces(); err != nil {
@@ -405,15 +409,10 @@ func (p *Picker) createLayerSurface(output *Output) (*LayerSurface, error) {
 
 func (p *Picker) computeSurfaceScale(ls *LayerSurface) int32 {
 	out := ls.output
-	if out == nil || out.fractionalScale <= 0 {
+	if out == nil || out.scale <= 0 {
 		return 1
 	}
-
-	scale := int32(math.Ceil(out.fractionalScale))
-	if scale <= 0 {
-		scale = 1
-	}
-	return scale
+	return out.scale
 }
 
 func (p *Picker) ensureShortcutsInhibitor(ls *LayerSurface) {
@@ -485,6 +484,13 @@ func (p *Picker) captureForSurface(ls *LayerSurface) {
 
 	frame.SetReadyHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1ReadyEvent) {
 		ls.state.OnScreencopyReady()
+
+		logicalW, _ := ls.state.LogicalSize()
+		screenBuf := ls.state.ScreenBuffer()
+		if logicalW > 0 && screenBuf != nil {
+			ls.output.fractionalScale = float64(screenBuf.Width) / float64(logicalW)
+		}
+
 		scale := p.computeSurfaceScale(ls)
 		ls.state.SetScale(scale)
 		frame.Destroy()
@@ -545,18 +551,17 @@ func (p *Picker) redrawSurface(ls *LayerSurface) {
 		logicalH = int(ls.output.height)
 	}
 
-	scale := ls.state.Scale()
-	if scale <= 0 {
-		scale = 1
-	}
-
 	if ls.viewport != nil {
-		srcW := float64(renderBuf.Width) / float64(scale)
-		srcH := float64(renderBuf.Height) / float64(scale)
-		_ = ls.viewport.SetSource(0, 0, srcW, srcH)
+		_ = ls.wlSurface.SetBufferScale(1)
+		_ = ls.viewport.SetSource(0, 0, float64(renderBuf.Width), float64(renderBuf.Height))
 		_ = ls.viewport.SetDestination(int32(logicalW), int32(logicalH))
+	} else {
+		bufferScale := ls.output.scale
+		if bufferScale <= 0 {
+			bufferScale = 1
+		}
+		_ = ls.wlSurface.SetBufferScale(bufferScale)
 	}
-	_ = ls.wlSurface.SetBufferScale(scale)
 	_ = ls.wlSurface.Attach(wlBuffer, 0, 0)
 	_ = ls.wlSurface.Damage(0, 0, int32(logicalW), int32(logicalH))
 	_ = ls.wlSurface.Commit()
@@ -581,17 +586,19 @@ func (p *Picker) setupInput() {
 	p.seat.SetCapabilitiesHandler(func(e client.SeatCapabilitiesEvent) {
 		if e.Capabilities&uint32(client.SeatCapabilityPointer) != 0 && p.pointer == nil {
 			pointer, err := p.seat.GetPointer()
-			if err == nil {
-				p.pointer = pointer
-				p.setupPointerHandlers()
+			if err != nil {
+				return
 			}
+			p.pointer = pointer
+			p.setupPointerHandlers()
 		}
 		if e.Capabilities&uint32(client.SeatCapabilityKeyboard) != 0 && p.keyboard == nil {
 			keyboard, err := p.seat.GetKeyboard()
-			if err == nil {
-				p.keyboard = keyboard
-				p.setupKeyboardHandlers()
+			if err != nil {
+				return
 			}
+			p.keyboard = keyboard
+			p.setupKeyboardHandlers()
 		}
 	})
 }

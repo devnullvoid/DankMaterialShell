@@ -85,7 +85,7 @@ func (i *ZwlrGammaControlManagerV1) GetGammaControl(output *client.Output) (*Zwl
 // All objects created by the manager will still remain valid, until their
 // appropriate destroy request has been called.
 func (i *ZwlrGammaControlManagerV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -169,7 +169,7 @@ func (i *ZwlrGammaControlV1) SetGamma(fd int) error {
 // Destroys the gamma control object. If the object is still valid, this
 // restores the original gamma tables.
 func (i *ZwlrGammaControlV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte

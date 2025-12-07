@@ -223,16 +223,23 @@ func (r *RegionSelector) finishSelection() {
 	dstData := cropped.Data()
 	for y := 0; y < h; y++ {
 		srcY := by1 + y
-		if srcY >= srcBuf.Height {
-			break
+		if os.yInverted {
+			srcY = srcBuf.Height - 1 - (by1 + y)
+		}
+		if srcY < 0 || srcY >= srcBuf.Height {
+			continue
+		}
+		dstY := y
+		if os.yInverted {
+			dstY = h - 1 - y
 		}
 		for x := 0; x < w; x++ {
 			srcX := bx1 + x
-			if srcX >= srcBuf.Width {
-				break
+			if srcX < 0 || srcX >= srcBuf.Width {
+				continue
 			}
 			si := srcY*srcBuf.Stride + srcX*4
-			di := y*cropped.Stride + x*4
+			di := dstY*cropped.Stride + x*4
 			if si+3 < len(srcData) && di+3 < len(dstData) {
 				dstData[di+0] = srcData[si+0]
 				dstData[di+1] = srcData[si+1]

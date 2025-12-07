@@ -32,6 +32,10 @@ func (ctx *Context) Unregister(p Proxy) {
 	ctx.objects.Delete(p.ID())
 }
 
+func (ctx *Context) DeleteID(id uint32) {
+	ctx.objects.Delete(id)
+}
+
 func (ctx *Context) GetProxy(id uint32) Proxy {
 	if val, ok := ctx.objects.Load(id); ok {
 		return val
@@ -72,7 +76,11 @@ func (ctx *Context) GetDispatch() func() error {
 	return func() error {
 		proxy, ok := ctx.objects.Load(senderID)
 		if !ok {
-			return fmt.Errorf("%w (senderID=%d)", ErrDispatchSenderNotFound, senderID)
+			return nil // Proxy already deleted via delete_id, silently ignore
+		}
+
+		if proxy.IsZombie() {
+			return nil // Zombie proxy, discard late events
 		}
 
 		sender, ok := proxy.(Dispatcher)

@@ -251,9 +251,10 @@ func (r *RegionSelector) handleGlobal(e client.RegistryGlobalEvent) {
 		if err := r.registry.Bind(e.Name, e.Interface, version, output); err == nil {
 			r.outputsMu.Lock()
 			r.outputs[e.Name] = &WaylandOutput{
-				wlOutput:   output,
-				globalName: e.Name,
-				scale:      1,
+				wlOutput:        output,
+				globalName:      e.Name,
+				scale:           1,
+				fractionalScale: 1.0,
 			}
 			r.outputsMu.Unlock()
 			r.setupOutputHandlers(e.Name, output)
@@ -320,6 +321,7 @@ func (r *RegionSelector) setupOutputHandlers(name uint32, output *client.Output)
 		r.outputsMu.Lock()
 		if o, ok := r.outputs[name]; ok {
 			o.scale = e.Factor
+			o.fractionalScale = float64(e.Factor)
 		}
 		r.outputsMu.Unlock()
 	})
@@ -607,6 +609,10 @@ func (r *RegionSelector) captureForSurface(os *OutputSurface) {
 	os.screenFormat = pc.format
 	os.yInverted = pc.yInverted
 
+	if os.logicalW > 0 && os.screenBuf != nil {
+		os.output.fractionalScale = float64(os.screenBuf.Width) / float64(os.logicalW)
+	}
+
 	r.initRenderBuffer(os)
 	r.applyPreSelection(os)
 	r.redrawSurface(os)
@@ -713,19 +719,17 @@ func (r *RegionSelector) redrawSurface(os *OutputSurface) {
 	// Draw overlay (dimming + selection) into this slot
 	r.drawOverlay(os, slot.shm)
 
-	// Attach and commit (viewport only needs to be set once, but it's cheap)
-	scale := os.output.scale
-	if scale <= 0 {
-		scale = 1
-	}
-
 	if os.viewport != nil {
-		srcW := float64(slot.shm.Width) / float64(scale)
-		srcH := float64(slot.shm.Height) / float64(scale)
-		_ = os.viewport.SetSource(0, 0, srcW, srcH)
+		_ = os.wlSurface.SetBufferScale(1)
+		_ = os.viewport.SetSource(0, 0, float64(slot.shm.Width), float64(slot.shm.Height))
 		_ = os.viewport.SetDestination(int32(os.logicalW), int32(os.logicalH))
+	} else {
+		bufferScale := os.output.scale
+		if bufferScale <= 0 {
+			bufferScale = 1
+		}
+		_ = os.wlSurface.SetBufferScale(bufferScale)
 	}
-	_ = os.wlSurface.SetBufferScale(scale)
 
 	_ = os.wlSurface.Attach(slot.wlBuf, 0, 0)
 	_ = os.wlSurface.Damage(0, 0, int32(os.logicalW), int32(os.logicalH))

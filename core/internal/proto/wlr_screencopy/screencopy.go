@@ -120,7 +120,7 @@ func (i *ZwlrScreencopyManagerV1) CaptureOutputRegion(overlayCursor int32, outpu
 // All objects created by the manager will still remain valid, until their
 // appropriate destroy request has been called.
 func (i *ZwlrScreencopyManagerV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 2
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -219,7 +219,7 @@ func (i *ZwlrScreencopyFrameV1) Copy(buffer *client.Buffer) error {
 //
 // Destroys the frame. This request can be sent at any time by the client.
 func (i *ZwlrScreencopyFrameV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte

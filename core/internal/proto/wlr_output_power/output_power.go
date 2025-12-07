@@ -79,7 +79,7 @@ func (i *ZwlrOutputPowerManagerV1) GetOutputPower(output *client.Output) (*ZwlrO
 // All objects created by the manager will still remain valid, until their
 // appropriate destroy request has been called.
 func (i *ZwlrOutputPowerManagerV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -143,7 +143,7 @@ func (i *ZwlrOutputPowerV1) SetMode(mode uint32) error {
 //
 // Destroys the output power management mode control object.
 func (i *ZwlrOutputPowerV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte

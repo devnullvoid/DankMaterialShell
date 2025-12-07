@@ -174,7 +174,7 @@ func (i *ExtWorkspaceManagerV1) Stop() error {
 }
 
 func (i *ExtWorkspaceManagerV1) Destroy() error {
-	i.Context().Unregister(i)
+	i.MarkZombie()
 	return nil
 }
 
@@ -385,7 +385,7 @@ func (i *ExtWorkspaceGroupHandleV1) CreateWorkspace(workspace string) error {
 // use the workspace group object any more or after the removed event to finalize
 // the destruction of the object.
 func (i *ExtWorkspaceGroupHandleV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 1
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte
@@ -655,7 +655,7 @@ func NewExtWorkspaceHandleV1(ctx *client.Context) *ExtWorkspaceHandleV1 {
 // use the workspace object any more or after the remove event to finalize
 // the destruction of the object.
 func (i *ExtWorkspaceHandleV1) Destroy() error {
-	defer i.Context().Unregister(i)
+	defer i.MarkZombie()
 	const opcode = 0
 	const _reqBufLen = 8
 	var _reqBuf [_reqBufLen]byte

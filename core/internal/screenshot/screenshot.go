@@ -11,14 +11,15 @@ import (
 )
 
 type WaylandOutput struct {
-	wlOutput   *client.Output
-	globalName uint32
-	name       string
-	x, y       int32
-	width      int32
-	height     int32
-	scale      int32
-	transform  int32
+	wlOutput        *client.Output
+	globalName      uint32
+	name            string
+	x, y            int32
+	width           int32
+	height          int32
+	scale           int32
+	fractionalScale float64
+	transform       int32
 }
 
 type CaptureResult struct {
@@ -139,6 +140,10 @@ func (s *Screenshoter) captureWindow() (*CaptureResult, error) {
 		return nil, fmt.Errorf("could not find output for window")
 	}
 
+	if DetectCompositor() == CompositorHyprland {
+		return s.captureAndCrop(output, region)
+	}
+
 	return s.captureRegionOnOutput(output, region)
 }
 
@@ -181,33 +186,8 @@ func (s *Screenshoter) captureOutput(name string) (*CaptureResult, error) {
 func (s *Screenshoter) captureAllScreens() (*CaptureResult, error) {
 	s.outputsMu.Lock()
 	outputs := make([]*WaylandOutput, 0, len(s.outputs))
-	var minX, minY, maxX, maxY int32
-	first := true
-
 	for _, o := range s.outputs {
 		outputs = append(outputs, o)
-		right := o.x + o.width
-		bottom := o.y + o.height
-
-		if first {
-			minX, minY = o.x, o.y
-			maxX, maxY = right, bottom
-			first = false
-			continue
-		}
-
-		if o.x < minX {
-			minX = o.x
-		}
-		if o.y < minY {
-			minY = o.y
-		}
-		if right > maxX {
-			maxX = right
-		}
-		if bottom > maxY {
-			maxY = bottom
-		}
 	}
 	s.outputsMu.Unlock()
 
@@ -219,18 +199,18 @@ func (s *Screenshoter) captureAllScreens() (*CaptureResult, error) {
 		return s.captureWholeOutput(outputs[0])
 	}
 
-	totalW := maxX - minX
-	totalH := maxY - minY
-
-	compositeStride := int(totalW) * 4
-	composite, err := CreateShmBuffer(int(totalW), int(totalH), compositeStride)
-	if err != nil {
-		return nil, fmt.Errorf("create composite buffer: %w", err)
+	// Capture all outputs first to get actual buffer sizes
+	type capturedOutput struct {
+		output *WaylandOutput
+		result *CaptureResult
+		physX  int
+		physY  int
 	}
+	captured := make([]capturedOutput, 0, len(outputs))
 
-	composite.Clear()
+	var minX, minY, maxX, maxY int
+	first := true
 
-	var format uint32
 	for _, output := range outputs {
 		result, err := s.captureWholeOutput(output)
 		if err != nil {
@@ -238,16 +218,88 @@ func (s *Screenshoter) captureAllScreens() (*CaptureResult, error) {
 			continue
 		}
 
-		if format == 0 {
-			format = result.Format
+		outX, outY := output.x, output.y
+		scale := float64(output.scale)
+		if DetectCompositor() == CompositorHyprland {
+			if hx, hy, _, _, ok := GetHyprlandMonitorGeometry(output.name); ok {
+				outX, outY = hx, hy
+			}
+			if s := GetHyprlandMonitorScale(output.name); s > 0 {
+				scale = s
+			}
 		}
-		s.blitBuffer(composite, result.Buffer, int(output.x-minX), int(output.y-minY), result.YInverted)
-		result.Buffer.Close()
+		if scale <= 0 {
+			scale = 1.0
+		}
+
+		physX := int(float64(outX) * scale)
+		physY := int(float64(outY) * scale)
+
+		captured = append(captured, capturedOutput{
+			output: output,
+			result: result,
+			physX:  physX,
+			physY:  physY,
+		})
+
+		right := physX + result.Buffer.Width
+		bottom := physY + result.Buffer.Height
+
+		if first {
+			minX, minY = physX, physY
+			maxX, maxY = right, bottom
+			first = false
+			continue
+		}
+
+		if physX < minX {
+			minX = physX
+		}
+		if physY < minY {
+			minY = physY
+		}
+		if right > maxX {
+			maxX = right
+		}
+		if bottom > maxY {
+			maxY = bottom
+		}
+	}
+
+	if len(captured) == 0 {
+		return nil, fmt.Errorf("failed to capture any outputs")
+	}
+
+	if len(captured) == 1 {
+		return captured[0].result, nil
+	}
+
+	totalW := maxX - minX
+	totalH := maxY - minY
+
+	compositeStride := totalW * 4
+	composite, err := CreateShmBuffer(totalW, totalH, compositeStride)
+	if err != nil {
+		for _, c := range captured {
+			c.result.Buffer.Close()
+		}
+		return nil, fmt.Errorf("create composite buffer: %w", err)
+	}
+
+	composite.Clear()
+
+	var format uint32
+	for _, c := range captured {
+		if format == 0 {
+			format = c.result.Format
+		}
+		s.blitBuffer(composite, c.result.Buffer, c.physX-minX, c.physY-minY, c.result.YInverted)
+		c.result.Buffer.Close()
 	}
 
 	return &CaptureResult{
 		Buffer: composite,
-		Region: Region{X: minX, Y: minY, Width: totalW, Height: totalH},
+		Region: Region{X: int32(minX), Y: int32(minY), Width: int32(totalW), Height: int32(totalH)},
 		Format: format,
 	}, nil
 }
@@ -311,21 +363,106 @@ func (s *Screenshoter) captureWholeOutput(output *WaylandOutput) (*CaptureResult
 	})
 }
 
+func (s *Screenshoter) captureAndCrop(output *WaylandOutput, region Region) (*CaptureResult, error) {
+	result, err := s.captureWholeOutput(output)
+	if err != nil {
+		return nil, err
+	}
+
+	outX, outY := output.x, output.y
+	scale := float64(output.scale)
+	if hx, hy, _, _, ok := GetHyprlandMonitorGeometry(output.name); ok {
+		outX, outY = hx, hy
+	}
+	if s := GetHyprlandMonitorScale(output.name); s > 0 {
+		scale = s
+	}
+	if scale <= 0 {
+		scale = 1.0
+	}
+
+	localX := int(float64(region.X-outX) * scale)
+	localY := int(float64(region.Y-outY) * scale)
+	w := int(float64(region.Width) * scale)
+	h := int(float64(region.Height) * scale)
+
+	cropped, err := CreateShmBuffer(w, h, w*4)
+	if err != nil {
+		result.Buffer.Close()
+		return nil, fmt.Errorf("create crop buffer: %w", err)
+	}
+
+	srcData := result.Buffer.Data()
+	dstData := cropped.Data()
+
+	for y := 0; y < h; y++ {
+		srcY := localY + y
+		if result.YInverted {
+			srcY = result.Buffer.Height - 1 - (localY + y)
+		}
+		if srcY < 0 || srcY >= result.Buffer.Height {
+			continue
+		}
+
+		dstY := y
+		if result.YInverted {
+			dstY = h - 1 - y
+		}
+
+		for x := 0; x < w; x++ {
+			srcX := localX + x
+			if srcX < 0 || srcX >= result.Buffer.Width {
+				continue
+			}
+
+			si := srcY*result.Buffer.Stride + srcX*4
+			di := dstY*cropped.Stride + x*4
+
+			if si+3 >= len(srcData) || di+3 >= len(dstData) {
+				continue
+			}
+
+			dstData[di+0] = srcData[si+0]
+			dstData[di+1] = srcData[si+1]
+			dstData[di+2] = srcData[si+2]
+			dstData[di+3] = srcData[si+3]
+		}
+	}
+
+	result.Buffer.Close()
+	cropped.Format = PixelFormat(result.Format)
+
+	return &CaptureResult{
+		Buffer:    cropped,
+		Region:    region,
+		YInverted: false,
+		Format:    result.Format,
+	}, nil
+}
+
 func (s *Screenshoter) captureRegionOnOutput(output *WaylandOutput, region Region) (*CaptureResult, error) {
-	localX := region.X - output.x
-	localY := region.Y - output.y
+	scale := output.fractionalScale
+	if scale <= 0 && DetectCompositor() == CompositorHyprland {
+		scale = GetHyprlandMonitorScale(output.name)
+	}
+	if scale <= 0 {
+		scale = float64(output.scale)
+	}
+	if scale <= 0 {
+		scale = 1.0
+	}
+
+	localX := int32(float64(region.X-output.x) * scale)
+	localY := int32(float64(region.Y-output.y) * scale)
+	w := int32(float64(region.Width) * scale)
+	h := int32(float64(region.Height) * scale)
 
 	cursor := int32(0)
 	if s.config.IncludeCursor {
 		cursor = 1
 	}
 
-	frame, err := s.screencopy.CaptureOutputRegion(
-		cursor,
-		output.wlOutput,
-		localX, localY,
-		region.Width, region.Height,
-	)
+	frame, err := s.screencopy.CaptureOutputRegion(cursor, output.wlOutput, localX, localY, w, h)
 	if err != nil {
 		return nil, fmt.Errorf("capture region: %w", err)
 	}
@@ -335,6 +472,8 @@ func (s *Screenshoter) captureRegionOnOutput(output *WaylandOutput, region Regio
 
 func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1, region Region) (*CaptureResult, error) {
 	var buf *ShmBuffer
+	var pool *client.ShmPool
+	var wlBuf *client.Buffer
 	var format PixelFormat
 	var yInverted bool
 	ready := false
@@ -360,15 +499,17 @@ func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1,
 			return
 		}
 
-		pool, err := s.shm.CreatePool(buf.Fd(), int32(buf.Size()))
+		var err error
+		pool, err = s.shm.CreatePool(buf.Fd(), int32(buf.Size()))
 		if err != nil {
 			log.Error("failed to create pool", "err", err)
 			return
 		}
 
-		wlBuf, err := pool.CreateBuffer(0, int32(buf.Width), int32(buf.Height), int32(buf.Stride), uint32(format))
+		wlBuf, err = pool.CreateBuffer(0, int32(buf.Width), int32(buf.Height), int32(buf.Stride), uint32(format))
 		if err != nil {
 			pool.Destroy()
+			pool = nil
 			log.Error("failed to create wl_buffer", "err", err)
 			return
 		}
@@ -376,8 +517,6 @@ func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1,
 		if err := frame.Copy(wlBuf); err != nil {
 			log.Error("failed to copy frame", "err", err)
 		}
-
-		pool.Destroy()
 	})
 
 	frame.SetReadyHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1ReadyEvent) {
@@ -396,6 +535,12 @@ func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1,
 	}
 
 	frame.Destroy()
+	if wlBuf != nil {
+		wlBuf.Destroy()
+	}
+	if pool != nil {
+		pool.Destroy()
+	}
 
 	if failed {
 		if buf != nil {
@@ -420,14 +565,26 @@ func (s *Screenshoter) findOutputForRegion(region Region) *WaylandOutput {
 	cy := region.Y + region.Height/2
 
 	for _, o := range s.outputs {
-		if cx >= o.x && cx < o.x+o.width && cy >= o.y && cy < o.y+o.height {
+		x, y, w, h := o.x, o.y, o.width, o.height
+		if DetectCompositor() == CompositorHyprland {
+			if hx, hy, hw, hh, ok := GetHyprlandMonitorGeometry(o.name); ok {
+				x, y, w, h = hx, hy, hw, hh
+			}
+		}
+		if cx >= x && cx < x+w && cy >= y && cy < y+h {
 			return o
 		}
 	}
 
 	for _, o := range s.outputs {
-		if region.X >= o.x && region.X < o.x+o.width &&
-			region.Y >= o.y && region.Y < o.y+o.height {
+		x, y, w, h := o.x, o.y, o.width, o.height
+		if DetectCompositor() == CompositorHyprland {
+			if hx, hy, hw, hh, ok := GetHyprlandMonitorGeometry(o.name); ok {
+				x, y, w, h = hx, hy, hw, hh
+			}
+		}
+		if region.X >= x && region.X < x+w &&
+			region.Y >= y && region.Y < y+h {
 			return o
 		}
 	}
@@ -436,6 +593,15 @@ func (s *Screenshoter) findOutputForRegion(region Region) *WaylandOutput {
 }
 
 func (s *Screenshoter) findFocusedOutput() *WaylandOutput {
+	if mon := GetFocusedMonitor(); mon != "" {
+		s.outputsMu.Lock()
+		defer s.outputsMu.Unlock()
+		for _, o := range s.outputs {
+			if o.name == mon {
+				return o
+			}
+		}
+	}
 	s.outputsMu.Lock()
 	defer s.outputsMu.Unlock()
 	for _, o := range s.outputs {
@@ -501,9 +667,10 @@ func (s *Screenshoter) handleGlobal(e client.RegistryGlobalEvent) {
 		if err := s.registry.Bind(e.Name, e.Interface, version, output); err == nil {
 			s.outputsMu.Lock()
 			s.outputs[e.Name] = &WaylandOutput{
-				wlOutput:   output,
-				globalName: e.Name,
-				scale:      1,
+				wlOutput:        output,
+				globalName:      e.Name,
+				scale:           1,
+				fractionalScale: 1.0,
 			}
 			s.outputsMu.Unlock()
 			s.setupOutputHandlers(e.Name, output)
@@ -546,6 +713,7 @@ func (s *Screenshoter) setupOutputHandlers(name uint32, output *client.Output) {
 		s.outputsMu.Lock()
 		if o, ok := s.outputs[name]; ok {
 			o.scale = e.Factor
+			o.fractionalScale = float64(e.Factor)
 		}
 		s.outputsMu.Unlock()
 	})

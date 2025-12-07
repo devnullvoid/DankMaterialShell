@@ -12,13 +12,44 @@ type Compositor int
 const (
 	CompositorUnknown Compositor = iota
 	CompositorHyprland
+	CompositorSway
+	CompositorNiri
+	CompositorDWL
 )
 
+var detectedCompositor Compositor = -1
+
 func DetectCompositor() Compositor {
-	if os.Getenv("HYPRLAND_INSTANCE_SIGNATURE") != "" {
-		return CompositorHyprland
+	if detectedCompositor >= 0 {
+		return detectedCompositor
 	}
-	return CompositorUnknown
+
+	hyprlandSig := os.Getenv("HYPRLAND_INSTANCE_SIGNATURE")
+	niriSocket := os.Getenv("NIRI_SOCKET")
+	swaySocket := os.Getenv("SWAYSOCK")
+
+	switch {
+	case niriSocket != "":
+		if _, err := os.Stat(niriSocket); err == nil {
+			detectedCompositor = CompositorNiri
+			return detectedCompositor
+		}
+	case swaySocket != "":
+		if _, err := os.Stat(swaySocket); err == nil {
+			detectedCompositor = CompositorSway
+			return detectedCompositor
+		}
+	case hyprlandSig != "":
+		detectedCompositor = CompositorHyprland
+		return detectedCompositor
+	}
+
+	detectedCompositor = CompositorUnknown
+	return detectedCompositor
+}
+
+func SetCompositorDWL() {
+	detectedCompositor = CompositorDWL
 }
 
 type WindowGeometry struct {
@@ -29,13 +60,11 @@ type WindowGeometry struct {
 }
 
 func GetActiveWindow() (*WindowGeometry, error) {
-	compositor := DetectCompositor()
-
-	switch compositor {
+	switch DetectCompositor() {
 	case CompositorHyprland:
 		return getHyprlandActiveWindow()
 	default:
-		return nil, fmt.Errorf("window capture requires Hyprland (other compositors not yet supported)")
+		return nil, fmt.Errorf("window capture requires Hyprland")
 	}
 }
 
@@ -45,8 +74,7 @@ type hyprlandWindow struct {
 }
 
 func getHyprlandActiveWindow() (*WindowGeometry, error) {
-	cmd := exec.Command("hyprctl", "-j", "activewindow")
-	output, err := cmd.Output()
+	output, err := exec.Command("hyprctl", "-j", "activewindow").Output()
 	if err != nil {
 		return nil, fmt.Errorf("hyprctl activewindow: %w", err)
 	}
@@ -66,4 +94,145 @@ func getHyprlandActiveWindow() (*WindowGeometry, error) {
 		Width:  win.Size[0],
 		Height: win.Size[1],
 	}, nil
+}
+
+type hyprlandMonitor struct {
+	Name    string  `json:"name"`
+	X       int32   `json:"x"`
+	Y       int32   `json:"y"`
+	Width   int32   `json:"width"`
+	Height  int32   `json:"height"`
+	Scale   float64 `json:"scale"`
+	Focused bool    `json:"focused"`
+}
+
+func GetHyprlandMonitorScale(name string) float64 {
+	output, err := exec.Command("hyprctl", "-j", "monitors").Output()
+	if err != nil {
+		return 0
+	}
+
+	var monitors []hyprlandMonitor
+	if err := json.Unmarshal(output, &monitors); err != nil {
+		return 0
+	}
+
+	for _, m := range monitors {
+		if m.Name == name {
+			return m.Scale
+		}
+	}
+	return 0
+}
+
+func getHyprlandFocusedMonitor() string {
+	output, err := exec.Command("hyprctl", "-j", "monitors").Output()
+	if err != nil {
+		return ""
+	}
+
+	var monitors []hyprlandMonitor
+	if err := json.Unmarshal(output, &monitors); err != nil {
+		return ""
+	}
+
+	for _, m := range monitors {
+		if m.Focused {
+			return m.Name
+		}
+	}
+	return ""
+}
+
+func GetHyprlandMonitorGeometry(name string) (x, y, w, h int32, ok bool) {
+	output, err := exec.Command("hyprctl", "-j", "monitors").Output()
+	if err != nil {
+		return 0, 0, 0, 0, false
+	}
+
+	var monitors []hyprlandMonitor
+	if err := json.Unmarshal(output, &monitors); err != nil {
+		return 0, 0, 0, 0, false
+	}
+
+	for _, m := range monitors {
+		if m.Name == name {
+			logicalW := int32(float64(m.Width) / m.Scale)
+			logicalH := int32(float64(m.Height) / m.Scale)
+			return m.X, m.Y, logicalW, logicalH, true
+		}
+	}
+	return 0, 0, 0, 0, false
+}
+
+type swayWorkspace struct {
+	Output  string `json:"output"`
+	Focused bool   `json:"focused"`
+}
+
+func getSwayFocusedMonitor() string {
+	output, err := exec.Command("swaymsg", "-t", "get_workspaces").Output()
+	if err != nil {
+		return ""
+	}
+
+	var workspaces []swayWorkspace
+	if err := json.Unmarshal(output, &workspaces); err != nil {
+		return ""
+	}
+
+	for _, ws := range workspaces {
+		if ws.Focused {
+			return ws.Output
+		}
+	}
+	return ""
+}
+
+type niriWorkspace struct {
+	Output    string `json:"output"`
+	IsFocused bool   `json:"is_focused"`
+}
+
+func getNiriFocusedMonitor() string {
+	output, err := exec.Command("niri", "msg", "-j", "workspaces").Output()
+	if err != nil {
+		return ""
+	}
+
+	var workspaces []niriWorkspace
+	if err := json.Unmarshal(output, &workspaces); err != nil {
+		return ""
+	}
+
+	for _, ws := range workspaces {
+		if ws.IsFocused {
+			return ws.Output
+		}
+	}
+	return ""
+}
+
+var dwlActiveOutput string
+
+func SetDWLActiveOutput(name string) {
+	dwlActiveOutput = name
+}
+
+func getDWLFocusedMonitor() string {
+	return dwlActiveOutput
+}
+
+func GetFocusedMonitor() string {
+	switch DetectCompositor() {
+	case CompositorHyprland:
+		return getHyprlandFocusedMonitor()
+	case CompositorSway:
+		return getSwayFocusedMonitor()
+	case CompositorNiri:
+		return getNiriFocusedMonitor()
+	case CompositorDWL:
+		return getDWLFocusedMonitor()
+	}
+	return ""
 }
