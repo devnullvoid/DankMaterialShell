@@ -51,17 +51,9 @@ Item {
     readonly property bool usePlayerVolume: activePlayer && activePlayer.volumeSupported && !__isChromeBrowser
     readonly property real currentVolume: usePlayerVolume ? activePlayer.volume : (AudioService.sink?.audio?.volume ?? 0)
 
-    // Palette that stays stable across track switches until new colors are ready
-    property color dom: Qt.rgba(Theme.surface.r, Theme.surface.g, Theme.surface.b, 1.0)
-    property color acc: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.25)
-    property color _nextDom: dom
-    property color _nextAcc: acc
-
-    // Track-switch hold (prevents banner flicker only during switches)
     property bool isSwitching: false
-    property bool paletteReady: false
     property string _lastArtUrl: ""
-    property url _cqSource: ""
+    property string _bgArtSource: ""
 
     // Derived "no players" state: always correct, no timers.
     readonly property int _playerCount: allPlayers ? allPlayers.length : 0
@@ -69,7 +61,6 @@ Item {
     readonly property bool _trulyIdle: activePlayer && activePlayer.playbackState === MprisPlaybackState.Stopped && !activePlayer.trackTitle && !activePlayer.trackArtist
     readonly property bool showNoPlayerNow: (!_switchHold) && (_noneAvailable || _trulyIdle)
 
-    // Short hold only during track switches (not when players disappear)
     property bool _switchHold: false
     Timer {
         id: _switchHoldTimer
@@ -86,11 +77,9 @@ Item {
         }
         isSwitching = true;
         _switchHold = true;
-        paletteReady = false;
         _switchHoldTimer.restart();
-        if (activePlayer.trackArtUrl) {
+        if (activePlayer.trackArtUrl)
             loadArtwork(activePlayer.trackArtUrl);
-        }
     }
 
     property string activeTrackArtFile: ""
@@ -108,13 +97,13 @@ Item {
             imageDownloader.command = ["curl", "-L", "-s", "--user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36", "-o", filename, url];
             imageDownloader.targetFile = filename;
             imageDownloader.running = true;
-        } else {
-            _preloadImage.source = url;
+            return;
         }
+        _bgArtSource = url;
     }
 
     function maybeFinishSwitch() {
-        if (activePlayer && activePlayer.trackTitle !== "" && paletteReady) {
+        if (activePlayer && activePlayer.trackTitle !== "") {
             isSwitching = false;
             _switchHold = false;
         }
@@ -219,9 +208,8 @@ Item {
         property string targetFile: ""
 
         onExited: exitCode => {
-            if (exitCode === 0 && targetFile) {
-                _preloadImage.source = "file://" + targetFile;
-            }
+            if (exitCode === 0 && targetFile)
+                _bgArtSource = "file://" + targetFile;
         }
     }
 
@@ -230,121 +218,70 @@ Item {
         running: false
     }
 
-    Image {
-        id: _preloadImage
-        source: ""
-        asynchronous: true
-        cache: true
-        visible: false
-        onStatusChanged: {
-            if (status === Image.Ready) {
-                _cqSource = source;
-                colorQuantizer.source = _cqSource;
-            } else if (status === Image.Error) {
-                _cqSource = "";
-            }
-        }
-    }
-
-    ColorQuantizer {
-        id: colorQuantizer
-        source: _cqSource !== "" ? _cqSource : undefined
-        depth: 8
-        rescaleSize: 32
-        onColorsChanged: {
-            if (!colors || colors.length === 0)
-                return;
-            function enhanceColor(color) {
-                const satBoost = 1.4;
-                const valueBoost = 1.2;
-                return Qt.hsva(color.hsvHue, Math.min(1, color.hsvSaturation * satBoost), Math.min(1, color.hsvValue * valueBoost), color.a);
-            }
-
-            function getExtremeColor(startIdx, direction = 1) {
-                let bestColor = colors[startIdx];
-                let bestScore = 0;
-
-                for (let i = startIdx; i >= 0 && i < colors.length; i += direction) {
-                    const c = colors[i];
-                    const saturation = c.hsvSaturation;
-                    const brightness = c.hsvValue;
-                    const contrast = Math.abs(brightness - 0.5) * 2;
-                    const score = saturation * 0.7 + contrast * 0.3;
-
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestColor = c;
-                    }
-                }
-
-                return enhanceColor(bestColor);
-            }
-
-            _pendingDom = getExtremeColor(Math.floor(colors.length * 0.2), 1);
-            _pendingAcc = getExtremeColor(Math.floor(colors.length * 0.8), -1);
-            paletteApplyDelay.restart();
-        }
-    }
-
-    property color _pendingDom: dom
-    property color _pendingAcc: acc
-    Timer {
-        id: paletteApplyDelay
-        interval: 90
-        repeat: false
-        onTriggered: {
-            const dist = (c1, c2) => {
-                const dr = c1.r - c2.r, dg = c1.g - c2.g, db = c1.b - c2.b;
-                return Math.sqrt(dr * dr + dg * dg + db * db);
-            };
-            const domChanged = dist(_pendingDom, dom) > 0.02;
-            const accChanged = dist(_pendingAcc, acc) > 0.02;
-            if (domChanged || accChanged) {
-                dom = _pendingDom;
-                acc = _pendingAcc;
-            }
-            paletteReady = true;
-            maybeFinishSwitch();
-        }
-    }
-
     property bool isSeeking: false
 
-    Rectangle {
+    Item {
+        id: bgContainer
         anchors.fill: parent
-        radius: Theme.cornerRadius
-        opacity: 1.0
-        gradient: Gradient {
-            GradientStop {
-                position: 0.0
-                color: Qt.rgba(dom.r, dom.g, dom.b, paletteReady ? 0.38 : 0.06)
-            }
-            GradientStop {
-                position: 0.3
-                color: Qt.rgba(acc.r, acc.g, acc.b, paletteReady ? 0.28 : 0.05)
-            }
-            GradientStop {
-                position: 1.0
-                color: Qt.rgba(Theme.surface.r, Theme.surface.g, Theme.surface.b, paletteReady ? 0.92 : 0.985)
-            }
-        }
-        Behavior on opacity {
-            NumberAnimation {
-                duration: 160
-            }
-        }
-    }
+        visible: _bgArtSource !== ""
 
-    Behavior on dom {
-        ColorAnimation {
-            duration: 220
-            easing.type: Easing.InOutQuad
+        Image {
+            id: bgImage
+            anchors.centerIn: parent
+            width: Math.max(parent.width, parent.height) * 1.1
+            height: width
+            source: _bgArtSource
+            fillMode: Image.PreserveAspectCrop
+            asynchronous: true
+            cache: true
+            visible: false
+            onStatusChanged: {
+                if (status === Image.Ready)
+                    maybeFinishSwitch();
+            }
         }
-    }
-    Behavior on acc {
-        ColorAnimation {
-            duration: 220
-            easing.type: Easing.InOutQuad
+
+        Item {
+            id: blurredBg
+            anchors.fill: parent
+            visible: false
+
+            MultiEffect {
+                anchors.centerIn: parent
+                width: bgImage.width
+                height: bgImage.height
+                source: bgImage
+                blurEnabled: true
+                blurMax: 64
+                blur: 0.8
+                saturation: -0.2
+                brightness: -0.25
+            }
+        }
+
+        Rectangle {
+            id: bgMask
+            anchors.fill: parent
+            radius: Theme.cornerRadius
+            visible: false
+            layer.enabled: true
+        }
+
+        MultiEffect {
+            anchors.fill: parent
+            source: blurredBg
+            maskEnabled: true
+            maskSource: bgMask
+            maskThresholdMin: 0.5
+            maskSpreadAtMin: 1.0
+            opacity: 0.7
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            radius: Theme.cornerRadius
+            color: Theme.surface
+            opacity: 0.3
         }
     }
 
