@@ -199,8 +199,8 @@ Item {
 
                         DankDropdown {
                             width: parent.width - parent.leftPadding - parent.rightPadding
-                            text: I18n.tr("Night Temperature")
-                            description: I18n.tr("Color temperature for night mode")
+                            text: SessionData.nightModeAutoEnabled ? I18n.tr("Night Temperature") : I18n.tr("Color Temperature")
+                            description: SessionData.nightModeAutoEnabled ? I18n.tr("Color temperature for night mode") : I18n.tr("Warm color temperature to apply")
                             currentValue: SessionData.nightModeTemperature + "K"
                             options: {
                                 var temps = [];
@@ -223,6 +223,7 @@ Item {
                             text: I18n.tr("Day Temperature")
                             description: I18n.tr("Color temperature for day time")
                             currentValue: SessionData.nightModeHighTemperature + "K"
+                            visible: SessionData.nightModeAutoEnabled
                             options: {
                                 var temps = [];
                                 var minTemp = SessionData.nightModeTemperature;

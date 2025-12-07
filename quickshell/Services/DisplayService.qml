@@ -506,7 +506,7 @@ Singleton {
 
                 DMSService.sendRequest("wayland.gamma.setTemperature", {
                     "low": temperature,
-                    "high": 6500
+                    "high": temperature
                 }, response => {
                     if (response.error) {
                         console.error("DisplayService: Failed to set temperature:", response.error);
