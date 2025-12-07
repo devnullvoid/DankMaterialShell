@@ -1086,14 +1086,33 @@ Item {
             Row {
                 spacing: Theme.spacingM
                 anchors.verticalCenter: parent.verticalCenter
-                visible: NetworkService.networkStatus !== "disconnected" || (BluetoothService.available && BluetoothService.enabled) || (AudioService.sink && AudioService.sink.audio)
+                visible: NetworkService.networkAvailable || (BluetoothService.available && BluetoothService.enabled) || (AudioService.sink && AudioService.sink.audio)
 
                 DankIcon {
-                    name: NetworkService.networkStatus === "ethernet" ? "lan" : NetworkService.wifiSignalIcon
+                    name: {
+                        if (NetworkService.wifiToggling)
+                            return "sync";
+                        switch (NetworkService.networkStatus) {
+                        case "ethernet":
+                            return "lan";
+                        case "vpn":
+                            return NetworkService.ethernetConnected ? "lan" : NetworkService.wifiSignalIcon;
+                        default:
+                            return NetworkService.wifiSignalIcon;
+                        }
+                    }
                     size: Theme.iconSize - 2
                     color: NetworkService.networkStatus !== "disconnected" ? "white" : Qt.rgba(255, 255, 255, 0.5)
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: NetworkService.networkStatus !== "disconnected"
+                    visible: NetworkService.networkAvailable
+                }
+
+                DankIcon {
+                    name: "vpn_lock"
+                    size: Theme.iconSize - 2
+                    color: NetworkService.vpnConnected ? Theme.primary : Qt.rgba(255, 255, 255, 0.5)
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: NetworkService.vpnAvailable && NetworkService.vpnConnected
                 }
 
                 DankIcon {
