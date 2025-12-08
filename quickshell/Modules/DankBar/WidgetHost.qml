@@ -23,6 +23,7 @@ Loader {
     property bool isRightBarEdge: false
     property bool isTopBarEdge: false
     property bool isBottomBarEdge: false
+    property string _registeredScreenName: ""
 
     asynchronous: false
 
@@ -198,13 +199,16 @@ Loader {
         if (!hasPopout)
             return;
 
-        BarWidgetService.registerWidget(widgetId, parentScreen.name, item);
+        _registeredScreenName = parentScreen.name;
+        BarWidgetService.registerWidget(widgetId, _registeredScreenName, item);
     }
 
     function unregisterWidget() {
-        if (!widgetId || !parentScreen?.name)
+        if (!widgetId || !_registeredScreenName)
             return;
-        BarWidgetService.unregisterWidget(widgetId, parentScreen.name);
+
+        BarWidgetService.unregisterWidget(widgetId, _registeredScreenName);
+        _registeredScreenName = "";
     }
 
     function getWidgetComponent(widgetId, components) {
