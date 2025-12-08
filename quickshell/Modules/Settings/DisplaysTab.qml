@@ -59,12 +59,6 @@ Item {
                 "description": I18n.tr("Quick note-taking slideout panel"),
                 "icon": "sticky_note_2"
             },
-            {
-                "id": "systemTray",
-                "name": I18n.tr("System Tray"),
-                "description": I18n.tr("System tray icons"),
-                "icon": "notifications"
-            }
         ];
     }
 
@@ -822,7 +816,7 @@ Item {
                                             const prefs = displaysTab.getScreenPreferences(parent.componentId);
                                             const isAll = prefs.includes("all") || (typeof prefs[0] === "string" && prefs[0] === "all");
                                             const cid = parent.componentId;
-                                            const isRelevantComponent = ["dankBar", "dock", "notifications", "osd", "toast", "notepad", "systemTray"].includes(cid) || cid.startsWith("bar:");
+                                            const isRelevantComponent = ["dankBar", "dock", "notifications", "osd", "toast", "notepad"].includes(cid) || cid.startsWith("bar:");
                                             return !isAll && isRelevantComponent;
                                         }
                                         onToggled: checked => {
