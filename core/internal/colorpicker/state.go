@@ -1,6 +1,7 @@
 package colorpicker
 
 import (
+	"fmt"
 	"math"
 	"strings"
 	"sync"
@@ -78,6 +79,10 @@ func (s *SurfaceState) LogicalSize() (int, int) {
 func (s *SurfaceState) OnScreencopyBuffer(format PixelFormat, width, height, stride int) error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
+
+	if stride < width*4 {
+		return fmt.Errorf("invalid stride %d for width %d", stride, width)
+	}
 
 	if s.screenBuf != nil {
 		s.screenBuf.Close()
@@ -279,10 +284,10 @@ func (s *SurfaceState) Redraw() *ShmBuffer {
 	drawMagnifierWithInversion(
 		dst.Data(), dst.Stride, dst.Width, dst.Height,
 		s.screenBuf.Data(), s.screenBuf.Stride, s.screenBuf.Width, s.screenBuf.Height,
-		px, py, picked, s.yInverted,
+		px, py, picked, s.yInverted, s.screenFormat,
 	)
 
-	drawColorPreview(dst.Data(), dst.Stride, dst.Width, dst.Height, px, py, picked, s.displayFormat, s.lowercase)
+	drawColorPreview(dst.Data(), dst.Stride, dst.Width, dst.Height, px, py, picked, s.displayFormat, s.lowercase, s.screenFormat)
 
 	return dst
 }
@@ -390,6 +395,7 @@ func drawMagnifierWithInversion(
 	cx, cy int,
 	borderColor Color,
 	yInverted bool,
+	format PixelFormat,
 ) {
 	if dstW <= 0 || dstH <= 0 || srcW <= 0 || srcH <= 0 {
 		return
@@ -406,6 +412,14 @@ func drawMagnifierWithInversion(
 
 	innerRadius := float64(outerRadius - borderThickness)
 	outerRadiusF := float64(outerRadius)
+
+	var rOff, bOff int
+	switch format {
+	case FormatABGR8888, FormatXBGR8888:
+		rOff, bOff = 0, 2
+	default:
+		rOff, bOff = 2, 0
+	}
 
 	for dy := -outerRadius - 2; dy <= outerRadius+2; dy++ {
 		y := cy + dy
@@ -431,9 +445,9 @@ func drawMagnifierWithInversion(
 			}
 
 			bgColor := Color{
-				B: dst[dstOff+0],
+				R: dst[dstOff+rOff],
 				G: dst[dstOff+1],
-				R: dst[dstOff+2],
+				B: dst[dstOff+bOff],
 				A: dst[dstOff+3],
 			}
 
@@ -462,7 +476,7 @@ func drawMagnifierWithInversion(
 					}
 					srcOff := sy*srcStride + sx*4
 					if srcOff+4 <= len(src) {
-						magColor := Color{B: src[srcOff+0], G: src[srcOff+1], R: src[srcOff+2], A: 255}
+						magColor := Color{R: src[srcOff+rOff], G: src[srcOff+1], B: src[srcOff+bOff], A: 255}
 						finalColor = blendColors(magColor, borderColor, alpha)
 					} else {
 						finalColor = borderColor
@@ -483,24 +497,25 @@ func drawMagnifierWithInversion(
 				}
 				srcOff := sy*srcStride + sx*4
 				if srcOff+4 <= len(src) {
-					finalColor = Color{B: src[srcOff+0], G: src[srcOff+1], R: src[srcOff+2], A: 255}
+					finalColor = Color{R: src[srcOff+rOff], G: src[srcOff+1], B: src[srcOff+bOff], A: 255}
 				} else {
 					continue
 				}
 			}
 
-			dst[dstOff+0] = finalColor.B
+			dst[dstOff+rOff] = finalColor.R
 			dst[dstOff+1] = finalColor.G
-			dst[dstOff+2] = finalColor.R
+			dst[dstOff+bOff] = finalColor.B
 			dst[dstOff+3] = 255
 		}
 	}
 
-	drawMagnifierCrosshair(dst, dstStride, dstW, dstH, cx, cy, int(innerRadius), crossThickness, crossInnerRadius)
+	drawMagnifierCrosshair(dst, dstStride, dstW, dstH, cx, cy, int(innerRadius), crossThickness, crossInnerRadius, format)
 }
 
 func drawMagnifierCrosshair(
 	data []byte, stride, width, height, cx, cy, radius, thickness, innerRadius int,
+	format PixelFormat,
 ) {
 	if width <= 0 || height <= 0 {
 		return
@@ -998,7 +1013,7 @@ var fontGlyphs = map[rune][fontH]uint8{
 	},
 }
 
-func drawColorPreview(data []byte, stride, width, height int, cx, cy int, c Color, format OutputFormat, lowercase bool) {
+func drawColorPreview(data []byte, stride, width, height int, cx, cy int, c Color, format OutputFormat, lowercase bool, pixelFormat PixelFormat) {
 	text := formatColorForPreview(c, format, lowercase)
 	if len(text) == 0 {
 		return
@@ -1033,9 +1048,8 @@ func drawColorPreview(data []byte, stride, width, height int, cx, cy int, c Colo
 		y = height - boxH
 	}
 
-	drawFilledRect(data, stride, width, height, x, y, boxW, boxH, c)
+	drawFilledRect(data, stride, width, height, x, y, boxW, boxH, c, pixelFormat)
 
-	// Use contrasting text color based on luminance
 	lum := 0.299*float64(c.R) + 0.587*float64(c.G) + 0.114*float64(c.B)
 	var fg Color
 	if lum > 128 {
@@ -1043,7 +1057,7 @@ func drawColorPreview(data []byte, stride, width, height int, cx, cy int, c Colo
 	} else {
 		fg = Color{R: 255, G: 255, B: 255, A: 255}
 	}
-	drawText(data, stride, width, height, x+paddingX, y+paddingY, text, fg)
+	drawText(data, stride, width, height, x+paddingX, y+paddingY, text, fg, pixelFormat)
 }
 
 func formatColorForPreview(c Color, format OutputFormat, lowercase bool) string {
@@ -1064,7 +1078,7 @@ func formatColorForPreview(c Color, format OutputFormat, lowercase bool) string 
 	}
 }
 
-func drawFilledRect(data []byte, stride, width, height, x, y, w, h int, col Color) {
+func drawFilledRect(data []byte, stride, width, height, x, y, w, h int, col Color, format PixelFormat) {
 	if w <= 0 || h <= 0 {
 		return
 	}
@@ -1073,6 +1087,14 @@ func drawFilledRect(data []byte, stride, width, height, x, y, w, h int, col Colo
 	x = clamp(x, 0, width)
 	y = clamp(y, 0, height)
 
+	var rOff, bOff int
+	switch format {
+	case FormatABGR8888, FormatXBGR8888:
+		rOff, bOff = 0, 2
+	default:
+		rOff, bOff = 2, 0
+	}
+
 	for yy := y; yy < yEnd; yy++ {
 		rowOff := yy * stride
 		for xx := x; xx < xEnd; xx++ {
@@ -1080,24 +1102,32 @@ func drawFilledRect(data []byte, stride, width, height, x, y, w, h int, col Colo
 			if off+4 > len(data) {
 				continue
 			}
-			data[off+0] = col.B
+			data[off+rOff] = col.R
 			data[off+1] = col.G
-			data[off+2] = col.R
+			data[off+bOff] = col.B
 			data[off+3] = 255
 		}
 	}
 }
 
-func drawText(data []byte, stride, width, height, x, y int, text string, col Color) {
+func drawText(data []byte, stride, width, height, x, y int, text string, col Color, format PixelFormat) {
 	for i, r := range text {
-		drawGlyph(data, stride, width, height, x+i*(fontW+2), y, r, col)
+		drawGlyph(data, stride, width, height, x+i*(fontW+2), y, r, col, format)
 	}
 }
 
-func drawGlyph(data []byte, stride, width, height, x, y int, r rune, col Color) {
+func drawGlyph(data []byte, stride, width, height, x, y int, r rune, col Color, format PixelFormat) {
 	g, ok := fontGlyphs[r]
 	if !ok {
 		return
+	}
+
+	var rOff, bOff int
+	switch format {
+	case FormatABGR8888, FormatXBGR8888:
+		rOff, bOff = 0, 2
+	default:
+		rOff, bOff = 2, 0
 	}
 
 	for row := 0; row < fontH; row++ {
@@ -1123,9 +1153,9 @@ func drawGlyph(data []byte, stride, width, height, x, y int, r rune, col Color) 
 				continue
 			}
 
-			data[off+0] = col.B
+			data[off+rOff] = col.R
 			data[off+1] = col.G
-			data[off+2] = col.R
+			data[off+bOff] = col.B
 			data[off+3] = 255
 		}
 	}
