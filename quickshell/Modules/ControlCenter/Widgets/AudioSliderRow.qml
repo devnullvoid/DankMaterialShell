@@ -56,6 +56,8 @@ Row {
     }
 
     DankSlider {
+        id: volumeSlider
+
         readonly property real actualVolumePercent: defaultSink ? Math.round(defaultSink.audio.volume * 100) : 0
 
         anchors.verticalCenter: parent.verticalCenter
@@ -63,7 +65,6 @@ Row {
         enabled: defaultSink !== null
         minimum: 0
         maximum: 100
-        value: defaultSink ? Math.min(100, Math.round(defaultSink.audio.volume * 100)) : 0
         showValue: true
         unit: "%"
         valueOverride: actualVolumePercent
@@ -80,5 +81,12 @@ Row {
                 AudioService.playVolumeChangeSoundIfEnabled();
             }
         }
+    }
+
+    Binding {
+        target: volumeSlider
+        property: "value"
+        value: defaultSink ? Math.min(100, Math.round(defaultSink.audio.volume * 100)) : 0
+        when: !volumeSlider.isDragging
     }
 }
