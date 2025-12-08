@@ -382,9 +382,12 @@ func (r *RegionSelector) preCaptureOutput(output *WaylandOutput, pc *PreCapture,
 
 	var capturedBuf *ShmBuffer
 
+	var capturedFormat PixelFormat
 	frame.SetBufferHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1BufferEvent) {
-		if int(e.Stride) < int(e.Width)*4 {
-			log.Error("invalid stride from compositor", "stride", e.Stride, "width", e.Width)
+		capturedFormat = PixelFormat(e.Format)
+		bpp := capturedFormat.BytesPerPixel()
+		if int(e.Stride) < int(e.Width)*bpp {
+			log.Error("invalid stride from compositor", "stride", e.Stride, "width", e.Width, "bpp", bpp)
 			return
 		}
 		buf, err := CreateShmBuffer(int(e.Width), int(e.Height), int(e.Stride))
@@ -394,7 +397,7 @@ func (r *RegionSelector) preCaptureOutput(output *WaylandOutput, pc *PreCapture,
 		}
 
 		capturedBuf = buf
-		pc.format = e.Format
+		buf.Format = capturedFormat
 
 		pool, err := r.shm.CreatePool(buf.Fd(), int32(buf.Size()))
 		if err != nil {
@@ -428,6 +431,19 @@ func (r *RegionSelector) preCaptureOutput(output *WaylandOutput, pc *PreCapture,
 			onReady()
 			return
 		}
+
+		if capturedFormat.Is24Bit() {
+			converted, newFormat, err := capturedBuf.ConvertTo32Bit(capturedFormat)
+			if err != nil {
+				log.Error("convert 24-bit to 32-bit failed", "err", err)
+			} else if converted != capturedBuf {
+				capturedBuf.Close()
+				capturedBuf = converted
+				capturedFormat = newFormat
+			}
+		}
+
+		pc.format = uint32(capturedFormat)
 
 		if pc.yInverted {
 			capturedBuf.FlipVertical()

@@ -9,6 +9,8 @@ const (
 	FormatXRGB8888 = shm.FormatXRGB8888
 	FormatABGR8888 = shm.FormatABGR8888
 	FormatXBGR8888 = shm.FormatXBGR8888
+	FormatRGB888   = shm.FormatRGB888
+	FormatBGR888   = shm.FormatBGR888
 )
 
 const (

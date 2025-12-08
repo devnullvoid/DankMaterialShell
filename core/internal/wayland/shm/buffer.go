@@ -13,7 +13,22 @@ const (
 	FormatXRGB8888 PixelFormat = 1
 	FormatABGR8888 PixelFormat = 0x34324241
 	FormatXBGR8888 PixelFormat = 0x34324258
+	FormatRGB888   PixelFormat = 0x34324752
+	FormatBGR888   PixelFormat = 0x34324742
 )
+
+func (f PixelFormat) BytesPerPixel() int {
+	switch f {
+	case FormatRGB888, FormatBGR888:
+		return 3
+	default:
+		return 4
+	}
+}
+
+func (f PixelFormat) Is24Bit() bool {
+	return f == FormatRGB888 || f == FormatBGR888
+}
 
 type Buffer struct {
 	fd     int
@@ -78,6 +93,46 @@ func (b *Buffer) Close() error {
 	return firstErr
 }
 
+func (b *Buffer) ConvertTo32Bit(srcFormat PixelFormat) (*Buffer, PixelFormat, error) {
+	if !srcFormat.Is24Bit() {
+		return b, srcFormat, nil
+	}
+
+	dstFormat := FormatXRGB8888
+	dstStride := b.Width * 4
+
+	dst, err := CreateBuffer(b.Width, b.Height, dstStride)
+	if err != nil {
+		return nil, srcFormat, err
+	}
+	dst.Format = dstFormat
+
+	srcData := b.data
+	dstData := dst.data
+	isRGB := srcFormat == FormatRGB888
+
+	for y := 0; y < b.Height; y++ {
+		srcRow := y * b.Stride
+		dstRow := y * dstStride
+		for x := 0; x < b.Width; x++ {
+			si := srcRow + x*3
+			di := dstRow + x*4
+			if isRGB {
+				dstData[di+0] = srcData[si+2] // B
+				dstData[di+1] = srcData[si+1] // G
+				dstData[di+2] = srcData[si+0] // R
+			} else {
+				dstData[di+0] = srcData[si+0] // B
+				dstData[di+1] = srcData[si+1] // G
+				dstData[di+2] = srcData[si+2] // R
+			}
+			dstData[di+3] = 0xFF
+		}
+	}
+
+	return dst, dstFormat, nil
+}
+
 func (b *Buffer) GetPixelRGBA(x, y int) (r, g, b2, a uint8) {
 	if x < 0 || x >= b.Width || y < 0 || y >= b.Height {
 		return
@@ -88,7 +143,12 @@ func (b *Buffer) GetPixelRGBA(x, y int) (r, g, b2, a uint8) {
 		return
 	}
 
-	return b.data[off+2], b.data[off+1], b.data[off], b.data[off+3]
+	switch b.Format {
+	case FormatXBGR8888, FormatABGR8888:
+		return b.data[off], b.data[off+1], b.data[off+2], 0xFF
+	default:
+		return b.data[off+2], b.data[off+1], b.data[off], 0xFF
+	}
 }
 
 func (b *Buffer) GetPixelBGRA(x, y int) (b2, g, r, a uint8) {

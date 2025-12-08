@@ -16,6 +16,8 @@ const (
 	FormatXRGB8888 = shm.FormatXRGB8888
 	FormatABGR8888 = shm.FormatABGR8888
 	FormatXBGR8888 = shm.FormatXBGR8888
+	FormatRGB888   = shm.FormatRGB888
+	FormatBGR888   = shm.FormatBGR888
 )
 
 type SurfaceState struct {
@@ -80,8 +82,9 @@ func (s *SurfaceState) OnScreencopyBuffer(format PixelFormat, width, height, str
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
-	if stride < width*4 {
-		return fmt.Errorf("invalid stride %d for width %d", stride, width)
+	bpp := format.BytesPerPixel()
+	if stride < width*bpp {
+		return fmt.Errorf("invalid stride %d for width %d (bpp=%d)", stride, width, bpp)
 	}
 
 	if s.screenBuf != nil {
@@ -95,6 +98,7 @@ func (s *SurfaceState) OnScreencopyBuffer(format PixelFormat, width, height, str
 	}
 
 	s.screenBuf = buf
+	s.screenBuf.Format = format
 	s.screenFormat = format
 	return nil
 }
@@ -123,6 +127,15 @@ func (s *SurfaceState) OnScreencopyReady() {
 
 	if s.screenBuf == nil || s.logicalW == 0 || s.logicalH == 0 {
 		return
+	}
+
+	if s.screenFormat.Is24Bit() {
+		converted, newFormat, err := s.screenBuf.ConvertTo32Bit(s.screenFormat)
+		if err == nil && converted != s.screenBuf {
+			s.screenBuf.Close()
+			s.screenBuf = converted
+			s.screenFormat = newFormat
+		}
 	}
 
 	s.recomputeScale()

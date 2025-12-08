@@ -717,8 +717,10 @@ func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1,
 	failed := false
 
 	frame.SetBufferHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1BufferEvent) {
-		if int(e.Stride) < int(e.Width)*4 {
-			log.Error("invalid stride from compositor", "stride", e.Stride, "width", e.Width)
+		format = PixelFormat(e.Format)
+		bpp := format.BytesPerPixel()
+		if int(e.Stride) < int(e.Width)*bpp {
+			log.Error("invalid stride from compositor", "stride", e.Stride, "width", e.Width, "bpp", bpp)
 			return
 		}
 		var err error
@@ -727,7 +729,6 @@ func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1,
 			log.Error("failed to create buffer", "err", err)
 			return
 		}
-		format = PixelFormat(e.Format)
 		buf.Format = format
 	})
 
@@ -788,6 +789,19 @@ func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1,
 			buf.Close()
 		}
 		return nil, fmt.Errorf("frame capture failed")
+	}
+
+	if format.Is24Bit() {
+		converted, newFormat, err := buf.ConvertTo32Bit(format)
+		if err != nil {
+			buf.Close()
+			return nil, fmt.Errorf("convert 24-bit to 32-bit: %w", err)
+		}
+		if converted != buf {
+			buf.Close()
+			buf = converted
+		}
+		format = newFormat
 	}
 
 	return &CaptureResult{
