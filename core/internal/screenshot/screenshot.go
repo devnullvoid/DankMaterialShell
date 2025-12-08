@@ -150,50 +150,32 @@ func (s *Screenshoter) captureWindow() (*CaptureResult, error) {
 	case CompositorHyprland:
 		return s.captureAndCrop(output, region)
 	case CompositorDWL:
-		return s.captureDWLWindow(output, region, geom.Scale)
+		return s.captureDWLWindow(output, region, geom)
 	default:
 		return s.captureRegionOnOutput(output, region)
 	}
 }
 
-func (s *Screenshoter) captureDWLWindow(output *WaylandOutput, region Region, dwlScale float64) (*CaptureResult, error) {
+func (s *Screenshoter) captureDWLWindow(output *WaylandOutput, region Region, geom *WindowGeometry) (*CaptureResult, error) {
 	result, err := s.captureWholeOutput(output)
 	if err != nil {
 		return nil, err
 	}
 
-	scale := dwlScale
-	if scale <= 0 {
-		scale = float64(result.Buffer.Width) / float64(output.width)
+	scale := geom.Scale
+	if scale <= 0 || scale == 1.0 {
+		if output.fractionalScale > 1.0 {
+			scale = output.fractionalScale
+		}
 	}
 	if scale <= 0 {
 		scale = 1.0
 	}
 
-	localX := int(float64(region.X) * scale)
-	localY := int(float64(region.Y) * scale)
-	if localX >= result.Buffer.Width {
-		localX = localX % result.Buffer.Width
-	}
-	if localY >= result.Buffer.Height {
-		localY = localY % result.Buffer.Height
-	}
-
+	localX := int(float64(region.X-geom.OutputX) * scale)
+	localY := int(float64(region.Y-geom.OutputY) * scale)
 	w := int(float64(region.Width) * scale)
 	h := int(float64(region.Height) * scale)
-
-	if localY+h > result.Buffer.Height && h <= result.Buffer.Height {
-		localY = result.Buffer.Height - h
-		if localY < 0 {
-			localY = 0
-		}
-	}
-	if localX+w > result.Buffer.Width && w <= result.Buffer.Width {
-		localX = result.Buffer.Width - w
-		if localX < 0 {
-			localX = 0
-		}
-	}
 
 	if localX < 0 {
 		w += localX

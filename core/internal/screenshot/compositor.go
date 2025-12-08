@@ -7,6 +7,7 @@ import (
 	"os/exec"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/dwl_ipc"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/wlr_output_management"
 	wlhelpers "github.com/AvengeMedia/DankMaterialShell/core/internal/wayland/client"
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
 )
@@ -89,12 +90,14 @@ func SetCompositorDWL() {
 }
 
 type WindowGeometry struct {
-	X      int32
-	Y      int32
-	Width  int32
-	Height int32
-	Output string
-	Scale  float64
+	X       int32
+	Y       int32
+	Width   int32
+	Height  int32
+	Output  string
+	Scale   float64
+	OutputX int32
+	OutputY int32
 }
 
 func GetActiveWindow() (*WindowGeometry, error) {
@@ -382,6 +385,79 @@ func GetFocusedMonitor() string {
 	return ""
 }
 
+func getOutputPosition(outputName string) (x, y int32, ok bool) {
+	display, err := client.Connect("")
+	if err != nil {
+		return 0, 0, false
+	}
+	ctx := display.Context()
+	defer ctx.Close()
+
+	registry, err := display.GetRegistry()
+	if err != nil {
+		return 0, 0, false
+	}
+
+	var outputManager *wlr_output_management.ZwlrOutputManagerV1
+
+	registry.SetGlobalHandler(func(e client.RegistryGlobalEvent) {
+		if e.Interface == wlr_output_management.ZwlrOutputManagerV1InterfaceName {
+			mgr := wlr_output_management.NewZwlrOutputManagerV1(ctx)
+			version := e.Version
+			if version > 4 {
+				version = 4
+			}
+			if err := registry.Bind(e.Name, e.Interface, version, mgr); err == nil {
+				outputManager = mgr
+			}
+		}
+	})
+
+	if err := wlhelpers.Roundtrip(display, ctx); err != nil {
+		return 0, 0, false
+	}
+
+	if outputManager == nil {
+		return 0, 0, false
+	}
+
+	type headState struct {
+		name string
+		x, y int32
+	}
+	heads := make(map[*wlr_output_management.ZwlrOutputHeadV1]*headState)
+	done := false
+
+	outputManager.SetHeadHandler(func(e wlr_output_management.ZwlrOutputManagerV1HeadEvent) {
+		state := &headState{}
+		heads[e.Head] = state
+		e.Head.SetNameHandler(func(ne wlr_output_management.ZwlrOutputHeadV1NameEvent) {
+			state.name = ne.Name
+		})
+		e.Head.SetPositionHandler(func(pe wlr_output_management.ZwlrOutputHeadV1PositionEvent) {
+			state.x = pe.X
+			state.y = pe.Y
+		})
+	})
+	outputManager.SetDoneHandler(func(e wlr_output_management.ZwlrOutputManagerV1DoneEvent) {
+		done = true
+	})
+
+	for !done {
+		if err := ctx.Dispatch(); err != nil {
+			return 0, 0, false
+		}
+	}
+
+	for _, state := range heads {
+		if state.name == outputName {
+			return state.x, state.y, true
+		}
+	}
+
+	return 0, 0, false
+}
+
 func getDWLActiveWindow() (*WindowGeometry, error) {
 	display, err := client.Connect("")
 	if err != nil {
@@ -509,13 +585,21 @@ func getDWLActiveWindow() (*WindowGeometry, error) {
 		if scale <= 0 {
 			scale = 1.0
 		}
+
+		var outputX, outputY int32
+		if ox, oy, ok := getOutputPosition(state.name); ok {
+			outputX, outputY = ox, oy
+		}
+
 		return &WindowGeometry{
-			X:      state.x,
-			Y:      state.y,
-			Width:  state.w,
-			Height: state.h,
-			Output: state.name,
-			Scale:  scale,
+			X:       state.x,
+			Y:       state.y,
+			Width:   state.w,
+			Height:  state.h,
+			Output:  state.name,
+			Scale:   scale,
+			OutputX: outputX,
+			OutputY: outputY,
 		}, nil
 	}
 
