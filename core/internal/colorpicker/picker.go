@@ -30,6 +30,7 @@ type Output struct {
 	height          int32
 	scale           int32
 	fractionalScale float64
+	transform       int32
 }
 
 type LayerSurface struct {
@@ -276,6 +277,7 @@ func (p *Picker) setupOutputHandlers(name uint32, output *client.Output) {
 		if o, ok := p.outputs[name]; ok {
 			o.x = e.X
 			o.y = e.Y
+			o.transform = int32(e.Transform)
 		}
 		p.outputsMu.Unlock()
 	})
@@ -485,8 +487,19 @@ func (p *Picker) captureForSurface(ls *LayerSurface) {
 	frame.SetReadyHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1ReadyEvent) {
 		ls.state.OnScreencopyReady()
 
-		logicalW, _ := ls.state.LogicalSize()
 		screenBuf := ls.state.ScreenBuffer()
+		if screenBuf != nil && ls.output.transform != TransformNormal {
+			invTransform := InverseTransform(ls.output.transform)
+			transformed, err := screenBuf.ApplyTransform(invTransform)
+			if err != nil {
+				log.Error("apply transform failed", "err", err)
+			} else if transformed != screenBuf {
+				ls.state.ReplaceScreenBuffer(transformed)
+			}
+		}
+
+		logicalW, _ := ls.state.LogicalSize()
+		screenBuf = ls.state.ScreenBuffer()
 		if logicalW > 0 && screenBuf != nil {
 			ls.output.fractionalScale = float64(screenBuf.Width) / float64(logicalW)
 		}

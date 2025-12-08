@@ -109,7 +109,11 @@ func (b *Buffer) ConvertTo32Bit(srcFormat PixelFormat) (*Buffer, PixelFormat, er
 
 	srcData := b.data
 	dstData := dst.data
-	isRGB := srcFormat == FormatRGB888
+
+	// DRM format names are counterintuitive on little-endian:
+	// RGB888 memory layout: B, G, R (name is logical order, not memory)
+	// BGR888 memory layout: R, G, B
+	isBGRMemory := srcFormat == FormatRGB888
 
 	for y := 0; y < b.Height; y++ {
 		srcRow := y * b.Stride
@@ -117,14 +121,16 @@ func (b *Buffer) ConvertTo32Bit(srcFormat PixelFormat) (*Buffer, PixelFormat, er
 		for x := 0; x < b.Width; x++ {
 			si := srcRow + x*3
 			di := dstRow + x*4
-			if isRGB {
-				dstData[di+0] = srcData[si+2] // B
-				dstData[di+1] = srcData[si+1] // G
-				dstData[di+2] = srcData[si+0] // R
+			if isBGRMemory {
+				// RGB888: src memory is B,G,R -> dst XRGB8888 memory B,G,R,X
+				dstData[di+0] = srcData[si+0]
+				dstData[di+1] = srcData[si+1]
+				dstData[di+2] = srcData[si+2]
 			} else {
-				dstData[di+0] = srcData[si+0] // B
-				dstData[di+1] = srcData[si+1] // G
-				dstData[di+2] = srcData[si+2] // R
+				// BGR888: src memory is R,G,B -> dst XRGB8888 memory B,G,R,X
+				dstData[di+0] = srcData[si+2]
+				dstData[di+1] = srcData[si+1]
+				dstData[di+2] = srcData[si+0]
 			}
 			dstData[di+3] = 0xFF
 		}

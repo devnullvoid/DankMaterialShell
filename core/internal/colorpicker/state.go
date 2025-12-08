@@ -115,6 +115,20 @@ func (s *SurfaceState) ScreenFormat() PixelFormat {
 	return s.screenFormat
 }
 
+func (s *SurfaceState) ReplaceScreenBuffer(newBuf *ShmBuffer) {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+
+	if s.screenBuf != nil {
+		s.screenBuf.Close()
+	}
+	s.screenBuf = newBuf
+	s.screenFormat = newBuf.Format
+
+	s.recomputeScale()
+	s.ensureRenderBuffers()
+}
+
 func (s *SurfaceState) OnScreencopyFlags(flags uint32) {
 	s.mu.Lock()
 	s.yInverted = (flags & 1) != 0
