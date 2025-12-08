@@ -549,25 +549,29 @@ func refreshGTK(configDir, mode string) {
 }
 
 func signalTerminals() {
-	signalProcess("kitty", syscall.SIGUSR1)
-	signalProcess("ghostty", syscall.SIGUSR2)
-	signalProcess(".kitty-wrapped", syscall.SIGUSR1)
-	signalProcess(".ghostty-wrappe", syscall.SIGUSR2)
+	signalByName("kitty", syscall.SIGUSR1)
+	signalByName("ghostty", syscall.SIGUSR2)
+	signalByName(".kitty-wrapped", syscall.SIGUSR1)
+	signalByName(".ghostty-wrappe", syscall.SIGUSR2)
 }
 
-func signalProcess(name string, sig syscall.Signal) {
-	cmd := exec.Command("pgrep", "-x", name)
-	output, err := cmd.Output()
+func signalByName(name string, sig syscall.Signal) {
+	entries, err := os.ReadDir("/proc")
 	if err != nil {
 		return
 	}
-	pids := strings.Fields(string(output))
-	for _, pidStr := range pids {
-		pid, err := strconv.Atoi(pidStr)
+	for _, entry := range entries {
+		pid, err := strconv.Atoi(entry.Name())
 		if err != nil {
 			continue
 		}
-		syscall.Kill(pid, sig)
+		comm, err := os.ReadFile(filepath.Join("/proc", entry.Name(), "comm"))
+		if err != nil {
+			continue
+		}
+		if strings.TrimSpace(string(comm)) == name {
+			syscall.Kill(pid, sig)
+		}
 	}
 }
 
