@@ -21,6 +21,7 @@ linters:
         # Signal handling
         - (*os.Process).Signal
         - (*os.Process).Kill
+        - syscall.Kill
         # DBus cleanup
         - (*github.com/godbus/dbus/v5.Conn).RemoveMatchSignal
         - (*github.com/godbus/dbus/v5.Conn).RemoveSignal

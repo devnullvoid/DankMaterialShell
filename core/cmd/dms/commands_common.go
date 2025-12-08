@@ -454,7 +454,6 @@ func uninstallPluginCLI(idOrName string) error {
 	return nil
 }
 
-// getCommonCommands returns the commands available in all builds
 func getCommonCommands() []*cobra.Command {
 	return []*cobra.Command{
 		versionCmd,
@@ -474,5 +473,6 @@ func getCommonCommands() []*cobra.Command {
 		colorCmd,
 		screenshotCmd,
 		notifyActionCmd,
+		matugenCmd,
 	}
 }

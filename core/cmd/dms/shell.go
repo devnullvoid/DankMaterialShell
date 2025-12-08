@@ -504,7 +504,7 @@ func parseTargetsFromIPCShowOutput(output string) ipcTargets {
 	return targets
 }
 
-func getShellIPCCompletions(args []string, toComplete string) []string {
+func getShellIPCCompletions(args []string, _ string) []string {
 	cmdArgs := []string{"-p", configPath, "ipc", "show"}
 	cmd := exec.Command("qs", cmdArgs...)
 	var targets ipcTargets

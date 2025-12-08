@@ -215,6 +215,10 @@ func RouteRequest(conn net.Conn, req models.Request) {
 		models.Respond(conn, req.ID, info)
 	case "subscribe":
 		handleSubscribe(conn, req)
+	case "matugen.queue":
+		handleMatugenQueue(conn, req)
+	case "matugen.status":
+		handleMatugenStatus(conn, req)
 	default:
 		models.RespondError(conn, req.ID, fmt.Sprintf("unknown method: %s", req.Method))
 	}

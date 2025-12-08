@@ -820,18 +820,35 @@ Singleton {
             "runUserTemplates": (typeof SettingsData !== "undefined") ? SettingsData.runUserMatugenTemplates : true
         };
 
-        if (stockColors) {
-            desired.stockColors = JSON.stringify(stockColors);
-        }
-
-        const json = JSON.stringify(desired);
-        const desiredPath = stateDir + "/matugen.desired.json";
-        const syncModeWithPortal = (typeof SettingsData !== "undefined" && SettingsData.syncModeWithPortal) ? "true" : "false";
-        const terminalsAlwaysDark = (typeof SettingsData !== "undefined" && SettingsData.terminalsAlwaysDark) ? "true" : "false";
-
         console.log("Theme: Starting matugen worker");
         workerRunning = true;
-        systemThemeGenerator.command = ["sh", "-c", `mkdir -p '${stateDir}' && cat > '${desiredPath}' << 'EOF'\n${json}\nEOF\nexec '${shellDir}/scripts/matugen-worker.sh' '${stateDir}' '${shellDir}' '${configDir}' '${syncModeWithPortal}' '${terminalsAlwaysDark}' --run`];
+
+        const args = [
+            "dms", "matugen", "queue",
+            "--state-dir", stateDir,
+            "--shell-dir", shellDir,
+            "--config-dir", configDir,
+            "--kind", desired.kind,
+            "--value", desired.value,
+            "--mode", desired.mode,
+            "--icon-theme", desired.iconTheme,
+            "--matugen-type", desired.matugenType,
+        ];
+
+        if (!desired.runUserTemplates) {
+            args.push("--run-user-templates=false");
+        }
+        if (stockColors) {
+            args.push("--stock-colors", JSON.stringify(stockColors));
+        }
+        if (typeof SettingsData !== "undefined" && SettingsData.syncModeWithPortal) {
+            args.push("--sync-mode-with-portal");
+        }
+        if (typeof SettingsData !== "undefined" && SettingsData.terminalsAlwaysDark) {
+            args.push("--terminals-always-dark");
+        }
+
+        systemThemeGenerator.command = args;
         systemThemeGenerator.running = true;
     }
 
