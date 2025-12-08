@@ -35,7 +35,7 @@ FloatingWindow {
     minimumSize: Qt.size(500, 400)
     implicitWidth: 800
     implicitHeight: 600
-    color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+    color: Theme.surfaceContainer
     visible: false
 
     onVisibleChanged: {

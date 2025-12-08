@@ -97,7 +97,7 @@ DankPopout {
 
             property alias searchField: searchField
 
-            color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+            color: "transparent"
             radius: Theme.cornerRadius
             antialiasing: true
             smooth: true

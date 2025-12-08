@@ -1,5 +1,4 @@
 import QtQuick
-import Quickshell.Wayland
 import qs.Common
 import qs.Widgets
 
@@ -25,7 +24,7 @@ DankPopout {
             id: popoutContainer
 
             implicitHeight: popoutColumn.implicitHeight + Theme.spacingL * 2
-            color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+            color: "transparent"
             radius: Theme.cornerRadius
             border.width: 0
             antialiasing: true
@@ -34,14 +33,14 @@ DankPopout {
 
             Component.onCompleted: {
                 if (root.shouldBeVisible) {
-                    forceActiveFocus()
+                    forceActiveFocus();
                 }
             }
 
             Keys.onPressed: event => {
                 if (event.key === Qt.Key_Escape) {
-                    root.close()
-                    event.accepted = true
+                    root.close();
+                    event.accepted = true;
                 }
             }
 
@@ -50,8 +49,8 @@ DankPopout {
                 function onShouldBeVisibleChanged() {
                     if (root.shouldBeVisible) {
                         Qt.callLater(() => {
-                            popoutContainer.forceActiveFocus()
-                        })
+                            popoutContainer.forceActiveFocus();
+                        });
                     }
                 }
             }
@@ -70,12 +69,12 @@ DankPopout {
 
                     onLoaded: {
                         if (item && "closePopout" in item) {
-                            item.closePopout = function() {
-                                root.close()
-                            }
+                            item.closePopout = function () {
+                                root.close();
+                            };
                         }
                         if (item) {
-                            root.contentHeight = Qt.binding(() => item.implicitHeight + Theme.spacingS * 2)
+                            root.contentHeight = Qt.binding(() => item.implicitHeight + Theme.spacingS * 2);
                         }
                     }
                 }

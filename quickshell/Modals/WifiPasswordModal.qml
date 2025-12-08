@@ -191,7 +191,7 @@ FloatingWindow {
     title: isVpnPrompt ? I18n.tr("VPN Password") : I18n.tr("Wi-Fi Password")
     minimumSize: Qt.size(420, calculatedHeight)
     maximumSize: Qt.size(420, calculatedHeight)
-    color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+    color: Theme.surfaceContainer
     visible: false
 
     onVisibleChanged: {

@@ -106,7 +106,7 @@ FloatingWindow {
     minimumSize: Qt.size(450, 400)
     implicitWidth: 600
     implicitHeight: 650
-    color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+    color: Theme.surfaceContainer
     visible: false
 
     onVisibleChanged: {
@@ -537,7 +537,7 @@ FloatingWindow {
         title: I18n.tr("Third-Party Plugin Warning")
         implicitWidth: 500
         implicitHeight: 350
-        color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+        color: Theme.surfaceContainer
         visible: false
 
         FocusScope {

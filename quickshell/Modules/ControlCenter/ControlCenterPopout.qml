@@ -113,11 +113,7 @@ DankPopout {
             implicitHeight: mainColumn.implicitHeight + Theme.spacingM
             property alias bluetoothCodecSelector: bluetoothCodecSelector
 
-            color: {
-                const transparency = Theme.popupTransparency;
-                const surface = Theme.surfaceContainer || Qt.rgba(0.1, 0.1, 0.1, 1);
-                return Qt.rgba(surface.r, surface.g, surface.b, transparency);
-            }
+            color: "transparent"
             radius: Theme.cornerRadius
             border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.08)
             border.width: 0

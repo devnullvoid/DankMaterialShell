@@ -59,6 +59,7 @@ DankModal {
 
     modalWidth: 500
     modalHeight: 700
+    backgroundColor: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
     visible: false
     onBackgroundClicked: hide()
     onOpened: () => {

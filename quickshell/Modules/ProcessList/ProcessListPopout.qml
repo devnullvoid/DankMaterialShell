@@ -1,11 +1,5 @@
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Effects
 import QtQuick.Layouts
-import Quickshell
-import Quickshell.Io
-import Quickshell.Wayland
-import Quickshell.Widgets
 import qs.Common
 import qs.Modules.ProcessList
 import qs.Services
@@ -57,7 +51,7 @@ DankPopout {
             id: processListContent
 
             radius: Theme.cornerRadius
-            color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+            color: "transparent"
             border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.08)
             border.width: 0
             clip: true
@@ -70,7 +64,7 @@ DankPopout {
                 }
                 processContextMenu.parent = processListContent;
             }
-            Keys.onPressed: (event) => {
+            Keys.onPressed: event => {
                 if (event.key === Qt.Key_Escape) {
                     processListPopout.close();
                     event.accepted = true;
@@ -108,7 +102,6 @@ DankPopout {
                         anchors.centerIn: parent
                         width: parent.width - Theme.spacingM * 2
                     }
-
                 }
 
                 Rectangle {
@@ -124,13 +117,8 @@ DankPopout {
                         anchors.margins: Theme.spacingS
                         contextMenu: processContextMenu
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }

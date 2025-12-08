@@ -36,7 +36,7 @@ DankPopout {
             id: content
 
             implicitHeight: contentColumn.height + Theme.spacingL * 2
-            color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+            color: "transparent"
             radius: Theme.cornerRadius
             border.color: Theme.outlineMedium
             border.width: 0

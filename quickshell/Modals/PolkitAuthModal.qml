@@ -45,7 +45,7 @@ FloatingWindow {
     title: I18n.tr("Authentication")
     minimumSize: Qt.size(420, calculatedHeight)
     maximumSize: Qt.size(420, calculatedHeight)
-    color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+    color: Theme.surfaceContainer
     visible: false
 
     onVisibleChanged: {

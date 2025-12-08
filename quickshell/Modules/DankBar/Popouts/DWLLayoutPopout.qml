@@ -1,8 +1,4 @@
 import QtQuick
-import QtQuick.Controls
-import Quickshell
-import Quickshell.Wayland
-import Quickshell.Widgets
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -15,31 +11,31 @@ DankPopout {
     property var triggerScreen: null
 
     function setTriggerPosition(x, y, width, section, screen, barPosition, barThickness, barSpacing, barConfig) {
-        triggerX = x
-        triggerY = y
-        triggerWidth = width
-        triggerSection = section
-        root.screen = screen
+        triggerX = x;
+        triggerY = y;
+        triggerWidth = width;
+        triggerSection = section;
+        root.screen = screen;
 
-        storedBarThickness = barThickness !== undefined ? barThickness : (Theme.barHeight - 4)
-        storedBarSpacing = barSpacing !== undefined ? barSpacing : 4
-        storedBarConfig = barConfig
+        storedBarThickness = barThickness !== undefined ? barThickness : (Theme.barHeight - 4);
+        storedBarSpacing = barSpacing !== undefined ? barSpacing : 4;
+        storedBarConfig = barConfig;
 
-        const pos = barPosition !== undefined ? barPosition : 0
-        const bottomGap = barConfig ? (barConfig.bottomGap !== undefined ? barConfig.bottomGap : 0) : 0
+        const pos = barPosition !== undefined ? barPosition : 0;
+        const bottomGap = barConfig ? (barConfig.bottomGap !== undefined ? barConfig.bottomGap : 0) : 0;
 
-        setBarContext(pos, bottomGap)
+        setBarContext(pos, bottomGap);
 
-        updateOutputState()
+        updateOutputState();
     }
 
     onScreenChanged: updateOutputState()
 
     function updateOutputState() {
         if (screen && DwlService.dwlAvailable) {
-            outputState = DwlService.getOutputState(screen.name)
+            outputState = DwlService.getOutputState(screen.name);
         } else {
-            outputState = null
+            outputState = null;
         }
     }
 
@@ -47,56 +43,56 @@ DankPopout {
     property string currentLayoutSymbol: outputState?.layoutSymbol || ""
 
     readonly property var layoutNames: ({
-        "CT": I18n.tr("Center Tiling"),
-        "G": I18n.tr("Grid"),
-        "K": I18n.tr("Deck"),
-        "M": I18n.tr("Monocle"),
-        "RT": I18n.tr("Right Tiling"),
-        "S": I18n.tr("Scrolling"),
-        "T": I18n.tr("Tiling"),
-        "VG": I18n.tr("Vertical Grid"),
-        "VK": I18n.tr("Vertical Deck"),
-        "VS": I18n.tr("Vertical Scrolling"),
-        "VT": I18n.tr("Vertical Tiling")
-    })
+            "CT": I18n.tr("Center Tiling"),
+            "G": I18n.tr("Grid"),
+            "K": I18n.tr("Deck"),
+            "M": I18n.tr("Monocle"),
+            "RT": I18n.tr("Right Tiling"),
+            "S": I18n.tr("Scrolling"),
+            "T": I18n.tr("Tiling"),
+            "VG": I18n.tr("Vertical Grid"),
+            "VK": I18n.tr("Vertical Deck"),
+            "VS": I18n.tr("Vertical Scrolling"),
+            "VT": I18n.tr("Vertical Tiling")
+        })
 
     readonly property var layoutIcons: ({
-        "CT": "view_compact",
-        "G": "grid_view",
-        "K": "layers",
-        "M": "fullscreen",
-        "RT": "view_sidebar",
-        "S": "view_carousel",
-        "T": "view_quilt",
-        "VG": "grid_on",
-        "VK": "view_day",
-        "VS": "scrollable_header",
-        "VT": "clarify"
-    })
+            "CT": "view_compact",
+            "G": "grid_view",
+            "K": "layers",
+            "M": "fullscreen",
+            "RT": "view_sidebar",
+            "S": "view_carousel",
+            "T": "view_quilt",
+            "VG": "grid_on",
+            "VK": "view_day",
+            "VS": "scrollable_header",
+            "VT": "clarify"
+        })
 
     function getLayoutName(symbol) {
-        return layoutNames[symbol] || symbol
+        return layoutNames[symbol] || symbol;
     }
 
     function getLayoutIcon(symbol) {
-        return layoutIcons[symbol] || "view_quilt"
+        return layoutIcons[symbol] || "view_quilt";
     }
 
     Connections {
         target: DwlService
         function onStateChanged() {
-            updateOutputState()
+            updateOutputState();
         }
     }
 
     onShouldBeVisibleChanged: {
         if (shouldBeVisible) {
-            updateOutputState()
+            updateOutputState();
         }
     }
 
     Component.onCompleted: {
-        updateOutputState()
+        updateOutputState();
     }
 
     popupWidth: 300
@@ -111,7 +107,7 @@ DankPopout {
             id: layoutContent
 
             implicitHeight: contentColumn.implicitHeight + Theme.spacingL * 2
-            color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+            color: "transparent"
             radius: Theme.cornerRadius
             border.color: Theme.outlineMedium
             border.width: 0
@@ -121,14 +117,14 @@ DankPopout {
 
             Component.onCompleted: {
                 if (root.shouldBeVisible) {
-                    forceActiveFocus()
+                    forceActiveFocus();
                 }
             }
 
             Keys.onPressed: event => {
                 if (event.key === Qt.Key_Escape) {
-                    root.close()
-                    event.accepted = true
+                    root.close();
+                    event.accepted = true;
                 }
             }
 
@@ -137,8 +133,8 @@ DankPopout {
                 function onShouldBeVisibleChanged() {
                     if (root.shouldBeVisible) {
                         Qt.callLater(() => {
-                            layoutContent.forceActiveFocus()
-                        })
+                            layoutContent.forceActiveFocus();
+                        });
                     }
                 }
             }
@@ -212,7 +208,7 @@ DankPopout {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onPressed: {
-                                root.close()
+                                root.close();
                             }
                         }
                     }
@@ -282,14 +278,14 @@ DankPopout {
                                 cursorShape: Qt.PointingHandCursor
                                 onPressed: {
                                     if (!root.triggerScreen) {
-                                        return
+                                        return;
                                     }
                                     if (!DwlService.dwlAvailable) {
-                                        return
+                                        return;
                                     }
 
-                                    DwlService.setLayout(root.triggerScreen.name, index)
-                                    root.close()
+                                    DwlService.setLayout(root.triggerScreen.name, index);
+                                    root.close();
                                 }
                             }
 

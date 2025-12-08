@@ -396,7 +396,6 @@ Item {
                 Item {
                     id: bgShadowLayer
                     anchors.fill: parent
-                    visible: contentWrapper.popupSurfaceAlpha >= 0.95
                     layer.enabled: Quickshell.env("DMS_DISABLE_LAYER") !== "true" && Quickshell.env("DMS_DISABLE_LAYER") !== "1"
                     layer.smooth: false
                     layer.textureSize: Qt.size(Math.round(width * root.dpr), Math.round(height * root.dpr))
@@ -421,6 +420,7 @@ Item {
                     DankRectangle {
                         anchors.fill: parent
                         radius: Theme.cornerRadius
+                        color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
                     }
                 }
 

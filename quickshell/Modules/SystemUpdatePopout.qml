@@ -36,7 +36,7 @@ DankPopout {
         Rectangle {
             id: updaterPanel
 
-            color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+            color: "transparent"
             radius: Theme.cornerRadius
             antialiasing: true
             smooth: true

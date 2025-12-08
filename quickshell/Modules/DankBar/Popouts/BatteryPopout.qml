@@ -1,9 +1,6 @@
 import QtQuick
-import QtQuick.Controls
 import Quickshell
 import Quickshell.Services.UPower
-import Quickshell.Wayland
-import Quickshell.Widgets
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -26,13 +23,12 @@ DankPopout {
     function setProfile(profile) {
         if (typeof PowerProfiles === "undefined") {
             ToastService.showError("power-profiles-daemon not available");
-            return ;
+            return;
         }
         PowerProfiles.profile = profile;
         if (PowerProfiles.profile !== profile) {
             ToastService.showError("Failed to set power profile");
         }
-
     }
 
     popupWidth: 400
@@ -48,7 +44,7 @@ DankPopout {
             id: batteryContent
 
             implicitHeight: contentColumn.implicitHeight + Theme.spacingL * 2
-            color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+            color: "transparent"
             radius: Theme.cornerRadius
             border.color: Theme.outlineMedium
             border.width: 0
@@ -59,9 +55,8 @@ DankPopout {
                 if (root.shouldBeVisible) {
                     forceActiveFocus();
                 }
-
             }
-            Keys.onPressed: function(event) {
+            Keys.onPressed: function (event) {
                 if (event.key === Qt.Key_Escape) {
                     root.close();
                     event.accepted = true;
@@ -71,11 +66,10 @@ DankPopout {
             Connections {
                 function onShouldBeVisibleChanged() {
                     if (root.shouldBeVisible) {
-                        Qt.callLater(function() {
+                        Qt.callLater(function () {
                             batteryContent.forceActiveFocus();
                         });
                     }
-
                 }
 
                 target: root
@@ -246,7 +240,8 @@ DankPopout {
 
                         StyledText {
                             text: {
-                                if (!BatteryService.batteryAvailable) return "Power profile management available"
+                                if (!BatteryService.batteryAvailable)
+                                    return "Power profile management available";
                                 const time = BatteryService.formatTimeRemaining();
                                 if (time !== "Unknown") {
                                     return BatteryService.isCharging ? `Time until full: ${time}` : `Time remaining: ${time}`;
@@ -470,14 +465,14 @@ DankPopout {
                                             StyledText {
                                                 text: {
                                                     if (!modelData.healthSupported || modelData.healthPercentage <= 0)
-                                                        return "N/A"
-                                                    return `${Math.round(modelData.healthPercentage)}%`
+                                                        return "N/A";
+                                                    return `${Math.round(modelData.healthPercentage)}%`;
                                                 }
                                                 font.pixelSize: Theme.fontSizeSmall
                                                 color: {
                                                     if (!modelData.healthSupported || modelData.healthPercentage <= 0)
-                                                        return Theme.surfaceText
-                                                    return modelData.healthPercentage < 80 ? Theme.error : Theme.surfaceText
+                                                        return Theme.surfaceText;
+                                                    return modelData.healthPercentage < 80 ? Theme.error : Theme.surfaceText;
                                                 }
                                                 font.weight: Font.Bold
                                                 anchors.horizontalCenter: parent.horizontalCenter
@@ -526,10 +521,7 @@ DankPopout {
                                             spacing: 2
 
                                             StyledText {
-                                                text: modelData.state === UPowerDeviceState.Charging
-                                                                          ? I18n.tr("To Full")
-                                                                          : modelData.state === UPowerDeviceState.Discharging
-                                                                              ? I18n.tr("Left") : ""
+                                                text: modelData.state === UPowerDeviceState.Charging ? I18n.tr("To Full") : modelData.state === UPowerDeviceState.Discharging ? I18n.tr("Left") : ""
                                                 font.pixelSize: Theme.fontSizeSmall
                                                 color: Theme.surfaceTextMedium
                                                 font.weight: Font.Medium
@@ -538,17 +530,14 @@ DankPopout {
 
                                             StyledText {
                                                 text: {
-                                                      const time = modelData.state === UPowerDeviceState.Charging
-                                                                   ? modelData.timeToFull
-                                                                   : modelData.state === UPowerDeviceState.Discharging && BatteryService.changeRate > 0
-                                                                       ? (3600 * modelData.energy) / BatteryService.changeRate : 0
+                                                    const time = modelData.state === UPowerDeviceState.Charging ? modelData.timeToFull : modelData.state === UPowerDeviceState.Discharging && BatteryService.changeRate > 0 ? (3600 * modelData.energy) / BatteryService.changeRate : 0;
 
                                                     if (!time || time <= 0 || time > 86400)
-                                                        return "N/A"
+                                                        return "N/A";
 
-                                                    const hours = Math.floor(time / 3600)
-                                                    const minutes = Math.floor((time % 3600) / 60)
-                                                    return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`
+                                                    const hours = Math.floor(time / 3600);
+                                                    const minutes = Math.floor((time % 3600) / 60);
+                                                    return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
                                                 }
                                                 font.pixelSize: Theme.fontSizeSmall
                                                 color: Theme.surfaceText
@@ -566,8 +555,9 @@ DankPopout {
                 DankButtonGroup {
                     property var profileModel: (typeof PowerProfiles !== "undefined") ? [PowerProfile.PowerSaver, PowerProfile.Balanced].concat(PowerProfiles.hasPerformanceProfile ? [PowerProfile.Performance] : []) : [PowerProfile.PowerSaver, PowerProfile.Balanced, PowerProfile.Performance]
                     property int currentProfileIndex: {
-                        if (typeof PowerProfiles === "undefined") return 1
-                        return profileModel.findIndex(profile => root.isActiveProfile(profile))
+                        if (typeof PowerProfiles === "undefined")
+                            return 1;
+                        return profileModel.findIndex(profile => root.isActiveProfile(profile));
                     }
 
                     model: profileModel.map(profile => Theme.getPowerProfileLabel(profile))
@@ -575,8 +565,9 @@ DankPopout {
                     selectionMode: "single"
                     anchors.horizontalCenter: parent.horizontalCenter
                     onSelectionChanged: (index, selected) => {
-                        if (!selected) return
-                        root.setProfile(profileModel[index])
+                        if (!selected)
+                            return;
+                        root.setProfile(profileModel[index]);
                     }
                 }
 
@@ -634,5 +625,4 @@ DankPopout {
             }
         }
     }
-
 }
