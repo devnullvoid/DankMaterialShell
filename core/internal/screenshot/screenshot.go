@@ -324,12 +324,17 @@ func (s *Screenshoter) captureAllScreens() (*CaptureResult, error) {
 
 		outX, outY := output.x, output.y
 		scale := float64(output.scale)
-		if DetectCompositor() == CompositorHyprland {
+		switch DetectCompositor() {
+		case CompositorHyprland:
 			if hx, hy, _, _, ok := GetHyprlandMonitorGeometry(output.name); ok {
 				outX, outY = hx, hy
 			}
 			if s := GetHyprlandMonitorScale(output.name); s > 0 {
 				scale = s
+			}
+		case CompositorDWL:
+			if info, ok := getOutputInfo(output.name); ok {
+				outX, outY = info.x, info.y
 			}
 		}
 		if scale <= 0 {
@@ -458,13 +463,42 @@ func (s *Screenshoter) captureWholeOutput(output *WaylandOutput) (*CaptureResult
 		return nil, fmt.Errorf("capture output: %w", err)
 	}
 
-	return s.processFrame(frame, Region{
+	result, err := s.processFrame(frame, Region{
 		X:      output.x,
 		Y:      output.y,
 		Width:  output.width,
 		Height: output.height,
 		Output: output.name,
 	})
+	if err != nil {
+		return nil, err
+	}
+
+	if result.YInverted {
+		result.Buffer.FlipVertical()
+		result.YInverted = false
+	}
+
+	if output.transform == TransformNormal {
+		return result, nil
+	}
+
+	invTransform := InverseTransform(output.transform)
+	transformed, err := result.Buffer.ApplyTransform(invTransform)
+	if err != nil {
+		result.Buffer.Close()
+		return nil, fmt.Errorf("apply transform: %w", err)
+	}
+
+	if transformed != result.Buffer {
+		result.Buffer.Close()
+		result.Buffer = transformed
+	}
+
+	result.Region.Width = int32(transformed.Width)
+	result.Region.Height = int32(transformed.Height)
+
+	return result, nil
 }
 
 func (s *Screenshoter) captureAndCrop(output *WaylandOutput, region Region) (*CaptureResult, error) {
@@ -545,6 +579,10 @@ func (s *Screenshoter) captureAndCrop(output *WaylandOutput, region Region) (*Ca
 }
 
 func (s *Screenshoter) captureRegionOnOutput(output *WaylandOutput, region Region) (*CaptureResult, error) {
+	if output.transform != TransformNormal {
+		return s.captureRegionOnTransformedOutput(output, region)
+	}
+
 	scale := output.fractionalScale
 	if scale <= 0 && DetectCompositor() == CompositorHyprland {
 		scale = GetHyprlandMonitorScale(output.name)
@@ -599,6 +637,76 @@ func (s *Screenshoter) captureRegionOnOutput(output *WaylandOutput, region Regio
 	return s.processFrame(frame, region)
 }
 
+func (s *Screenshoter) captureRegionOnTransformedOutput(output *WaylandOutput, region Region) (*CaptureResult, error) {
+	result, err := s.captureWholeOutput(output)
+	if err != nil {
+		return nil, err
+	}
+
+	scale := output.fractionalScale
+	if scale <= 0 && DetectCompositor() == CompositorHyprland {
+		scale = GetHyprlandMonitorScale(output.name)
+	}
+	if scale <= 0 {
+		scale = float64(output.scale)
+	}
+	if scale <= 0 {
+		scale = 1.0
+	}
+
+	localX := int(float64(region.X-output.x) * scale)
+	localY := int(float64(region.Y-output.y) * scale)
+	w := int(float64(region.Width) * scale)
+	h := int(float64(region.Height) * scale)
+
+	if localX < 0 {
+		w += localX
+		localX = 0
+	}
+	if localY < 0 {
+		h += localY
+		localY = 0
+	}
+	if localX+w > result.Buffer.Width {
+		w = result.Buffer.Width - localX
+	}
+	if localY+h > result.Buffer.Height {
+		h = result.Buffer.Height - localY
+	}
+
+	if w <= 0 || h <= 0 {
+		result.Buffer.Close()
+		return nil, fmt.Errorf("region not visible on output")
+	}
+
+	cropped, err := CreateShmBuffer(w, h, w*4)
+	if err != nil {
+		result.Buffer.Close()
+		return nil, fmt.Errorf("create crop buffer: %w", err)
+	}
+
+	srcData := result.Buffer.Data()
+	dstData := cropped.Data()
+
+	for y := 0; y < h; y++ {
+		srcOff := (localY+y)*result.Buffer.Stride + localX*4
+		dstOff := y * cropped.Stride
+		if srcOff+w*4 <= len(srcData) && dstOff+w*4 <= len(dstData) {
+			copy(dstData[dstOff:dstOff+w*4], srcData[srcOff:srcOff+w*4])
+		}
+	}
+
+	result.Buffer.Close()
+	cropped.Format = PixelFormat(result.Format)
+
+	return &CaptureResult{
+		Buffer:    cropped,
+		Region:    region,
+		YInverted: false,
+		Format:    result.Format,
+	}, nil
+}
+
 func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1, region Region) (*CaptureResult, error) {
 	var buf *ShmBuffer
 	var pool *client.ShmPool
@@ -609,6 +717,10 @@ func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1,
 	failed := false
 
 	frame.SetBufferHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1BufferEvent) {
+		if int(e.Stride) < int(e.Width)*4 {
+			log.Error("invalid stride from compositor", "stride", e.Stride, "width", e.Width)
+			return
+		}
 		var err error
 		buf, err = CreateShmBuffer(int(e.Width), int(e.Height), int(e.Stride))
 		if err != nil {
@@ -906,16 +1018,32 @@ func ListOutputs() ([]Output, error) {
 	sc.outputsMu.Lock()
 	defer sc.outputsMu.Unlock()
 
+	compositor := DetectCompositor()
 	result := make([]Output, 0, len(sc.outputs))
 	for _, o := range sc.outputs {
-		result = append(result, Output{
-			Name:   o.name,
-			X:      o.x,
-			Y:      o.y,
-			Width:  o.width,
-			Height: o.height,
-			Scale:  o.scale,
-		})
+		out := Output{
+			Name:            o.name,
+			X:               o.x,
+			Y:               o.y,
+			Width:           o.width,
+			Height:          o.height,
+			Scale:           o.scale,
+			FractionalScale: o.fractionalScale,
+			Transform:       o.transform,
+		}
+
+		switch compositor {
+		case CompositorHyprland:
+			if hx, hy, hw, hh, ok := GetHyprlandMonitorGeometry(o.name); ok {
+				out.X, out.Y = hx, hy
+				out.Width, out.Height = hw, hh
+			}
+			if s := GetHyprlandMonitorScale(o.name); s > 0 {
+				out.FractionalScale = s
+			}
+		}
+
+		result = append(result, out)
 	}
 	return result, nil
 }

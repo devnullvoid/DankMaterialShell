@@ -137,3 +137,96 @@ func (b *Buffer) Clear() {
 func (b *Buffer) CopyFrom(src *Buffer) {
 	copy(b.data, src.data)
 }
+
+const (
+	TransformNormal     = 0
+	Transform90         = 1
+	Transform180        = 2
+	Transform270        = 3
+	TransformFlipped    = 4
+	TransformFlipped90  = 5
+	TransformFlipped180 = 6
+	TransformFlipped270 = 7
+)
+
+func (b *Buffer) ApplyTransform(transform int32) (*Buffer, error) {
+	if transform == TransformNormal {
+		return b, nil
+	}
+
+	var newW, newH int
+	switch transform {
+	case Transform90, Transform270, TransformFlipped90, TransformFlipped270:
+		newW, newH = b.Height, b.Width
+	default:
+		newW, newH = b.Width, b.Height
+	}
+
+	newBuf, err := CreateBuffer(newW, newH, newW*4)
+	if err != nil {
+		return nil, err
+	}
+	newBuf.Format = b.Format
+
+	srcData := b.data
+	dstData := newBuf.data
+
+	for sy := 0; sy < b.Height; sy++ {
+		for sx := 0; sx < b.Width; sx++ {
+			var dx, dy int
+
+			switch transform {
+			case Transform90: // 90° CCW
+				dx = sy
+				dy = b.Width - 1 - sx
+			case Transform180:
+				dx = b.Width - 1 - sx
+				dy = b.Height - 1 - sy
+			case Transform270: // 270° CCW = 90° CW
+				dx = b.Height - 1 - sy
+				dy = sx
+			case TransformFlipped:
+				dx = b.Width - 1 - sx
+				dy = sy
+			case TransformFlipped90:
+				dx = sy
+				dy = sx
+			case TransformFlipped180:
+				dx = sx
+				dy = b.Height - 1 - sy
+			case TransformFlipped270:
+				dx = b.Height - 1 - sy
+				dy = b.Width - 1 - sx
+			default:
+				dx, dy = sx, sy
+			}
+
+			si := sy*b.Stride + sx*4
+			di := dy*newBuf.Stride + dx*4
+
+			if si+3 < len(srcData) && di+3 < len(dstData) {
+				dstData[di+0] = srcData[si+0]
+				dstData[di+1] = srcData[si+1]
+				dstData[di+2] = srcData[si+2]
+				dstData[di+3] = srcData[si+3]
+			}
+		}
+	}
+
+	return newBuf, nil
+}
+
+func InverseTransform(transform int32) int32 {
+	switch transform {
+	case Transform90:
+		return Transform270
+	case Transform270:
+		return Transform90
+	case TransformFlipped90:
+		return TransformFlipped270
+	case TransformFlipped270:
+		return TransformFlipped90
+	default:
+		return transform
+	}
+}

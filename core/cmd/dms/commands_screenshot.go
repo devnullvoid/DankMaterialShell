@@ -295,7 +295,14 @@ func bufferToRGBThumbnail(buf *screenshot.ShmBuffer, maxSize int, pixelFormat ui
 
 	data := buf.Data()
 	rgb := make([]byte, dstW*dstH*3)
-	swapRB := pixelFormat == uint32(screenshot.FormatARGB8888) || pixelFormat == uint32(screenshot.FormatXRGB8888) || pixelFormat == 0
+
+	var swapRB bool
+	switch pixelFormat {
+	case uint32(screenshot.FormatABGR8888), uint32(screenshot.FormatXBGR8888):
+		swapRB = false
+	default:
+		swapRB = true
+	}
 
 	for y := 0; y < dstH; y++ {
 		srcY := int(float64(y) / scale)
@@ -309,16 +316,17 @@ func bufferToRGBThumbnail(buf *screenshot.ShmBuffer, maxSize int, pixelFormat ui
 			}
 			si := srcY*buf.Stride + srcX*4
 			di := (y*dstW + x) * 3
-			if si+2 < len(data) {
-				if swapRB {
-					rgb[di+0] = data[si+2]
-					rgb[di+1] = data[si+1]
-					rgb[di+2] = data[si+0]
-				} else {
-					rgb[di+0] = data[si+0]
-					rgb[di+1] = data[si+1]
-					rgb[di+2] = data[si+2]
-				}
+			if si+3 >= len(data) {
+				continue
+			}
+			if swapRB {
+				rgb[di+0] = data[si+2]
+				rgb[di+1] = data[si+1]
+				rgb[di+2] = data[si+0]
+			} else {
+				rgb[di+0] = data[si+0]
+				rgb[di+1] = data[si+1]
+				rgb[di+2] = data[si+2]
 			}
 		}
 	}
@@ -370,7 +378,37 @@ func runScreenshotList(cmd *cobra.Command, args []string) {
 	}
 
 	for _, o := range outputs {
-		fmt.Printf("%s: %dx%d+%d+%d (scale: %d)\n",
-			o.Name, o.Width, o.Height, o.X, o.Y, o.Scale)
+		scaleStr := fmt.Sprintf("%.2f", o.FractionalScale)
+		if o.FractionalScale == float64(int(o.FractionalScale)) {
+			scaleStr = fmt.Sprintf("%d", int(o.FractionalScale))
+		}
+
+		transformStr := transformName(o.Transform)
+
+		fmt.Printf("%s: %dx%d+%d+%d scale=%s transform=%s\n",
+			o.Name, o.Width, o.Height, o.X, o.Y, scaleStr, transformStr)
+	}
+}
+
+func transformName(t int32) string {
+	switch t {
+	case 0:
+		return "normal"
+	case 1:
+		return "90"
+	case 2:
+		return "180"
+	case 3:
+		return "270"
+	case 4:
+		return "flipped"
+	case 5:
+		return "flipped-90"
+	case 6:
+		return "flipped-180"
+	case 7:
+		return "flipped-270"
+	default:
+		return fmt.Sprintf("%d", t)
 	}
 }

@@ -380,19 +380,21 @@ func (r *RegionSelector) preCaptureOutput(output *WaylandOutput, pc *PreCapture,
 		return
 	}
 
+	var capturedBuf *ShmBuffer
+
 	frame.SetBufferHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1BufferEvent) {
+		if int(e.Stride) < int(e.Width)*4 {
+			log.Error("invalid stride from compositor", "stride", e.Stride, "width", e.Width)
+			return
+		}
 		buf, err := CreateShmBuffer(int(e.Width), int(e.Height), int(e.Stride))
 		if err != nil {
 			log.Error("create screen buffer failed", "err", err)
 			return
 		}
 
-		if withCursor {
-			pc.screenBuf = buf
-			pc.format = e.Format
-		} else {
-			pc.screenBufNoCursor = buf
-		}
+		capturedBuf = buf
+		pc.format = e.Format
 
 		pool, err := r.shm.CreatePool(buf.Fd(), int32(buf.Size()))
 		if err != nil {
@@ -421,6 +423,34 @@ func (r *RegionSelector) preCaptureOutput(output *WaylandOutput, pc *PreCapture,
 
 	frame.SetReadyHandler(func(e wlr_screencopy.ZwlrScreencopyFrameV1ReadyEvent) {
 		frame.Destroy()
+
+		if capturedBuf == nil {
+			onReady()
+			return
+		}
+
+		if pc.yInverted {
+			capturedBuf.FlipVertical()
+			pc.yInverted = false
+		}
+
+		if output.transform != TransformNormal {
+			invTransform := InverseTransform(output.transform)
+			transformed, err := capturedBuf.ApplyTransform(invTransform)
+			if err != nil {
+				log.Error("apply transform failed", "err", err)
+			} else if transformed != capturedBuf {
+				capturedBuf.Close()
+				capturedBuf = transformed
+			}
+		}
+
+		if withCursor {
+			pc.screenBuf = capturedBuf
+		} else {
+			pc.screenBufNoCursor = capturedBuf
+		}
+
 		onReady()
 	})
 

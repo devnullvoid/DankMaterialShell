@@ -32,11 +32,13 @@ func (r Region) IsEmpty() bool {
 }
 
 type Output struct {
-	Name   string
-	X, Y   int32
-	Width  int32
-	Height int32
-	Scale  int32
+	Name            string
+	X, Y            int32
+	Width           int32
+	Height          int32
+	Scale           int32
+	FractionalScale float64
+	Transform       int32
 }
 
 type Config struct {

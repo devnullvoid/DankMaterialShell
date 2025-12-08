@@ -20,7 +20,13 @@ func BufferToImageWithFormat(buf *ShmBuffer, format uint32) *image.RGBA {
 	img := image.NewRGBA(image.Rect(0, 0, buf.Width, buf.Height))
 	data := buf.Data()
 
-	swapRB := format == uint32(FormatARGB8888) || format == uint32(FormatXRGB8888) || format == 0
+	var swapRB bool
+	switch format {
+	case uint32(FormatABGR8888), uint32(FormatXBGR8888):
+		swapRB = false
+	default:
+		swapRB = true
+	}
 
 	for y := 0; y < buf.Height; y++ {
 		srcOff := y * buf.Stride

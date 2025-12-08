@@ -90,14 +90,15 @@ func SetCompositorDWL() {
 }
 
 type WindowGeometry struct {
-	X       int32
-	Y       int32
-	Width   int32
-	Height  int32
-	Output  string
-	Scale   float64
-	OutputX int32
-	OutputY int32
+	X               int32
+	Y               int32
+	Width           int32
+	Height          int32
+	Output          string
+	Scale           float64
+	OutputX         int32
+	OutputY         int32
+	OutputTransform int32
 }
 
 func GetActiveWindow() (*WindowGeometry, error) {
@@ -385,17 +386,22 @@ func GetFocusedMonitor() string {
 	return ""
 }
 
-func getOutputPosition(outputName string) (x, y int32, ok bool) {
+type outputInfo struct {
+	x, y      int32
+	transform int32
+}
+
+func getOutputInfo(outputName string) (*outputInfo, bool) {
 	display, err := client.Connect("")
 	if err != nil {
-		return 0, 0, false
+		return nil, false
 	}
 	ctx := display.Context()
 	defer ctx.Close()
 
 	registry, err := display.GetRegistry()
 	if err != nil {
-		return 0, 0, false
+		return nil, false
 	}
 
 	var outputManager *wlr_output_management.ZwlrOutputManagerV1
@@ -414,16 +420,17 @@ func getOutputPosition(outputName string) (x, y int32, ok bool) {
 	})
 
 	if err := wlhelpers.Roundtrip(display, ctx); err != nil {
-		return 0, 0, false
+		return nil, false
 	}
 
 	if outputManager == nil {
-		return 0, 0, false
+		return nil, false
 	}
 
 	type headState struct {
-		name string
-		x, y int32
+		name      string
+		x, y      int32
+		transform int32
 	}
 	heads := make(map[*wlr_output_management.ZwlrOutputHeadV1]*headState)
 	done := false
@@ -438,6 +445,9 @@ func getOutputPosition(outputName string) (x, y int32, ok bool) {
 			state.x = pe.X
 			state.y = pe.Y
 		})
+		e.Head.SetTransformHandler(func(te wlr_output_management.ZwlrOutputHeadV1TransformEvent) {
+			state.transform = te.Transform
+		})
 	})
 	outputManager.SetDoneHandler(func(e wlr_output_management.ZwlrOutputManagerV1DoneEvent) {
 		done = true
@@ -445,17 +455,21 @@ func getOutputPosition(outputName string) (x, y int32, ok bool) {
 
 	for !done {
 		if err := ctx.Dispatch(); err != nil {
-			return 0, 0, false
+			return nil, false
 		}
 	}
 
 	for _, state := range heads {
 		if state.name == outputName {
-			return state.x, state.y, true
+			return &outputInfo{
+				x:         state.x,
+				y:         state.y,
+				transform: state.transform,
+			}, true
 		}
 	}
 
-	return 0, 0, false
+	return nil, false
 }
 
 func getDWLActiveWindow() (*WindowGeometry, error) {
@@ -586,21 +600,22 @@ func getDWLActiveWindow() (*WindowGeometry, error) {
 			scale = 1.0
 		}
 
-		var outputX, outputY int32
-		if ox, oy, ok := getOutputPosition(state.name); ok {
-			outputX, outputY = ox, oy
+		geom := &WindowGeometry{
+			X:      state.x,
+			Y:      state.y,
+			Width:  state.w,
+			Height: state.h,
+			Output: state.name,
+			Scale:  scale,
 		}
 
-		return &WindowGeometry{
-			X:       state.x,
-			Y:       state.y,
-			Width:   state.w,
-			Height:  state.h,
-			Output:  state.name,
-			Scale:   scale,
-			OutputX: outputX,
-			OutputY: outputY,
-		}, nil
+		if info, ok := getOutputInfo(state.name); ok {
+			geom.OutputX = info.x
+			geom.OutputY = info.y
+			geom.OutputTransform = info.transform
+		}
+
+		return geom, nil
 	}
 
 	return nil, fmt.Errorf("no active output found")
