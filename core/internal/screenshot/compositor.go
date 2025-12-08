@@ -5,6 +5,10 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/dwl_ipc"
+	wlhelpers "github.com/AvengeMedia/DankMaterialShell/core/internal/wayland/client"
+	"github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
 )
 
 type Compositor int
@@ -44,8 +48,40 @@ func DetectCompositor() Compositor {
 		return detectedCompositor
 	}
 
+	if detectDWLProtocol() {
+		detectedCompositor = CompositorDWL
+		return detectedCompositor
+	}
+
 	detectedCompositor = CompositorUnknown
 	return detectedCompositor
+}
+
+func detectDWLProtocol() bool {
+	display, err := client.Connect("")
+	if err != nil {
+		return false
+	}
+	ctx := display.Context()
+	defer ctx.Close()
+
+	registry, err := display.GetRegistry()
+	if err != nil {
+		return false
+	}
+
+	found := false
+	registry.SetGlobalHandler(func(e client.RegistryGlobalEvent) {
+		if e.Interface == dwl_ipc.ZdwlIpcManagerV2InterfaceName {
+			found = true
+		}
+	})
+
+	if err := wlhelpers.Roundtrip(display, ctx); err != nil {
+		return false
+	}
+
+	return found
 }
 
 func SetCompositorDWL() {
@@ -57,14 +93,18 @@ type WindowGeometry struct {
 	Y      int32
 	Width  int32
 	Height int32
+	Output string
+	Scale  float64
 }
 
 func GetActiveWindow() (*WindowGeometry, error) {
 	switch DetectCompositor() {
 	case CompositorHyprland:
 		return getHyprlandActiveWindow()
+	case CompositorDWL:
+		return getDWLActiveWindow()
 	default:
-		return nil, fmt.Errorf("window capture requires Hyprland")
+		return nil, fmt.Errorf("window capture requires Hyprland or DWL")
 	}
 }
 
@@ -220,7 +260,112 @@ func SetDWLActiveOutput(name string) {
 }
 
 func getDWLFocusedMonitor() string {
-	return dwlActiveOutput
+	if dwlActiveOutput != "" {
+		return dwlActiveOutput
+	}
+	return queryDWLActiveOutput()
+}
+
+func queryDWLActiveOutput() string {
+	display, err := client.Connect("")
+	if err != nil {
+		return ""
+	}
+	ctx := display.Context()
+	defer ctx.Close()
+
+	registry, err := display.GetRegistry()
+	if err != nil {
+		return ""
+	}
+
+	var dwlManager *dwl_ipc.ZdwlIpcManagerV2
+	outputs := make(map[uint32]*client.Output)
+
+	registry.SetGlobalHandler(func(e client.RegistryGlobalEvent) {
+		switch e.Interface {
+		case dwl_ipc.ZdwlIpcManagerV2InterfaceName:
+			mgr := dwl_ipc.NewZdwlIpcManagerV2(ctx)
+			if err := registry.Bind(e.Name, e.Interface, e.Version, mgr); err == nil {
+				dwlManager = mgr
+			}
+		case client.OutputInterfaceName:
+			out := client.NewOutput(ctx)
+			version := e.Version
+			if version > 4 {
+				version = 4
+			}
+			if err := registry.Bind(e.Name, e.Interface, version, out); err == nil {
+				outputs[e.Name] = out
+			}
+		}
+	})
+
+	if err := wlhelpers.Roundtrip(display, ctx); err != nil {
+		return ""
+	}
+
+	if dwlManager == nil || len(outputs) == 0 {
+		return ""
+	}
+
+	outputNames := make(map[uint32]string)
+	for name, out := range outputs {
+		n := name
+		out.SetNameHandler(func(e client.OutputNameEvent) {
+			outputNames[n] = e.Name
+		})
+	}
+
+	if err := wlhelpers.Roundtrip(display, ctx); err != nil {
+		return ""
+	}
+
+	type outputState struct {
+		name     string
+		active   bool
+		gotFrame bool
+	}
+	states := make(map[uint32]*outputState)
+
+	for name, out := range outputs {
+		dwlOut, err := dwlManager.GetOutput(out)
+		if err != nil {
+			continue
+		}
+		state := &outputState{name: outputNames[name]}
+		states[name] = state
+
+		dwlOut.SetActiveHandler(func(e dwl_ipc.ZdwlIpcOutputV2ActiveEvent) {
+			state.active = e.Active != 0
+		})
+		dwlOut.SetFrameHandler(func(e dwl_ipc.ZdwlIpcOutputV2FrameEvent) {
+			state.gotFrame = true
+		})
+	}
+
+	allFramesReceived := func() bool {
+		for _, s := range states {
+			if !s.gotFrame {
+				return false
+			}
+		}
+		return true
+	}
+
+	for !allFramesReceived() {
+		if err := ctx.Dispatch(); err != nil {
+			return ""
+		}
+	}
+
+	for _, state := range states {
+		if state.active {
+			return state.name
+		}
+	}
+
+	return ""
 }
 
 func GetFocusedMonitor() string {
@@ -235,4 +380,144 @@ func GetFocusedMonitor() string {
 		return getDWLFocusedMonitor()
 	}
 	return ""
+}
+
+func getDWLActiveWindow() (*WindowGeometry, error) {
+	display, err := client.Connect("")
+	if err != nil {
+		return nil, fmt.Errorf("connect: %w", err)
+	}
+	ctx := display.Context()
+	defer ctx.Close()
+
+	registry, err := display.GetRegistry()
+	if err != nil {
+		return nil, fmt.Errorf("get registry: %w", err)
+	}
+
+	var dwlManager *dwl_ipc.ZdwlIpcManagerV2
+	outputs := make(map[uint32]*client.Output)
+
+	registry.SetGlobalHandler(func(e client.RegistryGlobalEvent) {
+		switch e.Interface {
+		case dwl_ipc.ZdwlIpcManagerV2InterfaceName:
+			mgr := dwl_ipc.NewZdwlIpcManagerV2(ctx)
+			if err := registry.Bind(e.Name, e.Interface, e.Version, mgr); err == nil {
+				dwlManager = mgr
+			}
+		case client.OutputInterfaceName:
+			out := client.NewOutput(ctx)
+			version := e.Version
+			if version > 4 {
+				version = 4
+			}
+			if err := registry.Bind(e.Name, e.Interface, version, out); err == nil {
+				outputs[e.Name] = out
+			}
+		}
+	})
+
+	if err := wlhelpers.Roundtrip(display, ctx); err != nil {
+		return nil, fmt.Errorf("roundtrip: %w", err)
+	}
+
+	if dwlManager == nil {
+		return nil, fmt.Errorf("dwl_ipc_manager not available")
+	}
+
+	if len(outputs) == 0 {
+		return nil, fmt.Errorf("no outputs found")
+	}
+
+	outputNames := make(map[uint32]string)
+	for name, out := range outputs {
+		n := name
+		out.SetNameHandler(func(e client.OutputNameEvent) {
+			outputNames[n] = e.Name
+		})
+	}
+
+	if err := wlhelpers.Roundtrip(display, ctx); err != nil {
+		return nil, fmt.Errorf("roundtrip: %w", err)
+	}
+
+	type dwlOutputState struct {
+		output      *dwl_ipc.ZdwlIpcOutputV2
+		name        string
+		active      bool
+		x, y        int32
+		w, h        int32
+		scalefactor uint32
+		gotFrame    bool
+	}
+
+	dwlOutputs := make(map[uint32]*dwlOutputState)
+	for name, out := range outputs {
+		dwlOut, err := dwlManager.GetOutput(out)
+		if err != nil {
+			continue
+		}
+		state := &dwlOutputState{output: dwlOut, name: outputNames[name]}
+		dwlOutputs[name] = state
+
+		dwlOut.SetActiveHandler(func(e dwl_ipc.ZdwlIpcOutputV2ActiveEvent) {
+			state.active = e.Active != 0
+		})
+		dwlOut.SetXHandler(func(e dwl_ipc.ZdwlIpcOutputV2XEvent) {
+			state.x = e.X
+		})
+		dwlOut.SetYHandler(func(e dwl_ipc.ZdwlIpcOutputV2YEvent) {
+			state.y = e.Y
+		})
+		dwlOut.SetWidthHandler(func(e dwl_ipc.ZdwlIpcOutputV2WidthEvent) {
+			state.w = e.Width
+		})
+		dwlOut.SetHeightHandler(func(e dwl_ipc.ZdwlIpcOutputV2HeightEvent) {
+			state.h = e.Height
+		})
+		dwlOut.SetScalefactorHandler(func(e dwl_ipc.ZdwlIpcOutputV2ScalefactorEvent) {
+			state.scalefactor = e.Scalefactor
+		})
+		dwlOut.SetFrameHandler(func(e dwl_ipc.ZdwlIpcOutputV2FrameEvent) {
+			state.gotFrame = true
+		})
+	}
+
+	allFramesReceived := func() bool {
+		for _, s := range dwlOutputs {
+			if !s.gotFrame {
+				return false
+			}
+		}
+		return true
+	}
+
+	for !allFramesReceived() {
+		if err := ctx.Dispatch(); err != nil {
+			return nil, fmt.Errorf("dispatch: %w", err)
+		}
+	}
+
+	for _, state := range dwlOutputs {
+		if !state.active {
+			continue
+		}
+		if state.w <= 0 || state.h <= 0 {
+			return nil, fmt.Errorf("no active window")
+		}
+		scale := float64(state.scalefactor) / 100.0
+		if scale <= 0 {
+			scale = 1.0
+		}
+		return &WindowGeometry{
+			X:      state.x,
+			Y:      state.y,
+			Width:  state.w,
+			Height: state.h,
+			Output: state.name,
+			Scale:  scale,
+		}, nil
+	}
+
+	return nil, fmt.Errorf("no active output found")
 }

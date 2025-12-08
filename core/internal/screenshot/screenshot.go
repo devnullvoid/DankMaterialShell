@@ -135,16 +135,138 @@ func (s *Screenshoter) captureWindow() (*CaptureResult, error) {
 		Height: geom.Height,
 	}
 
-	output := s.findOutputForRegion(region)
+	var output *WaylandOutput
+	if geom.Output != "" {
+		output = s.findOutputByName(geom.Output)
+	}
+	if output == nil {
+		output = s.findOutputForRegion(region)
+	}
 	if output == nil {
 		return nil, fmt.Errorf("could not find output for window")
 	}
 
-	if DetectCompositor() == CompositorHyprland {
+	switch DetectCompositor() {
+	case CompositorHyprland:
 		return s.captureAndCrop(output, region)
+	case CompositorDWL:
+		return s.captureDWLWindow(output, region, geom.Scale)
+	default:
+		return s.captureRegionOnOutput(output, region)
+	}
+}
+
+func (s *Screenshoter) captureDWLWindow(output *WaylandOutput, region Region, dwlScale float64) (*CaptureResult, error) {
+	result, err := s.captureWholeOutput(output)
+	if err != nil {
+		return nil, err
 	}
 
-	return s.captureRegionOnOutput(output, region)
+	scale := dwlScale
+	if scale <= 0 {
+		scale = float64(result.Buffer.Width) / float64(output.width)
+	}
+	if scale <= 0 {
+		scale = 1.0
+	}
+
+	localX := int(float64(region.X) * scale)
+	localY := int(float64(region.Y) * scale)
+	if localX >= result.Buffer.Width {
+		localX = localX % result.Buffer.Width
+	}
+	if localY >= result.Buffer.Height {
+		localY = localY % result.Buffer.Height
+	}
+
+	w := int(float64(region.Width) * scale)
+	h := int(float64(region.Height) * scale)
+
+	if localY+h > result.Buffer.Height && h <= result.Buffer.Height {
+		localY = result.Buffer.Height - h
+		if localY < 0 {
+			localY = 0
+		}
+	}
+	if localX+w > result.Buffer.Width && w <= result.Buffer.Width {
+		localX = result.Buffer.Width - w
+		if localX < 0 {
+			localX = 0
+		}
+	}
+
+	if localX < 0 {
+		w += localX
+		localX = 0
+	}
+	if localY < 0 {
+		h += localY
+		localY = 0
+	}
+	if localX+w > result.Buffer.Width {
+		w = result.Buffer.Width - localX
+	}
+	if localY+h > result.Buffer.Height {
+		h = result.Buffer.Height - localY
+	}
+
+	if w <= 0 || h <= 0 {
+		result.Buffer.Close()
+		return nil, fmt.Errorf("window not visible on output")
+	}
+
+	cropped, err := CreateShmBuffer(w, h, w*4)
+	if err != nil {
+		result.Buffer.Close()
+		return nil, fmt.Errorf("create crop buffer: %w", err)
+	}
+
+	srcData := result.Buffer.Data()
+	dstData := cropped.Data()
+
+	for y := 0; y < h; y++ {
+		srcY := localY + y
+		if result.YInverted {
+			srcY = result.Buffer.Height - 1 - (localY + y)
+		}
+		if srcY < 0 || srcY >= result.Buffer.Height {
+			continue
+		}
+
+		dstY := y
+		if result.YInverted {
+			dstY = h - 1 - y
+		}
+
+		for x := 0; x < w; x++ {
+			srcX := localX + x
+			if srcX < 0 || srcX >= result.Buffer.Width {
+				continue
+			}
+
+			si := srcY*result.Buffer.Stride + srcX*4
+			di := dstY*cropped.Stride + x*4
+
+			if si+3 >= len(srcData) || di+3 >= len(dstData) {
+				continue
+			}
+
+			dstData[di+0] = srcData[si+0]
+			dstData[di+1] = srcData[si+1]
+			dstData[di+2] = srcData[si+2]
+			dstData[di+3] = srcData[si+3]
+		}
+	}
+
+	result.Buffer.Close()
+	cropped.Format = PixelFormat(result.Format)
+
+	return &CaptureResult{
+		Buffer:    cropped,
+		Region:    region,
+		YInverted: false,
+		Format:    result.Format,
+	}, nil
 }
 
 func (s *Screenshoter) captureFullScreen() (*CaptureResult, error) {
@@ -457,6 +579,31 @@ func (s *Screenshoter) captureRegionOnOutput(output *WaylandOutput, region Regio
 	w := int32(float64(region.Width) * scale)
 	h := int32(float64(region.Height) * scale)
 
+	if DetectCompositor() == CompositorDWL {
+		scaledOutW := int32(float64(output.width) * scale)
+		scaledOutH := int32(float64(output.height) * scale)
+		if localX >= scaledOutW {
+			localX = localX % scaledOutW
+		}
+		if localY >= scaledOutH {
+			localY = localY % scaledOutH
+		}
+		if localX+w > scaledOutW {
+			w = scaledOutW - localX
+		}
+		if localY+h > scaledOutH {
+			h = scaledOutH - localY
+		}
+		if localX < 0 {
+			w += localX
+			localX = 0
+		}
+		if localY < 0 {
+			h += localY
+			localY = 0
+		}
+	}
+
 	cursor := int32(0)
 	if s.config.IncludeCursor {
 		cursor = 1
@@ -555,6 +702,17 @@ func (s *Screenshoter) processFrame(frame *wlr_screencopy.ZwlrScreencopyFrameV1,
 		YInverted: yInverted,
 		Format:    uint32(format),
 	}, nil
+}
+
+func (s *Screenshoter) findOutputByName(name string) *WaylandOutput {
+	s.outputsMu.Lock()
+	defer s.outputsMu.Unlock()
+	for _, o := range s.outputs {
+		if o.name == name {
+			return o
+		}
+	}
+	return nil
 }
 
 func (s *Screenshoter) findOutputForRegion(region Region) *WaylandOutput {
