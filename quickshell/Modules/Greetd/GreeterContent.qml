@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Services.Greetd
 import Quickshell.Services.Pam
@@ -35,19 +36,40 @@ Item {
         randomFact = Facts.getRandomFact()
     }
 
+    property bool weatherInitialized: false
+
+    function initWeatherService() {
+        if (weatherInitialized)
+            return
+        if (!GreetdSettings.settingsLoaded)
+            return
+        if (!GreetdSettings.weatherEnabled)
+            return
+
+        weatherInitialized = true
+        WeatherService.addRef()
+        WeatherService.forceRefresh()
+    }
+
+    Connections {
+        target: GreetdSettings
+        function onSettingsLoadedChanged() {
+            if (GreetdSettings.settingsLoaded)
+                initWeatherService()
+        }
+    }
+
     Component.onCompleted: {
         pickRandomFact()
-        WeatherService.addRef()
+        initWeatherService()
 
         if (isPrimaryScreen) {
             sessionListProc.running = true
             applyLastSuccessfulUser()
         }
 
-        if (CompositorService.isHyprland) {
+        if (CompositorService.isHyprland)
             updateHyprlandLayout()
-            hyprlandLayoutUpdateTimer.start()
-        }
     }
 
     function applyLastSuccessfulUser() {
@@ -61,10 +83,8 @@ Item {
     }
 
     Component.onDestruction: {
-        WeatherService.removeRef()
-        if (CompositorService.isHyprland) {
-            hyprlandLayoutUpdateTimer.stop()
-        }
+        if (weatherInitialized)
+            WeatherService.removeRef()
     }
 
     function updateHyprlandLayout() {
@@ -106,14 +126,15 @@ Item {
         }
     }
 
-    Timer {
-        id: hyprlandLayoutUpdateTimer
-        interval: 1000
-        running: false
-        repeat: true
-        onTriggered: updateHyprlandLayout()
-    }
+    Connections {
+        target: CompositorService.isHyprland ? Hyprland : null
+        enabled: CompositorService.isHyprland
 
+        function onRawEvent(event) {
+            if (event.name === "activelayout")
+                updateHyprlandLayout()
+        }
+    }
 
     Connections {
         target: GreetdMemory
@@ -750,13 +771,13 @@ Item {
                 visible: {
                     const keyboardVisible = (CompositorService.isNiri && NiriService.keyboardLayoutNames.length > 1) ||
                                           (CompositorService.isHyprland && hyprlandLayoutCount > 1)
-                    return keyboardVisible && WeatherService.weather.available
+                    return keyboardVisible && GreetdSettings.weatherEnabled && WeatherService.weather.available
                 }
             }
 
             Row {
                 spacing: 6
-                visible: WeatherService.weather.available
+                visible: GreetdSettings.weatherEnabled && WeatherService.weather.available
                 anchors.verticalCenter: parent.verticalCenter
 
                 DankIcon {
@@ -780,7 +801,7 @@ Item {
                 height: 24
                 color: Qt.rgba(255, 255, 255, 0.2)
                 anchors.verticalCenter: parent.verticalCenter
-                visible: WeatherService.weather.available && (NetworkService.networkStatus !== "disconnected" || BluetoothService.enabled || (AudioService.sink && AudioService.sink.audio) || BatteryService.batteryAvailable)
+                visible: GreetdSettings.weatherEnabled && WeatherService.weather.available && (NetworkService.networkStatus !== "disconnected" || BluetoothService.enabled || (AudioService.sink && AudioService.sink.audio) || BatteryService.batteryAvailable)
             }
 
             Row {

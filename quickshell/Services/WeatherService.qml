@@ -5,6 +5,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Io
 import qs.Common
+import qs.Modules.Greetd
 import "../Common/suncalc.js" as SunCalc
 
 Singleton {
@@ -509,27 +510,29 @@ Singleton {
     }
 
     function updateLocation() {
-        if (SettingsData.useAutoLocation) {
+        const useAuto = SessionData.isGreeterMode ? GreetdSettings.useAutoLocation : SettingsData.useAutoLocation;
+        const coords = SessionData.isGreeterMode ? GreetdSettings.weatherCoordinates : SettingsData.weatherCoordinates;
+        const cityName = SessionData.isGreeterMode ? GreetdSettings.weatherLocation : SettingsData.weatherLocation;
+
+        if (useAuto) {
             getLocationFromIP();
-        } else {
-            const coords = SettingsData.weatherCoordinates;
-            if (coords) {
-                const parts = coords.split(",");
-                if (parts.length === 2) {
-                    const lat = parseFloat(parts[0]);
-                    const lon = parseFloat(parts[1]);
-                    if (!isNaN(lat) && !isNaN(lon)) {
-                        getLocationFromCoords(lat, lon);
-                        return;
-                    }
+            return;
+        }
+
+        if (coords) {
+            const parts = coords.split(",");
+            if (parts.length === 2) {
+                const lat = parseFloat(parts[0]);
+                const lon = parseFloat(parts[1]);
+                if (!isNaN(lat) && !isNaN(lon)) {
+                    getLocationFromCoords(lat, lon);
+                    return;
                 }
             }
-
-            const cityName = SettingsData.weatherLocation;
-            if (cityName) {
-                getLocationFromCity(cityName);
-            }
         }
+
+        if (cityName)
+            getLocationFromCity(cityName);
     }
 
     function getLocationFromCoords(lat, lon) {
@@ -867,7 +870,7 @@ Singleton {
     Timer {
         id: updateTimer
         interval: nextInterval()
-        running: root.refCount > 0 && SettingsData.weatherEnabled
+        running: root.refCount > 0 && SettingsData.weatherEnabled && !SessionData.isGreeterMode
         repeat: true
         triggeredOnStart: true
         onTriggered: {
