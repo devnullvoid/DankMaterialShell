@@ -514,7 +514,7 @@ func (m Model) categorizeDependencies() map[string][]DependencyInfo {
 		switch dep.Name {
 		case "dms (DankMaterialShell)", "quickshell":
 			categories["Shell"] = append(categories["Shell"], dep)
-		case "hyprland", "grim", "slurp", "hyprctl", "grimblast":
+		case "hyprland", "hyprctl":
 			categories["Hyprland Components"] = append(categories["Hyprland Components"], dep)
 		case "niri":
 			categories["Niri Components"] = append(categories["Niri Components"], dep)

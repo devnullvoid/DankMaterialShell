@@ -228,10 +228,7 @@ func (b *BaseDistribution) detectHyprlandTools() []deps.Dependency {
 		name        string
 		description string
 	}{
-		{"grim", "Screenshot utility for Wayland"},
-		{"slurp", "Region selection utility for Wayland"},
 		{"hyprctl", "Hyprland control utility"},
-		{"grimblast", "Screenshot script for Hyprland"},
 		{"jq", "JSON processor"},
 	}
 
