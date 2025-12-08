@@ -108,13 +108,14 @@ Item {
             id: barRepeaterModel
             values: {
                 const configs = SettingsData.barConfigs;
-                return configs
-                    .map(c => ({ id: c.id, position: c.position }))
-                    .sort((a, b) => {
-                        const aVertical = a.position === SettingsData.Position.Left || a.position === SettingsData.Position.Right;
-                        const bVertical = b.position === SettingsData.Position.Left || b.position === SettingsData.Position.Right;
-                        return aVertical - bVertical;
-                    });
+                return configs.map(c => ({
+                            id: c.id,
+                            position: c.position
+                        })).sort((a, b) => {
+                    const aVertical = a.position === SettingsData.Position.Left || a.position === SettingsData.Position.Right;
+                    const bVertical = b.position === SettingsData.Position.Left || b.position === SettingsData.Position.Right;
+                    return aVertical - bVertical;
+                });
             }
         }
 
@@ -142,9 +143,34 @@ Item {
         }
     }
 
+    property bool dockEnabled: false
+
+    Timer {
+        id: dockRecreateDebounce
+        interval: 500
+        repeat: false
+        onTriggered: {
+            root.dockEnabled = false;
+            Qt.callLater(() => {
+                root.dockEnabled = true;
+            });
+        }
+    }
+
+    Component.onCompleted: {
+        dockRecreateDebounce.start();
+    }
+
+    Connections {
+        target: SettingsData
+        function onBarConfigsChanged() {
+            dockRecreateDebounce.restart();
+        }
+    }
+
     Loader {
         id: dockLoader
-        active: true
+        active: root.dockEnabled
         asynchronous: false
 
         property var currentPosition: SettingsData.dockPosition
@@ -440,62 +466,71 @@ Item {
         title: I18n.tr("Open with...")
 
         function shellEscape(str) {
-            return "'" + str.replace(/'/g, "'\\''") + "'"
+            return "'" + str.replace(/'/g, "'\\''") + "'";
         }
 
         onApplicationSelected: (app, filePath) => {
-            if (!app) return
+            if (!app)
+                return;
+            let cmd = app.exec || "";
+            const escapedPath = shellEscape(filePath);
+            const escapedUri = shellEscape("file://" + filePath);
 
-            let cmd = app.exec || ""
-            const escapedPath = shellEscape(filePath)
-            const escapedUri = shellEscape("file://" + filePath)
-
-            let hasField = false
-            if (cmd.includes("%f")) { cmd = cmd.replace("%f", escapedPath); hasField = true }
-            else if (cmd.includes("%F")) { cmd = cmd.replace("%F", escapedPath); hasField = true }
-            else if (cmd.includes("%u")) { cmd = cmd.replace("%u", escapedUri); hasField = true }
-            else if (cmd.includes("%U")) { cmd = cmd.replace("%U", escapedUri); hasField = true }
-
-            cmd = cmd.replace(/%[ikc]/g, "")
-
-            if (!hasField) {
-                cmd += " " + escapedPath
+            let hasField = false;
+            if (cmd.includes("%f")) {
+                cmd = cmd.replace("%f", escapedPath);
+                hasField = true;
+            } else if (cmd.includes("%F")) {
+                cmd = cmd.replace("%F", escapedPath);
+                hasField = true;
+            } else if (cmd.includes("%u")) {
+                cmd = cmd.replace("%u", escapedUri);
+                hasField = true;
+            } else if (cmd.includes("%U")) {
+                cmd = cmd.replace("%U", escapedUri);
+                hasField = true;
             }
 
-            console.log("FilePicker: Launching", cmd)
+            cmd = cmd.replace(/%[ikc]/g, "");
+
+            if (!hasField) {
+                cmd += " " + escapedPath;
+            }
+
+            console.log("FilePicker: Launching", cmd);
 
             Quickshell.execDetached({
                 command: ["sh", "-c", cmd]
-            })
+            });
         }
     }
 
     Connections {
         target: DMSService
         function onOpenUrlRequested(url) {
-            browserPickerModal.url = url
-            browserPickerModal.open()
+            browserPickerModal.url = url;
+            browserPickerModal.open();
         }
 
         function onAppPickerRequested(data) {
-            console.log("DMSShell: App picker requested with data:", JSON.stringify(data))
+            console.log("DMSShell: App picker requested with data:", JSON.stringify(data));
 
             if (!data || !data.target) {
-                console.warn("DMSShell: Invalid app picker request data")
-                return
+                console.warn("DMSShell: Invalid app picker request data");
+                return;
             }
 
-            filePickerModal.targetData = data.target
-            filePickerModal.targetDataLabel = data.requestType || "file"
+            filePickerModal.targetData = data.target;
+            filePickerModal.targetDataLabel = data.requestType || "file";
 
             if (data.categories && data.categories.length > 0) {
-                filePickerModal.categoryFilter = data.categories
+                filePickerModal.categoryFilter = data.categories;
             } else {
-                filePickerModal.categoryFilter = []
+                filePickerModal.categoryFilter = [];
             }
 
-            filePickerModal.usageHistoryKey = "filePickerUsageHistory"
-            filePickerModal.open()
+            filePickerModal.usageHistoryKey = "filePickerUsageHistory";
+            filePickerModal.open();
         }
     }
 
