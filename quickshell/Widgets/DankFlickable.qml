@@ -46,11 +46,12 @@ Flickable {
             lastWheelTime = currentTime;
 
             const hasPixel = event.pixelDelta && event.pixelDelta.y !== 0;
-            const hasAngle = event.angleDelta && event.angleDelta.y !== 0;
             const deltaY = event.angleDelta.y;
-            const isMouseWheel = !hasPixel && hasAngle;
+            const isTraditionalMouse = !hasPixel && Math.abs(deltaY) >= 120 && (Math.abs(deltaY) % 120) === 0;
+            const isHighDpiMouse = !hasPixel && !isTraditionalMouse && deltaY !== 0;
+            const isTouchpad = hasPixel;
 
-            if (isMouseWheel) {
+            if (isTraditionalMouse) {
                 sessionUsedMouseWheel = true;
                 momentumTimer.stop();
                 flickable.isMomentumActive = false;
@@ -58,7 +59,7 @@ Flickable {
                 momentum = 0;
                 flickable.momentumVelocity = 0;
 
-                const lines = Math.floor(Math.abs(deltaY) / 120);
+                const lines = Math.round(Math.abs(deltaY) / 120);
                 const scrollAmount = (deltaY > 0 ? -lines : lines) * flickable.mouseWheelSpeed;
                 let newY = flickable.contentY + scrollAmount;
                 newY = Math.max(0, Math.min(flickable.contentHeight - flickable.height, newY));
@@ -68,17 +69,29 @@ Flickable {
                 }
 
                 flickable.contentY = newY;
-            } else {
+            } else if (isHighDpiMouse) {
+                sessionUsedMouseWheel = true;
+                momentumTimer.stop();
+                flickable.isMomentumActive = false;
+                velocitySamples = [];
+                momentum = 0;
+                flickable.momentumVelocity = 0;
+
+                let delta = deltaY / 8 * touchpadSpeed;
+                let newY = flickable.contentY - delta;
+                newY = Math.max(0, Math.min(flickable.contentHeight - flickable.height, newY));
+
+                if (flickable.flicking) {
+                    flickable.cancelFlick();
+                }
+
+                flickable.contentY = newY;
+            } else if (isTouchpad) {
                 sessionUsedMouseWheel = false;
                 momentumTimer.stop();
                 flickable.isMomentumActive = false;
 
-                let delta = 0;
-                if (event.pixelDelta.y !== 0) {
-                    delta = event.pixelDelta.y * touchpadSpeed;
-                } else {
-                    delta = event.angleDelta.y / 8 * touchpadSpeed;
-                }
+                let delta = event.pixelDelta.y * touchpadSpeed;
 
                 velocitySamples.push({
                     "delta": delta,
@@ -94,7 +107,7 @@ Flickable {
                     }
                 }
 
-                if (event.pixelDelta.y !== 0 && timeDelta < 50) {
+                if (timeDelta < 50) {
                     momentum = momentum * momentumRetention + delta * 0.15;
                     delta += momentum;
                 } else {

@@ -50,11 +50,12 @@ GridView {
             lastWheelTime = currentTime;
 
             const hasPixel = event.pixelDelta && event.pixelDelta.y !== 0;
-            const hasAngle = event.angleDelta && event.angleDelta.y !== 0;
             const deltaY = event.angleDelta.y;
-            const isMouseWheel = !hasPixel && hasAngle;
+            const isTraditionalMouse = !hasPixel && Math.abs(deltaY) >= 120 && (Math.abs(deltaY) % 120) === 0;
+            const isHighDpiMouse = !hasPixel && !isTraditionalMouse && deltaY !== 0;
+            const isTouchpad = hasPixel;
 
-            if (isMouseWheel) {
+            if (isTraditionalMouse) {
                 sessionUsedMouseWheel = true;
                 momentumTimer.stop();
                 isMomentumActive = false;
@@ -62,7 +63,7 @@ GridView {
                 momentum = 0;
                 momentumVelocity = 0;
 
-                const lines = Math.floor(Math.abs(deltaY) / 120);
+                const lines = Math.round(Math.abs(deltaY) / 120);
                 const scrollAmount = (deltaY > 0 ? -lines : lines) * cellHeight * 0.35;
                 let newY = contentY + scrollAmount;
                 newY = Math.max(0, Math.min(contentHeight - height, newY));
@@ -72,12 +73,29 @@ GridView {
                 }
 
                 contentY = newY;
-            } else {
+            } else if (isHighDpiMouse) {
+                sessionUsedMouseWheel = true;
+                momentumTimer.stop();
+                isMomentumActive = false;
+                velocitySamples = [];
+                momentum = 0;
+                momentumVelocity = 0;
+
+                let delta = deltaY / 120 * cellHeight * 1.2;
+                let newY = contentY - delta;
+                newY = Math.max(0, Math.min(contentHeight - height, newY));
+
+                if (flicking) {
+                    cancelFlick();
+                }
+
+                contentY = newY;
+            } else if (isTouchpad) {
                 sessionUsedMouseWheel = false;
                 momentumTimer.stop();
                 isMomentumActive = false;
 
-                let delta = event.pixelDelta.y !== 0 ? event.pixelDelta.y * touchpadSpeed : event.angleDelta.y / 120 * cellHeight * 1.2;
+                let delta = event.pixelDelta.y * touchpadSpeed;
 
                 velocitySamples.push({
                     "delta": delta,
@@ -93,7 +111,7 @@ GridView {
                     }
                 }
 
-                if (event.pixelDelta.y !== 0 && timeDelta < 50) {
+                if (timeDelta < 50) {
                     momentum = momentum * momentumRetention + delta * 0.15;
                     delta += momentum;
                 } else {

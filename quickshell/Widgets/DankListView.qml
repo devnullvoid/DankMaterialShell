@@ -69,11 +69,12 @@ ListView {
             lastWheelTime = currentTime;
 
             const hasPixel = event.pixelDelta && event.pixelDelta.y !== 0;
-            const hasAngle = event.angleDelta && event.angleDelta.y !== 0;
             const deltaY = event.angleDelta.y;
-            const isMouseWheel = !hasPixel && hasAngle;
+            const isTraditionalMouse = !hasPixel && Math.abs(deltaY) >= 120 && (Math.abs(deltaY) % 120) === 0;
+            const isHighDpiMouse = !hasPixel && !isTraditionalMouse && deltaY !== 0;
+            const isTouchpad = hasPixel;
 
-            if (isMouseWheel) {
+            if (isTraditionalMouse) {
                 sessionUsedMouseWheel = true;
                 momentumTimer.stop();
                 isMomentumActive = false;
@@ -81,7 +82,7 @@ ListView {
                 momentum = 0;
                 momentumVelocity = 0;
 
-                const lines = Math.floor(Math.abs(deltaY) / 120);
+                const lines = Math.round(Math.abs(deltaY) / 120);
                 const scrollAmount = (deltaY > 0 ? -lines : lines) * mouseWheelSpeed;
                 let newY = listView.contentY + scrollAmount;
                 const maxY = Math.max(0, listView.contentHeight - listView.height + listView.originY);
@@ -93,17 +94,31 @@ ListView {
 
                 listView.contentY = newY;
                 savedY = newY;
-            } else {
+            } else if (isHighDpiMouse) {
+                sessionUsedMouseWheel = true;
+                momentumTimer.stop();
+                isMomentumActive = false;
+                velocitySamples = [];
+                momentum = 0;
+                momentumVelocity = 0;
+
+                let delta = deltaY / 8 * touchpadSpeed;
+                let newY = listView.contentY - delta;
+                const maxY = Math.max(0, listView.contentHeight - listView.height + listView.originY);
+                newY = Math.max(listView.originY, Math.min(maxY, newY));
+
+                if (listView.flicking) {
+                    listView.cancelFlick();
+                }
+
+                listView.contentY = newY;
+                savedY = newY;
+            } else if (isTouchpad) {
                 sessionUsedMouseWheel = false;
                 momentumTimer.stop();
                 isMomentumActive = false;
 
-                let delta = 0;
-                if (event.pixelDelta.y !== 0) {
-                    delta = event.pixelDelta.y * touchpadSpeed;
-                } else {
-                    delta = event.angleDelta.y / 8 * touchpadSpeed;
-                }
+                let delta = event.pixelDelta.y * touchpadSpeed;
 
                 velocitySamples.push({
                     "delta": delta,
@@ -119,7 +134,7 @@ ListView {
                     }
                 }
 
-                if (event.pixelDelta.y !== 0 && timeDelta < 50) {
+                if (timeDelta < 50) {
                     momentum = momentum * 0.92 + delta * 0.15;
                     delta += momentum;
                 } else {
