@@ -451,6 +451,15 @@ func (g *GentooDistribution) InstallPackages(ctx context.Context, dependencies [
 		LogOutput:  "Starting post-installation configuration...",
 	}
 
+	terminal := g.DetectTerminalFromDeps(dependencies)
+	if err := g.WriteEnvironmentConfig(terminal); err != nil {
+		g.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
+	}
+
+	if err := g.EnableDMSService(ctx); err != nil {
+		g.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
+	}
+
 	progressChan <- InstallProgressMsg{
 		Phase:      PhaseComplete,
 		Progress:   1.0,

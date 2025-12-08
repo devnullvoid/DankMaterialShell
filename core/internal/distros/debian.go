@@ -333,6 +333,15 @@ func (d *DebianDistribution) InstallPackages(ctx context.Context, dependencies [
 		LogOutput:  "Starting post-installation configuration...",
 	}
 
+	terminal := d.DetectTerminalFromDeps(dependencies)
+	if err := d.WriteEnvironmentConfig(terminal); err != nil {
+		d.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
+	}
+
+	if err := d.EnableDMSService(ctx); err != nil {
+		d.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
+	}
+
 	progressChan <- InstallProgressMsg{
 		Phase:      PhaseComplete,
 		Progress:   1.0,

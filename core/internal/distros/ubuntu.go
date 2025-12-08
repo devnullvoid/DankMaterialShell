@@ -352,6 +352,15 @@ func (u *UbuntuDistribution) InstallPackages(ctx context.Context, dependencies [
 		LogOutput:  "Starting post-installation configuration...",
 	}
 
+	terminal := u.DetectTerminalFromDeps(dependencies)
+	if err := u.WriteEnvironmentConfig(terminal); err != nil {
+		u.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
+	}
+
+	if err := u.EnableDMSService(ctx); err != nil {
+		u.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
+	}
+
 	// Phase 7: Complete
 	progressChan <- InstallProgressMsg{
 		Phase:      PhaseComplete,

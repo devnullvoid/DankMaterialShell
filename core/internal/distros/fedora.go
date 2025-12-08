@@ -357,6 +357,15 @@ func (f *FedoraDistribution) InstallPackages(ctx context.Context, dependencies [
 		LogOutput:  "Starting post-installation configuration...",
 	}
 
+	terminal := f.DetectTerminalFromDeps(dependencies)
+	if err := f.WriteEnvironmentConfig(terminal); err != nil {
+		f.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
+	}
+
+	if err := f.EnableDMSService(ctx); err != nil {
+		f.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
+	}
+
 	// Phase 7: Complete
 	progressChan <- InstallProgressMsg{
 		Phase:      PhaseComplete,

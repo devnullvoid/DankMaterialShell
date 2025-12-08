@@ -357,6 +357,15 @@ func (a *ArchDistribution) InstallPackages(ctx context.Context, dependencies []d
 		LogOutput:  "Starting post-installation configuration...",
 	}
 
+	terminal := a.DetectTerminalFromDeps(dependencies)
+	if err := a.WriteEnvironmentConfig(terminal); err != nil {
+		a.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
+	}
+
+	if err := a.EnableDMSService(ctx); err != nil {
+		a.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
+	}
+
 	// Phase 7: Complete
 	progressChan <- InstallProgressMsg{
 		Phase:      PhaseComplete,

@@ -549,6 +549,68 @@ func (b *BaseDistribution) runWithProgressStepTimeout(cmd *exec.Cmd, progressCha
 	}
 }
 
+func (b *BaseDistribution) DetectTerminalFromDeps(dependencies []deps.Dependency) deps.Terminal {
+	for _, dep := range dependencies {
+		switch dep.Name {
+		case "ghostty":
+			return deps.TerminalGhostty
+		case "kitty":
+			return deps.TerminalKitty
+		case "alacritty":
+			return deps.TerminalAlacritty
+		}
+	}
+	return deps.TerminalGhostty
+}
+
+func (b *BaseDistribution) WriteEnvironmentConfig(terminal deps.Terminal) error {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return fmt.Errorf("failed to get home directory: %w", err)
+	}
+
+	envDir := filepath.Join(homeDir, ".config", "environment.d")
+	if err := os.MkdirAll(envDir, 0755); err != nil {
+		return fmt.Errorf("failed to create environment.d directory: %w", err)
+	}
+
+	var terminalCmd string
+	switch terminal {
+	case deps.TerminalGhostty:
+		terminalCmd = "ghostty"
+	case deps.TerminalKitty:
+		terminalCmd = "kitty"
+	case deps.TerminalAlacritty:
+		terminalCmd = "alacritty"
+	default:
+		terminalCmd = "ghostty"
+	}
+
+	content := fmt.Sprintf(`QT_QPA_PLATFORM=wayland
+ELECTRON_OZONE_PLATFORM_HINT=auto
+QT_QPA_PLATFORMTHEME=gtk3
+QT_QPA_PLATFORMTHEME_QT6=gtk3
+TERMINAL=%s
+`, terminalCmd)
+
+	envFile := filepath.Join(envDir, "90-dms.conf")
+	if err := os.WriteFile(envFile, []byte(content), 0644); err != nil {
+		return fmt.Errorf("failed to write environment config: %w", err)
+	}
+
+	b.log(fmt.Sprintf("Wrote environment config to %s", envFile))
+	return nil
+}
+
+func (b *BaseDistribution) EnableDMSService(ctx context.Context) error {
+	cmd := exec.CommandContext(ctx, "systemctl", "--user", "enable", "--now", "dms")
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("failed to enable dms service: %w", err)
+	}
+	b.log("Enabled dms systemd user service")
+	return nil
+}
+
 // installDMSBinary installs the DMS binary from GitHub releases
 func (b *BaseDistribution) installDMSBinary(ctx context.Context, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
 	b.log("Installing/updating DMS binary...")
