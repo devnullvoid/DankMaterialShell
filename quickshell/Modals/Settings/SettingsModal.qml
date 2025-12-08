@@ -139,11 +139,6 @@ FloatingWindow {
         focus: true
 
         Keys.onPressed: event => {
-            if (event.key === Qt.Key_Escape) {
-                hide();
-                event.accepted = true;
-                return;
-            }
             if (event.key === Qt.Key_Down || (event.key === Qt.Key_Tab && !event.modifiers)) {
                 sidebar.navigateNext();
                 event.accepted = true;

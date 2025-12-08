@@ -46,6 +46,7 @@ FocusScope {
     property bool pathInputHasFocus: false
     property int actualGridColumns: 5
     property bool _initialized: false
+    property bool closeOnEscape: true
 
     signal fileSelected(string path)
     signal closeRequested
@@ -298,7 +299,7 @@ FocusScope {
         property int gridColumns: viewMode === "list" ? 1 : Math.max(1, actualGridColumns)
 
         function handleKey(event) {
-            if (event.key === Qt.Key_Escape) {
+            if (event.key === Qt.Key_Escape && root.closeOnEscape) {
                 closeRequested();
                 event.accepted = true;
                 return;

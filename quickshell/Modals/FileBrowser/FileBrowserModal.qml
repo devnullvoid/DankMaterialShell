@@ -59,6 +59,7 @@ FloatingWindow {
         id: content
         anchors.fill: parent
         focus: true
+        closeOnEscape: false
 
         browserTitle: fileBrowserModal.browserTitle
         browserIcon: fileBrowserModal.browserIcon

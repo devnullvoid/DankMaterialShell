@@ -112,12 +112,6 @@ FloatingWindow {
         focus: true
 
         Keys.onPressed: event => {
-            if (event.key === Qt.Key_Escape) {
-                hide();
-                event.accepted = true;
-                return;
-            }
-
             switch (event.key) {
             case Qt.Key_1:
                 currentTab = 0;
