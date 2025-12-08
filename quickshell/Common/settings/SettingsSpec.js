@@ -194,7 +194,7 @@ var SPEC = {
 
     lockScreenShowPowerActions: { def: true },
     enableFprint: { def: false },
-    maxFprintTries: { def: 3 },
+    maxFprintTries: { def: 15 },
     fprintdAvailable: { def: false, persist: false },
     lockScreenActiveMonitor: { def: "all" },
     lockScreenInactiveColor: { def: "#000000" },

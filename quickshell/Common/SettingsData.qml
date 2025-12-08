@@ -295,7 +295,7 @@ Singleton {
 
     property bool lockScreenShowPowerActions: true
     property bool enableFprint: false
-    property int maxFprintTries: 3
+    property int maxFprintTries: 15
     property bool fprintdAvailable: false
     property string lockScreenActiveMonitor: "all"
     property string lockScreenInactiveColor: "#000000"
