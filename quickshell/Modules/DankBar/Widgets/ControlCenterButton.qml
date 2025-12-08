@@ -173,7 +173,7 @@ BasePill {
 
                 DankIcon {
                     name: root.getNetworkIconName()
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: root.getNetworkIconColor()
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.showNetworkIcon && NetworkService.networkAvailable
@@ -181,7 +181,7 @@ BasePill {
 
                 DankIcon {
                     name: "vpn_lock"
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: NetworkService.vpnConnected ? Theme.primary : Theme.outlineButton
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.showVpnIcon && NetworkService.vpnAvailable && NetworkService.vpnConnected
@@ -189,7 +189,7 @@ BasePill {
 
                 DankIcon {
                     name: "bluetooth"
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: BluetoothService.connected ? Theme.primary : Theme.outlineButton
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.showBluetoothIcon && BluetoothService.available && BluetoothService.enabled
@@ -205,7 +205,7 @@ BasePill {
                     DankIcon {
                         id: audioIconV
                         name: root.getVolumeIconName()
-                        size: Theme.barIconSize(root.barThickness)
+                        size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
                         anchors.centerIn: parent
                     }
@@ -230,7 +230,7 @@ BasePill {
                     DankIcon {
                         id: micIconV
                         name: root.getMicIconName()
-                        size: Theme.barIconSize(root.barThickness)
+                        size: Theme.barIconSize(root.barThickness, -4)
                         color: root.getMicIconColor()
                         anchors.centerIn: parent
                     }
@@ -255,7 +255,7 @@ BasePill {
                     DankIcon {
                         id: brightnessIconV
                         name: root.getBrightnessIconName()
-                        size: Theme.barIconSize(root.barThickness)
+                        size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
                         anchors.centerIn: parent
                     }
@@ -272,7 +272,7 @@ BasePill {
 
                 DankIcon {
                     name: Theme.getBatteryIcon(BatteryService.batteryLevel, BatteryService.isCharging, BatteryService.batteryAvailable)
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: root.getBatteryIconColor()
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.showBatteryIcon && BatteryService.batteryAvailable
@@ -280,7 +280,7 @@ BasePill {
 
                 DankIcon {
                     name: "print"
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: Theme.primary
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.showPrinterIcon && CupsService.cupsAvailable && root.hasPrintJobs()
@@ -288,7 +288,7 @@ BasePill {
 
                 DankIcon {
                     name: "settings"
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: root.isActive ? Theme.primary : Theme.widgetIconColor
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.hasNoVisibleIcons()
@@ -304,7 +304,7 @@ BasePill {
                 DankIcon {
                     id: networkIcon
                     name: root.getNetworkIconName()
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: root.getNetworkIconColor()
                     anchors.verticalCenter: parent.verticalCenter
                     visible: root.showNetworkIcon && NetworkService.networkAvailable
@@ -313,7 +313,7 @@ BasePill {
                 DankIcon {
                     id: vpnIcon
                     name: "vpn_lock"
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: NetworkService.vpnConnected ? Theme.primary : Theme.outlineButton
                     anchors.verticalCenter: parent.verticalCenter
                     visible: root.showVpnIcon && NetworkService.vpnAvailable && NetworkService.vpnConnected
@@ -322,7 +322,7 @@ BasePill {
                 DankIcon {
                     id: bluetoothIcon
                     name: "bluetooth"
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: BluetoothService.connected ? Theme.primary : Theme.outlineButton
                     anchors.verticalCenter: parent.verticalCenter
                     visible: root.showBluetoothIcon && BluetoothService.available && BluetoothService.enabled
@@ -338,7 +338,7 @@ BasePill {
                     DankIcon {
                         id: audioIcon
                         name: root.getVolumeIconName()
-                        size: Theme.barIconSize(root.barThickness)
+                        size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
                         anchors.centerIn: parent
                     }
@@ -364,7 +364,7 @@ BasePill {
                     DankIcon {
                         id: micIcon
                         name: root.getMicIconName()
-                        size: Theme.barIconSize(root.barThickness)
+                        size: Theme.barIconSize(root.barThickness, -4)
                         color: root.getMicIconColor()
                         anchors.centerIn: parent
                     }
@@ -390,7 +390,7 @@ BasePill {
                     DankIcon {
                         id: brightnessIcon
                         name: root.getBrightnessIconName()
-                        size: Theme.barIconSize(root.barThickness)
+                        size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
                         anchors.centerIn: parent
                     }
@@ -409,7 +409,7 @@ BasePill {
                 DankIcon {
                     id: batteryIcon
                     name: Theme.getBatteryIcon(BatteryService.batteryLevel, BatteryService.isCharging, BatteryService.batteryAvailable)
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: root.getBatteryIconColor()
                     anchors.verticalCenter: parent.verticalCenter
                     visible: root.showBatteryIcon && BatteryService.batteryAvailable
@@ -418,7 +418,7 @@ BasePill {
                 DankIcon {
                     id: printerIcon
                     name: "print"
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: Theme.primary
                     anchors.verticalCenter: parent.verticalCenter
                     visible: root.showPrinterIcon && CupsService.cupsAvailable && root.hasPrintJobs()
@@ -426,7 +426,7 @@ BasePill {
 
                 DankIcon {
                     name: "settings"
-                    size: Theme.barIconSize(root.barThickness)
+                    size: Theme.barIconSize(root.barThickness, -4)
                     color: root.isActive ? Theme.primary : Theme.widgetIconColor
                     anchors.verticalCenter: parent.verticalCenter
                     visible: root.hasNoVisibleIcons()
