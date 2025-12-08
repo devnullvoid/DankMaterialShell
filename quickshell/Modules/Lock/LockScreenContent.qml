@@ -1110,7 +1110,7 @@ Item {
                 DankIcon {
                     name: "vpn_lock"
                     size: Theme.iconSize - 2
-                    color: NetworkService.vpnConnected ? Theme.primary : Qt.rgba(255, 255, 255, 0.5)
+                    color: "white"
                     anchors.verticalCenter: parent.verticalCenter
                     visible: NetworkService.vpnAvailable && NetworkService.vpnConnected
                 }
