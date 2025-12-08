@@ -3,7 +3,6 @@ import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell.Services.Mpris
 import Quickshell.Io
-import Quickshell
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -19,6 +18,8 @@ Item {
     property real popoutWidth: 0
     property real popoutHeight: 0
     property real contentOffsetY: 0
+    property string section: ""
+    property int barPosition: SettingsData.Position.Top
 
     signal showVolumeDropdown(point pos, var screen, bool rightEdge, var player, var players)
     signal showAudioDevicesDropdown(point pos, var screen, bool rightEdge)
@@ -40,7 +41,13 @@ Item {
         id: sharedTooltip
     }
 
-    readonly property bool isRightEdge: (SettingsData.barConfigs[0]?.position ?? SettingsData.Position.Top) === SettingsData.Position.Right
+    readonly property bool isRightEdge: {
+        if (barPosition === SettingsData.Position.Right)
+            return true;
+        if (barPosition === SettingsData.Position.Left)
+            return false;
+        return section === "right";
+    }
     readonly property bool __isChromeBrowser: {
         if (!activePlayer?.identity)
             return false;

@@ -358,6 +358,8 @@ DankPopout {
                                 popoutWidth: root.alignedWidth
                                 popoutHeight: root.alignedHeight
                                 contentOffsetY: Theme.spacingM + 48 + Theme.spacingS + Theme.spacingXS
+                                section: root.triggerSection
+                                barPosition: root.effectiveBarPosition
                                 Component.onCompleted: root.__mediaTabRef = this
                                 onShowVolumeDropdown: (pos, screen, rightEdge, player, players) => {
                                     root.__showVolumeDropdown(pos, rightEdge, player, players);
