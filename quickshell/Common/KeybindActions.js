@@ -197,14 +197,26 @@ const ACTION_ARGS = {
             { name: "focus", type: "bool", label: "Follow focus", default: false }
         ]
     },
+    "move-column-to-workspace-down": {
+        args: [{ name: "focus", type: "bool", label: "Follow focus", default: false }]
+    },
+    "move-column-to-workspace-up": {
+        args: [{ name: "focus", type: "bool", label: "Follow focus", default: false }]
+    },
     "screenshot": {
-        args: [{ name: "opts", type: "screenshot", label: "Options" }]
+        args: [{ name: "show-pointer", type: "bool", label: "Show pointer" }]
     },
     "screenshot-screen": {
-        args: [{ name: "opts", type: "screenshot", label: "Options" }]
+        args: [
+            { name: "show-pointer", type: "bool", label: "Show pointer" },
+            { name: "write-to-disk", type: "bool", label: "Save to disk" }
+        ]
     },
     "screenshot-window": {
-        args: [{ name: "opts", type: "screenshot", label: "Options" }]
+        args: [
+            { name: "show-pointer", type: "bool", label: "Show pointer" },
+            { name: "write-to-disk", type: "bool", label: "Save to disk" }
+        ]
     }
 };
 
@@ -288,11 +300,12 @@ function getActionLabel(action) {
     if (!action)
         return "";
 
-    const dmsAct = findDmsAction(action);
+    var dmsAct = findDmsAction(action);
     if (dmsAct)
         return dmsAct.label;
 
-    const compAct = findCompositorAction(action);
+    var base = action.split(" ")[0];
+    var compAct = findCompositorAction(base);
     if (compAct)
         return compAct.label;
 
@@ -337,7 +350,8 @@ function isValidAction(action) {
 function isKnownCompositorAction(action) {
     if (!action)
         return false;
-    return findCompositorAction(action) !== null;
+    var base = action.split(" ")[0];
+    return findCompositorAction(base) !== null;
 }
 
 function buildSpawnAction(command, args) {
@@ -404,10 +418,10 @@ function parseCompositorActionArgs(action) {
     if (!ACTION_ARGS[base])
         return { base: action, args: {} };
 
-    var argConfig = ACTION_ARGS[base];
     var argParts = parts.slice(1);
 
-    if (base === "move-column-to-workspace") {
+    switch (base) {
+    case "move-column-to-workspace":
         for (var i = 0; i < argParts.length; i++) {
             if (argParts[i] === "focus=true" || argParts[i] === "focus=false") {
                 args.focus = argParts[i] === "focus=true";
@@ -415,14 +429,24 @@ function parseCompositorActionArgs(action) {
                 args.index = argParts[i];
             }
         }
-    } else if (base.startsWith("screenshot")) {
-        args.opts = {};
-        for (var j = 0; j < argParts.length; j += 2) {
-            if (j + 1 < argParts.length)
-                args.opts[argParts[j]] = argParts[j + 1];
+        break;
+    case "move-column-to-workspace-down":
+    case "move-column-to-workspace-up":
+        for (var k = 0; k < argParts.length; k++) {
+            if (argParts[k] === "focus=true" || argParts[k] === "focus=false")
+                args.focus = argParts[k] === "focus=true";
         }
-    } else if (argParts.length > 0) {
-        args.value = argParts.join(" ");
+        break;
+    default:
+        if (base.startsWith("screenshot")) {
+            for (var j = 0; j < argParts.length; j++) {
+                var kv = argParts[j].split("=");
+                if (kv.length === 2)
+                    args[kv[0]] = kv[1] === "true";
+            }
+        } else if (argParts.length > 0) {
+            args.value = argParts.join(" ");
+        }
     }
 
     return { base: base, args: args };
@@ -437,24 +461,29 @@ function buildCompositorAction(base, args) {
     if (!args || Object.keys(args).length === 0)
         return base;
 
-    if (base === "move-column-to-workspace") {
+    switch (base) {
+    case "move-column-to-workspace":
         if (args.index)
             parts.push(args.index);
-        if (args.focus === true)
-            parts.push("focus=true");
-        else if (args.focus === false)
+        if (args.focus === false)
             parts.push("focus=false");
-    } else if (base.startsWith("screenshot") && args.opts) {
-        for (var key in args.opts) {
-            if (args.opts[key] !== undefined && args.opts[key] !== "") {
-                parts.push(key);
-                parts.push(args.opts[key]);
-            }
+        break;
+    case "move-column-to-workspace-down":
+    case "move-column-to-workspace-up":
+        if (args.focus === false)
+            parts.push("focus=false");
+        break;
+    default:
+        if (base.startsWith("screenshot")) {
+            if (args["show-pointer"] === true)
+                parts.push("show-pointer=true");
+            if (args["write-to-disk"] === true)
+                parts.push("write-to-disk=true");
+        } else if (args.value) {
+            parts.push(args.value);
+        } else if (args.index) {
+            parts.push(args.index);
         }
-    } else if (args.value) {
-        parts.push(args.value);
-    } else if (args.index) {
-        parts.push(args.index);
     }
 
     return parts.join(" ");

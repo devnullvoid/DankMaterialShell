@@ -602,8 +602,24 @@ func TestNiriParseActionWithProperties(t *testing.T) {
 	for _, kb := range result.Section.Keybinds {
 		switch kb.Action {
 		case "move-column-to-workspace":
-			if len(kb.Args) != 1 {
-				t.Errorf("move-column-to-workspace should have 1 arg, got %d", len(kb.Args))
+			if len(kb.Args) != 2 {
+				t.Errorf("move-column-to-workspace should have 2 args (index + focus), got %d", len(kb.Args))
+			}
+			hasIndex := false
+			hasFocus := false
+			for _, arg := range kb.Args {
+				if arg == "1" || arg == "2" {
+					hasIndex = true
+				}
+				if arg == "focus=false" {
+					hasFocus = true
+				}
+			}
+			if !hasIndex {
+				t.Errorf("move-column-to-workspace missing index arg")
+			}
+			if !hasFocus {
+				t.Errorf("move-column-to-workspace missing focus=false arg")
 			}
 		case "next-window":
 			if kb.Key != "Tab" {

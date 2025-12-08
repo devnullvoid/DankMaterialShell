@@ -371,6 +371,18 @@ func (n *NiriProvider) buildActionNode(action string) *document.Node {
 
 	node.SetName(parts[0])
 	for _, arg := range parts[1:] {
+		if strings.Contains(arg, "=") {
+			kv := strings.SplitN(arg, "=", 2)
+			switch kv[1] {
+			case "true":
+				node.AddProperty(kv[0], true, "")
+			case "false":
+				node.AddProperty(kv[0], false, "")
+			default:
+				node.AddProperty(kv[0], kv[1], "")
+			}
+			continue
+		}
 		node.AddArgument(arg, "")
 	}
 	return node
@@ -379,7 +391,7 @@ func (n *NiriProvider) buildActionNode(action string) *document.Node {
 func (n *NiriProvider) parseActionParts(action string) []string {
 	var parts []string
 	var current strings.Builder
-	var inQuote, escaped bool
+	var inQuote, escaped, wasQuoted bool
 
 	for _, r := range action {
 		switch {
@@ -389,17 +401,19 @@ func (n *NiriProvider) parseActionParts(action string) []string {
 		case r == '\\':
 			escaped = true
 		case r == '"':
+			wasQuoted = true
 			inQuote = !inQuote
 		case r == ' ' && !inQuote:
-			if current.Len() > 0 {
+			if current.Len() > 0 || wasQuoted {
 				parts = append(parts, current.String())
 				current.Reset()
+				wasQuoted = false
 			}
 		default:
 			current.WriteRune(r)
 		}
 	}
-	if current.Len() > 0 {
+	if current.Len() > 0 || wasQuoted {
 		parts = append(parts, current.String())
 	}
 	return parts
@@ -507,6 +521,10 @@ func (n *NiriProvider) writeBindNode(sb *strings.Builder, bind *overrideBind, in
 		for _, arg := range child.Arguments {
 			sb.WriteString(" ")
 			n.writeArg(sb, arg.ValueString(), forceQuote)
+		}
+		if child.Properties.Exist() {
+			sb.WriteString(" ")
+			sb.WriteString(strings.TrimLeft(child.Properties.String(), " "))
 		}
 	}
 	sb.WriteString("; }\n")

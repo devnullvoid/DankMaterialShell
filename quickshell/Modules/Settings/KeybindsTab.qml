@@ -597,7 +597,7 @@ Item {
                             onSaveBind: (originalKey, newData) => {
                                 KeybindsService.saveBind(originalKey, newData);
                                 keybindsTab._editingKey = newData.key;
-                                keybindsTab.expandedKey = modelData.action;
+                                keybindsTab.expandedKey = newData.action;
                             }
                             onRemoveBind: key => {
                                 const remainingKey = bindItem.keys.find(k => k.key !== key)?.key ?? "";

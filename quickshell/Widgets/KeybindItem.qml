@@ -650,9 +650,10 @@ Item {
                             }
 
                             onWheel: wheel => {
-                                if (!root.recording)
+                                if (!root.recording) {
+                                    wheel.accepted = false;
                                     return;
-
+                                }
                                 wheel.accepted = true;
 
                                 const mods = [];
@@ -959,12 +960,12 @@ Item {
                         Layout.preferredWidth: 120
                         compactMode: true
                         currentValue: {
-                            const action = root.editAction;
+                            const base = root.editAction.split(" ")[0];
                             const cats = KeybindsService.getCompositorCategories();
                             for (const cat of cats) {
                                 const actions = KeybindsService.getCompositorActions(cat);
                                 for (const act of actions) {
-                                    if (act.id === action)
+                                    if (act.id === base)
                                         return cat;
                                 }
                             }
@@ -1024,12 +1025,13 @@ Item {
                 }
 
                 RowLayout {
+                    id: optionsRow
                     Layout.fillWidth: true
                     spacing: Theme.spacingM
                     visible: root._actionType === "compositor" && !root.useCustomCompositor && Actions.getActionArgConfig(root.editAction)
 
-                    property var argConfig: Actions.getActionArgConfig(root.editAction)
-                    property var parsedArgs: Actions.parseCompositorActionArgs(root.editAction)
+                    readonly property var argConfig: Actions.getActionArgConfig(root.editAction)
+                    readonly property var parsedArgs: Actions.parseCompositorActionArgs(root.editAction)
 
                     StyledText {
                         text: I18n.tr("Options")
@@ -1048,56 +1050,75 @@ Item {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 40
                             visible: {
-                                const cfg = parent.parent.argConfig;
-                                if (!cfg || !cfg.config || !cfg.config.args)
+                                const cfg = optionsRow.argConfig;
+                                if (!cfg?.config?.args)
                                     return false;
                                 const firstArg = cfg.config.args[0];
                                 return firstArg && (firstArg.type === "text" || firstArg.type === "number");
                             }
-                            placeholderText: {
-                                const cfg = parent.parent.argConfig;
-                                if (!cfg || !cfg.config || !cfg.config.args)
-                                    return "";
-                                return cfg.config.args[0]?.placeholder || "";
+                            placeholderText: optionsRow.argConfig?.config?.args?.[0]?.placeholder || ""
+
+                            Connections {
+                                target: optionsRow
+                                function onParsedArgsChanged() {
+                                    const newText = optionsRow.parsedArgs?.args?.value || optionsRow.parsedArgs?.args?.index || "";
+                                    if (argValueField.text !== newText)
+                                        argValueField.text = newText;
+                                }
                             }
-                            text: parent.parent.parsedArgs?.args?.value || parent.parent.parsedArgs?.args?.index || ""
-                            onTextChanged: {
-                                const cfg = parent.parent.argConfig;
+
+                            Component.onCompleted: {
+                                text = optionsRow.parsedArgs?.args?.value || optionsRow.parsedArgs?.args?.index || "";
+                            }
+
+                            onEditingFinished: {
+                                const cfg = optionsRow.argConfig;
                                 if (!cfg)
                                     return;
-                                const base = parent.parent.parsedArgs?.base || root.editAction.split(" ")[0];
-                                const args = cfg.config.args[0]?.type === "number" ? {
-                                    index: text
-                                } : {
-                                    value: text
-                                };
+                                const parsed = optionsRow.parsedArgs;
+                                const args = {};
+                                if (cfg.config.args[0]?.type === "number")
+                                    args.index = text;
+                                else
+                                    args.value = text;
+                                if (parsed?.args?.focus === false)
+                                    args.focus = false;
                                 root.updateEdit({
-                                    action: Actions.buildCompositorAction(base, args)
+                                    action: Actions.buildCompositorAction(parsed?.base || cfg.base, args)
                                 });
                             }
                         }
 
                         RowLayout {
                             visible: {
-                                const cfg = parent.parent.argConfig;
-                                return cfg && cfg.base === "move-column-to-workspace";
+                                const cfg = optionsRow.argConfig;
+                                if (!cfg)
+                                    return false;
+                                switch (cfg.base) {
+                                case "move-column-to-workspace":
+                                case "move-column-to-workspace-down":
+                                case "move-column-to-workspace-up":
+                                    return true;
+                                }
+                                return false;
                             }
                             spacing: Theme.spacingXS
 
                             DankToggle {
                                 id: focusToggle
-                                checked: parent.parent.parent.parsedArgs?.args?.focus === true
-                                onCheckedChanged: {
-                                    const cfg = parent.parent.parent.argConfig;
+                                checked: optionsRow.parsedArgs?.args?.focus !== false
+                                onToggled: newChecked => {
+                                    const cfg = optionsRow.argConfig;
                                     if (!cfg)
                                         return;
-                                    const parsed = parent.parent.parent.parsedArgs;
-                                    const args = {
-                                        index: parsed?.args?.index || "",
-                                        focus: checked
-                                    };
+                                    const parsed = optionsRow.parsedArgs;
+                                    const args = {};
+                                    if (cfg.base === "move-column-to-workspace")
+                                        args.index = parsed?.args?.index || "";
+                                    if (!newChecked)
+                                        args.focus = false;
                                     root.updateEdit({
-                                        action: Actions.buildCompositorAction("move-column-to-workspace", args)
+                                        action: Actions.buildCompositorAction(cfg.base, args)
                                     });
                                 }
                             }
@@ -1110,59 +1131,53 @@ Item {
                         }
 
                         RowLayout {
-                            visible: {
-                                const cfg = parent.parent.argConfig;
-                                return cfg && cfg.base && cfg.base.startsWith("screenshot");
-                            }
+                            visible: optionsRow.argConfig?.base?.startsWith("screenshot") ?? false
                             spacing: Theme.spacingM
 
                             RowLayout {
                                 spacing: Theme.spacingXS
 
                                 DankToggle {
-                                    id: writeToDiskToggle
-                                    checked: parent.parent.parent.parent.parsedArgs?.args?.opts?.["write-to-disk"] === "true"
-                                    onCheckedChanged: {
-                                        const parsed = parent.parent.parent.parent.parsedArgs;
-                                        const base = parsed?.base || "screenshot";
-                                        const opts = parsed?.args?.opts || {};
-                                        opts["write-to-disk"] = checked ? "true" : "";
-                                        root.updateEdit({
-                                            action: Actions.buildCompositorAction(base, {
-                                                opts: opts
-                                            })
-                                        });
-                                    }
-                                }
-
-                                StyledText {
-                                    text: I18n.tr("Save")
-                                    font.pixelSize: Theme.fontSizeSmall
-                                    color: Theme.surfaceVariantText
-                                }
-                            }
-
-                            RowLayout {
-                                spacing: Theme.spacingXS
-
-                                DankToggle {
                                     id: showPointerToggle
-                                    checked: parent.parent.parent.parent.parsedArgs?.args?.opts?.["show-pointer"] === "true"
-                                    onCheckedChanged: {
-                                        const parsed = parent.parent.parent.parent.parsedArgs;
+                                    checked: optionsRow.parsedArgs?.args?.["show-pointer"] === true
+                                    onToggled: newChecked => {
+                                        const parsed = optionsRow.parsedArgs;
                                         const base = parsed?.base || "screenshot";
-                                        const opts = parsed?.args?.opts || {};
-                                        opts["show-pointer"] = checked ? "true" : "";
+                                        const args = Object.assign({}, parsed?.args || {});
+                                        args["show-pointer"] = newChecked;
                                         root.updateEdit({
-                                            action: Actions.buildCompositorAction(base, {
-                                                opts: opts
-                                            })
+                                            action: Actions.buildCompositorAction(base, args)
                                         });
                                     }
                                 }
 
                                 StyledText {
                                     text: I18n.tr("Pointer")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceVariantText
+                                }
+                            }
+
+                            RowLayout {
+                                visible: optionsRow.argConfig?.base !== "screenshot"
+                                spacing: Theme.spacingXS
+
+                                DankToggle {
+                                    id: writeToDiskToggle
+                                    checked: optionsRow.parsedArgs?.args?.["write-to-disk"] === true
+                                    onToggled: newChecked => {
+                                        const parsed = optionsRow.parsedArgs;
+                                        const base = parsed?.base || "screenshot-screen";
+                                        const args = Object.assign({}, parsed?.args || {});
+                                        args["write-to-disk"] = newChecked;
+                                        root.updateEdit({
+                                            action: Actions.buildCompositorAction(base, args)
+                                        });
+                                    }
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Save")
                                     font.pixelSize: Theme.fontSizeSmall
                                     color: Theme.surfaceVariantText
                                 }

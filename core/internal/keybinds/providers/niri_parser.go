@@ -265,6 +265,11 @@ func (p *NiriParser) parseKeybindNode(node *document.Node, _ string) *NiriKeyBin
 		for _, arg := range actionNode.Arguments {
 			args = append(args, arg.ValueString())
 		}
+		if actionNode.Properties != nil {
+			if val, ok := actionNode.Properties.Get("focus"); ok {
+				args = append(args, "focus="+val.String())
+			}
+		}
 	}
 
 	var description string
