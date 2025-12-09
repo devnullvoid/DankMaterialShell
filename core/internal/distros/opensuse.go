@@ -373,11 +373,11 @@ func (o *OpenSUSEDistribution) InstallPackages(ctx context.Context, dependencies
 	}
 
 	terminal := o.DetectTerminalFromDeps(dependencies)
-	if err := o.WriteEnvironmentConfig(terminal, wm); err != nil {
+	if err := o.WriteEnvironmentConfig(terminal); err != nil {
 		o.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
 	}
 
-	if err := o.EnableDMSService(ctx, wm); err != nil {
+	if err := o.EnableDMSService(ctx); err != nil {
 		o.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 

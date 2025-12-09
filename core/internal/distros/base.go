@@ -563,11 +563,7 @@ func (b *BaseDistribution) DetectTerminalFromDeps(dependencies []deps.Dependency
 	return deps.TerminalGhostty
 }
 
-func (b *BaseDistribution) WriteEnvironmentConfig(terminal deps.Terminal, wm deps.WindowManager) error {
-	if wm == deps.WindowManagerHyprland {
-		return nil
-	}
-
+func (b *BaseDistribution) WriteEnvironmentConfig(terminal deps.Terminal) error {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return fmt.Errorf("failed to get home directory: %w", err)
@@ -606,25 +602,12 @@ TERMINAL=%s
 	return nil
 }
 
-func (b *BaseDistribution) EnableDMSService(ctx context.Context, wm deps.WindowManager) error {
-	if wm == deps.WindowManagerHyprland {
-		return nil
-	}
-
+func (b *BaseDistribution) EnableDMSService(ctx context.Context) error {
 	cmd := exec.CommandContext(ctx, "systemctl", "--user", "enable", "--now", "dms")
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("failed to enable dms service: %w", err)
 	}
 	b.log("Enabled dms systemd user service")
-
-	if wm == deps.WindowManagerNiri {
-		addWantsCmd := exec.CommandContext(ctx, "systemctl", "--user", "add-wants", "niri.service", "dms")
-		if err := addWantsCmd.Run(); err != nil {
-			return fmt.Errorf("failed to add dms as niri.service want: %w", err)
-		}
-		b.log("Added dms as niri.service want")
-	}
-
 	return nil
 }
 

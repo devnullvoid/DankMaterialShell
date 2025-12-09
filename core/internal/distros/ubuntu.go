@@ -353,11 +353,11 @@ func (u *UbuntuDistribution) InstallPackages(ctx context.Context, dependencies [
 	}
 
 	terminal := u.DetectTerminalFromDeps(dependencies)
-	if err := u.WriteEnvironmentConfig(terminal, wm); err != nil {
+	if err := u.WriteEnvironmentConfig(terminal); err != nil {
 		u.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
 	}
 
-	if err := u.EnableDMSService(ctx, wm); err != nil {
+	if err := u.EnableDMSService(ctx); err != nil {
 		u.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 

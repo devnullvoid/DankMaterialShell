@@ -436,11 +436,11 @@ func (g *GentooDistribution) InstallPackages(ctx context.Context, dependencies [
 	}
 
 	terminal := g.DetectTerminalFromDeps(dependencies)
-	if err := g.WriteEnvironmentConfig(terminal, wm); err != nil {
+	if err := g.WriteEnvironmentConfig(terminal); err != nil {
 		g.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
 	}
 
-	if err := g.EnableDMSService(ctx, wm); err != nil {
+	if err := g.EnableDMSService(ctx); err != nil {
 		g.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 

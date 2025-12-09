@@ -406,7 +406,7 @@ func TestHyprlandConfigDeployment(t *testing.T) {
 		content, err := os.ReadFile(result.Path)
 		require.NoError(t, err)
 		assert.Contains(t, string(content), "# MONITOR CONFIG")
-		assert.Contains(t, string(content), "bind = $mod, T, exec, ghostty")
+		assert.Contains(t, string(content), "bind = $mod, T, exec, $TERMINAL")
 		assert.Contains(t, string(content), "exec-once = ")
 	})
 
@@ -442,7 +442,7 @@ general {
 		require.NoError(t, err)
 		assert.Contains(t, string(newContent), "monitor = DP-1, 1920x1080@144")
 		assert.Contains(t, string(newContent), "monitor = HDMI-A-1, 3840x2160@60")
-		assert.Contains(t, string(newContent), "bind = $mod, T, exec, kitty")
+		assert.Contains(t, string(newContent), "bind = $mod, T, exec, $TERMINAL")
 		assert.NotContains(t, string(newContent), "monitor = eDP-2")
 	})
 }
@@ -460,10 +460,7 @@ func TestHyprlandConfigStructure(t *testing.T) {
 	assert.Contains(t, HyprlandConfig, "# STARTUP APPS")
 	assert.Contains(t, HyprlandConfig, "# INPUT CONFIG")
 	assert.Contains(t, HyprlandConfig, "# KEYBINDINGS")
-	assert.Contains(t, HyprlandConfig, "# ENVIRONMENT VARS")
-	assert.Contains(t, HyprlandConfig, "{{TERMINAL_COMMAND}}")
-	assert.Contains(t, HyprlandConfig, "exec-once = dms run")
-	assert.Contains(t, HyprlandConfig, "bind = $mod, T, exec,")
+	assert.Contains(t, HyprlandConfig, "bind = $mod, T, exec, $TERMINAL")
 	assert.Contains(t, HyprlandConfig, "bind = $mod, space, exec, dms ipc call spotlight toggle")
 	assert.Contains(t, HyprlandConfig, "windowrulev2 = noborder, class:^(com\\.mitchellh\\.ghostty)$")
 }

@@ -334,11 +334,11 @@ func (d *DebianDistribution) InstallPackages(ctx context.Context, dependencies [
 	}
 
 	terminal := d.DetectTerminalFromDeps(dependencies)
-	if err := d.WriteEnvironmentConfig(terminal, wm); err != nil {
+	if err := d.WriteEnvironmentConfig(terminal); err != nil {
 		d.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
 	}
 
-	if err := d.EnableDMSService(ctx, wm); err != nil {
+	if err := d.EnableDMSService(ctx); err != nil {
 		d.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 
