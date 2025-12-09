@@ -154,11 +154,12 @@ func (n *NiriProvider) convertKeybind(kb *NiriKeyBinding, subcategory string, co
 	}
 
 	bind := keybinds.Keybind{
-		Key:         keyStr,
-		Description: kb.Description,
-		Action:      rawAction,
-		Subcategory: subcategory,
-		Source:      source,
+		Key:           keyStr,
+		Description:   kb.Description,
+		Action:        rawAction,
+		Subcategory:   subcategory,
+		Source:        source,
+		HideOnOverlay: kb.HideOnOverlay,
 	}
 
 	if source == "dms" && conflicts != nil {

@@ -340,38 +340,47 @@ func TestCalculateNextTransition(t *testing.T) {
 	}
 }
 
-func TestTimeOfDayToTime(t *testing.T) {
+func TestSunTimesWithTwilight(t *testing.T) {
+	lat := 40.7128
+	lon := -74.0060
+	date := time.Date(2024, 6, 21, 12, 0, 0, 0, time.Local)
+
+	times, cond := CalculateSunTimesWithTwilight(lat, lon, date, -6.0, 3.0)
+
+	if cond != SunNormal {
+		t.Errorf("expected SunNormal, got %v", cond)
+	}
+	if !times.Dawn.Before(times.Sunrise) {
+		t.Error("dawn should be before sunrise")
+	}
+	if !times.Sunrise.Before(times.Sunset) {
+		t.Error("sunrise should be before sunset")
+	}
+	if !times.Sunset.Before(times.Night) {
+		t.Error("sunset should be before night")
+	}
+}
+
+func TestSunConditions(t *testing.T) {
 	tests := []struct {
 		name     string
-		hours    float64
-		expected time.Time
+		lat      float64
+		date     time.Time
+		expected SunCondition
 	}{
 		{
-			name:     "noon",
-			hours:    12.0,
-			expected: time.Date(2024, 6, 21, 12, 0, 0, 0, time.Local),
-		},
-		{
-			name:     "half_past",
-			hours:    12.5,
-			expected: time.Date(2024, 6, 21, 12, 30, 0, 0, time.Local),
-		},
-		{
-			name:     "early_morning",
-			hours:    6.25,
-			expected: time.Date(2024, 6, 21, 6, 15, 0, 0, time.Local),
+			name:     "normal_conditions",
+			lat:      40.0,
+			date:     time.Date(2024, 6, 21, 12, 0, 0, 0, time.UTC),
+			expected: SunNormal,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result := timeOfDayToTime(tt.hours, 2024, 6, 21, time.Local)
-
-			if result.Hour() != tt.expected.Hour() {
-				t.Errorf("hour = %d, want %d", result.Hour(), tt.expected.Hour())
-			}
-			if result.Minute() != tt.expected.Minute() {
-				t.Errorf("minute = %d, want %d", result.Minute(), tt.expected.Minute())
+			_, cond := CalculateSunTimesWithTwilight(tt.lat, 0, tt.date, -6.0, 3.0)
+			if cond != tt.expected {
+				t.Errorf("expected condition %v, got %v", tt.expected, cond)
 			}
 		})
 	}

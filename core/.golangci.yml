@@ -22,6 +22,8 @@ linters:
         - (*os.Process).Signal
         - (*os.Process).Kill
         - syscall.Kill
+        # Seek on memfd (reset position before passing fd)
+        - syscall.Seek
         # DBus cleanup
         - (*github.com/godbus/dbus/v5.Conn).RemoveMatchSignal
         - (*github.com/godbus/dbus/v5.Conn).RemoveSignal

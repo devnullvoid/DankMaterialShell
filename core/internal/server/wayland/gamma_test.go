@@ -54,7 +54,7 @@ func TestGenerateGammaRamp(t *testing.T) {
 	}
 }
 
-func TestTemperatureToRGB(t *testing.T) {
+func TestCalcWhitepoint(t *testing.T) {
 	tests := []struct {
 		name string
 		temp int
@@ -67,32 +67,32 @@ func TestTemperatureToRGB(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			r, g, b := temperatureToRGB(tt.temp)
+			wp := calcWhitepoint(tt.temp)
 
-			if r < 0 || r > 1 {
-				t.Errorf("red out of range: %f", r)
+			if wp.r < 0 || wp.r > 1 {
+				t.Errorf("red out of range: %f", wp.r)
 			}
-			if g < 0 || g > 1 {
-				t.Errorf("green out of range: %f", g)
+			if wp.g < 0 || wp.g > 1 {
+				t.Errorf("green out of range: %f", wp.g)
 			}
-			if b < 0 || b > 1 {
-				t.Errorf("blue out of range: %f", b)
+			if wp.b < 0 || wp.b > 1 {
+				t.Errorf("blue out of range: %f", wp.b)
 			}
 		})
 	}
 }
 
-func TestTemperatureProgression(t *testing.T) {
+func TestWhitepointProgression(t *testing.T) {
 	temps := []int{3000, 4000, 5000, 6000, 6500}
 
 	var prevBlue float64
 	for i, temp := range temps {
-		_, _, b := temperatureToRGB(temp)
-		if i > 0 && b < prevBlue {
+		wp := calcWhitepoint(temp)
+		if i > 0 && wp.b < prevBlue {
 			t.Errorf("blue should increase with temperature, %d->%d: %f->%f",
-				temps[i-1], temp, prevBlue, b)
+				temps[i-1], temp, prevBlue, wp.b)
 		}
-		prevBlue = b
+		prevBlue = wp.b
 	}
 }
 

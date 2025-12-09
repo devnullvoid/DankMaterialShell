@@ -11,12 +11,13 @@ import (
 )
 
 type NiriKeyBinding struct {
-	Mods        []string
-	Key         string
-	Action      string
-	Args        []string
-	Description string
-	Source      string
+	Mods          []string
+	Key           string
+	Action        string
+	Args          []string
+	Description   string
+	HideOnOverlay bool
+	Source        string
 }
 
 type NiriSection struct {
@@ -273,19 +274,26 @@ func (p *NiriParser) parseKeybindNode(node *document.Node, _ string) *NiriKeyBin
 	}
 
 	var description string
+	var hideOnOverlay bool
 	if node.Properties != nil {
 		if val, ok := node.Properties.Get("hotkey-overlay-title"); ok {
-			description = val.ValueString()
+			switch val.ValueString() {
+			case "null", "":
+				hideOnOverlay = true
+			default:
+				description = val.ValueString()
+			}
 		}
 	}
 
 	return &NiriKeyBinding{
-		Mods:        mods,
-		Key:         key,
-		Action:      action,
-		Args:        args,
-		Description: description,
-		Source:      p.currentSource,
+		Mods:          mods,
+		Key:           key,
+		Action:        action,
+		Args:          args,
+		Description:   description,
+		HideOnOverlay: hideOnOverlay,
+		Source:        p.currentSource,
 	}
 }
 

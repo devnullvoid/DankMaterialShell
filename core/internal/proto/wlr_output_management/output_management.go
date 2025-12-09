@@ -238,9 +238,17 @@ func (i *ZwlrOutputManagerV1) Dispatch(opcode uint32, fd int, data []byte) {
 		l := 0
 		objectID := client.Uint32(data[l : l+4])
 		proxy := i.Context().GetProxy(objectID)
-		if proxy != nil {
-			e.Head = proxy.(*ZwlrOutputHeadV1)
+		if proxy == nil {
+			head := &ZwlrOutputHeadV1{}
+			head.SetContext(i.Context())
+			head.SetID(objectID)
+			registerServerProxy(i.Context(), head, objectID)
+			e.Head = head
+		} else if head, ok := proxy.(*ZwlrOutputHeadV1); ok {
+			e.Head = head
 		} else {
+			// Stale proxy of wrong type (can happen after suspend/resume)
+			// Replace it with the correct type
 			head := &ZwlrOutputHeadV1{}
 			head.SetContext(i.Context())
 			head.SetID(objectID)
@@ -715,9 +723,17 @@ func (i *ZwlrOutputHeadV1) Dispatch(opcode uint32, fd int, data []byte) {
 		l := 0
 		objectID := client.Uint32(data[l : l+4])
 		proxy := i.Context().GetProxy(objectID)
-		if proxy != nil {
-			e.Mode = proxy.(*ZwlrOutputModeV1)
+		if proxy == nil {
+			mode := &ZwlrOutputModeV1{}
+			mode.SetContext(i.Context())
+			mode.SetID(objectID)
+			registerServerProxy(i.Context(), mode, objectID)
+			e.Mode = mode
+		} else if mode, ok := proxy.(*ZwlrOutputModeV1); ok {
+			e.Mode = mode
 		} else {
+			// Stale proxy of wrong type (can happen after suspend/resume)
+			// Replace it with the correct type
 			mode := &ZwlrOutputModeV1{}
 			mode.SetContext(i.Context())
 			mode.SetID(objectID)
@@ -743,7 +759,26 @@ func (i *ZwlrOutputHeadV1) Dispatch(opcode uint32, fd int, data []byte) {
 		}
 		var e ZwlrOutputHeadV1CurrentModeEvent
 		l := 0
-		e.Mode = i.Context().GetProxy(client.Uint32(data[l : l+4])).(*ZwlrOutputModeV1)
+		objectID := client.Uint32(data[l : l+4])
+		proxy := i.Context().GetProxy(objectID)
+		if proxy == nil {
+			// Mode not yet registered, create it
+			mode := &ZwlrOutputModeV1{}
+			mode.SetContext(i.Context())
+			mode.SetID(objectID)
+			registerServerProxy(i.Context(), mode, objectID)
+			e.Mode = mode
+		} else if mode, ok := proxy.(*ZwlrOutputModeV1); ok {
+			e.Mode = mode
+		} else {
+			// Stale proxy of wrong type (can happen after suspend/resume)
+			// Replace it with the correct type
+			mode := &ZwlrOutputModeV1{}
+			mode.SetContext(i.Context())
+			mode.SetID(objectID)
+			registerServerProxy(i.Context(), mode, objectID)
+			e.Mode = mode
+		}
 		l += 4
 
 		i.currentModeHandler(e)

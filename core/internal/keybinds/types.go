@@ -1,12 +1,13 @@
 package keybinds
 
 type Keybind struct {
-	Key         string   `json:"key"`
-	Description string   `json:"desc"`
-	Action      string   `json:"action,omitempty"`
-	Subcategory string   `json:"subcat,omitempty"`
-	Source      string   `json:"source,omitempty"`
-	Conflict    *Keybind `json:"conflict,omitempty"`
+	Key           string   `json:"key"`
+	Description   string   `json:"desc"`
+	Action        string   `json:"action,omitempty"`
+	Subcategory   string   `json:"subcat,omitempty"`
+	Source        string   `json:"source,omitempty"`
+	HideOnOverlay bool     `json:"hideOnOverlay,omitempty"`
+	Conflict      *Keybind `json:"conflict,omitempty"`
 }
 
 type DMSBindsStatus struct {

@@ -96,6 +96,8 @@ DankModal {
 
                             for (let i = 0; i < binds.length; i++) {
                                 const bind = binds[i];
+                                if (bind.hideOnOverlay)
+                                    continue;
                                 if (bind.subcat) {
                                     hasSubcats = true;
                                     if (!subcats[bind.subcat])
@@ -107,6 +109,9 @@ DankModal {
                                     subcats["_root"].push(bind);
                                 }
                             }
+
+                            if (Object.keys(subcats).length === 0)
+                                continue;
 
                             processed[cat] = {
                                 hasSubcats: hasSubcats,
