@@ -27,12 +27,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "network manager not initialized")
 			return
 		}
-		netReq := network.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		network.HandleRequest(conn, netReq, networkManager)
+		network.HandleRequest(conn, req, networkManager)
 		return
 	}
 
@@ -46,12 +41,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "loginctl manager not initialized")
 			return
 		}
-		loginReq := loginctl.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		loginctl.HandleRequest(conn, loginReq, loginctlManager)
+		loginctl.HandleRequest(conn, req, loginctlManager)
 		return
 	}
 
@@ -60,12 +50,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "freedesktop manager not initialized")
 			return
 		}
-		freedeskReq := freedesktop.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		freedesktop.HandleRequest(conn, freedeskReq, freedesktopManager)
+		freedesktop.HandleRequest(conn, req, freedesktopManager)
 		return
 	}
 
@@ -74,12 +59,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "wayland manager not initialized")
 			return
 		}
-		waylandReq := wayland.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		wayland.HandleRequest(conn, waylandReq, waylandManager)
+		wayland.HandleRequest(conn, req, waylandManager)
 		return
 	}
 
@@ -88,12 +68,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "bluetooth manager not initialized")
 			return
 		}
-		bluezReq := bluez.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		bluez.HandleRequest(conn, bluezReq, bluezManager)
+		bluez.HandleRequest(conn, req, bluezManager)
 		return
 	}
 
@@ -102,12 +77,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "apppicker manager not initialized")
 			return
 		}
-		appPickerReq := apppicker.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		apppicker.HandleRequest(conn, appPickerReq, appPickerManager)
+		apppicker.HandleRequest(conn, req, appPickerManager)
 		return
 	}
 
@@ -116,12 +86,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "CUPS manager not initialized")
 			return
 		}
-		cupsReq := cups.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		cups.HandleRequest(conn, cupsReq, cupsManager)
+		cups.HandleRequest(conn, req, cupsManager)
 		return
 	}
 
@@ -130,12 +95,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "dwl manager not initialized")
 			return
 		}
-		dwlReq := dwl.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		dwl.HandleRequest(conn, dwlReq, dwlManager)
+		dwl.HandleRequest(conn, req, dwlManager)
 		return
 	}
 
@@ -144,12 +104,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "brightness manager not initialized")
 			return
 		}
-		brightnessReq := brightness.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		brightness.HandleRequest(conn, brightnessReq, brightnessManager)
+		brightness.HandleRequest(conn, req, brightnessManager)
 		return
 	}
 
@@ -170,12 +125,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 				return
 			}
 		}
-		extWorkspaceReq := extworkspace.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		extworkspace.HandleRequest(conn, extWorkspaceReq, extWorkspaceManager)
+		extworkspace.HandleRequest(conn, req, extWorkspaceManager)
 		return
 	}
 
@@ -184,12 +134,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "wlroutput manager not initialized")
 			return
 		}
-		wlrOutputReq := wlroutput.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		wlroutput.HandleRequest(conn, wlrOutputReq, wlrOutputManager)
+		wlroutput.HandleRequest(conn, req, wlrOutputManager)
 		return
 	}
 
@@ -198,12 +143,7 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			models.RespondError(conn, req.ID, "evdev manager not initialized")
 			return
 		}
-		evdevReq := evdev.Request{
-			ID:     req.ID,
-			Method: req.Method,
-			Params: req.Params,
-		}
-		evdev.HandleRequest(conn, evdevReq, evdevManager)
+		evdev.HandleRequest(conn, req, evdevManager)
 		return
 	}
 

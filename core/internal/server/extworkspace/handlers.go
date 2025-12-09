@@ -8,18 +8,12 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 )
 
-type Request struct {
-	ID     int            `json:"id,omitempty"`
-	Method string         `json:"method"`
-	Params map[string]any `json:"params,omitempty"`
-}
-
 type SuccessResult struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
 }
 
-func HandleRequest(conn net.Conn, req Request, manager *Manager) {
+func HandleRequest(conn net.Conn, req models.Request, manager *Manager) {
 	if manager == nil {
 		models.RespondError(conn, req.ID, "extworkspace manager not initialized")
 		return
@@ -43,12 +37,12 @@ func HandleRequest(conn net.Conn, req Request, manager *Manager) {
 	}
 }
 
-func handleGetState(conn net.Conn, req Request, manager *Manager) {
+func handleGetState(conn net.Conn, req models.Request, manager *Manager) {
 	state := manager.GetState()
 	models.Respond(conn, req.ID, state)
 }
 
-func handleActivateWorkspace(conn net.Conn, req Request, manager *Manager) {
+func handleActivateWorkspace(conn net.Conn, req models.Request, manager *Manager) {
 	groupID, ok := req.Params["groupID"].(string)
 	if !ok {
 		groupID = ""
@@ -68,7 +62,7 @@ func handleActivateWorkspace(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "workspace activated"})
 }
 
-func handleDeactivateWorkspace(conn net.Conn, req Request, manager *Manager) {
+func handleDeactivateWorkspace(conn net.Conn, req models.Request, manager *Manager) {
 	groupID, ok := req.Params["groupID"].(string)
 	if !ok {
 		groupID = ""
@@ -88,7 +82,7 @@ func handleDeactivateWorkspace(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "workspace deactivated"})
 }
 
-func handleRemoveWorkspace(conn net.Conn, req Request, manager *Manager) {
+func handleRemoveWorkspace(conn net.Conn, req models.Request, manager *Manager) {
 	groupID, ok := req.Params["groupID"].(string)
 	if !ok {
 		groupID = ""
@@ -108,7 +102,7 @@ func handleRemoveWorkspace(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "workspace removed"})
 }
 
-func handleCreateWorkspace(conn net.Conn, req Request, manager *Manager) {
+func handleCreateWorkspace(conn net.Conn, req models.Request, manager *Manager) {
 	groupID, ok := req.Params["groupID"].(string)
 	if !ok {
 		models.RespondError(conn, req.ID, "missing or invalid 'groupID' parameter")
@@ -129,7 +123,7 @@ func handleCreateWorkspace(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "workspace create requested"})
 }
 
-func handleSubscribe(conn net.Conn, req Request, manager *Manager) {
+func handleSubscribe(conn net.Conn, req models.Request, manager *Manager) {
 	clientID := fmt.Sprintf("client-%p", conn)
 	stateChan := manager.Subscribe(clientID)
 	defer manager.Unsubscribe(clientID)

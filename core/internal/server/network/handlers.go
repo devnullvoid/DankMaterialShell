@@ -7,20 +7,10 @@ import (
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/params"
 )
 
-type Request struct {
-	ID     int            `json:"id,omitempty"`
-	Method string         `json:"method"`
-	Params map[string]any `json:"params,omitempty"`
-}
-
-type SuccessResult struct {
-	Success bool   `json:"success"`
-	Message string `json:"message"`
-}
-
-func HandleRequest(conn net.Conn, req Request, manager *Manager) {
+func HandleRequest(conn net.Conn, req models.Request, manager *Manager) {
 	switch req.Method {
 	case "network.getState":
 		handleGetState(conn, req, manager)
@@ -89,32 +79,22 @@ func HandleRequest(conn net.Conn, req Request, manager *Manager) {
 	}
 }
 
-func handleCredentialsSubmit(conn net.Conn, req Request, manager *Manager) {
-	token, ok := req.Params["token"].(string)
-	if !ok {
+func handleCredentialsSubmit(conn net.Conn, req models.Request, manager *Manager) {
+	token, err := params.String(req.Params, "token")
+	if err != nil {
 		log.Warnf("handleCredentialsSubmit: missing or invalid token parameter")
-		models.RespondError(conn, req.ID, "missing or invalid 'token' parameter")
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	secretsRaw, ok := req.Params["secrets"].(map[string]any)
-	if !ok {
+	secrets, err := params.StringMap(req.Params, "secrets")
+	if err != nil {
 		log.Warnf("handleCredentialsSubmit: missing or invalid secrets parameter")
-		models.RespondError(conn, req.ID, "missing or invalid 'secrets' parameter")
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	secrets := make(map[string]string)
-	for k, v := range secretsRaw {
-		if str, ok := v.(string); ok {
-			secrets[k] = str
-		}
-	}
-
-	save := true
-	if saveParam, ok := req.Params["save"].(bool); ok {
-		save = saveParam
-	}
+	save := params.BoolOpt(req.Params, "save", true)
 
 	if err := manager.SubmitCredentials(token, secrets, save); err != nil {
 		log.Warnf("handleCredentialsSubmit: failed to submit credentials: %v", err)
@@ -123,13 +103,13 @@ func handleCredentialsSubmit(conn net.Conn, req Request, manager *Manager) {
 	}
 
 	log.Infof("handleCredentialsSubmit: credentials submitted successfully")
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "credentials submitted"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "credentials submitted"})
 }
 
-func handleCredentialsCancel(conn net.Conn, req Request, manager *Manager) {
-	token, ok := req.Params["token"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'token' parameter")
+func handleCredentialsCancel(conn net.Conn, req models.Request, manager *Manager) {
+	token, err := params.String(req.Params, "token")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -138,16 +118,15 @@ func handleCredentialsCancel(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "credentials cancelled"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "credentials cancelled"})
 }
 
-func handleGetState(conn net.Conn, req Request, manager *Manager) {
-	state := manager.GetState()
-	models.Respond(conn, req.ID, state)
+func handleGetState(conn net.Conn, req models.Request, manager *Manager) {
+	models.Respond(conn, req.ID, manager.GetState())
 }
 
-func handleScanWiFi(conn net.Conn, req Request, manager *Manager) {
-	device, _ := req.Params["device"].(string)
+func handleScanWiFi(conn net.Conn, req models.Request, manager *Manager) {
+	device := params.StringOpt(req.Params, "device", "")
 	var err error
 	if device != "" {
 		err = manager.ScanWiFiDevice(device)
@@ -158,33 +137,25 @@ func handleScanWiFi(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "scanning"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "scanning"})
 }
 
-func handleGetWiFiNetworks(conn net.Conn, req Request, manager *Manager) {
-	networks := manager.GetWiFiNetworks()
-	models.Respond(conn, req.ID, networks)
+func handleGetWiFiNetworks(conn net.Conn, req models.Request, manager *Manager) {
+	models.Respond(conn, req.ID, manager.GetWiFiNetworks())
 }
 
-func handleConnectWiFi(conn net.Conn, req Request, manager *Manager) {
-	ssid, ok := req.Params["ssid"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'ssid' parameter")
+func handleConnectWiFi(conn net.Conn, req models.Request, manager *Manager) {
+	ssid, err := params.String(req.Params, "ssid")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
 	var connReq ConnectionRequest
 	connReq.SSID = ssid
-
-	if password, ok := req.Params["password"].(string); ok {
-		connReq.Password = password
-	}
-	if username, ok := req.Params["username"].(string); ok {
-		connReq.Username = username
-	}
-	if device, ok := req.Params["device"].(string); ok {
-		connReq.Device = device
-	}
+	connReq.Password = params.StringOpt(req.Params, "password", "")
+	connReq.Username = params.StringOpt(req.Params, "username", "")
+	connReq.Device = params.StringOpt(req.Params, "device", "")
 
 	if interactive, ok := req.Params["interactive"].(bool); ok {
 		connReq.Interactive = interactive
@@ -206,27 +177,14 @@ func handleConnectWiFi(conn net.Conn, req Request, manager *Manager) {
 		}
 	}
 
-	if anonymousIdentity, ok := req.Params["anonymousIdentity"].(string); ok {
-		connReq.AnonymousIdentity = anonymousIdentity
-	}
-	if domainSuffixMatch, ok := req.Params["domainSuffixMatch"].(string); ok {
-		connReq.DomainSuffixMatch = domainSuffixMatch
-	}
-	if eapMethod, ok := req.Params["eapMethod"].(string); ok {
-		connReq.EAPMethod = eapMethod
-	}
-	if phase2Auth, ok := req.Params["phase2Auth"].(string); ok {
-		connReq.Phase2Auth = phase2Auth
-	}
-	if caCertPath, ok := req.Params["caCertPath"].(string); ok {
-		connReq.CACertPath = caCertPath
-	}
-	if clientCertPath, ok := req.Params["clientCertPath"].(string); ok {
-		connReq.ClientCertPath = clientCertPath
-	}
-	if privateKeyPath, ok := req.Params["privateKeyPath"].(string); ok {
-		connReq.PrivateKeyPath = privateKeyPath
-	}
+	connReq.AnonymousIdentity = params.StringOpt(req.Params, "anonymousIdentity", "")
+	connReq.DomainSuffixMatch = params.StringOpt(req.Params, "domainSuffixMatch", "")
+	connReq.EAPMethod = params.StringOpt(req.Params, "eapMethod", "")
+	connReq.Phase2Auth = params.StringOpt(req.Params, "phase2Auth", "")
+	connReq.CACertPath = params.StringOpt(req.Params, "caCertPath", "")
+	connReq.ClientCertPath = params.StringOpt(req.Params, "clientCertPath", "")
+	connReq.PrivateKeyPath = params.StringOpt(req.Params, "privateKeyPath", "")
+
 	if useSystemCACerts, ok := req.Params["useSystemCACerts"].(bool); ok {
 		connReq.UseSystemCACerts = &useSystemCACerts
 	}
@@ -236,11 +194,11 @@ func handleConnectWiFi(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "connecting"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "connecting"})
 }
 
-func handleDisconnectWiFi(conn net.Conn, req Request, manager *Manager) {
-	device, _ := req.Params["device"].(string)
+func handleDisconnectWiFi(conn net.Conn, req models.Request, manager *Manager) {
+	device := params.StringOpt(req.Params, "device", "")
 	var err error
 	if device != "" {
 		err = manager.DisconnectWiFiDevice(device)
@@ -251,13 +209,13 @@ func handleDisconnectWiFi(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "disconnected"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "disconnected"})
 }
 
-func handleForgetWiFi(conn net.Conn, req Request, manager *Manager) {
-	ssid, ok := req.Params["ssid"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'ssid' parameter")
+func handleForgetWiFi(conn net.Conn, req models.Request, manager *Manager) {
+	ssid, err := params.String(req.Params, "ssid")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -266,10 +224,10 @@ func handleForgetWiFi(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "forgotten"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "forgotten"})
 }
 
-func handleToggleWiFi(conn net.Conn, req Request, manager *Manager) {
+func handleToggleWiFi(conn net.Conn, req models.Request, manager *Manager) {
 	if err := manager.ToggleWiFi(); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
@@ -279,7 +237,7 @@ func handleToggleWiFi(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, map[string]bool{"enabled": state.WiFiEnabled})
 }
 
-func handleEnableWiFi(conn net.Conn, req Request, manager *Manager) {
+func handleEnableWiFi(conn net.Conn, req models.Request, manager *Manager) {
 	if err := manager.EnableWiFi(); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
@@ -287,7 +245,7 @@ func handleEnableWiFi(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, map[string]bool{"enabled": true})
 }
 
-func handleDisableWiFi(conn net.Conn, req Request, manager *Manager) {
+func handleDisableWiFi(conn net.Conn, req models.Request, manager *Manager) {
 	if err := manager.DisableWiFi(); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
@@ -295,29 +253,29 @@ func handleDisableWiFi(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, map[string]bool{"enabled": false})
 }
 
-func handleConnectEthernetSpecificConfig(conn net.Conn, req Request, manager *Manager) {
-	uuid, ok := req.Params["uuid"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'uuid' parameter")
+func handleConnectEthernetSpecificConfig(conn net.Conn, req models.Request, manager *Manager) {
+	uuid, err := params.String(req.Params, "uuid")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 	if err := manager.activateConnection(uuid); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "connecting"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "connecting"})
 }
 
-func handleConnectEthernet(conn net.Conn, req Request, manager *Manager) {
+func handleConnectEthernet(conn net.Conn, req models.Request, manager *Manager) {
 	if err := manager.ConnectEthernet(); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "connecting"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "connecting"})
 }
 
-func handleDisconnectEthernet(conn net.Conn, req Request, manager *Manager) {
-	device, _ := req.Params["device"].(string)
+func handleDisconnectEthernet(conn net.Conn, req models.Request, manager *Manager) {
+	device := params.StringOpt(req.Params, "device", "")
 	var err error
 	if device != "" {
 		err = manager.DisconnectEthernetDevice(device)
@@ -328,13 +286,13 @@ func handleDisconnectEthernet(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "disconnected"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "disconnected"})
 }
 
-func handleSetPreference(conn net.Conn, req Request, manager *Manager) {
-	preference, ok := req.Params["preference"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'preference' parameter")
+func handleSetPreference(conn net.Conn, req models.Request, manager *Manager) {
+	preference, err := params.String(req.Params, "preference")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -346,10 +304,10 @@ func handleSetPreference(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, map[string]string{"preference": preference})
 }
 
-func handleGetNetworkInfo(conn net.Conn, req Request, manager *Manager) {
-	ssid, ok := req.Params["ssid"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'ssid' parameter")
+func handleGetNetworkInfo(conn net.Conn, req models.Request, manager *Manager) {
+	ssid, err := params.String(req.Params, "ssid")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -362,10 +320,10 @@ func handleGetNetworkInfo(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, network)
 }
 
-func handleGetWiredNetworkInfo(conn net.Conn, req Request, manager *Manager) {
-	uuid, ok := req.Params["uuid"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'uuid' parameter")
+func handleGetWiredNetworkInfo(conn net.Conn, req models.Request, manager *Manager) {
+	uuid, err := params.String(req.Params, "uuid")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -378,7 +336,7 @@ func handleGetWiredNetworkInfo(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, network)
 }
 
-func handleSubscribe(conn net.Conn, req Request, manager *Manager) {
+func handleSubscribe(conn net.Conn, req models.Request, manager *Manager) {
 	clientID := fmt.Sprintf("client-%p", conn)
 	stateChan := manager.Subscribe(clientID)
 	defer manager.Unsubscribe(clientID)
@@ -408,7 +366,7 @@ func handleSubscribe(conn net.Conn, req Request, manager *Manager) {
 	}
 }
 
-func handleListVPNProfiles(conn net.Conn, req Request, manager *Manager) {
+func handleListVPNProfiles(conn net.Conn, req models.Request, manager *Manager) {
 	profiles, err := manager.ListVPNProfiles()
 	if err != nil {
 		log.Warnf("handleListVPNProfiles: failed to list profiles: %v", err)
@@ -419,7 +377,7 @@ func handleListVPNProfiles(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, profiles)
 }
 
-func handleListActiveVPN(conn net.Conn, req Request, manager *Manager) {
+func handleListActiveVPN(conn net.Conn, req models.Request, manager *Manager) {
 	active, err := manager.ListActiveVPN()
 	if err != nil {
 		log.Warnf("handleListActiveVPN: failed to list active VPNs: %v", err)
@@ -430,27 +388,15 @@ func handleListActiveVPN(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, active)
 }
 
-func handleConnectVPN(conn net.Conn, req Request, manager *Manager) {
-	uuidOrName, ok := req.Params["uuidOrName"].(string)
+func handleConnectVPN(conn net.Conn, req models.Request, manager *Manager) {
+	uuidOrName, ok := params.StringAlt(req.Params, "uuidOrName", "name", "uuid")
 	if !ok {
-		name, nameOk := req.Params["name"].(string)
-		uuid, uuidOk := req.Params["uuid"].(string)
-		if nameOk {
-			uuidOrName = name
-		} else if uuidOk {
-			uuidOrName = uuid
-		} else {
-			log.Warnf("handleConnectVPN: missing uuidOrName/name/uuid parameter")
-			models.RespondError(conn, req.ID, "missing 'uuidOrName', 'name', or 'uuid' parameter")
-			return
-		}
+		log.Warnf("handleConnectVPN: missing uuidOrName/name/uuid parameter")
+		models.RespondError(conn, req.ID, "missing 'uuidOrName', 'name', or 'uuid' parameter")
+		return
 	}
 
-	// Default to true - only allow one VPN connection at a time
-	singleActive := true
-	if sa, ok := req.Params["singleActive"].(bool); ok {
-		singleActive = sa
-	}
+	singleActive := params.BoolOpt(req.Params, "singleActive", true)
 
 	if err := manager.ConnectVPN(uuidOrName, singleActive); err != nil {
 		log.Warnf("handleConnectVPN: failed to connect: %v", err)
@@ -458,23 +404,15 @@ func handleConnectVPN(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "VPN connection initiated"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "VPN connection initiated"})
 }
 
-func handleDisconnectVPN(conn net.Conn, req Request, manager *Manager) {
-	uuidOrName, ok := req.Params["uuidOrName"].(string)
+func handleDisconnectVPN(conn net.Conn, req models.Request, manager *Manager) {
+	uuidOrName, ok := params.StringAlt(req.Params, "uuidOrName", "name", "uuid")
 	if !ok {
-		name, nameOk := req.Params["name"].(string)
-		uuid, uuidOk := req.Params["uuid"].(string)
-		if nameOk {
-			uuidOrName = name
-		} else if uuidOk {
-			uuidOrName = uuid
-		} else {
-			log.Warnf("handleDisconnectVPN: missing uuidOrName/name/uuid parameter")
-			models.RespondError(conn, req.ID, "missing 'uuidOrName', 'name', or 'uuid' parameter")
-			return
-		}
+		log.Warnf("handleDisconnectVPN: missing uuidOrName/name/uuid parameter")
+		models.RespondError(conn, req.ID, "missing 'uuidOrName', 'name', or 'uuid' parameter")
+		return
 	}
 
 	if err := manager.DisconnectVPN(uuidOrName); err != nil {
@@ -483,27 +421,21 @@ func handleDisconnectVPN(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "VPN disconnected"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "VPN disconnected"})
 }
 
-func handleDisconnectAllVPN(conn net.Conn, req Request, manager *Manager) {
+func handleDisconnectAllVPN(conn net.Conn, req models.Request, manager *Manager) {
 	if err := manager.DisconnectAllVPN(); err != nil {
 		log.Warnf("handleDisconnectAllVPN: failed: %v", err)
 		models.RespondError(conn, req.ID, fmt.Sprintf("failed to disconnect all VPNs: %v", err))
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "All VPNs disconnected"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "All VPNs disconnected"})
 }
 
-func handleClearVPNCredentials(conn net.Conn, req Request, manager *Manager) {
-	uuidOrName, ok := req.Params["uuid"].(string)
-	if !ok {
-		uuidOrName, ok = req.Params["name"].(string)
-	}
-	if !ok {
-		uuidOrName, ok = req.Params["uuidOrName"].(string)
-	}
+func handleClearVPNCredentials(conn net.Conn, req models.Request, manager *Manager) {
+	uuidOrName, ok := params.StringAlt(req.Params, "uuid", "name", "uuidOrName")
 	if !ok {
 		log.Warnf("handleClearVPNCredentials: missing uuidOrName/name/uuid parameter")
 		models.RespondError(conn, req.ID, "missing uuidOrName/name/uuid parameter")
@@ -516,19 +448,19 @@ func handleClearVPNCredentials(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "VPN credentials cleared"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "VPN credentials cleared"})
 }
 
-func handleSetWiFiAutoconnect(conn net.Conn, req Request, manager *Manager) {
-	ssid, ok := req.Params["ssid"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'ssid' parameter")
+func handleSetWiFiAutoconnect(conn net.Conn, req models.Request, manager *Manager) {
+	ssid, err := params.String(req.Params, "ssid")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	autoconnect, ok := req.Params["autoconnect"].(bool)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'autoconnect' parameter")
+	autoconnect, err := params.Bool(req.Params, "autoconnect")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -537,10 +469,10 @@ func handleSetWiFiAutoconnect(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "autoconnect updated"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "autoconnect updated"})
 }
 
-func handleListVPNPlugins(conn net.Conn, req Request, manager *Manager) {
+func handleListVPNPlugins(conn net.Conn, req models.Request, manager *Manager) {
 	plugins, err := manager.ListVPNPlugins()
 	if err != nil {
 		log.Warnf("handleListVPNPlugins: failed to list plugins: %v", err)
@@ -551,17 +483,14 @@ func handleListVPNPlugins(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, plugins)
 }
 
-func handleImportVPN(conn net.Conn, req Request, manager *Manager) {
-	filePath, ok := req.Params["file"].(string)
-	if !ok {
-		filePath, ok = req.Params["path"].(string)
-	}
+func handleImportVPN(conn net.Conn, req models.Request, manager *Manager) {
+	filePath, ok := params.StringAlt(req.Params, "file", "path")
 	if !ok {
 		models.RespondError(conn, req.ID, "missing 'file' or 'path' parameter")
 		return
 	}
 
-	name, _ := req.Params["name"].(string)
+	name := params.StringOpt(req.Params, "name", "")
 
 	result, err := manager.ImportVPN(filePath, name)
 	if err != nil {
@@ -573,14 +502,8 @@ func handleImportVPN(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, result)
 }
 
-func handleGetVPNConfig(conn net.Conn, req Request, manager *Manager) {
-	uuidOrName, ok := req.Params["uuid"].(string)
-	if !ok {
-		uuidOrName, ok = req.Params["name"].(string)
-	}
-	if !ok {
-		uuidOrName, ok = req.Params["uuidOrName"].(string)
-	}
+func handleGetVPNConfig(conn net.Conn, req models.Request, manager *Manager) {
+	uuidOrName, ok := params.StringAlt(req.Params, "uuid", "name", "uuidOrName")
 	if !ok {
 		models.RespondError(conn, req.ID, "missing 'uuid', 'name', or 'uuidOrName' parameter")
 		return
@@ -596,10 +519,10 @@ func handleGetVPNConfig(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, config)
 }
 
-func handleUpdateVPNConfig(conn net.Conn, req Request, manager *Manager) {
-	connUUID, ok := req.Params["uuid"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing 'uuid' parameter")
+func handleUpdateVPNConfig(conn net.Conn, req models.Request, manager *Manager) {
+	connUUID, err := params.String(req.Params, "uuid")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -626,17 +549,11 @@ func handleUpdateVPNConfig(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "VPN config updated"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "VPN config updated"})
 }
 
-func handleDeleteVPN(conn net.Conn, req Request, manager *Manager) {
-	uuidOrName, ok := req.Params["uuid"].(string)
-	if !ok {
-		uuidOrName, ok = req.Params["name"].(string)
-	}
-	if !ok {
-		uuidOrName, ok = req.Params["uuidOrName"].(string)
-	}
+func handleDeleteVPN(conn net.Conn, req models.Request, manager *Manager) {
+	uuidOrName, ok := params.StringAlt(req.Params, "uuid", "name", "uuidOrName")
 	if !ok {
 		models.RespondError(conn, req.ID, "missing 'uuid', 'name', or 'uuidOrName' parameter")
 		return
@@ -648,23 +565,19 @@ func handleDeleteVPN(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "VPN deleted"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "VPN deleted"})
 }
 
-func handleSetVPNCredentials(conn net.Conn, req Request, manager *Manager) {
-	connUUID, ok := req.Params["uuid"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing 'uuid' parameter")
+func handleSetVPNCredentials(conn net.Conn, req models.Request, manager *Manager) {
+	connUUID, err := params.String(req.Params, "uuid")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	username, _ := req.Params["username"].(string)
-	password, _ := req.Params["password"].(string)
-
-	save := true
-	if saveParam, ok := req.Params["save"].(bool); ok {
-		save = saveParam
-	}
+	username := params.StringOpt(req.Params, "username", "")
+	password := params.StringOpt(req.Params, "password", "")
+	save := params.BoolOpt(req.Params, "save", true)
 
 	if err := manager.SetVPNCredentials(connUUID, username, password, save); err != nil {
 		log.Warnf("handleSetVPNCredentials: failed to set credentials: %v", err)
@@ -672,5 +585,5 @@ func handleSetVPNCredentials(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "VPN credentials set"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "VPN credentials set"})
 }

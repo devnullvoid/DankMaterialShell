@@ -43,7 +43,7 @@ func TestHandleGetPrinters(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.getPrinters",
 	}
@@ -68,7 +68,7 @@ func TestHandleGetPrinters_Error(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.getPrinters",
 	}
@@ -100,7 +100,7 @@ func TestHandleGetJobs(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.getJobs",
 		Params: map[string]any{
@@ -127,7 +127,7 @@ func TestHandleGetJobs_MissingParam(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.getJobs",
 		Params: map[string]any{},
@@ -152,7 +152,7 @@ func TestHandlePausePrinter(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.pausePrinter",
 		Params: map[string]any{
@@ -162,7 +162,7 @@ func TestHandlePausePrinter(t *testing.T) {
 
 	handlePausePrinter(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -179,7 +179,7 @@ func TestHandleResumePrinter(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.resumePrinter",
 		Params: map[string]any{
@@ -189,7 +189,7 @@ func TestHandleResumePrinter(t *testing.T) {
 
 	handleResumePrinter(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -206,7 +206,7 @@ func TestHandleCancelJob(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.cancelJob",
 		Params: map[string]any{
@@ -216,7 +216,7 @@ func TestHandleCancelJob(t *testing.T) {
 
 	handleCancelJob(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -233,7 +233,7 @@ func TestHandlePurgeJobs(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.purgeJobs",
 		Params: map[string]any{
@@ -243,7 +243,7 @@ func TestHandlePurgeJobs(t *testing.T) {
 
 	handlePurgeJobs(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -260,7 +260,7 @@ func TestHandleRequest_UnknownMethod(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.unknownMethod",
 	}
@@ -287,7 +287,7 @@ func TestHandleGetDevices(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{ID: 1, Method: "cups.getDevices"}
+	req := models.Request{ID: 1, Method: "cups.getDevices"}
 	handleGetDevices(conn, req, m)
 
 	var resp models.Response[[]Device]
@@ -309,7 +309,7 @@ func TestHandleGetPPDs(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{ID: 1, Method: "cups.getPPDs"}
+	req := models.Request{ID: 1, Method: "cups.getPPDs"}
 	handleGetPPDs(conn, req, m)
 
 	var resp models.Response[[]PPD]
@@ -332,7 +332,7 @@ func TestHandleGetClasses(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{ID: 1, Method: "cups.getClasses"}
+	req := models.Request{ID: 1, Method: "cups.getClasses"}
 	handleGetClasses(conn, req, m)
 
 	var resp models.Response[[]PrinterClass]
@@ -353,7 +353,7 @@ func TestHandleCreatePrinter(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.createPrinter",
 		Params: map[string]any{
@@ -364,7 +364,7 @@ func TestHandleCreatePrinter(t *testing.T) {
 	}
 	handleCreatePrinter(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -377,7 +377,7 @@ func TestHandleCreatePrinter_MissingParams(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{ID: 1, Method: "cups.createPrinter", Params: map[string]any{}}
+	req := models.Request{ID: 1, Method: "cups.createPrinter", Params: map[string]any{}}
 	handleCreatePrinter(conn, req, m)
 
 	var resp models.Response[any]
@@ -396,14 +396,14 @@ func TestHandleDeletePrinter(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.deletePrinter",
 		Params: map[string]any{"printerName": "printer1"},
 	}
 	handleDeletePrinter(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -419,14 +419,14 @@ func TestHandleAcceptJobs(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.acceptJobs",
 		Params: map[string]any{"printerName": "printer1"},
 	}
 	handleAcceptJobs(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -442,14 +442,14 @@ func TestHandleRejectJobs(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.rejectJobs",
 		Params: map[string]any{"printerName": "printer1"},
 	}
 	handleRejectJobs(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -465,14 +465,14 @@ func TestHandleSetPrinterShared(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.setPrinterShared",
 		Params: map[string]any{"printerName": "printer1", "shared": true},
 	}
 	handleSetPrinterShared(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -488,14 +488,14 @@ func TestHandleSetPrinterLocation(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.setPrinterLocation",
 		Params: map[string]any{"printerName": "printer1", "location": "Office"},
 	}
 	handleSetPrinterLocation(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -511,14 +511,14 @@ func TestHandleSetPrinterInfo(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.setPrinterInfo",
 		Params: map[string]any{"printerName": "printer1", "info": "Main Printer"},
 	}
 	handleSetPrinterInfo(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -534,14 +534,14 @@ func TestHandleMoveJob(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.moveJob",
 		Params: map[string]any{"jobID": float64(1), "destPrinter": "printer2"},
 	}
 	handleMoveJob(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -557,7 +557,7 @@ func TestHandlePrintTestPage(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.printTestPage",
 		Params: map[string]any{"printerName": "printer1"},
@@ -581,14 +581,14 @@ func TestHandleAddPrinterToClass(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.addPrinterToClass",
 		Params: map[string]any{"className": "office", "printerName": "printer1"},
 	}
 	handleAddPrinterToClass(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -604,14 +604,14 @@ func TestHandleRemovePrinterFromClass(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.removePrinterFromClass",
 		Params: map[string]any{"className": "office", "printerName": "printer1"},
 	}
 	handleRemovePrinterFromClass(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -627,14 +627,14 @@ func TestHandleDeleteClass(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.deleteClass",
 		Params: map[string]any{"className": "office"},
 	}
 	handleDeleteClass(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -650,14 +650,14 @@ func TestHandleRestartJob(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.restartJob",
 		Params: map[string]any{"jobID": float64(1)},
 	}
 	handleRestartJob(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -673,14 +673,14 @@ func TestHandleHoldJob(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.holdJob",
 		Params: map[string]any{"jobID": float64(1)},
 	}
 	handleHoldJob(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)
@@ -696,14 +696,14 @@ func TestHandleHoldJob_WithHoldUntil(t *testing.T) {
 	buf := &bytes.Buffer{}
 	conn := &mockConn{Buffer: buf}
 
-	req := Request{
+	req := models.Request{
 		ID:     1,
 		Method: "cups.holdJob",
 		Params: map[string]any{"jobID": float64(1), "holdUntil": "no-hold"},
 	}
 	handleHoldJob(conn, req, m)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(buf).Decode(&resp)
 	assert.NoError(t, err)
 	assert.NotNil(t, resp.Result)

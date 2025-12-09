@@ -8,18 +8,12 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 )
 
-type Request struct {
-	ID     int            `json:"id,omitempty"`
-	Method string         `json:"method"`
-	Params map[string]any `json:"params,omitempty"`
-}
-
 type SuccessResult struct {
 	Success bool   `json:"success"`
 	Message string `json:"message"`
 }
 
-func HandleRequest(conn net.Conn, req Request, manager *Manager) {
+func HandleRequest(conn net.Conn, req models.Request, manager *Manager) {
 	if manager == nil {
 		models.RespondError(conn, req.ID, "dwl manager not initialized")
 		return
@@ -41,12 +35,12 @@ func HandleRequest(conn net.Conn, req Request, manager *Manager) {
 	}
 }
 
-func handleGetState(conn net.Conn, req Request, manager *Manager) {
+func handleGetState(conn net.Conn, req models.Request, manager *Manager) {
 	state := manager.GetState()
 	models.Respond(conn, req.ID, state)
 }
 
-func handleSetTags(conn net.Conn, req Request, manager *Manager) {
+func handleSetTags(conn net.Conn, req models.Request, manager *Manager) {
 	output, ok := req.Params["output"].(string)
 	if !ok {
 		models.RespondError(conn, req.ID, "missing or invalid 'output' parameter")
@@ -73,7 +67,7 @@ func handleSetTags(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "tags set"})
 }
 
-func handleSetClientTags(conn net.Conn, req Request, manager *Manager) {
+func handleSetClientTags(conn net.Conn, req models.Request, manager *Manager) {
 	output, ok := req.Params["output"].(string)
 	if !ok {
 		models.RespondError(conn, req.ID, "missing or invalid 'output' parameter")
@@ -100,7 +94,7 @@ func handleSetClientTags(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "client tags set"})
 }
 
-func handleSetLayout(conn net.Conn, req Request, manager *Manager) {
+func handleSetLayout(conn net.Conn, req models.Request, manager *Manager) {
 	output, ok := req.Params["output"].(string)
 	if !ok {
 		models.RespondError(conn, req.ID, "missing or invalid 'output' parameter")
@@ -121,7 +115,7 @@ func handleSetLayout(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "layout set"})
 }
 
-func handleSubscribe(conn net.Conn, req Request, manager *Manager) {
+func handleSubscribe(conn net.Conn, req models.Request, manager *Manager) {
 	clientID := fmt.Sprintf("client-%p", conn)
 	stateChan := manager.Subscribe(clientID)
 	defer manager.Unsubscribe(clientID)

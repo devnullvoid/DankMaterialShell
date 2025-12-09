@@ -53,7 +53,7 @@ func TestHandleRequest(t *testing.T) {
 		}
 
 		conn := newMockNetConn()
-		req := Request{
+		req := models.Request{
 			ID:     123,
 			Method: "evdev.getState",
 			Params: map[string]any{},
@@ -82,7 +82,7 @@ func TestHandleRequest(t *testing.T) {
 		}
 
 		conn := newMockNetConn()
-		req := Request{
+		req := models.Request{
 			ID:     456,
 			Method: "evdev.unknownMethod",
 			Params: map[string]any{},
@@ -111,7 +111,7 @@ func TestHandleGetState(t *testing.T) {
 	}
 
 	conn := newMockNetConn()
-	req := Request{
+	req := models.Request{
 		ID:     789,
 		Method: "evdev.getState",
 		Params: map[string]any{},

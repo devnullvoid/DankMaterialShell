@@ -11,17 +11,6 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 )
 
-type Request struct {
-	ID     int            `json:"id,omitempty"`
-	Method string         `json:"method"`
-	Params map[string]any `json:"params,omitempty"`
-}
-
-type SuccessResult struct {
-	Success bool   `json:"success"`
-	Message string `json:"message"`
-}
-
 type HeadConfig struct {
 	Name       string  `json:"name"`
 	Enabled    bool    `json:"enabled"`
@@ -42,7 +31,7 @@ type ConfigurationRequest struct {
 	Test  bool         `json:"test"`
 }
 
-func HandleRequest(conn net.Conn, req Request, manager *Manager) {
+func HandleRequest(conn net.Conn, req models.Request, manager *Manager) {
 	if manager == nil {
 		models.RespondError(conn, req.ID, "wlroutput manager not initialized")
 		return
@@ -62,12 +51,11 @@ func HandleRequest(conn net.Conn, req Request, manager *Manager) {
 	}
 }
 
-func handleGetState(conn net.Conn, req Request, manager *Manager) {
-	state := manager.GetState()
-	models.Respond(conn, req.ID, state)
+func handleGetState(conn net.Conn, req models.Request, manager *Manager) {
+	models.Respond(conn, req.ID, manager.GetState())
 }
 
-func handleApplyConfiguration(conn net.Conn, req Request, manager *Manager, test bool) {
+func handleApplyConfiguration(conn net.Conn, req models.Request, manager *Manager, test bool) {
 	headsParam, ok := req.Params["heads"]
 	if !ok {
 		models.RespondError(conn, req.ID, "missing 'heads' parameter")
@@ -95,10 +83,10 @@ func handleApplyConfiguration(conn net.Conn, req Request, manager *Manager, test
 	if test {
 		msg = "configuration test succeeded"
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: msg})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: msg})
 }
 
-func handleSubscribe(conn net.Conn, req Request, manager *Manager) {
+func handleSubscribe(conn net.Conn, req models.Request, manager *Manager) {
 	clientID := fmt.Sprintf("client-%p", conn)
 	stateChan := manager.Subscribe(clientID)
 	defer manager.Unsubscribe(clientID)

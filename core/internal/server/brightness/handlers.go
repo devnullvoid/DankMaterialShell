@@ -2,12 +2,14 @@ package brightness
 
 import (
 	"encoding/json"
+	"fmt"
 	"net"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/params"
 )
 
-func HandleRequest(conn net.Conn, req Request, m *Manager) {
+func HandleRequest(conn net.Conn, req models.Request, m *Manager) {
 	switch req.Method {
 	case "brightness.getState":
 		handleGetState(conn, req, m)
@@ -22,131 +24,90 @@ func HandleRequest(conn net.Conn, req Request, m *Manager) {
 	case "brightness.subscribe":
 		handleSubscribe(conn, req, m)
 	default:
-		models.RespondError(conn, req.ID.(int), "unknown method: "+req.Method)
+		models.RespondError(conn, req.ID, "unknown method: "+req.Method)
 	}
 }
 
-func handleGetState(conn net.Conn, req Request, m *Manager) {
-	state := m.GetState()
-	models.Respond(conn, req.ID.(int), state)
+func handleGetState(conn net.Conn, req models.Request, m *Manager) {
+	models.Respond(conn, req.ID, m.GetState())
 }
 
-func handleSetBrightness(conn net.Conn, req Request, m *Manager) {
-	var params SetBrightnessParams
-
-	device, ok := req.Params["device"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID.(int), "missing or invalid device parameter")
-		return
-	}
-	params.Device = device
-
-	percentFloat, ok := req.Params["percent"].(float64)
-	if !ok {
-		models.RespondError(conn, req.ID.(int), "missing or invalid percent parameter")
-		return
-	}
-	params.Percent = int(percentFloat)
-
-	if exponential, ok := req.Params["exponential"].(bool); ok {
-		params.Exponential = exponential
-	}
-
-	exponent := 1.2
-	if exponentFloat, ok := req.Params["exponent"].(float64); ok {
-		params.Exponent = exponentFloat
-		exponent = exponentFloat
-	}
-
-	if err := m.SetBrightnessWithExponent(params.Device, params.Percent, params.Exponential, exponent); err != nil {
-		models.RespondError(conn, req.ID.(int), err.Error())
+func handleSetBrightness(conn net.Conn, req models.Request, m *Manager) {
+	device, err := params.String(req.Params, "device")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	state := m.GetState()
-	models.Respond(conn, req.ID.(int), state)
+	percent, err := params.Int(req.Params, "percent")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	exponential := params.BoolOpt(req.Params, "exponential", false)
+	exponent := params.FloatOpt(req.Params, "exponent", 1.2)
+
+	if err := m.SetBrightnessWithExponent(device, percent, exponential, exponent); err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	models.Respond(conn, req.ID, m.GetState())
 }
 
-func handleIncrement(conn net.Conn, req Request, m *Manager) {
-	device, ok := req.Params["device"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID.(int), "missing or invalid device parameter")
+func handleIncrement(conn net.Conn, req models.Request, m *Manager) {
+	device, err := params.String(req.Params, "device")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	step := 10
-	if stepFloat, ok := req.Params["step"].(float64); ok {
-		step = int(stepFloat)
-	}
-
-	exponential := false
-	if expBool, ok := req.Params["exponential"].(bool); ok {
-		exponential = expBool
-	}
-
-	exponent := 1.2
-	if exponentFloat, ok := req.Params["exponent"].(float64); ok {
-		exponent = exponentFloat
-	}
+	step := params.IntOpt(req.Params, "step", 10)
+	exponential := params.BoolOpt(req.Params, "exponential", false)
+	exponent := params.FloatOpt(req.Params, "exponent", 1.2)
 
 	if err := m.IncrementBrightnessWithExponent(device, step, exponential, exponent); err != nil {
-		models.RespondError(conn, req.ID.(int), err.Error())
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	state := m.GetState()
-	models.Respond(conn, req.ID.(int), state)
+	models.Respond(conn, req.ID, m.GetState())
 }
 
-func handleDecrement(conn net.Conn, req Request, m *Manager) {
-	device, ok := req.Params["device"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID.(int), "missing or invalid device parameter")
+func handleDecrement(conn net.Conn, req models.Request, m *Manager) {
+	device, err := params.String(req.Params, "device")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	step := 10
-	if stepFloat, ok := req.Params["step"].(float64); ok {
-		step = int(stepFloat)
-	}
-
-	exponential := false
-	if expBool, ok := req.Params["exponential"].(bool); ok {
-		exponential = expBool
-	}
-
-	exponent := 1.2
-	if exponentFloat, ok := req.Params["exponent"].(float64); ok {
-		exponent = exponentFloat
-	}
+	step := params.IntOpt(req.Params, "step", 10)
+	exponential := params.BoolOpt(req.Params, "exponential", false)
+	exponent := params.FloatOpt(req.Params, "exponent", 1.2)
 
 	if err := m.IncrementBrightnessWithExponent(device, -step, exponential, exponent); err != nil {
-		models.RespondError(conn, req.ID.(int), err.Error())
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	state := m.GetState()
-	models.Respond(conn, req.ID.(int), state)
+	models.Respond(conn, req.ID, m.GetState())
 }
 
-func handleRescan(conn net.Conn, req Request, m *Manager) {
+func handleRescan(conn net.Conn, req models.Request, m *Manager) {
 	m.Rescan()
-	state := m.GetState()
-	models.Respond(conn, req.ID.(int), state)
+	models.Respond(conn, req.ID, m.GetState())
 }
 
-func handleSubscribe(conn net.Conn, req Request, m *Manager) {
-	clientID := "brightness-subscriber"
-	if idStr, ok := req.ID.(string); ok && idStr != "" {
-		clientID = idStr
-	}
+func handleSubscribe(conn net.Conn, req models.Request, m *Manager) {
+	clientID := fmt.Sprintf("brightness-%d", req.ID)
 
 	ch := m.Subscribe(clientID)
 	defer m.Unsubscribe(clientID)
 
 	initialState := m.GetState()
 	if err := json.NewEncoder(conn).Encode(models.Response[State]{
-		ID:     req.ID.(int),
+		ID:     req.ID,
 		Result: &initialState,
 	}); err != nil {
 		return
@@ -154,7 +115,7 @@ func handleSubscribe(conn net.Conn, req Request, m *Manager) {
 
 	for state := range ch {
 		if err := json.NewEncoder(conn).Encode(models.Response[State]{
-			ID:     req.ID.(int),
+			ID:     req.ID,
 			Result: &state,
 		}); err != nil {
 			return

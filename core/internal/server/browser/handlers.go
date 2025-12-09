@@ -6,13 +6,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 )
 
-type Request struct {
-	ID     int            `json:"id"`
-	Method string         `json:"method"`
-	Params map[string]any `json:"params"`
-}
-
-func HandleRequest(conn net.Conn, req Request, manager *Manager) {
+func HandleRequest(conn net.Conn, req models.Request, manager *Manager) {
 	switch req.Method {
 	case "browser.open":
 		url, ok := req.Params["url"].(string)

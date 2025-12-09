@@ -7,13 +7,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 )
 
-type Request struct {
-	ID     int            `json:"id"`
-	Method string         `json:"method"`
-	Params map[string]any `json:"params"`
-}
-
-func HandleRequest(conn net.Conn, req Request, manager *Manager) {
+func HandleRequest(conn net.Conn, req models.Request, manager *Manager) {
 	switch req.Method {
 	case "apppicker.open", "browser.open":
 		handleOpen(conn, req, manager)
@@ -22,7 +16,7 @@ func HandleRequest(conn net.Conn, req Request, manager *Manager) {
 	}
 }
 
-func handleOpen(conn net.Conn, req Request, manager *Manager) {
+func handleOpen(conn net.Conn, req models.Request, manager *Manager) {
 	log.Infof("AppPicker: Received %s request with params: %+v", req.Method, req.Params)
 
 	target, ok := req.Params["target"].(string)

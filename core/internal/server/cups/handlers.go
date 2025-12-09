@@ -6,25 +6,21 @@ import (
 	"net"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/params"
 )
-
-type Request struct {
-	ID     int            `json:"id,omitempty"`
-	Method string         `json:"method"`
-	Params map[string]any `json:"params,omitempty"`
-}
-
-type SuccessResult struct {
-	Success bool   `json:"success"`
-	Message string `json:"message"`
-}
 
 type CUPSEvent struct {
 	Type string    `json:"type"`
 	Data CUPSState `json:"data"`
 }
 
-func HandleRequest(conn net.Conn, req Request, manager *Manager) {
+type TestPageResult struct {
+	Success bool   `json:"success"`
+	JobID   int    `json:"jobId"`
+	Message string `json:"message"`
+}
+
+func HandleRequest(conn net.Conn, req models.Request, manager *Manager) {
 	switch req.Method {
 	case "cups.subscribe":
 		handleSubscribe(conn, req, manager)
@@ -79,20 +75,19 @@ func HandleRequest(conn net.Conn, req Request, manager *Manager) {
 	}
 }
 
-func handleGetPrinters(conn net.Conn, req Request, manager *Manager) {
+func handleGetPrinters(conn net.Conn, req models.Request, manager *Manager) {
 	printers, err := manager.GetPrinters()
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-
 	models.Respond(conn, req.ID, printers)
 }
 
-func handleGetJobs(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handleGetJobs(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.String(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -101,14 +96,13 @@ func handleGetJobs(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-
 	models.Respond(conn, req.ID, jobs)
 }
 
-func handlePausePrinter(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handlePausePrinter(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.String(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -116,13 +110,13 @@ func handlePausePrinter(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "paused"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "paused"})
 }
 
-func handleResumePrinter(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handleResumePrinter(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.String(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -130,28 +124,27 @@ func handleResumePrinter(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "resumed"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "resumed"})
 }
 
-func handleCancelJob(conn net.Conn, req Request, manager *Manager) {
-	jobIDFloat, ok := req.Params["jobID"].(float64)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'jobid' parameter")
+func handleCancelJob(conn net.Conn, req models.Request, manager *Manager) {
+	jobID, err := params.Int(req.Params, "jobID")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	jobID := int(jobIDFloat)
 
 	if err := manager.CancelJob(jobID); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "job canceled"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "job canceled"})
 }
 
-func handlePurgeJobs(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handlePurgeJobs(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.String(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -159,10 +152,10 @@ func handlePurgeJobs(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "jobs canceled"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "jobs canceled"})
 }
 
-func handleSubscribe(conn net.Conn, req Request, manager *Manager) {
+func handleSubscribe(conn net.Conn, req models.Request, manager *Manager) {
 	clientID := fmt.Sprintf("client-%p", conn)
 	stateChan := manager.Subscribe(clientID)
 	defer manager.Unsubscribe(clientID)
@@ -193,7 +186,7 @@ func handleSubscribe(conn net.Conn, req Request, manager *Manager) {
 	}
 }
 
-func handleGetDevices(conn net.Conn, req Request, manager *Manager) {
+func handleGetDevices(conn net.Conn, req models.Request, manager *Manager) {
 	devices, err := manager.GetDevices()
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -202,7 +195,7 @@ func handleGetDevices(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, devices)
 }
 
-func handleGetPPDs(conn net.Conn, req Request, manager *Manager) {
+func handleGetPPDs(conn net.Conn, req models.Request, manager *Manager) {
 	ppds, err := manager.GetPPDs()
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -211,7 +204,7 @@ func handleGetPPDs(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, ppds)
 }
 
-func handleGetClasses(conn net.Conn, req Request, manager *Manager) {
+func handleGetClasses(conn net.Conn, req models.Request, manager *Manager) {
 	classes, err := manager.GetClasses()
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -220,41 +213,41 @@ func handleGetClasses(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, classes)
 }
 
-func handleCreatePrinter(conn net.Conn, req Request, manager *Manager) {
-	name, ok := req.Params["name"].(string)
-	if !ok || name == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'name' parameter")
+func handleCreatePrinter(conn net.Conn, req models.Request, manager *Manager) {
+	name, err := params.StringNonEmpty(req.Params, "name")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	deviceURI, ok := req.Params["deviceURI"].(string)
-	if !ok || deviceURI == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'deviceURI' parameter")
+	deviceURI, err := params.StringNonEmpty(req.Params, "deviceURI")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	ppd, ok := req.Params["ppd"].(string)
-	if !ok || ppd == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'ppd' parameter")
+	ppd, err := params.StringNonEmpty(req.Params, "ppd")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	shared, _ := req.Params["shared"].(bool)
-	errorPolicy, _ := req.Params["errorPolicy"].(string)
-	information, _ := req.Params["information"].(string)
-	location, _ := req.Params["location"].(string)
+	shared := params.BoolOpt(req.Params, "shared", false)
+	errorPolicy := params.StringOpt(req.Params, "errorPolicy", "")
+	information := params.StringOpt(req.Params, "information", "")
+	location := params.StringOpt(req.Params, "location", "")
 
 	if err := manager.CreatePrinter(name, deviceURI, ppd, shared, errorPolicy, information, location); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "printer created"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "printer created"})
 }
 
-func handleDeletePrinter(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok || printerName == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handleDeletePrinter(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.StringNonEmpty(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -262,13 +255,13 @@ func handleDeletePrinter(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "printer deleted"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "printer deleted"})
 }
 
-func handleAcceptJobs(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok || printerName == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handleAcceptJobs(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.StringNonEmpty(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -276,13 +269,13 @@ func handleAcceptJobs(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "accepting jobs"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "accepting jobs"})
 }
 
-func handleRejectJobs(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok || printerName == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handleRejectJobs(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.StringNonEmpty(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -290,19 +283,19 @@ func handleRejectJobs(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "rejecting jobs"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "rejecting jobs"})
 }
 
-func handleSetPrinterShared(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok || printerName == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handleSetPrinterShared(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.StringNonEmpty(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	shared, ok := req.Params["shared"].(bool)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'shared' parameter")
+	shared, err := params.Bool(req.Params, "shared")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -310,19 +303,19 @@ func handleSetPrinterShared(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "sharing updated"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "sharing updated"})
 }
 
-func handleSetPrinterLocation(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok || printerName == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handleSetPrinterLocation(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.StringNonEmpty(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	location, ok := req.Params["location"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'location' parameter")
+	location, err := params.String(req.Params, "location")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -330,19 +323,19 @@ func handleSetPrinterLocation(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "location updated"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "location updated"})
 }
 
-func handleSetPrinterInfo(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok || printerName == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handleSetPrinterInfo(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.StringNonEmpty(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	info, ok := req.Params["info"].(string)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'info' parameter")
+	info, err := params.String(req.Params, "info")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -350,39 +343,33 @@ func handleSetPrinterInfo(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "info updated"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "info updated"})
 }
 
-func handleMoveJob(conn net.Conn, req Request, manager *Manager) {
-	jobIDFloat, ok := req.Params["jobID"].(float64)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'jobID' parameter")
-		return
-	}
-
-	destPrinter, ok := req.Params["destPrinter"].(string)
-	if !ok || destPrinter == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'destPrinter' parameter")
-		return
-	}
-
-	if err := manager.MoveJob(int(jobIDFloat), destPrinter); err != nil {
+func handleMoveJob(conn net.Conn, req models.Request, manager *Manager) {
+	jobID, err := params.Int(req.Params, "jobID")
+	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "job moved"})
+
+	destPrinter, err := params.StringNonEmpty(req.Params, "destPrinter")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	if err := manager.MoveJob(jobID, destPrinter); err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "job moved"})
 }
 
-type TestPageResult struct {
-	Success bool   `json:"success"`
-	JobID   int    `json:"jobId"`
-	Message string `json:"message"`
-}
-
-func handlePrintTestPage(conn net.Conn, req Request, manager *Manager) {
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok || printerName == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+func handlePrintTestPage(conn net.Conn, req models.Request, manager *Manager) {
+	printerName, err := params.StringNonEmpty(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -394,16 +381,16 @@ func handlePrintTestPage(conn net.Conn, req Request, manager *Manager) {
 	models.Respond(conn, req.ID, TestPageResult{Success: true, JobID: jobID, Message: "test page queued"})
 }
 
-func handleAddPrinterToClass(conn net.Conn, req Request, manager *Manager) {
-	className, ok := req.Params["className"].(string)
-	if !ok || className == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'className' parameter")
+func handleAddPrinterToClass(conn net.Conn, req models.Request, manager *Manager) {
+	className, err := params.StringNonEmpty(req.Params, "className")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok || printerName == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+	printerName, err := params.StringNonEmpty(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -411,19 +398,19 @@ func handleAddPrinterToClass(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "printer added to class"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "printer added to class"})
 }
 
-func handleRemovePrinterFromClass(conn net.Conn, req Request, manager *Manager) {
-	className, ok := req.Params["className"].(string)
-	if !ok || className == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'className' parameter")
+func handleRemovePrinterFromClass(conn net.Conn, req models.Request, manager *Manager) {
+	className, err := params.StringNonEmpty(req.Params, "className")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	printerName, ok := req.Params["printerName"].(string)
-	if !ok || printerName == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'printerName' parameter")
+	printerName, err := params.StringNonEmpty(req.Params, "printerName")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -431,13 +418,13 @@ func handleRemovePrinterFromClass(conn net.Conn, req Request, manager *Manager) 
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "printer removed from class"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "printer removed from class"})
 }
 
-func handleDeleteClass(conn net.Conn, req Request, manager *Manager) {
-	className, ok := req.Params["className"].(string)
-	if !ok || className == "" {
-		models.RespondError(conn, req.ID, "missing or invalid 'className' parameter")
+func handleDeleteClass(conn net.Conn, req models.Request, manager *Manager) {
+	className, err := params.StringNonEmpty(req.Params, "className")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -445,38 +432,35 @@ func handleDeleteClass(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "class deleted"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "class deleted"})
 }
 
-func handleRestartJob(conn net.Conn, req Request, manager *Manager) {
-	jobIDFloat, ok := req.Params["jobID"].(float64)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'jobID' parameter")
-		return
-	}
-
-	if err := manager.RestartJob(int(jobIDFloat)); err != nil {
+func handleRestartJob(conn net.Conn, req models.Request, manager *Manager) {
+	jobID, err := params.Int(req.Params, "jobID")
+	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "job restarted"})
-}
 
-func handleHoldJob(conn net.Conn, req Request, manager *Manager) {
-	jobIDFloat, ok := req.Params["jobID"].(float64)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'jobID' parameter")
-		return
-	}
-
-	holdUntil, _ := req.Params["holdUntil"].(string)
-	if holdUntil == "" {
-		holdUntil = "indefinite"
-	}
-
-	if err := manager.HoldJob(int(jobIDFloat), holdUntil); err != nil {
+	if err := manager.RestartJob(jobID); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "job held"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "job restarted"})
+}
+
+func handleHoldJob(conn net.Conn, req models.Request, manager *Manager) {
+	jobID, err := params.Int(req.Params, "jobID")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	holdUntil := params.StringOpt(req.Params, "holdUntil", "indefinite")
+
+	if err := manager.HoldJob(jobID, holdUntil); err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "job held"})
 }

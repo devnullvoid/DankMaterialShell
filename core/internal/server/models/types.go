@@ -29,3 +29,9 @@ func Respond[T any](conn net.Conn, id int, result T) {
 	resp := Response[T]{ID: id, Result: &result}
 	json.NewEncoder(conn).Encode(resp)
 }
+
+type SuccessResult struct {
+	Success bool   `json:"success"`
+	Message string `json:"message,omitempty"`
+	Value   string `json:"value,omitempty"`
+}

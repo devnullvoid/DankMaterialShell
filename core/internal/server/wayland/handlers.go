@@ -7,20 +7,10 @@ import (
 	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/params"
 )
 
-type Request struct {
-	ID     int            `json:"id,omitempty"`
-	Method string         `json:"method"`
-	Params map[string]any `json:"params,omitempty"`
-}
-
-type SuccessResult struct {
-	Success bool   `json:"success"`
-	Message string `json:"message"`
-}
-
-func HandleRequest(conn net.Conn, req Request, manager *Manager) {
+func HandleRequest(conn net.Conn, req models.Request, manager *Manager) {
 	if manager == nil {
 		models.RespondError(conn, req.ID, "wayland manager not initialized")
 		return
@@ -48,26 +38,27 @@ func HandleRequest(conn net.Conn, req Request, manager *Manager) {
 	}
 }
 
-func handleGetState(conn net.Conn, req Request, manager *Manager) {
-	state := manager.GetState()
-	models.Respond(conn, req.ID, state)
+func handleGetState(conn net.Conn, req models.Request, manager *Manager) {
+	models.Respond(conn, req.ID, manager.GetState())
 }
 
-func handleSetTemperature(conn net.Conn, req Request, manager *Manager) {
+func handleSetTemperature(conn net.Conn, req models.Request, manager *Manager) {
 	var lowTemp, highTemp int
 
 	if temp, ok := req.Params["temp"].(float64); ok {
 		lowTemp = int(temp)
 		highTemp = int(temp)
 	} else {
-		low, okLow := req.Params["low"].(float64)
-		high, okHigh := req.Params["high"].(float64)
-
-		if !okLow || !okHigh {
+		low, err := params.Float(req.Params, "low")
+		if err != nil {
 			models.RespondError(conn, req.ID, "missing temperature parameters (provide 'temp' or both 'low' and 'high')")
 			return
 		}
-
+		high, err := params.Float(req.Params, "high")
+		if err != nil {
+			models.RespondError(conn, req.ID, "missing temperature parameters (provide 'temp' or both 'low' and 'high')")
+			return
+		}
 		lowTemp = int(low)
 		highTemp = int(high)
 	}
@@ -77,19 +68,19 @@ func handleSetTemperature(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "temperature set"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "temperature set"})
 }
 
-func handleSetLocation(conn net.Conn, req Request, manager *Manager) {
-	lat, ok := req.Params["latitude"].(float64)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'latitude' parameter")
+func handleSetLocation(conn net.Conn, req models.Request, manager *Manager) {
+	lat, err := params.Float(req.Params, "latitude")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	lon, ok := req.Params["longitude"].(float64)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'longitude' parameter")
+	lon, err := params.Float(req.Params, "longitude")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -98,30 +89,30 @@ func handleSetLocation(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "location set"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "location set"})
 }
 
-func handleSetManualTimes(conn net.Conn, req Request, manager *Manager) {
+func handleSetManualTimes(conn net.Conn, req models.Request, manager *Manager) {
 	sunriseParam := req.Params["sunrise"]
 	sunsetParam := req.Params["sunset"]
 
 	if sunriseParam == nil || sunsetParam == nil {
 		manager.ClearManualTimes()
-		models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "manual times cleared"})
+		models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "manual times cleared"})
 		return
 	}
 
 	sunriseStr, ok := sunriseParam.(string)
 	if !ok || sunriseStr == "" {
 		manager.ClearManualTimes()
-		models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "manual times cleared"})
+		models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "manual times cleared"})
 		return
 	}
 
 	sunsetStr, ok := sunsetParam.(string)
 	if !ok || sunsetStr == "" {
 		manager.ClearManualTimes()
-		models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "manual times cleared"})
+		models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "manual times cleared"})
 		return
 	}
 
@@ -142,24 +133,24 @@ func handleSetManualTimes(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "manual times set"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "manual times set"})
 }
 
-func handleSetUseIPLocation(conn net.Conn, req Request, manager *Manager) {
-	use, ok := req.Params["use"].(bool)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'use' parameter")
+func handleSetUseIPLocation(conn net.Conn, req models.Request, manager *Manager) {
+	use, err := params.Bool(req.Params, "use")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
 	manager.SetUseIPLocation(use)
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "IP location preference set"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "IP location preference set"})
 }
 
-func handleSetGamma(conn net.Conn, req Request, manager *Manager) {
-	gamma, ok := req.Params["gamma"].(float64)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'gamma' parameter")
+func handleSetGamma(conn net.Conn, req models.Request, manager *Manager) {
+	gamma, err := params.Float(req.Params, "gamma")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -168,21 +159,21 @@ func handleSetGamma(conn net.Conn, req Request, manager *Manager) {
 		return
 	}
 
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "gamma set"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "gamma set"})
 }
 
-func handleSetEnabled(conn net.Conn, req Request, manager *Manager) {
-	enabled, ok := req.Params["enabled"].(bool)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'enabled' parameter")
+func handleSetEnabled(conn net.Conn, req models.Request, manager *Manager) {
+	enabled, err := params.Bool(req.Params, "enabled")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
 	manager.SetEnabled(enabled)
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "enabled state set"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "enabled state set"})
 }
 
-func handleSubscribe(conn net.Conn, req Request, manager *Manager) {
+func handleSubscribe(conn net.Conn, req models.Request, manager *Manager) {
 	clientID := fmt.Sprintf("client-%p", conn)
 	stateChan := manager.Subscribe(clientID)
 	defer manager.Unsubscribe(clientID)

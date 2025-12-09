@@ -33,12 +33,6 @@ type DeviceUpdate struct {
 	Device Device `json:"device"`
 }
 
-type Request struct {
-	ID     any            `json:"id"`
-	Method string         `json:"method"`
-	Params map[string]any `json:"params"`
-}
-
 type Manager struct {
 	logindBackend *LogindBackend
 	sysfsBackend  *SysfsBackend
@@ -110,13 +104,6 @@ type ddcCapability struct {
 	vcp     byte
 	max     int
 	current int
-}
-
-type SetBrightnessParams struct {
-	Device      string  `json:"device"`
-	Percent     int     `json:"percent"`
-	Exponential bool    `json:"exponential,omitempty"`
-	Exponent    float64 `json:"exponent,omitempty"`
 }
 
 func (m *Manager) Subscribe(id string) chan State {

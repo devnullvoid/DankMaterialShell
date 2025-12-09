@@ -6,20 +6,10 @@ import (
 	"net"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/params"
 )
 
-type Request struct {
-	ID     int            `json:"id,omitempty"`
-	Method string         `json:"method"`
-	Params map[string]any `json:"params,omitempty"`
-}
-
-type SuccessResult struct {
-	Success bool   `json:"success"`
-	Message string `json:"message"`
-}
-
-func HandleRequest(conn net.Conn, req Request, manager *Manager) {
+func HandleRequest(conn net.Conn, req models.Request, manager *Manager) {
 	switch req.Method {
 	case "loginctl.getState":
 		handleGetState(conn, req, manager)
@@ -46,39 +36,38 @@ func HandleRequest(conn net.Conn, req Request, manager *Manager) {
 	}
 }
 
-func handleGetState(conn net.Conn, req Request, manager *Manager) {
-	state := manager.GetState()
-	models.Respond(conn, req.ID, state)
+func handleGetState(conn net.Conn, req models.Request, manager *Manager) {
+	models.Respond(conn, req.ID, manager.GetState())
 }
 
-func handleLock(conn net.Conn, req Request, manager *Manager) {
+func handleLock(conn net.Conn, req models.Request, manager *Manager) {
 	if err := manager.Lock(); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "locked"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "locked"})
 }
 
-func handleUnlock(conn net.Conn, req Request, manager *Manager) {
+func handleUnlock(conn net.Conn, req models.Request, manager *Manager) {
 	if err := manager.Unlock(); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "unlocked"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "unlocked"})
 }
 
-func handleActivate(conn net.Conn, req Request, manager *Manager) {
+func handleActivate(conn net.Conn, req models.Request, manager *Manager) {
 	if err := manager.Activate(); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "activated"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "activated"})
 }
 
-func handleSetIdleHint(conn net.Conn, req Request, manager *Manager) {
-	idle, ok := req.Params["idle"].(bool)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'idle' parameter")
+func handleSetIdleHint(conn net.Conn, req models.Request, manager *Manager) {
+	idle, err := params.Bool(req.Params, "idle")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
@@ -86,32 +75,32 @@ func handleSetIdleHint(conn net.Conn, req Request, manager *Manager) {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "idle hint set"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "idle hint set"})
 }
 
-func handleSetLockBeforeSuspend(conn net.Conn, req Request, manager *Manager) {
-	enabled, ok := req.Params["enabled"].(bool)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'enabled' parameter")
+func handleSetLockBeforeSuspend(conn net.Conn, req models.Request, manager *Manager) {
+	enabled, err := params.Bool(req.Params, "enabled")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
 	manager.SetLockBeforeSuspend(enabled)
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "lock before suspend set"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "lock before suspend set"})
 }
 
-func handleSetSleepInhibitorEnabled(conn net.Conn, req Request, manager *Manager) {
-	enabled, ok := req.Params["enabled"].(bool)
-	if !ok {
-		models.RespondError(conn, req.ID, "missing or invalid 'enabled' parameter")
+func handleSetSleepInhibitorEnabled(conn net.Conn, req models.Request, manager *Manager) {
+	enabled, err := params.Bool(req.Params, "enabled")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
 	manager.SetSleepInhibitorEnabled(enabled)
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "sleep inhibitor setting updated"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "sleep inhibitor setting updated"})
 }
 
-func handleLockerReady(conn net.Conn, req Request, manager *Manager) {
+func handleLockerReady(conn net.Conn, req models.Request, manager *Manager) {
 	manager.lockTimerMu.Lock()
 	if manager.lockTimer != nil {
 		manager.lockTimer.Stop()
@@ -125,18 +114,18 @@ func handleLockerReady(conn net.Conn, req Request, manager *Manager) {
 	if manager.inSleepCycle.Load() {
 		manager.signalLockerReady()
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "ok"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "ok"})
 }
 
-func handleTerminate(conn net.Conn, req Request, manager *Manager) {
+func handleTerminate(conn net.Conn, req models.Request, manager *Manager) {
 	if err := manager.Terminate(); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
-	models.Respond(conn, req.ID, SuccessResult{Success: true, Message: "terminated"})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "terminated"})
 }
 
-func handleSubscribe(conn net.Conn, req Request, manager *Manager) {
+func handleSubscribe(conn net.Conn, req models.Request, manager *Manager) {
 	clientID := fmt.Sprintf("client-%p", conn)
 	stateChan := manager.Subscribe(clientID)
 	defer manager.Unsubscribe(clientID)

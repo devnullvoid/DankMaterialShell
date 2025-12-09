@@ -53,10 +53,10 @@ func TestRespondError_Network(t *testing.T) {
 
 func TestRespond_Network(t *testing.T) {
 	conn := newMockNetConn()
-	result := SuccessResult{Success: true, Message: "test"}
+	result := models.SuccessResult{Success: true, Message: "test"}
 	models.Respond(conn, 123, result)
 
-	var resp models.Response[SuccessResult]
+	var resp models.Response[models.SuccessResult]
 	err := json.NewDecoder(conn.writeBuf).Decode(&resp)
 	require.NoError(t, err)
 
@@ -77,7 +77,7 @@ func TestHandleGetState(t *testing.T) {
 	}
 
 	conn := newMockNetConn()
-	req := Request{ID: 123, Method: "network.getState"}
+	req := models.Request{ID: 123, Method: "network.getState"}
 
 	handleGetState(conn, req, manager)
 
@@ -103,7 +103,7 @@ func TestHandleGetWiFiNetworks(t *testing.T) {
 	}
 
 	conn := newMockNetConn()
-	req := Request{ID: 123, Method: "network.wifi.networks"}
+	req := models.Request{ID: 123, Method: "network.wifi.networks"}
 
 	handleGetWiFiNetworks(conn, req, manager)
 
@@ -125,7 +125,7 @@ func TestHandleConnectWiFi(t *testing.T) {
 		}
 
 		conn := newMockNetConn()
-		req := Request{
+		req := models.Request{
 			ID:     123,
 			Method: "network.wifi.connect",
 			Params: map[string]any{},
@@ -149,7 +149,7 @@ func TestHandleSetPreference(t *testing.T) {
 		}
 
 		conn := newMockNetConn()
-		req := Request{
+		req := models.Request{
 			ID:     123,
 			Method: "network.preference.set",
 			Params: map[string]any{},
@@ -173,7 +173,7 @@ func TestHandleGetNetworkInfo(t *testing.T) {
 		}
 
 		conn := newMockNetConn()
-		req := Request{
+		req := models.Request{
 			ID:     123,
 			Method: "network.info",
 			Params: map[string]any{},
@@ -199,7 +199,7 @@ func TestHandleRequest(t *testing.T) {
 
 	t.Run("unknown method", func(t *testing.T) {
 		conn := newMockNetConn()
-		req := Request{
+		req := models.Request{
 			ID:     123,
 			Method: "network.unknown",
 		}
@@ -216,7 +216,7 @@ func TestHandleRequest(t *testing.T) {
 
 	t.Run("valid method - getState", func(t *testing.T) {
 		conn := newMockNetConn()
-		req := Request{
+		req := models.Request{
 			ID:     123,
 			Method: "network.getState",
 		}
