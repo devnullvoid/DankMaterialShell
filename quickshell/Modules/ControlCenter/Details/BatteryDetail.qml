@@ -15,19 +15,19 @@ Rectangle {
 
     function isActiveProfile(profile) {
         if (typeof PowerProfiles === "undefined") {
-            return false
+            return false;
         }
-        return PowerProfiles.profile === profile
+        return PowerProfiles.profile === profile;
     }
 
     function setProfile(profile) {
         if (typeof PowerProfiles === "undefined") {
-            ToastService.showError("power-profiles-daemon not available")
-            return
+            ToastService.showError("power-profiles-daemon not available");
+            return;
         }
-        PowerProfiles.profile = profile
+        PowerProfiles.profile = profile;
         if (PowerProfiles.profile !== profile) {
-            ToastService.showError("Failed to set power profile")
+            ToastService.showError("Failed to set power profile");
         }
     }
 
@@ -42,7 +42,6 @@ Rectangle {
         Row {
             id: headerRow
             width: parent.width
-            height: 48
             spacing: Theme.spacingM
 
             DankIcon {
@@ -50,10 +49,10 @@ Rectangle {
                 size: Theme.iconSizeLarge
                 color: {
                     if (BatteryService.isLowBattery && !BatteryService.isCharging)
-                        return Theme.error
+                        return Theme.error;
                     if (BatteryService.isCharging || BatteryService.isPluggedIn)
-                        return Theme.primary
-                    return Theme.surfaceText
+                        return Theme.primary;
+                    return Theme.surfaceText;
                 }
                 anchors.verticalCenter: parent.verticalCenter
             }
@@ -71,12 +70,12 @@ Rectangle {
                         font.pixelSize: Theme.fontSizeXLarge
                         color: {
                             if (BatteryService.isLowBattery && !BatteryService.isCharging) {
-                                return Theme.error
+                                return Theme.error;
                             }
                             if (BatteryService.isCharging) {
-                                return Theme.primary
+                                return Theme.primary;
                             }
-                            return Theme.surfaceText
+                            return Theme.surfaceText;
                         }
                         font.weight: Font.Bold
                     }
@@ -86,12 +85,12 @@ Rectangle {
                         font.pixelSize: Theme.fontSizeLarge
                         color: {
                             if (BatteryService.isLowBattery && !BatteryService.isCharging) {
-                                return Theme.error
+                                return Theme.error;
                             }
                             if (BatteryService.isCharging) {
-                                return Theme.primary
+                                return Theme.primary;
                             }
-                            return Theme.surfaceText
+                            return Theme.surfaceText;
                         }
                         font.weight: Font.Medium
                         anchors.verticalCenter: parent.verticalCenter
@@ -100,12 +99,13 @@ Rectangle {
 
                 StyledText {
                     text: {
-                        if (!BatteryService.batteryAvailable) return "Power profile management available"
-                        const time = BatteryService.formatTimeRemaining()
+                        if (!BatteryService.batteryAvailable)
+                            return "Power profile management available";
+                        const time = BatteryService.formatTimeRemaining();
                         if (time !== "Unknown") {
-                            return BatteryService.isCharging ? `Time until full: ${time}` : `Time remaining: ${time}`
+                            return BatteryService.isCharging ? `Time until full: ${time}` : `Time remaining: ${time}`;
                         }
-                        return ""
+                        return "";
                     }
                     font.pixelSize: Theme.fontSizeSmall
                     color: Theme.surfaceTextMedium
@@ -145,10 +145,10 @@ Rectangle {
                         font.pixelSize: Theme.fontSizeLarge
                         color: {
                             if (BatteryService.batteryHealth === "N/A") {
-                                return Theme.surfaceText
+                                return Theme.surfaceText;
                             }
-                            const healthNum = parseInt(BatteryService.batteryHealth)
-                            return healthNum < 80 ? Theme.error : Theme.surfaceText
+                            const healthNum = parseInt(BatteryService.batteryHealth);
+                            return healthNum < 80 ? Theme.error : Theme.surfaceText;
                         }
                         font.weight: Font.Bold
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -189,8 +189,9 @@ Rectangle {
         DankButtonGroup {
             property var profileModel: (typeof PowerProfiles !== "undefined") ? [PowerProfile.PowerSaver, PowerProfile.Balanced].concat(PowerProfiles.hasPerformanceProfile ? [PowerProfile.Performance] : []) : [PowerProfile.PowerSaver, PowerProfile.Balanced, PowerProfile.Performance]
             property int currentProfileIndex: {
-                if (typeof PowerProfiles === "undefined") return 1
-                return profileModel.findIndex(profile => isActiveProfile(profile))
+                if (typeof PowerProfiles === "undefined")
+                    return 1;
+                return profileModel.findIndex(profile => isActiveProfile(profile));
             }
 
             model: profileModel.map(profile => Theme.getPowerProfileLabel(profile))
@@ -198,8 +199,9 @@ Rectangle {
             selectionMode: "single"
             anchors.horizontalCenter: parent.horizontalCenter
             onSelectionChanged: (index, selected) => {
-                if (!selected) return
-                setProfile(profileModel[index])
+                if (!selected)
+                    return;
+                setProfile(profileModel[index]);
             }
         }
 

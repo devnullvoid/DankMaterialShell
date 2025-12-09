@@ -433,7 +433,7 @@ Item {
                     Loader {
                         id: contentLoader
                         anchors.fill: parent
-                        active: contentWindow.visible
+                        active: shouldBeVisible || contentWindow.visible
                         asynchronous: false
                     }
                 }
