@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/distros"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 )
@@ -118,6 +120,59 @@ func (m Model) viewInstallingPackages() string {
 	return b.String()
 }
 
+func dmsPackageName(distroID string, dependencies []deps.Dependency) string {
+	config, ok := distros.Registry[distroID]
+	if !ok {
+		return "dms"
+	}
+
+	var isGit bool
+	for _, dep := range dependencies {
+		if dep.Name == "dms (DankMaterialShell)" {
+			isGit = dep.Variant == deps.VariantGit
+			break
+		}
+	}
+
+	switch config.Family {
+	case distros.FamilyArch:
+		if isGit {
+			return "dms-shell-git"
+		}
+		return "dms-shell-bin"
+	case distros.FamilyFedora, distros.FamilyUbuntu, distros.FamilyDebian, distros.FamilySUSE:
+		if isGit {
+			return "dms-git"
+		}
+		return "dms"
+	default:
+		return "dms"
+	}
+}
+
+func uninstallCommand(distroID string, dependencies []deps.Dependency) string {
+	config, ok := distros.Registry[distroID]
+	if !ok {
+		return ""
+	}
+	if config.Family == distros.FamilyGentoo {
+		return "rm -rf ~/.config/quickshell/dms && sudo rm /usr/local/bin/dms"
+	}
+	pkg := dmsPackageName(distroID, dependencies)
+	switch config.Family {
+	case distros.FamilyArch:
+		return "sudo pacman -Rs " + pkg
+	case distros.FamilyFedora:
+		return "sudo dnf remove " + pkg
+	case distros.FamilyUbuntu, distros.FamilyDebian:
+		return "sudo apt remove " + pkg
+	case distros.FamilySUSE:
+		return "sudo zypper remove " + pkg
+	default:
+		return ""
+	}
+}
+
 func (m Model) viewInstallComplete() string {
 	var b strings.Builder
 
@@ -132,7 +187,6 @@ func (m Model) viewInstallComplete() string {
 	b.WriteString(success)
 	b.WriteString("\n\n")
 
-	// Show what was accomplished
 	accomplishments := []string{
 		"• Window manager and dependencies installed",
 		"• Terminal and development tools configured",
@@ -146,8 +200,26 @@ func (m Model) viewInstallComplete() string {
 	}
 
 	b.WriteString("\n")
-	info := m.styles.Normal.Render("Your system is ready! Log out and log back in to start using\nyour new desktop environment.\nIf you do not have a greeter, login with \"niri-session\" or \"Hyprland\" \n\nPress Enter to exit.")
+	info := m.styles.Normal.Render("Your system is ready! Log out and log back in to start using\nyour new desktop environment.\nIf you do not have a greeter, login with \"niri-session\" or \"Hyprland\"")
 	b.WriteString(info)
+	b.WriteString("\n\n")
+
+	theme := TerminalTheme()
+	cmdStyle := lipgloss.NewStyle().Foreground(lipgloss.Color(theme.Accent))
+	labelStyle := lipgloss.NewStyle().Foreground(lipgloss.Color(theme.Subtle))
+
+	b.WriteString(labelStyle.Render("Troubleshooting:") + "\n")
+	b.WriteString(labelStyle.Render("  Disable autostart: ") + cmdStyle.Render("systemctl --user disable dms") + "\n")
+	b.WriteString(labelStyle.Render("  View logs:         ") + cmdStyle.Render("journalctl --user -u dms") + "\n")
+
+	if m.osInfo != nil {
+		if cmd := uninstallCommand(m.osInfo.Distribution.ID, m.dependencies); cmd != "" {
+			b.WriteString(labelStyle.Render("  Uninstall:         ") + cmdStyle.Render(cmd) + "\n")
+		}
+	}
+
+	b.WriteString("\n")
+	b.WriteString(m.styles.Normal.Render("Press Enter to exit."))
 
 	if m.logFilePath != "" {
 		b.WriteString("\n\n")

@@ -40,7 +40,7 @@ func (m Model) viewWelcome() string {
 	subtitle := lipgloss.NewStyle().
 		Foreground(lipgloss.Color(theme.Subtle)).
 		Italic(true).
-		Render("Quickstart for a Dank™ Desktop")
+		Render("Quickstart for a Dank Desktop")
 
 	b.WriteString(decorator)
 	b.WriteString("\n")
