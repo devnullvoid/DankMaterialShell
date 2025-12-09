@@ -395,7 +395,7 @@ func TestHyprlandConfigDeployment(t *testing.T) {
 	cd := NewConfigDeployer(logChan)
 
 	t.Run("deploy hyprland config to empty directory", func(t *testing.T) {
-		result, err := cd.deployHyprlandConfig(deps.TerminalGhostty)
+		result, err := cd.deployHyprlandConfig(deps.TerminalGhostty, true)
 		require.NoError(t, err)
 
 		assert.Equal(t, "Hyprland", result.ConfigType)
@@ -425,7 +425,7 @@ general {
 		err = os.WriteFile(hyprPath, []byte(existingContent), 0644)
 		require.NoError(t, err)
 
-		result, err := cd.deployHyprlandConfig(deps.TerminalKitty)
+		result, err := cd.deployHyprlandConfig(deps.TerminalKitty, true)
 		require.NoError(t, err)
 
 		assert.Equal(t, "Hyprland", result.ConfigType)

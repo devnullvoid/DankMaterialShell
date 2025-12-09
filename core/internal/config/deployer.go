@@ -46,11 +46,20 @@ func (cd *ConfigDeployer) DeployConfigurationsWithTerminal(ctx context.Context, 
 	return cd.DeployConfigurationsSelective(ctx, wm, terminal, nil, nil)
 }
 
+// DeployConfigurationsWithSystemd deploys configurations with systemd option
+func (cd *ConfigDeployer) DeployConfigurationsWithSystemd(ctx context.Context, wm deps.WindowManager, terminal deps.Terminal, useSystemd bool) ([]DeploymentResult, error) {
+	return cd.deployConfigurationsInternal(ctx, wm, terminal, nil, nil, nil, useSystemd)
+}
+
 func (cd *ConfigDeployer) DeployConfigurationsSelective(ctx context.Context, wm deps.WindowManager, terminal deps.Terminal, installedDeps []deps.Dependency, replaceConfigs map[string]bool) ([]DeploymentResult, error) {
 	return cd.DeployConfigurationsSelectiveWithReinstalls(ctx, wm, terminal, installedDeps, replaceConfigs, nil)
 }
 
 func (cd *ConfigDeployer) DeployConfigurationsSelectiveWithReinstalls(ctx context.Context, wm deps.WindowManager, terminal deps.Terminal, installedDeps []deps.Dependency, replaceConfigs map[string]bool, reinstallItems map[string]bool) ([]DeploymentResult, error) {
+	return cd.deployConfigurationsInternal(ctx, wm, terminal, installedDeps, replaceConfigs, reinstallItems, true)
+}
+
+func (cd *ConfigDeployer) deployConfigurationsInternal(ctx context.Context, wm deps.WindowManager, terminal deps.Terminal, installedDeps []deps.Dependency, replaceConfigs map[string]bool, reinstallItems map[string]bool, useSystemd bool) ([]DeploymentResult, error) {
 	var results []DeploymentResult
 
 	shouldReplaceConfig := func(configType string) bool {
@@ -64,7 +73,7 @@ func (cd *ConfigDeployer) DeployConfigurationsSelectiveWithReinstalls(ctx contex
 	switch wm {
 	case deps.WindowManagerNiri:
 		if shouldReplaceConfig("Niri") {
-			result, err := cd.deployNiriConfig(terminal)
+			result, err := cd.deployNiriConfig(terminal, useSystemd)
 			results = append(results, result)
 			if err != nil {
 				return results, fmt.Errorf("failed to deploy Niri config: %w", err)
@@ -72,7 +81,7 @@ func (cd *ConfigDeployer) DeployConfigurationsSelectiveWithReinstalls(ctx contex
 		}
 	case deps.WindowManagerHyprland:
 		if shouldReplaceConfig("Hyprland") {
-			result, err := cd.deployHyprlandConfig(terminal)
+			result, err := cd.deployHyprlandConfig(terminal, useSystemd)
 			results = append(results, result)
 			if err != nil {
 				return results, fmt.Errorf("failed to deploy Hyprland config: %w", err)
@@ -110,7 +119,7 @@ func (cd *ConfigDeployer) DeployConfigurationsSelectiveWithReinstalls(ctx contex
 	return results, nil
 }
 
-func (cd *ConfigDeployer) deployNiriConfig(terminal deps.Terminal) (DeploymentResult, error) {
+func (cd *ConfigDeployer) deployNiriConfig(terminal deps.Terminal, useSystemd bool) (DeploymentResult, error) {
 	result := DeploymentResult{
 		ConfigType: "Niri",
 		Path:       filepath.Join(os.Getenv("HOME"), ".config", "niri", "config.kdl"),
@@ -161,6 +170,10 @@ func (cd *ConfigDeployer) deployNiriConfig(terminal deps.Terminal) (DeploymentRe
 	}
 
 	newConfig := strings.ReplaceAll(NiriConfig, "{{TERMINAL_COMMAND}}", terminalCommand)
+
+	if !useSystemd {
+		newConfig = cd.transformNiriConfigForNonSystemd(newConfig, terminalCommand)
+	}
 
 	if existingConfig != "" {
 		mergedConfig, err := cd.mergeNiriOutputSections(newConfig, existingConfig)
@@ -440,7 +453,7 @@ func (cd *ConfigDeployer) mergeNiriOutputSections(newConfig, existingConfig stri
 }
 
 // deployHyprlandConfig handles Hyprland configuration deployment with backup and merging
-func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal) (DeploymentResult, error) {
+func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal, useSystemd bool) (DeploymentResult, error) {
 	result := DeploymentResult{
 		ConfigType: "Hyprland",
 		Path:       filepath.Join(os.Getenv("HOME"), ".config", "hypr", "hyprland.conf"),
@@ -472,7 +485,6 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal) (Deployme
 		cd.log(fmt.Sprintf("Backed up existing config to %s", result.BackupPath))
 	}
 
-	// Determine terminal command based on choice
 	var terminalCommand string
 	switch terminal {
 	case deps.TerminalGhostty:
@@ -482,12 +494,15 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal) (Deployme
 	case deps.TerminalAlacritty:
 		terminalCommand = "alacritty"
 	default:
-		terminalCommand = "ghostty" // fallback to ghostty
+		terminalCommand = "ghostty"
 	}
 
 	newConfig := strings.ReplaceAll(HyprlandConfig, "{{TERMINAL_COMMAND}}", terminalCommand)
 
-	// If there was an existing config, merge the monitor sections
+	if !useSystemd {
+		newConfig = cd.transformHyprlandConfigForNonSystemd(newConfig, terminalCommand)
+	}
+
 	if existingConfig != "" {
 		mergedConfig, err := cd.mergeHyprlandMonitorSections(newConfig, existingConfig)
 		if err != nil {
@@ -510,24 +525,16 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal) (Deployme
 
 // mergeHyprlandMonitorSections extracts monitor sections from existing config and merges them into the new config
 func (cd *ConfigDeployer) mergeHyprlandMonitorSections(newConfig, existingConfig string) (string, error) {
-	// Regular expression to match monitor lines (including commented ones)
-	// Matches: monitor = NAME, RESOLUTION, POSITION, SCALE, etc.
-	// Also matches commented versions: # monitor = ...
 	monitorRegex := regexp.MustCompile(`(?m)^#?\s*monitor\s*=.*$`)
-
-	// Find all monitor lines in the existing config
 	existingMonitors := monitorRegex.FindAllString(existingConfig, -1)
 
 	if len(existingMonitors) == 0 {
-		// No monitor sections to merge
 		return newConfig, nil
 	}
 
-	// Remove the example monitor line from the new config
 	exampleMonitorRegex := regexp.MustCompile(`(?m)^# monitor = eDP-2.*$`)
 	mergedConfig := exampleMonitorRegex.ReplaceAllString(newConfig, "")
 
-	// Find where to insert the monitor sections (after the MONITOR CONFIG header)
 	monitorHeaderRegex := regexp.MustCompile(`(?m)^# MONITOR CONFIG\n# ==================$`)
 	headerMatch := monitorHeaderRegex.FindStringIndex(mergedConfig)
 
@@ -535,8 +542,7 @@ func (cd *ConfigDeployer) mergeHyprlandMonitorSections(newConfig, existingConfig
 		return "", fmt.Errorf("could not find MONITOR CONFIG section")
 	}
 
-	// Insert after the header
-	insertPos := headerMatch[1] + 1 // +1 for the newline
+	insertPos := headerMatch[1] + 1
 
 	var builder strings.Builder
 	builder.WriteString(mergedConfig[:insertPos])
@@ -550,4 +556,70 @@ func (cd *ConfigDeployer) mergeHyprlandMonitorSections(newConfig, existingConfig
 	builder.WriteString(mergedConfig[insertPos:])
 
 	return builder.String(), nil
+}
+
+func (cd *ConfigDeployer) transformHyprlandConfigForNonSystemd(config, terminalCommand string) string {
+	lines := strings.Split(config, "\n")
+	var result []string
+	startupSectionFound := false
+
+	for _, line := range lines {
+		trimmed := strings.TrimSpace(line)
+		if strings.HasPrefix(trimmed, "exec-once = dbus-update-activation-environment") {
+			continue
+		}
+		if strings.HasPrefix(trimmed, "exec-once = systemctl --user start") {
+			startupSectionFound = true
+			result = append(result, "exec-once = dms run")
+			result = append(result, "env = QT_QPA_PLATFORM,wayland")
+			result = append(result, "env = ELECTRON_OZONE_PLATFORM_HINT,auto")
+			result = append(result, "env = QT_QPA_PLATFORMTHEME,gtk3")
+			result = append(result, "env = QT_QPA_PLATFORMTHEME_QT6,gtk3")
+			result = append(result, fmt.Sprintf("env = TERMINAL,%s", terminalCommand))
+			continue
+		}
+		result = append(result, line)
+	}
+
+	if !startupSectionFound {
+		for i, line := range result {
+			if strings.Contains(line, "STARTUP APPS") {
+				insertLines := []string{
+					"exec-once = dms run",
+					"env = QT_QPA_PLATFORM,wayland",
+					"env = ELECTRON_OZONE_PLATFORM_HINT,auto",
+					"env = QT_QPA_PLATFORMTHEME,gtk3",
+					"env = QT_QPA_PLATFORMTHEME_QT6,gtk3",
+					fmt.Sprintf("env = TERMINAL,%s", terminalCommand),
+				}
+				result = append(result[:i+2], append(insertLines, result[i+2:]...)...)
+				break
+			}
+		}
+	}
+
+	return strings.Join(result, "\n")
+}
+
+func (cd *ConfigDeployer) transformNiriConfigForNonSystemd(config, terminalCommand string) string {
+	envVars := fmt.Sprintf(`environment {
+  XDG_CURRENT_DESKTOP "niri"
+  QT_QPA_PLATFORM "wayland"
+  ELECTRON_OZONE_PLATFORM_HINT "auto"
+  QT_QPA_PLATFORMTHEME "gtk3"
+  QT_QPA_PLATFORMTHEME_QT6 "gtk3"
+  TERMINAL "%s"
+}`, terminalCommand)
+
+	config = regexp.MustCompile(`environment \{[^}]*\}`).ReplaceAllString(config, envVars)
+
+	spawnDms := `spawn-at-startup "dms" "run"`
+	if !strings.Contains(config, spawnDms) {
+		config = strings.Replace(config,
+			`spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"`,
+			`spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"`+"\n"+spawnDms,
+			1)
+	}
+
+	return config
 }

@@ -29,6 +29,7 @@ func runSetup() error {
 
 	wm, wmSelected := promptCompositor()
 	terminal, terminalSelected := promptTerminal()
+	useSystemd := promptSystemd()
 
 	if !wmSelected && !terminalSelected {
 		fmt.Println("No configurations selected. Exiting.")
@@ -67,14 +68,14 @@ func runSetup() error {
 	var err error
 
 	if wmSelected && terminalSelected {
-		results, err = deployer.DeployConfigurationsWithTerminal(ctx, wm, terminal)
+		results, err = deployer.DeployConfigurationsWithSystemd(ctx, wm, terminal, useSystemd)
 	} else if wmSelected {
-		results, err = deployer.DeployConfigurationsWithTerminal(ctx, wm, deps.TerminalGhostty)
+		results, err = deployer.DeployConfigurationsWithSystemd(ctx, wm, deps.TerminalGhostty, useSystemd)
 		if len(results) > 1 {
 			results = results[:1]
 		}
 	} else if terminalSelected {
-		results, err = deployer.DeployConfigurationsWithTerminal(ctx, deps.WindowManagerNiri, terminal)
+		results, err = deployer.DeployConfigurationsWithSystemd(ctx, deps.WindowManagerNiri, terminal, useSystemd)
 		if len(results) > 0 && results[0].ConfigType == "Niri" {
 			results = results[1:]
 		}
@@ -142,6 +143,19 @@ func promptTerminal() (deps.Terminal, bool) {
 	default:
 		return deps.TerminalGhostty, false
 	}
+}
+
+func promptSystemd() bool {
+	fmt.Println("\nUse systemd for session management?")
+	fmt.Println("1) Yes (recommended for most distros)")
+	fmt.Println("2) No (standalone, no systemd integration)")
+
+	var response string
+	fmt.Print("\nChoice (1-2): ")
+	fmt.Scanln(&response)
+	response = strings.TrimSpace(response)
+
+	return response != "2"
 }
 
 func checkExistingConfigs(wm deps.WindowManager, wmSelected bool, terminal deps.Terminal, terminalSelected bool) bool {

@@ -359,6 +359,10 @@ func (f *FedoraDistribution) InstallPackages(ctx context.Context, dependencies [
 		f.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
 	}
 
+	if err := f.WriteWindowManagerConfig(wm); err != nil {
+		f.log(fmt.Sprintf("Warning: failed to write window manager config: %v", err))
+	}
+
 	if err := f.EnableDMSService(ctx); err != nil {
 		f.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}

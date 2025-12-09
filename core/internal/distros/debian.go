@@ -338,6 +338,10 @@ func (d *DebianDistribution) InstallPackages(ctx context.Context, dependencies [
 		d.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
 	}
 
+	if err := d.WriteWindowManagerConfig(wm); err != nil {
+		d.log(fmt.Sprintf("Warning: failed to write window manager config: %v", err))
+	}
+
 	if err := d.EnableDMSService(ctx); err != nil {
 		d.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}

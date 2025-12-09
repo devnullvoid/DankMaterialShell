@@ -611,6 +611,15 @@ func (b *BaseDistribution) EnableDMSService(ctx context.Context) error {
 	return nil
 }
 
+func (b *BaseDistribution) WriteWindowManagerConfig(wm deps.WindowManager) error {
+	if wm == deps.WindowManagerHyprland {
+		if err := b.WriteHyprlandSessionTarget(); err != nil {
+			return fmt.Errorf("failed to write hyprland session target: %w", err)
+		}
+	}
+	return nil
+}
+
 func (b *BaseDistribution) WriteHyprlandSessionTarget() error {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {

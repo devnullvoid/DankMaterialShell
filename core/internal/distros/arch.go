@@ -360,10 +360,8 @@ func (a *ArchDistribution) InstallPackages(ctx context.Context, dependencies []d
 		a.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
 	}
 
-	if wm == deps.WindowManagerHyprland {
-		if err := a.WriteHyprlandSessionTarget(); err != nil {
-			a.log(fmt.Sprintf("Warning: failed to write hyprland session target: %v", err))
-		}
+	if err := a.WriteWindowManagerConfig(wm); err != nil {
+		a.log(fmt.Sprintf("Warning: failed to write window manager config: %v", err))
 	}
 
 	if err := a.EnableDMSService(ctx); err != nil {
