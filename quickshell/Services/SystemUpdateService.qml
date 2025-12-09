@@ -1,5 +1,4 @@
 pragma Singleton
-
 pragma ComponentBehavior: Bound
 
 import QtQuick
@@ -20,6 +19,7 @@ Singleton {
     property string distribution: ""
     property bool distributionSupported: false
     property string shellVersion: ""
+    property string shellCodename: ""
 
     readonly property var archBasedUCSettings: {
         "listUpdatesSettings": {
@@ -34,7 +34,7 @@ Singleton {
                     "currentVersion": match[2],
                     "newVersion": match[3],
                     "description": `${match[1]} ${match[2]} → ${match[3]}`
-                }
+                };
             }
         }
     }
@@ -56,7 +56,7 @@ Singleton {
                     "currentVersion": match[2],
                     "newVersion": match[3],
                     "description": `${match[1]} ${match[2]} → ${match[3]}`
-                }
+                };
             }
         }
     }
@@ -78,7 +78,7 @@ Singleton {
                     "currentVersion": "",
                     "newVersion": match[2],
                     "description": `${match[1]} → ${match[2]}`
-                }
+                };
             }
         }
     }
@@ -100,40 +100,49 @@ Singleton {
         command: ["sh", "-c", "cat /etc/os-release | grep '^ID=' | cut -d'=' -f2 | tr -d '\"'"]
         running: true
 
-        onExited: (exitCode) => {
+        onExited: exitCode => {
             if (exitCode === 0) {
-                distribution = stdout.text.trim().toLowerCase()
-                distributionSupported = supportedDistributions.includes(distribution)
+                distribution = stdout.text.trim().toLowerCase();
+                distributionSupported = supportedDistributions.includes(distribution);
 
                 if (distributionSupported) {
-                    updateFinderDetection.running = true
-                    pkgManagerDetection.running = true
-                    checkForUpdates()
+                    updateFinderDetection.running = true;
+                    pkgManagerDetection.running = true;
+                    checkForUpdates();
                 } else {
-                    console.warn("SystemUpdate: Unsupported distribution:", distribution)
+                    console.warn("SystemUpdate: Unsupported distribution:", distribution);
                 }
             } else {
-                console.warn("SystemUpdate: Failed to detect distribution")
+                console.warn("SystemUpdate: Failed to detect distribution");
             }
         }
 
         stdout: StdioCollector {}
 
         Component.onCompleted: {
-            versionDetection.running = true
+            versionDetection.running = true;
         }
     }
 
     Process {
         id: versionDetection
-        command: [
-            "sh", "-c",
-            `cd "${Quickshell.shellDir}" && if [ -d .git ]; then echo "(git) $(git rev-parse --short HEAD)"; elif [ -f VERSION ]; then cat VERSION; fi`
-        ]
+        command: ["sh", "-c", `cd "${Quickshell.shellDir}" && if [ -d .git ]; then echo "(git) $(git rev-parse --short HEAD)"; elif [ -f VERSION ]; then cat VERSION; fi`]
 
         stdout: StdioCollector {
             onStreamFinished: {
-                shellVersion = text.trim()
+                shellVersion = text.trim();
+            }
+        }
+    }
+
+    Process {
+        id: codenameDetection
+        command: ["sh", "-c", `cd "${Quickshell.shellDir}" && if [ -f CODENAME ]; then cat CODENAME; fi`]
+        running: true
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                shellCodename = text.trim();
             }
         }
     }
@@ -142,12 +151,12 @@ Singleton {
         id: updateFinderDetection
         command: ["sh", "-c", "which checkupdates"]
 
-        onExited: (exitCode) => {
+        onExited: exitCode => {
             if (exitCode === 0) {
-                const exeFound = stdout.text.trim()
-                updChecker = exeFound.split('/').pop()
+                const exeFound = stdout.text.trim();
+                updChecker = exeFound.split('/').pop();
             } else {
-                console.warn("SystemUpdate: No update checker found. Will use package manager.")
+                console.warn("SystemUpdate: No update checker found. Will use package manager.");
             }
         }
 
@@ -158,12 +167,12 @@ Singleton {
         id: pkgManagerDetection
         command: ["sh", "-c", "which paru || which yay || which dnf"]
 
-        onExited: (exitCode) => {
+        onExited: exitCode => {
             if (exitCode === 0) {
-                const exeFound = stdout.text.trim()
-                pkgManager = exeFound.split('/').pop()
+                const exeFound = stdout.text.trim();
+                pkgManager = exeFound.split('/').pop();
             } else {
-                console.warn("SystemUpdate: No package manager found")
+                console.warn("SystemUpdate: No package manager found");
             }
         }
 
@@ -173,19 +182,17 @@ Singleton {
     Process {
         id: updateChecker
 
-        onExited: (exitCode) => {
-            isChecking = false
-            const correctExitCodes = updChecker.length > 0 ?
-                [updChecker].concat(updateCheckerParams[updChecker].listUpdatesSettings.correctExitCodes) :
-                [pkgManager].concat(packageManagerParams[pkgManager].listUpdatesSettings.correctExitCodes)
+        onExited: exitCode => {
+            isChecking = false;
+            const correctExitCodes = updChecker.length > 0 ? [updChecker].concat(updateCheckerParams[updChecker].listUpdatesSettings.correctExitCodes) : [pkgManager].concat(packageManagerParams[pkgManager].listUpdatesSettings.correctExitCodes);
             if (correctExitCodes.includes(exitCode)) {
-                parseUpdates(stdout.text)
-                hasError = false
-                errorMessage = ""
+                parseUpdates(stdout.text);
+                hasError = false;
+                errorMessage = "";
             } else {
-                hasError = true
-                errorMessage = "Failed to check for updates"
-                console.warn("SystemUpdate: Update check failed with code:", exitCode)
+                hasError = true;
+                errorMessage = "Failed to check for updates";
+                console.warn("SystemUpdate: Update check failed with code:", exitCode);
             }
         }
 
@@ -194,67 +201,67 @@ Singleton {
 
     Process {
         id: updater
-        onExited: (exitCode) => {
-            checkForUpdates()
+        onExited: exitCode => {
+            checkForUpdates();
         }
     }
 
     function checkForUpdates() {
-        if (!distributionSupported || (!pkgManager && !updChecker) || isChecking) return
-
-        isChecking = true
-        hasError = false
+        if (!distributionSupported || (!pkgManager && !updChecker) || isChecking)
+            return;
+        isChecking = true;
+        hasError = false;
         if (updChecker.length > 0) {
-            updateChecker.command = [updChecker].concat(updateCheckerParams[updChecker].listUpdatesSettings.params)
+            updateChecker.command = [updChecker].concat(updateCheckerParams[updChecker].listUpdatesSettings.params);
         } else {
-            updateChecker.command = [pkgManager].concat(packageManagerParams[pkgManager].listUpdatesSettings.params)
+            updateChecker.command = [pkgManager].concat(packageManagerParams[pkgManager].listUpdatesSettings.params);
         }
-        updateChecker.running = true
+        updateChecker.running = true;
     }
 
     function parseUpdates(output) {
-        const lines = output.trim().split('\n').filter(line => line.trim())
-        const updates = []
+        const lines = output.trim().split('\n').filter(line => line.trim());
+        const updates = [];
 
-        const regex = packageManagerParams[pkgManager].parserSettings.lineRegex
-        const entryProducer = packageManagerParams[pkgManager].parserSettings.entryProducer
+        const regex = packageManagerParams[pkgManager].parserSettings.lineRegex;
+        const entryProducer = packageManagerParams[pkgManager].parserSettings.entryProducer;
 
         for (const line of lines) {
-            const match = line.match(regex)
+            const match = line.match(regex);
             if (match) {
-                updates.push(entryProducer(match))
+                updates.push(entryProducer(match));
             }
         }
 
-        availableUpdates = updates
+        availableUpdates = updates;
     }
 
     function runUpdates() {
-        if (!distributionSupported || !pkgManager || updateCount === 0) return
-
-        const terminal = Quickshell.env("TERMINAL") || "xterm"
+        if (!distributionSupported || !pkgManager || updateCount === 0)
+            return;
+        const terminal = Quickshell.env("TERMINAL") || "xterm";
 
         if (SettingsData.updaterUseCustomCommand && SettingsData.updaterCustomCommand.length > 0) {
-            const updateCommand = `${SettingsData.updaterCustomCommand} && echo "Updates complete! Press Enter to close..." && read`
-            const termClass = SettingsData.updaterTerminalAdditionalParams
+            const updateCommand = `${SettingsData.updaterCustomCommand} && echo "Updates complete! Press Enter to close..." && read`;
+            const termClass = SettingsData.updaterTerminalAdditionalParams;
 
-            var finalCommand = [terminal]
+            var finalCommand = [terminal];
             if (termClass.length > 0) {
-                finalCommand = finalCommand.concat(termClass.split(" "))
+                finalCommand = finalCommand.concat(termClass.split(" "));
             }
-            finalCommand.push("-e")
-            finalCommand.push("sh")
-            finalCommand.push("-c")
-            finalCommand.push(updateCommand)
-            updater.command = finalCommand
+            finalCommand.push("-e");
+            finalCommand.push("sh");
+            finalCommand.push("-c");
+            finalCommand.push(updateCommand);
+            updater.command = finalCommand;
         } else {
-            const params = packageManagerParams[pkgManager].upgradeSettings.params.join(" ")
-            const sudo = packageManagerParams[pkgManager].upgradeSettings.requiresSudo ? "sudo" : ""
-            const updateCommand = `${sudo} ${pkgManager} ${params} && echo "Updates complete! Press Enter to close..." && read`
+            const params = packageManagerParams[pkgManager].upgradeSettings.params.join(" ");
+            const sudo = packageManagerParams[pkgManager].upgradeSettings.requiresSudo ? "sudo" : "";
+            const updateCommand = `${sudo} ${pkgManager} ${params} && echo "Updates complete! Press Enter to close..." && read`;
 
-            updater.command = [terminal, "-e", "sh", "-c", updateCommand]
+            updater.command = [terminal, "-e", "sh", "-c", updateCommand];
         }
-        updater.running = true
+        updater.running = true;
     }
 
     Timer {
@@ -263,22 +270,22 @@ Singleton {
         running: refCount > 0 && distributionSupported && (pkgManager || updChecker)
         onTriggered: checkForUpdates()
     }
-    
+
     IpcHandler {
         target: "systemupdater"
 
         function updatestatus(): string {
             if (root.isChecking) {
-                return "ERROR: already checking"
+                return "ERROR: already checking";
             }
             if (!distributionSupported) {
-                return "ERROR: distribution not supported"
+                return "ERROR: distribution not supported";
             }
             if (!pkgManager && !updChecker) {
-                return "ERROR: update checker not available"
+                return "ERROR: update checker not available";
             }
-            root.checkForUpdates()
-            return "SUCCESS: Now checking..."
+            root.checkForUpdates();
+            return "SUCCESS: Now checking...";
         }
     }
 }

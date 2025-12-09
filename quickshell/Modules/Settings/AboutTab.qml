@@ -3,7 +3,6 @@ import QtQuick.Effects
 import qs.Common
 import qs.Services
 import qs.Widgets
-import qs.Modules.Settings.Widgets
 
 Item {
     id: aboutTab
@@ -196,6 +195,16 @@ Item {
                         font.pixelSize: Theme.fontSizeXLarge
                         font.weight: Font.Bold
                         color: Theme.surfaceText
+                        horizontalAlignment: Text.AlignHCenter
+                        width: parent.width
+                    }
+
+                    StyledText {
+                        visible: SystemUpdateService.shellCodename.length > 0
+                        text: `"${SystemUpdateService.shellCodename}"`
+                        font.pixelSize: Theme.fontSizeMedium
+                        font.italic: true
+                        color: Theme.surfaceVariantText
                         horizontalAlignment: Text.AlignHCenter
                         width: parent.width
                     }

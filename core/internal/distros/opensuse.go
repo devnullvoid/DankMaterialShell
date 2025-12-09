@@ -476,7 +476,7 @@ func (o *OpenSUSEDistribution) enableOBSRepos(ctx context.Context, obsPkgs []Pac
 			cmd := ExecSudoCommand(ctx, sudoPassword,
 				fmt.Sprintf("zypper addrepo -f %s", repoURL))
 			if err := o.runWithProgress(cmd, progressChan, PhaseSystemPackages, 0.20, 0.22); err != nil {
-				return fmt.Errorf("failed to enable OBS repo %s: %w", pkg.RepoURL, err)
+				o.log(fmt.Sprintf("OBS repo %s add failed (may already exist): %v", pkg.RepoURL, err))
 			}
 
 			enabledRepos[pkg.RepoURL] = true
