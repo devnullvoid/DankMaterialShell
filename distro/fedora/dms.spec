@@ -26,7 +26,7 @@ BuildRequires:  systemd-rpm-macros
 # Core requirements
 Requires:       (quickshell-git or quickshell)
 Requires:       accountsservice
-Requires:       dms-cli
+Requires:       dms-cli = %{epoch}:%{version}-%{release}
 Requires:       dgop
 
 # Core utilities (Highly recommended for DMS functionality)
@@ -60,40 +60,8 @@ URL:            https://github.com/AvengeMedia/DankMaterialShell
 Command-line interface for DankMaterialShell configuration and management.
 Provides native DBus bindings, NetworkManager integration, and system utilities.
 
-%package -n dgop
-Summary:        Stateless CPU/GPU monitor for DankMaterialShell
-License:        MIT
-URL:            https://github.com/AvengeMedia/dgop
-Provides:       dgop
-
-%description -n dgop
-DGOP is a stateless system monitoring tool that provides CPU, GPU, memory, and 
-network statistics. Designed for integration with DankMaterialShell but can be 
-used standalone. This package always includes the latest stable dgop release.
-
 %prep
 {{{ git_repo_setup_macro }}}
-
-# Download and extract DGOP binary for target architecture
-case "%{_arch}" in
-  x86_64)
-    DGOP_ARCH="amd64"
-    ;;
-  aarch64)
-    DGOP_ARCH="arm64"
-    ;;
-  *)
-    echo "Unsupported architecture: %{_arch}"
-    exit 1
-    ;;
-esac
-
-wget -O %{_builddir}/dgop.gz "https://github.com/AvengeMedia/dgop/releases/latest/download/dgop-linux-${DGOP_ARCH}.gz" || {
-  echo "Failed to download dgop for architecture %{_arch}"
-  exit 1
-}
-gunzip -c %{_builddir}/dgop.gz > %{_builddir}/dgop
-chmod +x %{_builddir}/dgop
 
 %build
 # Build DMS CLI from source (core/subdirectory)
@@ -128,9 +96,6 @@ core/bin/${DMS_BINARY} completion bash > %{buildroot}%{_datadir}/bash-completion
 core/bin/${DMS_BINARY} completion zsh > %{buildroot}%{_datadir}/zsh/site-functions/_dms || :
 core/bin/${DMS_BINARY} completion fish > %{buildroot}%{_datadir}/fish/vendor_completions.d/dms.fish || :
 
-# Install dgop binary
-install -Dm755 %{_builddir}/dgop %{buildroot}%{_bindir}/dgop
-
 # Install systemd user service
 install -Dm644 assets/systemd/dms.service %{buildroot}%{_userunitdir}/dms.service
 
@@ -150,11 +115,8 @@ rm -rf %{buildroot}%{_datadir}/quickshell/dms/distro
 echo "%{version}" > %{buildroot}%{_datadir}/quickshell/dms/VERSION
 
 %posttrans
-
-# Restart DMS for active users after upgrade
-if [ "$1" -ge 2 ]; then
-  pkill -USR1 -x dms >/dev/null 2>&1 || true
-fi
+# Signal running DMS instances to reload
+pkill -USR1 -x dms >/dev/null 2>&1 || :
 
 %files
 %license LICENSE
@@ -170,9 +132,6 @@ fi
 %{_datadir}/bash-completion/completions/dms
 %{_datadir}/zsh/site-functions/_dms
 %{_datadir}/fish/vendor_completions.d/dms.fish
-
-%files -n dgop
-%{_bindir}/dgop
 
 %changelog
 {{{ git_repo_changelog }}}

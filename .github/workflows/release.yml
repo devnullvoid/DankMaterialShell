@@ -511,7 +511,7 @@ jobs:
 
           Requires:       (quickshell or quickshell-git)
           Requires:       accountsservice
-          Requires:       dms-cli
+          Requires:       dms-cli = %{version}-%{release}
           Requires:       dgop
 
           Recommends:     cava
@@ -541,17 +541,6 @@ jobs:
           Command-line interface for DankMaterialShell configuration and management.
           Provides native DBus bindings, NetworkManager integration, and system utilities.
 
-          %package -n dgop
-          Summary:        Stateless CPU/GPU monitor for DankMaterialShell
-          License:        MIT
-          URL:            https://github.com/AvengeMedia/dgop
-          Provides:       dgop
-
-          %description -n dgop
-          DGOP is a stateless system monitoring tool that provides CPU, GPU, memory, and
-          network statistics. Designed for integration with DankMaterialShell but can be
-          used standalone. This package always includes the latest stable dgop release.
-
           %prep
           %setup -q -c -n dms-qml
 
@@ -576,18 +565,10 @@ jobs:
           gunzip -c %{_builddir}/dms-cli.gz > %{_builddir}/dms-cli
           chmod +x %{_builddir}/dms-cli
 
-          wget -O %{_builddir}/dgop.gz "https://github.com/AvengeMedia/dgop/releases/latest/download/dgop-linux-${ARCH_SUFFIX}.gz" || {
-            echo "Failed to download dgop for architecture %{_arch}"
-            exit 1
-          }
-          gunzip -c %{_builddir}/dgop.gz > %{_builddir}/dgop
-          chmod +x %{_builddir}/dgop
-
           %build
 
           %install
           install -Dm755 %{_builddir}/dms-cli %{buildroot}%{_bindir}/dms
-          install -Dm755 %{_builddir}/dgop %{buildroot}%{_bindir}/dgop
 
           install -d %{buildroot}%{_datadir}/bash-completion/completions
           install -d %{buildroot}%{_datadir}/zsh/site-functions
@@ -617,10 +598,8 @@ jobs:
               rmdir "%{_sysconfdir}/xdg/quickshell" 2>/dev/null || true
               rmdir "%{_sysconfdir}/xdg" 2>/dev/null || true
           fi
-
-          if [ "$1" -ge 2 ]; then
-            pkill -USR1 -x dms >/dev/null 2>&1 || true
-          fi
+          # Signal running DMS instances to reload
+          pkill -USR1 -x dms >/dev/null 2>&1 || :
 
           %files
           %license LICENSE
@@ -636,14 +615,10 @@ jobs:
           %{_datadir}/zsh/site-functions/_dms
           %{_datadir}/fish/vendor_completions.d/dms.fish
 
-          %files -n dgop
-          %{_bindir}/dgop
-
           %changelog
           * CHANGELOG_DATE_PLACEHOLDER AvengeMedia <contact@avengemedia.com> - VERSION_PLACEHOLDER-1
           - Stable release VERSION_PLACEHOLDER
           - Built from GitHub release
-          - Includes latest dms-cli and dgop binaries
           SPECEOF
 
           sed -i "s/VERSION_PLACEHOLDER/${VERSION}/g" ~/rpmbuild/SPECS/dms.spec

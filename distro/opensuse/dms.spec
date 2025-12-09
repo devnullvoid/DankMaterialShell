@@ -80,10 +80,8 @@ rm -rf %{buildroot}%{_datadir}/quickshell/dms/core
 echo "%{version}" > %{buildroot}%{_datadir}/quickshell/dms/VERSION
 
 %posttrans
-
-if [ "$1" -ge 2 ]; then
-  pkill -USR1 -x dms >/dev/null 2>&1 || true
-fi
+# Signal running DMS instances to reload
+pkill -USR1 -x dms >/dev/null 2>&1 || :
 
 %files
 %license LICENSE
