@@ -5,7 +5,10 @@ UPSTREAM_VERSION := $(shell echo $(DEB_VERSION) | sed 's/-[^-]*$$//')
 DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
 %:
-	dh $@
+	dh $@ --with systemd
+
+override_dh_installsystemd:
+	dh_installsystemd --user --name=dms
 
 override_dh_auto_build:
 	if [ "$(DEB_HOST_ARCH)" = "amd64" ]; then \

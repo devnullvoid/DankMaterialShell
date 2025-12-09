@@ -11,7 +11,10 @@ UPSTREAM_VERSION := $(shell echo $(DEB_VERSION) | sed 's/-[^-]*$$//')
 BASE_VERSION := $(shell echo $(UPSTREAM_VERSION) | sed 's/ppa[0-9]*$$//' | sed 's/+git.*//')
 
 %:
-	dh $@
+	dh $@ --with systemd
+
+override_dh_installsystemd:
+	dh_installsystemd --user --name=dms
 
 override_dh_auto_build:
 	# All files are included in source package (downloaded by build-source.sh)

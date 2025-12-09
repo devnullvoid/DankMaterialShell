@@ -15,7 +15,10 @@ export GOMODCACHE := $(CURDIR)/debian/tmp-home/go-mod
 export GOTOOLCHAIN := local
 
 %:
-	dh $@
+	dh $@ --with systemd
+
+override_dh_installsystemd:
+	dh_installsystemd --user --name=dms
 
 override_dh_auto_build:
 	# Create Go cache directories (sbuild sets HOME to non-existent path)
