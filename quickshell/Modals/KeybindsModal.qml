@@ -19,7 +19,7 @@ DankModal {
     onBackgroundClicked: close()
     onOpened: {
         Qt.callLater(() => modalFocusScope.forceActiveFocus());
-        if (KeybindsService.cheatsheetAvailable)
+        if (!Object.keys(KeybindsService.cheatsheet).length && KeybindsService.cheatsheetAvailable)
             KeybindsService.loadCheatsheet();
     }
 
@@ -118,12 +118,36 @@ DankModal {
                     }
                     property var categoryKeys: Object.keys(categories)
 
+                    function estimateCategoryHeight(catName) {
+                        const catData = categories[catName];
+                        if (!catData)
+                            return 0;
+                        let bindCount = 0;
+                        for (const key of catData.subcatKeys) {
+                            bindCount += catData.subcats[key]?.length || 0;
+                            if (key !== "_root")
+                                bindCount += 1;
+                        }
+                        return 40 + bindCount * 28;
+                    }
+
                     function distributeCategories(cols) {
                         const columns = [];
-                        for (let i = 0; i < cols; i++)
+                        const heights = [];
+                        for (let i = 0; i < cols; i++) {
                             columns.push([]);
-                        for (let i = 0; i < categoryKeys.length; i++)
-                            columns[i % cols].push(categoryKeys[i]);
+                            heights.push(0);
+                        }
+                        const sorted = [...categoryKeys].sort((a, b) => estimateCategoryHeight(b) - estimateCategoryHeight(a));
+                        for (const cat of sorted) {
+                            let minIdx = 0;
+                            for (let i = 1; i < cols; i++) {
+                                if (heights[i] < heights[minIdx])
+                                    minIdx = i;
+                            }
+                            columns[minIdx].push(cat);
+                            heights[minIdx] += estimateCategoryHeight(cat);
+                        }
                         return columns;
                     }
 
@@ -141,7 +165,7 @@ DankModal {
                             Column {
                                 id: masonryColumn
                                 width: (rowLayout.width - rowLayout.spacing * (rowLayout.numColumns - 1)) / rowLayout.numColumns
-                                spacing: Theme.spacingM
+                                spacing: Theme.spacingXL
 
                                 Repeater {
                                     model: rowLayout.columnCategories[index] || []
@@ -203,37 +227,37 @@ DankModal {
                                                         Repeater {
                                                             model: parent.parent.subcatBinds
 
-                                                            Row {
+                                                            Item {
                                                                 width: parent.width
-                                                                spacing: Theme.spacingS
+                                                                height: 24
 
                                                                 StyledRect {
-                                                                    width: Math.min(140, parent.width * 0.42)
+                                                                    id: keyBadge
+                                                                    width: Math.min(keyText.implicitWidth + 12, 160)
                                                                     height: 22
                                                                     radius: 4
-                                                                    opacity: 0.9
+                                                                    anchors.verticalCenter: parent.verticalCenter
 
                                                                     StyledText {
+                                                                        id: keyText
                                                                         anchors.centerIn: parent
-                                                                        anchors.margins: 2
-                                                                        width: parent.width - 4
                                                                         color: Theme.secondary
                                                                         text: modelData.key || ""
                                                                         font.pixelSize: Theme.fontSizeSmall
                                                                         font.weight: Font.Medium
                                                                         isMonospace: true
-                                                                        elide: Text.ElideRight
-                                                                        horizontalAlignment: Text.AlignHCenter
                                                                     }
                                                                 }
 
                                                                 StyledText {
-                                                                    width: parent.width - 150
+                                                                    anchors.left: parent.left
+                                                                    anchors.leftMargin: 170
+                                                                    anchors.right: parent.right
+                                                                    anchors.verticalCenter: parent.verticalCenter
                                                                     text: modelData.desc || modelData.action || ""
                                                                     font.pixelSize: Theme.fontSizeSmall
                                                                     opacity: 0.9
                                                                     elide: Text.ElideRight
-                                                                    anchors.verticalCenter: parent.verticalCenter
                                                                 }
                                                             }
                                                         }

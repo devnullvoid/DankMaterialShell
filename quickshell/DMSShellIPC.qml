@@ -332,18 +332,16 @@ Item {
             if (!provider)
                 return "ERROR: No provider specified";
 
-            KeybindsService.currentProvider = provider;
-            KeybindsService.loadBinds();
+            KeybindsService.loadCheatsheet(provider);
             root.hyprKeybindsModalLoader.active = true;
 
             if (!root.hyprKeybindsModalLoader.item)
                 return `KEYBINDS_TOGGLE_FAILED: ${provider}`;
 
-            if (root.hyprKeybindsModalLoader.item.shouldBeVisible) {
+            if (root.hyprKeybindsModalLoader.item.shouldBeVisible)
                 root.hyprKeybindsModalLoader.item.close();
-            } else {
+            else
                 root.hyprKeybindsModalLoader.item.open();
-            }
             return `KEYBINDS_TOGGLE_SUCCESS: ${provider}`;
         }
 
@@ -351,18 +349,16 @@ Item {
             if (!provider)
                 return "ERROR: No provider specified";
 
-            KeybindsService.currentProvider = provider;
-            KeybindsService.loadBinds();
+            KeybindsService.loadCheatsheet(provider);
             root.hyprKeybindsModalLoader.active = true;
 
             if (!root.hyprKeybindsModalLoader.item)
                 return `KEYBINDS_TOGGLE_FAILED: ${provider}`;
 
-            if (root.hyprKeybindsModalLoader.item.shouldBeVisible) {
+            if (root.hyprKeybindsModalLoader.item.shouldBeVisible)
                 root.hyprKeybindsModalLoader.item.close();
-            } else {
+            else
                 root.hyprKeybindsModalLoader.item.open();
-            }
             return `KEYBINDS_TOGGLE_SUCCESS: ${provider} (${path})`;
         }
 
@@ -370,8 +366,7 @@ Item {
             if (!provider)
                 return "ERROR: No provider specified";
 
-            KeybindsService.currentProvider = provider;
-            KeybindsService.loadBinds();
+            KeybindsService.loadCheatsheet(provider);
             root.hyprKeybindsModalLoader.active = true;
 
             if (!root.hyprKeybindsModalLoader.item)
@@ -385,8 +380,7 @@ Item {
             if (!provider)
                 return "ERROR: No provider specified";
 
-            KeybindsService.currentProvider = provider;
-            KeybindsService.loadBinds();
+            KeybindsService.loadCheatsheet(provider);
             root.hyprKeybindsModalLoader.active = true;
 
             if (!root.hyprKeybindsModalLoader.item)

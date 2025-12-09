@@ -233,11 +233,14 @@ Singleton {
         loadBinds(true);
     }
 
-    function loadCheatsheet() {
-        if (cheatsheetProcess.running || !cheatsheetAvailable)
+    function loadCheatsheet(provider) {
+        if (cheatsheetProcess.running)
+            return;
+        const target = provider || cheatsheetProvider;
+        if (!target)
             return;
         cheatsheetLoading = true;
-        cheatsheetProcess.command = ["dms", "keybinds", "show", cheatsheetProvider];
+        cheatsheetProcess.command = ["dms", "keybinds", "show", target];
         cheatsheetProcess.running = true;
     }
 
