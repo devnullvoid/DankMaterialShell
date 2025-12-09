@@ -539,8 +539,36 @@ func (m *Manager) getDeadlineNormal(now time.Time, sched sunSchedule) time.Time 
 	case now.Before(times.Night):
 		return now.Add(sched.nightStepTime)
 	default:
-		return m.tomorrow(now)
+		return m.tomorrowDawn(now)
 	}
+}
+
+func (m *Manager) tomorrowDawn(now time.Time) time.Time {
+	tomorrow := time.Date(now.Year(), now.Month(), now.Day()+1, 0, 0, 0, 0, now.Location())
+
+	m.configMutex.RLock()
+	config := m.config
+	m.configMutex.RUnlock()
+
+	if config.ManualSunrise != nil {
+		dur := time.Hour
+		if config.ManualDuration != nil {
+			dur = *config.ManualDuration
+		}
+		return time.Date(tomorrow.Year(), tomorrow.Month(), tomorrow.Day(),
+			config.ManualSunrise.Hour(), config.ManualSunrise.Minute(), config.ManualSunrise.Second(), 0, tomorrow.Location()).Add(-dur)
+	}
+
+	lat, lon := m.getLocation()
+	if lat == nil || lon == nil {
+		return tomorrow
+	}
+
+	times, cond := CalculateSunTimesWithTwilight(*lat, *lon, tomorrow, config.ElevationTwilight, config.ElevationDaylight)
+	if cond != SunNormal {
+		return tomorrow
+	}
+	return times.Dawn
 }
 
 func (m *Manager) tomorrow(now time.Time) time.Time {

@@ -384,260 +384,269 @@ Item {
                     }
                 }
 
-                // Controls Group
-                Column {
-                    id: controlsGroup
+                Item {
+                    id: seekbarContainer
                     width: parent.width
-                    spacing: Theme.spacingXS
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 0
+                    anchors.top: songInfo.bottom
+                    anchors.bottom: playbackControls.top
+                    anchors.horizontalCenter: parent.horizontalCenter
 
-                    DankSeekbar {
-                        width: parent.width * 0.8
-                        height: 20
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        activePlayer: root.activePlayer
-                        isSeeking: root.isSeeking
-                        onIsSeekingChanged: root.isSeeking = isSeeking
-                    }
-
-                    Item {
-                        width: parent.width * 0.8
-                        height: 20
-                        anchors.horizontalCenter: parent.horizontalCenter
-
-                        StyledText {
-                            anchors.left: parent.left
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: {
-                                if (!activePlayer)
-                                    return "0:00";
-                                const rawPos = Math.max(0, activePlayer.position || 0);
-                                const pos = activePlayer.length ? rawPos % Math.max(1, activePlayer.length) : rawPos;
-                                const minutes = Math.floor(pos / 60);
-                                const seconds = Math.floor(pos % 60);
-                                const timeStr = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-                                return timeStr;
-                            }
-                            font.pixelSize: Theme.fontSizeSmall
-                            color: Theme.surfaceVariantText
-                        }
-
-                        StyledText {
-                            anchors.right: parent.right
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: {
-                                if (!activePlayer || !activePlayer.length)
-                                    return "0:00";
-                                const dur = Math.max(0, activePlayer.length || 0);  // Length is already in seconds
-                                const minutes = Math.floor(dur / 60);
-                                const seconds = Math.floor(dur % 60);
-                                return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-                            }
-                            font.pixelSize: Theme.fontSizeSmall
-                            color: Theme.surfaceVariantText
-                        }
-                    }
-
-                    Item {
+                    Column {
                         width: parent.width
-                        height: 50
+                        spacing: 2
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.verticalCenterOffset: parent.height * 0.2
 
-                        Row {
-                            anchors.centerIn: parent
-                            spacing: Theme.spacingM
-                            height: parent.height
+                        DankSeekbar {
+                            width: parent.width * 0.8
+                            height: 20
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            activePlayer: root.activePlayer
+                            isSeeking: root.isSeeking
+                            onIsSeekingChanged: root.isSeeking = isSeeking
+                        }
 
-                            Item {
-                                width: 50
-                                height: 50
+                        Item {
+                            width: parent.width * 0.8
+                            height: 16
+                            anchors.horizontalCenter: parent.horizontalCenter
+
+                            StyledText {
+                                anchors.left: parent.left
                                 anchors.verticalCenter: parent.verticalCenter
-                                visible: activePlayer && activePlayer.shuffleSupported
+                                text: {
+                                    if (!activePlayer)
+                                        return "0:00";
+                                    const rawPos = Math.max(0, activePlayer.position || 0);
+                                    const pos = activePlayer.length ? rawPos % Math.max(1, activePlayer.length) : rawPos;
+                                    const minutes = Math.floor(pos / 60);
+                                    const seconds = Math.floor(pos % 60);
+                                    const timeStr = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+                                    return timeStr;
+                                }
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
 
-                                Rectangle {
-                                    width: 40
-                                    height: 40
-                                    radius: 20
+                            StyledText {
+                                anchors.right: parent.right
+                                anchors.verticalCenter: parent.verticalCenter
+                                text: {
+                                    if (!activePlayer || !activePlayer.length)
+                                        return "0:00";
+                                    const dur = Math.max(0, activePlayer.length || 0);
+                                    const minutes = Math.floor(dur / 60);
+                                    const seconds = Math.floor(dur % 60);
+                                    return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+                                }
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
+                        }
+                    }
+                }
+
+                Item {
+                    id: playbackControls
+                    width: parent.width
+                    height: 50
+                    anchors.bottom: parent.bottom
+
+                    Row {
+                        anchors.centerIn: parent
+                        spacing: Theme.spacingM
+                        height: parent.height
+
+                        Item {
+                            width: 50
+                            height: 50
+                            anchors.verticalCenter: parent.verticalCenter
+                            visible: activePlayer && activePlayer.shuffleSupported
+
+                            Rectangle {
+                                width: 40
+                                height: 40
+                                radius: 20
+                                anchors.centerIn: parent
+                                color: shuffleArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12) : "transparent"
+
+                                DankIcon {
                                     anchors.centerIn: parent
-                                    color: shuffleArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12) : "transparent"
+                                    name: "shuffle"
+                                    size: 20
+                                    color: activePlayer && activePlayer.shuffle ? Theme.primary : Theme.surfaceText
+                                }
 
-                                    DankIcon {
-                                        anchors.centerIn: parent
-                                        name: "shuffle"
-                                        size: 20
-                                        color: activePlayer && activePlayer.shuffle ? Theme.primary : Theme.surfaceText
-                                    }
-
-                                    MouseArea {
-                                        id: shuffleArea
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        onClicked: {
-                                            if (activePlayer && activePlayer.canControl && activePlayer.shuffleSupported) {
-                                                activePlayer.shuffle = !activePlayer.shuffle;
-                                            }
+                                MouseArea {
+                                    id: shuffleArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        if (activePlayer && activePlayer.canControl && activePlayer.shuffleSupported) {
+                                            activePlayer.shuffle = !activePlayer.shuffle;
                                         }
                                     }
                                 }
                             }
+                        }
 
-                            Item {
-                                width: 50
-                                height: 50
-                                anchors.verticalCenter: parent.verticalCenter
+                        Item {
+                            width: 50
+                            height: 50
+                            anchors.verticalCenter: parent.verticalCenter
 
-                                Rectangle {
-                                    width: 40
-                                    height: 40
-                                    radius: 20
+                            Rectangle {
+                                width: 40
+                                height: 40
+                                radius: 20
+                                anchors.centerIn: parent
+                                color: prevBtnArea.containsMouse ? Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency) : "transparent"
+
+                                DankIcon {
                                     anchors.centerIn: parent
-                                    color: prevBtnArea.containsMouse ? Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency) : "transparent"
+                                    name: "skip_previous"
+                                    size: 24
+                                    color: Theme.surfaceText
+                                }
 
-                                    DankIcon {
-                                        anchors.centerIn: parent
-                                        name: "skip_previous"
-                                        size: 24
-                                        color: Theme.surfaceText
-                                    }
+                                MouseArea {
+                                    id: prevBtnArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        if (!activePlayer) {
+                                            return;
+                                        }
 
-                                    MouseArea {
-                                        id: prevBtnArea
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        onClicked: {
-                                            if (!activePlayer) {
-                                                return;
-                                            }
-
-                                            if (activePlayer.position > 8 && activePlayer.canSeek) {
-                                                activePlayer.position = 0;
-                                            } else {
-                                                activePlayer.previous();
-                                            }
+                                        if (activePlayer.position > 8 && activePlayer.canSeek) {
+                                            activePlayer.position = 0;
+                                        } else {
+                                            activePlayer.previous();
                                         }
                                     }
                                 }
                             }
+                        }
 
-                            Item {
+                        Item {
+                            width: 50
+                            height: 50
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            Rectangle {
                                 width: 50
                                 height: 50
-                                anchors.verticalCenter: parent.verticalCenter
+                                radius: 25
+                                anchors.centerIn: parent
+                                color: Theme.primary
 
-                                Rectangle {
-                                    width: 50
-                                    height: 50
-                                    radius: 25
+                                DankIcon {
                                     anchors.centerIn: parent
-                                    color: Theme.primary
+                                    name: activePlayer && activePlayer.playbackState === MprisPlaybackState.Playing ? "pause" : "play_arrow"
+                                    size: 28
+                                    color: Theme.background
+                                    weight: 500
+                                }
 
-                                    DankIcon {
-                                        anchors.centerIn: parent
-                                        name: activePlayer && activePlayer.playbackState === MprisPlaybackState.Playing ? "pause" : "play_arrow"
-                                        size: 28
-                                        color: Theme.background
-                                        weight: 500
-                                    }
+                                MouseArea {
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: activePlayer && activePlayer.togglePlaying()
+                                }
 
-                                    MouseArea {
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        onClicked: activePlayer && activePlayer.togglePlaying()
-                                    }
-
-                                    layer.enabled: true
-                                    layer.effect: MultiEffect {
-                                        shadowEnabled: true
-                                        shadowHorizontalOffset: 0
-                                        shadowVerticalOffset: 0
-                                        shadowBlur: 1.0
-                                        shadowColor: Qt.rgba(0, 0, 0, 0.3)
-                                        shadowOpacity: 0.3
-                                    }
+                                layer.enabled: true
+                                layer.effect: MultiEffect {
+                                    shadowEnabled: true
+                                    shadowHorizontalOffset: 0
+                                    shadowVerticalOffset: 0
+                                    shadowBlur: 1.0
+                                    shadowColor: Qt.rgba(0, 0, 0, 0.3)
+                                    shadowOpacity: 0.3
                                 }
                             }
+                        }
 
-                            Item {
-                                width: 50
-                                height: 50
-                                anchors.verticalCenter: parent.verticalCenter
+                        Item {
+                            width: 50
+                            height: 50
+                            anchors.verticalCenter: parent.verticalCenter
 
-                                Rectangle {
-                                    width: 40
-                                    height: 40
-                                    radius: 20
+                            Rectangle {
+                                width: 40
+                                height: 40
+                                radius: 20
+                                anchors.centerIn: parent
+                                color: nextBtnArea.containsMouse ? Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency) : "transparent"
+
+                                DankIcon {
                                     anchors.centerIn: parent
-                                    color: nextBtnArea.containsMouse ? Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency) : "transparent"
+                                    name: "skip_next"
+                                    size: 24
+                                    color: Theme.surfaceText
+                                }
 
-                                    DankIcon {
-                                        anchors.centerIn: parent
-                                        name: "skip_next"
-                                        size: 24
-                                        color: Theme.surfaceText
-                                    }
-
-                                    MouseArea {
-                                        id: nextBtnArea
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        onClicked: activePlayer && activePlayer.next()
-                                    }
+                                MouseArea {
+                                    id: nextBtnArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: activePlayer && activePlayer.next()
                                 }
                             }
+                        }
 
-                            Item {
-                                width: 50
-                                height: 50
-                                anchors.verticalCenter: parent.verticalCenter
-                                visible: activePlayer && activePlayer.loopSupported
+                        Item {
+                            width: 50
+                            height: 50
+                            anchors.verticalCenter: parent.verticalCenter
+                            visible: activePlayer && activePlayer.loopSupported
 
-                                Rectangle {
-                                    width: 40
-                                    height: 40
-                                    radius: 20
+                            Rectangle {
+                                width: 40
+                                height: 40
+                                radius: 20
+                                anchors.centerIn: parent
+                                color: repeatArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12) : "transparent"
+
+                                DankIcon {
                                     anchors.centerIn: parent
-                                    color: repeatArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12) : "transparent"
+                                    name: {
+                                        if (!activePlayer)
+                                            return "repeat";
+                                        switch (activePlayer.loopState) {
+                                        case MprisLoopState.Track:
+                                            return "repeat_one";
+                                        case MprisLoopState.Playlist:
+                                            return "repeat";
+                                        default:
+                                            return "repeat";
+                                        }
+                                    }
+                                    size: 20
+                                    color: activePlayer && activePlayer.loopState !== MprisLoopState.None ? Theme.primary : Theme.surfaceText
+                                }
 
-                                    DankIcon {
-                                        anchors.centerIn: parent
-                                        name: {
-                                            if (!activePlayer)
-                                                return "repeat";
+                                MouseArea {
+                                    id: repeatArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: {
+                                        if (activePlayer && activePlayer.canControl && activePlayer.loopSupported) {
                                             switch (activePlayer.loopState) {
-                                            case MprisLoopState.Track:
-                                                return "repeat_one";
+                                            case MprisLoopState.None:
+                                                activePlayer.loopState = MprisLoopState.Playlist;
+                                                break;
                                             case MprisLoopState.Playlist:
-                                                return "repeat";
-                                            default:
-                                                return "repeat";
-                                            }
-                                        }
-                                        size: 20
-                                        color: activePlayer && activePlayer.loopState !== MprisLoopState.None ? Theme.primary : Theme.surfaceText
-                                    }
-
-                                    MouseArea {
-                                        id: repeatArea
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        onClicked: {
-                                            if (activePlayer && activePlayer.canControl && activePlayer.loopSupported) {
-                                                switch (activePlayer.loopState) {
-                                                case MprisLoopState.None:
-                                                    activePlayer.loopState = MprisLoopState.Playlist;
-                                                    break;
-                                                case MprisLoopState.Playlist:
-                                                    activePlayer.loopState = MprisLoopState.Track;
-                                                    break;
-                                                case MprisLoopState.Track:
-                                                    activePlayer.loopState = MprisLoopState.None;
-                                                    break;
-                                                }
+                                                activePlayer.loopState = MprisLoopState.Track;
+                                                break;
+                                            case MprisLoopState.Track:
+                                                activePlayer.loopState = MprisLoopState.None;
+                                                break;
                                             }
                                         }
                                     }
@@ -648,166 +657,166 @@ Item {
                 }
             }
         }
+    }
 
-        Rectangle {
-            id: playerSelectorButton
-            width: 40
-            height: 40
-            radius: 20
-            x: isRightEdge ? Theme.spacingM : parent.width - 40 - Theme.spacingM
-            y: 185
-            color: playerSelectorArea.containsMouse || playersExpanded ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2) : "transparent"
-            border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.3)
-            border.width: 1
-            z: 100
-            visible: (allPlayers?.length || 0) >= 1
+    Rectangle {
+        id: playerSelectorButton
+        width: 40
+        height: 40
+        radius: 20
+        x: isRightEdge ? Theme.spacingM : parent.width - 40 - Theme.spacingM
+        y: 185
+        color: playerSelectorArea.containsMouse || playersExpanded ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2) : "transparent"
+        border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.3)
+        border.width: 1
+        z: 100
+        visible: (allPlayers?.length || 0) >= 1
 
-            DankIcon {
-                anchors.centerIn: parent
-                name: "assistant_device"
-                size: 18
-                color: Theme.surfaceText
-            }
-
-            MouseArea {
-                id: playerSelectorArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    if (playersExpanded) {
-                        hideDropdowns();
-                        return;
-                    }
-                    hideDropdowns();
-                    playersExpanded = true;
-                    const buttonsOnRight = !isRightEdge;
-                    const btnY = playerSelectorButton.y + playerSelectorButton.height / 2;
-                    const screenX = buttonsOnRight ? (popoutX + popoutWidth) : popoutX;
-                    const screenY = popoutY + contentOffsetY + btnY;
-                    showPlayersDropdown(Qt.point(screenX, screenY), targetScreen, buttonsOnRight, activePlayer, allPlayers);
-                }
-                onEntered: sharedTooltip.show("Media Players", playerSelectorButton, 0, 0, isRightEdge ? "right" : "left")
-                onExited: sharedTooltip.hide()
-            }
+        DankIcon {
+            anchors.centerIn: parent
+            name: "assistant_device"
+            size: 18
+            color: Theme.surfaceText
         }
 
-        Rectangle {
-            id: volumeButton
-            width: 40
-            height: 40
-            radius: 20
-            x: isRightEdge ? Theme.spacingM : parent.width - 40 - Theme.spacingM
-            y: 130
-            color: volumeButtonArea.containsMouse && volumeAvailable || volumeExpanded ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2) : "transparent"
-            border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, volumeAvailable ? 0.3 : 0.15)
-            border.width: 1
-            z: 101
-            enabled: volumeAvailable
-
-            property real previousVolume: 0.0
-
-            DankIcon {
-                anchors.centerIn: parent
-                name: getVolumeIcon()
-                size: 18
-                color: volumeAvailable && currentVolume > 0 ? Theme.primary : Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, volumeAvailable ? 1.0 : 0.5)
-            }
-
-            MouseArea {
-                id: volumeButtonArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onEntered: {
-                    if (volumeExpanded)
-                        return;
+        MouseArea {
+            id: playerSelectorArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: {
+                if (playersExpanded) {
                     hideDropdowns();
-                    volumeExpanded = true;
-                    const buttonsOnRight = !isRightEdge;
-                    const btnY = volumeButton.y + volumeButton.height / 2;
-                    const screenX = buttonsOnRight ? (popoutX + popoutWidth) : popoutX;
-                    const screenY = popoutY + contentOffsetY + btnY;
-                    showVolumeDropdown(Qt.point(screenX, screenY), targetScreen, buttonsOnRight, activePlayer, allPlayers);
+                    return;
                 }
-                onExited: {
-                    if (volumeExpanded)
-                        volumeButtonExited();
-                }
-                onClicked: {
-                    SessionData.suppressOSDTemporarily();
-                    if (currentVolume > 0) {
-                        volumeButton.previousVolume = currentVolume;
-                        if (usePlayerVolume) {
-                            activePlayer.volume = 0;
-                        } else if (AudioService.sink?.audio) {
-                            AudioService.sink.audio.volume = 0;
-                        }
-                    } else {
-                        const restoreVolume = volumeButton.previousVolume > 0 ? volumeButton.previousVolume : 0.5;
-                        if (usePlayerVolume) {
-                            activePlayer.volume = restoreVolume;
-                        } else if (AudioService.sink?.audio) {
-                            AudioService.sink.audio.volume = restoreVolume;
-                        }
-                    }
-                }
-                onWheel: wheelEvent => {
-                    SessionData.suppressOSDTemporarily();
-                    const delta = wheelEvent.angleDelta.y;
-                    const current = (currentVolume * 100) || 0;
-                    const newVolume = delta > 0 ? Math.min(100, current + 5) : Math.max(0, current - 5);
+                hideDropdowns();
+                playersExpanded = true;
+                const buttonsOnRight = !isRightEdge;
+                const btnY = playerSelectorButton.y + playerSelectorButton.height / 2;
+                const screenX = buttonsOnRight ? (popoutX + popoutWidth) : popoutX;
+                const screenY = popoutY + contentOffsetY + btnY;
+                showPlayersDropdown(Qt.point(screenX, screenY), targetScreen, buttonsOnRight, activePlayer, allPlayers);
+            }
+            onEntered: sharedTooltip.show("Media Players", playerSelectorButton, 0, 0, isRightEdge ? "right" : "left")
+            onExited: sharedTooltip.hide()
+        }
+    }
 
+    Rectangle {
+        id: volumeButton
+        width: 40
+        height: 40
+        radius: 20
+        x: isRightEdge ? Theme.spacingM : parent.width - 40 - Theme.spacingM
+        y: 130
+        color: volumeButtonArea.containsMouse && volumeAvailable || volumeExpanded ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2) : "transparent"
+        border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, volumeAvailable ? 0.3 : 0.15)
+        border.width: 1
+        z: 101
+        enabled: volumeAvailable
+
+        property real previousVolume: 0.0
+
+        DankIcon {
+            anchors.centerIn: parent
+            name: getVolumeIcon()
+            size: 18
+            color: volumeAvailable && currentVolume > 0 ? Theme.primary : Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, volumeAvailable ? 1.0 : 0.5)
+        }
+
+        MouseArea {
+            id: volumeButtonArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onEntered: {
+                if (volumeExpanded)
+                    return;
+                hideDropdowns();
+                volumeExpanded = true;
+                const buttonsOnRight = !isRightEdge;
+                const btnY = volumeButton.y + volumeButton.height / 2;
+                const screenX = buttonsOnRight ? (popoutX + popoutWidth) : popoutX;
+                const screenY = popoutY + contentOffsetY + btnY;
+                showVolumeDropdown(Qt.point(screenX, screenY), targetScreen, buttonsOnRight, activePlayer, allPlayers);
+            }
+            onExited: {
+                if (volumeExpanded)
+                    volumeButtonExited();
+            }
+            onClicked: {
+                SessionData.suppressOSDTemporarily();
+                if (currentVolume > 0) {
+                    volumeButton.previousVolume = currentVolume;
                     if (usePlayerVolume) {
-                        activePlayer.volume = newVolume / 100;
+                        activePlayer.volume = 0;
                     } else if (AudioService.sink?.audio) {
-                        AudioService.sink.audio.volume = newVolume / 100;
+                        AudioService.sink.audio.volume = 0;
                     }
-                    wheelEvent.accepted = true;
+                } else {
+                    const restoreVolume = volumeButton.previousVolume > 0 ? volumeButton.previousVolume : 0.5;
+                    if (usePlayerVolume) {
+                        activePlayer.volume = restoreVolume;
+                    } else if (AudioService.sink?.audio) {
+                        AudioService.sink.audio.volume = restoreVolume;
+                    }
                 }
+            }
+            onWheel: wheelEvent => {
+                SessionData.suppressOSDTemporarily();
+                const delta = wheelEvent.angleDelta.y;
+                const current = (currentVolume * 100) || 0;
+                const newVolume = delta > 0 ? Math.min(100, current + 5) : Math.max(0, current - 5);
+
+                if (usePlayerVolume) {
+                    activePlayer.volume = newVolume / 100;
+                } else if (AudioService.sink?.audio) {
+                    AudioService.sink.audio.volume = newVolume / 100;
+                }
+                wheelEvent.accepted = true;
             }
         }
+    }
 
-        Rectangle {
-            id: audioDevicesButton
-            width: 40
-            height: 40
-            radius: 20
-            x: isRightEdge ? Theme.spacingM : parent.width - 40 - Theme.spacingM
-            y: 240
-            color: audioDevicesArea.containsMouse || devicesExpanded ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2) : "transparent"
-            border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.3)
-            border.width: 1
-            z: 100
+    Rectangle {
+        id: audioDevicesButton
+        width: 40
+        height: 40
+        radius: 20
+        x: isRightEdge ? Theme.spacingM : parent.width - 40 - Theme.spacingM
+        y: 240
+        color: audioDevicesArea.containsMouse || devicesExpanded ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2) : "transparent"
+        border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.3)
+        border.width: 1
+        z: 100
 
-            DankIcon {
-                anchors.centerIn: parent
-                name: devicesExpanded ? "expand_less" : "speaker"
-                size: 18
-                color: Theme.surfaceText
-            }
+        DankIcon {
+            anchors.centerIn: parent
+            name: devicesExpanded ? "expand_less" : "speaker"
+            size: 18
+            color: Theme.surfaceText
+        }
 
-            MouseArea {
-                id: audioDevicesArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    if (devicesExpanded) {
-                        hideDropdowns();
-                        return;
-                    }
+        MouseArea {
+            id: audioDevicesArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: {
+                if (devicesExpanded) {
                     hideDropdowns();
-                    devicesExpanded = true;
-                    const buttonsOnRight = !isRightEdge;
-                    const btnY = audioDevicesButton.y + audioDevicesButton.height / 2;
-                    const screenX = buttonsOnRight ? (popoutX + popoutWidth) : popoutX;
-                    const screenY = popoutY + contentOffsetY + btnY;
-                    showAudioDevicesDropdown(Qt.point(screenX, screenY), targetScreen, buttonsOnRight);
+                    return;
                 }
-                onEntered: sharedTooltip.show("Output Device", audioDevicesButton, 0, 0, isRightEdge ? "right" : "left")
-                onExited: sharedTooltip.hide()
+                hideDropdowns();
+                devicesExpanded = true;
+                const buttonsOnRight = !isRightEdge;
+                const btnY = audioDevicesButton.y + audioDevicesButton.height / 2;
+                const screenX = buttonsOnRight ? (popoutX + popoutWidth) : popoutX;
+                const screenY = popoutY + contentOffsetY + btnY;
+                showAudioDevicesDropdown(Qt.point(screenX, screenY), targetScreen, buttonsOnRight);
             }
+            onEntered: sharedTooltip.show("Output Device", audioDevicesButton, 0, 0, isRightEdge ? "right" : "left")
+            onExited: sharedTooltip.hide()
         }
     }
 }
