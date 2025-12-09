@@ -145,7 +145,7 @@ Column {
                             } else if (id === "battery") {
                                 return widgetWidth <= 25 ? smallBatteryComponent : batteryPillComponent;
                             } else if (id === "diskUsage") {
-                                return diskUsagePillComponent;
+                                return widgetWidth <= 25 ? smallDiskUsageComponent : diskUsagePillComponent;
                             } else if (id === "colorPicker") {
                                 return colorPickerPillComponent;
                             } else {
@@ -759,6 +759,25 @@ Column {
             instanceId: widgetData.instanceId || ""
 
             onExpandClicked: {
+                if (!root.editMode) {
+                    root.expandClicked(widgetData, widgetIndex);
+                }
+            }
+        }
+    }
+
+    Component {
+        id: smallDiskUsageComponent
+        SmallDiskUsageButton {
+            property var widgetData: parent.widgetData || {}
+            property int widgetIndex: parent.widgetIndex || 0
+            width: parent.width
+            height: 48
+
+            mountPath: widgetData.mountPath || "/"
+            instanceId: widgetData.instanceId || ""
+
+            onClicked: {
                 if (!root.editMode) {
                     root.expandClicked(widgetData, widgetIndex);
                 }
