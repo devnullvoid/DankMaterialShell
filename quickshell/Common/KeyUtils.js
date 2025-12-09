@@ -79,12 +79,49 @@ const KEY_MAP = {
     124: "Backslash",
     95: "Minus",
     43: "Equal",
-    126: "grave"
+    126: "grave",
+    196: "Adiaeresis",
+    214: "Odiaeresis",
+    220: "Udiaeresis",
+    228: "adiaeresis",
+    246: "odiaeresis",
+    252: "udiaeresis",
+    223: "ssharp",
+    201: "Eacute",
+    233: "eacute",
+    200: "Egrave",
+    232: "egrave",
+    202: "Ecircumflex",
+    234: "ecircumflex",
+    203: "Ediaeresis",
+    235: "ediaeresis",
+    192: "Agrave",
+    224: "agrave",
+    194: "Acircumflex",
+    226: "acircumflex",
+    199: "Ccedilla",
+    231: "ccedilla",
+    206: "Icircumflex",
+    238: "icircumflex",
+    207: "Idiaeresis",
+    239: "idiaeresis",
+    212: "Ocircumflex",
+    244: "ocircumflex",
+    217: "Ugrave",
+    249: "ugrave",
+    219: "Ucircumflex",
+    251: "ucircumflex",
+    209: "Ntilde",
+    241: "ntilde",
+    191: "questiondown",
+    161: "exclamdown"
 };
 
 function xkbKeyFromQtKey(qk) {
     if (qk >= 65 && qk <= 90)
         return String.fromCharCode(qk);
+    if (qk >= 97 && qk <= 122)
+        return String.fromCharCode(qk - 32);
     if (qk >= 48 && qk <= 57)
         return String.fromCharCode(qk);
     if (qk >= 16777264 && qk <= 16777298)
@@ -94,16 +131,10 @@ function xkbKeyFromQtKey(qk) {
 
 function modsFromEvent(mods) {
     var result = [];
-    var hasAlt = mods & 0x08000000;
-    var hasSuper = mods & 0x10000000;
-    if (hasAlt && hasSuper) {
-        result.push("Mod");
-    } else {
-        if (hasSuper)
-            result.push("Super");
-        if (hasAlt)
-            result.push("Alt");
-    }
+    if (mods & 0x10000000)
+        result.push("Super");
+    if (mods & 0x08000000)
+        result.push("Alt");
     if (mods & 0x04000000)
         result.push("Ctrl");
     if (mods & 0x02000000)
