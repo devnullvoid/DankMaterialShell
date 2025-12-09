@@ -177,7 +177,7 @@ func (f *FedoraDistribution) getNiriMapping(variant deps.PackageVariant) Package
 	if variant == deps.VariantGit {
 		return PackageMapping{Name: "niri", Repository: RepoTypeCOPR, RepoURL: "yalter/niri-git"}
 	}
-	return PackageMapping{Name: "niri", Repository: RepoTypeSystem}
+	return PackageMapping{Name: "niri", Repository: RepoTypeCOPR, RepoURL: "yalter/niri"}
 }
 
 func (f *FedoraDistribution) detectXwaylandSatellite() deps.Dependency {
