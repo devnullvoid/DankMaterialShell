@@ -453,7 +453,7 @@ func (d *DebianDistribution) enableOBSRepos(ctx context.Context, obsPkgs []Packa
 				CommandInfo: fmt.Sprintf("curl & gpg to add key for %s", pkg.RepoURL),
 			}
 
-			keyCmd := fmt.Sprintf("bash -c 'curl -fsSL %s/Release.key | gpg --dearmor -o %s'", baseURL, keyringPath)
+			keyCmd := fmt.Sprintf("bash -c 'curl -fsSL %s/Release.key | gpg --batch --dearmor -o %s'", baseURL, keyringPath)
 			cmd := ExecSudoCommand(ctx, sudoPassword, keyCmd)
 			if err := d.runWithProgress(cmd, progressChan, PhaseSystemPackages, 0.18, 0.20); err != nil {
 				return fmt.Errorf("failed to add OBS GPG key for %s: %w", pkg.RepoURL, err)
