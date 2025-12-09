@@ -3,30 +3,12 @@ package config
 import (
 	"os"
 	"path/filepath"
-	"strings"
 	"testing"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
-
-func TestDetectPolkitAgent(t *testing.T) {
-	cd := &ConfigDeployer{}
-
-	// This test depends on the system having a polkit agent installed
-	// We'll just test that the function doesn't crash and returns some path or error
-	path, err := cd.detectPolkitAgent()
-
-	if err != nil {
-		// If no polkit agent is found, that's okay for testing
-		assert.Contains(t, err.Error(), "no polkit agent found")
-	} else {
-		// If found, it should be a valid path
-		assert.NotEmpty(t, path)
-		assert.True(t, strings.Contains(path, "polkit"))
-	}
-}
 
 func TestMergeNiriOutputSections(t *testing.T) {
 	cd := &ConfigDeployer{}
@@ -272,17 +254,6 @@ func getGhosttyPath() string {
 	return filepath.Join(os.Getenv("HOME"), ".config", "ghostty", "config")
 }
 
-func TestPolkitPathInjection(t *testing.T) {
-
-	testConfig := `spawn-at-startup "{{POLKIT_AGENT_PATH}}"
-other content`
-
-	result := strings.Replace(testConfig, "{{POLKIT_AGENT_PATH}}", "/test/polkit/path", 1)
-
-	assert.Contains(t, result, `spawn-at-startup "/test/polkit/path"`)
-	assert.NotContains(t, result, "{{POLKIT_AGENT_PATH}}")
-}
-
 func TestMergeHyprlandMonitorSections(t *testing.T) {
 	cd := &ConfigDeployer{}
 
@@ -479,7 +450,6 @@ general {
 func TestNiriConfigStructure(t *testing.T) {
 	assert.Contains(t, NiriConfig, "input {")
 	assert.Contains(t, NiriConfig, "layout {")
-	assert.Contains(t, NiriConfig, "{{POLKIT_AGENT_PATH}}")
 
 	assert.Contains(t, NiriBindsConfig, "binds {")
 	assert.Contains(t, NiriBindsConfig, `spawn "{{TERMINAL_COMMAND}}"`)
@@ -490,7 +460,6 @@ func TestHyprlandConfigStructure(t *testing.T) {
 	assert.Contains(t, HyprlandConfig, "# STARTUP APPS")
 	assert.Contains(t, HyprlandConfig, "# INPUT CONFIG")
 	assert.Contains(t, HyprlandConfig, "# KEYBINDINGS")
-	assert.Contains(t, HyprlandConfig, "{{POLKIT_AGENT_PATH}}")
 	assert.Contains(t, HyprlandConfig, "bind = $mod, T, exec, $TERMINAL")
 	assert.Contains(t, HyprlandConfig, "bind = $mod, space, exec, dms ipc call spotlight toggle")
 	assert.Contains(t, HyprlandConfig, "windowrule {")

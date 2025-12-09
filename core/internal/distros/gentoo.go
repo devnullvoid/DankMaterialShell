@@ -95,7 +95,6 @@ func (g *GentooDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 	dependencies = append(dependencies, g.detectWindowManager(wm))
 	dependencies = append(dependencies, g.detectQuickshell())
 	dependencies = append(dependencies, g.detectXDGPortal())
-	dependencies = append(dependencies, g.detectPolkitAgent())
 	dependencies = append(dependencies, g.detectAccountsService())
 
 	if wm == deps.WindowManagerHyprland {
@@ -123,20 +122,6 @@ func (g *GentooDistribution) detectXDGPortal() deps.Dependency {
 		Name:        "xdg-desktop-portal-gtk",
 		Status:      status,
 		Description: "Desktop integration portal for GTK",
-		Required:    true,
-	}
-}
-
-func (g *GentooDistribution) detectPolkitAgent() deps.Dependency {
-	status := deps.StatusMissing
-	if g.packageInstalled("mate-extra/mate-polkit") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "mate-polkit",
-		Status:      status,
-		Description: "PolicyKit authentication agent",
 		Required:    true,
 	}
 }
@@ -187,7 +172,6 @@ func (g *GentooDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"alacritty":              {Name: "x11-terms/alacritty", Repository: RepoTypeSystem, UseFlags: "X wayland"},
 		"wl-clipboard":           {Name: "gui-apps/wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "sys-apps/xdg-desktop-portal-gtk", Repository: RepoTypeSystem, UseFlags: "wayland X"},
-		"mate-polkit":            {Name: "mate-extra/mate-polkit", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "sys-apps/accountsservice", Repository: RepoTypeSystem},
 
 		"qtbase":        {Name: "dev-qt/qtbase", Repository: RepoTypeSystem, UseFlags: "wayland opengl vulkan widgets"},

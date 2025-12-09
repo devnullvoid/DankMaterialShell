@@ -148,12 +148,6 @@ func (cd *ConfigDeployer) deployNiriConfig(terminal deps.Terminal) (DeploymentRe
 		cd.log(fmt.Sprintf("Backed up existing config to %s", result.BackupPath))
 	}
 
-	polkitPath, err := cd.detectPolkitAgent()
-	if err != nil {
-		cd.log(fmt.Sprintf("Warning: Could not detect polkit agent: %v", err))
-		polkitPath = "/usr/lib/mate-polkit/polkit-mate-authentication-agent-1"
-	}
-
 	var terminalCommand string
 	switch terminal {
 	case deps.TerminalGhostty:
@@ -166,8 +160,7 @@ func (cd *ConfigDeployer) deployNiriConfig(terminal deps.Terminal) (DeploymentRe
 		terminalCommand = "ghostty"
 	}
 
-	newConfig := strings.ReplaceAll(NiriConfig, "{{POLKIT_AGENT_PATH}}", polkitPath)
-	newConfig = strings.ReplaceAll(newConfig, "{{TERMINAL_COMMAND}}", terminalCommand)
+	newConfig := strings.ReplaceAll(NiriConfig, "{{TERMINAL_COMMAND}}", terminalCommand)
 
 	if existingConfig != "" {
 		mergedConfig, err := cd.mergeNiriOutputSections(newConfig, existingConfig)
@@ -404,41 +397,6 @@ func (cd *ConfigDeployer) deployAlacrittyConfig() ([]DeploymentResult, error) {
 	return results, nil
 }
 
-// detectPolkitAgent tries to find the polkit authentication agent on the system
-// Prioritizes mate-polkit paths since that's what we install
-func (cd *ConfigDeployer) detectPolkitAgent() (string, error) {
-	// Prioritize mate-polkit paths first
-	matePaths := []string{
-		"/usr/libexec/polkit-mate-authentication-agent-1", // Fedora path
-		"/usr/lib/mate-polkit/polkit-mate-authentication-agent-1",
-		"/usr/libexec/mate-polkit/polkit-mate-authentication-agent-1",
-		"/usr/lib/polkit-mate/polkit-mate-authentication-agent-1",
-		"/usr/lib/x86_64-linux-gnu/mate-polkit/polkit-mate-authentication-agent-1",
-	}
-
-	for _, path := range matePaths {
-		if _, err := os.Stat(path); err == nil {
-			cd.log(fmt.Sprintf("Found mate-polkit agent at: %s", path))
-			return path, nil
-		}
-	}
-
-	// Fallback to other polkit agents if mate-polkit is not found
-	fallbackPaths := []string{
-		"/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1",
-		"/usr/libexec/polkit-gnome-authentication-agent-1",
-	}
-
-	for _, path := range fallbackPaths {
-		if _, err := os.Stat(path); err == nil {
-			cd.log(fmt.Sprintf("Found fallback polkit agent at: %s", path))
-			return path, nil
-		}
-	}
-
-	return "", fmt.Errorf("no polkit agent found in common locations")
-}
-
 // mergeNiriOutputSections extracts output sections from existing config and merges them into the new config
 func (cd *ConfigDeployer) mergeNiriOutputSections(newConfig, existingConfig string) (string, error) {
 	// Regular expression to match output sections (including commented ones)
@@ -514,13 +472,6 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal) (Deployme
 		cd.log(fmt.Sprintf("Backed up existing config to %s", result.BackupPath))
 	}
 
-	// Detect polkit agent path
-	polkitPath, err := cd.detectPolkitAgent()
-	if err != nil {
-		cd.log(fmt.Sprintf("Warning: Could not detect polkit agent: %v", err))
-		polkitPath = "/usr/lib/mate-polkit/polkit-mate-authentication-agent-1" // fallback
-	}
-
 	// Determine terminal command based on choice
 	var terminalCommand string
 	switch terminal {
@@ -534,8 +485,7 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal) (Deployme
 		terminalCommand = "ghostty" // fallback to ghostty
 	}
 
-	newConfig := strings.ReplaceAll(HyprlandConfig, "{{POLKIT_AGENT_PATH}}", polkitPath)
-	newConfig = strings.ReplaceAll(newConfig, "{{TERMINAL_COMMAND}}", terminalCommand)
+	newConfig := strings.ReplaceAll(HyprlandConfig, "{{TERMINAL_COMMAND}}", terminalCommand)
 
 	// If there was an existing config, merge the monitor sections
 	if existingConfig != "" {
