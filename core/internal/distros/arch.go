@@ -359,11 +359,11 @@ func (a *ArchDistribution) InstallPackages(ctx context.Context, dependencies []d
 	}
 
 	terminal := a.DetectTerminalFromDeps(dependencies)
-	if err := a.WriteEnvironmentConfig(terminal); err != nil {
+	if err := a.WriteEnvironmentConfig(terminal, wm); err != nil {
 		a.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
 	}
 
-	if err := a.EnableDMSService(ctx); err != nil {
+	if err := a.EnableDMSService(ctx, wm); err != nil {
 		a.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 

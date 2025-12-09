@@ -358,11 +358,11 @@ func (f *FedoraDistribution) InstallPackages(ctx context.Context, dependencies [
 	}
 
 	terminal := f.DetectTerminalFromDeps(dependencies)
-	if err := f.WriteEnvironmentConfig(terminal); err != nil {
+	if err := f.WriteEnvironmentConfig(terminal, wm); err != nil {
 		f.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
 	}
 
-	if err := f.EnableDMSService(ctx); err != nil {
+	if err := f.EnableDMSService(ctx, wm); err != nil {
 		f.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 

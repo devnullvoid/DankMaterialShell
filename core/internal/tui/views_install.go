@@ -209,8 +209,12 @@ func (m Model) viewInstallComplete() string {
 	labelStyle := lipgloss.NewStyle().Foreground(lipgloss.Color(theme.Subtle))
 
 	b.WriteString(labelStyle.Render("Troubleshooting:") + "\n")
-	b.WriteString(labelStyle.Render("  Disable autostart: ") + cmdStyle.Render("systemctl --user disable dms") + "\n")
-	b.WriteString(labelStyle.Render("  View logs:         ") + cmdStyle.Render("journalctl --user -u dms") + "\n")
+	if m.selectedWM == 1 {
+		b.WriteString(labelStyle.Render("  Disable autostart: ") + cmdStyle.Render("remove 'exec-once = dms run' from hyprland.conf") + "\n")
+	} else {
+		b.WriteString(labelStyle.Render("  Disable autostart: ") + cmdStyle.Render("systemctl --user disable dms") + "\n")
+		b.WriteString(labelStyle.Render("  View logs:         ") + cmdStyle.Render("journalctl --user -u dms") + "\n")
+	}
 
 	if m.osInfo != nil {
 		if cmd := uninstallCommand(m.osInfo.Distribution.ID, m.dependencies); cmd != "" {
