@@ -128,21 +128,13 @@ Singleton {
                         setDesiredTheme("image", rawWallpaperPath, isLight, iconTheme, selectedMatugenType);
                     }
                 }
-            } else {
-                let primaryColor;
-                let matugenType;
-                if (currentTheme === "custom") {
-                    if (customThemeData && customThemeData.primary) {
-                        primaryColor = customThemeData.primary;
-                        matugenType = customThemeData.matugen_type;
-                    }
-                } else {
-                    primaryColor = currentThemeData.primary;
-                    matugenType = currentThemeData.matugen_type;
-                }
-
-                if (primaryColor) {
-                    setDesiredTheme("hex", primaryColor, isLight, iconTheme, matugenType);
+            } else if (currentTheme !== "custom") {
+                const darkTheme = StockThemes.getThemeByName(currentTheme, false);
+                const lightTheme = StockThemes.getThemeByName(currentTheme, true);
+                if (darkTheme && darkTheme.primary) {
+                    const stockColors = buildMatugenColorsFromTheme(darkTheme, lightTheme);
+                    const themeData = isLight ? lightTheme : darkTheme;
+                    setDesiredTheme("hex", themeData.primary, isLight, iconTheme, themeData.matugen_type, stockColors);
                 }
             }
         }, 0);

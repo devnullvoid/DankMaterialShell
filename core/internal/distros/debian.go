@@ -506,7 +506,7 @@ func (d *DebianDistribution) installAPTPackages(ctx context.Context, packages []
 
 	d.log(fmt.Sprintf("Installing APT packages: %s", strings.Join(packages, ", ")))
 
-	args := []string{"apt-get", "install", "-y"}
+	args := []string{"DEBIAN_FRONTEND=noninteractive", "apt-get", "install", "-y"}
 	args = append(args, packages...)
 
 	progressChan <- InstallProgressMsg{
