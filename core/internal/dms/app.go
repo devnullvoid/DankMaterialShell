@@ -286,6 +286,13 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, loadInstalledPlugins
 		}
 		return m, nil
+	case pluginUpdatedMsg:
+		if msg.err != nil {
+			m.installedPluginsError = msg.err.Error()
+		} else {
+			m.installedPluginsError = ""
+		}
+		return m, nil
 	case pluginInstalledMsg:
 		if msg.err != nil {
 			m.pluginsError = msg.err.Error()

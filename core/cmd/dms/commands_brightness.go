@@ -211,45 +211,13 @@ func runBrightnessSet(cmd *cobra.Command, args []string) {
 	exponential, _ := cmd.Flags().GetBool("exponential")
 	exponent, _ := cmd.Flags().GetFloat64("exponent")
 
-	// For backlight/leds devices, try logind backend first (requires D-Bus connection)
 	parts := strings.SplitN(deviceID, ":", 2)
 	if len(parts) == 2 && (parts[0] == "backlight" || parts[0] == "leds") {
-		subsystem := parts[0]
-		name := parts[1]
-
-		// Initialize backends needed for logind approach
-		sysfs, err := brightness.NewSysfsBackend()
-		if err != nil {
-			log.Debugf("NewSysfsBackend failed: %v", err)
-		} else {
-			logind, err := brightness.NewLogindBackend()
-			if err != nil {
-				log.Debugf("NewLogindBackend failed: %v", err)
-			} else {
-				defer logind.Close()
-
-				// Get device info to convert percent to value
-				dev, err := sysfs.GetDevice(deviceID)
-				if err == nil {
-					// Calculate hardware value using the same logic as Manager.setViaSysfsWithLogind
-					value := sysfs.PercentToValueWithExponent(percent, dev, exponential, exponent)
-
-					// Call logind with hardware value
-					if err := logind.SetBrightness(subsystem, name, uint32(value)); err == nil {
-						log.Debugf("set %s to %d%% (%d) via logind", deviceID, percent, value)
-						fmt.Printf("Set %s to %d%%\n", deviceID, percent)
-						return
-					} else {
-						log.Debugf("logind.SetBrightness failed: %v", err)
-					}
-				} else {
-					log.Debugf("sysfs.GetDeviceByID failed: %v", err)
-				}
-			}
+		if ok := tryLogindBrightness(parts[0], parts[1], deviceID, percent, exponential, exponent); ok {
+			return
 		}
 	}
 
-	// Fallback to direct sysfs (requires write permissions)
 	sysfs, err := brightness.NewSysfsBackend()
 	if err == nil {
 		if err := sysfs.SetBrightnessWithExponent(deviceID, percent, exponential, exponent); err == nil {
@@ -278,6 +246,37 @@ func runBrightnessSet(cmd *cobra.Command, args []string) {
 	}
 
 	log.Fatalf("Failed to set brightness for device: %s", deviceID)
+}
+
+func tryLogindBrightness(subsystem, name, deviceID string, percent int, exponential bool, exponent float64) bool {
+	sysfs, err := brightness.NewSysfsBackend()
+	if err != nil {
+		log.Debugf("NewSysfsBackend failed: %v", err)
+		return false
+	}
+
+	logind, err := brightness.NewLogindBackend()
+	if err != nil {
+		log.Debugf("NewLogindBackend failed: %v", err)
+		return false
+	}
+	defer logind.Close()
+
+	dev, err := sysfs.GetDevice(deviceID)
+	if err != nil {
+		log.Debugf("sysfs.GetDeviceByID failed: %v", err)
+		return false
+	}
+
+	value := sysfs.PercentToValueWithExponent(percent, dev, exponential, exponent)
+	if err := logind.SetBrightness(subsystem, name, uint32(value)); err != nil {
+		log.Debugf("logind.SetBrightness failed: %v", err)
+		return false
+	}
+
+	log.Debugf("set %s to %d%% (%d) via logind", deviceID, percent, value)
+	fmt.Printf("Set %s to %d%%\n", deviceID, percent)
+	return true
 }
 
 func getBrightnessDevices(includeDDC bool) []string {

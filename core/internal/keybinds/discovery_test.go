@@ -4,6 +4,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 func TestDefaultDiscoveryConfig(t *testing.T) {
@@ -272,13 +274,13 @@ func TestExpandPathInDiscovery(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := expandPath(tt.input)
+			result, err := utils.ExpandPath(tt.input)
 			if err != nil {
 				t.Fatalf("expandPath failed: %v", err)
 			}
 
 			if result != tt.expected {
-				t.Errorf("expandPath(%q) = %q, want %q", tt.input, result, tt.expected)
+				t.Errorf("utils.ExpandPath(%q) = %q, want %q", tt.input, result, tt.expected)
 			}
 		})
 	}

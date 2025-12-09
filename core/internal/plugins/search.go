@@ -3,6 +3,8 @@ package plugins
 import (
 	"sort"
 	"strings"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 func FuzzySearch(query string, plugins []Plugin) []Plugin {
@@ -11,18 +13,12 @@ func FuzzySearch(query string, plugins []Plugin) []Plugin {
 	}
 
 	queryLower := strings.ToLower(query)
-	var results []Plugin
-
-	for _, plugin := range plugins {
-		if fuzzyMatch(queryLower, strings.ToLower(plugin.Name)) ||
-			fuzzyMatch(queryLower, strings.ToLower(plugin.Category)) ||
-			fuzzyMatch(queryLower, strings.ToLower(plugin.Description)) ||
-			fuzzyMatch(queryLower, strings.ToLower(plugin.Author)) {
-			results = append(results, plugin)
-		}
-	}
-
-	return results
+	return utils.Filter(plugins, func(p Plugin) bool {
+		return fuzzyMatch(queryLower, strings.ToLower(p.Name)) ||
+			fuzzyMatch(queryLower, strings.ToLower(p.Category)) ||
+			fuzzyMatch(queryLower, strings.ToLower(p.Description)) ||
+			fuzzyMatch(queryLower, strings.ToLower(p.Author))
+	})
 }
 
 func fuzzyMatch(query, text string) bool {
@@ -39,57 +35,34 @@ func FilterByCategory(category string, plugins []Plugin) []Plugin {
 	if category == "" {
 		return plugins
 	}
-
-	var results []Plugin
 	categoryLower := strings.ToLower(category)
-
-	for _, plugin := range plugins {
-		if strings.ToLower(plugin.Category) == categoryLower {
-			results = append(results, plugin)
-		}
-	}
-
-	return results
+	return utils.Filter(plugins, func(p Plugin) bool {
+		return strings.ToLower(p.Category) == categoryLower
+	})
 }
 
 func FilterByCompositor(compositor string, plugins []Plugin) []Plugin {
 	if compositor == "" {
 		return plugins
 	}
-
-	var results []Plugin
 	compositorLower := strings.ToLower(compositor)
-
-	for _, plugin := range plugins {
-		for _, comp := range plugin.Compositors {
-			if strings.ToLower(comp) == compositorLower {
-				results = append(results, plugin)
-				break
-			}
-		}
-	}
-
-	return results
+	return utils.Filter(plugins, func(p Plugin) bool {
+		return utils.Any(p.Compositors, func(c string) bool {
+			return strings.ToLower(c) == compositorLower
+		})
+	})
 }
 
 func FilterByCapability(capability string, plugins []Plugin) []Plugin {
 	if capability == "" {
 		return plugins
 	}
-
-	var results []Plugin
 	capabilityLower := strings.ToLower(capability)
-
-	for _, plugin := range plugins {
-		for _, cap := range plugin.Capabilities {
-			if strings.ToLower(cap) == capabilityLower {
-				results = append(results, plugin)
-				break
-			}
-		}
-	}
-
-	return results
+	return utils.Filter(plugins, func(p Plugin) bool {
+		return utils.Any(p.Capabilities, func(c string) bool {
+			return strings.ToLower(c) == capabilityLower
+		})
+	})
 }
 
 func SortByFirstParty(plugins []Plugin) []Plugin {
@@ -102,4 +75,14 @@ func SortByFirstParty(plugins []Plugin) []Plugin {
 		return false
 	})
 	return plugins
+}
+
+func FindByIDOrName(idOrName string, plugins []Plugin) *Plugin {
+	if p, found := utils.Find(plugins, func(p Plugin) bool { return p.ID == idOrName }); found {
+		return &p
+	}
+	if p, found := utils.Find(plugins, func(p Plugin) bool { return p.Name == idOrName }); found {
+		return &p
+	}
+	return nil
 }

@@ -9,7 +9,10 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 func BufferToImage(buf *ShmBuffer) *image.RGBA {
@@ -116,68 +119,28 @@ func GetOutputDir() string {
 }
 
 func getXDGPicturesDir() string {
-	configDir := os.Getenv("XDG_CONFIG_HOME")
-	if configDir == "" {
-		home := os.Getenv("HOME")
-		if home == "" {
-			return ""
-		}
-		configDir = filepath.Join(home, ".config")
-	}
-
-	userDirsFile := filepath.Join(configDir, "user-dirs.dirs")
+	userDirsFile := filepath.Join(utils.XDGConfigHome(), "user-dirs.dirs")
 	data, err := os.ReadFile(userDirsFile)
 	if err != nil {
 		return ""
 	}
 
-	for _, line := range splitLines(string(data)) {
+	for _, line := range strings.Split(string(data), "\n") {
 		if len(line) == 0 || line[0] == '#' {
 			continue
 		}
 		const prefix = "XDG_PICTURES_DIR="
-		if len(line) > len(prefix) && line[:len(prefix)] == prefix {
-			path := line[len(prefix):]
-			path = trimQuotes(path)
-			path = expandHome(path)
-			return path
+		if !strings.HasPrefix(line, prefix) {
+			continue
 		}
+		path := strings.Trim(line[len(prefix):], "\"")
+		expanded, err := utils.ExpandPath(path)
+		if err != nil {
+			return ""
+		}
+		return expanded
 	}
 	return ""
-}
-
-func splitLines(s string) []string {
-	var lines []string
-	start := 0
-	for i := 0; i < len(s); i++ {
-		if s[i] == '\n' {
-			lines = append(lines, s[start:i])
-			start = i + 1
-		}
-	}
-	if start < len(s) {
-		lines = append(lines, s[start:])
-	}
-	return lines
-}
-
-func trimQuotes(s string) string {
-	if len(s) >= 2 && s[0] == '"' && s[len(s)-1] == '"' {
-		return s[1 : len(s)-1]
-	}
-	return s
-}
-
-func expandHome(path string) string {
-	if len(path) >= 5 && path[:5] == "$HOME" {
-		home := os.Getenv("HOME")
-		return home + path[5:]
-	}
-	if len(path) >= 1 && path[0] == '~' {
-		home := os.Getenv("HOME")
-		return home + path[1:]
-	}
-	return path
 }
 
 func WriteToFile(buf *ShmBuffer, path string, format Format, quality int) error {

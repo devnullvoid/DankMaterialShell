@@ -227,6 +227,11 @@ func (m Model) updatePluginInstalledDetail(msg tea.KeyMsg) (tea.Model, tea.Cmd) 
 			plugin := m.installedPluginsList[m.selectedInstalledIndex]
 			return m, uninstallPlugin(plugin)
 		}
+	case "p":
+		if m.selectedInstalledIndex < len(m.installedPluginsList) {
+			plugin := m.installedPluginsList[m.selectedInstalledIndex]
+			return m, updatePlugin(plugin)
+		}
 	}
 	return m, nil
 }
@@ -242,6 +247,11 @@ type pluginUninstalledMsg struct {
 }
 
 type pluginInstalledMsg struct {
+	pluginName string
+	err        error
+}
+
+type pluginUpdatedMsg struct {
 	pluginName string
 	err        error
 }
@@ -335,5 +345,33 @@ func uninstallPlugin(plugin pluginInfo) tea.Cmd {
 		}
 
 		return pluginUninstalledMsg{pluginName: plugin.Name}
+	}
+}
+
+func updatePlugin(plugin pluginInfo) tea.Cmd {
+	return func() tea.Msg {
+		manager, err := plugins.NewManager()
+		if err != nil {
+			return pluginUpdatedMsg{pluginName: plugin.Name, err: err}
+		}
+
+		p := plugins.Plugin{
+			ID:           plugin.ID,
+			Name:         plugin.Name,
+			Category:     plugin.Category,
+			Author:       plugin.Author,
+			Description:  plugin.Description,
+			Repo:         plugin.Repo,
+			Path:         plugin.Path,
+			Capabilities: plugin.Capabilities,
+			Compositors:  plugin.Compositors,
+			Dependencies: plugin.Dependencies,
+		}
+
+		if err := manager.Update(p); err != nil {
+			return pluginUpdatedMsg{pluginName: plugin.Name, err: err}
+		}
+
+		return pluginUpdatedMsg{pluginName: plugin.Name}
 	}
 }

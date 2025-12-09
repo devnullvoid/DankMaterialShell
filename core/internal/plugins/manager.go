@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 	"github.com/spf13/afero"
 )
 
@@ -32,33 +33,70 @@ func NewManagerWithFs(fs afero.Fs) (*Manager, error) {
 }
 
 func getPluginsDir() string {
-	configHome := os.Getenv("XDG_CONFIG_HOME")
-	if configHome == "" {
-		homeDir, err := os.UserHomeDir()
-		if err != nil {
-			return filepath.Join(os.TempDir(), "DankMaterialShell", "plugins")
-		}
-		configHome = filepath.Join(homeDir, ".config")
-	}
-	return filepath.Join(configHome, "DankMaterialShell", "plugins")
+	return filepath.Join(utils.XDGConfigHome(), "DankMaterialShell", "plugins")
 }
 
 func (m *Manager) IsInstalled(plugin Plugin) (bool, error) {
-	pluginPath := filepath.Join(m.pluginsDir, plugin.ID)
-	exists, err := afero.DirExists(m.fs, pluginPath)
+	path, err := m.findInstalledPath(plugin.ID)
 	if err != nil {
 		return false, err
 	}
-	if exists {
-		return true, nil
+	return path != "", nil
+}
+
+func (m *Manager) findInstalledPath(pluginID string) (string, error) {
+	// Check user plugins directory
+	path, err := m.findInDir(m.pluginsDir, pluginID)
+	if err != nil {
+		return "", err
+	}
+	if path != "" {
+		return path, nil
 	}
 
-	systemPluginPath := filepath.Join("/etc/xdg/quickshell/dms-plugins", plugin.ID)
-	systemExists, err := afero.DirExists(m.fs, systemPluginPath)
-	if err != nil {
-		return false, err
+	// Check system plugins directory
+	systemDir := "/etc/xdg/quickshell/dms-plugins"
+	return m.findInDir(systemDir, pluginID)
+}
+
+func (m *Manager) findInDir(dir, pluginID string) (string, error) {
+	// First, check if folder with exact ID name exists
+	exactPath := filepath.Join(dir, pluginID)
+	if exists, _ := afero.DirExists(m.fs, exactPath); exists {
+		return exactPath, nil
 	}
-	return systemExists, nil
+
+	// Scan all folders and check plugin.json for matching ID
+	exists, err := afero.DirExists(m.fs, dir)
+	if err != nil || !exists {
+		return "", nil
+	}
+
+	entries, err := afero.ReadDir(m.fs, dir)
+	if err != nil {
+		return "", nil
+	}
+
+	for _, entry := range entries {
+		name := entry.Name()
+		if name == ".repos" || strings.HasSuffix(name, ".meta") {
+			continue
+		}
+
+		fullPath := filepath.Join(dir, name)
+		isPlugin := entry.IsDir() || entry.Mode()&os.ModeSymlink != 0
+		if !isPlugin {
+			if info, err := m.fs.Stat(fullPath); err == nil && info.IsDir() {
+				isPlugin = true
+			}
+		}
+
+		if isPlugin && m.getPluginID(fullPath) == pluginID {
+			return fullPath, nil
+		}
+	}
+
+	return "", nil
 }
 
 func (m *Manager) Install(plugin Plugin) error {
@@ -151,23 +189,17 @@ func (m *Manager) createSymlink(source, dest string) error {
 }
 
 func (m *Manager) Update(plugin Plugin) error {
-	pluginPath := filepath.Join(m.pluginsDir, plugin.ID)
-
-	exists, err := afero.DirExists(m.fs, pluginPath)
+	pluginPath, err := m.findInstalledPath(plugin.ID)
 	if err != nil {
-		return fmt.Errorf("failed to check if plugin exists: %w", err)
+		return fmt.Errorf("failed to find plugin: %w", err)
 	}
 
-	if !exists {
-		systemPluginPath := filepath.Join("/etc/xdg/quickshell/dms-plugins", plugin.ID)
-		systemExists, err := afero.DirExists(m.fs, systemPluginPath)
-		if err != nil {
-			return fmt.Errorf("failed to check if plugin exists: %w", err)
-		}
-		if systemExists {
-			return fmt.Errorf("cannot update system plugin: %s", plugin.Name)
-		}
+	if pluginPath == "" {
 		return fmt.Errorf("plugin not installed: %s", plugin.Name)
+	}
+
+	if strings.HasPrefix(pluginPath, "/etc/xdg/quickshell/dms-plugins") {
+		return fmt.Errorf("cannot update system plugin: %s", plugin.Name)
 	}
 
 	metaPath := pluginPath + ".meta"
@@ -209,23 +241,17 @@ func (m *Manager) Update(plugin Plugin) error {
 }
 
 func (m *Manager) Uninstall(plugin Plugin) error {
-	pluginPath := filepath.Join(m.pluginsDir, plugin.ID)
-
-	exists, err := afero.DirExists(m.fs, pluginPath)
+	pluginPath, err := m.findInstalledPath(plugin.ID)
 	if err != nil {
-		return fmt.Errorf("failed to check if plugin exists: %w", err)
+		return fmt.Errorf("failed to find plugin: %w", err)
 	}
 
-	if !exists {
-		systemPluginPath := filepath.Join("/etc/xdg/quickshell/dms-plugins", plugin.ID)
-		systemExists, err := afero.DirExists(m.fs, systemPluginPath)
-		if err != nil {
-			return fmt.Errorf("failed to check if plugin exists: %w", err)
-		}
-		if systemExists {
-			return fmt.Errorf("cannot uninstall system plugin: %s", plugin.Name)
-		}
+	if pluginPath == "" {
 		return fmt.Errorf("plugin not installed: %s", plugin.Name)
+	}
+
+	if strings.HasPrefix(pluginPath, "/etc/xdg/quickshell/dms-plugins") {
+		return fmt.Errorf("cannot uninstall system plugin: %s", plugin.Name)
 	}
 
 	metaPath := pluginPath + ".meta"
@@ -369,47 +395,174 @@ func (m *Manager) ListInstalled() ([]string, error) {
 
 // getPluginID reads the plugin.json file and returns the plugin ID
 func (m *Manager) getPluginID(pluginPath string) string {
+	manifest := m.getPluginManifest(pluginPath)
+	if manifest == nil {
+		return ""
+	}
+	return manifest.ID
+}
+
+func (m *Manager) getPluginManifest(pluginPath string) *pluginManifest {
 	manifestPath := filepath.Join(pluginPath, "plugin.json")
 	data, err := afero.ReadFile(m.fs, manifestPath)
 	if err != nil {
-		return ""
+		return nil
 	}
 
-	var manifest struct {
-		ID string `json:"id"`
-	}
+	var manifest pluginManifest
 	if err := json.Unmarshal(data, &manifest); err != nil {
-		return ""
+		return nil
 	}
 
-	return manifest.ID
+	return &manifest
+}
+
+type pluginManifest struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 func (m *Manager) GetPluginsDir() string {
 	return m.pluginsDir
 }
 
-func (m *Manager) HasUpdates(pluginID string, plugin Plugin) (bool, error) {
-	pluginPath := filepath.Join(m.pluginsDir, pluginID)
-
-	exists, err := afero.DirExists(m.fs, pluginPath)
+func (m *Manager) UninstallByIDOrName(idOrName string) error {
+	pluginPath, err := m.findInstalledPathByIDOrName(idOrName)
 	if err != nil {
-		return false, fmt.Errorf("failed to check if plugin exists: %w", err)
+		return err
+	}
+	if pluginPath == "" {
+		return fmt.Errorf("plugin not found: %s", idOrName)
 	}
 
-	if !exists {
-		systemPluginPath := filepath.Join("/etc/xdg/quickshell/dms-plugins", pluginID)
-		systemExists, err := afero.DirExists(m.fs, systemPluginPath)
-		if err != nil {
-			return false, fmt.Errorf("failed to check system plugin: %w", err)
+	if strings.HasPrefix(pluginPath, "/etc/xdg/quickshell/dms-plugins") {
+		return fmt.Errorf("cannot uninstall system plugin: %s", idOrName)
+	}
+
+	metaPath := pluginPath + ".meta"
+	metaExists, _ := afero.Exists(m.fs, metaPath)
+
+	if metaExists {
+		if err := m.fs.Remove(pluginPath); err != nil {
+			return fmt.Errorf("failed to remove symlink: %w", err)
 		}
-		if systemExists {
-			return false, nil
+		if err := m.fs.Remove(metaPath); err != nil {
+			return fmt.Errorf("failed to remove metadata: %w", err)
 		}
+	} else {
+		if err := m.fs.RemoveAll(pluginPath); err != nil {
+			return fmt.Errorf("failed to remove plugin: %w", err)
+		}
+	}
+
+	return nil
+}
+
+func (m *Manager) UpdateByIDOrName(idOrName string) error {
+	pluginPath, err := m.findInstalledPathByIDOrName(idOrName)
+	if err != nil {
+		return err
+	}
+	if pluginPath == "" {
+		return fmt.Errorf("plugin not found: %s", idOrName)
+	}
+
+	if strings.HasPrefix(pluginPath, "/etc/xdg/quickshell/dms-plugins") {
+		return fmt.Errorf("cannot update system plugin: %s", idOrName)
+	}
+
+	metaPath := pluginPath + ".meta"
+	metaExists, _ := afero.Exists(m.fs, metaPath)
+
+	if metaExists {
+		// Plugin is from monorepo, but we don't know the repo URL without registry
+		// Just try to pull from existing .git in the symlink target
+		return fmt.Errorf("cannot update monorepo plugin without registry info: %s", idOrName)
+	}
+
+	// Standalone plugin - just pull
+	if err := m.gitClient.Pull(pluginPath); err != nil {
+		return fmt.Errorf("failed to update plugin: %w", err)
+	}
+
+	return nil
+}
+
+func (m *Manager) findInstalledPathByIDOrName(idOrName string) (string, error) {
+	path, err := m.findInDirByIDOrName(m.pluginsDir, idOrName)
+	if err != nil {
+		return "", err
+	}
+	if path != "" {
+		return path, nil
+	}
+
+	systemDir := "/etc/xdg/quickshell/dms-plugins"
+	return m.findInDirByIDOrName(systemDir, idOrName)
+}
+
+func (m *Manager) findInDirByIDOrName(dir, idOrName string) (string, error) {
+	// Check exact folder name match first
+	exactPath := filepath.Join(dir, idOrName)
+	if exists, _ := afero.DirExists(m.fs, exactPath); exists {
+		return exactPath, nil
+	}
+
+	exists, err := afero.DirExists(m.fs, dir)
+	if err != nil || !exists {
+		return "", nil
+	}
+
+	entries, err := afero.ReadDir(m.fs, dir)
+	if err != nil {
+		return "", nil
+	}
+
+	for _, entry := range entries {
+		name := entry.Name()
+		if name == ".repos" || strings.HasSuffix(name, ".meta") {
+			continue
+		}
+
+		fullPath := filepath.Join(dir, name)
+		isPlugin := entry.IsDir() || entry.Mode()&os.ModeSymlink != 0
+		if !isPlugin {
+			if info, err := m.fs.Stat(fullPath); err == nil && info.IsDir() {
+				isPlugin = true
+			}
+		}
+
+		if !isPlugin {
+			continue
+		}
+
+		manifest := m.getPluginManifest(fullPath)
+		if manifest == nil {
+			continue
+		}
+
+		if manifest.ID == idOrName || manifest.Name == idOrName {
+			return fullPath, nil
+		}
+	}
+
+	return "", nil
+}
+
+func (m *Manager) HasUpdates(pluginID string, plugin Plugin) (bool, error) {
+	pluginPath, err := m.findInstalledPath(pluginID)
+	if err != nil {
+		return false, fmt.Errorf("failed to find plugin: %w", err)
+	}
+
+	if pluginPath == "" {
 		return false, fmt.Errorf("plugin not installed: %s", pluginID)
 	}
 
-	// Check if there's a .meta file (plugin installed from a monorepo)
+	if strings.HasPrefix(pluginPath, "/etc/xdg/quickshell/dms-plugins") {
+		return false, nil
+	}
+
 	metaPath := pluginPath + ".meta"
 	metaExists, err := afero.Exists(m.fs, metaPath)
 	if err != nil {

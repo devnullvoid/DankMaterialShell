@@ -6,12 +6,6 @@ import (
 	"strings"
 )
 
-func commandExists(cmd string) bool {
-	_, err := exec.LookPath(cmd)
-	return err == nil
-}
-
-// findCommandPath returns the absolute path to a command in PATH
 func findCommandPath(cmd string) (string, error) {
 	path, err := exec.LookPath(cmd)
 	if err != nil {

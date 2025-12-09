@@ -113,13 +113,14 @@ func RGBToHSV(rgb RGB) HSV {
 	delta := max - min
 
 	var h float64
-	if delta == 0 {
+	switch {
+	case delta == 0:
 		h = 0
-	} else if max == rgb.R {
+	case max == rgb.R:
 		h = math.Mod((rgb.G-rgb.B)/delta, 6.0) / 6.0
-	} else if max == rgb.G {
+	case max == rgb.G:
 		h = ((rgb.B-rgb.R)/delta + 2.0) / 6.0
-	} else {
+	default:
 		h = ((rgb.R-rgb.G)/delta + 4.0) / 6.0
 	}
 

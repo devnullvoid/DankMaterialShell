@@ -97,17 +97,7 @@ func (f *FedoraDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 }
 
 func (f *FedoraDistribution) detectXDGPortal() deps.Dependency {
-	status := deps.StatusMissing
-	if f.packageInstalled("xdg-desktop-portal-gtk") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "xdg-desktop-portal-gtk",
-		Status:      status,
-		Description: "Desktop integration portal for GTK",
-		Required:    true,
-	}
+	return f.detectPackage("xdg-desktop-portal-gtk", "Desktop integration portal for GTK", f.packageInstalled("xdg-desktop-portal-gtk"))
 }
 
 func (f *FedoraDistribution) packageInstalled(pkg string) bool {

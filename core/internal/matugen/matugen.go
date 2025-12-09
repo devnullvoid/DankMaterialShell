@@ -13,6 +13,7 @@ import (
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/dank16"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 var (
@@ -277,7 +278,7 @@ func appendConfig(opts *Options, cfgFile *os.File, checkCmd, fileName string) {
 	if _, err := os.Stat(configPath); err != nil {
 		return
 	}
-	if checkCmd != "skip" && !commandExists(checkCmd) {
+	if checkCmd != "skip" && !utils.CommandExists(checkCmd) {
 		return
 	}
 	data, err := os.ReadFile(configPath)
@@ -293,7 +294,7 @@ func appendTerminalConfig(opts *Options, cfgFile *os.File, tmpDir, checkCmd, fil
 	if _, err := os.Stat(configPath); err != nil {
 		return
 	}
-	if checkCmd != "skip" && !commandExists(checkCmd) {
+	if checkCmd != "skip" && !utils.CommandExists(checkCmd) {
 		return
 	}
 	data, err := os.ReadFile(configPath)
@@ -388,11 +389,6 @@ func extractTOMLSection(content, startMarker, endMarker string) string {
 		return content[startIdx:]
 	}
 	return content[startIdx : startIdx+endIdx]
-}
-
-func commandExists(name string) bool {
-	_, err := exec.LookPath(name)
-	return err == nil
 }
 
 func checkMatugenVersion() {

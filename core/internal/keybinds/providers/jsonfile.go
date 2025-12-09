@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/keybinds"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 type JSONFileProvider struct {
@@ -20,7 +20,7 @@ func NewJSONFileProvider(filePath string) (*JSONFileProvider, error) {
 		return nil, fmt.Errorf("file path cannot be empty")
 	}
 
-	expandedPath, err := expandPath(filePath)
+	expandedPath, err := utils.ExpandPath(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to expand path: %w", err)
 	}
@@ -116,18 +116,4 @@ func (j *JSONFileProvider) GetCheatSheet() (*keybinds.CheatSheet, error) {
 		Provider: provider,
 		Binds:    categorizedBinds,
 	}, nil
-}
-
-func expandPath(path string) (string, error) {
-	expandedPath := os.ExpandEnv(path)
-
-	if strings.HasPrefix(expandedPath, "~") {
-		home, err := os.UserHomeDir()
-		if err != nil {
-			return "", err
-		}
-		expandedPath = filepath.Join(home, expandedPath[1:])
-	}
-
-	return filepath.Clean(expandedPath), nil
 }

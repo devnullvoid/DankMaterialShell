@@ -152,6 +152,24 @@ var pluginsUninstallCmd = &cobra.Command{
 	},
 }
 
+var pluginsUpdateCmd = &cobra.Command{
+	Use:   "update <plugin-id>",
+	Short: "Update a plugin by ID",
+	Long:  "Update an installed DMS plugin using its ID (e.g., 'myPlugin'). Plugin names are also supported.",
+	Args:  cobra.ExactArgs(1),
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+		return getInstalledPluginIDs(), cobra.ShellCompDirectiveNoFileComp
+	},
+	Run: func(cmd *cobra.Command, args []string) {
+		if err := updatePluginCLI(args[0]); err != nil {
+			log.Fatalf("Error updating plugin: %v", err)
+		}
+	},
+}
+
 func runVersion(cmd *cobra.Command, args []string) {
 	printASCII()
 	fmt.Printf("%s\n", formatVersion(Version))
@@ -408,49 +426,70 @@ func uninstallPluginCLI(idOrName string) error {
 		return fmt.Errorf("failed to create registry: %w", err)
 	}
 
-	pluginList, err := registry.List()
-	if err != nil {
-		return fmt.Errorf("failed to list plugins: %w", err)
-	}
+	pluginList, _ := registry.List()
+	plugin := plugins.FindByIDOrName(idOrName, pluginList)
 
-	// First, try to find by ID (preferred method)
-	var plugin *plugins.Plugin
-	for _, p := range pluginList {
-		if p.ID == idOrName {
-			plugin = &p
-			break
+	if plugin != nil {
+		installed, err := manager.IsInstalled(*plugin)
+		if err != nil {
+			return fmt.Errorf("failed to check install status: %w", err)
 		}
-	}
-
-	// Fallback to name for backward compatibility
-	if plugin == nil {
-		for _, p := range pluginList {
-			if p.Name == idOrName {
-				plugin = &p
-				break
-			}
+		if !installed {
+			return fmt.Errorf("plugin not installed: %s", plugin.Name)
 		}
+
+		fmt.Printf("Uninstalling plugin: %s (ID: %s)\n", plugin.Name, plugin.ID)
+		if err := manager.Uninstall(*plugin); err != nil {
+			return fmt.Errorf("failed to uninstall plugin: %w", err)
+		}
+		fmt.Printf("Plugin uninstalled successfully: %s\n", plugin.Name)
+		return nil
 	}
 
-	if plugin == nil {
-		return fmt.Errorf("plugin not found: %s", idOrName)
+	fmt.Printf("Uninstalling plugin: %s\n", idOrName)
+	if err := manager.UninstallByIDOrName(idOrName); err != nil {
+		return err
 	}
+	fmt.Printf("Plugin uninstalled successfully: %s\n", idOrName)
+	return nil
+}
 
-	installed, err := manager.IsInstalled(*plugin)
+func updatePluginCLI(idOrName string) error {
+	manager, err := plugins.NewManager()
 	if err != nil {
-		return fmt.Errorf("failed to check install status: %w", err)
+		return fmt.Errorf("failed to create manager: %w", err)
 	}
 
-	if !installed {
-		return fmt.Errorf("plugin not installed: %s", plugin.Name)
+	registry, err := plugins.NewRegistry()
+	if err != nil {
+		return fmt.Errorf("failed to create registry: %w", err)
 	}
 
-	fmt.Printf("Uninstalling plugin: %s (ID: %s)\n", plugin.Name, plugin.ID)
-	if err := manager.Uninstall(*plugin); err != nil {
-		return fmt.Errorf("failed to uninstall plugin: %w", err)
+	pluginList, _ := registry.List()
+	plugin := plugins.FindByIDOrName(idOrName, pluginList)
+
+	if plugin != nil {
+		installed, err := manager.IsInstalled(*plugin)
+		if err != nil {
+			return fmt.Errorf("failed to check install status: %w", err)
+		}
+		if !installed {
+			return fmt.Errorf("plugin not installed: %s", plugin.Name)
+		}
+
+		fmt.Printf("Updating plugin: %s (ID: %s)\n", plugin.Name, plugin.ID)
+		if err := manager.Update(*plugin); err != nil {
+			return fmt.Errorf("failed to update plugin: %w", err)
+		}
+		fmt.Printf("Plugin updated successfully: %s\n", plugin.Name)
+		return nil
 	}
 
-	fmt.Printf("Plugin uninstalled successfully: %s\n", plugin.Name)
+	fmt.Printf("Updating plugin: %s\n", idOrName)
+	if err := manager.UpdateByIDOrName(idOrName); err != nil {
+		return err
+	}
+	fmt.Printf("Plugin updated successfully: %s\n", idOrName)
 	return nil
 }
 

@@ -104,7 +104,6 @@ func getAllDMSPIDs() []int {
 			continue
 		}
 
-		// Check if the child process is still alive
 		proc, err := os.FindProcess(childPID)
 		if err != nil {
 			os.Remove(pidFile)
@@ -112,18 +111,15 @@ func getAllDMSPIDs() []int {
 		}
 
 		if err := proc.Signal(syscall.Signal(0)); err != nil {
-			// Process is dead, remove stale PID file
 			os.Remove(pidFile)
 			continue
 		}
 
 		pids = append(pids, childPID)
 
-		// Also get the parent PID from the filename
 		parentPIDStr := strings.TrimPrefix(entry.Name(), "danklinux-")
 		parentPIDStr = strings.TrimSuffix(parentPIDStr, ".pid")
 		if parentPID, err := strconv.Atoi(parentPIDStr); err == nil {
-			// Check if parent is still alive
 			if parentProc, err := os.FindProcess(parentPID); err == nil {
 				if err := parentProc.Signal(syscall.Signal(0)); err == nil {
 					pids = append(pids, parentPID)
@@ -225,7 +221,6 @@ func runShellInteractive(session bool) {
 				return
 			}
 
-			// All other signals: clean shutdown
 			log.Infof("\nReceived signal %v, shutting down...", sig)
 			cancel()
 			cmd.Process.Signal(syscall.SIGTERM)
@@ -282,7 +277,6 @@ func restartShell() {
 }
 
 func killShell() {
-	// Get all tracked DMS PIDs from PID files
 	pids := getAllDMSPIDs()
 
 	if len(pids) == 0 {
@@ -293,14 +287,12 @@ func killShell() {
 	currentPid := os.Getpid()
 	uniquePids := make(map[int]bool)
 
-	// Deduplicate and filter out current process
 	for _, pid := range pids {
 		if pid != currentPid {
 			uniquePids[pid] = true
 		}
 	}
 
-	// Kill all tracked processes
 	for pid := range uniquePids {
 		proc, err := os.FindProcess(pid)
 		if err != nil {
@@ -308,7 +300,6 @@ func killShell() {
 			continue
 		}
 
-		// Check if process is still alive before killing
 		if err := proc.Signal(syscall.Signal(0)); err != nil {
 			continue
 		}
@@ -320,7 +311,6 @@ func killShell() {
 		}
 	}
 
-	// Clean up any remaining PID files
 	dir := getRuntimeDir()
 	entries, err := os.ReadDir(dir)
 	if err != nil {
@@ -337,7 +327,6 @@ func killShell() {
 
 func runShellDaemon(session bool) {
 	isSessionManaged = session
-	// Check if this is the daemon child process by looking for the hidden flag
 	isDaemonChild := false
 	for _, arg := range os.Args {
 		if arg == "--daemon-child" {

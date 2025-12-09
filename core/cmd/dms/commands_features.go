@@ -15,6 +15,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/distros"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/errdefs"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/version"
 	"github.com/spf13/cobra"
 )
@@ -121,10 +122,10 @@ func updateArchLinux() error {
 	var helper string
 	var updateCmd *exec.Cmd
 
-	if commandExists("yay") {
+	if utils.CommandExists("yay") {
 		helper = "yay"
 		updateCmd = exec.Command("yay", "-S", packageName)
-	} else if commandExists("paru") {
+	} else if utils.CommandExists("paru") {
 		helper = "paru"
 		updateCmd = exec.Command("paru", "-S", packageName)
 	} else {

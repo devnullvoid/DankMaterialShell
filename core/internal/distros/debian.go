@@ -75,45 +75,15 @@ func (d *DebianDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 }
 
 func (d *DebianDistribution) detectXDGPortal() deps.Dependency {
-	status := deps.StatusMissing
-	if d.packageInstalled("xdg-desktop-portal-gtk") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "xdg-desktop-portal-gtk",
-		Status:      status,
-		Description: "Desktop integration portal for GTK",
-		Required:    true,
-	}
+	return d.detectPackage("xdg-desktop-portal-gtk", "Desktop integration portal for GTK", d.packageInstalled("xdg-desktop-portal-gtk"))
 }
 
 func (d *DebianDistribution) detectXwaylandSatellite() deps.Dependency {
-	status := deps.StatusMissing
-	if d.commandExists("xwayland-satellite") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "xwayland-satellite",
-		Status:      status,
-		Description: "Xwayland support",
-		Required:    true,
-	}
+	return d.detectCommand("xwayland-satellite", "Xwayland support")
 }
 
 func (d *DebianDistribution) detectAccountsService() deps.Dependency {
-	status := deps.StatusMissing
-	if d.packageInstalled("accountsservice") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "accountsservice",
-		Status:      status,
-		Description: "D-Bus interface for user account query and manipulation",
-		Required:    true,
-	}
+	return d.detectPackage("accountsservice", "D-Bus interface for user account query and manipulation", d.packageInstalled("accountsservice"))
 }
 
 func (d *DebianDistribution) packageInstalled(pkg string) bool {

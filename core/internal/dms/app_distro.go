@@ -75,14 +75,13 @@ type MenuItem struct {
 
 func NewModel(version string) Model {
 	detector, _ := NewDetector()
-	dependencies := detector.GetInstalledComponents()
 
-	// Use the proper detection method for both window managers
-	hyprlandInstalled, niriInstalled, err := detector.GetWindowManagerStatus()
-	if err != nil {
-		// Fallback to false if detection fails
-		hyprlandInstalled = false
-		niriInstalled = false
+	var dependencies []DependencyInfo
+	var hyprlandInstalled, niriInstalled bool
+
+	if detector != nil {
+		dependencies = detector.GetInstalledComponents()
+		hyprlandInstalled, niriInstalled, _ = detector.GetWindowManagerStatus()
 	}
 
 	m := Model{
@@ -199,6 +198,13 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.installedPluginsLoading = true
 			m.installedPluginsError = ""
 			return m, loadInstalledPlugins
+		}
+		return m, nil
+	case pluginUpdatedMsg:
+		if msg.err != nil {
+			m.installedPluginsError = msg.err.Error()
+		} else {
+			m.installedPluginsError = ""
 		}
 		return m, nil
 	case pluginInstalledMsg:

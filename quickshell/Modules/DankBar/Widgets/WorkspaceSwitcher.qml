@@ -890,17 +890,51 @@ Item {
                                 id: rowLayout
                                 Row {
                                     spacing: 4
-                                    visible: loadedIcons.length > 0 || SettingsData.showWorkspaceIndex
-                                    StyledText {
-                                        topPadding: 2
-                                        rightPadding: isActive ? 4 : 0
-                                        visible: SettingsData.showWorkspaceIndex
-                                        text: {
-                                            return root.getWorkspaceIndex(modelData);
+                                    visible: loadedIcons.length > 0 || SettingsData.showWorkspaceIndex || loadedHasIcon
+
+                                    Item {
+                                        visible: loadedHasIcon && loadedIconData?.type === "icon"
+                                        width: wsIcon.width + (isActive && loadedIcons.length > 0 ? 4 : 0)
+                                        height: 18
+
+                                        DankIcon {
+                                            id: wsIcon
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            name: loadedIconData?.value ?? ""
+                                            size: Theme.barTextSize(barThickness, barConfig?.fontScale)
+                                            color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
+                                            weight: (isActive && !isPlaceholder) ? 500 : 400
                                         }
-                                        color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
-                                        font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale)
-                                        font.weight: (isActive && !isPlaceholder) ? Font.DemiBold : Font.Normal
+                                    }
+
+                                    Item {
+                                        visible: loadedHasIcon && loadedIconData?.type === "text"
+                                        width: wsText.implicitWidth + (isActive && loadedIcons.length > 0 ? 4 : 0)
+                                        height: 18
+
+                                        StyledText {
+                                            id: wsText
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            text: loadedIconData?.value ?? ""
+                                            color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
+                                            font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale)
+                                            font.weight: (isActive && !isPlaceholder) ? Font.DemiBold : Font.Normal
+                                        }
+                                    }
+
+                                    Item {
+                                        visible: SettingsData.showWorkspaceIndex && !loadedHasIcon
+                                        width: wsIndexText.implicitWidth + (isActive && loadedIcons.length > 0 ? 4 : 0)
+                                        height: 18
+
+                                        StyledText {
+                                            id: wsIndexText
+                                            anchors.verticalCenter: parent.verticalCenter
+                                            text: root.getWorkspaceIndex(modelData)
+                                            color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
+                                            font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale)
+                                            font.weight: (isActive && !isPlaceholder) ? Font.DemiBold : Font.Normal
+                                        }
                                     }
 
                                     Repeater {
@@ -973,7 +1007,25 @@ Item {
                                 id: columnLayout
                                 Column {
                                     spacing: 4
-                                    visible: loadedIcons.length > 0
+                                    visible: loadedIcons.length > 0 || loadedHasIcon
+
+                                    DankIcon {
+                                        visible: loadedHasIcon && loadedIconData?.type === "icon"
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        name: loadedIconData?.value ?? ""
+                                        size: Theme.barTextSize(barThickness, barConfig?.fontScale)
+                                        color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
+                                        weight: (isActive && !isPlaceholder) ? 500 : 400
+                                    }
+
+                                    StyledText {
+                                        visible: loadedHasIcon && loadedIconData?.type === "text"
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        text: loadedIconData?.value ?? ""
+                                        color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
+                                        font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale)
+                                        font.weight: (isActive && !isPlaceholder) ? Font.DemiBold : Font.Normal
+                                    }
 
                                     Repeater {
                                         model: ScriptModel {

@@ -5,6 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 type DiscoveryConfig struct {
@@ -14,13 +16,7 @@ type DiscoveryConfig struct {
 func DefaultDiscoveryConfig() *DiscoveryConfig {
 	var searchPaths []string
 
-	configHome := os.Getenv("XDG_CONFIG_HOME")
-	if configHome == "" {
-		if homeDir, err := os.UserHomeDir(); err == nil {
-			configHome = filepath.Join(homeDir, ".config")
-		}
-	}
-
+	configHome := utils.XDGConfigHome()
 	if configHome != "" {
 		searchPaths = append(searchPaths, filepath.Join(configHome, "DankMaterialShell", "cheatsheets"))
 	}
@@ -43,7 +39,7 @@ func (d *DiscoveryConfig) FindJSONFiles() ([]string, error) {
 	var files []string
 
 	for _, searchPath := range d.SearchPaths {
-		expandedPath, err := expandPath(searchPath)
+		expandedPath, err := utils.ExpandPath(searchPath)
 		if err != nil {
 			continue
 		}
@@ -72,20 +68,6 @@ func (d *DiscoveryConfig) FindJSONFiles() ([]string, error) {
 	}
 
 	return files, nil
-}
-
-func expandPath(path string) (string, error) {
-	expandedPath := os.ExpandEnv(path)
-
-	if strings.HasPrefix(expandedPath, "~") {
-		home, err := os.UserHomeDir()
-		if err != nil {
-			return "", err
-		}
-		expandedPath = filepath.Join(home, expandedPath[1:])
-	}
-
-	return filepath.Clean(expandedPath), nil
 }
 
 type JSONProviderFactory func(filePath string) (Provider, error)

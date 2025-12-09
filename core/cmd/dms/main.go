@@ -23,7 +23,7 @@ func init() {
 	updateCmd.AddCommand(updateCheckCmd)
 
 	// Add subcommands to plugins
-	pluginsCmd.AddCommand(pluginsBrowseCmd, pluginsListCmd, pluginsInstallCmd, pluginsUninstallCmd)
+	pluginsCmd.AddCommand(pluginsBrowseCmd, pluginsListCmd, pluginsInstallCmd, pluginsUninstallCmd, pluginsUpdateCmd)
 
 	// Add common commands to root
 	rootCmd.AddCommand(getCommonCommands()...)

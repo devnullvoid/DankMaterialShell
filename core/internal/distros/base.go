@@ -76,47 +76,42 @@ func ExecSudoCommand(ctx context.Context, sudoPassword string, command string) *
 	return exec.CommandContext(ctx, "bash", "-c", cmdStr)
 }
 
-// Common dependency detection methods
-func (b *BaseDistribution) detectGit() deps.Dependency {
+func (b *BaseDistribution) detectCommand(name, description string) deps.Dependency {
 	status := deps.StatusMissing
-	if b.commandExists("git") {
+	if b.commandExists(name) {
 		status = deps.StatusInstalled
 	}
-
 	return deps.Dependency{
-		Name:        "git",
+		Name:        name,
 		Status:      status,
-		Description: "Version control system",
+		Description: description,
 		Required:    true,
 	}
+}
+
+func (b *BaseDistribution) detectPackage(name, description string, installed bool) deps.Dependency {
+	status := deps.StatusMissing
+	if installed {
+		status = deps.StatusInstalled
+	}
+	return deps.Dependency{
+		Name:        name,
+		Status:      status,
+		Description: description,
+		Required:    true,
+	}
+}
+
+func (b *BaseDistribution) detectGit() deps.Dependency {
+	return b.detectCommand("git", "Version control system")
 }
 
 func (b *BaseDistribution) detectMatugen() deps.Dependency {
-	status := deps.StatusMissing
-	if b.commandExists("matugen") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "matugen",
-		Status:      status,
-		Description: "Material Design color generation tool",
-		Required:    true,
-	}
+	return b.detectCommand("matugen", "Material Design color generation tool")
 }
 
 func (b *BaseDistribution) detectDgop() deps.Dependency {
-	status := deps.StatusMissing
-	if b.commandExists("dgop") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "dgop",
-		Status:      status,
-		Description: "Desktop portal management tool",
-		Required:    true,
-	}
+	return b.detectCommand("dgop", "Desktop portal management tool")
 }
 
 func (b *BaseDistribution) detectDMS() deps.Dependency {

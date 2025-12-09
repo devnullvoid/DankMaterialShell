@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 const (
@@ -42,14 +44,9 @@ func NewHyprlandParser() *HyprlandParser {
 }
 
 func (p *HyprlandParser) ReadContent(directory string) error {
-	expandedDir := os.ExpandEnv(directory)
-	expandedDir = filepath.Clean(expandedDir)
-	if strings.HasPrefix(expandedDir, "~") {
-		home, err := os.UserHomeDir()
-		if err != nil {
-			return err
-		}
-		expandedDir = filepath.Join(home, expandedDir[1:])
+	expandedDir, err := utils.ExpandPath(directory)
+	if err != nil {
+		return err
 	}
 
 	info, err := os.Stat(expandedDir)

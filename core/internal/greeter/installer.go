@@ -11,6 +11,7 @@ import (
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/config"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/distros"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 // DetectDMSPath checks for DMS installation following XDG Base Directory specification
@@ -22,10 +23,10 @@ func DetectDMSPath() (string, error) {
 func DetectCompositors() []string {
 	var compositors []string
 
-	if commandExists("niri") {
+	if utils.CommandExists("niri") {
 		compositors = append(compositors, "niri")
 	}
-	if commandExists("Hyprland") {
+	if utils.CommandExists("Hyprland") {
 		compositors = append(compositors, "Hyprland")
 	}
 
@@ -62,7 +63,7 @@ func PromptCompositorChoice(compositors []string) (string, error) {
 
 // EnsureGreetdInstalled checks if greetd is installed and installs it if not
 func EnsureGreetdInstalled(logFunc func(string), sudoPassword string) error {
-	if commandExists("greetd") {
+	if utils.CommandExists("greetd") {
 		logFunc("✓ greetd is already installed")
 		return nil
 	}
@@ -144,7 +145,7 @@ func EnsureGreetdInstalled(logFunc func(string), sudoPassword string) error {
 // CopyGreeterFiles installs the dms-greeter wrapper and sets up cache directory
 func CopyGreeterFiles(dmsPath, compositor string, logFunc func(string), sudoPassword string) error {
 	// Check if dms-greeter is already in PATH
-	if commandExists("dms-greeter") {
+	if utils.CommandExists("dms-greeter") {
 		logFunc("✓ dms-greeter wrapper already installed")
 	} else {
 		// Install the wrapper script
@@ -204,7 +205,7 @@ func CopyGreeterFiles(dmsPath, compositor string, logFunc func(string), sudoPass
 
 // SetupParentDirectoryACLs sets ACLs on parent directories to allow traversal
 func SetupParentDirectoryACLs(logFunc func(string), sudoPassword string) error {
-	if !commandExists("setfacl") {
+	if !utils.CommandExists("setfacl") {
 		logFunc("⚠ Warning: setfacl command not found. ACL support may not be available on this filesystem.")
 		logFunc("  If theme sync doesn't work, you may need to install acl package:")
 		logFunc("  - Fedora/RHEL: sudo dnf install acl")
@@ -419,7 +420,7 @@ user = "greeter"
 
 	// Determine wrapper command path
 	wrapperCmd := "dms-greeter"
-	if !commandExists("dms-greeter") {
+	if !utils.CommandExists("dms-greeter") {
 		wrapperCmd = "/usr/local/bin/dms-greeter"
 	}
 
@@ -485,9 +486,4 @@ func runSudoCmd(sudoPassword string, command string, args ...string) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	return cmd.Run()
-}
-
-func commandExists(cmd string) bool {
-	_, err := exec.LookPath(cmd)
-	return err == nil
 }

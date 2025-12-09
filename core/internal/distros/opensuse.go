@@ -87,17 +87,7 @@ func (o *OpenSUSEDistribution) DetectDependenciesWithTerminal(ctx context.Contex
 }
 
 func (o *OpenSUSEDistribution) detectXDGPortal() deps.Dependency {
-	status := deps.StatusMissing
-	if o.packageInstalled("xdg-desktop-portal-gtk") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "xdg-desktop-portal-gtk",
-		Status:      status,
-		Description: "Desktop integration portal for GTK",
-		Required:    true,
-	}
+	return o.detectPackage("xdg-desktop-portal-gtk", "Desktop integration portal for GTK", o.packageInstalled("xdg-desktop-portal-gtk"))
 }
 
 func (o *OpenSUSEDistribution) packageInstalled(pkg string) bool {

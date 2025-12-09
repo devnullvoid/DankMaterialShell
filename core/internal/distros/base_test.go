@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 func TestBaseDistribution_detectDMS_NotInstalled(t *testing.T) {
@@ -36,7 +37,7 @@ func TestBaseDistribution_detectDMS_NotInstalled(t *testing.T) {
 }
 
 func TestBaseDistribution_detectDMS_Installed(t *testing.T) {
-	if !commandExists("git") {
+	if !utils.CommandExists("git") {
 		t.Skip("git not available")
 	}
 
@@ -80,7 +81,7 @@ func TestBaseDistribution_detectDMS_Installed(t *testing.T) {
 }
 
 func TestBaseDistribution_detectDMS_NeedsUpdate(t *testing.T) {
-	if !commandExists("git") {
+	if !utils.CommandExists("git") {
 		t.Skip("git not available")
 	}
 
@@ -162,11 +163,6 @@ func TestBaseDistribution_NewBaseDistribution(t *testing.T) {
 	if base.logChan == nil {
 		t.Error("logChan was not set")
 	}
-}
-
-func commandExists(cmd string) bool {
-	_, err := exec.LookPath(cmd)
-	return err == nil
 }
 
 func TestBaseDistribution_versionCompare(t *testing.T) {

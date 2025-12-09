@@ -10,6 +10,7 @@ import (
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/greeter"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 	"github.com/spf13/cobra"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
@@ -448,7 +449,7 @@ func enableGreeter() error {
 	fmt.Println("Detecting installed compositors...")
 	compositors := greeter.DetectCompositors()
 
-	if commandExists("sway") {
+	if utils.CommandExists("sway") {
 		compositors = append(compositors, "sway")
 	}
 

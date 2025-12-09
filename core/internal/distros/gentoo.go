@@ -113,45 +113,15 @@ func (g *GentooDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 }
 
 func (g *GentooDistribution) detectXDGPortal() deps.Dependency {
-	status := deps.StatusMissing
-	if g.packageInstalled("sys-apps/xdg-desktop-portal-gtk") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "xdg-desktop-portal-gtk",
-		Status:      status,
-		Description: "Desktop integration portal for GTK",
-		Required:    true,
-	}
+	return g.detectPackage("xdg-desktop-portal-gtk", "Desktop integration portal for GTK", g.packageInstalled("sys-apps/xdg-desktop-portal-gtk"))
 }
 
 func (g *GentooDistribution) detectXwaylandSatellite() deps.Dependency {
-	status := deps.StatusMissing
-	if g.packageInstalled("gui-apps/xwayland-satellite") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "xwayland-satellite",
-		Status:      status,
-		Description: "Xwayland support",
-		Required:    true,
-	}
+	return g.detectPackage("xwayland-satellite", "Xwayland support", g.packageInstalled("gui-apps/xwayland-satellite"))
 }
 
 func (g *GentooDistribution) detectAccountsService() deps.Dependency {
-	status := deps.StatusMissing
-	if g.packageInstalled("sys-apps/accountsservice") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "accountsservice",
-		Status:      status,
-		Description: "D-Bus interface for user account query and manipulation",
-		Required:    true,
-	}
+	return g.detectPackage("accountsservice", "D-Bus interface for user account query and manipulation", g.packageInstalled("sys-apps/accountsservice"))
 }
 
 func (g *GentooDistribution) packageInstalled(pkg string) bool {

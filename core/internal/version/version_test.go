@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	mocks_version "github.com/AvengeMedia/DankMaterialShell/core/internal/mocks/version"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 func TestCompareVersions(t *testing.T) {
@@ -150,7 +151,7 @@ func TestGetCurrentDMSVersion_NotInstalled(t *testing.T) {
 }
 
 func TestGetCurrentDMSVersion_GitTag(t *testing.T) {
-	if !commandExists("git") {
+	if !utils.CommandExists("git") {
 		t.Skip("git not available")
 	}
 
@@ -183,7 +184,7 @@ func TestGetCurrentDMSVersion_GitTag(t *testing.T) {
 }
 
 func TestGetCurrentDMSVersion_GitBranch(t *testing.T) {
-	if !commandExists("git") {
+	if !utils.CommandExists("git") {
 		t.Skip("git not available")
 	}
 
@@ -312,11 +313,6 @@ func TestVersionInfo_HasUpdate_Tag(t *testing.T) {
 				tt.current, tt.latest, info.HasUpdate, tt.hasUpdate)
 		}
 	}
-}
-
-func commandExists(cmd string) bool {
-	_, err := exec.LookPath(cmd)
-	return err == nil
 }
 
 func TestGetLatestDMSVersion_FallbackParsing(t *testing.T) {

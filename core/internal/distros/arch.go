@@ -112,31 +112,11 @@ func (a *ArchDistribution) DetectDependenciesWithTerminal(ctx context.Context, w
 }
 
 func (a *ArchDistribution) detectXDGPortal() deps.Dependency {
-	status := deps.StatusMissing
-	if a.packageInstalled("xdg-desktop-portal-gtk") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "xdg-desktop-portal-gtk",
-		Status:      status,
-		Description: "Desktop integration portal for GTK",
-		Required:    true,
-	}
+	return a.detectPackage("xdg-desktop-portal-gtk", "Desktop integration portal for GTK", a.packageInstalled("xdg-desktop-portal-gtk"))
 }
 
 func (a *ArchDistribution) detectAccountsService() deps.Dependency {
-	status := deps.StatusMissing
-	if a.packageInstalled("accountsservice") {
-		status = deps.StatusInstalled
-	}
-
-	return deps.Dependency{
-		Name:        "accountsservice",
-		Status:      status,
-		Description: "D-Bus interface for user account query and manipulation",
-		Required:    true,
-	}
+	return a.detectPackage("accountsservice", "D-Bus interface for user account query and manipulation", a.packageInstalled("accountsservice"))
 }
 
 func (a *ArchDistribution) packageInstalled(pkg string) bool {

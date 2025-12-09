@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 const (
@@ -42,14 +44,9 @@ func NewSwayParser() *SwayParser {
 }
 
 func (p *SwayParser) ReadContent(path string) error {
-	expandedPath := os.ExpandEnv(path)
-	expandedPath = filepath.Clean(expandedPath)
-	if strings.HasPrefix(expandedPath, "~") {
-		home, err := os.UserHomeDir()
-		if err != nil {
-			return err
-		}
-		expandedPath = filepath.Join(home, expandedPath[1:])
+	expandedPath, err := utils.ExpandPath(path)
+	if err != nil {
+		return err
 	}
 
 	info, err := os.Stat(expandedPath)
