@@ -176,6 +176,9 @@
   "Always show a minimum of 3 workspaces, even if fewer are available": {
     "Always show a minimum of 3 workspaces, even if fewer are available": "Sempre mostrar o mínimo de 3 áreas de trabalho, mesmo se menos estiverem disponíveis"
   },
+  "Amount": {
+    "Amount": ""
+  },
   "Animation Speed": {
     "Animation Speed": "Velocidade de Animação"
   },
@@ -224,6 +227,9 @@
   "Audio Output Devices (": {
     "Audio Output Devices (": "Dispositivos de Saída de Áudio ("
   },
+  "Audio Output Switch": {
+    "Audio Output Switch": ""
+  },
   "Auth": {
     "Auth": ""
   },
@@ -260,6 +266,9 @@
   "Auto Popup Gaps": {
     "Auto Popup Gaps": "Espaçamento Automático de Popup"
   },
+  "Auto-close Niri overview when launching apps.": {
+    "Auto-close Niri overview when launching apps.": ""
+  },
   "Auto-hide": {
     "Auto-hide": "Esconder Automaticamente"
   },
@@ -295,9 +304,6 @@
   },
   "Automatically determine your location using your IP address": {
     "Automatically determine your location using your IP address": "Detectar automaticamente a sua localização usando o seu endereço de IP"
-  },
-  "Automatically hide the top bar to expand screen real estate": {
-    "Automatically hide the top bar to expand screen real estate": "Esconder automaticamente a barra superior para expandir a tela"
   },
   "Automatically lock after": {
     "Automatically lock after": "Bloquear automaticamente após"
@@ -557,6 +563,9 @@
   "Color Picker": {
     "Color Picker": "Seletor de Cores"
   },
+  "Color Temperature": {
+    "Color Temperature": ""
+  },
   "Color displayed on monitors without the lock screen": {
     "Color displayed on monitors without the lock screen": ""
   },
@@ -707,6 +716,15 @@
   "Current Items": {
     "Current Items": "Itens Atuais"
   },
+  "Current Period": {
+    "Current Period": ""
+  },
+  "Current Status": {
+    "Current Status": ""
+  },
+  "Current Temp": {
+    "Current Temp": ""
+  },
   "Current Weather": {
     "Current Weather": "Clima Atual"
   },
@@ -818,6 +836,9 @@
   "Day Temperature": {
     "Day Temperature": "Temperatura Diurna"
   },
+  "Daytime": {
+    "Daytime": ""
+  },
   "Deck": {
     "Deck": ""
   },
@@ -920,6 +941,9 @@
   "Display settings for ": {
     "Display settings for ": ""
   },
+  "Display the power system menu": {
+    "Display the power system menu": ""
+  },
   "Display volume and brightness percentage values in OSD popups": {
     "Display volume and brightness percentage values in OSD popups": ""
   },
@@ -985,9 +1009,6 @@
   },
   "Edge Spacing": {
     "Edge Spacing": ""
-  },
-  "Edge Spacing (0 = edge-to-edge)": {
-    "Edge Spacing (0 = edge-to-edge)": "Espaçamento do Canto (0 = canto-a-canto)"
   },
   "Education": {
     "Education": "Educação"
@@ -1084,9 +1105,6 @@
   },
   "Exclusive Zone Offset": {
     "Exclusive Zone Offset": "Ajuste da Zona Exclusiva"
-  },
-  "Execute templates from ~/.config/matugen/config.toml": {
-    "Execute templates from ~/.config/matugen/config.toml": "Executar templates de ~/.config/matugen/config.toml"
   },
   "F1/I: Toggle • F10: Help": {
     "F1/I: Toggle • F10: Help": "F1/I: Ativar • F10: Ajuda"
@@ -1244,14 +1262,14 @@
   "Focused Window": {
     "Focused Window": "Janela Focada"
   },
+  "Follow focus": {
+    "Follow focus": ""
+  },
   "Font Family": {
     "Font Family": "Família da Fonte"
   },
   "Font Scale": {
     "Font Scale": "Escala da Fonte"
-  },
-  "Font Settings": {
-    "Font Settings": "Configurações da Fonte"
   },
   "Font Size": {
     "Font Size": "Tamanho da Fonte"
@@ -1310,9 +1328,6 @@
   "GitHub": {
     "GitHub": ""
   },
-  "Github:": {
-    "Github:": "Github:"
-  },
   "Golden Hour": {
     "Golden Hour": ""
   },
@@ -1349,9 +1364,6 @@
   "Health": {
     "Health": "Saúde"
   },
-  "Height to Edge Gap (Exclusive Zone)": {
-    "Height to Edge Gap (Exclusive Zone)": "Distância da Borda (Zona Exclusiva)"
-  },
   "Held": {
     "Held": ""
   },
@@ -1384,6 +1396,9 @@
   },
   "Hold to Confirm Power Actions": {
     "Hold to Confirm Power Actions": ""
+  },
+  "Hold to confirm (%1 ms)": {
+    "Hold to confirm (%1 ms)": ""
   },
   "Hold to confirm (%1s)": {
     "Hold to confirm (%1s)": ""
@@ -1670,6 +1685,9 @@
   "Max apps to show": {
     "Max apps to show": "Máximo de apps para mostrar"
   },
+  "Maximize Detection": {
+    "Maximize Detection": ""
+  },
   "Media": {
     "Media": "Mídia"
   },
@@ -1745,9 +1763,6 @@
   "Model": {
     "Model": ""
   },
-  "Monitor Selection:": {
-    "Monitor Selection:": "Seleção de Monitor:"
-  },
   "Monitor whose wallpaper drives dynamic theming colors": {
     "Monitor whose wallpaper drives dynamic theming colors": "Monitor o qual papel de parede controla cores de tema dinâmicas"
   },
@@ -1783,9 +1798,6 @@
   },
   "Network": {
     "Network": "Rede"
-  },
-  "Network Icon": {
-    "Network Icon": "Ícone de Rede"
   },
   "Network Info": {
     "Network Info": "Informação de Rede"
@@ -1823,6 +1835,9 @@
   "New York, NY": {
     "New York, NY": "Nova York, NY"
   },
+  "Next Transition": {
+    "Next Transition": ""
+  },
   "Night": {
     "Night": ""
   },
@@ -1850,14 +1865,14 @@
   "No Bluetooth adapter found": {
     "No Bluetooth adapter found": "Adaptador Bluetooth não encontrado"
   },
+  "No GPU detected": {
+    "No GPU detected": ""
+  },
   "No Media": {
     "No Media": "Sem Mídia"
   },
   "No VPN profiles": {
     "No VPN profiles": ""
-  },
-  "No VPN profiles found": {
-    "No VPN profiles found": "Nenhum perfil de VPN encontrado"
   },
   "No Weather Data Available": {
     "No Weather Data Available": "Informações de Clima não dispóniveis"
@@ -2000,6 +2015,9 @@
   "Optional location": {
     "Optional location": ""
   },
+  "Options": {
+    "Options": ""
+  },
   "Other": {
     "Other": ""
   },
@@ -2129,6 +2147,9 @@
   "Plugins:": {
     "Plugins:": "Plugins:"
   },
+  "Pointer": {
+    "Pointer": ""
+  },
   "Popup Position": {
     "Popup Position": "Posição do Popup"
   },
@@ -2143,6 +2164,9 @@
   },
   "Possible Override Conflicts": {
     "Possible Override Conflicts": ""
+  },
+  "Power": {
+    "Power": ""
   },
   "Power & Security": {
     "Power & Security": "Energia & Segurança"
@@ -2291,6 +2315,9 @@
   "Remove": {
     "Remove": "Remover"
   },
+  "Remove gaps and border when windows are maximized": {
+    "Remove gaps and border when windows are maximized": ""
+  },
   "Report": {
     "Report": ""
   },
@@ -2375,9 +2402,6 @@
   "Scale DankBar font sizes independently": {
     "Scale DankBar font sizes independently": "Ajustar tamanho da fonte da DankBar de forma independente"
   },
-  "Scale all font sizes": {
-    "Scale all font sizes": "Ajustar todos os tamanhos de fonte"
-  },
   "Scale all font sizes throughout the shell": {
     "Scale all font sizes throughout the shell": ""
   },
@@ -2444,9 +2468,6 @@
   "Select a preset or drag the slider to customize": {
     "Select a preset or drag the slider to customize": "Selecione uma predefinição ou arraste o controle deslizante para customizar"
   },
-  "Select a widget to add to the ": {
-    "Select a widget to add to the ": "Selecione um widget para adicionar a "
-  },
   "Select a widget to add. You can add multiple instances of the same widget if needed.": {
     "Select a widget to add. You can add multiple instances of the same widget if needed.": ""
   },
@@ -2459,9 +2480,6 @@
   "Select driver...": {
     "Select driver...": ""
   },
-  "Select font weight": {
-    "Select font weight": "Selecionar espessura da fonte"
-  },
   "Select font weight for UI text": {
     "Select font weight for UI text": ""
   },
@@ -2470,9 +2488,6 @@
   },
   "Select monospace font for process list and technical displays": {
     "Select monospace font for process list and technical displays": "Selecionar fonte monoespaçada para a lista de processos e telas técnicas"
-  },
-  "Select system font family": {
-    "Select system font family": "Selecionar família da fonte do sistema"
   },
   "Select system sound theme": {
     "Select system sound theme": "Selecionar tema do som do sistema"
@@ -2506,9 +2521,6 @@
   },
   "Set key and action to save": {
     "Set key and action to save": ""
-  },
-  "Settings": {
-    "Settings": "Configurações"
   },
   "Setup": {
     "Setup": ""
@@ -2576,6 +2588,9 @@
   "Show darkened overlay behind modal dialogs": {
     "Show darkened overlay behind modal dialogs": ""
   },
+  "Show launcher overlay when typing in Niri overview. Disable to use another launcher.": {
+    "Show launcher overlay when typing in Niri overview. Disable to use another launcher.": ""
+  },
   "Show on Last Display": {
     "Show on Last Display": "Mostrar na Última Tela"
   },
@@ -2593,6 +2608,9 @@
   },
   "Show on-screen display when caps lock state changes": {
     "Show on-screen display when caps lock state changes": ""
+  },
+  "Show on-screen display when cycling audio output devices": {
+    "Show on-screen display when cycling audio output devices": ""
   },
   "Show on-screen display when idle inhibitor state changes": {
     "Show on-screen display when idle inhibitor state changes": ""
@@ -2741,6 +2759,9 @@
   "Switch User": {
     "Switch User": "Trocar Usuário"
   },
+  "Switch to power profile": {
+    "Switch to power profile": ""
+  },
   "Sync Mode with Portal": {
     "Sync Mode with Portal": "Sincronizar Modo Com Portal"
   },
@@ -2753,14 +2774,8 @@
   "System App Theming": {
     "System App Theming": "Tema de Apps do Sistema"
   },
-  "System Monitor": {
-    "System Monitor": "Monitor do Sistema"
-  },
   "System Monitor Unavailable": {
     "System Monitor Unavailable": "Monitor do Sistema Indisponível"
-  },
-  "System Monitoring:": {
-    "System Monitoring:": "Monitoramento do Sistema:"
   },
   "System Sounds": {
     "System Sounds": ""
@@ -2795,6 +2810,9 @@
   "System update custom command": {
     "System update custom command": "Comando personalizado para atualização do sistema"
   },
+  "Tab": {
+    "Tab": ""
+  },
   "Tab/Shift+Tab: Nav • ←→↑↓: Grid Nav • Enter/Space: Select": {
     "Tab/Shift+Tab: Nav • ←→↑↓: Grid Nav • Enter/Space: Select": "Tab/Shift+Tab: Navegação • ←→↑↓: Navegação em Grade • Enter/Espaço: Selecionar"
   },
@@ -2827,6 +2845,9 @@
   },
   "Theme Color": {
     "Theme Color": "Cor do Tema"
+  },
+  "Thickness": {
+    "Thickness": ""
   },
   "Third-Party Plugin Warning": {
     "Third-Party Plugin Warning": "Aviso Sobre Plugins de Terceiros"
@@ -2881,9 +2902,6 @@
   },
   "Today": {
     "Today": "Hoje"
-  },
-  "Toggle top bar visibility manually (can be controlled via IPC)": {
-    "Toggle top bar visibility manually (can be controlled via IPC)": "Alternar visibilidade da barra superior manualmente (controle via IPC é possível)"
   },
   "Toggle visibility of this bar configuration": {
     "Toggle visibility of this bar configuration": ""
@@ -2965,12 +2983,6 @@
   },
   "Use Custom Command": {
     "Use Custom Command": "Usar Comando Personalizado"
-  },
-  "Use Fahrenheit": {
-    "Use Fahrenheit": "Usar Fahrenheit"
-  },
-  "Use Fahrenheit instead of Celsius for temperature": {
-    "Use Fahrenheit instead of Celsius for temperature": "Usar Fahrenheit em vez de Celsius para temperatura"
   },
   "Use Grid Layout": {
     "Use Grid Layout": ""
@@ -3094,6 +3106,9 @@
   },
   "Wallpapers": {
     "Wallpapers": "Papéis de parede"
+  },
+  "Warm color temperature to apply": {
+    "Warm color temperature to apply": ""
   },
   "Warning": {
     "Warning": ""
@@ -3227,11 +3242,11 @@
   "files": {
     "files": ""
   },
+  "leave empty for default": {
+    "leave empty for default": ""
+  },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl não disponível - integração com bloqueio requer conexão de socket DMS"
-  },
-  "matugen not detected - dynamic theming unavailable": {
-    "matugen not detected - dynamic theming unavailable": "matugen não detectado - tematização dinâmica não disponível"
   },
   "minutes": {
     "minutes": ""

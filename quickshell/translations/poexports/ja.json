@@ -176,6 +176,9 @@
   "Always show a minimum of 3 workspaces, even if fewer are available": {
     "Always show a minimum of 3 workspaces, even if fewer are available": "使用可能なワークスペースが少ない場合でも、常に最低 3 つを表示"
   },
+  "Amount": {
+    "Amount": ""
+  },
   "Animation Speed": {
     "Animation Speed": "アニメーション速度"
   },
@@ -224,6 +227,9 @@
   "Audio Output Devices (": {
     "Audio Output Devices (": "オーディオ出力デバイス（"
   },
+  "Audio Output Switch": {
+    "Audio Output Switch": ""
+  },
   "Auth": {
     "Auth": ""
   },
@@ -260,6 +266,9 @@
   "Auto Popup Gaps": {
     "Auto Popup Gaps": "自動ポップアップギャップ"
   },
+  "Auto-close Niri overview when launching apps.": {
+    "Auto-close Niri overview when launching apps.": ""
+  },
   "Auto-hide": {
     "Auto-hide": "自動的に非表示"
   },
@@ -295,9 +304,6 @@
   },
   "Automatically determine your location using your IP address": {
     "Automatically determine your location using your IP address": "IPアドレスを使用して現在地を自動的に特定します"
-  },
-  "Automatically hide the top bar to expand screen real estate": {
-    "Automatically hide the top bar to expand screen real estate": "画面のスペースを広げるために上部のバーを自動的に非表示"
   },
   "Automatically lock after": {
     "Automatically lock after": "自動的にロック"
@@ -557,6 +563,9 @@
   "Color Picker": {
     "Color Picker": "カラーピッカー"
   },
+  "Color Temperature": {
+    "Color Temperature": ""
+  },
   "Color displayed on monitors without the lock screen": {
     "Color displayed on monitors without the lock screen": ""
   },
@@ -707,6 +716,15 @@
   "Current Items": {
     "Current Items": "現在のアイテム"
   },
+  "Current Period": {
+    "Current Period": ""
+  },
+  "Current Status": {
+    "Current Status": ""
+  },
+  "Current Temp": {
+    "Current Temp": ""
+  },
   "Current Weather": {
     "Current Weather": "現在の天気"
   },
@@ -818,6 +836,9 @@
   "Day Temperature": {
     "Day Temperature": "昼間の温度"
   },
+  "Daytime": {
+    "Daytime": ""
+  },
   "Deck": {
     "Deck": "デッキ"
   },
@@ -920,6 +941,9 @@
   "Display settings for ": {
     "Display settings for ": "以下の設定を表示 "
   },
+  "Display the power system menu": {
+    "Display the power system menu": ""
+  },
   "Display volume and brightness percentage values in OSD popups": {
     "Display volume and brightness percentage values in OSD popups": ""
   },
@@ -985,9 +1009,6 @@
   },
   "Edge Spacing": {
     "Edge Spacing": ""
-  },
-  "Edge Spacing (0 = edge-to-edge)": {
-    "Edge Spacing (0 = edge-to-edge)": "エッジ間隔（0 = エッジ・トゥ・エッジ）"
   },
   "Education": {
     "Education": "教育"
@@ -1084,9 +1105,6 @@
   },
   "Exclusive Zone Offset": {
     "Exclusive Zone Offset": "排他ゾーンオフセット"
-  },
-  "Execute templates from ~/.config/matugen/config.toml": {
-    "Execute templates from ~/.config/matugen/config.toml": "~/.config/matugen/config.tomlからテンプレを実行"
   },
   "F1/I: Toggle • F10: Help": {
     "F1/I: Toggle • F10: Help": "F1/I: 切り替え • F10: ヘルプ"
@@ -1244,14 +1262,14 @@
   "Focused Window": {
     "Focused Window": "フォーカスされたウィンドウ"
   },
+  "Follow focus": {
+    "Follow focus": ""
+  },
   "Font Family": {
     "Font Family": "フォントファミリー"
   },
   "Font Scale": {
     "Font Scale": "フォントスケール"
-  },
-  "Font Settings": {
-    "Font Settings": "フォント設定"
   },
   "Font Size": {
     "Font Size": "フォントサイズ"
@@ -1310,9 +1328,6 @@
   "GitHub": {
     "GitHub": ""
   },
-  "Github:": {
-    "Github:": "GitHub:"
-  },
   "Golden Hour": {
     "Golden Hour": ""
   },
@@ -1349,9 +1364,6 @@
   "Health": {
     "Health": "健康"
   },
-  "Height to Edge Gap (Exclusive Zone)": {
-    "Height to Edge Gap (Exclusive Zone)": "エッジギャップまでの高さ（排他ゾーン）"
-  },
   "Held": {
     "Held": ""
   },
@@ -1384,6 +1396,9 @@
   },
   "Hold to Confirm Power Actions": {
     "Hold to Confirm Power Actions": ""
+  },
+  "Hold to confirm (%1 ms)": {
+    "Hold to confirm (%1 ms)": ""
   },
   "Hold to confirm (%1s)": {
     "Hold to confirm (%1s)": ""
@@ -1670,6 +1685,9 @@
   "Max apps to show": {
     "Max apps to show": "表示するアプリの最大数"
   },
+  "Maximize Detection": {
+    "Maximize Detection": ""
+  },
   "Media": {
     "Media": "メディア"
   },
@@ -1745,9 +1763,6 @@
   "Model": {
     "Model": "モデル"
   },
-  "Monitor Selection:": {
-    "Monitor Selection:": "モニターの選択："
-  },
   "Monitor whose wallpaper drives dynamic theming colors": {
     "Monitor whose wallpaper drives dynamic theming colors": "ダイナミックテーマの色を駆動する壁紙をモニター"
   },
@@ -1783,9 +1798,6 @@
   },
   "Network": {
     "Network": "ネットワーク"
-  },
-  "Network Icon": {
-    "Network Icon": "ネットワークアイコン"
   },
   "Network Info": {
     "Network Info": "ネットワーク情報"
@@ -1823,6 +1835,9 @@
   "New York, NY": {
     "New York, NY": "New York, NY"
   },
+  "Next Transition": {
+    "Next Transition": ""
+  },
   "Night": {
     "Night": ""
   },
@@ -1850,14 +1865,14 @@
   "No Bluetooth adapter found": {
     "No Bluetooth adapter found": "Bluetoothアダプタが見つかりませんでした"
   },
+  "No GPU detected": {
+    "No GPU detected": ""
+  },
   "No Media": {
     "No Media": "メディアなし"
   },
   "No VPN profiles": {
     "No VPN profiles": ""
-  },
-  "No VPN profiles found": {
-    "No VPN profiles found": "VPNプロファイルが見つかりませんでした"
   },
   "No Weather Data Available": {
     "No Weather Data Available": "気象データはありません"
@@ -2000,6 +2015,9 @@
   "Optional location": {
     "Optional location": ""
   },
+  "Options": {
+    "Options": ""
+  },
   "Other": {
     "Other": "他"
   },
@@ -2129,6 +2147,9 @@
   "Plugins:": {
     "Plugins:": "プラグイン："
   },
+  "Pointer": {
+    "Pointer": ""
+  },
   "Popup Position": {
     "Popup Position": "ポップアップの位置"
   },
@@ -2143,6 +2164,9 @@
   },
   "Possible Override Conflicts": {
     "Possible Override Conflicts": ""
+  },
+  "Power": {
+    "Power": ""
   },
   "Power & Security": {
     "Power & Security": "電源とセキュリティ"
@@ -2291,6 +2315,9 @@
   "Remove": {
     "Remove": "削除"
   },
+  "Remove gaps and border when windows are maximized": {
+    "Remove gaps and border when windows are maximized": ""
+  },
   "Report": {
     "Report": "報告"
   },
@@ -2375,9 +2402,6 @@
   "Scale DankBar font sizes independently": {
     "Scale DankBar font sizes independently": "Dank Barのフォントサイズを個別に調整"
   },
-  "Scale all font sizes": {
-    "Scale all font sizes": "すべてのフォントサイズを拡大縮小"
-  },
   "Scale all font sizes throughout the shell": {
     "Scale all font sizes throughout the shell": ""
   },
@@ -2444,9 +2468,6 @@
   "Select a preset or drag the slider to customize": {
     "Select a preset or drag the slider to customize": "プリセットを選択するか、スライダーをドラッグしてカスタマイズします"
   },
-  "Select a widget to add to the ": {
-    "Select a widget to add to the ": "追加するウィジェットを選ぶ "
-  },
   "Select a widget to add. You can add multiple instances of the same widget if needed.": {
     "Select a widget to add. You can add multiple instances of the same widget if needed.": ""
   },
@@ -2459,9 +2480,6 @@
   "Select driver...": {
     "Select driver...": ""
   },
-  "Select font weight": {
-    "Select font weight": "フォントの太さを選ぶ"
-  },
   "Select font weight for UI text": {
     "Select font weight for UI text": ""
   },
@@ -2470,9 +2488,6 @@
   },
   "Select monospace font for process list and technical displays": {
     "Select monospace font for process list and technical displays": "プロセスリストと技術表示用の等幅フォントを選ぶ"
-  },
-  "Select system font family": {
-    "Select system font family": "システムフォントファミリーを選ぶ"
   },
   "Select system sound theme": {
     "Select system sound theme": "システムサウンドテーマを選ぶ"
@@ -2506,9 +2521,6 @@
   },
   "Set key and action to save": {
     "Set key and action to save": ""
-  },
-  "Settings": {
-    "Settings": "設定"
   },
   "Setup": {
     "Setup": ""
@@ -2576,6 +2588,9 @@
   "Show darkened overlay behind modal dialogs": {
     "Show darkened overlay behind modal dialogs": "モーダルダイアログの背後に暗いオーバーレイを表示"
   },
+  "Show launcher overlay when typing in Niri overview. Disable to use another launcher.": {
+    "Show launcher overlay when typing in Niri overview. Disable to use another launcher.": ""
+  },
   "Show on Last Display": {
     "Show on Last Display": "最後のディスプレイに表示"
   },
@@ -2593,6 +2608,9 @@
   },
   "Show on-screen display when caps lock state changes": {
     "Show on-screen display when caps lock state changes": "Caps Lock の状態が変化した時にOSDを表示"
+  },
+  "Show on-screen display when cycling audio output devices": {
+    "Show on-screen display when cycling audio output devices": ""
   },
   "Show on-screen display when idle inhibitor state changes": {
     "Show on-screen display when idle inhibitor state changes": "アイドルインヒビターの状態が変化した時にOSDを表示"
@@ -2741,6 +2759,9 @@
   "Switch User": {
     "Switch User": "ユーザーを切り替える"
   },
+  "Switch to power profile": {
+    "Switch to power profile": ""
+  },
   "Sync Mode with Portal": {
     "Sync Mode with Portal": "ポータルとの同期モード"
   },
@@ -2753,14 +2774,8 @@
   "System App Theming": {
     "System App Theming": "システムアプリのテーマ設定"
   },
-  "System Monitor": {
-    "System Monitor": "システムモニター"
-  },
   "System Monitor Unavailable": {
     "System Monitor Unavailable": "システムモニターが利用できません"
-  },
-  "System Monitoring:": {
-    "System Monitoring:": "システム監視："
   },
   "System Sounds": {
     "System Sounds": ""
@@ -2795,6 +2810,9 @@
   "System update custom command": {
     "System update custom command": "システム更新カスタムコマンド"
   },
+  "Tab": {
+    "Tab": ""
+  },
   "Tab/Shift+Tab: Nav • ←→↑↓: Grid Nav • Enter/Space: Select": {
     "Tab/Shift+Tab: Nav • ←→↑↓: Grid Nav • Enter/Space: Select": "Tab/Shift+Tab: ナビゲーション • ←→↑↓: グリッドナビゲーション • Enter/Space: 選択"
   },
@@ -2827,6 +2845,9 @@
   },
   "Theme Color": {
     "Theme Color": "テーマカラー"
+  },
+  "Thickness": {
+    "Thickness": ""
   },
   "Third-Party Plugin Warning": {
     "Third-Party Plugin Warning": "サードパーティ製プラグインの警告"
@@ -2881,9 +2902,6 @@
   },
   "Today": {
     "Today": "今日"
-  },
-  "Toggle top bar visibility manually (can be controlled via IPC)": {
-    "Toggle top bar visibility manually (can be controlled via IPC)": "トップバーの表示を手動で切り替える（IPC 経由で制御可能）"
   },
   "Toggle visibility of this bar configuration": {
     "Toggle visibility of this bar configuration": "このバー構成の可視性を切り替える"
@@ -2965,12 +2983,6 @@
   },
   "Use Custom Command": {
     "Use Custom Command": "カスタムコマンドを使用"
-  },
-  "Use Fahrenheit": {
-    "Use Fahrenheit": "華氏を使用する"
-  },
-  "Use Fahrenheit instead of Celsius for temperature": {
-    "Use Fahrenheit instead of Celsius for temperature": "温度は摂氏ではなく華氏を使用"
   },
   "Use Grid Layout": {
     "Use Grid Layout": "グリッドレイアウトを使用"
@@ -3094,6 +3106,9 @@
   },
   "Wallpapers": {
     "Wallpapers": "壁紙"
+  },
+  "Warm color temperature to apply": {
+    "Warm color temperature to apply": ""
   },
   "Warning": {
     "Warning": "警告"
@@ -3227,11 +3242,11 @@
   "files": {
     "files": ""
   },
+  "leave empty for default": {
+    "leave empty for default": ""
+  },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctlが利用できません- ロック統合のためにDMS socketの接続が必要です。"
-  },
-  "matugen not detected - dynamic theming unavailable": {
-    "matugen not detected - dynamic theming unavailable": "matugen が検出されません - ダイナミックテーマ設定は利用できません"
   },
   "minutes": {
     "minutes": ""

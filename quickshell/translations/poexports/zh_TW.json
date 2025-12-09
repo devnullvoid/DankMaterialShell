@@ -176,6 +176,9 @@
   "Always show a minimum of 3 workspaces, even if fewer are available": {
     "Always show a minimum of 3 workspaces, even if fewer are available": "始終顯示至少 3 個工作區，即使可用的工作區較少"
   },
+  "Amount": {
+    "Amount": ""
+  },
   "Animation Speed": {
     "Animation Speed": "動畫速度"
   },
@@ -224,6 +227,9 @@
   "Audio Output Devices (": {
     "Audio Output Devices (": "音訊輸出設備 ("
   },
+  "Audio Output Switch": {
+    "Audio Output Switch": ""
+  },
   "Auth": {
     "Auth": "認證"
   },
@@ -260,6 +266,9 @@
   "Auto Popup Gaps": {
     "Auto Popup Gaps": "自動調整彈出間隔"
   },
+  "Auto-close Niri overview when launching apps.": {
+    "Auto-close Niri overview when launching apps.": ""
+  },
   "Auto-hide": {
     "Auto-hide": "自動隱藏"
   },
@@ -295,9 +304,6 @@
   },
   "Automatically determine your location using your IP address": {
     "Automatically determine your location using your IP address": "使用您的 IP 位址自動確定您的位置"
-  },
-  "Automatically hide the top bar to expand screen real estate": {
-    "Automatically hide the top bar to expand screen real estate": "自動隱藏頂部欄以擴大螢幕空間"
   },
   "Automatically lock after": {
     "Automatically lock after": "自動鎖定後"
@@ -557,6 +563,9 @@
   "Color Picker": {
     "Color Picker": "顏色選擇器"
   },
+  "Color Temperature": {
+    "Color Temperature": ""
+  },
   "Color displayed on monitors without the lock screen": {
     "Color displayed on monitors without the lock screen": ""
   },
@@ -707,6 +716,15 @@
   "Current Items": {
     "Current Items": "目前項目"
   },
+  "Current Period": {
+    "Current Period": ""
+  },
+  "Current Status": {
+    "Current Status": ""
+  },
+  "Current Temp": {
+    "Current Temp": ""
+  },
   "Current Weather": {
     "Current Weather": "目前天氣"
   },
@@ -818,6 +836,9 @@
   "Day Temperature": {
     "Day Temperature": "日間色溫"
   },
+  "Daytime": {
+    "Daytime": ""
+  },
   "Deck": {
     "Deck": "Deck"
   },
@@ -920,6 +941,9 @@
   "Display settings for ": {
     "Display settings for ": "顯示設定適用於"
   },
+  "Display the power system menu": {
+    "Display the power system menu": ""
+  },
   "Display volume and brightness percentage values in OSD popups": {
     "Display volume and brightness percentage values in OSD popups": ""
   },
@@ -985,9 +1009,6 @@
   },
   "Edge Spacing": {
     "Edge Spacing": ""
-  },
-  "Edge Spacing (0 = edge-to-edge)": {
-    "Edge Spacing (0 = edge-to-edge)": "邊緣間隔 (0 = 無間隔)"
   },
   "Education": {
     "Education": "教育"
@@ -1084,9 +1105,6 @@
   },
   "Exclusive Zone Offset": {
     "Exclusive Zone Offset": "獨佔區域偏移"
-  },
-  "Execute templates from ~/.config/matugen/config.toml": {
-    "Execute templates from ~/.config/matugen/config.toml": "從 ~/.config/matugen/config.toml 執行模板"
   },
   "F1/I: Toggle • F10: Help": {
     "F1/I: Toggle • F10: Help": "F1/I: 切換 • F10: 幫助"
@@ -1244,14 +1262,14 @@
   "Focused Window": {
     "Focused Window": "視窗對焦"
   },
+  "Follow focus": {
+    "Follow focus": ""
+  },
   "Font Family": {
     "Font Family": "字體"
   },
   "Font Scale": {
     "Font Scale": "字體比例"
-  },
-  "Font Settings": {
-    "Font Settings": "字體設定"
   },
   "Font Size": {
     "Font Size": "字體大小"
@@ -1310,9 +1328,6 @@
   "GitHub": {
     "GitHub": ""
   },
-  "Github:": {
-    "Github:": "Github:"
-  },
   "Golden Hour": {
     "Golden Hour": ""
   },
@@ -1349,9 +1364,6 @@
   "Health": {
     "Health": "健康狀態"
   },
-  "Height to Edge Gap (Exclusive Zone)": {
-    "Height to Edge Gap (Exclusive Zone)": "邊緣間隙高度 (獨佔區域)"
-  },
   "Held": {
     "Held": "保留"
   },
@@ -1384,6 +1396,9 @@
   },
   "Hold to Confirm Power Actions": {
     "Hold to Confirm Power Actions": "按住以確認電源操作"
+  },
+  "Hold to confirm (%1 ms)": {
+    "Hold to confirm (%1 ms)": ""
   },
   "Hold to confirm (%1s)": {
     "Hold to confirm (%1s)": "按住以確認 (%1s)"
@@ -1670,6 +1685,9 @@
   "Max apps to show": {
     "Max apps to show": "最多顯示App"
   },
+  "Maximize Detection": {
+    "Maximize Detection": ""
+  },
   "Media": {
     "Media": "媒體播放器"
   },
@@ -1745,9 +1763,6 @@
   "Model": {
     "Model": "型號"
   },
-  "Monitor Selection:": {
-    "Monitor Selection:": "螢幕選擇:"
-  },
   "Monitor whose wallpaper drives dynamic theming colors": {
     "Monitor whose wallpaper drives dynamic theming colors": "系統介面顏色依據哪一個螢幕上的桌布來決定"
   },
@@ -1783,9 +1798,6 @@
   },
   "Network": {
     "Network": "網路"
-  },
-  "Network Icon": {
-    "Network Icon": "網路圖示"
   },
   "Network Info": {
     "Network Info": "網路資訊"
@@ -1823,6 +1835,9 @@
   "New York, NY": {
     "New York, NY": "紐約"
   },
+  "Next Transition": {
+    "Next Transition": ""
+  },
   "Night": {
     "Night": ""
   },
@@ -1850,14 +1865,14 @@
   "No Bluetooth adapter found": {
     "No Bluetooth adapter found": "未找到藍芽適配器"
   },
+  "No GPU detected": {
+    "No GPU detected": ""
+  },
   "No Media": {
     "No Media": "無媒體"
   },
   "No VPN profiles": {
     "No VPN profiles": "沒有 VPN 設定檔"
-  },
-  "No VPN profiles found": {
-    "No VPN profiles found": "未找到 VPN 設定檔"
   },
   "No Weather Data Available": {
     "No Weather Data Available": "沒有氣象數據"
@@ -2000,6 +2015,9 @@
   "Optional location": {
     "Optional location": "選填位置"
   },
+  "Options": {
+    "Options": ""
+  },
   "Other": {
     "Other": "其他"
   },
@@ -2129,6 +2147,9 @@
   "Plugins:": {
     "Plugins:": "插件:"
   },
+  "Pointer": {
+    "Pointer": ""
+  },
   "Popup Position": {
     "Popup Position": "彈窗位置"
   },
@@ -2143,6 +2164,9 @@
   },
   "Possible Override Conflicts": {
     "Possible Override Conflicts": ""
+  },
+  "Power": {
+    "Power": ""
   },
   "Power & Security": {
     "Power & Security": "電源與安全"
@@ -2291,6 +2315,9 @@
   "Remove": {
     "Remove": "刪除"
   },
+  "Remove gaps and border when windows are maximized": {
+    "Remove gaps and border when windows are maximized": ""
+  },
   "Report": {
     "Report": "報告"
   },
@@ -2375,9 +2402,6 @@
   "Scale DankBar font sizes independently": {
     "Scale DankBar font sizes independently": "獨立縮放 DankBar 字體大小"
   },
-  "Scale all font sizes": {
-    "Scale all font sizes": "縮放所有字體大小"
-  },
   "Scale all font sizes throughout the shell": {
     "Scale all font sizes throughout the shell": ""
   },
@@ -2444,9 +2468,6 @@
   "Select a preset or drag the slider to customize": {
     "Select a preset or drag the slider to customize": "選擇上方預設選項或拉動滑條調整"
   },
-  "Select a widget to add to the ": {
-    "Select a widget to add to the ": "選擇一個部件加到 "
-  },
   "Select a widget to add. You can add multiple instances of the same widget if needed.": {
     "Select a widget to add. You can add multiple instances of the same widget if needed.": "選擇要新增的部件。如果需要，可以新增相同部件部件的多個實例。"
   },
@@ -2459,9 +2480,6 @@
   "Select driver...": {
     "Select driver...": "選擇驅動程式..."
   },
-  "Select font weight": {
-    "Select font weight": "選擇字體粗細"
-  },
   "Select font weight for UI text": {
     "Select font weight for UI text": ""
   },
@@ -2470,9 +2488,6 @@
   },
   "Select monospace font for process list and technical displays": {
     "Select monospace font for process list and technical displays": "寬字體用於處理程序列表和技術顯示"
-  },
-  "Select system font family": {
-    "Select system font family": "選擇系統字體"
   },
   "Select system sound theme": {
     "Select system sound theme": "選擇系統音效主題"
@@ -2506,9 +2521,6 @@
   },
   "Set key and action to save": {
     "Set key and action to save": ""
-  },
-  "Settings": {
-    "Settings": "設定"
   },
   "Setup": {
     "Setup": ""
@@ -2576,6 +2588,9 @@
   "Show darkened overlay behind modal dialogs": {
     "Show darkened overlay behind modal dialogs": "在模態對話框後顯示暗化覆蓋層"
   },
+  "Show launcher overlay when typing in Niri overview. Disable to use another launcher.": {
+    "Show launcher overlay when typing in Niri overview. Disable to use another launcher.": ""
+  },
   "Show on Last Display": {
     "Show on Last Display": "在最後顯示幕上顯示"
   },
@@ -2593,6 +2608,9 @@
   },
   "Show on-screen display when caps lock state changes": {
     "Show on-screen display when caps lock state changes": "大小寫鎖定狀態改變時顯示螢幕顯示"
+  },
+  "Show on-screen display when cycling audio output devices": {
+    "Show on-screen display when cycling audio output devices": ""
   },
   "Show on-screen display when idle inhibitor state changes": {
     "Show on-screen display when idle inhibitor state changes": "閒置抑制器狀態改變時顯示螢幕顯示"
@@ -2741,6 +2759,9 @@
   "Switch User": {
     "Switch User": "切換使用者"
   },
+  "Switch to power profile": {
+    "Switch to power profile": ""
+  },
   "Sync Mode with Portal": {
     "Sync Mode with Portal": "透過 Portal 同步主題模式"
   },
@@ -2753,14 +2774,8 @@
   "System App Theming": {
     "System App Theming": "系統應用程式主題"
   },
-  "System Monitor": {
-    "System Monitor": "系統監視器"
-  },
   "System Monitor Unavailable": {
     "System Monitor Unavailable": "系統監視器不可用"
-  },
-  "System Monitoring:": {
-    "System Monitoring:": "系統監視器:"
   },
   "System Sounds": {
     "System Sounds": ""
@@ -2795,6 +2810,9 @@
   "System update custom command": {
     "System update custom command": "自訂系統更新指令"
   },
+  "Tab": {
+    "Tab": ""
+  },
   "Tab/Shift+Tab: Nav • ←→↑↓: Grid Nav • Enter/Space: Select": {
     "Tab/Shift+Tab: Nav • ←→↑↓: Grid Nav • Enter/Space: Select": "Tab/Shift+Tab: 切換焦點 • ←→↑↓: 切換焦點 • Enter/Space: 選擇"
   },
@@ -2827,6 +2845,9 @@
   },
   "Theme Color": {
     "Theme Color": "主題顏色"
+  },
+  "Thickness": {
+    "Thickness": ""
   },
   "Third-Party Plugin Warning": {
     "Third-Party Plugin Warning": "第三方插件警告"
@@ -2881,9 +2902,6 @@
   },
   "Today": {
     "Today": "今天"
-  },
-  "Toggle top bar visibility manually (can be controlled via IPC)": {
-    "Toggle top bar visibility manually (can be controlled via IPC)": "手動切換頂部欄可見性 (可透過 IPC 控制)"
   },
   "Toggle visibility of this bar configuration": {
     "Toggle visibility of this bar configuration": "切換此欄配置的可見性"
@@ -2965,12 +2983,6 @@
   },
   "Use Custom Command": {
     "Use Custom Command": "使用自訂指令"
-  },
-  "Use Fahrenheit": {
-    "Use Fahrenheit": "使用華氏度"
-  },
-  "Use Fahrenheit instead of Celsius for temperature": {
-    "Use Fahrenheit instead of Celsius for temperature": "使用華氏度代替攝氏度來表示溫度"
   },
   "Use Grid Layout": {
     "Use Grid Layout": "使用網格佈局"
@@ -3094,6 +3106,9 @@
   },
   "Wallpapers": {
     "Wallpapers": "桌布"
+  },
+  "Warm color temperature to apply": {
+    "Warm color temperature to apply": ""
   },
   "Warning": {
     "Warning": "警告"
@@ -3227,11 +3242,11 @@
   "files": {
     "files": ""
   },
+  "leave empty for default": {
+    "leave empty for default": ""
+  },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl 不可用 - 鎖定整合需要 DMS 套接字連接"
-  },
-  "matugen not detected - dynamic theming unavailable": {
-    "matugen not detected - dynamic theming unavailable": "未偵測到 matugen - 動態主題不可用"
   },
   "minutes": {
     "minutes": ""

@@ -413,6 +413,13 @@
     "comment": ""
   },
   {
+    "term": "Amount",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Animation Speed",
     "translation": "",
     "context": "",
@@ -525,6 +532,13 @@
     "comment": ""
   },
   {
+    "term": "Audio Output Switch",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Auth",
     "translation": "",
     "context": "",
@@ -603,6 +617,13 @@
   },
   {
     "term": "Auto Popup Gaps",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Auto-close Niri overview when launching apps.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1253,6 +1274,13 @@
     "comment": ""
   },
   {
+    "term": "Color Temperature",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Color displayed on monitors without the lock screen",
     "translation": "",
     "context": "",
@@ -1540,6 +1568,27 @@
     "comment": ""
   },
   {
+    "term": "Current Period",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Current Status",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Current Temp",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Current Weather",
     "translation": "",
     "context": "",
@@ -1729,13 +1778,6 @@
     "comment": ""
   },
   {
-    "term": "DankBar Font Scale",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "DankSearch not available",
     "translation": "",
     "context": "",
@@ -1793,6 +1835,13 @@
   },
   {
     "term": "Day Temperature",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Daytime",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2044,6 +2093,13 @@
     "comment": ""
   },
   {
+    "term": "Display the power system menu",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Display volume and brightness percentage values in OSD popups",
     "translation": "",
     "context": "",
@@ -2212,13 +2268,6 @@
     "comment": ""
   },
   {
-    "term": "Enable Border",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Enable Do Not Disturb",
     "translation": "",
     "context": "",
@@ -2255,13 +2304,6 @@
   },
   {
     "term": "Enable WiFi",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Enable Widget Outline",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2779,6 +2821,13 @@
     "comment": ""
   },
   {
+    "term": "Follow focus",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Font Family",
     "translation": "",
     "context": "",
@@ -2885,13 +2934,6 @@
   },
   {
     "term": "GPU Temperature",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "GPU temperature display",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3080,6 +3122,13 @@
     "comment": ""
   },
   {
+    "term": "Hold to confirm (%1 ms)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Hold to confirm (%1s)",
     "translation": "",
     "context": "",
@@ -3102,13 +3151,6 @@
   },
   {
     "term": "Hourly Forecast",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "How long to hold the button to confirm the action",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3249,13 +3291,6 @@
   },
   {
     "term": "Individual bar configuration",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Inhibit idle timeout when audio or video is playing",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3731,6 +3766,13 @@
     "comment": ""
   },
   {
+    "term": "Maximize Detection",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Media",
     "translation": "",
     "context": "",
@@ -3990,13 +4032,6 @@
     "comment": ""
   },
   {
-    "term": "Network Settings",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Network Speed Monitor",
     "translation": "",
     "context": "",
@@ -4060,6 +4095,13 @@
     "comment": ""
   },
   {
+    "term": "Next Transition",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Night",
     "translation": "",
     "context": "",
@@ -4117,6 +4159,13 @@
   },
   {
     "term": "No Bluetooth adapter found",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No GPU detected",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4466,21 +4515,14 @@
     "comment": ""
   },
   {
+    "term": "Options",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Other",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Outline Opacity",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Outline Thickness",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4753,6 +4795,13 @@
     "comment": ""
   },
   {
+    "term": "Pointer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Popup Position",
     "translation": "",
     "context": "",
@@ -4782,6 +4831,13 @@
   },
   {
     "term": "Possible Override Conflicts",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Power",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4873,13 +4929,6 @@
   },
   {
     "term": "Pressure",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Prevent idle for media",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5118,6 +5167,13 @@
   },
   {
     "term": "Remove",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Remove gaps and border when windows are maximized",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5747,6 +5803,13 @@
     "comment": ""
   },
   {
+    "term": "Show launcher overlay when typing in Niri overview. Disable to use another launcher.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Show on Last Display",
     "translation": "",
     "context": "",
@@ -5783,6 +5846,13 @@
   },
   {
     "term": "Show on-screen display when caps lock state changes",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show on-screen display when cycling audio output devices",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6118,6 +6188,13 @@
     "comment": ""
   },
   {
+    "term": "Switch to power profile",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Sync Mode with Portal",
     "translation": "",
     "context": "",
@@ -6216,14 +6293,14 @@
     "comment": ""
   },
   {
-    "term": "System tray icons",
+    "term": "System update custom command",
     "translation": "",
     "context": "",
     "reference": "",
     "comment": ""
   },
   {
-    "term": "System update custom command",
+    "term": "Tab",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6301,6 +6378,13 @@
   },
   {
     "term": "Theme Color",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Thickness",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6909,6 +6993,13 @@
     "comment": ""
   },
   {
+    "term": "Warm color temperature to apply",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Warning",
     "translation": "",
     "context": "",
@@ -6938,13 +7029,6 @@
   },
   {
     "term": "When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7183,6 +7267,13 @@
   },
   {
     "term": "files",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "leave empty for default",
     "translation": "",
     "context": "",
     "reference": "",
