@@ -11,7 +11,7 @@ UPSTREAM_VERSION := $(shell echo $(DEB_VERSION) | sed 's/-[^-]*$$//')
 BASE_VERSION := $(shell echo $(UPSTREAM_VERSION) | sed 's/ppa[0-9]*$$//' | sed 's/+git.*//')
 
 %:
-	dh $@ --with systemd
+	dh $@
 
 override_dh_installsystemd:
 	dh_installsystemd --user --name=dms

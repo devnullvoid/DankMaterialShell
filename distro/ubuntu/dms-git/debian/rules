@@ -15,7 +15,7 @@ export GOMODCACHE := $(CURDIR)/debian/tmp-home/go-mod
 export GOTOOLCHAIN := local
 
 %:
-	dh $@ --with systemd
+	dh $@
 
 override_dh_installsystemd:
 	dh_installsystemd --user --name=dms

@@ -5,7 +5,7 @@ UPSTREAM_VERSION := $(shell echo $(DEB_VERSION) | sed 's/-[^-]*$$//')
 DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
 %:
-	dh $@ --with systemd
+	dh $@
 
 override_dh_installsystemd:
 	dh_installsystemd --user --name=dms
