@@ -471,7 +471,7 @@ func (d *DebianDistribution) enableOBSRepos(ctx context.Context, obsPkgs []Packa
 			}
 
 			addRepoCmd := ExecSudoCommand(ctx, sudoPassword,
-				fmt.Sprintf("echo '%s' | tee %s", repoLine, listFile))
+				fmt.Sprintf("bash -c \"echo '%s' | tee %s\"", repoLine, listFile))
 			if err := d.runWithProgress(addRepoCmd, progressChan, PhaseSystemPackages, 0.20, 0.22); err != nil {
 				return fmt.Errorf("failed to add OBS repo %s: %w", pkg.RepoURL, err)
 			}
