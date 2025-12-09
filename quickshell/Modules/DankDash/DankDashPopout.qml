@@ -384,7 +384,7 @@ DankPopout {
                                 active: true
                                 tabBarItem: tabBar
                                 keyForwardTarget: mainContainer
-                                targetScreen: root.triggerScreen
+                                targetScreen: root.screen
                                 parentPopout: root
                             }
                         }
