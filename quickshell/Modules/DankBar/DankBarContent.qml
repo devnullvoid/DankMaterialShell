@@ -82,7 +82,7 @@ Item {
                 }, (_, i) => i);
             }
             return DwlService.getVisibleTags(barWindow.screenName);
-        } else if (CompositorService.isSway) {
+        } else if (CompositorService.isSway || CompositorService.isScroll) {
             const workspaces = I3.workspaces?.values || [];
             if (workspaces.length === 0)
                 return [
@@ -124,7 +124,7 @@ Item {
                 return 0;
             const activeTags = DwlService.getActiveTags(barWindow.screenName);
             return activeTags.length > 0 ? activeTags[0] : 0;
-        } else if (CompositorService.isSway) {
+        } else if (CompositorService.isSway || CompositorService.isScroll) {
             if (!barWindow.screenName || !SettingsData.workspacesPerMonitor) {
                 const focusedWs = I3.workspaces?.values?.find(ws => ws.focused === true);
                 return focusedWs ? focusedWs.num : 1;
@@ -169,7 +169,7 @@ Item {
             if (nextIndex !== validIndex) {
                 DwlService.switchToTag(barWindow.screenName, realWorkspaces[nextIndex]);
             }
-        } else if (CompositorService.isSway) {
+        } else if (CompositorService.isSway || CompositorService.isScroll) {
             const currentWs = getCurrentWorkspace();
             const currentIndex = realWorkspaces.findIndex(ws => ws.num === currentWs);
             const validIndex = currentIndex === -1 ? 0 : currentIndex;
@@ -315,37 +315,37 @@ Item {
     }
 
     readonly property var allComponents: ({
-        "launcherButtonComponent": launcherButtonComponent,
-        "workspaceSwitcherComponent": workspaceSwitcherComponent,
-        "focusedWindowComponent": focusedWindowComponent,
-        "runningAppsComponent": runningAppsComponent,
-        "clockComponent": clockComponent,
-        "mediaComponent": mediaComponent,
-        "weatherComponent": weatherComponent,
-        "systemTrayComponent": systemTrayComponent,
-        "privacyIndicatorComponent": privacyIndicatorComponent,
-        "clipboardComponent": clipboardComponent,
-        "cpuUsageComponent": cpuUsageComponent,
-        "memUsageComponent": memUsageComponent,
-        "diskUsageComponent": diskUsageComponent,
-        "cpuTempComponent": cpuTempComponent,
-        "gpuTempComponent": gpuTempComponent,
-        "notificationButtonComponent": notificationButtonComponent,
-        "batteryComponent": batteryComponent,
-        "layoutComponent": layoutComponent,
-        "controlCenterButtonComponent": controlCenterButtonComponent,
-        "capsLockIndicatorComponent": capsLockIndicatorComponent,
-        "idleInhibitorComponent": idleInhibitorComponent,
-        "spacerComponent": spacerComponent,
-        "separatorComponent": separatorComponent,
-        "networkComponent": networkComponent,
-        "keyboardLayoutNameComponent": keyboardLayoutNameComponent,
-        "vpnComponent": vpnComponent,
-        "notepadButtonComponent": notepadButtonComponent,
-        "colorPickerComponent": colorPickerComponent,
-        "systemUpdateComponent": systemUpdateComponent,
-        "powerMenuButtonComponent": powerMenuButtonComponent
-    })
+            "launcherButtonComponent": launcherButtonComponent,
+            "workspaceSwitcherComponent": workspaceSwitcherComponent,
+            "focusedWindowComponent": focusedWindowComponent,
+            "runningAppsComponent": runningAppsComponent,
+            "clockComponent": clockComponent,
+            "mediaComponent": mediaComponent,
+            "weatherComponent": weatherComponent,
+            "systemTrayComponent": systemTrayComponent,
+            "privacyIndicatorComponent": privacyIndicatorComponent,
+            "clipboardComponent": clipboardComponent,
+            "cpuUsageComponent": cpuUsageComponent,
+            "memUsageComponent": memUsageComponent,
+            "diskUsageComponent": diskUsageComponent,
+            "cpuTempComponent": cpuTempComponent,
+            "gpuTempComponent": gpuTempComponent,
+            "notificationButtonComponent": notificationButtonComponent,
+            "batteryComponent": batteryComponent,
+            "layoutComponent": layoutComponent,
+            "controlCenterButtonComponent": controlCenterButtonComponent,
+            "capsLockIndicatorComponent": capsLockIndicatorComponent,
+            "idleInhibitorComponent": idleInhibitorComponent,
+            "spacerComponent": spacerComponent,
+            "separatorComponent": separatorComponent,
+            "networkComponent": networkComponent,
+            "keyboardLayoutNameComponent": keyboardLayoutNameComponent,
+            "vpnComponent": vpnComponent,
+            "notepadButtonComponent": notepadButtonComponent,
+            "colorPickerComponent": colorPickerComponent,
+            "systemUpdateComponent": systemUpdateComponent,
+            "powerMenuButtonComponent": powerMenuButtonComponent
+        })
 
     Item {
         id: stackContainer
@@ -534,7 +534,7 @@ Item {
             section: topBarContent.getWidgetSection(parent)
             parentScreen: barWindow.screen
             onClicked: {
-                clipboardHistoryModalPopup.toggle()
+                clipboardHistoryModalPopup.toggle();
             }
         }
     }
@@ -550,9 +550,9 @@ Item {
             parentScreen: barWindow.screen
             onClicked: {
                 if (powerMenuModalLoader) {
-                    powerMenuModalLoader.active = true
+                    powerMenuModalLoader.active = true;
                     if (powerMenuModalLoader.item) {
-                        powerMenuModalLoader.item.openCentered()
+                        powerMenuModalLoader.item.openCentered();
                     }
                 }
             }

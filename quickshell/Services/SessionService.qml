@@ -110,9 +110,9 @@ Singleton {
 
         onExited: function (exitCode) {
             if (exitCode === 0) {
-                nvidiaCommand = "prime-run"
+                nvidiaCommand = "prime-run";
             } else {
-                detectNvidiaOffloadProcess.running = true
+                detectNvidiaOffloadProcess.running = true;
             }
         }
     }
@@ -124,7 +124,7 @@ Singleton {
 
         onExited: function (exitCode) {
             if (exitCode === 0) {
-                nvidiaCommand = "nvidia-offload"
+                nvidiaCommand = "nvidia-offload";
             }
         }
     }
@@ -243,7 +243,7 @@ Singleton {
                 return;
             }
 
-            if (CompositorService.isSway) {
+            if (CompositorService.isSway || CompositorService.isScroll) {
                 try {
                     I3.dispatch("exit");
                 } catch (_) {}

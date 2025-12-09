@@ -2,6 +2,7 @@ package providers
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/keybinds"
@@ -9,18 +10,38 @@ import (
 
 type SwayProvider struct {
 	configPath string
+	isScroll   bool
 }
 
 func NewSwayProvider(configPath string) *SwayProvider {
+	isScroll := false
+	_, ok := os.LookupEnv("SCROLLSOCK")
+	if ok {
+		isScroll = true
+	}
 	if configPath == "" {
 		configPath = "$HOME/.config/sway"
 	}
+	if isScroll && configPath == "" {
+		configPath = "$HOME/.config/scroll"
+	}
 	return &SwayProvider{
 		configPath: configPath,
+		isScroll:   isScroll,
 	}
 }
 
 func (s *SwayProvider) Name() string {
+	if s != nil && s.isScroll {
+		return "scroll"
+	}
+	if s == nil {
+		_, ok := os.LookupEnv("SCROLLSOCK")
+		if ok {
+			return "scroll"
+		}
+	}
+
 	return "sway"
 }
 
@@ -33,8 +54,13 @@ func (s *SwayProvider) GetCheatSheet() (*keybinds.CheatSheet, error) {
 	categorizedBinds := make(map[string][]keybinds.Keybind)
 	s.convertSection(section, "", categorizedBinds)
 
+	cheatSheetTitle := "Sway Keybinds"
+	if s != nil && s.isScroll {
+		cheatSheetTitle = "Scroll Keybinds"
+	}
+
 	return &keybinds.CheatSheet{
-		Title:    "Sway Keybinds",
+		Title:    cheatSheetTitle,
 		Provider: s.Name(),
 		Binds:    categorizedBinds,
 	}, nil

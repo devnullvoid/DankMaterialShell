@@ -1,5 +1,6 @@
 pragma Singleton
 pragma ComponentBehavior: Bound
+
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
@@ -65,7 +66,7 @@ Singleton {
             return Hyprland.focusedWorkspace.monitor.name;
         if (CompositorService.isNiri && NiriService.currentOutput)
             return NiriService.currentOutput;
-        if (CompositorService.isSway) {
+        if (CompositorService.isSway || CompositorService.isScroll) {
             const focusedWs = I3.workspaces?.values?.find(ws => ws.focused === true);
             return focusedWs?.monitor?.name || "";
         }

@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Effects
-import Quickshell
 import Quickshell.Widgets
 import qs.Common
 import qs.Modules.Plugins
@@ -56,7 +55,7 @@ BasePill {
             }
 
             IconImage {
-                visible: SettingsData.launcherLogoMode === "compositor" && (CompositorService.isNiri || CompositorService.isHyprland || CompositorService.isDwl || CompositorService.isSway || CompositorService.isLabwc)
+                visible: SettingsData.launcherLogoMode === "compositor" && (CompositorService.isNiri || CompositorService.isHyprland || CompositorService.isDwl || CompositorService.isSway || CompositorService.isScroll || CompositorService.isLabwc)
                 anchors.centerIn: parent
                 width: Theme.barIconSize(root.barThickness, SettingsData.launcherLogoSizeOffset)
                 height: Theme.barIconSize(root.barThickness, SettingsData.launcherLogoSizeOffset)
@@ -64,17 +63,19 @@ BasePill {
                 asynchronous: true
                 source: {
                     if (CompositorService.isNiri) {
-                        return "file://" + Theme.shellDir + "/assets/niri.svg"
+                        return "file://" + Theme.shellDir + "/assets/niri.svg";
                     } else if (CompositorService.isHyprland) {
-                        return "file://" + Theme.shellDir + "/assets/hyprland.svg"
+                        return "file://" + Theme.shellDir + "/assets/hyprland.svg";
                     } else if (CompositorService.isDwl) {
-                        return "file://" + Theme.shellDir + "/assets/mango.png"
+                        return "file://" + Theme.shellDir + "/assets/mango.png";
                     } else if (CompositorService.isSway) {
-                        return "file://" + Theme.shellDir + "/assets/sway.svg"
+                        return "file://" + Theme.shellDir + "/assets/sway.svg";
+                    } else if (CompositorService.isScroll) {
+                        return "file://" + Theme.shellDir + "/assets/sway.svg";
                     } else if (CompositorService.isLabwc) {
-                        return "file://" + Theme.shellDir + "/assets/labwc.png"
+                        return "file://" + Theme.shellDir + "/assets/labwc.png";
                     }
-                    return ""
+                    return "";
                 }
                 layer.enabled: Theme.effectiveLogoColor !== ""
                 layer.effect: MultiEffect {
@@ -82,10 +83,10 @@ BasePill {
                     colorization: 1
                     colorizationColor: Theme.effectiveLogoColor
                     brightness: {
-                        SettingsData.launcherLogoBrightness
+                        SettingsData.launcherLogoBrightness;
                     }
                     contrast: {
-                        SettingsData.launcherLogoContrast
+                        SettingsData.launcherLogoContrast;
                     }
                 }
             }
@@ -112,9 +113,9 @@ BasePill {
 
     onRightClicked: {
         if (CompositorService.isNiri) {
-            NiriService.toggleOverview()
+            NiriService.toggleOverview();
         } else if (root.hyprlandOverviewLoader?.item) {
-            root.hyprlandOverviewLoader.item.overviewOpen = !root.hyprlandOverviewLoader.item.overviewOpen
+            root.hyprlandOverviewLoader.item.overviewOpen = !root.hyprlandOverviewLoader.item.overviewOpen;
         }
     }
 }
