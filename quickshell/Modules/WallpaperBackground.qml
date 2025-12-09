@@ -82,6 +82,7 @@ Variants {
             readonly property bool transitioning: transitionAnimation.running
             property bool effectActive: false
             property bool useNextForEffect: false
+            property string pendingWallpaper: ""
 
             function getFillMode(modeName) {
                 switch (modeName) {
@@ -162,12 +163,10 @@ Variants {
                     return;
                 if (!newPath || newPath.startsWith("#"))
                     return;
-                if (root.transitioning) {
-                    transitionAnimation.stop();
-                    root.transitionProgress = 0;
-                    root.effectActive = false;
-                    currentWallpaper.source = nextWallpaper.source;
-                    nextWallpaper.source = "";
+
+                if (root.transitioning || root.effectActive) {
+                    root.pendingWallpaper = newPath;
+                    return;
                 }
 
                 if (!currentWallpaper.source) {
@@ -488,24 +487,28 @@ Variants {
                         currentWallpaper.source = nextWallpaper.source;
                     }
                     root.useNextForEffect = false;
-                    Qt.callLater(() => {
-                        nextWallpaper.source = "";
+                    nextWallpaper.source = "";
+                    root.transitionProgress = 0.0;
+                    currentWallpaper.layer.enabled = false;
+                    nextWallpaper.layer.enabled = false;
+                    currentWallpaper.cache = true;
+                    nextWallpaper.cache = false;
+                    root.effectActive = false;
+
+                    if (root.pendingWallpaper) {
+                        var pending = root.pendingWallpaper;
+                        root.pendingWallpaper = "";
                         Qt.callLater(() => {
-                            root.effectActive = false;
-                            currentWallpaper.layer.enabled = false;
-                            nextWallpaper.layer.enabled = false;
-                            currentWallpaper.cache = true;
-                            nextWallpaper.cache = false;
-                            root.transitionProgress = 0.0;
+                            root.changeWallpaper(pending, true);
                         });
-                    });
+                    }
                 }
             }
 
             MultiEffect {
                 anchors.fill: parent
-                source: effectLoader.active ? effectLoader.item : (root.actualTransitionType === "none" ? currentWallpaper : null)
-                visible: CompositorService.isNiri && SettingsData.blurWallpaperOnOverview && NiriService.inOverview && source !== null
+                source: effectLoader.active ? effectLoader.item : currentWallpaper
+                visible: CompositorService.isNiri && SettingsData.blurWallpaperOnOverview && NiriService.inOverview && currentWallpaper.source !== ""
                 blurEnabled: true
                 blur: 0.8
                 blurMax: 75

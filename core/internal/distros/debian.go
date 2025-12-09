@@ -208,7 +208,7 @@ func (d *DebianDistribution) InstallPrerequisites(ctx context.Context, sudoPassw
 
 	checkCmd := exec.CommandContext(ctx, "dpkg", "-l", "build-essential")
 	if err := checkCmd.Run(); err != nil {
-		cmd := ExecSudoCommand(ctx, sudoPassword, "apt-get install -y build-essential")
+		cmd := ExecSudoCommand(ctx, sudoPassword, "DEBIAN_FRONTEND=noninteractive apt-get install -y build-essential")
 		if err := d.runWithProgress(cmd, progressChan, PhasePrerequisites, 0.08, 0.09); err != nil {
 			return fmt.Errorf("failed to install build-essential: %w", err)
 		}
@@ -225,7 +225,7 @@ func (d *DebianDistribution) InstallPrerequisites(ctx context.Context, sudoPassw
 	}
 
 	devToolsCmd := ExecSudoCommand(ctx, sudoPassword,
-		"apt-get install -y curl wget git cmake ninja-build pkg-config libxcb-cursor-dev libglib2.0-dev libpolkit-agent-1-dev libjpeg-dev libpugixml-dev")
+		"DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget git cmake ninja-build pkg-config libxcb-cursor-dev libglib2.0-dev libpolkit-agent-1-dev libjpeg-dev libpugixml-dev")
 	if err := d.runWithProgress(devToolsCmd, progressChan, PhasePrerequisites, 0.10, 0.12); err != nil {
 		return fmt.Errorf("failed to install development tools: %w", err)
 	}
@@ -616,7 +616,7 @@ func (d *DebianDistribution) installRust(ctx context.Context, sudoPassword strin
 		CommandInfo: "sudo apt-get install rustup",
 	}
 
-	rustupInstallCmd := ExecSudoCommand(ctx, sudoPassword, "apt-get install -y rustup")
+	rustupInstallCmd := ExecSudoCommand(ctx, sudoPassword, "DEBIAN_FRONTEND=noninteractive apt-get install -y rustup")
 	if err := d.runWithProgress(rustupInstallCmd, progressChan, PhaseSystemPackages, 0.82, 0.83); err != nil {
 		return fmt.Errorf("failed to install rustup: %w", err)
 	}
@@ -655,7 +655,7 @@ func (d *DebianDistribution) installGo(ctx context.Context, sudoPassword string,
 		CommandInfo: "sudo apt-get install golang-go",
 	}
 
-	installCmd := ExecSudoCommand(ctx, sudoPassword, "apt-get install -y golang-go")
+	installCmd := ExecSudoCommand(ctx, sudoPassword, "DEBIAN_FRONTEND=noninteractive apt-get install -y golang-go")
 	return d.runWithProgress(installCmd, progressChan, PhaseSystemPackages, 0.87, 0.90)
 }
 
