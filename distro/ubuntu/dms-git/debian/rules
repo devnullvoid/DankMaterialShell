@@ -18,7 +18,7 @@ export GOTOOLCHAIN := local
 	dh $@
 
 override_dh_installsystemd:
-	dh_installsystemd --user --name=dms
+	dh_installsystemd --name=dms
 
 override_dh_auto_build:
 	# Create Go cache directories (sbuild sets HOME to non-existent path)

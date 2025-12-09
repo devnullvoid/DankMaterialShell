@@ -14,7 +14,7 @@ BASE_VERSION := $(shell echo $(UPSTREAM_VERSION) | sed 's/ppa[0-9]*$$//' | sed '
 	dh $@
 
 override_dh_installsystemd:
-	dh_installsystemd --user --name=dms
+	dh_installsystemd --name=dms
 
 override_dh_auto_build:
 	# All files are included in source package (downloaded by build-source.sh)
