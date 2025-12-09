@@ -1210,6 +1210,12 @@ func (m *Manager) SetEnabled(enabled bool) {
 	m.configMutex.Unlock()
 
 	if enabled {
+		targetTemp := m.calculateTemperature(time.Now())
+		m.transitionMutex.Lock()
+		m.currentTemp = targetTemp
+		m.targetTemp = targetTemp
+		m.transitionMutex.Unlock()
+
 		if !m.controlsInitialized {
 			m.post(func() {
 				log.Info("Creating gamma controls")
