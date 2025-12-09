@@ -182,7 +182,8 @@ func (a *ArchDistribution) getQuickshellMapping(variant deps.PackageVariant) Pac
 	if forceQuickshellGit || variant == deps.VariantGit {
 		return PackageMapping{Name: "quickshell-git", Repository: RepoTypeAUR}
 	}
-	return PackageMapping{Name: "quickshell", Repository: RepoTypeSystem}
+	// ! TODO - for now we're only forcing quickshell-git on ARCH, as other distros use DL repos which pin a newer quickshell
+	return PackageMapping{Name: "quickshell-git", Repository: RepoTypeAUR}
 }
 
 func (a *ArchDistribution) getHyprlandMapping(variant deps.PackageVariant) PackageMapping {
