@@ -207,12 +207,8 @@ func (g *GentooDistribution) getDmsMapping(_ deps.PackageVariant) PackageMapping
 	return PackageMapping{Name: "dms", Repository: RepoTypeManual, BuildFunc: "installDankMaterialShell"}
 }
 
-func (g *GentooDistribution) getHyprlandMapping(variant deps.PackageVariant) PackageMapping {
-	archKeyword := g.getArchKeyword()
-	if variant == deps.VariantGit {
-		return PackageMapping{Name: "gui-wm/hyprland", Repository: RepoTypeGURU, UseFlags: "X", AcceptKeywords: archKeyword}
-	}
-	return PackageMapping{Name: "gui-wm/hyprland", Repository: RepoTypeSystem, UseFlags: "X", AcceptKeywords: archKeyword}
+func (g *GentooDistribution) getHyprlandMapping(_ deps.PackageVariant) PackageMapping {
+	return PackageMapping{Name: "gui-wm/hyprland", Repository: RepoTypeSystem, UseFlags: "X", AcceptKeywords: g.getArchKeyword()}
 }
 
 func (g *GentooDistribution) getNiriMapping(_ deps.PackageVariant) PackageMapping {

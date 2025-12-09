@@ -12,6 +12,11 @@ import (
 var Version = "dev"
 
 func main() {
+	if os.Getuid() == 0 {
+		fmt.Fprintln(os.Stderr, "Error: dankinstall must not be run as root")
+		os.Exit(1)
+	}
+
 	fileLogger, err := log.NewFileLogger()
 	if err != nil {
 		fmt.Printf("Warning: Failed to create log file: %v\n", err)

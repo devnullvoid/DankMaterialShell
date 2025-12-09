@@ -611,6 +611,32 @@ func (b *BaseDistribution) EnableDMSService(ctx context.Context) error {
 	return nil
 }
 
+func (b *BaseDistribution) WriteHyprlandSessionTarget() error {
+	homeDir, err := os.UserHomeDir()
+	if err != nil {
+		return fmt.Errorf("failed to get home directory: %w", err)
+	}
+
+	targetDir := filepath.Join(homeDir, ".config", "systemd", "user")
+	if err := os.MkdirAll(targetDir, 0755); err != nil {
+		return fmt.Errorf("failed to create systemd user directory: %w", err)
+	}
+
+	targetPath := filepath.Join(targetDir, "hyprland-session.target")
+	content := `[Unit]
+Description=Hyprland Session Target
+Requires=graphical-session.target
+After=graphical-session.target
+`
+
+	if err := os.WriteFile(targetPath, []byte(content), 0644); err != nil {
+		return fmt.Errorf("failed to write hyprland-session.target: %w", err)
+	}
+
+	b.log(fmt.Sprintf("Wrote hyprland-session.target to %s", targetPath))
+	return nil
+}
+
 // installDMSBinary installs the DMS binary from GitHub releases
 func (b *BaseDistribution) installDMSBinary(ctx context.Context, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
 	b.log("Installing/updating DMS binary...")

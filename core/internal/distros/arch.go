@@ -186,10 +186,7 @@ func (a *ArchDistribution) getQuickshellMapping(variant deps.PackageVariant) Pac
 	return PackageMapping{Name: "quickshell-git", Repository: RepoTypeAUR}
 }
 
-func (a *ArchDistribution) getHyprlandMapping(variant deps.PackageVariant) PackageMapping {
-	if variant == deps.VariantGit {
-		return PackageMapping{Name: "hyprland-git", Repository: RepoTypeAUR}
-	}
+func (a *ArchDistribution) getHyprlandMapping(_ deps.PackageVariant) PackageMapping {
 	return PackageMapping{Name: "hyprland", Repository: RepoTypeSystem}
 }
 
@@ -361,6 +358,12 @@ func (a *ArchDistribution) InstallPackages(ctx context.Context, dependencies []d
 	terminal := a.DetectTerminalFromDeps(dependencies)
 	if err := a.WriteEnvironmentConfig(terminal); err != nil {
 		a.log(fmt.Sprintf("Warning: failed to write environment config: %v", err))
+	}
+
+	if wm == deps.WindowManagerHyprland {
+		if err := a.WriteHyprlandSessionTarget(); err != nil {
+			a.log(fmt.Sprintf("Warning: failed to write hyprland session target: %v", err))
+		}
 	}
 
 	if err := a.EnableDMSService(ctx); err != nil {

@@ -166,10 +166,7 @@ func (f *FedoraDistribution) getDmsMapping(variant deps.PackageVariant) PackageM
 	return PackageMapping{Name: "dms", Repository: RepoTypeCOPR, RepoURL: "avengemedia/dms"}
 }
 
-func (f *FedoraDistribution) getHyprlandMapping(variant deps.PackageVariant) PackageMapping {
-	if variant == deps.VariantGit {
-		return PackageMapping{Name: "hyprland-git", Repository: RepoTypeCOPR, RepoURL: "solopasha/hyprland"}
-	}
+func (f *FedoraDistribution) getHyprlandMapping(_ deps.PackageVariant) PackageMapping {
 	return PackageMapping{Name: "hyprland", Repository: RepoTypeCOPR, RepoURL: "solopasha/hyprland"}
 }
 
