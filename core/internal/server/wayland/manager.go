@@ -562,53 +562,62 @@ func (m *Manager) transitionWorker() {
 		case <-m.stopChan:
 			return
 		case targetTemp := <-m.transitionChan:
-			m.transitionMutex.Lock()
-			currentTemp := m.currentTemp
-			m.targetTemp = targetTemp
-			m.transitionMutex.Unlock()
+			m.runTransition(targetTemp, steps, stepDur)
+		}
+	}
+}
 
-			if currentTemp == targetTemp {
-				continue
+func (m *Manager) runTransition(targetTemp int, steps int, stepDur time.Duration) {
+	for {
+		m.transitionMutex.Lock()
+		currentTemp := m.currentTemp
+		m.targetTemp = targetTemp
+		m.transitionMutex.Unlock()
+
+		if currentTemp == targetTemp {
+			return
+		}
+
+		log.Debugf("Starting smooth transition: %dK -> %dK over %v", currentTemp, targetTemp, stepDur*time.Duration(steps))
+
+		redirected := false
+		for i := 0; i <= steps; i++ {
+			select {
+			case newTarget := <-m.transitionChan:
+				m.transitionMutex.Lock()
+				m.targetTemp = newTarget
+				m.transitionMutex.Unlock()
+				if newTarget != targetTemp {
+					log.Debugf("Transition %dK -> %dK redirected to %dK", currentTemp, targetTemp, newTarget)
+					targetTemp = newTarget
+					redirected = true
+				}
+			default:
 			}
 
-			log.Debugf("Starting smooth transition: %dK -> %dK over %v", currentTemp, targetTemp, dur)
-
-		stepLoop:
-			for i := 0; i <= steps; i++ {
-				select {
-				case newTarget := <-m.transitionChan:
-					m.transitionMutex.Lock()
-					m.targetTemp = newTarget
-					m.transitionMutex.Unlock()
-					log.Debugf("Transition %dK -> %dK aborted (newer transition started)", currentTemp, targetTemp)
-					break stepLoop
-				default:
-				}
-
-				m.transitionMutex.RLock()
-				if m.targetTemp != targetTemp {
-					m.transitionMutex.RUnlock()
-					break
-				}
-				m.transitionMutex.RUnlock()
-
-				progress := float64(i) / float64(steps)
-				temp := currentTemp + int(float64(targetTemp-currentTemp)*progress)
-
-				m.post(func() { m.applyNowOnActor(temp) })
-
-				if i < steps {
-					time.Sleep(stepDur)
-				}
+			if redirected {
+				break
 			}
 
 			m.transitionMutex.RLock()
-			finalTarget := m.targetTemp
+			currentTarget := m.targetTemp
 			m.transitionMutex.RUnlock()
 
-			if finalTarget == targetTemp {
-				log.Debugf("Transition complete: now at %dK", targetTemp)
+			if currentTarget != targetTemp {
+				targetTemp = currentTarget
+				break
 			}
+
+			progress := float64(i) / float64(steps)
+			temp := currentTemp + int(float64(targetTemp-currentTemp)*progress)
+			m.post(func() { m.applyNowOnActor(temp) })
+
+			if i == steps {
+				log.Debugf("Transition complete: now at %dK", targetTemp)
+				return
+			}
+
+			time.Sleep(stepDur)
 		}
 	}
 }
@@ -1206,17 +1215,18 @@ func (m *Manager) SetGamma(gamma float64) error {
 
 func (m *Manager) SetEnabled(enabled bool) {
 	m.configMutex.Lock()
+	wasEnabled := m.config.Enabled
 	m.config.Enabled = enabled
+	highTemp := m.config.HighTemp
 	m.configMutex.Unlock()
 
 	if enabled {
-		targetTemp := m.calculateTemperature(time.Now())
-		m.transitionMutex.Lock()
-		m.currentTemp = targetTemp
-		m.targetTemp = targetTemp
-		m.transitionMutex.Unlock()
-
 		if !m.controlsInitialized {
+			m.transitionMutex.Lock()
+			m.currentTemp = highTemp
+			m.targetTemp = highTemp
+			m.transitionMutex.Unlock()
+
 			m.post(func() {
 				log.Info("Creating gamma controls")
 				gammaMgr := m.gammaControl.(*wlr_gamma_control.ZwlrGammaControlManagerV1)
@@ -1227,9 +1237,10 @@ func (m *Manager) SetEnabled(enabled bool) {
 					log.Errorf("Failed to create gamma controls: %v", err)
 				} else {
 					m.controlsInitialized = true
+					m.triggerUpdate()
 				}
 			})
-		} else {
+		} else if !wasEnabled {
 			m.triggerUpdate()
 		}
 	} else {
