@@ -17,7 +17,11 @@ DankModal {
     modalWidth: _maxW
     modalHeight: _maxH
     onBackgroundClicked: close()
-    onOpened: () => Qt.callLater(() => modalFocusScope.forceActiveFocus())
+    onOpened: {
+        Qt.callLater(() => modalFocusScope.forceActiveFocus());
+        if (KeybindsService.cheatsheetAvailable)
+            KeybindsService.loadCheatsheet();
+    }
 
     HyprlandFocusGrab {
         windows: [root.contentWindow]
@@ -66,7 +70,7 @@ DankModal {
                 spacing: Theme.spacingL
 
                 StyledText {
-                    text: KeybindsService.keybinds.title || "Keybinds"
+                    text: KeybindsService.cheatsheet.title || "Keybinds"
                     font.pixelSize: Theme.fontSizeLarge
                     font.weight: Font.Bold
                     color: Theme.primary
@@ -82,7 +86,7 @@ DankModal {
 
                     Component.onCompleted: root.activeFlickable = mainFlickable
 
-                    property var rawBinds: KeybindsService.keybinds.binds || {}
+                    property var rawBinds: KeybindsService.cheatsheet.binds || {}
                     property var categories: {
                         const processed = {};
                         for (const cat in rawBinds) {

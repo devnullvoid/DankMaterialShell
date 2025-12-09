@@ -22,6 +22,18 @@ Singleton {
 
     property bool available: CompositorService.isNiri && shortcutInhibitorAvailable
     property string currentProvider: "niri"
+
+    readonly property string cheatsheetProvider: {
+        if (CompositorService.isNiri)
+            return "niri";
+        if (CompositorService.isHyprland)
+            return "hyprland";
+        return "";
+    }
+    property bool cheatsheetAvailable: cheatsheetProvider !== ""
+    property bool cheatsheetLoading: false
+    property var cheatsheet: ({})
+
     property bool loading: false
     property bool saving: false
     property bool fixing: false
@@ -58,17 +70,14 @@ Singleton {
     signal bindSaveCompleted(bool success)
     signal bindRemoved(string key)
     signal dmsBindsFixed
-
-    Component.onCompleted: {
-        if (available)
-            Qt.callLater(loadBinds);
-    }
+    signal cheatsheetLoaded
 
     Connections {
         target: CompositorService
         function onCompositorChanged() {
-            if (CompositorService.isNiri)
-                Qt.callLater(root.loadBinds);
+            if (!CompositorService.isNiri)
+                return;
+            Qt.callLater(root.loadBinds);
         }
     }
 
@@ -77,6 +86,31 @@ Singleton {
         enabled: CompositorService.isNiri
         function onConfigReloaded() {
             Qt.callLater(root.loadBinds, false);
+        }
+    }
+
+    Process {
+        id: cheatsheetProcess
+        running: false
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                try {
+                    root.cheatsheet = JSON.parse(text);
+                } catch (e) {
+                    console.error("[KeybindsService] Failed to parse cheatsheet:", e);
+                    root.cheatsheet = {};
+                }
+                root.cheatsheetLoading = false;
+                root.cheatsheetLoaded();
+            }
+        }
+
+        onExited: exitCode => {
+            if (exitCode === 0)
+                return;
+            console.warn("[KeybindsService] Cheatsheet load failed with code:", exitCode);
+            root.cheatsheetLoading = false;
         }
     }
 
@@ -197,6 +231,14 @@ Singleton {
         _flatCache = [];
         _categories = [];
         loadBinds(true);
+    }
+
+    function loadCheatsheet() {
+        if (cheatsheetProcess.running || !cheatsheetAvailable)
+            return;
+        cheatsheetLoading = true;
+        cheatsheetProcess.command = ["dms", "keybinds", "show", cheatsheetProvider];
+        cheatsheetProcess.running = true;
     }
 
     function loadBinds(showLoading) {
