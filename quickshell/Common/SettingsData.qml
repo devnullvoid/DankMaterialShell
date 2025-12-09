@@ -255,7 +255,6 @@ Singleton {
     property int batterySuspendBehavior: SettingsData.SuspendBehavior.Suspend
     property string batteryProfileName: ""
     property bool lockBeforeSuspend: false
-    property bool preventIdleForMedia: false
     property bool loginctlLockIntegration: true
     property bool fadeToLockEnabled: false
     property int fadeToLockGracePeriod: 5

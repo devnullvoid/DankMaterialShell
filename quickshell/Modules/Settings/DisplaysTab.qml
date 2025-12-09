@@ -8,6 +8,19 @@ import qs.Widgets
 Item {
     id: displaysTab
 
+    function formatGammaTime(isoString) {
+        if (!isoString)
+            return "";
+        try {
+            const date = new Date(isoString);
+            if (isNaN(date.getTime()))
+                return "";
+            return date.toLocaleTimeString(Qt.locale(), "HH:mm");
+        } catch (e) {
+            return "";
+        }
+    }
+
     function getBarComponentsFromSettings() {
         const bars = SettingsData.barConfigs || [];
         return bars.map(bar => ({
@@ -527,6 +540,233 @@ Item {
                                     color: Theme.surfaceVariantText
                                     width: parent.width - parent.leftPadding
                                     wrapMode: Text.WordWrap
+                                }
+                            }
+                        }
+
+                        Rectangle {
+                            width: parent.width
+                            height: 1
+                            color: Theme.outline
+                            opacity: 0.2
+                            visible: gammaStatusSection.visible
+                        }
+
+                        Column {
+                            id: gammaStatusSection
+                            width: parent.width
+                            spacing: Theme.spacingM
+                            visible: DisplayService.nightModeEnabled && DisplayService.gammaCurrentTemp > 0
+
+                            Row {
+                                width: parent.width
+                                spacing: Theme.spacingS
+
+                                DankIcon {
+                                    name: DisplayService.gammaIsDay ? "light_mode" : "dark_mode"
+                                    size: Theme.iconSizeSmall
+                                    color: Theme.primary
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Current Status")
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    font.weight: Font.Medium
+                                    color: Theme.surfaceText
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                            }
+
+                            Row {
+                                width: parent.width
+                                spacing: Theme.spacingM
+
+                                Rectangle {
+                                    width: (parent.width - Theme.spacingM) / 2
+                                    height: tempColumn.implicitHeight + Theme.spacingM * 2
+                                    radius: Theme.cornerRadius
+                                    color: Theme.surfaceContainerHigh
+
+                                    Column {
+                                        id: tempColumn
+                                        anchors.centerIn: parent
+                                        spacing: Theme.spacingXS
+
+                                        DankIcon {
+                                            name: "device_thermostat"
+                                            size: Theme.iconSize
+                                            color: Theme.primary
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+
+                                        StyledText {
+                                            text: DisplayService.gammaCurrentTemp + "K"
+                                            font.pixelSize: Theme.fontSizeLarge
+                                            font.weight: Font.Medium
+                                            color: Theme.surfaceText
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+
+                                        StyledText {
+                                            text: I18n.tr("Current Temp")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.surfaceVariantText
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+                                    }
+                                }
+
+                                Rectangle {
+                                    width: (parent.width - Theme.spacingM) / 2
+                                    height: periodColumn.implicitHeight + Theme.spacingM * 2
+                                    radius: Theme.cornerRadius
+                                    color: Theme.surfaceContainerHigh
+
+                                    Column {
+                                        id: periodColumn
+                                        anchors.centerIn: parent
+                                        spacing: Theme.spacingXS
+
+                                        DankIcon {
+                                            name: DisplayService.gammaIsDay ? "wb_sunny" : "nightlight"
+                                            size: Theme.iconSize
+                                            color: DisplayService.gammaIsDay ? "#FFA726" : "#7E57C2"
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+
+                                        StyledText {
+                                            text: DisplayService.gammaIsDay ? I18n.tr("Daytime") : I18n.tr("Night")
+                                            font.pixelSize: Theme.fontSizeLarge
+                                            font.weight: Font.Medium
+                                            color: Theme.surfaceText
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+
+                                        StyledText {
+                                            text: I18n.tr("Current Period")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.surfaceVariantText
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+                                    }
+                                }
+                            }
+
+                            Row {
+                                width: parent.width
+                                spacing: Theme.spacingM
+                                visible: SessionData.nightModeAutoMode === "location" && (DisplayService.gammaSunriseTime || DisplayService.gammaSunsetTime)
+
+                                Rectangle {
+                                    width: (parent.width - Theme.spacingM) / 2
+                                    height: sunriseColumn.implicitHeight + Theme.spacingM * 2
+                                    radius: Theme.cornerRadius
+                                    color: Theme.surfaceContainerHigh
+                                    visible: DisplayService.gammaSunriseTime
+
+                                    Column {
+                                        id: sunriseColumn
+                                        anchors.centerIn: parent
+                                        spacing: Theme.spacingXS
+
+                                        DankIcon {
+                                            name: "wb_twilight"
+                                            size: Theme.iconSize
+                                            color: "#FF7043"
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+
+                                        StyledText {
+                                            text: displaysTab.formatGammaTime(DisplayService.gammaSunriseTime)
+                                            font.pixelSize: Theme.fontSizeLarge
+                                            font.weight: Font.Medium
+                                            color: Theme.surfaceText
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+
+                                        StyledText {
+                                            text: I18n.tr("Sunrise")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.surfaceVariantText
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+                                    }
+                                }
+
+                                Rectangle {
+                                    width: (parent.width - Theme.spacingM) / 2
+                                    height: sunsetColumn.implicitHeight + Theme.spacingM * 2
+                                    radius: Theme.cornerRadius
+                                    color: Theme.surfaceContainerHigh
+                                    visible: DisplayService.gammaSunsetTime
+
+                                    Column {
+                                        id: sunsetColumn
+                                        anchors.centerIn: parent
+                                        spacing: Theme.spacingXS
+
+                                        DankIcon {
+                                            name: "wb_twilight"
+                                            size: Theme.iconSize
+                                            color: "#5C6BC0"
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+
+                                        StyledText {
+                                            text: displaysTab.formatGammaTime(DisplayService.gammaSunsetTime)
+                                            font.pixelSize: Theme.fontSizeLarge
+                                            font.weight: Font.Medium
+                                            color: Theme.surfaceText
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+
+                                        StyledText {
+                                            text: I18n.tr("Sunset")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.surfaceVariantText
+                                            anchors.horizontalCenter: parent.horizontalCenter
+                                        }
+                                    }
+                                }
+                            }
+
+                            Rectangle {
+                                width: parent.width
+                                height: nextChangeRow.implicitHeight + Theme.spacingM * 2
+                                radius: Theme.cornerRadius
+                                color: Theme.surfaceContainerHigh
+                                visible: DisplayService.gammaNextTransition
+
+                                Row {
+                                    id: nextChangeRow
+                                    anchors.centerIn: parent
+                                    spacing: Theme.spacingM
+
+                                    DankIcon {
+                                        name: "schedule"
+                                        size: Theme.iconSize
+                                        color: Theme.primary
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+
+                                    Column {
+                                        spacing: 2
+                                        anchors.verticalCenter: parent.verticalCenter
+
+                                        StyledText {
+                                            text: I18n.tr("Next Transition")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.surfaceVariantText
+                                        }
+
+                                        StyledText {
+                                            text: displaysTab.formatGammaTime(DisplayService.gammaNextTransition)
+                                            font.pixelSize: Theme.fontSizeMedium
+                                            font.weight: Font.Medium
+                                            color: Theme.surfaceText
+                                        }
+                                    }
                                 }
                             }
                         }

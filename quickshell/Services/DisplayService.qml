@@ -41,6 +41,18 @@ Singleton {
     property bool automationAvailable: false
     property bool gammaControlAvailable: false
 
+    property var gammaState: ({})
+    property int gammaCurrentTemp: gammaState?.currentTemp ?? 0
+    property string gammaNextTransition: gammaState?.nextTransition ?? ""
+    property string gammaSunriseTime: gammaState?.sunriseTime ?? ""
+    property string gammaSunsetTime: gammaState?.sunsetTime ?? ""
+    property string gammaDawnTime: gammaState?.dawnTime ?? ""
+    property string gammaNightTime: gammaState?.nightTime ?? ""
+    property bool gammaIsDay: gammaState?.isDay ?? true
+    property real gammaSunPosition: gammaState?.sunPosition ?? 0
+    property int gammaLowTemp: gammaState?.config?.LowTemp ?? 0
+    property int gammaHighTemp: gammaState?.config?.HighTemp ?? 0
+
     function markDeviceUserControlled(deviceId) {
         const newControlled = Object.assign({}, userControlledDevices);
         newControlled[deviceId] = Date.now();
@@ -808,6 +820,10 @@ Singleton {
                 suppressOsd = true;
                 osdSuppressTimer.restart();
             }
+        }
+
+        function onGammaStateUpdate(data) {
+            root.gammaState = data;
         }
     }
 

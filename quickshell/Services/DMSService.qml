@@ -49,6 +49,7 @@ Singleton {
     signal extWorkspaceStateUpdate(var data)
     signal wlrOutputStateUpdate(var data)
     signal evdevStateUpdate(var data)
+    signal gammaStateUpdate(var data)
     signal openUrlRequested(string url)
     signal appPickerRequested(var data)
 
@@ -267,9 +268,9 @@ Singleton {
 
     function removeSubscription(service) {
         if (activeSubscriptions.includes("all")) {
-            const allServices = ["network", "loginctl", "freedesktop", "gamma", "bluetooth", "dwl", "brightness", "extworkspace", "browser"]
-            const filtered = allServices.filter(s => s !== service)
-            subscribe(filtered)
+            const allServices = ["network", "loginctl", "freedesktop", "gamma", "bluetooth", "dwl", "brightness", "extworkspace", "browser"];
+            const filtered = allServices.filter(s => s !== service);
+            subscribe(filtered);
         } else {
             const filtered = activeSubscriptions.filter(s => s !== service);
             if (filtered.length === 0) {
@@ -289,9 +290,9 @@ Singleton {
             excludeServices = [excludeServices];
         }
 
-        const allServices = ["network", "loginctl", "freedesktop", "gamma", "bluetooth", "cups", "dwl", "brightness", "extworkspace", "browser"]
-        const filtered = allServices.filter(s => !excludeServices.includes(s))
-        subscribe(filtered)
+        const allServices = ["network", "loginctl", "freedesktop", "gamma", "bluetooth", "cups", "dwl", "brightness", "extworkspace", "browser"];
+        const filtered = allServices.filter(s => !excludeServices.includes(s));
+        subscribe(filtered);
     }
 
     function handleSubscriptionEvent(response) {
@@ -355,16 +356,18 @@ Singleton {
             if (data.capsLock !== undefined) {
                 capsLockState = data.capsLock;
             }
-            evdevStateUpdate(data)
+            evdevStateUpdate(data);
+        } else if (service === "gamma") {
+            gammaStateUpdate(data);
         } else if (service === "browser.open_requested") {
             if (data.target) {
                 if (data.requestType === "url" || !data.requestType) {
-                    openUrlRequested(data.target)
+                    openUrlRequested(data.target);
                 } else {
-                    appPickerRequested(data)
+                    appPickerRequested(data);
                 }
             } else if (data.url) {
-                openUrlRequested(data.url)
+                openUrlRequested(data.url);
             }
         }
     }

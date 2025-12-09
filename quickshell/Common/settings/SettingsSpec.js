@@ -154,7 +154,6 @@ var SPEC = {
     batterySuspendBehavior: { def: 0 },
     batteryProfileName: { def: "" },
     lockBeforeSuspend: { def: false },
-    preventIdleForMedia: { def: false },
     loginctlLockIntegration: { def: true },
     fadeToLockEnabled: { def: false },
     fadeToLockGracePeriod: { def: 5 },

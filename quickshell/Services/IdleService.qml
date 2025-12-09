@@ -58,41 +58,10 @@ Singleton {
     property var monitorOffMonitor: null
     property var lockMonitor: null
     property var suspendMonitor: null
-    property var mediaInhibitor: null
     property var lockComponent: null
 
     function wake() {
         requestMonitorOn();
-    }
-
-    function createMediaInhibitor() {
-        if (!idleInhibitorAvailable) {
-            return;
-        }
-
-        if (mediaInhibitor) {
-            mediaInhibitor.destroy();
-            mediaInhibitor = null;
-        }
-
-        const inhibitorString = `
-            import QtQuick
-            import Quickshell.Wayland
-
-            IdleInhibitor {
-                active: false
-            }
-        `;
-
-        mediaInhibitor = Qt.createQmlObject(inhibitorString, root, "IdleService.MediaInhibitor");
-        mediaInhibitor.active = Qt.binding(() => root.mediaPlaying);
-    }
-
-    function destroyMediaInhibitor() {
-        if (mediaInhibitor) {
-            mediaInhibitor.destroy();
-            mediaInhibitor = null;
-        }
     }
 
     function createIdleMonitors() {
@@ -152,10 +121,6 @@ Singleton {
                     root.requestSuspend();
                 }
             });
-
-            if (SettingsData.preventIdleForMedia) {
-                createMediaInhibitor();
-            }
         } catch (e) {
             console.warn("IdleService: Error creating IdleMonitors:", e);
         }
@@ -173,17 +138,6 @@ Singleton {
 
         function onRequestSuspend() {
             SessionService.suspendWithBehavior(root.suspendBehavior);
-        }
-    }
-
-    Connections {
-        target: SettingsData
-        function onPreventIdleForMediaChanged() {
-            if (SettingsData.preventIdleForMedia) {
-                createMediaInhibitor();
-            } else {
-                destroyMediaInhibitor();
-            }
         }
     }
 

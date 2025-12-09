@@ -62,18 +62,18 @@ Item {
                 }
 
                 SettingsToggleRow {
-                    text: I18n.tr("Prevent idle for media")
-                    description: I18n.tr("Inhibit idle timeout when audio or video is playing")
-                    checked: SettingsData.preventIdleForMedia
-                    visible: IdleService.idleMonitorAvailable
-                    onToggled: checked => SettingsData.set("preventIdleForMedia", checked)
-                }
-
-                SettingsToggleRow {
                     text: I18n.tr("Fade to lock screen")
                     description: I18n.tr("Gradually fade the screen before locking with a configurable grace period")
                     checked: SettingsData.fadeToLockEnabled
                     onToggled: checked => SettingsData.set("fadeToLockEnabled", checked)
+                }
+
+                SettingsToggleRow {
+                    text: I18n.tr("Lock before suspend")
+                    description: I18n.tr("Automatically lock the screen when the system prepares to suspend")
+                    checked: SettingsData.lockBeforeSuspend
+                    visible: SessionService.loginctlAvailable && SettingsData.loginctlLockIntegration
+                    onToggled: checked => SettingsData.set("lockBeforeSuspend", checked)
                 }
 
                 SettingsDropdownRow {
@@ -114,14 +114,14 @@ Item {
                         function onCurrentIndexChanged() {
                             const currentProfile = powerCategory.currentIndex === 0 ? SettingsData.acProfileName : SettingsData.batteryProfileName;
                             const index = powerProfileDropdown.profileValues.indexOf(currentProfile);
-                            powerProfileDropdown.currentValue = powerProfileDropdown.profileOptions[index]
+                            powerProfileDropdown.currentValue = powerProfileDropdown.profileOptions[index];
                         }
                     }
 
                     Component.onCompleted: {
                         const currentProfile = powerCategory.currentIndex === 0 ? SettingsData.acProfileName : SettingsData.batteryProfileName;
                         const index = profileValues.indexOf(currentProfile);
-                        currentValue = profileOptions[index]
+                        currentValue = profileOptions[index];
                     }
 
                     onValueChanged: value => {
