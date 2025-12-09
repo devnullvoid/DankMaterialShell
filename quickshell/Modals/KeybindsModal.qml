@@ -225,7 +225,7 @@ DankModal {
 
                                                                 StyledText {
                                                                     width: parent.width - 150
-                                                                    text: modelData.desc || ""
+                                                                    text: modelData.desc || modelData.action || ""
                                                                     font.pixelSize: Theme.fontSizeSmall
                                                                     opacity: 0.9
                                                                     elide: Text.ElideRight
