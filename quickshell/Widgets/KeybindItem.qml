@@ -880,26 +880,18 @@ Item {
                 }
 
                 RowLayout {
+                    id: dmsArgsRow
                     Layout.fillWidth: true
                     spacing: Theme.spacingM
 
-                    property var dmsArgConfig: {
-                        const action = root.editAction;
-                        if (!action)
-                            return null;
-                        if (action.indexOf("audio increment") !== -1 || action.indexOf("audio decrement") !== -1 || action.indexOf("brightness increment") !== -1 || action.indexOf("brightness decrement") !== -1) {
-                            const parts = action.split(" ");
-                            const lastPart = parts[parts.length - 1];
-                            const hasAmount = /^\d+$/.test(lastPart);
-                            return {
-                                hasAmount: hasAmount,
-                                amount: hasAmount ? lastPart : ""
-                            };
-                        }
-                        return null;
-                    }
+                    readonly property var argConfig: Actions.getActionArgConfig(root.editAction)
+                    readonly property var parsedArgs: argConfig?.type === "dms" ? Actions.parseDmsActionArgs(root.editAction) : null
+                    readonly property var dmsActionArgs: Actions.getDmsActionArgs()
+                    readonly property bool hasAmountArg: parsedArgs?.base ? (dmsActionArgs?.[parsedArgs.base]?.args?.some(a => a.name === "amount") ?? false) : false
+                    readonly property bool hasDeviceArg: parsedArgs?.base ? (dmsActionArgs?.[parsedArgs.base]?.args?.some(a => a.name === "device") ?? false) : false
+                    readonly property bool hasTabArg: parsedArgs?.base ? (dmsActionArgs?.[parsedArgs.base]?.args?.some(a => a.name === "tab") ?? false) : false
 
-                    visible: root._actionType === "dms" && dmsArgConfig !== null
+                    visible: root._actionType === "dms" && argConfig?.type === "dms"
 
                     StyledText {
                         text: I18n.tr("Amount")
@@ -907,26 +899,36 @@ Item {
                         font.weight: Font.Medium
                         color: Theme.surfaceVariantText
                         Layout.preferredWidth: 60
+                        visible: dmsArgsRow.hasAmountArg
                     }
 
                     DankTextField {
+                        id: dmsAmountField
                         Layout.preferredWidth: 80
                         Layout.preferredHeight: 40
                         placeholderText: "5"
-                        text: parent.dmsArgConfig?.amount || ""
-                        onTextChanged: {
-                            if (!parent.dmsArgConfig)
+                        visible: dmsArgsRow.hasAmountArg
+
+                        Connections {
+                            target: dmsArgsRow
+                            function onParsedArgsChanged() {
+                                const newText = dmsArgsRow.parsedArgs?.args?.amount || "";
+                                if (dmsAmountField.text !== newText)
+                                    dmsAmountField.text = newText;
+                            }
+                        }
+
+                        Component.onCompleted: {
+                            text = dmsArgsRow.parsedArgs?.args?.amount || "";
+                        }
+
+                        onEditingFinished: {
+                            if (!dmsArgsRow.parsedArgs)
                                 return;
-                            const action = root.editAction;
-                            const parts = action.split(" ");
-                            const lastPart = parts[parts.length - 1];
-                            const hasOldAmount = /^\d+$/.test(lastPart);
-                            if (hasOldAmount)
-                                parts.pop();
-                            if (text && /^\d+$/.test(text))
-                                parts.push(text);
+                            const newArgs = Object.assign({}, dmsArgsRow.parsedArgs.args);
+                            newArgs.amount = text || "5";
                             root.updateEdit({
-                                action: parts.join(" ")
+                                action: Actions.buildDmsAction(dmsArgsRow.parsedArgs.base, newArgs)
                             });
                         }
                     }
@@ -935,10 +937,105 @@ Item {
                         text: "%"
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceVariantText
+                        visible: dmsArgsRow.hasAmountArg
+                    }
+
+                    StyledText {
+                        text: I18n.tr("Device")
+                        font.pixelSize: Theme.fontSizeSmall
+                        font.weight: Font.Medium
+                        color: Theme.surfaceVariantText
+                        Layout.leftMargin: dmsArgsRow.hasAmountArg ? Theme.spacingM : 0
+                        Layout.preferredWidth: dmsArgsRow.hasAmountArg ? -1 : 60
+                        visible: dmsArgsRow.hasDeviceArg
+                    }
+
+                    DankTextField {
+                        id: dmsDeviceField
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
+                        placeholderText: I18n.tr("leave empty for default")
+                        visible: dmsArgsRow.hasDeviceArg
+
+                        Connections {
+                            target: dmsArgsRow
+                            function onParsedArgsChanged() {
+                                const newText = dmsArgsRow.parsedArgs?.args?.device || "";
+                                if (dmsDeviceField.text !== newText)
+                                    dmsDeviceField.text = newText;
+                            }
+                        }
+
+                        Component.onCompleted: {
+                            text = dmsArgsRow.parsedArgs?.args?.device || "";
+                        }
+
+                        onEditingFinished: {
+                            if (!dmsArgsRow.parsedArgs)
+                                return;
+                            const newArgs = Object.assign({}, dmsArgsRow.parsedArgs.args);
+                            newArgs.device = text;
+                            root.updateEdit({
+                                action: Actions.buildDmsAction(dmsArgsRow.parsedArgs.base, newArgs)
+                            });
+                        }
                     }
 
                     Item {
                         Layout.fillWidth: true
+                        visible: !dmsArgsRow.hasDeviceArg && !dmsArgsRow.hasTabArg
+                    }
+
+                    StyledText {
+                        text: I18n.tr("Tab")
+                        font.pixelSize: Theme.fontSizeSmall
+                        font.weight: Font.Medium
+                        color: Theme.surfaceVariantText
+                        Layout.preferredWidth: 60
+                        visible: dmsArgsRow.hasTabArg
+                    }
+
+                    DankDropdown {
+                        id: dmsTabDropdown
+                        Layout.fillWidth: true
+                        compactMode: true
+                        visible: dmsArgsRow.hasTabArg
+                        currentValue: {
+                            const tab = dmsArgsRow.parsedArgs?.args?.tab || "";
+                            switch (tab) {
+                            case "media":
+                                return I18n.tr("Media");
+                            case "wallpaper":
+                                return I18n.tr("Wallpaper");
+                            case "weather":
+                                return I18n.tr("Weather");
+                            default:
+                                return I18n.tr("Overview");
+                            }
+                        }
+                        options: [I18n.tr("Overview"), I18n.tr("Media"), I18n.tr("Wallpaper"), I18n.tr("Weather")]
+                        onValueChanged: value => {
+                            if (!dmsArgsRow.parsedArgs)
+                                return;
+                            const newArgs = Object.assign({}, dmsArgsRow.parsedArgs.args);
+                            switch (value) {
+                            case I18n.tr("Media"):
+                                newArgs.tab = "media";
+                                break;
+                            case I18n.tr("Wallpaper"):
+                                newArgs.tab = "wallpaper";
+                                break;
+                            case I18n.tr("Weather"):
+                                newArgs.tab = "weather";
+                                break;
+                            default:
+                                newArgs.tab = "";
+                                break;
+                            }
+                            root.updateEdit({
+                                action: Actions.buildDmsAction(dmsArgsRow.parsedArgs.base, newArgs)
+                            });
+                        }
                     }
                 }
 

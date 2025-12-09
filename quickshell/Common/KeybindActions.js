@@ -49,26 +49,26 @@ const DMS_ACTIONS = [
     { id: "spawn dms ipc call inhibit toggle", label: "Idle Inhibit: Toggle" },
     { id: "spawn dms ipc call inhibit enable", label: "Idle Inhibit: Enable" },
     { id: "spawn dms ipc call inhibit disable", label: "Idle Inhibit: Disable" },
-    { id: "spawn dms ipc call audio increment", label: "Volume Up" },
+    { id: "spawn dms ipc call audio increment 5", label: "Volume Up" },
     { id: "spawn dms ipc call audio increment 1", label: "Volume Up (1%)" },
     { id: "spawn dms ipc call audio increment 5", label: "Volume Up (5%)" },
     { id: "spawn dms ipc call audio increment 10", label: "Volume Up (10%)" },
-    { id: "spawn dms ipc call audio decrement", label: "Volume Down" },
+    { id: "spawn dms ipc call audio decrement 5", label: "Volume Down" },
     { id: "spawn dms ipc call audio decrement 1", label: "Volume Down (1%)" },
     { id: "spawn dms ipc call audio decrement 5", label: "Volume Down (5%)" },
     { id: "spawn dms ipc call audio decrement 10", label: "Volume Down (10%)" },
     { id: "spawn dms ipc call audio mute", label: "Volume Mute Toggle" },
     { id: "spawn dms ipc call audio micmute", label: "Microphone Mute Toggle" },
     { id: "spawn dms ipc call audio cycleoutput", label: "Audio Output: Cycle" },
-    { id: "spawn dms ipc call brightness increment", label: "Brightness Up" },
-    { id: "spawn dms ipc call brightness increment 1", label: "Brightness Up (1%)" },
-    { id: "spawn dms ipc call brightness increment 5", label: "Brightness Up (5%)" },
-    { id: "spawn dms ipc call brightness increment 10", label: "Brightness Up (10%)" },
-    { id: "spawn dms ipc call brightness decrement", label: "Brightness Down" },
-    { id: "spawn dms ipc call brightness decrement 1", label: "Brightness Down (1%)" },
-    { id: "spawn dms ipc call brightness decrement 5", label: "Brightness Down (5%)" },
-    { id: "spawn dms ipc call brightness decrement 10", label: "Brightness Down (10%)" },
-    { id: "spawn dms ipc call brightness toggleExponential", label: "Brightness: Toggle Exponential" },
+    { id: "spawn dms ipc call brightness increment 5 \"\"", label: "Brightness Up" },
+    { id: "spawn dms ipc call brightness increment 1 \"\"", label: "Brightness Up (1%)" },
+    { id: "spawn dms ipc call brightness increment 5 \"\"", label: "Brightness Up (5%)" },
+    { id: "spawn dms ipc call brightness increment 10 \"\"", label: "Brightness Up (10%)" },
+    { id: "spawn dms ipc call brightness decrement 5 \"\"", label: "Brightness Down" },
+    { id: "spawn dms ipc call brightness decrement 1 \"\"", label: "Brightness Down (1%)" },
+    { id: "spawn dms ipc call brightness decrement 5 \"\"", label: "Brightness Down (5%)" },
+    { id: "spawn dms ipc call brightness decrement 10 \"\"", label: "Brightness Down (10%)" },
+    { id: "spawn dms ipc call brightness toggleExponential \"\"", label: "Brightness: Toggle Exponential" },
     { id: "spawn dms ipc call theme toggle", label: "Theme: Toggle Light/Dark" },
     { id: "spawn dms ipc call theme light", label: "Theme: Light Mode" },
     { id: "spawn dms ipc call theme dark", label: "Theme: Dark Mode" },
@@ -223,24 +223,46 @@ const ACTION_ARGS = {
 const DMS_ACTION_ARGS = {
     "audio increment": {
         base: "spawn dms ipc call audio increment",
-        args: [{ name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "" }]
+        args: [{ name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "5" }]
     },
     "audio decrement": {
         base: "spawn dms ipc call audio decrement",
-        args: [{ name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "" }]
+        args: [{ name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "5" }]
     },
     "brightness increment": {
         base: "spawn dms ipc call brightness increment",
-        args: [{ name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "" }]
+        args: [
+            { name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "5" },
+            { name: "device", type: "text", label: "Device", placeholder: "leave empty for default", default: "" }
+        ]
     },
     "brightness decrement": {
         base: "spawn dms ipc call brightness decrement",
-        args: [{ name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "" }]
+        args: [
+            { name: "amount", type: "number", label: "Amount %", placeholder: "5", default: "5" },
+            { name: "device", type: "text", label: "Device", placeholder: "leave empty for default", default: "" }
+        ]
+    },
+    "brightness toggleExponential": {
+        base: "spawn dms ipc call brightness toggleExponential",
+        args: [
+            { name: "device", type: "text", label: "Device", placeholder: "leave empty for default", default: "" }
+        ]
+    },
+    "dash toggle": {
+        base: "spawn dms ipc call dash toggle",
+        args: [
+            { name: "tab", type: "text", label: "Tab", placeholder: "overview, media, wallpaper, weather", default: "" }
+        ]
     }
 };
 
 function getActionTypes() {
     return ACTION_TYPES;
+}
+
+function getDmsActionArgs() {
+    return DMS_ACTION_ARGS;
 }
 
 function getDmsActions(isNiri, isHyprland) {
@@ -495,10 +517,48 @@ function parseDmsActionArgs(action) {
 
     for (var key in DMS_ACTION_ARGS) {
         var config = DMS_ACTION_ARGS[key];
-        if (action.startsWith(config.base)) {
-            var rest = action.slice(config.base.length).trim();
-            return { base: key, args: { amount: rest || "" } };
+        if (!action.startsWith(config.base))
+            continue;
+
+        var rest = action.slice(config.base.length).trim();
+        var result = { base: key, args: {} };
+
+        if (!rest)
+            return result;
+
+        var tokens = [];
+        var current = "";
+        var inQuotes = false;
+        var hadQuotes = false;
+        for (var i = 0; i < rest.length; i++) {
+            var c = rest[i];
+            switch (c) {
+            case '"':
+                inQuotes = !inQuotes;
+                hadQuotes = true;
+                break;
+            case ' ':
+                if (inQuotes) {
+                    current += c;
+                } else if (current || hadQuotes) {
+                    tokens.push(current);
+                    current = "";
+                    hadQuotes = false;
+                }
+                break;
+            default:
+                current += c;
+                break;
+            }
         }
+        if (current || hadQuotes)
+            tokens.push(current);
+
+        for (var j = 0; j < config.args.length && j < tokens.length; j++) {
+            result.args[config.args[j].name] = tokens[j];
+        }
+
+        return result;
     }
 
     return { base: action, args: {} };
@@ -509,11 +569,24 @@ function buildDmsAction(baseKey, args) {
     if (!config)
         return "";
 
-    var action = config.base;
-    if (args && args.amount)
-        action += " " + args.amount;
+    var parts = [config.base];
 
-    return action;
+    for (var i = 0; i < config.args.length; i++) {
+        var argDef = config.args[i];
+        var value = args?.[argDef.name];
+        if (value === undefined || value === null)
+            value = argDef.default ?? "";
+
+        if (argDef.type === "text" && value === "") {
+            parts.push('""');
+        } else if (value !== "") {
+            parts.push(value);
+        } else {
+            break;
+        }
+    }
+
+    return parts.join(" ");
 }
 
 function getScreenshotOptions() {
