@@ -138,7 +138,7 @@ DankPopout {
 
             Keys.onPressed: event => {
                 if (event.key === Qt.Key_Escape) {
-                    root.close();
+                    notificationHistoryVisible = false;
                     event.accepted = true;
                 } else if (externalKeyboardController) {
                     externalKeyboardController.handleKey(event);
