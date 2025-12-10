@@ -1926,7 +1926,7 @@
     "None": "Nulla"
   },
   "Normal Font": {
-    "Normal Font": "Carattere Normale"
+    "Normal Font": "Font Normale"
   },
   "Normal Priority": {
     "Normal Priority": "Priorità Normale"
@@ -2481,7 +2481,7 @@
     "Select driver...": "Seleziona un driver..."
   },
   "Select font weight for UI text": {
-    "Select font weight for UI text": "Seleziona lo spessore del carattere per il testo dell'interfaccia utente"
+    "Select font weight for UI text": "Seleziona lo spessore del font per il testo dell'interfaccia utente"
   },
   "Select monitor to configure wallpaper": {
     "Select monitor to configure wallpaper": "Selezionare il monitor per configurare lo sconto"
@@ -2493,7 +2493,7 @@
     "Select system sound theme": "Seleziona tema suoni di sistema"
   },
   "Select the font family for UI text": {
-    "Select the font family for UI text": "Seleziona la famiglia di caratteri per il testo dell'interfaccia utente"
+    "Select the font family for UI text": "Seleziona la famiglia di font per il testo dell'interfaccia utente"
   },
   "Select the palette algorithm used for wallpaper-based colors": {
     "Select the palette algorithm used for wallpaper-based colors": "Seleziona l'algoritmo tavolozza usato per i colori basati sullo sfondo"
@@ -2946,7 +2946,7 @@
     "Typography": "Tipografia"
   },
   "Typography & Motion": {
-    "Typography & Motion": "Tipografia e Movimento"
+    "Typography & Motion": "Tipografia e Animazioni"
   },
   "Unavailable": {
     "Unavailable": "Non disponibile"

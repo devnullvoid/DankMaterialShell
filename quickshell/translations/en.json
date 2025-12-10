@@ -3554,7 +3554,7 @@
   {
     "term": "No Active Players",
     "context": "No Active Players",
-    "reference": "Modules/DankDash/MediaPlayerTab.qml:308",
+    "reference": "Modules/DankDash/MediaPlayerTab.qml:315",
     "comment": ""
   },
   {
@@ -5300,7 +5300,7 @@
   {
     "term": "Switch User",
     "context": "Switch User",
-    "reference": "Modules/Greetd/GreeterContent.qml:662",
+    "reference": "Modules/Greetd/GreeterContent.qml:666",
     "comment": ""
   },
   {
