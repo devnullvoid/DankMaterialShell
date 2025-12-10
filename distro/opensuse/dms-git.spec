@@ -2,8 +2,8 @@
 
 Name:           dms-git
 Version:        0.6.2+git2147.03073f68
-Release:        5%{?dist}
-Epoch:          1
+Release:        1%{?dist}
+Epoch:          2
 Summary:        DankMaterialShell - Material 3 inspired shell (git nightly)
 
 License:        MIT

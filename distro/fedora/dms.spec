@@ -5,7 +5,7 @@
 %global pkg_summary DankMaterialShell - Material 3 inspired shell for Wayland compositors
 
 Name:           dms
-Epoch:          1
+Epoch:          2
 Version:        %{version}
 Release:        1%{?dist}
 Summary:        %{pkg_summary}
