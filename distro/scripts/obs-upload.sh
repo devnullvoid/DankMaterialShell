@@ -672,7 +672,20 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
         if [[ "$IS_MANUAL" == true ]]; then
             echo "==> Detected rebuild of same base version $CHANGELOG_BASE, incrementing version"
         
-            if [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git$ ]]; then
+            # If REBUILD_RELEASE is set, use that number directly
+            if [[ -n "${REBUILD_RELEASE:-}" ]]; then
+                if [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git([0-9]+)(\.[a-f0-9]+)?$ ]]; then
+                    BASE_VERSION="${BASH_REMATCH[1]}"
+                    GIT_NUM="${BASH_REMATCH[2]}"
+                    GIT_HASH="${BASH_REMATCH[3]}"
+                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${REBUILD_RELEASE}"
+                    echo "  Using REBUILD_RELEASE=$REBUILD_RELEASE: $CHANGELOG_VERSION -> $NEW_VERSION"
+                else
+                    BASE_VERSION=$(echo "$CHANGELOG_VERSION" | sed 's/ppa[0-9]*$//')
+                    NEW_VERSION="${BASE_VERSION}ppa${REBUILD_RELEASE}"
+                    echo "  Using REBUILD_RELEASE=$REBUILD_RELEASE: $CHANGELOG_VERSION -> $NEW_VERSION"
+                fi
+            elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git$ ]]; then
                 BASE_VERSION="${BASH_REMATCH[1]}"
                 NEW_VERSION="${BASE_VERSION}+gitppa1"
                 echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
@@ -704,11 +717,27 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
                 fi
             elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)(-([0-9]+))?$ ]]; then
                 BASE_VERSION="${BASH_REMATCH[1]}"
-                NEW_VERSION="${BASE_VERSION}ppa1"
-                echo "  Warning: Native format cannot have Debian revision, converting to PPA format: $CHANGELOG_VERSION -> $NEW_VERSION"
+                # Check if old DSC has ppa suffix even if changelog doesn't
+                if [[ "$OLD_DSC_VERSION" =~ ppa([0-9]+)$ ]]; then
+                    OLD_PPA_NUM="${BASH_REMATCH[1]}"
+                    NEW_PPA_NUM=$((OLD_PPA_NUM + 1))
+                    NEW_VERSION="${BASE_VERSION}ppa${NEW_PPA_NUM}"
+                    echo "  Incrementing PPA number from old DSC: $OLD_DSC_VERSION -> $NEW_VERSION"
+                else
+                    NEW_VERSION="${BASE_VERSION}ppa1"
+                    echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
+                fi
             else
-                NEW_VERSION="${CHANGELOG_VERSION}ppa1"
-                echo "  Warning: Could not parse version format, appending ppa1: $CHANGELOG_VERSION -> $NEW_VERSION"
+                # Check if old DSC has ppa suffix for unknown formats
+                if [[ "$OLD_DSC_VERSION" =~ ppa([0-9]+)$ ]]; then
+                    OLD_PPA_NUM="${BASH_REMATCH[1]}"
+                    NEW_PPA_NUM=$((OLD_PPA_NUM + 1))
+                    NEW_VERSION="${CHANGELOG_VERSION}ppa${NEW_PPA_NUM}"
+                    echo "  Incrementing PPA number from old DSC: $OLD_DSC_VERSION -> $NEW_VERSION"
+                else
+                    NEW_VERSION="${CHANGELOG_VERSION}ppa1"
+                    echo "  Warning: Could not parse version format, appending ppa1: $CHANGELOG_VERSION -> $NEW_VERSION"
+                fi
             fi
             
             if [[ -z "$SOURCE_DIR" ]] || [[ ! -d "$SOURCE_DIR" ]] || [[ ! -d "$SOURCE_DIR/debian" ]]; then

@@ -283,22 +283,29 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
         # Check if we're rebuilding the same commit (increment PPA number if so)
         BASE_VERSION="${UPSTREAM_VERSION}+git${GIT_COMMIT_COUNT}.${GIT_COMMIT_HASH}"
         CURRENT_VERSION=$(dpkg-parsechangelog -S Version 2>/dev/null || echo "")
-        PPA_NUM=1
         
-        # If current version matches the base version, increment PPA number
-        # Escape special regex characters in BASE_VERSION for pattern matching
-        ESCAPED_BASE=$(echo "$BASE_VERSION" | sed 's/\./\\./g' | sed 's/+/\\+/g')
-        if [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-            PPA_NUM=$((BASH_REMATCH[1] + 1))
-            if [[ "$IS_MANUAL" == true ]]; then
-                info "Detected rebuild of same commit (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
-            else
-                info "Detected rebuild of same commit (current: $CURRENT_VERSION). Not a manual run, skipping."
-                success "No changes needed (commit matches)."
-                exit 0
-            fi
+        # Use REBUILD_RELEASE if provided, otherwise auto-increment
+        if [[ -n "${REBUILD_RELEASE:-}" ]]; then
+            PPA_NUM=$REBUILD_RELEASE
+            info "Using REBUILD_RELEASE=$REBUILD_RELEASE for PPA number"
         else
-            info "New commit or first build, using PPA number $PPA_NUM"
+            PPA_NUM=1
+            
+            # If current version matches the base version, increment PPA number
+            # Escape special regex characters in BASE_VERSION for pattern matching
+            ESCAPED_BASE=$(echo "$BASE_VERSION" | sed 's/\./\\./g' | sed 's/+/\\+/g')
+            if [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
+                PPA_NUM=$((BASH_REMATCH[1] + 1))
+                if [[ "$IS_MANUAL" == true ]]; then
+                    info "Detected rebuild of same commit (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
+                else
+                    info "Detected rebuild of same commit (current: $CURRENT_VERSION). Not a manual run, skipping."
+                    success "No changes needed (commit matches)."
+                    exit 0
+                fi
+            else
+                info "New commit or first build, using PPA number $PPA_NUM"
+            fi
         fi
         
         NEW_VERSION="${BASE_VERSION}ppa${PPA_NUM}"
@@ -429,16 +436,23 @@ elif [ -n "$GIT_REPO" ]; then
 
         # Get current version to check if we need to increment PPA number
         CURRENT_VERSION=$(dpkg-parsechangelog -S Version 2>/dev/null || echo "")
-        PPA_NUM=1
+        
+        # Use REBUILD_RELEASE if provided, otherwise auto-increment
+        if [[ -n "${REBUILD_RELEASE:-}" ]]; then
+            PPA_NUM=$REBUILD_RELEASE
+            info "Using REBUILD_RELEASE=$REBUILD_RELEASE for PPA number"
+        else
+            PPA_NUM=1
+        fi
 
         if [[ "$SOURCE_FORMAT" == *"native"* ]]; then
             # Native format: 0.2.1ppa1 (no dash, no revision)
             BASE_VERSION="${LATEST_TAG}"
             # Check if we're rebuilding the same version (increment PPA number if so)
-            if [[ "$CURRENT_VERSION" =~ ^${LATEST_TAG}ppa([0-9]+)$ ]]; then
+            if [[ -z "${REBUILD_RELEASE:-}" ]] && [[ "$CURRENT_VERSION" =~ ^${LATEST_TAG}ppa([0-9]+)$ ]]; then
                 PPA_NUM=$((BASH_REMATCH[1] + 1))
                 info "Detected rebuild of same version (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
-            else
+            elif [[ -z "${REBUILD_RELEASE:-}" ]]; then
                 info "New version or first build, using PPA number $PPA_NUM"
             fi
             NEW_VERSION="${BASE_VERSION}ppa${PPA_NUM}"
@@ -447,7 +461,7 @@ elif [ -n "$GIT_REPO" ]; then
             BASE_VERSION="${LATEST_TAG}-1"
             # Check if we're rebuilding the same version (increment PPA number if so)
             ESCAPED_BASE=$(echo "$BASE_VERSION" | sed 's/\./\\./g' | sed 's/-/\\-/g')
-            if [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
+            if [[ -z "${REBUILD_RELEASE:-}" ]] && [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
                 PPA_NUM=$((BASH_REMATCH[1] + 1))
                 if [[ "$IS_MANUAL" == true ]]; then
                     info "Detected rebuild of same version (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
@@ -456,7 +470,7 @@ elif [ -n "$GIT_REPO" ]; then
                     success "No changes needed (version matches)."
                     exit 0
                 fi
-            else
+            elif [[ -z "${REBUILD_RELEASE:-}" ]]; then
                 info "New version or first build, using PPA number $PPA_NUM"
             fi
             NEW_VERSION="${BASE_VERSION}ppa${PPA_NUM}"
