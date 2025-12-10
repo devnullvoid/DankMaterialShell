@@ -15,16 +15,20 @@ type SwayProvider struct {
 
 func NewSwayProvider(configPath string) *SwayProvider {
 	isScroll := false
-	_, ok := os.LookupEnv("SCROLLSOCK")
-	if ok {
-		isScroll = true
-	}
+	_, scrollEnvSet := os.LookupEnv("SCROLLSOCK")
+
 	if configPath == "" {
-		configPath = "$HOME/.config/sway"
+		if scrollEnvSet {
+			configPath = "$HOME/.config/scroll"
+			isScroll = true
+		} else {
+			configPath = "$HOME/.config/sway"
+		}
+	} else {
+		// Determine isScroll based on the provided config path
+		isScroll = strings.Contains(configPath, "scroll")
 	}
-	if isScroll && configPath == "" {
-		configPath = "$HOME/.config/scroll"
-	}
+
 	return &SwayProvider{
 		configPath: configPath,
 		isScroll:   isScroll,
