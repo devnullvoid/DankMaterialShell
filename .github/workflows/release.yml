@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 permissions:
   contents: write
@@ -128,48 +128,48 @@ jobs:
             core/completion.zsh
           if-no-files-found: error
 
-  update-versions:
-    runs-on: ubuntu-latest
-    needs: build-core
-    steps:
-      - name: Create GitHub App token
-        id: app_token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+  # update-versions:
+  #   runs-on: ubuntu-latest
+  #   needs: build-core
+  #   steps:
+  #     - name: Create GitHub App token
+  #       id: app_token
+  #       uses: actions/create-github-app-token@v1
+  #       with:
+  #         app-id: ${{ secrets.APP_ID }}
+  #         private-key: ${{ secrets.APP_PRIVATE_KEY }}
 
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ steps.app_token.outputs.token }}
-          fetch-depth: 0
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+  #       with:
+  #         token: ${{ steps.app_token.outputs.token }}
+  #         fetch-depth: 0
 
-      - name: Update VERSION
-        env:
-          GH_TOKEN: ${{ steps.app_token.outputs.token }}
-        run: |
-          set -euo pipefail
-          git config user.name "dms-ci[bot]"
-          git config user.email "dms-ci[bot]@users.noreply.github.com"
+  #     - name: Update VERSION
+  #       env:
+  #         GH_TOKEN: ${{ steps.app_token.outputs.token }}
+  #       run: |
+  #         set -euo pipefail
+  #         git config user.name "dms-ci[bot]"
+  #         git config user.email "dms-ci[bot]@users.noreply.github.com"
 
-          version="${GITHUB_REF#refs/tags/}"
-          echo "Updating to version: $version"
-          echo "${version}" > quickshell/VERSION
-          git add quickshell/VERSION
+  #         version="${GITHUB_REF#refs/tags/}"
+  #         echo "Updating to version: $version"
+  #         echo "${version}" > quickshell/VERSION
+  #         git add quickshell/VERSION
 
-          if ! git diff --cached --quiet; then
-            git commit -m "chore: bump version to $version"
-            git pull --rebase origin master
-            git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git HEAD:master
-          fi
+  #         if ! git diff --cached --quiet; then
+  #           git commit -m "chore: bump version to $version"
+  #           git pull --rebase origin master
+  #           git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git HEAD:master
+  #         fi
 
-          git tag -f "${version}"
-          git push -f https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git "${version}"
+  #         git tag -f "${version}"
+  #         git push -f https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git "${version}"
 
   release:
     runs-on: ubuntu-24.04
-    needs: [build-core, update-versions]
+    needs: [build-core] #, update-versions]
     env:
       TAG: ${{ github.ref_name }}
     steps:
@@ -394,23 +394,23 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Install OSC
         run: |
           sudo apt-get update
           sudo apt-get install -y osc
-          
+
           mkdir -p ~/.config/osc
           cat > ~/.config/osc/oscrc << EOF
           [general]
           apiurl = https://api.opensuse.org
-          
+
           [https://api.opensuse.org]
           user = ${{ secrets.OBS_USERNAME }}
           pass = ${{ secrets.OBS_PASSWORD }}
           EOF
           chmod 600 ~/.config/osc/oscrc
-      
+
       - name: Update OBS packages
         run: |
           VERSION="${{ github.ref_name }}"
@@ -423,7 +423,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
+
       - name: Install build dependencies
         run: |
           sudo apt-get update
@@ -435,7 +435,7 @@ jobs:
             build-essential \
             fakeroot \
             dpkg-dev
-      
+
       - name: Configure GPG
         env:
           GPG_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -443,7 +443,7 @@ jobs:
           echo "$GPG_KEY" | gpg --import
           GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep sec | awk '{print $2}' | cut -d'/' -f2)
           echo "DEBSIGN_KEYID=$GPG_KEY_ID" >> $GITHUB_ENV
-      
+
       - name: Upload to PPA
         run: |
           VERSION="${{ github.ref_name }}"
