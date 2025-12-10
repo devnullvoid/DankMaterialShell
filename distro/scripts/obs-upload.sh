@@ -924,6 +924,9 @@ find . -maxdepth 1 -type f \( -name "*.dsc" -o -name "*.spec" \) -exec grep -l "
     rm -f "$conflicted_file"
 done
 
+# Ensure we're in WORK_DIR before running osc commands
+cd "$WORK_DIR"
+
 echo "==> Staging changes"
 echo "Files to upload:"
 if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$UPLOAD_OPENSUSE" == true ]]; then
