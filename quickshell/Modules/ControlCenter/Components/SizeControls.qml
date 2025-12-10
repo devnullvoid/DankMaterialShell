@@ -12,7 +12,7 @@ Row {
 
     signal sizeChanged(int newSize)
 
-    readonly property var availableSizes: isSlider ? [50, 100] : [25, 50, 75, 100]
+    readonly property var availableSizes: isSlider ? [50, 75, 100] : [25, 50, 75, 100]
 
     spacing: 2
 
