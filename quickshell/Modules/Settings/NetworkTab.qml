@@ -23,7 +23,7 @@ Item {
         NetworkService.removeRef();
     }
 
-    FileBrowserSurfaceModal {
+    FileBrowserModal {
         id: vpnFileBrowser
         browserTitle: I18n.tr("Import VPN")
         browserIcon: "vpn_key"
