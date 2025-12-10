@@ -39,15 +39,7 @@ override_dh_auto_install:
 	# Install binary
 	install -Dm755 dms debian/dms/usr/bin/dms
 
-	# Install QML files from source tarball
-	mkdir -p debian/dms/usr/share/quickshell/dms
-	cp -r DankMaterialShell-$(BASE_VERSION)/* debian/dms/usr/share/quickshell/dms/
-
-	# Remove unnecessary directories
-	rm -rf debian/dms/usr/share/quickshell/dms/core
-	rm -rf debian/dms/usr/share/quickshell/dms/distro
-
-	# Install systemd user service
+	# Install systemd user service (before copying everything else)
 	install -Dm644 DankMaterialShell-$(BASE_VERSION)/assets/systemd/dms.service \
 		debian/dms/usr/lib/systemd/user/dms.service
 
@@ -56,6 +48,15 @@ override_dh_auto_install:
 		debian/dms/usr/share/applications/dms-open.desktop
 	install -Dm644 DankMaterialShell-$(BASE_VERSION)/assets/danklogo.svg \
 		debian/dms/usr/share/icons/hicolor/scalable/apps/danklogo.svg
+
+	# Install QML files from source tarball
+	mkdir -p debian/dms/usr/share/quickshell/dms
+	cp -r DankMaterialShell-$(BASE_VERSION)/* debian/dms/usr/share/quickshell/dms/
+
+	# Remove unnecessary directories
+	rm -rf debian/dms/usr/share/quickshell/dms/core
+	rm -rf debian/dms/usr/share/quickshell/dms/distro
+	rm -rf debian/dms/usr/share/quickshell/dms/assets
 
 	# Create VERSION file for Quickshell (stable release format)
 	echo "$(BASE_VERSION)" > debian/dms/usr/share/quickshell/dms/VERSION
