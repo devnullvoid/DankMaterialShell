@@ -839,11 +839,7 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
                 tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$COMBINED_TARBALL" "$TARBALL_BASE"
                 cd "$REPO_ROOT"
             fi
-        else
-            echo "==> Detected same version. Not a manual run, skipping Debian version increment."
-            echo "✅ No changes needed for Debian. Exiting."
-            exit 0
-        fi    
+            
             TARBALL_SIZE=$(stat -c%s "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null || stat -f%z "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null)
             TARBALL_MD5=$(md5sum "$WORK_DIR/$COMBINED_TARBALL" | cut -d' ' -f1)
             
@@ -884,16 +880,20 @@ Files:
  $TARBALL_MD5 $TARBALL_SIZE $COMBINED_TARBALL
 EOF
             echo "  - Updated changelog and recreated tarball with version $NEW_VERSION"
-
+        else
+            echo "==> Detected same version. Not a manual run, skipping Debian version increment."
+            echo "✅ No changes needed for Debian. Exiting."
+            exit 0
+        fi
     fi
 fi
+
+cd "$WORK_DIR"
 
 find . -maxdepth 1 -type f \( -name "*.dsc" -o -name "*.spec" \) -exec grep -l "^<<<<<<< " {} \; 2>/dev/null | while read -r conflicted_file; do
     echo "  Removing conflicted text file: $conflicted_file"
     rm -f "$conflicted_file"
 done
-
-cd "$WORK_DIR"
 
 echo "==> Staging changes"
 echo "Files to upload:"
