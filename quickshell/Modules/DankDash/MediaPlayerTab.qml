@@ -227,6 +227,13 @@ Item {
 
     property bool isSeeking: false
 
+    Timer {
+        interval: 1000
+        running: activePlayer?.playbackState === MprisPlaybackState.Playing && !isSeeking
+        repeat: true
+        onTriggered: activePlayer?.positionChanged()
+    }
+
     Item {
         id: bgContainer
         anchors.fill: parent
