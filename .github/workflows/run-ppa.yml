@@ -130,6 +130,12 @@ jobs:
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
           
+          # Export to ensure it's available to subprocesses
+          if [ -n "$REBUILD_RELEASE" ]; then
+            export REBUILD_RELEASE
+            echo "✓ Using rebuild release number: ppa$REBUILD_RELEASE"
+          fi
+          
           if [[ "$PACKAGES" == "all" ]]; then
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms to PPA..."
