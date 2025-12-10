@@ -171,32 +171,6 @@ case "$PACKAGE_NAME" in
         ;;
     dms)
         GIT_REPO="AvengeMedia/DankMaterialShell"
-        info "Downloading pre-built binaries and source for dms..."
-        # Get version from changelog (remove ppa suffix for both quilt and native formats)
-        # Native: 0.5.2ppa1 -> 0.5.2, Quilt: 0.5.2-1ppa1 -> 0.5.2
-        VERSION=$(dpkg-parsechangelog -S Version | sed 's/-[^-]*$//' | sed 's/ppa[0-9]*$//')
-
-        # Download amd64 binary (will be included in source package)
-        if [ ! -f "dms-distropkg-amd64.gz" ]; then
-            info "Downloading dms binary for amd64..."
-            if wget -O dms-distropkg-amd64.gz "https://github.com/AvengeMedia/DankMaterialShell/releases/download/v${VERSION}/dms-distropkg-amd64.gz"; then
-                success "amd64 binary downloaded"
-            else
-                error "Failed to download dms-distropkg-amd64.gz"
-                exit 1
-            fi
-        fi
-
-        # Download source tarball for QML files
-        if [ ! -f "dms-source.tar.gz" ]; then
-            info "Downloading dms source for QML files..."
-            if wget -O dms-source.tar.gz "https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v${VERSION}.tar.gz"; then
-                success "source tarball downloaded"
-            else
-                error "Failed to download dms-source.tar.gz"
-                exit 1
-            fi
-        fi
         ;;
     dms-greeter)
         GIT_REPO="AvengeMedia/DankMaterialShell"
@@ -521,6 +495,30 @@ fi
 # Handle packages that need pre-built binaries downloaded
 cd "$PACKAGE_DIR"
 case "$PACKAGE_NAME" in
+    dms)
+        info "Downloading pre-built binaries and source for dms..."
+        VERSION=$(dpkg-parsechangelog -S Version | sed 's/-[^-]*$//' | sed 's/ppa[0-9]*$//')
+
+        if [ ! -f "dms-distropkg-amd64.gz" ]; then
+            info "Downloading dms binary for amd64..."
+            if wget -O dms-distropkg-amd64.gz "https://github.com/AvengeMedia/DankMaterialShell/releases/download/v${VERSION}/dms-distropkg-amd64.gz"; then
+                success "amd64 binary downloaded"
+            else
+                error "Failed to download dms-distropkg-amd64.gz"
+                exit 1
+            fi
+        fi
+
+        if [ ! -f "dms-source.tar.gz" ]; then
+            info "Downloading dms source for QML files..."
+            if wget -O dms-source.tar.gz "https://github.com/AvengeMedia/DankMaterialShell/archive/refs/tags/v${VERSION}.tar.gz"; then
+                success "source tarball downloaded"
+            else
+                error "Failed to download dms-source.tar.gz"
+                exit 1
+            fi
+        fi
+        ;;
     danksearch)
         info "Downloading pre-built binaries for danksearch..."
         # Get version from changelog (remove ppa suffix for both quilt and native formats)
