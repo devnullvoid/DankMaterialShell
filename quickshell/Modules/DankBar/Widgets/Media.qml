@@ -49,15 +49,12 @@ BasePill {
     }
 
     onWheel: function (wheelEvent) {
-        if (!activePlayer) {
-            wheelEvent.accepted = false;
-            return;
-        }
-
         wheelEvent.accepted = true;
+        if (!usePlayerVolume)
+            return;
 
         const delta = wheelEvent.angleDelta.y;
-        const currentVolume = usePlayerVolume ? (activePlayer.volume * 100) : ((AudioService.sink?.audio?.volume ?? 0) * 100);
+        const currentVolume = activePlayer.volume * 100;
 
         let newVolume;
         if (delta > 0) {
@@ -66,11 +63,7 @@ BasePill {
             newVolume = Math.max(0, currentVolume - 5);
         }
 
-        if (usePlayerVolume) {
-            activePlayer.volume = newVolume / 100;
-        } else if (AudioService.sink?.audio) {
-            AudioService.sink.audio.volume = newVolume / 100;
-        }
+        activePlayer.volume = newVolume / 100;
     }
 
     content: Component {

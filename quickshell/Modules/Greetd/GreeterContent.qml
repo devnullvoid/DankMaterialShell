@@ -157,6 +157,8 @@ Item {
         anchors.fill: parent
         screenName: root.screenName
         visible: {
+            var _ = SessionData.perMonitorWallpaper
+            var __ = SessionData.monitorWallpapers
             var currentWallpaper = SessionData.getMonitorWallpaper(screenName)
             return !currentWallpaper || currentWallpaper === "" || (currentWallpaper && currentWallpaper.startsWith("#"))
         }
@@ -167,6 +169,8 @@ Item {
 
         anchors.fill: parent
         source: {
+            var _ = SessionData.perMonitorWallpaper
+            var __ = SessionData.monitorWallpapers
             var currentWallpaper = SessionData.getMonitorWallpaper(screenName)
             return (currentWallpaper && !currentWallpaper.startsWith("#")) ? currentWallpaper : ""
         }
