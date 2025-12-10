@@ -1,6 +1,7 @@
-dms (0.6.2) stable; urgency=medium
+dms (1.0.0) stable; urgency=medium
 
-  * Update to v0.6.2 release
+  * Update to v1.0.0 release
+  * Major stable release
   * Fix binary download paths for OBS builds
   * Native format: removed revisions
 

@@ -1,5 +1,6 @@
-dms-git (0.6.2+git2419.993f14a3) nightly; urgency=medium
+dms-git (1.0.0+git2419.993f14a3) nightly; urgency=medium
 
+  * Major stable release v1.0.0
   * widgets: make dank icon picker a popup
   * Previous updates included in build
 

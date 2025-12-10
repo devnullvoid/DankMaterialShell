@@ -50,9 +50,15 @@ fi
 # Get absolute path
 PACKAGE_DIR=$(cd "$PACKAGE_DIR" && pwd)
 PACKAGE_NAME=$(basename "$PACKAGE_DIR")
+PACKAGE_PARENT=$(dirname "$PACKAGE_DIR")
+
+# Create temporary working directory (like OBS)
+TEMP_WORK_DIR=$(mktemp -d -t ppa_build_work_XXXXXX)
+trap "rm -rf '$TEMP_WORK_DIR'" EXIT
 
 info "Building source package for: $PACKAGE_NAME"
 info "Package directory: $PACKAGE_DIR"
+info "Working directory: $TEMP_WORK_DIR"
 info "Target Ubuntu series: $UBUNTU_SERIES"
 
 # Check for required files
@@ -119,8 +125,13 @@ elif [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
     echo "==> Local/manual run detected (not in CI)"
 fi
 
+# Copy package to temp working directory
+info "Copying package to working directory..."
+cp -r "$PACKAGE_DIR" "$TEMP_WORK_DIR/"
+WORK_PACKAGE_DIR="$TEMP_WORK_DIR/$PACKAGE_NAME"
+
 # Detect package type and update version automatically
-cd "$PACKAGE_DIR"
+cd "$WORK_PACKAGE_DIR"
 
 # Function to get latest tag from GitHub
 get_latest_tag() {
@@ -589,10 +600,12 @@ info "Building source package..."
 echo
 
 # Determine if we need to include orig tarball (-sa) or just debian changes (-sd)
-# Check if .orig.tar.xz already exists in parent directory (previous build)
+# Check if .orig.tar.xz already exists in real parent directory (previous build)
 ORIG_TARBALL="${PACKAGE_NAME}_${VERSION%.ppa*}.orig.tar.xz"
-if [ -f "../$ORIG_TARBALL" ]; then
-    info "Found existing orig tarball, using -sd (debian changes only)"
+if [ -f "$PACKAGE_PARENT/$ORIG_TARBALL" ]; then
+    info "Found existing orig tarball in $PACKAGE_PARENT, using -sd (debian changes only)"
+    # Copy it to temp parent so debuild can find it
+    cp "$PACKAGE_PARENT/$ORIG_TARBALL" "$TEMP_WORK_DIR/"
     DEBUILD_SOURCE_FLAG="-sd"
 else
     info "No existing orig tarball found, using -sa (include original source)"
@@ -606,15 +619,19 @@ if yes | DEBIAN_FRONTEND=noninteractive debuild -S $DEBUILD_SOURCE_FLAG -d; then
     echo
     success "Source package built successfully!"
 
+    # Copy build artifacts back to parent directory
+    info "Copying build artifacts to $PACKAGE_PARENT..."
+    cp -v "$TEMP_WORK_DIR"/${SOURCE_NAME}_${CHANGELOG_VERSION}* "$PACKAGE_PARENT/" 2>/dev/null || true
+
     # List generated files
-    info "Generated files in $(dirname "$PACKAGE_DIR"):"
-    ls -lh "$(dirname "$PACKAGE_DIR")"/${SOURCE_NAME}_${CHANGELOG_VERSION}* 2>/dev/null || true
+    info "Generated files in $PACKAGE_PARENT:"
+    ls -lh "$PACKAGE_PARENT"/${SOURCE_NAME}_${CHANGELOG_VERSION}* 2>/dev/null || true
 
     # Show what to do next
     echo
     info "Next steps:"
     echo "  1. Review the source package:"
-    echo "     cd $(dirname "$PACKAGE_DIR")"
+    echo "     cd $PACKAGE_PARENT"
     echo "     ls -lh ${SOURCE_NAME}_${CHANGELOG_VERSION}*"
     echo
     echo "  2. Upload to PPA (stable):"
@@ -624,7 +641,7 @@ if yes | DEBIAN_FRONTEND=noninteractive debuild -S $DEBUILD_SOURCE_FLAG -d; then
     echo "     dput ppa:avengemedia/dms-git ${SOURCE_NAME}_${CHANGELOG_VERSION}_source.changes"
     echo
     echo "  4. Or use the upload script:"
-    echo "     ./upload-ppa.sh $(dirname "$PACKAGE_DIR")/${SOURCE_NAME}_${CHANGELOG_VERSION}_source.changes dms"
+    echo "     ./upload-ppa.sh $PACKAGE_PARENT/${SOURCE_NAME}_${CHANGELOG_VERSION}_source.changes dms"
 
 else
     error "Source package build failed!"

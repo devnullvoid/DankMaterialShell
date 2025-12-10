@@ -150,7 +150,38 @@ fi
 info "Uploading to Launchpad..."
 echo
 
-if dput "ppa:avengemedia/$PPA_NAME" "$CHANGES_FILE"; then
+UPLOAD_SUCCESS=false
+
+if [ "$UPLOAD_METHOD" = "dput" ]; then
+    if dput "ppa:avengemedia/$PPA_NAME" "$CHANGES_FILE"; then
+        UPLOAD_SUCCESS=true
+    fi
+elif [ "$UPLOAD_METHOD" = "lftp" ]; then
+    # Use lftp to upload to Launchpad PPA
+    CHANGES_DIR=$(dirname "$CHANGES_FILE")
+    CHANGES_BASENAME=$(basename "$CHANGES_FILE")
+    
+    # Extract files to upload from .changes file
+    FILES_TO_UPLOAD=("$CHANGES_BASENAME")
+    while IFS= read -r line; do
+        if [[ "$line" =~ ^\ [a-f0-9]+\ [0-9]+\ [^\ ]+\ [^\ ]+\ (.+)$ ]]; then
+            FILES_TO_UPLOAD+=("${BASH_REMATCH[1]}")
+        fi
+    done < "$CHANGES_FILE"
+    
+    # Build lftp command to upload all files
+    LFTP_COMMANDS="set ftp:ssl-allow no; open ftp://ppa.launchpad.net; user anonymous ''; cd ~avengemedia/ubuntu/$PPA_NAME/;"
+    for file in "${FILES_TO_UPLOAD[@]}"; do
+        LFTP_COMMANDS="$LFTP_COMMANDS put '$CHANGES_DIR/$file';"
+    done
+    LFTP_COMMANDS="$LFTP_COMMANDS bye"
+    
+    if echo "$LFTP_COMMANDS" | lftp; then
+        UPLOAD_SUCCESS=true
+    fi
+fi
+
+if [ "$UPLOAD_SUCCESS" = true ]; then
     echo
     success "Upload successful!"
     echo
@@ -166,7 +197,6 @@ if dput "ppa:avengemedia/$PPA_NAME" "$CHANGES_FILE"; then
     echo "  sudo add-apt-repository ppa:avengemedia/$PPA_NAME"
     echo "  sudo apt update"
     echo "  sudo apt install $PACKAGE_NAME"
-
 else
     error "Upload failed!"
     echo

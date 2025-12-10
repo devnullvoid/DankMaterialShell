@@ -29,10 +29,15 @@ override_dh_auto_build:
 	# Extract source tarball for QML files
 	tar -xzf dms-source.tar.gz
 	# Find the extracted directory (it might have various names)
-	# and create a symlink to expected name for consistent install
-	SOURCE_DIR=$$(find . -maxdepth 1 -type d -name "DankMaterialShell*" | head -n1); \
-	if [ -n "$$SOURCE_DIR" ]; then \
-		ln -sf $$SOURCE_DIR DankMaterialShell-$(BASE_VERSION); \
+	# and rename it to the expected BASE_VERSION name for consistent install
+	SOURCE_DIR=$$(find . -maxdepth 1 -type d -name "DankMaterialShell-*" ! -name "DankMaterialShell-$(BASE_VERSION)" | head -n1); \
+	if [ -n "$$SOURCE_DIR" ] && [ "$$SOURCE_DIR" != "./DankMaterialShell-$(BASE_VERSION)" ]; then \
+		echo "Renaming $$SOURCE_DIR to DankMaterialShell-$(BASE_VERSION)"; \
+		mv "$$SOURCE_DIR" DankMaterialShell-$(BASE_VERSION); \
+	elif [ ! -d "DankMaterialShell-$(BASE_VERSION)" ]; then \
+		echo "ERROR: No DankMaterialShell directory found after extraction!"; \
+		ls -la; \
+		exit 1; \
 	fi
 
 override_dh_auto_install:

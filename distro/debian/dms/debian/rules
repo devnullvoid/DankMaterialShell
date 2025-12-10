@@ -42,8 +42,10 @@ override_dh_auto_build:
 		elif [ -f dms-source.tar.gz ]; then \
 			tar -xzf dms-source.tar.gz; \
 		fi; \
-		if [ ! -d DankMaterialShell-$(UPSTREAM_VERSION) ] && [ -d DankMaterialShell-0.6.2 ]; then \
-			mv DankMaterialShell-0.6.2 DankMaterialShell-$(UPSTREAM_VERSION); \
+		SOURCE_DIR=$$(find . -maxdepth 1 -type d -name "DankMaterialShell-*" ! -name "DankMaterialShell-$(UPSTREAM_VERSION)" | head -n1); \
+		if [ -n "$$SOURCE_DIR" ] && [ "$$SOURCE_DIR" != "./DankMaterialShell-$(UPSTREAM_VERSION)" ]; then \
+			echo "Renaming $$SOURCE_DIR to DankMaterialShell-$(UPSTREAM_VERSION)"; \
+			mv "$$SOURCE_DIR" DankMaterialShell-$(UPSTREAM_VERSION); \
 		fi; \
 	fi
 
@@ -53,8 +55,12 @@ override_dh_auto_install:
 
 	mkdir -p debian/dms/usr/share/quickshell/dms debian/dms/usr/lib/systemd/user
 	# Handle directory name mismatch again for install step if needed
-	if [ ! -d DankMaterialShell-$(UPSTREAM_VERSION) ] && [ -d DankMaterialShell-0.6.2 ]; then \
-		mv DankMaterialShell-0.6.2 DankMaterialShell-$(UPSTREAM_VERSION); \
+	if [ ! -d DankMaterialShell-$(UPSTREAM_VERSION) ]; then \
+		SOURCE_DIR=$$(find . -maxdepth 1 -type d -name "DankMaterialShell-*" | head -n1); \
+		if [ -n "$$SOURCE_DIR" ]; then \
+			echo "Renaming $$SOURCE_DIR to DankMaterialShell-$(UPSTREAM_VERSION) for install"; \
+			mv "$$SOURCE_DIR" DankMaterialShell-$(UPSTREAM_VERSION); \
+		fi; \
 	fi
 	if [ -d DankMaterialShell-$(UPSTREAM_VERSION) ]; then \
 		cp -r DankMaterialShell-$(UPSTREAM_VERSION)/quickshell/* debian/dms/usr/share/quickshell/dms/; \

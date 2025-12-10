@@ -143,25 +143,25 @@ jobs:
               echo "🔄 Using rebuild release number: ppa$REBUILD_RELEASE"
             fi
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms" dms questing
+            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms" dms questing
             
             echo ""
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms-git to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-git" dms-git questing
+            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-git" dms-git questing
             
             echo ""
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms-greeter to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-greeter" danklinux questing
+            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-greeter" danklinux questing
           else
             PPA_NAME="$PACKAGES"
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading $PACKAGES to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            bash distro/scripts/ppa-upload.sh "distro/ubuntu/$PACKAGES" "$PPA_NAME" questing
+            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/$PACKAGES" "$PPA_NAME" questing
           fi
       
       - name: Summary

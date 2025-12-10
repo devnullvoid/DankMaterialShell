@@ -792,7 +792,15 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
                     echo "    Renaming $EXTRACTED to $EXPECTED_SOURCE_DIR"
                     mv "$EXTRACTED" "$EXPECTED_SOURCE_DIR"
                     rm -f "$WORK_DIR/dms-source.tar.gz"
-                    tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/dms-source.tar.gz" "$EXPECTED_SOURCE_DIR"
+                    if ! tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/dms-source.tar.gz" "$EXPECTED_SOURCE_DIR"; then
+                        echo "    Error: Failed to create dms-source.tar.gz"
+                        ls -lah "$EXPECTED_SOURCE_DIR" | head -20
+                        exit 1
+                    fi
+                    if [[ ! -f "$WORK_DIR/dms-source.tar.gz" ]]; then
+                        echo "    Error: dms-source.tar.gz was not created"
+                        exit 1
+                    fi
                     ROOT_DIR=$(tar -tf "$WORK_DIR/dms-source.tar.gz" | head -1 | cut -d/ -f1)
                     if [[ "$ROOT_DIR" != "$EXPECTED_SOURCE_DIR" ]]; then
                         echo "    Error: Recreated tarball has wrong root directory: $ROOT_DIR (expected $EXPECTED_SOURCE_DIR)"
@@ -917,15 +925,31 @@ EOF
     fi
 fi
 
-cd "$WORK_DIR"
+# Ensure we're in WORK_DIR and it exists
+if [[ ! -d "$WORK_DIR" ]]; then
+    echo "ERROR: WORK_DIR does not exist: $WORK_DIR"
+    exit 1
+fi
+
+cd "$WORK_DIR" || {
+    echo "ERROR: Cannot cd to WORK_DIR: $WORK_DIR"
+    exit 1
+}
 
 find . -maxdepth 1 -type f \( -name "*.dsc" -o -name "*.spec" \) -exec grep -l "^<<<<<<< " {} \; 2>/dev/null | while read -r conflicted_file; do
     echo "  Removing conflicted text file: $conflicted_file"
     rm -f "$conflicted_file"
 done
 
-# Ensure we're in WORK_DIR before running osc commands
-cd "$WORK_DIR"
+# Ensure we're STILL in WORK_DIR before running osc commands
+cd "$WORK_DIR" || {
+    echo "ERROR: Cannot cd to WORK_DIR: $WORK_DIR"
+    exit 1
+}
+echo "DEBUG: Current directory: $(pwd)"
+echo "DEBUG: WORK_DIR=$WORK_DIR"
+echo "DEBUG: Files in directory:"
+ls -la 2>&1 | head -20
 
 echo "==> Staging changes"
 echo "Files to upload:"
