@@ -8,6 +8,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/apppicker"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/bluez"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/brightness"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/clipboard"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/cups"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/dwl"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/evdev"
@@ -144,6 +145,15 @@ func RouteRequest(conn net.Conn, req models.Request) {
 			return
 		}
 		evdev.HandleRequest(conn, req, evdevManager)
+		return
+	}
+
+	if strings.HasPrefix(req.Method, "clipboard.") {
+		if clipboardManager == nil {
+			models.RespondError(conn, req.ID, "clipboard manager not initialized")
+			return
+		}
+		clipboard.HandleRequest(conn, req, clipboardManager)
 		return
 	}
 

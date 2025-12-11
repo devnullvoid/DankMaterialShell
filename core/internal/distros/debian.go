@@ -111,7 +111,6 @@ func (d *DebianDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"quickshell":              d.getQuickshellMapping(variants["quickshell"]),
 		"matugen":                 {Name: "matugen", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
 		"dgop":                    {Name: "dgop", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
-		"cliphist":                {Name: "cliphist", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
 		"ghostty":                 {Name: "ghostty", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
 	}
 
@@ -549,7 +548,7 @@ func (d *DebianDistribution) installBuildDependencies(ctx context.Context, manua
 			if err := d.installRust(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install Rust: %w", err)
 			}
-		case "cliphist", "dgop":
+		case "dgop":
 			if err := d.installGo(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install Go: %w", err)
 			}

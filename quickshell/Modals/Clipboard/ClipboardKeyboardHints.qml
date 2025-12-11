@@ -1,7 +1,6 @@
 import QtQuick
 import qs.Common
 import qs.Widgets
-import qs.Modals.Clipboard
 
 Rectangle {
     id: keyboardHints

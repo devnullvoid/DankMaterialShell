@@ -513,5 +513,6 @@ func getCommonCommands() []*cobra.Command {
 		screenshotCmd,
 		notifyActionCmd,
 		matugenCmd,
+		clipboardCmd,
 	}
 }

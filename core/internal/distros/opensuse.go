@@ -110,7 +110,6 @@ func (o *OpenSUSEDistribution) GetPackageMappingWithVariants(wm deps.WindowManag
 		"wl-clipboard":           {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
-		"cliphist":               {Name: "cliphist", Repository: RepoTypeSystem},
 
 		// DMS packages from OBS
 		"dms (DankMaterialShell)": o.getDmsMapping(variants["dms (DankMaterialShell)"]),

@@ -188,23 +188,12 @@ func (b *BaseDistribution) detectSpecificTerminal(terminal deps.Terminal) deps.D
 func (b *BaseDistribution) detectClipboardTools() []deps.Dependency {
 	var dependencies []deps.Dependency
 
-	cliphist := deps.StatusMissing
-	if b.commandExists("cliphist") {
-		cliphist = deps.StatusInstalled
-	}
-
 	wlClipboard := deps.StatusMissing
 	if b.commandExists("wl-copy") && b.commandExists("wl-paste") {
 		wlClipboard = deps.StatusInstalled
 	}
 
 	dependencies = append(dependencies,
-		deps.Dependency{
-			Name:        "cliphist",
-			Status:      cliphist,
-			Description: "Wayland clipboard manager",
-			Required:    true,
-		},
 		deps.Dependency{
 			Name:        "wl-clipboard",
 			Status:      wlClipboard,

@@ -1,14 +1,12 @@
 import QtQuick
+import Quickshell
 import qs.Common
-import qs.Services
 import qs.Widgets
-import qs.Modals.Clipboard
 
 Item {
     id: clipboardContent
 
     required property var modal
-    required property var filteredModel
     required property var clearConfirmDialog
 
     property alias searchField: searchField
@@ -22,7 +20,6 @@ Item {
         spacing: Theme.spacingL
         focus: false
 
-        // Header
         ClipboardHeader {
             id: header
             width: parent.width
@@ -31,14 +28,13 @@ Item {
             onKeyboardHintsToggled: modal.showKeyboardHints = !modal.showKeyboardHints
             onClearAllClicked: {
                 clearConfirmDialog.show(I18n.tr("Clear All History?"), I18n.tr("This will permanently delete all clipboard history."), function () {
-                    modal.clearAll()
-                    modal.hide()
-                }, function () {})
+                    modal.clearAll();
+                    modal.hide();
+                }, function () {});
             }
             onCloseClicked: modal.hide()
         }
 
-        // Search Field
         DankTextField {
             id: searchField
             width: parent.width
@@ -49,30 +45,29 @@ Item {
             ignoreTabKeys: true
             keyForwardTargets: [modal.modalFocusScope]
             onTextChanged: {
-                modal.searchText = text
-                modal.updateFilteredModel()
+                modal.searchText = text;
+                modal.updateFilteredModel();
             }
             Keys.onEscapePressed: function (event) {
-                modal.hide()
-                event.accepted = true
+                modal.hide();
+                event.accepted = true;
             }
             Component.onCompleted: {
                 Qt.callLater(function () {
-                    forceActiveFocus()
-                })
+                    forceActiveFocus();
+                });
             }
 
             Connections {
                 target: modal
                 function onOpened() {
                     Qt.callLater(function () {
-                        searchField.forceActiveFocus()
-                    })
+                        searchField.forceActiveFocus();
+                    });
                 }
             }
         }
 
-        // List Container
         Rectangle {
             width: parent.width
             height: parent.height - ClipboardConstants.headerHeight - 70
@@ -83,7 +78,10 @@ Item {
             DankListView {
                 id: clipboardListView
                 anchors.fill: parent
-                model: filteredModel
+                model: ScriptModel {
+                    values: clipboardContent.modal.clipboardEntries
+                    objectProp: "id"
+                }
 
                 currentIndex: clipboardContent.modal ? clipboardContent.modal.selectedIndex : 0
                 spacing: Theme.spacingXS
@@ -97,21 +95,21 @@ Item {
 
                 function ensureVisible(index) {
                     if (index < 0 || index >= count) {
-                        return
+                        return;
                     }
-                    const itemHeight = ClipboardConstants.itemHeight + spacing
-                    const itemY = index * itemHeight
-                    const itemBottom = itemY + itemHeight
+                    const itemHeight = ClipboardConstants.itemHeight + spacing;
+                    const itemY = index * itemHeight;
+                    const itemBottom = itemY + itemHeight;
                     if (itemY < contentY) {
-                        contentY = itemY
+                        contentY = itemY;
                     } else if (itemBottom > contentY + height) {
-                        contentY = itemBottom - height
+                        contentY = itemBottom - height;
                     }
                 }
 
                 onCurrentIndexChanged: {
-                    if (clipboardContent.modal && clipboardContent.modal.keyboardNavigationActive && currentIndex >= 0) {
-                        ensureVisible(currentIndex)
+                    if (clipboardContent.modal?.keyboardNavigationActive && currentIndex >= 0) {
+                        ensureVisible(currentIndex);
                     }
                 }
 
@@ -120,28 +118,27 @@ Item {
                     anchors.centerIn: parent
                     font.pixelSize: Theme.fontSizeMedium
                     color: Theme.surfaceVariantText
-                    visible: filteredModel.count === 0
+                    visible: clipboardContent.modal.clipboardEntries.length === 0
                 }
 
                 delegate: ClipboardEntry {
                     required property int index
-                    required property var model
+                    required property var modelData
 
                     width: clipboardListView.width
                     height: ClipboardConstants.itemHeight
-                    entryData: model.entry
+                    entry: modelData
                     entryIndex: index + 1
                     itemIndex: index
-                    isSelected: clipboardContent.modal && clipboardContent.modal.keyboardNavigationActive && index === clipboardContent.modal.selectedIndex
+                    isSelected: clipboardContent.modal?.keyboardNavigationActive && index === clipboardContent.modal.selectedIndex
                     modal: clipboardContent.modal
                     listView: clipboardListView
-                    onCopyRequested: clipboardContent.modal.copyEntry(model.entry)
-                    onDeleteRequested: clipboardContent.modal.deleteEntry(model.entry)
+                    onCopyRequested: clipboardContent.modal.copyEntry(modelData)
+                    onDeleteRequested: clipboardContent.modal.deleteEntry(modelData)
                 }
             }
         }
 
-        // Spacer for keyboard hints
         Item {
             width: parent.width
             height: modal.showKeyboardHints ? ClipboardConstants.keyboardHintsHeight + Theme.spacingL : 0
@@ -155,7 +152,6 @@ Item {
         }
     }
 
-    // Keyboard Hints Overlay
     ClipboardKeyboardHints {
         anchors.bottom: parent.bottom
         anchors.left: parent.left

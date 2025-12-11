@@ -86,10 +86,6 @@ func (m *ManualPackageInstaller) InstallManualPackages(ctx context.Context, pack
 			if err := m.installMatugen(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install matugen: %w", err)
 			}
-		case "cliphist":
-			if err := m.installCliphist(ctx, sudoPassword, progressChan); err != nil {
-				return fmt.Errorf("failed to install cliphist: %w", err)
-			}
 		case "xwayland-satellite":
 			if err := m.installXwaylandSatellite(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install xwayland-satellite: %w", err)
@@ -800,52 +796,6 @@ func (m *ManualPackageInstaller) installDankMaterialShell(ctx context.Context, v
 	}
 
 	m.log(fmt.Sprintf("Updated to tag: %s", latestTag))
-	return nil
-}
-
-func (m *ManualPackageInstaller) installCliphist(ctx context.Context, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
-	m.log("Installing cliphist from source...")
-
-	progressChan <- InstallProgressMsg{
-		Phase:       PhaseSystemPackages,
-		Progress:    0.1,
-		Step:        "Installing cliphist via go install...",
-		IsComplete:  false,
-		CommandInfo: "go install go.senan.xyz/cliphist@latest",
-	}
-
-	installCmd := exec.CommandContext(ctx, "go", "install", "go.senan.xyz/cliphist@latest")
-	if err := m.runWithProgressStep(installCmd, progressChan, PhaseSystemPackages, 0.1, 0.7, "Building cliphist..."); err != nil {
-		return fmt.Errorf("failed to install cliphist: %w", err)
-	}
-
-	homeDir := os.Getenv("HOME")
-	sourcePath := filepath.Join(homeDir, "go", "bin", "cliphist")
-	targetPath := "/usr/local/bin/cliphist"
-
-	progressChan <- InstallProgressMsg{
-		Phase:       PhaseSystemPackages,
-		Progress:    0.7,
-		Step:        "Installing cliphist binary to system...",
-		IsComplete:  false,
-		NeedsSudo:   true,
-		CommandInfo: fmt.Sprintf("sudo cp %s %s", sourcePath, targetPath),
-	}
-
-	copyCmd := exec.CommandContext(ctx, "sudo", "-S", "cp", sourcePath, targetPath)
-	copyCmd.Stdin = strings.NewReader(sudoPassword + "\n")
-	if err := copyCmd.Run(); err != nil {
-		return fmt.Errorf("failed to copy cliphist to /usr/local/bin: %w", err)
-	}
-
-	// Make it executable
-	chmodCmd := exec.CommandContext(ctx, "sudo", "-S", "chmod", "+x", targetPath)
-	chmodCmd.Stdin = strings.NewReader(sudoPassword + "\n")
-	if err := chmodCmd.Run(); err != nil {
-		return fmt.Errorf("failed to make cliphist executable: %w", err)
-	}
-
-	m.log("cliphist installed successfully from source")
 	return nil
 }
 

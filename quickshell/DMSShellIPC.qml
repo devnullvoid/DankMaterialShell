@@ -865,4 +865,32 @@ Item {
 
         target: "plugins"
     }
+
+    IpcHandler {
+        function open(): string {
+            if (!PopoutService.clipboardHistoryModal) {
+                return "CLIPBOARD_NOT_AVAILABLE";
+            }
+            PopoutService.clipboardHistoryModal.show();
+            return "CLIPBOARD_OPEN_SUCCESS";
+        }
+
+        function close(): string {
+            if (!PopoutService.clipboardHistoryModal) {
+                return "CLIPBOARD_NOT_AVAILABLE";
+            }
+            PopoutService.clipboardHistoryModal.hide();
+            return "CLIPBOARD_CLOSE_SUCCESS";
+        }
+
+        function toggle(): string {
+            if (!PopoutService.clipboardHistoryModal) {
+                return "CLIPBOARD_NOT_AVAILABLE";
+            }
+            PopoutService.clipboardHistoryModal.toggle();
+            return "CLIPBOARD_TOGGLE_SUCCESS";
+        }
+
+        target: "clipboard"
+    }
 }

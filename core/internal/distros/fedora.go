@@ -124,7 +124,6 @@ func (f *FedoraDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		// COPR packages
 		"quickshell":              f.getQuickshellMapping(variants["quickshell"]),
 		"matugen":                 {Name: "matugen", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
-		"cliphist":                {Name: "cliphist", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
 		"dms (DankMaterialShell)": f.getDmsMapping(variants["dms (DankMaterialShell)"]),
 		"dgop":                    {Name: "dgop", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
 	}

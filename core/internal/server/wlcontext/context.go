@@ -1,8 +1,11 @@
 package wlcontext
 
 import (
+	"errors"
 	"fmt"
+	"os"
 	"sync"
+	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/errdefs"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
@@ -13,6 +16,7 @@ type SharedContext struct {
 	display    *wlclient.Display
 	stopChan   chan struct{}
 	fatalError chan error
+	cmdQueue   chan func()
 	wg         sync.WaitGroup
 	mu         sync.Mutex
 	started    bool
@@ -28,6 +32,7 @@ func New() (*SharedContext, error) {
 		display:    display,
 		stopChan:   make(chan struct{}),
 		fatalError: make(chan error, 1),
+		cmdQueue:   make(chan func(), 256),
 		started:    false,
 	}
 
@@ -49,6 +54,13 @@ func (sc *SharedContext) Start() {
 
 func (sc *SharedContext) Display() *wlclient.Display {
 	return sc.display
+}
+
+func (sc *SharedContext) Post(fn func()) {
+	select {
+	case sc.cmdQueue <- fn:
+	default:
+	}
 }
 
 func (sc *SharedContext) FatalError() <-chan error {
@@ -74,10 +86,35 @@ func (sc *SharedContext) eventDispatcher() {
 		case <-sc.stopChan:
 			return
 		default:
-			if err := ctx.Dispatch(); err != nil {
-				log.Errorf("Wayland connection error: %v", err)
-				return
-			}
+		}
+
+		sc.drainCmdQueue()
+
+		if err := ctx.SetReadDeadline(time.Now().Add(50 * time.Millisecond)); err != nil {
+			log.Errorf("Failed to set read deadline: %v", err)
+		}
+		err := ctx.Dispatch()
+		if err := ctx.SetReadDeadline(time.Time{}); err != nil {
+			log.Errorf("Failed to clear read deadline: %v", err)
+		}
+
+		switch {
+		case err == nil:
+		case errors.Is(err, os.ErrDeadlineExceeded):
+		default:
+			log.Errorf("Wayland connection error: %v", err)
+			return
+		}
+	}
+}
+
+func (sc *SharedContext) drainCmdQueue() {
+	for {
+		select {
+		case fn := <-sc.cmdQueue:
+			fn()
+		default:
+			return
 		}
 	}
 }

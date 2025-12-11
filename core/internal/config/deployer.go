@@ -615,10 +615,11 @@ func (cd *ConfigDeployer) transformNiriConfigForNonSystemd(config, terminalComma
 
 	spawnDms := `spawn-at-startup "dms" "run"`
 	if !strings.Contains(config, spawnDms) {
-		config = strings.Replace(config,
-			`spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"`,
-			`spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"`+"\n"+spawnDms,
-			1)
+		// Insert spawn-at-startup for dms after the environment block
+		envBlockEnd := regexp.MustCompile(`environment \{[^}]*\}`)
+		if loc := envBlockEnd.FindStringIndex(config); loc != nil {
+			config = config[:loc[1]] + "\n" + spawnDms + config[loc[1]:]
+		}
 	}
 
 	return config

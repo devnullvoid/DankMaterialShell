@@ -7,6 +7,7 @@ The `PopoutService` singleton provides plugins with access to all DankMaterialSh
 ## Automatic Injection
 
 The `popoutService` property is automatically injected into:
+
 - Widget plugins (loaded in DankBar)
 - Daemon plugins (background services)
 - Plugin settings components
@@ -23,36 +24,36 @@ property var popoutService: null
 
 ### Popouts (DankPopout-based)
 
-| Component | Open | Close | Toggle |
-|-----------|------|-------|--------|
-| Control Center | `openControlCenter()` | `closeControlCenter()` | `toggleControlCenter()` |
+| Component           | Open                       | Close                       | Toggle                       |
+| ------------------- | -------------------------- | --------------------------- | ---------------------------- |
+| Control Center      | `openControlCenter()`      | `closeControlCenter()`      | `toggleControlCenter()`      |
 | Notification Center | `openNotificationCenter()` | `closeNotificationCenter()` | `toggleNotificationCenter()` |
-| App Drawer | `openAppDrawer()` | `closeAppDrawer()` | `toggleAppDrawer()` |
-| Process List | `openProcessList()` | `closeProcessList()` | `toggleProcessList()` |
-| DankDash | `openDankDash(tab)` | `closeDankDash()` | `toggleDankDash(tab)` |
-| Battery | `openBattery()` | `closeBattery()` | `toggleBattery()` |
-| VPN | `openVpn()` | `closeVpn()` | `toggleVpn()` |
-| System Update | `openSystemUpdate()` | `closeSystemUpdate()` | `toggleSystemUpdate()` |
+| App Drawer          | `openAppDrawer()`          | `closeAppDrawer()`          | `toggleAppDrawer()`          |
+| Process List        | `openProcessList()`        | `closeProcessList()`        | `toggleProcessList()`        |
+| DankDash            | `openDankDash(tab)`        | `closeDankDash()`           | `toggleDankDash(tab)`        |
+| Battery             | `openBattery()`            | `closeBattery()`            | `toggleBattery()`            |
+| VPN                 | `openVpn()`                | `closeVpn()`                | `toggleVpn()`                |
+| System Update       | `openSystemUpdate()`       | `closeSystemUpdate()`       | `toggleSystemUpdate()`       |
 
 ### Modals (DankModal-based)
 
-| Modal | Show | Hide | Notes |
-|-------|------|------|-------|
-| Settings | `openSettings()` | `closeSettings()` | Full settings interface |
-| Clipboard History | `openClipboardHistory()` | `closeClipboardHistory()` | Cliphist integration |
-| Spotlight | `openSpotlight()` | `closeSpotlight()` | Command launcher |
-| Power Menu | `openPowerMenu()` | `closePowerMenu()` | Also has `togglePowerMenu()` |
-| Process List Modal | `showProcessListModal()` | `hideProcessListModal()` | Fullscreen version, has `toggleProcessListModal()` |
-| Color Picker | `showColorPicker()` | `hideColorPicker()` | Theme color selection |
-| Notification | `showNotificationModal()` | `hideNotificationModal()` | Notification details |
-| WiFi Password | `showWifiPasswordModal()` | `hideWifiPasswordModal()` | Network authentication |
-| Network Info | `showNetworkInfoModal()` | `hideNetworkInfoModal()` | Network details |
+| Modal              | Show                      | Hide                      | Notes                                              |
+| ------------------ | ------------------------- | ------------------------- | -------------------------------------------------- |
+| Settings           | `openSettings()`          | `closeSettings()`         | Full settings interface                            |
+| Clipboard History  | `openClipboardHistory()`  | `closeClipboardHistory()` | Clipboard integration                              |
+| Spotlight          | `openSpotlight()`         | `closeSpotlight()`        | Command launcher                                   |
+| Power Menu         | `openPowerMenu()`         | `closePowerMenu()`        | Also has `togglePowerMenu()`                       |
+| Process List Modal | `showProcessListModal()`  | `hideProcessListModal()`  | Fullscreen version, has `toggleProcessListModal()` |
+| Color Picker       | `showColorPicker()`       | `hideColorPicker()`       | Theme color selection                              |
+| Notification       | `showNotificationModal()` | `hideNotificationModal()` | Notification details                               |
+| WiFi Password      | `showWifiPasswordModal()` | `hideWifiPasswordModal()` | Network authentication                             |
+| Network Info       | `showNetworkInfoModal()`  | `hideNetworkInfoModal()`  | Network details                                    |
 
 ### Slideouts
 
-| Component | Open | Close | Toggle |
-|-----------|------|-------|--------|
-| Notepad | `openNotepad()` | `closeNotepad()` | `toggleNotepad()` |
+| Component | Open            | Close            | Toggle            |
+| --------- | --------------- | ---------------- | ----------------- |
+| Notepad   | `openNotepad()` | `closeNotepad()` | `toggleNotepad()` |
 
 ## Usage Examples
 
@@ -205,6 +206,7 @@ LazyLoader {
 The service is injected in three locations:
 
 1. **DMSShell.qml** (daemon plugins):
+
 ```qml
 Instantiator {
     delegate: Loader {
@@ -218,6 +220,7 @@ Instantiator {
 ```
 
 2. **WidgetHost.qml** (widget plugins):
+
 ```qml
 onLoaded: {
     if (item.popoutService !== undefined) {
@@ -227,6 +230,7 @@ onLoaded: {
 ```
 
 3. **CenterSection.qml** (center widgets):
+
 ```qml
 onLoaded: {
     if (item.popoutService !== undefined) {
@@ -236,6 +240,7 @@ onLoaded: {
 ```
 
 4. **PluginsTab.qml** (settings):
+
 ```qml
 onLoaded: {
     if (item && typeof PopoutService !== "undefined") {
@@ -247,11 +252,13 @@ onLoaded: {
 ## Best Practices
 
 1. **Use Optional Chaining**: Always use `?.` to handle null cases
+
    ```qml
    popoutService?.toggleControlCenter()
    ```
 
 2. **Check Availability**: Some popouts may not be available
+
    ```qml
    if (popoutService && popoutService.controlCenterPopout) {
        popoutService.toggleControlCenter()
@@ -261,6 +268,7 @@ onLoaded: {
 3. **Lazy Loading**: First access may activate lazy loaders - this is normal
 
 4. **Feature Detection**: Some popouts require specific features
+
    ```qml
    if (BatteryService.batteryAvailable) {
        popoutService?.openBattery()
@@ -272,6 +280,7 @@ onLoaded: {
 ## Example Plugin
 
 See `PLUGINS/PopoutControlExample/` for a complete working example that demonstrates:
+
 - Widget creation with popout controls
 - Menu-based popout selection
 - Proper service usage

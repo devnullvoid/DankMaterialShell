@@ -121,7 +121,6 @@ func (u *UbuntuDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"quickshell":              u.getQuickshellMapping(variants["quickshell"]),
 		"matugen":                 {Name: "matugen", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
 		"dgop":                    {Name: "dgop", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
-		"cliphist":                {Name: "cliphist", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
 		"ghostty":                 {Name: "ghostty", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
 	}
 
@@ -539,8 +538,6 @@ func (u *UbuntuDistribution) installBuildDependencies(ctx context.Context, manua
 			buildDeps["libpam0g-dev"] = true
 		case "matugen":
 			buildDeps["curl"] = true
-		case "cliphist":
-			// Go will be installed separately with PPA
 		}
 	}
 
@@ -550,7 +547,7 @@ func (u *UbuntuDistribution) installBuildDependencies(ctx context.Context, manua
 			if err := u.installRust(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install Rust: %w", err)
 			}
-		case "cliphist", "dgop":
+		case "dgop":
 			if err := u.installGo(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install Go: %w", err)
 			}
