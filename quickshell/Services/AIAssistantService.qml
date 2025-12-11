@@ -9,6 +9,8 @@ pragma ComponentBehavior: Bound
 Singleton {
     id: root
 
+    property int refCount: 0
+
     property var messages: []
     onMessagesChanged: console.log("[AIAssistantService] messages length", messages ? messages.length : 0)
     property bool isStreaming: false

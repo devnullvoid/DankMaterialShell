@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import qs.Common
 import qs.Services
-import qs.Services.AIAssistantService
 import qs.Widgets
 
 Item {
@@ -13,18 +12,19 @@ Item {
     signal hideRequested
 
     Ref {
+        id: aiService
         service: AIAssistantService
     }
 
     function sendCurrentMessage() {
         if (!composer.text || composer.text.trim().length === 0)
             return;
-        if (!AIAssistantService) {
+        if (!aiService || !aiService.service) {
             console.warn("[AIAssistant UI] service unavailable");
             return;
         }
         console.log("[AIAssistant UI] sendCurrentMessage");
-        AIAssistantService.sendMessage(composer.text.trim());
+        aiService.service.sendMessage(composer.text.trim());
         composer.text = "";
     }
 
@@ -37,7 +37,7 @@ Item {
             spacing: Theme.spacingM
 
             StyledText {
-                text: I18n.tr("Messages: ") + (AIAssistantService.messages ? AIAssistantService.messages.length : 0)
+                text: I18n.tr("Messages: ") + (aiService.service?.messages ? aiService.service.messages.length : 0)
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.surfaceTextMedium
             }
@@ -52,7 +52,7 @@ Item {
             Rectangle {
                 width: 10; height: 10
                 radius: 5
-                color: AIAssistantService.isOnline ? Theme.success : Theme.surfaceVariantText
+                color: aiService.service?.isOnline ? Theme.success : Theme.surfaceVariantText
                 anchors.verticalCenter: parent.verticalCenter
             }
 
@@ -80,7 +80,7 @@ Item {
             MessageList {
                 id: list
                 anchors.fill: parent
-                messages: AIAssistantService.messages
+                messages: aiService.service?.messages
             }
         }
 
@@ -119,8 +119,8 @@ Item {
 
                 Button {
                     text: I18n.tr("Stop")
-                    enabled: AIAssistantService.isStreaming
-                    onClicked: AIAssistantService.cancel()
+                    enabled: aiService.service?.isStreaming
+                    onClicked: aiService.service.cancel()
                 }
             }
         }
