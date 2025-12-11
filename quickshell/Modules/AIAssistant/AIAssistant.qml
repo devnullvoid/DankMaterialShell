@@ -18,6 +18,7 @@ Item {
     function sendCurrentMessage() {
         if (!composer.text || composer.text.trim().length === 0)
             return;
+        console.log("[AIAssistant UI] sendCurrentMessage, service", AIAssistantService);
         AIAssistantService.sendMessage(composer.text.trim());
         composer.text = "";
     }
