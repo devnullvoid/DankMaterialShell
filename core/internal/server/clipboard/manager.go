@@ -229,18 +229,6 @@ func (m *Manager) setupDataDeviceSync() {
 		m.ownerLock.Unlock()
 
 		if offer == nil {
-			if wasOwner {
-				return
-			}
-			m.persistMutex.RLock()
-			hasData := len(m.persistData) > 0
-			m.persistMutex.RUnlock()
-			if hasData {
-				log.Debug("Selection cleared, re-taking ownership")
-				m.post(func() {
-					m.takePersistOwnership()
-				})
-			}
 			return
 		}
 
