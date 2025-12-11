@@ -127,7 +127,7 @@ QtObject {
     function buildPayload(latestText) {
         // Build chat history excluding the streaming placeholder.
         const msgs = (messages || [])
-            .filter(m => (m.role === "user" || m.role === "assistant") && m.status !== "streaming")
+            .filter(m => (m.role === "user" || m.role === "assistant") && m.status === "ok")
             .map(m => ({ role: m.role, content: m.content }));
         // Ensure the newest user message is present (in case of empty history).
         if (msgs.length === 0 || msgs[msgs.length - 1].role !== "user") {
