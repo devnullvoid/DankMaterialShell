@@ -18,7 +18,6 @@ Item {
         color: role === "user" ? Theme.surfaceContainerHigh : Theme.surfaceContainer
         border.color: status === "error" ? Theme.error : Theme.surfaceVariantAlpha
         border.width: 1
-        anchors.horizontalCenter: parent.horizontalCenter
         anchors.left: parent.left
         anchors.right: parent.right
 
