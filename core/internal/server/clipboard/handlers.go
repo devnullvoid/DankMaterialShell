@@ -23,6 +23,8 @@ func HandleRequest(conn net.Conn, req models.Request, m *Manager) {
 		handleClearHistory(conn, req, m)
 	case "clipboard.copy":
 		handleCopy(conn, req, m)
+	case "clipboard.copyEntry":
+		handleCopyEntry(conn, req, m)
 	case "clipboard.paste":
 		handlePaste(conn, req, m)
 	case "clipboard.subscribe":
@@ -96,6 +98,27 @@ func handleCopy(conn net.Conn, req models.Request, m *Manager) {
 	}
 
 	if err := m.CopyText(text); err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "copied to clipboard"})
+}
+
+func handleCopyEntry(conn net.Conn, req models.Request, m *Manager) {
+	id, err := params.Int(req.Params, "id")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	entry, err := m.GetEntry(uint64(id))
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	if err := m.SetClipboard(entry.Data, entry.MimeType); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}

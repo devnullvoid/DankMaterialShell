@@ -95,27 +95,14 @@ DankModal {
     }
 
     function copyEntry(entry) {
-        DMSService.sendRequest("clipboard.getEntry", {
+        DMSService.sendRequest("clipboard.copyEntry", {
             "id": entry.id
         }, function (response) {
             if (response.error) {
                 ToastService.showError(I18n.tr("Failed to copy entry"));
                 return;
             }
-            const fullEntry = response.result;
-            if (fullEntry.isImage) {
-                ToastService.showInfo(I18n.tr("Image copied to clipboard"));
-            } else {
-                DMSService.sendRequest("clipboard.copy", {
-                    "text": fullEntry.data
-                }, function (copyResponse) {
-                    if (copyResponse.error) {
-                        ToastService.showError(I18n.tr("Failed to copy"));
-                        return;
-                    }
-                    ToastService.showInfo(I18n.tr("Copied to clipboard"));
-                });
-            }
+            ToastService.showInfo(entry.isImage ? I18n.tr("Image copied to clipboard") : I18n.tr("Copied to clipboard"));
             hide();
         });
     }

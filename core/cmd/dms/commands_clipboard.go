@@ -71,10 +71,12 @@ var clipHistoryCmd = &cobra.Command{
 var clipGetCmd = &cobra.Command{
 	Use:   "get <id>",
 	Short: "Get clipboard entry by ID",
-	Long:  "Get full clipboard entry data by ID (requires server)",
+	Long:  "Get full clipboard entry data by ID (requires server). Use --copy to copy it to clipboard.",
 	Args:  cobra.ExactArgs(1),
 	Run:   runClipGet,
 }
+
+var clipGetCopy bool
 
 var clipDeleteCmd = &cobra.Command{
 	Use:   "delete <id>",
@@ -153,6 +155,7 @@ func init() {
 	clipWatchCmd.Flags().BoolVar(&clipJSONOutput, "json", false, "Output as JSON")
 	clipHistoryCmd.Flags().BoolVar(&clipJSONOutput, "json", false, "Output as JSON")
 	clipGetCmd.Flags().BoolVar(&clipJSONOutput, "json", false, "Output as JSON")
+	clipGetCmd.Flags().BoolVarP(&clipGetCopy, "copy", "c", false, "Copy entry to clipboard")
 
 	clipSearchCmd.Flags().IntVarP(&clipSearchLimit, "limit", "l", 50, "Max results")
 	clipSearchCmd.Flags().IntVarP(&clipSearchOffset, "offset", "o", 0, "Result offset")
@@ -349,6 +352,28 @@ func runClipGet(cmd *cobra.Command, args []string) {
 		log.Fatalf("Invalid ID: %v", err)
 	}
 
+	if clipGetCopy {
+		req := map[string]any{
+			"id":     1,
+			"method": "clipboard.copyEntry",
+			"params": map[string]any{
+				"id": id,
+			},
+		}
+
+		resp, err := sendServerRequest(req)
+		if err != nil {
+			log.Fatalf("Failed to copy clipboard entry: %v", err)
+		}
+
+		if resp.Error != "" {
+			log.Fatalf("Error: %s", resp.Error)
+		}
+
+		fmt.Printf("Copied entry %d to clipboard\n", id)
+		return
+	}
+
 	req := map[string]any{
 		"id":     1,
 		"method": "clipboard.getEntry",
@@ -375,17 +400,17 @@ func runClipGet(cmd *cobra.Command, args []string) {
 		log.Fatal("Invalid response format")
 	}
 
-	if clipJSONOutput {
+	switch {
+	case clipJSONOutput:
 		output, _ := json.MarshalIndent(entry, "", "  ")
 		fmt.Println(string(output))
-		return
-	}
-
-	if data, ok := entry["data"].(string); ok {
-		fmt.Print(data)
-	} else {
-		output, _ := json.MarshalIndent(entry, "", "  ")
-		fmt.Println(string(output))
+	default:
+		if data, ok := entry["data"].(string); ok {
+			fmt.Print(data)
+		} else {
+			output, _ := json.MarshalIndent(entry, "", "  ")
+			fmt.Println(string(output))
+		}
 	}
 }
 
