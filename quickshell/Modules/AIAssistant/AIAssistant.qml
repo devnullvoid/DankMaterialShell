@@ -18,7 +18,11 @@ Item {
     function sendCurrentMessage() {
         if (!composer.text || composer.text.trim().length === 0)
             return;
-        console.log("[AIAssistant UI] sendCurrentMessage, service", AIAssistantService);
+        if (!AIAssistantService) {
+            console.warn("[AIAssistant UI] service unavailable");
+            return;
+        }
+        console.log("[AIAssistant UI] sendCurrentMessage");
         AIAssistantService.sendMessage(composer.text.trim());
         composer.text = "";
     }
@@ -30,6 +34,12 @@ Item {
         Row {
             width: parent.width
             spacing: Theme.spacingM
+
+            StyledText {
+                text: I18n.tr("Messages: ") + (AIAssistantService.messages ? AIAssistantService.messages.length : 0)
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.surfaceTextMedium
+            }
 
             StyledText {
                 text: I18n.tr("AI Assistant (Preview)")
