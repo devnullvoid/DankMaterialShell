@@ -16,6 +16,8 @@ Flickable {
         width: root.width
         spacing: Theme.spacingS
 
+        Component.onCompleted: console.log("[MessageList] ready")
+
         Repeater {
             model: root.messages || []
 
@@ -24,6 +26,10 @@ Flickable {
                 role: modelData.role || "assistant"
                 text: modelData.content || ""
                 status: modelData.status || "ok"
+
+                Component.onCompleted: {
+                    console.log("[MessageList] add", role, text.slice(0, 40))
+                }
             }
         }
     }
