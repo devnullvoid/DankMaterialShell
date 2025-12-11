@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import qs.Common
 import qs.Services
+import qs.Services.AIAssistantService
 import qs.Widgets
 
 Item {
