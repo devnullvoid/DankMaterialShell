@@ -9,7 +9,6 @@ Item {
 
     Component.onCompleted: {
         console.log("[AIAssistant UI] ready")
-        console.warn("[AIAssistant UI] ready (warn)")
     }
 
     property bool showSettingsMenu: false
