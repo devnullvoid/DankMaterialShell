@@ -3,6 +3,9 @@ import Quickshell
 import Quickshell.Io
 import qs.Common
 
+pragma Singleton
+pragma ComponentBehavior: Bound
+
 QtObject {
     id: root
 
