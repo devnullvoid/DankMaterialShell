@@ -109,36 +109,39 @@ Item {
                 spacing: Theme.spacingM
                 Label { text: I18n.tr("Temperature") }
                 Slider {
+                    id: tempSlider
                     from: 0; to: 2; stepSize: 0.1
                     value: SettingsData.aiAssistantTemperature
                     onValueChanged: SettingsData.aiAssistantTemperature = value
                     width: parent.width * 0.5
                 }
-                Label { text: value.toFixed(1) }
+                Label { text: tempSlider.value.toFixed(1) }
             }
 
             Row {
                 spacing: Theme.spacingM
                 Label { text: I18n.tr("Max tokens") }
                 Slider {
+                    id: tokensSlider
                     from: 16; to: 8192; stepSize: 16
                     value: SettingsData.aiAssistantMaxTokens
                     onValueChanged: SettingsData.aiAssistantMaxTokens = Math.round(value)
                     width: parent.width * 0.5
                 }
-                Label { text: Math.round(value).toString() }
+                Label { text: Math.round(tokensSlider.value).toString() }
             }
 
             Row {
                 spacing: Theme.spacingM
                 Label { text: I18n.tr("Timeout (s)") }
                 Slider {
+                    id: timeoutSlider
                     from: 5; to: 120; stepSize: 1
                     value: SettingsData.aiAssistantTimeout
                     onValueChanged: SettingsData.aiAssistantTimeout = Math.round(value)
                     width: parent.width * 0.5
                 }
-                Label { text: Math.round(value).toString() }
+                Label { text: Math.round(timeoutSlider.value).toString() }
             }
 
             Row {
