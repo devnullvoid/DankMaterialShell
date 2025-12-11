@@ -56,6 +56,10 @@ QtObject {
         if (!text || text.trim().length === 0)
             return;
 
+        if (isStreaming) {
+            markError(activeStreamId, I18n.tr("Cancelled (new message sent)"));
+        }
+
         const now = Date.now();
         const streamId = "assistant-" + now;
 
@@ -120,17 +124,21 @@ QtObject {
     }
 
     function buildPayload(latestText) {
-        // messages already contains the latest user entry; do not duplicate it.
+        // Build chat history excluding the streaming placeholder.
         const msgs = (messages || [])
-            .filter(m => m.role === "user" || m.role === "assistant")
+            .filter(m => (m.role === "user" || m.role === "assistant") && m.status !== "streaming")
             .map(m => ({ role: m.role, content: m.content }));
+        // Ensure the newest user message is present (in case of empty history).
+        if (msgs.length === 0 || msgs[msgs.length - 1].role !== "user") {
+            msgs.push({ role: "user", content: latestText });
+        }
         return {
             provider: provider,
             baseUrl: baseUrl,
             model: model,
             temperature: SettingsData.aiAssistantTemperature,
             max_tokens: SettingsData.aiAssistantMaxTokens,
-            messages: msgs.length > 0 ? msgs : [{ role: "user", content: latestText }],
+            messages: msgs,
             stream: true,
             timeout: SettingsData.aiAssistantTimeout
         };
