@@ -10,6 +10,7 @@ Singleton {
     id: root
 
     property int refCount: 0
+    Component.onCompleted: console.log("[AIAssistantService] ready")
 
     property ListModel messagesModel: ListModel {}
     property int messageCount: messagesModel.count

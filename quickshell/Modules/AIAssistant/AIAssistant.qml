@@ -7,6 +7,8 @@ import qs.Widgets
 Item {
     id: root
 
+    Component.onCompleted: console.log("[AIAssistant UI] ready")
+
     property bool showSettingsMenu: false
     readonly property real panelTransparency: SettingsData.aiAssistantTransparencyOverride >= 0 ? SettingsData.aiAssistantTransparencyOverride : SettingsData.popupTransparency
     signal hideRequested
