@@ -169,6 +169,7 @@ Singleton {
     property var workspaceNameIcons: ({})
     property bool waveProgressEnabled: true
     property bool scrollTitleEnabled: true
+    property bool audioVisualizerEnabled: true
     property bool clockCompactMode: false
     property bool focusedWindowCompactMode: false
     property bool runningAppsCompactMode: true

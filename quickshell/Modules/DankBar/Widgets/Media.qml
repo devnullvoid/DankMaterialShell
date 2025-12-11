@@ -106,7 +106,7 @@ BasePill {
 
                     AudioVisualization {
                         anchors.fill: parent
-                        visible: CavaService.cavaAvailable
+                        visible: CavaService.cavaAvailable && SettingsData.audioVisualizerEnabled
                     }
 
                     DankIcon {
@@ -114,7 +114,7 @@ BasePill {
                         name: "music_note"
                         size: 20
                         color: Theme.primary
-                        visible: !CavaService.cavaAvailable
+                        visible: !CavaService.cavaAvailable || !SettingsData.audioVisualizerEnabled
                     }
 
                     MouseArea {
@@ -185,7 +185,7 @@ BasePill {
 
                         AudioVisualization {
                             anchors.fill: parent
-                            visible: CavaService.cavaAvailable
+                            visible: CavaService.cavaAvailable && SettingsData.audioVisualizerEnabled
                         }
 
                         DankIcon {
@@ -193,7 +193,7 @@ BasePill {
                             name: "music_note"
                             size: 20
                             color: Theme.primary
-                            visible: !CavaService.cavaAvailable
+                            visible: !CavaService.cavaAvailable || !SettingsData.audioVisualizerEnabled
                         }
                     }
 
