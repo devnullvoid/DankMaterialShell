@@ -79,6 +79,7 @@ Singleton {
         const curlCmd = buildCurlCommand(payload);
         if (!curlCmd) {
             markError(streamId, I18n.tr("No API key or provider configuration."));
+            finalizeStream(streamId); // allow next prompt to proceed
             return;
         }
 
