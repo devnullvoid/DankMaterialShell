@@ -9,7 +9,7 @@ Flickable {
     contentHeight: contentItem.childrenRect.height
     ScrollBar.vertical: ScrollBar { }
 
-    property var messages: []
+    property var messages: null // expects a ListModel
 
     Column {
         id: messageColumn
@@ -19,13 +19,13 @@ Flickable {
         Component.onCompleted: console.log("[MessageList] ready")
 
         Repeater {
-            model: root.messages || []
+            model: root.messages
 
             delegate: MessageBubble {
                 width: messageColumn.width
-                role: modelData.role || "assistant"
-                text: modelData.content || ""
-                status: modelData.status || "ok"
+                role: model.role || "assistant"
+                text: model.content || ""
+                status: model.status || "ok"
 
                 Component.onCompleted: {
                     console.log("[MessageList] add", role, text.slice(0, 40))

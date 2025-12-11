@@ -37,7 +37,7 @@ Item {
             spacing: Theme.spacingM
 
             StyledText {
-                text: I18n.tr("Messages: ") + (aiService.service?.messages ? aiService.service.messages.length : 0)
+                text: I18n.tr("Messages: ") + (aiService.service?.messageCount ?? 0)
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.surfaceTextMedium
             }
@@ -80,7 +80,7 @@ Item {
             MessageList {
                 id: list
                 anchors.fill: parent
-                messages: aiService.service?.messages
+                messages: aiService.service ? aiService.service.messagesModel : null
             }
         }
 
