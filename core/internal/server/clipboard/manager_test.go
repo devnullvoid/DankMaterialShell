@@ -456,7 +456,7 @@ func TestDefaultConfig(t *testing.T) {
 	assert.False(t, cfg.ClearAtStartup)
 	assert.False(t, cfg.Disabled)
 	assert.False(t, cfg.DisableHistory)
-	assert.False(t, cfg.DisablePersist)
+	assert.True(t, cfg.DisablePersist)
 }
 
 func TestManager_PostDelegatesToWlContext(t *testing.T) {
