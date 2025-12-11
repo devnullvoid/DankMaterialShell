@@ -11,8 +11,8 @@ Singleton {
 
     property int refCount: 0
 
-    property var messages: []
-    onMessagesChanged: console.log("[AIAssistantService] messages length", messages ? messages.length : 0)
+    property ListModel messagesModel: ListModel {}
+    property int messageCount: messagesModel.count
     property bool isStreaming: false
     property bool isOnline: false
     property string activeStreamId: ""
@@ -63,8 +63,6 @@ Singleton {
         if (!text || text.trim().length === 0)
             return;
 
-        console.log("[AIAssistantService] sendMessage", text.slice(0, 80));
-
         if (isStreaming && chatFetcher.running) {
             markError(activeStreamId, I18n.tr("Please wait until the current response finishes."));
             return;
@@ -73,10 +71,8 @@ Singleton {
         const now = Date.now();
         const streamId = "assistant-" + now;
 
-        const userMsg = { role: "user", content: text, timestamp: now, id: "user-" + now, status: "ok" };
-        const assistantMsg = { role: "assistant", content: "", timestamp: now + 1, id: streamId, status: "streaming" };
-
-        messages = (messages || []).concat([userMsg, assistantMsg]);
+        messagesModel.append({ role: "user", content: text, timestamp: now, id: "user-" + now, status: "ok" });
+        messagesModel.append({ role: "assistant", content: "", timestamp: now + 1, id: streamId, status: "streaming" });
         activeStreamId = streamId;
         isStreaming = true;
 
@@ -101,46 +97,54 @@ Singleton {
         markError(activeStreamId, I18n.tr("Cancelled"));
     }
 
+    function findIndexById(msgId) {
+        for (let i = 0; i < messagesModel.count; i++) {
+            const itm = messagesModel.get(i);
+            if (itm.id === msgId)
+                return i;
+        }
+        return -1;
+    }
+
     function markError(streamId, message) {
+        const idx = findIndexById(streamId);
+        if (idx >= 0) {
+            messagesModel.setProperty(idx, "content", message);
+            messagesModel.setProperty(idx, "status", "error");
+        }
         isStreaming = false;
-        messages = (messages || []).map(msg => {
-            if (msg.id === streamId) {
-                return { role: msg.role, content: message, timestamp: msg.timestamp, id: msg.id, status: "error" };
-            }
-            return msg;
-        });
         activeStreamId = "";
     }
 
     function updateStreamContent(streamId, deltaText) {
         if (!deltaText)
             return;
-        messages = (messages || []).map(msg => {
-            if (msg.id === streamId) {
-                return { role: msg.role, content: (msg.content || "") + deltaText, timestamp: msg.timestamp, id: msg.id, status: "streaming" };
-            }
-            return msg;
-        });
+        const idx = findIndexById(streamId);
+        if (idx >= 0) {
+            const cur = messagesModel.get(idx).content || "";
+            messagesModel.setProperty(idx, "content", cur + deltaText);
+            messagesModel.setProperty(idx, "status", "streaming");
+        }
     }
 
     function finalizeStream(streamId) {
-        messages = (messages || []).map(msg => {
-            if (msg.id === streamId) {
-                return { role: msg.role, content: msg.content, timestamp: msg.timestamp, id: msg.id, status: "ok" };
-            }
-            return msg;
-        });
+        const idx = findIndexById(streamId);
+        if (idx >= 0) {
+            messagesModel.setProperty(idx, "status", "ok");
+        }
         isStreaming = false;
         activeStreamId = "";
         isOnline = true;
     }
 
     function buildPayload(latestText) {
-        // Build chat history excluding the streaming placeholder.
-        const msgs = (messages || [])
-            .filter(m => (m.role === "user" || m.role === "assistant") && m.status === "ok")
-            .map(m => ({ role: m.role, content: m.content }));
-        // Ensure the newest user message is present (in case of empty history).
+        const msgs = [];
+        for (let i = 0; i < messagesModel.count; i++) {
+            const m = messagesModel.get(i);
+            if ((m.role === "user" || m.role === "assistant") && m.status === "ok") {
+                msgs.push({ role: m.role, content: m.content });
+            }
+        }
         if (msgs.length === 0 || msgs[msgs.length - 1].role !== "user") {
             msgs.push({ role: "user", content: latestText });
         }
@@ -202,11 +206,9 @@ Singleton {
     property string streamBuffer: ""
 
     function handleStreamChunk(chunk) {
-        // prepend any partial line saved from previous chunk
         let buffer = streamBuffer + chunk;
         const parts = buffer.split(/\r?\n/);
 
-        // if the last char isn't a newline, keep the tail as partial
         if (buffer.length > 0 && !buffer.endsWith("\n") && !buffer.endsWith("\r")) {
             streamBuffer = parts.pop();
         } else {
