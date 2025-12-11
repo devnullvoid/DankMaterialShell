@@ -139,7 +139,6 @@ func (g *GentooDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"git":                    {Name: "dev-vcs/git", Repository: RepoTypeSystem},
 		"kitty":                  {Name: "x11-terms/kitty", Repository: RepoTypeSystem, UseFlags: "X wayland"},
 		"alacritty":              {Name: "x11-terms/alacritty", Repository: RepoTypeSystem, UseFlags: "X wayland"},
-		"wl-clipboard":           {Name: "gui-apps/wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "sys-apps/xdg-desktop-portal-gtk", Repository: RepoTypeSystem, UseFlags: "wayland X"},
 		"accountsservice":        {Name: "sys-apps/accountsservice", Repository: RepoTypeSystem},
 

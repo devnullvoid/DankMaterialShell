@@ -49,6 +49,7 @@ func init() {
 		cmd.Flags().String("stock-colors", "", "Stock theme colors JSON")
 		cmd.Flags().Bool("sync-mode-with-portal", false, "Sync color scheme with GNOME portal")
 		cmd.Flags().Bool("terminals-always-dark", false, "Force terminal themes to dark variant")
+		cmd.Flags().String("skip-templates", "", "Comma-separated list of templates to skip")
 	}
 
 	matugenQueueCmd.Flags().Bool("wait", true, "Wait for completion")
@@ -68,6 +69,7 @@ func buildMatugenOptions(cmd *cobra.Command) matugen.Options {
 	stockColors, _ := cmd.Flags().GetString("stock-colors")
 	syncModeWithPortal, _ := cmd.Flags().GetBool("sync-mode-with-portal")
 	terminalsAlwaysDark, _ := cmd.Flags().GetBool("terminals-always-dark")
+	skipTemplates, _ := cmd.Flags().GetString("skip-templates")
 
 	return matugen.Options{
 		StateDir:            stateDir,
@@ -82,6 +84,7 @@ func buildMatugenOptions(cmd *cobra.Command) matugen.Options {
 		StockColors:         stockColors,
 		SyncModeWithPortal:  syncModeWithPortal,
 		TerminalsAlwaysDark: terminalsAlwaysDark,
+		SkipTemplates:       skipTemplates,
 	}
 }
 
@@ -136,6 +139,7 @@ func runMatugenQueue(cmd *cobra.Command, args []string) {
 			"stockColors":         opts.StockColors,
 			"syncModeWithPortal":  opts.SyncModeWithPortal,
 			"terminalsAlwaysDark": opts.TerminalsAlwaysDark,
+			"skipTemplates":       opts.SkipTemplates,
 			"wait":                wait,
 		},
 	}

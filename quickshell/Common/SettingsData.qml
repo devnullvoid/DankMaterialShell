@@ -271,6 +271,23 @@ Singleton {
     property bool syncModeWithPortal: true
     property bool terminalsAlwaysDark: false
 
+    property bool runDmsMatugenTemplates: true
+    property bool matugenTemplateGtk: true
+    property bool matugenTemplateNiri: true
+    property bool matugenTemplateQt5ct: true
+    property bool matugenTemplateQt6ct: true
+    property bool matugenTemplateFirefox: true
+    property bool matugenTemplatePywalfox: true
+    property bool matugenTemplateVesktop: true
+    property bool matugenTemplateGhostty: true
+    property bool matugenTemplateKitty: true
+    property bool matugenTemplateFoot: true
+    property bool matugenTemplateAlacritty: true
+    property bool matugenTemplateWezterm: true
+    property bool matugenTemplateDgop: true
+    property bool matugenTemplateKcolorscheme: true
+    property bool matugenTemplateVscode: true
+
     property bool showDock: false
     property bool dockAutoHide: false
     property bool dockGroupByApp: false

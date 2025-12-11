@@ -42,6 +42,7 @@ func handleMatugenQueue(conn net.Conn, req models.Request) {
 		StockColors:         getString("stockColors"),
 		SyncModeWithPortal:  getBool("syncModeWithPortal", false),
 		TerminalsAlwaysDark: getBool("terminalsAlwaysDark", false),
+		SkipTemplates:       getString("skipTemplates"),
 	}
 
 	wait := getBool("wait", true)

@@ -714,6 +714,199 @@ Item {
                 }
             }
 
+            SettingsCard {
+                tab: "theme"
+                tags: ["matugen", "templates", "theming"]
+                title: I18n.tr("Matugen Templates")
+                iconName: "auto_awesome"
+                visible: Theme.matugenAvailable
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "user", "templates"]
+                    settingKey: "runUserMatugenTemplates"
+                    text: I18n.tr("Run User Templates")
+                    description: ""
+                    checked: SettingsData.runUserMatugenTemplates
+                    onToggled: checked => SettingsData.set("runUserMatugenTemplates", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "dms", "templates"]
+                    settingKey: "runDmsMatugenTemplates"
+                    text: I18n.tr("Run DMS Templates")
+                    description: ""
+                    checked: SettingsData.runDmsMatugenTemplates
+                    onToggled: checked => SettingsData.set("runDmsMatugenTemplates", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "gtk", "template"]
+                    settingKey: "matugenTemplateGtk"
+                    text: "GTK"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateGtk
+                    onToggled: checked => SettingsData.set("matugenTemplateGtk", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "niri", "template"]
+                    settingKey: "matugenTemplateNiri"
+                    text: "niri"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateNiri
+                    onToggled: checked => SettingsData.set("matugenTemplateNiri", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "qt5ct", "template"]
+                    settingKey: "matugenTemplateQt5ct"
+                    text: "qt5ct"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateQt5ct
+                    onToggled: checked => SettingsData.set("matugenTemplateQt5ct", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "qt6ct", "template"]
+                    settingKey: "matugenTemplateQt6ct"
+                    text: "qt6ct"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateQt6ct
+                    onToggled: checked => SettingsData.set("matugenTemplateQt6ct", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "firefox", "template"]
+                    settingKey: "matugenTemplateFirefox"
+                    text: "Firefox"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateFirefox
+                    onToggled: checked => SettingsData.set("matugenTemplateFirefox", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "pywalfox", "template"]
+                    settingKey: "matugenTemplatePywalfox"
+                    text: "pywalfox"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplatePywalfox
+                    onToggled: checked => SettingsData.set("matugenTemplatePywalfox", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "vesktop", "discord", "template"]
+                    settingKey: "matugenTemplateVesktop"
+                    text: "vesktop"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateVesktop
+                    onToggled: checked => SettingsData.set("matugenTemplateVesktop", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "ghostty", "terminal", "template"]
+                    settingKey: "matugenTemplateGhostty"
+                    text: "Ghostty"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateGhostty
+                    onToggled: checked => SettingsData.set("matugenTemplateGhostty", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "kitty", "terminal", "template"]
+                    settingKey: "matugenTemplateKitty"
+                    text: "kitty"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateKitty
+                    onToggled: checked => SettingsData.set("matugenTemplateKitty", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "foot", "terminal", "template"]
+                    settingKey: "matugenTemplateFoot"
+                    text: "foot"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateFoot
+                    onToggled: checked => SettingsData.set("matugenTemplateFoot", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "alacritty", "terminal", "template"]
+                    settingKey: "matugenTemplateAlacritty"
+                    text: "Alacritty"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateAlacritty
+                    onToggled: checked => SettingsData.set("matugenTemplateAlacritty", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "wezterm", "terminal", "template"]
+                    settingKey: "matugenTemplateWezterm"
+                    text: "WezTerm"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateWezterm
+                    onToggled: checked => SettingsData.set("matugenTemplateWezterm", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "dgop", "template"]
+                    settingKey: "matugenTemplateDgop"
+                    text: "dgop"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateDgop
+                    onToggled: checked => SettingsData.set("matugenTemplateDgop", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "kcolorscheme", "kde", "template"]
+                    settingKey: "matugenTemplateKcolorscheme"
+                    text: "KColorScheme"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateKcolorscheme
+                    onToggled: checked => SettingsData.set("matugenTemplateKcolorscheme", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["matugen", "vscode", "code", "template"]
+                    settingKey: "matugenTemplateVscode"
+                    text: "VS Code"
+                    description: ""
+                    visible: SettingsData.runDmsMatugenTemplates
+                    checked: SettingsData.matugenTemplateVscode
+                    onToggled: checked => SettingsData.set("matugenTemplateVscode", checked)
+                }
+            }
+
             Rectangle {
                 width: parent.width
                 height: warningText.implicitHeight + Theme.spacingM * 2

@@ -34,6 +34,7 @@ type Options struct {
 	StockColors         string
 	SyncModeWithPortal  bool
 	TerminalsAlwaysDark bool
+	SkipTemplates       string
 }
 
 type ColorsOutput struct {
@@ -45,6 +46,18 @@ type ColorsOutput struct {
 
 func (o *Options) ColorsOutput() string {
 	return filepath.Join(o.StateDir, "dms-colors.json")
+}
+
+func (o *Options) ShouldSkipTemplate(name string) bool {
+	if o.SkipTemplates == "" {
+		return false
+	}
+	for _, skip := range strings.Split(o.SkipTemplates, ",") {
+		if strings.TrimSpace(skip) == name {
+			return true
+		}
+	}
+	return false
 }
 
 func Run(opts Options) error {
@@ -218,34 +231,66 @@ output_path = '%s'
 
 `, opts.ShellDir, opts.ColorsOutput())
 
-	switch opts.Mode {
-	case "light":
-		appendConfig(opts, cfgFile, "skip", "gtk3-light.toml")
-	default:
-		appendConfig(opts, cfgFile, "skip", "gtk3-dark.toml")
+	if !opts.ShouldSkipTemplate("gtk") {
+		switch opts.Mode {
+		case "light":
+			appendConfig(opts, cfgFile, "skip", "gtk3-light.toml")
+		default:
+			appendConfig(opts, cfgFile, "skip", "gtk3-dark.toml")
+		}
 	}
 
-	appendConfig(opts, cfgFile, "niri", "niri.toml")
-	appendConfig(opts, cfgFile, "qt5ct", "qt5ct.toml")
-	appendConfig(opts, cfgFile, "qt6ct", "qt6ct.toml")
-	appendConfig(opts, cfgFile, "firefox", "firefox.toml")
-	appendConfig(opts, cfgFile, "pywalfox", "pywalfox.toml")
-	appendConfig(opts, cfgFile, "vesktop", "vesktop.toml")
+	if !opts.ShouldSkipTemplate("niri") {
+		appendConfig(opts, cfgFile, "niri", "niri.toml")
+	}
+	if !opts.ShouldSkipTemplate("qt5ct") {
+		appendConfig(opts, cfgFile, "qt5ct", "qt5ct.toml")
+	}
+	if !opts.ShouldSkipTemplate("qt6ct") {
+		appendConfig(opts, cfgFile, "qt6ct", "qt6ct.toml")
+	}
+	if !opts.ShouldSkipTemplate("firefox") {
+		appendConfig(opts, cfgFile, "firefox", "firefox.toml")
+	}
+	if !opts.ShouldSkipTemplate("pywalfox") {
+		appendConfig(opts, cfgFile, "pywalfox", "pywalfox.toml")
+	}
+	if !opts.ShouldSkipTemplate("vesktop") {
+		appendConfig(opts, cfgFile, "vesktop", "vesktop.toml")
+	}
 
-	appendTerminalConfig(opts, cfgFile, tmpDir, "ghostty", "ghostty.toml")
-	appendTerminalConfig(opts, cfgFile, tmpDir, "kitty", "kitty.toml")
-	appendTerminalConfig(opts, cfgFile, tmpDir, "foot", "foot.toml")
-	appendTerminalConfig(opts, cfgFile, tmpDir, "alacritty", "alacritty.toml")
-	appendTerminalConfig(opts, cfgFile, tmpDir, "wezterm", "wezterm.toml")
+	if !opts.ShouldSkipTemplate("ghostty") {
+		appendTerminalConfig(opts, cfgFile, tmpDir, "ghostty", "ghostty.toml")
+	}
+	if !opts.ShouldSkipTemplate("kitty") {
+		appendTerminalConfig(opts, cfgFile, tmpDir, "kitty", "kitty.toml")
+	}
+	if !opts.ShouldSkipTemplate("foot") {
+		appendTerminalConfig(opts, cfgFile, tmpDir, "foot", "foot.toml")
+	}
+	if !opts.ShouldSkipTemplate("alacritty") {
+		appendTerminalConfig(opts, cfgFile, tmpDir, "alacritty", "alacritty.toml")
+	}
+	if !opts.ShouldSkipTemplate("wezterm") {
+		appendTerminalConfig(opts, cfgFile, tmpDir, "wezterm", "wezterm.toml")
+	}
 
-	appendConfig(opts, cfgFile, "dgop", "dgop.toml")
+	if !opts.ShouldSkipTemplate("dgop") {
+		appendConfig(opts, cfgFile, "dgop", "dgop.toml")
+	}
 
-	homeDir, _ := os.UserHomeDir()
-	appendVSCodeConfig(cfgFile, "vscode", filepath.Join(homeDir, ".vscode/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
-	appendVSCodeConfig(cfgFile, "codium", filepath.Join(homeDir, ".vscode-oss/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
-	appendVSCodeConfig(cfgFile, "codeoss", filepath.Join(homeDir, ".config/Code - OSS/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
-	appendVSCodeConfig(cfgFile, "cursor", filepath.Join(homeDir, ".cursor/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
-	appendVSCodeConfig(cfgFile, "windsurf", filepath.Join(homeDir, ".windsurf/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
+	if !opts.ShouldSkipTemplate("kcolorscheme") {
+		appendConfig(opts, cfgFile, "skip", "kcolorscheme.toml")
+	}
+
+	if !opts.ShouldSkipTemplate("vscode") {
+		homeDir, _ := os.UserHomeDir()
+		appendVSCodeConfig(cfgFile, "vscode", filepath.Join(homeDir, ".vscode/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
+		appendVSCodeConfig(cfgFile, "codium", filepath.Join(homeDir, ".vscode-oss/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
+		appendVSCodeConfig(cfgFile, "codeoss", filepath.Join(homeDir, ".config/Code - OSS/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
+		appendVSCodeConfig(cfgFile, "cursor", filepath.Join(homeDir, ".cursor/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
+		appendVSCodeConfig(cfgFile, "windsurf", filepath.Join(homeDir, ".windsurf/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
+	}
 
 	if opts.RunUserTemplates {
 		if data, err := os.ReadFile(userConfigPath); err == nil {
