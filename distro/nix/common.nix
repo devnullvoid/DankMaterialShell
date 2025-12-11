@@ -9,8 +9,6 @@ let
   cfg = config.programs.dankMaterialShell;
 in
 {
-  qmlPath = "${dmsPkgs.dms-shell}/share/quickshell/dms";
-
   packages = [
     dmsPkgs.dms-shell
   ]
@@ -27,4 +25,8 @@ in
   ++ lib.optional cfg.enableAudioWavelength pkgs.cava
   ++ lib.optional cfg.enableCalendarEvents pkgs.khal
   ++ lib.optional cfg.enableSystemSound pkgs.kdePackages.qtmultimedia;
+
+  plugins = lib.mapAttrs (name: plugin: {
+    source = plugin.src;
+  }) (lib.filterAttrs (n: v: v.enable) cfg.plugins);
 }
