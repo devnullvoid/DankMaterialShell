@@ -109,8 +109,8 @@ func StoreWithConfig(data []byte, mimeType string, cfg StoreConfig) error {
 }
 
 func getDBPath() (string, error) {
-	cacheDir := os.Getenv("XDG_CACHE_HOME")
-	if cacheDir == "" {
+	cacheDir, err := os.UserCacheDir()
+	if err != nil {
 		homeDir, err := os.UserHomeDir()
 		if err != nil {
 			return "", err

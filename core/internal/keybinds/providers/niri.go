@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/keybinds"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 	"github.com/sblinch/kdl-go"
 	"github.com/sblinch/kdl-go/document"
 )
@@ -30,7 +29,11 @@ func NewNiriProvider(configDir string) *NiriProvider {
 }
 
 func defaultNiriConfigDir() string {
-	return filepath.Join(utils.XDGConfigHome(), "niri")
+	configDir, err := os.UserConfigDir()
+	if err != nil {
+		return ""
+	}
+	return filepath.Join(configDir, "niri")
 }
 
 func (n *NiriProvider) Name() string {

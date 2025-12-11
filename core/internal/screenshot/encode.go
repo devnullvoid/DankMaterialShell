@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
@@ -119,7 +120,12 @@ func GetOutputDir() string {
 }
 
 func getXDGPicturesDir() string {
-	userDirsFile := filepath.Join(utils.XDGConfigHome(), "user-dirs.dirs")
+	userConfigDir, err := os.UserConfigDir()
+	if err != nil {
+		log.Error("failed to get user config dir", "err", err)
+		return ""
+	}
+	userDirsFile := filepath.Join(userConfigDir, "user-dirs.dirs")
 	data, err := os.ReadFile(userDirsFile)
 	if err != nil {
 		return ""
