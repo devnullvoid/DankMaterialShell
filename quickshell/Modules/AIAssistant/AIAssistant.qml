@@ -80,7 +80,7 @@ Item {
 
             TextArea {
                 id: composer
-                Layout.fillWidth: true
+                width: Math.max(200, parent.width - actionButtons.implicitWidth - Theme.spacingM)
                 implicitHeight: 120
                 placeholderText: I18n.tr("Ask anything…")
                 wrapMode: TextArea.Wrap
@@ -97,6 +97,7 @@ Item {
             }
 
             Column {
+                id: actionButtons
                 spacing: Theme.spacingS
 
                 Button {
