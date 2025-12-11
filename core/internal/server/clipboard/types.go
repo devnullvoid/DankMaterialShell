@@ -30,6 +30,7 @@ func DefaultConfig() Config {
 		MaxEntrySize:   5 * 1024 * 1024,
 		AutoClearDays:  0,
 		ClearAtStartup: false,
+		DisablePersist: true,
 	}
 }
 
