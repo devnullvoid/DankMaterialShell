@@ -503,6 +503,14 @@ Notepad/scratchpad modal control for quick note-taking.
 - `close` - Hide notepad modal
 - `toggle` - Toggle notepad modal visibility
 
+### Target: `aiassistant`
+AI assistant slideout control.
+
+**Functions:**
+- `open` - Show AI assistant slideout
+- `close` - Hide AI assistant slideout
+- `toggle` - Toggle AI assistant slideout visibility
+
 ### Target: `dash`
 Dashboard popup control with tab selection for overview, media, and weather information.
 

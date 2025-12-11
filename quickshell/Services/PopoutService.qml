@@ -31,6 +31,7 @@ Singleton {
     property var networkInfoModal: null
 
     property var notepadSlideouts: []
+    property var aiAssistantSlideouts: []
 
     function setPosition(popout, x, y, width, section, screen) {
         if (popout && popout.setTriggerPosition && arguments.length >= 6) {
@@ -412,6 +413,24 @@ Singleton {
     function toggleNotepad() {
         if (notepadSlideouts.length > 0) {
             notepadSlideouts[0]?.toggle();
+        }
+    }
+
+    function openAiAssistant() {
+        if (aiAssistantSlideouts.length > 0) {
+            aiAssistantSlideouts[0]?.show();
+        }
+    }
+
+    function closeAiAssistant() {
+        if (aiAssistantSlideouts.length > 0) {
+            aiAssistantSlideouts[0]?.hide();
+        }
+    }
+
+    function toggleAiAssistant() {
+        if (aiAssistantSlideouts.length > 0) {
+            aiAssistantSlideouts[0]?.toggle();
         }
     }
 }

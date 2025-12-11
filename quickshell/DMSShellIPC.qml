@@ -12,6 +12,7 @@ Item {
     required property var controlCenterLoader
     required property var dankDashPopoutLoader
     required property var notepadSlideoutVariants
+    required property var aiAssistantSlideoutVariants
     required property var hyprKeybindsModalLoader
     required property var dankBarRepeater
     required property var hyprlandOverviewLoader
@@ -249,6 +250,66 @@ Item {
         }
 
         target: "notepad"
+    }
+
+    IpcHandler {
+        function getActiveAiInstance() {
+            if (root.aiAssistantSlideoutVariants.instances.length === 0) {
+                return null;
+            }
+
+            if (root.aiAssistantSlideoutVariants.instances.length === 1) {
+                return root.aiAssistantSlideoutVariants.instances[0];
+            }
+
+            var focusedScreen = getFocusedScreenName();
+            if (focusedScreen && root.aiAssistantSlideoutVariants.instances.length > 0) {
+                for (var i = 0; i < root.aiAssistantSlideoutVariants.instances.length; i++) {
+                    var slideout = root.aiAssistantSlideoutVariants.instances[i];
+                    if (slideout.modelData && slideout.modelData.name === focusedScreen) {
+                        return slideout;
+                    }
+                }
+            }
+
+            for (var i = 0; i < root.aiAssistantSlideoutVariants.instances.length; i++) {
+                var slideout = root.aiAssistantSlideoutVariants.instances[i];
+                if (slideout.isVisible) {
+                    return slideout;
+                }
+            }
+
+            return root.aiAssistantSlideoutVariants.instances[0];
+        }
+
+        function open(): string {
+            var instance = getActiveAiInstance();
+            if (instance) {
+                instance.show();
+                return "AI_ASSISTANT_OPEN_SUCCESS";
+            }
+            return "AI_ASSISTANT_OPEN_FAILED";
+        }
+
+        function close(): string {
+            var instance = getActiveAiInstance();
+            if (instance) {
+                instance.hide();
+                return "AI_ASSISTANT_CLOSE_SUCCESS";
+            }
+            return "AI_ASSISTANT_CLOSE_FAILED";
+        }
+
+        function toggle(): string {
+            var instance = getActiveAiInstance();
+            if (instance) {
+                instance.toggle();
+                return "AI_ASSISTANT_TOGGLE_SUCCESS";
+            }
+            return "AI_ASSISTANT_TOGGLE_FAILED";
+        }
+
+        target: "aiassistant"
     }
 
     IpcHandler {

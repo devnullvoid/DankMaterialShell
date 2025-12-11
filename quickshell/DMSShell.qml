@@ -12,6 +12,7 @@ import qs.Modules.ControlCenter
 import qs.Modules.Dock
 import qs.Modules.Lock
 import qs.Modules.Notepad
+import qs.Modules.AIAssistant
 import qs.Modules.Notifications.Center
 import qs.Widgets
 import qs.Modules.Notifications.Popup
@@ -601,6 +602,35 @@ Item {
         }
     }
 
+    Variants {
+        id: aiAssistantSlideoutVariants
+        model: SettingsData.getFilteredScreens("aiassistant")
+
+        delegate: DankSlideout {
+            id: aiAssistantSlideout
+            modelData: item
+            title: I18n.tr("AI Assistant")
+            slideoutWidth: 480
+            expandable: true
+            expandedWidthValue: 960
+            customTransparency: SettingsData.aiAssistantTransparencyOverride
+
+            content: Component {
+                AIAssistant {
+                    onHideRequested: aiAssistantSlideout.hide();
+                }
+            }
+
+            function toggle() {
+                if (isVisible) {
+                    hide();
+                } else {
+                    show();
+                }
+            }
+        }
+    }
+
     LazyLoader {
         id: powerMenuModalLoader
 
@@ -659,6 +689,7 @@ Item {
         controlCenterLoader: controlCenterLoader
         dankDashPopoutLoader: dankDashPopoutLoader
         notepadSlideoutVariants: notepadSlideoutVariants
+        aiAssistantSlideoutVariants: aiAssistantSlideoutVariants
         hyprKeybindsModalLoader: hyprKeybindsModalLoader
         dankBarRepeater: dankBarRepeater
         hyprlandOverviewLoader: hyprlandOverviewLoader

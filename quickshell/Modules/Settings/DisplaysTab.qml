@@ -72,6 +72,12 @@ Item {
                 "description": I18n.tr("Quick note-taking slideout panel"),
                 "icon": "sticky_note_2"
             },
+            {
+                "id": "aiassistant",
+                "name": I18n.tr("AI Assistant Slideout"),
+                "description": I18n.tr("Hotkey AI chat panel"),
+                "icon": "smart_toy"
+            },
         ];
     }
 

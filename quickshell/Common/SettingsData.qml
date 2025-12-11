@@ -225,6 +225,20 @@ Singleton {
     property real notepadTransparencyOverride: -1
     property real notepadLastCustomTransparency: 0.7
 
+    // AI Assistant
+    property string aiAssistantProvider: "openai"
+    property string aiAssistantBaseUrl: "https://api.openai.com"
+    property string aiAssistantModel: "gpt-4.1-mini"
+    property real aiAssistantTemperature: 0.7
+    property int aiAssistantMaxTokens: 2048
+    property int aiAssistantTimeout: 30
+    property real aiAssistantTransparencyOverride: -1
+    property real aiAssistantLastCustomTransparency: 0.7
+    property bool aiAssistantUseMonospace: true
+    property string aiAssistantApiKey: ""
+    property bool aiAssistantSaveApiKey: false
+    property string aiAssistantSessionApiKey: ""
+
     onNotepadUseMonospaceChanged: saveSettings()
     onNotepadFontFamilyChanged: saveSettings()
     onNotepadFontSizeChanged: saveSettings()
@@ -237,6 +251,23 @@ Singleton {
         saveSettings();
     }
     onNotepadLastCustomTransparencyChanged: saveSettings()
+
+    onAiAssistantProviderChanged: saveSettings()
+    onAiAssistantBaseUrlChanged: saveSettings()
+    onAiAssistantModelChanged: saveSettings()
+    onAiAssistantTemperatureChanged: saveSettings()
+    onAiAssistantMaxTokensChanged: saveSettings()
+    onAiAssistantTimeoutChanged: saveSettings()
+    onAiAssistantTransparencyOverrideChanged: {
+        if (aiAssistantTransparencyOverride > 0) {
+            aiAssistantLastCustomTransparency = aiAssistantTransparencyOverride;
+        }
+        saveSettings();
+    }
+    onAiAssistantLastCustomTransparencyChanged: saveSettings()
+    onAiAssistantUseMonospaceChanged: saveSettings()
+    onAiAssistantApiKeyChanged: saveSettings()
+    onAiAssistantSaveApiKeyChanged: saveSettings()
 
     property bool soundsEnabled: true
     property bool useSystemSoundTheme: false
