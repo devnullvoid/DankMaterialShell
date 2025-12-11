@@ -60,8 +60,9 @@ Singleton {
         if (!text || text.trim().length === 0)
             return;
 
-        if (isStreaming) {
-            markError(activeStreamId, I18n.tr("Cancelled (new message sent)"));
+        if (isStreaming && chatFetcher.running) {
+            markError(activeStreamId, I18n.tr("Please wait until the current response finishes."));
+            return;
         }
 
         const now = Date.now();
