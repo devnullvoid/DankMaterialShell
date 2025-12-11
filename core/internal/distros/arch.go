@@ -103,10 +103,8 @@ func (a *ArchDistribution) DetectDependenciesWithTerminal(ctx context.Context, w
 		dependencies = append(dependencies, a.detectXwaylandSatellite())
 	}
 
-	// Base detections (common across distros)
 	dependencies = append(dependencies, a.detectMatugen())
 	dependencies = append(dependencies, a.detectDgop())
-	dependencies = append(dependencies, a.detectClipboardTools()...)
 
 	return dependencies, nil
 }

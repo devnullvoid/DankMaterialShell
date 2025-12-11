@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strings"
 
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/clipboard"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/screenshot"
 	"github.com/spf13/cobra"
 )
@@ -257,9 +257,7 @@ func copyImageToClipboard(buf *screenshot.ShmBuffer, format screenshot.Format, q
 		}
 	}
 
-	cmd := exec.Command("wl-copy", "--type", mimeType)
-	cmd.Stdin = &data
-	return cmd.Run()
+	return clipboard.Copy(data.Bytes(), mimeType)
 }
 
 func writeImageToStdout(buf *screenshot.ShmBuffer, format screenshot.Format, quality int, pixelFormat uint32) error {

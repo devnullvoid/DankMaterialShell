@@ -69,7 +69,6 @@ func (d *DebianDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 
 	dependencies = append(dependencies, d.detectMatugen())
 	dependencies = append(dependencies, d.detectDgop())
-	dependencies = append(dependencies, d.detectClipboardTools()...)
 
 	return dependencies, nil
 }

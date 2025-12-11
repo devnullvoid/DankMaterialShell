@@ -76,10 +76,8 @@ func (u *UbuntuDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 		dependencies = append(dependencies, u.detectXwaylandSatellite())
 	}
 
-	// Base detections (common across distros)
 	dependencies = append(dependencies, u.detectMatugen())
 	dependencies = append(dependencies, u.detectDgop())
-	dependencies = append(dependencies, u.detectClipboardTools()...)
 
 	return dependencies, nil
 }

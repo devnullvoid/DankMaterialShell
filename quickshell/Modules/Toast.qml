@@ -293,7 +293,7 @@ PanelWindow {
                             property bool showTooltip: false
 
                             onClicked: {
-                                Quickshell.execDetached(["wl-copy", ToastService.currentCommand]);
+                                Quickshell.execDetached(["dms", "cl", "copy", ToastService.currentCommand]);
                                 showTooltip = true;
                                 tooltipTimer.start();
                             }

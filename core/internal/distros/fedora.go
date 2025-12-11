@@ -88,10 +88,8 @@ func (f *FedoraDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 		dependencies = append(dependencies, f.detectXwaylandSatellite())
 	}
 
-	// Base detections (common across distros)
 	dependencies = append(dependencies, f.detectMatugen())
 	dependencies = append(dependencies, f.detectDgop())
-	dependencies = append(dependencies, f.detectClipboardTools()...)
 
 	return dependencies, nil
 }

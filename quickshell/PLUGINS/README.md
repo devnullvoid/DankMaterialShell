@@ -91,7 +91,7 @@ The manifest file defines plugin metadata and configuration.
 - `icon`: Material Design icon name (displayed in UI)
 - `settings`: Path to settings component (enables settings UI)
 - `requires_dms`: Minimum DMS version requirement (e.g., ">=0.1.18", ">0.1.0")
-- `requires`: Array of required system tools/dependencies (e.g., ["wl-copy", "curl"])
+- `requires`: Array of required system tools/dependencies (e.g., ["curl", "jq"])
 - `permissions`: Required DMS permissions (e.g., ["settings_read", "settings_write"])
 
 **Permissions:**
@@ -860,11 +860,11 @@ Or edit `$CONFIGPATH/quickshell/dms/config.json`:
 
 ## Clipboard Access
 
-Plugins that need to copy text to the clipboard **must** use the Wayland clipboard utility `wl-copy` through Quickshell's `execDetached` function.
+Plugins that need to copy text to the clipboard should use the built-in `dms cl copy` command through Quickshell's `execDetached` function.
 
 ### Correct Method
 
-Import Quickshell and use `execDetached` with `wl-copy`:
+Import Quickshell and use `execDetached` with `dms cl copy`:
 
 ```qml
 import QtQuick
@@ -872,19 +872,19 @@ import Quickshell
 
 Item {
     function copyToClipboard(text) {
-        Quickshell.execDetached(["sh", "-c", "echo -n '" + text + "' | wl-copy"])
+        Quickshell.execDetached(["dms", "cl", "copy", text])
     }
 }
 ```
 
 ### Example Usage
 
-From the ExampleEmojiPlugin (EmojiWidget.qml:136):
+From the ExampleEmojiPlugin (EmojiWidget.qml):
 
 ```qml
 MouseArea {
     onClicked: {
-        Quickshell.execDetached(["sh", "-c", "echo -n '" + modelData + "' | wl-copy"])
+        Quickshell.execDetached(["dms", "cl", "copy", modelData])
         ToastService.showInfo("Copied " + modelData + " to clipboard")
         popoutColumn.closePopout()
     }
@@ -895,13 +895,11 @@ MouseArea {
 
 1. **Do NOT** use `globalThis.clipboard` or similar JavaScript APIs - they don't exist in the QML runtime
 2. **Always** import `Quickshell` at the top of your QML file
-3. **Use** `echo -n` to prevent adding a trailing newline to the clipboard content
-4. The `-c` flag for `sh` is required to execute the pipe command properly
-5. Consider showing a toast notification to confirm the copy action to users
+3. Consider showing a toast notification to confirm the copy action to users
 
 ### Dependencies
 
-This method requires `wl-copy` from the `wl-clipboard` package, which is standard on Wayland systems.
+This method uses the built-in DMS clipboard functionality which has native Wayland support.
 
 ## Running External Commands
 

@@ -107,7 +107,6 @@ func (g *GentooDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 
 	dependencies = append(dependencies, g.detectMatugen())
 	dependencies = append(dependencies, g.detectDgop())
-	dependencies = append(dependencies, g.detectClipboardTools()...)
 
 	return dependencies, nil
 }

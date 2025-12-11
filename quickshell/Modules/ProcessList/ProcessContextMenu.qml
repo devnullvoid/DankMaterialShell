@@ -1,9 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import Quickshell
-import Quickshell.Io
 import qs.Common
-import qs.Services
 import qs.Widgets
 
 Popup {
@@ -99,13 +97,11 @@ Popup {
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
                         if (processContextMenu.processData) {
-                            Quickshell.execDetached(["wl-copy", processContextMenu.processData.pid.toString()]);
+                            Quickshell.execDetached(["dms", "cl", "copy", processContextMenu.processData.pid.toString()]);
                         }
-
                         processContextMenu.close();
                     }
                 }
-
             }
 
             Rectangle {
@@ -133,12 +129,11 @@ Popup {
                     onClicked: {
                         if (processContextMenu.processData) {
                             const processName = processContextMenu.processData.displayName || processContextMenu.processData.command;
-                            Quickshell.execDetached(["wl-copy", processName]);
+                            Quickshell.execDetached(["dms", "cl", "copy", processName]);
                         }
                         processContextMenu.close();
                     }
                 }
-
             }
 
             Rectangle {
@@ -153,7 +148,6 @@ Popup {
                     height: 1
                     color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
                 }
-
             }
 
             Rectangle {
@@ -189,7 +183,6 @@ Popup {
                         processContextMenu.close();
                     }
                 }
-
             }
 
             Rectangle {
@@ -225,11 +218,7 @@ Popup {
                         processContextMenu.close();
                     }
                 }
-
             }
-
         }
-
     }
-
 }

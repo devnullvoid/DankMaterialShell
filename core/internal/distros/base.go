@@ -185,26 +185,6 @@ func (b *BaseDistribution) detectSpecificTerminal(terminal deps.Terminal) deps.D
 	}
 }
 
-func (b *BaseDistribution) detectClipboardTools() []deps.Dependency {
-	var dependencies []deps.Dependency
-
-	wlClipboard := deps.StatusMissing
-	if b.commandExists("wl-copy") && b.commandExists("wl-paste") {
-		wlClipboard = deps.StatusInstalled
-	}
-
-	dependencies = append(dependencies,
-		deps.Dependency{
-			Name:        "wl-clipboard",
-			Status:      wlClipboard,
-			Description: "Wayland clipboard utilities",
-			Required:    true,
-		},
-	)
-
-	return dependencies
-}
-
 func (b *BaseDistribution) detectHyprlandTools() []deps.Dependency {
 	var dependencies []deps.Dependency
 

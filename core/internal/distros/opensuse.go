@@ -78,10 +78,8 @@ func (o *OpenSUSEDistribution) DetectDependenciesWithTerminal(ctx context.Contex
 		dependencies = append(dependencies, o.detectXwaylandSatellite())
 	}
 
-	// Base detections (common across distros)
 	dependencies = append(dependencies, o.detectMatugen())
 	dependencies = append(dependencies, o.detectDgop())
-	dependencies = append(dependencies, o.detectClipboardTools()...)
 
 	return dependencies, nil
 }
