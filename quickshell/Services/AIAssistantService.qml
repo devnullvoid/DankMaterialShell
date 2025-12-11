@@ -10,6 +10,7 @@ Singleton {
     id: root
 
     property var messages: []
+    onMessagesChanged: console.log("[AIAssistantService] messages length", messages ? messages.length : 0)
     property bool isStreaming: false
     property bool isOnline: false
     property string activeStreamId: ""
