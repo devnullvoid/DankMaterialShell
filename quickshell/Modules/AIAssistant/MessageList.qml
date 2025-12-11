@@ -2,34 +2,29 @@ import QtQuick
 import QtQuick.Controls
 import qs.Common
 
-Flickable {
+Item {
     id: root
     clip: true
-    contentWidth: width
-    contentHeight: contentItem.childrenRect.height
-    ScrollBar.vertical: ScrollBar { }
-
     property var messages: null // expects a ListModel
 
-    Column {
-        id: messageColumn
-        width: root.width
+    Component.onCompleted: console.log("[MessageList] ready")
+
+    ListView {
+        id: listView
+        anchors.fill: parent
+        model: root.messages
         spacing: Theme.spacingS
+        clip: true
+        ScrollBar.vertical: ScrollBar { }
 
-        Component.onCompleted: console.log("[MessageList] ready")
+        delegate: MessageBubble {
+            width: listView.width
+            role: role || "assistant"
+            text: content || ""
+            status: status || "ok"
 
-        Repeater {
-            model: root.messages
-
-            delegate: MessageBubble {
-                width: messageColumn.width
-                role: model.role || "assistant"
-                text: model.content || ""
-                status: model.status || "ok"
-
-                Component.onCompleted: {
-                    console.log("[MessageList] add", role, text.slice(0, 40))
-                }
+            Component.onCompleted: {
+                console.log("[MessageList] add", role, text ? text.slice(0, 40) : "")
             }
         }
     }
