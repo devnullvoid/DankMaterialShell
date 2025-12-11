@@ -9,15 +9,10 @@ import (
 	"path/filepath"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 )
 
-type serverResponse struct {
-	ID     int    `json:"id,omitempty"`
-	Result any    `json:"result,omitempty"`
-	Error  string `json:"error,omitempty"`
-}
-
-func sendServerRequest(req map[string]any) (*serverResponse, error) {
+func sendServerRequest(req models.Request) (*models.Response[any], error) {
 	socketPath := getServerSocketPath()
 
 	conn, err := net.Dial("unix", socketPath)
@@ -46,12 +41,52 @@ func sendServerRequest(req map[string]any) (*serverResponse, error) {
 		return nil, fmt.Errorf("failed to read response")
 	}
 
-	var resp serverResponse
+	var resp models.Response[any]
 	if err := json.Unmarshal(scanner.Bytes(), &resp); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal response: %w", err)
 	}
 
 	return &resp, nil
+}
+
+// sendServerRequestFireAndForget sends a request without waiting for a response.
+// Useful for commands that trigger UI or async operations.
+func sendServerRequestFireAndForget(req models.Request) error {
+	socketPath := getServerSocketPath()
+
+	conn, err := net.Dial("unix", socketPath)
+	if err != nil {
+		return fmt.Errorf("failed to connect to server (is it running?): %w", err)
+	}
+	defer conn.Close()
+
+	scanner := bufio.NewScanner(conn)
+	scanner.Scan() // discard initial capabilities message
+
+	reqData, err := json.Marshal(req)
+	if err != nil {
+		return fmt.Errorf("failed to marshal request: %w", err)
+	}
+
+	if _, err := conn.Write(reqData); err != nil {
+		return fmt.Errorf("failed to write request: %w", err)
+	}
+
+	if _, err := conn.Write([]byte("\n")); err != nil {
+		return fmt.Errorf("failed to write newline: %w", err)
+	}
+
+	return nil
+}
+
+// tryServerRequest attempts to send a request but returns false if server unavailable.
+// Does not log errors - caller can decide what to do on failure.
+func tryServerRequest(req models.Request) (*models.Response[any], bool) {
+	resp, err := sendServerRequest(req)
+	if err != nil {
+		return nil, false
+	}
+	return resp, true
 }
 
 func getServerSocketPath() string {

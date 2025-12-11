@@ -65,7 +65,7 @@ type Manager struct {
 	state       *State
 	stateMutex  sync.RWMutex
 
-	display             *wlclient.Display
+	display             wlclient.WaylandDisplay
 	ctx                 *wlclient.Context
 	registry            *wlclient.Registry
 	gammaControl        any

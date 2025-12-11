@@ -45,7 +45,7 @@ type cmd struct {
 }
 
 type Manager struct {
-	display  *wlclient.Display
+	display  wlclient.WaylandDisplay
 	ctx      *wlclient.Context
 	registry *wlclient.Registry
 	manager  *wlr_output_management.ZwlrOutputManagerV1

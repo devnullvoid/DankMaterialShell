@@ -2,15 +2,12 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
-	"net"
-	"os"
 	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/matugen"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/server"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 	"github.com/spf13/cobra"
 )
 
@@ -100,33 +97,10 @@ func runMatugenQueue(cmd *cobra.Command, args []string) {
 	wait, _ := cmd.Flags().GetBool("wait")
 	timeout, _ := cmd.Flags().GetDuration("timeout")
 
-	socketPath := os.Getenv("DMS_SOCKET")
-	if socketPath == "" {
-		var err error
-		socketPath, err = server.FindSocket()
-		if err != nil {
-			log.Info("No socket available, running synchronously")
-			if err := matugen.Run(opts); err != nil {
-				log.Fatalf("Theme generation failed: %v", err)
-			}
-			return
-		}
-	}
-
-	conn, err := net.Dial("unix", socketPath)
-	if err != nil {
-		log.Info("Socket connection failed, running synchronously")
-		if err := matugen.Run(opts); err != nil {
-			log.Fatalf("Theme generation failed: %v", err)
-		}
-		return
-	}
-	defer conn.Close()
-
-	request := map[string]any{
-		"id":     1,
-		"method": "matugen.queue",
-		"params": map[string]any{
+	request := models.Request{
+		ID:     1,
+		Method: "matugen.queue",
+		Params: map[string]any{
 			"stateDir":            opts.StateDir,
 			"shellDir":            opts.ShellDir,
 			"configDir":           opts.ConfigDir,
@@ -144,11 +118,14 @@ func runMatugenQueue(cmd *cobra.Command, args []string) {
 		},
 	}
 
-	if err := json.NewEncoder(conn).Encode(request); err != nil {
-		log.Fatalf("Failed to send request: %v", err)
-	}
-
 	if !wait {
+		if err := sendServerRequestFireAndForget(request); err != nil {
+			log.Info("Server unavailable, running synchronously")
+			if err := matugen.Run(opts); err != nil {
+				log.Fatalf("Theme generation failed: %v", err)
+			}
+			return
+		}
 		fmt.Println("Theme generation queued")
 		return
 	}
@@ -158,17 +135,18 @@ func runMatugenQueue(cmd *cobra.Command, args []string) {
 
 	resultCh := make(chan error, 1)
 	go func() {
-		var response struct {
-			ID     int    `json:"id"`
-			Result any    `json:"result"`
-			Error  string `json:"error"`
-		}
-		if err := json.NewDecoder(conn).Decode(&response); err != nil {
-			resultCh <- fmt.Errorf("failed to read response: %w", err)
+		resp, ok := tryServerRequest(request)
+		if !ok {
+			log.Info("Server unavailable, running synchronously")
+			if err := matugen.Run(opts); err != nil {
+				resultCh <- err
+				return
+			}
+			resultCh <- nil
 			return
 		}
-		if response.Error != "" {
-			resultCh <- fmt.Errorf("server error: %s", response.Error)
+		if resp.Error != "" {
+			resultCh <- fmt.Errorf("server error: %s", resp.Error)
 			return
 		}
 		resultCh <- nil

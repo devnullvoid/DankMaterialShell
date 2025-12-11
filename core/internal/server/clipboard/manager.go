@@ -27,7 +27,7 @@ import (
 	wlclient "github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
 )
 
-func NewManager(wlCtx *wlcontext.SharedContext, config Config) (*Manager, error) {
+func NewManager(wlCtx wlcontext.WaylandContext, config Config) (*Manager, error) {
 	if config.Disabled {
 		return nil, fmt.Errorf("clipboard disabled in config")
 	}

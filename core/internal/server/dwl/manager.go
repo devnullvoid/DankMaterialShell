@@ -10,7 +10,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/dwl_ipc"
 )
 
-func NewManager(display *wlclient.Display) (*Manager, error) {
+func NewManager(display wlclient.WaylandDisplay) (*Manager, error) {
 	m := &Manager{
 		display:        display,
 		ctx:            display.Context(),

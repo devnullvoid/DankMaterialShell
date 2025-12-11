@@ -14,6 +14,7 @@ import (
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/clipboard"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 	"github.com/spf13/cobra"
 )
 
@@ -281,10 +282,9 @@ func runCommand(args []string, stdin []byte) {
 }
 
 func runClipHistory(cmd *cobra.Command, args []string) {
-	req := map[string]any{
-		"id":     1,
-		"method": "clipboard.getHistory",
-		"params": map[string]any{},
+	req := models.Request{
+		ID:     1,
+		Method: "clipboard.getHistory",
 	}
 
 	resp, err := sendServerRequest(req)
@@ -305,7 +305,7 @@ func runClipHistory(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	historyList, ok := resp.Result.([]any)
+	historyList, ok := (*resp.Result).([]any)
 	if !ok {
 		log.Fatal("Invalid response format")
 	}
@@ -353,10 +353,10 @@ func runClipGet(cmd *cobra.Command, args []string) {
 	}
 
 	if clipGetCopy {
-		req := map[string]any{
-			"id":     1,
-			"method": "clipboard.copyEntry",
-			"params": map[string]any{
+		req := models.Request{
+			ID:     1,
+			Method: "clipboard.copyEntry",
+			Params: map[string]any{
 				"id": id,
 			},
 		}
@@ -374,10 +374,10 @@ func runClipGet(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	req := map[string]any{
-		"id":     1,
-		"method": "clipboard.getEntry",
-		"params": map[string]any{
+	req := models.Request{
+		ID:     1,
+		Method: "clipboard.getEntry",
+		Params: map[string]any{
 			"id": id,
 		},
 	}
@@ -395,7 +395,7 @@ func runClipGet(cmd *cobra.Command, args []string) {
 		log.Fatal("Entry not found")
 	}
 
-	entry, ok := resp.Result.(map[string]any)
+	entry, ok := (*resp.Result).(map[string]any)
 	if !ok {
 		log.Fatal("Invalid response format")
 	}
@@ -420,10 +420,10 @@ func runClipDelete(cmd *cobra.Command, args []string) {
 		log.Fatalf("Invalid ID: %v", err)
 	}
 
-	req := map[string]any{
-		"id":     1,
-		"method": "clipboard.deleteEntry",
-		"params": map[string]any{
+	req := models.Request{
+		ID:     1,
+		Method: "clipboard.deleteEntry",
+		Params: map[string]any{
 			"id": id,
 		},
 	}
@@ -441,10 +441,9 @@ func runClipDelete(cmd *cobra.Command, args []string) {
 }
 
 func runClipClear(cmd *cobra.Command, args []string) {
-	req := map[string]any{
-		"id":     1,
-		"method": "clipboard.clearHistory",
-		"params": map[string]any{},
+	req := models.Request{
+		ID:     1,
+		Method: "clipboard.clearHistory",
 	}
 
 	resp, err := sendServerRequest(req)
@@ -477,10 +476,10 @@ func runClipSearch(cmd *cobra.Command, args []string) {
 		params["isImage"] = false
 	}
 
-	req := map[string]any{
-		"id":     1,
-		"method": "clipboard.search",
-		"params": params,
+	req := models.Request{
+		ID:     1,
+		Method: "clipboard.search",
+		Params: params,
 	}
 
 	resp, err := sendServerRequest(req)
@@ -492,7 +491,11 @@ func runClipSearch(cmd *cobra.Command, args []string) {
 		log.Fatalf("Error: %s", resp.Error)
 	}
 
-	result, ok := resp.Result.(map[string]any)
+	if resp.Result == nil {
+		log.Fatal("No results")
+	}
+
+	result, ok := (*resp.Result).(map[string]any)
 	if !ok {
 		log.Fatal("Invalid response format")
 	}
@@ -540,10 +543,9 @@ func runClipSearch(cmd *cobra.Command, args []string) {
 }
 
 func runClipConfigGet(cmd *cobra.Command, args []string) {
-	req := map[string]any{
-		"id":     1,
-		"method": "clipboard.getConfig",
-		"params": map[string]any{},
+	req := models.Request{
+		ID:     1,
+		Method: "clipboard.getConfig",
 	}
 
 	resp, err := sendServerRequest(req)
@@ -555,7 +557,11 @@ func runClipConfigGet(cmd *cobra.Command, args []string) {
 		log.Fatalf("Error: %s", resp.Error)
 	}
 
-	cfg, ok := resp.Result.(map[string]any)
+	if resp.Result == nil {
+		log.Fatal("No config returned")
+	}
+
+	cfg, ok := (*resp.Result).(map[string]any)
 	if !ok {
 		log.Fatal("Invalid response format")
 	}
@@ -603,10 +609,10 @@ func runClipConfigSet(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	req := map[string]any{
-		"id":     1,
-		"method": "clipboard.setConfig",
-		"params": params,
+	req := models.Request{
+		ID:     1,
+		Method: "clipboard.setConfig",
+		Params: params,
 	}
 
 	resp, err := sendServerRequest(req)

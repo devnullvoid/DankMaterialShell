@@ -1,11 +1,14 @@
 package dwl
 
 import (
+	"errors"
 	"sync"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
+
+	mocks_wlclient "github.com/AvengeMedia/DankMaterialShell/core/internal/mocks/wlclient"
 )
 
 func TestStateChanged_BothNil(t *testing.T) {
@@ -349,4 +352,15 @@ func TestStateChanged_TagsLengthDiffers(t *testing.T) {
 		},
 	}
 	assert.True(t, stateChanged(a, b))
+}
+
+func TestNewManager_GetRegistryError(t *testing.T) {
+	mockDisplay := mocks_wlclient.NewMockWaylandDisplay(t)
+
+	mockDisplay.EXPECT().Context().Return(nil)
+	mockDisplay.EXPECT().GetRegistry().Return(nil, errors.New("failed to get registry"))
+
+	_, err := NewManager(mockDisplay)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "failed to get registry")
 }

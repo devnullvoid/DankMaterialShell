@@ -19,7 +19,7 @@ import (
 
 const animKelvinStep = 25
 
-func NewManager(display *wlclient.Display, config Config) (*Manager, error) {
+func NewManager(display wlclient.WaylandDisplay, config Config) (*Manager, error) {
 	if err := config.Validate(); err != nil {
 		return nil, err
 	}

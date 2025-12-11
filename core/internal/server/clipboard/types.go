@@ -115,8 +115,8 @@ type Manager struct {
 	configMutex sync.RWMutex
 	configPath  string
 
-	display *wlclient.Display
-	wlCtx   *wlcontext.SharedContext
+	display wlclient.WaylandDisplay
+	wlCtx   wlcontext.WaylandContext
 
 	registry       *wlclient.Registry
 	dataControlMgr any

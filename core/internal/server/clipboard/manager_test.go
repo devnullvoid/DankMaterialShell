@@ -2,10 +2,14 @@ package clipboard
 
 import (
 	"sync"
+	"sync/atomic"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
+
+	mocks_wlcontext "github.com/AvengeMedia/DankMaterialShell/core/internal/mocks/wlcontext"
 )
 
 func TestEncodeDecodeEntry_Roundtrip(t *testing.T) {
@@ -453,4 +457,75 @@ func TestDefaultConfig(t *testing.T) {
 	assert.False(t, cfg.Disabled)
 	assert.False(t, cfg.DisableHistory)
 	assert.False(t, cfg.DisablePersist)
+}
+
+func TestManager_PostDelegatesToWlContext(t *testing.T) {
+	mockCtx := mocks_wlcontext.NewMockWaylandContext(t)
+
+	var called atomic.Bool
+	mockCtx.EXPECT().Post(mock.AnythingOfType("func()")).Run(func(fn func()) {
+		called.Store(true)
+		fn()
+	}).Once()
+
+	m := &Manager{
+		wlCtx: mockCtx,
+	}
+
+	executed := false
+	m.post(func() {
+		executed = true
+	})
+
+	assert.True(t, called.Load())
+	assert.True(t, executed)
+}
+
+func TestManager_PostExecutesFunctionViaContext(t *testing.T) {
+	mockCtx := mocks_wlcontext.NewMockWaylandContext(t)
+
+	var capturedFn func()
+	mockCtx.EXPECT().Post(mock.AnythingOfType("func()")).Run(func(fn func()) {
+		capturedFn = fn
+	}).Times(3)
+
+	m := &Manager{
+		wlCtx: mockCtx,
+	}
+
+	counter := 0
+	m.post(func() { counter++ })
+	m.post(func() { counter += 10 })
+	m.post(func() { counter += 100 })
+
+	assert.NotNil(t, capturedFn)
+	capturedFn()
+	assert.Equal(t, 100, counter)
+}
+
+func TestManager_ConcurrentPostWithMock(t *testing.T) {
+	mockCtx := mocks_wlcontext.NewMockWaylandContext(t)
+
+	var postCount atomic.Int32
+	mockCtx.EXPECT().Post(mock.AnythingOfType("func()")).Run(func(fn func()) {
+		postCount.Add(1)
+	}).Times(100)
+
+	m := &Manager{
+		wlCtx: mockCtx,
+	}
+
+	var wg sync.WaitGroup
+	for i := 0; i < 10; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for j := 0; j < 10; j++ {
+				m.post(func() {})
+			}
+		}()
+	}
+
+	wg.Wait()
+	assert.Equal(t, int32(100), postCount.Load())
 }

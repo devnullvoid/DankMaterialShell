@@ -12,6 +12,16 @@ import (
 	wlclient "github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
 )
 
+type WaylandContext interface {
+	Display() *wlclient.Display
+	Post(fn func())
+	FatalError() <-chan error
+	Start()
+	Close()
+}
+
+var _ WaylandContext = (*SharedContext)(nil)
+
 type SharedContext struct {
 	display    *wlclient.Display
 	stopChan   chan struct{}

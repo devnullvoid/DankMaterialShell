@@ -1,11 +1,14 @@
 package wlroutput
 
 import (
+	"errors"
 	"sync"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
+
+	mocks_wlclient "github.com/AvengeMedia/DankMaterialShell/core/internal/mocks/wlclient"
 )
 
 func TestStateChanged_BothNil(t *testing.T) {
@@ -397,4 +400,15 @@ func TestStateChanged_IndexOutOfBounds(t *testing.T) {
 	a := &State{Serial: 1, Outputs: []Output{{Name: "eDP-1"}}}
 	b := &State{Serial: 1, Outputs: []Output{{Name: "eDP-1"}, {Name: "HDMI-A-1"}}}
 	assert.True(t, stateChanged(a, b))
+}
+
+func TestNewManager_GetRegistryError(t *testing.T) {
+	mockDisplay := mocks_wlclient.NewMockWaylandDisplay(t)
+
+	mockDisplay.EXPECT().Context().Return(nil)
+	mockDisplay.EXPECT().GetRegistry().Return(nil, errors.New("failed to get registry"))
+
+	_, err := NewManager(mockDisplay)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "failed to get registry")
 }
