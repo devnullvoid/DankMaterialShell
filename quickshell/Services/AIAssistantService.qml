@@ -6,7 +6,7 @@ import qs.Common
 pragma Singleton
 pragma ComponentBehavior: Bound
 
-QtObject {
+Singleton {
     id: root
 
     property var messages: []
