@@ -119,16 +119,18 @@ QtObject {
         isOnline = true;
     }
 
-    function buildPayload(text) {
-        const history = (messages || []).filter(m => m.role === "user" || m.role === "assistant").map(m => ({ role: m.role, content: m.content }));
-        const msgs = history.concat([{ role: "user", content: text }]);
+    function buildPayload(latestText) {
+        // messages already contains the latest user entry; do not duplicate it.
+        const msgs = (messages || [])
+            .filter(m => m.role === "user" || m.role === "assistant")
+            .map(m => ({ role: m.role, content: m.content }));
         return {
             provider: provider,
             baseUrl: baseUrl,
             model: model,
             temperature: SettingsData.aiAssistantTemperature,
             max_tokens: SettingsData.aiAssistantMaxTokens,
-            messages: msgs,
+            messages: msgs.length > 0 ? msgs : [{ role: "user", content: latestText }],
             stream: true,
             timeout: SettingsData.aiAssistantTimeout
         };
@@ -180,9 +182,19 @@ QtObject {
     property string streamBuffer: ""
 
     function handleStreamChunk(chunk) {
-        const lines = chunk.split(/\r?\n/);
-        for (let i = 0; i < lines.length; i++) {
-            const line = lines[i].trim();
+        // prepend any partial line saved from previous chunk
+        let buffer = streamBuffer + chunk;
+        const parts = buffer.split(/\r?\n/);
+
+        // if the last char isn't a newline, keep the tail as partial
+        if (buffer.length > 0 && !buffer.endsWith("\n") && !buffer.endsWith("\r")) {
+            streamBuffer = parts.pop();
+        } else {
+            streamBuffer = "";
+        }
+
+        for (let i = 0; i < parts.length; i++) {
+            const line = parts[i].trim();
             if (!line)
                 continue;
 
