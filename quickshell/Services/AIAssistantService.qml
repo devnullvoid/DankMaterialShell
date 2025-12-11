@@ -10,7 +10,10 @@ Singleton {
     id: root
 
     property int refCount: 0
-    Component.onCompleted: console.log("[AIAssistantService] ready")
+    Component.onCompleted: {
+        console.log("[AIAssistantService] ready")
+        console.warn("[AIAssistantService] ready (warn)")
+    }
 
     property ListModel messagesModel: ListModel {}
     property int messageCount: messagesModel.count
