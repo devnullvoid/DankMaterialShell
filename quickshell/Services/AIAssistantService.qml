@@ -60,6 +60,8 @@ Singleton {
         if (!text || text.trim().length === 0)
             return;
 
+        console.log("[AIAssistantService] sendMessage", text.slice(0, 80));
+
         if (isStreaming && chatFetcher.running) {
             markError(activeStreamId, I18n.tr("Please wait until the current response finishes."));
             return;
