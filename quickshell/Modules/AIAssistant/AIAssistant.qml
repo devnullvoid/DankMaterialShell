@@ -12,14 +12,13 @@ Item {
     signal hideRequested
 
     Ref {
-        id: aiService
         service: AIAssistantService
     }
 
     function sendCurrentMessage() {
         if (!composer.text || composer.text.trim().length === 0)
             return;
-        aiService.sendMessage(composer.text.trim());
+        AIAssistantService.sendMessage(composer.text.trim());
         composer.text = "";
     }
 
@@ -41,7 +40,7 @@ Item {
             Rectangle {
                 width: 10; height: 10
                 radius: 5
-                color: aiService.isOnline ? Theme.success : Theme.surfaceVariantText
+                color: AIAssistantService.isOnline ? Theme.success : Theme.surfaceVariantText
                 anchors.verticalCenter: parent.verticalCenter
             }
 
@@ -69,7 +68,7 @@ Item {
             MessageList {
                 id: list
                 anchors.fill: parent
-                messages: aiService.messages
+                messages: AIAssistantService.messages
             }
         }
 
@@ -108,8 +107,8 @@ Item {
 
                 Button {
                     text: I18n.tr("Stop")
-                    enabled: aiService.isStreaming
-                    onClicked: aiService.cancel()
+                    enabled: AIAssistantService.isStreaming
+                    onClicked: AIAssistantService.cancel()
                 }
             }
         }
