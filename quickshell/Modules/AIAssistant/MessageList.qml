@@ -19,9 +19,9 @@ Item {
 
         delegate: MessageBubble {
             width: listView.width
-            role: role || "assistant"
-            text: content || ""
-            status: status || "ok"
+            role: model.role || "assistant"
+            text: model.content || ""
+            status: model.status || "ok"
 
             Component.onCompleted: {
                 console.log("[MessageList] add", role, text ? text.slice(0, 40) : "")
