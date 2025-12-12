@@ -287,16 +287,39 @@ Singleton {
     }
 
     function buildPayload(latestText) {
+        // Only include completed turns (user+assistant) in history.
+        // If prior requests failed, the model may contain multiple user messages with no assistant reply;
+        // we intentionally drop those to avoid sending repeated user-only history.
         const msgs = [];
-        for (let i = 0; i < messagesModel.count; i++) {
+
+        let needUser = false;
+        let turns = 0;
+        const maxTurns = 20;
+
+        for (let i = messagesModel.count - 1; i >= 0; i--) {
             const m = messagesModel.get(i);
-            if ((m.role === "user" || m.role === "assistant") && m.status === "ok") {
-                msgs.push({ role: m.role, content: m.content });
+            if (!m || m.status !== "ok")
+                continue;
+            if (m.role !== "user" && m.role !== "assistant")
+                continue;
+
+            if (!needUser) {
+                if (m.role === "assistant") {
+                    msgs.unshift({ role: "assistant", content: m.content });
+                    needUser = true;
+                }
+            } else {
+                if (m.role === "user") {
+                    msgs.unshift({ role: "user", content: m.content });
+                    needUser = false;
+                    turns++;
+                    if (turns >= maxTurns)
+                        break;
+                }
             }
         }
-        if (msgs.length === 0 || msgs[msgs.length - 1].role !== "user") {
-            msgs.push({ role: "user", content: latestText });
-        }
+
+        msgs.push({ role: "user", content: latestText });
         return {
             provider: provider,
             baseUrl: baseUrl,
@@ -395,8 +418,25 @@ Singleton {
             lastHttpStatus = parseInt(match[1]);
         }
 
+        function stripStatusFooter(fullText) {
+            const marker = "\nDMS_STATUS:";
+            const idx = fullText.lastIndexOf(marker);
+            if (idx >= 0)
+                return fullText.substring(0, idx);
+            return fullText;
+        }
+
+        const bodyText = stripStatusFooter(text || "").trim();
+        const bodyPreview = bodyText.length > 0 ? bodyText.slice(0, 600) : "";
+
         if (lastHttpStatus >= 400 && isStreaming) {
-            markError(activeStreamId, I18n.tr("Request failed (HTTP %1)").arg(lastHttpStatus));
+            if (debugEnabled && bodyPreview) {
+                console.log("[AIAssistantService] response error body(preview)=", bodyPreview);
+            }
+            const msg = bodyPreview
+                ? (I18n.tr("Request failed (HTTP %1): ").arg(lastHttpStatus) + bodyPreview)
+                : I18n.tr("Request failed (HTTP %1)").arg(lastHttpStatus);
+            markError(activeStreamId, msg);
             return;
         }
 
