@@ -4,7 +4,6 @@ import QtQuick.Effects
 import QtQuick.Shapes
 import Quickshell
 import Quickshell.Wayland
-import Quickshell.Widgets
 import Quickshell.Services.Notifications
 import qs.Common
 import qs.Services
@@ -29,63 +28,63 @@ PanelWindow {
 
     function startExit() {
         if (exiting || _isDestroying) {
-            return
+            return;
         }
-        exiting = true
-        exitAnim.restart()
-        exitWatchdog.restart()
+        exiting = true;
+        exitAnim.restart();
+        exitWatchdog.restart();
         if (NotificationService.removeFromVisibleNotifications)
-            NotificationService.removeFromVisibleNotifications(win.notificationData)
+            NotificationService.removeFromVisibleNotifications(win.notificationData);
     }
 
     function forceExit() {
         if (_isDestroying) {
-            return
+            return;
         }
-        _isDestroying = true
-        exiting = true
-        visible = false
-        exitWatchdog.stop()
-        finalizeExit("forced")
+        _isDestroying = true;
+        exiting = true;
+        visible = false;
+        exitWatchdog.stop();
+        finalizeExit("forced");
     }
 
     function finalizeExit(reason) {
         if (_finalized) {
-            return
+            return;
         }
 
-        _finalized = true
-        _isDestroying = true
-        exitWatchdog.stop()
-        wrapperConn.enabled = false
-        wrapperConn.target = null
-        win.exitFinished()
+        _finalized = true;
+        _isDestroying = true;
+        exitWatchdog.stop();
+        wrapperConn.enabled = false;
+        wrapperConn.target = null;
+        win.exitFinished();
     }
 
     visible: hasValidData
     WlrLayershell.layer: {
-        const envLayer = Quickshell.env("DMS_NOTIFICATION_LAYER")
+        const envLayer = Quickshell.env("DMS_NOTIFICATION_LAYER");
         if (envLayer) {
             switch (envLayer) {
             case "bottom":
-                return WlrLayershell.Bottom
+                return WlrLayershell.Bottom;
             case "overlay":
-                return WlrLayershell.Overlay
+                return WlrLayershell.Overlay;
             case "background":
-                return WlrLayershell.Background
+                return WlrLayershell.Background;
             case "top":
-                return WlrLayershell.Top
+                return WlrLayershell.Top;
             }
         }
 
         if (!notificationData)
-            return WlrLayershell.Top
+            return WlrLayershell.Top;
 
-        SettingsData.notificationOverlayEnabled
+        SettingsData.notificationOverlayEnabled;
 
-        const shouldUseOverlay = (SettingsData.notificationOverlayEnabled) || (notificationData.urgency === NotificationUrgency.Critical)
+        const shouldUseOverlay = (SettingsData.notificationOverlayEnabled) || (notificationData.urgency === NotificationUrgency.Critical);
 
-        return shouldUseOverlay ? WlrLayershell.Overlay : WlrLayershell.Top
+        return shouldUseOverlay ? WlrLayershell.Overlay : WlrLayershell.Top;
     }
     WlrLayershell.exclusiveZone: -1
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
@@ -94,32 +93,32 @@ PanelWindow {
     implicitHeight: 122
     onHasValidDataChanged: {
         if (!hasValidData && !exiting && !_isDestroying) {
-            forceExit()
+            forceExit();
         }
     }
     Component.onCompleted: {
         if (hasValidData) {
-            Qt.callLater(() => enterX.restart())
+            Qt.callLater(() => enterX.restart());
         } else {
-            forceExit()
+            forceExit();
         }
     }
     onNotificationDataChanged: {
         if (!_isDestroying) {
-            wrapperConn.target = win.notificationData || null
-            notificationConn.target = (win.notificationData && win.notificationData.notification && win.notificationData.notification.Retainable) || null
+            wrapperConn.target = win.notificationData || null;
+            notificationConn.target = (win.notificationData && win.notificationData.notification && win.notificationData.notification.Retainable) || null;
         }
     }
     onEntered: {
         if (!_isDestroying) {
-            enterDelay.start()
+            enterDelay.start();
         }
     }
     Component.onDestruction: {
-        _isDestroying = true
-        exitWatchdog.stop()
+        _isDestroying = true;
+        exitWatchdog.stop();
         if (notificationData && notificationData.timer) {
-            notificationData.timer.stop()
+            notificationData.timer.stop();
         }
     }
 
@@ -138,54 +137,66 @@ PanelWindow {
     }
 
     function getBarInfo() {
-        if (!screen) return { topBar: 0, bottomBar: 0, leftBar: 0, rightBar: 0 }
+        if (!screen)
+            return {
+                topBar: 0,
+                bottomBar: 0,
+                leftBar: 0,
+                rightBar: 0
+            };
         return SettingsData.getAdjacentBarInfo(screen, SettingsData.notificationPopupPosition, {
             id: "notification-popup",
             screenPreferences: [screen.name],
             autoHide: false
-        })
+        });
     }
 
     function getTopMargin() {
-        const popupPos = SettingsData.notificationPopupPosition
-        const isTop = isTopCenter || popupPos === SettingsData.Position.Top || popupPos === SettingsData.Position.Left
-        if (!isTop) return 0
+        const popupPos = SettingsData.notificationPopupPosition;
+        const isTop = isTopCenter || popupPos === SettingsData.Position.Top || popupPos === SettingsData.Position.Left;
+        if (!isTop)
+            return 0;
 
-        const barInfo = getBarInfo()
-        const base = barInfo.topBar > 0 ? barInfo.topBar : Theme.popupDistance
-        return base + screenY
+        const barInfo = getBarInfo();
+        const base = barInfo.topBar > 0 ? barInfo.topBar : Theme.popupDistance;
+        return base + screenY;
     }
 
     function getBottomMargin() {
-        const popupPos = SettingsData.notificationPopupPosition
-        const isBottom = popupPos === SettingsData.Position.Bottom || popupPos === SettingsData.Position.Right
-        if (!isBottom) return 0
+        const popupPos = SettingsData.notificationPopupPosition;
+        const isBottom = popupPos === SettingsData.Position.Bottom || popupPos === SettingsData.Position.Right;
+        if (!isBottom)
+            return 0;
 
-        const barInfo = getBarInfo()
-        const base = barInfo.bottomBar > 0 ? barInfo.bottomBar : Theme.popupDistance
-        return base + screenY
+        const barInfo = getBarInfo();
+        const base = barInfo.bottomBar > 0 ? barInfo.bottomBar : Theme.popupDistance;
+        return base + screenY;
     }
 
     function getLeftMargin() {
-        if (isTopCenter) return (screen.width - implicitWidth) / 2
+        if (isTopCenter)
+            return (screen.width - implicitWidth) / 2;
 
-        const popupPos = SettingsData.notificationPopupPosition
-        const isLeft = popupPos === SettingsData.Position.Left || popupPos === SettingsData.Position.Bottom
-        if (!isLeft) return 0
+        const popupPos = SettingsData.notificationPopupPosition;
+        const isLeft = popupPos === SettingsData.Position.Left || popupPos === SettingsData.Position.Bottom;
+        if (!isLeft)
+            return 0;
 
-        const barInfo = getBarInfo()
-        return barInfo.leftBar > 0 ? barInfo.leftBar : Theme.popupDistance
+        const barInfo = getBarInfo();
+        return barInfo.leftBar > 0 ? barInfo.leftBar : Theme.popupDistance;
     }
 
     function getRightMargin() {
-        if (isTopCenter) return 0
+        if (isTopCenter)
+            return 0;
 
-        const popupPos = SettingsData.notificationPopupPosition
-        const isRight = popupPos === SettingsData.Position.Top || popupPos === SettingsData.Position.Right
-        if (!isRight) return 0
+        const popupPos = SettingsData.notificationPopupPosition;
+        const isRight = popupPos === SettingsData.Position.Top || popupPos === SettingsData.Position.Right;
+        if (!isRight)
+            return 0;
 
-        const barInfo = getBarInfo()
-        return barInfo.rightBar > 0 ? barInfo.rightBar : Theme.popupDistance
+        const barInfo = getBarInfo();
+        return barInfo.rightBar > 0 ? barInfo.rightBar : Theme.popupDistance;
     }
 
     readonly property real dpr: CompositorService.getScreenScale(win.screen)
@@ -200,6 +211,11 @@ PanelWindow {
         width: alignedWidth
         height: alignedHeight
         visible: win.hasValidData
+
+        property real swipeOffset: 0
+        readonly property real dismissThreshold: isTopCenter ? height * 0.4 : width * 0.35
+        readonly property bool swipeActive: swipeDragHandler.active
+        property bool swipeDismissing: false
 
         property real shadowBlurPx: 10
         property real shadowSpreadPx: 0
@@ -227,8 +243,8 @@ PanelWindow {
                 shadowBlur: Math.max(0, Math.min(1, content.shadowBlurPx / bgShadowLayer.blurMax))
                 shadowScale: 1 + (2 * content.shadowSpreadPx) / Math.max(1, Math.min(bgShadowLayer.width, bgShadowLayer.height))
                 shadowColor: {
-                    const baseColor = Theme.isLightMode ? Qt.rgba(0, 0, 0, 1) : Theme.surfaceContainerHighest
-                    return Theme.withAlpha(baseColor, content.effectiveShadowAlpha)
+                    const baseColor = Theme.isLightMode ? Qt.rgba(0, 0, 0, 1) : Theme.surfaceContainerHighest;
+                    return Theme.withAlpha(baseColor, content.effectiveShadowAlpha);
                 }
             }
 
@@ -250,14 +266,46 @@ PanelWindow {
                     startX: backgroundShape.radius
                     startY: 0
 
-                    PathLine { x: backgroundShape.width - backgroundShape.radius; y: 0 }
-                    PathQuad { x: backgroundShape.width; y: backgroundShape.radius; controlX: backgroundShape.width; controlY: 0 }
-                    PathLine { x: backgroundShape.width; y: backgroundShape.height - backgroundShape.radius }
-                    PathQuad { x: backgroundShape.width - backgroundShape.radius; y: backgroundShape.height; controlX: backgroundShape.width; controlY: backgroundShape.height }
-                    PathLine { x: backgroundShape.radius; y: backgroundShape.height }
-                    PathQuad { x: 0; y: backgroundShape.height - backgroundShape.radius; controlX: 0; controlY: backgroundShape.height }
-                    PathLine { x: 0; y: backgroundShape.radius }
-                    PathQuad { x: backgroundShape.radius; y: 0; controlX: 0; controlY: 0 }
+                    PathLine {
+                        x: backgroundShape.width - backgroundShape.radius
+                        y: 0
+                    }
+                    PathQuad {
+                        x: backgroundShape.width
+                        y: backgroundShape.radius
+                        controlX: backgroundShape.width
+                        controlY: 0
+                    }
+                    PathLine {
+                        x: backgroundShape.width
+                        y: backgroundShape.height - backgroundShape.radius
+                    }
+                    PathQuad {
+                        x: backgroundShape.width - backgroundShape.radius
+                        y: backgroundShape.height
+                        controlX: backgroundShape.width
+                        controlY: backgroundShape.height
+                    }
+                    PathLine {
+                        x: backgroundShape.radius
+                        y: backgroundShape.height
+                    }
+                    PathQuad {
+                        x: 0
+                        y: backgroundShape.height - backgroundShape.radius
+                        controlX: 0
+                        controlY: backgroundShape.height
+                    }
+                    PathLine {
+                        x: 0
+                        y: backgroundShape.radius
+                    }
+                    PathQuad {
+                        x: backgroundShape.radius
+                        y: 0
+                        controlX: 0
+                        controlY: 0
+                    }
                 }
             }
 
@@ -318,26 +366,26 @@ PanelWindow {
 
                     imageSource: {
                         if (!notificationData)
-                            return ""
+                            return "";
 
                         if (hasNotificationImage)
-                            return notificationData.cleanImage || ""
+                            return notificationData.cleanImage || "";
 
                         if (notificationData.appIcon) {
-                            const appIcon = notificationData.appIcon
+                            const appIcon = notificationData.appIcon;
                             if (appIcon.startsWith("file://") || appIcon.startsWith("http://") || appIcon.startsWith("https://"))
-                                return appIcon
+                                return appIcon;
 
-                            return Quickshell.iconPath(appIcon, true)
+                            return Quickshell.iconPath(appIcon, true);
                         }
-                        return ""
+                        return "";
                     }
 
                     hasImage: hasNotificationImage
                     fallbackIcon: ""
                     fallbackText: {
-                        const appName = notificationData?.appName || "?"
-                        return appName.charAt(0).toUpperCase()
+                        const appName = notificationData?.appName || "?";
+                        return appName.charAt(0).toUpperCase();
                     }
                 }
 
@@ -367,14 +415,14 @@ PanelWindow {
                                 width: parent.width
                                 text: {
                                     if (!notificationData)
-                                        return ""
+                                        return "";
 
-                                    const appName = notificationData.appName || ""
-                                    const timeStr = notificationData.timeStr || ""
+                                    const appName = notificationData.appName || "";
+                                    const timeStr = notificationData.timeStr || "";
                                     if (timeStr.length > 0)
-                                        return appName + " • " + timeStr
+                                        return appName + " • " + timeStr;
                                     else
-                                        return appName
+                                        return appName;
                                 }
                                 color: Theme.surfaceVariantText
                                 font.pixelSize: Theme.fontSizeSmall
@@ -405,8 +453,8 @@ PanelWindow {
                                 visible: text.length > 0
                                 linkColor: Theme.primary
                                 onLinkActivated: link => {
-                                                     return Qt.openUrlExternally(link)
-                                                 }
+                                    return Qt.openUrlExternally(link);
+                                }
 
                                 MouseArea {
                                     anchors.fill: parent
@@ -432,7 +480,7 @@ PanelWindow {
                 z: 15
                 onClicked: {
                     if (notificationData && !win.exiting)
-                        notificationData.popup = false
+                        notificationData.popup = false;
                 }
             }
 
@@ -475,10 +523,10 @@ PanelWindow {
                             onExited: parent.isHovered = false
                             onClicked: {
                                 if (modelData && modelData.invoke)
-                                    modelData.invoke()
+                                    modelData.invoke();
 
                                 if (notificationData && !win.exiting)
-                                    notificationData.popup = false
+                                    notificationData.popup = false;
                             }
                         }
                     }
@@ -519,7 +567,7 @@ PanelWindow {
                     onExited: clearButton.isHovered = false
                     onClicked: {
                         if (notificationData && !win.exiting)
-                            NotificationService.dismissNotification(notificationData)
+                            NotificationService.dismissNotification(notificationData);
                     }
                 }
             }
@@ -534,40 +582,108 @@ PanelWindow {
                 z: -1
                 onEntered: {
                     if (notificationData && notificationData.timer)
-                        notificationData.timer.stop()
+                        notificationData.timer.stop();
                 }
                 onExited: {
                     if (notificationData && notificationData.popup && notificationData.timer)
-                        notificationData.timer.restart()
+                        notificationData.timer.restart();
                 }
-                onClicked: (mouse) => {
+                onClicked: mouse => {
                     if (!notificationData || win.exiting)
-                        return
-
+                        return;
                     if (mouse.button === Qt.RightButton) {
-                        NotificationService.dismissNotification(notificationData)
+                        NotificationService.dismissNotification(notificationData);
                     } else if (mouse.button === Qt.LeftButton) {
                         if (notificationData.actions && notificationData.actions.length > 0) {
-                            notificationData.actions[0].invoke()
-                            NotificationService.dismissNotification(notificationData)
+                            notificationData.actions[0].invoke();
+                            NotificationService.dismissNotification(notificationData);
                         } else {
-                            notificationData.popup = false
+                            notificationData.popup = false;
                         }
                     }
                 }
             }
         }
 
-        transform: Translate {
-            id: tx
+        DragHandler {
+            id: swipeDragHandler
+            target: null
+            xAxis.enabled: !isTopCenter
+            yAxis.enabled: isTopCenter
 
-            x: {
-                if (isTopCenter) return 0
-                const isLeft = SettingsData.notificationPopupPosition === SettingsData.Position.Left || SettingsData.notificationPopupPosition === SettingsData.Position.Bottom
-                return isLeft ? -Anims.slidePx : Anims.slidePx
+            onActiveChanged: {
+                if (active || win.exiting || content.swipeDismissing)
+                    return;
+
+                if (Math.abs(content.swipeOffset) > content.dismissThreshold) {
+                    content.swipeDismissing = true;
+                    swipeDismissAnim.start();
+                } else {
+                    content.swipeOffset = 0;
+                }
             }
-            y: isTopCenter ? -Anims.slidePx : 0
+
+            onTranslationChanged: {
+                if (win.exiting)
+                    return;
+
+                const raw = isTopCenter ? translation.y : translation.x;
+                if (isTopCenter) {
+                    content.swipeOffset = Math.min(0, raw);
+                } else {
+                    const isLeft = SettingsData.notificationPopupPosition === SettingsData.Position.Left || SettingsData.notificationPopupPosition === SettingsData.Position.Bottom;
+                    content.swipeOffset = isLeft ? Math.min(0, raw) : Math.max(0, raw);
+                }
+            }
         }
+
+        opacity: 1 - Math.abs(content.swipeOffset) / (isTopCenter ? content.height : content.width * 0.6)
+
+        Behavior on opacity {
+            enabled: !content.swipeActive
+            NumberAnimation {
+                duration: Theme.shortDuration
+            }
+        }
+
+        Behavior on swipeOffset {
+            enabled: !content.swipeActive && !content.swipeDismissing
+            NumberAnimation {
+                duration: Theme.shortDuration
+                easing.type: Theme.standardEasing
+            }
+        }
+
+        NumberAnimation {
+            id: swipeDismissAnim
+            target: content
+            property: "swipeOffset"
+            to: isTopCenter ? -content.height : (SettingsData.notificationPopupPosition === SettingsData.Position.Left || SettingsData.notificationPopupPosition === SettingsData.Position.Bottom ? -content.width : content.width)
+            duration: Anims.durShort
+            easing.type: Easing.OutCubic
+            onStopped: {
+                NotificationService.dismissNotification(notificationData);
+                win.forceExit();
+            }
+        }
+
+        transform: [
+            Translate {
+                id: swipeTx
+                x: isTopCenter ? 0 : content.swipeOffset
+                y: isTopCenter ? content.swipeOffset : 0
+            },
+            Translate {
+                id: tx
+                x: {
+                    if (isTopCenter)
+                        return 0;
+                    const isLeft = SettingsData.notificationPopupPosition === SettingsData.Position.Left || SettingsData.notificationPopupPosition === SettingsData.Position.Bottom;
+                    return isLeft ? -Anims.slidePx : Anims.slidePx;
+                }
+                y: isTopCenter ? -Anims.slidePx : 0
+            }
+        ]
     }
 
     NumberAnimation {
@@ -576,9 +692,10 @@ PanelWindow {
         target: tx
         property: isTopCenter ? "y" : "x"
         from: {
-            if (isTopCenter) return -Anims.slidePx
-            const isLeft = SettingsData.notificationPopupPosition === SettingsData.Position.Left || SettingsData.notificationPopupPosition === SettingsData.Position.Bottom
-            return isLeft ? -Anims.slidePx : Anims.slidePx
+            if (isTopCenter)
+                return -Anims.slidePx;
+            const isLeft = SettingsData.notificationPopupPosition === SettingsData.Position.Left || SettingsData.notificationPopupPosition === SettingsData.Position.Bottom;
+            return isLeft ? -Anims.slidePx : Anims.slidePx;
         }
         to: 0
         duration: Anims.durMed
@@ -587,9 +704,11 @@ PanelWindow {
         onStopped: {
             if (!win.exiting && !win._isDestroying) {
                 if (isTopCenter) {
-                    if (Math.abs(tx.y) < 0.5) win.entered()
+                    if (Math.abs(tx.y) < 0.5)
+                        win.entered();
                 } else {
-                    if (Math.abs(tx.x) < 0.5) win.entered()
+                    if (Math.abs(tx.x) < 0.5)
+                        win.entered();
                 }
             }
         }
@@ -605,9 +724,10 @@ PanelWindow {
             property: isTopCenter ? "y" : "x"
             from: 0
             to: {
-                if (isTopCenter) return -Anims.slidePx
-                const isLeft = SettingsData.notificationPopupPosition === SettingsData.Position.Left || SettingsData.notificationPopupPosition === SettingsData.Position.Bottom
-                return isLeft ? -Anims.slidePx : Anims.slidePx
+                if (isTopCenter)
+                    return -Anims.slidePx;
+                const isLeft = SettingsData.notificationPopupPosition === SettingsData.Position.Left || SettingsData.notificationPopupPosition === SettingsData.Position.Bottom;
+                return isLeft ? -Anims.slidePx : Anims.slidePx;
             }
             duration: Anims.durShort
             easing.type: Easing.BezierSpline
@@ -640,10 +760,9 @@ PanelWindow {
 
         function onPopupChanged() {
             if (!win.notificationData || win._isDestroying)
-                return
-
+                return;
             if (!win.notificationData.popup && !win.exiting)
-                startExit()
+                startExit();
         }
 
         target: win.notificationData || null
@@ -656,7 +775,7 @@ PanelWindow {
 
         function onDropped() {
             if (!win._isDestroying && !win.exiting)
-                forceExit()
+                forceExit();
         }
 
         target: (win.notificationData && win.notificationData.notification && win.notificationData.notification.Retainable) || null
@@ -671,7 +790,7 @@ PanelWindow {
         repeat: false
         onTriggered: {
             if (notificationData && notificationData.timer && !exiting && !_isDestroying)
-                notificationData.timer.start()
+                notificationData.timer.start();
         }
     }
 
