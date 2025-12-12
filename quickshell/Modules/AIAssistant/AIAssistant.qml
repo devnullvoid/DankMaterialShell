@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import Quickshell
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -11,6 +12,7 @@ Item {
 
     property bool showSettingsMenu: false
     readonly property real panelTransparency: SettingsData.aiAssistantTransparencyOverride >= 0 ? SettingsData.aiAssistantTransparencyOverride : SettingsData.popupTransparency
+    readonly property bool hasApiKey: !!(aiService.service && aiService.service.resolveApiKey && aiService.service.resolveApiKey().length > 0)
     signal hideRequested
 
     Ref {
@@ -30,6 +32,39 @@ Item {
         composer.text = "";
     }
 
+    function getLastAssistantText() {
+        const svc = aiService.service;
+        if (!svc || !svc.messagesModel)
+            return "";
+        const model = svc.messagesModel;
+        for (let i = model.count - 1; i >= 0; i--) {
+            const m = model.get(i);
+            if (m.role === "assistant" && m.status === "ok")
+                return m.content || "";
+        }
+        return "";
+    }
+
+    function hasAssistantError() {
+        const svc = aiService.service;
+        if (!svc || !svc.messagesModel)
+            return false;
+        const model = svc.messagesModel;
+        for (let i = model.count - 1; i >= 0; i--) {
+            const m = model.get(i);
+            if (m.role === "assistant" && m.status === "error")
+                return true;
+        }
+        return false;
+    }
+
+    function copyLastAssistant() {
+        const text = getLastAssistantText();
+        if (!text)
+            return;
+        Quickshell.execDetached(["wl-copy", text]);
+    }
+
     Column {
         anchors.fill: parent
         spacing: Theme.spacingM
@@ -39,16 +74,26 @@ Item {
             spacing: Theme.spacingM
 
             StyledText {
-                text: I18n.tr("Messages: ") + (aiService.service?.messageCount ?? 0)
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.surfaceTextMedium
-            }
-
-            StyledText {
                 text: I18n.tr("AI Assistant (Preview)")
                 font.pixelSize: Theme.fontSizeLarge
                 color: Theme.surfaceText
                 font.weight: Font.Medium
+            }
+
+            Rectangle {
+                radius: Theme.cornerRadius
+                color: Theme.surfaceVariant
+                height: Theme.fontSizeSmall * 1.6
+                width: providerLabel.implicitWidth + Theme.spacingM
+                anchors.verticalCenter: parent.verticalCenter
+
+                StyledText {
+                    id: providerLabel
+                    anchors.centerIn: parent
+                    text: (aiService.service?.provider ?? SettingsData.aiAssistantProvider).toUpperCase()
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.surfaceVariantText
+                }
             }
 
             Rectangle {
@@ -63,6 +108,24 @@ Item {
             Button {
                 text: showSettingsMenu ? I18n.tr("Hide settings") : I18n.tr("Settings")
                 onClicked: showSettingsMenu = !showSettingsMenu
+            }
+
+            Button {
+                text: I18n.tr("Copy last")
+                enabled: getLastAssistantText().length > 0
+                onClicked: copyLastAssistant()
+            }
+
+            Button {
+                text: I18n.tr("Retry")
+                enabled: hasAssistantError() && !(aiService.service?.isStreaming ?? false)
+                onClicked: aiService.service.retryLast()
+            }
+
+            Button {
+                text: I18n.tr("Clear")
+                enabled: (aiService.service?.messageCount ?? 0) > 0 && !(aiService.service?.isStreaming ?? false)
+                onClicked: aiService.service.clearHistory(true)
             }
 
             Button {
@@ -83,6 +146,17 @@ Item {
                 id: list
                 anchors.fill: parent
                 messages: aiService.service ? aiService.service.messagesModel : null
+            }
+
+            StyledText {
+                anchors.centerIn: parent
+                visible: !hasApiKey && (aiService.service?.messageCount ?? 0) === 0
+                text: I18n.tr("Configure a provider and API key in Settings to start chatting.")
+                font.pixelSize: Theme.fontSizeMedium
+                color: Theme.surfaceTextMedium
+                wrapMode: Text.Wrap
+                width: parent.width * 0.8
+                horizontalAlignment: Text.AlignHCenter
             }
         }
 

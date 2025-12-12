@@ -27,7 +27,7 @@ Item {
                 spacing: Theme.spacingM
 
                 StyledText {
-                    text: I18n.tr("AI Assistant Settings (stub)")
+                    text: I18n.tr("AI Assistant Settings")
                     font.pixelSize: Theme.fontSizeLarge
                     color: Theme.surfaceText
                     font.weight: Font.Medium

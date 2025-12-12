@@ -36,6 +36,7 @@ Item {
                 text: root.text
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeMedium
+                font.family: SettingsData.aiAssistantUseMonospace ? SettingsData.monoFontFamily : SettingsData.fontFamily
                 color: status === "error" ? Theme.error : Theme.surfaceText
             }
 

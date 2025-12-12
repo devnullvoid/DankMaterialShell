@@ -227,6 +227,13 @@ Item {
                 "enabled": true
             },
             {
+                "id": "aiAssistantButton",
+                "text": I18n.tr("AI Assistant"),
+                "description": I18n.tr("Quick access to AI Assistant"),
+                "icon": "smart_toy",
+                "enabled": true
+            },
+            {
                 "id": "colorPicker",
                 "text": I18n.tr("Color Picker"),
                 "description": I18n.tr("Quick access to color picker"),
