@@ -5,6 +5,22 @@
 
 .pragma library
 
+function normalizeBaseUrl(url) {
+    const u = (url || "").trim();
+    if (!u)
+        return "";
+    return u.endsWith("/") ? u.slice(0, -1) : u;
+}
+
+function openaiChatCompletionsUrl(baseUrl) {
+    // Support the common OpenAI-style host base (https://api.openai.com -> /v1/chat/completions)
+    // and versioned bases used by local servers or other providers (..../v1 or ..../v4 -> /chat/completions).
+    const b = normalizeBaseUrl(baseUrl || "https://api.openai.com");
+    if (/\/v\d+$/.test(b))
+        return b + "/chat/completions";
+    return b + "/v1/chat/completions";
+}
+
 function buildCurlCommand(provider, payload, apiKey) {
     const request = buildRequest(provider, payload, apiKey);
     if (!request || !request.url)
@@ -45,7 +61,7 @@ function buildRequest(provider, payload, apiKey) {
 }
 
 function openaiRequest(payload, apiKey) {
-    const url = (payload.baseUrl || "https://api.openai.com") + "/v1/chat/completions";
+    const url = openaiChatCompletionsUrl(payload.baseUrl || "https://api.openai.com");
     const headers = ["-H", "Content-Type: application/json", "-H", "Authorization: Bearer " + apiKey];
     const body = {
         model: payload.model,
