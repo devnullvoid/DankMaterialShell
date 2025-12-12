@@ -114,11 +114,21 @@ QtObject {
             }
         }
 
-        if (event.modifiers & Qt.ShiftModifier && event.key === Qt.Key_Delete) {
-            modal.clearAll();
-            modal.hide();
-            event.accepted = true;
-            return;
+        if (event.modifiers & Qt.ShiftModifier) {
+            switch (event.key) {
+            case Qt.Key_Delete:
+                modal.clearAll();
+                modal.hide();
+                event.accepted = true;
+                return;
+            case Qt.Key_Return:
+            case Qt.Key_Enter:
+                if (modal.keyboardNavigationActive) {
+                    modal.pasteSelected();
+                    event.accepted = true;
+                }
+                return;
+            }
         }
 
         if (modal.keyboardNavigationActive) {

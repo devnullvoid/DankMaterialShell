@@ -158,5 +158,6 @@ Item {
         anchors.right: parent.right
         anchors.margins: Theme.spacingL
         visible: modal.showKeyboardHints
+        wtypeAvailable: modal.wtypeAvailable
     }
 }

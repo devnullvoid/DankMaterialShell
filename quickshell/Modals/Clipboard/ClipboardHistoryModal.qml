@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell.Hyprland
+import Quickshell.Io
 import qs.Common
 import qs.Modals.Common
 import qs.Services
@@ -26,6 +27,50 @@ DankModal {
     property int activeImageLoads: 0
     readonly property int maxConcurrentLoads: 3
     readonly property bool clipboardAvailable: DMSService.isConnected && DMSService.capabilities.includes("clipboard")
+    property bool wtypeAvailable: false
+
+    Process {
+        id: wtypeCheck
+        command: ["which", "wtype"]
+        running: true
+        onExited: exitCode => {
+            clipboardHistoryModal.wtypeAvailable = (exitCode === 0);
+        }
+    }
+
+    Process {
+        id: wtypeProcess
+        command: ["wtype", "-M", "ctrl", "-P", "v", "-p", "v", "-m", "ctrl"]
+        running: false
+    }
+
+    Timer {
+        id: pasteTimer
+        interval: 200
+        repeat: false
+        onTriggered: wtypeProcess.running = true
+    }
+
+    function pasteSelected() {
+        if (!keyboardNavigationActive || clipboardEntries.length === 0 || selectedIndex < 0 || selectedIndex >= clipboardEntries.length) {
+            return;
+        }
+        if (!wtypeAvailable) {
+            ToastService.showError(I18n.tr("wtype not available - install wtype for paste support"));
+            return;
+        }
+        const entry = clipboardEntries[selectedIndex];
+        DMSService.sendRequest("clipboard.copyEntry", {
+            "id": entry.id
+        }, function (response) {
+            if (response.error) {
+                ToastService.showError(I18n.tr("Failed to copy entry"));
+                return;
+            }
+            instantClose();
+            pasteTimer.start();
+        });
+    }
 
     function updateFilteredModel() {
         const query = searchText.trim();
