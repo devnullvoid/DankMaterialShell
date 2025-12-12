@@ -9,6 +9,13 @@ Item {
 
     Component.onCompleted: console.log("[MessageList] ready")
 
+    Connections {
+        target: root.messages
+        function onCountChanged() {
+            listView.positionViewAtEnd();
+        }
+    }
+
     ListView {
         id: listView
         anchors.fill: parent
@@ -16,6 +23,10 @@ Item {
         spacing: Theme.spacingS
         clip: true
         ScrollBar.vertical: ScrollBar { }
+
+        onModelChanged: {
+            Qt.callLater(() => listView.positionViewAtEnd());
+        }
 
         delegate: MessageBubble {
             width: listView.width

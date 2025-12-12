@@ -1,7 +1,9 @@
 import QtQuick
+import QtCore
 import Quickshell
 import Quickshell.Io
 import qs.Common
+import "../Common/AIApiAdapters.js" as AIApiAdapters
 
 pragma Singleton
 pragma ComponentBehavior: Bound
@@ -10,18 +12,146 @@ Singleton {
     id: root
 
     property int refCount: 0
-    Component.onCompleted: console.info("[AIAssistantService] ready")
+    Component.onCompleted: {
+        console.info("[AIAssistantService] ready");
+        mkdirProcess.running = true;
+    }
+
+    readonly property string baseDir: Paths.strip(StandardPaths.writableLocation(StandardPaths.GenericStateLocation) + "/DankMaterialShell")
+    readonly property string sessionPath: baseDir + "/ai-assistant-session.json"
+    property bool sessionLoaded: false
+    property string providerConfigHash: ""
+    property int maxStoredMessages: 50
 
     property ListModel messagesModel: ListModel {}
     property int messageCount: messagesModel.count
     property bool isStreaming: false
     property bool isOnline: false
     property string activeStreamId: ""
+    property string lastUserText: ""
+    property int lastHttpStatus: 0
 
     // convenience aliases
     readonly property string provider: SettingsData.aiAssistantProvider || "openai"
     readonly property string baseUrl: SettingsData.aiAssistantBaseUrl || "https://api.openai.com"
     readonly property string model: SettingsData.aiAssistantModel || "gpt-4.1-mini"
+    readonly property bool debugEnabled: (Quickshell.env("DMS_LOG_LEVEL") || "").toLowerCase() === "debug"
+
+    onProviderChanged: handleConfigChanged()
+    onBaseUrlChanged: handleConfigChanged()
+    onModelChanged: handleConfigChanged()
+
+    onRefCountChanged: {
+        if (refCount === 1 && !sessionLoaded) {
+            sessionFile.path = "";
+            sessionFile.path = sessionPath;
+        }
+    }
+
+    Process {
+        id: mkdirProcess
+        command: ["mkdir", "-p", root.baseDir]
+        running: false
+    }
+
+    FileView {
+        id: sessionFile
+        path: root.refCount > 0 ? root.sessionPath : ""
+        blockWrites: true
+        atomicWrites: true
+
+        onLoaded: {
+            try {
+                const data = JSON.parse(text());
+                const storedHash = data.providerConfigHash || "";
+                const currentHash = computeConfigHash();
+
+                if (storedHash && storedHash !== currentHash) {
+                    providerConfigHash = currentHash;
+                    clearHistory(false);
+                } else {
+                    providerConfigHash = storedHash || currentHash;
+                    loadMessages(data.messages || []);
+                }
+            } catch (e) {
+                providerConfigHash = computeConfigHash();
+                clearHistory(false);
+            }
+            sessionLoaded = true;
+        }
+
+        onLoadFailed: {
+            providerConfigHash = computeConfigHash();
+            sessionLoaded = true;
+        }
+    }
+
+    function computeConfigHash() {
+        return provider + "|" + baseUrl + "|" + model;
+    }
+
+    function handleConfigChanged() {
+        const current = computeConfigHash();
+        if (providerConfigHash && providerConfigHash !== current) {
+            providerConfigHash = current;
+            clearHistory(true);
+        } else {
+            providerConfigHash = current;
+            saveSession();
+        }
+    }
+
+    function loadMessages(msgs) {
+        messagesModel.clear();
+        for (let i = 0; i < msgs.length; i++) {
+            const m = msgs[i];
+            if (!m || !m.role || !m.content)
+                continue;
+            messagesModel.append({
+                role: m.role,
+                content: m.content,
+                timestamp: m.timestamp || Date.now(),
+                id: m.id || (m.role + "-" + Date.now() + "-" + i),
+                status: m.status || "ok"
+            });
+        }
+        lastUserText = findLastUserText();
+    }
+
+    function saveSession() {
+        if (root.refCount <= 0)
+            return;
+        const msgs = [];
+        for (let i = 0; i < messagesModel.count; i++) {
+            const m = messagesModel.get(i);
+            if ((m.role === "user" || m.role === "assistant") && m.status !== "streaming") {
+                msgs.push({
+                    role: m.role,
+                    content: m.content,
+                    timestamp: m.timestamp,
+                    id: m.id,
+                    status: m.status
+                });
+            }
+        }
+        const capped = msgs.length > maxStoredMessages ? msgs.slice(msgs.length - maxStoredMessages) : msgs;
+        const data = {
+            version: 1,
+            providerConfigHash: providerConfigHash || computeConfigHash(),
+            messages: capped
+        };
+        sessionFile.setText(JSON.stringify(data, null, 2));
+    }
+
+    function clearHistory(saveNow) {
+        messagesModel.clear();
+        isStreaming = false;
+        activeStreamId = "";
+        isOnline = false;
+        lastUserText = "";
+        if (saveNow)
+            saveSession();
+    }
 
     function resolveApiKey() {
         const p = provider;
@@ -63,32 +193,48 @@ Singleton {
     function sendMessage(text) {
         if (!text || text.trim().length === 0)
             return;
-
         if (isStreaming && chatFetcher.running) {
             markError(activeStreamId, I18n.tr("Please wait until the current response finishes."));
             return;
         }
+        startStreaming(text.trim(), true);
+    }
 
+    function retryLast() {
+        if (isStreaming && chatFetcher.running)
+            return;
+        const text = lastUserText || findLastUserText();
+        if (!text)
+            return;
+        startStreaming(text, false);
+    }
+
+    function startStreaming(text, addUser) {
         const now = Date.now();
         const streamId = "assistant-" + now;
 
-        messagesModel.append({ role: "user", content: text, timestamp: now, id: "user-" + now, status: "ok" });
+        if (addUser) {
+            messagesModel.append({ role: "user", content: text, timestamp: now, id: "user-" + now, status: "ok" });
+            lastUserText = text;
+        }
+
         messagesModel.append({ role: "assistant", content: "", timestamp: now + 1, id: streamId, status: "streaming" });
         activeStreamId = streamId;
         isStreaming = true;
+        lastHttpStatus = 0;
 
         const payload = buildPayload(text);
         const curlCmd = buildCurlCommand(payload);
         if (!curlCmd) {
             markError(streamId, I18n.tr("No API key or provider configuration."));
-            isStreaming = false;
-            activeStreamId = "";
             return;
         }
 
         streamCollector.lastLen = 0;
+        streamBuffer = "";
         chatFetcher.command = curlCmd;
         chatFetcher.running = true;
+        saveSession();
     }
 
     function cancel() {
@@ -115,6 +261,7 @@ Singleton {
         }
         isStreaming = false;
         activeStreamId = "";
+        saveSession();
     }
 
     function updateStreamContent(streamId, deltaText) {
@@ -136,6 +283,7 @@ Singleton {
         isStreaming = false;
         activeStreamId = "";
         isOnline = true;
+        saveSession();
     }
 
     function buildPayload(latestText) {
@@ -166,42 +314,15 @@ Singleton {
         if (!key)
             return null;
 
-        const url = provider === "openai" || provider === "custom" ? (payload.baseUrl || "https://api.openai.com") + "/v1/chat/completions"
-                    : provider === "anthropic" ? (payload.baseUrl || "https://api.anthropic.com") + "/v1/messages"
-                    : (payload.baseUrl || "https://generativelanguage.googleapis.com") + "/v1beta/models/" + (payload.model || "gemini-1.5-flash") + ":streamGenerateContent";
-
-        const baseCmd = ["curl", "-sS", "--fail", "--no-buffer", "--connect-timeout", "5", "--max-time", String(payload.timeout || 30), "--compressed"];
-
-        let headers = [];
-        let body = {};
-
-        if (provider === "anthropic") {
-            headers = ["-H", "Content-Type: application/json", "-H", "x-api-key: " + key, "-H", "anthropic-version: 2023-06-01"];
-            body = {
-                model: payload.model,
-                messages: payload.messages.map(m => ({ role: m.role === "assistant" ? "assistant" : "user", content: m.content })),
-                max_tokens: payload.max_tokens || 1024,
-                temperature: payload.temperature || 0.7,
-                stream: true
-            };
-        } else if (provider === "gemini") {
-            headers = ["-H", "Content-Type: application/json"];
-            const contents = payload.messages.map(m => ({ role: m.role === "user" ? "user" : "model", parts: [{ text: m.content }] }));
-            body = { contents: contents, generationConfig: { temperature: payload.temperature || 0.7, maxOutputTokens: payload.max_tokens || 1024 }, stream: true };
-        } else { // openai/custom compatible
-            headers = ["-H", "Content-Type: application/json", "-H", "Authorization: Bearer " + key];
-            body = {
-                model: payload.model,
-                messages: payload.messages,
-                max_tokens: payload.max_tokens || 1024,
-                temperature: payload.temperature || 0.7,
-                stream: true
-            };
+        const req = AIApiAdapters.buildRequest(provider, payload, key);
+        if (debugEnabled && req) {
+            const redactedUrl = (req.url || "").replace(key, "[REDACTED]");
+            const bodyPreview = (req.body || "");
+            console.log("[AIAssistantService] request provider=", provider, "url=", redactedUrl);
+            console.log("[AIAssistantService] request body(preview)=", bodyPreview.slice(0, 800));
         }
 
-        const bodyStr = JSON.stringify(body);
-        const cmd = baseCmd.concat(headers).concat(["-d", bodyStr, url + (provider === "gemini" ? `?key=${key}` : "")]);
-        return cmd;
+        return AIApiAdapters.buildCurlCommand(provider, payload, key);
     }
 
     property string streamBuffer: ""
@@ -269,9 +390,28 @@ Singleton {
     }
 
     function handleStreamFinished(text) {
+        const match = text.match(/DMS_STATUS:(\d+)/);
+        if (match) {
+            lastHttpStatus = parseInt(match[1]);
+        }
+
+        if (lastHttpStatus >= 400 && isStreaming) {
+            markError(activeStreamId, I18n.tr("Request failed (HTTP %1)").arg(lastHttpStatus));
+            return;
+        }
+
         if (isStreaming) {
             finalizeStream(activeStreamId);
         }
+    }
+
+    function findLastUserText() {
+        for (let i = messagesModel.count - 1; i >= 0; i--) {
+            const m = messagesModel.get(i);
+            if (m.role === "user" && m.status === "ok")
+                return m.content;
+        }
+        return "";
     }
 
     Process {
