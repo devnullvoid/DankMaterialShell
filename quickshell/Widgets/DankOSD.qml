@@ -74,7 +74,7 @@ PanelWindow {
     readonly property real dpr: CompositorService.getScreenScale(screen)
     readonly property real screenWidth: screen.width
     readonly property real screenHeight: screen.height
-    readonly property real shadowBuffer: 5
+    readonly property real shadowBuffer: 15
     readonly property real alignedWidth: Theme.px(osdWidth, dpr)
     readonly property real alignedHeight: Theme.px(osdHeight, dpr)
 
