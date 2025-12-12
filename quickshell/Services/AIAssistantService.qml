@@ -35,6 +35,7 @@ Singleton {
     readonly property string provider: SettingsData.aiAssistantProvider || "openai"
     readonly property string baseUrl: SettingsData.aiAssistantBaseUrl || "https://api.openai.com"
     readonly property string model: SettingsData.aiAssistantModel || "gpt-4.1-mini"
+    readonly property bool debugEnabled: (Quickshell.env("DMS_LOG_LEVEL") || "").toLowerCase() === "debug"
 
     onProviderChanged: handleConfigChanged()
     onBaseUrlChanged: handleConfigChanged()
@@ -312,6 +313,15 @@ Singleton {
         const key = resolveApiKey();
         if (!key)
             return null;
+
+        const req = AIApiAdapters.buildRequest(provider, payload, key);
+        if (debugEnabled && req) {
+            const redactedUrl = (req.url || "").replace(key, "[REDACTED]");
+            const bodyPreview = (req.body || "");
+            console.log("[AIAssistantService] request provider=", provider, "url=", redactedUrl);
+            console.log("[AIAssistantService] request body(preview)=", bodyPreview.slice(0, 800));
+        }
+
         return AIApiAdapters.buildCurlCommand(provider, payload, key);
     }
 
