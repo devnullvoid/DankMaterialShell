@@ -1,3 +1,10 @@
+dms (1.0.2) stable; urgency=medium
+
+  * Update to v1.0.2 stable release
+  * Bug fixes and improvements
+
+ -- Avenge Media <AvengeMedia.US@gmail.com>  Thu, 12 Dec 2025 14:30:00 -0500
+
 dms (1.0.0) stable; urgency=medium
 
   * Update to v1.0.0 release

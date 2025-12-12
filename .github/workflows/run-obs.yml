@@ -215,12 +215,43 @@ jobs:
           # Update openSUSE dms spec (stable only)
           sed -i "s/^Version:.*/Version:        $VERSION_NO_V/" distro/opensuse/dms.spec
 
-          # Update Debian _service files
+          # Update openSUSE spec changelog
+          DATE_STR=$(date "+%a %b %d %Y")
+          CHANGELOG_ENTRY="* $DATE_STR AvengeMedia <maintainer@avengemedia.com> - ${VERSION_NO_V}-1\\n- Update to stable $VERSION release\\n- Bug fixes and improvements"
+          sed -i "/%changelog/a\\$CHANGELOG_ENTRY\\n" distro/opensuse/dms.spec
+
+          # Update Debian _service files (both tar_scm and download_url formats)
           for service in distro/debian/*/_service; do
             if [[ -f "$service" ]]; then
+              # Update tar_scm revision parameter (for dms-git)
               sed -i "s|<param name=\"revision\">v[0-9.]*</param>|<param name=\"revision\">$VERSION</param>|" "$service"
+
+              # Update download_url paths (for dms stable)
+              sed -i "s|/v[0-9.]\+/|/$VERSION/|g" "$service"
+              sed -i "s|/tags/v[0-9.]\+\.tar\.gz|/tags/$VERSION.tar.gz|g" "$service"
             fi
           done
+
+          # Update Debian changelog for dms stable
+          if [[ -f "distro/debian/dms/debian/changelog" ]]; then
+            CHANGELOG_DATE=$(date -R)
+            TEMP_CHANGELOG=$(mktemp)
+
+            cat > "$TEMP_CHANGELOG" << EOF
+          dms ($VERSION_NO_V) stable; urgency=medium
+
+            * Update to $VERSION stable release
+            * Bug fixes and improvements
+
+           -- Avenge Media <AvengeMedia.US@gmail.com>  $CHANGELOG_DATE
+
+          EOF
+
+            cat "distro/debian/dms/debian/changelog" >> "$TEMP_CHANGELOG"
+            mv "$TEMP_CHANGELOG" "distro/debian/dms/debian/changelog"
+
+            echo "✓ Updated Debian changelog to $VERSION_NO_V"
+          fi
 
       - name: Install Go
         uses: actions/setup-go@v5
