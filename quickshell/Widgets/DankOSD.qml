@@ -74,6 +74,7 @@ PanelWindow {
     readonly property real dpr: CompositorService.getScreenScale(screen)
     readonly property real screenWidth: screen.width
     readonly property real screenHeight: screen.height
+    readonly property real shadowBuffer: 5
     readonly property real alignedWidth: Theme.px(osdWidth, dpr)
     readonly property real alignedHeight: Theme.px(osdHeight, dpr)
 
@@ -172,9 +173,15 @@ PanelWindow {
     anchors {
         top: true
         left: true
-        right: true
-        bottom: true
     }
+
+    WlrLayershell.margins {
+        left: Math.max(0, Theme.snap(alignedX - shadowBuffer, dpr))
+        top: Math.max(0, Theme.snap(alignedY - shadowBuffer, dpr))
+    }
+
+    implicitWidth: alignedWidth + (shadowBuffer * 2)
+    implicitHeight: alignedHeight + (shadowBuffer * 2)
 
     Timer {
         id: hideTimer
@@ -203,8 +210,8 @@ PanelWindow {
 
     Item {
         id: osdContainer
-        x: alignedX
-        y: alignedY
+        x: shadowBuffer
+        y: shadowBuffer
         width: alignedWidth
         height: alignedHeight
         opacity: shouldBeVisible ? 1 : 0

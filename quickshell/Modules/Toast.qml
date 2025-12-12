@@ -16,6 +16,10 @@ PanelWindow {
     property real frozenWidth: 0
     readonly property string copiedText: I18n.tr("Copied!")
 
+    readonly property real dpr: modelData ? CompositorService.getScreenScale(modelData) : 1
+    readonly property real shadowBuffer: 5
+    readonly property real toastY: Theme.barHeight - 4 + (SettingsData.barConfigs[0]?.spacing ?? 4) + 2
+
     Connections {
         target: ToastService
         function onToastVisibleChanged() {
@@ -23,7 +27,6 @@ PanelWindow {
                 shouldBeVisible = true;
                 visible = true;
             } else {
-                // Freeze the width before starting exit animation
                 frozenWidth = toast.width;
                 shouldBeVisible = false;
                 closeTimer.restart();
@@ -48,12 +51,21 @@ PanelWindow {
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
     color: "transparent"
 
+    readonly property real toastWidth: shouldBeVisible ? Math.min(900, messageText.implicitWidth + statusIcon.width + Theme.spacingM + (ToastService.hasDetails ? (expandButton.width + closeButton.width + 4) : (ToastService.currentLevel === ToastService.levelError ? closeButton.width + Theme.spacingS : 0)) + Theme.spacingL * 2 + Theme.spacingM * 2) : frozenWidth
+    readonly property real toastHeight: toastContent.height + Theme.spacingL * 2
+
     anchors {
         top: true
         left: true
-        right: true
-        bottom: true
     }
+
+    WlrLayershell.margins {
+        left: Math.max(0, Theme.snap((modelData?.width ?? 1920) / 2 - toastWidth / 2 - shadowBuffer, dpr))
+        top: Math.max(0, Theme.snap(toastY - shadowBuffer, dpr))
+    }
+
+    implicitWidth: toastWidth + (shadowBuffer * 2)
+    implicitHeight: toastHeight + (shadowBuffer * 2)
 
     Rectangle {
         id: toast
@@ -67,10 +79,10 @@ PanelWindow {
             }
         }
 
-        width: shouldBeVisible ? Math.min(900, messageText.implicitWidth + statusIcon.width + Theme.spacingM + (ToastService.hasDetails ? (expandButton.width + closeButton.width + 4) : (ToastService.currentLevel === ToastService.levelError ? closeButton.width + Theme.spacingS : 0)) + Theme.spacingL * 2 + Theme.spacingM * 2) : frozenWidth
-        height: toastContent.height + Theme.spacingL * 2
-        anchors.horizontalCenter: parent.horizontalCenter
-        y: Theme.barHeight - 4 + (SettingsData.barConfigs[0]?.spacing ?? 4) + 2
+        x: shadowBuffer
+        y: shadowBuffer
+        width: root.toastWidth
+        height: root.toastHeight
         color: {
             switch (ToastService.currentLevel) {
             case ToastService.levelError:
