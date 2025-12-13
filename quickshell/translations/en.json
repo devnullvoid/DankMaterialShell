@@ -66,6 +66,12 @@
     "comment": ""
   },
   {
+    "term": "1 day",
+    "context": "1 day",
+    "reference": "Modules/Settings/ClipboardTab.qml:75",
+    "comment": ""
+  },
+  {
     "term": "1 event",
     "context": "1 event",
     "reference": "Modules/DankDash/Overview/CalendarOverviewCard.qml:138",
@@ -96,6 +102,12 @@
     "comment": ""
   },
   {
+    "term": "14 days",
+    "context": "14 days",
+    "reference": "Modules/Settings/ClipboardTab.qml:87",
+    "comment": ""
+  },
+  {
     "term": "15 seconds",
     "context": "15 seconds",
     "reference": "Modules/Settings/NotificationsTab.qml:35",
@@ -120,9 +132,21 @@
     "comment": ""
   },
   {
+    "term": "3 days",
+    "context": "3 days",
+    "reference": "Modules/Settings/ClipboardTab.qml:79",
+    "comment": ""
+  },
+  {
     "term": "3 seconds",
     "context": "3 seconds",
     "reference": "Modules/Settings/NotificationsTab.qml:19",
+    "comment": ""
+  },
+  {
+    "term": "30 days",
+    "context": "30 days",
+    "reference": "Modules/Settings/ClipboardTab.qml:91",
     "comment": ""
   },
   {
@@ -150,9 +174,21 @@
     "comment": ""
   },
   {
+    "term": "7 days",
+    "context": "7 days",
+    "reference": "Modules/Settings/ClipboardTab.qml:83",
+    "comment": ""
+  },
+  {
     "term": "8 seconds",
     "context": "8 seconds",
     "reference": "Modules/Settings/NotificationsTab.qml:27",
+    "comment": ""
+  },
+  {
+    "term": "90 days",
+    "context": "90 days",
+    "reference": "Modules/Settings/ClipboardTab.qml:95",
     "comment": ""
   },
   {
@@ -176,7 +212,7 @@
   {
     "term": "About",
     "context": "About",
-    "reference": "Modals/Settings/SettingsSidebar.qml:199, Modules/Settings/AboutTab.qml:532",
+    "reference": "Modals/Settings/SettingsSidebar.qml:214, Modules/Settings/AboutTab.qml:532",
     "comment": ""
   },
   {
@@ -212,7 +248,7 @@
   {
     "term": "Action",
     "context": "Action",
-    "reference": "Widgets/KeybindItem.qml:853, Widgets/KeybindItem.qml:1048",
+    "reference": "Widgets/KeybindItem.qml:868, Widgets/KeybindItem.qml:1063",
     "comment": ""
   },
   {
@@ -236,7 +272,7 @@
   {
     "term": "Active Lock Screen Monitor",
     "context": "Active Lock Screen Monitor",
-    "reference": "Modules/Settings/LockScreenTab.qml:89",
+    "reference": "Modules/Settings/LockScreenTab.qml:125",
     "comment": ""
   },
   {
@@ -260,7 +296,7 @@
   {
     "term": "Add",
     "context": "Add",
-    "reference": "Widgets/KeybindItem.qml:1483, Modules/Plugins/ListSettingWithInput.qml:126",
+    "reference": "Widgets/KeybindItem.qml:1549, Modules/Plugins/ListSettingWithInput.qml:126",
     "comment": ""
   },
   {
@@ -300,6 +336,12 @@
     "comment": ""
   },
   {
+    "term": "Advanced",
+    "context": "Advanced",
+    "reference": "Modules/Settings/ClipboardTab.qml:290",
+    "comment": ""
+  },
+  {
     "term": "Afternoon",
     "context": "Afternoon",
     "reference": "Services/WeatherService.qml:301",
@@ -314,7 +356,7 @@
   {
     "term": "All Monitors",
     "context": "All Monitors",
-    "reference": "Modules/Settings/LockScreenTab.qml:91, Modules/Settings/LockScreenTab.qml:101, Modules/Settings/LockScreenTab.qml:111, Modules/Settings/LockScreenTab.qml:115",
+    "reference": "Modules/Settings/LockScreenTab.qml:127, Modules/Settings/LockScreenTab.qml:137, Modules/Settings/LockScreenTab.qml:147, Modules/Settings/LockScreenTab.qml:151",
     "comment": ""
   },
   {
@@ -356,7 +398,7 @@
   {
     "term": "Amount",
     "context": "Amount",
-    "reference": "Widgets/KeybindItem.qml:897",
+    "reference": "Widgets/KeybindItem.qml:912",
     "comment": ""
   },
   {
@@ -398,13 +440,13 @@
   {
     "term": "Apply GTK Colors",
     "context": "Apply GTK Colors",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:799",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:992",
     "comment": ""
   },
   {
     "term": "Apply Qt Colors",
     "context": "Apply Qt Colors",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:833",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1026",
     "comment": ""
   },
   {
@@ -459,6 +501,12 @@
     "term": "Audio Output Switch",
     "context": "Audio Output Switch",
     "reference": "Modules/Settings/OSDTab.qml:146",
+    "comment": ""
+  },
+  {
+    "term": "Audio Visualizer",
+    "context": "Audio Visualizer",
+    "reference": "Modules/Settings/MediaPlayerTab.qml:41",
     "comment": ""
   },
   {
@@ -534,6 +582,12 @@
     "comment": ""
   },
   {
+    "term": "Auto-Clear After",
+    "context": "Auto-Clear After",
+    "reference": "Modules/Settings/ClipboardTab.qml:254",
+    "comment": ""
+  },
+  {
     "term": "Auto-close Niri overview when launching apps.",
     "context": "Auto-close Niri overview when launching apps.",
     "reference": "Modules/Settings/LauncherTab.qml:348",
@@ -594,6 +648,12 @@
     "comment": ""
   },
   {
+    "term": "Automatically delete entries older than this",
+    "context": "Automatically delete entries older than this",
+    "reference": "Modules/Settings/ClipboardTab.qml:255",
+    "comment": ""
+  },
+  {
     "term": "Automatically detect location based on IP address",
     "context": "Automatically detect location based on IP address",
     "reference": "Modules/Settings/DisplaysTab.qml:461",
@@ -614,7 +674,7 @@
   {
     "term": "Automatically lock the screen when the system prepares to suspend",
     "context": "Automatically lock the screen when the system prepares to suspend",
-    "reference": "Modules/Settings/PowerSleepTab.qml:73, Modules/Settings/LockScreenTab.qml:58",
+    "reference": "Modules/Settings/PowerSleepTab.qml:73, Modules/Settings/LockScreenTab.qml:94",
     "comment": ""
   },
   {
@@ -698,13 +758,13 @@
   {
     "term": "Behavior",
     "context": "Behavior",
-    "reference": "Modules/Settings/DockTab.qml:97",
+    "reference": "Modules/Settings/DockTab.qml:97, Modules/Settings/ClipboardTab.qml:272",
     "comment": ""
   },
   {
     "term": "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen",
     "context": "Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen",
-    "reference": "Modules/Settings/LockScreenTab.qml:46",
+    "reference": "Modules/Settings/LockScreenTab.qml:82",
     "comment": ""
   },
   {
@@ -860,7 +920,7 @@
   {
     "term": "Cancel",
     "context": "Cancel",
-    "reference": "Modals/BluetoothPairingModal.qml:272, Modals/PolkitAuthModal.qml:264, Modals/WifiPasswordModal.qml:605, Widgets/KeybindItem.qml:1467, Modals/FileBrowser/FileBrowserOverwriteDialog.qml:83, Modules/Settings/PluginBrowser.qml:634",
+    "reference": "Modals/BluetoothPairingModal.qml:272, Modals/PolkitAuthModal.qml:264, Modals/WifiPasswordModal.qml:605, Widgets/KeybindItem.qml:1533, Modals/FileBrowser/FileBrowserOverwriteDialog.qml:83, Modules/Settings/PluginBrowser.qml:634",
     "comment": ""
   },
   {
@@ -986,7 +1046,7 @@
   {
     "term": "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.",
     "context": "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.",
-    "reference": "Modules/Settings/LockScreenTab.qml:80",
+    "reference": "Modules/Settings/LockScreenTab.qml:116",
     "comment": ""
   },
   {
@@ -1004,19 +1064,31 @@
   {
     "term": "Clear All",
     "context": "Clear All",
-    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:163, Modules/Settings/PrinterTab.qml:1034",
+    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:221, Modules/Settings/PrinterTab.qml:1034",
     "comment": ""
   },
   {
     "term": "Clear All History?",
     "context": "Clear All History?",
-    "reference": "Modals/Clipboard/ClipboardContent.qml:33",
+    "reference": "Modals/Clipboard/ClipboardContent.qml:30",
     "comment": ""
   },
   {
     "term": "Clear All Jobs",
     "context": "Clear All Jobs",
     "reference": "Modules/Settings/PrinterTab.qml:1048",
+    "comment": ""
+  },
+  {
+    "term": "Clear all history when server starts",
+    "context": "Clear all history when server starts",
+    "reference": "Modules/Settings/ClipboardTab.qml:281",
+    "comment": ""
+  },
+  {
+    "term": "Clear at Startup",
+    "context": "Clear at Startup",
+    "reference": "Modules/Settings/ClipboardTab.qml:280",
     "comment": ""
   },
   {
@@ -1034,7 +1106,13 @@
   {
     "term": "Click to capture",
     "context": "Click to capture",
-    "reference": "Widgets/KeybindItem.qml:573",
+    "reference": "Widgets/KeybindItem.qml:588",
+    "comment": ""
+  },
+  {
+    "term": "Clipboard",
+    "context": "Clipboard",
+    "reference": "Modals/Settings/SettingsSidebar.qml:175",
     "comment": ""
   },
   {
@@ -1047,6 +1125,18 @@
     "term": "Clipboard Manager",
     "context": "Clipboard Manager",
     "reference": "Modules/Settings/WidgetsTab.qml:93",
+    "comment": ""
+  },
+  {
+    "term": "Clipboard service not available",
+    "context": "Clipboard service not available",
+    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:104",
+    "comment": ""
+  },
+  {
+    "term": "Clipboard works but nothing saved to disk",
+    "context": "Clipboard works but nothing saved to disk",
+    "reference": "Modules/Settings/ClipboardTab.qml:311",
     "comment": ""
   },
   {
@@ -1100,7 +1190,7 @@
   {
     "term": "Color displayed on monitors without the lock screen",
     "context": "Color displayed on monitors without the lock screen",
-    "reference": "Modules/Settings/LockScreenTab.qml:146",
+    "reference": "Modules/Settings/LockScreenTab.qml:182",
     "comment": ""
   },
   {
@@ -1118,13 +1208,13 @@
   {
     "term": "Colorful mix of bright contrasting accents.",
     "context": "Colorful mix of bright contrasting accents.",
-    "reference": "Common/Theme.qml:225",
+    "reference": "Common/Theme.qml:221",
     "comment": ""
   },
   {
     "term": "Command",
     "context": "Command",
-    "reference": "Widgets/KeybindItem.qml:1355",
+    "reference": "Widgets/KeybindItem.qml:1370",
     "comment": ""
   },
   {
@@ -1154,7 +1244,7 @@
   {
     "term": "Config action: %1",
     "context": "Config action: %1",
-    "reference": "Widgets/KeybindItem.qml:422",
+    "reference": "Widgets/KeybindItem.qml:437",
     "comment": ""
   },
   {
@@ -1202,7 +1292,7 @@
   {
     "term": "Conflicts with: %1",
     "context": "Conflicts with: %1",
-    "reference": "Widgets/KeybindItem.qml:733",
+    "reference": "Widgets/KeybindItem.qml:748",
     "comment": ""
   },
   {
@@ -1266,9 +1356,15 @@
     "comment": ""
   },
   {
+    "term": "Cooldown",
+    "context": "Cooldown",
+    "reference": "Widgets/KeybindItem.qml:1454",
+    "comment": ""
+  },
+  {
     "term": "Copied to clipboard",
     "context": "Copied to clipboard",
-    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:101",
+    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:150",
     "comment": ""
   },
   {
@@ -1280,13 +1376,13 @@
   {
     "term": "Copy PID",
     "context": "Copy PID",
-    "reference": "Modules/ProcessList/ProcessContextMenu.qml:88",
+    "reference": "Modules/ProcessList/ProcessContextMenu.qml:86",
     "comment": ""
   },
   {
     "term": "Copy Process Name",
     "context": "Copy Process Name",
-    "reference": "Modules/ProcessList/ProcessContextMenu.qml:121",
+    "reference": "Modules/ProcessList/ProcessContextMenu.qml:117",
     "comment": ""
   },
   {
@@ -1382,7 +1478,7 @@
   {
     "term": "Custom",
     "context": "Custom",
-    "reference": "Widgets/KeybindItem.qml:1292, Modules/Settings/TypographyMotionTab.qml:222, Modules/Settings/LauncherTab.qml:71, Modules/Settings/LauncherTab.qml:177",
+    "reference": "Widgets/KeybindItem.qml:1307, Modules/Settings/TypographyMotionTab.qml:222, Modules/Settings/LauncherTab.qml:71, Modules/Settings/LauncherTab.qml:177",
     "comment": ""
   },
   {
@@ -1466,7 +1562,7 @@
   {
     "term": "DEMO MODE - Click anywhere to exit",
     "context": "DEMO MODE - Click anywhere to exit",
-    "reference": "Modules/Lock/LockScreenContent.qml:788",
+    "reference": "Modules/Lock/LockScreenContent.qml:793",
     "comment": ""
   },
   {
@@ -1478,13 +1574,19 @@
   {
     "term": "DMS out of date",
     "context": "DMS out of date",
-    "reference": "Services/DMSService.qml:303",
+    "reference": "Services/DMSService.qml:305",
+    "comment": ""
+  },
+  {
+    "term": "DMS service is not connected. Clipboard settings are unavailable.",
+    "context": "DMS service is not connected. Clipboard settings are unavailable.",
+    "reference": "Modules/Settings/ClipboardTab.qml:199",
     "comment": ""
   },
   {
     "term": "DMS shell actions (launcher, clipboard, etc.)",
     "context": "DMS shell actions (launcher, clipboard, etc.)",
-    "reference": "Widgets/KeybindItem.qml:766",
+    "reference": "Widgets/KeybindItem.qml:781",
     "comment": ""
   },
   {
@@ -1532,7 +1634,7 @@
   {
     "term": "DankShell & System Icons (requires restart)",
     "context": "DankShell & System Icons (requires restart)",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:755",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:948",
     "comment": ""
   },
   {
@@ -1640,7 +1742,7 @@
   {
     "term": "Derives colors that closely match the underlying image.",
     "context": "Derives colors that closely match the underlying image.",
-    "reference": "Common/Theme.qml:213",
+    "reference": "Common/Theme.qml:209",
     "comment": ""
   },
   {
@@ -1664,7 +1766,7 @@
   {
     "term": "Device",
     "context": "Device",
-    "reference": "Widgets/KeybindItem.qml:944, Modules/ProcessList/SystemTab.qml:420, Modules/Settings/PrinterTab.qml:278",
+    "reference": "Widgets/KeybindItem.qml:959, Modules/ProcessList/SystemTab.qml:420, Modules/Settings/PrinterTab.qml:278",
     "comment": ""
   },
   {
@@ -1683,6 +1785,30 @@
     "term": "Disable Built-in Wallpapers",
     "context": "wallpaper settings disable toggle",
     "reference": "Modules/Settings/WallpaperTab.qml:1196",
+    "comment": ""
+  },
+  {
+    "term": "Disable Clipboard Manager",
+    "context": "Disable Clipboard Manager",
+    "reference": "Modules/Settings/ClipboardTab.qml:300",
+    "comment": ""
+  },
+  {
+    "term": "Disable Clipboard Ownership",
+    "context": "Disable Clipboard Ownership",
+    "reference": "Modules/Settings/ClipboardTab.qml:320",
+    "comment": ""
+  },
+  {
+    "term": "Disable History Persistence",
+    "context": "Disable History Persistence",
+    "reference": "Modules/Settings/ClipboardTab.qml:310",
+    "comment": ""
+  },
+  {
+    "term": "Disable clipboard manager entirely (requires restart)",
+    "context": "Disable clipboard manager entirely (requires restart)",
+    "reference": "Modules/Settings/ClipboardTab.qml:301",
     "comment": ""
   },
   {
@@ -1724,7 +1850,7 @@
   {
     "term": "Dismiss",
     "context": "Dismiss",
-    "reference": "Modules/Notifications/Popup/NotificationPopup.qml:25, Modules/Notifications/Center/NotificationCard.qml:543, Modules/Notifications/Center/NotificationCard.qml:636",
+    "reference": "Modules/Notifications/Popup/NotificationPopup.qml:24, Modules/Notifications/Center/NotificationCard.qml:543, Modules/Notifications/Center/NotificationCard.qml:636",
     "comment": ""
   },
   {
@@ -1808,7 +1934,7 @@
   {
     "term": "Displays",
     "context": "Displays",
-    "reference": "Modals/Settings/SettingsSidebar.qml:149",
+    "reference": "Modals/Settings/SettingsSidebar.qml:162",
     "comment": ""
   },
   {
@@ -1820,7 +1946,7 @@
   {
     "term": "Diverse palette spanning the full spectrum.",
     "context": "Diverse palette spanning the full spectrum.",
-    "reference": "Common/Theme.qml:237",
+    "reference": "Common/Theme.qml:233",
     "comment": ""
   },
   {
@@ -1988,13 +2114,13 @@
   {
     "term": "Enable fingerprint authentication",
     "context": "Enable fingerprint authentication",
-    "reference": "Modules/Settings/LockScreenTab.qml:65",
+    "reference": "Modules/Settings/LockScreenTab.qml:101",
     "comment": ""
   },
   {
     "term": "Enable loginctl lock integration",
     "context": "Enable loginctl lock integration",
-    "reference": "Modules/Settings/LockScreenTab.qml:45",
+    "reference": "Modules/Settings/LockScreenTab.qml:81",
     "comment": ""
   },
   {
@@ -2166,6 +2292,12 @@
     "comment": ""
   },
   {
+    "term": "Failed to copy entry",
+    "context": "Failed to copy entry",
+    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:67, Modals/Clipboard/ClipboardHistoryModal.qml:147",
+    "comment": ""
+  },
+  {
     "term": "Failed to create printer",
     "context": "Failed to create printer",
     "reference": "Services/CupsService.qml:502",
@@ -2244,6 +2376,12 @@
     "comment": ""
   },
   {
+    "term": "Failed to load clipboard configuration.",
+    "context": "Failed to load clipboard configuration.",
+    "reference": "Modules/Settings/ClipboardTab.qml:199",
+    "comment": ""
+  },
+  {
     "term": "Failed to move job",
     "context": "Failed to move job",
     "reference": "Services/CupsService.qml:640",
@@ -2289,6 +2427,12 @@
     "term": "Failed to resume printer",
     "context": "Failed to resume printer",
     "reference": "Services/CupsService.qml:403",
+    "comment": ""
+  },
+  {
+    "term": "Failed to save clipboard setting",
+    "context": "Failed to save clipboard setting",
+    "reference": "Modules/Settings/ClipboardTab.qml:145",
     "comment": ""
   },
   {
@@ -2420,7 +2564,7 @@
   {
     "term": "Follow focus",
     "context": "Follow focus",
-    "reference": "Widgets/KeybindItem.qml:1224",
+    "reference": "Widgets/KeybindItem.qml:1239",
     "comment": ""
   },
   {
@@ -2450,7 +2594,7 @@
   {
     "term": "Force Kill Process",
     "context": "Force Kill Process",
-    "reference": "Modules/ProcessList/ProcessContextMenu.qml:207",
+    "reference": "Modules/ProcessList/ProcessContextMenu.qml:200",
     "comment": ""
   },
   {
@@ -2646,15 +2790,15 @@
     "comment": ""
   },
   {
-    "term": "High-contrast palette for strong visual distinction.",
-    "context": "High-contrast palette for strong visual distinction.",
-    "reference": "Common/Theme.qml:209",
+    "term": "High-fidelity palette that preserves source hues.",
+    "context": "High-fidelity palette that preserves source hues.",
+    "reference": "Common/Theme.qml:217",
     "comment": ""
   },
   {
-    "term": "High-fidelity palette that preserves source hues.",
-    "context": "High-fidelity palette that preserves source hues.",
-    "reference": "Common/Theme.qml:221",
+    "term": "History Settings",
+    "context": "History Settings",
+    "reference": "Modules/Settings/ClipboardTab.qml:210",
     "comment": ""
   },
   {
@@ -2690,7 +2834,7 @@
   {
     "term": "Hotkey overlay title (optional)",
     "context": "Hotkey overlay title (optional)",
-    "reference": "Widgets/KeybindItem.qml:1426",
+    "reference": "Widgets/KeybindItem.qml:1441",
     "comment": ""
   },
   {
@@ -2744,7 +2888,7 @@
   {
     "term": "Icon Theme",
     "context": "Icon Theme",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:754",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:947",
     "comment": ""
   },
   {
@@ -2772,9 +2916,21 @@
     "comment": ""
   },
   {
+    "term": "If the field is hidden, it will appear as soon as a key is pressed.",
+    "context": "If the field is hidden, it will appear as soon as a key is pressed.",
+    "reference": "Modules/Settings/LockScreenTab.qml:60",
+    "comment": ""
+  },
+  {
     "term": "Image",
     "context": "Image",
-    "reference": "Modals/Clipboard/ClipboardEntry.qml:83",
+    "reference": "Modals/Clipboard/ClipboardEntry.qml:76",
+    "comment": ""
+  },
+  {
+    "term": "Image copied to clipboard",
+    "context": "Image copied to clipboard",
+    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:150",
     "comment": ""
   },
   {
@@ -2792,7 +2948,7 @@
   {
     "term": "Inactive Monitor Color",
     "context": "Inactive Monitor Color",
-    "reference": "Modules/Settings/LockScreenTab.qml:140, Modules/Settings/LockScreenTab.qml:171",
+    "reference": "Modules/Settings/LockScreenTab.qml:176, Modules/Settings/LockScreenTab.qml:207",
     "comment": ""
   },
   {
@@ -2900,7 +3056,7 @@
   {
     "term": "Key",
     "context": "Key",
-    "reference": "Widgets/KeybindItem.qml:532",
+    "reference": "Widgets/KeybindItem.qml:547",
     "comment": ""
   },
   {
@@ -2918,13 +3074,13 @@
   {
     "term": "Keys",
     "context": "Keys",
-    "reference": "Widgets/KeybindItem.qml:445",
+    "reference": "Widgets/KeybindItem.qml:460",
     "comment": ""
   },
   {
     "term": "Kill Process",
     "context": "Kill Process",
-    "reference": "Modules/ProcessList/ProcessContextMenu.qml:171",
+    "reference": "Modules/ProcessList/ProcessContextMenu.qml:165",
     "comment": ""
   },
   {
@@ -3080,13 +3236,13 @@
   {
     "term": "Lock Screen",
     "context": "Lock Screen",
-    "reference": "Modals/Settings/SettingsSidebar.qml:175, Modules/Settings/LockScreenTab.qml:26",
+    "reference": "Modals/Settings/SettingsSidebar.qml:190",
     "comment": ""
   },
   {
     "term": "Lock Screen Display",
     "context": "Lock Screen Display",
-    "reference": "Modules/Settings/LockScreenTab.qml:76",
+    "reference": "Modules/Settings/LockScreenTab.qml:112",
     "comment": ""
   },
   {
@@ -3096,9 +3252,21 @@
     "comment": ""
   },
   {
+    "term": "Lock Screen behaviour",
+    "context": "Lock Screen behaviour",
+    "reference": "Modules/Settings/LockScreenTab.qml:69",
+    "comment": ""
+  },
+  {
+    "term": "Lock Screen layout",
+    "context": "Lock Screen layout",
+    "reference": "Modules/Settings/LockScreenTab.qml:26",
+    "comment": ""
+  },
+  {
     "term": "Lock before suspend",
     "context": "Lock before suspend",
-    "reference": "Modules/Settings/PowerSleepTab.qml:72, Modules/Settings/LockScreenTab.qml:57",
+    "reference": "Modules/Settings/PowerSleepTab.qml:72, Modules/Settings/LockScreenTab.qml:93",
     "comment": ""
   },
   {
@@ -3116,7 +3284,7 @@
   {
     "term": "Long Text",
     "context": "Long Text",
-    "reference": "Modals/Clipboard/ClipboardEntry.qml:85",
+    "reference": "Modals/Clipboard/ClipboardEntry.qml:78",
     "comment": ""
   },
   {
@@ -3222,6 +3390,12 @@
     "comment": ""
   },
   {
+    "term": "Matugen Templates",
+    "context": "Matugen Templates",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:720",
+    "comment": ""
+  },
+  {
     "term": "Max apps to show",
     "context": "Max apps to show",
     "reference": "Modules/Settings/WorkspacesTab.qml:62",
@@ -3234,9 +3408,33 @@
     "comment": ""
   },
   {
+    "term": "Maximum Entry Size",
+    "context": "Maximum Entry Size",
+    "reference": "Modules/Settings/ClipboardTab.qml:236",
+    "comment": ""
+  },
+  {
+    "term": "Maximum History",
+    "context": "Maximum History",
+    "reference": "Modules/Settings/ClipboardTab.qml:218",
+    "comment": ""
+  },
+  {
+    "term": "Maximum number of clipboard entries to keep",
+    "context": "Maximum number of clipboard entries to keep",
+    "reference": "Modules/Settings/ClipboardTab.qml:219",
+    "comment": ""
+  },
+  {
+    "term": "Maximum size per clipboard entry",
+    "context": "Maximum size per clipboard entry",
+    "reference": "Modules/Settings/ClipboardTab.qml:237",
+    "comment": ""
+  },
+  {
     "term": "Media",
     "context": "Media",
-    "reference": "Services/AppSearchService.qml:251, Services/AppSearchService.qml:252, Services/AppSearchService.qml:253, Widgets/DankIconPicker.qml:40, Widgets/KeybindItem.qml:1007, Widgets/KeybindItem.qml:1016, Widgets/KeybindItem.qml:1022, Modules/DankDash/DankDashPopout.qml:273",
+    "reference": "Services/AppSearchService.qml:251, Services/AppSearchService.qml:252, Services/AppSearchService.qml:253, Widgets/DankIconPicker.qml:40, Widgets/KeybindItem.qml:1022, Widgets/KeybindItem.qml:1031, Widgets/KeybindItem.qml:1037, Modules/DankDash/DankDashPopout.qml:273",
     "comment": ""
   },
   {
@@ -3338,7 +3536,7 @@
   {
     "term": "Minimal palette built around a single hue.",
     "context": "Minimal palette built around a single hue.",
-    "reference": "Common/Theme.qml:229",
+    "reference": "Common/Theme.qml:225",
     "comment": ""
   },
   {
@@ -3410,7 +3608,7 @@
   {
     "term": "Muted palette with subdued, calming tones.",
     "context": "Muted palette with subdued, calming tones.",
-    "reference": "Common/Theme.qml:233",
+    "reference": "Common/Theme.qml:229",
     "comment": ""
   },
   {
@@ -3440,7 +3638,7 @@
   {
     "term": "Network",
     "context": "Network",
-    "reference": "Services/CupsService.qml:131, Modals/Settings/SettingsSidebar.qml:155, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:808, Modules/ControlCenter/Details/NetworkDetail.qml:73",
+    "reference": "Services/CupsService.qml:131, Modals/Settings/SettingsSidebar.qml:149, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:808, Modules/ControlCenter/Details/NetworkDetail.qml:73",
     "comment": ""
   },
   {
@@ -3476,7 +3674,7 @@
   {
     "term": "Never",
     "context": "Never",
-    "reference": "Modules/Settings/NotificationsTab.qml:11, Modules/Settings/NotificationsTab.qml:68",
+    "reference": "Modules/Settings/NotificationsTab.qml:11, Modules/Settings/NotificationsTab.qml:68, Modules/Settings/ClipboardTab.qml:71",
     "comment": ""
   },
   {
@@ -3488,7 +3686,7 @@
   {
     "term": "New Key",
     "context": "New Key",
-    "reference": "Widgets/KeybindItem.qml:532",
+    "reference": "Widgets/KeybindItem.qml:547",
     "comment": ""
   },
   {
@@ -3542,7 +3740,7 @@
   {
     "term": "Niri compositor actions (focus, move, etc.)",
     "context": "Niri compositor actions (focus, move, etc.)",
-    "reference": "Widgets/KeybindItem.qml:767",
+    "reference": "Widgets/KeybindItem.qml:782",
     "comment": ""
   },
   {
@@ -3596,7 +3794,7 @@
   {
     "term": "No action",
     "context": "No action",
-    "reference": "Widgets/KeybindItem.qml:285",
+    "reference": "Widgets/KeybindItem.qml:300",
     "comment": ""
   },
   {
@@ -3608,13 +3806,13 @@
   {
     "term": "No changes",
     "context": "No changes",
-    "reference": "Widgets/KeybindItem.qml:1460",
+    "reference": "Widgets/KeybindItem.qml:1526",
     "comment": ""
   },
   {
     "term": "No clipboard entries found",
     "context": "No clipboard entries found",
-    "reference": "Modals/Clipboard/ClipboardContent.qml:119",
+    "reference": "Modals/Clipboard/ClipboardContent.qml:117",
     "comment": ""
   },
   {
@@ -3872,7 +4070,7 @@
   {
     "term": "Options",
     "context": "Options",
-    "reference": "Widgets/KeybindItem.qml:1134",
+    "reference": "Widgets/KeybindItem.qml:1149",
     "comment": ""
   },
   {
@@ -3902,13 +4100,13 @@
   {
     "term": "Overridden by config",
     "context": "Overridden by config",
-    "reference": "Widgets/KeybindItem.qml:326",
+    "reference": "Widgets/KeybindItem.qml:341",
     "comment": ""
   },
   {
     "term": "Override",
     "context": "Override",
-    "reference": "Widgets/KeybindItem.qml:312",
+    "reference": "Widgets/KeybindItem.qml:327",
     "comment": ""
   },
   {
@@ -3920,7 +4118,7 @@
   {
     "term": "Overview",
     "context": "Overview",
-    "reference": "Widgets/KeybindItem.qml:1013, Widgets/KeybindItem.qml:1016, Modules/DankDash/DankDashPopout.qml:269",
+    "reference": "Widgets/KeybindItem.qml:1028, Widgets/KeybindItem.qml:1031, Modules/DankDash/DankDashPopout.qml:269",
     "comment": ""
   },
   {
@@ -4106,13 +4304,13 @@
   {
     "term": "Plugins",
     "context": "Plugins",
-    "reference": "Modals/Settings/SettingsSidebar.qml:189, Modules/Settings/AboutTab.qml:246, Modules/Settings/AboutTab.qml:254",
+    "reference": "Modals/Settings/SettingsSidebar.qml:204, Modules/Settings/AboutTab.qml:246, Modules/Settings/AboutTab.qml:254",
     "comment": ""
   },
   {
     "term": "Pointer",
     "context": "Pointer",
-    "reference": "Widgets/KeybindItem.qml:1252",
+    "reference": "Widgets/KeybindItem.qml:1267",
     "comment": ""
   },
   {
@@ -4154,13 +4352,13 @@
   {
     "term": "Power & Security",
     "context": "Power & Security",
-    "reference": "Modals/Settings/SettingsSidebar.qml:169",
+    "reference": "Modals/Settings/SettingsSidebar.qml:184",
     "comment": ""
   },
   {
     "term": "Power & Sleep",
     "context": "Power & Sleep",
-    "reference": "Modals/Settings/SettingsSidebar.qml:181",
+    "reference": "Modals/Settings/SettingsSidebar.qml:196",
     "comment": ""
   },
   {
@@ -4220,7 +4418,7 @@
   {
     "term": "Press key...",
     "context": "Press key...",
-    "reference": "Widgets/KeybindItem.qml:573",
+    "reference": "Widgets/KeybindItem.qml:588",
     "comment": ""
   },
   {
@@ -4280,7 +4478,7 @@
   {
     "term": "Printers",
     "context": "Printers",
-    "reference": "Modals/Settings/SettingsSidebar.qml:162, Modules/Settings/PrinterTab.qml:153, Modules/Settings/PrinterTab.qml:539, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:16",
+    "reference": "Modals/Settings/SettingsSidebar.qml:168, Modules/Settings/PrinterTab.qml:153, Modules/Settings/PrinterTab.qml:539, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:16",
     "comment": ""
   },
   {
@@ -4424,7 +4622,7 @@
   {
     "term": "Reload Plugin",
     "context": "Reload Plugin",
-    "reference": "Modules/Settings/PluginListItem.qml:233",
+    "reference": "Modules/Settings/PluginListItem.qml:234",
     "comment": ""
   },
   {
@@ -4518,15 +4716,27 @@
     "comment": ""
   },
   {
+    "term": "Run DMS Templates",
+    "context": "Run DMS Templates",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:738",
+    "comment": ""
+  },
+  {
+    "term": "Run User Templates",
+    "context": "Run User Templates",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:728",
+    "comment": ""
+  },
+  {
     "term": "Run a program (e.g., firefox, kitty)",
     "context": "Run a program (e.g., firefox, kitty)",
-    "reference": "Widgets/KeybindItem.qml:768",
+    "reference": "Widgets/KeybindItem.qml:783",
     "comment": ""
   },
   {
     "term": "Run a shell command (e.g., notify-send)",
     "context": "Run a shell command (e.g., notify-send)",
-    "reference": "Widgets/KeybindItem.qml:769",
+    "reference": "Widgets/KeybindItem.qml:784",
     "comment": ""
   },
   {
@@ -4550,7 +4760,7 @@
   {
     "term": "Save",
     "context": "Save",
-    "reference": "Modals/DankColorPickerModal.qml:693, Widgets/KeybindItem.qml:1277, Widgets/KeybindItem.qml:1483, Modals/FileBrowser/FileBrowserSaveRow.qml:55, Modules/Notepad/NotepadTextEditor.qml:511, Modules/Notepad/Notepad.qml:461",
+    "reference": "Modals/DankColorPickerModal.qml:693, Widgets/KeybindItem.qml:1292, Widgets/KeybindItem.qml:1549, Modals/FileBrowser/FileBrowserSaveRow.qml:55, Modules/Notepad/NotepadTextEditor.qml:511, Modules/Notepad/Notepad.qml:461",
     "comment": ""
   },
   {
@@ -4700,7 +4910,7 @@
   {
     "term": "Select Custom Theme",
     "context": "custom theme file browser title",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:874",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1067",
     "comment": ""
   },
   {
@@ -4802,7 +5012,7 @@
   {
     "term": "Select...",
     "context": "Select...",
-    "reference": "Widgets/KeybindItem.qml:863, Widgets/KeybindItem.qml:1077",
+    "reference": "Widgets/KeybindItem.qml:878, Widgets/KeybindItem.qml:1092",
     "comment": ""
   },
   {
@@ -4838,7 +5048,7 @@
   {
     "term": "Set key and action to save",
     "context": "Set key and action to save",
-    "reference": "Widgets/KeybindItem.qml:1460",
+    "reference": "Widgets/KeybindItem.qml:1526",
     "comment": ""
   },
   {
@@ -4856,12 +5066,18 @@
   {
     "term": "Shell",
     "context": "Shell",
-    "reference": "Widgets/KeybindItem.qml:1387",
+    "reference": "Widgets/KeybindItem.qml:1402",
     "comment": ""
   },
   {
     "term": "Shift+Del: Clear All • Esc: Close",
     "context": "Shift+Del: Clear All • Esc: Close",
+    "reference": "Modals/Clipboard/ClipboardKeyboardHints.qml:9",
+    "comment": ""
+  },
+  {
+    "term": "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close",
+    "context": "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close",
     "reference": "Modals/Clipboard/ClipboardKeyboardHints.qml:9",
     "comment": ""
   },
@@ -4920,8 +5136,14 @@
     "comment": ""
   },
   {
+    "term": "Show Password Field",
+    "context": "Enable password field display on the lock screen window",
+    "reference": "Modules/Settings/LockScreenTab.qml:59",
+    "comment": ""
+  },
+  {
     "term": "Show Power Actions",
-    "context": "Show Power Actions",
+    "context": "Enable power action icon on the lock screen window",
     "reference": "Modules/Settings/LockScreenTab.qml:29",
     "comment": ""
   },
@@ -4929,6 +5151,12 @@
     "term": "Show Power Off",
     "context": "Show Power Off",
     "reference": "Modules/Settings/PowerSleepTab.qml:356",
+    "comment": ""
+  },
+  {
+    "term": "Show Profile Image",
+    "context": "Enable profile image display on the lock screen window",
+    "reference": "Modules/Settings/LockScreenTab.qml:53",
     "comment": ""
   },
   {
@@ -4956,6 +5184,24 @@
     "comment": ""
   },
   {
+    "term": "Show System Date",
+    "context": "Enable system date display on the lock screen window",
+    "reference": "Modules/Settings/LockScreenTab.qml:47",
+    "comment": ""
+  },
+  {
+    "term": "Show System Icons",
+    "context": "Enable system status icons on the lock screen window",
+    "reference": "Modules/Settings/LockScreenTab.qml:35",
+    "comment": ""
+  },
+  {
+    "term": "Show System Time",
+    "context": "Enable system time display on the lock screen window",
+    "reference": "Modules/Settings/LockScreenTab.qml:41",
+    "comment": ""
+  },
+  {
     "term": "Show Workspace Apps",
     "context": "Show Workspace Apps",
     "reference": "Modules/Settings/WorkspacesTab.qml:42",
@@ -4965,6 +5211,12 @@
     "term": "Show all 9 tags instead of only occupied tags (DWL only)",
     "context": "Show all 9 tags instead of only occupied tags (DWL only)",
     "reference": "Modules/Settings/WorkspacesTab.qml:106",
+    "comment": ""
+  },
+  {
+    "term": "Show cava audio visualizer in media widget",
+    "context": "Show cava audio visualizer in media widget",
+    "reference": "Modules/Settings/MediaPlayerTab.qml:42",
     "comment": ""
   },
   {
@@ -5067,12 +5319,6 @@
     "term": "Show password",
     "context": "Show password",
     "reference": "Modals/WifiPasswordModal.qml:537",
-    "comment": ""
-  },
-  {
-    "term": "Show power, restart, and logout buttons on the lock screen",
-    "context": "Show power, restart, and logout buttons on the lock screen",
-    "reference": "Modules/Settings/LockScreenTab.qml:30",
     "comment": ""
   },
   {
@@ -5324,13 +5570,13 @@
   {
     "term": "System",
     "context": "System",
-    "reference": "Services/AppSearchService.qml:270, Widgets/DankIconPicker.qml:44, Modules/ProcessList/SystemTab.qml:127",
+    "reference": "Services/AppSearchService.qml:270, Widgets/DankIconPicker.qml:44, Modals/Settings/SettingsSidebar.qml:156, Modules/ProcessList/SystemTab.qml:127",
     "comment": ""
   },
   {
     "term": "System App Theming",
     "context": "System App Theming",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:773",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:966",
     "comment": ""
   },
   {
@@ -5402,7 +5648,7 @@
   {
     "term": "Tab",
     "context": "Tab",
-    "reference": "Widgets/KeybindItem.qml:990",
+    "reference": "Widgets/KeybindItem.qml:1005",
     "comment": ""
   },
   {
@@ -5438,7 +5684,7 @@
   {
     "term": "Text",
     "context": "Text",
-    "reference": "Modals/Clipboard/ClipboardEntry.qml:87",
+    "reference": "Modals/Clipboard/ClipboardEntry.qml:80",
     "comment": ""
   },
   {
@@ -5450,7 +5696,7 @@
   {
     "term": "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (qt5ct.conf|qt6ct.conf and ~/.config/gtk-3.0|gtk-4.0).",
     "context": "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (qt5ct.conf|qt6ct.conf and ~/.config/gtk-3.0|gtk-4.0).",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:738",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:931",
     "comment": ""
   },
   {
@@ -5492,7 +5738,7 @@
   {
     "term": "This bind is overridden by config.kdl",
     "context": "This bind is overridden by config.kdl",
-    "reference": "Widgets/KeybindItem.qml:413",
+    "reference": "Widgets/KeybindItem.qml:428",
     "comment": ""
   },
   {
@@ -5504,7 +5750,7 @@
   {
     "term": "This will permanently delete all clipboard history.",
     "context": "This will permanently delete all clipboard history.",
-    "reference": "Modals/Clipboard/ClipboardContent.qml:33",
+    "reference": "Modals/Clipboard/ClipboardContent.qml:30",
     "comment": ""
   },
   {
@@ -5552,7 +5798,7 @@
   {
     "term": "Title",
     "context": "Title",
-    "reference": "Widgets/KeybindItem.qml:1415",
+    "reference": "Widgets/KeybindItem.qml:1430",
     "comment": ""
   },
   {
@@ -5564,13 +5810,13 @@
   {
     "term": "To update, run the following command:",
     "context": "To update, run the following command:",
-    "reference": "Services/DMSService.qml:303",
+    "reference": "Services/DMSService.qml:305",
     "comment": ""
   },
   {
     "term": "To use this DMS bind, remove or change the keybind in your config.kdl",
     "context": "To use this DMS bind, remove or change the keybind in your config.kdl",
-    "reference": "Widgets/KeybindItem.qml:430",
+    "reference": "Widgets/KeybindItem.qml:445",
     "comment": ""
   },
   {
@@ -5660,7 +5906,7 @@
   {
     "term": "Type",
     "context": "Type",
-    "reference": "Widgets/KeybindItem.qml:746",
+    "reference": "Widgets/KeybindItem.qml:761",
     "comment": ""
   },
   {
@@ -5684,7 +5930,7 @@
   {
     "term": "Uninstall Plugin",
     "context": "Uninstall Plugin",
-    "reference": "Modules/Settings/PluginListItem.qml:192",
+    "reference": "Modules/Settings/PluginListItem.qml:193",
     "comment": ""
   },
   {
@@ -5708,7 +5954,7 @@
   {
     "term": "Unsaved changes",
     "context": "Unsaved changes",
-    "reference": "Widgets/KeybindItem.qml:1460, Modules/Notepad/NotepadTextEditor.qml:588",
+    "reference": "Widgets/KeybindItem.qml:1526, Modules/Notepad/NotepadTextEditor.qml:588",
     "comment": ""
   },
   {
@@ -5732,7 +5978,7 @@
   {
     "term": "Update Plugin",
     "context": "Update Plugin",
-    "reference": "Modules/Settings/PluginListItem.qml:149",
+    "reference": "Modules/Settings/PluginListItem.qml:150",
     "comment": ""
   },
   {
@@ -5804,7 +6050,7 @@
   {
     "term": "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)",
     "context": "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)",
-    "reference": "Modules/Settings/LockScreenTab.qml:66",
+    "reference": "Modules/Settings/LockScreenTab.qml:102",
     "comment": ""
   },
   {
@@ -5930,7 +6176,7 @@
   {
     "term": "Vibrant palette with playful saturation.",
     "context": "Vibrant palette with playful saturation.",
-    "reference": "Common/Theme.qml:217",
+    "reference": "Common/Theme.qml:213",
     "comment": ""
   },
   {
@@ -5978,7 +6224,7 @@
   {
     "term": "Wallpaper",
     "context": "Wallpaper",
-    "reference": "Widgets/KeybindItem.qml:1009, Widgets/KeybindItem.qml:1016, Widgets/KeybindItem.qml:1025, Modals/Settings/SettingsSidebar.qml:25, Modules/Settings/WallpaperTab.qml:39, Modules/Settings/DisplaysTab.qml:53",
+    "reference": "Widgets/KeybindItem.qml:1024, Widgets/KeybindItem.qml:1031, Widgets/KeybindItem.qml:1040, Modals/Settings/SettingsSidebar.qml:25, Modules/Settings/WallpaperTab.qml:39, Modules/Settings/DisplaysTab.qml:53",
     "comment": ""
   },
   {
@@ -6014,7 +6260,7 @@
   {
     "term": "Weather",
     "context": "Weather",
-    "reference": "Widgets/KeybindItem.qml:1011, Widgets/KeybindItem.qml:1016, Widgets/KeybindItem.qml:1028, Modules/DankDash/DankDashPopout.qml:284, Modules/Settings/TimeWeatherTab.qml:327",
+    "reference": "Widgets/KeybindItem.qml:1026, Widgets/KeybindItem.qml:1031, Widgets/KeybindItem.qml:1043, Modules/DankDash/DankDashPopout.qml:284, Modules/Settings/TimeWeatherTab.qml:327",
     "comment": ""
   },
   {
@@ -6198,6 +6444,12 @@
     "comment": ""
   },
   {
+    "term": "days",
+    "context": "days",
+    "reference": "Modules/Settings/ClipboardTab.qml:122",
+    "comment": ""
+  },
+  {
     "term": "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.",
     "context": "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.",
     "reference": "Modules/Settings/KeybindsTab.qml:317",
@@ -6212,13 +6464,13 @@
   {
     "term": "e.g., firefox, kitty --title foo",
     "context": "e.g., firefox, kitty --title foo",
-    "reference": "Widgets/KeybindItem.qml:1366",
+    "reference": "Widgets/KeybindItem.qml:1381",
     "comment": ""
   },
   {
     "term": "e.g., focus-workspace 3, resize-column -10",
     "context": "e.g., focus-workspace 3, resize-column -10",
-    "reference": "Widgets/KeybindItem.qml:1303",
+    "reference": "Widgets/KeybindItem.qml:1318",
     "comment": ""
   },
   {
@@ -6236,19 +6488,25 @@
   {
     "term": "leave empty for default",
     "context": "leave empty for default",
-    "reference": "Widgets/KeybindItem.qml:957",
+    "reference": "Widgets/KeybindItem.qml:972",
     "comment": ""
   },
   {
     "term": "loginctl not available - lock integration requires DMS socket connection",
     "context": "loginctl not available - lock integration requires DMS socket connection",
-    "reference": "Modules/Settings/LockScreenTab.qml:36",
+    "reference": "Modules/Settings/LockScreenTab.qml:72",
     "comment": ""
   },
   {
     "term": "minutes",
     "context": "minutes",
     "reference": "Modules/Settings/NotificationsTab.qml:73",
+    "comment": ""
+  },
+  {
+    "term": "ms",
+    "context": "ms",
+    "reference": "Widgets/KeybindItem.qml:1490",
     "comment": ""
   },
   {
@@ -6267,6 +6525,12 @@
     "term": "update dms for NM integration.",
     "context": "update dms for NM integration.",
     "reference": "Modules/ControlCenter/Components/DragDropGrid.qml:207",
+    "comment": ""
+  },
+  {
+    "term": "wtype not available - install wtype for paste support",
+    "context": "wtype not available - install wtype for paste support",
+    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:59",
     "comment": ""
   },
   {

@@ -32,6 +32,9 @@
   "0 = square corners": {
     "0 = square corners": ""
   },
+  "1 day": {
+    "1 day": ""
+  },
   "1 event": {
     "1 event": "1 個活動"
   },
@@ -47,6 +50,9 @@
   "10 seconds": {
     "10 seconds": ""
   },
+  "14 days": {
+    "14 days": ""
+  },
   "15 seconds": {
     "15 seconds": ""
   },
@@ -59,8 +65,14 @@
   "24-hour format": {
     "24-hour format": "24 小時制"
   },
+  "3 days": {
+    "3 days": ""
+  },
   "3 seconds": {
     "3 seconds": ""
+  },
+  "30 days": {
+    "30 days": ""
   },
   "30 seconds": {
     "30 seconds": ""
@@ -74,8 +86,14 @@
   "5 seconds": {
     "5 seconds": ""
   },
+  "7 days": {
+    "7 days": ""
+  },
   "8 seconds": {
     "8 seconds": ""
+  },
+  "90 days": {
+    "90 days": ""
   },
   "A file with this name already exists. Do you want to overwrite it?": {
     "A file with this name already exists. Do you want to overwrite it?": "檔案名稱已存在。是否要覆蓋它？"
@@ -148,6 +166,9 @@
   },
   "Adjust the number of columns in grid view mode.": {
     "Adjust the number of columns in grid view mode.": "調整網格檢視模式中的欄數。"
+  },
+  "Advanced": {
+    "Advanced": ""
   },
   "Afternoon": {
     "Afternoon": ""
@@ -230,6 +251,9 @@
   "Audio Output Switch": {
     "Audio Output Switch": ""
   },
+  "Audio Visualizer": {
+    "Audio Visualizer": ""
+  },
   "Auth": {
     "Auth": "認證"
   },
@@ -266,6 +290,9 @@
   "Auto Popup Gaps": {
     "Auto Popup Gaps": "自動調整彈出間隔"
   },
+  "Auto-Clear After": {
+    "Auto-Clear After": ""
+  },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": ""
   },
@@ -298,6 +325,9 @@
   },
   "Automatically cycle through wallpapers in the same folder": {
     "Automatically cycle through wallpapers in the same folder": "自動輪替更換同一資料夾中的桌布"
+  },
+  "Automatically delete entries older than this": {
+    "Automatically delete entries older than this": ""
   },
   "Automatically detect location based on IP address": {
     "Automatically detect location based on IP address": "根據IP位址自動偵測位置"
@@ -524,6 +554,12 @@
   "Clear All Jobs": {
     "Clear All Jobs": "清除所有工作"
   },
+  "Clear all history when server starts": {
+    "Clear all history when server starts": ""
+  },
+  "Clear at Startup": {
+    "Clear at Startup": ""
+  },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "點擊匯入以新增 .ovpn 或 .conf"
   },
@@ -533,11 +569,20 @@
   "Click to capture": {
     "Click to capture": ""
   },
+  "Clipboard": {
+    "Clipboard": ""
+  },
   "Clipboard History": {
     "Clipboard History": "剪貼簿歷史"
   },
   "Clipboard Manager": {
     "Clipboard Manager": "剪貼簿管理"
+  },
+  "Clipboard service not available": {
+    "Clipboard service not available": ""
+  },
+  "Clipboard works but nothing saved to disk": {
+    "Clipboard works but nothing saved to disk": ""
   },
   "Clock": {
     "Clock": "時鐘"
@@ -677,6 +722,9 @@
   "Controls opacity of the DankBar panel background": {
     "Controls opacity of the DankBar panel background": "控制 DankBar 面板背景的不透明度"
   },
+  "Cooldown": {
+    "Cooldown": ""
+  },
   "Copied to clipboard": {
     "Copied to clipboard": "複製到剪貼簿"
   },
@@ -785,6 +833,9 @@
   "DMS out of date": {
     "DMS out of date": "DMS 已過期"
   },
+  "DMS service is not connected. Clipboard settings are unavailable.": {
+    "DMS service is not connected. Clipboard settings are unavailable.": ""
+  },
   "DMS shell actions (launcher, clipboard, etc.)": {
     "DMS shell actions (launcher, clipboard, etc.)": ""
   },
@@ -886,6 +937,18 @@
   },
   "Disable Autoconnect": {
     "Disable Autoconnect": "關閉自動連線"
+  },
+  "Disable Clipboard Manager": {
+    "Disable Clipboard Manager": ""
+  },
+  "Disable Clipboard Ownership": {
+    "Disable Clipboard Ownership": ""
+  },
+  "Disable History Persistence": {
+    "Disable History Persistence": ""
+  },
+  "Disable clipboard manager entirely (requires restart)": {
+    "Disable clipboard manager entirely (requires restart)": ""
   },
   "Disabled": {
     "Disabled": "已停用"
@@ -1055,6 +1118,24 @@
   "Enable loginctl lock integration": {
     "Enable loginctl lock integration": "啟用 loginctl 鎖定整合"
   },
+  "Enable password field display on the lock screen window": {
+    "Show Password Field": ""
+  },
+  "Enable power action icon on the lock screen window": {
+    "Show Power Actions": ""
+  },
+  "Enable profile image display on the lock screen window": {
+    "Show Profile Image": ""
+  },
+  "Enable system date display on the lock screen window": {
+    "Show System Date": ""
+  },
+  "Enable system status icons on the lock screen window": {
+    "Show System Icons": ""
+  },
+  "Enable system time display on the lock screen window": {
+    "Show System Time": ""
+  },
   "Enabled": {
     "Enabled": "已啟用"
   },
@@ -1136,6 +1217,9 @@
   "Failed to connect to ": {
     "Failed to connect to ": "無法連線到 "
   },
+  "Failed to copy entry": {
+    "Failed to copy entry": ""
+  },
   "Failed to create printer": {
     "Failed to create printer": "無法建立印表機"
   },
@@ -1175,6 +1259,9 @@
   "Failed to load VPN config": {
     "Failed to load VPN config": "載入 VPN 設定失敗"
   },
+  "Failed to load clipboard configuration.": {
+    "Failed to load clipboard configuration.": ""
+  },
   "Failed to move job": {
     "Failed to move job": "無法移動工作"
   },
@@ -1198,6 +1285,9 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "印表機恢復失敗"
+  },
+  "Failed to save clipboard setting": {
+    "Failed to save clipboard setting": ""
   },
   "Failed to save keybind": {
     "Failed to save keybind": ""
@@ -1388,6 +1478,9 @@
   "High-fidelity palette that preserves source hues.": {
     "High-fidelity palette that preserves source hues.": "保留來源色調的高保真調色板。"
   },
+  "History Settings": {
+    "History Settings": ""
+  },
   "Hold Duration": {
     "Hold Duration": "按住持續時間"
   },
@@ -1451,8 +1544,14 @@
   "Idle monitoring not supported - requires newer Quickshell version": {
     "Idle monitoring not supported - requires newer Quickshell version": "不支援閒置監控 - 需要最新的 Quickshell 版本"
   },
+  "If the field is hidden, it will appear as soon as a key is pressed.": {
+    "If the field is hidden, it will appear as soon as a key is pressed.": ""
+  },
   "Image": {
     "Image": "圖片"
+  },
+  "Image copied to clipboard": {
+    "Image copied to clipboard": ""
   },
   "Import": {
     "Import": "匯入"
@@ -1616,6 +1715,12 @@
   "Lock Screen Format": {
     "Lock Screen Format": "鎖定螢幕格式"
   },
+  "Lock Screen behaviour": {
+    "Lock Screen behaviour": ""
+  },
+  "Lock Screen layout": {
+    "Lock Screen layout": ""
+  },
   "Lock before suspend": {
     "Lock before suspend": "鎖定後暫停"
   },
@@ -1682,11 +1787,26 @@
   "Matugen Target Monitor": {
     "Matugen Target Monitor": "Matugen 目標監視器"
   },
+  "Matugen Templates": {
+    "Matugen Templates": ""
+  },
   "Max apps to show": {
     "Max apps to show": "最多顯示App"
   },
   "Maximize Detection": {
     "Maximize Detection": ""
+  },
+  "Maximum Entry Size": {
+    "Maximum Entry Size": ""
+  },
+  "Maximum History": {
+    "Maximum History": ""
+  },
+  "Maximum number of clipboard entries to keep": {
+    "Maximum number of clipboard entries to keep": ""
+  },
+  "Maximum size per clipboard entry": {
+    "Maximum size per clipboard entry": ""
   },
   "Media": {
     "Media": "媒體播放器"
@@ -2366,6 +2486,9 @@
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "右鍵點擊條形部件以循環"
   },
+  "Run DMS Templates": {
+    "Run DMS Templates": ""
+  },
   "Run User Templates": {
     "Run User Templates": "執行使用者模板"
   },
@@ -2531,6 +2654,9 @@
   "Shift+Del: Clear All • Esc: Close": {
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: 清除所有 • Esc: 關閉"
   },
+  "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close": {
+    "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close": ""
+  },
   "Short": {
     "Short": ""
   },
@@ -2584,6 +2710,9 @@
   },
   "Show all 9 tags instead of only occupied tags (DWL only)": {
     "Show all 9 tags instead of only occupied tags (DWL only)": "顯示所有 9 個標籤，而非僅顯示已佔用的標籤 (僅限 DWL)"
+  },
+  "Show cava audio visualizer in media widget": {
+    "Show cava audio visualizer in media widget": ""
   },
   "Show darkened overlay behind modal dialogs": {
     "Show darkened overlay behind modal dialogs": "在模態對話框後顯示暗化覆蓋層"
@@ -3221,6 +3350,9 @@
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "選擇桌布"
   },
+  "days": {
+    "days": ""
+  },
   "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
     "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
   },
@@ -3251,6 +3383,9 @@
   "minutes": {
     "minutes": ""
   },
+  "ms": {
+    "ms": ""
+  },
   "official": {
     "official": "官方"
   },
@@ -3280,6 +3415,9 @@
   },
   "wallpaper settings external management": {
     "External Wallpaper Management": ""
+  },
+  "wtype not available - install wtype for paste support": {
+    "wtype not available - install wtype for paste support": ""
   },
   "• Install only from trusted sources": {
     "• Install only from trusted sources": "• 僅從受信任的來源安裝"

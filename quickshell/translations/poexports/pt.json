@@ -32,6 +32,9 @@
   "0 = square corners": {
     "0 = square corners": ""
   },
+  "1 day": {
+    "1 day": ""
+  },
   "1 event": {
     "1 event": "1 evento"
   },
@@ -47,6 +50,9 @@
   "10 seconds": {
     "10 seconds": ""
   },
+  "14 days": {
+    "14 days": ""
+  },
   "15 seconds": {
     "15 seconds": ""
   },
@@ -59,8 +65,14 @@
   "24-hour format": {
     "24-hour format": "formato de 24 horas"
   },
+  "3 days": {
+    "3 days": ""
+  },
   "3 seconds": {
     "3 seconds": ""
+  },
+  "30 days": {
+    "30 days": ""
   },
   "30 seconds": {
     "30 seconds": ""
@@ -74,8 +86,14 @@
   "5 seconds": {
     "5 seconds": ""
   },
+  "7 days": {
+    "7 days": ""
+  },
   "8 seconds": {
     "8 seconds": ""
+  },
+  "90 days": {
+    "90 days": ""
   },
   "A file with this name already exists. Do you want to overwrite it?": {
     "A file with this name already exists. Do you want to overwrite it?": "Um arquivo com esse nome já existe. Você quer sobrescrevê-lo?"
@@ -148,6 +166,9 @@
   },
   "Adjust the number of columns in grid view mode.": {
     "Adjust the number of columns in grid view mode.": ""
+  },
+  "Advanced": {
+    "Advanced": ""
   },
   "Afternoon": {
     "Afternoon": ""
@@ -230,6 +251,9 @@
   "Audio Output Switch": {
     "Audio Output Switch": ""
   },
+  "Audio Visualizer": {
+    "Audio Visualizer": ""
+  },
   "Auth": {
     "Auth": ""
   },
@@ -266,6 +290,9 @@
   "Auto Popup Gaps": {
     "Auto Popup Gaps": "Espaçamento Automático de Popup"
   },
+  "Auto-Clear After": {
+    "Auto-Clear After": ""
+  },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": ""
   },
@@ -298,6 +325,9 @@
   },
   "Automatically cycle through wallpapers in the same folder": {
     "Automatically cycle through wallpapers in the same folder": "Circular automaticamente dentre os papéis de parede na mesma pasta"
+  },
+  "Automatically delete entries older than this": {
+    "Automatically delete entries older than this": ""
   },
   "Automatically detect location based on IP address": {
     "Automatically detect location based on IP address": "Detectar localização automáticamente baseado no endereço IP"
@@ -524,6 +554,12 @@
   "Clear All Jobs": {
     "Clear All Jobs": ""
   },
+  "Clear all history when server starts": {
+    "Clear all history when server starts": ""
+  },
+  "Clear at Startup": {
+    "Clear at Startup": ""
+  },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": ""
   },
@@ -533,11 +569,20 @@
   "Click to capture": {
     "Click to capture": ""
   },
+  "Clipboard": {
+    "Clipboard": ""
+  },
   "Clipboard History": {
     "Clipboard History": "Histórico da Área de Transferência"
   },
   "Clipboard Manager": {
     "Clipboard Manager": "Gerenciador da Área de Transferência"
+  },
+  "Clipboard service not available": {
+    "Clipboard service not available": ""
+  },
+  "Clipboard works but nothing saved to disk": {
+    "Clipboard works but nothing saved to disk": ""
   },
   "Clock": {
     "Clock": "Relógio"
@@ -677,6 +722,9 @@
   "Controls opacity of the DankBar panel background": {
     "Controls opacity of the DankBar panel background": ""
   },
+  "Cooldown": {
+    "Cooldown": ""
+  },
   "Copied to clipboard": {
     "Copied to clipboard": "Copiado para a área de transferência"
   },
@@ -785,6 +833,9 @@
   "DMS out of date": {
     "DMS out of date": "DMS desatualizado"
   },
+  "DMS service is not connected. Clipboard settings are unavailable.": {
+    "DMS service is not connected. Clipboard settings are unavailable.": ""
+  },
   "DMS shell actions (launcher, clipboard, etc.)": {
     "DMS shell actions (launcher, clipboard, etc.)": ""
   },
@@ -886,6 +937,18 @@
   },
   "Disable Autoconnect": {
     "Disable Autoconnect": ""
+  },
+  "Disable Clipboard Manager": {
+    "Disable Clipboard Manager": ""
+  },
+  "Disable Clipboard Ownership": {
+    "Disable Clipboard Ownership": ""
+  },
+  "Disable History Persistence": {
+    "Disable History Persistence": ""
+  },
+  "Disable clipboard manager entirely (requires restart)": {
+    "Disable clipboard manager entirely (requires restart)": ""
   },
   "Disabled": {
     "Disabled": ""
@@ -1055,6 +1118,24 @@
   "Enable loginctl lock integration": {
     "Enable loginctl lock integration": "Ativar integração de bloqueio do loginctl"
   },
+  "Enable password field display on the lock screen window": {
+    "Show Password Field": ""
+  },
+  "Enable power action icon on the lock screen window": {
+    "Show Power Actions": ""
+  },
+  "Enable profile image display on the lock screen window": {
+    "Show Profile Image": ""
+  },
+  "Enable system date display on the lock screen window": {
+    "Show System Date": ""
+  },
+  "Enable system status icons on the lock screen window": {
+    "Show System Icons": ""
+  },
+  "Enable system time display on the lock screen window": {
+    "Show System Time": ""
+  },
   "Enabled": {
     "Enabled": ""
   },
@@ -1136,6 +1217,9 @@
   "Failed to connect to ": {
     "Failed to connect to ": "Erro ao conectar a "
   },
+  "Failed to copy entry": {
+    "Failed to copy entry": ""
+  },
   "Failed to create printer": {
     "Failed to create printer": ""
   },
@@ -1175,6 +1259,9 @@
   "Failed to load VPN config": {
     "Failed to load VPN config": ""
   },
+  "Failed to load clipboard configuration.": {
+    "Failed to load clipboard configuration.": ""
+  },
   "Failed to move job": {
     "Failed to move job": ""
   },
@@ -1198,6 +1285,9 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": ""
+  },
+  "Failed to save clipboard setting": {
+    "Failed to save clipboard setting": ""
   },
   "Failed to save keybind": {
     "Failed to save keybind": ""
@@ -1388,6 +1478,9 @@
   "High-fidelity palette that preserves source hues.": {
     "High-fidelity palette that preserves source hues.": "Paleta de alta fidelidade que preserva tons da fonte."
   },
+  "History Settings": {
+    "History Settings": ""
+  },
   "Hold Duration": {
     "Hold Duration": ""
   },
@@ -1451,8 +1544,14 @@
   "Idle monitoring not supported - requires newer Quickshell version": {
     "Idle monitoring not supported - requires newer Quickshell version": "Monitoramento de inatividade não disponível – requer versão mais recente do Quickshell"
   },
+  "If the field is hidden, it will appear as soon as a key is pressed.": {
+    "If the field is hidden, it will appear as soon as a key is pressed.": ""
+  },
   "Image": {
     "Image": "Imagem"
+  },
+  "Image copied to clipboard": {
+    "Image copied to clipboard": ""
   },
   "Import": {
     "Import": ""
@@ -1616,6 +1715,12 @@
   "Lock Screen Format": {
     "Lock Screen Format": "Formato da Tela de Bloqueio"
   },
+  "Lock Screen behaviour": {
+    "Lock Screen behaviour": ""
+  },
+  "Lock Screen layout": {
+    "Lock Screen layout": ""
+  },
   "Lock before suspend": {
     "Lock before suspend": "Bloquear antes de suspender"
   },
@@ -1682,11 +1787,26 @@
   "Matugen Target Monitor": {
     "Matugen Target Monitor": "Monitor-alvo do Matugen"
   },
+  "Matugen Templates": {
+    "Matugen Templates": ""
+  },
   "Max apps to show": {
     "Max apps to show": "Máximo de apps para mostrar"
   },
   "Maximize Detection": {
     "Maximize Detection": ""
+  },
+  "Maximum Entry Size": {
+    "Maximum Entry Size": ""
+  },
+  "Maximum History": {
+    "Maximum History": ""
+  },
+  "Maximum number of clipboard entries to keep": {
+    "Maximum number of clipboard entries to keep": ""
+  },
+  "Maximum size per clipboard entry": {
+    "Maximum size per clipboard entry": ""
   },
   "Media": {
     "Media": "Mídia"
@@ -2366,6 +2486,9 @@
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": ""
   },
+  "Run DMS Templates": {
+    "Run DMS Templates": ""
+  },
   "Run User Templates": {
     "Run User Templates": "Executar Templates do Usuário"
   },
@@ -2531,6 +2654,9 @@
   "Shift+Del: Clear All • Esc: Close": {
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: Apagar tudo • Esc: Fechar"
   },
+  "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close": {
+    "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close": ""
+  },
   "Short": {
     "Short": ""
   },
@@ -2584,6 +2710,9 @@
   },
   "Show all 9 tags instead of only occupied tags (DWL only)": {
     "Show all 9 tags instead of only occupied tags (DWL only)": "Mostrar todas as 9 tags ao invés de apenas tags ocupadas (apenas DWL)"
+  },
+  "Show cava audio visualizer in media widget": {
+    "Show cava audio visualizer in media widget": ""
   },
   "Show darkened overlay behind modal dialogs": {
     "Show darkened overlay behind modal dialogs": ""
@@ -3221,6 +3350,9 @@
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": ""
   },
+  "days": {
+    "days": ""
+  },
   "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
     "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.": ""
   },
@@ -3251,6 +3383,9 @@
   "minutes": {
     "minutes": ""
   },
+  "ms": {
+    "ms": ""
+  },
   "official": {
     "official": "oficial"
   },
@@ -3280,6 +3415,9 @@
   },
   "wallpaper settings external management": {
     "External Wallpaper Management": ""
+  },
+  "wtype not available - install wtype for paste support": {
+    "wtype not available - install wtype for paste support": ""
   },
   "• Install only from trusted sources": {
     "• Install only from trusted sources": "Instale apenas de fontes confiáveis"
