@@ -121,11 +121,18 @@ jobs:
       needs.check-updates.outputs.has_updates == 'true'
 
     steps:
+      - name: Generate GitHub App Token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.generate_token.outputs.token }}
 
       - name: Determine packages to update
         id: packages
@@ -318,10 +325,11 @@ jobs:
       - name: Commit packaging changes
         if: steps.changed-packages.outputs.has_changes == 'true'
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "dms-ci[bot]"
+          git config user.email "dms-ci[bot]@users.noreply.github.com"
           git add distro/debian/*/debian/changelog distro/opensuse/*.spec
           git commit -m "ci: Auto-update OBS packages [${{ steps.changed-packages.outputs.packages }}]" -m "🤖 Automated by GitHub Actions"
+          git pull --rebase origin master
           git push
 
       - name: Summary
