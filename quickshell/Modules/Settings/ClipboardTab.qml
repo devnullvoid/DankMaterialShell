@@ -13,31 +13,88 @@ Item {
     property bool saving: false
 
     readonly property var maxHistoryOptions: [
-        { text: "25", value: 25 },
-        { text: "50", value: 50 },
-        { text: "100", value: 100 },
-        { text: "200", value: 200 },
-        { text: "500", value: 500 },
-        { text: "1000", value: 1000 }
+        {
+            text: "25",
+            value: 25
+        },
+        {
+            text: "50",
+            value: 50
+        },
+        {
+            text: "100",
+            value: 100
+        },
+        {
+            text: "200",
+            value: 200
+        },
+        {
+            text: "500",
+            value: 500
+        },
+        {
+            text: "1000",
+            value: 1000
+        }
     ]
 
     readonly property var maxEntrySizeOptions: [
-        { text: "1 MB", value: 1048576 },
-        { text: "2 MB", value: 2097152 },
-        { text: "5 MB", value: 5242880 },
-        { text: "10 MB", value: 10485760 },
-        { text: "20 MB", value: 20971520 },
-        { text: "50 MB", value: 52428800 }
+        {
+            text: "1 MB",
+            value: 1048576
+        },
+        {
+            text: "2 MB",
+            value: 2097152
+        },
+        {
+            text: "5 MB",
+            value: 5242880
+        },
+        {
+            text: "10 MB",
+            value: 10485760
+        },
+        {
+            text: "20 MB",
+            value: 20971520
+        },
+        {
+            text: "50 MB",
+            value: 52428800
+        }
     ]
 
     readonly property var autoClearOptions: [
-        { text: I18n.tr("Never"), value: 0 },
-        { text: I18n.tr("1 day"), value: 1 },
-        { text: I18n.tr("3 days"), value: 3 },
-        { text: I18n.tr("7 days"), value: 7 },
-        { text: I18n.tr("14 days"), value: 14 },
-        { text: I18n.tr("30 days"), value: 30 },
-        { text: I18n.tr("90 days"), value: 90 }
+        {
+            text: I18n.tr("Never"),
+            value: 0
+        },
+        {
+            text: I18n.tr("1 day"),
+            value: 1
+        },
+        {
+            text: I18n.tr("3 days"),
+            value: 3
+        },
+        {
+            text: I18n.tr("7 days"),
+            value: 7
+        },
+        {
+            text: I18n.tr("14 days"),
+            value: 14
+        },
+        {
+            text: I18n.tr("30 days"),
+            value: 30
+        },
+        {
+            text: I18n.tr("90 days"),
+            value: 90
+        }
     ]
 
     function getMaxHistoryText(value) {
@@ -139,9 +196,7 @@ Item {
 
                     StyledText {
                         font.pixelSize: Theme.fontSizeSmall
-                        text: !DMSService.isConnected
-                            ? I18n.tr("DMS service is not connected. Clipboard settings are unavailable.")
-                            : I18n.tr("Failed to load clipboard configuration.")
+                        text: !DMSService.isConnected ? I18n.tr("DMS service is not connected. Clipboard settings are unavailable.") : I18n.tr("Failed to load clipboard configuration.")
                         wrapMode: Text.WordWrap
                         width: parent.width - Theme.iconSizeSmall - Theme.spacingM
                         anchors.verticalCenter: parent.verticalCenter
@@ -256,6 +311,16 @@ Item {
                     description: I18n.tr("Clipboard works but nothing saved to disk")
                     checked: root.config.disableHistory ?? false
                     onToggled: checked => root.saveConfig("disableHistory", checked)
+                }
+
+                SettingsToggleRow {
+                    tab: "clipboard"
+                    tags: ["clipboard", "disable", "persist", "ownership"]
+                    settingKey: "disablePersist"
+                    text: I18n.tr("Disable Clipboard Ownership")
+                    description: I18n.tr("Don't preserve clipboard when apps close")
+                    checked: root.config.disablePersist ?? true
+                    onToggled: checked => root.saveConfig("disablePersist", checked)
                 }
             }
         }
