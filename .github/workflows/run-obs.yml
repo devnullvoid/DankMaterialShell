@@ -349,7 +349,6 @@ jobs:
           labels: |
             automated
             ci
-          path: distro/debian/ distro/opensuse/
 
       - name: Summary
         run: |
