@@ -257,16 +257,6 @@ Item {
                     checked: root.config.disableHistory ?? false
                     onToggled: checked => root.saveConfig("disableHistory", checked)
                 }
-
-                SettingsToggleRow {
-                    tab: "clipboard"
-                    tags: ["clipboard", "disable", "persist", "ownership"]
-                    settingKey: "disablePersist"
-                    text: I18n.tr("Disable Clipboard Ownership")
-                    description: I18n.tr("Don't preserve clipboard when apps close")
-                    checked: root.config.disablePersist ?? false
-                    onToggled: checked => root.saveConfig("disablePersist", checked)
-                }
             }
         }
     }

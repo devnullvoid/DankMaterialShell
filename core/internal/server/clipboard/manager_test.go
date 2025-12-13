@@ -289,81 +289,6 @@ func TestManager_ConcurrentOfferAccess(t *testing.T) {
 	wg.Wait()
 }
 
-func TestManager_ConcurrentPersistAccess(t *testing.T) {
-	m := &Manager{
-		persistData:      make(map[string][]byte),
-		persistMimeTypes: []string{},
-	}
-
-	var wg sync.WaitGroup
-	const goroutines = 20
-	const iterations = 50
-
-	for i := 0; i < goroutines/2; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			for j := 0; j < iterations; j++ {
-				m.persistMutex.RLock()
-				_ = m.persistData
-				_ = m.persistMimeTypes
-				m.persistMutex.RUnlock()
-			}
-		}()
-	}
-
-	for i := 0; i < goroutines/2; i++ {
-		wg.Add(1)
-		go func(id int) {
-			defer wg.Done()
-			for j := 0; j < iterations; j++ {
-				m.persistMutex.Lock()
-				m.persistMimeTypes = []string{"text/plain", "text/html"}
-				m.persistData = map[string][]byte{
-					"text/plain": []byte("test"),
-				}
-				m.persistMutex.Unlock()
-			}
-		}(i)
-	}
-
-	wg.Wait()
-}
-
-func TestManager_ConcurrentOwnerAccess(t *testing.T) {
-	m := &Manager{}
-
-	var wg sync.WaitGroup
-	const goroutines = 30
-	const iterations = 100
-
-	for i := 0; i < goroutines/2; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			for j := 0; j < iterations; j++ {
-				m.ownerLock.Lock()
-				_ = m.isOwner
-				m.ownerLock.Unlock()
-			}
-		}()
-	}
-
-	for i := 0; i < goroutines/2; i++ {
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
-			for j := 0; j < iterations; j++ {
-				m.ownerLock.Lock()
-				m.isOwner = j%2 == 0
-				m.ownerLock.Unlock()
-			}
-		}()
-	}
-
-	wg.Wait()
-}
-
 func TestItob(t *testing.T) {
 	tests := []struct {
 		input    uint64
@@ -456,7 +381,6 @@ func TestDefaultConfig(t *testing.T) {
 	assert.False(t, cfg.ClearAtStartup)
 	assert.False(t, cfg.Disabled)
 	assert.False(t, cfg.DisableHistory)
-	assert.True(t, cfg.DisablePersist)
 }
 
 func TestManager_PostDelegatesToWlContext(t *testing.T) {

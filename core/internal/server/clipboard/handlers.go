@@ -208,9 +208,6 @@ func handleSetConfig(conn net.Conn, req models.Request, m *Manager) {
 	if v, ok := req.Params["disableHistory"].(bool); ok {
 		cfg.DisableHistory = v
 	}
-	if v, ok := req.Params["disablePersist"].(bool); ok {
-		cfg.DisablePersist = v
-	}
 
 	if err := m.SetConfig(cfg); err != nil {
 		models.RespondError(conn, req.ID, err.Error())

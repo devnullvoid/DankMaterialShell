@@ -21,7 +21,6 @@ type Config struct {
 
 	Disabled       bool `json:"disabled"`
 	DisableHistory bool `json:"disableHistory"`
-	DisablePersist bool `json:"disablePersist"`
 }
 
 func DefaultConfig() Config {
@@ -30,7 +29,6 @@ func DefaultConfig() Config {
 		MaxEntrySize:   5 * 1024 * 1024,
 		AutoClearDays:  0,
 		ClearAtStartup: false,
-		DisablePersist: true,
 	}
 }
 
@@ -103,6 +101,7 @@ type Entry struct {
 	Size      int       `json:"size"`
 	Timestamp time.Time `json:"timestamp"`
 	IsImage   bool      `json:"isImage"`
+	Hash      uint64    `json:"hash,omitempty"`
 }
 
 type State struct {
@@ -134,12 +133,6 @@ type Manager struct {
 	sourceMimeTypes []string
 	sourceMutex     sync.RWMutex
 
-	persistData      map[string][]byte
-	persistMimeTypes []string
-	persistMutex     sync.RWMutex
-
-	isOwner     bool
-	ownerLock   sync.Mutex
 	initialized bool
 
 	alive    bool

@@ -15,6 +15,7 @@ import (
 
 	_ "golang.org/x/image/bmp"
 	_ "golang.org/x/image/tiff"
+	"hash/fnv"
 
 	bolt "go.etcd.io/bbolt"
 )
@@ -39,6 +40,7 @@ type Entry struct {
 	Size      int
 	Timestamp time.Time
 	IsImage   bool
+	Hash      uint64
 }
 
 func Store(data []byte, mimeType string) error {
@@ -70,6 +72,7 @@ func StoreWithConfig(data []byte, mimeType string, cfg StoreConfig) error {
 		Size:      len(data),
 		Timestamp: time.Now(),
 		IsImage:   IsImageMimeType(mimeType),
+		Hash:      computeHash(data),
 	}
 
 	switch {
@@ -85,7 +88,7 @@ func StoreWithConfig(data []byte, mimeType string, cfg StoreConfig) error {
 			return err
 		}
 
-		if err := deduplicateInTx(b, data); err != nil {
+		if err := deduplicateInTx(b, entry.Hash); err != nil {
 			return err
 		}
 
@@ -126,17 +129,14 @@ func getDBPath() (string, error) {
 	return filepath.Join(dbDir, "db"), nil
 }
 
-func deduplicateInTx(b *bolt.Bucket, data []byte) error {
+func deduplicateInTx(b *bolt.Bucket, hash uint64) error {
 	c := b.Cursor()
 	for k, v := c.Last(); k != nil; k, v = c.Prev() {
-		entry, err := decodeEntry(v)
-		if err != nil {
+		if extractHash(v) != hash {
 			continue
 		}
-		if bytes.Equal(entry.Data, data) {
-			if err := b.Delete(k); err != nil {
-				return err
-			}
+		if err := b.Delete(k); err != nil {
+			return err
 		}
 	}
 	return nil
@@ -174,52 +174,28 @@ func encodeEntry(e Entry) ([]byte, error) {
 	} else {
 		buf.WriteByte(0)
 	}
+	binary.Write(buf, binary.BigEndian, e.Hash)
 
 	return buf.Bytes(), nil
-}
-
-func decodeEntry(data []byte) (Entry, error) {
-	buf := bytes.NewReader(data)
-	var e Entry
-
-	binary.Read(buf, binary.BigEndian, &e.ID)
-
-	var dataLen uint32
-	binary.Read(buf, binary.BigEndian, &dataLen)
-	e.Data = make([]byte, dataLen)
-	buf.Read(e.Data)
-
-	var mimeLen uint32
-	binary.Read(buf, binary.BigEndian, &mimeLen)
-	mimeBytes := make([]byte, mimeLen)
-	buf.Read(mimeBytes)
-	e.MimeType = string(mimeBytes)
-
-	var prevLen uint32
-	binary.Read(buf, binary.BigEndian, &prevLen)
-	prevBytes := make([]byte, prevLen)
-	buf.Read(prevBytes)
-	e.Preview = string(prevBytes)
-
-	var size int32
-	binary.Read(buf, binary.BigEndian, &size)
-	e.Size = int(size)
-
-	var timestamp int64
-	binary.Read(buf, binary.BigEndian, &timestamp)
-	e.Timestamp = time.Unix(timestamp, 0)
-
-	var isImage byte
-	binary.Read(buf, binary.BigEndian, &isImage)
-	e.IsImage = isImage == 1
-
-	return e, nil
 }
 
 func itob(v uint64) []byte {
 	b := make([]byte, 8)
 	binary.BigEndian.PutUint64(b, v)
 	return b
+}
+
+func computeHash(data []byte) uint64 {
+	h := fnv.New64a()
+	h.Write(data)
+	return h.Sum64()
+}
+
+func extractHash(data []byte) uint64 {
+	if len(data) < 8 {
+		return 0
+	}
+	return binary.BigEndian.Uint64(data[len(data)-8:])
 }
 
 func textPreview(data []byte) string {

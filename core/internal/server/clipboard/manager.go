@@ -18,6 +18,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 	_ "golang.org/x/image/bmp"
 	_ "golang.org/x/image/tiff"
+	"hash/fnv"
 
 	bolt "go.etcd.io/bbolt"
 
@@ -68,6 +69,10 @@ func NewManager(wlCtx wlcontext.WaylandContext, config Config) (*Manager, error)
 			return nil, fmt.Errorf("failed to open db: %w", err)
 		}
 		m.db = db
+
+		if err := m.migrateHashes(); err != nil {
+			log.Errorf("Failed to migrate hashes: %v", err)
+		}
 
 		if config.ClearAtStartup {
 			if err := m.clearHistoryInternal(); err != nil {
@@ -224,15 +229,7 @@ func (m *Manager) setupDataDeviceSync() {
 			m.offerMutex.RUnlock()
 		}
 
-		m.ownerLock.Lock()
-		wasOwner := m.isOwner
-		m.ownerLock.Unlock()
-
 		if offer == nil {
-			return
-		}
-
-		if wasOwner {
 			return
 		}
 
@@ -275,154 +272,62 @@ func (m *Manager) storeCurrentClipboard() {
 		return
 	}
 
-	allData := make(map[string][]byte)
-	var orderedMimes []string
-
-	for _, mime := range m.mimeTypes {
-		data, err := m.receiveData(offer, mime)
-		if err != nil {
-			continue
-		}
-		if len(data) == 0 || int64(len(data)) > cfg.MaxEntrySize {
-			continue
-		}
-		allData[mime] = data
-		orderedMimes = append(orderedMimes, mime)
+	preferredMime := m.selectMimeType(m.mimeTypes)
+	if preferredMime == "" {
+		preferredMime = m.mimeTypes[0]
 	}
 
-	if len(allData) == 0 {
+	data, err := m.receiveData(offer, preferredMime)
+	if err != nil {
 		return
 	}
-
-	preferredMime := m.selectMimeType(orderedMimes)
-	if preferredMime == "" {
-		preferredMime = orderedMimes[0]
+	if len(data) == 0 || int64(len(data)) > cfg.MaxEntrySize {
+		return
 	}
-
-	data := allData[preferredMime]
 	if len(bytes.TrimSpace(data)) == 0 {
 		return
 	}
 
 	if !cfg.DisableHistory && m.db != nil {
-		entry := Entry{
-			Data:      data,
-			MimeType:  preferredMime,
-			Size:      len(data),
-			Timestamp: time.Now(),
-			IsImage:   m.isImageMimeType(preferredMime),
-		}
-
-		switch {
-		case entry.IsImage:
-			entry.Preview = m.imagePreview(data, preferredMime)
-		default:
-			entry.Preview = m.textPreview(data)
-		}
-
-		if err := m.storeEntry(entry); err != nil {
-			log.Errorf("Failed to store clipboard entry: %v", err)
-		}
-	}
-
-	if !cfg.DisablePersist {
-		m.persistClipboard(orderedMimes, allData)
+		m.storeClipboardEntry(data, preferredMime)
 	}
 
 	m.updateState()
 	m.notifySubscribers()
 }
 
-func (m *Manager) persistClipboard(mimeTypes []string, data map[string][]byte) {
-	m.persistMutex.Lock()
-	m.persistMimeTypes = mimeTypes
-	m.persistData = data
-	m.persistMutex.Unlock()
-
-	m.post(func() {
-		m.takePersistOwnership()
-	})
-}
-
-func (m *Manager) takePersistOwnership() {
-	if m.dataControlMgr == nil || m.dataDevice == nil {
-		return
+func (m *Manager) storeClipboardEntry(data []byte, mimeType string) {
+	entry := Entry{
+		Data:      data,
+		MimeType:  mimeType,
+		Size:      len(data),
+		Timestamp: time.Now(),
+		IsImage:   m.isImageMimeType(mimeType),
 	}
 
-	if m.getConfig().DisablePersist {
-		return
+	switch {
+	case entry.IsImage:
+		entry.Preview = m.imagePreview(data, mimeType)
+	default:
+		entry.Preview = m.textPreview(data)
 	}
 
-	m.persistMutex.RLock()
-	mimeTypes := m.persistMimeTypes
-	m.persistMutex.RUnlock()
-
-	if len(mimeTypes) == 0 {
-		return
+	if err := m.storeEntry(entry); err != nil {
+		log.Errorf("Failed to store clipboard entry: %v", err)
 	}
-
-	dataMgr := m.dataControlMgr.(*ext_data_control.ExtDataControlManagerV1)
-
-	source, err := dataMgr.CreateDataSource()
-	if err != nil {
-		log.Errorf("Failed to create persist source: %v", err)
-		return
-	}
-
-	for _, mime := range mimeTypes {
-		if err := source.Offer(mime); err != nil {
-			log.Errorf("Failed to offer mime type %s: %v", mime, err)
-		}
-	}
-
-	source.SetSendHandler(func(e ext_data_control.ExtDataControlSourceV1SendEvent) {
-		fd := e.Fd
-		defer syscall.Close(fd)
-
-		m.persistMutex.RLock()
-		d := m.persistData[e.MimeType]
-		m.persistMutex.RUnlock()
-
-		if len(d) == 0 {
-			return
-		}
-
-		file := os.NewFile(uintptr(fd), "clipboard-pipe")
-		defer file.Close()
-		file.Write(d)
-	})
-
-	source.SetCancelledHandler(func(e ext_data_control.ExtDataControlSourceV1CancelledEvent) {
-		m.ownerLock.Lock()
-		m.isOwner = false
-		m.ownerLock.Unlock()
-	})
-
-	if m.currentSource != nil {
-		oldSource := m.currentSource.(*ext_data_control.ExtDataControlSourceV1)
-		oldSource.Destroy()
-	}
-	m.currentSource = source
-
-	device := m.dataDevice.(*ext_data_control.ExtDataControlDeviceV1)
-	if err := device.SetSelection(source); err != nil {
-		log.Errorf("Failed to set persist selection: %v", err)
-		return
-	}
-
-	m.ownerLock.Lock()
-	m.isOwner = true
-	m.ownerLock.Unlock()
 }
 
 func (m *Manager) storeEntry(entry Entry) error {
 	if m.db == nil {
 		return fmt.Errorf("database not available")
 	}
+
+	entry.Hash = computeHash(entry.Data)
+
 	return m.db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("clipboard"))
 
-		if err := m.deduplicateInTx(b, entry.Data); err != nil {
+		if err := m.deduplicateInTx(b, entry.Hash); err != nil {
 			return err
 		}
 
@@ -446,17 +351,14 @@ func (m *Manager) storeEntry(entry Entry) error {
 	})
 }
 
-func (m *Manager) deduplicateInTx(b *bolt.Bucket, data []byte) error {
+func (m *Manager) deduplicateInTx(b *bolt.Bucket, hash uint64) error {
 	c := b.Cursor()
 	for k, v := c.Last(); k != nil; k, v = c.Prev() {
-		entry, err := decodeEntry(v)
-		if err != nil {
+		if extractHash(v) != hash {
 			continue
 		}
-		if bytes.Equal(entry.Data, data) {
-			if err := b.Delete(k); err != nil {
-				return err
-			}
+		if err := b.Delete(k); err != nil {
+			return err
 		}
 	}
 	return nil
@@ -494,6 +396,7 @@ func encodeEntry(e Entry) ([]byte, error) {
 	} else {
 		buf.WriteByte(0)
 	}
+	binary.Write(buf, binary.BigEndian, e.Hash)
 
 	return buf.Bytes(), nil
 }
@@ -533,6 +436,10 @@ func decodeEntry(data []byte) (Entry, error) {
 	binary.Read(buf, binary.BigEndian, &isImage)
 	e.IsImage = isImage == 1
 
+	if buf.Len() >= 8 {
+		binary.Read(buf, binary.BigEndian, &e.Hash)
+	}
+
 	return e, nil
 }
 
@@ -540,6 +447,19 @@ func itob(v uint64) []byte {
 	b := make([]byte, 8)
 	binary.BigEndian.PutUint64(b, v)
 	return b
+}
+
+func computeHash(data []byte) uint64 {
+	h := fnv.New64a()
+	h.Write(data)
+	return h.Sum64()
+}
+
+func extractHash(data []byte) uint64 {
+	if len(data) < 8 {
+		return 0
+	}
+	return binary.BigEndian.Uint64(data[len(data)-8:])
 }
 
 func (m *Manager) selectMimeType(mimes []string) string {
@@ -1052,6 +972,79 @@ func (m *Manager) clearOldEntries(days int) error {
 	})
 }
 
+func (m *Manager) migrateHashes() error {
+	if m.db == nil {
+		return nil
+	}
+
+	var needsMigration bool
+	if err := m.db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("clipboard"))
+		if b == nil {
+			return nil
+		}
+		c := b.Cursor()
+		for k, v := c.First(); k != nil; k, v = c.Next() {
+			if extractHash(v) == 0 {
+				needsMigration = true
+				return nil
+			}
+		}
+		return nil
+	}); err != nil {
+		return err
+	}
+
+	if !needsMigration {
+		return nil
+	}
+
+	log.Info("Migrating clipboard entries to add hashes...")
+
+	return m.db.Update(func(tx *bolt.Tx) error {
+		b := tx.Bucket([]byte("clipboard"))
+		if b == nil {
+			return nil
+		}
+
+		var updates []struct {
+			key   []byte
+			entry Entry
+		}
+
+		c := b.Cursor()
+		for k, v := c.First(); k != nil; k, v = c.Next() {
+			entry, err := decodeEntry(v)
+			if err != nil {
+				continue
+			}
+			if entry.Hash != 0 {
+				continue
+			}
+			entry.Hash = computeHash(entry.Data)
+			keyCopy := make([]byte, len(k))
+			copy(keyCopy, k)
+			updates = append(updates, struct {
+				key   []byte
+				entry Entry
+			}{keyCopy, entry})
+		}
+
+		for _, u := range updates {
+			encoded, err := encodeEntry(u.entry)
+			if err != nil {
+				continue
+			}
+			if err := b.Put(u.key, encoded); err != nil {
+				return err
+			}
+		}
+
+		log.Infof("Migrated %d clipboard entries", len(updates))
+		return nil
+	})
+}
+
 func (m *Manager) Search(params SearchParams) SearchResult {
 	if m.db == nil {
 		return SearchResult{}
@@ -1212,33 +1205,10 @@ func (m *Manager) applyConfigChange(newCfg Config) {
 		}
 	}
 
-	if newCfg.DisablePersist && !oldCfg.DisablePersist {
-		log.Info("Clipboard persist disabled, releasing ownership")
-		m.releaseOwnership()
-	}
-
-	log.Infof("Clipboard config reloaded: disableHistory=%v disablePersist=%v",
-		newCfg.DisableHistory, newCfg.DisablePersist)
+	log.Infof("Clipboard config reloaded: disableHistory=%v", newCfg.DisableHistory)
 
 	m.updateState()
 	m.notifySubscribers()
-}
-
-func (m *Manager) releaseOwnership() {
-	m.ownerLock.Lock()
-	m.isOwner = false
-	m.ownerLock.Unlock()
-
-	m.persistMutex.Lock()
-	m.persistData = nil
-	m.persistMimeTypes = nil
-	m.persistMutex.Unlock()
-
-	if m.currentSource != nil {
-		source := m.currentSource.(*ext_data_control.ExtDataControlSourceV1)
-		source.Destroy()
-		m.currentSource = nil
-	}
 }
 
 func (m *Manager) StoreData(data []byte, mimeType string) error {
