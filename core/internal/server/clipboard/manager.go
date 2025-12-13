@@ -500,14 +500,13 @@ func (m *Manager) receiveData(offer *ext_data_control.ExtDataControlOfferV1, mim
 	receiveErr := make(chan error, 1)
 	m.post(func() {
 		err := offer.Receive(mimeType, int(w.Fd()))
+		w.Close()
 		receiveErr <- err
 	})
 
 	if err := <-receiveErr; err != nil {
-		w.Close()
 		return nil, err
 	}
-	w.Close()
 
 	type result struct {
 		data []byte

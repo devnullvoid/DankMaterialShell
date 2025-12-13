@@ -1,11 +1,11 @@
 package wlcontext
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"sync"
-	"time"
+
+	"golang.org/x/sys/unix"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/errdefs"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
@@ -27,6 +27,8 @@ type SharedContext struct {
 	stopChan   chan struct{}
 	fatalError chan error
 	cmdQueue   chan func()
+	wakeR      int
+	wakeW      int
 	wg         sync.WaitGroup
 	mu         sync.Mutex
 	started    bool
@@ -38,11 +40,31 @@ func New() (*SharedContext, error) {
 		return nil, fmt.Errorf("%w: %v", errdefs.ErrNoWaylandDisplay, err)
 	}
 
+	fds := make([]int, 2)
+	if err := unix.Pipe(fds); err != nil {
+		display.Context().Close()
+		return nil, fmt.Errorf("failed to create wake pipe: %w", err)
+	}
+	if err := unix.SetNonblock(fds[0], true); err != nil {
+		unix.Close(fds[0])
+		unix.Close(fds[1])
+		display.Context().Close()
+		return nil, fmt.Errorf("failed to set wake pipe nonblock: %w", err)
+	}
+	if err := unix.SetNonblock(fds[1], true); err != nil {
+		unix.Close(fds[0])
+		unix.Close(fds[1])
+		display.Context().Close()
+		return nil, fmt.Errorf("failed to set wake pipe nonblock: %w", err)
+	}
+
 	sc := &SharedContext{
 		display:    display,
 		stopChan:   make(chan struct{}),
 		fatalError: make(chan error, 1),
 		cmdQueue:   make(chan func(), 256),
+		wakeR:      fds[0],
+		wakeW:      fds[1],
 		started:    false,
 	}
 
@@ -69,6 +91,9 @@ func (sc *SharedContext) Display() *wlclient.Display {
 func (sc *SharedContext) Post(fn func()) {
 	select {
 	case sc.cmdQueue <- fn:
+		if _, err := unix.Write(sc.wakeW, []byte{1}); err != nil && err != unix.EAGAIN {
+			log.Errorf("wake pipe write error: %v", err)
+		}
 	default:
 	}
 }
@@ -89,7 +114,14 @@ func (sc *SharedContext) eventDispatcher() {
 			}
 		}
 	}()
+
 	ctx := sc.display.Context()
+	wlFd := ctx.Fd()
+
+	pollFds := []unix.PollFd{
+		{Fd: int32(wlFd), Events: unix.POLLIN},
+		{Fd: int32(sc.wakeR), Events: unix.POLLIN},
+	}
 
 	for {
 		select {
@@ -100,20 +132,33 @@ func (sc *SharedContext) eventDispatcher() {
 
 		sc.drainCmdQueue()
 
-		if err := ctx.SetReadDeadline(time.Now().Add(50 * time.Millisecond)); err != nil {
-			log.Errorf("Failed to set read deadline: %v", err)
-		}
-		err := ctx.Dispatch()
-		if err := ctx.SetReadDeadline(time.Time{}); err != nil {
-			log.Errorf("Failed to clear read deadline: %v", err)
+		n, err := unix.Poll(pollFds, 50)
+		if err != nil {
+			if err == unix.EINTR {
+				continue
+			}
+			log.Errorf("Poll error: %v", err)
+			return
 		}
 
-		switch {
-		case err == nil:
-		case errors.Is(err, os.ErrDeadlineExceeded):
-		default:
-			log.Errorf("Wayland connection error: %v", err)
-			return
+		if n == 0 {
+			continue
+		}
+
+		if pollFds[1].Revents&unix.POLLIN != 0 {
+			var buf [64]byte
+			if _, err := unix.Read(sc.wakeR, buf[:]); err != nil && err != unix.EAGAIN {
+				log.Errorf("wake pipe read error: %v", err)
+			}
+		}
+
+		if pollFds[0].Revents&unix.POLLIN != 0 {
+			if err := ctx.Dispatch(); err != nil {
+				if !os.IsTimeout(err) {
+					log.Errorf("Wayland connection error: %v", err)
+					return
+				}
+			}
 		}
 	}
 }
@@ -132,6 +177,9 @@ func (sc *SharedContext) drainCmdQueue() {
 func (sc *SharedContext) Close() {
 	close(sc.stopChan)
 	sc.wg.Wait()
+
+	unix.Close(sc.wakeR)
+	unix.Close(sc.wakeW)
 
 	if sc.display != nil {
 		sc.display.Context().Close()

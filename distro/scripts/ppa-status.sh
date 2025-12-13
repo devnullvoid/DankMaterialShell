@@ -105,7 +105,7 @@ get_status_display() {
 # Check each PPA
 for PPA_NAME in "${PPAS[@]}"; do
     PPA_ARCHIVE="${LAUNCHPAD_API}/~${PPA_OWNER}/+archive/ubuntu/${PPA_NAME}"
-    
+
     echo "=========================================="
     echo "=== PPA: ${PPA_OWNER}/${PPA_NAME} ==="
     echo "=========================================="
@@ -122,55 +122,55 @@ for PPA_NAME in "${PPAS[@]}"; do
         echo "----------------------------------------"
         echo "--- $pkg ---"
         echo "----------------------------------------"
-        
+
         # Get published sources for this package
         SOURCES_URL="${PPA_ARCHIVE}?ws.op=getPublishedSources&source_name=${pkg}&distro_series=${LAUNCHPAD_API}/ubuntu/${DISTRO_SERIES}&status=Published"
-        
+
         SOURCES=$(curl -s "$SOURCES_URL" 2>/dev/null)
-        
+
         if [[ -z "$SOURCES" ]] || [[ "$SOURCES" == "null" ]]; then
             echo "  ⚠️  No published sources found"
             echo ""
             continue
         fi
-        
+
         # Get the latest source
         TOTAL=$(echo "$SOURCES" | jq '.total_size // 0')
-        
+
         if [[ "$TOTAL" == "0" ]]; then
             echo "  ⚠️  No published sources found for $DISTRO_SERIES"
             echo ""
             continue
         fi
-        
+
         # Get most recent entry
         ENTRY=$(echo "$SOURCES" | jq '.entries[0]')
-        
+
         if [[ "$ENTRY" == "null" ]]; then
             echo "  ⚠️  No source entries found"
             echo ""
             continue
         fi
-        
+
         # Extract source info
         VERSION=$(echo "$ENTRY" | jq -r '.source_package_version // "unknown"')
         STATUS=$(echo "$ENTRY" | jq -r '.status // "unknown"')
         DATE_PUBLISHED=$(echo "$ENTRY" | jq -r '.date_published // "unknown"')
         SELF_LINK=$(echo "$ENTRY" | jq -r '.self_link // ""')
-        
+
         echo "  📦 Version: $VERSION"
         echo "  📅 Published: ${DATE_PUBLISHED%T*}"
         echo "  📋 Source Status: $STATUS"
         echo ""
-        
+
         # Get builds for this source
         if [[ -n "$SELF_LINK" && "$SELF_LINK" != "null" ]]; then
             BUILDS_URL="${SELF_LINK}?ws.op=getBuilds"
             BUILDS=$(curl -s "$BUILDS_URL" 2>/dev/null)
-            
+
             if [[ -n "$BUILDS" && "$BUILDS" != "null" ]]; then
                 BUILD_COUNT=$(echo "$BUILDS" | jq '.total_size // 0')
-                
+
                 if [[ "$BUILD_COUNT" -gt 0 ]]; then
                     echo "  Builds:"
                     echo "$BUILDS" | jq -r '.entries[] | "\(.arch_tag) \(.buildstate)"' 2>/dev/null | while read -r line; do
@@ -182,18 +182,18 @@ for PPA_NAME in "${PPAS[@]}"; do
                 fi
             fi
         fi
-        
+
         # Alternative: Get build records directly from archive
         BUILD_RECORDS_URL="${PPA_ARCHIVE}?ws.op=getBuildRecords&source_name=${pkg}"
         BUILD_RECORDS=$(curl -s "$BUILD_RECORDS_URL" 2>/dev/null)
-        
+
         if [[ -n "$BUILD_RECORDS" && "$BUILD_RECORDS" != "null" ]]; then
             RECORD_COUNT=$(echo "$BUILD_RECORDS" | jq '.total_size // 0')
-            
+
             if [[ "$RECORD_COUNT" -gt 0 ]]; then
                 echo ""
                 echo "  Recent build history:"
-                
+
                 # Get unique version+arch combinations
                 echo "$BUILD_RECORDS" | jq -r '.entries[:6][] | "\(.source_package_version) \(.arch_tag) \(.buildstate)"' 2>/dev/null | while read -r line; do
                     VER=$(echo "$line" | awk '{print $1}')
@@ -204,10 +204,10 @@ for PPA_NAME in "${PPAS[@]}"; do
                 done
             fi
         fi
-        
+
         echo ""
     done
-    
+
     echo "View full PPA at: https://launchpad.net/~${PPA_OWNER}/+archive/ubuntu/${PPA_NAME}"
     echo ""
 done
@@ -215,4 +215,3 @@ done
 echo "=========================================="
 echo "Status check complete!"
 echo ""
-

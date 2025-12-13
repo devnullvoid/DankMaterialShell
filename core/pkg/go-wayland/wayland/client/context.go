@@ -58,6 +58,18 @@ func (ctx *Context) SetReadDeadline(t time.Time) error {
 	return ctx.conn.SetReadDeadline(t)
 }
 
+func (ctx *Context) Fd() int {
+	rawConn, err := ctx.conn.SyscallConn()
+	if err != nil {
+		return -1
+	}
+	var fd int
+	rawConn.Control(func(f uintptr) {
+		fd = int(f)
+	})
+	return fd
+}
+
 // Dispatch reads and processes incoming messages and calls [client.Dispatcher.Dispatch] on the
 // respective wayland protocol.
 // Dispatch must be called on the same goroutine as other interactions with the Context.
