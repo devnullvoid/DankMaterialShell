@@ -1,3 +1,9 @@
+dms-git (1.0.2+git2505.82f881af) nightly; urgency=medium
+
+  * Git snapshot (commit 2505: 82f881af)
+
+ -- Avenge Media <AvengeMedia.US@gmail.com>  Sat, 13 Dec 2025 05:55:03 +0000
+
 dms-git (1.0.0+git2419.993f14a3) nightly; urgency=medium
 
   * Major stable release v1.0.0

@@ -4,7 +4,7 @@
 
 Name:           dms
 Version:        1.0.2
-Release:        1%{?dist}
+Release:        6%{?dist}
 Summary:        DankMaterialShell - Material 3 inspired shell for Wayland compositors
 
 License:        MIT
