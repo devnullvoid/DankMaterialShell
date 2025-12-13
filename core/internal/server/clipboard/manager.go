@@ -497,7 +497,13 @@ func (m *Manager) receiveData(offer *ext_data_control.ExtDataControlOfferV1, mim
 	}
 	defer r.Close()
 
-	if err := offer.Receive(mimeType, int(w.Fd())); err != nil {
+	receiveErr := make(chan error, 1)
+	m.post(func() {
+		err := offer.Receive(mimeType, int(w.Fd()))
+		receiveErr <- err
+	})
+
+	if err := <-receiveErr; err != nil {
 		w.Close()
 		return nil, err
 	}
@@ -516,7 +522,7 @@ func (m *Manager) receiveData(offer *ext_data_control.ExtDataControlOfferV1, mim
 	select {
 	case res := <-done:
 		return res.data, res.err
-	case <-time.After(100 * time.Millisecond):
+	case <-time.After(500 * time.Millisecond):
 		return nil, fmt.Errorf("timeout reading clipboard data")
 	}
 }
