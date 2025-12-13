@@ -334,8 +334,10 @@ func TestSelectMimeType(t *testing.T) {
 	}{
 		{[]string{"text/plain;charset=utf-8", "text/html"}, "text/plain;charset=utf-8"},
 		{[]string{"text/html", "text/plain"}, "text/plain"},
-		{[]string{"application/json", "image/png"}, "image/png"},
-		{[]string{"application/json", "application/xml"}, ""},
+		{[]string{"text/html", "image/png"}, "image/png"},
+		{[]string{"image/png", "image/jpeg"}, "image/png"},
+		{[]string{"image/png"}, "image/png"},
+		{[]string{"application/octet-stream"}, "application/octet-stream"},
 		{[]string{}, ""},
 	}
 

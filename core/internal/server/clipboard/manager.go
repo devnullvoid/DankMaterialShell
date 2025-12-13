@@ -241,7 +241,30 @@ func (m *Manager) setupDataDeviceSync() {
 
 		m.mimeTypes = mimes
 
-		go m.storeCurrentClipboard()
+		if len(mimes) == 0 {
+			return
+		}
+
+		preferredMime := m.selectMimeType(mimes)
+		if preferredMime == "" {
+			return
+		}
+
+		typedOffer := offer.(*ext_data_control.ExtDataControlOfferV1)
+
+		r, w, err := os.Pipe()
+		if err != nil {
+			return
+		}
+
+		if err := typedOffer.Receive(preferredMime, int(w.Fd())); err != nil {
+			r.Close()
+			w.Close()
+			return
+		}
+		w.Close()
+
+		go m.readAndStore(r, preferredMime)
 	})
 
 	if err := dataMgr.GetDataDeviceWithProxy(dataDevice, m.seat); err != nil {
@@ -259,28 +282,24 @@ func (m *Manager) setupDataDeviceSync() {
 	log.Info("Data device setup complete")
 }
 
-func (m *Manager) storeCurrentClipboard() {
-	if m.currentOffer == nil {
-		return
-	}
+func (m *Manager) readAndStore(r *os.File, mimeType string) {
+	defer r.Close()
 
 	cfg := m.getConfig()
 
-	offer := m.currentOffer.(*ext_data_control.ExtDataControlOfferV1)
+	done := make(chan []byte, 1)
+	go func() {
+		data, _ := io.ReadAll(r)
+		done <- data
+	}()
 
-	if len(m.mimeTypes) == 0 {
+	var data []byte
+	select {
+	case data = <-done:
+	case <-time.After(500 * time.Millisecond):
 		return
 	}
 
-	preferredMime := m.selectMimeType(m.mimeTypes)
-	if preferredMime == "" {
-		preferredMime = m.mimeTypes[0]
-	}
-
-	data, err := m.receiveData(offer, preferredMime)
-	if err != nil {
-		return
-	}
 	if len(data) == 0 || int64(len(data)) > cfg.MaxEntrySize {
 		return
 	}
@@ -289,7 +308,7 @@ func (m *Manager) storeCurrentClipboard() {
 	}
 
 	if !cfg.DisableHistory && m.db != nil {
-		m.storeClipboardEntry(data, preferredMime)
+		m.storeClipboardEntry(data, mimeType)
 	}
 
 	m.updateState()
@@ -471,8 +490,9 @@ func (m *Manager) selectMimeType(mimes []string) string {
 		"TEXT",
 		"image/png",
 		"image/jpeg",
-		"image/bmp",
 		"image/gif",
+		"image/bmp",
+		"image/tiff",
 	}
 
 	for _, pref := range preferredTypes {
@@ -483,47 +503,15 @@ func (m *Manager) selectMimeType(mimes []string) string {
 		}
 	}
 
+	if len(mimes) > 0 {
+		return mimes[0]
+	}
+
 	return ""
 }
 
 func (m *Manager) isImageMimeType(mime string) bool {
 	return strings.HasPrefix(mime, "image/")
-}
-
-func (m *Manager) receiveData(offer *ext_data_control.ExtDataControlOfferV1, mimeType string) ([]byte, error) {
-	r, w, err := os.Pipe()
-	if err != nil {
-		return nil, err
-	}
-	defer r.Close()
-
-	receiveErr := make(chan error, 1)
-	m.post(func() {
-		err := offer.Receive(mimeType, int(w.Fd()))
-		w.Close()
-		receiveErr <- err
-	})
-
-	if err := <-receiveErr; err != nil {
-		return nil, err
-	}
-
-	type result struct {
-		data []byte
-		err  error
-	}
-	done := make(chan result, 1)
-	go func() {
-		data, err := io.ReadAll(r)
-		done <- result{data, err}
-	}()
-
-	select {
-	case res := <-done:
-		return res.data, res.err
-	case <-time.After(500 * time.Millisecond):
-		return nil, fmt.Errorf("timeout reading clipboard data")
-	}
 }
 
 func (m *Manager) textPreview(data []byte) string {
