@@ -309,7 +309,7 @@ jobs:
             # Get list of changed packages for commit message
             CHANGED_DEB=$(git diff --name-only distro/debian/ 2>/dev/null | grep 'debian/changelog' | xargs dirname 2>/dev/null | xargs dirname 2>/dev/null | xargs basename 2>/dev/null | tr '\n' ', ' | sed 's/, $//' || echo "")
             CHANGED_SUSE=$(git diff --name-only distro/opensuse/ 2>/dev/null | grep '\.spec$' | sed 's|distro/opensuse/||' | sed 's/\.spec$//' | tr '\n' ', ' | sed 's/, $//' || echo "")
-            
+
             PKGS=$(echo "$CHANGED_DEB,$CHANGED_SUSE" | tr ',' '\n' | grep -v '^$' | sort -u | tr '\n' ',' | sed 's/,$//')
             echo "packages=$PKGS" >> $GITHUB_OUTPUT
             echo "📋 Changed packages: $PKGS"
@@ -338,7 +338,10 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "ci: Auto-update OBS packages [${{ steps.changed-packages.outputs.packages }}]"
+          commit-message: |
+            ci: Auto-update OBS packages [${{ steps.changed-packages.outputs.packages }}]
+
+            🤖 Automated by GitHub Actions
           title: "ci: Auto-update OBS packages [${{ steps.changed-packages.outputs.packages }}]"
           body: ${{ steps.pr-body.outputs.body }}
           branch: ci/obs-package-update
@@ -346,9 +349,7 @@ jobs:
           labels: |
             automated
             ci
-          path: |
-            distro/debian/
-            distro/opensuse/
+          path: distro/debian/ distro/opensuse/
 
       - name: Summary
         run: |
