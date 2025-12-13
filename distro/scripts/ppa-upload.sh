@@ -161,8 +161,8 @@ else
     done
     echo "  a. all"
     echo ""
-    read -p "Select package (1-${#AVAILABLE_PACKAGES[@]}, a): " selection
-    
+    read -rp "Select package (1-${#AVAILABLE_PACKAGES[@]}, a): " selection
+
     if [[ "$selection" == "a" ]] || [[ "$selection" == "all" ]]; then
         PACKAGE_INPUT="all"
         BUILD_ARGS=("all" "$PPA_NAME_INPUT" "$UBUNTU_SERIES")
@@ -212,8 +212,7 @@ fi
 
 TEMP_DIR_FILE="$PARENT_DIR/.ppa_build_temp_${PACKAGE_NAME}"
 if [ -f "$TEMP_DIR_FILE" ]; then
-    source "$TEMP_DIR_FILE"
-    BUILD_TEMP_DIR="$PPA_BUILD_TEMP_DIR"
+    BUILD_TEMP_DIR=$(grep -oP 'PPA_BUILD_TEMP_DIR=\K.*' "$TEMP_DIR_FILE")
     rm -f "$TEMP_DIR_FILE"
     info "Using build artifacts from temp directory: $BUILD_TEMP_DIR"
     CHANGES_FILE=$(find "$BUILD_TEMP_DIR" -maxdepth 1 -name "${PACKAGE_NAME}_*_source.changes" -type f 2>/dev/null | sort -V | tail -1)

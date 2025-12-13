@@ -239,7 +239,6 @@ if [ "$IS_GIT_PACKAGE" = false ] && [ -n "$GIT_REPO" ]; then
             NEW_VERSION="${BASE_VERSION}ppa${PPA_NUM}"
         fi
 
-        CHANGELOG_UPDATED=false
         if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
             if [ "$PPA_NUM" -gt 1 ]; then
                 info "Updating changelog for rebuild (PPA number incremented to $PPA_NUM)"
@@ -270,7 +269,6 @@ if [ "$IS_GIT_PACKAGE" = false ] && [ -n "$GIT_REPO" ]; then
                 echo "$CHANGELOG_CONTENT" >>debian/changelog
             fi
             success "Version updated to $NEW_VERSION"
-            CHANGELOG_UPDATED=true
             CHANGELOG_VERSION=$(dpkg-parsechangelog -S Version)
 
             info "Writing updated changelog back to repository..."
@@ -536,7 +534,7 @@ if yes | DEBIAN_FRONTEND=noninteractive debuild -S $DEBUILD_SOURCE_FLAG -d; then
 
     TEMP_MARKER_FILE="$PACKAGE_PARENT/.ppa_build_temp_${PACKAGE_NAME}"
     echo "PPA_BUILD_TEMP_DIR=$TEMP_WORK_DIR" > "$TEMP_MARKER_FILE"
-    
+
     if [[ -z "${PPA_UPLOAD_SCRIPT:-}" ]] && ! pgrep -f "ppa-upload.sh" >/dev/null 2>&1; then
         info "Copying build artifacts to $PACKAGE_PARENT (standalone build)..."
         cp -v "$TEMP_WORK_DIR"/"${SOURCE_NAME}"_"${CHANGELOG_VERSION}"* "$PACKAGE_PARENT/" 2>/dev/null || true
