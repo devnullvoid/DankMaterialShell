@@ -210,6 +210,7 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ -f "distro/opensuse/$PACKAGE.spec" ]];
                     NEXT_RELEASE=$((BASE_RELEASE + 1))
                     echo "  - Detected rebuild of same version $NEW_VERSION (release $OLD_RELEASE -> $NEXT_RELEASE)"
                     sed -i "s/^Release:[[:space:]]*${NEW_RELEASE}%{?dist}/Release:        ${NEXT_RELEASE}%{?dist}/" "$WORK_DIR/$PACKAGE.spec"
+                    cp "$WORK_DIR/$PACKAGE.spec" "$REPO_ROOT/distro/opensuse/$PACKAGE.spec"
                 else
                     echo "  - Detected same version $NEW_VERSION (release $OLD_RELEASE). Not a manual run, skipping update."
                     # For automated runs with no version change, we should stop here to avoid unnecessary rebuilds
@@ -223,6 +224,7 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ -f "distro/opensuse/$PACKAGE.spec" ]];
             fi
         else
             echo "  - New version detected: $OLD_VERSION -> $NEW_VERSION (keeping release $NEW_RELEASE)"
+            cp "$WORK_DIR/$PACKAGE.spec" "$REPO_ROOT/distro/opensuse/$PACKAGE.spec"
         fi
     else
         echo "  - First upload to OBS (no previous spec found)"
@@ -768,6 +770,7 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
                 fi
             } >"$TEMP_CHANGELOG"
             cp "$TEMP_CHANGELOG" "$SOURCE_CHANGELOG"
+            cp "$TEMP_CHANGELOG" "$REPO_CHANGELOG"
             rm -f "$TEMP_CHANGELOG"
 
             CHANGELOG_VERSION="$NEW_VERSION"
@@ -853,6 +856,7 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
                                                 fi
                                             } >"$TEMP_CHANGELOG"
                                             cp "$TEMP_CHANGELOG" "$EXPECTED_DIR/debian/changelog"
+                                            cp "$TEMP_CHANGELOG" "$REPO_CHANGELOG"
                                             rm -f "$TEMP_CHANGELOG"
                                         fi
                                     fi

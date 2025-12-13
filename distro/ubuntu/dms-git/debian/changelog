@@ -1,6 +1,5 @@
-dms-git (0.6.2+git2419.993f14a3) questing; urgency=medium
+dms-git (1.0.2+git2491.db2f68e3ppa4) questing; urgency=medium
 
-  * widgets: make dank icon picker a popup
-  * Previous updates included in build
+  * Git snapshot (commit 2491: db2f68e3)
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  Mon, 09 Dec 2025 14:00:00 +0000
+ -- Avenge Media <AvengeMedia.US@gmail.com>  Fri, 12 Dec 2025 22:11:26 -0500

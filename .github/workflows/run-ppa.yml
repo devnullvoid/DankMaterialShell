@@ -125,14 +125,14 @@ jobs:
           fi
 
       - name: Upload to PPA
-        env:
-          REBUILD_RELEASE: ${{ github.event.inputs.rebuild_release }}
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
+          REBUILD_RELEASE="${{ github.event.inputs.rebuild_release }}"
 
-          # Export to ensure it's available to subprocesses
-          if [ -n "$REBUILD_RELEASE" ]; then
-            export REBUILD_RELEASE
+          # Build command arguments
+          BUILD_ARGS=()
+          if [[ -n "$REBUILD_RELEASE" ]]; then
+            BUILD_ARGS+=("$REBUILD_RELEASE")
             echo "✓ Using rebuild release number: ppa$REBUILD_RELEASE"
           fi
 
@@ -143,25 +143,61 @@ jobs:
               echo "🔄 Using rebuild release number: ppa$REBUILD_RELEASE"
             fi
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms" dms questing
+            bash distro/scripts/ppa-upload.sh dms dms questing "${BUILD_ARGS[@]}"
 
             echo ""
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms-git to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-git" dms-git questing
+            bash distro/scripts/ppa-upload.sh dms-git dms-git questing "${BUILD_ARGS[@]}"
 
             echo ""
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms-greeter to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-greeter" danklinux questing
+            bash distro/scripts/ppa-upload.sh dms-greeter danklinux questing "${BUILD_ARGS[@]}"
           else
-            PPA_NAME="$PACKAGES"
+            # Map package to PPA name
+            case "$PACKAGES" in
+              dms)
+                PPA_NAME="dms"
+                ;;
+              dms-git)
+                PPA_NAME="dms-git"
+                ;;
+              dms-greeter)
+                PPA_NAME="danklinux"
+                ;;
+              *)
+                PPA_NAME="$PACKAGES"
+                ;;
+            esac
+            
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading $PACKAGES to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/$PACKAGES" "$PPA_NAME" questing
+            bash distro/scripts/ppa-upload.sh "$PACKAGES" "$PPA_NAME" questing "${BUILD_ARGS[@]}"
+          fi
+
+      - name: Commit changelog updates
+        run: |
+          # Configure git user for commits
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Check if there are any changelog changes to commit
+          if git diff --exit-code distro/ubuntu/ >/dev/null 2>&1; then
+            echo "📋 No changelog changes to commit"
+          else
+            # Get list of changed packages for commit message
+            CHANGED=$(git diff --name-only distro/ubuntu/ | grep 'debian/changelog' | xargs dirname | xargs -I{} basename {} | tr '\n' ', ' | sed 's/,$//')
+            
+            echo "📋 Committing changelog updates for: $CHANGED"
+            
+            git add distro/ubuntu/
+            git commit -m "ci: Auto-update PPA packages [$CHANGED]" -m "🤖 Automated by GitHub Actions"
+            
+            git push
           fi
 
       - name: Summary
