@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:           dms-git
-Version:        1.0.2+git2505.82f881af
+Version:        1.0.2+git2507.b2ac9c6c
 Release:        1%{?dist}
 Epoch:          2
 Summary:        DankMaterialShell - Material 3 inspired shell (git nightly)
@@ -135,6 +135,8 @@ pkill -USR1 -x dms >/dev/null 2>&1 || :
 %{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
 
 %changelog
+* Sat Dec 13 2025 Avenge Media <AvengeMedia.US@gmail.com> - 1.0.2+git2507.b2ac9c6c-1
+- Git snapshot (commit 2507: b2ac9c6c)
 * Sat Dec 13 2025 Avenge Media <AvengeMedia.US@gmail.com> - 1.0.2+git2505.82f881af-1
 - Git snapshot (commit 2505: 82f881af)
 * Tue Nov 25 2025 Avenge Media <AvengeMedia.US@gmail.com> - 0.6.2+git2147.03073f68-1
