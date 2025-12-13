@@ -78,10 +78,8 @@ func (o *OpenSUSEDistribution) DetectDependenciesWithTerminal(ctx context.Contex
 		dependencies = append(dependencies, o.detectXwaylandSatellite())
 	}
 
-	// Base detections (common across distros)
 	dependencies = append(dependencies, o.detectMatugen())
 	dependencies = append(dependencies, o.detectDgop())
-	dependencies = append(dependencies, o.detectClipboardTools()...)
 
 	return dependencies, nil
 }
@@ -107,10 +105,8 @@ func (o *OpenSUSEDistribution) GetPackageMappingWithVariants(wm deps.WindowManag
 		"ghostty":                {Name: "ghostty", Repository: RepoTypeSystem},
 		"kitty":                  {Name: "kitty", Repository: RepoTypeSystem},
 		"alacritty":              {Name: "alacritty", Repository: RepoTypeSystem},
-		"wl-clipboard":           {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
-		"cliphist":               {Name: "cliphist", Repository: RepoTypeSystem},
 
 		// DMS packages from OBS
 		"dms (DankMaterialShell)": o.getDmsMapping(variants["dms (DankMaterialShell)"]),
@@ -371,7 +367,7 @@ func (o *OpenSUSEDistribution) InstallPackages(ctx context.Context, dependencies
 		o.log(fmt.Sprintf("Warning: failed to write window manager config: %v", err))
 	}
 
-	if err := o.EnableDMSService(ctx); err != nil {
+	if err := o.EnableDMSService(ctx, wm); err != nil {
 		o.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 

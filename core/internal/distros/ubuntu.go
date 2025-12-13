@@ -76,10 +76,8 @@ func (u *UbuntuDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 		dependencies = append(dependencies, u.detectXwaylandSatellite())
 	}
 
-	// Base detections (common across distros)
 	dependencies = append(dependencies, u.detectMatugen())
 	dependencies = append(dependencies, u.detectDgop())
-	dependencies = append(dependencies, u.detectClipboardTools()...)
 
 	return dependencies, nil
 }
@@ -112,7 +110,6 @@ func (u *UbuntuDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"git":                    {Name: "git", Repository: RepoTypeSystem},
 		"kitty":                  {Name: "kitty", Repository: RepoTypeSystem},
 		"alacritty":              {Name: "alacritty", Repository: RepoTypeSystem},
-		"wl-clipboard":           {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
 
@@ -121,7 +118,6 @@ func (u *UbuntuDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"quickshell":              u.getQuickshellMapping(variants["quickshell"]),
 		"matugen":                 {Name: "matugen", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
 		"dgop":                    {Name: "dgop", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
-		"cliphist":                {Name: "cliphist", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
 		"ghostty":                 {Name: "ghostty", Repository: RepoTypePPA, RepoURL: "ppa:avengemedia/danklinux"},
 	}
 
@@ -331,7 +327,7 @@ func (u *UbuntuDistribution) InstallPackages(ctx context.Context, dependencies [
 		u.log(fmt.Sprintf("Warning: failed to write window manager config: %v", err))
 	}
 
-	if err := u.EnableDMSService(ctx); err != nil {
+	if err := u.EnableDMSService(ctx, wm); err != nil {
 		u.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 
@@ -539,8 +535,6 @@ func (u *UbuntuDistribution) installBuildDependencies(ctx context.Context, manua
 			buildDeps["libpam0g-dev"] = true
 		case "matugen":
 			buildDeps["curl"] = true
-		case "cliphist":
-			// Go will be installed separately with PPA
 		}
 	}
 
@@ -550,7 +544,7 @@ func (u *UbuntuDistribution) installBuildDependencies(ctx context.Context, manua
 			if err := u.installRust(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install Rust: %w", err)
 			}
-		case "cliphist", "dgop":
+		case "dgop":
 			if err := u.installGo(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install Go: %w", err)
 			}

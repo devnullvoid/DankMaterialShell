@@ -6,10 +6,10 @@ To contribute fork this repository, make your changes, and open a pull request.
 
 ## Setup
 
-Enable pre-commit hooks to catch CI failures before pushing:
+Install [prek](https://prek.j178.dev/) then activate pre-commit hooks:
 
 ```bash
-git config core.hooksPath .githooks
+prek install
 ```
 
 ### Nix Development Shell
@@ -21,6 +21,7 @@ nix develop
 ```
 
 This will provide:
+
 - Go 1.24 toolchain (go, gopls, delve, go-tools) and GNU Make
 - Quickshell and required QML packages
 - Properly configured QML2_IMPORT_PATH
@@ -53,6 +54,20 @@ touch .qmlls.ini
 4. Restart dms to generate the `.qmlls.ini` file
 
 5. Make your changes, test, and open a pull request.
+
+### I18n/Localization
+
+When adding user-facing strings, ensure they are wrapped in `I18n.tr()` with context, for example.
+
+```qml
+import qs.Common
+
+Text {
+  text: I18n.tr("Hello World", "<This is context for the translators, example> Hello world greeting that appears on the lock screen")
+}
+```
+
+Preferably, try to keep new terms to a minimum and re-use existing terms where possible. See `quickshell/translations/en.json` for the list of existing terms. (This isn't always possible obviously, but instead of using `Auto-connect` you would use `Autoconnect` since it's already translated)
 
 ### GO (`core` directory)
 

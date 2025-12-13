@@ -204,10 +204,6 @@ Singleton {
                 "label": "Vibrant",
                 "description": I18n.tr("Lively palette with saturated accents.")
             }), ({
-                "value": "scheme-dynamic-contrast",
-                "label": "Dynamic Contrast",
-                "description": I18n.tr("High-contrast palette for strong visual distinction.")
-            }), ({
                 "value": "scheme-content",
                 "label": "Content",
                 "description": I18n.tr("Derives colors that closely match the underlying image.")
@@ -815,17 +811,7 @@ Singleton {
         console.log("Theme: Starting matugen worker");
         workerRunning = true;
 
-        const args = [
-            "dms", "matugen", "queue",
-            "--state-dir", stateDir,
-            "--shell-dir", shellDir,
-            "--config-dir", configDir,
-            "--kind", desired.kind,
-            "--value", desired.value,
-            "--mode", desired.mode,
-            "--icon-theme", desired.iconTheme,
-            "--matugen-type", desired.matugenType,
-        ];
+        const args = ["dms", "matugen", "queue", "--state-dir", stateDir, "--shell-dir", shellDir, "--config-dir", configDir, "--kind", desired.kind, "--value", desired.value, "--mode", desired.mode, "--icon-theme", desired.iconTheme, "--matugen-type", desired.matugenType,];
 
         if (!desired.runUserTemplates) {
             args.push("--run-user-templates=false");
@@ -838,6 +824,47 @@ Singleton {
         }
         if (typeof SettingsData !== "undefined" && SettingsData.terminalsAlwaysDark) {
             args.push("--terminals-always-dark");
+        }
+
+        if (typeof SettingsData !== "undefined") {
+            const skipTemplates = [];
+            if (!SettingsData.runDmsMatugenTemplates) {
+                skipTemplates.push("gtk", "niri", "qt5ct", "qt6ct", "firefox", "pywalfox", "vesktop", "ghostty", "kitty", "foot", "alacritty", "wezterm", "dgop", "kcolorscheme", "vscode");
+            } else {
+                if (!SettingsData.matugenTemplateGtk)
+                    skipTemplates.push("gtk");
+                if (!SettingsData.matugenTemplateNiri)
+                    skipTemplates.push("niri");
+                if (!SettingsData.matugenTemplateQt5ct)
+                    skipTemplates.push("qt5ct");
+                if (!SettingsData.matugenTemplateQt6ct)
+                    skipTemplates.push("qt6ct");
+                if (!SettingsData.matugenTemplateFirefox)
+                    skipTemplates.push("firefox");
+                if (!SettingsData.matugenTemplatePywalfox)
+                    skipTemplates.push("pywalfox");
+                if (!SettingsData.matugenTemplateVesktop)
+                    skipTemplates.push("vesktop");
+                if (!SettingsData.matugenTemplateGhostty)
+                    skipTemplates.push("ghostty");
+                if (!SettingsData.matugenTemplateKitty)
+                    skipTemplates.push("kitty");
+                if (!SettingsData.matugenTemplateFoot)
+                    skipTemplates.push("foot");
+                if (!SettingsData.matugenTemplateAlacritty)
+                    skipTemplates.push("alacritty");
+                if (!SettingsData.matugenTemplateWezterm)
+                    skipTemplates.push("wezterm");
+                if (!SettingsData.matugenTemplateDgop)
+                    skipTemplates.push("dgop");
+                if (!SettingsData.matugenTemplateKcolorscheme)
+                    skipTemplates.push("kcolorscheme");
+                if (!SettingsData.matugenTemplateVscode)
+                    skipTemplates.push("vscode");
+            }
+            if (skipTemplates.length > 0) {
+                args.push("--skip-templates", skipTemplates.join(","));
+            }
         }
 
         systemThemeGenerator.command = args;
@@ -1014,16 +1041,11 @@ Singleton {
     }
 
     function blendAlpha(c, a) {
-        return Qt.rgba(c.r, c.g, c.b, c.a*a);
+        return Qt.rgba(c.r, c.g, c.b, c.a * a);
     }
 
     function blend(c1, c2, r) {
-        return Qt.rgba(
-            c1.r * (1-r) + c2.r * r,
-            c1.g * (1-r) + c2.g * r,
-            c1.b * (1-r) + c2.b * r,
-            c1.a * (1-r) + c2.a * r,
-        );
+        return Qt.rgba(c1.r * (1 - r) + c2.r * r, c1.g * (1 - r) + c2.g * r, c1.b * (1 - r) + c2.b * r, c1.a * (1 - r) + c2.a * r);
     }
 
     function getFillMode(modeName) {

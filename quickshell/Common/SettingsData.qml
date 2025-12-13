@@ -169,6 +169,7 @@ Singleton {
     property var workspaceNameIcons: ({})
     property bool waveProgressEnabled: true
     property bool scrollTitleEnabled: true
+    property bool audioVisualizerEnabled: true
     property bool clockCompactMode: false
     property bool focusedWindowCompactMode: false
     property bool runningAppsCompactMode: true
@@ -301,6 +302,23 @@ Singleton {
     property bool syncModeWithPortal: true
     property bool terminalsAlwaysDark: false
 
+    property bool runDmsMatugenTemplates: true
+    property bool matugenTemplateGtk: true
+    property bool matugenTemplateNiri: true
+    property bool matugenTemplateQt5ct: true
+    property bool matugenTemplateQt6ct: true
+    property bool matugenTemplateFirefox: true
+    property bool matugenTemplatePywalfox: true
+    property bool matugenTemplateVesktop: true
+    property bool matugenTemplateGhostty: true
+    property bool matugenTemplateKitty: true
+    property bool matugenTemplateFoot: true
+    property bool matugenTemplateAlacritty: true
+    property bool matugenTemplateWezterm: true
+    property bool matugenTemplateDgop: true
+    property bool matugenTemplateKcolorscheme: true
+    property bool matugenTemplateVscode: true
+
     property bool showDock: false
     property bool dockAutoHide: false
     property bool dockGroupByApp: false
@@ -324,6 +342,12 @@ Singleton {
     property bool modalDarkenBackground: true
 
     property bool lockScreenShowPowerActions: true
+    property bool lockScreenShowSystemIcons: true
+    property bool lockScreenShowTime: true
+    property bool lockScreenShowDate: true
+    property bool lockScreenShowProfileImage: true
+    property bool lockScreenShowPasswordField: true
+
     property bool enableFprint: false
     property int maxFprintTries: 15
     property bool fprintdAvailable: false

@@ -119,7 +119,7 @@ Item {
     }
 
     function copyToClipboard(text) {
-        Quickshell.execDetached(["sh", "-c", "echo -n '" + text + "' | wl-copy"])
+        Quickshell.execDetached(["dms", "cl", "copy", text])
         showToast("Copied to clipboard: " + text)
     }
 

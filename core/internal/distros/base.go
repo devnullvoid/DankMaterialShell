@@ -185,37 +185,6 @@ func (b *BaseDistribution) detectSpecificTerminal(terminal deps.Terminal) deps.D
 	}
 }
 
-func (b *BaseDistribution) detectClipboardTools() []deps.Dependency {
-	var dependencies []deps.Dependency
-
-	cliphist := deps.StatusMissing
-	if b.commandExists("cliphist") {
-		cliphist = deps.StatusInstalled
-	}
-
-	wlClipboard := deps.StatusMissing
-	if b.commandExists("wl-copy") && b.commandExists("wl-paste") {
-		wlClipboard = deps.StatusInstalled
-	}
-
-	dependencies = append(dependencies,
-		deps.Dependency{
-			Name:        "cliphist",
-			Status:      cliphist,
-			Description: "Wayland clipboard manager",
-			Required:    true,
-		},
-		deps.Dependency{
-			Name:        "wl-clipboard",
-			Status:      wlClipboard,
-			Description: "Wayland clipboard utilities",
-			Required:    true,
-		},
-	)
-
-	return dependencies
-}
-
 func (b *BaseDistribution) detectHyprlandTools() []deps.Dependency {
 	var dependencies []deps.Dependency
 
@@ -597,12 +566,24 @@ TERMINAL=%s
 	return nil
 }
 
-func (b *BaseDistribution) EnableDMSService(ctx context.Context) error {
+func (b *BaseDistribution) EnableDMSService(ctx context.Context, wm deps.WindowManager) error {
 	cmd := exec.CommandContext(ctx, "systemctl", "--user", "enable", "--now", "dms")
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("failed to enable dms service: %w", err)
 	}
 	b.log("Enabled dms systemd user service")
+
+	switch wm {
+	case deps.WindowManagerNiri:
+		if err := exec.CommandContext(ctx, "systemctl", "--user", "add-wants", "niri.service", "dms").Run(); err != nil {
+			b.log("Warning: failed to add dms as a want for niri.service")
+		}
+	case deps.WindowManagerHyprland:
+		if err := exec.CommandContext(ctx, "systemctl", "--user", "add-wants", "hyprland-session.target", "dms").Run(); err != nil {
+			b.log("Warning: failed to add dms as a want for hyprland-session.target")
+		}
+	}
+
 	return nil
 }
 

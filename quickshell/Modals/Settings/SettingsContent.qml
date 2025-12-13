@@ -399,5 +399,21 @@ FocusScope {
                 }
             }
         }
+
+        Loader {
+            id: clipboardLoader
+            anchors.fill: parent
+            active: root.currentIndex === 23
+            visible: active
+            focus: active
+
+            sourceComponent: ClipboardTab {}
+
+            onActiveChanged: {
+                if (active && item) {
+                    Qt.callLater(() => item.forceActiveFocus());
+                }
+            }
+        }
     }
 }

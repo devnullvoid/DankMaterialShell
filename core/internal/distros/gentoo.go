@@ -107,7 +107,6 @@ func (g *GentooDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 
 	dependencies = append(dependencies, g.detectMatugen())
 	dependencies = append(dependencies, g.detectDgop())
-	dependencies = append(dependencies, g.detectClipboardTools()...)
 
 	return dependencies, nil
 }
@@ -140,7 +139,6 @@ func (g *GentooDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"git":                    {Name: "dev-vcs/git", Repository: RepoTypeSystem},
 		"kitty":                  {Name: "x11-terms/kitty", Repository: RepoTypeSystem, UseFlags: "X wayland"},
 		"alacritty":              {Name: "x11-terms/alacritty", Repository: RepoTypeSystem, UseFlags: "X wayland"},
-		"wl-clipboard":           {Name: "gui-apps/wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "sys-apps/xdg-desktop-portal-gtk", Repository: RepoTypeSystem, UseFlags: "wayland X"},
 		"accountsservice":        {Name: "sys-apps/accountsservice", Repository: RepoTypeSystem},
 
@@ -151,7 +149,6 @@ func (g *GentooDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 
 		"quickshell":              g.getQuickshellMapping(variants["quickshell"]),
 		"matugen":                 {Name: "x11-misc/matugen", Repository: RepoTypeGURU, AcceptKeywords: archKeyword},
-		"cliphist":                {Name: "app-misc/cliphist", Repository: RepoTypeGURU, AcceptKeywords: archKeyword},
 		"dms (DankMaterialShell)": g.getDmsMapping(variants["dms (DankMaterialShell)"]),
 		"dgop":                    {Name: "dgop", Repository: RepoTypeManual, BuildFunc: "installDgop"},
 	}
@@ -410,7 +407,7 @@ func (g *GentooDistribution) InstallPackages(ctx context.Context, dependencies [
 		g.log(fmt.Sprintf("Warning: failed to write window manager config: %v", err))
 	}
 
-	if err := g.EnableDMSService(ctx); err != nil {
+	if err := g.EnableDMSService(ctx, wm); err != nil {
 		g.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 

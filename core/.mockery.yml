@@ -56,3 +56,15 @@ packages:
       outpkg: mocks_version
     interfaces:
       VersionFetcher:
+  github.com/AvengeMedia/DankMaterialShell/core/internal/server/wlcontext:
+    config:
+      dir: "internal/mocks/wlcontext"
+      outpkg: mocks_wlcontext
+    interfaces:
+      WaylandContext:
+  github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client:
+    config:
+      dir: "internal/mocks/wlclient"
+      outpkg: mocks_wlclient
+    interfaces:
+      WaylandDisplay:

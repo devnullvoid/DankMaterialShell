@@ -69,7 +69,6 @@ func (d *DebianDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 
 	dependencies = append(dependencies, d.detectMatugen())
 	dependencies = append(dependencies, d.detectDgop())
-	dependencies = append(dependencies, d.detectClipboardTools()...)
 
 	return dependencies, nil
 }
@@ -102,7 +101,6 @@ func (d *DebianDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"git":                    {Name: "git", Repository: RepoTypeSystem},
 		"kitty":                  {Name: "kitty", Repository: RepoTypeSystem},
 		"alacritty":              {Name: "alacritty", Repository: RepoTypeSystem},
-		"wl-clipboard":           {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
 
@@ -111,7 +109,6 @@ func (d *DebianDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"quickshell":              d.getQuickshellMapping(variants["quickshell"]),
 		"matugen":                 {Name: "matugen", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
 		"dgop":                    {Name: "dgop", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
-		"cliphist":                {Name: "cliphist", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
 		"ghostty":                 {Name: "ghostty", Repository: RepoTypeOBS, RepoURL: "home:AvengeMedia:danklinux"},
 	}
 
@@ -312,7 +309,7 @@ func (d *DebianDistribution) InstallPackages(ctx context.Context, dependencies [
 		d.log(fmt.Sprintf("Warning: failed to write window manager config: %v", err))
 	}
 
-	if err := d.EnableDMSService(ctx); err != nil {
+	if err := d.EnableDMSService(ctx, wm); err != nil {
 		d.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 
@@ -549,7 +546,7 @@ func (d *DebianDistribution) installBuildDependencies(ctx context.Context, manua
 			if err := d.installRust(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install Rust: %w", err)
 			}
-		case "cliphist", "dgop":
+		case "dgop":
 			if err := d.installGo(ctx, sudoPassword, progressChan); err != nil {
 				return fmt.Errorf("failed to install Go: %w", err)
 			}

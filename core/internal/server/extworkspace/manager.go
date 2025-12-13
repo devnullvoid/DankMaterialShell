@@ -38,7 +38,7 @@ func CheckCapability() bool {
 	return found
 }
 
-func NewManager(display *wlclient.Display) (*Manager, error) {
+func NewManager(display wlclient.WaylandDisplay) (*Manager, error) {
 	m := &Manager{
 		display:  display,
 		ctx:      display.Context(),

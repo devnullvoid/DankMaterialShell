@@ -518,7 +518,7 @@ func (m Model) categorizeDependencies() map[string][]DependencyInfo {
 			categories["Hyprland Components"] = append(categories["Hyprland Components"], dep)
 		case "niri":
 			categories["Niri Components"] = append(categories["Niri Components"], dep)
-		case "kitty", "alacritty", "ghostty", "hyprpicker":
+		case "kitty", "alacritty", "ghostty":
 			categories["Shared Components"] = append(categories["Shared Components"], dep)
 		default:
 			categories["Shared Components"] = append(categories["Shared Components"], dep)

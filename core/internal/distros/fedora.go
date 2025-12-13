@@ -88,10 +88,8 @@ func (f *FedoraDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 		dependencies = append(dependencies, f.detectXwaylandSatellite())
 	}
 
-	// Base detections (common across distros)
 	dependencies = append(dependencies, f.detectMatugen())
 	dependencies = append(dependencies, f.detectDgop())
-	dependencies = append(dependencies, f.detectClipboardTools()...)
 
 	return dependencies, nil
 }
@@ -117,14 +115,12 @@ func (f *FedoraDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"ghostty":                {Name: "ghostty", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
 		"kitty":                  {Name: "kitty", Repository: RepoTypeSystem},
 		"alacritty":              {Name: "alacritty", Repository: RepoTypeSystem},
-		"wl-clipboard":           {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
 
 		// COPR packages
 		"quickshell":              f.getQuickshellMapping(variants["quickshell"]),
 		"matugen":                 {Name: "matugen", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
-		"cliphist":                {Name: "cliphist", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
 		"dms (DankMaterialShell)": f.getDmsMapping(variants["dms (DankMaterialShell)"]),
 		"dgop":                    {Name: "dgop", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
 	}
@@ -353,7 +349,7 @@ func (f *FedoraDistribution) InstallPackages(ctx context.Context, dependencies [
 		f.log(fmt.Sprintf("Warning: failed to write window manager config: %v", err))
 	}
 
-	if err := f.EnableDMSService(ctx); err != nil {
+	if err := f.EnableDMSService(ctx, wm); err != nil {
 		f.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 

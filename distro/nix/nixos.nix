@@ -22,8 +22,6 @@ in
   ];
 
   config = lib.mkIf cfg.enable {
-    environment.etc."xdg/quickshell/dms".source = "${dmsPkgs.dms-shell}/share/quickshell/dms";
-
     systemd.user.services.dms = lib.mkIf cfg.systemd.enable {
       description = "DankMaterialShell";
       path = lib.mkForce [ ];
@@ -31,7 +29,7 @@ in
       partOf = [ "graphical-session.target" ];
       after = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
-      restartTriggers = lib.optional cfg.systemd.restartIfChanged common.qmlPath;
+      restartIfChanged = cfg.systemd.restartIfChanged;
 
       serviceConfig = {
         ExecStart = lib.getExe dmsPkgs.dms-shell + " run --session";
@@ -40,6 +38,11 @@ in
     };
 
     environment.systemPackages = [ cfg.quickshell.package ] ++ common.packages;
+
+    environment.etc = lib.mapAttrs' (name: value: {
+      name = "xdg/quickshell/dms-plugins/${name}";
+      inherit value;
+    }) common.plugins;
 
     services.power-profiles-daemon.enable = lib.mkDefault true;
     services.accounts-daemon.enable = lib.mkDefault true;

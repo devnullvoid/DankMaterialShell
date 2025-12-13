@@ -77,6 +77,13 @@
     "comment": ""
   },
   {
+    "term": "1 day",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "1 event",
     "translation": "",
     "context": "",
@@ -112,6 +119,13 @@
     "comment": ""
   },
   {
+    "term": "14 days",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "15 seconds",
     "translation": "",
     "context": "",
@@ -140,7 +154,21 @@
     "comment": ""
   },
   {
+    "term": "3 days",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "3 seconds",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "30 days",
     "translation": "",
     "context": "",
     "reference": "",
@@ -175,7 +203,21 @@
     "comment": ""
   },
   {
+    "term": "7 days",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "8 seconds",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "90 days",
     "translation": "",
     "context": "",
     "reference": "",
@@ -344,6 +386,13 @@
   },
   {
     "term": "Adjust the number of columns in grid view mode.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Advanced",
     "translation": "",
     "context": "",
     "reference": "",
@@ -539,6 +588,13 @@
     "comment": ""
   },
   {
+    "term": "Audio Visualizer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Auth",
     "translation": "",
     "context": "",
@@ -623,6 +679,13 @@
     "comment": ""
   },
   {
+    "term": "Auto-Clear After",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Auto-close Niri overview when launching apps.",
     "translation": "",
     "context": "",
@@ -687,6 +750,13 @@
   },
   {
     "term": "Automatically cycle through wallpapers in the same folder",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Automatically delete entries older than this",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1190,6 +1260,20 @@
     "comment": ""
   },
   {
+    "term": "Clear all history when server starts",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Clear at Startup",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Click Import to add a .ovpn or .conf",
     "translation": "",
     "context": "",
@@ -1211,6 +1295,13 @@
     "comment": ""
   },
   {
+    "term": "Clipboard",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Clipboard History",
     "translation": "",
     "context": "",
@@ -1219,6 +1310,20 @@
   },
   {
     "term": "Clipboard Manager",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Clipboard service not available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Clipboard works but nothing saved to disk",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1477,6 +1582,13 @@
     "comment": ""
   },
   {
+    "term": "Cooldown",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Copied to clipboard",
     "translation": "",
     "context": "",
@@ -1729,6 +1841,13 @@
     "comment": ""
   },
   {
+    "term": "DMS service is not connected. Clipboard settings are unavailable.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "DMS shell actions (launcher, clipboard, etc.)",
     "translation": "",
     "context": "",
@@ -1963,6 +2082,34 @@
     "term": "Disable Built-in Wallpapers",
     "translation": "",
     "context": "wallpaper settings disable toggle",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Disable Clipboard Manager",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Disable Clipboard Ownership",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Disable History Persistence",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Disable clipboard manager entirely (requires restart)",
+    "translation": "",
+    "context": "",
     "reference": "",
     "comment": ""
   },
@@ -2527,6 +2674,13 @@
     "comment": ""
   },
   {
+    "term": "Failed to copy entry",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to create printer",
     "translation": "",
     "context": "",
@@ -2618,6 +2772,13 @@
     "comment": ""
   },
   {
+    "term": "Failed to load clipboard configuration.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to move job",
     "translation": "",
     "context": "",
@@ -2668,6 +2829,13 @@
   },
   {
     "term": "Failed to resume printer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to save clipboard setting",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3087,14 +3255,14 @@
     "comment": ""
   },
   {
-    "term": "High-contrast palette for strong visual distinction.",
+    "term": "High-fidelity palette that preserves source hues.",
     "translation": "",
     "context": "",
     "reference": "",
     "comment": ""
   },
   {
-    "term": "High-fidelity palette that preserves source hues.",
+    "term": "History Settings",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3234,7 +3402,21 @@
     "comment": ""
   },
   {
+    "term": "If the field is hidden, it will appear as soon as a key is pressed.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Image",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Image copied to clipboard",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3612,6 +3794,20 @@
     "comment": ""
   },
   {
+    "term": "Lock Screen behaviour",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Lock Screen layout",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Lock before suspend",
     "translation": "",
     "context": "",
@@ -3759,6 +3955,13 @@
     "comment": ""
   },
   {
+    "term": "Matugen Templates",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Max apps to show",
     "translation": "",
     "context": "",
@@ -3767,6 +3970,34 @@
   },
   {
     "term": "Maximize Detection",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Maximum Entry Size",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Maximum History",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Maximum number of clipboard entries to keep",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Maximum size per clipboard entry",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5271,6 +5502,20 @@
     "comment": ""
   },
   {
+    "term": "Run DMS Templates",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Run User Templates",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Run a program (e.g., firefox, kitty)",
     "translation": "",
     "context": "",
@@ -5677,6 +5922,13 @@
     "comment": ""
   },
   {
+    "term": "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Short",
     "translation": "",
     "context": "",
@@ -5740,9 +5992,16 @@
     "comment": ""
   },
   {
+    "term": "Show Password Field",
+    "translation": "",
+    "context": "Enable password field display on the lock screen window",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Show Power Actions",
     "translation": "",
-    "context": "",
+    "context": "Enable power action icon on the lock screen window",
     "reference": "",
     "comment": ""
   },
@@ -5750,6 +6009,13 @@
     "term": "Show Power Off",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Profile Image",
+    "translation": "",
+    "context": "Enable profile image display on the lock screen window",
     "reference": "",
     "comment": ""
   },
@@ -5782,6 +6048,27 @@
     "comment": ""
   },
   {
+    "term": "Show System Date",
+    "translation": "",
+    "context": "Enable system date display on the lock screen window",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show System Icons",
+    "translation": "",
+    "context": "Enable system status icons on the lock screen window",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show System Time",
+    "translation": "",
+    "context": "Enable system time display on the lock screen window",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Show Workspace Apps",
     "translation": "",
     "context": "",
@@ -5790,6 +6077,13 @@
   },
   {
     "term": "Show all 9 tags instead of only occupied tags (DWL only)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show cava audio visualizer in media widget",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5909,13 +6203,6 @@
   },
   {
     "term": "Show password",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show power, restart, and logout buttons on the lock screen",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7231,6 +7518,13 @@
     "comment": ""
   },
   {
+    "term": "days",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.",
     "translation": "",
     "context": "",
@@ -7294,6 +7588,13 @@
     "comment": ""
   },
   {
+    "term": "ms",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "official",
     "translation": "",
     "context": "",
@@ -7309,6 +7610,13 @@
   },
   {
     "term": "update dms for NM integration.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "wtype not available - install wtype for paste support",
     "translation": "",
     "context": "",
     "reference": "",

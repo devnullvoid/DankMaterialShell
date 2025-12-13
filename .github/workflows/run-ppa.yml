@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: 'Package to upload (dms, dms-git, dms-greeter, or all)'
+        description: "Package to upload (dms, dms-git, dms-greeter, or all)"
         required: false
-        default: 'dms-git'
+        default: "dms-git"
       rebuild_release:
-        description: 'Release number for rebuilds (e.g., 2, 3, 4 for ppa2, ppa3, ppa4)'
+        description: "Release number for rebuilds (e.g., 2, 3, 4 for ppa2, ppa3, ppa4)"
         required: false
-        default: ''
+        default: ""
   schedule:
-    - cron: '0 */3 * * *'  # Every 3 hours for dms-git builds
+    - cron: "0 */3 * * *" # Every 3 hours for dms-git builds
 
 jobs:
   check-updates:
@@ -75,23 +75,48 @@ jobs:
     name: Upload to PPA
     needs: check-updates
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     if: |
       github.event_name == 'workflow_dispatch' ||
       needs.check-updates.outputs.has_updates == 'true'
 
     steps:
+      - name: Generate GitHub App Token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      
+          token: ${{ steps.generate_token.outputs.token }}
+
+      - name: Check if last commit was automated
+        id: check-loop
+        run: |
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%B | head -1)
+          if [[ "$LAST_COMMIT_MSG" == "ci: Auto-update PPA packages"* ]] || [[ "$LAST_COMMIT_MSG" == "ci: Auto-update OBS packages"* ]]; then
+            echo "⏭️ Last commit was automated ($LAST_COMMIT_MSG), skipping to prevent infinite loop"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Last commit was not automated, proceeding"
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Set up Go
+        if: steps.check-loop.outputs.skip != 'true'
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
-          cache: false  
+          go-version: "1.24"
+          cache: false
 
       - name: Install build dependencies
+        if: steps.check-loop.outputs.skip != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -102,16 +127,18 @@ jobs:
             build-essential \
             fakeroot \
             dpkg-dev
-      
+
       - name: Configure GPG
+        if: steps.check-loop.outputs.skip != 'true'
         env:
           GPG_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
         run: |
           echo "$GPG_KEY" | gpg --import
           GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep sec | awk '{print $2}' | cut -d'/' -f2)
           echo "DEBSIGN_KEYID=$GPG_KEY_ID" >> $GITHUB_ENV
-      
+
       - name: Determine packages to upload
+        if: steps.check-loop.outputs.skip != 'true'
         id: packages
         run: |
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
@@ -123,19 +150,20 @@ jobs:
           else
             echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Upload to PPA
-        env:
-          REBUILD_RELEASE: ${{ github.event.inputs.rebuild_release }}
+        if: steps.check-loop.outputs.skip != 'true'
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
-          
-          # Export to ensure it's available to subprocesses
-          if [ -n "$REBUILD_RELEASE" ]; then
-            export REBUILD_RELEASE
+          REBUILD_RELEASE="${{ github.event.inputs.rebuild_release }}"
+
+          # Build command arguments
+          BUILD_ARGS=()
+          if [[ -n "$REBUILD_RELEASE" ]]; then
+            BUILD_ARGS+=("$REBUILD_RELEASE")
             echo "✓ Using rebuild release number: ppa$REBUILD_RELEASE"
           fi
-          
+
           if [[ "$PACKAGES" == "all" ]]; then
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms to PPA..."
@@ -143,27 +171,70 @@ jobs:
               echo "🔄 Using rebuild release number: ppa$REBUILD_RELEASE"
             fi
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms" dms questing
-            
+            bash distro/scripts/ppa-upload.sh dms dms questing "${BUILD_ARGS[@]}"
+
             echo ""
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms-git to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-git" dms-git questing
-            
+            bash distro/scripts/ppa-upload.sh dms-git dms-git questing "${BUILD_ARGS[@]}"
+
             echo ""
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading dms-greeter to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/dms-greeter" danklinux questing
+            bash distro/scripts/ppa-upload.sh dms-greeter danklinux questing "${BUILD_ARGS[@]}"
           else
-            PPA_NAME="$PACKAGES"
+            # Map package to PPA name
+            case "$PACKAGES" in
+              dms)
+                PPA_NAME="dms"
+                ;;
+              dms-git)
+                PPA_NAME="dms-git"
+                ;;
+              dms-greeter)
+                PPA_NAME="danklinux"
+                ;;
+              *)
+                PPA_NAME="$PACKAGES"
+                ;;
+            esac
+
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading $PACKAGES to PPA..."
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-            REBUILD_RELEASE="$REBUILD_RELEASE" bash distro/scripts/ppa-upload.sh "distro/ubuntu/$PACKAGES" "$PPA_NAME" questing
+            bash distro/scripts/ppa-upload.sh "$PACKAGES" "$PPA_NAME" questing "${BUILD_ARGS[@]}"
           fi
-      
+
+      - name: Get changed packages
+        if: steps.check-loop.outputs.skip != 'true'
+        id: changed-packages
+        run: |
+          # Check if there are any changelog changes to commit
+          if git diff --exit-code distro/ubuntu/ >/dev/null 2>&1; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "📋 No changelog changes to commit"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            # Get list of changed packages for commit message (deduplicate)
+            CHANGED=$(git diff --name-only distro/ubuntu/ | grep 'debian/changelog' | sed 's|/debian/changelog||' | xargs -I{} basename {} | sort -u | tr '\n' ',' | sed 's/,$//')
+            echo "packages=$CHANGED" >> $GITHUB_OUTPUT
+            echo "📋 Changed packages: $CHANGED"
+            echo "📋 Debug - Changed files:"
+            git diff --name-only distro/ubuntu/ | grep 'debian/changelog' || echo "No changelog files found"
+          fi
+
+      - name: Commit changelog changes
+        if: steps.check-loop.outputs.skip != 'true' && steps.changed-packages.outputs.has_changes == 'true'
+        run: |
+          git config user.name "dms-ci[bot]"
+          git config user.email "dms-ci[bot]@users.noreply.github.com"
+          git add distro/ubuntu/*/debian/changelog
+          git commit -m "ci: Auto-update PPA packages [${{ steps.changed-packages.outputs.packages }}]" -m "🤖 Automated by GitHub Actions"
+          git pull --rebase origin master
+          git push
+
       - name: Summary
         run: |
           echo "### PPA Package Upload Complete" >> $GITHUB_STEP_SUMMARY
@@ -186,7 +257,7 @@ jobs:
           elif [[ "$PACKAGES" == "dms-greeter" ]]; then
             echo "- **PPA**: https://launchpad.net/~avengemedia/+archive/ubuntu/danklinux/+packages" >> $GITHUB_STEP_SUMMARY
           fi
-          
+
           if [[ -n "${{ steps.packages.outputs.version }}" ]]; then
             echo "- **Version**: ${{ steps.packages.outputs.version }}" >> $GITHUB_STEP_SUMMARY
           fi

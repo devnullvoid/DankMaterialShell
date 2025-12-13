@@ -1,7 +1,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 import qs.Common
@@ -27,32 +26,70 @@ DankModal {
     property Component clipboardContent
     property int activeImageLoads: 0
     readonly property int maxConcurrentLoads: 3
+    readonly property bool clipboardAvailable: DMSService.isConnected && DMSService.capabilities.includes("clipboard")
+    property bool wtypeAvailable: false
 
-    function updateFilteredModel() {
-        filteredClipboardModel.clear();
-        for (var i = 0; i < clipboardModel.count; i++) {
-            const entry = clipboardModel.get(i).entry;
-            if (searchText.trim().length === 0) {
-                filteredClipboardModel.append({
-                    "entry": entry
-                });
-            } else {
-                const content = getEntryPreview(entry).toLowerCase();
-                if (content.includes(searchText.toLowerCase())) {
-                    filteredClipboardModel.append({
-                        "entry": entry
-                    });
-                }
-            }
-        }
-        clipboardHistoryModal.totalCount = filteredClipboardModel.count;
-        if (filteredClipboardModel.count === 0) {
-            keyboardNavigationActive = false;
-            selectedIndex = 0;
-        } else if (selectedIndex >= filteredClipboardModel.count) {
-            selectedIndex = filteredClipboardModel.count - 1;
+    Process {
+        id: wtypeCheck
+        command: ["which", "wtype"]
+        running: true
+        onExited: exitCode => {
+            clipboardHistoryModal.wtypeAvailable = (exitCode === 0);
         }
     }
+
+    Process {
+        id: wtypeProcess
+        command: ["wtype", "-M", "ctrl", "-P", "v", "-p", "v", "-m", "ctrl"]
+        running: false
+    }
+
+    Timer {
+        id: pasteTimer
+        interval: 200
+        repeat: false
+        onTriggered: wtypeProcess.running = true
+    }
+
+    function pasteSelected() {
+        if (!keyboardNavigationActive || clipboardEntries.length === 0 || selectedIndex < 0 || selectedIndex >= clipboardEntries.length) {
+            return;
+        }
+        if (!wtypeAvailable) {
+            ToastService.showError(I18n.tr("wtype not available - install wtype for paste support"));
+            return;
+        }
+        const entry = clipboardEntries[selectedIndex];
+        DMSService.sendRequest("clipboard.copyEntry", {
+            "id": entry.id
+        }, function (response) {
+            if (response.error) {
+                ToastService.showError(I18n.tr("Failed to copy entry"));
+                return;
+            }
+            instantClose();
+            pasteTimer.start();
+        });
+    }
+
+    function updateFilteredModel() {
+        const query = searchText.trim();
+        if (query.length === 0) {
+            clipboardEntries = internalEntries;
+        } else {
+            const lowerQuery = query.toLowerCase();
+            clipboardEntries = internalEntries.filter(entry => entry.preview.toLowerCase().includes(lowerQuery));
+        }
+        totalCount = clipboardEntries.length;
+        if (clipboardEntries.length === 0) {
+            keyboardNavigationActive = false;
+            selectedIndex = 0;
+        } else if (selectedIndex >= clipboardEntries.length) {
+            selectedIndex = clipboardEntries.length - 1;
+        }
+    }
+
+    property var internalEntries: []
 
     function toggle() {
         if (shouldBeVisible) {
@@ -63,15 +100,19 @@ DankModal {
     }
 
     function show() {
+        if (!clipboardAvailable) {
+            ToastService.showError(I18n.tr("Clipboard service not available"));
+            return;
+        }
         open();
-        clipboardHistoryModal.searchText = "";
-        clipboardHistoryModal.activeImageLoads = 0;
-        clipboardHistoryModal.shouldHaveFocus = true;
+        searchText = "";
+        activeImageLoads = 0;
+        shouldHaveFocus = true;
         refreshClipboard();
         keyboardController.reset();
 
         Qt.callLater(function () {
-            if (contentLoader.item && contentLoader.item.searchField) {
+            if (contentLoader.item?.searchField) {
                 contentLoader.item.searchField.text = "";
                 contentLoader.item.searchField.forceActiveFocus();
             }
@@ -80,60 +121,77 @@ DankModal {
 
     function hide() {
         close();
-        clipboardHistoryModal.searchText = "";
-        clipboardHistoryModal.activeImageLoads = 0;
-        updateFilteredModel();
+        searchText = "";
+        activeImageLoads = 0;
+        internalEntries = [];
+        clipboardEntries = [];
         keyboardController.reset();
-        cleanupTempFiles();
-    }
-
-    function cleanupTempFiles() {
-        Quickshell.execDetached(["sh", "-c", "rm -f /tmp/clipboard_*.png"]);
     }
 
     function refreshClipboard() {
-        clipboardProcesses.refresh();
+        DMSService.sendRequest("clipboard.getHistory", null, function (response) {
+            if (response.error) {
+                console.warn("ClipboardHistoryModal: Failed to get history:", response.error);
+                return;
+            }
+            internalEntries = response.result || [];
+            updateFilteredModel();
+        });
     }
 
     function copyEntry(entry) {
-        const entryId = entry.split('\t')[0];
-        Quickshell.execDetached(["sh", "-c", `cliphist decode ${entryId} | wl-copy`]);
-        ToastService.showInfo(I18n.tr("Copied to clipboard"));
-        hide();
+        DMSService.sendRequest("clipboard.copyEntry", {
+            "id": entry.id
+        }, function (response) {
+            if (response.error) {
+                ToastService.showError(I18n.tr("Failed to copy entry"));
+                return;
+            }
+            ToastService.showInfo(entry.isImage ? I18n.tr("Image copied to clipboard") : I18n.tr("Copied to clipboard"));
+            hide();
+        });
     }
 
     function deleteEntry(entry) {
-        clipboardProcesses.deleteEntry(entry);
+        DMSService.sendRequest("clipboard.deleteEntry", {
+            "id": entry.id
+        }, function (response) {
+            if (response.error) {
+                console.warn("ClipboardHistoryModal: Failed to delete entry:", response.error);
+                return;
+            }
+            internalEntries = internalEntries.filter(e => e.id !== entry.id);
+            updateFilteredModel();
+            if (clipboardEntries.length === 0) {
+                keyboardNavigationActive = false;
+                selectedIndex = 0;
+            } else if (selectedIndex >= clipboardEntries.length) {
+                selectedIndex = clipboardEntries.length - 1;
+            }
+        });
     }
 
     function clearAll() {
-        clipboardProcesses.clearAll();
+        DMSService.sendRequest("clipboard.clearHistory", null, function (response) {
+            if (response.error) {
+                console.warn("ClipboardHistoryModal: Failed to clear history:", response.error);
+                return;
+            }
+            internalEntries = [];
+            clipboardEntries = [];
+            totalCount = 0;
+        });
     }
 
     function getEntryPreview(entry) {
-        let content = entry.replace(/^\s*\d+\s+/, "");
-        if (content.includes("image/") || content.includes("binary data") || /\.(png|jpg|jpeg|gif|bmp|webp)/i.test(content)) {
-            const dimensionMatch = content.match(/(\d+)x(\d+)/);
-            if (dimensionMatch) {
-                return `Image ${dimensionMatch[1]}×${dimensionMatch[2]}`;
-            }
-            const typeMatch = content.match(/\b(png|jpg|jpeg|gif|bmp|webp)\b/i);
-            if (typeMatch) {
-                return `Image (${typeMatch[1].toUpperCase()})`;
-            }
-            return "Image";
-        }
-        if (content.length > ClipboardConstants.previewLength) {
-            return content.substring(0, ClipboardConstants.previewLength) + "...";
-        }
-        return content;
+        return entry.preview || "";
     }
 
     function getEntryType(entry) {
-        if (entry.includes("image/") || entry.includes("binary data") || /\.(png|jpg|jpeg|gif|bmp|webp)/i.test(entry) || /\b(png|jpg|jpeg|gif|bmp|webp)\b/i.test(entry)) {
+        if (entry.isImage) {
             return "image";
         }
-        if (entry.length > ClipboardConstants.longTextThreshold) {
+        if (entry.size > ClipboardConstants.longTextThreshold) {
             return "long_text";
         }
         return "text";
@@ -168,55 +226,18 @@ DankModal {
             } else if (clipboardHistoryModal.shouldBeVisible) {
                 clipboardHistoryModal.shouldHaveFocus = true;
                 clipboardHistoryModal.modalFocusScope.forceActiveFocus();
-                if (clipboardHistoryModal.contentLoader.item && clipboardHistoryModal.contentLoader.item.searchField) {
+                if (clipboardHistoryModal.contentLoader.item?.searchField) {
                     clipboardHistoryModal.contentLoader.item.searchField.forceActiveFocus();
                 }
             }
         }
     }
 
-    property alias filteredClipboardModel: filteredClipboardModel
-    property alias clipboardModel: clipboardModel
     property var confirmDialog: clearConfirmDialog
-
-    ListModel {
-        id: clipboardModel
-    }
-
-    ListModel {
-        id: filteredClipboardModel
-    }
-
-    ClipboardProcesses {
-        id: clipboardProcesses
-        modal: clipboardHistoryModal
-        clipboardModel: clipboardModel
-        filteredClipboardModel: filteredClipboardModel
-    }
-
-    IpcHandler {
-        function open(): string {
-            clipboardHistoryModal.show();
-            return "CLIPBOARD_OPEN_SUCCESS";
-        }
-
-        function close(): string {
-            clipboardHistoryModal.hide();
-            return "CLIPBOARD_CLOSE_SUCCESS";
-        }
-
-        function toggle(): string {
-            clipboardHistoryModal.toggle();
-            return "CLIPBOARD_TOGGLE_SUCCESS";
-        }
-
-        target: "clipboard"
-    }
 
     clipboardContent: Component {
         ClipboardContent {
             modal: clipboardHistoryModal
-            filteredModel: filteredClipboardModel
             clearConfirmDialog: clipboardHistoryModal.confirmDialog
         }
     }

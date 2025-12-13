@@ -1,14 +1,11 @@
 import QtQuick
-import QtQuick.Effects
-import Quickshell.Io
 import qs.Common
 import qs.Widgets
-import qs.Modals.Clipboard
 
 Rectangle {
-    id: entry
+    id: root
 
-    required property string entryData
+    required property var entry
     required property int entryIndex
     required property int itemIndex
     required property bool isSelected
@@ -18,15 +15,15 @@ Rectangle {
     signal copyRequested
     signal deleteRequested
 
-    readonly property string entryType: modal ? modal.getEntryType(entryData) : "text"
-    readonly property string entryPreview: modal ? modal.getEntryPreview(entryData) : entryData
+    readonly property string entryType: modal ? modal.getEntryType(entry) : "text"
+    readonly property string entryPreview: modal ? modal.getEntryPreview(entry) : ""
 
     radius: Theme.cornerRadius
     color: {
         if (isSelected) {
-            return Theme.primaryPressed
+            return Theme.primaryPressed;
         }
-        return mouseArea.containsMouse ? Theme.primaryHoverLight : Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+        return mouseArea.containsMouse ? Theme.primaryHoverLight : Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency);
     }
 
     Row {
@@ -35,7 +32,6 @@ Rectangle {
         anchors.rightMargin: Theme.spacingS
         spacing: Theme.spacingL
 
-        // Index indicator
         Rectangle {
             width: 24
             height: 24
@@ -52,25 +48,22 @@ Rectangle {
             }
         }
 
-        // Content area
         Row {
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width - 68
             spacing: Theme.spacingM
 
-            // Thumbnail/Icon
             ClipboardThumbnail {
                 width: entryType === "image" ? ClipboardConstants.thumbnailSize : Theme.iconSize
                 height: entryType === "image" ? ClipboardConstants.thumbnailSize : Theme.iconSize
                 anchors.verticalCenter: parent.verticalCenter
-                entryData: entry.entryData
-                entryType: entry.entryType
-                modal: entry.modal
-                listView: entry.listView
-                itemIndex: entry.itemIndex
+                entry: root.entry
+                entryType: root.entryType
+                modal: root.modal
+                listView: root.listView
+                itemIndex: root.itemIndex
             }
 
-            // Text content
             Column {
                 anchors.verticalCenter: parent.verticalCenter
                 width: parent.width - (entryType === "image" ? ClipboardConstants.thumbnailSize : Theme.iconSize) - Theme.spacingM
@@ -80,11 +73,11 @@ Rectangle {
                     text: {
                         switch (entryType) {
                         case "image":
-                            return I18n.tr("Image") + " • " + entryPreview
+                            return I18n.tr("Image") + " • " + entryPreview;
                         case "long_text":
-                            return I18n.tr("Long Text")
+                            return I18n.tr("Long Text");
                         default:
-                            return I18n.tr("Text")
+                            return I18n.tr("Text");
                         }
                     }
                     font.pixelSize: Theme.fontSizeSmall
@@ -107,7 +100,6 @@ Rectangle {
         }
     }
 
-    // Delete button
     DankActionButton {
         anchors.right: parent.right
         anchors.rightMargin: Theme.spacingM
@@ -118,7 +110,6 @@ Rectangle {
         onClicked: deleteRequested()
     }
 
-    // Click area
     MouseArea {
         id: mouseArea
         anchors.fill: parent

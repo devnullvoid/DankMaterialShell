@@ -16,9 +16,9 @@ type DiscoveryConfig struct {
 func DefaultDiscoveryConfig() *DiscoveryConfig {
 	var searchPaths []string
 
-	configHome := utils.XDGConfigHome()
-	if configHome != "" {
-		searchPaths = append(searchPaths, filepath.Join(configHome, "DankMaterialShell", "cheatsheets"))
+	configDir, err := os.UserConfigDir()
+	if err == nil && configDir != "" {
+		searchPaths = append(searchPaths, filepath.Join(configDir, "DankMaterialShell", "cheatsheets"))
 	}
 
 	configDirs := os.Getenv("XDG_CONFIG_DIRS")

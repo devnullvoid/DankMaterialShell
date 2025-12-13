@@ -6,7 +6,7 @@ An example dms plugin that displays cycling emojis in your bar with an emoji pic
 
 - **Cycling Emojis**: Automatically rotates through your selected emoji set in the bar
 - **Emoji Picker**: Click the widget to open a grid of 120+ emojis
-- **Copy to Clipboard**: Click any emoji in the picker to copy it to clipboard (uses `wl-copy`)
+- **Copy to Clipboard**: Click any emoji in the picker to copy it to clipboard
 - **Customizable**: Choose emoji sets, cycle speed, and max emojis shown
 
 ## Installation
@@ -37,10 +37,6 @@ How many emojis to display at once (1-8)
 **In the bar**: Watch emojis cycle through automatically
 **Click the widget**: Opens emoji picker with 120+ emojis
 **Click any emoji**: Copies it to clipboard and shows toast
-
-## Requirements
-
-- `wl-copy` (for clipboard support on Wayland)
 
 ## Example Code Highlights
 

@@ -19,7 +19,7 @@ import (
 
 const animKelvinStep = 25
 
-func NewManager(display *wlclient.Display, config Config) (*Manager, error) {
+func NewManager(display wlclient.WaylandDisplay, config Config) (*Manager, error) {
 	if err := config.Validate(); err != nil {
 		return nil, err
 	}
@@ -268,31 +268,36 @@ func (m *Manager) setupOutputControls(outputs []*wlclient.Output, manager *wlr_g
 }
 
 func (m *Manager) setupControlHandlers(state *outputState, control *wlr_gamma_control.ZwlrGammaControlV1) {
+	outputID := state.id
+
 	control.SetGammaSizeHandler(func(e wlr_gamma_control.ZwlrGammaControlV1GammaSizeEvent) {
-		if out, ok := m.outputs.Load(state.id); ok {
-			out.rampSize = e.Size
-			out.failed = false
-			out.retryCount = 0
-		}
+		size := e.Size
 		m.post(func() {
+			if out, ok := m.outputs.Load(outputID); ok {
+				out.rampSize = size
+				out.failed = false
+				out.retryCount = 0
+			}
 			m.applyCurrentTemp()
 		})
 	})
 
 	control.SetFailedHandler(func(_ wlr_gamma_control.ZwlrGammaControlV1FailedEvent) {
-		out, ok := m.outputs.Load(state.id)
-		if !ok {
-			return
-		}
-		out.failed = true
-		out.rampSize = 0
-		out.retryCount++
-		out.lastFailTime = time.Now()
+		m.post(func() {
+			out, ok := m.outputs.Load(outputID)
+			if !ok {
+				return
+			}
+			out.failed = true
+			out.rampSize = 0
+			out.retryCount++
+			out.lastFailTime = time.Now()
 
-		backoff := time.Duration(300<<uint(min(out.retryCount-1, 4))) * time.Millisecond
-		time.AfterFunc(backoff, func() {
-			m.post(func() {
-				m.recreateOutputControl(out)
+			backoff := time.Duration(300<<uint(min(out.retryCount-1, 4))) * time.Millisecond
+			time.AfterFunc(backoff, func() {
+				m.post(func() {
+					m.recreateOutputControl(out)
+				})
 			})
 		})
 	})
@@ -583,7 +588,7 @@ func (m *Manager) schedulerLoop() {
 	m.configMutex.RUnlock()
 
 	if enabled {
-		m.applyCurrentTemp()
+		m.post(func() { m.applyCurrentTemp() })
 	}
 
 	var timer *time.Timer
@@ -625,14 +630,14 @@ func (m *Manager) schedulerLoop() {
 			enabled := m.config.Enabled
 			m.configMutex.RUnlock()
 			if enabled {
-				m.applyCurrentTemp()
+				m.post(func() { m.applyCurrentTemp() })
 			}
 		case <-timer.C:
 			m.configMutex.RLock()
 			enabled := m.config.Enabled
 			m.configMutex.RUnlock()
 			if enabled {
-				m.applyCurrentTemp()
+				m.post(func() { m.applyCurrentTemp() })
 			}
 		}
 	}
@@ -640,6 +645,16 @@ func (m *Manager) schedulerLoop() {
 
 func (m *Manager) applyCurrentTemp() {
 	if !m.controlsInitialized || !m.allOutputsReady() {
+		return
+	}
+
+	m.configMutex.RLock()
+	low, high := m.config.LowTemp, m.config.HighTemp
+	m.configMutex.RUnlock()
+
+	if low == high {
+		m.applyGamma(low)
+		m.updateStateFromSchedule()
 		return
 	}
 

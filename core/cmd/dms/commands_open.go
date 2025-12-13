@@ -1,17 +1,14 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"mime"
-	"net"
 	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/server"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 	"github.com/spf13/cobra"
 )
@@ -93,32 +90,6 @@ func mimeTypeToCategories(mimeType string) []string {
 }
 
 func runOpen(target string) {
-	socketPath, err := server.FindSocket()
-	if err != nil {
-		log.Warnf("DMS socket not found: %v", err)
-		fmt.Println("DMS is not running. Please start DMS first.")
-		os.Exit(1)
-	}
-
-	conn, err := net.Dial("unix", socketPath)
-	if err != nil {
-		log.Warnf("DMS socket connection failed: %v", err)
-		fmt.Println("DMS is not running. Please start DMS first.")
-		os.Exit(1)
-	}
-	defer conn.Close()
-
-	buf := make([]byte, 1)
-	for {
-		_, err := conn.Read(buf)
-		if err != nil {
-			return
-		}
-		if buf[0] == '\n' {
-			break
-		}
-	}
-
 	// Parse file:// URIs to extract the actual file path
 	actualTarget := target
 	detectedMimeType := openMimeType
@@ -219,8 +190,9 @@ func runOpen(target string) {
 
 	log.Infof("Sending request - Method: %s, Params: %+v", method, params)
 
-	if err := json.NewEncoder(conn).Encode(req); err != nil {
-		log.Fatalf("Failed to send request: %v", err)
+	if err := sendServerRequestFireAndForget(req); err != nil {
+		fmt.Println("DMS is not running. Please start DMS first.")
+		os.Exit(1)
 	}
 
 	log.Infof("Request sent successfully")

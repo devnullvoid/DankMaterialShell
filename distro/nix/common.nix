@@ -9,22 +9,19 @@ let
   cfg = config.programs.dankMaterialShell;
 in
 {
-  qmlPath = "${dmsPkgs.dms-shell}/share/quickshell/dms";
-
   packages = [
     dmsPkgs.dms-shell
   ]
   ++ lib.optional cfg.enableSystemMonitoring dmsPkgs.dgop
-  ++ lib.optionals cfg.enableClipboard [
-    pkgs.cliphist
-    pkgs.wl-clipboard
-  ]
   ++ lib.optionals cfg.enableVPN [
     pkgs.glib
     pkgs.networkmanager
   ]
   ++ lib.optional cfg.enableDynamicTheming pkgs.matugen
   ++ lib.optional cfg.enableAudioWavelength pkgs.cava
-  ++ lib.optional cfg.enableCalendarEvents pkgs.khal
-  ++ lib.optional cfg.enableSystemSound pkgs.kdePackages.qtmultimedia;
+  ++ lib.optional cfg.enableCalendarEvents pkgs.khal;
+
+  plugins = lib.mapAttrs (name: plugin: {
+    source = plugin.src;
+  }) (lib.filterAttrs (n: v: v.enable) cfg.plugins);
 }

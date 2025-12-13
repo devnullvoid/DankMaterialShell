@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
-	"os/exec"
 
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/clipboard"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/colorpicker"
 	"github.com/spf13/cobra"
 )
@@ -121,13 +121,7 @@ func runColorPick(cmd *cobra.Command, args []string) {
 }
 
 func copyToClipboard(text string) {
-	var cmd *exec.Cmd
-	if _, err := exec.LookPath("wl-copy"); err == nil {
-		cmd = exec.Command("wl-copy", text)
-	} else {
-		fmt.Fprintln(os.Stderr, "wl-copy not found, cannot copy to clipboard")
-		return
+	if err := clipboard.CopyText(text); err != nil {
+		fmt.Fprintln(os.Stderr, "clipboard copy failed:", err)
 	}
-
-	_ = cmd.Run()
 }

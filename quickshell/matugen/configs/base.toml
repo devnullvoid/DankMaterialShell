@@ -1,17 +1,1 @@
 [config]
-
-[templates.dmsgtk4]
-input_path = 'SHELL_DIR/matugen/templates/gtk-colors.css'
-output_path = '~/.config/gtk-4.0/dank-colors.css'
-
-[templates.dmskcolorscheme]
-input_path = 'SHELL_DIR/matugen/templates/kcolorscheme.colors'
-output_path = '~/.local/share/color-schemes/DankMatugen.colors'
-
-[templates.dmslightkcolorscheme]
-input_path = 'SHELL_DIR/matugen/templates/light-kcolorscheme.colors'
-output_path = '~/.local/share/color-schemes/DankMatugenLight.colors'
-
-[templates.dmsdarkkcolorscheme]
-input_path = 'SHELL_DIR/matugen/templates/dark-kcolorscheme.colors'
-output_path = '~/.local/share/color-schemes/DankMatugenDark.colors'

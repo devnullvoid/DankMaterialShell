@@ -18,6 +18,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/apppicker"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/bluez"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/brightness"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/clipboard"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/cups"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/dwl"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/evdev"
@@ -32,7 +33,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
-const APIVersion = 22
+const APIVersion = 23
 
 var CLIVersion = "dev"
 
@@ -63,6 +64,7 @@ var extWorkspaceManager *extworkspace.Manager
 var brightnessManager *brightness.Manager
 var wlrOutputManager *wlroutput.Manager
 var evdevManager *evdev.Manager
+var clipboardManager *clipboard.Manager
 var wlContext *wlcontext.SharedContext
 
 var capabilitySubscribers syncmap.Map[string, chan ServerInfo]
@@ -336,6 +338,31 @@ func InitializeEvdevManager() error {
 	return nil
 }
 
+func InitializeClipboardManager() error {
+	log.Info("Attempting to initialize clipboard manager...")
+
+	if wlContext == nil {
+		ctx, err := wlcontext.New()
+		if err != nil {
+			log.Errorf("Failed to create shared Wayland context: %v", err)
+			return err
+		}
+		wlContext = ctx
+	}
+
+	config := clipboard.LoadConfig()
+	manager, err := clipboard.NewManager(wlContext, config)
+	if err != nil {
+		log.Errorf("Failed to initialize clipboard manager: %v", err)
+		return err
+	}
+
+	clipboardManager = manager
+
+	log.Info("Clipboard manager initialized successfully")
+	return nil
+}
+
 func handleConnection(conn net.Conn) {
 	defer conn.Close()
 
@@ -409,6 +436,10 @@ func getCapabilities() Capabilities {
 		caps = append(caps, "evdev")
 	}
 
+	if clipboardManager != nil {
+		caps = append(caps, "clipboard")
+	}
+
 	return Capabilities{Capabilities: caps}
 }
 
@@ -461,6 +492,10 @@ func getServerInfo() ServerInfo {
 
 	if evdevManager != nil {
 		caps = append(caps, "evdev")
+	}
+
+	if clipboardManager != nil {
+		caps = append(caps, "clipboard")
 	}
 
 	return ServerInfo{
@@ -1034,6 +1069,38 @@ func handleSubscribe(conn net.Conn, req models.Request) {
 		}()
 	}
 
+	if shouldSubscribe("clipboard") && clipboardManager != nil {
+		wg.Add(1)
+		clipboardChan := clipboardManager.Subscribe(clientID + "-clipboard")
+		go func() {
+			defer wg.Done()
+			defer clipboardManager.Unsubscribe(clientID + "-clipboard")
+
+			initialState := clipboardManager.GetState()
+			select {
+			case eventChan <- ServiceEvent{Service: "clipboard", Data: initialState}:
+			case <-stopChan:
+				return
+			}
+
+			for {
+				select {
+				case state, ok := <-clipboardChan:
+					if !ok {
+						return
+					}
+					select {
+					case eventChan <- ServiceEvent{Service: "clipboard", Data: state}:
+					case <-stopChan:
+						return
+					}
+				case <-stopChan:
+					return
+				}
+			}
+		}()
+	}
+
 	go func() {
 		wg.Wait()
 		close(eventChan)
@@ -1095,6 +1162,9 @@ func cleanupManagers() {
 	}
 	if evdevManager != nil {
 		evdevManager.Close()
+	}
+	if clipboardManager != nil {
+		clipboardManager.Close()
 	}
 	if wlContext != nil {
 		wlContext.Close()
@@ -1259,6 +1329,18 @@ func Start(printDocs bool) error {
 		log.Info("Evdev:")
 		log.Info(" evdev.getState                        - Get current evdev state (caps lock)")
 		log.Info(" evdev.subscribe                       - Subscribe to evdev state changes (streaming)")
+		log.Info("Clipboard:")
+		log.Info(" clipboard.getState                    - Get clipboard state (enabled, history, current)")
+		log.Info(" clipboard.getHistory                  - Get clipboard history with previews")
+		log.Info(" clipboard.getEntry                    - Get full entry by ID (params: id)")
+		log.Info(" clipboard.deleteEntry                 - Delete entry by ID (params: id)")
+		log.Info(" clipboard.clearHistory                - Clear all clipboard history")
+		log.Info(" clipboard.copy                        - Copy text to clipboard (params: text)")
+		log.Info(" clipboard.paste                       - Get current clipboard text")
+		log.Info(" clipboard.search                      - Search history (params: query?, mimeType?, isImage?, limit?, offset?, before?, after?)")
+		log.Info(" clipboard.getConfig                   - Get clipboard configuration")
+		log.Info(" clipboard.setConfig                   - Set configuration (params: maxHistory?, maxEntrySize?, autoClearDays?, clearAtStartup?)")
+		log.Info(" clipboard.subscribe                   - Subscribe to clipboard state changes (streaming)")
 		log.Info("")
 	}
 	log.Info("Initializing managers...")
@@ -1366,10 +1448,15 @@ func Start(printDocs bool) error {
 		}
 	}()
 
-	if wlContext != nil {
-		wlContext.Start()
-		log.Info("Wayland event dispatcher started")
-	}
+	go func() {
+		if err := InitializeClipboardManager(); err != nil {
+			log.Warnf("Clipboard manager unavailable: %v", err)
+		}
+		if wlContext != nil {
+			wlContext.Start()
+			log.Info("Wayland event dispatcher started")
+		}
+	}()
 
 	log.Info("")
 	log.Infof("Ready! Capabilities: %v", getCapabilities().Capabilities)

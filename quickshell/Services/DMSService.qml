@@ -24,6 +24,7 @@ Singleton {
     readonly property string socketPath: Quickshell.env("DMS_SOCKET")
 
     property var pendingRequests: ({})
+    property var clipboardRequestIds: ({})
     property int requestIdCounter: 0
     property bool shownOutdatedError: false
     property string updateCommand: "dms update"
@@ -179,17 +180,19 @@ Singleton {
 
         parser: SplitParser {
             onRead: line => {
-                if (!line || line.length === 0) {
+                if (!line || line.length === 0)
                     return;
-                }
-
-                console.log("DMSService: Request socket <<", line);
 
                 try {
                     const response = JSON.parse(line);
+                    const isClipboard = clipboardRequestIds[response.id];
+                    if (isClipboard)
+                        delete clipboardRequestIds[response.id];
+                    else
+                        console.log("DMSService: Request socket <<", line);
                     handleResponse(response);
                 } catch (e) {
-                    console.warn("DMSService: Failed to parse request response:", line, e);
+                    console.warn("DMSService: Failed to parse request response");
                 }
             }
         }
@@ -209,17 +212,16 @@ Singleton {
 
         parser: SplitParser {
             onRead: line => {
-                if (!line || line.length === 0) {
+                if (!line || line.length === 0)
                     return;
-                }
-
-                console.log("DMSService: Subscribe socket <<", line);
 
                 try {
                     const response = JSON.parse(line);
+                    if (!line.includes("clipboard"))
+                        console.log("DMSService: Subscribe socket <<", line);
                     handleSubscriptionEvent(response);
                 } catch (e) {
-                    console.warn("DMSService: Failed to parse subscription event:", line, e);
+                    console.warn("DMSService: Failed to parse subscription event");
                 }
             }
         }
@@ -394,11 +396,14 @@ Singleton {
             request.params = params;
         }
 
-        if (callback) {
+        if (callback)
             pendingRequests[id] = callback;
-        }
 
-        console.log("DMSService.sendRequest: Sending request id=" + id + " method=" + method);
+        if (method.startsWith("clipboard")) {
+            clipboardRequestIds[id] = true;
+        } else {
+            console.log("DMSService.sendRequest: Sending request id=" + id + " method=" + method);
+        }
         requestSocket.send(request);
     }
 

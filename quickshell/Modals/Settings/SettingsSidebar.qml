@@ -145,12 +145,6 @@ Rectangle {
             "shortcutsOnly": true
         },
         {
-            "id": "displays",
-            "text": I18n.tr("Displays"),
-            "icon": "monitor",
-            "tabIndex": 6
-        },
-        {
             "id": "network",
             "text": I18n.tr("Network"),
             "icon": "wifi",
@@ -158,11 +152,32 @@ Rectangle {
             "dmsOnly": true
         },
         {
-            "id": "printers",
-            "text": I18n.tr("Printers"),
-            "icon": "print",
-            "tabIndex": 8,
-            "cupsOnly": true
+            "id": "system",
+            "text": I18n.tr("System"),
+            "icon": "computer",
+            "collapsedByDefault": true,
+            "children": [
+                {
+                    "id": "displays",
+                    "text": I18n.tr("Displays"),
+                    "icon": "monitor",
+                    "tabIndex": 6
+                },
+                {
+                    "id": "printers",
+                    "text": I18n.tr("Printers"),
+                    "icon": "print",
+                    "tabIndex": 8,
+                    "cupsOnly": true
+                },
+                {
+                    "id": "clipboard",
+                    "text": I18n.tr("Clipboard"),
+                    "icon": "content_paste",
+                    "tabIndex": 23,
+                    "clipboardOnly": true
+                }
+            ]
         },
         {
             "id": "power_security",
@@ -212,6 +227,8 @@ Rectangle {
         if (item.soundsOnly && !AudioService.soundsAvailable)
             return false;
         if (item.hyprlandNiriOnly && !CompositorService.isNiri && !CompositorService.isHyprland)
+            return false;
+        if (item.clipboardOnly && (!DMSService.isConnected || DMSService.apiVersion < 23))
             return false;
         return true;
     }
