@@ -149,6 +149,15 @@ func RouteRequest(conn net.Conn, req models.Request) {
 	}
 
 	if strings.HasPrefix(req.Method, "clipboard.") {
+		switch req.Method {
+		case "clipboard.getConfig":
+			cfg := clipboard.LoadConfig()
+			models.Respond(conn, req.ID, cfg)
+			return
+		case "clipboard.setConfig":
+			handleClipboardSetConfig(conn, req)
+			return
+		}
 		if clipboardManager == nil {
 			models.RespondError(conn, req.ID, "clipboard manager not initialized")
 			return
@@ -172,4 +181,37 @@ func RouteRequest(conn net.Conn, req models.Request) {
 	default:
 		models.RespondError(conn, req.ID, fmt.Sprintf("unknown method: %s", req.Method))
 	}
+}
+
+func handleClipboardSetConfig(conn net.Conn, req models.Request) {
+	cfg := clipboard.LoadConfig()
+
+	if v, ok := req.Params["maxHistory"].(float64); ok {
+		cfg.MaxHistory = int(v)
+	}
+	if v, ok := req.Params["maxEntrySize"].(float64); ok {
+		cfg.MaxEntrySize = int64(v)
+	}
+	if v, ok := req.Params["autoClearDays"].(float64); ok {
+		cfg.AutoClearDays = int(v)
+	}
+	if v, ok := req.Params["clearAtStartup"].(bool); ok {
+		cfg.ClearAtStartup = v
+	}
+	if v, ok := req.Params["disabled"].(bool); ok {
+		cfg.Disabled = v
+	}
+	if v, ok := req.Params["disableHistory"].(bool); ok {
+		cfg.DisableHistory = v
+	}
+	if v, ok := req.Params["disablePersist"].(bool); ok {
+		cfg.DisablePersist = v
+	}
+
+	if err := clipboard.SaveConfig(cfg); err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "config updated"})
 }
