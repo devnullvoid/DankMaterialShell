@@ -134,7 +134,20 @@ jobs:
           fetch-depth: 0
           token: ${{ steps.generate_token.outputs.token }}
 
+      - name: Check if last commit was automated
+        id: check-loop
+        run: |
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%B | head -1)
+          if [[ "$LAST_COMMIT_MSG" == "ci: Auto-update PPA packages"* ]] || [[ "$LAST_COMMIT_MSG" == "ci: Auto-update OBS packages"* ]]; then
+            echo "⏭️ Last commit was automated ($LAST_COMMIT_MSG), skipping to prevent infinite loop"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Last commit was not automated, proceeding"
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Determine packages to update
+        if: steps.check-loop.outputs.skip != 'true'
         id: packages
         run: |
           if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" =~ ^refs/tags/ ]]; then
@@ -153,7 +166,7 @@ jobs:
           fi
 
       - name: Update dms-git spec version
-        if: contains(steps.packages.outputs.packages, 'dms-git') || steps.packages.outputs.packages == 'all'
+        if: steps.check-loop.outputs.skip != 'true' && (contains(steps.packages.outputs.packages, 'dms-git') || steps.packages.outputs.packages == 'all')
         run: |
           # Get commit info for dms-git versioning
           COMMIT_HASH=$(git rev-parse --short=8 HEAD)
@@ -172,7 +185,7 @@ jobs:
           sed -i "/%changelog/a\\$CHANGELOG_ENTRY" distro/opensuse/dms-git.spec
 
       - name: Update Debian dms-git changelog version
-        if: contains(steps.packages.outputs.packages, 'dms-git') || steps.packages.outputs.packages == 'all'
+        if: steps.check-loop.outputs.skip != 'true' && (contains(steps.packages.outputs.packages, 'dms-git') || steps.packages.outputs.packages == 'all')
         run: |
           # Get commit info for dms-git versioning
           COMMIT_HASH=$(git rev-parse --short=8 HEAD)
@@ -217,7 +230,7 @@ jobs:
           fi
 
       - name: Update dms stable version
-        if: steps.packages.outputs.version != ''
+        if: steps.check-loop.outputs.skip != 'true' && steps.packages.outputs.version != ''
         run: |
           VERSION="${{ steps.packages.outputs.version }}"
           VERSION_NO_V="${VERSION#v}"
@@ -265,11 +278,13 @@ jobs:
           fi
 
       - name: Install Go
+        if: steps.check-loop.outputs.skip != 'true'
         uses: actions/setup-go@v5
         with:
           go-version: "1.24"
 
       - name: Install OSC
+        if: steps.check-loop.outputs.skip != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y osc
@@ -286,6 +301,7 @@ jobs:
           chmod 600 ~/.config/osc/oscrc
 
       - name: Upload to OBS
+        if: steps.check-loop.outputs.skip != 'true'
         env:
           FORCE_REBUILD: ${{ github.event_name == 'workflow_dispatch' && 'true' || '' }}
           REBUILD_RELEASE: ${{ github.event.inputs.rebuild_release }}
@@ -305,6 +321,7 @@ jobs:
           fi
 
       - name: Get changed packages
+        if: steps.check-loop.outputs.skip != 'true'
         id: changed-packages
         run: |
           # Check if there are any changes to commit
@@ -323,7 +340,7 @@ jobs:
           fi
 
       - name: Commit packaging changes
-        if: steps.changed-packages.outputs.has_changes == 'true'
+        if: steps.check-loop.outputs.skip != 'true' && steps.changed-packages.outputs.has_changes == 'true'
         run: |
           git config user.name "dms-ci[bot]"
           git config user.email "dms-ci[bot]@users.noreply.github.com"

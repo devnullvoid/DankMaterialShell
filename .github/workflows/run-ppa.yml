@@ -96,13 +96,27 @@ jobs:
           fetch-depth: 0
           token: ${{ steps.generate_token.outputs.token }}
 
+      - name: Check if last commit was automated
+        id: check-loop
+        run: |
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%B | head -1)
+          if [[ "$LAST_COMMIT_MSG" == "ci: Auto-update PPA packages"* ]] || [[ "$LAST_COMMIT_MSG" == "ci: Auto-update OBS packages"* ]]; then
+            echo "⏭️ Last commit was automated ($LAST_COMMIT_MSG), skipping to prevent infinite loop"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Last commit was not automated, proceeding"
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
       - name: Set up Go
+        if: steps.check-loop.outputs.skip != 'true'
         uses: actions/setup-go@v5
         with:
           go-version: "1.24"
           cache: false
 
       - name: Install build dependencies
+        if: steps.check-loop.outputs.skip != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -115,6 +129,7 @@ jobs:
             dpkg-dev
 
       - name: Configure GPG
+        if: steps.check-loop.outputs.skip != 'true'
         env:
           GPG_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
         run: |
@@ -123,6 +138,7 @@ jobs:
           echo "DEBSIGN_KEYID=$GPG_KEY_ID" >> $GITHUB_ENV
 
       - name: Determine packages to upload
+        if: steps.check-loop.outputs.skip != 'true'
         id: packages
         run: |
           if [[ "${{ github.event_name }}" == "schedule" ]]; then
@@ -136,6 +152,7 @@ jobs:
           fi
 
       - name: Upload to PPA
+        if: steps.check-loop.outputs.skip != 'true'
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
           REBUILD_RELEASE="${{ github.event.inputs.rebuild_release }}"
@@ -191,6 +208,7 @@ jobs:
           fi
 
       - name: Get changed packages
+        if: steps.check-loop.outputs.skip != 'true'
         id: changed-packages
         run: |
           # Check if there are any changelog changes to commit
@@ -208,7 +226,7 @@ jobs:
           fi
 
       - name: Commit changelog changes
-        if: steps.changed-packages.outputs.has_changes == 'true'
+        if: steps.check-loop.outputs.skip != 'true' && steps.changed-packages.outputs.has_changes == 'true'
         run: |
           git config user.name "dms-ci[bot]"
           git config user.email "dms-ci[bot]@users.noreply.github.com"
