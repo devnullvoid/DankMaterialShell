@@ -1,0 +1,19 @@
+name: Update stable branch
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  update-stable:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Push to stable branch
+        run: git push origin HEAD:refs/heads/stable --force

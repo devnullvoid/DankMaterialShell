@@ -4,18 +4,18 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: 'Package to update (dms, dms-git, or all)'
+        description: "Package to update (dms, dms-git, or all)"
         required: false
-        default: 'all'
+        default: "all"
       rebuild_release:
-        description: 'Release number for rebuilds (e.g., 2, 3, 4 to increment spec Release)'
+        description: "Release number for rebuilds (e.g., 2, 3, 4 to increment spec Release)"
         required: false
-        default: ''
+        default: ""
   push:
     tags:
-      - 'v*'
+      - "v*"
   schedule:
-    - cron: '0 */3 * * *'  # Every 3 hours for dms-git builds
+    - cron: "0 */3 * * *" # Every 3 hours for dms-git builds
 
 jobs:
   check-updates:
@@ -260,7 +260,7 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
+          go-version: "1.24"
 
       - name: Install OSC
         run: |

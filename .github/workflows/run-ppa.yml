@@ -4,15 +4,15 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: 'Package to upload (dms, dms-git, dms-greeter, or all)'
+        description: "Package to upload (dms, dms-git, dms-greeter, or all)"
         required: false
-        default: 'dms-git'
+        default: "dms-git"
       rebuild_release:
-        description: 'Release number for rebuilds (e.g., 2, 3, 4 for ppa2, ppa3, ppa4)'
+        description: "Release number for rebuilds (e.g., 2, 3, 4 for ppa2, ppa3, ppa4)"
         required: false
-        default: ''
+        default: ""
   schedule:
-    - cron: '0 */3 * * *'  # Every 3 hours for dms-git builds
+    - cron: "0 */3 * * *" # Every 3 hours for dms-git builds
 
 jobs:
   check-updates:
@@ -92,7 +92,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24'
+          go-version: "1.24"
           cache: false
 
       - name: Install build dependencies
