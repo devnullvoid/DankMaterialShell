@@ -235,7 +235,8 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ -f "distro/opensuse/$PACKAGE.spec" ]];
         OLD_RELEASE=$(grep "^Release:" "$WORK_DIR/.osc/$PACKAGE.spec" | sed 's/^Release:[[:space:]]*//' | sed 's/%{?dist}//' | head -1)
 
         if [[ "$NEW_VERSION" == "$OLD_VERSION" ]]; then
-            if [[ "$IS_MANUAL" == true ]]; then
+            if [[ "$IS_MANUAL" == true ]] && [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
+                # Only error for true local manual runs, not CI/workflow runs
                 if [[ -n "${REBUILD_RELEASE:-}" ]]; then
                     echo "  🔄 Using manual rebuild release number: $REBUILD_RELEASE"
                     sed -i "s/^Release:[[:space:]]*${NEW_RELEASE}%{?dist}/Release:        ${REBUILD_RELEASE}%{?dist}/" "$WORK_DIR/$PACKAGE.spec"
@@ -249,10 +250,10 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ -f "distro/opensuse/$PACKAGE.spec" ]];
                     exit 1
                 fi
             else
-                echo "  - Detected same version $NEW_VERSION (release $OLD_RELEASE). Not a manual run, skipping update."
+                echo "  - Detected same version $NEW_VERSION (release $OLD_RELEASE). No changes needed, skipping update."
                 # If this is OpenSUSE only run, we can exit.
                 if [[ "$UPLOAD_DEBIAN" == false ]]; then
-                    echo "✅ No changes needed for OpenSUSE (not manual). Exiting."
+                    echo "✅ No changes needed for OpenSUSE. Exiting."
                     exit 0
                 fi
             fi
@@ -705,7 +706,17 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
     OLD_DSC_BASE=$(echo "$OLD_DSC_VERSION" | sed 's/ppa[0-9]*$//')
 
     if [[ -n "$OLD_DSC_VERSION" ]] && [[ "$OLD_DSC_BASE" == "$CHANGELOG_BASE" ]]; then
-        if [[ "$IS_MANUAL" == true ]]; then
+        # In CI, skip if version unchanged (matching PPA behavior)
+        if [[ -n "${GITHUB_ACTIONS:-}" ]] || [[ -n "${CI:-}" ]]; then
+            if [[ "${FORCE_UPLOAD:-}" != "true" ]] && [[ -z "${REBUILD_RELEASE:-}" ]]; then
+                echo "==> Same version detected in CI (current: $OLD_DSC_VERSION), skipping upload"
+                echo "    Use force_upload=true or set rebuild_release to override"
+                exit 0
+            fi
+        fi
+
+        if [[ "$IS_MANUAL" == true ]] && [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
+            # Only error for true local manual runs, not CI/workflow runs
             # Only increment version when explicitly specified via REBUILD_RELEASE
             if [[ -n "$REBUILD_RELEASE" ]]; then
                 echo "==> Using specified rebuild release: ppa$REBUILD_RELEASE"
@@ -718,7 +729,19 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
                 echo "      ./distro/scripts/obs-upload.sh debian $PACKAGE --rebuild=2"
                 exit 1
             fi
+        elif [[ -n "$REBUILD_RELEASE" ]]; then
+            echo "==> Using specified rebuild release: ppa$REBUILD_RELEASE"
+            USE_REBUILD_NUM="$REBUILD_RELEASE"
+        else
+            echo "==> Error: Same version detected ($CHANGELOG_VERSION) but no rebuild number specified"
+            echo "    To rebuild, explicitly specify a rebuild number:"
+            echo "      ./distro/scripts/obs-upload.sh debian $PACKAGE 2"
+            echo "    or use flag syntax:"
+            echo "      ./distro/scripts/obs-upload.sh debian $PACKAGE --rebuild=2"
+            exit 1
+        fi
 
+        if [[ -n "${USE_REBUILD_NUM:-}" ]]; then
             if [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git([0-9]+)(\.[a-f0-9]+)?$ ]]; then
                 BASE_VERSION="${BASH_REMATCH[1]}"
                 GIT_NUM="${BASH_REMATCH[2]}"
