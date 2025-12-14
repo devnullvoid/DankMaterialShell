@@ -7,6 +7,14 @@ on:
         description: "Package to upload (dms, dms-git, dms-greeter, or all)"
         required: false
         default: "dms-git"
+      force_upload:
+        description: "Force upload without version check"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
       rebuild_release:
         description: "Release number for rebuilds (e.g., 2, 3, 4 for ppa2, ppa3, ppa4)"
         required: false
@@ -79,6 +87,7 @@ jobs:
       contents: write
       pull-requests: write
     if: |
+      github.event.inputs.force_upload == 'true' ||
       github.event_name == 'workflow_dispatch' ||
       needs.check-updates.outputs.has_updates == 'true'
 
@@ -141,12 +150,31 @@ jobs:
         if: steps.check-loop.outputs.skip != 'true'
         id: packages
         run: |
-          if [[ "${{ github.event_name }}" == "schedule" ]]; then
+          if [[ "${{ github.event.inputs.force_upload }}" == "true" ]]; then
+            PKG="${{ github.event.inputs.package }}"
+            if [[ -z "$PKG" || "$PKG" == "all" ]]; then
+              echo "packages=all" >> $GITHUB_OUTPUT
+              echo "🚀 Force upload: all packages"
+            else
+              echo "packages=$PKG" >> $GITHUB_OUTPUT
+              echo "🚀 Force upload: $PKG"
+            fi
+          elif [[ "${{ github.event_name }}" == "schedule" ]]; then
             echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
             echo "Triggered by schedule: uploading git package"
           elif [[ -n "${{ github.event.inputs.package }}" ]]; then
-            echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
-            echo "Manual trigger: ${{ github.event.inputs.package }}"
+            # Manual package selection should respect change detection
+            SELECTED_PKG="${{ github.event.inputs.package }}"
+            UPDATED_PKG="${{ needs.check-updates.outputs.packages }}"
+
+            # Check if manually selected package is in the updated list
+            if [[ "$UPDATED_PKG" == *"$SELECTED_PKG"* ]] || [[ "$SELECTED_PKG" == "all" ]]; then
+              echo "packages=$SELECTED_PKG" >> $GITHUB_OUTPUT
+              echo "📦 Manual selection (has updates): $SELECTED_PKG"
+            else
+              echo "packages=" >> $GITHUB_OUTPUT
+              echo "⚠️ Manual selection '$SELECTED_PKG' has no updates - skipping (use force_upload to override)"
+            fi
           else
             echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
           fi
@@ -156,6 +184,11 @@ jobs:
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
           REBUILD_RELEASE="${{ github.event.inputs.rebuild_release }}"
+
+          if [[ -z "$PACKAGES" ]]; then
+            echo "No packages selected for upload. Skipping."
+            exit 0
+          fi
 
           # Build command arguments
           BUILD_ARGS=()

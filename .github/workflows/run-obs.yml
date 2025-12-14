@@ -7,6 +7,14 @@ on:
         description: "Package to update (dms, dms-git, or all)"
         required: false
         default: "all"
+      force_upload:
+        description: "Force upload without version check"
+        required: false
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
       rebuild_release:
         description: "Release number for rebuilds (e.g., 2, 3, 4 to increment spec Release)"
         required: false
@@ -100,6 +108,17 @@ jobs:
               echo "has_updates=true" >> $GITHUB_OUTPUT
               echo "📋 First upload to OBS, update needed"
             fi
+          elif [[ "${{ github.event.inputs.force_upload }}" == "true" ]]; then
+            PKG="${{ github.event.inputs.package }}"
+            if [[ -z "$PKG" || "$PKG" == "all" ]]; then
+              echo "packages=all" >> $GITHUB_OUTPUT
+              echo "has_updates=true" >> $GITHUB_OUTPUT
+              echo "🚀 Force upload: all packages"
+            else
+              echo "packages=$PKG" >> $GITHUB_OUTPUT
+              echo "has_updates=true" >> $GITHUB_OUTPUT
+              echo "🚀 Force upload: $PKG"
+            fi
           elif [[ -n "${{ github.event.inputs.package }}" ]]; then
             echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
             echo "has_updates=true" >> $GITHUB_OUTPUT
@@ -117,6 +136,7 @@ jobs:
       contents: write
       pull-requests: write
     if: |
+      github.event.inputs.force_upload == 'true' ||
       github.event_name == 'workflow_dispatch' ||
       needs.check-updates.outputs.has_updates == 'true'
 
@@ -303,7 +323,7 @@ jobs:
       - name: Upload to OBS
         if: steps.check-loop.outputs.skip != 'true'
         env:
-          FORCE_REBUILD: ${{ github.event_name == 'workflow_dispatch' && 'true' || '' }}
+          FORCE_UPLOAD: ${{ github.event.inputs.force_upload }}
           REBUILD_RELEASE: ${{ github.event.inputs.rebuild_release }}
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"

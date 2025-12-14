@@ -1,12 +1,14 @@
 #!/bin/bash
 # Unified OBS upload script for dms packages
 # Handles Debian and OpenSUSE builds for both x86_64 and aarch64
-# Usage: ./distro/scripts/obs-upload.sh [distro] <package-name> [commit-message]
+# Usage: ./distro/scripts/obs-upload.sh [distro] <package-name> [commit-message|rebuild-number]
 #
 # Examples:
 #   ./distro/scripts/obs-upload.sh dms "Update to v0.6.2"
 #   ./distro/scripts/obs-upload.sh debian dms
 #   ./distro/scripts/obs-upload.sh opensuse dms-git
+#   ./distro/scripts/obs-upload.sh debian dms-git 2    # Rebuild with ppa2 suffix
+#   ./distro/scripts/obs-upload.sh dms-git --rebuild=2 # Rebuild with ppa2 suffix (flag syntax)
 
 set -e
 
@@ -14,6 +16,8 @@ UPLOAD_DEBIAN=true
 UPLOAD_OPENSUSE=true
 PACKAGE=""
 MESSAGE=""
+REBUILD_RELEASE=""
+POSITIONAL_ARGS=()
 
 for arg in "$@"; do
     case "$arg" in
@@ -25,15 +29,42 @@ for arg in "$@"; do
         UPLOAD_DEBIAN=false
         UPLOAD_OPENSUSE=true
         ;;
+    --rebuild=*)
+        REBUILD_RELEASE="${arg#*=}"
+        ;;
+    -r|--rebuild)
+        REBUILD_NEXT=true
+        ;;
     *)
-        if [[ -z "$PACKAGE" ]]; then
-            PACKAGE="$arg"
-        elif [[ -z "$MESSAGE" ]]; then
-            MESSAGE="$arg"
+        if [[ -n "${REBUILD_NEXT:-}" ]]; then
+            REBUILD_RELEASE="$arg"
+            REBUILD_NEXT=false
+        else
+            POSITIONAL_ARGS+=("$arg")
         fi
         ;;
     esac
 done
+
+# Check if last positional argument is a number (rebuild release)
+if [[ ${#POSITIONAL_ARGS[@]} -gt 0 ]]; then
+    LAST_INDEX=$((${#POSITIONAL_ARGS[@]} - 1))
+    LAST_ARG="${POSITIONAL_ARGS[$LAST_INDEX]}"
+    if [[ "$LAST_ARG" =~ ^[0-9]+$ ]] && [[ -z "$REBUILD_RELEASE" ]]; then
+        # Last argument is a number and no --rebuild flag was used
+        # Use it as rebuild release and remove from positional args
+        REBUILD_RELEASE="$LAST_ARG"
+        POSITIONAL_ARGS=("${POSITIONAL_ARGS[@]:0:$LAST_INDEX}")
+    fi
+fi
+
+# Assign remaining positional args to PACKAGE and MESSAGE
+if [[ ${#POSITIONAL_ARGS[@]} -gt 0 ]]; then
+    PACKAGE="${POSITIONAL_ARGS[0]}"
+    if [[ ${#POSITIONAL_ARGS[@]} -gt 1 ]]; then
+        MESSAGE="${POSITIONAL_ARGS[1]}"
+    fi
+fi
 
 OBS_BASE_PROJECT="home:AvengeMedia"
 OBS_BASE="$HOME/.cache/osc-checkouts"
@@ -145,9 +176,9 @@ IS_MANUAL=false
 if [[ -n "${REBUILD_RELEASE:-}" ]]; then
     IS_MANUAL=true
     echo "==> Manual rebuild detected (REBUILD_RELEASE=$REBUILD_RELEASE)"
-elif [[ -n "${FORCE_REBUILD:-}" ]] && [[ "${FORCE_REBUILD}" == "true" ]]; then
+elif [[ -n "${FORCE_UPLOAD:-}" ]] && [[ "${FORCE_UPLOAD}" == "true" ]]; then
     IS_MANUAL=true
-    echo "==> Manual workflow trigger detected (FORCE_REBUILD=true)"
+    echo "==> Force upload detected (FORCE_UPLOAD=true)"
 elif [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
     IS_MANUAL=true
     echo "==> Local/manual run detected (not in CI)"
@@ -204,22 +235,25 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ -f "distro/opensuse/$PACKAGE.spec" ]];
         OLD_RELEASE=$(grep "^Release:" "$WORK_DIR/.osc/$PACKAGE.spec" | sed 's/^Release:[[:space:]]*//' | sed 's/%{?dist}//' | head -1)
 
         if [[ "$NEW_VERSION" == "$OLD_VERSION" ]]; then
-            if [[ "$OLD_RELEASE" =~ ^([0-9]+) ]]; then
-                BASE_RELEASE="${BASH_REMATCH[1]}"
-                if [[ "$IS_MANUAL" == true ]]; then
-                    NEXT_RELEASE=$((BASE_RELEASE + 1))
-                    echo "  - Detected rebuild of same version $NEW_VERSION (release $OLD_RELEASE -> $NEXT_RELEASE)"
-                    sed -i "s/^Release:[[:space:]]*${NEW_RELEASE}%{?dist}/Release:        ${NEXT_RELEASE}%{?dist}/" "$WORK_DIR/$PACKAGE.spec"
+            if [[ "$IS_MANUAL" == true ]]; then
+                if [[ -n "${REBUILD_RELEASE:-}" ]]; then
+                    echo "  🔄 Using manual rebuild release number: $REBUILD_RELEASE"
+                    sed -i "s/^Release:[[:space:]]*${NEW_RELEASE}%{?dist}/Release:        ${REBUILD_RELEASE}%{?dist}/" "$WORK_DIR/$PACKAGE.spec"
                     cp "$WORK_DIR/$PACKAGE.spec" "$REPO_ROOT/distro/opensuse/$PACKAGE.spec"
                 else
-                    echo "  - Detected same version $NEW_VERSION (release $OLD_RELEASE). Not a manual run, skipping update."
-                    # For automated runs with no version change, we should stop here to avoid unnecessary rebuilds
-                    # However, we need to check if we are also updating Debian, or if this script is expected to continue.
-                    # If this is OpenSUSE only run, we can exit.
-                    if [[ "$UPLOAD_DEBIAN" == false ]]; then
-                        echo "✅ No changes needed for OpenSUSE (not manual). Exiting."
-                        exit 0
-                    fi
+                    echo "  - Error: Same version detected ($NEW_VERSION) but no rebuild number specified"
+                    echo "    To rebuild, explicitly specify a rebuild number:"
+                    echo "      ./distro/scripts/obs-upload.sh opensuse $PACKAGE 2"
+                    echo "    or use flag syntax:"
+                    echo "      ./distro/scripts/obs-upload.sh opensuse $PACKAGE --rebuild=2"
+                    exit 1
+                fi
+            else
+                echo "  - Detected same version $NEW_VERSION (release $OLD_RELEASE). Not a manual run, skipping update."
+                # If this is OpenSUSE only run, we can exit.
+                if [[ "$UPLOAD_DEBIAN" == false ]]; then
+                    echo "✅ No changes needed for OpenSUSE (not manual). Exiting."
+                    exit 0
                 fi
             fi
         else
@@ -659,9 +693,9 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
     if [[ -n "${REBUILD_RELEASE:-}" ]]; then
         IS_MANUAL=true
         echo "==> Manual rebuild detected (REBUILD_RELEASE=$REBUILD_RELEASE)"
-    elif [[ -n "${FORCE_REBUILD:-}" ]] && [[ "${FORCE_REBUILD}" == "true" ]]; then
+    elif [[ -n "${FORCE_UPLOAD:-}" ]] && [[ "${FORCE_UPLOAD}" == "true" ]]; then
         IS_MANUAL=true
-        echo "==> Manual workflow trigger detected (FORCE_REBUILD=true)"
+        echo "==> Force upload detected (FORCE_UPLOAD=true)"
     elif [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
         IS_MANUAL=true
         echo "==> Local/manual run detected (not in CI)"
@@ -672,74 +706,42 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ 
 
     if [[ -n "$OLD_DSC_VERSION" ]] && [[ "$OLD_DSC_BASE" == "$CHANGELOG_BASE" ]]; then
         if [[ "$IS_MANUAL" == true ]]; then
-            echo "==> Detected rebuild of same base version $CHANGELOG_BASE, incrementing version"
+            # Only increment version when explicitly specified via REBUILD_RELEASE
+            if [[ -n "$REBUILD_RELEASE" ]]; then
+                echo "==> Using specified rebuild release: ppa$REBUILD_RELEASE"
+                USE_REBUILD_NUM="$REBUILD_RELEASE"
+            else
+                echo "==> Error: Same version detected ($CHANGELOG_VERSION) but no rebuild number specified"
+                echo "    To rebuild, explicitly specify a rebuild number:"
+                echo "      ./distro/scripts/obs-upload.sh debian $PACKAGE 2"
+                echo "    or use flag syntax:"
+                echo "      ./distro/scripts/obs-upload.sh debian $PACKAGE --rebuild=2"
+                exit 1
+            fi
 
-            # If REBUILD_RELEASE is set, use that number directly
-            if [[ -n "${REBUILD_RELEASE:-}" ]]; then
-                if [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git([0-9]+)(\.[a-f0-9]+)?$ ]]; then
-                    BASE_VERSION="${BASH_REMATCH[1]}"
-                    GIT_NUM="${BASH_REMATCH[2]}"
-                    GIT_HASH="${BASH_REMATCH[3]}"
-                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${REBUILD_RELEASE}"
-                    echo "  Using REBUILD_RELEASE=$REBUILD_RELEASE: $CHANGELOG_VERSION -> $NEW_VERSION"
-                else
-                    BASE_VERSION=$(echo "$CHANGELOG_VERSION" | sed 's/ppa[0-9]*$//')
-                    NEW_VERSION="${BASE_VERSION}ppa${REBUILD_RELEASE}"
-                    echo "  Using REBUILD_RELEASE=$REBUILD_RELEASE: $CHANGELOG_VERSION -> $NEW_VERSION"
-                fi
-            elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git$ ]]; then
+            if [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git([0-9]+)(\.[a-f0-9]+)?$ ]]; then
                 BASE_VERSION="${BASH_REMATCH[1]}"
-                NEW_VERSION="${BASE_VERSION}+gitppa1"
-                echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
+                GIT_NUM="${BASH_REMATCH[2]}"
+                GIT_HASH="${BASH_REMATCH[3]}"
+                NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${USE_REBUILD_NUM}"
+                echo "  Setting PPA number to specified value: $CHANGELOG_VERSION -> $NEW_VERSION"
             elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)ppa([0-9]+)$ ]]; then
                 BASE_VERSION="${BASH_REMATCH[1]}"
-                PPA_NUM="${BASH_REMATCH[2]}"
-                NEW_PPA_NUM=$((PPA_NUM + 1))
-                NEW_VERSION="${BASE_VERSION}ppa${NEW_PPA_NUM}"
-                echo "  Incrementing PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
+                NEW_VERSION="${BASE_VERSION}ppa${USE_REBUILD_NUM}"
+                echo "  Setting PPA number to specified value: $CHANGELOG_VERSION -> $NEW_VERSION"
             elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git([0-9]+)(\.[a-f0-9]+)?(ppa([0-9]+))?$ ]]; then
                 BASE_VERSION="${BASH_REMATCH[1]}"
                 GIT_NUM="${BASH_REMATCH[2]}"
                 GIT_HASH="${BASH_REMATCH[3]}"
-                PPA_NUM="${BASH_REMATCH[5]}"
-
-                # Check if old DSC has ppa suffix even if changelog doesn't
-                if [[ -z "$PPA_NUM" ]] && [[ "$OLD_DSC_VERSION" =~ ppa([0-9]+)$ ]]; then
-                    OLD_PPA_NUM="${BASH_REMATCH[1]}"
-                    NEW_PPA_NUM=$((OLD_PPA_NUM + 1))
-                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${NEW_PPA_NUM}"
-                    echo "  Incrementing PPA number from old DSC: $OLD_DSC_VERSION -> $NEW_VERSION"
-                elif [[ -n "$PPA_NUM" ]]; then
-                    NEW_PPA_NUM=$((PPA_NUM + 1))
-                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${NEW_PPA_NUM}"
-                    echo "  Incrementing PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-                else
-                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa1"
-                    echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-                fi
+                NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${USE_REBUILD_NUM}"
+                echo "  Setting PPA number to specified value: $CHANGELOG_VERSION -> $NEW_VERSION"
             elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)(-([0-9]+))?$ ]]; then
                 BASE_VERSION="${BASH_REMATCH[1]}"
-                # Check if old DSC has ppa suffix even if changelog doesn't
-                if [[ "$OLD_DSC_VERSION" =~ ppa([0-9]+)$ ]]; then
-                    OLD_PPA_NUM="${BASH_REMATCH[1]}"
-                    NEW_PPA_NUM=$((OLD_PPA_NUM + 1))
-                    NEW_VERSION="${BASE_VERSION}ppa${NEW_PPA_NUM}"
-                    echo "  Incrementing PPA number from old DSC: $OLD_DSC_VERSION -> $NEW_VERSION"
-                else
-                    NEW_VERSION="${BASE_VERSION}ppa1"
-                    echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-                fi
+                NEW_VERSION="${BASE_VERSION}ppa${USE_REBUILD_NUM}"
+                echo "  Warning: Native format cannot have Debian revision, converting to PPA format: $CHANGELOG_VERSION -> $NEW_VERSION"
             else
-                # Check if old DSC has ppa suffix for unknown formats
-                if [[ "$OLD_DSC_VERSION" =~ ppa([0-9]+)$ ]]; then
-                    OLD_PPA_NUM="${BASH_REMATCH[1]}"
-                    NEW_PPA_NUM=$((OLD_PPA_NUM + 1))
-                    NEW_VERSION="${CHANGELOG_VERSION}ppa${NEW_PPA_NUM}"
-                    echo "  Incrementing PPA number from old DSC: $OLD_DSC_VERSION -> $NEW_VERSION"
-                else
-                    NEW_VERSION="${CHANGELOG_VERSION}ppa1"
-                    echo "  Warning: Could not parse version format, appending ppa1: $CHANGELOG_VERSION -> $NEW_VERSION"
-                fi
+                NEW_VERSION="${CHANGELOG_VERSION}ppa${USE_REBUILD_NUM}"
+                echo "  Warning: Could not parse version format, appending ppa${USE_REBUILD_NUM}: $CHANGELOG_VERSION -> $NEW_VERSION"
             fi
 
             if [[ -z "$SOURCE_DIR" ]] || [[ ! -d "$SOURCE_DIR" ]] || [[ ! -d "$SOURCE_DIR/debian" ]]; then

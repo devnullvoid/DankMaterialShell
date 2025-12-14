@@ -209,9 +209,13 @@ if [ "$IS_GIT_PACKAGE" = false ] && [ -n "$GIT_REPO" ]; then
         if [[ "$SOURCE_FORMAT" == *"native"* ]]; then
             BASE_VERSION="${LATEST_TAG}"
             if [[ -z "${REBUILD_RELEASE:-}" ]] && [[ "$CURRENT_VERSION" =~ ^${LATEST_TAG}ppa([0-9]+)$ ]]; then
-                PPA_NUM=$((BASH_REMATCH[1] + 1))
                 if [[ "$IS_MANUAL" == true ]]; then
-                    info "Detected rebuild of same version (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
+                    error "Same version detected ($CURRENT_VERSION) but no rebuild number specified"
+                    error "To rebuild, explicitly specify a rebuild number:"
+                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
+                    error "or use flag syntax:"
+                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME --rebuild=2"
+                    exit 1
                 else
                     info "Detected rebuild of same version (current: $CURRENT_VERSION). Not a manual run, skipping."
                     success "No changes needed (version matches)."
@@ -225,9 +229,13 @@ if [ "$IS_GIT_PACKAGE" = false ] && [ -n "$GIT_REPO" ]; then
             BASE_VERSION="${LATEST_TAG}-1"
             ESCAPED_BASE=$(echo "$BASE_VERSION" | sed 's/\./\\./g' | sed 's/-/\\-/g')
             if [[ -z "${REBUILD_RELEASE:-}" ]] && [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-                PPA_NUM=$((BASH_REMATCH[1] + 1))
                 if [[ "$IS_MANUAL" == true ]]; then
-                    info "Detected rebuild of same version (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
+                    error "Same version detected ($CURRENT_VERSION) but no rebuild number specified"
+                    error "To rebuild, explicitly specify a rebuild number:"
+                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
+                    error "or use flag syntax:"
+                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME --rebuild=2"
+                    exit 1
                 else
                     info "Detected rebuild of same version (current: $CURRENT_VERSION). Not a manual run, skipping."
                     success "No changes needed (version matches)."
@@ -376,9 +384,13 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
             PPA_NUM=1
             ESCAPED_BASE=$(echo "$BASE_VERSION" | sed 's/\./\\./g' | sed 's/+/\\+/g')
             if [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-                PPA_NUM=$((BASH_REMATCH[1] + 1))
                 if [[ "$IS_MANUAL" == true ]]; then
-                    info "Detected rebuild of same commit (current: $CURRENT_VERSION), incrementing PPA number to $PPA_NUM"
+                    error "Same commit detected ($CURRENT_VERSION) but no rebuild number specified"
+                    error "To rebuild, explicitly specify a rebuild number:"
+                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
+                    error "or use flag syntax:"
+                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME --rebuild=2"
+                    exit 1
                 else
                     info "Detected rebuild of same commit (current: $CURRENT_VERSION). Not a manual run, skipping."
                     success "No changes needed (commit matches)."
