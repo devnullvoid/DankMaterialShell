@@ -9,6 +9,7 @@ DankListView {
     property var keyboardController: null
     property bool keyboardActive: false
     property bool autoScrollDisabled: false
+    property bool isAnimatingExpansion: false
     property alias count: listView.count
     property alias listContentHeight: listView.contentHeight
 
@@ -29,8 +30,19 @@ DankListView {
     Timer {
         id: positionPreservationTimer
         interval: 200
-        running: keyboardController && keyboardController.keyboardNavigationActive && !autoScrollDisabled
+        running: keyboardController && keyboardController.keyboardNavigationActive && !autoScrollDisabled && !isAnimatingExpansion
         repeat: true
+        onTriggered: {
+            if (keyboardController && keyboardController.keyboardNavigationActive && !autoScrollDisabled && !isAnimatingExpansion) {
+                keyboardController.ensureVisible();
+            }
+        }
+    }
+
+    Timer {
+        id: expansionEnsureVisibleTimer
+        interval: Theme.mediumDuration + 50
+        repeat: false
         onTriggered: {
             if (keyboardController && keyboardController.keyboardNavigationActive && !autoScrollDisabled) {
                 keyboardController.ensureVisible();
@@ -68,14 +80,7 @@ DankListView {
 
         width: ListView.view.width
         height: isDismissing ? 0 : notificationCard.height
-        clip: true
-
-        Behavior on height {
-            NumberAnimation {
-                duration: Theme.shortDuration
-                easing.type: Theme.standardEasing
-            }
-        }
+        clip: isDismissing
 
         NotificationCard {
             id: notificationCard
@@ -84,6 +89,23 @@ DankListView {
             notificationGroup: modelData
             keyboardNavigationActive: listView.keyboardActive
             opacity: 1 - Math.abs(delegateRoot.swipeOffset) / (delegateRoot.width * 0.5)
+            onIsAnimatingChanged: {
+                if (isAnimating) {
+                    listView.isAnimatingExpansion = true;
+                } else {
+                    Qt.callLater(() => {
+                        let anyAnimating = false;
+                        for (let i = 0; i < listView.count; i++) {
+                            const item = listView.itemAtIndex(i);
+                            if (item && item.children[0] && item.children[0].isAnimating) {
+                                anyAnimating = true;
+                                break;
+                            }
+                        }
+                        listView.isAnimatingExpansion = anyAnimating;
+                    });
+                }
+            }
 
             isGroupSelected: {
                 if (!keyboardController || !keyboardController.keyboardNavigationActive || !listView.keyboardActive)
@@ -173,23 +195,15 @@ DankListView {
         }
 
         function onExpandedGroupsChanged() {
-            if (keyboardController && keyboardController.keyboardNavigationActive) {
-                Qt.callLater(() => {
-                    if (!autoScrollDisabled) {
-                        keyboardController.ensureVisible();
-                    }
-                });
-            }
+            if (!keyboardController || !keyboardController.keyboardNavigationActive)
+                return;
+            expansionEnsureVisibleTimer.restart();
         }
 
         function onExpandedMessagesChanged() {
-            if (keyboardController && keyboardController.keyboardNavigationActive) {
-                Qt.callLater(() => {
-                    if (!autoScrollDisabled) {
-                        keyboardController.ensureVisible();
-                    }
-                });
-            }
+            if (!keyboardController || !keyboardController.keyboardNavigationActive)
+                return;
+            expansionEnsureVisibleTimer.restart();
         }
     }
 }
