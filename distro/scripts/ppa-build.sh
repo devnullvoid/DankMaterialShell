@@ -255,29 +255,20 @@ if [ "$IS_GIT_PACKAGE" = false ] && [ -n "$GIT_REPO" ]; then
             else
                 info "Updating changelog to latest tag: $LATEST_TAG"
             fi
-            OLD_ENTRY_START=$(grep -n "^${SOURCE_NAME} (" debian/changelog | sed -n '2p' | cut -d: -f1)
-            if [ -n "$OLD_ENTRY_START" ]; then
-                CHANGELOG_CONTENT=$(tail -n +"$OLD_ENTRY_START" debian/changelog)
-            else
-                CHANGELOG_CONTENT=""
-            fi
-
             if [ "$PPA_NUM" -gt 1 ]; then
                 CHANGELOG_MSG="Rebuild for packaging fixes (ppa${PPA_NUM})"
             else
                 CHANGELOG_MSG="Upstream release ${LATEST_TAG}"
             fi
 
-            CHANGELOG_ENTRY="${SOURCE_NAME} (${NEW_VERSION}) ${UBUNTU_SERIES}; urgency=medium
+            # Single changelog entry (full history available on Launchpad)
+            cat >debian/changelog <<EOF
+${SOURCE_NAME} (${NEW_VERSION}) ${UBUNTU_SERIES}; urgency=medium
 
   * ${CHANGELOG_MSG}
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
-            echo "$CHANGELOG_ENTRY" >debian/changelog
-            if [ -n "$CHANGELOG_CONTENT" ]; then
-                echo "" >>debian/changelog
-                echo "$CHANGELOG_CONTENT" >>debian/changelog
-            fi
+ -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)
+EOF
             success "Version updated to $NEW_VERSION"
             CHANGELOG_VERSION=$(dpkg-parsechangelog -S Version)
 
@@ -406,24 +397,14 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
 
         NEW_VERSION="${BASE_VERSION}ppa${PPA_NUM}"
 
-        OLD_ENTRY_START=$(grep -n "^${SOURCE_NAME} (" debian/changelog | sed -n '2p' | cut -d: -f1)
-        if [ -n "$OLD_ENTRY_START" ]; then
-            CHANGELOG_CONTENT=$(tail -n +"$OLD_ENTRY_START" debian/changelog)
-        else
-            CHANGELOG_CONTENT=""
-        fi
-
-        CHANGELOG_ENTRY="${SOURCE_NAME} (${NEW_VERSION}) ${UBUNTU_SERIES}; urgency=medium
+        # Single changelog entry (git snapshots don't need history)
+        cat >debian/changelog <<EOF
+${SOURCE_NAME} (${NEW_VERSION}) ${UBUNTU_SERIES}; urgency=medium
 
   * Git snapshot (commit ${GIT_COMMIT_COUNT}: ${GIT_COMMIT_HASH})
 
- -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
-
-        echo "$CHANGELOG_ENTRY" >debian/changelog
-        if [ -n "$CHANGELOG_CONTENT" ]; then
-            echo "" >>debian/changelog
-            echo "$CHANGELOG_CONTENT" >>debian/changelog
-        fi
+ -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)
+EOF
         success "Version updated to $NEW_VERSION"
         CHANGELOG_VERSION=$(dpkg-parsechangelog -S Version)
 
