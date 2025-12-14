@@ -1,5 +1,4 @@
 pragma Singleton
-
 pragma ComponentBehavior: Bound
 
 import Quickshell
@@ -17,40 +16,67 @@ Singleton {
             pciId: "",
             mountPath: "/",
             minimumWidth: true,
-            showSwap: false
-        }
-        leftModel.append(dummy)
-        centerModel.append(dummy)
-        rightModel.append(dummy)
+            showSwap: false,
+            mediaSize: 1,
+            showNetworkIcon: true,
+            showBluetoothIcon: true,
+            showAudioIcon: true,
+            showVpnIcon: true,
+            showBrightnessIcon: false,
+            showMicIcon: false,
+            showBatteryIcon: false,
+            showPrinterIcon: false
+        };
+        leftModel.append(dummy);
+        centerModel.append(dummy);
+        rightModel.append(dummy);
 
-        update(leftModel, left)
-        update(centerModel, center)
-        update(rightModel, right)
+        update(leftModel, left);
+        update(centerModel, center);
+        update(rightModel, right);
     }
 
     function update(model, order) {
-        model.clear()
+        model.clear();
         for (var i = 0; i < order.length; i++) {
-            var widgetId = typeof order[i] === "string" ? order[i] : order[i].id
-            var enabled = typeof order[i] === "string" ? true : order[i].enabled
-            var size = typeof order[i] === "string" ? undefined : order[i].size
-            var selectedGpuIndex = typeof order[i] === "string" ? undefined : order[i].selectedGpuIndex
-            var pciId = typeof order[i] === "string" ? undefined : order[i].pciId
-            var mountPath = typeof order[i] === "string" ? undefined : order[i].mountPath
-            var minimumWidth = typeof order[i] === "string" ? undefined : order[i].minimumWidth
-            var showSwap = typeof order[i] === "string" ? undefined : order[i].showSwap
+            var isObj = typeof order[i] !== "string";
+            var widgetId = isObj ? order[i].id : order[i];
             var item = {
                 widgetId: widgetId,
-                enabled: enabled
-            }
-            if (size !== undefined) item.size = size
-            if (selectedGpuIndex !== undefined) item.selectedGpuIndex = selectedGpuIndex
-            if (pciId !== undefined) item.pciId = pciId
-            if (mountPath !== undefined) item.mountPath = mountPath
-            if (minimumWidth !== undefined) item.minimumWidth = minimumWidth
-            if (showSwap !== undefined) item.showSwap = showSwap
+                enabled: isObj ? order[i].enabled : true
+            };
+            if (isObj && order[i].size !== undefined)
+                item.size = order[i].size;
+            if (isObj && order[i].selectedGpuIndex !== undefined)
+                item.selectedGpuIndex = order[i].selectedGpuIndex;
+            if (isObj && order[i].pciId !== undefined)
+                item.pciId = order[i].pciId;
+            if (isObj && order[i].mountPath !== undefined)
+                item.mountPath = order[i].mountPath;
+            if (isObj && order[i].minimumWidth !== undefined)
+                item.minimumWidth = order[i].minimumWidth;
+            if (isObj && order[i].showSwap !== undefined)
+                item.showSwap = order[i].showSwap;
+            if (isObj && order[i].mediaSize !== undefined)
+                item.mediaSize = order[i].mediaSize;
+            if (isObj && order[i].showNetworkIcon !== undefined)
+                item.showNetworkIcon = order[i].showNetworkIcon;
+            if (isObj && order[i].showBluetoothIcon !== undefined)
+                item.showBluetoothIcon = order[i].showBluetoothIcon;
+            if (isObj && order[i].showAudioIcon !== undefined)
+                item.showAudioIcon = order[i].showAudioIcon;
+            if (isObj && order[i].showVpnIcon !== undefined)
+                item.showVpnIcon = order[i].showVpnIcon;
+            if (isObj && order[i].showBrightnessIcon !== undefined)
+                item.showBrightnessIcon = order[i].showBrightnessIcon;
+            if (isObj && order[i].showMicIcon !== undefined)
+                item.showMicIcon = order[i].showMicIcon;
+            if (isObj && order[i].showBatteryIcon !== undefined)
+                item.showBatteryIcon = order[i].showBatteryIcon;
+            if (isObj && order[i].showPrinterIcon !== undefined)
+                item.showPrinterIcon = order[i].showPrinterIcon;
 
-            model.append(item)
+            model.append(item);
         }
     }
 }

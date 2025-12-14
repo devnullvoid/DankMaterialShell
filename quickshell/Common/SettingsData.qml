@@ -14,7 +14,7 @@ import "settings/SettingsStore.js" as Store
 Singleton {
     id: root
 
-    readonly property int settingsConfigVersion: 2
+    readonly property int settingsConfigVersion: 3
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 

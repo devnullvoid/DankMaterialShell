@@ -113,6 +113,12 @@ function migrateToVersion(obj, targetVersion) {
         settings.configVersion = 2;
     }
 
+    if (currentVersion < 3) {
+        console.info("Migrating settings from version", currentVersion, "to version 3");
+        console.info("Per-widget controlCenterButton config now supported via widgetData properties");
+        settings.configVersion = 3;
+    }
+
     return settings;
 }
 

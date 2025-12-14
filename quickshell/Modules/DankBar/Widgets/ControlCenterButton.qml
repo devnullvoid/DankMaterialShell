@@ -13,14 +13,14 @@ BasePill {
     property var widgetData: null
     property string screenName: ""
     property string screenModel: ""
-    property bool showNetworkIcon: SettingsData.controlCenterShowNetworkIcon
-    property bool showBluetoothIcon: SettingsData.controlCenterShowBluetoothIcon
-    property bool showAudioIcon: SettingsData.controlCenterShowAudioIcon
-    property bool showVpnIcon: SettingsData.controlCenterShowVpnIcon
-    property bool showBrightnessIcon: SettingsData.controlCenterShowBrightnessIcon
-    property bool showMicIcon: SettingsData.controlCenterShowMicIcon
-    property bool showBatteryIcon: SettingsData.controlCenterShowBatteryIcon
-    property bool showPrinterIcon: SettingsData.controlCenterShowPrinterIcon
+    property bool showNetworkIcon: widgetData?.showNetworkIcon !== undefined ? widgetData.showNetworkIcon : SettingsData.controlCenterShowNetworkIcon
+    property bool showBluetoothIcon: widgetData?.showBluetoothIcon !== undefined ? widgetData.showBluetoothIcon : SettingsData.controlCenterShowBluetoothIcon
+    property bool showAudioIcon: widgetData?.showAudioIcon !== undefined ? widgetData.showAudioIcon : SettingsData.controlCenterShowAudioIcon
+    property bool showVpnIcon: widgetData?.showVpnIcon !== undefined ? widgetData.showVpnIcon : SettingsData.controlCenterShowVpnIcon
+    property bool showBrightnessIcon: widgetData?.showBrightnessIcon !== undefined ? widgetData.showBrightnessIcon : SettingsData.controlCenterShowBrightnessIcon
+    property bool showMicIcon: widgetData?.showMicIcon !== undefined ? widgetData.showMicIcon : SettingsData.controlCenterShowMicIcon
+    property bool showBatteryIcon: widgetData?.showBatteryIcon !== undefined ? widgetData.showBatteryIcon : SettingsData.controlCenterShowBatteryIcon
+    property bool showPrinterIcon: widgetData?.showPrinterIcon !== undefined ? widgetData.showPrinterIcon : SettingsData.controlCenterShowPrinterIcon
 
     Loader {
         active: root.showPrinterIcon
