@@ -293,7 +293,10 @@ var SPEC = {
         visible: true,
         popupGapsAuto: true,
         popupGapsManual: 4,
-        maximizeDetection: true
+        maximizeDetection: true,
+        scrollEnabled: true,
+        scrollXBehavior: "column",
+        scrollYBehavior: "workspace"
     }], onChange: "updateBarConfigs" }
 };
 

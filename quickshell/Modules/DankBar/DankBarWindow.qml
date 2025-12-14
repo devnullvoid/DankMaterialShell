@@ -594,7 +594,8 @@ PanelWindow {
                         propagateComposedEvents: true
                         z: -1
 
-                        property real scrollAccumulator: 0
+                        property real scrollAccumulatorY: 0
+                        property real scrollAccumulatorX: 0
                         property real touchpadThreshold: 500
                         property bool actionInProgress: false
 
@@ -604,7 +605,30 @@ PanelWindow {
                             onTriggered: parent.actionInProgress = false
                         }
 
+                        function handleScrollAction(behavior, direction) {
+                            switch (behavior) {
+                            case "workspace":
+                                topBarContent.switchWorkspace(direction);
+                                return true;
+                            case "column":
+                                if (!CompositorService.isNiri)
+                                    return false;
+                                if (direction > 0)
+                                    NiriService.moveColumnRight();
+                                else
+                                    NiriService.moveColumnLeft();
+                                return true;
+                            default:
+                                return false;
+                            }
+                        }
+
                         onWheel: wheel => {
+                            if (!(barConfig?.scrollEnabled ?? true)) {
+                                wheel.accepted = false;
+                                return;
+                            }
+
                             if (actionInProgress) {
                                 wheel.accepted = false;
                                 return;
@@ -612,9 +636,34 @@ PanelWindow {
 
                             const deltaY = wheel.angleDelta.y;
                             const deltaX = wheel.angleDelta.x;
+                            const xBehavior = barConfig?.scrollXBehavior ?? "column";
+                            const yBehavior = barConfig?.scrollYBehavior ?? "workspace";
 
-                            if (CompositorService.isNiri && Math.abs(deltaX) > Math.abs(deltaY)) {
-                                topBarContent.switchApp(deltaX);
+                            if (CompositorService.isNiri && xBehavior !== "none" && Math.abs(deltaX) > Math.abs(deltaY)) {
+                                const isMouseWheel = Math.abs(deltaX) >= 120 && (Math.abs(deltaX) % 120) === 0;
+                                const direction = deltaX < 0 ? 1 : -1;
+
+                                if (isMouseWheel) {
+                                    if (handleScrollAction(xBehavior, direction)) {
+                                        actionInProgress = true;
+                                        cooldownTimer.restart();
+                                    }
+                                } else {
+                                    scrollAccumulatorX += deltaX;
+                                    if (Math.abs(scrollAccumulatorX) >= touchpadThreshold) {
+                                        const touchDirection = scrollAccumulatorX < 0 ? 1 : -1;
+                                        if (handleScrollAction(xBehavior, touchDirection)) {
+                                            actionInProgress = true;
+                                            cooldownTimer.restart();
+                                        }
+                                        scrollAccumulatorX = 0;
+                                    }
+                                }
+                                wheel.accepted = false;
+                                return;
+                            }
+
+                            if (yBehavior === "none") {
                                 wheel.accepted = false;
                                 return;
                             }
@@ -623,18 +672,19 @@ PanelWindow {
                             const direction = deltaY < 0 ? 1 : -1;
 
                             if (isMouseWheel) {
-                                topBarContent.switchWorkspace(direction);
-                                actionInProgress = true;
-                                cooldownTimer.restart();
-                            } else {
-                                scrollAccumulator += deltaY;
-
-                                if (Math.abs(scrollAccumulator) >= touchpadThreshold) {
-                                    const touchDirection = scrollAccumulator < 0 ? 1 : -1;
-                                    topBarContent.switchWorkspace(touchDirection);
-                                    scrollAccumulator = 0;
+                                if (handleScrollAction(yBehavior, direction)) {
                                     actionInProgress = true;
                                     cooldownTimer.restart();
+                                }
+                            } else {
+                                scrollAccumulatorY += deltaY;
+                                if (Math.abs(scrollAccumulatorY) >= touchpadThreshold) {
+                                    const touchDirection = scrollAccumulatorY < 0 ? 1 : -1;
+                                    if (handleScrollAction(yBehavior, touchDirection)) {
+                                        actionInProgress = true;
+                                        cooldownTimer.restart();
+                                    }
+                                    scrollAccumulatorY = 0;
                                 }
                             }
 
