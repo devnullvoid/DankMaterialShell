@@ -44,32 +44,31 @@ jobs:
             echo "packages=dms-git" >> $GITHUB_OUTPUT
             echo "Checking if dms-git source has changed..."
 
-            # Get current commit hash (8 chars to match PPA version format)
+            # Get current commit hash (8 chars to match changelog format)
             CURRENT_COMMIT=$(git rev-parse --short=8 HEAD)
 
-            # Query Launchpad API for last published version
-            # Format: 1.0.2+git2528.d336866fppa1
-            PPA_VERSION=$(curl -s "https://api.launchpad.net/1.0/~avengemedia/+archive/ubuntu/dms-git?ws.op=getPublishedSources&source_name=dms-git&status=Published" | grep -oP '"source_package_version":\s*"\K[^"]+' | head -1 || echo "")
+            # Extract commit hash from changelog
+            # Format: dms-git (0.6.2+git2264.c5c5ce84) questing; urgency=medium
+            CHANGELOG_FILE="distro/ubuntu/dms-git/debian/changelog"
 
-            if [[ -n "$PPA_VERSION" ]]; then
-              # Extract commit hash from version (e.g., d336866f from 1.0.2+git2528.d336866fppa1)
-              PPA_COMMIT=$(echo "$PPA_VERSION" | grep -oP '\.[a-f0-9]{8}' | tr -d '.' || echo "")
+            if [[ -f "$CHANGELOG_FILE" ]]; then
+              CHANGELOG_COMMIT=$(head -1 "$CHANGELOG_FILE" | grep -oP '\.[a-f0-9]{8}' | tr -d '.' || echo "")
 
-              if [[ -n "$PPA_COMMIT" ]]; then
-                if [[ "$CURRENT_COMMIT" == "$PPA_COMMIT" ]]; then
+              if [[ -n "$CHANGELOG_COMMIT" ]]; then
+                if [[ "$CURRENT_COMMIT" == "$CHANGELOG_COMMIT" ]]; then
                   echo "has_updates=false" >> $GITHUB_OUTPUT
-                  echo "📋 Commit $CURRENT_COMMIT already uploaded to PPA, skipping"
+                  echo "📋 Commit $CURRENT_COMMIT already in changelog, skipping upload"
                 else
                   echo "has_updates=true" >> $GITHUB_OUTPUT
-                  echo "📋 New commit detected: $CURRENT_COMMIT (PPA has $PPA_COMMIT)"
+                  echo "📋 New commit detected: $CURRENT_COMMIT (changelog has $CHANGELOG_COMMIT)"
                 fi
               else
                 echo "has_updates=true" >> $GITHUB_OUTPUT
-                echo "📋 Could not extract PPA commit, proceeding with upload"
+                echo "📋 Could not extract commit from changelog, proceeding with upload"
               fi
             else
               echo "has_updates=true" >> $GITHUB_OUTPUT
-              echo "📋 No published version found in PPA, proceeding with upload"
+              echo "📋 No changelog file found, proceeding with upload"
             fi
           elif [[ -n "${{ github.event.inputs.package }}" ]]; then
             echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
@@ -84,24 +83,49 @@ jobs:
     name: Upload to PPA
     needs: check-updates
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     if: |
       github.event.inputs.force_upload == 'true' ||
       github.event_name == 'workflow_dispatch' ||
       needs.check-updates.outputs.has_updates == 'true'
 
     steps:
+      - name: Generate GitHub App Token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ steps.generate_token.outputs.token }}
+
+      - name: Check if last commit was automated
+        id: check-loop
+        run: |
+          LAST_COMMIT_MSG=$(git log -1 --pretty=%B | head -1)
+          if [[ "$LAST_COMMIT_MSG" == "ci: Auto-update PPA packages"* ]] || [[ "$LAST_COMMIT_MSG" == "ci: Auto-update OBS packages"* ]]; then
+            echo "⏭️ Last commit was automated ($LAST_COMMIT_MSG), skipping to prevent infinite loop"
+            echo "skip=true" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Last commit was not automated, proceeding"
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Set up Go
+        if: steps.check-loop.outputs.skip != 'true'
         uses: actions/setup-go@v5
         with:
           go-version: "1.24"
           cache: false
 
       - name: Install build dependencies
+        if: steps.check-loop.outputs.skip != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y \
@@ -114,6 +138,7 @@ jobs:
             dpkg-dev
 
       - name: Configure GPG
+        if: steps.check-loop.outputs.skip != 'true'
         env:
           GPG_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
         run: |
@@ -122,6 +147,7 @@ jobs:
           echo "DEBSIGN_KEYID=$GPG_KEY_ID" >> $GITHUB_ENV
 
       - name: Determine packages to upload
+        if: steps.check-loop.outputs.skip != 'true'
         id: packages
         run: |
           if [[ "${{ github.event.inputs.force_upload }}" == "true" ]]; then
@@ -154,6 +180,7 @@ jobs:
           fi
 
       - name: Upload to PPA
+        if: steps.check-loop.outputs.skip != 'true'
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
           REBUILD_RELEASE="${{ github.event.inputs.rebuild_release }}"
@@ -212,6 +239,34 @@ jobs:
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             bash distro/scripts/ppa-upload.sh "$PACKAGES" "$PPA_NAME" questing "${BUILD_ARGS[@]}"
           fi
+
+      - name: Get changed packages
+        if: steps.check-loop.outputs.skip != 'true'
+        id: changed-packages
+        run: |
+          # Check if there are any changelog changes to commit
+          if git diff --exit-code distro/ubuntu/ >/dev/null 2>&1; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "📋 No changelog changes to commit"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            # Get list of changed packages for commit message (deduplicate)
+            CHANGED=$(git diff --name-only distro/ubuntu/ | grep 'debian/changelog' | sed 's|/debian/changelog||' | xargs -I{} basename {} | sort -u | tr '\n' ',' | sed 's/,$//')
+            echo "packages=$CHANGED" >> $GITHUB_OUTPUT
+            echo "📋 Changed packages: $CHANGED"
+            echo "📋 Debug - Changed files:"
+            git diff --name-only distro/ubuntu/ | grep 'debian/changelog' || echo "No changelog files found"
+          fi
+
+      - name: Commit changelog changes
+        if: steps.check-loop.outputs.skip != 'true' && steps.changed-packages.outputs.has_changes == 'true'
+        run: |
+          git config user.name "dms-ci[bot]"
+          git config user.email "dms-ci[bot]@users.noreply.github.com"
+          git add distro/ubuntu/*/debian/changelog
+          git commit -m "ci: Auto-update PPA packages [${{ steps.changed-packages.outputs.packages }}]" -m "🤖 Automated by GitHub Actions"
+          git pull --rebase origin master
+          git push
 
       - name: Summary
         run: |
