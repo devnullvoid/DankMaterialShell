@@ -6,6 +6,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import qs.Common
+import qs.Services
 
 Singleton {
     id: root
@@ -20,6 +21,7 @@ Singleton {
         }
         return false;
     }
+    readonly property bool shouldPauseCycling: anyFullscreen || SessionService.locked
     property string cachedCyclingTime: SessionData.wallpaperCyclingTime
     property int cachedCyclingInterval: SessionData.wallpaperCyclingInterval
     property string lastTimeCheck: ""
@@ -34,7 +36,7 @@ Singleton {
             running: false
             repeat: true
             onTriggered: {
-                if (typeof WallpaperCyclingService !== "undefined" && targetScreen !== "" && !WallpaperCyclingService.anyFullscreen) {
+                if (typeof WallpaperCyclingService !== "undefined" && targetScreen !== "" && !WallpaperCyclingService.shouldPauseCycling) {
                     WallpaperCyclingService.cycleNextForMonitor(targetScreen);
                 }
             }
@@ -113,6 +115,16 @@ Singleton {
         }
     }
 
+    Connections {
+        target: SessionService
+
+        function onSessionUnlocked() {
+            if (SessionData.wallpaperCyclingEnabled || SessionData.perMonitorWallpaper) {
+                updateCyclingState();
+            }
+        }
+    }
+
     function updateCyclingState() {
         if (SessionData.perMonitorWallpaper) {
             stopCycling();
@@ -151,13 +163,18 @@ Singleton {
     }
 
     function startCycling() {
-        if (SessionData.wallpaperCyclingMode === "interval") {
+        switch (SessionData.wallpaperCyclingMode) {
+        case "interval":
+            lastTimeCheck = "";
             intervalTimer.interval = cachedCyclingInterval * 1000;
             intervalTimer.start();
             cyclingActive = true;
-        } else if (SessionData.wallpaperCyclingMode === "time") {
+            break;
+        case "time":
+            intervalTimer.stop();
             cyclingActive = true;
             checkTimeBasedCycling();
+            break;
         }
     }
 
@@ -167,23 +184,43 @@ Singleton {
     }
 
     function startMonitorCycling(screenName, settings) {
-        if (settings.mode === "interval") {
-            var timer = monitorTimers[screenName];
-            if (!timer && monitorTimerComponent && monitorTimerComponent.status === Component.Ready) {
-                var newTimers = Object.assign({}, monitorTimers);
-                newTimers[screenName] = monitorTimerComponent.createObject(root);
-                newTimers[screenName].targetScreen = screenName;
-                monitorTimers = newTimers;
-                timer = monitorTimers[screenName];
+        switch (settings.mode) {
+        case "interval":
+            {
+                var newChecks = Object.assign({}, monitorLastTimeChecks);
+                delete newChecks[screenName];
+                monitorLastTimeChecks = newChecks;
+
+                var timer = monitorTimers[screenName];
+                if (!timer && monitorTimerComponent && monitorTimerComponent.status === Component.Ready) {
+                    var newTimers = Object.assign({}, monitorTimers);
+                    newTimers[screenName] = monitorTimerComponent.createObject(root);
+                    newTimers[screenName].targetScreen = screenName;
+                    monitorTimers = newTimers;
+                    timer = monitorTimers[screenName];
+                }
+                if (timer) {
+                    timer.interval = settings.interval * 1000;
+                    timer.start();
+                }
+                break;
             }
-            if (timer) {
-                timer.interval = settings.interval * 1000;
-                timer.start();
+        case "time":
+            {
+                var existingTimer = monitorTimers[screenName];
+                if (existingTimer) {
+                    existingTimer.stop();
+                    existingTimer.destroy();
+                    var newTimers = Object.assign({}, monitorTimers);
+                    delete newTimers[screenName];
+                    monitorTimers = newTimers;
+                }
+
+                var newChecks = Object.assign({}, monitorLastTimeChecks);
+                newChecks[screenName] = "";
+                monitorLastTimeChecks = newChecks;
+                break;
             }
-        } else if (settings.mode === "time") {
-            var newChecks = Object.assign({}, monitorLastTimeChecks);
-            newChecks[screenName] = "";
-            monitorLastTimeChecks = newChecks;
         }
     }
 
@@ -319,7 +356,7 @@ Singleton {
     }
 
     function checkTimeBasedCycling() {
-        if (anyFullscreen)
+        if (shouldPauseCycling)
             return;
         const currentTime = Qt.formatTime(systemClock.date, "hh:mm");
 
@@ -367,7 +404,7 @@ Singleton {
         running: false
         repeat: true
         onTriggered: {
-            if (anyFullscreen)
+            if (shouldPauseCycling)
                 return;
             cycleToNextWallpaper();
         }
