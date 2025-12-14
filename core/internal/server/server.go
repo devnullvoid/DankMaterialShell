@@ -33,7 +33,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
 
-const APIVersion = 23
+const APIVersion = 24
 
 var CLIVersion = "dev"
 
@@ -692,6 +692,38 @@ func handleSubscribe(conn net.Conn, req models.Request) {
 					}
 					select {
 					case eventChan <- ServiceEvent{Service: "freedesktop", Data: state}:
+					case <-stopChan:
+						return
+					}
+				case <-stopChan:
+					return
+				}
+			}
+		}()
+	}
+
+	if shouldSubscribe("freedesktop.screensaver") && freedesktopManager != nil {
+		wg.Add(1)
+		screensaverChan := freedesktopManager.SubscribeScreensaver(clientID + "-screensaver")
+		go func() {
+			defer wg.Done()
+			defer freedesktopManager.UnsubscribeScreensaver(clientID + "-screensaver")
+
+			initialState := freedesktopManager.GetScreensaverState()
+			select {
+			case eventChan <- ServiceEvent{Service: "freedesktop.screensaver", Data: initialState}:
+			case <-stopChan:
+				return
+			}
+
+			for {
+				select {
+				case state, ok := <-screensaverChan:
+					if !ok {
+						return
+					}
+					select {
+					case eventChan <- ServiceEvent{Service: "freedesktop.screensaver", Data: state}:
 					case <-stopChan:
 						return
 					}

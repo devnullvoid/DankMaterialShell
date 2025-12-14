@@ -53,10 +53,13 @@ Singleton {
     signal gammaStateUpdate(var data)
     signal openUrlRequested(string url)
     signal appPickerRequested(var data)
+    signal screensaverStateUpdate(var data)
 
     property bool capsLockState: false
+    property bool screensaverInhibited: false
+    property var screensaverInhibitors: []
 
-    property var activeSubscriptions: ["network", "network.credentials", "loginctl", "freedesktop", "gamma", "bluetooth", "bluetooth.pairing", "dwl", "brightness", "wlroutput", "evdev", "browser"]
+    property var activeSubscriptions: ["network", "network.credentials", "loginctl", "freedesktop", "freedesktop.screensaver", "gamma", "bluetooth", "bluetooth.pairing", "dwl", "brightness", "wlroutput", "evdev", "browser"]
 
     Component.onCompleted: {
         if (socketPath && socketPath.length > 0) {
@@ -371,6 +374,10 @@ Singleton {
             } else if (data.url) {
                 openUrlRequested(data.url);
             }
+        } else if (service === "freedesktop.screensaver") {
+            screensaverInhibited = data.inhibited || false;
+            screensaverInhibitors = data.inhibitors || [];
+            screensaverStateUpdate(data);
         }
     }
 

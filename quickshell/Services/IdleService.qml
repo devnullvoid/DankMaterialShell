@@ -29,6 +29,8 @@ Singleton {
     property bool respectInhibitors: true
     property bool _enableGate: true
 
+    readonly property bool externalInhibitActive: DMSService.screensaverInhibited
+
     readonly property bool isOnBattery: BatteryService.batteryAvailable && !BatteryService.isPluggedIn
     readonly property int monitorTimeout: isOnBattery ? SettingsData.batteryMonitorTimeout : SettingsData.acMonitorTimeout
     readonly property int lockTimeout: isOnBattery ? SettingsData.batteryLockTimeout : SettingsData.acLockTimeout
@@ -141,12 +143,31 @@ Singleton {
         }
     }
 
+    onExternalInhibitActiveChanged: {
+        if (externalInhibitActive) {
+            const apps = DMSService.screensaverInhibitors.map(i => i.appName).join(", ");
+            console.info("IdleService: External idle inhibit active from:", apps || "unknown");
+            SessionService.idleInhibited = true;
+            SessionService.inhibitReason = "External app: " + (apps || "unknown");
+        } else {
+            console.info("IdleService: External idle inhibit released");
+            SessionService.idleInhibited = false;
+            SessionService.inhibitReason = "Keep system awake";
+        }
+    }
+
     Component.onCompleted: {
         if (!idleMonitorAvailable) {
             console.warn("IdleService: IdleMonitor not available - power management disabled. This requires a newer version of Quickshell.");
         } else {
             console.info("IdleService: Initialized with idle monitoring support");
             createIdleMonitors();
+        }
+
+        if (externalInhibitActive) {
+            const apps = DMSService.screensaverInhibitors.map(i => i.appName).join(", ");
+            SessionService.idleInhibited = true;
+            SessionService.inhibitReason = "External app: " + (apps || "unknown");
         }
     }
 }
