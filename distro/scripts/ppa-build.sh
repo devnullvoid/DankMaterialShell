@@ -59,10 +59,25 @@ else
 fi
 
 TEMP_WORK_DIR=$(mktemp -d "$TEMP_BASE/ppa_build_work_XXXXXX")
-# Only auto-cleanup if not called from ppa-upload.sh (it will clean up after upload)
-if [[ -z "${PPA_UPLOAD_SCRIPT:-}" ]]; then
-    trap 'rm -rf "$TEMP_WORK_DIR"' EXIT
-fi
+
+# Cleanup function for temp directories
+cleanup_temp_dirs() {
+    if [[ -z "${PPA_UPLOAD_SCRIPT:-}" ]] && [[ -d "${TEMP_WORK_DIR:-}" ]]; then
+        rm -rf "$TEMP_WORK_DIR"
+    fi
+
+    if [[ -d "${TEMP_CLONE:-}" ]]; then
+        rm -rf "$TEMP_CLONE"
+    fi
+
+    for temp_dir in "$TEMP_BASE"/ppa_clone_* "$TEMP_BASE"/ppa_tag_*; do
+        if [[ -d "$temp_dir" ]]; then
+            rm -rf "$temp_dir" 2>/dev/null || true
+        fi
+    done
+}
+
+trap cleanup_temp_dirs EXIT
 
 info "Building source package for: $PACKAGE_NAME"
 info "Package directory: $PACKAGE_DIR"
@@ -93,6 +108,58 @@ fi
 
 success "GPG key found"
 
+# Function to get PPA name from package name
+get_ppa_name() {
+    local pkg="$1"
+    case "$pkg" in
+        dms) echo "dms" ;;
+        dms-git) echo "dms-git" ;;
+        dms-greeter) echo "danklinux" ;;
+        *) echo "" ;;
+    esac
+}
+
+# Parameters:
+#   $1 = PPA_NAME
+#   $2 = SOURCE_NAME
+#   $3 = VERSION
+#   $4 = CHECK_MODE Exact version match, "commit" = check commit hash (default)
+check_ppa_version_exists() {
+    local PPA_NAME="$1"
+    local SOURCE_NAME="$2"
+    local VERSION="$3"
+    local CHECK_MODE="${4:-commit}"
+
+    # Query Launchpad API
+    PPA_VERSION=$(curl -s \
+        "https://api.launchpad.net/1.0/~avengemedia/+archive/ubuntu/$PPA_NAME?ws.op=getPublishedSources&source_name=$SOURCE_NAME&status=Published" \
+        | grep -oP '"source_package_version":\s*"\K[^"]+' | head -1 || echo "")
+
+    if [[ -n "$PPA_VERSION" ]]; then
+        # For git packages with "commit" mode, check if same commit already exists
+        if [[ "$CHECK_MODE" == "commit" ]] && [[ "$SOURCE_NAME" == *"-git" ]]; then
+            # Extract commit hash from versions (e.g., 79794d34 from 1.0.2+git2546.79794d34ppa2)
+            PPA_COMMIT=$(echo "$PPA_VERSION" | grep -oP '\.[a-f0-9]{8}(ppa[0-9]+)?$' | grep -oP '[a-f0-9]{8}' || echo "")
+            NEW_COMMIT=$(echo "$VERSION" | grep -oP '\.[a-f0-9]{8}(ppa[0-9]+)?$' | grep -oP '[a-f0-9]{8}' || echo "")
+
+            if [[ -n "$PPA_COMMIT" && -n "$NEW_COMMIT" && "$PPA_COMMIT" == "$NEW_COMMIT" ]]; then
+                warn "Commit $NEW_COMMIT already exists in PPA (current version: $PPA_VERSION)"
+                return 0
+            fi
+        fi
+
+        # Exact version match check (always performed)
+        if [[ "$PPA_VERSION" == "$VERSION" ]]; then
+            warn "Version $VERSION already exists in PPA"
+            return 0
+        fi
+    else
+        warn "Could not fetch PPA version (API may be unavailable), proceeding anyway"
+        return 1
+    fi
+    return 1
+}
+
 if ! command -v debuild &>/dev/null; then
     error "debuild not found. Install devscripts:"
     error "  sudo dnf install devscripts"
@@ -110,22 +177,6 @@ CHANGELOG_SERIES=$(dpkg-parsechangelog -S Distribution)
 if [ "$CHANGELOG_SERIES" != "$UBUNTU_SERIES" ] && [ "$CHANGELOG_SERIES" != "UNRELEASED" ]; then
     warn "Changelog targets '$CHANGELOG_SERIES' but building for '$UBUNTU_SERIES'"
     warn "Consider updating changelog with: dch -r '' -D $UBUNTU_SERIES"
-fi
-
-# Check if this is a manual run or automated
-IS_MANUAL=false
-if [[ -n "${REBUILD_RELEASE:-}" ]]; then
-    IS_MANUAL=true
-    echo "==> Manual rebuild detected (REBUILD_RELEASE=$REBUILD_RELEASE)"
-elif [[ -n "${FORCE_REBUILD:-}" ]] && [[ "${FORCE_REBUILD}" == "true" ]]; then
-    IS_MANUAL=true
-    echo "==> Manual workflow trigger detected (FORCE_REBUILD=true)"
-elif [[ "${GITHUB_EVENT_NAME:-}" == "workflow_dispatch" ]]; then
-    IS_MANUAL=true
-    echo "==> Manual workflow trigger detected (workflow_dispatch)"
-elif [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
-    IS_MANUAL=true
-    echo "==> Local/manual run detected (not in CI)"
 fi
 
 info "Copying package to working directory..."
@@ -208,45 +259,32 @@ if [ "$IS_GIT_PACKAGE" = false ] && [ -n "$GIT_REPO" ]; then
 
         if [[ "$SOURCE_FORMAT" == *"native"* ]]; then
             BASE_VERSION="${LATEST_TAG}"
-            if [[ -z "${REBUILD_RELEASE:-}" ]] && [[ "$CURRENT_VERSION" =~ ^${LATEST_TAG}ppa([0-9]+)$ ]]; then
-                if [[ "$IS_MANUAL" == true ]] && [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
-                    # Only error for true local manual runs, not CI/workflow runs
-                    error "Same version detected ($CURRENT_VERSION) but no rebuild number specified"
-                    error "To rebuild, explicitly specify a rebuild number:"
-                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
-                    error "or use flag syntax:"
-                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME --rebuild=2"
-                    exit 1
-                else
-                    info "Detected rebuild of same version (current: $CURRENT_VERSION). No changes needed, skipping."
-                    success "No changes needed (version matches)."
-                    exit 0
-                fi
-            elif [[ -z "${REBUILD_RELEASE:-}" ]]; then
-                info "New version or first build, using PPA number $PPA_NUM"
-            fi
             NEW_VERSION="${BASE_VERSION}ppa${PPA_NUM}"
         else
             BASE_VERSION="${LATEST_TAG}-1"
-            ESCAPED_BASE=$(echo "$BASE_VERSION" | sed 's/\./\\./g' | sed 's/-/\\-/g')
-            if [[ -z "${REBUILD_RELEASE:-}" ]] && [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-                if [[ "$IS_MANUAL" == true ]] && [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
-                    # Only error for true local manual runs, not CI/workflow runs
-                    error "Same version detected ($CURRENT_VERSION) but no rebuild number specified"
-                    error "To rebuild, explicitly specify a rebuild number:"
-                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
-                    error "or use flag syntax:"
-                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME --rebuild=2"
-                    exit 1
-                else
-                    info "Detected rebuild of same version (current: $CURRENT_VERSION). No changes needed, skipping."
-                    success "No changes needed (version matches)."
-                    exit 0
-                fi
-            elif [[ -z "${REBUILD_RELEASE:-}" ]]; then
-                info "New version or first build, using PPA number $PPA_NUM"
-            fi
             NEW_VERSION="${BASE_VERSION}ppa${PPA_NUM}"
+        fi
+
+        # Check if this version already exists in PPA (for stable packages, use exact match)
+        PPA_NAME=$(get_ppa_name "$PACKAGE_NAME")
+        if [[ -n "$PPA_NAME" ]]; then
+            info "Checking if version $NEW_VERSION already exists in PPA..."
+            if [[ -z "${REBUILD_RELEASE:-}" ]]; then
+                if check_ppa_version_exists "$PPA_NAME" "$SOURCE_NAME" "${BASE_VERSION}ppa1" "exact"; then
+                    error "==> Error: Version ${BASE_VERSION}ppa1 already exists in PPA $PPA_NAME"
+                    error "    To rebuild with a different release number, use:"
+                    error "      ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
+                    exit 1
+                fi
+            else
+                if check_ppa_version_exists "$PPA_NAME" "$SOURCE_NAME" "$NEW_VERSION" "exact"; then
+                    error "==> Error: Version $NEW_VERSION already exists in PPA $PPA_NAME"
+                    NEXT_NUM=$((REBUILD_RELEASE + 1))
+                    error "    To rebuild with a different release number, use:"
+                    error "      ./distro/scripts/ppa-upload.sh $PACKAGE_NAME $NEXT_NUM"
+                    exit 1
+                fi
+            fi
         fi
 
         if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
@@ -272,9 +310,7 @@ EOF
             success "Version updated to $NEW_VERSION"
             CHANGELOG_VERSION=$(dpkg-parsechangelog -S Version)
 
-            info "Writing updated changelog back to repository..."
-            cp debian/changelog "$PACKAGE_DIR/debian/changelog"
-            success "Changelog written back to $PACKAGE_DIR/debian/changelog"
+            # Note: No longer writing back to repository (changelog stays as template)
         else
             info "Version already at latest tag: $LATEST_TAG"
         fi
@@ -366,36 +402,60 @@ if [ "$IS_GIT_PACKAGE" = true ] && [ -n "$GIT_REPO" ]; then
 
         success "Got commit info: $GIT_COMMIT_COUNT ($GIT_COMMIT_HASH), upstream: $UPSTREAM_VERSION"
 
-        info "Updating changelog with git commit info..."
+        # Build base version (without ppa suffix yet)
         BASE_VERSION="${UPSTREAM_VERSION}+git${GIT_COMMIT_COUNT}.${GIT_COMMIT_HASH}"
-        CURRENT_VERSION=$(dpkg-parsechangelog -S Version 2>/dev/null || echo "")
 
-        if [[ -n "${REBUILD_RELEASE:-}" ]]; then
-            PPA_NUM=$REBUILD_RELEASE
-            info "Using REBUILD_RELEASE=$REBUILD_RELEASE for PPA number"
-        else
-            PPA_NUM=1
-            ESCAPED_BASE=$(echo "$BASE_VERSION" | sed 's/\./\\./g' | sed 's/+/\\+/g')
-            if [[ "$CURRENT_VERSION" =~ ^${ESCAPED_BASE}ppa([0-9]+)$ ]]; then
-                if [[ "$IS_MANUAL" == true ]] && [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
-                    # Only error for true local manual runs, not CI/workflow runs
-                    error "Same commit detected ($CURRENT_VERSION) but no rebuild number specified"
-                    error "To rebuild, explicitly specify a rebuild number:"
-                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
-                    error "or use flag syntax:"
-                    error "  ./distro/scripts/ppa-upload.sh $PACKAGE_NAME --rebuild=2"
+        # EARLY VERSION CHECK
+        PPA_NAME=$(get_ppa_name "$PACKAGE_NAME")
+        if [[ -n "$PPA_NAME" ]]; then
+            if [[ -z "${REBUILD_RELEASE:-}" ]]; then
+                info "Checking if commit $GIT_COMMIT_HASH already exists in PPA..."
+                if check_ppa_version_exists "$PPA_NAME" "$SOURCE_NAME" "${BASE_VERSION}ppa1" "commit"; then
+                    error "==> Error: This commit is already uploaded to PPA"
+                    error "    The same git commit ($GIT_COMMIT_HASH) already exists in PPA."
+                    error "    To rebuild the same commit, specify a rebuild number:"
+                    error "      ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 2"
+                    error "      ./distro/scripts/ppa-upload.sh $PACKAGE_NAME 3"
+                    error "    Or with build script directly:"
+                    error "      REBUILD_RELEASE=2 ./distro/scripts/ppa-build.sh $PACKAGE_DIR"
+                    error "    Or push a new commit first, then run:"
+                    error "      ./distro/scripts/ppa-upload.sh $PACKAGE_NAME"
+                    rm -rf "$TEMP_CLONE"
                     exit 1
-                else
-                    info "Detected rebuild of same commit (current: $CURRENT_VERSION). No changes needed, skipping."
-                    success "No changes needed (commit matches)."
-                    exit 0
                 fi
+                PPA_NUM=1
+                info "Using PPA number $PPA_NUM"
             else
-                info "New commit or first build, using PPA number $PPA_NUM"
+                PPA_NUM=$REBUILD_RELEASE
+                NEW_VERSION="${BASE_VERSION}ppa${PPA_NUM}"
+                info "Checking if version $NEW_VERSION already exists in PPA..."
+                if check_ppa_version_exists "$PPA_NAME" "$SOURCE_NAME" "$NEW_VERSION" "exact"; then
+                    error "==> Error: Version $NEW_VERSION already exists in PPA"
+                    error "    This exact version (including ppa${PPA_NUM}) is already uploaded."
+                    NEXT_NUM=$((PPA_NUM + 1))
+                    error "    To rebuild with a different release number, try incrementing:"
+                    error "      ./distro/scripts/ppa-upload.sh $PACKAGE_NAME $NEXT_NUM"
+                    error "    Or with build script directly:"
+                    error "      REBUILD_RELEASE=$NEXT_NUM ./distro/scripts/ppa-build.sh $PACKAGE_DIR"
+                    rm -rf "$TEMP_CLONE"
+                    exit 1
+                fi
+                info "Using REBUILD_RELEASE=$REBUILD_RELEASE for PPA number"
+            fi
+        else
+            # No PPA name found, use default
+            if [[ -n "${REBUILD_RELEASE:-}" ]]; then
+                PPA_NUM=$REBUILD_RELEASE
+                info "Using REBUILD_RELEASE=$REBUILD_RELEASE for PPA number"
+            else
+                PPA_NUM=1
+                info "Using PPA number $PPA_NUM"
             fi
         fi
 
         NEW_VERSION="${BASE_VERSION}ppa${PPA_NUM}"
+        info "Updating changelog with git commit info..."
+        CURRENT_VERSION=$(dpkg-parsechangelog -S Version 2>/dev/null || echo "")
 
         # Single changelog entry (git snapshots don't need history)
         cat >debian/changelog <<EOF
@@ -408,9 +468,7 @@ EOF
         success "Version updated to $NEW_VERSION"
         CHANGELOG_VERSION=$(dpkg-parsechangelog -S Version)
 
-        info "Writing updated changelog back to repository..."
-        cp debian/changelog "$PACKAGE_DIR/debian/changelog"
-        success "Changelog written back to $PACKAGE_DIR/debian/changelog"
+        # Note: No longer writing back to repository (changelog stays as template)
 
         rm -rf "$SOURCE_DIR"
         cp -r "$TEMP_CLONE" "$SOURCE_DIR"
@@ -484,25 +542,6 @@ dgop)
 esac
 
 cd "$WORK_PACKAGE_DIR"
-
-if command -v rmadison >/dev/null 2>&1; then
-    info "Checking if version already exists on PPA..."
-    PPA_VERSION_CHECK=$(rmadison -u ppa:avengemedia/dms "$PACKAGE_NAME" 2>/dev/null | grep "$VERSION" || true)
-    if [ -n "$PPA_VERSION_CHECK" ]; then
-        warn "Version $VERSION already exists on PPA:"
-        echo "$PPA_VERSION_CHECK"
-        echo
-        warn "Skipping upload to avoid duplicate. If this is a rebuild, increment the ppa number."
-        cd "$PACKAGE_DIR"
-        case "$PACKAGE_NAME" in
-        dms-git)
-            rm -rf DankMaterialShell-*
-            success "Cleaned up DankMaterialShell-*/ directory"
-            ;;
-        esac
-        exit 0
-    fi
-fi
 
 info "Building source package..."
 echo
