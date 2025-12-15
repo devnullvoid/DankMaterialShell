@@ -649,12 +649,46 @@ Item {
         anchors.fill: parent
         acceptedButtons: Qt.RightButton
 
+        property real scrollAccumulator: 0
+        property real touchpadThreshold: 500
+        property bool scrollInProgress: false
+
+        Timer {
+            id: scrollCooldown
+            interval: 100
+            onTriggered: parent.scrollInProgress = false
+        }
+
         onClicked: mouse => {
             if (mouse.button === Qt.RightButton) {
                 if (CompositorService.isNiri) {
                     NiriService.toggleOverview();
                 } else if (CompositorService.isHyprland && root.hyprlandOverviewLoader?.item) {
                     root.hyprlandOverviewLoader.item.overviewOpen = !root.hyprlandOverviewLoader.item.overviewOpen;
+                }
+            }
+        }
+
+        onWheel: wheel => {
+            if (scrollInProgress)
+                return;
+
+            const delta = wheel.angleDelta.y;
+            const isMouseWheel = Math.abs(delta) >= 120 && (Math.abs(delta) % 120) === 0;
+            const direction = delta < 0 ? 1 : -1;
+
+            if (isMouseWheel) {
+                root.switchWorkspace(direction);
+                scrollInProgress = true;
+                scrollCooldown.restart();
+            } else {
+                scrollAccumulator += delta;
+                if (Math.abs(scrollAccumulator) >= touchpadThreshold) {
+                    const touchDirection = scrollAccumulator < 0 ? 1 : -1;
+                    root.switchWorkspace(touchDirection);
+                    scrollInProgress = true;
+                    scrollCooldown.restart();
+                    scrollAccumulator = 0;
                 }
             }
         }
