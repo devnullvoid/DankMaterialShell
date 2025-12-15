@@ -672,28 +672,25 @@ Item {
 
     function revertChanges() {
         const hadFormatChange = originalDisplayNameMode !== "";
+
         if (hadFormatChange) {
             SettingsData.displayNameMode = originalDisplayNameMode;
             SettingsData.saveSettings();
         }
 
-        if (originalOutputs) {
-            const original = JSON.parse(JSON.stringify(originalOutputs));
-            backendWriteOutputsConfig(original);
-            pendingChanges = {};
-            originalOutputs = null;
-            originalDisplayNameMode = "";
-            outputs = {};
-            Qt.callLater(() => {
-                root.outputs = original;
-            });
-        } else if (hadFormatChange) {
-            const currentOutputs = buildOutputsWithPendingChanges();
-            backendWriteOutputsConfig(currentOutputs);
+        if (!originalOutputs) {
+            if (hadFormatChange)
+                backendWriteOutputsConfig(buildOutputsWithPendingChanges());
             clearPendingChanges();
-        } else {
-            clearPendingChanges();
+            return;
         }
+
+        const original = JSON.parse(JSON.stringify(originalOutputs));
+        backendWriteOutputsConfig(original);
+        pendingChanges = {};
+        originalOutputs = null;
+        originalDisplayNameMode = "";
+        outputs = original;
     }
 
     function getOutputBounds() {
