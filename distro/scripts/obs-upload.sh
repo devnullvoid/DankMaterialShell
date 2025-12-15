@@ -345,11 +345,8 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ -f "distro/opensuse/$PACKAGE.spec" ]];
                 fi
             else
                 echo "  - Detected same version $NEW_VERSION (release $OLD_RELEASE). No changes needed, skipping update."
-                # If this is OpenSUSE only run, we can exit.
-                if [[ "$UPLOAD_DEBIAN" == false ]]; then
-                    echo "✅ No changes needed for OpenSUSE. Exiting."
-                    exit 0
-                fi
+                echo "✅ No changes needed for this package. Exiting gracefully."
+                exit 0
             fi
         else
             echo "  - New version detected: $OLD_VERSION -> $NEW_VERSION (keeping release $NEW_RELEASE)"

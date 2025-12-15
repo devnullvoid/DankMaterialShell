@@ -169,8 +169,14 @@ jobs:
             echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
             echo "Triggered by schedule: updating git package"
           elif [[ -n "${{ github.event.inputs.package }}" ]]; then
-            echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
-            echo "Manual trigger: ${{ github.event.inputs.package }}"
+            # Use filtered packages from check-updates when package="all" and no rebuild requested
+            if [[ "${{ github.event.inputs.package }}" == "all" ]] && [[ -z "${{ github.event.inputs.rebuild_release }}" ]]; then
+              echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
+              echo "Manual trigger: all (filtered to: ${{ needs.check-updates.outputs.packages }})"
+            else
+              echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
+              echo "Manual trigger: ${{ github.event.inputs.package }}"
+            fi
           else
             echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
           fi
