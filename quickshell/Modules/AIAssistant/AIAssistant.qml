@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import Quickshell
 import qs.Common
 import qs.Services
@@ -69,23 +70,17 @@ Item {
         anchors.fill: parent
         spacing: Theme.spacingM
 
-        Row {
+        RowLayout {
+            id: headerRow
             width: parent.width
-            spacing: Theme.spacingM
-
-            StyledText {
-                text: I18n.tr("AI Assistant (Preview)")
-                font.pixelSize: Theme.fontSizeLarge
-                color: Theme.surfaceText
-                font.weight: Font.Medium
-            }
+            spacing: Theme.spacingS
 
             Rectangle {
                 radius: Theme.cornerRadius
                 color: Theme.surfaceVariant
                 height: Theme.fontSizeSmall * 1.6
-                width: providerLabel.implicitWidth + Theme.spacingM
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.preferredWidth: providerLabel.implicitWidth + Theme.spacingM
+                Layout.alignment: Qt.AlignVCenter
 
                 StyledText {
                     id: providerLabel
@@ -97,40 +92,69 @@ Item {
             }
 
             Rectangle {
-                width: 10; height: 10
+                width: 10
+                height: 10
                 radius: 5
                 color: aiService.service?.isOnline ? Theme.success : Theme.surfaceVariantText
-                anchors.verticalCenter: parent.verticalCenter
+                Layout.alignment: Qt.AlignVCenter
             }
 
-            Item { width: Theme.spacingM; height: 1 }
+            Item { Layout.fillWidth: true }
 
-            Button {
-                text: showSettingsMenu ? I18n.tr("Hide settings") : I18n.tr("Settings")
+            DankActionButton {
+                iconName: "settings"
+                tooltipText: showSettingsMenu ? I18n.tr("Hide settings") : I18n.tr("Settings")
                 onClicked: showSettingsMenu = !showSettingsMenu
             }
 
-            Button {
-                text: I18n.tr("Copy last")
-                enabled: getLastAssistantText().length > 0
-                onClicked: copyLastAssistant()
-            }
-
-            Button {
-                text: I18n.tr("Retry")
-                enabled: hasAssistantError() && !(aiService.service?.isStreaming ?? false)
-                onClicked: aiService.service.retryLast()
-            }
-
-            Button {
-                text: I18n.tr("Clear")
+            DankActionButton {
+                iconName: "delete"
+                tooltipText: I18n.tr("Clear history")
                 enabled: (aiService.service?.messageCount ?? 0) > 0 && !(aiService.service?.isStreaming ?? false)
                 onClicked: aiService.service.clearHistory(true)
             }
 
-            Button {
-                text: I18n.tr("Close")
-                onClicked: root.hideRequested()
+            DankActionButton {
+                id: overflowButton
+                iconName: "more_vert"
+                tooltipText: I18n.tr("More")
+                onClicked: overflowMenu.popup(overflowButton, -overflowMenu.width + overflowButton.width, overflowButton.height + Theme.spacingXS)
+            }
+
+            Menu {
+                id: overflowMenu
+                closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+
+                background: Rectangle {
+                    color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+                    radius: Theme.cornerRadius
+                    border.width: 0
+                    border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.12)
+                }
+
+                MenuItem {
+                    text: showSettingsMenu ? I18n.tr("Hide settings") : I18n.tr("Settings")
+                    onTriggered: showSettingsMenu = !showSettingsMenu
+                }
+
+                MenuSeparator {}
+
+                MenuItem {
+                    text: I18n.tr("Copy last reply")
+                    enabled: getLastAssistantText().length > 0
+                    onTriggered: copyLastAssistant()
+                }
+
+                MenuItem {
+                    text: I18n.tr("Retry")
+                    enabled: hasAssistantError() && !(aiService.service?.isStreaming ?? false)
+                    onTriggered: aiService.service.retryLast()
+                }
+
+                MenuItem {
+                    text: I18n.tr("Close")
+                    onTriggered: root.hideRequested()
+                }
             }
         }
 

@@ -3,34 +3,34 @@
 Use this alongside `docs/AI_ASSISTANT_SPEC.md` when implementing v1.
 
 ## Scaffolding
-- [ ] Create module folder: `quickshell/Modules/AIAssistant/` with placeholders: `AIAssistant.qml`, `AIAssistantSettings.qml`, `MessageList.qml`, `MessageBubble.qml`.
-- [ ] Add service: `quickshell/Services/AIAssistantService.qml` (stub state + request pipeline).
-- [ ] Add adapter helper: `quickshell/Common/AIApiAdapters.js` (build curl args per provider + tool-call stubs reserved).
+- [x] Create module folder: `quickshell/Modules/AIAssistant/` with placeholders: `AIAssistant.qml`, `AIAssistantSettings.qml`, `MessageList.qml`, `MessageBubble.qml`.
+- [x] Add service: `quickshell/Services/AIAssistantService.qml` (stub state + request pipeline).
+- [x] Add adapter helper: `quickshell/Common/AIApiAdapters.js` (build curl args per provider + tool-call stubs reserved).
 
 ## Shell wiring
-- [ ] `DMSShell.qml`: add `aiAssistantSlideoutVariants` (copied from Notepad structure) and include in `DMSShellIPC` props.
+- [x] `DMSShell.qml`: add `aiAssistantSlideoutVariants` (copied from Notepad structure) and include in `DMSShellIPC` props.
 - [ ] `PopoutService.qml`: track `aiAssistantSlideouts` with `show/hide/toggle` helpers.
-- [ ] `DMSShellIPC.qml`: new `IpcHandler { target: "aiassistant"; open/close/toggle }`.
-- [ ] `Common/KeybindActions.js` + compositor configs (`core/internal/config/...`): add default `Mod+Shift+A` binding.
-- [ ] Optional: `Modules/DankBar` button component to toggle the assistant.
+- [x] `DMSShellIPC.qml`: new `IpcHandler { target: "aiassistant"; open/close/toggle }`.
+- [x] `Common/KeybindActions.js` + compositor configs (`core/internal/config/...`): add default `Mod+Shift+A` binding.
+- [x] Optional: `Modules/DankBar` button component to toggle the assistant.
 
 ## Settings integration
-- [ ] `Common/SettingsData.qml` + `Common/settings/SettingsSpec.js`: add AI settings (provider, baseUrl, model, temp, maxTokens, timeout, transparency, monospace, screen filter, api key save/session-only flags).
+- [x] `Common/SettingsData.qml` + `Common/settings/SettingsSpec.js`: add AI settings (provider, baseUrl, model, temp, maxTokens, timeout, transparency, monospace, screen filter, api key save/session-only flags).
 - [ ] Settings UI: new section (Productivity) with provider selector, model field, temperature/max tokens, timeout, transparency override, monospace toggle, "Test Connection" button, session-only key toggle, key source indicator.
-- [ ] `DisplaysTab.qml`: include `"aiassistant"` id for per-screen visibility (mirrors Notepad flow).
+- [x] `DisplaysTab.qml`: include `"aiassistant"` id for per-screen visibility (mirrors Notepad flow).
 
 ## Networking core (service)
-- [ ] Implement env precedence: DMS_* keys → common envs → saved key → session-only key.
-- [ ] Build curl command with `--no-buffer`, timeouts, headers; support OpenAI-compatible, Anthropic, Gemini, Custom.
-- [ ] Streaming handling: parse `data:` lines; accumulate chunks; cancel by stopping Process.
-- [ ] Error handling: surface HTTP status + body; retry hook.
-- [ ] Persistence: save last session JSON (cap ~50 messages) to config dir; reset on provider hash change.
+- [x] Implement env precedence: DMS_* keys → common envs → saved key → session-only key.
+- [x] Build curl command with `--no-buffer`, timeouts, headers; support OpenAI-compatible, Anthropic, Gemini, Custom.
+- [x] Streaming handling: parse `data:` lines; accumulate chunks; cancel by stopping Process.
+- [x] Error handling: surface HTTP status + body; retry hook.
+- [x] Persistence: save last session JSON (cap ~50 messages) to config dir; reset on provider hash change.
 
 ## UI behavior
-- [ ] Layout per spec: header (title, provider badge, status dot, gear), body message list, composer with Send/Stop/Copy, hotkeys `Ctrl+Enter` send, `Esc` close.
+- [x] Layout per spec: header (title, provider badge, status dot, gear), body message list, composer with Send/Stop/Copy, hotkeys `Ctrl+Enter` send, `Esc` close.
 - [ ] States: idle/sending/streaming/error/offline; toast + inline retry on error.
-- [ ] Monospace toggle respected; transparency via Theme values; follow font scale.
-- [ ] Copy last reply action; optional clipboard/insert-to-window hook (stub if IPC not ready).
+- [x] Monospace toggle respected; transparency via Theme values; follow font scale.
+- [x] Copy last reply action; optional clipboard/insert-to-window hook (stub if IPC not ready).
 
 ## IPC & commands
 - [ ] Verify `dms ipc call aiassistant toggle` works.

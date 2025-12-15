@@ -19,6 +19,7 @@ Item {
     ListView {
         id: listView
         anchors.fill: parent
+        anchors.margins: Theme.spacingS
         model: root.messages
         spacing: Theme.spacingS
         clip: true
@@ -28,14 +29,27 @@ Item {
             Qt.callLater(() => listView.positionViewAtEnd());
         }
 
-        delegate: MessageBubble {
+        delegate: Item {
+            id: wrapper
             width: listView.width
-            role: model.role
-            text: model.content
-            status: model.status
 
-            Component.onCompleted: {
-                console.log("[MessageList] add", role, text ? text.slice(0, 40) : "")
+            readonly property string previousRole: (index > 0 && root.messages) ? (root.messages.get(index - 1).role || "") : ""
+            readonly property bool roleChanged: previousRole.length > 0 && previousRole !== (model.role || "")
+            readonly property int topGap: roleChanged ? Theme.spacingS : 0
+
+            implicitHeight: bubble.implicitHeight + topGap
+
+            MessageBubble {
+                id: bubble
+                width: listView.width
+                y: wrapper.topGap
+                role: model.role
+                text: model.content
+                status: model.status
+
+                Component.onCompleted: {
+                    console.log("[MessageList] add", role, text ? text.slice(0, 40) : "")
+                }
             }
         }
     }

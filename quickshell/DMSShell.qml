@@ -609,7 +609,7 @@ Item {
         delegate: DankSlideout {
             id: aiAssistantSlideout
             modelData: item
-            title: I18n.tr("AI Assistant")
+            title: I18n.tr("AI Assistant (Preview)")
             slideoutWidth: 480
             expandable: true
             expandedWidthValue: 960

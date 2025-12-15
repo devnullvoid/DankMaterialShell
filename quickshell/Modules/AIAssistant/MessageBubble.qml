@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Layouts
 import qs.Common
 import qs.Widgets
 
@@ -8,28 +9,93 @@ Item {
     property string text: ""
     property string status: "ok" // ok|streaming|error
 
+    readonly property bool isUser: role === "user"
+    readonly property real bubbleMaxWidth: Math.max(240, Math.floor(width * 0.82))
+    readonly property color userBubbleFill: Theme.blend(Theme.surfaceContainerHigh, Theme.primaryContainer, 0.45)
+    readonly property color userBubbleBorder: Theme.withAlpha(Theme.primary, 0.35)
+    readonly property color assistantBubbleFill: Theme.surfaceContainer
+    readonly property color assistantBubbleBorder: Theme.surfaceVariantAlpha
+
     width: parent ? parent.width : implicitWidth
     implicitHeight: bubble.implicitHeight
 
     Rectangle {
         id: bubble
-        width: parent.width
+        width: Math.min(root.bubbleMaxWidth, root.width)
+        x: root.isUser ? (root.width - width) : 0
         radius: Theme.cornerRadius
-        color: role === "user" ? Theme.surfaceContainerHigh : Theme.surfaceContainer
-        border.color: status === "error" ? Theme.error : Theme.surfaceVariantAlpha
+        color: root.isUser ? root.userBubbleFill : root.assistantBubbleFill
+        border.color: status === "error" ? Theme.error : (root.isUser ? root.userBubbleBorder : root.assistantBubbleBorder)
         border.width: 1
-        anchors.left: parent.left
-        anchors.right: parent.right
+
+        implicitHeight: contentColumn.implicitHeight + Theme.spacingM * 2
+        height: implicitHeight
+
+        Behavior on x {
+            NumberAnimation {
+                duration: 120
+                easing.type: Easing.OutCubic
+            }
+        }
 
         Column {
-            anchors.fill: parent
-            anchors.margins: Theme.spacingM
-            spacing: Theme.spacingXS
+            id: contentColumn
+            x: Theme.spacingM
+            y: Theme.spacingM
+            width: parent.width - Theme.spacingM * 2
+            spacing: Theme.spacingS
+
+            RowLayout {
+                id: headerRow
+                width: parent.width
+                spacing: Theme.spacingXS
+
+                // assistant: [icon][chip][spacer]
+                // user:      [spacer][chip][icon]
+                Item { Layout.fillWidth: root.isUser }
+
+                Rectangle {
+                    radius: Theme.cornerRadius
+                    color: root.isUser ? Theme.withAlpha(Theme.primary, 0.14) : Theme.surfaceVariant
+                    Layout.preferredHeight: Theme.fontSizeSmall * 1.6
+                    Layout.preferredWidth: headerText.implicitWidth + Theme.spacingS * 2
+
+                    StyledText {
+                        id: headerText
+                        anchors.centerIn: parent
+                        text: root.isUser ? I18n.tr("You") : I18n.tr("Assistant")
+                        font.pixelSize: Theme.fontSizeSmall
+                        font.weight: Font.Medium
+                        color: root.isUser ? Theme.primary : Theme.surfaceVariantText
+                    }
+                }
+
+                Rectangle {
+                    width: 18
+                    height: 18
+                    radius: 9
+                    color: root.isUser ? Theme.withAlpha(Theme.primary, 0.20) : Theme.surfaceVariant
+                    border.width: 1
+                    border.color: root.isUser ? Theme.withAlpha(Theme.primary, 0.35) : Theme.surfaceVariantAlpha
+
+                    DankIcon {
+                        anchors.centerIn: parent
+                        name: root.isUser ? "person" : "smart_toy"
+                        size: 14
+                        color: root.isUser ? Theme.primary : Theme.surfaceVariantText
+                    }
+                }
+
+                Item { Layout.fillWidth: !root.isUser }
+            }
 
             StyledText {
-                text: role === "user" ? I18n.tr("You") : I18n.tr("Assistant")
+                visible: root.status === "error"
+                text: I18n.tr("Error")
                 font.pixelSize: Theme.fontSizeSmall
-                color: Theme.surfaceTextMedium
+                font.weight: Font.Medium
+                color: Theme.error
+                width: parent.width
             }
 
             StyledText {
@@ -38,13 +104,24 @@ Item {
                 font.pixelSize: Theme.fontSizeMedium
                 font.family: SettingsData.aiAssistantUseMonospace ? SettingsData.monoFontFamily : SettingsData.fontFamily
                 color: status === "error" ? Theme.error : Theme.surfaceText
+                width: parent.width
             }
 
-            StyledText {
+            Rectangle {
                 visible: status === "streaming"
-                text: I18n.tr("Streaming…")
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.surfaceTextMedium
+                radius: Theme.cornerRadius
+                color: Theme.surfaceVariant
+                height: Theme.fontSizeSmall * 1.6
+                width: streamingText.implicitWidth + Theme.spacingS * 2
+                x: root.isUser ? (parent.width - width) : 0
+
+                StyledText {
+                    id: streamingText
+                    anchors.centerIn: parent
+                    text: I18n.tr("Streaming…")
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.surfaceVariantText
+                }
             }
         }
     }
