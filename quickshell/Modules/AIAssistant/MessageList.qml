@@ -6,13 +6,16 @@ Item {
     id: root
     clip: true
     property var messages: null // expects a ListModel
+    property bool stickToBottom: true
 
     Component.onCompleted: console.log("[MessageList] ready")
 
     Connections {
         target: root.messages
         function onCountChanged() {
-            listView.positionViewAtEnd();
+            if (root.stickToBottom) {
+                Qt.callLater(() => listView.positionViewAtEnd());
+            }
         }
     }
 
@@ -21,12 +24,19 @@ Item {
         anchors.fill: parent
         anchors.margins: Theme.spacingS
         model: root.messages
-        spacing: Theme.spacingS
+        spacing: Theme.spacingM
         clip: true
         ScrollBar.vertical: ScrollBar { }
 
+        onContentYChanged: {
+            root.stickToBottom = listView.atYEnd;
+        }
+
         onModelChanged: {
-            Qt.callLater(() => listView.positionViewAtEnd());
+            Qt.callLater(() => {
+                root.stickToBottom = true;
+                listView.positionViewAtEnd();
+            });
         }
 
         delegate: Item {
@@ -35,7 +45,7 @@ Item {
 
             readonly property string previousRole: (index > 0 && root.messages) ? (root.messages.get(index - 1).role || "") : ""
             readonly property bool roleChanged: previousRole.length > 0 && previousRole !== (model.role || "")
-            readonly property int topGap: roleChanged ? Theme.spacingS : 0
+            readonly property int topGap: roleChanged ? Theme.spacingM : 0
 
             implicitHeight: bubble.implicitHeight + topGap
 

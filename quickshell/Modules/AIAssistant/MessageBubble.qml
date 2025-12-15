@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import qs.Common
+import "../../Common/markdown2html.js" as Markdown2Html
 import qs.Widgets
 
 Item {
@@ -15,6 +16,9 @@ Item {
     readonly property color userBubbleBorder: Theme.withAlpha(Theme.primary, 0.35)
     readonly property color assistantBubbleFill: Theme.surfaceContainer
     readonly property color assistantBubbleBorder: Theme.surfaceVariantAlpha
+
+    readonly property bool useMarkdownRendering: !isUser && status !== "streaming"
+    readonly property string renderedHtml: Markdown2Html.markdownToHtml(root.text)
 
     width: parent ? parent.width : implicitWidth
     implicitHeight: bubble.implicitHeight
@@ -99,12 +103,25 @@ Item {
             }
 
             StyledText {
-                text: root.text
+                text: root.useMarkdownRendering ? root.renderedHtml : root.text
+                textFormat: root.useMarkdownRendering ? Text.RichText : Text.PlainText
                 wrapMode: Text.Wrap
                 font.pixelSize: Theme.fontSizeMedium
                 font.family: SettingsData.aiAssistantUseMonospace ? SettingsData.monoFontFamily : SettingsData.fontFamily
                 color: status === "error" ? Theme.error : Theme.surfaceText
                 width: parent.width
+                elide: Text.ElideNone
+                verticalAlignment: Text.AlignTop
+                linkColor: Theme.primary
+                onLinkActivated: link => {
+                    return Qt.openUrlExternally(link);
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    acceptedButtons: Qt.NoButton
+                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                }
             }
 
             Rectangle {
