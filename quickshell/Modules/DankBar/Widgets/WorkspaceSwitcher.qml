@@ -842,7 +842,12 @@ Item {
                             wsData = modelData;
                         }
                         delegateRoot.loadedWorkspaceData = wsData;
-                        delegateRoot.loadedIsUrgent = wsData?.urgent ?? false;
+                        if (CompositorService.isNiri) {
+                            const workspaceId = wsData?.id;
+                            delegateRoot.loadedIsUrgent = workspaceId ? NiriService.windows.some(w => w.workspace_id === workspaceId && w.is_urgent) : false;
+                        } else {
+                            delegateRoot.loadedIsUrgent = wsData?.urgent ?? false;
+                        }
 
                         var icData = null;
                         if (wsData?.name) {
@@ -878,8 +883,8 @@ Item {
                     radius: Theme.cornerRadius
                     color: isActive ? Theme.primary : isUrgent ? Theme.error : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.outlineButton : Theme.surfaceTextAlpha
 
-                    border.width: isUrgent && !isActive ? 2 : 0
-                    border.color: isUrgent && !isActive ? Theme.error : Theme.withAlpha(Theme.error, 0)
+                    border.width: isUrgent ? 2 : 0
+                    border.color: isUrgent ? Theme.error : Theme.withAlpha(Theme.error, 0)
 
                     Behavior on width {
                         NumberAnimation {

@@ -304,6 +304,9 @@ Singleton {
         case 'WorkspaceUrgencyChanged':
             handleWorkspaceUrgencyChanged(event.WorkspaceUrgencyChanged);
             break;
+        case 'WindowUrgencyChanged':
+            handleWindowUrgencyChanged(event.WindowUrgencyChanged);
+            break;
         case 'ScreenshotCaptured':
             handleScreenshotCaptured(event.ScreenshotCaptured);
             break;
@@ -567,6 +570,23 @@ Singleton {
             updatedWorkspaces[id] = id === data.id ? updatedWs : root.workspaces[id];
         }
         setWorkspaces(updatedWorkspaces);
+
+        windowUrgentChanged();
+    }
+
+    function handleWindowUrgencyChanged(data) {
+        const windowIndex = windows.findIndex(w => w.id === data.id);
+        if (windowIndex < 0)
+            return;
+
+        const updatedWindows = [...windows];
+        const updatedWindow = {};
+        for (let prop in updatedWindows[windowIndex]) {
+            updatedWindow[prop] = updatedWindows[windowIndex][prop];
+        }
+        updatedWindow.is_urgent = data.urgent;
+        updatedWindows[windowIndex] = updatedWindow;
+        windows = updatedWindows;
 
         windowUrgentChanged();
     }
