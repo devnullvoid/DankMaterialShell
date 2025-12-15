@@ -803,16 +803,15 @@ echo "==> Cleaning old tarballs from OBS server (prevents downloading 100+ old v
 OBS_FILES=$(osc api "/source/$OBS_PROJECT/$PACKAGE" 2>/dev/null || echo "")
 if [[ -n "$OBS_FILES" ]]; then
     DELETED_COUNT=0
-    KEEP_PATTERN=""
+    KEEP_CURRENT=""
     if [[ -n "$CHANGELOG_VERSION" ]]; then
-        BASE_KEEP_VERSION=$(echo "$CHANGELOG_VERSION" | sed 's/ppa[0-9]*$//')
-        KEEP_PATTERN="${PACKAGE}_${BASE_KEEP_VERSION}"
-        echo "  Keeping tarballs matching: ${KEEP_PATTERN}*"
+        KEEP_CURRENT="${PACKAGE}_${CHANGELOG_VERSION}.tar.gz"
+        echo "  Keeping only current version: ${KEEP_CURRENT}"
     fi
 
     for old_file in $(echo "$OBS_FILES" | grep -oP '(?<=name=")[^"]*\.(tar\.gz|tar\.xz|tar\.bz2)(?=")' || true); do
-        if [[ -n "$KEEP_PATTERN" ]] && [[ "$old_file" == ${KEEP_PATTERN}* ]]; then
-            echo "  - Keeping current version: $old_file"
+        if [[ "$old_file" == "$KEEP_CURRENT" ]]; then
+            echo "  - Keeping: $old_file"
             continue
         fi
 
