@@ -7,14 +7,6 @@ on:
         description: "Package to update (dms, dms-git, or all)"
         required: false
         default: "all"
-      force_upload:
-        description: "Force upload without version check"
-        required: false
-        default: "false"
-        type: choice
-        options:
-          - "false"
-          - "true"
       rebuild_release:
         description: "Release number for rebuilds (e.g., 2, 3, 4 to increment spec Release)"
         required: false
@@ -47,59 +39,108 @@ jobs:
           OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
           OBS_PASSWORD: ${{ secrets.OBS_PASSWORD }}
         run: |
+          # Helper function to check dms-git commit
+          check_dms_git() {
+            local CURRENT_COMMIT=$(git rev-parse --short=8 HEAD)
+            local OBS_SPEC=$(curl -s -u "$OBS_USERNAME:$OBS_PASSWORD" "https://api.opensuse.org/source/home:AvengeMedia:dms-git/dms-git/dms-git.spec" 2>/dev/null || echo "")
+            local OBS_COMMIT=$(echo "$OBS_SPEC" | grep "^Version:" | grep -oP '\.[a-f0-9]{8}' | tr -d '.' || echo "")
+
+            if [[ -n "$OBS_COMMIT" && "$CURRENT_COMMIT" == "$OBS_COMMIT" ]]; then
+              echo "📋 dms-git: Commit $CURRENT_COMMIT already exists, skipping"
+              return 1  # No update needed
+            else
+              echo "📋 dms-git: New commit $CURRENT_COMMIT (OBS has ${OBS_COMMIT:-none})"
+              return 0  # Update needed
+            fi
+          }
+
+          # Helper function to check dms stable tag
+          check_dms_stable() {
+            local LATEST_TAG=$(curl -s https://api.github.com/repos/AvengeMedia/DankMaterialShell/releases/latest | grep '"tag_name"' | sed 's/.*"tag_name": "v\?\([^"]*\)".*/\1/' || echo "")
+            local OBS_SPEC=$(curl -s -u "$OBS_USERNAME:$OBS_PASSWORD" "https://api.opensuse.org/source/home:AvengeMedia:dms/dms/dms.spec" 2>/dev/null || echo "")
+            local OBS_VERSION=$(echo "$OBS_SPEC" | grep "^Version:" | awk '{print $2}' | xargs || echo "")
+
+            if [[ -n "$LATEST_TAG" && "$LATEST_TAG" == "$OBS_VERSION" ]]; then
+              echo "📋 dms: Tag $LATEST_TAG already exists, skipping"
+              return 1  # No update needed
+            else
+              echo "📋 dms: New tag ${LATEST_TAG:-unknown} (OBS has ${OBS_VERSION:-none})"
+              return 0  # Update needed
+            fi
+          }
+
+          # Main logic
+          REBUILD="${{ github.event.inputs.rebuild_release }}"
+
           if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" =~ ^refs/tags/ ]]; then
+            # Tag push - always update stable package
             echo "packages=dms" >> $GITHUB_OUTPUT
             VERSION="${GITHUB_REF#refs/tags/}"
             echo "version=$VERSION" >> $GITHUB_OUTPUT
             echo "has_updates=true" >> $GITHUB_OUTPUT
             echo "Triggered by tag: $VERSION (always update)"
+
           elif [[ "${{ github.event_name }}" == "schedule" ]]; then
+            # Scheduled run - check dms-git only
             echo "packages=dms-git" >> $GITHUB_OUTPUT
-            echo "Checking if dms-git source has changed..."
-
-            # Get current commit hash (8 chars to match spec format)
-            CURRENT_COMMIT=$(git rev-parse --short=8 HEAD)
-
-            # Query OBS API for current spec file version
-            # Format: Version: 1.0.2+git2528.d336866f
-            OBS_SPEC=$(curl -s -u "$OBS_USERNAME:$OBS_PASSWORD" "https://api.opensuse.org/source/home:AvengeMedia:dms-git/dms-git/dms-git.spec" 2>/dev/null || echo "")
-
-            if [[ -n "$OBS_SPEC" && "$OBS_SPEC" != *"error"* ]]; then
-              # Extract commit hash from Version line (e.g., d336866f from 1.0.2+git2528.d336866f)
-              OBS_COMMIT=$(echo "$OBS_SPEC" | grep "^Version:" | grep -oP '\.[a-f0-9]{8}' | tr -d '.' || echo "")
-
-              if [[ -n "$OBS_COMMIT" ]]; then
-                if [[ "$CURRENT_COMMIT" == "$OBS_COMMIT" ]]; then
-                  echo "has_updates=false" >> $GITHUB_OUTPUT
-                  echo "📋 Commit $CURRENT_COMMIT already uploaded to OBS, skipping"
-                else
-                  echo "has_updates=true" >> $GITHUB_OUTPUT
-                  echo "📋 New commit detected: $CURRENT_COMMIT (OBS has $OBS_COMMIT)"
-                fi
-              else
-                echo "has_updates=true" >> $GITHUB_OUTPUT
-                echo "📋 Could not extract OBS commit, proceeding with update"
-              fi
-            else
+            if check_dms_git; then
               echo "has_updates=true" >> $GITHUB_OUTPUT
-              echo "📋 Could not fetch OBS spec, proceeding with update"
+            else
+              echo "has_updates=false" >> $GITHUB_OUTPUT
             fi
-          elif [[ "${{ github.event.inputs.force_upload }}" == "true" ]]; then
+
+          elif [[ -n "${{ github.event.inputs.package }}" ]]; then
+            # Manual workflow trigger
             PKG="${{ github.event.inputs.package }}"
-            if [[ -z "$PKG" || "$PKG" == "all" ]]; then
-              echo "packages=all" >> $GITHUB_OUTPUT
-              echo "has_updates=true" >> $GITHUB_OUTPUT
-              echo "🚀 Force upload: all packages"
-            else
+
+            if [[ -n "$REBUILD" ]]; then
+              # Rebuild requested - always proceed
               echo "packages=$PKG" >> $GITHUB_OUTPUT
               echo "has_updates=true" >> $GITHUB_OUTPUT
-              echo "🚀 Force upload: $PKG"
+              echo "🔄 Manual rebuild requested: $PKG (ppa$REBUILD)"
+
+            elif [[ "$PKG" == "all" ]]; then
+              # Check each package and build list of those needing updates
+              PACKAGES_TO_UPDATE=()
+              check_dms_git && PACKAGES_TO_UPDATE+=("dms-git")
+              check_dms_stable && PACKAGES_TO_UPDATE+=("dms")
+
+              if [[ ${#PACKAGES_TO_UPDATE[@]} -gt 0 ]]; then
+                echo "packages=${PACKAGES_TO_UPDATE[*]}" >> $GITHUB_OUTPUT
+                echo "has_updates=true" >> $GITHUB_OUTPUT
+                echo "✓ Packages to update: ${PACKAGES_TO_UPDATE[*]}"
+              else
+                echo "packages=" >> $GITHUB_OUTPUT
+                echo "has_updates=false" >> $GITHUB_OUTPUT
+                echo "✓ All packages up to date"
+              fi
+
+            elif [[ "$PKG" == "dms-git" ]]; then
+              if check_dms_git; then
+                echo "packages=$PKG" >> $GITHUB_OUTPUT
+                echo "has_updates=true" >> $GITHUB_OUTPUT
+              else
+                echo "packages=" >> $GITHUB_OUTPUT
+                echo "has_updates=false" >> $GITHUB_OUTPUT
+              fi
+
+            elif [[ "$PKG" == "dms" ]]; then
+              if check_dms_stable; then
+                echo "packages=$PKG" >> $GITHUB_OUTPUT
+                echo "has_updates=true" >> $GITHUB_OUTPUT
+              else
+                echo "packages=" >> $GITHUB_OUTPUT
+                echo "has_updates=false" >> $GITHUB_OUTPUT
+              fi
+
+            else
+              # Unknown package - proceed anyway
+              echo "packages=$PKG" >> $GITHUB_OUTPUT
+              echo "has_updates=true" >> $GITHUB_OUTPUT
+              echo "Manual trigger: $PKG"
             fi
-          elif [[ -n "${{ github.event.inputs.package }}" ]]; then
-            echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
-            echo "has_updates=true" >> $GITHUB_OUTPUT
-            echo "Manual trigger: ${{ github.event.inputs.package }}"
           else
+            # Fallback - proceed
             echo "packages=all" >> $GITHUB_OUTPUT
             echo "has_updates=true" >> $GITHUB_OUTPUT
           fi
@@ -108,10 +149,7 @@ jobs:
     name: Upload to OBS
     needs: check-updates
     runs-on: ubuntu-latest
-    if: |
-      github.event.inputs.force_upload == 'true' ||
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-updates.outputs.has_updates == 'true'
+    if: needs.check-updates.outputs.has_updates == 'true'
 
     steps:
       - name: Checkout
@@ -244,32 +282,76 @@ jobs:
 
       - name: Upload to OBS
         env:
-          FORCE_UPLOAD: ${{ github.event.inputs.force_upload }}
           REBUILD_RELEASE: ${{ github.event.inputs.rebuild_release }}
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
-          MESSAGE="Automated update from GitHub Actions"
 
+          if [[ -z "$PACKAGES" ]]; then
+            echo "✓ No packages need uploading. All up to date!"
+            exit 0
+          fi
+
+          MESSAGE="Automated update from GitHub Actions"
           if [[ -n "${{ steps.packages.outputs.version }}" ]]; then
             MESSAGE="Update to ${{ steps.packages.outputs.version }}"
           fi
 
-          if [[ "$PACKAGES" == "all" ]]; then
-            bash distro/scripts/obs-upload.sh dms "$MESSAGE"
-            bash distro/scripts/obs-upload.sh dms-git "Automated git update"
-          else
-            bash distro/scripts/obs-upload.sh "$PACKAGES" "$MESSAGE"
-          fi
+          # PACKAGES can be space-separated list (e.g., "dms-git dms" from "all" check)
+          # Loop through each package and upload
+          for PKG in $PACKAGES; do
+            echo ""
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "Uploading $PKG to OBS..."
+            if [[ -n "$REBUILD_RELEASE" ]]; then
+              echo "🔄 Using rebuild release number: ppa$REBUILD_RELEASE"
+            fi
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+            if [[ "$PKG" == "dms-git" ]]; then
+              bash distro/scripts/obs-upload.sh dms-git "Automated git update"
+            else
+              bash distro/scripts/obs-upload.sh "$PKG" "$MESSAGE"
+            fi
+          done
 
       - name: Summary
+        if: always()
         run: |
-          echo "### OBS Package Update Complete" >> $GITHUB_STEP_SUMMARY
+          echo "### OBS Package Upload Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Packages**: ${{ steps.packages.outputs.packages }}" >> $GITHUB_STEP_SUMMARY
-          if [[ -n "${{ steps.packages.outputs.version }}" ]]; then
-            echo "- **Version**: ${{ steps.packages.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+
+          PACKAGES="${{ steps.packages.outputs.packages }}"
+
+          if [[ -z "$PACKAGES" ]]; then
+            echo "**Status:** ✅ All packages up to date (no uploads needed)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "All packages are current. Run completed successfully." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Packages Uploaded:**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            for PKG in $PACKAGES; do
+              case "$PKG" in
+                dms)
+                  echo "- ✅ **dms** → [View builds](https://build.opensuse.org/package/show/home:AvengeMedia:dms/dms)" >> $GITHUB_STEP_SUMMARY
+                  ;;
+                dms-git)
+                  echo "- ✅ **dms-git** → [View builds](https://build.opensuse.org/package/show/home:AvengeMedia:dms-git/dms-git)" >> $GITHUB_STEP_SUMMARY
+                  ;;
+              esac
+            done
+
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            if [[ -n "${{ github.event.inputs.rebuild_release }}" ]]; then
+              echo "**Rebuild Number:** ppa${{ github.event.inputs.rebuild_release }}" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            if [[ -n "${{ steps.packages.outputs.version }}" ]]; then
+              echo "**Version:** ${{ steps.packages.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            echo "Monitor build progress on [OBS project page](https://build.opensuse.org/project/show/home:AvengeMedia)." >> $GITHUB_STEP_SUMMARY
           fi
-          if [[ "${{ needs.check-updates.outputs.has_updates }}" == "false" ]]; then
-            echo "- **Status**: Skipped (no changes detected)" >> $GITHUB_STEP_SUMMARY
-          fi
-          echo "- **Project**: https://build.opensuse.org/project/show/home:AvengeMedia" >> $GITHUB_STEP_SUMMARY
