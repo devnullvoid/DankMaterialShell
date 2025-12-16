@@ -258,6 +258,7 @@ var SPEC = {
     displayNameMode: { def: "system" },
     screenPreferences: { def: {} },
     showOnLastDisplay: { def: {} },
+    niriOutputSettings: { def: {} },
 
     barConfigs: { def: [{
         id: "default",

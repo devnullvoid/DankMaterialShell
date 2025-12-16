@@ -32,9 +32,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -48,9 +47,8 @@ FocusScope {
             sourceComponent: TimeWeatherTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -66,9 +64,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -84,9 +81,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -100,9 +96,8 @@ FocusScope {
             sourceComponent: WorkspacesTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -118,9 +113,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -134,9 +128,8 @@ FocusScope {
             sourceComponent: DisplayConfigTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -150,9 +143,8 @@ FocusScope {
             sourceComponent: GammaControlTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -166,9 +158,8 @@ FocusScope {
             sourceComponent: DisplayWidgetsTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -182,9 +173,8 @@ FocusScope {
             sourceComponent: NetworkTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -198,9 +188,8 @@ FocusScope {
             sourceComponent: PrinterTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -214,9 +203,8 @@ FocusScope {
             sourceComponent: LauncherTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -230,9 +218,8 @@ FocusScope {
             sourceComponent: ThemeColorsTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -246,9 +233,8 @@ FocusScope {
             sourceComponent: LockScreenTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -264,9 +250,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -280,9 +265,8 @@ FocusScope {
             sourceComponent: AboutTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -296,9 +280,8 @@ FocusScope {
             sourceComponent: TypographyMotionTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -312,9 +295,8 @@ FocusScope {
             sourceComponent: SoundsTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -328,9 +310,8 @@ FocusScope {
             sourceComponent: MediaPlayerTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -344,9 +325,8 @@ FocusScope {
             sourceComponent: NotificationsTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -360,9 +340,8 @@ FocusScope {
             sourceComponent: OSDTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -376,9 +355,8 @@ FocusScope {
             sourceComponent: RunningAppsTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -392,9 +370,8 @@ FocusScope {
             sourceComponent: SystemUpdaterTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -408,9 +385,8 @@ FocusScope {
             sourceComponent: PowerSleepTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -426,9 +402,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -442,9 +417,8 @@ FocusScope {
             sourceComponent: ClipboardTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
     }

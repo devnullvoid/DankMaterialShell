@@ -15,8 +15,8 @@ Item {
     property var allOutputs: buildAllOutputsMap()
 
     property var includeStatus: ({
-            exists: false,
-            included: false
+            "exists": false,
+            "included": false
         })
     property bool checkingInclude: false
     property bool fixingInclude: false
@@ -25,12 +25,12 @@ Item {
         const result = {};
         for (const name in savedOutputs) {
             result[name] = Object.assign({}, savedOutputs[name], {
-                connected: false
+                "connected": false
             });
         }
         for (const name in outputs) {
             result[name] = Object.assign({}, outputs[name], {
-                connected: true
+                "connected": true
             });
         }
         return result;
@@ -123,23 +123,23 @@ Item {
             const vrrMatch = body.match(/variable-refresh-rate(?:\s+on)?/);
 
             result[name] = {
-                name: name,
-                logical: {
-                    x: posMatch ? parseInt(posMatch[1]) : 0,
-                    y: posMatch ? parseInt(posMatch[2]) : 0,
-                    scale: scaleMatch ? parseFloat(scaleMatch[1]) : 1.0,
-                    transform: transformMatch ? transformMatch[1] : "Normal"
+                "name": name,
+                "logical": {
+                    "x": posMatch ? parseInt(posMatch[1]) : 0,
+                    "y": posMatch ? parseInt(posMatch[2]) : 0,
+                    "scale": scaleMatch ? parseFloat(scaleMatch[1]) : 1.0,
+                    "transform": transformMatch ? transformMatch[1] : "Normal"
                 },
-                modes: modeMatch ? [
+                "modes": modeMatch ? [
                     {
-                        width: parseInt(modeMatch[1]),
-                        height: parseInt(modeMatch[2]),
-                        refresh_rate: Math.round(parseFloat(modeMatch[3]) * 1000)
+                        "width": parseInt(modeMatch[1]),
+                        "height": parseInt(modeMatch[2]),
+                        "refresh_rate": Math.round(parseFloat(modeMatch[3]) * 1000)
                     }
                 ] : [],
-                current_mode: 0,
-                vrr_enabled: !!vrrMatch,
-                vrr_supported: true
+                "current_mode": 0,
+                "vrr_enabled": !!vrrMatch,
+                "vrr_supported": true
             };
         }
         return result;
@@ -154,23 +154,23 @@ Item {
                 continue;
             const name = match[1].trim();
             result[name] = {
-                name: name,
-                logical: {
-                    x: parseInt(match[5]),
-                    y: parseInt(match[6]),
-                    scale: parseFloat(match[7]),
-                    transform: hyprlandToTransform(parseInt(match[8] || "0"))
+                "name": name,
+                "logical": {
+                    "x": parseInt(match[5]),
+                    "y": parseInt(match[6]),
+                    "scale": parseFloat(match[7]),
+                    "transform": hyprlandToTransform(parseInt(match[8] || "0"))
                 },
-                modes: [
+                "modes": [
                     {
-                        width: parseInt(match[2]),
-                        height: parseInt(match[3]),
-                        refresh_rate: Math.round(parseFloat(match[4]) * 1000)
+                        "width": parseInt(match[2]),
+                        "height": parseInt(match[3]),
+                        "refresh_rate": Math.round(parseFloat(match[4]) * 1000)
                     }
                 ],
-                current_mode: 0,
-                vrr_enabled: match[9] === "1",
-                vrr_supported: true
+                "current_mode": 0,
+                "vrr_enabled": match[9] === "1",
+                "vrr_supported": true
             };
         }
         return result;
@@ -208,23 +208,23 @@ Item {
                 continue;
             const name = match[1].trim();
             result[name] = {
-                name: name,
-                logical: {
-                    x: parseInt(match[7]),
-                    y: parseInt(match[8]),
-                    scale: parseFloat(match[6]),
-                    transform: mangoToTransform(parseInt(match[5]))
+                "name": name,
+                "logical": {
+                    "x": parseInt(match[7]),
+                    "y": parseInt(match[8]),
+                    "scale": parseFloat(match[6]),
+                    "transform": mangoToTransform(parseInt(match[5]))
                 },
-                modes: [
+                "modes": [
                     {
-                        width: parseInt(match[9]),
-                        height: parseInt(match[10]),
-                        refresh_rate: parseInt(match[11]) * 1000
+                        "width": parseInt(match[9]),
+                        "height": parseInt(match[10]),
+                        "refresh_rate": parseInt(match[11]) * 1000
                     }
                 ],
-                current_mode: 0,
-                vrr_enabled: false,
-                vrr_supported: false
+                "current_mode": 0,
+                "vrr_enabled": false,
+                "vrr_supported": false
             };
         }
         return result;
@@ -258,24 +258,24 @@ Item {
         switch (CompositorService.compositor) {
         case "niri":
             return {
-                configFile: configDir + "/niri/config.kdl",
-                outputsFile: configDir + "/niri/dms/outputs.kdl",
-                grepPattern: 'include.*"dms/outputs.kdl"',
-                includeLine: 'include "dms/outputs.kdl"'
+                "configFile": configDir + "/niri/config.kdl",
+                "outputsFile": configDir + "/niri/dms/outputs.kdl",
+                "grepPattern": 'include.*"dms/outputs.kdl"',
+                "includeLine": 'include "dms/outputs.kdl"'
             };
         case "hyprland":
             return {
-                configFile: configDir + "/hypr/hyprland.conf",
-                outputsFile: configDir + "/hypr/dms/outputs.conf",
-                grepPattern: 'source.*dms/outputs.conf',
-                includeLine: "source = ./dms/outputs.conf"
+                "configFile": configDir + "/hypr/hyprland.conf",
+                "outputsFile": configDir + "/hypr/dms/outputs.conf",
+                "grepPattern": 'source.*dms/outputs.conf',
+                "includeLine": "source = ./dms/outputs.conf"
             };
         case "dwl":
             return {
-                configFile: configDir + "/mango/config.conf",
-                outputsFile: configDir + "/mango/dms/outputs.conf",
-                grepPattern: 'source.*dms/outputs.conf',
-                includeLine: "source=./dms/outputs.conf"
+                "configFile": configDir + "/mango/config.conf",
+                "outputsFile": configDir + "/mango/dms/outputs.conf",
+                "grepPattern": 'source.*dms/outputs.conf',
+                "includeLine": "source=./dms/outputs.conf"
             };
         default:
             return null;
@@ -286,8 +286,8 @@ Item {
         const paths = getConfigPaths();
         if (!paths) {
             includeStatus = {
-                exists: false,
-                included: false
+                "exists": false,
+                "included": false
             };
             return;
         }
@@ -297,8 +297,8 @@ Item {
             checkingInclude = false;
             const parts = output.trim().split(" ");
             includeStatus = {
-                exists: parts[0] === "true",
-                included: parts[1] === "true"
+                "exists": parts[0] === "true",
+                "included": parts[1] === "true"
             };
         });
     }
@@ -468,7 +468,7 @@ Item {
                 result[outputName].logical.y = changes.position.y;
             }
             if (changes.mode !== undefined && result[outputName].modes) {
-                for (let i = 0; i < result[outputName].modes.length; i++) {
+                for (var i = 0; i < result[outputName].modes.length; i++) {
                     if (formatMode(result[outputName].modes[i]) === changes.mode) {
                         result[outputName].current_mode = i;
                         break;
@@ -519,10 +519,12 @@ Item {
     }
 
     property var pendingChanges: ({})
+    property var pendingNiriChanges: ({})
+    property var originalNiriSettings: null
     property var originalOutputs: null
     property string originalDisplayNameMode: ""
     property bool formatChanged: originalDisplayNameMode !== "" && originalDisplayNameMode !== SettingsData.displayNameMode
-    property bool hasPendingChanges: Object.keys(pendingChanges).length > 0 || formatChanged
+    property bool hasPendingChanges: Object.keys(pendingChanges).length > 0 || Object.keys(pendingNiriChanges).length > 0 || formatChanged
 
     function getOutputDisplayName(output, outputName) {
         if (SettingsData.displayNameMode === "model" && output?.make && output?.model) {
@@ -533,6 +535,42 @@ Item {
             return output.make + " " + output.model;
         }
         return outputName;
+    }
+
+    function getNiriOutputIdentifier(output, outputName) {
+        if (SettingsData.displayNameMode === "model" && output?.make && output?.model) {
+            const serial = output.serial || "Unknown";
+            return output.make + " " + output.model + " " + serial;
+        }
+        return outputName;
+    }
+
+    function getNiriSetting(output, outputName, key, defaultValue) {
+        if (!CompositorService.isNiri)
+            return defaultValue;
+        const identifier = getNiriOutputIdentifier(output, outputName);
+        const pending = pendingNiriChanges[identifier];
+        if (pending && pending[key] !== undefined)
+            return pending[key];
+        return SettingsData.getNiriOutputSetting(identifier, key, defaultValue);
+    }
+
+    function setNiriSetting(output, outputName, key, value) {
+        if (!CompositorService.isNiri)
+            return;
+        initOriginalNiriSettings();
+        const identifier = getNiriOutputIdentifier(output, outputName);
+        const newPending = JSON.parse(JSON.stringify(pendingNiriChanges));
+        if (!newPending[identifier])
+            newPending[identifier] = {};
+        newPending[identifier][key] = value;
+        pendingNiriChanges = newPending;
+    }
+
+    function initOriginalNiriSettings() {
+        if (originalNiriSettings)
+            return;
+        originalNiriSettings = JSON.parse(JSON.stringify(SettingsData.niriOutputSettings));
     }
 
     function initOriginalOutputs() {
@@ -582,8 +620,8 @@ Item {
                 if (!newPending[changedOutput])
                     newPending[changedOutput] = {};
                 newPending[changedOutput].position = {
-                    x: newX,
-                    y: changedY
+                    "x": newX,
+                    "y": changedY
                 };
                 pendingChanges = newPending;
                 backendUpdateOutputPosition(changedOutput, newX, changedY);
@@ -597,8 +635,8 @@ Item {
                 if (!newPending[name])
                     newPending[name] = {};
                 newPending[name].position = {
-                    x: newOtherX,
-                    y: otherY
+                    "x": newOtherX,
+                    "y": otherY
                 };
                 pendingChanges = newPending;
                 backendUpdateOutputPosition(name, newOtherX, otherY);
@@ -619,7 +657,9 @@ Item {
 
     function clearPendingChanges() {
         pendingChanges = {};
+        pendingNiriChanges = {};
         originalOutputs = null;
+        originalNiriSettings = null;
         originalDisplayNameMode = "";
     }
 
@@ -631,6 +671,9 @@ Item {
         backendFetchOutputs();
         clearPendingChanges();
     }
+
+    property bool validatingConfig: false
+    property string validationError: ""
 
     function applyChanges() {
         if (!hasPendingChanges)
@@ -656,6 +699,25 @@ Item {
                 changeDescriptions.push(outputName + ": " + I18n.tr("VRR") + " → " + (changes.vrr ? I18n.tr("Enabled") : I18n.tr("Disabled")));
         }
 
+        for (const outputId in pendingNiriChanges) {
+            const changes = pendingNiriChanges[outputId];
+            if (changes.disabled !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("Disabled") + " → " + (changes.disabled ? I18n.tr("Yes") : I18n.tr("No")));
+            if (changes.vrrOnDemand !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("VRR On-Demand") + " → " + (changes.vrrOnDemand ? I18n.tr("Enabled") : I18n.tr("Disabled")));
+            if (changes.focusAtStartup !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("Focus at Startup") + " → " + (changes.focusAtStartup ? I18n.tr("Yes") : I18n.tr("No")));
+            if (changes.hotCorners !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("Hot Corners") + " → " + I18n.tr("Modified"));
+            if (changes.layout !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("Layout") + " → " + I18n.tr("Modified"));
+        }
+
+        if (CompositorService.isNiri) {
+            validateAndApplyNiriConfig(changeDescriptions);
+            return;
+        }
+
         confirmationModal.changes = changeDescriptions;
         confirmationModal.open();
 
@@ -666,31 +728,183 @@ Item {
         backendWriteOutputsConfig(mergedOutputs);
     }
 
+    function validateAndApplyNiriConfig(changeDescriptions) {
+        validatingConfig = true;
+        validationError = "";
+
+        const mergedOutputs = buildOutputsWithPendingChanges();
+        const mergedNiriSettings = buildMergedNiriSettings();
+        const configContent = generateNiriOutputsKdl(mergedOutputs, mergedNiriSettings);
+
+        const configDir = Paths.strip(StandardPaths.writableLocation(StandardPaths.ConfigLocation));
+        const tempFile = configDir + "/niri/dms/.outputs-validate-tmp.kdl";
+
+        Proc.runCommand("niri-validate-write-tmp", ["sh", "-c", `mkdir -p "$(dirname "${tempFile}")" && cat > "${tempFile}" << 'EOF'\n${configContent}EOF`], (output, writeExitCode) => {
+            if (writeExitCode !== 0) {
+                validatingConfig = false;
+                validationError = I18n.tr("Failed to write temp file for validation");
+                ToastService.showError(I18n.tr("Config validation failed"), validationError, "", "display-config");
+                return;
+            }
+            Proc.runCommand("niri-validate-config", ["niri", "validate", "-c", tempFile], (validateOutput, validateExitCode) => {
+                validatingConfig = false;
+                Proc.runCommand("niri-validate-cleanup", ["rm", "-f", tempFile], () => {});
+                if (validateExitCode !== 0) {
+                    validationError = validateOutput.trim() || I18n.tr("Invalid configuration");
+                    ToastService.showError(I18n.tr("Config validation failed"), validationError, "", "display-config");
+                    return;
+                }
+                confirmationModal.changes = changeDescriptions;
+                confirmationModal.open();
+                if (formatChanged)
+                    SettingsData.saveSettings();
+                commitNiriSettingsChanges();
+                backendWriteOutputsConfig(mergedOutputs);
+            });
+        });
+    }
+
+    function buildMergedNiriSettings() {
+        const merged = JSON.parse(JSON.stringify(SettingsData.niriOutputSettings));
+        for (const outputId in pendingNiriChanges) {
+            if (!merged[outputId])
+                merged[outputId] = {};
+            for (const key in pendingNiriChanges[outputId]) {
+                merged[outputId][key] = pendingNiriChanges[outputId][key];
+            }
+        }
+        return merged;
+    }
+
+    function commitNiriSettingsChanges() {
+        for (const outputId in pendingNiriChanges) {
+            for (const key in pendingNiriChanges[outputId]) {
+                SettingsData.setNiriOutputSetting(outputId, key, pendingNiriChanges[outputId][key]);
+            }
+        }
+    }
+
+    function generateNiriOutputsKdl(outputsData, niriSettings) {
+        let kdlContent = `// Auto-generated by DMS - do not edit manually\n\n`;
+        for (const outputName in outputsData) {
+            const output = outputsData[outputName];
+            const identifier = getNiriOutputIdentifier(output, outputName);
+            const settings = niriSettings[identifier] || {};
+            kdlContent += `output "${identifier}" {\n`;
+            if (settings.disabled) {
+                kdlContent += `    off\n}\n\n`;
+                continue;
+            }
+            if (output.current_mode !== undefined && output.modes && output.modes[output.current_mode]) {
+                const mode = output.modes[output.current_mode];
+                kdlContent += `    mode "${mode.width}x${mode.height}@${(mode.refresh_rate / 1000).toFixed(3)}"\n`;
+            }
+            if (output.logical) {
+                if (output.logical.scale && output.logical.scale !== 1.0)
+                    kdlContent += `    scale ${output.logical.scale}\n`;
+                if (output.logical.transform && output.logical.transform !== "Normal") {
+                    const transformMap = {
+                        "Normal": "normal",
+                        "90": "90",
+                        "180": "180",
+                        "270": "270",
+                        "Flipped": "flipped",
+                        "Flipped90": "flipped-90",
+                        "Flipped180": "flipped-180",
+                        "Flipped270": "flipped-270"
+                    };
+                    kdlContent += `    transform "${transformMap[output.logical.transform] || "normal"}"\n`;
+                }
+                if (output.logical.x !== undefined && output.logical.y !== undefined)
+                    kdlContent += `    position x=${output.logical.x} y=${output.logical.y}\n`;
+            }
+            if (output.vrr_enabled) {
+                const vrrOnDemand = settings.vrrOnDemand ?? false;
+                kdlContent += vrrOnDemand ? `    variable-refresh-rate on-demand=true\n` : `    variable-refresh-rate\n`;
+            }
+            if (settings.focusAtStartup)
+                kdlContent += `    focus-at-startup\n`;
+            if (settings.backdropColor)
+                kdlContent += `    backdrop-color "${settings.backdropColor}"\n`;
+            kdlContent += generateHotCornersBlockLocal(settings);
+            kdlContent += generateLayoutBlockLocal(settings);
+            kdlContent += `}\n\n`;
+        }
+        return kdlContent;
+    }
+
+    function generateHotCornersBlockLocal(settings) {
+        if (!settings.hotCorners)
+            return "";
+        const hc = settings.hotCorners;
+        if (hc.off)
+            return `    hot-corners {\n        off\n    }\n`;
+        const corners = hc.corners || [];
+        if (corners.length === 0)
+            return "";
+        let block = `    hot-corners {\n`;
+        for (const corner of corners)
+            block += `        ${corner}\n`;
+        block += `    }\n`;
+        return block;
+    }
+
+    function generateLayoutBlockLocal(settings) {
+        if (!settings.layout)
+            return "";
+        const layout = settings.layout;
+        const hasSettings = layout.gaps !== undefined || layout.defaultColumnWidth || layout.presetColumnWidths || layout.alwaysCenterSingleColumn !== undefined;
+        if (!hasSettings)
+            return "";
+        let block = `    layout {\n`;
+        if (layout.gaps !== undefined)
+            block += `        gaps ${layout.gaps}\n`;
+        if (layout.defaultColumnWidth?.type === "proportion")
+            block += `        default-column-width { proportion ${layout.defaultColumnWidth.value}; }\n`;
+        if (layout.presetColumnWidths && layout.presetColumnWidths.length > 0) {
+            block += `        preset-column-widths {\n`;
+            for (const preset of layout.presetColumnWidths) {
+                if (preset.type === "proportion")
+                    block += `            proportion ${preset.value}\n`;
+            }
+            block += `        }\n`;
+        }
+        if (layout.alwaysCenterSingleColumn !== undefined)
+            block += layout.alwaysCenterSingleColumn ? `        always-center-single-column\n` : `        always-center-single-column false\n`;
+        block += `    }\n`;
+        return block;
+    }
+
     function confirmChanges() {
         clearPendingChanges();
     }
 
     function revertChanges() {
         const hadFormatChange = originalDisplayNameMode !== "";
+        const hadNiriChanges = originalNiriSettings !== null;
 
         if (hadFormatChange) {
             SettingsData.displayNameMode = originalDisplayNameMode;
             SettingsData.saveSettings();
         }
 
-        if (!originalOutputs) {
+        if (hadNiriChanges) {
+            SettingsData.niriOutputSettings = JSON.parse(JSON.stringify(originalNiriSettings));
+            SettingsData.saveSettings();
+        }
+
+        if (!originalOutputs && !hadNiriChanges) {
             if (hadFormatChange)
                 backendWriteOutputsConfig(buildOutputsWithPendingChanges());
             clearPendingChanges();
             return;
         }
 
-        const original = JSON.parse(JSON.stringify(originalOutputs));
+        const original = originalOutputs ? JSON.parse(JSON.stringify(originalOutputs)) : buildOutputsWithPendingChanges();
         backendWriteOutputsConfig(original);
-        pendingChanges = {};
-        originalOutputs = null;
-        originalDisplayNameMode = "";
-        outputs = original;
+        clearPendingChanges();
+        if (originalOutputs)
+            outputs = original;
     }
 
     function getOutputBounds() {
@@ -753,8 +967,8 @@ Item {
     function getPhysicalSize(output) {
         if (!output)
             return {
-                w: 1920,
-                h: 1080
+                "w": 1920,
+                "h": 1080
             };
 
         let w = 1920, h = 1080;
@@ -772,28 +986,28 @@ Item {
 
         if (output.logical && isRotated(output.logical.transform))
             return {
-                w: h,
-                h: w
+                "w": h,
+                "h": w
             };
         return {
-            w: w,
-            h: h
+            "w": w,
+            "h": h
         };
     }
 
     function getLogicalSize(output) {
         if (!output)
             return {
-                w: 1920,
-                h: 1080
+                "w": 1920,
+                "h": 1080
             };
 
         const phys = getPhysicalSize(output);
         const scale = output.logical?.scale || 1.0;
 
         return {
-            w: Math.round(phys.w / scale),
-            h: Math.round(phys.h / scale)
+            "w": Math.round(phys.w / scale),
+            "h": Math.round(phys.h / scale)
         };
     }
 
@@ -837,39 +1051,39 @@ Item {
 
             const xSnaps = [
                 {
-                    val: rightEdge,
-                    dist: Math.abs(posX - rightEdge)
+                    "val": rightEdge,
+                    "dist": Math.abs(posX - rightEdge)
                 },
                 {
-                    val: x - testW,
-                    dist: Math.abs(testRight - x)
+                    "val": x - testW,
+                    "dist": Math.abs(testRight - x)
                 },
                 {
-                    val: x,
-                    dist: Math.abs(posX - x)
+                    "val": x,
+                    "dist": Math.abs(posX - x)
                 },
                 {
-                    val: rightEdge - testW,
-                    dist: Math.abs(testRight - rightEdge)
+                    "val": rightEdge - testW,
+                    "dist": Math.abs(testRight - rightEdge)
                 }
             ];
 
             const ySnaps = [
                 {
-                    val: bottomEdge,
-                    dist: Math.abs(posY - bottomEdge)
+                    "val": bottomEdge,
+                    "dist": Math.abs(posY - bottomEdge)
                 },
                 {
-                    val: y - testH,
-                    dist: Math.abs(testBottom - y)
+                    "val": y - testH,
+                    "dist": Math.abs(testBottom - y)
                 },
                 {
-                    val: y,
-                    dist: Math.abs(posY - y)
+                    "val": y,
+                    "dist": Math.abs(posY - y)
                 },
                 {
-                    val: bottomEdge - testH,
-                    dist: Math.abs(testBottom - bottomEdge)
+                    "val": bottomEdge - testH,
+                    "dist": Math.abs(testBottom - bottomEdge)
                 }
             ];
 
@@ -917,36 +1131,36 @@ Item {
 
             const candidates = [
                 {
-                    px: x + size.w,
-                    py: y
+                    "px": x + size.w,
+                    "py": y
                 },
                 {
-                    px: x - testW,
-                    py: y
+                    "px": x - testW,
+                    "py": y
                 },
                 {
-                    px: x,
-                    py: y + size.h
+                    "px": x,
+                    "py": y + size.h
                 },
                 {
-                    px: x,
-                    py: y - testH
+                    "px": x,
+                    "py": y - testH
                 },
                 {
-                    px: x + size.w,
-                    py: y + size.h - testH
+                    "px": x + size.w,
+                    "py": y + size.h - testH
                 },
                 {
-                    px: x - testW,
-                    py: y + size.h - testH
+                    "px": x - testW,
+                    "py": y + size.h - testH
                 },
                 {
-                    px: x + size.w - testW,
-                    py: y + size.h
+                    "px": x + size.w - testW,
+                    "py": y + size.h
                 },
                 {
-                    px: x + size.w - testW,
-                    py: y - testH
+                    "px": x + size.w - testW,
+                    "py": y - testH
                 }
             ];
 
@@ -1204,14 +1418,15 @@ Item {
                         Item {
                             id: monitorCanvas
                             anchors.fill: parent
-                            anchors.margins: 16
+                            anchors.margins: Theme.spacingL
 
                             property var bounds: root.getOutputBounds()
                             property real scaleFactor: {
                                 if (bounds.width === 0 || bounds.height === 0)
                                     return 0.1;
-                                const scaleX = (width - 32) / bounds.width;
-                                const scaleY = (height - 32) / bounds.height;
+                                const padding = Theme.spacingL * 2;
+                                const scaleX = (width - padding) / bounds.width;
+                                const scaleY = (height - padding) / bounds.height;
                                 return Math.min(scaleX, scaleY);
                             }
                             property point offset: Qt.point((width - bounds.width * scaleFactor) / 2 - bounds.minX * scaleFactor, (height - bounds.height * scaleFactor) / 2 - bounds.minY * scaleFactor)
@@ -1384,9 +1599,11 @@ Item {
                             model: allOutputs ? Object.keys(allOutputs) : []
 
                             delegate: StyledRect {
+                                id: outputCard
                                 required property string modelData
                                 property var outputData: allOutputs[modelData]
                                 property bool isConnected: outputData?.connected ?? false
+                                property bool niriExpanded: false
 
                                 width: parent.width
                                 height: outputSettingsCol.implicitHeight + Theme.spacingM * 2
@@ -1611,6 +1828,396 @@ Item {
                                             return root.outputs[modelData]?.vrr_enabled ?? false;
                                         }
                                         onToggled: checked => root.setPendingChange(modelData, "vrr", checked)
+                                    }
+
+                                    DankToggle {
+                                        width: parent.width
+                                        text: I18n.tr("VRR On-Demand")
+                                        description: I18n.tr("VRR activates only when applications request it")
+                                        visible: isConnected && CompositorService.isNiri && (root.outputs[modelData]?.vrr_supported ?? false)
+                                        checked: root.getNiriSetting(outputData, modelData, "vrrOnDemand", false)
+                                        onToggled: checked => root.setNiriSetting(outputData, modelData, "vrrOnDemand", checked)
+                                    }
+
+                                    Rectangle {
+                                        width: parent.width
+                                        height: 1
+                                        color: Theme.withAlpha(Theme.outline, 0.2)
+                                        visible: isConnected && CompositorService.isNiri
+                                    }
+
+                                    Column {
+                                        width: parent.width
+                                        spacing: 0
+                                        visible: isConnected && CompositorService.isNiri
+
+                                        Rectangle {
+                                            width: parent.width
+                                            height: niriHeader.implicitHeight + Theme.spacingS * 2
+                                            color: niriHeaderMouse.containsMouse ? Theme.withAlpha(Theme.primary, 0.1) : "transparent"
+                                            radius: Theme.cornerRadius / 2
+
+                                            Row {
+                                                id: niriHeader
+                                                anchors.left: parent.left
+                                                anchors.right: parent.right
+                                                anchors.verticalCenter: parent.verticalCenter
+                                                anchors.leftMargin: Theme.spacingS
+                                                anchors.rightMargin: Theme.spacingS
+                                                spacing: Theme.spacingS
+
+                                                DankIcon {
+                                                    name: outputCard.niriExpanded ? "expand_more" : "chevron_right"
+                                                    size: Theme.iconSize
+                                                    color: Theme.primary
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                }
+
+                                                StyledText {
+                                                    text: I18n.tr("Compositor Settings")
+                                                    font.pixelSize: Theme.fontSizeMedium
+                                                    font.weight: Font.Medium
+                                                    color: Theme.primary
+                                                    anchors.verticalCenter: parent.verticalCenter
+                                                }
+                                            }
+
+                                            MouseArea {
+                                                id: niriHeaderMouse
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: outputCard.niriExpanded = !outputCard.niriExpanded
+                                            }
+                                        }
+
+                                        Column {
+                                            width: parent.width
+                                            spacing: Theme.spacingS
+                                            visible: outputCard.niriExpanded
+                                            topPadding: Theme.spacingS
+
+                                            DankToggle {
+                                                width: parent.width
+                                                text: I18n.tr("Disable Output")
+                                                checked: root.getNiriSetting(outputData, modelData, "disabled", false)
+                                                onToggled: checked => root.setNiriSetting(outputData, modelData, "disabled", checked)
+                                            }
+
+                                            DankToggle {
+                                                width: parent.width
+                                                text: I18n.tr("Focus at Startup")
+                                                checked: root.getNiriSetting(outputData, modelData, "focusAtStartup", false)
+                                                onToggled: checked => root.setNiriSetting(outputData, modelData, "focusAtStartup", checked)
+                                            }
+
+                                            DankDropdown {
+                                                width: parent.width
+                                                text: I18n.tr("Hot Corners")
+                                                addHorizontalPadding: true
+                                                property var hotCornersData: root.getNiriSetting(outputData, modelData, "hotCorners", null)
+                                                currentValue: {
+                                                    if (!hotCornersData)
+                                                        return I18n.tr("Inherit");
+                                                    if (hotCornersData.off)
+                                                        return I18n.tr("Off");
+                                                    const corners = hotCornersData.corners || [];
+                                                    if (corners.length === 0)
+                                                        return I18n.tr("Inherit");
+                                                    if (corners.length === 4)
+                                                        return I18n.tr("All");
+                                                    return I18n.tr("Select...");
+                                                }
+                                                options: [I18n.tr("Inherit"), I18n.tr("Off"), I18n.tr("All"), I18n.tr("Select...")]
+                                                onValueChanged: value => {
+                                                    switch (value) {
+                                                    case I18n.tr("Inherit"):
+                                                        root.setNiriSetting(outputData, modelData, "hotCorners", null);
+                                                        break;
+                                                    case I18n.tr("Off"):
+                                                        root.setNiriSetting(outputData, modelData, "hotCorners", {
+                                                            "off": true
+                                                        });
+                                                        break;
+                                                    case I18n.tr("All"):
+                                                        root.setNiriSetting(outputData, modelData, "hotCorners", {
+                                                            "corners": ["top-left", "top-right", "bottom-left", "bottom-right"]
+                                                        });
+                                                        break;
+                                                    case I18n.tr("Select..."):
+                                                        root.setNiriSetting(outputData, modelData, "hotCorners", {
+                                                            "corners": []
+                                                        });
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            Item {
+                                                width: parent.width
+                                                height: hotCornersFlow.height
+                                                visible: hotCornersFlow.visible
+
+                                                Flow {
+                                                    id: hotCornersFlow
+                                                    anchors.left: parent.left
+                                                    anchors.right: parent.right
+                                                    anchors.leftMargin: Theme.spacingM
+                                                    anchors.rightMargin: Theme.spacingM
+                                                    spacing: Theme.spacingS
+                                                    property string outName: modelData
+                                                    property var outData: outputData
+                                                    visible: {
+                                                        const hcData = root.getNiriSetting(outData, outName, "hotCorners", null);
+                                                        return hcData && !hcData.off && hcData.corners !== undefined;
+                                                    }
+
+                                                    Repeater {
+                                                        model: ["top-left", "top-right", "bottom-left", "bottom-right"]
+
+                                                        delegate: Rectangle {
+                                                            id: cornerChip
+                                                            required property string modelData
+                                                            property var hcData: root.getNiriSetting(hotCornersFlow.outData, hotCornersFlow.outName, "hotCorners", null)
+                                                            property bool isEnabled: hcData?.corners?.includes(modelData) ?? false
+
+                                                            width: cornerLabel.implicitWidth + Theme.spacingM * 2
+                                                            height: 28
+                                                            radius: 14
+                                                            color: isEnabled ? Theme.primary : Theme.surfaceContainerHighest
+                                                            border.color: isEnabled ? Theme.primary : Theme.outline
+                                                            border.width: 1
+
+                                                            StyledText {
+                                                                id: cornerLabel
+                                                                anchors.centerIn: parent
+                                                                text: cornerChip.modelData.split("-").map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(" ")
+                                                                font.pixelSize: Theme.fontSizeSmall
+                                                                color: cornerChip.isEnabled ? Theme.primaryText : Theme.surfaceText
+                                                            }
+
+                                                            MouseArea {
+                                                                anchors.fill: parent
+                                                                cursorShape: Qt.PointingHandCursor
+                                                                onClicked: {
+                                                                    const currentHc = root.getNiriSetting(hotCornersFlow.outData, hotCornersFlow.outName, "hotCorners", {
+                                                                        "corners": []
+                                                                    });
+                                                                    const corners = currentHc?.corners ? [...currentHc.corners] : [];
+                                                                    const idx = corners.indexOf(cornerChip.modelData);
+                                                                    if (idx >= 0) {
+                                                                        corners.splice(idx, 1);
+                                                                    } else {
+                                                                        corners.push(cornerChip.modelData);
+                                                                    }
+                                                                    root.setNiriSetting(hotCornersFlow.outData, hotCornersFlow.outName, "hotCorners", {
+                                                                        "corners": corners
+                                                                    });
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            Rectangle {
+                                                width: parent.width
+                                                height: 1
+                                                color: Theme.withAlpha(Theme.outline, 0.15)
+                                            }
+
+                                            Item {
+                                                width: parent.width
+                                                height: layoutOverridesCol.implicitHeight
+
+                                                Column {
+                                                    id: layoutOverridesCol
+                                                    anchors.left: parent.left
+                                                    anchors.right: parent.right
+                                                    anchors.leftMargin: Theme.spacingM
+                                                    anchors.rightMargin: Theme.spacingM
+                                                    spacing: Theme.spacingS
+
+                                                    Column {
+                                                        width: parent.width
+                                                        spacing: Theme.spacingXS
+
+                                                        StyledText {
+                                                            text: I18n.tr("Layout Overrides")
+                                                            font.pixelSize: Theme.fontSizeSmall
+                                                            font.weight: Font.Medium
+                                                            color: Theme.surfaceVariantText
+                                                        }
+
+                                                        StyledText {
+                                                            text: I18n.tr("Override global layout settings for this output")
+                                                            font.pixelSize: Theme.fontSizeSmall
+                                                            color: Theme.withAlpha(Theme.surfaceVariantText, 0.7)
+                                                            wrapMode: Text.WordWrap
+                                                            width: parent.width
+                                                        }
+                                                    }
+
+                                                    Row {
+                                                        width: parent.width
+                                                        spacing: Theme.spacingM
+
+                                                        Column {
+                                                            width: (parent.width - Theme.spacingM) / 2
+                                                            spacing: Theme.spacingXS
+
+                                                            StyledText {
+                                                                text: I18n.tr("Window Gaps (px)")
+                                                                font.pixelSize: Theme.fontSizeSmall
+                                                                color: Theme.surfaceVariantText
+                                                            }
+
+                                                            DankTextField {
+                                                                width: parent.width
+                                                                height: 40
+                                                                placeholderText: I18n.tr("Inherit")
+                                                                text: {
+                                                                    const layout = root.getNiriSetting(outputData, modelData, "layout", null);
+                                                                    if (layout?.gaps === undefined)
+                                                                        return "";
+                                                                    return layout.gaps.toString();
+                                                                }
+                                                                onEditingFinished: {
+                                                                    const layout = root.getNiriSetting(outputData, modelData, "layout", {}) || {};
+                                                                    const trimmed = text.trim();
+                                                                    if (!trimmed) {
+                                                                        delete layout.gaps;
+                                                                        root.setNiriSetting(outputData, modelData, "layout", Object.keys(layout).length > 0 ? layout : null);
+                                                                        return;
+                                                                    }
+                                                                    const val = parseInt(trimmed);
+                                                                    if (isNaN(val) || val < 0)
+                                                                        return;
+                                                                    layout.gaps = val;
+                                                                    root.setNiriSetting(outputData, modelData, "layout", layout);
+                                                                }
+                                                            }
+                                                        }
+
+                                                        Column {
+                                                            width: (parent.width - Theme.spacingM) / 2
+                                                            spacing: Theme.spacingXS
+
+                                                            StyledText {
+                                                                text: I18n.tr("Default Width (%)")
+                                                                font.pixelSize: Theme.fontSizeSmall
+                                                                color: Theme.surfaceVariantText
+                                                            }
+
+                                                            DankTextField {
+                                                                width: parent.width
+                                                                height: 40
+                                                                placeholderText: I18n.tr("Inherit")
+                                                                text: {
+                                                                    const layout = root.getNiriSetting(outputData, modelData, "layout", null);
+                                                                    if (!layout?.defaultColumnWidth)
+                                                                        return "";
+                                                                    if (layout.defaultColumnWidth.type !== "proportion")
+                                                                        return "";
+                                                                    return Math.round(layout.defaultColumnWidth.value * 100).toString();
+                                                                }
+                                                                onEditingFinished: {
+                                                                    const layout = root.getNiriSetting(outputData, modelData, "layout", {}) || {};
+                                                                    const trimmed = text.trim().replace("%", "");
+                                                                    if (!trimmed) {
+                                                                        delete layout.defaultColumnWidth;
+                                                                        root.setNiriSetting(outputData, modelData, "layout", Object.keys(layout).length > 0 ? layout : null);
+                                                                        return;
+                                                                    }
+                                                                    const val = parseFloat(trimmed);
+                                                                    if (isNaN(val) || val <= 0 || val > 100)
+                                                                        return;
+                                                                    layout.defaultColumnWidth = {
+                                                                        "type": "proportion",
+                                                                        "value": val / 100
+                                                                    };
+                                                                    root.setNiriSetting(outputData, modelData, "layout", layout);
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    Column {
+                                                        width: parent.width
+                                                        spacing: Theme.spacingXS
+
+                                                        StyledText {
+                                                            text: I18n.tr("Preset Widths (%)")
+                                                            font.pixelSize: Theme.fontSizeSmall
+                                                            color: Theme.surfaceVariantText
+                                                        }
+
+                                                        StyledText {
+                                                            text: "e.g. 33, 50, 67"
+                                                            font.pixelSize: Theme.fontSizeSmall
+                                                            color: Theme.withAlpha(Theme.surfaceVariantText, 0.7)
+                                                        }
+
+                                                        DankTextField {
+                                                            width: parent.width
+                                                            height: 40
+                                                            placeholderText: I18n.tr("Inherit")
+                                                            text: {
+                                                                const layout = root.getNiriSetting(outputData, modelData, "layout", null);
+                                                                const presets = layout?.presetColumnWidths || [];
+                                                                if (presets.length === 0)
+                                                                    return "";
+                                                                return presets.filter(p => p.type === "proportion").map(p => Math.round(p.value * 100)).join(", ");
+                                                            }
+                                                            onEditingFinished: {
+                                                                const layout = root.getNiriSetting(outputData, modelData, "layout", {}) || {};
+                                                                const trimmed = text.trim();
+                                                                if (!trimmed) {
+                                                                    delete layout.presetColumnWidths;
+                                                                    root.setNiriSetting(outputData, modelData, "layout", Object.keys(layout).length > 0 ? layout : null);
+                                                                    return;
+                                                                }
+                                                                const parts = trimmed.split(/[,\s]+/).filter(s => s);
+                                                                const presets = [];
+                                                                for (const part of parts) {
+                                                                    const val = parseFloat(part.replace("%", ""));
+                                                                    if (!isNaN(val) && val > 0 && val <= 100) {
+                                                                        presets.push({
+                                                                            "type": "proportion",
+                                                                            "value": val / 100
+                                                                        });
+                                                                    }
+                                                                }
+                                                                if (presets.length === 0) {
+                                                                    delete layout.presetColumnWidths;
+                                                                    root.setNiriSetting(outputData, modelData, "layout", Object.keys(layout).length > 0 ? layout : null);
+                                                                    return;
+                                                                }
+                                                                presets.sort((a, b) => a.value - b.value);
+                                                                layout.presetColumnWidths = presets;
+                                                                root.setNiriSetting(outputData, modelData, "layout", layout);
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            DankToggle {
+                                                width: parent.width
+                                                text: I18n.tr("Center Single Column")
+                                                property var layoutData: root.getNiriSetting(outputData, modelData, "layout", null)
+                                                checked: layoutData?.alwaysCenterSingleColumn ?? false
+                                                onToggled: checked => {
+                                                    const layout = root.getNiriSetting(outputData, modelData, "layout", {}) || {};
+                                                    if (checked) {
+                                                        layout.alwaysCenterSingleColumn = true;
+                                                    } else {
+                                                        delete layout.alwaysCenterSingleColumn;
+                                                    }
+                                                    root.setNiriSetting(outputData, modelData, "layout", Object.keys(layout).length > 0 ? layout : null);
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                             }

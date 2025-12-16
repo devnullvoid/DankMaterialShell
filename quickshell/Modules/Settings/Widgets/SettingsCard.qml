@@ -32,15 +32,17 @@ StyledRect {
 
     readonly property bool collapsed: collapsible && !expanded
     readonly property bool hasHeader: root.title !== "" || root.iconName !== ""
-    property bool animationsEnabled: false
-
-    Component.onCompleted: Qt.callLater(() => animationsEnabled = true)
+    property bool userToggledCollapse: false
 
     Behavior on height {
-        enabled: root.animationsEnabled
+        enabled: root.userToggledCollapse
         NumberAnimation {
             duration: Theme.shortDuration
             easing.type: Theme.standardEasing
+            onRunningChanged: {
+                if (!running)
+                    root.userToggledCollapse = false;
+            }
         }
     }
 
@@ -98,6 +100,7 @@ StyledRect {
                 onClicked: {
                     if (!root.collapsible)
                         return;
+                    root.userToggledCollapse = true;
                     root.expanded = !root.expanded;
                 }
             }
@@ -108,14 +111,6 @@ StyledRect {
             width: parent.width
             spacing: Theme.spacingM
             visible: !root.collapsed
-            opacity: root.collapsed ? 0 : 1
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: Theme.shortDuration
-                    easing.type: Theme.standardEasing
-                }
-            }
         }
     }
 }

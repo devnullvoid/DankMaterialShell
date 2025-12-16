@@ -1,5 +1,5 @@
 pragma Singleton
-pragma ComponentBehavior: Bound
+pragma ComponentBehavior
 
 import QtCore
 import QtQuick
@@ -360,47 +360,48 @@ Singleton {
     property string displayNameMode: "system"
     property var screenPreferences: ({})
     property var showOnLastDisplay: ({})
+    property var niriOutputSettings: ({})
 
     property var barConfigs: [
         {
-            id: "default",
-            name: "Main Bar",
-            enabled: true,
-            position: 0,
-            screenPreferences: ["all"],
-            showOnLastDisplay: true,
-            leftWidgets: ["launcherButton", "workspaceSwitcher", "focusedWindow"],
-            centerWidgets: ["music", "clock", "weather"],
-            rightWidgets: ["systemTray", "clipboard", "cpuUsage", "memUsage", "notificationButton", "battery", "controlCenterButton"],
-            spacing: 4,
-            innerPadding: 4,
-            bottomGap: 0,
-            transparency: 1.0,
-            widgetTransparency: 1.0,
-            squareCorners: false,
-            noBackground: false,
-            gothCornersEnabled: false,
-            gothCornerRadiusOverride: false,
-            gothCornerRadiusValue: 12,
-            borderEnabled: false,
-            borderColor: "surfaceText",
-            borderOpacity: 1.0,
-            borderThickness: 1,
-            widgetOutlineEnabled: false,
-            widgetOutlineColor: "primary",
-            widgetOutlineOpacity: 1.0,
-            widgetOutlineThickness: 1,
-            fontScale: 1.0,
-            autoHide: false,
-            autoHideDelay: 250,
-            openOnOverview: false,
-            visible: true,
-            popupGapsAuto: true,
-            popupGapsManual: 4,
-            maximizeDetection: true,
-            scrollEnabled: true,
-            scrollXBehavior: "column",
-            scrollYBehavior: "workspace"
+            "id": "default",
+            "name": "Main Bar",
+            "enabled": true,
+            "position": 0,
+            "screenPreferences": ["all"],
+            "showOnLastDisplay": true,
+            "leftWidgets": ["launcherButton", "workspaceSwitcher", "focusedWindow"],
+            "centerWidgets": ["music", "clock", "weather"],
+            "rightWidgets": ["systemTray", "clipboard", "cpuUsage", "memUsage", "notificationButton", "battery", "controlCenterButton"],
+            "spacing": 4,
+            "innerPadding": 4,
+            "bottomGap": 0,
+            "transparency": 1.0,
+            "widgetTransparency": 1.0,
+            "squareCorners": false,
+            "noBackground": false,
+            "gothCornersEnabled": false,
+            "gothCornerRadiusOverride": false,
+            "gothCornerRadiusValue": 12,
+            "borderEnabled": false,
+            "borderColor": "surfaceText",
+            "borderOpacity": 1.0,
+            "borderThickness": 1,
+            "widgetOutlineEnabled": false,
+            "widgetOutlineColor": "primary",
+            "widgetOutlineOpacity": 1.0,
+            "widgetOutlineThickness": 1,
+            "fontScale": 1.0,
+            "autoHide": false,
+            "autoHideDelay": 250,
+            "openOnOverview": false,
+            "visible": true,
+            "popupGapsAuto": true,
+            "popupGapsManual": 4,
+            "maximizeDetection": true,
+            "scrollEnabled": true,
+            "scrollXBehavior": "column",
+            "scrollYBehavior": "workspace"
         }
     ]
 
@@ -458,25 +459,25 @@ Singleton {
 
         const configScript = `mkdir -p ${_configDir}/gtk-3.0 ${_configDir}/gtk-4.0
 
-for config_dir in ${_configDir}/gtk-3.0 ${_configDir}/gtk-4.0; do
-    settings_file="$config_dir/settings.ini"
-    if [ -f "$settings_file" ]; then
+        for config_dir in ${_configDir}/gtk-3.0 ${_configDir}/gtk-4.0; do
+        settings_file="$config_dir/settings.ini"
+        if [ -f "$settings_file" ]; then
         if grep -q "^gtk-icon-theme-name=" "$settings_file"; then
-            sed -i 's/^gtk-icon-theme-name=.*/gtk-icon-theme-name=${gtkThemeName}/' "$settings_file"
+        sed -i 's/^gtk-icon-theme-name=.*/gtk-icon-theme-name=${gtkThemeName}/' "$settings_file"
         else
-            if grep -q "\\[Settings\\]" "$settings_file"; then
-                sed -i '/\\[Settings\\]/a gtk-icon-theme-name=${gtkThemeName}' "$settings_file"
-            else
-                echo -e '\\n[Settings]\\ngtk-icon-theme-name=${gtkThemeName}' >> "$settings_file"
-            fi
+        if grep -q "\\[Settings\\]" "$settings_file"; then
+        sed -i '/\\[Settings\\]/a gtk-icon-theme-name=${gtkThemeName}' "$settings_file"
+        else
+        echo -e '\\n[Settings]\\ngtk-icon-theme-name=${gtkThemeName}' >> "$settings_file"
         fi
-    else
+        fi
+        else
         echo -e '[Settings]\\ngtk-icon-theme-name=${gtkThemeName}' > "$settings_file"
-    fi
-done
+        fi
+        done
 
-rm -rf ~/.cache/icon-cache ~/.cache/thumbnails 2>/dev/null || true
-pkill -HUP -f 'gtk' 2>/dev/null || true`;
+        rm -rf ~/.cache/icon-cache ~/.cache/thumbnails 2>/dev/null || true
+        pkill -HUP -f 'gtk' 2>/dev/null || true`;
 
         Quickshell.execDetached(["sh", "-lc", configScript]);
     }
@@ -489,36 +490,36 @@ pkill -HUP -f 'gtk' 2>/dev/null || true`;
         const qtThemeNameEscaped = qtThemeName.replace(/'/g, "'\\''");
 
         const script = `mkdir -p ${_configDir}/qt5ct ${_configDir}/qt6ct ${_configDir}/environment.d 2>/dev/null || true
-update_qt_icon_theme() {
-  local config_file="$1"
-  local theme_name="$2"
-  if [ -f "$config_file" ]; then
-    if grep -q "^\\[Appearance\\]" "$config_file"; then
-      if grep -q "^icon_theme=" "$config_file"; then
+        update_qt_icon_theme() {
+        local config_file="$1"
+        local theme_name="$2"
+        if [ -f "$config_file" ]; then
+        if grep -q "^\\[Appearance\\]" "$config_file"; then
+        if grep -q "^icon_theme=" "$config_file"; then
         sed -i "s/^icon_theme=.*/icon_theme=$theme_name/" "$config_file"
-      else
+        else
         sed -i "/^\\[Appearance\\]/a icon_theme=$theme_name" "$config_file"
-      fi
-    else
-      printf "\\n[Appearance]\\nicon_theme=%s\\n" "$theme_name" >> "$config_file"
-    fi
-  else
-    printf "[Appearance]\\nicon_theme=%s\\n" "$theme_name" > "$config_file"
-  fi
-}
-update_qt_icon_theme ${_configDir}/qt5ct/qt5ct.conf '${qtThemeNameEscaped}'
-update_qt_icon_theme ${_configDir}/qt6ct/qt6ct.conf '${qtThemeNameEscaped}'
-rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || true`;
+        fi
+        else
+        printf "\\n[Appearance]\\nicon_theme=%s\\n" "$theme_name" >> "$config_file"
+        fi
+        else
+        printf "[Appearance]\\nicon_theme=%s\\n" "$theme_name" > "$config_file"
+        fi
+        }
+        update_qt_icon_theme ${_configDir}/qt5ct/qt5ct.conf '${qtThemeNameEscaped}'
+        update_qt_icon_theme ${_configDir}/qt6ct/qt6ct.conf '${qtThemeNameEscaped}'
+        rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || true`;
 
         Quickshell.execDetached(["sh", "-lc", script]);
     }
 
     readonly property var _hooks: ({
-            applyStoredTheme: applyStoredTheme,
-            regenSystemThemes: regenSystemThemes,
-            updateNiriLayout: updateNiriLayout,
-            applyStoredIconTheme: applyStoredIconTheme,
-            updateBarConfigs: updateBarConfigs
+            "applyStoredTheme": applyStoredTheme,
+            "regenSystemThemes": regenSystemThemes,
+            "updateNiriLayout": updateNiriLayout,
+            "applyStoredIconTheme": applyStoredIconTheme,
+            "updateBarConfigs": updateBarConfigs
         })
 
     function set(key, value) {
@@ -723,7 +724,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         let leftBar = 0;
         let rightBar = 0;
 
-        for (let i = 0; i < enabledBars.length; i++) {
+        for (var i = 0; i < enabledBars.length; i++) {
             const other = enabledBars[i];
             if (other.id === barConfig.id)
                 continue;
@@ -793,7 +794,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
 
         if (barConfig) {
             const enabledBars = getEnabledBarConfigs();
-            for (let i = 0; i < enabledBars.length; i++) {
+            for (var i = 0; i < enabledBars.length; i++) {
                 const other = enabledBars[i];
                 if (other.id === barConfig.id)
                     continue;
@@ -925,7 +926,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         const conflicts = [];
         const enabledBars = getEnabledBarConfigs();
 
-        for (let i = 0; i < enabledBars.length; i++) {
+        for (var i = 0; i < enabledBars.length; i++) {
             const other = enabledBars[i];
             if (other.id === barId)
                 continue;
@@ -938,9 +939,9 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
             const hasAll = barScreens.includes("all") || otherScreens.includes("all");
             if (hasAll) {
                 conflicts.push({
-                    barId: other.id,
-                    barName: other.name,
-                    reason: "Same position on all screens"
+                    "barId": other.id,
+                    "barName": other.name,
+                    "reason": "Same position on all screens"
                 });
                 continue;
             }
@@ -948,9 +949,9 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
             const overlapping = barScreens.some(screen => otherScreens.includes(screen));
             if (overlapping) {
                 conflicts.push({
-                    barId: other.id,
-                    barName: other.name,
-                    reason: "Same position on overlapping screens"
+                    "barId": other.id,
+                    "barName": other.name,
+                    "reason": "Same position on overlapping screens"
                 });
             }
         }
@@ -972,7 +973,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
 
     function getScreensSortedByPosition() {
         const screens = [];
-        for (let i = 0; i < Quickshell.screens.length; i++) {
+        for (var i = 0; i < Quickshell.screens.length; i++) {
             screens.push(Quickshell.screens[i]);
         }
         screens.sort((a, b) => {
@@ -989,7 +990,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         const sorted = getScreensSortedByPosition();
         let modelCount = 0;
         let screenIndex = -1;
-        for (let i = 0; i < sorted.length; i++) {
+        for (var i = 0; i < sorted.length; i++) {
             if (sorted[i].model === screen.model) {
                 if (sorted[i].name === screen.name) {
                     screenIndex = modelCount;
@@ -1187,7 +1188,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
             updateBarConfig(defaultBar.id, {
-                spacing: spacing
+                "spacing": spacing
             });
         }
         if (typeof NiriService !== "undefined" && CompositorService.isNiri) {
@@ -1216,7 +1217,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
             return;
         }
         updateBarConfig(defaultBar.id, {
-            position: position
+            "position": position
         });
     }
 
@@ -1224,7 +1225,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
             updateBarConfig(defaultBar.id, {
-                leftWidgets: order
+                "leftWidgets": order
             });
             updateListModel(leftWidgetsModel, order);
         }
@@ -1234,7 +1235,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
             updateBarConfig(defaultBar.id, {
-                centerWidgets: order
+                "centerWidgets": order
             });
             updateListModel(centerWidgetsModel, order);
         }
@@ -1244,7 +1245,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
             updateBarConfig(defaultBar.id, {
-                rightWidgets: order
+                "rightWidgets": order
             });
             updateListModel(rightWidgetsModel, order);
         }
@@ -1257,9 +1258,9 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
             updateBarConfig(defaultBar.id, {
-                leftWidgets: defaultLeft,
-                centerWidgets: defaultCenter,
-                rightWidgets: defaultRight
+                "leftWidgets": defaultLeft,
+                "centerWidgets": defaultCenter,
+                "rightWidgets": defaultRight
             });
         }
         updateListModel(leftWidgetsModel, defaultLeft);
@@ -1307,7 +1308,7 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
         const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
             updateBarConfig(defaultBar.id, {
-                visible: !defaultBar.visible
+                "visible": !defaultBar.visible
             });
         }
     }
@@ -1343,6 +1344,42 @@ rm -rf '${home}'/.cache/icon-cache '${home}'/.cache/thumbnails 2>/dev/null || tr
     function getPluginSettingsForPlugin(pluginId) {
         const settings = pluginSettings[pluginId];
         return settings ? JSON.parse(JSON.stringify(settings)) : {};
+    }
+
+    function getNiriOutputSetting(outputId, key, defaultValue) {
+        if (!niriOutputSettings[outputId])
+            return defaultValue;
+        return niriOutputSettings[outputId][key] !== undefined ? niriOutputSettings[outputId][key] : defaultValue;
+    }
+
+    function setNiriOutputSetting(outputId, key, value) {
+        const updated = JSON.parse(JSON.stringify(niriOutputSettings));
+        if (!updated[outputId])
+            updated[outputId] = {};
+        updated[outputId][key] = value;
+        niriOutputSettings = updated;
+        saveSettings();
+    }
+
+    function getNiriOutputSettings(outputId) {
+        const settings = niriOutputSettings[outputId];
+        return settings ? JSON.parse(JSON.stringify(settings)) : {};
+    }
+
+    function setNiriOutputSettings(outputId, settings) {
+        const updated = JSON.parse(JSON.stringify(niriOutputSettings));
+        updated[outputId] = settings;
+        niriOutputSettings = updated;
+        saveSettings();
+    }
+
+    function removeNiriOutputSettings(outputId) {
+        if (!niriOutputSettings[outputId])
+            return;
+        const updated = JSON.parse(JSON.stringify(niriOutputSettings));
+        delete updated[outputId];
+        niriOutputSettings = updated;
+        saveSettings();
     }
 
     ListModel {

@@ -18,6 +18,7 @@ Flow {
     property int buttonPadding: Theme.spacingL
     property int checkIconSize: Theme.iconSizeSmall
     property int textSize: Theme.fontSizeMedium
+    property bool userInteracted: false
 
     signal selectionChanged(int index, bool selected)
     signal animationCompleted()
@@ -27,7 +28,10 @@ Flow {
     Timer {
         id: animationTimer
         interval: Theme.shortDuration
-        onTriggered: root.animationCompleted()
+        onTriggered: {
+            root.userInteracted = false;
+            root.animationCompleted();
+        }
     }
 
     function isSelected(index) {
@@ -38,6 +42,7 @@ Flow {
     }
 
     function selectItem(index) {
+        userInteracted = true;
         if (multiSelect) {
             const modelValue = model[index]
             let newSelection = [...currentSelection]
@@ -93,6 +98,7 @@ Flow {
             bottomRightRadius: (isLast || selected) ? Theme.cornerRadius : 4
 
             Behavior on width {
+                enabled: root.userInteracted
                 NumberAnimation {
                     duration: Theme.shortDuration
                     easing.type: Theme.standardEasing
@@ -100,6 +106,7 @@ Flow {
             }
 
             Behavior on topLeftRadius {
+                enabled: root.userInteracted
                 NumberAnimation {
                     duration: Theme.shortDuration
                     easing.type: Theme.standardEasing
@@ -107,6 +114,7 @@ Flow {
             }
 
             Behavior on topRightRadius {
+                enabled: root.userInteracted
                 NumberAnimation {
                     duration: Theme.shortDuration
                     easing.type: Theme.standardEasing
@@ -114,6 +122,7 @@ Flow {
             }
 
             Behavior on bottomLeftRadius {
+                enabled: root.userInteracted
                 NumberAnimation {
                     duration: Theme.shortDuration
                     easing.type: Theme.standardEasing
@@ -121,6 +130,7 @@ Flow {
             }
 
             Behavior on bottomRightRadius {
+                enabled: root.userInteracted
                 NumberAnimation {
                     duration: Theme.shortDuration
                     easing.type: Theme.standardEasing
@@ -128,6 +138,7 @@ Flow {
             }
 
             Behavior on color {
+                enabled: root.userInteracted
                 ColorAnimation {
                     duration: Theme.shortDuration
                     easing.type: Theme.standardEasing
@@ -176,6 +187,7 @@ Flow {
                         anchors.verticalCenter: parent.verticalCenter
 
                         Behavior on opacity {
+                            enabled: root.userInteracted
                             NumberAnimation {
                                 duration: Theme.shortDuration
                                 easing.type: Theme.standardEasing
@@ -183,6 +195,7 @@ Flow {
                         }
 
                         Behavior on scale {
+                            enabled: root.userInteracted
                             NumberAnimation {
                                 duration: Theme.shortDuration
                                 easing.type: Theme.emphasizedEasing

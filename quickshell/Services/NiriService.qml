@@ -580,7 +580,6 @@ Singleton {
         const windowIndex = windows.findIndex(w => w.id === data.id);
         if (windowIndex < 0)
             return;
-
         const updatedWindows = [...windows];
         const updatedWindow = {};
         for (let prop in updatedWindows[windowIndex]) {
@@ -1140,7 +1139,14 @@ Singleton {
         for (const outputName in data) {
             const output = data[outputName];
             const identifier = getOutputIdentifier(output, outputName);
+            const niriSettings = SettingsData.getNiriOutputSettings(identifier);
+
             kdlContent += `output "${identifier}" {\n`;
+
+            if (niriSettings.disabled) {
+                kdlContent += `    off\n}\n\n`;
+                continue;
+            }
 
             if (output.current_mode !== undefined && output.modes && output.modes[output.current_mode]) {
                 const mode = output.modes[output.current_mode];
@@ -1172,8 +1178,20 @@ Singleton {
             }
 
             if (output.vrr_enabled) {
-                kdlContent += `    variable-refresh-rate\n`;
+                const vrrOnDemand = niriSettings.vrrOnDemand ?? false;
+                kdlContent += vrrOnDemand ? `    variable-refresh-rate on-demand=true\n` : `    variable-refresh-rate\n`;
             }
+
+            if (niriSettings.focusAtStartup) {
+                kdlContent += `    focus-at-startup\n`;
+            }
+
+            if (niriSettings.backdropColor) {
+                kdlContent += `    backdrop-color "${niriSettings.backdropColor}"\n`;
+            }
+
+            kdlContent += generateHotCornersBlock(niriSettings);
+            kdlContent += generateLayoutBlock(niriSettings);
 
             kdlContent += `}\n\n`;
         }
@@ -1189,6 +1207,49 @@ Singleton {
             }
             console.info("NiriService: Generated outputs config at", outputsPath);
         });
+    }
+
+    function generateHotCornersBlock(niriSettings) {
+        if (!niriSettings.hotCorners)
+            return "";
+        const hc = niriSettings.hotCorners;
+        if (hc.off)
+            return `    hot-corners {\n        off\n    }\n`;
+        const corners = hc.corners || [];
+        if (corners.length === 0)
+            return "";
+        let block = `    hot-corners {\n`;
+        for (const corner of corners) {
+            block += `        ${corner}\n`;
+        }
+        block += `    }\n`;
+        return block;
+    }
+
+    function generateLayoutBlock(niriSettings) {
+        if (!niriSettings.layout)
+            return "";
+        const layout = niriSettings.layout;
+        const hasSettings = layout.gaps !== undefined || layout.defaultColumnWidth || layout.presetColumnWidths || layout.alwaysCenterSingleColumn !== undefined;
+        if (!hasSettings)
+            return "";
+        let block = `    layout {\n`;
+        if (layout.gaps !== undefined)
+            block += `        gaps ${layout.gaps}\n`;
+        if (layout.defaultColumnWidth?.type === "proportion")
+            block += `        default-column-width { proportion ${layout.defaultColumnWidth.value}; }\n`;
+        if (layout.presetColumnWidths && layout.presetColumnWidths.length > 0) {
+            block += `        preset-column-widths {\n`;
+            for (const preset of layout.presetColumnWidths) {
+                if (preset.type === "proportion")
+                    block += `            proportion ${preset.value}\n`;
+            }
+            block += `        }\n`;
+        }
+        if (layout.alwaysCenterSingleColumn !== undefined)
+            block += layout.alwaysCenterSingleColumn ? `        always-center-single-column\n` : `        always-center-single-column false\n`;
+        block += `    }\n`;
+        return block;
     }
 
     IpcHandler {

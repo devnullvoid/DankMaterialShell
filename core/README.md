@@ -14,34 +14,63 @@ Distribution-aware installer with TUI for deploying DMS and compositor configura
 
 ## System Integration
 
-**Wayland Protocols**
-- `wlr-gamma-control-unstable-v1` - Night mode and gamma control
-- `wlr-screencopy-unstable-v1` - Screen capture for color picker
-- `wlr-layer-shell-unstable-v1` - Overlay surfaces for color picker
-- `wp-viewporter` - Fractional scaling support
-- `dwl-ipc-unstable-v2` - dwl/MangoWC workspace integration
-- `ext-workspace-v1` - Workspace protocol support
-- `wlr-output-management-unstable-v1` - Display configuration
+### Wayland Protocols (Client)
 
-**DBus Interfaces**
-- NetworkManager/iwd - Network management
-- logind - Session control and inhibit locks
-- accountsservice - User account information
-- CUPS - Printer management
-- Custom IPC via unix socket (JSON API)
+All Wayland protocols are consumed as a client - connecting to the compositor.
 
-**Hardware Control**
-- DDC/CI protocol - External monitor brightness control (like `ddcutil`)
-- Backlight control - Internal display brightness via `login1` or sysfs
-- LED control - Keyboard/device LED management
-- evdev input monitoring - Keyboard state tracking (caps lock, etc.)
+| Protocol                                  | Purpose                                                     |
+| ----------------------------------------- | ----------------------------------------------------------- |
+| `wlr-gamma-control-unstable-v1`           | Night mode color temperature control                        |
+| `wlr-screencopy-unstable-v1`              | Screen capture for color picker/screenshot                  |
+| `wlr-layer-shell-unstable-v1`             | Overlay surfaces for color picker UI/screenshot             |
+| `wlr-output-management-unstable-v1`       | Display configuration                                       |
+| `wlr-output-power-management-unstable-v1` | DPMS on/off CLI                                             |
+| `wp-viewporter`                           | Fractional scaling support (color picker/screenshot UIs)    |
+| `keyboard-shortcuts-inhibit-unstable-v1`  | Inhibit compositor shortcuts during color picker/screenshot |
+| `ext-data-control-v1`                     | Clipboard history and persistence                           |
+| `ext-workspace-v1`                        | Workspace integration                                       |
+| `dwl-ipc-unstable-v2`                     | dwl/MangoWC IPC for tags, outputs, etc.                     |
 
-**Plugin System**
+### DBus Interfaces
+
+**Client (consuming external services):**
+
+| Interface                        | Purpose                                       |
+| -------------------------------- | --------------------------------------------- |
+| `org.bluez`                      | Bluetooth management with pairing agent       |
+| `org.freedesktop.NetworkManager` | Network management                            |
+| `net.connman.iwd`                | iwd Wi-Fi backend                             |
+| `org.freedesktop.network1`       | systemd-networkd integration                  |
+| `org.freedesktop.login1`         | Session control, sleep inhibitors, brightness |
+| `org.freedesktop.Accounts`       | User account information                      |
+| `org.freedesktop.portal.Desktop` | Desktop appearance settings (color scheme)    |
+| CUPS via IPP + D-Bus             | Printer management with job notifications     |
+
+**Server (implementing interfaces):**
+
+| Interface                     | Purpose                                |
+| ----------------------------- | -------------------------------------- |
+| `org.freedesktop.ScreenSaver` | Screensaver inhibit for video playback |
+
+Custom IPC via unix socket (JSON API) for shell communication.
+
+### Hardware Control
+
+| Subsystem | Method              | Purpose                            |
+| --------- | ------------------- | ---------------------------------- |
+| DDC/CI    | I2C direct          | External monitor brightness        |
+| Backlight | logind or sysfs     | Internal display brightness        |
+| evdev     | `/dev/input/event*` | Keyboard state (caps lock LED)     |
+| udev      | netlink monitor     | Backlight device updates (for OSD) |
+
+### Plugin System
+
 - Plugin registry integration
 - Plugin lifecycle management
 - Settings persistence
 
 ## CLI Commands
+
 - `dms run [-d]` - Start shell (optionally as daemon)
 - `dms restart` / `dms kill` - Manage running processes
 - `dms ipc <command>` - Send IPC commands (toggle launcher, notifications, etc.)
@@ -70,6 +99,7 @@ The on-screen preview displays the selected format. JSON output includes hex, RG
 Requires Go 1.24+
 
 **Development build:**
+
 ```bash
 make              # Build dms CLI
 make dankinstall  # Build installer
@@ -77,6 +107,7 @@ make test         # Run tests
 ```
 
 **Distribution build:**
+
 ```bash
 make dist         # Build without update/greeter features
 ```
@@ -84,6 +115,7 @@ make dist         # Build without update/greeter features
 Produces `bin/dms-linux-amd64` and `bin/dms-linux-arm64`
 
 **Installation:**
+
 ```bash
 sudo make install  # Install to /usr/local/bin/dms
 ```
@@ -91,6 +123,7 @@ sudo make install  # Install to /usr/local/bin/dms
 ## Development
 
 **Setup pre-commit hooks:**
+
 ```bash
 git config core.hooksPath .githooks
 ```
@@ -98,6 +131,7 @@ git config core.hooksPath .githooks
 This runs gofmt, golangci-lint, tests, and builds before each commit when `core/` files are staged.
 
 **Regenerating Wayland Protocol Bindings:**
+
 ```bash
 go install github.com/rajveermalviya/go-wayland/cmd/go-wayland-scanner@latest
 go-wayland-scanner -i internal/proto/xml/wlr-gamma-control-unstable-v1.xml \
@@ -105,6 +139,7 @@ go-wayland-scanner -i internal/proto/xml/wlr-gamma-control-unstable-v1.xml \
 ```
 
 **Module Structure:**
+
 - `cmd/` - Binary entrypoints (dms, dankinstall)
 - `internal/distros/` - Distribution-specific installation logic
 - `internal/proto/` - Wayland protocol bindings
