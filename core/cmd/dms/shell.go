@@ -233,12 +233,19 @@ func runShellInteractive(session bool) {
 	for {
 		select {
 		case sig := <-sigChan:
-			// Handle SIGUSR1 restart for non-session managed processes
 			if sig == syscall.SIGUSR1 && !isSessionManaged {
 				log.Infof("Received SIGUSR1, spawning detached restart process...")
 				execDetachedRestart(os.Getpid())
-				// Exit immediately to avoid race conditions with detached restart
 				return
+			}
+
+			// Check if qs already crashed before we got SIGTERM (systemd sends SIGTERM when D-Bus name is released)
+			select {
+			case <-errChan:
+				cancel()
+				os.Remove(socketPath)
+				os.Exit(getProcessExitCode(cmd.ProcessState))
+			case <-time.After(500 * time.Millisecond):
 			}
 
 			log.Infof("\nReceived signal %v, shutting down...", sig)
@@ -459,15 +466,21 @@ func runShellDaemon(session bool) {
 	for {
 		select {
 		case sig := <-sigChan:
-			// Handle SIGUSR1 restart for non-session managed processes
 			if sig == syscall.SIGUSR1 && !isSessionManaged {
 				log.Infof("Received SIGUSR1, spawning detached restart process...")
 				execDetachedRestart(os.Getpid())
-				// Exit immediately to avoid race conditions with detached restart
 				return
 			}
 
-			// All other signals: clean shutdown
+			// Check if qs already crashed before we got SIGTERM (systemd sends SIGTERM when D-Bus name is released)
+			select {
+			case <-errChan:
+				cancel()
+				os.Remove(socketPath)
+				os.Exit(getProcessExitCode(cmd.ProcessState))
+			case <-time.After(500 * time.Millisecond):
+			}
+
 			cancel()
 			cmd.Process.Signal(syscall.SIGTERM)
 			os.Remove(socketPath)
