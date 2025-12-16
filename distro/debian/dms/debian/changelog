@@ -1,6 +1,6 @@
-dms (1.0.2ppa6) unstable; urgency=medium
+dms (1.0.2db1) unstable; urgency=medium
 
-  * Rebuild to fix repository metadata issues
+  * Update to v1.0.2 stable release
 
  -- Avenge Media <AvengeMedia.US@gmail.com>  Sat, 13 Dec 2025 06:47:39 +0000
 
