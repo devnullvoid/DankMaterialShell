@@ -19,9 +19,10 @@ Item {
     property bool longPressing: false
     property bool dragging: false
     property point dragStartPos: Qt.point(0, 0)
-    property point dragOffset: Qt.point(0, 0)
+    property real dragAxisOffset: 0
     property int targetIndex: -1
     property int originalIndex: -1
+    property bool isVertical: SettingsData.dockPosition === SettingsData.Position.Left || SettingsData.dockPosition === SettingsData.Position.Right
     property bool showWindowTitle: false
     property string windowTitle: ""
     property bool isHovered: mouseArea.containsMouse && !dragging
@@ -95,7 +96,7 @@ Item {
         return appData?.allWindows?.map(w => w.toplevel).filter(t => t !== null) || [];
     }
     onIsHoveredChanged: {
-        if (mouseArea.pressed)
+        if (mouseArea.pressed || dragging)
             return;
         if (isHovered) {
             exitAnimation.stop();
@@ -128,8 +129,8 @@ Item {
         running: false
 
         NumberAnimation {
-            target: iconTransform
-            property: animateX ? "x" : "y"
+            target: root
+            property: "hoverAnimOffset"
             to: animationDirection * animationDistance * 0.25
             duration: Anims.durShort
             easing.type: Easing.BezierSpline
@@ -137,8 +138,8 @@ Item {
         }
 
         NumberAnimation {
-            target: iconTransform
-            property: animateX ? "x" : "y"
+            target: root
+            property: "hoverAnimOffset"
             to: animationDirection * animationDistance * 0.2
             duration: Anims.durShort
             easing.type: Easing.BezierSpline
@@ -150,8 +151,8 @@ Item {
         id: exitAnimation
 
         running: false
-        target: iconTransform
-        property: animateX ? "x" : "y"
+        target: root
+        property: "hoverAnimOffset"
         to: 0
         duration: Anims.durShort
         easing.type: Easing.BezierSpline
@@ -187,16 +188,79 @@ Item {
         }
         onReleased: mouse => {
             longPressTimer.stop();
-            if (longPressing) {
-                if (dragging && targetIndex >= 0 && targetIndex !== originalIndex && dockApps) {
-                    dockApps.movePinnedApp(originalIndex, targetIndex);
-                }
 
-                longPressing = false;
-                dragging = false;
-                dragOffset = Qt.point(0, 0);
-                targetIndex = -1;
-                originalIndex = -1;
+            const wasDragging = dragging;
+            const didReorder = wasDragging && targetIndex >= 0 && targetIndex !== originalIndex && dockApps;
+
+            if (didReorder)
+                dockApps.movePinnedApp(originalIndex, targetIndex);
+
+            longPressing = false;
+            dragging = false;
+            dragAxisOffset = 0;
+            targetIndex = -1;
+            originalIndex = -1;
+
+            if (dockApps && !didReorder) {
+                dockApps.draggedIndex = -1;
+                dockApps.dropTargetIndex = -1;
+            }
+
+            if (wasDragging || mouse.button !== Qt.LeftButton)
+                return;
+
+            handleLeftClick();
+        }
+
+        function handleLeftClick() {
+            if (!appData)
+                return;
+
+            switch (appData.type) {
+            case "pinned":
+                if (!appData.appId)
+                    return;
+                const pinnedEntry = cachedDesktopEntry;
+                if (pinnedEntry) {
+                    AppUsageHistoryData.addAppUsage({
+                        "id": appData.appId,
+                        "name": pinnedEntry.name || appData.appId,
+                        "icon": pinnedEntry.icon || "",
+                        "exec": pinnedEntry.exec || "",
+                        "comment": pinnedEntry.comment || ""
+                    });
+                }
+                SessionService.launchDesktopEntry(pinnedEntry);
+                break;
+            case "window":
+                const windowToplevel = getToplevelObject();
+                if (windowToplevel)
+                    windowToplevel.activate();
+                break;
+            case "grouped":
+                if (appData.windowCount === 0) {
+                    if (!appData.appId)
+                        return;
+                    const groupedEntry = cachedDesktopEntry;
+                    if (groupedEntry) {
+                        AppUsageHistoryData.addAppUsage({
+                            "id": appData.appId,
+                            "name": groupedEntry.name || appData.appId,
+                            "icon": groupedEntry.icon || "",
+                            "exec": groupedEntry.exec || "",
+                            "comment": groupedEntry.comment || ""
+                        });
+                    }
+                    SessionService.launchDesktopEntry(groupedEntry);
+                } else if (appData.windowCount === 1) {
+                    const groupedToplevel = getToplevelObject();
+                    if (groupedToplevel)
+                        groupedToplevel.activate();
+                } else if (contextMenu) {
+                    const shouldHidePin = appData.appId === "org.quickshell";
+                    contextMenu.showForButton(root, appData, root.height + 25, shouldHidePin, cachedDesktopEntry, parentDockScreen);
+                }
+                break;
             }
         }
         onPositionChanged: mouse => {
@@ -206,90 +270,47 @@ Item {
                     dragging = true;
                     targetIndex = index;
                     originalIndex = index;
+                    if (dockApps) {
+                        dockApps.draggedIndex = index;
+                        dockApps.dropTargetIndex = index;
+                    }
                 }
             }
-            if (dragging) {
-                dragOffset = Qt.point(mouse.x - dragStartPos.x, mouse.y - dragStartPos.y);
-                if (dockApps) {
-                    const threshold = actualIconSize;
-                    let newTargetIndex = targetIndex;
-                    if (dragOffset.x > threshold && targetIndex < dockApps.pinnedAppCount - 1) {
-                        newTargetIndex = targetIndex + 1;
-                    } else if (dragOffset.x < -threshold && targetIndex > 0) {
-                        newTargetIndex = targetIndex - 1;
-                    }
-                    if (newTargetIndex !== targetIndex) {
-                        targetIndex = newTargetIndex;
-                        dragStartPos = Qt.point(mouse.x, mouse.y);
-                    }
-                }
+
+            if (!dragging || !dockApps)
+                return;
+
+            const axisOffset = isVertical ? (mouse.y - dragStartPos.y) : (mouse.x - dragStartPos.x);
+            dragAxisOffset = axisOffset;
+
+            const spacing = Math.min(8, Math.max(4, actualIconSize * 0.08));
+            const itemSize = actualIconSize * 1.2 + spacing;
+            const slotOffset = Math.round(axisOffset / itemSize);
+            const newTargetIndex = Math.max(0, Math.min(dockApps.pinnedAppCount - 1, originalIndex + slotOffset));
+
+            if (newTargetIndex !== targetIndex) {
+                targetIndex = newTargetIndex;
+                dockApps.dropTargetIndex = newTargetIndex;
             }
         }
         onClicked: mouse => {
-            if (!appData || longPressing) {
+            if (!appData)
                 return;
-            }
 
-            if (mouse.button === Qt.LeftButton) {
-                if (appData.type === "pinned") {
-                    if (appData && appData.appId) {
-                        const desktopEntry = cachedDesktopEntry;
-                        if (desktopEntry) {
-                            AppUsageHistoryData.addAppUsage({
-                                "id": appData.appId,
-                                "name": desktopEntry.name || appData.appId,
-                                "icon": desktopEntry.icon || "",
-                                "exec": desktopEntry.exec || "",
-                                "comment": desktopEntry.comment || ""
-                            });
-                        }
-                        SessionService.launchDesktopEntry(desktopEntry);
-                    }
-                } else if (appData.type === "window") {
-                    const toplevel = getToplevelObject();
-                    if (toplevel) {
-                        toplevel.activate();
-                    }
-                } else if (appData.type === "grouped") {
-                    if (appData.windowCount === 0) {
-                        if (appData && appData.appId) {
-                            const desktopEntry = cachedDesktopEntry;
-                            if (desktopEntry) {
-                                AppUsageHistoryData.addAppUsage({
-                                    "id": appData.appId,
-                                    "name": desktopEntry.name || appData.appId,
-                                    "icon": desktopEntry.icon || "",
-                                    "exec": desktopEntry.exec || "",
-                                    "comment": desktopEntry.comment || ""
-                                });
-                            }
-                            SessionService.launchDesktopEntry(desktopEntry);
-                        }
-                    } else if (appData.windowCount === 1) {
-                        // For single window, activate directly
-                        const toplevel = getToplevelObject();
-                        if (toplevel) {
-                            console.log("Activating grouped app window:", appData.windowTitle);
-                            toplevel.activate();
-                        } else {
-                            console.warn("No toplevel found for grouped app");
-                        }
-                    } else {
-                        if (contextMenu) {
-                            const shouldHidePin = appData.appId === "org.quickshell";
-                            contextMenu.showForButton(root, appData, root.height + 25, shouldHidePin, cachedDesktopEntry, parentDockScreen);
-                        }
-                    }
-                }
-            } else if (mouse.button === Qt.MiddleButton) {
-                if (appData?.type === "window") {
-                    appData?.toplevel?.close();
-                } else if (appData?.type === "grouped") {
+            if (mouse.button === Qt.MiddleButton) {
+                switch (appData.type) {
+                case "window":
+                    appData.toplevel?.close();
+                    break;
+                case "grouped":
                     if (contextMenu) {
                         const shouldHidePin = appData.appId === "org.quickshell";
                         contextMenu.showForButton(root, appData, root.height, shouldHidePin, cachedDesktopEntry, parentDockScreen);
                     }
-                } else if (appData && appData.appId) {
+                    break;
+                default:
+                    if (!appData.appId)
+                        return;
                     const desktopEntry = cachedDesktopEntry;
                     if (desktopEntry) {
                         AppUsageHistoryData.addAppUsage({
@@ -301,17 +322,18 @@ Item {
                         });
                     }
                     SessionService.launchDesktopEntry(desktopEntry);
+                    break;
                 }
             } else if (mouse.button === Qt.RightButton) {
-                if (contextMenu && appData) {
-                    const shouldHidePin = appData.appId === "org.quickshell";
-                    contextMenu.showForButton(root, appData, root.height, shouldHidePin, cachedDesktopEntry, parentDockScreen);
-                } else {
-                    console.warn("No context menu or appData available");
-                }
+                if (!contextMenu)
+                    return;
+                const shouldHidePin = appData.appId === "org.quickshell";
+                contextMenu.showForButton(root, appData, root.height, shouldHidePin, cachedDesktopEntry, parentDockScreen);
             }
         }
     }
+
+    property real hoverAnimOffset: 0
 
     Item {
         id: visualContent
@@ -319,8 +341,20 @@ Item {
 
         transform: Translate {
             id: iconTransform
-            x: 0
-            y: 0
+            x: {
+                if (dragging && !isVertical)
+                    return dragAxisOffset;
+                if (!dragging && isVertical)
+                    return hoverAnimOffset;
+                return 0;
+            }
+            y: {
+                if (dragging && isVertical)
+                    return dragAxisOffset;
+                if (!dragging && !isVertical)
+                    return hoverAnimOffset;
+                return 0;
+            }
         }
 
         Rectangle {
