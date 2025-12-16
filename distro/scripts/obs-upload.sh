@@ -862,14 +862,11 @@ else
     echo "  ⚠️  Could not fetch file list from server, skipping cleanup"
 fi
 
-# Fallback update with --server-side-source-service-files flag only syncs metadata (spec, dsc, _service)
+# Update working copy to latest revision (without expanding service files to avoid revision conflicts)
 echo "==> Updating working copy"
-if ! osc up --server-side-source-service-files 2>/dev/null; then
-    echo "  Note: Using regular update (--server-side-source-service-files not supported)"
-    if ! osc up; then
-        echo "Error: Failed to update working copy"
-        exit 1
-    fi
+if ! osc up 2>/dev/null; then
+    echo "Error: Failed to update working copy"
+    exit 1
 fi
 
 # Ensure we're in WORK_DIR and it exists
@@ -944,7 +941,7 @@ if ! osc status 2>/dev/null | grep -qE '^[MAD]|^[?]'; then
 else
     echo "==> Committing to OBS"
     set +e
-    osc commit -m "$MESSAGE" 2>&1 | grep -v "Git SCM package" | grep -v "apiurl\|project\|_ObsPrj\|_manifest\|git-obs"
+    osc commit --skip-local-service-run -m "$MESSAGE" 2>&1 | grep -v "Git SCM package" | grep -v "apiurl\|project\|_ObsPrj\|_manifest\|git-obs"
     COMMIT_EXIT=${PIPESTATUS[0]}
     set -e
     if [[ $COMMIT_EXIT -ne 0 ]]; then
