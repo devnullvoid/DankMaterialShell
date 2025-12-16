@@ -307,12 +307,16 @@ if [[ -d "distro/debian/$PACKAGE/debian" ]]; then
         else
             # Rebuild number specified - check if this exact version already exists (exact mode)
             if check_obs_version_exists "$OBS_PROJECT" "$PACKAGE" "$CHANGELOG_VERSION" "exact"; then
-                echo "==> Error: Version $CHANGELOG_VERSION already exists in OBS"
+                echo "==> Version $CHANGELOG_VERSION already exists in OBS"
                 echo "    This exact version (including db${REBUILD_RELEASE}) is already uploaded."
-                echo "    To rebuild with a different release number, try incrementing:"
+                echo "    Skipping upload - nothing to do."
+                echo ""
+                echo "    💡 To rebuild with a different release number, try incrementing:"
                 NEXT_NUM=$((REBUILD_RELEASE + 1))
-                echo "      ./distro/scripts/obs-upload.sh $PACKAGE $NEXT_NUM"
-                exit 1
+                echo "       REBUILD_RELEASE=$NEXT_NUM"
+                echo ""
+                echo "✓ Exiting gracefully (no changes needed)"
+                exit 0
             fi
         fi
     fi
