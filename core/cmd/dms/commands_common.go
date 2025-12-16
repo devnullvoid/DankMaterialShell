@@ -220,7 +220,7 @@ func getBaseVersion() string {
 	}
 
 	// Fallback
-	return "0.6.2"
+	return "1.0.2"
 }
 
 func startDebugServer() error {

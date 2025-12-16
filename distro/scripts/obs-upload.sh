@@ -511,7 +511,7 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
 
                 if [[ -n "$URL_PROTOCOL" && -n "$URL_HOST" && -n "$URL_PATH" ]]; then
                     SOURCE_URL="${URL_PROTOCOL}://${URL_HOST}${URL_PATH}"
-                    echo "    Downloading source from: $SOURCE_URL"
+                    echo "==> Downloading source from: $SOURCE_URL"
 
                     if wget -q -O "$TEMP_DIR/source-archive" "$SOURCE_URL" 2>/dev/null ||
                         curl -L -f -s -o "$TEMP_DIR/source-archive" "$SOURCE_URL" 2>/dev/null; then
@@ -534,9 +534,17 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
                         fi
                         SOURCE_DIR=$(cd "$SOURCE_DIR" && pwd)
                         cd "$REPO_ROOT"
+                        if [[ "$(pwd)" != "$REPO_ROOT" ]]; then
+                            echo "ERROR: Failed to return to REPO_ROOT. Expected: $REPO_ROOT, Got: $(pwd)"
+                            exit 1
+                        fi
                     else
-                        echo "Error: Failed to download source from $SOURCE_URL"
-                        echo "Tried both wget and curl. Please check the URL and network connectivity."
+                        echo "ERROR: Failed to download source from $SOURCE_URL"
+                        echo "Attempted both wget and curl"
+                        echo "Please check:"
+                        echo "  1. URL is accessible: $SOURCE_URL"
+                        echo "  2. _service file has correct version"
+                        echo "  3. GitHub releases are available"
                         exit 1
                     fi
                 fi
@@ -553,7 +561,7 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
             exit 1
         fi
 
-        echo "    Found source directory: $SOURCE_DIR"
+        echo "==> Found source directory: $SOURCE_DIR"
 
         # Vendor Go dependencies for dms-git
         if [[ "$PACKAGE" == "dms-git" ]] && [[ -d "$SOURCE_DIR/core" ]]; then
@@ -712,6 +720,10 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
             TARBALL_BASE=$(basename "$SOURCE_DIR")
             tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$COMBINED_TARBALL" "$TARBALL_BASE"
             cd "$REPO_ROOT"
+            if [[ "$(pwd)" != "$REPO_ROOT" ]]; then
+                echo "ERROR: Failed to return to REPO_ROOT after tarball creation"
+                exit 1
+            fi
 
             if [[ "$PACKAGE" == "dms" ]]; then
                 TARBALL_DIR=$(tar -tzf "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null | head -1 | cut -d'/' -f1)
@@ -723,6 +735,10 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
                     rm -f "$WORK_DIR/$COMBINED_TARBALL"
                     tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$COMBINED_TARBALL" "$TARBALL_BASE"
                     cd "$REPO_ROOT"
+                    if [[ "$(pwd)" != "$REPO_ROOT" ]]; then
+                        echo "ERROR: Failed to return to REPO_ROOT after tarball recreation"
+                        exit 1
+                    fi
                 fi
             fi
 
@@ -796,7 +812,14 @@ EOF
     fi
 fi
 
-cd "$WORK_DIR"
+echo "==> Ensuring we're in the OSC working directory"
+cd "$WORK_DIR" || {
+    echo "ERROR: Cannot cd to WORK_DIR: $WORK_DIR"
+    echo "DEBUG: Current directory: $(pwd)"
+    echo "DEBUG: WORK_DIR exists: $(test -d "$WORK_DIR" && echo "yes" || echo "no")"
+    exit 1
+}
+echo "DEBUG: Successfully entered WORK_DIR: $(pwd)"
 
 # Server-side cleanup via API
 echo "==> Cleaning old tarballs from OBS server (prevents downloading 100+ old versions)"
@@ -880,6 +903,15 @@ elif [[ "$UPLOAD_OPENSUSE" == true ]]; then
     ls -lh ./*.tar.gz ./*.tar.xz ./*.tar ./*.spec _service 2>/dev/null | awk '{print "  " $9 " (" $5 ")"}'
 fi
 echo ""
+
+if [[ "$(pwd)" != "$WORK_DIR" ]]; then
+    echo "ERROR: Lost directory context. Expected: $WORK_DIR, Got: $(pwd)"
+    cd "$WORK_DIR" || {
+        echo "FATAL: Cannot recover - unable to cd to WORK_DIR"
+        exit 1
+    }
+    echo "WARNING: Recovered directory context"
+fi
 
 osc addremove 2>&1 | grep -v "Git SCM package" || true
 
