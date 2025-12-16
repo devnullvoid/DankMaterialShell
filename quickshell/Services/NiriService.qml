@@ -1236,13 +1236,19 @@ Singleton {
         let block = `    layout {\n`;
         if (layout.gaps !== undefined)
             block += `        gaps ${layout.gaps}\n`;
-        if (layout.defaultColumnWidth?.type === "proportion")
-            block += `        default-column-width { proportion ${layout.defaultColumnWidth.value}; }\n`;
+        if (layout.defaultColumnWidth?.type === "proportion") {
+            const val = layout.defaultColumnWidth.value;
+            const formatted = Number.isInteger(val) ? val.toFixed(1) : val.toString();
+            block += `        default-column-width { proportion ${formatted}; }\n`;
+        }
         if (layout.presetColumnWidths && layout.presetColumnWidths.length > 0) {
             block += `        preset-column-widths {\n`;
             for (const preset of layout.presetColumnWidths) {
-                if (preset.type === "proportion")
-                    block += `            proportion ${preset.value}\n`;
+                if (preset.type === "proportion") {
+                    const val = preset.value;
+                    const formatted = Number.isInteger(val) ? val.toFixed(1) : val.toString();
+                    block += `            proportion ${formatted}\n`;
+                }
             }
             block += `        }\n`;
         }
