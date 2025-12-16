@@ -97,7 +97,7 @@ jobs:
               # Rebuild requested - always proceed
               echo "packages=$PKG" >> $GITHUB_OUTPUT
               echo "has_updates=true" >> $GITHUB_OUTPUT
-              echo "🔄 Manual rebuild requested: $PKG (ppa$REBUILD)"
+              echo "🔄 Manual rebuild requested: $PKG (db$REBUILD)"
 
             elif [[ "$PKG" == "all" ]]; then
               # Check each package and build list of those needing updates
@@ -214,7 +214,7 @@ jobs:
           # Single changelog entry (git snapshots don't need history)
           CHANGELOG_DATE=$(date -R)
           {
-            echo "dms-git ($NEW_VERSION) nightly; urgency=medium"
+            echo "dms-git (${NEW_VERSION}db1) nightly; urgency=medium"
             echo ""
             echo "  * Git snapshot (commit $COMMIT_COUNT: $COMMIT_HASH)"
             echo ""
@@ -256,13 +256,13 @@ jobs:
           if [[ -f "distro/debian/dms/debian/changelog" ]]; then
             CHANGELOG_DATE=$(date -R)
             {
-              echo "dms ($VERSION_NO_V) stable; urgency=medium"
+              echo "dms (${VERSION_NO_V}db1) stable; urgency=medium"
               echo ""
               echo "  * Update to $VERSION stable release"
               echo ""
               echo " -- Avenge Media <AvengeMedia.US@gmail.com>  $CHANGELOG_DATE"
             } > "distro/debian/dms/debian/changelog"
-            echo "✓ Updated Debian changelog to $VERSION_NO_V"
+            echo "✓ Updated Debian changelog to ${VERSION_NO_V}db1"
           fi
 
       - name: Install Go
@@ -309,7 +309,7 @@ jobs:
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
             echo "Uploading $PKG to OBS..."
             if [[ -n "$REBUILD_RELEASE" ]]; then
-              echo "🔄 Using rebuild release number: ppa$REBUILD_RELEASE"
+              echo "🔄 Using rebuild release number: db$REBUILD_RELEASE"
             fi
             echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
@@ -350,7 +350,7 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
 
             if [[ -n "${{ github.event.inputs.rebuild_release }}" ]]; then
-              echo "**Rebuild Number:** ppa${{ github.event.inputs.rebuild_release }}" >> $GITHUB_STEP_SUMMARY
+              echo "**Rebuild Number:** db${{ github.event.inputs.rebuild_release }}" >> $GITHUB_STEP_SUMMARY
               echo "" >> $GITHUB_STEP_SUMMARY
             fi
 

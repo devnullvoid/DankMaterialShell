@@ -7,8 +7,8 @@
 #   ./distro/scripts/obs-upload.sh dms "Update to v1.0.2"
 #   ./distro/scripts/obs-upload.sh debian dms
 #   ./distro/scripts/obs-upload.sh opensuse dms-git
-#   ./distro/scripts/obs-upload.sh debian dms-git 2    # Rebuild with ppa2 suffix
-#   ./distro/scripts/obs-upload.sh dms-git --rebuild=2 # Rebuild with ppa2 suffix (flag syntax)
+#   ./distro/scripts/obs-upload.sh debian dms-git 2    # Rebuild with db2 suffix
+#   ./distro/scripts/obs-upload.sh dms-git --rebuild=2 # Rebuild with db2 suffix (flag syntax)
 
 set -e
 
@@ -126,8 +126,8 @@ check_obs_version_exists() {
         OBS_VERSION=$(echo "$OBS_SPEC" | grep "^Version:" | awk '{print $2}' | xargs)
         # Commit hash check for -git packages
         if [[ "$CHECK_MODE" == "commit" ]] && [[ "$PACKAGE" == *"-git" ]]; then
-            OBS_COMMIT=$(echo "$OBS_VERSION" | grep -oP '\.([a-f0-9]{8})(ppa[0-9]+)?$' | grep -oP '[a-f0-9]{8}' || echo "")
-            NEW_COMMIT=$(echo "$VERSION" | grep -oP '\.([a-f0-9]{8})(ppa[0-9]+)?$' | grep -oP '[a-f0-9]{8}' || echo "")
+            OBS_COMMIT=$(echo "$OBS_VERSION" | grep -oP '\.([a-f0-9]{8})(db[0-9]+)?$' | grep -oP '[a-f0-9]{8}' || echo "")
+            NEW_COMMIT=$(echo "$VERSION" | grep -oP '\.([a-f0-9]{8})(db[0-9]+)?$' | grep -oP '[a-f0-9]{8}' || echo "")
 
             if [[ -n "$OBS_COMMIT" && -n "$NEW_COMMIT" && "$OBS_COMMIT" == "$NEW_COMMIT" ]]; then
                 echo "⚠️  Commit $NEW_COMMIT already exists in OBS (current version: $OBS_VERSION)"
@@ -279,7 +279,7 @@ if [[ -d "distro/debian/$PACKAGE/debian" ]]; then
 
     # Apply rebuild suffix if specified (must happen before API check)
     if [[ -n "$REBUILD_RELEASE" ]] && [[ -n "$CHANGELOG_VERSION" ]]; then
-        CHANGELOG_VERSION="${CHANGELOG_VERSION}ppa${REBUILD_RELEASE}"
+        CHANGELOG_VERSION="${CHANGELOG_VERSION}db${REBUILD_RELEASE}"
         echo "  - Applied rebuild suffix: $CHANGELOG_VERSION"
     fi
 
@@ -308,7 +308,7 @@ if [[ -d "distro/debian/$PACKAGE/debian" ]]; then
             # Rebuild number specified - check if this exact version already exists (exact mode)
             if check_obs_version_exists "$OBS_PROJECT" "$PACKAGE" "$CHANGELOG_VERSION" "exact"; then
                 echo "==> Error: Version $CHANGELOG_VERSION already exists in OBS"
-                echo "    This exact version (including ppa${REBUILD_RELEASE}) is already uploaded."
+                echo "    This exact version (including db${REBUILD_RELEASE}) is already uploaded."
                 echo "    To rebuild with a different release number, try incrementing:"
                 NEXT_NUM=$((REBUILD_RELEASE + 1))
                 echo "      ./distro/scripts/obs-upload.sh $PACKAGE $NEXT_NUM"
