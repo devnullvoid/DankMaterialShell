@@ -15,9 +15,6 @@ on:
         description: "Release number for rebuilds (e.g., 2, 3, 4 to increment spec Release)"
         required: false
         default: ""
-  push:
-    tags:
-      - "v*"
   schedule:
     - cron: "0 */3 * * *" # Every 3 hours for dms-git builds
 

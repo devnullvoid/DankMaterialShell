@@ -279,7 +279,8 @@ if [[ -d "distro/debian/$PACKAGE/debian" ]]; then
 
     # Apply rebuild suffix if specified (must happen before API check)
     if [[ -n "$REBUILD_RELEASE" ]] && [[ -n "$CHANGELOG_VERSION" ]]; then
-        CHANGELOG_VERSION="${CHANGELOG_VERSION}db${REBUILD_RELEASE}"
+        BASE_VERSION=$(echo "$CHANGELOG_VERSION" | sed 's/db[0-9]*$//')
+        CHANGELOG_VERSION="${BASE_VERSION}db${REBUILD_RELEASE}"
         echo "  - Applied rebuild suffix: $CHANGELOG_VERSION"
     fi
 
