@@ -1915,7 +1915,10 @@ Item {
                                                 width: parent.width
                                                 text: I18n.tr("Hot Corners")
                                                 addHorizontalPadding: true
-                                                property var hotCornersData: root.getNiriSetting(outputData, modelData, "hotCorners", null)
+                                                property var hotCornersData: {
+                                                    void (root.pendingNiriChanges);
+                                                    return root.getNiriSetting(outputData, modelData, "hotCorners", null);
+                                                }
                                                 currentValue: {
                                                     if (!hotCornersData)
                                                         return I18n.tr("Inherit");
@@ -1955,67 +1958,42 @@ Item {
 
                                             Item {
                                                 width: parent.width
-                                                height: hotCornersFlow.height
-                                                visible: hotCornersFlow.visible
+                                                height: hotCornersGroup.implicitHeight
+                                                clip: true
+                                                property var hotCornersData: {
+                                                    void (root.pendingNiriChanges);
+                                                    return root.getNiriSetting(outputCard.outputData, outputCard.modelData, "hotCorners", null);
+                                                }
+                                                visible: hotCornersData && !hotCornersData.off && hotCornersData.corners !== undefined
 
-                                                Flow {
-                                                    id: hotCornersFlow
-                                                    anchors.left: parent.left
-                                                    anchors.right: parent.right
-                                                    anchors.leftMargin: Theme.spacingM
-                                                    anchors.rightMargin: Theme.spacingM
-                                                    spacing: Theme.spacingS
-                                                    property string outName: modelData
-                                                    property var outData: outputData
-                                                    visible: {
-                                                        const hcData = root.getNiriSetting(outData, outName, "hotCorners", null);
-                                                        return hcData && !hcData.off && hcData.corners !== undefined;
+                                                DankButtonGroup {
+                                                    id: hotCornersGroup
+                                                    anchors.horizontalCenter: parent.horizontalCenter
+                                                    selectionMode: "multi"
+                                                    checkEnabled: false
+                                                    buttonHeight: 32
+                                                    buttonPadding: parent.width < 400 ? Theme.spacingXS : Theme.spacingM
+                                                    minButtonWidth: parent.width < 400 ? 28 : 56
+                                                    textSize: parent.width < 400 ? 11 : Theme.fontSizeMedium
+                                                    model: [I18n.tr("Top Left"), I18n.tr("Top Right"), I18n.tr("Bottom Left"), I18n.tr("Bottom Right")]
+                                                    property var cornerKeys: ["top-left", "top-right", "bottom-left", "bottom-right"]
+                                                    currentSelection: {
+                                                        const hcData = parent.hotCornersData;
+                                                        if (!hcData?.corners)
+                                                            return [];
+                                                        return hcData.corners.map(key => {
+                                                            const idx = cornerKeys.indexOf(key);
+                                                            return idx >= 0 ? model[idx] : null;
+                                                        }).filter(v => v !== null);
                                                     }
-
-                                                    Repeater {
-                                                        model: ["top-left", "top-right", "bottom-left", "bottom-right"]
-
-                                                        delegate: Rectangle {
-                                                            id: cornerChip
-                                                            required property string modelData
-                                                            property var hcData: root.getNiriSetting(hotCornersFlow.outData, hotCornersFlow.outName, "hotCorners", null)
-                                                            property bool isEnabled: hcData?.corners?.includes(modelData) ?? false
-
-                                                            width: cornerLabel.implicitWidth + Theme.spacingM * 2
-                                                            height: 28
-                                                            radius: 14
-                                                            color: isEnabled ? Theme.primary : Theme.surfaceContainerHighest
-                                                            border.color: isEnabled ? Theme.primary : Theme.outline
-                                                            border.width: 1
-
-                                                            StyledText {
-                                                                id: cornerLabel
-                                                                anchors.centerIn: parent
-                                                                text: cornerChip.modelData.split("-").map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(" ")
-                                                                font.pixelSize: Theme.fontSizeSmall
-                                                                color: cornerChip.isEnabled ? Theme.primaryText : Theme.surfaceText
-                                                            }
-
-                                                            MouseArea {
-                                                                anchors.fill: parent
-                                                                cursorShape: Qt.PointingHandCursor
-                                                                onClicked: {
-                                                                    const currentHc = root.getNiriSetting(hotCornersFlow.outData, hotCornersFlow.outName, "hotCorners", {
-                                                                        "corners": []
-                                                                    });
-                                                                    const corners = currentHc?.corners ? [...currentHc.corners] : [];
-                                                                    const idx = corners.indexOf(cornerChip.modelData);
-                                                                    if (idx >= 0) {
-                                                                        corners.splice(idx, 1);
-                                                                    } else {
-                                                                        corners.push(cornerChip.modelData);
-                                                                    }
-                                                                    root.setNiriSetting(hotCornersFlow.outData, hotCornersFlow.outName, "hotCorners", {
-                                                                        "corners": corners
-                                                                    });
-                                                                }
-                                                            }
-                                                        }
+                                                    onSelectionChanged: (index, selected) => {
+                                                        const corners = currentSelection.map(label => {
+                                                            const idx = model.indexOf(label);
+                                                            return idx >= 0 ? cornerKeys[idx] : null;
+                                                        }).filter(v => v !== null);
+                                                        root.setNiriSetting(outputCard.outputData, outputCard.modelData, "hotCorners", {
+                                                            "corners": corners
+                                                        });
                                                     }
                                                 }
                                             }
