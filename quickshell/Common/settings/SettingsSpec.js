@@ -259,6 +259,7 @@ var SPEC = {
     screenPreferences: { def: {} },
     showOnLastDisplay: { def: {} },
     niriOutputSettings: { def: {} },
+    hyprlandOutputSettings: { def: {} },
 
     barConfigs: { def: [{
         id: "default",

@@ -263,7 +263,7 @@ StyledRect {
                 case "niri":
                     return "NiriOutputSettings.qml";
                 case "hyprland":
-                    return "";
+                    return "HyprlandOutputSettings.qml";
                 default:
                     return "";
                 }

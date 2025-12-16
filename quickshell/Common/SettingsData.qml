@@ -361,6 +361,7 @@ Singleton {
     property var screenPreferences: ({})
     property var showOnLastDisplay: ({})
     property var niriOutputSettings: ({})
+    property var hyprlandOutputSettings: ({})
 
     property var barConfigs: [
         {
@@ -1379,6 +1380,51 @@ Singleton {
         const updated = JSON.parse(JSON.stringify(niriOutputSettings));
         delete updated[outputId];
         niriOutputSettings = updated;
+        saveSettings();
+    }
+
+    function getHyprlandOutputSetting(outputId, key, defaultValue) {
+        if (!hyprlandOutputSettings[outputId])
+            return defaultValue;
+        return hyprlandOutputSettings[outputId][key] !== undefined ? hyprlandOutputSettings[outputId][key] : defaultValue;
+    }
+
+    function setHyprlandOutputSetting(outputId, key, value) {
+        const updated = JSON.parse(JSON.stringify(hyprlandOutputSettings));
+        if (!updated[outputId])
+            updated[outputId] = {};
+        updated[outputId][key] = value;
+        hyprlandOutputSettings = updated;
+        saveSettings();
+    }
+
+    function removeHyprlandOutputSetting(outputId, key) {
+        if (!hyprlandOutputSettings[outputId] || !(key in hyprlandOutputSettings[outputId]))
+            return;
+        const updated = JSON.parse(JSON.stringify(hyprlandOutputSettings));
+        delete updated[outputId][key];
+        hyprlandOutputSettings = updated;
+        saveSettings();
+    }
+
+    function getHyprlandOutputSettings(outputId) {
+        const settings = hyprlandOutputSettings[outputId];
+        return settings ? JSON.parse(JSON.stringify(settings)) : {};
+    }
+
+    function setHyprlandOutputSettings(outputId, settings) {
+        const updated = JSON.parse(JSON.stringify(hyprlandOutputSettings));
+        updated[outputId] = settings;
+        hyprlandOutputSettings = updated;
+        saveSettings();
+    }
+
+    function removeHyprlandOutputSettings(outputId) {
+        if (!hyprlandOutputSettings[outputId])
+            return;
+        const updated = JSON.parse(JSON.stringify(hyprlandOutputSettings));
+        delete updated[outputId];
+        hyprlandOutputSettings = updated;
         saveSettings();
     }
 

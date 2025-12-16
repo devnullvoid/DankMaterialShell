@@ -25,11 +25,13 @@ Singleton {
 
     property var pendingChanges: ({})
     property var pendingNiriChanges: ({})
+    property var pendingHyprlandChanges: ({})
     property var originalNiriSettings: null
+    property var originalHyprlandSettings: null
     property var originalOutputs: null
     property string originalDisplayNameMode: ""
     property bool formatChanged: originalDisplayNameMode !== "" && originalDisplayNameMode !== SettingsData.displayNameMode
-    property bool hasPendingChanges: Object.keys(pendingChanges).length > 0 || Object.keys(pendingNiriChanges).length > 0 || formatChanged
+    property bool hasPendingChanges: Object.keys(pendingChanges).length > 0 || Object.keys(pendingNiriChanges).length > 0 || Object.keys(pendingHyprlandChanges).length > 0 || formatChanged
 
     property bool validatingConfig: false
     property string validationError: ""
@@ -85,7 +87,46 @@ Singleton {
             const parsed = parseOutputsConfig(content);
             const filtered = filterDisconnectedOnly(parsed);
             savedOutputs = filtered;
+
+            if (CompositorService.isHyprland)
+                initHyprlandSettingsFromConfig(parsed);
         });
+    }
+
+    function initHyprlandSettingsFromConfig(parsedOutputs) {
+        const current = JSON.parse(JSON.stringify(SettingsData.hyprlandOutputSettings));
+        let changed = false;
+
+        for (const outputName in parsedOutputs) {
+            const output = parsedOutputs[outputName];
+            const settings = output.hyprlandSettings;
+            if (!settings)
+                continue;
+
+            if (current[outputName])
+                continue;
+
+            const hasSettings = settings.colorManagement || settings.bitdepth ||
+                settings.sdrBrightness !== undefined || settings.sdrSaturation !== undefined;
+            if (!hasSettings)
+                continue;
+
+            current[outputName] = {};
+            if (settings.colorManagement)
+                current[outputName].colorManagement = settings.colorManagement;
+            if (settings.bitdepth)
+                current[outputName].bitdepth = settings.bitdepth;
+            if (settings.sdrBrightness !== undefined)
+                current[outputName].sdrBrightness = settings.sdrBrightness;
+            if (settings.sdrSaturation !== undefined)
+                current[outputName].sdrSaturation = settings.sdrSaturation;
+            changed = true;
+        }
+
+        if (changed) {
+            SettingsData.hyprlandOutputSettings = current;
+            SettingsData.saveSettings();
+        }
     }
 
     function filterDisconnectedOnly(parsedOutputs) {
@@ -165,17 +206,46 @@ Singleton {
         const result = {};
         const lines = content.split("\n");
         for (const line of lines) {
-            const match = line.match(/^\s*monitor\s*=\s*([^,]+),\s*(\d+)x(\d+)@([\d.]+),\s*(-?\d+)x(-?\d+),\s*([\d.]+)(?:,\s*transform,\s*(\d+))?(?:,\s*vrr,\s*(\d+))?/);
+            const match = line.match(/^\s*monitor\s*=\s*([^,]+),\s*(\d+)x(\d+)@([\d.]+),\s*(-?\d+)x(-?\d+),\s*([\d.]+)/);
             if (!match)
                 continue;
             const name = match[1].trim();
+            const rest = line.substring(line.indexOf(match[7]) + match[7].length);
+
+            let transform = 0, vrr = false, bitdepth = undefined, cm = undefined;
+            let sdrBrightness = undefined, sdrSaturation = undefined;
+
+            const transformMatch = rest.match(/,\s*transform,\s*(\d+)/);
+            if (transformMatch)
+                transform = parseInt(transformMatch[1]);
+
+            const vrrMatch = rest.match(/,\s*vrr,\s*(\d+)/);
+            if (vrrMatch)
+                vrr = vrrMatch[1] === "1";
+
+            const bitdepthMatch = rest.match(/,\s*bitdepth,\s*(\d+)/);
+            if (bitdepthMatch)
+                bitdepth = parseInt(bitdepthMatch[1]);
+
+            const cmMatch = rest.match(/,\s*cm,\s*(\w+)/);
+            if (cmMatch)
+                cm = cmMatch[1];
+
+            const sdrBrightnessMatch = rest.match(/,\s*sdrbrightness,\s*([\d.]+)/);
+            if (sdrBrightnessMatch)
+                sdrBrightness = parseFloat(sdrBrightnessMatch[1]);
+
+            const sdrSaturationMatch = rest.match(/,\s*sdrsaturation,\s*([\d.]+)/);
+            if (sdrSaturationMatch)
+                sdrSaturation = parseFloat(sdrSaturationMatch[1]);
+
             result[name] = {
                 "name": name,
                 "logical": {
                     "x": parseInt(match[5]),
                     "y": parseInt(match[6]),
                     "scale": parseFloat(match[7]),
-                    "transform": hyprlandToTransform(parseInt(match[8] || "0"))
+                    "transform": hyprlandToTransform(transform)
                 },
                 "modes": [
                     {
@@ -185,8 +255,14 @@ Singleton {
                     }
                 ],
                 "current_mode": 0,
-                "vrr_enabled": match[9] === "1",
-                "vrr_supported": true
+                "vrr_enabled": vrr,
+                "vrr_supported": true,
+                "hyprlandSettings": {
+                    "bitdepth": bitdepth,
+                    "colorManagement": cm,
+                    "sdrBrightness": sdrBrightness,
+                    "sdrSaturation": sdrSaturation
+                }
             };
         }
         return result;
@@ -426,7 +502,7 @@ Singleton {
             NiriService.generateOutputsConfig(outputsData);
             break;
         case "hyprland":
-            HyprlandService.generateOutputsConfig(outputsData);
+            HyprlandService.generateOutputsConfig(outputsData, buildMergedHyprlandSettings());
             break;
         case "dwl":
             DwlService.generateOutputsConfig(outputsData);
@@ -582,6 +658,42 @@ Singleton {
         originalNiriSettings = JSON.parse(JSON.stringify(SettingsData.niriOutputSettings));
     }
 
+    function getHyprlandOutputIdentifier(output, outputName) {
+        if (SettingsData.displayNameMode === "model" && output?.make && output?.model)
+            return "desc:" + output.make + " " + output.model;
+        return outputName;
+    }
+
+    function getHyprlandSetting(output, outputName, key, defaultValue) {
+        if (!CompositorService.isHyprland)
+            return defaultValue;
+        const identifier = getHyprlandOutputIdentifier(output, outputName);
+        const pending = pendingHyprlandChanges[identifier];
+        if (pending && (key in pending)) {
+            const val = pending[key];
+            return (val !== null && val !== undefined) ? val : defaultValue;
+        }
+        return SettingsData.getHyprlandOutputSetting(identifier, key, defaultValue);
+    }
+
+    function setHyprlandSetting(output, outputName, key, value) {
+        if (!CompositorService.isHyprland)
+            return;
+        initOriginalHyprlandSettings();
+        const identifier = getHyprlandOutputIdentifier(output, outputName);
+        const newPending = JSON.parse(JSON.stringify(pendingHyprlandChanges));
+        if (!newPending[identifier])
+            newPending[identifier] = {};
+        newPending[identifier][key] = value;
+        pendingHyprlandChanges = newPending;
+    }
+
+    function initOriginalHyprlandSettings() {
+        if (originalHyprlandSettings)
+            return;
+        originalHyprlandSettings = JSON.parse(JSON.stringify(SettingsData.hyprlandOutputSettings));
+    }
+
     function initOriginalOutputs() {
         if (!originalOutputs)
             originalOutputs = JSON.parse(JSON.stringify(outputs));
@@ -667,8 +779,10 @@ Singleton {
     function clearPendingChanges() {
         pendingChanges = {};
         pendingNiriChanges = {};
+        pendingHyprlandChanges = {};
         originalOutputs = null;
         originalNiriSettings = null;
+        originalHyprlandSettings = null;
         originalDisplayNameMode = "";
     }
 
@@ -719,6 +833,22 @@ Singleton {
                 changeDescriptions.push(outputId + ": " + I18n.tr("Layout") + " → " + I18n.tr("Modified"));
         }
 
+        for (const outputId in pendingHyprlandChanges) {
+            const changes = pendingHyprlandChanges[outputId];
+            if (changes.bitdepth !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("Bit Depth") + " → " + changes.bitdepth);
+            if (changes.colorManagement !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("Color Management") + " → " + changes.colorManagement);
+            if (changes.sdrBrightness !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("SDR Brightness") + " → " + changes.sdrBrightness);
+            if (changes.sdrSaturation !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("SDR Saturation") + " → " + changes.sdrSaturation);
+            if (changes.supportsHdr !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("Force HDR") + " → " + (changes.supportsHdr ? I18n.tr("Yes") : I18n.tr("No")));
+            if (changes.supportsWideColor !== undefined)
+                changeDescriptions.push(outputId + ": " + I18n.tr("Force Wide Color") + " → " + (changes.supportsWideColor ? I18n.tr("Yes") : I18n.tr("No")));
+        }
+
         if (CompositorService.isNiri) {
             validateAndApplyNiriConfig(changeDescriptions);
             return;
@@ -728,6 +858,9 @@ Singleton {
 
         if (formatChanged)
             SettingsData.saveSettings();
+
+        if (CompositorService.isHyprland)
+            commitHyprlandSettingsChanges();
 
         const mergedOutputs = buildOutputsWithPendingChanges();
         backendWriteOutputsConfig(mergedOutputs);
@@ -784,6 +917,34 @@ Singleton {
         for (const outputId in pendingNiriChanges) {
             for (const key in pendingNiriChanges[outputId]) {
                 SettingsData.setNiriOutputSetting(outputId, key, pendingNiriChanges[outputId][key]);
+            }
+        }
+    }
+
+    function buildMergedHyprlandSettings() {
+        const merged = JSON.parse(JSON.stringify(SettingsData.hyprlandOutputSettings));
+        for (const outputId in pendingHyprlandChanges) {
+            if (!merged[outputId])
+                merged[outputId] = {};
+            for (const key in pendingHyprlandChanges[outputId]) {
+                const val = pendingHyprlandChanges[outputId][key];
+                if (val === null || val === undefined)
+                    delete merged[outputId][key];
+                else
+                    merged[outputId][key] = val;
+            }
+        }
+        return merged;
+    }
+
+    function commitHyprlandSettingsChanges() {
+        for (const outputId in pendingHyprlandChanges) {
+            for (const key in pendingHyprlandChanges[outputId]) {
+                const val = pendingHyprlandChanges[outputId][key];
+                if (val === null || val === undefined)
+                    SettingsData.removeHyprlandOutputSetting(outputId, key);
+                else
+                    SettingsData.setHyprlandOutputSetting(outputId, key, val);
             }
         }
     }
@@ -893,6 +1054,7 @@ Singleton {
     function revertChanges() {
         const hadFormatChange = originalDisplayNameMode !== "";
         const hadNiriChanges = originalNiriSettings !== null;
+        const hadHyprlandChanges = originalHyprlandSettings !== null;
 
         if (hadFormatChange) {
             SettingsData.displayNameMode = originalDisplayNameMode;
@@ -904,7 +1066,15 @@ Singleton {
             SettingsData.saveSettings();
         }
 
-        if (!originalOutputs && !hadNiriChanges) {
+        if (hadHyprlandChanges) {
+            SettingsData.hyprlandOutputSettings = JSON.parse(JSON.stringify(originalHyprlandSettings));
+            SettingsData.saveSettings();
+        }
+
+        pendingHyprlandChanges = {};
+        pendingNiriChanges = {};
+
+        if (!originalOutputs && !hadNiriChanges && !hadHyprlandChanges) {
             if (hadFormatChange)
                 backendWriteOutputsConfig(buildOutputsWithPendingChanges());
             clearPendingChanges();
