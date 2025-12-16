@@ -233,7 +233,14 @@ func runShellInteractive(session bool) {
 	for {
 		select {
 		case sig := <-sigChan:
-			if sig == syscall.SIGUSR1 && !isSessionManaged {
+			if sig == syscall.SIGUSR1 {
+				if isSessionManaged {
+					log.Infof("Received SIGUSR1, exiting for systemd restart...")
+					cancel()
+					cmd.Process.Signal(syscall.SIGTERM)
+					os.Remove(socketPath)
+					os.Exit(1)
+				}
 				log.Infof("Received SIGUSR1, spawning detached restart process...")
 				execDetachedRestart(os.Getpid())
 				return
@@ -466,7 +473,14 @@ func runShellDaemon(session bool) {
 	for {
 		select {
 		case sig := <-sigChan:
-			if sig == syscall.SIGUSR1 && !isSessionManaged {
+			if sig == syscall.SIGUSR1 {
+				if isSessionManaged {
+					log.Infof("Received SIGUSR1, exiting for systemd restart...")
+					cancel()
+					cmd.Process.Signal(syscall.SIGTERM)
+					os.Remove(socketPath)
+					os.Exit(1)
+				}
 				log.Infof("Received SIGUSR1, spawning detached restart process...")
 				execDetachedRestart(os.Getpid())
 				return
