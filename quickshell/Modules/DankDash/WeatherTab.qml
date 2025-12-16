@@ -94,11 +94,10 @@ Item {
 
                     Timer {
                         id: hoverDelayTwo
-                        interval: 1000
+                        interval: 300
                         repeat: false
                         onTriggered: {
-                            const p = refreshButtonMouseAreaTwo.mapToItem(null, parent.width / 2, parent.height + Theme.spacingXS);
-                            refreshButtonTooltipTwo.show(I18n.tr("Refresh Weather"), p.x, p.y, null);
+                            refreshButtonTooltipTwo.show(I18n.tr("Refresh Weather"), refreshButtonTwo, 0, 0, "left");
                         }
                     }
 
@@ -118,7 +117,7 @@ Item {
                     }
                 }
 
-                DankTooltip {
+                DankTooltipV2 {
                     id: refreshButtonTooltipTwo
                 }
 
@@ -820,11 +819,10 @@ Item {
 
                     Timer {
                         id: hoverDelay
-                        interval: 1000
+                        interval: 300
                         repeat: false
                         onTriggered: {
-                            const p = refreshButtonMouseArea.mapToItem(null, parent.width / 2, parent.height + Theme.spacingXS);
-                            refreshButtonTooltip.show(I18n.tr("Refresh Weather"), p.x, p.y, null);
+                            refreshButtonTooltip.show(I18n.tr("Refresh Weather"), refreshButton, 0, 0, "left");
                         }
                     }
 
@@ -844,7 +842,7 @@ Item {
                     }
                 }
 
-                DankTooltip {
+                DankTooltipV2 {
                     id: refreshButtonTooltip
                 }
 
