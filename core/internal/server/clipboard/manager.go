@@ -319,10 +319,6 @@ func (m *Manager) readAndStore(r *os.File, mimeType string) {
 		m.storeClipboardEntry(data, mimeType)
 	}
 
-	if !cfg.DisablePersist {
-		m.persistClipboard([]string{mimeType}, map[string][]byte{mimeType: data})
-	}
-
 	m.updateState()
 	m.notifySubscribers()
 }
@@ -345,105 +341,6 @@ func (m *Manager) storeClipboardEntry(data []byte, mimeType string) {
 
 	if err := m.storeEntry(entry); err != nil {
 		log.Errorf("Failed to store clipboard entry: %v", err)
-	}
-}
-
-func (m *Manager) persistClipboard(mimeTypes []string, data map[string][]byte) {
-	m.persistMutex.Lock()
-	m.persistMimeTypes = mimeTypes
-	m.persistData = data
-	m.persistMutex.Unlock()
-
-	m.post(func() {
-		m.takePersistOwnership()
-	})
-}
-
-func (m *Manager) takePersistOwnership() {
-	if m.dataControlMgr == nil || m.dataDevice == nil {
-		return
-	}
-
-	if m.getConfig().DisablePersist {
-		return
-	}
-
-	m.persistMutex.RLock()
-	mimeTypes := m.persistMimeTypes
-	m.persistMutex.RUnlock()
-
-	if len(mimeTypes) == 0 {
-		return
-	}
-
-	dataMgr := m.dataControlMgr.(*ext_data_control.ExtDataControlManagerV1)
-
-	source, err := dataMgr.CreateDataSource()
-	if err != nil {
-		log.Errorf("Failed to create persist source: %v", err)
-		return
-	}
-
-	for _, mime := range mimeTypes {
-		if err := source.Offer(mime); err != nil {
-			log.Errorf("Failed to offer mime type %s: %v", mime, err)
-		}
-	}
-
-	source.SetSendHandler(func(e ext_data_control.ExtDataControlSourceV1SendEvent) {
-		fd := e.Fd
-		defer syscall.Close(fd)
-
-		m.persistMutex.RLock()
-		d := m.persistData[e.MimeType]
-		m.persistMutex.RUnlock()
-
-		if len(d) == 0 {
-			return
-		}
-
-		file := os.NewFile(uintptr(fd), "clipboard-pipe")
-		defer file.Close()
-		file.Write(d)
-	})
-
-	source.SetCancelledHandler(func(e ext_data_control.ExtDataControlSourceV1CancelledEvent) {
-		m.ownerLock.Lock()
-		m.isOwner = false
-		m.ownerLock.Unlock()
-	})
-
-	if m.currentSource != nil {
-		oldSource := m.currentSource.(*ext_data_control.ExtDataControlSourceV1)
-		oldSource.Destroy()
-	}
-	m.currentSource = source
-
-	device := m.dataDevice.(*ext_data_control.ExtDataControlDeviceV1)
-	if err := device.SetSelection(source); err != nil {
-		log.Errorf("Failed to set persist selection: %v", err)
-		return
-	}
-
-	m.ownerLock.Lock()
-	m.isOwner = true
-	m.ownerLock.Unlock()
-}
-
-func (m *Manager) releaseOwnership() {
-	m.ownerLock.Lock()
-	m.isOwner = false
-	m.ownerLock.Unlock()
-
-	m.persistMutex.Lock()
-	m.persistData = nil
-	m.persistMimeTypes = nil
-	m.persistMutex.Unlock()
-
-	if m.currentSource != nil {
-		source := m.currentSource.(*ext_data_control.ExtDataControlSourceV1)
-		source.Destroy()
-		m.currentSource = nil
 	}
 }
 
@@ -495,6 +392,9 @@ func (m *Manager) deduplicateInTx(b *bolt.Bucket, hash uint64) error {
 }
 
 func (m *Manager) trimLengthInTx(b *bolt.Bucket) error {
+	if m.config.MaxHistory < 0 {
+		return nil
+	}
 	c := b.Cursor()
 	var count int
 	for k, _ := c.Last(); k != nil; k, _ = c.Prev() {
@@ -1309,13 +1209,7 @@ func (m *Manager) applyConfigChange(newCfg Config) {
 		}
 	}
 
-	if newCfg.DisablePersist && !oldCfg.DisablePersist {
-		log.Info("Clipboard persist disabled, releasing ownership")
-		m.releaseOwnership()
-	}
-
-	log.Infof("Clipboard config reloaded: disableHistory=%v disablePersist=%v",
-		newCfg.DisableHistory, newCfg.DisablePersist)
+	log.Infof("Clipboard config reloaded: disableHistory=%v", newCfg.DisableHistory)
 
 	m.updateState()
 	m.notifySubscribers()
