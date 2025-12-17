@@ -309,6 +309,7 @@ var SPEC = {
     desktopClockCustomColor: { def: "#ffffff" },
     desktopClockShowDate: { def: true },
     desktopClockShowAnalogNumbers: { def: false },
+    desktopClockShowAnalogSeconds: { def: true },
     desktopClockX: { def: -1 },
     desktopClockY: { def: -1 },
     desktopClockWidth: { def: 280 },

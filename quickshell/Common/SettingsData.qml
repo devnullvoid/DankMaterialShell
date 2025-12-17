@@ -413,6 +413,7 @@ Singleton {
     property color desktopClockCustomColor: "#ffffff"
     property bool desktopClockShowDate: true
     property bool desktopClockShowAnalogNumbers: false
+    property bool desktopClockShowAnalogSeconds: true
     property real desktopClockX: -1
     property real desktopClockY: -1
     property real desktopClockWidth: 280

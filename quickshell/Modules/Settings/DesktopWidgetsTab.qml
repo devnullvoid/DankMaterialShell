@@ -87,6 +87,17 @@ Item {
                         onToggled: checked => SettingsData.set("desktopClockShowAnalogNumbers", checked)
                     }
 
+                    SettingsDivider {
+                        visible: SettingsData.desktopClockStyle === "analog"
+                    }
+
+                    SettingsToggleRow {
+                        visible: SettingsData.desktopClockStyle === "analog"
+                        text: I18n.tr("Show Seconds")
+                        checked: SettingsData.desktopClockShowAnalogSeconds
+                        onToggled: checked => SettingsData.set("desktopClockShowAnalogSeconds", checked)
+                    }
+
                     SettingsDivider {}
 
                     SettingsToggleRow {

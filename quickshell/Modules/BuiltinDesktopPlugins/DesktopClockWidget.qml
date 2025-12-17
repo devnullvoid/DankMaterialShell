@@ -192,6 +192,8 @@ Item {
 
             Rectangle {
                 id: secondDot
+                visible: SettingsData.desktopClockShowAnalogSeconds
+
                 property real angle: analogRoot.seconds * 6 * Math.PI / 180
                 property real orbitRadius: analogRoot.faceRadius * 0.92
 
