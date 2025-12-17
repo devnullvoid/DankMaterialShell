@@ -271,7 +271,7 @@ Rectangle {
                     Rectangle {
                         required property var modelData
 
-                        width: parent.width - Theme.spacingM * 2
+                        width: (parent?.width ?? 0) - Theme.spacingM * 2
                         x: Theme.spacingM
                         height: 40
                         radius: Theme.cornerRadius

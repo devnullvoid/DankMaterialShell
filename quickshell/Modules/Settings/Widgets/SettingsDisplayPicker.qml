@@ -13,9 +13,9 @@ Item {
     signal preferencesChanged(var preferences)
 
     readonly property bool allDisplaysEnabled: {
-        if (!Array.isArray(displayPreferences))
+        if (!Array.isArray(displayPreferences) || displayPreferences.length === 0)
             return true;
-        return displayPreferences.includes("all") || displayPreferences.length === 0;
+        return displayPreferences.includes("all");
     }
 
     width: parent?.width ?? 0
@@ -38,7 +38,21 @@ Item {
             width: parent.width
             text: I18n.tr("All displays")
             checked: root.allDisplaysEnabled
-            onToggled: isChecked => root.preferencesChanged(isChecked ? ["all"] : [])
+            onToggled: isChecked => {
+                if (isChecked) {
+                    root.preferencesChanged(["all"]);
+                    return;
+                }
+                var screens = [];
+                for (var i = 0; i < Quickshell.screens.length; i++) {
+                    var s = Quickshell.screens[i];
+                    screens.push({
+                        name: s.name,
+                        model: s.model || ""
+                    });
+                }
+                root.preferencesChanged(screens);
+            }
         }
 
         Column {
