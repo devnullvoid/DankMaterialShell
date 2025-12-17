@@ -21,7 +21,7 @@ Flow {
     property bool userInteracted: false
 
     signal selectionChanged(int index, bool selected)
-    signal animationCompleted()
+    signal animationCompleted
 
     spacing: Theme.spacingXS
 
@@ -36,35 +36,35 @@ Flow {
 
     function isSelected(index) {
         if (multiSelect) {
-            return repeater.itemAt(index)?.selected || false
+            return repeater.itemAt(index)?.selected || false;
         }
-        return index === currentIndex
+        return index === currentIndex;
     }
 
     function selectItem(index) {
         userInteracted = true;
         if (multiSelect) {
-            const modelValue = model[index]
-            let newSelection = [...currentSelection]
-            const isCurrentlySelected = newSelection.includes(modelValue)
+            const modelValue = model[index];
+            let newSelection = [...currentSelection];
+            const isCurrentlySelected = newSelection.includes(modelValue);
 
             if (isCurrentlySelected) {
-                newSelection = newSelection.filter(item => item !== modelValue)
+                newSelection = newSelection.filter(item => item !== modelValue);
             } else {
-                newSelection.push(modelValue)
+                newSelection.push(modelValue);
             }
 
-            currentSelection = newSelection
-            selectionChanged(index, !isCurrentlySelected)
-            animationTimer.restart()
+            currentSelection = newSelection;
+            selectionChanged(index, !isCurrentlySelected);
+            animationTimer.restart();
         } else {
-            const oldIndex = currentIndex
-            currentIndex = index
-            selectionChanged(index, true)
+            const oldIndex = currentIndex;
+            currentIndex = index;
+            selectionChanged(index, true);
             if (oldIndex !== index && oldIndex >= 0) {
-                selectionChanged(oldIndex, false)
+                selectionChanged(oldIndex, false);
             }
-            animationTimer.restart()
+            animationTimer.restart();
         }
     }
 
@@ -82,6 +82,8 @@ Flow {
             property bool pressed: mouseArea.pressed
             property bool isFirst: index === 0
             property bool isLast: index === repeater.count - 1
+            property bool visualFirst: I18n.isRtl ? isLast : isFirst
+            property bool visualLast: I18n.isRtl ? isFirst : isLast
             property bool prevSelected: index > 0 ? root.isSelected(index - 1) : false
             property bool nextSelected: index < repeater.count - 1 ? root.isSelected(index + 1) : false
 
@@ -92,10 +94,10 @@ Flow {
             border.color: "transparent"
             border.width: 0
 
-            topLeftRadius: (isFirst || selected) ? Theme.cornerRadius : 4
-            bottomLeftRadius: (isFirst || selected) ? Theme.cornerRadius : 4
-            topRightRadius: (isLast || selected) ? Theme.cornerRadius : 4
-            bottomRightRadius: (isLast || selected) ? Theme.cornerRadius : 4
+            topLeftRadius: (visualFirst || selected) ? Theme.cornerRadius : 4
+            bottomLeftRadius: (visualFirst || selected) ? Theme.cornerRadius : 4
+            topRightRadius: (visualLast || selected) ? Theme.cornerRadius : 4
+            bottomRightRadius: (visualLast || selected) ? Theme.cornerRadius : 4
 
             Behavior on width {
                 enabled: root.userInteracted
@@ -153,9 +155,11 @@ Flow {
                 topRightRadius: parent.topRightRadius
                 bottomRightRadius: parent.bottomRightRadius
                 color: {
-                    if (pressed) return selected ? Theme.primaryPressed : Theme.surfaceTextHover
-                    if (hovered) return selected ? Theme.primaryHover : Theme.surfaceTextHover
-                    return "transparent"
+                    if (pressed)
+                        return selected ? Theme.primaryPressed : Theme.surfaceTextHover;
+                    if (hovered)
+                        return selected ? Theme.primaryHover : Theme.surfaceTextHover;
+                    return "transparent";
                 }
 
                 Behavior on color {

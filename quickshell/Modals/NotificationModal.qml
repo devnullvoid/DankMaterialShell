@@ -99,7 +99,7 @@ DankModal {
         }
 
         function toggleDoNotDisturb(): string {
-	    SessionData.setDoNotDisturb(!SessionData.doNotDisturb)
+            SessionData.setDoNotDisturb(!SessionData.doNotDisturb);
 
             return "NOTIFICATION_MODAL_TOGGLE_DND_SUCCESS";
         }
@@ -110,6 +110,9 @@ DankModal {
     content: Component {
         Item {
             id: notificationKeyHandler
+
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
 
             anchors.fill: parent
 

@@ -119,6 +119,13 @@
     "comment": ""
   },
   {
+    "term": "10-bit Color",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "14 days",
     "translation": "",
     "context": "",
@@ -127,6 +134,13 @@
   },
   {
     "term": "15 seconds",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "180°",
     "translation": "",
     "context": "",
     "reference": "",
@@ -148,6 +162,13 @@
   },
   {
     "term": "24-hour format",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "270°",
     "translation": "",
     "context": "",
     "reference": "",
@@ -218,6 +239,13 @@
   },
   {
     "term": "90 days",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "90°",
     "translation": "",
     "context": "",
     "reference": "",
@@ -469,6 +497,13 @@
     "comment": ""
   },
   {
+    "term": "Analog",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Animation Speed",
     "translation": "",
     "context": "",
@@ -511,6 +546,13 @@
     "comment": ""
   },
   {
+    "term": "Apply Changes",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Apply GTK Colors",
     "translation": "",
     "context": "",
@@ -540,6 +582,13 @@
   },
   {
     "term": "Apps are ordered by usage frequency, then last used, then alphabetically.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Arrange displays and configure resolution, refresh rate, and VRR",
     "translation": "",
     "context": "",
     "reference": "",
@@ -659,6 +708,13 @@
   },
   {
     "term": "Auto",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Auto (Wide)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -847,6 +903,13 @@
     "comment": ""
   },
   {
+    "term": "Background Opacity",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Balanced palette with focused accents (default).",
     "translation": "",
     "context": "",
@@ -904,6 +967,13 @@
   },
   {
     "term": "Binds include added",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Bit Depth",
     "translation": "",
     "context": "",
     "reference": "",
@@ -973,6 +1043,20 @@
     "comment": ""
   },
   {
+    "term": "Bottom Left",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Bottom Right",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Bottom Section",
     "translation": "",
     "context": "",
@@ -1009,6 +1093,13 @@
   },
   {
     "term": "CPU",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "CPU Graph",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1120,6 +1211,13 @@
     "comment": ""
   },
   {
+    "term": "Center Single Column",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Center Tiling",
     "translation": "",
     "context": "",
@@ -1135,13 +1233,6 @@
   },
   {
     "term": "Change bar appearance",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Changes:",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1212,6 +1303,13 @@
   },
   {
     "term": "Choose where on-screen displays appear on screen",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Choose which displays show this widget",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1337,6 +1435,13 @@
     "comment": ""
   },
   {
+    "term": "Clock Style",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Close",
     "translation": "",
     "context": "",
@@ -1352,6 +1457,20 @@
   },
   {
     "term": "Color",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Color Gamut",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Color Management",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1414,6 +1533,13 @@
     "comment": ""
   },
   {
+    "term": "Column",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Command",
     "translation": "",
     "context": "",
@@ -1449,6 +1575,20 @@
     "comment": ""
   },
   {
+    "term": "Compositor Settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Config Format",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Config action: %1",
     "translation": "",
     "context": "",
@@ -1456,7 +1596,28 @@
     "comment": ""
   },
   {
+    "term": "Config validation failed",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Configuration",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Configuration activated",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Configuration will be preserved when this display reconnects",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1569,6 +1730,13 @@
   },
   {
     "term": "Control currently playing media",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Control workspaces and columns by scrolling on the bar",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1799,6 +1967,13 @@
     "comment": ""
   },
   {
+    "term": "Custom...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Custom: ",
     "translation": "",
     "context": "",
@@ -1981,6 +2156,13 @@
     "comment": ""
   },
   {
+    "term": "Default Width (%)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Default selected action",
     "translation": "",
     "context": "",
@@ -2044,6 +2226,20 @@
     "comment": ""
   },
   {
+    "term": "Desktop Clock",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Desktop Widgets",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Desktop background images",
     "translation": "",
     "context": "",
@@ -2066,6 +2262,13 @@
   },
   {
     "term": "Device paired",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Digital",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2107,6 +2310,13 @@
     "comment": ""
   },
   {
+    "term": "Disable Output",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Disable clipboard manager entirely (requires restart)",
     "translation": "",
     "context": "",
@@ -2115,6 +2325,13 @@
   },
   {
     "term": "Disabled",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Discard",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2177,6 +2394,13 @@
     "comment": ""
   },
   {
+    "term": "Display Settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Display a dock with pinned and running applications",
     "translation": "",
     "context": "",
@@ -2205,6 +2429,13 @@
     "comment": ""
   },
   {
+    "term": "Display configuration is not available. WLR output management protocol not supported.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Display currently focused application title",
     "translation": "",
     "context": "",
@@ -2227,13 +2458,6 @@
   },
   {
     "term": "Display seconds in the clock",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Display settings for ",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2401,6 +2625,13 @@
     "comment": ""
   },
   {
+    "term": "Enable 10-bit color depth for wider color gamut and HDR support",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Enable Autoconnect",
     "translation": "",
     "context": "",
@@ -2409,6 +2640,13 @@
   },
   {
     "term": "Enable Bar",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Enable Desktop Clock",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2430,6 +2668,13 @@
   },
   {
     "term": "Enable Overview Overlay",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Enable System Monitor",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2591,6 +2836,13 @@
   },
   {
     "term": "Exclusive Zone Offset",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Experimental Feature",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2905,6 +3157,13 @@
     "comment": ""
   },
   {
+    "term": "Failed to write temp file for validation",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Feels Like",
     "translation": "",
     "context": "",
@@ -2982,6 +3241,41 @@
     "comment": ""
   },
   {
+    "term": "Flipped",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Flipped 180°",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Flipped 270°",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Flipped 90°",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Focus at Startup",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Focused Window",
     "translation": "",
     "context": "",
@@ -3024,7 +3318,21 @@
     "comment": ""
   },
   {
+    "term": "Force HDR",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Force Kill Process",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Force Wide Color",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3171,6 +3479,13 @@
     "comment": ""
   },
   {
+    "term": "Graph Time Range",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Graphics",
     "translation": "",
     "context": "",
@@ -3206,6 +3521,27 @@
     "comment": ""
   },
   {
+    "term": "HDR (EDID)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "HDR Tone Mapping",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "HDR mode is experimental. Verify your monitor supports HDR before enabling.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "HSV",
     "translation": "",
     "context": "",
@@ -3221,6 +3557,13 @@
   },
   {
     "term": "Held",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Help",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3244,6 +3587,13 @@
     "term": "Hide Delay",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hide Updater Widget",
+    "translation": "",
+    "context": "When updater widget is used, then hide it if no update found",
     "reference": "",
     "comment": ""
   },
@@ -3298,6 +3648,13 @@
   },
   {
     "term": "Hold to confirm (%1s)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hot Corners",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3451,6 +3808,13 @@
     "comment": ""
   },
   {
+    "term": "Incompatible Plugins Loaded",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Incorrect password",
     "translation": "",
     "context": "",
@@ -3473,6 +3837,13 @@
   },
   {
     "term": "Individual bar configuration",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Inherit",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3515,6 +3886,13 @@
   },
   {
     "term": "Interval",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Invalid configuration",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3689,6 +4067,13 @@
     "comment": ""
   },
   {
+    "term": "Layout Overrides",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Left",
     "translation": "",
     "context": "",
@@ -3711,6 +4096,13 @@
   },
   {
     "term": "Lines: %1",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "List",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4088,6 +4480,13 @@
     "comment": ""
   },
   {
+    "term": "Memory Graph",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Memory Usage",
     "translation": "",
     "context": "",
@@ -4151,14 +4550,21 @@
     "comment": ""
   },
   {
-    "term": "Mode: ",
+    "term": "Model",
     "translation": "",
     "context": "",
     "reference": "",
     "comment": ""
   },
   {
-    "term": "Model",
+    "term": "Modified",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Monitor Configuration",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4194,6 +4600,13 @@
   },
   {
     "term": "Mount",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Move Widget",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4243,6 +4656,13 @@
   },
   {
     "term": "Network",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Network Graph",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4466,6 +4886,13 @@
     "comment": ""
   },
   {
+    "term": "No features enabled",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "No files found",
     "translation": "",
     "context": "",
@@ -4529,7 +4956,21 @@
     "comment": ""
   },
   {
+    "term": "No variants created. Click Add to create a new monitor widget.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "None",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Normal",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4649,6 +5090,13 @@
   },
   {
     "term": "OSD Position",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Off",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4781,6 +5229,13 @@
     "comment": ""
   },
   {
+    "term": "Outputs Include Missing",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Overridden by config",
     "translation": "",
     "context": "",
@@ -4789,6 +5244,13 @@
   },
   {
     "term": "Override",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Override global layout settings for this output",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5054,13 +5516,6 @@
     "comment": ""
   },
   {
-    "term": "Position: ",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Possible Override Conflicts",
     "translation": "",
     "context": "",
@@ -5146,6 +5601,13 @@
   },
   {
     "term": "Preference",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Preset Widths (%)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5251,6 +5713,13 @@
   },
   {
     "term": "Process",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Process Count",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5425,6 +5894,13 @@
     "comment": ""
   },
   {
+    "term": "Requires DMS",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Requires DWL compositor",
     "translation": "",
     "context": "",
@@ -5433,6 +5909,34 @@
   },
   {
     "term": "Reset",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Reset Position",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Reset Size",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Resize Widget",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Resolution & Refresh",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5467,13 +5971,6 @@
     "comment": ""
   },
   {
-    "term": "Reverting in:",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Right",
     "translation": "",
     "context": "",
@@ -5489,6 +5986,20 @@
   },
   {
     "term": "Right Tiling",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Right-click and drag anywhere on the widget",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Right-click and drag the bottom-right corner",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5551,6 +6062,20 @@
     "comment": ""
   },
   {
+    "term": "SDR Brightness",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "SDR Saturation",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Save",
     "translation": "",
     "context": "",
@@ -5580,6 +6105,13 @@
   },
   {
     "term": "Saved Configurations",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Scale",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5622,6 +6154,13 @@
   },
   {
     "term": "Screen sharing",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Scroll Wheel",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5692,6 +6231,13 @@
   },
   {
     "term": "Searching...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Secondary",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5950,6 +6496,41 @@
     "comment": ""
   },
   {
+    "term": "Show CPU",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show CPU Graph",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show CPU Temp",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Date",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Disk",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Show Dock",
     "translation": "",
     "context": "",
@@ -5957,7 +6538,28 @@
     "comment": ""
   },
   {
+    "term": "Show GPU Temperature",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Header",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Show Hibernate",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Hour Numbers",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5979,6 +6581,34 @@
   },
   {
     "term": "Show Log Out",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Memory",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Memory Graph",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Network",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Network Graph",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6065,6 +6695,13 @@
     "term": "Show System Time",
     "translation": "",
     "context": "Enable system time display on the lock screen window",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show Top Processes",
+    "translation": "",
+    "context": "",
     "reference": "",
     "comment": ""
   },
@@ -6293,7 +6930,21 @@
     "comment": ""
   },
   {
+    "term": "Some plugins require a newer version of DMS:",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Sort Alphabetically",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Sort By",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6350,6 +7001,13 @@
   },
   {
     "term": "Square Corners",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Stacked",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6853,6 +7511,27 @@
     "comment": ""
   },
   {
+    "term": "Top Left",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Top Processes",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Top Right",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Top Section",
     "translation": "",
     "context": "",
@@ -6861,6 +7540,13 @@
   },
   {
     "term": "Total Jobs",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Transform",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7161,7 +7847,42 @@
     "comment": ""
   },
   {
-    "term": "VRR: ",
+    "term": "VRR",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "VRR On-Demand",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "VRR activates only when applications request it",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Variable Refresh Rate",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Variant created - expand to configure",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Variant removed",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7322,6 +8043,13 @@
     "comment": ""
   },
   {
+    "term": "When updater widget is used, then hide it if no update found",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Wi-Fi Password",
     "translation": "",
     "context": "",
@@ -7358,6 +8086,13 @@
   },
   {
     "term": "WiFi is off",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Wide (BT2020)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7406,9 +8141,16 @@
     "comment": ""
   },
   {
-    "term": "Widgets",
+    "term": "Widget Variants",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Widgets",
+    "translation": "",
+    "context": "settings_displays",
     "reference": "",
     "comment": ""
   },
@@ -7421,6 +8163,13 @@
   },
   {
     "term": "Wind Speed",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Window Gaps (px)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7470,6 +8219,20 @@
   },
   {
     "term": "Workspaces & Widgets",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "X Axis",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Y Axis",
     "translation": "",
     "context": "",
     "reference": "",

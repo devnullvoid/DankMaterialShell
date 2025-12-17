@@ -9,6 +9,9 @@ import qs.Widgets
 Rectangle {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property int currentIndex: 0
     property var parentModal: null
     property var expandedCategories: ({})

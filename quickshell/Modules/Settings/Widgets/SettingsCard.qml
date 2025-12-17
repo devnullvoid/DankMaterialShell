@@ -7,6 +7,9 @@ import qs.Widgets
 StyledRect {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property string tab: ""
     property var tags: []
 

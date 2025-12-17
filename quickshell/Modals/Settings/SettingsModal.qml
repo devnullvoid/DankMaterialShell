@@ -135,6 +135,9 @@ FloatingWindow {
     FocusScope {
         id: contentFocusScope
 
+        LayoutMirroring.enabled: I18n.isRtl
+        LayoutMirroring.childrenInherit: true
+
         anchors.fill: parent
         focus: true
 
@@ -223,7 +226,7 @@ FloatingWindow {
                 SettingsSidebar {
                     id: sidebar
 
-                    x: 0
+                    anchors.left: parent.left
                     width: settingsModal.isCompactMode ? parent.width : 270
                     visible: settingsModal.isCompactMode ? settingsModal.menuVisible : true
                     parentModal: settingsModal
@@ -238,8 +241,8 @@ FloatingWindow {
                 }
 
                 Item {
-                    x: settingsModal.isCompactMode ? (settingsModal.menuVisible ? parent.width : 0) : sidebar.width
-                    width: settingsModal.isCompactMode ? parent.width : parent.width - sidebar.width
+                    anchors.left: settingsModal.isCompactMode ? (settingsModal.menuVisible ? sidebar.right : parent.left) : sidebar.right
+                    anchors.right: parent.right
                     height: parent.height
                     clip: true
 
@@ -249,14 +252,6 @@ FloatingWindow {
                         anchors.fill: parent
                         parentModal: settingsModal
                         currentIndex: settingsModal.currentTabIndex
-                    }
-
-                    Behavior on x {
-                        enabled: settingsModal.enableAnimations
-                        NumberAnimation {
-                            duration: Theme.mediumDuration
-                            easing.bezierCurve: Theme.expressiveCurves.emphasizedDecel
-                        }
                     }
                 }
             }

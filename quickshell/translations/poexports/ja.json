@@ -50,11 +50,17 @@
   "10 seconds": {
     "10 seconds": ""
   },
+  "10-bit Color": {
+    "10-bit Color": ""
+  },
   "14 days": {
     "14 days": ""
   },
   "15 seconds": {
     "15 seconds": ""
+  },
+  "180°": {
+    "180°": ""
   },
   "2 minutes": {
     "2 minutes": ""
@@ -64,6 +70,9 @@
   },
   "24-hour format": {
     "24-hour format": "24時間形式"
+  },
+  "270°": {
+    "270°": ""
   },
   "3 days": {
     "3 days": ""
@@ -94,6 +103,9 @@
   },
   "90 days": {
     "90 days": ""
+  },
+  "90°": {
+    "90°": ""
   },
   "A file with this name already exists. Do you want to overwrite it?": {
     "A file with this name already exists. Do you want to overwrite it?": "この名前のファイルは既に存在します。上書きしてもよろしいですか?"
@@ -200,6 +212,9 @@
   "Amount": {
     "Amount": ""
   },
+  "Analog": {
+    "Analog": ""
+  },
   "Animation Speed": {
     "Animation Speed": "アニメーション速度"
   },
@@ -218,6 +233,9 @@
   "Applications": {
     "Applications": "アプリ"
   },
+  "Apply Changes": {
+    "Apply Changes": ""
+  },
   "Apply GTK Colors": {
     "Apply GTK Colors": "GTKカラーを適用"
   },
@@ -232,6 +250,9 @@
   },
   "Apps are ordered by usage frequency, then last used, then alphabetically.": {
     "Apps are ordered by usage frequency, then last used, then alphabetically.": "アプリは使用頻度、最終使用日、アルファベット順の優先順位で並べられています。"
+  },
+  "Arrange displays and configure resolution, refresh rate, and VRR": {
+    "Arrange displays and configure resolution, refresh rate, and VRR": ""
   },
   "Audio": {
     "Audio": ""
@@ -283,6 +304,9 @@
   },
   "Auto": {
     "Auto": ""
+  },
+  "Auto (Wide)": {
+    "Auto (Wide)": ""
   },
   "Auto Location": {
     "Auto Location": "自動位置検出"
@@ -365,6 +389,9 @@
   "Backend": {
     "Backend": ""
   },
+  "Background Opacity": {
+    "Background Opacity": ""
+  },
   "Balanced palette with focused accents (default).": {
     "Balanced palette with focused accents (default).": "アクセントに焦点を絞ったバランスの取れたパレット(デフォルト)。"
   },
@@ -391,6 +418,9 @@
   },
   "Binds include added": {
     "Binds include added": ""
+  },
+  "Bit Depth": {
+    "Bit Depth": ""
   },
   "Bluetooth": {
     "Bluetooth": ""
@@ -422,6 +452,12 @@
   "Bottom": {
     "Bottom": "ボトム"
   },
+  "Bottom Left": {
+    "Bottom Left": ""
+  },
+  "Bottom Right": {
+    "Bottom Right": ""
+  },
   "Bottom Section": {
     "Bottom Section": "ボトムセクション"
   },
@@ -442,6 +478,9 @@
   },
   "CPU": {
     "CPU": "CPU"
+  },
+  "CPU Graph": {
+    "CPU Graph": ""
   },
   "CPU Temperature": {
     "CPU Temperature": "CPU温度"
@@ -491,6 +530,9 @@
   "Center Section": {
     "Center Section": "センターセクション"
   },
+  "Center Single Column": {
+    "Center Single Column": ""
+  },
   "Center Tiling": {
     "Center Tiling": "中央タイルリング"
   },
@@ -535,6 +577,9 @@
   },
   "Choose where on-screen displays appear on screen": {
     "Choose where on-screen displays appear on screen": "OSDの表示する場所を選んでください"
+  },
+  "Choose which displays show this widget": {
+    "Choose which displays show this widget": ""
   },
   "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": ""
@@ -587,6 +632,9 @@
   "Clock": {
     "Clock": "時計"
   },
+  "Clock Style": {
+    "Clock Style": ""
+  },
   "Clock show seconds": {
     "Clock show seconds": "時計に秒数を表示"
   },
@@ -598,6 +646,12 @@
   },
   "Color": {
     "Color": ""
+  },
+  "Color Gamut": {
+    "Color Gamut": ""
+  },
+  "Color Management": {
+    "Color Management": ""
   },
   "Color Mode": {
     "Color Mode": ""
@@ -622,6 +676,9 @@
   },
   "Colorful mix of bright contrasting accents.": {
     "Colorful mix of bright contrasting accents.": "明るいコントラストのアクセントのカラフルなミックス。"
+  },
+  "Column": {
+    "Column": ""
   },
   "Command": {
     "Command": ""
@@ -656,11 +713,26 @@
   "Compositor": {
     "Compositor": "コンポジター"
   },
+  "Compositor Settings": {
+    "Compositor Settings": ""
+  },
+  "Config Format": {
+    "Config Format": ""
+  },
   "Config action: %1": {
     "Config action: %1": ""
   },
+  "Config validation failed": {
+    "Config validation failed": ""
+  },
+  "Configuration": {
+    "Configuration": ""
+  },
   "Configuration activated": {
     "Configuration activated": "設定が適用されました"
+  },
+  "Configuration will be preserved when this display reconnects": {
+    "Configuration will be preserved when this display reconnects": ""
   },
   "Configure a new printer": {
     "Configure a new printer": ""
@@ -709,6 +781,9 @@
   },
   "Control currently playing media": {
     "Control currently playing media": "現在再生中のメディアを制御"
+  },
+  "Control workspaces and columns by scrolling on the bar": {
+    "Control workspaces and columns by scrolling on the bar": ""
   },
   "Controls opacity of all popouts, modals, and their content layers": {
     "Controls opacity of all popouts, modals, and their content layers": ""
@@ -815,6 +890,9 @@
   "Custom Transparency": {
     "Custom Transparency": "カスタム透明度"
   },
+  "Custom...": {
+    "Custom...": ""
+  },
   "Custom: ": {
     "Custom: ": "カスタム： "
   },
@@ -896,6 +974,9 @@
   "Default": {
     "Default": "デフォルト"
   },
+  "Default Width (%)": {
+    "Default Width (%)": ""
+  },
   "Default selected action": {
     "Default selected action": "デフォルトで選択されるアクション"
   },
@@ -923,6 +1004,12 @@
   "Description": {
     "Description": ""
   },
+  "Desktop Clock": {
+    "Desktop Clock": ""
+  },
+  "Desktop Widgets": {
+    "Desktop Widgets": ""
+  },
   "Desktop background images": {
     "Desktop background images": "デスクトップの背景画像"
   },
@@ -934,6 +1021,9 @@
   },
   "Device paired": {
     "Device paired": "デバイスがペアリングされました"
+  },
+  "Digital": {
+    "Digital": ""
   },
   "Disable Autoconnect": {
     "Disable Autoconnect": "自動接続を無効"
@@ -947,11 +1037,17 @@
   "Disable History Persistence": {
     "Disable History Persistence": ""
   },
+  "Disable Output": {
+    "Disable Output": ""
+  },
   "Disable clipboard manager entirely (requires restart)": {
     "Disable clipboard manager entirely (requires restart)": ""
   },
   "Disabled": {
     "Disabled": "無効化されました"
+  },
+  "Discard": {
+    "Discard": ""
   },
   "Disconnect": {
     "Disconnect": "切断"
@@ -977,6 +1073,9 @@
   "Display Name Format": {
     "Display Name Format": "名称形式を表示"
   },
+  "Display Settings": {
+    "Display Settings": ""
+  },
   "Display a dock with pinned and running applications": {
     "Display a dock with pinned and running applications": ""
   },
@@ -988,6 +1087,9 @@
   },
   "Display application icons in workspace indicators": {
     "Display application icons in workspace indicators": "ワークスペース インジケーターにアプリのアイコンを表示"
+  },
+  "Display configuration is not available. WLR output management protocol not supported.": {
+    "Display configuration is not available. WLR output management protocol not supported.": ""
   },
   "Display currently focused application title": {
     "Display currently focused application title": "現在フォーカスされているアプリケーションのタイトルを表示"
@@ -1079,6 +1181,9 @@
   "Empty": {
     "Empty": "空白"
   },
+  "Enable 10-bit color depth for wider color gamut and HDR support": {
+    "Enable 10-bit color depth for wider color gamut and HDR support": ""
+  },
   "Enable Autoconnect": {
     "Enable Autoconnect": "自動接続を有効"
   },
@@ -1088,6 +1193,9 @@
   "Enable Border": {
     "Enable Border": ""
   },
+  "Enable Desktop Clock": {
+    "Enable Desktop Clock": ""
+  },
   "Enable Do Not Disturb": {
     "Enable Do Not Disturb": ""
   },
@@ -1096,6 +1204,9 @@
   },
   "Enable Overview Overlay": {
     "Enable Overview Overlay": ""
+  },
+  "Enable System Monitor": {
+    "Enable System Monitor": ""
   },
   "Enable System Sounds": {
     "Enable System Sounds": "システムサウンドを有効に"
@@ -1186,6 +1297,9 @@
   },
   "Exclusive Zone Offset": {
     "Exclusive Zone Offset": "排他ゾーンオフセット"
+  },
+  "Experimental Feature": {
+    "Experimental Feature": ""
   },
   "F1/I: Toggle • F10: Help": {
     "F1/I: Toggle • F10: Help": "F1/I: 切り替え • F10: ヘルプ"
@@ -1316,6 +1430,9 @@
   "Failed to update sharing": {
     "Failed to update sharing": ""
   },
+  "Failed to write temp file for validation": {
+    "Failed to write temp file for validation": ""
+  },
   "Feels Like": {
     "Feels Like": "どうやら"
   },
@@ -1349,6 +1466,21 @@
   "Fixing...": {
     "Fixing...": ""
   },
+  "Flipped": {
+    "Flipped": ""
+  },
+  "Flipped 180°": {
+    "Flipped 180°": ""
+  },
+  "Flipped 270°": {
+    "Flipped 270°": ""
+  },
+  "Flipped 90°": {
+    "Flipped 90°": ""
+  },
+  "Focus at Startup": {
+    "Focus at Startup": ""
+  },
   "Focused Window": {
     "Focused Window": "フォーカスされたウィンドウ"
   },
@@ -1367,8 +1499,14 @@
   "Font Weight": {
     "Font Weight": "フォントの太さ"
   },
+  "Force HDR": {
+    "Force HDR": ""
+  },
   "Force Kill Process": {
     "Force Kill Process": "プロセスを強制終了"
+  },
+  "Force Wide Color": {
+    "Force Wide Color": ""
   },
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "端末アプリで常に暗い配色を強制使用"
@@ -1433,6 +1571,9 @@
   "Gradually fade the screen before locking with a configurable grace period": {
     "Gradually fade the screen before locking with a configurable grace period": ""
   },
+  "Graph Time Range": {
+    "Graph Time Range": ""
+  },
   "Graphics": {
     "Graphics": "グラフィック"
   },
@@ -1448,6 +1589,15 @@
   "Group multiple windows of the same app together with a window count indicator": {
     "Group multiple windows of the same app together with a window count indicator": "同じアプリの複数のウィンドウをウィンドウ数インジケーターでグループ化します"
   },
+  "HDR (EDID)": {
+    "HDR (EDID)": ""
+  },
+  "HDR Tone Mapping": {
+    "HDR Tone Mapping": ""
+  },
+  "HDR mode is experimental. Verify your monitor supports HDR before enabling.": {
+    "HDR mode is experimental. Verify your monitor supports HDR before enabling.": ""
+  },
   "HSV": {
     "HSV": "色相/彩度/輝度"
   },
@@ -1456,6 +1606,9 @@
   },
   "Held": {
     "Held": ""
+  },
+  "Help": {
+    "Help": ""
   },
   "Hex": {
     "Hex": "16進数"
@@ -1495,6 +1648,9 @@
   },
   "Hold to confirm (%1s)": {
     "Hold to confirm (%1s)": ""
+  },
+  "Hot Corners": {
+    "Hot Corners": ""
   },
   "Hotkey overlay title (optional)": {
     "Hotkey overlay title (optional)": ""
@@ -1565,6 +1721,9 @@
   "Include Transitions": {
     "Include Transitions": "トランジションを含める"
   },
+  "Incompatible Plugins Loaded": {
+    "Incompatible Plugins Loaded": ""
+  },
   "Incorrect password": {
     "Incorrect password": "パスワードが間違っています"
   },
@@ -1576,6 +1735,9 @@
   },
   "Individual bar configuration": {
     "Individual bar configuration": "バーの個別設定"
+  },
+  "Inherit": {
+    "Inherit": ""
   },
   "Inhibit idle timeout when audio or video is playing": {
     "Inhibit idle timeout when audio or video is playing": "オーディオまたはビデオの再生中のアイドルタイムアウトを禁止"
@@ -1597,6 +1759,9 @@
   },
   "Interval": {
     "Interval": "間隔"
+  },
+  "Invalid configuration": {
+    "Invalid configuration": ""
   },
   "Invert on mode change": {
     "Invert on mode change": "モード変更時に反転"
@@ -1670,6 +1835,9 @@
   "Layout": {
     "Layout": "レイアウト"
   },
+  "Layout Overrides": {
+    "Layout Overrides": ""
+  },
   "Left": {
     "Left": "左"
   },
@@ -1681,6 +1849,9 @@
   },
   "Lines: %1": {
     "Lines: %1": "行数: %1"
+  },
+  "List": {
+    "List": ""
   },
   "Lively palette with saturated accents.": {
     "Lively palette with saturated accents.": "彩度の高いアクセントを備えた生き生きとしたパレット。"
@@ -1847,6 +2018,9 @@
   "Memory": {
     "Memory": "メモリ"
   },
+  "Memory Graph": {
+    "Memory Graph": ""
+  },
   "Memory Usage": {
     "Memory Usage": "メモリ使用率"
   },
@@ -1883,6 +2057,12 @@
   "Model": {
     "Model": "モデル"
   },
+  "Modified": {
+    "Modified": ""
+  },
+  "Monitor Configuration": {
+    "Monitor Configuration": ""
+  },
   "Monitor whose wallpaper drives dynamic theming colors": {
     "Monitor whose wallpaper drives dynamic theming colors": "ダイナミックテーマの色を駆動する壁紙をモニター"
   },
@@ -1897,6 +2077,9 @@
   },
   "Mount": {
     "Mount": "マウント"
+  },
+  "Move Widget": {
+    "Move Widget": ""
   },
   "Moving to Paused": {
     "Moving to Paused": "一時停止への移行"
@@ -1918,6 +2101,9 @@
   },
   "Network": {
     "Network": "ネットワーク"
+  },
+  "Network Graph": {
+    "Network Graph": ""
   },
   "Network Info": {
     "Network Info": "ネットワーク情報"
@@ -2015,6 +2201,9 @@
   "No drivers found": {
     "No drivers found": ""
   },
+  "No features enabled": {
+    "No features enabled": ""
+  },
   "No files found": {
     "No files found": "ファイルが見つかりませんでした"
   },
@@ -2042,8 +2231,14 @@
   "No printers found": {
     "No printers found": ""
   },
+  "No variants created. Click Add to create a new monitor widget.": {
+    "No variants created. Click Add to create a new monitor widget.": ""
+  },
   "None": {
     "None": "ない"
+  },
+  "Normal": {
+    "Normal": ""
   },
   "Normal Font": {
     "Normal Font": ""
@@ -2095,6 +2290,9 @@
   },
   "OSD Position": {
     "OSD Position": "OSD位置"
+  },
+  "Off": {
+    "Off": ""
   },
   "Office": {
     "Office": "オフィス"
@@ -2159,11 +2357,17 @@
   "Output Tray Missing": {
     "Output Tray Missing": "アウトプットトレイが見つかりませんでした"
   },
+  "Outputs Include Missing": {
+    "Outputs Include Missing": ""
+  },
   "Overridden by config": {
     "Overridden by config": ""
   },
   "Override": {
     "Override": ""
+  },
+  "Override global layout settings for this output": {
+    "Override global layout settings for this output": ""
   },
   "Overrides": {
     "Overrides": ""
@@ -2324,6 +2528,9 @@
   "Preference": {
     "Preference": ""
   },
+  "Preset Widths (%)": {
+    "Preset Widths (%)": ""
+  },
   "Press key...": {
     "Press key...": ""
   },
@@ -2371,6 +2578,9 @@
   },
   "Process": {
     "Process": "プロセス"
+  },
+  "Process Count": {
+    "Process Count": ""
   },
   "Processing": {
     "Processing": "進行中"
@@ -2447,11 +2657,26 @@
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": ""
   },
+  "Requires DMS": {
+    "Requires DMS": ""
+  },
   "Requires DWL compositor": {
     "Requires DWL compositor": "DWLコンポジターが必要"
   },
   "Reset": {
     "Reset": "リセット"
+  },
+  "Reset Position": {
+    "Reset Position": ""
+  },
+  "Reset Size": {
+    "Reset Size": ""
+  },
+  "Resize Widget": {
+    "Resize Widget": ""
+  },
+  "Resolution & Refresh": {
+    "Resolution & Refresh": ""
   },
   "Resources": {
     "Resources": "リソース"
@@ -2483,6 +2708,12 @@
   "Right Tiling": {
     "Right Tiling": "右タイリング"
   },
+  "Right-click and drag anywhere on the widget": {
+    "Right-click and drag anywhere on the widget": ""
+  },
+  "Right-click and drag the bottom-right corner": {
+    "Right-click and drag the bottom-right corner": ""
+  },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "バーウィジェットを右クリックして循環"
   },
@@ -2507,6 +2738,12 @@
   "Running Apps Settings": {
     "Running Apps Settings": "実行中のアプリの設定"
   },
+  "SDR Brightness": {
+    "SDR Brightness": ""
+  },
+  "SDR Saturation": {
+    "SDR Saturation": ""
+  },
   "Save": {
     "Save": "保存"
   },
@@ -2521,6 +2758,9 @@
   },
   "Saved Configurations": {
     "Saved Configurations": ""
+  },
+  "Scale": {
+    "Scale": ""
   },
   "Scale DankBar font sizes independently": {
     "Scale DankBar font sizes independently": "Dank Barのフォントサイズを個別に調整"
@@ -2539,6 +2779,9 @@
   },
   "Screen sharing": {
     "Screen sharing": "画面共有"
+  },
+  "Scroll Wheel": {
+    "Scroll Wheel": ""
   },
   "Scroll song title": {
     "Scroll song title": ""
@@ -2569,6 +2812,9 @@
   },
   "Searching...": {
     "Searching...": "検索中..."
+  },
+  "Secondary": {
+    "Secondary": ""
   },
   "Secured": {
     "Secured": ""
@@ -2666,14 +2912,38 @@
   "Show All Tags": {
     "Show All Tags": "すべてのタグを表示"
   },
+  "Show CPU": {
+    "Show CPU": ""
+  },
+  "Show CPU Graph": {
+    "Show CPU Graph": ""
+  },
+  "Show CPU Temp": {
+    "Show CPU Temp": ""
+  },
   "Show Confirmation on Power Actions": {
     "Show Confirmation on Power Actions": "電源アクションの確認を表示"
+  },
+  "Show Date": {
+    "Show Date": ""
+  },
+  "Show Disk": {
+    "Show Disk": ""
   },
   "Show Dock": {
     "Show Dock": "ドックを表示"
   },
+  "Show GPU Temperature": {
+    "Show GPU Temperature": ""
+  },
+  "Show Header": {
+    "Show Header": ""
+  },
   "Show Hibernate": {
     "Show Hibernate": "休止状態を表示"
+  },
+  "Show Hour Numbers": {
+    "Show Hour Numbers": ""
   },
   "Show Line Numbers": {
     "Show Line Numbers": "行番号を表示"
@@ -2683,6 +2953,18 @@
   },
   "Show Log Out": {
     "Show Log Out": "ログアウトを表示"
+  },
+  "Show Memory": {
+    "Show Memory": ""
+  },
+  "Show Memory Graph": {
+    "Show Memory Graph": ""
+  },
+  "Show Network": {
+    "Show Network": ""
+  },
+  "Show Network Graph": {
+    "Show Network Graph": ""
   },
   "Show Occupied Workspaces Only": {
     "Show Occupied Workspaces Only": ""
@@ -2704,6 +2986,9 @@
   },
   "Show Suspend": {
     "Show Suspend": "一時停止を表示"
+  },
+  "Show Top Processes": {
+    "Show Top Processes": ""
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "ワークスペースアプリを表示"
@@ -2807,8 +3092,14 @@
   "Sizing": {
     "Sizing": ""
   },
+  "Some plugins require a newer version of DMS:": {
+    "Some plugins require a newer version of DMS:": ""
+  },
   "Sort Alphabetically": {
     "Sort Alphabetically": "アルファベット順に並べ替える"
+  },
+  "Sort By": {
+    "Sort By": ""
   },
   "Sorting & Layout": {
     "Sorting & Layout": ""
@@ -2833,6 +3124,9 @@
   },
   "Square Corners": {
     "Square Corners": "四角コーナー"
+  },
+  "Stacked": {
+    "Stacked": ""
   },
   "Start": {
     "Start": "始める"
@@ -3053,11 +3347,23 @@
   "Top Bar Format": {
     "Top Bar Format": "トップバー形式"
   },
+  "Top Left": {
+    "Top Left": ""
+  },
+  "Top Processes": {
+    "Top Processes": ""
+  },
+  "Top Right": {
+    "Top Right": ""
+  },
   "Top Section": {
     "Top Section": "トップセクション"
   },
   "Total Jobs": {
     "Total Jobs": ""
+  },
+  "Transform": {
+    "Transform": ""
   },
   "Transition Effect": {
     "Transition Effect": "トランジション効果"
@@ -3182,8 +3488,26 @@
   "VPN status and quick connect": {
     "VPN status and quick connect": "VPNステータスとクイック接続"
   },
+  "VRR": {
+    "VRR": ""
+  },
+  "VRR On-Demand": {
+    "VRR On-Demand": ""
+  },
+  "VRR activates only when applications request it": {
+    "VRR activates only when applications request it": ""
+  },
   "VRR: ": {
     "VRR: ": "VRR: "
+  },
+  "Variable Refresh Rate": {
+    "Variable Refresh Rate": ""
+  },
+  "Variant created - expand to configure": {
+    "Variant created - expand to configure": ""
+  },
+  "Variant removed": {
+    "Variant removed": ""
   },
   "Version": {
     "Version": ""
@@ -3260,6 +3584,10 @@
   "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.": {
     "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.": ""
   },
+  "When updater widget is used, then hide it if no update found": {
+    "Hide Updater Widget": "",
+    "When updater widget is used, then hide it if no update found": ""
+  },
   "Wi-Fi Password": {
     "Wi-Fi Password": ""
   },
@@ -3277,6 +3605,9 @@
   },
   "WiFi is off": {
     "WiFi is off": "Wi-Fiはオフ中"
+  },
+  "Wide (BT2020)": {
+    "Wide (BT2020)": ""
   },
   "Widget Background Color": {
     "Widget Background Color": "ウィジェットの背景色"
@@ -3296,6 +3627,9 @@
   "Widget Transparency": {
     "Widget Transparency": "ウィジェットの透明度"
   },
+  "Widget Variants": {
+    "Widget Variants": ""
+  },
   "Widgets": {
     "Widgets": "ウィジェット"
   },
@@ -3304,6 +3638,9 @@
   },
   "Wind Speed": {
     "Wind Speed": ""
+  },
+  "Window Gaps (px)": {
+    "Window Gaps (px)": ""
   },
   "Workspace": {
     "Workspace": "ワークスペース"
@@ -3325,6 +3662,12 @@
   },
   "Workspaces & Widgets": {
     "Workspaces & Widgets": ""
+  },
+  "X Axis": {
+    "X Axis": ""
+  },
+  "Y Axis": {
+    "Y Axis": ""
   },
   "Yes": {
     "Yes": ""
@@ -3397,6 +3740,9 @@
   },
   "settings window title": {
     "Settings": "設定"
+  },
+  "settings_displays": {
+    "Widgets": ""
   },
   "sysmon window title": {
     "System Monitor": "システムモニタ"

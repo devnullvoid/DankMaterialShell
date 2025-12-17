@@ -108,6 +108,9 @@ FloatingWindow {
     FocusScope {
         id: contentFocusScope
 
+        LayoutMirroring.enabled: I18n.isRtl
+        LayoutMirroring.childrenInherit: true
+
         anchors.fill: parent
         focus: true
 

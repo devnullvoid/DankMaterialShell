@@ -1,9 +1,11 @@
 import QtQuick
-import QtQuick.Controls
 import qs.Common
 
 Rectangle {
     id: card
+
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
 
     property int pad: Theme.spacingM
 

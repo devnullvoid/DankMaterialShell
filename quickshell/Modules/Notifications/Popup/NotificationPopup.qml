@@ -343,6 +343,9 @@ PanelWindow {
             anchors.margins: Theme.snap(4, win.dpr)
             clip: true
 
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
+
             Item {
                 id: notificationContent
 
@@ -428,6 +431,7 @@ PanelWindow {
                                 font.pixelSize: Theme.fontSizeSmall
                                 font.weight: Font.Medium
                                 elide: Text.ElideRight
+                                horizontalAlignment: Text.AlignLeft
                                 maximumLineCount: 1
                             }
 
@@ -438,6 +442,7 @@ PanelWindow {
                                 font.weight: Font.Medium
                                 width: parent.width
                                 elide: Text.ElideRight
+                                horizontalAlignment: Text.AlignLeft
                                 maximumLineCount: 1
                                 visible: text.length > 0
                             }
@@ -448,6 +453,7 @@ PanelWindow {
                                 font.pixelSize: Theme.fontSizeSmall
                                 width: parent.width
                                 elide: Text.ElideRight
+                                horizontalAlignment: Text.AlignLeft
                                 maximumLineCount: 2
                                 wrapMode: Text.WordWrap
                                 visible: text.length > 0

@@ -5,6 +5,9 @@ import qs.Widgets
 StyledRect {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     activeFocusOnTab: true
 
     KeyNavigation.tab: keyNavigationTab
@@ -92,13 +95,17 @@ StyledRect {
     TextInput {
         id: textInput
 
-        anchors.fill: parent
-        anchors.leftMargin: root.leftPadding
-        anchors.rightMargin: root.rightPadding
+        anchors.left: leftIcon.visible ? leftIcon.right : parent.left
+        anchors.leftMargin: Theme.spacingM
+        anchors.right: clearButton.visible ? clearButton.left : parent.right
+        anchors.rightMargin: Theme.spacingM
+        anchors.top: parent.top
         anchors.topMargin: root.topPadding
+        anchors.bottom: parent.bottom
         anchors.bottomMargin: root.bottomPadding
         font.pixelSize: Theme.fontSizeMedium
         color: Theme.surfaceText
+        horizontalAlignment: I18n.isRtl ? TextInput.AlignRight : TextInput.AlignLeft
         verticalAlignment: TextInput.AlignVCenter
         selectByMouse: !root.ignoreLeftRightKeys
         clip: true
@@ -182,9 +189,10 @@ StyledRect {
         text: root.placeholderText
         font: textInput.font
         color: placeholderColor
+        horizontalAlignment: textInput.horizontalAlignment
         verticalAlignment: textInput.verticalAlignment
         visible: textInput.text.length === 0 && !textInput.activeFocus
-        elide: Text.ElideRight
+        elide: I18n.isRtl ? Text.ElideLeft : Text.ElideRight
     }
 
     Behavior on border.color {

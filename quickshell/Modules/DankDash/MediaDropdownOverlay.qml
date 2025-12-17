@@ -8,6 +8,9 @@ import qs.Widgets
 Item {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property int dropdownType: 0
     property var activePlayer: null
     property var allPlayers: []

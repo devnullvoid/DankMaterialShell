@@ -9,6 +9,9 @@ import qs.Modules.DankBar.Widgets
 Item {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     implicitWidth: 700
     implicitHeight: 410
     property bool syncing: false
@@ -145,6 +148,10 @@ Item {
 
         Item {
             id: weatherContainer
+
+            LayoutMirroring.enabled: false
+            LayoutMirroring.childrenInherit: true
+
             width: parent.width
             height: weatherColumn.height
 

@@ -9,6 +9,9 @@ import qs.Widgets
 Item {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property string text: ""
     property string description: ""
     property string currentValue: ""
@@ -63,6 +66,8 @@ Item {
             font.pixelSize: Theme.fontSizeMedium
             color: Theme.surfaceText
             font.weight: Font.Medium
+            width: parent.width
+            anchors.left: parent.left
         }
 
         StyledText {
@@ -72,6 +77,7 @@ Item {
             visible: description.length > 0
             wrapMode: Text.WordWrap
             width: parent.width
+            anchors.left: parent.left
         }
     }
 
