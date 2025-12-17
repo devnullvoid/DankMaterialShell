@@ -91,6 +91,14 @@ Scope {
                 readonly property bool isActiveScreen: screen.name === NiriService.currentOutput
                 readonly property bool shouldShowSpotlight: niriOverviewScope.searchActive && screen.name === niriOverviewScope.searchActiveScreen && !niriOverviewScope.isClosing
                 readonly property bool isSpotlightScreen: screen.name === niriOverviewScope.searchActiveScreen
+                property bool hasActivePopout: !!PopoutManager.currentPopoutsByScreen[screen.name]
+
+                Connections {
+                    target: PopoutManager
+                    function onPopoutChanged() {
+                        overlayWindow.hasActivePopout = !!PopoutManager.currentPopoutsByScreen[overlayWindow.screen.name];
+                    }
+                }
 
                 screen: modelData
                 visible: NiriService.inOverview || niriOverviewScope.isClosing
@@ -105,6 +113,8 @@ Scope {
                     if (!isActiveScreen)
                         return WlrKeyboardFocus.None;
                     if (niriOverviewScope.releaseKeyboard)
+                        return WlrKeyboardFocus.None;
+                    if (hasActivePopout)
                         return WlrKeyboardFocus.None;
                     return WlrKeyboardFocus.Exclusive;
                 }
