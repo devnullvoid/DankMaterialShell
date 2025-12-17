@@ -983,9 +983,10 @@ Singleton {
                 if (output.logical.x !== undefined && output.logical.y !== undefined)
                     kdlContent += `    position x=${output.logical.x} y=${output.logical.y}\n`;
             }
-            if (output.vrr_enabled) {
-                const vrrOnDemand = settings.vrrOnDemand ?? false;
-                kdlContent += vrrOnDemand ? `    variable-refresh-rate on-demand=true\n` : `    variable-refresh-rate\n`;
+            if (settings.vrrOnDemand) {
+                kdlContent += `    variable-refresh-rate on-demand=true\n`;
+            } else if (output.vrr_enabled) {
+                kdlContent += `    variable-refresh-rate\n`;
             }
             if (settings.focusAtStartup)
                 kdlContent += `    focus-at-startup\n`;

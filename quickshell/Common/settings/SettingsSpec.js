@@ -300,7 +300,47 @@ var SPEC = {
         scrollEnabled: true,
         scrollXBehavior: "column",
         scrollYBehavior: "workspace"
-    }], onChange: "updateBarConfigs" }
+    }], onChange: "updateBarConfigs" },
+
+    desktopClockEnabled: { def: false },
+    desktopClockStyle: { def: "analog" },
+    desktopClockTransparency: { def: 0.8, coerce: percentToUnit },
+    desktopClockColorMode: { def: "primary" },
+    desktopClockCustomColor: { def: "#ffffff" },
+    desktopClockShowDate: { def: true },
+    desktopClockShowAnalogNumbers: { def: false },
+    desktopClockX: { def: -1 },
+    desktopClockY: { def: -1 },
+    desktopClockWidth: { def: 280 },
+    desktopClockHeight: { def: 180 },
+    desktopClockDisplayPreferences: { def: ["all"] },
+
+    systemMonitorEnabled: { def: false },
+    systemMonitorShowHeader: { def: true },
+    systemMonitorTransparency: { def: 0.8, coerce: percentToUnit },
+    systemMonitorColorMode: { def: "primary" },
+    systemMonitorCustomColor: { def: "#ffffff" },
+    systemMonitorShowCpu: { def: true },
+    systemMonitorShowCpuGraph: { def: true },
+    systemMonitorShowCpuTemp: { def: true },
+    systemMonitorShowGpuTemp: { def: false },
+    systemMonitorGpuPciId: { def: "" },
+    systemMonitorShowMemory: { def: true },
+    systemMonitorShowMemoryGraph: { def: true },
+    systemMonitorShowNetwork: { def: true },
+    systemMonitorShowNetworkGraph: { def: true },
+    systemMonitorShowDisk: { def: true },
+    systemMonitorShowTopProcesses: { def: false },
+    systemMonitorTopProcessCount: { def: 3 },
+    systemMonitorTopProcessSortBy: { def: "cpu" },
+    systemMonitorGraphInterval: { def: 60 },
+    systemMonitorX: { def: -1 },
+    systemMonitorY: { def: -1 },
+    systemMonitorWidth: { def: 320 },
+    systemMonitorHeight: { def: 480 },
+    systemMonitorDisplayPreferences: { def: ["all"] },
+    systemMonitorVariants: { def: [] },
+    desktopWidgetPositions: { def: {} }
 };
 
 function getValidKeys() {

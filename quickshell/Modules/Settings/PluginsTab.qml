@@ -120,6 +120,75 @@ FocusScope {
                         }
                     }
 
+                    StyledRect {
+                        id: incompatWarning
+                        property var incompatPlugins: []
+                        width: parent.width
+                        height: incompatWarningColumn.implicitHeight + Theme.spacingM * 2
+                        radius: Theme.cornerRadius
+                        color: Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 0.1)
+                        border.color: Theme.error
+                        border.width: 1
+                        visible: incompatPlugins.length > 0
+
+                        function refresh() {
+                            incompatPlugins = PluginService.getIncompatiblePlugins();
+                        }
+
+                        Component.onCompleted: Qt.callLater(refresh)
+
+                        Column {
+                            id: incompatWarningColumn
+                            anchors.fill: parent
+                            anchors.margins: Theme.spacingM
+                            spacing: Theme.spacingXS
+
+                            Row {
+                                spacing: Theme.spacingXS
+
+                                DankIcon {
+                                    name: "error"
+                                    size: 16
+                                    color: Theme.error
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Incompatible Plugins Loaded")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.error
+                                    font.weight: Font.Medium
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                            }
+
+                            StyledText {
+                                text: I18n.tr("Some plugins require a newer version of DMS:") + " " + incompatWarning.incompatPlugins.map(p => p.name + " (" + p.requires_dms + ")").join(", ")
+                                font.pixelSize: Theme.fontSizeSmall - 1
+                                color: Theme.surfaceVariantText
+                                wrapMode: Text.WordWrap
+                                width: parent.width
+                            }
+                        }
+
+                        Connections {
+                            target: PluginService
+                            function onPluginLoaded() {
+                                incompatWarning.refresh();
+                            }
+                            function onPluginUnloaded() {
+                                incompatWarning.refresh();
+                            }
+                        }
+
+                        Connections {
+                            target: SystemUpdateService
+                            function onSemverVersionChanged() {
+                                incompatWarning.refresh();
+                            }
+                        }
+                    }
+
                     Flow {
                         width: parent.width
                         spacing: Theme.spacingM

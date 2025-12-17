@@ -6,6 +6,7 @@ import QtQuick
 import Qt.labs.folderlistmodel
 import Quickshell
 import qs.Common
+import qs.Services
 
 Singleton {
     id: root
@@ -15,6 +16,7 @@ Singleton {
     property var pluginWidgetComponents: ({})
     property var pluginDaemonComponents: ({})
     property var pluginLauncherComponents: ({})
+    property var pluginDesktopComponents: ({})
     property var availablePluginsList: []
     property string pluginDirectory: {
         var configDir = StandardPaths.writableLocation(StandardPaths.ConfigLocation);
@@ -206,6 +208,7 @@ Singleton {
         info.loaded = isPluginLoaded(manifest.id);
         info.type = manifest.type || "widget";
         info.source = sourceTag;
+        info.requires_dms = manifest.requires_dms || null;
 
         const existing = availablePlugins[manifest.id];
         const shouldReplace = (!existing) || (existing && existing.source === "system" && sourceTag === "user");
@@ -262,6 +265,7 @@ Singleton {
 
         const isDaemon = plugin.type === "daemon";
         const isLauncher = plugin.type === "launcher" || (plugin.capabilities && plugin.capabilities.includes("launcher"));
+        const isDesktop = plugin.type === "desktop";
 
         const prevInstance = pluginInstances[pluginId];
         if (prevInstance) {
@@ -302,6 +306,10 @@ Singleton {
                 const newLaunchers = Object.assign({}, pluginLauncherComponents);
                 newLaunchers[pluginId] = comp;
                 pluginLauncherComponents = newLaunchers;
+            } else if (isDesktop) {
+                const newDesktop = Object.assign({}, pluginDesktopComponents);
+                newDesktop[pluginId] = comp;
+                pluginDesktopComponents = newDesktop;
             } else {
                 const newComponents = Object.assign({}, pluginWidgetComponents);
                 newComponents[pluginId] = comp;
@@ -332,6 +340,7 @@ Singleton {
         try {
             const isDaemon = plugin.type === "daemon";
             const isLauncher = plugin.type === "launcher" || (plugin.capabilities && plugin.capabilities.includes("launcher"));
+            const isDesktop = plugin.type === "desktop";
 
             const instance = pluginInstances[pluginId];
             if (instance) {
@@ -349,6 +358,10 @@ Singleton {
                 const newLaunchers = Object.assign({}, pluginLauncherComponents);
                 delete newLaunchers[pluginId];
                 pluginLauncherComponents = newLaunchers;
+            } else if (isDesktop && pluginDesktopComponents[pluginId]) {
+                const newDesktop = Object.assign({}, pluginDesktopComponents);
+                delete newDesktop[pluginId];
+                pluginDesktopComponents = newDesktop;
             } else if (pluginWidgetComponents[pluginId]) {
                 const newComponents = Object.assign({}, pluginWidgetComponents);
                 delete newComponents[pluginId];
@@ -374,6 +387,10 @@ Singleton {
 
     function getDaemonComponents() {
         return pluginDaemonComponents;
+    }
+
+    function getDesktopComponents() {
+        return pluginDesktopComponents;
     }
 
     function getAvailablePlugins() {
@@ -666,5 +683,22 @@ Singleton {
         newGlobals[pluginId][varName] = value;
         globalVars = newGlobals;
         globalVarChanged(pluginId, varName);
+    }
+
+    function checkPluginCompatibility(requiresDms) {
+        if (!requiresDms)
+            return true;
+        return SystemUpdateService.checkVersionRequirement(requiresDms, SystemUpdateService.getParsedShellVersion());
+    }
+
+    function getIncompatiblePlugins() {
+        const result = [];
+        for (const pluginId in availablePlugins) {
+            const plugin = availablePlugins[pluginId];
+            if (plugin.loaded && plugin.requires_dms && !checkPluginCompatibility(plugin.requires_dms)) {
+                result.push(plugin);
+            }
+        }
+        return result;
     }
 }

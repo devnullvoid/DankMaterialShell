@@ -29,6 +29,15 @@ StyledRect {
     property var pluginPermissions: pluginData ? (pluginData.permissions || []) : []
     property bool hasSettings: pluginData && pluginData.settings !== undefined && pluginData.settings !== ""
     property bool isSystemPlugin: pluginData ? (pluginData.source === "system") : false
+    property string requiresDms: pluginData ? (pluginData.requires_dms || "") : ""
+    property bool meetsRequirements: requiresDms ? PluginService.checkPluginCompatibility(requiresDms) : true
+
+    Connections {
+        target: SystemUpdateService
+        function onSemverVersionChanged() {
+            root.meetsRequirementsChanged();
+        }
+    }
     property bool isExpanded: expandedPluginId === pluginId
     property bool isLoaded: {
         PluginService.loadedPlugins;
@@ -88,6 +97,41 @@ StyledRect {
                         color: Theme.surfaceText
                         font.weight: Font.Medium
                         anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    Rectangle {
+                        width: incompatIcon.width + Theme.spacingXS * 2
+                        height: 18
+                        radius: 9
+                        color: Qt.rgba(Theme.error.r, Theme.error.g, Theme.error.b, 0.15)
+                        visible: !root.meetsRequirements
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Row {
+                            anchors.centerIn: parent
+                            spacing: 2
+
+                            DankIcon {
+                                id: incompatIcon
+                                name: "warning"
+                                size: 12
+                                color: Theme.error
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: {
+                                if (root.sharedTooltip)
+                                    root.sharedTooltip.show(I18n.tr("Requires DMS") + " " + root.requiresDms, parent, 0, 0, "top");
+                            }
+                            onExited: {
+                                if (root.sharedTooltip)
+                                    root.sharedTooltip.hide();
+                            }
+                        }
                     }
 
                     DankIcon {

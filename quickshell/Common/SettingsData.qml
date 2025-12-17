@@ -406,6 +406,128 @@ Singleton {
         }
     ]
 
+    property bool desktopClockEnabled: false
+    property string desktopClockStyle: "analog"
+    property real desktopClockTransparency: 0.8
+    property string desktopClockColorMode: "primary"
+    property color desktopClockCustomColor: "#ffffff"
+    property bool desktopClockShowDate: true
+    property bool desktopClockShowAnalogNumbers: false
+    property real desktopClockX: -1
+    property real desktopClockY: -1
+    property real desktopClockWidth: 280
+    property real desktopClockHeight: 180
+    property var desktopClockDisplayPreferences: ["all"]
+
+    property bool systemMonitorEnabled: false
+    property bool systemMonitorShowHeader: true
+    property real systemMonitorTransparency: 0.8
+    property string systemMonitorColorMode: "primary"
+    property color systemMonitorCustomColor: "#ffffff"
+    property bool systemMonitorShowCpu: true
+    property bool systemMonitorShowCpuGraph: true
+    property bool systemMonitorShowCpuTemp: true
+    property bool systemMonitorShowGpuTemp: false
+    property string systemMonitorGpuPciId: ""
+    property bool systemMonitorShowMemory: true
+    property bool systemMonitorShowMemoryGraph: true
+    property bool systemMonitorShowNetwork: true
+    property bool systemMonitorShowNetworkGraph: true
+    property bool systemMonitorShowDisk: true
+    property bool systemMonitorShowTopProcesses: false
+    property int systemMonitorTopProcessCount: 3
+    property string systemMonitorTopProcessSortBy: "cpu"
+    property string systemMonitorLayoutMode: "auto"
+    property int systemMonitorGraphInterval: 60
+    property real systemMonitorX: -1
+    property real systemMonitorY: -1
+    property real systemMonitorWidth: 320
+    property real systemMonitorHeight: 480
+    property var systemMonitorDisplayPreferences: ["all"]
+    property var systemMonitorVariants: []
+    property var desktopWidgetPositions: ({})
+
+    function getDesktopWidgetPosition(pluginId, screenKey, property, defaultValue) {
+        const pos = desktopWidgetPositions?.[pluginId]?.[screenKey]?.[property];
+        return pos !== undefined ? pos : defaultValue;
+    }
+
+    function updateDesktopWidgetPosition(pluginId, screenKey, updates) {
+        const allPositions = JSON.parse(JSON.stringify(desktopWidgetPositions || {}));
+        if (!allPositions[pluginId])
+            allPositions[pluginId] = {};
+        allPositions[pluginId][screenKey] = Object.assign({}, allPositions[pluginId][screenKey] || {}, updates);
+        desktopWidgetPositions = allPositions;
+        saveSettings();
+    }
+
+    function getSystemMonitorVariants() {
+        return systemMonitorVariants || [];
+    }
+
+    function createSystemMonitorVariant(name, config) {
+        const id = "sysmon_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+        const variant = {
+            id: id,
+            name: name,
+            config: config || getDefaultSystemMonitorConfig()
+        };
+        const variants = JSON.parse(JSON.stringify(systemMonitorVariants || []));
+        variants.push(variant);
+        systemMonitorVariants = variants;
+        saveSettings();
+        return variant;
+    }
+
+    function updateSystemMonitorVariant(variantId, updates) {
+        const variants = JSON.parse(JSON.stringify(systemMonitorVariants || []));
+        const idx = variants.findIndex(v => v.id === variantId);
+        if (idx === -1)
+            return;
+        Object.assign(variants[idx], updates);
+        systemMonitorVariants = variants;
+        saveSettings();
+    }
+
+    function removeSystemMonitorVariant(variantId) {
+        const variants = (systemMonitorVariants || []).filter(v => v.id !== variantId);
+        systemMonitorVariants = variants;
+        saveSettings();
+    }
+
+    function getSystemMonitorVariant(variantId) {
+        return (systemMonitorVariants || []).find(v => v.id === variantId) || null;
+    }
+
+    function getDefaultSystemMonitorConfig() {
+        return {
+            showHeader: true,
+            transparency: 0.8,
+            colorMode: "primary",
+            customColor: "#ffffff",
+            showCpu: true,
+            showCpuGraph: true,
+            showCpuTemp: true,
+            showGpuTemp: false,
+            gpuPciId: "",
+            showMemory: true,
+            showMemoryGraph: true,
+            showNetwork: true,
+            showNetworkGraph: true,
+            showDisk: true,
+            showTopProcesses: false,
+            topProcessCount: 3,
+            topProcessSortBy: "cpu",
+            layoutMode: "auto",
+            graphInterval: 60,
+            x: -1,
+            y: -1,
+            width: 320,
+            height: 480,
+            displayPreferences: ["all"]
+        };
+    }
+
     signal forceDankBarLayoutRefresh
     signal forceDockLayoutRefresh
     signal widgetDataChanged

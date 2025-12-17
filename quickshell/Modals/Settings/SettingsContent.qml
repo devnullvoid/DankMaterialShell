@@ -421,5 +421,20 @@ FocusScope {
                     Qt.callLater(() => item.forceActiveFocus());
             }
         }
+
+        Loader {
+            id: desktopWidgetsLoader
+            anchors.fill: parent
+            active: root.currentIndex === 27
+            visible: active
+            focus: active
+
+            sourceComponent: DesktopWidgetsTab {}
+
+            onActiveChanged: {
+                if (active && item)
+                    Qt.callLater(() => item.forceActiveFocus());
+            }
+        }
     }
 }

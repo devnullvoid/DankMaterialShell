@@ -58,6 +58,8 @@ Item {
 
     WallpaperBackground {}
 
+    DesktopWidgetLayer {}
+
     Lock {
         id: lock
     }

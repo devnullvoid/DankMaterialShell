@@ -114,6 +114,12 @@ Rectangle {
                     "text": I18n.tr("System Updater"),
                     "icon": "refresh",
                     "tabIndex": 20
+                },
+                {
+                    "id": "desktop_widgets",
+                    "text": I18n.tr("Desktop Widgets"),
+                    "icon": "widgets",
+                    "tabIndex": 27
                 }
             ]
         },
