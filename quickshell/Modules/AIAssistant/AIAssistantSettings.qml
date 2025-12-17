@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import qs.Common
 import qs.Widgets
+import qs.Modules.Settings.Widgets
 
 Item {
     id: root
@@ -12,7 +13,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.92)
+        color: Qt.rgba(Theme.background.r, Theme.background.g, Theme.background.b, 0.95)
         radius: Theme.cornerRadius
         border.color: Theme.surfaceVariantAlpha
         border.width: 1
@@ -24,139 +25,314 @@ Item {
 
             Row {
                 width: parent.width
-                spacing: Theme.spacingM
+                spacing: Theme.spacingL
 
                 StyledText {
                     text: I18n.tr("AI Assistant Settings")
                     font.pixelSize: Theme.fontSizeLarge
                     color: Theme.surfaceText
                     font.weight: Font.Medium
+                    anchors.verticalCenter: parent.verticalCenter
                 }
 
-                Item { width: Theme.spacingM; height: 1 }
+                Item {
+                    width: parent.width - parent.children[0].width - parent.children[2].width - Theme.spacingL * 2
+                    height: 1
+                }
 
-                Button {
+                DankButton {
                     text: I18n.tr("Close")
+                    iconName: "close"
+                    anchors.verticalCenter: parent.verticalCenter
                     onClicked: closeRequested()
                 }
             }
 
-            Row {
-                spacing: Theme.spacingM
+            DankFlickable {
+                width: parent.width
+                height: parent.height - parent.children[0].height - Theme.spacingM
+                clip: true
+                contentHeight: settingsColumn.height + Theme.spacingXL
+                contentWidth: width
 
-                Label { text: I18n.tr("Provider") }
-                ComboBox {
-                    id: providerBox
-                    model: ["openai", "anthropic", "gemini", "custom"]
-                    currentIndex: Math.max(0, model.indexOf(SettingsData.aiAssistantProvider))
-                    onActivated: SettingsData.aiAssistantProvider = model[index]
-                }
-            }
+                Column {
+                    id: settingsColumn
+                    width: Math.min(550, parent.width - Theme.spacingL * 2)
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: Theme.spacingL
 
-            Row {
-                spacing: Theme.spacingM
-                Label { text: I18n.tr("Base URL") }
-                TextField {
-                    text: SettingsData.aiAssistantBaseUrl
-                    onEditingFinished: SettingsData.aiAssistantBaseUrl = text
-                    placeholderText: "https://api.openai.com"
-                    width: parent.width * 0.6
-                }
-            }
+                    SettingsCard {
+                        width: parent.width
+                        iconName: "api"
+                        title: I18n.tr("Provider Configuration")
 
-            Row {
-                spacing: Theme.spacingM
-                Label { text: I18n.tr("Model") }
-                TextField {
-                    text: SettingsData.aiAssistantModel
-                    onEditingFinished: SettingsData.aiAssistantModel = text
-                    placeholderText: "gpt-4.1-mini"
-                    width: parent.width * 0.6
-                }
-            }
+                        SettingsDropdownRow {
+                            text: I18n.tr("Provider")
+                            description: I18n.tr("Select AI provider type")
+                            currentValue: SettingsData.aiAssistantProvider
+                            options: ["openai", "anthropic", "gemini", "custom"]
+                            onValueChanged: value => SettingsData.set("aiAssistantProvider", value)
+                        }
 
-            Row {
-                spacing: Theme.spacingM
-                Label { text: I18n.tr("API key (session)") }
-                TextField {
-                    text: SettingsData.aiAssistantSessionApiKey
-                    echoMode: TextInput.Password
-                    onEditingFinished: SettingsData.aiAssistantSessionApiKey = text
-                    placeholderText: I18n.tr("Not stored; overrides env & saved while session lasts")
-                    width: parent.width * 0.6
-                }
-            }
+                        Item {
+                            width: parent.width
+                            height: baseUrlRow.height + Theme.spacingM
 
-            Row {
-                spacing: Theme.spacingM
-                Label { text: I18n.tr("Save key to settings") }
-                Switch {
-                    id: saveKeySwitch
-                    checked: SettingsData.aiAssistantSaveApiKey
-                    onToggled: SettingsData.aiAssistantSaveApiKey = checked
-                }
-                TextField {
-                    enabled: saveKeySwitch.checked
-                    text: SettingsData.aiAssistantApiKey
-                    echoMode: TextInput.Password
-                    onEditingFinished: SettingsData.aiAssistantApiKey = text
-                    placeholderText: I18n.tr("Stored only if enabled")
-                    width: parent.width * 0.6
-                }
-            }
+                            Column {
+                                id: baseUrlRow
+                                width: parent.width
+                                anchors.left: parent.left
+                                anchors.leftMargin: Theme.spacingM
+                                spacing: Theme.spacingXS
 
-            Row {
-                spacing: Theme.spacingM
-                Label { text: I18n.tr("Temperature") }
-                Slider {
-                    id: tempSlider
-                    from: 0; to: 2; stepSize: 0.1
-                    value: SettingsData.aiAssistantTemperature
-                    onValueChanged: SettingsData.aiAssistantTemperature = value
-                    width: parent.width * 0.5
-                }
-                Label { text: tempSlider.value.toFixed(1) }
-            }
+                                StyledText {
+                                    text: I18n.tr("Base URL")
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
 
-            Row {
-                spacing: Theme.spacingM
-                Label { text: I18n.tr("Max tokens") }
-                Slider {
-                    id: tokensSlider
-                    from: 16; to: 8192; stepSize: 16
-                    value: SettingsData.aiAssistantMaxTokens
-                    onValueChanged: SettingsData.aiAssistantMaxTokens = Math.round(value)
-                    width: parent.width * 0.5
-                }
-                Label { text: Math.round(tokensSlider.value).toString() }
-            }
+                                StyledText {
+                                    text: I18n.tr("API endpoint URL for the provider")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceVariantText
+                                    wrapMode: Text.WordWrap
+                                    width: parent.width
+                                }
 
-            Row {
-                spacing: Theme.spacingM
-                Label { text: I18n.tr("Timeout (s)") }
-                Slider {
-                    id: timeoutSlider
-                    from: 5; to: 120; stepSize: 1
-                    value: SettingsData.aiAssistantTimeout
-                    onValueChanged: SettingsData.aiAssistantTimeout = Math.round(value)
-                    width: parent.width * 0.5
-                }
-                Label { text: Math.round(timeoutSlider.value).toString() }
-            }
+                                DankTextField {
+                                    width: parent.width - Theme.spacingM * 2
+                                    text: SettingsData.aiAssistantBaseUrl
+                                    placeholderText: "https://api.openai.com"
+                                    onEditingFinished: SettingsData.set("aiAssistantBaseUrl", text)
+                                }
+                            }
+                        }
 
-            Row {
-                spacing: Theme.spacingM
-                Label { text: I18n.tr("Monospace replies") }
-                Switch {
-                    checked: SettingsData.aiAssistantUseMonospace
-                    onToggled: SettingsData.aiAssistantUseMonospace = checked
-                }
-            }
+                        Item {
+                            width: parent.width
+                            height: modelRow.height + Theme.spacingM
 
-            StyledText {
-                text: I18n.tr("Key source order: session key → saved key → common env vars → DMS_* env vars.")
-                wrapMode: Text.Wrap
-                color: Theme.surfaceTextMedium
+                            Column {
+                                id: modelRow
+                                width: parent.width
+                                anchors.left: parent.left
+                                anchors.leftMargin: Theme.spacingM
+                                spacing: Theme.spacingXS
+
+                                StyledText {
+                                    text: I18n.tr("Model")
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Model identifier for the provider")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceVariantText
+                                    wrapMode: Text.WordWrap
+                                    width: parent.width
+                                }
+
+                                DankTextField {
+                                    width: parent.width - Theme.spacingM * 2
+                                    text: SettingsData.aiAssistantModel
+                                    placeholderText: "gpt-4o-mini"
+                                    onEditingFinished: SettingsData.set("aiAssistantModel", text)
+                                }
+                            }
+                        }
+                    }
+
+                    SettingsCard {
+                        width: parent.width
+                        iconName: "key"
+                        title: I18n.tr("API Authentication")
+
+                        Item {
+                            width: parent.width
+                            height: sessionKeyRow.height + Theme.spacingM
+
+                            Column {
+                                id: sessionKeyRow
+                                width: parent.width
+                                anchors.left: parent.left
+                                anchors.leftMargin: Theme.spacingM
+                                spacing: Theme.spacingXS
+
+                                StyledText {
+                                    text: I18n.tr("API Key (Session Only)")
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Temporary key, not saved across sessions")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceVariantText
+                                    wrapMode: Text.WordWrap
+                                    width: parent.width
+                                }
+
+                                DankTextField {
+                                    width: parent.width - Theme.spacingM * 2
+                                    text: SettingsData.aiAssistantSessionApiKey
+                                    echoMode: TextInput.Password
+                                    placeholderText: I18n.tr("Enter temporary API key")
+                                    onEditingFinished: SettingsData.set("aiAssistantSessionApiKey", text)
+                                    leftIconName: "vpn_key"
+                                }
+                            }
+                        }
+
+                        SettingsToggleRow {
+                            text: I18n.tr("Save API Key")
+                            description: I18n.tr("Store API key in settings (persists across sessions)")
+                            checked: SettingsData.aiAssistantSaveApiKey
+                            onToggled: checked => SettingsData.set("aiAssistantSaveApiKey", checked)
+                        }
+
+                        Item {
+                            width: parent.width
+                            height: savedKeyRow.height + Theme.spacingM
+                            visible: SettingsData.aiAssistantSaveApiKey
+
+                            Column {
+                                id: savedKeyRow
+                                width: parent.width
+                                anchors.left: parent.left
+                                anchors.leftMargin: Theme.spacingM
+                                spacing: Theme.spacingXS
+
+                                StyledText {
+                                    text: I18n.tr("Saved API Key")
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                DankTextField {
+                                    width: parent.width - Theme.spacingM * 2
+                                    text: SettingsData.aiAssistantApiKey
+                                    echoMode: TextInput.Password
+                                    placeholderText: I18n.tr("Enter API key to save")
+                                    onEditingFinished: SettingsData.set("aiAssistantApiKey", text)
+                                    leftIconName: "lock"
+                                }
+                            }
+                        }
+
+                        StyledText {
+                            width: parent.width - Theme.spacingM * 2
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            text: I18n.tr("Priority: Session key → Saved key → Common env vars → DMS_* env vars")
+                            wrapMode: Text.Wrap
+                            color: Theme.surfaceTextMedium
+                            font.pixelSize: Theme.fontSizeSmall
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+                    }
+
+                    SettingsCard {
+                        width: parent.width
+                        iconName: "tune"
+                        title: I18n.tr("Model Parameters")
+
+                        Item {
+                            width: parent.width
+                            height: tempRow.height + Theme.spacingM
+
+                            Column {
+                                id: tempRow
+                                width: parent.width
+                                anchors.left: parent.left
+                                anchors.leftMargin: Theme.spacingM
+                                spacing: Theme.spacingXS
+
+                                Row {
+                                    width: parent.width - Theme.spacingM * 2
+                                    spacing: Theme.spacingS
+
+                                    Column {
+                                        width: parent.width - tempValue.width - Theme.spacingS
+                                        spacing: Theme.spacingXS
+
+                                        StyledText {
+                                            text: I18n.tr("Temperature")
+                                            font.pixelSize: Theme.fontSizeMedium
+                                            font.weight: Font.Medium
+                                            color: Theme.surfaceText
+                                        }
+
+                                        StyledText {
+                                            text: I18n.tr("Controls randomness (0 = focused, 2 = creative)")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.surfaceVariantText
+                                            wrapMode: Text.WordWrap
+                                            width: parent.width
+                                        }
+                                    }
+
+                                    StyledText {
+                                        id: tempValue
+                                        text: (SettingsData.aiAssistantTemperature).toFixed(1)
+                                        font.pixelSize: Theme.fontSizeMedium
+                                        font.weight: Font.Medium
+                                        color: Theme.primary
+                                        anchors.verticalCenter: parent.verticalCenter
+                                    }
+                                }
+
+                                DankSlider {
+                                    width: parent.width - Theme.spacingM * 2
+                                    height: 32
+                                    minimum: 0
+                                    maximum: 20
+                                    value: Math.round(SettingsData.aiAssistantTemperature * 10)
+                                    showValue: false
+                                    wheelEnabled: false
+                                    thumbOutlineColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                                    onSliderValueChanged: newValue => SettingsData.set("aiAssistantTemperature", newValue / 10)
+                                }
+                            }
+                        }
+
+                        SettingsSliderRow {
+                            text: I18n.tr("Max Tokens")
+                            description: I18n.tr("Maximum response length")
+                            minimum: 16
+                            maximum: 8192
+                            value: SettingsData.aiAssistantMaxTokens
+                            unit: ""
+                            onSliderValueChanged: newValue => SettingsData.set("aiAssistantMaxTokens", newValue)
+                        }
+
+                        SettingsSliderRow {
+                            text: I18n.tr("Timeout")
+                            description: I18n.tr("Request timeout in seconds")
+                            minimum: 5
+                            maximum: 120
+                            value: SettingsData.aiAssistantTimeout
+                            unit: "s"
+                            onSliderValueChanged: newValue => SettingsData.set("aiAssistantTimeout", newValue)
+                        }
+                    }
+
+                    SettingsCard {
+                        width: parent.width
+                        iconName: "format_size"
+                        title: I18n.tr("Display Options")
+
+                        SettingsToggleRow {
+                            text: I18n.tr("Monospace Font")
+                            description: I18n.tr("Use monospace font for AI replies (better for code)")
+                            checked: SettingsData.aiAssistantUseMonospace
+                            onToggled: checked => SettingsData.set("aiAssistantUseMonospace", checked)
+                        }
+                    }
+                }
             }
         }
     }

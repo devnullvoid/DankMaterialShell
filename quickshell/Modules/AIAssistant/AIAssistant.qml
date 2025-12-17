@@ -160,7 +160,7 @@ Item {
 
         Rectangle {
             width: parent.width
-            height: parent.height - composer.height - Theme.spacingM * 3
+            height: parent.height - headerRow.height - composerRow.height - Theme.spacingM * 3
             radius: Theme.cornerRadius
             color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, root.panelTransparency)
             border.color: Theme.surfaceVariantAlpha
@@ -187,39 +187,92 @@ Item {
         Row {
             id: composerRow
             width: parent.width
+            height: 120
             spacing: Theme.spacingM
 
-            TextArea {
-                id: composer
-                width: Math.max(200, parent.width - actionButtons.implicitWidth - Theme.spacingM)
-                implicitHeight: 120
-                placeholderText: I18n.tr("Ask anything…")
-                wrapMode: TextArea.Wrap
+            Rectangle {
+                id: composerContainer
+                width: parent.width - actionButtons.width - Theme.spacingM
+                height: 120
+                radius: Theme.cornerRadius
+                color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                border.color: composer.activeFocus ? Theme.primary : Theme.outlineMedium
+                border.width: composer.activeFocus ? 2 : 1
 
-                Keys.onReleased: event => {
-                    if (event.key === Qt.Key_Escape) {
-                        hideRequested();
-                        event.accepted = true;
-                    } else if ((event.modifiers & Qt.ControlModifier) && event.key === Qt.Key_Return) {
-                        sendCurrentMessage();
-                        event.accepted = true;
+                Behavior on border.color {
+                    ColorAnimation {
+                        duration: Theme.shortDuration
+                        easing.type: Theme.standardEasing
                     }
+                }
+
+                Behavior on border.width {
+                    NumberAnimation {
+                        duration: Theme.shortDuration
+                        easing.type: Theme.standardEasing
+                    }
+                }
+
+                ScrollView {
+                    id: scrollView
+                    anchors.fill: parent
+                    anchors.margins: Theme.spacingS
+                    clip: true
+                    ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
+                    TextArea {
+                        id: composer
+                        implicitWidth: scrollView.availableWidth
+                        placeholderText: I18n.tr("Ask anything…")
+                        wrapMode: TextArea.Wrap
+                        background: Rectangle { color: "transparent" }
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: Theme.surfaceText
+
+                        Keys.onReleased: event => {
+                            if (event.key === Qt.Key_Escape) {
+                                hideRequested();
+                                event.accepted = true;
+                            } else if ((event.modifiers & Qt.ControlModifier) && event.key === Qt.Key_Return) {
+                                sendCurrentMessage();
+                                event.accepted = true;
+                            }
+                        }
+                    }
+                }
+
+                StyledText {
+                    anchors.fill: parent
+                    anchors.margins: Theme.spacingM
+                    text: composer.placeholderText
+                    font.pixelSize: Theme.fontSizeMedium
+                    color: Theme.outlineButton
+                    verticalAlignment: Text.AlignTop
+                    visible: composer.text.length === 0 && !composer.activeFocus
+                    wrapMode: Text.Wrap
                 }
             }
 
             Column {
                 id: actionButtons
                 spacing: Theme.spacingS
+                width: 100
 
-                Button {
+                DankButton {
                     text: I18n.tr("Send")
+                    iconName: "send"
                     enabled: composer.text && composer.text.trim().length > 0
+                    width: parent.width
                     onClicked: sendCurrentMessage()
                 }
 
-                Button {
+                DankButton {
                     text: I18n.tr("Stop")
+                    iconName: "stop"
                     enabled: aiService.service?.isStreaming
+                    backgroundColor: Theme.error
+                    textColor: Theme.errorText
+                    width: parent.width
                     onClicked: aiService.service.cancel()
                 }
             }
