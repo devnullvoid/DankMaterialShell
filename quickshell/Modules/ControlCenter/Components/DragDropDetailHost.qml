@@ -13,30 +13,30 @@ Item {
 
     readonly property bool active: expandedSection !== ""
 
-    Behavior on height {
-        NumberAnimation {
-            duration: Theme.mediumDuration
-            easing.type: Easing.OutCubic
-        }
-    }
-
     Loader {
         anchors.fill: parent
         anchors.topMargin: Theme.spacingS
         sourceComponent: {
-            if (!root.active) return null
+            if (!root.active)
+                return null;
 
             if (expandedSection.startsWith("diskUsage_")) {
-                return diskUsageDetailComponent
+                return diskUsageDetailComponent;
             }
 
             switch (expandedSection) {
-                case "wifi": return networkDetailComponent
-                case "bluetooth": return bluetoothDetailComponent
-                case "audioOutput": return audioOutputDetailComponent
-                case "audioInput": return audioInputDetailComponent
-                case "battery": return batteryDetailComponent
-                default: return null
+            case "wifi":
+                return networkDetailComponent;
+            case "bluetooth":
+                return bluetoothDetailComponent;
+            case "audioOutput":
+                return audioOutputDetailComponent;
+            case "audioInput":
+                return audioInputDetailComponent;
+            case "battery":
+                return batteryDetailComponent;
+            default:
+                return null;
             }
         }
     }
@@ -72,18 +72,18 @@ Item {
             currentMountPath: root.expandedWidgetData?.mountPath || "/"
             instanceId: root.expandedWidgetData?.instanceId || ""
 
-            onMountPathChanged: (newMountPath) => {
+            onMountPathChanged: newMountPath => {
                 if (root.expandedWidgetData && root.expandedWidgetData.id === "diskUsage") {
-                    const widgets = SettingsData.controlCenterWidgets || []
+                    const widgets = SettingsData.controlCenterWidgets || [];
                     const newWidgets = widgets.map(w => {
                         if (w.id === "diskUsage" && w.instanceId === root.expandedWidgetData.instanceId) {
-                            const updatedWidget = Object.assign({}, w)
-                            updatedWidget.mountPath = newMountPath
-                            return updatedWidget
+                            const updatedWidget = Object.assign({}, w);
+                            updatedWidget.mountPath = newMountPath;
+                            return updatedWidget;
                         }
-                        return w
-                    })
-                    SettingsData.set("controlCenterWidgets", newWidgets)
+                        return w;
+                    });
+                    SettingsData.set("controlCenterWidgets", newWidgets);
                 }
             }
         }
