@@ -17,7 +17,7 @@ BuildRequires:  gzip
 BuildRequires:  systemd-rpm-macros
 
 # Core requirements
-Requires:       (quickshell-git or quickshell)
+Requires:       (quickshell or quickshell-git)
 Requires:       accountsservice
 Requires:       dgop
 
