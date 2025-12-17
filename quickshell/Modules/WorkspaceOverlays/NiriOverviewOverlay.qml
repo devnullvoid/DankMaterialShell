@@ -250,8 +250,8 @@ Scope {
                         property var fakeParentModal: QtObject {
                             property bool spotlightOpen: spotlightContainer.visible
                             function hide() {
-                                if (spotlightContent.searchField.text.length > 0) {
-                                    niriOverviewScope.hideSpotlight();
+                                if (niriOverviewScope.searchActive) {
+                                    niriOverviewScope.hideAndReleaseKeyboard();
                                     return;
                                 }
                                 NiriService.toggleOverview();
