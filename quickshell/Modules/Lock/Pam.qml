@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import Quickshell.Wayland
 import Quickshell.Services.Pam
 import qs.Common
 
@@ -24,16 +23,24 @@ Scope {
     signal unlockRequested
 
     FileView {
-        id: pamConfigWatcher
+        id: dankshellConfigWatcher
 
         path: "/etc/pam.d/dankshell"
+        printErrors: false
+    }
+
+    FileView {
+        id: loginConfigWatcher
+
+        path: "/etc/pam.d/login"
         printErrors: false
     }
 
     PamContext {
         id: passwd
 
-        config: pamConfigWatcher.loaded ? "dankshell" : "login"
+        config: dankshellConfigWatcher.loaded ? "dankshell" : "login"
+        configDirectory: dankshellConfigWatcher.loaded || loginConfigWatcher.loaded ? "/etc/pam.d" : Quickshell.shellDir + "/assets/pam"
 
         onMessageChanged: {
             if (message.startsWith("The account is locked"))
