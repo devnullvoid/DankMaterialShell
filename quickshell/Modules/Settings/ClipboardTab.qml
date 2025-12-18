@@ -172,7 +172,7 @@ Item {
         DMSService.sendRequest("clipboard.setConfig", params, response => {
             saving = false;
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to save clipboard setting"));
+                ToastService.showError(I18n.tr("Failed to save clipboard setting"), response.error);
                 return;
             }
             loadConfig();

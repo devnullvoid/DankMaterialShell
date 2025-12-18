@@ -12,7 +12,7 @@ PluginComponent {
     }
 
     ccWidgetIcon: DMSNetworkService.isBusy ? "sync" : (DMSNetworkService.connected ? "vpn_lock" : "vpn_key_off")
-    ccWidgetPrimaryText: "VPN"
+    ccWidgetPrimaryText: I18n.tr("VPN")
     ccWidgetSecondaryText: {
         if (!DMSNetworkService.connected)
             return I18n.tr("Disconnected");

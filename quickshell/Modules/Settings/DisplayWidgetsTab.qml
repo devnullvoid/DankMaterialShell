@@ -189,7 +189,7 @@ Item {
                                 spacing: Theme.spacingM
 
                                 StyledText {
-                                    text: I18n.tr("Available Screens (") + Quickshell.screens.length + ")"
+                                    text: I18n.tr("Available Screens (%1)").arg(Quickshell.screens.length)
                                     font.pixelSize: Theme.fontSizeMedium
                                     font.weight: Font.Medium
                                     color: Theme.surfaceText

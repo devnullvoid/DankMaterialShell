@@ -1,7 +1,4 @@
 import QtQuick
-import QtQuick.Controls
-import Quickshell
-import Quickshell.Io
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -42,7 +39,7 @@ Item {
         if (!device)
             return;
 
-        BluetoothService.getAvailableCodecs(device, function(codecs, current) {
+        BluetoothService.getAvailableCodecs(device, function (codecs, current) {
             availableCodecs = codecs;
             currentCodec = current;
             isLoading = false;
@@ -60,7 +57,7 @@ Item {
         }
 
         isLoading = true;
-        BluetoothService.switchCodec(device, profileName, function(success, message) {
+        BluetoothService.switchCodec(device, profileName, function (success, message) {
             isLoading = false;
             if (success) {
                 ToastService.showToast(message, ToastService.levelInfo);
@@ -85,8 +82,12 @@ Item {
         propagateComposedEvents: false
 
         onClicked: root.hide()
-        onWheel: (wheel) => { wheel.accepted = true }
-        onPositionChanged: (mouse) => { mouse.accepted = true }
+        onWheel: wheel => {
+            wheel.accepted = true;
+        }
+        onPositionChanged: mouse => {
+            mouse.accepted = true;
+        }
     }
 
     Rectangle {
@@ -111,8 +112,8 @@ Item {
         enabled: root.visible
 
         Keys.onEscapePressed: {
-            root.hide()
-            event.accepted = true
+            root.hide();
+            event.accepted = true;
         }
     }
 
@@ -133,9 +134,15 @@ Item {
             hoverEnabled: true
             preventStealing: true
             propagateComposedEvents: false
-            onClicked: (mouse) => { mouse.accepted = true }
-            onWheel: (wheel) => { wheel.accepted = true }
-            onPositionChanged: (mouse) => { mouse.accepted = true }
+            onClicked: mouse => {
+                mouse.accepted = true;
+            }
+            onWheel: wheel => {
+                wheel.accepted = true;
+            }
+            onPositionChanged: mouse => {
+                mouse.accepted = true;
+            }
         }
 
         Column {
@@ -174,9 +181,7 @@ Item {
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceTextMedium
                     }
-
                 }
-
             }
 
             Rectangle {
@@ -186,7 +191,7 @@ Item {
             }
 
             StyledText {
-                text: isLoading ? "Loading codecs..." : `Current: ${currentCodec}`
+                text: isLoading ? I18n.tr("Loading codecs...") : I18n.tr("Current: %1").arg(currentCodec)
                 font.pixelSize: Theme.fontSizeSmall
                 color: isLoading ? Theme.primary : Theme.surfaceTextMedium
                 font.weight: Font.Medium
@@ -245,9 +250,7 @@ Item {
                                     font.pixelSize: Theme.fontSizeSmall
                                     color: Theme.surfaceTextMedium
                                 }
-
                             }
-
                         }
 
                         DankIcon {
@@ -271,14 +274,9 @@ Item {
                                 selectCodec(modelData.profile);
                             }
                         }
-
-
                     }
-
                 }
-
             }
-
         }
 
         Behavior on opacity {
@@ -286,7 +284,6 @@ Item {
                 duration: Theme.mediumDuration
                 easing.type: Theme.emphasizedEasing
             }
-
         }
 
         Behavior on scale {
@@ -294,8 +291,6 @@ Item {
                 duration: Theme.mediumDuration
                 easing.type: Theme.emphasizedEasing
             }
-
         }
-
     }
 }

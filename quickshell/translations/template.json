@@ -350,7 +350,14 @@
     "comment": ""
   },
   {
-    "term": "Active: ",
+    "term": "Active: %1",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Active: %1 +%2",
     "translation": "",
     "context": "",
     "reference": "",
@@ -407,6 +414,13 @@
   },
   {
     "term": "Add a border around the dock",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Add a custom prefix to all application launches. This can be used for things like 'uwsm-app', 'systemd-run', or other command wrappers.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -484,6 +498,20 @@
   },
   {
     "term": "Always show a minimum of 3 workspaces, even if fewer are available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Always show the dock when niri's overview is open",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Always show when there's only one connected display",
     "translation": "",
     "context": "",
     "reference": "",
@@ -623,6 +651,20 @@
     "comment": ""
   },
   {
+    "term": "Audio Input",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Audio Output",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Audio Output Devices (",
     "translation": "",
     "context": "",
@@ -638,6 +680,13 @@
   },
   {
     "term": "Audio Visualizer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Audio volume control",
     "translation": "",
     "context": "",
     "reference": "",
@@ -875,7 +924,7 @@
     "comment": ""
   },
   {
-    "term": "Available Screens (",
+    "term": "Available Screens (%1)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -910,6 +959,13 @@
     "comment": ""
   },
   {
+    "term": "Backlight device",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Balanced palette with focused accents (default).",
     "translation": "",
     "context": "",
@@ -932,6 +988,13 @@
   },
   {
     "term": "Battery",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Battery and power management",
     "translation": "",
     "context": "",
     "reference": "",
@@ -980,6 +1043,27 @@
     "comment": ""
   },
   {
+    "term": "Block notifications",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Blocked",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Blue light filter",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Bluetooth",
     "translation": "",
     "context": "",
@@ -988,6 +1072,13 @@
   },
   {
     "term": "Bluetooth Settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Bluetooth not available",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1078,6 +1169,20 @@
     "comment": ""
   },
   {
+    "term": "Brightness Slider",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Brightness control not available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Browse",
     "translation": "",
     "context": "",
@@ -1155,6 +1260,13 @@
     "comment": ""
   },
   {
+    "term": "CUPS not available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Camera",
     "translation": "",
     "context": "",
@@ -1170,6 +1282,13 @@
   },
   {
     "term": "Canceled",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Cannot pair",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1246,6 +1365,13 @@
     "comment": ""
   },
   {
+    "term": "Charging",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Check for system updates",
     "translation": "",
     "context": "",
@@ -1261,6 +1387,20 @@
   },
   {
     "term": "Choose Launcher Logo Color",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Choose a color",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Choose colors from palette",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1366,6 +1506,20 @@
   },
   {
     "term": "Clear at Startup",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Click 'Setup' to create the outputs config and add include to your compositor config.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1715,6 +1869,13 @@
     "comment": ""
   },
   {
+    "term": "Connecting...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Contrast",
     "translation": "",
     "context": "",
@@ -1890,6 +2051,13 @@
     "comment": ""
   },
   {
+    "term": "Current: %1",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Custom",
     "translation": "",
     "context": "",
@@ -1989,6 +2157,13 @@
   },
   {
     "term": "Customize which actions appear in the power menu",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "DDC/CI monitor",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2261,6 +2436,13 @@
     "comment": ""
   },
   {
+    "term": "Device connections",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Device paired",
     "translation": "",
     "context": "",
@@ -2318,6 +2500,13 @@
   },
   {
     "term": "Disabled",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Disabling WiFi...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2416,6 +2605,13 @@
   },
   {
     "term": "Display application icons in workspace indicators",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Display brightness control",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2542,6 +2738,20 @@
   },
   {
     "term": "Domain (optional)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Don't Change",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Don't Save",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2723,6 +2933,13 @@
     "comment": ""
   },
   {
+    "term": "Enabling WiFi...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "End",
     "translation": "",
     "context": "",
@@ -2786,6 +3003,13 @@
     "comment": ""
   },
   {
+    "term": "Enter launch prefix (e.g., 'uwsm-app')",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Enter passkey for ",
     "translation": "",
     "context": "",
@@ -2836,6 +3060,13 @@
   },
   {
     "term": "Experimental Feature",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Exponential",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2912,7 +3143,7 @@
     "comment": ""
   },
   {
-    "term": "Failed to connect to ",
+    "term": "Failed to connect to %1",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2961,6 +3192,13 @@
     "comment": ""
   },
   {
+    "term": "Failed to disable night mode",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to disconnect VPN",
     "translation": "",
     "context": "",
@@ -2982,6 +3220,13 @@
     "comment": ""
   },
   {
+    "term": "Failed to enable IP location",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to enable WiFi",
     "translation": "",
     "context": "",
@@ -2990,6 +3235,13 @@
   },
   {
     "term": "Failed to enable job acceptance",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to enable night mode",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3094,6 +3346,34 @@
     "comment": ""
   },
   {
+    "term": "Failed to set brightness",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to set night mode location",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to set night mode schedule",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to set night mode temperature",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Failed to set profile image",
     "translation": "",
     "context": "",
@@ -3101,14 +3381,14 @@
     "comment": ""
   },
   {
-    "term": "Failed to set profile image: ",
+    "term": "Failed to set profile image: %1",
     "translation": "",
     "context": "",
     "reference": "",
     "comment": ""
   },
   {
-    "term": "Failed to start connection to ",
+    "term": "Failed to start connection to %1",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3186,6 +3466,13 @@
   },
   {
     "term": "Files",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Filesystem usage monitoring",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3367,7 +3654,7 @@
     "comment": ""
   },
   {
-    "term": "Forgot network ",
+    "term": "Forgot network %1",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3850,6 +4137,13 @@
     "comment": ""
   },
   {
+    "term": "Input Volume Slider",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Install plugins from the DMS plugin registry",
     "translation": "",
     "context": "",
@@ -3976,6 +4270,13 @@
     "comment": ""
   },
   {
+    "term": "LED device",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Last launched %1",
     "translation": "",
     "context": "",
@@ -4088,6 +4389,13 @@
     "comment": ""
   },
   {
+    "term": "Linear",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Lines: %1",
     "translation": "",
     "context": "",
@@ -4103,6 +4411,13 @@
   },
   {
     "term": "Lively palette with saturated accents.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Loading codecs...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4257,6 +4572,13 @@
   },
   {
     "term": "Manage up to 4 independent bar configurations. Each bar has its own position, widgets, styling, and display assignment.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Management",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4502,6 +4824,20 @@
   },
   {
     "term": "Microphone Mute",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Microphone settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Microphone volume control",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4851,6 +5187,20 @@
     "comment": ""
   },
   {
+    "term": "No battery",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No brightness devices available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "No changes",
     "translation": "",
     "context": "",
@@ -4866,6 +5216,20 @@
   },
   {
     "term": "No devices found",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No disk data",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No disk data available",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4978,6 +5342,13 @@
   },
   {
     "term": "Normal Priority",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Not available",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5306,7 +5677,21 @@
     "comment": ""
   },
   {
+    "term": "Paired",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Pairing failed",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Pairing...",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5390,7 +5775,21 @@
     "comment": ""
   },
   {
+    "term": "Pin",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Pin to Dock",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Pinned",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5404,7 +5803,7 @@
     "comment": ""
   },
   {
-    "term": "Place plugins in",
+    "term": "Place plugins in %1",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5447,6 +5846,20 @@
   },
   {
     "term": "Plugged In",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Plugged in",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Plugin",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5579,6 +5992,13 @@
     "comment": ""
   },
   {
+    "term": "Power profile management available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Power source",
     "translation": "",
     "context": "",
@@ -5629,6 +6049,13 @@
   },
   {
     "term": "Primary",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Print Server Management",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5887,7 +6314,14 @@
     "comment": ""
   },
   {
-    "term": "Requires DMS",
+    "term": "Requires 'dgop' tool",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Requires DMS %1",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5895,6 +6329,13 @@
   },
   {
     "term": "Requires DWL compositor",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Requires night mode support",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6000,6 +6441,13 @@
   },
   {
     "term": "Right-click bar widget to cycle",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Root Filesystem",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6132,6 +6580,13 @@
     "comment": ""
   },
   {
+    "term": "Scanning",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Scanning...",
     "translation": "",
     "context": "",
@@ -6161,6 +6616,13 @@
   },
   {
     "term": "Scroll song title",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Scroll title if it doesn't fit in widget",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6476,6 +6938,13 @@
   },
   {
     "term": "Shortcuts",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Shortcuts (%1)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6979,6 +7448,13 @@
     "comment": ""
   },
   {
+    "term": "Speaker settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Speed",
     "translation": "",
     "context": "",
@@ -7224,6 +7700,13 @@
     "comment": ""
   },
   {
+    "term": "System theme toggle",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "System toast notifications",
     "translation": "",
     "context": "",
@@ -7281,6 +7764,13 @@
   },
   {
     "term": "Text",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "The 'dgop' tool is required for system monitoring.\\nPlease install dgop to use this feature.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7379,6 +7869,20 @@
   },
   {
     "term": "Time Format",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Time remaining: %1",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Time until full: %1",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7609,6 +8113,34 @@
     "comment": ""
   },
   {
+    "term": "Unknown Config",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Unknown Device",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Unknown Monitor",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Unknown Network",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Unpin from Dock",
     "translation": "",
     "context": "",
@@ -7770,6 +8302,13 @@
     "comment": ""
   },
   {
+    "term": "User",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Username",
     "translation": "",
     "context": "",
@@ -7819,6 +8358,13 @@
     "comment": ""
   },
   {
+    "term": "VPN connections",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "VPN deleted",
     "translation": "",
     "context": "",
@@ -7826,7 +8372,14 @@
     "comment": ""
   },
   {
-    "term": "VPN imported: ",
+    "term": "VPN imported: %1",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "VPN not available",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7959,6 +8512,13 @@
     "comment": ""
   },
   {
+    "term": "Volume Slider",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Volume, brightness, and other system OSDs",
     "translation": "",
     "context": "",
@@ -8044,6 +8604,20 @@
   },
   {
     "term": "Wi-Fi Password",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Wi-Fi and Ethernet connection",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Wi-Fi not available",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8281,6 +8855,13 @@
     "comment": ""
   },
   {
+    "term": "dgop not available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.",
     "translation": "",
     "context": "",
@@ -8295,6 +8876,13 @@
     "comment": ""
   },
   {
+    "term": "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "e.g., firefox, kitty --title foo",
     "translation": "",
     "context": "",
@@ -8303,6 +8891,13 @@
   },
   {
     "term": "e.g., focus-workspace 3, resize-column -10",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "e.g., notify-send 'Hello' && sleep 1",
     "translation": "",
     "context": "",
     "reference": "",

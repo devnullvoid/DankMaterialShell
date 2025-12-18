@@ -7,23 +7,26 @@ from collections import defaultdict
 
 def extract_qstr_strings(root_dir):
     translations = defaultdict(lambda: {'contexts': set(), 'occurrences': []})
-    qstr_pattern = re.compile(r'qsTr\(["\']([^"\']+)["\']\)')
-    i18n_pattern_with_context = re.compile(r'I18n\.tr\(["\']([^"\']+)["\']\s*,\s*["\']([^"\']+)["\']\)')
-    i18n_pattern_simple = re.compile(r'I18n\.tr\(["\']([^"\']+)["\']\)')
+    qstr_pattern_double = re.compile(r'qsTr\("([^"]+)"\)')
+    qstr_pattern_single = re.compile(r"qsTr\('([^']+)'\)")
+    i18n_pattern_with_context_double = re.compile(r'I18n\.tr\("([^"]+)"\s*,\s*"([^"]+)"\)')
+    i18n_pattern_with_context_single = re.compile(r"I18n\.tr\('([^']+)'\s*,\s*'([^']+)'\)")
+    i18n_pattern_simple_double = re.compile(r'I18n\.tr\("([^"]+)"\)')
+    i18n_pattern_simple_single = re.compile(r"I18n\.tr\('([^']+)'\)")
 
     for qml_file in Path(root_dir).rglob('*.qml'):
         relative_path = qml_file.relative_to(root_dir)
 
         with open(qml_file, 'r', encoding='utf-8') as f:
             for line_num, line in enumerate(f, 1):
-                qstr_matches = qstr_pattern.findall(line)
+                qstr_matches = qstr_pattern_double.findall(line) + qstr_pattern_single.findall(line)
                 for match in qstr_matches:
                     translations[match]['occurrences'].append({
                         'file': str(relative_path),
                         'line': line_num
                     })
 
-                i18n_with_context = i18n_pattern_with_context.findall(line)
+                i18n_with_context = i18n_pattern_with_context_double.findall(line) + i18n_pattern_with_context_single.findall(line)
                 for term, context in i18n_with_context:
                     translations[term]['contexts'].add(context)
                     translations[term]['occurrences'].append({
@@ -31,9 +34,10 @@ def extract_qstr_strings(root_dir):
                         'line': line_num
                     })
 
-                i18n_simple = i18n_pattern_simple.findall(line)
-                for match in i18n_simple:
-                    if not i18n_pattern_with_context.search(line):
+                has_context = i18n_pattern_with_context_double.search(line) or i18n_pattern_with_context_single.search(line)
+                if not has_context:
+                    i18n_simple = i18n_pattern_simple_double.findall(line) + i18n_pattern_simple_single.findall(line)
+                    for match in i18n_simple:
                         translations[match]['occurrences'].append({
                             'file': str(relative_path),
                             'line': line_num

@@ -315,7 +315,7 @@ FocusScope {
 
                         StyledText {
                             width: parent.width
-                            text: I18n.tr("No plugins found.") + "\n" + I18n.tr("Place plugins in") + " " + PluginService.pluginDirectory
+                            text: I18n.tr("No plugins found.") + "\n" + I18n.tr("Place plugins in %1").arg(PluginService.pluginDirectory)
                             font.pixelSize: Theme.fontSizeMedium
                             color: Theme.surfaceVariantText
                             horizontalAlignment: Text.AlignHCenter

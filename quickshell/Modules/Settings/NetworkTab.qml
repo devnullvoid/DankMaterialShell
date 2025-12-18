@@ -1182,7 +1182,7 @@ Item {
                                                     onClicked: {
                                                         forgetNetworkConfirm.showWithOptions({
                                                             title: I18n.tr("Forget Network"),
-                                                            message: I18n.tr("Forget \"") + modelData.ssid + "\"?",
+                                                            message: I18n.tr("Forget \"%1\"?").arg(modelData.ssid),
                                                             confirmText: I18n.tr("Forget"),
                                                             confirmColor: Theme.error,
                                                             onConfirm: () => NetworkService.forgetWifiNetwork(modelData.ssid)
@@ -1674,7 +1674,7 @@ Item {
                                                 onClicked: {
                                                     deleteVpnConfirm.showWithOptions({
                                                         title: I18n.tr("Delete VPN"),
-                                                        message: I18n.tr("Delete \"") + modelData.name + "\"?",
+                                                        message: I18n.tr("Delete \"%1\"?").arg(modelData.name),
                                                         confirmText: I18n.tr("Delete"),
                                                         confirmColor: Theme.error,
                                                         onConfirm: () => VPNService.deleteVpn(modelData.uuid)

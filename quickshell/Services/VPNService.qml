@@ -81,14 +81,14 @@ Singleton {
 
             if (response.error) {
                 importError = response.error;
-                ToastService.showError(I18n.tr("Failed to import VPN"));
+                ToastService.showError(I18n.tr("Failed to import VPN"), response.error);
                 return;
             }
 
             if (!response.result)
                 return;
             if (response.result.success) {
-                ToastService.showInfo(I18n.tr("VPN imported: ") + (response.result.name || ""));
+                ToastService.showInfo(I18n.tr("VPN imported: %1").arg(response.result.name || ""));
                 DMSNetworkService.refreshVpnProfiles();
                 importComplete(response.result.uuid || "", response.result.name || "");
                 return;
@@ -111,7 +111,7 @@ Singleton {
             configLoading = false;
 
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to load VPN config"));
+                ToastService.showError(I18n.tr("Failed to load VPN config"), response.error);
                 return;
             }
 
@@ -137,7 +137,7 @@ Singleton {
 
         DMSService.sendRequest("network.vpn.updateConfig", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to update VPN"));
+                ToastService.showError(I18n.tr("Failed to update VPN"), response.error);
                 return;
             }
             ToastService.showInfo(I18n.tr("VPN configuration updated"));
@@ -153,7 +153,7 @@ Singleton {
             uuid: uuidOrName
         }, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to delete VPN"));
+                ToastService.showError(I18n.tr("Failed to delete VPN"), response.error);
                 return;
             }
             ToastService.showInfo(I18n.tr("VPN deleted"));

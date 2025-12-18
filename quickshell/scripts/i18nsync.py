@@ -243,7 +243,7 @@ def save_sync_state():
 
 def main():
     if len(sys.argv) < 2:
-        error("Usage: i18nsync.py [check|sync|test]")
+        error("Usage: i18nsync.py [check|sync|test|local]")
 
     command = sys.argv[1]
 
@@ -314,6 +314,39 @@ def main():
         else:
             save_sync_state()
             info("Already in sync")
+
+    elif command == "local":
+        info("Updating en.json locally (no POEditor sync)")
+
+        old_en = normalize_json(EN_JSON)
+        old_terms = {entry['term']: entry for entry in old_en} if isinstance(old_en, list) else {}
+
+        extract_strings()
+
+        new_en = normalize_json(EN_JSON)
+        new_terms = {entry['term']: entry for entry in new_en} if isinstance(new_en, list) else {}
+
+        added = set(new_terms.keys()) - set(old_terms.keys())
+        removed = set(old_terms.keys()) - set(new_terms.keys())
+
+        if added:
+            info(f"\n+{len(added)} new terms:")
+            for term in sorted(added)[:20]:
+                print(f"  + {term[:60]}...")
+            if len(added) > 20:
+                print(f"  ... and {len(added) - 20} more")
+
+        if removed:
+            info(f"\n-{len(removed)} removed terms:")
+            for term in sorted(removed)[:20]:
+                print(f"  - {term[:60]}...")
+            if len(removed) > 20:
+                print(f"  ... and {len(removed) - 20} more")
+
+        success(f"\n✓ {len(new_en)} total terms")
+
+        if not added and not removed:
+            info("No changes detected")
 
     else:
         error(f"Unknown command: {command}")

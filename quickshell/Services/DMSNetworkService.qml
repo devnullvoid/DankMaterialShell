@@ -353,7 +353,7 @@ Singleton {
                     pendingConnectionSSID = "";
                 } else {
                     if (connectionError) {
-                        ToastService.showError(I18n.tr("Failed to connect to ") + pendingConnectionSSID);
+                        ToastService.showError(I18n.tr("Failed to connect to %1").arg(pendingConnectionSSID));
                     }
                     connectionStatus = "failed";
                     pendingConnectionSSID = "";
@@ -382,7 +382,7 @@ Singleton {
                 connectionError = response.error;
                 lastConnectionError = response.error;
                 connectionStatus = "failed";
-                ToastService.showError(I18n.tr("Failed to activate configuration"));
+                ToastService.showError(I18n.tr("Failed to activate configuration"), response.error);
             } else {
                 connectionError = "";
                 connectionStatus = "connected";
@@ -461,7 +461,7 @@ Singleton {
                 lastConnectionError = response.error;
                 pendingConnectionSSID = "";
                 connectionStatus = "failed";
-                ToastService.showError(I18n.tr("Failed to start connection to ") + ssid);
+                ToastService.showError(I18n.tr("Failed to start connection to %1").arg(ssid));
             }
         });
     }
@@ -474,7 +474,7 @@ Singleton {
         } : null;
         DMSService.sendRequest("network.wifi.disconnect", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to disconnect WiFi"));
+                ToastService.showError(I18n.tr("Failed to disconnect WiFi"), response.error);
             } else {
                 ToastService.showInfo(I18n.tr("Disconnected from WiFi"));
                 currentWifiSSID = "";
@@ -534,7 +534,7 @@ Singleton {
             if (response.error) {
                 console.warn("Failed to forget network:", response.error);
             } else {
-                ToastService.showInfo(I18n.tr("Forgot network ") + ssid);
+                ToastService.showInfo(I18n.tr("Forgot network %1").arg(ssid));
 
                 savedConnections = savedConnections.filter(s => s.ssid !== ssid);
                 savedWifiNetworks = savedWifiNetworks.filter(s => s.ssid !== ssid);
@@ -577,7 +577,7 @@ Singleton {
             return;
         DMSService.sendRequest("network.wifi.enable", null, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to enable WiFi"));
+                ToastService.showError(I18n.tr("Failed to enable WiFi"), response.error);
             } else {
                 ToastService.showInfo(I18n.tr("WiFi enabled"));
             }
@@ -826,7 +826,7 @@ Singleton {
                 vpnIsBusy = false;
                 pendingVpnUuid = "";
                 vpnBusyStartTime = 0;
-                ToastService.showError(I18n.tr("Failed to connect VPN"));
+                ToastService.showError(I18n.tr("Failed to connect VPN"), response.error);
             }
         });
     }
@@ -850,7 +850,7 @@ Singleton {
             if (response.error) {
                 vpnIsBusy = false;
                 vpnBusyStartTime = 0;
-                ToastService.showError(I18n.tr("Failed to disconnect VPN"));
+                ToastService.showError(I18n.tr("Failed to disconnect VPN"), response.error);
             }
         });
     }
@@ -868,7 +868,7 @@ Singleton {
         DMSService.sendRequest("network.vpn.disconnectAll", null, response => {
             if (response.error) {
                 vpnIsBusy = false;
-                ToastService.showError(I18n.tr("Failed to disconnect VPNs"));
+                ToastService.showError(I18n.tr("Failed to disconnect VPNs"), response.error);
             }
         });
     }
@@ -933,7 +933,7 @@ Singleton {
 
         DMSService.sendRequest("network.wifi.setAutoconnect", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to update autoconnect"));
+                ToastService.showError(I18n.tr("Failed to update autoconnect"), response.error);
             } else {
                 ToastService.showInfo(autoconnect ? I18n.tr("Autoconnect enabled") : I18n.tr("Autoconnect disabled"));
                 Qt.callLater(() => getState());

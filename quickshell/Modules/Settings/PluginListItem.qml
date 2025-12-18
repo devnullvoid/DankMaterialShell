@@ -125,7 +125,7 @@ StyledRect {
                             hoverEnabled: true
                             onEntered: {
                                 if (root.sharedTooltip)
-                                    root.sharedTooltip.show(I18n.tr("Requires DMS") + " " + root.requiresDms, parent, 0, 0, "top");
+                                    root.sharedTooltip.show(I18n.tr("Requires DMS %1").arg(root.requiresDms), parent, 0, 0, "top");
                             }
                             onExited: {
                                 if (root.sharedTooltip)

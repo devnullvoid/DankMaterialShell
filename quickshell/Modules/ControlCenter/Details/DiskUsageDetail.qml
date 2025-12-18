@@ -1,6 +1,4 @@
 import QtQuick
-import QtQuick.Controls
-import Quickshell
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -20,11 +18,11 @@ Rectangle {
     border.width: 0
 
     Component.onCompleted: {
-        DgopService.addRef(["diskmounts"])
+        DgopService.addRef(["diskmounts"]);
     }
 
     Component.onDestruction: {
-        DgopService.removeRef(["diskmounts"])
+        DgopService.removeRef(["diskmounts"]);
     }
 
     DankFlickable {
@@ -61,7 +59,7 @@ Rectangle {
 
                     StyledText {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: DgopService.dgopAvailable ? "No disk data available" : "dgop not available"
+                        text: DgopService.dgopAvailable ? I18n.tr("No disk data available") : I18n.tr("dgop not available")
                         font.pixelSize: Theme.fontSizeMedium
                         color: Theme.surfaceText
                         horizontalAlignment: Text.AlignHCenter
@@ -96,20 +94,22 @@ Rectangle {
                                 name: "storage"
                                 size: Theme.iconSize
                                 color: {
-                                    const percentStr = modelData.percent?.replace("%", "") || "0"
-                                    const percent = parseFloat(percentStr) || 0
-                                    if (percent > 90) return Theme.error
-                                    if (percent > 75) return Theme.warning
-                                    return modelData.mount === currentMountPath ? Theme.primary : Theme.surfaceText
+                                    const percentStr = modelData.percent?.replace("%", "") || "0";
+                                    const percent = parseFloat(percentStr) || 0;
+                                    if (percent > 90)
+                                        return Theme.error;
+                                    if (percent > 75)
+                                        return Theme.warning;
+                                    return modelData.mount === currentMountPath ? Theme.primary : Theme.surfaceText;
                                 }
                                 anchors.horizontalCenter: parent.horizontalCenter
                             }
 
                             StyledText {
                                 text: {
-                                    const percentStr = modelData.percent?.replace("%", "") || "0"
-                                    const percent = parseFloat(percentStr) || 0
-                                    return percent.toFixed(0) + "%"
+                                    const percentStr = modelData.percent?.replace("%", "") || "0";
+                                    const percent = parseFloat(percentStr) || 0;
+                                    return percent.toFixed(0) + "%";
                                 }
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.surfaceText
@@ -122,7 +122,7 @@ Rectangle {
                             width: parent.parent.width - parent.parent.anchors.leftMargin - parent.spacing - 50 - Theme.spacingM
 
                             StyledText {
-                                text: modelData.mount === "/" ? "Root Filesystem" : modelData.mount
+                                text: modelData.mount === "/" ? I18n.tr("Root Filesystem") : modelData.mount
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: Theme.surfaceText
                                 font.weight: modelData.mount === currentMountPath ? Font.Medium : Font.Normal
@@ -154,11 +154,10 @@ Rectangle {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            currentMountPath = modelData.mount
-                            mountPathChanged(modelData.mount)
+                            currentMountPath = modelData.mount;
+                            mountPathChanged(modelData.mount);
                         }
                     }
-
                 }
             }
         }

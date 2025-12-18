@@ -333,10 +333,10 @@ Item {
                             visible: warningBox.showError || warningBox.showSetup
                             text: {
                                 if (KeybindsService.fixing)
-                                    return I18n.tr("Fixing...")
+                                    return I18n.tr("Fixing...");
                                 if (warningBox.showSetup)
-                                    return I18n.tr("Setup")
-                                return I18n.tr("Fix Now")
+                                    return I18n.tr("Setup");
+                                return I18n.tr("Fix Now");
                             }
                             backgroundColor: Theme.primary
                             textColor: Theme.primaryText
@@ -510,7 +510,7 @@ Item {
                         }
 
                         StyledText {
-                            text: KeybindsService.loading ? I18n.tr("Shortcuts") : I18n.tr("Shortcuts") + " (" + keybindsTab._filteredBinds.length + ")"
+                            text: KeybindsService.loading ? I18n.tr("Shortcuts") : I18n.tr("Shortcuts (%1)").arg(keybindsTab._filteredBinds.length)
                             font.pixelSize: Theme.fontSizeMedium
                             font.weight: Font.Medium
                             color: Theme.surfaceText

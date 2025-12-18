@@ -113,7 +113,7 @@ Rectangle {
                 }
 
                 StyledText {
-                    text: BluetoothService.adapter && BluetoothService.adapter.discovering ? "Scanning" : "Scan"
+                    text: BluetoothService.adapter && BluetoothService.adapter.discovering ? I18n.tr("Scanning") : I18n.tr("Scan")
                     color: BluetoothService.adapter && BluetoothService.adapter.enabled ? Theme.primary : Theme.surfaceVariantText
                     font.pixelSize: Theme.fontSizeMedium
                     font.weight: Font.Medium
@@ -231,7 +231,7 @@ Rectangle {
                             width: 200
 
                             StyledText {
-                                text: modelData.name || modelData.deviceName || "Unknown Device"
+                                text: modelData.name || modelData.deviceName || I18n.tr("Unknown Device")
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: Theme.surfaceText
                                 font.weight: modelData.connected ? Font.Medium : Font.Normal
@@ -245,15 +245,15 @@ Rectangle {
                                 StyledText {
                                     text: {
                                         if (modelData.state === BluetoothDeviceState.Connecting)
-                                            return "Connecting..."
+                                            return I18n.tr("Connecting...")
                                         if (modelData.connected) {
-                                            let status = "Connected"
+                                            let status = I18n.tr("Connected")
                                             if (currentCodec) {
                                                 status += " • " + currentCodec
                                             }
                                             return status
                                         }
-                                        return "Paired"
+                                        return I18n.tr("Paired")
                                     }
                                     font.pixelSize: Theme.fontSizeSmall
                                     color: {
@@ -320,7 +320,7 @@ Rectangle {
                             StyledText {
                                 text: {
                                     const isThisDevicePinned = (SettingsData.bluetoothDevicePins || {})["preferredDevice"] === modelData.address
-                                    return isThisDevicePinned ? "Pinned" : "Pin"
+                                    return isThisDevicePinned ? I18n.tr("Pinned") : I18n.tr("Pin")
                                 }
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: {
@@ -458,7 +458,7 @@ Rectangle {
                             width: 200
 
                             StyledText {
-                                text: modelData.name || modelData.deviceName || "Unknown Device"
+                                text: modelData.name || modelData.deviceName || I18n.tr("Unknown Device")
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: Theme.surfaceText
                                 elide: Text.ElideRight
@@ -470,8 +470,8 @@ Rectangle {
 
                                 StyledText {
                                     text: {
-                                        if (modelData.pairing || isBusy) return "Pairing..."
-                                        if (modelData.blocked) return "Blocked"
+                                        if (modelData.pairing || isBusy) return I18n.tr("Pairing...")
+                                        if (modelData.blocked) return I18n.tr("Blocked")
                                         return BluetoothService.getSignalStrength(modelData)
                                     }
                                     font.pixelSize: Theme.fontSizeSmall
@@ -493,9 +493,9 @@ Rectangle {
                         anchors.rightMargin: Theme.spacingM
                         anchors.verticalCenter: parent.verticalCenter
                         text: {
-                            if (isBusy) return "Pairing..."
-                            if (!canConnect) return "Cannot pair"
-                            return "Pair"
+                            if (isBusy) return I18n.tr("Pairing...")
+                            if (!canConnect) return I18n.tr("Cannot pair")
+                            return I18n.tr("Pair")
                         }
                         font.pixelSize: Theme.fontSizeSmall
                         color: (canConnect && !isBusy) ? Theme.primary : Theme.surfaceVariantText
@@ -546,7 +546,7 @@ Rectangle {
         }
 
         MenuItem {
-            text: bluetoothContextMenu.currentDevice && bluetoothContextMenu.currentDevice.connected ? "Disconnect" : "Connect"
+            text: bluetoothContextMenu.currentDevice && bluetoothContextMenu.currentDevice.connected ? I18n.tr("Disconnect") : I18n.tr("Connect")
             height: 32
 
             contentItem: StyledText {

@@ -141,7 +141,7 @@ Rectangle {
 
                     StyledText {
                         anchors.horizontalCenter: parent.horizontalCenter
-                        text: DisplayService.brightnessAvailable ? "No brightness devices available" : "Brightness control not available"
+                        text: DisplayService.brightnessAvailable ? I18n.tr("No brightness devices available") : I18n.tr("Brightness control not available")
                         font.pixelSize: Theme.fontSizeMedium
                         color: Theme.surfaceText
                         horizontalAlignment: Text.AlignHCenter
@@ -173,7 +173,7 @@ Rectangle {
                         }
 
                         StyledText {
-                            text: root.getScreenPinKey() || "Unknown Monitor"
+                            text: root.getScreenPinKey() || I18n.tr("Unknown Monitor")
                             font.pixelSize: Theme.fontSizeMedium
                             color: Theme.surfaceText
                             anchors.verticalCenter: parent.verticalCenter
@@ -201,7 +201,7 @@ Rectangle {
                             }
 
                             StyledText {
-                                text: isPinnedToScreen ? "Pinned" : "Pin"
+                                text: isPinnedToScreen ? I18n.tr("Pinned") : I18n.tr("Pin")
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: isPinnedToScreen ? Theme.primary : Theme.surfaceText
                                 anchors.verticalCenter: parent.verticalCenter
@@ -317,11 +317,11 @@ Rectangle {
                                         text: {
                                             const deviceClass = modelData.class || "";
                                             if (deviceClass === "backlight")
-                                                return "Backlight device";
+                                                return I18n.tr("Backlight device");
                                             if (deviceClass === "ddc")
-                                                return "DDC/CI monitor";
+                                                return I18n.tr("DDC/CI monitor");
                                             if (deviceClass === "leds")
-                                                return "LED device";
+                                                return I18n.tr("LED device");
                                             return deviceClass;
                                         }
                                         font.pixelSize: Theme.fontSizeSmall
@@ -430,7 +430,7 @@ Rectangle {
                                 }
 
                                 StyledText {
-                                    text: SessionData.getBrightnessExponential(modelData.name) ? "Exponential" : "Linear"
+                                    text: SessionData.getBrightnessExponential(modelData.name) ? I18n.tr("Exponential") : I18n.tr("Linear")
                                     font.pixelSize: Theme.fontSizeSmall
                                     color: SessionData.getBrightnessExponential(modelData.name) ? Theme.primary : Theme.surfaceText
                                     anchors.verticalCenter: parent.verticalCenter

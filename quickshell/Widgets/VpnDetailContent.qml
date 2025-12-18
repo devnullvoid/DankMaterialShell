@@ -51,8 +51,8 @@ Rectangle {
                         return I18n.tr("Active: None");
                     const names = DMSNetworkService.activeNames || [];
                     if (names.length <= 1)
-                        return I18n.tr("Active: ") + (names[0] || "VPN");
-                    return I18n.tr("Active: ") + names[0] + " +" + (names.length - 1);
+                        return I18n.tr("Active: %1").arg(names[0] || "VPN");
+                    return I18n.tr("Active: %1 +%2").arg(names[0]).arg(names.length - 1);
                 }
                 font.pixelSize: Theme.fontSizeMedium
                 color: Theme.surfaceText
@@ -214,7 +214,7 @@ Rectangle {
                     onDeleteRequested: {
                         deleteConfirm.showWithOptions({
                             "title": I18n.tr("Delete VPN"),
-                            "message": I18n.tr("Delete \"") + modelData.name + "\"?",
+                            "message": I18n.tr("Delete \"%1\"?").arg(modelData.name),
                             "confirmText": I18n.tr("Delete"),
                             "confirmColor": Theme.error,
                             "onConfirm": () => VPNService.deleteVpn(modelData.uuid)

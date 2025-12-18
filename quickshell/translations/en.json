@@ -290,7 +290,7 @@
   {
     "term": "Active",
     "context": "Active",
-    "reference": "Modules/Settings/NetworkTab.qml:674",
+    "reference": "Modules/Settings/NetworkTab.qml:674, Modules/ControlCenter/Details/AudioInputDetail.qml:204, Modules/ControlCenter/Details/AudioOutputDetail.qml:214",
     "comment": ""
   },
   {
@@ -300,9 +300,15 @@
     "comment": ""
   },
   {
-    "term": "Active: ",
-    "context": "Active: ",
-    "reference": "Widgets/VpnDetailContent.qml:54, Widgets/VpnDetailContent.qml:55",
+    "term": "Active: %1",
+    "context": "Active: %1",
+    "reference": "Widgets/VpnDetailContent.qml:54",
+    "comment": ""
+  },
+  {
+    "term": "Active: %1 +%2",
+    "context": "Active: %1 +%2",
+    "reference": "Widgets/VpnDetailContent.qml:55",
     "comment": ""
   },
   {
@@ -351,6 +357,12 @@
     "term": "Add a border around the dock",
     "context": "Add a border around the dock",
     "reference": "Modules/Settings/DockTab.qml:189",
+    "comment": ""
+  },
+  {
+    "term": "Add a custom prefix to all application launches. This can be used for things like 'uwsm-app', 'systemd-run', or other command wrappers.",
+    "context": "Add a custom prefix to all application launches. This can be used for things like 'uwsm-app', 'systemd-run', or other command wrappers.",
+    "reference": "Modules/Settings/LauncherTab.qml:303",
     "comment": ""
   },
   {
@@ -417,6 +429,18 @@
     "term": "Always show a minimum of 3 workspaces, even if fewer are available",
     "context": "Always show a minimum of 3 workspaces, even if fewer are available",
     "reference": "Modules/Settings/WorkspacesTab.qml:36",
+    "comment": ""
+  },
+  {
+    "term": "Always show the dock when niri's overview is open",
+    "context": "Always show the dock when niri's overview is open",
+    "reference": "Modules/Settings/DockTab.qml:87",
+    "comment": ""
+  },
+  {
+    "term": "Always show when there's only one connected display",
+    "context": "Always show when there's only one connected display",
+    "reference": "Modules/Settings/DisplayWidgetsTab.qml:407",
     "comment": ""
   },
   {
@@ -534,6 +558,18 @@
     "comment": ""
   },
   {
+    "term": "Audio Input",
+    "context": "Audio Input",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:127",
+    "comment": ""
+  },
+  {
+    "term": "Audio Output",
+    "context": "Audio Output",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:119",
+    "comment": ""
+  },
+  {
     "term": "Audio Output Devices (",
     "context": "Audio Output Devices (",
     "reference": "Modules/DankDash/MediaDropdownOverlay.qml:234",
@@ -549,6 +585,12 @@
     "term": "Audio Visualizer",
     "context": "Audio Visualizer",
     "reference": "Modules/Settings/MediaPlayerTab.qml:41",
+    "comment": ""
+  },
+  {
+    "term": "Audio volume control",
+    "context": "Audio volume control",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:136",
     "comment": ""
   },
   {
@@ -728,7 +770,7 @@
   {
     "term": "Available",
     "context": "Available",
-    "reference": "Modules/ProcessList/SystemTab.qml:464, Modules/Settings/PrinterTab.qml:145",
+    "reference": "Modules/ProcessList/SystemTab.qml:464, Modules/Settings/PrinterTab.qml:145, Modules/ControlCenter/Details/AudioInputDetail.qml:204, Modules/ControlCenter/Details/AudioOutputDetail.qml:214",
     "comment": ""
   },
   {
@@ -750,8 +792,8 @@
     "comment": ""
   },
   {
-    "term": "Available Screens (",
-    "context": "Available Screens (",
+    "term": "Available Screens (%1)",
+    "context": "Available Screens (%1)",
     "reference": "Modules/Settings/DisplayWidgetsTab.qml:192",
     "comment": ""
   },
@@ -780,6 +822,12 @@
     "comment": ""
   },
   {
+    "term": "Backlight device",
+    "context": "Backlight device",
+    "reference": "Modules/ControlCenter/Details/BrightnessDetail.qml:320",
+    "comment": ""
+  },
+  {
     "term": "Balanced palette with focused accents (default).",
     "context": "Balanced palette with focused accents (default).",
     "reference": "Common/Theme.qml:201",
@@ -800,7 +848,13 @@
   {
     "term": "Battery",
     "context": "Battery",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:838, Modules/Settings/WidgetsTab.qml:168",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:838, Modules/Settings/WidgetsTab.qml:168, Modules/ControlCenter/Models/WidgetModel.qml:161, Modules/ControlCenter/Widgets/BatteryPill.qml:19",
+    "comment": ""
+  },
+  {
+    "term": "Battery and power management",
+    "context": "Battery and power management",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:162",
     "comment": ""
   },
   {
@@ -840,15 +894,39 @@
     "comment": ""
   },
   {
+    "term": "Block notifications",
+    "context": "Block notifications",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:86",
+    "comment": ""
+  },
+  {
+    "term": "Blocked",
+    "context": "Blocked",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:474",
+    "comment": ""
+  },
+  {
+    "term": "Blue light filter",
+    "context": "Blue light filter",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:69",
+    "comment": ""
+  },
+  {
     "term": "Bluetooth",
     "context": "Bluetooth",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:818",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:818, Modules/ControlCenter/Models/WidgetModel.qml:110",
     "comment": ""
   },
   {
     "term": "Bluetooth Settings",
     "context": "Bluetooth Settings",
     "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:78",
+    "comment": ""
+  },
+  {
+    "term": "Bluetooth not available",
+    "context": "Bluetooth not available",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:115",
     "comment": ""
   },
   {
@@ -924,6 +1002,18 @@
     "comment": ""
   },
   {
+    "term": "Brightness Slider",
+    "context": "Brightness Slider",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:143",
+    "comment": ""
+  },
+  {
+    "term": "Brightness control not available",
+    "context": "Brightness control not available",
+    "reference": "Modules/ControlCenter/Details/BrightnessDetail.qml:144, Modules/ControlCenter/Models/WidgetModel.qml:148",
+    "comment": ""
+  },
+  {
     "term": "Browse",
     "context": "Browse",
     "reference": "Modules/Settings/PluginsTab.qml:197",
@@ -990,6 +1080,12 @@
     "comment": ""
   },
   {
+    "term": "CUPS not available",
+    "context": "CUPS not available",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:202",
+    "comment": ""
+  },
+  {
     "term": "Camera",
     "context": "Camera",
     "reference": "Modules/Settings/WidgetsTabSection.qml:1063",
@@ -1005,6 +1101,12 @@
     "term": "Canceled",
     "context": "Canceled",
     "reference": "Services/CupsService.qml:749",
+    "comment": ""
+  },
+  {
+    "term": "Cannot pair",
+    "context": "Cannot pair",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:497",
     "comment": ""
   },
   {
@@ -1068,6 +1170,12 @@
     "comment": ""
   },
   {
+    "term": "Charging",
+    "context": "Charging",
+    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:27",
+    "comment": ""
+  },
+  {
     "term": "Check for system updates",
     "context": "Check for system updates",
     "reference": "Modules/Settings/WidgetsTab.qml:239",
@@ -1083,6 +1191,18 @@
     "term": "Choose Launcher Logo Color",
     "context": "Choose Launcher Logo Color",
     "reference": "Modules/Settings/LauncherTab.qml:238",
+    "comment": ""
+  },
+  {
+    "term": "Choose a color",
+    "context": "Choose a color",
+    "reference": "Modules/ControlCenter/Widgets/ColorPickerPill.qml:18",
+    "comment": ""
+  },
+  {
+    "term": "Choose colors from palette",
+    "context": "Choose colors from palette",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:180",
     "comment": ""
   },
   {
@@ -1173,6 +1293,18 @@
     "term": "Clear at Startup",
     "context": "Clear at Startup",
     "reference": "Modules/Settings/ClipboardTab.qml:310",
+    "comment": ""
+  },
+  {
+    "term": "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.",
+    "context": "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.",
+    "reference": "Modules/Settings/KeybindsTab.qml:315",
+    "comment": ""
+  },
+  {
+    "term": "Click 'Setup' to create the outputs config and add include to your compositor config.",
+    "context": "Click 'Setup' to create the outputs config and add include to your compositor config.",
+    "reference": "Modules/Settings/DisplayConfig/IncludeWarningBox.qml:58",
     "comment": ""
   },
   {
@@ -1280,7 +1412,7 @@
   {
     "term": "Color Picker",
     "context": "Color Picker",
-    "reference": "Modules/Settings/WidgetsTab.qml:231",
+    "reference": "Modules/Settings/WidgetsTab.qml:231, Modules/ControlCenter/Models/WidgetModel.qml:179, Modules/ControlCenter/Widgets/ColorPickerPill.qml:17",
     "comment": ""
   },
   {
@@ -1436,7 +1568,7 @@
   {
     "term": "Connect",
     "context": "Connect",
-    "reference": "Modals/WifiPasswordModal.qml:645",
+    "reference": "Modals/WifiPasswordModal.qml:645, Modules/ControlCenter/Details/BluetoothDetail.qml:549, Modules/ControlCenter/Details/NetworkDetail.qml:717",
     "comment": ""
   },
   {
@@ -1454,7 +1586,7 @@
   {
     "term": "Connected",
     "context": "Connected",
-    "reference": "Modules/Settings/AboutTab.qml:668, Modules/Settings/NetworkTab.qml:384, Modules/Settings/NetworkTab.qml:1091, Modules/Settings/NetworkTab.qml:1415, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:21",
+    "reference": "Modules/Settings/AboutTab.qml:668, Modules/Settings/NetworkTab.qml:384, Modules/Settings/NetworkTab.qml:1091, Modules/Settings/NetworkTab.qml:1415, Modules/ControlCenter/Details/BluetoothDetail.qml:250, Modules/ControlCenter/Details/NetworkDetail.qml:564, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:21",
     "comment": ""
   },
   {
@@ -1467,6 +1599,12 @@
     "term": "Connecting to Device",
     "context": "Connecting to Device",
     "reference": "Services/CupsService.qml:798",
+    "comment": ""
+  },
+  {
+    "term": "Connecting...",
+    "context": "Connecting...",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:248",
     "comment": ""
   },
   {
@@ -1620,6 +1758,12 @@
     "comment": ""
   },
   {
+    "term": "Current: %1",
+    "context": "Current: %1",
+    "reference": "Modules/ControlCenter/Details/BluetoothCodecSelector.qml:189",
+    "comment": ""
+  },
+  {
     "term": "Custom",
     "context": "Custom",
     "reference": "Widgets/KeybindItem.qml:1313, Modules/Settings/TypographyMotionTab.qml:222, Modules/Settings/LauncherTab.qml:71, Modules/Settings/LauncherTab.qml:177, Modules/Settings/Widgets/SettingsColorPicker.qml:52",
@@ -1710,6 +1854,12 @@
     "comment": ""
   },
   {
+    "term": "DDC/CI monitor",
+    "context": "DDC/CI monitor",
+    "reference": "Modules/ControlCenter/Details/BrightnessDetail.qml:322",
+    "comment": ""
+  },
+  {
     "term": "DEMO MODE - Click anywhere to exit",
     "context": "DEMO MODE - Click anywhere to exit",
     "reference": "Modules/Lock/LockScreenContent.qml:797",
@@ -1790,7 +1940,7 @@
   {
     "term": "Dark Mode",
     "context": "Dark Mode",
-    "reference": "Modules/Settings/WallpaperTab.qml:561, Modules/ControlCenter/Components/DragDropGrid.qml:601",
+    "reference": "Modules/Settings/WallpaperTab.qml:561, Modules/ControlCenter/Models/WidgetModel.qml:77, Modules/ControlCenter/Components/DragDropGrid.qml:601",
     "comment": ""
   },
   {
@@ -1938,6 +2088,12 @@
     "comment": ""
   },
   {
+    "term": "Device connections",
+    "context": "Device connections",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:111",
+    "comment": ""
+  },
+  {
     "term": "Device paired",
     "context": "Device paired",
     "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:49",
@@ -1992,6 +2148,12 @@
     "comment": ""
   },
   {
+    "term": "Disabling WiFi...",
+    "context": "Disabling WiFi...",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:176",
+    "comment": ""
+  },
+  {
     "term": "Discard",
     "context": "Discard",
     "reference": "Modules/Settings/DisplayConfigTab.qml:154",
@@ -2000,7 +2162,7 @@
   {
     "term": "Disconnect",
     "context": "Disconnect",
-    "reference": "Widgets/VpnDetailContent.qml:121, Modules/Settings/NetworkTab.qml:1484, Modules/ControlCenter/Details/NetworkDetail.qml:395",
+    "reference": "Widgets/VpnDetailContent.qml:121, Modules/Settings/NetworkTab.qml:1484, Modules/ControlCenter/Details/BluetoothDetail.qml:549, Modules/ControlCenter/Details/NetworkDetail.qml:395, Modules/ControlCenter/Details/NetworkDetail.qml:717",
     "comment": ""
   },
   {
@@ -2024,7 +2186,7 @@
   {
     "term": "Disk Usage",
     "context": "Disk Usage",
-    "reference": "Modules/Settings/WidgetsTab.qml:116",
+    "reference": "Modules/Settings/WidgetsTab.qml:116, Modules/ControlCenter/Models/WidgetModel.qml:169, Modules/ControlCenter/Widgets/DiskUsagePill.qml:37",
     "comment": ""
   },
   {
@@ -2073,6 +2235,12 @@
     "term": "Display application icons in workspace indicators",
     "context": "Display application icons in workspace indicators",
     "reference": "Modules/Settings/WorkspacesTab.qml:43",
+    "comment": ""
+  },
+  {
+    "term": "Display brightness control",
+    "context": "Display brightness control",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:144",
     "comment": ""
   },
   {
@@ -2138,7 +2306,7 @@
   {
     "term": "Do Not Disturb",
     "context": "Do Not Disturb",
-    "reference": "Modules/Settings/NotificationsTab.qml:146, Modules/ControlCenter/Components/DragDropGrid.qml:603, Modules/Notifications/Center/NotificationHeader.qml:41, Modules/Notifications/Center/NotificationSettings.qml:131",
+    "reference": "Modules/Settings/NotificationsTab.qml:146, Modules/ControlCenter/Models/WidgetModel.qml:85, Modules/ControlCenter/Components/DragDropGrid.qml:603, Modules/Notifications/Center/NotificationHeader.qml:41, Modules/Notifications/Center/NotificationSettings.qml:131",
     "comment": ""
   },
   {
@@ -2181,6 +2349,18 @@
     "term": "Domain (optional)",
     "context": "Domain (optional)",
     "reference": "Modals/WifiPasswordModal.qml:490",
+    "comment": ""
+  },
+  {
+    "term": "Don't Change",
+    "context": "Don't Change",
+    "reference": "Modules/Settings/PowerSleepTab.qml:104",
+    "comment": ""
+  },
+  {
+    "term": "Don't Save",
+    "context": "Don't Save",
+    "reference": "Modules/Notepad/Notepad.qml:421",
     "comment": ""
   },
   {
@@ -2334,6 +2514,12 @@
     "comment": ""
   },
   {
+    "term": "Enabling WiFi...",
+    "context": "Enabling WiFi...",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:176",
+    "comment": ""
+  },
+  {
     "term": "End",
     "context": "End",
     "reference": "Modules/Settings/GammaControlTab.qml:301",
@@ -2388,6 +2574,12 @@
     "comment": ""
   },
   {
+    "term": "Enter launch prefix (e.g., 'uwsm-app')",
+    "context": "Enter launch prefix (e.g., 'uwsm-app')",
+    "reference": "Modules/Settings/LauncherTab.qml:312",
+    "comment": ""
+  },
+  {
     "term": "Enter passkey for ",
     "context": "Enter passkey for ",
     "reference": "Modals/BluetoothPairingModal.qml:139",
@@ -2420,7 +2612,7 @@
   {
     "term": "Ethernet",
     "context": "Ethernet",
-    "reference": "Modules/Settings/NetworkTab.qml:157, Modules/Settings/NetworkTab.qml:206, Modules/Settings/NetworkTab.qml:274",
+    "reference": "Modules/Settings/NetworkTab.qml:157, Modules/Settings/NetworkTab.qml:206, Modules/Settings/NetworkTab.qml:274, Modules/ControlCenter/Details/NetworkDetail.qml:121",
     "comment": ""
   },
   {
@@ -2433,6 +2625,12 @@
     "term": "Experimental Feature",
     "context": "Experimental Feature",
     "reference": "Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:165",
+    "comment": ""
+  },
+  {
+    "term": "Exponential",
+    "context": "Exponential",
+    "reference": "Modules/ControlCenter/Details/BrightnessDetail.qml:433",
     "comment": ""
   },
   {
@@ -2496,8 +2694,8 @@
     "comment": ""
   },
   {
-    "term": "Failed to connect to ",
-    "context": "Failed to connect to ",
+    "term": "Failed to connect to %1",
+    "context": "Failed to connect to %1",
     "reference": "Services/DMSNetworkService.qml:356",
     "comment": ""
   },
@@ -2538,6 +2736,12 @@
     "comment": ""
   },
   {
+    "term": "Failed to disable night mode",
+    "context": "Failed to disable night mode",
+    "reference": "Services/DisplayService.qml:484",
+    "comment": ""
+  },
+  {
     "term": "Failed to disconnect VPN",
     "context": "Failed to disconnect VPN",
     "reference": "Services/DMSNetworkService.qml:853",
@@ -2556,6 +2760,12 @@
     "comment": ""
   },
   {
+    "term": "Failed to enable IP location",
+    "context": "Failed to enable IP location",
+    "reference": "Services/DisplayService.qml:624",
+    "comment": ""
+  },
+  {
     "term": "Failed to enable WiFi",
     "context": "Failed to enable WiFi",
     "reference": "Services/DMSNetworkService.qml:580",
@@ -2565,6 +2775,12 @@
     "term": "Failed to enable job acceptance",
     "context": "Failed to enable job acceptance",
     "reference": "Services/CupsService.qml:539",
+    "comment": ""
+  },
+  {
+    "term": "Failed to enable night mode",
+    "context": "Failed to enable night mode",
+    "reference": "Services/DisplayService.qml:456",
     "comment": ""
   },
   {
@@ -2652,20 +2868,44 @@
     "comment": ""
   },
   {
+    "term": "Failed to set brightness",
+    "context": "Failed to set brightness",
+    "reference": "Services/DisplayService.qml:322",
+    "comment": ""
+  },
+  {
+    "term": "Failed to set night mode location",
+    "context": "Failed to set night mode location",
+    "reference": "Services/DisplayService.qml:644",
+    "comment": ""
+  },
+  {
+    "term": "Failed to set night mode schedule",
+    "context": "Failed to set night mode schedule",
+    "reference": "Services/DisplayService.qml:586",
+    "comment": ""
+  },
+  {
+    "term": "Failed to set night mode temperature",
+    "context": "Failed to set night mode temperature",
+    "reference": "Services/DisplayService.qml:525, Services/DisplayService.qml:576, Services/DisplayService.qml:614",
+    "comment": ""
+  },
+  {
     "term": "Failed to set profile image",
     "context": "Failed to set profile image",
     "reference": "Services/PortalService.qml:150",
     "comment": ""
   },
   {
-    "term": "Failed to set profile image: ",
-    "context": "Failed to set profile image: ",
+    "term": "Failed to set profile image: %1",
+    "context": "Failed to set profile image: %1",
     "reference": "Services/PortalService.qml:159",
     "comment": ""
   },
   {
-    "term": "Failed to start connection to ",
-    "context": "Failed to start connection to ",
+    "term": "Failed to start connection to %1",
+    "context": "Failed to start connection to %1",
     "reference": "Services/DMSNetworkService.qml:464",
     "comment": ""
   },
@@ -2733,6 +2973,12 @@
     "term": "Files",
     "context": "Files",
     "reference": "Modules/AppDrawer/AppDrawerPopout.qml:245",
+    "comment": ""
+  },
+  {
+    "term": "Filesystem usage monitoring",
+    "context": "Filesystem usage monitoring",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:170",
     "comment": ""
   },
   {
@@ -2886,8 +3132,8 @@
     "comment": ""
   },
   {
-    "term": "Forgot network ",
-    "context": "Forgot network ",
+    "term": "Forgot network %1",
+    "context": "Forgot network %1",
     "reference": "Services/DMSNetworkService.qml:537",
     "comment": ""
   },
@@ -3300,6 +3546,12 @@
     "comment": ""
   },
   {
+    "term": "Input Volume Slider",
+    "context": "Input Volume Slider",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:153",
+    "comment": ""
+  },
+  {
     "term": "Install plugins from the DMS plugin registry",
     "context": "Install plugins from the DMS plugin registry",
     "reference": "Modules/Settings/PluginBrowser.qml:228",
@@ -3356,7 +3608,7 @@
   {
     "term": "Keep Awake",
     "context": "Keep Awake",
-    "reference": "Modules/ControlCenter/Components/DragDropGrid.qml:605",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:93, Modules/ControlCenter/Components/DragDropGrid.qml:605",
     "comment": ""
   },
   {
@@ -3405,6 +3657,12 @@
     "term": "Ko-fi",
     "context": "Ko-fi",
     "reference": "Modules/Settings/AboutTab.qml:278, Modules/Settings/AboutTab.qml:286",
+    "comment": ""
+  },
+  {
+    "term": "LED device",
+    "context": "LED device",
+    "reference": "Modules/ControlCenter/Details/BrightnessDetail.qml:324",
     "comment": ""
   },
   {
@@ -3504,6 +3762,12 @@
     "comment": ""
   },
   {
+    "term": "Linear",
+    "context": "Linear",
+    "reference": "Modules/ControlCenter/Details/BrightnessDetail.qml:433",
+    "comment": ""
+  },
+  {
     "term": "Lines: %1",
     "context": "Lines: %1",
     "reference": "Modules/Notepad/NotepadTextEditor.qml:571",
@@ -3519,6 +3783,12 @@
     "term": "Lively palette with saturated accents.",
     "context": "Lively palette with saturated accents.",
     "reference": "Common/Theme.qml:205",
+    "comment": ""
+  },
+  {
+    "term": "Loading codecs...",
+    "context": "Loading codecs...",
+    "reference": "Modules/ControlCenter/Details/BluetoothCodecSelector.qml:189",
     "comment": ""
   },
   {
@@ -3651,6 +3921,12 @@
     "term": "Manage up to 4 independent bar configurations. Each bar has its own position, widgets, styling, and display assignment.",
     "context": "Manage up to 4 independent bar configurations. Each bar has its own position, widgets, styling, and display assignment.",
     "reference": "Modules/Settings/DankBarTab.qml:312",
+    "comment": ""
+  },
+  {
+    "term": "Management",
+    "context": "Management",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:84",
     "comment": ""
   },
   {
@@ -3864,6 +4140,18 @@
     "comment": ""
   },
   {
+    "term": "Microphone settings",
+    "context": "Microphone settings",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:128",
+    "comment": ""
+  },
+  {
+    "term": "Microphone volume control",
+    "context": "Microphone volume control",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:154",
+    "comment": ""
+  },
+  {
     "term": "Middle Section",
     "context": "Middle Section",
     "reference": "Modules/Settings/WidgetsTab.qml:1130",
@@ -3986,7 +4274,7 @@
   {
     "term": "Network",
     "context": "Network",
-    "reference": "Services/CupsService.qml:131, Modals/Settings/SettingsSidebar.qml:184, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:808, Modules/Settings/DesktopWidgetsTab.qml:401, Modules/ControlCenter/Details/NetworkDetail.qml:73",
+    "reference": "Services/CupsService.qml:131, Modals/Settings/SettingsSidebar.qml:184, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:808, Modules/Settings/DesktopWidgetsTab.qml:401, Modules/ControlCenter/Details/NetworkDetail.qml:73, Modules/ControlCenter/Models/WidgetModel.qml:101",
     "comment": ""
   },
   {
@@ -4076,7 +4364,7 @@
   {
     "term": "Night Mode",
     "context": "Night Mode",
-    "reference": "Modules/Settings/GammaControlTab.qml:74, Modules/ControlCenter/Components/DragDropGrid.qml:599",
+    "reference": "Modules/Settings/GammaControlTab.qml:74, Modules/ControlCenter/Models/WidgetModel.qml:68, Modules/ControlCenter/Components/DragDropGrid.qml:599",
     "comment": ""
   },
   {
@@ -4158,6 +4446,18 @@
     "comment": ""
   },
   {
+    "term": "No battery",
+    "context": "No battery",
+    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:17",
+    "comment": ""
+  },
+  {
+    "term": "No brightness devices available",
+    "context": "No brightness devices available",
+    "reference": "Modules/ControlCenter/Details/BrightnessDetail.qml:144",
+    "comment": ""
+  },
+  {
     "term": "No changes",
     "context": "No changes",
     "reference": "Widgets/KeybindItem.qml:1532",
@@ -4173,6 +4473,18 @@
     "term": "No devices found",
     "context": "No devices found",
     "reference": "Modules/Settings/PrinterTab.qml:300, Modules/Settings/PrinterTab.qml:304",
+    "comment": ""
+  },
+  {
+    "term": "No disk data",
+    "context": "No disk data",
+    "reference": "Modules/ControlCenter/Widgets/DiskUsagePill.qml:40",
+    "comment": ""
+  },
+  {
+    "term": "No disk data available",
+    "context": "No disk data available",
+    "reference": "Modules/ControlCenter/Details/DiskUsageDetail.qml:64, Modules/ControlCenter/Widgets/DiskUsagePill.qml:50",
     "comment": ""
   },
   {
@@ -4269,6 +4581,12 @@
     "term": "Normal Priority",
     "context": "Normal Priority",
     "reference": "Modules/Settings/NotificationsTab.qml:177, Modules/Notifications/Center/NotificationSettings.qml:175",
+    "comment": ""
+  },
+  {
+    "term": "Not available",
+    "context": "Not available",
+    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:24",
     "comment": ""
   },
   {
@@ -4412,7 +4730,7 @@
   {
     "term": "Open",
     "context": "Open",
-    "reference": "Modules/Notepad/NotepadTextEditor.qml:527, Modules/Settings/NetworkTab.qml:1091, Modules/Settings/NetworkTab.qml:1307",
+    "reference": "Modules/Notepad/NotepadTextEditor.qml:527, Modules/Settings/NetworkTab.qml:1091, Modules/Settings/NetworkTab.qml:1307, Modules/ControlCenter/Details/NetworkDetail.qml:564",
     "comment": ""
   },
   {
@@ -4538,7 +4856,7 @@
   {
     "term": "Pair",
     "context": "Pair",
-    "reference": "Modals/BluetoothPairingModal.qml:324",
+    "reference": "Modals/BluetoothPairingModal.qml:324, Modules/ControlCenter/Details/BluetoothDetail.qml:498",
     "comment": ""
   },
   {
@@ -4548,9 +4866,21 @@
     "comment": ""
   },
   {
+    "term": "Paired",
+    "context": "Paired",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:256",
+    "comment": ""
+  },
+  {
     "term": "Pairing failed",
     "context": "Pairing failed",
     "reference": "Modals/BluetoothPairingModal.qml:400, Modules/ControlCenter/Details/BluetoothDetail.qml:47",
+    "comment": ""
+  },
+  {
+    "term": "Pairing...",
+    "context": "Pairing...",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:473, Modules/ControlCenter/Details/BluetoothDetail.qml:496",
     "comment": ""
   },
   {
@@ -4620,9 +4950,21 @@
     "comment": ""
   },
   {
+    "term": "Pin",
+    "context": "Pin",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:323, Modules/ControlCenter/Details/BrightnessDetail.qml:204, Modules/ControlCenter/Details/AudioInputDetail.qml:244, Modules/ControlCenter/Details/AudioOutputDetail.qml:254, Modules/ControlCenter/Details/NetworkDetail.qml:638",
+    "comment": ""
+  },
+  {
     "term": "Pin to Dock",
     "context": "Pin to Dock",
     "reference": "Modals/Spotlight/SpotlightContextMenuContent.qml:26, Modules/AppDrawer/AppDrawerPopout.qml:736, Modules/Dock/DockContextMenu.qml:379",
+    "comment": ""
+  },
+  {
+    "term": "Pinned",
+    "context": "Pinned",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:323, Modules/ControlCenter/Details/BrightnessDetail.qml:204, Modules/ControlCenter/Details/AudioInputDetail.qml:244, Modules/ControlCenter/Details/AudioOutputDetail.qml:254, Modules/ControlCenter/Details/NetworkDetail.qml:638",
     "comment": ""
   },
   {
@@ -4632,8 +4974,8 @@
     "comment": ""
   },
   {
-    "term": "Place plugins in",
-    "context": "Place plugins in",
+    "term": "Place plugins in %1",
+    "context": "Place plugins in %1",
     "reference": "Modules/Settings/PluginsTab.qml:318",
     "comment": ""
   },
@@ -4671,6 +5013,18 @@
     "term": "Plugged In",
     "context": "Plugged In",
     "reference": "Modules/Settings/SoundsTab.qml:117",
+    "comment": ""
+  },
+  {
+    "term": "Plugged in",
+    "context": "Plugged in",
+    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:30",
+    "comment": ""
+  },
+  {
+    "term": "Plugin",
+    "context": "Plugin",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:238",
     "comment": ""
   },
   {
@@ -4730,7 +5084,7 @@
   {
     "term": "Power",
     "context": "Power",
-    "reference": "Modules/Settings/WidgetsTab.qml:245",
+    "reference": "Modules/Settings/WidgetsTab.qml:245, Modules/ControlCenter/Details/BatteryDetail.qml:69",
     "comment": ""
   },
   {
@@ -4782,6 +5136,12 @@
     "comment": ""
   },
   {
+    "term": "Power profile management available",
+    "context": "Power profile management available",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:103",
+    "comment": ""
+  },
+  {
     "term": "Power source",
     "context": "Power source",
     "reference": "Modules/Settings/PowerSleepTab.qml:40",
@@ -4820,13 +5180,19 @@
   {
     "term": "Prevent screen timeout",
     "context": "Prevent screen timeout",
-    "reference": "Modules/Settings/WidgetsTab.qml:183",
+    "reference": "Modules/Settings/WidgetsTab.qml:183, Modules/ControlCenter/Models/WidgetModel.qml:94",
     "comment": ""
   },
   {
     "term": "Primary",
     "context": "Primary",
     "reference": "Modules/Settings/LauncherTab.qml:177, Modules/Settings/NetworkTab.qml:173, Modules/Settings/Widgets/SettingsColorPicker.qml:42",
+    "comment": ""
+  },
+  {
+    "term": "Print Server Management",
+    "context": "Print Server Management",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:198",
     "comment": ""
   },
   {
@@ -4868,7 +5234,7 @@
   {
     "term": "Printers",
     "context": "Printers",
-    "reference": "Modals/Settings/SettingsSidebar.qml:197, Modules/Settings/PrinterTab.qml:153, Modules/Settings/PrinterTab.qml:539, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:16",
+    "reference": "Modals/Settings/SettingsSidebar.qml:197, Modules/Settings/PrinterTab.qml:153, Modules/Settings/PrinterTab.qml:539, Modules/ControlCenter/Models/WidgetModel.qml:197, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:16",
     "comment": ""
   },
   {
@@ -5046,8 +5412,14 @@
     "comment": ""
   },
   {
-    "term": "Requires DMS",
-    "context": "Requires DMS",
+    "term": "Requires 'dgop' tool",
+    "context": "Requires 'dgop' tool",
+    "reference": "Modules/Settings/WidgetsTab.qml:104, Modules/Settings/WidgetsTab.qml:112, Modules/Settings/WidgetsTab.qml:120, Modules/Settings/WidgetsTab.qml:128, Modules/Settings/WidgetsTab.qml:135, Modules/Settings/WidgetsTab.qml:213, Modules/ControlCenter/Models/WidgetModel.qml:174",
+    "comment": ""
+  },
+  {
+    "term": "Requires DMS %1",
+    "context": "Requires DMS %1",
     "reference": "Modules/Settings/PluginListItem.qml:128",
     "comment": ""
   },
@@ -5055,6 +5427,12 @@
     "term": "Requires DWL compositor",
     "context": "Requires DWL compositor",
     "reference": "Modules/Settings/WidgetsTab.qml:40",
+    "comment": ""
+  },
+  {
+    "term": "Requires night mode support",
+    "context": "Requires night mode support",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:73",
     "comment": ""
   },
   {
@@ -5148,6 +5526,12 @@
     "comment": ""
   },
   {
+    "term": "Root Filesystem",
+    "context": "Root Filesystem",
+    "reference": "Modules/ControlCenter/Details/DiskUsageDetail.qml:125",
+    "comment": ""
+  },
+  {
     "term": "Run DMS Templates",
     "context": "Run DMS Templates",
     "reference": "Modules/Settings/ThemeColorsTab.qml:734",
@@ -5222,7 +5606,7 @@
   {
     "term": "Saved",
     "context": "Saved",
-    "reference": "Modules/Notepad/NotepadTextEditor.qml:591, Modules/Settings/NetworkTab.qml:1104",
+    "reference": "Modules/Notepad/NotepadTextEditor.qml:591, Modules/Settings/NetworkTab.qml:1104, Modules/ControlCenter/Details/NetworkDetail.qml:570",
     "comment": ""
   },
   {
@@ -5252,7 +5636,13 @@
   {
     "term": "Scan",
     "context": "Scan",
-    "reference": "Modules/Settings/PluginsTab.qml:206",
+    "reference": "Modules/Settings/PluginsTab.qml:206, Modules/ControlCenter/Details/BluetoothDetail.qml:116",
+    "comment": ""
+  },
+  {
+    "term": "Scanning",
+    "context": "Scanning",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:116",
     "comment": ""
   },
   {
@@ -5283,6 +5673,12 @@
     "term": "Scroll song title",
     "context": "Scroll song title",
     "reference": "Modules/Settings/MediaPlayerTab.qml:34",
+    "comment": ""
+  },
+  {
+    "term": "Scroll title if it doesn't fit in widget",
+    "context": "Scroll title if it doesn't fit in widget",
+    "reference": "Modules/Settings/MediaPlayerTab.qml:35",
     "comment": ""
   },
   {
@@ -5348,7 +5744,7 @@
   {
     "term": "Secured",
     "context": "Secured",
-    "reference": "Modules/Settings/NetworkTab.qml:1091",
+    "reference": "Modules/Settings/NetworkTab.qml:1091, Modules/ControlCenter/Details/NetworkDetail.qml:564",
     "comment": ""
   },
   {
@@ -5552,7 +5948,13 @@
   {
     "term": "Shortcuts",
     "context": "Shortcuts",
-    "reference": "Modules/Settings/KeybindsTab.qml:513, Modules/Settings/KeybindsTab.qml:513",
+    "reference": "Modules/Settings/KeybindsTab.qml:513",
+    "comment": ""
+  },
+  {
+    "term": "Shortcuts (%1)",
+    "context": "Shortcuts (%1)",
+    "reference": "Modules/Settings/KeybindsTab.qml:513",
     "comment": ""
   },
   {
@@ -5982,6 +6384,12 @@
     "comment": ""
   },
   {
+    "term": "Speaker settings",
+    "context": "Speaker settings",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:120",
+    "comment": ""
+  },
+  {
     "term": "Speed",
     "context": "Speed",
     "reference": "Modules/Settings/NetworkTab.qml:523",
@@ -6192,6 +6600,12 @@
     "comment": ""
   },
   {
+    "term": "System theme toggle",
+    "context": "System theme toggle",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:78",
+    "comment": ""
+  },
+  {
     "term": "System toast notifications",
     "context": "System toast notifications",
     "reference": "Modules/Settings/DisplayWidgetsTab.qml:53",
@@ -6243,6 +6657,12 @@
     "term": "Text",
     "context": "Text",
     "reference": "Modals/Clipboard/ClipboardEntry.qml:80",
+    "comment": ""
+  },
+  {
+    "term": "The 'dgop' tool is required for system monitoring.\\nPlease install dgop to use this feature.",
+    "context": "The 'dgop' tool is required for system monitoring.\\nPlease install dgop to use this feature.",
+    "reference": "Modals/ProcessListModal.qml:164",
     "comment": ""
   },
   {
@@ -6327,6 +6747,18 @@
     "term": "Time Format",
     "context": "Time Format",
     "reference": "Modules/Settings/TimeWeatherTab.qml:28",
+    "comment": ""
+  },
+  {
+    "term": "Time remaining: %1",
+    "context": "Time remaining: %1",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:106",
+    "comment": ""
+  },
+  {
+    "term": "Time until full: %1",
+    "context": "Time until full: %1",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:106",
     "comment": ""
   },
   {
@@ -6518,7 +6950,31 @@
   {
     "term": "Unknown",
     "context": "Unknown",
-    "reference": "Modules/Settings/PrinterTab.qml:1296, Modules/Settings/NetworkTab.qml:121, Modules/Settings/NetworkTab.qml:163, Modules/Settings/NetworkTab.qml:369, Modules/Settings/NetworkTab.qml:390, Modules/Settings/NetworkTab.qml:538, Modules/Settings/NetworkTab.qml:667, Modules/Settings/NetworkTab.qml:1071",
+    "reference": "Modules/Settings/PrinterTab.qml:1296, Modules/Settings/NetworkTab.qml:121, Modules/Settings/NetworkTab.qml:163, Modules/Settings/NetworkTab.qml:369, Modules/Settings/NetworkTab.qml:390, Modules/Settings/NetworkTab.qml:538, Modules/Settings/NetworkTab.qml:667, Modules/Settings/NetworkTab.qml:1071, Modules/ControlCenter/Details/BatteryDetail.qml:179, Modules/ControlCenter/Components/HeaderPane.qml:60",
+    "comment": ""
+  },
+  {
+    "term": "Unknown Config",
+    "context": "Unknown Config",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:306",
+    "comment": ""
+  },
+  {
+    "term": "Unknown Device",
+    "context": "Unknown Device",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:234, Modules/ControlCenter/Details/BluetoothDetail.qml:461",
+    "comment": ""
+  },
+  {
+    "term": "Unknown Monitor",
+    "context": "Unknown Monitor",
+    "reference": "Modules/ControlCenter/Details/BrightnessDetail.qml:176",
+    "comment": ""
+  },
+  {
+    "term": "Unknown Network",
+    "context": "Unknown Network",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:552",
     "comment": ""
   },
   {
@@ -6660,6 +7116,12 @@
     "comment": ""
   },
   {
+    "term": "User",
+    "context": "User",
+    "reference": "Modules/ControlCenter/Components/HeaderPane.qml:54",
+    "comment": ""
+  },
+  {
     "term": "Username",
     "context": "Username",
     "reference": "Modals/WifiPasswordModal.qml:121, Modals/WifiPasswordModal.qml:390, Widgets/VpnProfileDelegate.qml:42, Modules/Settings/NetworkTab.qml:1741",
@@ -6680,7 +7142,7 @@
   {
     "term": "VPN",
     "context": "VPN",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:813, Modules/Settings/WidgetsTab.qml:175, Modules/Settings/NetworkTab.qml:1403",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:813, Modules/Settings/WidgetsTab.qml:175, Modules/Settings/NetworkTab.qml:1403, Modules/ControlCenter/Models/WidgetModel.qml:187, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:15",
     "comment": ""
   },
   {
@@ -6702,15 +7164,27 @@
     "comment": ""
   },
   {
+    "term": "VPN connections",
+    "context": "VPN connections",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:188",
+    "comment": ""
+  },
+  {
     "term": "VPN deleted",
     "context": "VPN deleted",
     "reference": "Services/VPNService.qml:159",
     "comment": ""
   },
   {
-    "term": "VPN imported: ",
-    "context": "VPN imported: ",
+    "term": "VPN imported: %1",
+    "context": "VPN imported: %1",
     "reference": "Services/VPNService.qml:91",
+    "comment": ""
+  },
+  {
+    "term": "VPN not available",
+    "context": "VPN not available",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:192",
     "comment": ""
   },
   {
@@ -6822,6 +7296,12 @@
     "comment": ""
   },
   {
+    "term": "Volume Slider",
+    "context": "Volume Slider",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:135",
+    "comment": ""
+  },
+  {
     "term": "Volume, brightness, and other system OSDs",
     "context": "Volume, brightness, and other system OSDs",
     "reference": "Modules/Settings/DisplayWidgetsTab.qml:47",
@@ -6900,9 +7380,21 @@
     "comment": ""
   },
   {
+    "term": "Wi-Fi and Ethernet connection",
+    "context": "Wi-Fi and Ethernet connection",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:102",
+    "comment": ""
+  },
+  {
+    "term": "Wi-Fi not available",
+    "context": "Wi-Fi not available",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:106",
+    "comment": ""
+  },
+  {
     "term": "WiFi",
     "context": "WiFi",
-    "reference": "Modules/Settings/NetworkTab.qml:159, Modules/Settings/NetworkTab.qml:206, Modules/Settings/NetworkTab.qml:730",
+    "reference": "Modules/Settings/NetworkTab.qml:159, Modules/Settings/NetworkTab.qml:206, Modules/Settings/NetworkTab.qml:730, Modules/ControlCenter/Details/NetworkDetail.qml:121",
     "comment": ""
   },
   {
@@ -7098,6 +7590,12 @@
     "comment": ""
   },
   {
+    "term": "dgop not available",
+    "context": "dgop not available",
+    "reference": "Modules/ControlCenter/Details/DiskUsageDetail.qml:64, Modules/ControlCenter/Widgets/DiskUsagePill.qml:47",
+    "comment": ""
+  },
+  {
     "term": "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.",
     "context": "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.",
     "reference": "Modules/Settings/KeybindsTab.qml:317",
@@ -7110,6 +7608,12 @@
     "comment": ""
   },
   {
+    "term": "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.",
+    "context": "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.",
+    "reference": "Modules/Settings/DisplayConfig/IncludeWarningBox.qml:60",
+    "comment": ""
+  },
+  {
     "term": "e.g., firefox, kitty --title foo",
     "context": "e.g., firefox, kitty --title foo",
     "reference": "Widgets/KeybindItem.qml:1387",
@@ -7119,6 +7623,12 @@
     "term": "e.g., focus-workspace 3, resize-column -10",
     "context": "e.g., focus-workspace 3, resize-column -10",
     "reference": "Widgets/KeybindItem.qml:1324",
+    "comment": ""
+  },
+  {
+    "term": "e.g., notify-send 'Hello' && sleep 1",
+    "context": "e.g., notify-send 'Hello' && sleep 1",
+    "reference": "Widgets/KeybindItem.qml:1419",
     "comment": ""
   },
   {
