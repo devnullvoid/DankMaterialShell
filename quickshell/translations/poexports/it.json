@@ -51,7 +51,7 @@
     "10 seconds": "10 secondi"
   },
   "10-bit Color": {
-    "10-bit Color": ""
+    "10-bit Color": "Colore a 10 bit"
   },
   "14 days": {
     "14 days": "14 giorni"
@@ -60,7 +60,7 @@
     "15 seconds": "15 secondi"
   },
   "180°": {
-    "180°": ""
+    "180°": "180°"
   },
   "2 minutes": {
     "2 minutes": "2 minuti"
@@ -72,7 +72,7 @@
     "24-hour format": "formato 24-ore"
   },
   "270°": {
-    "270°": ""
+    "270°": "270°"
   },
   "3 days": {
     "3 days": "3 giorni"
@@ -105,7 +105,7 @@
     "90 days": "90 giorni"
   },
   "90°": {
-    "90°": ""
+    "90°": "90°"
   },
   "A file with this name already exists. Do you want to overwrite it?": {
     "A file with this name already exists. Do you want to overwrite it?": "Un file con questo nome esiste già. Vuoi sovrascriverlo?"
@@ -213,7 +213,7 @@
     "Amount": "Quantità"
   },
   "Analog": {
-    "Analog": ""
+    "Analog": "Analogico"
   },
   "Animation Speed": {
     "Animation Speed": "Velocità Animazione"
@@ -234,7 +234,7 @@
     "Applications": "Applicazioni"
   },
   "Apply Changes": {
-    "Apply Changes": ""
+    "Apply Changes": "Applica Modifiche"
   },
   "Apply GTK Colors": {
     "Apply GTK Colors": "Applica Colori GTK"
@@ -252,7 +252,7 @@
     "Apps are ordered by usage frequency, then last used, then alphabetically.": "Le applicazioni sono ordinate per frequenza d'uso, poi usate di recente ed infine alfabeticamente "
   },
   "Arrange displays and configure resolution, refresh rate, and VRR": {
-    "Arrange displays and configure resolution, refresh rate, and VRR": ""
+    "Arrange displays and configure resolution, refresh rate, and VRR": "Disporre i display e configurare risoluzione, frequenza di aggiornamento e VRR"
   },
   "Audio": {
     "Audio": "Audio"
@@ -306,7 +306,7 @@
     "Auto": "Automatico"
   },
   "Auto (Wide)": {
-    "Auto (Wide)": ""
+    "Auto (Wide)": "Automatico (Ampio)"
   },
   "Auto Location": {
     "Auto Location": "Posizione Automatica"
@@ -390,7 +390,7 @@
     "Backend": "Backend"
   },
   "Background Opacity": {
-    "Background Opacity": ""
+    "Background Opacity": "Opacità dello sfondo"
   },
   "Balanced palette with focused accents (default).": {
     "Balanced palette with focused accents (default).": "Tavolozza bilanciata con accenti focalizzati (default)."
@@ -420,7 +420,7 @@
     "Binds include added": "Le scorciatoie includono elementi aggiunti"
   },
   "Bit Depth": {
-    "Bit Depth": ""
+    "Bit Depth": "Profondità di bit"
   },
   "Bluetooth": {
     "Bluetooth": "Bluetooth"
@@ -453,10 +453,10 @@
     "Bottom": "Fondo"
   },
   "Bottom Left": {
-    "Bottom Left": ""
+    "Bottom Left": "In Basso a Sinistra"
   },
   "Bottom Right": {
-    "Bottom Right": ""
+    "Bottom Right": "In Basso a Destra"
   },
   "Bottom Section": {
     "Bottom Section": "Sezione Fondo"
@@ -480,7 +480,7 @@
     "CPU": "CPU"
   },
   "CPU Graph": {
-    "CPU Graph": ""
+    "CPU Graph": "Grafico della CPU"
   },
   "CPU Temperature": {
     "CPU Temperature": "Temperatura CPU"
@@ -531,7 +531,7 @@
     "Center Section": "Sezione Centrale"
   },
   "Center Single Column": {
-    "Center Single Column": ""
+    "Center Single Column": "Al Centro Colonna Singola"
   },
   "Center Tiling": {
     "Center Tiling": "Tiling Centrale"
@@ -579,7 +579,7 @@
     "Choose where on-screen displays appear on screen": "Scegli dove i messaggi appaiono sullo schermo"
   },
   "Choose which displays show this widget": {
-    "Choose which displays show this widget": ""
+    "Choose which displays show this widget": "Scegli quali display mostrano questo widget"
   },
   "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": "Scegli quale monitor mostra l'interfaccia della schermata di blocco. Gli altri monitor visualizzeranno un colore solido per proteggere i display OLED dal burn-in."
@@ -633,7 +633,7 @@
     "Clock": "Orologio"
   },
   "Clock Style": {
-    "Clock Style": ""
+    "Clock Style": "Stile dell’Orologio"
   },
   "Clock show seconds": {
     "Clock show seconds": "Orologio mostra secondi"
@@ -648,10 +648,10 @@
     "Color": "Colore"
   },
   "Color Gamut": {
-    "Color Gamut": ""
+    "Color Gamut": "Gamma cromatica"
   },
   "Color Management": {
-    "Color Management": ""
+    "Color Management": "Gestione del Colore"
   },
   "Color Mode": {
     "Color Mode": "Modalità Colore"
@@ -678,7 +678,7 @@
     "Colorful mix of bright contrasting accents.": "Mix colorato di accenti contrastanti brillanti."
   },
   "Column": {
-    "Column": ""
+    "Column": "Colonna"
   },
   "Command": {
     "Command": "Comando"
@@ -714,25 +714,25 @@
     "Compositor": "Compositor\n"
   },
   "Compositor Settings": {
-    "Compositor Settings": ""
+    "Compositor Settings": "Impostazioni del Compositor"
   },
   "Config Format": {
-    "Config Format": ""
+    "Config Format": "Formato di Configurazione"
   },
   "Config action: %1": {
     "Config action: %1": "Azione di config: %1"
   },
   "Config validation failed": {
-    "Config validation failed": ""
+    "Config validation failed": "Validazione della configurazione non riuscita"
   },
   "Configuration": {
-    "Configuration": ""
+    "Configuration": "Configurazione"
   },
   "Configuration activated": {
     "Configuration activated": "Configurazione attivata"
   },
   "Configuration will be preserved when this display reconnects": {
-    "Configuration will be preserved when this display reconnects": ""
+    "Configuration will be preserved when this display reconnects": "La configurazione verrà preservata quando questo display si riconnette"
   },
   "Configure a new printer": {
     "Configure a new printer": "Configura una nuova stampante"
@@ -783,7 +783,7 @@
     "Control currently playing media": "Controllo media attualmente in riproduzione "
   },
   "Control workspaces and columns by scrolling on the bar": {
-    "Control workspaces and columns by scrolling on the bar": ""
+    "Control workspaces and columns by scrolling on the bar": "Controlla spazi di lavoro e colonne scorrendo sulla barra"
   },
   "Controls opacity of all popouts, modals, and their content layers": {
     "Controls opacity of all popouts, modals, and their content layers": "Controlla l'opacità di tutti i popup, le finestre modali e i loro livelli di contenuto"
@@ -891,7 +891,7 @@
     "Custom Transparency": "Trasparenza personalizzata"
   },
   "Custom...": {
-    "Custom...": ""
+    "Custom...": "Personalizzato..."
   },
   "Custom: ": {
     "Custom: ": "Personalizzato: "
@@ -975,7 +975,7 @@
     "Default": "Predefinito"
   },
   "Default Width (%)": {
-    "Default Width (%)": ""
+    "Default Width (%)": "Larghezza Predefinita (%)"
   },
   "Default selected action": {
     "Default selected action": "Azione selezionata di default"
@@ -1005,10 +1005,10 @@
     "Description": "Descrizione"
   },
   "Desktop Clock": {
-    "Desktop Clock": ""
+    "Desktop Clock": "Orologio del Desktop"
   },
   "Desktop Widgets": {
-    "Desktop Widgets": ""
+    "Desktop Widgets": "Widget del Desktop"
   },
   "Desktop background images": {
     "Desktop background images": "Immagini sfondo desktop"
@@ -1023,7 +1023,7 @@
     "Device paired": "Dispositivo accoppiato"
   },
   "Digital": {
-    "Digital": ""
+    "Digital": "Digitale"
   },
   "Disable Autoconnect": {
     "Disable Autoconnect": "Disabilita connessione automatica"
@@ -1038,7 +1038,7 @@
     "Disable History Persistence": "Disabilita la persistenza della cronologia"
   },
   "Disable Output": {
-    "Disable Output": ""
+    "Disable Output": "Disabilita Output"
   },
   "Disable clipboard manager entirely (requires restart)": {
     "Disable clipboard manager entirely (requires restart)": "Disabilita completamente il gestore della clipboard (richiede riavvio)"
@@ -1047,7 +1047,7 @@
     "Disabled": "Disabilitato"
   },
   "Discard": {
-    "Discard": ""
+    "Discard": "Scarta"
   },
   "Disconnect": {
     "Disconnect": "Disconnetti"
@@ -1074,7 +1074,7 @@
     "Display Name Format": "Formato del nome visualizzato"
   },
   "Display Settings": {
-    "Display Settings": ""
+    "Display Settings": "Impostazioni Display"
   },
   "Display a dock with pinned and running applications": {
     "Display a dock with pinned and running applications": "Mostra una dock con applicazioni fissate e in esecuzione"
@@ -1089,7 +1089,7 @@
     "Display application icons in workspace indicators": "Mostra icone applicazioni negli indicatori dei workspaces"
   },
   "Display configuration is not available. WLR output management protocol not supported.": {
-    "Display configuration is not available. WLR output management protocol not supported.": ""
+    "Display configuration is not available. WLR output management protocol not supported.": "La configurazione del display non è disponibile. Il protocollo WLR Output Management non è supportato."
   },
   "Display currently focused application title": {
     "Display currently focused application title": "Mostra il titolo delle applicazioni attualmente in focus"
@@ -1182,7 +1182,7 @@
     "Empty": "Vuoto"
   },
   "Enable 10-bit color depth for wider color gamut and HDR support": {
-    "Enable 10-bit color depth for wider color gamut and HDR support": ""
+    "Enable 10-bit color depth for wider color gamut and HDR support": "Abilita profondità colore a 10 bit per una gamma cromatica più ampia e supporto HDR"
   },
   "Enable Autoconnect": {
     "Enable Autoconnect": "Abilita connessione automatica"
@@ -1194,7 +1194,7 @@
     "Enable Border": "Abilita Bordi"
   },
   "Enable Desktop Clock": {
-    "Enable Desktop Clock": ""
+    "Enable Desktop Clock": "Abilita Orologio del Desktop"
   },
   "Enable Do Not Disturb": {
     "Enable Do Not Disturb": "Abilita Non Disturbare"
@@ -1206,7 +1206,7 @@
     "Enable Overview Overlay": "Abilita Sovrapposizione Panoramica"
   },
   "Enable System Monitor": {
-    "Enable System Monitor": ""
+    "Enable System Monitor": "Abilita Monitor di Sistema"
   },
   "Enable System Sounds": {
     "Enable System Sounds": "Abilita Suoni Sistema"
@@ -1299,7 +1299,7 @@
     "Exclusive Zone Offset": "Offset Zona Esclusa"
   },
   "Experimental Feature": {
-    "Experimental Feature": ""
+    "Experimental Feature": "Funzionalità Sperimentale"
   },
   "F1/I: Toggle • F10: Help": {
     "F1/I: Toggle • F10: Help": "F1/I: Cambia • F10: Help"
@@ -1431,7 +1431,7 @@
     "Failed to update sharing": "Impossibile aggiornare la condivisione"
   },
   "Failed to write temp file for validation": {
-    "Failed to write temp file for validation": ""
+    "Failed to write temp file for validation": "Impossibile scrivere il file temporaneo per la validazione"
   },
   "Feels Like": {
     "Feels Like": "Temperatura"
@@ -1467,19 +1467,19 @@
     "Fixing...": "Correzione in Corso..."
   },
   "Flipped": {
-    "Flipped": ""
+    "Flipped": "Ribaltato"
   },
   "Flipped 180°": {
-    "Flipped 180°": ""
+    "Flipped 180°": "Ribaltato di 180°"
   },
   "Flipped 270°": {
-    "Flipped 270°": ""
+    "Flipped 270°": "Ribaltato di 270°"
   },
   "Flipped 90°": {
-    "Flipped 90°": ""
+    "Flipped 90°": "Ribaltato di 90°"
   },
   "Focus at Startup": {
-    "Focus at Startup": ""
+    "Focus at Startup": "Messa a Fuoco all’Avvio"
   },
   "Focused Window": {
     "Focused Window": "Finestra a fuoco"
@@ -1500,13 +1500,13 @@
     "Font Weight": "Peso Font"
   },
   "Force HDR": {
-    "Force HDR": ""
+    "Force HDR": "Forza HDR"
   },
   "Force Kill Process": {
     "Force Kill Process": "Forza Chiusura Processo"
   },
   "Force Wide Color": {
-    "Force Wide Color": ""
+    "Force Wide Color": "Forza Colore Esteso"
   },
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "Forza applicazioni da terminale ad usare schemi di colori scuri"
@@ -1572,7 +1572,7 @@
     "Gradually fade the screen before locking with a configurable grace period": "Dissolvi gradualmente lo schermo prima del blocco, con un periodo di tolleranza configurabile"
   },
   "Graph Time Range": {
-    "Graph Time Range": ""
+    "Graph Time Range": "Intervallo Temporale del Grafico"
   },
   "Graphics": {
     "Graphics": "Grafica"
@@ -1590,13 +1590,13 @@
     "Group multiple windows of the same app together with a window count indicator": "Raggruppa molteplici finestre della stessa app con un indicatore del numero di finestre"
   },
   "HDR (EDID)": {
-    "HDR (EDID)": ""
+    "HDR (EDID)": "HDR (EDID)"
   },
   "HDR Tone Mapping": {
-    "HDR Tone Mapping": ""
+    "HDR Tone Mapping": "Mappatura dei Toni HDR"
   },
   "HDR mode is experimental. Verify your monitor supports HDR before enabling.": {
-    "HDR mode is experimental. Verify your monitor supports HDR before enabling.": ""
+    "HDR mode is experimental. Verify your monitor supports HDR before enabling.": "La modalità HDR è sperimentale. Verifica che il monitor supporti l’HDR prima di abilitarla."
   },
   "HSV": {
     "HSV": "HSV"
@@ -1608,7 +1608,7 @@
     "Held": "In Sospeso"
   },
   "Help": {
-    "Help": ""
+    "Help": "Guida"
   },
   "Hex": {
     "Hex": "Hex"
@@ -1650,7 +1650,7 @@
     "Hold to confirm (%1s)": "Tieni premuto per confermare (%1s)"
   },
   "Hot Corners": {
-    "Hot Corners": ""
+    "Hot Corners": "Angoli Attivi"
   },
   "Hotkey overlay title (optional)": {
     "Hotkey overlay title (optional)": "Titolo della sovrapposizione per tasti di scelta rapida (opzionale)"
@@ -1722,7 +1722,7 @@
     "Include Transitions": "Includi Transizioni"
   },
   "Incompatible Plugins Loaded": {
-    "Incompatible Plugins Loaded": ""
+    "Incompatible Plugins Loaded": "Plugin Incompatibili Caricati"
   },
   "Incorrect password": {
     "Incorrect password": "Password errata"
@@ -1737,7 +1737,7 @@
     "Individual bar configuration": "Configurazione barra individuale"
   },
   "Inherit": {
-    "Inherit": ""
+    "Inherit": "Eredita"
   },
   "Inhibit idle timeout when audio or video is playing": {
     "Inhibit idle timeout when audio or video is playing": "Impedisci tempo inattività quando audio o video sono in riproduzione"
@@ -1761,7 +1761,7 @@
     "Interval": "Intervallo"
   },
   "Invalid configuration": {
-    "Invalid configuration": ""
+    "Invalid configuration": "Configurazione non Valida"
   },
   "Invert on mode change": {
     "Invert on mode change": "Invertire al cambio di modalità"
@@ -1836,7 +1836,7 @@
     "Layout": "Layout"
   },
   "Layout Overrides": {
-    "Layout Overrides": ""
+    "Layout Overrides": "Sovrascritture del Layout"
   },
   "Left": {
     "Left": "Sinistra"
@@ -1851,7 +1851,7 @@
     "Lines: %1": "Linee: %1"
   },
   "List": {
-    "List": ""
+    "List": "Elenco"
   },
   "Lively palette with saturated accents.": {
     "Lively palette with saturated accents.": "Tavolozza vivace con accenti saturi."
@@ -2019,7 +2019,7 @@
     "Memory": "Memoria"
   },
   "Memory Graph": {
-    "Memory Graph": ""
+    "Memory Graph": "Grafico della Memoria"
   },
   "Memory Usage": {
     "Memory Usage": "Uso Memoria"
@@ -2058,10 +2058,10 @@
     "Model": "Modello"
   },
   "Modified": {
-    "Modified": ""
+    "Modified": "Modificato"
   },
   "Monitor Configuration": {
-    "Monitor Configuration": ""
+    "Monitor Configuration": "Configurazione Monitor"
   },
   "Monitor whose wallpaper drives dynamic theming colors": {
     "Monitor whose wallpaper drives dynamic theming colors": "Monitor con lo sfondo che genera il tema di colori dinamico"
@@ -2079,7 +2079,7 @@
     "Mount": "Monta"
   },
   "Move Widget": {
-    "Move Widget": ""
+    "Move Widget": "Sposta Widget"
   },
   "Moving to Paused": {
     "Moving to Paused": "Passaggio a In Pausa"
@@ -2103,7 +2103,7 @@
     "Network": "Rete"
   },
   "Network Graph": {
-    "Network Graph": ""
+    "Network Graph": "Grafico della Rete"
   },
   "Network Info": {
     "Network Info": "Info Rete"
@@ -2202,7 +2202,7 @@
     "No drivers found": "Nessun driver trovato"
   },
   "No features enabled": {
-    "No features enabled": ""
+    "No features enabled": "Nessuna Funzionalità Abilitata"
   },
   "No files found": {
     "No files found": "Nessun file trovato"
@@ -2232,13 +2232,13 @@
     "No printers found": "Nessuna stampante trovata"
   },
   "No variants created. Click Add to create a new monitor widget.": {
-    "No variants created. Click Add to create a new monitor widget.": ""
+    "No variants created. Click Add to create a new monitor widget.": "Nessuna variante creata. Fai clic su Aggiungi per creare un nuovo widget monitor."
   },
   "None": {
-    "None": "Nulla"
+    "None": "Nessuna"
   },
   "Normal": {
-    "Normal": ""
+    "Normal": "Normale"
   },
   "Normal Font": {
     "Normal Font": "Font Normale"
@@ -2292,7 +2292,7 @@
     "OSD Position": "Posizione OSD"
   },
   "Off": {
-    "Off": ""
+    "Off": "Disattivato"
   },
   "Office": {
     "Office": "Ufficio"
@@ -2358,7 +2358,7 @@
     "Output Tray Missing": "Vassoio Uscita Mancante"
   },
   "Outputs Include Missing": {
-    "Outputs Include Missing": ""
+    "Outputs Include Missing": "Gli Output Includono Quelli Mancanti"
   },
   "Overridden by config": {
     "Overridden by config": "Sovrascritto dalla configurazione"
@@ -2367,7 +2367,7 @@
     "Override": "Sovrascrivi"
   },
   "Override global layout settings for this output": {
-    "Override global layout settings for this output": ""
+    "Override global layout settings for this output": "Sovrascrivi le impostazioni di layout globali per questa uscita"
   },
   "Overrides": {
     "Overrides": "Sovrascritture"
@@ -2529,7 +2529,7 @@
     "Preference": "Preferenza"
   },
   "Preset Widths (%)": {
-    "Preset Widths (%)": ""
+    "Preset Widths (%)": "Larghezze Predefinite (%)"
   },
   "Press key...": {
     "Press key...": "Premi un tasto..."
@@ -2580,7 +2580,7 @@
     "Process": "Processo"
   },
   "Process Count": {
-    "Process Count": ""
+    "Process Count": "Numero di Processi"
   },
   "Processing": {
     "Processing": "Processando"
@@ -2658,7 +2658,7 @@
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "Richiede di tenere premuto il pulsante/tasto per confermare lo spegnimento, il riavvio, la sospensione, l'ibernazione e il logout"
   },
   "Requires DMS": {
-    "Requires DMS": ""
+    "Requires DMS": "Richiede DMS"
   },
   "Requires DWL compositor": {
     "Requires DWL compositor": "Richiede compositor DWL"
@@ -2667,16 +2667,16 @@
     "Reset": "Resetta"
   },
   "Reset Position": {
-    "Reset Position": ""
+    "Reset Position": "Reimposta Posizione"
   },
   "Reset Size": {
-    "Reset Size": ""
+    "Reset Size": "Reimposta Grandezza"
   },
   "Resize Widget": {
-    "Resize Widget": ""
+    "Resize Widget": "Ridimensiona Widget"
   },
   "Resolution & Refresh": {
-    "Resolution & Refresh": ""
+    "Resolution & Refresh": "Risoluzione e Frequenza di Aggiornamento"
   },
   "Resources": {
     "Resources": "Risorse"
@@ -2709,10 +2709,10 @@
     "Right Tiling": "Tiling Destro"
   },
   "Right-click and drag anywhere on the widget": {
-    "Right-click and drag anywhere on the widget": ""
+    "Right-click and drag anywhere on the widget": "Clic destro e trascina in qualsiasi punto del widget"
   },
   "Right-click and drag the bottom-right corner": {
-    "Right-click and drag the bottom-right corner": ""
+    "Right-click and drag the bottom-right corner": "Clic destro e trascina l’angolo in basso a destra"
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "Click destro sulla barra per scorrimento"
@@ -2739,10 +2739,10 @@
     "Running Apps Settings": "Impostazioni Apps In Esecuzione"
   },
   "SDR Brightness": {
-    "SDR Brightness": ""
+    "SDR Brightness": "Luminosità SDR"
   },
   "SDR Saturation": {
-    "SDR Saturation": ""
+    "SDR Saturation": "Saturazione SDR"
   },
   "Save": {
     "Save": "Salva"
@@ -2760,7 +2760,7 @@
     "Saved Configurations": "Configurazioni Salvate"
   },
   "Scale": {
-    "Scale": ""
+    "Scale": "Scala"
   },
   "Scale DankBar font sizes independently": {
     "Scale DankBar font sizes independently": "Scala indipendentemente le dimensioni dei font della DankBar"
@@ -2781,7 +2781,7 @@
     "Screen sharing": "Condivisione schermo"
   },
   "Scroll Wheel": {
-    "Scroll Wheel": ""
+    "Scroll Wheel": "Rotella di Scorrimento"
   },
   "Scroll song title": {
     "Scroll song title": "Scorri Titolo Canzone"
@@ -2814,7 +2814,7 @@
     "Searching...": "Cercando..."
   },
   "Secondary": {
-    "Secondary": ""
+    "Secondary": "Secondario"
   },
   "Secured": {
     "Secured": "Protetto"
@@ -2913,37 +2913,37 @@
     "Show All Tags": "Mostra tutti i tags"
   },
   "Show CPU": {
-    "Show CPU": ""
+    "Show CPU": "Mostra CPU"
   },
   "Show CPU Graph": {
-    "Show CPU Graph": ""
+    "Show CPU Graph": "Mostra Grafico CPU"
   },
   "Show CPU Temp": {
-    "Show CPU Temp": ""
+    "Show CPU Temp": "Mostra Temperatura CPU"
   },
   "Show Confirmation on Power Actions": {
     "Show Confirmation on Power Actions": "Chiedi Conferma per Azione Engertiche"
   },
   "Show Date": {
-    "Show Date": ""
+    "Show Date": "Mostra Data"
   },
   "Show Disk": {
-    "Show Disk": ""
+    "Show Disk": "Mostra Disco"
   },
   "Show Dock": {
     "Show Dock": "Mostra Dock"
   },
   "Show GPU Temperature": {
-    "Show GPU Temperature": ""
+    "Show GPU Temperature": "Mostra Temperatura GPU"
   },
   "Show Header": {
-    "Show Header": ""
+    "Show Header": "Mostra Intestazione"
   },
   "Show Hibernate": {
     "Show Hibernate": "Mostra Idernazione"
   },
   "Show Hour Numbers": {
-    "Show Hour Numbers": ""
+    "Show Hour Numbers": "Mostra Numeri delle Ore"
   },
   "Show Line Numbers": {
     "Show Line Numbers": "Mostra Numero Righe"
@@ -2955,16 +2955,16 @@
     "Show Log Out": "Mostra Log Out"
   },
   "Show Memory": {
-    "Show Memory": ""
+    "Show Memory": "Mostra Memoria"
   },
   "Show Memory Graph": {
-    "Show Memory Graph": ""
+    "Show Memory Graph": "Mostra Grafico Memoria"
   },
   "Show Network": {
-    "Show Network": ""
+    "Show Network": "Mostra Rete"
   },
   "Show Network Graph": {
-    "Show Network Graph": ""
+    "Show Network Graph": "Mostra Grafico Rete"
   },
   "Show Occupied Workspaces Only": {
     "Show Occupied Workspaces Only": "Mostra Solo Spazi Di Lavoro Occupati"
@@ -2988,7 +2988,7 @@
     "Show Suspend": "Mostra Sospendi"
   },
   "Show Top Processes": {
-    "Show Top Processes": ""
+    "Show Top Processes": "Mostra Processi Principali"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "Mostra Apps Workspace"
@@ -3093,13 +3093,13 @@
     "Sizing": "Dimensionamento"
   },
   "Some plugins require a newer version of DMS:": {
-    "Some plugins require a newer version of DMS:": ""
+    "Some plugins require a newer version of DMS:": "Alcuni plugin richiedono una versione più recente di DMS:"
   },
   "Sort Alphabetically": {
     "Sort Alphabetically": "Ordina Alfabeticamente"
   },
   "Sort By": {
-    "Sort By": ""
+    "Sort By": "Ordina Per"
   },
   "Sorting & Layout": {
     "Sorting & Layout": "Ordinamento e Layout"
@@ -3126,7 +3126,7 @@
     "Square Corners": "Angoli squadrati"
   },
   "Stacked": {
-    "Stacked": ""
+    "Stacked": "Impilato"
   },
   "Start": {
     "Start": "Avvio"
@@ -3348,13 +3348,13 @@
     "Top Bar Format": "Formato Barra Superiore"
   },
   "Top Left": {
-    "Top Left": ""
+    "Top Left": "In Alto a Sinistra"
   },
   "Top Processes": {
-    "Top Processes": ""
+    "Top Processes": "Processi Principali"
   },
   "Top Right": {
-    "Top Right": ""
+    "Top Right": "In Alto a Destra"
   },
   "Top Section": {
     "Top Section": "Sezione Superiore"
@@ -3363,7 +3363,7 @@
     "Total Jobs": "Lavori totali"
   },
   "Transform": {
-    "Transform": ""
+    "Transform": "Trasforma"
   },
   "Transition Effect": {
     "Transition Effect": "Effetto Transizione"
@@ -3489,25 +3489,25 @@
     "VPN status and quick connect": "Stato VPN e connessione veloce"
   },
   "VRR": {
-    "VRR": ""
+    "VRR": "VRR"
   },
   "VRR On-Demand": {
-    "VRR On-Demand": ""
+    "VRR On-Demand": "VRR On-Demand"
   },
   "VRR activates only when applications request it": {
-    "VRR activates only when applications request it": ""
+    "VRR activates only when applications request it": "Il VRR si attiva solo quando richiesto dalle applicazioni"
   },
   "VRR: ": {
     "VRR: ": "VRR:"
   },
   "Variable Refresh Rate": {
-    "Variable Refresh Rate": ""
+    "Variable Refresh Rate": "Frequenza di Aggiornamento Variabile"
   },
   "Variant created - expand to configure": {
-    "Variant created - expand to configure": ""
+    "Variant created - expand to configure": "Variante creata - espandi per configurare"
   },
   "Variant removed": {
-    "Variant removed": ""
+    "Variant removed": "Variante Rimossa"
   },
   "Version": {
     "Version": "Versione"
@@ -3585,8 +3585,8 @@
     "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.": "Se abilitato, mostra la sovrapposizione del launcher durante la digitazione nella modalità panoramica di Niri. Disabilitalo se preferisci non avere il launcher durante la digitazione nella panoramica di Niri o desideri utilizzare un altro launcher nella panoramica."
   },
   "When updater widget is used, then hide it if no update found": {
-    "Hide Updater Widget": "",
-    "When updater widget is used, then hide it if no update found": ""
+    "Hide Updater Widget": "Nascondi Widget di Aggiornamento",
+    "When updater widget is used, then hide it if no update found": "Se si usa il widget aggiornamenti, nascondilo se non ne vengono trovati"
   },
   "Wi-Fi Password": {
     "Wi-Fi Password": "Password Wi-Fi"
@@ -3607,7 +3607,7 @@
     "WiFi is off": "WiFi spento"
   },
   "Wide (BT2020)": {
-    "Wide (BT2020)": ""
+    "Wide (BT2020)": "Ampio (BT2020)"
   },
   "Widget Background Color": {
     "Widget Background Color": "Colore Sfondo Widget"
@@ -3628,7 +3628,7 @@
     "Widget Transparency": "Trasparenza Widget"
   },
   "Widget Variants": {
-    "Widget Variants": ""
+    "Widget Variants": "Varianti del Widget"
   },
   "Widgets": {
     "Widgets": "Widgets"
@@ -3640,7 +3640,7 @@
     "Wind Speed": "Velocità Vento"
   },
   "Window Gaps (px)": {
-    "Window Gaps (px)": ""
+    "Window Gaps (px)": "Spazi tra finestre (px)"
   },
   "Workspace": {
     "Workspace": "Workspace"
@@ -3664,10 +3664,10 @@
     "Workspaces & Widgets": "Spazi di Lavoro e Widget"
   },
   "X Axis": {
-    "X Axis": ""
+    "X Axis": "Asse X"
   },
   "Y Axis": {
-    "Y Axis": ""
+    "Y Axis": "Asse Y"
   },
   "Yes": {
     "Yes": "Si"
@@ -3742,7 +3742,7 @@
     "Settings": "Impostazioni"
   },
   "settings_displays": {
-    "Widgets": ""
+    "Widgets": "Widget"
   },
   "sysmon window title": {
     "System Monitor": "Monitor Sistema"

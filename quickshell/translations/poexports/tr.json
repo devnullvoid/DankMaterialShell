@@ -33,7 +33,7 @@
     "0 = square corners": "0 = kare köşeler"
   },
   "1 day": {
-    "1 day": ""
+    "1 day": "1 gün"
   },
   "1 event": {
     "1 event": "1 etkinlik"
@@ -51,16 +51,16 @@
     "10 seconds": "10 saniye"
   },
   "10-bit Color": {
-    "10-bit Color": ""
+    "10-bit Color": "10-bit Renk"
   },
   "14 days": {
-    "14 days": ""
+    "14 days": "14 gün"
   },
   "15 seconds": {
     "15 seconds": "15 saniye"
   },
   "180°": {
-    "180°": ""
+    "180°": "180°"
   },
   "2 minutes": {
     "2 minutes": "2 dakika"
@@ -72,16 +72,16 @@
     "24-hour format": "24-saat biçimi"
   },
   "270°": {
-    "270°": ""
+    "270°": "270°"
   },
   "3 days": {
-    "3 days": ""
+    "3 days": "3 gün"
   },
   "3 seconds": {
     "3 seconds": "3 saniye"
   },
   "30 days": {
-    "30 days": ""
+    "30 days": "30 gün"
   },
   "30 seconds": {
     "30 seconds": "30 saniye"
@@ -96,16 +96,16 @@
     "5 seconds": "5 saniye"
   },
   "7 days": {
-    "7 days": ""
+    "7 days": "7 gün"
   },
   "8 seconds": {
     "8 seconds": "8 saniye"
   },
   "90 days": {
-    "90 days": ""
+    "90 days": "90 gün"
   },
   "90°": {
-    "90°": ""
+    "90°": "90°"
   },
   "A file with this name already exists. Do you want to overwrite it?": {
     "A file with this name already exists. Do you want to overwrite it?": "Bu isimde bir dosya zaten var. Üzerine yazmak istiyor musunuz?"
@@ -180,7 +180,7 @@
     "Adjust the number of columns in grid view mode.": "Izgara görünümü modunda sütun sayısını ayarla"
   },
   "Advanced": {
-    "Advanced": ""
+    "Advanced": "Gelişmiş"
   },
   "Afternoon": {
     "Afternoon": "Öğleden Sonra"
@@ -213,7 +213,7 @@
     "Amount": "Miktar"
   },
   "Analog": {
-    "Analog": ""
+    "Analog": "Analog"
   },
   "Animation Speed": {
     "Animation Speed": "Animasyon Hızı"
@@ -234,7 +234,7 @@
     "Applications": "Uygulamalar"
   },
   "Apply Changes": {
-    "Apply Changes": ""
+    "Apply Changes": "Değişiklikleri Uygula"
   },
   "Apply GTK Colors": {
     "Apply GTK Colors": "GTK Renklerini Uygula"
@@ -252,7 +252,7 @@
     "Apps are ordered by usage frequency, then last used, then alphabetically.": "Uygulamalar önce kullanım sıklığına göre, daha sonra son kullanılana göre ve en son alfabetik olarak sıralanır."
   },
   "Arrange displays and configure resolution, refresh rate, and VRR": {
-    "Arrange displays and configure resolution, refresh rate, and VRR": ""
+    "Arrange displays and configure resolution, refresh rate, and VRR": "Ekranları düzenleyin ve çözünürlüğü, yenileme hızını ve VRR'yi yapılandırın"
   },
   "Audio": {
     "Audio": "Ses"
@@ -273,7 +273,7 @@
     "Audio Output Switch": "Ses Çıkışı Değişimi"
   },
   "Audio Visualizer": {
-    "Audio Visualizer": ""
+    "Audio Visualizer": "Ses Görselleştirici"
   },
   "Auth": {
     "Auth": "Kimlik"
@@ -306,7 +306,7 @@
     "Auto": "Oto"
   },
   "Auto (Wide)": {
-    "Auto (Wide)": ""
+    "Auto (Wide)": "Oto (Geniş)"
   },
   "Auto Location": {
     "Auto Location": "Otomatik Konum"
@@ -315,7 +315,7 @@
     "Auto Popup Gaps": "Otomatik Açılır Pencere Boşlukları"
   },
   "Auto-Clear After": {
-    "Auto-Clear After": ""
+    "Auto-Clear After": "Sonra Otomatik Sil"
   },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": "Uygulamaları başlatınca Niri genel görünümünü otomatik kapat."
@@ -351,7 +351,7 @@
     "Automatically cycle through wallpapers in the same folder": "Aynı klasördeki duvar kağıtlarını otomatik olarak değiştir"
   },
   "Automatically delete entries older than this": {
-    "Automatically delete entries older than this": ""
+    "Automatically delete entries older than this": "Bundan daha eski girişleri otomatik olarak sil"
   },
   "Automatically detect location based on IP address": {
     "Automatically detect location based on IP address": "IP adresine göre konumu otomatik olarak algıla"
@@ -390,7 +390,7 @@
     "Backend": "Arka Uç"
   },
   "Background Opacity": {
-    "Background Opacity": ""
+    "Background Opacity": "Arkaplan Opaklığı"
   },
   "Balanced palette with focused accents (default).": {
     "Balanced palette with focused accents (default).": "Odaklanmış vurgularla dengeli palet (varsayılan)."
@@ -420,7 +420,7 @@
     "Binds include added": "Bağlantı dahili eklendi"
   },
   "Bit Depth": {
-    "Bit Depth": ""
+    "Bit Depth": "Bit Derinliği"
   },
   "Bluetooth": {
     "Bluetooth": "Bluetooth"
@@ -453,10 +453,10 @@
     "Bottom": "Alt"
   },
   "Bottom Left": {
-    "Bottom Left": ""
+    "Bottom Left": "Alt Sol"
   },
   "Bottom Right": {
-    "Bottom Right": ""
+    "Bottom Right": "Alt Sağ"
   },
   "Bottom Section": {
     "Bottom Section": "Alt Bölüm"
@@ -480,7 +480,7 @@
     "CPU": "CPU"
   },
   "CPU Graph": {
-    "CPU Graph": ""
+    "CPU Graph": "CPU Grafiği"
   },
   "CPU Temperature": {
     "CPU Temperature": "CPU Sıcaklığı"
@@ -531,7 +531,7 @@
     "Center Section": "Orta Bölüm"
   },
   "Center Single Column": {
-    "Center Single Column": ""
+    "Center Single Column": "Tek Sütunu Ortala"
   },
   "Center Tiling": {
     "Center Tiling": "Merkez Döşeme"
@@ -579,7 +579,7 @@
     "Choose where on-screen displays appear on screen": "Ekran gösterimlerinin ekranda nerede gösterileceğini seç"
   },
   "Choose which displays show this widget": {
-    "Choose which displays show this widget": ""
+    "Choose which displays show this widget": "Bu widget'ı hangi ekranlarda göstereceğinizi seçin"
   },
   "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitor shows the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": "Hangi monitörün kilit ekranı arayüzünü göstereceğini seçin. Diğer monitörler, OLED yanma koruması için düz bir renk gösterecektir."
@@ -600,10 +600,10 @@
     "Clear All Jobs": "Tüm İşleri Temizle"
   },
   "Clear all history when server starts": {
-    "Clear all history when server starts": ""
+    "Clear all history when server starts": "Sunucu başladığında tüm geçmişi temizle"
   },
   "Clear at Startup": {
-    "Clear at Startup": ""
+    "Clear at Startup": "Başlangıçta Temizle"
   },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": ".ovpn veya .conf dosyası eklemek için İçe Aktar'ı tıklayın."
@@ -615,7 +615,7 @@
     "Click to capture": "Yakalamak için tıkla"
   },
   "Clipboard": {
-    "Clipboard": ""
+    "Clipboard": "Pano"
   },
   "Clipboard History": {
     "Clipboard History": "Pano Geçmişi"
@@ -624,16 +624,16 @@
     "Clipboard Manager": "Pano Yöneticisi"
   },
   "Clipboard service not available": {
-    "Clipboard service not available": ""
+    "Clipboard service not available": "Pano hizmeti kullanılamıyor"
   },
   "Clipboard works but nothing saved to disk": {
-    "Clipboard works but nothing saved to disk": ""
+    "Clipboard works but nothing saved to disk": "Pano çalışır fakat hiçbir şey diske kaydedilmez"
   },
   "Clock": {
     "Clock": "Saat"
   },
   "Clock Style": {
-    "Clock Style": ""
+    "Clock Style": "Saat Stili"
   },
   "Clock show seconds": {
     "Clock show seconds": "Saat saniyeleri gösterir"
@@ -648,10 +648,10 @@
     "Color": "Renk"
   },
   "Color Gamut": {
-    "Color Gamut": ""
+    "Color Gamut": "Renk Gamı"
   },
   "Color Management": {
-    "Color Management": ""
+    "Color Management": "Renk Yönetimi"
   },
   "Color Mode": {
     "Color Mode": "Renk Modu"
@@ -678,7 +678,7 @@
     "Colorful mix of bright contrasting accents.": "Parlak kontrastlı vurguların renkli karışımı."
   },
   "Column": {
-    "Column": ""
+    "Column": "Kolon"
   },
   "Command": {
     "Command": "Komut"
@@ -714,25 +714,25 @@
     "Compositor": "Kompozitör"
   },
   "Compositor Settings": {
-    "Compositor Settings": ""
+    "Compositor Settings": "Kompozitör Ayarları"
   },
   "Config Format": {
-    "Config Format": ""
+    "Config Format": "Yapılandırma Biçimi"
   },
   "Config action: %1": {
     "Config action: %1": "Yapılandırma eylemi: %1"
   },
   "Config validation failed": {
-    "Config validation failed": ""
+    "Config validation failed": "Yapılandırma doğrulaması başarısız oldu"
   },
   "Configuration": {
-    "Configuration": ""
+    "Configuration": "Yapılandırma"
   },
   "Configuration activated": {
     "Configuration activated": "Yapılandırma aktifleştirildi"
   },
   "Configuration will be preserved when this display reconnects": {
-    "Configuration will be preserved when this display reconnects": ""
+    "Configuration will be preserved when this display reconnects": "Bu ekran yeniden bağlandığında yapılandırma korunacaktır"
   },
   "Configure a new printer": {
     "Configure a new printer": "Yeni bir yazıcı yapılandır"
@@ -783,7 +783,7 @@
     "Control currently playing media": "Şu anda oynatılan medyayı kontrol et"
   },
   "Control workspaces and columns by scrolling on the bar": {
-    "Control workspaces and columns by scrolling on the bar": ""
+    "Control workspaces and columns by scrolling on the bar": "Çubuk üzerinde kaydırarak çalışma alanlarını ve sütunları kontrol edin"
   },
   "Controls opacity of all popouts, modals, and their content layers": {
     "Controls opacity of all popouts, modals, and their content layers": "Tüm açılır pencerelerin, modal pencerelerin ve bunların içerik katmanlarının opaklığını kontrol eder."
@@ -798,7 +798,7 @@
     "Controls opacity of the DankBar panel background": "DankBar panelinin arka plan opaklığını kontrol eder"
   },
   "Cooldown": {
-    "Cooldown": ""
+    "Cooldown": "Bekleme"
   },
   "Copied to clipboard": {
     "Copied to clipboard": "Panoya kopyalandı"
@@ -891,7 +891,7 @@
     "Custom Transparency": "Özel Şeffaflık"
   },
   "Custom...": {
-    "Custom...": ""
+    "Custom...": "Özel..."
   },
   "Custom: ": {
     "Custom: ": "Özel: "
@@ -912,7 +912,7 @@
     "DMS out of date": "DMS güncel değil"
   },
   "DMS service is not connected. Clipboard settings are unavailable.": {
-    "DMS service is not connected. Clipboard settings are unavailable.": ""
+    "DMS service is not connected. Clipboard settings are unavailable.": "DMS hizmeti bağlı değil. Pano ayarları kullanılamıyor."
   },
   "DMS shell actions (launcher, clipboard, etc.)": {
     "DMS shell actions (launcher, clipboard, etc.)": "DMS kabuk eylemleri (başlatıcı, pano, vb.)"
@@ -975,7 +975,7 @@
     "Default": "Varsayılan"
   },
   "Default Width (%)": {
-    "Default Width (%)": ""
+    "Default Width (%)": "Varsayılan Genişlik (%)"
   },
   "Default selected action": {
     "Default selected action": "Ön tanımlı seçili eylem"
@@ -1005,10 +1005,10 @@
     "Description": "Tanım"
   },
   "Desktop Clock": {
-    "Desktop Clock": ""
+    "Desktop Clock": "Masaüstü Saati"
   },
   "Desktop Widgets": {
-    "Desktop Widgets": ""
+    "Desktop Widgets": "Masaüstü Widgetları"
   },
   "Desktop background images": {
     "Desktop background images": "Masaüstü arkaplan resimleri"
@@ -1023,31 +1023,31 @@
     "Device paired": "Cihaz eşleştirildi"
   },
   "Digital": {
-    "Digital": ""
+    "Digital": "Dijital"
   },
   "Disable Autoconnect": {
     "Disable Autoconnect": "Otomatik Bağlanmayı Devre Dışı Bırak"
   },
   "Disable Clipboard Manager": {
-    "Disable Clipboard Manager": ""
+    "Disable Clipboard Manager": "Pano Yöneticisini Devre Dışı Bırak"
   },
   "Disable Clipboard Ownership": {
-    "Disable Clipboard Ownership": ""
+    "Disable Clipboard Ownership": "Pano Sahipliğini Devre Dışı Bırak"
   },
   "Disable History Persistence": {
-    "Disable History Persistence": ""
+    "Disable History Persistence": "Geçmiş Kalıcılığını Devre Dışı Bırak"
   },
   "Disable Output": {
-    "Disable Output": ""
+    "Disable Output": "Çıkışı Devre Dışı Bırak"
   },
   "Disable clipboard manager entirely (requires restart)": {
-    "Disable clipboard manager entirely (requires restart)": ""
+    "Disable clipboard manager entirely (requires restart)": "Pano yöneticisini tamamen devre dışı bırak (yeniden başlatma gerekir)"
   },
   "Disabled": {
     "Disabled": "Devre Dışı"
   },
   "Discard": {
-    "Discard": ""
+    "Discard": "Yok Say"
   },
   "Disconnect": {
     "Disconnect": "Bağlantıyı Kes"
@@ -1074,7 +1074,7 @@
     "Display Name Format": "Ekran İsim Formatı"
   },
   "Display Settings": {
-    "Display Settings": ""
+    "Display Settings": "Ekran Ayarları"
   },
   "Display a dock with pinned and running applications": {
     "Display a dock with pinned and running applications": "Sabitlenmiş ve çalışan uygulamaları içeren bir dock göster"
@@ -1089,7 +1089,7 @@
     "Display application icons in workspace indicators": "Çalışma alanı göstergesinde uygulama simgelerini göster"
   },
   "Display configuration is not available. WLR output management protocol not supported.": {
-    "Display configuration is not available. WLR output management protocol not supported.": ""
+    "Display configuration is not available. WLR output management protocol not supported.": "Ekran yapılandırması kullanılamıyor. WLR çıktı yönetimi protokolü desteklenmiyor."
   },
   "Display currently focused application title": {
     "Display currently focused application title": "Şu anda odaklanmış uygulamanın başlığını göster"
@@ -1182,7 +1182,7 @@
     "Empty": "Boş"
   },
   "Enable 10-bit color depth for wider color gamut and HDR support": {
-    "Enable 10-bit color depth for wider color gamut and HDR support": ""
+    "Enable 10-bit color depth for wider color gamut and HDR support": "Daha geniş renk gamı ve HDR desteği için 10 bit renk derinliğini etkinleştirin"
   },
   "Enable Autoconnect": {
     "Enable Autoconnect": "Otomatik Bağlanmayı Etkinleştir"
@@ -1194,7 +1194,7 @@
     "Enable Border": "Kenarlığı Etkinleştir"
   },
   "Enable Desktop Clock": {
-    "Enable Desktop Clock": ""
+    "Enable Desktop Clock": "Masaüstü Saatini Etkinleştir"
   },
   "Enable Do Not Disturb": {
     "Enable Do Not Disturb": "Rahatsız Etmeyi Etkinleştir"
@@ -1206,7 +1206,7 @@
     "Enable Overview Overlay": "Genel Görünüm Katmanını Etkinleştir"
   },
   "Enable System Monitor": {
-    "Enable System Monitor": ""
+    "Enable System Monitor": "Sistem Monitörünü Etkinleştir"
   },
   "Enable System Sounds": {
     "Enable System Sounds": "Sistem Seslerini Etkinleştir"
@@ -1230,22 +1230,22 @@
     "Enable loginctl lock integration": "loginctl kilit entegrasyonunu etkinleştir"
   },
   "Enable password field display on the lock screen window": {
-    "Show Password Field": ""
+    "Show Password Field": "Parola Alanını Göster"
   },
   "Enable power action icon on the lock screen window": {
-    "Show Power Actions": ""
+    "Show Power Actions": "Güç Eylemlerini Göster"
   },
   "Enable profile image display on the lock screen window": {
-    "Show Profile Image": ""
+    "Show Profile Image": "Profil Fotoğrafını Göster"
   },
   "Enable system date display on the lock screen window": {
-    "Show System Date": ""
+    "Show System Date": "Sistem Tarihini Göster"
   },
   "Enable system status icons on the lock screen window": {
-    "Show System Icons": ""
+    "Show System Icons": "Sistem Simgelerini Göster"
   },
   "Enable system time display on the lock screen window": {
-    "Show System Time": ""
+    "Show System Time": "Sistem Zamanını Göster"
   },
   "Enabled": {
     "Enabled": "Etkin"
@@ -1299,7 +1299,7 @@
     "Exclusive Zone Offset": "Özel Bölge Ofseti"
   },
   "Experimental Feature": {
-    "Experimental Feature": ""
+    "Experimental Feature": "Deneysel Özellik"
   },
   "F1/I: Toggle • F10: Help": {
     "F1/I: Toggle • F10: Help": "F1/I: Değiştir • F10: Yardım"
@@ -1332,7 +1332,7 @@
     "Failed to connect to ": "Bağlanılamadı "
   },
   "Failed to copy entry": {
-    "Failed to copy entry": ""
+    "Failed to copy entry": "Kayıt kopyalanamadı"
   },
   "Failed to create printer": {
     "Failed to create printer": "Yazıcı oluşturulamadı"
@@ -1374,7 +1374,7 @@
     "Failed to load VPN config": "VPN ayarı yüklenemedi"
   },
   "Failed to load clipboard configuration.": {
-    "Failed to load clipboard configuration.": ""
+    "Failed to load clipboard configuration.": "Pano yapılandırması yüklenemedi."
   },
   "Failed to move job": {
     "Failed to move job": "İş taşınamadı"
@@ -1401,7 +1401,7 @@
     "Failed to resume printer": "Yazıcıyı devam ettirme başarısız"
   },
   "Failed to save clipboard setting": {
-    "Failed to save clipboard setting": ""
+    "Failed to save clipboard setting": "Pano ayarı kaydedilemedi"
   },
   "Failed to save keybind": {
     "Failed to save keybind": "Tuş kombinasyonu kaydedilemedi"
@@ -1431,7 +1431,7 @@
     "Failed to update sharing": "Paylaşım güncellenemedi"
   },
   "Failed to write temp file for validation": {
-    "Failed to write temp file for validation": ""
+    "Failed to write temp file for validation": "Doğrulama için geçici dosya yazılmadı"
   },
   "Feels Like": {
     "Feels Like": "Hissedilen"
@@ -1467,19 +1467,19 @@
     "Fixing...": "Düzeltiliyor..."
   },
   "Flipped": {
-    "Flipped": ""
+    "Flipped": "Döndürülmüş"
   },
   "Flipped 180°": {
-    "Flipped 180°": ""
+    "Flipped 180°": "180° döndürüldü"
   },
   "Flipped 270°": {
-    "Flipped 270°": ""
+    "Flipped 270°": "270° döndürülmüş"
   },
   "Flipped 90°": {
-    "Flipped 90°": ""
+    "Flipped 90°": "90° döndürülmüş"
   },
   "Focus at Startup": {
-    "Focus at Startup": ""
+    "Focus at Startup": "Başlangıçta Odakla"
   },
   "Focused Window": {
     "Focused Window": "Odaklanılmış Pencere"
@@ -1500,13 +1500,13 @@
     "Font Weight": "Yazı Tipi Ağırlığı"
   },
   "Force HDR": {
-    "Force HDR": ""
+    "Force HDR": "Zorla HDR"
   },
   "Force Kill Process": {
     "Force Kill Process": "Süreci Zorla Kapat"
   },
   "Force Wide Color": {
-    "Force Wide Color": ""
+    "Force Wide Color": "Geniş Rengi Zorla"
   },
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "Terminal uygulamalarının her zaman koyu renk şemalarını kullanmasını zorla"
@@ -1572,7 +1572,7 @@
     "Gradually fade the screen before locking with a configurable grace period": "Yapılandırılabilir bir bekleme süresi ile kilitlemeden önce ekranı kademeli olarak karartın"
   },
   "Graph Time Range": {
-    "Graph Time Range": ""
+    "Graph Time Range": "Grafik Zaman Aralığı"
   },
   "Graphics": {
     "Graphics": "Grafik"
@@ -1590,13 +1590,13 @@
     "Group multiple windows of the same app together with a window count indicator": "Aynı uygulamanın birden fazla penceresini pencere sayısı göstergesi ile gruplayın"
   },
   "HDR (EDID)": {
-    "HDR (EDID)": ""
+    "HDR (EDID)": "HDR (EDID)"
   },
   "HDR Tone Mapping": {
-    "HDR Tone Mapping": ""
+    "HDR Tone Mapping": "HDR Ton Eşleme"
   },
   "HDR mode is experimental. Verify your monitor supports HDR before enabling.": {
-    "HDR mode is experimental. Verify your monitor supports HDR before enabling.": ""
+    "HDR mode is experimental. Verify your monitor supports HDR before enabling.": "HDR modu deneysel bir özelliktir. Etkinleştirmeden önce monitörünüzün HDR'yi desteklediğini doğrulayın."
   },
   "HSV": {
     "HSV": "HSV"
@@ -1608,7 +1608,7 @@
     "Held": "Bekletildi"
   },
   "Help": {
-    "Help": ""
+    "Help": "Yardım"
   },
   "Hex": {
     "Hex": "Hex"
@@ -1632,7 +1632,7 @@
     "High-fidelity palette that preserves source hues.": "Kaynak tonları koruyan yüksek sadakatli palet"
   },
   "History Settings": {
-    "History Settings": ""
+    "History Settings": "Geçmiş Ayarları"
   },
   "Hold Duration": {
     "Hold Duration": "Tutma Süresi"
@@ -1650,7 +1650,7 @@
     "Hold to confirm (%1s)": "Onaylamak için basılı tutun (%1s)"
   },
   "Hot Corners": {
-    "Hot Corners": ""
+    "Hot Corners": "Sıcak Köşeler"
   },
   "Hotkey overlay title (optional)": {
     "Hotkey overlay title (optional)": "Kısayol katmanı başlığı (opsiyonel)"
@@ -1701,13 +1701,13 @@
     "Idle monitoring not supported - requires newer Quickshell version": "Boşta kalma takibi desteklenmiyor - daha yeni Quickshell sürümü gerekli"
   },
   "If the field is hidden, it will appear as soon as a key is pressed.": {
-    "If the field is hidden, it will appear as soon as a key is pressed.": ""
+    "If the field is hidden, it will appear as soon as a key is pressed.": "Alan gizliyse, bir tuşa basıldığında görünür."
   },
   "Image": {
     "Image": "Resim"
   },
   "Image copied to clipboard": {
-    "Image copied to clipboard": ""
+    "Image copied to clipboard": "Görüntü panoya kopyalandı"
   },
   "Import": {
     "Import": "İçe Aktar"
@@ -1722,7 +1722,7 @@
     "Include Transitions": "Geçişleri Dahil Et"
   },
   "Incompatible Plugins Loaded": {
-    "Incompatible Plugins Loaded": ""
+    "Incompatible Plugins Loaded": "Uyumsuz Eklentiler Yüklendi"
   },
   "Incorrect password": {
     "Incorrect password": "Hatalı parola"
@@ -1737,7 +1737,7 @@
     "Individual bar configuration": "Bireysel bar yapılandırması"
   },
   "Inherit": {
-    "Inherit": ""
+    "Inherit": "Devral"
   },
   "Inhibit idle timeout when audio or video is playing": {
     "Inhibit idle timeout when audio or video is playing": "Ses veya video oynatılırken boşta kalma süresini engelle"
@@ -1761,7 +1761,7 @@
     "Interval": "Aralık"
   },
   "Invalid configuration": {
-    "Invalid configuration": ""
+    "Invalid configuration": "Geçersiz yapılandırma"
   },
   "Invert on mode change": {
     "Invert on mode change": "Mod değişikliğinde ters çevir"
@@ -1836,7 +1836,7 @@
     "Layout": "Düzen"
   },
   "Layout Overrides": {
-    "Layout Overrides": ""
+    "Layout Overrides": "Düzen geçersiz kılmaları"
   },
   "Left": {
     "Left": "Sol"
@@ -1851,7 +1851,7 @@
     "Lines: %1": "Satırlar: %1"
   },
   "List": {
-    "List": ""
+    "List": "Liste"
   },
   "Lively palette with saturated accents.": {
     "Lively palette with saturated accents.": "Doygun vurgularla canlı renk paleti."
@@ -1887,10 +1887,10 @@
     "Lock Screen Format": "Kilit Ekranı Biçimi"
   },
   "Lock Screen behaviour": {
-    "Lock Screen behaviour": ""
+    "Lock Screen behaviour": "Kilit Ekranı davranışı"
   },
   "Lock Screen layout": {
-    "Lock Screen layout": ""
+    "Lock Screen layout": "Kilit Ekranı düzeni"
   },
   "Lock before suspend": {
     "Lock before suspend": "Askıya almadan önce kilitle"
@@ -1959,7 +1959,7 @@
     "Matugen Target Monitor": "Matugen Hedef Monitör"
   },
   "Matugen Templates": {
-    "Matugen Templates": ""
+    "Matugen Templates": "Matugen Şablonları"
   },
   "Max apps to show": {
     "Max apps to show": "Gösterilecek maks uygulama"
@@ -1968,16 +1968,16 @@
     "Maximize Detection": "Algılamayı En Üst Düzeye Çıkar"
   },
   "Maximum Entry Size": {
-    "Maximum Entry Size": ""
+    "Maximum Entry Size": "Maksimum Kayıt Boyutu"
   },
   "Maximum History": {
-    "Maximum History": ""
+    "Maximum History": "Maksimum Geçmiş"
   },
   "Maximum number of clipboard entries to keep": {
-    "Maximum number of clipboard entries to keep": ""
+    "Maximum number of clipboard entries to keep": "Saklanacak maksimum pano kaydı sayısı"
   },
   "Maximum size per clipboard entry": {
-    "Maximum size per clipboard entry": ""
+    "Maximum size per clipboard entry": "Pano kaydı başına maksimum boyut"
   },
   "Media": {
     "Media": "Medya"
@@ -2019,7 +2019,7 @@
     "Memory": "Bellek"
   },
   "Memory Graph": {
-    "Memory Graph": ""
+    "Memory Graph": "Bellek Grafiği"
   },
   "Memory Usage": {
     "Memory Usage": "Bellek Kullanımı"
@@ -2058,10 +2058,10 @@
     "Model": "Model"
   },
   "Modified": {
-    "Modified": ""
+    "Modified": "Değiştirilmiş"
   },
   "Monitor Configuration": {
-    "Monitor Configuration": ""
+    "Monitor Configuration": "Monitör Yapılandırması"
   },
   "Monitor whose wallpaper drives dynamic theming colors": {
     "Monitor whose wallpaper drives dynamic theming colors": "Duvar kağıdı dinamik tema renklerini yönlendiren monitör"
@@ -2079,7 +2079,7 @@
     "Mount": "Bağlı"
   },
   "Move Widget": {
-    "Move Widget": ""
+    "Move Widget": "Widget Taşı"
   },
   "Moving to Paused": {
     "Moving to Paused": "Duraklatılıyor"
@@ -2103,7 +2103,7 @@
     "Network": "Ağ"
   },
   "Network Graph": {
-    "Network Graph": ""
+    "Network Graph": "Ağ Grafiği"
   },
   "Network Info": {
     "Network Info": "Ağ Bilgisi"
@@ -2202,7 +2202,7 @@
     "No drivers found": "Sürücü bulunamadı"
   },
   "No features enabled": {
-    "No features enabled": ""
+    "No features enabled": "Etkinleştirilmiş özellik yok"
   },
   "No files found": {
     "No files found": "Dosya bulunamadı"
@@ -2232,13 +2232,13 @@
     "No printers found": "Hiçbir yazıcı bulunmadı"
   },
   "No variants created. Click Add to create a new monitor widget.": {
-    "No variants created. Click Add to create a new monitor widget.": ""
+    "No variants created. Click Add to create a new monitor widget.": "Hiçbir varyant oluşturulmadı. Yeni bir monitör widget'ı oluşturmak için Ekle'ye tıklayın."
   },
   "None": {
     "None": "Hiçbiri"
   },
   "Normal": {
-    "Normal": ""
+    "Normal": "Normal"
   },
   "Normal Font": {
     "Normal Font": "Normal Yazı Tipi"
@@ -2292,7 +2292,7 @@
     "OSD Position": "OSD Pozisyonu"
   },
   "Off": {
-    "Off": ""
+    "Off": "Kapalı"
   },
   "Office": {
     "Office": "Ofis"
@@ -2358,7 +2358,7 @@
     "Output Tray Missing": "Çıktı Tepsisi Yok"
   },
   "Outputs Include Missing": {
-    "Outputs Include Missing": ""
+    "Outputs Include Missing": "Çıkış İçe Aktarımı Eksik"
   },
   "Overridden by config": {
     "Overridden by config": "Yapılandırma tarafından geçersiz kılınmıştır"
@@ -2367,7 +2367,7 @@
     "Override": "Geçersiz Kıl"
   },
   "Override global layout settings for this output": {
-    "Override global layout settings for this output": ""
+    "Override global layout settings for this output": "Bu çıkış için genel düzen ayarlarını geçersiz kıl"
   },
   "Overrides": {
     "Overrides": "Geçersiz Kılınanlar"
@@ -2529,7 +2529,7 @@
     "Preference": "Tercih"
   },
   "Preset Widths (%)": {
-    "Preset Widths (%)": ""
+    "Preset Widths (%)": "Ön Ayarlı Genişlik (%)"
   },
   "Press key...": {
     "Press key...": "Tuşa bas..."
@@ -2580,7 +2580,7 @@
     "Process": "Süreç"
   },
   "Process Count": {
-    "Process Count": ""
+    "Process Count": "Süreç Sayısı"
   },
   "Processing": {
     "Processing": "İşleniyor"
@@ -2658,7 +2658,7 @@
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "Güç kapatma, yeniden başlatma, askıya alma, hazırda bekletme ve oturumu kapatma işlemlerini onaylamak için düğmeyi/tuşu basılı tutmak gerekir"
   },
   "Requires DMS": {
-    "Requires DMS": ""
+    "Requires DMS": "DMS Gerektirir"
   },
   "Requires DWL compositor": {
     "Requires DWL compositor": "DWL kompozitör gerektirir"
@@ -2667,16 +2667,16 @@
     "Reset": "Sıfırla"
   },
   "Reset Position": {
-    "Reset Position": ""
+    "Reset Position": "Pozisyonu Sıfırla"
   },
   "Reset Size": {
-    "Reset Size": ""
+    "Reset Size": "Boyutu Sıfırla"
   },
   "Resize Widget": {
-    "Resize Widget": ""
+    "Resize Widget": "Widgetı Yeniden Boyutlandır"
   },
   "Resolution & Refresh": {
-    "Resolution & Refresh": ""
+    "Resolution & Refresh": "Çözünürlük ve Yenileme"
   },
   "Resources": {
     "Resources": "Kaynaklar"
@@ -2709,16 +2709,16 @@
     "Right Tiling": "Sağ Döşeme"
   },
   "Right-click and drag anywhere on the widget": {
-    "Right-click and drag anywhere on the widget": ""
+    "Right-click and drag anywhere on the widget": "Widget'ın herhangi bir yerine sağ tıklayın ve sürükleyin."
   },
   "Right-click and drag the bottom-right corner": {
-    "Right-click and drag the bottom-right corner": ""
+    "Right-click and drag the bottom-right corner": "Sağ tıklayın ve sağ alt köşeyi sürükleyin"
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "Çubuk widget'ını sağ tıklayarak döngüye değiştir"
   },
   "Run DMS Templates": {
-    "Run DMS Templates": ""
+    "Run DMS Templates": "DMS Şablonlarını Çalıştır"
   },
   "Run User Templates": {
     "Run User Templates": "Kullanıcı Şablonlarını Çalıştır"
@@ -2739,10 +2739,10 @@
     "Running Apps Settings": "Çalışan Uygulamalar Ayarları"
   },
   "SDR Brightness": {
-    "SDR Brightness": ""
+    "SDR Brightness": "SDR Parlaklık"
   },
   "SDR Saturation": {
-    "SDR Saturation": ""
+    "SDR Saturation": "SDR Doygunluğu"
   },
   "Save": {
     "Save": "Kaydet"
@@ -2760,7 +2760,7 @@
     "Saved Configurations": "Kaydedilen Yapılandırmalar"
   },
   "Scale": {
-    "Scale": ""
+    "Scale": "Ölçek"
   },
   "Scale DankBar font sizes independently": {
     "Scale DankBar font sizes independently": "DankBar yazı tipi boyutlarını bağımsız olarak ölçeklendir"
@@ -2781,7 +2781,7 @@
     "Screen sharing": "Ekran paylaşımı"
   },
   "Scroll Wheel": {
-    "Scroll Wheel": ""
+    "Scroll Wheel": "Kaydırma Tekerleği"
   },
   "Scroll song title": {
     "Scroll song title": "Şarkı başlığını kaydır"
@@ -2814,7 +2814,7 @@
     "Searching...": "Arıyor..."
   },
   "Secondary": {
-    "Secondary": ""
+    "Secondary": "İkincil"
   },
   "Secured": {
     "Secured": "Güvenli"
@@ -2901,7 +2901,7 @@
     "Shift+Del: Clear All • Esc: Close": "Shift+Del: Tümünü Temizle • Esc: Kapat"
   },
   "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close": {
-    "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close": ""
+    "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close": "Shift+Enter: Yapıştır • Shift+Del: Tümünü Temizle • Esc: Kapat"
   },
   "Short": {
     "Short": "Kısa"
@@ -2913,37 +2913,37 @@
     "Show All Tags": "Tüm Etiketleri Göster"
   },
   "Show CPU": {
-    "Show CPU": ""
+    "Show CPU": "CPU'yu Göster"
   },
   "Show CPU Graph": {
-    "Show CPU Graph": ""
+    "Show CPU Graph": "CPU Grafiğini Göster"
   },
   "Show CPU Temp": {
-    "Show CPU Temp": ""
+    "Show CPU Temp": "CPU Sıcaklığını Göster"
   },
   "Show Confirmation on Power Actions": {
     "Show Confirmation on Power Actions": "Güç Eylemlerinde Onay Göster"
   },
   "Show Date": {
-    "Show Date": ""
+    "Show Date": "Tarihi Göster"
   },
   "Show Disk": {
-    "Show Disk": ""
+    "Show Disk": "Diski Göster"
   },
   "Show Dock": {
     "Show Dock": "Dock'u Göster"
   },
   "Show GPU Temperature": {
-    "Show GPU Temperature": ""
+    "Show GPU Temperature": "GPU Sıcaklığını Göster"
   },
   "Show Header": {
-    "Show Header": ""
+    "Show Header": "Başlığı Göster"
   },
   "Show Hibernate": {
     "Show Hibernate": "Hazırda Bekleti Göster"
   },
   "Show Hour Numbers": {
-    "Show Hour Numbers": ""
+    "Show Hour Numbers": "Saat Numaralarını Göster"
   },
   "Show Line Numbers": {
     "Show Line Numbers": "Satır Numaralarını Göster"
@@ -2955,16 +2955,16 @@
     "Show Log Out": "Çıkışı Göster"
   },
   "Show Memory": {
-    "Show Memory": ""
+    "Show Memory": "Belleği Göster"
   },
   "Show Memory Graph": {
-    "Show Memory Graph": ""
+    "Show Memory Graph": "Bellek Grafiğini Göster"
   },
   "Show Network": {
-    "Show Network": ""
+    "Show Network": "Ağı Göster"
   },
   "Show Network Graph": {
-    "Show Network Graph": ""
+    "Show Network Graph": "Ağ Grafiğini Göster"
   },
   "Show Occupied Workspaces Only": {
     "Show Occupied Workspaces Only": "Sadece Dolu Çalışma Alanlarını Göster"
@@ -2988,7 +2988,7 @@
     "Show Suspend": "Askıya Alı Göster"
   },
   "Show Top Processes": {
-    "Show Top Processes": ""
+    "Show Top Processes": "En Üst İşlemleri Göster"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "Çalışma Alanı Uygulamalarını Göster"
@@ -2997,7 +2997,7 @@
     "Show all 9 tags instead of only occupied tags (DWL only)": "Sadece dolu etiketleri değil, tüm 9 etiketi göster (sadece DWL)"
   },
   "Show cava audio visualizer in media widget": {
-    "Show cava audio visualizer in media widget": ""
+    "Show cava audio visualizer in media widget": "Medya widget'ında cava ses görselleştiricisini göster"
   },
   "Show darkened overlay behind modal dialogs": {
     "Show darkened overlay behind modal dialogs": "Modal diyalogların arkasında karartılmış kaplama göster"
@@ -3093,13 +3093,13 @@
     "Sizing": "Boyutlandırma"
   },
   "Some plugins require a newer version of DMS:": {
-    "Some plugins require a newer version of DMS:": ""
+    "Some plugins require a newer version of DMS:": "Bazı eklentiler daha yeni bir DMS sürümü gerektirir:"
   },
   "Sort Alphabetically": {
     "Sort Alphabetically": "Alfabetik Olarak Sırala"
   },
   "Sort By": {
-    "Sort By": ""
+    "Sort By": "Şuna Göre Sırala"
   },
   "Sorting & Layout": {
     "Sorting & Layout": "Sıralama & Düzen"
@@ -3126,7 +3126,7 @@
     "Square Corners": "Kare Köşeler"
   },
   "Stacked": {
-    "Stacked": ""
+    "Stacked": "Yığılmış"
   },
   "Start": {
     "Start": "Başlat"
@@ -3348,13 +3348,13 @@
     "Top Bar Format": "Üst Çubuk Biçimi"
   },
   "Top Left": {
-    "Top Left": ""
+    "Top Left": "Üst Sol"
   },
   "Top Processes": {
-    "Top Processes": ""
+    "Top Processes": "En Üst İşlemler"
   },
   "Top Right": {
-    "Top Right": ""
+    "Top Right": "Üst Sağ"
   },
   "Top Section": {
     "Top Section": "Üst Bölüm"
@@ -3363,7 +3363,7 @@
     "Total Jobs": "Toplam İşler"
   },
   "Transform": {
-    "Transform": ""
+    "Transform": "Dönüştür"
   },
   "Transition Effect": {
     "Transition Effect": "Geçiş Efekti"
@@ -3489,25 +3489,25 @@
     "VPN status and quick connect": "VPN durumu ve hızlı bağlanma"
   },
   "VRR": {
-    "VRR": ""
+    "VRR": "VRR"
   },
   "VRR On-Demand": {
-    "VRR On-Demand": ""
+    "VRR On-Demand": "Talep üzerine VRR"
   },
   "VRR activates only when applications request it": {
-    "VRR activates only when applications request it": ""
+    "VRR activates only when applications request it": "VRR, yalnızca uygulamalar talep ettiğinde etkinleştirilir"
   },
   "VRR: ": {
     "VRR: ": "VRR: "
   },
   "Variable Refresh Rate": {
-    "Variable Refresh Rate": ""
+    "Variable Refresh Rate": "Değişken Yenileme Hızı"
   },
   "Variant created - expand to configure": {
-    "Variant created - expand to configure": ""
+    "Variant created - expand to configure": "Varyant oluşturuldu - yapılandırmak için genişletin"
   },
   "Variant removed": {
-    "Variant removed": ""
+    "Variant removed": "Varyant kaldırıldı"
   },
   "Version": {
     "Version": "Sürüm"
@@ -3585,8 +3585,8 @@
     "When enabled, shows the launcher overlay when typing in Niri overview mode. Disable this if you prefer to not have the launcher when typing on Niri overview or want to use other launcher in the overview.": "Etkinleştirildiğinde, Niri genel görünümünde yazarken başlatıcı katmanını gösterir. Niri genel görünümünde yazarken başlatıcının olmasını tercih etmiyorsanız veya genel görünümde başka bir başlatıcı kullanmak istiyorsanız bunu devre dışı bırakın."
   },
   "When updater widget is used, then hide it if no update found": {
-    "Hide Updater Widget": "",
-    "When updater widget is used, then hide it if no update found": ""
+    "Hide Updater Widget": "Güncelleyici Widgetını Gizle",
+    "When updater widget is used, then hide it if no update found": "Güncelleyici widgetı kullanıldığında, güncelleme bulunmazsa gizle"
   },
   "Wi-Fi Password": {
     "Wi-Fi Password": "Wi-Fi Parolası"
@@ -3607,7 +3607,7 @@
     "WiFi is off": "WiFi kapalı"
   },
   "Wide (BT2020)": {
-    "Wide (BT2020)": ""
+    "Wide (BT2020)": "Geniş (BT2020)"
   },
   "Widget Background Color": {
     "Widget Background Color": "Widget Arkaplan Rengi"
@@ -3628,7 +3628,7 @@
     "Widget Transparency": "Widget Opaklığı"
   },
   "Widget Variants": {
-    "Widget Variants": ""
+    "Widget Variants": "Widget Varyantları"
   },
   "Widgets": {
     "Widgets": "Widgetlar"
@@ -3640,7 +3640,7 @@
     "Wind Speed": "Rüzgar hızı"
   },
   "Window Gaps (px)": {
-    "Window Gaps (px)": ""
+    "Window Gaps (px)": "Pencere Boşlukları (px)"
   },
   "Workspace": {
     "Workspace": "Çalışma Alanı"
@@ -3664,10 +3664,10 @@
     "Workspaces & Widgets": "Çalışma Alanları & Widgetlar"
   },
   "X Axis": {
-    "X Axis": ""
+    "X Axis": "X Ekseni"
   },
   "Y Axis": {
-    "Y Axis": ""
+    "Y Axis": "Y Ekseni"
   },
   "Yes": {
     "Yes": "Evet"
@@ -3694,7 +3694,7 @@
     "Select Wallpaper": "Duvar Kağıdı Seç"
   },
   "days": {
-    "days": ""
+    "days": "gün"
   },
   "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.": {
     "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.": "dms/binds.kdl dosyası mevcut ancak config.kdl dosyasına dahil edilmemiştir. Bu sorun giderilene kadar özel tuş atamaları çalışmayacaktır."
@@ -3727,7 +3727,7 @@
     "minutes": "dakika"
   },
   "ms": {
-    "ms": ""
+    "ms": "ms"
   },
   "official": {
     "official": "resmi"
@@ -3742,7 +3742,7 @@
     "Settings": "Ayarlar"
   },
   "settings_displays": {
-    "Widgets": ""
+    "Widgets": "Widgetlar"
   },
   "sysmon window title": {
     "System Monitor": "Sistem Monitörü"
@@ -3763,7 +3763,7 @@
     "External Wallpaper Management": "Harici Duvar Kağıdı Yönetimi"
   },
   "wtype not available - install wtype for paste support": {
-    "wtype not available - install wtype for paste support": ""
+    "wtype not available - install wtype for paste support": "wtype mevcut değil - yapıştırma desteği için wtype'ı yükleyin"
   },
   "• Install only from trusted sources": {
     "• Install only from trusted sources": "• Yalnızca güvenilir kaynaklardan yükle"
