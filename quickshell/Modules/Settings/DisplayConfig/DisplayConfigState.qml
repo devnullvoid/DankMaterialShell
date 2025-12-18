@@ -431,7 +431,7 @@ Singleton {
                 "serial": output.serialNumber || "",
                 "modes": normalizedModes,
                 "current_mode": normalizedModes.findIndex(m => m.id === output.currentMode?.id),
-                "vrr_supported": output.adaptiveSync !== undefined,
+                "vrr_supported": output.adaptiveSyncSupported ?? false,
                 "vrr_enabled": output.adaptiveSync === 1,
                 "logical": {
                     "x": output.x ?? 0,

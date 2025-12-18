@@ -17,22 +17,23 @@ type OutputMode struct {
 }
 
 type Output struct {
-	Name           string       `json:"name"`
-	Description    string       `json:"description"`
-	Make           string       `json:"make"`
-	Model          string       `json:"model"`
-	SerialNumber   string       `json:"serialNumber"`
-	PhysicalWidth  int32        `json:"physicalWidth"`
-	PhysicalHeight int32        `json:"physicalHeight"`
-	Enabled        bool         `json:"enabled"`
-	X              int32        `json:"x"`
-	Y              int32        `json:"y"`
-	Transform      int32        `json:"transform"`
-	Scale          float64      `json:"scale"`
-	CurrentMode    *OutputMode  `json:"currentMode"`
-	Modes          []OutputMode `json:"modes"`
-	AdaptiveSync   uint32       `json:"adaptiveSync"`
-	ID             uint32       `json:"id"`
+	Name                  string       `json:"name"`
+	Description           string       `json:"description"`
+	Make                  string       `json:"make"`
+	Model                 string       `json:"model"`
+	SerialNumber          string       `json:"serialNumber"`
+	PhysicalWidth         int32        `json:"physicalWidth"`
+	PhysicalHeight        int32        `json:"physicalHeight"`
+	Enabled               bool         `json:"enabled"`
+	X                     int32        `json:"x"`
+	Y                     int32        `json:"y"`
+	Transform             int32        `json:"transform"`
+	Scale                 float64      `json:"scale"`
+	CurrentMode           *OutputMode  `json:"currentMode"`
+	Modes                 []OutputMode `json:"modes"`
+	AdaptiveSync          uint32       `json:"adaptiveSync"`
+	AdaptiveSyncSupported bool         `json:"adaptiveSyncSupported"`
+	ID                    uint32       `json:"id"`
 }
 
 type State struct {
@@ -72,25 +73,26 @@ type Manager struct {
 }
 
 type headState struct {
-	id             uint32
-	handle         *wlr_output_management.ZwlrOutputHeadV1
-	name           string
-	description    string
-	make           string
-	model          string
-	serialNumber   string
-	physicalWidth  int32
-	physicalHeight int32
-	enabled        bool
-	x              int32
-	y              int32
-	transform      int32
-	scale          float64
-	currentModeID  uint32
-	modeIDs        []uint32
-	adaptiveSync   uint32
-	finished       bool
-	ready          bool
+	id                    uint32
+	handle                *wlr_output_management.ZwlrOutputHeadV1
+	name                  string
+	description           string
+	make                  string
+	model                 string
+	serialNumber          string
+	physicalWidth         int32
+	physicalHeight        int32
+	enabled               bool
+	x                     int32
+	y                     int32
+	transform             int32
+	scale                 float64
+	currentModeID         uint32
+	modeIDs               []uint32
+	adaptiveSync          uint32
+	adaptiveSyncSupported bool
+	finished              bool
+	ready                 bool
 }
 
 type modeState struct {
@@ -169,7 +171,7 @@ func stateChanged(old, new *State) bool {
 		if oldOut.Transform != newOut.Transform || oldOut.Scale != newOut.Scale {
 			return true
 		}
-		if oldOut.AdaptiveSync != newOut.AdaptiveSync {
+		if oldOut.AdaptiveSync != newOut.AdaptiveSync || oldOut.AdaptiveSyncSupported != newOut.AdaptiveSyncSupported {
 			return true
 		}
 		if (oldOut.CurrentMode == nil) != (newOut.CurrentMode == nil) {

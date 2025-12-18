@@ -241,6 +241,7 @@ func (m *Manager) handleHead(e wlr_output_management.ZwlrOutputManagerV1HeadEven
 	handle.SetAdaptiveSyncHandler(func(e wlr_output_management.ZwlrOutputHeadV1AdaptiveSyncEvent) {
 		log.Debugf("WlrOutput: Head %d adaptive sync: %d", headID, e.State)
 		head.adaptiveSync = e.State
+		head.adaptiveSyncSupported = true
 		m.post(func() {
 			m.updateState()
 		})
@@ -360,22 +361,23 @@ func (m *Manager) updateState() {
 		}
 
 		output := Output{
-			Name:           head.name,
-			Description:    head.description,
-			Make:           head.make,
-			Model:          head.model,
-			SerialNumber:   head.serialNumber,
-			PhysicalWidth:  head.physicalWidth,
-			PhysicalHeight: head.physicalHeight,
-			Enabled:        head.enabled,
-			X:              head.x,
-			Y:              head.y,
-			Transform:      head.transform,
-			Scale:          head.scale,
-			CurrentMode:    currentMode,
-			Modes:          modes,
-			AdaptiveSync:   head.adaptiveSync,
-			ID:             head.id,
+			Name:                  head.name,
+			Description:           head.description,
+			Make:                  head.make,
+			Model:                 head.model,
+			SerialNumber:          head.serialNumber,
+			PhysicalWidth:         head.physicalWidth,
+			PhysicalHeight:        head.physicalHeight,
+			Enabled:               head.enabled,
+			X:                     head.x,
+			Y:                     head.y,
+			Transform:             head.transform,
+			Scale:                 head.scale,
+			CurrentMode:           currentMode,
+			Modes:                 modes,
+			AdaptiveSync:          head.adaptiveSync,
+			AdaptiveSyncSupported: head.adaptiveSyncSupported,
+			ID:                    head.id,
 		}
 		outputs = append(outputs, output)
 		return true
