@@ -92,11 +92,19 @@ Scope {
                 readonly property bool shouldShowSpotlight: niriOverviewScope.searchActive && screen.name === niriOverviewScope.searchActiveScreen && !niriOverviewScope.isClosing
                 readonly property bool isSpotlightScreen: screen.name === niriOverviewScope.searchActiveScreen
                 property bool hasActivePopout: !!PopoutManager.currentPopoutsByScreen[screen.name]
+                property bool hasActiveModal: !!ModalManager.currentModalsByScreen[screen.name]
 
                 Connections {
                     target: PopoutManager
                     function onPopoutChanged() {
                         overlayWindow.hasActivePopout = !!PopoutManager.currentPopoutsByScreen[overlayWindow.screen.name];
+                    }
+                }
+
+                Connections {
+                    target: ModalManager
+                    function onModalChanged() {
+                        overlayWindow.hasActiveModal = !!ModalManager.currentModalsByScreen[overlayWindow.screen.name];
                     }
                 }
 
@@ -114,7 +122,7 @@ Scope {
                         return WlrKeyboardFocus.None;
                     if (niriOverviewScope.releaseKeyboard)
                         return WlrKeyboardFocus.None;
-                    if (hasActivePopout)
+                    if (hasActivePopout || hasActiveModal)
                         return WlrKeyboardFocus.None;
                     return WlrKeyboardFocus.Exclusive;
                 }

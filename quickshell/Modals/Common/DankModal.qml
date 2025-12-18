@@ -83,6 +83,7 @@ Item {
     function close() {
         shouldBeVisible = false;
         shouldHaveFocus = false;
+        ModalManager.closeModal(root);
         closeTimer.restart();
     }
 
@@ -90,6 +91,7 @@ Item {
         animationsEnabled = false;
         shouldBeVisible = false;
         shouldHaveFocus = false;
+        ModalManager.closeModal(root);
         closeTimer.stop();
         contentWindow.visible = false;
         if (useBackgroundWindow)

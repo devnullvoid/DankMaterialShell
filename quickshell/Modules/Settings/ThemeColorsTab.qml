@@ -10,15 +10,11 @@ import qs.Modules.Settings.Widgets
 Item {
     id: themeColorsTab
 
-    property var cachedIconThemes: []
-    property var cachedMatugenSchemes: []
+    property var cachedIconThemes: SettingsData.availableIconThemes
+    property var cachedMatugenSchemes: Theme.availableMatugenSchemes.map(option => option.label)
 
     Component.onCompleted: {
         SettingsData.detectAvailableIconThemes();
-        cachedIconThemes = SettingsData.availableIconThemes;
-        cachedMatugenSchemes = Theme.availableMatugenSchemes.map(function (option) {
-            return option.label;
-        });
     }
 
     DankFlickable {
