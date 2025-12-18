@@ -75,7 +75,7 @@ Item {
     property real minWidth: contentLoader.item?.minWidth ?? 100
     property real minHeight: contentLoader.item?.minHeight ?? 100
     property bool forceSquare: contentLoader.item?.forceSquare ?? false
-    property bool isInteracting: dragArea.drag.active || resizeArea.pressed
+    property bool isInteracting: dragArea.pressed || resizeArea.pressed
 
     function updateVariantPositions(updates) {
         const positions = JSON.parse(JSON.stringify(variantData?.positions || {}));
@@ -206,26 +206,29 @@ Item {
             id: dragArea
             anchors.fill: parent
             acceptedButtons: Qt.RightButton
-            cursorShape: drag.active ? Qt.ClosedHandCursor : Qt.ArrowCursor
+            cursorShape: pressed ? Qt.ClosedHandCursor : Qt.ArrowCursor
 
-            drag.target: dragProxy
-            drag.minimumX: 0
-            drag.minimumY: 0
-            drag.maximumX: root.screenWidth - root.widgetWidth
-            drag.maximumY: root.screenHeight - root.widgetHeight
+            property point startPos
+            property real startX
+            property real startY
+
+            onPressed: mouse => {
+                startPos = mapToGlobal(mouse.x, mouse.y);
+                startX = root.widgetX;
+                startY = root.widgetY;
+            }
+
+            onPositionChanged: mouse => {
+                if (!pressed)
+                    return;
+                const currentPos = mapToGlobal(mouse.x, mouse.y);
+                const deltaX = currentPos.x - startPos.x;
+                const deltaY = currentPos.y - startPos.y;
+                root.widgetX = Math.max(0, Math.min(startX + deltaX, root.screenWidth - root.widgetWidth));
+                root.widgetY = Math.max(0, Math.min(startY + deltaY, root.screenHeight - root.widgetHeight));
+            }
 
             onReleased: root.savePosition()
-        }
-
-        Item {
-            id: dragProxy
-            x: root.widgetX
-            y: root.widgetY
-
-            onXChanged: if (dragArea.drag.active)
-                root.widgetX = x
-            onYChanged: if (dragArea.drag.active)
-                root.widgetY = y
         }
 
         MouseArea {
@@ -267,4 +270,5 @@ Item {
             onReleased: root.saveSize()
         }
     }
+
 }
