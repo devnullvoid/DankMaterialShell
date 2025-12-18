@@ -7,6 +7,10 @@
   "engines": {
     "vscode": "^1.70.0"
   },
+  "main": "./extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "categories": [
     "Themes"
   ],
