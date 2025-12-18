@@ -18,7 +18,7 @@ function activate(context) {
 
   if (!watcher) return;
 
-  const reloadTheme = (uri) => {
+  const reloadTheme = () => {
     if (reloadTimeout) clearTimeout(reloadTimeout);
 
     reloadTimeout = setTimeout(async () => {
@@ -47,13 +47,28 @@ function activate(context) {
         return;
       }
 
-      if (!themeData?.colors) return;
+      const themeKey = `[${currentTheme}]`;
 
-      await config.update(
-        "colorCustomizations",
-        { "[Dynamic Base16 DankShell]": themeData.colors },
-        vscode.ConfigurationTarget.Global
-      );
+      if (themeData.colors) {
+        const colorConfig = config.get("colorCustomizations") || {};
+        colorConfig[themeKey] = themeData.colors;
+        await config.update(
+          "colorCustomizations",
+          colorConfig,
+          vscode.ConfigurationTarget.Global
+        );
+      }
+
+      if (themeData.tokenColors) {
+        const editorConfig = vscode.workspace.getConfiguration("editor");
+        const tokenConfig = editorConfig.get("tokenColorCustomizations") || {};
+        tokenConfig[themeKey] = { textMateRules: themeData.tokenColors };
+        await editorConfig.update(
+          "tokenColorCustomizations",
+          tokenConfig,
+          vscode.ConfigurationTarget.Global
+        );
+      }
     }, 150);
   };
 
