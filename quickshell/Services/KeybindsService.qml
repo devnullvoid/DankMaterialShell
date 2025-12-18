@@ -5,6 +5,7 @@ import QtCore
 import QtQuick
 import Quickshell
 import Quickshell.Io
+import Quickshell.Wayland // ! Even though qmlls says this is unused, it is wrong
 import qs.Common
 import "../Common/KeybindActions.js" as Actions
 
