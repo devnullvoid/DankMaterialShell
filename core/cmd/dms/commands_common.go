@@ -171,8 +171,7 @@ var pluginsUpdateCmd = &cobra.Command{
 }
 
 func runVersion(cmd *cobra.Command, args []string) {
-	printASCII()
-	fmt.Printf("%s\n", formatVersion(Version))
+	fmt.Printf("%s", formatVersion(Version))
 }
 
 // Git builds: dms (git) v0.6.2-XXXX
