@@ -5,12 +5,17 @@ import QtCore
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import Quickshell.Wayland
 import qs.Common
 import "../Common/KeybindActions.js" as Actions
 
 Singleton {
     id: root
+
+    Component.onCompleted: {
+        if (!shortcutInhibitorAvailable) {
+            console.warn("[KeybindsService] ShortcutInhibitor is not available in this environment, keybinds editor disabled.");
+        }
+    }
 
     readonly property bool shortcutInhibitorAvailable: {
         try {

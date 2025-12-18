@@ -668,7 +668,6 @@ Singleton {
             Store.parse(root, obj);
             applyStoredTheme();
             applyStoredIconTheme();
-            Processes.detectIcons();
             Processes.detectQtTools();
         } catch (e) {
             console.warn("SettingsData: Failed to load settings:", e.message);
