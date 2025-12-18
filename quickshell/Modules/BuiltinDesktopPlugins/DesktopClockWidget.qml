@@ -78,9 +78,11 @@ Item {
     readonly property color subtleTextColor: Theme.onSurfaceVariant
     readonly property color backgroundColor: Theme.withAlpha(Theme.surface, root.transparency)
 
+    readonly property bool needsSeconds: clockStyle === "analog" ? SettingsData.desktopClockShowAnalogSeconds : SettingsData.showSeconds
+
     SystemClock {
         id: systemClock
-        precision: SystemClock.Seconds
+        precision: root.needsSeconds ? SystemClock.Seconds : SystemClock.Minutes
     }
 
     Rectangle {
