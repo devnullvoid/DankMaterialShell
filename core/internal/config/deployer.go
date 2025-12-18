@@ -213,6 +213,11 @@ func (cd *ConfigDeployer) deployNiriDmsConfigs(dmsDir, terminalCommand string) e
 
 	for _, cfg := range configs {
 		path := filepath.Join(dmsDir, cfg.name)
+		// Skip if file already exists to preserve user modifications
+		if _, err := os.Stat(path); err == nil {
+			cd.log(fmt.Sprintf("Skipping %s (already exists)", cfg.name))
+			continue
+		}
 		if err := os.WriteFile(path, []byte(cfg.content), 0644); err != nil {
 			return fmt.Errorf("failed to write %s: %w", cfg.name, err)
 		}
