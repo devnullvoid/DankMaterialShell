@@ -1,7 +1,9 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import qs.Common
+import qs.Services
 
 Item {
     id: root
@@ -21,6 +23,13 @@ Item {
 
     readonly property int screenWidth: screen?.width ?? 1920
     readonly property int screenHeight: screen?.height ?? 1080
+
+    readonly property bool useGhostPreview: !CompositorService.isNiri
+
+    property real previewX: widgetX
+    property real previewY: widgetY
+    property real previewWidth: widgetWidth
+    property real previewHeight: widgetHeight
 
     readonly property bool hasSavedPosition: {
         if (isVariant)
@@ -132,7 +141,12 @@ Item {
         WlrLayershell.namespace: "quickshell:desktop-widget:" + root.pluginId + (root.variantId ? ":" + root.variantId : "")
         WlrLayershell.layer: WlrLayer.Bottom
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
-        WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+        WlrLayershell.keyboardFocus: (CompositorService.useHyprlandFocusGrab && root.isInteracting) ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+
+        HyprlandFocusGrab {
+            active: CompositorService.isHyprland && root.isInteracting
+            windows: [widgetWindow]
+        }
 
         anchors {
             left: true
@@ -187,7 +201,7 @@ Item {
             border.color: Theme.primary
             border.width: 2
             radius: Theme.cornerRadius
-            visible: root.isInteracting
+            visible: root.isInteracting && !root.useGhostPreview
             opacity: 0.8
 
             Rectangle {
@@ -213,22 +227,35 @@ Item {
             property real startY
 
             onPressed: mouse => {
-                startPos = mapToGlobal(mouse.x, mouse.y);
+                startPos = root.useGhostPreview ? Qt.point(mouse.x, mouse.y) : mapToGlobal(mouse.x, mouse.y);
                 startX = root.widgetX;
                 startY = root.widgetY;
+                root.previewX = root.widgetX;
+                root.previewY = root.widgetY;
             }
 
             onPositionChanged: mouse => {
                 if (!pressed)
                     return;
-                const currentPos = mapToGlobal(mouse.x, mouse.y);
-                const deltaX = currentPos.x - startPos.x;
-                const deltaY = currentPos.y - startPos.y;
-                root.widgetX = Math.max(0, Math.min(startX + deltaX, root.screenWidth - root.widgetWidth));
-                root.widgetY = Math.max(0, Math.min(startY + deltaY, root.screenHeight - root.widgetHeight));
+                const currentPos = root.useGhostPreview ? Qt.point(mouse.x, mouse.y) : mapToGlobal(mouse.x, mouse.y);
+                const newX = Math.max(0, Math.min(startX + currentPos.x - startPos.x, root.screenWidth - root.widgetWidth));
+                const newY = Math.max(0, Math.min(startY + currentPos.y - startPos.y, root.screenHeight - root.widgetHeight));
+                if (root.useGhostPreview) {
+                    root.previewX = newX;
+                    root.previewY = newY;
+                    return;
+                }
+                root.widgetX = newX;
+                root.widgetY = newY;
             }
 
-            onReleased: root.savePosition()
+            onReleased: {
+                if (root.useGhostPreview) {
+                    root.widgetX = root.previewX;
+                    root.widgetY = root.previewY;
+                }
+                root.savePosition();
+            }
         }
 
         MouseArea {
@@ -245,30 +272,87 @@ Item {
             property real startHeight
 
             onPressed: mouse => {
-                startPos = mapToGlobal(mouse.x, mouse.y);
+                startPos = root.useGhostPreview ? Qt.point(mouse.x, mouse.y) : mapToGlobal(mouse.x, mouse.y);
                 startWidth = root.widgetWidth;
                 startHeight = root.widgetHeight;
+                root.previewWidth = root.widgetWidth;
+                root.previewHeight = root.widgetHeight;
             }
 
             onPositionChanged: mouse => {
                 if (!pressed)
                     return;
-                const currentPos = mapToGlobal(mouse.x, mouse.y);
-                const deltaX = currentPos.x - startPos.x;
-                const deltaY = currentPos.y - startPos.y;
-                let newW = Math.max(root.minWidth, Math.min(startWidth + deltaX, root.screenWidth - root.widgetX));
-                let newH = Math.max(root.minHeight, Math.min(startHeight + deltaY, root.screenHeight - root.widgetY));
+                const currentPos = root.useGhostPreview ? Qt.point(mouse.x, mouse.y) : mapToGlobal(mouse.x, mouse.y);
+                let newW = Math.max(root.minWidth, Math.min(startWidth + currentPos.x - startPos.x, root.screenWidth - root.widgetX));
+                let newH = Math.max(root.minHeight, Math.min(startHeight + currentPos.y - startPos.y, root.screenHeight - root.widgetY));
                 if (root.forceSquare) {
                     const size = Math.max(newW, newH);
                     newW = Math.min(size, root.screenWidth - root.widgetX);
                     newH = Math.min(size, root.screenHeight - root.widgetY);
                 }
+                if (root.useGhostPreview) {
+                    root.previewWidth = newW;
+                    root.previewHeight = newH;
+                    return;
+                }
                 root.widgetWidth = newW;
                 root.widgetHeight = newH;
             }
 
-            onReleased: root.saveSize()
+            onReleased: {
+                if (root.useGhostPreview) {
+                    root.widgetWidth = root.previewWidth;
+                    root.widgetHeight = root.previewHeight;
+                }
+                root.saveSize();
+            }
         }
     }
 
+    Loader {
+        active: root.isInteracting && root.useGhostPreview
+
+        sourceComponent: PanelWindow {
+            screen: root.screen
+            color: "transparent"
+
+            anchors {
+                left: true
+                right: true
+                top: true
+                bottom: true
+            }
+
+            mask: Region {}
+
+            WlrLayershell.namespace: "quickshell:desktop-widget-preview"
+            WlrLayershell.layer: WlrLayer.Background
+            WlrLayershell.exclusionMode: ExclusionMode.Ignore
+            WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
+
+            Rectangle {
+                x: root.previewX
+                y: root.previewY
+                width: root.previewWidth
+                height: root.previewHeight
+                color: "transparent"
+                border.color: Theme.primary
+                border.width: 2
+                radius: Theme.cornerRadius
+
+                Rectangle {
+                    width: 48
+                    height: 48
+                    anchors {
+                        right: parent.right
+                        bottom: parent.bottom
+                    }
+                    topLeftRadius: Theme.cornerRadius
+                    bottomRightRadius: Theme.cornerRadius
+                    color: Theme.primary
+                    opacity: resizeArea.pressed ? 1 : 0.6
+                }
+            }
+        }
+    }
 }
