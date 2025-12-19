@@ -447,6 +447,21 @@ Singleton {
     property var systemMonitorDisplayPreferences: ["all"]
     property var systemMonitorVariants: []
     property var desktopWidgetPositions: ({})
+    property var desktopWidgetGridSettings: ({})
+
+    function getDesktopWidgetGridSetting(screenKey, property, defaultValue) {
+        const val = desktopWidgetGridSettings?.[screenKey]?.[property];
+        return val !== undefined ? val : defaultValue;
+    }
+
+    function setDesktopWidgetGridSetting(screenKey, property, value) {
+        const allSettings = JSON.parse(JSON.stringify(desktopWidgetGridSettings || {}));
+        if (!allSettings[screenKey])
+            allSettings[screenKey] = {};
+        allSettings[screenKey][property] = value;
+        desktopWidgetGridSettings = allSettings;
+        saveSettings();
+    }
 
     function getDesktopWidgetPosition(pluginId, screenKey, property, defaultValue) {
         const pos = desktopWidgetPositions?.[pluginId]?.[screenKey]?.[property];

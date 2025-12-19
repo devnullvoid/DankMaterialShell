@@ -3682,6 +3682,13 @@
     "comment": ""
   },
   {
+    "term": "G: grid • Z/X: size",
+    "translation": "",
+    "context": "Widget grid keyboard hints",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "GPU",
     "translation": "",
     "context": "",
@@ -3783,6 +3790,20 @@
     "term": "Grid Columns",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Grid: OFF",
+    "translation": "",
+    "context": "Widget grid snap status",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Grid: ON",
+    "translation": "",
+    "context": "Widget grid snap status",
     "reference": "",
     "comment": ""
   },

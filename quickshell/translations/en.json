@@ -548,7 +548,7 @@
   {
     "term": "Audio Codec Selection",
     "context": "Audio Codec Selection",
-    "reference": "Modules/ControlCenter/Details/BluetoothCodecSelector.qml:173",
+    "reference": "Modules/ControlCenter/Details/BluetoothCodecSelector.qml:180",
     "comment": ""
   },
   {
@@ -848,7 +848,7 @@
   {
     "term": "Battery",
     "context": "Battery",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:838, Modules/Settings/WidgetsTab.qml:168, Modules/ControlCenter/Models/WidgetModel.qml:161, Modules/ControlCenter/Widgets/BatteryPill.qml:19",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:838, Modules/Settings/WidgetsTab.qml:168, Modules/ControlCenter/Models/WidgetModel.qml:161, Modules/ControlCenter/Widgets/BatteryPill.qml:17",
     "comment": ""
   },
   {
@@ -884,7 +884,7 @@
   {
     "term": "Binds include added",
     "context": "Binds include added",
-    "reference": "Services/KeybindsService.qml:217",
+    "reference": "Services/KeybindsService.qml:218",
     "comment": ""
   },
   {
@@ -1118,7 +1118,7 @@
   {
     "term": "Capacity",
     "context": "Capacity",
-    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:171, Modules/DankBar/Popouts/BatteryPopout.qml:340, Modules/DankBar/Popouts/BatteryPopout.qml:498",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:169, Modules/DankBar/Popouts/BatteryPopout.qml:340, Modules/DankBar/Popouts/BatteryPopout.qml:498",
     "comment": ""
   },
   {
@@ -1172,7 +1172,7 @@
   {
     "term": "Charging",
     "context": "Charging",
-    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:27",
+    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:25",
     "comment": ""
   },
   {
@@ -1196,7 +1196,7 @@
   {
     "term": "Choose a color",
     "context": "Choose a color",
-    "reference": "Modules/ControlCenter/Widgets/ColorPickerPill.qml:18",
+    "reference": "Modules/ControlCenter/Widgets/ColorPickerPill.qml:14",
     "comment": ""
   },
   {
@@ -1412,7 +1412,7 @@
   {
     "term": "Color Picker",
     "context": "Color Picker",
-    "reference": "Modules/Settings/WidgetsTab.qml:231, Modules/ControlCenter/Models/WidgetModel.qml:179, Modules/ControlCenter/Widgets/ColorPickerPill.qml:17",
+    "reference": "Modules/Settings/WidgetsTab.qml:231, Modules/ControlCenter/Models/WidgetModel.qml:179, Modules/ControlCenter/Widgets/ColorPickerPill.qml:13",
     "comment": ""
   },
   {
@@ -1760,7 +1760,7 @@
   {
     "term": "Current: %1",
     "context": "Current: %1",
-    "reference": "Modules/ControlCenter/Details/BluetoothCodecSelector.qml:189",
+    "reference": "Modules/ControlCenter/Details/BluetoothCodecSelector.qml:194",
     "comment": ""
   },
   {
@@ -2186,7 +2186,7 @@
   {
     "term": "Disk Usage",
     "context": "Disk Usage",
-    "reference": "Modules/Settings/WidgetsTab.qml:116, Modules/ControlCenter/Models/WidgetModel.qml:169, Modules/ControlCenter/Widgets/DiskUsagePill.qml:37",
+    "reference": "Modules/Settings/WidgetsTab.qml:116, Modules/ControlCenter/Models/WidgetModel.qml:169, Modules/ControlCenter/Widgets/DiskUsagePill.qml:35",
     "comment": ""
   },
   {
@@ -2666,7 +2666,7 @@
   {
     "term": "Failed to add binds include",
     "context": "Failed to add binds include",
-    "reference": "Services/KeybindsService.qml:204",
+    "reference": "Services/KeybindsService.qml:205",
     "comment": ""
   },
   {
@@ -2834,7 +2834,7 @@
   {
     "term": "Failed to remove keybind",
     "context": "Failed to remove keybind",
-    "reference": "Services/KeybindsService.qml:181",
+    "reference": "Services/KeybindsService.qml:182",
     "comment": ""
   },
   {
@@ -2864,7 +2864,7 @@
   {
     "term": "Failed to save keybind",
     "context": "Failed to save keybind",
-    "reference": "Services/KeybindsService.qml:155",
+    "reference": "Services/KeybindsService.qml:156",
     "comment": ""
   },
   {
@@ -2894,13 +2894,13 @@
   {
     "term": "Failed to set profile image",
     "context": "Failed to set profile image",
-    "reference": "Services/PortalService.qml:150",
+    "reference": "Services/PortalService.qml:145",
     "comment": ""
   },
   {
     "term": "Failed to set profile image: %1",
     "context": "Failed to set profile image: %1",
-    "reference": "Services/PortalService.qml:159",
+    "reference": "Services/PortalService.qml:154",
     "comment": ""
   },
   {
@@ -3156,6 +3156,12 @@
     "comment": ""
   },
   {
+    "term": "G: grid • Z/X: size",
+    "context": "Widget grid keyboard hints",
+    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:582",
+    "comment": ""
+  },
+  {
     "term": "GPU",
     "context": "GPU",
     "reference": "Modules/ProcessList/SystemOverview.qml:318, Modules/Settings/DesktopWidgetsTab.qml:312",
@@ -3246,6 +3252,18 @@
     "comment": ""
   },
   {
+    "term": "Grid: OFF",
+    "context": "Widget grid snap status",
+    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:552",
+    "comment": ""
+  },
+  {
+    "term": "Grid: ON",
+    "context": "Widget grid snap status",
+    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:552",
+    "comment": ""
+  },
+  {
     "term": "Group by App",
     "context": "Group by App",
     "reference": "Modules/Settings/DockTab.qml:100",
@@ -3284,7 +3302,7 @@
   {
     "term": "Health",
     "context": "Health",
-    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:136, Modules/DankBar/Popouts/BatteryPopout.qml:305, Modules/DankBar/Popouts/BatteryPopout.qml:461",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:134, Modules/DankBar/Popouts/BatteryPopout.qml:305, Modules/DankBar/Popouts/BatteryPopout.qml:461",
     "comment": ""
   },
   {
@@ -3788,7 +3806,7 @@
   {
     "term": "Loading codecs...",
     "context": "Loading codecs...",
-    "reference": "Modules/ControlCenter/Details/BluetoothCodecSelector.qml:189",
+    "reference": "Modules/ControlCenter/Details/BluetoothCodecSelector.qml:194",
     "comment": ""
   },
   {
@@ -3926,7 +3944,7 @@
   {
     "term": "Management",
     "context": "Management",
-    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:84",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:82",
     "comment": ""
   },
   {
@@ -4448,7 +4466,7 @@
   {
     "term": "No battery",
     "context": "No battery",
-    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:17",
+    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:15",
     "comment": ""
   },
   {
@@ -4478,13 +4496,13 @@
   {
     "term": "No disk data",
     "context": "No disk data",
-    "reference": "Modules/ControlCenter/Widgets/DiskUsagePill.qml:40",
+    "reference": "Modules/ControlCenter/Widgets/DiskUsagePill.qml:38",
     "comment": ""
   },
   {
     "term": "No disk data available",
     "context": "No disk data available",
-    "reference": "Modules/ControlCenter/Details/DiskUsageDetail.qml:64, Modules/ControlCenter/Widgets/DiskUsagePill.qml:50",
+    "reference": "Modules/ControlCenter/Details/DiskUsageDetail.qml:62, Modules/ControlCenter/Widgets/DiskUsagePill.qml:48",
     "comment": ""
   },
   {
@@ -4586,7 +4604,7 @@
   {
     "term": "Not available",
     "context": "Not available",
-    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:24",
+    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:22",
     "comment": ""
   },
   {
@@ -4940,7 +4958,7 @@
   {
     "term": "Permission denied to set profile image.",
     "context": "Permission denied to set profile image.",
-    "reference": "Services/PortalService.qml:155",
+    "reference": "Services/PortalService.qml:150",
     "comment": ""
   },
   {
@@ -5018,7 +5036,7 @@
   {
     "term": "Plugged in",
     "context": "Plugged in",
-    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:30",
+    "reference": "Modules/ControlCenter/Widgets/BatteryPill.qml:28",
     "comment": ""
   },
   {
@@ -5084,7 +5102,7 @@
   {
     "term": "Power",
     "context": "Power",
-    "reference": "Modules/Settings/WidgetsTab.qml:245, Modules/ControlCenter/Details/BatteryDetail.qml:69",
+    "reference": "Modules/Settings/WidgetsTab.qml:245, Modules/ControlCenter/Details/BatteryDetail.qml:67",
     "comment": ""
   },
   {
@@ -5132,13 +5150,13 @@
   {
     "term": "Power Profile Degradation",
     "context": "Power Profile Degradation",
-    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:242, Modules/DankBar/Popouts/BatteryPopout.qml:620",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:240, Modules/DankBar/Popouts/BatteryPopout.qml:620",
     "comment": ""
   },
   {
     "term": "Power profile management available",
     "context": "Power profile management available",
-    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:103",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:101",
     "comment": ""
   },
   {
@@ -5276,13 +5294,13 @@
   {
     "term": "Profile Image Error",
     "context": "Profile Image Error",
-    "reference": "Services/PortalService.qml:162",
+    "reference": "Services/PortalService.qml:157",
     "comment": ""
   },
   {
     "term": "Profile image is too large. Please use a smaller image.",
     "context": "Profile image is too large. Please use a smaller image.",
-    "reference": "Services/PortalService.qml:153",
+    "reference": "Services/PortalService.qml:148",
     "comment": ""
   },
   {
@@ -5876,7 +5894,7 @@
   {
     "term": "Selected image file not found.",
     "context": "Selected image file not found.",
-    "reference": "Services/PortalService.qml:157",
+    "reference": "Services/PortalService.qml:152",
     "comment": ""
   },
   {
@@ -6752,13 +6770,13 @@
   {
     "term": "Time remaining: %1",
     "context": "Time remaining: %1",
-    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:106",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:104",
     "comment": ""
   },
   {
     "term": "Time until full: %1",
     "context": "Time until full: %1",
-    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:106",
+    "reference": "Modules/ControlCenter/Details/BatteryDetail.qml:104",
     "comment": ""
   },
   {
@@ -6950,7 +6968,7 @@
   {
     "term": "Unknown",
     "context": "Unknown",
-    "reference": "Modules/Settings/PrinterTab.qml:1296, Modules/Settings/NetworkTab.qml:121, Modules/Settings/NetworkTab.qml:163, Modules/Settings/NetworkTab.qml:369, Modules/Settings/NetworkTab.qml:390, Modules/Settings/NetworkTab.qml:538, Modules/Settings/NetworkTab.qml:667, Modules/Settings/NetworkTab.qml:1071, Modules/ControlCenter/Details/BatteryDetail.qml:179, Modules/ControlCenter/Components/HeaderPane.qml:60",
+    "reference": "Modules/Settings/PrinterTab.qml:1296, Modules/Settings/NetworkTab.qml:121, Modules/Settings/NetworkTab.qml:163, Modules/Settings/NetworkTab.qml:369, Modules/Settings/NetworkTab.qml:390, Modules/Settings/NetworkTab.qml:538, Modules/Settings/NetworkTab.qml:667, Modules/Settings/NetworkTab.qml:1071, Modules/ControlCenter/Details/BatteryDetail.qml:177, Modules/ControlCenter/Components/HeaderPane.qml:60",
     "comment": ""
   },
   {
@@ -7592,7 +7610,7 @@
   {
     "term": "dgop not available",
     "context": "dgop not available",
-    "reference": "Modules/ControlCenter/Details/DiskUsageDetail.qml:64, Modules/ControlCenter/Widgets/DiskUsagePill.qml:47",
+    "reference": "Modules/ControlCenter/Details/DiskUsageDetail.qml:62, Modules/ControlCenter/Widgets/DiskUsagePill.qml:45",
     "comment": ""
   },
   {
@@ -7604,7 +7622,7 @@
   {
     "term": "dms/binds.kdl is now included in config.kdl",
     "context": "dms/binds.kdl is now included in config.kdl",
-    "reference": "Services/KeybindsService.qml:217",
+    "reference": "Services/KeybindsService.qml:218",
     "comment": ""
   },
   {

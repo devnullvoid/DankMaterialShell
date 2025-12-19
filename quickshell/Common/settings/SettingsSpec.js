@@ -341,7 +341,8 @@ var SPEC = {
     systemMonitorHeight: { def: 480 },
     systemMonitorDisplayPreferences: { def: ["all"] },
     systemMonitorVariants: { def: [] },
-    desktopWidgetPositions: { def: {} }
+    desktopWidgetPositions: { def: {} },
+    desktopWidgetGridSettings: { def: {} }
 };
 
 function getValidKeys() {
