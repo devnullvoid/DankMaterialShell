@@ -152,24 +152,26 @@ Item {
 
                         Item {
                             width: parent.width
-                            height: sessionKeyRow.height + Theme.spacingM
+                            height: apiKeyRow.height + Theme.spacingM
 
                             Column {
-                                id: sessionKeyRow
+                                id: apiKeyRow
                                 width: parent.width
                                 anchors.left: parent.left
                                 anchors.leftMargin: Theme.spacingM
                                 spacing: Theme.spacingXS
 
                                 StyledText {
-                                    text: I18n.tr("API Key (Session Only)")
+                                    text: I18n.tr("API Key")
                                     font.pixelSize: Theme.fontSizeMedium
                                     color: Theme.surfaceText
                                     font.weight: Font.Medium
                                 }
 
                                 StyledText {
-                                    text: I18n.tr("Temporary key, not saved across sessions")
+                                    text: SettingsData.aiAssistantSaveApiKey
+                                        ? I18n.tr("Saved API key (persists across sessions)")
+                                        : I18n.tr("Session-only key (cleared on restart)")
                                     font.pixelSize: Theme.fontSizeSmall
                                     color: Theme.surfaceVariantText
                                     wrapMode: Text.WordWrap
@@ -178,48 +180,35 @@ Item {
 
                                 DankTextField {
                                     width: parent.width - Theme.spacingM * 2
-                                    text: SettingsData.aiAssistantSessionApiKey
+                                    text: SettingsData.aiAssistantSaveApiKey
+                                        ? SettingsData.aiAssistantApiKey
+                                        : SettingsData.aiAssistantSessionApiKey
                                     echoMode: TextInput.Password
-                                    placeholderText: I18n.tr("Enter temporary API key")
-                                    onEditingFinished: SettingsData.set("aiAssistantSessionApiKey", text)
-                                    leftIconName: "vpn_key"
+                                    placeholderText: I18n.tr("Enter API key")
+                                    leftIconName: SettingsData.aiAssistantSaveApiKey ? "lock" : "vpn_key"
+                                    onEditingFinished: {
+                                        if (SettingsData.aiAssistantSaveApiKey) {
+                                            SettingsData.set("aiAssistantApiKey", text)
+                                        } else {
+                                            SettingsData.set("aiAssistantSessionApiKey", text)
+                                        }
+                                    }
                                 }
                             }
                         }
 
                         SettingsToggleRow {
-                            text: I18n.tr("Save API Key")
-                            description: I18n.tr("Store API key in settings (persists across sessions)")
+                            text: I18n.tr("Remember API Key")
+                            description: I18n.tr("Save API key to disk (persists across sessions)")
                             checked: SettingsData.aiAssistantSaveApiKey
-                            onToggled: checked => SettingsData.set("aiAssistantSaveApiKey", checked)
-                        }
-
-                        Item {
-                            width: parent.width
-                            height: savedKeyRow.height + Theme.spacingM
-                            visible: SettingsData.aiAssistantSaveApiKey
-
-                            Column {
-                                id: savedKeyRow
-                                width: parent.width
-                                anchors.left: parent.left
-                                anchors.leftMargin: Theme.spacingM
-                                spacing: Theme.spacingXS
-
-                                StyledText {
-                                    text: I18n.tr("Saved API Key")
-                                    font.pixelSize: Theme.fontSizeMedium
-                                    color: Theme.surfaceText
-                                    font.weight: Font.Medium
-                                }
-
-                                DankTextField {
-                                    width: parent.width - Theme.spacingM * 2
-                                    text: SettingsData.aiAssistantApiKey
-                                    echoMode: TextInput.Password
-                                    placeholderText: I18n.tr("Enter API key to save")
-                                    onEditingFinished: SettingsData.set("aiAssistantApiKey", text)
-                                    leftIconName: "lock"
+                            onToggled: checked => {
+                                SettingsData.set("aiAssistantSaveApiKey", checked)
+                                if (checked) {
+                                    SettingsData.set("aiAssistantApiKey", SettingsData.aiAssistantSessionApiKey)
+                                    SettingsData.set("aiAssistantSessionApiKey", "")
+                                } else {
+                                    SettingsData.set("aiAssistantSessionApiKey", SettingsData.aiAssistantApiKey)
+                                    SettingsData.set("aiAssistantApiKey", "")
                                 }
                             }
                         }
@@ -227,7 +216,7 @@ Item {
                         StyledText {
                             width: parent.width - Theme.spacingM * 2
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: I18n.tr("Priority: Session key → Saved key → Common env vars → DMS_* env vars")
+                            text: I18n.tr("Priority: Saved/Session key → Common env vars → DMS_* env vars")
                             wrapMode: Text.Wrap
                             color: Theme.surfaceTextMedium
                             font.pixelSize: Theme.fontSizeSmall
