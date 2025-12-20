@@ -15,7 +15,7 @@ Item {
     readonly property color userBubbleFill: Theme.blend(Theme.surfaceContainerHigh, Theme.primaryContainer, 0.45)
     readonly property color userBubbleBorder: Theme.withAlpha(Theme.primary, 0.35)
     readonly property color assistantBubbleFill: Theme.surfaceContainer
-    readonly property color assistantBubbleBorder: Theme.surfaceVariantAlpha
+    readonly property color assistantBubbleBorder: Theme.outline
 
     readonly property bool useMarkdownRendering: !isUser && status !== "streaming"
     readonly property string renderedHtml: Markdown2Html.markdownToHtml(root.text)
