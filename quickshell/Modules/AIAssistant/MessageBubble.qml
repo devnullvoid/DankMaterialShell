@@ -12,8 +12,8 @@ Item {
 
     readonly property bool isUser: role === "user"
     readonly property real bubbleMaxWidth: Math.max(240, Math.floor(width * 0.82))
-    readonly property color userBubbleFill: Theme.blend(Theme.surfaceContainerHigh, Theme.primaryContainer, 0.45)
-    readonly property color userBubbleBorder: Theme.withAlpha(Theme.primary, 0.35)
+    readonly property color userBubbleFill: Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.1)
+    readonly property color userBubbleBorder: Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3)
     readonly property color assistantBubbleFill: Theme.surfaceContainer
     readonly property color assistantBubbleBorder: Theme.outline
 
