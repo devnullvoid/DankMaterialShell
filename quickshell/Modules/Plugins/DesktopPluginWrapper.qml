@@ -381,7 +381,7 @@ Item {
             mask: Region {}
 
             WlrLayershell.namespace: "quickshell:desktop-widget-preview"
-            WlrLayershell.layer: WlrLayer.Background
+            WlrLayershell.layer: WlrLayer.Bottom
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
             WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 
