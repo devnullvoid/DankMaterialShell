@@ -170,6 +170,30 @@ Item {
             windows: [widgetWindow]
         }
 
+        Item {
+            anchors.fill: parent
+            focus: root.isInteracting
+
+            Keys.onPressed: event => {
+                if (!root.isInteracting)
+                    return;
+                switch (event.key) {
+                case Qt.Key_G:
+                    SettingsData.setDesktopWidgetGridSetting(root.screenKey, "enabled", !root.gridEnabled);
+                    event.accepted = true;
+                    break;
+                case Qt.Key_Z:
+                    SettingsData.setDesktopWidgetGridSetting(root.screenKey, "size", Math.max(10, root.gridSize - 10));
+                    event.accepted = true;
+                    break;
+                case Qt.Key_X:
+                    SettingsData.setDesktopWidgetGridSetting(root.screenKey, "size", Math.min(200, root.gridSize + 10));
+                    event.accepted = true;
+                    break;
+                }
+            }
+        }
+
         anchors {
             left: true
             top: true
@@ -343,6 +367,7 @@ Item {
         active: root.isInteracting && root.useGhostPreview
 
         sourceComponent: PanelWindow {
+            id: ghostPreviewWindow
             screen: root.screen
             color: "transparent"
 
@@ -484,16 +509,7 @@ Item {
             WlrLayershell.namespace: "quickshell:desktop-widget-helper"
             WlrLayershell.layer: WlrLayer.Overlay
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
-            WlrLayershell.keyboardFocus: {
-                if (CompositorService.useHyprlandFocusGrab)
-                    return WlrKeyboardFocus.OnDemand;
-                return WlrKeyboardFocus.Exclusive;
-            }
-
-            HyprlandFocusGrab {
-                active: CompositorService.isHyprland
-                windows: [helperWindow]
-            }
+            WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 
             anchors {
                 bottom: true
@@ -502,28 +518,6 @@ Item {
             }
 
             implicitHeight: 60
-
-            Item {
-                anchors.fill: parent
-                focus: true
-
-                Keys.onPressed: event => {
-                    switch (event.key) {
-                    case Qt.Key_G:
-                        SettingsData.setDesktopWidgetGridSetting(root.screenKey, "enabled", !root.gridEnabled);
-                        event.accepted = true;
-                        break;
-                    case Qt.Key_Z:
-                        SettingsData.setDesktopWidgetGridSetting(root.screenKey, "size", Math.max(10, root.gridSize - 10));
-                        event.accepted = true;
-                        break;
-                    case Qt.Key_X:
-                        SettingsData.setDesktopWidgetGridSetting(root.screenKey, "size", Math.min(200, root.gridSize + 10));
-                        event.accepted = true;
-                        break;
-                    }
-                }
-            }
 
             Rectangle {
                 id: helperContent
