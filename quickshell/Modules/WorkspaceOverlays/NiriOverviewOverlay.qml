@@ -13,7 +13,8 @@ Scope {
     property string searchActiveScreen: ""
     property bool isClosing: false
     property bool releaseKeyboard: false
-    property bool overlayActive: (NiriService.inOverview && !(PopoutService.spotlightModal?.spotlightOpen ?? false)) || searchActive
+    readonly property bool spotlightModalOpen: PopoutService.spotlightModal?.spotlightOpen ?? false
+    property bool overlayActive: (NiriService.inOverview && !spotlightModalOpen) || searchActive
 
     function showSpotlight(screenName) {
         isClosing = false;
@@ -33,7 +34,7 @@ Scope {
         hideSpotlight();
     }
 
-    function completeHide() {
+    function resetState() {
         searchActive = false;
         searchActiveScreen = "";
         isClosing = false;
@@ -43,19 +44,15 @@ Scope {
     Connections {
         target: NiriService
         function onInOverviewChanged() {
-            if (!NiriService.inOverview) {
-                if (searchActive) {
-                    isClosing = true;
-                    return;
-                }
-                searchActive = false;
-                searchActiveScreen = "";
-                isClosing = false;
+            if (NiriService.inOverview) {
+                resetState();
                 return;
             }
-            searchActive = false;
-            searchActiveScreen = "";
-            isClosing = false;
+            if (!searchActive) {
+                resetState();
+                return;
+            }
+            isClosing = true;
         }
 
         function onCurrentOutputChanged() {
@@ -65,13 +62,9 @@ Scope {
         }
     }
 
-    Connections {
-        target: PopoutService.spotlightModal
-        function onSpotlightOpenChanged() {
-            if (!PopoutService.spotlightModal?.spotlightOpen || !searchActive)
-                return;
+    onSpotlightModalOpenChanged: {
+        if (spotlightModalOpen && searchActive)
             hideSpotlight();
-        }
     }
 
     Loader {
@@ -221,6 +214,7 @@ Scope {
                     layer.textureSize: Qt.size(Math.round(width * overlayWindow.dpr), Math.round(height * overlayWindow.dpr))
 
                     Behavior on scale {
+                        id: scaleAnimation
                         NumberAnimation {
                             duration: Theme.expressiveDurations.expressiveDefaultSpatial
                             easing.type: Easing.BezierSpline
@@ -228,9 +222,15 @@ Scope {
                             onRunningChanged: {
                                 if (running || !spotlightContainer.animatingOut)
                                     return;
-                                niriOverviewScope.completeHide();
+                                niriOverviewScope.resetState();
                             }
                         }
+                    }
+
+                    onAnimatingOutChanged: {
+                        if (!animatingOut || scaleAnimation.animation.running)
+                            return;
+                        Qt.callLater(niriOverviewScope.resetState);
                     }
 
                     Behavior on opacity {

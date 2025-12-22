@@ -211,8 +211,6 @@ var SPEC = {
     overviewColumns: { def: 5, persist: false },
     overviewScale: { def: 0.16, persist: false },
 
-    modalDarkenBackground: { def: true },
-
     lockScreenShowPowerActions: { def: true },
     lockScreenShowSystemIcons: { def: true },
     lockScreenShowTime: { def: true },

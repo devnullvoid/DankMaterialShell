@@ -19,8 +19,6 @@ Item {
     readonly property real screenWidth: effectiveScreen?.width ?? 1920
     readonly property real screenHeight: effectiveScreen?.height ?? 1080
     readonly property real dpr: effectiveScreen ? CompositorService.getScreenScale(effectiveScreen) : 1
-    property bool showBackground: true
-    property real backgroundOpacity: 0.5
     property string positioning: "center"
     property point customPosition: Qt.point(0, 0)
     property bool closeOnEscapeKey: true
@@ -46,17 +44,15 @@ Item {
     property var customKeyboardFocus: null
     property bool useOverlayLayer: false
     readonly property alias contentWindow: contentWindow
-    readonly property alias backgroundWindow: backgroundWindow
+    readonly property alias clickCatcher: clickCatcher
     readonly property bool useHyprlandFocusGrab: CompositorService.useHyprlandFocusGrab
-
-    readonly property bool useSingleWindow: root.useHyprlandFocusGrab
+    readonly property bool useSingleWindow: useHyprlandFocusGrab
 
     signal opened
     signal dialogClosed
     signal backgroundClicked
 
     property bool animationsEnabled: true
-    readonly property bool useBackgroundWindow: !useSingleWindow
 
     function open() {
         ModalManager.openModal(root);
@@ -64,20 +60,15 @@ Item {
         const focusedScreen = CompositorService.getFocusedScreen();
         if (focusedScreen) {
             contentWindow.screen = focusedScreen;
-            if (useBackgroundWindow)
-                backgroundWindow.screen = focusedScreen;
+            if (!useSingleWindow)
+                clickCatcher.screen = focusedScreen;
         }
         shouldBeVisible = true;
-        contentWindow.visible = false;
-        if (useBackgroundWindow)
-            backgroundWindow.visible = true;
-        Qt.callLater(() => {
-            contentWindow.visible = true;
-            shouldHaveFocus = false;
-            Qt.callLater(() => {
-                shouldHaveFocus = Qt.binding(() => shouldBeVisible);
-            });
-        });
+        if (!useSingleWindow)
+            clickCatcher.visible = true;
+        contentWindow.visible = true;
+        shouldHaveFocus = false;
+        Qt.callLater(() => shouldHaveFocus = Qt.binding(() => shouldBeVisible));
     }
 
     function close() {
@@ -94,8 +85,8 @@ Item {
         ModalManager.closeModal(root);
         closeTimer.stop();
         contentWindow.visible = false;
-        if (useBackgroundWindow)
-            backgroundWindow.visible = false;
+        if (!useSingleWindow)
+            clickCatcher.visible = false;
         dialogClosed();
         Qt.callLater(() => animationsEnabled = true);
     }
@@ -107,9 +98,8 @@ Item {
     Connections {
         target: ModalManager
         function onCloseAllModalsExcept(excludedModal) {
-            if (excludedModal !== root && !allowStacking && shouldBeVisible) {
+            if (excludedModal !== root && !allowStacking && shouldBeVisible)
                 close();
-            }
         }
     }
 
@@ -131,8 +121,8 @@ Item {
             const newScreen = CompositorService.getFocusedScreen();
             if (newScreen) {
                 contentWindow.screen = newScreen;
-                if (useBackgroundWindow)
-                    backgroundWindow.screen = newScreen;
+                if (!useSingleWindow)
+                    clickCatcher.screen = newScreen;
             }
         }
     }
@@ -141,12 +131,12 @@ Item {
         id: closeTimer
         interval: animationDuration + 120
         onTriggered: {
-            if (!shouldBeVisible) {
-                contentWindow.visible = false;
-                if (useBackgroundWindow)
-                    backgroundWindow.visible = false;
-                dialogClosed();
-            }
+            if (shouldBeVisible)
+                return;
+            contentWindow.visible = false;
+            if (!useSingleWindow)
+                clickCatcher.visible = false;
+            dialogClosed();
         }
     }
 
@@ -181,11 +171,11 @@ Item {
         })(), dpr)
 
     PanelWindow {
-        id: backgroundWindow
+        id: clickCatcher
         visible: false
         color: "transparent"
 
-        WlrLayershell.namespace: root.layerNamespace + ":background"
+        WlrLayershell.namespace: root.layerNamespace + ":clickcatcher"
         WlrLayershell.layer: WlrLayershell.Top
         WlrLayershell.exclusiveZone: -1
         WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
@@ -201,41 +191,16 @@ Item {
             item: Rectangle {
                 x: root.alignedX
                 y: root.alignedY
-                width: root.shouldBeVisible ? root.alignedWidth : 0
-                height: root.shouldBeVisible ? root.alignedHeight : 0
+                width: root.alignedWidth
+                height: root.alignedHeight
             }
             intersection: Intersection.Xor
         }
 
         MouseArea {
             anchors.fill: parent
-            enabled: root.useBackgroundWindow && root.closeOnBackgroundClick && root.shouldBeVisible
-            onClicked: mouse => {
-                const clickX = mouse.x;
-                const clickY = mouse.y;
-                const outsideContent = clickX < root.alignedX || clickX > root.alignedX + root.alignedWidth || clickY < root.alignedY || clickY > root.alignedY + root.alignedHeight;
-
-                if (!outsideContent)
-                    return;
-                root.backgroundClicked();
-            }
-        }
-
-        Rectangle {
-            id: background
-            anchors.fill: parent
-            color: "black"
-            opacity: root.showBackground && SettingsData.modalDarkenBackground ? (root.shouldBeVisible ? root.backgroundOpacity : 0) : 0
-            visible: root.useBackgroundWindow && root.showBackground && SettingsData.modalDarkenBackground
-
-            Behavior on opacity {
-                enabled: root.animationsEnabled
-                NumberAnimation {
-                    duration: root.animationDuration
-                    easing.type: Easing.BezierSpline
-                    easing.bezierCurve: root.shouldBeVisible ? root.animationEnterCurve : root.animationExitCurve
-                }
-            }
+            enabled: root.closeOnBackgroundClick && root.shouldBeVisible
+            onClicked: root.backgroundClicked()
         }
     }
 
@@ -305,23 +270,6 @@ Item {
             enabled: root.useSingleWindow && root.closeOnBackgroundClick && root.shouldBeVisible
             z: -2
             onClicked: root.backgroundClicked()
-        }
-
-        Rectangle {
-            anchors.fill: parent
-            z: -1
-            color: "black"
-            opacity: root.showBackground && SettingsData.modalDarkenBackground ? (root.shouldBeVisible ? root.backgroundOpacity : 0) : 0
-            visible: root.useSingleWindow && root.showBackground && SettingsData.modalDarkenBackground
-
-            Behavior on opacity {
-                enabled: root.animationsEnabled
-                NumberAnimation {
-                    duration: root.animationDuration
-                    easing.type: Easing.BezierSpline
-                    easing.bezierCurve: root.shouldBeVisible ? root.animationEnterCurve : root.animationExitCurve
-                }
-            }
         }
 
         Item {
