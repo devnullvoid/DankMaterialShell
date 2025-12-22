@@ -384,6 +384,8 @@ func (d *DebianDistribution) enableOBSRepos(ctx context.Context, obsPkgs []Packa
 	debianVersion := "Debian_13"
 	if osInfo.VersionID == "testing" {
 		debianVersion = "Debian_Testing"
+	} else if osInfo.VersionCodename == "sid" || osInfo.VersionID == "sid" || strings.Contains(strings.ToLower(osInfo.PrettyName), "sid") || strings.Contains(strings.ToLower(osInfo.PrettyName), "unstable") {
+		debianVersion = "Debian_Unstable"
 	}
 
 	for _, pkg := range obsPkgs {

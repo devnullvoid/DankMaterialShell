@@ -19,11 +19,12 @@ type DistroInfo struct {
 
 // OSInfo contains complete OS information
 type OSInfo struct {
-	Distribution DistroInfo
-	Version      string
-	VersionID    string
-	PrettyName   string
-	Architecture string
+	Distribution    DistroInfo
+	Version         string
+	VersionID       string
+	VersionCodename string
+	PrettyName      string
+	Architecture    string
 }
 
 // GetOSInfo detects the current OS and returns information about it
@@ -72,6 +73,8 @@ func GetOSInfo() (*OSInfo, error) {
 			info.VersionID = value
 		case "VERSION":
 			info.Version = value
+		case "VERSION_CODENAME":
+			info.VersionCodename = value
 		case "PRETTY_NAME":
 			info.PrettyName = value
 		}
@@ -100,6 +103,10 @@ func IsUnsupportedDistro(distroID, versionID string) bool {
 	}
 
 	if distroID == "debian" {
+		// unstable/sid support
+		if versionID == "sid" {
+			return false
+		}
 		if versionID == "" {
 			// debian testing/sid have no version ID
 			return false
