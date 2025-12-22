@@ -337,6 +337,7 @@ var SPEC = {
     systemMonitorTopProcessCount: { def: 3 },
     systemMonitorTopProcessSortBy: { def: "cpu" },
     systemMonitorGraphInterval: { def: 60 },
+    systemMonitorLayoutMode: { def: "auto" },
     systemMonitorX: { def: -1 },
     systemMonitorY: { def: -1 },
     systemMonitorWidth: { def: 320 },
@@ -344,7 +345,9 @@ var SPEC = {
     systemMonitorDisplayPreferences: { def: ["all"] },
     systemMonitorVariants: { def: [] },
     desktopWidgetPositions: { def: {} },
-    desktopWidgetGridSettings: { def: {} }
+    desktopWidgetGridSettings: { def: {} },
+
+    desktopWidgetInstances: { def: [] }
 };
 
 function getValidKeys() {

@@ -17,6 +17,7 @@ FloatingWindow {
     property bool isLoading: false
     property var parentModal: null
     property bool pendingInstallHandled: false
+    property string typeFilter: ""
 
     function updateFilteredPlugins() {
         var filtered = [];
@@ -28,6 +29,12 @@ FloatingWindow {
 
             if (!SessionData.showThirdPartyPlugins && !isFirstParty)
                 continue;
+
+            if (typeFilter !== "") {
+                var hasCapability = plugin.capabilities && plugin.capabilities.includes(typeFilter);
+                if (!hasCapability)
+                    continue;
+            }
 
             if (query.length === 0) {
                 filtered.push(plugin);
@@ -76,6 +83,11 @@ FloatingWindow {
             if (enableAfterInstall) {
                 Qt.callLater(() => {
                     PluginService.enablePlugin(pluginName);
+                    const plugin = PluginService.availablePlugins[pluginName];
+                    if (plugin?.type === "desktop") {
+                        const defaultConfig = DesktopWidgetRegistry.getDefaultConfig(pluginName);
+                        SettingsData.createDesktopWidgetInstance(pluginName, plugin.name || pluginName, defaultConfig);
+                    }
                     hide();
                 });
             }
@@ -147,6 +159,33 @@ FloatingWindow {
         selectedIndex = -1;
         keyboardNavigationActive = false;
         isLoading = false;
+    }
+
+    Connections {
+        target: DMSService
+
+        function onPluginsListReceived(plugins) {
+            root.isLoading = false;
+            root.allPlugins = plugins;
+            root.updateFilteredPlugins();
+        }
+
+        function onInstalledPluginsReceived(plugins) {
+            var pluginMap = {};
+            for (var i = 0; i < plugins.length; i++) {
+                var plugin = plugins[i];
+                if (plugin.id)
+                    pluginMap[plugin.id] = true;
+                if (plugin.name)
+                    pluginMap[plugin.name] = true;
+            }
+            var updated = root.allPlugins.map(p => {
+                var isInstalled = pluginMap[p.name] || pluginMap[p.id] || false;
+                return Object.assign({}, p, { installed: isInstalled });
+            });
+            root.allPlugins = updated;
+            root.updateFilteredPlugins();
+        }
     }
 
     ConfirmModal {
@@ -355,8 +394,8 @@ FloatingWindow {
                         property bool isSelected: root.keyboardNavigationActive && index === root.selectedIndex
                         property bool isInstalled: modelData.installed || false
                         property bool isFirstParty: modelData.firstParty || false
-                        color: isSelected ? Theme.primarySelected : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.3)
-                        border.color: isSelected ? Theme.primary : Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
+                        color: isSelected ? Theme.primarySelected : Theme.withAlpha(Theme.surfaceVariant, 0.3)
+                        border.color: isSelected ? Theme.primary : Theme.withAlpha(Theme.outline, 0.2)
                         border.width: isSelected ? 2 : 1
 
                         Column {
@@ -396,8 +435,8 @@ FloatingWindow {
                                             height: 16
                                             width: firstPartyText.implicitWidth + Theme.spacingXS * 2
                                             radius: 8
-                                            color: Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.15)
-                                            border.color: Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.4)
+                                            color: Theme.withAlpha(Theme.primary, 0.15)
+                                            border.color: Theme.withAlpha(Theme.primary, 0.4)
                                             border.width: 1
                                             visible: isFirstParty
                                             anchors.verticalCenter: parent.verticalCenter
@@ -416,8 +455,8 @@ FloatingWindow {
                                             height: 16
                                             width: thirdPartyText.implicitWidth + Theme.spacingXS * 2
                                             radius: 8
-                                            color: Qt.rgba(Theme.warning.r, Theme.warning.g, Theme.warning.b, 0.15)
-                                            border.color: Qt.rgba(Theme.warning.r, Theme.warning.g, Theme.warning.b, 0.4)
+                                            color: Theme.withAlpha(Theme.warning, 0.15)
+                                            border.color: Theme.withAlpha(Theme.warning, 0.4)
                                             border.width: 1
                                             visible: !isFirstParty
                                             anchors.verticalCenter: parent.verticalCenter
@@ -501,8 +540,10 @@ FloatingWindow {
                                         cursorShape: isInstalled ? Qt.ArrowCursor : Qt.PointingHandCursor
                                         enabled: !isInstalled
                                         onClicked: {
-                                            if (!isInstalled)
-                                                root.installPlugin(modelData.name, false);
+                                            if (isInstalled)
+                                                return;
+                                            const isDesktop = modelData.type === "desktop";
+                                            root.installPlugin(modelData.name, isDesktop);
                                         }
                                     }
                                 }
@@ -529,8 +570,8 @@ FloatingWindow {
                                         height: 18
                                         width: capabilityText.implicitWidth + Theme.spacingXS * 2
                                         radius: 9
-                                        color: Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.1)
-                                        border.color: Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3)
+                                        color: Theme.withAlpha(Theme.primary, 0.1)
+                                        border.color: Theme.withAlpha(Theme.primary, 0.3)
                                         border.width: 1
 
                                         StyledText {
