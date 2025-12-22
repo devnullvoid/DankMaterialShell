@@ -9,15 +9,15 @@ Vcs-Browser: https://github.com/AvengeMedia/DankMaterialShell
 Vcs-Git: https://github.com/AvengeMedia/DankMaterialShell.git
 
 Package: dms-greeter
-Architecture: all
+Architecture: any
 Depends: ${misc:Depends},
-         greetd,
-         quickshell-git | quickshell
+  greetd,
+  quickshell-git | quickshell
 Recommends: niri | hyprland | sway
 Description: DankMaterialShell greeter for greetd
- DankMaterialShell greeter for greetd login manager. A modern, Material Design 3
- inspired greeter interface built with Quickshell for Wayland compositors.
- .
- Supports multiple compositors including Niri, Hyprland, and Sway with automatic
- compositor detection and configuration. Features session selection, user
- authentication, and dynamic theming.
+  DankMaterialShell greeter for greetd login manager. A modern, Material Design 3
+  inspired greeter interface built with Quickshell for Wayland compositors.
+  .
+  Supports multiple compositors including Niri, Hyprland, and Sway with automatic
+  compositor detection and configuration. Features session selection, user
+  authentication, and dynamic theming.
