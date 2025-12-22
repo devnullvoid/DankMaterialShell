@@ -29,7 +29,6 @@ FloatingWindow {
 
             if (!SessionData.showThirdPartyPlugins && !isFirstParty)
                 continue;
-
             if (typeFilter !== "") {
                 var hasCapability = plugin.capabilities && plugin.capabilities.includes(typeFilter);
                 if (!hasCapability)
@@ -108,12 +107,12 @@ FloatingWindow {
         var pluginId = PopoutService.pendingPluginInstall;
         PopoutService.pendingPluginInstall = "";
         urlInstallConfirm.showWithOptions({
-            title: I18n.tr("Install Plugin", "plugin installation dialog title"),
-            message: I18n.tr("Install plugin '%1' from the DMS registry?", "plugin installation confirmation").arg(pluginId),
-            confirmText: I18n.tr("Install", "install action button"),
-            cancelText: I18n.tr("Cancel"),
-            onConfirm: () => installPlugin(pluginId, true),
-            onCancel: () => hide()
+            "title": I18n.tr("Install Plugin", "plugin installation dialog title"),
+            "message": I18n.tr("Install plugin '%1' from the DMS registry?", "plugin installation confirmation").arg(pluginId),
+            "confirmText": I18n.tr("Install", "install action button"),
+            "cancelText": I18n.tr("Cancel"),
+            "onConfirm": () => installPlugin(pluginId, true),
+            "onCancel": () => hide()
         });
     }
 
@@ -181,7 +180,9 @@ FloatingWindow {
             }
             var updated = root.allPlugins.map(p => {
                 var isInstalled = pluginMap[p.name] || pluginMap[p.id] || false;
-                return Object.assign({}, p, { installed: isInstalled });
+                return Object.assign({}, p, {
+                    "installed": isInstalled
+                });
             });
             root.allPlugins = updated;
             root.updateFilteredPlugins();
@@ -226,6 +227,12 @@ FloatingWindow {
                 anchors.right: parent.right
                 anchors.top: parent.top
                 height: Math.max(headerIcon.height, headerText.height, refreshButton.height, closeButton.height)
+
+                MouseArea {
+                    anchors.fill: parent
+                    onPressed: windowControls.tryStartMove()
+                    onDoubleClicked: windowControls.tryToggleMaximize()
+                }
 
                 DankIcon {
                     id: headerIcon
@@ -274,6 +281,14 @@ FloatingWindow {
                         iconColor: Theme.primary
                         visible: !root.isLoading
                         onClicked: root.refreshPlugins()
+                    }
+
+                    DankActionButton {
+                        visible: windowControls.supported
+                        iconName: root.maximized ? "fullscreen_exit" : "fullscreen"
+                        iconSize: Theme.iconSize - 2
+                        iconColor: Theme.outline
+                        onClicked: windowControls.tryToggleMaximize()
                     }
 
                     DankActionButton {
@@ -717,5 +732,10 @@ FloatingWindow {
                 }
             }
         }
+    }
+
+    FloatingWindowControls {
+        id: windowControls
+        targetWindow: root
     }
 }

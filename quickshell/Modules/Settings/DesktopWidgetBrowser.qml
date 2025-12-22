@@ -1,4 +1,4 @@
-pragma ComponentBehavior: Bound
+pragma ComponentBehavior
 
 import QtQuick
 import Quickshell
@@ -189,6 +189,12 @@ FloatingWindow {
                 width: parent.width
                 height: 48
 
+                MouseArea {
+                    anchors.fill: parent
+                    onPressed: windowControls.tryStartMove()
+                    onDoubleClicked: windowControls.tryToggleMaximize()
+                }
+
                 Rectangle {
                     anchors.fill: parent
                     color: Theme.withAlpha(Theme.surfaceContainer, 0.5)
@@ -216,15 +222,28 @@ FloatingWindow {
                     }
                 }
 
-                DankActionButton {
-                    circular: false
-                    iconName: "close"
-                    iconSize: Theme.iconSize - 4
-                    iconColor: Theme.surfaceText
+                Row {
                     anchors.right: parent.right
                     anchors.rightMargin: Theme.spacingM
                     anchors.verticalCenter: parent.verticalCenter
-                    onClicked: root.hide()
+                    spacing: Theme.spacingXS
+
+                    DankActionButton {
+                        visible: windowControls.supported
+                        circular: false
+                        iconName: root.maximized ? "fullscreen_exit" : "fullscreen"
+                        iconSize: Theme.iconSize - 4
+                        iconColor: Theme.surfaceText
+                        onClicked: windowControls.tryToggleMaximize()
+                    }
+
+                    DankActionButton {
+                        circular: false
+                        iconName: "close"
+                        iconSize: Theme.iconSize - 4
+                        iconColor: Theme.surfaceText
+                        onClicked: root.hide()
+                    }
                 }
             }
 
@@ -413,5 +432,10 @@ FloatingWindow {
                 }
             }
         }
+    }
+
+    FloatingWindowControls {
+        id: windowControls
+        targetWindow: root
     }
 }

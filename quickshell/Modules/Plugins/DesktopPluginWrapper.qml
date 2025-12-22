@@ -202,7 +202,7 @@ Item {
         color: "transparent"
 
         WlrLayershell.namespace: "quickshell:desktop-widget:" + root.pluginId + (root.instanceId ? ":" + root.instanceId : "")
-        WlrLayershell.layer: WlrLayer.Bottom
+        WlrLayershell.layer: root.isInteracting && !CompositorService.useHyprlandFocusGrab ? WlrLayer.Overlay : WlrLayer.Bottom
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
         WlrLayershell.keyboardFocus: {
             if (!root.isInteracting)
