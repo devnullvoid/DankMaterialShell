@@ -65,10 +65,21 @@ Item {
 
                 Component.onCompleted: updateModel()
 
+                function isOnScreen(toplevel, screenName) {
+                    if (!toplevel.screens)
+                        return false;
+                    for (let i = 0; i < toplevel.screens.length; i++) {
+                        if (toplevel.screens[i].name === screenName)
+                            return true;
+                    }
+                    return false;
+                }
+
                 function updateModel() {
                     const items = [];
                     const pinnedApps = [...(SessionData.pinnedApps || [])];
-                    const sortedToplevels = CompositorService.sortedToplevels;
+                    const allToplevels = CompositorService.sortedToplevels;
+                    const sortedToplevels = (SettingsData.dockIsolateDisplays && root.dockScreen) ? allToplevels.filter(t => isOnScreen(t, root.dockScreen.name)) : allToplevels;
 
                     if (root.groupByApp) {
                         const appGroups = new Map();
@@ -296,7 +307,12 @@ Item {
         }
     }
 
-    onGroupByAppChanged: {
-        repeater.updateModel();
+    onGroupByAppChanged: repeater.updateModel()
+
+    Connections {
+        target: SettingsData
+        function onDockIsolateDisplaysChanged() {
+            repeater.updateModel();
+        }
     }
 }

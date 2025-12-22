@@ -204,6 +204,7 @@ var SPEC = {
     dockBorderColor: { def: "surfaceText" },
     dockBorderOpacity: { def: 1.0, coerce: percentToUnit },
     dockBorderThickness: { def: 1 },
+    dockIsolateDisplays: { def: false },
 
     notificationOverlayEnabled: { def: false },
     overviewRows: { def: 2, persist: false },

@@ -305,6 +305,7 @@ Singleton {
     property string dockBorderColor: "surfaceText"
     property real dockBorderOpacity: 1.0
     property int dockBorderThickness: 1
+    property bool dockIsolateDisplays: false
 
     property bool notificationOverlayEnabled: false
     property int overviewRows: 2
