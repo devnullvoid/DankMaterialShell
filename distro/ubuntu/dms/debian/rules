@@ -19,11 +19,14 @@ override_dh_installsystemd:
 override_dh_auto_build:
 	# All files are included in source package (downloaded by build-source.sh)
 	# Launchpad build environment has no internet access
-	test -f dms-distropkg-amd64.gz || (echo "ERROR: dms-distropkg-amd64.gz not found!" && exit 1)
+	$(eval DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH))
+	@echo "Building for architecture: $(DEB_HOST_ARCH)"
+
+	test -f dms-distropkg-$(DEB_HOST_ARCH).gz || (echo "ERROR: dms-distropkg-$(DEB_HOST_ARCH).gz not found!" && exit 1)
 	test -f dms-source.tar.gz || (echo "ERROR: dms-source.tar.gz not found!" && exit 1)
 
 	# Extract pre-built binary
-	gunzip -c dms-distropkg-amd64.gz > dms
+	gunzip -c dms-distropkg-$(DEB_HOST_ARCH).gz > dms
 	chmod +x dms
 
 	# Extract source tarball for QML files

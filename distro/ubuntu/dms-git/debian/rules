@@ -32,15 +32,17 @@ override_dh_auto_build:
 	sed -i 's/^go 1\.24\.[0-9]*/go 1.24/' dms-git-repo/core/go.mod
 
 	# Build dms-cli from source
+	# Detect architecture
+	$(eval DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH))
 	@if [ -f dms-git-repo/.dms-version ]; then \
 		. dms-git-repo/.dms-version; \
-		echo "Building with VERSION=$$VERSION COMMIT=$$COMMIT"; \
-		cd dms-git-repo/core && $(MAKE) GOFLAGS="-mod=vendor" dist ARCH=amd64 VERSION="$$VERSION" COMMIT="$$COMMIT"; \
+		echo "Building with VERSION=$$VERSION COMMIT=$$COMMIT ARCH=$(DEB_HOST_ARCH)"; \
+		cd dms-git-repo/core && $(MAKE) GOFLAGS="-mod=vendor" dist ARCH=$(DEB_HOST_ARCH) VERSION="$$VERSION" COMMIT="$$COMMIT"; \
 	else \
 		echo "Warning: .dms-version not found, building without version info"; \
-		cd dms-git-repo/core && $(MAKE) GOFLAGS="-mod=vendor" dist ARCH=amd64; \
+		cd dms-git-repo/core && $(MAKE) GOFLAGS="-mod=vendor" dist ARCH=$(DEB_HOST_ARCH); \
 	fi
-	cp dms-git-repo/core/bin/dms-linux-amd64 dms
+	cp dms-git-repo/core/bin/dms-linux-$(DEB_HOST_ARCH) dms
 	chmod +x dms
 
 override_dh_auto_install:

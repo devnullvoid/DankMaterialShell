@@ -191,19 +191,8 @@ fi
 cd "$WORK_PACKAGE_DIR"
 get_latest_tag() {
     local repo="$1"
-    if command -v curl &>/dev/null; then
-        LATEST_TAG=$(curl -s "https://api.github.com/repos/$repo/releases/latest" 2>/dev/null | grep '"tag_name":' | sed 's/.*"tag_name": "\(.*\)".*/\1/' | head -1)
-        if [ -n "$LATEST_TAG" ]; then
-            echo "$LATEST_TAG" | sed 's/^v//'
-            return
-        fi
-    fi
-    TEMP_REPO=$(mktemp -d "$TEMP_BASE/ppa_tag_XXXXXX")
-    if git clone --depth=1 --quiet "https://github.com/$repo.git" "$TEMP_REPO" 2>/dev/null; then
-        LATEST_TAG=$(cd "$TEMP_REPO" && git describe --tags --abbrev=0 2>/dev/null | sed 's/^v//' || echo "")
-        rm -rf "$TEMP_REPO"
-        echo "$LATEST_TAG"
-    fi
+    # Get the latest tag, sorted by version
+    git ls-remote --tags --refs --sort='-v:refname' "https://github.com/$repo.git" | head -n1 | awk -F/ '{print $NF}' | sed 's/^v//'
 }
 
 IS_GIT_PACKAGE=false
@@ -331,6 +320,17 @@ EOF
             else
                 error "Failed to download dms-distropkg-amd64.gz"
                 exit 1
+            fi
+        fi
+
+        if [ ! -f "dms-distropkg-arm64.gz" ]; then
+            info "Downloading dms binary for arm64..."
+            # Try to download arm64 binary, but don't fail if it doesn't exist (yet)
+            if wget -O dms-distropkg-arm64.gz "https://github.com/AvengeMedia/DankMaterialShell/releases/download/v${VERSION}/dms-distropkg-arm64.gz"; then
+                success "arm64 binary downloaded"
+            else
+                warn "Failed to download dms-distropkg-arm64.gz (skipping)"
+                rm -f dms-distropkg-arm64.gz
             fi
         fi
 

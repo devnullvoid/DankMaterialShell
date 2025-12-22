@@ -51,7 +51,8 @@ jobs:
           check_stable_package() {
             local PKG="$1"
             local PPA_NAME="$2"
-            local LATEST_TAG=$(curl -s https://api.github.com/repos/AvengeMedia/DankMaterialShell/releases/latest | grep '"tag_name"' | sed 's/.*"tag_name": "v\?\([^"]*\)".*/\1/' || echo "")
+            # Use git ls-remote to find the latest tag, sorted by version (descending)
+            local LATEST_TAG=$(git ls-remote --tags --refs --sort='-v:refname' https://github.com/AvengeMedia/DankMaterialShell.git | head -n1 | awk -F/ '{print $NF}' | sed 's/^v//')
             local PPA_VERSION=$(curl -s "https://api.launchpad.net/1.0/~avengemedia/+archive/ubuntu/$PPA_NAME?ws.op=getPublishedSources&source_name=$PKG&status=Published" | grep -oP '"source_package_version":\s*"\K[^"]+' | head -1 || echo "")
             local PPA_BASE_VERSION=$(echo "$PPA_VERSION" | sed 's/ppa[0-9]*$//')
 
