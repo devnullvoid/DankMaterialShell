@@ -474,24 +474,32 @@ Singleton {
 
         if (themeName === dynamic) {
             currentTheme = dynamic;
-            currentThemeCategory = dynamic;
+            if (currentThemeCategory !== "registry")
+                currentThemeCategory = dynamic;
         } else if (themeName === custom) {
             currentTheme = custom;
-            currentThemeCategory = custom;
+            if (currentThemeCategory !== "registry")
+                currentThemeCategory = custom;
             if (typeof SettingsData !== "undefined" && SettingsData.customThemeFile) {
                 loadCustomThemeFromFile(SettingsData.customThemeFile);
             }
+        } else if (themeName === "" && currentThemeCategory === "registry") {
+            // Registry category selected but no theme chosen yet
         } else {
             currentTheme = themeName;
-            if (StockThemes.isCatppuccinVariant(themeName)) {
-                currentThemeCategory = "catppuccin";
-            } else {
-                currentThemeCategory = "generic";
+            if (currentThemeCategory !== "registry") {
+                if (StockThemes.isCatppuccinVariant(themeName)) {
+                    currentThemeCategory = "catppuccin";
+                } else {
+                    currentThemeCategory = "generic";
+                }
             }
         }
         const isGreeterMode = (typeof SessionData !== "undefined" && SessionData.isGreeterMode);
-        if (savePrefs && typeof SettingsData !== "undefined" && !isGreeterMode)
+        if (savePrefs && typeof SettingsData !== "undefined" && !isGreeterMode) {
+            SettingsData.set("currentThemeCategory", currentThemeCategory);
             SettingsData.set("currentThemeName", currentTheme);
+        }
 
         if (!isGreeterMode) {
             generateSystemThemesFromCurrentTheme();

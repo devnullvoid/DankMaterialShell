@@ -510,6 +510,22 @@ Item {
     Connections {
         target: DMSService
         function onOpenUrlRequested(url) {
+            if (url.startsWith("dms://theme/install/")) {
+                var themeId = url.replace("dms://theme/install/", "").split(/[?#]/)[0];
+                if (themeId) {
+                    PopoutService.pendingThemeInstall = themeId;
+                    PopoutService.openSettingsWithTab("theme");
+                }
+                return;
+            }
+            if (url.startsWith("dms://plugin/install/")) {
+                var pluginId = url.replace("dms://plugin/install/", "").split(/[?#]/)[0];
+                if (pluginId) {
+                    PopoutService.pendingPluginInstall = pluginId;
+                    PopoutService.openSettingsWithTab("plugins");
+                }
+                return;
+            }
             browserPickerModal.url = url;
             browserPickerModal.open();
         }

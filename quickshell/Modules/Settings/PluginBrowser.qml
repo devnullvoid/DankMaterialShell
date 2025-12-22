@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import Quickshell
 import qs.Common
+import qs.Modals.Common
 import qs.Services
 import qs.Widgets
 
@@ -15,6 +16,7 @@ FloatingWindow {
     property bool keyboardNavigationActive: false
     property bool isLoading: false
     property var parentModal: null
+    property bool pendingInstallHandled: false
 
     function updateFilteredPlugins() {
         var filtered = [];
@@ -61,16 +63,22 @@ FloatingWindow {
             keyboardNavigationActive = false;
     }
 
-    function installPlugin(pluginName) {
-        ToastService.showInfo("Installing plugin: " + pluginName);
+    function installPlugin(pluginName, enableAfterInstall) {
+        ToastService.showInfo(I18n.tr("Installing: %1", "installation progress").arg(pluginName));
         DMSService.install(pluginName, response => {
             if (response.error) {
-                ToastService.showError("Install failed: " + response.error);
+                ToastService.showError(I18n.tr("Install failed: %1", "installation error").arg(response.error));
                 return;
             }
-            ToastService.showInfo("Plugin installed: " + pluginName);
+            ToastService.showInfo(I18n.tr("Installed: %1", "installation success").arg(pluginName));
             PluginService.scanPlugins();
             refreshPlugins();
+            if (enableAfterInstall) {
+                Qt.callLater(() => {
+                    PluginService.enablePlugin(pluginName);
+                    hide();
+                });
+            }
         });
     }
 
@@ -81,13 +89,27 @@ FloatingWindow {
             DMSService.listInstalled();
     }
 
+    function checkPendingInstall() {
+        if (!PopoutService.pendingPluginInstall || pendingInstallHandled)
+            return;
+        pendingInstallHandled = true;
+        var pluginId = PopoutService.pendingPluginInstall;
+        PopoutService.pendingPluginInstall = "";
+        urlInstallConfirm.showWithOptions({
+            title: I18n.tr("Install Plugin", "plugin installation dialog title"),
+            message: I18n.tr("Install plugin '%1' from the DMS registry?", "plugin installation confirmation").arg(pluginId),
+            confirmText: I18n.tr("Install", "install action button"),
+            cancelText: I18n.tr("Cancel"),
+            onConfirm: () => installPlugin(pluginId, true),
+            onCancel: () => hide()
+        });
+    }
+
     function show() {
         if (parentModal)
             parentModal.shouldHaveFocus = false;
         visible = true;
-        Qt.callLater(() => {
-            browserSearchField.forceActiveFocus();
-        });
+        Qt.callLater(() => browserSearchField.forceActiveFocus());
     }
 
     function hide() {
@@ -102,7 +124,7 @@ FloatingWindow {
     }
 
     objectName: "pluginBrowser"
-    title: I18n.tr("Browse Plugins")
+    title: I18n.tr("Browse Plugins", "plugin browser window title")
     minimumSize: Qt.size(450, 400)
     implicitWidth: 600
     implicitHeight: 650
@@ -111,9 +133,11 @@ FloatingWindow {
 
     onVisibleChanged: {
         if (visible) {
+            pendingInstallHandled = false;
             refreshPlugins();
             Qt.callLater(() => {
                 browserSearchField.forceActiveFocus();
+                checkPendingInstall();
             });
             return;
         }
@@ -123,6 +147,10 @@ FloatingWindow {
         selectedIndex = -1;
         keyboardNavigationActive = false;
         isLoading = false;
+    }
+
+    ConfirmModal {
+        id: urlInstallConfirm
     }
 
     FocusScope {
@@ -171,7 +199,7 @@ FloatingWindow {
 
                 StyledText {
                     id: headerText
-                    text: I18n.tr("Browse Plugins")
+                    text: I18n.tr("Browse Plugins", "plugin browser header")
                     font.pixelSize: Theme.fontSizeLarge
                     font.weight: Font.Medium
                     color: Theme.surfaceText
@@ -225,7 +253,7 @@ FloatingWindow {
                 anchors.right: parent.right
                 anchors.top: headerArea.bottom
                 anchors.topMargin: Theme.spacingM
-                text: I18n.tr("Install plugins from the DMS plugin registry")
+                text: I18n.tr("Install plugins from the DMS plugin registry", "plugin browser description")
                 font.pixelSize: Theme.fontSizeSmall
                 color: Theme.outline
                 wrapMode: Text.WordWrap
@@ -249,7 +277,7 @@ FloatingWindow {
                 showClearButton: true
                 textColor: Theme.surfaceText
                 font.pixelSize: Theme.fontSizeMedium
-                placeholderText: I18n.tr("Search plugins...")
+                placeholderText: I18n.tr("Search plugins...", "plugin search placeholder")
                 text: root.searchQuery
                 focus: true
                 ignoreLeftRightKeys: true
@@ -293,7 +321,7 @@ FloatingWindow {
                         }
 
                         StyledText {
-                            text: I18n.tr("Loading plugins...")
+                            text: I18n.tr("Loading...", "loading indicator")
                             font.pixelSize: Theme.fontSizeMedium
                             color: Theme.surfaceVariantText
                             anchors.horizontalCenter: parent.horizontalCenter
@@ -407,8 +435,8 @@ FloatingWindow {
 
                                     StyledText {
                                         text: {
-                                            const author = "by " + (modelData.author || "Unknown");
-                                            const source = modelData.repo ? ` • <a href="${modelData.repo}" style="text-decoration:none; color:${Theme.primary};">source</a>` : "";
+                                            const author = I18n.tr("by %1", "author attribution").arg(modelData.author || I18n.tr("Unknown", "unknown author"));
+                                            const source = modelData.repo ? ` • <a href="${modelData.repo}" style="text-decoration:none; color:${Theme.primary};">${I18n.tr("source", "source code link")}</a>` : "";
                                             return author + source;
                                         }
                                         font.pixelSize: Theme.fontSizeSmall
@@ -458,7 +486,7 @@ FloatingWindow {
                                         }
 
                                         StyledText {
-                                            text: isInstalled ? "Installed" : "Install"
+                                            text: isInstalled ? I18n.tr("Installed", "installed status") : I18n.tr("Install", "install action button")
                                             font.pixelSize: Theme.fontSizeSmall
                                             font.weight: Font.Medium
                                             color: isInstalled ? Theme.surfaceText : Theme.surface
@@ -474,7 +502,7 @@ FloatingWindow {
                                         enabled: !isInstalled
                                         onClicked: {
                                             if (!isInstalled)
-                                                root.installPlugin(modelData.name);
+                                                root.installPlugin(modelData.name, false);
                                         }
                                     }
                                 }
@@ -521,7 +549,7 @@ FloatingWindow {
 
                 StyledText {
                     anchors.centerIn: listArea
-                    text: I18n.tr("No plugins found")
+                    text: I18n.tr("No plugins found", "empty plugin list")
                     font.pixelSize: Theme.fontSizeMedium
                     color: Theme.surfaceVariantText
                     visible: !root.isLoading && root.filteredPlugins.length === 0

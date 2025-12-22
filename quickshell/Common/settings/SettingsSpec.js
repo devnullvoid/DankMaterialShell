@@ -7,6 +7,7 @@ function percentToUnit(v) {
 
 var SPEC = {
     currentThemeName: { def: "blue", onChange: "applyStoredTheme" },
+    currentThemeCategory: { def: "generic" },
     customThemeFile: { def: "" },
     matugenScheme: { def: "scheme-tonal-spot", onChange: "regenSystemThemes" },
     runUserMatugenTemplates: { def: true, onChange: "regenSystemThemes" },

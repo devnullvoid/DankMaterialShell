@@ -131,6 +131,12 @@ func runOpen(target string) {
 			detectedRequestType = "url"
 		}
 		log.Infof("Detected HTTP(S) URL")
+	} else if strings.HasPrefix(target, "dms://") {
+		// Handle DMS internal URLs (theme/plugin install, etc.)
+		if detectedRequestType == "" {
+			detectedRequestType = "url"
+		}
+		log.Infof("Detected DMS internal URL")
 	} else if _, err := os.Stat(target); err == nil {
 		// Handle local file paths directly (not file:// URIs)
 		// Convert to absolute path
@@ -177,7 +183,7 @@ func runOpen(target string) {
 	}
 
 	method := "apppicker.open"
-	if detectedMimeType == "" && len(detectedCategories) == 0 && (strings.HasPrefix(target, "http://") || strings.HasPrefix(target, "https://")) {
+	if detectedMimeType == "" && len(detectedCategories) == 0 && (strings.HasPrefix(target, "http://") || strings.HasPrefix(target, "https://") || strings.HasPrefix(target, "dms://")) {
 		method = "browser.open"
 		params["url"] = target
 	}

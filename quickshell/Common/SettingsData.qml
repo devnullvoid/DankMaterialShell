@@ -63,6 +63,7 @@ Singleton {
     property alias dankBarRightWidgetsModel: rightWidgetsModel
 
     property string currentThemeName: "blue"
+    property string currentThemeCategory: "generic"
     property string customThemeFile: ""
     property string matugenScheme: "scheme-tonal-spot"
     property bool runUserMatugenTemplates: true
@@ -562,10 +563,12 @@ Singleton {
 
     function applyStoredTheme() {
         if (typeof Theme !== "undefined") {
+            Theme.currentThemeCategory = currentThemeCategory;
             Theme.switchTheme(currentThemeName, false, false);
         } else {
             Qt.callLater(function () {
                 if (typeof Theme !== "undefined") {
+                    Theme.currentThemeCategory = currentThemeCategory;
                     Theme.switchTheme(currentThemeName, false, false);
                 }
             });

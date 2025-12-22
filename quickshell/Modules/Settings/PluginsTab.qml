@@ -387,6 +387,16 @@ FocusScope {
         pluginBrowser.parentModal = pluginsTab.parentModal;
         if (DMSService.dmsAvailable && DMSService.apiVersion >= 8)
             DMSService.listInstalled();
+        if (PopoutService.pendingPluginInstall)
+            Qt.callLater(() => pluginBrowser.show());
+    }
+
+    Connections {
+        target: PopoutService
+        function onPendingPluginInstallChanged() {
+            if (PopoutService.pendingPluginInstall)
+                pluginBrowser.show();
+        }
     }
 
     PluginBrowser {
