@@ -20,7 +20,7 @@
   {
     "term": "%1 class(es)",
     "context": "%1 class(es)",
-    "reference": "Modules/Settings/PrinterTab.qml:1239",
+    "reference": "Modules/Settings/PrinterTab.qml:1230",
     "comment": ""
   },
   {
@@ -38,13 +38,13 @@
   {
     "term": "%1 job(s)",
     "context": "%1 job(s)",
-    "reference": "Modules/Settings/PrinterTab.qml:696",
+    "reference": "Modules/Settings/PrinterTab.qml:687",
     "comment": ""
   },
   {
     "term": "%1 printer(s)",
     "context": "%1 printer(s)",
-    "reference": "Modules/Settings/PrinterTab.qml:550, Modules/Settings/PrinterTab.qml:1302",
+    "reference": "Modules/Settings/PrinterTab.qml:541, Modules/Settings/PrinterTab.qml:1293",
     "comment": ""
   },
   {
@@ -62,7 +62,7 @@
   {
     "term": "0 = square corners",
     "context": "0 = square corners",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:661",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:869",
     "comment": ""
   },
   {
@@ -74,7 +74,7 @@
   {
     "term": "1 event",
     "context": "1 event",
-    "reference": "Modules/DankDash/Overview/CalendarOverviewCard.qml:138",
+    "reference": "Modules/DankDash/Overview/CalendarOverviewCard.qml:135",
     "comment": ""
   },
   {
@@ -176,7 +176,7 @@
   {
     "term": "3rd party",
     "context": "3rd party",
-    "reference": "Modules/Settings/PluginBrowser.qml:400",
+    "reference": "Modules/Settings/PluginBrowser.qml:482",
     "comment": ""
   },
   {
@@ -230,7 +230,7 @@
   {
     "term": "Aborted",
     "context": "Aborted",
-    "reference": "Services/CupsService.qml:751",
+    "reference": "Services/CupsService.qml:754",
     "comment": ""
   },
   {
@@ -242,13 +242,13 @@
   {
     "term": "Accept Jobs",
     "context": "Accept Jobs",
-    "reference": "Modules/Settings/PrinterTab.qml:970",
+    "reference": "Modules/Settings/PrinterTab.qml:961",
     "comment": ""
   },
   {
     "term": "Accepting",
     "context": "Accepting",
-    "reference": "Modules/Settings/PrinterTab.qml:832",
+    "reference": "Modules/Settings/PrinterTab.qml:823",
     "comment": ""
   },
   {
@@ -326,13 +326,19 @@
   {
     "term": "Add",
     "context": "Add",
-    "reference": "Widgets/KeybindItem.qml:1555, Modules/Plugins/ListSettingWithInput.qml:126, Modules/Settings/DesktopWidgetsTab.qml:638",
+    "reference": "Widgets/KeybindItem.qml:1555, Modules/Plugins/ListSettingWithInput.qml:126",
     "comment": ""
   },
   {
     "term": "Add Bar",
     "context": "Add Bar",
     "reference": "Modules/Settings/DankBarTab.qml:320",
+    "comment": ""
+  },
+  {
+    "term": "Add Desktop Widget",
+    "context": "Add Desktop Widget",
+    "reference": "Modules/Settings/DesktopWidgetBrowser.qml:101, Modules/Settings/DesktopWidgetBrowser.qml:217",
     "comment": ""
   },
   {
@@ -344,25 +350,31 @@
   {
     "term": "Add Widget",
     "context": "Add Widget",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:749, Modules/Settings/WidgetSelectionPopup.qml:92, Modules/ControlCenter/Components/EditControls.qml:58, Modules/ControlCenter/Components/EditControls.qml:159",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:749, Modules/Settings/WidgetSelectionPopup.qml:92, Modules/Settings/DesktopWidgetsTab.qml:64, Modules/ControlCenter/Components/EditControls.qml:58, Modules/ControlCenter/Components/EditControls.qml:159",
     "comment": ""
   },
   {
     "term": "Add Widget to %1 Section",
     "context": "Add Widget to %1 Section",
-    "reference": "Modules/Settings/WidgetSelectionPopup.qml:198",
+    "reference": "Modules/Settings/WidgetSelectionPopup.qml:204",
     "comment": ""
   },
   {
     "term": "Add a border around the dock",
     "context": "Add a border around the dock",
-    "reference": "Modules/Settings/DockTab.qml:189",
+    "reference": "Modules/Settings/DockTab.qml:196",
     "comment": ""
   },
   {
     "term": "Add a custom prefix to all application launches. This can be used for things like 'uwsm-app', 'systemd-run', or other command wrappers.",
     "context": "Add a custom prefix to all application launches. This can be used for things like 'uwsm-app', 'systemd-run', or other command wrappers.",
     "reference": "Modules/Settings/LauncherTab.qml:303",
+    "comment": ""
+  },
+  {
+    "term": "Add and configure widgets that appear on your desktop",
+    "context": "Add and configure widgets that appear on your desktop",
+    "reference": "Modules/Settings/DesktopWidgetsTab.qml:54",
     "comment": ""
   },
   {
@@ -398,13 +410,13 @@
   {
     "term": "All day",
     "context": "All day",
-    "reference": "Modules/DankDash/Overview/CalendarOverviewCard.qml:404",
+    "reference": "Modules/DankDash/Overview/CalendarOverviewCard.qml:401",
     "comment": ""
   },
   {
     "term": "All displays",
     "context": "All displays",
-    "reference": "Modules/Plugins/PluginSettings.qml:226, Modules/Settings/DisplayWidgetsTab.qml:385, Modules/Settings/DankBarTab.qml:396, Modules/Settings/DankBarTab.qml:514, Modules/Settings/Widgets/SettingsDisplayPicker.qml:39",
+    "reference": "Modules/Plugins/PluginSettings.qml:237, Modules/Settings/DisplayWidgetsTab.qml:385, Modules/Settings/DankBarTab.qml:396, Modules/Settings/DankBarTab.qml:514, Modules/Settings/Widgets/SettingsDisplayPicker.qml:43",
     "comment": ""
   },
   {
@@ -452,7 +464,13 @@
   {
     "term": "Analog",
     "context": "Analog",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:54, Modules/Settings/DesktopWidgetsTab.qml:58, Modules/Settings/DesktopWidgetsTab.qml:67, PLUGINS/ExampleDesktopClock/DesktopClockSettings.qml:14",
+    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:29, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:33, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:42, PLUGINS/ExampleDesktopClock/DesktopClockSettings.qml:14",
+    "comment": ""
+  },
+  {
+    "term": "Analog, digital, or stacked clock display",
+    "context": "Desktop clock widget description",
+    "reference": "Services/DesktopWidgetRegistry.qml:41",
     "comment": ""
   },
   {
@@ -470,7 +488,7 @@
   {
     "term": "Anonymous Identity (optional)",
     "context": "Anonymous Identity (optional)",
-    "reference": "Modals/WifiPasswordModal.qml:459",
+    "reference": "Modals/WifiPasswordModal.qml:479",
     "comment": ""
   },
   {
@@ -488,7 +506,7 @@
   {
     "term": "Applications",
     "context": "Applications",
-    "reference": "Modules/AppDrawer/AppDrawerPopout.qml:245, Modules/Settings/ThemeColorsTab.qml:689",
+    "reference": "Modules/AppDrawer/AppDrawerPopout.qml:245, Modules/Settings/ThemeColorsTab.qml:897",
     "comment": ""
   },
   {
@@ -500,13 +518,13 @@
   {
     "term": "Apply GTK Colors",
     "context": "Apply GTK Colors",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:988",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1217",
     "comment": ""
   },
   {
     "term": "Apply Qt Colors",
     "context": "Apply Qt Colors",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:1022",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1251",
     "comment": ""
   },
   {
@@ -608,7 +626,7 @@
   {
     "term": "Authenticate",
     "context": "Authenticate",
-    "reference": "Modals/PolkitAuthModal.qml:291",
+    "reference": "Modals/PolkitAuthModal.qml:312",
     "comment": ""
   },
   {
@@ -620,13 +638,13 @@
   {
     "term": "Authentication Required",
     "context": "Authentication Required",
-    "reference": "Modals/PolkitAuthModal.qml:124",
+    "reference": "Modals/PolkitAuthModal.qml:133",
     "comment": ""
   },
   {
     "term": "Authentication failed, please try again",
     "context": "Authentication failed, please try again",
-    "reference": "Modals/PolkitAuthModal.qml:220",
+    "reference": "Modals/PolkitAuthModal.qml:241",
     "comment": ""
   },
   {
@@ -650,7 +668,7 @@
   {
     "term": "Auto",
     "context": "Auto",
-    "reference": "Modules/Settings/NetworkTab.qml:206, Modules/Settings/NetworkTab.qml:801, Modules/Settings/NetworkTab.qml:805, Modules/Settings/NetworkTab.qml:806, Modules/Settings/NetworkTab.qml:809, Modules/Settings/DesktopWidgetsTab.qml:523, Modules/Settings/DesktopWidgetsTab.qml:531, Modules/ControlCenter/Details/NetworkDetail.qml:102, Modules/ControlCenter/Details/NetworkDetail.qml:103, Modules/ControlCenter/Details/NetworkDetail.qml:106, Modules/ControlCenter/Details/NetworkDetail.qml:109",
+    "reference": "Modules/Settings/NetworkTab.qml:206, Modules/Settings/NetworkTab.qml:801, Modules/Settings/NetworkTab.qml:805, Modules/Settings/NetworkTab.qml:806, Modules/Settings/NetworkTab.qml:809, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:351, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:359, Modules/ControlCenter/Details/NetworkDetail.qml:102, Modules/ControlCenter/Details/NetworkDetail.qml:103, Modules/ControlCenter/Details/NetworkDetail.qml:106, Modules/ControlCenter/Details/NetworkDetail.qml:109",
     "comment": ""
   },
   {
@@ -944,25 +962,25 @@
   {
     "term": "Border",
     "context": "Border",
-    "reference": "Modules/Settings/DockTab.qml:185, Modules/Settings/DockTab.qml:188, Modules/Settings/DankBarTab.qml:1036",
+    "reference": "Modules/Settings/DockTab.qml:192, Modules/Settings/DockTab.qml:195, Modules/Settings/DankBarTab.qml:1036",
     "comment": ""
   },
   {
     "term": "Border Color",
     "context": "Border Color",
-    "reference": "Modules/Settings/DockTab.qml:195",
+    "reference": "Modules/Settings/DockTab.qml:202",
     "comment": ""
   },
   {
     "term": "Border Opacity",
     "context": "Border Opacity",
-    "reference": "Modules/Settings/DockTab.qml:229",
+    "reference": "Modules/Settings/DockTab.qml:236",
     "comment": ""
   },
   {
     "term": "Border Thickness",
     "context": "Border Thickness",
-    "reference": "Modules/Settings/DockTab.qml:240",
+    "reference": "Modules/Settings/DockTab.qml:247",
     "comment": ""
   },
   {
@@ -1021,26 +1039,32 @@
   },
   {
     "term": "Browse Plugins",
-    "context": "Browse Plugins",
-    "reference": "Modules/Settings/PluginBrowser.qml:105, Modules/Settings/PluginBrowser.qml:174",
+    "context": "plugin browser header | plugin browser window title",
+    "reference": "Modules/Settings/PluginBrowser.qml:138, Modules/Settings/PluginBrowser.qml:248, Modules/Settings/DesktopWidgetsTab.qml:70",
+    "comment": ""
+  },
+  {
+    "term": "Browse Themes",
+    "context": "browse themes button | theme browser header | theme browser window title",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:765, Modules/Settings/ThemeBrowser.qml:145, Modules/Settings/ThemeBrowser.qml:242",
     "comment": ""
   },
   {
     "term": "CPU",
     "context": "CPU",
-    "reference": "Modules/ProcessList/SystemOverview.qml:51, Modules/Settings/DesktopWidgetsTab.qml:260",
+    "reference": "Modules/ProcessList/SystemOverview.qml:51, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:86",
     "comment": ""
   },
   {
     "term": "CPU Graph",
     "context": "CPU Graph",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:271",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:97",
     "comment": ""
   },
   {
     "term": "CPU Temperature",
     "context": "CPU Temperature",
-    "reference": "Modules/Settings/WidgetsTab.qml:124, Modules/Settings/DesktopWidgetsTab.qml:282",
+    "reference": "Modules/Settings/WidgetsTab.qml:124, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:108",
     "comment": ""
   },
   {
@@ -1062,15 +1086,21 @@
     "comment": ""
   },
   {
+    "term": "CPU, memory, network, and disk monitoring",
+    "context": "System monitor widget description",
+    "reference": "Services/DesktopWidgetRegistry.qml:56",
+    "comment": ""
+  },
+  {
     "term": "CUPS Insecure Filter Warning",
     "context": "CUPS Insecure Filter Warning",
-    "reference": "Services/CupsService.qml:807",
+    "reference": "Services/CupsService.qml:810",
     "comment": ""
   },
   {
     "term": "CUPS Missing Filter Warning",
     "context": "CUPS Missing Filter Warning",
-    "reference": "Services/CupsService.qml:806",
+    "reference": "Services/CupsService.qml:809",
     "comment": ""
   },
   {
@@ -1094,13 +1124,13 @@
   {
     "term": "Cancel",
     "context": "Cancel",
-    "reference": "Modals/BluetoothPairingModal.qml:272, Modals/PolkitAuthModal.qml:264, Modals/WifiPasswordModal.qml:605, Widgets/KeybindItem.qml:1539, Modals/FileBrowser/FileBrowserOverwriteDialog.qml:83, Modules/Settings/PluginBrowser.qml:634",
+    "reference": "Modals/BluetoothPairingModal.qml:272, Modals/PolkitAuthModal.qml:285, Modals/WifiPasswordModal.qml:625, Widgets/KeybindItem.qml:1539, Modals/FileBrowser/FileBrowserOverwriteDialog.qml:83, Modules/Settings/PluginBrowser.qml:113, Modules/Settings/PluginBrowser.qml:718, Modules/Settings/ThemeBrowser.qml:120",
     "comment": ""
   },
   {
     "term": "Canceled",
     "context": "Canceled",
-    "reference": "Services/CupsService.qml:749",
+    "reference": "Services/CupsService.qml:752",
     "comment": ""
   },
   {
@@ -1160,7 +1190,7 @@
   {
     "term": "Change bar appearance",
     "context": "Change bar appearance",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:597",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:805",
     "comment": ""
   },
   {
@@ -1214,13 +1244,13 @@
   {
     "term": "Choose the background color for widgets",
     "context": "Choose the background color for widgets",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:612",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:820",
     "comment": ""
   },
   {
     "term": "Choose the border accent color",
     "context": "Choose the border accent color",
-    "reference": "Modules/Settings/DockTab.qml:196",
+    "reference": "Modules/Settings/DockTab.qml:203",
     "comment": ""
   },
   {
@@ -1244,7 +1274,7 @@
   {
     "term": "Choose which displays show this widget",
     "context": "Choose which displays show this widget",
-    "reference": "Modules/Plugins/PluginSettings.qml:217",
+    "reference": "Modules/Plugins/PluginSettings.qml:228",
     "comment": ""
   },
   {
@@ -1262,13 +1292,13 @@
   {
     "term": "Clear",
     "context": "Clear",
-    "reference": "Modules/Settings/PrinterTab.qml:1050, Modules/Notifications/Center/NotificationHeader.qml:98",
+    "reference": "Modules/Settings/PrinterTab.qml:1041, Modules/Notifications/Center/NotificationHeader.qml:98",
     "comment": ""
   },
   {
     "term": "Clear All",
     "context": "Clear All",
-    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:221, Modules/Settings/PrinterTab.qml:1034",
+    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:221, Modules/Settings/PrinterTab.qml:1025",
     "comment": ""
   },
   {
@@ -1280,7 +1310,7 @@
   {
     "term": "Clear All Jobs",
     "context": "Clear All Jobs",
-    "reference": "Modules/Settings/PrinterTab.qml:1048",
+    "reference": "Modules/Settings/PrinterTab.qml:1039",
     "comment": ""
   },
   {
@@ -1326,6 +1356,12 @@
     "comment": ""
   },
   {
+    "term": "Click to select a custom theme JSON file",
+    "context": "custom theme file hint",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:593",
+    "comment": ""
+  },
+  {
     "term": "Clipboard",
     "context": "Clipboard",
     "reference": "Modals/Settings/SettingsSidebar.qml:204",
@@ -1364,7 +1400,7 @@
   {
     "term": "Clock Style",
     "context": "Clock Style",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:53, PLUGINS/ExampleDesktopClock/DesktopClockSettings.qml:11",
+    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:28, PLUGINS/ExampleDesktopClock/DesktopClockSettings.qml:11",
     "comment": ""
   },
   {
@@ -1400,7 +1436,7 @@
   {
     "term": "Color Mode",
     "context": "Color Mode",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:569",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:777",
     "comment": ""
   },
   {
@@ -1440,6 +1476,12 @@
     "comment": ""
   },
   {
+    "term": "Color theme from DMS registry",
+    "context": "registry theme description",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:94",
+    "comment": ""
+  },
+  {
     "term": "Colorful mix of bright contrasting accents.",
     "context": "Colorful mix of bright contrasting accents.",
     "reference": "Common/Theme.qml:221",
@@ -1472,7 +1514,7 @@
   {
     "term": "Completed",
     "context": "Completed",
-    "reference": "Services/CupsService.qml:753",
+    "reference": "Services/CupsService.qml:756",
     "comment": ""
   },
   {
@@ -1568,19 +1610,19 @@
   {
     "term": "Connect",
     "context": "Connect",
-    "reference": "Modals/WifiPasswordModal.qml:645, Modules/ControlCenter/Details/BluetoothDetail.qml:549, Modules/ControlCenter/Details/NetworkDetail.qml:717",
+    "reference": "Modals/WifiPasswordModal.qml:665, Modules/ControlCenter/Details/BluetoothDetail.qml:549, Modules/ControlCenter/Details/NetworkDetail.qml:717",
     "comment": ""
   },
   {
     "term": "Connect to VPN",
     "context": "Connect to VPN",
-    "reference": "Modals/WifiPasswordModal.qml:256",
+    "reference": "Modals/WifiPasswordModal.qml:263",
     "comment": ""
   },
   {
     "term": "Connect to Wi-Fi",
     "context": "Connect to Wi-Fi",
-    "reference": "Modals/WifiPasswordModal.qml:256",
+    "reference": "Modals/WifiPasswordModal.qml:263",
     "comment": ""
   },
   {
@@ -1598,7 +1640,7 @@
   {
     "term": "Connecting to Device",
     "context": "Connecting to Device",
-    "reference": "Services/CupsService.qml:798",
+    "reference": "Services/CupsService.qml:801",
     "comment": ""
   },
   {
@@ -1634,7 +1676,7 @@
   {
     "term": "Controls opacity of all popouts, modals, and their content layers",
     "context": "Controls opacity of all popouts, modals, and their content layers",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:647",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:855",
     "comment": ""
   },
   {
@@ -1670,7 +1712,7 @@
   {
     "term": "Corner Radius",
     "context": "Corner Radius",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:660",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:868",
     "comment": ""
   },
   {
@@ -1688,7 +1730,7 @@
   {
     "term": "Cover Open",
     "context": "Cover Open",
-    "reference": "Services/CupsService.qml:787",
+    "reference": "Services/CupsService.qml:790",
     "comment": ""
   },
   {
@@ -1700,13 +1742,13 @@
   {
     "term": "Create Printer",
     "context": "Create Printer",
-    "reference": "Modules/Settings/PrinterTab.qml:490",
+    "reference": "Modules/Settings/PrinterTab.qml:481",
     "comment": ""
   },
   {
     "term": "Creating...",
     "context": "Creating...",
-    "reference": "Modules/Settings/PrinterTab.qml:490",
+    "reference": "Modules/Settings/PrinterTab.qml:481",
     "comment": ""
   },
   {
@@ -1737,6 +1779,12 @@
     "term": "Current Temp",
     "context": "Current Temp",
     "reference": "Modules/Settings/GammaControlTab.qml:503",
+    "comment": ""
+  },
+  {
+    "term": "Current Theme: %1",
+    "context": "current theme label",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:76, Modules/Settings/ThemeColorsTab.qml:78, Modules/Settings/ThemeColorsTab.qml:80, Modules/Settings/ThemeColorsTab.qml:81",
     "comment": ""
   },
   {
@@ -1830,6 +1878,12 @@
     "comment": ""
   },
   {
+    "term": "Custom theme loaded from JSON file",
+    "context": "custom theme description",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:98",
+    "comment": ""
+  },
+  {
     "term": "Custom...",
     "context": "Custom...",
     "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:147, Modules/Settings/DisplayConfig/OutputCard.qml:153, Modules/Settings/DisplayConfig/OutputCard.qml:155, Modules/Settings/DisplayConfig/OutputCard.qml:161",
@@ -1874,7 +1928,7 @@
   {
     "term": "DMS out of date",
     "context": "DMS out of date",
-    "reference": "Services/DMSService.qml:308",
+    "reference": "Services/DMSService.qml:313",
     "comment": ""
   },
   {
@@ -1934,7 +1988,7 @@
   {
     "term": "DankShell & System Icons (requires restart)",
     "context": "DankShell & System Icons (requires restart)",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:944",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1173",
     "comment": ""
   },
   {
@@ -1946,7 +2000,7 @@
   {
     "term": "Darken Modal Background",
     "context": "Darken Modal Background",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:679",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:887",
     "comment": ""
   },
   {
@@ -2024,19 +2078,19 @@
   {
     "term": "Delete",
     "context": "Delete",
-    "reference": "Widgets/VpnDetailContent.qml:218, Modules/Settings/PrinterTab.qml:758, Modules/Settings/PrinterTab.qml:1338, Modules/Settings/NetworkTab.qml:1678",
+    "reference": "Widgets/VpnDetailContent.qml:218, Modules/Settings/PrinterTab.qml:749, Modules/Settings/PrinterTab.qml:1329, Modules/Settings/NetworkTab.qml:1678",
     "comment": ""
   },
   {
     "term": "Delete Class",
     "context": "Delete Class",
-    "reference": "Modules/Settings/PrinterTab.qml:1336",
+    "reference": "Modules/Settings/PrinterTab.qml:1327",
     "comment": ""
   },
   {
     "term": "Delete Printer",
     "context": "Delete Printer",
-    "reference": "Modules/Settings/PrinterTab.qml:756",
+    "reference": "Modules/Settings/PrinterTab.qml:747",
     "comment": ""
   },
   {
@@ -2054,19 +2108,25 @@
   {
     "term": "Description",
     "context": "Description",
-    "reference": "Modules/Settings/PrinterTab.qml:466",
+    "reference": "Modules/Settings/PrinterTab.qml:457",
     "comment": ""
   },
   {
     "term": "Desktop Clock",
-    "context": "Desktop Clock",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:27",
+    "context": "Desktop clock widget name",
+    "reference": "Services/DesktopWidgetRegistry.qml:39",
+    "comment": ""
+  },
+  {
+    "term": "Desktop Widget",
+    "context": "Desktop Widget",
+    "reference": "Modules/Settings/PluginListItem.qml:158",
     "comment": ""
   },
   {
     "term": "Desktop Widgets",
     "context": "Desktop Widgets",
-    "reference": "Modals/Settings/SettingsSidebar.qml:123",
+    "reference": "Modals/Settings/SettingsSidebar.qml:123, Modules/Settings/DesktopWidgetsTab.qml:45",
     "comment": ""
   },
   {
@@ -2102,7 +2162,7 @@
   {
     "term": "Digital",
     "context": "Digital",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:54, Modules/Settings/DesktopWidgetsTab.qml:62, PLUGINS/ExampleDesktopClock/DesktopClockSettings.qml:18",
+    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:29, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:37, PLUGINS/ExampleDesktopClock/DesktopClockSettings.qml:18",
     "comment": ""
   },
   {
@@ -2144,7 +2204,7 @@
   {
     "term": "Disabled",
     "context": "Disabled",
-    "reference": "Modules/Settings/NetworkTab.qml:741, Modules/Settings/DankBarTab.qml:428, Modules/Settings/DisplayConfig/DisplayConfigState.qml:819, Modules/Settings/DisplayConfig/DisplayConfigState.qml:825, Modules/Settings/DisplayConfig/DisplayConfigState.qml:827",
+    "reference": "Modules/Settings/DesktopWidgetInstanceCard.qml:62, Modules/Settings/NetworkTab.qml:741, Modules/Settings/DankBarTab.qml:428, Modules/Settings/DisplayConfig/DisplayConfigState.qml:819, Modules/Settings/DisplayConfig/DisplayConfigState.qml:825, Modules/Settings/DisplayConfig/DisplayConfigState.qml:827",
     "comment": ""
   },
   {
@@ -2180,7 +2240,7 @@
   {
     "term": "Disk",
     "context": "Disk",
-    "reference": "Modules/ProcessList/PerformanceTab.qml:403, Modules/Settings/DesktopWidgetsTab.qml:420",
+    "reference": "Modules/ProcessList/PerformanceTab.qml:403, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:248",
     "comment": ""
   },
   {
@@ -2210,7 +2270,7 @@
   {
     "term": "Display Settings",
     "context": "Display Settings",
-    "reference": "Modules/Plugins/PluginSettings.qml:210",
+    "reference": "Modules/Plugins/PluginSettings.qml:221",
     "comment": ""
   },
   {
@@ -2288,7 +2348,7 @@
   {
     "term": "Displays",
     "context": "Displays",
-    "reference": "Modals/Settings/SettingsSidebar.qml:158, Modules/Settings/Widgets/SettingsDisplayPicker.qml:32",
+    "reference": "Modals/Settings/SettingsSidebar.qml:158, Modules/Settings/Widgets/SettingsDisplayPicker.qml:36",
     "comment": ""
   },
   {
@@ -2330,7 +2390,7 @@
   {
     "term": "Dock Transparency",
     "context": "Dock Transparency",
-    "reference": "Modules/Settings/DockTab.qml:172",
+    "reference": "Modules/Settings/DockTab.qml:179",
     "comment": ""
   },
   {
@@ -2348,7 +2408,7 @@
   {
     "term": "Domain (optional)",
     "context": "Domain (optional)",
-    "reference": "Modals/WifiPasswordModal.qml:490",
+    "reference": "Modals/WifiPasswordModal.qml:510",
     "comment": ""
   },
   {
@@ -2366,7 +2426,7 @@
   {
     "term": "Door Open",
     "context": "Door Open",
-    "reference": "Services/CupsService.qml:788",
+    "reference": "Services/CupsService.qml:791",
     "comment": ""
   },
   {
@@ -2378,7 +2438,7 @@
   {
     "term": "Driver",
     "context": "Driver",
-    "reference": "Modules/Settings/PrinterTab.qml:356, Modules/Settings/NetworkTab.qml:533",
+    "reference": "Modules/Settings/PrinterTab.qml:350, Modules/Settings/NetworkTab.qml:533",
     "comment": ""
   },
   {
@@ -2403,6 +2463,18 @@
     "term": "Dusk (Nautical Twilight)",
     "context": "Dusk (Nautical Twilight)",
     "reference": "Services/WeatherService.qml:321",
+    "comment": ""
+  },
+  {
+    "term": "Dynamic",
+    "context": "dynamic theme name",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:76",
+    "comment": ""
+  },
+  {
+    "term": "Dynamic colors from wallpaper",
+    "context": "dynamic colors description",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:515",
     "comment": ""
   },
   {
@@ -2442,12 +2514,6 @@
     "comment": ""
   },
   {
-    "term": "Enable Desktop Clock",
-    "context": "Enable Desktop Clock",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:32",
-    "comment": ""
-  },
-  {
     "term": "Enable Do Not Disturb",
     "context": "Enable Do Not Disturb",
     "reference": "Modules/Settings/NotificationsTab.qml:149",
@@ -2463,12 +2529,6 @@
     "term": "Enable Overview Overlay",
     "context": "Enable Overview Overlay",
     "reference": "Modules/Settings/LauncherTab.qml:354",
-    "comment": ""
-  },
-  {
-    "term": "Enable System Monitor",
-    "context": "Enable System Monitor",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:182",
     "comment": ""
   },
   {
@@ -2510,7 +2570,7 @@
   {
     "term": "Enabled",
     "context": "Enabled",
-    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:819, Modules/Settings/DisplayConfig/DisplayConfigState.qml:827",
+    "reference": "Modules/Settings/DesktopWidgetInstanceCard.qml:62, Modules/Settings/DisplayConfig/DisplayConfigState.qml:819, Modules/Settings/DisplayConfig/DisplayConfigState.qml:827",
     "comment": ""
   },
   {
@@ -2552,7 +2612,7 @@
   {
     "term": "Enter credentials for ",
     "context": "Enter credentials for ",
-    "reference": "Modals/WifiPasswordModal.qml:269, Modals/WifiPasswordModal.qml:272",
+    "reference": "Modals/WifiPasswordModal.qml:276, Modals/WifiPasswordModal.qml:279",
     "comment": ""
   },
   {
@@ -2588,7 +2648,7 @@
   {
     "term": "Enter password for ",
     "context": "Enter password for ",
-    "reference": "Modals/WifiPasswordModal.qml:271, Modals/WifiPasswordModal.qml:272",
+    "reference": "Modals/WifiPasswordModal.qml:278, Modals/WifiPasswordModal.qml:279",
     "comment": ""
   },
   {
@@ -2606,7 +2666,7 @@
   {
     "term": "Error",
     "context": "Error",
-    "reference": "Services/CupsService.qml:816",
+    "reference": "Services/CupsService.qml:819",
     "comment": ""
   },
   {
@@ -2618,7 +2678,7 @@
   {
     "term": "Exclusive Zone Offset",
     "context": "Exclusive Zone Offset",
-    "reference": "Modules/Settings/DockTab.qml:148, Modules/Settings/DankBarTab.qml:868",
+    "reference": "Modules/Settings/DockTab.qml:155, Modules/Settings/DankBarTab.qml:868",
     "comment": ""
   },
   {
@@ -2672,19 +2732,19 @@
   {
     "term": "Failed to add printer to class",
     "context": "Failed to add printer to class",
-    "reference": "Services/CupsService.qml:692",
+    "reference": "Services/CupsService.qml:695",
     "comment": ""
   },
   {
     "term": "Failed to cancel all jobs",
     "context": "Failed to cancel all jobs",
-    "reference": "Services/CupsService.qml:436",
+    "reference": "Services/CupsService.qml:439",
     "comment": ""
   },
   {
     "term": "Failed to cancel selected job",
     "context": "Failed to cancel selected job",
-    "reference": "Services/CupsService.qml:420",
+    "reference": "Services/CupsService.qml:423",
     "comment": ""
   },
   {
@@ -2708,7 +2768,7 @@
   {
     "term": "Failed to create printer",
     "context": "Failed to create printer",
-    "reference": "Services/CupsService.qml:502",
+    "reference": "Services/CupsService.qml:505",
     "comment": ""
   },
   {
@@ -2720,19 +2780,19 @@
   {
     "term": "Failed to delete class",
     "context": "Failed to delete class",
-    "reference": "Services/CupsService.qml:725",
+    "reference": "Services/CupsService.qml:728",
     "comment": ""
   },
   {
     "term": "Failed to delete printer",
     "context": "Failed to delete printer",
-    "reference": "Services/CupsService.qml:519",
+    "reference": "Services/CupsService.qml:522",
     "comment": ""
   },
   {
     "term": "Failed to disable job acceptance",
     "context": "Failed to disable job acceptance",
-    "reference": "Services/CupsService.qml:555",
+    "reference": "Services/CupsService.qml:558",
     "comment": ""
   },
   {
@@ -2774,7 +2834,7 @@
   {
     "term": "Failed to enable job acceptance",
     "context": "Failed to enable job acceptance",
-    "reference": "Services/CupsService.qml:539",
+    "reference": "Services/CupsService.qml:542",
     "comment": ""
   },
   {
@@ -2786,7 +2846,7 @@
   {
     "term": "Failed to hold job",
     "context": "Failed to hold job",
-    "reference": "Services/CupsService.qml:675",
+    "reference": "Services/CupsService.qml:678",
     "comment": ""
   },
   {
@@ -2810,19 +2870,19 @@
   {
     "term": "Failed to move job",
     "context": "Failed to move job",
-    "reference": "Services/CupsService.qml:640",
+    "reference": "Services/CupsService.qml:643",
     "comment": ""
   },
   {
     "term": "Failed to pause printer",
     "context": "Failed to pause printer",
-    "reference": "Services/CupsService.qml:387",
+    "reference": "Services/CupsService.qml:390",
     "comment": ""
   },
   {
     "term": "Failed to print test page",
     "context": "Failed to print test page",
-    "reference": "Services/CupsService.qml:622",
+    "reference": "Services/CupsService.qml:625",
     "comment": ""
   },
   {
@@ -2840,19 +2900,19 @@
   {
     "term": "Failed to remove printer from class",
     "context": "Failed to remove printer from class",
-    "reference": "Services/CupsService.qml:709",
+    "reference": "Services/CupsService.qml:712",
     "comment": ""
   },
   {
     "term": "Failed to restart job",
     "context": "Failed to restart job",
-    "reference": "Services/CupsService.qml:656",
+    "reference": "Services/CupsService.qml:659",
     "comment": ""
   },
   {
     "term": "Failed to resume printer",
     "context": "Failed to resume printer",
-    "reference": "Services/CupsService.qml:403",
+    "reference": "Services/CupsService.qml:406",
     "comment": ""
   },
   {
@@ -2924,19 +2984,19 @@
   {
     "term": "Failed to update description",
     "context": "Failed to update description",
-    "reference": "Services/CupsService.qml:606",
+    "reference": "Services/CupsService.qml:609",
     "comment": ""
   },
   {
     "term": "Failed to update location",
     "context": "Failed to update location",
-    "reference": "Services/CupsService.qml:589",
+    "reference": "Services/CupsService.qml:592",
     "comment": ""
   },
   {
     "term": "Failed to update sharing",
     "context": "Failed to update sharing",
-    "reference": "Services/CupsService.qml:572",
+    "reference": "Services/CupsService.qml:575",
     "comment": ""
   },
   {
@@ -2954,7 +3014,7 @@
   {
     "term": "File",
     "context": "File",
-    "reference": "Services/CupsService.qml:134",
+    "reference": "Services/CupsService.qml:137",
     "comment": ""
   },
   {
@@ -3104,7 +3164,7 @@
   {
     "term": "Force terminal applications to always use dark color schemes",
     "context": "Force terminal applications to always use dark color schemes",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:707",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:915",
     "comment": ""
   },
   {
@@ -3158,19 +3218,19 @@
   {
     "term": "G: grid • Z/X: size",
     "context": "Widget grid keyboard hints",
-    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:582",
+    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:645",
     "comment": ""
   },
   {
     "term": "GPU",
     "context": "GPU",
-    "reference": "Modules/ProcessList/SystemOverview.qml:318, Modules/Settings/DesktopWidgetsTab.qml:312",
+    "reference": "Modules/ProcessList/SystemOverview.qml:318, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:138",
     "comment": ""
   },
   {
     "term": "GPU Temperature",
     "context": "GPU Temperature",
-    "reference": "Modules/Settings/WidgetsTab.qml:132, Modules/Settings/DesktopWidgetsTab.qml:290",
+    "reference": "Modules/Settings/WidgetsTab.qml:132, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:116",
     "comment": ""
   },
   {
@@ -3230,7 +3290,7 @@
   {
     "term": "Graph Time Range",
     "context": "Graph Time Range",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:222",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:48",
     "comment": ""
   },
   {
@@ -3242,7 +3302,7 @@
   {
     "term": "Grid",
     "context": "Grid",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:523, Modules/Settings/DesktopWidgetsTab.qml:527, Modules/Settings/DesktopWidgetsTab.qml:536, Modules/DankBar/Popouts/DWLLayoutPopout.qml:48",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:351, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:355, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:364, Modules/DankBar/Popouts/DWLLayoutPopout.qml:48",
     "comment": ""
   },
   {
@@ -3254,25 +3314,25 @@
   {
     "term": "Grid: OFF",
     "context": "Widget grid snap status",
-    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:552",
+    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:615",
     "comment": ""
   },
   {
     "term": "Grid: ON",
     "context": "Widget grid snap status",
-    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:552",
+    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:615",
     "comment": ""
   },
   {
     "term": "Group by App",
     "context": "Group by App",
-    "reference": "Modules/Settings/DockTab.qml:100",
+    "reference": "Modules/Settings/DockTab.qml:107",
     "comment": ""
   },
   {
     "term": "Group multiple windows of the same app together with a window count indicator",
     "context": "Group multiple windows of the same app together with a window count indicator",
-    "reference": "Modules/Settings/DockTab.qml:101",
+    "reference": "Modules/Settings/DockTab.qml:108",
     "comment": ""
   },
   {
@@ -3308,13 +3368,13 @@
   {
     "term": "Held",
     "context": "Held",
-    "reference": "Services/CupsService.qml:743",
+    "reference": "Services/CupsService.qml:746",
     "comment": ""
   },
   {
     "term": "Help",
     "context": "Help",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:709",
+    "reference": "Modules/Settings/DesktopWidgetsTab.qml:135",
     "comment": ""
   },
   {
@@ -3428,7 +3488,7 @@
   {
     "term": "I Understand",
     "context": "I Understand",
-    "reference": "Modules/Settings/PluginBrowser.qml:640",
+    "reference": "Modules/Settings/PluginBrowser.qml:724",
     "comment": ""
   },
   {
@@ -3446,19 +3506,19 @@
   {
     "term": "Icon Size",
     "context": "Icon Size",
-    "reference": "Modules/Settings/DockTab.qml:124",
+    "reference": "Modules/Settings/DockTab.qml:131",
     "comment": ""
   },
   {
     "term": "Icon Theme",
     "context": "Icon Theme",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:943",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1172",
     "comment": ""
   },
   {
     "term": "Idle",
     "context": "Idle",
-    "reference": "Services/CupsService.qml:760",
+    "reference": "Services/CupsService.qml:763",
     "comment": ""
   },
   {
@@ -3530,13 +3590,13 @@
   {
     "term": "Incorrect password",
     "context": "Incorrect password",
-    "reference": "Modals/WifiPasswordModal.qml:283",
+    "reference": "Modals/WifiPasswordModal.qml:290",
     "comment": ""
   },
   {
     "term": "Indicator Style",
     "context": "Indicator Style",
-    "reference": "Modules/Settings/DockTab.qml:107",
+    "reference": "Modules/Settings/DockTab.qml:114",
     "comment": ""
   },
   {
@@ -3570,9 +3630,75 @@
     "comment": ""
   },
   {
+    "term": "Install",
+    "context": "install action button",
+    "reference": "Modules/Settings/PluginBrowser.qml:112, Modules/Settings/PluginBrowser.qml:543, Modules/Settings/ThemeBrowser.qml:119, Modules/Settings/ThemeBrowser.qml:542",
+    "comment": ""
+  },
+  {
+    "term": "Install Plugin",
+    "context": "plugin installation dialog title",
+    "reference": "Modules/Settings/PluginBrowser.qml:110",
+    "comment": ""
+  },
+  {
+    "term": "Install Theme",
+    "context": "theme installation dialog title",
+    "reference": "Modules/Settings/ThemeBrowser.qml:117",
+    "comment": ""
+  },
+  {
+    "term": "Install color themes from the DMS theme registry",
+    "context": "theme browser description",
+    "reference": "Modules/Settings/ThemeBrowser.qml:289",
+    "comment": ""
+  },
+  {
+    "term": "Install failed: %1",
+    "context": "installation error",
+    "reference": "Modules/Settings/PluginBrowser.qml:76, Modules/Settings/ThemeBrowser.qml:67",
+    "comment": ""
+  },
+  {
+    "term": "Install matugen package for dynamic theming",
+    "context": "matugen installation hint",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:512",
+    "comment": ""
+  },
+  {
+    "term": "Install plugin '%1' from the DMS registry?",
+    "context": "plugin installation confirmation",
+    "reference": "Modules/Settings/PluginBrowser.qml:111",
+    "comment": ""
+  },
+  {
     "term": "Install plugins from the DMS plugin registry",
-    "context": "Install plugins from the DMS plugin registry",
-    "reference": "Modules/Settings/PluginBrowser.qml:228",
+    "context": "plugin browser description",
+    "reference": "Modules/Settings/PluginBrowser.qml:310",
+    "comment": ""
+  },
+  {
+    "term": "Install theme '%1' from the DMS registry?",
+    "context": "theme installation confirmation",
+    "reference": "Modules/Settings/ThemeBrowser.qml:118",
+    "comment": ""
+  },
+  {
+    "term": "Installed",
+    "context": "installed status",
+    "reference": "Modules/Settings/PluginBrowser.qml:543, Modules/Settings/ThemeBrowser.qml:545",
+    "comment": ""
+  },
+  {
+    "term": "Installed: %1",
+    "context": "installation success",
+    "reference": "Modules/Settings/PluginBrowser.qml:79, Modules/Settings/ThemeBrowser.qml:70",
+    "comment": ""
+  },
+  {
+    "term": "Installing: %1",
+    "context": "installation progress",
+    "reference": "Modules/Settings/PluginBrowser.qml:73, Modules/Settings/ThemeBrowser.qml:64",
     "comment": ""
   },
   {
@@ -3584,7 +3710,7 @@
   {
     "term": "Interlock Open",
     "context": "Interlock Open",
-    "reference": "Services/CupsService.qml:789",
+    "reference": "Services/CupsService.qml:792",
     "comment": ""
   },
   {
@@ -3612,9 +3738,15 @@
     "comment": ""
   },
   {
+    "term": "Isolate Displays",
+    "context": "Isolate Displays",
+    "reference": "Modules/Settings/DockTab.qml:100",
+    "comment": ""
+  },
+  {
     "term": "Jobs",
     "context": "Jobs",
-    "reference": "Modules/Settings/PrinterTab.qml:1003, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:181",
+    "reference": "Modules/Settings/PrinterTab.qml:994, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:181",
     "comment": ""
   },
   {
@@ -3752,7 +3884,7 @@
   {
     "term": "Layout",
     "context": "Layout",
-    "reference": "Modules/Settings/WidgetsTab.qml:36, Modules/Settings/DesktopWidgetsTab.qml:522, Modules/Settings/DisplayConfig/DisplayConfigState.qml:833, Modules/DankBar/Popouts/DWLLayoutPopout.qml:181",
+    "reference": "Modules/Settings/WidgetsTab.qml:36, Modules/Settings/DisplayConfig/DisplayConfigState.qml:833, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:350, Modules/DankBar/Popouts/DWLLayoutPopout.qml:181",
     "comment": ""
   },
   {
@@ -3776,7 +3908,7 @@
   {
     "term": "Light Mode",
     "context": "Light Mode",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:576, Modules/Settings/WallpaperTab.qml:377",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:784, Modules/Settings/WallpaperTab.qml:377",
     "comment": ""
   },
   {
@@ -3794,7 +3926,7 @@
   {
     "term": "List",
     "context": "List",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:523, Modules/Settings/DesktopWidgetsTab.qml:529, Modules/Settings/DesktopWidgetsTab.qml:539",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:351, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:357, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:367",
     "comment": ""
   },
   {
@@ -3816,27 +3948,21 @@
     "comment": ""
   },
   {
-    "term": "Loading plugins...",
-    "context": "Loading plugins...",
-    "reference": "Modules/Settings/PluginBrowser.qml:296",
-    "comment": ""
-  },
-  {
     "term": "Loading...",
-    "context": "Loading...",
-    "reference": "Widgets/VpnProfileDelegate.qml:220, Modules/Settings/PrinterTab.qml:370, Modules/Settings/PrinterTab.qml:389, Modules/Settings/NetworkTab.qml:603, Modules/Settings/NetworkTab.qml:1257, Modules/Settings/NetworkTab.qml:1715",
+    "context": "loading indicator",
+    "reference": "Widgets/VpnProfileDelegate.qml:220, Modules/Settings/PluginBrowser.qml:378, Modules/Settings/PrinterTab.qml:366, Modules/Settings/ThemeBrowser.qml:357, Modules/Settings/NetworkTab.qml:603, Modules/Settings/NetworkTab.qml:1257, Modules/Settings/NetworkTab.qml:1715",
     "comment": ""
   },
   {
     "term": "Local",
     "context": "Local",
-    "reference": "Services/CupsService.qml:128",
+    "reference": "Services/CupsService.qml:131",
     "comment": ""
   },
   {
     "term": "Location",
     "context": "Location",
-    "reference": "Modules/Settings/PrinterTab.qml:444, Modules/Settings/PrinterTab.qml:828",
+    "reference": "Modules/Settings/PrinterTab.qml:435, Modules/Settings/PrinterTab.qml:819",
     "comment": ""
   },
   {
@@ -3968,31 +4094,31 @@
   {
     "term": "Margin",
     "context": "Margin",
-    "reference": "Modules/Settings/DockTab.qml:157",
+    "reference": "Modules/Settings/DockTab.qml:164",
     "comment": ""
   },
   {
     "term": "Marker Supply Empty",
     "context": "Marker Supply Empty",
-    "reference": "Services/CupsService.qml:774",
+    "reference": "Services/CupsService.qml:777",
     "comment": ""
   },
   {
     "term": "Marker Supply Low",
     "context": "Marker Supply Low",
-    "reference": "Services/CupsService.qml:773",
+    "reference": "Services/CupsService.qml:776",
     "comment": ""
   },
   {
     "term": "Marker Waste Almost Full",
     "context": "Marker Waste Almost Full",
-    "reference": "Services/CupsService.qml:775",
+    "reference": "Services/CupsService.qml:778",
     "comment": ""
   },
   {
     "term": "Marker Waste Full",
     "context": "Marker Waste Full",
-    "reference": "Services/CupsService.qml:776",
+    "reference": "Services/CupsService.qml:779",
     "comment": ""
   },
   {
@@ -4002,9 +4128,27 @@
     "comment": ""
   },
   {
+    "term": "Material Design inspired color themes",
+    "context": "generic theme description",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:99",
+    "comment": ""
+  },
+  {
+    "term": "Material colors generated from wallpaper",
+    "context": "dynamic theme description",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:92",
+    "comment": ""
+  },
+  {
+    "term": "Matugen Missing",
+    "context": "matugen not found status",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:495",
+    "comment": ""
+  },
+  {
     "term": "Matugen Palette",
     "context": "Matugen Palette",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:491",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:531",
     "comment": ""
   },
   {
@@ -4016,7 +4160,7 @@
   {
     "term": "Matugen Templates",
     "context": "Matugen Templates",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:716",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:924",
     "comment": ""
   },
   {
@@ -4070,25 +4214,25 @@
   {
     "term": "Media Empty",
     "context": "Media Empty",
-    "reference": "Services/CupsService.qml:781",
+    "reference": "Services/CupsService.qml:784",
     "comment": ""
   },
   {
     "term": "Media Jam",
     "context": "Media Jam",
-    "reference": "Services/CupsService.qml:783",
+    "reference": "Services/CupsService.qml:786",
     "comment": ""
   },
   {
     "term": "Media Low",
     "context": "Media Low",
-    "reference": "Services/CupsService.qml:780",
+    "reference": "Services/CupsService.qml:783",
     "comment": ""
   },
   {
     "term": "Media Needed",
     "context": "Media Needed",
-    "reference": "Services/CupsService.qml:782",
+    "reference": "Services/CupsService.qml:785",
     "comment": ""
   },
   {
@@ -4124,13 +4268,13 @@
   {
     "term": "Memory",
     "context": "Memory",
-    "reference": "Modules/ProcessList/SystemOverview.qml:166, Modules/ProcessList/PerformanceTab.qml:189, Modules/Settings/DesktopWidgetsTab.qml:382",
+    "reference": "Modules/ProcessList/SystemOverview.qml:166, Modules/ProcessList/PerformanceTab.qml:189, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:210",
     "comment": ""
   },
   {
     "term": "Memory Graph",
     "context": "Memory Graph",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:393",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:221",
     "comment": ""
   },
   {
@@ -4202,7 +4346,7 @@
   {
     "term": "Model",
     "context": "Model",
-    "reference": "Modules/Settings/DisplayWidgetsTab.qml:217, Modules/Settings/PrinterTab.qml:823, Modules/Settings/DisplayConfigTab.qml:102, Modules/Settings/DisplayConfig/DisplayConfigState.qml:804",
+    "reference": "Modules/Settings/DisplayWidgetsTab.qml:217, Modules/Settings/PrinterTab.qml:814, Modules/Settings/DisplayConfigTab.qml:102, Modules/Settings/DisplayConfig/DisplayConfigState.qml:804",
     "comment": ""
   },
   {
@@ -4250,13 +4394,13 @@
   {
     "term": "Move Widget",
     "context": "Move Widget",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:738",
+    "reference": "Modules/Settings/DesktopWidgetsTab.qml:164",
     "comment": ""
   },
   {
     "term": "Moving to Paused",
     "context": "Moving to Paused",
-    "reference": "Services/CupsService.qml:812",
+    "reference": "Services/CupsService.qml:815",
     "comment": ""
   },
   {
@@ -4274,7 +4418,7 @@
   {
     "term": "Name",
     "context": "Name",
-    "reference": "Modules/Settings/DisplayWidgetsTab.qml:217, Modules/Settings/PrinterTab.qml:422, Modules/Settings/DisplayConfigTab.qml:102, Modules/Settings/DisplayConfig/DisplayConfigState.qml:804, Modules/Settings/Widgets/SystemMonitorVariantCard.qml:144",
+    "reference": "Modules/Settings/DisplayWidgetsTab.qml:217, Modules/Settings/DesktopWidgetInstanceCard.qml:115, Modules/Settings/PrinterTab.qml:413, Modules/Settings/DisplayConfigTab.qml:102, Modules/Settings/DisplayConfig/DisplayConfigState.qml:804, Modules/Settings/Widgets/SystemMonitorVariantCard.qml:144",
     "comment": ""
   },
   {
@@ -4292,13 +4436,13 @@
   {
     "term": "Network",
     "context": "Network",
-    "reference": "Services/CupsService.qml:131, Modals/Settings/SettingsSidebar.qml:184, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:808, Modules/Settings/DesktopWidgetsTab.qml:401, Modules/ControlCenter/Details/NetworkDetail.qml:73, Modules/ControlCenter/Models/WidgetModel.qml:101",
+    "reference": "Services/CupsService.qml:134, Modals/Settings/SettingsSidebar.qml:184, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:808, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:229, Modules/ControlCenter/Details/NetworkDetail.qml:73, Modules/ControlCenter/Models/WidgetModel.qml:101",
     "comment": ""
   },
   {
     "term": "Network Graph",
     "context": "Network Graph",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:412",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:240",
     "comment": ""
   },
   {
@@ -4406,7 +4550,7 @@
   {
     "term": "No",
     "context": "No",
-    "reference": "Widgets/VpnProfileDelegate.qml:78, Modules/Settings/PrinterTab.qml:833, Modules/Settings/NetworkTab.qml:1771, Modules/Settings/DisplayConfig/DisplayConfigState.qml:825, Modules/Settings/DisplayConfig/DisplayConfigState.qml:829, Modules/Settings/DisplayConfig/DisplayConfigState.qml:847, Modules/Settings/DisplayConfig/DisplayConfigState.qml:849",
+    "reference": "Widgets/VpnProfileDelegate.qml:78, Modules/Settings/PrinterTab.qml:824, Modules/Settings/NetworkTab.qml:1771, Modules/Settings/DisplayConfig/DisplayConfigState.qml:825, Modules/Settings/DisplayConfig/DisplayConfigState.qml:829, Modules/Settings/DisplayConfig/DisplayConfigState.qml:847, Modules/Settings/DisplayConfig/DisplayConfigState.qml:849",
     "comment": ""
   },
   {
@@ -4488,9 +4632,15 @@
     "comment": ""
   },
   {
+    "term": "No custom theme file",
+    "context": "no custom theme file status",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:584",
+    "comment": ""
+  },
+  {
     "term": "No devices found",
     "context": "No devices found",
-    "reference": "Modules/Settings/PrinterTab.qml:300, Modules/Settings/PrinterTab.qml:304",
+    "reference": "Modules/Settings/PrinterTab.qml:291",
     "comment": ""
   },
   {
@@ -4508,7 +4658,7 @@
   {
     "term": "No drivers found",
     "context": "No drivers found",
-    "reference": "Modules/Settings/PrinterTab.qml:383, Modules/Settings/PrinterTab.qml:389",
+    "reference": "Modules/Settings/PrinterTab.qml:363",
     "comment": ""
   },
   {
@@ -4543,8 +4693,8 @@
   },
   {
     "term": "No plugins found",
-    "context": "No plugins found",
-    "reference": "Modules/Settings/PluginBrowser.qml:524",
+    "context": "empty plugin list",
+    "reference": "Modules/Settings/PluginBrowser.qml:608",
     "comment": ""
   },
   {
@@ -4562,25 +4712,49 @@
   {
     "term": "No printers configured",
     "context": "No printers configured",
-    "reference": "Modules/Settings/PrinterTab.qml:549",
+    "reference": "Modules/Settings/PrinterTab.qml:540",
     "comment": ""
   },
   {
     "term": "No printers found",
     "context": "No printers found",
-    "reference": "Modules/Settings/PrinterTab.qml:589",
+    "reference": "Modules/Settings/PrinterTab.qml:580",
     "comment": ""
   },
   {
-    "term": "No variants created. Click Add to create a new monitor widget.",
-    "context": "No variants created. Click Add to create a new monitor widget.",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:695",
+    "term": "No themes found",
+    "context": "empty theme list",
+    "reference": "Modules/Settings/ThemeBrowser.qml:578",
+    "comment": ""
+  },
+  {
+    "term": "No themes installed. Browse themes to install from the registry.",
+    "context": "no registry themes installed hint",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:755",
+    "comment": ""
+  },
+  {
+    "term": "No wallpaper selected",
+    "context": "no wallpaper status",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:498",
+    "comment": ""
+  },
+  {
+    "term": "No widgets available",
+    "context": "No widgets available",
+    "reference": "Modules/Settings/DesktopWidgetBrowser.qml:423",
+    "comment": ""
+  },
+  {
+    "term": "No widgets match your search",
+    "context": "No widgets match your search",
+    "reference": "Modules/Settings/DesktopWidgetBrowser.qml:423",
     "comment": ""
   },
   {
     "term": "None",
     "context": "None",
-    "reference": "Services/CupsService.qml:766, Modules/Settings/TypographyMotionTab.qml:222, Modules/Settings/DankBarTab.qml:769, Modules/Settings/DankBarTab.qml:769, Modules/Settings/DankBarTab.qml:806",
+    "reference": "Services/CupsService.qml:769, Modules/Settings/TypographyMotionTab.qml:222, Modules/Settings/DankBarTab.qml:769, Modules/Settings/DankBarTab.qml:769, Modules/Settings/DankBarTab.qml:806",
     "comment": ""
   },
   {
@@ -4616,7 +4790,7 @@
   {
     "term": "Notepad",
     "context": "Notepad",
-    "reference": "DMSShell.qml:582, Modules/Settings/WidgetsTab.qml:224",
+    "reference": "DMSShell.qml:598, Modules/Settings/WidgetsTab.qml:224",
     "comment": ""
   },
   {
@@ -4712,7 +4886,7 @@
   {
     "term": "Offline Report",
     "context": "Offline Report",
-    "reference": "Services/CupsService.qml:811",
+    "reference": "Services/CupsService.qml:814",
     "comment": ""
   },
   {
@@ -4731,6 +4905,12 @@
     "term": "Only adjust gamma based on time or location rules.",
     "context": "Only adjust gamma based on time or location rules.",
     "reference": "Modules/Settings/GammaControlTab.qml:146",
+    "comment": ""
+  },
+  {
+    "term": "Only show windows from the current monitor on each dock",
+    "context": "Only show windows from the current monitor on each dock",
+    "reference": "Modules/Settings/DockTab.qml:101",
     "comment": ""
   },
   {
@@ -4772,13 +4952,13 @@
   {
     "term": "Optional description",
     "context": "Optional description",
-    "reference": "Modules/Settings/PrinterTab.qml:477",
+    "reference": "Modules/Settings/PrinterTab.qml:468",
     "comment": ""
   },
   {
     "term": "Optional location",
     "context": "Optional location",
-    "reference": "Modules/Settings/PrinterTab.qml:455",
+    "reference": "Modules/Settings/PrinterTab.qml:446",
     "comment": ""
   },
   {
@@ -4790,25 +4970,25 @@
   {
     "term": "Other",
     "context": "Other",
-    "reference": "Services/CupsService.qml:767",
+    "reference": "Services/CupsService.qml:770",
     "comment": ""
   },
   {
     "term": "Output Area Almost Full",
     "context": "Output Area Almost Full",
-    "reference": "Services/CupsService.qml:791",
+    "reference": "Services/CupsService.qml:794",
     "comment": ""
   },
   {
     "term": "Output Area Full",
     "context": "Output Area Full",
-    "reference": "Services/CupsService.qml:792",
+    "reference": "Services/CupsService.qml:795",
     "comment": ""
   },
   {
     "term": "Output Tray Missing",
     "context": "Output Tray Missing",
-    "reference": "Services/CupsService.qml:790",
+    "reference": "Services/CupsService.qml:793",
     "comment": ""
   },
   {
@@ -4868,7 +5048,7 @@
   {
     "term": "Padding",
     "context": "Padding",
-    "reference": "Modules/Settings/DockTab.qml:139",
+    "reference": "Modules/Settings/DockTab.qml:146",
     "comment": ""
   },
   {
@@ -4910,25 +5090,25 @@
   {
     "term": "Password",
     "context": "Password",
-    "reference": "Modals/WifiPasswordModal.qml:123, Modals/WifiPasswordModal.qml:132, Modals/WifiPasswordModal.qml:422",
+    "reference": "Modals/WifiPasswordModal.qml:123, Modals/WifiPasswordModal.qml:132, Modals/WifiPasswordModal.qml:442",
     "comment": ""
   },
   {
     "term": "Pause",
     "context": "Pause",
-    "reference": "Modules/Settings/PrinterTab.qml:896, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:136",
+    "reference": "Modules/Settings/PrinterTab.qml:887, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:136",
     "comment": ""
   },
   {
     "term": "Paused",
     "context": "Paused",
-    "reference": "Services/CupsService.qml:796",
+    "reference": "Services/CupsService.qml:799",
     "comment": ""
   },
   {
     "term": "Pending",
     "context": "Pending",
-    "reference": "Services/CupsService.qml:741",
+    "reference": "Services/CupsService.qml:744",
     "comment": ""
   },
   {
@@ -5042,7 +5222,7 @@
   {
     "term": "Plugin",
     "context": "Plugin",
-    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:238",
+    "reference": "Modules/Settings/DesktopWidgetBrowser.qml:372, Modules/ControlCenter/Models/WidgetModel.qml:238",
     "comment": ""
   },
   {
@@ -5084,7 +5264,7 @@
   {
     "term": "Popup Transparency",
     "context": "Popup Transparency",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:646",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:854",
     "comment": ""
   },
   {
@@ -5228,31 +5408,31 @@
   {
     "term": "Printer Classes",
     "context": "Printer Classes",
-    "reference": "Modules/Settings/PrinterTab.qml:1232",
+    "reference": "Modules/Settings/PrinterTab.qml:1223",
     "comment": ""
   },
   {
     "term": "Printer created successfully",
     "context": "Printer created successfully",
-    "reference": "Services/CupsService.qml:504",
+    "reference": "Services/CupsService.qml:507",
     "comment": ""
   },
   {
     "term": "Printer deleted",
     "context": "Printer deleted",
-    "reference": "Services/CupsService.qml:521",
+    "reference": "Services/CupsService.qml:524",
     "comment": ""
   },
   {
     "term": "Printer name (no spaces)",
     "context": "Printer name (no spaces)",
-    "reference": "Modules/Settings/PrinterTab.qml:433",
+    "reference": "Modules/Settings/PrinterTab.qml:424",
     "comment": ""
   },
   {
     "term": "Printers",
     "context": "Printers",
-    "reference": "Modals/Settings/SettingsSidebar.qml:197, Modules/Settings/PrinterTab.qml:153, Modules/Settings/PrinterTab.qml:539, Modules/ControlCenter/Models/WidgetModel.qml:197, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:16",
+    "reference": "Modals/Settings/SettingsSidebar.qml:197, Modules/Settings/PrinterTab.qml:153, Modules/Settings/PrinterTab.qml:530, Modules/ControlCenter/Models/WidgetModel.qml:197, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:16",
     "comment": ""
   },
   {
@@ -5282,13 +5462,13 @@
   {
     "term": "Process Count",
     "context": "Process Count",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:455",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:283",
     "comment": ""
   },
   {
     "term": "Processing",
     "context": "Processing",
-    "reference": "Services/CupsService.qml:745, Services/CupsService.qml:761",
+    "reference": "Services/CupsService.qml:748, Services/CupsService.qml:764",
     "comment": ""
   },
   {
@@ -5354,7 +5534,7 @@
   {
     "term": "Reason",
     "context": "Reason",
-    "reference": "Services/CupsService.qml:352, Modules/Settings/PrinterTab.qml:818",
+    "reference": "Services/CupsService.qml:355, Modules/Settings/PrinterTab.qml:809",
     "comment": ""
   },
   {
@@ -5378,7 +5558,7 @@
   {
     "term": "Recommended available",
     "context": "Recommended available",
-    "reference": "Modules/Settings/PrinterTab.qml:379",
+    "reference": "Modules/Settings/PrinterTab.qml:375",
     "comment": ""
   },
   {
@@ -5396,13 +5576,13 @@
   {
     "term": "Reject Jobs",
     "context": "Reject Jobs",
-    "reference": "Modules/Settings/PrinterTab.qml:970",
+    "reference": "Modules/Settings/PrinterTab.qml:961",
     "comment": ""
   },
   {
     "term": "Reload Plugin",
     "context": "Reload Plugin",
-    "reference": "Modules/Settings/PluginListItem.qml:278",
+    "reference": "Modules/Settings/PluginListItem.qml:297",
     "comment": ""
   },
   {
@@ -5420,7 +5600,7 @@
   {
     "term": "Report",
     "context": "Report",
-    "reference": "Services/CupsService.qml:818",
+    "reference": "Services/CupsService.qml:821",
     "comment": ""
   },
   {
@@ -5438,7 +5618,7 @@
   {
     "term": "Requires DMS %1",
     "context": "Requires DMS %1",
-    "reference": "Modules/Settings/PluginListItem.qml:128",
+    "reference": "Modules/Settings/PluginListItem.qml:130",
     "comment": ""
   },
   {
@@ -5462,19 +5642,19 @@
   {
     "term": "Reset Position",
     "context": "Reset Position",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:149, Modules/Settings/DesktopWidgetsTab.qml:588",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:416, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:124, Modules/Settings/DesktopWidgetSettings/PluginDesktopWidgetSettings.qml:108",
     "comment": ""
   },
   {
     "term": "Reset Size",
     "context": "Reset Size",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:160, Modules/Settings/DesktopWidgetsTab.qml:599",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:430, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:138, Modules/Settings/DesktopWidgetSettings/PluginDesktopWidgetSettings.qml:122",
     "comment": ""
   },
   {
     "term": "Resize Widget",
     "context": "Resize Widget",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:774",
+    "reference": "Modules/Settings/DesktopWidgetsTab.qml:200",
     "comment": ""
   },
   {
@@ -5498,7 +5678,7 @@
   {
     "term": "Resume",
     "context": "Resume",
-    "reference": "Modules/Settings/PrinterTab.qml:896, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:136",
+    "reference": "Modules/Settings/PrinterTab.qml:887, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:136",
     "comment": ""
   },
   {
@@ -5528,13 +5708,13 @@
   {
     "term": "Right-click and drag anywhere on the widget",
     "context": "Right-click and drag anywhere on the widget",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:745",
+    "reference": "Modules/Settings/DesktopWidgetsTab.qml:171",
     "comment": ""
   },
   {
     "term": "Right-click and drag the bottom-right corner",
     "context": "Right-click and drag the bottom-right corner",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:781",
+    "reference": "Modules/Settings/DesktopWidgetsTab.qml:207",
     "comment": ""
   },
   {
@@ -5552,13 +5732,13 @@
   {
     "term": "Run DMS Templates",
     "context": "Run DMS Templates",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:734",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:942",
     "comment": ""
   },
   {
     "term": "Run User Templates",
     "context": "Run User Templates",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:724",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:932",
     "comment": ""
   },
   {
@@ -5618,7 +5798,7 @@
   {
     "term": "Save password",
     "context": "Save password",
-    "reference": "Modals/WifiPasswordModal.qml:577",
+    "reference": "Modals/WifiPasswordModal.qml:597",
     "comment": ""
   },
   {
@@ -5666,7 +5846,7 @@
   {
     "term": "Scanning...",
     "context": "Scanning...",
-    "reference": "Modules/Settings/PrinterTab.qml:292, Modules/Settings/PrinterTab.qml:304, Modules/Settings/NetworkTab.qml:973",
+    "reference": "Modules/Settings/PrinterTab.qml:294, Modules/Settings/NetworkTab.qml:973",
     "comment": ""
   },
   {
@@ -5731,20 +5911,26 @@
   },
   {
     "term": "Search plugins...",
-    "context": "Search plugins...",
-    "reference": "Modules/Settings/PluginBrowser.qml:252",
+    "context": "plugin search placeholder",
+    "reference": "Modules/Settings/PluginBrowser.qml:334",
+    "comment": ""
+  },
+  {
+    "term": "Search themes...",
+    "context": "theme search placeholder",
+    "reference": "Modules/Settings/ThemeBrowser.qml:313",
     "comment": ""
   },
   {
     "term": "Search widgets...",
     "context": "Search widgets...",
-    "reference": "Modules/Settings/WidgetSelectionPopup.qml:251",
+    "reference": "Modules/Settings/WidgetSelectionPopup.qml:270, Modules/Settings/DesktopWidgetBrowser.qml:283",
     "comment": ""
   },
   {
     "term": "Search...",
     "context": "Search...",
-    "reference": "Widgets/DankDropdown.qml:285",
+    "reference": "Widgets/DankDropdown.qml:265",
     "comment": ""
   },
   {
@@ -5786,7 +5972,7 @@
   {
     "term": "Select Custom Theme",
     "context": "custom theme file browser title",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:1063",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1292",
     "comment": ""
   },
   {
@@ -5820,9 +6006,15 @@
     "comment": ""
   },
   {
+    "term": "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.",
+    "context": "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.",
+    "reference": "Modules/Settings/DesktopWidgetBrowser.qml:261",
+    "comment": ""
+  },
+  {
     "term": "Select a widget to add. You can add multiple instances of the same widget if needed.",
     "context": "Select a widget to add. You can add multiple instances of the same widget if needed.",
-    "reference": "Modules/Settings/WidgetSelectionPopup.qml:229",
+    "reference": "Modules/Settings/WidgetSelectionPopup.qml:248",
     "comment": ""
   },
   {
@@ -5834,13 +6026,13 @@
   {
     "term": "Select device...",
     "context": "Select device...",
-    "reference": "Modules/Settings/PrinterTab.qml:295",
+    "reference": "Modules/Settings/PrinterTab.qml:297",
     "comment": ""
   },
   {
     "term": "Select driver...",
     "context": "Select driver...",
-    "reference": "Modules/Settings/PrinterTab.qml:379",
+    "reference": "Modules/Settings/PrinterTab.qml:375",
     "comment": ""
   },
   {
@@ -5876,7 +6068,7 @@
   {
     "term": "Select the palette algorithm used for wallpaper-based colors",
     "context": "Select the palette algorithm used for wallpaper-based colors",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:492",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:532",
     "comment": ""
   },
   {
@@ -5930,7 +6122,7 @@
   {
     "term": "Settings",
     "context": "settings window title",
-    "reference": "Services/AppSearchService.qml:269, Services/PopoutService.qml:257, Services/PopoutService.qml:274, Modals/Settings/SettingsSidebar.qml:66, Modals/Settings/SettingsModal.qml:59, Modals/Settings/SettingsModal.qml:198, Modules/DankDash/DankDashPopout.qml:293",
+    "reference": "Services/AppSearchService.qml:269, Services/PopoutService.qml:260, Services/PopoutService.qml:277, Modals/Settings/SettingsSidebar.qml:66, Modals/Settings/SettingsModal.qml:59, Modals/Settings/SettingsModal.qml:204, Modules/DankDash/DankDashPopout.qml:293",
     "comment": ""
   },
   {
@@ -6002,7 +6194,7 @@
   {
     "term": "Show Date",
     "context": "Show Date",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:104, PLUGINS/ExampleDesktopClock/DesktopClockSettings.qml:33",
+    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:79, PLUGINS/ExampleDesktopClock/DesktopClockSettings.qml:33",
     "comment": ""
   },
   {
@@ -6026,7 +6218,7 @@
   {
     "term": "Show Header",
     "context": "Show Header",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:203, Modules/Settings/Widgets/SystemMonitorVariantCard.qml:167",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:29, Modules/Settings/Widgets/SystemMonitorVariantCard.qml:167",
     "comment": ""
   },
   {
@@ -6038,7 +6230,7 @@
   {
     "term": "Show Hour Numbers",
     "context": "Show Hour Numbers",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:85",
+    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:60",
     "comment": ""
   },
   {
@@ -6128,7 +6320,7 @@
   {
     "term": "Show Seconds",
     "context": "Show Seconds",
-    "reference": "Modules/Settings/TimeWeatherTab.qml:45, Modules/Settings/DesktopWidgetsTab.qml:96, PLUGINS/ExampleDesktopClock/DesktopClockSettings.qml:27",
+    "reference": "Modules/Settings/TimeWeatherTab.qml:45, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:71, PLUGINS/ExampleDesktopClock/DesktopClockSettings.qml:27",
     "comment": ""
   },
   {
@@ -6182,7 +6374,7 @@
   {
     "term": "Show darkened overlay behind modal dialogs",
     "context": "Show darkened overlay behind modal dialogs",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:680",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:888",
     "comment": ""
   },
   {
@@ -6278,7 +6470,7 @@
   {
     "term": "Show password",
     "context": "Show password",
-    "reference": "Modals/WifiPasswordModal.qml:537",
+    "reference": "Modals/WifiPasswordModal.qml:557",
     "comment": ""
   },
   {
@@ -6320,7 +6512,7 @@
   {
     "term": "Shutdown",
     "context": "Shutdown",
-    "reference": "Services/CupsService.qml:797",
+    "reference": "Services/CupsService.qml:800",
     "comment": ""
   },
   {
@@ -6350,13 +6542,19 @@
   {
     "term": "Sizing",
     "context": "Sizing",
-    "reference": "Modules/Settings/DockTab.qml:121",
+    "reference": "Modules/Settings/DockTab.qml:128",
     "comment": ""
   },
   {
     "term": "Some plugins require a newer version of DMS:",
     "context": "Some plugins require a newer version of DMS:",
     "reference": "Modules/Settings/PluginsTab.qml:166",
+    "comment": ""
+  },
+  {
+    "term": "Soothing pastel theme based on Catppuccin",
+    "context": "catppuccin theme description",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:96",
     "comment": ""
   },
   {
@@ -6368,7 +6566,7 @@
   {
     "term": "Sort By",
     "context": "Sort By",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:495",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:323",
     "comment": ""
   },
   {
@@ -6398,7 +6596,7 @@
   {
     "term": "Spacing",
     "context": "Spacing",
-    "reference": "Modules/Settings/DockTab.qml:136, Modules/Settings/DankBarTab.qml:843",
+    "reference": "Modules/Settings/DockTab.qml:143, Modules/Settings/DankBarTab.qml:843",
     "comment": ""
   },
   {
@@ -6416,7 +6614,7 @@
   {
     "term": "Spool Area Full",
     "context": "Spool Area Full",
-    "reference": "Services/CupsService.qml:805",
+    "reference": "Services/CupsService.qml:808",
     "comment": ""
   },
   {
@@ -6428,7 +6626,7 @@
   {
     "term": "Stacked",
     "context": "Stacked",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:54, Modules/Settings/DesktopWidgetsTab.qml:60, Modules/Settings/DesktopWidgetsTab.qml:70",
+    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:29, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:35, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:45",
     "comment": ""
   },
   {
@@ -6446,7 +6644,7 @@
   {
     "term": "State",
     "context": "State",
-    "reference": "Modules/Settings/PrinterTab.qml:813, Modules/Settings/NetworkTab.qml:537",
+    "reference": "Modules/Settings/PrinterTab.qml:804, Modules/Settings/NetworkTab.qml:537",
     "comment": ""
   },
   {
@@ -6458,19 +6656,19 @@
   {
     "term": "Stopped",
     "context": "Stopped",
-    "reference": "Services/CupsService.qml:747, Services/CupsService.qml:762",
+    "reference": "Services/CupsService.qml:750, Services/CupsService.qml:765",
     "comment": ""
   },
   {
     "term": "Stopped Partly",
     "context": "Stopped Partly",
-    "reference": "Services/CupsService.qml:801",
+    "reference": "Services/CupsService.qml:804",
     "comment": ""
   },
   {
     "term": "Stopping",
     "context": "Stopping",
-    "reference": "Services/CupsService.qml:800",
+    "reference": "Services/CupsService.qml:803",
     "comment": ""
   },
   {
@@ -6542,13 +6740,13 @@
   {
     "term": "Sync Mode with Portal",
     "context": "Sync Mode with Portal",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:696",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:904",
     "comment": ""
   },
   {
     "term": "Sync dark mode with settings portals for system-wide theme hints",
     "context": "Sync dark mode with settings portals for system-wide theme hints",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:697",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:905",
     "comment": ""
   },
   {
@@ -6560,13 +6758,13 @@
   {
     "term": "System App Theming",
     "context": "System App Theming",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:962",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1191",
     "comment": ""
   },
   {
     "term": "System Monitor",
-    "context": "sysmon window title",
-    "reference": "Modals/ProcessListModal.qml:49, Modals/ProcessListModal.qml:65, Modals/ProcessListModal.qml:185, Modules/Settings/DesktopWidgetsTab.qml:177",
+    "context": "System monitor widget name | sysmon window title",
+    "reference": "Modals/ProcessListModal.qml:49, Modals/ProcessListModal.qml:65, Modals/ProcessListModal.qml:203, Services/DesktopWidgetRegistry.qml:54",
     "comment": ""
   },
   {
@@ -6656,19 +6854,19 @@
   {
     "term": "Terminals - Always use Dark Theme",
     "context": "Terminals - Always use Dark Theme",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:706",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:914",
     "comment": ""
   },
   {
     "term": "Test Page",
     "context": "Test Page",
-    "reference": "Modules/Settings/PrinterTab.qml:936",
+    "reference": "Modules/Settings/PrinterTab.qml:927",
     "comment": ""
   },
   {
     "term": "Test page sent to printer",
     "context": "Test page sent to printer",
-    "reference": "Services/CupsService.qml:624",
+    "reference": "Services/CupsService.qml:627",
     "comment": ""
   },
   {
@@ -6692,7 +6890,7 @@
   {
     "term": "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (qt5ct.conf|qt6ct.conf and ~/.config/gtk-3.0|gtk-4.0).",
     "context": "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (qt5ct.conf|qt6ct.conf and ~/.config/gtk-3.0|gtk-4.0).",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:927",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1156",
     "comment": ""
   },
   {
@@ -6710,7 +6908,7 @@
   {
     "term": "Theme Color",
     "context": "Theme Color",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:36",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:56",
     "comment": ""
   },
   {
@@ -6722,13 +6920,13 @@
   {
     "term": "Third-Party Plugin Warning",
     "context": "Third-Party Plugin Warning",
-    "reference": "Modules/Settings/PluginBrowser.qml:537, Modules/Settings/PluginBrowser.qml:571",
+    "reference": "Modules/Settings/PluginBrowser.qml:621, Modules/Settings/PluginBrowser.qml:655",
     "comment": ""
   },
   {
     "term": "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\\n\\nThese plugins may pose security and privacy risks - install at your own risk.",
     "context": "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\\n\\nThese plugins may pose security and privacy risks - install at your own risk.",
-    "reference": "Modules/Settings/PluginBrowser.qml:595",
+    "reference": "Modules/Settings/PluginBrowser.qml:679",
     "comment": ""
   },
   {
@@ -6782,7 +6980,7 @@
   {
     "term": "Timed Out",
     "context": "Timed Out",
-    "reference": "Services/CupsService.qml:799",
+    "reference": "Services/CupsService.qml:802",
     "comment": ""
   },
   {
@@ -6818,7 +7016,7 @@
   {
     "term": "To update, run the following command:",
     "context": "To update, run the following command:",
-    "reference": "Services/DMSService.qml:308",
+    "reference": "Services/DMSService.qml:313",
     "comment": ""
   },
   {
@@ -6860,13 +7058,13 @@
   {
     "term": "Toner Empty",
     "context": "Toner Empty",
-    "reference": "Services/CupsService.qml:772",
+    "reference": "Services/CupsService.qml:775",
     "comment": ""
   },
   {
     "term": "Toner Low",
     "context": "Toner Low",
-    "reference": "Services/CupsService.qml:771",
+    "reference": "Services/CupsService.qml:774",
     "comment": ""
   },
   {
@@ -6890,7 +7088,7 @@
   {
     "term": "Top Processes",
     "context": "Top Processes",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:428",
+    "reference": "Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:256",
     "comment": ""
   },
   {
@@ -6926,7 +7124,7 @@
   {
     "term": "Transparency",
     "context": "Transparency",
-    "reference": "Modules/Settings/DockTab.qml:169, Modules/Settings/DankBarTab.qml:1212, Modules/Settings/DesktopWidgetsTab.qml:112, Modules/Settings/DesktopWidgetsTab.qml:551, Modules/Settings/Widgets/SystemMonitorVariantCard.qml:342",
+    "reference": "Modules/Settings/DockTab.qml:176, Modules/Settings/DankBarTab.qml:1212, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:379, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:87, Modules/Settings/Widgets/SystemMonitorVariantCard.qml:342",
     "comment": ""
   },
   {
@@ -6960,15 +7158,39 @@
     "comment": ""
   },
   {
+    "term": "Uninstall",
+    "context": "uninstall action button",
+    "reference": "Modules/Settings/ThemeBrowser.qml:544",
+    "comment": ""
+  },
+  {
     "term": "Uninstall Plugin",
     "context": "Uninstall Plugin",
-    "reference": "Modules/Settings/PluginListItem.qml:237",
+    "reference": "Modules/Settings/PluginListItem.qml:256",
+    "comment": ""
+  },
+  {
+    "term": "Uninstall failed: %1",
+    "context": "uninstallation error",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:741, Modules/Settings/ThemeBrowser.qml:96",
+    "comment": ""
+  },
+  {
+    "term": "Uninstalled: %1",
+    "context": "uninstallation success",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:744, Modules/Settings/ThemeBrowser.qml:99",
+    "comment": ""
+  },
+  {
+    "term": "Uninstalling: %1",
+    "context": "uninstallation progress",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:738, Modules/Settings/ThemeBrowser.qml:93",
     "comment": ""
   },
   {
     "term": "Unknown",
-    "context": "Unknown",
-    "reference": "Modules/Settings/PrinterTab.qml:1296, Modules/Settings/NetworkTab.qml:121, Modules/Settings/NetworkTab.qml:163, Modules/Settings/NetworkTab.qml:369, Modules/Settings/NetworkTab.qml:390, Modules/Settings/NetworkTab.qml:538, Modules/Settings/NetworkTab.qml:667, Modules/Settings/NetworkTab.qml:1071, Modules/ControlCenter/Details/BatteryDetail.qml:177, Modules/ControlCenter/Components/HeaderPane.qml:60",
+    "context": "unknown author",
+    "reference": "Modules/Settings/PluginBrowser.qml:492, Modules/Settings/PrinterTab.qml:1287, Modules/Settings/ThemeBrowser.qml:485, Modules/Settings/NetworkTab.qml:121, Modules/Settings/NetworkTab.qml:163, Modules/Settings/NetworkTab.qml:369, Modules/Settings/NetworkTab.qml:390, Modules/Settings/NetworkTab.qml:538, Modules/Settings/NetworkTab.qml:667, Modules/Settings/NetworkTab.qml:1071, Modules/ControlCenter/Details/BatteryDetail.qml:177, Modules/ControlCenter/Components/HeaderPane.qml:60",
     "comment": ""
   },
   {
@@ -7034,7 +7256,7 @@
   {
     "term": "Update Plugin",
     "context": "Update Plugin",
-    "reference": "Modules/Settings/PluginListItem.qml:194",
+    "reference": "Modules/Settings/PluginListItem.qml:213",
     "comment": ""
   },
   {
@@ -7112,7 +7334,7 @@
   {
     "term": "Use light theme instead of dark theme",
     "context": "Use light theme instead of dark theme",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:577",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:785",
     "comment": ""
   },
   {
@@ -7142,7 +7364,7 @@
   {
     "term": "Username",
     "context": "Username",
-    "reference": "Modals/WifiPasswordModal.qml:121, Modals/WifiPasswordModal.qml:390, Widgets/VpnProfileDelegate.qml:42, Modules/Settings/NetworkTab.qml:1741",
+    "reference": "Modals/WifiPasswordModal.qml:121, Modals/WifiPasswordModal.qml:410, Widgets/VpnProfileDelegate.qml:42, Modules/Settings/NetworkTab.qml:1741",
     "comment": ""
   },
   {
@@ -7236,18 +7458,6 @@
     "comment": ""
   },
   {
-    "term": "Variant created - expand to configure",
-    "context": "Variant created - expand to configure",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:643",
-    "comment": ""
-  },
-  {
-    "term": "Variant removed",
-    "context": "Variant removed",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:675",
-    "comment": ""
-  },
-  {
     "term": "Version",
     "context": "Version",
     "reference": "Modules/Settings/AboutTab.qml:605",
@@ -7338,9 +7548,27 @@
     "comment": ""
   },
   {
+    "term": "Wallpaper Error",
+    "context": "wallpaper error status",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:493",
+    "comment": ""
+  },
+  {
     "term": "Wallpaper Monitor",
     "context": "Wallpaper Monitor",
     "reference": "Modules/Settings/WallpaperTab.qml:792",
+    "comment": ""
+  },
+  {
+    "term": "Wallpaper processing failed",
+    "context": "wallpaper processing error",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:510",
+    "comment": ""
+  },
+  {
+    "term": "Wallpaper processing failed - check wallpaper path",
+    "context": "wallpaper error",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:153",
     "comment": ""
   },
   {
@@ -7358,7 +7586,7 @@
   {
     "term": "Warning",
     "context": "Warning",
-    "reference": "Services/CupsService.qml:817",
+    "reference": "Services/CupsService.qml:820",
     "comment": ""
   },
   {
@@ -7448,7 +7676,7 @@
   {
     "term": "Widget Background Color",
     "context": "Widget Background Color",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:611",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:819",
     "comment": ""
   },
   {
@@ -7466,13 +7694,13 @@
   {
     "term": "Widget Style",
     "context": "Widget Style",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:596",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:804",
     "comment": ""
   },
   {
     "term": "Widget Styling",
     "context": "Widget Styling",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:589",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:797",
     "comment": ""
   },
   {
@@ -7482,9 +7710,15 @@
     "comment": ""
   },
   {
-    "term": "Widget Variants",
-    "context": "Widget Variants",
-    "reference": "Modules/Settings/DesktopWidgetsTab.qml:630",
+    "term": "Widget added",
+    "context": "Widget added",
+    "reference": "Modules/Settings/DesktopWidgetsTab.qml:20",
+    "comment": ""
+  },
+  {
+    "term": "Widget removed",
+    "context": "Widget removed",
+    "reference": "Modules/Settings/DesktopWidgetsTab.qml:116",
     "comment": ""
   },
   {
@@ -7568,7 +7802,7 @@
   {
     "term": "Yes",
     "context": "Yes",
-    "reference": "Widgets/VpnProfileDelegate.qml:78, Modules/Settings/PrinterTab.qml:833, Modules/Settings/NetworkTab.qml:1771, Modules/Settings/DisplayConfig/DisplayConfigState.qml:825, Modules/Settings/DisplayConfig/DisplayConfigState.qml:829, Modules/Settings/DisplayConfig/DisplayConfigState.qml:847, Modules/Settings/DisplayConfig/DisplayConfigState.qml:849",
+    "reference": "Widgets/VpnProfileDelegate.qml:78, Modules/Settings/PrinterTab.qml:824, Modules/Settings/NetworkTab.qml:1771, Modules/Settings/DisplayConfig/DisplayConfigState.qml:825, Modules/Settings/DisplayConfig/DisplayConfigState.qml:829, Modules/Settings/DisplayConfig/DisplayConfigState.qml:847, Modules/Settings/DisplayConfig/DisplayConfigState.qml:849",
     "comment": ""
   },
   {
@@ -7599,6 +7833,12 @@
     "term": "apps",
     "context": "apps",
     "reference": "Modules/AppDrawer/AppDrawerPopout.qml:260",
+    "comment": ""
+  },
+  {
+    "term": "by %1",
+    "context": "author attribution",
+    "reference": "Modules/Settings/PluginBrowser.qml:492, Modules/Settings/ThemeBrowser.qml:485",
     "comment": ""
   },
   {
@@ -7652,7 +7892,7 @@
   {
     "term": "events",
     "context": "events",
-    "reference": "Modules/DankDash/Overview/CalendarOverviewCard.qml:138",
+    "reference": "Modules/DankDash/Overview/CalendarOverviewCard.qml:135",
     "comment": ""
   },
   {
@@ -7674,6 +7914,12 @@
     "comment": ""
   },
   {
+    "term": "matugen not found - install matugen package for dynamic theming",
+    "context": "matugen error",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:151",
+    "comment": ""
+  },
+  {
     "term": "minutes",
     "context": "minutes",
     "reference": "Modules/Settings/NotificationsTab.qml:73",
@@ -7688,13 +7934,19 @@
   {
     "term": "official",
     "context": "official",
-    "reference": "Modules/Settings/PluginBrowser.qml:380",
+    "reference": "Modules/Settings/PluginBrowser.qml:462, Modules/Settings/ThemeBrowser.qml:476",
     "comment": ""
   },
   {
     "term": "seconds",
     "context": "seconds",
     "reference": "Modules/Settings/NotificationsTab.qml:72",
+    "comment": ""
+  },
+  {
+    "term": "source",
+    "context": "source code link",
+    "reference": "Modules/Settings/PluginBrowser.qml:493",
     "comment": ""
   },
   {
@@ -7712,7 +7964,7 @@
   {
     "term": "• Install only from trusted sources",
     "context": "• Install only from trusted sources",
-    "reference": "Modules/Settings/PluginBrowser.qml:618",
+    "reference": "Modules/Settings/PluginBrowser.qml:702",
     "comment": ""
   },
   {
@@ -7742,13 +7994,13 @@
   {
     "term": "• Plugins may contain bugs or security issues",
     "context": "• Plugins may contain bugs or security issues",
-    "reference": "Modules/Settings/PluginBrowser.qml:606",
+    "reference": "Modules/Settings/PluginBrowser.qml:690",
     "comment": ""
   },
   {
     "term": "• Review code before installation when possible",
     "context": "• Review code before installation when possible",
-    "reference": "Modules/Settings/PluginBrowser.qml:612",
+    "reference": "Modules/Settings/PluginBrowser.qml:696",
     "comment": ""
   },
   {

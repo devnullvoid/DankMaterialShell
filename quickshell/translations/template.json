@@ -392,6 +392,13 @@
     "comment": ""
   },
   {
+    "term": "Add Desktop Widget",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Add Printer",
     "translation": "",
     "context": "",
@@ -421,6 +428,13 @@
   },
   {
     "term": "Add a custom prefix to all application launches. This can be used for things like 'uwsm-app', 'systemd-run', or other command wrappers.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Add and configure widgets that appear on your desktop",
     "translation": "",
     "context": "",
     "reference": "",
@@ -528,6 +542,13 @@
     "term": "Analog",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Analog, digital, or stacked clock display",
+    "translation": "",
+    "context": "Desktop clock widget description",
     "reference": "",
     "comment": ""
   },
@@ -1192,7 +1213,14 @@
   {
     "term": "Browse Plugins",
     "translation": "",
-    "context": "",
+    "context": "plugin browser header | plugin browser window title",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Browse Themes",
+    "translation": "",
+    "context": "browse themes button | theme browser header | theme browser window title",
     "reference": "",
     "comment": ""
   },
@@ -1235,6 +1263,13 @@
     "term": "CPU usage indicator",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "CPU, memory, network, and disk monitoring",
+    "translation": "",
+    "context": "System monitor widget description",
     "reference": "",
     "comment": ""
   },
@@ -1547,6 +1582,13 @@
     "comment": ""
   },
   {
+    "term": "Click to select a custom theme JSON file",
+    "translation": "",
+    "context": "custom theme file hint",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Clipboard",
     "translation": "",
     "context": "",
@@ -1676,6 +1718,13 @@
     "term": "Color temperature for night mode",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Color theme from DMS registry",
+    "translation": "",
+    "context": "registry theme description",
     "reference": "",
     "comment": ""
   },
@@ -2030,6 +2079,13 @@
     "comment": ""
   },
   {
+    "term": "Current Theme: %1",
+    "translation": "",
+    "context": "current theme label",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Current Weather",
     "translation": "",
     "context": "",
@@ -2131,6 +2187,13 @@
     "term": "Custom Transparency",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Custom theme loaded from JSON file",
+    "translation": "",
+    "context": "custom theme description",
     "reference": "",
     "comment": ""
   },
@@ -2402,6 +2465,13 @@
   },
   {
     "term": "Desktop Clock",
+    "translation": "",
+    "context": "Desktop clock widget name",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Desktop Widget",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2807,6 +2877,20 @@
     "comment": ""
   },
   {
+    "term": "Dynamic",
+    "translation": "",
+    "context": "dynamic theme name",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Dynamic colors from wallpaper",
+    "translation": "",
+    "context": "dynamic colors description",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Edge Spacing",
     "translation": "",
     "context": "",
@@ -2849,13 +2933,6 @@
     "comment": ""
   },
   {
-    "term": "Enable Desktop Clock",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Enable Do Not Disturb",
     "translation": "",
     "context": "",
@@ -2871,13 +2948,6 @@
   },
   {
     "term": "Enable Overview Overlay",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Enable System Monitor",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4165,9 +4235,86 @@
     "comment": ""
   },
   {
+    "term": "Install",
+    "translation": "",
+    "context": "install action button",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Install Plugin",
+    "translation": "",
+    "context": "plugin installation dialog title",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Install Theme",
+    "translation": "",
+    "context": "theme installation dialog title",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Install color themes from the DMS theme registry",
+    "translation": "",
+    "context": "theme browser description",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Install failed: %1",
+    "translation": "",
+    "context": "installation error",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Install matugen package for dynamic theming",
+    "translation": "",
+    "context": "matugen installation hint",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Install plugin '%1' from the DMS registry?",
+    "translation": "",
+    "context": "plugin installation confirmation",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Install plugins from the DMS plugin registry",
     "translation": "",
-    "context": "",
+    "context": "plugin browser description",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Install theme '%1' from the DMS registry?",
+    "translation": "",
+    "context": "theme installation confirmation",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Installed",
+    "translation": "",
+    "context": "installed status",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Installed: %1",
+    "translation": "",
+    "context": "installation success",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Installing: %1",
+    "translation": "",
+    "context": "installation progress",
     "reference": "",
     "comment": ""
   },
@@ -4208,6 +4355,13 @@
   },
   {
     "term": "Invert on mode change",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Isolate Displays",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4452,16 +4606,9 @@
     "comment": ""
   },
   {
-    "term": "Loading plugins...",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Loading...",
     "translation": "",
-    "context": "",
+    "context": "loading indicator",
     "reference": "",
     "comment": ""
   },
@@ -4665,6 +4812,27 @@
     "term": "Material Colors",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Material Design inspired color themes",
+    "translation": "",
+    "context": "generic theme description",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Material colors generated from wallpaper",
+    "translation": "",
+    "context": "dynamic theme description",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Matugen Missing",
+    "translation": "",
+    "context": "matugen not found status",
     "reference": "",
     "comment": ""
   },
@@ -5236,6 +5404,13 @@
     "comment": ""
   },
   {
+    "term": "No custom theme file",
+    "translation": "",
+    "context": "no custom theme file status",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "No devices found",
     "translation": "",
     "context": "",
@@ -5301,7 +5476,7 @@
   {
     "term": "No plugins found",
     "translation": "",
-    "context": "",
+    "context": "empty plugin list",
     "reference": "",
     "comment": ""
   },
@@ -5334,7 +5509,35 @@
     "comment": ""
   },
   {
-    "term": "No variants created. Click Add to create a new monitor widget.",
+    "term": "No themes found",
+    "translation": "",
+    "context": "empty theme list",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No themes installed. Browse themes to install from the registry.",
+    "translation": "",
+    "context": "no registry themes installed hint",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No wallpaper selected",
+    "translation": "",
+    "context": "no wallpaper status",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No widgets available",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No widgets match your search",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5517,6 +5720,13 @@
   },
   {
     "term": "Only adjust gamma based on time or location rules.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Only show windows from the current monitor on each dock",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6687,7 +6897,14 @@
   {
     "term": "Search plugins...",
     "translation": "",
-    "context": "",
+    "context": "plugin search placeholder",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Search themes...",
+    "translation": "",
+    "context": "theme search placeholder",
     "reference": "",
     "comment": ""
   },
@@ -6784,6 +7001,13 @@
   },
   {
     "term": "Select a color from the palette or use custom sliders",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7420,6 +7644,13 @@
     "comment": ""
   },
   {
+    "term": "Soothing pastel theme based on Catppuccin",
+    "translation": "",
+    "context": "catppuccin theme description",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Sort Alphabetically",
     "translation": "",
     "context": "",
@@ -7660,7 +7891,7 @@
   {
     "term": "System Monitor",
     "translation": "",
-    "context": "sysmon window title",
+    "context": "System monitor widget name | sysmon window title",
     "reference": "",
     "comment": ""
   },
@@ -8120,6 +8351,13 @@
     "comment": ""
   },
   {
+    "term": "Uninstall",
+    "translation": "",
+    "context": "uninstall action button",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Uninstall Plugin",
     "translation": "",
     "context": "",
@@ -8127,9 +8365,30 @@
     "comment": ""
   },
   {
+    "term": "Uninstall failed: %1",
+    "translation": "",
+    "context": "uninstallation error",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Uninstalled: %1",
+    "translation": "",
+    "context": "uninstallation success",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Uninstalling: %1",
+    "translation": "",
+    "context": "uninstallation progress",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Unknown",
     "translation": "",
-    "context": "",
+    "context": "unknown author",
     "reference": "",
     "comment": ""
   },
@@ -8442,20 +8701,6 @@
     "comment": ""
   },
   {
-    "term": "Variant created - expand to configure",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Variant removed",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Version",
     "translation": "",
     "context": "",
@@ -8561,9 +8806,30 @@
     "comment": ""
   },
   {
+    "term": "Wallpaper Error",
+    "translation": "",
+    "context": "wallpaper error status",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Wallpaper Monitor",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Wallpaper processing failed",
+    "translation": "",
+    "context": "wallpaper processing error",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Wallpaper processing failed - check wallpaper path",
+    "translation": "",
+    "context": "wallpaper error",
     "reference": "",
     "comment": ""
   },
@@ -8729,7 +8995,14 @@
     "comment": ""
   },
   {
-    "term": "Widget Variants",
+    "term": "Widget added",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Widget removed",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8869,6 +9142,13 @@
     "comment": ""
   },
   {
+    "term": "by %1",
+    "translation": "",
+    "context": "author attribution",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "days",
     "translation": "",
     "context": "",
@@ -8953,6 +9233,13 @@
     "comment": ""
   },
   {
+    "term": "matugen not found - install matugen package for dynamic theming",
+    "translation": "",
+    "context": "matugen error",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "minutes",
     "translation": "",
     "context": "",
@@ -8977,6 +9264,13 @@
     "term": "seconds",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "source",
+    "translation": "",
+    "context": "source code link",
     "reference": "",
     "comment": ""
   },
