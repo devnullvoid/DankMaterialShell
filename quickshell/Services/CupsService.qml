@@ -109,33 +109,36 @@ Singleton {
     function getDeviceDisplayName(device) {
         if (!device)
             return "";
+        let name = "";
         if (device.info && device.info.length > 0) {
-            return decodeUri(device.info);
+            name = decodeUri(device.info);
+        } else if (device.makeModel && device.makeModel.length > 0) {
+            name = decodeUri(device.makeModel);
+        } else {
+            return decodeUri(device.uri);
         }
-        if (device.makeModel && device.makeModel.length > 0) {
-            return decodeUri(device.makeModel);
-        }
-        return decodeUri(device.uri);
+        if (device.ip)
+            return name + " (" + device.ip + ")";
+        return name;
     }
 
     function getDeviceSubtitle(device) {
         if (!device)
             return "";
         const parts = [];
-        if (device.class) {
-            switch (device.class) {
-            case "direct":
-                parts.push(I18n.tr("Local"));
-                break;
-            case "network":
-                parts.push(I18n.tr("Network"));
-                break;
-            case "file":
-                parts.push(I18n.tr("File"));
-                break;
-            default:
+        switch (device.class) {
+        case "direct":
+            parts.push(I18n.tr("Local"));
+            break;
+        case "network":
+            parts.push(I18n.tr("Network"));
+            break;
+        case "file":
+            parts.push(I18n.tr("File"));
+            break;
+        default:
+            if (device.class)
                 parts.push(device.class);
-            }
         }
         if (device.location)
             parts.push(decodeUri(device.location));

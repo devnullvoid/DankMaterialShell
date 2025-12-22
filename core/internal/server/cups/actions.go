@@ -2,6 +2,8 @@ package cups
 
 import (
 	"errors"
+	"net"
+	"net/url"
 	"strings"
 	"time"
 
@@ -156,9 +158,42 @@ func (m *Manager) PurgeJobs(printerName string) error {
 	return err
 }
 
+func resolveIPFromURI(uri string) string {
+	parsed, err := url.Parse(uri)
+	if err != nil {
+		return ""
+	}
+	host := parsed.Hostname()
+	if host == "" {
+		return ""
+	}
+	if ip := net.ParseIP(host); ip != nil {
+		return ip.String()
+	}
+	addrs, err := net.LookupIP(host)
+	if err != nil || len(addrs) == 0 {
+		return ""
+	}
+	for _, addr := range addrs {
+		if v4 := addr.To4(); v4 != nil {
+			return v4.String()
+		}
+	}
+	return addrs[0].String()
+}
+
 func (m *Manager) GetDevices() ([]Device, error) {
 	if m.pkHelper != nil {
-		return m.pkHelper.DevicesGet(10, 0, nil, nil)
+		devices, err := m.pkHelper.DevicesGet(10, 0, nil, nil)
+		if err != nil {
+			return nil, err
+		}
+		for i := range devices {
+			if devices[i].Class == "network" {
+				devices[i].IP = resolveIPFromURI(devices[i].URI)
+			}
+		}
+		return devices, nil
 	}
 
 	deviceAttrs, err := m.client.GetDevices()
@@ -175,6 +210,9 @@ func (m *Manager) GetDevices() ([]Device, error) {
 			MakeModel: getStringAttr(attrs, "device-make-and-model"),
 			ID:        getStringAttr(attrs, "device-id"),
 			Location:  getStringAttr(attrs, "device-location"),
+		}
+		if device.Class == "network" {
+			device.IP = resolveIPFromURI(uri)
 		}
 		devices = append(devices, device)
 	}
