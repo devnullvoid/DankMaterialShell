@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import Quickshell
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -68,8 +69,11 @@ SettingsCard {
             DankToggle {
                 checked: instanceData?.enabled ?? true
                 onToggled: isChecked => {
-                    if (!root.instanceId) return;
-                    SettingsData.updateDesktopWidgetInstance(root.instanceId, { enabled: isChecked });
+                    if (!root.instanceId)
+                        return;
+                    SettingsData.updateDesktopWidgetInstance(root.instanceId, {
+                        enabled: isChecked
+                    });
                 }
             }
         }
@@ -123,8 +127,102 @@ SettingsCard {
                     width: parent.width - 80 - Theme.spacingM
                     text: root.widgetName
                     onEditingFinished: {
-                        if (!root.instanceId) return;
-                        SettingsData.updateDesktopWidgetInstance(root.instanceId, { name: text });
+                        if (!root.instanceId)
+                            return;
+                        SettingsData.updateDesktopWidgetInstance(root.instanceId, {
+                            name: text
+                        });
+                    }
+                }
+            }
+        }
+
+        SettingsDivider {}
+
+        SettingsToggleRow {
+            text: I18n.tr("Show on Overlay")
+            checked: instanceData?.config?.showOnOverlay ?? false
+            onToggled: isChecked => {
+                if (!root.instanceId)
+                    return;
+                SettingsData.updateDesktopWidgetInstanceConfig(root.instanceId, {
+                    showOnOverlay: isChecked
+                });
+            }
+        }
+
+        SettingsDivider {
+            visible: CompositorService.isNiri
+        }
+
+        SettingsToggleRow {
+            visible: CompositorService.isNiri
+            text: I18n.tr("Show on Overview")
+            checked: instanceData?.config?.showOnOverview ?? false
+            onToggled: isChecked => {
+                if (!root.instanceId)
+                    return;
+                SettingsData.updateDesktopWidgetInstanceConfig(root.instanceId, {
+                    showOnOverview: isChecked
+                });
+            }
+        }
+
+        SettingsDivider {}
+
+        Item {
+            width: parent.width
+            height: ipcColumn.height + Theme.spacingM * 2
+
+            Column {
+                id: ipcColumn
+                x: Theme.spacingM
+                width: parent.width - Theme.spacingM * 2
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: Theme.spacingXS
+
+                StyledText {
+                    text: I18n.tr("Command")
+                    font.pixelSize: Theme.fontSizeMedium
+                    color: Theme.surfaceText
+                }
+
+                Rectangle {
+                    width: parent.width
+                    height: ipcText.height + Theme.spacingS * 2
+                    radius: Theme.cornerRadius / 2
+                    color: Theme.surfaceHover
+
+                    Row {
+                        x: Theme.spacingS
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: Theme.spacingS
+                        width: parent.width - Theme.spacingS * 2
+
+                        StyledText {
+                            id: ipcText
+                            text: "dms ipc call desktopWidget toggleOverlay " + root.instanceId
+                            font.pixelSize: Theme.fontSizeSmall
+                            font.family: Theme.monoFontFamily
+                            color: Theme.surfaceVariantText
+                            width: parent.width - copyBtn.width - Theme.spacingS
+                            elide: Text.ElideMiddle
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        DankButton {
+                            id: copyBtn
+                            iconName: "content_copy"
+                            backgroundColor: "transparent"
+                            textColor: Theme.surfaceText
+                            buttonHeight: 28
+                            horizontalPadding: 4
+                            anchors.verticalCenter: parent.verticalCenter
+                            onClicked: {
+                                Quickshell.execDetached(["dms", "cl", "copy", "dms ipc call desktopWidget toggleOverlay " + root.instanceId]);
+                                ToastService.showInfo(I18n.tr("Copied to clipboard"));
+                            }
+                        }
                     }
                 }
             }
@@ -149,7 +247,8 @@ SettingsCard {
             }
 
             onLoaded: {
-                if (!item) return;
+                if (!item)
+                    return;
                 item.instanceId = root.instanceId;
                 item.instanceData = Qt.binding(() => root.instanceData);
             }

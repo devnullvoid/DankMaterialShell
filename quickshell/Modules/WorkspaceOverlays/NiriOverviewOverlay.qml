@@ -227,12 +227,6 @@ Scope {
                         }
                     }
 
-                    onAnimatingOutChanged: {
-                        if (!animatingOut || scaleAnimation.animation.running)
-                            return;
-                        Qt.callLater(niriOverviewScope.resetState);
-                    }
-
                     Behavior on opacity {
                         NumberAnimation {
                             duration: Theme.expressiveDurations.expressiveDefaultSpatial

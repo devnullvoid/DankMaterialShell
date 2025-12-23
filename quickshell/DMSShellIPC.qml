@@ -893,4 +893,58 @@ Item {
 
         target: "clipboard"
     }
+
+    IpcHandler {
+        function toggleOverlay(instanceId: string): string {
+            if (!instanceId)
+                return "ERROR: No instance ID specified";
+
+            const instance = SettingsData.getDesktopWidgetInstance(instanceId);
+            if (!instance)
+                return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
+
+            const currentValue = instance.config?.showOnOverlay ?? false;
+            SettingsData.updateDesktopWidgetInstanceConfig(instanceId, {
+                showOnOverlay: !currentValue
+            });
+            return !currentValue ? `DESKTOP_WIDGET_OVERLAY_ENABLED: ${instanceId}` : `DESKTOP_WIDGET_OVERLAY_DISABLED: ${instanceId}`;
+        }
+
+        function setOverlay(instanceId: string, enabled: string): string {
+            if (!instanceId)
+                return "ERROR: No instance ID specified";
+
+            const instance = SettingsData.getDesktopWidgetInstance(instanceId);
+            if (!instance)
+                return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
+
+            const enabledBool = enabled === "true" || enabled === "1";
+            SettingsData.updateDesktopWidgetInstanceConfig(instanceId, {
+                showOnOverlay: enabledBool
+            });
+            return enabledBool ? `DESKTOP_WIDGET_OVERLAY_ENABLED: ${instanceId}` : `DESKTOP_WIDGET_OVERLAY_DISABLED: ${instanceId}`;
+        }
+
+        function list(): string {
+            const instances = SettingsData.desktopWidgetInstances || [];
+            if (instances.length === 0)
+                return "No desktop widgets configured";
+            return instances.map(i => `${i.id} [${i.widgetType}] ${i.name || i.widgetType}`).join("\n");
+        }
+
+        function status(instanceId: string): string {
+            if (!instanceId)
+                return "ERROR: No instance ID specified";
+
+            const instance = SettingsData.getDesktopWidgetInstance(instanceId);
+            if (!instance)
+                return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
+
+            const overlay = instance.config?.showOnOverlay ?? false;
+            const overview = instance.config?.showOnOverview ?? false;
+            return `overlay: ${overlay}, overview: ${overview}`;
+        }
+
+        target: "desktopWidget"
+    }
 }

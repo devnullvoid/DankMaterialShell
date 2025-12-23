@@ -21,6 +21,10 @@ Item {
     readonly property bool isBuiltin: pluginId === "desktopClock" || pluginId === "systemMonitor"
     readonly property var activeComponent: isBuiltin ? builtinComponent : PluginService.pluginDesktopComponents[pluginId] ?? null
 
+    readonly property bool showOnOverlay: instanceData?.config?.showOnOverlay ?? false
+    readonly property bool showOnOverview: instanceData?.config?.showOnOverview ?? false
+    readonly property bool overviewActive: CompositorService.isNiri && NiriService.inOverview
+
     Connections {
         target: PluginService
         enabled: !root.isBuiltin
@@ -202,7 +206,15 @@ Item {
         color: "transparent"
 
         WlrLayershell.namespace: "quickshell:desktop-widget:" + root.pluginId + (root.instanceId ? ":" + root.instanceId : "")
-        WlrLayershell.layer: root.isInteracting && !CompositorService.useHyprlandFocusGrab ? WlrLayer.Overlay : WlrLayer.Bottom
+        WlrLayershell.layer: {
+            if (root.isInteracting && !CompositorService.useHyprlandFocusGrab)
+                return WlrLayer.Overlay;
+            if (root.showOnOverlay)
+                return WlrLayer.Overlay;
+            if (root.showOnOverview && root.overviewActive)
+                return WlrLayer.Overlay;
+            return WlrLayer.Bottom;
+        }
         WlrLayershell.exclusionMode: ExclusionMode.Ignore
         WlrLayershell.keyboardFocus: {
             if (!root.isInteracting)

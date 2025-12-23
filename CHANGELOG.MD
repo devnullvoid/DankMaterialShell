@@ -12,4 +12,6 @@ This file is more of a quick reference so I know what to account for before next
 - Added desktop widget plugins
   - dev guidance available
   - builtin clock & dgop widgets
+  - new IPC targets
 - Initial RTL support/i18n
+- Theme registry
