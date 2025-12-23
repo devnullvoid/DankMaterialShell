@@ -162,6 +162,81 @@ PanelWindow {
         return false;
     }
 
+    readonly property bool shouldHideForWindows: {
+        if (!(barConfig?.showOnWindowsOpen ?? false))
+            return false;
+        if (!(barConfig?.autoHide ?? false))
+            return false;
+        if (!CompositorService.isNiri && !CompositorService.isHyprland)
+            return false;
+
+        if (CompositorService.isNiri) {
+            NiriService.windows;
+
+            let currentWorkspaceId = null;
+            for (let i = 0; i < NiriService.allWorkspaces.length; i++) {
+                const ws = NiriService.allWorkspaces[i];
+                if (ws.output === screenName && ws.is_active) {
+                    currentWorkspaceId = ws.id;
+                    break;
+                }
+            }
+
+            if (currentWorkspaceId === null)
+                return false;
+
+            let hasTiled = false;
+            let hasFloatingTouchingBar = false;
+            const pos = barConfig?.position ?? 0;
+            const barThickness = barWindow.effectiveBarThickness + (barConfig?.spacing ?? 4);
+
+            for (let i = 0; i < NiriService.windows.length; i++) {
+                const win = NiriService.windows[i];
+                if (win.workspace_id !== currentWorkspaceId)
+                    continue;
+
+                if (!win.is_floating) {
+                    hasTiled = true;
+                    continue;
+                }
+
+                const tilePos = win.layout?.tile_pos_in_workspace_view;
+                const winSize = win.layout?.window_size || win.layout?.tile_size;
+                if (!tilePos || !winSize)
+                    continue;
+
+                switch (pos) {
+                case SettingsData.Position.Top:
+                    if (tilePos[1] < barThickness)
+                        hasFloatingTouchingBar = true;
+                    break;
+                case SettingsData.Position.Bottom:
+                    const screenHeight = barWindow.screen?.height ?? 0;
+                    if (tilePos[1] + winSize[1] > screenHeight - barThickness)
+                        hasFloatingTouchingBar = true;
+                    break;
+                case SettingsData.Position.Left:
+                    if (tilePos[0] < barThickness)
+                        hasFloatingTouchingBar = true;
+                    break;
+                case SettingsData.Position.Right:
+                    const screenWidth = barWindow.screen?.width ?? 0;
+                    if (tilePos[0] + winSize[0] > screenWidth - barThickness)
+                        hasFloatingTouchingBar = true;
+                    break;
+                }
+            }
+
+            if (hasTiled)
+                return true;
+
+            return hasFloatingTouchingBar;
+        }
+
+        const filtered = CompositorService.filterCurrentWorkspace(CompositorService.sortedToplevels, screenName);
+        return filtered.length > 0;
+    }
+
     property real effectiveSpacing: hasMaximizedToplevel ? 0 : (barConfig?.spacing ?? 4)
 
     Behavior on effectiveSpacing {
@@ -460,9 +535,17 @@ PanelWindow {
         }
 
         property bool reveal: {
-            if (CompositorService.isNiri && NiriService.inOverview) {
-                return (barConfig?.openOnOverview ?? false) || topBarMouseArea.containsMouse || hasActivePopout || revealSticky;
+            const showOnWindowsSetting = barConfig?.showOnWindowsOpen ?? false;
+
+            if (showOnWindowsSetting && autoHide && (CompositorService.isNiri || CompositorService.isHyprland)) {
+                if (barWindow.shouldHideForWindows)
+                    return topBarMouseArea.containsMouse || hasActivePopout || revealSticky;
+                return true;
             }
+
+            if (CompositorService.isNiri && NiriService.inOverview)
+                return (barConfig?.openOnOverview ?? false) || topBarMouseArea.containsMouse || hasActivePopout || revealSticky;
+
             return (barConfig?.visible ?? true) && (!autoHide || topBarMouseArea.containsMouse || hasActivePopout || revealSticky);
         }
 

@@ -2331,13 +2331,6 @@
     "comment": ""
   },
   {
-    "term": "Darken Modal Background",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Date Format",
     "translation": "",
     "context": "",
@@ -3965,6 +3958,13 @@
     "term": "Hide Updater Widget",
     "translation": "",
     "context": "When updater widget is used, then hide it if no update found",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hide When Windows Open",
+    "translation": "",
+    "context": "",
     "reference": "",
     "comment": ""
   },
@@ -7428,13 +7428,6 @@
   },
   {
     "term": "Show cava audio visualizer in media widget",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show darkened overlay behind modal dialogs",
     "translation": "",
     "context": "",
     "reference": "",

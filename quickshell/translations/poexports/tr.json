@@ -1685,6 +1685,9 @@
   "Hide Delay": {
     "Hide Delay": "Gizleme Gecikmesi"
   },
+  "Hide When Windows Open": {
+    "Hide When Windows Open": ""
+  },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Kullanılmadığında dock'u gizle ve dock alanının yakınına geldiğinizde göster"
   },

@@ -3,6 +3,7 @@ import QtQuick
 Item {
     id: root
 
+    readonly property real edgeSize: 8
     required property var targetWindow
     property bool supported: typeof targetWindow.startSystemMove === "function"
 
@@ -28,7 +29,7 @@ Item {
 
     MouseArea {
         visible: root.supported
-        height: 6
+        height: root.edgeSize
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
@@ -40,7 +41,7 @@ Item {
 
     MouseArea {
         visible: root.supported
-        width: 6
+        width: root.edgeSize
         anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -52,7 +53,7 @@ Item {
 
     MouseArea {
         visible: root.supported
-        width: 6
+        width: root.edgeSize
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
@@ -64,8 +65,8 @@ Item {
 
     MouseArea {
         visible: root.supported
-        width: 6
-        height: 6
+        width: root.edgeSize
+        height: root.edgeSize
         anchors.left: parent.left
         anchors.top: parent.top
         cursorShape: Qt.SizeFDiagCursor
@@ -74,8 +75,8 @@ Item {
 
     MouseArea {
         visible: root.supported
-        width: 6
-        height: 6
+        width: root.edgeSize
+        height: root.edgeSize
         anchors.right: parent.right
         anchors.top: parent.top
         cursorShape: Qt.SizeBDiagCursor
@@ -84,7 +85,7 @@ Item {
 
     MouseArea {
         visible: root.supported
-        height: 6
+        height: root.edgeSize
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -96,8 +97,8 @@ Item {
 
     MouseArea {
         visible: root.supported
-        width: 6
-        height: 6
+        width: root.edgeSize
+        height: root.edgeSize
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         cursorShape: Qt.SizeBDiagCursor
@@ -106,8 +107,8 @@ Item {
 
     MouseArea {
         visible: root.supported
-        width: 6
-        height: 6
+        width: root.edgeSize
+        height: root.edgeSize
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         cursorShape: Qt.SizeFDiagCursor

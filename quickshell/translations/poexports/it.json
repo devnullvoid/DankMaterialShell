@@ -168,7 +168,7 @@
     "Add Bar": "Aggiungi Barra"
   },
   "Add Desktop Widget": {
-    "Add Desktop Widget": ""
+    "Add Desktop Widget": "Aggiungi Widget Desktop"
   },
   "Add Printer": {
     "Add Printer": "Aggiungi Stampante"
@@ -186,7 +186,7 @@
     "Add a custom prefix to all application launches. This can be used for things like 'uwsm-app', 'systemd-run', or other command wrappers.": "Aggiungi un prefisso personalizzato all'avvio di tutte le applicazioni. Può essere utilizzato per strumenti come 'uwsm-app', 'systemd-run' o altri wrapper di comandi."
   },
   "Add and configure widgets that appear on your desktop": {
-    "Add and configure widgets that appear on your desktop": ""
+    "Add and configure widgets that appear on your desktop": "Aggiungi e configura widget che compaiono sul tuo desktop"
   },
   "Adjust the number of columns in grid view mode.": {
     "Adjust the number of columns in grid view mode.": "Regola il numero di colonne nella modalità di visualizzazione a griglia."
@@ -1038,7 +1038,7 @@
     "Desktop Clock": "Orologio Desktop"
   },
   "Desktop Widget": {
-    "Desktop Widget": ""
+    "Desktop Widget": "Widget Desktop"
   },
   "Desktop Widgets": {
     "Desktop Widgets": "Widget del Desktop"
@@ -1047,10 +1047,10 @@
     "Desktop background images": "Immagini sfondo desktop"
   },
   "Desktop clock widget description": {
-    "Analog, digital, or stacked clock display": ""
+    "Analog, digital, or stacked clock display": "Visualizzazione dell’orologio analogica, digitale o impilata"
   },
   "Desktop clock widget name": {
-    "Desktop Clock": ""
+    "Desktop Clock": "Orologio Desktop"
   },
   "Development": {
     "Development": "Sviluppo"
@@ -1685,6 +1685,9 @@
   "Hide Delay": {
     "Hide Delay": "Ritardo Nascondi"
   },
+  "Hide When Windows Open": {
+    "Hide When Windows Open": ""
+  },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Nascondi la dock quando non è in uso e mostrala quando il cursore passa vicino all’area della dock"
   },
@@ -1821,7 +1824,7 @@
     "Invert on mode change": "Invertire al cambio di modalità"
   },
   "Isolate Displays": {
-    "Isolate Displays": ""
+    "Isolate Displays": "Isola Schermi"
   },
   "Jobs": {
     "Jobs": "Lavori"
@@ -2307,10 +2310,10 @@
     "No variants created. Click Add to create a new monitor widget.": "Nessuna variante creata. Fai clic su Aggiungi per creare un nuovo widget monitor."
   },
   "No widgets available": {
-    "No widgets available": ""
+    "No widgets available": "Nessun widget disponibile"
   },
   "No widgets match your search": {
-    "No widgets match your search": ""
+    "No widgets match your search": "Nessun widget corrisponde alla tua ricerca"
   },
   "None": {
     "None": "Nessuna"
@@ -2391,7 +2394,7 @@
     "Only adjust gamma based on time or location rules.": "Regolare gamma solo in base alle regole di tempo o di posizione."
   },
   "Only show windows from the current monitor on each dock": {
-    "Only show windows from the current monitor on each dock": ""
+    "Only show windows from the current monitor on each dock": "Mostra solo le finestre del monitor corrente su ogni dock"
   },
   "Only visible if hibernate is supported by your system": {
     "Only visible if hibernate is supported by your system": "Visibile solo se ibernazione è supportata dal tuo sistema"
@@ -2925,7 +2928,7 @@
     "Select a color from the palette or use custom sliders": "Seleziona un colore dalla tavolozza o usa lo slider di personalizzazione"
   },
   "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": {
-    "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": ""
+    "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": "Seleziona un widget da aggiungere al tuo desktop. Ogni widget è un'istanza separata con le proprie impostazioni."
   },
   "Select a widget to add. You can add multiple instances of the same widget if needed.": {
     "Select a widget to add. You can add multiple instances of the same widget if needed.": "Seleziona un widget da aggiungere. Se necessario, puoi aggiungere più istanze dello stesso widget."
@@ -3297,10 +3300,10 @@
     "System Updates": "Aggiornamenti Sistema"
   },
   "System monitor widget description": {
-    "CPU, memory, network, and disk monitoring": ""
+    "CPU, memory, network, and disk monitoring": "Monitoraggio CPU, memoria, rete e disco"
   },
   "System monitor widget name | sysmon window title": {
-    "System Monitor": ""
+    "System Monitor": "Monitor di Sistema"
   },
   "System notification area icons": {
     "System notification area icons": "Icone area notifiche di sistema"
@@ -3742,7 +3745,7 @@
     "Widget Variants": "Varianti del Widget"
   },
   "Widget added": {
-    "Widget added": ""
+    "Widget added": "Widget aggiunto"
   },
   "Widget grid keyboard hints": {
     "G: grid • Z/X: size": "G: griglia • Z/X: dimensione"
@@ -3752,7 +3755,7 @@
     "Grid: ON": "Griglia: attivata"
   },
   "Widget removed": {
-    "Widget removed": ""
+    "Widget removed": "Widget rimosso"
   },
   "Wind": {
     "Wind": "Vento"
@@ -3809,25 +3812,25 @@
     "apps": "App"
   },
   "author attribution": {
-    "by %1": ""
+    "by %1": "di %1"
   },
   "browse themes button | theme browser header | theme browser window title": {
-    "Browse Themes": ""
+    "Browse Themes": "Sfoglia Temi"
   },
   "catppuccin theme description": {
-    "Soothing pastel theme based on Catppuccin": ""
+    "Soothing pastel theme based on Catppuccin": "Tema pastello rilassante basato su Catppuccin"
   },
   "current theme label": {
-    "Current Theme: %1": ""
+    "Current Theme: %1": "Tema corrente: %1"
   },
   "custom theme description": {
-    "Custom theme loaded from JSON file": ""
+    "Custom theme loaded from JSON file": "Tema personalizzato caricato da file JSON"
   },
   "custom theme file browser title": {
     "Select Custom Theme": "Seleziona Tema Personalizzato"
   },
   "custom theme file hint": {
-    "Click to select a custom theme JSON file": ""
+    "Click to select a custom theme JSON file": "Clicca per selezionare un file tema JSON personalizzato"
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "Seleziona Sfondo"
@@ -3848,13 +3851,13 @@
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": "La configurazione dms/outputs esiste ma non è inclusa nella configurazione del compositor. Le modifiche al display non saranno persistenti."
   },
   "dynamic colors description": {
-    "Dynamic colors from wallpaper": ""
+    "Dynamic colors from wallpaper": "Colori dinamici dallo sfondo"
   },
   "dynamic theme description": {
-    "Material colors generated from wallpaper": ""
+    "Material colors generated from wallpaper": "Colori material generati dallo sfondo"
   },
   "dynamic theme name": {
-    "Dynamic": ""
+    "Dynamic": "Dinamico"
   },
   "e.g., firefox, kitty --title foo": {
     "e.g., firefox, kitty --title foo": "ad es., firefox, kitty --title foo"
@@ -3866,10 +3869,10 @@
     "e.g., notify-send 'Hello' && sleep 1": "es. notify-send 'Ciao' && sleep 1"
   },
   "empty plugin list": {
-    "No plugins found": ""
+    "No plugins found": "Nessun plugin trovato"
   },
   "empty theme list": {
-    "No themes found": ""
+    "No themes found": "Nessun tema trovato"
   },
   "events": {
     "events": "eventi"
@@ -3878,40 +3881,40 @@
     "files": "file"
   },
   "generic theme description": {
-    "Material Design inspired color themes": ""
+    "Material Design inspired color themes": "Temi colore ispirati al Material Design"
   },
   "install action button": {
-    "Install": ""
+    "Install": "Installa"
   },
   "installation error": {
-    "Install failed: %1": ""
+    "Install failed: %1": "Installazione fallita: %1"
   },
   "installation progress": {
-    "Installing: %1": ""
+    "Installing: %1": "Installando: %1"
   },
   "installation success": {
-    "Installed: %1": ""
+    "Installed: %1": "Installato: %1"
   },
   "installed status": {
-    "Installed": ""
+    "Installed": "Installato"
   },
   "leave empty for default": {
     "leave empty for default": "lascia vuoto per il valore predefinito"
   },
   "loading indicator": {
-    "Loading...": ""
+    "Loading...": "Caricamento..."
   },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl non disponibile - integrazione blocco richiede connessione socket DMS"
   },
   "matugen error": {
-    "matugen not found - install matugen package for dynamic theming": ""
+    "matugen not found - install matugen package for dynamic theming": "matugen non trovato - installa il pacchetto matugen per la tematica dinamica"
   },
   "matugen installation hint": {
-    "Install matugen package for dynamic theming": ""
+    "Install matugen package for dynamic theming": "Installa il pacchetto matugen per il theming automatico"
   },
   "matugen not found status": {
-    "Matugen Missing": ""
+    "Matugen Missing": "Matugen Mancante"
   },
   "minutes": {
     "minutes": "minuti"
@@ -3920,37 +3923,37 @@
     "ms": "ms"
   },
   "no custom theme file status": {
-    "No custom theme file": ""
+    "No custom theme file": "Nessun file tema personalizzato"
   },
   "no registry themes installed hint": {
-    "No themes installed. Browse themes to install from the registry.": ""
+    "No themes installed. Browse themes to install from the registry.": "Nessun tema installato. Sfoglia i temi dal registro per installarli."
   },
   "no wallpaper status": {
-    "No wallpaper selected": ""
+    "No wallpaper selected": "Nessuno sfondo selezionato"
   },
   "official": {
     "official": "ufficiale"
   },
   "plugin browser description": {
-    "Install plugins from the DMS plugin registry": ""
+    "Install plugins from the DMS plugin registry": "Installa plugin dal registro plugin DMS"
   },
   "plugin browser header | plugin browser window title": {
-    "Browse Plugins": ""
+    "Browse Plugins": "Sfoglia Plugin"
   },
   "plugin installation confirmation": {
-    "Install plugin '%1' from the DMS registry?": ""
+    "Install plugin '%1' from the DMS registry?": "Installare il plugin '%1' dal registro DMS?"
   },
   "plugin installation dialog title": {
-    "Install Plugin": ""
+    "Install Plugin": "Installa Plugin"
   },
   "plugin search placeholder": {
-    "Search plugins...": ""
+    "Search plugins...": "Cerca plugin..."
   },
   "profile image file browser title": {
     "Select Profile Image": "Seleziona Immagine Profilo"
   },
   "registry theme description": {
-    "Color theme from DMS registry": ""
+    "Color theme from DMS registry": "Tema colore dal registro DMS"
   },
   "seconds": {
     "seconds": "secondi"
@@ -3962,37 +3965,37 @@
     "Widgets": "Widget"
   },
   "source code link": {
-    "source": ""
+    "source": "sorgente"
   },
   "sysmon window title": {
     "System Monitor": "Monitor Sistema"
   },
   "theme browser description": {
-    "Install color themes from the DMS theme registry": ""
+    "Install color themes from the DMS theme registry": "Installa temi colore dal registro temi DMS"
   },
   "theme installation confirmation": {
-    "Install theme '%1' from the DMS registry?": ""
+    "Install theme '%1' from the DMS registry?": "Installare il tema '%1' dal registro DMS?"
   },
   "theme installation dialog title": {
-    "Install Theme": ""
+    "Install Theme": "Installa Tema"
   },
   "theme search placeholder": {
-    "Search themes...": ""
+    "Search themes...": "Cerca temi..."
   },
   "uninstall action button": {
-    "Uninstall": ""
+    "Uninstall": "Disinstalla"
   },
   "uninstallation error": {
-    "Uninstall failed: %1": ""
+    "Uninstall failed: %1": "Disinstallazione fallita: %1"
   },
   "uninstallation progress": {
-    "Uninstalling: %1": ""
+    "Uninstalling: %1": "Disinstallazione in corso: %1"
   },
   "uninstallation success": {
-    "Uninstalled: %1": ""
+    "Uninstalled: %1": "Disinstallato: %1"
   },
   "unknown author": {
-    "Unknown": ""
+    "Unknown": "Autore Sconosciuto"
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "aggiorna dms per integrazione NM"
@@ -4001,13 +4004,13 @@
     "Select Wallpaper Directory": "Seleziona Cartella Sfondo"
   },
   "wallpaper error": {
-    "Wallpaper processing failed - check wallpaper path": ""
+    "Wallpaper processing failed - check wallpaper path": "Elaborazione sfondo fallita - verifica il percorso del file"
   },
   "wallpaper error status": {
-    "Wallpaper Error": ""
+    "Wallpaper Error": "Errore Sfondo"
   },
   "wallpaper processing error": {
-    "Wallpaper processing failed": ""
+    "Wallpaper processing failed": "Elaborazione dello sfondo fallita"
   },
   "wallpaper settings disable description": {
     "Use an external wallpaper manager like swww, hyprpaper, or swaybg.": "Usa un gestore di sfondi esterno come swww, hyprpaper o swaybg."

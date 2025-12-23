@@ -1685,6 +1685,9 @@
   "Hide Delay": {
     "Hide Delay": "עיכוב הסתרה"
   },
+  "Hide When Windows Open": {
+    "Hide When Windows Open": ""
+  },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "הסתר/י את הDock כשאינו בשימוש והצג/י אותו מחדש בעת ריחוף ליד אזור העגינה"
   },

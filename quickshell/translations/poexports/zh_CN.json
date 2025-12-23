@@ -1685,6 +1685,9 @@
   "Hide Delay": {
     "Hide Delay": "隐藏延迟"
   },
+  "Hide When Windows Open": {
+    "Hide When Windows Open": ""
+  },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "在未使用时隐藏程序坞，鼠标悬停到程序坞区域时显示"
   },

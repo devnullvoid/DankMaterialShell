@@ -397,6 +397,7 @@ Singleton {
             "fontScale": 1.0,
             "autoHide": false,
             "autoHideDelay": 250,
+            "showOnWindowsOpen": false,
             "openOnOverview": false,
             "visible": true,
             "popupGapsAuto": true,

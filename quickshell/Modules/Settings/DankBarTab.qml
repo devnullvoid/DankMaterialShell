@@ -233,6 +233,7 @@ Item {
             fontScale: defaultBar.fontScale ?? 1.0,
             autoHide: defaultBar.autoHide ?? false,
             autoHideDelay: defaultBar.autoHideDelay ?? 250,
+            showOnWindowsOpen: defaultBar.showOnWindowsOpen ?? false,
             openOnOverview: defaultBar.openOnOverview ?? false,
             visible: defaultBar.visible ?? true,
             popupGapsAuto: defaultBar.popupGapsAuto ?? true,
@@ -700,6 +701,19 @@ Item {
                             property: "value"
                             value: selectedBarConfig?.autoHideDelay ?? 250
                             restoreMode: Binding.RestoreBinding
+                        }
+                    }
+
+                    SettingsToggleRow {
+                        width: parent.width - parent.leftPadding
+                        visible: CompositorService.isNiri || CompositorService.isHyprland
+                        text: I18n.tr("Hide When Windows Open")
+                        checked: selectedBarConfig?.showOnWindowsOpen ?? false
+                        onToggled: toggled => {
+                            SettingsData.updateBarConfig(selectedBarId, {
+                                showOnWindowsOpen: toggled
+                            });
+                            notifyHorizontalBarChange();
                         }
                     }
                 }

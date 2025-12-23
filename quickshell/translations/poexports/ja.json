@@ -1685,6 +1685,9 @@
   "Hide Delay": {
     "Hide Delay": ""
   },
+  "Hide When Windows Open": {
+    "Hide When Windows Open": ""
+  },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "使用していないときはドックを非表示にし、ドックエリアの近くにホバーすると表示されます"
   },

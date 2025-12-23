@@ -168,7 +168,7 @@
     "Add Bar": "Sáv hozzáadása"
   },
   "Add Desktop Widget": {
-    "Add Desktop Widget": ""
+    "Add Desktop Widget": "Asztali widget hozzáadása"
   },
   "Add Printer": {
     "Add Printer": "Nyomtató hozzáadása"
@@ -1038,7 +1038,7 @@
     "Desktop Clock": "Asztali óra"
   },
   "Desktop Widget": {
-    "Desktop Widget": ""
+    "Desktop Widget": "Asztali widget"
   },
   "Desktop Widgets": {
     "Desktop Widgets": "Asztali widgetek"
@@ -1050,7 +1050,7 @@
     "Analog, digital, or stacked clock display": ""
   },
   "Desktop clock widget name": {
-    "Desktop Clock": ""
+    "Desktop Clock": "Asztali óra"
   },
   "Development": {
     "Development": "Fejlesztés"
@@ -1685,6 +1685,9 @@
   "Hide Delay": {
     "Hide Delay": "Elrejtési késleltetés"
   },
+  "Hide When Windows Open": {
+    "Hide When Windows Open": ""
+  },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Dokk elrejtése, amikor az nincs használatban és megjelenítés, amikor az egér a dokkterület közelében van"
   },
@@ -2307,7 +2310,7 @@
     "No variants created. Click Add to create a new monitor widget.": "Nincsenek létrehozott variánsok. Kattints a Hozzáadás gombra új monitor widget létrehozásához."
   },
   "No widgets available": {
-    "No widgets available": ""
+    "No widgets available": "Nincsenek elérhető widgetek"
   },
   "No widgets match your search": {
     "No widgets match your search": ""
@@ -3742,7 +3745,7 @@
     "Widget Variants": "Widget variánsok"
   },
   "Widget added": {
-    "Widget added": ""
+    "Widget added": "Widget hozzáadva"
   },
   "Widget grid keyboard hints": {
     "G: grid • Z/X: size": "G: rács • Z/X: méret"
@@ -3752,7 +3755,7 @@
     "Grid: ON": "Rács: BE"
   },
   "Widget removed": {
-    "Widget removed": ""
+    "Widget removed": "Widget eltávolítva"
   },
   "Wind": {
     "Wind": "Szél"
@@ -3809,16 +3812,16 @@
     "apps": "alkalmazások"
   },
   "author attribution": {
-    "by %1": ""
+    "by %1": "ettől: %1"
   },
   "browse themes button | theme browser header | theme browser window title": {
-    "Browse Themes": ""
+    "Browse Themes": "Témák böngészése"
   },
   "catppuccin theme description": {
     "Soothing pastel theme based on Catppuccin": ""
   },
   "current theme label": {
-    "Current Theme: %1": ""
+    "Current Theme: %1": "Jelenlegi téma: %1"
   },
   "custom theme description": {
     "Custom theme loaded from JSON file": ""
@@ -3848,13 +3851,13 @@
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": "A dms/outputs konfiguráció létezik, de nincs benne a kompozitorod konfigurációjában. A kijelző változások nem maradnak meg."
   },
   "dynamic colors description": {
-    "Dynamic colors from wallpaper": ""
+    "Dynamic colors from wallpaper": "Dinamikus színek a háttérképből"
   },
   "dynamic theme description": {
     "Material colors generated from wallpaper": ""
   },
   "dynamic theme name": {
-    "Dynamic": ""
+    "Dynamic": "Dinamikus"
   },
   "e.g., firefox, kitty --title foo": {
     "e.g., firefox, kitty --title foo": "pl.: firefox, kitty --title foo"
@@ -3866,10 +3869,10 @@
     "e.g., notify-send 'Hello' && sleep 1": "pl. notify-send 'Hello' && sleep 1"
   },
   "empty plugin list": {
-    "No plugins found": ""
+    "No plugins found": "Nem található bővítmény"
   },
   "empty theme list": {
-    "No themes found": ""
+    "No themes found": "Nem található téma"
   },
   "events": {
     "events": "események"
@@ -3881,37 +3884,37 @@
     "Material Design inspired color themes": ""
   },
   "install action button": {
-    "Install": ""
+    "Install": "Telepítés"
   },
   "installation error": {
-    "Install failed: %1": ""
+    "Install failed: %1": "Telepítés sikertelen: %1"
   },
   "installation progress": {
-    "Installing: %1": ""
+    "Installing: %1": "Telepítés: %1"
   },
   "installation success": {
-    "Installed: %1": ""
+    "Installed: %1": "Telepített: %1"
   },
   "installed status": {
-    "Installed": ""
+    "Installed": "Telepítve"
   },
   "leave empty for default": {
     "leave empty for default": "hagyd üresen az alapértelmezéshez"
   },
   "loading indicator": {
-    "Loading...": ""
+    "Loading...": "Betöltés..."
   },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl nem elérhető – a zár integrációhoz DMS socket kapcsolat szükséges"
   },
   "matugen error": {
-    "matugen not found - install matugen package for dynamic theming": ""
+    "matugen not found - install matugen package for dynamic theming": "matugen nem található - telepítsd a matugen csomagot a dinamikus témázásért"
   },
   "matugen installation hint": {
     "Install matugen package for dynamic theming": ""
   },
   "matugen not found status": {
-    "Matugen Missing": ""
+    "Matugen Missing": "A Matugen hiányzik"
   },
   "minutes": {
     "minutes": "percek"
@@ -3926,7 +3929,7 @@
     "No themes installed. Browse themes to install from the registry.": ""
   },
   "no wallpaper status": {
-    "No wallpaper selected": ""
+    "No wallpaper selected": "Nincs háttérkép kiválasztva"
   },
   "official": {
     "official": "hivatalos"
@@ -3935,16 +3938,16 @@
     "Install plugins from the DMS plugin registry": ""
   },
   "plugin browser header | plugin browser window title": {
-    "Browse Plugins": ""
+    "Browse Plugins": "Bővítmények böngészése"
   },
   "plugin installation confirmation": {
     "Install plugin '%1' from the DMS registry?": ""
   },
   "plugin installation dialog title": {
-    "Install Plugin": ""
+    "Install Plugin": "Bővítmény telepítése"
   },
   "plugin search placeholder": {
-    "Search plugins...": ""
+    "Search plugins...": "Bővítmények keresése..."
   },
   "profile image file browser title": {
     "Select Profile Image": "Profilkép kiválasztása"
@@ -3962,7 +3965,7 @@
     "Widgets": "Widgetek"
   },
   "source code link": {
-    "source": ""
+    "source": "forrás"
   },
   "sysmon window title": {
     "System Monitor": "Rendszerfigyelő"
@@ -3974,25 +3977,25 @@
     "Install theme '%1' from the DMS registry?": ""
   },
   "theme installation dialog title": {
-    "Install Theme": ""
+    "Install Theme": "Téma telepítése"
   },
   "theme search placeholder": {
-    "Search themes...": ""
+    "Search themes...": "Témák keresése..."
   },
   "uninstall action button": {
-    "Uninstall": ""
+    "Uninstall": "Eltávolítás"
   },
   "uninstallation error": {
-    "Uninstall failed: %1": ""
+    "Uninstall failed: %1": "Eltávolítás sikertelen: %1"
   },
   "uninstallation progress": {
-    "Uninstalling: %1": ""
+    "Uninstalling: %1": "Eltávolítás: %1"
   },
   "uninstallation success": {
-    "Uninstalled: %1": ""
+    "Uninstalled: %1": "Eltávolítva: %1"
   },
   "unknown author": {
-    "Unknown": ""
+    "Unknown": "Ismeretlen"
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "dms frissítése a NM integrációhoz."
@@ -4001,13 +4004,13 @@
     "Select Wallpaper Directory": "Háttérkép könyvtár kiválasztása"
   },
   "wallpaper error": {
-    "Wallpaper processing failed - check wallpaper path": ""
+    "Wallpaper processing failed - check wallpaper path": "A háttérkép feldolgozás sikertelen - ellenőrizd a háttérkép útvonalát"
   },
   "wallpaper error status": {
-    "Wallpaper Error": ""
+    "Wallpaper Error": "Háttérkép hiba"
   },
   "wallpaper processing error": {
-    "Wallpaper processing failed": ""
+    "Wallpaper processing failed": "A háttérkép feldolgozás sikertelen"
   },
   "wallpaper settings disable description": {
     "Use an external wallpaper manager like swww, hyprpaper, or swaybg.": "Használj külső háttérképkezelőt, mint például a swww, hyprpaper vagy swaybg."
