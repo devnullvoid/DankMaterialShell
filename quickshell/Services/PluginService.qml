@@ -227,7 +227,7 @@ Singleton {
             };
             _updateAvailablePluginsList();
             pluginListUpdated();
-            const enabled = SettingsData.getPluginSetting(manifest.id, "enabled", false);
+            const enabled = info.type === "desktop" || SettingsData.getPluginSetting(manifest.id, "enabled", false);
             if (enabled && !info.loaded)
                 loadPlugin(manifest.id);
         } else {
