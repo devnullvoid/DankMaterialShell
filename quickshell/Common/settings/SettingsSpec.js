@@ -19,6 +19,8 @@ var SPEC = {
     widgetBackgroundColor: { def: "sch" },
     widgetColorMode: { def: "default" },
     cornerRadius: { def: 12, onChange: "updateNiriLayout" },
+    niriLayoutGapsOverride: { def: -1, onChange: "updateNiriLayout" },
+    niriLayoutRadiusOverride: { def: -1, onChange: "updateNiriLayout" },
 
     use24HourClock: { def: true },
     showSeconds: { def: false },

@@ -878,6 +878,77 @@ Item {
 
             SettingsCard {
                 tab: "theme"
+                tags: ["niri", "layout", "gaps", "radius", "window"]
+                title: I18n.tr("Niri Layout Overrides")
+                iconName: "crop_square"
+                visible: CompositorService.isNiri
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["niri", "gaps", "override"]
+                    settingKey: "niriLayoutGapsOverrideEnabled"
+                    text: I18n.tr("Override Gaps")
+                    description: I18n.tr("Use custom gaps instead of bar spacing")
+                    checked: SettingsData.niriLayoutGapsOverride >= 0
+                    onToggled: checked => {
+                        if (checked) {
+                            const currentGaps = Math.max(4, (SettingsData.barConfigs[0]?.spacing ?? 4));
+                            SettingsData.set("niriLayoutGapsOverride", currentGaps);
+                            return;
+                        }
+                        SettingsData.set("niriLayoutGapsOverride", -1);
+                    }
+                }
+
+                SettingsSliderRow {
+                    tab: "theme"
+                    tags: ["niri", "gaps", "override"]
+                    settingKey: "niriLayoutGapsOverride"
+                    text: I18n.tr("Window Gaps")
+                    description: I18n.tr("Space between windows")
+                    visible: SettingsData.niriLayoutGapsOverride >= 0
+                    value: Math.max(0, SettingsData.niriLayoutGapsOverride)
+                    minimum: 0
+                    maximum: 50
+                    unit: "px"
+                    defaultValue: Math.max(4, (SettingsData.barConfigs[0]?.spacing ?? 4))
+                    onSliderValueChanged: newValue => SettingsData.set("niriLayoutGapsOverride", newValue)
+                }
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["niri", "radius", "override"]
+                    settingKey: "niriLayoutRadiusOverrideEnabled"
+                    text: I18n.tr("Override Corner Radius")
+                    description: I18n.tr("Use custom window radius instead of theme radius")
+                    checked: SettingsData.niriLayoutRadiusOverride >= 0
+                    onToggled: checked => {
+                        if (checked) {
+                            SettingsData.set("niriLayoutRadiusOverride", SettingsData.cornerRadius);
+                            return;
+                        }
+                        SettingsData.set("niriLayoutRadiusOverride", -1);
+                    }
+                }
+
+                SettingsSliderRow {
+                    tab: "theme"
+                    tags: ["niri", "radius", "override"]
+                    settingKey: "niriLayoutRadiusOverride"
+                    text: I18n.tr("Window Corner Radius")
+                    description: I18n.tr("Rounded corners for windows")
+                    visible: SettingsData.niriLayoutRadiusOverride >= 0
+                    value: Math.max(0, SettingsData.niriLayoutRadiusOverride)
+                    minimum: 0
+                    maximum: 100
+                    unit: "px"
+                    defaultValue: SettingsData.cornerRadius
+                    onSliderValueChanged: newValue => SettingsData.set("niriLayoutRadiusOverride", newValue)
+                }
+            }
+
+            SettingsCard {
+                tab: "theme"
                 tags: ["modal", "darken", "background", "overlay"]
 
                 SettingsToggleRow {
