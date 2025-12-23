@@ -1157,9 +1157,7 @@ Singleton {
             }
 
             if (output.logical) {
-                if (output.logical.scale && output.logical.scale !== 1.0) {
-                    kdlContent += `    scale ${output.logical.scale}\n`;
-                }
+                kdlContent += `    scale ${output.logical.scale ?? 1.0}\n`;
 
                 if (output.logical.transform && output.logical.transform !== "Normal") {
                     const transformMap = {

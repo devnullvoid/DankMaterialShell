@@ -106,8 +106,7 @@ Singleton {
             if (current[outputName])
                 continue;
 
-            const hasSettings = settings.colorManagement || settings.bitdepth ||
-                settings.sdrBrightness !== undefined || settings.sdrSaturation !== undefined;
+            const hasSettings = settings.colorManagement || settings.bitdepth || settings.sdrBrightness !== undefined || settings.sdrSaturation !== undefined;
             if (!hasSettings)
                 continue;
 
@@ -965,8 +964,7 @@ Singleton {
                 kdlContent += `    mode "${mode.width}x${mode.height}@${(mode.refresh_rate / 1000).toFixed(3)}"\n`;
             }
             if (output.logical) {
-                if (output.logical.scale && output.logical.scale !== 1.0)
-                    kdlContent += `    scale ${output.logical.scale}\n`;
+                kdlContent += `    scale ${output.logical.scale ?? 1.0}\n`;
                 if (output.logical.transform && output.logical.transform !== "Normal") {
                     const transformMap = {
                         "Normal": "normal",
