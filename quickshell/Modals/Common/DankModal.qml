@@ -19,6 +19,8 @@ Item {
     readonly property real screenWidth: effectiveScreen?.width ?? 1920
     readonly property real screenHeight: effectiveScreen?.height ?? 1080
     readonly property real dpr: effectiveScreen ? CompositorService.getScreenScale(effectiveScreen) : 1
+    property bool showBackground: true
+    property real backgroundOpacity: 0.5
     property string positioning: "center"
     property point customPosition: Qt.point(0, 0)
     property bool closeOnEscapeKey: true
@@ -46,7 +48,8 @@ Item {
     readonly property alias contentWindow: contentWindow
     readonly property alias clickCatcher: clickCatcher
     readonly property bool useHyprlandFocusGrab: CompositorService.useHyprlandFocusGrab
-    readonly property bool useSingleWindow: useHyprlandFocusGrab
+    readonly property bool useBackground: showBackground && SettingsData.modalDarkenBackground
+    readonly property bool useSingleWindow: useHyprlandFocusGrab || useBackground
 
     signal opened
     signal dialogClosed
@@ -270,6 +273,23 @@ Item {
             enabled: root.useSingleWindow && root.closeOnBackgroundClick && root.shouldBeVisible
             z: -2
             onClicked: root.backgroundClicked()
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            z: -1
+            color: "black"
+            opacity: root.useBackground ? (root.shouldBeVisible ? root.backgroundOpacity : 0) : 0
+            visible: root.useBackground
+
+            Behavior on opacity {
+                enabled: root.animationsEnabled
+                NumberAnimation {
+                    duration: root.animationDuration
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: root.shouldBeVisible ? root.animationEnterCurve : root.animationExitCurve
+                }
+            }
         }
 
         Item {

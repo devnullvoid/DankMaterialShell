@@ -878,6 +878,21 @@ Item {
 
             SettingsCard {
                 tab: "theme"
+                tags: ["modal", "darken", "background", "overlay"]
+
+                SettingsToggleRow {
+                    tab: "theme"
+                    tags: ["modal", "darken", "background", "overlay"]
+                    settingKey: "modalDarkenBackground"
+                    text: I18n.tr("Darken Modal Background")
+                    description: I18n.tr("Show darkened overlay behind modal dialogs")
+                    checked: SettingsData.modalDarkenBackground
+                    onToggled: checked => SettingsData.set("modalDarkenBackground", checked)
+                }
+            }
+
+            SettingsCard {
+                tab: "theme"
                 tags: ["applications", "portal", "dark", "terminal"]
                 title: I18n.tr("Applications")
                 iconName: "terminal"

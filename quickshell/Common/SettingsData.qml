@@ -312,6 +312,8 @@ Singleton {
     property int overviewColumns: 5
     property real overviewScale: 0.16
 
+    property bool modalDarkenBackground: true
+
     property bool lockScreenShowPowerActions: true
     property bool lockScreenShowSystemIcons: true
     property bool lockScreenShowTime: true
