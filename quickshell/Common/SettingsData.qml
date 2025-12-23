@@ -1724,6 +1724,8 @@ Singleton {
                     const txt = settingsFile.text();
                     const obj = (txt && txt.trim()) ? JSON.parse(txt) : null;
                     Store.parse(root, obj);
+                    applyStoredTheme();
+                    applyStoredIconTheme();
                 } catch (e) {
                     console.warn("SettingsData: Failed to reload settings:", e.message);
                 }
