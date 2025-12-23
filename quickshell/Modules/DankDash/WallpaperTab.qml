@@ -444,14 +444,11 @@ Item {
                             }
                         }
 
-                        Image {
+                        CachingImage {
                             id: thumbnailImage
                             anchors.fill: parent
-                            source: modelData ? `file://${modelData}` : ""
-                            fillMode: Image.PreserveAspectCrop
-                            asynchronous: true
-                            cache: true
-                            smooth: true
+                            imagePath: modelData || ""
+                            maxCacheSize: 256
 
                             layer.enabled: true
                             layer.effect: MultiEffect {
