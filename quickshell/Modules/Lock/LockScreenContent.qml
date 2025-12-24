@@ -212,10 +212,13 @@ Item {
         color: "transparent"
 
         Item {
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: -100
+            id: clockContainer
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.verticalCenter
+            anchors.bottomMargin: 60
             width: parent.width
-            height: 140
+            height: clockText.implicitHeight
+            visible: SettingsData.lockScreenShowTime
 
             Row {
                 id: clockText
@@ -329,8 +332,11 @@ Item {
         }
 
         StyledText {
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: -25
+            id: dateText
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: clockContainer.bottom
+            anchors.topMargin: 4
+            visible: SettingsData.lockScreenShowDate
             text: {
                 if (SettingsData.lockDateFormat && SettingsData.lockDateFormat.length > 0) {
                     return systemClock.date.toLocaleDateString(Qt.locale(), SettingsData.lockDateFormat);
@@ -344,8 +350,9 @@ Item {
 
         ColumnLayout {
             id: passwordLayout
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: 50
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: dateText.visible ? dateText.bottom : clockContainer.bottom
+            anchors.topMargin: Theme.spacingL
             spacing: Theme.spacingM
             width: 380
 
@@ -368,6 +375,7 @@ Item {
                         return PortalService.profileImage;
                     }
                     fallbackIcon: "person"
+                    visible: SettingsData.lockScreenShowProfileImage
                 }
 
                 Rectangle {
@@ -379,6 +387,7 @@ Item {
                     color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.9)
                     border.color: passwordField.activeFocus ? Theme.primary : Qt.rgba(1, 1, 1, 0.3)
                     border.width: passwordField.activeFocus ? 2 : 1
+                    visible: SettingsData.lockScreenShowPasswordField || root.passwordBuffer.length > 0
 
                     Item {
                         id: lockIconContainer
@@ -797,6 +806,7 @@ Item {
             anchors.right: parent.right
             anchors.margins: Theme.spacingXL
             spacing: Theme.spacingL
+            visible: SettingsData.lockScreenShowSystemIcons
 
             Item {
                 width: keyboardLayoutRow.width

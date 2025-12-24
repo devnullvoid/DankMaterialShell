@@ -96,19 +96,14 @@ go.work
 go.work.sum
 
 # env file
-.env
+.env*
 
 # Editor/IDE
 # .idea/
 # .vscode/
+vim/
 
 bin/
-
-# Extracted source trees in Ubuntu package directories  
-distro/ubuntu/*/dms-git-repo/
-distro/ubuntu/*/DankMaterialShell-*/
-distro/ubuntu/danklinux/*/dsearch-*/
-distro/ubuntu/danklinux/*/dgop-*/
 
 # direnv
 .envrc

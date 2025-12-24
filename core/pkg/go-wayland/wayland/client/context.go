@@ -6,6 +6,7 @@ import (
 	"net"
 	"os"
 	"sync"
+	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/pkg/syncmap"
 )
@@ -28,6 +29,12 @@ func (ctx *Context) Register(p Proxy) {
 	ctx.objects.Store(id, p)
 }
 
+func (ctx *Context) RegisterWithID(p Proxy, id uint32) {
+	p.SetID(id)
+	p.SetContext(ctx)
+	ctx.objects.Store(id, p)
+}
+
 func (ctx *Context) Unregister(p Proxy) {
 	ctx.objects.Delete(p.ID())
 }
@@ -45,6 +52,22 @@ func (ctx *Context) GetProxy(id uint32) Proxy {
 
 func (ctx *Context) Close() error {
 	return ctx.conn.Close()
+}
+
+func (ctx *Context) SetReadDeadline(t time.Time) error {
+	return ctx.conn.SetReadDeadline(t)
+}
+
+func (ctx *Context) Fd() int {
+	rawConn, err := ctx.conn.SyscallConn()
+	if err != nil {
+		return -1
+	}
+	var fd int
+	rawConn.Control(func(f uintptr) {
+		fd = int(f)
+	})
+	return fd
 }
 
 // Dispatch reads and processes incoming messages and calls [client.Dispatcher.Dispatch] on the

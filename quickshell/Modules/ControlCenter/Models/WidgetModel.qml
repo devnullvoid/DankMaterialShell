@@ -65,141 +65,141 @@ QtObject {
     readonly property var coreWidgetDefinitions: [
         {
             "id": "nightMode",
-            "text": "Night Mode",
-            "description": "Blue light filter",
+            "text": I18n.tr("Night Mode"),
+            "description": I18n.tr("Blue light filter"),
             "icon": "nightlight",
             "type": "toggle",
             "enabled": DisplayService.automationAvailable,
-            "warning": !DisplayService.automationAvailable ? "Requires night mode support" : undefined
+            "warning": !DisplayService.automationAvailable ? I18n.tr("Requires night mode support") : undefined
         },
         {
             "id": "darkMode",
-            "text": "Dark Mode",
-            "description": "System theme toggle",
+            "text": I18n.tr("Dark Mode"),
+            "description": I18n.tr("System theme toggle"),
             "icon": "contrast",
             "type": "toggle",
             "enabled": true
         },
         {
             "id": "doNotDisturb",
-            "text": "Do Not Disturb",
-            "description": "Block notifications",
+            "text": I18n.tr("Do Not Disturb"),
+            "description": I18n.tr("Block notifications"),
             "icon": "do_not_disturb_on",
             "type": "toggle",
             "enabled": true
         },
         {
             "id": "idleInhibitor",
-            "text": "Keep Awake",
-            "description": "Prevent screen timeout",
+            "text": I18n.tr("Keep Awake"),
+            "description": I18n.tr("Prevent screen timeout"),
             "icon": "motion_sensor_active",
             "type": "toggle",
             "enabled": true
         },
         {
             "id": "wifi",
-            "text": "Network",
-            "description": "Wi-Fi and Ethernet connection",
+            "text": I18n.tr("Network"),
+            "description": I18n.tr("Wi-Fi and Ethernet connection"),
             "icon": "wifi",
             "type": "connection",
             "enabled": NetworkService.wifiAvailable,
-            "warning": !NetworkService.wifiAvailable ? "Wi-Fi not available" : undefined
+            "warning": !NetworkService.wifiAvailable ? I18n.tr("Wi-Fi not available") : undefined
         },
         {
             "id": "bluetooth",
-            "text": "Bluetooth",
-            "description": "Device connections",
+            "text": I18n.tr("Bluetooth"),
+            "description": I18n.tr("Device connections"),
             "icon": "bluetooth",
             "type": "connection",
             "enabled": BluetoothService.available,
-            "warning": !BluetoothService.available ? "Bluetooth not available" : undefined
+            "warning": !BluetoothService.available ? I18n.tr("Bluetooth not available") : undefined
         },
         {
             "id": "audioOutput",
-            "text": "Audio Output",
-            "description": "Speaker settings",
+            "text": I18n.tr("Audio Output"),
+            "description": I18n.tr("Speaker settings"),
             "icon": "volume_up",
             "type": "connection",
             "enabled": true
         },
         {
             "id": "audioInput",
-            "text": "Audio Input",
-            "description": "Microphone settings",
+            "text": I18n.tr("Audio Input"),
+            "description": I18n.tr("Microphone settings"),
             "icon": "mic",
             "type": "connection",
             "enabled": true
         },
         {
             "id": "volumeSlider",
-            "text": "Volume Slider",
-            "description": "Audio volume control",
+            "text": I18n.tr("Volume Slider"),
+            "description": I18n.tr("Audio volume control"),
             "icon": "volume_up",
             "type": "slider",
             "enabled": true
         },
         {
             "id": "brightnessSlider",
-            "text": "Brightness Slider",
-            "description": "Display brightness control",
+            "text": I18n.tr("Brightness Slider"),
+            "description": I18n.tr("Display brightness control"),
             "icon": "brightness_6",
             "type": "slider",
             "enabled": DisplayService.brightnessAvailable,
-            "warning": !DisplayService.brightnessAvailable ? "Brightness control not available" : undefined,
+            "warning": !DisplayService.brightnessAvailable ? I18n.tr("Brightness control not available") : undefined,
             "allowMultiple": true
         },
         {
             "id": "inputVolumeSlider",
-            "text": "Input Volume Slider",
-            "description": "Microphone volume control",
+            "text": I18n.tr("Input Volume Slider"),
+            "description": I18n.tr("Microphone volume control"),
             "icon": "mic",
             "type": "slider",
             "enabled": true
         },
         {
             "id": "battery",
-            "text": "Battery",
-            "description": "Battery and power management",
+            "text": I18n.tr("Battery"),
+            "description": I18n.tr("Battery and power management"),
             "icon": "battery_std",
             "type": "action",
             "enabled": true
         },
         {
             "id": "diskUsage",
-            "text": "Disk Usage",
-            "description": "Filesystem usage monitoring",
+            "text": I18n.tr("Disk Usage"),
+            "description": I18n.tr("Filesystem usage monitoring"),
             "icon": "storage",
             "type": "action",
             "enabled": DgopService.dgopAvailable,
-            "warning": !DgopService.dgopAvailable ? "Requires 'dgop' tool" : undefined,
+            "warning": !DgopService.dgopAvailable ? I18n.tr("Requires 'dgop' tool") : undefined,
             "allowMultiple": true
         },
         {
             "id": "colorPicker",
-            "text": "Color Picker",
-            "description": "Choose colors from palette",
+            "text": I18n.tr("Color Picker"),
+            "description": I18n.tr("Choose colors from palette"),
             "icon": "palette",
             "type": "action",
             "enabled": true
         },
         {
             "id": "builtin_vpn",
-            "text": "VPN",
-            "description": "VPN connections",
+            "text": I18n.tr("VPN"),
+            "description": I18n.tr("VPN connections"),
             "icon": "vpn_key",
             "type": "builtin_plugin",
             "enabled": DMSNetworkService.available,
-            "warning": !DMSNetworkService.available ? "VPN not available" : undefined,
+            "warning": !DMSNetworkService.available ? I18n.tr("VPN not available") : undefined,
             "isBuiltinPlugin": true
         },
         {
             "id": "builtin_cups",
-            "text": "Printers",
-            "description": "Print Server Management",
+            "text": I18n.tr("Printers"),
+            "description": I18n.tr("Print Server Management"),
             "icon": "Print",
             "type": "builtin_plugin",
             "enabled": CupsService.available,
-            "warning": !CupsService.available ? "CUPS not available" : undefined,
+            "warning": !CupsService.available ? I18n.tr("CUPS not available") : undefined,
             "isBuiltinPlugin": true
         }
     ]
@@ -235,7 +235,7 @@ QtObject {
             plugins.push({
                 "id": "plugin_" + plugin.id,
                 "pluginId": plugin.id,
-                "text": plugin.name || "Plugin",
+                "text": plugin.name || I18n.tr("Plugin"),
                 "description": plugin.description || "",
                 "icon": plugin.icon || "extension",
                 "type": "plugin",

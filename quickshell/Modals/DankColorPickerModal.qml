@@ -54,7 +54,7 @@ DankModal {
     }
 
     function copyColorToClipboard(colorValue) {
-        Quickshell.execDetached(["sh", "-c", `echo -n "${colorValue}" | wl-copy`]);
+        Quickshell.execDetached(["dms", "cl", "copy", colorValue]);
         ToastService.showInfo(`Color ${colorValue} copied`);
         SessionData.addRecentColor(currentColor);
     }
@@ -128,6 +128,9 @@ DankModal {
         FocusScope {
             id: colorContent
 
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
+
             property alias hexInput: hexInput
 
             anchors.fill: parent
@@ -160,12 +163,14 @@ DankModal {
                             font.pixelSize: Theme.fontSizeLarge
                             color: Theme.surfaceText
                             font.weight: Font.Medium
+                            anchors.left: parent.left
                         }
 
                         StyledText {
                             text: I18n.tr("Select a color from the palette or use custom sliders")
                             font.pixelSize: Theme.fontSizeMedium
                             color: Theme.surfaceTextMedium
+                            anchors.left: parent.left
                         }
                     }
 
@@ -360,6 +365,7 @@ DankModal {
                         font.pixelSize: Theme.fontSizeMedium
                         color: Theme.surfaceText
                         font.weight: Font.Medium
+                        anchors.left: parent.left
                     }
 
                     GridView {
@@ -410,6 +416,7 @@ DankModal {
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: Theme.surfaceText
                                 font.weight: Font.Medium
+                                anchors.left: parent.left
                             }
 
                             Row {
@@ -462,6 +469,7 @@ DankModal {
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: Theme.surfaceText
                                 font.weight: Font.Medium
+                                anchors.left: parent.left
                             }
 
                             DankSlider {
@@ -507,6 +515,7 @@ DankModal {
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.surfaceTextMedium
                                 font.weight: Font.Medium
+                                anchors.left: parent.left
                             }
 
                             Row {
@@ -566,6 +575,7 @@ DankModal {
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.surfaceTextMedium
                                 font.weight: Font.Medium
+                                anchors.left: parent.left
                             }
 
                             Row {
@@ -614,7 +624,7 @@ DankModal {
                                         } else {
                                             rgbString = `rgb(${r}, ${g}, ${b})`;
                                         }
-                                        Quickshell.execDetached(["sh", "-c", `echo -n "${rgbString}" | wl-copy`]);
+                                        Quickshell.execDetached(["dms", "cl", "copy", rgbString]);
                                         ToastService.showInfo(`${rgbString} copied`);
                                     }
                                 }
@@ -630,6 +640,7 @@ DankModal {
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.surfaceTextMedium
                                 font.weight: Font.Medium
+                                anchors.left: parent.left
                             }
 
                             Row {
@@ -678,7 +689,7 @@ DankModal {
                                         } else {
                                             hsvString = `${h}, ${s}, ${v}`;
                                         }
-                                        Quickshell.execDetached(["sh", "-c", `echo -n "${hsvString}" | wl-copy`]);
+                                        Quickshell.execDetached(["dms", "cl", "copy", hsvString]);
                                         ToastService.showInfo(`HSV ${hsvString} copied`);
                                     }
                                 }

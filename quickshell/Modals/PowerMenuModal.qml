@@ -118,14 +118,12 @@ DankModal {
     function openCentered() {
         parentBounds = Qt.rect(0, 0, 0, 0);
         parentScreen = null;
-        backgroundOpacity = 0.5;
         open();
     }
 
     function openFromControlCenter(bounds, targetScreen) {
         parentBounds = bounds;
         parentScreen = targetScreen;
-        backgroundOpacity = 0;
         open();
     }
 

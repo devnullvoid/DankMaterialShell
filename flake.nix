@@ -40,6 +40,20 @@
             (import path (args // { dmsPkgs = buildDmsPkgs pkgs; }))
           ];
         };
+      mkQmlImportPath =
+        pkgs: qmlPkgs:
+        pkgs.lib.concatStringsSep ":" (map (o: "${o}/${pkgs.qt6.qtbase.qtQmlPrefix}") qmlPkgs);
+
+      mkQtPluginPath =
+        pkgs: qtPkgs:
+        pkgs.lib.concatStringsSep ":" (map (o: "${o}/${pkgs.qt6.qtbase.qtPluginPrefix}") qtPkgs);
+
+      qmlPkgs =
+        pkgs: with pkgs.kdePackages; [
+          kirigami.unwrapped
+          sonnet
+          qtmultimedia
+        ];
     in
     {
       packages = forEachSystem (
@@ -68,7 +82,7 @@
               inherit version;
               pname = "dms-shell";
               src = ./core;
-              vendorHash = "sha256-2PCqiW4frxME8IlmwWH5ktznhd/G1bah5Ae4dp0HPTQ=";
+              vendorHash = "sha256-DINaA5LCOWoxBIewuc39Rnwj6NdZoET7Q++B11Qg5rI=";
 
               subPackages = [ "cmd/dms" ];
 
@@ -96,7 +110,10 @@
                 install -D ${rootSrc}/core/assets/danklogo.svg \
                   $out/share/hicolor/scalable/apps/danklogo.svg
 
-                wrapProgram $out/bin/dms --add-flags "-c $out/share/quickshell/dms"
+                wrapProgram $out/bin/dms \
+                  --add-flags "-c $out/share/quickshell/dms" \
+                  --prefix "NIXPKGS_QT6_QML_IMPORT_PATH" ":" "${mkQmlImportPath pkgs (qmlPkgs pkgs)}" \
+                  --prefix "QT_PLUGIN_PATH" ":" "${mkQtPluginPath pkgs (qmlPkgs pkgs)}"
 
                 install -Dm644 ${rootSrc}/assets/systemd/dms.service \
                   $out/lib/systemd/user/dms.service
@@ -132,26 +149,32 @@
         }
       );
 
-      homeModules.dankMaterialShell.default = mkModuleWithDmsPkgs ./distro/nix/home.nix;
+      homeModules.dank-material-shell = mkModuleWithDmsPkgs ./distro/nix/home.nix;
 
-      homeModules.dankMaterialShell.niri = import ./distro/nix/niri.nix;
+      homeModules.default = self.homeModules.dank-material-shell;
 
-      nixosModules.dankMaterialShell = mkModuleWithDmsPkgs ./distro/nix/nixos.nix;
+      homeModules.niri = import ./distro/nix/niri.nix;
+
+      homeModules.dankMaterialShell.default = builtins.warn "dank-material-shell: flake output `homeModules.dankMaterialShell.default` has been renamed to `homeModules.dank-material-shell`" self.homeModules.dank-material-shell;
+
+      homeModules.dankMaterialShell.niri = builtins.warn "dank-material-shell: flake output `homeModules.dankMaterialShell.niri` has been renamed to `homeModules.niri`" self.homeModules.niri;
+
+      nixosModules.dank-material-shell = mkModuleWithDmsPkgs ./distro/nix/nixos.nix;
+
+      nixosModules.default = self.nixosModules.dank-material-shell;
 
       nixosModules.greeter = mkModuleWithDmsPkgs ./distro/nix/greeter.nix;
+
+      nixosModules.dankMaterialShell = builtins.warn "dank-material-shell: flake output `nixosModules.dankMaterialShell` has been renamed to `nixosModules.dank-material-shell`" self.nixosModules.dank-material-shell;
 
       devShells = forEachSystem (
         system: pkgs:
         let
-          qmlPkgs = [
+          devQmlPkgs = [
             quickshell.packages.${system}.default
+            pkgs.kdePackages.qtdeclarative
           ]
-          ++ (with pkgs.kdePackages; [
-            qtdeclarative
-            kirigami.unwrapped
-            sonnet
-            qtmultimedia
-          ]);
+          ++ (qmlPkgs pkgs);
         in
         {
           default = pkgs.mkShell {
@@ -163,14 +186,23 @@
                 delve
                 go-tools
                 gnumake
+
+                prek
+                uv # for prek
+
+                # Nix development tools
+                nixd
+                nil
               ]
-              ++ qmlPkgs;
+              ++ devQmlPkgs;
 
             shellHook = ''
               touch quickshell/.qmlls.ini 2>/dev/null
+              if [ ! -f .git/hooks/pre-commit ]; then prek install; fi
             '';
 
-            QML2_IMPORT_PATH = pkgs.lib.concatStringsSep ":" (map (o: "${o}/lib/qt-6/qml") qmlPkgs);
+            QML2_IMPORT_PATH = mkQmlImportPath pkgs devQmlPkgs;
+            QT_PLUGIN_PATH = mkQtPluginPath pkgs devQmlPkgs;
           };
         }
       );

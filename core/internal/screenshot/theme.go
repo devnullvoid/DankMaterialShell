@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 )
 
 type ThemeColors struct {
@@ -74,7 +74,12 @@ func loadColorsFile() *ColorScheme {
 }
 
 func getColorsFilePath() string {
-	return filepath.Join(utils.XDGCacheHome(), "DankMaterialShell", "dms-colors.json")
+	cacheDir, err := os.UserCacheDir()
+	if err != nil {
+		log.Error("Failed to get user cache dir", "err", err)
+		return ""
+	}
+	return filepath.Join(cacheDir, "DankMaterialShell", "dms-colors.json")
 }
 
 func isLightMode() bool {

@@ -36,6 +36,13 @@ Item {
                     checked: SettingsData.scrollTitleEnabled
                     onToggled: checked => SettingsData.set("scrollTitleEnabled", checked)
                 }
+
+                SettingsToggleRow {
+                    text: I18n.tr("Audio Visualizer")
+                    description: I18n.tr("Show cava audio visualizer in media widget")
+                    checked: SettingsData.audioVisualizerEnabled
+                    onToggled: checked => SettingsData.set("audioVisualizerEnabled", checked)
+                }
             }
         }
     }

@@ -5,12 +5,18 @@ import QtCore
 import QtQuick
 import Quickshell
 import Quickshell.Io
-import Quickshell.Wayland
+import Quickshell.Wayland // ! Even though qmlls says this is unused, it is wrong
 import qs.Common
 import "../Common/KeybindActions.js" as Actions
 
 Singleton {
     id: root
+
+    Component.onCompleted: {
+        if (!shortcutInhibitorAvailable) {
+            console.warn("[KeybindsService] ShortcutInhibitor is not available in this environment, keybinds editor disabled.");
+        }
+    }
 
     readonly property bool shortcutInhibitorAvailable: {
         try {
@@ -314,7 +320,8 @@ Singleton {
                 const keyData = {
                     key: bind.key || "",
                     source: bind.source || "config",
-                    isOverride: bind.source === "dms"
+                    isOverride: bind.source === "dms",
+                    cooldownMs: bind.cooldownMs || 0
                 };
                 if (actionMap[action]) {
                     actionMap[action].keys.push(keyData);
@@ -378,6 +385,8 @@ Singleton {
         const cmd = ["dms", "keybinds", "set", currentProvider, bindData.key, bindData.action, "--desc", bindData.desc || ""];
         if (originalKey && originalKey !== bindData.key)
             cmd.push("--replace-key", originalKey);
+        if (bindData.cooldownMs > 0)
+            cmd.push("--cooldown-ms", String(bindData.cooldownMs));
         saveProcess.command = cmd;
         saveProcess.running = true;
         bindSaved(bindData.key);

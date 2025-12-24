@@ -6,7 +6,7 @@
   ...
 }@args:
 let
-  cfg = config.programs.dankMaterialShell;
+  cfg = config.programs.dank-material-shell;
   jsonFormat = pkgs.formats.json { };
   common = import ./common.nix {
     inherit
@@ -22,16 +22,16 @@ in
     (import ./options.nix args)
     (lib.mkRemovedOptionModule [
       "programs"
-      "dankMaterialShell"
+      "dank-material-shell"
       "enableNightMode"
     ] "Night mode is now always available.")
     (lib.mkRenamedOptionModule
-      [ "programs" "dankMaterialShell" "enableSystemd" ]
-      [ "programs" "dankMaterialShell" "systemd" "enable" ]
+      [ "programs" "dank-material-shell" "enableSystemd" ]
+      [ "programs" "dank-material-shell" "systemd" "enable" ]
     )
   ];
 
-  options.programs.dankMaterialShell = with lib.types; {
+  options.programs.dank-material-shell = with lib.types; {
     default = {
       settings = lib.mkOption {
         type = jsonFormat.type;
@@ -44,37 +44,12 @@ in
         description = "The default session are only read if the session.json file don't exist";
       };
     };
-
-    plugins = lib.mkOption {
-      type = attrsOf (
-        types.submodule (
-          { config, ... }:
-          {
-            options = {
-              enable = lib.mkOption {
-                type = types.bool;
-                default = true;
-                description = "Whether to link this plugin";
-              };
-              src = lib.mkOption {
-                type = types.path;
-                description = "Source to link to DMS plugins directory";
-              };
-            };
-          }
-        )
-      );
-      default = { };
-      description = "DMS Plugins to install";
-    };
   };
 
   config = lib.mkIf cfg.enable {
     programs.quickshell = {
       enable = true;
       inherit (cfg.quickshell) package;
-
-      configs.dms = common.qmlPath;
     };
 
     systemd.user.services.dms = lib.mkIf cfg.systemd.enable {
@@ -82,7 +57,6 @@ in
         Description = "DankMaterialShell";
         PartOf = [ config.wayland.systemd.target ];
         After = [ config.wayland.systemd.target ];
-        X-Restart-Triggers = lib.optional cfg.systemd.restartIfChanged common.qmlPath;
       };
 
       Service = {
@@ -98,10 +72,10 @@ in
     };
 
     xdg.configFile = lib.mkMerge [
-      (lib.mapAttrs' (name: plugin: {
+      (lib.mapAttrs' (name: value: {
         name = "DankMaterialShell/plugins/${name}";
-        value.source = plugin.src;
-      }) (lib.filterAttrs (n: v: v.enable) cfg.plugins))
+        inherit value;
+      }) common.plugins)
       {
         "DankMaterialShell/default-settings.json" = lib.mkIf (cfg.default.settings != { }) {
           source = jsonFormat.generate "default-settings.json" cfg.default.settings;

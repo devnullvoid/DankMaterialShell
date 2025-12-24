@@ -16,6 +16,10 @@ PanelWindow {
     property real frozenWidth: 0
     readonly property string copiedText: I18n.tr("Copied!")
 
+    readonly property real dpr: modelData ? CompositorService.getScreenScale(modelData) : 1
+    readonly property real shadowBuffer: 5
+    readonly property real toastY: Theme.barHeight - 4 + (SettingsData.barConfigs[0]?.spacing ?? 4) + 2
+
     Connections {
         target: ToastService
         function onToastVisibleChanged() {
@@ -23,7 +27,6 @@ PanelWindow {
                 shouldBeVisible = true;
                 visible = true;
             } else {
-                // Freeze the width before starting exit animation
                 frozenWidth = toast.width;
                 shouldBeVisible = false;
                 closeTimer.restart();
@@ -48,12 +51,21 @@ PanelWindow {
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
     color: "transparent"
 
+    readonly property real toastWidth: shouldBeVisible ? Math.min(900, messageText.implicitWidth + statusIcon.width + Theme.spacingM + (ToastService.hasDetails ? (expandButton.width + closeButton.width + 4) : (ToastService.currentLevel === ToastService.levelError ? closeButton.width + Theme.spacingS : 0)) + Theme.spacingL * 2 + Theme.spacingM * 2) : frozenWidth
+    readonly property real toastHeight: toastContent.height + Theme.spacingL * 2
+
     anchors {
         top: true
         left: true
-        right: true
-        bottom: true
     }
+
+    WlrLayershell.margins {
+        left: Math.max(0, Theme.snap((modelData?.width ?? 1920) / 2 - toastWidth / 2 - shadowBuffer, dpr))
+        top: Math.max(0, Theme.snap(toastY - shadowBuffer, dpr))
+    }
+
+    implicitWidth: toastWidth + (shadowBuffer * 2)
+    implicitHeight: toastHeight + (shadowBuffer * 2)
 
     Rectangle {
         id: toast
@@ -67,10 +79,10 @@ PanelWindow {
             }
         }
 
-        width: shouldBeVisible ? Math.min(900, messageText.implicitWidth + statusIcon.width + Theme.spacingM + (ToastService.hasDetails ? (expandButton.width + closeButton.width + 4) : (ToastService.currentLevel === ToastService.levelError ? closeButton.width + Theme.spacingS : 0)) + Theme.spacingL * 2 + Theme.spacingM * 2) : frozenWidth
-        height: toastContent.height + Theme.spacingL * 2
-        anchors.horizontalCenter: parent.horizontalCenter
-        y: Theme.barHeight - 4 + (SettingsData.barConfigs[0]?.spacing ?? 4) + 2
+        x: shadowBuffer
+        y: shadowBuffer
+        width: root.toastWidth
+        height: root.toastHeight
         color: {
             switch (ToastService.currentLevel) {
             case ToastService.levelError:
@@ -222,23 +234,82 @@ PanelWindow {
                     anchors.margins: Theme.spacingS
                     spacing: Theme.spacingS
 
-                    StyledText {
-                        id: detailsText
-                        text: ToastService.currentDetails
-                        font.pixelSize: Theme.fontSizeSmall
-                        color: {
-                            switch (ToastService.currentLevel) {
-                            case ToastService.levelError:
-                            case ToastService.levelWarn:
-                                return SessionData.isLightMode ? Theme.surfaceText : Theme.background;
-                            default:
-                                return Theme.surfaceText;
+                    Item {
+                        width: parent.width - Theme.spacingS * 2
+                        height: detailsText.implicitHeight
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        visible: ToastService.currentDetails.length > 0
+
+                        StyledText {
+                            id: detailsText
+                            text: ToastService.currentDetails
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: {
+                                switch (ToastService.currentLevel) {
+                                case ToastService.levelError:
+                                case ToastService.levelWarn:
+                                    return SessionData.isLightMode ? Theme.surfaceText : Theme.background;
+                                default:
+                                    return Theme.surfaceText;
+                                }
+                            }
+                            anchors.left: parent.left
+                            anchors.right: copyDetailsButton.left
+                            anchors.rightMargin: Theme.spacingS
+                            wrapMode: Text.Wrap
+                        }
+
+                        DankActionButton {
+                            id: copyDetailsButton
+                            iconName: "content_copy"
+                            iconSize: Theme.iconSizeSmall
+                            iconColor: {
+                                switch (ToastService.currentLevel) {
+                                case ToastService.levelError:
+                                case ToastService.levelWarn:
+                                    return SessionData.isLightMode ? Theme.surfaceText : Theme.background;
+                                default:
+                                    return Theme.surfaceText;
+                                }
+                            }
+                            buttonSize: Theme.iconSizeSmall + 8
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+
+                            property bool showTooltip: false
+
+                            onClicked: {
+                                Quickshell.execDetached(["dms", "cl", "copy", ToastService.currentDetails]);
+                                showTooltip = true;
+                                detailsTooltipTimer.start();
+                            }
+
+                            Timer {
+                                id: detailsTooltipTimer
+                                interval: 1500
+                                onTriggered: copyDetailsButton.showTooltip = false
+                            }
+
+                            Rectangle {
+                                visible: copyDetailsButton.showTooltip
+                                width: detailsTooltipLabel.implicitWidth + 16
+                                height: detailsTooltipLabel.implicitHeight + 8
+                                color: Theme.surfaceContainer
+                                radius: Theme.cornerRadius
+                                border.width: 1
+                                border.color: Theme.outlineMedium
+                                y: -height - 4
+                                x: -width / 2 + copyDetailsButton.width / 2
+
+                                StyledText {
+                                    id: detailsTooltipLabel
+                                    anchors.centerIn: parent
+                                    text: root.copiedText
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                }
                             }
                         }
-                        visible: ToastService.currentDetails.length > 0
-                        width: parent.width - Theme.spacingS * 2
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        wrapMode: Text.Wrap
                     }
 
                     Rectangle {
@@ -293,7 +364,7 @@ PanelWindow {
                             property bool showTooltip: false
 
                             onClicked: {
-                                Quickshell.execDetached(["wl-copy", ToastService.currentCommand]);
+                                Quickshell.execDetached(["dms", "cl", "copy", ToastService.currentCommand]);
                                 showTooltip = true;
                                 tooltipTimer.start();
                             }

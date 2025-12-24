@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/spf13/afero"
 )
 
@@ -33,7 +33,12 @@ func NewManagerWithFs(fs afero.Fs) (*Manager, error) {
 }
 
 func getPluginsDir() string {
-	return filepath.Join(utils.XDGConfigHome(), "DankMaterialShell", "plugins")
+	configDir, err := os.UserConfigDir()
+	if err != nil {
+		log.Error("failed to get user config dir", "err", err)
+		return ""
+	}
+	return filepath.Join(configDir, "DankMaterialShell", "plugins")
 }
 
 func (m *Manager) IsInstalled(plugin Plugin) (bool, error) {

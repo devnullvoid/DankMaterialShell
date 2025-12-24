@@ -16,6 +16,8 @@ Singleton {
     readonly property int expectedApiVersion: 1
     property var availablePlugins: []
     property var installedPlugins: []
+    property var availableThemes: []
+    property var installedThemes: []
     property bool isConnected: false
     property bool isConnecting: false
     property bool subscribeConnected: false
@@ -24,6 +26,7 @@ Singleton {
     readonly property string socketPath: Quickshell.env("DMS_SOCKET")
 
     property var pendingRequests: ({})
+    property var clipboardRequestIds: ({})
     property int requestIdCounter: 0
     property bool shownOutdatedError: false
     property string updateCommand: "dms update"
@@ -32,6 +35,9 @@ Singleton {
     signal pluginsListReceived(var plugins)
     signal installedPluginsReceived(var plugins)
     signal searchResultsReceived(var plugins)
+    signal themesListReceived(var themes)
+    signal installedThemesReceived(var themes)
+    signal themeSearchResultsReceived(var themes)
     signal operationSuccess(string message)
     signal operationError(string error)
     signal connectionStateChanged
@@ -52,10 +58,13 @@ Singleton {
     signal gammaStateUpdate(var data)
     signal openUrlRequested(string url)
     signal appPickerRequested(var data)
+    signal screensaverStateUpdate(var data)
 
     property bool capsLockState: false
+    property bool screensaverInhibited: false
+    property var screensaverInhibitors: []
 
-    property var activeSubscriptions: ["network", "network.credentials", "loginctl", "freedesktop", "gamma", "bluetooth", "bluetooth.pairing", "dwl", "brightness", "wlroutput", "evdev", "browser"]
+    property var activeSubscriptions: ["network", "network.credentials", "loginctl", "freedesktop", "freedesktop.screensaver", "gamma", "bluetooth", "bluetooth.pairing", "dwl", "brightness", "wlroutput", "evdev", "browser"]
 
     Component.onCompleted: {
         if (socketPath && socketPath.length > 0) {
@@ -179,17 +188,19 @@ Singleton {
 
         parser: SplitParser {
             onRead: line => {
-                if (!line || line.length === 0) {
+                if (!line || line.length === 0)
                     return;
-                }
-
-                console.log("DMSService: Request socket <<", line);
 
                 try {
                     const response = JSON.parse(line);
+                    const isClipboard = clipboardRequestIds[response.id];
+                    if (isClipboard)
+                        delete clipboardRequestIds[response.id];
+                    else
+                        console.log("DMSService: Request socket <<", line);
                     handleResponse(response);
                 } catch (e) {
-                    console.warn("DMSService: Failed to parse request response:", line, e);
+                    console.warn("DMSService: Failed to parse request response");
                 }
             }
         }
@@ -209,17 +220,16 @@ Singleton {
 
         parser: SplitParser {
             onRead: line => {
-                if (!line || line.length === 0) {
+                if (!line || line.length === 0)
                     return;
-                }
-
-                console.log("DMSService: Subscribe socket <<", line);
 
                 try {
                     const response = JSON.parse(line);
+                    if (!line.includes("clipboard"))
+                        console.log("DMSService: Subscribe socket <<", line);
                     handleSubscriptionEvent(response);
                 } catch (e) {
-                    console.warn("DMSService: Failed to parse subscription event:", line, e);
+                    console.warn("DMSService: Failed to parse subscription event");
                 }
             }
         }
@@ -369,6 +379,10 @@ Singleton {
             } else if (data.url) {
                 openUrlRequested(data.url);
             }
+        } else if (service === "freedesktop.screensaver") {
+            screensaverInhibited = data.inhibited || false;
+            screensaverInhibitors = data.inhibitors || [];
+            screensaverStateUpdate(data);
         }
     }
 
@@ -394,11 +408,14 @@ Singleton {
             request.params = params;
         }
 
-        if (callback) {
+        if (callback)
             pendingRequests[id] = callback;
-        }
 
-        console.log("DMSService.sendRequest: Sending request id=" + id + " method=" + method);
+        if (method.startsWith("clipboard")) {
+            clipboardRequestIds[id] = true;
+        } else {
+            console.log("DMSService.sendRequest: Sending request id=" + id + " method=" + method);
+        }
         requestSocket.send(request);
     }
 
@@ -498,6 +515,82 @@ Singleton {
             }
             if (!response.error) {
                 listInstalled();
+            }
+        });
+    }
+
+    function listThemes(callback) {
+        sendRequest("themes.list", null, response => {
+            if (response.result) {
+                availableThemes = response.result;
+                themesListReceived(response.result);
+            }
+            if (callback) {
+                callback(response);
+            }
+        });
+    }
+
+    function listInstalledThemes(callback) {
+        sendRequest("themes.listInstalled", null, response => {
+            if (response.result) {
+                installedThemes = response.result;
+                installedThemesReceived(response.result);
+            }
+            if (callback) {
+                callback(response);
+            }
+        });
+    }
+
+    function searchThemes(query, callback) {
+        sendRequest("themes.search", {
+            "query": query
+        }, response => {
+            if (response.result) {
+                themeSearchResultsReceived(response.result);
+            }
+            if (callback) {
+                callback(response);
+            }
+        });
+    }
+
+    function installTheme(themeName, callback) {
+        sendRequest("themes.install", {
+            "name": themeName
+        }, response => {
+            if (callback) {
+                callback(response);
+            }
+            if (!response.error) {
+                listInstalledThemes();
+            }
+        });
+    }
+
+    function uninstallTheme(themeName, callback) {
+        sendRequest("themes.uninstall", {
+            "name": themeName
+        }, response => {
+            if (callback) {
+                callback(response);
+            }
+            if (!response.error) {
+                listInstalledThemes();
+            }
+        });
+    }
+
+    function updateTheme(themeName, callback) {
+        sendRequest("themes.update", {
+            "name": themeName
+        }, response => {
+            if (callback) {
+                callback(response);
+            }
+            if (!response.error) {
+                listInstalledThemes();
             }
         });
     }

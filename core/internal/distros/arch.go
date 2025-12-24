@@ -103,10 +103,8 @@ func (a *ArchDistribution) DetectDependenciesWithTerminal(ctx context.Context, w
 		dependencies = append(dependencies, a.detectXwaylandSatellite())
 	}
 
-	// Base detections (common across distros)
 	dependencies = append(dependencies, a.detectMatugen())
 	dependencies = append(dependencies, a.detectDgop())
-	dependencies = append(dependencies, a.detectClipboardTools()...)
 
 	return dependencies, nil
 }
@@ -139,8 +137,6 @@ func (a *ArchDistribution) GetPackageMappingWithVariants(wm deps.WindowManager, 
 		"ghostty":                 {Name: "ghostty", Repository: RepoTypeSystem},
 		"kitty":                   {Name: "kitty", Repository: RepoTypeSystem},
 		"alacritty":               {Name: "alacritty", Repository: RepoTypeSystem},
-		"cliphist":                {Name: "cliphist", Repository: RepoTypeSystem},
-		"wl-clipboard":            {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk":  {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
 		"accountsservice":         {Name: "accountsservice", Repository: RepoTypeSystem},
 	}
@@ -344,7 +340,7 @@ func (a *ArchDistribution) InstallPackages(ctx context.Context, dependencies []d
 		a.log(fmt.Sprintf("Warning: failed to write window manager config: %v", err))
 	}
 
-	if err := a.EnableDMSService(ctx); err != nil {
+	if err := a.EnableDMSService(ctx, wm); err != nil {
 		a.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 

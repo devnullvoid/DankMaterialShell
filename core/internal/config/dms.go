@@ -5,15 +5,13 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
-	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
 func LocateDMSConfig() (string, error) {
 	var primaryPaths []string
 
-	configHome := utils.XDGConfigHome()
-	if configHome != "" {
+	configHome, err := os.UserConfigDir()
+	if err == nil && configHome != "" {
 		primaryPaths = append(primaryPaths, filepath.Join(configHome, "quickshell", "dms"))
 	}
 

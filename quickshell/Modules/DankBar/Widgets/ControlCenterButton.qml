@@ -13,14 +13,14 @@ BasePill {
     property var widgetData: null
     property string screenName: ""
     property string screenModel: ""
-    property bool showNetworkIcon: SettingsData.controlCenterShowNetworkIcon
-    property bool showBluetoothIcon: SettingsData.controlCenterShowBluetoothIcon
-    property bool showAudioIcon: SettingsData.controlCenterShowAudioIcon
-    property bool showVpnIcon: SettingsData.controlCenterShowVpnIcon
-    property bool showBrightnessIcon: SettingsData.controlCenterShowBrightnessIcon
-    property bool showMicIcon: SettingsData.controlCenterShowMicIcon
-    property bool showBatteryIcon: SettingsData.controlCenterShowBatteryIcon
-    property bool showPrinterIcon: SettingsData.controlCenterShowPrinterIcon
+    property bool showNetworkIcon: widgetData?.showNetworkIcon !== undefined ? widgetData.showNetworkIcon : SettingsData.controlCenterShowNetworkIcon
+    property bool showBluetoothIcon: widgetData?.showBluetoothIcon !== undefined ? widgetData.showBluetoothIcon : SettingsData.controlCenterShowBluetoothIcon
+    property bool showAudioIcon: widgetData?.showAudioIcon !== undefined ? widgetData.showAudioIcon : SettingsData.controlCenterShowAudioIcon
+    property bool showVpnIcon: widgetData?.showVpnIcon !== undefined ? widgetData.showVpnIcon : SettingsData.controlCenterShowVpnIcon
+    property bool showBrightnessIcon: widgetData?.showBrightnessIcon !== undefined ? widgetData.showBrightnessIcon : SettingsData.controlCenterShowBrightnessIcon
+    property bool showMicIcon: widgetData?.showMicIcon !== undefined ? widgetData.showMicIcon : SettingsData.controlCenterShowMicIcon
+    property bool showBatteryIcon: widgetData?.showBatteryIcon !== undefined ? widgetData.showBatteryIcon : SettingsData.controlCenterShowBatteryIcon
+    property bool showPrinterIcon: widgetData?.showPrinterIcon !== undefined ? widgetData.showPrinterIcon : SettingsData.controlCenterShowPrinterIcon
 
     Loader {
         active: root.showPrinterIcon
@@ -47,7 +47,7 @@ BasePill {
     function getNetworkIconColor() {
         if (NetworkService.wifiToggling)
             return Theme.primary;
-        return NetworkService.networkStatus !== "disconnected" ? Theme.primary : Theme.outlineButton;
+        return NetworkService.networkStatus !== "disconnected" ? Theme.primary : Theme.surfaceText;
     }
 
     function getVolumeIconName() {
@@ -70,9 +70,9 @@ BasePill {
 
     function getMicIconColor() {
         if (!AudioService.source?.audio)
-            return Theme.outlineButton;
+            return Theme.surfaceText;
         if (AudioService.source.audio.muted || AudioService.source.audio.volume === 0)
-            return Theme.outlineButton;
+            return Theme.surfaceText;
         return Theme.widgetIconColor;
     }
 
@@ -182,7 +182,7 @@ BasePill {
                 DankIcon {
                     name: "vpn_lock"
                     size: Theme.barIconSize(root.barThickness, -4)
-                    color: NetworkService.vpnConnected ? Theme.primary : Theme.outlineButton
+                    color: NetworkService.vpnConnected ? Theme.primary : Theme.surfaceText
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.showVpnIcon && NetworkService.vpnAvailable && NetworkService.vpnConnected
                 }
@@ -190,7 +190,7 @@ BasePill {
                 DankIcon {
                     name: "bluetooth"
                     size: Theme.barIconSize(root.barThickness, -4)
-                    color: BluetoothService.connected ? Theme.primary : Theme.outlineButton
+                    color: BluetoothService.connected ? Theme.primary : Theme.surfaceText
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.showBluetoothIcon && BluetoothService.available && BluetoothService.enabled
                 }
@@ -314,7 +314,7 @@ BasePill {
                     id: vpnIcon
                     name: "vpn_lock"
                     size: Theme.barIconSize(root.barThickness, -4)
-                    color: NetworkService.vpnConnected ? Theme.primary : Theme.outlineButton
+                    color: NetworkService.vpnConnected ? Theme.primary : Theme.surfaceText
                     anchors.verticalCenter: parent.verticalCenter
                     visible: root.showVpnIcon && NetworkService.vpnAvailable && NetworkService.vpnConnected
                 }
@@ -323,7 +323,7 @@ BasePill {
                     id: bluetoothIcon
                     name: "bluetooth"
                     size: Theme.barIconSize(root.barThickness, -4)
-                    color: BluetoothService.connected ? Theme.primary : Theme.outlineButton
+                    color: BluetoothService.connected ? Theme.primary : Theme.surfaceText
                     anchors.verticalCenter: parent.verticalCenter
                     visible: root.showBluetoothIcon && BluetoothService.available && BluetoothService.enabled
                 }

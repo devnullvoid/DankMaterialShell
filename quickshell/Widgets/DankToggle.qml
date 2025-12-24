@@ -5,6 +5,9 @@ import qs.Widgets
 Item {
     id: toggle
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     // API
     property bool checked: false
     property bool enabled: true
@@ -27,9 +30,10 @@ Item {
     height: showText ? (description.length > 0 ? 60 : 44) : trackHeight
 
     function handleClick() {
-        if (!enabled) return
-        clicked()
-        toggled(!checked)
+        if (!enabled)
+            return;
+        clicked();
+        toggled(!checked);
     }
 
     StyledRect {
@@ -58,6 +62,7 @@ Item {
         visible: showText
 
         Column {
+            width: parent.width
             anchors.verticalCenter: parent.verticalCenter
             spacing: Theme.spacingXS
 
@@ -66,6 +71,8 @@ Item {
                 font.pixelSize: Appearance.fontSize.normal
                 font.weight: Font.Medium
                 opacity: toggle.enabled ? 1 : 0.4
+                width: parent.width
+                anchors.left: parent.left
             }
 
             StyledText {
@@ -75,6 +82,7 @@ Item {
                 wrapMode: Text.WordWrap
                 width: Math.min(implicitWidth, toggle.width - 120)
                 visible: toggle.description.length > 0
+                anchors.left: parent.left
             }
         }
     }
@@ -121,7 +129,7 @@ Item {
                     }
                     ScriptAction {
                         script: {
-                            toggle.toggleCompleted(toggle.checked)
+                            toggle.toggleCompleted(toggle.checked);
                         }
                     }
                 }

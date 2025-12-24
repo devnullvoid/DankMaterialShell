@@ -3,7 +3,7 @@
 %global debug_package %{nil}
 
 Name:           dms
-Version:        1.0.0
+Version:        1.0.3
 Release:        1%{?dist}
 Summary:        DankMaterialShell - Material 3 inspired shell for Wayland compositors
 
@@ -17,7 +17,7 @@ BuildRequires:  gzip
 BuildRequires:  systemd-rpm-macros
 
 # Core requirements
-Requires:       (quickshell-git or quickshell)
+Requires:       (quickshell or quickshell-git)
 Requires:       accountsservice
 Requires:       dgop
 
@@ -105,6 +105,13 @@ pkill -USR1 -x dms >/dev/null 2>&1 || :
 %{_datadir}/icons/hicolor/scalable/apps/danklogo.svg
 
 %changelog
+* Mon Dec 16 2025 AvengeMedia <maintainer@avengemedia.com> - 1.0.3-1
+- Update to stable v1.0.3 release
+
+* Fri Dec 12 2025 AvengeMedia <maintainer@avengemedia.com> - 1.0.2-1
+- Update to stable v1.0.2 release
+- Bug fixes and improvements
+
 * Fri Nov 22 2025 AvengeMedia <maintainer@avengemedia.com> - 0.6.2-1
 - Stable release build with pre-built binaries
 - Multi-arch support (x86_64, aarch64)

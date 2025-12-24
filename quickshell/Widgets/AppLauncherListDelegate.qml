@@ -5,6 +5,9 @@ import qs.Widgets
 Rectangle {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     required property var model
     required property int index
     required property var listView
@@ -32,7 +35,7 @@ Rectangle {
     width: listView.width
     height: itemHeight
     radius: Theme.cornerRadius
-    color: isCurrentItem ? Theme.widgetBaseHoverColor : mouseArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent"
+    color: isCurrentItem ? Theme.primaryPressed : mouseArea.containsMouse ? Theme.primaryPressed : "transparent"
 
     Row {
         anchors.fill: parent
@@ -66,6 +69,7 @@ Rectangle {
                 color: Theme.surfaceText
                 font.weight: Font.Medium
                 elide: Text.ElideRight
+                horizontalAlignment: Text.AlignLeft
                 wrapMode: Text.NoWrap
                 maximumLineCount: 1
             }
@@ -76,6 +80,7 @@ Rectangle {
                 font.pixelSize: Theme.fontSizeMedium
                 color: Theme.surfaceVariantText
                 elide: Text.ElideRight
+                horizontalAlignment: Text.AlignLeft
                 maximumLineCount: 1
                 visible: root.showDescription && model.comment && model.comment.length > 0
             }

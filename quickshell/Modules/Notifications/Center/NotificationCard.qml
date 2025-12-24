@@ -1,8 +1,5 @@
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Effects
 import Quickshell
-import Quickshell.Widgets
 import Quickshell.Services.Notifications
 import qs.Common
 import qs.Services
@@ -13,9 +10,9 @@ Rectangle {
 
     property var notificationGroup
     property bool expanded: (NotificationService.expandedGroups[notificationGroup && notificationGroup.key] || false)
-    property bool descriptionExpanded: (NotificationService.expandedMessages[(notificationGroup && notificationGroup.latestNotification && notificationGroup.latestNotification.notification
-                                                                              && notificationGroup.latestNotification.notification.id) ? (notificationGroup.latestNotification.notification.id + "_desc") : ""] || false)
+    property bool descriptionExpanded: (NotificationService.expandedMessages[(notificationGroup && notificationGroup.latestNotification && notificationGroup.latestNotification.notification && notificationGroup.latestNotification.notification.id) ? (notificationGroup.latestNotification.notification.id + "_desc") : ""] || false)
     property bool userInitiatedExpansion: false
+    property bool isAnimating: false
 
     property bool isGroupSelected: false
     property int selectedNotificationIndex: -1
@@ -24,13 +21,13 @@ Rectangle {
     width: parent ? parent.width : 400
     height: {
         if (expanded) {
-            return expandedContent.height + 28
+            return expandedContent.height + 28;
         }
-        const baseHeight = 116
+        const baseHeight = 116;
         if (descriptionExpanded) {
-            return baseHeight + descriptionText.contentHeight - (descriptionText.font.pixelSize * 1.2 * 2)
+            return baseHeight + descriptionText.contentHeight - (descriptionText.font.pixelSize * 1.2 * 2);
         }
-        return baseHeight
+        return baseHeight;
     }
     radius: Theme.cornerRadius
 
@@ -43,36 +40,36 @@ Rectangle {
 
     color: {
         if (isGroupSelected && keyboardNavigationActive) {
-            return Theme.primaryPressed
+            return Theme.primaryPressed;
         }
         if (keyboardNavigationActive && expanded && selectedNotificationIndex >= 0) {
-            return Theme.primaryHoverLight
+            return Theme.primaryHoverLight;
         }
-        return Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+        return Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency);
     }
     border.color: {
         if (isGroupSelected && keyboardNavigationActive) {
-            return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.5)
+            return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.5);
         }
         if (keyboardNavigationActive && expanded && selectedNotificationIndex >= 0) {
-            return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2)
+            return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2);
         }
         if (notificationGroup?.latestNotification?.urgency === NotificationUrgency.Critical) {
-            return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3)
+            return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3);
         }
-        return Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.05)
+        return Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.05);
     }
     border.width: {
         if (isGroupSelected && keyboardNavigationActive) {
-            return 1.5
+            return 1.5;
         }
         if (keyboardNavigationActive && expanded && selectedNotificationIndex >= 0) {
-            return 1
+            return 1;
         }
         if (notificationGroup?.latestNotification?.urgency === NotificationUrgency.Critical) {
-            return 2
+            return 2;
         }
-        return 1
+        return 1;
     }
     clip: true
 
@@ -121,21 +118,21 @@ Rectangle {
 
             imageSource: {
                 if (hasNotificationImage)
-                    return notificationGroup.latestNotification.cleanImage
+                    return notificationGroup.latestNotification.cleanImage;
                 if (notificationGroup?.latestNotification?.appIcon) {
-                    const appIcon = notificationGroup.latestNotification.appIcon
+                    const appIcon = notificationGroup.latestNotification.appIcon;
                     if (appIcon.startsWith("file://") || appIcon.startsWith("http://") || appIcon.startsWith("https://"))
-                        return appIcon
-                    return Quickshell.iconPath(appIcon, true)
+                        return appIcon;
+                    return Quickshell.iconPath(appIcon, true);
                 }
-                return ""
+                return "";
             }
 
             hasImage: hasNotificationImage
             fallbackIcon: ""
             fallbackText: {
-                const appName = notificationGroup?.appName || "?"
-                return appName.charAt(0).toUpperCase()
+                const appName = notificationGroup?.appName || "?";
+                return appName.charAt(0).toUpperCase();
             }
 
             Rectangle {
@@ -195,9 +192,9 @@ Rectangle {
                     StyledText {
                         width: parent.width
                         text: {
-                            const timeStr = (notificationGroup && notificationGroup.latestNotification && notificationGroup.latestNotification.timeStr) || ""
-                            const appName = (notificationGroup && notificationGroup.appName) || ""
-                            return timeStr.length > 0 ? `${appName} • ${timeStr}` : appName
+                            const timeStr = (notificationGroup && notificationGroup.latestNotification && notificationGroup.latestNotification.timeStr) || "";
+                            const appName = (notificationGroup && notificationGroup.appName) || "";
+                            return timeStr.length > 0 ? `${appName} • ${timeStr}` : appName;
                         }
                         color: Theme.surfaceVariantText
                         font.pixelSize: Theme.fontSizeSmall
@@ -238,24 +235,23 @@ Rectangle {
                             cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : (parent.hasMoreText || descriptionExpanded) ? Qt.PointingHandCursor : Qt.ArrowCursor
 
                             onClicked: mouse => {
-                                           if (!parent.hoveredLink && (parent.hasMoreText || descriptionExpanded)) {
-                                               const messageId = (notificationGroup && notificationGroup.latestNotification && notificationGroup.latestNotification.notification
-                                                                  && notificationGroup.latestNotification.notification.id) ? (notificationGroup.latestNotification.notification.id + "_desc") : ""
-                                               NotificationService.toggleMessageExpansion(messageId)
-                                           }
-                                       }
+                                if (!parent.hoveredLink && (parent.hasMoreText || descriptionExpanded)) {
+                                    const messageId = (notificationGroup && notificationGroup.latestNotification && notificationGroup.latestNotification.notification && notificationGroup.latestNotification.notification.id) ? (notificationGroup.latestNotification.notification.id + "_desc") : "";
+                                    NotificationService.toggleMessageExpansion(messageId);
+                                }
+                            }
 
                             propagateComposedEvents: true
                             onPressed: mouse => {
-                                           if (parent.hoveredLink) {
-                                               mouse.accepted = false
-                                           }
-                                       }
+                                if (parent.hoveredLink) {
+                                    mouse.accepted = false;
+                                }
+                            }
                             onReleased: mouse => {
-                                            if (parent.hoveredLink) {
-                                                mouse.accepted = false
-                                            }
-                                        }
+                                if (parent.hoveredLink) {
+                                    mouse.accepted = false;
+                                }
+                            }
                         }
                     }
                 }
@@ -335,15 +331,15 @@ Rectangle {
 
                     width: parent.width
                     height: {
-                        const baseHeight = 120
+                        const baseHeight = 120;
                         if (messageExpanded) {
-                            const twoLineHeight = bodyText.font.pixelSize * 1.2 * 2
+                            const twoLineHeight = bodyText.font.pixelSize * 1.2 * 2;
                             if (bodyText.implicitHeight > twoLineHeight + 2) {
-                                const extraHeight = bodyText.implicitHeight - twoLineHeight
-                                return baseHeight + extraHeight
+                                const extraHeight = bodyText.implicitHeight - twoLineHeight;
+                                return baseHeight + extraHeight;
                             }
                         }
-                        return baseHeight
+                        return baseHeight;
                     }
                     radius: Theme.cornerRadius
                     color: isSelected ? Theme.primaryPressed : Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
@@ -379,23 +375,23 @@ Rectangle {
 
                             imageSource: {
                                 if (hasNotificationImage)
-                                    return modelData.cleanImage
+                                    return modelData.cleanImage;
 
                                 if (modelData?.appIcon) {
-                                    const appIcon = modelData.appIcon
+                                    const appIcon = modelData.appIcon;
                                     if (appIcon.startsWith("file://") || appIcon.startsWith("http://") || appIcon.startsWith("https://"))
-                                        return appIcon
+                                        return appIcon;
 
-                                    return Quickshell.iconPath(appIcon, true)
+                                    return Quickshell.iconPath(appIcon, true);
                                 }
-                                return ""
+                                return "";
                             }
 
                             fallbackIcon: ""
 
                             fallbackText: {
-                                const appName = modelData?.appName || "?"
-                                return appName.charAt(0).toUpperCase()
+                                const appName = modelData?.appName || "?";
+                                return appName.charAt(0).toUpperCase();
                             }
                         }
 
@@ -456,22 +452,22 @@ Rectangle {
                                         cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : (bodyText.hasMoreText || messageExpanded) ? Qt.PointingHandCursor : Qt.ArrowCursor
 
                                         onClicked: mouse => {
-                                                       if (!parent.hoveredLink && (bodyText.hasMoreText || messageExpanded)) {
-                                                           NotificationService.toggleMessageExpansion(modelData?.notification?.id || "")
-                                                       }
-                                                   }
+                                            if (!parent.hoveredLink && (bodyText.hasMoreText || messageExpanded)) {
+                                                NotificationService.toggleMessageExpansion(modelData?.notification?.id || "");
+                                            }
+                                        }
 
                                         propagateComposedEvents: true
                                         onPressed: mouse => {
-                                                       if (parent.hoveredLink) {
-                                                           mouse.accepted = false
-                                                       }
-                                                   }
+                                            if (parent.hoveredLink) {
+                                                mouse.accepted = false;
+                                            }
+                                        }
                                         onReleased: mouse => {
-                                                        if (parent.hoveredLink) {
-                                                            mouse.accepted = false
-                                                        }
-                                                    }
+                                            if (parent.hoveredLink) {
+                                                mouse.accepted = false;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -502,11 +498,11 @@ Rectangle {
                                             StyledText {
                                                 id: actionText
                                                 text: {
-                                                    const baseText = modelData.text || "View"
+                                                    const baseText = modelData.text || "View";
                                                     if (keyboardNavigationActive && (isGroupSelected || selectedNotificationIndex >= 0)) {
-                                                        return `${baseText} (${index + 1})`
+                                                        return `${baseText} (${index + 1})`;
                                                     }
-                                                    return baseText
+                                                    return baseText;
                                                 }
                                                 color: parent.isHovered ? Theme.primary : Theme.surfaceVariantText
                                                 font.pixelSize: Theme.fontSizeSmall
@@ -523,7 +519,7 @@ Rectangle {
                                                 onExited: parent.isHovered = false
                                                 onClicked: {
                                                     if (modelData && modelData.invoke) {
-                                                        modelData.invoke()
+                                                        modelData.invoke();
                                                     }
                                                 }
                                             }
@@ -587,11 +583,11 @@ Rectangle {
                 StyledText {
                     id: actionText
                     text: {
-                        const baseText = modelData.text || "View"
+                        const baseText = modelData.text || "View";
                         if (keyboardNavigationActive && isGroupSelected) {
-                            return `${baseText} (${index + 1})`
+                            return `${baseText} (${index + 1})`;
                         }
-                        return baseText
+                        return baseText;
                     }
                     color: parent.isHovered ? Theme.primary : Theme.surfaceVariantText
                     font.pixelSize: Theme.fontSizeSmall
@@ -608,7 +604,7 @@ Rectangle {
                     onExited: parent.isHovered = false
                     onClicked: {
                         if (modelData && modelData.invoke) {
-                            modelData.invoke()
+                            modelData.invoke();
                         }
                     }
                 }
@@ -654,8 +650,8 @@ Rectangle {
         anchors.fill: parent
         visible: !expanded && (notificationGroup?.count || 0) > 1 && !descriptionExpanded
         onClicked: {
-            root.userInitiatedExpansion = true
-            NotificationService.toggleGroupExpansion(notificationGroup?.key || "")
+            root.userInitiatedExpansion = true;
+            NotificationService.toggleGroupExpansion(notificationGroup?.key || "");
         }
         z: -1
     }
@@ -677,8 +673,8 @@ Rectangle {
             iconSize: 18
             buttonSize: 28
             onClicked: {
-                root.userInitiatedExpansion = true
-                NotificationService.toggleGroupExpansion(notificationGroup?.key || "")
+                root.userInitiatedExpansion = true;
+                NotificationService.toggleGroupExpansion(notificationGroup?.key || "");
             }
         }
 
@@ -697,7 +693,14 @@ Rectangle {
         NumberAnimation {
             duration: Theme.mediumDuration
             easing.type: Theme.emphasizedEasing
-            onFinished: root.userInitiatedExpansion = false
+            onRunningChanged: {
+                if (running) {
+                    root.isAnimating = true;
+                } else {
+                    root.isAnimating = false;
+                    root.userInitiatedExpansion = false;
+                }
+            }
         }
     }
 }

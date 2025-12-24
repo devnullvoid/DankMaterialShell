@@ -9,6 +9,9 @@ import qs.Widgets
 Rectangle {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property int currentIndex: 0
     property var parentModal: null
     property var expandedCategories: ({})
@@ -114,6 +117,12 @@ Rectangle {
                     "text": I18n.tr("System Updater"),
                     "icon": "refresh",
                     "tabIndex": 20
+                },
+                {
+                    "id": "desktop_widgets",
+                    "text": I18n.tr("Desktop Widgets"),
+                    "icon": "widgets",
+                    "tabIndex": 27
                 }
             ]
         },
@@ -148,7 +157,27 @@ Rectangle {
             "id": "displays",
             "text": I18n.tr("Displays"),
             "icon": "monitor",
-            "tabIndex": 6
+            "collapsedByDefault": true,
+            "children": [
+                {
+                    "id": "display_config",
+                    "text": I18n.tr("Configuration") + " (Beta)",
+                    "icon": "display_settings",
+                    "tabIndex": 24
+                },
+                {
+                    "id": "display_gamma",
+                    "text": I18n.tr("Gamma Control"),
+                    "icon": "brightness_6",
+                    "tabIndex": 25
+                },
+                {
+                    "id": "display_widgets",
+                    "text": I18n.tr("Widgets", "settings_displays"),
+                    "icon": "widgets",
+                    "tabIndex": 26
+                }
+            ]
         },
         {
             "id": "network",
@@ -158,11 +187,26 @@ Rectangle {
             "dmsOnly": true
         },
         {
-            "id": "printers",
-            "text": I18n.tr("Printers"),
-            "icon": "print",
-            "tabIndex": 8,
-            "cupsOnly": true
+            "id": "system",
+            "text": I18n.tr("System"),
+            "icon": "computer",
+            "collapsedByDefault": true,
+            "children": [
+                {
+                    "id": "printers",
+                    "text": I18n.tr("Printers"),
+                    "icon": "print",
+                    "tabIndex": 8,
+                    "cupsOnly": true
+                },
+                {
+                    "id": "clipboard",
+                    "text": I18n.tr("Clipboard"),
+                    "icon": "content_paste",
+                    "tabIndex": 23,
+                    "clipboardOnly": true
+                }
+            ]
         },
         {
             "id": "power_security",
@@ -212,6 +256,8 @@ Rectangle {
         if (item.soundsOnly && !AudioService.soundsAvailable)
             return false;
         if (item.hyprlandNiriOnly && !CompositorService.isNiri && !CompositorService.isHyprland)
+            return false;
+        if (item.clipboardOnly && (!DMSService.isConnected || DMSService.apiVersion < 23))
             return false;
         return true;
     }

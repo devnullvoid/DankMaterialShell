@@ -1,12 +1,12 @@
 import QtQuick
 import qs.Common
 import qs.Widgets
-import qs.Modals.Clipboard
 
 Rectangle {
     id: keyboardHints
 
-    readonly property string hintsText: I18n.tr("Shift+Del: Clear All • Esc: Close")
+    property bool wtypeAvailable: false
+    readonly property string hintsText: wtypeAvailable ? I18n.tr("Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close") : I18n.tr("Shift+Del: Clear All • Esc: Close")
 
     height: ClipboardConstants.keyboardHintsHeight
     radius: Theme.cornerRadius

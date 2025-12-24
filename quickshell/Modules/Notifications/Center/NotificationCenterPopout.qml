@@ -100,6 +100,9 @@ DankPopout {
         Rectangle {
             id: notificationContent
 
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
+
             property var externalKeyboardController: null
             property real cachedHeaderHeight: 32
 

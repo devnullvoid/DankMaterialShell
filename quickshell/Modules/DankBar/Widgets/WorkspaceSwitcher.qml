@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Effects
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Hyprland
@@ -245,11 +246,14 @@ Item {
             if (!byApp[key]) {
                 const moddedId = Paths.moddedAppId(keyBase);
                 const isSteamApp = moddedId.toLowerCase().includes("steam_app");
-                const icon = isSteamApp ? "" : DesktopService.resolveIconPath(moddedId);
+                const isQuickshell = keyBase === "org.quickshell";
+                const desktopEntry = DesktopEntries.heuristicLookup(keyBase);
+                const icon = isSteamApp ? "" : Paths.getAppIcon(keyBase, desktopEntry);
                 byApp[key] = {
                     "type": "icon",
                     "icon": icon,
                     "isSteamApp": isSteamApp,
+                    "isQuickshell": isQuickshell,
                     "active": !!((w.activated || w.is_focused) || (CompositorService.isNiri && w.is_focused)),
                     "count": 1,
                     "windowId": w.address || w.id,
@@ -446,6 +450,7 @@ Item {
     readonly property real padding: Math.max(Theme.spacingXS, Theme.spacingS * (widgetHeight / 30))
     readonly property real visualWidth: isVertical ? widgetHeight : (workspaceRow.implicitWidth + padding * 2)
     readonly property real visualHeight: isVertical ? (workspaceRow.implicitHeight + padding * 2) : widgetHeight
+    readonly property real appIconSize: Theme.barIconSize(barThickness, -6)
 
     function getRealWorkspaces() {
         return root.workspaceList.filter(ws => {
@@ -543,7 +548,7 @@ Item {
         }
     }
 
-    function getWorkspaceIndex(modelData) {
+    function getWorkspaceIndex(modelData, index) {
         let isPlaceholder;
         if (root.useExtWorkspace) {
             isPlaceholder = modelData?.hidden === true;
@@ -644,12 +649,46 @@ Item {
         anchors.fill: parent
         acceptedButtons: Qt.RightButton
 
+        property real scrollAccumulator: 0
+        property real touchpadThreshold: 500
+        property bool scrollInProgress: false
+
+        Timer {
+            id: scrollCooldown
+            interval: 100
+            onTriggered: parent.scrollInProgress = false
+        }
+
         onClicked: mouse => {
             if (mouse.button === Qt.RightButton) {
                 if (CompositorService.isNiri) {
                     NiriService.toggleOverview();
                 } else if (CompositorService.isHyprland && root.hyprlandOverviewLoader?.item) {
                     root.hyprlandOverviewLoader.item.overviewOpen = !root.hyprlandOverviewLoader.item.overviewOpen;
+                }
+            }
+        }
+
+        onWheel: wheel => {
+            if (scrollInProgress)
+                return;
+
+            const delta = wheel.angleDelta.y;
+            const isMouseWheel = Math.abs(delta) >= 120 && (Math.abs(delta) % 120) === 0;
+            const direction = delta < 0 ? 1 : -1;
+
+            if (isMouseWheel) {
+                root.switchWorkspace(direction);
+                scrollInProgress = true;
+                scrollCooldown.restart();
+            } else {
+                scrollAccumulator += delta;
+                if (Math.abs(scrollAccumulator) >= touchpadThreshold) {
+                    const touchDirection = scrollAccumulator < 0 ? 1 : -1;
+                    root.switchWorkspace(touchDirection);
+                    scrollInProgress = true;
+                    scrollCooldown.restart();
+                    scrollAccumulator = 0;
                 }
             }
         }
@@ -719,14 +758,14 @@ Item {
                 readonly property real iconsExtraWidth: {
                     if (!root.isVertical && SettingsData.showWorkspaceApps && loadedIcons.length > 0) {
                         const numIcons = Math.min(loadedIcons.length, SettingsData.maxWorkspaceIcons);
-                        return numIcons * 18 + (numIcons > 0 ? (numIcons - 1) * Theme.spacingXS : 0) + (isActive ? Theme.spacingXS : 0);
+                        return numIcons * root.appIconSize + (numIcons > 0 ? (numIcons - 1) * Theme.spacingXS : 0) + (isActive ? Theme.spacingXS : 0);
                     }
                     return 0;
                 }
                 readonly property real iconsExtraHeight: {
                     if (root.isVertical && SettingsData.showWorkspaceApps && loadedIcons.length > 0) {
                         const numIcons = Math.min(loadedIcons.length, SettingsData.maxWorkspaceIcons);
-                        return numIcons * 18 + (numIcons > 0 ? (numIcons - 1) * Theme.spacingXS : 0) + (isActive ? Theme.spacingXS : 0);
+                        return numIcons * root.appIconSize + (numIcons > 0 ? (numIcons - 1) * Theme.spacingXS : 0) + (isActive ? Theme.spacingXS : 0);
                     }
                     return 0;
                 }
@@ -803,7 +842,12 @@ Item {
                             wsData = modelData;
                         }
                         delegateRoot.loadedWorkspaceData = wsData;
-                        delegateRoot.loadedIsUrgent = wsData?.urgent ?? false;
+                        if (CompositorService.isNiri) {
+                            const workspaceId = wsData?.id;
+                            delegateRoot.loadedIsUrgent = workspaceId ? NiriService.windows.some(w => w.workspace_id === workspaceId && w.is_urgent) : false;
+                        } else {
+                            delegateRoot.loadedIsUrgent = wsData?.urgent ?? false;
+                        }
 
                         var icData = null;
                         if (wsData?.name) {
@@ -839,8 +883,8 @@ Item {
                     radius: Theme.cornerRadius
                     color: isActive ? Theme.primary : isUrgent ? Theme.error : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.outlineButton : Theme.surfaceTextAlpha
 
-                    border.width: isUrgent && !isActive ? 2 : 0
-                    border.color: isUrgent && !isActive ? Theme.error : Theme.withAlpha(Theme.error, 0)
+                    border.width: isUrgent ? 2 : 0
+                    border.color: isUrgent ? Theme.error : Theme.withAlpha(Theme.error, 0)
 
                     Behavior on width {
                         NumberAnimation {
@@ -897,7 +941,7 @@ Item {
                                     Item {
                                         visible: loadedHasIcon && loadedIconData?.type === "icon"
                                         width: wsIcon.width + (isActive && loadedIcons.length > 0 ? 4 : 0)
-                                        height: 18
+                                        height: root.appIconSize
 
                                         DankIcon {
                                             id: wsIcon
@@ -912,7 +956,7 @@ Item {
                                     Item {
                                         visible: loadedHasIcon && loadedIconData?.type === "text"
                                         width: wsText.implicitWidth + (isActive && loadedIcons.length > 0 ? 4 : 0)
-                                        height: 18
+                                        height: root.appIconSize
 
                                         StyledText {
                                             id: wsText
@@ -927,12 +971,12 @@ Item {
                                     Item {
                                         visible: SettingsData.showWorkspaceIndex && !loadedHasIcon
                                         width: wsIndexText.implicitWidth + (isActive && loadedIcons.length > 0 ? 4 : 0)
-                                        height: 18
+                                        height: root.appIconSize
 
                                         StyledText {
                                             id: wsIndexText
                                             anchors.verticalCenter: parent.verticalCenter
-                                            text: root.getWorkspaceIndex(modelData)
+                                            text: root.getWorkspaceIndex(modelData, index)
                                             color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
                                             font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale)
                                             font.weight: (isActive && !isPlaceholder) ? Font.DemiBold : Font.Normal
@@ -944,48 +988,61 @@ Item {
                                             values: loadedIcons.slice(0, SettingsData.maxWorkspaceIcons)
                                         }
                                         delegate: Item {
-                                            width: 18
-                                            height: 18
+                                            width: root.appIconSize
+                                            height: root.appIconSize
 
                                             IconImage {
-                                                id: appIcon
-                                                property var windowId: modelData.windowId
+                                                id: rowAppIcon
                                                 anchors.fill: parent
                                                 source: modelData.icon
-                                                opacity: modelData.active ? 1.0 : appMouseArea.containsMouse ? 0.8 : 0.6
-                                                visible: !modelData.isSteamApp
+                                                opacity: modelData.active ? 1.0 : rowAppMouseArea.containsMouse ? 0.8 : 0.6
+                                                visible: !modelData.isSteamApp && !modelData.isQuickshell
+                                            }
+
+                                            IconImage {
+                                                anchors.fill: parent
+                                                source: modelData.icon
+                                                opacity: modelData.active ? 1.0 : rowAppMouseArea.containsMouse ? 0.8 : 0.6
+                                                visible: modelData.isQuickshell
+                                                layer.enabled: true
+                                                layer.effect: MultiEffect {
+                                                    saturation: 0
+                                                    colorization: 1
+                                                    colorizationColor: isActive ? Theme.primaryContainer : Theme.primary
+                                                }
                                             }
 
                                             DankIcon {
                                                 anchors.centerIn: parent
-                                                size: 18
+                                                size: root.appIconSize
                                                 name: "sports_esports"
                                                 color: Theme.widgetTextColor
-                                                opacity: modelData.active ? 1.0 : appMouseArea.containsMouse ? 0.8 : 0.6
+                                                opacity: modelData.active ? 1.0 : rowAppMouseArea.containsMouse ? 0.8 : 0.6
                                                 visible: modelData.isSteamApp
                                             }
 
                                             MouseArea {
-                                                id: appMouseArea
+                                                id: rowAppMouseArea
                                                 anchors.fill: parent
                                                 enabled: isActive
                                                 cursorShape: Qt.PointingHandCursor
                                                 onClicked: {
-                                                    if (!appIcon.windowId)
+                                                    const winId = modelData.windowId;
+                                                    if (!winId)
                                                         return;
                                                     if (CompositorService.isHyprland) {
-                                                        Hyprland.dispatch(`focuswindow address:${appIcon.windowId}`);
+                                                        Hyprland.dispatch(`focuswindow address:${winId}`);
                                                     } else if (CompositorService.isNiri) {
-                                                        NiriService.focusWindow(appIcon.windowId);
+                                                        NiriService.focusWindow(winId);
                                                     }
                                                 }
                                             }
 
                                             Rectangle {
                                                 visible: modelData.count > 1 && !isActive
-                                                width: 12
-                                                height: 12
-                                                radius: 6
+                                                width: root.appIconSize * 0.67
+                                                height: root.appIconSize * 0.67
+                                                radius: root.appIconSize * 0.33
                                                 color: "black"
                                                 border.color: "white"
                                                 border.width: 1
@@ -996,7 +1053,7 @@ Item {
                                                 Text {
                                                     anchors.centerIn: parent
                                                     text: modelData.count
-                                                    font.pixelSize: 8
+                                                    font.pixelSize: root.appIconSize * 0.44
                                                     color: "white"
                                                 }
                                             }
@@ -1034,48 +1091,61 @@ Item {
                                             values: loadedIcons.slice(0, SettingsData.maxWorkspaceIcons)
                                         }
                                         delegate: Item {
-                                            width: 18
-                                            height: 18
+                                            width: root.appIconSize
+                                            height: root.appIconSize
 
                                             IconImage {
-                                                id: appIcon
-                                                property var windowId: modelData.windowId
+                                                id: colAppIcon
                                                 anchors.fill: parent
                                                 source: modelData.icon
-                                                opacity: modelData.active ? 1.0 : appMouseArea.containsMouse ? 0.8 : 0.6
-                                                visible: !modelData.isSteamApp
+                                                opacity: modelData.active ? 1.0 : colAppMouseArea.containsMouse ? 0.8 : 0.6
+                                                visible: !modelData.isSteamApp && !modelData.isQuickshell
+                                            }
+
+                                            IconImage {
+                                                anchors.fill: parent
+                                                source: modelData.icon
+                                                opacity: modelData.active ? 1.0 : colAppMouseArea.containsMouse ? 0.8 : 0.6
+                                                visible: modelData.isQuickshell
+                                                layer.enabled: true
+                                                layer.effect: MultiEffect {
+                                                    saturation: 0
+                                                    colorization: 1
+                                                    colorizationColor: isActive ? Theme.primaryContainer : Theme.primary
+                                                }
                                             }
 
                                             DankIcon {
                                                 anchors.centerIn: parent
-                                                size: 18
+                                                size: root.appIconSize
                                                 name: "sports_esports"
                                                 color: Theme.widgetTextColor
-                                                opacity: modelData.active ? 1.0 : appMouseArea.containsMouse ? 0.8 : 0.6
+                                                opacity: modelData.active ? 1.0 : colAppMouseArea.containsMouse ? 0.8 : 0.6
                                                 visible: modelData.isSteamApp
                                             }
 
                                             MouseArea {
-                                                id: appMouseArea
+                                                id: colAppMouseArea
                                                 anchors.fill: parent
                                                 enabled: isActive
                                                 cursorShape: Qt.PointingHandCursor
                                                 onClicked: {
-                                                    if (!appIcon.windowId)
+                                                    const winId = modelData.windowId;
+                                                    if (!winId)
                                                         return;
                                                     if (CompositorService.isHyprland) {
-                                                        Hyprland.dispatch(`focuswindow address:${appIcon.windowId}`);
+                                                        Hyprland.dispatch(`focuswindow address:${winId}`);
                                                     } else if (CompositorService.isNiri) {
-                                                        NiriService.focusWindow(appIcon.windowId);
+                                                        NiriService.focusWindow(winId);
                                                     }
                                                 }
                                             }
 
                                             Rectangle {
                                                 visible: modelData.count > 1 && !isActive
-                                                width: 12
-                                                height: 12
-                                                radius: 6
+                                                width: root.appIconSize * 0.67
+                                                height: root.appIconSize * 0.67
+                                                radius: root.appIconSize * 0.33
                                                 color: "black"
                                                 border.color: "white"
                                                 border.width: 1
@@ -1086,7 +1156,7 @@ Item {
                                                 Text {
                                                     anchors.centerIn: parent
                                                     text: modelData.count
-                                                    font.pixelSize: 8
+                                                    font.pixelSize: root.appIconSize * 0.44
                                                     color: "white"
                                                 }
                                             }
@@ -1133,12 +1203,12 @@ Item {
                     Loader {
                         id: indexLoader
                         anchors.fill: parent
-                        active: !isPlaceholder && SettingsData.showWorkspaceIndex && !loadedHasIcon && !SettingsData.showWorkspaceApps
+                        active: SettingsData.showWorkspaceIndex && !loadedHasIcon && !SettingsData.showWorkspaceApps
                         sourceComponent: Item {
                             StyledText {
                                 anchors.centerIn: parent
                                 text: {
-                                    return root.getWorkspaceIndex(modelData);
+                                    return root.getWorkspaceIndex(modelData, index);
                                 }
                                 color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
                                 font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale)

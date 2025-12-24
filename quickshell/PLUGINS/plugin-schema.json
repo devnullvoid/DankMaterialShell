@@ -43,7 +43,7 @@
     "type": {
       "type": "string",
       "description": "Plugin type",
-      "enum": ["widget", "daemon", "launcher"]
+      "enum": ["widget", "daemon", "launcher", "desktop"]
     },
     "capabilities": {
       "type": "array",

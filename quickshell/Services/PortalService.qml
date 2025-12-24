@@ -1,5 +1,4 @@
 pragma Singleton
-
 pragma ComponentBehavior: Bound
 
 import QtQuick
@@ -22,161 +21,157 @@ Singleton {
 
     readonly property string socketPath: Quickshell.env("DMS_SOCKET")
 
-    function init() {}
+    function init() {
+    }
 
     function getSystemProfileImage() {
         if (!freedeskAvailable)
-            return
-
-        const username = Quickshell.env("USER")
+            return;
+        const username = Quickshell.env("USER");
         if (!username)
-            return
-
+            return;
         DMSService.sendRequest("freedesktop.accounts.getUserIconFile", {
-                                   "username": username
-                               }, response => {
-                                   if (response.result && response.result.success) {
-                                       const iconFile = response.result.value || ""
-                                       if (iconFile && iconFile !== "" && iconFile !== "/var/lib/AccountsService/icons/") {
-                                           systemProfileImage = iconFile
-                                           if (!profileImage || profileImage === "") {
-                                               profileImage = iconFile
-                                           }
-                                       }
-                                   }
-                               })
+            "username": username
+        }, response => {
+            if (response.result && response.result.success) {
+                const iconFile = response.result.value || "";
+                if (iconFile && iconFile !== "" && iconFile !== "/var/lib/AccountsService/icons/") {
+                    systemProfileImage = iconFile;
+                    if (!profileImage || profileImage === "") {
+                        profileImage = iconFile;
+                    }
+                }
+            }
+        });
     }
 
     function getUserProfileImage(username) {
         if (!username) {
-            profileImage = ""
-            return
+            profileImage = "";
+            return;
         }
         if (Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true") {
-            profileImage = ""
-            return
+            profileImage = "";
+            return;
         }
 
         if (!freedeskAvailable) {
-            profileImage = ""
-            return
+            profileImage = "";
+            return;
         }
 
         DMSService.sendRequest("freedesktop.accounts.getUserIconFile", {
-                                   "username": username
-                               }, response => {
-                                   if (response.result && response.result.success) {
-                                       const icon = response.result.value || ""
-                                       if (icon && icon !== "" && icon !== "/var/lib/AccountsService/icons/") {
-                                           profileImage = icon
-                                       } else {
-                                           profileImage = ""
-                                       }
-                                   } else {
-                                       profileImage = ""
-                                   }
-                               })
+            "username": username
+        }, response => {
+            if (response.result && response.result.success) {
+                const icon = response.result.value || "";
+                if (icon && icon !== "" && icon !== "/var/lib/AccountsService/icons/") {
+                    profileImage = icon;
+                } else {
+                    profileImage = "";
+                }
+            } else {
+                profileImage = "";
+            }
+        });
     }
 
     function setProfileImage(imagePath) {
         if (accountsServiceAvailable) {
-            pendingProfileImage = imagePath
-            setSystemProfileImage(imagePath || "")
+            pendingProfileImage = imagePath;
+            setSystemProfileImage(imagePath || "");
         } else {
-            profileImage = imagePath
+            profileImage = imagePath;
         }
     }
 
     function getSystemColorScheme() {
         if (typeof SettingsData !== "undefined" && SettingsData.syncModeWithPortal === false) {
-            return
+            return;
         }
         if (!freedeskAvailable)
-            return
-
+            return;
         DMSService.sendRequest("freedesktop.settings.getColorScheme", null, response => {
-                                   if (response.result) {
-                                       systemColorScheme = response.result.value || 0
-                                   }
-                               })
+            if (response.result) {
+                systemColorScheme = response.result.value || 0;
+            }
+        });
     }
 
     function setLightMode(isLightMode) {
         if (typeof SettingsData !== "undefined" && SettingsData.syncModeWithPortal === false) {
-            return
+            return;
         }
-        setSystemColorScheme(isLightMode)
+        setSystemColorScheme(isLightMode);
     }
 
     function setSystemColorScheme(isLightMode) {
         if (typeof SettingsData !== "undefined" && SettingsData.syncModeWithPortal === false) {
-            return
+            return;
         }
 
-        const targetScheme = isLightMode ? "default" : "prefer-dark"
+        const targetScheme = isLightMode ? "default" : "prefer-dark";
 
         if (colorSchemeCommand === "gsettings") {
-            Quickshell.execDetached(["gsettings", "set", "org.gnome.desktop.interface", "color-scheme", targetScheme])
+            Quickshell.execDetached(["gsettings", "set", "org.gnome.desktop.interface", "color-scheme", targetScheme]);
         }
         if (colorSchemeCommand === "dconf") {
-            Quickshell.execDetached(["dconf", "write", "/org/gnome/desktop/interface/color-scheme", `'${targetScheme}'`])
+            Quickshell.execDetached(["dconf", "write", "/org/gnome/desktop/interface/color-scheme", `'${targetScheme}'`]);
         }
     }
 
     function setSystemIconTheme(themeName) {
         if (!settingsPortalAvailable || !freedeskAvailable)
-            return
-
+            return;
         DMSService.sendRequest("freedesktop.settings.setIconTheme", {
-                                   "iconTheme": themeName
-                               }, response => {
-                                   if (response.error) {
-                                       console.warn("PortalService: Failed to set icon theme:", response.error)
-                                   }
-                               })
+            "iconTheme": themeName
+        }, response => {
+            if (response.error) {
+                console.warn("PortalService: Failed to set icon theme:", response.error);
+            }
+        });
     }
 
     function setSystemProfileImage(imagePath) {
         if (!accountsServiceAvailable || !freedeskAvailable)
-            return
-
+            return;
         DMSService.sendRequest("freedesktop.accounts.setIconFile", {
-                                   "path": imagePath || ""
-                               }, response => {
-                                   if (response.error) {
-                                       console.warn("PortalService: Failed to set icon file:", response.error)
+            "path": imagePath || ""
+        }, response => {
+            if (response.error) {
+                console.warn("PortalService: Failed to set icon file:", response.error);
 
-                                       const errorMsg = response.error.toString()
-                                       let userMessage = I18n.tr("Failed to set profile image")
+                const errorMsg = response.error.toString();
+                let userMessage = I18n.tr("Failed to set profile image");
 
-                                       if (errorMsg.includes("too large")) {
-                                           userMessage = I18n.tr("Profile image is too large. Please use a smaller image.")
-                                       } else if (errorMsg.includes("permission")) {
-                                           userMessage = I18n.tr("Permission denied to set profile image.")
-                                       } else if (errorMsg.includes("not found") || errorMsg.includes("does not exist")) {
-                                           userMessage = I18n.tr("Selected image file not found.")
-                                       } else {
-                                           userMessage = I18n.tr("Failed to set profile image: ") + errorMsg.split(":").pop().trim()
-                                       }
+                if (errorMsg.includes("too large")) {
+                    userMessage = I18n.tr("Profile image is too large. Please use a smaller image.");
+                } else if (errorMsg.includes("permission")) {
+                    userMessage = I18n.tr("Permission denied to set profile image.");
+                } else if (errorMsg.includes("not found") || errorMsg.includes("does not exist")) {
+                    userMessage = I18n.tr("Selected image file not found.");
+                } else {
+                    userMessage = I18n.tr("Failed to set profile image: %1").arg(errorMsg.split(":").pop().trim());
+                }
 
-                                       Quickshell.execDetached(["notify-send", "-u", "normal", "-a", "DMS", "-i", "error", I18n.tr("Profile Image Error"), userMessage])
+                Quickshell.execDetached(["notify-send", "-u", "normal", "-a", "DMS", "-i", "error", I18n.tr("Profile Image Error"), userMessage]);
 
-                                       pendingProfileImage = ""
-                                   } else {
-                                       profileImage = pendingProfileImage
-                                       pendingProfileImage = ""
-                                       Qt.callLater(() => getSystemProfileImage())
-                                   }
-                               })
+                pendingProfileImage = "";
+            } else {
+                profileImage = pendingProfileImage;
+                pendingProfileImage = "";
+                Qt.callLater(() => getSystemProfileImage());
+            }
+        });
     }
 
     Component.onCompleted: {
         if (socketPath && socketPath.length > 0) {
-            checkDMSCapabilities()
+            checkDMSCapabilities();
         } else {
-            console.info("PortalService: DMS_SOCKET not set")
+            console.info("PortalService: DMS_SOCKET not set");
         }
-        colorSchemeDetector.running = true
+        colorSchemeDetector.running = true;
     }
 
     Connections {
@@ -184,7 +179,7 @@ Singleton {
 
         function onConnectionStateChanged() {
             if (DMSService.isConnected) {
-                checkDMSCapabilities()
+                checkDMSCapabilities();
             }
         }
     }
@@ -194,63 +189,61 @@ Singleton {
         enabled: DMSService.isConnected
 
         function onCapabilitiesChanged() {
-            checkDMSCapabilities()
+            checkDMSCapabilities();
         }
     }
 
     function checkDMSCapabilities() {
         if (!DMSService.isConnected) {
-            return
+            return;
         }
 
         if (DMSService.capabilities.length === 0) {
-            return
+            return;
         }
 
-        freedeskAvailable = DMSService.capabilities.includes("freedesktop")
+        freedeskAvailable = DMSService.capabilities.includes("freedesktop");
         if (freedeskAvailable) {
-            checkAccountsService()
-            checkSettingsPortal()
+            checkAccountsService();
+            checkSettingsPortal();
         } else {
-            console.info("PortalService: freedesktop capability not available in DMS")
+            console.info("PortalService: freedesktop capability not available in DMS");
         }
     }
 
     function checkAccountsService() {
         if (!freedeskAvailable)
-            return
-
+            return;
         DMSService.sendRequest("freedesktop.getState", null, response => {
-                                   if (response.result && response.result.accounts) {
-                                       accountsServiceAvailable = response.result.accounts.available || false
-                                       if (accountsServiceAvailable) {
-                                           getSystemProfileImage()
-                                       }
-                                   }
-                               })
+            if (response.result && response.result.accounts) {
+                accountsServiceAvailable = response.result.accounts.available || false;
+                if (accountsServiceAvailable) {
+                    getSystemProfileImage();
+                }
+            }
+        });
     }
 
     function checkSettingsPortal() {
         if (!freedeskAvailable)
-            return
-
+            return;
         DMSService.sendRequest("freedesktop.getState", null, response => {
-                                   if (response.result && response.result.settings) {
-                                       settingsPortalAvailable = response.result.settings.available || false
-                                       if (settingsPortalAvailable && SettingsData.syncModeWithPortal) {
-                                           getSystemColorScheme()
-                                       }
-                                   }
-                               })
+            if (response.result && response.result.settings) {
+                settingsPortalAvailable = response.result.settings.available || false;
+                if (settingsPortalAvailable && SettingsData.syncModeWithPortal) {
+                    getSystemColorScheme();
+                }
+            }
+        });
     }
 
     function getGreeterUserProfileImage(username) {
         if (!username) {
-            profileImage = ""
-            return
+            profileImage = "";
+            return;
         }
-        userProfileCheckProcess.command = ["bash", "-c", `uid=$(id -u ${username} 2>/dev/null) && [ -n "$uid" ] && dbus-send --system --print-reply --dest=org.freedesktop.Accounts /org/freedesktop/Accounts/User$uid org.freedesktop.DBus.Properties.Get string:org.freedesktop.Accounts.User string:IconFile 2>/dev/null | grep -oP 'string "\\K[^"]+' || echo ""`]
-        userProfileCheckProcess.running = true
+        userProfileCheckProcess.command = ["bash", "-c", `uid=$(id -u ${username} 2>/dev/null) && [ -n "$uid" ] && dbus-send --system --print-reply --dest=org.freedesktop.Accounts /org/freedesktop/Accounts/User$uid org.freedesktop.DBus.Properties.Get string:org.freedesktop.Accounts.User string:IconFile 2>/dev/null | grep -oP 'string "\\K[^"]+' || echo ""`];
+        userProfileCheckProcess.running = true;
     }
 
     Process {
@@ -260,18 +253,18 @@ Singleton {
 
         stdout: StdioCollector {
             onStreamFinished: {
-                const trimmed = text.trim()
+                const trimmed = text.trim();
                 if (trimmed && trimmed !== "" && !trimmed.includes("Error") && trimmed !== "/var/lib/AccountsService/icons/") {
-                    root.profileImage = trimmed
+                    root.profileImage = trimmed;
                 } else {
-                    root.profileImage = ""
+                    root.profileImage = "";
                 }
             }
         }
 
         onExited: exitCode => {
             if (exitCode !== 0) {
-                root.profileImage = ""
+                root.profileImage = "";
             }
         }
     }
@@ -283,11 +276,11 @@ Singleton {
 
         stdout: StdioCollector {
             onStreamFinished: {
-                const cmd = text.trim()
+                const cmd = text.trim();
                 if (cmd.includes("gsettings")) {
-                    root.colorSchemeCommand = "gsettings"
+                    root.colorSchemeCommand = "gsettings";
                 } else if (cmd.includes("dconf")) {
-                    root.colorSchemeCommand = "dconf"
+                    root.colorSchemeCommand = "dconf";
                 }
             }
         }
@@ -297,27 +290,27 @@ Singleton {
         target: "profile"
 
         function getImage(): string {
-            return root.profileImage
+            return root.profileImage;
         }
 
         function setImage(path: string): string {
             if (!path) {
-                return "ERROR: No path provided"
+                return "ERROR: No path provided";
             }
 
-            const absolutePath = path.startsWith("/") ? path : `${StandardPaths.writableLocation(StandardPaths.HomeLocation)}/${path}`
+            const absolutePath = path.startsWith("/") ? path : `${StandardPaths.writableLocation(StandardPaths.HomeLocation)}/${path}`;
 
             try {
-                root.setProfileImage(absolutePath)
-                return "SUCCESS: Profile image set to " + absolutePath
+                root.setProfileImage(absolutePath);
+                return "SUCCESS: Profile image set to " + absolutePath;
             } catch (e) {
-                return "ERROR: Failed to set profile image: " + e.toString()
+                return "ERROR: Failed to set profile image: " + e.toString();
             }
         }
 
         function clearImage(): string {
-            root.setProfileImage("")
-            return "SUCCESS: Profile image cleared"
+            root.setProfileImage("");
+            return "SUCCESS: Profile image cleared";
         }
     }
 }

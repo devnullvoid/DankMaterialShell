@@ -1,13 +1,11 @@
 import QtCore
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Effects
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Services.Greetd
-import Quickshell.Services.Pam
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -22,74 +20,67 @@ Item {
     property string hyprlandCurrentLayout: ""
     property string hyprlandKeyboard: ""
     property int hyprlandLayoutCount: 0
-    property bool isPrimaryScreen: {
-        if (!Qt.application.screens || Qt.application.screens.length === 0)
-            return true
-        if (!screenName || screenName === "")
-            return true
-        return screenName === Qt.application.screens[0].name
-    }
+    property bool isPrimaryScreen: !Quickshell.screens?.length || screenName === Quickshell.screens[0]?.name
 
     signal launchRequested
 
     function pickRandomFact() {
-        randomFact = Facts.getRandomFact()
+        randomFact = Facts.getRandomFact();
     }
 
     property bool weatherInitialized: false
 
     function initWeatherService() {
         if (weatherInitialized)
-            return
+            return;
         if (!GreetdSettings.settingsLoaded)
-            return
+            return;
         if (!GreetdSettings.weatherEnabled)
-            return
-
-        weatherInitialized = true
-        WeatherService.addRef()
-        WeatherService.forceRefresh()
+            return;
+        weatherInitialized = true;
+        WeatherService.addRef();
+        WeatherService.forceRefresh();
     }
 
     Connections {
         target: GreetdSettings
         function onSettingsLoadedChanged() {
             if (GreetdSettings.settingsLoaded)
-                initWeatherService()
+                initWeatherService();
         }
     }
 
     Component.onCompleted: {
-        pickRandomFact()
-        initWeatherService()
+        pickRandomFact();
+        initWeatherService();
 
         if (isPrimaryScreen) {
-            sessionListProc.running = true
-            applyLastSuccessfulUser()
+            sessionListProc.running = true;
+            applyLastSuccessfulUser();
         }
 
         if (CompositorService.isHyprland)
-            updateHyprlandLayout()
+            updateHyprlandLayout();
     }
 
     function applyLastSuccessfulUser() {
-        const lastUser = GreetdMemory.lastSuccessfulUser
+        const lastUser = GreetdMemory.lastSuccessfulUser;
         if (lastUser && !GreeterState.showPasswordInput && !GreeterState.username) {
-            GreeterState.username = lastUser
-            GreeterState.usernameInput = lastUser
-            GreeterState.showPasswordInput = true
-            PortalService.getGreeterUserProfileImage(lastUser)
+            GreeterState.username = lastUser;
+            GreeterState.usernameInput = lastUser;
+            GreeterState.showPasswordInput = true;
+            PortalService.getGreeterUserProfileImage(lastUser);
         }
     }
 
     Component.onDestruction: {
         if (weatherInitialized)
-            WeatherService.removeRef()
+            WeatherService.removeRef();
     }
 
     function updateHyprlandLayout() {
         if (CompositorService.isHyprland) {
-            hyprlandLayoutProcess.running = true
+            hyprlandLayoutProcess.running = true;
         }
     }
 
@@ -100,27 +91,27 @@ Item {
         stdout: StdioCollector {
             onStreamFinished: {
                 try {
-                    const data = JSON.parse(text)
-                    const mainKeyboard = data.keyboards.find(kb => kb.main === true)
-                    hyprlandKeyboard = mainKeyboard.name
+                    const data = JSON.parse(text);
+                    const mainKeyboard = data.keyboards.find(kb => kb.main === true);
+                    hyprlandKeyboard = mainKeyboard.name;
                     if (mainKeyboard && mainKeyboard.active_keymap) {
-                        const parts = mainKeyboard.active_keymap.split(" ")
+                        const parts = mainKeyboard.active_keymap.split(" ");
                         if (parts.length > 0) {
-                            hyprlandCurrentLayout = parts[0].substring(0, 2).toUpperCase()
+                            hyprlandCurrentLayout = parts[0].substring(0, 2).toUpperCase();
                         } else {
-                            hyprlandCurrentLayout = mainKeyboard.active_keymap.substring(0, 2).toUpperCase()
+                            hyprlandCurrentLayout = mainKeyboard.active_keymap.substring(0, 2).toUpperCase();
                         }
                     } else {
-                        hyprlandCurrentLayout = ""
+                        hyprlandCurrentLayout = "";
                     }
                     if (mainKeyboard && mainKeyboard.layout_names) {
-                        hyprlandLayoutCount = mainKeyboard.layout_names.length
+                        hyprlandLayoutCount = mainKeyboard.layout_names.length;
                     } else {
-                        hyprlandLayoutCount = 0
+                        hyprlandLayoutCount = 0;
                     }
                 } catch (e) {
-                    hyprlandCurrentLayout = ""
-                    hyprlandLayoutCount = 0
+                    hyprlandCurrentLayout = "";
+                    hyprlandLayoutCount = 0;
                 }
             }
         }
@@ -132,7 +123,7 @@ Item {
 
         function onRawEvent(event) {
             if (event.name === "activelayout")
-                updateHyprlandLayout()
+                updateHyprlandLayout();
         }
     }
 
@@ -140,7 +131,7 @@ Item {
         target: GreetdMemory
         enabled: isPrimaryScreen
         function onLastSuccessfulUserChanged() {
-            applyLastSuccessfulUser()
+            applyLastSuccessfulUser();
         }
     }
 
@@ -148,7 +139,7 @@ Item {
         target: GreeterState
         function onUsernameChanged() {
             if (GreeterState.username) {
-                PortalService.getGreeterUserProfileImage(GreeterState.username)
+                PortalService.getGreeterUserProfileImage(GreeterState.username);
             }
         }
     }
@@ -157,10 +148,10 @@ Item {
         anchors.fill: parent
         screenName: root.screenName
         visible: {
-            var _ = SessionData.perMonitorWallpaper
-            var __ = SessionData.monitorWallpapers
-            var currentWallpaper = SessionData.getMonitorWallpaper(screenName)
-            return !currentWallpaper || currentWallpaper === "" || (currentWallpaper && currentWallpaper.startsWith("#"))
+            var _ = SessionData.perMonitorWallpaper;
+            var __ = SessionData.monitorWallpapers;
+            var currentWallpaper = SessionData.getMonitorWallpaper(screenName);
+            return !currentWallpaper || currentWallpaper === "" || (currentWallpaper && currentWallpaper.startsWith("#"));
         }
     }
 
@@ -169,10 +160,10 @@ Item {
 
         anchors.fill: parent
         source: {
-            var _ = SessionData.perMonitorWallpaper
-            var __ = SessionData.monitorWallpapers
-            var currentWallpaper = SessionData.getMonitorWallpaper(screenName)
-            return (currentWallpaper && !currentWallpaper.startsWith("#")) ? currentWallpaper : ""
+            var _ = SessionData.perMonitorWallpaper;
+            var __ = SessionData.monitorWallpapers;
+            var currentWallpaper = SessionData.getMonitorWallpaper(screenName);
+            return (currentWallpaper && !currentWallpaper.startsWith("#")) ? currentWallpaper : "";
         }
         fillMode: Theme.getFillMode(GreetdSettings.wallpaperFillMode)
         smooth: true
@@ -213,10 +204,12 @@ Item {
         color: "transparent"
 
         Item {
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: -100
+            id: clockContainer
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.verticalCenter
+            anchors.bottomMargin: 60
             width: parent.width
-            height: 140
+            height: clockText.implicitHeight
 
             Row {
                 id: clockText
@@ -225,10 +218,8 @@ Item {
                 spacing: 0
 
                 property string fullTimeStr: {
-                    const format = GreetdSettings.use24HourClock
-                        ? (GreetdSettings.showSeconds ? "HH:mm:ss" : "HH:mm")
-                        : (GreetdSettings.showSeconds ? "h:mm:ss AP" : "h:mm AP")
-                    return systemClock.date.toLocaleTimeString(Qt.locale(), format)
+                    const format = GreetdSettings.use24HourClock ? (GreetdSettings.showSeconds ? "HH:mm:ss" : "HH:mm") : (GreetdSettings.showSeconds ? "h:mm:ss AP" : "h:mm AP");
+                    return systemClock.date.toLocaleTimeString(Qt.locale(), format);
                 }
                 property var timeParts: fullTimeStr.split(':')
                 property string hours: timeParts[0] || ""
@@ -236,8 +227,8 @@ Item {
                 property string secondsWithAmPm: timeParts.length > 2 ? timeParts[2] : ""
                 property string seconds: secondsWithAmPm.replace(/\s*(AM|PM|am|pm)$/i, '')
                 property string ampm: {
-                    const match = fullTimeStr.match(/\s*(AM|PM|am|pm)$/i)
-                    return match ? match[0].trim() : ""
+                    const match = fullTimeStr.match(/\s*(AM|PM|am|pm)$/i);
+                    return match ? match[0].trim() : "";
                 }
                 property bool hasSeconds: timeParts.length > 2
 
@@ -332,13 +323,15 @@ Item {
         }
 
         StyledText {
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: -10
+            id: dateText
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: clockContainer.bottom
+            anchors.topMargin: 4
             text: {
                 if (GreetdSettings.lockDateFormat && GreetdSettings.lockDateFormat.length > 0) {
-                    return systemClock.date.toLocaleDateString(Qt.locale(), GreetdSettings.lockDateFormat)
+                    return systemClock.date.toLocaleDateString(Qt.locale(), GreetdSettings.lockDateFormat);
                 }
-                return systemClock.date.toLocaleDateString(Qt.locale(), Locale.LongFormat)
+                return systemClock.date.toLocaleDateString(Qt.locale(), Locale.LongFormat);
             }
             font.pixelSize: Theme.fontSizeXLarge
             color: "white"
@@ -346,8 +339,9 @@ Item {
         }
 
         Item {
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: 80
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: dateText.bottom
+            anchors.topMargin: Theme.spacingL
             width: 380
             height: 140
 
@@ -364,14 +358,14 @@ Item {
                         Layout.preferredHeight: 60
                         imageSource: {
                             if (PortalService.profileImage === "") {
-                                return ""
+                                return "";
                             }
 
                             if (PortalService.profileImage.startsWith("/")) {
-                                return "file://" + PortalService.profileImage
+                                return "file://" + PortalService.profileImage;
                             }
 
-                            return PortalService.profileImage
+                            return PortalService.profileImage;
                         }
                         fallbackIcon: "person"
                     }
@@ -405,57 +399,58 @@ Item {
                             anchors.fill: parent
                             anchors.leftMargin: lockIcon.width + Theme.spacingM * 2
                             anchors.rightMargin: {
-                                let margin = Theme.spacingM
+                                let margin = Theme.spacingM;
                                 if (GreeterState.showPasswordInput && revealButton.visible) {
-                                    margin += revealButton.width
+                                    margin += revealButton.width;
                                 }
                                 if (virtualKeyboardButton.visible) {
-                                    margin += virtualKeyboardButton.width
+                                    margin += virtualKeyboardButton.width;
                                 }
                                 if (enterButton.visible) {
-                                    margin += enterButton.width + 2
+                                    margin += enterButton.width + 2;
                                 }
-                                return margin
+                                return margin;
                             }
                             opacity: 0
                             focus: true
                             echoMode: GreeterState.showPasswordInput ? (parent.showPassword ? TextInput.Normal : TextInput.Password) : TextInput.Normal
                             onTextChanged: {
-                                if (syncingFromState) return
+                                if (syncingFromState)
+                                    return;
                                 if (GreeterState.showPasswordInput) {
-                                    GreeterState.passwordBuffer = text
+                                    GreeterState.passwordBuffer = text;
                                 } else {
-                                    GreeterState.usernameInput = text
+                                    GreeterState.usernameInput = text;
                                 }
                             }
                             onAccepted: {
                                 if (GreeterState.showPasswordInput) {
                                     if (Greetd.state === GreetdState.Inactive && GreeterState.username) {
-                                        Greetd.createSession(GreeterState.username)
+                                        Greetd.createSession(GreeterState.username);
                                     }
                                 } else {
                                     if (text.trim()) {
-                                        GreeterState.username = text.trim()
-                                        GreeterState.showPasswordInput = true
-                                        PortalService.getGreeterUserProfileImage(GreeterState.username)
-                                        GreeterState.passwordBuffer = ""
-                                        syncingFromState = true
-                                        text = ""
-                                        syncingFromState = false
+                                        GreeterState.username = text.trim();
+                                        GreeterState.showPasswordInput = true;
+                                        PortalService.getGreeterUserProfileImage(GreeterState.username);
+                                        GreeterState.passwordBuffer = "";
+                                        syncingFromState = true;
+                                        text = "";
+                                        syncingFromState = false;
                                     }
                                 }
                             }
 
                             Component.onCompleted: {
-                                syncingFromState = true
-                                text = GreeterState.showPasswordInput ? GreeterState.passwordBuffer : GreeterState.usernameInput
-                                syncingFromState = false
+                                syncingFromState = true;
+                                text = GreeterState.showPasswordInput ? GreeterState.passwordBuffer : GreeterState.usernameInput;
+                                syncingFromState = false;
                                 if (isPrimaryScreen && !powerMenu.isVisible)
-                                    forceActiveFocus()
+                                    forceActiveFocus();
                             }
                             onVisibleChanged: {
                                 if (visible && isPrimaryScreen && !powerMenu.isVisible)
-                                    forceActiveFocus()
+                                    forceActiveFocus();
                             }
                         }
 
@@ -475,15 +470,15 @@ Item {
                             anchors.verticalCenter: parent.verticalCenter
                             text: {
                                 if (GreeterState.unlocking) {
-                                    return "Logging in..."
+                                    return "Logging in...";
                                 }
                                 if (Greetd.state !== GreetdState.Inactive) {
-                                    return "Authenticating..."
+                                    return "Authenticating...";
                                 }
                                 if (GreeterState.showPasswordInput) {
-                                    return "Password..."
+                                    return "Password...";
                                 }
-                                return "Username..."
+                                return "Username...";
                             }
                             color: GreeterState.unlocking ? Theme.primary : (Greetd.state !== GreetdState.Inactive ? Theme.primary : Theme.outline)
                             font.pixelSize: Theme.fontSizeMedium
@@ -513,11 +508,11 @@ Item {
                             text: {
                                 if (GreeterState.showPasswordInput) {
                                     if (parent.showPassword) {
-                                        return GreeterState.passwordBuffer
+                                        return GreeterState.passwordBuffer;
                                     }
-                                    return "•".repeat(GreeterState.passwordBuffer.length)
+                                    return "•".repeat(GreeterState.passwordBuffer.length);
                                 }
-                                return GreeterState.usernameInput
+                                return GreeterState.usernameInput;
                             }
                             color: Theme.surfaceText
                             font.pixelSize: (GreeterState.showPasswordInput && !parent.showPassword) ? Theme.fontSizeLarge : Theme.fontSizeMedium
@@ -558,9 +553,9 @@ Item {
                             enabled: visible
                             onClicked: {
                                 if (keyboard_controller.isKeyboardActive) {
-                                    keyboard_controller.hide()
+                                    keyboard_controller.hide();
                                 } else {
-                                    keyboard_controller.show()
+                                    keyboard_controller.show();
                                 }
                             }
                         }
@@ -578,15 +573,15 @@ Item {
                             onClicked: {
                                 if (GreeterState.showPasswordInput) {
                                     if (GreeterState.username) {
-                                        Greetd.createSession(GreeterState.username)
+                                        Greetd.createSession(GreeterState.username);
                                     }
                                 } else {
                                     if (inputField.text.trim()) {
-                                        GreeterState.username = inputField.text.trim()
-                                        GreeterState.showPasswordInput = true
-                                        PortalService.getGreeterUserProfileImage(GreeterState.username)
-                                        GreeterState.passwordBuffer = ""
-                                        inputField.text = ""
+                                        GreeterState.username = inputField.text.trim();
+                                        GreeterState.showPasswordInput = true;
+                                        PortalService.getGreeterUserProfileImage(GreeterState.username);
+                                        GreeterState.passwordBuffer = "";
+                                        inputField.text = "";
                                     }
                                 }
                             }
@@ -615,10 +610,10 @@ Item {
                     Layout.bottomMargin: -Theme.spacingS
                     text: {
                         if (GreeterState.pamState === "error")
-                            return "Authentication error - try again"
+                            return "Authentication error - try again";
                         if (GreeterState.pamState === "fail")
-                            return "Incorrect password"
-                        return ""
+                            return "Incorrect password";
+                        return "";
                     }
                     color: Theme.error
                     font.pixelSize: Theme.fontSizeSmall
@@ -675,9 +670,9 @@ Item {
                         cornerRadius: parent.radius
                         enabled: !GreeterState.unlocking && Greetd.state === GreetdState.Inactive && GreeterState.showPasswordInput
                         onClicked: {
-                            GreeterState.reset()
-                            inputField.text = ""
-                            PortalService.profileImage = ""
+                            GreeterState.reset();
+                            inputField.text = "";
+                            PortalService.profileImage = "";
                         }
                     }
                 }
@@ -696,11 +691,11 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 visible: {
                     if (CompositorService.isNiri) {
-                        return NiriService.keyboardLayoutNames.length > 1
+                        return NiriService.keyboardLayoutNames.length > 1;
                     } else if (CompositorService.isHyprland) {
-                        return hyprlandLayoutCount > 1
+                        return hyprlandLayoutCount > 1;
                     }
-                    return false
+                    return false;
                 }
 
                 Row {
@@ -726,17 +721,18 @@ Item {
                         StyledText {
                             text: {
                                 if (CompositorService.isNiri) {
-                                    const layout = NiriService.getCurrentKeyboardLayoutName()
-                                    if (!layout) return ""
-                                    const parts = layout.split(" ")
+                                    const layout = NiriService.getCurrentKeyboardLayoutName();
+                                    if (!layout)
+                                        return "";
+                                    const parts = layout.split(" ");
                                     if (parts.length > 0) {
-                                        return parts[0].substring(0, 2).toUpperCase()
+                                        return parts[0].substring(0, 2).toUpperCase();
                                     }
-                                    return layout.substring(0, 2).toUpperCase()
+                                    return layout.substring(0, 2).toUpperCase();
                                 } else if (CompositorService.isHyprland) {
-                                    return hyprlandCurrentLayout
+                                    return hyprlandCurrentLayout;
                                 }
-                                return ""
+                                return "";
                             }
                             font.pixelSize: Theme.fontSizeMedium
                             font.weight: Font.Light
@@ -753,15 +749,10 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
                         if (CompositorService.isNiri) {
-                            NiriService.cycleKeyboardLayout()
+                            NiriService.cycleKeyboardLayout();
                         } else if (CompositorService.isHyprland) {
-                            Quickshell.execDetached([
-                                "hyprctl",
-                                "switchxkblayout",
-                                hyprlandKeyboard,
-                                "next"
-                            ])
-                            updateHyprlandLayout()
+                            Quickshell.execDetached(["hyprctl", "switchxkblayout", hyprlandKeyboard, "next"]);
+                            updateHyprlandLayout();
                         }
                     }
                 }
@@ -773,9 +764,8 @@ Item {
                 color: Qt.rgba(255, 255, 255, 0.2)
                 anchors.verticalCenter: parent.verticalCenter
                 visible: {
-                    const keyboardVisible = (CompositorService.isNiri && NiriService.keyboardLayoutNames.length > 1) ||
-                                          (CompositorService.isHyprland && hyprlandLayoutCount > 1)
-                    return keyboardVisible && GreetdSettings.weatherEnabled && WeatherService.weather.available
+                    const keyboardVisible = (CompositorService.isNiri && NiriService.keyboardLayoutNames.length > 1) || (CompositorService.isHyprland && hyprlandLayoutCount > 1);
+                    return keyboardVisible && GreetdSettings.weatherEnabled && WeatherService.weather.available;
                 }
             }
 
@@ -832,15 +822,15 @@ Item {
                 DankIcon {
                     name: {
                         if (!AudioService.sink?.audio) {
-                            return "volume_up"
+                            return "volume_up";
                         }
                         if (AudioService.sink.audio.muted || AudioService.sink.audio.volume === 0) {
-                            return "volume_off"
+                            return "volume_off";
                         }
                         if (AudioService.sink.audio.volume * 100 < 33) {
-                            return "volume_down"
+                            return "volume_down";
                         }
-                        return "volume_up"
+                        return "volume_up";
                     }
                     size: Theme.iconSize - 2
                     color: (AudioService.sink && AudioService.sink.audio && (AudioService.sink.audio.muted || AudioService.sink.audio.volume === 0)) ? Qt.rgba(255, 255, 255, 0.5) : "white"
@@ -866,95 +856,95 @@ Item {
                     name: {
                         if (BatteryService.isCharging) {
                             if (BatteryService.batteryLevel >= 90) {
-                                return "battery_charging_full"
+                                return "battery_charging_full";
                             }
 
                             if (BatteryService.batteryLevel >= 80) {
-                                return "battery_charging_90"
+                                return "battery_charging_90";
                             }
 
                             if (BatteryService.batteryLevel >= 60) {
-                                return "battery_charging_80"
+                                return "battery_charging_80";
                             }
 
                             if (BatteryService.batteryLevel >= 50) {
-                                return "battery_charging_60"
+                                return "battery_charging_60";
                             }
 
                             if (BatteryService.batteryLevel >= 30) {
-                                return "battery_charging_50"
+                                return "battery_charging_50";
                             }
 
                             if (BatteryService.batteryLevel >= 20) {
-                                return "battery_charging_30"
+                                return "battery_charging_30";
                             }
 
-                            return "battery_charging_20"
+                            return "battery_charging_20";
                         }
                         if (BatteryService.isPluggedIn) {
                             if (BatteryService.batteryLevel >= 90) {
-                                return "battery_charging_full"
+                                return "battery_charging_full";
                             }
 
                             if (BatteryService.batteryLevel >= 80) {
-                                return "battery_charging_90"
+                                return "battery_charging_90";
                             }
 
                             if (BatteryService.batteryLevel >= 60) {
-                                return "battery_charging_80"
+                                return "battery_charging_80";
                             }
 
                             if (BatteryService.batteryLevel >= 50) {
-                                return "battery_charging_60"
+                                return "battery_charging_60";
                             }
 
                             if (BatteryService.batteryLevel >= 30) {
-                                return "battery_charging_50"
+                                return "battery_charging_50";
                             }
 
                             if (BatteryService.batteryLevel >= 20) {
-                                return "battery_charging_30"
+                                return "battery_charging_30";
                             }
 
-                            return "battery_charging_20"
+                            return "battery_charging_20";
                         }
                         if (BatteryService.batteryLevel >= 95) {
-                            return "battery_full"
+                            return "battery_full";
                         }
 
                         if (BatteryService.batteryLevel >= 85) {
-                            return "battery_6_bar"
+                            return "battery_6_bar";
                         }
 
                         if (BatteryService.batteryLevel >= 70) {
-                            return "battery_5_bar"
+                            return "battery_5_bar";
                         }
 
                         if (BatteryService.batteryLevel >= 55) {
-                            return "battery_4_bar"
+                            return "battery_4_bar";
                         }
 
                         if (BatteryService.batteryLevel >= 40) {
-                            return "battery_3_bar"
+                            return "battery_3_bar";
                         }
 
                         if (BatteryService.batteryLevel >= 25) {
-                            return "battery_2_bar"
+                            return "battery_2_bar";
                         }
 
-                        return "battery_1_bar"
+                        return "battery_1_bar";
                     }
                     size: Theme.iconSize
                     color: {
                         if (BatteryService.isLowBattery && !BatteryService.isCharging) {
-                            return Theme.error
+                            return Theme.error;
                         }
 
                         if (BatteryService.isCharging || BatteryService.isPluggedIn) {
-                            return Theme.primary
+                            return Theme.primary;
                         }
 
-                        return "white"
+                        return "white";
                     }
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -1007,14 +997,14 @@ Item {
             }
 
             property real longestSessionWidth: {
-                let maxWidth = 0
+                let maxWidth = 0;
                 for (var i = 0; i < sessionMetricsRepeater.count; i++) {
-                    const item = sessionMetricsRepeater.itemAt(i)
+                    const item = sessionMetricsRepeater.itemAt(i);
                     if (item && item.width > maxWidth) {
-                        maxWidth = item.width
+                        maxWidth = item.width;
                     }
                 }
-                return maxWidth
+                return maxWidth;
             }
 
             Repeater {
@@ -1038,52 +1028,42 @@ Item {
                 openUpwards: true
                 alignPopupRight: true
                 onValueChanged: value => {
-                                    const idx = GreeterState.sessionList.indexOf(value)
-                                    if (idx >= 0) {
-                                        GreeterState.currentSessionIndex = idx
-                                        GreeterState.selectedSession = GreeterState.sessionExecs[idx]
-                                        GreetdMemory.setLastSessionId(GreeterState.sessionPaths[idx])
-                                    }
-                                }
+                    const idx = GreeterState.sessionList.indexOf(value);
+                    if (idx >= 0) {
+                        GreeterState.currentSessionIndex = idx;
+                        GreeterState.selectedSession = GreeterState.sessionExecs[idx];
+                        GreetdMemory.setLastSessionId(GreeterState.sessionPaths[idx]);
+                    }
+                }
             }
         }
     }
 
-    FileView {
-        id: pamConfigWatcher
-        path: "/etc/pam.d/dankshell"
-        printErrors: false
-    }
-
-    property int sessionCount: 0
     property string currentSessionName: GreeterState.sessionList[GreeterState.currentSessionIndex] || ""
     property int pendingParsers: 0
 
-
     function finalizeSessionSelection() {
         if (GreeterState.sessionList.length === 0) {
-            return
+            return;
         }
 
-        root.sessionCount = GreeterState.sessionList.length
-
-        const savedSession = GreetdMemory.lastSessionId
-        let foundSaved = false
+        const savedSession = GreetdMemory.lastSessionId;
+        let foundSaved = false;
         if (savedSession) {
             for (var i = 0; i < GreeterState.sessionPaths.length; i++) {
                 if (GreeterState.sessionPaths[i] === savedSession) {
-                    GreeterState.currentSessionIndex = i
-                    foundSaved = true
-                    break
+                    GreeterState.currentSessionIndex = i;
+                    foundSaved = true;
+                    break;
                 }
             }
         }
 
         if (!foundSaved) {
-            GreeterState.currentSessionIndex = 0
+            GreeterState.currentSessionIndex = 0;
         }
 
-        GreeterState.selectedSession = GreeterState.sessionExecs[GreeterState.currentSessionIndex] || GreeterState.sessionExecs[0] || ""
+        GreeterState.selectedSession = GreeterState.sessionExecs[GreeterState.currentSessionIndex] || GreeterState.sessionExecs[0] || "";
     }
 
     Process {
@@ -1091,48 +1071,43 @@ Item {
         property string homeDir: Quickshell.env("HOME") || ""
         property string xdgDirs: xdgDataDirs || ""
         command: {
-            var paths = [
-                "/usr/share/wayland-sessions",
-                "/usr/share/xsessions", 
-                "/usr/local/share/wayland-sessions",
-                "/usr/local/share/xsessions"
-            ]
+            var paths = ["/usr/share/wayland-sessions", "/usr/share/xsessions", "/usr/local/share/wayland-sessions", "/usr/local/share/xsessions"];
             if (homeDir) {
-                paths.push(homeDir + "/.local/share/wayland-sessions")
-                paths.push(homeDir + "/.local/share/xsessions")
+                paths.push(homeDir + "/.local/share/wayland-sessions");
+                paths.push(homeDir + "/.local/share/xsessions");
             }
             // Add XDG_DATA_DIRS paths
             if (xdgDirs) {
-                xdgDirs.split(":").forEach(function(dir) {
+                xdgDirs.split(":").forEach(function (dir) {
                     if (dir) {
-                        paths.push(dir + "/wayland-sessions")
-                        paths.push(dir + "/xsessions")
+                        paths.push(dir + "/wayland-sessions");
+                        paths.push(dir + "/xsessions");
                     }
-                })
+                });
             }
-            // 1. Explicit system/user paths 
-            var explicitFind = "find " + paths.join(" ") + " -maxdepth 1 -name '*.desktop' -type f -follow 2>/dev/null"
+            // 1. Explicit system/user paths
+            var explicitFind = "find " + paths.join(" ") + " -maxdepth 1 -name '*.desktop' -type f -follow 2>/dev/null";
             // 2. Scan all /home user directories for local session files
-            var homeScan = "find /home -maxdepth 5 \\( -path '*/wayland-sessions/*.desktop' -o -path '*/xsessions/*.desktop' \\) -type f -follow 2>/dev/null"
-            var findCmd = "(" + explicitFind + "; " + homeScan + ") | sort -u"
-            return ["sh", "-c", findCmd]
+            var homeScan = "find /home -maxdepth 5 \\( -path '*/wayland-sessions/*.desktop' -o -path '*/xsessions/*.desktop' \\) -type f -follow 2>/dev/null";
+            var findCmd = "(" + explicitFind + "; " + homeScan + ") | sort -u";
+            return ["sh", "-c", findCmd];
         }
         running: false
 
         stdout: SplitParser {
             onRead: data => {
-                        if (data.trim()) {
-                            root.pendingParsers++
-                            parseDesktopFile(data.trim())
-                        }
-                    }
+                if (data.trim()) {
+                    root.pendingParsers++;
+                    parseDesktopFile(data.trim());
+                }
+            }
         }
     }
 
     function parseDesktopFile(path) {
         const parser = desktopParser.createObject(null, {
-                                                      "desktopPath": path
-                                                  })
+            "desktopPath": path
+        });
     }
 
     Component {
@@ -1144,42 +1119,41 @@ Item {
 
             stdout: StdioCollector {
                 onStreamFinished: {
-                    const lines = text.split("\n")
-                    let name = ""
-                    let exec = ""
+                    const lines = text.split("\n");
+                    let name = "";
+                    let exec = "";
 
                     for (const line of lines) {
                         if (line.startsWith("Name=")) {
-                            name = line.substring(5).trim()
+                            name = line.substring(5).trim();
                         } else if (line.startsWith("Exec=")) {
-                            exec = line.substring(5).trim()
+                            exec = line.substring(5).trim();
                         }
                     }
 
                     if (name && exec) {
                         if (!GreeterState.sessionList.includes(name)) {
-                            let newList = GreeterState.sessionList.slice()
-                            let newExecs = GreeterState.sessionExecs.slice()
-                            let newPaths = GreeterState.sessionPaths.slice()
-                            newList.push(name)
-                            newExecs.push(exec)
-                            newPaths.push(desktopPath)
-                            GreeterState.sessionList = newList
-                            GreeterState.sessionExecs = newExecs
-                            GreeterState.sessionPaths = newPaths
-                            root.sessionCount = GreeterState.sessionList.length
+                            let newList = GreeterState.sessionList.slice();
+                            let newExecs = GreeterState.sessionExecs.slice();
+                            let newPaths = GreeterState.sessionPaths.slice();
+                            newList.push(name);
+                            newExecs.push(exec);
+                            newPaths.push(desktopPath);
+                            GreeterState.sessionList = newList;
+                            GreeterState.sessionExecs = newExecs;
+                            GreeterState.sessionPaths = newPaths;
                         }
                     }
                 }
             }
 
             onExited: code => {
-                          root.pendingParsers--
-                          if (root.pendingParsers === 0) {
-                              Qt.callLater(root.finalizeSessionSelection)
-                          }
-                          destroy()
-                      }
+                root.pendingParsers--;
+                if (root.pendingParsers === 0) {
+                    Qt.callLater(root.finalizeSessionSelection);
+                }
+                destroy();
+            }
         }
     }
 
@@ -1189,34 +1163,34 @@ Item {
 
         function onAuthMessage(message, error, responseRequired, echoResponse) {
             if (responseRequired) {
-                Greetd.respond(GreeterState.passwordBuffer)
-                GreeterState.passwordBuffer = ""
-                inputField.text = ""
+                Greetd.respond(GreeterState.passwordBuffer);
+                GreeterState.passwordBuffer = "";
+                inputField.text = "";
             } else if (!error) {
-                Greetd.respond("")
+                Greetd.respond("");
             }
         }
 
         function onReadyToLaunch() {
-            GreeterState.unlocking = true
-            const sessionCmd = GreeterState.selectedSession || GreeterState.sessionExecs[GreeterState.currentSessionIndex]
+            GreeterState.unlocking = true;
+            const sessionCmd = GreeterState.selectedSession || GreeterState.sessionExecs[GreeterState.currentSessionIndex];
             if (sessionCmd) {
-                GreetdMemory.setLastSessionId(GreeterState.sessionPaths[GreeterState.currentSessionIndex])
-                GreetdMemory.setLastSuccessfulUser(GreeterState.username)
-                Greetd.launch(sessionCmd.split(" "), ["XDG_SESSION_TYPE=wayland"])
+                GreetdMemory.setLastSessionId(GreeterState.sessionPaths[GreeterState.currentSessionIndex]);
+                GreetdMemory.setLastSuccessfulUser(GreeterState.username);
+                Greetd.launch(sessionCmd.split(" "), ["XDG_SESSION_TYPE=wayland"]);
             }
         }
 
         function onAuthFailure(message) {
-            GreeterState.pamState = "fail"
-            GreeterState.passwordBuffer = ""
-            inputField.text = ""
-            placeholderDelay.restart()
+            GreeterState.pamState = "fail";
+            GreeterState.passwordBuffer = "";
+            inputField.text = "";
+            placeholderDelay.restart();
         }
 
         function onError(error) {
-            GreeterState.pamState = "error"
-            placeholderDelay.restart()
+            GreeterState.pamState = "error";
+            placeholderDelay.restart();
         }
     }
 
@@ -1231,7 +1205,7 @@ Item {
         showLogout: false
         onClosed: {
             if (isPrimaryScreen && inputField && inputField.forceActiveFocus) {
-                Qt.callLater(() => inputField.forceActiveFocus())
+                Qt.callLater(() => inputField.forceActiveFocus());
             }
         }
     }

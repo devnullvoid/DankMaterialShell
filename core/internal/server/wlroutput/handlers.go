@@ -125,21 +125,47 @@ func (m *Manager) ApplyConfiguration(heads []HeadConfig, test bool) error {
 			return
 		}
 
-		statusChan := make(chan error, 1)
+		responded := false
 
 		config.SetSucceededHandler(func(e wlr_output_management.ZwlrOutputConfigurationV1SucceededEvent) {
+			if responded {
+				return
+			}
+			responded = true
 			log.Info("WlrOutput: configuration succeeded")
-			statusChan <- nil
+			config.Destroy()
+			resultChan <- nil
 		})
 
 		config.SetFailedHandler(func(e wlr_output_management.ZwlrOutputConfigurationV1FailedEvent) {
+			if responded {
+				return
+			}
+			responded = true
 			log.Warn("WlrOutput: configuration failed")
-			statusChan <- fmt.Errorf("compositor rejected configuration")
+			config.Destroy()
+			resultChan <- fmt.Errorf("compositor rejected configuration")
 		})
 
 		config.SetCancelledHandler(func(e wlr_output_management.ZwlrOutputConfigurationV1CancelledEvent) {
+			if responded {
+				return
+			}
+			responded = true
 			log.Warn("WlrOutput: configuration cancelled")
-			statusChan <- fmt.Errorf("configuration cancelled (outdated serial)")
+			config.Destroy()
+			resultChan <- fmt.Errorf("configuration cancelled (outdated serial)")
+		})
+
+		time.AfterFunc(time.Second, func() {
+			m.post(func() {
+				if responded {
+					return
+				}
+				responded = true
+				config.Destroy()
+				resultChan <- fmt.Errorf("timeout waiting for configuration response")
+			})
 		})
 
 		headsByName := make(map[string]*headState)
@@ -241,6 +267,7 @@ func (m *Manager) ApplyConfiguration(heads []HeadConfig, test bool) error {
 		}
 
 		if applyErr != nil {
+			responded = true
 			config.Destroy()
 			action := "apply"
 			if test {
@@ -249,17 +276,6 @@ func (m *Manager) ApplyConfiguration(heads []HeadConfig, test bool) error {
 			resultChan <- fmt.Errorf("failed to %s configuration: %w", action, applyErr)
 			return
 		}
-
-		go func() {
-			select {
-			case err := <-statusChan:
-				config.Destroy()
-				resultChan <- err
-			case <-time.After(5 * time.Second):
-				config.Destroy()
-				resultChan <- fmt.Errorf("timeout waiting for configuration response")
-			}
-		}()
 	})
 
 	return <-resultChan

@@ -1,0 +1,244 @@
+package themes
+
+import (
+	"encoding/json"
+	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
+	"github.com/spf13/afero"
+)
+
+type Manager struct {
+	fs        afero.Fs
+	themesDir string
+}
+
+func NewManager() (*Manager, error) {
+	return NewManagerWithFs(afero.NewOsFs())
+}
+
+func NewManagerWithFs(fs afero.Fs) (*Manager, error) {
+	themesDir := getThemesDir()
+	return &Manager{
+		fs:        fs,
+		themesDir: themesDir,
+	}, nil
+}
+
+func getThemesDir() string {
+	configDir, err := os.UserConfigDir()
+	if err != nil {
+		log.Error("failed to get user config dir", "err", err)
+		return ""
+	}
+	return filepath.Join(configDir, "DankMaterialShell", "themes")
+}
+
+func (m *Manager) IsInstalled(theme Theme) (bool, error) {
+	path := m.getInstalledPath(theme.ID)
+	exists, err := afero.Exists(m.fs, path)
+	if err != nil {
+		return false, err
+	}
+	return exists, nil
+}
+
+func (m *Manager) getInstalledDir(themeID string) string {
+	return filepath.Join(m.themesDir, themeID)
+}
+
+func (m *Manager) getInstalledPath(themeID string) string {
+	return filepath.Join(m.getInstalledDir(themeID), "theme.json")
+}
+
+func (m *Manager) Install(theme Theme, registryThemeDir string) error {
+	themeDir := m.getInstalledDir(theme.ID)
+
+	exists, err := afero.DirExists(m.fs, themeDir)
+	if err != nil {
+		return fmt.Errorf("failed to check if theme exists: %w", err)
+	}
+
+	if exists {
+		return fmt.Errorf("theme already installed: %s", theme.Name)
+	}
+
+	if err := m.fs.MkdirAll(themeDir, 0755); err != nil {
+		return fmt.Errorf("failed to create theme directory: %w", err)
+	}
+
+	data, err := json.MarshalIndent(theme, "", "  ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal theme: %w", err)
+	}
+
+	themePath := filepath.Join(themeDir, "theme.json")
+	if err := afero.WriteFile(m.fs, themePath, data, 0644); err != nil {
+		return fmt.Errorf("failed to write theme file: %w", err)
+	}
+
+	for _, preview := range []string{"preview-dark.svg", "preview-light.svg"} {
+		srcPath := filepath.Join(registryThemeDir, preview)
+		exists, _ := afero.Exists(m.fs, srcPath)
+		if !exists {
+			continue
+		}
+		data, err := afero.ReadFile(m.fs, srcPath)
+		if err != nil {
+			continue
+		}
+		dstPath := filepath.Join(themeDir, preview)
+		_ = afero.WriteFile(m.fs, dstPath, data, 0644)
+	}
+
+	return nil
+}
+
+func (m *Manager) InstallFromRegistry(registry *Registry, themeID string) error {
+	theme, err := registry.Get(themeID)
+	if err != nil {
+		return err
+	}
+
+	registryThemeDir := registry.GetThemeDir(theme.SourceDir)
+	return m.Install(*theme, registryThemeDir)
+}
+
+func (m *Manager) Update(theme Theme) error {
+	themePath := m.getInstalledPath(theme.ID)
+
+	exists, err := afero.Exists(m.fs, themePath)
+	if err != nil {
+		return fmt.Errorf("failed to check if theme exists: %w", err)
+	}
+
+	if !exists {
+		return fmt.Errorf("theme not installed: %s", theme.Name)
+	}
+
+	data, err := json.MarshalIndent(theme, "", "  ")
+	if err != nil {
+		return fmt.Errorf("failed to marshal theme: %w", err)
+	}
+
+	if err := afero.WriteFile(m.fs, themePath, data, 0644); err != nil {
+		return fmt.Errorf("failed to write theme file: %w", err)
+	}
+
+	return nil
+}
+
+func (m *Manager) Uninstall(theme Theme) error {
+	return m.UninstallByID(theme.ID)
+}
+
+func (m *Manager) UninstallByID(themeID string) error {
+	themeDir := m.getInstalledDir(themeID)
+
+	exists, err := afero.DirExists(m.fs, themeDir)
+	if err != nil {
+		return fmt.Errorf("failed to check if theme exists: %w", err)
+	}
+
+	if !exists {
+		return fmt.Errorf("theme not installed: %s", themeID)
+	}
+
+	if err := m.fs.RemoveAll(themeDir); err != nil {
+		return fmt.Errorf("failed to remove theme: %w", err)
+	}
+
+	return nil
+}
+
+func (m *Manager) ListInstalled() ([]string, error) {
+	exists, err := afero.DirExists(m.fs, m.themesDir)
+	if err != nil {
+		return nil, err
+	}
+
+	if !exists {
+		return []string{}, nil
+	}
+
+	entries, err := afero.ReadDir(m.fs, m.themesDir)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read themes directory: %w", err)
+	}
+
+	var installed []string
+	for _, entry := range entries {
+		if !entry.IsDir() {
+			continue
+		}
+
+		themeID := entry.Name()
+		themePath := filepath.Join(m.themesDir, themeID, "theme.json")
+		if exists, _ := afero.Exists(m.fs, themePath); exists {
+			installed = append(installed, themeID)
+		}
+	}
+
+	return installed, nil
+}
+
+func (m *Manager) GetInstalledTheme(themeID string) (*Theme, error) {
+	themePath := m.getInstalledPath(themeID)
+
+	data, err := afero.ReadFile(m.fs, themePath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read theme file: %w", err)
+	}
+
+	var theme Theme
+	if err := json.Unmarshal(data, &theme); err != nil {
+		return nil, fmt.Errorf("failed to parse theme file: %w", err)
+	}
+
+	return &theme, nil
+}
+
+func (m *Manager) HasUpdates(themeID string, registryTheme Theme) (bool, error) {
+	installed, err := m.GetInstalledTheme(themeID)
+	if err != nil {
+		return false, err
+	}
+
+	return compareVersions(installed.Version, registryTheme.Version) < 0, nil
+}
+
+func compareVersions(installed, registry string) int {
+	installedParts := strings.Split(installed, ".")
+	registryParts := strings.Split(registry, ".")
+
+	maxLen := len(installedParts)
+	if len(registryParts) > maxLen {
+		maxLen = len(registryParts)
+	}
+
+	for i := 0; i < maxLen; i++ {
+		var installedNum, registryNum int
+		if i < len(installedParts) {
+			fmt.Sscanf(installedParts[i], "%d", &installedNum)
+		}
+		if i < len(registryParts) {
+			fmt.Sscanf(registryParts[i], "%d", &registryNum)
+		}
+
+		if installedNum < registryNum {
+			return -1
+		}
+		if installedNum > registryNum {
+			return 1
+		}
+	}
+
+	return 0
+}
+
+func (m *Manager) GetThemesDir() string {
+	return m.themesDir
+}

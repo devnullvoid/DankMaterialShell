@@ -80,7 +80,7 @@ FocusScope {
                         width: parent.width
                         height: dmsWarningColumn.implicitHeight + Theme.spacingM * 2
                         radius: Theme.cornerRadius
-                        color: Qt.rgba(Theme.warning.r, Theme.warning.g, Theme.warning.b, 0.1)
+                        color: Theme.withAlpha(Theme.warning, 0.1)
                         border.color: Theme.warning
                         border.width: 1
                         visible: !DMSService.dmsAvailable
@@ -116,6 +116,75 @@ FocusScope {
                                 color: Theme.surfaceVariantText
                                 wrapMode: Text.WordWrap
                                 width: parent.width
+                            }
+                        }
+                    }
+
+                    StyledRect {
+                        id: incompatWarning
+                        property var incompatPlugins: []
+                        width: parent.width
+                        height: incompatWarningColumn.implicitHeight + Theme.spacingM * 2
+                        radius: Theme.cornerRadius
+                        color: Theme.withAlpha(Theme.error, 0.1)
+                        border.color: Theme.error
+                        border.width: 1
+                        visible: incompatPlugins.length > 0
+
+                        function refresh() {
+                            incompatPlugins = PluginService.getIncompatiblePlugins();
+                        }
+
+                        Component.onCompleted: Qt.callLater(refresh)
+
+                        Column {
+                            id: incompatWarningColumn
+                            anchors.fill: parent
+                            anchors.margins: Theme.spacingM
+                            spacing: Theme.spacingXS
+
+                            Row {
+                                spacing: Theme.spacingXS
+
+                                DankIcon {
+                                    name: "error"
+                                    size: 16
+                                    color: Theme.error
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Incompatible Plugins Loaded")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.error
+                                    font.weight: Font.Medium
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                            }
+
+                            StyledText {
+                                text: I18n.tr("Some plugins require a newer version of DMS:") + " " + incompatWarning.incompatPlugins.map(p => p.name + " (" + p.requires_dms + ")").join(", ")
+                                font.pixelSize: Theme.fontSizeSmall - 1
+                                color: Theme.surfaceVariantText
+                                wrapMode: Text.WordWrap
+                                width: parent.width
+                            }
+                        }
+
+                        Connections {
+                            target: PluginService
+                            function onPluginLoaded() {
+                                incompatWarning.refresh();
+                            }
+                            function onPluginUnloaded() {
+                                incompatWarning.refresh();
+                            }
+                        }
+
+                        Connections {
+                            target: SystemUpdateService
+                            function onSemverVersionChanged() {
+                                incompatWarning.refresh();
                             }
                         }
                     }
@@ -246,7 +315,7 @@ FocusScope {
 
                         StyledText {
                             width: parent.width
-                            text: I18n.tr("No plugins found.") + "\n" + I18n.tr("Place plugins in") + " " + PluginService.pluginDirectory
+                            text: I18n.tr("No plugins found.") + "\n" + I18n.tr("Place plugins in %1").arg(PluginService.pluginDirectory)
                             font.pixelSize: Theme.fontSizeMedium
                             color: Theme.surfaceVariantText
                             horizontalAlignment: Text.AlignHCenter
@@ -318,6 +387,16 @@ FocusScope {
         pluginBrowser.parentModal = pluginsTab.parentModal;
         if (DMSService.dmsAvailable && DMSService.apiVersion >= 8)
             DMSService.listInstalled();
+        if (PopoutService.pendingPluginInstall)
+            Qt.callLater(() => pluginBrowser.show());
+    }
+
+    Connections {
+        target: PopoutService
+        function onPendingPluginInstallChanged() {
+            if (PopoutService.pendingPluginInstall)
+                pluginBrowser.show();
+        }
     }
 
     PluginBrowser {

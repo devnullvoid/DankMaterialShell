@@ -1,12 +1,14 @@
 #!/bin/bash
 # Unified OBS upload script for dms packages
 # Handles Debian and OpenSUSE builds for both x86_64 and aarch64
-# Usage: ./distro/scripts/obs-upload.sh [distro] <package-name> [commit-message]
+# Usage: ./distro/scripts/obs-upload.sh [distro] <package-name> [commit-message|rebuild-number]
 #
 # Examples:
-#   ./distro/scripts/obs-upload.sh dms "Update to v0.6.2"
+#   ./distro/scripts/obs-upload.sh dms "Update to v1.0.2"
 #   ./distro/scripts/obs-upload.sh debian dms
 #   ./distro/scripts/obs-upload.sh opensuse dms-git
+#   ./distro/scripts/obs-upload.sh debian dms-git 2    # Rebuild with db2 suffix
+#   ./distro/scripts/obs-upload.sh dms-git --rebuild=2 # Rebuild with db2 suffix (flag syntax)
 
 set -e
 
@@ -14,26 +16,55 @@ UPLOAD_DEBIAN=true
 UPLOAD_OPENSUSE=true
 PACKAGE=""
 MESSAGE=""
+REBUILD_RELEASE="${REBUILD_RELEASE:-}"
+POSITIONAL_ARGS=()
 
 for arg in "$@"; do
     case "$arg" in
-        debian)
-            UPLOAD_DEBIAN=true
-            UPLOAD_OPENSUSE=false
-            ;;
-        opensuse)
-            UPLOAD_DEBIAN=false
-            UPLOAD_OPENSUSE=true
-            ;;
-        *)
-            if [[ -z "$PACKAGE" ]]; then
-                PACKAGE="$arg"
-            elif [[ -z "$MESSAGE" ]]; then
-                MESSAGE="$arg"
-            fi
-            ;;
+    debian)
+        UPLOAD_DEBIAN=true
+        UPLOAD_OPENSUSE=false
+        ;;
+    opensuse)
+        UPLOAD_DEBIAN=false
+        UPLOAD_OPENSUSE=true
+        ;;
+    --rebuild=*)
+        REBUILD_RELEASE="${arg#*=}"
+        ;;
+    -r|--rebuild)
+        REBUILD_NEXT=true
+        ;;
+    *)
+        if [[ -n "${REBUILD_NEXT:-}" ]]; then
+            REBUILD_RELEASE="$arg"
+            REBUILD_NEXT=false
+        else
+            POSITIONAL_ARGS+=("$arg")
+        fi
+        ;;
     esac
 done
+
+# Check if last positional argument is a number (rebuild release)
+if [[ ${#POSITIONAL_ARGS[@]} -gt 0 ]]; then
+    LAST_INDEX=$((${#POSITIONAL_ARGS[@]} - 1))
+    LAST_ARG="${POSITIONAL_ARGS[$LAST_INDEX]}"
+    if [[ "$LAST_ARG" =~ ^[0-9]+$ ]] && [[ -z "$REBUILD_RELEASE" ]]; then
+        # Last argument is a number and no --rebuild flag was used
+        # Use it as rebuild release and remove from positional args
+        REBUILD_RELEASE="$LAST_ARG"
+        POSITIONAL_ARGS=("${POSITIONAL_ARGS[@]:0:$LAST_INDEX}")
+    fi
+fi
+
+# Assign remaining positional args to PACKAGE and MESSAGE
+if [[ ${#POSITIONAL_ARGS[@]} -gt 0 ]]; then
+    PACKAGE="${POSITIONAL_ARGS[0]}"
+    if [[ ${#POSITIONAL_ARGS[@]} -gt 1 ]]; then
+        MESSAGE="${POSITIONAL_ARGS[1]}"
+    fi
+fi
 
 OBS_BASE_PROJECT="home:AvengeMedia"
 OBS_BASE="$HOME/.cache/osc-checkouts"
@@ -46,17 +77,17 @@ if [[ -z "$PACKAGE" ]]; then
     echo "  2. dms-git     - Nightly DMS"
     echo "  a. all"
     echo ""
-    read -p "Select package (1-${#AVAILABLE_PACKAGES[@]}, a): " selection
-    
+    read -r -p "Select package (1-${#AVAILABLE_PACKAGES[@]}, a): " selection
+
     if [[ "$selection" == "a" ]] || [[ "$selection" == "all" ]]; then
         PACKAGE="all"
     elif [[ "$selection" =~ ^[0-9]+$ ]] && [[ "$selection" -ge 1 ]] && [[ "$selection" -le ${#AVAILABLE_PACKAGES[@]} ]]; then
-        PACKAGE="${AVAILABLE_PACKAGES[$((selection-1))]}"
+        PACKAGE="${AVAILABLE_PACKAGES[$((selection - 1))]}"
     else
         echo "Error: Invalid selection"
         exit 1
     fi
-    
+
 fi
 
 if [[ -z "$MESSAGE" ]]; then
@@ -70,6 +101,51 @@ if [[ ! -d "distro/debian" ]]; then
     echo "Error: Run this script from the repository root"
     exit 1
 fi
+# Parameters:
+#   $1 = PROJECT
+#   $2 = PACKAGE
+#   $3 = VERSION
+#   $4 = CHECK_MODE - Exact version match, "commit" = check commit hash (default)
+check_obs_version_exists() {
+    local PROJECT="$1"
+    local PACKAGE="$2"
+    local VERSION="$3"
+    local CHECK_MODE="${4:-commit}"
+    local OBS_SPEC=""
+
+    # Use osc api command (works in both local and CI environments)
+    if command -v osc &> /dev/null; then
+        OBS_SPEC=$(osc api "/source/$PROJECT/$PACKAGE/${PACKAGE}.spec" 2>/dev/null || echo "")
+    else
+        echo "⚠️  osc command not found, skipping version check"
+        return 1
+    fi
+
+    # Check if we got valid spec content
+    if [[ -n "$OBS_SPEC" && "$OBS_SPEC" != *"error"* && "$OBS_SPEC" == *"Version:"* ]]; then
+        OBS_VERSION=$(echo "$OBS_SPEC" | grep "^Version:" | awk '{print $2}' | xargs)
+        # Commit hash check for -git packages
+        if [[ "$CHECK_MODE" == "commit" ]] && [[ "$PACKAGE" == *"-git" ]]; then
+            OBS_COMMIT=$(echo "$OBS_VERSION" | grep -oP '\.([a-f0-9]{8})(db[0-9]+)?$' | grep -oP '[a-f0-9]{8}' || echo "")
+            NEW_COMMIT=$(echo "$VERSION" | grep -oP '\.([a-f0-9]{8})(db[0-9]+)?$' | grep -oP '[a-f0-9]{8}' || echo "")
+
+            if [[ -n "$OBS_COMMIT" && -n "$NEW_COMMIT" && "$OBS_COMMIT" == "$NEW_COMMIT" ]]; then
+                echo "⚠️  Commit $NEW_COMMIT already exists in OBS (current version: $OBS_VERSION)"
+                return 0
+            fi
+        fi
+
+        # Exact version match check
+        if [[ "$OBS_VERSION" == "$VERSION" ]]; then
+            echo "⚠️  Version $VERSION already exists in OBS"
+            return 0
+        fi
+    else
+        echo "⚠️  Could not fetch OBS spec (API may be unavailable), proceeding anyway"
+        return 1
+    fi
+    return 1
+}
 
 # Handle "all" option
 if [[ "$PACKAGE" == "all" ]]; then
@@ -107,7 +183,7 @@ if [[ "$PACKAGE" == "all" ]]; then
             echo "⚠️  Skipping $pkg (not found in distro/debian/)"
         fi
     done
-    
+
     if [[ ${#FAILED[@]} -eq 0 ]]; then
         echo "✅ All packages uploaded successfully!"
         exit 0
@@ -124,16 +200,16 @@ if [[ ! -d "distro/debian/$PACKAGE" ]]; then
 fi
 
 case "$PACKAGE" in
-    dms)
-        PROJECT="dms"
-        ;;
-    dms-git)
-        PROJECT="dms-git"
-        ;;
-    *)
-        echo "Error: Unknown package '$PACKAGE'"
-        exit 1
-        ;;
+dms)
+    PROJECT="dms"
+    ;;
+dms-git)
+    PROJECT="dms-git"
+    ;;
+*)
+    echo "Error: Unknown package '$PACKAGE'"
+    exit 1
+    ;;
 esac
 
 OBS_PROJECT="${OBS_BASE_PROJECT}:${PROJECT}"
@@ -145,9 +221,9 @@ IS_MANUAL=false
 if [[ -n "${REBUILD_RELEASE:-}" ]]; then
     IS_MANUAL=true
     echo "==> Manual rebuild detected (REBUILD_RELEASE=$REBUILD_RELEASE)"
-elif [[ -n "${FORCE_REBUILD:-}" ]] && [[ "${FORCE_REBUILD}" == "true" ]]; then
+elif [[ -n "${FORCE_UPLOAD:-}" ]] && [[ "${FORCE_UPLOAD}" == "true" ]]; then
     IS_MANUAL=true
-    echo "==> Manual workflow trigger detected (FORCE_REBUILD=true)"
+    echo "==> Force upload detected (FORCE_UPLOAD=true)"
 elif [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
     IS_MANUAL=true
     echo "==> Local/manual run detected (not in CI)"
@@ -183,12 +259,66 @@ fi
 
 CHANGELOG_VERSION=""
 if [[ -d "distro/debian/$PACKAGE/debian" ]]; then
-    # Format: 0.6.2+git{COMMIT_COUNT}.{COMMIT_HASH} (e.g., 0.6.2+git2256.9162e314)
-    CHANGELOG_VERSION=$(grep -m1 "^$PACKAGE" "distro/debian/$PACKAGE/debian/changelog" 2>/dev/null | sed 's/.*(\([^)]*\)).*/\1/' || echo "")
-    if [[ -n "$CHANGELOG_VERSION" ]] && [[ "$CHANGELOG_VERSION" == *"-"* ]]; then
-        SOURCE_FORMAT_CHECK=$(cat "distro/debian/$PACKAGE/debian/source/format" 2>/dev/null || echo "3.0 (quilt)")
-        if [[ "$SOURCE_FORMAT_CHECK" == *"native"* ]]; then
-            CHANGELOG_VERSION=$(echo "$CHANGELOG_VERSION" | sed 's/-[0-9]*$//')
+    # For -git packages, generate version dynamically from git state (like workflows do)
+    if [[ "$PACKAGE" == *"-git" ]]; then
+        COMMIT_HASH=$(git rev-parse --short=8 HEAD)
+        COMMIT_COUNT=$(git rev-list --count HEAD)
+        BASE_VERSION=$(grep -oP '^Version:\s+\K[0-9.]+' distro/opensuse/dms.spec | head -1 || echo "1.0.2")
+        CHANGELOG_VERSION="${BASE_VERSION}+git${COMMIT_COUNT}.${COMMIT_HASH}"
+        echo "  - Generated git snapshot version: $CHANGELOG_VERSION"
+    else
+        # For stable packages: Format: 0.6.2+git{COMMIT_COUNT}.{COMMIT_HASH}
+        CHANGELOG_VERSION=$(grep -m1 "^$PACKAGE" "distro/debian/$PACKAGE/debian/changelog" 2>/dev/null | sed 's/.*(\([^)]*\)).*/\1/' || echo "")
+        if [[ -n "$CHANGELOG_VERSION" ]] && [[ "$CHANGELOG_VERSION" == *"-"* ]]; then
+            SOURCE_FORMAT_CHECK=$(cat "distro/debian/$PACKAGE/debian/source/format" 2>/dev/null || echo "3.0 (quilt)")
+            if [[ "$SOURCE_FORMAT_CHECK" == *"native"* ]]; then
+                CHANGELOG_VERSION=$(echo "$CHANGELOG_VERSION" | sed 's/-[0-9]*$//')
+            fi
+        fi
+    fi
+
+    # Apply rebuild suffix if specified (must happen before API check)
+    if [[ -n "$REBUILD_RELEASE" ]] && [[ -n "$CHANGELOG_VERSION" ]]; then
+        BASE_VERSION=$(echo "$CHANGELOG_VERSION" | sed 's/db[0-9]*$//')
+        CHANGELOG_VERSION="${BASE_VERSION}db${REBUILD_RELEASE}"
+        echo "  - Applied rebuild suffix: $CHANGELOG_VERSION"
+    fi
+
+    # Check if this version already exists in OBS
+    if [[ -n "$CHANGELOG_VERSION" ]]; then
+        if [[ -z "$REBUILD_RELEASE" ]]; then
+            if check_obs_version_exists "$OBS_PROJECT" "$PACKAGE" "$CHANGELOG_VERSION"; then
+                if [[ "$PACKAGE" == *"-git" ]]; then
+                    echo "==> Error: This commit is already uploaded to OBS"
+                    echo "    The same git commit ($(echo "$CHANGELOG_VERSION" | grep -oP '[a-f0-9]{8}' | tail -1)) already exists on OBS."
+                    echo "    To rebuild the same commit, specify a rebuild number:"
+                    echo "      ./distro/scripts/obs-upload.sh $PACKAGE 2"
+                    echo "      ./distro/scripts/obs-upload.sh $PACKAGE 3"
+                    echo "    Or push a new commit first, then run:"
+                    echo "      ./distro/scripts/obs-upload.sh $PACKAGE"
+                else
+                    echo "==> Error: Version $CHANGELOG_VERSION already exists in OBS"
+                    echo "    To rebuild with a different release number, try:"
+                    echo "      ./distro/scripts/obs-upload.sh $PACKAGE --rebuild=2"
+                    echo "    or positional syntax:"
+                    echo "      ./distro/scripts/obs-upload.sh $PACKAGE 2"
+                fi
+                exit 1
+            fi
+        else
+            # Rebuild number specified - check if this exact version already exists (exact mode)
+            if check_obs_version_exists "$OBS_PROJECT" "$PACKAGE" "$CHANGELOG_VERSION" "exact"; then
+                echo "==> Version $CHANGELOG_VERSION already exists in OBS"
+                echo "    This exact version (including db${REBUILD_RELEASE}) is already uploaded."
+                echo "    Skipping upload - nothing to do."
+                echo ""
+                echo "    💡 To rebuild with a different release number, try incrementing:"
+                NEXT_NUM=$((REBUILD_RELEASE + 1))
+                echo "       REBUILD_RELEASE=$NEXT_NUM"
+                echo ""
+                echo "✓ Exiting gracefully (no changes needed)"
+                exit 0
+            fi
         fi
     fi
 fi
@@ -204,25 +334,28 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ -f "distro/opensuse/$PACKAGE.spec" ]];
         OLD_RELEASE=$(grep "^Release:" "$WORK_DIR/.osc/$PACKAGE.spec" | sed 's/^Release:[[:space:]]*//' | sed 's/%{?dist}//' | head -1)
 
         if [[ "$NEW_VERSION" == "$OLD_VERSION" ]]; then
-            if [[ "$OLD_RELEASE" =~ ^([0-9]+) ]]; then
-                BASE_RELEASE="${BASH_REMATCH[1]}"
-                if [[ "$IS_MANUAL" == true ]]; then
-                    NEXT_RELEASE=$((BASE_RELEASE + 1))
-                    echo "  - Detected rebuild of same version $NEW_VERSION (release $OLD_RELEASE -> $NEXT_RELEASE)"
-                    sed -i "s/^Release:[[:space:]]*${NEW_RELEASE}%{?dist}/Release:        ${NEXT_RELEASE}%{?dist}/" "$WORK_DIR/$PACKAGE.spec"
+            if [[ "$IS_MANUAL" == true ]] && [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
+                # Only error for true local manual runs, not CI/workflow runs
+                if [[ -n "${REBUILD_RELEASE:-}" ]]; then
+                    echo "  🔄 Using manual rebuild release number: $REBUILD_RELEASE"
+                    sed -i "s/^Release:[[:space:]]*${NEW_RELEASE}%{?dist}/Release:        ${REBUILD_RELEASE}%{?dist}/" "$WORK_DIR/$PACKAGE.spec"
+                    cp "$WORK_DIR/$PACKAGE.spec" "$REPO_ROOT/distro/opensuse/$PACKAGE.spec"
                 else
-                    echo "  - Detected same version $NEW_VERSION (release $OLD_RELEASE). Not a manual run, skipping update."
-                    # For automated runs with no version change, we should stop here to avoid unnecessary rebuilds
-                    # However, we need to check if we are also updating Debian, or if this script is expected to continue.
-                    # If this is OpenSUSE only run, we can exit.
-                    if [[ "$UPLOAD_DEBIAN" == false ]]; then
-                         echo "✅ No changes needed for OpenSUSE (not manual). Exiting."
-                         exit 0
-                    fi
+                    echo "  - Error: Same version detected ($NEW_VERSION) but no rebuild number specified"
+                    echo "    To rebuild, explicitly specify a rebuild number:"
+                    echo "      ./distro/scripts/obs-upload.sh opensuse $PACKAGE 2"
+                    echo "    or use flag syntax:"
+                    echo "      ./distro/scripts/obs-upload.sh opensuse $PACKAGE --rebuild=2"
+                    exit 1
                 fi
+            else
+                echo "  - Detected same version $NEW_VERSION (release $OLD_RELEASE). No changes needed, skipping update."
+                echo "✅ No changes needed for this package. Exiting gracefully."
+                exit 0
             fi
         else
             echo "  - New version detected: $OLD_VERSION -> $NEW_VERSION (keeping release $NEW_RELEASE)"
+            cp "$WORK_DIR/$PACKAGE.spec" "$REPO_ROOT/distro/opensuse/$PACKAGE.spec"
         fi
     else
         echo "  - First upload to OBS (no previous spec found)"
@@ -235,7 +368,7 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ "$UPLOAD_DEBIAN" == false ]] && [[ -f 
     echo "  - OpenSUSE-only upload: creating source tarball"
 
     TEMP_DIR=$(mktemp -d)
-    trap "rm -rf $TEMP_DIR" EXIT
+    trap 'rm -rf $TEMP_DIR' EXIT
 
     if [[ -f "distro/debian/$PACKAGE/_service" ]] && grep -q "tar_scm" "distro/debian/$PACKAGE/_service"; then
         GIT_URL=$(grep -A 5 'name="tar_scm"' "distro/debian/$PACKAGE/_service" | grep "url" | sed 's/.*<param name="url">\(.*\)<\/param>.*/\1/')
@@ -244,8 +377,8 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ "$UPLOAD_DEBIAN" == false ]] && [[ -f 
         if [[ -n "$GIT_URL" ]]; then
             echo "    Cloning git source from: $GIT_URL (revision: ${GIT_REVISION:-master})"
             SOURCE_DIR="$TEMP_DIR/dms-git-source"
-            if git clone --depth 1 --branch "${GIT_REVISION:-master}" "$GIT_URL" "$SOURCE_DIR" 2>/dev/null || \
-               git clone --depth 1 "$GIT_URL" "$SOURCE_DIR" 2>/dev/null; then
+            if git clone --depth 1 --branch "${GIT_REVISION:-master}" "$GIT_URL" "$SOURCE_DIR" 2>/dev/null ||
+                git clone --depth 1 "$GIT_URL" "$SOURCE_DIR" 2>/dev/null; then
                 cd "$SOURCE_DIR"
                 if [[ -n "$GIT_REVISION" ]]; then
                     git checkout "$GIT_REVISION" 2>/dev/null || true
@@ -265,16 +398,16 @@ if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ "$UPLOAD_DEBIAN" == false ]] && [[ -f 
             cd "$OBS_TARBALL_DIR"
 
             case "$PACKAGE" in
-                dms)
-                    DMS_VERSION=$(grep "^Version:" "$REPO_ROOT/distro/opensuse/$PACKAGE.spec" | sed 's/^Version:[[:space:]]*//' | head -1)
-                    EXPECTED_DIR="DankMaterialShell-${DMS_VERSION}"
-                    ;;
-                dms-git)
-                    EXPECTED_DIR="dms-git-source"
-                    ;;
-                *)
-                    EXPECTED_DIR=$(basename "$SOURCE_DIR")
-                    ;;
+            dms)
+                DMS_VERSION=$(grep "^Version:" "$REPO_ROOT/distro/opensuse/$PACKAGE.spec" | sed 's/^Version:[[:space:]]*//' | head -1)
+                EXPECTED_DIR="DankMaterialShell-${DMS_VERSION}"
+                ;;
+            dms-git)
+                EXPECTED_DIR="dms-git-source"
+                ;;
+            *)
+                EXPECTED_DIR=$(basename "$SOURCE_DIR")
+                ;;
             esac
 
             echo "    Creating $SOURCE0 (directory: $EXPECTED_DIR)"
@@ -295,12 +428,12 @@ fi
 if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; then
     # Use CHANGELOG_VERSION already set above, or get it if not set
     if [[ -z "$CHANGELOG_VERSION" ]]; then
-        CHANGELOG_VERSION=$(grep -m1 "^$PACKAGE" distro/debian/$PACKAGE/debian/changelog 2>/dev/null | sed 's/.*(\([^)]*\)).*/\1/' || echo "0.1.11")
+        CHANGELOG_VERSION=$(grep -m1 "^$PACKAGE" distro/debian/"$PACKAGE"/debian/changelog 2>/dev/null | sed 's/.*(\([^)]*\)).*/\1/' || echo "0.1.11")
     fi
-    
+
     # Determine source format
     SOURCE_FORMAT=$(cat "distro/debian/$PACKAGE/debian/source/format" 2>/dev/null || echo "3.0 (quilt)")
-    
+
     # For native format, remove any Debian revision (-N) from version
     # Native format cannot have revisions, so strip them if present
     if [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ "$CHANGELOG_VERSION" == *"-"* ]]; then
@@ -308,26 +441,26 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
         CHANGELOG_VERSION=$(echo "$CHANGELOG_VERSION" | sed 's/-[0-9]*$//')
         echo "  Warning: Removed Debian revision from version for native format: $CHANGELOG_VERSION"
     fi
-    
+
     if [[ "$SOURCE_FORMAT" == *"native"* ]]; then
         echo "  - Native format detected: creating combined tarball"
 
         VERSION="$CHANGELOG_VERSION"
         TEMP_DIR=$(mktemp -d)
-        trap "rm -rf $TEMP_DIR" EXIT
+        trap 'rm -rf $TEMP_DIR' EXIT
         COMBINED_TARBALL="${PACKAGE}_${VERSION}.tar.gz"
         SOURCE_DIR=""
-        
+
         if [[ -f "distro/debian/$PACKAGE/_service" ]]; then
             if grep -q "tar_scm" "distro/debian/$PACKAGE/_service"; then
                 GIT_URL=$(grep -A 5 'name="tar_scm"' "distro/debian/$PACKAGE/_service" | grep "url" | sed 's/.*<param name="url">\(.*\)<\/param>.*/\1/')
                 GIT_REVISION=$(grep -A 5 'name="tar_scm"' "distro/debian/$PACKAGE/_service" | grep "revision" | sed 's/.*<param name="revision">\(.*\)<\/param>.*/\1/')
-                
+
                 if [[ -n "$GIT_URL" ]]; then
                     echo "    Cloning git source from: $GIT_URL (revision: ${GIT_REVISION:-master})"
                     SOURCE_DIR="$TEMP_DIR/dms-git-source"
-                    if git clone --depth 1 --branch "${GIT_REVISION:-master}" "$GIT_URL" "$SOURCE_DIR" 2>/dev/null || \
-                       git clone --depth 1 "$GIT_URL" "$SOURCE_DIR" 2>/dev/null; then
+                    if git clone --depth 1 --branch "${GIT_REVISION:-master}" "$GIT_URL" "$SOURCE_DIR" 2>/dev/null ||
+                        git clone --depth 1 "$GIT_URL" "$SOURCE_DIR" 2>/dev/null; then
                         cd "$SOURCE_DIR"
                         if [[ -n "$GIT_REVISION" ]]; then
                             git checkout "$GIT_REVISION" 2>/dev/null || true
@@ -341,19 +474,19 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
                     fi
                 fi
             elif grep -q "download_url" "distro/debian/$PACKAGE/_service" && [[ "$PACKAGE" != "dms-git" ]]; then
-                ALL_PATHS=$(grep -A 5 '<service name="download_url">' "distro/debian/$PACKAGE/_service" | \
-                    grep '<param name="path">' | \
+                ALL_PATHS=$(grep -A 5 '<service name="download_url">' "distro/debian/$PACKAGE/_service" |
+                    grep '<param name="path">' |
                     sed 's/.*<param name="path">\(.*\)<\/param>.*/\1/')
-                
+
                 SOURCE_PATH=""
                 for path in $ALL_PATHS; do
-                    if echo "$path" | grep -qE "(source|archive|\.tar\.(gz|xz|bz2))" && \
-                       ! echo "$path" | grep -qE "(distropkg|binary)"; then
+                    if echo "$path" | grep -qE "(source|archive|\.tar\.(gz|xz|bz2))" &&
+                        ! echo "$path" | grep -qE "(distropkg|binary)"; then
                         SOURCE_PATH="$path"
                         break
                     fi
                 done
-                
+
                 if [[ -z "$SOURCE_PATH" ]]; then
                     for path in $ALL_PATHS; do
                         if echo "$path" | grep -qE "\.tar\.(gz|xz|bz2)$"; then
@@ -362,12 +495,12 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
                         fi
                     done
                 fi
-                
+
                 if [[ -n "$SOURCE_PATH" ]]; then
                     SOURCE_BLOCK=$(awk -v target="$SOURCE_PATH" '
                         /<service name="download_url">/ { in_block=1; block="" }
                         in_block { block=block"\n"$0 }
-                        /<\/service>/ { 
+                        /<\/service>/ {
                             if (in_block && block ~ target) {
                                 print block
                                 exit
@@ -375,18 +508,18 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
                             in_block=0
                         }
                     ' "distro/debian/$PACKAGE/_service")
-                    
+
                     URL_PROTOCOL=$(echo "$SOURCE_BLOCK" | grep "protocol" | sed 's/.*<param name="protocol">\(.*\)<\/param>.*/\1/' | head -1)
                     URL_HOST=$(echo "$SOURCE_BLOCK" | grep "host" | sed 's/.*<param name="host">\(.*\)<\/param>.*/\1/' | head -1)
                     URL_PATH="$SOURCE_PATH"
                 fi
-                
+
                 if [[ -n "$URL_PROTOCOL" && -n "$URL_HOST" && -n "$URL_PATH" ]]; then
                     SOURCE_URL="${URL_PROTOCOL}://${URL_HOST}${URL_PATH}"
-                    echo "    Downloading source from: $SOURCE_URL"
-                    
-                    if wget -q -O "$TEMP_DIR/source-archive" "$SOURCE_URL" 2>/dev/null || \
-                       curl -L -f -s -o "$TEMP_DIR/source-archive" "$SOURCE_URL" 2>/dev/null; then
+                    echo "==> Downloading source from: $SOURCE_URL"
+
+                    if wget -q -O "$TEMP_DIR/source-archive" "$SOURCE_URL" 2>/dev/null ||
+                        curl -L -f -s -o "$TEMP_DIR/source-archive" "$SOURCE_URL" 2>/dev/null; then
                         cd "$TEMP_DIR"
                         if [[ "$SOURCE_URL" == *.tar.xz ]]; then
                             tar -xJf source-archive
@@ -406,15 +539,23 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
                         fi
                         SOURCE_DIR=$(cd "$SOURCE_DIR" && pwd)
                         cd "$REPO_ROOT"
+                        if [[ "$(pwd)" != "$REPO_ROOT" ]]; then
+                            echo "ERROR: Failed to return to REPO_ROOT. Expected: $REPO_ROOT, Got: $(pwd)"
+                            exit 1
+                        fi
                     else
-                        echo "Error: Failed to download source from $SOURCE_URL"
-                        echo "Tried both wget and curl. Please check the URL and network connectivity."
+                        echo "ERROR: Failed to download source from $SOURCE_URL"
+                        echo "Attempted both wget and curl"
+                        echo "Please check:"
+                        echo "  1. URL is accessible: $SOURCE_URL"
+                        echo "  2. _service file has correct version"
+                        echo "  3. GitHub releases are available"
                         exit 1
                     fi
                 fi
             fi
         fi
-        
+
         if [[ -z "$SOURCE_DIR" || ! -d "$SOURCE_DIR" ]]; then
             echo "Error: Could not determine or obtain source for $PACKAGE"
             echo "SOURCE_DIR: $SOURCE_DIR"
@@ -424,15 +565,15 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
             fi
             exit 1
         fi
-        
-        echo "    Found source directory: $SOURCE_DIR"
 
-        # Vendor Go dependencies for dms-git 
+        echo "==> Found source directory: $SOURCE_DIR"
+
+        # Vendor Go dependencies for dms-git
         if [[ "$PACKAGE" == "dms-git" ]] && [[ -d "$SOURCE_DIR/core" ]]; then
             echo "  - Vendoring Go dependencies for offline OBS build..."
             cd "$SOURCE_DIR/core"
 
-            if ! command -v go &> /dev/null; then
+            if ! command -v go &>/dev/null; then
                 echo "ERROR: Go not found. Install Go to vendor dependencies."
                 echo "  Install: sudo apt-get install golang-go (Debian/Ubuntu)"
                 echo "      or: sudo dnf install golang (Fedora)"
@@ -454,7 +595,7 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
         # Create OpenSUSE-compatible source tarballs BEFORE adding debian/ directory
         if [[ "$UPLOAD_OPENSUSE" == true ]] && [[ -f "distro/opensuse/$PACKAGE.spec" ]]; then
             echo "  - Creating OpenSUSE-compatible source tarballs"
-            
+
             SOURCE0=$(grep "^Source0:" "distro/opensuse/$PACKAGE.spec" | awk '{print $2}' | head -1)
             if [[ -z "$SOURCE0" && "$PACKAGE" == "dms-git" ]]; then
                 SOURCE0="dms-git-source.tar.gz"
@@ -463,68 +604,102 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
             if [[ -n "$SOURCE0" ]]; then
                 OBS_TARBALL_DIR=$(mktemp -d -t obs-tarball-XXXXXX)
                 cd "$OBS_TARBALL_DIR"
-                
+
                 case "$PACKAGE" in
-                    dms)
-                        if [[ -n "$CHANGELOG_VERSION" ]]; then
-                            DMS_VERSION="$CHANGELOG_VERSION"
-                        else
-                            DMS_VERSION=$(grep "^Version:" "$REPO_ROOT/distro/opensuse/$PACKAGE.spec" | sed 's/^Version:[[:space:]]*//' | head -1)
-                        fi
-                        EXPECTED_DIR="DankMaterialShell-${DMS_VERSION}"
-                        echo "    Creating $SOURCE0 (directory: $EXPECTED_DIR)"
-                        cp -r "$SOURCE_DIR" "$EXPECTED_DIR"
-                        if [[ "$SOURCE0" == *.tar.xz ]]; then
-                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cJf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
-                        elif [[ "$SOURCE0" == *.tar.bz2 ]]; then
-                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cjf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
-                        else
-                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
-                        fi
-                        rm -rf "$EXPECTED_DIR"
-                        echo "    Created $SOURCE0 ($(stat -c%s "$WORK_DIR/$SOURCE0" 2>/dev/null || echo 0) bytes)"
-                        ;;
-                    dms-git)
-                        EXPECTED_DIR="dms-git-source"
-                        echo "    Creating $SOURCE0 (directory: $EXPECTED_DIR)"
-                        cp -r "$SOURCE_DIR" "$EXPECTED_DIR"
-                        if [[ "$SOURCE0" == *.tar.xz ]]; then
-                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cJf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
-                        elif [[ "$SOURCE0" == *.tar.bz2 ]]; then
-                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cjf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
-                        else
-                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
-                        fi
-                        rm -rf "$EXPECTED_DIR"
-                        echo "    Created $SOURCE0 ($(stat -c%s "$WORK_DIR/$SOURCE0" 2>/dev/null || echo 0) bytes)"
-                        ;;
-                    *)
-                        DIR_NAME=$(basename "$SOURCE_DIR")
-                        echo "    Creating $SOURCE0 (directory: $DIR_NAME)"
-                        cp -r "$SOURCE_DIR" "$DIR_NAME"
-                        if [[ "$SOURCE0" == *.tar.xz ]]; then
-                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cJf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
-                        elif [[ "$SOURCE0" == *.tar.bz2 ]]; then
-                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cjf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
-                        else
-                            tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
-                        fi
-                        rm -rf "$DIR_NAME"
-                        echo "    Created $SOURCE0 ($(stat -c%s "$WORK_DIR/$SOURCE0" 2>/dev/null || echo 0) bytes)"
-                        ;;
+                dms)
+                    if [[ -n "$CHANGELOG_VERSION" ]]; then
+                        DMS_VERSION="$CHANGELOG_VERSION"
+                    else
+                        DMS_VERSION=$(grep "^Version:" "$REPO_ROOT/distro/opensuse/$PACKAGE.spec" | sed 's/^Version:[[:space:]]*//' | head -1)
+                    fi
+                    EXPECTED_DIR="DankMaterialShell-${DMS_VERSION}"
+                    echo "    Creating $SOURCE0 (directory: $EXPECTED_DIR)"
+                    cp -r "$SOURCE_DIR" "$EXPECTED_DIR"
+                    if [[ "$SOURCE0" == *.tar.xz ]]; then
+                        tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cJf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
+                    elif [[ "$SOURCE0" == *.tar.bz2 ]]; then
+                        tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cjf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
+                    else
+                        tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
+                    fi
+                    rm -rf "$EXPECTED_DIR"
+                    echo "    Created $SOURCE0 ($(stat -c%s "$WORK_DIR/$SOURCE0" 2>/dev/null || echo 0) bytes)"
+                    ;;
+                dms-git)
+                    EXPECTED_DIR="dms-git-source"
+                    echo "    Creating $SOURCE0 (directory: $EXPECTED_DIR)"
+                    cp -r "$SOURCE_DIR" "$EXPECTED_DIR"
+                    if [[ "$SOURCE0" == *.tar.xz ]]; then
+                        tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cJf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
+                    elif [[ "$SOURCE0" == *.tar.bz2 ]]; then
+                        tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cjf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
+                    else
+                        tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$SOURCE0" "$EXPECTED_DIR"
+                    fi
+                    rm -rf "$EXPECTED_DIR"
+                    echo "    Created $SOURCE0 ($(stat -c%s "$WORK_DIR/$SOURCE0" 2>/dev/null || echo 0) bytes)"
+                    ;;
+                *)
+                    DIR_NAME=$(basename "$SOURCE_DIR")
+                    echo "    Creating $SOURCE0 (directory: $DIR_NAME)"
+                    cp -r "$SOURCE_DIR" "$DIR_NAME"
+                    if [[ "$SOURCE0" == *.tar.xz ]]; then
+                        tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cJf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
+                    elif [[ "$SOURCE0" == *.tar.bz2 ]]; then
+                        tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -cjf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
+                    else
+                        tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$SOURCE0" "$DIR_NAME"
+                    fi
+                    rm -rf "$DIR_NAME"
+                    echo "    Created $SOURCE0 ($(stat -c%s "$WORK_DIR/$SOURCE0" 2>/dev/null || echo 0) bytes)"
+                    ;;
                 esac
                 cd "$REPO_ROOT"
                 rm -rf "$OBS_TARBALL_DIR"
                 echo "  - OpenSUSE source tarballs created"
             fi
-            
+
+            # Copy and update OpenSUSE spec file with the correct version (for -git packages)
             cp "distro/opensuse/$PACKAGE.spec" "$WORK_DIR/"
+            if [[ "$PACKAGE" == *"-git" ]] && [[ -n "$CHANGELOG_VERSION" ]]; then
+                echo "    Updating OpenSUSE spec to version $CHANGELOG_VERSION"
+                sed -i "s/^Version:.*/Version:        $CHANGELOG_VERSION/" "$WORK_DIR/$PACKAGE.spec"
+
+                # Update changelog in spec file
+                DATE_STR=$(date "+%a %b %d %Y")
+                LOCAL_SPEC_HEAD=$(sed -n '1,/%changelog/{ /%changelog/d; p }' "$WORK_DIR/$PACKAGE.spec")
+                {
+                    echo "$LOCAL_SPEC_HEAD"
+                    echo "%changelog"
+                    echo "* $DATE_STR Avenge Media <AvengeMedia.US@gmail.com> - ${CHANGELOG_VERSION}-1"
+                    echo "- Git snapshot (commit $COMMIT_COUNT: $COMMIT_HASH)"
+                } > "$WORK_DIR/$PACKAGE.spec"
+            fi
         fi
-        
+
         if [[ "$UPLOAD_DEBIAN" == true ]]; then
             echo "    Copying debian/ directory into source"
             cp -r "distro/debian/$PACKAGE/debian" "$SOURCE_DIR/"
-            
+
+            # Update changelog with the correct version (for -git packages, use dynamically generated version)
+            if [[ -n "$CHANGELOG_VERSION" ]] && [[ -f "$SOURCE_DIR/debian/changelog" ]]; then
+                echo "    Updating changelog to version $CHANGELOG_VERSION"
+                TEMP_CHANGELOG=$(mktemp)
+                {
+                    echo "$PACKAGE ($CHANGELOG_VERSION) unstable; urgency=medium"
+                    echo ""
+                    if [[ "$PACKAGE" == *"-git" ]]; then
+                        echo "  * Git snapshot (commit $COMMIT_COUNT: $COMMIT_HASH)"
+                    else
+                        echo "  * Automated update"
+                    fi
+                    echo ""
+                    echo " -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
+                } >"$TEMP_CHANGELOG"
+                cp "$TEMP_CHANGELOG" "$SOURCE_DIR/debian/changelog"
+                rm -f "$TEMP_CHANGELOG"
+            fi
+
             # For dms, rename directory to match what debian/rules expects
             # debian/rules uses UPSTREAM_VERSION which is the full version from changelog
             if [[ "$PACKAGE" == "dms" ]]; then
@@ -542,15 +717,19 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
                     fi
                 fi
             fi
-            
+
             rm -f "$WORK_DIR/$COMBINED_TARBALL"
-            
+
             echo "    Creating combined tarball: $COMBINED_TARBALL"
             cd "$(dirname "$SOURCE_DIR")"
             TARBALL_BASE=$(basename "$SOURCE_DIR")
             tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$COMBINED_TARBALL" "$TARBALL_BASE"
             cd "$REPO_ROOT"
-            
+            if [[ "$(pwd)" != "$REPO_ROOT" ]]; then
+                echo "ERROR: Failed to return to REPO_ROOT after tarball creation"
+                exit 1
+            fi
+
             if [[ "$PACKAGE" == "dms" ]]; then
                 TARBALL_DIR=$(tar -tzf "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null | head -1 | cut -d'/' -f1)
                 EXPECTED_TARBALL_DIR="DankMaterialShell-${VERSION}"
@@ -561,12 +740,16 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
                     rm -f "$WORK_DIR/$COMBINED_TARBALL"
                     tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$COMBINED_TARBALL" "$TARBALL_BASE"
                     cd "$REPO_ROOT"
+                    if [[ "$(pwd)" != "$REPO_ROOT" ]]; then
+                        echo "ERROR: Failed to return to REPO_ROOT after tarball recreation"
+                        exit 1
+                    fi
                 fi
             fi
-            
+
             TARBALL_SIZE=$(stat -c%s "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null || stat -f%z "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null)
             TARBALL_MD5=$(md5sum "$WORK_DIR/$COMBINED_TARBALL" | cut -d' ' -f1)
-            
+
             # Extract Build-Depends from debian/control using awk for proper multi-line parsing
             if [[ -f "$REPO_ROOT/distro/debian/$PACKAGE/debian/control" ]]; then
                 BUILD_DEPS=$(awk '
@@ -591,8 +774,8 @@ if [[ "$UPLOAD_DEBIAN" == true ]] && [[ -d "distro/debian/$PACKAGE/debian" ]]; t
             else
                 BUILD_DEPS="debhelper-compat (= 13)"
             fi
-            
-            cat > "$WORK_DIR/$PACKAGE.dsc" << EOF
+
+            cat >"$WORK_DIR/$PACKAGE.dsc" <<EOF
 Format: 3.0 (native)
 Source: $PACKAGE
 Binary: $PACKAGE
@@ -603,7 +786,7 @@ Build-Depends: $BUILD_DEPS
 Files:
  $TARBALL_MD5 $TARBALL_SIZE $COMBINED_TARBALL
 EOF
-            
+
             echo "  - Generated $PACKAGE.dsc for native format"
         fi
     else
@@ -613,12 +796,12 @@ EOF
             else
                 VERSION="${CHANGELOG_VERSION}-1"
             fi
-            
+
             echo "  - Quilt format detected: creating debian.tar.gz"
             tar -czf "$WORK_DIR/debian.tar.gz" -C "distro/debian/$PACKAGE" debian/
-            
+
             echo "  - Generating $PACKAGE.dsc for quilt format"
-            cat > "$WORK_DIR/$PACKAGE.dsc" << EOF
+            cat >"$WORK_DIR/$PACKAGE.dsc" <<EOF
 Format: 3.0 (quilt)
 Source: $PACKAGE
 Binary: $PACKAGE
@@ -634,295 +817,56 @@ EOF
     fi
 fi
 
-cd "$WORK_DIR"
+echo "==> Ensuring we're in the OSC working directory"
+cd "$WORK_DIR" || {
+    echo "ERROR: Cannot cd to WORK_DIR: $WORK_DIR"
+    echo "DEBUG: Current directory: $(pwd)"
+    echo "DEBUG: WORK_DIR exists: $(test -d "$WORK_DIR" && echo "yes" || echo "no")"
+    exit 1
+}
+echo "DEBUG: Successfully entered WORK_DIR: $(pwd)"
 
+# Server-side cleanup via API
+echo "==> Cleaning old tarballs from OBS server (prevents downloading 100+ old versions)"
+OBS_FILES=$(osc api "/source/$OBS_PROJECT/$PACKAGE" 2>/dev/null || echo "")
+if [[ -n "$OBS_FILES" ]]; then
+    DELETED_COUNT=0
+    KEEP_CURRENT=""
+    if [[ -n "$CHANGELOG_VERSION" ]]; then
+        KEEP_CURRENT="${PACKAGE}_${CHANGELOG_VERSION}.tar.gz"
+        echo "  Keeping only current version: ${KEEP_CURRENT}"
+    fi
+
+    for old_file in $(echo "$OBS_FILES" | grep -oP '(?<=name=")[^"]*\.(tar\.gz|tar\.xz|tar\.bz2)(?=")' || true); do
+        if [[ "$old_file" == "$KEEP_CURRENT" ]]; then
+            echo "  - Keeping: $old_file"
+            continue
+        fi
+
+        if [[ "$old_file" == "${PACKAGE}-source.tar.gz" ]]; then
+            echo "  - Keeping source tarball: $old_file"
+            continue
+        fi
+
+        echo "  - Deleting from server: $old_file"
+        if osc api -X DELETE "/source/$OBS_PROJECT/$PACKAGE/$old_file" 2>/dev/null; then
+            ((DELETED_COUNT++)) || true
+        fi
+    done
+    if [[ $DELETED_COUNT -gt 0 ]]; then
+        echo "  ✓ Deleted $DELETED_COUNT old tarball(s) from server"
+    else
+        echo "  ✓ No old tarballs found on server (current version preserved)"
+    fi
+else
+    echo "  ⚠️  Could not fetch file list from server, skipping cleanup"
+fi
+
+# Update working copy to latest revision (without expanding service files to avoid revision conflicts)
 echo "==> Updating working copy"
-if ! osc up; then
+if ! osc up 2>/dev/null; then
     echo "Error: Failed to update working copy"
     exit 1
-fi
-
-# Only auto-increment on manual runs (REBUILD_RELEASE set or not in CI), not automated workflows
-OLD_DSC_FILE=""
-if [[ -f "$WORK_DIR/.osc/sources/$PACKAGE.dsc" ]]; then
-    OLD_DSC_FILE="$WORK_DIR/.osc/sources/$PACKAGE.dsc"
-elif [[ -f "$WORK_DIR/.osc/$PACKAGE.dsc" ]]; then
-    OLD_DSC_FILE="$WORK_DIR/.osc/$PACKAGE.dsc"
-fi
-
-if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$SOURCE_FORMAT" == *"native"* ]] && [[ -n "$OLD_DSC_FILE" ]]; then
-    OLD_DSC_VERSION=$(grep "^Version:" "$OLD_DSC_FILE" 2>/dev/null | awk '{print $2}' | head -1)
-
-    IS_MANUAL=false
-    if [[ -n "${REBUILD_RELEASE:-}" ]]; then
-        IS_MANUAL=true
-        echo "==> Manual rebuild detected (REBUILD_RELEASE=$REBUILD_RELEASE)"
-    elif [[ -n "${FORCE_REBUILD:-}" ]] && [[ "${FORCE_REBUILD}" == "true" ]]; then
-        IS_MANUAL=true
-        echo "==> Manual workflow trigger detected (FORCE_REBUILD=true)"
-    elif [[ -z "${GITHUB_ACTIONS:-}" ]] && [[ -z "${CI:-}" ]]; then
-        IS_MANUAL=true
-        echo "==> Local/manual run detected (not in CI)"
-    fi
-
-    CHANGELOG_BASE=$(echo "$CHANGELOG_VERSION" | sed 's/ppa[0-9]*$//')
-    OLD_DSC_BASE=$(echo "$OLD_DSC_VERSION" | sed 's/ppa[0-9]*$//')
-
-    if [[ -n "$OLD_DSC_VERSION" ]] && [[ "$OLD_DSC_BASE" == "$CHANGELOG_BASE" ]]; then
-        if [[ "$IS_MANUAL" == true ]]; then
-            echo "==> Detected rebuild of same base version $CHANGELOG_BASE, incrementing version"
-        
-            # If REBUILD_RELEASE is set, use that number directly
-            if [[ -n "${REBUILD_RELEASE:-}" ]]; then
-                if [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git([0-9]+)(\.[a-f0-9]+)?$ ]]; then
-                    BASE_VERSION="${BASH_REMATCH[1]}"
-                    GIT_NUM="${BASH_REMATCH[2]}"
-                    GIT_HASH="${BASH_REMATCH[3]}"
-                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${REBUILD_RELEASE}"
-                    echo "  Using REBUILD_RELEASE=$REBUILD_RELEASE: $CHANGELOG_VERSION -> $NEW_VERSION"
-                else
-                    BASE_VERSION=$(echo "$CHANGELOG_VERSION" | sed 's/ppa[0-9]*$//')
-                    NEW_VERSION="${BASE_VERSION}ppa${REBUILD_RELEASE}"
-                    echo "  Using REBUILD_RELEASE=$REBUILD_RELEASE: $CHANGELOG_VERSION -> $NEW_VERSION"
-                fi
-            elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git$ ]]; then
-                BASE_VERSION="${BASH_REMATCH[1]}"
-                NEW_VERSION="${BASE_VERSION}+gitppa1"
-                echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-            elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)ppa([0-9]+)$ ]]; then
-                BASE_VERSION="${BASH_REMATCH[1]}"
-                PPA_NUM="${BASH_REMATCH[2]}"
-                NEW_PPA_NUM=$((PPA_NUM + 1))
-                NEW_VERSION="${BASE_VERSION}ppa${NEW_PPA_NUM}"
-                echo "  Incrementing PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-            elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)\+git([0-9]+)(\.[a-f0-9]+)?(ppa([0-9]+))?$ ]]; then
-                BASE_VERSION="${BASH_REMATCH[1]}"
-                GIT_NUM="${BASH_REMATCH[2]}"
-                GIT_HASH="${BASH_REMATCH[3]}"
-                PPA_NUM="${BASH_REMATCH[5]}"
-
-                # Check if old DSC has ppa suffix even if changelog doesn't
-                if [[ -z "$PPA_NUM" ]] && [[ "$OLD_DSC_VERSION" =~ ppa([0-9]+)$ ]]; then
-                    OLD_PPA_NUM="${BASH_REMATCH[1]}"
-                    NEW_PPA_NUM=$((OLD_PPA_NUM + 1))
-                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${NEW_PPA_NUM}"
-                    echo "  Incrementing PPA number from old DSC: $OLD_DSC_VERSION -> $NEW_VERSION"
-                elif [[ -n "$PPA_NUM" ]]; then
-                    NEW_PPA_NUM=$((PPA_NUM + 1))
-                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa${NEW_PPA_NUM}"
-                    echo "  Incrementing PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-                else
-                    NEW_VERSION="${BASE_VERSION}+git${GIT_NUM}${GIT_HASH}ppa1"
-                    echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-                fi
-            elif [[ "$CHANGELOG_VERSION" =~ ^([0-9.]+)(-([0-9]+))?$ ]]; then
-                BASE_VERSION="${BASH_REMATCH[1]}"
-                # Check if old DSC has ppa suffix even if changelog doesn't
-                if [[ "$OLD_DSC_VERSION" =~ ppa([0-9]+)$ ]]; then
-                    OLD_PPA_NUM="${BASH_REMATCH[1]}"
-                    NEW_PPA_NUM=$((OLD_PPA_NUM + 1))
-                    NEW_VERSION="${BASE_VERSION}ppa${NEW_PPA_NUM}"
-                    echo "  Incrementing PPA number from old DSC: $OLD_DSC_VERSION -> $NEW_VERSION"
-                else
-                    NEW_VERSION="${BASE_VERSION}ppa1"
-                    echo "  Adding PPA number: $CHANGELOG_VERSION -> $NEW_VERSION"
-                fi
-            else
-                # Check if old DSC has ppa suffix for unknown formats
-                if [[ "$OLD_DSC_VERSION" =~ ppa([0-9]+)$ ]]; then
-                    OLD_PPA_NUM="${BASH_REMATCH[1]}"
-                    NEW_PPA_NUM=$((OLD_PPA_NUM + 1))
-                    NEW_VERSION="${CHANGELOG_VERSION}ppa${NEW_PPA_NUM}"
-                    echo "  Incrementing PPA number from old DSC: $OLD_DSC_VERSION -> $NEW_VERSION"
-                else
-                    NEW_VERSION="${CHANGELOG_VERSION}ppa1"
-                    echo "  Warning: Could not parse version format, appending ppa1: $CHANGELOG_VERSION -> $NEW_VERSION"
-                fi
-            fi
-            
-            if [[ -z "$SOURCE_DIR" ]] || [[ ! -d "$SOURCE_DIR" ]] || [[ ! -d "$SOURCE_DIR/debian" ]]; then
-                echo "  Error: Source directory with debian/ not found for version increment"
-                exit 1
-            fi
-            
-            SOURCE_CHANGELOG="$SOURCE_DIR/debian/changelog"
-            if [[ ! -f "$SOURCE_CHANGELOG" ]]; then
-                echo "  Error: Changelog not found in source directory: $SOURCE_CHANGELOG"
-                exit 1
-            fi
-            
-            REPO_CHANGELOG="$REPO_ROOT/distro/debian/$PACKAGE/debian/changelog"
-            TEMP_CHANGELOG=$(mktemp)
-            {
-                echo "$PACKAGE ($NEW_VERSION) unstable; urgency=medium"
-                echo ""
-                echo "  * Rebuild to fix repository metadata issues"
-                echo ""
-                echo " -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
-                echo ""
-                if [[ -f "$REPO_CHANGELOG" ]]; then
-                    OLD_ENTRY_START=$(grep -n "^$PACKAGE (" "$REPO_CHANGELOG" | sed -n '2p' | cut -d: -f1)
-                    if [[ -n "$OLD_ENTRY_START" ]]; then
-                        tail -n +$OLD_ENTRY_START "$REPO_CHANGELOG"
-                    fi
-                fi
-            } > "$TEMP_CHANGELOG"
-            cp "$TEMP_CHANGELOG" "$SOURCE_CHANGELOG"
-            rm -f "$TEMP_CHANGELOG"
-            
-            CHANGELOG_VERSION="$NEW_VERSION"
-            VERSION="$NEW_VERSION"
-            COMBINED_TARBALL="${PACKAGE}_${VERSION}.tar.gz"
-            
-            for old_tarball in "${PACKAGE}"_*.tar.gz; do
-                if [[ -f "$old_tarball" ]] && [[ "$old_tarball" != "${PACKAGE}_${NEW_VERSION}.tar.gz" ]]; then
-                    echo "  Removing old tarball from OBS: $old_tarball"
-                    osc rm -f "$old_tarball" 2>/dev/null || rm -f "$old_tarball"
-                fi
-            done
-            
-            if [[ "$PACKAGE" == "dms" ]] && [[ -f "$WORK_DIR/dms-source.tar.gz" ]]; then
-                echo "  Recreating dms-source.tar.gz with new directory name for incremented version"
-                EXPECTED_SOURCE_DIR="DankMaterialShell-${NEW_VERSION}"
-                TEMP_SOURCE_DIR=$(mktemp -d)
-                cd "$TEMP_SOURCE_DIR"
-                tar -xzf "$WORK_DIR/dms-source.tar.gz" 2>/dev/null || tar -xJf "$WORK_DIR/dms-source.tar.gz" 2>/dev/null || tar -xjf "$WORK_DIR/dms-source.tar.gz" 2>/dev/null
-                EXTRACTED=$(find . -maxdepth 1 -type d -name "DankMaterialShell-*" | head -1)
-                if [[ -n "$EXTRACTED" ]] && [[ "$EXTRACTED" != "./$EXPECTED_SOURCE_DIR" ]]; then
-                    echo "    Renaming $EXTRACTED to $EXPECTED_SOURCE_DIR"
-                    mv "$EXTRACTED" "$EXPECTED_SOURCE_DIR"
-                    rm -f "$WORK_DIR/dms-source.tar.gz"
-                    if ! tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/dms-source.tar.gz" "$EXPECTED_SOURCE_DIR"; then
-                        echo "    Error: Failed to create dms-source.tar.gz"
-                        ls -lah "$EXPECTED_SOURCE_DIR" | head -20
-                        exit 1
-                    fi
-                    if [[ ! -f "$WORK_DIR/dms-source.tar.gz" ]]; then
-                        echo "    Error: dms-source.tar.gz was not created"
-                        exit 1
-                    fi
-                    ROOT_DIR=$(tar -tf "$WORK_DIR/dms-source.tar.gz" | head -1 | cut -d/ -f1)
-                    if [[ "$ROOT_DIR" != "$EXPECTED_SOURCE_DIR" ]]; then
-                        echo "    Error: Recreated tarball has wrong root directory: $ROOT_DIR (expected $EXPECTED_SOURCE_DIR)"
-                        exit 1
-                    fi
-                fi
-                cd "$REPO_ROOT"
-                rm -rf "$TEMP_SOURCE_DIR"
-            fi
-            
-            echo "  Recreating tarball with new version: $COMBINED_TARBALL"
-            if [[ -n "$SOURCE_DIR" ]] && [[ -d "$SOURCE_DIR" ]] && [[ -d "$SOURCE_DIR/debian" ]]; then
-                if [[ "$PACKAGE" == "dms" ]]; then
-                    cd "$(dirname "$SOURCE_DIR")"
-                    CURRENT_DIR=$(basename "$SOURCE_DIR")
-                    EXPECTED_DIR="DankMaterialShell-${NEW_VERSION}"
-                    if [[ "$CURRENT_DIR" != "$EXPECTED_DIR" ]]; then
-                        echo "  Renaming directory from $CURRENT_DIR to $EXPECTED_DIR to match debian/rules"
-                        if [[ -d "$CURRENT_DIR" ]]; then
-                            mv "$CURRENT_DIR" "$EXPECTED_DIR"
-                            SOURCE_DIR="$(pwd)/$EXPECTED_DIR"
-                        else
-                            echo "  Warning: Source directory $CURRENT_DIR not found, extracting from existing tarball"
-                            OLD_TARBALL=$(ls "${PACKAGE}"_*.tar.gz 2>/dev/null | head -1)
-                            if [[ -f "$OLD_TARBALL" ]]; then
-                                EXTRACT_DIR=$(mktemp -d)
-                                cd "$EXTRACT_DIR"
-                                tar -xzf "$WORK_DIR/$OLD_TARBALL"
-                                EXTRACTED_DIR=$(find . -maxdepth 1 -type d -name "DankMaterialShell-*" | head -1)
-                                if [[ -n "$EXTRACTED_DIR" ]] && [[ "$EXTRACTED_DIR" != "./$EXPECTED_DIR" ]]; then
-                                    mv "$EXTRACTED_DIR" "$EXPECTED_DIR"
-                                    if [[ -f "$EXPECTED_DIR/debian/changelog" ]]; then
-                                        ACTUAL_VER=$(grep -m1 "^$PACKAGE" "$EXPECTED_DIR/debian/changelog" 2>/dev/null | sed 's/.*(\([^)]*\)).*/\1/')
-                                        if [[ "$ACTUAL_VER" != "$NEW_VERSION" ]]; then
-                                            echo "  Updating changelog version in extracted directory"
-                                            REPO_CHANGELOG="$REPO_ROOT/distro/debian/$PACKAGE/debian/changelog"
-                                            TEMP_CHANGELOG=$(mktemp)
-                                            {
-                                                echo "$PACKAGE ($NEW_VERSION) unstable; urgency=medium"
-                                                echo ""
-                                                echo "  * Rebuild to fix repository metadata issues"
-                                                echo ""
-                                                echo " -- Avenge Media <AvengeMedia.US@gmail.com>  $(date -R)"
-                                                echo ""
-                                                if [[ -f "$REPO_CHANGELOG" ]]; then
-                                                    OLD_ENTRY_START=$(grep -n "^$PACKAGE (" "$REPO_CHANGELOG" | sed -n '2p' | cut -d: -f1)
-                                                    if [[ -n "$OLD_ENTRY_START" ]]; then
-                                                        tail -n +$OLD_ENTRY_START "$REPO_CHANGELOG"
-                                                    fi
-                                                fi
-                                            } > "$TEMP_CHANGELOG"
-                                            cp "$TEMP_CHANGELOG" "$EXPECTED_DIR/debian/changelog"
-                                            rm -f "$TEMP_CHANGELOG"
-                                        fi
-                                    fi
-                                    SOURCE_DIR="$(pwd)/$EXPECTED_DIR"
-                                    cd "$REPO_ROOT"
-                                else
-                                    echo "  Error: Could not extract or find source directory"
-                                    rm -rf "$EXTRACT_DIR"
-                                    exit 1
-                                fi
-                            fi
-                        fi
-                    fi
-                fi
-                
-                rm -f "$WORK_DIR/$COMBINED_TARBALL"
-                
-                echo "    Creating combined tarball: $COMBINED_TARBALL"
-                cd "$(dirname "$SOURCE_DIR")"
-                TARBALL_BASE=$(basename "$SOURCE_DIR")
-                tar --sort=name --mtime='2000-01-01 00:00:00' --owner=0 --group=0 -czf "$WORK_DIR/$COMBINED_TARBALL" "$TARBALL_BASE"
-                cd "$REPO_ROOT"
-            fi
-            
-            TARBALL_SIZE=$(stat -c%s "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null || stat -f%z "$WORK_DIR/$COMBINED_TARBALL" 2>/dev/null)
-            TARBALL_MD5=$(md5sum "$WORK_DIR/$COMBINED_TARBALL" | cut -d' ' -f1)
-            
-            # Extract Build-Depends from debian/control using awk for proper multi-line parsing
-            if [[ -f "$REPO_ROOT/distro/debian/$PACKAGE/debian/control" ]]; then
-                BUILD_DEPS=$(awk '
-                    /^Build-Depends:/ {
-                        in_build_deps=1;
-                        sub(/^Build-Depends:[[:space:]]*/, "");
-                        printf "%s", $0;
-                        next;
-                    }
-                    in_build_deps && /^[[:space:]]/ {
-                        sub(/^[[:space:]]+/, " ");
-                        printf "%s", $0;
-                        next;
-                    }
-                    in_build_deps { exit; }
-                ' "$REPO_ROOT/distro/debian/$PACKAGE/debian/control" | sed 's/[[:space:]]\+/ /g; s/^[[:space:]]*//; s/[[:space:]]*$//')
-
-                # If extraction failed or is empty, use default fallback
-                if [[ -z "$BUILD_DEPS" ]]; then
-                    BUILD_DEPS="debhelper-compat (= 13)"
-                fi
-            else
-                BUILD_DEPS="debhelper-compat (= 13)"
-            fi
-            
-            cat > "$WORK_DIR/$PACKAGE.dsc" << EOF
-Format: 3.0 (native)
-Source: $PACKAGE
-Binary: $PACKAGE
-Architecture: any
-Version: $VERSION
-Maintainer: Avenge Media <AvengeMedia.US@gmail.com>
-Build-Depends: $BUILD_DEPS
-Files:
- $TARBALL_MD5 $TARBALL_SIZE $COMBINED_TARBALL
-EOF
-            echo "  - Updated changelog and recreated tarball with version $NEW_VERSION"
-        else
-            echo "==> Detected same version. Not a manual run, skipping Debian version increment."
-            echo "✅ No changes needed for Debian. Exiting."
-            exit 0
-        fi
-    fi
 fi
 
 # Ensure we're in WORK_DIR and it exists
@@ -954,13 +898,22 @@ ls -la 2>&1 | head -20
 echo "==> Staging changes"
 echo "Files to upload:"
 if [[ "$UPLOAD_DEBIAN" == true ]] && [[ "$UPLOAD_OPENSUSE" == true ]]; then
-    ls -lh *.tar.gz *.tar.xz *.tar *.spec *.dsc _service 2>/dev/null | awk '{print "  " $9 " (" $5 ")"}'
+    ls -lh ./*.tar.gz ./*.tar.xz ./*.tar ./*.spec ./*.dsc _service 2>/dev/null | awk '{print "  " $9 " (" $5 ")"}'
 elif [[ "$UPLOAD_DEBIAN" == true ]]; then
-    ls -lh *.tar.gz *.dsc _service 2>/dev/null | awk '{print "  " $9 " (" $5 ")"}'
+    ls -lh ./*.tar.gz ./*.dsc _service 2>/dev/null | awk '{print "  " $9 " (" $5 ")"}'
 elif [[ "$UPLOAD_OPENSUSE" == true ]]; then
-    ls -lh *.tar.gz *.tar.xz *.tar *.spec _service 2>/dev/null | awk '{print "  " $9 " (" $5 ")"}'
+    ls -lh ./*.tar.gz ./*.tar.xz ./*.tar ./*.spec _service 2>/dev/null | awk '{print "  " $9 " (" $5 ")"}'
 fi
 echo ""
+
+if [[ "$(pwd)" != "$WORK_DIR" ]]; then
+    echo "ERROR: Lost directory context. Expected: $WORK_DIR, Got: $(pwd)"
+    cd "$WORK_DIR" || {
+        echo "FATAL: Cannot recover - unable to cd to WORK_DIR"
+        exit 1
+    }
+    echo "WARNING: Recovered directory context"
+fi
 
 osc addremove 2>&1 | grep -v "Git SCM package" || true
 
@@ -988,7 +941,7 @@ if ! osc status 2>/dev/null | grep -qE '^[MAD]|^[?]'; then
 else
     echo "==> Committing to OBS"
     set +e
-    osc commit -m "$MESSAGE" 2>&1 | grep -v "Git SCM package" | grep -v "apiurl\|project\|_ObsPrj\|_manifest\|git-obs"
+    osc commit --skip-local-service-run -m "$MESSAGE" 2>&1 | grep -v "Git SCM package" | grep -v "apiurl\|project\|_ObsPrj\|_manifest\|git-obs"
     COMMIT_EXIT=${PIPESTATUS[0]}
     set -e
     if [[ $COMMIT_EXIT -ne 0 ]]; then

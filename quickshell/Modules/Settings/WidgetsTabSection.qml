@@ -806,56 +806,72 @@ Column {
                         {
                             icon: "lan",
                             label: I18n.tr("Network"),
-                            setting: "showNetworkIcon",
-                            checked: SettingsData.controlCenterShowNetworkIcon
+                            setting: "showNetworkIcon"
                         },
                         {
                             icon: "vpn_lock",
                             label: I18n.tr("VPN"),
-                            setting: "showVpnIcon",
-                            checked: SettingsData.controlCenterShowVpnIcon
+                            setting: "showVpnIcon"
                         },
                         {
                             icon: "bluetooth",
                             label: I18n.tr("Bluetooth"),
-                            setting: "showBluetoothIcon",
-                            checked: SettingsData.controlCenterShowBluetoothIcon
+                            setting: "showBluetoothIcon"
                         },
                         {
                             icon: "volume_up",
                             label: I18n.tr("Audio"),
-                            setting: "showAudioIcon",
-                            checked: SettingsData.controlCenterShowAudioIcon
+                            setting: "showAudioIcon"
                         },
                         {
                             icon: "mic",
                             label: I18n.tr("Microphone"),
-                            setting: "showMicIcon",
-                            checked: SettingsData.controlCenterShowMicIcon
+                            setting: "showMicIcon"
                         },
                         {
                             icon: "brightness_high",
                             label: I18n.tr("Brightness"),
-                            setting: "showBrightnessIcon",
-                            checked: SettingsData.controlCenterShowBrightnessIcon
+                            setting: "showBrightnessIcon"
                         },
                         {
                             icon: "battery_full",
                             label: I18n.tr("Battery"),
-                            setting: "showBatteryIcon",
-                            checked: SettingsData.controlCenterShowBatteryIcon
+                            setting: "showBatteryIcon"
                         },
                         {
                             icon: "print",
                             label: I18n.tr("Printer"),
-                            setting: "showPrinterIcon",
-                            checked: SettingsData.controlCenterShowPrinterIcon
+                            setting: "showPrinterIcon"
                         }
                     ]
 
                     delegate: Rectangle {
                         required property var modelData
                         required property int index
+
+                        function getCheckedState() {
+                            var wd = controlCenterContextMenu.widgetData;
+                            switch (modelData.setting) {
+                            case "showNetworkIcon":
+                                return wd?.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
+                            case "showVpnIcon":
+                                return wd?.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
+                            case "showBluetoothIcon":
+                                return wd?.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
+                            case "showAudioIcon":
+                                return wd?.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+                            case "showMicIcon":
+                                return wd?.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+                            case "showBrightnessIcon":
+                                return wd?.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+                            case "showBatteryIcon":
+                                return wd?.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
+                            case "showPrinterIcon":
+                                return wd?.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
+                            default:
+                                return false;
+                            }
+                        }
 
                         width: menuColumn.width
                         height: 32
@@ -891,7 +907,7 @@ Column {
                             anchors.verticalCenter: parent.verticalCenter
                             width: 40
                             height: 20
-                            checked: modelData.checked
+                            checked: getCheckedState()
                             onToggled: {
                                 root.controlCenterSettingChanged(controlCenterContextMenu.sectionId, controlCenterContextMenu.widgetIndex, modelData.setting, toggled);
                             }

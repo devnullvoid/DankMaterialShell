@@ -65,7 +65,7 @@ type Manager struct {
 	state       *State
 	stateMutex  sync.RWMutex
 
-	display             *wlclient.Display
+	display             wlclient.WaylandDisplay
 	ctx                 *wlclient.Context
 	registry            *wlclient.Registry
 	gammaControl        any
@@ -96,6 +96,9 @@ type Manager struct {
 
 	dbusConn   *dbus.Conn
 	dbusSignal chan *dbus.Signal
+
+	lastAppliedTemp  int
+	lastAppliedGamma float64
 }
 
 type outputState struct {

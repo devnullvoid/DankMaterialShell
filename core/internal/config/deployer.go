@@ -213,6 +213,11 @@ func (cd *ConfigDeployer) deployNiriDmsConfigs(dmsDir, terminalCommand string) e
 
 	for _, cfg := range configs {
 		path := filepath.Join(dmsDir, cfg.name)
+		// Skip if file already exists to preserve user modifications
+		if _, err := os.Stat(path); err == nil {
+			cd.log(fmt.Sprintf("Skipping %s (already exists)", cfg.name))
+			continue
+		}
 		if err := os.WriteFile(path, []byte(cfg.content), 0644); err != nil {
 			return fmt.Errorf("failed to write %s: %w", cfg.name, err)
 		}
@@ -265,7 +270,13 @@ func (cd *ConfigDeployer) deployGhosttyConfig() ([]DeploymentResult, error) {
 
 	colorResult := DeploymentResult{
 		ConfigType: "Ghostty Colors",
-		Path:       filepath.Join(os.Getenv("HOME"), ".config", "ghostty", "config-dankcolors"),
+		Path:       filepath.Join(os.Getenv("HOME"), ".config", "ghostty", "themes", "dankcolors"),
+	}
+
+	themesDir := filepath.Dir(colorResult.Path)
+	if err := os.MkdirAll(themesDir, 0755); err != nil {
+		mainResult.Error = fmt.Errorf("failed to create themes directory: %w", err)
+		return []DeploymentResult{mainResult}, mainResult.Error
 	}
 
 	if err := os.WriteFile(colorResult.Path, []byte(GhosttyColorConfig), 0644); err != nil {
@@ -615,10 +626,11 @@ func (cd *ConfigDeployer) transformNiriConfigForNonSystemd(config, terminalComma
 
 	spawnDms := `spawn-at-startup "dms" "run"`
 	if !strings.Contains(config, spawnDms) {
-		config = strings.Replace(config,
-			`spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"`,
-			`spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"`+"\n"+spawnDms,
-			1)
+		// Insert spawn-at-startup for dms after the environment block
+		envBlockEnd := regexp.MustCompile(`environment \{[^}]*\}`)
+		if loc := envBlockEnd.FindStringIndex(config); loc != nil {
+			config = config[:loc[1]] + "\n" + spawnDms + config[loc[1]:]
+		}
 	}
 
 	return config

@@ -1,10 +1,16 @@
 #!/bin/bash
 # Build and upload PPA package with automatic cleanup
-# Usage: ./create-and-upload.sh <package-dir> <ppa-name> [ubuntu-series] [--keep-builds]
+# Usage: ./ppa-upload.sh [package-name] [ppa-name] [ubuntu-series] [rebuild-number] [--keep-builds] [--rebuild=N]
 #
-# Example:
-#   ./create-and-upload.sh ../dms dms questing
-#   ./create-and-upload.sh ../danklinux/dgop danklinux questing --keep-builds
+# Examples:
+#   ./ppa-upload.sh dms                    # Single package (auto-detects PPA)
+#   ./ppa-upload.sh dms 2                 # Rebuild with ppa2 (simple syntax)
+#   ./ppa-upload.sh dms --rebuild=2       # Rebuild with ppa2 (flag syntax)
+#   ./ppa-upload.sh dms-git               # Single package
+#   ./ppa-upload.sh all                   # All packages
+#   ./ppa-upload.sh dms dms questing      # Explicit PPA and series
+#   ./ppa-upload.sh dms dms questing 2    # Explicit PPA, series, and rebuild number
+#   ./ppa-upload.sh distro/ubuntu/dms dms # Path-style (backward compatible)
 
 set -e
 
@@ -12,79 +18,211 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' 
+NC='\033[0m'
 
 info() { echo -e "${BLUE}[INFO]${NC} $1"; }
 success() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
 warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 error() { echo -e "${RED}[ERROR]${NC} $1"; }
 
-# Parse arguments
+AVAILABLE_PACKAGES=(dms dms-git dms-greeter)
+
 KEEP_BUILDS=false
-ARGS=()
+REBUILD_RELEASE=""
+POSITIONAL_ARGS=()
 for arg in "$@"; do
-    if [ "$arg" = "--keep-builds" ]; then
-        KEEP_BUILDS=true
-    else
-        ARGS+=("$arg")
-    fi
+    case "$arg" in
+        --keep-builds) KEEP_BUILDS=true ;;
+        --rebuild=*)
+            REBUILD_RELEASE="${arg#*=}"
+            ;;
+        -r|--rebuild)
+            REBUILD_NEXT=true
+            ;;
+        *)
+            if [[ -n "${REBUILD_NEXT:-}" ]]; then
+                REBUILD_RELEASE="$arg"
+                REBUILD_NEXT=false
+            else
+                POSITIONAL_ARGS+=("$arg")
+            fi
+            ;;
+    esac
 done
 
-if [ ${#ARGS[@]} -lt 2 ]; then
-    error "Usage: $0 <package-dir> <ppa-name> [ubuntu-series] [--keep-builds]"
-    echo
-    echo "Arguments:"
-    echo "  package-dir     : Path to package directory (e.g., ../dms, ../danklinux/dgop)"
-    echo "  ppa-name        : PPA name (danklinux, dms, dms-git)"
-    echo "  ubuntu-series   : Ubuntu series (optional, default: questing)"
-    echo "                    Supported: questing (25.10) and newer only"
-    echo "                    Note: Requires Qt 6.6+ (quickshell requirement)"
-    echo "  --keep-builds   : Keep build artifacts after upload (optional)"
-    echo
-    echo "Examples:"
-    echo "  $0 ../dms dms questing"
-    echo "  $0 ../danklinux/dgop danklinux questing --keep-builds"
-    echo "  $0 ../dms-git dms-git  # Defaults to questing"
-    exit 1
+PACKAGE_INPUT="${POSITIONAL_ARGS[0]:-}"
+PPA_NAME_INPUT="${POSITIONAL_ARGS[1]:-}"
+UBUNTU_SERIES="${POSITIONAL_ARGS[2]:-questing}"
+
+if [[ ${#POSITIONAL_ARGS[@]} -gt 0 ]]; then
+    LAST_INDEX=$((${#POSITIONAL_ARGS[@]} - 1))
+    LAST_ARG="${POSITIONAL_ARGS[$LAST_INDEX]}"
+    if [[ "$LAST_ARG" =~ ^[0-9]+$ ]] && [[ -z "$REBUILD_RELEASE" ]]; then
+        # Last argument is a number and no --rebuild flag was used
+        # Use it as rebuild release and remove from positional args
+        REBUILD_RELEASE="$LAST_ARG"
+        POSITIONAL_ARGS=("${POSITIONAL_ARGS[@]:0:$LAST_INDEX}")
+        PACKAGE_INPUT="${POSITIONAL_ARGS[0]:-}"
+        PPA_NAME_INPUT="${POSITIONAL_ARGS[1]:-}"
+        UBUNTU_SERIES="${POSITIONAL_ARGS[2]:-questing}"
+    fi
 fi
 
-PACKAGE_DIR="${ARGS[0]}"
-PPA_NAME="${ARGS[1]}"
-UBUNTU_SERIES="${ARGS[2]:-questing}"
-
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 BUILD_SCRIPT="$SCRIPT_DIR/ppa-build.sh"
-UPLOAD_SCRIPT="$SCRIPT_DIR/ppa-dput.sh"
 
-# Validate scripts exist
 if [ ! -f "$BUILD_SCRIPT" ]; then
     error "Build script not found: $BUILD_SCRIPT"
     exit 1
 fi
 
-# Get absolute path
+get_ppa_name() {
+    local pkg="$1"
+    case "$pkg" in
+        dms) echo "dms" ;;
+        dms-git) echo "dms-git" ;;
+        dms-greeter) echo "danklinux" ;;
+        *) echo "" ;;
+    esac
+}
+
+# Support both path-style and name-style arguments
+PACKAGE_DIR=""
+PACKAGE_NAME=""
+PPA_NAME=""
+
+if [[ -n "$PACKAGE_INPUT" ]] && [[ "$PACKAGE_INPUT" == *"/"* ]]; then
+    # Path-style argument (backward compatibility)
+    if [[ -d "$PACKAGE_INPUT" ]]; then
+        PACKAGE_DIR="$(cd "$PACKAGE_INPUT" && pwd)"
+    elif [[ -d "$REPO_ROOT/$PACKAGE_INPUT" ]]; then
+        PACKAGE_DIR="$(cd "$REPO_ROOT/$PACKAGE_INPUT" && pwd)"
+    else
+        error "Package directory not found: $PACKAGE_INPUT"
+        exit 1
+    fi
+    PACKAGE_NAME=$(basename "$PACKAGE_DIR")
+    PPA_NAME="${PPA_NAME_INPUT:-$(get_ppa_name "$PACKAGE_NAME")}"
+    if [[ -z "$PPA_NAME" ]]; then
+        error "Could not determine PPA name for package: $PACKAGE_NAME"
+        error "Please specify PPA name as second argument"
+        exit 1
+    fi
+    info "Using path-style argument: $PACKAGE_DIR"
+elif [[ -n "$PACKAGE_INPUT" ]] && [[ "$PACKAGE_INPUT" == "all" ]]; then
+    echo ""
+    info "Building and uploading all packages..."
+    FAILED_PACKAGES=()
+    for pkg in "${AVAILABLE_PACKAGES[@]}"; do
+        echo ""
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        info "Processing $pkg..."
+        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+        BUILD_ARGS=("$pkg" "$PPA_NAME_INPUT" "$UBUNTU_SERIES")
+        [[ "$KEEP_BUILDS" == "true" ]] && BUILD_ARGS+=("--keep-builds")
+        if ! "$0" "${BUILD_ARGS[@]}"; then
+            FAILED_PACKAGES+=("$pkg")
+            error "$pkg failed to upload"
+        fi
+    done
+    echo ""
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    if [[ ${#FAILED_PACKAGES[@]} -eq 0 ]]; then
+        success "All packages uploaded successfully!"
+    else
+        error "Some packages failed: ${FAILED_PACKAGES[*]}"
+        exit 1
+    fi
+    exit 0
+elif [[ -n "$PACKAGE_INPUT" ]]; then
+    VALID_PACKAGE=false
+    for pkg in "${AVAILABLE_PACKAGES[@]}"; do
+        if [[ "$PACKAGE_INPUT" == "$pkg" ]]; then
+            VALID_PACKAGE=true
+            break
+        fi
+    done
+
+    if [[ "$VALID_PACKAGE" != "true" ]]; then
+        error "Unknown package: $PACKAGE_INPUT"
+        echo "Available packages: ${AVAILABLE_PACKAGES[*]}"
+        exit 1
+    fi
+
+    PACKAGE_NAME="$PACKAGE_INPUT"
+    PACKAGE_DIR="$REPO_ROOT/distro/ubuntu/$PACKAGE_NAME"
+    PPA_NAME="${PPA_NAME_INPUT:-$(get_ppa_name "$PACKAGE_NAME")}"
+else
+    echo "Available packages:"
+    echo ""
+    for i in "${!AVAILABLE_PACKAGES[@]}"; do
+        echo "  $((i+1)). ${AVAILABLE_PACKAGES[$i]}"
+    done
+    echo "  a. all"
+    echo ""
+    read -rp "Select package (1-${#AVAILABLE_PACKAGES[@]}, a): " selection
+
+    if [[ "$selection" == "a" ]] || [[ "$selection" == "all" ]]; then
+        PACKAGE_INPUT="all"
+        BUILD_ARGS=("all" "$PPA_NAME_INPUT" "$UBUNTU_SERIES")
+        [[ "$KEEP_BUILDS" == "true" ]] && BUILD_ARGS+=("--keep-builds")
+        exec "$0" "${BUILD_ARGS[@]}"
+    elif [[ "$selection" =~ ^[0-9]+$ ]] && [[ "$selection" -ge 1 ]] && [[ "$selection" -le ${#AVAILABLE_PACKAGES[@]} ]]; then
+        PACKAGE_NAME="${AVAILABLE_PACKAGES[$((selection-1))]}"
+        PACKAGE_DIR="$REPO_ROOT/distro/ubuntu/$PACKAGE_NAME"
+        PPA_NAME="${PPA_NAME_INPUT:-$(get_ppa_name "$PACKAGE_NAME")}"
+    else
+        error "Invalid selection"
+        exit 1
+    fi
+fi
+
+if [ ! -d "$PACKAGE_DIR" ]; then
+    error "Package directory not found: $PACKAGE_DIR"
+    exit 1
+fi
+
+if [ ! -d "$PACKAGE_DIR/debian" ]; then
+    error "No debian/ directory found in $PACKAGE_DIR"
+    exit 1
+fi
+
 PACKAGE_DIR=$(cd "$PACKAGE_DIR" && pwd)
-PACKAGE_NAME=$(basename "$PACKAGE_DIR")
 PARENT_DIR=$(dirname "$PACKAGE_DIR")
 
 info "Building and uploading: $PACKAGE_NAME"
 info "Package directory: $PACKAGE_DIR"
 info "PPA: ppa:avengemedia/$PPA_NAME"
 info "Ubuntu series: $UBUNTU_SERIES"
+if [[ -n "$REBUILD_RELEASE" ]]; then
+    info "Rebuild release number: ppa$REBUILD_RELEASE"
+fi
 echo
 
-# Step 1: Build source package
 info "Step 1: Building source package..."
+if [[ -n "$REBUILD_RELEASE" ]]; then
+    export REBUILD_RELEASE
+fi
+export PPA_UPLOAD_SCRIPT=1
 if ! "$BUILD_SCRIPT" "$PACKAGE_DIR" "$UBUNTU_SERIES"; then
     error "Build failed!"
     exit 1
 fi
 
-# Find the changes file
-CHANGES_FILE=$(find "$PARENT_DIR" -maxdepth 1 -name "${PACKAGE_NAME}_*_source.changes" -type f | sort -V | tail -1)
+TEMP_DIR_FILE="$PARENT_DIR/.ppa_build_temp_${PACKAGE_NAME}"
+if [ -f "$TEMP_DIR_FILE" ]; then
+    BUILD_TEMP_DIR=$(grep -oP 'PPA_BUILD_TEMP_DIR=\K.*' "$TEMP_DIR_FILE")
+    rm -f "$TEMP_DIR_FILE"
+    info "Using build artifacts from temp directory: $BUILD_TEMP_DIR"
+    CHANGES_FILE=$(find "$BUILD_TEMP_DIR" -maxdepth 1 -name "${PACKAGE_NAME}_*_source.changes" -type f 2>/dev/null | sort -V | tail -1)
+else
+    BUILD_TEMP_DIR="$PARENT_DIR"
+    CHANGES_FILE=$(find "$PARENT_DIR" -maxdepth 1 -name "${PACKAGE_NAME}_*_source.changes" -type f | sort -V | tail -1)
+fi
 
 if [ -z "$CHANGES_FILE" ]; then
-    warn "Changes file not found in $PARENT_DIR"
+    warn "Changes file not found in $BUILD_TEMP_DIR"
     warn "Assuming build was skipped (no changes needed) and exiting successfully."
     exit 0
 fi
@@ -92,30 +230,23 @@ fi
 info "Found changes file: $CHANGES_FILE"
 echo
 
-# Step 2: Upload to PPA
 info "Step 2: Uploading to PPA..."
 
-# Check if using lftp (for all PPAs) or dput
 if [ "$PPA_NAME" = "danklinux" ] || [ "$PPA_NAME" = "dms" ] || [ "$PPA_NAME" = "dms-git" ]; then
     warn "Using lftp for upload"
-    
-    # Extract version from changes file
-    VERSION=$(grep "^Version:" "$CHANGES_FILE" | awk '{print $2}')
-    SOURCE_NAME=$(grep "^Source:" "$CHANGES_FILE" | awk '{print $2}')
-    
-    # Find all files to upload
+
     BUILD_DIR=$(dirname "$CHANGES_FILE")
     CHANGES_BASENAME=$(basename "$CHANGES_FILE")
     DSC_FILE="${CHANGES_BASENAME/_source.changes/.dsc}"
     TARBALL="${CHANGES_BASENAME/_source.changes/.tar.xz}"
     BUILDINFO="${CHANGES_BASENAME/_source.changes/_source.buildinfo}"
-    
+
     # Check all files exist
     MISSING_FILES=()
     [ ! -f "$BUILD_DIR/$DSC_FILE" ] && MISSING_FILES+=("$DSC_FILE")
     [ ! -f "$BUILD_DIR/$TARBALL" ] && MISSING_FILES+=("$TARBALL")
     [ ! -f "$BUILD_DIR/$BUILDINFO" ] && MISSING_FILES+=("$BUILDINFO")
-    
+
     if [ ${#MISSING_FILES[@]} -gt 0 ]; then
         error "Missing required files:"
         for file in "${MISSING_FILES[@]}"; do
@@ -123,17 +254,16 @@ if [ "$PPA_NAME" = "danklinux" ] || [ "$PPA_NAME" = "dms" ] || [ "$PPA_NAME" = "
         done
         exit 1
     fi
-    
+
     info "Uploading files:"
     info "  - $CHANGES_BASENAME"
     info "  - $DSC_FILE"
     info "  - $TARBALL"
     info "  - $BUILDINFO"
     echo
-    
-    # lftp build dir change
+
     LFTP_SCRIPT=$(mktemp)
-    cat > "$LFTP_SCRIPT" <<EOF
+    cat >"$LFTP_SCRIPT" <<EOF
 cd ~avengemedia/ubuntu/$PPA_NAME/
 lcd $BUILD_DIR
 mput $CHANGES_BASENAME
@@ -142,8 +272,8 @@ mput $TARBALL
 mput $BUILDINFO
 bye
 EOF
-    
-    if lftp -d ftp://anonymous:@ppa.launchpad.net < "$LFTP_SCRIPT"; then
+
+    if lftp -d ftp://anonymous:@ppa.launchpad.net <"$LFTP_SCRIPT"; then
         success "Upload successful!"
         rm -f "$LFTP_SCRIPT"
     else
@@ -152,17 +282,11 @@ EOF
         exit 1
     fi
 else
-    # Use dput for other PPAs
-    if [ ! -f "$UPLOAD_SCRIPT" ]; then
-        error "Upload script not found: $UPLOAD_SCRIPT"
-        exit 1
-    fi
-
-    # Auto-confirm upload (pipe 'y' to the confirmation prompt)
-    if ! echo "y" | "$UPLOAD_SCRIPT" "$CHANGES_FILE" "$PPA_NAME"; then
-        error "Upload failed!"
-        exit 1
-    fi
+    # This branch should not be reached for DMS packages
+    # All DMS packages (dms, dms-git, dms-greeter) use lftp
+    error "Unknown PPA: $PPA_NAME"
+    error "DMS packages use lftp for upload. Supported PPAs: dms, dms-git, danklinux"
+    exit 1
 fi
 
 echo
@@ -171,11 +295,17 @@ info "Monitor build progress at:"
 echo "  https://launchpad.net/~avengemedia/+archive/ubuntu/$PPA_NAME/+packages"
 echo
 
-# Step 3: Cleanup (unless --keep-builds is specified)
 if [ "$KEEP_BUILDS" = "false" ]; then
     info "Step 3: Cleaning up build artifacts..."
 
-    # Find all build artifacts in parent directory
+    if [ -n "${BUILD_TEMP_DIR:-}" ] && [ "$BUILD_TEMP_DIR" != "$PARENT_DIR" ]; then
+        if [ -d "$BUILD_TEMP_DIR" ]; then
+            info "Removing temp build directory: $BUILD_TEMP_DIR"
+            rm -rf "$BUILD_TEMP_DIR"
+        fi
+    fi
+
+    rm -f "$PARENT_DIR/.ppa_build_temp_${PACKAGE_NAME}"
     ARTIFACTS=(
         "${PACKAGE_NAME}_*.dsc"
         "${PACKAGE_NAME}_*.tar.xz"
@@ -195,43 +325,45 @@ if [ "$KEEP_BUILDS" = "false" ]; then
         done
     done
 
-    # Clean up downloaded binaries in package directory
     case "$PACKAGE_NAME" in
-        danksearch)
-            if [ -f "$PACKAGE_DIR/dsearch-amd64" ]; then
-                rm -f "$PACKAGE_DIR/dsearch-amd64"
-                REMOVED=$((REMOVED + 1))
-            fi
-            if [ -f "$PACKAGE_DIR/dsearch-arm64" ]; then
-                rm -f "$PACKAGE_DIR/dsearch-arm64"
-                REMOVED=$((REMOVED + 1))
-            fi
-            ;;
-        dms)
-            # Remove downloaded binaries and source
-            if [ -f "$PACKAGE_DIR/dms-distropkg-amd64.gz" ]; then
-                rm -f "$PACKAGE_DIR/dms-distropkg-amd64.gz"
-                REMOVED=$((REMOVED + 1))
-            fi
-            if [ -f "$PACKAGE_DIR/dms-source.tar.gz" ]; then
-                rm -f "$PACKAGE_DIR/dms-source.tar.gz"
-                REMOVED=$((REMOVED + 1))
-            fi
-            ;;
-        dms-git)
-            # Remove git source directory binary
-            if [ -d "$PACKAGE_DIR/dms-git-repo" ]; then
-                rm -rf "$PACKAGE_DIR/dms-git-repo"
-                REMOVED=$((REMOVED + 1))
-            fi
-            ;;
-        dms-greeter)
-            # Remove downloaded source
-            if [ -f "$PACKAGE_DIR/dms-greeter-source.tar.gz" ]; then
-                rm -f "$PACKAGE_DIR/dms-greeter-source.tar.gz"
-                REMOVED=$((REMOVED + 1))
-            fi
-            ;;
+    danksearch)
+        if [ -f "$PACKAGE_DIR/dsearch-amd64" ]; then
+            rm -f "$PACKAGE_DIR/dsearch-amd64"
+            REMOVED=$((REMOVED + 1))
+        fi
+        if [ -f "$PACKAGE_DIR/dsearch-arm64" ]; then
+            rm -f "$PACKAGE_DIR/dsearch-arm64"
+            REMOVED=$((REMOVED + 1))
+        fi
+        ;;
+    dms)
+        if [ -f "$PACKAGE_DIR/dms-distropkg-amd64.gz" ]; then
+            rm -f "$PACKAGE_DIR/dms-distropkg-amd64.gz"
+            REMOVED=$((REMOVED + 1))
+        fi
+        if [ -f "$PACKAGE_DIR/dms-distropkg-arm64.gz" ]; then
+            rm -f "$PACKAGE_DIR/dms-distropkg-arm64.gz"
+            REMOVED=$((REMOVED + 1))
+        fi
+        if [ -f "$PACKAGE_DIR/dms-source.tar.gz" ]; then
+            rm -f "$PACKAGE_DIR/dms-source.tar.gz"
+            REMOVED=$((REMOVED + 1))
+        fi
+        ;;
+    dms-git)
+        # Remove git source directory binary
+        if [ -d "$PACKAGE_DIR/dms-git-repo" ]; then
+            rm -rf "$PACKAGE_DIR/dms-git-repo"
+            REMOVED=$((REMOVED + 1))
+        fi
+        ;;
+    dms-greeter)
+        # Remove downloaded source
+        if [ -f "$PACKAGE_DIR/dms-greeter-source.tar.gz" ]; then
+            rm -f "$PACKAGE_DIR/dms-greeter-source.tar.gz"
+            REMOVED=$((REMOVED + 1))
+        fi
+        ;;
     esac
 
     if [ $REMOVED -gt 0 ]; then
@@ -246,4 +378,3 @@ fi
 
 echo
 success "Done!"
-

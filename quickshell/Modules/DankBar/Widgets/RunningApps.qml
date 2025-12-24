@@ -358,7 +358,7 @@ Item {
                         IconImage {
                             id: iconImg
                             anchors.left: parent.left
-                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
+                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? Math.round((parent.width - Theme.barIconSize(root.barThickness)) / 2) : Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
                             width: Theme.barIconSize(root.barThickness)
                             height: Theme.barIconSize(root.barThickness)
@@ -385,7 +385,7 @@ Item {
 
                         DankIcon {
                             anchors.left: parent.left
-                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
+                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? Math.round((parent.width - Theme.barIconSize(root.barThickness)) / 2) : Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
                             size: Theme.barIconSize(root.barThickness)
                             name: "sports_esports"
@@ -607,7 +607,7 @@ Item {
                         IconImage {
                             id: iconImg
                             anchors.left: parent.left
-                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
+                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? Math.round((parent.width - Theme.barIconSize(root.barThickness)) / 2) : Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
                             width: Theme.barIconSize(root.barThickness)
                             height: Theme.barIconSize(root.barThickness)
@@ -634,7 +634,7 @@ Item {
 
                         DankIcon {
                             anchors.left: parent.left
-                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? (parent.width - Theme.barIconSize(root.barThickness)) / 2 : Theme.spacingXS
+                            anchors.leftMargin: (widgetData?.runningAppsCompactMode !== undefined ? widgetData.runningAppsCompactMode : SettingsData.runningAppsCompactMode) ? Math.round((parent.width - Theme.barIconSize(root.barThickness)) / 2) : Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
                             size: Theme.barIconSize(root.barThickness)
                             name: "sports_esports"

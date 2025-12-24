@@ -15,6 +15,15 @@ type Proxy interface {
 	MarkZombie()
 }
 
+type WaylandDisplay interface {
+	Context() *Context
+	GetRegistry() (*Registry, error)
+	Roundtrip() error
+	Destroy() error
+}
+
+var _ WaylandDisplay = (*Display)(nil)
+
 type BaseProxy struct {
 	ctx    *Context
 	id     uint32

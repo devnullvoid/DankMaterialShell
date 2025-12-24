@@ -22,8 +22,9 @@ func NewManager() (*Manager, error) {
 
 	m := &Manager{
 		state: &FreedeskState{
-			Accounts: AccountsState{},
-			Settings: SettingsState{},
+			Accounts:    AccountsState{},
+			Settings:    SettingsState{},
+			Screensaver: ScreensaverState{},
 		},
 		stateMutex:  sync.RWMutex{},
 		systemConn:  systemConn,
@@ -33,6 +34,7 @@ func NewManager() (*Manager, error) {
 
 	m.initializeAccounts()
 	m.initializeSettings()
+	m.initializeScreensaver()
 
 	return m, nil
 }

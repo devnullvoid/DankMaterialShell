@@ -7,7 +7,7 @@
 }:
 let
   inherit (lib) types;
-  cfg = config.programs.dankMaterialShell.greeter;
+  cfg = config.programs.dank-material-shell.greeter;
 
   inherit (config.services.greetd.settings.default_session) user;
 
@@ -44,19 +44,20 @@ in
 {
   imports =
     let
-      msg = "The option 'programs.dankMaterialShell.greeter.compositor.extraConfig' is deprecated. Please use 'programs.dankMaterialShell.greeter.compositor.customConfig' instead.";
+      msg = "The option 'programs.dank-material-shell.greeter.compositor.extraConfig' is deprecated. Please use 'programs.dank-material-shell.greeter.compositor.customConfig' instead.";
     in
     [
       (lib.mkRemovedOptionModule [
         "programs"
-        "dankMaterialShell"
+        "dank-material-shell"
         "greeter"
         "compositor"
         "extraConfig"
       ] msg)
+      ./dms-rename.nix
     ];
 
-  options.programs.dankMaterialShell.greeter = {
+  options.programs.dank-material-shell.greeter = {
     enable = lib.mkEnableOption "DankMaterialShell greeter";
     compositor.name = lib.mkOption {
       type = types.enum [
@@ -139,10 +140,32 @@ in
       )}
 
       if [ -f session.json ]; then
-          if cp "$(${jq} -r '.wallpaperPath' session.json)" wallpaper.jpg; then
-              mv session.json session.orig.json
-              ${jq} '.wallpaperPath = "${cacheDir}/wallpaper.jpg"' session.orig.json > session.json
-          fi
+          copy_wallpaper() {
+              local path=$(${jq} -r ".$1 // empty" session.json)
+              if [ -f "$path" ]; then
+                  cp "$path" "$2"
+                  ${jq} ".$1 = \"${cacheDir}/$2\"" session.json > session.tmp
+                  mv session.tmp session.json
+              fi
+          }
+
+          copy_monitor_wallpapers() {
+              ${jq} -r ".$1 // {} | to_entries[] | .key + \":\" + .value" session.json 2>/dev/null | while IFS=: read monitor path; do
+                  local dest="$2-$(echo "$monitor" | tr -c '[:alnum:]' '-')"
+                  if [ -f "$path" ]; then
+                      cp "$path" "$dest"
+                      ${jq} --arg m "$monitor" --arg p "${cacheDir}/$dest" ".$1[\$m] = \$p" session.json > session.tmp
+                      mv session.tmp session.json
+                  fi
+              done
+          }
+
+          copy_wallpaper "wallpaperPath" "wallpaper"
+          copy_wallpaper "wallpaperPathLight" "wallpaper-light"
+          copy_wallpaper "wallpaperPathDark" "wallpaper-dark"
+          copy_monitor_wallpapers "monitorWallpapers" "wallpaper-monitor"
+          copy_monitor_wallpapers "monitorWallpapersLight" "wallpaper-monitor-light"
+          copy_monitor_wallpapers "monitorWallpapersDark" "wallpaper-monitor-dark"
       fi
 
       if [ -f settings.json ]; then
@@ -155,7 +178,7 @@ in
       mv dms-colors.json colors.json || :
       chown ${user}: * || :
     '';
-    programs.dankMaterialShell.greeter.configFiles = lib.mkIf (cfg.configHome != null) [
+    programs.dank-material-shell.greeter.configFiles = lib.mkIf (cfg.configHome != null) [
       "${cfg.configHome}/.config/DankMaterialShell/settings.json"
       "${cfg.configHome}/.local/state/DankMaterialShell/session.json"
       "${cfg.configHome}/.cache/DankMaterialShell/dms-colors.json"

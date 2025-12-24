@@ -11,4 +11,9 @@ const (
 	dbusPortalSettingsInterface = "org.freedesktop.portal.Settings"
 
 	dbusPropsInterface = "org.freedesktop.DBus.Properties"
+
+	dbusScreensaverName      = "org.freedesktop.ScreenSaver"
+	dbusScreensaverPath      = "/ScreenSaver"
+	dbusScreensaverPath2     = "/org/freedesktop/ScreenSaver"
+	dbusScreensaverInterface = "org.freedesktop.ScreenSaver"
 )

@@ -15,6 +15,12 @@ func init() {
 	Register("opensuse-tumbleweed", "#73BA25", FamilySUSE, func(config DistroConfig, logChan chan<- string) Distribution {
 		return NewOpenSUSEDistribution(config, logChan)
 	})
+	Register("opensuse-leap", "#73BA25", FamilySUSE, func(config DistroConfig, logChan chan<- string) Distribution {
+		return NewOpenSUSEDistribution(config, logChan)
+	})
+	Register("opensuse-slowroll", "#73BA25", FamilySUSE, func(config DistroConfig, logChan chan<- string) Distribution {
+		return NewOpenSUSEDistribution(config, logChan)
+	})
 }
 
 type OpenSUSEDistribution struct {
@@ -78,10 +84,8 @@ func (o *OpenSUSEDistribution) DetectDependenciesWithTerminal(ctx context.Contex
 		dependencies = append(dependencies, o.detectXwaylandSatellite())
 	}
 
-	// Base detections (common across distros)
 	dependencies = append(dependencies, o.detectMatugen())
 	dependencies = append(dependencies, o.detectDgop())
-	dependencies = append(dependencies, o.detectClipboardTools()...)
 
 	return dependencies, nil
 }
@@ -107,10 +111,8 @@ func (o *OpenSUSEDistribution) GetPackageMappingWithVariants(wm deps.WindowManag
 		"ghostty":                {Name: "ghostty", Repository: RepoTypeSystem},
 		"kitty":                  {Name: "kitty", Repository: RepoTypeSystem},
 		"alacritty":              {Name: "alacritty", Repository: RepoTypeSystem},
-		"wl-clipboard":           {Name: "wl-clipboard", Repository: RepoTypeSystem},
 		"xdg-desktop-portal-gtk": {Name: "xdg-desktop-portal-gtk", Repository: RepoTypeSystem},
 		"accountsservice":        {Name: "accountsservice", Repository: RepoTypeSystem},
-		"cliphist":               {Name: "cliphist", Repository: RepoTypeSystem},
 
 		// DMS packages from OBS
 		"dms (DankMaterialShell)": o.getDmsMapping(variants["dms (DankMaterialShell)"]),
@@ -371,7 +373,7 @@ func (o *OpenSUSEDistribution) InstallPackages(ctx context.Context, dependencies
 		o.log(fmt.Sprintf("Warning: failed to write window manager config: %v", err))
 	}
 
-	if err := o.EnableDMSService(ctx); err != nil {
+	if err := o.EnableDMSService(ctx, wm); err != nil {
 		o.log(fmt.Sprintf("Warning: failed to enable dms service: %v", err))
 	}
 
@@ -438,6 +440,19 @@ func (o *OpenSUSEDistribution) extractPackageNames(packages []PackageMapping) []
 func (o *OpenSUSEDistribution) enableOBSRepos(ctx context.Context, obsPkgs []PackageMapping, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
 	enabledRepos := make(map[string]bool)
 
+	osInfo, err := GetOSInfo()
+	if err != nil {
+		return fmt.Errorf("failed to get OS info: %w", err)
+	}
+
+	obsDistroVersion := "openSUSE_Tumbleweed"
+	switch osInfo.Distribution.ID {
+	case "opensuse-leap":
+		obsDistroVersion = fmt.Sprintf("openSUSE_Leap_%s", osInfo.VersionID)
+	case "opensuse-slowroll":
+		obsDistroVersion = "openSUSE_Slowroll"
+	}
+
 	for _, pkg := range obsPkgs {
 		if pkg.RepoURL != "" && !enabledRepos[pkg.RepoURL] {
 			o.log(fmt.Sprintf("Enabling OBS repository: %s", pkg.RepoURL))
@@ -445,8 +460,8 @@ func (o *OpenSUSEDistribution) enableOBSRepos(ctx context.Context, obsPkgs []Pac
 			// RepoURL format: "home:AvengeMedia:danklinux"
 			repoPath := strings.ReplaceAll(pkg.RepoURL, ":", ":/")
 			repoName := strings.ReplaceAll(pkg.RepoURL, ":", "-")
-			repoURL := fmt.Sprintf("https://download.opensuse.org/repositories/%s/openSUSE_Tumbleweed/%s.repo",
-				repoPath, pkg.RepoURL)
+			repoURL := fmt.Sprintf("https://download.opensuse.org/repositories/%s/%s/%s.repo",
+				repoPath, obsDistroVersion, pkg.RepoURL)
 
 			checkCmd := exec.CommandContext(ctx, "zypper", "repos", repoName)
 			if checkCmd.Run() == nil {

@@ -92,6 +92,7 @@ Singleton {
     property var matugenColors: ({})
     property var _pendingGenerateParams: null
     property var customThemeData: null
+    property var customThemeRawData: null
 
     Component.onCompleted: {
         Quickshell.execDetached(["mkdir", "-p", stateDir]);
@@ -203,10 +204,6 @@ Singleton {
                 "value": "scheme-vibrant",
                 "label": "Vibrant",
                 "description": I18n.tr("Lively palette with saturated accents.")
-            }), ({
-                "value": "scheme-dynamic-contrast",
-                "label": "Dynamic Contrast",
-                "description": I18n.tr("High-contrast palette for strong visual distinction.")
             }), ({
                 "value": "scheme-content",
                 "label": "Content",
@@ -478,24 +475,32 @@ Singleton {
 
         if (themeName === dynamic) {
             currentTheme = dynamic;
-            currentThemeCategory = dynamic;
+            if (currentThemeCategory !== "registry")
+                currentThemeCategory = dynamic;
         } else if (themeName === custom) {
             currentTheme = custom;
-            currentThemeCategory = custom;
+            if (currentThemeCategory !== "registry")
+                currentThemeCategory = custom;
             if (typeof SettingsData !== "undefined" && SettingsData.customThemeFile) {
                 loadCustomThemeFromFile(SettingsData.customThemeFile);
             }
+        } else if (themeName === "" && currentThemeCategory === "registry") {
+            // Registry category selected but no theme chosen yet
         } else {
             currentTheme = themeName;
-            if (StockThemes.isCatppuccinVariant(themeName)) {
-                currentThemeCategory = "catppuccin";
-            } else {
-                currentThemeCategory = "generic";
+            if (currentThemeCategory !== "registry") {
+                if (StockThemes.isCatppuccinVariant(themeName)) {
+                    currentThemeCategory = "catppuccin";
+                } else {
+                    currentThemeCategory = "generic";
+                }
             }
         }
         const isGreeterMode = (typeof SessionData !== "undefined" && SessionData.isGreeterMode);
-        if (savePrefs && typeof SettingsData !== "undefined" && !isGreeterMode)
+        if (savePrefs && typeof SettingsData !== "undefined" && !isGreeterMode) {
+            SettingsData.set("currentThemeCategory", currentThemeCategory);
             SettingsData.set("currentThemeName", currentTheme);
+        }
 
         if (!isGreeterMode) {
             generateSystemThemesFromCurrentTheme();
@@ -598,6 +603,7 @@ Singleton {
     }
 
     function loadCustomTheme(themeData) {
+        customThemeRawData = themeData;
         if (themeData.dark || themeData.light) {
             const colorMode = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "light" : "dark";
             const selectedTheme = themeData[colorMode] || themeData.dark || themeData.light;
@@ -643,11 +649,7 @@ Singleton {
         }
     }
 
-    property var widgetBaseHoverColor: {
-        const baseColor = widgetBaseBackgroundColor;
-        const factor = 1.2;
-        return isLightMode ? Qt.darker(baseColor, factor) : Qt.lighter(baseColor, factor);
-    }
+    property alias widgetBaseHoverColor: root.primaryPressed
 
     property color widgetIconColor: {
         if (typeof SettingsData === "undefined") {
@@ -815,17 +817,7 @@ Singleton {
         console.log("Theme: Starting matugen worker");
         workerRunning = true;
 
-        const args = [
-            "dms", "matugen", "queue",
-            "--state-dir", stateDir,
-            "--shell-dir", shellDir,
-            "--config-dir", configDir,
-            "--kind", desired.kind,
-            "--value", desired.value,
-            "--mode", desired.mode,
-            "--icon-theme", desired.iconTheme,
-            "--matugen-type", desired.matugenType,
-        ];
+        const args = ["dms", "matugen", "queue", "--state-dir", stateDir, "--shell-dir", shellDir, "--config-dir", configDir, "--kind", desired.kind, "--value", desired.value, "--mode", desired.mode, "--icon-theme", desired.iconTheme, "--matugen-type", desired.matugenType,];
 
         if (!desired.runUserTemplates) {
             args.push("--run-user-templates=false");
@@ -838,6 +830,51 @@ Singleton {
         }
         if (typeof SettingsData !== "undefined" && SettingsData.terminalsAlwaysDark) {
             args.push("--terminals-always-dark");
+        }
+
+        if (typeof SettingsData !== "undefined") {
+            const skipTemplates = [];
+            if (!SettingsData.runDmsMatugenTemplates) {
+                skipTemplates.push("gtk", "neovim", "niri", "qt5ct", "qt6ct", "firefox", "pywalfox", "vesktop", "equibop", "ghostty", "kitty", "foot", "alacritty", "wezterm", "dgop", "kcolorscheme", "vscode");
+            } else {
+                if (!SettingsData.matugenTemplateGtk)
+                    skipTemplates.push("gtk");
+                if (!SettingsData.matugenTemplateNiri)
+                    skipTemplates.push("niri");
+                if (!SettingsData.matugenTemplateQt5ct)
+                    skipTemplates.push("qt5ct");
+                if (!SettingsData.matugenTemplateQt6ct)
+                    skipTemplates.push("qt6ct");
+                if (!SettingsData.matugenTemplateFirefox)
+                    skipTemplates.push("firefox");
+                if (!SettingsData.matugenTemplatePywalfox)
+                    skipTemplates.push("pywalfox");
+                if (!SettingsData.matugenTemplateVesktop)
+                    skipTemplates.push("vesktop");
+                if (!SettingsData.matugenTemplateEquibop)
+                    skipTemplates.push("equibop");
+                if (!SettingsData.matugenTemplateGhostty)
+                    skipTemplates.push("ghostty");
+                if (!SettingsData.matugenTemplateKitty)
+                    skipTemplates.push("kitty");
+                if (!SettingsData.matugenTemplateFoot)
+                    skipTemplates.push("foot");
+                if (!SettingsData.matugenTemplateNeovim)
+                    skipTemplates.push("nvim");
+                if (!SettingsData.matugenTemplateAlacritty)
+                    skipTemplates.push("alacritty");
+                if (!SettingsData.matugenTemplateWezterm)
+                    skipTemplates.push("wezterm");
+                if (!SettingsData.matugenTemplateDgop)
+                    skipTemplates.push("dgop");
+                if (!SettingsData.matugenTemplateKcolorscheme)
+                    skipTemplates.push("kcolorscheme");
+                if (!SettingsData.matugenTemplateVscode)
+                    skipTemplates.push("vscode");
+            }
+            if (skipTemplates.length > 0) {
+                args.push("--skip-templates", skipTemplates.join(","));
+            }
         }
 
         systemThemeGenerator.command = args;
@@ -872,8 +909,13 @@ Singleton {
 
         let darkTheme, lightTheme;
         if (currentTheme === "custom") {
-            darkTheme = customThemeData;
-            lightTheme = customThemeData;
+            if (customThemeRawData && (customThemeRawData.dark || customThemeRawData.light)) {
+                darkTheme = customThemeRawData.dark || customThemeRawData.light;
+                lightTheme = customThemeRawData.light || customThemeRawData.dark;
+            } else {
+                darkTheme = customThemeData;
+                lightTheme = customThemeData;
+            }
         } else {
             darkTheme = StockThemes.getThemeByName(currentTheme, false);
             lightTheme = StockThemes.getThemeByName(currentTheme, true);
@@ -891,6 +933,7 @@ Singleton {
 
     function buildMatugenColorsFromTheme(darkTheme, lightTheme) {
         const colors = {};
+        const isLight = SessionData !== "undefined" && SessionData.isLightMode;
 
         function addColor(matugenKey, darkVal, lightVal) {
             if (!darkVal && !lightVal)
@@ -903,7 +946,7 @@ Singleton {
                     "color": String(lightVal || darkVal)
                 },
                 "default": {
-                    "color": String(darkVal || lightVal)
+                    "color": String((isLight && lightVal) ? lightVal : darkVal)
                 }
             };
         }
@@ -1014,16 +1057,11 @@ Singleton {
     }
 
     function blendAlpha(c, a) {
-        return Qt.rgba(c.r, c.g, c.b, c.a*a);
+        return Qt.rgba(c.r, c.g, c.b, c.a * a);
     }
 
     function blend(c1, c2, r) {
-        return Qt.rgba(
-            c1.r * (1-r) + c2.r * r,
-            c1.g * (1-r) + c2.g * r,
-            c1.b * (1-r) + c2.b * r,
-            c1.a * (1-r) + c2.a * r,
-        );
+        return Qt.rgba(c1.r * (1 - r) + c2.r * r, c1.g * (1 - r) + c2.g * r, c1.b * (1 - r) + c2.b * r, c1.a * (1 - r) + c2.a * r);
     }
 
     function getFillMode(modeName) {

@@ -29,18 +29,35 @@ type SettingsState struct {
 	ColorScheme uint32 `json:"colorScheme"`
 }
 
+type ScreensaverInhibitor struct {
+	Cookie    uint32 `json:"cookie"`
+	AppName   string `json:"appName"`
+	Reason    string `json:"reason"`
+	Peer      string `json:"peer"`
+	StartTime int64  `json:"startTime"`
+}
+
+type ScreensaverState struct {
+	Available  bool                   `json:"available"`
+	Inhibited  bool                   `json:"inhibited"`
+	Inhibitors []ScreensaverInhibitor `json:"inhibitors"`
+}
+
 type FreedeskState struct {
-	Accounts AccountsState `json:"accounts"`
-	Settings SettingsState `json:"settings"`
+	Accounts    AccountsState    `json:"accounts"`
+	Settings    SettingsState    `json:"settings"`
+	Screensaver ScreensaverState `json:"screensaver"`
 }
 
 type Manager struct {
-	state       *FreedeskState
-	stateMutex  sync.RWMutex
-	systemConn  *dbus.Conn
-	sessionConn *dbus.Conn
-	accountsObj dbus.BusObject
-	settingsObj dbus.BusObject
-	currentUID  uint64
-	subscribers syncmap.Map[string, chan FreedeskState]
+	state                    *FreedeskState
+	stateMutex               sync.RWMutex
+	systemConn               *dbus.Conn
+	sessionConn              *dbus.Conn
+	accountsObj              dbus.BusObject
+	settingsObj              dbus.BusObject
+	currentUID               uint64
+	subscribers              syncmap.Map[string, chan FreedeskState]
+	screensaverSubscribers   syncmap.Map[string, chan ScreensaverState]
+	screensaverCookieCounter uint32
 }

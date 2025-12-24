@@ -102,7 +102,11 @@ linters:
       - linters:
           - ineffassign
         path: internal/proto/
-      # binary.Write to bytes.Buffer can't fail
+      # binary.Write/Read to bytes.Buffer can't fail
       - linters:
           - errcheck
-        text: "Error return value of `binary\\.Write` is not checked"
+        text: "Error return value of `binary\\.(Write|Read)` is not checked"
+      # bytes.Reader.Read can't fail (reads from memory)
+      - linters:
+          - errcheck
+        text: "Error return value of `buf\\.Read` is not checked"

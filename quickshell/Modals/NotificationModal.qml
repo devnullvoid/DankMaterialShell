@@ -57,6 +57,14 @@ DankModal {
         }
     }
 
+    function clearAll() {
+        NotificationService.clearAllNotifications();
+    }
+
+    function dismissAllPopups () {
+        NotificationService.dismissAllPopups();
+    }
+
     modalWidth: 500
     modalHeight: 700
     backgroundColor: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
@@ -98,12 +106,31 @@ DankModal {
             return "NOTIFICATION_MODAL_TOGGLE_SUCCESS";
         }
 
+        function toggleDoNotDisturb(): string {
+            SessionData.setDoNotDisturb(!SessionData.doNotDisturb);
+
+            return "NOTIFICATION_MODAL_TOGGLE_DND_SUCCESS";
+        }
+
+        function clearAll(): string {
+            notificationModal.clearAll();
+            return "NOTIFICATION_MODAL_CLEAR_ALL_SUCCESS";
+        }
+
+        function dismissAllPopups(): string {
+            notificationModal.dismissAllPopups();
+            return "NOTIFICATION_MODAL_DISMISS_ALL_POPUPS_SUCCESS";
+        }
+
         target: "notifications"
     }
 
     content: Component {
         Item {
             id: notificationKeyHandler
+
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
 
             anchors.fill: parent
 

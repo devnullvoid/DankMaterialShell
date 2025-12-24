@@ -118,7 +118,7 @@ Rectangle {
                 buttonHeight: 28
                 textSize: Theme.fontSizeSmall
 
-                model: ["Ethernet", "WiFi"]
+                model: [I18n.tr("Ethernet"), I18n.tr("WiFi")]
                 currentIndex: currentPreferenceIndex
                 selectionMode: "single"
                 onSelectionChanged: (index, selected) => {
@@ -173,7 +173,7 @@ Rectangle {
 
             StyledText {
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: NetworkService.wifiEnabled ? "Disabling WiFi..." : "Enabling WiFi..."
+                text: NetworkService.wifiEnabled ? I18n.tr("Disabling WiFi...") : I18n.tr("Enabling WiFi...")
                 font.pixelSize: Theme.fontSizeMedium
                 color: Theme.surfaceText
                 horizontalAlignment: Text.AlignHCenter
@@ -303,7 +303,7 @@ Rectangle {
                             width: 200
 
                             StyledText {
-                                text: modelData.id || "Unknown Config"
+                                text: modelData.id || I18n.tr("Unknown Config")
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: modelData.isActive ? Theme.primary : Theme.surfaceText
                                 font.weight: modelData.isActive ? Font.Medium : Font.Normal
@@ -549,7 +549,7 @@ Rectangle {
                             width: 200
 
                             StyledText {
-                                text: modelData.ssid || "Unknown Network"
+                                text: modelData.ssid || I18n.tr("Unknown Network")
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: Theme.surfaceText
                                 font.weight: modelData.ssid === NetworkService.currentWifiSSID ? Font.Medium : Font.Normal
@@ -561,13 +561,13 @@ Rectangle {
                                 spacing: Theme.spacingXS
 
                                 StyledText {
-                                    text: modelData.ssid === NetworkService.currentWifiSSID ? "Connected •" : (modelData.secured ? "Secured •" : "Open •")
+                                    text: modelData.ssid === NetworkService.currentWifiSSID ? I18n.tr("Connected") + " •" : (modelData.secured ? I18n.tr("Secured") + " •" : I18n.tr("Open") + " •")
                                     font.pixelSize: Theme.fontSizeSmall
                                     color: Theme.surfaceVariantText
                                 }
 
                                 StyledText {
-                                    text: modelData.saved ? "Saved" : ""
+                                    text: modelData.saved ? I18n.tr("Saved") : ""
                                     font.pixelSize: Theme.fontSizeSmall
                                     color: Theme.primary
                                     visible: text.length > 0
@@ -635,7 +635,7 @@ Rectangle {
                             StyledText {
                                 text: {
                                     const isThisNetworkPinned = (SettingsData.wifiNetworkPins || {})["preferredWifi"] === modelData.ssid;
-                                    return isThisNetworkPinned ? "Pinned" : "Pin";
+                                    return isThisNetworkPinned ? I18n.tr("Pinned") : I18n.tr("Pin");
                                 }
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: {
@@ -714,7 +714,7 @@ Rectangle {
         }
 
         MenuItem {
-            text: networkContextMenu.currentConnected ? "Disconnect" : "Connect"
+            text: networkContextMenu.currentConnected ? I18n.tr("Disconnect") : I18n.tr("Connect")
             height: 32
 
             contentItem: StyledText {

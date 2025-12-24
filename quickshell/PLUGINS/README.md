@@ -80,7 +80,7 @@ The manifest file defines plugin metadata and configuration.
 - `description`: Short description of plugin functionality (displayed in UI)
 - `version`: Semantic version string (e.g., "1.0.0")
 - `author`: Plugin creator name or email
-- `type`: Plugin type - "widget", "daemon", or "launcher"
+- `type`: Plugin type - "widget", "daemon", "launcher", or "desktop"
 - `capabilities`: Array of plugin capabilities  (e.g., ["dankbar-widget"], ["control-center"], ["monitoring"])
 - `component`: Relative path to main QML component file
 
@@ -91,7 +91,7 @@ The manifest file defines plugin metadata and configuration.
 - `icon`: Material Design icon name (displayed in UI)
 - `settings`: Path to settings component (enables settings UI)
 - `requires_dms`: Minimum DMS version requirement (e.g., ">=0.1.18", ">0.1.0")
-- `requires`: Array of required system tools/dependencies (e.g., ["wl-copy", "curl"])
+- `requires`: Array of required system tools/dependencies (e.g., ["curl", "jq"])
 - `permissions`: Required DMS permissions (e.g., ["settings_read", "settings_write"])
 
 **Permissions:**
@@ -860,11 +860,11 @@ Or edit `$CONFIGPATH/quickshell/dms/config.json`:
 
 ## Clipboard Access
 
-Plugins that need to copy text to the clipboard **must** use the Wayland clipboard utility `wl-copy` through Quickshell's `execDetached` function.
+Plugins that need to copy text to the clipboard should use the built-in `dms cl copy` command through Quickshell's `execDetached` function.
 
 ### Correct Method
 
-Import Quickshell and use `execDetached` with `wl-copy`:
+Import Quickshell and use `execDetached` with `dms cl copy`:
 
 ```qml
 import QtQuick
@@ -872,19 +872,19 @@ import Quickshell
 
 Item {
     function copyToClipboard(text) {
-        Quickshell.execDetached(["sh", "-c", "echo -n '" + text + "' | wl-copy"])
+        Quickshell.execDetached(["dms", "cl", "copy", text])
     }
 }
 ```
 
 ### Example Usage
 
-From the ExampleEmojiPlugin (EmojiWidget.qml:136):
+From the ExampleEmojiPlugin (EmojiWidget.qml):
 
 ```qml
 MouseArea {
     onClicked: {
-        Quickshell.execDetached(["sh", "-c", "echo -n '" + modelData + "' | wl-copy"])
+        Quickshell.execDetached(["dms", "cl", "copy", modelData])
         ToastService.showInfo("Copied " + modelData + " to clipboard")
         popoutColumn.closePopout()
     }
@@ -895,13 +895,11 @@ MouseArea {
 
 1. **Do NOT** use `globalThis.clipboard` or similar JavaScript APIs - they don't exist in the QML runtime
 2. **Always** import `Quickshell` at the top of your QML file
-3. **Use** `echo -n` to prevent adding a trailing newline to the clipboard content
-4. The `-c` flag for `sh` is required to execute the pipe command properly
-5. Consider showing a toast notification to confirm the copy action to users
+3. Consider showing a toast notification to confirm the copy action to users
 
 ### Dependencies
 
-This method requires `wl-copy` from the `wl-clipboard` package, which is standard on Wayland systems.
+This method uses the built-in DMS clipboard functionality which has native Wayland support.
 
 ## Running External Commands
 
@@ -1452,6 +1450,191 @@ See `PLUGINS/LauncherExample/` for a complete working example demonstrating:
 - Settings integration
 - Proper error handling
 
+## Desktop Plugins
+
+Desktop plugins are widgets that appear directly on the desktop background layer. They can be dragged, resized, and positioned freely by the user.
+
+### Overview
+
+Desktop plugins enable you to:
+- Display widgets on the desktop background
+- Support drag-and-drop positioning
+- Support resize via corner handles
+- Persist position and size across sessions
+- Provide settings for customization
+
+### Plugin Type Configuration
+
+To create a desktop plugin, set the plugin type in `plugin.json`:
+
+```json
+{
+    "id": "myDesktopWidget",
+    "name": "My Desktop Widget",
+    "description": "A custom desktop widget",
+    "version": "1.0.0",
+    "author": "Your Name",
+    "type": "desktop",
+    "capabilities": ["desktop-widget"],
+    "component": "./MyWidget.qml",
+    "icon": "widgets",
+    "settings": "./MySettings.qml",
+    "permissions": ["settings_read", "settings_write"]
+}
+```
+
+### Desktop Widget Component Contract
+
+Create your widget component (`MyWidget.qml`) with the following interface:
+
+```qml
+import QtQuick
+import qs.Common
+
+Item {
+    id: root
+
+    // Injected properties (provided by DesktopPluginWrapper)
+    property var pluginService: null
+    property string pluginId: ""
+    property bool editMode: false
+    property real widgetWidth: 200
+    property real widgetHeight: 200
+
+    // Optional: Define minimum size constraints
+    property real minWidth: 100
+    property real minHeight: 100
+
+    // Your widget content
+    Rectangle {
+        anchors.fill: parent
+        radius: Theme.cornerRadius
+        color: Theme.surfaceContainer
+        opacity: 0.85
+
+        // Widget content here
+        Text {
+            anchors.centerIn: parent
+            text: "Hello Desktop!"
+            color: Theme.surfaceText
+        }
+    }
+}
+```
+
+### Injected Properties
+
+Desktop widgets receive these properties automatically:
+
+- `pluginService`: Reference to PluginService for data persistence
+- `pluginId`: The plugin's unique identifier
+- `editMode`: Boolean indicating if the user is in edit mode (dragging/resizing)
+- `widgetWidth`: Current width of the widget container
+- `widgetHeight`: Current height of the widget container
+
+### Optional Properties
+
+Define these properties on your widget to customize behavior:
+
+- `minWidth`: Minimum allowed width (default: 100)
+- `minHeight`: Minimum allowed height (default: 100)
+
+### Loading and Saving Data
+
+Use the injected `pluginService` to persist widget-specific data:
+
+```qml
+property string myValue: pluginService ? pluginService.loadPluginData(pluginId, "myValue", "default") : "default"
+
+Connections {
+    target: pluginService
+    function onPluginDataChanged(changedPluginId) {
+        if (changedPluginId !== pluginId) return;
+        root.myValue = pluginService.loadPluginData(pluginId, "myValue", "default");
+    }
+}
+
+function saveMyValue(value) {
+    if (pluginService) {
+        pluginService.savePluginData(pluginId, "myValue", value);
+    }
+}
+```
+
+### Position and Size Persistence
+
+Position (`desktopX`, `desktopY`) and size (`desktopWidth`, `desktopHeight`) are automatically persisted by the `DesktopPluginWrapper`. You don't need to handle this in your widget.
+
+### Edit Mode
+
+When `editMode` is true, the user is repositioning or resizing the widget. You can use this to:
+- Show visual indicators
+- Disable interactive elements
+- Display additional controls
+
+```qml
+Rectangle {
+    anchors.fill: parent
+    border.color: root.editMode ? Theme.primary : "transparent"
+    border.width: root.editMode ? 2 : 0
+
+    // Content that should be disabled during edit mode
+    MouseArea {
+        anchors.fill: parent
+        enabled: !root.editMode
+        onClicked: doSomething()
+    }
+}
+```
+
+### Settings Component
+
+Create a settings component using `PluginSettings`:
+
+```qml
+import QtQuick
+import qs.Common
+import qs.Widgets
+import qs.Modules.Plugins
+
+PluginSettings {
+    pluginId: "myDesktopWidget"
+
+    ToggleSetting {
+        settingKey: "showBorder"
+        label: "Show Border"
+        description: "Display a border around the widget"
+        defaultValue: true
+    }
+
+    SelectionSetting {
+        settingKey: "theme"
+        label: "Theme"
+        options: [
+            {label: "Light", value: "light"},
+            {label: "Dark", value: "dark"}
+        ]
+        defaultValue: "dark"
+    }
+}
+```
+
+### User Interaction
+
+Desktop widgets support:
+
+1. **Drag**: Click and drag anywhere on the widget (when in edit mode)
+2. **Resize**: Drag the bottom-right corner handle (when in edit mode)
+3. **Edit Mode Toggle**: Click the edit button in the bottom-right corner of the screen
+
+### Example Plugin
+
+See `PLUGINS/ExampleDesktopClock/` for a complete working example demonstrating:
+- Analog and digital clock styles
+- Settings integration
+- Responsive sizing
+- Edit mode handling
+
 ## Resources
 
 - **Plugin Schema**: `plugin-schema.json` - JSON Schema for validation
@@ -1460,10 +1643,12 @@ See `PLUGINS/LauncherExample/` for a complete working example demonstrating:
   - [WorldClock](https://github.com/rochacbruno/WorldClock)
   - [LauncherExample](./LauncherExample/)
   - [Calculator](https://github.com/rochacbruno/DankCalculator)
+  - [Desktop Clock](./ExampleDesktopClock/)
 - **PluginService**: `Services/PluginService.qml`
 - **Settings UI**: `Modules/Settings/PluginsTab.qml`
 - **DankBar Integration**: `Modules/DankBar/DankBar.qml`
 - **Launcher Integration**: `Modules/AppDrawer/AppLauncher.qml`
+- **Desktop Widget Integration**: `Modules/DesktopWidgetLayer.qml`
 - **Theme Reference**: `Common/Theme.qml`
 - **Widget Library**: `Widgets/`
 
