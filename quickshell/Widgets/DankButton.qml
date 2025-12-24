@@ -16,7 +16,7 @@ Rectangle {
     property int buttonHeight: 40
     property int horizontalPadding: Theme.spacingL
 
-    signal clicked()
+    signal clicked
 
     width: Math.max(contentRow.implicitWidth + horizontalPadding * 2, 64)
     height: buttonHeight
@@ -29,9 +29,11 @@ Rectangle {
         anchors.fill: parent
         radius: parent.radius
         color: {
-            if (pressed) return Theme.primaryPressed
-            if (hovered) return Theme.primaryHover
-            return "transparent"
+            if (pressed)
+                return Theme.primaryPressed;
+            if (hovered)
+                return Theme.primaryHover;
+            return "transparent";
         }
 
         Behavior on color {

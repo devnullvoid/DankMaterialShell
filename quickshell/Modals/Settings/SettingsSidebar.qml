@@ -9,6 +9,9 @@ import qs.Widgets
 Rectangle {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property int currentIndex: 0
     property var parentModal: null
     property var expandedCategories: ({})
@@ -114,6 +117,12 @@ Rectangle {
                     "text": I18n.tr("System Updater"),
                     "icon": "refresh",
                     "tabIndex": 20
+                },
+                {
+                    "id": "desktop_widgets",
+                    "text": I18n.tr("Desktop Widgets"),
+                    "icon": "widgets",
+                    "tabIndex": 27
                 }
             ]
         },
@@ -145,6 +154,32 @@ Rectangle {
             "shortcutsOnly": true
         },
         {
+            "id": "displays",
+            "text": I18n.tr("Displays"),
+            "icon": "monitor",
+            "collapsedByDefault": true,
+            "children": [
+                {
+                    "id": "display_config",
+                    "text": I18n.tr("Configuration") + " (Beta)",
+                    "icon": "display_settings",
+                    "tabIndex": 24
+                },
+                {
+                    "id": "display_gamma",
+                    "text": I18n.tr("Gamma Control"),
+                    "icon": "brightness_6",
+                    "tabIndex": 25
+                },
+                {
+                    "id": "display_widgets",
+                    "text": I18n.tr("Widgets", "settings_displays"),
+                    "icon": "widgets",
+                    "tabIndex": 26
+                }
+            ]
+        },
+        {
             "id": "network",
             "text": I18n.tr("Network"),
             "icon": "wifi",
@@ -157,12 +192,6 @@ Rectangle {
             "icon": "computer",
             "collapsedByDefault": true,
             "children": [
-                {
-                    "id": "displays",
-                    "text": I18n.tr("Displays"),
-                    "icon": "monitor",
-                    "tabIndex": 6
-                },
                 {
                     "id": "printers",
                     "text": I18n.tr("Printers"),

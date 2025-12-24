@@ -7,13 +7,14 @@ on:
         description: "Package to update (dms, dms-git, or all)"
         required: false
         default: "all"
+      tag_version:
+        description: "Specific tag version for dms stable (e.g., v1.0.2). Leave empty to auto-detect latest release."
+        required: false
+        default: ""
       rebuild_release:
         description: "Release number for rebuilds (e.g., 2, 3, 4 to increment spec Release)"
         required: false
         default: ""
-  push:
-    tags:
-      - "v*"
   schedule:
     - cron: "0 */3 * * *" # Every 3 hours for dms-git builds
 
@@ -33,78 +34,114 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install OSC
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y osc
-
-          mkdir -p ~/.config/osc
-          cat > ~/.config/osc/oscrc << EOF
-          [general]
-          apiurl = https://api.opensuse.org
-
-          [https://api.opensuse.org]
-          user = ${{ secrets.OBS_USERNAME }}
-          pass = ${{ secrets.OBS_PASSWORD }}
-          EOF
-          chmod 600 ~/.config/osc/oscrc
-
       - name: Check for updates
         id: check
+        env:
+          OBS_USERNAME: ${{ secrets.OBS_USERNAME }}
+          OBS_PASSWORD: ${{ secrets.OBS_PASSWORD }}
         run: |
+          # Helper function to check dms-git commit
+          check_dms_git() {
+            local CURRENT_COMMIT=$(git rev-parse --short=8 HEAD)
+            local OBS_SPEC=$(curl -s -u "$OBS_USERNAME:$OBS_PASSWORD" "https://api.opensuse.org/source/home:AvengeMedia:dms-git/dms-git/dms-git.spec" 2>/dev/null || echo "")
+            local OBS_COMMIT=$(echo "$OBS_SPEC" | grep "^Version:" | grep -oP '\.[a-f0-9]{8}' | tr -d '.' || echo "")
+
+            if [[ -n "$OBS_COMMIT" && "$CURRENT_COMMIT" == "$OBS_COMMIT" ]]; then
+              echo "📋 dms-git: Commit $CURRENT_COMMIT already exists, skipping"
+              return 1  # No update needed
+            else
+              echo "📋 dms-git: New commit $CURRENT_COMMIT (OBS has ${OBS_COMMIT:-none})"
+              return 0  # Update needed
+            fi
+          }
+
+          # Helper function to check dms stable tag
+          check_dms_stable() {
+            local LATEST_TAG=$(curl -s https://api.github.com/repos/AvengeMedia/DankMaterialShell/releases/latest | grep '"tag_name"' | sed 's/.*"tag_name": "v\?\([^"]*\)".*/\1/' || echo "")
+            local OBS_SPEC=$(curl -s -u "$OBS_USERNAME:$OBS_PASSWORD" "https://api.opensuse.org/source/home:AvengeMedia:dms/dms/dms.spec" 2>/dev/null || echo "")
+            local OBS_VERSION=$(echo "$OBS_SPEC" | grep "^Version:" | awk '{print $2}' | xargs || echo "")
+
+            if [[ -n "$LATEST_TAG" && "$LATEST_TAG" == "$OBS_VERSION" ]]; then
+              echo "📋 dms: Tag $LATEST_TAG already exists, skipping"
+              return 1  # No update needed
+            else
+              echo "📋 dms: New tag ${LATEST_TAG:-unknown} (OBS has ${OBS_VERSION:-none})"
+              return 0  # Update needed
+            fi
+          }
+
+          # Main logic
+          REBUILD="${{ github.event.inputs.rebuild_release }}"
+
           if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" =~ ^refs/tags/ ]]; then
+            # Tag push - always update stable package
             echo "packages=dms" >> $GITHUB_OUTPUT
             VERSION="${GITHUB_REF#refs/tags/}"
             echo "version=$VERSION" >> $GITHUB_OUTPUT
             echo "has_updates=true" >> $GITHUB_OUTPUT
             echo "Triggered by tag: $VERSION (always update)"
+
           elif [[ "${{ github.event_name }}" == "schedule" ]]; then
+            # Scheduled run - check dms-git only
             echo "packages=dms-git" >> $GITHUB_OUTPUT
-            echo "Checking if dms-git source has changed..."
+            if check_dms_git; then
+              echo "has_updates=true" >> $GITHUB_OUTPUT
+            else
+              echo "has_updates=false" >> $GITHUB_OUTPUT
+            fi
 
-            # Get current commit hash (8 chars to match spec format)
-            CURRENT_COMMIT=$(git rev-parse --short=8 HEAD)
+          elif [[ -n "${{ github.event.inputs.package }}" ]]; then
+            # Manual workflow trigger
+            PKG="${{ github.event.inputs.package }}"
 
-            # Check OBS for last uploaded commit
-            OBS_BASE="$HOME/.cache/osc-checkouts"
-            mkdir -p "$OBS_BASE"
-            OBS_PROJECT="home:AvengeMedia:dms-git"
+            if [[ -n "$REBUILD" ]]; then
+              # Rebuild requested - always proceed
+              echo "packages=$PKG" >> $GITHUB_OUTPUT
+              echo "has_updates=true" >> $GITHUB_OUTPUT
+              echo "🔄 Manual rebuild requested: $PKG (db$REBUILD)"
 
-            if [[ -d "$OBS_BASE/$OBS_PROJECT/dms-git" ]]; then
-              cd "$OBS_BASE/$OBS_PROJECT/dms-git"
-              osc up -q 2>/dev/null || true
+            elif [[ "$PKG" == "all" ]]; then
+              # Check each package and build list of those needing updates
+              PACKAGES_TO_UPDATE=()
+              check_dms_git && PACKAGES_TO_UPDATE+=("dms-git")
+              check_dms_stable && PACKAGES_TO_UPDATE+=("dms")
 
-              # Extract commit hash from spec Version line & format like; 0.6.2+git2264.a679be68
-              if [[ -f "dms-git.spec" ]]; then
-                OBS_COMMIT=$(grep "^Version:" "dms-git.spec" | grep -oP '\.[a-f0-9]{8}' | tr -d '.' || echo "")
-
-                if [[ -n "$OBS_COMMIT" ]]; then
-                  if [[ "$CURRENT_COMMIT" == "$OBS_COMMIT" ]]; then
-                    echo "has_updates=false" >> $GITHUB_OUTPUT
-                    echo "📋 Commit $CURRENT_COMMIT already uploaded to OBS, skipping"
-                  else
-                    echo "has_updates=true" >> $GITHUB_OUTPUT
-                    echo "📋 New commit detected: $CURRENT_COMMIT (OBS has $OBS_COMMIT)"
-                  fi
-                else
-                  echo "has_updates=true" >> $GITHUB_OUTPUT
-                  echo "📋 Could not extract OBS commit, proceeding with update"
-                fi
-              else
+              if [[ ${#PACKAGES_TO_UPDATE[@]} -gt 0 ]]; then
+                echo "packages=${PACKAGES_TO_UPDATE[*]}" >> $GITHUB_OUTPUT
                 echo "has_updates=true" >> $GITHUB_OUTPUT
-                echo "📋 No spec file in OBS, proceeding with update"
+                echo "✓ Packages to update: ${PACKAGES_TO_UPDATE[*]}"
+              else
+                echo "packages=" >> $GITHUB_OUTPUT
+                echo "has_updates=false" >> $GITHUB_OUTPUT
+                echo "✓ All packages up to date"
               fi
 
-              cd "${{ github.workspace }}"
+            elif [[ "$PKG" == "dms-git" ]]; then
+              if check_dms_git; then
+                echo "packages=$PKG" >> $GITHUB_OUTPUT
+                echo "has_updates=true" >> $GITHUB_OUTPUT
+              else
+                echo "packages=" >> $GITHUB_OUTPUT
+                echo "has_updates=false" >> $GITHUB_OUTPUT
+              fi
+
+            elif [[ "$PKG" == "dms" ]]; then
+              if check_dms_stable; then
+                echo "packages=$PKG" >> $GITHUB_OUTPUT
+                echo "has_updates=true" >> $GITHUB_OUTPUT
+              else
+                echo "packages=" >> $GITHUB_OUTPUT
+                echo "has_updates=false" >> $GITHUB_OUTPUT
+              fi
+
             else
+              # Unknown package - proceed anyway
+              echo "packages=$PKG" >> $GITHUB_OUTPUT
               echo "has_updates=true" >> $GITHUB_OUTPUT
-              echo "📋 First upload to OBS, update needed"
+              echo "Manual trigger: $PKG"
             fi
-          elif [[ -n "${{ github.event.inputs.package }}" ]]; then
-            echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
-            echo "has_updates=true" >> $GITHUB_OUTPUT
-            echo "Manual trigger: ${{ github.event.inputs.package }}"
           else
+            # Fallback - proceed
             echo "packages=all" >> $GITHUB_OUTPUT
             echo "has_updates=true" >> $GITHUB_OUTPUT
           fi
@@ -113,136 +150,136 @@ jobs:
     name: Upload to OBS
     needs: check-updates
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      needs.check-updates.outputs.has_updates == 'true'
+    if: needs.check-updates.outputs.has_updates == 'true'
 
     steps:
-      - name: Generate GitHub App Token
-        id: generate_token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.APP_ID }}
-          private-key: ${{ secrets.APP_PRIVATE_KEY }}
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ steps.generate_token.outputs.token }}
-
-      - name: Check if last commit was automated
-        id: check-loop
-        run: |
-          LAST_COMMIT_MSG=$(git log -1 --pretty=%B | head -1)
-          if [[ "$LAST_COMMIT_MSG" == "ci: Auto-update PPA packages"* ]] || [[ "$LAST_COMMIT_MSG" == "ci: Auto-update OBS packages"* ]]; then
-            echo "⏭️ Last commit was automated ($LAST_COMMIT_MSG), skipping to prevent infinite loop"
-            echo "skip=true" >> $GITHUB_OUTPUT
-          else
-            echo "✅ Last commit was not automated, proceeding"
-            echo "skip=false" >> $GITHUB_OUTPUT
-          fi
 
       - name: Determine packages to update
-        if: steps.check-loop.outputs.skip != 'true'
         id: packages
         run: |
           if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" =~ ^refs/tags/ ]]; then
+            # Tag push event - use the pushed tag
             echo "packages=dms" >> $GITHUB_OUTPUT
             VERSION="${GITHUB_REF#refs/tags/}"
             echo "version=$VERSION" >> $GITHUB_OUTPUT
             echo "Triggered by tag: $VERSION"
           elif [[ "${{ github.event_name }}" == "schedule" ]]; then
+            # Scheduled run - dms-git only
             echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
             echo "Triggered by schedule: updating git package"
           elif [[ -n "${{ github.event.inputs.package }}" ]]; then
-            echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
-            echo "Manual trigger: ${{ github.event.inputs.package }}"
+            # Manual workflow dispatch
+
+            # Determine version for dms stable
+            if [[ "${{ github.event.inputs.package }}" == "dms" ]]; then
+              # For explicit dms selection, require tag_version
+              if [[ -n "${{ github.event.inputs.tag_version }}" ]]; then
+                VERSION="${{ github.event.inputs.tag_version }}"
+                echo "version=$VERSION" >> $GITHUB_OUTPUT
+                echo "Using specified tag: $VERSION"
+              else
+                echo "ERROR: tag_version is required when package=dms"
+                echo "Please specify a tag version (e.g., v1.0.2) or use package=all for auto-detection"
+                exit 1
+              fi
+            elif [[ "${{ github.event.inputs.package }}" == "all" ]]; then
+              # For "all", auto-detect if tag_version not specified
+              if [[ -n "${{ github.event.inputs.tag_version }}" ]]; then
+                VERSION="${{ github.event.inputs.tag_version }}"
+                echo "version=$VERSION" >> $GITHUB_OUTPUT
+                echo "Using specified tag: $VERSION"
+              else
+                # Auto-detect latest release for "all"
+                LATEST_TAG=$(curl -s https://api.github.com/repos/AvengeMedia/DankMaterialShell/releases/latest | grep '"tag_name"' | sed 's/.*"tag_name": "\([^"]*\)".*/\1/' || echo "")
+                if [[ -n "$LATEST_TAG" ]]; then
+                  echo "version=$LATEST_TAG" >> $GITHUB_OUTPUT
+                  echo "Auto-detected latest release: $LATEST_TAG"
+                else
+                  echo "ERROR: Could not auto-detect latest release"
+                  exit 1
+                fi
+              fi
+            fi
+
+            # Use filtered packages from check-updates when package="all" and no rebuild/tag specified
+            if [[ "${{ github.event.inputs.package }}" == "all" ]] && [[ -z "${{ github.event.inputs.rebuild_release }}" ]] && [[ -z "${{ github.event.inputs.tag_version }}" ]]; then
+              echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
+              echo "Manual trigger: all (filtered to: ${{ needs.check-updates.outputs.packages }})"
+            else
+              echo "packages=${{ github.event.inputs.package }}" >> $GITHUB_OUTPUT
+              echo "Manual trigger: ${{ github.event.inputs.package }}"
+            fi
           else
             echo "packages=${{ needs.check-updates.outputs.packages }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Update dms-git spec version
-        if: steps.check-loop.outputs.skip != 'true' && (contains(steps.packages.outputs.packages, 'dms-git') || steps.packages.outputs.packages == 'all')
+        if: contains(steps.packages.outputs.packages, 'dms-git') || steps.packages.outputs.packages == 'all'
         run: |
-          # Get commit info for dms-git versioning
           COMMIT_HASH=$(git rev-parse --short=8 HEAD)
           COMMIT_COUNT=$(git rev-list --count HEAD)
-          BASE_VERSION=$(grep -oP '^Version:\s+\K[0-9.]+' distro/opensuse/dms.spec | head -1 || echo "0.6.2")
-
+          BASE_VERSION=$(grep -oP '^Version:\s+\K[0-9.]+' distro/opensuse/dms.spec | head -1 || echo "1.0.2")
           NEW_VERSION="${BASE_VERSION}+git${COMMIT_COUNT}.${COMMIT_HASH}"
           echo "📦 Updating dms-git.spec to version: $NEW_VERSION"
 
-          # Update version in spec
           sed -i "s/^Version:.*/Version:        $NEW_VERSION/" distro/opensuse/dms-git.spec
 
-          # Add changelog entry
+          # Single changelog entry (git snapshots don't need history)
           DATE_STR=$(date "+%a %b %d %Y")
-          CHANGELOG_ENTRY="* $DATE_STR Avenge Media <AvengeMedia.US@gmail.com> - ${NEW_VERSION}-1\n- Git snapshot (commit $COMMIT_COUNT: $COMMIT_HASH)"
-          sed -i "/%changelog/a\\$CHANGELOG_ENTRY" distro/opensuse/dms-git.spec
+          LOCAL_SPEC_HEAD=$(sed -n '1,/%changelog/{ /%changelog/d; p }' distro/opensuse/dms-git.spec)
+          {
+            echo "$LOCAL_SPEC_HEAD"
+            echo "%changelog"
+            echo "* $DATE_STR Avenge Media <AvengeMedia.US@gmail.com> - ${NEW_VERSION}-1"
+            echo "- Git snapshot (commit $COMMIT_COUNT: $COMMIT_HASH)"
+          } > distro/opensuse/dms-git.spec
 
       - name: Update Debian dms-git changelog version
-        if: steps.check-loop.outputs.skip != 'true' && (contains(steps.packages.outputs.packages, 'dms-git') || steps.packages.outputs.packages == 'all')
+        if: contains(steps.packages.outputs.packages, 'dms-git') || steps.packages.outputs.packages == 'all'
         run: |
-          # Get commit info for dms-git versioning
           COMMIT_HASH=$(git rev-parse --short=8 HEAD)
           COMMIT_COUNT=$(git rev-list --count HEAD)
-          BASE_VERSION=$(grep -oP '^Version:\s+\K[0-9.]+' distro/opensuse/dms.spec | head -1 || echo "0.6.2")
-
-          # Debian version format: 0.6.2+git2256.9162e314
+          BASE_VERSION=$(grep -oP '^Version:\s+\K[0-9.]+' distro/opensuse/dms.spec | head -1 || echo "1.0.2")
           NEW_VERSION="${BASE_VERSION}+git${COMMIT_COUNT}.${COMMIT_HASH}"
           echo "📦 Updating Debian dms-git changelog to version: $NEW_VERSION"
 
+          # Single changelog entry (git snapshots don't need history)
           CHANGELOG_DATE=$(date -R)
-
-          CHANGELOG_FILE="distro/debian/dms-git/debian/changelog"
-
-          # Get current version from changelog
-          CURRENT_VERSION=$(head -1 "$CHANGELOG_FILE" | sed 's/.*(\([^)]*\)).*/\1/')
-
-          echo "Current Debian version: $CURRENT_VERSION"
-          echo "New version: $NEW_VERSION"
-
-          # Only update if version changed
-          if [ "$CURRENT_VERSION" != "$NEW_VERSION" ]; then
-            # Create new changelog entry at top
-            TEMP_CHANGELOG=$(mktemp)
-
-            cat > "$TEMP_CHANGELOG" << EOF
-          dms-git ($NEW_VERSION) nightly; urgency=medium
-
-            * Git snapshot (commit $COMMIT_COUNT: $COMMIT_HASH)
-
-           -- Avenge Media <AvengeMedia.US@gmail.com>  $CHANGELOG_DATE
-
-          EOF
-
-            # Prepend to existing changelog
-            cat "$CHANGELOG_FILE" >> "$TEMP_CHANGELOG"
-            mv "$TEMP_CHANGELOG" "$CHANGELOG_FILE"
-
-            echo "✓ Updated Debian changelog: $CURRENT_VERSION → $NEW_VERSION"
-          else
-            echo "✓ Debian changelog already at version $NEW_VERSION"
-          fi
+          {
+            echo "dms-git (${NEW_VERSION}db1) nightly; urgency=medium"
+            echo ""
+            echo "  * Git snapshot (commit $COMMIT_COUNT: $COMMIT_HASH)"
+            echo ""
+            echo " -- Avenge Media <AvengeMedia.US@gmail.com>  $CHANGELOG_DATE"
+          } > "distro/debian/dms-git/debian/changelog"
 
       - name: Update dms stable version
-        if: steps.check-loop.outputs.skip != 'true' && steps.packages.outputs.version != ''
+        if: steps.packages.outputs.version != ''
         run: |
           VERSION="${{ steps.packages.outputs.version }}"
           VERSION_NO_V="${VERSION#v}"
-          echo "Updating packaging to version $VERSION_NO_V"
+          echo "==> Updating packaging files to version: $VERSION_NO_V"
 
-          # Update openSUSE dms spec (stable only)
+          # Update spec file
           sed -i "s/^Version:.*/Version:        $VERSION_NO_V/" distro/opensuse/dms.spec
 
-          # Update openSUSE spec changelog
+          # Verify the update
+          UPDATED_VERSION=$(grep -oP '^Version:\s+\K[0-9.]+' distro/opensuse/dms.spec | head -1)
+          echo "✓ Spec file now shows Version: $UPDATED_VERSION"
+
+          # Single changelog entry (full history on OBS website)
           DATE_STR=$(date "+%a %b %d %Y")
-          CHANGELOG_ENTRY="* $DATE_STR AvengeMedia <maintainer@avengemedia.com> - ${VERSION_NO_V}-1\\n- Update to stable $VERSION release\\n- Bug fixes and improvements"
-          sed -i "/%changelog/a\\$CHANGELOG_ENTRY\\n" distro/opensuse/dms.spec
+          LOCAL_SPEC_HEAD=$(sed -n '1,/%changelog/{ /%changelog/d; p }' distro/opensuse/dms.spec)
+          {
+            echo "$LOCAL_SPEC_HEAD"
+            echo "%changelog"
+            echo "* $DATE_STR AvengeMedia <maintainer@avengemedia.com> - ${VERSION_NO_V}-1"
+            echo "- Update to stable $VERSION release"
+          } > distro/opensuse/dms.spec
 
           # Update Debian _service files (both tar_scm and download_url formats)
           for service in distro/debian/*/_service; do
@@ -256,35 +293,25 @@ jobs:
             fi
           done
 
-          # Update Debian changelog for dms stable
+          # Update Debian changelog for dms stable (single entry, history on OBS website)
           if [[ -f "distro/debian/dms/debian/changelog" ]]; then
             CHANGELOG_DATE=$(date -R)
-            TEMP_CHANGELOG=$(mktemp)
-
-            cat > "$TEMP_CHANGELOG" << EOF
-          dms ($VERSION_NO_V) stable; urgency=medium
-
-            * Update to $VERSION stable release
-            * Bug fixes and improvements
-
-           -- Avenge Media <AvengeMedia.US@gmail.com>  $CHANGELOG_DATE
-
-          EOF
-
-            cat "distro/debian/dms/debian/changelog" >> "$TEMP_CHANGELOG"
-            mv "$TEMP_CHANGELOG" "distro/debian/dms/debian/changelog"
-
-            echo "✓ Updated Debian changelog to $VERSION_NO_V"
+            {
+              echo "dms (${VERSION_NO_V}db1) stable; urgency=medium"
+              echo ""
+              echo "  * Update to $VERSION stable release"
+              echo ""
+              echo " -- Avenge Media <AvengeMedia.US@gmail.com>  $CHANGELOG_DATE"
+            } > "distro/debian/dms/debian/changelog"
+            echo "✓ Updated Debian changelog to ${VERSION_NO_V}db1"
           fi
 
       - name: Install Go
-        if: steps.check-loop.outputs.skip != 'true'
         uses: actions/setup-go@v5
         with:
           go-version: "1.24"
 
       - name: Install OSC
-        if: steps.check-loop.outputs.skip != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y osc
@@ -301,63 +328,79 @@ jobs:
           chmod 600 ~/.config/osc/oscrc
 
       - name: Upload to OBS
-        if: steps.check-loop.outputs.skip != 'true'
         env:
-          FORCE_REBUILD: ${{ github.event_name == 'workflow_dispatch' && 'true' || '' }}
           REBUILD_RELEASE: ${{ github.event.inputs.rebuild_release }}
+          TAG_VERSION: ${{ steps.packages.outputs.version }}
         run: |
           PACKAGES="${{ steps.packages.outputs.packages }}"
-          MESSAGE="Automated update from GitHub Actions"
 
+          if [[ -z "$PACKAGES" ]]; then
+            echo "✓ No packages need uploading. All up to date!"
+            exit 0
+          fi
+
+          MESSAGE="Automated update from GitHub Actions"
           if [[ -n "${{ steps.packages.outputs.version }}" ]]; then
             MESSAGE="Update to ${{ steps.packages.outputs.version }}"
+            echo "==> Version being uploaded: ${{ steps.packages.outputs.version }}"
           fi
 
-          if [[ "$PACKAGES" == "all" ]]; then
-            bash distro/scripts/obs-upload.sh dms "$MESSAGE"
-            bash distro/scripts/obs-upload.sh dms-git "Automated git update"
-          else
-            bash distro/scripts/obs-upload.sh "$PACKAGES" "$MESSAGE"
-          fi
+          # PACKAGES can be space-separated list (e.g., "dms-git dms" from "all" check)
+          # Loop through each package and upload
+          for PKG in $PACKAGES; do
+            echo ""
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "Uploading $PKG to OBS..."
+            if [[ -n "$REBUILD_RELEASE" ]]; then
+              echo "🔄 Using rebuild release number: db$REBUILD_RELEASE"
+            fi
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 
-      - name: Get changed packages
-        if: steps.check-loop.outputs.skip != 'true'
-        id: changed-packages
-        run: |
-          # Check if there are any changes to commit
-          if git diff --exit-code distro/debian/ distro/opensuse/ >/dev/null 2>&1; then
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-            echo "📋 No changelog or spec changes to commit"
-          else
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-            # Get list of changed packages for commit message
-            CHANGED_DEB=$(git diff --name-only distro/debian/ 2>/dev/null | grep 'debian/changelog' | xargs dirname 2>/dev/null | xargs dirname 2>/dev/null | xargs basename 2>/dev/null | tr '\n' ', ' | sed 's/, $//' || echo "")
-            CHANGED_SUSE=$(git diff --name-only distro/opensuse/ 2>/dev/null | grep '\.spec$' | sed 's|distro/opensuse/||' | sed 's/\.spec$//' | tr '\n' ', ' | sed 's/, $//' || echo "")
-
-            PKGS=$(echo "$CHANGED_DEB,$CHANGED_SUSE" | tr ',' '\n' | grep -v '^$' | sort -u | tr '\n' ',' | sed 's/,$//')
-            echo "packages=$PKGS" >> $GITHUB_OUTPUT
-            echo "📋 Changed packages: $PKGS"
-          fi
-
-      - name: Commit packaging changes
-        if: steps.check-loop.outputs.skip != 'true' && steps.changed-packages.outputs.has_changes == 'true'
-        run: |
-          git config user.name "dms-ci[bot]"
-          git config user.email "dms-ci[bot]@users.noreply.github.com"
-          git add distro/debian/*/debian/changelog distro/opensuse/*.spec
-          git commit -m "ci: Auto-update OBS packages [${{ steps.changed-packages.outputs.packages }}]" -m "🤖 Automated by GitHub Actions"
-          git pull --rebase origin master
-          git push
+            if [[ "$PKG" == "dms-git" ]]; then
+              bash distro/scripts/obs-upload.sh dms-git "Automated git update"
+            else
+              bash distro/scripts/obs-upload.sh "$PKG" "$MESSAGE"
+            fi
+          done
 
       - name: Summary
+        if: always()
         run: |
-          echo "### OBS Package Update Complete" >> $GITHUB_STEP_SUMMARY
+          echo "### OBS Package Upload Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Packages**: ${{ steps.packages.outputs.packages }}" >> $GITHUB_STEP_SUMMARY
-          if [[ -n "${{ steps.packages.outputs.version }}" ]]; then
-            echo "- **Version**: ${{ steps.packages.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+
+          PACKAGES="${{ steps.packages.outputs.packages }}"
+
+          if [[ -z "$PACKAGES" ]]; then
+            echo "**Status:** ✅ All packages up to date (no uploads needed)" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "All packages are current. Run completed successfully." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Packages Uploaded:**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            for PKG in $PACKAGES; do
+              case "$PKG" in
+                dms)
+                  echo "- ✅ **dms** → [View builds](https://build.opensuse.org/package/show/home:AvengeMedia:dms/dms)" >> $GITHUB_STEP_SUMMARY
+                  ;;
+                dms-git)
+                  echo "- ✅ **dms-git** → [View builds](https://build.opensuse.org/package/show/home:AvengeMedia:dms-git/dms-git)" >> $GITHUB_STEP_SUMMARY
+                  ;;
+              esac
+            done
+
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            if [[ -n "${{ github.event.inputs.rebuild_release }}" ]]; then
+              echo "**Rebuild Number:** db${{ github.event.inputs.rebuild_release }}" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            if [[ -n "${{ steps.packages.outputs.version }}" ]]; then
+              echo "**Version:** ${{ steps.packages.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            echo "Monitor build progress on [OBS project page](https://build.opensuse.org/project/show/home:AvengeMedia)." >> $GITHUB_STEP_SUMMARY
           fi
-          if [[ "${{ needs.check-updates.outputs.has_updates }}" == "false" ]]; then
-            echo "- **Status**: Skipped (no changes detected)" >> $GITHUB_STEP_SUMMARY
-          fi
-          echo "- **Project**: https://build.opensuse.org/project/show/home:AvengeMedia" >> $GITHUB_STEP_SUMMARY

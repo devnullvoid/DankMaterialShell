@@ -5,6 +5,9 @@ import qs.Modules.Settings
 FocusScope {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property int currentIndex: 0
     property var parentModal: null
 
@@ -32,9 +35,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -48,9 +50,8 @@ FocusScope {
             sourceComponent: TimeWeatherTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -66,9 +67,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -84,9 +84,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -100,9 +99,8 @@ FocusScope {
             sourceComponent: WorkspacesTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -118,25 +116,53 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
         Loader {
-            id: displaysLoader
+            id: displayConfigLoader
             anchors.fill: parent
-            active: root.currentIndex === 6
+            active: root.currentIndex === 24
             visible: active
             focus: active
 
-            sourceComponent: DisplaysTab {}
+            sourceComponent: DisplayConfigTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
+            }
+        }
+
+        Loader {
+            id: gammaControlLoader
+            anchors.fill: parent
+            active: root.currentIndex === 25
+            visible: active
+            focus: active
+
+            sourceComponent: GammaControlTab {}
+
+            onActiveChanged: {
+                if (active && item)
+                    Qt.callLater(() => item.forceActiveFocus());
+            }
+        }
+
+        Loader {
+            id: displayWidgetsLoader
+            anchors.fill: parent
+            active: root.currentIndex === 26
+            visible: active
+            focus: active
+
+            sourceComponent: DisplayWidgetsTab {}
+
+            onActiveChanged: {
+                if (active && item)
+                    Qt.callLater(() => item.forceActiveFocus());
             }
         }
 
@@ -150,9 +176,8 @@ FocusScope {
             sourceComponent: NetworkTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -166,9 +191,8 @@ FocusScope {
             sourceComponent: PrinterTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -182,9 +206,8 @@ FocusScope {
             sourceComponent: LauncherTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -198,9 +221,8 @@ FocusScope {
             sourceComponent: ThemeColorsTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -214,9 +236,8 @@ FocusScope {
             sourceComponent: LockScreenTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -232,9 +253,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -248,9 +268,8 @@ FocusScope {
             sourceComponent: AboutTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -264,9 +283,8 @@ FocusScope {
             sourceComponent: TypographyMotionTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -280,9 +298,8 @@ FocusScope {
             sourceComponent: SoundsTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -296,9 +313,8 @@ FocusScope {
             sourceComponent: MediaPlayerTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -312,9 +328,8 @@ FocusScope {
             sourceComponent: NotificationsTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -328,9 +343,8 @@ FocusScope {
             sourceComponent: OSDTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -344,9 +358,8 @@ FocusScope {
             sourceComponent: RunningAppsTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -360,9 +373,8 @@ FocusScope {
             sourceComponent: SystemUpdaterTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -376,9 +388,8 @@ FocusScope {
             sourceComponent: PowerSleepTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -394,9 +405,8 @@ FocusScope {
             }
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
             }
         }
 
@@ -410,9 +420,25 @@ FocusScope {
             sourceComponent: ClipboardTab {}
 
             onActiveChanged: {
-                if (active && item) {
+                if (active && item)
                     Qt.callLater(() => item.forceActiveFocus());
-                }
+            }
+        }
+
+        Loader {
+            id: desktopWidgetsLoader
+            anchors.fill: parent
+            active: root.currentIndex === 27
+            visible: active
+            focus: active
+
+            sourceComponent: DesktopWidgetsTab {
+                parentModal: root.parentModal
+            }
+
+            onActiveChanged: {
+                if (active && item)
+                    Qt.callLater(() => item.forceActiveFocus());
             }
         }
     }

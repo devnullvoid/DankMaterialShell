@@ -378,9 +378,14 @@ Item {
             widgetObj.pciId = "";
         }
         if (widgetId === "controlCenterButton") {
-            widgetObj.showNetworkIcon = true;
-            widgetObj.showBluetoothIcon = true;
-            widgetObj.showAudioIcon = true;
+            widgetObj.showNetworkIcon = SettingsData.controlCenterShowNetworkIcon;
+            widgetObj.showBluetoothIcon = SettingsData.controlCenterShowBluetoothIcon;
+            widgetObj.showAudioIcon = SettingsData.controlCenterShowAudioIcon;
+            widgetObj.showVpnIcon = SettingsData.controlCenterShowVpnIcon;
+            widgetObj.showBrightnessIcon = SettingsData.controlCenterShowBrightnessIcon;
+            widgetObj.showMicIcon = SettingsData.controlCenterShowMicIcon;
+            widgetObj.showBatteryIcon = SettingsData.controlCenterShowBatteryIcon;
+            widgetObj.showPrinterIcon = SettingsData.controlCenterShowPrinterIcon;
         }
         if (widgetId === "diskUsage")
             widgetObj.mountPath = "/";
@@ -430,9 +435,14 @@ Item {
             else if (widget.id === "gpuTemp")
                 newWidget.pciId = "";
             if (widget.id === "controlCenterButton") {
-                newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
-                newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
-                newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+                newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
+                newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
+                newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+                newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
+                newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+                newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+                newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
+                newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
             }
             widgets[i] = newWidget;
             break;
@@ -478,9 +488,14 @@ Item {
         if (widget.pciId !== undefined)
             newWidget.pciId = widget.pciId;
         if (widget.id === "controlCenterButton") {
-            newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
-            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
-            newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+            newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
+            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
+            newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+            newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
+            newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+            newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+            newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
+            newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
         }
         widgets[widgetIndex] = newWidget;
         setWidgetsForSection(sectionId, widgets);
@@ -548,41 +563,48 @@ Item {
         if (widget.pciId !== undefined)
             newWidget.pciId = widget.pciId;
         if (widget.id === "controlCenterButton") {
-            newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
-            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
-            newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+            newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
+            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
+            newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+            newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
+            newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+            newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+            newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
+            newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
         }
         widgets[widgetIndex] = newWidget;
         setWidgetsForSection(sectionId, widgets);
     }
 
     function handleControlCenterSettingChanged(sectionId, widgetIndex, settingName, value) {
-        switch (settingName) {
-        case "showNetworkIcon":
-            SettingsData.set("controlCenterShowNetworkIcon", value);
-            break;
-        case "showBluetoothIcon":
-            SettingsData.set("controlCenterShowBluetoothIcon", value);
-            break;
-        case "showAudioIcon":
-            SettingsData.set("controlCenterShowAudioIcon", value);
-            break;
-        case "showVpnIcon":
-            SettingsData.set("controlCenterShowVpnIcon", value);
-            break;
-        case "showBrightnessIcon":
-            SettingsData.set("controlCenterShowBrightnessIcon", value);
-            break;
-        case "showMicIcon":
-            SettingsData.set("controlCenterShowMicIcon", value);
-            break;
-        case "showBatteryIcon":
-            SettingsData.set("controlCenterShowBatteryIcon", value);
-            break;
-        case "showPrinterIcon":
-            SettingsData.set("controlCenterShowPrinterIcon", value);
-            break;
+        var widgets = getWidgetsForSection(sectionId).slice();
+        if (widgetIndex < 0 || widgetIndex >= widgets.length)
+            return;
+
+        var widget = widgets[widgetIndex];
+        if (typeof widget === "string") {
+            widget = {
+                "id": widget,
+                "enabled": true
+            };
         }
+
+        var newWidget = {
+            "id": widget.id,
+            "enabled": widget.enabled !== undefined ? widget.enabled : true,
+            "showNetworkIcon": widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon,
+            "showBluetoothIcon": widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon,
+            "showAudioIcon": widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon,
+            "showVpnIcon": widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon,
+            "showBrightnessIcon": widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon,
+            "showMicIcon": widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon,
+            "showBatteryIcon": widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon,
+            "showPrinterIcon": widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon
+        };
+        newWidget[settingName] = value;
+
+        widgets[widgetIndex] = newWidget;
+        setWidgetsForSection(sectionId, widgets);
     }
 
     function handlePrivacySettingChanged(sectionId, widgetIndex, settingName, value) {
@@ -633,9 +655,14 @@ Item {
         if (widget.showSwap !== undefined)
             newWidget.showSwap = widget.showSwap;
         if (widget.id === "controlCenterButton") {
-            newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
-            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
-            newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+            newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
+            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
+            newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+            newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
+            newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+            newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+            newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
+            newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
         }
         widgets[widgetIndex] = newWidget;
         setWidgetsForSection(sectionId, widgets);
@@ -685,9 +712,14 @@ Item {
         if (widget.keyboardLayoutNameCompactMode !== undefined)
             newWidget.keyboardLayoutNameCompactMode = widget.keyboardLayoutNameCompactMode;
         if (widget.id === "controlCenterButton") {
-            newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
-            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
-            newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+            newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
+            newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
+            newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+            newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
+            newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+            newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+            newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
+            newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
         }
         widgets[widgetIndex] = newWidget;
         setWidgetsForSection(sectionId, widgets);
@@ -737,9 +769,14 @@ Item {
                 if (widget.keyboardLayoutNameCompactMode !== undefined)
                     newWidget.keyboardLayoutNameCompactMode = widget.keyboardLayoutNameCompactMode;
                 if (widget.id === "controlCenterButton") {
-                    newWidget.showNetworkIcon = widget.showNetworkIcon ?? true;
-                    newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? true;
-                    newWidget.showAudioIcon = widget.showAudioIcon ?? true;
+                    newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
+                    newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
+                    newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+                    newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
+                    newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+                    newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+                    newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
+                    newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
                 }
                 widgets[i] = newWidget;
                 widget = newWidget;
@@ -796,6 +833,16 @@ Item {
                     item.showBluetoothIcon = widget.showBluetoothIcon;
                 if (widget.showAudioIcon !== undefined)
                     item.showAudioIcon = widget.showAudioIcon;
+                if (widget.showVpnIcon !== undefined)
+                    item.showVpnIcon = widget.showVpnIcon;
+                if (widget.showBrightnessIcon !== undefined)
+                    item.showBrightnessIcon = widget.showBrightnessIcon;
+                if (widget.showMicIcon !== undefined)
+                    item.showMicIcon = widget.showMicIcon;
+                if (widget.showBatteryIcon !== undefined)
+                    item.showBatteryIcon = widget.showBatteryIcon;
+                if (widget.showPrinterIcon !== undefined)
+                    item.showPrinterIcon = widget.showPrinterIcon;
                 if (widget.minimumWidth !== undefined)
                     item.minimumWidth = widget.minimumWidth;
                 if (widget.showSwap !== undefined)

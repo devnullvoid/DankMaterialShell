@@ -144,8 +144,6 @@ var (
 	clipConfigEnabled        bool
 	clipConfigDisableHistory bool
 	clipConfigEnableHistory  bool
-	clipConfigDisablePersist bool
-	clipConfigEnablePersist  bool
 )
 
 func init() {
@@ -173,8 +171,6 @@ func init() {
 	clipConfigSetCmd.Flags().BoolVar(&clipConfigEnabled, "enable", false, "Enable clipboard manager")
 	clipConfigSetCmd.Flags().BoolVar(&clipConfigDisableHistory, "disable-history", false, "Disable clipboard history persistence")
 	clipConfigSetCmd.Flags().BoolVar(&clipConfigEnableHistory, "enable-history", false, "Enable clipboard history persistence")
-	clipConfigSetCmd.Flags().BoolVar(&clipConfigDisablePersist, "disable-persist", false, "Disable clipboard ownership persistence")
-	clipConfigSetCmd.Flags().BoolVar(&clipConfigEnablePersist, "enable-persist", false, "Enable clipboard ownership persistence")
 
 	clipWatchCmd.Flags().BoolVarP(&clipWatchStore, "store", "s", false, "Store clipboard changes to history (no server required)")
 
@@ -596,12 +592,6 @@ func runClipConfigSet(cmd *cobra.Command, args []string) {
 	}
 	if clipConfigEnableHistory {
 		params["disableHistory"] = false
-	}
-	if clipConfigDisablePersist {
-		params["disablePersist"] = true
-	}
-	if clipConfigEnablePersist {
-		params["disablePersist"] = false
 	}
 
 	if len(params) == 0 {

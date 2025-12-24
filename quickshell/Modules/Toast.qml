@@ -234,23 +234,82 @@ PanelWindow {
                     anchors.margins: Theme.spacingS
                     spacing: Theme.spacingS
 
-                    StyledText {
-                        id: detailsText
-                        text: ToastService.currentDetails
-                        font.pixelSize: Theme.fontSizeSmall
-                        color: {
-                            switch (ToastService.currentLevel) {
-                            case ToastService.levelError:
-                            case ToastService.levelWarn:
-                                return SessionData.isLightMode ? Theme.surfaceText : Theme.background;
-                            default:
-                                return Theme.surfaceText;
+                    Item {
+                        width: parent.width - Theme.spacingS * 2
+                        height: detailsText.implicitHeight
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        visible: ToastService.currentDetails.length > 0
+
+                        StyledText {
+                            id: detailsText
+                            text: ToastService.currentDetails
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: {
+                                switch (ToastService.currentLevel) {
+                                case ToastService.levelError:
+                                case ToastService.levelWarn:
+                                    return SessionData.isLightMode ? Theme.surfaceText : Theme.background;
+                                default:
+                                    return Theme.surfaceText;
+                                }
+                            }
+                            anchors.left: parent.left
+                            anchors.right: copyDetailsButton.left
+                            anchors.rightMargin: Theme.spacingS
+                            wrapMode: Text.Wrap
+                        }
+
+                        DankActionButton {
+                            id: copyDetailsButton
+                            iconName: "content_copy"
+                            iconSize: Theme.iconSizeSmall
+                            iconColor: {
+                                switch (ToastService.currentLevel) {
+                                case ToastService.levelError:
+                                case ToastService.levelWarn:
+                                    return SessionData.isLightMode ? Theme.surfaceText : Theme.background;
+                                default:
+                                    return Theme.surfaceText;
+                                }
+                            }
+                            buttonSize: Theme.iconSizeSmall + 8
+                            anchors.right: parent.right
+                            anchors.top: parent.top
+
+                            property bool showTooltip: false
+
+                            onClicked: {
+                                Quickshell.execDetached(["dms", "cl", "copy", ToastService.currentDetails]);
+                                showTooltip = true;
+                                detailsTooltipTimer.start();
+                            }
+
+                            Timer {
+                                id: detailsTooltipTimer
+                                interval: 1500
+                                onTriggered: copyDetailsButton.showTooltip = false
+                            }
+
+                            Rectangle {
+                                visible: copyDetailsButton.showTooltip
+                                width: detailsTooltipLabel.implicitWidth + 16
+                                height: detailsTooltipLabel.implicitHeight + 8
+                                color: Theme.surfaceContainer
+                                radius: Theme.cornerRadius
+                                border.width: 1
+                                border.color: Theme.outlineMedium
+                                y: -height - 4
+                                x: -width / 2 + copyDetailsButton.width / 2
+
+                                StyledText {
+                                    id: detailsTooltipLabel
+                                    anchors.centerIn: parent
+                                    text: root.copiedText
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                }
                             }
                         }
-                        visible: ToastService.currentDetails.length > 0
-                        width: parent.width - Theme.spacingS * 2
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        wrapMode: Text.Wrap
                     }
 
                     Rectangle {

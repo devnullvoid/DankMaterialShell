@@ -166,6 +166,9 @@ DankPopout {
         Rectangle {
             id: mainContainer
 
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
+
             implicitHeight: contentColumn.height + Theme.spacingM * 2
             color: "transparent"
             radius: Theme.cornerRadius

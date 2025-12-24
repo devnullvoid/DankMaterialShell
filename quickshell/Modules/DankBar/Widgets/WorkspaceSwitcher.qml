@@ -548,7 +548,7 @@ Item {
         }
     }
 
-    function getWorkspaceIndex(modelData) {
+    function getWorkspaceIndex(modelData, index) {
         let isPlaceholder;
         if (root.useExtWorkspace) {
             isPlaceholder = modelData?.hidden === true;
@@ -649,12 +649,46 @@ Item {
         anchors.fill: parent
         acceptedButtons: Qt.RightButton
 
+        property real scrollAccumulator: 0
+        property real touchpadThreshold: 500
+        property bool scrollInProgress: false
+
+        Timer {
+            id: scrollCooldown
+            interval: 100
+            onTriggered: parent.scrollInProgress = false
+        }
+
         onClicked: mouse => {
             if (mouse.button === Qt.RightButton) {
                 if (CompositorService.isNiri) {
                     NiriService.toggleOverview();
                 } else if (CompositorService.isHyprland && root.hyprlandOverviewLoader?.item) {
                     root.hyprlandOverviewLoader.item.overviewOpen = !root.hyprlandOverviewLoader.item.overviewOpen;
+                }
+            }
+        }
+
+        onWheel: wheel => {
+            if (scrollInProgress)
+                return;
+
+            const delta = wheel.angleDelta.y;
+            const isMouseWheel = Math.abs(delta) >= 120 && (Math.abs(delta) % 120) === 0;
+            const direction = delta < 0 ? 1 : -1;
+
+            if (isMouseWheel) {
+                root.switchWorkspace(direction);
+                scrollInProgress = true;
+                scrollCooldown.restart();
+            } else {
+                scrollAccumulator += delta;
+                if (Math.abs(scrollAccumulator) >= touchpadThreshold) {
+                    const touchDirection = scrollAccumulator < 0 ? 1 : -1;
+                    root.switchWorkspace(touchDirection);
+                    scrollInProgress = true;
+                    scrollCooldown.restart();
+                    scrollAccumulator = 0;
                 }
             }
         }
@@ -808,7 +842,12 @@ Item {
                             wsData = modelData;
                         }
                         delegateRoot.loadedWorkspaceData = wsData;
-                        delegateRoot.loadedIsUrgent = wsData?.urgent ?? false;
+                        if (CompositorService.isNiri) {
+                            const workspaceId = wsData?.id;
+                            delegateRoot.loadedIsUrgent = workspaceId ? NiriService.windows.some(w => w.workspace_id === workspaceId && w.is_urgent) : false;
+                        } else {
+                            delegateRoot.loadedIsUrgent = wsData?.urgent ?? false;
+                        }
 
                         var icData = null;
                         if (wsData?.name) {
@@ -844,8 +883,8 @@ Item {
                     radius: Theme.cornerRadius
                     color: isActive ? Theme.primary : isUrgent ? Theme.error : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.outlineButton : Theme.surfaceTextAlpha
 
-                    border.width: isUrgent && !isActive ? 2 : 0
-                    border.color: isUrgent && !isActive ? Theme.error : Theme.withAlpha(Theme.error, 0)
+                    border.width: isUrgent ? 2 : 0
+                    border.color: isUrgent ? Theme.error : Theme.withAlpha(Theme.error, 0)
 
                     Behavior on width {
                         NumberAnimation {
@@ -937,7 +976,7 @@ Item {
                                         StyledText {
                                             id: wsIndexText
                                             anchors.verticalCenter: parent.verticalCenter
-                                            text: root.getWorkspaceIndex(modelData)
+                                            text: root.getWorkspaceIndex(modelData, index)
                                             color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
                                             font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale)
                                             font.weight: (isActive && !isPlaceholder) ? Font.DemiBold : Font.Normal
@@ -1164,12 +1203,12 @@ Item {
                     Loader {
                         id: indexLoader
                         anchors.fill: parent
-                        active: !isPlaceholder && SettingsData.showWorkspaceIndex && !loadedHasIcon && !SettingsData.showWorkspaceApps
+                        active: SettingsData.showWorkspaceIndex && !loadedHasIcon && !SettingsData.showWorkspaceApps
                         sourceComponent: Item {
                             StyledText {
                                 anchors.centerIn: parent
                                 text: {
-                                    return root.getWorkspaceIndex(modelData);
+                                    return root.getWorkspaceIndex(modelData, index);
                                 }
                                 color: (isActive || isUrgent) ? Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
                                 font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale)

@@ -58,8 +58,8 @@
     //
     // Lists (files, search results, etc.)
     //
-    "list.activeSelectionBackground": "{{colors.primary_container.dark.hex}}",
-    "list.activeSelectionForeground": "{{colors.on_primary_container.dark.hex}}",
+    "list.activeSelectionBackground": "{{colors.primary.dark.hex}}",
+    "list.activeSelectionForeground": "{{colors.on_primary.dark.hex}}",
     "list.inactiveSelectionBackground": "{{colors.surface_container.dark.hex}}",
     "list.hoverBackground": "{{colors.surface_container.dark.hex}}",
     "list.hoverForeground": "{{colors.on_surface.dark.hex}}",

@@ -7,6 +7,7 @@ function percentToUnit(v) {
 
 var SPEC = {
     currentThemeName: { def: "blue", onChange: "applyStoredTheme" },
+    currentThemeCategory: { def: "generic" },
     customThemeFile: { def: "" },
     matugenScheme: { def: "scheme-tonal-spot", onChange: "regenSystemThemes" },
     runUserMatugenTemplates: { def: true, onChange: "regenSystemThemes" },
@@ -18,6 +19,8 @@ var SPEC = {
     widgetBackgroundColor: { def: "sch" },
     widgetColorMode: { def: "default" },
     cornerRadius: { def: 12, onChange: "updateNiriLayout" },
+    niriLayoutGapsOverride: { def: -1, onChange: "updateNiriLayout" },
+    niriLayoutRadiusOverride: { def: -1, onChange: "updateNiriLayout" },
 
     use24HourClock: { def: true },
     showSeconds: { def: false },
@@ -191,10 +194,12 @@ var SPEC = {
     matugenTemplateFirefox: { def: true },
     matugenTemplatePywalfox: { def: true },
     matugenTemplateVesktop: { def: true },
+    matugenTemplateEquibop: { def: true },
     matugenTemplateGhostty: { def: true },
     matugenTemplateKitty: { def: true },
     matugenTemplateFoot: { def: true },
     matugenTemplateAlacritty: { def: true },
+    matugenTemplateNeovim: { def: true },
     matugenTemplateWezterm: { def: true },
     matugenTemplateDgop: { def: true },
     matugenTemplateKcolorscheme: { def: true },
@@ -214,6 +219,7 @@ var SPEC = {
     dockBorderColor: { def: "surfaceText" },
     dockBorderOpacity: { def: 1.0, coerce: percentToUnit },
     dockBorderThickness: { def: 1 },
+    dockIsolateDisplays: { def: false },
 
     notificationOverlayEnabled: { def: false },
     overviewRows: { def: 2, persist: false },
@@ -263,6 +269,7 @@ var SPEC = {
     customPowerActionReboot: { def: "" },
     customPowerActionPowerOff: { def: "" },
 
+    updaterHideWidget: { def: false },
     updaterUseCustomCommand: { def: false },
     updaterCustomCommand: { def: "" },
     updaterTerminalAdditionalParams: { def: "" },
@@ -270,6 +277,8 @@ var SPEC = {
     displayNameMode: { def: "system" },
     screenPreferences: { def: {} },
     showOnLastDisplay: { def: {} },
+    niriOutputSettings: { def: {} },
+    hyprlandOutputSettings: { def: {} },
 
     barConfigs: { def: [{
         id: "default",
@@ -302,12 +311,61 @@ var SPEC = {
         fontScale: 1.0,
         autoHide: false,
         autoHideDelay: 250,
+        showOnWindowsOpen: false,
         openOnOverview: false,
         visible: true,
         popupGapsAuto: true,
         popupGapsManual: 4,
-        maximizeDetection: true
-    }], onChange: "updateBarConfigs" }
+        maximizeDetection: true,
+        scrollEnabled: true,
+        scrollXBehavior: "column",
+        scrollYBehavior: "workspace"
+    }], onChange: "updateBarConfigs" },
+
+    desktopClockEnabled: { def: false },
+    desktopClockStyle: { def: "analog" },
+    desktopClockTransparency: { def: 0.8, coerce: percentToUnit },
+    desktopClockColorMode: { def: "primary" },
+    desktopClockCustomColor: { def: "#ffffff" },
+    desktopClockShowDate: { def: true },
+    desktopClockShowAnalogNumbers: { def: false },
+    desktopClockShowAnalogSeconds: { def: true },
+    desktopClockX: { def: -1 },
+    desktopClockY: { def: -1 },
+    desktopClockWidth: { def: 280 },
+    desktopClockHeight: { def: 180 },
+    desktopClockDisplayPreferences: { def: ["all"] },
+
+    systemMonitorEnabled: { def: false },
+    systemMonitorShowHeader: { def: true },
+    systemMonitorTransparency: { def: 0.8, coerce: percentToUnit },
+    systemMonitorColorMode: { def: "primary" },
+    systemMonitorCustomColor: { def: "#ffffff" },
+    systemMonitorShowCpu: { def: true },
+    systemMonitorShowCpuGraph: { def: true },
+    systemMonitorShowCpuTemp: { def: true },
+    systemMonitorShowGpuTemp: { def: false },
+    systemMonitorGpuPciId: { def: "" },
+    systemMonitorShowMemory: { def: true },
+    systemMonitorShowMemoryGraph: { def: true },
+    systemMonitorShowNetwork: { def: true },
+    systemMonitorShowNetworkGraph: { def: true },
+    systemMonitorShowDisk: { def: true },
+    systemMonitorShowTopProcesses: { def: false },
+    systemMonitorTopProcessCount: { def: 3 },
+    systemMonitorTopProcessSortBy: { def: "cpu" },
+    systemMonitorGraphInterval: { def: 60 },
+    systemMonitorLayoutMode: { def: "auto" },
+    systemMonitorX: { def: -1 },
+    systemMonitorY: { def: -1 },
+    systemMonitorWidth: { def: 320 },
+    systemMonitorHeight: { def: 480 },
+    systemMonitorDisplayPreferences: { def: ["all"] },
+    systemMonitorVariants: { def: [] },
+    desktopWidgetPositions: { def: {} },
+    desktopWidgetGridSettings: { def: {} },
+
+    desktopWidgetInstances: { def: [] }
 };
 
 function getValidKeys() {

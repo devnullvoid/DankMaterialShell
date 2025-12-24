@@ -287,6 +287,8 @@ Item {
                                     id: deviceDropdown
                                     dropdownWidth: parent.width - 80 - scanDevicesBtn.width - Theme.spacingS * 2
                                     popupWidth: parent.width - 80 - scanDevicesBtn.width - Theme.spacingS * 2
+                                    enableFuzzySearch: true
+                                    emptyText: I18n.tr("No devices found")
                                     currentValue: {
                                         if (CupsService.loadingDevices)
                                             return I18n.tr("Scanning...");
@@ -294,20 +296,12 @@ Item {
                                             return CupsService.getDeviceDisplayName(printerTab.selectedDevice);
                                         return I18n.tr("Select device...");
                                     }
-                                    options: {
-                                        const filtered = CupsService.filteredDevices;
-                                        if (filtered.length === 0)
-                                            return [I18n.tr("No devices found")];
-                                        return filtered.map(d => CupsService.getDeviceDisplayName(d));
-                                    }
+                                    options: CupsService.filteredDevices.map(d => CupsService.getDeviceDisplayName(d))
                                     onValueChanged: value => {
-                                        if (value === I18n.tr("No devices found") || value === I18n.tr("Scanning..."))
-                                            return;
                                         const filtered = CupsService.filteredDevices;
                                         const device = filtered.find(d => CupsService.getDeviceDisplayName(d) === value);
-                                        if (device) {
+                                        if (device)
                                             printerTab.selectDevice(device);
-                                        }
                                     }
                                 }
 
@@ -365,6 +359,8 @@ Item {
                                     id: ppdDropdown
                                     dropdownWidth: parent.width - 80 - refreshPpdsBtn.width - Theme.spacingS * 2
                                     popupWidth: parent.width - 80 - refreshPpdsBtn.width - Theme.spacingS * 2
+                                    enableFuzzySearch: true
+                                    emptyText: I18n.tr("No drivers found")
                                     currentValue: {
                                         if (CupsService.loadingPPDs)
                                             return I18n.tr("Loading...");
@@ -379,20 +375,15 @@ Item {
                                         return printerTab.suggestedPPDs.length > 0 ? I18n.tr("Recommended available") : I18n.tr("Select driver...");
                                     }
                                     options: {
-                                        if (CupsService.ppds.length === 0)
-                                            return [I18n.tr("No drivers found")];
                                         const suggested = printerTab.suggestedPPDs.map(p => "★ " + (p.makeModel || p.name));
                                         const others = CupsService.ppds.filter(p => !printerTab.suggestedPPDs.some(s => s.name === p.name)).map(p => p.makeModel || p.name);
                                         return suggested.concat(others);
                                     }
                                     onValueChanged: value => {
-                                        if (value === I18n.tr("No drivers found") || value === I18n.tr("Loading..."))
-                                            return;
                                         const cleanValue = value.replace(/^★ /, "");
                                         const ppd = CupsService.ppds.find(p => (p.makeModel || p.name) === cleanValue);
-                                        if (ppd) {
+                                        if (ppd)
                                             printerTab.selectedPpd = ppd.name;
-                                        }
                                     }
                                 }
 

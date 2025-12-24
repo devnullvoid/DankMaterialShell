@@ -1,8 +1,6 @@
 import QtQuick
-import Quickshell
 import qs.Common
 import qs.Services
-import qs.Widgets
 import qs.Modules.ControlCenter.Widgets
 
 CompoundPill {
@@ -14,35 +12,35 @@ CompoundPill {
 
     primaryText: {
         if (!BatteryService.batteryAvailable) {
-            return "No battery"
+            return I18n.tr("No battery");
         }
-        return "Battery"
+        return I18n.tr("Battery");
     }
 
     secondaryText: {
         if (!BatteryService.batteryAvailable) {
-            return "Not available"
+            return I18n.tr("Not available");
         }
         if (BatteryService.isCharging) {
-            return `${BatteryService.batteryLevel}% • Charging`
+            return `${BatteryService.batteryLevel}% • ` + I18n.tr("Charging");
         }
         if (BatteryService.isPluggedIn) {
-            return `${BatteryService.batteryLevel}% • Plugged in`
+            return `${BatteryService.batteryLevel}% • ` + I18n.tr("Plugged in");
         }
-        return `${BatteryService.batteryLevel}%`
+        return `${BatteryService.batteryLevel}%`;
     }
 
     iconColor: {
         if (BatteryService.isLowBattery && !BatteryService.isCharging) {
-            return Theme.error
+            return Theme.error;
         }
         if (BatteryService.isCharging || BatteryService.isPluggedIn) {
-            return Theme.primary
+            return Theme.primary;
         }
-        return Theme.surfaceText
+        return Theme.surfaceText;
     }
 
     onToggled: {
-        expandClicked()
+        expandClicked();
     }
 }

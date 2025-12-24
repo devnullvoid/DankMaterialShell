@@ -110,6 +110,9 @@ DankPopout {
         Rectangle {
             id: controlContent
 
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
+
             implicitHeight: mainColumn.implicitHeight + Theme.spacingM
             property alias bluetoothCodecSelector: bluetoothCodecSelector
 

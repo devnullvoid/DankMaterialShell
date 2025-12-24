@@ -1,6 +1,4 @@
 import QtQuick
-import QtQuick.Controls
-import Quickshell
 import Quickshell.Services.UPower
 import qs.Common
 import qs.Services
@@ -66,7 +64,7 @@ Rectangle {
                     spacing: Theme.spacingS
 
                     StyledText {
-                        text: BatteryService.batteryAvailable ? `${BatteryService.batteryLevel}%` : "Power"
+                        text: BatteryService.batteryAvailable ? `${BatteryService.batteryLevel}%` : I18n.tr("Power")
                         font.pixelSize: Theme.fontSizeXLarge
                         color: {
                             if (BatteryService.isLowBattery && !BatteryService.isCharging) {
@@ -81,7 +79,7 @@ Rectangle {
                     }
 
                     StyledText {
-                        text: BatteryService.batteryAvailable ? BatteryService.batteryStatus : "Management"
+                        text: BatteryService.batteryAvailable ? BatteryService.batteryStatus : I18n.tr("Management")
                         font.pixelSize: Theme.fontSizeLarge
                         color: {
                             if (BatteryService.isLowBattery && !BatteryService.isCharging) {
@@ -100,10 +98,10 @@ Rectangle {
                 StyledText {
                     text: {
                         if (!BatteryService.batteryAvailable)
-                            return "Power profile management available";
+                            return I18n.tr("Power profile management available");
                         const time = BatteryService.formatTimeRemaining();
                         if (time !== "Unknown") {
-                            return BatteryService.isCharging ? `Time until full: ${time}` : `Time remaining: ${time}`;
+                            return BatteryService.isCharging ? I18n.tr("Time until full: %1").arg(time) : I18n.tr("Time remaining: %1").arg(time);
                         }
                         return "";
                     }
@@ -176,7 +174,7 @@ Rectangle {
                     }
 
                     StyledText {
-                        text: BatteryService.batteryCapacity > 0 ? `${BatteryService.batteryCapacity.toFixed(1)} Wh` : "Unknown"
+                        text: BatteryService.batteryCapacity > 0 ? `${BatteryService.batteryCapacity.toFixed(1)} Wh` : I18n.tr("Unknown")
                         font.pixelSize: Theme.fontSizeLarge
                         color: Theme.surfaceText
                         font.weight: Font.Bold

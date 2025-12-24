@@ -9,23 +9,29 @@ import qs.Widgets
 Item {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property string text: ""
     property string description: ""
     property string currentValue: ""
     property var options: []
     property var optionIcons: []
     property bool enableFuzzySearch: false
+    property var optionIconMap: ({})
 
-    onOptionsChanged: {
-        if (dropdownMenu.visible) {
-            dropdownMenu.fzfFinder = new Fzf.Finder(options, {
-                "selector": option => option,
-                "limit": 50,
-                "casing": "case-insensitive"
-            });
-            dropdownMenu.updateFilteredOptions();
+    function rebuildIconMap() {
+        const map = {};
+        for (let i = 0; i < options.length; i++) {
+            if (optionIcons.length > i)
+                map[options[i]] = optionIcons[i];
         }
+        optionIconMap = map;
     }
+
+    onOptionsChanged: rebuildIconMap()
+    onOptionIconsChanged: rebuildIconMap()
+
     property int popupWidthOffset: 0
     property int maxPopupHeight: 400
     property bool openUpwards: false
@@ -34,6 +40,7 @@ Item {
     property int dropdownWidth: 200
     property bool compactMode: text === "" && description === ""
     property bool addHorizontalPadding: false
+    property string emptyText: ""
 
     signal valueChanged(string value)
 
@@ -41,10 +48,8 @@ Item {
     implicitHeight: compactMode ? 40 : Math.max(60, labelColumn.implicitHeight + Theme.spacingM)
 
     Component.onDestruction: {
-        const popup = dropdownMenu;
-        if (popup && popup.visible) {
-            popup.close();
-        }
+        if (dropdownMenu.visible)
+            dropdownMenu.close();
     }
 
     Column {
@@ -63,6 +68,8 @@ Item {
             font.pixelSize: Theme.fontSizeMedium
             color: Theme.surfaceText
             font.weight: Font.Medium
+            width: parent.width
+            anchors.left: parent.left
         }
 
         StyledText {
@@ -72,6 +79,7 @@ Item {
             visible: description.length > 0
             wrapMode: Text.WordWrap
             width: parent.width
+            anchors.left: parent.left
         }
     }
 
@@ -99,36 +107,16 @@ Item {
                     dropdownMenu.close();
                     return;
                 }
-
-                dropdownMenu.searchQuery = "";
-                dropdownMenu.updateFilteredOptions();
-
                 dropdownMenu.open();
-
                 const pos = dropdown.mapToItem(Overlay.overlay, 0, 0);
-                const popupWidth = dropdownMenu.width;
-                const popupHeight = dropdownMenu.height;
-                const overlayHeight = Overlay.overlay.height;
-
-                if (root.openUpwards || pos.y + dropdown.height + popupHeight + 4 > overlayHeight) {
-                    if (root.alignPopupRight) {
-                        dropdownMenu.x = pos.x + dropdown.width - popupWidth;
-                    } else {
-                        dropdownMenu.x = pos.x - (root.popupWidthOffset / 2);
-                    }
-                    dropdownMenu.y = pos.y - popupHeight - 4;
-                } else {
-                    if (root.alignPopupRight) {
-                        dropdownMenu.x = pos.x + dropdown.width - popupWidth;
-                    } else {
-                        dropdownMenu.x = pos.x - (root.popupWidthOffset / 2);
-                    }
-                    dropdownMenu.y = pos.y + dropdown.height + 4;
-                }
-
-                if (root.enableFuzzySearch && searchField.visible) {
+                const popupW = dropdownMenu.width;
+                const popupH = dropdownMenu.height;
+                const overlayH = Overlay.overlay.height;
+                const goUp = root.openUpwards || pos.y + dropdown.height + popupH + 4 > overlayH;
+                dropdownMenu.x = root.alignPopupRight ? pos.x + dropdown.width - popupW : pos.x - (root.popupWidthOffset / 2);
+                dropdownMenu.y = goUp ? pos.y - popupH - 4 : pos.y + dropdown.height + 4;
+                if (root.enableFuzzySearch)
                     searchField.forceActiveFocus();
-                }
             }
         }
 
@@ -143,10 +131,7 @@ Item {
             spacing: Theme.spacingS
 
             DankIcon {
-                name: {
-                    const currentIndex = root.options.indexOf(root.currentValue);
-                    return currentIndex >= 0 && root.optionIcons.length > currentIndex ? root.optionIcons[currentIndex] : "";
-                }
+                name: root.optionIconMap[root.currentValue] ?? ""
                 size: 18
                 color: Theme.surfaceText
                 anchors.verticalCenter: parent.verticalCenter
@@ -187,49 +172,50 @@ Item {
         id: dropdownMenu
 
         property string searchQuery: ""
-        property var filteredOptions: []
+        property var filteredOptions: {
+            if (!root.enableFuzzySearch || searchQuery.length === 0)
+                return root.options;
+            if (!fzfFinder)
+                return root.options;
+            return fzfFinder.find(searchQuery).map(r => r.item);
+        }
         property int selectedIndex: -1
-        property var fzfFinder: new Fzf.Finder(root.options, {
-            "selector": option => option,
-            "limit": 50,
-            "casing": "case-insensitive"
-        })
+        property var fzfFinder: null
 
-        function updateFilteredOptions() {
-            if (!root.enableFuzzySearch || searchQuery.length === 0) {
-                filteredOptions = root.options;
-                selectedIndex = -1;
-                return;
-            }
-
-            const results = fzfFinder.find(searchQuery);
-            filteredOptions = results.map(result => result.item);
-            selectedIndex = -1;
+        function initFinder() {
+            fzfFinder = new Fzf.Finder(root.options, {
+                "selector": option => option,
+                "limit": 50,
+                "casing": "case-insensitive"
+            });
         }
 
         function selectNext() {
-            if (filteredOptions.length === 0) {
+            if (filteredOptions.length === 0)
                 return;
-            }
             selectedIndex = (selectedIndex + 1) % filteredOptions.length;
             listView.positionViewAtIndex(selectedIndex, ListView.Contain);
         }
 
         function selectPrevious() {
-            if (filteredOptions.length === 0) {
+            if (filteredOptions.length === 0)
                 return;
-            }
             selectedIndex = selectedIndex <= 0 ? filteredOptions.length - 1 : selectedIndex - 1;
             listView.positionViewAtIndex(selectedIndex, ListView.Contain);
         }
 
         function selectCurrent() {
-            if (selectedIndex < 0 || selectedIndex >= filteredOptions.length) {
+            if (selectedIndex < 0 || selectedIndex >= filteredOptions.length)
                 return;
-            }
             root.currentValue = filteredOptions[selectedIndex];
             root.valueChanged(filteredOptions[selectedIndex]);
             close();
+        }
+
+        onOpened: {
+            fzfFinder = null;
+            searchQuery = "";
+            selectedIndex = -1;
         }
 
         parent: Overlay.overlay
@@ -277,30 +263,38 @@ Item {
                         anchors.fill: parent
                         anchors.margins: 1
                         placeholderText: I18n.tr("Search...")
-                        text: dropdownMenu.searchQuery
                         topPadding: Theme.spacingS
                         bottomPadding: Theme.spacingS
-                        onTextChanged: {
-                            dropdownMenu.searchQuery = text;
-                            dropdownMenu.updateFilteredOptions();
-                        }
+                        onTextChanged: searchDebounce.restart()
                         Keys.onDownPressed: dropdownMenu.selectNext()
                         Keys.onUpPressed: dropdownMenu.selectPrevious()
                         Keys.onReturnPressed: dropdownMenu.selectCurrent()
                         Keys.onEnterPressed: dropdownMenu.selectCurrent()
                         Keys.onPressed: event => {
-                            if (event.key === Qt.Key_N && event.modifiers & Qt.ControlModifier) {
+                            if (!(event.modifiers & Qt.ControlModifier))
+                                return;
+                            switch (event.key) {
+                            case Qt.Key_N:
+                            case Qt.Key_J:
                                 dropdownMenu.selectNext();
                                 event.accepted = true;
-                            } else if (event.key === Qt.Key_P && event.modifiers & Qt.ControlModifier) {
+                                break;
+                            case Qt.Key_P:
+                            case Qt.Key_K:
                                 dropdownMenu.selectPrevious();
                                 event.accepted = true;
-                            } else if (event.key === Qt.Key_J && event.modifiers & Qt.ControlModifier) {
-                                dropdownMenu.selectNext();
-                                event.accepted = true;
-                            } else if (event.key === Qt.Key_K && event.modifiers & Qt.ControlModifier) {
-                                dropdownMenu.selectPrevious();
-                                event.accepted = true;
+                                break;
+                            }
+                        }
+
+                        Timer {
+                            id: searchDebounce
+                            interval: 50
+                            onTriggered: {
+                                if (!dropdownMenu.fzfFinder)
+                                    dropdownMenu.initFinder();
+                                dropdownMenu.searchQuery = searchField.text;
+                                dropdownMenu.selectedIndex = -1;
                             }
                         }
                     }
@@ -312,12 +306,28 @@ Item {
                     visible: root.enableFuzzySearch
                 }
 
+                Item {
+                    width: parent.width
+                    height: 32
+                    visible: root.options.length === 0 && root.emptyText !== ""
+
+                    StyledText {
+                        anchors.left: parent.left
+                        anchors.leftMargin: Theme.spacingS
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: root.emptyText
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: Theme.surfaceVariantText
+                    }
+                }
+
                 DankListView {
                     id: listView
 
                     width: parent.width
-                    height: parent.height - (root.enableFuzzySearch ? searchContainer.height + Theme.spacingXS : 0)
+                    height: parent.height - (root.enableFuzzySearch ? searchContainer.height + Theme.spacingXS : 0) - (root.options.length === 0 && root.emptyText !== "" ? 32 : 0)
                     clip: true
+                    visible: root.options.length > 0
                     model: ScriptModel {
                         values: dropdownMenu.filteredOptions
                     }
@@ -332,9 +342,13 @@ Item {
                     flickableDirection: Flickable.VerticalFlick
 
                     delegate: Rectangle {
+                        id: delegateRoot
+
+                        required property var modelData
+                        required property int index
                         property bool isSelected: dropdownMenu.selectedIndex === index
                         property bool isCurrentValue: root.currentValue === modelData
-                        property int optionIndex: root.options.indexOf(modelData)
+                        property string iconName: root.optionIconMap[modelData] ?? ""
 
                         width: ListView.view.width
                         height: 32
@@ -348,19 +362,19 @@ Item {
                             spacing: Theme.spacingS
 
                             DankIcon {
-                                name: optionIndex >= 0 && root.optionIcons.length > optionIndex ? root.optionIcons[optionIndex] : ""
+                                name: delegateRoot.iconName
                                 size: 18
-                                color: isCurrentValue ? Theme.primary : Theme.surfaceText
+                                color: delegateRoot.isCurrentValue ? Theme.primary : Theme.surfaceText
                                 visible: name !== ""
                             }
 
                             StyledText {
                                 anchors.verticalCenter: parent.verticalCenter
-                                text: modelData
+                                text: delegateRoot.modelData
                                 font.pixelSize: Theme.fontSizeMedium
-                                color: isCurrentValue ? Theme.primary : Theme.surfaceText
-                                font.weight: isCurrentValue ? Font.Medium : Font.Normal
-                                width: root.popupWidth > 0 ? undefined : (parent.parent.width - parent.x - Theme.spacingS)
+                                color: delegateRoot.isCurrentValue ? Theme.primary : Theme.surfaceText
+                                font.weight: delegateRoot.isCurrentValue ? Font.Medium : Font.Normal
+                                width: root.popupWidth > 0 ? undefined : (delegateRoot.width - parent.x - Theme.spacingS)
                                 elide: root.popupWidth > 0 ? Text.ElideNone : Text.ElideRight
                                 wrapMode: Text.NoWrap
                             }
@@ -373,8 +387,8 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                root.currentValue = modelData;
-                                root.valueChanged(modelData);
+                                root.currentValue = delegateRoot.modelData;
+                                root.valueChanged(delegateRoot.modelData);
                                 dropdownMenu.close();
                             }
                         }

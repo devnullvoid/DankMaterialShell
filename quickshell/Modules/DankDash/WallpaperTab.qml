@@ -3,13 +3,15 @@ import QtCore
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Effects
-import Quickshell
 import qs.Common
 import qs.Modals.FileBrowser
 import qs.Widgets
 
 Item {
     id: root
+
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
 
     implicitWidth: 700
     implicitHeight: 410
@@ -95,22 +97,41 @@ Item {
         }
 
         if (event.key === Qt.Key_Right || event.key === Qt.Key_L) {
-            if (gridIndex + 1 < visibleCount) {
-                gridIndex++;
-            } else if (currentPage < totalPages - 1) {
-                gridIndex = 0;
-                currentPage++;
+            if (I18n.isRtl) {
+                if (gridIndex > 0) {
+                    gridIndex--;
+                } else if (currentPage > 0) {
+                    currentPage--;
+                    const prevPageCount = Math.min(itemsPerPage, wallpaperFolderModel.count - currentPage * itemsPerPage);
+                    gridIndex = prevPageCount - 1;
+                }
+            } else {
+                if (gridIndex + 1 < visibleCount) {
+                    gridIndex++;
+                } else if (currentPage < totalPages - 1) {
+                    gridIndex = 0;
+                    currentPage++;
+                }
             }
             return true;
         }
 
         if (event.key === Qt.Key_Left || event.key === Qt.Key_H) {
-            if (gridIndex > 0) {
-                gridIndex--;
-            } else if (currentPage > 0) {
-                currentPage--;
-                const prevPageCount = Math.min(itemsPerPage, wallpaperFolderModel.count - currentPage * itemsPerPage);
-                gridIndex = prevPageCount - 1;
+            if (I18n.isRtl) {
+                if (gridIndex + 1 < visibleCount) {
+                    gridIndex++;
+                } else if (currentPage < totalPages - 1) {
+                    gridIndex = 0;
+                    currentPage++;
+                }
+            } else {
+                if (gridIndex > 0) {
+                    gridIndex--;
+                } else if (currentPage > 0) {
+                    currentPage--;
+                    const prevPageCount = Math.min(itemsPerPage, wallpaperFolderModel.count - currentPage * itemsPerPage);
+                    gridIndex = prevPageCount - 1;
+                }
             }
             return true;
         }
@@ -423,14 +444,11 @@ Item {
                             }
                         }
 
-                        Image {
+                        CachingImage {
                             id: thumbnailImage
                             anchors.fill: parent
-                            source: modelData ? `file://${modelData}` : ""
-                            fillMode: Image.PreserveAspectCrop
-                            asynchronous: true
-                            cache: true
-                            smooth: true
+                            imagePath: modelData || ""
+                            maxCacheSize: 256
 
                             layer.enabled: true
                             layer.effect: MultiEffect {

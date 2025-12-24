@@ -33,6 +33,9 @@ Singleton {
     property var notepadSlideouts: []
     property var aiAssistantSlideouts: []
 
+    property string pendingThemeInstall: ""
+    property string pendingPluginInstall: ""
+
     function setPosition(popout, x, y, width, section, screen) {
         if (popout && popout.setTriggerPosition && arguments.length >= 6) {
             popout.setTriggerPosition(x, y, width, section, screen);

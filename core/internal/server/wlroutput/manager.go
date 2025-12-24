@@ -145,6 +145,7 @@ func (m *Manager) handleHead(e wlr_output_management.ZwlrOutputManagerV1HeadEven
 	handle.SetNameHandler(func(e wlr_output_management.ZwlrOutputHeadV1NameEvent) {
 		log.Debugf("WlrOutput: Head %d name: %s", headID, e.Name)
 		head.name = e.Name
+		head.ready = true
 		m.post(func() {
 			m.updateState()
 		})
@@ -240,6 +241,7 @@ func (m *Manager) handleHead(e wlr_output_management.ZwlrOutputManagerV1HeadEven
 	handle.SetAdaptiveSyncHandler(func(e wlr_output_management.ZwlrOutputHeadV1AdaptiveSyncEvent) {
 		log.Debugf("WlrOutput: Head %d adaptive sync: %d", headID, e.State)
 		head.adaptiveSync = e.State
+		head.adaptiveSyncSupported = true
 		m.post(func() {
 			m.updateState()
 		})
@@ -251,11 +253,11 @@ func (m *Manager) handleHead(e wlr_output_management.ZwlrOutputManagerV1HeadEven
 
 		m.heads.Delete(headID)
 
-		m.post(func() {
-			m.wlMutex.Lock()
-			handle.Release()
-			m.wlMutex.Unlock()
+		m.wlMutex.Lock()
+		handle.Release()
+		m.wlMutex.Unlock()
 
+		m.post(func() {
 			m.updateState()
 		})
 	})
@@ -310,11 +312,11 @@ func (m *Manager) handleMode(headID uint32, e wlr_output_management.ZwlrOutputHe
 
 		m.modes.Delete(modeID)
 
-		m.post(func() {
-			m.wlMutex.Lock()
-			handle.Release()
-			m.wlMutex.Unlock()
+		m.wlMutex.Lock()
+		handle.Release()
+		m.wlMutex.Unlock()
 
+		m.post(func() {
 			m.updateState()
 		})
 	})
@@ -325,6 +327,10 @@ func (m *Manager) updateState() {
 
 	m.heads.Range(func(key uint32, head *headState) bool {
 		if head.finished {
+			return true
+		}
+
+		if !head.ready {
 			return true
 		}
 
@@ -355,22 +361,23 @@ func (m *Manager) updateState() {
 		}
 
 		output := Output{
-			Name:           head.name,
-			Description:    head.description,
-			Make:           head.make,
-			Model:          head.model,
-			SerialNumber:   head.serialNumber,
-			PhysicalWidth:  head.physicalWidth,
-			PhysicalHeight: head.physicalHeight,
-			Enabled:        head.enabled,
-			X:              head.x,
-			Y:              head.y,
-			Transform:      head.transform,
-			Scale:          head.scale,
-			CurrentMode:    currentMode,
-			Modes:          modes,
-			AdaptiveSync:   head.adaptiveSync,
-			ID:             head.id,
+			Name:                  head.name,
+			Description:           head.description,
+			Make:                  head.make,
+			Model:                 head.model,
+			SerialNumber:          head.serialNumber,
+			PhysicalWidth:         head.physicalWidth,
+			PhysicalHeight:        head.physicalHeight,
+			Enabled:               head.enabled,
+			X:                     head.x,
+			Y:                     head.y,
+			Transform:             head.transform,
+			Scale:                 head.scale,
+			CurrentMode:           currentMode,
+			Modes:                 modes,
+			AdaptiveSync:          head.adaptiveSync,
+			AdaptiveSyncSupported: head.adaptiveSyncSupported,
+			ID:                    head.id,
 		}
 		outputs = append(outputs, output)
 		return true

@@ -1,11 +1,8 @@
 import QtQuick
-import QtQuick.Controls
 import Quickshell
-import Quickshell.Wayland
 import Quickshell.Hyprland
 import qs.Common
 import qs.Services
-import qs.Widgets
 
 Item {
     id: root
@@ -17,6 +14,9 @@ Item {
     property bool isVertical: false
     property var dockScreen: null
     property real iconSize: 40
+    property int draggedIndex: -1
+    property int dropTargetIndex: -1
+    property bool suppressShiftAnimation: false
 
     clip: false
     implicitWidth: isVertical ? appLayout.height : appLayout.width
@@ -24,18 +24,18 @@ Item {
 
     function movePinnedApp(fromIndex, toIndex) {
         if (fromIndex === toIndex) {
-            return
+            return;
         }
 
-        const currentPinned = [...(SessionData.pinnedApps || [])]
+        const currentPinned = [...(SessionData.pinnedApps || [])];
         if (fromIndex < 0 || fromIndex >= currentPinned.length || toIndex < 0 || toIndex >= currentPinned.length) {
-            return
+            return;
         }
 
-        const movedApp = currentPinned.splice(fromIndex, 1)[0]
-        currentPinned.splice(toIndex, 0, movedApp)
+        const movedApp = currentPinned.splice(fromIndex, 1)[0];
+        currentPinned.splice(toIndex, 0, movedApp);
 
-        SessionData.setPinnedApps(currentPinned)
+        SessionData.setPinnedApps(currentPinned);
     }
 
     Item {
@@ -53,202 +53,266 @@ Item {
             flow: root.isVertical ? Flow.TopToBottom : Flow.LeftToRight
             spacing: Math.min(8, Math.max(4, root.iconSize * 0.08))
 
-        Repeater {
-            id: repeater
+            Repeater {
+                id: repeater
 
-            property var dockItems: []
+                property var dockItems: []
 
-            model: ScriptModel {
-                values: repeater.dockItems
-                objectProp: "uniqueKey"
-            }
+                model: ScriptModel {
+                    values: repeater.dockItems
+                    objectProp: "uniqueKey"
+                }
 
-            Component.onCompleted: updateModel()
+                Component.onCompleted: updateModel()
 
-            function updateModel() {
-                const items = []
-                const pinnedApps = [...(SessionData.pinnedApps || [])]
-                const sortedToplevels = CompositorService.sortedToplevels
+                function isOnScreen(toplevel, screenName) {
+                    if (!toplevel.screens)
+                        return false;
+                    for (let i = 0; i < toplevel.screens.length; i++) {
+                        if (toplevel.screens[i].name === screenName)
+                            return true;
+                    }
+                    return false;
+                }
 
-                if (root.groupByApp) {
-                    const appGroups = new Map()
+                function updateModel() {
+                    const items = [];
+                    const pinnedApps = [...(SessionData.pinnedApps || [])];
+                    const allToplevels = CompositorService.sortedToplevels;
+                    const sortedToplevels = (SettingsData.dockIsolateDisplays && root.dockScreen) ? allToplevels.filter(t => isOnScreen(t, root.dockScreen.name)) : allToplevels;
 
-                    pinnedApps.forEach(rawAppId => {
-                        const appId = Paths.moddedAppId(rawAppId)
-                        appGroups.set(appId, {
-                            appId: appId,
-                            isPinned: true,
-                            windows: []
-                        })
-                    })
+                    if (root.groupByApp) {
+                        const appGroups = new Map();
 
-                    sortedToplevels.forEach((toplevel, index) => {
-                        const rawAppId = toplevel.appId || "unknown"
-                        const appId = Paths.moddedAppId(rawAppId)
-                        if (!appGroups.has(appId)) {
+                        pinnedApps.forEach(rawAppId => {
+                            const appId = Paths.moddedAppId(rawAppId);
                             appGroups.set(appId, {
                                 appId: appId,
-                                isPinned: false,
+                                isPinned: true,
                                 windows: []
-                            })
+                            });
+                        });
+
+                        sortedToplevels.forEach((toplevel, index) => {
+                            const rawAppId = toplevel.appId || "unknown";
+                            const appId = Paths.moddedAppId(rawAppId);
+                            if (!appGroups.has(appId)) {
+                                appGroups.set(appId, {
+                                    appId: appId,
+                                    isPinned: false,
+                                    windows: []
+                                });
+                            }
+
+                            appGroups.get(appId).windows.push({
+                                toplevel: toplevel,
+                                index: index
+                            });
+                        });
+
+                        const pinnedGroups = [];
+                        const unpinnedGroups = [];
+
+                        Array.from(appGroups.entries()).forEach(([appId, group]) => {
+                            const firstWindow = group.windows.length > 0 ? group.windows[0] : null;
+
+                            const item = {
+                                uniqueKey: "grouped_" + appId,
+                                type: "grouped",
+                                appId: appId,
+                                toplevel: firstWindow ? firstWindow.toplevel : null,
+                                isPinned: group.isPinned,
+                                isRunning: group.windows.length > 0,
+                                windowCount: group.windows.length,
+                                allWindows: group.windows
+                            };
+
+                            if (group.isPinned) {
+                                pinnedGroups.push(item);
+                            } else {
+                                unpinnedGroups.push(item);
+                            }
+                        });
+
+                        pinnedGroups.forEach(item => items.push(item));
+
+                        if (pinnedGroups.length > 0 && unpinnedGroups.length > 0) {
+                            items.push({
+                                uniqueKey: "separator_grouped",
+                                type: "separator",
+                                appId: "__SEPARATOR__",
+                                toplevel: null,
+                                isPinned: false,
+                                isRunning: false
+                            });
                         }
 
-                        appGroups.get(appId).windows.push({
-                            toplevel: toplevel,
-                            index: index
-                        })
-                    })
+                        unpinnedGroups.forEach(item => items.push(item));
+                        root.pinnedAppCount = pinnedGroups.length;
+                    } else {
+                        pinnedApps.forEach(rawAppId => {
+                            const appId = Paths.moddedAppId(rawAppId);
+                            items.push({
+                                uniqueKey: "pinned_" + appId,
+                                type: "pinned",
+                                appId: appId,
+                                toplevel: null,
+                                isPinned: true,
+                                isRunning: false
+                            });
+                        });
 
-                    const pinnedGroups = []
-                    const unpinnedGroups = []
+                        root.pinnedAppCount = pinnedApps.length;
 
-                    Array.from(appGroups.entries()).forEach(([appId, group]) => {
-                        const firstWindow = group.windows.length > 0 ? group.windows[0] : null
-
-                        const item = {
-                            uniqueKey: "grouped_" + appId,
-                            type: "grouped",
-                            appId: appId,
-                            toplevel: firstWindow ? firstWindow.toplevel : null,
-                            isPinned: group.isPinned,
-                            isRunning: group.windows.length > 0,
-                            windowCount: group.windows.length,
-                            allWindows: group.windows
+                        if (pinnedApps.length > 0 && sortedToplevels.length > 0) {
+                            items.push({
+                                uniqueKey: "separator_ungrouped",
+                                type: "separator",
+                                appId: "__SEPARATOR__",
+                                toplevel: null,
+                                isPinned: false,
+                                isRunning: false
+                            });
                         }
 
-                        if (group.isPinned) {
-                            pinnedGroups.push(item)
-                        } else {
-                            unpinnedGroups.push(item)
-                        }
-                    })
-
-                    pinnedGroups.forEach(item => items.push(item))
-
-                    if (pinnedGroups.length > 0 && unpinnedGroups.length > 0) {
-                        items.push({
-                            uniqueKey: "separator_grouped",
-                            type: "separator",
-                            appId: "__SEPARATOR__",
-                            toplevel: null,
-                            isPinned: false,
-                            isRunning: false
-                        })
-                    }
-
-                    unpinnedGroups.forEach(item => items.push(item))
-                    root.pinnedAppCount = pinnedGroups.length
-                } else {
-                    pinnedApps.forEach(rawAppId => {
-                        const appId = Paths.moddedAppId(rawAppId)
-                        items.push({
-                            uniqueKey: "pinned_" + appId,
-                            type: "pinned",
-                            appId: appId,
-                            toplevel: null,
-                            isPinned: true,
-                            isRunning: false
-                        })
-                    })
-
-                    root.pinnedAppCount = pinnedApps.length
-
-                    if (pinnedApps.length > 0 && sortedToplevels.length > 0) {
-                        items.push({
-                            uniqueKey: "separator_ungrouped",
-                            type: "separator",
-                            appId: "__SEPARATOR__",
-                            toplevel: null,
-                            isPinned: false,
-                            isRunning: false
-                        })
-                    }
-
-                    sortedToplevels.forEach((toplevel, index) => {
-                        let uniqueKey = "window_" + index
-                        if (CompositorService.isHyprland && Hyprland.toplevels) {
-                            const hyprlandToplevels = Array.from(Hyprland.toplevels.values)
-                            for (let i = 0; i < hyprlandToplevels.length; i++) {
-                                if (hyprlandToplevels[i].wayland === toplevel) {
-                                    uniqueKey = "window_" + hyprlandToplevels[i].address
-                                    break
+                        sortedToplevels.forEach((toplevel, index) => {
+                            let uniqueKey = "window_" + index;
+                            if (CompositorService.isHyprland && Hyprland.toplevels) {
+                                const hyprlandToplevels = Array.from(Hyprland.toplevels.values);
+                                for (let i = 0; i < hyprlandToplevels.length; i++) {
+                                    if (hyprlandToplevels[i].wayland === toplevel) {
+                                        uniqueKey = "window_" + hyprlandToplevels[i].address;
+                                        break;
+                                    }
                                 }
+                            }
+
+                            items.push({
+                                uniqueKey: uniqueKey,
+                                type: "window",
+                                appId: Paths.moddedAppId(toplevel.appId),
+                                toplevel: toplevel,
+                                isPinned: false,
+                                isRunning: true
+                            });
+                        });
+                    }
+
+                    dockItems = items;
+                }
+
+                delegate: Item {
+                    id: delegateItem
+                    property alias dockButton: button
+                    property var itemData: modelData
+                    clip: false
+                    z: button.dragging ? 100 : 0
+
+                    width: itemData.type === "separator" ? (root.isVertical ? root.iconSize : 8) : (root.isVertical ? root.iconSize : root.iconSize * 1.2)
+                    height: itemData.type === "separator" ? (root.isVertical ? 8 : root.iconSize) : (root.isVertical ? root.iconSize * 1.2 : root.iconSize)
+
+                    property real shiftOffset: {
+                        if (root.draggedIndex < 0 || !itemData.isPinned || itemData.type === "separator")
+                            return 0;
+                        if (model.index === root.draggedIndex)
+                            return 0;
+
+                        const dragIdx = root.draggedIndex;
+                        const dropIdx = root.dropTargetIndex;
+                        const myIdx = model.index;
+                        const shiftAmount = root.iconSize * 1.2 + layoutFlow.spacing;
+
+                        if (dropIdx < 0)
+                            return 0;
+                        if (dragIdx < dropIdx && myIdx > dragIdx && myIdx <= dropIdx)
+                            return -shiftAmount;
+                        if (dragIdx > dropIdx && myIdx >= dropIdx && myIdx < dragIdx)
+                            return shiftAmount;
+                        return 0;
+                    }
+
+                    transform: Translate {
+                        x: root.isVertical ? 0 : delegateItem.shiftOffset
+                        y: root.isVertical ? delegateItem.shiftOffset : 0
+
+                        Behavior on x {
+                            enabled: !root.suppressShiftAnimation
+                            NumberAnimation {
+                                duration: 150
+                                easing.type: Easing.OutCubic
                             }
                         }
 
-                        items.push({
-                            uniqueKey: uniqueKey,
-                            type: "window",
-                            appId: Paths.moddedAppId(toplevel.appId),
-                            toplevel: toplevel,
-                            isPinned: false,
-                            isRunning: true
-                        })
-                    })
-                }
+                        Behavior on y {
+                            enabled: !root.suppressShiftAnimation
+                            NumberAnimation {
+                                duration: 150
+                                easing.type: Easing.OutCubic
+                            }
+                        }
+                    }
 
-                dockItems = items
-            }
+                    Rectangle {
+                        visible: itemData.type === "separator"
+                        width: root.isVertical ? root.iconSize * 0.5 : 2
+                        height: root.isVertical ? 2 : root.iconSize * 0.5
+                        color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.3)
+                        radius: 1
+                        anchors.centerIn: parent
+                    }
 
-            delegate: Item {
-                id: delegateItem
-                property alias dockButton: button
-                property var itemData: modelData
-                clip: false
+                    DockAppButton {
+                        id: button
+                        visible: itemData.type !== "separator"
+                        anchors.centerIn: parent
 
-                width: itemData.type === "separator" ? (root.isVertical ? root.iconSize : 8) : (root.isVertical ? root.iconSize : root.iconSize * 1.2)
-                height: itemData.type === "separator" ? (root.isVertical ? 8 : root.iconSize) : (root.isVertical ? root.iconSize * 1.2 : root.iconSize)
+                        width: delegateItem.width
+                        height: delegateItem.height
+                        actualIconSize: root.iconSize
 
-                Rectangle {
-                    visible: itemData.type === "separator"
-                    width: root.isVertical ? root.iconSize * 0.5 : 2
-                    height: root.isVertical ? 2 : root.iconSize * 0.5
-                    color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.3)
-                    radius: 1
-                    anchors.centerIn: parent
-                }
+                        appData: itemData
+                        contextMenu: root.contextMenu
+                        dockApps: root
+                        index: model.index
+                        parentDockScreen: root.dockScreen
 
-                DockAppButton {
-                    id: button
-                    visible: itemData.type !== "separator"
-                    anchors.centerIn: parent
-
-                    width: delegateItem.width
-                    height: delegateItem.height
-                    actualIconSize: root.iconSize
-
-                    appData: itemData
-                    contextMenu: root.contextMenu
-                    dockApps: root
-                    index: model.index
-                    parentDockScreen: root.dockScreen
-
-                    showWindowTitle: itemData?.type === "window" || itemData?.type === "grouped"
-                    windowTitle: {
-                        const title = itemData?.toplevel?.title || "(Unnamed)"
-                        return title.length > 50 ? title.substring(0, 47) + "..." : title
+                        showWindowTitle: itemData?.type === "window" || itemData?.type === "grouped"
+                        windowTitle: {
+                            const title = itemData?.toplevel?.title || "(Unnamed)";
+                            return title.length > 50 ? title.substring(0, 47) + "..." : title;
+                        }
                     }
                 }
             }
-        }
         }
     }
 
     Connections {
         target: CompositorService
         function onToplevelsChanged() {
-            repeater.updateModel()
+            repeater.updateModel();
         }
     }
 
     Connections {
         target: SessionData
         function onPinnedAppsChanged() {
-            repeater.updateModel()
+            root.suppressShiftAnimation = true;
+            root.draggedIndex = -1;
+            root.dropTargetIndex = -1;
+            repeater.updateModel();
+            Qt.callLater(() => {
+                root.suppressShiftAnimation = false;
+            });
         }
     }
 
-    onGroupByAppChanged: {
-        repeater.updateModel()
+    onGroupByAppChanged: repeater.updateModel()
+
+    Connections {
+        target: SettingsData
+        function onDockIsolateDisplaysChanged() {
+            repeater.updateModel();
+        }
     }
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os/exec"
+	"runtime"
 	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
@@ -384,6 +385,8 @@ func (d *DebianDistribution) enableOBSRepos(ctx context.Context, obsPkgs []Packa
 	debianVersion := "Debian_13"
 	if osInfo.VersionID == "testing" {
 		debianVersion = "Debian_Testing"
+	} else if osInfo.VersionCodename == "sid" || osInfo.VersionID == "sid" || strings.Contains(strings.ToLower(osInfo.PrettyName), "sid") || strings.Contains(strings.ToLower(osInfo.PrettyName), "unstable") {
+		debianVersion = "Debian_Unstable"
 	}
 
 	for _, pkg := range obsPkgs {
@@ -427,7 +430,7 @@ func (d *DebianDistribution) enableOBSRepos(ctx context.Context, obsPkgs []Packa
 			}
 
 			// Add repository
-			repoLine := fmt.Sprintf("deb [signed-by=%s] %s/ /", keyringPath, baseURL)
+			repoLine := fmt.Sprintf("deb [signed-by=%s, arch=%s] %s/ /", keyringPath, runtime.GOARCH, baseURL)
 
 			progressChan <- InstallProgressMsg{
 				Phase:       PhaseSystemPackages,

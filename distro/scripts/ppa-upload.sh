@@ -341,6 +341,10 @@ if [ "$KEEP_BUILDS" = "false" ]; then
             rm -f "$PACKAGE_DIR/dms-distropkg-amd64.gz"
             REMOVED=$((REMOVED + 1))
         fi
+        if [ -f "$PACKAGE_DIR/dms-distropkg-arm64.gz" ]; then
+            rm -f "$PACKAGE_DIR/dms-distropkg-arm64.gz"
+            REMOVED=$((REMOVED + 1))
+        fi
         if [ -f "$PACKAGE_DIR/dms-source.tar.gz" ]; then
             rm -f "$PACKAGE_DIR/dms-source.tar.gz"
             REMOVED=$((REMOVED + 1))

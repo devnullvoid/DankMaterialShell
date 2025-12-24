@@ -175,7 +175,7 @@ PanelWindow {
 
     function getLeftMargin() {
         if (isTopCenter)
-            return (screen.width - implicitWidth) / 2;
+            return screen ? (screen.width - implicitWidth) / 2 : 0;
 
         const popupPos = SettingsData.notificationPopupPosition;
         const isLeft = popupPos === SettingsData.Position.Left || popupPos === SettingsData.Position.Bottom;
@@ -199,7 +199,8 @@ PanelWindow {
         return barInfo.rightBar > 0 ? barInfo.rightBar : Theme.popupDistance;
     }
 
-    readonly property real dpr: CompositorService.getScreenScale(win.screen)
+    readonly property bool screenValid: win.screen && !_isDestroying
+    readonly property real dpr: screenValid ? CompositorService.getScreenScale(win.screen) : 1
     readonly property real alignedWidth: Theme.px(implicitWidth, dpr)
     readonly property real alignedHeight: Theme.px(implicitHeight, dpr)
 
@@ -227,7 +228,7 @@ PanelWindow {
             id: bgShadowLayer
             anchors.fill: parent
             anchors.margins: Theme.snap(4, win.dpr)
-            layer.enabled: true
+            layer.enabled: !win._isDestroying && win.screenValid
             layer.smooth: false
             layer.textureSize: Qt.size(Math.round(width * win.dpr), Math.round(height * win.dpr))
             layer.textureMirroring: ShaderEffectSource.MirrorVertically
@@ -343,6 +344,9 @@ PanelWindow {
             anchors.margins: Theme.snap(4, win.dpr)
             clip: true
 
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
+
             Item {
                 id: notificationContent
 
@@ -428,6 +432,7 @@ PanelWindow {
                                 font.pixelSize: Theme.fontSizeSmall
                                 font.weight: Font.Medium
                                 elide: Text.ElideRight
+                                horizontalAlignment: Text.AlignLeft
                                 maximumLineCount: 1
                             }
 
@@ -438,6 +443,7 @@ PanelWindow {
                                 font.weight: Font.Medium
                                 width: parent.width
                                 elide: Text.ElideRight
+                                horizontalAlignment: Text.AlignLeft
                                 maximumLineCount: 1
                                 visible: text.length > 0
                             }
@@ -448,6 +454,7 @@ PanelWindow {
                                 font.pixelSize: Theme.fontSizeSmall
                                 width: parent.width
                                 elide: Text.ElideRight
+                                horizontalAlignment: Text.AlignLeft
                                 maximumLineCount: 2
                                 wrapMode: Text.WordWrap
                                 visible: text.length > 0

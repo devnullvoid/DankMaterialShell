@@ -8,6 +8,9 @@ import qs.Widgets
 Item {
     id: spotlightKeyHandler
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property alias appLauncher: appLauncher
     property alias searchField: searchField
     property alias fileSearchController: fileSearchController
@@ -72,10 +75,10 @@ Item {
             }
             event.accepted = true;
         } else if (event.key === Qt.Key_Right && searchMode === "apps" && appLauncher.viewMode === "grid") {
-            appLauncher.selectNextInRow();
+            I18n.isRtl ? appLauncher.selectPreviousInRow() : appLauncher.selectNextInRow();
             event.accepted = true;
         } else if (event.key === Qt.Key_Left && searchMode === "apps" && appLauncher.viewMode === "grid") {
-            appLauncher.selectPreviousInRow();
+            I18n.isRtl ? appLauncher.selectNextInRow() : appLauncher.selectPreviousInRow();
             event.accepted = true;
         } else if (event.key == Qt.Key_J && event.modifiers & Qt.ControlModifier) {
             if (searchMode === "apps") {
@@ -92,10 +95,10 @@ Item {
             }
             event.accepted = true;
         } else if (event.key == Qt.Key_L && event.modifiers & Qt.ControlModifier && searchMode === "apps" && appLauncher.viewMode === "grid") {
-            appLauncher.selectNextInRow();
+            I18n.isRtl ? appLauncher.selectPreviousInRow() : appLauncher.selectNextInRow();
             event.accepted = true;
         } else if (event.key == Qt.Key_H && event.modifiers & Qt.ControlModifier && searchMode === "apps" && appLauncher.viewMode === "grid") {
-            appLauncher.selectPreviousInRow();
+            I18n.isRtl ? appLauncher.selectNextInRow() : appLauncher.selectPreviousInRow();
             event.accepted = true;
         } else if (event.key === Qt.Key_Tab) {
             if (searchMode === "apps") {

@@ -13,7 +13,8 @@ Scope {
     property string searchActiveScreen: ""
     property bool isClosing: false
     property bool releaseKeyboard: false
-    property bool overlayActive: (NiriService.inOverview && !(PopoutService.spotlightModal?.spotlightOpen ?? false)) || searchActive
+    readonly property bool spotlightModalOpen: PopoutService.spotlightModal?.spotlightOpen ?? false
+    property bool overlayActive: (NiriService.inOverview && !spotlightModalOpen) || searchActive
 
     function showSpotlight(screenName) {
         isClosing = false;
@@ -33,7 +34,7 @@ Scope {
         hideSpotlight();
     }
 
-    function completeHide() {
+    function resetState() {
         searchActive = false;
         searchActiveScreen = "";
         isClosing = false;
@@ -43,19 +44,15 @@ Scope {
     Connections {
         target: NiriService
         function onInOverviewChanged() {
-            if (!NiriService.inOverview) {
-                if (searchActive) {
-                    isClosing = true;
-                    return;
-                }
-                searchActive = false;
-                searchActiveScreen = "";
-                isClosing = false;
+            if (NiriService.inOverview) {
+                resetState();
                 return;
             }
-            searchActive = false;
-            searchActiveScreen = "";
-            isClosing = false;
+            if (!searchActive) {
+                resetState();
+                return;
+            }
+            isClosing = true;
         }
 
         function onCurrentOutputChanged() {
@@ -65,13 +62,9 @@ Scope {
         }
     }
 
-    Connections {
-        target: PopoutService.spotlightModal
-        function onSpotlightOpenChanged() {
-            if (!PopoutService.spotlightModal?.spotlightOpen || !searchActive)
-                return;
+    onSpotlightModalOpenChanged: {
+        if (spotlightModalOpen && searchActive)
             hideSpotlight();
-        }
     }
 
     Loader {
@@ -91,6 +84,22 @@ Scope {
                 readonly property bool isActiveScreen: screen.name === NiriService.currentOutput
                 readonly property bool shouldShowSpotlight: niriOverviewScope.searchActive && screen.name === niriOverviewScope.searchActiveScreen && !niriOverviewScope.isClosing
                 readonly property bool isSpotlightScreen: screen.name === niriOverviewScope.searchActiveScreen
+                property bool hasActivePopout: !!PopoutManager.currentPopoutsByScreen[screen.name]
+                property bool hasActiveModal: !!ModalManager.currentModalsByScreen[screen.name]
+
+                Connections {
+                    target: PopoutManager
+                    function onPopoutChanged() {
+                        overlayWindow.hasActivePopout = !!PopoutManager.currentPopoutsByScreen[overlayWindow.screen.name];
+                    }
+                }
+
+                Connections {
+                    target: ModalManager
+                    function onModalChanged() {
+                        overlayWindow.hasActiveModal = !!ModalManager.currentModalsByScreen[overlayWindow.screen.name];
+                    }
+                }
 
                 screen: modelData
                 visible: NiriService.inOverview || niriOverviewScope.isClosing
@@ -105,6 +114,8 @@ Scope {
                     if (!isActiveScreen)
                         return WlrKeyboardFocus.None;
                     if (niriOverviewScope.releaseKeyboard)
+                        return WlrKeyboardFocus.None;
+                    if (hasActivePopout || hasActiveModal)
                         return WlrKeyboardFocus.None;
                     return WlrKeyboardFocus.Exclusive;
                 }
@@ -203,6 +214,7 @@ Scope {
                     layer.textureSize: Qt.size(Math.round(width * overlayWindow.dpr), Math.round(height * overlayWindow.dpr))
 
                     Behavior on scale {
+                        id: scaleAnimation
                         NumberAnimation {
                             duration: Theme.expressiveDurations.expressiveDefaultSpatial
                             easing.type: Easing.BezierSpline
@@ -210,7 +222,7 @@ Scope {
                             onRunningChanged: {
                                 if (running || !spotlightContainer.animatingOut)
                                     return;
-                                niriOverviewScope.completeHide();
+                                niriOverviewScope.resetState();
                             }
                         }
                     }
@@ -240,8 +252,8 @@ Scope {
                         property var fakeParentModal: QtObject {
                             property bool spotlightOpen: spotlightContainer.visible
                             function hide() {
-                                if (spotlightContent.searchField.text.length > 0) {
-                                    niriOverviewScope.hideSpotlight();
+                                if (niriOverviewScope.searchActive) {
+                                    niriOverviewScope.hideAndReleaseKeyboard();
                                     return;
                                 }
                                 NiriService.toggleOverview();

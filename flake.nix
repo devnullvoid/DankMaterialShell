@@ -82,7 +82,7 @@
               inherit version;
               pname = "dms-shell";
               src = ./core;
-              vendorHash = "sha256-yqV12LssYV0zuUPLjTzJE0e49uUER95dRH4LTcRJeGc=";
+              vendorHash = "sha256-DINaA5LCOWoxBIewuc39Rnwj6NdZoET7Q++B11Qg5rI=";
 
               subPackages = [ "cmd/dms" ];
 
@@ -149,13 +149,23 @@
         }
       );
 
-      homeModules.dankMaterialShell.default = mkModuleWithDmsPkgs ./distro/nix/home.nix;
+      homeModules.dank-material-shell = mkModuleWithDmsPkgs ./distro/nix/home.nix;
 
-      homeModules.dankMaterialShell.niri = import ./distro/nix/niri.nix;
+      homeModules.default = self.homeModules.dank-material-shell;
 
-      nixosModules.dankMaterialShell = mkModuleWithDmsPkgs ./distro/nix/nixos.nix;
+      homeModules.niri = import ./distro/nix/niri.nix;
+
+      homeModules.dankMaterialShell.default = builtins.warn "dank-material-shell: flake output `homeModules.dankMaterialShell.default` has been renamed to `homeModules.dank-material-shell`" self.homeModules.dank-material-shell;
+
+      homeModules.dankMaterialShell.niri = builtins.warn "dank-material-shell: flake output `homeModules.dankMaterialShell.niri` has been renamed to `homeModules.niri`" self.homeModules.niri;
+
+      nixosModules.dank-material-shell = mkModuleWithDmsPkgs ./distro/nix/nixos.nix;
+
+      nixosModules.default = self.nixosModules.dank-material-shell;
 
       nixosModules.greeter = mkModuleWithDmsPkgs ./distro/nix/greeter.nix;
+
+      nixosModules.dankMaterialShell = builtins.warn "dank-material-shell: flake output `nixosModules.dankMaterialShell` has been renamed to `nixosModules.dank-material-shell`" self.nixosModules.dank-material-shell;
 
       devShells = forEachSystem (
         system: pkgs:

@@ -1,5 +1,4 @@
 import QtQuick
-import Quickshell
 import qs.Common
 import qs.Widgets
 
@@ -14,8 +13,8 @@ Rectangle {
     property bool isActive: false
     property bool showExpandArea: true
 
-    signal toggled()
-    signal expandClicked()
+    signal toggled
+    signal expandClicked
     signal wheelEvent(var wheelEvent)
 
     width: parent ? parent.width : 220
@@ -23,15 +22,15 @@ Rectangle {
     radius: Theme.cornerRadius
 
     function hoverTint(base) {
-        const factor = 1.2
-        return Theme.isLightMode ? Qt.darker(base, factor) : Qt.lighter(base, factor)
+        const factor = 1.2;
+        return Theme.isLightMode ? Qt.darker(base, factor) : Qt.lighter(base, factor);
     }
 
     readonly property color _containerBg: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
 
     color: {
-        const baseColor = bodyMouse.containsMouse ? Theme.widgetBaseHoverColor : _containerBg
-        return baseColor
+        const baseColor = bodyMouse.containsMouse ? Theme.primaryPressed : _containerBg;
+        return baseColor;
     }
     border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.10)
     border.width: 0
@@ -41,14 +40,12 @@ Rectangle {
     readonly property color _labelSecondary: Theme.surfaceVariantText
     readonly property color _tileBgActive: Theme.primary
     readonly property color _tileBgInactive: {
-        const transparency = Theme.popupTransparency
-        const surface = Theme.surfaceContainer || Qt.rgba(0.1, 0.1, 0.1, 1)
-        return Qt.rgba(surface.r, surface.g, surface.b, transparency)
+        const transparency = Theme.popupTransparency;
+        const surface = Theme.surfaceContainer || Qt.rgba(0.1, 0.1, 0.1, 1);
+        return Qt.rgba(surface.r, surface.g, surface.b, transparency);
     }
-    readonly property color _tileRingActive:
-        Qt.rgba(Theme.primaryText.r, Theme.primaryText.g, Theme.primaryText.b, 0.22)
-    readonly property color _tileRingInactive:
-        Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.18)
+    readonly property color _tileRingActive: Qt.rgba(Theme.primaryText.r, Theme.primaryText.g, Theme.primaryText.b, 0.22)
+    readonly property color _tileRingInactive: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.18)
     readonly property color _tileIconActive: Theme.primaryText
     readonly property color _tileIconInactive: Theme.primary
 
@@ -65,7 +62,11 @@ Rectangle {
         color: hoverTint(_containerBg)
         opacity: 0.08
         antialiasing: true
-        Behavior on opacity { NumberAnimation { duration: Theme.shortDuration } }
+        Behavior on opacity {
+            NumberAnimation {
+                duration: Theme.shortDuration
+            }
+        }
     }
 
     Row {
@@ -94,7 +95,11 @@ Rectangle {
                 opacity: tileMouse.pressed ? 0.3 : (tileMouse.containsMouse ? 0.2 : 0.0)
                 visible: opacity > 0
                 antialiasing: true
-                Behavior on opacity { NumberAnimation { duration: Theme.shortDuration } }
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: Theme.shortDuration
+                    }
+                }
             }
 
             DankIcon {
@@ -149,22 +154,32 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onEntered: { rightHoverOverlay.visible = true; rightHoverOverlay.opacity = 0.08 }
-                onExited:  { rightHoverOverlay.opacity = 0.0; rightHoverOverlay.visible = false }
+                onEntered: {
+                    rightHoverOverlay.visible = true;
+                    rightHoverOverlay.opacity = 0.08;
+                }
+                onExited: {
+                    rightHoverOverlay.opacity = 0.0;
+                    rightHoverOverlay.visible = false;
+                }
                 onPressed: rightHoverOverlay.opacity = 0.16
                 onReleased: rightHoverOverlay.opacity = containsMouse ? 0.08 : 0.0
                 onClicked: root.expandClicked()
                 onWheel: function (ev) {
-                    root.wheelEvent(ev)
+                    root.wheelEvent(ev);
                 }
             }
-
         }
     }
 
     focus: true
     Keys.onPressed: function (ev) {
-        if (ev.key === Qt.Key_Space || ev.key === Qt.Key_Return) { root.toggled(); ev.accepted = true }
-        else if (ev.key === Qt.Key_Right) { root.expandClicked(); ev.accepted = true }
+        if (ev.key === Qt.Key_Space || ev.key === Qt.Key_Return) {
+            root.toggled();
+            ev.accepted = true;
+        } else if (ev.key === Qt.Key_Right) {
+            root.expandClicked();
+            ev.accepted = true;
+        }
     }
 }

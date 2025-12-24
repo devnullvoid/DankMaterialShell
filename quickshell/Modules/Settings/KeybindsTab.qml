@@ -229,7 +229,7 @@ Item {
                         DankTextField {
                             id: searchField
                             width: parent.width - addButton.width - Theme.spacingM
-                            height: 44
+                            height: Math.round(Theme.fontSizeMedium * 3)
                             placeholderText: I18n.tr("Search keybinds...")
                             leftIconName: "search"
                             onTextChanged: {
@@ -240,8 +240,8 @@ Item {
 
                         DankActionButton {
                             id: addButton
-                            width: 44
-                            height: 44
+                            width: searchField.height
+                            height: searchField.height
                             circular: false
                             iconName: "add"
                             iconSize: Theme.iconSize
@@ -328,36 +328,21 @@ Item {
                             }
                         }
 
-                        Rectangle {
+                        DankButton {
                             id: fixButton
-                            width: fixButtonText.implicitWidth + Theme.spacingL * 2
-                            height: 36
-                            radius: Theme.cornerRadius
                             visible: warningBox.showError || warningBox.showSetup
-                            color: KeybindsService.fixing ? Theme.withAlpha(Theme.error, 0.6) : Theme.error
+                            text: {
+                                if (KeybindsService.fixing)
+                                    return I18n.tr("Fixing...");
+                                if (warningBox.showSetup)
+                                    return I18n.tr("Setup");
+                                return I18n.tr("Fix Now");
+                            }
+                            backgroundColor: Theme.primary
+                            textColor: Theme.primaryText
+                            enabled: !KeybindsService.fixing
                             anchors.verticalCenter: parent.verticalCenter
-
-                            StyledText {
-                                id: fixButtonText
-                                text: {
-                                    if (KeybindsService.fixing)
-                                        return I18n.tr("Fixing...");
-                                    if (warningBox.showSetup)
-                                        return I18n.tr("Setup");
-                                    return I18n.tr("Fix Now");
-                                }
-                                font.pixelSize: Theme.fontSizeSmall
-                                font.weight: Font.Medium
-                                color: Theme.surface
-                                anchors.centerIn: parent
-                            }
-
-                            MouseArea {
-                                anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                enabled: !KeybindsService.fixing
-                                onClicked: KeybindsService.fixDmsBindsInclude()
-                            }
+                            onClicked: KeybindsService.fixDmsBindsInclude()
                         }
                     }
                 }
@@ -382,9 +367,10 @@ Item {
                         spacing: Theme.spacingS
 
                         Rectangle {
+                            readonly property real chipHeight: allChip.implicitHeight + Theme.spacingM
                             width: allChip.implicitWidth + Theme.spacingL
-                            height: 32
-                            radius: 16
+                            height: chipHeight
+                            radius: chipHeight / 2
                             color: !keybindsTab.selectedCategory ? Theme.primary : Theme.surfaceContainerHighest
 
                             StyledText {
@@ -412,9 +398,10 @@ Item {
                                 required property string modelData
                                 required property int index
 
+                                readonly property real chipHeight: catText.implicitHeight + Theme.spacingM
                                 width: catText.implicitWidth + Theme.spacingL
-                                height: 32
-                                radius: 16
+                                height: chipHeight
+                                radius: chipHeight / 2
                                 color: keybindsTab.selectedCategory === modelData ? Theme.primary : (modelData === "__overrides__" ? Theme.withAlpha(Theme.primary, 0.15) : Theme.surfaceContainerHighest)
 
                                 StyledText {
@@ -523,7 +510,7 @@ Item {
                         }
 
                         StyledText {
-                            text: KeybindsService.loading ? I18n.tr("Shortcuts") : I18n.tr("Shortcuts") + " (" + keybindsTab._filteredBinds.length + ")"
+                            text: KeybindsService.loading ? I18n.tr("Shortcuts") : I18n.tr("Shortcuts (%1)").arg(keybindsTab._filteredBinds.length)
                             font.pixelSize: Theme.fontSizeMedium
                             font.weight: Font.Medium
                             color: Theme.surfaceText

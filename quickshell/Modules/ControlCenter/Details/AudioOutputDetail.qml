@@ -211,7 +211,7 @@ Rectangle {
                             }
 
                             StyledText {
-                                text: modelData === AudioService.sink ? "Active" : "Available"
+                                text: modelData === AudioService.sink ? I18n.tr("Active") : I18n.tr("Available")
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.surfaceVariantText
                                 elide: Text.ElideRight
@@ -251,7 +251,7 @@ Rectangle {
                             StyledText {
                                 text: {
                                     const isThisDevicePinned = (SettingsData.audioOutputDevicePins || {})["preferredOutput"] === modelData.name;
-                                    return isThisDevicePinned ? "Pinned" : "Pin";
+                                    return isThisDevicePinned ? I18n.tr("Pinned") : I18n.tr("Pin");
                                 }
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: {

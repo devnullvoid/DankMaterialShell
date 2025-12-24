@@ -97,6 +97,13 @@ Item {
                 title: I18n.tr("Behavior")
 
                 SettingsToggleRow {
+                    text: I18n.tr("Isolate Displays")
+                    description: I18n.tr("Only show windows from the current monitor on each dock")
+                    checked: SettingsData.dockIsolateDisplays
+                    onToggled: checked => SettingsData.set("dockIsolateDisplays", checked)
+                }
+
+                SettingsToggleRow {
                     text: I18n.tr("Group by App")
                     description: I18n.tr("Group multiple windows of the same app together with a window count indicator")
                     checked: SettingsData.dockGroupByApp

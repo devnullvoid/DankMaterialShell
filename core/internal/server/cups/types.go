@@ -42,6 +42,7 @@ type Device struct {
 	MakeModel string `json:"makeModel"`
 	ID        string `json:"id"`
 	Location  string `json:"location"`
+	IP        string `json:"ip,omitempty"`
 }
 
 type PPD struct {

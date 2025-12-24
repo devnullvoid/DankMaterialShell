@@ -109,33 +109,36 @@ Singleton {
     function getDeviceDisplayName(device) {
         if (!device)
             return "";
+        let name = "";
         if (device.info && device.info.length > 0) {
-            return decodeUri(device.info);
+            name = decodeUri(device.info);
+        } else if (device.makeModel && device.makeModel.length > 0) {
+            name = decodeUri(device.makeModel);
+        } else {
+            return decodeUri(device.uri);
         }
-        if (device.makeModel && device.makeModel.length > 0) {
-            return decodeUri(device.makeModel);
-        }
-        return decodeUri(device.uri);
+        if (device.ip)
+            return name + " (" + device.ip + ")";
+        return name;
     }
 
     function getDeviceSubtitle(device) {
         if (!device)
             return "";
         const parts = [];
-        if (device.class) {
-            switch (device.class) {
-            case "direct":
-                parts.push(I18n.tr("Local"));
-                break;
-            case "network":
-                parts.push(I18n.tr("Network"));
-                break;
-            case "file":
-                parts.push(I18n.tr("File"));
-                break;
-            default:
+        switch (device.class) {
+        case "direct":
+            parts.push(I18n.tr("Local"));
+            break;
+        case "network":
+            parts.push(I18n.tr("Network"));
+            break;
+        case "file":
+            parts.push(I18n.tr("File"));
+            break;
+        default:
+            if (device.class)
                 parts.push(device.class);
-            }
         }
         if (device.location)
             parts.push(decodeUri(device.location));
@@ -384,7 +387,7 @@ Singleton {
 
         DMSService.sendRequest("cups.pausePrinter", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to pause printer") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to pause printer"), response.error);
             } else {
                 getState();
             }
@@ -400,7 +403,7 @@ Singleton {
 
         DMSService.sendRequest("cups.resumePrinter", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to resume printer") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to resume printer"), response.error);
             } else {
                 getState();
             }
@@ -417,7 +420,7 @@ Singleton {
 
         DMSService.sendRequest("cups.cancelJob", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to cancel selected job") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to cancel selected job"), response.error);
             } else {
                 fetchJobsForPrinter(printerName);
             }
@@ -433,7 +436,7 @@ Singleton {
 
         DMSService.sendRequest("cups.purgeJobs", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to cancel all jobs") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to cancel all jobs"), response.error);
             } else {
                 fetchJobsForPrinter(printerName);
             }
@@ -499,7 +502,7 @@ Singleton {
         DMSService.sendRequest("cups.createPrinter", params, response => {
             creatingPrinter = false;
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to create printer") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to create printer"), response.error);
             } else {
                 ToastService.showInfo(I18n.tr("Printer created successfully"));
                 getState();
@@ -516,7 +519,7 @@ Singleton {
 
         DMSService.sendRequest("cups.deletePrinter", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to delete printer") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to delete printer"), response.error);
             } else {
                 ToastService.showInfo(I18n.tr("Printer deleted"));
                 if (selectedPrinter === printerName) {
@@ -536,7 +539,7 @@ Singleton {
 
         DMSService.sendRequest("cups.acceptJobs", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to enable job acceptance") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to enable job acceptance"), response.error);
             } else {
                 getState();
             }
@@ -552,7 +555,7 @@ Singleton {
 
         DMSService.sendRequest("cups.rejectJobs", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to disable job acceptance") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to disable job acceptance"), response.error);
             } else {
                 getState();
             }
@@ -569,7 +572,7 @@ Singleton {
 
         DMSService.sendRequest("cups.setPrinterShared", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to update sharing") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to update sharing"), response.error);
             } else {
                 getState();
             }
@@ -586,7 +589,7 @@ Singleton {
 
         DMSService.sendRequest("cups.setPrinterLocation", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to update location") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to update location"), response.error);
             } else {
                 getState();
             }
@@ -603,7 +606,7 @@ Singleton {
 
         DMSService.sendRequest("cups.setPrinterInfo", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to update description") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to update description"), response.error);
             } else {
                 getState();
             }
@@ -619,7 +622,7 @@ Singleton {
 
         DMSService.sendRequest("cups.printTestPage", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to print test page") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to print test page"), response.error);
             } else {
                 ToastService.showInfo(I18n.tr("Test page sent to printer"));
                 fetchJobsForPrinter(printerName);
@@ -637,7 +640,7 @@ Singleton {
 
         DMSService.sendRequest("cups.moveJob", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to move job") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to move job"), response.error);
             } else {
                 fetchAllJobs();
             }
@@ -653,7 +656,7 @@ Singleton {
 
         DMSService.sendRequest("cups.restartJob", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to restart job") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to restart job"), response.error);
             } else {
                 fetchAllJobs();
             }
@@ -672,7 +675,7 @@ Singleton {
 
         DMSService.sendRequest("cups.holdJob", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to hold job") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to hold job"), response.error);
             } else {
                 fetchAllJobs();
             }
@@ -689,7 +692,7 @@ Singleton {
 
         DMSService.sendRequest("cups.addPrinterToClass", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to add printer to class") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to add printer to class"), response.error);
             } else {
                 getClasses();
             }
@@ -706,7 +709,7 @@ Singleton {
 
         DMSService.sendRequest("cups.removePrinterFromClass", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to remove printer from class") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to remove printer from class"), response.error);
             } else {
                 getClasses();
             }
@@ -722,7 +725,7 @@ Singleton {
 
         DMSService.sendRequest("cups.deleteClass", params, response => {
             if (response.error) {
-                ToastService.showError(I18n.tr("Failed to delete class") + " - " + response.error);
+                ToastService.showError(I18n.tr("Failed to delete class"), response.error);
             } else {
                 getClasses();
             }

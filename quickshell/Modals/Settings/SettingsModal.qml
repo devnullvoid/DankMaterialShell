@@ -58,7 +58,7 @@ FloatingWindow {
     objectName: "settingsModal"
     title: I18n.tr("Settings", "settings window title")
     minimumSize: Qt.size(500, 400)
-    implicitWidth: 800
+    implicitWidth: 900
     implicitHeight: screen ? Math.min(940, screen.height - 100) : 940
     color: Theme.surfaceContainer
     visible: false
@@ -135,6 +135,9 @@ FloatingWindow {
     FocusScope {
         id: contentFocusScope
 
+        LayoutMirroring.enabled: I18n.isRtl
+        LayoutMirroring.childrenInherit: true
+
         anchors.fill: parent
         focus: true
 
@@ -159,6 +162,12 @@ FloatingWindow {
                 width: parent.width
                 height: 48
                 z: 10
+
+                MouseArea {
+                    anchors.fill: parent
+                    onPressed: windowControls.tryStartMove()
+                    onDoubleClicked: windowControls.tryToggleMaximize()
+                }
 
                 Rectangle {
                     anchors.fill: parent
@@ -200,17 +209,28 @@ FloatingWindow {
                     }
                 }
 
-                DankActionButton {
+                Row {
                     anchors.right: parent.right
                     anchors.rightMargin: Theme.spacingM
                     anchors.top: parent.top
                     anchors.topMargin: Theme.spacingM
-                    circular: false
-                    iconName: "close"
-                    iconSize: Theme.iconSize - 4
-                    iconColor: Theme.surfaceText
-                    onClicked: () => {
-                        settingsModal.hide();
+                    spacing: Theme.spacingXS
+
+                    DankActionButton {
+                        visible: windowControls.supported
+                        circular: false
+                        iconName: settingsModal.maximized ? "fullscreen_exit" : "fullscreen"
+                        iconSize: Theme.iconSize - 4
+                        iconColor: Theme.surfaceText
+                        onClicked: windowControls.tryToggleMaximize()
+                    }
+
+                    DankActionButton {
+                        circular: false
+                        iconName: "close"
+                        iconSize: Theme.iconSize - 4
+                        iconColor: Theme.surfaceText
+                        onClicked: settingsModal.hide()
                     }
                 }
             }
@@ -223,7 +243,7 @@ FloatingWindow {
                 SettingsSidebar {
                     id: sidebar
 
-                    x: 0
+                    anchors.left: parent.left
                     width: settingsModal.isCompactMode ? parent.width : 270
                     visible: settingsModal.isCompactMode ? settingsModal.menuVisible : true
                     parentModal: settingsModal
@@ -238,8 +258,8 @@ FloatingWindow {
                 }
 
                 Item {
-                    x: settingsModal.isCompactMode ? (settingsModal.menuVisible ? parent.width : 0) : sidebar.width
-                    width: settingsModal.isCompactMode ? parent.width : parent.width - sidebar.width
+                    anchors.left: settingsModal.isCompactMode ? (settingsModal.menuVisible ? sidebar.right : parent.left) : sidebar.right
+                    anchors.right: parent.right
                     height: parent.height
                     clip: true
 
@@ -250,16 +270,13 @@ FloatingWindow {
                         parentModal: settingsModal
                         currentIndex: settingsModal.currentTabIndex
                     }
-
-                    Behavior on x {
-                        enabled: settingsModal.enableAnimations
-                        NumberAnimation {
-                            duration: Theme.mediumDuration
-                            easing.bezierCurve: Theme.expressiveCurves.emphasizedDecel
-                        }
-                    }
                 }
             }
         }
+    }
+
+    FloatingWindowControls {
+        id: windowControls
+        targetWindow: settingsModal
     }
 }

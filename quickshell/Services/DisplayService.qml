@@ -319,7 +319,7 @@ Singleton {
         DMSService.sendRequest("brightness.setBrightness", params, response => {
             if (response.error) {
                 console.error("DisplayService: Failed to set brightness:", response.error);
-                ToastService.showError("Failed to set brightness: " + response.error, "", "", "brightness");
+                ToastService.showError(I18n.tr("Failed to set brightness"), response.error, "", "brightness");
             } else {
                 ToastService.dismissCategory("brightness");
             }
@@ -453,7 +453,7 @@ Singleton {
         }, response => {
             if (response.error) {
                 console.error("DisplayService: Failed to enable gamma control:", response.error);
-                ToastService.showError("Failed to enable night mode: " + response.error, "", "", "night-mode");
+                ToastService.showError(I18n.tr("Failed to enable night mode"), response.error, "", "night-mode");
                 nightModeEnabled = false;
                 SessionData.setNightModeEnabled(false);
                 return;
@@ -481,7 +481,7 @@ Singleton {
         }, response => {
             if (response.error) {
                 console.error("DisplayService: Failed to disable gamma control:", response.error);
-                ToastService.showError("Failed to disable night mode: " + response.error, "", "", "night-mode");
+                ToastService.showError(I18n.tr("Failed to disable night mode"), response.error, "", "night-mode");
             } else {
                 ToastService.dismissCategory("night-mode");
             }
@@ -522,7 +522,7 @@ Singleton {
                 }, response => {
                     if (response.error) {
                         console.error("DisplayService: Failed to set temperature:", response.error);
-                        ToastService.showError("Failed to set night mode temperature: " + response.error, "", "", "night-mode");
+                        ToastService.showError(I18n.tr("Failed to set night mode temperature"), response.error, "", "night-mode");
                     } else {
                         ToastService.dismissCategory("night-mode");
                     }
@@ -573,7 +573,7 @@ Singleton {
             }, response => {
                 if (response.error) {
                     console.error("DisplayService: Failed to set temperature:", response.error);
-                    ToastService.showError("Failed to set night mode temperature: " + response.error, "", "", "night-mode");
+                    ToastService.showError(I18n.tr("Failed to set night mode temperature"), response.error, "", "night-mode");
                     return;
                 }
 
@@ -583,7 +583,7 @@ Singleton {
                 }, response => {
                     if (response.error) {
                         console.error("DisplayService: Failed to set manual times:", response.error);
-                        ToastService.showError("Failed to set night mode schedule: " + response.error, "", "", "night-mode");
+                        ToastService.showError(I18n.tr("Failed to set night mode schedule"), response.error, "", "night-mode");
                     } else {
                         ToastService.dismissCategory("night-mode");
                     }
@@ -611,7 +611,7 @@ Singleton {
             }, response => {
                 if (response.error) {
                     console.error("DisplayService: Failed to set temperature:", response.error);
-                    ToastService.showError("Failed to set night mode temperature: " + response.error, "", "", "night-mode");
+                    ToastService.showError(I18n.tr("Failed to set night mode temperature"), response.error, "", "night-mode");
                     return;
                 }
 
@@ -621,7 +621,7 @@ Singleton {
                     }, response => {
                         if (response.error) {
                             console.error("DisplayService: Failed to enable IP location:", response.error);
-                            ToastService.showError("Failed to enable IP location: " + response.error, "", "", "night-mode");
+                            ToastService.showError(I18n.tr("Failed to enable IP location"), response.error, "", "night-mode");
                         } else {
                             ToastService.dismissCategory("night-mode");
                         }
@@ -641,7 +641,7 @@ Singleton {
                         }, response => {
                             if (response.error) {
                                 console.error("DisplayService: Failed to set location:", response.error);
-                                ToastService.showError("Failed to set night mode location: " + response.error, "", "", "night-mode");
+                                ToastService.showError(I18n.tr("Failed to set night mode location"), response.error, "", "night-mode");
                             } else {
                                 ToastService.dismissCategory("night-mode");
                             }

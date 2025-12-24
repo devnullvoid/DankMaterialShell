@@ -16,6 +16,8 @@ Singleton {
     readonly property int expectedApiVersion: 1
     property var availablePlugins: []
     property var installedPlugins: []
+    property var availableThemes: []
+    property var installedThemes: []
     property bool isConnected: false
     property bool isConnecting: false
     property bool subscribeConnected: false
@@ -33,6 +35,9 @@ Singleton {
     signal pluginsListReceived(var plugins)
     signal installedPluginsReceived(var plugins)
     signal searchResultsReceived(var plugins)
+    signal themesListReceived(var themes)
+    signal installedThemesReceived(var themes)
+    signal themeSearchResultsReceived(var themes)
     signal operationSuccess(string message)
     signal operationError(string error)
     signal connectionStateChanged
@@ -53,10 +58,13 @@ Singleton {
     signal gammaStateUpdate(var data)
     signal openUrlRequested(string url)
     signal appPickerRequested(var data)
+    signal screensaverStateUpdate(var data)
 
     property bool capsLockState: false
+    property bool screensaverInhibited: false
+    property var screensaverInhibitors: []
 
-    property var activeSubscriptions: ["network", "network.credentials", "loginctl", "freedesktop", "gamma", "bluetooth", "bluetooth.pairing", "dwl", "brightness", "wlroutput", "evdev", "browser"]
+    property var activeSubscriptions: ["network", "network.credentials", "loginctl", "freedesktop", "freedesktop.screensaver", "gamma", "bluetooth", "bluetooth.pairing", "dwl", "brightness", "wlroutput", "evdev", "browser"]
 
     Component.onCompleted: {
         if (socketPath && socketPath.length > 0) {
@@ -371,6 +379,10 @@ Singleton {
             } else if (data.url) {
                 openUrlRequested(data.url);
             }
+        } else if (service === "freedesktop.screensaver") {
+            screensaverInhibited = data.inhibited || false;
+            screensaverInhibitors = data.inhibitors || [];
+            screensaverStateUpdate(data);
         }
     }
 
@@ -503,6 +515,82 @@ Singleton {
             }
             if (!response.error) {
                 listInstalled();
+            }
+        });
+    }
+
+    function listThemes(callback) {
+        sendRequest("themes.list", null, response => {
+            if (response.result) {
+                availableThemes = response.result;
+                themesListReceived(response.result);
+            }
+            if (callback) {
+                callback(response);
+            }
+        });
+    }
+
+    function listInstalledThemes(callback) {
+        sendRequest("themes.listInstalled", null, response => {
+            if (response.result) {
+                installedThemes = response.result;
+                installedThemesReceived(response.result);
+            }
+            if (callback) {
+                callback(response);
+            }
+        });
+    }
+
+    function searchThemes(query, callback) {
+        sendRequest("themes.search", {
+            "query": query
+        }, response => {
+            if (response.result) {
+                themeSearchResultsReceived(response.result);
+            }
+            if (callback) {
+                callback(response);
+            }
+        });
+    }
+
+    function installTheme(themeName, callback) {
+        sendRequest("themes.install", {
+            "name": themeName
+        }, response => {
+            if (callback) {
+                callback(response);
+            }
+            if (!response.error) {
+                listInstalledThemes();
+            }
+        });
+    }
+
+    function uninstallTheme(themeName, callback) {
+        sendRequest("themes.uninstall", {
+            "name": themeName
+        }, response => {
+            if (callback) {
+                callback(response);
+            }
+            if (!response.error) {
+                listInstalledThemes();
+            }
+        });
+    }
+
+    function updateTheme(themeName, callback) {
+        sendRequest("themes.update", {
+            "name": themeName
+        }, response => {
+            if (callback) {
+                callback(response);
+            }
+            if (!response.error) {
+                listInstalledThemes();
             }
         });
     }

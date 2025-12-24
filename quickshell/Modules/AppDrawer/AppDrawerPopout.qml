@@ -95,6 +95,9 @@ DankPopout {
         Rectangle {
             id: launcherPanel
 
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
+
             property alias searchField: searchField
 
             color: "transparent"
@@ -179,8 +182,8 @@ DankPopout {
                     mappings[Qt.Key_Backtab] = () => appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid" ? appLauncher.selectPreviousInRow() : keyHandler.selectPrevious();
 
                     if (appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid") {
-                        mappings[Qt.Key_Right] = () => appLauncher.selectNextInRow();
-                        mappings[Qt.Key_Left] = () => appLauncher.selectPreviousInRow();
+                        mappings[Qt.Key_Right] = () => I18n.isRtl ? appLauncher.selectPreviousInRow() : appLauncher.selectNextInRow();
+                        mappings[Qt.Key_Left] = () => I18n.isRtl ? appLauncher.selectNextInRow() : appLauncher.selectPreviousInRow();
                     }
 
                     return mappings;
@@ -211,13 +214,13 @@ DankPopout {
                         return;
                     case Qt.Key_L:
                         if (appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid") {
-                            appLauncher.selectNextInRow();
+                            I18n.isRtl ? appLauncher.selectPreviousInRow() : appLauncher.selectNextInRow();
                             event.accepted = true;
                         }
                         return;
                     case Qt.Key_H:
                         if (appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid") {
-                            appLauncher.selectPreviousInRow();
+                            I18n.isRtl ? appLauncher.selectNextInRow() : appLauncher.selectPreviousInRow();
                             event.accepted = true;
                         }
                         return;

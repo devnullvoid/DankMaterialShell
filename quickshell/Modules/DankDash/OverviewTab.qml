@@ -1,20 +1,19 @@
 import QtQuick
-import QtQuick.Controls
-import QtQuick.Layouts
 import qs.Common
-import qs.Services
-import qs.Widgets
 import qs.Modules.DankDash.Overview
 
 Item {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     implicitWidth: 700
     implicitHeight: 410
 
-    signal switchToWeatherTab()
-    signal switchToMediaTab()
-    signal closeDash()
+    signal switchToWeatherTab
+    signal switchToMediaTab
+    signal closeDash
 
     Item {
         anchors.fill: parent

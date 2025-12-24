@@ -51,13 +51,13 @@ Rectangle {
             spacing: 2
 
             Typography {
-                text: UserInfoService.fullName || UserInfoService.username || "User"
+                text: UserInfoService.fullName || UserInfoService.username || I18n.tr("User")
                 style: Typography.Style.Subtitle
                 color: Theme.surfaceText
             }
 
             Typography {
-                text: DgopService.uptime || "Unknown"
+                text: DgopService.uptime || I18n.tr("Unknown")
                 style: Typography.Style.Caption
                 color: Theme.surfaceVariantText
             }

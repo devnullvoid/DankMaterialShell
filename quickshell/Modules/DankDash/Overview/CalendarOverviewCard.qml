@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Effects
 import Quickshell
 import qs.Common
 import qs.Services
@@ -13,72 +12,70 @@ Rectangle {
     property var selectedDateEvents: []
     property bool hasEvents: selectedDateEvents && selectedDateEvents.length > 0
 
-    signal closeDash()
+    signal closeDash
 
     function weekStartJs() {
-        return Qt.locale().firstDayOfWeek % 7
+        return Qt.locale().firstDayOfWeek % 7;
     }
 
     function startOfWeek(dateObj) {
-        const d = new Date(dateObj)
-        const jsDow = d.getDay()
-        const diff = (jsDow - weekStartJs() + 7) % 7
-        d.setDate(d.getDate() - diff)
-        return d
+        const d = new Date(dateObj);
+        const jsDow = d.getDay();
+        const diff = (jsDow - weekStartJs() + 7) % 7;
+        d.setDate(d.getDate() - diff);
+        return d;
     }
 
     function endOfWeek(dateObj) {
-        const d = new Date(dateObj)
-        const jsDow = d.getDay()
-        const add = (weekStartJs() + 6 - jsDow + 7) % 7
-        d.setDate(d.getDate() + add)
-        return d
+        const d = new Date(dateObj);
+        const jsDow = d.getDay();
+        const add = (weekStartJs() + 6 - jsDow + 7) % 7;
+        d.setDate(d.getDate() + add);
+        return d;
     }
 
     function updateSelectedDateEvents() {
         if (CalendarService && CalendarService.khalAvailable) {
-            const events = CalendarService.getEventsForDate(selectedDate)
-            selectedDateEvents = events
+            const events = CalendarService.getEventsForDate(selectedDate);
+            selectedDateEvents = events;
         } else {
-            selectedDateEvents = []
+            selectedDateEvents = [];
         }
     }
 
     function loadEventsForMonth() {
         if (!CalendarService || !CalendarService.khalAvailable) {
-            return
+            return;
         }
 
-        const firstOfMonth = new Date(calendarGrid.displayDate.getFullYear(),
-                                      calendarGrid.displayDate.getMonth(), 1)
-        const lastOfMonth  = new Date(calendarGrid.displayDate.getFullYear(),
-                                      calendarGrid.displayDate.getMonth() + 1, 0)
+        const firstOfMonth = new Date(calendarGrid.displayDate.getFullYear(), calendarGrid.displayDate.getMonth(), 1);
+        const lastOfMonth = new Date(calendarGrid.displayDate.getFullYear(), calendarGrid.displayDate.getMonth() + 1, 0);
 
-        const startDate = startOfWeek(firstOfMonth)
-        startDate.setDate(startDate.getDate() - 7)
+        const startDate = startOfWeek(firstOfMonth);
+        startDate.setDate(startDate.getDate() - 7);
 
-        const endDate = endOfWeek(lastOfMonth)
-        endDate.setDate(endDate.getDate() + 7)
+        const endDate = endOfWeek(lastOfMonth);
+        endDate.setDate(endDate.getDate() + 7);
 
-        CalendarService.loadEvents(startDate, endDate)
+        CalendarService.loadEvents(startDate, endDate);
     }
 
     onSelectedDateChanged: updateSelectedDateEvents()
     Component.onCompleted: {
-        loadEventsForMonth()
-        updateSelectedDateEvents()
+        loadEventsForMonth();
+        updateSelectedDateEvents();
     }
 
     Connections {
         function onEventsByDateChanged() {
-            updateSelectedDateEvents()
+            updateSelectedDateEvents();
         }
 
         function onKhalAvailableChanged() {
             if (CalendarService && CalendarService.khalAvailable) {
-                loadEventsForMonth()
+                loadEventsForMonth();
             }
-            updateSelectedDateEvents()
+            updateSelectedDateEvents();
         }
 
         target: CalendarService
@@ -133,12 +130,12 @@ Rectangle {
                 height: 40
                 anchors.verticalCenter: parent.verticalCenter
                 text: {
-                    const dateStr = Qt.formatDate(selectedDate, "MMM d")
+                    const dateStr = Qt.formatDate(selectedDate, "MMM d");
                     if (selectedDateEvents && selectedDateEvents.length > 0) {
-                        const eventCount = selectedDateEvents.length === 1 ? I18n.tr("1 event") : selectedDateEvents.length + " " + I18n.tr("events")
-                        return dateStr + " • " + eventCount
+                        const eventCount = selectedDateEvents.length === 1 ? I18n.tr("1 event") : selectedDateEvents.length + " " + I18n.tr("events");
+                        return dateStr + " • " + eventCount;
                     }
-                    return dateStr
+                    return dateStr;
                 }
                 font.pixelSize: Theme.fontSizeMedium
                 color: Theme.surfaceText
@@ -171,10 +168,10 @@ Rectangle {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        let newDate = new Date(calendarGrid.displayDate)
-                        newDate.setMonth(newDate.getMonth() - 1)
-                        calendarGrid.displayDate = newDate
-                        loadEventsForMonth()
+                        let newDate = new Date(calendarGrid.displayDate);
+                        newDate.setMonth(newDate.getMonth() - 1);
+                        calendarGrid.displayDate = newDate;
+                        loadEventsForMonth();
                     }
                 }
             }
@@ -209,10 +206,10 @@ Rectangle {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        let newDate = new Date(calendarGrid.displayDate)
-                        newDate.setMonth(newDate.getMonth() + 1)
-                        calendarGrid.displayDate = newDate
-                        loadEventsForMonth()
+                        let newDate = new Date(calendarGrid.displayDate);
+                        newDate.setMonth(newDate.getMonth() + 1);
+                        calendarGrid.displayDate = newDate;
+                        loadEventsForMonth();
                     }
                 }
             }
@@ -225,14 +222,14 @@ Rectangle {
 
             Repeater {
                 model: {
-                    const days = []
-                    const loc = Qt.locale()
-                    const qtFirst = loc.firstDayOfWeek
+                    const days = [];
+                    const loc = Qt.locale();
+                    const qtFirst = loc.firstDayOfWeek;
                     for (let i = 0; i < 7; ++i) {
-                        const qtDay = ((qtFirst - 1 + i) % 7) + 1
-                        days.push(loc.dayName(qtDay, Locale.ShortFormat))
+                        const qtDay = ((qtFirst - 1 + i) % 7) + 1;
+                        days.push(loc.dayName(qtDay, Locale.ShortFormat));
                     }
-                    return days
+                    return days;
                 }
 
                 Rectangle {
@@ -259,8 +256,8 @@ Rectangle {
             property date selectedDate: systemClock.date
 
             readonly property date firstDay: {
-                const firstOfMonth = new Date(displayDate.getFullYear(), displayDate.getMonth(), 1)
-                return startOfWeek(firstOfMonth)
+                const firstOfMonth = new Date(displayDate.getFullYear(), displayDate.getMonth(), 1);
+                return startOfWeek(firstOfMonth);
             }
 
             width: parent.width
@@ -273,9 +270,9 @@ Rectangle {
 
                 Rectangle {
                     readonly property date dayDate: {
-                        const date = new Date(parent.firstDay)
-                        date.setDate(date.getDate() + index)
-                        return date
+                        const date = new Date(parent.firstDay);
+                        date.setDate(date.getDate() + index);
+                        return date;
                     }
                     readonly property bool isCurrentMonth: dayDate.getMonth() === calendarGrid.displayDate.getMonth()
                     readonly property bool isToday: dayDate.toDateString() === new Date().toDateString()
@@ -290,7 +287,7 @@ Rectangle {
                         width: Math.min(parent.width - 4, parent.height - 4, 32)
                         height: width
                         color: isToday ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12) : dayArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.08) : "transparent"
-                        radius: width / 2
+                        radius: Theme.cornerRadius
 
                         StyledText {
                             anchors.centerIn: parent
@@ -306,7 +303,7 @@ Rectangle {
                             anchors.bottomMargin: 4
                             width: 12
                             height: 2
-                            radius: 1
+                            radius: Theme.cornerRadius
                             visible: CalendarService && CalendarService.khalAvailable && CalendarService.hasEventsForDate(dayDate)
                             color: isToday ? Qt.lighter(Theme.primary, 1.3) : Theme.primary
                             opacity: isToday ? 0.9 : 0.7
@@ -327,8 +324,8 @@ Rectangle {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             if (CalendarService && CalendarService.khalAvailable && CalendarService.hasEventsForDate(dayDate)) {
-                                root.selectedDate = dayDate
-                                root.showEventDetails = true
+                                root.selectedDate = dayDate;
+                                root.showEventDetails = true;
                             }
                         }
                     }
@@ -350,19 +347,19 @@ Rectangle {
                 radius: Theme.cornerRadius
                 color: {
                     if (modelData.url && eventMouseArea.containsMouse) {
-                        return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12)
+                        return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12);
                     } else if (eventMouseArea.containsMouse) {
-                        return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.06)
+                        return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.06);
                     }
-                    return Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
+                    return Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency);
                 }
                 border.color: {
                     if (modelData.url && eventMouseArea.containsMouse) {
-                        return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3)
+                        return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3);
                     } else if (eventMouseArea.containsMouse) {
-                        return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.15)
+                        return Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.15);
                     }
-                    return "transparent"
+                    return "transparent";
                 }
                 border.width: 1
 
@@ -372,7 +369,7 @@ Rectangle {
                     anchors.left: parent.left
                     anchors.leftMargin: 3
                     anchors.verticalCenter: parent.verticalCenter
-                    radius: 2
+                    radius: Theme.cornerRadius
                     color: Theme.primary
                     opacity: 0.8
                 }
@@ -401,16 +398,16 @@ Rectangle {
                         width: parent.width
                         text: {
                             if (!modelData || modelData.allDay) {
-                                return I18n.tr("All day")
+                                return I18n.tr("All day");
                             } else if (modelData.start && modelData.end) {
-                                const timeFormat = SettingsData.use24HourClock ? "HH:mm" : "h:mm AP"
-                                const startTime = Qt.formatTime(modelData.start, timeFormat)
+                                const timeFormat = SettingsData.use24HourClock ? "HH:mm" : "h:mm AP";
+                                const startTime = Qt.formatTime(modelData.start, timeFormat);
                                 if (modelData.start.toDateString() !== modelData.end.toDateString() || modelData.start.getTime() !== modelData.end.getTime()) {
-                                    return startTime + " – " + Qt.formatTime(modelData.end, timeFormat)
+                                    return startTime + " – " + Qt.formatTime(modelData.end, timeFormat);
                                 }
-                                return startTime
+                                return startTime;
                             }
-                            return ""
+                            return "";
                         }
                         font.pixelSize: Theme.fontSizeSmall
                         color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.7)
@@ -429,9 +426,9 @@ Rectangle {
                     onClicked: {
                         if (modelData.url && modelData.url !== "") {
                             if (Qt.openUrlExternally(modelData.url) === false) {
-                                console.warn("Failed to open URL: " + modelData.url)
+                                console.warn("Failed to open URL: " + modelData.url);
                             } else {
-                                root.closeDash()
+                                root.closeDash();
                             }
                         }
                     }

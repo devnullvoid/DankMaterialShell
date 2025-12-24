@@ -7,6 +7,9 @@ import qs.Widgets
 Item {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property string tab: ""
     property var tags: []
     property string settingKey: ""
@@ -51,6 +54,8 @@ Item {
                     font.weight: Font.Medium
                     color: Theme.surfaceText
                     visible: root.text !== ""
+                    width: parent.width
+                    anchors.left: parent.left
                 }
 
                 StyledText {
@@ -60,6 +65,7 @@ Item {
                     wrapMode: Text.WordWrap
                     width: parent.width
                     visible: root.description !== ""
+                    anchors.left: parent.left
                 }
             }
 

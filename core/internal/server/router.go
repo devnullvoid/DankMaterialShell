@@ -18,6 +18,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/network"
 	serverPlugins "github.com/AvengeMedia/DankMaterialShell/core/internal/server/plugins"
+	serverThemes "github.com/AvengeMedia/DankMaterialShell/core/internal/server/themes"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/wayland"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/wlroutput"
 )
@@ -34,6 +35,11 @@ func RouteRequest(conn net.Conn, req models.Request) {
 
 	if strings.HasPrefix(req.Method, "plugins.") {
 		serverPlugins.HandleRequest(conn, req)
+		return
+	}
+
+	if strings.HasPrefix(req.Method, "themes.") {
+		serverThemes.HandleRequest(conn, req)
 		return
 	}
 
@@ -203,9 +209,6 @@ func handleClipboardSetConfig(conn net.Conn, req models.Request) {
 	}
 	if v, ok := req.Params["disableHistory"].(bool); ok {
 		cfg.DisableHistory = v
-	}
-	if v, ok := req.Params["disablePersist"].(bool); ok {
-		cfg.DisablePersist = v
 	}
 
 	if err := clipboard.SaveConfig(cfg); err != nil {

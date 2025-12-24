@@ -9,6 +9,9 @@ import qs.Modules.DankBar.Widgets
 Item {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     implicitWidth: 700
     implicitHeight: 410
     property bool syncing: false
@@ -94,11 +97,10 @@ Item {
 
                     Timer {
                         id: hoverDelayTwo
-                        interval: 1000
+                        interval: 300
                         repeat: false
                         onTriggered: {
-                            const p = refreshButtonMouseAreaTwo.mapToItem(null, parent.width / 2, parent.height + Theme.spacingXS);
-                            refreshButtonTooltipTwo.show(I18n.tr("Refresh Weather"), p.x, p.y, null);
+                            refreshButtonTooltipTwo.show(I18n.tr("Refresh Weather"), refreshButtonTwo, 0, 0, "left");
                         }
                     }
 
@@ -118,7 +120,7 @@ Item {
                     }
                 }
 
-                DankTooltip {
+                DankTooltipV2 {
                     id: refreshButtonTooltipTwo
                 }
 
@@ -146,6 +148,10 @@ Item {
 
         Item {
             id: weatherContainer
+
+            LayoutMirroring.enabled: false
+            LayoutMirroring.childrenInherit: true
+
             width: parent.width
             height: weatherColumn.height
 
@@ -754,10 +760,10 @@ Item {
                     color: Theme.outline
                 }
 
-                StyledText {
+                DankNFIcon {
                     id: moonPhase
-                    text: WeatherService.getMoonPhase(skyBox.currentDate) || ""
-                    font.pixelSize: Theme.fontSizeXLarge * 1
+                    name: WeatherService.getMoonPhase(skyBox.currentDate) || ""
+                    size: Theme.fontSizeXLarge
                     color: Theme.withAlpha(Theme.surfaceText, 0.7)
                     rotation: (WeatherService.getMoonAngle(skyBox.currentDate) || 0) / Math.PI * 180
                     visible: !!pos
@@ -777,10 +783,10 @@ Item {
                     }
                 }
 
-                StyledText {
+                DankIcon {
                     id: sun
-                    text: ""
-                    font.pixelSize: Theme.fontSizeXLarge * 1
+                    name: "light_mode"
+                    size: Theme.fontSizeXLarge
                     color: Theme.primary
                     visible: !!pos
 
@@ -820,11 +826,10 @@ Item {
 
                     Timer {
                         id: hoverDelay
-                        interval: 1000
+                        interval: 300
                         repeat: false
                         onTriggered: {
-                            const p = refreshButtonMouseArea.mapToItem(null, parent.width / 2, parent.height + Theme.spacingXS);
-                            refreshButtonTooltip.show(I18n.tr("Refresh Weather"), p.x, p.y, null);
+                            refreshButtonTooltip.show(I18n.tr("Refresh Weather"), refreshButton, 0, 0, "left");
                         }
                     }
 
@@ -844,7 +849,7 @@ Item {
                     }
                 }
 
-                DankTooltip {
+                DankTooltipV2 {
                     id: refreshButtonTooltip
                 }
 

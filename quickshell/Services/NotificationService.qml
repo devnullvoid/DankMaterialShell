@@ -403,7 +403,7 @@ Singleton {
         NotifWrapper {}
     }
 
-    function clearAllPopups() {
+    function dismissAllPopups() {
         for (const w of visibleNotifications) {
             if (w) {
                 w.popup = false;
@@ -414,6 +414,9 @@ Singleton {
     }
 
     function clearAllNotifications() {
+        if (!notifications.length) {
+            return;
+        }
         bulkDismissing = true;
         popupsDisabled = true;
         addGate.stop();
