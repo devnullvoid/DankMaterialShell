@@ -760,10 +760,10 @@ Item {
                     color: Theme.outline
                 }
 
-                StyledText {
+                DankNFIcon {
                     id: moonPhase
-                    text: WeatherService.getMoonPhase(skyBox.currentDate) || ""
-                    font.pixelSize: Theme.fontSizeXLarge * 1
+                    name: WeatherService.getMoonPhase(skyBox.currentDate) || ""
+                    size: Theme.fontSizeXLarge
                     color: Theme.withAlpha(Theme.surfaceText, 0.7)
                     rotation: (WeatherService.getMoonAngle(skyBox.currentDate) || 0) / Math.PI * 180
                     visible: !!pos
@@ -783,10 +783,10 @@ Item {
                     }
                 }
 
-                StyledText {
+                DankIcon {
                     id: sun
-                    text: ""
-                    font.pixelSize: Theme.fontSizeXLarge * 1
+                    name: "light_mode"
+                    size: Theme.fontSizeXLarge
                     color: Theme.primary
                     visible: !!pos
 
