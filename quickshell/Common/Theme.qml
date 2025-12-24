@@ -92,6 +92,7 @@ Singleton {
     property var matugenColors: ({})
     property var _pendingGenerateParams: null
     property var customThemeData: null
+    property var customThemeRawData: null
 
     Component.onCompleted: {
         Quickshell.execDetached(["mkdir", "-p", stateDir]);
@@ -602,6 +603,7 @@ Singleton {
     }
 
     function loadCustomTheme(themeData) {
+        customThemeRawData = themeData;
         if (themeData.dark || themeData.light) {
             const colorMode = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "light" : "dark";
             const selectedTheme = themeData[colorMode] || themeData.dark || themeData.light;
@@ -907,8 +909,13 @@ Singleton {
 
         let darkTheme, lightTheme;
         if (currentTheme === "custom") {
-            darkTheme = customThemeData;
-            lightTheme = customThemeData;
+            if (customThemeRawData && (customThemeRawData.dark || customThemeRawData.light)) {
+                darkTheme = customThemeRawData.dark || customThemeRawData.light;
+                lightTheme = customThemeRawData.light || customThemeRawData.dark;
+            } else {
+                darkTheme = customThemeData;
+                lightTheme = customThemeData;
+            }
         } else {
             darkTheme = StockThemes.getThemeByName(currentTheme, false);
             lightTheme = StockThemes.getThemeByName(currentTheme, true);
