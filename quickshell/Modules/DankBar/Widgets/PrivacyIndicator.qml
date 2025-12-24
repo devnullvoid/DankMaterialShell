@@ -86,7 +86,11 @@ Item {
                     return "transparent";
                 }
 
-                const baseColor = privacyArea.containsMouse ? Theme.widgetBaseHoverColor : Theme.widgetBaseBackgroundColor;
+                if (privacyArea.containsMouse) {
+                    return Theme.primaryPressed;
+                }
+
+                const baseColor = Theme.widgetBaseBackgroundColor;
                 const transparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
                 return Theme.withAlpha(baseColor, transparency);
             }

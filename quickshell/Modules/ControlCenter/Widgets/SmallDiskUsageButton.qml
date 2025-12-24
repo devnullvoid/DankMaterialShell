@@ -37,7 +37,7 @@ Rectangle {
 
     readonly property color _tileBg: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
 
-    color: mouseArea.containsMouse ? Theme.widgetBaseHoverColor : _tileBg
+    color: mouseArea.containsMouse ? Theme.primaryPressed : _tileBg
     border.color: "transparent"
     border.width: 0
     antialiasing: true

@@ -647,11 +647,7 @@ Singleton {
         }
     }
 
-    property var widgetBaseHoverColor: {
-        const baseColor = widgetBaseBackgroundColor;
-        const factor = 1.2;
-        return isLightMode ? Qt.darker(baseColor, factor) : Qt.lighter(baseColor, factor);
-    }
+    property alias widgetBaseHoverColor: root.primaryPressed
 
     property color widgetIconColor: {
         if (typeof SettingsData === "undefined") {
