@@ -255,10 +255,13 @@ BasePill {
 
                     MouseArea {
                         anchors.fill: parent
-                        acceptedButtons: Qt.NoButton
+                        acceptedButtons: Qt.RightButton
                         onWheel: function (wheelEvent) {
                             root.handleVolumeWheel(wheelEvent.angleDelta.y);
                             wheelEvent.accepted = true;
+                        }
+                        onClicked: {
+                            AudioService.toggleMute();
                         }
                     }
                 }
@@ -280,10 +283,13 @@ BasePill {
 
                     MouseArea {
                         anchors.fill: parent
-                        acceptedButtons: Qt.NoButton
+                        acceptedButtons: Qt.RightButton
                         onWheel: function (wheelEvent) {
                             root.handleMicWheel(wheelEvent.angleDelta.y);
                             wheelEvent.accepted = true;
+                        }
+                        onClicked: {
+                            AudioService.toggleMicMute();
                         }
                     }
                 }
@@ -389,10 +395,13 @@ BasePill {
                     MouseArea {
                         id: audioWheelArea
                         anchors.fill: parent
-                        acceptedButtons: Qt.NoButton
+                        acceptedButtons: Qt.RightButton
                         onWheel: function (wheelEvent) {
                             root.handleVolumeWheel(wheelEvent.angleDelta.y);
                             wheelEvent.accepted = true;
+                        }
+                        onClicked: {
+                            AudioService.toggleMute();
                         }
                     }
                 }
@@ -415,10 +424,13 @@ BasePill {
                     MouseArea {
                         id: micWheelArea
                         anchors.fill: parent
-                        acceptedButtons: Qt.NoButton
+                        acceptedButtons: Qt.RightButton
                         onWheel: function (wheelEvent) {
                             root.handleMicWheel(wheelEvent.angleDelta.y);
                             wheelEvent.accepted = true;
+                        }
+                        onClicked: {
+                            AudioService.toggleMicMute();
                         }
                     }
                 }
