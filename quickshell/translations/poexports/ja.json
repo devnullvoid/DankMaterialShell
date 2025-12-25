@@ -431,6 +431,9 @@
   "Battery": {
     "Battery": "バッテリー"
   },
+  "Battery Charge Limit": {
+    "Battery Charge Limit": ""
+  },
   "Battery and power management": {
     "Battery and power management": ""
   },
@@ -508,6 +511,9 @@
   },
   "Brightness Slider": {
     "Brightness Slider": ""
+  },
+  "Brightness Value": {
+    "Brightness Value": ""
   },
   "Brightness control not available": {
     "Brightness control not available": ""
@@ -2099,6 +2105,9 @@
   "Microphone Mute": {
     "Microphone Mute": ""
   },
+  "Microphone Volume": {
+    "Microphone Volume": ""
+  },
   "Microphone settings": {
     "Microphone settings": ""
   },
@@ -2219,6 +2228,9 @@
   "Niri Integration": {
     "Niri Integration": ""
   },
+  "Niri Layout Overrides": {
+    "Niri Layout Overrides": ""
+  },
   "Niri compositor actions (focus, move, etc.)": {
     "Niri compositor actions (focus, move, etc.)": ""
   },
@@ -2333,6 +2345,9 @@
   "Not connected": {
     "Not connected": ""
   },
+  "Note: this only changes the percentage, it does not actually limit charging.": {
+    "Note: this only changes the percentage, it does not actually limit charging.": ""
+  },
   "Notepad": {
     "Notepad": "メモ帳"
   },
@@ -2443,6 +2458,12 @@
   },
   "Override": {
     "Override": ""
+  },
+  "Override Corner Radius": {
+    "Override Corner Radius": ""
+  },
+  "Override Gaps": {
+    "Override Gaps": ""
   },
   "Override global layout settings for this output": {
     "Override global layout settings for this output": ""
@@ -2804,6 +2825,9 @@
   "Root Filesystem": {
     "Root Filesystem": ""
   },
+  "Rounded corners for windows": {
+    "Rounded corners for windows": ""
+  },
   "Run DMS Templates": {
     "Run DMS Templates": ""
   },
@@ -3098,6 +3122,9 @@
   "Show on Last Display": {
     "Show on Last Display": "最後のディスプレイに表示"
   },
+  "Show on Overlay": {
+    "Show on Overlay": ""
+  },
   "Show on Overview": {
     "Show on Overview": "概要に表示"
   },
@@ -3193,6 +3220,9 @@
   },
   "Sounds": {
     "Sounds": ""
+  },
+  "Space between windows": {
+    "Space between windows": ""
   },
   "Spacer": {
     "Spacer": "間隔"
@@ -3551,6 +3581,12 @@
   "Use custom command for update your system": {
     "Use custom command for update your system": "カスタムコマンドを使用してシステムを更新"
   },
+  "Use custom gaps instead of bar spacing": {
+    "Use custom gaps instead of bar spacing": ""
+  },
+  "Use custom window radius instead of theme radius": {
+    "Use custom window radius instead of theme radius": ""
+  },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "ロック画面認証に指紋リーダーを使用(登録された指紋が必要)"
   },
@@ -3762,6 +3798,12 @@
   },
   "Wind Speed": {
     "Wind Speed": ""
+  },
+  "Window Corner Radius": {
+    "Window Corner Radius": ""
+  },
+  "Window Gaps": {
+    "Window Gaps": ""
   },
   "Window Gaps (px)": {
     "Window Gaps (px)": ""

@@ -168,7 +168,7 @@
     "Add Bar": "添加状态栏"
   },
   "Add Desktop Widget": {
-    "Add Desktop Widget": ""
+    "Add Desktop Widget": "添加桌面部件"
   },
   "Add Printer": {
     "Add Printer": "添加打印机"
@@ -186,7 +186,7 @@
     "Add a custom prefix to all application launches. This can be used for things like 'uwsm-app', 'systemd-run', or other command wrappers.": "在所有应用启动后添加自定义前缀。这可以用来处理诸如uwsm-app、systemd-run或其他命令封装器。"
   },
   "Add and configure widgets that appear on your desktop": {
-    "Add and configure widgets that appear on your desktop": ""
+    "Add and configure widgets that appear on your desktop": "添加与配置出现在你桌面的部件"
   },
   "Adjust the number of columns in grid view mode.": {
     "Adjust the number of columns in grid view mode.": "在网格模式中按需调整列的数量。"
@@ -431,6 +431,9 @@
   "Battery": {
     "Battery": "电池"
   },
+  "Battery Charge Limit": {
+    "Battery Charge Limit": ""
+  },
   "Battery and power management": {
     "Battery and power management": "电池与电源管理"
   },
@@ -508,6 +511,9 @@
   },
   "Brightness Slider": {
     "Brightness Slider": "亮度滑块"
+  },
+  "Brightness Value": {
+    "Brightness Value": ""
   },
   "Brightness control not available": {
     "Brightness control not available": "亮度控制不可用"
@@ -1038,7 +1044,7 @@
     "Desktop Clock": "桌面时钟"
   },
   "Desktop Widget": {
-    "Desktop Widget": ""
+    "Desktop Widget": "桌面部件"
   },
   "Desktop Widgets": {
     "Desktop Widgets": "桌面挂件"
@@ -1047,10 +1053,10 @@
     "Desktop background images": "桌面壁纸"
   },
   "Desktop clock widget description": {
-    "Analog, digital, or stacked clock display": ""
+    "Analog, digital, or stacked clock display": "模拟、数字以及堆叠时钟显示"
   },
   "Desktop clock widget name": {
-    "Desktop Clock": ""
+    "Desktop Clock": "桌面时钟"
   },
   "Development": {
     "Development": "开发"
@@ -1686,7 +1692,7 @@
     "Hide Delay": "隐藏延迟"
   },
   "Hide When Windows Open": {
-    "Hide When Windows Open": ""
+    "Hide When Windows Open": "当窗口打开时隐藏"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "在未使用时隐藏程序坞，鼠标悬停到程序坞区域时显示"
@@ -1824,7 +1830,7 @@
     "Invert on mode change": "切换模式时反色"
   },
   "Isolate Displays": {
-    "Isolate Displays": ""
+    "Isolate Displays": "隔离显示"
   },
   "Jobs": {
     "Jobs": "任务"
@@ -2099,6 +2105,9 @@
   "Microphone Mute": {
     "Microphone Mute": "麦克风静音"
   },
+  "Microphone Volume": {
+    "Microphone Volume": ""
+  },
   "Microphone settings": {
     "Microphone settings": "麦克风设置"
   },
@@ -2219,6 +2228,9 @@
   "Niri Integration": {
     "Niri Integration": "Niri 集成"
   },
+  "Niri Layout Overrides": {
+    "Niri Layout Overrides": ""
+  },
   "Niri compositor actions (focus, move, etc.)": {
     "Niri compositor actions (focus, move, etc.)": "Niri 合成器操作（聚焦、移动等）"
   },
@@ -2310,10 +2322,10 @@
     "No variants created. Click Add to create a new monitor widget.": "没有任何变体。点击添加以创建新的显示器小部件。"
   },
   "No widgets available": {
-    "No widgets available": ""
+    "No widgets available": "无可用部件"
   },
   "No widgets match your search": {
-    "No widgets match your search": ""
+    "No widgets match your search": "未找到匹配的部件"
   },
   "None": {
     "None": "无"
@@ -2332,6 +2344,9 @@
   },
   "Not connected": {
     "Not connected": "未连接"
+  },
+  "Note: this only changes the percentage, it does not actually limit charging.": {
+    "Note: this only changes the percentage, it does not actually limit charging.": ""
   },
   "Notepad": {
     "Notepad": "便签"
@@ -2394,7 +2409,7 @@
     "Only adjust gamma based on time or location rules.": "根据时间或位置调节伽马值。"
   },
   "Only show windows from the current monitor on each dock": {
-    "Only show windows from the current monitor on each dock": ""
+    "Only show windows from the current monitor on each dock": "在每个程序坞上仅显示当前显示器上的窗口"
   },
   "Only visible if hibernate is supported by your system": {
     "Only visible if hibernate is supported by your system": "仅在休眠受系统支持时可见"
@@ -2443,6 +2458,12 @@
   },
   "Override": {
     "Override": "覆盖"
+  },
+  "Override Corner Radius": {
+    "Override Corner Radius": ""
+  },
+  "Override Gaps": {
+    "Override Gaps": ""
   },
   "Override global layout settings for this output": {
     "Override global layout settings for this output": "为此输出覆盖全局布局设置"
@@ -2804,6 +2825,9 @@
   "Root Filesystem": {
     "Root Filesystem": "根文件系统"
   },
+  "Rounded corners for windows": {
+    "Rounded corners for windows": ""
+  },
   "Run DMS Templates": {
     "Run DMS Templates": "运行DMS模板"
   },
@@ -2928,7 +2952,7 @@
     "Select a color from the palette or use custom sliders": "从调色板中选择颜色，或使用自定义滑块"
   },
   "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": {
-    "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": ""
+    "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": "选择要添加至桌面的部件。每个部件均为独立实例，拥有自己的设置。"
   },
   "Select a widget to add. You can add multiple instances of the same widget if needed.": {
     "Select a widget to add. You can add multiple instances of the same widget if needed.": "选择要添加的小组件。如果需要，您可以添加同一小组件的多个实例。"
@@ -3098,6 +3122,9 @@
   "Show on Last Display": {
     "Show on Last Display": "上一个显示器"
   },
+  "Show on Overlay": {
+    "Show on Overlay": ""
+  },
   "Show on Overview": {
     "Show on Overview": "概览中显示"
   },
@@ -3193,6 +3220,9 @@
   },
   "Sounds": {
     "Sounds": "声音"
+  },
+  "Space between windows": {
+    "Space between windows": ""
   },
   "Spacer": {
     "Spacer": "空白占位"
@@ -3300,10 +3330,10 @@
     "System Updates": "系统更新"
   },
   "System monitor widget description": {
-    "CPU, memory, network, and disk monitoring": ""
+    "CPU, memory, network, and disk monitoring": "CPU、内存、网络与磁盘监控"
   },
   "System monitor widget name | sysmon window title": {
-    "System Monitor": ""
+    "System Monitor": "系统监视器"
   },
   "System notification area icons": {
     "System notification area icons": "系统通知区域图标"
@@ -3551,6 +3581,12 @@
   "Use custom command for update your system": {
     "Use custom command for update your system": "使用自定义命令来更新系统"
   },
+  "Use custom gaps instead of bar spacing": {
+    "Use custom gaps instead of bar spacing": ""
+  },
+  "Use custom window radius instead of theme radius": {
+    "Use custom window radius instead of theme radius": ""
+  },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "使用指纹识别进行锁屏验证（需要录入指纹）"
   },
@@ -3745,7 +3781,7 @@
     "Widget Variants": "挂件变体"
   },
   "Widget added": {
-    "Widget added": ""
+    "Widget added": "部件已添加"
   },
   "Widget grid keyboard hints": {
     "G: grid • Z/X: size": "G：网格 • Z/X：尺寸"
@@ -3755,13 +3791,19 @@
     "Grid: ON": "网格：开启"
   },
   "Widget removed": {
-    "Widget removed": ""
+    "Widget removed": "部件已移除"
   },
   "Wind": {
     "Wind": "风速"
   },
   "Wind Speed": {
     "Wind Speed": "风速"
+  },
+  "Window Corner Radius": {
+    "Window Corner Radius": ""
+  },
+  "Window Gaps": {
+    "Window Gaps": ""
   },
   "Window Gaps (px)": {
     "Window Gaps (px)": "窗口间隙（像素）"
@@ -3812,25 +3854,25 @@
     "apps": "应用程序"
   },
   "author attribution": {
-    "by %1": ""
+    "by %1": "%1"
   },
   "browse themes button | theme browser header | theme browser window title": {
-    "Browse Themes": ""
+    "Browse Themes": "浏览主题"
   },
   "catppuccin theme description": {
-    "Soothing pastel theme based on Catppuccin": ""
+    "Soothing pastel theme based on Catppuccin": "基于Catppuccin的舒缓且柔和的主题"
   },
   "current theme label": {
-    "Current Theme: %1": ""
+    "Current Theme: %1": "当前主题：%1"
   },
   "custom theme description": {
-    "Custom theme loaded from JSON file": ""
+    "Custom theme loaded from JSON file": "从JSON文件加载的自定义主题"
   },
   "custom theme file browser title": {
     "Select Custom Theme": "选择自定义主题"
   },
   "custom theme file hint": {
-    "Click to select a custom theme JSON file": ""
+    "Click to select a custom theme JSON file": "点击以选择自定义主题的JSON文件"
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "选择壁纸"
@@ -3851,13 +3893,13 @@
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": "dms/输出配置存在，但不包含在你的合成器配置里。显示更改不会保留。"
   },
   "dynamic colors description": {
-    "Dynamic colors from wallpaper": ""
+    "Dynamic colors from wallpaper": "自壁纸选取动态色"
   },
   "dynamic theme description": {
-    "Material colors generated from wallpaper": ""
+    "Material colors generated from wallpaper": "从壁纸生成的Material色彩"
   },
   "dynamic theme name": {
-    "Dynamic": ""
+    "Dynamic": "动态"
   },
   "e.g., firefox, kitty --title foo": {
     "e.g., firefox, kitty --title foo": "例如：firefox, kitty --title foo"
@@ -3869,10 +3911,10 @@
     "e.g., notify-send 'Hello' && sleep 1": "例如：通知发送 'Hello' && sleep 1"
   },
   "empty plugin list": {
-    "No plugins found": ""
+    "No plugins found": "未找到插件"
   },
   "empty theme list": {
-    "No themes found": ""
+    "No themes found": "未找到主题"
   },
   "events": {
     "events": "事件"
@@ -3881,40 +3923,40 @@
     "files": "文件"
   },
   "generic theme description": {
-    "Material Design inspired color themes": ""
+    "Material Design inspired color themes": "受Material设计启发的色彩主题"
   },
   "install action button": {
-    "Install": ""
+    "Install": "安装"
   },
   "installation error": {
-    "Install failed: %1": ""
+    "Install failed: %1": "安装失败：%1"
   },
   "installation progress": {
-    "Installing: %1": ""
+    "Installing: %1": "安装中：%1"
   },
   "installation success": {
-    "Installed: %1": ""
+    "Installed: %1": "已安装：%1"
   },
   "installed status": {
-    "Installed": ""
+    "Installed": "已安装"
   },
   "leave empty for default": {
     "leave empty for default": "留空使用默认"
   },
   "loading indicator": {
-    "Loading...": ""
+    "Loading...": "加载中..."
   },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl 不可用 - 启用锁定集成需连接 DMS socket"
   },
   "matugen error": {
-    "matugen not found - install matugen package for dynamic theming": ""
+    "matugen not found - install matugen package for dynamic theming": "未找到matugen - 请为动态主题安装matugen包"
   },
   "matugen installation hint": {
-    "Install matugen package for dynamic theming": ""
+    "Install matugen package for dynamic theming": "为动态主题安装matugen包"
   },
   "matugen not found status": {
-    "Matugen Missing": ""
+    "Matugen Missing": "未找到matugen"
   },
   "minutes": {
     "minutes": "分钟"
@@ -3923,37 +3965,37 @@
     "ms": "毫秒"
   },
   "no custom theme file status": {
-    "No custom theme file": ""
+    "No custom theme file": "缺失自定义主题文件"
   },
   "no registry themes installed hint": {
-    "No themes installed. Browse themes to install from the registry.": ""
+    "No themes installed. Browse themes to install from the registry.": "未安装主题。从注册表浏览并安装。"
   },
   "no wallpaper status": {
-    "No wallpaper selected": ""
+    "No wallpaper selected": "未选择壁纸"
   },
   "official": {
     "official": "官方"
   },
   "plugin browser description": {
-    "Install plugins from the DMS plugin registry": ""
+    "Install plugins from the DMS plugin registry": "从DMS插件注册表安装插件"
   },
   "plugin browser header | plugin browser window title": {
-    "Browse Plugins": ""
+    "Browse Plugins": "浏览插件"
   },
   "plugin installation confirmation": {
-    "Install plugin '%1' from the DMS registry?": ""
+    "Install plugin '%1' from the DMS registry?": "要从DMS注册表安装插件%1吗？"
   },
   "plugin installation dialog title": {
-    "Install Plugin": ""
+    "Install Plugin": "安装插件"
   },
   "plugin search placeholder": {
-    "Search plugins...": ""
+    "Search plugins...": "插件搜索中..."
   },
   "profile image file browser title": {
     "Select Profile Image": "选择个人信息图像"
   },
   "registry theme description": {
-    "Color theme from DMS registry": ""
+    "Color theme from DMS registry": "DMS注册表的颜色主题"
   },
   "seconds": {
     "seconds": "秒"
@@ -3965,37 +4007,37 @@
     "Widgets": "挂件"
   },
   "source code link": {
-    "source": ""
+    "source": "源"
   },
   "sysmon window title": {
     "System Monitor": "系统监视器"
   },
   "theme browser description": {
-    "Install color themes from the DMS theme registry": ""
+    "Install color themes from the DMS theme registry": "从DMS主题注册表安装色彩主题"
   },
   "theme installation confirmation": {
-    "Install theme '%1' from the DMS registry?": ""
+    "Install theme '%1' from the DMS registry?": "要从DMS注册表安装主题%1吗？"
   },
   "theme installation dialog title": {
-    "Install Theme": ""
+    "Install Theme": "安装主题"
   },
   "theme search placeholder": {
-    "Search themes...": ""
+    "Search themes...": "主题搜索中..."
   },
   "uninstall action button": {
-    "Uninstall": ""
+    "Uninstall": "卸载"
   },
   "uninstallation error": {
-    "Uninstall failed: %1": ""
+    "Uninstall failed: %1": "卸载失败：%1"
   },
   "uninstallation progress": {
-    "Uninstalling: %1": ""
+    "Uninstalling: %1": "卸载中：%1"
   },
   "uninstallation success": {
-    "Uninstalled: %1": ""
+    "Uninstalled: %1": "已卸载：%1"
   },
   "unknown author": {
-    "Unknown": ""
+    "Unknown": "未知"
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "更新 DMS 以集成 NM"
@@ -4004,13 +4046,13 @@
     "Select Wallpaper Directory": "选择壁纸位置"
   },
   "wallpaper error": {
-    "Wallpaper processing failed - check wallpaper path": ""
+    "Wallpaper processing failed - check wallpaper path": "壁纸处理失败 - 请检查壁纸路径"
   },
   "wallpaper error status": {
-    "Wallpaper Error": ""
+    "Wallpaper Error": "壁纸错误"
   },
   "wallpaper processing error": {
-    "Wallpaper processing failed": ""
+    "Wallpaper processing failed": "壁纸处理失败"
   },
   "wallpaper settings disable description": {
     "Use an external wallpaper manager like swww, hyprpaper, or swaybg.": "使用外部壁纸管理器，例如 swww、hyprpaper 或 swaybg。"

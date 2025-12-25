@@ -122,7 +122,7 @@
   {
     "term": "180°",
     "context": "180°",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1378, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1399",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1376, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1397",
     "comment": ""
   },
   {
@@ -146,7 +146,7 @@
   {
     "term": "270°",
     "context": "270°",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1380, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1401",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1378, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1399",
     "comment": ""
   },
   {
@@ -212,7 +212,7 @@
   {
     "term": "90°",
     "context": "90°",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1376, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1397",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1374, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1395",
     "comment": ""
   },
   {
@@ -290,7 +290,7 @@
   {
     "term": "Active",
     "context": "Active",
-    "reference": "Modules/Settings/NetworkTab.qml:674, Modules/ControlCenter/Details/AudioInputDetail.qml:204, Modules/ControlCenter/Details/AudioOutputDetail.qml:214",
+    "reference": "Modules/Settings/NetworkTab.qml:674, Modules/ControlCenter/Details/AudioInputDetail.qml:204, Modules/ControlCenter/Details/AudioOutputDetail.qml:216",
     "comment": ""
   },
   {
@@ -386,13 +386,13 @@
   {
     "term": "Advanced",
     "context": "Advanced",
-    "reference": "Modules/Settings/ClipboardTab.qml:320",
+    "reference": "Modules/Settings/PowerSleepTab.qml:510, Modules/Settings/ClipboardTab.qml:320",
     "comment": ""
   },
   {
     "term": "Afternoon",
     "context": "Afternoon",
-    "reference": "Services/WeatherService.qml:301",
+    "reference": "Services/WeatherService.qml:260",
     "comment": ""
   },
   {
@@ -434,7 +434,7 @@
   {
     "term": "Always on icons",
     "context": "Always on icons",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:982",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:1003",
     "comment": ""
   },
   {
@@ -506,7 +506,7 @@
   {
     "term": "Applications",
     "context": "Applications",
-    "reference": "Modules/AppDrawer/AppDrawerPopout.qml:245, Modules/Settings/ThemeColorsTab.qml:882",
+    "reference": "Modules/AppDrawer/AppDrawerPopout.qml:245, Modules/Settings/ThemeColorsTab.qml:968",
     "comment": ""
   },
   {
@@ -518,13 +518,13 @@
   {
     "term": "Apply GTK Colors",
     "context": "Apply GTK Colors",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:1202",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1288",
     "comment": ""
   },
   {
     "term": "Apply Qt Colors",
     "context": "Apply Qt Colors",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:1236",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1322",
     "comment": ""
   },
   {
@@ -788,7 +788,7 @@
   {
     "term": "Available",
     "context": "Available",
-    "reference": "Modules/ProcessList/SystemTab.qml:464, Modules/Settings/PrinterTab.qml:145, Modules/ControlCenter/Details/AudioInputDetail.qml:204, Modules/ControlCenter/Details/AudioOutputDetail.qml:214",
+    "reference": "Modules/ProcessList/SystemTab.qml:464, Modules/Settings/PrinterTab.qml:145, Modules/ControlCenter/Details/AudioInputDetail.qml:204, Modules/ControlCenter/Details/AudioOutputDetail.qml:216",
     "comment": ""
   },
   {
@@ -848,7 +848,7 @@
   {
     "term": "Balanced palette with focused accents (default).",
     "context": "Balanced palette with focused accents (default).",
-    "reference": "Common/Theme.qml:201",
+    "reference": "Common/Theme.qml:202",
     "comment": ""
   },
   {
@@ -866,7 +866,7 @@
   {
     "term": "Battery",
     "context": "Battery",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:838, Modules/Settings/WidgetsTab.qml:168, Modules/ControlCenter/Models/WidgetModel.qml:161, Modules/ControlCenter/Widgets/BatteryPill.qml:17",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:853, Modules/Settings/WidgetsTab.qml:168, Modules/ControlCenter/Models/WidgetModel.qml:161, Modules/ControlCenter/Widgets/BatteryPill.qml:17",
     "comment": ""
   },
   {
@@ -914,7 +914,7 @@
   {
     "term": "Bit Depth",
     "context": "Bit Depth",
-    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:839",
+    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:838",
     "comment": ""
   },
   {
@@ -1010,7 +1010,7 @@
   {
     "term": "Bottom Section",
     "context": "Bottom Section",
-    "reference": "Modules/Settings/WidgetsTab.qml:1187",
+    "reference": "Modules/Settings/WidgetsTab.qml:1217",
     "comment": ""
   },
   {
@@ -1022,7 +1022,7 @@
   {
     "term": "Brightness",
     "context": "Brightness",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:833, Modules/Settings/LauncherTab.qml:268, Modules/Settings/OSDTab.qml:111",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:843, Modules/Settings/LauncherTab.qml:268, Modules/Settings/OSDTab.qml:111",
     "comment": ""
   },
   {
@@ -1130,7 +1130,7 @@
   {
     "term": "Camera",
     "context": "Camera",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:1063",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:1084",
     "comment": ""
   },
   {
@@ -1178,7 +1178,7 @@
   {
     "term": "Center Section",
     "context": "Center Section",
-    "reference": "Modules/Settings/WidgetsTab.qml:1130",
+    "reference": "Modules/Settings/WidgetsTab.qml:1160",
     "comment": ""
   },
   {
@@ -1442,7 +1442,7 @@
   {
     "term": "Color Management",
     "context": "Color Management",
-    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:841",
+    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:840",
     "comment": ""
   },
   {
@@ -1496,7 +1496,7 @@
   {
     "term": "Colorful mix of bright contrasting accents.",
     "context": "Colorful mix of bright contrasting accents.",
-    "reference": "Common/Theme.qml:221",
+    "reference": "Common/Theme.qml:222",
     "comment": ""
   },
   {
@@ -1508,7 +1508,7 @@
   {
     "term": "Command",
     "context": "Command",
-    "reference": "Widgets/KeybindItem.qml:1376",
+    "reference": "Widgets/KeybindItem.qml:1376, Modules/Settings/DesktopWidgetInstanceCard.qml:185",
     "comment": ""
   },
   {
@@ -1544,7 +1544,7 @@
   {
     "term": "Config Format",
     "context": "Config Format",
-    "reference": "Modules/Settings/DisplayConfigTab.qml:94, Modules/Settings/DisplayConfig/DisplayConfigState.qml:805",
+    "reference": "Modules/Settings/DisplayConfigTab.qml:94, Modules/Settings/DisplayConfig/DisplayConfigState.qml:804",
     "comment": ""
   },
   {
@@ -1556,7 +1556,7 @@
   {
     "term": "Config validation failed",
     "context": "Config validation failed",
-    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:884, Modules/Settings/DisplayConfig/DisplayConfigState.qml:892",
+    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:883, Modules/Settings/DisplayConfig/DisplayConfigState.qml:891",
     "comment": ""
   },
   {
@@ -1700,7 +1700,7 @@
   {
     "term": "Copied to clipboard",
     "context": "Copied to clipboard",
-    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:150",
+    "reference": "Modals/Clipboard/ClipboardHistoryModal.qml:150, Modules/Settings/DesktopWidgetInstanceCard.qml:223",
     "comment": ""
   },
   {
@@ -1928,7 +1928,7 @@
   {
     "term": "DEMO MODE - Click anywhere to exit",
     "context": "DEMO MODE - Click anywhere to exit",
-    "reference": "Modules/Lock/LockScreenContent.qml:797",
+    "reference": "Modules/Lock/LockScreenContent.qml:801",
     "comment": ""
   },
   {
@@ -2000,13 +2000,19 @@
   {
     "term": "DankShell & System Icons (requires restart)",
     "context": "DankShell & System Icons (requires restart)",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:1158",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1244",
     "comment": ""
   },
   {
     "term": "Dark Mode",
     "context": "Dark Mode",
-    "reference": "Modules/Settings/WallpaperTab.qml:561, Modules/ControlCenter/Models/WidgetModel.qml:77, Modules/ControlCenter/Components/DragDropGrid.qml:601",
+    "reference": "Modules/Settings/WallpaperTab.qml:561, Modules/ControlCenter/Models/WidgetModel.qml:77, Modules/ControlCenter/Components/DragDropGrid.qml:603",
+    "comment": ""
+  },
+  {
+    "term": "Darken Modal Background",
+    "context": "Darken Modal Background",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:958",
     "comment": ""
   },
   {
@@ -2018,19 +2024,19 @@
   {
     "term": "Dawn (Astronomical Twilight)",
     "context": "Dawn (Astronomical Twilight)",
-    "reference": "Services/WeatherService.qml:271",
+    "reference": "Services/WeatherService.qml:230",
     "comment": ""
   },
   {
     "term": "Dawn (Civil Twilight)",
     "context": "Dawn (Civil Twilight)",
-    "reference": "Services/WeatherService.qml:281",
+    "reference": "Services/WeatherService.qml:240",
     "comment": ""
   },
   {
     "term": "Dawn (Nautical Twilight)",
     "context": "Dawn (Nautical Twilight)",
-    "reference": "Services/WeatherService.qml:276",
+    "reference": "Services/WeatherService.qml:235",
     "comment": ""
   },
   {
@@ -2108,7 +2114,7 @@
   {
     "term": "Derives colors that closely match the underlying image.",
     "context": "Derives colors that closely match the underlying image.",
-    "reference": "Common/Theme.qml:209",
+    "reference": "Common/Theme.qml:210",
     "comment": ""
   },
   {
@@ -2210,7 +2216,7 @@
   {
     "term": "Disabled",
     "context": "Disabled",
-    "reference": "Modules/Settings/DesktopWidgetInstanceCard.qml:62, Modules/Settings/NetworkTab.qml:741, Modules/Settings/DankBarTab.qml:429, Modules/Settings/DisplayConfig/DisplayConfigState.qml:819, Modules/Settings/DisplayConfig/DisplayConfigState.qml:825, Modules/Settings/DisplayConfig/DisplayConfigState.qml:827",
+    "reference": "Modules/Settings/DesktopWidgetInstanceCard.qml:63, Modules/Settings/NetworkTab.qml:741, Modules/Settings/DankBarTab.qml:429, Modules/Settings/DisplayConfig/DisplayConfigState.qml:818, Modules/Settings/DisplayConfig/DisplayConfigState.qml:824, Modules/Settings/DisplayConfig/DisplayConfigState.qml:826",
     "comment": ""
   },
   {
@@ -2366,13 +2372,13 @@
   {
     "term": "Diverse palette spanning the full spectrum.",
     "context": "Diverse palette spanning the full spectrum.",
-    "reference": "Common/Theme.qml:233",
+    "reference": "Common/Theme.qml:234",
     "comment": ""
   },
   {
     "term": "Do Not Disturb",
     "context": "Do Not Disturb",
-    "reference": "Modules/Settings/NotificationsTab.qml:146, Modules/ControlCenter/Models/WidgetModel.qml:85, Modules/ControlCenter/Components/DragDropGrid.qml:603, Modules/Notifications/Center/NotificationHeader.qml:41, Modules/Notifications/Center/NotificationSettings.qml:131",
+    "reference": "Modules/Settings/NotificationsTab.qml:146, Modules/ControlCenter/Models/WidgetModel.qml:85, Modules/ControlCenter/Components/DragDropGrid.qml:605, Modules/Notifications/Center/NotificationHeader.qml:41, Modules/Notifications/Center/NotificationSettings.qml:131",
     "comment": ""
   },
   {
@@ -2438,7 +2444,7 @@
   {
     "term": "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.",
     "context": "Drag widgets to reorder within sections. Use the eye icon to hide/show widgets (maintains spacing), or X to remove them completely.",
-    "reference": "Modules/Settings/WidgetsTab.qml:1050",
+    "reference": "Modules/Settings/WidgetsTab.qml:1080",
     "comment": ""
   },
   {
@@ -2456,19 +2462,19 @@
   {
     "term": "Dusk (Astronomical Twilight)",
     "context": "Dusk (Astronomical Twilight)",
-    "reference": "Services/WeatherService.qml:326",
+    "reference": "Services/WeatherService.qml:285",
     "comment": ""
   },
   {
     "term": "Dusk (Civil Twighlight)",
     "context": "Dusk (Civil Twighlight)",
-    "reference": "Services/WeatherService.qml:316",
+    "reference": "Services/WeatherService.qml:275",
     "comment": ""
   },
   {
     "term": "Dusk (Nautical Twilight)",
     "context": "Dusk (Nautical Twilight)",
-    "reference": "Services/WeatherService.qml:321",
+    "reference": "Services/WeatherService.qml:280",
     "comment": ""
   },
   {
@@ -2576,7 +2582,7 @@
   {
     "term": "Enabled",
     "context": "Enabled",
-    "reference": "Modules/Settings/DesktopWidgetInstanceCard.qml:62, Modules/Settings/DisplayConfig/DisplayConfigState.qml:819, Modules/Settings/DisplayConfig/DisplayConfigState.qml:827",
+    "reference": "Modules/Settings/DesktopWidgetInstanceCard.qml:63, Modules/Settings/DisplayConfig/DisplayConfigState.qml:818, Modules/Settings/DisplayConfig/DisplayConfigState.qml:826",
     "comment": ""
   },
   {
@@ -3008,7 +3014,7 @@
   {
     "term": "Failed to write temp file for validation",
     "context": "Failed to write temp file for validation",
-    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:883",
+    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:882",
     "comment": ""
   },
   {
@@ -3086,31 +3092,31 @@
   {
     "term": "Flipped",
     "context": "Flipped",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1382, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1403",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1380, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1401",
     "comment": ""
   },
   {
     "term": "Flipped 180°",
     "context": "Flipped 180°",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1386, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1407",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1384, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1405",
     "comment": ""
   },
   {
     "term": "Flipped 270°",
     "context": "Flipped 270°",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1388, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1409",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1386, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1407",
     "comment": ""
   },
   {
     "term": "Flipped 90°",
     "context": "Flipped 90°",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1384, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1405",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1382, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1403",
     "comment": ""
   },
   {
     "term": "Focus at Startup",
     "context": "Focus at Startup",
-    "reference": "Modules/Settings/DisplayConfig/NiriOutputSettings.qml:70, Modules/Settings/DisplayConfig/DisplayConfigState.qml:829",
+    "reference": "Modules/Settings/DisplayConfig/NiriOutputSettings.qml:70, Modules/Settings/DisplayConfig/DisplayConfigState.qml:828",
     "comment": ""
   },
   {
@@ -3152,7 +3158,7 @@
   {
     "term": "Force HDR",
     "context": "Force HDR",
-    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:847",
+    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:846",
     "comment": ""
   },
   {
@@ -3164,13 +3170,13 @@
   {
     "term": "Force Wide Color",
     "context": "Force Wide Color",
-    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:849",
+    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:848",
     "comment": ""
   },
   {
     "term": "Force terminal applications to always use dark color schemes",
     "context": "Force terminal applications to always use dark color schemes",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:900",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:986",
     "comment": ""
   },
   {
@@ -3224,7 +3230,7 @@
   {
     "term": "G: grid • Z/X: size",
     "context": "Widget grid keyboard hints",
-    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:645",
+    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:657",
     "comment": ""
   },
   {
@@ -3266,7 +3272,7 @@
   {
     "term": "Golden Hour",
     "context": "Golden Hour",
-    "reference": "Services/WeatherService.qml:291, Services/WeatherService.qml:306",
+    "reference": "Services/WeatherService.qml:250, Services/WeatherService.qml:265",
     "comment": ""
   },
   {
@@ -3320,13 +3326,13 @@
   {
     "term": "Grid: OFF",
     "context": "Widget grid snap status",
-    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:615",
+    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:627",
     "comment": ""
   },
   {
     "term": "Grid: ON",
     "context": "Widget grid snap status",
-    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:615",
+    "reference": "Modules/Plugins/DesktopPluginWrapper.qml:627",
     "comment": ""
   },
   {
@@ -3422,7 +3428,7 @@
   {
     "term": "High-fidelity palette that preserves source hues.",
     "context": "High-fidelity palette that preserves source hues.",
-    "reference": "Common/Theme.qml:217",
+    "reference": "Common/Theme.qml:218",
     "comment": ""
   },
   {
@@ -3464,7 +3470,7 @@
   {
     "term": "Hot Corners",
     "context": "Hot Corners",
-    "reference": "Modules/Settings/DisplayConfig/NiriOutputSettings.qml:77, Modules/Settings/DisplayConfig/DisplayConfigState.qml:831",
+    "reference": "Modules/Settings/DisplayConfig/NiriOutputSettings.qml:77, Modules/Settings/DisplayConfig/DisplayConfigState.qml:830",
     "comment": ""
   },
   {
@@ -3524,7 +3530,7 @@
   {
     "term": "Icon Theme",
     "context": "Icon Theme",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:1157",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1243",
     "comment": ""
   },
   {
@@ -3740,7 +3746,7 @@
   {
     "term": "Invalid configuration",
     "context": "Invalid configuration",
-    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:891",
+    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:890",
     "comment": ""
   },
   {
@@ -3770,7 +3776,7 @@
   {
     "term": "Keep Awake",
     "context": "Keep Awake",
-    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:93, Modules/ControlCenter/Components/DragDropGrid.qml:605",
+    "reference": "Modules/ControlCenter/Models/WidgetModel.qml:93, Modules/ControlCenter/Components/DragDropGrid.qml:607",
     "comment": ""
   },
   {
@@ -3782,7 +3788,7 @@
   {
     "term": "Keeping Awake",
     "context": "Keeping Awake",
-    "reference": "Modules/ControlCenter/Components/DragDropGrid.qml:605",
+    "reference": "Modules/ControlCenter/Components/DragDropGrid.qml:607",
     "comment": ""
   },
   {
@@ -3896,7 +3902,7 @@
   {
     "term": "Layout",
     "context": "Layout",
-    "reference": "Modules/Settings/WidgetsTab.qml:36, Modules/Settings/DisplayConfig/DisplayConfigState.qml:833, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:350, Modules/DankBar/Popouts/DWLLayoutPopout.qml:181",
+    "reference": "Modules/Settings/WidgetsTab.qml:36, Modules/Settings/DisplayConfig/DisplayConfigState.qml:832, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:350, Modules/DankBar/Popouts/DWLLayoutPopout.qml:181",
     "comment": ""
   },
   {
@@ -3914,7 +3920,7 @@
   {
     "term": "Left Section",
     "context": "Left Section",
-    "reference": "Modules/Settings/WidgetsTab.qml:1073",
+    "reference": "Modules/Settings/WidgetsTab.qml:1103",
     "comment": ""
   },
   {
@@ -3944,7 +3950,7 @@
   {
     "term": "Lively palette with saturated accents.",
     "context": "Lively palette with saturated accents.",
-    "reference": "Common/Theme.qml:205",
+    "reference": "Common/Theme.qml:206",
     "comment": ""
   },
   {
@@ -4172,7 +4178,7 @@
   {
     "term": "Matugen Templates",
     "context": "Matugen Templates",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:909",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:995",
     "comment": ""
   },
   {
@@ -4304,7 +4310,7 @@
   {
     "term": "Microphone",
     "context": "Microphone",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:828, Modules/Settings/WidgetsTabSection.qml:1011",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:833, Modules/Settings/WidgetsTabSection.qml:1032",
     "comment": ""
   },
   {
@@ -4334,13 +4340,13 @@
   {
     "term": "Middle Section",
     "context": "Middle Section",
-    "reference": "Modules/Settings/WidgetsTab.qml:1130",
+    "reference": "Modules/Settings/WidgetsTab.qml:1160",
     "comment": ""
   },
   {
     "term": "Minimal palette built around a single hue.",
     "context": "Minimal palette built around a single hue.",
-    "reference": "Common/Theme.qml:225",
+    "reference": "Common/Theme.qml:226",
     "comment": ""
   },
   {
@@ -4352,7 +4358,7 @@
   {
     "term": "Mode",
     "context": "Mode",
-    "reference": "Modules/Settings/NetworkTab.qml:1297, Modules/Settings/DisplayConfig/DisplayConfigState.qml:813",
+    "reference": "Modules/Settings/NetworkTab.qml:1297, Modules/Settings/DisplayConfig/DisplayConfigState.qml:812",
     "comment": ""
   },
   {
@@ -4364,13 +4370,13 @@
   {
     "term": "Model",
     "context": "Model",
-    "reference": "Modules/Settings/DisplayWidgetsTab.qml:217, Modules/Settings/PrinterTab.qml:814, Modules/Settings/DisplayConfigTab.qml:102, Modules/Settings/DisplayConfig/DisplayConfigState.qml:804",
+    "reference": "Modules/Settings/DisplayWidgetsTab.qml:217, Modules/Settings/PrinterTab.qml:814, Modules/Settings/DisplayConfigTab.qml:102, Modules/Settings/DisplayConfig/DisplayConfigState.qml:803",
     "comment": ""
   },
   {
     "term": "Modified",
     "context": "Modified",
-    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:831, Modules/Settings/DisplayConfig/DisplayConfigState.qml:833",
+    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:830, Modules/Settings/DisplayConfig/DisplayConfigState.qml:832",
     "comment": ""
   },
   {
@@ -4400,7 +4406,7 @@
   {
     "term": "Morning",
     "context": "Morning",
-    "reference": "Services/WeatherService.qml:296",
+    "reference": "Services/WeatherService.qml:255",
     "comment": ""
   },
   {
@@ -4424,7 +4430,7 @@
   {
     "term": "Muted palette with subdued, calming tones.",
     "context": "Muted palette with subdued, calming tones.",
-    "reference": "Common/Theme.qml:229",
+    "reference": "Common/Theme.qml:230",
     "comment": ""
   },
   {
@@ -4436,7 +4442,7 @@
   {
     "term": "Name",
     "context": "Name",
-    "reference": "Modules/Settings/DisplayWidgetsTab.qml:217, Modules/Settings/DesktopWidgetInstanceCard.qml:115, Modules/Settings/PrinterTab.qml:413, Modules/Settings/DisplayConfigTab.qml:102, Modules/Settings/DisplayConfig/DisplayConfigState.qml:804, Modules/Settings/Widgets/SystemMonitorVariantCard.qml:144",
+    "reference": "Modules/Settings/DisplayWidgetsTab.qml:217, Modules/Settings/DesktopWidgetInstanceCard.qml:119, Modules/Settings/PrinterTab.qml:413, Modules/Settings/DisplayConfigTab.qml:102, Modules/Settings/DisplayConfig/DisplayConfigState.qml:803, Modules/Settings/Widgets/SystemMonitorVariantCard.qml:144",
     "comment": ""
   },
   {
@@ -4538,13 +4544,13 @@
   {
     "term": "Night",
     "context": "Night",
-    "reference": "Services/WeatherService.qml:354, Modules/Settings/GammaControlTab.qml:530",
+    "reference": "Services/WeatherService.qml:313, Modules/Settings/GammaControlTab.qml:530",
     "comment": ""
   },
   {
     "term": "Night Mode",
     "context": "Night Mode",
-    "reference": "Modules/Settings/GammaControlTab.qml:74, Modules/ControlCenter/Models/WidgetModel.qml:68, Modules/ControlCenter/Components/DragDropGrid.qml:599",
+    "reference": "Modules/Settings/GammaControlTab.qml:74, Modules/ControlCenter/Models/WidgetModel.qml:68, Modules/ControlCenter/Components/DragDropGrid.qml:601",
     "comment": ""
   },
   {
@@ -4560,6 +4566,12 @@
     "comment": ""
   },
   {
+    "term": "Niri Layout Overrides",
+    "context": "Niri Layout Overrides",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:882",
+    "comment": ""
+  },
+  {
     "term": "Niri compositor actions (focus, move, etc.)",
     "context": "Niri compositor actions (focus, move, etc.)",
     "reference": "Widgets/KeybindItem.qml:788",
@@ -4568,7 +4580,7 @@
   {
     "term": "No",
     "context": "No",
-    "reference": "Widgets/VpnProfileDelegate.qml:78, Modules/Settings/PrinterTab.qml:824, Modules/Settings/NetworkTab.qml:1771, Modules/Settings/DisplayConfig/DisplayConfigState.qml:825, Modules/Settings/DisplayConfig/DisplayConfigState.qml:829, Modules/Settings/DisplayConfig/DisplayConfigState.qml:847, Modules/Settings/DisplayConfig/DisplayConfigState.qml:849",
+    "reference": "Widgets/VpnProfileDelegate.qml:78, Modules/Settings/PrinterTab.qml:824, Modules/Settings/NetworkTab.qml:1771, Modules/Settings/DisplayConfig/DisplayConfigState.qml:824, Modules/Settings/DisplayConfig/DisplayConfigState.qml:828, Modules/Settings/DisplayConfig/DisplayConfigState.qml:846, Modules/Settings/DisplayConfig/DisplayConfigState.qml:848",
     "comment": ""
   },
   {
@@ -4778,7 +4790,7 @@
   {
     "term": "Normal",
     "context": "Normal",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1374, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1390, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1395",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1372, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1388, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1393",
     "comment": ""
   },
   {
@@ -4806,8 +4818,8 @@
     "comment": ""
   },
   {
-    "term": "Note: this only changes the displayed percentage, it does not actually limit charging.",
-    "context": "Note: this only changes the displayed percentage, it does not actually limit charging.",
+    "term": "Note: this only changes the percentage, it does not actually limit charging.",
+    "context": "Note: this only changes the percentage, it does not actually limit charging.",
     "reference": "Modules/Settings/PowerSleepTab.qml:516",
     "comment": ""
   },
@@ -5034,6 +5046,18 @@
     "comment": ""
   },
   {
+    "term": "Override Corner Radius",
+    "context": "Override Corner Radius",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:922",
+    "comment": ""
+  },
+  {
+    "term": "Override Gaps",
+    "context": "Override Gaps",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:890",
+    "comment": ""
+  },
+  {
     "term": "Override global layout settings for this output",
     "context": "Override global layout settings for this output",
     "reference": "Modules/Settings/DisplayConfig/NiriOutputSettings.qml:200",
@@ -5174,7 +5198,7 @@
   {
     "term": "Pin",
     "context": "Pin",
-    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:323, Modules/ControlCenter/Details/BrightnessDetail.qml:204, Modules/ControlCenter/Details/AudioInputDetail.qml:244, Modules/ControlCenter/Details/AudioOutputDetail.qml:254, Modules/ControlCenter/Details/NetworkDetail.qml:638",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:323, Modules/ControlCenter/Details/BrightnessDetail.qml:204, Modules/ControlCenter/Details/AudioInputDetail.qml:244, Modules/ControlCenter/Details/AudioOutputDetail.qml:256, Modules/ControlCenter/Details/NetworkDetail.qml:638",
     "comment": ""
   },
   {
@@ -5186,7 +5210,7 @@
   {
     "term": "Pinned",
     "context": "Pinned",
-    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:323, Modules/ControlCenter/Details/BrightnessDetail.qml:204, Modules/ControlCenter/Details/AudioInputDetail.qml:244, Modules/ControlCenter/Details/AudioOutputDetail.qml:254, Modules/ControlCenter/Details/NetworkDetail.qml:638",
+    "reference": "Modules/ControlCenter/Details/BluetoothDetail.qml:323, Modules/ControlCenter/Details/BrightnessDetail.qml:204, Modules/ControlCenter/Details/AudioInputDetail.qml:244, Modules/ControlCenter/Details/AudioOutputDetail.qml:256, Modules/ControlCenter/Details/NetworkDetail.qml:638",
     "comment": ""
   },
   {
@@ -5228,7 +5252,7 @@
   {
     "term": "Playback",
     "context": "Playback",
-    "reference": "Modules/ControlCenter/Details/AudioOutputDetail.qml:307",
+    "reference": "Modules/ControlCenter/Details/AudioOutputDetail.qml:309",
     "comment": ""
   },
   {
@@ -5294,7 +5318,7 @@
   {
     "term": "Position",
     "context": "Position",
-    "reference": "Modules/Settings/DockTab.qml:28, Modules/Settings/DankBarTab.qml:596, Modules/Settings/DisplayConfig/DisplayConfigState.qml:811",
+    "reference": "Modules/Settings/DockTab.qml:28, Modules/Settings/DankBarTab.qml:596, Modules/Settings/DisplayConfig/DisplayConfigState.qml:810",
     "comment": ""
   },
   {
@@ -5426,7 +5450,7 @@
   {
     "term": "Printer",
     "context": "Printer",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:843",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:858",
     "comment": ""
   },
   {
@@ -5660,7 +5684,7 @@
   {
     "term": "Reset",
     "context": "Reset",
-    "reference": "Modules/Settings/WidgetsTab.qml:1019, Modules/ControlCenter/Components/EditControls.qml:227",
+    "reference": "Modules/Settings/WidgetsTab.qml:1049, Modules/ControlCenter/Components/EditControls.qml:227",
     "comment": ""
   },
   {
@@ -5720,7 +5744,7 @@
   {
     "term": "Right Section",
     "context": "Right Section",
-    "reference": "Modules/Settings/WidgetsTab.qml:1187",
+    "reference": "Modules/Settings/WidgetsTab.qml:1217",
     "comment": ""
   },
   {
@@ -5754,15 +5778,21 @@
     "comment": ""
   },
   {
+    "term": "Rounded corners for windows",
+    "context": "Rounded corners for windows",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:939",
+    "comment": ""
+  },
+  {
     "term": "Run DMS Templates",
     "context": "Run DMS Templates",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:927",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1013",
     "comment": ""
   },
   {
     "term": "Run User Templates",
     "context": "Run User Templates",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:917",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1003",
     "comment": ""
   },
   {
@@ -5798,13 +5828,13 @@
   {
     "term": "SDR Brightness",
     "context": "SDR Brightness",
-    "reference": "Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:211, Modules/Settings/DisplayConfig/DisplayConfigState.qml:843",
+    "reference": "Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:211, Modules/Settings/DisplayConfig/DisplayConfigState.qml:842",
     "comment": ""
   },
   {
     "term": "SDR Saturation",
     "context": "SDR Saturation",
-    "reference": "Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:244, Modules/Settings/DisplayConfig/DisplayConfigState.qml:845",
+    "reference": "Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:244, Modules/Settings/DisplayConfig/DisplayConfigState.qml:844",
     "comment": ""
   },
   {
@@ -5840,7 +5870,7 @@
   {
     "term": "Scale",
     "context": "Scale",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:121, Modules/Settings/DisplayConfig/DisplayConfigState.qml:815",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:121, Modules/Settings/DisplayConfig/DisplayConfigState.qml:814",
     "comment": ""
   },
   {
@@ -5882,7 +5912,7 @@
   {
     "term": "Screen sharing",
     "context": "Screen sharing",
-    "reference": "Modules/Settings/WidgetsTabSection.qml:1115",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:1136",
     "comment": ""
   },
   {
@@ -5990,13 +6020,13 @@
   {
     "term": "Select Bar",
     "context": "Select Bar",
-    "reference": "Modules/Settings/WidgetsTab.qml:935",
+    "reference": "Modules/Settings/WidgetsTab.qml:965",
     "comment": ""
   },
   {
     "term": "Select Custom Theme",
     "context": "custom theme file browser title",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:1277",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1363",
     "comment": ""
   },
   {
@@ -6396,6 +6426,12 @@
     "comment": ""
   },
   {
+    "term": "Show darkened overlay behind modal dialogs",
+    "context": "Show darkened overlay behind modal dialogs",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:959",
+    "comment": ""
+  },
+  {
     "term": "Show launcher overlay when typing in Niri overview. Disable to use another launcher.",
     "context": "Show launcher overlay when typing in Niri overview. Disable to use another launcher.",
     "reference": "Modules/Settings/LauncherTab.qml:355",
@@ -6408,9 +6444,15 @@
     "comment": ""
   },
   {
+    "term": "Show on Overlay",
+    "context": "Show on Overlay",
+    "reference": "Modules/Settings/DesktopWidgetInstanceCard.qml:143",
+    "comment": ""
+  },
+  {
     "term": "Show on Overview",
     "context": "Show on Overview",
-    "reference": "Modules/Settings/DockTab.qml:86, Modules/Settings/DankBarTab.qml:749",
+    "reference": "Modules/Settings/DockTab.qml:86, Modules/Settings/DesktopWidgetInstanceCard.qml:160, Modules/Settings/DankBarTab.qml:749",
     "comment": ""
   },
   {
@@ -6606,6 +6648,12 @@
     "comment": ""
   },
   {
+    "term": "Space between windows",
+    "context": "Space between windows",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:908",
+    "comment": ""
+  },
+  {
     "term": "Spacer",
     "context": "Spacer",
     "reference": "Modules/Settings/WidgetsTab.qml:196",
@@ -6698,13 +6746,13 @@
   {
     "term": "Sunrise",
     "context": "Sunrise",
-    "reference": "Services/WeatherService.qml:286, Modules/Settings/GammaControlTab.qml:580",
+    "reference": "Services/WeatherService.qml:245, Modules/Settings/GammaControlTab.qml:580",
     "comment": ""
   },
   {
     "term": "Sunset",
     "context": "Sunset",
-    "reference": "Services/WeatherService.qml:311, Modules/Settings/GammaControlTab.qml:616",
+    "reference": "Services/WeatherService.qml:270, Modules/Settings/GammaControlTab.qml:616",
     "comment": ""
   },
   {
@@ -6758,13 +6806,13 @@
   {
     "term": "Sync Mode with Portal",
     "context": "Sync Mode with Portal",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:889",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:975",
     "comment": ""
   },
   {
     "term": "Sync dark mode with settings portals for system-wide theme hints",
     "context": "Sync dark mode with settings portals for system-wide theme hints",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:890",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:976",
     "comment": ""
   },
   {
@@ -6776,7 +6824,7 @@
   {
     "term": "System App Theming",
     "context": "System App Theming",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:1176",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1262",
     "comment": ""
   },
   {
@@ -6872,7 +6920,7 @@
   {
     "term": "Terminals - Always use Dark Theme",
     "context": "Terminals - Always use Dark Theme",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:899",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:985",
     "comment": ""
   },
   {
@@ -6908,7 +6956,7 @@
   {
     "term": "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (qt5ct.conf|qt6ct.conf and ~/.config/gtk-3.0|gtk-4.0).",
     "context": "The below settings will modify your GTK and Qt settings. If you wish to preserve your current configurations, please back them up (qt5ct.conf|qt6ct.conf and ~/.config/gtk-3.0|gtk-4.0).",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:1141",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:1227",
     "comment": ""
   },
   {
@@ -7052,7 +7100,7 @@
   {
     "term": "Today",
     "context": "Today",
-    "reference": "Services/WeatherService.qml:476",
+    "reference": "Services/WeatherService.qml:435",
     "comment": ""
   },
   {
@@ -7070,7 +7118,7 @@
   {
     "term": "Tomorrow",
     "context": "Tomorrow",
-    "reference": "Services/WeatherService.qml:478",
+    "reference": "Services/WeatherService.qml:437",
     "comment": ""
   },
   {
@@ -7118,7 +7166,7 @@
   {
     "term": "Top Section",
     "context": "Top Section",
-    "reference": "Modules/Settings/WidgetsTab.qml:1073",
+    "reference": "Modules/Settings/WidgetsTab.qml:1103",
     "comment": ""
   },
   {
@@ -7130,7 +7178,7 @@
   {
     "term": "Transform",
     "context": "Transform",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:205, Modules/Settings/DisplayConfig/DisplayConfigState.qml:817",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:205, Modules/Settings/DisplayConfig/DisplayConfigState.qml:816",
     "comment": ""
   },
   {
@@ -7344,6 +7392,18 @@
     "comment": ""
   },
   {
+    "term": "Use custom gaps instead of bar spacing",
+    "context": "Use custom gaps instead of bar spacing",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:891",
+    "comment": ""
+  },
+  {
+    "term": "Use custom window radius instead of theme radius",
+    "context": "Use custom window radius instead of theme radius",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:923",
+    "comment": ""
+  },
+  {
     "term": "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)",
     "context": "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)",
     "reference": "Modules/Settings/LockScreenTab.qml:102",
@@ -7454,13 +7514,13 @@
   {
     "term": "VRR",
     "context": "VRR",
-    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:819",
+    "reference": "Modules/Settings/DisplayConfig/DisplayConfigState.qml:818",
     "comment": ""
   },
   {
     "term": "VRR On-Demand",
     "context": "VRR On-Demand",
-    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:241, Modules/Settings/DisplayConfig/DisplayConfigState.qml:827",
+    "reference": "Modules/Settings/DisplayConfig/OutputCard.qml:241, Modules/Settings/DisplayConfig/DisplayConfigState.qml:826",
     "comment": ""
   },
   {
@@ -7508,7 +7568,7 @@
   {
     "term": "Vibrant palette with playful saturation.",
     "context": "Vibrant palette with playful saturation.",
-    "reference": "Common/Theme.qml:213",
+    "reference": "Common/Theme.qml:214",
     "comment": ""
   },
   {
@@ -7532,7 +7592,7 @@
   {
     "term": "Volume",
     "context": "Volume",
-    "reference": "Modules/Settings/OSDTab.qml:97",
+    "reference": "Modules/Settings/WidgetsTabSection.qml:828, Modules/Settings/OSDTab.qml:97",
     "comment": ""
   },
   {
@@ -7700,7 +7760,7 @@
   {
     "term": "Widget Management",
     "context": "Widget Management",
-    "reference": "Modules/Settings/WidgetsTab.qml:987",
+    "reference": "Modules/Settings/WidgetsTab.qml:1017",
     "comment": ""
   },
   {
@@ -7755,6 +7815,18 @@
     "term": "Wind Speed",
     "context": "Wind Speed",
     "reference": "Modules/DankBar/Widgets/WeatherForecastCard.qml:65",
+    "comment": ""
+  },
+  {
+    "term": "Window Corner Radius",
+    "context": "Window Corner Radius",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:938",
+    "comment": ""
+  },
+  {
+    "term": "Window Gaps",
+    "context": "Window Gaps",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:907",
     "comment": ""
   },
   {
@@ -7820,7 +7892,7 @@
   {
     "term": "Yes",
     "context": "Yes",
-    "reference": "Widgets/VpnProfileDelegate.qml:78, Modules/Settings/PrinterTab.qml:824, Modules/Settings/NetworkTab.qml:1771, Modules/Settings/DisplayConfig/DisplayConfigState.qml:825, Modules/Settings/DisplayConfig/DisplayConfigState.qml:829, Modules/Settings/DisplayConfig/DisplayConfigState.qml:847, Modules/Settings/DisplayConfig/DisplayConfigState.qml:849",
+    "reference": "Widgets/VpnProfileDelegate.qml:78, Modules/Settings/PrinterTab.qml:824, Modules/Settings/NetworkTab.qml:1771, Modules/Settings/DisplayConfig/DisplayConfigState.qml:824, Modules/Settings/DisplayConfig/DisplayConfigState.qml:828, Modules/Settings/DisplayConfig/DisplayConfigState.qml:846, Modules/Settings/DisplayConfig/DisplayConfigState.qml:848",
     "comment": ""
   },
   {

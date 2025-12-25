@@ -186,7 +186,7 @@
     "Add a custom prefix to all application launches. This can be used for things like 'uwsm-app', 'systemd-run', or other command wrappers.": "Adj meg egy egyedi előtagot minden alkalmazás indításához. Ez használható például 'uwsm-app', 'systemd-run' vagy más parancscsomagolókhoz."
   },
   "Add and configure widgets that appear on your desktop": {
-    "Add and configure widgets that appear on your desktop": ""
+    "Add and configure widgets that appear on your desktop": "Asztali widgetek hozzáadása és konfigurálása"
   },
   "Adjust the number of columns in grid view mode.": {
     "Adjust the number of columns in grid view mode.": "Oszlopok számának beállítása rácsnézet módban."
@@ -431,6 +431,9 @@
   "Battery": {
     "Battery": "Akkumulátor"
   },
+  "Battery Charge Limit": {
+    "Battery Charge Limit": ""
+  },
   "Battery and power management": {
     "Battery and power management": "Akku és energia menedzsment"
   },
@@ -508,6 +511,9 @@
   },
   "Brightness Slider": {
     "Brightness Slider": "Fényerőszabályozó"
+  },
+  "Brightness Value": {
+    "Brightness Value": ""
   },
   "Brightness control not available": {
     "Brightness control not available": "A fényerő-szabályozás nem elérhető"
@@ -1047,7 +1053,7 @@
     "Desktop background images": "Asztali háttérképek"
   },
   "Desktop clock widget description": {
-    "Analog, digital, or stacked clock display": ""
+    "Analog, digital, or stacked clock display": "Analóg, digitális vagy halmozott órakijelző"
   },
   "Desktop clock widget name": {
     "Desktop Clock": "Asztali óra"
@@ -1245,7 +1251,7 @@
     "Enable Overview Overlay": "Áttekintő fedvény engedélyezése"
   },
   "Enable System Monitor": {
-    "Enable System Monitor": "Rendszerfigyelő engedélyezése"
+    "Enable System Monitor": "Rendszermonitor engedélyezése"
   },
   "Enable System Sounds": {
     "Enable System Sounds": "Rendszerhangok engedélyezése"
@@ -1686,7 +1692,7 @@
     "Hide Delay": "Elrejtési késleltetés"
   },
   "Hide When Windows Open": {
-    "Hide When Windows Open": ""
+    "Hide When Windows Open": "Elrejtés, amikor ablakok vannak megnyitva"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Dokk elrejtése, amikor az nincs használatban és megjelenítés, amikor az egér a dokkterület közelében van"
@@ -1824,7 +1830,7 @@
     "Invert on mode change": "Invertálás módváltáskor"
   },
   "Isolate Displays": {
-    "Isolate Displays": ""
+    "Isolate Displays": "Kijelzők elszigetelése"
   },
   "Jobs": {
     "Jobs": "Munkák"
@@ -2099,6 +2105,9 @@
   "Microphone Mute": {
     "Microphone Mute": "Mikrofon némítás"
   },
+  "Microphone Volume": {
+    "Microphone Volume": ""
+  },
   "Microphone settings": {
     "Microphone settings": "Mikrofonbeállítások"
   },
@@ -2219,6 +2228,9 @@
   "Niri Integration": {
     "Niri Integration": "Niri integráció"
   },
+  "Niri Layout Overrides": {
+    "Niri Layout Overrides": ""
+  },
   "Niri compositor actions (focus, move, etc.)": {
     "Niri compositor actions (focus, move, etc.)": "Niri-kompozitorműveletek (fókusz, mozgatás, stb.)"
   },
@@ -2313,7 +2325,7 @@
     "No widgets available": "Nincsenek elérhető widgetek"
   },
   "No widgets match your search": {
-    "No widgets match your search": ""
+    "No widgets match your search": "Nincs a keresésnek megfelelő widget"
   },
   "None": {
     "None": "Nincs"
@@ -2332,6 +2344,9 @@
   },
   "Not connected": {
     "Not connected": "Nincs csatlakozva"
+  },
+  "Note: this only changes the percentage, it does not actually limit charging.": {
+    "Note: this only changes the percentage, it does not actually limit charging.": ""
   },
   "Notepad": {
     "Notepad": "Jegyzettömb"
@@ -2394,7 +2409,7 @@
     "Only adjust gamma based on time or location rules.": "Csak az idő- vagy helyalapú szabályok szerint állítsa a gammát."
   },
   "Only show windows from the current monitor on each dock": {
-    "Only show windows from the current monitor on each dock": ""
+    "Only show windows from the current monitor on each dock": "Csak az aktuális monitor ablakainak megjelenítése minden dokkon"
   },
   "Only visible if hibernate is supported by your system": {
     "Only visible if hibernate is supported by your system": "Csak akkor látható, ha a hibernálás támogatott a rendszeren"
@@ -2443,6 +2458,12 @@
   },
   "Override": {
     "Override": "Felülírás"
+  },
+  "Override Corner Radius": {
+    "Override Corner Radius": ""
+  },
+  "Override Gaps": {
+    "Override Gaps": ""
   },
   "Override global layout settings for this output": {
     "Override global layout settings for this output": "Globális elrendezési beállítások felülbírálása ehhez a kimenethez"
@@ -2804,6 +2825,9 @@
   "Root Filesystem": {
     "Root Filesystem": "Root fájlrendszer"
   },
+  "Rounded corners for windows": {
+    "Rounded corners for windows": ""
+  },
   "Run DMS Templates": {
     "Run DMS Templates": "DMS-sablonok futtatása"
   },
@@ -2928,7 +2952,7 @@
     "Select a color from the palette or use custom sliders": "Válassz színt a palettáról, vagy használd az egyéni csúszkákat"
   },
   "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": {
-    "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": ""
+    "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": "Válassz ki egy widgetet az asztalhoz való hozzáadáshoz. Minden widget egy külön példány, saját beállításokkal."
   },
   "Select a widget to add. You can add multiple instances of the same widget if needed.": {
     "Select a widget to add. You can add multiple instances of the same widget if needed.": "Válassz ki egy widgetet a hozzáadáshoz. Több példányt is hozzáadhatsz ugyanabból a widgetből, ha szükséges."
@@ -3098,6 +3122,9 @@
   "Show on Last Display": {
     "Show on Last Display": "Megjelenítés az utolsó kijelzőn"
   },
+  "Show on Overlay": {
+    "Show on Overlay": ""
+  },
   "Show on Overview": {
     "Show on Overview": "Megjelenítés az áttekintésben"
   },
@@ -3193,6 +3220,9 @@
   },
   "Sounds": {
     "Sounds": "Hangok"
+  },
+  "Space between windows": {
+    "Space between windows": ""
   },
   "Spacer": {
     "Spacer": "Térköz"
@@ -3300,10 +3330,10 @@
     "System Updates": "Rendszerfrissítések"
   },
   "System monitor widget description": {
-    "CPU, memory, network, and disk monitoring": ""
+    "CPU, memory, network, and disk monitoring": "CPU, memória, hálózat és lemez figyelése"
   },
   "System monitor widget name | sysmon window title": {
-    "System Monitor": ""
+    "System Monitor": "Rendszermonitor"
   },
   "System notification area icons": {
     "System notification area icons": "Rendszer értesítési terület ikonjai"
@@ -3551,6 +3581,12 @@
   "Use custom command for update your system": {
     "Use custom command for update your system": "Egyéni parancs használata a rendszer frissítéséhez"
   },
+  "Use custom gaps instead of bar spacing": {
+    "Use custom gaps instead of bar spacing": ""
+  },
+  "Use custom window radius instead of theme radius": {
+    "Use custom window radius instead of theme radius": ""
+  },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "Ujjlenyomat-olvasó használata a zárolási képernyőn történő hitelesítéshez (regisztrált ujjlenyomatok szükségesek)"
   },
@@ -3763,6 +3799,12 @@
   "Wind Speed": {
     "Wind Speed": "Szélsebesség"
   },
+  "Window Corner Radius": {
+    "Window Corner Radius": ""
+  },
+  "Window Gaps": {
+    "Window Gaps": ""
+  },
   "Window Gaps (px)": {
     "Window Gaps (px)": "Ablakközök (px)"
   },
@@ -3818,19 +3860,19 @@
     "Browse Themes": "Témák böngészése"
   },
   "catppuccin theme description": {
-    "Soothing pastel theme based on Catppuccin": ""
+    "Soothing pastel theme based on Catppuccin": "Nyugtató pasztell téma a Catppuccin alapján"
   },
   "current theme label": {
     "Current Theme: %1": "Jelenlegi téma: %1"
   },
   "custom theme description": {
-    "Custom theme loaded from JSON file": ""
+    "Custom theme loaded from JSON file": "JSON fájlból betöltött egyéni téma"
   },
   "custom theme file browser title": {
     "Select Custom Theme": "Egyéni téma kiválasztása"
   },
   "custom theme file hint": {
-    "Click to select a custom theme JSON file": ""
+    "Click to select a custom theme JSON file": "Kattints egy egyéni téma JSON fájl kiválasztásához"
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "Háttérkép kiválasztása"
@@ -3854,7 +3896,7 @@
     "Dynamic colors from wallpaper": "Dinamikus színek a háttérképből"
   },
   "dynamic theme description": {
-    "Material colors generated from wallpaper": ""
+    "Material colors generated from wallpaper": "Háttérképből generált Material színek"
   },
   "dynamic theme name": {
     "Dynamic": "Dinamikus"
@@ -3881,7 +3923,7 @@
     "files": "fájlok"
   },
   "generic theme description": {
-    "Material Design inspired color themes": ""
+    "Material Design inspired color themes": "Material Design ihlette színtémák"
   },
   "install action button": {
     "Install": "Telepítés"
@@ -3911,7 +3953,7 @@
     "matugen not found - install matugen package for dynamic theming": "matugen nem található - telepítsd a matugen csomagot a dinamikus témázásért"
   },
   "matugen installation hint": {
-    "Install matugen package for dynamic theming": ""
+    "Install matugen package for dynamic theming": "Telepítsd a matugen csomagot a dinamikus témázáshoz"
   },
   "matugen not found status": {
     "Matugen Missing": "A Matugen hiányzik"
@@ -3923,10 +3965,10 @@
     "ms": "ms"
   },
   "no custom theme file status": {
-    "No custom theme file": ""
+    "No custom theme file": "Nincs egyéni témafájl"
   },
   "no registry themes installed hint": {
-    "No themes installed. Browse themes to install from the registry.": ""
+    "No themes installed. Browse themes to install from the registry.": "Nincsenek telepített témák. Böngéssz a regiszterben a telepíthető témákért."
   },
   "no wallpaper status": {
     "No wallpaper selected": "Nincs háttérkép kiválasztva"
@@ -3935,13 +3977,13 @@
     "official": "hivatalos"
   },
   "plugin browser description": {
-    "Install plugins from the DMS plugin registry": ""
+    "Install plugins from the DMS plugin registry": "Bővítmények telepítése a DMS bővítmény-regiszterből"
   },
   "plugin browser header | plugin browser window title": {
     "Browse Plugins": "Bővítmények böngészése"
   },
   "plugin installation confirmation": {
-    "Install plugin '%1' from the DMS registry?": ""
+    "Install plugin '%1' from the DMS registry?": "Telepíted a(z) '%1' bővítményt a DMS regiszterből?"
   },
   "plugin installation dialog title": {
     "Install Plugin": "Bővítmény telepítése"
@@ -3953,7 +3995,7 @@
     "Select Profile Image": "Profilkép kiválasztása"
   },
   "registry theme description": {
-    "Color theme from DMS registry": ""
+    "Color theme from DMS registry": "Színtéma a DMS regiszterből"
   },
   "seconds": {
     "seconds": "másodpercek"
@@ -3968,13 +4010,13 @@
     "source": "forrás"
   },
   "sysmon window title": {
-    "System Monitor": "Rendszerfigyelő"
+    "System Monitor": "Rendszermonitor"
   },
   "theme browser description": {
-    "Install color themes from the DMS theme registry": ""
+    "Install color themes from the DMS theme registry": "Színtémák telepítése a DMS téma-regiszterből"
   },
   "theme installation confirmation": {
-    "Install theme '%1' from the DMS registry?": ""
+    "Install theme '%1' from the DMS registry?": "Telepíted a(z) '%1' témát a DMS regiszterből?"
   },
   "theme installation dialog title": {
     "Install Theme": "Téma telepítése"

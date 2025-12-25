@@ -431,6 +431,9 @@
   "Battery": {
     "Battery": "電池"
   },
+  "Battery Charge Limit": {
+    "Battery Charge Limit": ""
+  },
   "Battery and power management": {
     "Battery and power management": ""
   },
@@ -508,6 +511,9 @@
   },
   "Brightness Slider": {
     "Brightness Slider": ""
+  },
+  "Brightness Value": {
+    "Brightness Value": ""
   },
   "Brightness control not available": {
     "Brightness control not available": ""
@@ -2099,6 +2105,9 @@
   "Microphone Mute": {
     "Microphone Mute": "麥克風靜音"
   },
+  "Microphone Volume": {
+    "Microphone Volume": ""
+  },
   "Microphone settings": {
     "Microphone settings": ""
   },
@@ -2219,6 +2228,9 @@
   "Niri Integration": {
     "Niri Integration": "Niri 整合"
   },
+  "Niri Layout Overrides": {
+    "Niri Layout Overrides": ""
+  },
   "Niri compositor actions (focus, move, etc.)": {
     "Niri compositor actions (focus, move, etc.)": "Niri 合成器動作 (焦點、移動等)"
   },
@@ -2333,6 +2345,9 @@
   "Not connected": {
     "Not connected": "未連接"
   },
+  "Note: this only changes the percentage, it does not actually limit charging.": {
+    "Note: this only changes the percentage, it does not actually limit charging.": ""
+  },
   "Notepad": {
     "Notepad": "筆記本"
   },
@@ -2443,6 +2458,12 @@
   },
   "Override": {
     "Override": "覆蓋"
+  },
+  "Override Corner Radius": {
+    "Override Corner Radius": ""
+  },
+  "Override Gaps": {
+    "Override Gaps": ""
   },
   "Override global layout settings for this output": {
     "Override global layout settings for this output": ""
@@ -2804,6 +2825,9 @@
   "Root Filesystem": {
     "Root Filesystem": ""
   },
+  "Rounded corners for windows": {
+    "Rounded corners for windows": ""
+  },
   "Run DMS Templates": {
     "Run DMS Templates": ""
   },
@@ -3098,6 +3122,9 @@
   "Show on Last Display": {
     "Show on Last Display": "在最後顯示幕上顯示"
   },
+  "Show on Overlay": {
+    "Show on Overlay": ""
+  },
   "Show on Overview": {
     "Show on Overview": "顯示在概覽畫面"
   },
@@ -3193,6 +3220,9 @@
   },
   "Sounds": {
     "Sounds": "聲音"
+  },
+  "Space between windows": {
+    "Space between windows": ""
   },
   "Spacer": {
     "Spacer": "空白間隔"
@@ -3551,6 +3581,12 @@
   "Use custom command for update your system": {
     "Use custom command for update your system": "使用自訂指令更新您的系統"
   },
+  "Use custom gaps instead of bar spacing": {
+    "Use custom gaps instead of bar spacing": ""
+  },
+  "Use custom window radius instead of theme radius": {
+    "Use custom window radius instead of theme radius": ""
+  },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "使用指紋辨識器進行鎖定畫面身份驗證（需要註冊指紋）"
   },
@@ -3762,6 +3798,12 @@
   },
   "Wind Speed": {
     "Wind Speed": "風速"
+  },
+  "Window Corner Radius": {
+    "Window Corner Radius": ""
+  },
+  "Window Gaps": {
+    "Window Gaps": ""
   },
   "Window Gaps (px)": {
     "Window Gaps (px)": ""

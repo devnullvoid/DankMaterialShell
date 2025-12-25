@@ -168,7 +168,7 @@
     "Add Bar": "Bar Ekle"
   },
   "Add Desktop Widget": {
-    "Add Desktop Widget": ""
+    "Add Desktop Widget": "Masaüstü Widget'ı Ekle"
   },
   "Add Printer": {
     "Add Printer": "Yazıcı Ekle"
@@ -186,7 +186,7 @@
     "Add a custom prefix to all application launches. This can be used for things like 'uwsm-app', 'systemd-run', or other command wrappers.": "Tüm uygulama başlatmalarına özel bir önek ekleyin. Bu, 'uwsm-app', 'systemd-run' veya diğer komut sarmalayıcıları gibi şeyler için kullanılabilir."
   },
   "Add and configure widgets that appear on your desktop": {
-    "Add and configure widgets that appear on your desktop": ""
+    "Add and configure widgets that appear on your desktop": "Masaüstünüzde görünen widget'ları ekle ve yapılandır"
   },
   "Adjust the number of columns in grid view mode.": {
     "Adjust the number of columns in grid view mode.": "Izgara görünümü modunda sütun sayısını ayarla"
@@ -431,6 +431,9 @@
   "Battery": {
     "Battery": "Batarya"
   },
+  "Battery Charge Limit": {
+    "Battery Charge Limit": ""
+  },
   "Battery and power management": {
     "Battery and power management": "Batarya ve güç yönetimi"
   },
@@ -508,6 +511,9 @@
   },
   "Brightness Slider": {
     "Brightness Slider": "Parlaklık Kaydırıcı"
+  },
+  "Brightness Value": {
+    "Brightness Value": ""
   },
   "Brightness control not available": {
     "Brightness control not available": "Parlaklık kontrolü kullanılamıyor"
@@ -1038,7 +1044,7 @@
     "Desktop Clock": "Masaüstü Saati"
   },
   "Desktop Widget": {
-    "Desktop Widget": ""
+    "Desktop Widget": "Masaüstü Widget'ı"
   },
   "Desktop Widgets": {
     "Desktop Widgets": "Masaüstü Widgetları"
@@ -1047,10 +1053,10 @@
     "Desktop background images": "Masaüstü arkaplan resimleri"
   },
   "Desktop clock widget description": {
-    "Analog, digital, or stacked clock display": ""
+    "Analog, digital, or stacked clock display": "Analog, dijital veya yığılmış saat ekranı"
   },
   "Desktop clock widget name": {
-    "Desktop Clock": ""
+    "Desktop Clock": "Masaüstü Saati"
   },
   "Development": {
     "Development": "Geliştirme"
@@ -1686,7 +1692,7 @@
     "Hide Delay": "Gizleme Gecikmesi"
   },
   "Hide When Windows Open": {
-    "Hide When Windows Open": ""
+    "Hide When Windows Open": "Pencere Açıkken Gizle"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Kullanılmadığında dock'u gizle ve dock alanının yakınına geldiğinizde göster"
@@ -1803,7 +1809,7 @@
     "Input Volume Slider": "Giriş Ses Seviyesi Kaydırıcı"
   },
   "Install plugins from the DMS plugin registry": {
-    "Install plugins from the DMS plugin registry": "DMS eklenti deposundan eklentiler yükle"
+    "Install plugins from the DMS plugin registry": "DMS eklenti defterinden eklentiler yükle"
   },
   "Interface:": {
     "Interface:": "Arayüz:"
@@ -1824,7 +1830,7 @@
     "Invert on mode change": "Mod değişikliğinde ters çevir"
   },
   "Isolate Displays": {
-    "Isolate Displays": ""
+    "Isolate Displays": "İzole Ekranlar"
   },
   "Jobs": {
     "Jobs": "İşler"
@@ -2099,6 +2105,9 @@
   "Microphone Mute": {
     "Microphone Mute": "Microfon Sessiz"
   },
+  "Microphone Volume": {
+    "Microphone Volume": ""
+  },
   "Microphone settings": {
     "Microphone settings": "Mikrofon ayarları"
   },
@@ -2219,6 +2228,9 @@
   "Niri Integration": {
     "Niri Integration": "Niri Entegrasyonu"
   },
+  "Niri Layout Overrides": {
+    "Niri Layout Overrides": ""
+  },
   "Niri compositor actions (focus, move, etc.)": {
     "Niri compositor actions (focus, move, etc.)": "Niri kompozitör (focus, move, vb.)"
   },
@@ -2310,10 +2322,10 @@
     "No variants created. Click Add to create a new monitor widget.": "Hiçbir varyant oluşturulmadı. Yeni bir monitör widget'ı oluşturmak için Ekle'ye tıklayın."
   },
   "No widgets available": {
-    "No widgets available": ""
+    "No widgets available": "Kullanılabilir widget yok"
   },
   "No widgets match your search": {
-    "No widgets match your search": ""
+    "No widgets match your search": "Aramanla eşleşen bir widget yok"
   },
   "None": {
     "None": "Hiçbiri"
@@ -2332,6 +2344,9 @@
   },
   "Not connected": {
     "Not connected": "Bağlı değil"
+  },
+  "Note: this only changes the percentage, it does not actually limit charging.": {
+    "Note: this only changes the percentage, it does not actually limit charging.": ""
   },
   "Notepad": {
     "Notepad": "Not Defteri"
@@ -2394,7 +2409,7 @@
     "Only adjust gamma based on time or location rules.": "Gamayı yalnızca zaman veya konum kurallarına göre ayarlayın."
   },
   "Only show windows from the current monitor on each dock": {
-    "Only show windows from the current monitor on each dock": ""
+    "Only show windows from the current monitor on each dock": "Her bir dock'ta yalnızca mevcut monitördeki pencereleri göster"
   },
   "Only visible if hibernate is supported by your system": {
     "Only visible if hibernate is supported by your system": "Sisteminizde hazırda bekletme özelliği destekleniyorsa görünür"
@@ -2443,6 +2458,12 @@
   },
   "Override": {
     "Override": "Geçersiz Kıl"
+  },
+  "Override Corner Radius": {
+    "Override Corner Radius": ""
+  },
+  "Override Gaps": {
+    "Override Gaps": ""
   },
   "Override global layout settings for this output": {
     "Override global layout settings for this output": "Bu çıkış için genel düzen ayarlarını geçersiz kıl"
@@ -2804,6 +2825,9 @@
   "Root Filesystem": {
     "Root Filesystem": "Kök Dosya Sistemi"
   },
+  "Rounded corners for windows": {
+    "Rounded corners for windows": ""
+  },
   "Run DMS Templates": {
     "Run DMS Templates": "DMS Şablonlarını Çalıştır"
   },
@@ -2928,7 +2952,7 @@
     "Select a color from the palette or use custom sliders": "Paletten bir renk seç veya özel kaydırıcıları kullan"
   },
   "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": {
-    "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": ""
+    "Select a widget to add to your desktop. Each widget is a separate instance with its own settings.": "Masaüstünüze eklemek için bir widget seçin. Her widget, kendi ayarları olan ayrı bir örnektir."
   },
   "Select a widget to add. You can add multiple instances of the same widget if needed.": {
     "Select a widget to add. You can add multiple instances of the same widget if needed.": "Eklemek için bir widget seçin. Gerekirse aynı widget'ın birden fazla örneğini ekleyebilirsiniz."
@@ -3098,6 +3122,9 @@
   "Show on Last Display": {
     "Show on Last Display": "Son Ekranda Göster"
   },
+  "Show on Overlay": {
+    "Show on Overlay": ""
+  },
   "Show on Overview": {
     "Show on Overview": "Genel Görünümde Göster"
   },
@@ -3193,6 +3220,9 @@
   },
   "Sounds": {
     "Sounds": "Sesler"
+  },
+  "Space between windows": {
+    "Space between windows": ""
   },
   "Spacer": {
     "Spacer": "Boşluklandırıcı"
@@ -3300,10 +3330,10 @@
     "System Updates": "Sistem Güncellemeleri"
   },
   "System monitor widget description": {
-    "CPU, memory, network, and disk monitoring": ""
+    "CPU, memory, network, and disk monitoring": "CPU, bellek, ağ ve disk izleme"
   },
   "System monitor widget name | sysmon window title": {
-    "System Monitor": ""
+    "System Monitor": "Sistem Monitörü"
   },
   "System notification area icons": {
     "System notification area icons": "Sistem bildirim alanı simgeleri"
@@ -3551,6 +3581,12 @@
   "Use custom command for update your system": {
     "Use custom command for update your system": "Sistemi güncellemek için özel komut kullan"
   },
+  "Use custom gaps instead of bar spacing": {
+    "Use custom gaps instead of bar spacing": ""
+  },
+  "Use custom window radius instead of theme radius": {
+    "Use custom window radius instead of theme radius": ""
+  },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "Kilit ekranı doğrulaması için parmak izi okuyucuyu kullan (kayıtlı parmak izleri gereklidir)"
   },
@@ -3745,7 +3781,7 @@
     "Widget Variants": "Widget Varyantları"
   },
   "Widget added": {
-    "Widget added": ""
+    "Widget added": "Widget eklendi"
   },
   "Widget grid keyboard hints": {
     "G: grid • Z/X: size": "G: ızgara • Z/X: boyut"
@@ -3755,13 +3791,19 @@
     "Grid: ON": "Izgara: AÇIK"
   },
   "Widget removed": {
-    "Widget removed": ""
+    "Widget removed": "Widget kaldırıldı"
   },
   "Wind": {
     "Wind": "Rüzgar"
   },
   "Wind Speed": {
     "Wind Speed": "Rüzgar hızı"
+  },
+  "Window Corner Radius": {
+    "Window Corner Radius": ""
+  },
+  "Window Gaps": {
+    "Window Gaps": ""
   },
   "Window Gaps (px)": {
     "Window Gaps (px)": "Pencere Boşlukları (px)"
@@ -3812,25 +3854,25 @@
     "apps": "uygulamalar"
   },
   "author attribution": {
-    "by %1": ""
+    "by %1": "%1 tarafından"
   },
   "browse themes button | theme browser header | theme browser window title": {
-    "Browse Themes": ""
+    "Browse Themes": "Temalara Göz At"
   },
   "catppuccin theme description": {
-    "Soothing pastel theme based on Catppuccin": ""
+    "Soothing pastel theme based on Catppuccin": "Catppuccin tabanlı rahatlatıcı pastel tema"
   },
   "current theme label": {
-    "Current Theme: %1": ""
+    "Current Theme: %1": "Mevcut Tema: %1"
   },
   "custom theme description": {
-    "Custom theme loaded from JSON file": ""
+    "Custom theme loaded from JSON file": "Özel tema JSON dosyasından yüklendi"
   },
   "custom theme file browser title": {
     "Select Custom Theme": "Özel Tema Seç"
   },
   "custom theme file hint": {
-    "Click to select a custom theme JSON file": ""
+    "Click to select a custom theme JSON file": "Özel tema JSON dosyasını seçmek için tıklayın"
   },
   "dark mode wallpaper file browser title | light mode wallpaper file browser title | wallpaper file browser title": {
     "Select Wallpaper": "Duvar Kağıdı Seç"
@@ -3851,13 +3893,13 @@
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": "dms/outputs yapılandırması mevcut ancak kompozitör yapılandırmanıza dahil edilmemiş. Ekran değişiklikleri kalıcı olmayacaktır."
   },
   "dynamic colors description": {
-    "Dynamic colors from wallpaper": ""
+    "Dynamic colors from wallpaper": "Duvar kağıdından dinamik renkler"
   },
   "dynamic theme description": {
-    "Material colors generated from wallpaper": ""
+    "Material colors generated from wallpaper": "Duvar kağıdından oluşturulan malzeme renkleri"
   },
   "dynamic theme name": {
-    "Dynamic": ""
+    "Dynamic": "Dinamik"
   },
   "e.g., firefox, kitty --title foo": {
     "e.g., firefox, kitty --title foo": "örn. firefox, kitty --title foo"
@@ -3869,10 +3911,10 @@
     "e.g., notify-send 'Hello' && sleep 1": "Örneğin, notify-send 'Merhaba' && sleep 1"
   },
   "empty plugin list": {
-    "No plugins found": ""
+    "No plugins found": "Eklenti bulunamadı"
   },
   "empty theme list": {
-    "No themes found": ""
+    "No themes found": "Tema bulunmadı"
   },
   "events": {
     "events": "etkinlikler"
@@ -3881,40 +3923,40 @@
     "files": "dosyalar"
   },
   "generic theme description": {
-    "Material Design inspired color themes": ""
+    "Material Design inspired color themes": "Malzeme Tasarımı'ndan ilham alan renk temaları"
   },
   "install action button": {
-    "Install": ""
+    "Install": "Yükle"
   },
   "installation error": {
-    "Install failed: %1": ""
+    "Install failed: %1": "Yüklenemedi: %1"
   },
   "installation progress": {
-    "Installing: %1": ""
+    "Installing: %1": "Yükleniyor: %1"
   },
   "installation success": {
-    "Installed: %1": ""
+    "Installed: %1": "Yüklendi: %1"
   },
   "installed status": {
-    "Installed": ""
+    "Installed": "Yüklendi"
   },
   "leave empty for default": {
     "leave empty for default": "Varsayılanlar için boş bırakın"
   },
   "loading indicator": {
-    "Loading...": ""
+    "Loading...": "Yükleniyor..."
   },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl kullanılabilir değil - kilit entegrasyonu DMS soket bağlantısı gerektirir"
   },
   "matugen error": {
-    "matugen not found - install matugen package for dynamic theming": ""
+    "matugen not found - install matugen package for dynamic theming": "matugen bulunamadı - dinamik tema için matugen paketini yükleyin"
   },
   "matugen installation hint": {
-    "Install matugen package for dynamic theming": ""
+    "Install matugen package for dynamic theming": "Dinamik tema için matugen paketini yükleyin"
   },
   "matugen not found status": {
-    "Matugen Missing": ""
+    "Matugen Missing": "Matugen Bulunamadı"
   },
   "minutes": {
     "minutes": "dakika"
@@ -3923,37 +3965,37 @@
     "ms": "ms"
   },
   "no custom theme file status": {
-    "No custom theme file": ""
+    "No custom theme file": "Özel tema dosyası yok"
   },
   "no registry themes installed hint": {
-    "No themes installed. Browse themes to install from the registry.": ""
+    "No themes installed. Browse themes to install from the registry.": "Yüklü tema yok. Kayıt defterinden yüklemek için temaları göz atın."
   },
   "no wallpaper status": {
-    "No wallpaper selected": ""
+    "No wallpaper selected": "Duvar kağıdı seçilmedi"
   },
   "official": {
     "official": "resmi"
   },
   "plugin browser description": {
-    "Install plugins from the DMS plugin registry": ""
+    "Install plugins from the DMS plugin registry": "DMS eklenti kayıt defterinden eklentiler yükle"
   },
   "plugin browser header | plugin browser window title": {
-    "Browse Plugins": ""
+    "Browse Plugins": "Eklentilere Göz At"
   },
   "plugin installation confirmation": {
-    "Install plugin '%1' from the DMS registry?": ""
+    "Install plugin '%1' from the DMS registry?": "DMS kayıt defterinden '%1' eklentisi yüklensin mi?"
   },
   "plugin installation dialog title": {
-    "Install Plugin": ""
+    "Install Plugin": "Eklenti Yükle"
   },
   "plugin search placeholder": {
-    "Search plugins...": ""
+    "Search plugins...": "Eklenti ara..."
   },
   "profile image file browser title": {
     "Select Profile Image": "Profil Resmi Seç"
   },
   "registry theme description": {
-    "Color theme from DMS registry": ""
+    "Color theme from DMS registry": "DMS kayıt defterinden renk teması"
   },
   "seconds": {
     "seconds": "saniye"
@@ -3965,37 +4007,37 @@
     "Widgets": "Widgetlar"
   },
   "source code link": {
-    "source": ""
+    "source": "kaynak"
   },
   "sysmon window title": {
     "System Monitor": "Sistem Monitörü"
   },
   "theme browser description": {
-    "Install color themes from the DMS theme registry": ""
+    "Install color themes from the DMS theme registry": "DMS tema kayıt defterinden renk temaları yükle"
   },
   "theme installation confirmation": {
-    "Install theme '%1' from the DMS registry?": ""
+    "Install theme '%1' from the DMS registry?": "DMS kayıt defterinden '%1' teması yüklensin mi?"
   },
   "theme installation dialog title": {
-    "Install Theme": ""
+    "Install Theme": "Tema Yükle"
   },
   "theme search placeholder": {
-    "Search themes...": ""
+    "Search themes...": "Tema ara..."
   },
   "uninstall action button": {
-    "Uninstall": ""
+    "Uninstall": "Kaldır"
   },
   "uninstallation error": {
-    "Uninstall failed: %1": ""
+    "Uninstall failed: %1": "Kaldırma başarısız: %1"
   },
   "uninstallation progress": {
-    "Uninstalling: %1": ""
+    "Uninstalling: %1": "Kaldırılıyor: %1"
   },
   "uninstallation success": {
-    "Uninstalled: %1": ""
+    "Uninstalled: %1": "Kaldırıldı: %1"
   },
   "unknown author": {
-    "Unknown": ""
+    "Unknown": "Bilinmeyen"
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "NM entegrasyonu için dms'yi güncelle"
@@ -4004,13 +4046,13 @@
     "Select Wallpaper Directory": "Duvar Kağıdı Dizinini Seç"
   },
   "wallpaper error": {
-    "Wallpaper processing failed - check wallpaper path": ""
+    "Wallpaper processing failed - check wallpaper path": "Duvar kağıdı işleme başarısız - duvar kağıdı yolunu kontrol edin"
   },
   "wallpaper error status": {
-    "Wallpaper Error": ""
+    "Wallpaper Error": "Duvar Kağıdı Hatası"
   },
   "wallpaper processing error": {
-    "Wallpaper processing failed": ""
+    "Wallpaper processing failed": "Duvar kağıdı işleme başarısız oldu"
   },
   "wallpaper settings disable description": {
     "Use an external wallpaper manager like swww, hyprpaper, or swaybg.": "Swww, hyprpaper veya swaybg gibi harici bir duvar kağıdı yöneticisi kullan"

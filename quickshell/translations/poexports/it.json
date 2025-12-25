@@ -431,6 +431,9 @@
   "Battery": {
     "Battery": "Batteria"
   },
+  "Battery Charge Limit": {
+    "Battery Charge Limit": ""
+  },
   "Battery and power management": {
     "Battery and power management": "Gestione batteria e alimentazione"
   },
@@ -508,6 +511,9 @@
   },
   "Brightness Slider": {
     "Brightness Slider": "Slider Luminosità"
+  },
+  "Brightness Value": {
+    "Brightness Value": ""
   },
   "Brightness control not available": {
     "Brightness control not available": "Controllo luminosità non disponibile"
@@ -1686,7 +1692,7 @@
     "Hide Delay": "Ritardo Nascondi"
   },
   "Hide When Windows Open": {
-    "Hide When Windows Open": ""
+    "Hide When Windows Open": "Nascondi Quando le Finestre Sono Aperte"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Nascondi la dock quando non è in uso e mostrala quando il cursore passa vicino all’area della dock"
@@ -2099,6 +2105,9 @@
   "Microphone Mute": {
     "Microphone Mute": "Silenzia Microfono"
   },
+  "Microphone Volume": {
+    "Microphone Volume": ""
+  },
   "Microphone settings": {
     "Microphone settings": "Impostazioni Microfono"
   },
@@ -2219,6 +2228,9 @@
   "Niri Integration": {
     "Niri Integration": "Integrazione Niri"
   },
+  "Niri Layout Overrides": {
+    "Niri Layout Overrides": ""
+  },
   "Niri compositor actions (focus, move, etc.)": {
     "Niri compositor actions (focus, move, etc.)": "Azioni del compositor Niri (focus, muovi, etc.)"
   },
@@ -2333,6 +2345,9 @@
   "Not connected": {
     "Not connected": "Non connesso"
   },
+  "Note: this only changes the percentage, it does not actually limit charging.": {
+    "Note: this only changes the percentage, it does not actually limit charging.": ""
+  },
   "Notepad": {
     "Notepad": "Notepad"
   },
@@ -2443,6 +2458,12 @@
   },
   "Override": {
     "Override": "Sovrascrivi"
+  },
+  "Override Corner Radius": {
+    "Override Corner Radius": ""
+  },
+  "Override Gaps": {
+    "Override Gaps": ""
   },
   "Override global layout settings for this output": {
     "Override global layout settings for this output": "Sovrascrivi le impostazioni di layout globali per questa uscita"
@@ -2804,6 +2825,9 @@
   "Root Filesystem": {
     "Root Filesystem": "Filesystem root"
   },
+  "Rounded corners for windows": {
+    "Rounded corners for windows": ""
+  },
   "Run DMS Templates": {
     "Run DMS Templates": "Esegui Teplate DMS"
   },
@@ -2817,7 +2841,7 @@
     "Run a shell command (e.g., notify-send)": "Esegui un comando shell (es. notify-send)"
   },
   "Running Apps": {
-    "Running Apps": "Apps In Esecuzione"
+    "Running Apps": "Apps in Esecuzione"
   },
   "Running Apps Only In Current Workspace": {
     "Running Apps Only In Current Workspace": "Apps In Esecuzione Solo Nello Spazio di Lavoro Attuale"
@@ -3098,6 +3122,9 @@
   "Show on Last Display": {
     "Show on Last Display": "Mostra sull'ultimo display"
   },
+  "Show on Overlay": {
+    "Show on Overlay": ""
+  },
   "Show on Overview": {
     "Show on Overview": "Mostra in Panoramica"
   },
@@ -3193,6 +3220,9 @@
   },
   "Sounds": {
     "Sounds": "Suoni"
+  },
+  "Space between windows": {
+    "Space between windows": ""
   },
   "Spacer": {
     "Spacer": "Spaziatore"
@@ -3551,6 +3581,12 @@
   "Use custom command for update your system": {
     "Use custom command for update your system": "Usa comando personalizzato per aggiornare il sistema"
   },
+  "Use custom gaps instead of bar spacing": {
+    "Use custom gaps instead of bar spacing": ""
+  },
+  "Use custom window radius instead of theme radius": {
+    "Use custom window radius instead of theme radius": ""
+  },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "Usa impronte digitali per autenticazione blocco schermo\n(richiede impronte digitali registrate)"
   },
@@ -3762,6 +3798,12 @@
   },
   "Wind Speed": {
     "Wind Speed": "Velocità Vento"
+  },
+  "Window Corner Radius": {
+    "Window Corner Radius": ""
+  },
+  "Window Gaps": {
+    "Window Gaps": ""
   },
   "Window Gaps (px)": {
     "Window Gaps (px)": "Spazi tra finestre (px)"
