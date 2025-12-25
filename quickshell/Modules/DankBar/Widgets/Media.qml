@@ -139,7 +139,7 @@ BasePill {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             if (root.popoutTarget && root.popoutTarget.setTriggerPosition) {
-                                const globalPos = parent.mapToGlobal(0, 0);
+                                const globalPos = parent.mapToItem(null, 0, 0);
                                 const currentScreen = root.parentScreen || Screen;
                                 const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, root.barThickness, parent.width);
                                 root.popoutTarget.setTriggerPosition(pos.x, pos.y, pos.width, root.section, currentScreen);
@@ -294,7 +294,7 @@ BasePill {
                             cursorShape: Qt.PointingHandCursor
                             onPressed: {
                                 if (root.popoutTarget && root.popoutTarget.setTriggerPosition) {
-                                    const globalPos = mapToGlobal(0, 0);
+                                    const globalPos = mapToItem(null, 0, 0);
                                     const currentScreen = root.parentScreen || Screen;
                                     const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, root.barThickness, root.width);
                                     root.popoutTarget.setTriggerPosition(pos.x, pos.y, pos.width, root.section, currentScreen);

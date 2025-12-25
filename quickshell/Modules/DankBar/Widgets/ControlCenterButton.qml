@@ -264,14 +264,14 @@ BasePill {
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
                         anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top: parent
+                        anchors.top: parent.top
                         anchors.topMargin: 2
                     }
 
                     StyledText {
                         id: audioPercentV
                         visible: root.showAudioPercent
-                        text: Math.round(AudioService.sink.audio.volume * 100) + "%"
+                        text: Math.round((AudioService.sink?.audio?.volume ?? 0) * 100) + "%"
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.widgetTextColor
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -305,14 +305,14 @@ BasePill {
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: root.getMicIconColor()
                         anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top: parent
+                        anchors.top: parent.top
                         anchors.topMargin: 2
                     }
 
                     StyledText {
                         id: micPercentV
                         visible: root.showMicPercent
-                        text: Math.round(AudioService.source.audio.volume * 100) + "%"
+                        text: Math.round((AudioService.source?.audio?.volume ?? 0) * 100) + "%"
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.widgetTextColor
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -346,7 +346,7 @@ BasePill {
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
                         anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top: parent
+                        anchors.top: parent.top
                         anchors.topMargin: 2
                     }
 
@@ -442,14 +442,14 @@ BasePill {
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
                         anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent
+                        anchors.left: parent.left
                         anchors.leftMargin: 2
                     }
 
                     StyledText {
                         id: audioPercent
                         visible: root.showAudioPercent
-                        text: Math.round(AudioService.sink.audio.volume * 100) + "%"
+                        text: Math.round((AudioService.sink?.audio?.volume ?? 0) * 100) + "%"
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.widgetTextColor
                         anchors.verticalCenter: parent.verticalCenter
@@ -484,14 +484,14 @@ BasePill {
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: root.getMicIconColor()
                         anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent
+                        anchors.left: parent.left
                         anchors.leftMargin: 2
                     }
 
                     StyledText {
                         id: micPercent
                         visible: root.showMicPercent
-                        text: Math.round(AudioService.source.audio.volume * 100) + "%"
+                        text: Math.round((AudioService.source?.audio?.volume ?? 0) * 100) + "%"
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.widgetTextColor
                         anchors.verticalCenter: parent.verticalCenter
@@ -526,7 +526,7 @@ BasePill {
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
                         anchors.verticalCenter: parent.verticalCenter
-                        anchors.left: parent
+                        anchors.left: parent.left
                         anchors.leftMargin: 2
                     }
 

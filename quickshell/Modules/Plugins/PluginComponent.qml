@@ -119,7 +119,7 @@ Item {
                 if (pillClickAction.length === 0) {
                     pillClickAction();
                 } else {
-                    const globalPos = mapToGlobal(0, 0);
+                    const globalPos = mapToItem(null, 0, 0);
                     const currentScreen = parentScreen || Screen;
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, width);
                     pillClickAction(pos.x, pos.y, pos.width, section, currentScreen);
@@ -133,7 +133,7 @@ Item {
                 if (pillRightClickAction.length === 0) {
                     pillRightClickAction();
                 } else {
-                    const globalPos = mapToGlobal(0, 0);
+                    const globalPos = mapToItem(null, 0, 0);
                     const currentScreen = parentScreen || Screen;
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, width);
                     pillRightClickAction(pos.x, pos.y, pos.width, section, currentScreen);
@@ -160,7 +160,7 @@ Item {
                 if (pillClickAction.length === 0) {
                     pillClickAction();
                 } else {
-                    const globalPos = mapToGlobal(0, 0);
+                    const globalPos = mapToItem(null, 0, 0);
                     const currentScreen = parentScreen || Screen;
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, width);
                     pillClickAction(pos.x, pos.y, pos.width, section, currentScreen);
@@ -174,7 +174,7 @@ Item {
                 if (pillRightClickAction.length === 0) {
                     pillRightClickAction();
                 } else {
-                    const globalPos = mapToGlobal(0, 0);
+                    const globalPos = mapToItem(null, 0, 0);
                     const currentScreen = parentScreen || Screen;
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, width);
                     pillRightClickAction(pos.x, pos.y, pos.width, section, currentScreen);
@@ -196,7 +196,7 @@ Item {
                 return;
             }
             const pill = isVertical ? verticalPill : horizontalPill;
-            const globalPos = pill.mapToGlobal(0, 0);
+            const globalPos = pill.mapToItem(null, 0, 0);
             const currentScreen = parentScreen || Screen;
             const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, pill.width);
             pillClickAction(pos.x, pos.y, pos.width, section, currentScreen);
@@ -206,7 +206,7 @@ Item {
             return;
 
         const pill = isVertical ? verticalPill : horizontalPill;
-        const globalPos = pill.visualContent.mapToGlobal(0, 0);
+        const globalPos = pill.visualContent.mapToItem(null, 0, 0);
         const currentScreen = parentScreen || Screen;
         const barPosition = axis?.edge === "left" ? 2 : (axis?.edge === "right" ? 3 : (axis?.edge === "top" ? 0 : 1));
         const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, pill.visualWidth, barSpacing, barPosition, barConfig);

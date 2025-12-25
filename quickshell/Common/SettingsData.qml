@@ -576,7 +576,8 @@ Singleton {
     function updateDesktopWidgetInstance(instanceId, updates) {
         const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
         const idx = instances.findIndex(inst => inst.id === instanceId);
-        if (idx === -1) return;
+        if (idx === -1)
+            return;
         Object.assign(instances[idx], updates);
         desktopWidgetInstances = instances;
         saveSettings();
@@ -585,7 +586,8 @@ Singleton {
     function updateDesktopWidgetInstanceConfig(instanceId, configUpdates) {
         const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
         const idx = instances.findIndex(inst => inst.id === instanceId);
-        if (idx === -1) return;
+        if (idx === -1)
+            return;
         instances[idx].config = Object.assign({}, instances[idx].config || {}, configUpdates);
         desktopWidgetInstances = instances;
         saveSettings();
@@ -594,13 +596,11 @@ Singleton {
     function updateDesktopWidgetInstancePosition(instanceId, screenKey, positionUpdates) {
         const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
         const idx = instances.findIndex(inst => inst.id === instanceId);
-        if (idx === -1) return;
-        if (!instances[idx].positions) instances[idx].positions = {};
-        instances[idx].positions[screenKey] = Object.assign(
-            {},
-            instances[idx].positions[screenKey] || {},
-            positionUpdates
-        );
+        if (idx === -1)
+            return;
+        if (!instances[idx].positions)
+            instances[idx].positions = {};
+        instances[idx].positions[screenKey] = Object.assign({}, instances[idx].positions[screenKey] || {}, positionUpdates);
         desktopWidgetInstances = instances;
         saveSettings();
     }
@@ -909,11 +909,9 @@ Singleton {
         return barHeight + spacing + bottomGap - gothOffset + Theme.popupDistance;
     }
 
-    function getPopupTriggerPosition(globalPos, screen, barThickness, widgetWidth, barSpacing, barPosition, barConfig) {
-        const screenX = screen ? screen.x : 0;
-        const screenY = screen ? screen.y : 0;
-        const relativeX = globalPos.x - screenX;
-        const relativeY = globalPos.y - screenY;
+    function getPopupTriggerPosition(pos, screen, barThickness, widgetWidth, barSpacing, barPosition, barConfig) {
+        const relativeX = pos.x;
+        const relativeY = pos.y;
         const defaultBar = barConfigs[0] || getBarConfig("default");
         const spacing = barSpacing !== undefined ? barSpacing : (defaultBar?.spacing ?? 4);
         const position = barPosition !== undefined ? barPosition : (defaultBar?.position ?? SettingsData.Position.Top);

@@ -137,7 +137,7 @@ Item {
                 }
 
                 if (popoutTarget.setTriggerPosition) {
-                    const globalPos = root.visualContent.mapToGlobal(0, 0);
+                    const globalPos = root.visualContent.mapToItem(null, 0, 0);
                     const currentScreen = parentScreen || Screen;
                     const barPosition = root.axis?.edge === "left" ? 2 : (root.axis?.edge === "right" ? 3 : (root.axis?.edge === "top" ? 0 : 1));
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, root.visualWidth, root.barSpacing, barPosition, root.barConfig);

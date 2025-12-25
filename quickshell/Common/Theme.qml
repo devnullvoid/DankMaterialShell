@@ -258,7 +258,7 @@ Singleton {
     property color outlineVariant: currentThemeData.outlineVariant || Qt.rgba(outline.r, outline.g, outline.b, 0.6)
     property color surfaceContainer: currentThemeData.surfaceContainer
     property color surfaceContainerHigh: currentThemeData.surfaceContainerHigh
-    property color surfaceContainerHighest: currentThemeData.surfaceContainerHighest
+    property color surfaceContainerHighest: currentThemeData.surfaceContainerHighest || surfaceContainerHigh
 
     property color onSurface: surfaceText
     property color onSurfaceVariant: surfaceVariantText
