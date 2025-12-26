@@ -65,6 +65,7 @@ Singleton {
     property string currentThemeName: "blue"
     property string currentThemeCategory: "generic"
     property string customThemeFile: ""
+    property var registryThemeVariants: ({})
     property string matugenScheme: "scheme-tonal-spot"
     property bool runUserMatugenTemplates: true
     property string matugenTargetMonitor: ""
@@ -1554,6 +1555,19 @@ Singleton {
 
     function getWorkspaceNameIcon(workspaceName) {
         return workspaceNameIcons[workspaceName] || null;
+    }
+
+    function getRegistryThemeVariant(themeId, defaultVariant) {
+        return registryThemeVariants[themeId] || defaultVariant || "";
+    }
+
+    function setRegistryThemeVariant(themeId, variantId) {
+        var variants = JSON.parse(JSON.stringify(registryThemeVariants));
+        variants[themeId] = variantId;
+        registryThemeVariants = variants;
+        saveSettings();
+        if (typeof Theme !== "undefined")
+            Theme.reloadCustomThemeVariant();
     }
 
     function toggleDankBarVisible() {

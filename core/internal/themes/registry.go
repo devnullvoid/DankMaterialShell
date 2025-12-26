@@ -13,35 +13,49 @@ import (
 const registryRepo = "https://github.com/AvengeMedia/dms-plugin-registry.git"
 
 type ColorScheme struct {
-	Primary              string `json:"primary"`
-	PrimaryText          string `json:"primaryText"`
-	PrimaryContainer     string `json:"primaryContainer"`
-	Secondary            string `json:"secondary"`
-	Surface              string `json:"surface"`
-	SurfaceText          string `json:"surfaceText"`
-	SurfaceVariant       string `json:"surfaceVariant"`
-	SurfaceVariantText   string `json:"surfaceVariantText"`
-	SurfaceTint          string `json:"surfaceTint"`
-	Background           string `json:"background"`
-	BackgroundText       string `json:"backgroundText"`
-	Outline              string `json:"outline"`
-	SurfaceContainer     string `json:"surfaceContainer"`
-	SurfaceContainerHigh string `json:"surfaceContainerHigh"`
-	Error                string `json:"error"`
-	Warning              string `json:"warning"`
-	Info                 string `json:"info"`
+	Primary                 string `json:"primary,omitempty"`
+	PrimaryText             string `json:"primaryText,omitempty"`
+	PrimaryContainer        string `json:"primaryContainer,omitempty"`
+	Secondary               string `json:"secondary,omitempty"`
+	Surface                 string `json:"surface,omitempty"`
+	SurfaceText             string `json:"surfaceText,omitempty"`
+	SurfaceVariant          string `json:"surfaceVariant,omitempty"`
+	SurfaceVariantText      string `json:"surfaceVariantText,omitempty"`
+	SurfaceTint             string `json:"surfaceTint,omitempty"`
+	Background              string `json:"background,omitempty"`
+	BackgroundText          string `json:"backgroundText,omitempty"`
+	Outline                 string `json:"outline,omitempty"`
+	SurfaceContainer        string `json:"surfaceContainer,omitempty"`
+	SurfaceContainerHigh    string `json:"surfaceContainerHigh,omitempty"`
+	SurfaceContainerHighest string `json:"surfaceContainerHighest,omitempty"`
+	Error                   string `json:"error,omitempty"`
+	Warning                 string `json:"warning,omitempty"`
+	Info                    string `json:"info,omitempty"`
+}
+
+type ThemeVariant struct {
+	ID    string      `json:"id"`
+	Name  string      `json:"name"`
+	Dark  ColorScheme `json:"dark,omitempty"`
+	Light ColorScheme `json:"light,omitempty"`
+}
+
+type ThemeVariants struct {
+	Default string         `json:"default,omitempty"`
+	Options []ThemeVariant `json:"options,omitempty"`
 }
 
 type Theme struct {
-	ID          string      `json:"id"`
-	Name        string      `json:"name"`
-	Version     string      `json:"version"`
-	Author      string      `json:"author"`
-	Description string      `json:"description"`
-	Dark        ColorScheme `json:"dark"`
-	Light       ColorScheme `json:"light"`
-	PreviewPath string      `json:"-"`
-	SourceDir   string      `json:"sourceDir,omitempty"`
+	ID          string         `json:"id"`
+	Name        string         `json:"name"`
+	Version     string         `json:"version"`
+	Author      string         `json:"author"`
+	Description string         `json:"description"`
+	Dark        ColorScheme    `json:"dark"`
+	Light       ColorScheme    `json:"light"`
+	Variants    *ThemeVariants `json:"variants,omitempty"`
+	PreviewPath string         `json:"-"`
+	SourceDir   string         `json:"sourceDir,omitempty"`
 }
 
 type GitClient interface {

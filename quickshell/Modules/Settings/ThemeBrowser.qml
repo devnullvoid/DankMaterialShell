@@ -382,13 +382,23 @@ FloatingWindow {
                     }
 
                     delegate: Rectangle {
+                        id: themeDelegate
                         width: themeBrowserList.width
                         height: hasPreview ? 140 : themeDelegateContent.implicitHeight + Theme.spacingM * 2
                         radius: Theme.cornerRadius
                         property bool isSelected: root.keyboardNavigationActive && index === root.selectedIndex
                         property bool isInstalled: modelData.installed || false
                         property bool isFirstParty: modelData.firstParty || false
-                        property string previewPath: "/tmp/dankdots-plugin-registry/themes/" + (modelData.sourceDir || modelData.id) + "/preview-" + (Theme.isLightMode ? "light" : "dark") + ".svg"
+                        property bool hasVariants: modelData.hasVariants || false
+                        property var variants: modelData.variants || null
+                        property string selectedVariantId: hasVariants && variants ? (variants.default || (variants.options[0]?.id ?? "")) : ""
+                        property string previewPath: {
+                            const baseDir = "/tmp/dankdots-plugin-registry/themes/" + (modelData.sourceDir || modelData.id);
+                            const mode = Theme.isLightMode ? "light" : "dark";
+                            if (hasVariants && selectedVariantId)
+                                return baseDir + "/preview-" + selectedVariantId + "-" + mode + ".svg";
+                            return baseDir + "/preview-" + mode + ".svg";
+                        }
                         property bool hasPreview: previewImage.status === Image.Ready
                         color: isSelected ? Theme.primarySelected : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.3)
                         border.color: isSelected ? Theme.primary : Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
@@ -479,6 +489,26 @@ FloatingWindow {
                                             font.weight: Font.Medium
                                         }
                                     }
+
+                                    Rectangle {
+                                        height: 18
+                                        width: variantsText.implicitWidth + Theme.spacingS
+                                        radius: 9
+                                        color: Qt.rgba(Theme.secondary.r, Theme.secondary.g, Theme.secondary.b, 0.15)
+                                        border.color: Qt.rgba(Theme.secondary.r, Theme.secondary.g, Theme.secondary.b, 0.4)
+                                        border.width: 1
+                                        visible: themeDelegate.hasVariants
+                                        anchors.verticalCenter: parent.verticalCenter
+
+                                        StyledText {
+                                            id: variantsText
+                                            anchors.centerIn: parent
+                                            text: I18n.tr("%1 variants").arg(themeDelegate.variants?.options?.length ?? 0)
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.secondary
+                                            font.weight: Font.Medium
+                                        }
+                                    }
                                 }
 
                                 StyledText {
@@ -495,9 +525,43 @@ FloatingWindow {
                                     color: Theme.surfaceVariantText
                                     width: parent.width
                                     wrapMode: Text.WordWrap
-                                    maximumLineCount: 3
+                                    maximumLineCount: themeDelegate.hasVariants ? 2 : 3
                                     elide: Text.ElideRight
                                     visible: modelData.description && modelData.description.length > 0
+                                }
+
+                                Flow {
+                                    width: parent.width
+                                    spacing: Theme.spacingXS
+                                    visible: themeDelegate.hasVariants
+
+                                    Repeater {
+                                        model: themeDelegate.variants?.options ?? []
+
+                                        Rectangle {
+                                            property bool isActive: themeDelegate.selectedVariantId === modelData.id
+                                            height: 22
+                                            width: variantChipText.implicitWidth + Theme.spacingS * 2
+                                            radius: 11
+                                            color: isActive ? Theme.primary : Theme.surfaceContainerHigh
+                                            border.color: isActive ? Theme.primary : Theme.outline
+                                            border.width: 1
+
+                                            StyledText {
+                                                id: variantChipText
+                                                anchors.centerIn: parent
+                                                text: modelData.name
+                                                font.pixelSize: Theme.fontSizeSmall
+                                                color: isActive ? Theme.primaryText : Theme.surfaceText
+                                            }
+
+                                            MouseArea {
+                                                anchors.fill: parent
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: themeDelegate.selectedVariantId = modelData.id
+                                            }
+                                        }
+                                    }
                                 }
                             }
 

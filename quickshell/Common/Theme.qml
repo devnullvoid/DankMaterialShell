@@ -93,6 +93,8 @@ Singleton {
     property var _pendingGenerateParams: null
     property var customThemeData: null
     property var customThemeRawData: null
+    readonly property var currentThemeVariants: customThemeRawData?.variants || null
+    readonly property string currentThemeId: customThemeRawData?.id || ""
 
     Component.onCompleted: {
         Quickshell.execDetached(["mkdir", "-p", stateDir]);
@@ -604,19 +606,58 @@ Singleton {
 
     function loadCustomTheme(themeData) {
         customThemeRawData = themeData;
+        const colorMode = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "light" : "dark";
+
+        var baseColors = {};
         if (themeData.dark || themeData.light) {
-            const colorMode = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "light" : "dark";
-            const selectedTheme = themeData[colorMode] || themeData.dark || themeData.light;
-            customThemeData = selectedTheme;
+            baseColors = themeData[colorMode] || themeData.dark || themeData.light || {};
         } else {
-            customThemeData = themeData;
+            baseColors = themeData;
         }
 
+        if (themeData.variants && themeData.variants.options && themeData.variants.options.length > 0) {
+            const themeId = themeData.id || "";
+            const selectedVariantId = typeof SettingsData !== "undefined" ? SettingsData.getRegistryThemeVariant(themeId, themeData.variants.default) : themeData.variants.default;
+            const variant = findVariant(themeData.variants.options, selectedVariantId);
+            if (variant) {
+                const variantColors = variant[colorMode] || variant.dark || variant.light || {};
+                customThemeData = mergeColors(baseColors, variantColors);
+                generateSystemThemesFromCurrentTheme();
+                return;
+            }
+        }
+
+        customThemeData = baseColors;
         generateSystemThemesFromCurrentTheme();
+    }
+
+    function findVariant(options, variantId) {
+        if (!variantId || !options)
+            return null;
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].id === variantId)
+                return options[i];
+        }
+        return options[0] || null;
+    }
+
+    function mergeColors(base, overlay) {
+        var result = JSON.parse(JSON.stringify(base));
+        for (var key in overlay) {
+            if (overlay[key])
+                result[key] = overlay[key];
+        }
+        return result;
     }
 
     function loadCustomThemeFromFile(filePath) {
         customThemeFileView.path = filePath;
+    }
+
+    function reloadCustomThemeVariant() {
+        if (currentTheme !== "custom" || !customThemeRawData)
+            return;
+        loadCustomTheme(customThemeRawData);
     }
 
     property alias availableThemeNames: root._availableThemeNames
@@ -912,6 +953,16 @@ Singleton {
             if (customThemeRawData && (customThemeRawData.dark || customThemeRawData.light)) {
                 darkTheme = customThemeRawData.dark || customThemeRawData.light;
                 lightTheme = customThemeRawData.light || customThemeRawData.dark;
+
+                if (customThemeRawData.variants && customThemeRawData.variants.options) {
+                    const themeId = customThemeRawData.id || "";
+                    const selectedVariantId = typeof SettingsData !== "undefined" ? SettingsData.getRegistryThemeVariant(themeId, customThemeRawData.variants.default) : customThemeRawData.variants.default;
+                    const variant = findVariant(customThemeRawData.variants.options, selectedVariantId);
+                    if (variant) {
+                        darkTheme = mergeColors(darkTheme, variant.dark || {});
+                        lightTheme = mergeColors(lightTheme, variant.light || {});
+                    }
+                }
             } else {
                 darkTheme = customThemeData;
                 lightTheme = customThemeData;

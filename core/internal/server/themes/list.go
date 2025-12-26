@@ -31,7 +31,7 @@ func HandleList(conn net.Conn, req models.Request) {
 	result := make([]ThemeInfo, len(themeList))
 	for i, t := range themeList {
 		installed, _ := manager.IsInstalled(t)
-		result[i] = ThemeInfo{
+		info := ThemeInfo{
 			ID:          t.ID,
 			Name:        t.Name,
 			Version:     t.Version,
@@ -42,6 +42,17 @@ func HandleList(conn net.Conn, req models.Request) {
 			Installed:   installed,
 			FirstParty:  isFirstParty(t.Author),
 		}
+		if t.Variants != nil && len(t.Variants.Options) > 0 {
+			info.HasVariants = true
+			info.Variants = &VariantsInfo{
+				Default: t.Variants.Default,
+				Options: make([]VariantInfo, len(t.Variants.Options)),
+			}
+			for j, v := range t.Variants.Options {
+				info.Variants.Options[j] = VariantInfo{ID: v.ID, Name: v.Name}
+			}
+		}
+		result[i] = info
 	}
 
 	models.Respond(conn, req.ID, result)

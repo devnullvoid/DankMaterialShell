@@ -80,21 +80,35 @@ func (m *Manager) Install(theme Theme, registryThemeDir string) error {
 		return fmt.Errorf("failed to write theme file: %w", err)
 	}
 
-	for _, preview := range []string{"preview-dark.svg", "preview-light.svg"} {
-		srcPath := filepath.Join(registryThemeDir, preview)
-		exists, _ := afero.Exists(m.fs, srcPath)
-		if !exists {
+	m.copyPreviewFiles(registryThemeDir, themeDir, theme)
+	return nil
+}
+
+func (m *Manager) copyPreviewFiles(srcDir, dstDir string, theme Theme) {
+	previews := []string{"preview-dark.svg", "preview-light.svg"}
+
+	if theme.Variants != nil {
+		for _, v := range theme.Variants.Options {
+			previews = append(previews,
+				fmt.Sprintf("preview-%s.svg", v.ID),
+				fmt.Sprintf("preview-%s-dark.svg", v.ID),
+				fmt.Sprintf("preview-%s-light.svg", v.ID),
+			)
+		}
+	}
+
+	for _, preview := range previews {
+		srcPath := filepath.Join(srcDir, preview)
+		if exists, _ := afero.Exists(m.fs, srcPath); !exists {
 			continue
 		}
 		data, err := afero.ReadFile(m.fs, srcPath)
 		if err != nil {
 			continue
 		}
-		dstPath := filepath.Join(themeDir, preview)
+		dstPath := filepath.Join(dstDir, preview)
 		_ = afero.WriteFile(m.fs, dstPath, data, 0644)
 	}
-
-	return nil
 }
 
 func (m *Manager) InstallFromRegistry(registry *Registry, themeID string) error {
