@@ -96,12 +96,7 @@ PanelWindow {
         }
     }
 
-    WlrLayershell.layer: {
-        if ((barConfig?.autoHide ?? false) && topBarCore.reveal) {
-            return WlrLayer.Overlay;
-        }
-        return dBarLayer;
-    }
+    WlrLayershell.layer: dBarLayer
     WlrLayershell.namespace: "dms:bar"
 
     signal colorPickerRequested
