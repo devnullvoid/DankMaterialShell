@@ -199,6 +199,16 @@ func runShellInteractive(session bool) {
 		}
 	}
 
+	if os.Getenv("QT_QPA_PLATFORMTHEME") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORMTHEME=gtk3")
+	}
+	if os.Getenv("QT_QPA_PLATFORMTHEME_QT6") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORMTHEME_QT6=gtk3")
+	}
+	if os.Getenv("QT_QPA_PLATFORM") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORM=wayland")
+	}
+
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -431,6 +441,16 @@ func runShellDaemon(session bool) {
 		if !strings.HasPrefix(configPath, homeDir) {
 			cmd.Env = append(cmd.Env, "DMS_DISABLE_HOT_RELOAD=1")
 		}
+	}
+
+	if os.Getenv("QT_QPA_PLATFORMTHEME") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORMTHEME=gtk3")
+	}
+	if os.Getenv("QT_QPA_PLATFORMTHEME_QT6") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORMTHEME_QT6=gtk3")
+	}
+	if os.Getenv("QT_QPA_PLATFORM") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORM=wayland")
 	}
 
 	devNull, err := os.OpenFile("/dev/null", os.O_RDWR, 0)
