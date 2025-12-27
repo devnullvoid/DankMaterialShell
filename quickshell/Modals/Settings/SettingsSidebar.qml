@@ -538,7 +538,6 @@ Rectangle {
             DankTextField {
                 id: searchField
                 width: parent.width - parent.leftPadding - parent.rightPadding
-                height: 40
                 placeholderText: I18n.tr("Search...")
                 backgroundColor: Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency)
                 normalBorderColor: Theme.outlineMedium
