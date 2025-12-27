@@ -1560,12 +1560,34 @@ Singleton {
     }
 
     function getRegistryThemeVariant(themeId, defaultVariant) {
-        return registryThemeVariants[themeId] || defaultVariant || "";
+        var stored = registryThemeVariants[themeId];
+        if (typeof stored === "string")
+            return stored || defaultVariant || "";
+        return defaultVariant || "";
     }
 
     function setRegistryThemeVariant(themeId, variantId) {
         var variants = JSON.parse(JSON.stringify(registryThemeVariants));
         variants[themeId] = variantId;
+        registryThemeVariants = variants;
+        saveSettings();
+        if (typeof Theme !== "undefined")
+            Theme.reloadCustomThemeVariant();
+    }
+
+    function getRegistryThemeMultiVariant(themeId, defaults) {
+        var stored = registryThemeVariants[themeId];
+        if (stored && typeof stored === "object")
+            return stored;
+        return defaults || {};
+    }
+
+    function setRegistryThemeMultiVariant(themeId, flavor, accent) {
+        var variants = JSON.parse(JSON.stringify(registryThemeVariants));
+        variants[themeId] = {
+            flavor: flavor,
+            accent: accent
+        };
         registryThemeVariants = variants;
         saveSettings();
         if (typeof Theme !== "undefined")

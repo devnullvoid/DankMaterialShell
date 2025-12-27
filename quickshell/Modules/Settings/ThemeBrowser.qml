@@ -391,12 +391,24 @@ FloatingWindow {
                         property bool isFirstParty: modelData.firstParty || false
                         property bool hasVariants: modelData.hasVariants || false
                         property var variants: modelData.variants || null
-                        property string selectedVariantId: hasVariants && variants ? (variants.default || (variants.options[0]?.id ?? "")) : ""
+                        property string selectedVariantId: {
+                            if (!hasVariants || !variants)
+                                return "";
+                            if (variants.type === "multi") {
+                                const mode = Theme.isLightMode ? "light" : "dark";
+                                const defaults = variants.defaults?.[mode] || variants.defaults?.dark || {};
+                                return (defaults.flavor || "") + (defaults.accent ? "-" + defaults.accent : "");
+                            }
+                            return variants.default || (variants.options?.[0]?.id ?? "");
+                        }
                         property string previewPath: {
                             const baseDir = "/tmp/dankdots-plugin-registry/themes/" + (modelData.sourceDir || modelData.id);
                             const mode = Theme.isLightMode ? "light" : "dark";
-                            if (hasVariants && selectedVariantId)
+                            if (hasVariants && selectedVariantId) {
+                                if (variants?.type === "multi")
+                                    return baseDir + "/preview-" + selectedVariantId + ".svg";
                                 return baseDir + "/preview-" + selectedVariantId + "-" + mode + ".svg";
+                            }
                             return baseDir + "/preview-" + mode + ".svg";
                         }
                         property bool hasPreview: previewImage.status === Image.Ready
@@ -503,7 +515,11 @@ FloatingWindow {
                                         StyledText {
                                             id: variantsText
                                             anchors.centerIn: parent
-                                            text: I18n.tr("%1 variants").arg(themeDelegate.variants?.options?.length ?? 0)
+                                            text: {
+                                                if (themeDelegate.variants?.type === "multi")
+                                                    return I18n.tr("%1 variants").arg(themeDelegate.variants?.accents?.length ?? 0);
+                                                return I18n.tr("%1 variants").arg(themeDelegate.variants?.options?.length ?? 0);
+                                            }
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.secondary
                                             font.weight: Font.Medium
@@ -533,7 +549,7 @@ FloatingWindow {
                                 Flow {
                                     width: parent.width
                                     spacing: Theme.spacingXS
-                                    visible: themeDelegate.hasVariants
+                                    visible: themeDelegate.hasVariants && themeDelegate.variants?.type !== "multi"
 
                                     Repeater {
                                         model: themeDelegate.variants?.options ?? []
@@ -559,6 +575,36 @@ FloatingWindow {
                                                 anchors.fill: parent
                                                 cursorShape: Qt.PointingHandCursor
                                                 onClicked: themeDelegate.selectedVariantId = modelData.id
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Flow {
+                                    width: parent.width
+                                    spacing: Theme.spacingXS
+                                    visible: themeDelegate.hasVariants && themeDelegate.variants?.type === "multi"
+
+                                    Repeater {
+                                        model: themeDelegate.variants?.accents ?? []
+
+                                        Rectangle {
+                                            width: 18
+                                            height: 18
+                                            radius: 9
+                                            color: modelData.color || Theme.primary
+                                            border.color: Theme.outline
+                                            border.width: 1
+
+                                            DankTooltipV2 {
+                                                id: accentTooltip
+                                            }
+
+                                            MouseArea {
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                onEntered: accentTooltip.show(modelData.name || modelData.id, parent, 0, 0, "top")
+                                                onExited: accentTooltip.hide()
                                             }
                                         }
                                     }

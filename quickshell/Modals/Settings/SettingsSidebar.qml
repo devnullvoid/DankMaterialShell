@@ -604,15 +604,6 @@ Rectangle {
                         }
                         event.accepted = true;
                     }
-                    Keys.onPressed: event => {
-                        if (event.key === Qt.Key_J) {
-                            navNext();
-                            event.accepted = true;
-                        } else if (event.key === Qt.Key_K) {
-                            navPrev();
-                            event.accepted = true;
-                        }
-                    }
                 }
             }
 
@@ -694,10 +685,6 @@ Rectangle {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: root.selectSearchResult(resultDelegate.modelData)
-                            onContainsMouseChanged: {
-                                if (containsMouse)
-                                    root.searchSelectedIndex = resultDelegate.index;
-                            }
                         }
 
                         Behavior on color {
@@ -715,7 +702,7 @@ Rectangle {
                     font.pixelSize: Theme.fontSizeSmall
                     color: Theme.surfaceVariantText
                     horizontalAlignment: Text.AlignHCenter
-                    visible: searchField.text.length >= 2 && SettingsSearchService.results.length === 0
+                    visible: searchField.text.length > 0 && SettingsSearchService.results.length === 0
                     topPadding: Theme.spacingM
                 }
             }

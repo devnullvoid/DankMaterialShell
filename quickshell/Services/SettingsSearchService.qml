@@ -652,7 +652,7 @@ Singleton {
 
     function search(text) {
         query = text;
-        if (!text || text.length < 2) {
+        if (!text) {
             results = [];
             return;
         }

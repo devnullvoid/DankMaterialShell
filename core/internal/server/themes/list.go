@@ -42,16 +42,7 @@ func HandleList(conn net.Conn, req models.Request) {
 			Installed:   installed,
 			FirstParty:  isFirstParty(t.Author),
 		}
-		if t.Variants != nil && len(t.Variants.Options) > 0 {
-			info.HasVariants = true
-			info.Variants = &VariantsInfo{
-				Default: t.Variants.Default,
-				Options: make([]VariantInfo, len(t.Variants.Options)),
-			}
-			for j, v := range t.Variants.Options {
-				info.Variants.Options[j] = VariantInfo{ID: v.ID, Name: v.Name}
-			}
-		}
+		addVariantsInfo(&info, t.Variants)
 		result[i] = info
 	}
 

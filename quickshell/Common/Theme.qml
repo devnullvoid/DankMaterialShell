@@ -491,11 +491,7 @@ Singleton {
         } else {
             currentTheme = themeName;
             if (currentThemeCategory !== "registry") {
-                if (StockThemes.isCatppuccinVariant(themeName)) {
-                    currentThemeCategory = "catppuccin";
-                } else {
-                    currentThemeCategory = "generic";
-                }
+                currentThemeCategory = "generic";
             }
         }
         const isGreeterMode = (typeof SessionData !== "undefined" && SessionData.isGreeterMode);
@@ -564,46 +560,6 @@ Singleton {
         themeCategoryTransitionTimer.restart();
     }
 
-    function getCatppuccinColor(variantName) {
-        const catColors = {
-            "cat-rosewater": "#f5e0dc",
-            "cat-flamingo": "#f2cdcd",
-            "cat-pink": "#f5c2e7",
-            "cat-mauve": "#cba6f7",
-            "cat-red": "#f38ba8",
-            "cat-maroon": "#eba0ac",
-            "cat-peach": "#fab387",
-            "cat-yellow": "#f9e2af",
-            "cat-green": "#a6e3a1",
-            "cat-teal": "#94e2d5",
-            "cat-sky": "#89dceb",
-            "cat-sapphire": "#74c7ec",
-            "cat-blue": "#89b4fa",
-            "cat-lavender": "#b4befe"
-        };
-        return catColors[variantName] || "#cba6f7";
-    }
-
-    function getCatppuccinVariantName(variantName) {
-        const catNames = {
-            "cat-rosewater": "Rosewater",
-            "cat-flamingo": "Flamingo",
-            "cat-pink": "Pink",
-            "cat-mauve": "Mauve",
-            "cat-red": "Red",
-            "cat-maroon": "Maroon",
-            "cat-peach": "Peach",
-            "cat-yellow": "Yellow",
-            "cat-green": "Green",
-            "cat-teal": "Teal",
-            "cat-sky": "Sky",
-            "cat-sapphire": "Sapphire",
-            "cat-blue": "Blue",
-            "cat-lavender": "Lavender"
-        };
-        return catNames[variantName] || "Unknown";
-    }
-
     function loadCustomTheme(themeData) {
         customThemeRawData = themeData;
         const colorMode = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "light" : "dark";
@@ -615,15 +571,46 @@ Singleton {
             baseColors = themeData;
         }
 
-        if (themeData.variants && themeData.variants.options && themeData.variants.options.length > 0) {
+        if (themeData.variants) {
             const themeId = themeData.id || "";
-            const selectedVariantId = typeof SettingsData !== "undefined" ? SettingsData.getRegistryThemeVariant(themeId, themeData.variants.default) : themeData.variants.default;
-            const variant = findVariant(themeData.variants.options, selectedVariantId);
-            if (variant) {
-                const variantColors = variant[colorMode] || variant.dark || variant.light || {};
-                customThemeData = mergeColors(baseColors, variantColors);
+
+            if (themeData.variants.type === "multi" && themeData.variants.flavors && themeData.variants.accents) {
+                const defaults = themeData.variants.defaults || {};
+                const modeDefaults = defaults[colorMode] || defaults.dark || {};
+                const stored = typeof SettingsData !== "undefined" ? SettingsData.getRegistryThemeMultiVariant(themeId, modeDefaults) : modeDefaults;
+                var flavorId = stored.flavor || modeDefaults.flavor || "";
+                const accentId = stored.accent || modeDefaults.accent || "";
+                var flavor = findVariant(themeData.variants.flavors, flavorId);
+                if (flavor) {
+                    const hasCurrentModeColors = flavor[colorMode] && (flavor[colorMode].primary || flavor[colorMode].surface);
+                    if (!hasCurrentModeColors) {
+                        flavorId = modeDefaults.flavor || "";
+                        flavor = findVariant(themeData.variants.flavors, flavorId);
+                    }
+                }
+                const accent = findAccent(themeData.variants.accents, accentId);
+                if (flavor) {
+                    const flavorColors = flavor[colorMode] || flavor.dark || flavor.light || {};
+                    baseColors = mergeColors(baseColors, flavorColors);
+                }
+                if (accent && flavor) {
+                    const accentColors = accent[flavor.id] || {};
+                    baseColors = mergeColors(baseColors, accentColors);
+                }
+                customThemeData = baseColors;
                 generateSystemThemesFromCurrentTheme();
                 return;
+            }
+
+            if (themeData.variants.options && themeData.variants.options.length > 0) {
+                const selectedVariantId = typeof SettingsData !== "undefined" ? SettingsData.getRegistryThemeVariant(themeId, themeData.variants.default) : themeData.variants.default;
+                const variant = findVariant(themeData.variants.options, selectedVariantId);
+                if (variant) {
+                    const variantColors = variant[colorMode] || variant.dark || variant.light || {};
+                    customThemeData = mergeColors(baseColors, variantColors);
+                    generateSystemThemesFromCurrentTheme();
+                    return;
+                }
             }
         }
 
@@ -639,6 +626,16 @@ Singleton {
                 return options[i];
         }
         return options[0] || null;
+    }
+
+    function findAccent(accents, accentId) {
+        if (!accentId || !accents)
+            return null;
+        for (var i = 0; i < accents.length; i++) {
+            if (accents[i].id === accentId)
+                return accents[i];
+        }
+        return accents[0] || null;
     }
 
     function mergeColors(base, overlay) {
@@ -954,13 +951,38 @@ Singleton {
                 darkTheme = customThemeRawData.dark || customThemeRawData.light;
                 lightTheme = customThemeRawData.light || customThemeRawData.dark;
 
-                if (customThemeRawData.variants && customThemeRawData.variants.options) {
+                if (customThemeRawData.variants) {
                     const themeId = customThemeRawData.id || "";
-                    const selectedVariantId = typeof SettingsData !== "undefined" ? SettingsData.getRegistryThemeVariant(themeId, customThemeRawData.variants.default) : customThemeRawData.variants.default;
-                    const variant = findVariant(customThemeRawData.variants.options, selectedVariantId);
-                    if (variant) {
-                        darkTheme = mergeColors(darkTheme, variant.dark || {});
-                        lightTheme = mergeColors(lightTheme, variant.light || {});
+
+                    if (customThemeRawData.variants.type === "multi" && customThemeRawData.variants.flavors && customThemeRawData.variants.accents) {
+                        const defaults = customThemeRawData.variants.defaults || {};
+                        const darkDefaults = defaults.dark || {};
+                        const lightDefaults = defaults.light || defaults.dark || {};
+                        const storedDark = typeof SettingsData !== "undefined" ? SettingsData.getRegistryThemeMultiVariant(themeId, darkDefaults) : darkDefaults;
+                        const storedLight = typeof SettingsData !== "undefined" ? SettingsData.getRegistryThemeMultiVariant(themeId, lightDefaults) : lightDefaults;
+                        const darkFlavorId = storedDark.flavor || darkDefaults.flavor || "";
+                        const lightFlavorId = storedLight.flavor || lightDefaults.flavor || "";
+                        const accentId = storedDark.accent || darkDefaults.accent || "";
+                        const darkFlavor = findVariant(customThemeRawData.variants.flavors, darkFlavorId);
+                        const lightFlavor = findVariant(customThemeRawData.variants.flavors, lightFlavorId);
+                        const accent = findAccent(customThemeRawData.variants.accents, accentId);
+                        if (darkFlavor) {
+                            darkTheme = mergeColors(darkTheme, darkFlavor.dark || {});
+                            if (accent)
+                                darkTheme = mergeColors(darkTheme, accent[darkFlavor.id] || {});
+                        }
+                        if (lightFlavor) {
+                            lightTheme = mergeColors(lightTheme, lightFlavor.light || {});
+                            if (accent)
+                                lightTheme = mergeColors(lightTheme, accent[lightFlavor.id] || {});
+                        }
+                    } else if (customThemeRawData.variants.options) {
+                        const selectedVariantId = typeof SettingsData !== "undefined" ? SettingsData.getRegistryThemeVariant(themeId, customThemeRawData.variants.default) : customThemeRawData.variants.default;
+                        const variant = findVariant(customThemeRawData.variants.options, selectedVariantId);
+                        if (variant) {
+                            darkTheme = mergeColors(darkTheme, variant.dark || {});
+                            lightTheme = mergeColors(lightTheme, variant.light || {});
+                        }
                     }
                 }
             } else {

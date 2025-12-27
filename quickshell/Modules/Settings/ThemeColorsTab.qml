@@ -78,8 +78,6 @@ Item {
                                 return I18n.tr("Current Theme: %1", "current theme label").arg(I18n.tr("Dynamic", "dynamic theme name"));
                             if (Theme.currentThemeCategory === "registry" && registryThemeName)
                                 return I18n.tr("Current Theme: %1", "current theme label").arg(registryThemeName);
-                            if (Theme.currentThemeCategory === "catppuccin")
-                                return I18n.tr("Current Theme: %1", "current theme label").arg("Catppuccin " + Theme.getThemeColors(Theme.currentThemeName).name);
                             return I18n.tr("Current Theme: %1", "current theme label").arg(Theme.getThemeColors(Theme.currentThemeName).name);
                         }
                         font.pixelSize: Theme.fontSizeMedium
@@ -94,8 +92,6 @@ Item {
                                 return I18n.tr("Material colors generated from wallpaper", "dynamic theme description");
                             if (Theme.currentThemeCategory === "registry")
                                 return I18n.tr("Color theme from DMS registry", "registry theme description");
-                            if (Theme.currentThemeCategory === "catppuccin")
-                                return I18n.tr("Soothing pastel theme based on Catppuccin", "catppuccin theme description");
                             if (Theme.currentTheme === Theme.custom)
                                 return I18n.tr("Custom theme loaded from JSON file", "custom theme description");
                             return I18n.tr("Material Design inspired color themes", "generic theme description");
@@ -129,18 +125,16 @@ Item {
                             property bool isRegistryTheme: Theme.currentThemeCategory === "registry"
                             property int currentThemeIndex: {
                                 if (isRegistryTheme)
-                                    return 4;
-                                if (Theme.currentTheme === Theme.dynamic)
-                                    return 2;
-                                if (Theme.currentThemeName === "custom")
                                     return 3;
-                                if (Theme.currentThemeCategory === "catppuccin")
+                                if (Theme.currentTheme === Theme.dynamic)
                                     return 1;
+                                if (Theme.currentThemeName === "custom")
+                                    return 2;
                                 return 0;
                             }
                             property int pendingThemeIndex: -1
 
-                            model: DMSService.dmsAvailable ? ["Generic", "Catppuccin", "Auto", "Custom", "Registry"] : ["Generic", "Catppuccin", "Auto", "Custom"]
+                            model: DMSService.dmsAvailable ? ["Generic", "Auto", "Custom", "Browse"] : ["Generic", "Auto", "Custom"]
                             currentIndex: currentThemeIndex
                             selectionMode: "single"
                             onSelectionChanged: (index, selected) => {
@@ -156,9 +150,6 @@ Item {
                                     Theme.switchThemeCategory("generic", "blue");
                                     break;
                                 case 1:
-                                    Theme.switchThemeCategory("catppuccin", "cat-mauve");
-                                    break;
-                                case 2:
                                     if (ToastService.wallpaperErrorStatus === "matugen_missing")
                                         ToastService.showError(I18n.tr("matugen not found - install matugen package for dynamic theming", "matugen error"));
                                     else if (ToastService.wallpaperErrorStatus === "error")
@@ -166,10 +157,10 @@ Item {
                                     else
                                         Theme.switchThemeCategory("dynamic", Theme.dynamic);
                                     break;
-                                case 3:
+                                case 2:
                                     Theme.switchThemeCategory("custom", "custom");
                                     break;
-                                case 4:
+                                case 3:
                                     Theme.switchThemeCategory("registry", "");
                                     break;
                                 }
@@ -178,116 +169,66 @@ Item {
                         }
                     }
 
-                    Flow {
-                        id: genericColorFlow
-                        spacing: Theme.spacingS
+                    Item {
                         width: parent.width
+                        height: genericColorGrid.implicitHeight
                         visible: Theme.currentThemeCategory === "generic" && Theme.currentTheme !== Theme.dynamic && Theme.currentThemeName !== "custom"
-                        property int dotSize: width < 300 ? 28 : 32
 
-                        Repeater {
-                            model: ["blue", "purple", "green", "orange", "red", "cyan", "pink", "amber", "coral", "monochrome"]
+                        Grid {
+                            id: genericColorGrid
+                            property var colorList: ["blue", "purple", "green", "orange", "red", "cyan", "pink", "amber", "coral", "monochrome"]
+                            property int dotSize: parent.width < 300 ? 28 : 32
+                            columns: Math.ceil(colorList.length / 2)
+                            rowSpacing: Theme.spacingS
+                            columnSpacing: Theme.spacingS
+                            anchors.horizontalCenter: parent.horizontalCenter
 
-                            Rectangle {
-                                required property string modelData
-                                property string themeName: modelData
-                                width: genericColorFlow.dotSize
-                                height: genericColorFlow.dotSize
-                                radius: width / 2
-                                color: Theme.getThemeColors(themeName).primary
-                                border.color: Theme.outline
-                                border.width: (Theme.currentThemeName === themeName && Theme.currentTheme !== Theme.dynamic) ? 2 : 1
-                                scale: (Theme.currentThemeName === themeName && Theme.currentTheme !== Theme.dynamic) ? 1.1 : 1
+                            Repeater {
+                                model: genericColorGrid.colorList
 
                                 Rectangle {
-                                    width: nameText.contentWidth + Theme.spacingS * 2
-                                    height: nameText.contentHeight + Theme.spacingXS * 2
-                                    color: Theme.surfaceContainer
-                                    radius: Theme.cornerRadius
-                                    anchors.bottom: parent.top
-                                    anchors.bottomMargin: Theme.spacingXS
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                    visible: mouseArea.containsMouse
+                                    required property string modelData
+                                    property string themeName: modelData
+                                    width: genericColorGrid.dotSize
+                                    height: genericColorGrid.dotSize
+                                    radius: width / 2
+                                    color: Theme.getThemeColors(themeName).primary
+                                    border.color: Theme.outline
+                                    border.width: (Theme.currentThemeName === themeName && Theme.currentTheme !== Theme.dynamic) ? 2 : 1
+                                    scale: (Theme.currentThemeName === themeName && Theme.currentTheme !== Theme.dynamic) ? 1.1 : 1
 
-                                    StyledText {
-                                        id: nameText
-                                        text: Theme.getThemeColors(parent.parent.themeName).name
-                                        font.pixelSize: Theme.fontSizeSmall
-                                        color: Theme.surfaceText
-                                        anchors.centerIn: parent
+                                    Rectangle {
+                                        width: nameText.contentWidth + Theme.spacingS * 2
+                                        height: nameText.contentHeight + Theme.spacingXS * 2
+                                        color: Theme.surfaceContainer
+                                        radius: Theme.cornerRadius
+                                        anchors.bottom: parent.top
+                                        anchors.bottomMargin: Theme.spacingXS
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        visible: mouseArea.containsMouse
+
+                                        StyledText {
+                                            id: nameText
+                                            text: Theme.getThemeColors(parent.parent.themeName).name
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.surfaceText
+                                            anchors.centerIn: parent
+                                        }
                                     }
-                                }
 
-                                MouseArea {
-                                    id: mouseArea
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: Theme.switchTheme(parent.themeName)
-                                }
-
-                                Behavior on scale {
-                                    NumberAnimation {
-                                        duration: Theme.shortDuration
-                                        easing.type: Theme.emphasizedEasing
+                                    MouseArea {
+                                        id: mouseArea
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: Theme.switchTheme(parent.themeName)
                                     }
-                                }
-                            }
-                        }
-                    }
 
-                    Flow {
-                        id: catColorFlow
-                        spacing: Theme.spacingS
-                        width: parent.width
-                        visible: Theme.currentThemeCategory === "catppuccin" && Theme.currentTheme !== Theme.dynamic && Theme.currentThemeName !== "custom"
-                        property int dotSize: width < 300 ? 28 : 32
-
-                        Repeater {
-                            model: ["cat-rosewater", "cat-flamingo", "cat-pink", "cat-mauve", "cat-red", "cat-maroon", "cat-peach", "cat-yellow", "cat-green", "cat-teal", "cat-sky", "cat-sapphire", "cat-blue", "cat-lavender"]
-
-                            Rectangle {
-                                required property string modelData
-                                property string themeName: modelData
-                                width: catColorFlow.dotSize
-                                height: catColorFlow.dotSize
-                                radius: width / 2
-                                color: Theme.getCatppuccinColor(themeName)
-                                border.color: Theme.outline
-                                border.width: (Theme.currentThemeName === themeName && Theme.currentTheme !== Theme.dynamic) ? 2 : 1
-                                scale: (Theme.currentThemeName === themeName && Theme.currentTheme !== Theme.dynamic) ? 1.1 : 1
-
-                                Rectangle {
-                                    width: nameTextCat.contentWidth + Theme.spacingS * 2
-                                    height: nameTextCat.contentHeight + Theme.spacingXS * 2
-                                    color: Theme.surfaceContainer
-                                    radius: Theme.cornerRadius
-                                    anchors.bottom: parent.top
-                                    anchors.bottomMargin: Theme.spacingXS
-                                    anchors.horizontalCenter: parent.horizontalCenter
-                                    visible: mouseAreaCat.containsMouse
-
-                                    StyledText {
-                                        id: nameTextCat
-                                        text: Theme.getCatppuccinVariantName(parent.parent.themeName)
-                                        font.pixelSize: Theme.fontSizeSmall
-                                        color: Theme.surfaceText
-                                        anchors.centerIn: parent
-                                    }
-                                }
-
-                                MouseArea {
-                                    id: mouseAreaCat
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: Theme.switchTheme(parent.themeName)
-                                }
-
-                                Behavior on scale {
-                                    NumberAnimation {
-                                        duration: Theme.shortDuration
-                                        easing.type: Theme.emphasizedEasing
+                                    Behavior on scale {
+                                        NumberAnimation {
+                                            duration: Theme.shortDuration
+                                            easing.type: Theme.emphasizedEasing
+                                        }
                                     }
                                 }
                             }
@@ -584,7 +525,11 @@ Item {
 
                                         StyledText {
                                             anchors.centerIn: parent
-                                            text: themeCard.variants?.options?.length || 0
+                                            text: {
+                                                if (themeCard.variants?.type === "multi")
+                                                    return themeCard.variants?.accents?.length || 0;
+                                                return themeCard.variants?.options?.length || 0;
+                                            }
                                             font.pixelSize: themeGrid.cardWidth < 120 ? Theme.fontSizeSmall - 4 : Theme.fontSizeSmall - 2
                                             color: Theme.surface
                                             font.weight: Font.Bold
@@ -655,10 +600,10 @@ Item {
                             id: variantSelector
                             width: parent.width
                             spacing: Theme.spacingS
-                            visible: activeThemeVariants !== null && activeThemeVariants.options && activeThemeVariants.options.length > 0
+                            visible: activeThemeId !== "" && activeThemeVariants !== null && (isMultiVariant || (activeThemeVariants.options && activeThemeVariants.options.length > 0))
 
                             property string activeThemeId: {
-                                if (Theme.currentThemeCategory !== "registry")
+                                if (Theme.currentThemeCategory !== "registry" || Theme.currentTheme !== "custom")
                                     return "";
                                 for (var i = 0; i < themeColorsTab.installedRegistryThemes.length; i++) {
                                     var t = themeColorsTab.installedRegistryThemes[i];
@@ -676,6 +621,29 @@ Item {
                                         return t.variants;
                                 }
                                 return null;
+                            }
+                            property bool isMultiVariant: activeThemeVariants?.type === "multi"
+                            property string colorMode: Theme.isLightMode ? "light" : "dark"
+                            property var multiDefaults: {
+                                if (!isMultiVariant || !activeThemeVariants?.defaults)
+                                    return {};
+                                return activeThemeVariants.defaults[colorMode] || activeThemeVariants.defaults.dark || {};
+                            }
+                            property var storedMulti: activeThemeId ? SettingsData.getRegistryThemeMultiVariant(activeThemeId, multiDefaults) : multiDefaults
+                            property string selectedFlavor: storedMulti.flavor || multiDefaults.flavor || ""
+                            property string selectedAccent: storedMulti.accent || multiDefaults.accent || ""
+                            property var flavorOptions: {
+                                if (!isMultiVariant || !activeThemeVariants?.flavors)
+                                    return [];
+                                return activeThemeVariants.flavors.filter(f => f.mode === colorMode || f.mode === "both");
+                            }
+                            property var flavorNames: flavorOptions.map(f => f.name)
+                            property int flavorIndex: {
+                                for (var i = 0; i < flavorOptions.length; i++) {
+                                    if (flavorOptions[i].id === selectedFlavor)
+                                        return i;
+                                }
+                                return 0;
                             }
                             property string selectedVariant: activeThemeId ? SettingsData.getRegistryThemeVariant(activeThemeId, activeThemeVariants?.default || "") : ""
                             property var variantNames: {
@@ -695,8 +663,109 @@ Item {
 
                             Item {
                                 width: parent.width
+                                height: flavorButtonGroup.implicitHeight
+                                clip: true
+                                visible: variantSelector.isMultiVariant && variantSelector.flavorOptions.length > 1
+
+                                DankButtonGroup {
+                                    id: flavorButtonGroup
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    buttonPadding: parent.width < 400 ? Theme.spacingS : Theme.spacingL
+                                    minButtonWidth: parent.width < 400 ? 44 : 64
+                                    textSize: parent.width < 400 ? Theme.fontSizeSmall : Theme.fontSizeMedium
+                                    model: variantSelector.flavorNames
+                                    currentIndex: variantSelector.flavorIndex
+                                    selectionMode: "single"
+                                    onAnimationCompleted: {
+                                        if (currentIndex < 0 || currentIndex >= variantSelector.flavorOptions.length)
+                                            return;
+                                        const flavorId = variantSelector.flavorOptions[currentIndex]?.id;
+                                        if (!flavorId || flavorId === variantSelector.selectedFlavor)
+                                            return;
+                                        Theme.screenTransition();
+                                        SettingsData.setRegistryThemeMultiVariant(variantSelector.activeThemeId, flavorId, variantSelector.selectedAccent);
+                                    }
+                                }
+                            }
+
+                            Item {
+                                width: parent.width
+                                height: accentColorsGrid.implicitHeight
+                                visible: variantSelector.isMultiVariant && variantSelector.activeThemeVariants?.accents?.length > 0
+
+                                Grid {
+                                    id: accentColorsGrid
+                                    property int accentCount: variantSelector.activeThemeVariants?.accents?.length ?? 0
+                                    property int dotSize: parent.width < 300 ? 28 : 32
+                                    columns: accentCount > 0 ? Math.ceil(accentCount / 2) : 1
+                                    rowSpacing: Theme.spacingS
+                                    columnSpacing: Theme.spacingS
+                                    anchors.horizontalCenter: parent.horizontalCenter
+
+                                    Repeater {
+                                        model: variantSelector.activeThemeVariants?.accents || []
+
+                                        Rectangle {
+                                            required property var modelData
+                                            required property int index
+                                            property string accentId: modelData.id
+                                            property bool isSelected: accentId === variantSelector.selectedAccent
+                                            width: accentColorsGrid.dotSize
+                                            height: accentColorsGrid.dotSize
+                                            radius: width / 2
+                                            color: modelData.color || Theme.primary
+                                            border.color: Theme.outline
+                                            border.width: isSelected ? 2 : 1
+                                            scale: isSelected ? 1.1 : 1
+
+                                            Rectangle {
+                                                width: accentNameText.contentWidth + Theme.spacingS * 2
+                                                height: accentNameText.contentHeight + Theme.spacingXS * 2
+                                                color: Theme.surfaceContainer
+                                                radius: Theme.cornerRadius
+                                                anchors.bottom: parent.top
+                                                anchors.bottomMargin: Theme.spacingXS
+                                                anchors.horizontalCenter: parent.horizontalCenter
+                                                visible: accentMouseArea.containsMouse
+
+                                                StyledText {
+                                                    id: accentNameText
+                                                    text: modelData.name
+                                                    font.pixelSize: Theme.fontSizeSmall
+                                                    color: Theme.surfaceText
+                                                    anchors.centerIn: parent
+                                                }
+                                            }
+
+                                            MouseArea {
+                                                id: accentMouseArea
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: {
+                                                    if (parent.isSelected)
+                                                        return;
+                                                    Theme.screenTransition();
+                                                    SettingsData.setRegistryThemeMultiVariant(variantSelector.activeThemeId, variantSelector.selectedFlavor, parent.accentId);
+                                                }
+                                            }
+
+                                            Behavior on scale {
+                                                NumberAnimation {
+                                                    duration: Theme.shortDuration
+                                                    easing.type: Theme.emphasizedEasing
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            Item {
+                                width: parent.width
                                 height: variantButtonGroup.implicitHeight
                                 clip: true
+                                visible: !variantSelector.isMultiVariant && variantSelector.variantNames.length > 0
 
                                 DankButtonGroup {
                                     id: variantButtonGroup

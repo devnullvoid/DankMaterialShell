@@ -5,9 +5,30 @@ type VariantInfo struct {
 	Name string `json:"name"`
 }
 
+type FlavorInfo struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+	Mode string `json:"mode,omitempty"`
+}
+
+type AccentInfo struct {
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Color string `json:"color,omitempty"`
+}
+
+type MultiDefaults struct {
+	Dark  map[string]string `json:"dark,omitempty"`
+	Light map[string]string `json:"light,omitempty"`
+}
+
 type VariantsInfo struct {
-	Default string        `json:"default,omitempty"`
-	Options []VariantInfo `json:"options,omitempty"`
+	Type     string         `json:"type,omitempty"`
+	Default  string         `json:"default,omitempty"`
+	Defaults *MultiDefaults `json:"defaults,omitempty"`
+	Options  []VariantInfo  `json:"options,omitempty"`
+	Flavors  []FlavorInfo   `json:"flavors,omitempty"`
+	Accents  []AccentInfo   `json:"accents,omitempty"`
 }
 
 type ThemeInfo struct {

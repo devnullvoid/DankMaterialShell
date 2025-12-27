@@ -2,6 +2,7 @@ package themes
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -40,9 +41,67 @@ type ThemeVariant struct {
 	Light ColorScheme `json:"light,omitempty"`
 }
 
+type ThemeFlavor struct {
+	ID    string      `json:"id"`
+	Name  string      `json:"name"`
+	Dark  ColorScheme `json:"dark,omitempty"`
+	Light ColorScheme `json:"light,omitempty"`
+}
+
+type ThemeAccent struct {
+	ID           string                 `json:"id"`
+	Name         string                 `json:"name"`
+	FlavorColors map[string]ColorScheme `json:"-"`
+}
+
+func (a *ThemeAccent) UnmarshalJSON(data []byte) error {
+	var raw map[string]json.RawMessage
+	if err := json.Unmarshal(data, &raw); err != nil {
+		return err
+	}
+	a.FlavorColors = make(map[string]ColorScheme)
+	var mErr error
+	for key, value := range raw {
+		switch key {
+		case "id":
+			mErr = errors.Join(mErr, json.Unmarshal(value, &a.ID))
+		case "name":
+			mErr = errors.Join(mErr, json.Unmarshal(value, &a.Name))
+		default:
+			var colors ColorScheme
+			if err := json.Unmarshal(value, &colors); err == nil {
+				a.FlavorColors[key] = colors
+			} else {
+				mErr = errors.Join(mErr, fmt.Errorf("failed to unmarshal flavor colors for key %s: %w", key, err))
+			}
+		}
+	}
+	return mErr
+}
+
+func (a ThemeAccent) MarshalJSON() ([]byte, error) {
+	m := map[string]any{
+		"id":   a.ID,
+		"name": a.Name,
+	}
+	for k, v := range a.FlavorColors {
+		m[k] = v
+	}
+	return json.Marshal(m)
+}
+
+type MultiVariantDefaults struct {
+	Dark  map[string]string `json:"dark,omitempty"`
+	Light map[string]string `json:"light,omitempty"`
+}
+
 type ThemeVariants struct {
-	Default string         `json:"default,omitempty"`
-	Options []ThemeVariant `json:"options,omitempty"`
+	Type     string                `json:"type,omitempty"`
+	Default  string                `json:"default,omitempty"`
+	Defaults *MultiVariantDefaults `json:"defaults,omitempty"`
+	Options  []ThemeVariant        `json:"options,omitempty"`
+	Flavors  []ThemeFlavor         `json:"flavors,omitempty"`
+	Accents  []ThemeAccent         `json:"accents,omitempty"`
 }
 
 type Theme struct {
