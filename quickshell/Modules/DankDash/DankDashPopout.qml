@@ -338,13 +338,11 @@ DankPopout {
                                 onCloseDash: root.dashVisible = false
                                 onSwitchToWeatherTab: {
                                     if (SettingsData.weatherEnabled) {
-                                        tabBar.currentIndex = 3;
-                                        tabBar.tabClicked(3);
+                                        root.currentTabIndex = 3;
                                     }
                                 }
                                 onSwitchToMediaTab: {
-                                    tabBar.currentIndex = 1;
-                                    tabBar.tabClicked(1);
+                                    root.currentTabIndex = 1;
                                 }
                             }
                         }
