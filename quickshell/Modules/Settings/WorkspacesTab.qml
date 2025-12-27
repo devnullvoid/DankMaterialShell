@@ -114,6 +114,16 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "reverseScrolling"
+                    tags: ["workspace", "scroll", "scrolling", "reverse", "direction"]
+                    text: I18n.tr("Reverse Scrolling Direction")
+                    description: I18n.tr("Reverse workspace switch direction when scrolling over the bar")
+                    checked: SettingsData.reverseScrolling
+                    visible: CompositorService.isNiri || CompositorService.isHyprland
+                    onToggled: checked => SettingsData.set("reverseScrolling", checked)
+                }
+
+                SettingsToggleRow {
                     settingKey: "dwlShowAllTags"
                     tags: ["dwl", "tags", "workspace"]
                     text: I18n.tr("Show All Tags")
