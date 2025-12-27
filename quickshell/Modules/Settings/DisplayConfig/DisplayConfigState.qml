@@ -10,7 +10,7 @@ import qs.Services
 Singleton {
     id: root
 
-    readonly property bool hasOutputBackend: WlrOutputService.wlrOutputAvailable 
+    readonly property bool hasOutputBackend: WlrOutputService.wlrOutputAvailable
     readonly property var wlrOutputs: WlrOutputService.outputs
     property var outputs: ({})
     property var savedOutputs: ({})
