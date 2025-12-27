@@ -11,10 +11,7 @@ BasePill {
         service: DMSNetworkService
     }
 
-    property var popoutTarget: null
-    property var barConfig: null
     property bool isHovered: clickArea.containsMouse
-    property real barSpacing: 4
     property bool isAutoHideBar: false
 
     readonly property real minTooltipY: {
@@ -45,7 +42,7 @@ BasePill {
 
                 name: DMSNetworkService.connected ? "vpn_lock" : "vpn_key_off"
                 size: Theme.barIconSize(root.barThickness, -4)
-                color: DMSNetworkService.connected ? Theme.primary : Theme.surfaceText
+                color: DMSNetworkService.connected ? Theme.primary : Theme.widgetIconColor
                 opacity: DMSNetworkService.isBusy ? 0.5 : 1.0
                 anchors.centerIn: parent
 
