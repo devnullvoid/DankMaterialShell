@@ -16,6 +16,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -24,6 +25,7 @@ Item {
                 width: parent.width
                 iconName: "lock"
                 title: I18n.tr("Lock Screen layout")
+                settingKey: "lockLayout"
 
                 SettingsToggleRow {
                     text: I18n.tr("Show Power Actions", "Enable power action icon on the lock screen window")
@@ -67,6 +69,7 @@ Item {
                 width: parent.width
                 iconName: "lock"
                 title: I18n.tr("Lock Screen behaviour")
+                settingKey: "lockBehavior"
 
                 StyledText {
                     text: I18n.tr("loginctl not available - lock integration requires DMS socket connection")
@@ -110,6 +113,7 @@ Item {
                 width: parent.width
                 iconName: "monitor"
                 title: I18n.tr("Lock Screen Display")
+                settingKey: "lockDisplay"
                 visible: Quickshell.screens.length > 1
 
                 StyledText {

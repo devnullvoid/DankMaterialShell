@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
+import qs.Services
 import qs.Widgets
 
 StyledRect {
@@ -12,6 +13,7 @@ StyledRect {
 
     property string tab: ""
     property var tags: []
+    property string settingKey: ""
 
     property string title: ""
     property string iconName: ""
@@ -19,6 +21,8 @@ StyledRect {
     property bool expanded: true
 
     default property alias content: contentColumn.children
+
+    readonly property bool isHighlighted: settingKey !== "" && SettingsSearchService.highlightSection === settingKey
 
     width: parent?.width ?? 0
     height: {
@@ -37,6 +41,32 @@ StyledRect {
     readonly property bool hasHeader: root.title !== "" || root.iconName !== ""
     property bool userToggledCollapse: false
 
+    function findParentFlickable() {
+        let p = root.parent;
+        while (p) {
+            if (p.hasOwnProperty("contentY") && p.hasOwnProperty("contentItem")) {
+                return p;
+            }
+            p = p.parent;
+        }
+        return null;
+    }
+
+    Component.onCompleted: {
+        if (settingKey) {
+            let flickable = findParentFlickable();
+            if (flickable) {
+                SettingsSearchService.registerCard(settingKey, root, flickable);
+            }
+        }
+    }
+
+    Component.onDestruction: {
+        if (settingKey) {
+            SettingsSearchService.unregisterCard(settingKey);
+        }
+    }
+
     Behavior on height {
         enabled: root.userToggledCollapse
         NumberAnimation {
@@ -45,6 +75,26 @@ StyledRect {
             onRunningChanged: {
                 if (!running)
                     root.userToggledCollapse = false;
+            }
+        }
+    }
+
+    Rectangle {
+        id: highlightBorder
+        anchors.fill: parent
+        anchors.margins: -2
+        radius: root.radius + 2
+        color: "transparent"
+        border.width: 2
+        border.color: Theme.primary
+        opacity: root.isHighlighted ? 1 : 0
+        visible: opacity > 0
+        z: 100
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: Theme.shortDuration
+                easing.type: Theme.standardEasing
             }
         }
     }

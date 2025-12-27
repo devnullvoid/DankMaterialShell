@@ -23,6 +23,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -31,6 +32,7 @@ Item {
                 width: parent.width
                 iconName: "schedule"
                 title: I18n.tr("Idle Settings")
+                settingKey: "idleSettings"
 
                 Row {
                     width: parent.width
@@ -294,6 +296,7 @@ Item {
                 width: parent.width
                 iconName: "tune"
                 title: I18n.tr("Power Menu Customization")
+                settingKey: "powerMenu"
 
                 StyledText {
                     text: I18n.tr("Customize which actions appear in the power menu")
@@ -400,6 +403,7 @@ Item {
                 width: parent.width
                 iconName: "check_circle"
                 title: I18n.tr("Power Action Confirmation")
+                settingKey: "powerConfirmation"
 
                 SettingsToggleRow {
                     text: I18n.tr("Hold to Confirm Power Actions")
@@ -436,6 +440,7 @@ Item {
                 width: parent.width
                 iconName: "developer_mode"
                 title: I18n.tr("Custom Power Actions")
+                settingKey: "customPowerActions"
 
                 Repeater {
                     model: [
@@ -508,6 +513,7 @@ Item {
                 width: parent.width
                 iconName: "tune"
                 title: I18n.tr("Advanced")
+                settingKey: "powerAdvanced"
                 collapsible: true
                 expanded: false
 

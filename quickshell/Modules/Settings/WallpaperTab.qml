@@ -28,6 +28,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
 
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
@@ -37,6 +38,7 @@ Item {
                 tab: "wallpaper"
                 tags: ["background", "image", "picture"]
                 title: I18n.tr("Wallpaper")
+                settingKey: "wallpaper"
                 iconName: "wallpaper"
 
                 Row {
@@ -1186,8 +1188,9 @@ Item {
             SettingsCard {
                 tab: "wallpaper"
                 tags: ["external", "disable", "swww", "hyprpaper", "swaybg"]
-                iconName: "wallpaper"
                 title: I18n.tr("External Wallpaper Management", "wallpaper settings external management")
+                settingKey: "disableWallpaper"
+                iconName: "wallpaper"
 
                 SettingsToggleRow {
                     tab: "wallpaper"
@@ -1215,6 +1218,8 @@ Item {
             SettingsCard {
                 tab: "wallpaper"
                 tags: ["blur", "layer", "niri", "compositor"]
+                title: I18n.tr("Blur Wallpaper Layer")
+                settingKey: "blurWallpaper"
                 visible: CompositorService.isNiri
 
                 SettingsToggleRow {

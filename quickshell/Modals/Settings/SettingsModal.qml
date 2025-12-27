@@ -78,9 +78,7 @@ FloatingWindow {
             closingModal();
         } else {
             Qt.callLater(() => {
-                if (contentFocusScope) {
-                    contentFocusScope.forceActiveFocus();
-                }
+                sidebar.focusSearch();
             });
         }
     }
@@ -140,19 +138,6 @@ FloatingWindow {
 
         anchors.fill: parent
         focus: true
-
-        Keys.onPressed: event => {
-            if (event.key === Qt.Key_Down || (event.key === Qt.Key_Tab && !event.modifiers)) {
-                sidebar.navigateNext();
-                event.accepted = true;
-                return;
-            }
-            if (event.key === Qt.Key_Up || event.key === Qt.Key_Backtab || (event.key === Qt.Key_Tab && event.modifiers & Qt.ShiftModifier)) {
-                sidebar.navigatePrevious();
-                event.accepted = true;
-                return;
-            }
-        }
 
         Column {
             anchors.fill: parent

@@ -45,6 +45,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
 
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
@@ -54,6 +55,7 @@ Item {
                 tab: "theme"
                 tags: ["color", "palette", "theme", "appearance"]
                 title: I18n.tr("Theme Color")
+                settingKey: "themeColor"
                 iconName: "palette"
 
                 Column {
@@ -742,6 +744,7 @@ Item {
                 tab: "theme"
                 tags: ["light", "dark", "mode", "appearance"]
                 title: I18n.tr("Color Mode")
+                settingKey: "colorMode"
                 iconName: "contrast"
 
                 SettingsToggleRow {
@@ -762,6 +765,7 @@ Item {
                 tab: "theme"
                 tags: ["transparency", "opacity", "widget", "styling"]
                 title: I18n.tr("Widget Styling")
+                settingKey: "widgetStyling"
                 iconName: "opacity"
 
                 SettingsButtonGroupRow {
@@ -847,6 +851,7 @@ Item {
                 tab: "theme"
                 tags: ["niri", "layout", "gaps", "radius", "window"]
                 title: I18n.tr("Niri Layout Overrides")
+                settingKey: "niriLayout"
                 iconName: "crop_square"
                 visible: CompositorService.isNiri
 
@@ -917,6 +922,8 @@ Item {
             SettingsCard {
                 tab: "theme"
                 tags: ["modal", "darken", "background", "overlay"]
+                title: I18n.tr("Modal Background")
+                settingKey: "modalBackground"
 
                 SettingsToggleRow {
                     tab: "theme"
@@ -933,6 +940,7 @@ Item {
                 tab: "theme"
                 tags: ["applications", "portal", "dark", "terminal"]
                 title: I18n.tr("Applications")
+                settingKey: "applications"
                 iconName: "terminal"
 
                 SettingsToggleRow {
@@ -960,6 +968,7 @@ Item {
                 tab: "theme"
                 tags: ["matugen", "templates", "theming"]
                 title: I18n.tr("Matugen Templates")
+                settingKey: "matugenTemplates"
                 iconName: "auto_awesome"
                 visible: Theme.matugenAvailable
 
@@ -1202,6 +1211,8 @@ Item {
             SettingsCard {
                 tab: "theme"
                 tags: ["icon", "theme", "system"]
+                title: I18n.tr("Icon Theme")
+                settingKey: "iconTheme"
 
                 SettingsDropdownRow {
                     tab: "theme"
@@ -1227,6 +1238,7 @@ Item {
                 tab: "theme"
                 tags: ["system", "app", "theming", "gtk", "qt"]
                 title: I18n.tr("System App Theming")
+                settingKey: "systemAppTheming"
                 iconName: "extension"
                 visible: Theme.matugenAvailable
 

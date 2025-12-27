@@ -25,6 +25,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -33,6 +34,7 @@ Item {
                 width: parent.width
                 iconName: "apps"
                 title: I18n.tr("Launcher Button Logo")
+                settingKey: "launcherLogo"
 
                 StyledText {
                     width: parent.width
@@ -297,6 +299,7 @@ Item {
                 width: parent.width
                 iconName: "terminal"
                 title: I18n.tr("Launch Prefix")
+                settingKey: "launchPrefix"
 
                 StyledText {
                     width: parent.width
@@ -318,6 +321,7 @@ Item {
                 width: parent.width
                 iconName: "sort_by_alpha"
                 title: I18n.tr("Sorting & Layout")
+                settingKey: "launcherSorting"
 
                 SettingsToggleRow {
                     text: I18n.tr("Sort Alphabetically")
@@ -363,6 +367,7 @@ Item {
                 width: parent.width
                 iconName: "history"
                 title: I18n.tr("Recently Used Apps")
+                settingKey: "recentApps"
 
                 property var rankedAppsModel: {
                     var ranking = AppUsageHistoryData.appUsageRanking;

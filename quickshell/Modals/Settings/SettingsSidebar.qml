@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import Quickshell
 import qs.Common
 import qs.Modals.Settings
 import qs.Services
@@ -16,6 +17,49 @@ Rectangle {
     property var parentModal: null
     property var expandedCategories: ({})
     property var autoExpandedCategories: ({})
+    property bool searchActive: searchField.text.length > 0
+    property int searchSelectedIndex: 0
+    property int keyboardHighlightIndex: -1
+
+    function focusSearch() {
+        searchField.forceActiveFocus();
+    }
+
+    function highlightNext() {
+        var flatItems = getFlatNavigableItems();
+        if (flatItems.length === 0)
+            return;
+        var currentPos = flatItems.findIndex(item => item.tabIndex === keyboardHighlightIndex);
+        if (currentPos === -1) {
+            currentPos = flatItems.findIndex(item => item.tabIndex === currentIndex);
+        }
+        var nextPos = (currentPos + 1) % flatItems.length;
+        keyboardHighlightIndex = flatItems[nextPos].tabIndex;
+        autoExpandForTab(keyboardHighlightIndex);
+    }
+
+    function highlightPrevious() {
+        var flatItems = getFlatNavigableItems();
+        if (flatItems.length === 0)
+            return;
+        var currentPos = flatItems.findIndex(item => item.tabIndex === keyboardHighlightIndex);
+        if (currentPos === -1) {
+            currentPos = flatItems.findIndex(item => item.tabIndex === currentIndex);
+        }
+        var prevPos = (currentPos - 1 + flatItems.length) % flatItems.length;
+        keyboardHighlightIndex = flatItems[prevPos].tabIndex;
+        autoExpandForTab(keyboardHighlightIndex);
+    }
+
+    function selectHighlighted() {
+        if (keyboardHighlightIndex < 0)
+            return;
+        var oldIndex = currentIndex;
+        currentIndex = keyboardHighlightIndex;
+        autoCollapseIfNeeded(oldIndex, currentIndex);
+        keyboardHighlightIndex = -1;
+        Qt.callLater(searchField.forceActiveFocus);
+    }
 
     readonly property var categoryStructure: [
         {
@@ -437,6 +481,29 @@ Rectangle {
     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
     radius: Theme.cornerRadius
 
+    function selectSearchResult(result) {
+        if (!result)
+            return;
+        if (result.section) {
+            SettingsSearchService.navigateToSection(result.section);
+        }
+        var oldIndex = root.currentIndex;
+        root.currentIndex = result.tabIndex;
+        autoCollapseIfNeeded(oldIndex, result.tabIndex);
+        autoExpandForTab(result.tabIndex);
+        searchField.text = "";
+        SettingsSearchService.clear();
+        searchSelectedIndex = 0;
+        keyboardHighlightIndex = -1;
+        Qt.callLater(searchField.forceActiveFocus);
+    }
+
+    function navigateSearchResults(delta) {
+        if (SettingsSearchService.results.length === 0)
+            return;
+        searchSelectedIndex = Math.max(0, Math.min(searchSelectedIndex + delta, SettingsSearchService.results.length - 1));
+    }
+
     DankFlickable {
         anchors.fill: parent
         clip: true
@@ -465,7 +532,198 @@ Rectangle {
 
             Item {
                 width: parent.width - parent.leftPadding - parent.rightPadding
-                height: Theme.spacingM
+                height: Theme.spacingS
+            }
+
+            DankTextField {
+                id: searchField
+                width: parent.width - parent.leftPadding - parent.rightPadding
+                height: 40
+                placeholderText: I18n.tr("Search...")
+                backgroundColor: Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency)
+                normalBorderColor: Theme.outlineMedium
+                focusedBorderColor: Theme.primary
+                leftIconName: "search"
+                leftIconSize: Theme.iconSize - 4
+                showClearButton: text.length > 0
+                onTextChanged: {
+                    SettingsSearchService.search(text);
+                    root.searchSelectedIndex = 0;
+                }
+                keyForwardTargets: [keyHandler]
+
+                Item {
+                    id: keyHandler
+                    function navNext() {
+                        if (root.searchActive) {
+                            root.navigateSearchResults(1);
+                        } else {
+                            root.highlightNext();
+                        }
+                    }
+                    function navPrev() {
+                        if (root.searchActive) {
+                            root.navigateSearchResults(-1);
+                        } else {
+                            root.highlightPrevious();
+                        }
+                    }
+                    function navSelect() {
+                        if (root.searchActive && SettingsSearchService.results.length > 0) {
+                            root.selectSearchResult(SettingsSearchService.results[root.searchSelectedIndex]);
+                        } else if (root.keyboardHighlightIndex >= 0) {
+                            root.selectHighlighted();
+                        }
+                    }
+                    Keys.onDownPressed: event => {
+                        navNext();
+                        event.accepted = true;
+                    }
+                    Keys.onUpPressed: event => {
+                        navPrev();
+                        event.accepted = true;
+                    }
+                    Keys.onTabPressed: event => {
+                        navNext();
+                        event.accepted = true;
+                    }
+                    Keys.onBacktabPressed: event => {
+                        navPrev();
+                        event.accepted = true;
+                    }
+                    Keys.onReturnPressed: event => {
+                        navSelect();
+                        event.accepted = true;
+                    }
+                    Keys.onEscapePressed: event => {
+                        if (root.searchActive) {
+                            searchField.text = "";
+                            SettingsSearchService.clear();
+                        } else {
+                            root.keyboardHighlightIndex = -1;
+                        }
+                        event.accepted = true;
+                    }
+                    Keys.onPressed: event => {
+                        if (event.key === Qt.Key_J) {
+                            navNext();
+                            event.accepted = true;
+                        } else if (event.key === Qt.Key_K) {
+                            navPrev();
+                            event.accepted = true;
+                        }
+                    }
+                }
+            }
+
+            Column {
+                id: searchResultsColumn
+                width: parent.width - parent.leftPadding - parent.rightPadding
+                spacing: 2
+                visible: root.searchActive
+
+                Item {
+                    width: parent.width
+                    height: Theme.spacingS
+                }
+
+                Repeater {
+                    model: ScriptModel {
+                        values: SettingsSearchService.results
+                    }
+
+                    Rectangle {
+                        id: resultDelegate
+                        required property int index
+                        required property var modelData
+
+                        width: searchResultsColumn.width
+                        height: resultContent.height + Theme.spacingM * 2
+                        radius: Theme.cornerRadius
+                        color: {
+                            if (root.searchSelectedIndex === index)
+                                return Theme.primary;
+                            if (resultMouseArea.containsMouse)
+                                return Theme.surfaceHover;
+                            return "transparent";
+                        }
+
+                        Row {
+                            id: resultContent
+                            anchors.left: parent.left
+                            anchors.leftMargin: Theme.spacingM
+                            anchors.right: parent.right
+                            anchors.rightMargin: Theme.spacingM
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: Theme.spacingM
+
+                            DankIcon {
+                                name: resultDelegate.modelData.icon || "settings"
+                                size: Theme.iconSize - 2
+                                color: root.searchSelectedIndex === resultDelegate.index ? Theme.primaryText : Theme.surfaceText
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+
+                            Column {
+                                width: parent.width - Theme.iconSize - Theme.spacingM
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: 2
+
+                                StyledText {
+                                    text: resultDelegate.modelData.label
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    font.weight: Font.Medium
+                                    color: root.searchSelectedIndex === resultDelegate.index ? Theme.primaryText : Theme.surfaceText
+                                    width: parent.width
+                                    wrapMode: Text.Wrap
+                                }
+
+                                StyledText {
+                                    text: resultDelegate.modelData.category
+                                    font.pixelSize: Theme.fontSizeSmall - 1
+                                    color: root.searchSelectedIndex === resultDelegate.index ? Theme.withAlpha(Theme.primaryText, 0.7) : Theme.surfaceVariantText
+                                    width: parent.width
+                                    wrapMode: Text.Wrap
+                                }
+                            }
+                        }
+
+                        MouseArea {
+                            id: resultMouseArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: root.selectSearchResult(resultDelegate.modelData)
+                            onContainsMouseChanged: {
+                                if (containsMouse)
+                                    root.searchSelectedIndex = resultDelegate.index;
+                            }
+                        }
+
+                        Behavior on color {
+                            ColorAnimation {
+                                duration: Theme.shortDuration
+                                easing.type: Theme.standardEasing
+                            }
+                        }
+                    }
+                }
+
+                StyledText {
+                    width: parent.width
+                    text: I18n.tr("No matches")
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.surfaceVariantText
+                    horizontalAlignment: Text.AlignHCenter
+                    visible: searchField.text.length >= 2 && SettingsSearchService.results.length === 0
+                    topPadding: Theme.spacingM
+                }
+            }
+
+            Item {
+                width: parent.width - parent.leftPadding - parent.rightPadding
+                height: Theme.spacingS
+                visible: !root.searchActive
             }
 
             Repeater {
@@ -477,7 +735,7 @@ Rectangle {
                     required property var modelData
 
                     width: parent.width - parent.leftPadding - parent.rightPadding
-                    visible: root.isCategoryVisible(modelData)
+                    visible: !root.searchActive && root.isCategoryVisible(modelData)
                     spacing: 2
 
                     Rectangle {
@@ -500,11 +758,16 @@ Rectangle {
                         height: 40
                         radius: Theme.cornerRadius
                         visible: categoryDelegate.modelData.separator !== true
+
+                        readonly property bool hasTab: categoryDelegate.modelData.tabIndex !== undefined && !categoryDelegate.modelData.children
+                        readonly property bool isActive: hasTab && root.currentIndex === categoryDelegate.modelData.tabIndex
+                        readonly property bool isHighlighted: hasTab && root.keyboardHighlightIndex === categoryDelegate.modelData.tabIndex
+
                         color: {
-                            var hasTab = categoryDelegate.modelData.tabIndex !== undefined && !categoryDelegate.modelData.children;
-                            var isActive = hasTab && root.currentIndex === categoryDelegate.modelData.tabIndex;
                             if (isActive)
                                 return Theme.primary;
+                            if (isHighlighted)
+                                return Theme.primaryHover;
                             if (categoryMouseArea.containsMouse)
                                 return Theme.surfaceHover;
                             return "transparent";
@@ -521,28 +784,15 @@ Rectangle {
                             DankIcon {
                                 name: categoryDelegate.modelData.icon || ""
                                 size: Theme.iconSize - 2
-                                color: {
-                                    var hasTab = categoryDelegate.modelData.tabIndex !== undefined && !categoryDelegate.modelData.children;
-                                    var isActive = hasTab && root.currentIndex === categoryDelegate.modelData.tabIndex;
-                                    return isActive ? Theme.primaryText : Theme.surfaceText;
-                                }
+                                color: categoryRow.isActive ? Theme.primaryText : Theme.surfaceText
                                 anchors.verticalCenter: parent.verticalCenter
                             }
 
                             StyledText {
                                 text: categoryDelegate.modelData.text || ""
                                 font.pixelSize: Theme.fontSizeMedium
-                                font.weight: {
-                                    var hasTab = categoryDelegate.modelData.tabIndex !== undefined && !categoryDelegate.modelData.children;
-                                    var isActive = hasTab && root.currentIndex === categoryDelegate.modelData.tabIndex;
-                                    var childActive = root.isChildActive(categoryDelegate.modelData);
-                                    return (isActive || childActive) ? Font.Medium : Font.Normal;
-                                }
-                                color: {
-                                    var hasTab = categoryDelegate.modelData.tabIndex !== undefined && !categoryDelegate.modelData.children;
-                                    var isActive = hasTab && root.currentIndex === categoryDelegate.modelData.tabIndex;
-                                    return isActive ? Theme.primaryText : Theme.surfaceText;
-                                }
+                                font.weight: (categoryRow.isActive || root.isChildActive(categoryDelegate.modelData)) ? Font.Medium : Font.Normal
+                                color: categoryRow.isActive ? Theme.primaryText : Theme.surfaceText
                                 anchors.verticalCenter: parent.verticalCenter
                                 width: parent.width - Theme.iconSize - Theme.spacingM - (categoryDelegate.modelData.children ? expandIcon.width + Theme.spacingS : 0)
                                 elide: Text.ElideRight
@@ -564,11 +814,13 @@ Rectangle {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
+                                root.keyboardHighlightIndex = -1;
                                 if (categoryDelegate.modelData.children) {
                                     root.toggleCategory(categoryDelegate.modelData.id);
                                 } else if (categoryDelegate.modelData.tabIndex !== undefined) {
                                     root.currentIndex = categoryDelegate.modelData.tabIndex;
                                 }
+                                Qt.callLater(searchField.forceActiveFocus);
                             }
                         }
 
@@ -595,14 +847,18 @@ Rectangle {
                                 required property int index
                                 required property var modelData
 
+                                readonly property bool isActive: root.currentIndex === modelData.tabIndex
+                                readonly property bool isHighlighted: root.keyboardHighlightIndex === modelData.tabIndex
+
                                 width: childrenColumn.width
                                 height: 36
                                 radius: Theme.cornerRadius
                                 visible: root.isItemVisible(modelData)
                                 color: {
-                                    var isActive = root.currentIndex === modelData.tabIndex;
                                     if (isActive)
                                         return Theme.primary;
+                                    if (isHighlighted)
+                                        return Theme.primaryHover;
                                     if (childMouseArea.containsMouse)
                                         return Theme.surfaceHover;
                                     return "transparent";
@@ -617,21 +873,15 @@ Rectangle {
                                     DankIcon {
                                         name: childDelegate.modelData.icon || ""
                                         size: Theme.iconSize - 4
-                                        color: {
-                                            var isActive = root.currentIndex === childDelegate.modelData.tabIndex;
-                                            return isActive ? Theme.primaryText : Theme.surfaceVariantText;
-                                        }
+                                        color: childDelegate.isActive ? Theme.primaryText : Theme.surfaceVariantText
                                         anchors.verticalCenter: parent.verticalCenter
                                     }
 
                                     StyledText {
                                         text: childDelegate.modelData.text || ""
                                         font.pixelSize: Theme.fontSizeSmall + 1
-                                        font.weight: root.currentIndex === childDelegate.modelData.tabIndex ? Font.Medium : Font.Normal
-                                        color: {
-                                            var isActive = root.currentIndex === childDelegate.modelData.tabIndex;
-                                            return isActive ? Theme.primaryText : Theme.surfaceText;
-                                        }
+                                        font.weight: childDelegate.isActive ? Font.Medium : Font.Normal
+                                        color: childDelegate.isActive ? Theme.primaryText : Theme.surfaceText
                                         anchors.verticalCenter: parent.verticalCenter
                                     }
                                 }
@@ -642,7 +892,9 @@ Rectangle {
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
+                                        root.keyboardHighlightIndex = -1;
                                         root.currentIndex = childDelegate.modelData.tabIndex;
+                                        Qt.callLater(searchField.forceActiveFocus);
                                     }
                                 }
 

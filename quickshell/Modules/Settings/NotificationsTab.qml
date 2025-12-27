@@ -81,6 +81,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -89,6 +90,7 @@ Item {
                 width: parent.width
                 iconName: "notifications"
                 title: I18n.tr("Notification Popups")
+                settingKey: "notificationPopups"
 
                 SettingsDropdownRow {
                     text: I18n.tr("Popup Position")
@@ -144,6 +146,7 @@ Item {
                 width: parent.width
                 iconName: "notifications_off"
                 title: I18n.tr("Do Not Disturb")
+                settingKey: "doNotDisturb"
 
                 SettingsToggleRow {
                     text: I18n.tr("Enable Do Not Disturb")
@@ -157,6 +160,7 @@ Item {
                 width: parent.width
                 iconName: "timer"
                 title: I18n.tr("Notification Timeouts")
+                settingKey: "notificationTimeouts"
 
                 SettingsDropdownRow {
                     text: I18n.tr("Low Priority")

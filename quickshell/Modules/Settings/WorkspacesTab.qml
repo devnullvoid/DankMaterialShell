@@ -15,6 +15,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -23,6 +24,7 @@ Item {
                 width: parent.width
                 iconName: "view_module"
                 title: I18n.tr("Workspace Settings")
+                settingKey: "workspaceSettings"
 
                 SettingsToggleRow {
                     text: I18n.tr("Workspace Index Numbers")
@@ -114,6 +116,7 @@ Item {
                 width: parent.width
                 iconName: "label"
                 title: I18n.tr("Named Workspace Icons")
+                settingKey: "workspaceIcons"
                 visible: SettingsData.hasNamedWorkspaces()
 
                 StyledText {

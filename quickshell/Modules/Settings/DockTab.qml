@@ -15,6 +15,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -23,6 +24,7 @@ Item {
                 width: parent.width
                 iconName: "swap_vert"
                 title: I18n.tr("Dock Position")
+                settingKey: "dockPosition"
 
                 SettingsButtonGroupRow {
                     text: I18n.tr("Position")
@@ -66,6 +68,7 @@ Item {
                 width: parent.width
                 iconName: "dock_to_bottom"
                 title: I18n.tr("Dock Visibility")
+                settingKey: "dockVisibility"
 
                 SettingsToggleRow {
                     text: I18n.tr("Show Dock")
@@ -95,6 +98,7 @@ Item {
                 width: parent.width
                 iconName: "apps"
                 title: I18n.tr("Behavior")
+                settingKey: "dockBehavior"
 
                 SettingsToggleRow {
                     text: I18n.tr("Isolate Displays")
@@ -126,6 +130,7 @@ Item {
                 width: parent.width
                 iconName: "photo_size_select_large"
                 title: I18n.tr("Sizing")
+                settingKey: "dockSizing"
 
                 SettingsSliderRow {
                     text: I18n.tr("Icon Size")
@@ -141,6 +146,7 @@ Item {
                 width: parent.width
                 iconName: "space_bar"
                 title: I18n.tr("Spacing")
+                settingKey: "dockSpacing"
 
                 SettingsSliderRow {
                     text: I18n.tr("Padding")
@@ -174,6 +180,7 @@ Item {
                 width: parent.width
                 iconName: "opacity"
                 title: I18n.tr("Transparency")
+                settingKey: "dockTransparency"
 
                 SettingsSliderRow {
                     text: I18n.tr("Dock Transparency")
@@ -190,6 +197,7 @@ Item {
                 width: parent.width
                 iconName: "border_style"
                 title: I18n.tr("Border")
+                settingKey: "dockBorder"
 
                 SettingsToggleRow {
                     text: I18n.tr("Border")
