@@ -687,7 +687,10 @@ Singleton {
         }
     }
 
-    property alias widgetBaseHoverColor: root.primaryPressed
+    property color widgetBaseHoverColor: {
+        const blended = blend(widgetBaseBackgroundColor, primary, 0.1);
+        return withAlpha(blended, Math.max(0.3, blended.a));
+    }
 
     property color widgetIconColor: {
         if (typeof SettingsData === "undefined") {

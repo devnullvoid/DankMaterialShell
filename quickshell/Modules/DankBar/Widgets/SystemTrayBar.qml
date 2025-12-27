@@ -193,7 +193,7 @@ Item {
                         height: 24
                         anchors.centerIn: parent
                         radius: Theme.cornerRadius
-                        color: trayItemArea.containsMouse ? Theme.primaryHover : "transparent"
+                        color: trayItemArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent"
 
                         IconImage {
                             id: iconImg
@@ -257,7 +257,7 @@ Item {
                     height: 24
                     anchors.centerIn: parent
                     radius: Theme.cornerRadius
-                    color: caretArea.containsMouse ? Theme.primaryHover : "transparent"
+                    color: caretArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent"
 
                     DankIcon {
                         anchors.centerIn: parent
@@ -326,7 +326,7 @@ Item {
                         height: 24
                         anchors.centerIn: parent
                         radius: Theme.cornerRadius
-                        color: trayItemArea.containsMouse ? Theme.primaryHover : "transparent"
+                        color: trayItemArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent"
 
                         IconImage {
                             id: iconImg
@@ -390,7 +390,7 @@ Item {
                     height: 24
                     anchors.centerIn: parent
                     radius: Theme.cornerRadius
-                    color: caretAreaVert.containsMouse ? Theme.primaryHover : "transparent"
+                    color: caretAreaVert.containsMouse ? Theme.widgetBaseHoverColor : "transparent"
 
                     DankIcon {
                         anchors.centerIn: parent
@@ -749,7 +749,7 @@ Item {
                         width: 28
                         height: 28
                         radius: Theme.cornerRadius
-                        color: itemArea.containsMouse ? Theme.primaryHover : Theme.withAlpha(Theme.surfaceContainer, 0)
+                        color: itemArea.containsMouse ? Theme.widgetBaseHoverColor : Theme.withAlpha(Theme.surfaceContainer, 0)
 
                         IconImage {
                             id: menuIconImg
@@ -1209,7 +1209,7 @@ Item {
                             width: parent.width
                             height: 28
                             radius: 0
-                            color: visibilityToggleArea.containsMouse ? Theme.primaryHover : Theme.withAlpha(Theme.surfaceContainer, 0)
+                            color: visibilityToggleArea.containsMouse ? Theme.widgetBaseHoverColor : Theme.withAlpha(Theme.surfaceContainer, 0)
 
                             StyledText {
                                 anchors.left: parent.left
@@ -1262,7 +1262,7 @@ Item {
                             width: parent.width
                             height: 28
                             radius: 0
-                            color: backArea.containsMouse ? Theme.primaryHover : Theme.withAlpha(Theme.surfaceContainer, 0)
+                            color: backArea.containsMouse ? Theme.widgetBaseHoverColor : Theme.withAlpha(Theme.surfaceContainer, 0)
 
                             Row {
                                 anchors.left: parent.left
@@ -1314,7 +1314,7 @@ Item {
                                     if (menuEntry?.isSeparator) {
                                         return Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2);
                                     }
-                                    return itemArea.containsMouse ? Theme.primaryHover : Theme.withAlpha(Theme.surfaceContainer, 0);
+                                    return itemArea.containsMouse ? Theme.widgetBaseHoverColor : Theme.withAlpha(Theme.surfaceContainer, 0);
                                 }
 
                                 MouseArea {

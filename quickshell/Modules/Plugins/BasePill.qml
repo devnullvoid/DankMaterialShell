@@ -92,13 +92,11 @@ Item {
                     return "transparent";
                 }
 
+                const rawTransparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
                 const isHovered = mouseArea.containsMouse || (root.isHovered || false);
-                if (isHovered) {
-                    return Theme.primaryPressed;
-                }
+                const transparency = isHovered ? Math.max(0.3, rawTransparency) : rawTransparency;
+                const baseColor = isHovered ? Theme.widgetBaseHoverColor : Theme.widgetBaseBackgroundColor;
 
-                const baseColor = Theme.widgetBaseBackgroundColor;
-                const transparency = (root.barConfig && root.barConfig.widgetTransparency !== undefined) ? root.barConfig.widgetTransparency : 1.0;
                 if (Theme.widgetBackgroundHasAlpha) {
                     return Qt.rgba(baseColor.r, baseColor.g, baseColor.b, baseColor.a * transparency);
                 }

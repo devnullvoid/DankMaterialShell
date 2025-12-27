@@ -317,7 +317,7 @@ BasePill {
                         height: 20
                         radius: 10
                         anchors.verticalCenter: parent.verticalCenter
-                        color: prevArea.containsMouse ? Theme.primaryHover : "transparent"
+                        color: prevArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent"
                         visible: root.playerAvailable
                         opacity: (activePlayer && activePlayer.canGoPrevious) ? 1 : 0.3
 
@@ -374,7 +374,7 @@ BasePill {
                         height: 20
                         radius: 10
                         anchors.verticalCenter: parent.verticalCenter
-                        color: nextArea.containsMouse ? Theme.primaryHover : "transparent"
+                        color: nextArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent"
                         visible: playerAvailable
                         opacity: (activePlayer && activePlayer.canGoNext) ? 1 : 0.3
 
