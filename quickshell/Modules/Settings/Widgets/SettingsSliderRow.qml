@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
+import qs.Services
 import qs.Widgets
 
 Item {
@@ -16,6 +17,45 @@ Item {
 
     property string text: ""
     property string description: ""
+
+    readonly property bool isHighlighted: settingKey !== "" && SettingsSearchService.highlightSection === settingKey
+
+    function findParentFlickable() {
+        let p = root.parent;
+        while (p) {
+            if (p.hasOwnProperty("contentY") && p.hasOwnProperty("contentItem"))
+                return p;
+            p = p.parent;
+        }
+        return null;
+    }
+
+    Component.onCompleted: {
+        if (!settingKey)
+            return;
+        let flickable = findParentFlickable();
+        if (flickable)
+            SettingsSearchService.registerCard(settingKey, root, flickable);
+    }
+
+    Component.onDestruction: {
+        if (settingKey)
+            SettingsSearchService.unregisterCard(settingKey);
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        radius: Theme.cornerRadius
+        color: Theme.withAlpha(Theme.primary, root.isHighlighted ? 0.2 : 0)
+        visible: root.isHighlighted
+
+        Behavior on color {
+            ColorAnimation {
+                duration: Theme.shortDuration
+                easing.type: Theme.standardEasing
+            }
+        }
+    }
     property alias value: slider.value
     property alias minimum: slider.minimum
     property alias maximum: slider.maximum

@@ -71,6 +71,8 @@ Item {
                 settingKey: "dockVisibility"
 
                 SettingsToggleRow {
+                    settingKey: "showDock"
+                    tags: ["dock", "show", "display", "enable"]
                     text: I18n.tr("Show Dock")
                     description: I18n.tr("Display a dock with pinned and running applications")
                     checked: SettingsData.showDock
@@ -78,6 +80,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "dockAutoHide"
+                    tags: ["dock", "autohide", "hide", "hover"]
                     text: I18n.tr("Auto-hide Dock")
                     description: I18n.tr("Hide the dock when not in use and reveal it when hovering near the dock area")
                     checked: SettingsData.dockAutoHide
@@ -86,6 +90,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "dockOpenOnOverview"
+                    tags: ["dock", "overview", "niri"]
                     text: I18n.tr("Show on Overview")
                     description: I18n.tr("Always show the dock when niri's overview is open")
                     checked: SettingsData.dockOpenOnOverview
@@ -101,6 +107,8 @@ Item {
                 settingKey: "dockBehavior"
 
                 SettingsToggleRow {
+                    settingKey: "dockIsolateDisplays"
+                    tags: ["dock", "isolate", "monitor", "multi-monitor"]
                     text: I18n.tr("Isolate Displays")
                     description: I18n.tr("Only show windows from the current monitor on each dock")
                     checked: SettingsData.dockIsolateDisplays
@@ -108,6 +116,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "dockGroupByApp"
+                    tags: ["dock", "group", "windows", "app"]
                     text: I18n.tr("Group by App")
                     description: I18n.tr("Group multiple windows of the same app together with a window count indicator")
                     checked: SettingsData.dockGroupByApp
@@ -115,6 +125,8 @@ Item {
                 }
 
                 SettingsButtonGroupRow {
+                    settingKey: "dockIndicatorStyle"
+                    tags: ["dock", "indicator", "style", "circle", "line"]
                     text: I18n.tr("Indicator Style")
                     model: ["Circle", "Line"]
                     currentIndex: SettingsData.dockIndicatorStyle === "circle" ? 0 : 1
@@ -133,6 +145,8 @@ Item {
                 settingKey: "dockSizing"
 
                 SettingsSliderRow {
+                    settingKey: "dockIconSize"
+                    tags: ["dock", "icon", "size", "scale"]
                     text: I18n.tr("Icon Size")
                     value: SettingsData.dockIconSize
                     minimum: 24

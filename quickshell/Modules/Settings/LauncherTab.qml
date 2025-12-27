@@ -250,6 +250,8 @@ Item {
                     }
 
                     SettingsSliderRow {
+                        settingKey: "launcherLogoSizeOffset"
+                        tags: ["launcher", "logo", "size", "offset", "scale"]
                         text: I18n.tr("Size Offset")
                         minimum: -12
                         maximum: 12
@@ -267,6 +269,8 @@ Item {
                         }
 
                         SettingsSliderRow {
+                            settingKey: "launcherLogoBrightness"
+                            tags: ["launcher", "logo", "brightness", "color"]
                             text: I18n.tr("Brightness")
                             minimum: 0
                             maximum: 100
@@ -277,6 +281,8 @@ Item {
                         }
 
                         SettingsSliderRow {
+                            settingKey: "launcherLogoContrast"
+                            tags: ["launcher", "logo", "contrast", "color"]
                             text: I18n.tr("Contrast")
                             minimum: 0
                             maximum: 200
@@ -287,6 +293,8 @@ Item {
                         }
 
                         SettingsToggleRow {
+                            settingKey: "launcherLogoColorInvertOnMode"
+                            tags: ["launcher", "logo", "invert", "mode", "color"]
                             text: I18n.tr("Invert on mode change")
                             checked: SettingsData.launcherLogoColorInvertOnMode
                             onToggled: checked => SettingsData.set("launcherLogoColorInvertOnMode", checked)
@@ -324,6 +332,8 @@ Item {
                 settingKey: "launcherSorting"
 
                 SettingsToggleRow {
+                    settingKey: "sortAppsAlphabetically"
+                    tags: ["launcher", "sort", "alphabetically", "apps", "order"]
                     text: I18n.tr("Sort Alphabetically")
                     description: I18n.tr("When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.")
                     checked: SettingsData.sortAppsAlphabetically
@@ -331,6 +341,8 @@ Item {
                 }
 
                 SettingsSliderRow {
+                    settingKey: "appLauncherGridColumns"
+                    tags: ["launcher", "grid", "columns", "layout"]
                     text: I18n.tr("Grid Columns")
                     description: I18n.tr("Adjust the number of columns in grid view mode.")
                     minimum: 2
@@ -348,6 +360,8 @@ Item {
                 visible: CompositorService.isNiri
 
                 SettingsToggleRow {
+                    settingKey: "spotlightCloseNiriOverview"
+                    tags: ["launcher", "niri", "overview", "close", "launch"]
                     text: I18n.tr("Close Overview on Launch")
                     description: I18n.tr("Auto-close Niri overview when launching apps.")
                     checked: SettingsData.spotlightCloseNiriOverview
@@ -355,6 +369,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "niriOverviewOverlayEnabled"
+                    tags: ["launcher", "niri", "overview", "overlay", "enable"]
                     text: I18n.tr("Enable Overview Overlay")
                     description: I18n.tr("Show launcher overlay when typing in Niri overview. Disable to use another launcher.")
                     checked: SettingsData.niriOverviewOverlayEnabled
