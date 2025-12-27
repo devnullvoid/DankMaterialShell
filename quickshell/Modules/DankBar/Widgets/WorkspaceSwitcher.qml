@@ -881,7 +881,7 @@ Item {
                     height: delegateRoot.visualHeight
                     anchors.centerIn: parent
                     radius: Theme.cornerRadius
-                    color: isActive ? Theme.primary : isUrgent ? Theme.error : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.outlineButton : Theme.surfaceTextAlpha
+                    color: isActive ? Theme.primary : isUrgent ? Theme.error : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.withAlpha(Theme.surfaceText, 0.45) : Theme.surfaceTextAlpha
 
                     border.width: isUrgent ? 2 : 0
                     border.color: isUrgent ? Theme.error : Theme.withAlpha(Theme.error, 0)
