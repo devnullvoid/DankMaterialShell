@@ -238,7 +238,7 @@ Singleton {
     property string aiAssistantBaseUrl: "https://api.openai.com"
     property string aiAssistantModel: "gpt-4.1-mini"
     property real aiAssistantTemperature: 0.7
-    property int aiAssistantMaxTokens: 2048
+    property int aiAssistantMaxTokens: 4096
     property int aiAssistantTimeout: 30
     property real aiAssistantTransparencyOverride: -1
     property real aiAssistantLastCustomTransparency: 0.7

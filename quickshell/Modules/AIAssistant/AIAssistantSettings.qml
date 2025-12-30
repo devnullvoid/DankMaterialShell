@@ -329,8 +329,9 @@ Item {
                         SettingsSliderRow {
                             text: I18n.tr("Max Tokens")
                             description: I18n.tr("Maximum response length")
-                            minimum: 16
-                            maximum: 8192
+                            minimum: 128
+                            maximum: 32768
+                            stepSize: 256
                             value: SettingsData.aiAssistantMaxTokens
                             unit: ""
                             onSliderValueChanged: newValue => SettingsData.set("aiAssistantMaxTokens", newValue)

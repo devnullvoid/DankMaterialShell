@@ -9,6 +9,7 @@ Item {
     property int value: 50
     property int minimum: 0
     property int maximum: 100
+    property int stepSize: 1
     property string leftIcon: ""
     property string rightIcon: ""
     property bool enabled: true
@@ -30,7 +31,10 @@ Item {
 
     function updateValueFromPosition(x) {
         let ratio = Math.max(0, Math.min(1, (x - sliderHandle.width / 2) / (sliderTrack.width - sliderHandle.width)))
-        let newValue = Math.round(minimum + ratio * (maximum - minimum))
+        let rawValue = minimum + ratio * (maximum - minimum)
+        let steppedValue = Math.round(rawValue / stepSize) * stepSize
+        let newValue = Math.max(minimum, Math.min(maximum, steppedValue))
+        
         if (newValue !== value) {
             value = newValue
             sliderValueChanged(newValue)
@@ -192,8 +196,13 @@ Item {
                                      wheelEvent.accepted = false
                                      return
                                  }
-                                 let step = Math.max(0.5, (maximum - minimum) / 100)
+                                 let step = slider.stepSize > 1 ? slider.stepSize : Math.max(1, Math.round((maximum - minimum) / 100))
                                  let newValue = wheelEvent.angleDelta.y > 0 ? Math.min(maximum, value + step) : Math.max(minimum, value - step)
+                                 
+                                 if (slider.stepSize > 1) {
+                                     newValue = Math.round(newValue / slider.stepSize) * slider.stepSize
+                                 }
+                                 
                                  newValue = Math.round(newValue)
                                  if (newValue !== value) {
                                      value = newValue
