@@ -11,7 +11,7 @@ Item {
     property string status: "ok" // ok|streaming|error
 
     readonly property bool isUser: role === "user"
-    readonly property real bubbleMaxWidth: Math.max(240, Math.floor(width * 0.82))
+    readonly property real bubbleMaxWidth: isUser ? Math.max(240, Math.floor(width * 0.82)) : width
     readonly property color userBubbleFill: Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.1)
     readonly property color userBubbleBorder: Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3)
     readonly property color assistantBubbleFill: Theme.surfaceContainer
