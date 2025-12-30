@@ -51,11 +51,14 @@ Singleton {
     readonly property string _homeUrl: StandardPaths.writableLocation(StandardPaths.HomeLocation)
     readonly property string _configUrl: StandardPaths.writableLocation(StandardPaths.ConfigLocation)
     readonly property string _configDir: Paths.strip(_configUrl)
+    readonly property string settingsPath: _configDir + "/DankMaterialShell/settings.json"
+    readonly property string settingsBackupPath: _configDir + "/DankMaterialShell/settings.json.bak"
     readonly property string pluginSettingsPath: _configDir + "/DankMaterialShell/plugin_settings.json"
 
     property bool _loading: false
     property bool _pluginSettingsLoading: false
     property bool hasTriedDefaultSettings: false
+    property bool _restoringFromBackup: false
     property var pluginSettings: ({})
 
     property alias dankBarLeftWidgetsModel: leftWidgetsModel
@@ -185,6 +188,7 @@ Singleton {
     property int mediaSize: 1
 
     property string appLauncherViewMode: "list"
+    property string appPickerViewMode: "grid"
     property string spotlightModalViewMode: "list"
     property string browserPickerViewMode: "grid"
     property var browserUsageHistory: ({})
@@ -242,6 +246,7 @@ Singleton {
     property string aiAssistantApiKey: ""
     property bool aiAssistantSaveApiKey: false
     property string aiAssistantSessionApiKey: ""
+    property string aiAssistantApiKeyEnvVar: ""
 
     onNotepadUseMonospaceChanged: saveSettings()
     onNotepadFontFamilyChanged: saveSettings()
@@ -272,6 +277,9 @@ Singleton {
     onAiAssistantUseMonospaceChanged: saveSettings()
     onAiAssistantApiKeyChanged: saveSettings()
     onAiAssistantSaveApiKeyChanged: saveSettings()
+    onAiAssistantApiKeyEnvVarChanged: saveSettings()
+    onAppPickerViewModeChanged: saveSettings()
+    onBrowserPickerViewModeChanged: saveSettings()
 
     property bool soundsEnabled: true
     property bool useSystemSoundTheme: false
@@ -827,7 +835,23 @@ Singleton {
     function saveSettings() {
         if (_loading)
             return;
-        settingsFile.setText(JSON.stringify(Store.toJson(root), null, 2));
+        const payload = JSON.stringify(Store.toJson(root), null, 2);
+        settingsFile.setText(payload);
+        if (!isGreeterMode && settingsBackupFile.path) {
+            settingsBackupFile.setText(payload);
+        }
+    }
+
+    function restoreSettingsFromBackup() {
+        if (_restoringFromBackup || isGreeterMode)
+            return false;
+        const backupText = settingsBackupFile.text();
+        if (!backupText || !backupText.trim())
+            return false;
+        _restoringFromBackup = true;
+        settingsFile.setText(backupText);
+        _restoringFromBackup = false;
+        return true;
     }
 
     function savePluginSettings() {
@@ -1748,7 +1772,7 @@ Singleton {
     FileView {
         id: settingsFile
 
-        path: isGreeterMode ? "" : StandardPaths.writableLocation(StandardPaths.ConfigLocation) + "/DankMaterialShell/settings.json"
+        path: isGreeterMode ? "" : settingsPath
         blockLoading: true
         blockWrites: true
         atomicWrites: true
@@ -1769,12 +1793,27 @@ Singleton {
         }
         onLoadFailed: error => {
             if (!isGreeterMode && !hasTriedDefaultSettings) {
+                if (restoreSettingsFromBackup()) {
+                    hasTriedDefaultSettings = true;
+                    settingsFile.reload();
+                    return;
+                }
                 hasTriedDefaultSettings = true;
                 Processes.checkDefaultSettings();
             } else if (!isGreeterMode) {
                 applyStoredTheme();
             }
         }
+    }
+
+    FileView {
+        id: settingsBackupFile
+
+        path: isGreeterMode ? "" : settingsBackupPath
+        blockLoading: true
+        blockWrites: true
+        atomicWrites: true
+        watchChanges: false
     }
 
     FileView {

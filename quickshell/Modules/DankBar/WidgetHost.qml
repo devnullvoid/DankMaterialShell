@@ -239,6 +239,7 @@ Loader {
             "keyboard_layout_name": components.keyboardLayoutNameComponent,
             "vpn": components.vpnComponent,
             "notepadButton": components.notepadButtonComponent,
+            "aiAssistantButton": components.aiAssistantButtonComponent,
             "colorPicker": components.colorPickerComponent,
             "systemUpdate": components.systemUpdateComponent,
             "layout": components.layoutComponent,

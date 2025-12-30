@@ -197,6 +197,44 @@ Item {
                             }
                         }
 
+                        Item {
+                            width: parent.width
+                            height: envVarRow.height + Theme.spacingM
+
+                            Column {
+                                id: envVarRow
+                                width: parent.width
+                                anchors.left: parent.left
+                                anchors.leftMargin: Theme.spacingM
+                                spacing: Theme.spacingXS
+
+                                StyledText {
+                                    text: I18n.tr("API Key Env Var")
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                StyledText {
+                                    text: I18n.tr("Use an environment variable instead of storing a key on disk")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceVariantText
+                                    wrapMode: Text.WordWrap
+                                    width: parent.width
+                                }
+
+                                DankTextField {
+                                    width: parent.width - Theme.spacingM * 2
+                                    text: SettingsData.aiAssistantApiKeyEnvVar
+                                    placeholderText: I18n.tr("e.g. OPENAI_API_KEY")
+                                    leftIconName: "terminal"
+                                    onEditingFinished: {
+                                        SettingsData.set("aiAssistantApiKeyEnvVar", text.trim())
+                                    }
+                                }
+                            }
+                        }
+
                         SettingsToggleRow {
                             text: I18n.tr("Remember API Key")
                             description: I18n.tr("Save API key to disk (persists across sessions)")
@@ -216,7 +254,7 @@ Item {
                         StyledText {
                             width: parent.width - Theme.spacingM * 2
                             anchors.horizontalCenter: parent.horizontalCenter
-                            text: I18n.tr("Priority: Saved/Session key → Common env vars → DMS_* env vars")
+                            text: I18n.tr("Priority: Saved/Session key → Custom env var → Common env vars → DMS_* env vars")
                             wrapMode: Text.Wrap
                             color: Theme.surfaceTextMedium
                             font.pixelSize: Theme.fontSizeSmall

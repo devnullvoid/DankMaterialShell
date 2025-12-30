@@ -100,7 +100,9 @@ var SPEC = {
     mediaSize: { def: 1 },
 
     appLauncherViewMode: { def: "list" },
+    appPickerViewMode: { def: "grid" },
     spotlightModalViewMode: { def: "list" },
+    browserPickerViewMode: { def: "grid" },
     sortAppsAlphabetically: { def: false },
     appLauncherGridColumns: { def: 4 },
     spotlightCloseNiriOverview: { def: true },
@@ -153,6 +155,7 @@ var SPEC = {
     aiAssistantApiKey: { def: "" },
     aiAssistantSaveApiKey: { def: false },
     aiAssistantSessionApiKey: { def: "" },
+    aiAssistantApiKeyEnvVar: { def: "" },
 
     soundsEnabled: { def: true },
     useSystemSoundTheme: { def: false },

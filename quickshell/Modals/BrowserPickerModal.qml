@@ -12,7 +12,7 @@ AppPickerModal {
     targetData: url
     targetDataLabel: ""
     categoryFilter: ["WebBrowser", "X-WebBrowser"]
-    viewMode: SettingsData.browserPickerViewMode || "grid"
+    viewModeSettingKey: "browserPickerViewMode"
     usageHistoryKey: "browserUsageHistory"
     showTargetData: true
 
@@ -45,7 +45,4 @@ AppPickerModal {
         })
     }
 
-    onViewModeChanged: {
-        SettingsData.set("browserPickerViewMode", viewMode)
-    }
 }

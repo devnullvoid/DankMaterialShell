@@ -16,6 +16,7 @@ DankModal {
     property int gridColumns: SettingsData.appLauncherGridColumns
     property bool keyboardNavigationActive: false
     property string viewMode: "grid"
+    property string viewModeSettingKey: "appPickerViewMode"
     property var categoryFilter: []
     property var usageHistoryKey: ""
     property bool showTargetData: true
@@ -37,6 +38,9 @@ DankModal {
 
     onOpened: {
         searchQuery = ""
+        if (viewModeSettingKey && SettingsData[viewModeSettingKey] !== undefined) {
+            viewMode = SettingsData[viewModeSettingKey] || "grid"
+        }
         updateApplicationList()
         selectedIndex = 0
         Qt.callLater(() => {
@@ -114,6 +118,14 @@ DankModal {
     }
 
     onSearchQueryChanged: updateApplicationList()
+
+    onViewModeChanged: {
+        if (!viewModeSettingKey)
+            return;
+        if (SettingsData[viewModeSettingKey] !== viewMode) {
+            SettingsData.set(viewModeSettingKey, viewMode)
+        }
+    }
 
     ListModel {
         id: applicationsModel

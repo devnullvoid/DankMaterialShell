@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell.Hyprland
 import qs.Common
 import qs.Modules.Plugins
+import qs.Services
 import qs.Widgets
 
 BasePill {

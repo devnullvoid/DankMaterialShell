@@ -184,10 +184,12 @@ Singleton {
 
         const sessionKey = SettingsData.aiAssistantSessionApiKey || "";
         const savedKey = SettingsData.aiAssistantSaveApiKey ? (SettingsData.aiAssistantApiKey || "") : "";
+        const customEnvName = (SettingsData.aiAssistantApiKeyEnvVar || "").trim();
+        const customEnv = customEnvName ? (Quickshell.env(customEnvName) || "") : "";
         const common = commonEnv(p);
         const scoped = scopedEnv(p);
 
-        return sessionKey || savedKey || common || scoped || "";
+        return sessionKey || savedKey || customEnv || common || scoped || "";
     }
 
     function sendMessage(text) {
