@@ -296,13 +296,6 @@ func (b *NetworkManagerBackend) ConnectVPN(uuidOrName string, singleActive bool)
 	authAction := detectVPNAuthAction(vpnServiceType, vpnData)
 
 	switch authAction {
-	case "pkcs11_pin":
-		if b.promptBroker == nil {
-			return fmt.Errorf("PKCS11 authentication requires interactive prompt")
-		}
-		if err := b.handlePKCS11Auth(targetConn, connName, targetUUID, vpnServiceType); err != nil {
-			return err
-		}
 	case "openvpn_username":
 		if b.promptBroker == nil {
 			return fmt.Errorf("OpenVPN password authentication requires interactive prompt")
@@ -345,12 +338,6 @@ func detectVPNAuthAction(serviceType string, data map[string]string) string {
 	}
 
 	switch {
-	case strings.Contains(serviceType, "openconnect"):
-		authType := data["authtype"]
-		userCert := data["usercert"]
-		if authType == "cert" && strings.HasPrefix(userCert, "pkcs11:") {
-			return "pkcs11_pin"
-		}
 	case strings.Contains(serviceType, "openvpn"):
 		connType := data["connection-type"]
 		username := data["username"]
@@ -359,82 +346,6 @@ func detectVPNAuthAction(serviceType string, data map[string]string) string {
 		}
 	}
 	return ""
-}
-
-func (b *NetworkManagerBackend) handlePKCS11Auth(targetConn gonetworkmanager.Connection, connName, targetUUID, vpnServiceType string) error {
-	log.Infof("[ConnectVPN] PKCS11 authentication detected - prompting for PIN")
-
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
-	defer cancel()
-
-	token, err := b.promptBroker.Ask(ctx, PromptRequest{
-		Name:           connName,
-		ConnType:       "vpn",
-		VpnService:     vpnServiceType,
-		SettingName:    "vpn",
-		Fields:         []string{"key_pass"},
-		FieldsInfo:     []FieldInfo{{Name: "key_pass", Label: "PIN", IsSecret: true}},
-		Reason:         "pkcs11",
-		ConnectionId:   connName,
-		ConnectionUuid: targetUUID,
-		ConnectionPath: string(targetConn.GetPath()),
-	})
-	if err != nil {
-		return fmt.Errorf("failed to request PIN: %w", err)
-	}
-
-	reply, err := b.promptBroker.Wait(ctx, token)
-	if err != nil {
-		return fmt.Errorf("PIN prompt failed: %w", err)
-	}
-
-	if reply.Cancel {
-		return fmt.Errorf("user cancelled PIN entry")
-	}
-
-	pin := reply.Secrets["key_pass"]
-	if pin == "" {
-		return fmt.Errorf("PIN required for PKCS11 authentication")
-	}
-
-	connObj := b.dbusConn.Object("org.freedesktop.NetworkManager", targetConn.GetPath())
-	var existingSettings map[string]map[string]dbus.Variant
-	if err := connObj.Call("org.freedesktop.NetworkManager.Settings.Connection.GetSettings", 0).Store(&existingSettings); err != nil {
-		return fmt.Errorf("failed to get settings: %w", err)
-	}
-
-	settings := make(map[string]map[string]dbus.Variant)
-	if connSection, ok := existingSettings["connection"]; ok {
-		settings["connection"] = connSection
-	}
-
-	vpn := existingSettings["vpn"]
-	var data map[string]string
-	if dataVariant, ok := vpn["data"]; ok {
-		if dm, ok := dataVariant.Value().(map[string]string); ok {
-			data = make(map[string]string)
-			for k, v := range dm {
-				data[k] = v
-			}
-		} else {
-			data = make(map[string]string)
-		}
-	} else {
-		data = make(map[string]string)
-	}
-	data["key_pass"] = pin
-
-	vpn["data"] = dbus.MakeVariant(data)
-	settings["vpn"] = vpn
-
-	var result map[string]dbus.Variant
-	if err := connObj.Call("org.freedesktop.NetworkManager.Settings.Connection.Update2", 0,
-		settings, uint32(0x2), map[string]dbus.Variant{}).Store(&result); err != nil {
-		return fmt.Errorf("failed to set PIN: %w", err)
-	}
-
-	log.Infof("[ConnectVPN] PIN set (in-memory only)")
-	return nil
 }
 
 func (b *NetworkManagerBackend) handleOpenVPNUsernameAuth(targetConn gonetworkmanager.Connection, connName, targetUUID, vpnServiceType string) error {
