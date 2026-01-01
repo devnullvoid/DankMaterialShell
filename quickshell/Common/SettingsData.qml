@@ -57,6 +57,7 @@ Singleton {
     property bool _pluginSettingsLoading: false
     property bool _parseError: false
     property bool _pluginParseError: false
+    property bool _hasLoaded: false
     property bool hasTriedDefaultSettings: false
     property var pluginSettings: ({})
 
@@ -789,6 +790,7 @@ Singleton {
             }
 
             Store.parse(root, obj);
+            _hasLoaded = true;
             applyStoredTheme();
             applyStoredIconTheme();
             Processes.detectQtTools();
@@ -832,7 +834,7 @@ Singleton {
     }
 
     function saveSettings() {
-        if (_loading || _parseError)
+        if (_loading || _parseError || !_hasLoaded)
             return;
         settingsFile.setText(JSON.stringify(Store.toJson(root), null, 2));
     }
@@ -1800,9 +1802,14 @@ Singleton {
             _loading = true;
             try {
                 const txt = settingsFile.text();
-                const obj = (txt && txt.trim()) ? JSON.parse(txt) : null;
+                if (!txt || !txt.trim()) {
+                    _parseError = true;
+                    return;
+                }
+                const obj = JSON.parse(txt);
                 _parseError = false;
                 Store.parse(root, obj);
+                _hasLoaded = true;
                 applyStoredTheme();
                 applyStoredIconTheme();
             } catch (e) {
