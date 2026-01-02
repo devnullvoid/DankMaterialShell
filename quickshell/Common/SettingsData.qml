@@ -798,9 +798,9 @@ Singleton {
 
             Store.parse(root, obj);
 
-            if (obj.weatherLocation !== undefined)
+            if (obj?.weatherLocation !== undefined)
                 _legacyWeatherLocation = obj.weatherLocation;
-            if (obj.weatherCoordinates !== undefined)
+            if (obj?.weatherCoordinates !== undefined)
                 _legacyWeatherCoordinates = obj.weatherCoordinates;
 
             _loadedSettingsSnapshot = JSON.stringify(Store.toJson(root));
