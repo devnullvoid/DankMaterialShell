@@ -23,6 +23,15 @@ const (
 	ColorModeLight ColorMode = "light"
 )
 
+func (c *ColorMode) GTKTheme() string {
+	switch *c {
+	case ColorModeDark:
+		return "adw-gtk3-dark"
+	default:
+		return "adw-gtk3"
+	}
+}
+
 var (
 	matugenVersionOnce sync.Once
 	matugenSupportsCOE bool
@@ -600,16 +609,8 @@ func refreshGTK(configDir string, mode ColorMode) {
 		return
 	}
 
-	var gtk3Theme string
-	switch mode {
-	case ColorModeDark:
-		gtk3Theme = "adw-gtk3-dark"
-	default:
-		gtk3Theme = "adw-gtk3"
-	}
-
 	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", "").Run()
-	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", gtk3Theme).Run()
+	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", mode.GTKTheme()).Run()
 }
 
 func signalTerminals() {
