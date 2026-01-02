@@ -7,8 +7,10 @@ import (
 	"os/exec"
 	"os/signal"
 	"path/filepath"
+	"slices"
 	"strconv"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 
@@ -199,6 +201,16 @@ func runShellInteractive(session bool) {
 		}
 	}
 
+	if os.Getenv("QT_QPA_PLATFORMTHEME") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORMTHEME=gtk3")
+	}
+	if os.Getenv("QT_QPA_PLATFORMTHEME_QT6") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORMTHEME_QT6=gtk3")
+	}
+	if os.Getenv("QT_QPA_PLATFORM") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORM=wayland")
+	}
+
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -361,13 +373,7 @@ func killShell() {
 
 func runShellDaemon(session bool) {
 	isSessionManaged = session
-	isDaemonChild := false
-	for _, arg := range os.Args {
-		if arg == "--daemon-child" {
-			isDaemonChild = true
-			break
-		}
-	}
+	isDaemonChild := slices.Contains(os.Args, "--daemon-child")
 
 	if !isDaemonChild {
 		fmt.Fprintf(os.Stderr, "dms %s\n", Version)
@@ -431,6 +437,16 @@ func runShellDaemon(session bool) {
 		if !strings.HasPrefix(configPath, homeDir) {
 			cmd.Env = append(cmd.Env, "DMS_DISABLE_HOT_RELOAD=1")
 		}
+	}
+
+	if os.Getenv("QT_QPA_PLATFORMTHEME") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORMTHEME=gtk3")
+	}
+	if os.Getenv("QT_QPA_PLATFORMTHEME_QT6") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORMTHEME_QT6=gtk3")
+	}
+	if os.Getenv("QT_QPA_PLATFORM") == "" {
+		cmd.Env = append(cmd.Env, "QT_QPA_PLATFORM=wayland")
 	}
 
 	devNull, err := os.OpenFile("/dev/null", os.O_RDWR, 0)
@@ -511,12 +527,20 @@ func runShellDaemon(session bool) {
 	}
 }
 
+var qsHasAnyDisplay = sync.OnceValue(func() bool {
+	out, err := exec.Command("qs", "ipc", "--help").Output()
+	if err != nil {
+		return false
+	}
+	return strings.Contains(string(out), "--any-display")
+})
+
 func parseTargetsFromIPCShowOutput(output string) ipcTargets {
 	targets := make(ipcTargets)
 	var currentTarget string
-	for _, line := range strings.Split(output, "\n") {
-		if strings.HasPrefix(line, "target ") {
-			currentTarget = strings.TrimSpace(strings.TrimPrefix(line, "target "))
+	for line := range strings.SplitSeq(output, "\n") {
+		if after, ok := strings.CutPrefix(line, "target "); ok {
+			currentTarget = strings.TrimSpace(after)
 			targets[currentTarget] = make(map[string][]string)
 		}
 		if strings.HasPrefix(line, "  function") && currentTarget != "" {
@@ -541,7 +565,11 @@ func parseTargetsFromIPCShowOutput(output string) ipcTargets {
 }
 
 func getShellIPCCompletions(args []string, _ string) []string {
-	cmdArgs := []string{"-p", configPath, "ipc", "show"}
+	cmdArgs := []string{"ipc"}
+	if qsHasAnyDisplay() {
+		cmdArgs = append(cmdArgs, "--any-display")
+	}
+	cmdArgs = append(cmdArgs, "-p", configPath, "show")
 	cmd := exec.Command("qs", cmdArgs...)
 	var targets ipcTargets
 
@@ -595,7 +623,12 @@ func runShellIPCCommand(args []string) {
 		args = append([]string{"call"}, args...)
 	}
 
-	cmdArgs := append([]string{"-p", configPath, "ipc"}, args...)
+	cmdArgs := []string{"ipc"}
+	if qsHasAnyDisplay() {
+		cmdArgs = append(cmdArgs, "--any-display")
+	}
+	cmdArgs = append(cmdArgs, "-p", configPath)
+	cmdArgs = append(cmdArgs, args...)
 	cmd := exec.Command("qs", cmdArgs...)
 	cmd.Stdin = os.Stdin
 	cmd.Stdout = os.Stdout

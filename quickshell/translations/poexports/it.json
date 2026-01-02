@@ -23,6 +23,9 @@
   "%1 printer(s)": {
     "%1 printer(s)": "%1 stampante/i"
   },
+  "%1 variants": {
+    "%1 variants": "%1 varianti"
+  },
   "%1 widgets": {
     "%1 widgets": "%1 widgets"
   },
@@ -431,6 +434,9 @@
   "Battery": {
     "Battery": "Batteria"
   },
+  "Battery Charge Limit": {
+    "Battery Charge Limit": "Limite Carica della Batteria"
+  },
   "Battery and power management": {
     "Battery and power management": "Gestione batteria e alimentazione"
   },
@@ -470,6 +476,9 @@
   "Bluetooth not available": {
     "Bluetooth not available": "Bluetooth non disponibile"
   },
+  "Blur Wallpaper Layer": {
+    "Blur Wallpaper Layer": "Sfoca il Livello dello Sfondo"
+  },
   "Blur on Overview": {
     "Blur on Overview": "Sfocatura su Panoramica"
   },
@@ -508,6 +517,9 @@
   },
   "Brightness Slider": {
     "Brightness Slider": "Slider Luminosità"
+  },
+  "Brightness Value": {
+    "Brightness Value": "Valore di Luminosità"
   },
   "Brightness control not available": {
     "Brightness control not available": "Controllo luminosità non disponibile"
@@ -778,6 +790,9 @@
   },
   "Confirm": {
     "Confirm": "Conferma"
+  },
+  "Confirm Delete": {
+    "Confirm Delete": ""
   },
   "Confirm Display Changes": {
     "Confirm Display Changes": "Conferma Modifiche Display"
@@ -1202,6 +1217,9 @@
   "Driver": {
     "Driver": "Driver"
   },
+  "Duplicate": {
+    "Duplicate": ""
+  },
   "Duplicate Wallpaper with Blur": {
     "Duplicate Wallpaper with Blur": "Duplica Sfondo con Sfocatura"
   },
@@ -1432,6 +1450,15 @@
   },
   "Failed to move job": {
     "Failed to move job": "Impossibile spostare il lavoro"
+  },
+  "Failed to parse plugin_settings.json": {
+    "Failed to parse plugin_settings.json": ""
+  },
+  "Failed to parse session.json": {
+    "Failed to parse session.json": ""
+  },
+  "Failed to parse settings.json": {
+    "Failed to parse settings.json": ""
   },
   "Failed to pause printer": {
     "Failed to pause printer": "Impossibile mettere in pausa la stampante"
@@ -1686,7 +1713,7 @@
     "Hide Delay": "Ritardo Nascondi"
   },
   "Hide When Windows Open": {
-    "Hide When Windows Open": ""
+    "Hide When Windows Open": "Nascondi Quando le Finestre Sono Aperte"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Nascondi la dock quando non è in uso e mostrala quando il cursore passa vicino all’area della dock"
@@ -2099,6 +2126,9 @@
   "Microphone Mute": {
     "Microphone Mute": "Silenzia Microfono"
   },
+  "Microphone Volume": {
+    "Microphone Volume": "Volume Microfono"
+  },
   "Microphone settings": {
     "Microphone settings": "Impostazioni Microfono"
   },
@@ -2113,6 +2143,12 @@
   },
   "Minute": {
     "Minute": "Minuti"
+  },
+  "Mirror Display": {
+    "Mirror Display": "Duplica Schermo"
+  },
+  "Modal Background": {
+    "Modal Background": "Sfondo Modale"
   },
   "Mode": {
     "Mode": "Modalità"
@@ -2218,6 +2254,9 @@
   },
   "Niri Integration": {
     "Niri Integration": "Integrazione Niri"
+  },
+  "Niri Layout Overrides": {
+    "Niri Layout Overrides": "Sovrascritture Layout di Niri"
   },
   "Niri compositor actions (focus, move, etc.)": {
     "Niri compositor actions (focus, move, etc.)": "Azioni del compositor Niri (focus, muovi, etc.)"
@@ -2333,6 +2372,9 @@
   "Not connected": {
     "Not connected": "Non connesso"
   },
+  "Note: this only changes the percentage, it does not actually limit charging.": {
+    "Note: this only changes the percentage, it does not actually limit charging.": "Nota: questa opzione modifica solo la percentuale visualizzata, non limita fisicamente la carica."
+  },
   "Notepad": {
     "Notepad": "Notepad"
   },
@@ -2443,6 +2485,12 @@
   },
   "Override": {
     "Override": "Sovrascrivi"
+  },
+  "Override Corner Radius": {
+    "Override Corner Radius": "Sovrascrivi Raggio Angoli"
+  },
+  "Override Gaps": {
+    "Override Gaps": "Sovrascrivi Spaziature"
   },
   "Override global layout settings for this output": {
     "Override global layout settings for this output": "Sovrascrivi le impostazioni di layout globali per questa uscita"
@@ -2780,6 +2828,12 @@
   "Resume": {
     "Resume": "Riprendi"
   },
+  "Reverse Scrolling Direction": {
+    "Reverse Scrolling Direction": ""
+  },
+  "Reverse workspace switch direction when scrolling over the bar": {
+    "Reverse workspace switch direction when scrolling over the bar": ""
+  },
   "Revert": {
     "Revert": "Ripristina"
   },
@@ -2804,6 +2858,9 @@
   "Root Filesystem": {
     "Root Filesystem": "Filesystem root"
   },
+  "Rounded corners for windows": {
+    "Rounded corners for windows": "Angoli arrotondati per le finestre"
+  },
   "Run DMS Templates": {
     "Run DMS Templates": "Esegui Teplate DMS"
   },
@@ -2817,7 +2874,7 @@
     "Run a shell command (e.g., notify-send)": "Esegui un comando shell (es. notify-send)"
   },
   "Running Apps": {
-    "Running Apps": "Apps In Esecuzione"
+    "Running Apps": "Apps in Esecuzione"
   },
   "Running Apps Only In Current Workspace": {
     "Running Apps Only In Current Workspace": "Apps In Esecuzione Solo Nello Spazio di Lavoro Attuale"
@@ -2872,6 +2929,9 @@
   },
   "Scroll Wheel": {
     "Scroll Wheel": "Rotella di Scorrimento"
+  },
+  "Scroll on widget changes media volume": {
+    "Scroll on widget changes media volume": "Lo scorrimento sul widget modifica il volume media"
   },
   "Scroll song title": {
     "Scroll song title": "Scorri Titolo Canzone"
@@ -3098,6 +3158,9 @@
   "Show on Last Display": {
     "Show on Last Display": "Mostra sull'ultimo display"
   },
+  "Show on Overlay": {
+    "Show on Overlay": "Mostra in Sovraimpressione"
+  },
   "Show on Overview": {
     "Show on Overview": "Mostra in Panoramica"
   },
@@ -3193,6 +3256,9 @@
   },
   "Sounds": {
     "Sounds": "Suoni"
+  },
+  "Space between windows": {
+    "Space between windows": "Spazio tra le finestre"
   },
   "Spacer": {
     "Spacer": "Spaziatore"
@@ -3551,6 +3617,12 @@
   "Use custom command for update your system": {
     "Use custom command for update your system": "Usa comando personalizzato per aggiornare il sistema"
   },
+  "Use custom gaps instead of bar spacing": {
+    "Use custom gaps instead of bar spacing": "Usa spaziature personalizzate invece di quelle della barra"
+  },
+  "Use custom window radius instead of theme radius": {
+    "Use custom window radius instead of theme radius": "Usa un raggio finestra personalizzato invece di quello del tema"
+  },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "Usa impronte digitali per autenticazione blocco schermo\n(richiede impronte digitali registrate)"
   },
@@ -3762,6 +3834,12 @@
   },
   "Wind Speed": {
     "Wind Speed": "Velocità Vento"
+  },
+  "Window Corner Radius": {
+    "Window Corner Radius": "Raggio Angoli Finestra"
+  },
+  "Window Gaps": {
+    "Window Gaps": "Spaziature Finestre"
   },
   "Window Gaps (px)": {
     "Window Gaps (px)": "Spazi tra finestre (px)"

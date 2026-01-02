@@ -11,14 +11,16 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"syscall"
 	"time"
 
+	"hash/fnv"
+
 	"github.com/fsnotify/fsnotify"
 	_ "golang.org/x/image/bmp"
 	_ "golang.org/x/image/tiff"
-	"hash/fnv"
 
 	bolt "go.etcd.io/bbolt"
 
@@ -28,11 +30,12 @@ import (
 	wlclient "github.com/AvengeMedia/DankMaterialShell/core/pkg/go-wayland/wayland/client"
 )
 
-func NewManager(wlCtx wlcontext.WaylandContext, config Config) (*Manager, error) {
-	if config.Disabled {
-		return nil, fmt.Errorf("clipboard disabled in config")
-	}
+// These mime types wont be stored in history
+var sensitiveMimeTypes = []string{
+	"x-kde-passwordManagerHint",
+}
 
+func NewManager(wlCtx wlcontext.WaylandContext, config Config) (*Manager, error) {
 	display := wlCtx.Display()
 	dbPath, err := getDBPath()
 	if err != nil {
@@ -54,8 +57,10 @@ func NewManager(wlCtx wlcontext.WaylandContext, config Config) (*Manager, error)
 		dbPath:         dbPath,
 	}
 
-	if err := m.setupRegistry(); err != nil {
-		return nil, err
+	if !config.Disabled {
+		if err := m.setupRegistry(); err != nil {
+			return nil, err
+		}
 	}
 
 	m.notifierWg.Add(1)
@@ -63,17 +68,17 @@ func NewManager(wlCtx wlcontext.WaylandContext, config Config) (*Manager, error)
 
 	go m.watchConfig()
 
-	if !config.DisableHistory {
-		db, err := openDB(dbPath)
-		if err != nil {
-			return nil, fmt.Errorf("failed to open db: %w", err)
-		}
-		m.db = db
+	db, err := openDB(dbPath)
+	if err != nil {
+		return nil, fmt.Errorf("failed to open db: %w", err)
+	}
+	m.db = db
 
-		if err := m.migrateHashes(); err != nil {
-			log.Errorf("Failed to migrate hashes: %v", err)
-		}
+	if err := m.migrateHashes(); err != nil {
+		log.Errorf("Failed to migrate hashes: %v", err)
+	}
 
+	if !config.Disabled {
 		if config.ClearAtStartup {
 			if err := m.clearHistoryInternal(); err != nil {
 				log.Errorf("Failed to clear history at startup: %v", err)
@@ -90,7 +95,7 @@ func NewManager(wlCtx wlcontext.WaylandContext, config Config) (*Manager, error)
 	m.alive = true
 	m.updateState()
 
-	if m.dataControlMgr != nil && m.seat != nil {
+	if !config.Disabled && m.dataControlMgr != nil && m.seat != nil {
 		m.setupDataDeviceSync()
 	}
 
@@ -253,6 +258,10 @@ func (m *Manager) setupDataDeviceSync() {
 			return
 		}
 
+		if m.hasSensitiveMimeType(mimes) {
+			return
+		}
+
 		preferredMime := m.selectMimeType(mimes)
 		if preferredMime == "" {
 			return
@@ -315,7 +324,7 @@ func (m *Manager) readAndStore(r *os.File, mimeType string) {
 		return
 	}
 
-	if !cfg.DisableHistory && m.db != nil {
+	if !cfg.Disabled && m.db != nil {
 		m.storeClipboardEntry(data, mimeType)
 	}
 
@@ -490,6 +499,12 @@ func extractHash(data []byte) uint64 {
 		return 0
 	}
 	return binary.BigEndian.Uint64(data[len(data)-8:])
+}
+
+func (m *Manager) hasSensitiveMimeType(mimes []string) bool {
+	return slices.ContainsFunc(mimes, func(mime string) bool {
+		return slices.Contains(sensitiveMimeTypes, mime)
+	})
 }
 
 func (m *Manager) selectMimeType(mimes []string) string {
@@ -1194,22 +1209,12 @@ func (m *Manager) applyConfigChange(newCfg Config) {
 	m.config = newCfg
 	m.configMutex.Unlock()
 
-	if newCfg.DisableHistory && !oldCfg.DisableHistory && m.db != nil {
-		log.Info("Clipboard history disabled, closing database")
-		m.db.Close()
-		m.db = nil
+	switch {
+	case newCfg.Disabled && !oldCfg.Disabled:
+		log.Info("Clipboard tracking disabled")
+	case !newCfg.Disabled && oldCfg.Disabled:
+		log.Info("Clipboard tracking enabled")
 	}
-
-	if !newCfg.DisableHistory && oldCfg.DisableHistory && m.db == nil {
-		log.Info("Clipboard history enabled, opening database")
-		if db, err := openDB(m.dbPath); err == nil {
-			m.db = db
-		} else {
-			log.Errorf("Failed to reopen database: %v", err)
-		}
-	}
-
-	log.Infof("Clipboard config reloaded: disableHistory=%v", newCfg.DisableHistory)
 
 	m.updateState()
 	m.notifySubscribers()
@@ -1218,8 +1223,8 @@ func (m *Manager) applyConfigChange(newCfg Config) {
 func (m *Manager) StoreData(data []byte, mimeType string) error {
 	cfg := m.getConfig()
 
-	if cfg.DisableHistory {
-		return fmt.Errorf("clipboard history disabled")
+	if cfg.Disabled {
+		return fmt.Errorf("clipboard tracking disabled")
 	}
 
 	if m.db == nil {

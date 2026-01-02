@@ -28,6 +28,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
 
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter

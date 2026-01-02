@@ -419,6 +419,24 @@ Column {
                             }
 
                             DankActionButton {
+                                id: largerSizeButton
+                                buttonSize: 28
+                                visible: modelData.id === "music"
+                                iconName: "fit_screen"
+                                iconSize: 16
+                                iconColor: (modelData.mediaSize !== undefined ? modelData.mediaSize : SettingsData.mediaSize) === 3 ? Theme.primary : Theme.outline
+                                onClicked: {
+                                    root.compactModeChanged("music", 3);
+                                }
+                                onEntered: {
+                                    sharedTooltip.show("Largest", largerSizeButton, 0, 0, "bottom");
+                                }
+                                onExited: {
+                                    sharedTooltip.hide();
+                                }
+                            }
+
+                            DankActionButton {
                                 id: compactModeButton
                                 buttonSize: 28
                                 visible: modelData.id === "clock" || modelData.id === "focusedWindow" || modelData.id === "runningApps" || modelData.id === "keyboard_layout_name"
@@ -824,14 +842,29 @@ Column {
                             setting: "showAudioIcon"
                         },
                         {
+                            icon: "percent",
+                            label: I18n.tr("Volume"),
+                            setting: "showAudioPercent"
+                        },
+                        {
                             icon: "mic",
                             label: I18n.tr("Microphone"),
                             setting: "showMicIcon"
                         },
                         {
+                            icon: "percent",
+                            label: I18n.tr("Microphone Volume"),
+                            setting: "showMicPercent"
+                        },
+                        {
                             icon: "brightness_high",
                             label: I18n.tr("Brightness"),
                             setting: "showBrightnessIcon"
+                        },
+                        {
+                            icon: "percent",
+                            label: I18n.tr("Brightness Value"),
+                            setting: "showBrightnessPercent"
                         },
                         {
                             icon: "battery_full",
@@ -860,10 +893,16 @@ Column {
                                 return wd?.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
                             case "showAudioIcon":
                                 return wd?.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+                            case "showAudioPercent":
+                                return wd?.showAudioPercent ?? SettingsData.controlCenterShowAudioPercent;
                             case "showMicIcon":
                                 return wd?.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+                            case "showMicPercent":
+                                return wd?.showMicPercent ?? SettingsData.controlCenterShowMicPercent;
                             case "showBrightnessIcon":
                                 return wd?.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+                            case "showBrightnessPercent":
+                                return wd?.showBrightnessPercent ?? SettingsData.controlCenterShowBrightnessPercent;
                             case "showBatteryIcon":
                                 return wd?.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
                             case "showPrinterIcon":

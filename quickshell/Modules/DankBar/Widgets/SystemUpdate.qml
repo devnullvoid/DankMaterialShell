@@ -12,7 +12,7 @@ BasePill {
     readonly property bool isChecking: SystemUpdateService.isChecking
 
     readonly property real horizontalPadding: (barConfig?.noBackground ?? false) ? 2 : Theme.spacingS
-    width : (SettingsData.updaterHideWidget && !hasUpdates) ? 0 : (18 + horizontalPadding * 2)
+    width: (SettingsData.updaterHideWidget && !hasUpdates) ? 0 : (18 + horizontalPadding * 2)
 
     Ref {
         service: SystemUpdateService
@@ -28,16 +28,21 @@ BasePill {
                 anchors.centerIn: parent
                 visible: root.isVerticalOrientation
                 name: {
-                    if (root.isChecking) return "refresh"
-                    if (SystemUpdateService.hasError) return "error"
-                    if (root.hasUpdates) return "system_update_alt"
-                    return "check_circle"
+                    if (root.isChecking)
+                        return "refresh";
+                    if (SystemUpdateService.hasError)
+                        return "error";
+                    if (root.hasUpdates)
+                        return "system_update_alt";
+                    return "check_circle";
                 }
                 size: Theme.barIconSize(root.barThickness, -4)
                 color: {
-                    if (SystemUpdateService.hasError) return Theme.error
-                    if (root.hasUpdates) return Theme.primary
-                    return root.isActive ? Theme.primary : Theme.surfaceText
+                    if (SystemUpdateService.hasError)
+                        return Theme.error;
+                    if (root.hasUpdates)
+                        return Theme.primary;
+                    return root.isActive ? Theme.primary : Theme.surfaceText;
                 }
 
                 RotationAnimation {
@@ -52,7 +57,7 @@ BasePill {
 
                     onRunningChanged: {
                         if (!running) {
-                            statusIcon.rotation = 0
+                            statusIcon.rotation = 0;
                         }
                     }
                 }
@@ -80,16 +85,21 @@ BasePill {
                     id: statusIconHorizontal
                     anchors.verticalCenter: parent.verticalCenter
                     name: {
-                        if (root.isChecking) return "refresh"
-                        if (SystemUpdateService.hasError) return "error"
-                        if (root.hasUpdates) return "system_update_alt"
-                        return "check_circle"
+                        if (root.isChecking)
+                            return "refresh";
+                        if (SystemUpdateService.hasError)
+                            return "error";
+                        if (root.hasUpdates)
+                            return "system_update_alt";
+                        return "check_circle";
                     }
                     size: Theme.barIconSize(root.barThickness, -4)
                     color: {
-                        if (SystemUpdateService.hasError) return Theme.error
-                        if (root.hasUpdates) return Theme.primary
-                        return root.isActive ? Theme.primary : Theme.surfaceText
+                        if (SystemUpdateService.hasError)
+                            return Theme.error;
+                        if (root.hasUpdates)
+                            return Theme.primary;
+                        return root.isActive ? Theme.primary : Theme.surfaceText;
                     }
 
                     RotationAnimation {
@@ -104,7 +114,7 @@ BasePill {
 
                         onRunningChanged: {
                             if (!running) {
-                                statusIconHorizontal.rotation = 0
+                                statusIconHorizontal.rotation = 0;
                             }
                         }
                     }
@@ -128,12 +138,12 @@ BasePill {
         cursorShape: Qt.PointingHandCursor
         onPressed: {
             if (popoutTarget && popoutTarget.setTriggerPosition) {
-                const globalPos = root.visualContent.mapToGlobal(0, 0)
-                const currentScreen = parentScreen || Screen
-                const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, root.visualWidth)
-                popoutTarget.setTriggerPosition(pos.x, pos.y, pos.width, section, currentScreen)
+                const globalPos = root.visualContent.mapToItem(null, 0, 0);
+                const currentScreen = parentScreen || Screen;
+                const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barThickness, root.visualWidth);
+                popoutTarget.setTriggerPosition(pos.x, pos.y, pos.width, section, currentScreen);
             }
-            root.clicked()
+            root.clicked();
         }
     }
 }

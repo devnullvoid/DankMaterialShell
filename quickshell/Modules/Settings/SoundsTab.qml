@@ -15,6 +15,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
 
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
@@ -24,6 +25,7 @@ Item {
                 tab: "sounds"
                 tags: ["sound", "audio", "notification", "volume"]
                 title: I18n.tr("System Sounds")
+                settingKey: "systemSounds"
                 iconName: SettingsData.soundsEnabled ? "volume_up" : "volume_off"
                 visible: AudioService.soundsAvailable
 

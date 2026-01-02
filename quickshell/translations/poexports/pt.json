@@ -23,6 +23,9 @@
   "%1 printer(s)": {
     "%1 printer(s)": "%1 impressora(s)"
   },
+  "%1 variants": {
+    "%1 variants": ""
+  },
   "%1 widgets": {
     "%1 widgets": "%1 widgets"
   },
@@ -431,6 +434,9 @@
   "Battery": {
     "Battery": "Bateria"
   },
+  "Battery Charge Limit": {
+    "Battery Charge Limit": ""
+  },
   "Battery and power management": {
     "Battery and power management": ""
   },
@@ -470,6 +476,9 @@
   "Bluetooth not available": {
     "Bluetooth not available": ""
   },
+  "Blur Wallpaper Layer": {
+    "Blur Wallpaper Layer": ""
+  },
   "Blur on Overview": {
     "Blur on Overview": "Desfoque na Visão Geral"
   },
@@ -508,6 +517,9 @@
   },
   "Brightness Slider": {
     "Brightness Slider": ""
+  },
+  "Brightness Value": {
+    "Brightness Value": ""
   },
   "Brightness control not available": {
     "Brightness control not available": ""
@@ -778,6 +790,9 @@
   },
   "Confirm": {
     "Confirm": "Confirmar"
+  },
+  "Confirm Delete": {
+    "Confirm Delete": ""
   },
   "Confirm Display Changes": {
     "Confirm Display Changes": "Confirmar Alterações de Tela"
@@ -1202,6 +1217,9 @@
   "Driver": {
     "Driver": "Driver"
   },
+  "Duplicate": {
+    "Duplicate": ""
+  },
   "Duplicate Wallpaper with Blur": {
     "Duplicate Wallpaper with Blur": "Duplicar Papel de Parede com Blur"
   },
@@ -1432,6 +1450,15 @@
   },
   "Failed to move job": {
     "Failed to move job": "Falha ao mover trabalho"
+  },
+  "Failed to parse plugin_settings.json": {
+    "Failed to parse plugin_settings.json": ""
+  },
+  "Failed to parse session.json": {
+    "Failed to parse session.json": ""
+  },
+  "Failed to parse settings.json": {
+    "Failed to parse settings.json": ""
   },
   "Failed to pause printer": {
     "Failed to pause printer": "Falha ao pausar impressora"
@@ -2099,6 +2126,9 @@
   "Microphone Mute": {
     "Microphone Mute": ""
   },
+  "Microphone Volume": {
+    "Microphone Volume": ""
+  },
   "Microphone settings": {
     "Microphone settings": ""
   },
@@ -2113,6 +2143,12 @@
   },
   "Minute": {
     "Minute": "Minuto"
+  },
+  "Mirror Display": {
+    "Mirror Display": ""
+  },
+  "Modal Background": {
+    "Modal Background": ""
   },
   "Mode": {
     "Mode": "Modo"
@@ -2218,6 +2254,9 @@
   },
   "Niri Integration": {
     "Niri Integration": ""
+  },
+  "Niri Layout Overrides": {
+    "Niri Layout Overrides": ""
   },
   "Niri compositor actions (focus, move, etc.)": {
     "Niri compositor actions (focus, move, etc.)": "Ações do compositor Niri (focar, mover, etc.)"
@@ -2333,6 +2372,9 @@
   "Not connected": {
     "Not connected": "Não conectado"
   },
+  "Note: this only changes the percentage, it does not actually limit charging.": {
+    "Note: this only changes the percentage, it does not actually limit charging.": ""
+  },
   "Notepad": {
     "Notepad": "Bloco de Nota"
   },
@@ -2443,6 +2485,12 @@
   },
   "Override": {
     "Override": "Sobrescrever"
+  },
+  "Override Corner Radius": {
+    "Override Corner Radius": ""
+  },
+  "Override Gaps": {
+    "Override Gaps": ""
   },
   "Override global layout settings for this output": {
     "Override global layout settings for this output": ""
@@ -2780,6 +2828,12 @@
   "Resume": {
     "Resume": "Resumir"
   },
+  "Reverse Scrolling Direction": {
+    "Reverse Scrolling Direction": ""
+  },
+  "Reverse workspace switch direction when scrolling over the bar": {
+    "Reverse workspace switch direction when scrolling over the bar": ""
+  },
   "Revert": {
     "Revert": "Reverter"
   },
@@ -2803,6 +2857,9 @@
   },
   "Root Filesystem": {
     "Root Filesystem": ""
+  },
+  "Rounded corners for windows": {
+    "Rounded corners for windows": ""
   },
   "Run DMS Templates": {
     "Run DMS Templates": ""
@@ -2872,6 +2929,9 @@
   },
   "Scroll Wheel": {
     "Scroll Wheel": ""
+  },
+  "Scroll on widget changes media volume": {
+    "Scroll on widget changes media volume": ""
   },
   "Scroll song title": {
     "Scroll song title": "Scrollar título da música"
@@ -3098,6 +3158,9 @@
   "Show on Last Display": {
     "Show on Last Display": "Mostrar na Última Tela"
   },
+  "Show on Overlay": {
+    "Show on Overlay": ""
+  },
   "Show on Overview": {
     "Show on Overview": "Mostrar na Visão Geral"
   },
@@ -3193,6 +3256,9 @@
   },
   "Sounds": {
     "Sounds": ""
+  },
+  "Space between windows": {
+    "Space between windows": ""
   },
   "Spacer": {
     "Spacer": "Espaçador"
@@ -3551,6 +3617,12 @@
   "Use custom command for update your system": {
     "Use custom command for update your system": "Usar comando personalizado para atualizar seu sistema"
   },
+  "Use custom gaps instead of bar spacing": {
+    "Use custom gaps instead of bar spacing": ""
+  },
+  "Use custom window radius instead of theme radius": {
+    "Use custom window radius instead of theme radius": ""
+  },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "Usar leitor de impressões digitais para autenticação na tela de bloqueio (requer impressões cadastradas)"
   },
@@ -3762,6 +3834,12 @@
   },
   "Wind Speed": {
     "Wind Speed": "Velocidade do Vento"
+  },
+  "Window Corner Radius": {
+    "Window Corner Radius": ""
+  },
+  "Window Gaps": {
+    "Window Gaps": ""
   },
   "Window Gaps (px)": {
     "Window Gaps (px)": ""

@@ -27,10 +27,9 @@ PanelWindow {
         }
 
         if (controlCenterButtonRef && controlCenterLoader.item.setTriggerPosition) {
-            const globalPos = controlCenterButtonRef.mapToGlobal(0, 0);
-            // Calculate barPosition from axis.edge
+            const screenPos = controlCenterButtonRef.mapToItem(null, 0, 0);
             const barPosition = axis?.edge === "left" ? 2 : (axis?.edge === "right" ? 3 : (axis?.edge === "top" ? 0 : 1));
-            const pos = SettingsData.getPopupTriggerPosition(globalPos, barWindow.screen, barWindow.effectiveBarThickness, controlCenterButtonRef.width, barConfig?.spacing ?? 4, barPosition, barConfig);
+            const pos = SettingsData.getPopupTriggerPosition(screenPos, barWindow.screen, barWindow.effectiveBarThickness, controlCenterButtonRef.width, barConfig?.spacing ?? 4, barPosition, barConfig);
             const section = controlCenterButtonRef.section || "right";
             controlCenterLoader.item.setTriggerPosition(pos.x, pos.y, pos.width, section, barWindow.screen, barPosition, barWindow.effectiveBarThickness, barConfig?.spacing ?? 4, barConfig);
         } else {
@@ -54,29 +53,24 @@ PanelWindow {
             const barPosition = axis?.edge === "left" ? 2 : (axis?.edge === "right" ? 3 : (axis?.edge === "top" ? 0 : 1));
             const section = clockButtonRef.section || "center";
 
-            // For center section widgets, use center section bounds for DankDash centering
             let triggerPos, triggerWidth;
             if (section === "center") {
                 const centerSection = barWindow.isVertical ? (barWindow.axis?.edge === "left" ? topBarContent.vCenterSection : topBarContent.vCenterSection) : topBarContent.hCenterSection;
                 if (centerSection) {
-                    // For vertical bars, use center Y of section; for horizontal, use left edge
                     if (barWindow.isVertical) {
                         const centerY = centerSection.height / 2;
-                        const centerGlobalPos = centerSection.mapToGlobal(0, centerY);
-                        triggerPos = centerGlobalPos;
+                        triggerPos = centerSection.mapToItem(null, 0, centerY);
                         triggerWidth = centerSection.height;
                     } else {
-                        // For horizontal bars, use left edge (DankPopout will center it)
-                        const centerGlobalPos = centerSection.mapToGlobal(0, 0);
-                        triggerPos = centerGlobalPos;
+                        triggerPos = centerSection.mapToItem(null, 0, 0);
                         triggerWidth = centerSection.width;
                     }
                 } else {
-                    triggerPos = clockButtonRef.visualContent.mapToGlobal(0, 0);
+                    triggerPos = clockButtonRef.visualContent.mapToItem(null, 0, 0);
                     triggerWidth = clockButtonRef.visualWidth;
                 }
             } else {
-                triggerPos = clockButtonRef.visualContent.mapToGlobal(0, 0);
+                triggerPos = clockButtonRef.visualContent.mapToItem(null, 0, 0);
                 triggerWidth = clockButtonRef.visualWidth;
             }
 
@@ -102,12 +96,7 @@ PanelWindow {
         }
     }
 
-    WlrLayershell.layer: {
-        if ((barConfig?.autoHide ?? false) && topBarCore.reveal) {
-            return WlrLayer.Overlay;
-        }
-        return dBarLayer;
-    }
+    WlrLayershell.layer: dBarLayer
     WlrLayershell.namespace: "dms:bar"
 
     signal colorPickerRequested
@@ -535,8 +524,11 @@ PanelWindow {
         }
 
         property bool reveal: {
-            const showOnWindowsSetting = barConfig?.showOnWindowsOpen ?? false;
+            const inOverviewWithShow = CompositorService.isNiri && NiriService.inOverview && (barConfig?.openOnOverview ?? false);
+            if (inOverviewWithShow)
+                return true;
 
+            const showOnWindowsSetting = barConfig?.showOnWindowsOpen ?? false;
             if (showOnWindowsSetting && autoHide && (CompositorService.isNiri || CompositorService.isHyprland)) {
                 if (barWindow.shouldHideForWindows)
                     return topBarMouseArea.containsMouse || hasActivePopout || revealSticky;
@@ -544,7 +536,7 @@ PanelWindow {
             }
 
             if (CompositorService.isNiri && NiriService.inOverview)
-                return (barConfig?.openOnOverview ?? false) || topBarMouseArea.containsMouse || hasActivePopout || revealSticky;
+                return topBarMouseArea.containsMouse || hasActivePopout || revealSticky;
 
             return (barConfig?.visible ?? true) && (!autoHide || topBarMouseArea.containsMouse || hasActivePopout || revealSticky);
         }
@@ -677,9 +669,10 @@ PanelWindow {
                         propagateComposedEvents: true
                         z: -1
 
-                        property real scrollAccumulatorY: 0
-                        property real scrollAccumulatorX: 0
-                        property real touchpadThreshold: 500
+                        property real touchpadAccumulatorY: 0
+                        property real touchpadAccumulatorX: 0
+                        property real mouseAccumulatorY: 0
+                        property real mouseAccumulatorX: 0
                         property bool actionInProgress: false
 
                         Timer {
@@ -707,39 +700,39 @@ PanelWindow {
                         }
 
                         onWheel: wheel => {
-                            if (!(barConfig?.scrollEnabled ?? true)) {
-                                wheel.accepted = false;
-                                return;
-                            }
-
-                            if (actionInProgress) {
+                            if (!(barConfig?.scrollEnabled ?? true) || actionInProgress) {
                                 wheel.accepted = false;
                                 return;
                             }
 
                             const deltaY = wheel.angleDelta.y;
                             const deltaX = wheel.angleDelta.x;
+                            const isTouchpadY = wheel.pixelDelta && wheel.pixelDelta.y !== 0;
+                            const isTouchpadX = wheel.pixelDelta && wheel.pixelDelta.x !== 0;
                             const xBehavior = barConfig?.scrollXBehavior ?? "column";
                             const yBehavior = barConfig?.scrollYBehavior ?? "workspace";
+                            const reverse = SettingsData.reverseScrolling ? -1 : 1;
 
                             if (CompositorService.isNiri && xBehavior !== "none" && Math.abs(deltaX) > Math.abs(deltaY)) {
-                                const isMouseWheel = Math.abs(deltaX) >= 120 && (Math.abs(deltaX) % 120) === 0;
-                                const direction = deltaX < 0 ? 1 : -1;
-
-                                if (isMouseWheel) {
-                                    if (handleScrollAction(xBehavior, direction)) {
-                                        actionInProgress = true;
-                                        cooldownTimer.restart();
-                                    }
-                                } else {
-                                    scrollAccumulatorX += deltaX;
-                                    if (Math.abs(scrollAccumulatorX) >= touchpadThreshold) {
-                                        const touchDirection = scrollAccumulatorX < 0 ? 1 : -1;
-                                        if (handleScrollAction(xBehavior, touchDirection)) {
+                                if (isTouchpadX) {
+                                    touchpadAccumulatorX += deltaX;
+                                    if (Math.abs(touchpadAccumulatorX) >= 500) {
+                                        const direction = touchpadAccumulatorX * reverse < 0 ? 1 : -1;
+                                        if (handleScrollAction(xBehavior, direction)) {
                                             actionInProgress = true;
                                             cooldownTimer.restart();
                                         }
-                                        scrollAccumulatorX = 0;
+                                        touchpadAccumulatorX = 0;
+                                    }
+                                } else {
+                                    mouseAccumulatorX += deltaX;
+                                    if (Math.abs(mouseAccumulatorX) >= 120) {
+                                        const direction = mouseAccumulatorX * reverse < 0 ? 1 : -1;
+                                        if (handleScrollAction(xBehavior, direction)) {
+                                            actionInProgress = true;
+                                            cooldownTimer.restart();
+                                        }
+                                        mouseAccumulatorX = 0;
                                     }
                                 }
                                 wheel.accepted = false;
@@ -751,23 +744,25 @@ PanelWindow {
                                 return;
                             }
 
-                            const isMouseWheel = Math.abs(deltaY) >= 120 && (Math.abs(deltaY) % 120) === 0;
-                            const direction = deltaY < 0 ? 1 : -1;
-
-                            if (isMouseWheel) {
-                                if (handleScrollAction(yBehavior, direction)) {
-                                    actionInProgress = true;
-                                    cooldownTimer.restart();
-                                }
-                            } else {
-                                scrollAccumulatorY += deltaY;
-                                if (Math.abs(scrollAccumulatorY) >= touchpadThreshold) {
-                                    const touchDirection = scrollAccumulatorY < 0 ? 1 : -1;
-                                    if (handleScrollAction(yBehavior, touchDirection)) {
+                            if (isTouchpadY) {
+                                touchpadAccumulatorY += deltaY;
+                                if (Math.abs(touchpadAccumulatorY) >= 500) {
+                                    const direction = touchpadAccumulatorY * reverse < 0 ? 1 : -1;
+                                    if (handleScrollAction(yBehavior, direction)) {
                                         actionInProgress = true;
                                         cooldownTimer.restart();
                                     }
-                                    scrollAccumulatorY = 0;
+                                    touchpadAccumulatorY = 0;
+                                }
+                            } else {
+                                mouseAccumulatorY += deltaY;
+                                if (Math.abs(mouseAccumulatorY) >= 120) {
+                                    const direction = mouseAccumulatorY * reverse < 0 ? 1 : -1;
+                                    if (handleScrollAction(yBehavior, direction)) {
+                                        actionInProgress = true;
+                                        cooldownTimer.restart();
+                                    }
+                                    mouseAccumulatorY = 0;
                                 }
                             }
 

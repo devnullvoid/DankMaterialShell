@@ -57,8 +57,6 @@ DankPopout {
         const contentHeight = contentLoader.item && contentLoader.item.implicitHeight > 0 ? contentLoader.item.implicitHeight + 20 : 400;
         return Math.min(maxHeight, contentHeight);
     }
-    triggerX: 0
-    triggerY: 0
     triggerWidth: 80
     positioning: ""
     screen: triggerScreen

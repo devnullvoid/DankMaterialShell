@@ -35,6 +35,11 @@ Singleton {
             const identifier = getOutputIdentifier(output, outputName);
             const outputSettings = settings[identifier] || {};
 
+            if (outputSettings.disabled) {
+                lines.push("monitor = " + identifier + ", disable");
+                continue;
+            }
+
             let resolution = "preferred";
             if (output.modes && output.current_mode !== undefined) {
                 const mode = output.modes[output.current_mode];
@@ -56,6 +61,9 @@ Singleton {
             if (output.vrr_supported && output.vrr_enabled)
                 monitorLine += ", vrr, 1";
 
+            if (output.mirror && output.mirror.length > 0)
+                monitorLine += ", mirror, " + output.mirror;
+
             if (outputSettings.bitdepth && outputSettings.bitdepth !== 8)
                 monitorLine += ", bitdepth, " + outputSettings.bitdepth;
 
@@ -70,10 +78,7 @@ Singleton {
 
             lines.push(monitorLine);
 
-            const needsMonitorv2 = outputSettings.supportsHdr || outputSettings.supportsWideColor ||
-                outputSettings.sdrMinLuminance !== undefined || outputSettings.sdrMaxLuminance !== undefined ||
-                outputSettings.minLuminance !== undefined || outputSettings.maxLuminance !== undefined ||
-                outputSettings.maxAvgLuminance !== undefined;
+            const needsMonitorv2 = outputSettings.supportsHdr || outputSettings.supportsWideColor || outputSettings.sdrMinLuminance !== undefined || outputSettings.sdrMaxLuminance !== undefined || outputSettings.minLuminance !== undefined || outputSettings.maxLuminance !== undefined || outputSettings.maxAvgLuminance !== undefined;
 
             if (needsMonitorv2) {
                 let block = "monitorv2 {\n";

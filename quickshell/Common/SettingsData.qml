@@ -14,7 +14,7 @@ import "settings/SettingsStore.js" as Store
 Singleton {
     id: root
 
-    readonly property int settingsConfigVersion: 4
+    readonly property int settingsConfigVersion: 5
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 
@@ -57,8 +57,12 @@ Singleton {
 
     property bool _loading: false
     property bool _pluginSettingsLoading: false
-    property bool hasTriedDefaultSettings: false
-    property bool _restoringFromBackup: false
+    property bool _parseError: false
+    property bool _pluginParseError: false
+    property bool _hasLoaded: false
+    property bool _isReadOnly: false
+    property bool _hasUnsavedChanges: false
+    property var _loadedSettingsSnapshot: null
     property var pluginSettings: ({})
 
     property alias dankBarLeftWidgetsModel: leftWidgetsModel
@@ -68,6 +72,7 @@ Singleton {
     property string currentThemeName: "blue"
     property string currentThemeCategory: "generic"
     property string customThemeFile: ""
+    property var registryThemeVariants: ({})
     property string matugenScheme: "scheme-tonal-spot"
     property bool runUserMatugenTemplates: true
     property string matugenTargetMonitor: ""
@@ -111,9 +116,12 @@ Singleton {
     property bool controlCenterShowNetworkIcon: true
     property bool controlCenterShowBluetoothIcon: true
     property bool controlCenterShowAudioIcon: true
+    property bool controlCenterShowAudioPercent: false
     property bool controlCenterShowVpnIcon: true
     property bool controlCenterShowBrightnessIcon: false
+    property bool controlCenterShowBrightnessPercent: false
     property bool controlCenterShowMicIcon: false
+    property bool controlCenterShowMicPercent: true
     property bool controlCenterShowBatteryIcon: false
     property bool controlCenterShowPrinterIcon: false
     property bool showPrivacyButton: true
@@ -171,11 +179,13 @@ Singleton {
     property int maxWorkspaceIcons: 3
     property bool workspacesPerMonitor: true
     property bool showOccupiedWorkspacesOnly: false
+    property bool reverseScrolling: false
     property bool dwlShowAllTags: false
     property var workspaceNameIcons: ({})
     property bool waveProgressEnabled: true
     property bool scrollTitleEnabled: true
     property bool audioVisualizerEnabled: true
+    property bool audioScrollEnabled: true
     property bool clockCompactMode: false
     property bool focusedWindowCompactMode: false
     property bool runningAppsCompactMode: true
@@ -197,8 +207,10 @@ Singleton {
     property bool spotlightCloseNiriOverview: true
     property bool niriOverviewOverlayEnabled: true
 
-    property string weatherLocation: "New York, NY"
-    property string weatherCoordinates: "40.7128,-74.0060"
+    property string _legacyWeatherLocation: "New York, NY"
+    property string _legacyWeatherCoordinates: "40.7128,-74.0060"
+    readonly property string weatherLocation: SessionData.weatherLocation
+    readonly property string weatherCoordinates: SessionData.weatherCoordinates
     property bool useAutoLocation: false
     property bool weatherEnabled: true
 
@@ -297,6 +309,7 @@ Singleton {
     property int batterySuspendTimeout: 0
     property int batterySuspendBehavior: SettingsData.SuspendBehavior.Suspend
     property string batteryProfileName: ""
+    property int batteryChargeLimit: 100
     property bool lockBeforeSuspend: false
     property bool loginctlLockIntegration: true
     property bool fadeToLockEnabled: false
@@ -320,6 +333,7 @@ Singleton {
     property bool matugenTemplateQt6ct: true
     property bool matugenTemplateFirefox: true
     property bool matugenTemplatePywalfox: true
+    property bool matugenTemplateZenBrowser: true
     property bool matugenTemplateVesktop: true
     property bool matugenTemplateEquibop: true
     property bool matugenTemplateGhostty: true
@@ -611,7 +625,8 @@ Singleton {
     function updateDesktopWidgetInstance(instanceId, updates) {
         const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
         const idx = instances.findIndex(inst => inst.id === instanceId);
-        if (idx === -1) return;
+        if (idx === -1)
+            return;
         Object.assign(instances[idx], updates);
         desktopWidgetInstances = instances;
         saveSettings();
@@ -620,7 +635,8 @@ Singleton {
     function updateDesktopWidgetInstanceConfig(instanceId, configUpdates) {
         const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
         const idx = instances.findIndex(inst => inst.id === instanceId);
-        if (idx === -1) return;
+        if (idx === -1)
+            return;
         instances[idx].config = Object.assign({}, instances[idx].config || {}, configUpdates);
         desktopWidgetInstances = instances;
         saveSettings();
@@ -629,13 +645,11 @@ Singleton {
     function updateDesktopWidgetInstancePosition(instanceId, screenKey, positionUpdates) {
         const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
         const idx = instances.findIndex(inst => inst.id === instanceId);
-        if (idx === -1) return;
-        if (!instances[idx].positions) instances[idx].positions = {};
-        instances[idx].positions[screenKey] = Object.assign(
-            {},
-            instances[idx].positions[screenKey] || {},
-            positionUpdates
-        );
+        if (idx === -1)
+            return;
+        if (!instances[idx].positions)
+            instances[idx].positions = {};
+        instances[idx].positions[screenKey] = Object.assign({}, instances[idx].positions[screenKey] || {}, positionUpdates);
         desktopWidgetInstances = instances;
         saveSettings();
     }
@@ -644,6 +658,26 @@ Singleton {
         const instances = (desktopWidgetInstances || []).filter(inst => inst.id !== instanceId);
         desktopWidgetInstances = instances;
         saveSettings();
+    }
+
+    function duplicateDesktopWidgetInstance(instanceId) {
+        const source = getDesktopWidgetInstance(instanceId);
+        if (!source)
+            return null;
+        const newId = "dw_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+        const instance = {
+            id: newId,
+            widgetType: source.widgetType,
+            name: source.name + " (Copy)",
+            enabled: source.enabled,
+            config: JSON.parse(JSON.stringify(source.config || {})),
+            positions: {}
+        };
+        const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
+        instances.push(instance);
+        desktopWidgetInstances = instances;
+        saveSettings();
+        return instance;
     }
 
     function getDesktopWidgetInstance(instanceId) {
@@ -783,6 +817,10 @@ Singleton {
 
     function loadSettings() {
         _loading = true;
+        _parseError = false;
+        _hasUnsavedChanges = false;
+        _pendingMigration = null;
+
         try {
             const txt = settingsFile.text();
             let obj = (txt && txt.trim()) ? JSON.parse(txt) : null;
@@ -791,23 +829,63 @@ Singleton {
             if (oldVersion < settingsConfigVersion) {
                 const migrated = Store.migrateToVersion(obj, settingsConfigVersion);
                 if (migrated) {
-                    settingsFile.setText(JSON.stringify(migrated, null, 2));
+                    _pendingMigration = migrated;
                     obj = migrated;
                 }
             }
 
             Store.parse(root, obj);
+
+            if (obj.weatherLocation !== undefined)
+                _legacyWeatherLocation = obj.weatherLocation;
+            if (obj.weatherCoordinates !== undefined)
+                _legacyWeatherCoordinates = obj.weatherCoordinates;
+
+            _loadedSettingsSnapshot = JSON.stringify(Store.toJson(root));
+            _hasLoaded = true;
             applyStoredTheme();
             applyStoredIconTheme();
             Processes.detectQtTools();
+
+            _checkSettingsWritable();
         } catch (e) {
-            console.warn("SettingsData: Failed to load settings:", e.message);
+            _parseError = true;
+            const msg = e.message;
+            console.error("SettingsData: Failed to parse settings.json - file will not be overwritten. Error:", msg);
+            Qt.callLater(() => ToastService.showError(I18n.tr("Failed to parse settings.json"), msg));
             applyStoredTheme();
             applyStoredIconTheme();
         } finally {
             _loading = false;
         }
         loadPluginSettings();
+    }
+
+    property var _pendingMigration: null
+
+    function _checkSettingsWritable() {
+        settingsWritableCheckProcess.running = true;
+    }
+
+    function _onWritableCheckComplete(writable) {
+        _isReadOnly = !writable;
+        if (_isReadOnly) {
+            console.info("SettingsData: settings.json is read-only (NixOS home-manager mode)");
+        } else if (_pendingMigration) {
+            settingsFile.setText(JSON.stringify(_pendingMigration, null, 2));
+        }
+        _pendingMigration = null;
+    }
+
+    function _checkForUnsavedChanges() {
+        if (!_hasLoaded || !_loadedSettingsSnapshot)
+            return false;
+        const current = JSON.stringify(Store.toJson(root));
+        return current !== _loadedSettingsSnapshot;
+    }
+
+    function getCurrentSettingsJson() {
+        return JSON.stringify(Store.toJson(root), null, 2);
     }
 
     function loadPluginSettings() {
@@ -818,6 +896,7 @@ Singleton {
 
     function parsePluginSettings(content) {
         _pluginSettingsLoading = true;
+        _pluginParseError = false;
         try {
             if (content && content.trim()) {
                 pluginSettings = JSON.parse(content);
@@ -825,7 +904,10 @@ Singleton {
                 pluginSettings = {};
             }
         } catch (e) {
-            console.warn("SettingsData: Failed to parse plugin settings:", e.message);
+            _pluginParseError = true;
+            const msg = e.message;
+            console.error("SettingsData: Failed to parse plugin_settings.json - file will not be overwritten. Error:", msg);
+            Qt.callLater(() => ToastService.showError(I18n.tr("Failed to parse plugin_settings.json"), msg));
             pluginSettings = {};
         } finally {
             _pluginSettingsLoading = false;
@@ -833,29 +915,17 @@ Singleton {
     }
 
     function saveSettings() {
-        if (_loading)
+        if (_loading || _parseError || !_hasLoaded)
             return;
-        const payload = JSON.stringify(Store.toJson(root), null, 2);
-        settingsFile.setText(payload);
-        if (!isGreeterMode && settingsBackupFile.path) {
-            settingsBackupFile.setText(payload);
+        if (_isReadOnly) {
+            _hasUnsavedChanges = _checkForUnsavedChanges();
+            return;
         }
-    }
-
-    function restoreSettingsFromBackup() {
-        if (_restoringFromBackup || isGreeterMode)
-            return false;
-        const backupText = settingsBackupFile.text();
-        if (!backupText || !backupText.trim())
-            return false;
-        _restoringFromBackup = true;
-        settingsFile.setText(backupText);
-        _restoringFromBackup = false;
-        return true;
+        settingsFile.setText(JSON.stringify(Store.toJson(root), null, 2));
     }
 
     function savePluginSettings() {
-        if (_pluginSettingsLoading)
+        if (_pluginSettingsLoading || _pluginParseError)
             return;
         pluginSettingsFile.setText(JSON.stringify(pluginSettings, null, 2));
     }
@@ -960,15 +1030,14 @@ Singleton {
         return barHeight + spacing + bottomGap - gothOffset + Theme.popupDistance;
     }
 
-    function getPopupTriggerPosition(globalPos, screen, barThickness, widgetWidth, barSpacing, barPosition, barConfig) {
-        const screenX = screen ? screen.x : 0;
-        const screenY = screen ? screen.y : 0;
-        const relativeX = globalPos.x - screenX;
-        const relativeY = globalPos.y - screenY;
+    function getPopupTriggerPosition(pos, screen, barThickness, widgetWidth, barSpacing, barPosition, barConfig) {
+        const relativeX = pos.x;
+        const relativeY = pos.y;
         const defaultBar = barConfigs[0] || getBarConfig("default");
         const spacing = barSpacing !== undefined ? barSpacing : (defaultBar?.spacing ?? 4);
         const position = barPosition !== undefined ? barPosition : (defaultBar?.position ?? SettingsData.Position.Top);
-        const bottomGap = barConfig ? (barConfig.bottomGap !== undefined ? barConfig.bottomGap : (defaultBar?.bottomGap ?? 0)) : (defaultBar?.bottomGap ?? 0);
+        const rawBottomGap = barConfig ? (barConfig.bottomGap !== undefined ? barConfig.bottomGap : (defaultBar?.bottomGap ?? 0)) : (defaultBar?.bottomGap ?? 0);
+        const bottomGap = Math.max(0, rawBottomGap);
 
         const useAutoGaps = (barConfig && barConfig.popupGapsAuto !== undefined) ? barConfig.popupGapsAuto : (defaultBar?.popupGapsAuto ?? true);
         const manualGapValue = (barConfig && barConfig.popupGapsManual !== undefined) ? barConfig.popupGapsManual : (defaultBar?.popupGapsManual ?? 4);
@@ -1416,9 +1485,7 @@ Singleton {
     }
 
     function setWeatherLocation(displayName, coordinates) {
-        weatherLocation = displayName;
-        weatherCoordinates = coordinates;
-        saveSettings();
+        SessionData.setWeatherLocation(displayName, coordinates);
     }
 
     function setIconTheme(themeName) {
@@ -1609,6 +1676,41 @@ Singleton {
         return workspaceNameIcons[workspaceName] || null;
     }
 
+    function getRegistryThemeVariant(themeId, defaultVariant) {
+        var stored = registryThemeVariants[themeId];
+        if (typeof stored === "string")
+            return stored || defaultVariant || "";
+        return defaultVariant || "";
+    }
+
+    function setRegistryThemeVariant(themeId, variantId) {
+        var variants = JSON.parse(JSON.stringify(registryThemeVariants));
+        variants[themeId] = variantId;
+        registryThemeVariants = variants;
+        saveSettings();
+        if (typeof Theme !== "undefined")
+            Theme.reloadCustomThemeVariant();
+    }
+
+    function getRegistryThemeMultiVariant(themeId, defaults) {
+        var stored = registryThemeVariants[themeId];
+        if (stored && typeof stored === "object")
+            return stored;
+        return defaults || {};
+    }
+
+    function setRegistryThemeMultiVariant(themeId, flavor, accent) {
+        var variants = JSON.parse(JSON.stringify(registryThemeVariants));
+        variants[themeId] = {
+            flavor: flavor,
+            accent: accent
+        };
+        registryThemeVariants = variants;
+        saveSettings();
+        if (typeof Theme !== "undefined")
+            Theme.reloadCustomThemeVariant();
+    }
+
     function toggleDankBarVisible() {
         const defaultBar = barConfigs[0] || getBarConfig("default");
         if (defaultBar) {
@@ -1778,29 +1880,40 @@ Singleton {
         atomicWrites: true
         watchChanges: !isGreeterMode
         onLoaded: {
-            if (!isGreeterMode) {
-                try {
-                    const txt = settingsFile.text();
-                    const obj = (txt && txt.trim()) ? JSON.parse(txt) : null;
-                    Store.parse(root, obj);
-                    applyStoredTheme();
-                    applyStoredIconTheme();
-                } catch (e) {
-                    console.warn("SettingsData: Failed to reload settings:", e.message);
+            if (isGreeterMode)
+                return;
+            _loading = true;
+            _hasUnsavedChanges = false;
+            try {
+                const txt = settingsFile.text();
+                if (!txt || !txt.trim()) {
+                    _parseError = true;
+                    return;
                 }
-                hasTriedDefaultSettings = false;
+                const obj = JSON.parse(txt);
+                _parseError = false;
+                Store.parse(root, obj);
+
+                if (obj.weatherLocation !== undefined)
+                    _legacyWeatherLocation = obj.weatherLocation;
+                if (obj.weatherCoordinates !== undefined)
+                    _legacyWeatherCoordinates = obj.weatherCoordinates;
+
+                _loadedSettingsSnapshot = JSON.stringify(Store.toJson(root));
+                _hasLoaded = true;
+                applyStoredTheme();
+                applyStoredIconTheme();
+            } catch (e) {
+                _parseError = true;
+                const msg = e.message;
+                console.error("SettingsData: Failed to reload settings.json - file will not be overwritten. Error:", msg);
+                Qt.callLater(() => ToastService.showError(I18n.tr("Failed to parse settings.json"), msg));
+            } finally {
+                _loading = false;
             }
         }
         onLoadFailed: error => {
-            if (!isGreeterMode && !hasTriedDefaultSettings) {
-                if (restoreSettingsFromBackup()) {
-                    hasTriedDefaultSettings = true;
-                    settingsFile.reload();
-                    return;
-                }
-                hasTriedDefaultSettings = true;
-                Processes.checkDefaultSettings();
-            } else if (!isGreeterMode) {
+            if (!isGreeterMode) {
                 applyStoredTheme();
             }
         }
@@ -1837,4 +1950,20 @@ Singleton {
     }
 
     property bool pluginSettingsFileExists: false
+
+    Process {
+        id: settingsWritableCheckProcess
+
+        property string settingsPath: Paths.strip(settingsFile.path)
+
+        command: ["sh", "-c", "[ -w \"" + settingsPath + "\" ] && echo 'writable' || echo 'readonly'"]
+        running: false
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const result = text.trim();
+                root._onWritableCheckComplete(result === "writable");
+            }
+        }
+    }
 }

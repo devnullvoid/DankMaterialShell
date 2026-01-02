@@ -14,6 +14,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -22,6 +23,7 @@ Item {
                 width: parent.width
                 iconName: "apps"
                 title: I18n.tr("Running Apps Settings")
+                settingKey: "runningApps"
 
                 SettingsToggleRow {
                     text: I18n.tr("Running Apps Only In Current Workspace")

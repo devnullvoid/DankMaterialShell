@@ -16,6 +16,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -24,38 +25,51 @@ Item {
                 width: parent.width
                 iconName: "lock"
                 title: I18n.tr("Lock Screen layout")
+                settingKey: "lockLayout"
 
                 SettingsToggleRow {
+                    settingKey: "lockScreenShowPowerActions"
+                    tags: ["lock", "screen", "power", "actions", "shutdown", "reboot"]
                     text: I18n.tr("Show Power Actions", "Enable power action icon on the lock screen window")
                     checked: SettingsData.lockScreenShowPowerActions
                     onToggled: checked => SettingsData.set("lockScreenShowPowerActions", checked)
                 }
 
                 SettingsToggleRow {
+                    settingKey: "lockScreenShowSystemIcons"
+                    tags: ["lock", "screen", "system", "icons", "status"]
                     text: I18n.tr("Show System Icons", "Enable system status icons on the lock screen window")
                     checked: SettingsData.lockScreenShowSystemIcons
                     onToggled: checked => SettingsData.set("lockScreenShowSystemIcons", checked)
                 }
 
                 SettingsToggleRow {
+                    settingKey: "lockScreenShowTime"
+                    tags: ["lock", "screen", "time", "clock", "display"]
                     text: I18n.tr("Show System Time", "Enable system time display on the lock screen window")
                     checked: SettingsData.lockScreenShowTime
                     onToggled: checked => SettingsData.set("lockScreenShowTime", checked)
                 }
 
                 SettingsToggleRow {
+                    settingKey: "lockScreenShowDate"
+                    tags: ["lock", "screen", "date", "calendar", "display"]
                     text: I18n.tr("Show System Date", "Enable system date display on the lock screen window")
                     checked: SettingsData.lockScreenShowDate
                     onToggled: checked => SettingsData.set("lockScreenShowDate", checked)
                 }
 
                 SettingsToggleRow {
+                    settingKey: "lockScreenShowProfileImage"
+                    tags: ["lock", "screen", "profile", "image", "avatar", "picture"]
                     text: I18n.tr("Show Profile Image", "Enable profile image display on the lock screen window")
                     checked: SettingsData.lockScreenShowProfileImage
                     onToggled: checked => SettingsData.set("lockScreenShowProfileImage", checked)
                 }
 
                 SettingsToggleRow {
+                    settingKey: "lockScreenShowPasswordField"
+                    tags: ["lock", "screen", "password", "field", "input", "visible"]
                     text: I18n.tr("Show Password Field", "Enable password field display on the lock screen window")
                     description: I18n.tr("If the field is hidden, it will appear as soon as a key is pressed.")
                     checked: SettingsData.lockScreenShowPasswordField
@@ -67,6 +81,7 @@ Item {
                 width: parent.width
                 iconName: "lock"
                 title: I18n.tr("Lock Screen behaviour")
+                settingKey: "lockBehavior"
 
                 StyledText {
                     text: I18n.tr("loginctl not available - lock integration requires DMS socket connection")
@@ -78,6 +93,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "loginctlLockIntegration"
+                    tags: ["lock", "screen", "loginctl", "dbus", "integration", "external"]
                     text: I18n.tr("Enable loginctl lock integration")
                     description: I18n.tr("Bind lock screen to dbus signals from loginctl. Disable if using an external lock screen")
                     checked: SessionService.loginctlAvailable && SettingsData.loginctlLockIntegration
@@ -90,6 +107,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "lockBeforeSuspend"
+                    tags: ["lock", "screen", "suspend", "sleep", "automatic"]
                     text: I18n.tr("Lock before suspend")
                     description: I18n.tr("Automatically lock the screen when the system prepares to suspend")
                     checked: SettingsData.lockBeforeSuspend
@@ -98,6 +117,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "enableFprint"
+                    tags: ["lock", "screen", "fingerprint", "authentication", "biometric", "fprint"]
                     text: I18n.tr("Enable fingerprint authentication")
                     description: I18n.tr("Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)")
                     checked: SettingsData.enableFprint
@@ -110,6 +131,7 @@ Item {
                 width: parent.width
                 iconName: "monitor"
                 title: I18n.tr("Lock Screen Display")
+                settingKey: "lockDisplay"
                 visible: Quickshell.screens.length > 1
 
                 StyledText {
@@ -122,6 +144,8 @@ Item {
 
                 SettingsDropdownRow {
                     id: lockScreenMonitorDropdown
+                    settingKey: "lockScreenActiveMonitor"
+                    tags: ["lock", "screen", "monitor", "display", "active"]
                     text: I18n.tr("Active Lock Screen Monitor")
                     options: {
                         var opts = [I18n.tr("All Monitors")];

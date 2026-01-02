@@ -63,6 +63,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -71,6 +72,7 @@ Item {
                 tab: "typography"
                 tags: ["font", "family", "text", "typography"]
                 title: I18n.tr("Typography")
+                settingKey: "typography"
                 iconName: "text_fields"
 
                 SettingsDropdownRow {
@@ -206,6 +208,7 @@ Item {
                 tab: "typography"
                 tags: ["animation", "speed", "motion", "duration"]
                 title: I18n.tr("Animation Speed")
+                settingKey: "animationSpeed"
                 iconName: "animation"
 
                 Item {

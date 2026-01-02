@@ -348,10 +348,9 @@ Item {
                         radius: Theme.cornerRadius
                         color: {
                             if (isFocused) {
-                                return mouseArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3) : Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2);
-                            } else {
-                                return mouseArea.containsMouse ? Qt.rgba(Theme.primaryHover.r, Theme.primaryHover.g, Theme.primaryHover.b, 0.1) : "transparent";
+                                return mouseArea.containsMouse ? Theme.primarySelected : Theme.withAlpha(Theme.primary, 0.2);
                             }
+                            return mouseArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent";
                         }
 
                         // App icon
@@ -598,10 +597,9 @@ Item {
                         radius: Theme.cornerRadius
                         color: {
                             if (isFocused) {
-                                return mouseArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.3) : Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.2);
-                            } else {
-                                return mouseArea.containsMouse ? Qt.rgba(Theme.primaryHover.r, Theme.primaryHover.g, Theme.primaryHover.b, 0.1) : "transparent";
+                                return mouseArea.containsMouse ? Theme.primarySelected : Theme.withAlpha(Theme.primary, 0.2);
                             }
+                            return mouseArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent";
                         }
 
                         IconImage {
@@ -912,7 +910,7 @@ Item {
                 Rectangle {
                     anchors.fill: parent
                     radius: parent.radius
-                    color: closeMouseArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.08) : "transparent"
+                    color: closeMouseArea.containsMouse ? Theme.widgetBaseHoverColor : "transparent"
                 }
 
                 StyledText {

@@ -16,11 +16,18 @@ BasePill {
     property bool showNetworkIcon: widgetData?.showNetworkIcon !== undefined ? widgetData.showNetworkIcon : SettingsData.controlCenterShowNetworkIcon
     property bool showBluetoothIcon: widgetData?.showBluetoothIcon !== undefined ? widgetData.showBluetoothIcon : SettingsData.controlCenterShowBluetoothIcon
     property bool showAudioIcon: widgetData?.showAudioIcon !== undefined ? widgetData.showAudioIcon : SettingsData.controlCenterShowAudioIcon
+    property bool showAudioPercent: widgetData?.showAudioPercent !== undefined ? widgetData.showAudioPercent : SettingsData.controlCenterShowAudioPercent
     property bool showVpnIcon: widgetData?.showVpnIcon !== undefined ? widgetData.showVpnIcon : SettingsData.controlCenterShowVpnIcon
     property bool showBrightnessIcon: widgetData?.showBrightnessIcon !== undefined ? widgetData.showBrightnessIcon : SettingsData.controlCenterShowBrightnessIcon
+    property bool showBrightnessPercent: widgetData?.showBrightnessPercent !== undefined ? widgetData.showBrightnessPercent : SettingsData.controlCenterShowBrightnessPercent
     property bool showMicIcon: widgetData?.showMicIcon !== undefined ? widgetData.showMicIcon : SettingsData.controlCenterShowMicIcon
+    property bool showMicPercent: widgetData?.showMicPercent !== undefined ? widgetData.showMicPercent : SettingsData.controlCenterShowMicPercent
     property bool showBatteryIcon: widgetData?.showBatteryIcon !== undefined ? widgetData.showBatteryIcon : SettingsData.controlCenterShowBatteryIcon
     property bool showPrinterIcon: widgetData?.showPrinterIcon !== undefined ? widgetData.showPrinterIcon : SettingsData.controlCenterShowPrinterIcon
+    property real touchpadThreshold: 100
+    property real micAccumulator: 0
+    property real volumeAccumulator: 0
+    property real brightnessAccumulator: 0
 
     Loader {
         active: root.showPrinterIcon
@@ -53,8 +60,10 @@ BasePill {
     function getVolumeIconName() {
         if (!AudioService.sink?.audio)
             return "volume_up";
-        if (AudioService.sink.audio.muted || AudioService.sink.audio.volume === 0)
+        if (AudioService.sink.audio.muted)
             return "volume_off";
+        if (AudioService.sink.audio.volume === 0)
+            return "volume_mute";
         if (AudioService.sink.audio.volume * 100 < 33)
             return "volume_down";
         return "volume_up";
@@ -116,8 +125,21 @@ BasePill {
     function handleVolumeWheel(delta) {
         if (!AudioService.sink?.audio)
             return;
+
+        var step = 5;
+        const isMouseWheel = Math.abs(delta) >= 120 && (Math.abs(delta) % 120) === 0;
+        if (!isMouseWheel) {
+            step = 1;
+            volumeAccumulator += delta;
+            if (Math.abs(volumeAccumulator) < touchpadThreshold)
+                return;
+
+            delta = volumeAccumulator;
+            volumeAccumulator = 0;
+        }
+
         const currentVolume = AudioService.sink.audio.volume * 100;
-        const newVolume = delta > 0 ? Math.min(100, currentVolume + 5) : Math.max(0, currentVolume - 5);
+        const newVolume = delta > 0 ? Math.min(100, currentVolume + step) : Math.max(0, currentVolume - step);
         AudioService.sink.audio.muted = false;
         AudioService.sink.audio.volume = newVolume / 100;
         AudioService.playVolumeChangeSoundIfEnabled();
@@ -126,8 +148,21 @@ BasePill {
     function handleMicWheel(delta) {
         if (!AudioService.source?.audio)
             return;
+
+        var step = 5;
+        const isMouseWheel = Math.abs(delta) >= 120 && (Math.abs(delta) % 120) === 0;
+        if (!isMouseWheel) {
+            step = 1;
+            micAccumulator += delta;
+            if (Math.abs(micAccumulator) < touchpadThreshold)
+                return;
+
+            delta = micAccumulator;
+            micAccumulator = 0;
+        }
+
         const currentVolume = AudioService.source.audio.volume * 100;
-        const newVolume = delta > 0 ? Math.min(100, currentVolume + 5) : Math.max(0, currentVolume - 5);
+        const newVolume = delta > 0 ? Math.min(100, currentVolume + step) : Math.max(0, currentVolume - step);
         AudioService.source.audio.muted = false;
         AudioService.source.audio.volume = newVolume / 100;
     }
@@ -137,9 +172,30 @@ BasePill {
         if (!deviceName) {
             return;
         }
+
+        var step = 5;
+        const isMouseWheel = Math.abs(delta) >= 120 && (Math.abs(delta) % 120) === 0;
+        if (!isMouseWheel) {
+            step = 1;
+            brightnessAccumulator += delta;
+            if (Math.abs(brightnessAccumulator) < touchpadThreshold)
+                return;
+
+            delta = brightnessAccumulator;
+            brightnessAccumulator = 0;
+        }
+
         const currentBrightness = DisplayService.getDeviceBrightness(deviceName);
-        const newBrightness = delta > 0 ? Math.min(100, currentBrightness + 5) : Math.max(1, currentBrightness - 5);
+        const newBrightness = delta > 0 ? Math.min(100, currentBrightness + step) : Math.max(1, currentBrightness - step);
         DisplayService.setBrightness(newBrightness, deviceName);
+    }
+
+    function getBrightness() {
+        const deviceName = getPinnedBrightnessDevice();
+        if (!deviceName) {
+            return;
+        }
+        return DisplayService.getDeviceBrightness(deviceName) / 100;
     }
 
     function getBatteryIconColor() {
@@ -197,7 +253,7 @@ BasePill {
 
                 Rectangle {
                     width: audioIconV.implicitWidth + 4
-                    height: audioIconV.implicitHeight + 4
+                    height: audioIconV.implicitHeight + (root.showAudioPercent ? audioPercentV.implicitHeight : 0) + 4
                     color: "transparent"
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.showAudioIcon
@@ -207,22 +263,38 @@ BasePill {
                         name: root.getVolumeIconName()
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
-                        anchors.centerIn: parent
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.topMargin: 2
+                    }
+
+                    StyledText {
+                        id: audioPercentV
+                        visible: root.showAudioPercent
+                        text: Math.round((AudioService.sink?.audio?.volume ?? 0) * 100) + "%"
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        color: Theme.widgetTextColor
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: audioIconV.bottom
+                        anchors.topMargin: 2
                     }
 
                     MouseArea {
                         anchors.fill: parent
-                        acceptedButtons: Qt.NoButton
+                        acceptedButtons: Qt.RightButton
                         onWheel: function (wheelEvent) {
                             root.handleVolumeWheel(wheelEvent.angleDelta.y);
                             wheelEvent.accepted = true;
+                        }
+                        onClicked: {
+                            AudioService.toggleMute();
                         }
                     }
                 }
 
                 Rectangle {
                     width: micIconV.implicitWidth + 4
-                    height: micIconV.implicitHeight + 4
+                    height: micIconV.implicitHeight + (root.showAudioPercent ? micPercentV.implicitHeight : 0) + 4
                     color: "transparent"
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.showMicIcon
@@ -232,22 +304,38 @@ BasePill {
                         name: root.getMicIconName()
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: root.getMicIconColor()
-                        anchors.centerIn: parent
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.topMargin: 2
+                    }
+
+                    StyledText {
+                        id: micPercentV
+                        visible: root.showMicPercent
+                        text: Math.round((AudioService.source?.audio?.volume ?? 0) * 100) + "%"
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        color: Theme.widgetTextColor
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: micIconV.bottom
+                        anchors.topMargin: 2
                     }
 
                     MouseArea {
                         anchors.fill: parent
-                        acceptedButtons: Qt.NoButton
+                        acceptedButtons: Qt.RightButton
                         onWheel: function (wheelEvent) {
                             root.handleMicWheel(wheelEvent.angleDelta.y);
                             wheelEvent.accepted = true;
+                        }
+                        onClicked: {
+                            AudioService.toggleMicMute();
                         }
                     }
                 }
 
                 Rectangle {
                     width: brightnessIconV.implicitWidth + 4
-                    height: brightnessIconV.implicitHeight + 4
+                    height: brightnessIconV.implicitHeight + (root.showBrightnessPercent ? brightnessPercentV.implicitHeight : 0) + 4
                     color: "transparent"
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: root.showBrightnessIcon && DisplayService.brightnessAvailable && root.hasPinnedBrightnessDevice()
@@ -257,7 +345,20 @@ BasePill {
                         name: root.getBrightnessIconName()
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
-                        anchors.centerIn: parent
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: parent.top
+                        anchors.topMargin: 2
+                    }
+
+                    StyledText {
+                        id: brightnessPercentV
+                        visible: root.showBrightnessPercent
+                        text: Math.round(getBrightness() * 100) + "%"
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        color: Theme.widgetTextColor
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.top: brightnessIconV.bottom
+                        anchors.topMargin: 2
                     }
 
                     MouseArea {
@@ -329,7 +430,7 @@ BasePill {
                 }
 
                 Rectangle {
-                    width: audioIcon.implicitWidth + 4
+                    width: audioIcon.implicitWidth + (root.showAudioPercent ? audioPercent.implicitWidth : 0) + 4
                     height: audioIcon.implicitHeight + 4
                     color: "transparent"
                     anchors.verticalCenter: parent.verticalCenter
@@ -340,22 +441,38 @@ BasePill {
                         name: root.getVolumeIconName()
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
-                        anchors.centerIn: parent
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 2
+                    }
+
+                    StyledText {
+                        id: audioPercent
+                        visible: root.showAudioPercent
+                        text: Math.round((AudioService.sink?.audio?.volume ?? 0) * 100) + "%"
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        color: Theme.widgetTextColor
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: audioIcon.right
+                        anchors.leftMargin: 2
                     }
 
                     MouseArea {
                         id: audioWheelArea
                         anchors.fill: parent
-                        acceptedButtons: Qt.NoButton
+                        acceptedButtons: Qt.RightButton
                         onWheel: function (wheelEvent) {
                             root.handleVolumeWheel(wheelEvent.angleDelta.y);
                             wheelEvent.accepted = true;
+                        }
+                        onClicked: {
+                            AudioService.toggleMute();
                         }
                     }
                 }
 
                 Rectangle {
-                    width: micIcon.implicitWidth + 4
+                    width: micIcon.implicitWidth + (root.showMicPercent ? micPercent.implicitWidth : 0) + 4
                     height: micIcon.implicitHeight + 4
                     color: "transparent"
                     anchors.verticalCenter: parent.verticalCenter
@@ -366,22 +483,38 @@ BasePill {
                         name: root.getMicIconName()
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: root.getMicIconColor()
-                        anchors.centerIn: parent
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 2
+                    }
+
+                    StyledText {
+                        id: micPercent
+                        visible: root.showMicPercent
+                        text: Math.round((AudioService.source?.audio?.volume ?? 0) * 100) + "%"
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        color: Theme.widgetTextColor
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: micIcon.right
+                        anchors.leftMargin: 2
                     }
 
                     MouseArea {
                         id: micWheelArea
                         anchors.fill: parent
-                        acceptedButtons: Qt.NoButton
+                        acceptedButtons: Qt.RightButton
                         onWheel: function (wheelEvent) {
                             root.handleMicWheel(wheelEvent.angleDelta.y);
                             wheelEvent.accepted = true;
+                        }
+                        onClicked: {
+                            AudioService.toggleMicMute();
                         }
                     }
                 }
 
                 Rectangle {
-                    width: brightnessIcon.implicitWidth + 4
+                    width: brightnessIcon.implicitWidth + (root.showBrightnessPercent ? brightnessPercent.implicitWidth : 0) + 4
                     height: brightnessIcon.implicitHeight + 4
                     color: "transparent"
                     anchors.verticalCenter: parent.verticalCenter
@@ -392,7 +525,20 @@ BasePill {
                         name: root.getBrightnessIconName()
                         size: Theme.barIconSize(root.barThickness, -4)
                         color: Theme.widgetIconColor
-                        anchors.centerIn: parent
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.left
+                        anchors.leftMargin: 2
+                    }
+
+                    StyledText {
+                        id: brightnessPercent
+                        visible: root.showBrightnessPercent
+                        text: Math.round(getBrightness() * 100) + "%"
+                        font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
+                        color: Theme.widgetTextColor
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: brightnessIcon.right
+                        anchors.leftMargin: 2
                     }
 
                     MouseArea {

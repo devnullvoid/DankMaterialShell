@@ -23,6 +23,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -31,6 +32,7 @@ Item {
                 width: parent.width
                 iconName: "schedule"
                 title: I18n.tr("Idle Settings")
+                settingKey: "idleSettings"
 
                 Row {
                     width: parent.width
@@ -62,6 +64,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "fadeToLockEnabled"
+                    tags: ["fade", "lock", "screen", "idle", "grace period"]
                     text: I18n.tr("Fade to lock screen")
                     description: I18n.tr("Gradually fade the screen before locking with a configurable grace period")
                     checked: SettingsData.fadeToLockEnabled
@@ -69,6 +73,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "lockBeforeSuspend"
+                    tags: ["lock", "suspend", "sleep", "security"]
                     text: I18n.tr("Lock before suspend")
                     description: I18n.tr("Automatically lock the screen when the system prepares to suspend")
                     checked: SettingsData.lockBeforeSuspend
@@ -78,6 +84,8 @@ Item {
 
                 SettingsDropdownRow {
                     id: fadeGracePeriodDropdown
+                    settingKey: "fadeToLockGracePeriod"
+                    tags: ["fade", "grace", "period", "timeout", "lock"]
                     property var periodOptions: ["1 second", "2 seconds", "3 seconds", "4 seconds", "5 seconds", "10 seconds", "15 seconds", "20 seconds", "30 seconds"]
                     property var periodValues: [1, 2, 3, 4, 5, 10, 15, 20, 30]
 
@@ -101,6 +109,8 @@ Item {
                 }
                 SettingsDropdownRow {
                     id: powerProfileDropdown
+                    settingKey: "powerProfile"
+                    tags: ["power", "profile", "performance", "balanced", "saver", "battery"]
                     property var profileOptions: [I18n.tr("Don't Change"), Theme.getPowerProfileLabel(0), Theme.getPowerProfileLabel(1), Theme.getPowerProfileLabel(2)]
                     property var profileValues: ["", "0", "1", "2"]
 
@@ -146,6 +156,8 @@ Item {
 
                 SettingsDropdownRow {
                     id: lockDropdown
+                    settingKey: "lockTimeout"
+                    tags: ["lock", "timeout", "idle", "automatic", "security"]
                     text: I18n.tr("Automatically lock after")
                     options: root.timeoutOptions
 
@@ -177,6 +189,8 @@ Item {
 
                 SettingsDropdownRow {
                     id: monitorDropdown
+                    settingKey: "monitorTimeout"
+                    tags: ["monitor", "display", "screen", "timeout", "off", "idle"]
                     text: I18n.tr("Turn off monitors after")
                     options: root.timeoutOptions
 
@@ -208,6 +222,8 @@ Item {
 
                 SettingsDropdownRow {
                     id: suspendDropdown
+                    settingKey: "suspendTimeout"
+                    tags: ["suspend", "sleep", "timeout", "idle", "system"]
                     text: I18n.tr("Suspend system after")
                     options: root.timeoutOptions
 
@@ -294,6 +310,7 @@ Item {
                 width: parent.width
                 iconName: "tune"
                 title: I18n.tr("Power Menu Customization")
+                settingKey: "powerMenu"
 
                 StyledText {
                     text: I18n.tr("Customize which actions appear in the power menu")
@@ -304,6 +321,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "powerMenuGridLayout"
+                    tags: ["power", "menu", "grid", "layout", "list"]
                     text: I18n.tr("Use Grid Layout")
                     description: I18n.tr("Display power menu actions in a grid instead of a list")
                     checked: SettingsData.powerMenuGridLayout
@@ -312,6 +331,8 @@ Item {
 
                 SettingsDropdownRow {
                     id: defaultActionDropdown
+                    settingKey: "powerMenuDefaultAction"
+                    tags: ["power", "menu", "default", "action", "reboot", "logout", "shutdown"]
                     text: I18n.tr("Default selected action")
                     options: ["Reboot", "Log Out", "Power Off", "Lock", "Suspend", "Restart DMS", "Hibernate"]
                     property var actionValues: ["reboot", "logout", "poweroff", "lock", "suspend", "restart", "hibernate"]
@@ -378,6 +399,8 @@ Item {
 
                         SettingsToggleRow {
                             required property var modelData
+                            settingKey: "powerMenuAction_" + modelData.key
+                            tags: ["power", "menu", "action", "show", modelData.key]
                             text: modelData.label
                             description: modelData.desc || ""
                             visible: !modelData.hibernate || SessionService.hibernateSupported
@@ -400,8 +423,11 @@ Item {
                 width: parent.width
                 iconName: "check_circle"
                 title: I18n.tr("Power Action Confirmation")
+                settingKey: "powerConfirmation"
 
                 SettingsToggleRow {
+                    settingKey: "powerActionConfirm"
+                    tags: ["power", "confirm", "hold", "button", "safety"]
                     text: I18n.tr("Hold to Confirm Power Actions")
                     description: I18n.tr("Require holding button/key to confirm power off, restart, suspend, hibernate and logout")
                     checked: SettingsData.powerActionConfirm
@@ -410,6 +436,8 @@ Item {
 
                 SettingsDropdownRow {
                     id: holdDurationDropdown
+                    settingKey: "powerActionHoldDuration"
+                    tags: ["power", "hold", "duration", "confirm", "time"]
                     property var durationOptions: ["250 ms", "500 ms", "750 ms", "1 second", "2 seconds", "3 seconds", "5 seconds", "10 seconds"]
                     property var durationValues: [0.25, 0.5, 0.75, 1, 2, 3, 5, 10]
 
@@ -436,6 +464,7 @@ Item {
                 width: parent.width
                 iconName: "developer_mode"
                 title: I18n.tr("Custom Power Actions")
+                settingKey: "customPowerActions"
 
                 Repeater {
                     model: [
@@ -501,6 +530,27 @@ Item {
                             }
                         }
                     }
+                }
+            }
+
+            SettingsCard {
+                width: parent.width
+                iconName: "tune"
+                title: I18n.tr("Advanced")
+                settingKey: "powerAdvanced"
+                collapsible: true
+                expanded: false
+
+                SettingsSliderRow {
+                    settingKey: "batteryChargeLimit"
+                    tags: ["battery", "charge", "limit", "percentage", "power"]
+                    text: I18n.tr("Battery Charge Limit")
+                    description: I18n.tr("Note: this only changes the percentage, it does not actually limit charging.")
+                    value: SettingsData.batteryChargeLimit
+                    minimum: 50
+                    maximum: 100
+                    defaultValue: 100
+                    onSliderValueChanged: newValue => SettingsData.set("batteryChargeLimit", newValue)
                 }
             }
         }

@@ -583,7 +583,7 @@ Item {
                     appDrawerLoader.item.setBarContext(barPosition, effectiveBarConfig?.bottomGap ?? 0);
                 }
                 if (appDrawerLoader.item && appDrawerLoader.item.setTriggerPosition) {
-                    const globalPos = launcherButton.visualContent.mapToGlobal(0, 0);
+                    const globalPos = launcherButton.visualContent.mapToItem(null, 0, 0);
                     const currentScreen = barWindow.screen;
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, currentScreen, barWindow.effectiveBarThickness, launcherButton.visualWidth, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
                     appDrawerLoader.item.setTriggerPosition(pos.x, pos.y, pos.width, launcherButton.section, currentScreen, barPosition, barWindow.effectiveBarThickness, effectiveBarConfig?.spacing ?? 4, effectiveBarConfig);
@@ -678,20 +678,20 @@ Item {
                             if (centerSection) {
                                 if (barWindow.isVertical) {
                                     const centerY = centerSection.height / 2;
-                                    const centerGlobalPos = centerSection.mapToGlobal(0, centerY);
+                                    const centerGlobalPos = centerSection.mapToItem(null, 0, centerY);
                                     triggerPos = centerGlobalPos;
                                     triggerWidth = centerSection.height;
                                 } else {
-                                    const centerGlobalPos = centerSection.mapToGlobal(0, 0);
+                                    const centerGlobalPos = centerSection.mapToItem(null, 0, 0);
                                     triggerPos = centerGlobalPos;
                                     triggerWidth = centerSection.width;
                                 }
                             } else {
-                                triggerPos = visualContent.mapToGlobal(0, 0);
+                                triggerPos = visualContent.mapToItem(null, 0, 0);
                                 triggerWidth = visualWidth;
                             }
                         } else {
-                            triggerPos = visualContent.mapToGlobal(0, 0);
+                            triggerPos = visualContent.mapToItem(null, 0, 0);
                             triggerWidth = visualWidth;
                         }
                         const pos = SettingsData.getPopupTriggerPosition(triggerPos, barWindow.screen, barWindow.effectiveBarThickness, triggerWidth, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
@@ -734,20 +734,20 @@ Item {
                             if (centerSection) {
                                 if (barWindow.isVertical) {
                                     const centerY = centerSection.height / 2;
-                                    const centerGlobalPos = centerSection.mapToGlobal(0, centerY);
+                                    const centerGlobalPos = centerSection.mapToItem(null, 0, centerY);
                                     triggerPos = centerGlobalPos;
                                     triggerWidth = centerSection.height;
                                 } else {
-                                    const centerGlobalPos = centerSection.mapToGlobal(0, 0);
+                                    const centerGlobalPos = centerSection.mapToItem(null, 0, 0);
                                     triggerPos = centerGlobalPos;
                                     triggerWidth = centerSection.width;
                                 }
                             } else {
-                                triggerPos = visualContent.mapToGlobal(0, 0);
+                                triggerPos = visualContent.mapToItem(null, 0, 0);
                                 triggerWidth = visualWidth;
                             }
                         } else {
-                            triggerPos = visualContent.mapToGlobal(0, 0);
+                            triggerPos = visualContent.mapToItem(null, 0, 0);
                             triggerWidth = visualWidth;
                         }
                         const pos = SettingsData.getPopupTriggerPosition(triggerPos, barWindow.screen, barWindow.effectiveBarThickness, triggerWidth, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
@@ -792,21 +792,21 @@ Item {
                                 // For vertical bars, use center Y of section; for horizontal, use left edge
                                 if (barWindow.isVertical) {
                                     const centerY = centerSection.height / 2;
-                                    const centerGlobalPos = centerSection.mapToGlobal(0, centerY);
+                                    const centerGlobalPos = centerSection.mapToItem(null, 0, centerY);
                                     triggerPos = centerGlobalPos;
                                     triggerWidth = centerSection.height;
                                 } else {
                                     // For horizontal bars, use left edge (DankPopout will center it)
-                                    const centerGlobalPos = centerSection.mapToGlobal(0, 0);
+                                    const centerGlobalPos = centerSection.mapToItem(null, 0, 0);
                                     triggerPos = centerGlobalPos;
                                     triggerWidth = centerSection.width;
                                 }
                             } else {
-                                triggerPos = visualContent.mapToGlobal(0, 0);
+                                triggerPos = visualContent.mapToItem(null, 0, 0);
                                 triggerWidth = visualWidth;
                             }
                         } else {
-                            triggerPos = visualContent.mapToGlobal(0, 0);
+                            triggerPos = visualContent.mapToItem(null, 0, 0);
                             triggerWidth = visualWidth;
                         }
                         const pos = SettingsData.getPopupTriggerPosition(triggerPos, barWindow.screen, barWindow.effectiveBarThickness, triggerWidth, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
@@ -873,7 +873,7 @@ Item {
                     processListPopoutLoader.item.setBarContext(barPosition, effectiveBarConfig?.bottomGap ?? 0);
                 }
                 if (processListPopoutLoader.item.setTriggerPosition) {
-                    const globalPos = cpuWidget.mapToGlobal(0, 0);
+                    const globalPos = cpuWidget.mapToItem(null, 0, 0);
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, barWindow.screen, barWindow.effectiveBarThickness, cpuWidget.width, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
                     const widgetSection = topBarContent.getWidgetSection(parent) || "right";
                     processListPopoutLoader.item.setTriggerPosition(pos.x, pos.y, pos.width, widgetSection, barWindow.screen, barPosition, barWindow.effectiveBarThickness, effectiveBarConfig?.spacing ?? 4, effectiveBarConfig);
@@ -909,7 +909,7 @@ Item {
                     processListPopoutLoader.item.setBarContext(barPosition, effectiveBarConfig?.bottomGap ?? 0);
                 }
                 if (processListPopoutLoader.item.setTriggerPosition) {
-                    const globalPos = ramWidget.mapToGlobal(0, 0);
+                    const globalPos = ramWidget.mapToItem(null, 0, 0);
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, barWindow.screen, barWindow.effectiveBarThickness, ramWidget.width, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
                     const widgetSection = topBarContent.getWidgetSection(parent) || "right";
                     processListPopoutLoader.item.setTriggerPosition(pos.x, pos.y, pos.width, widgetSection, barWindow.screen, barPosition, barWindow.effectiveBarThickness, effectiveBarConfig?.spacing ?? 4, effectiveBarConfig);
@@ -959,7 +959,7 @@ Item {
                     processListPopoutLoader.item.setBarContext(barPosition, effectiveBarConfig?.bottomGap ?? 0);
                 }
                 if (processListPopoutLoader.item.setTriggerPosition) {
-                    const globalPos = cpuTempWidget.mapToGlobal(0, 0);
+                    const globalPos = cpuTempWidget.mapToItem(null, 0, 0);
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, barWindow.screen, barWindow.effectiveBarThickness, cpuTempWidget.width, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
                     const widgetSection = topBarContent.getWidgetSection(parent) || "right";
                     processListPopoutLoader.item.setTriggerPosition(pos.x, pos.y, pos.width, widgetSection, barWindow.screen, barPosition, barWindow.effectiveBarThickness, effectiveBarConfig?.spacing ?? 4, effectiveBarConfig);
@@ -995,7 +995,7 @@ Item {
                     processListPopoutLoader.item.setBarContext(barPosition, effectiveBarConfig?.bottomGap ?? 0);
                 }
                 if (processListPopoutLoader.item.setTriggerPosition) {
-                    const globalPos = gpuTempWidget.mapToGlobal(0, 0);
+                    const globalPos = gpuTempWidget.mapToItem(null, 0, 0);
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, barWindow.screen, barWindow.effectiveBarThickness, gpuTempWidget.width, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
                     const widgetSection = topBarContent.getWidgetSection(parent) || "right";
                     processListPopoutLoader.item.setTriggerPosition(pos.x, pos.y, pos.width, widgetSection, barWindow.screen, barPosition, barWindow.effectiveBarThickness, effectiveBarConfig?.spacing ?? 4, effectiveBarConfig);
@@ -1038,7 +1038,7 @@ Item {
                     notificationCenterLoader.item.setBarContext(barPosition, effectiveBarConfig?.bottomGap ?? 0);
                 }
                 if (notificationCenterLoader.item.setTriggerPosition) {
-                    const globalPos = notificationButton.mapToGlobal(0, 0);
+                    const globalPos = notificationButton.mapToItem(null, 0, 0);
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, barWindow.screen, barWindow.effectiveBarThickness, notificationButton.width, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
                     const widgetSection = topBarContent.getWidgetSection(parent) || "right";
                     notificationCenterLoader.item.setTriggerPosition(pos.x, pos.y, pos.width, widgetSection, barWindow.screen, barPosition, barWindow.effectiveBarThickness, effectiveBarConfig?.spacing ?? 4, effectiveBarConfig);
@@ -1076,7 +1076,7 @@ Item {
                     batteryPopoutLoader.item.setBarContext(barPosition, effectiveBarConfig?.bottomGap ?? 0);
                 }
                 if (batteryPopoutLoader.item.setTriggerPosition) {
-                    const globalPos = batteryWidget.mapToGlobal(0, 0);
+                    const globalPos = batteryWidget.mapToItem(null, 0, 0);
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, barWindow.screen, barWindow.effectiveBarThickness, batteryWidget.width, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
                     const widgetSection = topBarContent.getWidgetSection(parent) || "right";
                     batteryPopoutLoader.item.setTriggerPosition(pos.x, pos.y, pos.width, widgetSection, barWindow.screen, barPosition, barWindow.effectiveBarThickness, effectiveBarConfig?.spacing ?? 4, effectiveBarConfig);
@@ -1109,7 +1109,7 @@ Item {
                 const barPosition = barWindow.axis?.edge === "left" ? 2 : (barWindow.axis?.edge === "right" ? 3 : (barWindow.axis?.edge === "top" ? 0 : 1));
 
                 if (layoutPopoutLoader.item.setTriggerPosition) {
-                    const globalPos = layoutWidget.mapToGlobal(0, 0);
+                    const globalPos = layoutWidget.mapToItem(null, 0, 0);
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, barWindow.screen, barWindow.effectiveBarThickness, layoutWidget.width, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
                     const widgetSection = topBarContent.getWidgetSection(parent) || "center";
                     layoutPopoutLoader.item.setTriggerPosition(pos.x, pos.y, pos.width, widgetSection, barWindow.screen, barPosition, barWindow.effectiveBarThickness, effectiveBarConfig?.spacing ?? 4, effectiveBarConfig);
@@ -1149,7 +1149,7 @@ Item {
                 }
 
                 if (vpnPopoutLoader.item.setTriggerPosition) {
-                    const globalPos = vpnWidget.mapToGlobal(0, 0);
+                    const globalPos = vpnWidget.mapToItem(null, 0, 0);
                     const pos = SettingsData.getPopupTriggerPosition(globalPos, barWindow.screen, barWindow.effectiveBarThickness, vpnWidget.width, effectiveBarConfig?.spacing ?? 4, barPosition, effectiveBarConfig);
                     const widgetSection = topBarContent.getWidgetSection(parent) || "right";
                     vpnPopoutLoader.item.setTriggerPosition(pos.x, pos.y, pos.width, widgetSection, barWindow.screen, barPosition, barWindow.effectiveBarThickness, effectiveBarConfig?.spacing ?? 4, effectiveBarConfig);
@@ -1195,7 +1195,7 @@ Item {
                 }
                 controlCenterLoader.item.triggerScreen = barWindow.screen;
                 if (controlCenterLoader.item.setTriggerPosition) {
-                    const globalPos = mapToGlobal(0, 0);
+                    const globalPos = mapToItem(null, 0, 0);
                     // Use topBarContent.barConfig directly
                     const effectiveBarConfig = topBarContent.barConfig;
                     // Calculate barPosition from axis.edge like Battery widget does

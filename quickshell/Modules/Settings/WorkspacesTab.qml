@@ -15,6 +15,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -23,8 +24,11 @@ Item {
                 width: parent.width
                 iconName: "view_module"
                 title: I18n.tr("Workspace Settings")
+                settingKey: "workspaceSettings"
 
                 SettingsToggleRow {
+                    settingKey: "showWorkspaceIndex"
+                    tags: ["workspace", "index", "numbers", "labels"]
                     text: I18n.tr("Workspace Index Numbers")
                     description: I18n.tr("Show workspace index numbers in the top bar workspace switcher")
                     checked: SettingsData.showWorkspaceIndex
@@ -32,6 +36,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "showWorkspacePadding"
+                    tags: ["workspace", "padding", "minimum"]
                     text: I18n.tr("Workspace Padding")
                     description: I18n.tr("Always show a minimum of 3 workspaces, even if fewer are available")
                     checked: SettingsData.showWorkspacePadding
@@ -39,6 +45,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "showWorkspaceApps"
+                    tags: ["workspace", "apps", "icons", "applications"]
                     text: I18n.tr("Show Workspace Apps")
                     description: I18n.tr("Display application icons in workspace indicators")
                     checked: SettingsData.showWorkspaceApps
@@ -87,6 +95,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "workspacesPerMonitor"
+                    tags: ["workspace", "per-monitor", "multi-monitor"]
                     text: I18n.tr("Per-Monitor Workspaces")
                     description: I18n.tr("Show only workspaces belonging to each specific monitor.")
                     checked: SettingsData.workspacesPerMonitor
@@ -94,6 +104,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "showOccupiedWorkspacesOnly"
+                    tags: ["workspace", "occupied", "active", "windows"]
                     text: I18n.tr("Show Occupied Workspaces Only")
                     description: I18n.tr("Display only workspaces that contain windows")
                     checked: SettingsData.showOccupiedWorkspacesOnly
@@ -102,6 +114,18 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "reverseScrolling"
+                    tags: ["workspace", "scroll", "scrolling", "reverse", "direction"]
+                    text: I18n.tr("Reverse Scrolling Direction")
+                    description: I18n.tr("Reverse workspace switch direction when scrolling over the bar")
+                    checked: SettingsData.reverseScrolling
+                    visible: CompositorService.isNiri || CompositorService.isHyprland
+                    onToggled: checked => SettingsData.set("reverseScrolling", checked)
+                }
+
+                SettingsToggleRow {
+                    settingKey: "dwlShowAllTags"
+                    tags: ["dwl", "tags", "workspace"]
                     text: I18n.tr("Show All Tags")
                     description: I18n.tr("Show all 9 tags instead of only occupied tags (DWL only)")
                     checked: SettingsData.dwlShowAllTags
@@ -114,6 +138,7 @@ Item {
                 width: parent.width
                 iconName: "label"
                 title: I18n.tr("Named Workspace Icons")
+                settingKey: "workspaceIcons"
                 visible: SettingsData.hasNamedWorkspaces()
 
                 StyledText {

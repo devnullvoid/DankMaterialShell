@@ -381,9 +381,12 @@ Item {
             widgetObj.showNetworkIcon = SettingsData.controlCenterShowNetworkIcon;
             widgetObj.showBluetoothIcon = SettingsData.controlCenterShowBluetoothIcon;
             widgetObj.showAudioIcon = SettingsData.controlCenterShowAudioIcon;
+            widgetObj.showAudioPercent = SettingsData.controlCenterShowAudioPercent;
             widgetObj.showVpnIcon = SettingsData.controlCenterShowVpnIcon;
             widgetObj.showBrightnessIcon = SettingsData.controlCenterShowBrightnessIcon;
+            widgetObj.showBrightnessPercent = SettingsData.controlCenterShowBrightnessPercent;
             widgetObj.showMicIcon = SettingsData.controlCenterShowMicIcon;
+            widgetObj.showMicPercent = SettingsData.controlCenterShowMicPercent;
             widgetObj.showBatteryIcon = SettingsData.controlCenterShowBatteryIcon;
             widgetObj.showPrinterIcon = SettingsData.controlCenterShowPrinterIcon;
         }
@@ -438,9 +441,12 @@ Item {
                 newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
                 newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
                 newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+                newWidget.showAudioPercent = widget.showAudioPercent ?? SettingsData.controlCenterShowAudioPercent;
                 newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
                 newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+                newWidget.showBrightnessPercent = widget.showBrightnessPercent ?? SettingsData.controlCenterShowBrightnessPercent;
                 newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+                newWidget.showMicPercent = widget.showMicPercent ?? SettingsData.controlCenterShowMicPercent;
                 newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
                 newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
             }
@@ -491,9 +497,12 @@ Item {
             newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
             newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
             newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+            newWidget.showAudioPercent = widget.showAudioPercent ?? SettingsData.controlCenterShowAudioPercent;
             newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
             newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+            newWidget.showBrightnessPercent = widget.showBrightnessPercent ?? SettingsData.controlCenterShowBrightnessPercent;
             newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+            newWidget.showMicPercent = widget.showMicPercent ?? SettingsData.controlCenterShowMicPercent;
             newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
             newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
         }
@@ -566,9 +575,12 @@ Item {
             newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
             newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
             newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+            newWidget.showAudioPercent = widget.showAudioPercent ?? SettingsData.controlCenterShowAudioPercent;
             newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
             newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+            newWidget.showBrightnessPercent = widget.showBrightnessPercent ?? SettingsData.controlCenterShowBrightnessPercent;
             newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+            newWidget.showMicPercent = widget.showMicPercent ?? SettingsData.controlCenterShowMicPercent;
             newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
             newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
         }
@@ -595,9 +607,12 @@ Item {
             "showNetworkIcon": widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon,
             "showBluetoothIcon": widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon,
             "showAudioIcon": widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon,
+            "showAudioPercent": widget.showAudioPercent ?? SettingsData.controlCenterShowAudioPercent,
             "showVpnIcon": widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon,
             "showBrightnessIcon": widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon,
+            "showBrightnessPercent": widget.showBrightnessPercent ?? SettingsData.controlCenterShowBrightnessPercent,
             "showMicIcon": widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon,
+            "showMicPercent": widget.showMicPercent ?? SettingsData.controlCenterShowMicPercent,
             "showBatteryIcon": widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon,
             "showPrinterIcon": widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon
         };
@@ -658,9 +673,12 @@ Item {
             newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
             newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
             newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+            newWidget.showAudioPercent = widget.showAudioPercent ?? SettingsData.controlCenterShowAudioPercent;
             newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
             newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+            newWidget.showBrightnessPercent = widget.showBrightnessPercent ?? SettingsData.controlCenterShowBrightnessPercent;
             newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+            newWidget.showMicPercent = widget.showMicPercent ?? SettingsData.controlCenterShowMicPercent;
             newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
             newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
         }
@@ -715,9 +733,12 @@ Item {
             newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
             newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
             newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+            newWidget.showAudioPercent = widget.showAudioPercent ?? SettingsData.controlCenterShowAudioPercent;
             newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
             newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+            newWidget.showBrightnessPercent = widget.showBrightnessPercent ?? SettingsData.controlCenterShowBrightnessPercent;
             newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+            newWidget.showMicPercent = widget.showMicPercent ?? SettingsData.controlCenterShowMicPercent;
             newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
             newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
         }
@@ -772,9 +793,12 @@ Item {
                     newWidget.showNetworkIcon = widget.showNetworkIcon ?? SettingsData.controlCenterShowNetworkIcon;
                     newWidget.showBluetoothIcon = widget.showBluetoothIcon ?? SettingsData.controlCenterShowBluetoothIcon;
                     newWidget.showAudioIcon = widget.showAudioIcon ?? SettingsData.controlCenterShowAudioIcon;
+                    newWidget.showAudioPercent = widget.showAudioPercent ?? SettingsData.controlCenterShowAudioPercent;
                     newWidget.showVpnIcon = widget.showVpnIcon ?? SettingsData.controlCenterShowVpnIcon;
                     newWidget.showBrightnessIcon = widget.showBrightnessIcon ?? SettingsData.controlCenterShowBrightnessIcon;
+                    newWidget.showBrightnessPercent = widget.showBrightnessPercent ?? SettingsData.controlCenterShowBrightnessPercent;
                     newWidget.showMicIcon = widget.showMicIcon ?? SettingsData.controlCenterShowMicIcon;
+                    newWidget.showMicPercent = widget.showMicPercent ?? SettingsData.controlCenterShowMicPercent;
                     newWidget.showBatteryIcon = widget.showBatteryIcon ?? SettingsData.controlCenterShowBatteryIcon;
                     newWidget.showPrinterIcon = widget.showPrinterIcon ?? SettingsData.controlCenterShowPrinterIcon;
                 }
@@ -833,12 +857,18 @@ Item {
                     item.showBluetoothIcon = widget.showBluetoothIcon;
                 if (widget.showAudioIcon !== undefined)
                     item.showAudioIcon = widget.showAudioIcon;
+                if (widget.showAudioPercent !== undefined)
+                    item.showAudioPercent = widget.showAudioPercent;
                 if (widget.showVpnIcon !== undefined)
                     item.showVpnIcon = widget.showVpnIcon;
                 if (widget.showBrightnessIcon !== undefined)
                     item.showBrightnessIcon = widget.showBrightnessIcon;
+                if (widget.showBrightnessPercent !== undefined)
+                    item.showBrightnessPercent = widget.showBrightnessPercent;
                 if (widget.showMicIcon !== undefined)
                     item.showMicIcon = widget.showMicIcon;
+                if (widget.showMicPercent !== undefined)
+                    item.showMicPercent = widget.showMicPercent;
                 if (widget.showBatteryIcon !== undefined)
                     item.showBatteryIcon = widget.showBatteryIcon;
                 if (widget.showPrinterIcon !== undefined)
@@ -909,6 +939,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL

@@ -186,7 +186,11 @@ exec = sh -c "$QS_CMD; hyprctl dispatch exit"
 HYPRLAND_EOF
             COMPOSITOR_CONFIG="$TEMP_CONFIG"
         fi
-        exec Hyprland -c "$COMPOSITOR_CONFIG"
+        if command -v start-hyprland >/dev/null 2>&1; then
+            exec start-hyprland -- --config "$COMPOSITOR_CONFIG"
+        else
+            exec Hyprland -c "$COMPOSITOR_CONFIG"
+        fi
         ;;
 
     sway)

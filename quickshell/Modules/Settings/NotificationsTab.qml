@@ -81,6 +81,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -89,8 +90,11 @@ Item {
                 width: parent.width
                 iconName: "notifications"
                 title: I18n.tr("Notification Popups")
+                settingKey: "notificationPopups"
 
                 SettingsDropdownRow {
+                    settingKey: "notificationPopupPosition"
+                    tags: ["notification", "popup", "position", "screen", "location"]
                     text: I18n.tr("Popup Position")
                     description: I18n.tr("Choose where notification popups appear on screen")
                     currentValue: {
@@ -133,6 +137,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "notificationOverlayEnabled"
+                    tags: ["notification", "overlay", "fullscreen", "priority"]
                     text: I18n.tr("Notification Overlay")
                     description: I18n.tr("Display all priorities over fullscreen apps")
                     checked: SettingsData.notificationOverlayEnabled
@@ -144,8 +150,11 @@ Item {
                 width: parent.width
                 iconName: "notifications_off"
                 title: I18n.tr("Do Not Disturb")
+                settingKey: "doNotDisturb"
 
                 SettingsToggleRow {
+                    settingKey: "doNotDisturb"
+                    tags: ["notification", "dnd", "mute", "silent", "suppress"]
                     text: I18n.tr("Enable Do Not Disturb")
                     description: I18n.tr("Suppress notification popups while enabled")
                     checked: SessionData.doNotDisturb
@@ -157,8 +166,11 @@ Item {
                 width: parent.width
                 iconName: "timer"
                 title: I18n.tr("Notification Timeouts")
+                settingKey: "notificationTimeouts"
 
                 SettingsDropdownRow {
+                    settingKey: "notificationTimeoutLow"
+                    tags: ["notification", "timeout", "low", "priority", "duration"]
                     text: I18n.tr("Low Priority")
                     description: I18n.tr("Timeout for low priority notifications")
                     currentValue: root.getTimeoutText(SettingsData.notificationTimeoutLow)
@@ -174,6 +186,8 @@ Item {
                 }
 
                 SettingsDropdownRow {
+                    settingKey: "notificationTimeoutNormal"
+                    tags: ["notification", "timeout", "normal", "priority", "duration"]
                     text: I18n.tr("Normal Priority")
                     description: I18n.tr("Timeout for normal priority notifications")
                     currentValue: root.getTimeoutText(SettingsData.notificationTimeoutNormal)
@@ -189,6 +203,8 @@ Item {
                 }
 
                 SettingsDropdownRow {
+                    settingKey: "notificationTimeoutCritical"
+                    tags: ["notification", "timeout", "critical", "priority", "duration"]
                     text: I18n.tr("Critical Priority")
                     description: I18n.tr("Timeout for critical priority notifications")
                     currentValue: root.getTimeoutText(SettingsData.notificationTimeoutCritical)

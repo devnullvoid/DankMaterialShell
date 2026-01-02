@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
+import qs.Services
 import qs.Widgets
 
 StyledRect {
@@ -12,6 +13,7 @@ StyledRect {
 
     property string tab: ""
     property var tags: []
+    property string settingKey: ""
 
     property string title: ""
     property string iconName: ""
@@ -19,6 +21,9 @@ StyledRect {
     property bool expanded: true
 
     default property alias content: contentColumn.children
+    property alias headerActions: headerActionsRow.children
+
+    readonly property bool isHighlighted: settingKey !== "" && SettingsSearchService.highlightSection === settingKey
 
     width: parent?.width ?? 0
     height: {
@@ -37,6 +42,32 @@ StyledRect {
     readonly property bool hasHeader: root.title !== "" || root.iconName !== ""
     property bool userToggledCollapse: false
 
+    function findParentFlickable() {
+        let p = root.parent;
+        while (p) {
+            if (p.hasOwnProperty("contentY") && p.hasOwnProperty("contentItem")) {
+                return p;
+            }
+            p = p.parent;
+        }
+        return null;
+    }
+
+    Component.onCompleted: {
+        if (settingKey) {
+            let flickable = findParentFlickable();
+            if (flickable) {
+                SettingsSearchService.registerCard(settingKey, root, flickable);
+            }
+        }
+    }
+
+    Component.onDestruction: {
+        if (settingKey) {
+            SettingsSearchService.unregisterCard(settingKey);
+        }
+    }
+
     Behavior on height {
         enabled: root.userToggledCollapse
         NumberAnimation {
@@ -45,6 +76,26 @@ StyledRect {
             onRunningChanged: {
                 if (!running)
                     root.userToggledCollapse = false;
+            }
+        }
+    }
+
+    Rectangle {
+        id: highlightBorder
+        anchors.fill: parent
+        anchors.margins: -2
+        radius: root.radius + 2
+        color: "transparent"
+        border.width: 2
+        border.color: Theme.primary
+        opacity: root.isHighlighted ? 1 : 0
+        visible: opacity > 0
+        z: 100
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: Theme.shortDuration
+                easing.type: Theme.standardEasing
             }
         }
     }
@@ -59,7 +110,7 @@ StyledRect {
         Item {
             id: headerRow
             width: parent.width
-            height: root.hasHeader ? Math.max(headerIcon.height, headerText.height) : 0
+            height: root.hasHeader ? Math.max(headerIcon.height, headerText.height, headerActionsRow.height) : 0
             visible: root.hasHeader
 
             Row {
@@ -87,7 +138,16 @@ StyledRect {
                 }
             }
 
+            Row {
+                id: headerActionsRow
+                anchors.right: caretIcon.left
+                anchors.rightMargin: root.collapsible ? Theme.spacingS : 0
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: Theme.spacingXS
+            }
+
             DankIcon {
+                id: caretIcon
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 name: root.expanded ? "expand_less" : "expand_more"
@@ -97,12 +157,27 @@ StyledRect {
             }
 
             MouseArea {
-                anchors.fill: parent
+                anchors.left: parent.left
+                anchors.right: headerActionsRow.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
                 enabled: root.collapsible
                 cursorShape: root.collapsible ? Qt.PointingHandCursor : Qt.ArrowCursor
                 onClicked: {
-                    if (!root.collapsible)
-                        return;
+                    root.userToggledCollapse = true;
+                    root.expanded = !root.expanded;
+                }
+            }
+
+            MouseArea {
+                anchors.left: caretIcon.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                anchors.leftMargin: -Theme.spacingS
+                enabled: root.collapsible
+                cursorShape: root.collapsible ? Qt.PointingHandCursor : Qt.ArrowCursor
+                onClicked: {
                     root.userToggledCollapse = true;
                     root.expanded = !root.expanded;
                 }

@@ -382,13 +382,35 @@ FloatingWindow {
                     }
 
                     delegate: Rectangle {
+                        id: themeDelegate
                         width: themeBrowserList.width
                         height: hasPreview ? 140 : themeDelegateContent.implicitHeight + Theme.spacingM * 2
                         radius: Theme.cornerRadius
                         property bool isSelected: root.keyboardNavigationActive && index === root.selectedIndex
                         property bool isInstalled: modelData.installed || false
                         property bool isFirstParty: modelData.firstParty || false
-                        property string previewPath: "/tmp/dankdots-plugin-registry/themes/" + (modelData.sourceDir || modelData.id) + "/preview-" + (Theme.isLightMode ? "light" : "dark") + ".svg"
+                        property bool hasVariants: modelData.hasVariants || false
+                        property var variants: modelData.variants || null
+                        property string selectedVariantId: {
+                            if (!hasVariants || !variants)
+                                return "";
+                            if (variants.type === "multi") {
+                                const mode = Theme.isLightMode ? "light" : "dark";
+                                const defaults = variants.defaults?.[mode] || variants.defaults?.dark || {};
+                                return (defaults.flavor || "") + (defaults.accent ? "-" + defaults.accent : "");
+                            }
+                            return variants.default || (variants.options?.[0]?.id ?? "");
+                        }
+                        property string previewPath: {
+                            const baseDir = "/tmp/dankdots-plugin-registry/themes/" + (modelData.sourceDir || modelData.id);
+                            const mode = Theme.isLightMode ? "light" : "dark";
+                            if (hasVariants && selectedVariantId) {
+                                if (variants?.type === "multi")
+                                    return baseDir + "/preview-" + selectedVariantId + ".svg";
+                                return baseDir + "/preview-" + selectedVariantId + "-" + mode + ".svg";
+                            }
+                            return baseDir + "/preview-" + mode + ".svg";
+                        }
                         property bool hasPreview: previewImage.status === Image.Ready
                         color: isSelected ? Theme.primarySelected : Qt.rgba(Theme.surfaceVariant.r, Theme.surfaceVariant.g, Theme.surfaceVariant.b, 0.3)
                         border.color: isSelected ? Theme.primary : Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
@@ -479,6 +501,30 @@ FloatingWindow {
                                             font.weight: Font.Medium
                                         }
                                     }
+
+                                    Rectangle {
+                                        height: 18
+                                        width: variantsText.implicitWidth + Theme.spacingS
+                                        radius: 9
+                                        color: Qt.rgba(Theme.secondary.r, Theme.secondary.g, Theme.secondary.b, 0.15)
+                                        border.color: Qt.rgba(Theme.secondary.r, Theme.secondary.g, Theme.secondary.b, 0.4)
+                                        border.width: 1
+                                        visible: themeDelegate.hasVariants
+                                        anchors.verticalCenter: parent.verticalCenter
+
+                                        StyledText {
+                                            id: variantsText
+                                            anchors.centerIn: parent
+                                            text: {
+                                                if (themeDelegate.variants?.type === "multi")
+                                                    return I18n.tr("%1 variants").arg(themeDelegate.variants?.accents?.length ?? 0);
+                                                return I18n.tr("%1 variants").arg(themeDelegate.variants?.options?.length ?? 0);
+                                            }
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.secondary
+                                            font.weight: Font.Medium
+                                        }
+                                    }
                                 }
 
                                 StyledText {
@@ -495,9 +541,73 @@ FloatingWindow {
                                     color: Theme.surfaceVariantText
                                     width: parent.width
                                     wrapMode: Text.WordWrap
-                                    maximumLineCount: 3
+                                    maximumLineCount: themeDelegate.hasVariants ? 2 : 3
                                     elide: Text.ElideRight
                                     visible: modelData.description && modelData.description.length > 0
+                                }
+
+                                Flow {
+                                    width: parent.width
+                                    spacing: Theme.spacingXS
+                                    visible: themeDelegate.hasVariants && themeDelegate.variants?.type !== "multi"
+
+                                    Repeater {
+                                        model: themeDelegate.variants?.options ?? []
+
+                                        Rectangle {
+                                            property bool isActive: themeDelegate.selectedVariantId === modelData.id
+                                            height: 22
+                                            width: variantChipText.implicitWidth + Theme.spacingS * 2
+                                            radius: 11
+                                            color: isActive ? Theme.primary : Theme.surfaceContainerHigh
+                                            border.color: isActive ? Theme.primary : Theme.outline
+                                            border.width: 1
+
+                                            StyledText {
+                                                id: variantChipText
+                                                anchors.centerIn: parent
+                                                text: modelData.name
+                                                font.pixelSize: Theme.fontSizeSmall
+                                                color: isActive ? Theme.primaryText : Theme.surfaceText
+                                            }
+
+                                            MouseArea {
+                                                anchors.fill: parent
+                                                cursorShape: Qt.PointingHandCursor
+                                                onClicked: themeDelegate.selectedVariantId = modelData.id
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Flow {
+                                    width: parent.width
+                                    spacing: Theme.spacingXS
+                                    visible: themeDelegate.hasVariants && themeDelegate.variants?.type === "multi"
+
+                                    Repeater {
+                                        model: themeDelegate.variants?.accents ?? []
+
+                                        Rectangle {
+                                            width: 18
+                                            height: 18
+                                            radius: 9
+                                            color: modelData.color || Theme.primary
+                                            border.color: Theme.outline
+                                            border.width: 1
+
+                                            DankTooltipV2 {
+                                                id: accentTooltip
+                                            }
+
+                                            MouseArea {
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                onEntered: accentTooltip.show(modelData.name || modelData.id, parent, 0, 0, "top")
+                                                onExited: accentTooltip.hide()
+                                            }
+                                        }
+                                    }
                                 }
                             }
 

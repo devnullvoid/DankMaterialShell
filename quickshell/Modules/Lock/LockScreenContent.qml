@@ -470,6 +470,10 @@ Item {
                                 return;
                             }
 
+                            if (event.key === Qt.Key_Escape) {
+                                clear();
+                            }
+
                             if (pam.passwd.active) {
                                 console.log("PAM is active, ignoring input");
                                 event.accepted = true;
@@ -1138,9 +1142,10 @@ Item {
                         if (!AudioService.sink?.audio) {
                             return "volume_up";
                         }
-                        if (AudioService.sink.audio.muted || AudioService.sink.audio.volume === 0) {
+                        if (AudioService.sink.audio.muted)
                             return "volume_off";
-                        }
+                        if (AudioService.sink.audio.volume === 0)
+                            return "volume_mute";
                         if (AudioService.sink.audio.volume * 100 < 33) {
                             return "volume_down";
                         }

@@ -17,6 +17,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
 
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
@@ -26,6 +27,7 @@ Item {
                 tab: "time"
                 tags: ["time", "clock", "format", "24hour"]
                 title: I18n.tr("Time Format")
+                settingKey: "timeFormat"
                 iconName: "schedule"
 
                 SettingsToggleRow {
@@ -53,6 +55,7 @@ Item {
                 tab: "time"
                 tags: ["date", "format", "calendar"]
                 title: I18n.tr("Date Format")
+                settingKey: "dateFormat"
                 iconName: "calendar_today"
 
                 SettingsDropdownRow {
@@ -325,6 +328,7 @@ Item {
                 tab: "time"
                 tags: ["weather", "enable", "forecast"]
                 title: I18n.tr("Weather")
+                settingKey: "weather"
                 iconName: "cloud"
 
                 SettingsToggleRow {
@@ -451,8 +455,8 @@ Item {
                                             onTextEdited: {
                                                 if (text && longitudeInput.text) {
                                                     const coords = text + "," + longitudeInput.text;
-                                                    SettingsData.weatherCoordinates = coords;
-                                                    SettingsData.saveSettings();
+                                                    SessionData.weatherCoordinates = coords;
+                                                    SessionData.saveSettings();
                                                 }
                                             }
                                         }
@@ -501,8 +505,8 @@ Item {
                                             onTextEdited: {
                                                 if (text && latitudeInput.text) {
                                                     const coords = latitudeInput.text + "," + text;
-                                                    SettingsData.weatherCoordinates = coords;
-                                                    SettingsData.saveSettings();
+                                                    SessionData.weatherCoordinates = coords;
+                                                    SessionData.saveSettings();
                                                 }
                                             }
                                         }
@@ -546,6 +550,7 @@ Item {
                 tab: "time"
                 tags: ["weather", "current", "display"]
                 title: I18n.tr("Current Weather")
+                settingKey: "weather"
                 iconName: "visibility"
                 visible: SettingsData.weatherEnabled
 

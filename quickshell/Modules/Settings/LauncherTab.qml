@@ -25,6 +25,7 @@ Item {
 
         Column {
             id: mainColumn
+            topPadding: 4
             width: Math.min(550, parent.width - Theme.spacingL * 2)
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingXL
@@ -33,6 +34,7 @@ Item {
                 width: parent.width
                 iconName: "apps"
                 title: I18n.tr("Launcher Button Logo")
+                settingKey: "launcherLogo"
 
                 StyledText {
                     width: parent.width
@@ -248,6 +250,8 @@ Item {
                     }
 
                     SettingsSliderRow {
+                        settingKey: "launcherLogoSizeOffset"
+                        tags: ["launcher", "logo", "size", "offset", "scale"]
                         text: I18n.tr("Size Offset")
                         minimum: -12
                         maximum: 12
@@ -265,6 +269,8 @@ Item {
                         }
 
                         SettingsSliderRow {
+                            settingKey: "launcherLogoBrightness"
+                            tags: ["launcher", "logo", "brightness", "color"]
                             text: I18n.tr("Brightness")
                             minimum: 0
                             maximum: 100
@@ -275,6 +281,8 @@ Item {
                         }
 
                         SettingsSliderRow {
+                            settingKey: "launcherLogoContrast"
+                            tags: ["launcher", "logo", "contrast", "color"]
                             text: I18n.tr("Contrast")
                             minimum: 0
                             maximum: 200
@@ -285,6 +293,8 @@ Item {
                         }
 
                         SettingsToggleRow {
+                            settingKey: "launcherLogoColorInvertOnMode"
+                            tags: ["launcher", "logo", "invert", "mode", "color"]
                             text: I18n.tr("Invert on mode change")
                             checked: SettingsData.launcherLogoColorInvertOnMode
                             onToggled: checked => SettingsData.set("launcherLogoColorInvertOnMode", checked)
@@ -297,6 +307,7 @@ Item {
                 width: parent.width
                 iconName: "terminal"
                 title: I18n.tr("Launch Prefix")
+                settingKey: "launchPrefix"
 
                 StyledText {
                     width: parent.width
@@ -318,8 +329,11 @@ Item {
                 width: parent.width
                 iconName: "sort_by_alpha"
                 title: I18n.tr("Sorting & Layout")
+                settingKey: "launcherSorting"
 
                 SettingsToggleRow {
+                    settingKey: "sortAppsAlphabetically"
+                    tags: ["launcher", "sort", "alphabetically", "apps", "order"]
                     text: I18n.tr("Sort Alphabetically")
                     description: I18n.tr("When enabled, apps are sorted alphabetically. When disabled, apps are sorted by usage frequency.")
                     checked: SettingsData.sortAppsAlphabetically
@@ -327,6 +341,8 @@ Item {
                 }
 
                 SettingsSliderRow {
+                    settingKey: "appLauncherGridColumns"
+                    tags: ["launcher", "grid", "columns", "layout"]
                     text: I18n.tr("Grid Columns")
                     description: I18n.tr("Adjust the number of columns in grid view mode.")
                     minimum: 2
@@ -344,6 +360,8 @@ Item {
                 visible: CompositorService.isNiri
 
                 SettingsToggleRow {
+                    settingKey: "spotlightCloseNiriOverview"
+                    tags: ["launcher", "niri", "overview", "close", "launch"]
                     text: I18n.tr("Close Overview on Launch")
                     description: I18n.tr("Auto-close Niri overview when launching apps.")
                     checked: SettingsData.spotlightCloseNiriOverview
@@ -351,6 +369,8 @@ Item {
                 }
 
                 SettingsToggleRow {
+                    settingKey: "niriOverviewOverlayEnabled"
+                    tags: ["launcher", "niri", "overview", "overlay", "enable"]
                     text: I18n.tr("Enable Overview Overlay")
                     description: I18n.tr("Show launcher overlay when typing in Niri overview. Disable to use another launcher.")
                     checked: SettingsData.niriOverviewOverlayEnabled
@@ -363,6 +383,7 @@ Item {
                 width: parent.width
                 iconName: "history"
                 title: I18n.tr("Recently Used Apps")
+                settingKey: "recentApps"
 
                 property var rankedAppsModel: {
                     var ranking = AppUsageHistoryData.appUsageRanking;

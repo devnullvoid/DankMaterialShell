@@ -73,6 +73,41 @@ Column {
 
         DankToggle {
             width: parent.width
+            text: I18n.tr("Disable Output")
+            checked: DisplayConfigState.getHyprlandSetting(root.outputData, root.outputName, "disabled", false)
+            onToggled: checked => DisplayConfigState.setHyprlandSetting(root.outputData, root.outputName, "disabled", checked)
+        }
+
+        DankDropdown {
+            width: parent.width
+            text: I18n.tr("Mirror Display")
+            addHorizontalPadding: true
+
+            property var otherOutputs: {
+                const list = [I18n.tr("None")];
+                for (const name in DisplayConfigState.outputs) {
+                    if (name !== root.outputName)
+                        list.push(name);
+                }
+                return list;
+            }
+            options: otherOutputs
+
+            currentValue: {
+                DisplayConfigState.pendingChanges;
+                const pending = DisplayConfigState.getPendingValue(root.outputName, "mirror");
+                const val = pending !== undefined ? pending : (root.outputData.mirror || "");
+                return val === "" ? I18n.tr("None") : val;
+            }
+
+            onValueChanged: value => {
+                const realVal = value === I18n.tr("None") ? "" : value;
+                DisplayConfigState.setPendingChange(root.outputName, "mirror", realVal);
+            }
+        }
+
+        DankToggle {
+            width: parent.width
             text: I18n.tr("10-bit Color")
             description: I18n.tr("Enable 10-bit color depth for wider color gamut and HDR support")
             checked: settingsColumn.is10Bit
@@ -110,26 +145,26 @@ Column {
                 options: [I18n.tr("Auto (Wide)"), I18n.tr("Wide (BT2020)"), "DCI-P3", "Apple P3", "Adobe RGB", "EDID", "HDR", I18n.tr("HDR (EDID)")]
 
                 property var cmValueMap: ({
-                    [I18n.tr("Auto (Wide)")]: "auto",
-                    [I18n.tr("Wide (BT2020)")]: "wide",
-                    "DCI-P3": "dcip3",
-                    "Apple P3": "dp3",
-                    "Adobe RGB": "adobe",
-                    "EDID": "edid",
-                    "HDR": "hdr",
-                    [I18n.tr("HDR (EDID)")]: "hdredid"
-                })
+                        [I18n.tr("Auto (Wide)")]: "auto",
+                        [I18n.tr("Wide (BT2020)")]: "wide",
+                        "DCI-P3": "dcip3",
+                        "Apple P3": "dp3",
+                        "Adobe RGB": "adobe",
+                        "EDID": "edid",
+                        "HDR": "hdr",
+                        [I18n.tr("HDR (EDID)")]: "hdredid"
+                    })
 
                 property var cmLabelMap: ({
-                    "auto": I18n.tr("Auto (Wide)"),
-                    "wide": I18n.tr("Wide (BT2020)"),
-                    "dcip3": "DCI-P3",
-                    "dp3": "Apple P3",
-                    "adobe": "Adobe RGB",
-                    "edid": "EDID",
-                    "hdr": "HDR",
-                    "hdredid": I18n.tr("HDR (EDID)")
-                })
+                        "auto": I18n.tr("Auto (Wide)"),
+                        "wide": I18n.tr("Wide (BT2020)"),
+                        "dcip3": "DCI-P3",
+                        "dp3": "Apple P3",
+                        "adobe": "Adobe RGB",
+                        "edid": "EDID",
+                        "hdr": "HDR",
+                        "hdredid": I18n.tr("HDR (EDID)")
+                    })
 
                 onValueChanged: value => {
                     const cmValue = cmValueMap[value] || "auto";

@@ -56,6 +56,13 @@
     "comment": ""
   },
   {
+    "term": "%1 variants",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "%1 widgets",
     "translation": "",
     "context": "",
@@ -1015,6 +1022,13 @@
     "comment": ""
   },
   {
+    "term": "Battery Charge Limit",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Battery and power management",
     "translation": "",
     "context": "",
@@ -1106,6 +1120,13 @@
     "comment": ""
   },
   {
+    "term": "Blur Wallpaper Layer",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Blur on Overview",
     "translation": "",
     "context": "",
@@ -1191,6 +1212,13 @@
   },
   {
     "term": "Brightness Slider",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Brightness Value",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1855,6 +1883,13 @@
     "comment": ""
   },
   {
+    "term": "Confirm Delete",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Confirm Display Changes",
     "translation": "",
     "context": "",
@@ -2325,6 +2360,13 @@
   },
   {
     "term": "Dark Mode",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Darken Modal Background",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2842,6 +2884,13 @@
     "comment": ""
   },
   {
+    "term": "Duplicate",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Duplicate Wallpaper with Blur",
     "translation": "",
     "context": "",
@@ -3340,6 +3389,27 @@
   },
   {
     "term": "Failed to move job",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to parse plugin_settings.json",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to parse session.json",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Failed to parse settings.json",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5019,6 +5089,13 @@
     "comment": ""
   },
   {
+    "term": "Microphone Volume",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Microphone settings",
     "translation": "",
     "context": "",
@@ -5048,6 +5125,20 @@
   },
   {
     "term": "Minute",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Mirror Display",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Modal Background",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5293,6 +5384,13 @@
   },
   {
     "term": "Niri Integration",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Niri Layout Overrides",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5586,6 +5684,13 @@
     "comment": ""
   },
   {
+    "term": "Note: this only changes the percentage, it does not actually limit charging.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Notepad",
     "translation": "",
     "context": "",
@@ -5839,6 +5944,20 @@
   },
   {
     "term": "Override",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Override Corner Radius",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Override Gaps",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6629,6 +6748,20 @@
     "comment": ""
   },
   {
+    "term": "Reverse Scrolling Direction",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Reverse workspace switch direction when scrolling over the bar",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Revert",
     "translation": "",
     "context": "",
@@ -6679,6 +6812,13 @@
   },
   {
     "term": "Root Filesystem",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Rounded corners for windows",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6840,6 +6980,13 @@
   },
   {
     "term": "Scroll Wheel",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Scroll on widget changes media volume",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7434,6 +7581,13 @@
     "comment": ""
   },
   {
+    "term": "Show darkened overlay behind modal dialogs",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Show launcher overlay when typing in Niri overview. Disable to use another launcher.",
     "translation": "",
     "context": "",
@@ -7442,6 +7596,13 @@
   },
   {
     "term": "Show on Last Display",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show on Overlay",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7637,13 +7798,6 @@
     "comment": ""
   },
   {
-    "term": "Soothing pastel theme based on Catppuccin",
-    "translation": "",
-    "context": "catppuccin theme description",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Sort Alphabetically",
     "translation": "",
     "context": "",
@@ -7673,6 +7827,13 @@
   },
   {
     "term": "Sounds",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Space between windows",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8540,6 +8701,20 @@
     "comment": ""
   },
   {
+    "term": "Use custom gaps instead of bar spacing",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Use custom window radius instead of theme radius",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)",
     "translation": "",
     "context": "",
@@ -9017,6 +9192,20 @@
   },
   {
     "term": "Wind Speed",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Window Corner Radius",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Window Gaps",
     "translation": "",
     "context": "",
     "reference": "",
