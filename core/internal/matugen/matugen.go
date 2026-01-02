@@ -16,6 +16,13 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 )
 
+type ColorMode string
+
+const (
+	ColorModeDark  ColorMode = "dark"
+	ColorModeLight ColorMode = "light"
+)
+
 var (
 	matugenVersionOnce sync.Once
 	matugenSupportsCOE bool
@@ -27,7 +34,7 @@ type Options struct {
 	ConfigDir           string
 	Kind                string
 	Value               string
-	Mode                string
+	Mode                ColorMode
 	IconTheme           string
 	MatugenType         string
 	RunUserTemplates    bool
@@ -77,7 +84,7 @@ func Run(opts Options) error {
 		return fmt.Errorf("value is required")
 	}
 	if opts.Mode == "" {
-		opts.Mode = "dark"
+		opts.Mode = ColorModeDark
 	}
 	if opts.MatugenType == "" {
 		opts.MatugenType = "scheme-tonal-spot"
@@ -145,7 +152,7 @@ func buildOnce(opts *Options) error {
 		importArgs = []string{"--import-json-string", importData}
 
 		log.Info("Running matugen color hex with stock color overrides")
-		args := []string{"color", "hex", primaryDark, "-m", opts.Mode, "-t", opts.MatugenType, "-c", cfgFile.Name()}
+		args := []string{"color", "hex", primaryDark, "-m", string(opts.Mode), "-t", opts.MatugenType, "-c", cfgFile.Name()}
 		args = append(args, importArgs...)
 		if err := runMatugen(args); err != nil {
 			return err
@@ -181,7 +188,7 @@ func buildOnce(opts *Options) error {
 		default:
 			args = []string{opts.Kind, opts.Value}
 		}
-		args = append(args, "-m", opts.Mode, "-t", opts.MatugenType, "-c", cfgFile.Name())
+		args = append(args, "-m", string(opts.Mode), "-t", opts.MatugenType, "-c", cfgFile.Name())
 		args = append(args, importArgs...)
 		if err := runMatugen(args); err != nil {
 			return err
@@ -556,19 +563,19 @@ func extractNestedColor(jsonStr, colorName, variant string) string {
 	return color
 }
 
-func generateDank16Variants(primaryDark, primaryLight, surface, mode string) string {
+func generateDank16Variants(primaryDark, primaryLight, surface string, mode ColorMode) string {
 	variantOpts := dank16.VariantOptions{
 		PrimaryDark:  primaryDark,
 		PrimaryLight: primaryLight,
 		Background:   surface,
 		UseDPS:       true,
-		IsLightMode:  mode == "light",
+		IsLightMode:  mode == ColorModeLight,
 	}
 	variantColors := dank16.GenerateVariantPalette(variantOpts)
 	return dank16.GenerateVariantJSON(variantColors)
 }
 
-func refreshGTK(configDir, mode string) {
+func refreshGTK(configDir string, mode ColorMode) {
 	gtkCSS := filepath.Join(configDir, "gtk-3.0", "gtk.css")
 
 	info, err := os.Lstat(gtkCSS)
@@ -593,8 +600,16 @@ func refreshGTK(configDir, mode string) {
 		return
 	}
 
+	var gtk3Theme string
+	switch mode {
+	case ColorModeDark:
+		gtk3Theme = "adw-gtk3-dark"
+	default:
+		gtk3Theme = "adw-gtk3"
+	}
+
 	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", "").Run()
-	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", "adw-gtk3-"+mode).Run()
+	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", gtk3Theme).Run()
 }
 
 func signalTerminals() {
@@ -624,9 +639,9 @@ func signalByName(name string, sig syscall.Signal) {
 	}
 }
 
-func syncColorScheme(mode string) {
+func syncColorScheme(mode ColorMode) {
 	scheme := "prefer-dark"
-	if mode == "light" {
+	if mode == ColorModeLight {
 		scheme = "default"
 	}
 
