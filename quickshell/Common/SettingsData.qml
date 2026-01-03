@@ -1910,7 +1910,7 @@ Singleton {
 
         property string settingsPath: Paths.strip(settingsFile.path)
 
-        command: ["sh", "-c", "[ -w \"" + settingsPath + "\" ] && echo 'writable' || echo 'readonly'"]
+        command: ["sh", "-c", "[ ! -f \"" + settingsPath + "\" ] || [ -w \"" + settingsPath + "\" ] && echo 'writable' || echo 'readonly'"]
         running: false
 
         stdout: StdioCollector {
