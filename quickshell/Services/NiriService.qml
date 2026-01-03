@@ -1147,8 +1147,7 @@ Singleton {
             kdlContent += `output "${identifier}" {\n`;
 
             if (niriSettings.disabled) {
-                kdlContent += `    off\n}\n\n`;
-                continue;
+                kdlContent += `    off\n`;
             }
 
             if (output.current_mode !== undefined && output.modes && output.modes[output.current_mode]) {
@@ -1157,7 +1156,7 @@ Singleton {
             }
 
             if (output.logical) {
-                kdlContent += `    scale ${output.logical.scale ?? 1.0}\n`;
+                kdlContent += `    scale ${output.logical.scale || 1.0}\n`;
 
                 if (output.logical.transform && output.logical.transform !== "Normal") {
                     const transformMap = {
