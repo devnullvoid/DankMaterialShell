@@ -574,6 +574,12 @@ Singleton {
     }
 
     function scanPlugins() {
+        const userUrl = Paths.toFileUrl(root.pluginDirectory);
+        const systemUrl = Paths.toFileUrl(root.systemPluginDirectory);
+        userWatcher.folder = "";
+        userWatcher.folder = userUrl;
+        systemWatcher.folder = "";
+        systemWatcher.folder = systemUrl;
         resyncDebounce.restart();
     }
 
