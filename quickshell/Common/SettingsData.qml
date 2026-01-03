@@ -278,6 +278,8 @@ Singleton {
     property bool loginctlLockIntegration: true
     property bool fadeToLockEnabled: false
     property int fadeToLockGracePeriod: 5
+    property bool fadeToDpmsEnabled: false
+    property int fadeToDpmsGracePeriod: 5
     property string launchPrefix: ""
     property var brightnessDevicePins: ({})
     property var wifiNetworkPins: ({})

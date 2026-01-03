@@ -168,6 +168,8 @@ var SPEC = {
     loginctlLockIntegration: { def: true },
     fadeToLockEnabled: { def: false },
     fadeToLockGracePeriod: { def: 5 },
+    fadeToDpmsEnabled: { def: false },
+    fadeToDpmsGracePeriod: { def: 5 },
     launchPrefix: { def: "" },
     brightnessDevicePins: { def: {} },
     wifiNetworkPins: { def: {} },
