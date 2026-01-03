@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
+import Quickshell.Io
 import Quickshell.Services.Notifications
 import qs.Common
 import "../Common/markdown2html.js" as Markdown2Html
@@ -13,6 +14,10 @@ Singleton {
     readonly property list<NotifWrapper> notifications: []
     readonly property list<NotifWrapper> allWrappers: []
     readonly property list<NotifWrapper> popups: allWrappers.filter(n => n && n.popup)
+
+    property var historyList: []
+    readonly property string historyFile: Paths.strip(Paths.cache) + "/notification_history.json"
+    property bool historyLoaded: false
 
     property list<NotifWrapper> notificationQueue: []
     property list<NotifWrapper> visibleNotifications: []
@@ -26,7 +31,7 @@ Singleton {
     property int maxIngressPerSecond: 20
     property double _lastIngressSec: 0
     property int _ingressCountThisSec: 0
-    property int maxStoredNotifications: 50
+    property int maxStoredNotifications: SettingsData.notificationHistoryMaxCount
 
     property var _dismissQueue: []
     property int _dismissBatchSize: 8
@@ -40,6 +45,165 @@ Singleton {
 
     Component.onCompleted: {
         _recomputeGroups();
+        Quickshell.execDetached(["mkdir", "-p", Paths.strip(Paths.cache)]);
+    }
+
+    FileView {
+        id: historyFileView
+        path: root.historyFile
+        printErrors: false
+        onLoaded: root.loadHistory()
+        onLoadFailed: error => {
+            if (error === 2) {
+                root.historyLoaded = true;
+                historyFileView.writeAdapter();
+            }
+        }
+
+        JsonAdapter {
+            id: historyAdapter
+            property var notifications: []
+        }
+    }
+
+    Timer {
+        id: historySaveTimer
+        interval: 200
+        onTriggered: root.performSaveHistory()
+    }
+
+    function addToHistory(wrapper) {
+        if (!wrapper)
+            return;
+        const urg = typeof wrapper.urgency === "number" ? wrapper.urgency : 1;
+        const data = {
+            id: wrapper.notification?.id?.toString() || Date.now().toString(),
+            summary: wrapper.summary || "",
+            body: wrapper.body || "",
+            htmlBody: wrapper.htmlBody || wrapper.body || "",
+            appName: wrapper.appName || "",
+            appIcon: wrapper.appIcon || "",
+            image: wrapper.cleanImage || "",
+            urgency: urg,
+            timestamp: wrapper.time.getTime(),
+            desktopEntry: wrapper.desktopEntry || ""
+        };
+        let newList = [data, ...historyList];
+        if (newList.length > SettingsData.notificationHistoryMaxCount) {
+            newList = newList.slice(0, SettingsData.notificationHistoryMaxCount);
+        }
+        historyList = newList;
+        saveHistory();
+    }
+
+    function saveHistory() {
+        historySaveTimer.restart();
+    }
+
+    function performSaveHistory() {
+        try {
+            historyAdapter.notifications = historyList;
+            historyFileView.writeAdapter();
+        } catch (e) {
+            console.warn("NotificationService: save history failed:", e);
+        }
+    }
+
+    function loadHistory() {
+        try {
+            const maxAgeDays = SettingsData.notificationHistoryMaxAgeDays;
+            const now = Date.now();
+            const maxAgeMs = maxAgeDays > 0 ? maxAgeDays * 24 * 60 * 60 * 1000 : 0;
+            const loaded = [];
+
+            for (const item of historyAdapter.notifications || []) {
+                if (maxAgeMs > 0 && (now - item.timestamp) > maxAgeMs)
+                    continue;
+                const urg = typeof item.urgency === "number" ? item.urgency : 1;
+                const body = item.body || "";
+                let htmlBody = item.htmlBody || "";
+                if (!htmlBody && body) {
+                    htmlBody = (body.includes('<') && body.includes('>')) ? body : Markdown2Html.markdownToHtml(body);
+                }
+                loaded.push({
+                    id: item.id || "",
+                    summary: item.summary || "",
+                    body: body,
+                    htmlBody: htmlBody,
+                    appName: item.appName || "",
+                    appIcon: item.appIcon || "",
+                    image: item.image || "",
+                    urgency: urg,
+                    timestamp: item.timestamp || 0,
+                    desktopEntry: item.desktopEntry || ""
+                });
+            }
+            historyList = loaded;
+            historyLoaded = true;
+            if (maxAgeMs > 0 && loaded.length !== (historyAdapter.notifications || []).length)
+                saveHistory();
+        } catch (e) {
+            console.warn("NotificationService: load history failed:", e);
+            historyLoaded = true;
+        }
+    }
+
+    function removeFromHistory(notificationId) {
+        const idx = historyList.findIndex(n => n.id === notificationId);
+        if (idx >= 0) {
+            historyList = historyList.filter((_, i) => i !== idx);
+            saveHistory();
+            return true;
+        }
+        return false;
+    }
+
+    function clearHistory() {
+        historyList = [];
+        saveHistory();
+    }
+
+    function getHistoryTimeRange(timestamp) {
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const itemDate = new Date(timestamp);
+        const itemDay = new Date(itemDate.getFullYear(), itemDate.getMonth(), itemDate.getDate());
+        const diffDays = Math.floor((today - itemDay) / (1000 * 60 * 60 * 24));
+        if (diffDays === 0)
+            return 0;
+        if (diffDays === 1)
+            return 1;
+        return 2;
+    }
+
+    function getHistoryCountForRange(range) {
+        if (range === -1)
+            return historyList.length;
+        return historyList.filter(n => getHistoryTimeRange(n.timestamp) === range).length;
+    }
+
+    function formatHistoryTime(timestamp) {
+        root.timeUpdateTick;
+        root.clockFormatChanged;
+        const now = new Date();
+        const date = new Date(timestamp);
+        const diff = now.getTime() - timestamp;
+        const minutes = Math.floor(diff / 60000);
+        const hours = Math.floor(minutes / 60);
+        if (hours < 1) {
+            if (minutes < 1)
+                return I18n.tr("now");
+            return I18n.tr("%1m ago").arg(minutes);
+        }
+        const nowDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const itemDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        const daysDiff = Math.floor((nowDate - itemDate) / (1000 * 60 * 60 * 24));
+        const timeStr = SettingsData.use24HourClock ? date.toLocaleTimeString(Qt.locale(), "HH:mm") : date.toLocaleTimeString(Qt.locale(), "h:mm AP");
+        if (daysDiff === 0)
+            return timeStr;
+        if (daysDiff === 1)
+            return I18n.tr("yesterday") + ", " + timeStr;
+        return I18n.tr("%1 days ago").arg(daysDiff);
     }
 
     function _nowSec() {
@@ -84,6 +248,40 @@ Singleton {
         wrapper.isPersistent = isCritical || (timeoutMs === 0);
     }
 
+    function _shouldSaveToHistory(urgency) {
+        if (!SettingsData.notificationHistoryEnabled)
+            return false;
+        switch (urgency) {
+        case NotificationUrgency.Low:
+            return SettingsData.notificationHistorySaveLow;
+        case NotificationUrgency.Critical:
+            return SettingsData.notificationHistorySaveCritical;
+        default:
+            return SettingsData.notificationHistorySaveNormal;
+        }
+    }
+
+    function pruneHistory() {
+        const maxAgeDays = SettingsData.notificationHistoryMaxAgeDays;
+        if (maxAgeDays <= 0)
+            return;
+
+        const now = Date.now();
+        const maxAgeMs = maxAgeDays * 24 * 60 * 60 * 1000;
+        const pruned = historyList.filter(item => (now - item.timestamp) <= maxAgeMs);
+
+        if (pruned.length !== historyList.length) {
+            historyList = pruned;
+            saveHistory();
+        }
+    }
+
+    function deleteHistory() {
+        historyList = [];
+        historyAdapter.notifications = [];
+        historyFileView.writeAdapter();
+    }
+
     function _trimStored() {
         if (notifications.length > maxStoredNotifications) {
             const overflow = notifications.length - maxStoredNotifications;
@@ -121,6 +319,7 @@ Singleton {
         }
         visibleNotifications = [];
         _recomputeGroupsLater();
+        pruneHistory();
     }
 
     function onOverlayClose() {
@@ -234,9 +433,11 @@ Singleton {
 
             if (wrapper) {
                 root.allWrappers.push(wrapper);
-                if (!isTransient) {
+                const shouldSave = !isTransient && _shouldSaveToHistory(notif.urgency);
+                if (shouldSave) {
                     root.notifications.push(wrapper);
                     _trimStored();
+                    root.addToHistory(wrapper);
                 }
 
                 Qt.callLater(() => {
@@ -702,6 +903,14 @@ Singleton {
         target: typeof SettingsData !== "undefined" ? SettingsData : null
         function onUse24HourClockChanged() {
             root.clockFormatChanged = !root.clockFormatChanged;
+        }
+        function onNotificationHistoryMaxAgeDaysChanged() {
+            root.pruneHistory();
+        }
+        function onNotificationHistoryEnabledChanged() {
+            if (!SettingsData.notificationHistoryEnabled) {
+                root.deleteHistory();
+            }
         }
     }
 }

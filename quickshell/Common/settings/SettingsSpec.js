@@ -240,6 +240,12 @@ var SPEC = {
     notificationTimeoutNormal: { def: 5000 },
     notificationTimeoutCritical: { def: 0 },
     notificationPopupPosition: { def: 0 },
+    notificationHistoryEnabled: { def: true },
+    notificationHistoryMaxCount: { def: 50 },
+    notificationHistoryMaxAgeDays: { def: 7 },
+    notificationHistorySaveLow: { def: true },
+    notificationHistorySaveNormal: { def: true },
+    notificationHistorySaveCritical: { def: true },
 
     osdAlwaysShowValue: { def: false },
     osdPosition: { def: 5 },

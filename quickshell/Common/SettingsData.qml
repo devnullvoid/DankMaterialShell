@@ -351,6 +351,12 @@ Singleton {
     property int notificationTimeoutNormal: 5000
     property int notificationTimeoutCritical: 0
     property int notificationPopupPosition: SettingsData.Position.Top
+    property bool notificationHistoryEnabled: true
+    property int notificationHistoryMaxCount: 50
+    property int notificationHistoryMaxAgeDays: 7
+    property bool notificationHistorySaveLow: true
+    property bool notificationHistorySaveNormal: true
+    property bool notificationHistorySaveCritical: true
 
     property bool osdAlwaysShowValue: false
     property int osdPosition: SettingsData.Position.BottomCenter
