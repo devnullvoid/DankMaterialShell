@@ -145,6 +145,26 @@ Singleton {
         }
     }
 
+    Process {
+        id: ensureOutputsProcess
+        property string outputsPath: ""
+
+        onExited: exitCode => {
+            if (exitCode !== 0)
+                console.warn("NiriService: Failed to ensure outputs.kdl, exit code:", exitCode);
+        }
+    }
+
+    Process {
+        id: ensureBindsProcess
+        property string bindsPath: ""
+
+        onExited: exitCode => {
+            if (exitCode !== 0)
+                console.warn("NiriService: Failed to ensure binds.kdl, exit code:", exitCode);
+        }
+    }
+
     DankSocket {
         id: eventStreamSocket
         path: root.socketPath
@@ -1041,6 +1061,16 @@ Singleton {
         writeAlttabProcess.alttabPath = alttabPath;
         writeAlttabProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && cat > "${alttabPath}" << 'EOF'\n${alttabContent}\nEOF`];
         writeAlttabProcess.running = true;
+
+        const outputsPath = niriDmsDir + "/outputs.kdl";
+        ensureOutputsProcess.outputsPath = outputsPath;
+        ensureOutputsProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && [ ! -f "${outputsPath}" ] && touch "${outputsPath}" || true`];
+        ensureOutputsProcess.running = true;
+
+        const bindsPath = niriDmsDir + "/binds.kdl";
+        ensureBindsProcess.bindsPath = bindsPath;
+        ensureBindsProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && [ ! -f "${bindsPath}" ] && touch "${bindsPath}" || true`];
+        ensureBindsProcess.running = true;
 
         configGenerationPending = false;
     }
