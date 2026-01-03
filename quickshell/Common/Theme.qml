@@ -1328,7 +1328,7 @@ Singleton {
             const colorsPath = SessionData.isGreeterMode ? greetCfgDir + "/colors.json" : stateDir + "/dms-colors.json";
             return colorsPath;
         }
-        watchChanges: currentTheme === dynamic && !SessionData.isGreeterMode
+        watchChanges: !SessionData.isGreeterMode
 
         function parseAndLoadColors() {
             try {
@@ -1349,17 +1349,13 @@ Singleton {
         }
 
         onLoaded: {
-            if (currentTheme === dynamic) {
-                console.info("Theme: Dynamic colors file loaded successfully");
+            if (currentTheme === dynamic)
                 colorsFileLoadFailed = false;
-                parseAndLoadColors();
-            }
+            parseAndLoadColors();
         }
 
         onFileChanged: {
-            if (currentTheme === dynamic) {
-                dynamicColorsFileView.reload();
-            }
+            dynamicColorsFileView.reload();
         }
 
         onLoadFailed: function (error) {
