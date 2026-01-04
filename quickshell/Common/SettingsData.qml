@@ -840,11 +840,19 @@ Singleton {
     }
 
     function _onWritableCheckComplete(writable) {
+        const wasReadOnly = _isReadOnly;
         _isReadOnly = !writable;
         if (_isReadOnly) {
-            console.info("SettingsData: settings.json is read-only (NixOS home-manager mode)");
-        } else if (_pendingMigration) {
-            settingsFile.setText(JSON.stringify(_pendingMigration, null, 2));
+            _hasUnsavedChanges = _checkForUnsavedChanges();
+            if (!wasReadOnly)
+                console.info("SettingsData: settings.json is now read-only");
+        } else {
+            _loadedSettingsSnapshot = JSON.stringify(Store.toJson(root));
+            _hasUnsavedChanges = false;
+            if (wasReadOnly)
+                console.info("SettingsData: settings.json is now writable");
+            if (_pendingMigration)
+                settingsFile.setText(JSON.stringify(_pendingMigration, null, 2));
         }
         _pendingMigration = null;
     }
@@ -889,11 +897,9 @@ Singleton {
     function saveSettings() {
         if (_loading || _parseError || !_hasLoaded)
             return;
-        if (_isReadOnly) {
-            _hasUnsavedChanges = _checkForUnsavedChanges();
-            return;
-        }
         settingsFile.setText(JSON.stringify(Store.toJson(root), null, 2));
+        if (_isReadOnly)
+            _checkSettingsWritable();
     }
 
     function savePluginSettings() {
@@ -1888,6 +1894,10 @@ Singleton {
             if (!isGreeterMode) {
                 applyStoredTheme();
             }
+        }
+        onSaveFailed: error => {
+            root._isReadOnly = true;
+            root._hasUnsavedChanges = root._checkForUnsavedChanges();
         }
     }
 
