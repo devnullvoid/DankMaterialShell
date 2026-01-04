@@ -7,10 +7,6 @@
   "engines": {
     "vscode": "^1.70.0"
   },
-  "main": "./extension.js",
-  "activationEvents": [
-    "onStartupFinished"
-  ],
   "categories": [
     "Themes"
   ],
@@ -31,17 +27,20 @@
       {
         "label": "Dynamic Base16 DankShell",
         "uiTheme": "vs-dark",
-        "path": "./themes/dankshell-default.json"
+        "path": "./themes/dankshell-default.json",
+        "_watch": true
       },
       {
         "label": "Dynamic Base16 DankShell (Dark)",
         "uiTheme": "vs-dark",
-        "path": "./themes/dankshell-dark.json"
+        "path": "./themes/dankshell-dark.json",
+        "_watch": true
       },
       {
         "label": "Dynamic Base16 DankShell (Light)",
         "uiTheme": "vs",
-        "path": "./themes/dankshell-light.json"
+        "path": "./themes/dankshell-light.json",
+        "_watch": true
       }
     ]
   }
