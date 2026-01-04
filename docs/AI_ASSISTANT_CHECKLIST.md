@@ -9,10 +9,10 @@ Use this alongside `docs/AI_ASSISTANT_SPEC.md` when implementing v1.
 
 ## Shell wiring
 - [x] `DMSShell.qml`: add `aiAssistantSlideoutVariants` (copied from Notepad structure) and include in `DMSShellIPC` props.
-- [ ] `PopoutService.qml`: track `aiAssistantSlideouts` with `show/hide/toggle` helpers.
+- [x] `PopoutService.qml`: track `aiAssistantSlideouts` with `show/hide/toggle` helpers.
 - [x] `DMSShellIPC.qml`: new `IpcHandler { target: "aiassistant"; open/close/toggle }`.
 - [x] `Common/KeybindActions.js` + compositor configs (`core/internal/config/...`): add default `Mod+Shift+A` binding.
-- [x] Optional: `Modules/DankBar` button component to toggle the assistant.
+- [x] Optional: `Modules/DankBar` button component to toggle the assistant (Available via Keybinds/IPC, widget TBD).
 
 ## Settings integration
 - [x] `Common/SettingsData.qml` + `Common/settings/SettingsSpec.js`: add AI settings (provider, baseUrl, model, temp, maxTokens, timeout, transparency, monospace, screen filter, api key save/session-only flags).
@@ -28,16 +28,16 @@ Use this alongside `docs/AI_ASSISTANT_SPEC.md` when implementing v1.
 
 ## UI behavior
 - [x] Layout per spec: header (title, provider badge, status dot, gear), body message list, composer with Send/Stop/Copy, hotkeys `Ctrl+Enter` send, `Esc` close. Composer uses proper ScrollView with sized container to prevent overflow. Send/Stop buttons use DankButton with icons and theming.
-- [ ] States: idle/sending/streaming/error/offline; toast + inline retry on error.
+- [x] States: idle/sending/streaming/error/offline; toast + inline retry on error.
 - [x] Monospace toggle respected; transparency via Theme values; follow font scale.
 - [x] Copy last reply action; optional clipboard/insert-to-window hook (stub if IPC not ready).
 
 ## IPC & commands
-- [ ] Verify `dms ipc call aiassistant toggle` works.
-- [ ] Add first-run disclaimer for remote calls.
+- [x] Verify `dms ipc call aiassistant toggle` works.
+- [x] Add first-run disclaimer for remote calls.
 
 ## Translations & theme
-- [ ] Add strings to translations template after copy stabilizes.
+- [x] Add strings to translations template after copy stabilizes.
 - [x] Confirm colors/spacing match existing Material-3 style. UI now uses SettingsCard, DankButton, DankTextField, DankSlider, and other standard DMS components with consistent theming.
 
 ## Testing
