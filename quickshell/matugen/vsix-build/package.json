@@ -1,9 +1,10 @@
 {
-  "name": "dynamic-base16-dankshell",
-  "displayName": "Dynamic Base16 DankShell",
-  "description": "Dynamic Material You theme with base16 terminal colors - auto-updated by DankMaterialShell",
-  "publisher": "local",
-  "version": "0.0.1",
+  "name": "dms-theme",
+  "displayName": "DMS - Dank Material Shell Theme",
+  "description": "Dynamic theme using matugen & dank16 terminal colors - auto-updated by DankMaterialShell",
+  "publisher": "DankLinux",
+  "version": "0.0.2",
+  "icon": "danklogo.png",
   "engines": {
     "vscode": "^1.70.0"
   },
@@ -11,16 +12,15 @@
     "Themes"
   ],
   "keywords": [
-    "theme",
+    "dms",
+    "dank",
     "material",
-    "material you",
-    "base16",
-    "dynamic",
-    "dankshell"
+    "dankshell",
+    "danklinux"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/AvengeMedia/DankMaterialShellGit"
+    "url": "https://github.com/AvengeMedia/DankMaterialShell"
   },
   "contributes": {
     "themes": [

@@ -309,11 +309,11 @@ output_path = '%s'
 
 	if !opts.ShouldSkipTemplate("vscode") {
 		homeDir, _ := os.UserHomeDir()
-		appendVSCodeConfig(cfgFile, "vscode", filepath.Join(homeDir, ".vscode/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
-		appendVSCodeConfig(cfgFile, "codium", filepath.Join(homeDir, ".vscode-oss/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
-		appendVSCodeConfig(cfgFile, "codeoss", filepath.Join(homeDir, ".config/Code - OSS/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
-		appendVSCodeConfig(cfgFile, "cursor", filepath.Join(homeDir, ".cursor/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
-		appendVSCodeConfig(cfgFile, "windsurf", filepath.Join(homeDir, ".windsurf/extensions/local.dynamic-base16-dankshell-0.0.1"), opts.ShellDir)
+		appendVSCodeConfig(cfgFile, "vscode", filepath.Join(homeDir, ".vscode/extensions"), opts.ShellDir)
+		appendVSCodeConfig(cfgFile, "codium", filepath.Join(homeDir, ".vscode-oss/extensions"), opts.ShellDir)
+		appendVSCodeConfig(cfgFile, "codeoss", filepath.Join(homeDir, ".config/Code - OSS/extensions"), opts.ShellDir)
+		appendVSCodeConfig(cfgFile, "cursor", filepath.Join(homeDir, ".cursor/extensions"), opts.ShellDir)
+		appendVSCodeConfig(cfgFile, "windsurf", filepath.Join(homeDir, ".windsurf/extensions"), opts.ShellDir)
 	}
 
 	if opts.RunUserTemplates {
@@ -428,10 +428,14 @@ func appendTerminalConfig(opts *Options, cfgFile *os.File, tmpDir string, checkC
 	cfgFile.WriteString("\n")
 }
 
-func appendVSCodeConfig(cfgFile *os.File, name, extDir, shellDir string) {
-	if _, err := os.Stat(extDir); err != nil {
+func appendVSCodeConfig(cfgFile *os.File, name, extBaseDir, shellDir string) {
+	pattern := filepath.Join(extBaseDir, "danklinux.dms-theme-*")
+	matches, err := filepath.Glob(pattern)
+	if err != nil || len(matches) == 0 {
 		return
 	}
+
+	extDir := matches[0]
 	templateDir := filepath.Join(shellDir, "matugen", "templates")
 	fmt.Fprintf(cfgFile, `[templates.dms%sdefault]
 input_path = '%s/vscode-color-theme-default.json'
