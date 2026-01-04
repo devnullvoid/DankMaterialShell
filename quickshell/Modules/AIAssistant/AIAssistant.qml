@@ -174,8 +174,19 @@ Item {
 
             StyledText {
                 anchors.centerIn: parent
-                visible: !hasApiKey && (aiService.service?.messageCount ?? 0) === 0
-                text: I18n.tr("Configure a provider and API key in Settings to start chatting.")
+                visible: (aiService.service?.messageCount ?? 0) === 0
+                text: {
+                    if (!hasApiKey) return I18n.tr("Configure a provider and API key in Settings to start chatting.");
+                    
+                    const provider = aiService.service?.provider ?? "openai";
+                    const baseUrl = aiService.service?.baseUrl ?? "";
+                    const isRemote = provider !== "custom" || (!baseUrl.includes("localhost") && !baseUrl.includes("127.0.0.1"));
+                    
+                    if (isRemote) {
+                        return I18n.tr("Note: Your messages will be sent to a remote provider (%1).\nDo not send sensitive information.").arg(provider.toUpperCase());
+                    }
+                    return I18n.tr("Ready to chat locally.");
+                }
                 font.pixelSize: Theme.fontSizeMedium
                 color: Theme.surfaceTextMedium
                 wrapMode: Text.Wrap
