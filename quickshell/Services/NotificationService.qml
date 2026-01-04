@@ -17,6 +17,7 @@ Singleton {
 
     property var historyList: []
     readonly property string historyFile: Paths.strip(Paths.cache) + "/notification_history.json"
+    readonly property string imageCacheDir: Paths.strip(Paths.cache) + "/notification_images"
     property bool historyLoaded: false
 
     property list<NotifWrapper> notificationQueue: []
@@ -46,6 +47,7 @@ Singleton {
     Component.onCompleted: {
         _recomputeGroups();
         Quickshell.execDetached(["mkdir", "-p", Paths.strip(Paths.cache)]);
+        Quickshell.execDetached(["mkdir", "-p", imageCacheDir]);
     }
 
     FileView {
@@ -72,10 +74,46 @@ Singleton {
         onTriggered: root.performSaveHistory()
     }
 
+    function getImageCachePath(wrapper) {
+        const ts = wrapper.time ? wrapper.time.getTime() : Date.now();
+        const id = wrapper.notification?.id?.toString() || "0";
+        return imageCacheDir + "/notif_" + ts + "_" + id + ".png";
+    }
+
+    function updateHistoryImage(wrapperId, imagePath) {
+        const idx = historyList.findIndex(n => n.id === wrapperId);
+        if (idx < 0)
+            return;
+        const item = historyList[idx];
+        const updated = {
+            id: item.id,
+            summary: item.summary,
+            body: item.body,
+            htmlBody: item.htmlBody,
+            appName: item.appName,
+            appIcon: item.appIcon,
+            image: "file://" + imagePath,
+            urgency: item.urgency,
+            timestamp: item.timestamp,
+            desktopEntry: item.desktopEntry
+        };
+        const newList = historyList.slice();
+        newList[idx] = updated;
+        historyList = newList;
+        saveHistory();
+    }
+
     function addToHistory(wrapper) {
         if (!wrapper)
             return;
         const urg = typeof wrapper.urgency === "number" ? wrapper.urgency : 1;
+        const imageUrl = wrapper.image || "";
+        let persistableImage = "";
+        if (wrapper.persistedImagePath) {
+            persistableImage = "file://" + wrapper.persistedImagePath;
+        } else if (imageUrl && !imageUrl.startsWith("image://qsimage/")) {
+            persistableImage = imageUrl;
+        }
         const data = {
             id: wrapper.notification?.id?.toString() || Date.now().toString(),
             summary: wrapper.summary || "",
@@ -83,7 +121,7 @@ Singleton {
             htmlBody: wrapper.htmlBody || wrapper.body || "",
             appName: wrapper.appName || "",
             appIcon: wrapper.appIcon || "",
-            image: wrapper.cleanImage || "",
+            image: persistableImage,
             urgency: urg,
             timestamp: wrapper.time.getTime(),
             desktopEntry: wrapper.desktopEntry || ""
@@ -148,9 +186,19 @@ Singleton {
         }
     }
 
+    function _deleteCachedImage(imagePath) {
+        if (!imagePath || !imagePath.startsWith("file://"))
+            return;
+        const filePath = imagePath.replace("file://", "");
+        if (filePath.startsWith(imageCacheDir)) {
+            Quickshell.execDetached(["rm", "-f", filePath]);
+        }
+    }
+
     function removeFromHistory(notificationId) {
         const idx = historyList.findIndex(n => n.id === notificationId);
         if (idx >= 0) {
+            _deleteCachedImage(historyList[idx].image);
             historyList = historyList.filter((_, i) => i !== idx);
             saveHistory();
             return true;
@@ -159,6 +207,9 @@ Singleton {
     }
 
     function clearHistory() {
+        for (const item of historyList) {
+            _deleteCachedImage(item.image);
+        }
         historyList = [];
         saveHistory();
     }
@@ -268,15 +319,22 @@ Singleton {
 
         const now = Date.now();
         const maxAgeMs = maxAgeDays * 24 * 60 * 60 * 1000;
+        const toRemove = historyList.filter(item => (now - item.timestamp) > maxAgeMs);
         const pruned = historyList.filter(item => (now - item.timestamp) <= maxAgeMs);
 
         if (pruned.length !== historyList.length) {
+            for (const item of toRemove) {
+                _deleteCachedImage(item.image);
+            }
             historyList = pruned;
             saveHistory();
         }
     }
 
     function deleteHistory() {
+        for (const item of historyList) {
+            _deleteCachedImage(item.image);
+        }
         historyList = [];
         historyAdapter.notifications = [];
         historyFileView.writeAdapter();
@@ -461,6 +519,7 @@ Singleton {
         property bool removedByLimit: false
         property bool isPersistent: true
         property int seq: 0
+        property string persistedImagePath: ""
 
         onPopupChanged: {
             if (!popup) {
