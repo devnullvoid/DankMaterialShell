@@ -20,11 +20,7 @@ Item {
     property int debounceInterval: 50
     property bool keyboardNavigationActive: false
     property bool suppressUpdatesWhileLaunching: false
-    property var categories: {
-        const allCategories = AppSearchService.getAllCategories().filter(cat => cat !== "Education" && cat !== "Science");
-        const result = [I18n.tr("All")];
-        return result.concat(allCategories.filter(cat => cat !== I18n.tr("All")));
-    }
+    property var categories: []
     readonly property var categoryIcons: categories.map(category => AppSearchService.getCategoryIcon(category))
     property var appUsageRanking: AppUsageHistoryData.appUsageRanking || {}
     property alias model: filteredModel
@@ -42,6 +38,7 @@ Item {
         if (_initialized)
             return;
         _initialized = true;
+        updateCategories();
         updateFilteredModel();
     }
 
