@@ -266,7 +266,63 @@
     "comment": ""
   },
   {
+    "term": "AI Assistant",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "AI Assistant (Preview)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "AI Assistant Settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "AI Assistant Slideout",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "API",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "API Authentication",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "API Key",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "API Key Env Var",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "API endpoint URL for the provider",
     "translation": "",
     "context": "",
     "reference": "",
@@ -651,6 +707,20 @@
     "comment": ""
   },
   {
+    "term": "Ask anything…",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Assistant",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Audio",
     "translation": "",
     "context": "",
@@ -1015,6 +1085,13 @@
     "comment": ""
   },
   {
+    "term": "Base URL",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Battery",
     "translation": "",
     "context": "",
@@ -1351,6 +1428,13 @@
     "comment": ""
   },
   {
+    "term": "Cancelled",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Cannot pair",
     "translation": "",
     "context": "",
@@ -1569,6 +1653,13 @@
   },
   {
     "term": "Clear at Startup",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Clear history",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1862,6 +1953,13 @@
     "comment": ""
   },
   {
+    "term": "Configure a provider and API key in Settings to start chatting.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Configure icons for named workspaces. Icons take priority over numbers when both are enabled.",
     "translation": "",
     "context": "",
@@ -1995,6 +2093,13 @@
     "comment": ""
   },
   {
+    "term": "Controls randomness (0 = focused, 2 = creative)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Cooldown",
     "translation": "",
     "context": "",
@@ -2024,6 +2129,13 @@
   },
   {
     "term": "Copy Process Name",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Copy last reply",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2576,13 +2688,6 @@
     "comment": ""
   },
   {
-    "term": "Disable Clipboard Manager",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Disable History Persistence",
     "translation": "",
     "context": "",
@@ -2591,13 +2696,6 @@
   },
   {
     "term": "Disable Output",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Disable clipboard manager entirely (requires restart)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2675,6 +2773,13 @@
   },
   {
     "term": "Display Name Format",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Display Options",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3060,6 +3165,13 @@
   },
   {
     "term": "Enter 6-digit passkey",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Enter API key",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4039,6 +4151,13 @@
     "comment": ""
   },
   {
+    "term": "Hide settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Hide the dock when not in use and reveal it when hovering near the dock area",
     "translation": "",
     "context": "",
@@ -4096,6 +4215,13 @@
   },
   {
     "term": "Hot Corners",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hotkey AI chat panel",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4928,6 +5054,13 @@
     "comment": ""
   },
   {
+    "term": "Max Tokens",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Max apps to show",
     "translation": "",
     "context": "",
@@ -4957,6 +5090,13 @@
   },
   {
     "term": "Maximum number of clipboard entries to keep",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Maximum response length",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5166,6 +5306,20 @@
     "comment": ""
   },
   {
+    "term": "Model Parameters",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Model identifier for the provider",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Modified",
     "translation": "",
     "context": "",
@@ -5195,6 +5349,13 @@
   },
   {
     "term": "Monospace Font",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "More",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5405,6 +5566,13 @@
   },
   {
     "term": "No",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "No API key or provider configuration.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6195,6 +6363,13 @@
     "comment": ""
   },
   {
+    "term": "Please wait until the current response finishes.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Plugged In",
     "translation": "",
     "context": "",
@@ -6468,6 +6643,13 @@
     "comment": ""
   },
   {
+    "term": "Priority: Saved/Session key → Custom env var → Common env vars → DMS_* env vars",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Privacy Indicator",
     "translation": "",
     "context": "",
@@ -6518,6 +6700,27 @@
   },
   {
     "term": "Protocol",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Provider",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Provider Configuration",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Quick access to AI Assistant",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6636,6 +6839,13 @@
     "comment": ""
   },
   {
+    "term": "Remember API Key",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Remove",
     "translation": "",
     "context": "",
@@ -6651,6 +6861,34 @@
   },
   {
     "term": "Report",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Request failed (HTTP %1)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Request failed (HTTP %1): ",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Request failed (exit %1)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Request timeout in seconds",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6742,6 +6980,13 @@
   },
   {
     "term": "Resume",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Retry",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6895,6 +7140,13 @@
     "comment": ""
   },
   {
+    "term": "Save API key to disk (persists across sessions)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Save Notepad File",
     "translation": "",
     "context": "",
@@ -6910,6 +7162,13 @@
   },
   {
     "term": "Saved",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Saved API key (persists across sessions)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7098,6 +7357,13 @@
     "comment": ""
   },
   {
+    "term": "Select AI provider type",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Select Application",
     "translation": "",
     "context": "",
@@ -7252,6 +7518,13 @@
     "comment": ""
   },
   {
+    "term": "Send",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Separator",
     "translation": "",
     "context": "",
@@ -7260,6 +7533,13 @@
   },
   {
     "term": "Server",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Session-only key (cleared on restart)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7290,6 +7570,13 @@
     "term": "Settings",
     "translation": "",
     "context": "settings window title",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Settings are read-only. Changes will not persist.",
+    "translation": "",
+    "context": "read-only settings warning for NixOS home-manager users",
     "reference": "",
     "comment": ""
   },
@@ -7791,6 +8078,20 @@
     "comment": ""
   },
   {
+    "term": "Smartcard Authentication",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Smartcard PIN",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Some plugins require a newer version of DMS:",
     "translation": "",
     "context": "",
@@ -7917,6 +8218,13 @@
     "comment": ""
   },
   {
+    "term": "Stop",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Stopped",
     "translation": "",
     "context": "",
@@ -7939,6 +8247,13 @@
   },
   {
     "term": "Storage & Disks",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Streaming…",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8141,6 +8456,13 @@
     "comment": ""
   },
   {
+    "term": "Temperature",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Terminal custom additional parameters",
     "translation": "",
     "context": "",
@@ -8296,6 +8618,13 @@
   },
   {
     "term": "Timed Out",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Timeout",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8680,6 +9009,13 @@
     "comment": ""
   },
   {
+    "term": "Use an environment variable instead of storing a key on disk",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Use an external wallpaper manager like swww, hyprpaper, or swaybg.",
     "translation": "",
     "context": "wallpaper settings disable description",
@@ -8723,6 +9059,13 @@
   },
   {
     "term": "Use light theme instead of dark theme",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Use monospace font for AI replies (better for code)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -9289,6 +9632,13 @@
     "comment": ""
   },
   {
+    "term": "You",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "You have unsaved changes. Save before closing this tab?",
     "translation": "",
     "context": "",
@@ -9360,6 +9710,13 @@
   },
   {
     "term": "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "e.g. OPENAI_API_KEY",
     "translation": "",
     "context": "",
     "reference": "",
