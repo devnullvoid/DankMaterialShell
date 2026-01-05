@@ -104,6 +104,27 @@ Singleton {
     }
 
     Process {
+        id: hibernateProcess
+        running: false
+
+        property string errorOutput: ""
+
+        stderr: SplitParser {
+            splitMarker: "\n"
+            onRead: data => hibernateProcess.errorOutput += data.trim()
+        }
+
+        onExited: function (exitCode) {
+            if (exitCode === 0) {
+                errorOutput = "";
+                return;
+            }
+            ToastService.showError("Hibernate failed", errorOutput);
+            errorOutput = "";
+        }
+    }
+
+    Process {
         id: detectPrimeRunProcess
         running: false
         command: ["which", "prime-run"]
@@ -274,11 +295,13 @@ Singleton {
     }
 
     function hibernate() {
-        if (SettingsData.customPowerActionHibernate.length === 0) {
-            Quickshell.execDetached([isElogind ? "loginctl" : "systemctl", "hibernate"]);
+        hibernateProcess.errorOutput = "";
+        if (SettingsData.customPowerActionHibernate.length > 0) {
+            hibernateProcess.command = ["sh", "-c", SettingsData.customPowerActionHibernate];
         } else {
-            Quickshell.execDetached(["sh", "-c", SettingsData.customPowerActionHibernate]);
+            hibernateProcess.command = [isElogind ? "loginctl" : "systemctl", "hibernate"];
         }
+        hibernateProcess.running = true;
     }
 
     function suspendThenHibernate() {
