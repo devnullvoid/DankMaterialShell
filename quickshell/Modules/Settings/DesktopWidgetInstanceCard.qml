@@ -246,6 +246,23 @@ SettingsCard {
             }
         }
 
+        SettingsDivider {
+            visible: CompositorService.isNiri
+        }
+
+        SettingsToggleRow {
+            visible: CompositorService.isNiri
+            text: I18n.tr("Show on Overview Only")
+            checked: instanceData?.config?.showOnOverviewOnly ?? false
+            onToggled: isChecked => {
+                if (!root.instanceId)
+                    return;
+                SettingsData.updateDesktopWidgetInstanceConfig(root.instanceId, {
+                    showOnOverviewOnly: isChecked
+                });
+            }
+        }
+
         SettingsDivider {}
 
         Item {
