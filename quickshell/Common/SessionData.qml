@@ -945,8 +945,9 @@ Singleton {
         id: settingsFile
 
         path: isGreeterMode ? "" : StandardPaths.writableLocation(StandardPaths.GenericStateLocation) + "/DankMaterialShell/session.json"
-        blockLoading: isGreeterMode
+        blockLoading: true
         blockWrites: true
+        atomicWrites: true
         watchChanges: !isGreeterMode
         onLoaded: {
             if (!isGreeterMode) {
