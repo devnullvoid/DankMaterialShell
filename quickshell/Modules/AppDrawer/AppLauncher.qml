@@ -186,7 +186,7 @@ Item {
                 filteredModel.append({
                     "name": app.name || "",
                     "exec": app.execString || app.exec || app.action || "",
-                    "icon": app.icon !== undefined ? app.icon : (isPluginItem ? "" : "application-x-executable"),
+                    "icon": app.icon !== undefined ? String(app.icon) : (isPluginItem ? "" : "application-x-executable"),
                     "comment": app.comment || "",
                     "categories": app.categories || [],
                     "isPlugin": isPluginItem,
