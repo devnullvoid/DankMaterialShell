@@ -15,13 +15,16 @@
     "%1 connected": "已连接 %1"
   },
   "%1 days ago": {
-    "%1 days ago": ""
+    "%1 days ago": "%1天之前"
   },
   "%1 display(s)": {
     "%1 display(s)": "%1 显示"
   },
   "%1 job(s)": {
     "%1 job(s)": "%1 个任务"
+  },
+  "%1 notifications": {
+    "%1 notifications": ""
   },
   "%1 printer(s)": {
     "%1 printer(s)": "%1 个打印机"
@@ -33,10 +36,13 @@
     "%1 widgets": "%1 部件"
   },
   "%1m ago": {
-    "%1m ago": ""
+    "%1m ago": "%1分之前"
   },
   "(Unnamed)": {
     "(Unnamed)": "(未命名)"
+  },
+  "+ %1 more": {
+    "+ %1 more": ""
   },
   "0 = square corners": {
     "0 = square corners": "0 = 直角"
@@ -49,6 +55,9 @@
   },
   "1 minute": {
     "1 minute": "1 分钟"
+  },
+  "1 notification": {
+    "1 notification": ""
   },
   "1 second": {
     "1 second": "1 秒"
@@ -127,6 +136,9 @@
   },
   "About": {
     "About": "关于"
+  },
+  "Accent Color": {
+    "Accent Color": ""
   },
   "Accept Jobs": {
     "Accept Jobs": "接受任务"
@@ -413,6 +425,9 @@
   "Available Screens (%1)": {
     "Available Screens (%1)": "可用屏幕（%1）"
   },
+  "Available in Detailed and Forecast view modes": {
+    "Available in Detailed and Forecast view modes": ""
+  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -499,6 +514,9 @@
   },
   "Border Opacity": {
     "Border Opacity": "边框透明度"
+  },
+  "Border Size": {
+    "Border Size": ""
   },
   "Border Thickness": {
     "Border Thickness": "边框厚度"
@@ -625,6 +643,9 @@
   },
   "Choose colors from palette": {
     "Choose colors from palette": "从调色板中选择颜色"
+  },
+  "Choose how the weather widget is displayed": {
+    "Choose how the weather widget is displayed": ""
   },
   "Choose icon": {
     "Choose icon": "选择图标"
@@ -754,6 +775,9 @@
   },
   "Communication": {
     "Communication": "通讯"
+  },
+  "Compact": {
+    "Compact": ""
   },
   "Compact Mode": {
     "Compact Mode": "紧凑模式"
@@ -910,6 +934,9 @@
   },
   "Custom": {
     "Custom": "自定义"
+  },
+  "Custom Color": {
+    "Custom Color": ""
   },
   "Custom Duration": {
     "Custom Duration": "自定义持续时间"
@@ -1073,6 +1100,9 @@
   "Desktop clock widget name": {
     "Desktop Clock": "桌面时钟"
   },
+  "Detailed": {
+    "Detailed": ""
+  },
   "Development": {
     "Development": "开发"
   },
@@ -1159,6 +1189,9 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "显示当前聚焦应用的标题"
+  },
+  "Display hourly weather predictions": {
+    "Display hourly weather predictions": ""
   },
   "Display only workspaces that contain windows": {
     "Display only workspaces that contain windows": "只显示包含窗口的工作区"
@@ -1380,7 +1413,7 @@
     "Fade to lock screen": "淡出至锁定屏幕"
   },
   "Fade to monitor off": {
-    "Fade to monitor off": ""
+    "Fade to monitor off": "淡出至显示器关闭"
   },
   "Failed to activate configuration": {
     "Failed to activate configuration": "无法应用配置"
@@ -1535,6 +1568,9 @@
   "Failed to write temp file for validation": {
     "Failed to write temp file for validation": "未能写入临时文件进行验证"
   },
+  "Feels": {
+    "Feels": ""
+  },
   "Feels Like": {
     "Feels Like": "体感温度"
   },
@@ -1616,6 +1652,12 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "强制终端应用使用暗色"
   },
+  "Forecast": {
+    "Forecast": ""
+  },
+  "Forecast Days": {
+    "Forecast Days": ""
+  },
   "Forecast Not Available": {
     "Forecast Not Available": "暂无预报"
   },
@@ -1674,7 +1716,7 @@
     "Gradually fade the screen before locking with a configurable grace period": "在锁定前通过可配置的宽限期逐渐淡出屏幕"
   },
   "Gradually fade the screen before turning off monitors with a configurable grace period": {
-    "Gradually fade the screen before turning off monitors with a configurable grace period": ""
+    "Gradually fade the screen before turning off monitors with a configurable grace period": "在关闭显示器前逐渐淡出屏幕，淡出时间可配置"
   },
   "Graph Time Range": {
     "Graph Time Range": "图表时间范围"
@@ -1769,11 +1811,17 @@
   "Hourly Forecast": {
     "Hourly Forecast": "每小时预报"
   },
+  "Hourly Forecast Count": {
+    "Hourly Forecast Count": ""
+  },
   "How often to change wallpaper": {
     "How often to change wallpaper": "壁纸轮换频率"
   },
   "Humidity": {
     "Humidity": "湿度"
+  },
+  "Hyprland Layout Overrides": {
+    "Hyprland Layout Overrides": ""
   },
   "I Understand": {
     "I Understand": "我明白以上内容"
@@ -2010,7 +2058,7 @@
     "Lock before suspend": "挂起前锁屏"
   },
   "Lock fade grace period": {
-    "Lock fade grace period": ""
+    "Lock fade grace period": "锁定淡出时间"
   },
   "Log Out": {
     "Log Out": "注销"
@@ -2041,6 +2089,9 @@
   },
   "Management": {
     "Management": "管理"
+  },
+  "MangoWC Layout Overrides": {
+    "MangoWC Layout Overrides": ""
   },
   "Manual Coordinates": {
     "Manual Coordinates": "手动设置坐标"
@@ -2187,7 +2238,7 @@
     "Monitor Configuration": "监视器配置"
   },
   "Monitor fade grace period": {
-    "Monitor fade grace period": ""
+    "Monitor fade grace period": "显示器淡出时间"
   },
   "Monitor whose wallpaper drives dynamic theming colors": {
     "Monitor whose wallpaper drives dynamic theming colors": "监视使用动态主题色的壁纸"
@@ -2306,6 +2357,9 @@
   "No VPN profiles": {
     "No VPN profiles": "无 VPN 配置"
   },
+  "No Weather Data": {
+    "No Weather Data": ""
+  },
   "No Weather Data Available": {
     "No Weather Data Available": "暂无天气数据"
   },
@@ -2395,6 +2449,9 @@
   },
   "Not connected": {
     "Not connected": "未连接"
+  },
+  "Not detected": {
+    "Not detected": ""
   },
   "Note: this only changes the percentage, it does not actually limit charging.": {
     "Note: this only changes the percentage, it does not actually limit charging.": "注意：这只会改变百分比，而不会实际限制充电。"
@@ -2509,6 +2566,9 @@
   },
   "Override": {
     "Override": "覆盖"
+  },
+  "Override Border Size": {
+    "Override Border Size": ""
   },
   "Override Corner Radius": {
     "Override Corner Radius": "覆盖角半径"
@@ -2683,6 +2743,9 @@
   },
   "Power source": {
     "Power source": "电源"
+  },
+  "Precip": {
+    "Precip": ""
   },
   "Precipitation Chance": {
     "Precipitation Chance": "降水概率"
@@ -2884,6 +2947,12 @@
   },
   "Rounded corners for windows": {
     "Rounded corners for windows": "窗口圆角"
+  },
+  "Rounded corners for windows (border_radius)": {
+    "Rounded corners for windows (border_radius)": ""
+  },
+  "Rounded corners for windows (decoration.rounding)": {
+    "Rounded corners for windows (decoration.rounding)": ""
   },
   "Run DMS Templates": {
     "Run DMS Templates": "运行DMS模板"
@@ -3113,6 +3182,12 @@
   "Show Dock": {
     "Show Dock": "显示程序坞"
   },
+  "Show Feels Like Temperature": {
+    "Show Feels Like Temperature": ""
+  },
+  "Show Forecast": {
+    "Show Forecast": ""
+  },
   "Show GPU Temperature": {
     "Show GPU Temperature": "显示GPU温度"
   },
@@ -3125,8 +3200,17 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "显示小时数"
   },
+  "Show Hourly Forecast": {
+    "Show Hourly Forecast": ""
+  },
+  "Show Humidity": {
+    "Show Humidity": ""
+  },
   "Show Line Numbers": {
     "Show Line Numbers": "显示行号"
+  },
+  "Show Location": {
+    "Show Location": ""
   },
   "Show Lock": {
     "Show Lock": "显示锁定"
@@ -3152,6 +3236,12 @@
   "Show Power Off": {
     "Show Power Off": "显示关机"
   },
+  "Show Precipitation Probability": {
+    "Show Precipitation Probability": ""
+  },
+  "Show Pressure": {
+    "Show Pressure": ""
+  },
   "Show Reboot": {
     "Show Reboot": "显示重启"
   },
@@ -3161,11 +3251,23 @@
   "Show Seconds": {
     "Show Seconds": "显示秒数"
   },
+  "Show Sunrise/Sunset": {
+    "Show Sunrise/Sunset": ""
+  },
   "Show Suspend": {
     "Show Suspend": "显示挂起"
   },
   "Show Top Processes": {
     "Show Top Processes": "显示占用多的进程"
+  },
+  "Show Weather Condition": {
+    "Show Weather Condition": ""
+  },
+  "Show Welcome": {
+    "Show Welcome": ""
+  },
+  "Show Wind Speed": {
+    "Show Wind Speed": ""
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "显示工作区内应用"
@@ -3296,6 +3398,12 @@
   "Space between windows": {
     "Space between windows": "窗口间空隙"
   },
+  "Space between windows (gappih/gappiv/gappoh/gappov)": {
+    "Space between windows (gappih/gappiv/gappoh/gappov)": ""
+  },
+  "Space between windows (gaps_in and gaps_out)": {
+    "Space between windows (gaps_in and gaps_out)": ""
+  },
   "Spacer": {
     "Spacer": "空白占位"
   },
@@ -3316,6 +3424,9 @@
   },
   "Stacked": {
     "Stacked": "堆叠"
+  },
+  "Standard": {
+    "Standard": ""
   },
   "Start": {
     "Start": "开始"
@@ -3539,6 +3650,9 @@
   "Toner Low": {
     "Toner Low": "碳粉不足"
   },
+  "Tools": {
+    "Tools": ""
+  },
   "Top": {
     "Top": "顶部"
   },
@@ -3650,6 +3764,12 @@
   "Use animated wave progress bars for media playback": {
     "Use animated wave progress bars for media playback": "进行媒体播放时显示动画波形进度条"
   },
+  "Use custom border size": {
+    "Use custom border size": ""
+  },
+  "Use custom border/focus-ring width": {
+    "Use custom border/focus-ring width": ""
+  },
   "Use custom command for update your system": {
     "Use custom command for update your system": "使用自定义命令来更新系统"
   },
@@ -3658,6 +3778,9 @@
   },
   "Use custom window radius instead of theme radius": {
     "Use custom window radius instead of theme radius": "使用自定义窗口半径替代主题半径"
+  },
+  "Use custom window rounding instead of theme radius": {
+    "Use custom window rounding instead of theme radius": ""
   },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "使用指纹识别进行锁屏验证（需要录入指纹）"
@@ -3673,6 +3796,9 @@
   },
   "Used": {
     "Used": "已使用"
+  },
+  "Used when accent color is set to Custom": {
+    "Used when accent color is set to Custom": ""
   },
   "User": {
     "User": "用户"
@@ -3748,6 +3874,9 @@
   },
   "Vibrant palette with playful saturation.": {
     "Vibrant palette with playful saturation.": "充满活力的调色板，有着俏皮的饱和度。"
+  },
+  "View Mode": {
+    "View Mode": ""
   },
   "Visibility": {
     "Visibility": "能见度"
@@ -3865,6 +3994,15 @@
   "Widget removed": {
     "Widget removed": "部件已移除"
   },
+  "Width of window border (borderpx)": {
+    "Width of window border (borderpx)": ""
+  },
+  "Width of window border (general.border_size)": {
+    "Width of window border (general.border_size)": ""
+  },
+  "Width of window border and focus ring": {
+    "Width of window border and focus ring": ""
+  },
   "Wind": {
     "Wind": "风速"
   },
@@ -3879,6 +4017,9 @@
   },
   "Window Gaps (px)": {
     "Window Gaps (px)": "窗口间隙（像素）"
+  },
+  "Window Rounding": {
+    "Window Rounding": ""
   },
   "Workspace": {
     "Workspace": "工作区"
@@ -4000,6 +4141,145 @@
   "generic theme description": {
     "Material Design inspired color themes": "受Material设计启发的色彩主题"
   },
+  "greeter back button": {
+    "Back": ""
+  },
+  "greeter completion page subtitle": {
+    "DankMaterialShell is ready to use": ""
+  },
+  "greeter completion page title": {
+    "You're All Set!": ""
+  },
+  "greeter configure keybinds link": {
+    "Configure Keybinds": ""
+  },
+  "greeter dankbar description": {
+    "Widgets, layout, style": ""
+  },
+  "greeter displays description": {
+    "Resolution, position, scale": ""
+  },
+  "greeter dock description": {
+    "Position, pinned apps": ""
+  },
+  "greeter doctor page button": {
+    "Run Again": ""
+  },
+  "greeter doctor page empty state": {
+    "No checks passed": "",
+    "No errors": "",
+    "No info items": "",
+    "No warnings": ""
+  },
+  "greeter doctor page error count": {
+    "%1 issue(s) found": ""
+  },
+  "greeter doctor page loading text": {
+    "Analyzing configuration...": ""
+  },
+  "greeter doctor page status card": {
+    "Errors": "",
+    "Info": "",
+    "OK": "",
+    "Warnings": ""
+  },
+  "greeter doctor page success": {
+    "All checks passed": ""
+  },
+  "greeter doctor page title": {
+    "System Check": ""
+  },
+  "greeter documentation link": {
+    "Docs": ""
+  },
+  "greeter explore section header": {
+    "Explore": ""
+  },
+  "greeter feature card description": {
+    "Background app icons": "",
+    "Colors from wallpaper": "",
+    "Community themes": "",
+    "Extensible architecture": "",
+    "GTK, Qt, IDEs, more": "",
+    "Modular widget bar": "",
+    "Night mode & gamma": "",
+    "Per-screen config": "",
+    "Quick system toggles": ""
+  },
+  "greeter feature card title": {
+    "App Theming": "",
+    "Control Center": "",
+    "Display Control": "",
+    "Dynamic Theming": "",
+    "Multi-Monitor": "",
+    "System Tray": "",
+    "Theme Registry": ""
+  },
+  "greeter feature card title | greeter plugins link": {
+    "Plugins": ""
+  },
+  "greeter feature card title | greeter settings link": {
+    "DankBar": ""
+  },
+  "greeter finish button": {
+    "Finish": ""
+  },
+  "greeter first page button": {
+    "Get Started": ""
+  },
+  "greeter keybinds niri description": {
+    "niri shortcuts config": ""
+  },
+  "greeter keybinds section header": {
+    "DMS Shortcuts": ""
+  },
+  "greeter modal window title": {
+    "Welcome": ""
+  },
+  "greeter next button": {
+    "Next": ""
+  },
+  "greeter no keybinds message": {
+    "No DMS shortcuts configured": ""
+  },
+  "greeter notifications description": {
+    "Popup behavior, position": ""
+  },
+  "greeter settings link": {
+    "Displays": "",
+    "Dock": "",
+    "Keybinds": "",
+    "Notifications": "",
+    "Theme & Colors": "",
+    "Wallpaper": ""
+  },
+  "greeter settings section header": {
+    "Configure": ""
+  },
+  "greeter skip button": {
+    "Skip": ""
+  },
+  "greeter skip button tooltip": {
+    "Skip setup": ""
+  },
+  "greeter theme description": {
+    "Dynamic colors, presets": ""
+  },
+  "greeter themes link": {
+    "Themes": ""
+  },
+  "greeter wallpaper description": {
+    "Background image": ""
+  },
+  "greeter welcome page section header": {
+    "Features": ""
+  },
+  "greeter welcome page tagline": {
+    "A modern desktop shell for Wayland compositors": ""
+  },
+  "greeter welcome page title": {
+    "Welcome to DankMaterialShell": ""
+  },
   "install action button": {
     "Install": "安装"
   },
@@ -4020,6 +4300,19 @@
   },
   "loading indicator": {
     "Loading...": "加载中..."
+  },
+  "lock screen notification mode option": {
+    "App Names": "",
+    "Count Only": "",
+    "Disabled": "",
+    "Full Content": ""
+  },
+  "lock screen notification privacy setting": {
+    "Control what notification information is shown on the lock screen": "",
+    "Notification Display": ""
+  },
+  "lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl 不可用 - 启用锁定集成需连接 DMS socket"
@@ -4049,48 +4342,48 @@
     "No wallpaper selected": "未选择壁纸"
   },
   "notification center tab": {
-    "Current": "",
-    "History": ""
+    "Current": "当前",
+    "History": "历史记录"
   },
   "notification history filter": {
-    "All": "",
-    "Last hour": "",
-    "Today": "",
-    "Yesterday": ""
+    "All": "所有",
+    "Last hour": "上个小时",
+    "Today": "今天",
+    "Yesterday": "昨天"
   },
   "notification history filter for content older than other filters": {
-    "Older": ""
+    "Older": "更早"
   },
   "notification history filter | notification history retention option": {
-    "30 days": "",
-    "7 days": ""
+    "30 days": "30天",
+    "7 days": "7天"
   },
   "notification history limit": {
-    "Maximum number of notifications to keep": ""
+    "Maximum number of notifications to keep": "保留通知的最大数量"
   },
   "notification history retention option": {
-    "1 day": "",
-    "14 days": "",
-    "3 days": "",
-    "Forever": ""
+    "1 day": "1天",
+    "14 days": "14天",
+    "3 days": "3天",
+    "Forever": "永远"
   },
   "notification history retention settings label": {
-    "History Retention": ""
+    "History Retention": "历史保留"
   },
   "notification history setting": {
-    "Auto-delete notifications older than this": "",
-    "Save critical priority notifications to history": "",
-    "Save low priority notifications to history": "",
-    "Save normal priority notifications to history": ""
+    "Auto-delete notifications older than this": "自动删除在此之前的通知",
+    "Save critical priority notifications to history": "将关键优先级通知保存至历史",
+    "Save low priority notifications to history": "将低优先级通知保存至历史",
+    "Save normal priority notifications to history": "将一般优先级通知保存至历史"
   },
   "notification history toggle description": {
-    "Save dismissed notifications to history": ""
+    "Save dismissed notifications to history": "将已关闭通知保存至历史"
   },
   "notification history toggle label": {
-    "Enable History": ""
+    "Enable History": "启用历史记录"
   },
   "now": {
-    "now": ""
+    "now": "现在"
   },
   "official": {
     "official": "官方"
@@ -4189,7 +4482,7 @@
     "wtype not available - install wtype for paste support": "wtype不可用，为支持粘贴，请安装wtype"
   },
   "yesterday": {
-    "yesterday": ""
+    "yesterday": "昨天"
   },
   "• Install only from trusted sources": {
     "• Install only from trusted sources": "• 仅从可信来源安装"

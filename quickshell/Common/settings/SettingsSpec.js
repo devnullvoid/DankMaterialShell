@@ -245,6 +245,7 @@ var SPEC = {
     fprintdAvailable: { def: false, persist: false },
     lockScreenActiveMonitor: { def: "all" },
     lockScreenInactiveColor: { def: "#000000" },
+    lockScreenNotificationMode: { def: 0 },
     hideBrightnessSlider: { def: false },
 
     notificationTimeoutLow: { def: 5000 },

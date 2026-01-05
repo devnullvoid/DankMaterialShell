@@ -19,3 +19,5 @@ This file is more of a quick reference so I know what to account for before next
 - **BREAKING** vscode theme needs re-installed
 - dms doctor cmd
 - niri/hypr/mango gaps/window/border overrides
+- settings search
+- notification display ops on lock screen

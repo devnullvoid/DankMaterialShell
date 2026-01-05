@@ -15,7 +15,7 @@
     "%1 connected": "%1 已連接"
   },
   "%1 days ago": {
-    "%1 days ago": ""
+    "%1 days ago": "%1 天前"
   },
   "%1 display(s)": {
     "%1 display(s)": "%1 個螢幕"
@@ -23,20 +23,26 @@
   "%1 job(s)": {
     "%1 job(s)": "%1 個工作"
   },
+  "%1 notifications": {
+    "%1 notifications": ""
+  },
   "%1 printer(s)": {
     "%1 printer(s)": "%1 台印表機"
   },
   "%1 variants": {
-    "%1 variants": ""
+    "%1 variants": "%1 種變體"
   },
   "%1 widgets": {
     "%1 widgets": "%1 個部件"
   },
   "%1m ago": {
-    "%1m ago": ""
+    "%1m ago": "%1 分鐘前"
   },
   "(Unnamed)": {
     "(Unnamed)": "(未命名)"
+  },
+  "+ %1 more": {
+    "+ %1 more": ""
   },
   "0 = square corners": {
     "0 = square corners": "0 = 直角"
@@ -49,6 +55,9 @@
   },
   "1 minute": {
     "1 minute": "1 分鐘"
+  },
+  "1 notification": {
+    "1 notification": ""
   },
   "1 second": {
     "1 second": "1 秒"
@@ -127,6 +136,9 @@
   },
   "About": {
     "About": "關於"
+  },
+  "Accent Color": {
+    "Accent Color": ""
   },
   "Accept Jobs": {
     "Accept Jobs": "接受工作"
@@ -396,7 +408,7 @@
     "Automatically lock after": "自動鎖定後"
   },
   "Automatically lock the screen when the system prepares to suspend": {
-    "Automatically lock the screen when the system prepares to suspend": "系統暫停時自動鎖定螢幕"
+    "Automatically lock the screen when the system prepares to suspend": "睡眠時自動鎖定螢幕"
   },
   "Available": {
     "Available": "可用"
@@ -412,6 +424,9 @@
   },
   "Available Screens (%1)": {
     "Available Screens (%1)": "可用螢幕 (%1)"
+  },
+  "Available in Detailed and Forecast view modes": {
+    "Available in Detailed and Forecast view modes": ""
   },
   "BSSID": {
     "BSSID": "BSSID"
@@ -483,7 +498,7 @@
     "Bluetooth not available": "藍牙不可用"
   },
   "Blur Wallpaper Layer": {
-    "Blur Wallpaper Layer": ""
+    "Blur Wallpaper Layer": "模糊桌布圖層"
   },
   "Blur on Overview": {
     "Blur on Overview": "模糊概覽"
@@ -499,6 +514,9 @@
   },
   "Border Opacity": {
     "Border Opacity": "邊框不透明度"
+  },
+  "Border Size": {
+    "Border Size": ""
   },
   "Border Thickness": {
     "Border Thickness": "邊框厚度"
@@ -625,6 +643,9 @@
   },
   "Choose colors from palette": {
     "Choose colors from palette": "從調色盤選擇顏色"
+  },
+  "Choose how the weather widget is displayed": {
+    "Choose how the weather widget is displayed": ""
   },
   "Choose icon": {
     "Choose icon": "選擇圖示"
@@ -755,6 +776,9 @@
   "Communication": {
     "Communication": "通訊"
   },
+  "Compact": {
+    "Compact": ""
+  },
   "Compact Mode": {
     "Compact Mode": "緊湊模式"
   },
@@ -798,7 +822,7 @@
     "Confirm": "確認"
   },
   "Confirm Delete": {
-    "Confirm Delete": ""
+    "Confirm Delete": "確認刪除"
   },
   "Confirm Display Changes": {
     "Confirm Display Changes": "確認顯示變更"
@@ -843,7 +867,7 @@
     "Control workspaces and columns by scrolling on the bar": "透過在列上捲動來控制工作區和欄位"
   },
   "Controls opacity of all popouts, modals, and their content layers": {
-    "Controls opacity of all popouts, modals, and their content layers": "控制所有彈出視窗、模態視窗及其內容層的透明度"
+    "Controls opacity of all popouts, modals, and their content layers": "控制所有彈出視窗、互動視窗及其內容層的透明度"
   },
   "Cooldown": {
     "Cooldown": "冷卻時間"
@@ -911,6 +935,9 @@
   "Custom": {
     "Custom": "自訂"
   },
+  "Custom Color": {
+    "Custom Color": ""
+  },
   "Custom Duration": {
     "Custom Duration": "自訂持續時間"
   },
@@ -936,7 +963,7 @@
     "Custom Reboot Command": "自訂重新啟動指令"
   },
   "Custom Suspend Command": {
-    "Custom Suspend Command": "自訂暫停指令"
+    "Custom Suspend Command": "自訂睡眠指令"
   },
   "Custom Transparency": {
     "Custom Transparency": "自訂透明度"
@@ -1073,6 +1100,9 @@
   "Desktop clock widget name": {
     "Desktop Clock": "桌面時鐘"
   },
+  "Detailed": {
+    "Detailed": ""
+  },
   "Development": {
     "Development": "開發"
   },
@@ -1160,6 +1190,9 @@
   "Display currently focused application title": {
     "Display currently focused application title": "顯示目前焦點應用程式的標題"
   },
+  "Display hourly weather predictions": {
+    "Display hourly weather predictions": ""
+  },
   "Display only workspaces that contain windows": {
     "Display only workspaces that contain windows": "只顯示包含視窗的工作區"
   },
@@ -1224,7 +1257,7 @@
     "Driver": "驅動程式"
   },
   "Duplicate": {
-    "Duplicate": ""
+    "Duplicate": "複製"
   },
   "Duplicate Wallpaper with Blur": {
     "Duplicate Wallpaper with Blur": "模糊化重複桌布"
@@ -1350,7 +1383,7 @@
     "Enter password for ": "輸入密碼 "
   },
   "Enter this passkey on ": {
-    "Enter this passkey on ": "輸入此密碼"
+    "Enter this passkey on ": "輸入此密碼 "
   },
   "Enterprise": {
     "Enterprise": "企業"
@@ -1380,7 +1413,7 @@
     "Fade to lock screen": "淡出至鎖定螢幕"
   },
   "Fade to monitor off": {
-    "Fade to monitor off": ""
+    "Fade to monitor off": "螢幕淡出關閉"
   },
   "Failed to activate configuration": {
     "Failed to activate configuration": "無法啟動配置"
@@ -1461,13 +1494,13 @@
     "Failed to move job": "無法移動工作"
   },
   "Failed to parse plugin_settings.json": {
-    "Failed to parse plugin_settings.json": ""
+    "Failed to parse plugin_settings.json": "無法解析 plugin_settings.json"
   },
   "Failed to parse session.json": {
-    "Failed to parse session.json": ""
+    "Failed to parse session.json": "無法解析 session.json"
   },
   "Failed to parse settings.json": {
-    "Failed to parse settings.json": ""
+    "Failed to parse settings.json": "無法解析 settings.json"
   },
   "Failed to pause printer": {
     "Failed to pause printer": "無法暫停印表機"
@@ -1534,6 +1567,9 @@
   },
   "Failed to write temp file for validation": {
     "Failed to write temp file for validation": "寫入驗證的暫存檔案失敗"
+  },
+  "Feels": {
+    "Feels": ""
   },
   "Feels Like": {
     "Feels Like": "體感溫度"
@@ -1616,6 +1652,12 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "強制終端應用程式始終使用深色配色方案"
   },
+  "Forecast": {
+    "Forecast": ""
+  },
+  "Forecast Days": {
+    "Forecast Days": ""
+  },
   "Forecast Not Available": {
     "Forecast Not Available": "預報不可用"
   },
@@ -1674,7 +1716,7 @@
     "Gradually fade the screen before locking with a configurable grace period": "在鎖定前逐漸淡出螢幕，並帶有可設定的緩衝期"
   },
   "Gradually fade the screen before turning off monitors with a configurable grace period": {
-    "Gradually fade the screen before turning off monitors with a configurable grace period": ""
+    "Gradually fade the screen before turning off monitors with a configurable grace period": "關閉顯示器前逐漸淡化螢幕，可設定緩衝期"
   },
   "Graph Time Range": {
     "Graph Time Range": "圖表時間範圍"
@@ -1689,7 +1731,7 @@
     "Grid Columns": "網格欄數"
   },
   "Group Workspace Apps": {
-    "Group Workspace Apps": ""
+    "Group Workspace Apps": "群組工作區應用程式"
   },
   "Group by App": {
     "Group by App": "App 分組"
@@ -1698,7 +1740,7 @@
     "Group multiple windows of the same app together with a window count indicator": "將同一應用程式的多個視窗匯集在一起，並附帶視窗數量指示器"
   },
   "Group repeated application icons in unfocused workspaces": {
-    "Group repeated application icons in unfocused workspaces": ""
+    "Group repeated application icons in unfocused workspaces": "群組非作用中工作區的重複應用程式圖示"
   },
   "HDR (EDID)": {
     "HDR (EDID)": "HDR (EDID)"
@@ -1769,11 +1811,17 @@
   "Hourly Forecast": {
     "Hourly Forecast": "每小時預報"
   },
+  "Hourly Forecast Count": {
+    "Hourly Forecast Count": ""
+  },
   "How often to change wallpaper": {
     "How often to change wallpaper": "多久更換一次桌布"
   },
   "Humidity": {
     "Humidity": "濕度"
+  },
+  "Hyprland Layout Overrides": {
+    "Hyprland Layout Overrides": ""
   },
   "I Understand": {
     "I Understand": "我了解"
@@ -2007,10 +2055,10 @@
     "Lock Screen layout": "鎖定螢幕版面配置"
   },
   "Lock before suspend": {
-    "Lock before suspend": "鎖定後暫停"
+    "Lock before suspend": "鎖定後睡眠"
   },
   "Lock fade grace period": {
-    "Lock fade grace period": ""
+    "Lock fade grace period": "鎖定淡出緩衝期"
   },
   "Log Out": {
     "Log Out": "登出"
@@ -2041,6 +2089,9 @@
   },
   "Management": {
     "Management": "管理"
+  },
+  "MangoWC Layout Overrides": {
+    "MangoWC Layout Overrides": ""
   },
   "Manual Coordinates": {
     "Manual Coordinates": "手動設定座標"
@@ -2166,10 +2217,10 @@
     "Minute": "分鐘"
   },
   "Mirror Display": {
-    "Mirror Display": ""
+    "Mirror Display": "鏡像顯示"
   },
   "Modal Background": {
-    "Modal Background": ""
+    "Modal Background": "互動視窗背景"
   },
   "Mode": {
     "Mode": "模式"
@@ -2187,7 +2238,7 @@
     "Monitor Configuration": "顯示器配置"
   },
   "Monitor fade grace period": {
-    "Monitor fade grace period": ""
+    "Monitor fade grace period": "顯示器淡出緩衝期"
   },
   "Monitor whose wallpaper drives dynamic theming colors": {
     "Monitor whose wallpaper drives dynamic theming colors": "系統介面顏色依據哪一個螢幕上的桌布來決定"
@@ -2306,6 +2357,9 @@
   "No VPN profiles": {
     "No VPN profiles": "沒有 VPN 設定檔"
   },
+  "No Weather Data": {
+    "No Weather Data": ""
+  },
   "No Weather Data Available": {
     "No Weather Data Available": "沒有氣象數據"
   },
@@ -2395,6 +2449,9 @@
   },
   "Not connected": {
     "Not connected": "未連接"
+  },
+  "Not detected": {
+    "Not detected": ""
   },
   "Note: this only changes the percentage, it does not actually limit charging.": {
     "Note: this only changes the percentage, it does not actually limit charging.": "注意：這只會變更百分比顯示，並不會實際限制充電。"
@@ -2509,6 +2566,9 @@
   },
   "Override": {
     "Override": "覆蓋"
+  },
+  "Override Border Size": {
+    "Override Border Size": ""
   },
   "Override Corner Radius": {
     "Override Corner Radius": "覆寫圓角半徑"
@@ -2684,6 +2744,9 @@
   "Power source": {
     "Power source": "電源"
   },
+  "Precip": {
+    "Precip": ""
+  },
   "Precipitation Chance": {
     "Precipitation Chance": "降水機率"
   },
@@ -2814,7 +2877,7 @@
     "Report": "報告"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
-    "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "需要按住按鈕/鍵以確認關機、重新啟動、暫停、休眠和登出"
+    "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "需要按住按鈕/鍵以確認關機、重新啟動、睡眠、休眠和登出"
   },
   "Requires 'dgop' tool": {
     "Requires 'dgop' tool": "需要「dgop」工具"
@@ -2853,10 +2916,10 @@
     "Resume": "恢復"
   },
   "Reverse Scrolling Direction": {
-    "Reverse Scrolling Direction": ""
+    "Reverse Scrolling Direction": "反轉捲動方向"
   },
   "Reverse workspace switch direction when scrolling over the bar": {
-    "Reverse workspace switch direction when scrolling over the bar": ""
+    "Reverse workspace switch direction when scrolling over the bar": "在工具列上捲動時反轉工作區切換方向"
   },
   "Revert": {
     "Revert": "還原"
@@ -2884,6 +2947,12 @@
   },
   "Rounded corners for windows": {
     "Rounded corners for windows": "視窗圓角"
+  },
+  "Rounded corners for windows (border_radius)": {
+    "Rounded corners for windows (border_radius)": ""
+  },
+  "Rounded corners for windows (decoration.rounding)": {
+    "Rounded corners for windows (decoration.rounding)": ""
   },
   "Run DMS Templates": {
     "Run DMS Templates": "執行 DMS 範本"
@@ -2955,7 +3024,7 @@
     "Scroll Wheel": "滾輪"
   },
   "Scroll on widget changes media volume": {
-    "Scroll on widget changes media volume": ""
+    "Scroll on widget changes media volume": "在小工具上捲動以變更媒體音量"
   },
   "Scroll song title": {
     "Scroll song title": "滾動歌曲標題"
@@ -2964,7 +3033,7 @@
     "Scroll title if it doesn't fit in widget": "若標題不符合小工具空間，請捲動"
   },
   "Scroll wheel behavior on media widget": {
-    "Scroll wheel behavior on media widget": ""
+    "Scroll wheel behavior on media widget": "媒體小工具滾輪行為"
   },
   "Scrolling": {
     "Scrolling": "滾動"
@@ -3113,6 +3182,12 @@
   "Show Dock": {
     "Show Dock": "顯示 Dock"
   },
+  "Show Feels Like Temperature": {
+    "Show Feels Like Temperature": ""
+  },
+  "Show Forecast": {
+    "Show Forecast": ""
+  },
   "Show GPU Temperature": {
     "Show GPU Temperature": "顯示 GPU 溫度"
   },
@@ -3125,8 +3200,17 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "顯示小時數字"
   },
+  "Show Hourly Forecast": {
+    "Show Hourly Forecast": ""
+  },
+  "Show Humidity": {
+    "Show Humidity": ""
+  },
   "Show Line Numbers": {
     "Show Line Numbers": "顯示行數"
+  },
+  "Show Location": {
+    "Show Location": ""
   },
   "Show Lock": {
     "Show Lock": "顯示鎖定"
@@ -3152,6 +3236,12 @@
   "Show Power Off": {
     "Show Power Off": "顯示關機"
   },
+  "Show Precipitation Probability": {
+    "Show Precipitation Probability": ""
+  },
+  "Show Pressure": {
+    "Show Pressure": ""
+  },
   "Show Reboot": {
     "Show Reboot": "顯示重新啟動"
   },
@@ -3161,11 +3251,23 @@
   "Show Seconds": {
     "Show Seconds": "顯示秒數"
   },
+  "Show Sunrise/Sunset": {
+    "Show Sunrise/Sunset": ""
+  },
   "Show Suspend": {
-    "Show Suspend": "顯示暫停"
+    "Show Suspend": "顯示睡眠"
   },
   "Show Top Processes": {
     "Show Top Processes": "顯示最佔用程序"
+  },
+  "Show Weather Condition": {
+    "Show Weather Condition": ""
+  },
+  "Show Welcome": {
+    "Show Welcome": ""
+  },
+  "Show Wind Speed": {
+    "Show Wind Speed": ""
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "顯示工作區應用程式"
@@ -3237,7 +3339,7 @@
     "Show workspace index numbers in the top bar workspace switcher": "在頂部欄工作區切換器中顯示工作區編號"
   },
   "Show workspace name on horizontal bars, and first letter on vertical bars": {
-    "Show workspace name on horizontal bars, and first letter on vertical bars": ""
+    "Show workspace name on horizontal bars, and first letter on vertical bars": "在水平列顯示工作區名稱，垂直列顯示首字母"
   },
   "Shows all running applications with focus indication": {
     "Shows all running applications with focus indication": "顯示所有正在運行的應用程式並帶有焦點指示"
@@ -3270,10 +3372,10 @@
     "Sizing": "尺寸"
   },
   "Smartcard Authentication": {
-    "Smartcard Authentication": ""
+    "Smartcard Authentication": "智慧卡驗證"
   },
   "Smartcard PIN": {
-    "Smartcard PIN": ""
+    "Smartcard PIN": "智慧卡 PIN 碼"
   },
   "Some plugins require a newer version of DMS:": {
     "Some plugins require a newer version of DMS:": "部分外掛程式需要較新版 DMS："
@@ -3296,6 +3398,12 @@
   "Space between windows": {
     "Space between windows": "視窗間距"
   },
+  "Space between windows (gappih/gappiv/gappoh/gappov)": {
+    "Space between windows (gappih/gappiv/gappoh/gappov)": ""
+  },
+  "Space between windows (gaps_in and gaps_out)": {
+    "Space between windows (gaps_in and gaps_out)": ""
+  },
   "Spacer": {
     "Spacer": "空白間隔"
   },
@@ -3316,6 +3424,9 @@
   },
   "Stacked": {
     "Stacked": "堆疊"
+  },
+  "Standard": {
+    "Standard": ""
   },
   "Start": {
     "Start": "開始"
@@ -3354,13 +3465,13 @@
     "Surface": "表面"
   },
   "Suspend": {
-    "Suspend": "系統暫停"
+    "Suspend": "睡眠"
   },
   "Suspend behavior": {
-    "Suspend behavior": "暫停行為"
+    "Suspend behavior": "睡眠行為"
   },
   "Suspend system after": {
-    "Suspend system after": "系統暫停後"
+    "Suspend system after": "系統睡眠後"
   },
   "Swap": {
     "Swap": "交換區"
@@ -3444,7 +3555,7 @@
     "Text": "文字"
   },
   "The 'dgop' tool is required for system monitoring.\\nPlease install dgop to use this feature.": {
-    "The 'dgop' tool is required for system monitoring.\\nPlease install dgop to use this feature.": "系統監控需要「dgop」工具。\n請安裝 dgop 以使用此功能。"
+    "The 'dgop' tool is required for system monitoring.\\nPlease install dgop to use this feature.": "系統監控需要「dgop」工具。\\n請安裝 dgop 以使用此功能。"
   },
   "The DMS_SOCKET environment variable is not set or the socket is unavailable. Automated plugin management requires the DMS_SOCKET.": {
     "The DMS_SOCKET environment variable is not set or the socket is unavailable. Automated plugin management requires the DMS_SOCKET.": "DMS_SOCKET 環境變數未設定或套接字不可用。自動插件管理需要 DMS_SOCKET。"
@@ -3538,6 +3649,9 @@
   },
   "Toner Low": {
     "Toner Low": "碳粉不足"
+  },
+  "Tools": {
+    "Tools": ""
   },
   "Top": {
     "Top": "上方"
@@ -3650,6 +3764,12 @@
   "Use animated wave progress bars for media playback": {
     "Use animated wave progress bars for media playback": "在媒體播放使用動畫波浪進度條"
   },
+  "Use custom border size": {
+    "Use custom border size": ""
+  },
+  "Use custom border/focus-ring width": {
+    "Use custom border/focus-ring width": ""
+  },
   "Use custom command for update your system": {
     "Use custom command for update your system": "使用自訂指令更新您的系統"
   },
@@ -3658,6 +3778,9 @@
   },
   "Use custom window radius instead of theme radius": {
     "Use custom window radius instead of theme radius": "使用自訂視窗圓角而非主題圓角"
+  },
+  "Use custom window rounding instead of theme radius": {
+    "Use custom window rounding instead of theme radius": ""
   },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "使用指紋辨識器進行鎖定畫面身份驗證（需要註冊指紋）"
@@ -3673,6 +3796,9 @@
   },
   "Used": {
     "Used": "已使用"
+  },
+  "Used when accent color is set to Custom": {
+    "Used when accent color is set to Custom": ""
   },
   "User": {
     "User": "使用者"
@@ -3748,6 +3874,9 @@
   },
   "Vibrant palette with playful saturation.": {
     "Vibrant palette with playful saturation.": "色彩鮮明且飽和度活潑的調色板。"
+  },
+  "View Mode": {
+    "View Mode": ""
   },
   "Visibility": {
     "Visibility": "能見度"
@@ -3865,6 +3994,15 @@
   "Widget removed": {
     "Widget removed": "小工具已移除"
   },
+  "Width of window border (borderpx)": {
+    "Width of window border (borderpx)": ""
+  },
+  "Width of window border (general.border_size)": {
+    "Width of window border (general.border_size)": ""
+  },
+  "Width of window border and focus ring": {
+    "Width of window border and focus ring": ""
+  },
   "Wind": {
     "Wind": "風速"
   },
@@ -3880,6 +4018,9 @@
   "Window Gaps (px)": {
     "Window Gaps (px)": "視窗間距 (像素)"
   },
+  "Window Rounding": {
+    "Window Rounding": ""
+  },
   "Workspace": {
     "Workspace": "工作區"
   },
@@ -3887,7 +4028,7 @@
     "Workspace Index Numbers": "工作區編號"
   },
   "Workspace Names": {
-    "Workspace Names": ""
+    "Workspace Names": "工作區名稱"
   },
   "Workspace Padding": {
     "Workspace Padding": "工作區內距"
@@ -4000,6 +4141,145 @@
   "generic theme description": {
     "Material Design inspired color themes": "受 Material Design 啟發的色彩主題"
   },
+  "greeter back button": {
+    "Back": ""
+  },
+  "greeter completion page subtitle": {
+    "DankMaterialShell is ready to use": ""
+  },
+  "greeter completion page title": {
+    "You're All Set!": ""
+  },
+  "greeter configure keybinds link": {
+    "Configure Keybinds": ""
+  },
+  "greeter dankbar description": {
+    "Widgets, layout, style": ""
+  },
+  "greeter displays description": {
+    "Resolution, position, scale": ""
+  },
+  "greeter dock description": {
+    "Position, pinned apps": ""
+  },
+  "greeter doctor page button": {
+    "Run Again": ""
+  },
+  "greeter doctor page empty state": {
+    "No checks passed": "",
+    "No errors": "",
+    "No info items": "",
+    "No warnings": ""
+  },
+  "greeter doctor page error count": {
+    "%1 issue(s) found": ""
+  },
+  "greeter doctor page loading text": {
+    "Analyzing configuration...": ""
+  },
+  "greeter doctor page status card": {
+    "Errors": "",
+    "Info": "",
+    "OK": "",
+    "Warnings": ""
+  },
+  "greeter doctor page success": {
+    "All checks passed": ""
+  },
+  "greeter doctor page title": {
+    "System Check": ""
+  },
+  "greeter documentation link": {
+    "Docs": ""
+  },
+  "greeter explore section header": {
+    "Explore": ""
+  },
+  "greeter feature card description": {
+    "Background app icons": "",
+    "Colors from wallpaper": "",
+    "Community themes": "",
+    "Extensible architecture": "",
+    "GTK, Qt, IDEs, more": "",
+    "Modular widget bar": "",
+    "Night mode & gamma": "",
+    "Per-screen config": "",
+    "Quick system toggles": ""
+  },
+  "greeter feature card title": {
+    "App Theming": "",
+    "Control Center": "",
+    "Display Control": "",
+    "Dynamic Theming": "",
+    "Multi-Monitor": "",
+    "System Tray": "",
+    "Theme Registry": ""
+  },
+  "greeter feature card title | greeter plugins link": {
+    "Plugins": ""
+  },
+  "greeter feature card title | greeter settings link": {
+    "DankBar": ""
+  },
+  "greeter finish button": {
+    "Finish": ""
+  },
+  "greeter first page button": {
+    "Get Started": ""
+  },
+  "greeter keybinds niri description": {
+    "niri shortcuts config": ""
+  },
+  "greeter keybinds section header": {
+    "DMS Shortcuts": ""
+  },
+  "greeter modal window title": {
+    "Welcome": ""
+  },
+  "greeter next button": {
+    "Next": ""
+  },
+  "greeter no keybinds message": {
+    "No DMS shortcuts configured": ""
+  },
+  "greeter notifications description": {
+    "Popup behavior, position": ""
+  },
+  "greeter settings link": {
+    "Displays": "",
+    "Dock": "",
+    "Keybinds": "",
+    "Notifications": "",
+    "Theme & Colors": "",
+    "Wallpaper": ""
+  },
+  "greeter settings section header": {
+    "Configure": ""
+  },
+  "greeter skip button": {
+    "Skip": ""
+  },
+  "greeter skip button tooltip": {
+    "Skip setup": ""
+  },
+  "greeter theme description": {
+    "Dynamic colors, presets": ""
+  },
+  "greeter themes link": {
+    "Themes": ""
+  },
+  "greeter wallpaper description": {
+    "Background image": ""
+  },
+  "greeter welcome page section header": {
+    "Features": ""
+  },
+  "greeter welcome page tagline": {
+    "A modern desktop shell for Wayland compositors": ""
+  },
+  "greeter welcome page title": {
+    "Welcome to DankMaterialShell": ""
+  },
   "install action button": {
     "Install": "安裝"
   },
@@ -4020,6 +4300,19 @@
   },
   "loading indicator": {
     "Loading...": "載入中..."
+  },
+  "lock screen notification mode option": {
+    "App Names": "",
+    "Count Only": "",
+    "Disabled": "",
+    "Full Content": ""
+  },
+  "lock screen notification privacy setting": {
+    "Control what notification information is shown on the lock screen": "",
+    "Notification Display": ""
+  },
+  "lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl 不可用 - 鎖定整合需要 DMS 套接字連接"
@@ -4049,48 +4342,48 @@
     "No wallpaper selected": "未選擇任何桌布"
   },
   "notification center tab": {
-    "Current": "",
-    "History": ""
+    "Current": "目前",
+    "History": "歷史記錄"
   },
   "notification history filter": {
-    "All": "",
-    "Last hour": "",
-    "Today": "",
-    "Yesterday": ""
+    "All": "全部",
+    "Last hour": "最近一小時",
+    "Today": "今天",
+    "Yesterday": "昨天"
   },
   "notification history filter for content older than other filters": {
-    "Older": ""
+    "Older": "舊有"
   },
   "notification history filter | notification history retention option": {
-    "30 days": "",
-    "7 days": ""
+    "30 days": "30 天",
+    "7 days": "7 天"
   },
   "notification history limit": {
-    "Maximum number of notifications to keep": ""
+    "Maximum number of notifications to keep": "通知保留上限"
   },
   "notification history retention option": {
-    "1 day": "",
-    "14 days": "",
-    "3 days": "",
-    "Forever": ""
+    "1 day": "1 天",
+    "14 days": "14 天",
+    "3 days": "3 天",
+    "Forever": "永遠"
   },
   "notification history retention settings label": {
-    "History Retention": ""
+    "History Retention": "歷史記錄保留期限"
   },
   "notification history setting": {
-    "Auto-delete notifications older than this": "",
-    "Save critical priority notifications to history": "",
-    "Save low priority notifications to history": "",
-    "Save normal priority notifications to history": ""
+    "Auto-delete notifications older than this": "自動刪除早於此時的通知",
+    "Save critical priority notifications to history": "將高優先順序通知儲存至歷史記錄",
+    "Save low priority notifications to history": "將低優先順序通知儲存至歷史記錄",
+    "Save normal priority notifications to history": "將一般優先順序通知儲存至歷史記錄"
   },
   "notification history toggle description": {
-    "Save dismissed notifications to history": ""
+    "Save dismissed notifications to history": "將已忽略通知儲存至歷史記錄"
   },
   "notification history toggle label": {
-    "Enable History": ""
+    "Enable History": "啟用歷史記錄"
   },
   "now": {
-    "now": ""
+    "now": "現在"
   },
   "official": {
     "official": "官方"
@@ -4114,7 +4407,7 @@
     "Select Profile Image": "選擇個人資料圖片"
   },
   "read-only settings warning for NixOS home-manager users": {
-    "Settings are read-only. Changes will not persist.": ""
+    "Settings are read-only. Changes will not persist.": "設定為唯讀。變更將不會保留。"
   },
   "registry theme description": {
     "Color theme from DMS registry": "來自 DMS 登錄檔的色彩主題"
@@ -4189,7 +4482,7 @@
     "wtype not available - install wtype for paste support": "wtype 未可用 - 請安裝 wtype 以支援貼上功能"
   },
   "yesterday": {
-    "yesterday": ""
+    "yesterday": "昨天"
   },
   "• Install only from trusted sources": {
     "• Install only from trusted sources": "• 僅從受信任的來源安裝"

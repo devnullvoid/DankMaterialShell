@@ -23,6 +23,9 @@
   "%1 job(s)": {
     "%1 job(s)": "%1 zadań"
   },
+  "%1 notifications": {
+    "%1 notifications": ""
+  },
   "%1 printer(s)": {
     "%1 printer(s)": "%1 drukarek"
   },
@@ -38,6 +41,9 @@
   "(Unnamed)": {
     "(Unnamed)": "(Bez nazwy)"
   },
+  "+ %1 more": {
+    "+ %1 more": ""
+  },
   "0 = square corners": {
     "0 = square corners": "0 = kwadratowe rogi"
   },
@@ -49,6 +55,9 @@
   },
   "1 minute": {
     "1 minute": "1 minuta"
+  },
+  "1 notification": {
+    "1 notification": ""
   },
   "1 second": {
     "1 second": "1 sekunda"
@@ -127,6 +136,9 @@
   },
   "About": {
     "About": "O programie"
+  },
+  "Accent Color": {
+    "Accent Color": ""
   },
   "Accept Jobs": {
     "Accept Jobs": "Akceptuj zadania"
@@ -413,6 +425,9 @@
   "Available Screens (%1)": {
     "Available Screens (%1)": "Dostępne Ekrany (%1)"
   },
+  "Available in Detailed and Forecast view modes": {
+    "Available in Detailed and Forecast view modes": ""
+  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -499,6 +514,9 @@
   },
   "Border Opacity": {
     "Border Opacity": "Przezroczystość obramowania"
+  },
+  "Border Size": {
+    "Border Size": ""
   },
   "Border Thickness": {
     "Border Thickness": "Grubość obramowania"
@@ -625,6 +643,9 @@
   },
   "Choose colors from palette": {
     "Choose colors from palette": "Wybierz kolory z palety"
+  },
+  "Choose how the weather widget is displayed": {
+    "Choose how the weather widget is displayed": ""
   },
   "Choose icon": {
     "Choose icon": "Wybierz ikonę"
@@ -754,6 +775,9 @@
   },
   "Communication": {
     "Communication": "Komunikacja"
+  },
+  "Compact": {
+    "Compact": ""
   },
   "Compact Mode": {
     "Compact Mode": "Tryb kompaktowy"
@@ -910,6 +934,9 @@
   },
   "Custom": {
     "Custom": "Niestandardowy"
+  },
+  "Custom Color": {
+    "Custom Color": ""
   },
   "Custom Duration": {
     "Custom Duration": "Czas trwania niestandardowy"
@@ -1073,6 +1100,9 @@
   "Desktop clock widget name": {
     "Desktop Clock": "Zegar na Pulpicie"
   },
+  "Detailed": {
+    "Detailed": ""
+  },
   "Development": {
     "Development": "Programowanie"
   },
@@ -1159,6 +1189,9 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "Wyświetlaj tytuł aktywnej aplikacji"
+  },
+  "Display hourly weather predictions": {
+    "Display hourly weather predictions": ""
   },
   "Display only workspaces that contain windows": {
     "Display only workspaces that contain windows": "Wyświetlaj tylko obszary robocze zawierające okna"
@@ -1535,6 +1568,9 @@
   "Failed to write temp file for validation": {
     "Failed to write temp file for validation": "Zapisanie pliku tymczasowego do walidacji nie powiodło się"
   },
+  "Feels": {
+    "Feels": ""
+  },
   "Feels Like": {
     "Feels Like": "Odczuwalna"
   },
@@ -1615,6 +1651,12 @@
   },
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "Wymuś ciemny motyw na aplikacjach terminala"
+  },
+  "Forecast": {
+    "Forecast": ""
+  },
+  "Forecast Days": {
+    "Forecast Days": ""
   },
   "Forecast Not Available": {
     "Forecast Not Available": "Prognoza niedostępna"
@@ -1769,11 +1811,17 @@
   "Hourly Forecast": {
     "Hourly Forecast": "Prognoza godzinowa"
   },
+  "Hourly Forecast Count": {
+    "Hourly Forecast Count": ""
+  },
   "How often to change wallpaper": {
     "How often to change wallpaper": "Jak często zmieniać tapetę"
   },
   "Humidity": {
     "Humidity": "Wilgotność"
+  },
+  "Hyprland Layout Overrides": {
+    "Hyprland Layout Overrides": ""
   },
   "I Understand": {
     "I Understand": "Rozumiem"
@@ -2042,6 +2090,9 @@
   "Management": {
     "Management": "Zarządzanie"
   },
+  "MangoWC Layout Overrides": {
+    "MangoWC Layout Overrides": ""
+  },
   "Manual Coordinates": {
     "Manual Coordinates": "Ręczne współrzędne"
   },
@@ -2306,6 +2357,9 @@
   "No VPN profiles": {
     "No VPN profiles": "Brak profili VPN"
   },
+  "No Weather Data": {
+    "No Weather Data": ""
+  },
   "No Weather Data Available": {
     "No Weather Data Available": "Brak danych pogodowych"
   },
@@ -2395,6 +2449,9 @@
   },
   "Not connected": {
     "Not connected": "Nie połączono"
+  },
+  "Not detected": {
+    "Not detected": ""
   },
   "Note: this only changes the percentage, it does not actually limit charging.": {
     "Note: this only changes the percentage, it does not actually limit charging.": "Notatka: ta opcja zmienia tylko procent, nie ogranicza ładowania."
@@ -2509,6 +2566,9 @@
   },
   "Override": {
     "Override": "Prześcigać"
+  },
+  "Override Border Size": {
+    "Override Border Size": ""
   },
   "Override Corner Radius": {
     "Override Corner Radius": "Nadpisz Promień Narożnika"
@@ -2683,6 +2743,9 @@
   },
   "Power source": {
     "Power source": "Źródło zasilania"
+  },
+  "Precip": {
+    "Precip": ""
   },
   "Precipitation Chance": {
     "Precipitation Chance": "Prawdopodobieństwo opadów"
@@ -2884,6 +2947,12 @@
   },
   "Rounded corners for windows": {
     "Rounded corners for windows": "Zaokrąglone narożniki okien"
+  },
+  "Rounded corners for windows (border_radius)": {
+    "Rounded corners for windows (border_radius)": ""
+  },
+  "Rounded corners for windows (decoration.rounding)": {
+    "Rounded corners for windows (decoration.rounding)": ""
   },
   "Run DMS Templates": {
     "Run DMS Templates": "Wykonaj szablony DMS"
@@ -3113,6 +3182,12 @@
   "Show Dock": {
     "Show Dock": "Pokaż dok"
   },
+  "Show Feels Like Temperature": {
+    "Show Feels Like Temperature": ""
+  },
+  "Show Forecast": {
+    "Show Forecast": ""
+  },
   "Show GPU Temperature": {
     "Show GPU Temperature": "Pokaż temperaturę GPU"
   },
@@ -3125,8 +3200,17 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "Pokaż Liczbę Godzin"
   },
+  "Show Hourly Forecast": {
+    "Show Hourly Forecast": ""
+  },
+  "Show Humidity": {
+    "Show Humidity": ""
+  },
   "Show Line Numbers": {
     "Show Line Numbers": "Pokaż numery wierszy"
+  },
+  "Show Location": {
+    "Show Location": ""
   },
   "Show Lock": {
     "Show Lock": "Pokaż blokadę"
@@ -3152,6 +3236,12 @@
   "Show Power Off": {
     "Show Power Off": "Pokaż wyłączone zasilanie"
   },
+  "Show Precipitation Probability": {
+    "Show Precipitation Probability": ""
+  },
+  "Show Pressure": {
+    "Show Pressure": ""
+  },
   "Show Reboot": {
     "Show Reboot": "Pokaż ponowne uruchomienie"
   },
@@ -3161,11 +3251,23 @@
   "Show Seconds": {
     "Show Seconds": "Pokaż sekundy"
   },
+  "Show Sunrise/Sunset": {
+    "Show Sunrise/Sunset": ""
+  },
   "Show Suspend": {
     "Show Suspend": "Pokaż wstrzymanie"
   },
   "Show Top Processes": {
     "Show Top Processes": "Pokaż procesy"
+  },
+  "Show Weather Condition": {
+    "Show Weather Condition": ""
+  },
+  "Show Welcome": {
+    "Show Welcome": ""
+  },
+  "Show Wind Speed": {
+    "Show Wind Speed": ""
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "Pokaż aplikacje z obszaru roboczego"
@@ -3296,6 +3398,12 @@
   "Space between windows": {
     "Space between windows": "Przerwa między oknami"
   },
+  "Space between windows (gappih/gappiv/gappoh/gappov)": {
+    "Space between windows (gappih/gappiv/gappoh/gappov)": ""
+  },
+  "Space between windows (gaps_in and gaps_out)": {
+    "Space between windows (gaps_in and gaps_out)": ""
+  },
   "Spacer": {
     "Spacer": "Odstęp"
   },
@@ -3316,6 +3424,9 @@
   },
   "Stacked": {
     "Stacked": "W stosie"
+  },
+  "Standard": {
+    "Standard": ""
   },
   "Start": {
     "Start": "Start"
@@ -3539,6 +3650,9 @@
   "Toner Low": {
     "Toner Low": "Niski poziom tonera"
   },
+  "Tools": {
+    "Tools": ""
+  },
   "Top": {
     "Top": "Góra"
   },
@@ -3650,6 +3764,12 @@
   "Use animated wave progress bars for media playback": {
     "Use animated wave progress bars for media playback": "Używaj animowanych pasków postępu fali do odtwarzania multimediów"
   },
+  "Use custom border size": {
+    "Use custom border size": ""
+  },
+  "Use custom border/focus-ring width": {
+    "Use custom border/focus-ring width": ""
+  },
   "Use custom command for update your system": {
     "Use custom command for update your system": "Użyj niestandardowego polecenia do aktualizacji systemu"
   },
@@ -3658,6 +3778,9 @@
   },
   "Use custom window radius instead of theme radius": {
     "Use custom window radius instead of theme radius": "Używaj własnego promienia okna w zamiast ustawień motywu"
+  },
+  "Use custom window rounding instead of theme radius": {
+    "Use custom window rounding instead of theme radius": ""
   },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "Użyj czytnika linii papilarnych do uwierzytelniania ekranu blokady (wymaga zarejestrowanych odcisków palców)."
@@ -3673,6 +3796,9 @@
   },
   "Used": {
     "Used": "Użyto"
+  },
+  "Used when accent color is set to Custom": {
+    "Used when accent color is set to Custom": ""
   },
   "User": {
     "User": "Użytkownik"
@@ -3748,6 +3874,9 @@
   },
   "Vibrant palette with playful saturation.": {
     "Vibrant palette with playful saturation.": "Wibrująca paleta z zabawnym nasyceniem."
+  },
+  "View Mode": {
+    "View Mode": ""
   },
   "Visibility": {
     "Visibility": "Widoczność"
@@ -3865,6 +3994,15 @@
   "Widget removed": {
     "Widget removed": "Usunięto widżet"
   },
+  "Width of window border (borderpx)": {
+    "Width of window border (borderpx)": ""
+  },
+  "Width of window border (general.border_size)": {
+    "Width of window border (general.border_size)": ""
+  },
+  "Width of window border and focus ring": {
+    "Width of window border and focus ring": ""
+  },
   "Wind": {
     "Wind": "Wiatr"
   },
@@ -3879,6 +4017,9 @@
   },
   "Window Gaps (px)": {
     "Window Gaps (px)": "Odstępy Okien (px)"
+  },
+  "Window Rounding": {
+    "Window Rounding": ""
   },
   "Workspace": {
     "Workspace": "Obszar roboczy"
@@ -4000,6 +4141,145 @@
   "generic theme description": {
     "Material Design inspired color themes": "Motywy inspirowane Material Design"
   },
+  "greeter back button": {
+    "Back": ""
+  },
+  "greeter completion page subtitle": {
+    "DankMaterialShell is ready to use": ""
+  },
+  "greeter completion page title": {
+    "You're All Set!": ""
+  },
+  "greeter configure keybinds link": {
+    "Configure Keybinds": ""
+  },
+  "greeter dankbar description": {
+    "Widgets, layout, style": ""
+  },
+  "greeter displays description": {
+    "Resolution, position, scale": ""
+  },
+  "greeter dock description": {
+    "Position, pinned apps": ""
+  },
+  "greeter doctor page button": {
+    "Run Again": ""
+  },
+  "greeter doctor page empty state": {
+    "No checks passed": "",
+    "No errors": "",
+    "No info items": "",
+    "No warnings": ""
+  },
+  "greeter doctor page error count": {
+    "%1 issue(s) found": ""
+  },
+  "greeter doctor page loading text": {
+    "Analyzing configuration...": ""
+  },
+  "greeter doctor page status card": {
+    "Errors": "",
+    "Info": "",
+    "OK": "",
+    "Warnings": ""
+  },
+  "greeter doctor page success": {
+    "All checks passed": ""
+  },
+  "greeter doctor page title": {
+    "System Check": ""
+  },
+  "greeter documentation link": {
+    "Docs": ""
+  },
+  "greeter explore section header": {
+    "Explore": ""
+  },
+  "greeter feature card description": {
+    "Background app icons": "",
+    "Colors from wallpaper": "",
+    "Community themes": "",
+    "Extensible architecture": "",
+    "GTK, Qt, IDEs, more": "",
+    "Modular widget bar": "",
+    "Night mode & gamma": "",
+    "Per-screen config": "",
+    "Quick system toggles": ""
+  },
+  "greeter feature card title": {
+    "App Theming": "",
+    "Control Center": "",
+    "Display Control": "",
+    "Dynamic Theming": "",
+    "Multi-Monitor": "",
+    "System Tray": "",
+    "Theme Registry": ""
+  },
+  "greeter feature card title | greeter plugins link": {
+    "Plugins": ""
+  },
+  "greeter feature card title | greeter settings link": {
+    "DankBar": ""
+  },
+  "greeter finish button": {
+    "Finish": ""
+  },
+  "greeter first page button": {
+    "Get Started": ""
+  },
+  "greeter keybinds niri description": {
+    "niri shortcuts config": ""
+  },
+  "greeter keybinds section header": {
+    "DMS Shortcuts": ""
+  },
+  "greeter modal window title": {
+    "Welcome": ""
+  },
+  "greeter next button": {
+    "Next": ""
+  },
+  "greeter no keybinds message": {
+    "No DMS shortcuts configured": ""
+  },
+  "greeter notifications description": {
+    "Popup behavior, position": ""
+  },
+  "greeter settings link": {
+    "Displays": "",
+    "Dock": "",
+    "Keybinds": "",
+    "Notifications": "",
+    "Theme & Colors": "",
+    "Wallpaper": ""
+  },
+  "greeter settings section header": {
+    "Configure": ""
+  },
+  "greeter skip button": {
+    "Skip": ""
+  },
+  "greeter skip button tooltip": {
+    "Skip setup": ""
+  },
+  "greeter theme description": {
+    "Dynamic colors, presets": ""
+  },
+  "greeter themes link": {
+    "Themes": ""
+  },
+  "greeter wallpaper description": {
+    "Background image": ""
+  },
+  "greeter welcome page section header": {
+    "Features": ""
+  },
+  "greeter welcome page tagline": {
+    "A modern desktop shell for Wayland compositors": ""
+  },
+  "greeter welcome page title": {
+    "Welcome to DankMaterialShell": ""
+  },
   "install action button": {
     "Install": "Instaluj"
   },
@@ -4020,6 +4300,19 @@
   },
   "loading indicator": {
     "Loading...": "Ładowanie..."
+  },
+  "lock screen notification mode option": {
+    "App Names": "",
+    "Count Only": "",
+    "Disabled": "",
+    "Full Content": ""
+  },
+  "lock screen notification privacy setting": {
+    "Control what notification information is shown on the lock screen": "",
+    "Notification Display": ""
+  },
+  "lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl niedostępny - integracja blokady wymaga połączenia z gniazdem DMS"

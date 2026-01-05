@@ -356,6 +356,7 @@ Singleton {
     property bool fprintdAvailable: false
     property string lockScreenActiveMonitor: "all"
     property string lockScreenInactiveColor: "#000000"
+    property int lockScreenNotificationMode: 0
     property bool hideBrightnessSlider: false
 
     property int notificationTimeoutLow: 5000
