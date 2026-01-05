@@ -727,7 +727,7 @@ FocusScope {
                                 id: gridScrollbar
                             }
 
-                            ScrollBar.horizontal: ScrollBar {
+                            ScrollBar.horizontal: DankScrollbar {
                                 policy: ScrollBar.AlwaysOff
                             }
 
