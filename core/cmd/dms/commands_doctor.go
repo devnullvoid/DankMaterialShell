@@ -676,7 +676,7 @@ func checkOptionalDependencies() []checkResult {
 	}{
 		{"matugen", "matugen", "", "Dynamic theming", true},
 		{"dgop", "dgop", "", "System monitoring", true},
-		{"cava", "cava", "", "Audio waveform", false},
+		{"cava", "cava", "", "Audio visualizer", true},
 		{"khal", "khal", "", "Calendar events", false},
 		{"Network", "nmcli", "iwctl", "Network management", false},
 		{"danksearch", "dsearch", "", "File search", false},
