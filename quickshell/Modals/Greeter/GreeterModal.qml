@@ -53,7 +53,12 @@ FloatingWindow {
     }
 
     function show() {
-        currentPage = 0;
+        currentPage = FirstLaunchService.requestedStartPage || 0;
+        visible = true;
+    }
+
+    function showAtPage(page) {
+        currentPage = page;
         visible = true;
     }
 

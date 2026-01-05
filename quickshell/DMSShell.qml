@@ -829,7 +829,11 @@ Item {
         Connections {
             target: FirstLaunchService
             function onGreeterRequested() {
-                greeterLoader.active = true;
+                if (greeterLoader.active && greeterLoader.item) {
+                    greeterLoader.item.show();
+                } else {
+                    greeterLoader.active = true;
+                }
             }
         }
     }

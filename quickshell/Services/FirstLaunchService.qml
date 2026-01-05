@@ -17,11 +17,25 @@ Singleton {
     property bool isFirstLaunch: false
     property bool checkComplete: false
     property bool greeterDismissed: false
+    property int requestedStartPage: 0
 
     readonly property bool shouldShowGreeter: checkComplete && isFirstLaunch && !greeterDismissed
 
     signal greeterRequested
     signal greeterCompleted
+
+    function showGreeter(startPage) {
+        requestedStartPage = startPage || 0;
+        greeterRequested();
+    }
+
+    function showWelcome() {
+        showGreeter(0);
+    }
+
+    function showDoctor() {
+        showGreeter(1);
+    }
 
     Component.onCompleted: {
         checkFirstLaunch();
