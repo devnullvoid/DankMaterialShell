@@ -158,12 +158,7 @@ Singleton {
     function parseSettings(content) {
         _parseError = false;
         try {
-            if (!content || !content.trim()) {
-                _parseError = true;
-                return;
-            }
-
-            let obj = JSON.parse(content);
+            let obj = (content && content.trim()) ? JSON.parse(content) : {};
 
             if (obj.brightnessLogarithmicDevices && !obj.brightnessExponentialDevices) {
                 obj.brightnessExponentialDevices = obj.brightnessLogarithmicDevices;
