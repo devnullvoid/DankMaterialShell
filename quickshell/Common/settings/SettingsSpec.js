@@ -332,7 +332,11 @@ var SPEC = {
         maximizeDetection: true,
         scrollEnabled: true,
         scrollXBehavior: "column",
-        scrollYBehavior: "workspace"
+        scrollYBehavior: "workspace",
+        shadowIntensity: 0,
+        shadowOpacity: 60,
+        shadowColorMode: "text",
+        shadowCustomColor: "#000000"
     }], onChange: "updateBarConfigs" },
 
     desktopClockEnabled: { def: false },
