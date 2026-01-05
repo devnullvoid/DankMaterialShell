@@ -50,8 +50,8 @@ Rectangle {
     Column {
         anchors.left: statusIcon.right
         anchors.leftMargin: Theme.spacingS
-        anchors.right: categoryChip.visible ? categoryChip.left : parent.right
-        anchors.rightMargin: Theme.spacingM
+        anchors.right: categoryChip.visible ? categoryChip.left : (urlButton.visible ? urlButton.left : parent.right)
+        anchors.rightMargin: Theme.spacingS
         anchors.verticalCenter: parent.verticalCenter
         spacing: 1
 
@@ -76,8 +76,8 @@ Rectangle {
 
     Rectangle {
         id: categoryChip
-        anchors.right: parent.right
-        anchors.rightMargin: Theme.spacingM
+        anchors.right: urlButton.visible ? urlButton.left : parent.right
+        anchors.rightMargin: urlButton.visible ? Theme.spacingXS : Theme.spacingM
         anchors.verticalCenter: parent.verticalCenter
         height: Math.round(Theme.fontSizeSmall * 1.67)
         width: categoryText.implicitWidth + Theme.spacingS
@@ -92,5 +92,18 @@ Rectangle {
             font.pixelSize: Theme.fontSizeSmall - 2
             color: Theme.surfaceVariantText
         }
+    }
+
+    DankActionButton {
+        id: urlButton
+        anchors.right: parent.right
+        anchors.rightMargin: Theme.spacingM
+        anchors.verticalCenter: parent.verticalCenter
+        iconName: "open_in_new"
+        iconSize: Theme.iconSize - 6
+        buttonSize: 24
+        visible: !!(root.resultData?.url)
+        tooltipText: root.resultData?.url || ""
+        onClicked: Qt.openUrlExternally(root.resultData.url)
     }
 }
