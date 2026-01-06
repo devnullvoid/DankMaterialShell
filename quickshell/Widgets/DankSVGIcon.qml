@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Effects
 import Quickshell.Widgets
 import qs.Common
-import qs.Widgets
 
 Item {
     id: root
@@ -36,18 +35,17 @@ Item {
     implicitWidth: size
     implicitHeight: size
 
-    Image {
+    IconImage {
         id: iconImage
-
         anchors.fill: parent
         source: root.resolvedSource
-        sourceSize.width: root.size * 2
-        sourceSize.height: root.size * 2
         smooth: true
         mipmap: true
         asynchronous: true
-        cache: true
-        fillMode: Image.PreserveAspectFit
+        implicitSize: root.size * 2
+        backer.sourceSize.width: root.size * 2
+        backer.sourceSize.height: root.size * 2
+        backer.cache: true
         layer.enabled: root.hasColorEffect
         layer.smooth: true
         layer.mipmap: true

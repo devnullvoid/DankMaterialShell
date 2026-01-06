@@ -606,9 +606,7 @@ Item {
 
         active: false
 
-        Component.onCompleted: {
-            PopoutService.processListModalLoader = processListModalLoader;
-        }
+        Component.onCompleted: PopoutService.processListModalLoader = processListModalLoader
 
         ProcessListModal {
             id: processListModal
@@ -646,17 +644,6 @@ Item {
             expandedWidthValue: 960
             customTransparency: SettingsData.notepadTransparencyOverride
 
-            Component.onCompleted: {
-                PopoutService.notepadSlideouts.push(notepadSlideout);
-            }
-
-            Component.onDestruction: {
-                const index = PopoutService.notepadSlideouts.indexOf(notepadSlideout);
-                if (index > -1) {
-                    PopoutService.notepadSlideouts.splice(index, 1);
-                }
-            }
-
             content: Component {
                 Notepad {
                     onHideRequested: {
@@ -673,6 +660,9 @@ Item {
                 }
             }
         }
+
+        onInstancesChanged: PopoutService.notepadSlideouts = instances
+        Component.onCompleted: PopoutService.notepadSlideouts = instances
     }
 
     LazyLoader {

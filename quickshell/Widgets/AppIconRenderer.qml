@@ -24,13 +24,21 @@ Item {
 
     readonly property bool isMaterial: iconValue.startsWith("material:")
     readonly property bool isUnicode: iconValue.startsWith("unicode:")
-    readonly property bool isSvg: iconValue.startsWith("svg:")
+    readonly property bool isSvgCorner: iconValue.startsWith("svg+corner:")
+    readonly property bool isSvg: !isSvgCorner && iconValue.startsWith("svg:")
     readonly property string materialName: isMaterial ? iconValue.substring(9) : ""
     readonly property string unicodeChar: isUnicode ? iconValue.substring(8) : ""
-    readonly property string svgPath: isSvg ? iconValue.substring(4) : ""
-    readonly property bool isFileUrl: iconValue.startsWith("file://") || iconValue.startsWith("qrc:/")
-    readonly property string iconPath: (isMaterial || isUnicode || isSvg || isFileUrl) ? "" : Quickshell.iconPath(iconValue, true) || DesktopService.resolveIconPath(iconValue)
-    readonly property string resolvedIconPath: isSvg ? Qt.resolvedUrl(svgPath) : (isFileUrl ? iconValue : iconPath)
+    readonly property string svgSource: {
+        if (isSvgCorner) {
+            const parts = iconValue.substring(11).split("|");
+            return parts[0] || "";
+        }
+        if (isSvg)
+            return iconValue.substring(4);
+        return "";
+    }
+    readonly property string svgCornerIcon: isSvgCorner ? (iconValue.substring(11).split("|")[1] || "") : ""
+    readonly property string iconPath: isMaterial || isUnicode || isSvg || isSvgCorner ? "" : Quickshell.iconPath(iconValue, true) || DesktopService.resolveIconPath(iconValue)
 
     visible: iconValue !== undefined && iconValue !== ""
 
@@ -50,19 +58,12 @@ Item {
         visible: root.isUnicode
     }
 
-    Image {
-        id: svgOrFileUrlImg
-
-        anchors.fill: parent
-        source: root.resolvedIconPath
-        sourceSize.width: root.iconSize * 2
-        sourceSize.height: root.iconSize * 2
-        smooth: true
-        mipmap: true
-        asynchronous: true
-        cache: true
-        fillMode: Image.PreserveAspectFit
-        visible: (root.isSvg || root.isFileUrl) && status === Image.Ready
+    DankSVGIcon {
+        anchors.centerIn: parent
+        source: root.svgSource
+        size: root.iconSize
+        cornerIcon: root.svgCornerIcon
+        visible: root.isSvg || root.isSvgCorner
     }
 
     IconImage {
@@ -72,7 +73,7 @@ Item {
         source: root.iconPath
         smooth: true
         asynchronous: true
-        visible: !root.isMaterial && !root.isUnicode && !root.isSvg && !root.isFileUrl && root.iconPath !== "" && status === Image.Ready
+        visible: !root.isMaterial && !root.isUnicode && !root.isSvg && !root.isSvgCorner && root.iconPath !== "" && status === Image.Ready
     }
 
     Rectangle {
@@ -83,7 +84,7 @@ Item {
         anchors.rightMargin: root.fallbackRightMargin
         anchors.topMargin: root.fallbackTopMargin
         anchors.bottomMargin: root.fallbackBottomMargin
-        visible: !root.isMaterial && !root.isUnicode && !root.isSvg && !root.isFileUrl && (root.iconPath === "" || iconImg.status !== Image.Ready)
+        visible: !root.isMaterial && !root.isUnicode && !root.isSvg && !root.isSvgCorner && (root.iconPath === "" || iconImg.status !== Image.Ready)
         color: root.fallbackBackgroundColor
         radius: Theme.cornerRadius
         border.width: 0

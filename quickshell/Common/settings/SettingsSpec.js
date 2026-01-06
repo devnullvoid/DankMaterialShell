@@ -382,7 +382,9 @@ var SPEC = {
     desktopWidgetPositions: { def: {} },
     desktopWidgetGridSettings: { def: {} },
 
-    desktopWidgetInstances: { def: [] }
+    desktopWidgetInstances: { def: [] },
+
+    builtInPluginSettings: { def: {} }
 };
 
 function getValidKeys() {

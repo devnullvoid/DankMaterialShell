@@ -62,6 +62,22 @@ Singleton {
     property bool _hasUnsavedChanges: false
     property var _loadedSettingsSnapshot: null
     property var pluginSettings: ({})
+    property var builtInPluginSettings: ({})
+
+    function getBuiltInPluginSetting(pluginId, key, defaultValue) {
+        if (!builtInPluginSettings[pluginId])
+            return defaultValue;
+        return builtInPluginSettings[pluginId][key] !== undefined ? builtInPluginSettings[pluginId][key] : defaultValue;
+    }
+
+    function setBuiltInPluginSetting(pluginId, key, value) {
+        const updated = JSON.parse(JSON.stringify(builtInPluginSettings));
+        if (!updated[pluginId])
+            updated[pluginId] = {};
+        updated[pluginId][key] = value;
+        builtInPluginSettings = updated;
+        saveSettings();
+    }
 
     property alias dankBarLeftWidgetsModel: leftWidgetsModel
     property alias dankBarCenterWidgetsModel: centerWidgetsModel
