@@ -23,6 +23,7 @@ Singleton {
     property var spotlightModal: null
     property var powerMenuModal: null
     property var processListModal: null
+    property var processListModalLoader: null
     property var colorPickerModal: null
     property var notificationModal: null
     property var wifiPasswordModal: null
@@ -357,6 +358,9 @@ Singleton {
     }
 
     function showProcessListModal() {
+        if (processListModalLoader) {
+            processListModalLoader.active = true;
+        }
         processListModal?.show();
     }
 
@@ -365,6 +369,9 @@ Singleton {
     }
 
     function toggleProcessListModal() {
+        if (processListModalLoader) {
+            processListModalLoader.active = true;
+        }
         processListModal?.toggle();
     }
 

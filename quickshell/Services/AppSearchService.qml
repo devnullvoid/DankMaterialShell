@@ -44,25 +44,25 @@ Singleton {
 
     readonly property var coreApps: [
         {
-            name: "DMS Settings",
-            icon: Qt.resolvedUrl("../assets/danklogo2.svg"),
-            comment: "Manage DMS configuration",
+            name: I18n.tr("DMS"),
+            icon: "svg:../assets/danklogo2.svg",
+            comment: I18n.tr("Settings"),
             action: "ipc:settings",
             categories: ["Settings", "System"],
             isCore: true
         },
         {
-            name: "DMS Notepad",
+            name: I18n.tr("DMS"),
             icon: "material:description",
-            comment: "Quick notes",
+            comment: I18n.tr("Notepad"),
             action: "ipc:notepad",
             categories: ["Office", "Utility"],
             isCore: true
         },
         {
-            name: "DMS System Monitor",
+            name: I18n.tr("DMS"),
             icon: "material:monitor_heart",
-            comment: "System monitor and process list",
+            comment: I18n.tr("System Monitor"),
             action: "ipc:processlist",
             categories: ["System", "Monitor"],
             isCore: true
@@ -91,13 +91,13 @@ Singleton {
 
         if (actionType === "ipc") {
             if (actionTarget === "settings") {
-                Quickshell.execDetached(["dms", "ipc", "call", "settings", "toggle"]);
+                PopoutService.focusOrToggleSettings();
                 return true;
             } else if (actionTarget === "notepad") {
-                Quickshell.execDetached(["dms", "ipc", "call", "notepad", "toggle"]);
+                PopoutService.toggleNotepad();
                 return true;
             } else if (actionTarget === "processlist") {
-                Quickshell.execDetached(["dms", "ipc", "call", "processlist", "focusOrToggle"]);
+                PopoutService.toggleProcessListModal();
                 return true;
             }
         }

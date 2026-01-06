@@ -23,6 +23,7 @@ DankModal {
         if (!spotlightContent)
             return;
         if (spotlightContent.appLauncher) {
+            spotlightContent.appLauncher.suppressUpdatesWhileLaunching = false;
             spotlightContent.appLauncher.searchQuery = "";
             spotlightContent.appLauncher.selectedIndex = 0;
             spotlightContent.appLauncher.setCategory(I18n.tr("All"));

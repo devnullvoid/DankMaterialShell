@@ -606,6 +606,10 @@ Item {
 
         active: false
 
+        Component.onCompleted: {
+            PopoutService.processListModalLoader = processListModalLoader;
+        }
+
         ProcessListModal {
             id: processListModal
 
@@ -641,6 +645,17 @@ Item {
             expandable: true
             expandedWidthValue: 960
             customTransparency: SettingsData.notepadTransparencyOverride
+
+            Component.onCompleted: {
+                PopoutService.notepadSlideouts.push(notepadSlideout);
+            }
+
+            Component.onDestruction: {
+                const index = PopoutService.notepadSlideouts.indexOf(notepadSlideout);
+                if (index > -1) {
+                    PopoutService.notepadSlideouts.splice(index, 1);
+                }
+            }
 
             content: Component {
                 Notepad {

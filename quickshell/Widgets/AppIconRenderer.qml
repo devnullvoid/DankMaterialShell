@@ -24,9 +24,13 @@ Item {
 
     readonly property bool isMaterial: iconValue.startsWith("material:")
     readonly property bool isUnicode: iconValue.startsWith("unicode:")
+    readonly property bool isSvg: iconValue.startsWith("svg:")
     readonly property string materialName: isMaterial ? iconValue.substring(9) : ""
     readonly property string unicodeChar: isUnicode ? iconValue.substring(8) : ""
-    readonly property string iconPath: isMaterial || isUnicode ? "" : Quickshell.iconPath(iconValue, true) || DesktopService.resolveIconPath(iconValue)
+    readonly property string svgPath: isSvg ? iconValue.substring(4) : ""
+    readonly property bool isFileUrl: iconValue.startsWith("file://") || iconValue.startsWith("qrc:/")
+    readonly property string iconPath: (isMaterial || isUnicode || isSvg || isFileUrl) ? "" : Quickshell.iconPath(iconValue, true) || DesktopService.resolveIconPath(iconValue)
+    readonly property string resolvedIconPath: isSvg ? Qt.resolvedUrl(svgPath) : (isFileUrl ? iconValue : iconPath)
 
     visible: iconValue !== undefined && iconValue !== ""
 
@@ -46,6 +50,21 @@ Item {
         visible: root.isUnicode
     }
 
+    Image {
+        id: svgOrFileUrlImg
+
+        anchors.fill: parent
+        source: root.resolvedIconPath
+        sourceSize.width: root.iconSize * 2
+        sourceSize.height: root.iconSize * 2
+        smooth: true
+        mipmap: true
+        asynchronous: true
+        cache: true
+        fillMode: Image.PreserveAspectFit
+        visible: (root.isSvg || root.isFileUrl) && status === Image.Ready
+    }
+
     IconImage {
         id: iconImg
 
@@ -53,7 +72,7 @@ Item {
         source: root.iconPath
         smooth: true
         asynchronous: true
-        visible: !root.isMaterial && !root.isUnicode && root.iconPath !== "" && status === Image.Ready
+        visible: !root.isMaterial && !root.isUnicode && !root.isSvg && !root.isFileUrl && root.iconPath !== "" && status === Image.Ready
     }
 
     Rectangle {
@@ -64,7 +83,7 @@ Item {
         anchors.rightMargin: root.fallbackRightMargin
         anchors.topMargin: root.fallbackTopMargin
         anchors.bottomMargin: root.fallbackBottomMargin
-        visible: !root.isMaterial && !root.isUnicode && (root.iconPath === "" || iconImg.status !== Image.Ready)
+        visible: !root.isMaterial && !root.isUnicode && !root.isSvg && !root.isFileUrl && (root.iconPath === "" || iconImg.status !== Image.Ready)
         color: root.fallbackBackgroundColor
         radius: Theme.cornerRadius
         border.width: 0
