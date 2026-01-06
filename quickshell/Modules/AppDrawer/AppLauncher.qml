@@ -205,7 +205,8 @@ Item {
                     "isPlugin": isPluginItem,
                     "isCore": app.isCore === true,
                     "isBuiltInLauncher": app.isBuiltInLauncher === true,
-                    "appIndex": uniqueApps.length - 1
+                    "appIndex": uniqueApps.length - 1,
+                    "pinned": app._pinned === true
                 });
             }
         });
@@ -350,7 +351,11 @@ Item {
 
     function checkPluginTriggers(query) {
         if (!query)
-            return { triggered: false, pluginCategory: "", query: "" };
+            return {
+                triggered: false,
+                pluginCategory: "",
+                query: ""
+            };
 
         const builtInTriggers = AppSearchService.getBuiltInLauncherTriggers();
         for (const trigger in builtInTriggers) {
@@ -371,7 +376,11 @@ Item {
         }
 
         if (typeof PluginService === "undefined")
-            return { triggered: false, pluginCategory: "", query: "" };
+            return {
+                triggered: false,
+                pluginCategory: "",
+                query: ""
+            };
 
         const triggers = PluginService.getAllPluginTriggers();
         for (const trigger in triggers) {
@@ -391,7 +400,11 @@ Item {
             };
         }
 
-        return { triggered: false, pluginCategory: "", query: "" };
+        return {
+            triggered: false,
+            pluginCategory: "",
+            query: ""
+        };
     }
 
     function getPluginIdForItem(item) {
