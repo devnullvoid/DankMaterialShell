@@ -399,14 +399,14 @@ Item {
                                                         text: "•"
                                                         font.pixelSize: Theme.fontSizeSmall
                                                         color: Theme.surfaceVariantText
-                                                        visible: modelData.ip && modelData.ip.length > 0
+                                                        visible: (modelData.ip || "").length > 0
                                                     }
 
                                                     StyledText {
                                                         text: modelData.ip || ""
                                                         font.pixelSize: Theme.fontSizeSmall
                                                         color: Theme.surfaceVariantText
-                                                        visible: modelData.ip && modelData.ip.length > 0
+                                                        visible: (modelData.ip || "").length > 0
                                                     }
                                                 }
                                             }

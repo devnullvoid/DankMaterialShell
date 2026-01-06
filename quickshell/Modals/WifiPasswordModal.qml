@@ -44,12 +44,18 @@ FloatingWindow {
     property int calculatedHeight: {
         let h = headerHeight + buttonRowHeight + Theme.spacingL * 2;
         h += fieldsInfo.length * inputFieldWithSpacing;
-        if (showUsernameField) h += inputFieldWithSpacing;
-        if (showPasswordField) h += inputFieldWithSpacing;
-        if (showAnonField) h += inputFieldWithSpacing;
-        if (showDomainField) h += inputFieldWithSpacing;
-        if (showShowPasswordCheckbox) h += checkboxRowHeight;
-        if (showSavePasswordCheckbox) h += checkboxRowHeight;
+        if (showUsernameField)
+            h += inputFieldWithSpacing;
+        if (showPasswordField)
+            h += inputFieldWithSpacing;
+        if (showAnonField)
+            h += inputFieldWithSpacing;
+        if (showDomainField)
+            h += inputFieldWithSpacing;
+        if (showShowPasswordCheckbox)
+            h += checkboxRowHeight;
+        if (showSavePasswordCheckbox)
+            h += checkboxRowHeight;
         return h;
     }
 
@@ -267,11 +273,14 @@ FloatingWindow {
             width: parent.width - Theme.spacingL * 2
             spacing: Theme.spacingM
 
-            Row {
+            Item {
                 width: contentCol.width
+                height: Math.max(headerCol.height, buttonRow.height)
 
                 MouseArea {
-                    width: parent.width - 60
+                    anchors.left: parent.left
+                    anchors.right: buttonRow.left
+                    anchors.rightMargin: Theme.spacingM
                     height: headerCol.height
                     onPressed: windowControls.tryStartMove()
                     onDoubleClicked: windowControls.tryToggleMaximize()
@@ -327,10 +336,12 @@ FloatingWindow {
                 }
 
                 Row {
+                    id: buttonRow
+                    anchors.right: parent.right
                     spacing: Theme.spacingXS
 
                     DankActionButton {
-                        visible: windowControls.supported
+                        visible: windowControls.supported && windowControls.canMaximize
                         iconName: root.maximized ? "fullscreen_exit" : "fullscreen"
                         iconSize: Theme.iconSize - 4
                         iconColor: Theme.surfaceText
