@@ -1588,6 +1588,7 @@ Singleton {
     }
 
     function updateCompositorCursor() {
+        updateXResources();
         if (typeof CompositorService === "undefined")
             return;
         if (CompositorService.isNiri && typeof NiriService !== "undefined") {
@@ -1602,6 +1603,36 @@ Singleton {
             DwlService.generateCursorConfig();
             return;
         }
+    }
+
+    function updateXResources() {
+        const homeDir = Paths.strip(StandardPaths.writableLocation(StandardPaths.HomeLocation));
+        const xresourcesPath = homeDir + "/.Xresources";
+        const themeName = cursorSettings.theme === "System Default" ? systemDefaultCursorTheme : cursorSettings.theme;
+        const size = cursorSettings.size || 24;
+
+        if (!themeName)
+            return;
+
+        const script = `
+            xresources_file="${xresourcesPath}"
+            temp_file="\${xresources_file}.tmp.$$"
+            theme_name="${themeName}"
+            cursor_size="${size}"
+
+            if [ -f "$xresources_file" ]; then
+                grep -v '^[[:space:]]*Xcursor\\.theme:' "$xresources_file" | grep -v '^[[:space:]]*Xcursor\\.size:' > "$temp_file" 2>/dev/null || true
+            else
+                touch "$temp_file"
+            fi
+
+            echo "Xcursor.theme: $theme_name" >> "$temp_file"
+            echo "Xcursor.size: $cursor_size" >> "$temp_file"
+            mv "$temp_file" "$xresources_file"
+            xrdb -merge "$xresources_file" 2>/dev/null || true
+        `;
+
+        Quickshell.execDetached(["sh", "-c", script]);
     }
 
     function getCursorEnvironment() {
