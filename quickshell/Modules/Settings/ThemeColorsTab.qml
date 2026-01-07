@@ -55,22 +55,36 @@ Item {
     }
 
     function checkCursorIncludeStatus() {
-        const paths = getCursorConfigPaths();
-        if (!paths) {
+        const compositor = CompositorService.compositor;
+        if (compositor !== "niri" && compositor !== "hyprland" && compositor !== "dwl") {
             cursorIncludeStatus = {
                 "exists": false,
                 "included": false
             };
             return;
         }
+
+        const filename = (compositor === "niri") ? "cursor.kdl" : "cursor.conf";
+        const compositorArg = (compositor === "dwl") ? "mangowc" : compositor;
+
         checkingCursorInclude = true;
-        Proc.runCommand("check-cursor-include", ["sh", "-c", `exists=false; included=false; ` + `[ -f "${paths.cursorFile}" ] && exists=true; ` + `[ -f "${paths.configFile}" ] && grep -v '^[[:space:]]*\\(//\\|#\\)' "${paths.configFile}" | grep -q '${paths.grepPattern}' && included=true; ` + `echo "$exists $included"`], (output, exitCode) => {
+        Proc.runCommand("check-cursor-include", ["dms", "config", "resolve-include", compositorArg, filename], (output, exitCode) => {
             checkingCursorInclude = false;
-            const parts = output.trim().split(" ");
-            cursorIncludeStatus = {
-                "exists": parts[0] === "true",
-                "included": parts[1] === "true"
-            };
+            if (exitCode !== 0) {
+                cursorIncludeStatus = {
+                    "exists": false,
+                    "included": false
+                };
+                return;
+            }
+            try {
+                cursorIncludeStatus = JSON.parse(output.trim());
+            } catch (e) {
+                cursorIncludeStatus = {
+                    "exists": false,
+                    "included": false
+                };
+            }
         });
     }
 
