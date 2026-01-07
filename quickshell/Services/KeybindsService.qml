@@ -75,6 +75,7 @@ Singleton {
     property var _flatCache: []
     property var displayList: []
     property int _dataVersion: 0
+    property string _pendingSavedKey: ""
 
     readonly property var categoryOrder: Actions.getCategoryOrder()
     readonly property string configDir: Paths.strip(StandardPaths.writableLocation(StandardPaths.ConfigLocation))
@@ -278,7 +279,7 @@ Singleton {
             script = `mkdir -p "${compositorConfigDir}/dms" && touch "${compositorConfigDir}/dms/binds.kdl" && cp "${mainConfigPath}" "${backupPath}" && echo 'include "dms/binds.kdl"' >> "${mainConfigPath}"`;
             break;
         case "hyprland":
-            script = `mkdir -p "${compositorConfigDir}/dms" && touch "${compositorConfigDir}/dms/binds.conf" && cp "${mainConfigPath}" "${backupPath}" && echo 'source = dms/binds.conf' >> "${mainConfigPath}"`;
+            script = `mkdir -p "${compositorConfigDir}/dms" && touch "${compositorConfigDir}/dms/binds.conf" && cp "${mainConfigPath}" "${backupPath}" && echo 'source = ./dms/binds.conf' >> "${mainConfigPath}"`;
             break;
         case "mangowc":
             script = `mkdir -p "${compositorConfigDir}/dms" && touch "${compositorConfigDir}/dms/binds.conf" && cp "${mainConfigPath}" "${backupPath}" && echo 'source = ./dms/binds.conf' >> "${mainConfigPath}"`;
@@ -342,6 +343,10 @@ Singleton {
             displayList = [];
             _dataVersion++;
             bindsLoaded();
+            if (_pendingSavedKey) {
+                bindSaved(_pendingSavedKey);
+                _pendingSavedKey = "";
+            }
             return;
         }
 
@@ -378,7 +383,8 @@ Singleton {
                     "key": bind.key || "",
                     "source": bind.source || "config",
                     "isOverride": bind.source === "dms",
-                    "cooldownMs": bind.cooldownMs || 0
+                    "cooldownMs": bind.cooldownMs || 0,
+                    "flags": bind.flags || ""
                 };
                 if (actionMap[action]) {
                     actionMap[action].keys.push(keyData);
@@ -425,6 +431,10 @@ Singleton {
         displayList = list;
         _dataVersion++;
         bindsLoaded();
+        if (_pendingSavedKey) {
+            bindSaved(_pendingSavedKey);
+            _pendingSavedKey = "";
+        }
     }
 
     function getCategories() {
@@ -444,9 +454,11 @@ Singleton {
             cmd.push("--replace-key", originalKey);
         if (bindData.cooldownMs > 0)
             cmd.push("--cooldown-ms", String(bindData.cooldownMs));
+        if (bindData.flags)
+            cmd.push("--flags", bindData.flags);
         saveProcess.command = cmd;
         saveProcess.running = true;
-        bindSaved(bindData.key);
+        _pendingSavedKey = bindData.key;
     }
 
     function removeBind(key) {

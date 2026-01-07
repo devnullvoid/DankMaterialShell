@@ -24,6 +24,7 @@ type HyprlandKeyBinding struct {
 	Params     string   `json:"params"`
 	Comment    string   `json:"comment"`
 	Source     string   `json:"source"`
+	Flags      string   `json:"flags"` // Bind flags: l=locked, r=release, e=repeat, n=non-consuming, m=mouse, t=transparent, i=ignore-mods, s=separate, d=description, o=long-press
 }
 
 type HyprlandSection struct {
@@ -218,71 +219,7 @@ func hyprlandAutogenerateComment(dispatcher, params string) string {
 
 func (p *HyprlandParser) getKeybindAtLine(lineNumber int) *HyprlandKeyBinding {
 	line := p.contentLines[lineNumber]
-	parts := strings.SplitN(line, "=", 2)
-	if len(parts) < 2 {
-		return nil
-	}
-
-	keys := parts[1]
-	keyParts := strings.SplitN(keys, "#", 2)
-	keys = keyParts[0]
-
-	var comment string
-	if len(keyParts) > 1 {
-		comment = strings.TrimSpace(keyParts[1])
-	}
-
-	keyFields := strings.SplitN(keys, ",", 5)
-	if len(keyFields) < 3 {
-		return nil
-	}
-
-	mods := strings.TrimSpace(keyFields[0])
-	key := strings.TrimSpace(keyFields[1])
-	dispatcher := strings.TrimSpace(keyFields[2])
-
-	var params string
-	if len(keyFields) > 3 {
-		paramParts := keyFields[3:]
-		params = strings.TrimSpace(strings.Join(paramParts, ","))
-	}
-
-	if comment != "" {
-		if strings.HasPrefix(comment, HideComment) {
-			return nil
-		}
-	} else {
-		comment = hyprlandAutogenerateComment(dispatcher, params)
-	}
-
-	var modList []string
-	if mods != "" {
-		modstring := mods + string(ModSeparators[0])
-		p := 0
-		for index, char := range modstring {
-			isModSep := false
-			for _, sep := range ModSeparators {
-				if char == sep {
-					isModSep = true
-					break
-				}
-			}
-			if isModSep {
-				if index-p > 1 {
-					modList = append(modList, modstring[p:index])
-				}
-				p = index + 1
-			}
-		}
-	}
-
-	return &HyprlandKeyBinding{
-		Mods:       modList,
-		Key:        key,
-		Dispatcher: dispatcher,
-		Params:     params,
-		Comment:    comment,
-	}
+	return p.parseBindLine(line)
 }
 
 func (p *HyprlandParser) getBindsRecursive(currentContent *HyprlandSection, scope int) *HyprlandSection {
@@ -572,6 +509,11 @@ func (p *HyprlandParser) parseBindLine(line string) *HyprlandKeyBinding {
 		return nil
 	}
 
+	// Extract bind type and flags from the left side of "="
+	bindType := strings.TrimSpace(parts[0])
+	flags := extractBindFlags(bindType)
+	hasDescFlag := strings.Contains(flags, "d")
+
 	keys := parts[1]
 	keyParts := strings.SplitN(keys, "#", 2)
 	keys = keyParts[0]
@@ -581,19 +523,43 @@ func (p *HyprlandParser) parseBindLine(line string) *HyprlandKeyBinding {
 		comment = strings.TrimSpace(keyParts[1])
 	}
 
-	keyFields := strings.SplitN(keys, ",", 5)
-	if len(keyFields) < 3 {
+	// For bindd, the format is: bindd = MODS, key, description, dispatcher, params
+	// For regular binds: bind = MODS, key, dispatcher, params
+	var minFields, descIndex, dispatcherIndex int
+	if hasDescFlag {
+		minFields = 4 // mods, key, description, dispatcher
+		descIndex = 2
+		dispatcherIndex = 3
+	} else {
+		minFields = 3 // mods, key, dispatcher
+		dispatcherIndex = 2
+	}
+
+	keyFields := strings.SplitN(keys, ",", minFields+2) // Allow for params
+	if len(keyFields) < minFields {
 		return nil
 	}
 
 	mods := strings.TrimSpace(keyFields[0])
 	key := strings.TrimSpace(keyFields[1])
-	dispatcher := strings.TrimSpace(keyFields[2])
 
-	var params string
-	if len(keyFields) > 3 {
-		paramParts := keyFields[3:]
-		params = strings.TrimSpace(strings.Join(paramParts, ","))
+	var dispatcher, params string
+	if hasDescFlag {
+		// bindd format: description is in the bind itself
+		if comment == "" {
+			comment = strings.TrimSpace(keyFields[descIndex])
+		}
+		dispatcher = strings.TrimSpace(keyFields[dispatcherIndex])
+		if len(keyFields) > dispatcherIndex+1 {
+			paramParts := keyFields[dispatcherIndex+1:]
+			params = strings.TrimSpace(strings.Join(paramParts, ","))
+		}
+	} else {
+		dispatcher = strings.TrimSpace(keyFields[dispatcherIndex])
+		if len(keyFields) > dispatcherIndex+1 {
+			paramParts := keyFields[dispatcherIndex+1:]
+			params = strings.TrimSpace(strings.Join(paramParts, ","))
+		}
 	}
 
 	if comment != "" && strings.HasPrefix(comment, HideComment) {
@@ -631,7 +597,18 @@ func (p *HyprlandParser) parseBindLine(line string) *HyprlandKeyBinding {
 		Dispatcher: dispatcher,
 		Params:     params,
 		Comment:    comment,
+		Flags:      flags,
 	}
+}
+
+// extractBindFlags extracts the flags from a bind type string
+// e.g., "binde" -> "e", "bindel" -> "el", "bindd" -> "d"
+func extractBindFlags(bindType string) string {
+	bindType = strings.TrimSpace(bindType)
+	if !strings.HasPrefix(bindType, "bind") {
+		return ""
+	}
+	return bindType[4:] // Everything after "bind"
 }
 
 func ParseHyprlandKeysWithDMS(path string) (*HyprlandParseResult, error) {

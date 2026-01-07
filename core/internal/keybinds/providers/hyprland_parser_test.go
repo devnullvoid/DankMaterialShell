@@ -394,3 +394,126 @@ bind = SUPER, T, exec, kitty
 		t.Errorf("Expected 2 keybinds (comments ignored), got %d", len(section.Keybinds))
 	}
 }
+
+func TestExtractBindFlags(t *testing.T) {
+	tests := []struct {
+		bindType string
+		expected string
+	}{
+		{"bind", ""},
+		{"binde", "e"},
+		{"bindl", "l"},
+		{"bindr", "r"},
+		{"bindd", "d"},
+		{"bindo", "o"},
+		{"bindel", "el"},
+		{"bindler", "ler"},
+		{"bindem", "em"},
+		{"  bind  ", ""},
+		{"  binde  ", "e"},
+		{"notbind", ""},
+		{"", ""},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.bindType, func(t *testing.T) {
+			result := extractBindFlags(tt.bindType)
+			if result != tt.expected {
+				t.Errorf("extractBindFlags(%q) = %q, want %q", tt.bindType, result, tt.expected)
+			}
+		})
+	}
+}
+
+func TestHyprlandBindFlags(t *testing.T) {
+	tests := []struct {
+		name          string
+		line          string
+		expectedFlags string
+		expectedKey   string
+		expectedDisp  string
+		expectedDesc  string
+	}{
+		{
+			name:          "regular bind",
+			line:          "bind = SUPER, Q, killactive",
+			expectedFlags: "",
+			expectedKey:   "Q",
+			expectedDisp:  "killactive",
+			expectedDesc:  "Close window",
+		},
+		{
+			name:          "binde (repeat on hold)",
+			line:          "binde = , XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+			expectedFlags: "e",
+			expectedKey:   "XF86AudioRaiseVolume",
+			expectedDisp:  "exec",
+			expectedDesc:  "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
+		},
+		{
+			name:          "bindl (locked/inhibitor bypass)",
+			line:          "bindl = , XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+			expectedFlags: "l",
+			expectedKey:   "XF86AudioLowerVolume",
+			expectedDisp:  "exec",
+			expectedDesc:  "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+		},
+		{
+			name:          "bindr (release trigger)",
+			line:          "bindr = SUPER, SUPER_L, exec, pkill wofi || wofi",
+			expectedFlags: "r",
+			expectedKey:   "SUPER_L",
+			expectedDisp:  "exec",
+			expectedDesc:  "pkill wofi || wofi",
+		},
+		{
+			name:          "bindd (description)",
+			line:          "bindd = SUPER, Q, Open my favourite terminal, exec, kitty",
+			expectedFlags: "d",
+			expectedKey:   "Q",
+			expectedDisp:  "exec",
+			expectedDesc:  "Open my favourite terminal",
+		},
+		{
+			name:          "bindo (long press)",
+			line:          "bindo = SUPER, XF86AudioNext, exec, playerctl next",
+			expectedFlags: "o",
+			expectedKey:   "XF86AudioNext",
+			expectedDisp:  "exec",
+			expectedDesc:  "playerctl next",
+		},
+		{
+			name:          "bindel (combined flags)",
+			line:          "bindel = , XF86AudioRaiseVolume, exec, wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+",
+			expectedFlags: "el",
+			expectedKey:   "XF86AudioRaiseVolume",
+			expectedDisp:  "exec",
+			expectedDesc:  "wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			parser := NewHyprlandParser("")
+			parser.contentLines = []string{tt.line}
+			result := parser.getKeybindAtLine(0)
+
+			if result == nil {
+				t.Fatal("Expected keybind, got nil")
+			}
+
+			if result.Flags != tt.expectedFlags {
+				t.Errorf("Flags = %q, want %q", result.Flags, tt.expectedFlags)
+			}
+			if result.Key != tt.expectedKey {
+				t.Errorf("Key = %q, want %q", result.Key, tt.expectedKey)
+			}
+			if result.Dispatcher != tt.expectedDisp {
+				t.Errorf("Dispatcher = %q, want %q", result.Dispatcher, tt.expectedDisp)
+			}
+			if result.Comment != tt.expectedDesc {
+				t.Errorf("Comment = %q, want %q", result.Comment, tt.expectedDesc)
+			}
+		})
+	}
+}

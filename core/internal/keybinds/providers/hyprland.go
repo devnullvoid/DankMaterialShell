@@ -153,6 +153,7 @@ func (h *HyprlandProvider) convertKeybind(kb *HyprlandKeyBinding, subcategory st
 		Action:      rawAction,
 		Subcategory: subcategory,
 		Source:      source,
+		Flags:       kb.Flags,
 	}
 
 	if source == "dms" && conflicts != nil {
@@ -224,11 +225,20 @@ func (h *HyprlandProvider) SetBind(key, action, description string, options map[
 		existingBinds = make(map[string]*hyprlandOverrideBind)
 	}
 
+	// Extract flags from options
+	var flags string
+	if options != nil {
+		if f, ok := options["flags"].(string); ok {
+			flags = f
+		}
+	}
+
 	normalizedKey := strings.ToLower(key)
 	existingBinds[normalizedKey] = &hyprlandOverrideBind{
 		Key:         key,
 		Action:      action,
 		Description: description,
+		Flags:       flags,
 		Options:     options,
 	}
 
@@ -250,6 +260,7 @@ type hyprlandOverrideBind struct {
 	Key         string
 	Action      string
 	Description string
+	Flags       string // Bind flags: l=locked, r=release, e=repeat, n=non-consuming, m=mouse, t=transparent, i=ignore-mods, s=separate, d=description, o=long-press
 	Options     map[string]any
 }
 
@@ -281,6 +292,11 @@ func (h *HyprlandProvider) loadOverrideBinds() (map[string]*hyprlandOverrideBind
 			continue
 		}
 
+		// Extract flags from bind type
+		bindType := strings.TrimSpace(parts[0])
+		flags := extractBindFlags(bindType)
+		hasDescFlag := strings.Contains(flags, "d")
+
 		content := strings.TrimSpace(parts[1])
 		commentParts := strings.SplitN(content, "#", 2)
 		bindContent := strings.TrimSpace(commentParts[0])
@@ -290,18 +306,41 @@ func (h *HyprlandProvider) loadOverrideBinds() (map[string]*hyprlandOverrideBind
 			comment = strings.TrimSpace(commentParts[1])
 		}
 
-		fields := strings.SplitN(bindContent, ",", 4)
-		if len(fields) < 3 {
+		// For bindd, format is: mods, key, description, dispatcher, params
+		var minFields, descIndex, dispatcherIndex int
+		if hasDescFlag {
+			minFields = 4
+			descIndex = 2
+			dispatcherIndex = 3
+		} else {
+			minFields = 3
+			dispatcherIndex = 2
+		}
+
+		fields := strings.SplitN(bindContent, ",", minFields+2)
+		if len(fields) < minFields {
 			continue
 		}
 
 		mods := strings.TrimSpace(fields[0])
 		keyName := strings.TrimSpace(fields[1])
-		dispatcher := strings.TrimSpace(fields[2])
 
-		var params string
-		if len(fields) > 3 {
-			params = strings.TrimSpace(fields[3])
+		var dispatcher, params string
+		if hasDescFlag {
+			if comment == "" {
+				comment = strings.TrimSpace(fields[descIndex])
+			}
+			dispatcher = strings.TrimSpace(fields[dispatcherIndex])
+			if len(fields) > dispatcherIndex+1 {
+				paramParts := fields[dispatcherIndex+1:]
+				params = strings.TrimSpace(strings.Join(paramParts, ","))
+			}
+		} else {
+			dispatcher = strings.TrimSpace(fields[dispatcherIndex])
+			if len(fields) > dispatcherIndex+1 {
+				paramParts := fields[dispatcherIndex+1:]
+				params = strings.TrimSpace(strings.Join(paramParts, ","))
+			}
 		}
 
 		keyStr := h.buildKeyString(mods, keyName)
@@ -315,6 +354,7 @@ func (h *HyprlandProvider) loadOverrideBinds() (map[string]*hyprlandOverrideBind
 			Key:         keyStr,
 			Action:      action,
 			Description: comment,
+			Flags:       flags,
 		}
 	}
 
@@ -391,11 +431,23 @@ func (h *HyprlandProvider) writeBindLine(sb *strings.Builder, bind *hyprlandOver
 	mods, key := h.parseKeyString(bind.Key)
 	dispatcher, params := h.parseAction(bind.Action)
 
-	sb.WriteString("bind = ")
+	// Write bind type with flags (e.g., "bind", "binde", "bindel")
+	sb.WriteString("bind")
+	if bind.Flags != "" {
+		sb.WriteString(bind.Flags)
+	}
+	sb.WriteString(" = ")
 	sb.WriteString(mods)
 	sb.WriteString(", ")
 	sb.WriteString(key)
 	sb.WriteString(", ")
+
+	// For bindd (description flag), include description before dispatcher
+	if strings.Contains(bind.Flags, "d") && bind.Description != "" {
+		sb.WriteString(bind.Description)
+		sb.WriteString(", ")
+	}
+
 	sb.WriteString(dispatcher)
 
 	if params != "" {
@@ -403,7 +455,8 @@ func (h *HyprlandProvider) writeBindLine(sb *strings.Builder, bind *hyprlandOver
 		sb.WriteString(params)
 	}
 
-	if bind.Description != "" {
+	// Only add comment if not using bindd (which has inline description)
+	if bind.Description != "" && !strings.Contains(bind.Flags, "d") {
 		sb.WriteString(" # ")
 		sb.WriteString(bind.Description)
 	}

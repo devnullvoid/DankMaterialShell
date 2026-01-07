@@ -24,7 +24,9 @@ Item {
     property string editAction: ""
     property string editDesc: ""
     property int editCooldownMs: 0
+    property string editFlags: ""
     property int _savedCooldownMs: -1
+    property string _savedFlags: ""
     property bool hasChanges: false
     property string _actionType: ""
     property bool addingNewKey: false
@@ -104,6 +106,12 @@ Item {
                 } else {
                     editCooldownMs = keys[i].cooldownMs || 0;
                 }
+                if (_savedFlags) {
+                    editFlags = _savedFlags;
+                    _savedFlags = "";
+                } else {
+                    editFlags = keys[i].flags || "";
+                }
                 hasChanges = false;
                 _actionType = Actions.getActionType(editAction);
                 useCustomCompositor = _actionType === "compositor" && editAction && !Actions.isKnownCompositorAction(KeybindsService.currentProvider, editAction);
@@ -124,6 +132,7 @@ Item {
         editAction = bindData.action || "";
         editDesc = bindData.desc || "";
         editCooldownMs = editingKeyIndex >= 0 ? (keys[editingKeyIndex].cooldownMs || 0) : 0;
+        editFlags = editingKeyIndex >= 0 ? (keys[editingKeyIndex].flags || "") : "";
         hasChanges = false;
         _actionType = Actions.getActionType(editAction);
         useCustomCompositor = _actionType === "compositor" && editAction && !Actions.isKnownCompositorAction(KeybindsService.currentProvider, editAction);
@@ -143,6 +152,7 @@ Item {
         editingKeyIndex = index;
         editKey = keys[index].key;
         editCooldownMs = keys[index].cooldownMs || 0;
+        editFlags = keys[index].flags || "";
         hasChanges = false;
     }
 
@@ -155,9 +165,12 @@ Item {
             editDesc = changes.desc;
         if (changes.cooldownMs !== undefined)
             editCooldownMs = changes.cooldownMs;
+        if (changes.flags !== undefined)
+            editFlags = changes.flags;
         const origKey = editingKeyIndex >= 0 && editingKeyIndex < keys.length ? keys[editingKeyIndex].key : "";
         const origCooldown = editingKeyIndex >= 0 && editingKeyIndex < keys.length ? (keys[editingKeyIndex].cooldownMs || 0) : 0;
-        hasChanges = editKey !== origKey || editAction !== (bindData.action || "") || editDesc !== (bindData.desc || "") || editCooldownMs !== origCooldown;
+        const origFlags = editingKeyIndex >= 0 && editingKeyIndex < keys.length ? (keys[editingKeyIndex].flags || "") : "";
+        hasChanges = editKey !== origKey || editAction !== (bindData.action || "") || editDesc !== (bindData.desc || "") || editCooldownMs !== origCooldown || editFlags !== origFlags;
     }
 
     function canSave() {
@@ -176,11 +189,13 @@ Item {
         if (expandedLoader.item?.currentTitle !== undefined)
             desc = expandedLoader.item.currentTitle;
         _savedCooldownMs = editCooldownMs;
+        _savedFlags = editFlags;
         saveBind(origKey, {
             "key": editKey,
             "action": editAction,
             "desc": desc,
-            "cooldownMs": editCooldownMs
+            "cooldownMs": editCooldownMs,
+            "flags": editFlags
         });
         hasChanges = false;
         addingNewKey = false;
@@ -1448,6 +1463,113 @@ Item {
                         onTextChanged: root.updateEdit({
                             "desc": text
                         })
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Theme.spacingM
+                    visible: KeybindsService.currentProvider === "hyprland"
+
+                    StyledText {
+                        text: I18n.tr("Flags")
+                        font.pixelSize: Theme.fontSizeSmall
+                        font.weight: Font.Medium
+                        color: Theme.surfaceVariantText
+                        Layout.preferredWidth: root._labelWidth
+                    }
+
+                    Flow {
+                        Layout.fillWidth: true
+                        spacing: Theme.spacingM
+
+                        RowLayout {
+                            spacing: Theme.spacingXS
+
+                            DankToggle {
+                                checked: root.editFlags.indexOf("e") !== -1
+                                onToggled: newChecked => {
+                                    let flags = root.editFlags.split("").filter(f => f !== "e");
+                                    if (newChecked)
+                                        flags.push("e");
+                                    root.updateEdit({
+                                        "flags": flags.join("")
+                                    });
+                                }
+                            }
+
+                            StyledText {
+                                text: I18n.tr("Repeat")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
+                        }
+
+                        RowLayout {
+                            spacing: Theme.spacingXS
+
+                            DankToggle {
+                                checked: root.editFlags.indexOf("l") !== -1
+                                onToggled: newChecked => {
+                                    let flags = root.editFlags.split("").filter(f => f !== "l");
+                                    if (newChecked)
+                                        flags.push("l");
+                                    root.updateEdit({
+                                        "flags": flags.join("")
+                                    });
+                                }
+                            }
+
+                            StyledText {
+                                text: I18n.tr("Locked")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
+                        }
+
+                        RowLayout {
+                            spacing: Theme.spacingXS
+
+                            DankToggle {
+                                checked: root.editFlags.indexOf("r") !== -1
+                                onToggled: newChecked => {
+                                    let flags = root.editFlags.split("").filter(f => f !== "r");
+                                    if (newChecked)
+                                        flags.push("r");
+                                    root.updateEdit({
+                                        "flags": flags.join("")
+                                    });
+                                }
+                            }
+
+                            StyledText {
+                                text: I18n.tr("Release")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
+                        }
+
+                        RowLayout {
+                            spacing: Theme.spacingXS
+
+                            DankToggle {
+                                checked: root.editFlags.indexOf("o") !== -1
+                                onToggled: newChecked => {
+                                    let flags = root.editFlags.split("").filter(f => f !== "o");
+                                    if (newChecked)
+                                        flags.push("o");
+                                    root.updateEdit({
+                                        "flags": flags.join("")
+                                    });
+                                }
+                            }
+
+                            StyledText {
+                                text: I18n.tr("Long press")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
+                        }
                     }
                 }
 

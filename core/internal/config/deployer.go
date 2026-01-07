@@ -543,7 +543,7 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal, useSystem
 		return result, result.Error
 	}
 
-	if err := cd.deployHyprlandDmsConfigs(dmsDir); err != nil {
+	if err := cd.deployHyprlandDmsConfigs(dmsDir, terminalCommand); err != nil {
 		result.Error = fmt.Errorf("failed to deploy dms configs: %w", err)
 		return result, result.Error
 	}
@@ -553,13 +553,14 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal, useSystem
 	return result, nil
 }
 
-func (cd *ConfigDeployer) deployHyprlandDmsConfigs(dmsDir string) error {
+func (cd *ConfigDeployer) deployHyprlandDmsConfigs(dmsDir string, terminalCommand string) error {
 	configs := []struct {
 		name    string
 		content string
 	}{
 		{"colors.conf", HyprColorsConfig},
 		{"layout.conf", HyprLayoutConfig},
+		{"binds.conf", strings.ReplaceAll(HyprBindsConfig, "{{TERMINAL_COMMAND}}", terminalCommand)},
 		{"outputs.conf", ""},
 		{"cursor.conf", ""},
 	}

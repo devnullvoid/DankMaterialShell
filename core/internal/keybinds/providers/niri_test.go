@@ -121,6 +121,8 @@ func TestNiriFormatRawAction(t *testing.T) {
 	}{
 		{"spawn", []string{"kitty"}, "spawn kitty"},
 		{"spawn", []string{"dms", "ipc", "call"}, "spawn dms ipc call"},
+		{"spawn", []string{"dms", "ipc", "call", "brightness", "increment", "5", ""}, `spawn dms ipc call brightness increment 5 ""`},
+		{"spawn", []string{"dms", "ipc", "call", "dash", "toggle", ""}, `spawn dms ipc call dash toggle ""`},
 		{"close-window", nil, "close-window"},
 		{"fullscreen-window", nil, "fullscreen-window"},
 		{"focus-workspace", []string{"1"}, "focus-workspace 1"},
@@ -321,6 +323,58 @@ func TestNiriGenerateBindsContentRoundTrip(t *testing.T) {
 
 	if len(result.Section.Keybinds) != 3 {
 		t.Errorf("Expected 3 keybinds after round-trip, got %d", len(result.Section.Keybinds))
+	}
+}
+
+func TestNiriEmptyArgsPreservation(t *testing.T) {
+	provider := NewNiriProvider("")
+
+	binds := map[string]*overrideBind{
+		"XF86MonBrightnessUp": {
+			Key:         "XF86MonBrightnessUp",
+			Action:      `spawn dms ipc call brightness increment 5 ""`,
+			Description: "Brightness Up",
+		},
+		"XF86MonBrightnessDown": {
+			Key:         "XF86MonBrightnessDown",
+			Action:      `spawn dms ipc call brightness decrement 5 ""`,
+			Description: "Brightness Down",
+		},
+		"Super+Alt+Page_Up": {
+			Key:         "Super+Alt+Page_Up",
+			Action:      `spawn dms ipc call dash toggle ""`,
+			Description: "Dashboard Toggle",
+		},
+	}
+
+	content := provider.generateBindsContent(binds)
+
+	tmpDir := t.TempDir()
+	dmsDir := filepath.Join(tmpDir, "dms")
+	if err := os.MkdirAll(dmsDir, 0755); err != nil {
+		t.Fatalf("Failed to create dms directory: %v", err)
+	}
+
+	bindsFile := filepath.Join(dmsDir, "binds.kdl")
+	if err := os.WriteFile(bindsFile, []byte(content), 0644); err != nil {
+		t.Fatalf("Failed to write binds file: %v", err)
+	}
+
+	testProvider := NewNiriProvider(tmpDir)
+	loadedBinds, err := testProvider.loadOverrideBinds()
+	if err != nil {
+		t.Fatalf("Failed to load binds: %v\nContent was:\n%s", err, content)
+	}
+
+	for key, expected := range binds {
+		loaded, ok := loadedBinds[key]
+		if !ok {
+			t.Errorf("Missing bind for key %s", key)
+			continue
+		}
+		if loaded.Action != expected.Action {
+			t.Errorf("Action mismatch for %s:\n  got:  %q\n  want: %q", key, loaded.Action, expected.Action)
+		}
 	}
 }
 

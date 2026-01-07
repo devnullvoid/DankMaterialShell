@@ -10,3 +10,6 @@ var HyprColorsConfig string
 
 //go:embed embedded/hypr-layout.conf
 var HyprLayoutConfig string
+
+//go:embed embedded/hypr-binds.conf
+var HyprBindsConfig string

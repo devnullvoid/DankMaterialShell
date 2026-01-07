@@ -64,6 +64,7 @@ func init() {
 	keybindsSetCmd.Flags().Int("cooldown-ms", 0, "Cooldown in milliseconds")
 	keybindsSetCmd.Flags().Bool("no-repeat", false, "Disable key repeat")
 	keybindsSetCmd.Flags().String("replace-key", "", "Original key to replace (removes old key)")
+	keybindsSetCmd.Flags().String("flags", "", "Hyprland bind flags (e.g., 'e' for repeat, 'l' for locked, 'r' for release)")
 
 	keybindsCmd.AddCommand(keybindsListCmd)
 	keybindsCmd.AddCommand(keybindsShowCmd)
@@ -210,6 +211,9 @@ func runKeybindsSet(cmd *cobra.Command, args []string) {
 	}
 	if v, _ := cmd.Flags().GetBool("no-repeat"); v {
 		options["repeat"] = false
+	}
+	if v, _ := cmd.Flags().GetString("flags"); v != "" {
+		options["flags"] = v
 	}
 
 	desc, _ := cmd.Flags().GetString("desc")
