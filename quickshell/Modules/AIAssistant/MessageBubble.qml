@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import Quickshell
 import qs.Common
 import "../../Common/markdown2html.js" as Markdown2Html
 import qs.Widgets
@@ -48,14 +49,14 @@ Item {
             x: Theme.spacingM
             y: Theme.spacingM
             width: parent.width - Theme.spacingM * 2
-            spacing: Theme.spacingS
+            spacing: Theme.spacingM
 
             RowLayout {
                 id: headerRow
                 width: parent.width
                 spacing: Theme.spacingXS
 
-                // assistant: [icon][chip][spacer]
+                // assistant: [icon][chip][spacer][copy]
                 // user:      [spacer][chip][icon]
                 Item { Layout.fillWidth: root.isUser }
 
@@ -92,6 +93,19 @@ Item {
                 }
 
                 Item { Layout.fillWidth: !root.isUser }
+
+                DankActionButton {
+                    visible: !root.isUser && root.status === "ok"
+                    iconName: "content_copy"
+                    buttonSize: 24
+                    iconSize: 14
+                    backgroundColor: "transparent"
+                    iconColor: Theme.surfaceVariantText
+                    tooltipText: I18n.tr("Copy")
+                    onClicked: {
+                        Quickshell.execDetached(["wl-copy", root.text]);
+                    }
+                }
             }
 
             StyledText {
