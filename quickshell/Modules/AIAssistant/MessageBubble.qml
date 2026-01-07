@@ -19,8 +19,15 @@ Item {
     readonly property color assistantBubbleFill: Theme.surfaceContainer
     readonly property color assistantBubbleBorder: Theme.outline
 
+    readonly property var themeColors: ({
+        "codeBg": Theme.surfaceContainerHigh,
+        "blockquoteBg": Theme.withAlpha(Theme.surfaceContainerHighest, 0.5),
+        "blockquoteBorder": Theme.outlineVariant,
+        "inlineCodeBg": Theme.withAlpha(Theme.onSurface, 0.1)
+    })
+
     readonly property bool useMarkdownRendering: !isUser && status !== "streaming"
-    readonly property string renderedHtml: Markdown2Html.markdownToHtml(root.text)
+    readonly property string renderedHtml: Markdown2Html.markdownToHtml(root.text, themeColors)
 
     width: parent ? parent.width : implicitWidth
     implicitHeight: bubble.implicitHeight

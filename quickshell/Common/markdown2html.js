@@ -1,8 +1,15 @@
 .pragma library
 // This exists only beacause I haven't been able to get linkColor to work with MarkdownText
 // May not be necessary if that's possible tbh.
-function markdownToHtml(text) {
+function markdownToHtml(text, colors) {
     if (!text) return "";
+
+    const c = colors || {
+        codeBg: "#20FFFFFF",
+        inlineCodeBg: "#30FFFFFF",
+        blockquoteBg: "transparent",
+        blockquoteBorder: "#808080"
+    };
 
     // Store code blocks and inline code to protect them from further processing
     const codeBlocks = [];
@@ -22,7 +29,7 @@ function markdownToHtml(text) {
         const escapedCode = trimmedCode.replace(/&/g, '&amp;')
                                        .replace(/</g, '&lt;')
                                        .replace(/>/g, '&gt;');
-        codeBlocks.push(`<pre><code>${escapedCode}</code></pre>`);
+        codeBlocks.push(`<pre style="background-color: ${c.codeBg}; padding: 10px;"><code>${escapedCode}</code></pre>`);
         return `\x00CODEBLOCK${blockIndex++}\x00`;
     });
 
@@ -32,8 +39,8 @@ function markdownToHtml(text) {
         const escapedCode = code.replace(/&/g, '&amp;')
                                .replace(/</g, '&lt;')
                                .replace(/>/g, '&gt;');
-        // Use span with background color for highlighting. #30FFFFFF is ~19% white, good for dark themes.
-        inlineCode.push(`<span style="font-family: monospace; background-color: #30FFFFFF;">&nbsp;${escapedCode}&nbsp;</span>`);
+        // Use span with background color for highlighting.
+        inlineCode.push(`<span style="font-family: monospace; background-color: ${c.inlineCodeBg};">&nbsp;${escapedCode}&nbsp;</span>`);
         return `\x00INLINECODE${inlineIndex++}\x00`;
     });
 
@@ -103,7 +110,7 @@ function markdownToHtml(text) {
                            .replace(/<\/bq_line>/g, '')
                            .trim();
         // Use blockquote tag (supported by QML for indentation) and add styling
-        const block = `<blockquote><font color="#a0a0a0"><i>${inner}</i></font></blockquote>`;
+        const block = `<blockquote style="background-color: ${c.blockquoteBg}; border-left: 4px solid ${c.blockquoteBorder}; padding: 4px;"><font color="#a0a0a0"><i>${inner}</i></font></blockquote>`;
         protectedBlocks.push(block);
         return `\x00PROTECTEDBLOCK${protectedIndex++}\x00\n`;
     });
