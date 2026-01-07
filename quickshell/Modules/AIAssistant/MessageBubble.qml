@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Controls
 import qs.Common
 import "../../Common/markdown2html.js" as Markdown2Html
 import qs.Widgets
@@ -102,7 +103,7 @@ Item {
                 width: parent.width
             }
 
-            StyledText {
+            TextArea {
                 text: root.useMarkdownRendering ? root.renderedHtml : root.text
                 textFormat: root.useMarkdownRendering ? Text.RichText : Text.PlainText
                 wrapMode: Text.Wrap
@@ -110,18 +111,21 @@ Item {
                 font.family: SettingsData.aiAssistantUseMonospace ? SettingsData.monoFontFamily : SettingsData.fontFamily
                 color: status === "error" ? Theme.error : Theme.surfaceText
                 width: parent.width
-                elide: Text.ElideNone
-                verticalAlignment: Text.AlignTop
-                linkColor: Theme.primary
+                
+                readOnly: true
+                selectByMouse: true
+                selectionColor: Theme.primary
+                selectedTextColor: Theme.onPrimary
+                background: null
+                
+                // Link handling (Note: linkColor is not supported on TextArea/TextEdit directly in some Qt versions, 
+                // but default anchor styling should work. For better styling we might need CSS)
                 onLinkActivated: link => {
-                    return Qt.openUrlExternally(link);
+                    Qt.openUrlExternally(link);
                 }
-
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.NoButton
-                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-                }
+                
+                hoverEnabled: true
+                // Cursor changes are handled by TextEdit automatically (I-beam vs Pointing Hand)
             }
 
             Rectangle {
