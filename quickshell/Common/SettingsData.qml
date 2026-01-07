@@ -298,7 +298,7 @@ Singleton {
     property int aiAssistantTimeout: 30
     property real aiAssistantTransparencyOverride: -1
     property real aiAssistantLastCustomTransparency: 0.7
-    property bool aiAssistantUseMonospace: true
+    property bool aiAssistantUseMonospace: false
     property string aiAssistantApiKey: ""
     property bool aiAssistantSaveApiKey: false
     property string aiAssistantSessionApiKey: ""
