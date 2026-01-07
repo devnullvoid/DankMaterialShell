@@ -151,7 +151,7 @@ Item {
                 fileSearchController.openSelected();
             }
             event.accepted = true;
-        } else if (event.key === Qt.Key_Menu) {
+        } else if (event.key === Qt.Key_Menu || event.key == Qt.Key_F10) {
             if (searchMode === "apps" && appLauncher.model.count > 0) {
                 const selectedApp = appLauncher.model.get(appLauncher.selectedIndex);
                 const menu = usePopupContextMenu ? popupContextMenu : layerContextMenuLoader.item;
@@ -467,6 +467,7 @@ Item {
         Item {
             width: parent.width
             height: parent.height - y
+            opacity: parentModal?.isClosing ? 0 : 1
 
             SpotlightResults {
                 id: resultsView

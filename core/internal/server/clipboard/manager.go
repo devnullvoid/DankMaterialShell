@@ -24,6 +24,7 @@ import (
 
 	bolt "go.etcd.io/bbolt"
 
+	clipboardstore "github.com/AvengeMedia/DankMaterialShell/core/internal/clipboard"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/proto/ext_data_control"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/wlcontext"
@@ -37,7 +38,7 @@ var sensitiveMimeTypes = []string{
 
 func NewManager(wlCtx wlcontext.WaylandContext, config Config) (*Manager, error) {
 	display := wlCtx.Display()
-	dbPath, err := getDBPath()
+	dbPath, err := clipboardstore.GetDBPath()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get db path: %w", err)
 	}
@@ -100,24 +101,6 @@ func NewManager(wlCtx wlcontext.WaylandContext, config Config) (*Manager, error)
 	}
 
 	return m, nil
-}
-
-func getDBPath() (string, error) {
-	cacheDir := os.Getenv("XDG_CACHE_HOME")
-	if cacheDir == "" {
-		homeDir, err := os.UserHomeDir()
-		if err != nil {
-			return "", err
-		}
-		cacheDir = filepath.Join(homeDir, ".cache")
-	}
-
-	dbDir := filepath.Join(cacheDir, "dms-clipboard")
-	if err := os.MkdirAll(dbDir, 0700); err != nil {
-		return "", err
-	}
-
-	return filepath.Join(dbDir, "db"), nil
 }
 
 func openDB(path string) (*bolt.DB, error) {

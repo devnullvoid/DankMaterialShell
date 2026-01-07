@@ -16,6 +16,8 @@ BasePill {
             implicitWidth: root.isVerticalOrientation ? (root.widgetThickness - root.horizontalPadding * 2) : clockRow.implicitWidth
             implicitHeight: root.isVerticalOrientation ? clockColumn.implicitHeight : (root.widgetThickness - root.horizontalPadding * 2)
 
+            readonly property bool compact: widgetData?.clockCompactMode !== undefined ? widgetData.clockCompactMode : SettingsData.clockCompactMode
+
             Column {
                 id: clockColumn
                 visible: root.isVerticalOrientation
@@ -38,6 +40,7 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.widgetTextColor
+                        width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -54,6 +57,7 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.widgetTextColor
+                        width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -67,6 +71,7 @@ BasePill {
                         text: String(systemClock?.date?.getMinutes()).padStart(2, '0').charAt(0)
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.widgetTextColor
+                        width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -75,6 +80,7 @@ BasePill {
                         text: String(systemClock?.date?.getMinutes()).padStart(2, '0').charAt(1)
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.widgetTextColor
+                        width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -89,6 +95,7 @@ BasePill {
                         text: String(systemClock?.date?.getSeconds()).padStart(2, '0').charAt(0)
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.widgetTextColor
+                        width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -97,6 +104,7 @@ BasePill {
                         text: String(systemClock?.date?.getSeconds()).padStart(2, '0').charAt(1)
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.widgetTextColor
+                        width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -106,6 +114,7 @@ BasePill {
                     width: parent.width
                     height: Theme.spacingM
                     anchors.horizontalCenter: parent.horizontalCenter
+                    visible: !compact
 
                     Rectangle {
                         width: parent.width * 0.6
@@ -118,6 +127,7 @@ BasePill {
                 Row {
                     spacing: 0
                     anchors.horizontalCenter: parent.horizontalCenter
+                    visible: !compact
 
                     StyledText {
                         text: {
@@ -129,6 +139,7 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.primary
+                        width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -143,6 +154,7 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.primary
+                        width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -151,6 +163,7 @@ BasePill {
                 Row {
                     spacing: 0
                     anchors.horizontalCenter: parent.horizontalCenter
+                    visible: !compact
 
                     StyledText {
                         text: {
@@ -162,6 +175,7 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.primary
+                        width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -176,6 +190,7 @@ BasePill {
                         }
                         font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                         color: Theme.primary
+                        width: Math.round(font.pixelSize * 0.6)
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignBottom
                     }
@@ -204,7 +219,7 @@ BasePill {
                     font.pixelSize: Theme.fontSizeSmall
                     color: Theme.outlineButton
                     anchors.baseline: dateText.baseline
-                    visible: !(widgetData?.clockCompactMode !== undefined ? widgetData.clockCompactMode : SettingsData.clockCompactMode)
+                    visible: !compact
                 }
 
                 StyledText {
@@ -218,7 +233,7 @@ BasePill {
                     font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale)
                     color: Theme.widgetTextColor
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: !(widgetData?.clockCompactMode !== undefined ? widgetData.clockCompactMode : SettingsData.clockCompactMode)
+                    visible: !compact
                 }
             }
 

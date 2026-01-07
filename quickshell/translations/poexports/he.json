@@ -14,11 +14,17 @@
   "%1 connected": {
     "%1 connected": "%1 מחובר/ים"
   },
+  "%1 days ago": {
+    "%1 days ago": ""
+  },
   "%1 display(s)": {
     "%1 display(s)": "%1 מסך/מסכים"
   },
   "%1 job(s)": {
     "%1 job(s)": "%1 עבודות"
+  },
+  "%1 notifications": {
+    "%1 notifications": ""
   },
   "%1 printer(s)": {
     "%1 printer(s)": "%1 מדפסות"
@@ -29,8 +35,14 @@
   "%1 widgets": {
     "%1 widgets": "%1 ווידג׳טים"
   },
+  "%1m ago": {
+    "%1m ago": ""
+  },
   "(Unnamed)": {
     "(Unnamed)": "(ללא שם)"
+  },
+  "+ %1 more": {
+    "+ %1 more": ""
   },
   "0 = square corners": {
     "0 = square corners": "0 = פינות מרובעות"
@@ -43,6 +55,9 @@
   },
   "1 minute": {
     "1 minute": "דקה אחת"
+  },
+  "1 notification": {
+    "1 notification": ""
   },
   "1 second": {
     "1 second": "שנייה אחת"
@@ -122,6 +137,9 @@
   "About": {
     "About": "אודות"
   },
+  "Accent Color": {
+    "Accent Color": ""
+  },
   "Accept Jobs": {
     "Accept Jobs": "קבל/י עבודות"
   },
@@ -145,6 +163,9 @@
   },
   "Activate": {
     "Activate": "הפעל/י"
+  },
+  "Activation": {
+    "Activation": ""
   },
   "Active": {
     "Active": "פעיל"
@@ -214,6 +235,9 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: חזרה • F1/I: מידע על הקובץ • F10: עזרה • Esc: סגירה"
+  },
+  "Always Active": {
+    "Always Active": ""
   },
   "Always Show Percentage": {
     "Always Show Percentage": "הצג/י תמיד אחוזים"
@@ -347,6 +371,9 @@
   "Auto-Clear After": {
     "Auto-Clear After": ""
   },
+  "Auto-Hide Timeout": {
+    "Auto-Hide Timeout": ""
+  },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": ""
   },
@@ -406,6 +433,9 @@
   },
   "Available Screens (%1)": {
     "Available Screens (%1)": ""
+  },
+  "Available in Detailed and Forecast view modes": {
+    "Available in Detailed and Forecast view modes": ""
   },
   "BSSID": {
     "BSSID": "BSSID"
@@ -493,6 +523,9 @@
   },
   "Border Opacity": {
     "Border Opacity": "שקיפות המסגרת"
+  },
+  "Border Size": {
+    "Border Size": ""
   },
   "Border Thickness": {
     "Border Thickness": "עובי המסגרת"
@@ -620,6 +653,9 @@
   "Choose colors from palette": {
     "Choose colors from palette": ""
   },
+  "Choose how the weather widget is displayed": {
+    "Choose how the weather widget is displayed": ""
+  },
   "Choose icon": {
     "Choose icon": "בחר/י סמל"
   },
@@ -664,6 +700,9 @@
   },
   "Clear at Startup": {
     "Clear at Startup": ""
+  },
+  "Click 'Setup' to create cursor config and add include to your compositor config.": {
+    "Click 'Setup' to create cursor config and add include to your compositor config.": ""
   },
   "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": {
     "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": ""
@@ -748,6 +787,9 @@
   },
   "Communication": {
     "Communication": "תקשורת"
+  },
+  "Compact": {
+    "Compact": ""
   },
   "Compact Mode": {
     "Compact Mode": "מצב קומפקטי"
@@ -848,6 +890,9 @@
   "Copied!": {
     "Copied!": "הועתק!"
   },
+  "Copy": {
+    "Copy": ""
+  },
   "Copy PID": {
     "Copy PID": "העתק/י PID"
   },
@@ -902,8 +947,23 @@
   "Current: %1": {
     "Current: %1": ""
   },
+  "Cursor Config Not Configured": {
+    "Cursor Config Not Configured": ""
+  },
+  "Cursor Include Missing": {
+    "Cursor Include Missing": ""
+  },
+  "Cursor Size": {
+    "Cursor Size": ""
+  },
+  "Cursor Theme": {
+    "Cursor Theme": ""
+  },
   "Custom": {
     "Custom": "מותאם אישית"
+  },
+  "Custom Color": {
+    "Custom Color": ""
   },
   "Custom Duration": {
     "Custom Duration": "משך מותאם אישית"
@@ -1067,6 +1127,9 @@
   "Desktop clock widget name": {
     "Desktop Clock": ""
   },
+  "Detailed": {
+    "Detailed": ""
+  },
   "Development": {
     "Development": "פיתוח"
   },
@@ -1153,6 +1216,9 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "הצג/י את כותרת האפליקציה שנמצאת כרגע במוקד"
+  },
+  "Display hourly weather predictions": {
+    "Display hourly weather predictions": ""
   },
   "Display only workspaces that contain windows": {
     "Display only workspaces that contain windows": "הצג/י רק סביבות עבודה שמכילות חלונות"
@@ -1373,6 +1439,9 @@
   "Fade to lock screen": {
     "Fade to lock screen": "דהייה למסך הנעילה"
   },
+  "Fade to monitor off": {
+    "Fade to monitor off": ""
+  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "הפעלת התצורה נכשלה"
   },
@@ -1526,6 +1595,9 @@
   "Failed to write temp file for validation": {
     "Failed to write temp file for validation": ""
   },
+  "Feels": {
+    "Feels": ""
+  },
   "Feels Like": {
     "Feels Like": "מרגיש כמו"
   },
@@ -1607,6 +1679,12 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "אלץ/י יישומי מסוף להשתמש תמיד בערכות צבעים כהות"
   },
+  "Forecast": {
+    "Forecast": ""
+  },
+  "Forecast Days": {
+    "Forecast Days": ""
+  },
   "Forecast Not Available": {
     "Forecast Not Available": "תחזית לא זמינה"
   },
@@ -1664,6 +1742,9 @@
   "Gradually fade the screen before locking with a configurable grace period": {
     "Gradually fade the screen before locking with a configurable grace period": "הפעל/י דהייה הדרגתית של המסך לפני הנעילה עם תקופת חסד הניתנת להגדרה"
   },
+  "Gradually fade the screen before turning off monitors with a configurable grace period": {
+    "Gradually fade the screen before turning off monitors with a configurable grace period": ""
+  },
   "Graph Time Range": {
     "Graph Time Range": ""
   },
@@ -1676,11 +1757,17 @@
   "Grid Columns": {
     "Grid Columns": "עמודות רשת"
   },
+  "Group Workspace Apps": {
+    "Group Workspace Apps": ""
+  },
   "Group by App": {
     "Group by App": "קבץ/י לפי אפליקציה"
   },
   "Group multiple windows of the same app together with a window count indicator": {
     "Group multiple windows of the same app together with a window count indicator": "קבץ/י מספר חלונות של אותה אפליקציה יחד עם מונה חלונות"
+  },
+  "Group repeated application icons in unfocused workspaces": {
+    "Group repeated application icons in unfocused workspaces": ""
   },
   "HDR (EDID)": {
     "HDR (EDID)": ""
@@ -1712,8 +1799,23 @@
   "Hide Delay": {
     "Hide Delay": "עיכוב הסתרה"
   },
+  "Hide When Typing": {
+    "Hide When Typing": ""
+  },
   "Hide When Windows Open": {
     "Hide When Windows Open": ""
+  },
+  "Hide cursor after inactivity (0 = disabled)": {
+    "Hide cursor after inactivity (0 = disabled)": ""
+  },
+  "Hide cursor when pressing keyboard keys": {
+    "Hide cursor when pressing keyboard keys": ""
+  },
+  "Hide cursor when using touch input": {
+    "Hide cursor when using touch input": ""
+  },
+  "Hide on Touch": {
+    "Hide on Touch": ""
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "הסתר/י את הDock כשאינו בשימוש והצג/י אותו מחדש בעת ריחוף ליד אזור העגינה"
@@ -1751,11 +1853,17 @@
   "Hourly Forecast": {
     "Hourly Forecast": "תחזית שעתית"
   },
+  "Hourly Forecast Count": {
+    "Hourly Forecast Count": ""
+  },
   "How often to change wallpaper": {
     "How often to change wallpaper": "כל כמה זמן להחליף רקע"
   },
   "Humidity": {
     "Humidity": "לחות"
+  },
+  "Hyprland Layout Overrides": {
+    "Hyprland Layout Overrides": ""
   },
   "I Understand": {
     "I Understand": "הבנתי"
@@ -1870,6 +1978,15 @@
   },
   "Key": {
     "Key": "מקש"
+  },
+  "Keybind Sources": {
+    "Keybind Sources": ""
+  },
+  "Keybinds Search Settings": {
+    "Keybinds Search Settings": ""
+  },
+  "Keybinds shown alongside regular search results": {
+    "Keybinds shown alongside regular search results": ""
   },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "שם פריסת המקלדת"
@@ -1991,6 +2108,9 @@
   "Lock before suspend": {
     "Lock before suspend": "נעל/י לפני השהיה"
   },
+  "Lock fade grace period": {
+    "Lock fade grace period": ""
+  },
   "Log Out": {
     "Log Out": "התנתק/י"
   },
@@ -2020,6 +2140,9 @@
   },
   "Management": {
     "Management": ""
+  },
+  "MangoWC Layout Overrides": {
+    "MangoWC Layout Overrides": ""
   },
   "Manual Coordinates": {
     "Manual Coordinates": "קואורדינטות ידניות"
@@ -2165,6 +2288,9 @@
   "Monitor Configuration": {
     "Monitor Configuration": ""
   },
+  "Monitor fade grace period": {
+    "Monitor fade grace period": ""
+  },
   "Monitor whose wallpaper drives dynamic theming colors": {
     "Monitor whose wallpaper drives dynamic theming colors": "המסך שהרקע שלו קובע את צבעי ערכת הנושא הדינמית"
   },
@@ -2179,6 +2305,12 @@
   },
   "Mount": {
     "Mount": "טעינה"
+  },
+  "Mouse pointer appearance": {
+    "Mouse pointer appearance": ""
+  },
+  "Mouse pointer size in pixels": {
+    "Mouse pointer size in pixels": ""
   },
   "Move Widget": {
     "Move Widget": ""
@@ -2282,6 +2414,9 @@
   "No VPN profiles": {
     "No VPN profiles": "אין פרופילי VPN"
   },
+  "No Weather Data": {
+    "No Weather Data": ""
+  },
   "No Weather Data Available": {
     "No Weather Data Available": "אין נתוני מזג אוויר זמינים"
   },
@@ -2371,6 +2506,9 @@
   },
   "Not connected": {
     "Not connected": "לא מחובר"
+  },
+  "Not detected": {
+    "Not detected": ""
   },
   "Note: this only changes the percentage, it does not actually limit charging.": {
     "Note: this only changes the percentage, it does not actually limit charging.": ""
@@ -2485,6 +2623,9 @@
   },
   "Override": {
     "Override": "דריסה"
+  },
+  "Override Border Size": {
+    "Override Border Size": ""
   },
   "Override Corner Radius": {
     "Override Corner Radius": ""
@@ -2659,6 +2800,9 @@
   },
   "Power source": {
     "Power source": "מקור חשמל"
+  },
+  "Precip": {
+    "Precip": ""
   },
   "Precipitation Chance": {
     "Precipitation Chance": "סיכוי למשקעים"
@@ -2861,6 +3005,12 @@
   "Rounded corners for windows": {
     "Rounded corners for windows": ""
   },
+  "Rounded corners for windows (border_radius)": {
+    "Rounded corners for windows (border_radius)": ""
+  },
+  "Rounded corners for windows (decoration.rounding)": {
+    "Rounded corners for windows (decoration.rounding)": ""
+  },
   "Run DMS Templates": {
     "Run DMS Templates": ""
   },
@@ -2939,8 +3089,14 @@
   "Scroll title if it doesn't fit in widget": {
     "Scroll title if it doesn't fit in widget": ""
   },
+  "Scroll wheel behavior on media widget": {
+    "Scroll wheel behavior on media widget": ""
+  },
   "Scrolling": {
     "Scrolling": "גלילה"
+  },
+  "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
+    "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": ""
   },
   "Search file contents": {
     "Search file contents": "חפש/י בתוכן הקבצים"
@@ -2953,6 +3109,9 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "חפש/י קיצורי מקלדת..."
+  },
+  "Search keyboard shortcuts from your compositor and applications": {
+    "Search keyboard shortcuts from your compositor and applications": ""
   },
   "Search plugins...": {
     "Search plugins...": "חפש/י תוספים..."
@@ -2996,6 +3155,9 @@
   "Select an image file...": {
     "Select an image file...": "בחר/י קובץ תמונה..."
   },
+  "Select at least one provider": {
+    "Select at least one provider": ""
+  },
   "Select device...": {
     "Select device...": "בחר/י התקן..."
   },
@@ -3019,6 +3181,9 @@
   },
   "Select the palette algorithm used for wallpaper-based colors": {
     "Select the palette algorithm used for wallpaper-based colors": "בחר/י את האלגוריתם שייקבע את פלטת הצבעים עבור צבעים מבוססי תמונת רקע"
+  },
+  "Select which keybind providers to include": {
+    "Select which keybind providers to include": ""
   },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "בחר/י אילו מעברים לכלול באקראיות"
@@ -3086,6 +3251,12 @@
   "Show Dock": {
     "Show Dock": "הצג/י Dock"
   },
+  "Show Feels Like Temperature": {
+    "Show Feels Like Temperature": ""
+  },
+  "Show Forecast": {
+    "Show Forecast": ""
+  },
   "Show GPU Temperature": {
     "Show GPU Temperature": ""
   },
@@ -3098,8 +3269,17 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": ""
   },
+  "Show Hourly Forecast": {
+    "Show Hourly Forecast": ""
+  },
+  "Show Humidity": {
+    "Show Humidity": ""
+  },
   "Show Line Numbers": {
     "Show Line Numbers": "הצג/י מספרי שורות"
+  },
+  "Show Location": {
+    "Show Location": ""
   },
   "Show Lock": {
     "Show Lock": "הצג/י נעילה"
@@ -3125,6 +3305,12 @@
   "Show Power Off": {
     "Show Power Off": "הצג/י כיבוי"
   },
+  "Show Precipitation Probability": {
+    "Show Precipitation Probability": ""
+  },
+  "Show Pressure": {
+    "Show Pressure": ""
+  },
   "Show Reboot": {
     "Show Reboot": "הצג/י הפעלה מחדש"
   },
@@ -3134,11 +3320,23 @@
   "Show Seconds": {
     "Show Seconds": "הצג/י שניות"
   },
+  "Show Sunrise/Sunset": {
+    "Show Sunrise/Sunset": ""
+  },
   "Show Suspend": {
     "Show Suspend": "הצג/י השהיה"
   },
   "Show Top Processes": {
     "Show Top Processes": ""
+  },
+  "Show Weather Condition": {
+    "Show Weather Condition": ""
+  },
+  "Show Welcome": {
+    "Show Welcome": ""
+  },
+  "Show Wind Speed": {
+    "Show Wind Speed": ""
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "הצג/י אפליקציות בסביבת העבודה"
@@ -3163,6 +3361,9 @@
   },
   "Show on Overview": {
     "Show on Overview": "הצג/י בתצוגת סקירה"
+  },
+  "Show on Overview Only": {
+    "Show on Overview Only": ""
   },
   "Show on all connected displays": {
     "Show on all connected displays": "הצג/י בכל המסכים המחוברים"
@@ -3209,6 +3410,9 @@
   "Show workspace index numbers in the top bar workspace switcher": {
     "Show workspace index numbers in the top bar workspace switcher": "הצג/י את מספרי האינדקס של סביבות העבודה במחליף סביבת העבודה שבסרגל העליון"
   },
+  "Show workspace name on horizontal bars, and first letter on vertical bars": {
+    "Show workspace name on horizontal bars, and first letter on vertical bars": ""
+  },
   "Shows all running applications with focus indication": {
     "Shows all running applications with focus indication": "מציג את כל האפליקציות הפעילות עם סימון למיקוד"
   },
@@ -3239,6 +3443,12 @@
   "Sizing": {
     "Sizing": "גודל"
   },
+  "Smartcard Authentication": {
+    "Smartcard Authentication": ""
+  },
+  "Smartcard PIN": {
+    "Smartcard PIN": ""
+  },
   "Some plugins require a newer version of DMS:": {
     "Some plugins require a newer version of DMS:": ""
   },
@@ -3260,6 +3470,12 @@
   "Space between windows": {
     "Space between windows": ""
   },
+  "Space between windows (gappih/gappiv/gappoh/gappov)": {
+    "Space between windows (gappih/gappiv/gappoh/gappov)": ""
+  },
+  "Space between windows (gaps_in and gaps_out)": {
+    "Space between windows (gaps_in and gaps_out)": ""
+  },
   "Spacer": {
     "Spacer": "מרווח"
   },
@@ -3280,6 +3496,9 @@
   },
   "Stacked": {
     "Stacked": ""
+  },
+  "Standard": {
+    "Standard": ""
   },
   "Start": {
     "Start": "התחל/י"
@@ -3503,6 +3722,9 @@
   "Toner Low": {
     "Toner Low": "הטונר עומד להסתיים"
   },
+  "Tools": {
+    "Tools": ""
+  },
   "Top": {
     "Top": "למעלה"
   },
@@ -3533,11 +3755,20 @@
   "Transparency": {
     "Transparency": "שקיפות"
   },
+  "Trigger": {
+    "Trigger": ""
+  },
+  "Trigger Prefix": {
+    "Trigger Prefix": ""
+  },
   "Turn off monitors after": {
     "Turn off monitors after": "כבה/י את כל המסכים לאחר"
   },
   "Type": {
     "Type": "סוג"
+  },
+  "Type this prefix to search keybinds": {
+    "Type this prefix to search keybinds": ""
   },
   "Typography": {
     "Typography": "טיפוגרפיה"
@@ -3566,6 +3797,9 @@
   "Unknown Network": {
     "Unknown Network": ""
   },
+  "Unpin": {
+    "Unpin": ""
+  },
   "Unpin from Dock": {
     "Unpin from Dock": "בטל/י נעיצה על הDock"
   },
@@ -3586,6 +3820,9 @@
   },
   "Update Plugin": {
     "Update Plugin": "עדכן/י תוסף"
+  },
+  "Usage Tips": {
+    "Usage Tips": ""
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "השתמש/י בתבנית 24 שעות במקום 12 שעות (AM/PM)"
@@ -3614,6 +3851,12 @@
   "Use animated wave progress bars for media playback": {
     "Use animated wave progress bars for media playback": "השתמש/י בסרגלי התקדמות מונפשים בצורת גלים לניגון מדיה"
   },
+  "Use custom border size": {
+    "Use custom border size": ""
+  },
+  "Use custom border/focus-ring width": {
+    "Use custom border/focus-ring width": ""
+  },
   "Use custom command for update your system": {
     "Use custom command for update your system": "השתמש/י בפקודה מותאמת אישית לעדכון המערכת"
   },
@@ -3622,6 +3865,9 @@
   },
   "Use custom window radius instead of theme radius": {
     "Use custom window radius instead of theme radius": ""
+  },
+  "Use custom window rounding instead of theme radius": {
+    "Use custom window rounding instead of theme radius": ""
   },
   "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": {
     "Use fingerprint reader for lock screen authentication (requires enrolled fingerprints)": "השתמש/י בקורא טביעות אצבע לאימות במסך הנעילה (דורש טביעות אצבע רשומות)"
@@ -3632,11 +3878,17 @@
   "Use sound theme from system settings": {
     "Use sound theme from system settings": "השתמש/י בערכת הצלילים מהגדרות המערכת"
   },
+  "Use trigger prefix to activate": {
+    "Use trigger prefix to activate": ""
+  },
   "Use%": {
     "Use%": "השתמש/י ב%"
   },
   "Used": {
     "Used": "בשימוש"
+  },
+  "Used when accent color is set to Custom": {
+    "Used when accent color is set to Custom": ""
   },
   "User": {
     "User": ""
@@ -3712,6 +3964,9 @@
   },
   "Vibrant palette with playful saturation.": {
     "Vibrant palette with playful saturation.": "פלטת צבעים עשירה עם רוויה משחקית."
+  },
+  "View Mode": {
+    "View Mode": ""
   },
   "Visibility": {
     "Visibility": "ראות"
@@ -3829,6 +4084,15 @@
   "Widget removed": {
     "Widget removed": ""
   },
+  "Width of window border (borderpx)": {
+    "Width of window border (borderpx)": ""
+  },
+  "Width of window border (general.border_size)": {
+    "Width of window border (general.border_size)": ""
+  },
+  "Width of window border and focus ring": {
+    "Width of window border and focus ring": ""
+  },
   "Wind": {
     "Wind": "רוח"
   },
@@ -3844,11 +4108,17 @@
   "Window Gaps (px)": {
     "Window Gaps (px)": ""
   },
+  "Window Rounding": {
+    "Window Rounding": ""
+  },
   "Workspace": {
     "Workspace": "סביבת עבודה"
   },
   "Workspace Index Numbers": {
     "Workspace Index Numbers": "מספרי אינדקס של סביבות העבודה"
+  },
+  "Workspace Names": {
+    "Workspace Names": ""
   },
   "Workspace Padding": {
     "Workspace Padding": "ריווח סביבת העבודה"
@@ -3892,6 +4162,9 @@
   "author attribution": {
     "by %1": ""
   },
+  "bar shadow settings card": {
+    "Shadow": ""
+  },
   "browse themes button | theme browser header | theme browser window title": {
     "Browse Themes": ""
   },
@@ -3924,6 +4197,9 @@
   },
   "dms/binds.kdl is now included in config.kdl": {
     "dms/binds.kdl is now included in config.kdl": "dms/binds.kdl כעת כלול בconfig.kdl"
+  },
+  "dms/cursor config exists but is not included. Cursor settings won't apply.": {
+    "dms/cursor config exists but is not included. Cursor settings won't apply.": ""
   },
   "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": {
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": ""
@@ -3961,6 +4237,145 @@
   "generic theme description": {
     "Material Design inspired color themes": ""
   },
+  "greeter back button": {
+    "Back": ""
+  },
+  "greeter completion page subtitle": {
+    "DankMaterialShell is ready to use": ""
+  },
+  "greeter completion page title": {
+    "You're All Set!": ""
+  },
+  "greeter configure keybinds link": {
+    "Configure Keybinds": ""
+  },
+  "greeter dankbar description": {
+    "Widgets, layout, style": ""
+  },
+  "greeter displays description": {
+    "Resolution, position, scale": ""
+  },
+  "greeter dock description": {
+    "Position, pinned apps": ""
+  },
+  "greeter doctor page button": {
+    "Run Again": ""
+  },
+  "greeter doctor page empty state": {
+    "No checks passed": "",
+    "No errors": "",
+    "No info items": "",
+    "No warnings": ""
+  },
+  "greeter doctor page error count": {
+    "%1 issue(s) found": ""
+  },
+  "greeter doctor page loading text": {
+    "Analyzing configuration...": ""
+  },
+  "greeter doctor page status card": {
+    "Errors": "",
+    "Info": "",
+    "OK": "",
+    "Warnings": ""
+  },
+  "greeter doctor page success": {
+    "All checks passed": ""
+  },
+  "greeter doctor page title": {
+    "System Check": ""
+  },
+  "greeter documentation link": {
+    "Docs": ""
+  },
+  "greeter explore section header": {
+    "Explore": ""
+  },
+  "greeter feature card description": {
+    "Background app icons": "",
+    "Colors from wallpaper": "",
+    "Community themes": "",
+    "Extensible architecture": "",
+    "GTK, Qt, IDEs, more": "",
+    "Modular widget bar": "",
+    "Night mode & gamma": "",
+    "Per-screen config": "",
+    "Quick system toggles": ""
+  },
+  "greeter feature card title": {
+    "App Theming": "",
+    "Control Center": "",
+    "Display Control": "",
+    "Dynamic Theming": "",
+    "Multi-Monitor": "",
+    "System Tray": "",
+    "Theme Registry": ""
+  },
+  "greeter feature card title | greeter plugins link": {
+    "Plugins": ""
+  },
+  "greeter feature card title | greeter settings link": {
+    "DankBar": ""
+  },
+  "greeter finish button": {
+    "Finish": ""
+  },
+  "greeter first page button": {
+    "Get Started": ""
+  },
+  "greeter keybinds niri description": {
+    "niri shortcuts config": ""
+  },
+  "greeter keybinds section header": {
+    "DMS Shortcuts": ""
+  },
+  "greeter modal window title": {
+    "Welcome": ""
+  },
+  "greeter next button": {
+    "Next": ""
+  },
+  "greeter no keybinds message": {
+    "No DMS shortcuts configured": ""
+  },
+  "greeter notifications description": {
+    "Popup behavior, position": ""
+  },
+  "greeter settings link": {
+    "Displays": "",
+    "Dock": "",
+    "Keybinds": "",
+    "Notifications": "",
+    "Theme & Colors": "",
+    "Wallpaper": ""
+  },
+  "greeter settings section header": {
+    "Configure": ""
+  },
+  "greeter skip button": {
+    "Skip": ""
+  },
+  "greeter skip button tooltip": {
+    "Skip setup": ""
+  },
+  "greeter theme description": {
+    "Dynamic colors, presets": ""
+  },
+  "greeter themes link": {
+    "Themes": ""
+  },
+  "greeter wallpaper description": {
+    "Background image": ""
+  },
+  "greeter welcome page section header": {
+    "Features": ""
+  },
+  "greeter welcome page tagline": {
+    "A modern desktop shell for Wayland compositors": ""
+  },
+  "greeter welcome page title": {
+    "Welcome to DankMaterialShell": ""
+  },
   "install action button": {
     "Install": ""
   },
@@ -3981,6 +4396,19 @@
   },
   "loading indicator": {
     "Loading...": ""
+  },
+  "lock screen notification mode option": {
+    "App Names": "",
+    "Count Only": "",
+    "Disabled": "",
+    "Full Content": ""
+  },
+  "lock screen notification privacy setting": {
+    "Control what notification information is shown on the lock screen": "",
+    "Notification Display": ""
+  },
+  "lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl אינו זמין, שילוב הנעילה דורש חיבור socket לDMS"
@@ -4009,6 +4437,50 @@
   "no wallpaper status": {
     "No wallpaper selected": ""
   },
+  "notification center tab": {
+    "Current": "",
+    "History": ""
+  },
+  "notification history filter": {
+    "All": "",
+    "Last hour": "",
+    "Today": "",
+    "Yesterday": ""
+  },
+  "notification history filter for content older than other filters": {
+    "Older": ""
+  },
+  "notification history filter | notification history retention option": {
+    "30 days": "",
+    "7 days": ""
+  },
+  "notification history limit": {
+    "Maximum number of notifications to keep": ""
+  },
+  "notification history retention option": {
+    "1 day": "",
+    "14 days": "",
+    "3 days": "",
+    "Forever": ""
+  },
+  "notification history retention settings label": {
+    "History Retention": ""
+  },
+  "notification history setting": {
+    "Auto-delete notifications older than this": "",
+    "Save critical priority notifications to history": "",
+    "Save low priority notifications to history": "",
+    "Save normal priority notifications to history": ""
+  },
+  "notification history toggle description": {
+    "Save dismissed notifications to history": ""
+  },
+  "notification history toggle label": {
+    "Enable History": ""
+  },
+  "now": {
+    "now": ""
+  },
   "official": {
     "official": "רשמי"
   },
@@ -4030,6 +4502,9 @@
   "profile image file browser title": {
     "Select Profile Image": "בחר/י תמונת פרופיל"
   },
+  "read-only settings warning for NixOS home-manager users": {
+    "Settings are read-only. Changes will not persist.": ""
+  },
   "registry theme description": {
     "Color theme from DMS registry": ""
   },
@@ -4041,6 +4516,13 @@
   },
   "settings_displays": {
     "Widgets": ""
+  },
+  "shadow color option": {
+    "Surface": "",
+    "Text": ""
+  },
+  "shadow intensity slider": {
+    "Intensity": ""
   },
   "source code link": {
     "source": ""
@@ -4101,6 +4583,9 @@
   },
   "wtype not available - install wtype for paste support": {
     "wtype not available - install wtype for paste support": ""
+  },
+  "yesterday": {
+    "yesterday": ""
   },
   "• Install only from trusted sources": {
     "• Install only from trusted sources": "• התקן/י רק ממקורות מהימנים"

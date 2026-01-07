@@ -323,7 +323,6 @@ Singleton {
             }
         }
 
-        userPreference = state.preference || "auto";
         isConnecting = state.isConnecting || false;
         connectingSSID = state.connectingSSID || "";
         connectionError = state.lastError || "";

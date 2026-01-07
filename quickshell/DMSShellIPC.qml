@@ -848,7 +848,16 @@ Item {
             const widgets = BarWidgetService.getRegisteredWidgetIds();
             if (widgets.length === 0)
                 return "No widgets registered";
-            return widgets.join("\n");
+
+            const lines = [];
+            for (const widgetId of widgets) {
+                const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);
+                let state = "";
+                if (widget?.effectiveVisible !== undefined)
+                    state = widget.effectiveVisible ? " [visible]" : " [hidden]";
+                lines.push(widgetId + state);
+            }
+            return lines.join("\n");
         }
 
         function status(widgetId: string): string {
@@ -865,6 +874,76 @@ Item {
             if (widget.popoutTarget?.shouldBeVisible)
                 return "visible";
             return "hidden";
+        }
+
+        function reveal(widgetId: string): string {
+            if (!widgetId)
+                return "ERROR: No widget ID specified";
+
+            if (!BarWidgetService.hasWidget(widgetId))
+                return `WIDGET_NOT_FOUND: ${widgetId}`;
+
+            const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);
+            if (!widget)
+                return `WIDGET_NOT_AVAILABLE: ${widgetId}`;
+
+            if (typeof widget.setVisibilityOverride === "function") {
+                widget.setVisibilityOverride(true);
+                return `WIDGET_REVEAL_SUCCESS: ${widgetId}`;
+            }
+            return `WIDGET_REVEAL_NOT_SUPPORTED: ${widgetId}`;
+        }
+
+        function hide(widgetId: string): string {
+            if (!widgetId)
+                return "ERROR: No widget ID specified";
+
+            if (!BarWidgetService.hasWidget(widgetId))
+                return `WIDGET_NOT_FOUND: ${widgetId}`;
+
+            const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);
+            if (!widget)
+                return `WIDGET_NOT_AVAILABLE: ${widgetId}`;
+
+            if (typeof widget.setVisibilityOverride === "function") {
+                widget.setVisibilityOverride(false);
+                return `WIDGET_HIDE_SUCCESS: ${widgetId}`;
+            }
+            return `WIDGET_HIDE_NOT_SUPPORTED: ${widgetId}`;
+        }
+
+        function reset(widgetId: string): string {
+            if (!widgetId)
+                return "ERROR: No widget ID specified";
+
+            if (!BarWidgetService.hasWidget(widgetId))
+                return `WIDGET_NOT_FOUND: ${widgetId}`;
+
+            const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);
+            if (!widget)
+                return `WIDGET_NOT_AVAILABLE: ${widgetId}`;
+
+            if (typeof widget.clearVisibilityOverride === "function") {
+                widget.clearVisibilityOverride();
+                return `WIDGET_RESET_SUCCESS: ${widgetId}`;
+            }
+            return `WIDGET_RESET_NOT_SUPPORTED: ${widgetId}`;
+        }
+
+        function visibility(widgetId: string): string {
+            if (!widgetId)
+                return "ERROR: No widget ID specified";
+
+            if (!BarWidgetService.hasWidget(widgetId))
+                return `WIDGET_NOT_FOUND: ${widgetId}`;
+
+            const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);
+            if (!widget)
+                return `WIDGET_NOT_AVAILABLE: ${widgetId}`;
+
+            if (widget.effectiveVisible !== undefined)
+                return widget.effectiveVisible ? "visible" : "hidden";
+            return "unknown";
         }
 
         target: "widget"
@@ -953,6 +1032,26 @@ Item {
         }
 
         target: "clipboard"
+    }
+
+    IpcHandler {
+        function open(): string {
+            FirstLaunchService.showWelcome();
+            return "WELCOME_OPEN_SUCCESS";
+        }
+
+        function doctor(): string {
+            FirstLaunchService.showDoctor();
+            return "WELCOME_DOCTOR_SUCCESS";
+        }
+
+        function page(pageNum: string): string {
+            const num = parseInt(pageNum) || 0;
+            FirstLaunchService.showGreeter(num);
+            return `WELCOME_PAGE_SUCCESS: ${num}`;
+        }
+
+        target: "welcome"
     }
 
     IpcHandler {

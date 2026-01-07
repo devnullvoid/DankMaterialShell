@@ -30,7 +30,7 @@ Singleton {
         return useAuto ? Math.max(4, spacing) : manualValue;
     }
 
-    property string currentTheme: "blue"
+    property string currentTheme: "purple"
     property string currentThemeCategory: "generic"
     property bool isLightMode: typeof SessionData !== "undefined" ? SessionData.isLightMode : false
     property bool colorsFileLoadFailed: false
@@ -89,8 +89,36 @@ Singleton {
     property bool qtThemingEnabled: typeof SettingsData !== "undefined" ? (SettingsData.qt5ctAvailable || SettingsData.qt6ctAvailable) : false
     property var workerRunning: false
     property var pendingThemeRequest: null
+
+    signal matugenCompleted(string mode, string result)
     property var matugenColors: ({})
     property var _pendingGenerateParams: null
+
+    readonly property var dank16: {
+        const raw = matugenColors?.dank16;
+        if (!raw)
+            return null;
+
+        const dark = {};
+        const light = {};
+        const def = {};
+
+        for (let i = 0; i < 16; i++) {
+            const key = "color" + i;
+            const c = raw[key];
+            if (!c)
+                continue;
+            dark[key] = c.dark;
+            light[key] = c.light;
+            def[key] = c.default;
+        }
+
+        return {
+            dark,
+            light,
+            "default": def
+        };
+    }
     property var customThemeData: null
     property var customThemeRawData: null
     readonly property var currentThemeVariants: customThemeRawData?.variants || null
@@ -170,7 +198,7 @@ Singleton {
 
     readonly property var currentThemeData: {
         if (currentTheme === "custom") {
-            return customThemeData || StockThemes.getThemeByName("blue", isLightMode);
+            return customThemeData || StockThemes.getThemeByName("purple", isLightMode);
         } else if (currentTheme === dynamic) {
             return {
                 "primary": getMatugenColor("primary", "#42a5f5"),
@@ -882,6 +910,10 @@ Singleton {
                     skipTemplates.push("gtk");
                 if (!SettingsData.matugenTemplateNiri)
                     skipTemplates.push("niri");
+                if (!SettingsData.matugenTemplateHyprland)
+                    skipTemplates.push("hyprland");
+                if (!SettingsData.matugenTemplateMangowc)
+                    skipTemplates.push("mangowc");
                 if (!SettingsData.matugenTemplateQt5ct)
                     skipTemplates.push("qt5ct");
                 if (!SettingsData.matugenTemplateQt6ct)
@@ -1246,24 +1278,32 @@ Singleton {
 
         onExited: exitCode => {
             workerRunning = false;
+            const currentMode = (typeof SessionData !== "undefined" && SessionData.isLightMode) ? "light" : "dark";
 
-            if (exitCode === 0) {
+            switch (exitCode) {
+            case 0:
                 console.info("Theme: Matugen worker completed successfully");
-            } else if (exitCode === 2) {
+                root.matugenCompleted(currentMode, "success");
+                break;
+            case 2:
                 console.log("Theme: Matugen worker completed with code 2 (no changes needed)");
-            } else {
+                root.matugenCompleted(currentMode, "no-changes");
+                break;
+            default:
                 if (typeof ToastService !== "undefined") {
                     ToastService.showError("Theme worker failed (" + exitCode + ")");
                 }
                 console.warn("Theme: Matugen worker failed with exit code:", exitCode);
+                root.matugenCompleted(currentMode, "error");
             }
 
-            if (pendingThemeRequest) {
-                const req = pendingThemeRequest;
-                pendingThemeRequest = null;
-                console.info("Theme: Processing queued theme request");
-                setDesiredTheme(req.kind, req.value, req.isLight, req.iconTheme, req.matugenType, req.stockColors);
-            }
+            if (!pendingThemeRequest)
+                return;
+
+            const req = pendingThemeRequest;
+            pendingThemeRequest = null;
+            console.info("Theme: Processing queued theme request");
+            setDesiredTheme(req.kind, req.value, req.isLight, req.iconTheme, req.matugenType, req.stockColors);
         }
     }
 
@@ -1302,7 +1342,7 @@ Singleton {
             const colorsPath = SessionData.isGreeterMode ? greetCfgDir + "/colors.json" : stateDir + "/dms-colors.json";
             return colorsPath;
         }
-        watchChanges: currentTheme === dynamic && !SessionData.isGreeterMode
+        watchChanges: !SessionData.isGreeterMode
 
         function parseAndLoadColors() {
             try {
@@ -1323,17 +1363,13 @@ Singleton {
         }
 
         onLoaded: {
-            if (currentTheme === dynamic) {
-                console.info("Theme: Dynamic colors file loaded successfully");
+            if (currentTheme === dynamic)
                 colorsFileLoadFailed = false;
-                parseAndLoadColors();
-            }
+            parseAndLoadColors();
         }
 
         onFileChanged: {
-            if (currentTheme === dynamic) {
-                dynamicColorsFileView.reload();
-            }
+            dynamicColorsFileView.reload();
         }
 
         onLoadFailed: function (error) {

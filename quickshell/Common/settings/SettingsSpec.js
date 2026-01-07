@@ -6,7 +6,7 @@ function percentToUnit(v) {
 }
 
 var SPEC = {
-    currentThemeName: { def: "blue", onChange: "applyStoredTheme" },
+    currentThemeName: { def: "purple", onChange: "applyStoredTheme" },
     currentThemeCategory: { def: "generic" },
     customThemeFile: { def: "" },
     registryThemeVariants: { def: {} },
@@ -19,9 +19,16 @@ var SPEC = {
 
     widgetBackgroundColor: { def: "sch" },
     widgetColorMode: { def: "default" },
-    cornerRadius: { def: 12, onChange: "updateNiriLayout" },
-    niriLayoutGapsOverride: { def: -1, onChange: "updateNiriLayout" },
-    niriLayoutRadiusOverride: { def: -1, onChange: "updateNiriLayout" },
+    cornerRadius: { def: 12, onChange: "updateCompositorLayout" },
+    niriLayoutGapsOverride: { def: -1, onChange: "updateCompositorLayout" },
+    niriLayoutRadiusOverride: { def: -1, onChange: "updateCompositorLayout" },
+    niriLayoutBorderSize: { def: -1, onChange: "updateCompositorLayout" },
+    hyprlandLayoutGapsOverride: { def: -1, onChange: "updateCompositorLayout" },
+    hyprlandLayoutRadiusOverride: { def: -1, onChange: "updateCompositorLayout" },
+    hyprlandLayoutBorderSize: { def: -1, onChange: "updateCompositorLayout" },
+    mangoLayoutGapsOverride: { def: -1, onChange: "updateCompositorLayout" },
+    mangoLayoutRadiusOverride: { def: -1, onChange: "updateCompositorLayout" },
+    mangoLayoutBorderSize: { def: -1, onChange: "updateCompositorLayout" },
 
     use24HourClock: { def: true },
     showSeconds: { def: false },
@@ -81,10 +88,12 @@ var SPEC = {
     ]},
 
     showWorkspaceIndex: { def: false },
+    showWorkspaceName: { def: false },
     showWorkspacePadding: { def: false },
     workspaceScrolling: { def: false },
     showWorkspaceApps: { def: false },
     maxWorkspaceIcons: { def: 3 },
+    groupWorkspaceApps: { def: true },
     workspacesPerMonitor: { def: true },
     showOccupiedWorkspacesOnly: { def: false },
     reverseScrolling: { def: false },
@@ -93,7 +102,7 @@ var SPEC = {
     waveProgressEnabled: { def: true },
     scrollTitleEnabled: { def: true },
     audioVisualizerEnabled: { def: true },
-    audioScrollEnabled: { def: true },
+    audioScrollMode: { def: "volume" },
     clockCompactMode: { def: false },
     focusedWindowCompactMode: { def: false },
     runningAppsCompactMode: { def: true },
@@ -126,6 +135,10 @@ var SPEC = {
     qt5ctAvailable: { def: false, persist: false },
     qt6ctAvailable: { def: false, persist: false },
     gtkAvailable: { def: false, persist: false },
+
+    cursorSettings: { def: { theme: "System Default", size: 24, niri: { hideWhenTyping: false, hideAfterInactiveMs: 0 }, hyprland: { hideOnKeyPress: false, hideOnTouch: false, inactiveTimeout: 0 }, dwl: { cursorHideTimeout: 0 } }, onChange: "updateCompositorCursor" },
+    availableCursorThemes: { def: ["System Default"], persist: false },
+    systemDefaultCursorTheme: { def: "", persist: false },
 
     launcherLogoMode: { def: "apps" },
     launcherLogoCustomPath: { def: "" },
@@ -182,6 +195,8 @@ var SPEC = {
     loginctlLockIntegration: { def: true },
     fadeToLockEnabled: { def: false },
     fadeToLockGracePeriod: { def: 5 },
+    fadeToDpmsEnabled: { def: false },
+    fadeToDpmsGracePeriod: { def: 5 },
     launchPrefix: { def: "" },
     brightnessDevicePins: { def: {} },
     wifiNetworkPins: { def: {} },
@@ -197,6 +212,8 @@ var SPEC = {
     runDmsMatugenTemplates: { def: true },
     matugenTemplateGtk: { def: true },
     matugenTemplateNiri: { def: true },
+    matugenTemplateHyprland: { def: true },
+    matugenTemplateMangowc: { def: true },
     matugenTemplateQt5ct: { def: true },
     matugenTemplateQt6ct: { def: true },
     matugenTemplateFirefox: { def: true },
@@ -248,12 +265,19 @@ var SPEC = {
     fprintdAvailable: { def: false, persist: false },
     lockScreenActiveMonitor: { def: "all" },
     lockScreenInactiveColor: { def: "#000000" },
+    lockScreenNotificationMode: { def: 0 },
     hideBrightnessSlider: { def: false },
 
     notificationTimeoutLow: { def: 5000 },
     notificationTimeoutNormal: { def: 5000 },
     notificationTimeoutCritical: { def: 0 },
     notificationPopupPosition: { def: 0 },
+    notificationHistoryEnabled: { def: true },
+    notificationHistoryMaxCount: { def: 50 },
+    notificationHistoryMaxAgeDays: { def: 7 },
+    notificationHistorySaveLow: { def: true },
+    notificationHistorySaveNormal: { def: true },
+    notificationHistorySaveCritical: { def: true },
 
     osdAlwaysShowValue: { def: false },
     osdPosition: { def: 5 },
@@ -328,7 +352,11 @@ var SPEC = {
         maximizeDetection: true,
         scrollEnabled: true,
         scrollXBehavior: "column",
-        scrollYBehavior: "workspace"
+        scrollYBehavior: "workspace",
+        shadowIntensity: 0,
+        shadowOpacity: 60,
+        shadowColorMode: "text",
+        shadowCustomColor: "#000000"
     }], onChange: "updateBarConfigs" },
 
     desktopClockEnabled: { def: false },
@@ -374,7 +402,9 @@ var SPEC = {
     desktopWidgetPositions: { def: {} },
     desktopWidgetGridSettings: { def: {} },
 
-    desktopWidgetInstances: { def: [] }
+    desktopWidgetInstances: { def: [] },
+
+    builtInPluginSettings: { def: {} }
 };
 
 function getValidKeys() {

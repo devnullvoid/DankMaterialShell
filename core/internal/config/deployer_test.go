@@ -161,7 +161,8 @@ layout {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := cd.mergeNiriOutputSections(tt.newConfig, tt.existingConfig)
+			tmpDir := t.TempDir()
+			result, err := cd.mergeNiriOutputSections(tt.newConfig, tt.existingConfig, tmpDir)
 
 			if tt.wantError {
 				assert.Error(t, err)
@@ -362,7 +363,8 @@ input {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			result, err := cd.mergeHyprlandMonitorSections(tt.newConfig, tt.existingConfig)
+			tmpDir := t.TempDir()
+			result, err := cd.mergeHyprlandMonitorSections(tt.newConfig, tt.existingConfig, tmpDir)
 
 			if tt.wantError {
 				assert.Error(t, err)
@@ -462,7 +464,6 @@ func TestHyprlandConfigStructure(t *testing.T) {
 	assert.Contains(t, HyprlandConfig, "# KEYBINDINGS")
 	assert.Contains(t, HyprlandConfig, "bind = $mod, T, exec, {{TERMINAL_COMMAND}}")
 	assert.Contains(t, HyprlandConfig, "bind = $mod, space, exec, dms ipc call spotlight toggle")
-	assert.Contains(t, HyprlandConfig, "windowrule = border_size 0, match:class ^(com\\.mitchellh\\.ghostty)$")
 }
 
 func TestGhosttyConfigStructure(t *testing.T) {

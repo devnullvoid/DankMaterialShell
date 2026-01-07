@@ -17,12 +17,14 @@ Item {
     property var pluginService: null
     property string instanceId: ""
     property var instanceData: null
+    property bool widgetEnabled: true
 
     readonly property bool isBuiltin: pluginId === "desktopClock" || pluginId === "systemMonitor"
     readonly property var activeComponent: isBuiltin ? builtinComponent : PluginService.pluginDesktopComponents[pluginId] ?? null
 
     readonly property bool showOnOverlay: instanceData?.config?.showOnOverlay ?? false
     readonly property bool showOnOverview: instanceData?.config?.showOnOverview ?? false
+    readonly property bool showOnOverviewOnly: instanceData?.config?.showOnOverviewOnly ?? false
     readonly property bool overviewActive: CompositorService.isNiri && NiriService.inOverview
 
     Connections {
@@ -202,7 +204,13 @@ Item {
     PanelWindow {
         id: widgetWindow
         screen: root.screen
-        visible: root.visible && root.activeComponent !== null
+        visible: {
+            if (!root.widgetEnabled || root.activeComponent === null)
+                return false;
+            if (root.showOnOverviewOnly)
+                return root.overviewActive;
+            return true;
+        }
         color: "transparent"
 
         WlrLayershell.namespace: "quickshell:desktop-widget:" + root.pluginId + (root.instanceId ? ":" + root.instanceId : "")
@@ -211,7 +219,7 @@ Item {
                 return WlrLayer.Overlay;
             if (root.showOnOverlay)
                 return WlrLayer.Overlay;
-            if (root.showOnOverview && root.overviewActive)
+            if (root.overviewActive && (root.showOnOverview || root.showOnOverviewOnly))
                 return WlrLayer.Overlay;
             return WlrLayer.Bottom;
         }
@@ -542,7 +550,7 @@ Item {
             mask: Region {}
 
             WlrLayershell.namespace: "quickshell:desktop-widget-grid"
-            WlrLayershell.layer: WlrLayer.Background
+            WlrLayershell.layer: root.overviewActive && (root.showOnOverview || root.showOnOverviewOnly) ? WlrLayer.Overlay : WlrLayer.Background
             WlrLayershell.exclusionMode: ExclusionMode.Ignore
             WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
 

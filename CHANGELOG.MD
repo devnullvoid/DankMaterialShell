@@ -15,3 +15,9 @@ This file is more of a quick reference so I know what to account for before next
   - new IPC targets
 - Initial RTL support/i18n
 - Theme registry
+- Notification persistence & history
+- **BREAKING** vscode theme needs re-installed
+- dms doctor cmd
+- niri/hypr/mango gaps/window/border overrides
+- settings search
+- notification display ops on lock screen

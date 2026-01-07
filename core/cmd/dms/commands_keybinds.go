@@ -57,6 +57,7 @@ var keybindsRemoveCmd = &cobra.Command{
 }
 
 func init() {
+	keybindsListCmd.Flags().BoolP("json", "j", false, "Output as JSON")
 	keybindsShowCmd.Flags().String("path", "", "Override config path for the provider")
 	keybindsSetCmd.Flags().String("desc", "", "Description for hotkey overlay")
 	keybindsSetCmd.Flags().Bool("allow-when-locked", false, "Allow when screen is locked")
@@ -110,12 +111,21 @@ func initializeProviders() {
 	}
 }
 
-func runKeybindsList(_ *cobra.Command, _ []string) {
+func runKeybindsList(cmd *cobra.Command, _ []string) {
 	providerList := keybinds.GetDefaultRegistry().List()
+	asJSON, _ := cmd.Flags().GetBool("json")
+
+	if asJSON {
+		output, _ := json.Marshal(providerList)
+		fmt.Fprintln(os.Stdout, string(output))
+		return
+	}
+
 	if len(providerList) == 0 {
 		fmt.Fprintln(os.Stdout, "No providers available")
 		return
 	}
+
 	fmt.Fprintln(os.Stdout, "Available providers:")
 	for _, name := range providerList {
 		fmt.Fprintf(os.Stdout, "  - %s\n", name)

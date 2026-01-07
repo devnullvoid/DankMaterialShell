@@ -3,6 +3,7 @@ import Quickshell
 import qs.Common
 import qs.Modals
 import qs.Modals.Clipboard
+import qs.Modals.Greeter
 import qs.Modals.Settings
 import qs.Modals.Spotlight
 import qs.Modules
@@ -99,6 +100,46 @@ Item {
                 function onCancelFadeToLock() {
                     if (fadeWindowLoader.item) {
                         fadeWindowLoader.item.cancelFade();
+                    }
+                }
+            }
+        }
+    }
+
+    Variants {
+        model: Quickshell.screens
+
+        delegate: Loader {
+            id: fadeDpmsWindowLoader
+            required property var modelData
+            active: SettingsData.fadeToDpmsEnabled
+            asynchronous: false
+
+            sourceComponent: FadeToDpmsWindow {
+                screen: fadeDpmsWindowLoader.modelData
+
+                onFadeCompleted: {
+                    IdleService.requestMonitorOff();
+                }
+
+                onFadeCancelled: {
+                    console.log("Fade to DPMS cancelled by user on screen:", fadeDpmsWindowLoader.modelData.name);
+                }
+            }
+
+            Connections {
+                target: IdleService
+                enabled: fadeDpmsWindowLoader.item !== null
+
+                function onFadeToDpmsRequested() {
+                    if (fadeDpmsWindowLoader.item) {
+                        fadeDpmsWindowLoader.item.startFade();
+                    }
+                }
+
+                function onCancelFadeToDpms() {
+                    if (fadeDpmsWindowLoader.item) {
+                        fadeDpmsWindowLoader.item.cancelFade();
                     }
                 }
             }
@@ -566,6 +607,8 @@ Item {
 
         active: false
 
+        Component.onCompleted: PopoutService.processListModalLoader = processListModalLoader
+
         ProcessListModal {
             id: processListModal
 
@@ -618,6 +661,9 @@ Item {
                 }
             }
         }
+
+        onInstancesChanged: PopoutService.notepadSlideouts = instances
+        Component.onCompleted: PopoutService.notepadSlideouts = instances
     }
 
     Variants {
@@ -805,6 +851,26 @@ Item {
         active: CompositorService.isNiri && SettingsData.niriOverviewOverlayEnabled
         component: NiriOverviewOverlay {
             id: niriOverviewOverlay
+        }
+    }
+
+    Loader {
+        id: greeterLoader
+        active: false
+        sourceComponent: GreeterModal {
+            onGreeterCompleted: greeterLoader.active = false
+            Component.onCompleted: show()
+        }
+
+        Connections {
+            target: FirstLaunchService
+            function onGreeterRequested() {
+                if (greeterLoader.active && greeterLoader.item) {
+                    greeterLoader.item.show();
+                } else {
+                    greeterLoader.active = true;
+                }
+            }
         }
     }
 }

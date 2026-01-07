@@ -118,8 +118,56 @@ Singleton {
             parseSettings(greeterSessionFile.text());
             return;
         }
-        parseSettings(settingsFile.text());
-        _checkSessionWritable();
+
+        try {
+            const txt = settingsFile.text();
+            let obj = (txt && txt.trim()) ? JSON.parse(txt) : null;
+
+            if (obj?.brightnessLogarithmicDevices && !obj?.brightnessExponentialDevices)
+                obj.brightnessExponentialDevices = obj.brightnessLogarithmicDevices;
+
+            if (obj?.nightModeStartTime !== undefined) {
+                const parts = obj.nightModeStartTime.split(":");
+                obj.nightModeStartHour = parseInt(parts[0]) || 18;
+                obj.nightModeStartMinute = parseInt(parts[1]) || 0;
+            }
+            if (obj?.nightModeEndTime !== undefined) {
+                const parts = obj.nightModeEndTime.split(":");
+                obj.nightModeEndHour = parseInt(parts[0]) || 6;
+                obj.nightModeEndMinute = parseInt(parts[1]) || 0;
+            }
+
+            const oldVersion = obj?.configVersion ?? 0;
+            if (obj && oldVersion === 0)
+                migrateFromUndefinedToV1(obj);
+
+            if (obj && oldVersion < sessionConfigVersion) {
+                const settingsDataRef = (typeof SettingsData !== "undefined") ? SettingsData : null;
+                const migrated = Store.migrateToVersion(obj, sessionConfigVersion, settingsDataRef);
+                if (migrated) {
+                    _pendingMigration = migrated;
+                    obj = migrated;
+                }
+            }
+
+            Store.parse(root, obj);
+
+            _loadedSessionSnapshot = getCurrentSessionJson();
+            _hasLoaded = true;
+
+            if (!isGreeterMode && typeof Theme !== "undefined")
+                Theme.generateSystemThemesFromCurrentTheme();
+
+            if (typeof WallpaperCyclingService !== "undefined")
+                WallpaperCyclingService.updateCyclingState();
+
+            _checkSessionWritable();
+        } catch (e) {
+            _parseError = true;
+            const msg = e.message;
+            console.error("SessionData: Failed to parse session.json - file will not be overwritten. Error:", msg);
+            Qt.callLater(() => ToastService.showError(I18n.tr("Failed to parse session.json"), msg));
+        }
     }
 
     function _checkSessionWritable() {
@@ -127,11 +175,19 @@ Singleton {
     }
 
     function _onWritableCheckComplete(writable) {
+        const wasReadOnly = _isReadOnly;
         _isReadOnly = !writable;
         if (_isReadOnly) {
-            console.info("SessionData: session.json is read-only (NixOS home-manager mode)");
-        } else if (_pendingMigration) {
-            settingsFile.setText(JSON.stringify(_pendingMigration, null, 2));
+            _hasUnsavedChanges = _checkForUnsavedChanges();
+            if (!wasReadOnly)
+                console.info("SessionData: session.json is now read-only");
+        } else {
+            _loadedSessionSnapshot = getCurrentSessionJson();
+            _hasUnsavedChanges = false;
+            if (wasReadOnly)
+                console.info("SessionData: session.json is now writable");
+            if (_pendingMigration)
+                settingsFile.setText(JSON.stringify(_pendingMigration, null, 2));
         }
         _pendingMigration = null;
     }
@@ -150,34 +206,27 @@ Singleton {
     function parseSettings(content) {
         _parseError = false;
         try {
-            if (!content || !content.trim()) {
-                _parseError = true;
-                return;
-            }
+            let obj = (content && content.trim()) ? JSON.parse(content) : null;
 
-            let obj = JSON.parse(content);
-
-            if (obj.brightnessLogarithmicDevices && !obj.brightnessExponentialDevices) {
+            if (obj?.brightnessLogarithmicDevices && !obj?.brightnessExponentialDevices)
                 obj.brightnessExponentialDevices = obj.brightnessLogarithmicDevices;
-            }
 
-            if (obj.nightModeStartTime !== undefined) {
+            if (obj?.nightModeStartTime !== undefined) {
                 const parts = obj.nightModeStartTime.split(":");
                 obj.nightModeStartHour = parseInt(parts[0]) || 18;
                 obj.nightModeStartMinute = parseInt(parts[1]) || 0;
             }
-            if (obj.nightModeEndTime !== undefined) {
+            if (obj?.nightModeEndTime !== undefined) {
                 const parts = obj.nightModeEndTime.split(":");
                 obj.nightModeEndHour = parseInt(parts[0]) || 6;
                 obj.nightModeEndMinute = parseInt(parts[1]) || 0;
             }
 
-            const oldVersion = obj.configVersion ?? 0;
-            if (oldVersion === 0) {
+            const oldVersion = obj?.configVersion ?? 0;
+            if (obj && oldVersion === 0)
                 migrateFromUndefinedToV1(obj);
-            }
 
-            if (oldVersion < sessionConfigVersion) {
+            if (obj && oldVersion < sessionConfigVersion) {
                 const settingsDataRef = (typeof SettingsData !== "undefined") ? SettingsData : null;
                 const migrated = Store.migrateToVersion(obj, sessionConfigVersion, settingsDataRef);
                 if (migrated) {
@@ -188,22 +237,14 @@ Singleton {
 
             Store.parse(root, obj);
 
-            if (wallpaperPath && wallpaperPath.startsWith("we:")) {
-                console.warn("WallpaperEngine wallpaper detected, resetting wallpaper");
-                wallpaperPath = "";
-                Quickshell.execDetached(["notify-send", "-u", "critical", "-a", "DMS", "-i", "dialog-warning", "WallpaperEngine Support Moved", "WallpaperEngine support has been moved to a plugin. Please enable the Linux Wallpaper Engine plugin in Settings → Plugins to continue using WallpaperEngine."]);
-            }
-
-            _hasLoaded = true;
             _loadedSessionSnapshot = getCurrentSessionJson();
+            _hasLoaded = true;
 
-            if (!isGreeterMode && typeof Theme !== "undefined") {
+            if (!isGreeterMode && typeof Theme !== "undefined")
                 Theme.generateSystemThemesFromCurrentTheme();
-            }
 
-            if (typeof WallpaperCyclingService !== "undefined") {
+            if (typeof WallpaperCyclingService !== "undefined")
                 WallpaperCyclingService.updateCyclingState();
-            }
         } catch (e) {
             _parseError = true;
             const msg = e.message;
@@ -215,11 +256,9 @@ Singleton {
     function saveSettings() {
         if (isGreeterMode || _parseError || !_hasLoaded)
             return;
-        if (_isReadOnly) {
-            _hasUnsavedChanges = _checkForUnsavedChanges();
-            return;
-        }
         settingsFile.setText(getCurrentSessionJson());
+        if (_isReadOnly)
+            _checkSessionWritable();
     }
 
     function migrateFromUndefinedToV1(settings) {
@@ -330,7 +369,7 @@ Singleton {
             if (typeof SettingsData !== "undefined" && SettingsData.theme) {
                 Theme.switchTheme(SettingsData.theme);
             } else {
-                Theme.switchTheme("blue");
+                Theme.switchTheme("purple");
             }
         }
     }
@@ -944,14 +983,19 @@ Singleton {
         id: settingsFile
 
         path: isGreeterMode ? "" : StandardPaths.writableLocation(StandardPaths.GenericStateLocation) + "/DankMaterialShell/session.json"
-        blockLoading: isGreeterMode
+        blockLoading: true
         blockWrites: true
+        atomicWrites: true
         watchChanges: !isGreeterMode
         onLoaded: {
             if (!isGreeterMode) {
                 _hasUnsavedChanges = false;
                 parseSettings(settingsFile.text());
             }
+        }
+        onSaveFailed: error => {
+            root._isReadOnly = true;
+            root._hasUnsavedChanges = root._checkForUnsavedChanges();
         }
     }
 
@@ -979,7 +1023,7 @@ Singleton {
 
         property string sessionPath: Paths.strip(settingsFile.path)
 
-        command: ["sh", "-c", "[ -w \"" + sessionPath + "\" ] && echo 'writable' || echo 'readonly'"]
+        command: ["sh", "-c", "[ ! -f \"" + sessionPath + "\" ] || [ -w \"" + sessionPath + "\" ] && echo 'writable' || echo 'readonly'"]
         running: false
 
         stdout: StdioCollector {
