@@ -70,7 +70,7 @@ function markdownToHtml(text) {
         const content = match.replace(/<\/?li_ul>/g, (tag) => tag.replace('li_ul', 'li')).replace(/\n/g, '');
         const block = `<ul>${content}</ul>`;
         protectedBlocks.push(block);
-        return `\x00PROTECTEDBLOCK${protectedIndex++}\x00`;
+        return `\x00PROTECTEDBLOCK${protectedIndex++}\x00\n`;
     });
 
     // Ordered
@@ -78,7 +78,7 @@ function markdownToHtml(text) {
         const content = match.replace(/<\/?li_ol>/g, (tag) => tag.replace('li_ol', 'li')).replace(/\n/g, '');
         const block = `<ol>${content}</ol>`;
         protectedBlocks.push(block);
-        return `\x00PROTECTEDBLOCK${protectedIndex++}\x00`;
+        return `\x00PROTECTEDBLOCK${protectedIndex++}\x00\n`;
     });
 
     // Blockquotes
@@ -94,7 +94,7 @@ function markdownToHtml(text) {
         // Use blockquote tag (supported by QML for indentation) and add styling
         const block = `<blockquote><font color="#a0a0a0"><i>${inner}</i></font></blockquote>`;
         protectedBlocks.push(block);
-        return `\x00PROTECTEDBLOCK${protectedIndex++}\x00`;
+        return `\x00PROTECTEDBLOCK${protectedIndex++}\x00\n`;
     });
 
     // Detect plain URLs and wrap them in anchor tags (but not inside existing <a> or markdown links)
