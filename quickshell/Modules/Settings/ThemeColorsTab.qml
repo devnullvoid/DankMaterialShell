@@ -1488,8 +1488,8 @@ Item {
                         text: I18n.tr("Cursor Size")
                         description: I18n.tr("Mouse pointer size in pixels")
                         value: SettingsData.cursorSettings.size
-                        minimum: 16
-                        maximum: 48
+                        minimum: 12
+                        maximum: 128
                         unit: "px"
                         defaultValue: 24
                         onSliderValueChanged: newValue => SettingsData.setCursorSize(newValue)
