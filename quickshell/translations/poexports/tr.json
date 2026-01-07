@@ -164,6 +164,9 @@
   "Activate": {
     "Activate": "Etkinleştir"
   },
+  "Activation": {
+    "Activation": ""
+  },
   "Active": {
     "Active": "Etkin"
   },
@@ -232,6 +235,9 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: Geri • F1/I: Dosya bilgisi • F10: Yardım • Esc: Kapat"
+  },
+  "Always Active": {
+    "Always Active": ""
   },
   "Always Show Percentage": {
     "Always Show Percentage": "Yüzdeyi Her Zaman Göster"
@@ -364,6 +370,9 @@
   },
   "Auto-Clear After": {
     "Auto-Clear After": "Sonra Otomatik Sil"
+  },
+  "Auto-Hide Timeout": {
+    "Auto-Hide Timeout": ""
   },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": "Uygulamaları başlatınca Niri genel görünümünü otomatik kapat."
@@ -692,6 +701,9 @@
   "Clear at Startup": {
     "Clear at Startup": "Başlangıçta Temizle"
   },
+  "Click 'Setup' to create cursor config and add include to your compositor config.": {
+    "Click 'Setup' to create cursor config and add include to your compositor config.": ""
+  },
   "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": {
     "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": "dms/binds.kdl dosyasını oluşturmak ve config.kdl dosyasına eklemek için 'Kur' düğmesine tıklayın."
   },
@@ -878,6 +890,9 @@
   "Copied!": {
     "Copied!": "Kopyalandı!"
   },
+  "Copy": {
+    "Copy": ""
+  },
   "Copy PID": {
     "Copy PID": "PID'i Kopyala"
   },
@@ -931,6 +946,18 @@
   },
   "Current: %1": {
     "Current: %1": "Mevcut: %1"
+  },
+  "Cursor Config Not Configured": {
+    "Cursor Config Not Configured": ""
+  },
+  "Cursor Include Missing": {
+    "Cursor Include Missing": ""
+  },
+  "Cursor Size": {
+    "Cursor Size": ""
+  },
+  "Cursor Theme": {
+    "Cursor Theme": ""
   },
   "Custom": {
     "Custom": "Özel"
@@ -1772,8 +1799,23 @@
   "Hide Delay": {
     "Hide Delay": "Gizleme Gecikmesi"
   },
+  "Hide When Typing": {
+    "Hide When Typing": ""
+  },
   "Hide When Windows Open": {
     "Hide When Windows Open": "Pencere Açıkken Gizle"
+  },
+  "Hide cursor after inactivity (0 = disabled)": {
+    "Hide cursor after inactivity (0 = disabled)": ""
+  },
+  "Hide cursor when pressing keyboard keys": {
+    "Hide cursor when pressing keyboard keys": ""
+  },
+  "Hide cursor when using touch input": {
+    "Hide cursor when using touch input": ""
+  },
+  "Hide on Touch": {
+    "Hide on Touch": ""
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Kullanılmadığında dock'u gizle ve dock alanının yakınına geldiğinizde göster"
@@ -1936,6 +1978,15 @@
   },
   "Key": {
     "Key": "Tuş"
+  },
+  "Keybind Sources": {
+    "Keybind Sources": ""
+  },
+  "Keybinds Search Settings": {
+    "Keybinds Search Settings": ""
+  },
+  "Keybinds shown alongside regular search results": {
+    "Keybinds shown alongside regular search results": ""
   },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "Klavye Düzeni Adı"
@@ -2254,6 +2305,12 @@
   },
   "Mount": {
     "Mount": "Bağlı"
+  },
+  "Mouse pointer appearance": {
+    "Mouse pointer appearance": ""
+  },
+  "Mouse pointer size in pixels": {
+    "Mouse pointer size in pixels": ""
   },
   "Move Widget": {
     "Move Widget": "Widget Taşı"
@@ -3038,6 +3095,9 @@
   "Scrolling": {
     "Scrolling": "Kaydırma"
   },
+  "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
+    "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": ""
+  },
   "Search file contents": {
     "Search file contents": "Dosya içeriklerini ara"
   },
@@ -3049,6 +3109,9 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "Tuş kombinasyonları ara..."
+  },
+  "Search keyboard shortcuts from your compositor and applications": {
+    "Search keyboard shortcuts from your compositor and applications": ""
   },
   "Search plugins...": {
     "Search plugins...": "Eklentileri ara..."
@@ -3092,6 +3155,9 @@
   "Select an image file...": {
     "Select an image file...": "Bir resim dosyası seçin..."
   },
+  "Select at least one provider": {
+    "Select at least one provider": ""
+  },
   "Select device...": {
     "Select device...": "Aygıt seç..."
   },
@@ -3115,6 +3181,9 @@
   },
   "Select the palette algorithm used for wallpaper-based colors": {
     "Select the palette algorithm used for wallpaper-based colors": "Duvar kağıdı tabanlı renkler için kullanılan palet algoritmasını seçin"
+  },
+  "Select which keybind providers to include": {
+    "Select which keybind providers to include": ""
   },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Rastgele seçime dahil edilecek geçişleri seçin"
@@ -3292,6 +3361,9 @@
   },
   "Show on Overview": {
     "Show on Overview": "Genel Görünümde Göster"
+  },
+  "Show on Overview Only": {
+    "Show on Overview Only": ""
   },
   "Show on all connected displays": {
     "Show on all connected displays": "Tüm bağlı ekranlarda göster"
@@ -3683,11 +3755,20 @@
   "Transparency": {
     "Transparency": "Transparanlık"
   },
+  "Trigger": {
+    "Trigger": ""
+  },
+  "Trigger Prefix": {
+    "Trigger Prefix": ""
+  },
   "Turn off monitors after": {
     "Turn off monitors after": "Şu zaman sonra monitörleri kapat"
   },
   "Type": {
     "Type": "Tip"
+  },
+  "Type this prefix to search keybinds": {
+    "Type this prefix to search keybinds": ""
   },
   "Typography": {
     "Typography": "Tipografi"
@@ -3716,6 +3797,9 @@
   "Unknown Network": {
     "Unknown Network": "Bilinmeyen Ağ"
   },
+  "Unpin": {
+    "Unpin": ""
+  },
   "Unpin from Dock": {
     "Unpin from Dock": "Dock'tan Sabitlemeyi Kaldır"
   },
@@ -3736,6 +3820,9 @@
   },
   "Update Plugin": {
     "Update Plugin": "Eklentiyi Güncelle"
+  },
+  "Usage Tips": {
+    "Usage Tips": ""
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "12 saatlik ÖÖ/ÖS yerine 24 saatlik zaman formatını kullanın."
@@ -3790,6 +3877,9 @@
   },
   "Use sound theme from system settings": {
     "Use sound theme from system settings": "Sistem ayarlarındaki ses temasını kullan"
+  },
+  "Use trigger prefix to activate": {
+    "Use trigger prefix to activate": ""
   },
   "Use%": {
     "Use%": "Kullan%"
@@ -4072,6 +4162,9 @@
   "author attribution": {
     "by %1": "%1 tarafından"
   },
+  "bar shadow settings card": {
+    "Shadow": ""
+  },
   "browse themes button | theme browser header | theme browser window title": {
     "Browse Themes": "Temalara Göz At"
   },
@@ -4104,6 +4197,9 @@
   },
   "dms/binds.kdl is now included in config.kdl": {
     "dms/binds.kdl is now included in config.kdl": "dms/binds.kdl artık config.kdl dosyasına dahil edilmiştir."
+  },
+  "dms/cursor config exists but is not included. Cursor settings won't apply.": {
+    "dms/cursor config exists but is not included. Cursor settings won't apply.": ""
   },
   "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": {
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": "dms/outputs yapılandırması mevcut ancak kompozitör yapılandırmanıza dahil edilmemiş. Ekran değişiklikleri kalıcı olmayacaktır."
@@ -4420,6 +4516,13 @@
   },
   "settings_displays": {
     "Widgets": "Widgetlar"
+  },
+  "shadow color option": {
+    "Surface": "",
+    "Text": ""
+  },
+  "shadow intensity slider": {
+    "Intensity": ""
   },
   "source code link": {
     "source": "kaynak"

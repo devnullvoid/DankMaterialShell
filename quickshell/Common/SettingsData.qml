@@ -252,6 +252,14 @@ Singleton {
             "niri": {
                 "hideWhenTyping": false,
                 "hideAfterInactiveMs": 0
+            },
+            "hyprland": {
+                "hideOnKeyPress": false,
+                "hideOnTouch": false,
+                "inactiveTimeout": 0
+            },
+            "dwl": {
+                "cursorHideTimeout": 0
             }
         })
     property var availableCursorThemes: ["System Default"]
@@ -826,7 +834,8 @@ Singleton {
             "regenSystemThemes": regenSystemThemes,
             "updateCompositorLayout": updateCompositorLayout,
             "applyStoredIconTheme": applyStoredIconTheme,
-            "updateBarConfigs": updateBarConfigs
+            "updateBarConfigs": updateBarConfigs,
+            "updateCompositorCursor": updateCompositorCursor
         })
 
     function set(key, value) {
@@ -1581,17 +1590,39 @@ Singleton {
     function updateCompositorCursor() {
         if (typeof CompositorService === "undefined")
             return;
-        if (CompositorService.isNiri && typeof NiriService !== "undefined")
+        if (CompositorService.isNiri && typeof NiriService !== "undefined") {
             NiriService.generateNiriCursorConfig();
+            return;
+        }
+        if (CompositorService.isHyprland && typeof HyprlandService !== "undefined") {
+            HyprlandService.generateCursorConfig();
+            return;
+        }
+        if (CompositorService.isDwl && typeof DwlService !== "undefined") {
+            DwlService.generateCursorConfig();
+            return;
+        }
     }
 
-    function getCursorEnvPrefix() {
-        const themeName = cursorSettings.theme === "System Default" ? (systemDefaultCursorTheme || "") : cursorSettings.theme;
-        const size = cursorSettings.size || 24;
+    function getCursorEnvironment() {
+        const isSystemDefault = cursorSettings.theme === "System Default";
+        const isDefaultSize = !cursorSettings.size || cursorSettings.size === 24;
+        if (isSystemDefault && isDefaultSize)
+            return {};
 
-        if (!themeName)
-            return `env XCURSOR_SIZE=${size}`;
-        return `env XCURSOR_THEME="${themeName}" XCURSOR_SIZE=${size}`;
+        const themeName = isSystemDefault ? "" : cursorSettings.theme;
+        const size = String(cursorSettings.size || 24);
+        const env = {};
+
+        if (!isDefaultSize) {
+            env["XCURSOR_SIZE"] = size;
+            env["HYPRCURSOR_SIZE"] = size;
+        }
+        if (themeName) {
+            env["XCURSOR_THEME"] = themeName;
+            env["HYPRCURSOR_THEME"] = themeName;
+        }
+        return env;
     }
 
     function setGtkThemingEnabled(enabled) {

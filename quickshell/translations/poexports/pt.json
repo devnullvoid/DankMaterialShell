@@ -164,6 +164,9 @@
   "Activate": {
     "Activate": "Ativar"
   },
+  "Activation": {
+    "Activation": ""
+  },
   "Active": {
     "Active": "Ativa"
   },
@@ -232,6 +235,9 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: Voltar • F1/I: Informações de Arquivo • F10: Ajuda • Esc: Fechar"
+  },
+  "Always Active": {
+    "Always Active": ""
   },
   "Always Show Percentage": {
     "Always Show Percentage": "Sempre Mostrar Porcentagem"
@@ -364,6 +370,9 @@
   },
   "Auto-Clear After": {
     "Auto-Clear After": ""
+  },
+  "Auto-Hide Timeout": {
+    "Auto-Hide Timeout": ""
   },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": "Fechar automaticamente overview do niri ao lançar aplicativos."
@@ -692,6 +701,9 @@
   "Clear at Startup": {
     "Clear at Startup": "Limpar ao Iniciar"
   },
+  "Click 'Setup' to create cursor config and add include to your compositor config.": {
+    "Click 'Setup' to create cursor config and add include to your compositor config.": ""
+  },
   "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": {
     "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": ""
   },
@@ -878,6 +890,9 @@
   "Copied!": {
     "Copied!": "Copiado!"
   },
+  "Copy": {
+    "Copy": ""
+  },
   "Copy PID": {
     "Copy PID": "Copiar PID"
   },
@@ -931,6 +946,18 @@
   },
   "Current: %1": {
     "Current: %1": ""
+  },
+  "Cursor Config Not Configured": {
+    "Cursor Config Not Configured": ""
+  },
+  "Cursor Include Missing": {
+    "Cursor Include Missing": ""
+  },
+  "Cursor Size": {
+    "Cursor Size": ""
+  },
+  "Cursor Theme": {
+    "Cursor Theme": ""
   },
   "Custom": {
     "Custom": "Customizado"
@@ -1772,8 +1799,23 @@
   "Hide Delay": {
     "Hide Delay": ""
   },
+  "Hide When Typing": {
+    "Hide When Typing": ""
+  },
   "Hide When Windows Open": {
     "Hide When Windows Open": ""
+  },
+  "Hide cursor after inactivity (0 = disabled)": {
+    "Hide cursor after inactivity (0 = disabled)": ""
+  },
+  "Hide cursor when pressing keyboard keys": {
+    "Hide cursor when pressing keyboard keys": ""
+  },
+  "Hide cursor when using touch input": {
+    "Hide cursor when using touch input": ""
+  },
+  "Hide on Touch": {
+    "Hide on Touch": ""
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Esconder a dock quando não usada e mostrar ao passar o mouse próximo da área"
@@ -1936,6 +1978,15 @@
   },
   "Key": {
     "Key": "Tecla"
+  },
+  "Keybind Sources": {
+    "Keybind Sources": ""
+  },
+  "Keybinds Search Settings": {
+    "Keybinds Search Settings": ""
+  },
+  "Keybinds shown alongside regular search results": {
+    "Keybinds shown alongside regular search results": ""
   },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "Nome de Layout do Teclado"
@@ -2254,6 +2305,12 @@
   },
   "Mount": {
     "Mount": "Ponto de montagem"
+  },
+  "Mouse pointer appearance": {
+    "Mouse pointer appearance": ""
+  },
+  "Mouse pointer size in pixels": {
+    "Mouse pointer size in pixels": ""
   },
   "Move Widget": {
     "Move Widget": ""
@@ -3038,6 +3095,9 @@
   "Scrolling": {
     "Scrolling": "Scrolling"
   },
+  "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
+    "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": ""
+  },
   "Search file contents": {
     "Search file contents": "Pesquisar conteúdos de arquivos"
   },
@@ -3049,6 +3109,9 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "Pesquisar atalhos..."
+  },
+  "Search keyboard shortcuts from your compositor and applications": {
+    "Search keyboard shortcuts from your compositor and applications": ""
   },
   "Search plugins...": {
     "Search plugins...": "Buscar plugins..."
@@ -3092,6 +3155,9 @@
   "Select an image file...": {
     "Select an image file...": "Selecione um arquivo de imagem..."
   },
+  "Select at least one provider": {
+    "Select at least one provider": ""
+  },
   "Select device...": {
     "Select device...": "Selecionar dispositivo..."
   },
@@ -3115,6 +3181,9 @@
   },
   "Select the palette algorithm used for wallpaper-based colors": {
     "Select the palette algorithm used for wallpaper-based colors": "Selecione o algoritmo usado para cores baseadas no papel de parede"
+  },
+  "Select which keybind providers to include": {
+    "Select which keybind providers to include": ""
   },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Selecionar quais transições incluir na randomização"
@@ -3292,6 +3361,9 @@
   },
   "Show on Overview": {
     "Show on Overview": "Mostrar na Visão Geral"
+  },
+  "Show on Overview Only": {
+    "Show on Overview Only": ""
   },
   "Show on all connected displays": {
     "Show on all connected displays": "Mostrar em todas as telas conectadas"
@@ -3683,11 +3755,20 @@
   "Transparency": {
     "Transparency": "Transparência"
   },
+  "Trigger": {
+    "Trigger": ""
+  },
+  "Trigger Prefix": {
+    "Trigger Prefix": ""
+  },
   "Turn off monitors after": {
     "Turn off monitors after": "Desligar monitores depois de"
   },
   "Type": {
     "Type": "Tipo"
+  },
+  "Type this prefix to search keybinds": {
+    "Type this prefix to search keybinds": ""
   },
   "Typography": {
     "Typography": "Tipografia"
@@ -3716,6 +3797,9 @@
   "Unknown Network": {
     "Unknown Network": ""
   },
+  "Unpin": {
+    "Unpin": ""
+  },
   "Unpin from Dock": {
     "Unpin from Dock": "Desafixar do Dock"
   },
@@ -3736,6 +3820,9 @@
   },
   "Update Plugin": {
     "Update Plugin": "Atualizar Plugin"
+  },
+  "Usage Tips": {
+    "Usage Tips": ""
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "Usar relógio de 24 horas em vez de 12 horas com AM/PM"
@@ -3790,6 +3877,9 @@
   },
   "Use sound theme from system settings": {
     "Use sound theme from system settings": "Usar tema de som das configurações do sistema"
+  },
+  "Use trigger prefix to activate": {
+    "Use trigger prefix to activate": ""
   },
   "Use%": {
     "Use%": "Uso%"
@@ -4072,6 +4162,9 @@
   "author attribution": {
     "by %1": ""
   },
+  "bar shadow settings card": {
+    "Shadow": ""
+  },
   "browse themes button | theme browser header | theme browser window title": {
     "Browse Themes": ""
   },
@@ -4104,6 +4197,9 @@
   },
   "dms/binds.kdl is now included in config.kdl": {
     "dms/binds.kdl is now included in config.kdl": "dms/binds.kdl está agora incluído em config.kdl"
+  },
+  "dms/cursor config exists but is not included. Cursor settings won't apply.": {
+    "dms/cursor config exists but is not included. Cursor settings won't apply.": ""
   },
   "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": {
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": ""
@@ -4420,6 +4516,13 @@
   },
   "settings_displays": {
     "Widgets": ""
+  },
+  "shadow color option": {
+    "Surface": "",
+    "Text": ""
+  },
+  "shadow intensity slider": {
+    "Intensity": ""
   },
   "source code link": {
     "source": ""

@@ -1284,6 +1284,20 @@
     ]
   },
   {
+    "section": "builtInPlugins",
+    "label": "DMS",
+    "tabIndex": 9,
+    "category": "Launcher",
+    "keywords": [
+      "dms",
+      "drawer",
+      "launcher",
+      "menu",
+      "start"
+    ],
+    "icon": "extension"
+  },
+  {
     "section": "niriOverviewOverlayEnabled",
     "label": "Enable Overview Overlay",
     "tabIndex": 9,
@@ -1536,6 +1550,28 @@
     "description": "Sync dark mode with settings portals for system-wide theme hints"
   },
   {
+    "section": "cursorHideAfterInactive",
+    "label": "Auto-Hide Timeout",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "after",
+      "appearance",
+      "auto",
+      "colors",
+      "cursor",
+      "hide",
+      "inactive",
+      "inactivity",
+      "look",
+      "scheme",
+      "style",
+      "theme",
+      "timeout"
+    ],
+    "description": "Hide cursor after inactivity (0 = disabled)"
+  },
+  {
     "section": "niriLayoutBorderSize",
     "label": "Border Size",
     "tabIndex": 10,
@@ -1650,6 +1686,48 @@
     "description": "0 = square corners"
   },
   {
+    "section": "cursorSize",
+    "label": "Cursor Size",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "appearance",
+      "colors",
+      "cursor",
+      "look",
+      "mouse",
+      "pixels",
+      "pointer",
+      "scheme",
+      "size",
+      "style",
+      "theme"
+    ],
+    "description": "Mouse pointer size in pixels"
+  },
+  {
+    "section": "cursorTheme",
+    "label": "Cursor Theme",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "appearance",
+      "colors",
+      "colour",
+      "cursor",
+      "look",
+      "mouse",
+      "pointer",
+      "scheme",
+      "size",
+      "style",
+      "theme"
+    ],
+    "icon": "mouse",
+    "description": "Mouse pointer appearance",
+    "conditionKey": "isNiri"
+  },
+  {
     "section": "modalDarkenBackground",
     "label": "Darken Modal Background",
     "tabIndex": 10,
@@ -1725,6 +1803,48 @@
       "terminal",
       "theme"
     ]
+  },
+  {
+    "section": "cursorHideWhenTyping",
+    "label": "Hide When Typing",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "appearance",
+      "colors",
+      "cursor",
+      "hide",
+      "keyboard",
+      "keys",
+      "look",
+      "pressing",
+      "scheme",
+      "style",
+      "theme",
+      "typing"
+    ],
+    "description": "Hide cursor when pressing keyboard keys",
+    "conditionKey": "isNiri"
+  },
+  {
+    "section": "cursorHideOnTouch",
+    "label": "Hide on Touch",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "appearance",
+      "colors",
+      "cursor",
+      "hide",
+      "input",
+      "look",
+      "scheme",
+      "style",
+      "theme",
+      "touch"
+    ],
+    "description": "Hide cursor when using touch input",
+    "conditionKey": "isHyprland"
   },
   {
     "section": "matugenTemplateHyprland",

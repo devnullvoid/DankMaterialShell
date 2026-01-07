@@ -164,6 +164,9 @@
   "Activate": {
     "Activate": "啟用"
   },
+  "Activation": {
+    "Activation": ""
+  },
   "Active": {
     "Active": "啟用"
   },
@@ -232,6 +235,9 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: 返回 • F1/I: 檔案資訊 • F10: 幫助 • Esc: 關閉"
+  },
+  "Always Active": {
+    "Always Active": ""
   },
   "Always Show Percentage": {
     "Always Show Percentage": "始終顯示百分比"
@@ -364,6 +370,9 @@
   },
   "Auto-Clear After": {
     "Auto-Clear After": "自動清除於"
+  },
+  "Auto-Hide Timeout": {
+    "Auto-Hide Timeout": ""
   },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": "啟動應用程式時自動關閉 Niri 總覽。"
@@ -692,6 +701,9 @@
   "Clear at Startup": {
     "Clear at Startup": "啟動時清除"
   },
+  "Click 'Setup' to create cursor config and add include to your compositor config.": {
+    "Click 'Setup' to create cursor config and add include to your compositor config.": ""
+  },
   "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": {
     "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": "按一下「設定」以建立 dms/binds.kdl 並將其包含至 config.kdl 中。"
   },
@@ -878,6 +890,9 @@
   "Copied!": {
     "Copied!": "已複製!"
   },
+  "Copy": {
+    "Copy": ""
+  },
   "Copy PID": {
     "Copy PID": "複製 PID"
   },
@@ -931,6 +946,18 @@
   },
   "Current: %1": {
     "Current: %1": "目前：%1"
+  },
+  "Cursor Config Not Configured": {
+    "Cursor Config Not Configured": ""
+  },
+  "Cursor Include Missing": {
+    "Cursor Include Missing": ""
+  },
+  "Cursor Size": {
+    "Cursor Size": ""
+  },
+  "Cursor Theme": {
+    "Cursor Theme": ""
   },
   "Custom": {
     "Custom": "自訂"
@@ -1772,8 +1799,23 @@
   "Hide Delay": {
     "Hide Delay": "隱藏延遲"
   },
+  "Hide When Typing": {
+    "Hide When Typing": ""
+  },
   "Hide When Windows Open": {
     "Hide When Windows Open": "視窗開啟時隱藏"
+  },
+  "Hide cursor after inactivity (0 = disabled)": {
+    "Hide cursor after inactivity (0 = disabled)": ""
+  },
+  "Hide cursor when pressing keyboard keys": {
+    "Hide cursor when pressing keyboard keys": ""
+  },
+  "Hide cursor when using touch input": {
+    "Hide cursor when using touch input": ""
+  },
+  "Hide on Touch": {
+    "Hide on Touch": ""
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "不使用時隱藏 Dock，並在 Dock 區域附近懸停時顯示 Dock"
@@ -1936,6 +1978,15 @@
   },
   "Key": {
     "Key": "按鍵"
+  },
+  "Keybind Sources": {
+    "Keybind Sources": ""
+  },
+  "Keybinds Search Settings": {
+    "Keybinds Search Settings": ""
+  },
+  "Keybinds shown alongside regular search results": {
+    "Keybinds shown alongside regular search results": ""
   },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "鍵盤布局名稱"
@@ -2254,6 +2305,12 @@
   },
   "Mount": {
     "Mount": "掛載"
+  },
+  "Mouse pointer appearance": {
+    "Mouse pointer appearance": ""
+  },
+  "Mouse pointer size in pixels": {
+    "Mouse pointer size in pixels": ""
   },
   "Move Widget": {
     "Move Widget": "移動小工具"
@@ -3038,6 +3095,9 @@
   "Scrolling": {
     "Scrolling": "滾動"
   },
+  "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
+    "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": ""
+  },
   "Search file contents": {
     "Search file contents": "搜尋檔案內容"
   },
@@ -3049,6 +3109,9 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "搜尋按鍵綁定..."
+  },
+  "Search keyboard shortcuts from your compositor and applications": {
+    "Search keyboard shortcuts from your compositor and applications": ""
   },
   "Search plugins...": {
     "Search plugins...": "搜尋插件..."
@@ -3092,6 +3155,9 @@
   "Select an image file...": {
     "Select an image file...": "選擇一張圖片..."
   },
+  "Select at least one provider": {
+    "Select at least one provider": ""
+  },
   "Select device...": {
     "Select device...": "選擇裝置..."
   },
@@ -3115,6 +3181,9 @@
   },
   "Select the palette algorithm used for wallpaper-based colors": {
     "Select the palette algorithm used for wallpaper-based colors": "請選擇調色板演算法，以桌布的顏色為基底。"
+  },
+  "Select which keybind providers to include": {
+    "Select which keybind providers to include": ""
   },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "選擇要包含在隨機中的轉換效果"
@@ -3292,6 +3361,9 @@
   },
   "Show on Overview": {
     "Show on Overview": "顯示在概覽畫面"
+  },
+  "Show on Overview Only": {
+    "Show on Overview Only": ""
   },
   "Show on all connected displays": {
     "Show on all connected displays": "在所有連接的螢幕上顯示"
@@ -3683,11 +3755,20 @@
   "Transparency": {
     "Transparency": "透明度"
   },
+  "Trigger": {
+    "Trigger": ""
+  },
+  "Trigger Prefix": {
+    "Trigger Prefix": ""
+  },
   "Turn off monitors after": {
     "Turn off monitors after": "關閉螢幕之後"
   },
   "Type": {
     "Type": "類型"
+  },
+  "Type this prefix to search keybinds": {
+    "Type this prefix to search keybinds": ""
   },
   "Typography": {
     "Typography": "字體排版"
@@ -3716,6 +3797,9 @@
   "Unknown Network": {
     "Unknown Network": "未知網路"
   },
+  "Unpin": {
+    "Unpin": ""
+  },
   "Unpin from Dock": {
     "Unpin from Dock": "取消 Dock 釘選"
   },
@@ -3736,6 +3820,9 @@
   },
   "Update Plugin": {
     "Update Plugin": "更新插件"
+  },
+  "Usage Tips": {
+    "Usage Tips": ""
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "使用 24 小時時間格式，而不是 12 小時 AM/PM"
@@ -3790,6 +3877,9 @@
   },
   "Use sound theme from system settings": {
     "Use sound theme from system settings": "使用系統設定中的音效主題"
+  },
+  "Use trigger prefix to activate": {
+    "Use trigger prefix to activate": ""
   },
   "Use%": {
     "Use%": "使用％"
@@ -4072,6 +4162,9 @@
   "author attribution": {
     "by %1": "作者：%1"
   },
+  "bar shadow settings card": {
+    "Shadow": ""
+  },
   "browse themes button | theme browser header | theme browser window title": {
     "Browse Themes": "瀏覽佈景主題"
   },
@@ -4104,6 +4197,9 @@
   },
   "dms/binds.kdl is now included in config.kdl": {
     "dms/binds.kdl is now included in config.kdl": "dms/binds.kdl 現已包含在 config.kdl 中"
+  },
+  "dms/cursor config exists but is not included. Cursor settings won't apply.": {
+    "dms/cursor config exists but is not included. Cursor settings won't apply.": ""
   },
   "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": {
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": "dms/outputs 組態存在，但未包含在您的合成器組態中。顯示變更將不會保留。"
@@ -4420,6 +4516,13 @@
   },
   "settings_displays": {
     "Widgets": "小工具"
+  },
+  "shadow color option": {
+    "Surface": "",
+    "Text": ""
+  },
+  "shadow intensity slider": {
+    "Intensity": ""
   },
   "source code link": {
     "source": "來源"

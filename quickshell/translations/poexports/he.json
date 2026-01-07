@@ -164,6 +164,9 @@
   "Activate": {
     "Activate": "הפעל/י"
   },
+  "Activation": {
+    "Activation": ""
+  },
   "Active": {
     "Active": "פעיל"
   },
@@ -232,6 +235,9 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: חזרה • F1/I: מידע על הקובץ • F10: עזרה • Esc: סגירה"
+  },
+  "Always Active": {
+    "Always Active": ""
   },
   "Always Show Percentage": {
     "Always Show Percentage": "הצג/י תמיד אחוזים"
@@ -364,6 +370,9 @@
   },
   "Auto-Clear After": {
     "Auto-Clear After": ""
+  },
+  "Auto-Hide Timeout": {
+    "Auto-Hide Timeout": ""
   },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": ""
@@ -692,6 +701,9 @@
   "Clear at Startup": {
     "Clear at Startup": ""
   },
+  "Click 'Setup' to create cursor config and add include to your compositor config.": {
+    "Click 'Setup' to create cursor config and add include to your compositor config.": ""
+  },
   "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": {
     "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": ""
   },
@@ -878,6 +890,9 @@
   "Copied!": {
     "Copied!": "הועתק!"
   },
+  "Copy": {
+    "Copy": ""
+  },
   "Copy PID": {
     "Copy PID": "העתק/י PID"
   },
@@ -931,6 +946,18 @@
   },
   "Current: %1": {
     "Current: %1": ""
+  },
+  "Cursor Config Not Configured": {
+    "Cursor Config Not Configured": ""
+  },
+  "Cursor Include Missing": {
+    "Cursor Include Missing": ""
+  },
+  "Cursor Size": {
+    "Cursor Size": ""
+  },
+  "Cursor Theme": {
+    "Cursor Theme": ""
   },
   "Custom": {
     "Custom": "מותאם אישית"
@@ -1772,8 +1799,23 @@
   "Hide Delay": {
     "Hide Delay": "עיכוב הסתרה"
   },
+  "Hide When Typing": {
+    "Hide When Typing": ""
+  },
   "Hide When Windows Open": {
     "Hide When Windows Open": ""
+  },
+  "Hide cursor after inactivity (0 = disabled)": {
+    "Hide cursor after inactivity (0 = disabled)": ""
+  },
+  "Hide cursor when pressing keyboard keys": {
+    "Hide cursor when pressing keyboard keys": ""
+  },
+  "Hide cursor when using touch input": {
+    "Hide cursor when using touch input": ""
+  },
+  "Hide on Touch": {
+    "Hide on Touch": ""
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "הסתר/י את הDock כשאינו בשימוש והצג/י אותו מחדש בעת ריחוף ליד אזור העגינה"
@@ -1936,6 +1978,15 @@
   },
   "Key": {
     "Key": "מקש"
+  },
+  "Keybind Sources": {
+    "Keybind Sources": ""
+  },
+  "Keybinds Search Settings": {
+    "Keybinds Search Settings": ""
+  },
+  "Keybinds shown alongside regular search results": {
+    "Keybinds shown alongside regular search results": ""
   },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "שם פריסת המקלדת"
@@ -2254,6 +2305,12 @@
   },
   "Mount": {
     "Mount": "טעינה"
+  },
+  "Mouse pointer appearance": {
+    "Mouse pointer appearance": ""
+  },
+  "Mouse pointer size in pixels": {
+    "Mouse pointer size in pixels": ""
   },
   "Move Widget": {
     "Move Widget": ""
@@ -3038,6 +3095,9 @@
   "Scrolling": {
     "Scrolling": "גלילה"
   },
+  "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
+    "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": ""
+  },
   "Search file contents": {
     "Search file contents": "חפש/י בתוכן הקבצים"
   },
@@ -3049,6 +3109,9 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "חפש/י קיצורי מקלדת..."
+  },
+  "Search keyboard shortcuts from your compositor and applications": {
+    "Search keyboard shortcuts from your compositor and applications": ""
   },
   "Search plugins...": {
     "Search plugins...": "חפש/י תוספים..."
@@ -3092,6 +3155,9 @@
   "Select an image file...": {
     "Select an image file...": "בחר/י קובץ תמונה..."
   },
+  "Select at least one provider": {
+    "Select at least one provider": ""
+  },
   "Select device...": {
     "Select device...": "בחר/י התקן..."
   },
@@ -3115,6 +3181,9 @@
   },
   "Select the palette algorithm used for wallpaper-based colors": {
     "Select the palette algorithm used for wallpaper-based colors": "בחר/י את האלגוריתם שייקבע את פלטת הצבעים עבור צבעים מבוססי תמונת רקע"
+  },
+  "Select which keybind providers to include": {
+    "Select which keybind providers to include": ""
   },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "בחר/י אילו מעברים לכלול באקראיות"
@@ -3292,6 +3361,9 @@
   },
   "Show on Overview": {
     "Show on Overview": "הצג/י בתצוגת סקירה"
+  },
+  "Show on Overview Only": {
+    "Show on Overview Only": ""
   },
   "Show on all connected displays": {
     "Show on all connected displays": "הצג/י בכל המסכים המחוברים"
@@ -3683,11 +3755,20 @@
   "Transparency": {
     "Transparency": "שקיפות"
   },
+  "Trigger": {
+    "Trigger": ""
+  },
+  "Trigger Prefix": {
+    "Trigger Prefix": ""
+  },
   "Turn off monitors after": {
     "Turn off monitors after": "כבה/י את כל המסכים לאחר"
   },
   "Type": {
     "Type": "סוג"
+  },
+  "Type this prefix to search keybinds": {
+    "Type this prefix to search keybinds": ""
   },
   "Typography": {
     "Typography": "טיפוגרפיה"
@@ -3716,6 +3797,9 @@
   "Unknown Network": {
     "Unknown Network": ""
   },
+  "Unpin": {
+    "Unpin": ""
+  },
   "Unpin from Dock": {
     "Unpin from Dock": "בטל/י נעיצה על הDock"
   },
@@ -3736,6 +3820,9 @@
   },
   "Update Plugin": {
     "Update Plugin": "עדכן/י תוסף"
+  },
+  "Usage Tips": {
+    "Usage Tips": ""
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "השתמש/י בתבנית 24 שעות במקום 12 שעות (AM/PM)"
@@ -3790,6 +3877,9 @@
   },
   "Use sound theme from system settings": {
     "Use sound theme from system settings": "השתמש/י בערכת הצלילים מהגדרות המערכת"
+  },
+  "Use trigger prefix to activate": {
+    "Use trigger prefix to activate": ""
   },
   "Use%": {
     "Use%": "השתמש/י ב%"
@@ -4072,6 +4162,9 @@
   "author attribution": {
     "by %1": ""
   },
+  "bar shadow settings card": {
+    "Shadow": ""
+  },
   "browse themes button | theme browser header | theme browser window title": {
     "Browse Themes": ""
   },
@@ -4104,6 +4197,9 @@
   },
   "dms/binds.kdl is now included in config.kdl": {
     "dms/binds.kdl is now included in config.kdl": "dms/binds.kdl כעת כלול בconfig.kdl"
+  },
+  "dms/cursor config exists but is not included. Cursor settings won't apply.": {
+    "dms/cursor config exists but is not included. Cursor settings won't apply.": ""
   },
   "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": {
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": ""
@@ -4420,6 +4516,13 @@
   },
   "settings_displays": {
     "Widgets": ""
+  },
+  "shadow color option": {
+    "Surface": "",
+    "Text": ""
+  },
+  "shadow intensity slider": {
+    "Intensity": ""
   },
   "source code link": {
     "source": ""

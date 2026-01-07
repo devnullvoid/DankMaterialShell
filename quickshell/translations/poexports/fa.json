@@ -15,7 +15,7 @@
     "%1 connected": "%1 متصل"
   },
   "%1 days ago": {
-    "%1 days ago": ""
+    "%1 days ago": "%1 روز پیش"
   },
   "%1 display(s)": {
     "%1 display(s)": "%1 نمایشگر"
@@ -24,7 +24,7 @@
     "%1 job(s)": "%1 کار چاپ"
   },
   "%1 notifications": {
-    "%1 notifications": ""
+    "%1 notifications": "%1 اعلان"
   },
   "%1 printer(s)": {
     "%1 printer(s)": "%1 چاپگر"
@@ -36,13 +36,13 @@
     "%1 widgets": "%1 ابزارک"
   },
   "%1m ago": {
-    "%1m ago": ""
+    "%1m ago": "%1 دقیقه پیش"
   },
   "(Unnamed)": {
     "(Unnamed)": "(بدون نام)"
   },
   "+ %1 more": {
-    "+ %1 more": ""
+    "+ %1 more": "+ %1 بیشتر"
   },
   "0 = square corners": {
     "0 = square corners": "۰ = گوشه‌های مربعی"
@@ -57,7 +57,7 @@
     "1 minute": "۱ دقیقه"
   },
   "1 notification": {
-    "1 notification": ""
+    "1 notification": "1 اعلان"
   },
   "1 second": {
     "1 second": "۱ ثانیه"
@@ -138,7 +138,7 @@
     "About": "درباره"
   },
   "Accent Color": {
-    "Accent Color": ""
+    "Accent Color": "رنگ تأکیدی"
   },
   "Accept Jobs": {
     "Accept Jobs": "پذیرش کار‌های چاپ"
@@ -163,6 +163,9 @@
   },
   "Activate": {
     "Activate": "فعال‌سازی"
+  },
+  "Activation": {
+    "Activation": ""
   },
   "Active": {
     "Active": "فعال"
@@ -232,6 +235,9 @@
   },
   "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": {
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: بازگشت • F1/I: اطلاعات فایل • F10: راهنما • Esc: بستن"
+  },
+  "Always Active": {
+    "Always Active": ""
   },
   "Always Show Percentage": {
     "Always Show Percentage": "همیشه درصد را نشان بده"
@@ -364,6 +370,9 @@
   },
   "Auto-Clear After": {
     "Auto-Clear After": "پاک‌کردن خودکار پس از"
+  },
+  "Auto-Hide Timeout": {
+    "Auto-Hide Timeout": ""
   },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": "هنگام اجرای برنامه‌ها نمای کلی نیری را خودکار ببند."
@@ -516,7 +525,7 @@
     "Border Opacity": "شفافیت حاشیه"
   },
   "Border Size": {
-    "Border Size": ""
+    "Border Size": "اندازه حاشیه"
   },
   "Border Thickness": {
     "Border Thickness": "ضخامت حاشیه"
@@ -691,6 +700,9 @@
   },
   "Clear at Startup": {
     "Clear at Startup": "پاک‌کردن در هنگام راه‌اندازی"
+  },
+  "Click 'Setup' to create cursor config and add include to your compositor config.": {
+    "Click 'Setup' to create cursor config and add include to your compositor config.": ""
   },
   "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": {
     "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": "برای ایجاد dms/binds.kdl و افزودن include به config.kdl، روی «راه‌اندازی» کلیک کنید."
@@ -878,6 +890,9 @@
   "Copied!": {
     "Copied!": "کپی شد!"
   },
+  "Copy": {
+    "Copy": ""
+  },
   "Copy PID": {
     "Copy PID": "کپی PID"
   },
@@ -932,11 +947,23 @@
   "Current: %1": {
     "Current: %1": "کنونی: %1"
   },
+  "Cursor Config Not Configured": {
+    "Cursor Config Not Configured": ""
+  },
+  "Cursor Include Missing": {
+    "Cursor Include Missing": ""
+  },
+  "Cursor Size": {
+    "Cursor Size": ""
+  },
+  "Cursor Theme": {
+    "Cursor Theme": ""
+  },
   "Custom": {
     "Custom": "سفارشی"
   },
   "Custom Color": {
-    "Custom Color": ""
+    "Custom Color": "رنگ سفارشی"
   },
   "Custom Duration": {
     "Custom Duration": "مدت زمان سفارشی"
@@ -1101,7 +1128,7 @@
     "Desktop Clock": "ساعت دسکتاپ"
   },
   "Detailed": {
-    "Detailed": ""
+    "Detailed": "با جزئیات"
   },
   "Development": {
     "Development": "توسعه"
@@ -1653,10 +1680,10 @@
     "Force terminal applications to always use dark color schemes": "اجبار برنامه‌های ترمینال به استفاده از رنگ‌های تاریک"
   },
   "Forecast": {
-    "Forecast": ""
+    "Forecast": "پیش‌بینی"
   },
   "Forecast Days": {
-    "Forecast Days": ""
+    "Forecast Days": "پیش‌بینی روزها"
   },
   "Forecast Not Available": {
     "Forecast Not Available": "پیش‌بینی موجود نیست"
@@ -1772,8 +1799,23 @@
   "Hide Delay": {
     "Hide Delay": "تأخیر پنهان‌شدن"
   },
+  "Hide When Typing": {
+    "Hide When Typing": ""
+  },
   "Hide When Windows Open": {
     "Hide When Windows Open": "وقتی پنجره‌ها باز هستند پنهان کن"
+  },
+  "Hide cursor after inactivity (0 = disabled)": {
+    "Hide cursor after inactivity (0 = disabled)": ""
+  },
+  "Hide cursor when pressing keyboard keys": {
+    "Hide cursor when pressing keyboard keys": ""
+  },
+  "Hide cursor when using touch input": {
+    "Hide cursor when using touch input": ""
+  },
+  "Hide on Touch": {
+    "Hide on Touch": ""
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "داک را هنگامی که استفاده نمی‌شود پنهان کن و هنگامی که موشواره نزدیک آن است نشان بده"
@@ -1936,6 +1978,15 @@
   },
   "Key": {
     "Key": "کلید"
+  },
+  "Keybind Sources": {
+    "Keybind Sources": ""
+  },
+  "Keybinds Search Settings": {
+    "Keybinds Search Settings": ""
+  },
+  "Keybinds shown alongside regular search results": {
+    "Keybinds shown alongside regular search results": ""
   },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "نام جانمایی صفحه‌کلید"
@@ -2255,6 +2306,12 @@
   "Mount": {
     "Mount": "نصب‌کردن"
   },
+  "Mouse pointer appearance": {
+    "Mouse pointer appearance": ""
+  },
+  "Mouse pointer size in pixels": {
+    "Mouse pointer size in pixels": ""
+  },
   "Move Widget": {
     "Move Widget": "انتقال ابزارک"
   },
@@ -2358,7 +2415,7 @@
     "No VPN profiles": "پروفایل VPN یافت نشد"
   },
   "No Weather Data": {
-    "No Weather Data": ""
+    "No Weather Data": "بدون داده آب و هوا"
   },
   "No Weather Data Available": {
     "No Weather Data Available": "داده آب و هوا در دسترس نیست"
@@ -2451,7 +2508,7 @@
     "Not connected": "متصل نیست"
   },
   "Not detected": {
-    "Not detected": ""
+    "Not detected": "تشخیص داده نشد"
   },
   "Note: this only changes the percentage, it does not actually limit charging.": {
     "Note: this only changes the percentage, it does not actually limit charging.": "نکته: این تنها درصد را تغییر می‌دهد، به طور واقعی محدودیت روی شارژ کردن اعمال نمی‌کند."
@@ -2487,7 +2544,7 @@
     "Notification toast popups": "پاپ‌آپ‌های اعلان به صورت تُست"
   },
   "Notifications": {
-    "Notifications": "اعلانات"
+    "Notifications": "اعلان‌ها"
   },
   "Numbers": {
     "Numbers": "شماره‌ها"
@@ -2568,7 +2625,7 @@
     "Override": "جایگزین"
   },
   "Override Border Size": {
-    "Override Border Size": ""
+    "Override Border Size": "بازنویسی اندازه حاشیه"
   },
   "Override Corner Radius": {
     "Override Corner Radius": "جایگزینی شعاع گوشه‌ها"
@@ -3038,6 +3095,9 @@
   "Scrolling": {
     "Scrolling": "اسکرولینگ"
   },
+  "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
+    "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": ""
+  },
   "Search file contents": {
     "Search file contents": "جستجو در محتوای فایل"
   },
@@ -3049,6 +3109,9 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "جستجو در کلید‌های میانبر..."
+  },
+  "Search keyboard shortcuts from your compositor and applications": {
+    "Search keyboard shortcuts from your compositor and applications": ""
   },
   "Search plugins...": {
     "Search plugins...": "جستجوی افزونه‌ها..."
@@ -3092,6 +3155,9 @@
   "Select an image file...": {
     "Select an image file...": "انتخاب فایل تصویر..."
   },
+  "Select at least one provider": {
+    "Select at least one provider": ""
+  },
   "Select device...": {
     "Select device...": "انتخاب دستگاه..."
   },
@@ -3115,6 +3181,9 @@
   },
   "Select the palette algorithm used for wallpaper-based colors": {
     "Select the palette algorithm used for wallpaper-based colors": "انتخاب الگوریتم پالت رنگی استفاده شده برای رنگ‌های بر اساس تصویر پس‌زمینه"
+  },
+  "Select which keybind providers to include": {
+    "Select which keybind providers to include": ""
   },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "انتخاب کنید کدام گذارها در تصادفی‌سازی باشند"
@@ -3186,7 +3255,7 @@
     "Show Feels Like Temperature": ""
   },
   "Show Forecast": {
-    "Show Forecast": ""
+    "Show Forecast": "نمایش پیش‌بینی"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "نمایش دمای GPU"
@@ -3201,16 +3270,16 @@
     "Show Hour Numbers": "نمایش شماره‌های ساعت"
   },
   "Show Hourly Forecast": {
-    "Show Hourly Forecast": ""
+    "Show Hourly Forecast": "نمایش پیش‌بینی ساعتی"
   },
   "Show Humidity": {
-    "Show Humidity": ""
+    "Show Humidity": "نمایش رطوبت"
   },
   "Show Line Numbers": {
     "Show Line Numbers": "نمایش شماره خطوط"
   },
   "Show Location": {
-    "Show Location": ""
+    "Show Location": "نمایش موقعیت مکانی"
   },
   "Show Lock": {
     "Show Lock": "نمایش قفل"
@@ -3240,7 +3309,7 @@
     "Show Precipitation Probability": ""
   },
   "Show Pressure": {
-    "Show Pressure": ""
+    "Show Pressure": "نمایش فشار"
   },
   "Show Reboot": {
     "Show Reboot": "نمایش راه‌اندازی مجدد"
@@ -3252,7 +3321,7 @@
     "Show Seconds": "نمایش ثانیه‌ها"
   },
   "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": ""
+    "Show Sunrise/Sunset": "نمایش طلوع/غروب"
   },
   "Show Suspend": {
     "Show Suspend": "نمایش تعلیق"
@@ -3261,13 +3330,13 @@
     "Show Top Processes": "نمایش فرایند‌های مهم"
   },
   "Show Weather Condition": {
-    "Show Weather Condition": ""
+    "Show Weather Condition": "نمایش شرایط آب و هوا"
   },
   "Show Welcome": {
-    "Show Welcome": ""
+    "Show Welcome": "نمایش خوش آمدید"
   },
   "Show Wind Speed": {
-    "Show Wind Speed": ""
+    "Show Wind Speed": "نمایش سرعت باد"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "نمایش برنامه‌های workspace"
@@ -3292,6 +3361,9 @@
   },
   "Show on Overview": {
     "Show on Overview": "نمایش روی نمای کلی"
+  },
+  "Show on Overview Only": {
+    "Show on Overview Only": ""
   },
   "Show on all connected displays": {
     "Show on all connected displays": "نمایش همه نمایشگر‌های متصل"
@@ -3426,7 +3498,7 @@
     "Stacked": "انباشته"
   },
   "Standard": {
-    "Standard": ""
+    "Standard": "استاندارد"
   },
   "Start": {
     "Start": "شروع"
@@ -3528,7 +3600,7 @@
     "System theme toggle": "تغییر تم سیستم"
   },
   "System toast notifications": {
-    "System toast notifications": "اعلانات سیستم به صورت تُست"
+    "System toast notifications": "اعلان‌های سیستم به صورت تُست"
   },
   "System update custom command": {
     "System update custom command": "دستور سفارشی بروزرسانی سیستم"
@@ -3651,7 +3723,7 @@
     "Toner Low": "تونر کم است"
   },
   "Tools": {
-    "Tools": ""
+    "Tools": "ابزارها"
   },
   "Top": {
     "Top": "بالا"
@@ -3683,11 +3755,20 @@
   "Transparency": {
     "Transparency": "شفافیت"
   },
+  "Trigger": {
+    "Trigger": ""
+  },
+  "Trigger Prefix": {
+    "Trigger Prefix": ""
+  },
   "Turn off monitors after": {
     "Turn off monitors after": "خاموش‌کردن مانیتور پس از"
   },
   "Type": {
     "Type": "نوع"
+  },
+  "Type this prefix to search keybinds": {
+    "Type this prefix to search keybinds": ""
   },
   "Typography": {
     "Typography": "تایپوگرافی"
@@ -3716,6 +3797,9 @@
   "Unknown Network": {
     "Unknown Network": "شبکه ناشناخته"
   },
+  "Unpin": {
+    "Unpin": ""
+  },
   "Unpin from Dock": {
     "Unpin from Dock": "جداکردن از داک"
   },
@@ -3736,6 +3820,9 @@
   },
   "Update Plugin": {
     "Update Plugin": "بروزرسانی افزونه"
+  },
+  "Usage Tips": {
+    "Usage Tips": ""
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "استفاده از قالب 24 ساعته به جای 12 ساعته ق.ظ/ب.ظ"
@@ -3765,10 +3852,10 @@
     "Use animated wave progress bars for media playback": "استفاده از نوارهای پیشرفت موجی متحرک برای پخش رسانه"
   },
   "Use custom border size": {
-    "Use custom border size": ""
+    "Use custom border size": "از اندازه حاشیه سفارشی استفاده کن"
   },
   "Use custom border/focus-ring width": {
-    "Use custom border/focus-ring width": ""
+    "Use custom border/focus-ring width": "از طول حاشیه/focus-ring سفارشی استفاده کن"
   },
   "Use custom command for update your system": {
     "Use custom command for update your system": "استفاده از دستور سفارشی برای بروزرسانی سیستم شما"
@@ -3790,6 +3877,9 @@
   },
   "Use sound theme from system settings": {
     "Use sound theme from system settings": "استفاده از تم صدا در تنظیمات سیستم"
+  },
+  "Use trigger prefix to activate": {
+    "Use trigger prefix to activate": ""
   },
   "Use%": {
     "Use%": "استفاده%"
@@ -3876,7 +3966,7 @@
     "Vibrant palette with playful saturation.": "پالتر رنگی پر جنب و جوش با اشباع رنگی سرزنده."
   },
   "View Mode": {
-    "View Mode": ""
+    "View Mode": "حالت نمایش"
   },
   "Visibility": {
     "Visibility": "دید"
@@ -4019,7 +4109,7 @@
     "Window Gaps (px)": "فاصله پنجره‌ها (px)"
   },
   "Window Rounding": {
-    "Window Rounding": ""
+    "Window Rounding": "گردی پنجره"
   },
   "Workspace": {
     "Workspace": "Workspace"
@@ -4072,6 +4162,9 @@
   "author attribution": {
     "by %1": "توسط %1"
   },
+  "bar shadow settings card": {
+    "Shadow": ""
+  },
   "browse themes button | theme browser header | theme browser window title": {
     "Browse Themes": "مرور تم‌ها"
   },
@@ -4104,6 +4197,9 @@
   },
   "dms/binds.kdl is now included in config.kdl": {
     "dms/binds.kdl is now included in config.kdl": "dms/binds.kdl اکنون در config.kdl گنجانده شده است"
+  },
+  "dms/cursor config exists but is not included. Cursor settings won't apply.": {
+    "dms/cursor config exists but is not included. Cursor settings won't apply.": ""
   },
   "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": {
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": "پیکربندی dms/outputs وجود دارد اما در پیکربندی کامپوزیتور شما گنجانده نشده است. تغییرات نمایشگر پایدار نخواهند بود."
@@ -4142,102 +4238,102 @@
     "Material Design inspired color themes": "رنگ‌های تم الهام گرفته شده از متریال دیزاین"
   },
   "greeter back button": {
-    "Back": ""
+    "Back": "بازگشت"
   },
   "greeter completion page subtitle": {
     "DankMaterialShell is ready to use": ""
   },
   "greeter completion page title": {
-    "You're All Set!": ""
+    "You're All Set!": "همه چیز آماده است!"
   },
   "greeter configure keybinds link": {
     "Configure Keybinds": ""
   },
   "greeter dankbar description": {
-    "Widgets, layout, style": ""
+    "Widgets, layout, style": "ابزارک‌ها، layout، استایل"
   },
   "greeter displays description": {
-    "Resolution, position, scale": ""
+    "Resolution, position, scale": "وضوح، موقعیت، مقیاس"
   },
   "greeter dock description": {
     "Position, pinned apps": ""
   },
   "greeter doctor page button": {
-    "Run Again": ""
+    "Run Again": "اجرای دوباره"
   },
   "greeter doctor page empty state": {
     "No checks passed": "",
-    "No errors": "",
+    "No errors": "بدون خطا",
     "No info items": "",
-    "No warnings": ""
+    "No warnings": "بدون اخطار"
   },
   "greeter doctor page error count": {
-    "%1 issue(s) found": ""
+    "%1 issue(s) found": "%1 مشکل پیدا شد"
   },
   "greeter doctor page loading text": {
     "Analyzing configuration...": ""
   },
   "greeter doctor page status card": {
-    "Errors": "",
-    "Info": "",
-    "OK": "",
-    "Warnings": ""
+    "Errors": "خطا‌ها",
+    "Info": "اطلاعات",
+    "OK": "باشه",
+    "Warnings": "اخطار‌ها"
   },
   "greeter doctor page success": {
     "All checks passed": ""
   },
   "greeter doctor page title": {
-    "System Check": ""
+    "System Check": "بررسی سیستم"
   },
   "greeter documentation link": {
-    "Docs": ""
+    "Docs": "مستندات"
   },
   "greeter explore section header": {
     "Explore": ""
   },
   "greeter feature card description": {
     "Background app icons": "",
-    "Colors from wallpaper": "",
-    "Community themes": "",
+    "Colors from wallpaper": "رنگ‌ها از تصویر پس‌زمینه",
+    "Community themes": "تم‌های کامیونیتی",
     "Extensible architecture": "",
-    "GTK, Qt, IDEs, more": "",
-    "Modular widget bar": "",
+    "GTK, Qt, IDEs, more": "GTK، Qt، IDEها و بیشتر",
+    "Modular widget bar": "نوار ابزارک ماژولار",
     "Night mode & gamma": "",
-    "Per-screen config": "",
+    "Per-screen config": "پیکربندی به ازای هر صفحه",
     "Quick system toggles": ""
   },
   "greeter feature card title": {
-    "App Theming": "",
+    "App Theming": "تم برنامه",
     "Control Center": "",
-    "Display Control": "",
+    "Display Control": "کنترل نمایشگر",
     "Dynamic Theming": "",
-    "Multi-Monitor": "",
+    "Multi-Monitor": "چند مانیتوره",
     "System Tray": "",
-    "Theme Registry": ""
+    "Theme Registry": "مخزن تم‌ها"
   },
   "greeter feature card title | greeter plugins link": {
-    "Plugins": ""
+    "Plugins": "افزونه‌ها"
   },
   "greeter feature card title | greeter settings link": {
-    "DankBar": ""
+    "DankBar": "DankBar"
   },
   "greeter finish button": {
-    "Finish": ""
+    "Finish": "پایان"
   },
   "greeter first page button": {
-    "Get Started": ""
+    "Get Started": "شروع کنید"
   },
   "greeter keybinds niri description": {
-    "niri shortcuts config": ""
+    "niri shortcuts config": "پیکربندی میانبرهای نیری"
   },
   "greeter keybinds section header": {
     "DMS Shortcuts": ""
   },
   "greeter modal window title": {
-    "Welcome": ""
+    "Welcome": "خوش آمدید"
   },
   "greeter next button": {
-    "Next": ""
+    "Next": "بعدی"
   },
   "greeter no keybinds message": {
     "No DMS shortcuts configured": ""
@@ -4246,15 +4342,15 @@
     "Popup behavior, position": ""
   },
   "greeter settings link": {
-    "Displays": "",
-    "Dock": "",
+    "Displays": "نمایشگر‌ها",
+    "Dock": "داک",
     "Keybinds": "",
-    "Notifications": "",
-    "Theme & Colors": "",
-    "Wallpaper": ""
+    "Notifications": "اعلان‌ها",
+    "Theme & Colors": "تم و رنگ‌ها",
+    "Wallpaper": "تصویر پس‌زمینه"
   },
   "greeter settings section header": {
-    "Configure": ""
+    "Configure": "پیکربندی"
   },
   "greeter skip button": {
     "Skip": ""
@@ -4266,19 +4362,19 @@
     "Dynamic colors, presets": ""
   },
   "greeter themes link": {
-    "Themes": ""
+    "Themes": "تم‌ها"
   },
   "greeter wallpaper description": {
-    "Background image": ""
+    "Background image": "تصویر پس‌زمینه"
   },
   "greeter welcome page section header": {
-    "Features": ""
+    "Features": "ویژگی‌ها"
   },
   "greeter welcome page tagline": {
     "A modern desktop shell for Wayland compositors": ""
   },
   "greeter welcome page title": {
-    "Welcome to DankMaterialShell": ""
+    "Welcome to DankMaterialShell": "به DankMaterialShell خوش آمدید"
   },
   "install action button": {
     "Install": "نصب"
@@ -4302,17 +4398,17 @@
     "Loading...": "درحال بارگذاری..."
   },
   "lock screen notification mode option": {
-    "App Names": "",
+    "App Names": "نام برنامه‌ها",
     "Count Only": "",
-    "Disabled": "",
-    "Full Content": ""
+    "Disabled": "غیرفعال",
+    "Full Content": "محتوای کامل"
   },
   "lock screen notification privacy setting": {
     "Control what notification information is shown on the lock screen": "",
     "Notification Display": ""
   },
   "lock screen notifications settings card": {
-    "Lock Screen": ""
+    "Lock Screen": "صفحه قفل"
   },
   "loginctl not available - lock integration requires DMS socket connection": {
     "loginctl not available - lock integration requires DMS socket connection": "loginctl در دسترس نیست - یکپارچه‌سازی قفل به اتصال سوکت DMS نیاز دارد"
@@ -4342,36 +4438,36 @@
     "No wallpaper selected": "هیچ تصویر پس‌زمینه‌ای انتخاب نشده"
   },
   "notification center tab": {
-    "Current": "",
-    "History": ""
+    "Current": "کنونی",
+    "History": "تاریخچه"
   },
   "notification history filter": {
-    "All": "",
-    "Last hour": "",
-    "Today": "",
-    "Yesterday": ""
+    "All": "همه",
+    "Last hour": "ساعت گذشته",
+    "Today": "امروز",
+    "Yesterday": "دیروز"
   },
   "notification history filter for content older than other filters": {
-    "Older": ""
+    "Older": "قدیمی‌تر"
   },
   "notification history filter | notification history retention option": {
-    "30 days": "",
-    "7 days": ""
+    "30 days": "30 روز",
+    "7 days": "7 روز"
   },
   "notification history limit": {
-    "Maximum number of notifications to keep": ""
+    "Maximum number of notifications to keep": "بیشینه تعداد اعلان‌هایی که باید نگه داشته شوند"
   },
   "notification history retention option": {
-    "1 day": "",
-    "14 days": "",
-    "3 days": "",
-    "Forever": ""
+    "1 day": "1 روز",
+    "14 days": "14 روز",
+    "3 days": "3 روز",
+    "Forever": "برای همیشه"
   },
   "notification history retention settings label": {
-    "History Retention": ""
+    "History Retention": "نگهداری تاریخچه"
   },
   "notification history setting": {
-    "Auto-delete notifications older than this": "",
+    "Auto-delete notifications older than this": "اعلان‌های قدیمی تر از این را خودکار حذف کن",
     "Save critical priority notifications to history": "",
     "Save low priority notifications to history": "",
     "Save normal priority notifications to history": ""
@@ -4380,10 +4476,10 @@
     "Save dismissed notifications to history": ""
   },
   "notification history toggle label": {
-    "Enable History": ""
+    "Enable History": "فعال‌کردن تاریخچه"
   },
   "now": {
-    "now": ""
+    "now": "اکنون"
   },
   "official": {
     "official": "رسمی"
@@ -4420,6 +4516,13 @@
   },
   "settings_displays": {
     "Widgets": "ابزارک‌ها"
+  },
+  "shadow color option": {
+    "Surface": "",
+    "Text": ""
+  },
+  "shadow intensity slider": {
+    "Intensity": ""
   },
   "source code link": {
     "source": "منبع"
@@ -4482,7 +4585,7 @@
     "wtype not available - install wtype for paste support": "wtype در دسترس نیست - wtype را برای پشتیبانی از الصاق نصب کنید"
   },
   "yesterday": {
-    "yesterday": ""
+    "yesterday": "دیروز"
   },
   "• Install only from trusted sources": {
     "• Install only from trusted sources": "نصب تنها از منابع معتبر"

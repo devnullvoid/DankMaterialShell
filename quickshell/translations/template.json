@@ -399,6 +399,13 @@
     "comment": ""
   },
   {
+    "term": "Activation",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Active",
     "translation": "",
     "context": "",
@@ -561,6 +568,13 @@
   },
   {
     "term": "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Always Active",
     "translation": "",
     "context": "",
     "reference": "",
@@ -897,6 +911,13 @@
   },
   {
     "term": "Auto-Clear After",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Auto-Hide Timeout",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1701,6 +1722,13 @@
     "comment": ""
   },
   {
+    "term": "Click 'Setup' to create cursor config and add include to your compositor config.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.",
     "translation": "",
     "context": "",
@@ -2184,6 +2212,13 @@
     "comment": ""
   },
   {
+    "term": "Copy",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Copy PID",
     "translation": "",
     "context": "",
@@ -2325,6 +2360,34 @@
   },
   {
     "term": "Current: %1",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Cursor Config Not Configured",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Cursor Include Missing",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Cursor Size",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Cursor Theme",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4375,7 +4438,42 @@
     "comment": ""
   },
   {
+    "term": "Hide When Typing",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Hide When Windows Open",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hide cursor after inactivity (0 = disabled)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hide cursor when pressing keyboard keys",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hide cursor when using touch input",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hide on Touch",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4767,6 +4865,13 @@
     "comment": ""
   },
   {
+    "term": "Intensity",
+    "translation": "",
+    "context": "shadow intensity slider",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Interface:",
     "translation": "",
     "context": "",
@@ -4858,9 +4963,30 @@
     "comment": ""
   },
   {
+    "term": "Keybind Sources",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Keybinds",
     "translation": "",
     "context": "greeter settings link",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Keybinds Search Settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Keybinds shown alongside regular search results",
+    "translation": "",
+    "context": "",
     "reference": "",
     "comment": ""
   },
@@ -5642,6 +5768,20 @@
     "comment": ""
   },
   {
+    "term": "Mouse pointer appearance",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Mouse pointer size in pixels",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Move Widget",
     "translation": "",
     "context": "",
@@ -6190,7 +6330,7 @@
   {
     "term": "Notepad",
     "translation": "",
-    "context": "",
+    "context": "Notepad",
     "reference": "",
     "comment": ""
   },
@@ -7630,6 +7770,13 @@
     "comment": ""
   },
   {
+    "term": "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Search file contents",
     "translation": "",
     "context": "",
@@ -7652,6 +7799,13 @@
   },
   {
     "term": "Search keybinds...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Search keyboard shortcuts from your compositor and applications",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7791,6 +7945,13 @@
     "comment": ""
   },
   {
+    "term": "Select at least one provider",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Select device...",
     "translation": "",
     "context": "",
@@ -7841,6 +8002,13 @@
   },
   {
     "term": "Select the palette algorithm used for wallpaper-based colors",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Select which keybind providers to include",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7920,6 +8088,13 @@
     "term": "Setup",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Shadow",
+    "translation": "",
+    "context": "bar shadow settings card",
     "reference": "",
     "comment": ""
   },
@@ -8310,6 +8485,13 @@
   },
   {
     "term": "Show on Overview",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show on Overview Only",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8724,7 +8906,7 @@
   {
     "term": "Surface",
     "translation": "",
-    "context": "",
+    "context": "shadow color option",
     "reference": "",
     "comment": ""
   },
@@ -8934,7 +9116,7 @@
   {
     "term": "Text",
     "translation": "",
-    "context": "",
+    "context": "shadow color option",
     "reference": "",
     "comment": ""
   },
@@ -9254,6 +9436,20 @@
     "comment": ""
   },
   {
+    "term": "Trigger",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Trigger Prefix",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Turn off monitors after",
     "translation": "",
     "context": "",
@@ -9262,6 +9458,13 @@
   },
   {
     "term": "Type",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Type this prefix to search keybinds",
     "translation": "",
     "context": "",
     "reference": "",
@@ -9359,6 +9562,13 @@
     "comment": ""
   },
   {
+    "term": "Unpin",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Unpin from Dock",
     "translation": "",
     "context": "",
@@ -9402,6 +9612,13 @@
   },
   {
     "term": "Update Plugin",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Usage Tips",
     "translation": "",
     "context": "",
     "reference": "",
@@ -9535,6 +9752,13 @@
   },
   {
     "term": "Use sound theme from system settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Use trigger prefix to activate",
     "translation": "",
     "context": "",
     "reference": "",
@@ -10249,6 +10473,13 @@
   },
   {
     "term": "dms/binds.kdl is now included in config.kdl",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "dms/cursor config exists but is not included. Cursor settings won't apply.",
     "translation": "",
     "context": "",
     "reference": "",

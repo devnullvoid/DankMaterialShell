@@ -1,3 +1,4 @@
+import QtCore
 import QtQuick
 import QtQuick.Effects
 import Quickshell
@@ -16,6 +17,79 @@ Item {
     property var cachedMatugenSchemes: Theme.availableMatugenSchemes.map(option => option.label)
     property var installedRegistryThemes: []
     property var templateDetection: ({})
+
+    property var cursorIncludeStatus: ({
+            "exists": false,
+            "included": false
+        })
+    property bool checkingCursorInclude: false
+    property bool fixingCursorInclude: false
+
+    function getCursorConfigPaths() {
+        const configDir = Paths.strip(StandardPaths.writableLocation(StandardPaths.ConfigLocation));
+        switch (CompositorService.compositor) {
+        case "niri":
+            return {
+                "configFile": configDir + "/niri/config.kdl",
+                "cursorFile": configDir + "/niri/dms/cursor.kdl",
+                "grepPattern": 'include.*"dms/cursor.kdl"',
+                "includeLine": 'include "dms/cursor.kdl"'
+            };
+        case "hyprland":
+            return {
+                "configFile": configDir + "/hypr/hyprland.conf",
+                "cursorFile": configDir + "/hypr/dms/cursor.conf",
+                "grepPattern": 'source.*dms/cursor.conf',
+                "includeLine": "source = ./dms/cursor.conf"
+            };
+        case "dwl":
+            return {
+                "configFile": configDir + "/mango/config.conf",
+                "cursorFile": configDir + "/mango/dms/cursor.conf",
+                "grepPattern": 'source.*dms/cursor.conf',
+                "includeLine": "source=./dms/cursor.conf"
+            };
+        default:
+            return null;
+        }
+    }
+
+    function checkCursorIncludeStatus() {
+        const paths = getCursorConfigPaths();
+        if (!paths) {
+            cursorIncludeStatus = {
+                "exists": false,
+                "included": false
+            };
+            return;
+        }
+        checkingCursorInclude = true;
+        Proc.runCommand("check-cursor-include", ["sh", "-c", `exists=false; included=false; ` + `[ -f "${paths.cursorFile}" ] && exists=true; ` + `[ -f "${paths.configFile}" ] && grep -v '^[[:space:]]*\\(//\\|#\\)' "${paths.configFile}" | grep -q '${paths.grepPattern}' && included=true; ` + `echo "$exists $included"`], (output, exitCode) => {
+            checkingCursorInclude = false;
+            const parts = output.trim().split(" ");
+            cursorIncludeStatus = {
+                "exists": parts[0] === "true",
+                "included": parts[1] === "true"
+            };
+        });
+    }
+
+    function fixCursorInclude() {
+        const paths = getCursorConfigPaths();
+        if (!paths)
+            return;
+        fixingCursorInclude = true;
+        const cursorDir = paths.cursorFile.substring(0, paths.cursorFile.lastIndexOf("/"));
+        const unixTime = Math.floor(Date.now() / 1000);
+        const backupFile = paths.configFile + ".backup" + unixTime;
+        Proc.runCommand("fix-cursor-include", ["sh", "-c", `cp "${paths.configFile}" "${backupFile}" 2>/dev/null; ` + `mkdir -p "${cursorDir}" && ` + `touch "${paths.cursorFile}" && ` + `if ! grep -v '^[[:space:]]*\\(//\\|#\\)' "${paths.configFile}" 2>/dev/null | grep -q '${paths.grepPattern}'; then ` + `echo '' >> "${paths.configFile}" && ` + `echo '${paths.includeLine}' >> "${paths.configFile}"; fi`], (output, exitCode) => {
+            fixingCursorInclude = false;
+            if (exitCode !== 0)
+                return;
+            checkCursorIncludeStatus();
+            SettingsData.updateCompositorCursor();
+        });
+    }
 
     function isTemplateDetected(templateId) {
         if (!templateDetection || Object.keys(templateDetection).length === 0)
@@ -45,6 +119,8 @@ Item {
         if (PopoutService.pendingThemeInstall)
             Qt.callLater(() => themeBrowser.show());
         templateCheckProcess.running = true;
+        if (CompositorService.isNiri || CompositorService.isHyprland || CompositorService.isDwl)
+            checkCursorIncludeStatus();
     }
 
     Process {
@@ -1318,6 +1394,195 @@ Item {
 
             SettingsCard {
                 tab: "theme"
+                tags: ["cursor", "mouse", "pointer", "theme", "size"]
+                title: I18n.tr("Cursor Theme")
+                settingKey: "cursorTheme"
+                iconName: "mouse"
+                visible: CompositorService.isNiri || CompositorService.isHyprland || CompositorService.isDwl
+
+                Column {
+                    width: parent.width
+                    spacing: Theme.spacingM
+
+                    StyledRect {
+                        id: cursorWarningBox
+                        width: parent.width
+                        height: cursorWarningContent.implicitHeight + Theme.spacingM * 2
+                        radius: Theme.cornerRadius
+
+                        readonly property bool showError: themeColorsTab.cursorIncludeStatus.exists && !themeColorsTab.cursorIncludeStatus.included
+                        readonly property bool showSetup: !themeColorsTab.cursorIncludeStatus.exists && !themeColorsTab.cursorIncludeStatus.included
+
+                        color: (showError || showSetup) ? Theme.withAlpha(Theme.warning, 0.15) : "transparent"
+                        border.color: (showError || showSetup) ? Theme.withAlpha(Theme.warning, 0.3) : "transparent"
+                        border.width: 1
+                        visible: (showError || showSetup) && !themeColorsTab.checkingCursorInclude
+
+                        Row {
+                            id: cursorWarningContent
+                            anchors.fill: parent
+                            anchors.margins: Theme.spacingM
+                            spacing: Theme.spacingM
+
+                            DankIcon {
+                                name: "warning"
+                                size: Theme.iconSize
+                                color: Theme.warning
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+
+                            Column {
+                                width: parent.width - Theme.iconSize - (cursorFixButton.visible ? cursorFixButton.width + Theme.spacingM : 0) - Theme.spacingM
+                                spacing: Theme.spacingXS
+                                anchors.verticalCenter: parent.verticalCenter
+
+                                StyledText {
+                                    text: cursorWarningBox.showSetup ? I18n.tr("Cursor Config Not Configured") : I18n.tr("Cursor Include Missing")
+                                    font.pixelSize: Theme.fontSizeMedium
+                                    font.weight: Font.Medium
+                                    color: Theme.warning
+                                }
+
+                                StyledText {
+                                    text: cursorWarningBox.showSetup ? I18n.tr("Click 'Setup' to create cursor config and add include to your compositor config.") : I18n.tr("dms/cursor config exists but is not included. Cursor settings won't apply.")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceVariantText
+                                    wrapMode: Text.WordWrap
+                                    width: parent.width
+                                }
+                            }
+
+                            DankButton {
+                                id: cursorFixButton
+                                visible: cursorWarningBox.showError || cursorWarningBox.showSetup
+                                text: themeColorsTab.fixingCursorInclude ? I18n.tr("Fixing...") : (cursorWarningBox.showSetup ? I18n.tr("Setup") : I18n.tr("Fix Now"))
+                                backgroundColor: Theme.warning
+                                textColor: Theme.background
+                                enabled: !themeColorsTab.fixingCursorInclude
+                                anchors.verticalCenter: parent.verticalCenter
+                                onClicked: themeColorsTab.fixCursorInclude()
+                            }
+                        }
+                    }
+
+                    SettingsDropdownRow {
+                        tab: "theme"
+                        tags: ["cursor", "mouse", "pointer", "theme"]
+                        settingKey: "cursorTheme"
+                        text: I18n.tr("Cursor Theme")
+                        description: I18n.tr("Mouse pointer appearance")
+                        currentValue: SettingsData.cursorSettings.theme
+                        enableFuzzySearch: true
+                        popupWidthOffset: 100
+                        maxPopupHeight: 236
+                        options: cachedCursorThemes
+                        onValueChanged: value => {
+                            SettingsData.setCursorTheme(value);
+                        }
+                    }
+
+                    SettingsSliderRow {
+                        tab: "theme"
+                        tags: ["cursor", "mouse", "pointer", "size"]
+                        settingKey: "cursorSize"
+                        text: I18n.tr("Cursor Size")
+                        description: I18n.tr("Mouse pointer size in pixels")
+                        value: SettingsData.cursorSettings.size
+                        minimum: 16
+                        maximum: 48
+                        unit: "px"
+                        defaultValue: 24
+                        onSliderValueChanged: newValue => SettingsData.setCursorSize(newValue)
+                    }
+
+                    SettingsToggleRow {
+                        tab: "theme"
+                        tags: ["cursor", "hide", "typing"]
+                        settingKey: "cursorHideWhenTyping"
+                        text: I18n.tr("Hide When Typing")
+                        description: I18n.tr("Hide cursor when pressing keyboard keys")
+                        visible: CompositorService.isNiri || CompositorService.isHyprland
+                        checked: {
+                            if (CompositorService.isNiri)
+                                return SettingsData.cursorSettings.niri?.hideWhenTyping || false;
+                            if (CompositorService.isHyprland)
+                                return SettingsData.cursorSettings.hyprland?.hideOnKeyPress || false;
+                            return false;
+                        }
+                        onToggled: checked => {
+                            const updated = JSON.parse(JSON.stringify(SettingsData.cursorSettings));
+                            if (CompositorService.isNiri) {
+                                if (!updated.niri)
+                                    updated.niri = {};
+                                updated.niri.hideWhenTyping = checked;
+                            } else if (CompositorService.isHyprland) {
+                                if (!updated.hyprland)
+                                    updated.hyprland = {};
+                                updated.hyprland.hideOnKeyPress = checked;
+                            }
+                            SettingsData.set("cursorSettings", updated);
+                        }
+                    }
+
+                    SettingsToggleRow {
+                        tab: "theme"
+                        tags: ["cursor", "hide", "touch"]
+                        settingKey: "cursorHideOnTouch"
+                        text: I18n.tr("Hide on Touch")
+                        description: I18n.tr("Hide cursor when using touch input")
+                        visible: CompositorService.isHyprland
+                        checked: SettingsData.cursorSettings.hyprland?.hideOnTouch || false
+                        onToggled: checked => {
+                            const updated = JSON.parse(JSON.stringify(SettingsData.cursorSettings));
+                            if (!updated.hyprland)
+                                updated.hyprland = {};
+                            updated.hyprland.hideOnTouch = checked;
+                            SettingsData.set("cursorSettings", updated);
+                        }
+                    }
+
+                    SettingsSliderRow {
+                        tab: "theme"
+                        tags: ["cursor", "hide", "timeout", "inactive"]
+                        settingKey: "cursorHideAfterInactive"
+                        text: I18n.tr("Auto-Hide Timeout")
+                        description: I18n.tr("Hide cursor after inactivity (0 = disabled)")
+                        value: {
+                            if (CompositorService.isNiri)
+                                return SettingsData.cursorSettings.niri?.hideAfterInactiveMs || 0;
+                            if (CompositorService.isHyprland)
+                                return SettingsData.cursorSettings.hyprland?.inactiveTimeout || 0;
+                            if (CompositorService.isDwl)
+                                return SettingsData.cursorSettings.dwl?.cursorHideTimeout || 0;
+                            return 0;
+                        }
+                        minimum: 0
+                        maximum: CompositorService.isNiri ? 5000 : 10
+                        unit: CompositorService.isNiri ? "ms" : "s"
+                        defaultValue: 0
+                        onSliderValueChanged: newValue => {
+                            const updated = JSON.parse(JSON.stringify(SettingsData.cursorSettings));
+                            if (CompositorService.isNiri) {
+                                if (!updated.niri)
+                                    updated.niri = {};
+                                updated.niri.hideAfterInactiveMs = newValue;
+                            } else if (CompositorService.isHyprland) {
+                                if (!updated.hyprland)
+                                    updated.hyprland = {};
+                                updated.hyprland.inactiveTimeout = newValue;
+                            } else if (CompositorService.isDwl) {
+                                if (!updated.dwl)
+                                    updated.dwl = {};
+                                updated.dwl.cursorHideTimeout = newValue;
+                            }
+                            SettingsData.set("cursorSettings", updated);
+                        }
+                    }
+                }
+            }
+
+            SettingsCard {
+                tab: "theme"
                 tags: ["matugen", "templates", "theming"]
                 title: I18n.tr("Matugen Templates")
                 settingKey: "matugenTemplates"
@@ -1635,86 +1900,6 @@ Item {
                         SettingsData.setIconTheme(value);
                         if (Quickshell.env("QT_QPA_PLATFORMTHEME") != "gtk3" && Quickshell.env("QT_QPA_PLATFORMTHEME") != "qt6ct" && Quickshell.env("QT_QPA_PLATFORMTHEME_QT6") != "qt6ct") {
                             ToastService.showError("Missing Environment Variables", "You need to set either:\nQT_QPA_PLATFORMTHEME=gtk3 OR\nQT_QPA_PLATFORMTHEME=qt6ct\nas environment variables, and then restart the shell.\n\nqt6ct requires qt6ct-kde to be installed.");
-                        }
-                    }
-                }
-            }
-
-            SettingsCard {
-                tab: "theme"
-                tags: ["cursor", "mouse", "pointer", "theme", "size"]
-                title: I18n.tr("Cursor Theme")
-                settingKey: "cursorTheme"
-                iconName: "mouse"
-                visible: CompositorService.isNiri
-
-                Column {
-                    width: parent.width
-                    spacing: Theme.spacingM
-
-                    SettingsDropdownRow {
-                        tab: "theme"
-                        tags: ["cursor", "mouse", "pointer", "theme"]
-                        settingKey: "cursorTheme"
-                        text: I18n.tr("Cursor Theme")
-                        description: I18n.tr("Mouse pointer appearance")
-                        currentValue: SettingsData.cursorSettings.theme
-                        enableFuzzySearch: true
-                        popupWidthOffset: 100
-                        maxPopupHeight: 236
-                        options: cachedCursorThemes
-                        onValueChanged: value => {
-                            SettingsData.setCursorTheme(value);
-                        }
-                    }
-
-                    SettingsSliderRow {
-                        tab: "theme"
-                        tags: ["cursor", "mouse", "pointer", "size"]
-                        settingKey: "cursorSize"
-                        text: I18n.tr("Cursor Size")
-                        description: I18n.tr("Mouse pointer size in pixels")
-                        value: SettingsData.cursorSettings.size
-                        minimum: 16
-                        maximum: 48
-                        unit: "px"
-                        defaultValue: 24
-                        onSliderValueChanged: newValue => SettingsData.setCursorSize(newValue)
-                    }
-
-                    SettingsToggleRow {
-                        tab: "theme"
-                        tags: ["cursor", "hide", "typing"]
-                        settingKey: "cursorHideWhenTyping"
-                        text: I18n.tr("Hide When Typing")
-                        description: I18n.tr("Hide cursor when pressing keyboard keys")
-                        checked: SettingsData.cursorSettings.niri?.hideWhenTyping || false
-                        onToggled: checked => {
-                            const updated = JSON.parse(JSON.stringify(SettingsData.cursorSettings));
-                            if (!updated.niri)
-                                updated.niri = {};
-                            updated.niri.hideWhenTyping = checked;
-                            SettingsData.set("cursorSettings", updated);
-                        }
-                    }
-
-                    SettingsSliderRow {
-                        tab: "theme"
-                        tags: ["cursor", "hide", "timeout", "inactive"]
-                        settingKey: "cursorHideAfterInactive"
-                        text: I18n.tr("Auto-Hide Timeout")
-                        description: I18n.tr("Hide cursor after inactivity (0 = disabled)")
-                        value: SettingsData.cursorSettings.niri?.hideAfterInactiveMs || 0
-                        minimum: 0
-                        maximum: 5000
-                        unit: "ms"
-                        defaultValue: 0
-                        onSliderValueChanged: newValue => {
-                            const updated = JSON.parse(JSON.stringify(SettingsData.cursorSettings));
-                            if (!updated.niri)
-                                updated.niri = {};
-                            updated.niri.hideAfterInactiveMs = newValue;
-                            SettingsData.set("cursorSettings", updated);
                         }
                     }
                 }

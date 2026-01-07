@@ -210,6 +210,7 @@ func (cd *ConfigDeployer) deployNiriDmsConfigs(dmsDir, terminalCommand string) e
 		{"alttab.kdl", NiriAlttabConfig},
 		{"binds.kdl", strings.ReplaceAll(NiriBindsConfig, "{{TERMINAL_COMMAND}}", terminalCommand)},
 		{"outputs.kdl", ""},
+		{"cursor.kdl", ""},
 	}
 
 	for _, cfg := range configs {
@@ -560,6 +561,7 @@ func (cd *ConfigDeployer) deployHyprlandDmsConfigs(dmsDir string) error {
 		{"colors.conf", HyprColorsConfig},
 		{"layout.conf", HyprLayoutConfig},
 		{"outputs.conf", ""},
+		{"cursor.conf", ""},
 	}
 
 	for _, cfg := range configs {

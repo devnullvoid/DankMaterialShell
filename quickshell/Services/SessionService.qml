@@ -184,84 +184,76 @@ Singleton {
 
     function launchDesktopEntry(desktopEntry, useNvidia) {
         let cmd = desktopEntry.command;
-        if (useNvidia && nvidiaCommand) {
+        if (useNvidia && nvidiaCommand)
             cmd = [nvidiaCommand].concat(cmd);
-        }
 
         const userPrefix = SettingsData.launchPrefix?.trim() || "";
         const defaultPrefix = Quickshell.env("DMS_DEFAULT_LAUNCH_PREFIX") || "";
-        const cursorPrefix = typeof SettingsData.getCursorEnvPrefix !== "undefined" ? SettingsData.getCursorEnvPrefix() : "";
-
-        let prefix = userPrefix.length > 0 ? userPrefix : defaultPrefix;
-        if (cursorPrefix) {
-            prefix = prefix.length > 0 ? `${cursorPrefix} ${prefix}` : cursorPrefix;
-        }
-
+        const prefix = userPrefix.length > 0 ? userPrefix : defaultPrefix;
         const workDir = desktopEntry.workingDirectory || Quickshell.env("HOME");
-        const escapedCmd = cmd.map(arg => escapeShellArg(arg)).join(" ");
-        const shellCmd = prefix.length > 0 ? `${prefix} ${escapedCmd}` : escapedCmd;
+        const cursorEnv = typeof SettingsData.getCursorEnvironment === "function" ? SettingsData.getCursorEnvironment() : {};
 
         if (desktopEntry.runInTerminal) {
             const terminal = Quickshell.env("TERMINAL") || "xterm";
+            const escapedCmd = cmd.map(arg => escapeShellArg(arg)).join(" ");
+            const shellCmd = prefix.length > 0 ? `${prefix} ${escapedCmd}` : escapedCmd;
             Quickshell.execDetached({
                 command: [terminal, "-e", "sh", "-c", shellCmd],
-                workingDirectory: workDir
+                workingDirectory: workDir,
+                environment: cursorEnv
             });
             return;
         }
 
         if (prefix.length > 0 && needsShellExecution(prefix)) {
+            const escapedCmd = cmd.map(arg => escapeShellArg(arg)).join(" ");
             Quickshell.execDetached({
-                command: ["sh", "-c", shellCmd],
-                workingDirectory: workDir
+                command: ["sh", "-c", `${prefix} ${escapedCmd}`],
+                workingDirectory: workDir,
+                environment: cursorEnv
             });
             return;
         }
 
-        if (prefix.length > 0) {
+        if (prefix.length > 0)
             cmd = prefix.split(" ").concat(cmd);
-        }
 
         Quickshell.execDetached({
             command: cmd,
-            workingDirectory: workDir
+            workingDirectory: workDir,
+            environment: cursorEnv
         });
     }
 
     function launchDesktopAction(desktopEntry, action, useNvidia) {
         let cmd = action.command;
-        if (useNvidia && nvidiaCommand) {
+        if (useNvidia && nvidiaCommand)
             cmd = [nvidiaCommand].concat(cmd);
-        }
 
         const userPrefix = SettingsData.launchPrefix?.trim() || "";
         const defaultPrefix = Quickshell.env("DMS_DEFAULT_LAUNCH_PREFIX") || "";
-        const cursorPrefix = typeof SettingsData.getCursorEnvPrefix !== "undefined" ? SettingsData.getCursorEnvPrefix() : "";
-
-        let prefix = userPrefix.length > 0 ? userPrefix : defaultPrefix;
-        if (cursorPrefix) {
-            prefix = prefix.length > 0 ? `${cursorPrefix} ${prefix}` : cursorPrefix;
-        }
+        const prefix = userPrefix.length > 0 ? userPrefix : defaultPrefix;
+        const workDir = desktopEntry.workingDirectory || Quickshell.env("HOME");
+        const cursorEnv = typeof SettingsData.getCursorEnvironment === "function" ? SettingsData.getCursorEnvironment() : {};
 
         if (prefix.length > 0 && needsShellExecution(prefix)) {
             const escapedCmd = cmd.map(arg => escapeShellArg(arg)).join(" ");
-            const shellCmd = `${prefix} ${escapedCmd}`;
-
             Quickshell.execDetached({
-                command: ["sh", "-c", shellCmd],
-                workingDirectory: desktopEntry.workingDirectory || Quickshell.env("HOME")
+                command: ["sh", "-c", `${prefix} ${escapedCmd}`],
+                workingDirectory: workDir,
+                environment: cursorEnv
             });
-        } else {
-            if (prefix.length > 0) {
-                const launchPrefix = prefix.split(" ");
-                cmd = launchPrefix.concat(cmd);
-            }
-
-            Quickshell.execDetached({
-                command: cmd,
-                workingDirectory: desktopEntry.workingDirectory || Quickshell.env("HOME")
-            });
+            return;
         }
+
+        if (prefix.length > 0)
+            cmd = prefix.split(" ").concat(cmd);
+
+        Quickshell.execDetached({
+            command: cmd,
+            workingDirectory: workDir,
+            environment: cursorEnv
+        });
     }
 
     // * Session management
