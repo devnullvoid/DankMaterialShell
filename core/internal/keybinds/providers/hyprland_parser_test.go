@@ -130,7 +130,7 @@ func TestHyprlandGetKeybindAtLine(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			parser := NewHyprlandParser()
+			parser := NewHyprlandParser("")
 			parser.contentLines = []string{tt.line}
 			result := parser.getKeybindAtLine(0)
 
@@ -285,7 +285,7 @@ func TestHyprlandReadContentMultipleFiles(t *testing.T) {
 		t.Fatalf("Failed to write file2: %v", err)
 	}
 
-	parser := NewHyprlandParser()
+	parser := NewHyprlandParser("")
 	if err := parser.ReadContent(tmpDir); err != nil {
 		t.Fatalf("ReadContent failed: %v", err)
 	}
@@ -343,7 +343,7 @@ func TestHyprlandReadContentWithTildeExpansion(t *testing.T) {
 		t.Skip("Cannot create relative path")
 	}
 
-	parser := NewHyprlandParser()
+	parser := NewHyprlandParser("")
 	tildePathMatch := "~/" + relPath
 	err = parser.ReadContent(tildePathMatch)
 
@@ -353,7 +353,7 @@ func TestHyprlandReadContentWithTildeExpansion(t *testing.T) {
 }
 
 func TestHyprlandKeybindWithParamsContainingCommas(t *testing.T) {
-	parser := NewHyprlandParser()
+	parser := NewHyprlandParser("")
 	parser.contentLines = []string{"bind = SUPER, R, exec, notify-send 'Title' 'Message, with comma'"}
 
 	result := parser.getKeybindAtLine(0)

@@ -352,6 +352,14 @@ FocusScope {
             }
             refreshPluginList();
         }
+        function onPluginDataChanged(pluginId) {
+            var plugin = PluginService.availablePlugins[pluginId];
+            if (!plugin || !PluginService.isPluginLoaded(pluginId))
+                return;
+            var isLauncher = plugin.type === "launcher" || (plugin.capabilities && plugin.capabilities.includes("launcher"));
+            if (isLauncher)
+                PluginService.reloadPlugin(pluginId);
+        }
     }
 
     Connections {

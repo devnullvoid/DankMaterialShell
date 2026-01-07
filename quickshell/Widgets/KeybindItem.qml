@@ -1,4 +1,4 @@
-pragma ComponentBehavior: Bound
+pragma ComponentBehavior
 
 import QtQuick
 import QtQuick.Layouts
@@ -42,7 +42,7 @@ Item {
 
     readonly property var keys: bindData.keys || []
     readonly property bool hasOverride: {
-        for (let i = 0; i < keys.length; i++) {
+        for (var i = 0; i < keys.length; i++) {
             if (keys[i].isOverride)
                 return true;
         }
@@ -92,7 +92,7 @@ Item {
     }
 
     function restoreToKey(keyToFind) {
-        for (let i = 0; i < keys.length; i++) {
+        for (var i = 0; i < keys.length; i++) {
             if (keys[i].key === keyToFind) {
                 editingKeyIndex = i;
                 editKey = keyToFind;
@@ -106,7 +106,7 @@ Item {
                 }
                 hasChanges = false;
                 _actionType = Actions.getActionType(editAction);
-                useCustomCompositor = _actionType === "compositor" && editAction && !Actions.isKnownCompositorAction(editAction);
+                useCustomCompositor = _actionType === "compositor" && editAction && !Actions.isKnownCompositorAction(KeybindsService.currentProvider, editAction);
                 return;
             }
         }
@@ -126,7 +126,7 @@ Item {
         editCooldownMs = editingKeyIndex >= 0 ? (keys[editingKeyIndex].cooldownMs || 0) : 0;
         hasChanges = false;
         _actionType = Actions.getActionType(editAction);
-        useCustomCompositor = _actionType === "compositor" && editAction && !Actions.isKnownCompositorAction(editAction);
+        useCustomCompositor = _actionType === "compositor" && editAction && !Actions.isKnownCompositorAction(KeybindsService.currentProvider, editAction);
     }
 
     function startAddingNewKey() {
@@ -177,10 +177,10 @@ Item {
             desc = expandedLoader.item.currentTitle;
         _savedCooldownMs = editCooldownMs;
         saveBind(origKey, {
-            key: editKey,
-            action: editAction,
-            desc: desc,
-            cooldownMs: editCooldownMs
+            "key": editKey,
+            "action": editAction,
+            "desc": desc,
+            "cooldownMs": editCooldownMs
         });
         hasChanges = false;
         addingNewKey = false;
@@ -189,15 +189,14 @@ Item {
     function _createShortcutInhibitor() {
         if (!_shortcutInhibitorAvailable || _shortcutInhibitor)
             return;
-
         const qmlString = `
-            import QtQuick
-            import Quickshell.Wayland
+        import QtQuick
+        import Quickshell.Wayland
 
-            ShortcutInhibitor {
-                enabled: false
-                window: null
-            }
+        ShortcutInhibitor {
+        enabled: false
+        window: null
+        }
         `;
 
         _shortcutInhibitor = Qt.createQmlObject(qmlString, root, "KeybindItem.ShortcutInhibitor");
@@ -207,18 +206,21 @@ Item {
 
     function _destroyShortcutInhibitor() {
         if (_shortcutInhibitor) {
+            _shortcutInhibitor.enabled = false;
             _shortcutInhibitor.destroy();
             _shortcutInhibitor = null;
         }
     }
 
     function startRecording() {
+        _destroyShortcutInhibitor();
         _createShortcutInhibitor();
         recording = true;
     }
 
     function stopRecording() {
         recording = false;
+        _destroyShortcutInhibitor();
     }
 
     Column {
@@ -617,7 +619,6 @@ Item {
                         Keys.onPressed: event => {
                             if (!root.recording)
                                 return;
-
                             event.accepted = true;
 
                             switch (event.key) {
@@ -654,7 +655,7 @@ Item {
                             }
 
                             root.updateEdit({
-                                key: KeyUtils.formatToken(mods, key)
+                                "key": KeyUtils.formatToken(mods, key)
                             });
                             root.stopRecording();
                         }
@@ -699,9 +700,8 @@ Item {
 
                                 if (!wheelKey)
                                     return;
-
                                 root.updateEdit({
-                                    key: KeyUtils.formatToken(mods, wheelKey)
+                                    "key": KeyUtils.formatToken(mods, wheelKey)
                                 });
                                 root.stopRecording();
                             }
@@ -824,26 +824,26 @@ Item {
                                         switch (typeDelegate.modelData.id) {
                                         case "dms":
                                             root.updateEdit({
-                                                action: KeybindsService.dmsActions[0].id,
-                                                desc: KeybindsService.dmsActions[0].label
+                                                "action": KeybindsService.dmsActions[0].id,
+                                                "desc": KeybindsService.dmsActions[0].label
                                             });
                                             break;
                                         case "compositor":
                                             root.updateEdit({
-                                                action: "close-window",
-                                                desc: "Close Window"
+                                                "action": "close-window",
+                                                "desc": "Close Window"
                                             });
                                             break;
                                         case "spawn":
                                             root.updateEdit({
-                                                action: "spawn ",
-                                                desc: ""
+                                                "action": "spawn ",
+                                                "desc": ""
                                             });
                                             break;
                                         case "shell":
                                             root.updateEdit({
-                                                action: "spawn sh -c \"\"",
-                                                desc: ""
+                                                "action": "spawn sh -c \"\"",
+                                                "desc": ""
                                             });
                                             break;
                                         }
@@ -890,8 +890,8 @@ Item {
                             for (const act of actions) {
                                 if (act.label === value) {
                                     root.updateEdit({
-                                        action: act.id,
-                                        desc: act.label
+                                        "action": act.id,
+                                        "desc": act.label
                                     });
                                     return;
                                 }
@@ -905,12 +905,12 @@ Item {
                     Layout.fillWidth: true
                     spacing: Theme.spacingM
 
-                    readonly property var argConfig: Actions.getActionArgConfig(root.editAction)
+                    readonly property var argConfig: Actions.getActionArgConfig(KeybindsService.currentProvider, root.editAction)
                     readonly property var parsedArgs: argConfig?.type === "dms" ? Actions.parseDmsActionArgs(root.editAction) : null
                     readonly property var dmsActionArgs: Actions.getDmsActionArgs()
-                    readonly property bool hasAmountArg: parsedArgs?.base ? (dmsActionArgs?.[parsedArgs.base]?.args?.some(a => a.name === "amount") ?? false) : false
-                    readonly property bool hasDeviceArg: parsedArgs?.base ? (dmsActionArgs?.[parsedArgs.base]?.args?.some(a => a.name === "device") ?? false) : false
-                    readonly property bool hasTabArg: parsedArgs?.base ? (dmsActionArgs?.[parsedArgs.base]?.args?.some(a => a.name === "tab") ?? false) : false
+                    readonly property bool hasAmountArg: parsedArgs?.base ? (dmsActionArgs[parsedArgs.base]?.args?.some(a => a.name === "amount") ?? false) : false
+                    readonly property bool hasDeviceArg: parsedArgs?.base ? (dmsActionArgs[parsedArgs.base]?.args?.some(a => a.name === "device") ?? false) : false
+                    readonly property bool hasTabArg: parsedArgs?.base ? (dmsActionArgs[parsedArgs.base]?.args?.some(a => a.name === "tab") ?? false) : false
 
                     visible: root._actionType === "dms" && argConfig?.type === "dms"
 
@@ -949,7 +949,7 @@ Item {
                             const newArgs = Object.assign({}, dmsArgsRow.parsedArgs.args);
                             newArgs.amount = text || "5";
                             root.updateEdit({
-                                action: Actions.buildDmsAction(dmsArgsRow.parsedArgs.base, newArgs)
+                                "action": Actions.buildDmsAction(dmsArgsRow.parsedArgs.base, newArgs)
                             });
                         }
                     }
@@ -997,7 +997,7 @@ Item {
                             const newArgs = Object.assign({}, dmsArgsRow.parsedArgs.args);
                             newArgs.device = text;
                             root.updateEdit({
-                                action: Actions.buildDmsAction(dmsArgsRow.parsedArgs.base, newArgs)
+                                "action": Actions.buildDmsAction(dmsArgsRow.parsedArgs.base, newArgs)
                             });
                         }
                     }
@@ -1054,7 +1054,7 @@ Item {
                                 break;
                             }
                             root.updateEdit({
-                                action: Actions.buildDmsAction(dmsArgsRow.parsedArgs.base, newArgs)
+                                "action": Actions.buildDmsAction(dmsArgsRow.parsedArgs.base, newArgs)
                             });
                         }
                     }
@@ -1104,8 +1104,8 @@ Item {
                             for (const act of actions) {
                                 if (act.label === value) {
                                     root.updateEdit({
-                                        action: act.id,
-                                        desc: act.label
+                                        "action": act.id,
+                                        "desc": act.label
                                     });
                                     return;
                                 }
@@ -1146,10 +1146,10 @@ Item {
                     id: optionsRow
                     Layout.fillWidth: true
                     spacing: Theme.spacingM
-                    visible: root._actionType === "compositor" && !root.useCustomCompositor && Actions.getActionArgConfig(root.editAction)
+                    visible: root._actionType === "compositor" && !root.useCustomCompositor && Actions.getActionArgConfig(KeybindsService.currentProvider, root.editAction)
 
-                    readonly property var argConfig: Actions.getActionArgConfig(root.editAction)
-                    readonly property var parsedArgs: Actions.parseCompositorActionArgs(root.editAction)
+                    readonly property var argConfig: Actions.getActionArgConfig(KeybindsService.currentProvider, root.editAction)
+                    readonly property var parsedArgs: Actions.parseCompositorActionArgs(KeybindsService.currentProvider, root.editAction)
 
                     StyledText {
                         text: I18n.tr("Options")
@@ -1167,6 +1167,9 @@ Item {
                             id: argValueField
                             Layout.fillWidth: true
                             Layout.preferredHeight: root._inputHeight
+
+                            readonly property string _argName: optionsRow.argConfig?.config?.args[0]?.name || "value"
+
                             visible: {
                                 const cfg = optionsRow.argConfig;
                                 if (!cfg?.config?.args)
@@ -1174,19 +1177,20 @@ Item {
                                 const firstArg = cfg.config.args[0];
                                 return firstArg && (firstArg.type === "text" || firstArg.type === "number");
                             }
-                            placeholderText: optionsRow.argConfig?.config?.args?.[0]?.placeholder || ""
+                            placeholderText: optionsRow.argConfig?.config?.args[0]?.placeholder || ""
 
                             Connections {
                                 target: optionsRow
                                 function onParsedArgsChanged() {
-                                    const newText = optionsRow.parsedArgs?.args?.value || optionsRow.parsedArgs?.args?.index || "";
+                                    const argName = argValueField._argName;
+                                    const newText = optionsRow.parsedArgs?.args[argName] || "";
                                     if (argValueField.text !== newText)
                                         argValueField.text = newText;
                                 }
                             }
 
                             Component.onCompleted: {
-                                text = optionsRow.parsedArgs?.args?.value || optionsRow.parsedArgs?.args?.index || "";
+                                text = optionsRow.parsedArgs?.args[_argName] || "";
                             }
 
                             onEditingFinished: {
@@ -1194,15 +1198,10 @@ Item {
                                 if (!cfg)
                                     return;
                                 const parsed = optionsRow.parsedArgs;
-                                const args = {};
-                                if (cfg.config.args[0]?.type === "number")
-                                    args.index = text;
-                                else
-                                    args.value = text;
-                                if (parsed?.args?.focus === false)
-                                    args.focus = false;
+                                const args = Object.assign({}, parsed?.args || {});
+                                args[_argName] = text;
                                 root.updateEdit({
-                                    action: Actions.buildCompositorAction(parsed?.base || cfg.base, args)
+                                    "action": Actions.buildCompositorAction(KeybindsService.currentProvider, parsed?.base || cfg.base, args)
                                 });
                             }
                         }
@@ -1236,7 +1235,7 @@ Item {
                                     if (!newChecked)
                                         args.focus = false;
                                     root.updateEdit({
-                                        action: Actions.buildCompositorAction(cfg.base, args)
+                                        "action": Actions.buildCompositorAction(KeybindsService.currentProvider, cfg.base, args)
                                     });
                                 }
                             }
@@ -1257,14 +1256,14 @@ Item {
 
                                 DankToggle {
                                     id: showPointerToggle
-                                    checked: optionsRow.parsedArgs?.args?.["show-pointer"] === true
+                                    checked: optionsRow.parsedArgs?.args["show-pointer"] === true
                                     onToggled: newChecked => {
                                         const parsed = optionsRow.parsedArgs;
                                         const base = parsed?.base || "screenshot";
                                         const args = Object.assign({}, parsed?.args || {});
                                         args["show-pointer"] = newChecked;
                                         root.updateEdit({
-                                            action: Actions.buildCompositorAction(base, args)
+                                            "action": Actions.buildCompositorAction(KeybindsService.currentProvider, base, args)
                                         });
                                     }
                                 }
@@ -1282,14 +1281,14 @@ Item {
 
                                 DankToggle {
                                     id: writeToDiskToggle
-                                    checked: optionsRow.parsedArgs?.args?.["write-to-disk"] === true
+                                    checked: optionsRow.parsedArgs?.args["write-to-disk"] === true
                                     onToggled: newChecked => {
                                         const parsed = optionsRow.parsedArgs;
                                         const base = parsed?.base || "screenshot-screen";
                                         const args = Object.assign({}, parsed?.args || {});
                                         args["write-to-disk"] = newChecked;
                                         root.updateEdit({
-                                            action: Actions.buildCompositorAction(base, args)
+                                            "action": Actions.buildCompositorAction(KeybindsService.currentProvider, base, args)
                                         });
                                     }
                                 }
@@ -1327,7 +1326,7 @@ Item {
                             if (root._actionType !== "compositor")
                                 return;
                             root.updateEdit({
-                                action: text
+                                "action": text
                             });
                         }
                     }
@@ -1359,8 +1358,8 @@ Item {
                             onClicked: {
                                 root.useCustomCompositor = false;
                                 root.updateEdit({
-                                    action: "close-window",
-                                    desc: "Close Window"
+                                    "action": "close-window",
+                                    "desc": "Close Window"
                                 });
                             }
                         }
@@ -1393,7 +1392,7 @@ Item {
                             const parts = text.trim().split(" ").filter(p => p);
                             const action = parts.length > 0 ? "spawn " + parts.join(" ") : "spawn ";
                             root.updateEdit({
-                                action: action
+                                "action": action
                             });
                         }
                     }
@@ -1422,7 +1421,7 @@ Item {
                             if (root._actionType !== "shell")
                                 return;
                             root.updateEdit({
-                                action: Actions.buildShellAction(text)
+                                "action": Actions.buildShellAction(KeybindsService.currentProvider, text)
                             });
                         }
                     }
@@ -1447,7 +1446,7 @@ Item {
                         placeholderText: I18n.tr("Hotkey overlay title (optional)")
                         text: root.editDesc
                         onTextChanged: root.updateEdit({
-                            desc: text
+                            "desc": text
                         })
                     }
                 }
@@ -1455,6 +1454,7 @@ Item {
                 RowLayout {
                     Layout.fillWidth: true
                     spacing: Theme.spacingM
+                    visible: KeybindsService.currentProvider === "niri"
 
                     StyledText {
                         text: I18n.tr("Cooldown")
@@ -1487,7 +1487,7 @@ Item {
                             const val = parseInt(text) || 0;
                             if (val !== root.editCooldownMs)
                                 root.updateEdit({
-                                    cooldownMs: val
+                                    "cooldownMs": val
                                 });
                         }
                     }
