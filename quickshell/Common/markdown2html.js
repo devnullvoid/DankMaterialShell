@@ -42,8 +42,10 @@ function markdownToHtml(text) {
                 .replace(/>/g, '&gt;');
 
     // Headers
-    html = html.replace(/^### (.*?)$/gm, '<h3><font size="4">$1</font></h3>');
-    html = html.replace(/^## (.*?)$/gm, '<h2><font size="5">$1</font></h2>');
+    // Use <font size> to force sizing as QML CSS support for headers is flaky
+    // Use <br/> to enforce vertical spacing
+    html = html.replace(/^### (.*?)$/gm, '<br/><h3><font size="4">$1</font></h3>');
+    html = html.replace(/^## (.*?)$/gm, '<br/><h2><font size="5">$1</font></h2>');
     html = html.replace(/^# (.*?)$/gm, '<h1><font size="6">$1</font></h1>');
 
     // Bold and italic (order matters!)
@@ -147,16 +149,5 @@ function markdownToHtml(text) {
     // Remove leading/trailing whitespace
     html = html.trim();
 
-    // Add a style block to control spacing and margins in QML RichText
-    const style = "<style>" +
-        "h1 { margin-top: 0px; margin-bottom: 8px; }" +
-        "h2 { margin-top: 12px; margin-bottom: 4px; }" +
-        "h3 { margin-top: 8px; margin-bottom: 2px; }" +
-        "p { margin-top: 0px; margin-bottom: 8px; }" +
-        "ul, ol { margin-top: 0px; margin-bottom: 8px; }" +
-        "li { margin-bottom: 0px; }" +
-        "blockquote { margin-top: 4px; margin-bottom: 4px; }" +
-        "</style>";
-
-    return style + html;
+    return html;
 }
