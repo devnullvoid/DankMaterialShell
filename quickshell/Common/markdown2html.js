@@ -44,8 +44,8 @@ function markdownToHtml(text) {
     // Headers
     // Use <font size> to force sizing as QML CSS support for headers is flaky
     // Use <br/> to enforce vertical spacing
-    html = html.replace(/^### (.*?)$/gm, '<br/><h3><font size="4">$1</font></h3>');
-    html = html.replace(/^## (.*?)$/gm, '<br/><h2><font size="5">$1</font></h2>');
+    html = html.replace(/^### (.*?)$/gm, '<h3><font size="4">$1</font></h3>');
+    html = html.replace(/^## (.*?)$/gm, '<h2><font size="5">$1</font></h2>');
     html = html.replace(/^# (.*?)$/gm, '<h1><font size="6">$1</font></h1>');
 
     // Bold and italic (order matters!)
