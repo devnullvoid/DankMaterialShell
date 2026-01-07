@@ -82,7 +82,8 @@ function markdownToHtml(text) {
     });
 
     // Blockquotes
-    html = html.replace(/^> (.*?)$/gm, '<bq_line>$1</bq_line>');
+    // Note: '>' is already escaped to '&gt;'
+    html = html.replace(/^&gt; (.*?)$/gm, '<bq_line>$1</bq_line>');
     html = html.replace(/(<bq_line>[\s\S]*?<\/bq_line>\s*)+/g, function(match) {
         // Merge content, replacing closing/opening tags with BR
         // <bq_line>A</bq_line>\n<bq_line>B</bq_line> -> A<br/>B
@@ -90,7 +91,8 @@ function markdownToHtml(text) {
                            .replace(/<bq_line>/g, '')
                            .replace(/<\/bq_line>/g, '')
                            .trim();
-        const block = `<blockquote>${inner}</blockquote>`;
+        // Use blockquote tag (supported by QML for indentation) and add styling
+        const block = `<blockquote><font color="#a0a0a0"><i>${inner}</i></font></blockquote>`;
         protectedBlocks.push(block);
         return `\x00PROTECTEDBLOCK${protectedIndex++}\x00`;
     });
