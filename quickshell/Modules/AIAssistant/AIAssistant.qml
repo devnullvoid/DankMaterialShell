@@ -230,6 +230,7 @@ Item {
                     anchors.fill: parent
                     anchors.margins: Theme.spacingM
                     clip: true
+                    padding: 0
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                     TextArea {
@@ -238,8 +239,15 @@ Item {
                         wrapMode: TextArea.Wrap
                         background: Rectangle { color: "transparent" }
                         font.pixelSize: Theme.fontSizeMedium
+                        font.family: Theme.fontFamily
+                        font.weight: Theme.fontWeight
                         color: Theme.surfaceText
                         Material.accent: Theme.primary
+                        padding: 0
+                        leftPadding: 0
+                        rightPadding: 0
+                        topPadding: 0
+                        bottomPadding: 0
 
                         Keys.onReleased: event => {
                             if (event.key === Qt.Key_Escape) {
