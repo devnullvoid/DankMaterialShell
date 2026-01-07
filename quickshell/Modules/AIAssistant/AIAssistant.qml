@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Layouts
 import Quickshell
 import qs.Common
@@ -227,18 +228,18 @@ Item {
                 ScrollView {
                     id: scrollView
                     anchors.fill: parent
-                    anchors.margins: Theme.spacingS
+                    anchors.margins: Theme.spacingM
                     clip: true
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
                     TextArea {
                         id: composer
                         implicitWidth: scrollView.availableWidth
-                        placeholderText: I18n.tr("Ask anything…")
                         wrapMode: TextArea.Wrap
                         background: Rectangle { color: "transparent" }
                         font.pixelSize: Theme.fontSizeMedium
                         color: Theme.surfaceText
+                        Material.accent: Theme.primary
 
                         Keys.onReleased: event => {
                             if (event.key === Qt.Key_Escape) {
@@ -255,11 +256,11 @@ Item {
                 StyledText {
                     anchors.fill: parent
                     anchors.margins: Theme.spacingM
-                    text: composer.placeholderText
+                    text: I18n.tr("Ask anything…")
                     font.pixelSize: Theme.fontSizeMedium
                     color: Theme.outlineButton
                     verticalAlignment: Text.AlignTop
-                    visible: composer.text.length === 0 && !composer.activeFocus
+                    visible: composer.text.length === 0
                     wrapMode: Text.Wrap
                 }
             }
