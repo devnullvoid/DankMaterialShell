@@ -12,6 +12,7 @@ Item {
     id: themeColorsTab
 
     property var cachedIconThemes: SettingsData.availableIconThemes
+    property var cachedCursorThemes: SettingsData.availableCursorThemes
     property var cachedMatugenSchemes: Theme.availableMatugenSchemes.map(option => option.label)
     property var installedRegistryThemes: []
     property var templateDetection: ({})
@@ -38,6 +39,7 @@ Item {
 
     Component.onCompleted: {
         SettingsData.detectAvailableIconThemes();
+        SettingsData.detectAvailableCursorThemes();
         if (DMSService.dmsAvailable)
             DMSService.listInstalledThemes();
         if (PopoutService.pendingThemeInstall)
@@ -1633,6 +1635,86 @@ Item {
                         SettingsData.setIconTheme(value);
                         if (Quickshell.env("QT_QPA_PLATFORMTHEME") != "gtk3" && Quickshell.env("QT_QPA_PLATFORMTHEME") != "qt6ct" && Quickshell.env("QT_QPA_PLATFORMTHEME_QT6") != "qt6ct") {
                             ToastService.showError("Missing Environment Variables", "You need to set either:\nQT_QPA_PLATFORMTHEME=gtk3 OR\nQT_QPA_PLATFORMTHEME=qt6ct\nas environment variables, and then restart the shell.\n\nqt6ct requires qt6ct-kde to be installed.");
+                        }
+                    }
+                }
+            }
+
+            SettingsCard {
+                tab: "theme"
+                tags: ["cursor", "mouse", "pointer", "theme", "size"]
+                title: I18n.tr("Cursor Theme")
+                settingKey: "cursorTheme"
+                iconName: "mouse"
+                visible: CompositorService.isNiri
+
+                Column {
+                    width: parent.width
+                    spacing: Theme.spacingM
+
+                    SettingsDropdownRow {
+                        tab: "theme"
+                        tags: ["cursor", "mouse", "pointer", "theme"]
+                        settingKey: "cursorTheme"
+                        text: I18n.tr("Cursor Theme")
+                        description: I18n.tr("Mouse pointer appearance")
+                        currentValue: SettingsData.cursorSettings.theme
+                        enableFuzzySearch: true
+                        popupWidthOffset: 100
+                        maxPopupHeight: 236
+                        options: cachedCursorThemes
+                        onValueChanged: value => {
+                            SettingsData.setCursorTheme(value);
+                        }
+                    }
+
+                    SettingsSliderRow {
+                        tab: "theme"
+                        tags: ["cursor", "mouse", "pointer", "size"]
+                        settingKey: "cursorSize"
+                        text: I18n.tr("Cursor Size")
+                        description: I18n.tr("Mouse pointer size in pixels")
+                        value: SettingsData.cursorSettings.size
+                        minimum: 16
+                        maximum: 48
+                        unit: "px"
+                        defaultValue: 24
+                        onSliderValueChanged: newValue => SettingsData.setCursorSize(newValue)
+                    }
+
+                    SettingsToggleRow {
+                        tab: "theme"
+                        tags: ["cursor", "hide", "typing"]
+                        settingKey: "cursorHideWhenTyping"
+                        text: I18n.tr("Hide When Typing")
+                        description: I18n.tr("Hide cursor when pressing keyboard keys")
+                        checked: SettingsData.cursorSettings.niri?.hideWhenTyping || false
+                        onToggled: checked => {
+                            const updated = JSON.parse(JSON.stringify(SettingsData.cursorSettings));
+                            if (!updated.niri)
+                                updated.niri = {};
+                            updated.niri.hideWhenTyping = checked;
+                            SettingsData.set("cursorSettings", updated);
+                        }
+                    }
+
+                    SettingsSliderRow {
+                        tab: "theme"
+                        tags: ["cursor", "hide", "timeout", "inactive"]
+                        settingKey: "cursorHideAfterInactive"
+                        text: I18n.tr("Auto-Hide Timeout")
+                        description: I18n.tr("Hide cursor after inactivity (0 = disabled)")
+                        value: SettingsData.cursorSettings.niri?.hideAfterInactiveMs || 0
+                        minimum: 0
+                        maximum: 5000
+                        unit: "ms"
+                        defaultValue: 0
+                        onSliderValueChanged: newValue => {
+                            const updated = JSON.parse(JSON.stringify(SettingsData.cursorSettings));
+                            if (!updated.niri)
+                                updated.niri = {};
+                            updated.niri.hideAfterInactiveMs = newValue;
+                            SettingsData.set("cursorSettings", updated);
                         }
                     }
                 }

@@ -246,6 +246,17 @@ Singleton {
     property bool qt6ctAvailable: false
     property bool gtkAvailable: false
 
+    property var cursorSettings: ({
+            "theme": "System Default",
+            "size": 24,
+            "niri": {
+                "hideWhenTyping": false,
+                "hideAfterInactiveMs": 0
+            }
+        })
+    property var availableCursorThemes: ["System Default"]
+    property string systemDefaultCursorTheme: ""
+
     property string launcherLogoMode: "apps"
     property string launcherLogoCustomPath: ""
     property string launcherLogoColorOverride: ""
@@ -852,6 +863,7 @@ Singleton {
             _hasLoaded = true;
             applyStoredTheme();
             applyStoredIconTheme();
+            updateCompositorCursor();
             Processes.detectQtTools();
 
             _checkSettingsWritable();
@@ -979,6 +991,46 @@ Singleton {
                 }
             }
             availableIconThemes = themes;
+        });
+    }
+
+    function detectAvailableCursorThemes() {
+        const xdgDataDirs = Quickshell.env("XDG_DATA_DIRS") || "";
+        const localData = Paths.strip(StandardPaths.writableLocation(StandardPaths.GenericDataLocation));
+        const homeDir = Paths.strip(StandardPaths.writableLocation(StandardPaths.HomeLocation));
+
+        const dataDirs = xdgDataDirs.trim() !== "" ? xdgDataDirs.split(":").concat([localData]) : ["/usr/share", "/usr/local/share", localData];
+
+        const cursorPaths = dataDirs.map(d => d + "/icons").concat([homeDir + "/.icons", homeDir + "/.local/share/icons"]);
+        const pathsArg = cursorPaths.join(" ");
+
+        const script = `
+            echo "SYSDEFAULT:$(gsettings get org.gnome.desktop.interface cursor-theme 2>/dev/null | sed "s/'//g" || echo '')"
+            for dir in ${pathsArg}; do
+                [ -d "$dir" ] || continue
+                for theme in "$dir"/*/; do
+                    [ -d "$theme" ] || continue
+                    [ -d "$theme/cursors" ] || continue
+                    basename "$theme"
+                done
+            done | grep -v '^icons$' | grep -v '^default$' | sort -u
+        `;
+
+        Proc.runCommand("detectCursorThemes", ["sh", "-c", script], (output, exitCode) => {
+            const themes = ["System Default"];
+            if (output && output.trim()) {
+                const lines = output.trim().split('\n');
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (line.startsWith("SYSDEFAULT:")) {
+                        systemDefaultCursorTheme = line.substring(11).trim();
+                        continue;
+                    }
+                    if (line)
+                        themes.push(line);
+                }
+            }
+            availableCursorThemes = themes;
         });
     }
 
@@ -1510,6 +1562,38 @@ Singleton {
             Theme.generateSystemThemesFromCurrentTheme();
     }
 
+    function setCursorTheme(themeName) {
+        const updated = JSON.parse(JSON.stringify(cursorSettings));
+        updated.theme = themeName;
+        cursorSettings = updated;
+        saveSettings();
+        updateCompositorCursor();
+    }
+
+    function setCursorSize(size) {
+        const updated = JSON.parse(JSON.stringify(cursorSettings));
+        updated.size = size;
+        cursorSettings = updated;
+        saveSettings();
+        updateCompositorCursor();
+    }
+
+    function updateCompositorCursor() {
+        if (typeof CompositorService === "undefined")
+            return;
+        if (CompositorService.isNiri && typeof NiriService !== "undefined")
+            NiriService.generateNiriCursorConfig();
+    }
+
+    function getCursorEnvPrefix() {
+        const themeName = cursorSettings.theme === "System Default" ? (systemDefaultCursorTheme || "") : cursorSettings.theme;
+        const size = cursorSettings.size || 24;
+
+        if (!themeName)
+            return `env XCURSOR_SIZE=${size}`;
+        return `env XCURSOR_THEME="${themeName}" XCURSOR_SIZE=${size}`;
+    }
+
     function setGtkThemingEnabled(enabled) {
         set("gtkThemingEnabled", enabled);
         if (enabled && typeof Theme !== "undefined") {
@@ -1914,6 +1998,7 @@ Singleton {
                 _hasLoaded = true;
                 applyStoredTheme();
                 applyStoredIconTheme();
+                updateCompositorCursor();
             } catch (e) {
                 _parseError = true;
                 const msg = e.message;

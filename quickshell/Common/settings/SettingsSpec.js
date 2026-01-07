@@ -134,6 +134,10 @@ var SPEC = {
     qt6ctAvailable: { def: false, persist: false },
     gtkAvailable: { def: false, persist: false },
 
+    cursorSettings: { def: { theme: "System Default", size: 24, niri: { hideWhenTyping: false, hideAfterInactiveMs: 0 } }, onChange: "updateCompositorCursor" },
+    availableCursorThemes: { def: ["System Default"], persist: false },
+    systemDefaultCursorTheme: { def: "", persist: false },
+
     launcherLogoMode: { def: "apps" },
     launcherLogoCustomPath: { def: "" },
     launcherLogoColorOverride: { def: "" },

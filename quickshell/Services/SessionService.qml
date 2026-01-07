@@ -190,7 +190,13 @@ Singleton {
 
         const userPrefix = SettingsData.launchPrefix?.trim() || "";
         const defaultPrefix = Quickshell.env("DMS_DEFAULT_LAUNCH_PREFIX") || "";
-        const prefix = userPrefix.length > 0 ? userPrefix : defaultPrefix;
+        const cursorPrefix = typeof SettingsData.getCursorEnvPrefix !== "undefined" ? SettingsData.getCursorEnvPrefix() : "";
+
+        let prefix = userPrefix.length > 0 ? userPrefix : defaultPrefix;
+        if (cursorPrefix) {
+            prefix = prefix.length > 0 ? `${cursorPrefix} ${prefix}` : cursorPrefix;
+        }
+
         const workDir = desktopEntry.workingDirectory || Quickshell.env("HOME");
         const escapedCmd = cmd.map(arg => escapeShellArg(arg)).join(" ");
         const shellCmd = prefix.length > 0 ? `${prefix} ${escapedCmd}` : escapedCmd;
@@ -230,7 +236,12 @@ Singleton {
 
         const userPrefix = SettingsData.launchPrefix?.trim() || "";
         const defaultPrefix = Quickshell.env("DMS_DEFAULT_LAUNCH_PREFIX") || "";
-        const prefix = userPrefix.length > 0 ? userPrefix : defaultPrefix;
+        const cursorPrefix = typeof SettingsData.getCursorEnvPrefix !== "undefined" ? SettingsData.getCursorEnvPrefix() : "";
+
+        let prefix = userPrefix.length > 0 ? userPrefix : defaultPrefix;
+        if (cursorPrefix) {
+            prefix = prefix.length > 0 ? `${cursorPrefix} ${prefix}` : cursorPrefix;
+        }
 
         if (prefix.length > 0 && needsShellExecution(prefix)) {
             const escapedCmd = cmd.map(arg => escapeShellArg(arg)).join(" ");
