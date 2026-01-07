@@ -13,9 +13,11 @@ function markdownToHtml(text) {
     let protectedIndex = 0;
 
     // First, extract and replace code blocks with placeholders
-    let html = text.replace(/```([\s\S]*?)```/g, (match, code) => {
+    // Regex matches ```[language]\n[content]```
+    // We ignore the language identifier for now.
+    let html = text.replace(/```(?:([^\n]*)\n)?([\s\S]*?)```/g, (match, lang, code) => {
         // Trim leading and trailing blank lines only
-        const trimmedCode = code.replace(/^\n+|\n+$/g, '');
+        const trimmedCode = (code || "").replace(/^\n+|\n+$/g, '');
         // Escape HTML entities in code
         const escapedCode = trimmedCode.replace(/&/g, '&amp;')
                                        .replace(/</g, '&lt;')
@@ -44,9 +46,16 @@ function markdownToHtml(text) {
     // Headers
     // Use <font size> to force sizing as QML CSS support for headers is flaky
     // Use <br/> to enforce vertical spacing
+    html = html.replace(/^###### (.*?)$/gm, '<h6>$1</h6>');
+    html = html.replace(/^##### (.*?)$/gm, '<h5>$1</h5>');
+    html = html.replace(/^#### (.*?)$/gm, '<h4>$1</h4>');
     html = html.replace(/^### (.*?)$/gm, '<h3><font size="4">$1</font></h3>');
     html = html.replace(/^## (.*?)$/gm, '<h2><font size="5">$1</font></h2>');
     html = html.replace(/^# (.*?)$/gm, '<h1><font size="6">$1</font></h1>');
+
+    // Horizontal Rule (3 or more dashes/stars/underscores on a line)
+    // Must be before bold/italic/lists to prevent interference
+    html = html.replace(/^(\*{3,}|-{3,}|_{3,})$/gm, '<hr>');
 
     // Bold and italic (order matters!)
     html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<b><i>$1</i></b>');
