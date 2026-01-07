@@ -47,7 +47,7 @@ function markdownToHtml(text) {
     // Use <font size> to force sizing as QML CSS support for headers is flaky
     // Use <br/> to enforce vertical spacing
     html = html.replace(/^###### (.*?)$/gm, '<h6><font size="2">$1</font></h6><br/>');
-    html = html.replace(/^##### (.*?)$/gm, '<h5><font size="3">$1</font></h5><br/>');
+    html = html.replace(/^##### (.*?)$/gm, '<h5><i><font size="3">$1</font></i></h5><br/>');
     html = html.replace(/^#### (.*?)$/gm, '<h4><font size="3">$1</font></h4><br/>');
     html = html.replace(/^### (.*?)$/gm, '<h3><font size="4">$1</font></h3>');
     html = html.replace(/^## (.*?)$/gm, '<h2><font size="5">$1</font></h2>');
@@ -55,7 +55,7 @@ function markdownToHtml(text) {
 
     // Horizontal Rule (3 or more dashes/stars/underscores on a line)
     // Must be before bold/italic/lists to prevent interference
-    html = html.replace(/^(\*{3,}|-{3,}|_{3,})$/gm, '<hr>');
+    html = html.replace(/^(\*{3,}|-{3,}|_{3,})$/gm, '<br/><hr/><br/>');
 
     // Bold and italic (order matters!)
     html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<b><i>$1</i></b>');
