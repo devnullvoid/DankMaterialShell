@@ -147,5 +147,16 @@ function markdownToHtml(text) {
     // Remove leading/trailing whitespace
     html = html.trim();
 
-    return html;
+    // Add a style block to control spacing and margins in QML RichText
+    const style = "<style>" +
+        "h1 { margin-top: 0px; margin-bottom: 8px; }" +
+        "h2 { margin-top: 12px; margin-bottom: 4px; }" +
+        "h3 { margin-top: 8px; margin-bottom: 2px; }" +
+        "p { margin-top: 0px; margin-bottom: 8px; }" +
+        "ul, ol { margin-top: 0px; margin-bottom: 8px; }" +
+        "li { margin-bottom: 0px; }" +
+        "blockquote { margin-top: 4px; margin-bottom: 4px; }" +
+        "</style>";
+
+    return style + html;
 }

@@ -49,7 +49,7 @@ Item {
             x: Theme.spacingM
             y: Theme.spacingM
             width: parent.width - Theme.spacingM * 2
-            spacing: Theme.spacingM
+            spacing: Theme.spacingS
 
             RowLayout {
                 id: headerRow
@@ -108,6 +108,11 @@ Item {
                 }
             }
 
+            Item {
+                width: 1
+                height: Theme.spacingS
+            }
+
             StyledText {
                 visible: root.status === "error"
                 text: I18n.tr("Error")
@@ -131,6 +136,8 @@ Item {
                 selectionColor: Theme.primary
                 selectedTextColor: Theme.onPrimary
                 background: null
+                leftPadding: 4
+                rightPadding: 4
                 
                 // Link handling (Note: linkColor is not supported on TextArea/TextEdit directly in some Qt versions, 
                 // but default anchor styling should work. For better styling we might need CSS)
