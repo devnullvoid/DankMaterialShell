@@ -42,9 +42,9 @@ function markdownToHtml(text) {
                 .replace(/>/g, '&gt;');
 
     // Headers
-    html = html.replace(/^### (.*?)$/gm, '<h3>$1</h3>');
-    html = html.replace(/^## (.*?)$/gm, '<h2>$1</h2>');
-    html = html.replace(/^# (.*?)$/gm, '<h1>$1</h1>');
+    html = html.replace(/^### (.*?)$/gm, '<h3><font size="4">$1</font></h3>');
+    html = html.replace(/^## (.*?)$/gm, '<h2><font size="5">$1</font></h2>');
+    html = html.replace(/^# (.*?)$/gm, '<h1><font size="6">$1</font></h1>');
 
     // Bold and italic (order matters!)
     html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<b><i>$1</i></b>');
