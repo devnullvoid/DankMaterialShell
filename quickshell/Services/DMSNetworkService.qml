@@ -413,7 +413,7 @@ Singleton {
         scanWifi();
     }
 
-    function connectToWifi(ssid, password = "", username = "", anonymousIdentity = "", domainSuffixMatch = "") {
+    function connectToWifi(ssid, password = "", username = "", anonymousIdentity = "", domainSuffixMatch = "", hidden = false) {
         if (!networkAvailable || isConnecting)
             return;
         pendingConnectionSSID = ssid;
@@ -427,6 +427,8 @@ Singleton {
         };
         if (effectiveWifiDevice)
             params.device = effectiveWifiDevice;
+        if (hidden)
+            params.hidden = true;
 
         if (DMSService.apiVersion >= 7) {
             if (password || username) {
@@ -611,8 +613,8 @@ Singleton {
         }
     }
 
-    function connectToWifiAndSetPreference(ssid, password, username = "", anonymousIdentity = "", domainSuffixMatch = "") {
-        connectToWifi(ssid, password, username, anonymousIdentity, domainSuffixMatch);
+    function connectToWifiAndSetPreference(ssid, password, username = "", anonymousIdentity = "", domainSuffixMatch = "", hidden = false) {
+        connectToWifi(ssid, password, username, anonymousIdentity, domainSuffixMatch, hidden);
         setNetworkPreference("wifi");
     }
 
