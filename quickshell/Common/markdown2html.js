@@ -55,7 +55,7 @@ function markdownToHtml(text) {
 
     // Horizontal Rule (3 or more dashes/stars/underscores on a line)
     // Must be before bold/italic/lists to prevent interference
-    html = html.replace(/^(\*{3,}|-{3,}|_{3,})$/gm, '<br/><hr/><br/>');
+    html = html.replace(/^(\*{3,}|-{3,}|_{3,})$/gm, '<hr/>');
 
     // Bold and italic (order matters!)
     html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<b><i>$1</i></b>');
