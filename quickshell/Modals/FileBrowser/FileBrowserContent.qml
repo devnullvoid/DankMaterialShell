@@ -52,6 +52,12 @@ FocusScope {
     signal fileSelected(string path)
     signal closeRequested
 
+    function encodeFileUrl(path) {
+        if (!path)
+            return "";
+        return "file://" + path.split('/').map(s => encodeURIComponent(s)).join('/');
+    }
+
     function initialize() {
         loadSettings();
         currentPath = getLastPath();
@@ -188,7 +194,7 @@ FocusScope {
     function handleSaveFile(filePath) {
         var normalizedPath = filePath;
         if (!normalizedPath.startsWith("file://")) {
-            normalizedPath = "file://" + filePath;
+            normalizedPath = encodeFileUrl(filePath);
         }
 
         var exists = false;
@@ -274,7 +280,7 @@ FocusScope {
         nameFilters: fileExtensions
         showFiles: true
         showDirs: true
-        folder: currentPath ? "file://" + currentPath : "file://" + homeDir
+        folder: encodeFileUrl(currentPath || homeDir)
         sortField: {
             switch (sortBy) {
             case "name":

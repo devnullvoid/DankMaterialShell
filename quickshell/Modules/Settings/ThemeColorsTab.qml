@@ -389,7 +389,7 @@ Item {
                                 CachingImage {
                                     anchors.fill: parent
                                     anchors.margins: 1
-                                    source: Theme.wallpaperPath ? "file://" + Theme.wallpaperPath : ""
+                                    imagePath: (Theme.wallpaperPath && !Theme.wallpaperPath.startsWith("#")) ? Theme.wallpaperPath : ""
                                     fillMode: Image.PreserveAspectCrop
                                     visible: Theme.wallpaperPath && !Theme.wallpaperPath.startsWith("#")
                                     layer.enabled: true
