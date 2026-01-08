@@ -168,7 +168,7 @@ Column {
                 iconName: "search"
                 title: "Settings Search"
                 description: "Find settings fast"
-                onClicked: PopoutService.openSettingsWithTab("general")
+                onClicked: PopoutService.openSettings()
             }
         }
     }

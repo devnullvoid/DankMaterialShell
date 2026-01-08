@@ -1587,6 +1587,9 @@ Singleton {
         updateCompositorCursor();
     }
 
+    // This solution for xwayland cursor themes is from the xwls discussion:
+    // https://github.com/Supreeeme/xwayland-satellite/issues/104
+    // no idea if this matters on other compositors but we also set XCURSOR stuff in the launcher
     function updateCompositorCursor() {
         updateXResources();
         if (typeof CompositorService === "undefined")
