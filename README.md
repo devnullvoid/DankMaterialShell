@@ -47,7 +47,7 @@ DankMaterialShell/
 
 <div align="center">
 
-https://player.mediadelivery.net/embed/526968/71d12652-a792-4a3a-b0c2-5c5db461cc86
+<div style="position:relative;padding-top:56.25%;"><iframe src="https://player.mediadelivery.net/embed/526968/71d12652-a792-4a3a-b0c2-5c5db461cc86?autoplay=false&loop=true&muted=false&preload=true&responsive=true" loading="lazy" style="border:0;position:absolute;top:0;height:100%;width:100%;" allow="accelerometer;gyroscope;autoplay;encrypted-media;picture-in-picture;" allowfullscreen="true"></iframe></div>
 
 </div>
 
