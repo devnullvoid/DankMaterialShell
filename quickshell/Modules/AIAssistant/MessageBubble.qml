@@ -137,7 +137,7 @@ Item {
                 font.family: SettingsData.aiAssistantUseMonospace ? SettingsData.monoFontFamily : SettingsData.fontFamily
                 color: status === "error" ? Theme.error : Theme.surfaceText
                 width: parent.width
-                
+
                 readOnly: true
                 selectByMouse: true
                 selectionColor: Theme.primary
@@ -145,13 +145,13 @@ Item {
                 background: null
                 leftPadding: 4
                 rightPadding: 4
-                
-                // Link handling (Note: linkColor is not supported on TextArea/TextEdit directly in some Qt versions, 
+
+                // Link handling (Note: linkColor is not supported on TextArea/TextEdit directly in some Qt versions,
                 // but default anchor styling should work. For better styling we might need CSS)
                 onLinkActivated: link => {
                     Qt.openUrlExternally(link);
                 }
-                
+
                 hoverEnabled: true
                 // Cursor changes are handled by TextEdit automatically (I-beam vs Pointing Hand)
             }
