@@ -1055,7 +1055,7 @@ Item {
             SettingsCard {
                 tab: "theme"
                 tags: ["niri", "layout", "gaps", "radius", "window", "border"]
-                title: I18n.tr("Niri Layout Overrides")
+                title: I18n.tr("Niri Layout Overrides").replace("Niri", "niri")
                 settingKey: "niriLayout"
                 iconName: "crop_square"
                 visible: CompositorService.isNiri

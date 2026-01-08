@@ -12,6 +12,9 @@ import "../Common/KeybindActions.js" as Actions
 Item {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property var bindData: ({})
     property bool isExpanded: false
     property var panelWindow: null
@@ -325,6 +328,7 @@ Item {
                         color: Theme.surfaceText
                         elide: Text.ElideRight
                         Layout.fillWidth: true
+                        horizontalAlignment: Text.AlignLeft
                     }
 
                     RowLayout {
@@ -453,6 +457,7 @@ Item {
                                 font.weight: Font.Medium
                                 color: Theme.primary
                                 Layout.fillWidth: true
+                                horizontalAlignment: Text.AlignLeft
                             }
                         }
 
@@ -771,6 +776,7 @@ Item {
                         color: Theme.primary
                         Layout.fillWidth: true
                         elide: Text.ElideRight
+                        horizontalAlignment: Text.AlignLeft
                     }
                 }
 

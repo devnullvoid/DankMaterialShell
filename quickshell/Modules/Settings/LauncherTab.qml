@@ -356,7 +356,7 @@ Item {
             SettingsCard {
                 width: parent.width
                 iconName: "open_in_new"
-                title: I18n.tr("Niri Integration")
+                title: I18n.tr("Niri Integration").replace("Niri", "niri")
                 visible: CompositorService.isNiri
 
                 SettingsToggleRow {

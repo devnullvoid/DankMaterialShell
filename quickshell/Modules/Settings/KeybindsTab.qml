@@ -9,6 +9,9 @@ import qs.Widgets
 Item {
     id: keybindsTab
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property var parentModal: null
     property string selectedCategory: ""
     property string searchQuery: ""
@@ -210,6 +213,8 @@ Item {
                                 font.pixelSize: Theme.fontSizeLarge
                                 font.weight: Font.Medium
                                 color: Theme.surfaceText
+                                width: parent.width
+                                horizontalAlignment: Text.AlignLeft
                             }
 
                             StyledText {
@@ -219,6 +224,7 @@ Item {
                                 color: Theme.surfaceVariantText
                                 wrapMode: Text.WordWrap
                                 width: parent.width
+                                horizontalAlignment: Text.AlignLeft
                             }
                         }
                     }
@@ -327,6 +333,7 @@ Item {
                                 color: Theme.surfaceVariantText
                                 wrapMode: Text.WordWrap
                                 width: parent.width
+                                horizontalAlignment: Text.AlignLeft
                             }
                         }
 

@@ -199,6 +199,7 @@ SettingsCard {
                     color: Theme.surfaceText
                     anchors.verticalCenter: parent.verticalCenter
                     width: 80
+                    horizontalAlignment: Text.AlignLeft
                 }
 
                 DankTextField {
@@ -280,6 +281,8 @@ SettingsCard {
                     text: I18n.tr("Command")
                     font.pixelSize: Theme.fontSizeMedium
                     color: Theme.surfaceText
+                    width: parent.width
+                    horizontalAlignment: Text.AlignLeft
                 }
 
                 Rectangle {
