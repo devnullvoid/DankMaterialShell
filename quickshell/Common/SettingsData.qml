@@ -318,9 +318,9 @@ Singleton {
     property int batteryChargeLimit: 100
     property bool lockBeforeSuspend: false
     property bool loginctlLockIntegration: true
-    property bool fadeToLockEnabled: false
+    property bool fadeToLockEnabled: true
     property int fadeToLockGracePeriod: 5
-    property bool fadeToDpmsEnabled: false
+    property bool fadeToDpmsEnabled: true
     property int fadeToDpmsGracePeriod: 5
     property string launchPrefix: ""
     property var brightnessDevicePins: ({})
