@@ -20,6 +20,12 @@
   "%1 display(s)": {
     "%1 display(s)": "%1 kijelző"
   },
+  "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": {
+    "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": ""
+  },
+  "%1 is now included in config": {
+    "%1 is now included in config": ""
+  },
   "%1 job(s)": {
     "%1 job(s)": "%1 feladat(ok)"
   },
@@ -701,6 +707,9 @@
   "Clear at Startup": {
     "Clear at Startup": "Törlés indításkor"
   },
+  "Click 'Setup' to create %1 and add include to config.": {
+    "Click 'Setup' to create %1 and add include to config.": ""
+  },
   "Click 'Setup' to create cursor config and add include to your compositor config.": {
     "Click 'Setup' to create cursor config and add include to your compositor config.": ""
   },
@@ -712,6 +721,9 @@
   },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "Kattints az importálás gombra .ovpn vagy .conf fájl hozzáadásához"
+  },
+  "Click any shortcut to edit. Changes save to %1": {
+    "Click any shortcut to edit. Changes save to %1": ""
   },
   "Click any shortcut to edit. Changes save to dms/binds.kdl": {
     "Click any shortcut to edit. Changes save to dms/binds.kdl": "Kattints bármelyik gyorsbillentyűre a szerkesztéshez. A változtatások a dms/binds.kdl fájlba mentődnek"
@@ -847,6 +859,9 @@
   },
   "Connect": {
     "Connect": "Csatlakozás"
+  },
+  "Connect to Hidden Network": {
+    "Connect to Hidden Network": ""
   },
   "Connect to VPN": {
     "Connect to VPN": "Csatlakozás VPN-hez"
@@ -1403,6 +1418,9 @@
   "Enter launch prefix (e.g., 'uwsm-app')": {
     "Enter launch prefix (e.g., 'uwsm-app')": "Írd be az indítási előtagot (pl. „uwsm-app”)"
   },
+  "Enter network name and password": {
+    "Enter network name and password": ""
+  },
   "Enter passkey for ": {
     "Enter passkey for ": "Jelszó megadása ehhez: "
   },
@@ -1634,6 +1652,9 @@
   "Fixing...": {
     "Fixing...": "Javítás..."
   },
+  "Flags": {
+    "Flags": ""
+  },
   "Flipped": {
     "Flipped": "Tükrözött"
   },
@@ -1795,6 +1816,12 @@
   },
   "Hibernate": {
     "Hibernate": "Hibernálás"
+  },
+  "Hidden": {
+    "Hidden": ""
+  },
+  "Hidden Network": {
+    "Hidden Network": ""
   },
   "Hide Delay": {
     "Hide Delay": "Elrejtési késleltetés"
@@ -2111,6 +2138,9 @@
   "Lock fade grace period": {
     "Lock fade grace period": ""
   },
+  "Locked": {
+    "Locked": ""
+  },
   "Log Out": {
     "Log Out": "Kijelentkezés"
   },
@@ -2119,6 +2149,9 @@
   },
   "Long Text": {
     "Long Text": "Hosszú szöveg"
+  },
+  "Long press": {
+    "Long press": ""
   },
   "Longitude": {
     "Longitude": "Hosszúság"
@@ -2344,6 +2377,9 @@
   },
   "Network Information": {
     "Network Information": "Hálózati információ"
+  },
+  "Network Name (SSID)": {
+    "Network Name (SSID)": ""
   },
   "Network Speed Monitor": {
     "Network Speed Monitor": "Hálózati sebességfigyelő"
@@ -2921,6 +2957,9 @@
   "Reject Jobs": {
     "Reject Jobs": "Feladatok elutasítása"
   },
+  "Release": {
+    "Release": ""
+  },
   "Reload Plugin": {
     "Reload Plugin": "Bővítmény újratöltése"
   },
@@ -2929,6 +2968,9 @@
   },
   "Remove gaps and border when windows are maximized": {
     "Remove gaps and border when windows are maximized": "Rések és szegély eltávolítása az ablakok maximalizálásakor"
+  },
+  "Repeat": {
+    "Repeat": ""
   },
   "Report": {
     "Report": "Jelentés"
@@ -4300,7 +4342,8 @@
     "Modular widget bar": "",
     "Night mode & gamma": "",
     "Per-screen config": "",
-    "Quick system toggles": ""
+    "Quick system toggles": "",
+    "Security & privacy": ""
   },
   "greeter feature card title": {
     "App Theming": "",
@@ -4316,6 +4359,9 @@
   },
   "greeter feature card title | greeter settings link": {
     "DankBar": ""
+  },
+  "greeter feature card title | lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "greeter finish button": {
     "Finish": ""
@@ -4559,6 +4605,9 @@
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "dms frissítése a NM integrációhoz."
+  },
+  "version requirement": {
+    "Requires %1": ""
   },
   "wallpaper directory file browser title": {
     "Select Wallpaper Directory": "Háttérkép könyvtár kiválasztása"

@@ -20,6 +20,12 @@
   "%1 display(s)": {
     "%1 display(s)": "%1 schermo(i)"
   },
+  "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": {
+    "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": ""
+  },
+  "%1 is now included in config": {
+    "%1 is now included in config": ""
+  },
   "%1 job(s)": {
     "%1 job(s)": "%1 stampa/e"
   },
@@ -144,7 +150,7 @@
     "Accept Jobs": "Accetta Stampe"
   },
   "Accepting": {
-    "Accepting": "Accettazione"
+    "Accepting": "In Accettazione"
   },
   "Access clipboard history": {
     "Access clipboard history": "Accesso alla cronologia degli appunti"
@@ -165,7 +171,7 @@
     "Activate": "Attiva"
   },
   "Activation": {
-    "Activation": ""
+    "Activation": "Attivazione"
   },
   "Active": {
     "Active": "Attivo"
@@ -237,7 +243,7 @@
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/Backspace: Indietro • F1/I: File Info • F10: Aiuto • Esc: Chiudi"
   },
   "Always Active": {
-    "Always Active": ""
+    "Always Active": "Sempre Attivo"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "Mostra sempre percentuale"
@@ -336,7 +342,7 @@
     "Auth Type": "Tipo di Autenticazione"
   },
   "Authenticate": {
-    "Authenticate": "Autenticare"
+    "Authenticate": "Autenticati"
   },
   "Authentication": {
     "Authentication": "Autenticazione"
@@ -372,7 +378,7 @@
     "Auto-Clear After": "Cancellazione Automatica Dopo"
   },
   "Auto-Hide Timeout": {
-    "Auto-Hide Timeout": ""
+    "Auto-Hide Timeout": "Tempo Auto-Nascondi"
   },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": "Chiudi automaticamente la panoramica di Niri all'avvio delle app."
@@ -381,7 +387,7 @@
     "Auto-hide": "Nascondi automaticamente"
   },
   "Auto-hide Dock": {
-    "Auto-hide Dock": "Nascondi Automaticamente Dock"
+    "Auto-hide Dock": "Nascondi Automaticamente la Dock"
   },
   "Auto-saving...": {
     "Auto-saving...": "Salvataggio automatico..."
@@ -701,8 +707,11 @@
   "Clear at Startup": {
     "Clear at Startup": "Cancella all'Avvio"
   },
+  "Click 'Setup' to create %1 and add include to config.": {
+    "Click 'Setup' to create %1 and add include to config.": ""
+  },
   "Click 'Setup' to create cursor config and add include to your compositor config.": {
-    "Click 'Setup' to create cursor config and add include to your compositor config.": ""
+    "Click 'Setup' to create cursor config and add include to your compositor config.": "Clicca \"Configura\" per creare la configurazione del cursore e aggiungere l'inclusione al tuo file di configurazione del compositor."
   },
   "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": {
     "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": "Clicca su 'Configura' per creare dms/binds.kdl e aggiungere l'istruzione include a config.kdl."
@@ -712,6 +721,9 @@
   },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "Clicca su Importa per aggiungere un file .ovpn o .conf"
+  },
+  "Click any shortcut to edit. Changes save to %1": {
+    "Click any shortcut to edit. Changes save to %1": ""
   },
   "Click any shortcut to edit. Changes save to dms/binds.kdl": {
     "Click any shortcut to edit. Changes save to dms/binds.kdl": "Clicca su qualsiasi scorciatoia per modificarla. Le modifiche vengono salvate in dms/binds.kdl"
@@ -738,7 +750,7 @@
     "Clock": "Orologio"
   },
   "Clock Style": {
-    "Clock Style": "Stile dell’Orologio"
+    "Clock Style": "Stile dell'Orologio"
   },
   "Close": {
     "Close": "Chiudi"
@@ -759,7 +771,7 @@
     "Color Mode": "Modalità Colore"
   },
   "Color Override": {
-    "Color Override": "Sovrascrittura Colore"
+    "Color Override": "Forzatura Colore"
   },
   "Color Picker": {
     "Color Picker": "Selettore Colore"
@@ -848,6 +860,9 @@
   "Connect": {
     "Connect": "Connetti"
   },
+  "Connect to Hidden Network": {
+    "Connect to Hidden Network": ""
+  },
   "Connect to VPN": {
     "Connect to VPN": "Connetti alla VPN"
   },
@@ -891,7 +906,7 @@
     "Copied!": "Copiato!"
   },
   "Copy": {
-    "Copy": ""
+    "Copy": "Copia"
   },
   "Copy PID": {
     "Copy PID": "Copia PID"
@@ -903,7 +918,7 @@
     "Corner Radius": "Raggio degli Angoli"
   },
   "Corner Radius Override": {
-    "Corner Radius Override": "Sovrascrittura Raggio Angoli"
+    "Corner Radius Override": "Forzatura Raggio Angoli"
   },
   "Corners & Background": {
     "Corners & Background": "Angoli & Sfondo"
@@ -948,16 +963,16 @@
     "Current: %1": "Attuale: %1"
   },
   "Cursor Config Not Configured": {
-    "Cursor Config Not Configured": ""
+    "Cursor Config Not Configured": "Configurazione Cursore Non Impostata"
   },
   "Cursor Include Missing": {
-    "Cursor Include Missing": ""
+    "Cursor Include Missing": "Inclusione Cursore Mancante"
   },
   "Cursor Size": {
-    "Cursor Size": ""
+    "Cursor Size": "Dimensione Cursore"
   },
   "Cursor Theme": {
-    "Cursor Theme": ""
+    "Cursor Theme": "Tema del Cursore"
   },
   "Custom": {
     "Custom": "Personalizzato"
@@ -1005,7 +1020,7 @@
     "Customizable empty space": "Spazio vuoto personalizzabile"
   },
   "Customize which actions appear in the power menu": {
-    "Customize which actions appear in the power menu": "Personalizza quali azioni visualizzare nel menù alimentazione"
+    "Customize which actions appear in the power menu": "Personalizza quali azioni visualizzare nel menu alimentazione"
   },
   "DDC/CI monitor": {
     "DDC/CI monitor": "Monitor DDC/CI"
@@ -1059,16 +1074,16 @@
     "Date Format": "Formato Data"
   },
   "Dawn (Astronomical Twilight)": {
-    "Dawn (Astronomical Twilight)": "Alba (Crepuscolo Astronomico)"
+    "Dawn (Astronomical Twilight)": "Aurora (Crepuscolo Astronomico)"
   },
   "Dawn (Civil Twilight)": {
-    "Dawn (Civil Twilight)": "Alba (Crepuscolo Civile)"
+    "Dawn (Civil Twilight)": "Aurora (Crepuscolo Civile)"
   },
   "Dawn (Nautical Twilight)": {
-    "Dawn (Nautical Twilight)": "Alba (Crepuscolo Nautico)"
+    "Dawn (Nautical Twilight)": "Aurora (Crepuscolo Nautico)"
   },
   "Day Temperature": {
-    "Day Temperature": "Temperatura Giorno"
+    "Day Temperature": "Temperatura Diurna"
   },
   "Daytime": {
     "Daytime": "Ora del Giorno"
@@ -1089,7 +1104,7 @@
     "Defaults": "Predefiniti"
   },
   "Del: Clear • Shift+Del: Clear All • 1-9: Actions • F10: Help • Esc: Close": {
-    "Del: Clear • Shift+Del: Clear All • 1-9: Actions • F10: Help • Esc: Close": "Del: Elimina • Shift+Del: Elimina Tutto • 1-9: Azioni • F10: Aiuto • Esc: Chiudi"
+    "Del: Clear • Shift+Del: Clear All • 1-9: Actions • F10: Help • Esc: Close": "Canc: Elimina • Shift+Canc: Elimina Tutto • 1-9: Azioni • F10: Aiuto • Esc: Chiudi"
   },
   "Delete": {
     "Delete": "Elimina"
@@ -1221,7 +1236,7 @@
     "Display hourly weather predictions": "Mostra previsioni meteo orarie"
   },
   "Display only workspaces that contain windows": {
-    "Display only workspaces that contain windows": "Mostra solo gli spazi di lavoro che contengono finestre"
+    "Display only workspaces that contain windows": "Mostra solo gli spazi di lavoro con finestre"
   },
   "Display power menu actions in a grid instead of a list": {
     "Display power menu actions in a grid instead of a list": "Visualizza le azioni di alimentazione in griglia invece di una lista"
@@ -1341,7 +1356,7 @@
     "Enable WiFi": "Abilita WiFi"
   },
   "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": {
-    "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": "Abilita il livello di sfocatura compositore-targetable (namespace: dms:blurwallpaper). Richiede la configurazione manuale di niri."
+    "Enable compositor-targetable blur layer (namespace: dms:blurwallpaper). Requires manual niri configuration.": "Abilita il livello di sfocatura gestibile dal compositor (namespace: dms:blurwallpaper). Richiede la configurazione manuale di niri."
   },
   "Enable fingerprint authentication": {
     "Enable fingerprint authentication": "Abilita autenticazione biometrica"
@@ -1402,6 +1417,9 @@
   },
   "Enter launch prefix (e.g., 'uwsm-app')": {
     "Enter launch prefix (e.g., 'uwsm-app')": "Inserisci il prefisso di avvio (es. 'uwsm-app')"
+  },
+  "Enter network name and password": {
+    "Enter network name and password": ""
   },
   "Enter passkey for ": {
     "Enter passkey for ": "Inserisci passkey per "
@@ -1634,6 +1652,9 @@
   "Fixing...": {
     "Fixing...": "Correzione in Corso..."
   },
+  "Flags": {
+    "Flags": ""
+  },
   "Flipped": {
     "Flipped": "Ruotato"
   },
@@ -1796,26 +1817,32 @@
   "Hibernate": {
     "Hibernate": "Iberna"
   },
+  "Hidden": {
+    "Hidden": ""
+  },
+  "Hidden Network": {
+    "Hidden Network": ""
+  },
   "Hide Delay": {
     "Hide Delay": "Ritardo Nascondi"
   },
   "Hide When Typing": {
-    "Hide When Typing": ""
+    "Hide When Typing": "Nascondi Durante la Digitazione"
   },
   "Hide When Windows Open": {
     "Hide When Windows Open": "Nascondi Quando le Finestre Sono Aperte"
   },
   "Hide cursor after inactivity (0 = disabled)": {
-    "Hide cursor after inactivity (0 = disabled)": ""
+    "Hide cursor after inactivity (0 = disabled)": "Nascondi il cursore dopo inattività (0 = disabilitato)"
   },
   "Hide cursor when pressing keyboard keys": {
-    "Hide cursor when pressing keyboard keys": ""
+    "Hide cursor when pressing keyboard keys": "Nascondi il cursore quando si premono i tasti della tastiera"
   },
   "Hide cursor when using touch input": {
-    "Hide cursor when using touch input": ""
+    "Hide cursor when using touch input": "Nascondi il cursore quando si usa l'input touch"
   },
   "Hide on Touch": {
-    "Hide on Touch": ""
+    "Hide on Touch": "Nascondi al Tocco"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "Nascondi la dock quando non è in uso e mostrala quando il cursore passa vicino all’area della dock"
@@ -1845,7 +1872,7 @@
     "Hot Corners": "Angoli Attivi"
   },
   "Hotkey overlay title (optional)": {
-    "Hotkey overlay title (optional)": "Titolo della sovrapposizione per tasti di scelta rapida (opzionale)"
+    "Hotkey overlay title (optional)": "Titolo della sovrapposizione per scorciatoie (opzionale)"
   },
   "Hour": {
     "Hour": "Ore"
@@ -1884,7 +1911,7 @@
     "Idle": "Inattività"
   },
   "Idle Inhibitor": {
-    "Idle Inhibitor": "Inibitore Inattività"
+    "Idle Inhibitor": "Blocco Sospensione"
   },
   "Idle Settings": {
     "Idle Settings": "Impostazioni Riposo"
@@ -1980,13 +2007,13 @@
     "Key": "Tasto"
   },
   "Keybind Sources": {
-    "Keybind Sources": ""
+    "Keybind Sources": "Sorgenti Scorciatoie"
   },
   "Keybinds Search Settings": {
-    "Keybinds Search Settings": ""
+    "Keybinds Search Settings": "Impostazioni Ricerca Scorciatoie"
   },
   "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": ""
+    "Keybinds shown alongside regular search results": "Scorciatoie mostrate insieme ai normali risultati di ricerca"
   },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "Nome Layout Tastiera"
@@ -2111,6 +2138,9 @@
   "Lock fade grace period": {
     "Lock fade grace period": "Periodo di attesa per la dissolvenza al blocco"
   },
+  "Locked": {
+    "Locked": ""
+  },
   "Log Out": {
     "Log Out": "Termina Sessione"
   },
@@ -2119,6 +2149,9 @@
   },
   "Long Text": {
     "Long Text": "Testo Lungo"
+  },
+  "Long press": {
+    "Long press": ""
   },
   "Longitude": {
     "Longitude": "Longitudine"
@@ -2307,10 +2340,10 @@
     "Mount": "Monta"
   },
   "Mouse pointer appearance": {
-    "Mouse pointer appearance": ""
+    "Mouse pointer appearance": "Aspetto puntatore del mouse"
   },
   "Mouse pointer size in pixels": {
-    "Mouse pointer size in pixels": ""
+    "Mouse pointer size in pixels": "Dimensione puntatore del mouse in pixel"
   },
   "Move Widget": {
     "Move Widget": "Sposta Widget"
@@ -2344,6 +2377,9 @@
   },
   "Network Information": {
     "Network Information": "Informazioni Rete"
+  },
+  "Network Name (SSID)": {
+    "Network Name (SSID)": ""
   },
   "Network Speed Monitor": {
     "Network Speed Monitor": "Monitor Velocità Rete"
@@ -2382,7 +2418,7 @@
     "Night Mode": "Modalità Notte"
   },
   "Night Temperature": {
-    "Night Temperature": "Temperatura Notte"
+    "Night Temperature": "Temperatura Notturna"
   },
   "Niri Integration": {
     "Niri Integration": "Integrazione Niri"
@@ -2748,7 +2784,7 @@
     "Plugin Management": "Gestione Plugin"
   },
   "Plugin is disabled - enable in Plugins settings to use": {
-    "Plugin is disabled - enable in Plugins settings to use": "Plugin disabilitato -  per usarlo, attivalo nelle impostazioni Plugin"
+    "Plugin is disabled - enable in Plugins settings to use": "Plugin disabilitato - per usarlo, attivalo nelle impostazioni Plugin"
   },
   "Plugins": {
     "Plugins": "Plugin"
@@ -2766,7 +2802,7 @@
     "Position": "Posizione"
   },
   "Possible Override Conflicts": {
-    "Possible Override Conflicts": "Possibili Conflitti di Sovrascrittura"
+    "Possible Override Conflicts": "Possibili Conflitti di Forzatura"
   },
   "Power": {
     "Power": "Alimentazione"
@@ -2781,7 +2817,7 @@
     "Power Action Confirmation": "Conferma Azioni Alimentazione"
   },
   "Power Menu Customization": {
-    "Power Menu Customization": "Personalizzazione Menù Alimentazione"
+    "Power Menu Customization": "Personalizzazione Menu Alimentazione"
   },
   "Power Off": {
     "Power Off": "Spegni"
@@ -2921,6 +2957,9 @@
   "Reject Jobs": {
     "Reject Jobs": "Rifiuta Stampe"
   },
+  "Release": {
+    "Release": ""
+  },
   "Reload Plugin": {
     "Reload Plugin": "Ricarica Plugin"
   },
@@ -2929,6 +2968,9 @@
   },
   "Remove gaps and border when windows are maximized": {
     "Remove gaps and border when windows are maximized": "Rimuovi spazi e bordo quando le finestre sono massimizzate"
+  },
+  "Repeat": {
+    "Repeat": ""
   },
   "Report": {
     "Report": "Riepilogo"
@@ -3057,7 +3099,7 @@
     "Scale": "Scala"
   },
   "Scale DankBar font sizes independently": {
-    "Scale DankBar font sizes independently": "Scala indipendentemente le dimensioni dei font della DankBar"
+    "Scale DankBar font sizes independently": "Scala le dimensioni dei font della DankBar in modo indipendente"
   },
   "Scale all font sizes throughout the shell": {
     "Scale all font sizes throughout the shell": "Ridimensiona tutte le dimensioni dei caratteri nell'intera shell"
@@ -3096,7 +3138,7 @@
     "Scrolling": "Scorrimento"
   },
   "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": ""
+    "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "Cerca per combinazione di tasti, descrizione o nome azione.\\n\\nL'azione predefinita copia la scorciatoia negli appunti.\\nClic-destro o Freccia Destra per fissare le scorciatoie frequenti - appariranno in cima quando non si cerca."
   },
   "Search file contents": {
     "Search file contents": "Cerca il contenuto dei file"
@@ -3111,7 +3153,7 @@
     "Search keybinds...": "Cerca scorciatoie..."
   },
   "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": ""
+    "Search keyboard shortcuts from your compositor and applications": "Cerca scorciatoie da tastiera dal tuo compositor e applicazioni"
   },
   "Search plugins...": {
     "Search plugins...": "Cerca plugin..."
@@ -3156,7 +3198,7 @@
     "Select an image file...": "Seleziona un'immagine"
   },
   "Select at least one provider": {
-    "Select at least one provider": ""
+    "Select at least one provider": "Seleziona almeno un fornitore"
   },
   "Select device...": {
     "Select device...": "Seleziona un dispositivo..."
@@ -3183,7 +3225,7 @@
     "Select the palette algorithm used for wallpaper-based colors": "Seleziona l'algoritmo tavolozza usato per i colori basati sullo sfondo"
   },
   "Select which keybind providers to include": {
-    "Select which keybind providers to include": ""
+    "Select which keybind providers to include": "Seleziona quali fornitori di scorciatoie includere"
   },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Seleziona quali transizioni includere nella randomizzazione"
@@ -3216,7 +3258,7 @@
     "Shell": "Shell"
   },
   "Shift+Del: Clear All • Esc: Close": {
-    "Shift+Del: Clear All • Esc: Close": "Shift+Del: Elimina tutto • Esc: Chiudi"
+    "Shift+Del: Clear All • Esc: Close": "Shift+Canc: Elimina tutto • Esc: Chiudi"
   },
   "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close": {
     "Shift+Enter: Paste • Shift+Del: Clear All • Esc: Close": "Shift+Invio: Incolla • Shift+Canc: Cancella Tutto • Esc: Chiudi"
@@ -3249,7 +3291,7 @@
     "Show Disk": "Mostra Disco"
   },
   "Show Dock": {
-    "Show Dock": "Mostra Dock"
+    "Show Dock": "Mostra la Dock"
   },
   "Show Feels Like Temperature": {
     "Show Feels Like Temperature": "Mostra Temperatura Percepita"
@@ -3342,7 +3384,7 @@
     "Show Workspace Apps": "Mostra Icone negli Spazi di Lavoro"
   },
   "Show all 9 tags instead of only occupied tags (DWL only)": {
-    "Show all 9 tags instead of only occupied tags (DWL only)": "Mostra tutti i 9 tag invece dei soli tag occupati (solo DWL)"
+    "Show all 9 tags instead of only occupied tags (DWL only)": "Mostra tutti i 9 tag invece di quelli occupati (solo DWL)"
   },
   "Show cava audio visualizer in media widget": {
     "Show cava audio visualizer in media widget": "Mostra il visualizzatore audio cava nel widget multimediale"
@@ -3363,7 +3405,7 @@
     "Show on Overview": "Mostra in Panoramica"
   },
   "Show on Overview Only": {
-    "Show on Overview Only": ""
+    "Show on Overview Only": "Mostra Solo nella Panoramica"
   },
   "Show on all connected displays": {
     "Show on all connected displays": "Mostra su tutti gli schermi connessi"
@@ -3381,13 +3423,13 @@
     "Show on-screen display when cycling audio output devices": "Mostra un avviso sullo schermo quando si scorre tra i dispositivi di uscita audio"
   },
   "Show on-screen display when idle inhibitor state changes": {
-    "Show on-screen display when idle inhibitor state changes": "Mostra visualizzazione a schermo quando cambia lo stato dell'inibitore di inattività"
+    "Show on-screen display when idle inhibitor state changes": "Mostra visualizzazione a schermo quando cambia lo stato del blocco sospensione"
   },
   "Show on-screen display when media player volume changes": {
     "Show on-screen display when media player volume changes": "Mostra visualizzazione a schermo quando cambia il volume del lettore multimediale"
   },
   "Show on-screen display when microphone is muted/unmuted": {
-    "Show on-screen display when microphone is muted/unmuted": "Visualizza un messaggio a schermo quando il microfono è mutato/aperto"
+    "Show on-screen display when microphone is muted/unmuted": "Visualizza un messaggio a schermo quando il microfono è attivato/disattivato"
   },
   "Show on-screen display when power profile changes": {
     "Show on-screen display when power profile changes": "Visualizza un messaggio a schermo quando il profilo di alimentazione cambia"
@@ -3609,7 +3651,7 @@
     "Tab": "Scheda"
   },
   "Tab/Shift+Tab: Nav • ←→↑↓: Grid Nav • Enter/Space: Select": {
-    "Tab/Shift+Tab: Nav • ←→↑↓: Grid Nav • Enter/Space: Select": "Tab/Shift+Tab: Nav • ←→↑↓: Griglia Nav • Enter/Spazio: Seleziona"
+    "Tab/Shift+Tab: Nav • ←→↑↓: Grid Nav • Enter/Space: Select": "Tab/Shift+Tab: Nav • ←→↑↓: Griglia Nav • Invio/Spazio: Seleziona"
   },
   "Terminal custom additional parameters": {
     "Terminal custom additional parameters": "Parametri aggiuntivi personalizzati terminale"
@@ -3693,7 +3735,7 @@
     "Title": "Titolo"
   },
   "To Full": {
-    "To Full": "Per la Carica Completa"
+    "To Full": "Alla Carica Completa"
   },
   "To update, run the following command:": {
     "To update, run the following command:": "Per aggiornare, esegui il seguente comando:"
@@ -3708,7 +3750,7 @@
     "Today": "Oggi"
   },
   "Toggle visibility of this bar configuration": {
-    "Toggle visibility of this bar configuration": "Attiva/disattiva la visibilità di questa configurazione della barra"
+    "Toggle visibility of this bar configuration": "Attiva/Disattiva questa configurazione della barra"
   },
   "Toggling...": {
     "Toggling...": "Attivazione/Disattivazione in corso..."
@@ -3756,10 +3798,10 @@
     "Transparency": "Trasparenza"
   },
   "Trigger": {
-    "Trigger": ""
+    "Trigger": "Attivatore"
   },
   "Trigger Prefix": {
-    "Trigger Prefix": ""
+    "Trigger Prefix": "Prefisso Attivatore"
   },
   "Turn off monitors after": {
     "Turn off monitors after": "Spegni monitor dopo"
@@ -3768,7 +3810,7 @@
     "Type": "Tipo"
   },
   "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": ""
+    "Type this prefix to search keybinds": "Digita questo prefisso per cercare scorciatoie"
   },
   "Typography": {
     "Typography": "Tipografia"
@@ -3798,7 +3840,7 @@
     "Unknown Network": "Rete sconosciuta"
   },
   "Unpin": {
-    "Unpin": ""
+    "Unpin": "Rimuovi"
   },
   "Unpin from Dock": {
     "Unpin from Dock": "Rimuovi dalla Dock"
@@ -3822,10 +3864,10 @@
     "Update Plugin": "Aggiorna Plugin"
   },
   "Usage Tips": {
-    "Usage Tips": ""
+    "Usage Tips": "Suggerimenti d'Uso"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
-    "Use 24-hour time format instead of 12-hour AM/PM": "Usa formato 24-ore invece del 12-ore AM/PM"
+    "Use 24-hour time format instead of 12-hour AM/PM": "Usa formato 24 ore invece del formato 12 ore AM/PM"
   },
   "Use Custom Command": {
     "Use Custom Command": "Usa Comando Personalizzato"
@@ -3864,7 +3906,7 @@
     "Use custom gaps instead of bar spacing": "Usa spaziature personalizzate invece di quelle della barra"
   },
   "Use custom window radius instead of theme radius": {
-    "Use custom window radius instead of theme radius": "Usa un raggio finestra personalizzato invece di quello del tema"
+    "Use custom window radius instead of theme radius": "Usa raggio personalizzato per le finestre invece di quello del tema"
   },
   "Use custom window rounding instead of theme radius": {
     "Use custom window rounding instead of theme radius": "Usa un arrotondamento finestre personalizzato invece del raggio del tema"
@@ -3879,7 +3921,7 @@
     "Use sound theme from system settings": "Usa tema di suoni dalle impostazioni di sistema"
   },
   "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": ""
+    "Use trigger prefix to activate": "Usa il prefisso attivatore per attivare"
   },
   "Use%": {
     "Use%": "Utilizzo%"
@@ -4091,7 +4133,7 @@
     "Width of window border (general.border_size)": "Larghezza bordo finestra (general.border_size)"
   },
   "Width of window border and focus ring": {
-    "Width of window border and focus ring": "Larghezza del bordo e dell'anello di fuoco delle finestre"
+    "Width of window border and focus ring": "Larghezza del bordo e dell'anello di focus"
   },
   "Wind": {
     "Wind": "Vento"
@@ -4163,7 +4205,7 @@
     "by %1": "di %1"
   },
   "bar shadow settings card": {
-    "Shadow": ""
+    "Shadow": "Ombra"
   },
   "browse themes button | theme browser header | theme browser window title": {
     "Browse Themes": "Sfoglia Temi"
@@ -4199,7 +4241,7 @@
     "dms/binds.kdl is now included in config.kdl": "dms/binds.kdl è ora incluso in config.kdl"
   },
   "dms/cursor config exists but is not included. Cursor settings won't apply.": {
-    "dms/cursor config exists but is not included. Cursor settings won't apply.": ""
+    "dms/cursor config exists but is not included. Cursor settings won't apply.": "Il file di configurazione dms/cursor esiste ma non è incluso. Le impostazioni del cursore non verranno applicate."
   },
   "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": {
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": "La configurazione dms/outputs esiste ma non è inclusa nella configurazione del compositor. Le modifiche allo schermo non saranno persistenti."
@@ -4247,13 +4289,13 @@
     "You're All Set!": "Tutto Pronto!"
   },
   "greeter configure keybinds link": {
-    "Configure Keybinds": "Configura Tasti di Scelta Rapida"
+    "Configure Keybinds": "Configura Scorciatoie"
   },
   "greeter dankbar description": {
     "Widgets, layout, style": "Widget, layout, stile"
   },
   "greeter displays description": {
-    "Resolution, position, scale": "Risoluzione, posizione, scala"
+    "Resolution, position, scale": "Risoluzione, posizione, ridimensionamento"
   },
   "greeter dock description": {
     "Position, pinned apps": "Posizione, app fissate"
@@ -4300,7 +4342,8 @@
     "Modular widget bar": "Barra widget modulare",
     "Night mode & gamma": "Modalità notte e gamma",
     "Per-screen config": "Configurazione per schermo",
-    "Quick system toggles": "Comandi rapidi di sistema"
+    "Quick system toggles": "Comandi rapidi di sistema",
+    "Security & privacy": ""
   },
   "greeter feature card title": {
     "App Theming": "Theming Applicazioni",
@@ -4316,6 +4359,9 @@
   },
   "greeter feature card title | greeter settings link": {
     "DankBar": "DankBar"
+  },
+  "greeter feature card title | lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "greeter finish button": {
     "Finish": "Fine"
@@ -4344,7 +4390,7 @@
   "greeter settings link": {
     "Displays": "Schermi",
     "Dock": "Dock",
-    "Keybinds": "Tasti di Scelta Rapida",
+    "Keybinds": "Scorciatoie",
     "Notifications": "Notifiche",
     "Theme & Colors": "Temi & Colori",
     "Wallpaper": "Sfondo"
@@ -4404,7 +4450,7 @@
     "Full Content": "Contenuto Completo"
   },
   "lock screen notification privacy setting": {
-    "Control what notification information is shown on the lock screen": "Controlla quali informazioni delle notifiche vengono mostrate sulla schermata di blocco",
+    "Control what notification information is shown on the lock screen": "Scegli quali informazioni delle notifiche vengono mostrate sulla schermata di blocco",
     "Notification Display": "Visualizzazione Notifiche"
   },
   "lock screen notifications settings card": {
@@ -4518,11 +4564,11 @@
     "Widgets": "Widget"
   },
   "shadow color option": {
-    "Surface": "",
-    "Text": ""
+    "Surface": "Superficie",
+    "Text": "Testo"
   },
   "shadow intensity slider": {
-    "Intensity": ""
+    "Intensity": "Intensità"
   },
   "source code link": {
     "source": "sorgente"
@@ -4559,6 +4605,9 @@
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "aggiorna dms per l'integrazione NM."
+  },
+  "version requirement": {
+    "Requires %1": ""
   },
   "wallpaper directory file browser title": {
     "Select Wallpaper Directory": "Seleziona Cartella Sfondo"

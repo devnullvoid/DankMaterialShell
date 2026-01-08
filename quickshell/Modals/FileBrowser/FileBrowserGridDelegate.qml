@@ -115,17 +115,18 @@ StyledRect {
             height: weMode ? 165 : (iconSizes[iconSizeIndex] - 8)
             anchors.horizontalCenter: parent.horizontalCenter
 
-            CachingImage {
+            Image {
                 id: gridPreviewImage
                 anchors.fill: parent
                 anchors.margins: 2
                 property var weExtensions: [".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".tga"]
                 property int weExtIndex: 0
-                imagePath: {
+                property string imagePath: {
                     if (weMode && delegateRoot.fileIsDir)
                         return delegateRoot.filePath + "/preview" + weExtensions[weExtIndex];
                     return (!delegateRoot.fileIsDir && isImageFile(delegateRoot.fileName)) ? delegateRoot.filePath : "";
                 }
+                source: imagePath ? "file://" + imagePath.split('/').map(s => encodeURIComponent(s)).join('/') : ""
                 onStatusChanged: {
                     if (weMode && delegateRoot.fileIsDir && status === Image.Error) {
                         if (weExtIndex < weExtensions.length - 1) {
@@ -136,7 +137,9 @@ StyledRect {
                     }
                 }
                 fillMode: Image.PreserveAspectCrop
-                maxCacheSize: weMode ? 225 : iconSizes[iconSizeIndex]
+                sourceSize.width: weMode ? 225 : iconSizes[iconSizeIndex]
+                sourceSize.height: weMode ? 225 : iconSizes[iconSizeIndex]
+                asynchronous: true
                 visible: false
             }
 

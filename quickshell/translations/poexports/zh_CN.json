@@ -20,6 +20,12 @@
   "%1 display(s)": {
     "%1 display(s)": "%1 显示"
   },
+  "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": {
+    "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": ""
+  },
+  "%1 is now included in config": {
+    "%1 is now included in config": ""
+  },
   "%1 job(s)": {
     "%1 job(s)": "%1 个任务"
   },
@@ -165,7 +171,7 @@
     "Activate": "激活"
   },
   "Activation": {
-    "Activation": ""
+    "Activation": "激活"
   },
   "Active": {
     "Active": "活动"
@@ -237,7 +243,7 @@
     "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close": "Alt+←/退格: 返回 • F1/I: 文件信息 • F10: 帮助 • Esc: 关闭"
   },
   "Always Active": {
-    "Always Active": ""
+    "Always Active": "总是激活"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "始终显示百分比"
@@ -372,7 +378,7 @@
     "Auto-Clear After": "在此之后自动清除"
   },
   "Auto-Hide Timeout": {
-    "Auto-Hide Timeout": ""
+    "Auto-Hide Timeout": "自动隐藏超时"
   },
   "Auto-close Niri overview when launching apps.": {
     "Auto-close Niri overview when launching apps.": "当启动程序时自动关闭Niri概览。"
@@ -701,8 +707,11 @@
   "Clear at Startup": {
     "Clear at Startup": "启动时清除"
   },
+  "Click 'Setup' to create %1 and add include to config.": {
+    "Click 'Setup' to create %1 and add include to config.": ""
+  },
   "Click 'Setup' to create cursor config and add include to your compositor config.": {
-    "Click 'Setup' to create cursor config and add include to your compositor config.": ""
+    "Click 'Setup' to create cursor config and add include to your compositor config.": "点击设置以创建光标配置，并导入至合成器配置文件。"
   },
   "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": {
     "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.": "点击设置以创建 dms/binds.kdl，并添加至config.kdl。"
@@ -712,6 +721,9 @@
   },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "点击导入添加 .ovpn 或 .conf 文件"
+  },
+  "Click any shortcut to edit. Changes save to %1": {
+    "Click any shortcut to edit. Changes save to %1": ""
   },
   "Click any shortcut to edit. Changes save to dms/binds.kdl": {
     "Click any shortcut to edit. Changes save to dms/binds.kdl": "点击任意快捷方式进行编辑。更改将保存到 dms/binds.kdl"
@@ -848,6 +860,9 @@
   "Connect": {
     "Connect": "连接"
   },
+  "Connect to Hidden Network": {
+    "Connect to Hidden Network": ""
+  },
   "Connect to VPN": {
     "Connect to VPN": "连接到 VPN"
   },
@@ -891,7 +906,7 @@
     "Copied!": "复制成功！"
   },
   "Copy": {
-    "Copy": ""
+    "Copy": "复制"
   },
   "Copy PID": {
     "Copy PID": "复制进程ID"
@@ -948,16 +963,16 @@
     "Current: %1": "当前：%1"
   },
   "Cursor Config Not Configured": {
-    "Cursor Config Not Configured": ""
+    "Cursor Config Not Configured": "光标未配置"
   },
   "Cursor Include Missing": {
-    "Cursor Include Missing": ""
+    "Cursor Include Missing": "未找到光标导入配置"
   },
   "Cursor Size": {
-    "Cursor Size": ""
+    "Cursor Size": "光标尺寸"
   },
   "Cursor Theme": {
-    "Cursor Theme": ""
+    "Cursor Theme": "光标主题"
   },
   "Custom": {
     "Custom": "自定义"
@@ -1403,6 +1418,9 @@
   "Enter launch prefix (e.g., 'uwsm-app')": {
     "Enter launch prefix (e.g., 'uwsm-app')": "输入启动前缀（例如 uwsm-app）"
   },
+  "Enter network name and password": {
+    "Enter network name and password": ""
+  },
   "Enter passkey for ": {
     "Enter passkey for ": "输入密钥 "
   },
@@ -1634,6 +1652,9 @@
   "Fixing...": {
     "Fixing...": "正在修复..."
   },
+  "Flags": {
+    "Flags": ""
+  },
   "Flipped": {
     "Flipped": "翻转"
   },
@@ -1796,26 +1817,32 @@
   "Hibernate": {
     "Hibernate": "休眠"
   },
+  "Hidden": {
+    "Hidden": ""
+  },
+  "Hidden Network": {
+    "Hidden Network": ""
+  },
   "Hide Delay": {
     "Hide Delay": "隐藏延迟"
   },
   "Hide When Typing": {
-    "Hide When Typing": ""
+    "Hide When Typing": "打字时隐藏"
   },
   "Hide When Windows Open": {
     "Hide When Windows Open": "当窗口打开时隐藏"
   },
   "Hide cursor after inactivity (0 = disabled)": {
-    "Hide cursor after inactivity (0 = disabled)": ""
+    "Hide cursor after inactivity (0 = disabled)": "在未激活超过此时间后隐藏光标（0为禁用）"
   },
   "Hide cursor when pressing keyboard keys": {
-    "Hide cursor when pressing keyboard keys": ""
+    "Hide cursor when pressing keyboard keys": "当按下键盘时隐藏光标"
   },
   "Hide cursor when using touch input": {
-    "Hide cursor when using touch input": ""
+    "Hide cursor when using touch input": "当使用触摸板输入时隐藏光标"
   },
   "Hide on Touch": {
-    "Hide on Touch": ""
+    "Hide on Touch": "当使用触摸板时隐藏光标"
   },
   "Hide the dock when not in use and reveal it when hovering near the dock area": {
     "Hide the dock when not in use and reveal it when hovering near the dock area": "在未使用时隐藏程序坞，鼠标悬停到程序坞区域时显示"
@@ -1980,13 +2007,13 @@
     "Key": "键"
   },
   "Keybind Sources": {
-    "Keybind Sources": ""
+    "Keybind Sources": "快捷键绑定源"
   },
   "Keybinds Search Settings": {
-    "Keybinds Search Settings": ""
+    "Keybinds Search Settings": "快捷键绑定搜索设置"
   },
   "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": ""
+    "Keybinds shown alongside regular search results": "快捷键绑定与常规搜索结果并列显示"
   },
   "Keyboard Layout Name": {
     "Keyboard Layout Name": "键盘布局名称"
@@ -2111,6 +2138,9 @@
   "Lock fade grace period": {
     "Lock fade grace period": "锁定淡出时间"
   },
+  "Locked": {
+    "Locked": ""
+  },
   "Log Out": {
     "Log Out": "注销"
   },
@@ -2119,6 +2149,9 @@
   },
   "Long Text": {
     "Long Text": "长文本"
+  },
+  "Long press": {
+    "Long press": ""
   },
   "Longitude": {
     "Longitude": "经度"
@@ -2307,10 +2340,10 @@
     "Mount": "挂载"
   },
   "Mouse pointer appearance": {
-    "Mouse pointer appearance": ""
+    "Mouse pointer appearance": "鼠标指针外观"
   },
   "Mouse pointer size in pixels": {
-    "Mouse pointer size in pixels": ""
+    "Mouse pointer size in pixels": "鼠标指针的像素尺寸"
   },
   "Move Widget": {
     "Move Widget": "移动部件"
@@ -2344,6 +2377,9 @@
   },
   "Network Information": {
     "Network Information": "网络信息"
+  },
+  "Network Name (SSID)": {
+    "Network Name (SSID)": ""
   },
   "Network Speed Monitor": {
     "Network Speed Monitor": "实时网速显示"
@@ -2921,6 +2957,9 @@
   "Reject Jobs": {
     "Reject Jobs": "拒绝任务"
   },
+  "Release": {
+    "Release": ""
+  },
   "Reload Plugin": {
     "Reload Plugin": "重载插件"
   },
@@ -2929,6 +2968,9 @@
   },
   "Remove gaps and border when windows are maximized": {
     "Remove gaps and border when windows are maximized": "当窗口最大化时移除间距和边框"
+  },
+  "Repeat": {
+    "Repeat": ""
   },
   "Report": {
     "Report": "报告"
@@ -3096,7 +3138,7 @@
     "Scrolling": "滚动"
   },
   "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": ""
+    "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "通过按键组合、描述或动作名称搜索。\\n\\n默认动作会将快捷键复制到剪贴板。\\n按下右键或右箭头会固定常用快捷键——未处于搜索时它们会出现在顶部。"
   },
   "Search file contents": {
     "Search file contents": "检索文件内容"
@@ -3111,7 +3153,7 @@
     "Search keybinds...": "搜索按键绑定..."
   },
   "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": ""
+    "Search keyboard shortcuts from your compositor and applications": "从合成器与应用中搜索键盘快捷键"
   },
   "Search plugins...": {
     "Search plugins...": "搜索插件中..."
@@ -3156,7 +3198,7 @@
     "Select an image file...": "选择一张图片..."
   },
   "Select at least one provider": {
-    "Select at least one provider": ""
+    "Select at least one provider": "至少选择一个提供源"
   },
   "Select device...": {
     "Select device...": "选择设备..."
@@ -3183,7 +3225,7 @@
     "Select the palette algorithm used for wallpaper-based colors": "选择从壁纸取色的配色方案"
   },
   "Select which keybind providers to include": {
-    "Select which keybind providers to include": ""
+    "Select which keybind providers to include": "选择快捷键绑定提供源以导入"
   },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "选择在随机轮换中使用的过渡效果"
@@ -3363,7 +3405,7 @@
     "Show on Overview": "概览中显示"
   },
   "Show on Overview Only": {
-    "Show on Overview Only": ""
+    "Show on Overview Only": "仅在概览中显示"
   },
   "Show on all connected displays": {
     "Show on all connected displays": "在所有已连接的显示器上显示"
@@ -3756,10 +3798,10 @@
     "Transparency": "透明度"
   },
   "Trigger": {
-    "Trigger": ""
+    "Trigger": "触发"
   },
   "Trigger Prefix": {
-    "Trigger Prefix": ""
+    "Trigger Prefix": "触发前缀"
   },
   "Turn off monitors after": {
     "Turn off monitors after": "在此时间后关闭显示器"
@@ -3768,7 +3810,7 @@
     "Type": "类型"
   },
   "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": ""
+    "Type this prefix to search keybinds": "键入此前缀以搜索快捷键绑定"
   },
   "Typography": {
     "Typography": "排版"
@@ -3798,7 +3840,7 @@
     "Unknown Network": "未知网络"
   },
   "Unpin": {
-    "Unpin": ""
+    "Unpin": "解除固定"
   },
   "Unpin from Dock": {
     "Unpin from Dock": "从程序坞取消固定"
@@ -3822,7 +3864,7 @@
     "Update Plugin": "更新插件"
   },
   "Usage Tips": {
-    "Usage Tips": ""
+    "Usage Tips": "使用提示"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "改用24小时制显示时间"
@@ -3879,7 +3921,7 @@
     "Use sound theme from system settings": "使用系统设置中的声音主题"
   },
   "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": ""
+    "Use trigger prefix to activate": "使用触发前缀以激活"
   },
   "Use%": {
     "Use%": "使用%"
@@ -4163,7 +4205,7 @@
     "by %1": "%1"
   },
   "bar shadow settings card": {
-    "Shadow": ""
+    "Shadow": "阴影"
   },
   "browse themes button | theme browser header | theme browser window title": {
     "Browse Themes": "浏览主题"
@@ -4199,7 +4241,7 @@
     "dms/binds.kdl is now included in config.kdl": "dms/binds.kdl 现已包含在 config.kdl 中"
   },
   "dms/cursor config exists but is not included. Cursor settings won't apply.": {
-    "dms/cursor config exists but is not included. Cursor settings won't apply.": ""
+    "dms/cursor config exists but is not included. Cursor settings won't apply.": "已找到dms/cursor的配置文件，但并未导入。光标设置将不会生效。"
   },
   "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": {
     "dms/outputs config exists but is not included in your compositor config. Display changes won't persist.": "dms/输出配置存在，但不包含在你的合成器配置里。显示更改不会保留。"
@@ -4300,7 +4342,8 @@
     "Modular widget bar": "模块化部件状态栏",
     "Night mode & gamma": "夜间模式与伽玛",
     "Per-screen config": "按屏幕区分设置",
-    "Quick system toggles": "快速系统切换"
+    "Quick system toggles": "快速系统切换",
+    "Security & privacy": ""
   },
   "greeter feature card title": {
     "App Theming": "应用主题",
@@ -4316,6 +4359,9 @@
   },
   "greeter feature card title | greeter settings link": {
     "DankBar": "DankBar"
+  },
+  "greeter feature card title | lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "greeter finish button": {
     "Finish": "完成"
@@ -4518,11 +4564,11 @@
     "Widgets": "部件"
   },
   "shadow color option": {
-    "Surface": "",
-    "Text": ""
+    "Surface": "表面",
+    "Text": "文本"
   },
   "shadow intensity slider": {
-    "Intensity": ""
+    "Intensity": "强度"
   },
   "source code link": {
     "source": "源"
@@ -4559,6 +4605,9 @@
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "更新 DMS 以集成 NM"
+  },
+  "version requirement": {
+    "Requires %1": ""
   },
   "wallpaper directory file browser title": {
     "Select Wallpaper Directory": "选择壁纸位置"

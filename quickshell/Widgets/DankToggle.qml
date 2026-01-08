@@ -82,7 +82,7 @@ Item {
                 font.pixelSize: Appearance.fontSize.small
                 color: toggle.descriptionColor
                 wrapMode: Text.WordWrap
-                width: Math.min(implicitWidth, toggle.width - 120)
+                width: parent.width
                 visible: toggle.description.length > 0
                 horizontalAlignment: Text.AlignLeft
             }

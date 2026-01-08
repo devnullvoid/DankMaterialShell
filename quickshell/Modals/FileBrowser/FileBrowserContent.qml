@@ -8,6 +8,9 @@ import qs.Widgets
 FocusScope {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property string homeDir: StandardPaths.writableLocation(StandardPaths.HomeLocation)
     property string docsDir: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
     property string musicDir: StandardPaths.writableLocation(StandardPaths.MusicLocation)

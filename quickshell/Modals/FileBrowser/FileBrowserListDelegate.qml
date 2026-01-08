@@ -124,12 +124,15 @@ StyledRect {
             height: 28
             anchors.verticalCenter: parent.verticalCenter
 
-            CachingImage {
+            Image {
                 id: listPreviewImage
                 anchors.fill: parent
-                imagePath: (!listDelegateRoot.fileIsDir && isImageFile(listDelegateRoot.fileName)) ? listDelegateRoot.filePath : ""
+                property string imagePath: (!listDelegateRoot.fileIsDir && isImageFile(listDelegateRoot.fileName)) ? listDelegateRoot.filePath : ""
+                source: imagePath ? "file://" + imagePath.split('/').map(s => encodeURIComponent(s)).join('/') : ""
                 fillMode: Image.PreserveAspectCrop
-                maxCacheSize: 32
+                sourceSize.width: 32
+                sourceSize.height: 32
+                asynchronous: true
                 visible: false
             }
 

@@ -49,6 +49,20 @@
     "comment": ""
   },
   {
+    "term": "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "%1 is now included in config",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "%1 issue(s) found",
     "translation": "",
     "context": "greeter doctor page error count",
@@ -1106,13 +1120,6 @@
     "comment": ""
   },
   {
-    "term": "Background app icons",
-    "translation": "",
-    "context": "greeter feature card description",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Background image",
     "translation": "",
     "context": "greeter wallpaper description",
@@ -1722,14 +1729,14 @@
     "comment": ""
   },
   {
-    "term": "Click 'Setup' to create cursor config and add include to your compositor config.",
+    "term": "Click 'Setup' to create %1 and add include to config.",
     "translation": "",
     "context": "",
     "reference": "",
     "comment": ""
   },
   {
-    "term": "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.",
+    "term": "Click 'Setup' to create cursor config and add include to your compositor config.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1750,7 +1757,7 @@
     "comment": ""
   },
   {
-    "term": "Click any shortcut to edit. Changes save to dms/binds.kdl",
+    "term": "Click any shortcut to edit. Changes save to %1",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2101,6 +2108,13 @@
   },
   {
     "term": "Connect",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Connect to Hidden Network",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3423,6 +3437,13 @@
     "comment": ""
   },
   {
+    "term": "Enter network name and password",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Enter passkey for ",
     "translation": "",
     "context": "",
@@ -3997,6 +4018,13 @@
     "comment": ""
   },
   {
+    "term": "Flags",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Flipped",
     "translation": "",
     "context": "",
@@ -4418,6 +4446,20 @@
   },
   {
     "term": "Hibernate",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hidden",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hidden Network",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5231,7 +5273,7 @@
   {
     "term": "Lock Screen",
     "translation": "",
-    "context": "lock screen notifications settings card",
+    "context": "greeter feature card title | lock screen notifications settings card",
     "reference": "",
     "comment": ""
   },
@@ -5278,6 +5320,13 @@
     "comment": ""
   },
   {
+    "term": "Locked",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Log Out",
     "translation": "",
     "context": "",
@@ -5293,6 +5342,13 @@
   },
   {
     "term": "Long Text",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Long press",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5860,6 +5916,13 @@
   },
   {
     "term": "Network Information",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Network Name (SSID)",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7329,6 +7392,13 @@
     "comment": ""
   },
   {
+    "term": "Release",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Reload Plugin",
     "translation": "",
     "context": "",
@@ -7350,6 +7420,13 @@
     "comment": ""
   },
   {
+    "term": "Repeat",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Report",
     "translation": "",
     "context": "",
@@ -7360,6 +7437,13 @@
     "term": "Require holding button/key to confirm power off, restart, suspend, hibernate and logout",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Requires %1",
+    "translation": "",
+    "context": "version requirement",
     "reference": "",
     "comment": ""
   },
@@ -7864,6 +7948,13 @@
     "term": "Security",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Security & privacy",
+    "translation": "",
+    "context": "greeter feature card description",
     "reference": "",
     "comment": ""
   },
@@ -9011,7 +9102,7 @@
   {
     "term": "System Tray",
     "translation": "",
-    "context": "greeter feature card title",
+    "context": "",
     "reference": "",
     "comment": ""
   },
@@ -10459,20 +10550,6 @@
   },
   {
     "term": "dgop not available",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "dms/binds.kdl is now included in config.kdl",
     "translation": "",
     "context": "",
     "reference": "",

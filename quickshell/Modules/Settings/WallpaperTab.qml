@@ -10,6 +10,9 @@ import qs.Modules.Settings.Widgets
 Item {
     id: root
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property var parentModal: null
     property string selectedMonitorName: {
         var screens = Quickshell.screens;
@@ -233,6 +236,7 @@ Item {
                             elide: Text.ElideMiddle
                             maximumLineCount: 1
                             width: parent.width
+                            horizontalAlignment: Text.AlignLeft
                         }
 
                         StyledText {
@@ -245,6 +249,7 @@ Item {
                             elide: Text.ElideMiddle
                             maximumLineCount: 1
                             width: parent.width
+                            horizontalAlignment: Text.AlignLeft
                             visible: {
                                 var currentWallpaper = SessionData.perMonitorWallpaper ? SessionData.getMonitorWallpaper(selectedMonitorName) : SessionData.wallpaperPath;
                                 return currentWallpaper !== "";
@@ -252,7 +257,9 @@ Item {
                         }
 
                         Row {
+                            anchors.left: parent.left
                             spacing: Theme.spacingS
+                            layoutDirection: I18n.isRtl ? Qt.RightToLeft : Qt.LeftToRight
                             visible: {
                                 var currentWallpaper = SessionData.perMonitorWallpaper ? SessionData.getMonitorWallpaper(selectedMonitorName) : SessionData.wallpaperPath;
                                 return currentWallpaper !== "";

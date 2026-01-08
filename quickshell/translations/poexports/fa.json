@@ -20,6 +20,12 @@
   "%1 display(s)": {
     "%1 display(s)": "%1 نمایشگر"
   },
+  "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": {
+    "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": ""
+  },
+  "%1 is now included in config": {
+    "%1 is now included in config": ""
+  },
   "%1 job(s)": {
     "%1 job(s)": "%1 کار چاپ"
   },
@@ -701,6 +707,9 @@
   "Clear at Startup": {
     "Clear at Startup": "پاک‌کردن در هنگام راه‌اندازی"
   },
+  "Click 'Setup' to create %1 and add include to config.": {
+    "Click 'Setup' to create %1 and add include to config.": ""
+  },
   "Click 'Setup' to create cursor config and add include to your compositor config.": {
     "Click 'Setup' to create cursor config and add include to your compositor config.": ""
   },
@@ -712,6 +721,9 @@
   },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "برای افزودن یک فایل .conf یا .ovpn کلیک کنید"
+  },
+  "Click any shortcut to edit. Changes save to %1": {
+    "Click any shortcut to edit. Changes save to %1": ""
   },
   "Click any shortcut to edit. Changes save to dms/binds.kdl": {
     "Click any shortcut to edit. Changes save to dms/binds.kdl": "برای ویرایش، روی هر میانبری کلیک کنید. تغییرات در dms/binds.kdl ذخیره می‌شوند"
@@ -847,6 +859,9 @@
   },
   "Connect": {
     "Connect": "اتصال"
+  },
+  "Connect to Hidden Network": {
+    "Connect to Hidden Network": ""
   },
   "Connect to VPN": {
     "Connect to VPN": "اتصال به VPN"
@@ -1403,6 +1418,9 @@
   "Enter launch prefix (e.g., 'uwsm-app')": {
     "Enter launch prefix (e.g., 'uwsm-app')": "پیشوند اجرا را وارد کنید (مانند 'uwsm-app')"
   },
+  "Enter network name and password": {
+    "Enter network name and password": ""
+  },
   "Enter passkey for ": {
     "Enter passkey for ": "ورود کلید عبور برای "
   },
@@ -1634,6 +1652,9 @@
   "Fixing...": {
     "Fixing...": "درحال رفع..."
   },
+  "Flags": {
+    "Flags": ""
+  },
   "Flipped": {
     "Flipped": "وارونه"
   },
@@ -1795,6 +1816,12 @@
   },
   "Hibernate": {
     "Hibernate": "هایبرنیت"
+  },
+  "Hidden": {
+    "Hidden": ""
+  },
+  "Hidden Network": {
+    "Hidden Network": ""
   },
   "Hide Delay": {
     "Hide Delay": "تأخیر پنهان‌شدن"
@@ -2111,6 +2138,9 @@
   "Lock fade grace period": {
     "Lock fade grace period": ""
   },
+  "Locked": {
+    "Locked": ""
+  },
   "Log Out": {
     "Log Out": "خروج"
   },
@@ -2119,6 +2149,9 @@
   },
   "Long Text": {
     "Long Text": "متن طولانی"
+  },
+  "Long press": {
+    "Long press": ""
   },
   "Longitude": {
     "Longitude": "طول جغرافیایی"
@@ -2344,6 +2377,9 @@
   },
   "Network Information": {
     "Network Information": "اطلاعات شبکه"
+  },
+  "Network Name (SSID)": {
+    "Network Name (SSID)": ""
   },
   "Network Speed Monitor": {
     "Network Speed Monitor": "نمایشگر سرعت شبکه"
@@ -2921,6 +2957,9 @@
   "Reject Jobs": {
     "Reject Jobs": "ردکردن کارهای چاپ"
   },
+  "Release": {
+    "Release": ""
+  },
   "Reload Plugin": {
     "Reload Plugin": "بارگیری مجدد افزونه"
   },
@@ -2929,6 +2968,9 @@
   },
   "Remove gaps and border when windows are maximized": {
     "Remove gaps and border when windows are maximized": "حذف فاصله‌ها و حاشیه هنگام بزرگ‌کردن پنجره‌ها"
+  },
+  "Repeat": {
+    "Repeat": ""
   },
   "Report": {
     "Report": "گزارش"
@@ -4300,7 +4342,8 @@
     "Modular widget bar": "نوار ابزارک ماژولار",
     "Night mode & gamma": "",
     "Per-screen config": "پیکربندی به ازای هر صفحه",
-    "Quick system toggles": ""
+    "Quick system toggles": "",
+    "Security & privacy": ""
   },
   "greeter feature card title": {
     "App Theming": "تم برنامه",
@@ -4316,6 +4359,9 @@
   },
   "greeter feature card title | greeter settings link": {
     "DankBar": "DankBar"
+  },
+  "greeter feature card title | lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "greeter finish button": {
     "Finish": "پایان"
@@ -4559,6 +4605,9 @@
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "DMS را برای یکپارچه‌سازی NM بروز کنید."
+  },
+  "version requirement": {
+    "Requires %1": ""
   },
   "wallpaper directory file browser title": {
     "Select Wallpaper Directory": "انتخاب دایرکتوری تصاویر پس‌زمینه"

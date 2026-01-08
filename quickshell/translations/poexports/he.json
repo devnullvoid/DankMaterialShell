@@ -20,6 +20,12 @@
   "%1 display(s)": {
     "%1 display(s)": "%1 מסך/מסכים"
   },
+  "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": {
+    "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": ""
+  },
+  "%1 is now included in config": {
+    "%1 is now included in config": ""
+  },
   "%1 job(s)": {
     "%1 job(s)": "%1 עבודות"
   },
@@ -701,6 +707,9 @@
   "Clear at Startup": {
     "Clear at Startup": ""
   },
+  "Click 'Setup' to create %1 and add include to config.": {
+    "Click 'Setup' to create %1 and add include to config.": ""
+  },
   "Click 'Setup' to create cursor config and add include to your compositor config.": {
     "Click 'Setup' to create cursor config and add include to your compositor config.": ""
   },
@@ -712,6 +721,9 @@
   },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "לחץ/י על ייבוא כדי להוסיף קובץ ovpn. או conf."
+  },
+  "Click any shortcut to edit. Changes save to %1": {
+    "Click any shortcut to edit. Changes save to %1": ""
   },
   "Click any shortcut to edit. Changes save to dms/binds.kdl": {
     "Click any shortcut to edit. Changes save to dms/binds.kdl": "לחץ/י על כל קיצור דרך לעריכה. השינויים נשמרים בקובץ dms/binds.kdl"
@@ -847,6 +859,9 @@
   },
   "Connect": {
     "Connect": "התחבר/י"
+  },
+  "Connect to Hidden Network": {
+    "Connect to Hidden Network": ""
   },
   "Connect to VPN": {
     "Connect to VPN": "התחבר/י לVPN"
@@ -1403,6 +1418,9 @@
   "Enter launch prefix (e.g., 'uwsm-app')": {
     "Enter launch prefix (e.g., 'uwsm-app')": ""
   },
+  "Enter network name and password": {
+    "Enter network name and password": ""
+  },
   "Enter passkey for ": {
     "Enter passkey for ": "הזן/הזיני מפתח גישה עבור "
   },
@@ -1634,6 +1652,9 @@
   "Fixing...": {
     "Fixing...": "מתקן..."
   },
+  "Flags": {
+    "Flags": ""
+  },
   "Flipped": {
     "Flipped": ""
   },
@@ -1795,6 +1816,12 @@
   },
   "Hibernate": {
     "Hibernate": "שינה עמוקה"
+  },
+  "Hidden": {
+    "Hidden": ""
+  },
+  "Hidden Network": {
+    "Hidden Network": ""
   },
   "Hide Delay": {
     "Hide Delay": "עיכוב הסתרה"
@@ -2111,6 +2138,9 @@
   "Lock fade grace period": {
     "Lock fade grace period": ""
   },
+  "Locked": {
+    "Locked": ""
+  },
   "Log Out": {
     "Log Out": "התנתק/י"
   },
@@ -2119,6 +2149,9 @@
   },
   "Long Text": {
     "Long Text": "טקסט ארוך"
+  },
+  "Long press": {
+    "Long press": ""
   },
   "Longitude": {
     "Longitude": "קו אורך"
@@ -2344,6 +2377,9 @@
   },
   "Network Information": {
     "Network Information": "מידע רשת מפורט"
+  },
+  "Network Name (SSID)": {
+    "Network Name (SSID)": ""
   },
   "Network Speed Monitor": {
     "Network Speed Monitor": "מנטר מהירות רשת"
@@ -2921,6 +2957,9 @@
   "Reject Jobs": {
     "Reject Jobs": "דחה/י עבודות"
   },
+  "Release": {
+    "Release": ""
+  },
   "Reload Plugin": {
     "Reload Plugin": "טען/י תוסף מחדש"
   },
@@ -2929,6 +2968,9 @@
   },
   "Remove gaps and border when windows are maximized": {
     "Remove gaps and border when windows are maximized": ""
+  },
+  "Repeat": {
+    "Repeat": ""
   },
   "Report": {
     "Report": "דיווח"
@@ -4300,7 +4342,8 @@
     "Modular widget bar": "",
     "Night mode & gamma": "",
     "Per-screen config": "",
-    "Quick system toggles": ""
+    "Quick system toggles": "",
+    "Security & privacy": ""
   },
   "greeter feature card title": {
     "App Theming": "",
@@ -4316,6 +4359,9 @@
   },
   "greeter feature card title | greeter settings link": {
     "DankBar": ""
+  },
+  "greeter feature card title | lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "greeter finish button": {
     "Finish": ""
@@ -4559,6 +4605,9 @@
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "עדכן/י את dms עבור שילוב עם NM."
+  },
+  "version requirement": {
+    "Requires %1": ""
   },
   "wallpaper directory file browser title": {
     "Select Wallpaper Directory": "בחר/י תיקיית רקעים"
