@@ -1,5 +1,5 @@
 pragma Singleton
-pragma ComponentBehavior
+pragma ComponentBehavior: Bound
 
 import QtCore
 import QtQuick
@@ -200,10 +200,16 @@ Singleton {
     property bool showWorkspaceApps: false
     property bool groupWorkspaceApps: true
     property int maxWorkspaceIcons: 3
-    property bool workspacesPerMonitor: true
+    property bool workspaceFollowFocus: false
     property bool showOccupiedWorkspacesOnly: false
     property bool reverseScrolling: false
     property bool dwlShowAllTags: false
+    property string workspaceColorMode: "default"
+    property string workspaceUnfocusedColorMode: "default"
+    property string workspaceUrgentColorMode: "default"
+    property bool workspaceFocusedBorderEnabled: false
+    property string workspaceFocusedBorderColor: "primary"
+    property int workspaceFocusedBorderThickness: 2
     property var workspaceNameIcons: ({})
     property bool waveProgressEnabled: true
     property bool scrollTitleEnabled: true
