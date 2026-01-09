@@ -599,6 +599,39 @@ Item {
             return barConfig.autoHide ? "BAR_MANUAL_HIDE_SUCCESS" : "BAR_AUTO_HIDE_SUCCESS";
         }
 
+        function getPosition(selector: string, value: string): string {
+            const {
+                barConfig,
+                error
+            } = getBarConfig(selector, value);
+            if (error)
+                return error;
+            const positions = ["top", "bottom", "left", "right"];
+            return positions[barConfig.position] || "unknown";
+        }
+
+        function setPosition(selector: string, value: string, position: string): string {
+            const {
+                barConfig,
+                error
+            } = getBarConfig(selector, value);
+            if (error)
+                return error;
+            const positionMap = {
+                "top": SettingsData.Position.Top,
+                "bottom": SettingsData.Position.Bottom,
+                "left": SettingsData.Position.Left,
+                "right": SettingsData.Position.Right
+            };
+            const posValue = positionMap[position.toLowerCase()];
+            if (posValue === undefined)
+                return "BAR_INVALID_POSITION";
+            SettingsData.updateBarConfig(barConfig.id, {
+                position: posValue
+            });
+            return "BAR_POSITION_SET_SUCCESS";
+        }
+
         target: "bar"
     }
 
