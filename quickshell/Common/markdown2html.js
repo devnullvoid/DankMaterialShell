@@ -154,6 +154,9 @@ function markdownToHtml(text, colors) {
     html = html.replace(/<br\/>\s*<blockquote>/g, '<blockquote>');
     html = html.replace(/<br\/>\s*<h[1-6]>/g, '<h$1>');
 
+    // Remove <br/> tags immediately AFTER headers to prevent excessive gap
+    html = html.replace(/(<\/h[1-6]>)\s*<br\/>/g, '$1');
+
     // Remove empty paragraphs
     html = html.replace(/<p>\s*<\/p>/g, '');
     html = html.replace(/<p>\s*<br\/>\s*<\/p>/g, '');
