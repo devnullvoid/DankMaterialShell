@@ -11,6 +11,7 @@ FloatingWindow {
     property string wifiPasswordInput: ""
     property string wifiUsernameInput: ""
     property bool requiresEnterprise: false
+    property bool isHiddenNetwork: false
 
     property string wifiAnonymousIdentityInput: ""
     property string wifiDomainInput: ""
@@ -32,7 +33,6 @@ FloatingWindow {
     readonly property bool showPasswordField: fieldsInfo.length === 0
     readonly property bool showAnonField: requiresEnterprise && !isVpnPrompt
     readonly property bool showDomainField: requiresEnterprise && !isVpnPrompt
-    readonly property bool showShowPasswordCheckbox: fieldsInfo.length === 0
     readonly property bool showSavePasswordCheckbox: (isVpnPrompt || fieldsInfo.length > 0) && promptReason !== "pkcs11"
 
     readonly property int inputFieldHeight: Theme.fontSizeMedium + Theme.spacingL * 2
@@ -44,6 +44,8 @@ FloatingWindow {
     property int calculatedHeight: {
         let h = headerHeight + buttonRowHeight + Theme.spacingL * 2;
         h += fieldsInfo.length * inputFieldWithSpacing;
+        if (isHiddenNetwork)
+            h += inputFieldWithSpacing;
         if (showUsernameField)
             h += inputFieldWithSpacing;
         if (showPasswordField)
@@ -52,8 +54,6 @@ FloatingWindow {
             h += inputFieldWithSpacing;
         if (showDomainField)
             h += inputFieldWithSpacing;
-        if (showShowPasswordCheckbox)
-            h += checkboxRowHeight;
         if (showSavePasswordCheckbox)
             h += checkboxRowHeight;
         return h;
@@ -66,6 +66,10 @@ FloatingWindow {
                 if (firstItem)
                     firstItem.children[0].forceActiveFocus();
             }
+            return;
+        }
+        if (isHiddenNetwork) {
+            ssidInput.forceActiveFocus();
             return;
         }
         if (requiresEnterprise && !isVpnPrompt) {
@@ -82,6 +86,7 @@ FloatingWindow {
         wifiAnonymousIdentityInput = "";
         wifiDomainInput = "";
         isPromptMode = false;
+        isHiddenNetwork = false;
         promptToken = "";
         promptReason = "";
         promptFields = [];
@@ -95,6 +100,30 @@ FloatingWindow {
 
         const network = NetworkService.wifiNetworks.find(n => n.ssid === ssid);
         requiresEnterprise = network?.enterprise || false;
+
+        visible = true;
+        Qt.callLater(focusFirstField);
+    }
+
+    function showHidden() {
+        wifiPasswordSSID = "";
+        wifiPasswordInput = "";
+        wifiUsernameInput = "";
+        wifiAnonymousIdentityInput = "";
+        wifiDomainInput = "";
+        isPromptMode = false;
+        isHiddenNetwork = true;
+        promptToken = "";
+        promptReason = "";
+        promptFields = [];
+        promptSetting = "";
+        isVpnPrompt = false;
+        connectionName = "";
+        vpnServiceType = "";
+        connectionType = "";
+        fieldsInfo = [];
+        secretValues = {};
+        requiresEnterprise = false;
 
         visible = true;
         Qt.callLater(focusFirstField);
@@ -184,8 +213,9 @@ FloatingWindow {
             }
             NetworkService.submitCredentials(promptToken, secrets, savePasswordCheckbox.checked);
         } else {
+            const ssid = isHiddenNetwork ? ssidInput.text : wifiPasswordSSID;
             const username = requiresEnterprise ? usernameInput.text : "";
-            NetworkService.connectToWifi(wifiPasswordSSID, passwordInput.text, username, wifiAnonymousIdentityInput, wifiDomainInput);
+            NetworkService.connectToWifi(ssid, passwordInput.text, username, wifiAnonymousIdentityInput, wifiDomainInput, isHiddenNetwork);
         }
 
         hide();
@@ -196,6 +226,8 @@ FloatingWindow {
         passwordInput.text = "";
         if (requiresEnterprise)
             usernameInput.text = "";
+        if (isHiddenNetwork)
+            ssidInput.text = "";
     }
 
     function clearAndClose() {
@@ -215,6 +247,8 @@ FloatingWindow {
             return I18n.tr("Smartcard PIN");
         if (isVpnPrompt)
             return I18n.tr("VPN Password");
+        if (isHiddenNetwork)
+            return I18n.tr("Hidden Network");
         return I18n.tr("Wi-Fi Password");
     }
     minimumSize: Qt.size(420, calculatedHeight)
@@ -236,6 +270,7 @@ FloatingWindow {
         usernameInput.text = "";
         anonInput.text = "";
         domainMatchInput.text = "";
+        ssidInput.text = "";
         for (var i = 0; i < dynamicFieldsRepeater.count; i++) {
             const item = dynamicFieldsRepeater.itemAt(i);
             if (item?.children[0])
@@ -296,6 +331,8 @@ FloatingWindow {
                                     return I18n.tr("Smartcard Authentication");
                                 if (isVpnPrompt)
                                     return I18n.tr("Connect to VPN");
+                                if (isHiddenNetwork)
+                                    return I18n.tr("Connect to Hidden Network");
                                 return I18n.tr("Connect to Wi-Fi");
                             }
                             font.pixelSize: Theme.fontSizeLarge
@@ -315,6 +352,8 @@ FloatingWindow {
                                         return I18n.tr("Enter credentials for ") + wifiPasswordSSID;
                                     if (isVpnPrompt)
                                         return I18n.tr("Enter password for ") + wifiPasswordSSID;
+                                    if (isHiddenNetwork)
+                                        return I18n.tr("Enter network name and password");
                                     const prefix = requiresEnterprise ? I18n.tr("Enter credentials for ") : I18n.tr("Enter password for ");
                                     return prefix + wifiPasswordSSID;
                                 }
@@ -357,6 +396,34 @@ FloatingWindow {
                 }
             }
 
+            Rectangle {
+                width: parent.width
+                height: inputFieldHeight
+                radius: Theme.cornerRadius
+                color: Theme.surfaceHover
+                border.color: ssidInput.activeFocus ? Theme.primary : Theme.outlineStrong
+                border.width: ssidInput.activeFocus ? 2 : 1
+                visible: isHiddenNetwork
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: ssidInput.forceActiveFocus()
+                }
+
+                DankTextField {
+                    id: ssidInput
+
+                    anchors.fill: parent
+                    font.pixelSize: Theme.fontSizeMedium
+                    textColor: Theme.surfaceText
+                    placeholderText: I18n.tr("Network Name (SSID)")
+                    backgroundColor: "transparent"
+                    enabled: root.visible
+                    keyNavigationTab: passwordInput
+                    onAccepted: passwordInput.forceActiveFocus()
+                }
+            }
+
             Repeater {
                 id: dynamicFieldsRepeater
                 model: fieldsInfo
@@ -377,7 +444,8 @@ FloatingWindow {
                         anchors.fill: parent
                         font.pixelSize: Theme.fontSizeMedium
                         textColor: Theme.surfaceText
-                        echoMode: modelData.isSecret ? TextInput.Password : TextInput.Normal
+                        showPasswordToggle: modelData.isSecret
+                        echoMode: modelData.isSecret && !passwordVisible ? TextInput.Password : TextInput.Normal
                         placeholderText: getFieldLabel(modelData.name)
                         backgroundColor: "transparent"
                         enabled: root.visible
@@ -479,7 +547,8 @@ FloatingWindow {
                     font.pixelSize: Theme.fontSizeMedium
                     textColor: Theme.surfaceText
                     text: wifiPasswordInput
-                    echoMode: showPasswordCheckbox.checked ? TextInput.Normal : TextInput.Password
+                    showPasswordToggle: true
+                    echoMode: passwordVisible ? TextInput.Normal : TextInput.Password
                     placeholderText: (requiresEnterprise && !isVpnPrompt) ? I18n.tr("Password") : ""
                     backgroundColor: "transparent"
                     enabled: root.visible
@@ -558,88 +627,43 @@ FloatingWindow {
                 }
             }
 
-            Column {
+            Row {
                 spacing: Theme.spacingS
-                width: parent.width
+                visible: showSavePasswordCheckbox
 
-                Row {
-                    spacing: Theme.spacingS
-                    visible: showShowPasswordCheckbox
+                Rectangle {
+                    id: savePasswordCheckbox
 
-                    Rectangle {
-                        id: showPasswordCheckbox
+                    property bool checked: true
 
-                        property bool checked: false
+                    width: 20
+                    height: 20
+                    radius: 4
+                    color: checked ? Theme.primary : "transparent"
+                    border.color: checked ? Theme.primary : Theme.outlineButton
+                    border.width: 2
 
-                        width: 20
-                        height: 20
-                        radius: 4
-                        color: checked ? Theme.primary : "transparent"
-                        border.color: checked ? Theme.primary : Theme.outlineButton
-                        border.width: 2
-
-                        DankIcon {
-                            anchors.centerIn: parent
-                            name: "check"
-                            size: 12
-                            color: Theme.background
-                            visible: parent.checked
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: showPasswordCheckbox.checked = !showPasswordCheckbox.checked
-                        }
+                    DankIcon {
+                        anchors.centerIn: parent
+                        name: "check"
+                        size: 12
+                        color: Theme.background
+                        visible: parent.checked
                     }
 
-                    StyledText {
-                        text: I18n.tr("Show password")
-                        font.pixelSize: Theme.fontSizeMedium
-                        color: Theme.surfaceText
-                        anchors.verticalCenter: parent.verticalCenter
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: savePasswordCheckbox.checked = !savePasswordCheckbox.checked
                     }
                 }
 
-                Row {
-                    spacing: Theme.spacingS
-                    visible: showSavePasswordCheckbox
-
-                    Rectangle {
-                        id: savePasswordCheckbox
-
-                        property bool checked: false
-
-                        width: 20
-                        height: 20
-                        radius: 4
-                        color: checked ? Theme.primary : "transparent"
-                        border.color: checked ? Theme.primary : Theme.outlineButton
-                        border.width: 2
-
-                        DankIcon {
-                            anchors.centerIn: parent
-                            name: "check"
-                            size: 12
-                            color: Theme.background
-                            visible: parent.checked
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: savePasswordCheckbox.checked = !savePasswordCheckbox.checked
-                        }
-                    }
-
-                    StyledText {
-                        text: I18n.tr("Save password")
-                        font.pixelSize: Theme.fontSizeMedium
-                        color: Theme.surfaceText
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
+                StyledText {
+                    text: I18n.tr("Save password")
+                    font.pixelSize: Theme.fontSizeMedium
+                    color: Theme.surfaceText
+                    anchors.verticalCenter: parent.verticalCenter
                 }
             }
 
@@ -696,6 +720,8 @@ FloatingWindow {
                             }
                             if (isVpnPrompt)
                                 return passwordInput.text.length > 0;
+                            if (isHiddenNetwork)
+                                return ssidInput.text.length > 0;
                             return requiresEnterprise ? (usernameInput.text.length > 0 && passwordInput.text.length > 0) : passwordInput.text.length > 0;
                         }
                         opacity: enabled ? 1 : 0.5

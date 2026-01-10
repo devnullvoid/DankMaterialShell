@@ -20,6 +20,12 @@
   "%1 display(s)": {
     "%1 display(s)": "%1 monitor(es)"
   },
+  "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": {
+    "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": ""
+  },
+  "%1 is now included in config": {
+    "%1 is now included in config": ""
+  },
   "%1 job(s)": {
     "%1 job(s)": "%1 trabalho(s)"
   },
@@ -701,6 +707,9 @@
   "Clear at Startup": {
     "Clear at Startup": "Limpar ao Iniciar"
   },
+  "Click 'Setup' to create %1 and add include to config.": {
+    "Click 'Setup' to create %1 and add include to config.": ""
+  },
   "Click 'Setup' to create cursor config and add include to your compositor config.": {
     "Click 'Setup' to create cursor config and add include to your compositor config.": ""
   },
@@ -712,6 +721,9 @@
   },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "Clique em Importar para adicionar um arquivo .ovpn ou .conf"
+  },
+  "Click any shortcut to edit. Changes save to %1": {
+    "Click any shortcut to edit. Changes save to %1": ""
   },
   "Click any shortcut to edit. Changes save to dms/binds.kdl": {
     "Click any shortcut to edit. Changes save to dms/binds.kdl": "Clique em qualquer atalho para editar. Alterações são salvas em dms/binds.kdl"
@@ -847,6 +859,9 @@
   },
   "Connect": {
     "Connect": "Conectar"
+  },
+  "Connect to Hidden Network": {
+    "Connect to Hidden Network": ""
   },
   "Connect to VPN": {
     "Connect to VPN": "Conectar à VPN"
@@ -1403,6 +1418,9 @@
   "Enter launch prefix (e.g., 'uwsm-app')": {
     "Enter launch prefix (e.g., 'uwsm-app')": ""
   },
+  "Enter network name and password": {
+    "Enter network name and password": ""
+  },
   "Enter passkey for ": {
     "Enter passkey for ": "Entre chave de acesso para "
   },
@@ -1634,6 +1652,9 @@
   "Fixing...": {
     "Fixing...": "Consertando..."
   },
+  "Flags": {
+    "Flags": ""
+  },
   "Flipped": {
     "Flipped": ""
   },
@@ -1649,8 +1670,17 @@
   "Focus at Startup": {
     "Focus at Startup": ""
   },
+  "Focused Border": {
+    "Focused Border": ""
+  },
+  "Focused Color": {
+    "Focused Color": ""
+  },
   "Focused Window": {
     "Focused Window": "Janela Focada"
+  },
+  "Follow Monitor Focus": {
+    "Follow Monitor Focus": ""
   },
   "Follow focus": {
     "Follow focus": "Seguir foco"
@@ -1795,6 +1825,12 @@
   },
   "Hibernate": {
     "Hibernate": "Hibernar"
+  },
+  "Hidden": {
+    "Hidden": ""
+  },
+  "Hidden Network": {
+    "Hidden Network": ""
   },
   "Hide Delay": {
     "Hide Delay": ""
@@ -2111,6 +2147,9 @@
   "Lock fade grace period": {
     "Lock fade grace period": ""
   },
+  "Locked": {
+    "Locked": ""
+  },
   "Log Out": {
     "Log Out": "Sair"
   },
@@ -2119,6 +2158,9 @@
   },
   "Long Text": {
     "Long Text": "Longo Texto"
+  },
+  "Long press": {
+    "Long press": ""
   },
   "Longitude": {
     "Longitude": "Longitude"
@@ -2344,6 +2386,9 @@
   },
   "Network Information": {
     "Network Information": "Informações de Rede"
+  },
+  "Network Name (SSID)": {
+    "Network Name (SSID)": ""
   },
   "Network Speed Monitor": {
     "Network Speed Monitor": "Monitor de Velocidade da Rede"
@@ -2921,6 +2966,9 @@
   "Reject Jobs": {
     "Reject Jobs": "Rejeitar Trabalhos"
   },
+  "Release": {
+    "Release": ""
+  },
   "Reload Plugin": {
     "Reload Plugin": "Reiniciar Plugin"
   },
@@ -2929,6 +2977,9 @@
   },
   "Remove gaps and border when windows are maximized": {
     "Remove gaps and border when windows are maximized": "Remover espaçámentos e borda quando janelas estão maximizadas"
+  },
+  "Repeat": {
+    "Repeat": ""
   },
   "Report": {
     "Report": "Relatório"
@@ -3344,6 +3395,9 @@
   "Show all 9 tags instead of only occupied tags (DWL only)": {
     "Show all 9 tags instead of only occupied tags (DWL only)": "Mostrar todas as 9 tags ao invés de apenas tags ocupadas (apenas DWL)"
   },
+  "Show an outline ring around the focused workspace indicator": {
+    "Show an outline ring around the focused workspace indicator": ""
+  },
   "Show cava audio visualizer in media widget": {
     "Show cava audio visualizer in media widget": ""
   },
@@ -3412,6 +3466,9 @@
   },
   "Show workspace name on horizontal bars, and first letter on vertical bars": {
     "Show workspace name on horizontal bars, and first letter on vertical bars": ""
+  },
+  "Show workspaces of the currently focused monitor": {
+    "Show workspaces of the currently focused monitor": ""
   },
   "Shows all running applications with focus indication": {
     "Shows all running applications with focus indication": "Mostra todos os aplicativos em execução, destacando o que está em foco"
@@ -3779,6 +3836,9 @@
   "Unavailable": {
     "Unavailable": "Indisponível"
   },
+  "Unfocused Color": {
+    "Unfocused Color": ""
+  },
   "Uninstall Plugin": {
     "Uninstall Plugin": "Desinstalar Plugin"
   },
@@ -3820,6 +3880,9 @@
   },
   "Update Plugin": {
     "Update Plugin": "Atualizar Plugin"
+  },
+  "Urgent Color": {
+    "Urgent Color": ""
   },
   "Usage Tips": {
     "Usage Tips": ""
@@ -4114,6 +4177,9 @@
   "Workspace": {
     "Workspace": "Área de Trabalho"
   },
+  "Workspace Appearance": {
+    "Workspace Appearance": ""
+  },
   "Workspace Index Numbers": {
     "Workspace Index Numbers": "Índices das Áreas de Trabalho"
   },
@@ -4300,7 +4366,8 @@
     "Modular widget bar": "",
     "Night mode & gamma": "",
     "Per-screen config": "",
-    "Quick system toggles": ""
+    "Quick system toggles": "",
+    "Security & privacy": ""
   },
   "greeter feature card title": {
     "App Theming": "",
@@ -4316,6 +4383,9 @@
   },
   "greeter feature card title | greeter settings link": {
     "DankBar": ""
+  },
+  "greeter feature card title | lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "greeter finish button": {
     "Finish": ""
@@ -4559,6 +4629,9 @@
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "atualize dms para integração com o NM."
+  },
+  "version requirement": {
+    "Requires %1": ""
   },
   "wallpaper directory file browser title": {
     "Select Wallpaper Directory": "Selecionar Diretório de Papéis de Parede"

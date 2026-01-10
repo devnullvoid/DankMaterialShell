@@ -49,6 +49,20 @@
     "comment": ""
   },
   {
+    "term": "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "%1 is now included in config",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "%1 issue(s) found",
     "translation": "",
     "context": "greeter doctor page error count",
@@ -392,13 +406,6 @@
     "comment": ""
   },
   {
-    "term": "Accent Color",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Accept Jobs",
     "translation": "",
     "context": "",
@@ -449,13 +456,6 @@
   },
   {
     "term": "Activate",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Activation",
     "translation": "",
     "context": "",
     "reference": "",
@@ -624,13 +624,6 @@
   },
   {
     "term": "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Always Active",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1141,13 +1134,6 @@
     "comment": ""
   },
   {
-    "term": "Available in Detailed and Forecast view modes",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "BSSID",
     "translation": "",
     "context": "",
@@ -1172,13 +1158,6 @@
     "term": "Background Opacity",
     "translation": "",
     "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Background app icons",
-    "translation": "",
-    "context": "greeter feature card description",
     "reference": "",
     "comment": ""
   },
@@ -1694,13 +1673,6 @@
     "comment": ""
   },
   {
-    "term": "Choose how the weather widget is displayed",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Choose icon",
     "translation": "",
     "context": "",
@@ -1813,14 +1785,14 @@
     "comment": ""
   },
   {
-    "term": "Click 'Setup' to create cursor config and add include to your compositor config.",
+    "term": "Click 'Setup' to create %1 and add include to config.",
     "translation": "",
     "context": "",
     "reference": "",
     "comment": ""
   },
   {
-    "term": "Click 'Setup' to create dms/binds.kdl and add include to config.kdl.",
+    "term": "Click 'Setup' to create cursor config and add include to your compositor config.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -1841,7 +1813,7 @@
     "comment": ""
   },
   {
-    "term": "Click any shortcut to edit. Changes save to dms/binds.kdl",
+    "term": "Click any shortcut to edit. Changes save to %1",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2044,13 +2016,6 @@
     "comment": ""
   },
   {
-    "term": "Compact",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Compact Mode",
     "translation": "",
     "context": "",
@@ -2199,6 +2164,13 @@
   },
   {
     "term": "Connect",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Connect to Hidden Network",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2507,13 +2479,6 @@
   },
   {
     "term": "Custom",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Custom Color",
     "translation": "",
     "context": "",
     "reference": "",
@@ -2912,13 +2877,6 @@
     "comment": ""
   },
   {
-    "term": "Detailed",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Development",
     "translation": "",
     "context": "",
@@ -3123,13 +3081,6 @@
   },
   {
     "term": "Display currently focused application title",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Display hourly weather predictions",
     "translation": "",
     "context": "",
     "reference": "",
@@ -3543,6 +3494,13 @@
   },
   {
     "term": "Enter launch prefix (e.g., 'uwsm-app')",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Enter network name and password",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4025,13 +3983,6 @@
     "comment": ""
   },
   {
-    "term": "Feels",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Feels Like",
     "translation": "",
     "context": "",
@@ -4123,6 +4074,13 @@
     "comment": ""
   },
   {
+    "term": "Flags",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Flipped",
     "translation": "",
     "context": "",
@@ -4158,7 +4116,28 @@
     "comment": ""
   },
   {
+    "term": "Focused Border",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Focused Color",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Focused Window",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Follow Monitor Focus",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4222,20 +4201,6 @@
   },
   {
     "term": "Force terminal applications to always use dark color schemes",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Forecast",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Forecast Days",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4550,6 +4515,20 @@
     "comment": ""
   },
   {
+    "term": "Hidden",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hidden Network",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Hide Delay",
     "translation": "",
     "context": "",
@@ -4578,10 +4557,6 @@
     "comment": ""
   },
   {
-<<<<<<< HEAD
-    "term": "Hide settings",
-||||||| 3e1c6534
-=======
     "term": "Hide cursor after inactivity (0 = disabled)",
     "translation": "",
     "context": "",
@@ -4604,7 +4579,13 @@
   },
   {
     "term": "Hide on Touch",
->>>>>>> origin/master
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Hide settings",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4710,13 +4691,6 @@
   },
   {
     "term": "Hourly Forecast",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Hourly Forecast Count",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5101,30 +5075,9 @@
     "comment": ""
   },
   {
-    "term": "Keybind Sources",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Keybinds",
     "translation": "",
     "context": "greeter settings link",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Keybinds Search Settings",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Keybinds shown alongside regular search results",
-    "translation": "",
-    "context": "",
     "reference": "",
     "comment": ""
   },
@@ -5369,7 +5322,7 @@
   {
     "term": "Lock Screen",
     "translation": "",
-    "context": "lock screen notifications settings card",
+    "context": "greeter feature card title | lock screen notifications settings card",
     "reference": "",
     "comment": ""
   },
@@ -5416,6 +5369,13 @@
     "comment": ""
   },
   {
+    "term": "Locked",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Log Out",
     "translation": "",
     "context": "",
@@ -5431,6 +5391,13 @@
   },
   {
     "term": "Long Text",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Long press",
     "translation": "",
     "context": "",
     "reference": "",
@@ -5640,16 +5607,16 @@
     "comment": ""
   },
   {
-<<<<<<< HEAD
-    "term": "Maximum response length",
-    "translation": "",
-    "context": "",
-||||||| 3e1c6534
-=======
     "term": "Maximum number of notifications to keep",
     "translation": "",
     "context": "notification history limit",
->>>>>>> origin/master
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Maximum response length",
+    "translation": "",
+    "context": "",
     "reference": "",
     "comment": ""
   },
@@ -6039,6 +6006,13 @@
     "comment": ""
   },
   {
+    "term": "Network Name (SSID)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Network Speed Monitor",
     "translation": "",
     "context": "",
@@ -6222,13 +6196,6 @@
   },
   {
     "term": "No VPN profiles",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "No Weather Data",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6495,6 +6462,13 @@
   },
   {
     "term": "Not detected",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Note: Your messages will be sent to a remote provider (%1).\\nDo not send sensitive information.",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6942,13 +6916,6 @@
     "comment": ""
   },
   {
-    "term": "Per-Monitor Workspaces",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Per-screen config",
     "translation": "",
     "context": "greeter feature card description",
@@ -7229,13 +7196,6 @@
     "comment": ""
   },
   {
-    "term": "Precip",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Precipitation Chance",
     "translation": "",
     "context": "",
@@ -7488,6 +7448,13 @@
     "comment": ""
   },
   {
+    "term": "Ready to chat locally.",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Reason",
     "translation": "",
     "context": "",
@@ -7544,6 +7511,13 @@
     "comment": ""
   },
   {
+    "term": "Release",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Reload Plugin",
     "translation": "",
     "context": "",
@@ -7566,6 +7540,13 @@
   },
   {
     "term": "Remove gaps and border when windows are maximized",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Repeat",
     "translation": "",
     "context": "",
     "reference": "",
@@ -7610,6 +7591,13 @@
     "term": "Require holding button/key to confirm power off, restart, suspend, hibernate and logout",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Requires %1",
+    "translation": "",
+    "context": "version requirement",
     "reference": "",
     "comment": ""
   },
@@ -8041,13 +8029,6 @@
     "comment": ""
   },
   {
-    "term": "Search by key combo, description, or action name.\\n\\nDefault action copies the keybind to clipboard.\\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Search file contents",
     "translation": "",
     "context": "",
@@ -8070,13 +8051,6 @@
   },
   {
     "term": "Search keybinds...",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Search keyboard shortcuts from your compositor and applications",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8135,6 +8109,13 @@
     "term": "Security",
     "translation": "",
     "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Security & privacy",
+    "translation": "",
+    "context": "greeter feature card description",
     "reference": "",
     "comment": ""
   },
@@ -8223,13 +8204,6 @@
     "comment": ""
   },
   {
-    "term": "Select at least one provider",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Select device...",
     "translation": "",
     "context": "",
@@ -8280,13 +8254,6 @@
   },
   {
     "term": "Select the palette algorithm used for wallpaper-based colors",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Select which keybind providers to include",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8482,20 +8449,6 @@
     "comment": ""
   },
   {
-    "term": "Show Feels Like Temperature",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Forecast",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Show GPU Temperature",
     "translation": "",
     "context": "",
@@ -8524,28 +8477,7 @@
     "comment": ""
   },
   {
-    "term": "Show Hourly Forecast",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Humidity",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Show Line Numbers",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Location",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8622,20 +8554,6 @@
     "comment": ""
   },
   {
-    "term": "Show Precipitation Probability",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Pressure",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Show Profile Image",
     "translation": "",
     "context": "Enable profile image display on the lock screen window",
@@ -8658,13 +8576,6 @@
   },
   {
     "term": "Show Seconds",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Sunrise/Sunset",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8706,21 +8617,7 @@
     "comment": ""
   },
   {
-    "term": "Show Weather Condition",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Show Welcome",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Wind Speed",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8735,6 +8632,13 @@
   },
   {
     "term": "Show all 9 tags instead of only occupied tags (DWL only)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show an outline ring around the focused workspace indicator",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8867,20 +8771,6 @@
     "comment": ""
   },
   {
-    "term": "Show only workspaces belonging to each specific monitor.",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show password",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Show weather information in top bar and control center",
     "translation": "",
     "context": "",
@@ -8896,6 +8786,13 @@
   },
   {
     "term": "Show workspace name on horizontal bars, and first letter on vertical bars",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show workspaces of the currently focused monitor",
     "translation": "",
     "context": "",
     "reference": "",
@@ -8972,9 +8869,6 @@
     "comment": ""
   },
   {
-<<<<<<< HEAD
-||||||| 3e1c6534
-=======
     "term": "Skip",
     "translation": "",
     "context": "greeter skip button",
@@ -8989,7 +8883,6 @@
     "comment": ""
   },
   {
->>>>>>> origin/master
     "term": "Smartcard Authentication",
     "translation": "",
     "context": "",
@@ -9110,13 +9003,6 @@
   },
   {
     "term": "Stacked",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Standard",
     "translation": "",
     "context": "",
     "reference": "",
@@ -9321,7 +9207,7 @@
   {
     "term": "System Tray",
     "translation": "",
-    "context": "greeter feature card title",
+    "context": "",
     "reference": "",
     "comment": ""
   },
@@ -9767,13 +9653,6 @@
     "comment": ""
   },
   {
-    "term": "Trigger Prefix",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Turn off monitors after",
     "translation": "",
     "context": "",
@@ -9782,13 +9661,6 @@
   },
   {
     "term": "Type",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Type this prefix to search keybinds",
     "translation": "",
     "context": "",
     "reference": "",
@@ -9810,6 +9682,13 @@
   },
   {
     "term": "Unavailable",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Unfocused Color",
     "translation": "",
     "context": "",
     "reference": "",
@@ -9886,13 +9765,6 @@
     "comment": ""
   },
   {
-    "term": "Unpin",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Unpin from Dock",
     "translation": "",
     "context": "",
@@ -9942,7 +9814,7 @@
     "comment": ""
   },
   {
-    "term": "Usage Tips",
+    "term": "Urgent Color",
     "translation": "",
     "context": "",
     "reference": "",
@@ -10096,13 +9968,6 @@
     "comment": ""
   },
   {
-    "term": "Use trigger prefix to activate",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Use%",
     "translation": "",
     "context": "",
@@ -10111,13 +9976,6 @@
   },
   {
     "term": "Used",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Used when accent color is set to Custom",
     "translation": "",
     "context": "",
     "reference": "",
@@ -10279,13 +10137,6 @@
   },
   {
     "term": "Vibrant palette with playful saturation.",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "View Mode",
     "translation": "",
     "context": "",
     "reference": "",
@@ -10663,6 +10514,13 @@
     "comment": ""
   },
   {
+    "term": "Workspace Appearance",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Workspace Index Numbers",
     "translation": "",
     "context": "",
@@ -10733,16 +10591,16 @@
     "comment": ""
   },
   {
-<<<<<<< HEAD
-    "term": "You",
-    "translation": "",
-    "context": "",
-||||||| 3e1c6534
-=======
     "term": "Yesterday",
     "translation": "",
     "context": "notification history filter",
->>>>>>> origin/master
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "You",
+    "translation": "",
+    "context": "",
     "reference": "",
     "comment": ""
   },
@@ -10804,20 +10662,6 @@
   },
   {
     "term": "dgop not available",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "dms/binds.kdl exists but is not included in config.kdl. Custom keybinds will not work until this is fixed.",
-    "translation": "",
-    "context": "",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "dms/binds.kdl is now included in config.kdl",
     "translation": "",
     "context": "",
     "reference": "",

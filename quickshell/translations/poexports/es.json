@@ -20,6 +20,12 @@
   "%1 display(s)": {
     "%1 display(s)": "%1 pantalla(s)"
   },
+  "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": {
+    "%1 exists but is not included in config. Custom keybinds will not work until this is fixed.": ""
+  },
+  "%1 is now included in config": {
+    "%1 is now included in config": ""
+  },
   "%1 job(s)": {
     "%1 job(s)": "%1 trabajo(s)"
   },
@@ -701,6 +707,9 @@
   "Clear at Startup": {
     "Clear at Startup": "Limpiar al inicio"
   },
+  "Click 'Setup' to create %1 and add include to config.": {
+    "Click 'Setup' to create %1 and add include to config.": ""
+  },
   "Click 'Setup' to create cursor config and add include to your compositor config.": {
     "Click 'Setup' to create cursor config and add include to your compositor config.": ""
   },
@@ -712,6 +721,9 @@
   },
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "Clic en importar para añadir un archivo .ovpn o .conf"
+  },
+  "Click any shortcut to edit. Changes save to %1": {
+    "Click any shortcut to edit. Changes save to %1": ""
   },
   "Click any shortcut to edit. Changes save to dms/binds.kdl": {
     "Click any shortcut to edit. Changes save to dms/binds.kdl": "Haz clic en cualquier acceso directo para editarlo. Los cambios se guardan en dms/binds.kdl"
@@ -847,6 +859,9 @@
   },
   "Connect": {
     "Connect": "Conectar"
+  },
+  "Connect to Hidden Network": {
+    "Connect to Hidden Network": ""
   },
   "Connect to VPN": {
     "Connect to VPN": "Conectar a una VPN"
@@ -1403,6 +1418,9 @@
   "Enter launch prefix (e.g., 'uwsm-app')": {
     "Enter launch prefix (e.g., 'uwsm-app')": "Introduce prefijo de lanzamiento (e.j.,'uwsm-app')"
   },
+  "Enter network name and password": {
+    "Enter network name and password": ""
+  },
   "Enter passkey for ": {
     "Enter passkey for ": "Ingresar clave para "
   },
@@ -1634,6 +1652,9 @@
   "Fixing...": {
     "Fixing...": "Arreglando..."
   },
+  "Flags": {
+    "Flags": ""
+  },
   "Flipped": {
     "Flipped": "Voltear"
   },
@@ -1649,8 +1670,17 @@
   "Focus at Startup": {
     "Focus at Startup": "Centrarse en el inicio"
   },
+  "Focused Border": {
+    "Focused Border": ""
+  },
+  "Focused Color": {
+    "Focused Color": ""
+  },
   "Focused Window": {
     "Focused Window": "Ventana enfocada"
+  },
+  "Follow Monitor Focus": {
+    "Follow Monitor Focus": ""
   },
   "Follow focus": {
     "Follow focus": "Seguir foco"
@@ -1795,6 +1825,12 @@
   },
   "Hibernate": {
     "Hibernate": "Hibernar"
+  },
+  "Hidden": {
+    "Hidden": ""
+  },
+  "Hidden Network": {
+    "Hidden Network": ""
   },
   "Hide Delay": {
     "Hide Delay": "Ocultar Retardo"
@@ -2111,6 +2147,9 @@
   "Lock fade grace period": {
     "Lock fade grace period": ""
   },
+  "Locked": {
+    "Locked": ""
+  },
   "Log Out": {
     "Log Out": "Cerrar sesión"
   },
@@ -2119,6 +2158,9 @@
   },
   "Long Text": {
     "Long Text": "Texto largo"
+  },
+  "Long press": {
+    "Long press": ""
   },
   "Longitude": {
     "Longitude": "Longitud"
@@ -2344,6 +2386,9 @@
   },
   "Network Information": {
     "Network Information": "Información de red"
+  },
+  "Network Name (SSID)": {
+    "Network Name (SSID)": ""
   },
   "Network Speed Monitor": {
     "Network Speed Monitor": "Monitor de velocidad de red"
@@ -2921,6 +2966,9 @@
   "Reject Jobs": {
     "Reject Jobs": "Rechazar trabajos"
   },
+  "Release": {
+    "Release": ""
+  },
   "Reload Plugin": {
     "Reload Plugin": "Reiniciar complemento"
   },
@@ -2929,6 +2977,9 @@
   },
   "Remove gaps and border when windows are maximized": {
     "Remove gaps and border when windows are maximized": "Eliminar espacios y bordes cuando las ventanas estan maximizadas"
+  },
+  "Repeat": {
+    "Repeat": ""
   },
   "Report": {
     "Report": "Reporte"
@@ -3344,6 +3395,9 @@
   "Show all 9 tags instead of only occupied tags (DWL only)": {
     "Show all 9 tags instead of only occupied tags (DWL only)": "Mostrar las 9 etiquetas en lugar de solo las ocupadas (solo DWL)"
   },
+  "Show an outline ring around the focused workspace indicator": {
+    "Show an outline ring around the focused workspace indicator": ""
+  },
   "Show cava audio visualizer in media widget": {
     "Show cava audio visualizer in media widget": "Mostrar visualizador de auido cava en el widget de multimedia"
   },
@@ -3412,6 +3466,9 @@
   },
   "Show workspace name on horizontal bars, and first letter on vertical bars": {
     "Show workspace name on horizontal bars, and first letter on vertical bars": "Mostrar el nombre del espacio de trabajo en las barras horizontales y la primera letra en las verticales"
+  },
+  "Show workspaces of the currently focused monitor": {
+    "Show workspaces of the currently focused monitor": ""
   },
   "Shows all running applications with focus indication": {
     "Shows all running applications with focus indication": "Mostrar todas las ventanas abiertas destacando la enfocada"
@@ -3779,6 +3836,9 @@
   "Unavailable": {
     "Unavailable": "No disponible"
   },
+  "Unfocused Color": {
+    "Unfocused Color": ""
+  },
   "Uninstall Plugin": {
     "Uninstall Plugin": "Desinstalar complemento"
   },
@@ -3820,6 +3880,9 @@
   },
   "Update Plugin": {
     "Update Plugin": "Actualizar complemento"
+  },
+  "Urgent Color": {
+    "Urgent Color": ""
   },
   "Usage Tips": {
     "Usage Tips": ""
@@ -4114,6 +4177,9 @@
   "Workspace": {
     "Workspace": "Espacio de trabajo"
   },
+  "Workspace Appearance": {
+    "Workspace Appearance": ""
+  },
   "Workspace Index Numbers": {
     "Workspace Index Numbers": "Espacios de trabajo numerados"
   },
@@ -4300,7 +4366,8 @@
     "Modular widget bar": "",
     "Night mode & gamma": "",
     "Per-screen config": "",
-    "Quick system toggles": ""
+    "Quick system toggles": "",
+    "Security & privacy": ""
   },
   "greeter feature card title": {
     "App Theming": "",
@@ -4316,6 +4383,9 @@
   },
   "greeter feature card title | greeter settings link": {
     "DankBar": ""
+  },
+  "greeter feature card title | lock screen notifications settings card": {
+    "Lock Screen": ""
   },
   "greeter finish button": {
     "Finish": ""
@@ -4559,6 +4629,9 @@
   },
   "update dms for NM integration.": {
     "update dms for NM integration.": "Actualizar dms para integración con NM."
+  },
+  "version requirement": {
+    "Requires %1": ""
   },
   "wallpaper directory file browser title": {
     "Select Wallpaper Directory": "Elegir carpeta de fondos de pantalla"

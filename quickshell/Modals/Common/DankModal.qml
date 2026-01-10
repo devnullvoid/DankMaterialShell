@@ -49,7 +49,7 @@ Item {
     readonly property alias clickCatcher: clickCatcher
     readonly property bool useHyprlandFocusGrab: CompositorService.useHyprlandFocusGrab
     readonly property bool useBackground: showBackground && SettingsData.modalDarkenBackground
-    readonly property bool useSingleWindow: useHyprlandFocusGrab || useBackground
+    readonly property bool useSingleWindow: CompositorService.isHyprland || useBackground
 
     signal opened
     signal dialogClosed

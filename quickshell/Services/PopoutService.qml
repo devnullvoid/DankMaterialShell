@@ -416,8 +416,12 @@ Singleton {
         notificationModal?.close();
     }
 
-    function showWifiPasswordModal() {
-        wifiPasswordModal?.show();
+    function showWifiPasswordModal(ssid) {
+        wifiPasswordModal?.show(ssid);
+    }
+
+    function showHiddenNetworkModal() {
+        wifiPasswordModal?.showHidden();
     }
 
     function hideWifiPasswordModal() {

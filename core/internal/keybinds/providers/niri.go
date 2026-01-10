@@ -187,7 +187,15 @@ func (n *NiriProvider) formatRawAction(action string, args []string) string {
 		}
 	}
 
-	return action + " " + strings.Join(args, " ")
+	quotedArgs := make([]string, len(args))
+	for i, arg := range args {
+		if arg == "" {
+			quotedArgs[i] = `""`
+		} else {
+			quotedArgs[i] = arg
+		}
+	}
+	return action + " " + strings.Join(quotedArgs, " ")
 }
 
 func (n *NiriProvider) formatKey(kb *NiriKeyBinding) string {
@@ -293,9 +301,15 @@ func (n *NiriProvider) loadOverrideBinds() (map[string]*overrideBind, error) {
 				continue
 			}
 			keyStr := parser.formatBindKey(kb)
+
+			action := n.buildActionFromNode(child)
+			if action == "" {
+				action = n.formatRawAction(kb.Action, kb.Args)
+			}
+
 			binds[keyStr] = &overrideBind{
 				Key:         keyStr,
-				Action:      n.formatRawAction(kb.Action, kb.Args),
+				Action:      action,
 				Description: kb.Description,
 				Options:     n.extractOptions(child),
 			}
@@ -303,6 +317,36 @@ func (n *NiriProvider) loadOverrideBinds() (map[string]*overrideBind, error) {
 	}
 
 	return binds, nil
+}
+
+func (n *NiriProvider) buildActionFromNode(bindNode *document.Node) string {
+	if len(bindNode.Children) == 0 {
+		return ""
+	}
+
+	actionNode := bindNode.Children[0]
+
+	kdlStr := strings.TrimSpace(actionNode.String())
+	if kdlStr == "" {
+		return ""
+	}
+
+	return n.kdlActionToInternal(kdlStr)
+}
+
+func (n *NiriProvider) kdlActionToInternal(kdlAction string) string {
+	parts := n.parseActionParts(kdlAction)
+	if len(parts) == 0 {
+		return kdlAction
+	}
+
+	for i, part := range parts {
+		if part == "" {
+			parts[i] = `""`
+		}
+	}
+
+	return strings.Join(parts, " ")
 }
 
 func (n *NiriProvider) extractOptions(node *document.Node) map[string]any {
