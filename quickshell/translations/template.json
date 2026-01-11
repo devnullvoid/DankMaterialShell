@@ -714,6 +714,13 @@
     "comment": ""
   },
   {
+    "term": "App ID Substitutions",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "App Launcher",
     "translation": "",
     "context": "",
@@ -2012,6 +2019,13 @@
     "term": "Community themes",
     "translation": "",
     "context": "greeter feature card description",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Compact",
+    "translation": "",
+    "context": "",
     "reference": "",
     "comment": ""
   },
@@ -5481,6 +5495,13 @@
     "comment": ""
   },
   {
+    "term": "Map window class names to icon names for proper icon display",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Margin",
     "translation": "",
     "context": "",
@@ -6881,6 +6902,13 @@
     "comment": ""
   },
   {
+    "term": "Pattern",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Pause",
     "translation": "",
     "context": "",
@@ -7547,6 +7575,13 @@
   },
   {
     "term": "Repeat",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Replacement",
     "translation": "",
     "context": "",
     "reference": "",
@@ -9955,6 +9990,13 @@
   },
   {
     "term": "Use monospace font for AI replies (better for code)",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Use smaller notification cards",
     "translation": "",
     "context": "",
     "reference": "",

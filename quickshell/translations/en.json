@@ -116,7 +116,7 @@
   {
     "term": "1 day",
     "context": "notification history retention option",
-    "reference": "Modules/Settings/ClipboardTab.qml:103, Modules/Settings/NotificationsTab.qml:284, Modules/Settings/NotificationsTab.qml:297, Modules/Settings/NotificationsTab.qml:302",
+    "reference": "Modules/Settings/ClipboardTab.qml:103, Modules/Settings/NotificationsTab.qml:293, Modules/Settings/NotificationsTab.qml:306, Modules/Settings/NotificationsTab.qml:311",
     "comment": ""
   },
   {
@@ -164,7 +164,7 @@
   {
     "term": "14 days",
     "context": "notification history retention option",
-    "reference": "Modules/Settings/ClipboardTab.qml:115, Modules/Settings/NotificationsTab.qml:290, Modules/Settings/NotificationsTab.qml:297, Modules/Settings/NotificationsTab.qml:308",
+    "reference": "Modules/Settings/ClipboardTab.qml:115, Modules/Settings/NotificationsTab.qml:299, Modules/Settings/NotificationsTab.qml:306, Modules/Settings/NotificationsTab.qml:317",
     "comment": ""
   },
   {
@@ -206,7 +206,7 @@
   {
     "term": "3 days",
     "context": "notification history retention option",
-    "reference": "Modules/Settings/ClipboardTab.qml:107, Modules/Settings/NotificationsTab.qml:286, Modules/Settings/NotificationsTab.qml:297, Modules/Settings/NotificationsTab.qml:304",
+    "reference": "Modules/Settings/ClipboardTab.qml:107, Modules/Settings/NotificationsTab.qml:295, Modules/Settings/NotificationsTab.qml:306, Modules/Settings/NotificationsTab.qml:313",
     "comment": ""
   },
   {
@@ -218,7 +218,7 @@
   {
     "term": "30 days",
     "context": "notification history filter | notification history retention option",
-    "reference": "Modules/Settings/ClipboardTab.qml:119, Modules/Settings/NotificationsTab.qml:292, Modules/Settings/NotificationsTab.qml:297, Modules/Settings/NotificationsTab.qml:310, Modules/Notifications/Center/HistoryNotificationList.qml:91",
+    "reference": "Modules/Settings/ClipboardTab.qml:119, Modules/Settings/NotificationsTab.qml:301, Modules/Settings/NotificationsTab.qml:306, Modules/Settings/NotificationsTab.qml:319, Modules/Notifications/Center/HistoryNotificationList.qml:91",
     "comment": ""
   },
   {
@@ -248,7 +248,7 @@
   {
     "term": "7 days",
     "context": "notification history filter | notification history retention option",
-    "reference": "Modules/Settings/ClipboardTab.qml:111, Modules/Settings/NotificationsTab.qml:288, Modules/Settings/NotificationsTab.qml:297, Modules/Settings/NotificationsTab.qml:306, Modules/Notifications/Center/HistoryNotificationList.qml:90",
+    "reference": "Modules/Settings/ClipboardTab.qml:111, Modules/Settings/NotificationsTab.qml:297, Modules/Settings/NotificationsTab.qml:306, Modules/Settings/NotificationsTab.qml:315, Modules/Notifications/Center/HistoryNotificationList.qml:90",
     "comment": ""
   },
   {
@@ -392,7 +392,7 @@
   {
     "term": "Activate",
     "context": "Activate",
-    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:373",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:382",
     "comment": ""
   },
   {
@@ -612,6 +612,12 @@
     "comment": ""
   },
   {
+    "term": "App ID Substitutions",
+    "context": "App ID Substitutions",
+    "reference": "Modules/Settings/RunningAppsTab.qml:39",
+    "comment": ""
+  },
+  {
     "term": "App Launcher",
     "context": "App Launcher",
     "reference": "Modules/Settings/WidgetsTab.qml:44",
@@ -620,7 +626,7 @@
   {
     "term": "App Names",
     "context": "lock screen notification mode option",
-    "reference": "Modules/Settings/LockScreenTab.qml:84, Modules/Settings/NotificationsTab.qml:176",
+    "reference": "Modules/Settings/LockScreenTab.qml:84, Modules/Settings/NotificationsTab.qml:185",
     "comment": ""
   },
   {
@@ -812,7 +818,7 @@
   {
     "term": "Auto",
     "context": "Auto",
-    "reference": "Modules/Settings/NetworkTab.qml:207, Modules/Settings/NetworkTab.qml:814, Modules/Settings/NetworkTab.qml:818, Modules/Settings/NetworkTab.qml:819, Modules/Settings/NetworkTab.qml:822, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:351, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:359, Modules/ControlCenter/Details/NetworkDetail.qml:105, Modules/ControlCenter/Details/NetworkDetail.qml:106, Modules/ControlCenter/Details/NetworkDetail.qml:109, Modules/ControlCenter/Details/NetworkDetail.qml:112",
+    "reference": "Modules/Settings/NetworkTab.qml:207, Modules/Settings/NetworkTab.qml:814, Modules/Settings/NetworkTab.qml:818, Modules/Settings/NetworkTab.qml:819, Modules/Settings/NetworkTab.qml:822, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:351, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:359, Modules/ControlCenter/Details/NetworkDetail.qml:114, Modules/ControlCenter/Details/NetworkDetail.qml:115, Modules/ControlCenter/Details/NetworkDetail.qml:118, Modules/ControlCenter/Details/NetworkDetail.qml:121",
     "comment": ""
   },
   {
@@ -854,7 +860,7 @@
   {
     "term": "Auto-delete notifications older than this",
     "context": "notification history setting",
-    "reference": "Modules/Settings/NotificationsTab.qml:278",
+    "reference": "Modules/Settings/NotificationsTab.qml:287",
     "comment": ""
   },
   {
@@ -1616,7 +1622,7 @@
   {
     "term": "Close",
     "context": "Close",
-    "reference": "Modals/NetworkInfoModal.qml:129, Modals/NetworkWiredInfoModal.qml:129, Modules/SystemUpdatePopout.qml:335, Modules/AIAssistant/AIAssistantSettings.qml:44, Modules/AIAssistant/AIAssistant.qml:156, Modules/DankBar/Widgets/RunningApps.qml:888",
+    "reference": "Modals/NetworkInfoModal.qml:129, Modals/NetworkWiredInfoModal.qml:129, Modules/SystemUpdatePopout.qml:335, Modules/AIAssistant/AIAssistantSettings.qml:44, Modules/AIAssistant/AIAssistant.qml:156, Modules/DankBar/Widgets/RunningApps.qml:898",
     "comment": ""
   },
   {
@@ -1725,6 +1731,12 @@
     "term": "Community themes",
     "context": "greeter feature card description",
     "reference": "Modals/Greeter/GreeterWelcomePage.qml:107",
+    "comment": ""
+  },
+  {
+    "term": "Compact",
+    "context": "Compact",
+    "reference": "Modules/Settings/NotificationsTab.qml:151",
     "comment": ""
   },
   {
@@ -1856,7 +1868,7 @@
   {
     "term": "Connect",
     "context": "Connect",
-    "reference": "Modals/WifiPasswordModal.qml:732, Modules/ControlCenter/Details/BluetoothDetail.qml:554, Modules/ControlCenter/Details/NetworkDetail.qml:720",
+    "reference": "Modals/WifiPasswordModal.qml:732, Modules/ControlCenter/Details/BluetoothDetail.qml:554, Modules/ControlCenter/Details/NetworkDetail.qml:729",
     "comment": ""
   },
   {
@@ -1880,7 +1892,7 @@
   {
     "term": "Connected",
     "context": "Connected",
-    "reference": "Modules/Settings/AboutTab.qml:669, Modules/Settings/NetworkTab.qml:385, Modules/Settings/NetworkTab.qml:1126, Modules/Settings/NetworkTab.qml:1478, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:21, Modules/ControlCenter/Details/BluetoothDetail.qml:254, Modules/ControlCenter/Details/NetworkDetail.qml:567",
+    "reference": "Modules/Settings/AboutTab.qml:669, Modules/Settings/NetworkTab.qml:385, Modules/Settings/NetworkTab.qml:1126, Modules/Settings/NetworkTab.qml:1478, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:21, Modules/ControlCenter/Details/BluetoothDetail.qml:254, Modules/ControlCenter/Details/NetworkDetail.qml:576",
     "comment": ""
   },
   {
@@ -1922,7 +1934,7 @@
   {
     "term": "Control what notification information is shown on the lock screen",
     "context": "lock screen notification privacy setting",
-    "reference": "Modules/Settings/LockScreenTab.qml:83, Modules/Settings/NotificationsTab.qml:175",
+    "reference": "Modules/Settings/LockScreenTab.qml:83, Modules/Settings/NotificationsTab.qml:184",
     "comment": ""
   },
   {
@@ -2006,7 +2018,7 @@
   {
     "term": "Count Only",
     "context": "lock screen notification mode option",
-    "reference": "Modules/Settings/LockScreenTab.qml:84, Modules/Settings/NotificationsTab.qml:176",
+    "reference": "Modules/Settings/LockScreenTab.qml:84, Modules/Settings/NotificationsTab.qml:185",
     "comment": ""
   },
   {
@@ -2036,7 +2048,7 @@
   {
     "term": "Critical Priority",
     "context": "Critical Priority",
-    "reference": "Modules/Settings/NotificationsTab.qml:230, Modules/Settings/NotificationsTab.qml:337, Modules/Notifications/Center/NotificationSettings.qml:203, Modules/Notifications/Center/NotificationSettings.qml:366",
+    "reference": "Modules/Settings/NotificationsTab.qml:239, Modules/Settings/NotificationsTab.qml:346, Modules/Notifications/Center/NotificationSettings.qml:203, Modules/Notifications/Center/NotificationSettings.qml:366",
     "comment": ""
   },
   {
@@ -2498,7 +2510,7 @@
   {
     "term": "Disable Autoconnect",
     "context": "Disable Autoconnect",
-    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:777",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:786",
     "comment": ""
   },
   {
@@ -2522,13 +2534,13 @@
   {
     "term": "Disabled",
     "context": "lock screen notification mode option",
-    "reference": "Modules/Settings/DankBarTab.qml:435, Modules/Settings/LockScreenTab.qml:84, Modules/Settings/NotificationsTab.qml:176, Modules/Settings/NetworkTab.qml:756, Modules/Settings/DisplayConfig/DisplayConfigState.qml:860, Modules/Settings/DisplayConfig/DisplayConfigState.qml:866, Modules/Settings/DisplayConfig/DisplayConfigState.qml:868, Modules/Settings/DisplayConfig/DisplayConfigState.qml:880",
+    "reference": "Modules/Settings/DankBarTab.qml:435, Modules/Settings/LockScreenTab.qml:84, Modules/Settings/NetworkTab.qml:756, Modules/Settings/NotificationsTab.qml:185, Modules/Settings/DisplayConfig/DisplayConfigState.qml:860, Modules/Settings/DisplayConfig/DisplayConfigState.qml:866, Modules/Settings/DisplayConfig/DisplayConfigState.qml:868, Modules/Settings/DisplayConfig/DisplayConfigState.qml:880",
     "comment": ""
   },
   {
     "term": "Disabling WiFi...",
     "context": "Disabling WiFi...",
-    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:179",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:188",
     "comment": ""
   },
   {
@@ -2540,7 +2552,7 @@
   {
     "term": "Disconnect",
     "context": "Disconnect",
-    "reference": "Widgets/VpnDetailContent.qml:124, Modules/Settings/NetworkTab.qml:1547, Modules/ControlCenter/Details/BluetoothDetail.qml:554, Modules/ControlCenter/Details/NetworkDetail.qml:398, Modules/ControlCenter/Details/NetworkDetail.qml:720",
+    "reference": "Widgets/VpnDetailContent.qml:124, Modules/Settings/NetworkTab.qml:1547, Modules/ControlCenter/Details/BluetoothDetail.qml:554, Modules/ControlCenter/Details/NetworkDetail.qml:407, Modules/ControlCenter/Details/NetworkDetail.qml:729",
     "comment": ""
   },
   {
@@ -2570,7 +2582,7 @@
   {
     "term": "Dismiss",
     "context": "Dismiss",
-    "reference": "Modules/Notifications/Center/NotificationCard.qml:539, Modules/Notifications/Center/NotificationCard.qml:632, Modules/Notifications/Popup/NotificationPopup.qml:24",
+    "reference": "Modules/Notifications/Center/NotificationCard.qml:532, Modules/Notifications/Center/NotificationCard.qml:626, Modules/Notifications/Popup/NotificationPopup.qml:24",
     "comment": ""
   },
   {
@@ -2696,7 +2708,7 @@
   {
     "term": "Do Not Disturb",
     "context": "Do Not Disturb",
-    "reference": "Modules/Settings/NotificationsTab.qml:152, Modules/Notifications/Center/NotificationHeader.qml:63, Modules/Notifications/Center/NotificationSettings.qml:143, Modules/ControlCenter/Components/DragDropGrid.qml:605, Modules/ControlCenter/Models/WidgetModel.qml:85",
+    "reference": "Modules/Settings/NotificationsTab.qml:161, Modules/Notifications/Center/NotificationHeader.qml:63, Modules/Notifications/Center/NotificationSettings.qml:143, Modules/ControlCenter/Components/DragDropGrid.qml:605, Modules/ControlCenter/Models/WidgetModel.qml:85",
     "comment": ""
   },
   {
@@ -2852,7 +2864,7 @@
   {
     "term": "Enable Autoconnect",
     "context": "Enable Autoconnect",
-    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:777",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:786",
     "comment": ""
   },
   {
@@ -2864,7 +2876,7 @@
   {
     "term": "Enable Do Not Disturb",
     "context": "Enable Do Not Disturb",
-    "reference": "Modules/Settings/NotificationsTab.qml:158",
+    "reference": "Modules/Settings/NotificationsTab.qml:167",
     "comment": ""
   },
   {
@@ -2876,7 +2888,7 @@
   {
     "term": "Enable History",
     "context": "notification history toggle label",
-    "reference": "Modules/Settings/NotificationsTab.qml:254",
+    "reference": "Modules/Settings/NotificationsTab.qml:263",
     "comment": ""
   },
   {
@@ -2900,7 +2912,7 @@
   {
     "term": "Enable WiFi",
     "context": "Enable WiFi",
-    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:229",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:238",
     "comment": ""
   },
   {
@@ -2930,7 +2942,7 @@
   {
     "term": "Enabling WiFi...",
     "context": "Enabling WiFi...",
-    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:179",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:188",
     "comment": ""
   },
   {
@@ -3044,7 +3056,7 @@
   {
     "term": "Ethernet",
     "context": "Ethernet",
-    "reference": "Modules/Settings/NetworkTab.qml:158, Modules/Settings/NetworkTab.qml:207, Modules/Settings/NetworkTab.qml:275, Modules/ControlCenter/Details/NetworkDetail.qml:124",
+    "reference": "Modules/Settings/NetworkTab.qml:158, Modules/Settings/NetworkTab.qml:207, Modules/Settings/NetworkTab.qml:275, Modules/ControlCenter/Details/NetworkDetail.qml:133",
     "comment": ""
   },
   {
@@ -3260,7 +3272,7 @@
   {
     "term": "Failed to parse plugin_settings.json",
     "context": "Failed to parse plugin_settings.json",
-    "reference": "Common/SettingsData.qml:990",
+    "reference": "Common/SettingsData.qml:992",
     "comment": ""
   },
   {
@@ -3272,7 +3284,7 @@
   {
     "term": "Failed to parse settings.json",
     "context": "Failed to parse settings.json",
-    "reference": "Common/SettingsData.qml:927, Common/SettingsData.qml:2115",
+    "reference": "Common/SettingsData.qml:929, Common/SettingsData.qml:2159",
     "comment": ""
   },
   {
@@ -3614,7 +3626,7 @@
   {
     "term": "Forever",
     "context": "notification history retention option",
-    "reference": "Modules/Settings/NotificationsTab.qml:282, Modules/Settings/NotificationsTab.qml:297, Modules/Settings/NotificationsTab.qml:300",
+    "reference": "Modules/Settings/NotificationsTab.qml:291, Modules/Settings/NotificationsTab.qml:306, Modules/Settings/NotificationsTab.qml:309",
     "comment": ""
   },
   {
@@ -3632,7 +3644,7 @@
   {
     "term": "Forget Network",
     "context": "Forget Network",
-    "reference": "Modules/Settings/NetworkTab.qml:1233, Modules/ControlCenter/Details/NetworkDetail.qml:800",
+    "reference": "Modules/Settings/NetworkTab.qml:1233, Modules/ControlCenter/Details/NetworkDetail.qml:809",
     "comment": ""
   },
   {
@@ -3656,7 +3668,7 @@
   {
     "term": "Full Content",
     "context": "lock screen notification mode option",
-    "reference": "Modules/Settings/LockScreenTab.qml:84, Modules/Settings/NotificationsTab.qml:176",
+    "reference": "Modules/Settings/LockScreenTab.qml:84, Modules/Settings/NotificationsTab.qml:185",
     "comment": ""
   },
   {
@@ -3956,13 +3968,13 @@
   {
     "term": "History Retention",
     "context": "notification history retention settings label",
-    "reference": "Modules/Settings/NotificationsTab.qml:277",
+    "reference": "Modules/Settings/NotificationsTab.qml:286",
     "comment": ""
   },
   {
     "term": "History Settings",
     "context": "History Settings",
-    "reference": "Modules/Settings/ClipboardTab.qml:241, Modules/Settings/NotificationsTab.qml:248, Modules/Notifications/Center/NotificationSettings.qml:274",
+    "reference": "Modules/Settings/ClipboardTab.qml:241, Modules/Settings/NotificationsTab.qml:257, Modules/Notifications/Center/NotificationSettings.qml:274",
     "comment": ""
   },
   {
@@ -4490,7 +4502,7 @@
   {
     "term": "Light Mode",
     "context": "Light Mode",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:959, Modules/Settings/WallpaperTab.qml:386",
+    "reference": "Modules/Settings/WallpaperTab.qml:386, Modules/Settings/ThemeColorsTab.qml:959",
     "comment": ""
   },
   {
@@ -4562,7 +4574,7 @@
   {
     "term": "Lock Screen",
     "context": "greeter feature card title | lock screen notifications settings card",
-    "reference": "Modules/Settings/NotificationsTab.qml:168, Modals/Settings/SettingsSidebar.qml:263, Modals/Greeter/GreeterWelcomePage.qml:158",
+    "reference": "Modules/Settings/NotificationsTab.qml:177, Modals/Settings/SettingsSidebar.qml:263, Modals/Greeter/GreeterWelcomePage.qml:158",
     "comment": ""
   },
   {
@@ -4640,7 +4652,7 @@
   {
     "term": "Low Priority",
     "context": "Low Priority",
-    "reference": "Modules/Settings/NotificationsTab.qml:196, Modules/Settings/NotificationsTab.qml:319, Modules/Notifications/Center/NotificationSettings.qml:173, Modules/Notifications/Center/NotificationSettings.qml:298",
+    "reference": "Modules/Settings/NotificationsTab.qml:205, Modules/Settings/NotificationsTab.qml:328, Modules/Notifications/Center/NotificationSettings.qml:173, Modules/Notifications/Center/NotificationSettings.qml:298",
     "comment": ""
   },
   {
@@ -4695,6 +4707,12 @@
     "term": "Manual Show/Hide",
     "context": "Manual Show/Hide",
     "reference": "Modules/Settings/DankBarTab.qml:738",
+    "comment": ""
+  },
+  {
+    "term": "Map window class names to icon names for proper icon display",
+    "context": "Map window class names to icon names for proper icon display",
+    "reference": "Modules/Settings/RunningAppsTab.qml:68",
     "comment": ""
   },
   {
@@ -4796,7 +4814,7 @@
   {
     "term": "Maximum History",
     "context": "Maximum History",
-    "reference": "Modules/Settings/ClipboardTab.qml:249, Modules/Settings/NotificationsTab.qml:263",
+    "reference": "Modules/Settings/ClipboardTab.qml:249, Modules/Settings/NotificationsTab.qml:272",
     "comment": ""
   },
   {
@@ -4808,7 +4826,7 @@
   {
     "term": "Maximum number of notifications to keep",
     "context": "notification history limit",
-    "reference": "Modules/Settings/NotificationsTab.qml:264",
+    "reference": "Modules/Settings/NotificationsTab.qml:273",
     "comment": ""
   },
   {
@@ -5126,7 +5144,7 @@
   {
     "term": "Network",
     "context": "Network",
-    "reference": "Services/CupsService.qml:134, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:826, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:229, Modules/ControlCenter/Details/NetworkDetail.qml:76, Modules/ControlCenter/Models/WidgetModel.qml:101, Modals/Settings/SettingsSidebar.qml:228",
+    "reference": "Services/CupsService.qml:134, Modules/ProcessList/PerformanceTab.qml:342, Modules/Settings/WidgetsTabSection.qml:826, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:229, Modules/ControlCenter/Details/NetworkDetail.qml:85, Modules/ControlCenter/Models/WidgetModel.qml:101, Modals/Settings/SettingsSidebar.qml:228",
     "comment": ""
   },
   {
@@ -5138,7 +5156,7 @@
   {
     "term": "Network Info",
     "context": "Network Info",
-    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:421, Modules/ControlCenter/Details/NetworkDetail.qml:754",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:430, Modules/ControlCenter/Details/NetworkDetail.qml:763",
     "comment": ""
   },
   {
@@ -5522,7 +5540,7 @@
   {
     "term": "Normal Priority",
     "context": "Normal Priority",
-    "reference": "Modules/Settings/NotificationsTab.qml:213, Modules/Settings/NotificationsTab.qml:328, Modules/Notifications/Center/NotificationSettings.qml:188, Modules/Notifications/Center/NotificationSettings.qml:332",
+    "reference": "Modules/Settings/NotificationsTab.qml:222, Modules/Settings/NotificationsTab.qml:337, Modules/Notifications/Center/NotificationSettings.qml:188, Modules/Notifications/Center/NotificationSettings.qml:332",
     "comment": ""
   },
   {
@@ -5588,7 +5606,7 @@
   {
     "term": "Notification Display",
     "context": "lock screen notification privacy setting",
-    "reference": "Modules/Settings/LockScreenTab.qml:82, Modules/Settings/NotificationsTab.qml:174",
+    "reference": "Modules/Settings/LockScreenTab.qml:82, Modules/Settings/NotificationsTab.qml:183",
     "comment": ""
   },
   {
@@ -5600,7 +5618,7 @@
   {
     "term": "Notification Popups",
     "context": "Notification Popups",
-    "reference": "Modules/Settings/NotificationsTab.qml:92, Modules/Settings/DisplayWidgetsTab.qml:37",
+    "reference": "Modules/Settings/DisplayWidgetsTab.qml:37, Modules/Settings/NotificationsTab.qml:92",
     "comment": ""
   },
   {
@@ -5612,7 +5630,7 @@
   {
     "term": "Notification Timeouts",
     "context": "Notification Timeouts",
-    "reference": "Modules/Settings/NotificationsTab.qml:190, Modules/Notifications/Center/NotificationSettings.qml:166",
+    "reference": "Modules/Settings/NotificationsTab.qml:199, Modules/Notifications/Center/NotificationSettings.qml:166",
     "comment": ""
   },
   {
@@ -5714,7 +5732,7 @@
   {
     "term": "Open",
     "context": "Open",
-    "reference": "Modules/Notepad/NotepadTextEditor.qml:527, Modules/Settings/NetworkTab.qml:1126, Modules/Settings/NetworkTab.qml:1370, Modules/ControlCenter/Details/NetworkDetail.qml:567",
+    "reference": "Modules/Notepad/NotepadTextEditor.qml:527, Modules/Settings/NetworkTab.qml:1126, Modules/Settings/NetworkTab.qml:1370, Modules/ControlCenter/Details/NetworkDetail.qml:576",
     "comment": ""
   },
   {
@@ -5898,6 +5916,12 @@
     "comment": ""
   },
   {
+    "term": "Pattern",
+    "context": "Pattern",
+    "reference": "Modules/Settings/RunningAppsTab.qml:101",
+    "comment": ""
+  },
+  {
     "term": "Pause",
     "context": "Pause",
     "reference": "Modules/Settings/PrinterTab.qml:885, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:136",
@@ -5954,7 +5978,7 @@
   {
     "term": "Pin",
     "context": "Pin",
-    "reference": "Modules/ControlCenter/Details/AudioInputDetail.qml:249, Modules/ControlCenter/Details/AudioOutputDetail.qml:261, Modules/ControlCenter/Details/BluetoothDetail.qml:327, Modules/ControlCenter/Details/BrightnessDetail.qml:207, Modules/ControlCenter/Details/NetworkDetail.qml:641",
+    "reference": "Modules/ControlCenter/Details/AudioInputDetail.qml:249, Modules/ControlCenter/Details/AudioOutputDetail.qml:261, Modules/ControlCenter/Details/BluetoothDetail.qml:327, Modules/ControlCenter/Details/BrightnessDetail.qml:207, Modules/ControlCenter/Details/NetworkDetail.qml:650",
     "comment": ""
   },
   {
@@ -5966,7 +5990,7 @@
   {
     "term": "Pinned",
     "context": "Pinned",
-    "reference": "Modules/ControlCenter/Details/AudioInputDetail.qml:249, Modules/ControlCenter/Details/AudioOutputDetail.qml:261, Modules/ControlCenter/Details/BluetoothDetail.qml:327, Modules/ControlCenter/Details/BrightnessDetail.qml:207, Modules/ControlCenter/Details/NetworkDetail.qml:641",
+    "reference": "Modules/ControlCenter/Details/AudioInputDetail.qml:249, Modules/ControlCenter/Details/AudioOutputDetail.qml:261, Modules/ControlCenter/Details/BluetoothDetail.qml:327, Modules/ControlCenter/Details/BrightnessDetail.qml:207, Modules/ControlCenter/Details/NetworkDetail.qml:650",
     "comment": ""
   },
   {
@@ -6474,6 +6498,12 @@
     "comment": ""
   },
   {
+    "term": "Replacement",
+    "context": "Replacement",
+    "reference": "Modules/Settings/RunningAppsTab.qml:120",
+    "comment": ""
+  },
+  {
     "term": "Report",
     "context": "Report",
     "reference": "Services/CupsService.qml:821",
@@ -6758,25 +6788,25 @@
   {
     "term": "Save critical priority notifications to history",
     "context": "notification history setting",
-    "reference": "Modules/Settings/NotificationsTab.qml:338",
+    "reference": "Modules/Settings/NotificationsTab.qml:347",
     "comment": ""
   },
   {
     "term": "Save dismissed notifications to history",
     "context": "notification history toggle description",
-    "reference": "Modules/Settings/NotificationsTab.qml:255",
+    "reference": "Modules/Settings/NotificationsTab.qml:264",
     "comment": ""
   },
   {
     "term": "Save low priority notifications to history",
     "context": "notification history setting",
-    "reference": "Modules/Settings/NotificationsTab.qml:320",
+    "reference": "Modules/Settings/NotificationsTab.qml:329",
     "comment": ""
   },
   {
     "term": "Save normal priority notifications to history",
     "context": "notification history setting",
-    "reference": "Modules/Settings/NotificationsTab.qml:329",
+    "reference": "Modules/Settings/NotificationsTab.qml:338",
     "comment": ""
   },
   {
@@ -6788,7 +6818,7 @@
   {
     "term": "Saved",
     "context": "Saved",
-    "reference": "Modules/Notepad/NotepadTextEditor.qml:591, Modules/Settings/NetworkTab.qml:1139, Modules/ControlCenter/Details/NetworkDetail.qml:573",
+    "reference": "Modules/Notepad/NotepadTextEditor.qml:591, Modules/Settings/NetworkTab.qml:1139, Modules/ControlCenter/Details/NetworkDetail.qml:582",
     "comment": ""
   },
   {
@@ -6944,7 +6974,7 @@
   {
     "term": "Secured",
     "context": "Secured",
-    "reference": "Modules/Settings/NetworkTab.qml:1126, Modules/ControlCenter/Details/NetworkDetail.qml:567",
+    "reference": "Modules/Settings/NetworkTab.qml:1126, Modules/ControlCenter/Details/NetworkDetail.qml:576",
     "comment": ""
   },
   {
@@ -7796,7 +7826,7 @@
   {
     "term": "Suppress notification popups while enabled",
     "context": "Suppress notification popups while enabled",
-    "reference": "Modules/Settings/NotificationsTab.qml:159",
+    "reference": "Modules/Settings/NotificationsTab.qml:168",
     "comment": ""
   },
   {
@@ -8120,19 +8150,19 @@
   {
     "term": "Timeout for critical priority notifications",
     "context": "Timeout for critical priority notifications",
-    "reference": "Modules/Settings/NotificationsTab.qml:231",
+    "reference": "Modules/Settings/NotificationsTab.qml:240",
     "comment": ""
   },
   {
     "term": "Timeout for low priority notifications",
     "context": "Timeout for low priority notifications",
-    "reference": "Modules/Settings/NotificationsTab.qml:197",
+    "reference": "Modules/Settings/NotificationsTab.qml:206",
     "comment": ""
   },
   {
     "term": "Timeout for normal priority notifications",
     "context": "Timeout for normal priority notifications",
-    "reference": "Modules/Settings/NotificationsTab.qml:214",
+    "reference": "Modules/Settings/NotificationsTab.qml:223",
     "comment": ""
   },
   {
@@ -8282,7 +8312,7 @@
   {
     "term": "Type",
     "context": "Type",
-    "reference": "Widgets/KeybindItem.qml:788",
+    "reference": "Widgets/KeybindItem.qml:788, Modules/Settings/RunningAppsTab.qml:168",
     "comment": ""
   },
   {
@@ -8348,7 +8378,7 @@
   {
     "term": "Unknown Config",
     "context": "Unknown Config",
-    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:309",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:318",
     "comment": ""
   },
   {
@@ -8366,7 +8396,7 @@
   {
     "term": "Unknown Network",
     "context": "Unknown Network",
-    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:555",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:564",
     "comment": ""
   },
   {
@@ -8535,6 +8565,12 @@
     "term": "Use monospace font for AI replies (better for code)",
     "context": "Use monospace font for AI replies (better for code)",
     "reference": "Modules/AIAssistant/AIAssistantSettings.qml:358",
+    "comment": ""
+  },
+  {
+    "term": "Use smaller notification cards",
+    "context": "Use smaller notification cards",
+    "reference": "Modules/Settings/NotificationsTab.qml:152",
     "comment": ""
   },
   {
@@ -8858,7 +8894,7 @@
   {
     "term": "WiFi",
     "context": "WiFi",
-    "reference": "Modules/Settings/NetworkTab.qml:160, Modules/Settings/NetworkTab.qml:207, Modules/Settings/NetworkTab.qml:745, Modules/ControlCenter/Details/NetworkDetail.qml:124",
+    "reference": "Modules/Settings/NetworkTab.qml:160, Modules/Settings/NetworkTab.qml:207, Modules/Settings/NetworkTab.qml:745, Modules/ControlCenter/Details/NetworkDetail.qml:133",
     "comment": ""
   },
   {
@@ -8882,7 +8918,7 @@
   {
     "term": "WiFi is off",
     "context": "WiFi is off",
-    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:211",
+    "reference": "Modules/ControlCenter/Details/NetworkDetail.qml:220",
     "comment": ""
   },
   {
@@ -9134,7 +9170,7 @@
   {
     "term": "days",
     "context": "days",
-    "reference": "Modules/Settings/ClipboardTab.qml:152, Modules/Settings/NotificationsTab.qml:294",
+    "reference": "Modules/Settings/ClipboardTab.qml:152, Modules/Settings/NotificationsTab.qml:303",
     "comment": ""
   },
   {
