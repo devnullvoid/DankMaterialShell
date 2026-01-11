@@ -223,6 +223,7 @@ Singleton {
     property bool keyboardLayoutNameCompactMode: false
     property bool runningAppsCurrentWorkspace: false
     property bool runningAppsGroupByApp: false
+    property var appIdSubstitutions: []
     property string centeringMode: "index"
     property string clockDateFormat: ""
     property string lockDateFormat: ""
@@ -441,6 +442,7 @@ Singleton {
     property int notificationTimeoutLow: 5000
     property int notificationTimeoutNormal: 5000
     property int notificationTimeoutCritical: 0
+    property bool notificationCompactMode: false
     property int notificationPopupPosition: SettingsData.Position.Top
     property bool notificationHistoryEnabled: true
     property int notificationHistoryMaxCount: 50
@@ -1878,6 +1880,48 @@ Singleton {
 
     function getWorkspaceNameIcon(workspaceName) {
         return workspaceNameIcons[workspaceName] || null;
+    }
+
+    function addAppIdSubstitution(pattern, replacement, type) {
+        var subs = JSON.parse(JSON.stringify(appIdSubstitutions));
+        subs.push({
+            pattern: pattern,
+            replacement: replacement,
+            type: type
+        });
+        appIdSubstitutions = subs;
+        saveSettings();
+    }
+
+    function updateAppIdSubstitution(index, pattern, replacement, type) {
+        var subs = JSON.parse(JSON.stringify(appIdSubstitutions));
+        if (index < 0 || index >= subs.length)
+            return;
+        subs[index] = {
+            pattern: pattern,
+            replacement: replacement,
+            type: type
+        };
+        appIdSubstitutions = subs;
+        saveSettings();
+    }
+
+    function removeAppIdSubstitution(index) {
+        var subs = JSON.parse(JSON.stringify(appIdSubstitutions));
+        if (index < 0 || index >= subs.length)
+            return;
+        subs.splice(index, 1);
+        appIdSubstitutions = subs;
+        saveSettings();
+    }
+
+    function getDefaultAppIdSubstitutions() {
+        return Spec.SPEC.appIdSubstitutions.def;
+    }
+
+    function resetAppIdSubstitutions() {
+        appIdSubstitutions = JSON.parse(JSON.stringify(Spec.SPEC.appIdSubstitutions.def));
+        saveSettings();
     }
 
     function getRegistryThemeVariant(themeId, defaultVariant) {
