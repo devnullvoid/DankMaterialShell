@@ -22,6 +22,15 @@ PanelWindow {
     property bool _isDestroying: false
     property bool _finalized: false
     readonly property string clearText: I18n.tr("Dismiss")
+    property bool descriptionExpanded: false
+
+    readonly property bool compactMode: SettingsData.notificationCompactMode
+    readonly property real cardPadding: compactMode ? Theme.spacingS : Theme.spacingM
+    readonly property real popupIconSize: compactMode ? 48 : 63
+    readonly property real contentSpacing: compactMode ? Theme.spacingXS : Theme.spacingS
+    readonly property real actionButtonHeight: compactMode ? 20 : 24
+    readonly property real collapsedContentHeight: popupIconSize + cardPadding
+    readonly property real basePopupHeight: cardPadding * 2 + collapsedContentHeight + Theme.spacingS
 
     signal entered
     signal exitStarted
@@ -92,7 +101,15 @@ PanelWindow {
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
     color: "transparent"
     implicitWidth: 400
-    implicitHeight: 122
+    implicitHeight: {
+        if (!descriptionExpanded)
+            return basePopupHeight;
+        const bodyTextHeight = bodyTextLoader.item?.contentHeight || 0;
+        const twoLineHeight = Theme.fontSizeSmall * 1.2 * 2;
+        if (bodyTextHeight > twoLineHeight + 2)
+            return basePopupHeight + bodyTextHeight - twoLineHeight;
+        return basePopupHeight;
+    }
     onHasValidDataChanged: {
         if (!hasValidData && !exiting && !_isDestroying) {
             forceExit();
@@ -352,13 +369,17 @@ PanelWindow {
             Item {
                 id: notificationContent
 
+                readonly property real expandedTextHeight: bodyTextLoader.item?.contentHeight || 0
+                readonly property real twoLineHeight: Theme.fontSizeSmall * 1.2 * 2
+                readonly property real extraHeight: (descriptionExpanded && expandedTextHeight > twoLineHeight + 2) ? (expandedTextHeight - twoLineHeight) : 0
+
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.topMargin: 12
-                anchors.leftMargin: 16
-                anchors.rightMargin: 56
-                height: 98
+                anchors.topMargin: cardPadding
+                anchors.leftMargin: Theme.spacingL
+                anchors.rightMargin: Theme.spacingL + (compactMode ? 32 : 40)
+                height: collapsedContentHeight + extraHeight
 
                 DankCircularImage {
                     id: iconContainer
@@ -366,8 +387,8 @@ PanelWindow {
                     readonly property bool hasNotificationImage: notificationData && notificationData.image && notificationData.image !== ""
                     readonly property bool needsImagePersist: hasNotificationImage && notificationData.image.startsWith("image://qsimage/") && !notificationData.persistedImagePath
 
-                    width: 63
-                    height: 63
+                    width: popupIconSize
+                    height: popupIconSize
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
 
@@ -416,76 +437,85 @@ PanelWindow {
                     id: textContainer
 
                     anchors.left: iconContainer.right
-                    anchors.leftMargin: 12
+                    anchors.leftMargin: Theme.spacingM
                     anchors.right: parent.right
-                    anchors.rightMargin: 0
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
-                    anchors.bottomMargin: 8
+                    anchors.bottomMargin: contentSpacing
                     color: "transparent"
 
-                    Item {
+                    Column {
                         width: parent.width
-                        height: parent.height
-                        anchors.top: parent.top
-                        anchors.topMargin: -2
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: compactMode ? 1 : 2
 
-                        Column {
+                        StyledText {
                             width: parent.width
-                            spacing: 2
-
-                            StyledText {
-                                width: parent.width
-                                text: {
-                                    if (!notificationData)
-                                        return "";
-
-                                    const appName = notificationData.appName || "";
-                                    const timeStr = notificationData.timeStr || "";
-                                    if (timeStr.length > 0)
-                                        return appName + " • " + timeStr;
-                                    else
-                                        return appName;
-                                }
-                                color: Theme.surfaceVariantText
-                                font.pixelSize: Theme.fontSizeSmall
-                                font.weight: Font.Medium
-                                elide: Text.ElideRight
-                                horizontalAlignment: Text.AlignLeft
-                                maximumLineCount: 1
+                            text: {
+                                if (!notificationData)
+                                    return "";
+                                const appName = notificationData.appName || "";
+                                const timeStr = notificationData.timeStr || "";
+                                return timeStr.length > 0 ? appName + " • " + timeStr : appName;
                             }
+                            color: Theme.surfaceVariantText
+                            font.pixelSize: Theme.fontSizeSmall
+                            font.weight: Font.Medium
+                            elide: Text.ElideRight
+                            horizontalAlignment: Text.AlignLeft
+                            maximumLineCount: 1
+                        }
 
-                            StyledText {
-                                text: notificationData ? (notificationData.summary || "") : ""
-                                color: Theme.surfaceText
-                                font.pixelSize: Theme.fontSizeMedium
-                                font.weight: Font.Medium
-                                width: parent.width
-                                elide: Text.ElideRight
-                                horizontalAlignment: Text.AlignLeft
-                                maximumLineCount: 1
-                                visible: text.length > 0
-                            }
+                        StyledText {
+                            text: notificationData ? (notificationData.summary || "") : ""
+                            color: Theme.surfaceText
+                            font.pixelSize: Theme.fontSizeMedium
+                            font.weight: Font.Medium
+                            width: parent.width
+                            elide: Text.ElideRight
+                            horizontalAlignment: Text.AlignLeft
+                            maximumLineCount: 1
+                            visible: text.length > 0
+                        }
 
-                            StyledText {
+                        Loader {
+                            id: bodyTextLoader
+                            width: parent.width
+                            active: notificationData && (notificationData.htmlBody || "").length > 0
+
+                            sourceComponent: StyledText {
+                                id: bodyText
+                                property bool hasMoreText: truncated
+
                                 text: notificationData ? (notificationData.htmlBody || "") : ""
                                 color: Theme.surfaceVariantText
                                 font.pixelSize: Theme.fontSizeSmall
                                 width: parent.width
-                                elide: Text.ElideRight
+                                elide: descriptionExpanded ? Text.ElideNone : Text.ElideRight
                                 horizontalAlignment: Text.AlignLeft
-                                maximumLineCount: 2
+                                maximumLineCount: descriptionExpanded ? -1 : (compactMode ? 1 : 2)
                                 wrapMode: Text.WordWrap
-                                visible: text.length > 0
                                 linkColor: Theme.primary
-                                onLinkActivated: link => {
-                                    return Qt.openUrlExternally(link);
-                                }
+                                onLinkActivated: link => Qt.openUrlExternally(link)
 
                                 MouseArea {
                                     anchors.fill: parent
-                                    acceptedButtons: Qt.NoButton
-                                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : (parent.hasMoreText || descriptionExpanded) ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+                                    onClicked: mouse => {
+                                        if (!parent.hoveredLink && (parent.hasMoreText || descriptionExpanded))
+                                            win.descriptionExpanded = !win.descriptionExpanded;
+                                    }
+
+                                    propagateComposedEvents: true
+                                    onPressed: mouse => {
+                                        if (parent.hoveredLink)
+                                            mouse.accepted = false;
+                                    }
+                                    onReleased: mouse => {
+                                        if (parent.hoveredLink)
+                                            mouse.accepted = false;
+                                    }
                                 }
                             }
                         }
@@ -498,11 +528,11 @@ PanelWindow {
 
                 anchors.right: parent.right
                 anchors.top: parent.top
-                anchors.topMargin: 12
-                anchors.rightMargin: 16
+                anchors.topMargin: cardPadding
+                anchors.rightMargin: Theme.spacingL
                 iconName: "close"
-                iconSize: 18
-                buttonSize: 28
+                iconSize: compactMode ? 16 : 18
+                buttonSize: compactMode ? 24 : 28
                 z: 15
                 onClicked: {
                     if (notificationData && !win.exiting)
@@ -512,10 +542,10 @@ PanelWindow {
 
             Row {
                 anchors.right: clearButton.left
-                anchors.rightMargin: 8
+                anchors.rightMargin: contentSpacing
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: 8
-                spacing: 8
+                anchors.bottomMargin: contentSpacing
+                spacing: contentSpacing
                 z: 20
 
                 Repeater {
@@ -524,9 +554,9 @@ PanelWindow {
                     Rectangle {
                         property bool isHovered: false
 
-                        width: Math.max(actionText.implicitWidth + 12, 50)
-                        height: 24
-                        radius: 4
+                        width: Math.max(actionText.implicitWidth + Theme.spacingM, compactMode ? 40 : 50)
+                        height: actionButtonHeight
+                        radius: Theme.spacingXS
                         color: isHovered ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.1) : "transparent"
 
                         StyledText {
@@ -550,7 +580,6 @@ PanelWindow {
                             onClicked: {
                                 if (modelData && modelData.invoke)
                                     modelData.invoke();
-
                                 if (notificationData && !win.exiting)
                                     notificationData.popup = false;
                             }
@@ -565,12 +594,12 @@ PanelWindow {
                 property bool isHovered: false
 
                 anchors.right: parent.right
-                anchors.rightMargin: 16
+                anchors.rightMargin: Theme.spacingL
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: 8
-                width: Math.max(clearTextLabel.implicitWidth + 12, 50)
-                height: 24
-                radius: 4
+                anchors.bottomMargin: contentSpacing
+                width: Math.max(clearTextLabel.implicitWidth + Theme.spacingM, compactMode ? 40 : 50)
+                height: actionButtonHeight
+                radius: Theme.spacingXS
                 color: isHovered ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.1) : "transparent"
                 z: 20
 
