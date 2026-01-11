@@ -24,8 +24,8 @@ Rectangle {
     readonly property real contentSpacing: compactMode ? Theme.spacingXS : Theme.spacingS
     readonly property real badgeSize: compactMode ? 16 : 18
     readonly property real actionButtonHeight: compactMode ? 20 : 24
-    readonly property real baseCardHeight: cardPadding * 2 + collapsedContentHeight
-    readonly property real collapsedContentHeight: iconSize + cardPadding
+    readonly property real collapsedContentHeight: iconSize
+    readonly property real baseCardHeight: cardPadding * 2 + collapsedContentHeight + actionButtonHeight + contentSpacing
 
     width: parent ? parent.width : 400
     height: expanded ? (expandedContent.height + cardPadding * 2) : (baseCardHeight + collapsedContent.extraHeight)
@@ -118,7 +118,7 @@ Rectangle {
             width: iconSize
             height: iconSize
             anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.top: parent.top
 
             imageSource: {
                 if (hasNotificationImage)
@@ -184,7 +184,7 @@ Rectangle {
 
             Column {
                 width: parent.width
-                anchors.verticalCenter: parent.verticalCenter
+                anchors.top: parent.top
                 spacing: compactMode ? 1 : 2
 
                 StyledText {
@@ -199,6 +199,7 @@ Rectangle {
                     font.weight: Font.Medium
                     elide: Text.ElideRight
                     maximumLineCount: 1
+                    visible: text.length > 0
                 }
 
                 StyledText {
@@ -555,8 +556,8 @@ Rectangle {
 
     Row {
         visible: !expanded
-        anchors.right: clearButton.left
-        anchors.rightMargin: contentSpacing
+        anchors.right: clearButton.visible ? clearButton.left : parent.right
+        anchors.rightMargin: clearButton.visible ? contentSpacing : Theme.spacingL
         anchors.bottom: parent.bottom
         anchors.bottomMargin: contentSpacing
         spacing: contentSpacing
@@ -608,8 +609,9 @@ Rectangle {
         id: clearButton
 
         property bool isHovered: false
+        readonly property int actionCount: (notificationGroup?.latestNotification?.actions || []).length
 
-        visible: !expanded
+        visible: !expanded && actionCount < 3
         anchors.right: parent.right
         anchors.rightMargin: Theme.spacingL
         anchors.bottom: parent.bottom

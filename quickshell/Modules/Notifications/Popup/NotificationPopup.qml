@@ -29,8 +29,8 @@ PanelWindow {
     readonly property real popupIconSize: compactMode ? 48 : 63
     readonly property real contentSpacing: compactMode ? Theme.spacingXS : Theme.spacingS
     readonly property real actionButtonHeight: compactMode ? 20 : 24
-    readonly property real collapsedContentHeight: popupIconSize + cardPadding
-    readonly property real basePopupHeight: cardPadding * 2 + collapsedContentHeight + Theme.spacingS
+    readonly property real collapsedContentHeight: popupIconSize
+    readonly property real basePopupHeight: cardPadding * 2 + collapsedContentHeight + actionButtonHeight + Theme.spacingS
 
     signal entered
     signal exitStarted
@@ -104,7 +104,7 @@ PanelWindow {
     implicitHeight: {
         if (!descriptionExpanded)
             return basePopupHeight;
-        const bodyTextHeight = bodyTextLoader.item?.contentHeight || 0;
+        const bodyTextHeight = bodyText.contentHeight || 0;
         const twoLineHeight = Theme.fontSizeSmall * 1.2 * 2;
         if (bodyTextHeight > twoLineHeight + 2)
             return basePopupHeight + bodyTextHeight - twoLineHeight;
@@ -369,7 +369,7 @@ PanelWindow {
             Item {
                 id: notificationContent
 
-                readonly property real expandedTextHeight: bodyTextLoader.item?.contentHeight || 0
+                readonly property real expandedTextHeight: bodyText.contentHeight || 0
                 readonly property real twoLineHeight: Theme.fontSizeSmall * 1.2 * 2
                 readonly property real extraHeight: (descriptionExpanded && expandedTextHeight > twoLineHeight + 2) ? (expandedTextHeight - twoLineHeight) : 0
 
@@ -390,7 +390,7 @@ PanelWindow {
                     width: popupIconSize
                     height: popupIconSize
                     anchors.left: parent.left
-                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.top: parent.top
 
                     imageSource: {
                         if (!notificationData)
@@ -433,90 +433,78 @@ PanelWindow {
                     }
                 }
 
-                Rectangle {
+                Column {
                     id: textContainer
 
                     anchors.left: iconContainer.right
                     anchors.leftMargin: Theme.spacingM
                     anchors.right: parent.right
                     anchors.top: parent.top
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: contentSpacing
-                    color: "transparent"
+                    spacing: compactMode ? 1 : 2
 
-                    Column {
+                    StyledText {
                         width: parent.width
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: compactMode ? 1 : 2
+                        text: {
+                            if (!notificationData)
+                                return "";
+                            const appName = notificationData.appName || "";
+                            const timeStr = notificationData.timeStr || "";
+                            return timeStr.length > 0 ? appName + " • " + timeStr : appName;
+                        }
+                        color: Theme.surfaceVariantText
+                        font.pixelSize: Theme.fontSizeSmall
+                        font.weight: Font.Medium
+                        elide: Text.ElideRight
+                        horizontalAlignment: Text.AlignLeft
+                        maximumLineCount: 1
+                        visible: text.length > 0
+                    }
 
-                        StyledText {
-                            width: parent.width
-                            text: {
-                                if (!notificationData)
-                                    return "";
-                                const appName = notificationData.appName || "";
-                                const timeStr = notificationData.timeStr || "";
-                                return timeStr.length > 0 ? appName + " • " + timeStr : appName;
+                    StyledText {
+                        text: notificationData ? (notificationData.summary || "") : ""
+                        color: Theme.surfaceText
+                        font.pixelSize: Theme.fontSizeMedium
+                        font.weight: Font.Medium
+                        width: parent.width
+                        elide: Text.ElideRight
+                        horizontalAlignment: Text.AlignLeft
+                        maximumLineCount: 1
+                        visible: text.length > 0
+                    }
+
+                    StyledText {
+                        id: bodyText
+                        property bool hasMoreText: truncated
+
+                        text: notificationData ? (notificationData.htmlBody || "") : ""
+                        color: Theme.surfaceVariantText
+                        font.pixelSize: Theme.fontSizeSmall
+                        width: parent.width
+                        elide: descriptionExpanded ? Text.ElideNone : Text.ElideRight
+                        horizontalAlignment: Text.AlignLeft
+                        maximumLineCount: descriptionExpanded ? -1 : (compactMode ? 1 : 2)
+                        wrapMode: Text.WordWrap
+                        visible: text.length > 0
+                        linkColor: Theme.primary
+                        onLinkActivated: link => Qt.openUrlExternally(link)
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : (bodyText.hasMoreText || descriptionExpanded) ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+                            onClicked: mouse => {
+                                if (!parent.hoveredLink && (bodyText.hasMoreText || descriptionExpanded))
+                                    win.descriptionExpanded = !win.descriptionExpanded;
                             }
-                            color: Theme.surfaceVariantText
-                            font.pixelSize: Theme.fontSizeSmall
-                            font.weight: Font.Medium
-                            elide: Text.ElideRight
-                            horizontalAlignment: Text.AlignLeft
-                            maximumLineCount: 1
-                        }
 
-                        StyledText {
-                            text: notificationData ? (notificationData.summary || "") : ""
-                            color: Theme.surfaceText
-                            font.pixelSize: Theme.fontSizeMedium
-                            font.weight: Font.Medium
-                            width: parent.width
-                            elide: Text.ElideRight
-                            horizontalAlignment: Text.AlignLeft
-                            maximumLineCount: 1
-                            visible: text.length > 0
-                        }
-
-                        Loader {
-                            id: bodyTextLoader
-                            width: parent.width
-                            active: notificationData && (notificationData.htmlBody || "").length > 0
-
-                            sourceComponent: StyledText {
-                                id: bodyText
-                                property bool hasMoreText: truncated
-
-                                text: notificationData ? (notificationData.htmlBody || "") : ""
-                                color: Theme.surfaceVariantText
-                                font.pixelSize: Theme.fontSizeSmall
-                                width: parent.width
-                                elide: descriptionExpanded ? Text.ElideNone : Text.ElideRight
-                                horizontalAlignment: Text.AlignLeft
-                                maximumLineCount: descriptionExpanded ? -1 : (compactMode ? 1 : 2)
-                                wrapMode: Text.WordWrap
-                                linkColor: Theme.primary
-                                onLinkActivated: link => Qt.openUrlExternally(link)
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : (parent.hasMoreText || descriptionExpanded) ? Qt.PointingHandCursor : Qt.ArrowCursor
-
-                                    onClicked: mouse => {
-                                        if (!parent.hoveredLink && (parent.hasMoreText || descriptionExpanded))
-                                            win.descriptionExpanded = !win.descriptionExpanded;
-                                    }
-
-                                    propagateComposedEvents: true
-                                    onPressed: mouse => {
-                                        if (parent.hoveredLink)
-                                            mouse.accepted = false;
-                                    }
-                                    onReleased: mouse => {
-                                        if (parent.hoveredLink)
-                                            mouse.accepted = false;
-                                    }
-                                }
+                            propagateComposedEvents: true
+                            onPressed: mouse => {
+                                if (parent.hoveredLink)
+                                    mouse.accepted = false;
+                            }
+                            onReleased: mouse => {
+                                if (parent.hoveredLink)
+                                    mouse.accepted = false;
                             }
                         }
                     }
@@ -541,8 +529,8 @@ PanelWindow {
             }
 
             Row {
-                anchors.right: clearButton.left
-                anchors.rightMargin: contentSpacing
+                anchors.right: clearButton.visible ? clearButton.left : parent.right
+                anchors.rightMargin: clearButton.visible ? contentSpacing : Theme.spacingL
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: contentSpacing
                 spacing: contentSpacing
@@ -592,7 +580,9 @@ PanelWindow {
                 id: clearButton
 
                 property bool isHovered: false
+                readonly property int actionCount: notificationData ? (notificationData.actions || []).length : 0
 
+                visible: actionCount < 3
                 anchors.right: parent.right
                 anchors.rightMargin: Theme.spacingL
                 anchors.bottom: parent.bottom

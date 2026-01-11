@@ -94,7 +94,7 @@ Rectangle {
             width: iconSize
             height: iconSize
             anchors.left: parent.left
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.top: parent.top
 
             imageSource: {
                 if (hasNotificationImage)
@@ -138,7 +138,7 @@ Rectangle {
 
             Column {
                 width: parent.width
-                anchors.verticalCenter: parent.verticalCenter
+                anchors.top: parent.top
                 spacing: compactMode ? 1 : 2
 
                 StyledText {
@@ -153,6 +153,7 @@ Rectangle {
                     font.weight: Font.Medium
                     elide: Text.ElideRight
                     maximumLineCount: 1
+                    visible: text.length > 0
                 }
 
                 StyledText {
