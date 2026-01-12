@@ -1068,7 +1068,7 @@ Item {
             const instances = SettingsData.desktopWidgetInstances || [];
             if (instances.length === 0)
                 return "No desktop widgets configured";
-            return instances.map(i => `${i.id} [${i.widgetType}] ${i.name || i.widgetType}`).join("\n");
+            return instances.map(i => `${i.id} [${i.widgetType}] ${i.name || i.widgetType} ${i.enabled ? "[enabled]" : "[disabled]"}`).join("\n");
         }
 
         function status(instanceId: string): string {
@@ -1079,9 +1079,115 @@ Item {
             if (!instance)
                 return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
 
+            const enabled = instance.enabled ?? true;
             const overlay = instance.config?.showOnOverlay ?? false;
             const overview = instance.config?.showOnOverview ?? false;
-            return `overlay: ${overlay}, overview: ${overview}`;
+            const clickThrough = instance.config?.clickThrough ?? false;
+            const syncPosition = instance.config?.syncPositionAcrossScreens ?? false;
+            return `enabled: ${enabled}, overlay: ${overlay}, overview: ${overview}, clickThrough: ${clickThrough}, syncPosition: ${syncPosition}`;
+        }
+
+        function enable(instanceId: string): string {
+            if (!instanceId)
+                return "ERROR: No instance ID specified";
+
+            const instance = SettingsData.getDesktopWidgetInstance(instanceId);
+            if (!instance)
+                return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
+
+            SettingsData.updateDesktopWidgetInstance(instanceId, {
+                enabled: true
+            });
+            return `DESKTOP_WIDGET_ENABLED: ${instanceId}`;
+        }
+
+        function disable(instanceId: string): string {
+            if (!instanceId)
+                return "ERROR: No instance ID specified";
+
+            const instance = SettingsData.getDesktopWidgetInstance(instanceId);
+            if (!instance)
+                return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
+
+            SettingsData.updateDesktopWidgetInstance(instanceId, {
+                enabled: false
+            });
+            return `DESKTOP_WIDGET_DISABLED: ${instanceId}`;
+        }
+
+        function toggleEnabled(instanceId: string): string {
+            if (!instanceId)
+                return "ERROR: No instance ID specified";
+
+            const instance = SettingsData.getDesktopWidgetInstance(instanceId);
+            if (!instance)
+                return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
+
+            const currentValue = instance.enabled ?? true;
+            SettingsData.updateDesktopWidgetInstance(instanceId, {
+                enabled: !currentValue
+            });
+            return !currentValue ? `DESKTOP_WIDGET_ENABLED: ${instanceId}` : `DESKTOP_WIDGET_DISABLED: ${instanceId}`;
+        }
+
+        function toggleClickThrough(instanceId: string): string {
+            if (!instanceId)
+                return "ERROR: No instance ID specified";
+
+            const instance = SettingsData.getDesktopWidgetInstance(instanceId);
+            if (!instance)
+                return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
+
+            const currentValue = instance.config?.clickThrough ?? false;
+            SettingsData.updateDesktopWidgetInstanceConfig(instanceId, {
+                clickThrough: !currentValue
+            });
+            return !currentValue ? `DESKTOP_WIDGET_CLICK_THROUGH_ENABLED: ${instanceId}` : `DESKTOP_WIDGET_CLICK_THROUGH_DISABLED: ${instanceId}`;
+        }
+
+        function setClickThrough(instanceId: string, enabled: string): string {
+            if (!instanceId)
+                return "ERROR: No instance ID specified";
+
+            const instance = SettingsData.getDesktopWidgetInstance(instanceId);
+            if (!instance)
+                return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
+
+            const enabledBool = enabled === "true" || enabled === "1";
+            SettingsData.updateDesktopWidgetInstanceConfig(instanceId, {
+                clickThrough: enabledBool
+            });
+            return enabledBool ? `DESKTOP_WIDGET_CLICK_THROUGH_ENABLED: ${instanceId}` : `DESKTOP_WIDGET_CLICK_THROUGH_DISABLED: ${instanceId}`;
+        }
+
+        function toggleSyncPosition(instanceId: string): string {
+            if (!instanceId)
+                return "ERROR: No instance ID specified";
+
+            const instance = SettingsData.getDesktopWidgetInstance(instanceId);
+            if (!instance)
+                return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
+
+            const currentValue = instance.config?.syncPositionAcrossScreens ?? false;
+            SettingsData.updateDesktopWidgetInstanceConfig(instanceId, {
+                syncPositionAcrossScreens: !currentValue
+            });
+            return !currentValue ? `DESKTOP_WIDGET_SYNC_POSITION_ENABLED: ${instanceId}` : `DESKTOP_WIDGET_SYNC_POSITION_DISABLED: ${instanceId}`;
+        }
+
+        function setSyncPosition(instanceId: string, enabled: string): string {
+            if (!instanceId)
+                return "ERROR: No instance ID specified";
+
+            const instance = SettingsData.getDesktopWidgetInstance(instanceId);
+            if (!instance)
+                return `DESKTOP_WIDGET_NOT_FOUND: ${instanceId}`;
+
+            const enabledBool = enabled === "true" || enabled === "1";
+            SettingsData.updateDesktopWidgetInstanceConfig(instanceId, {
+                syncPositionAcrossScreens: enabledBool
+            });
+            return enabledBool ? `DESKTOP_WIDGET_SYNC_POSITION_ENABLED: ${instanceId}` : `DESKTOP_WIDGET_SYNC_POSITION_DISABLED: ${instanceId}`;
         }
 
         target: "desktopWidget"
