@@ -623,6 +623,13 @@
     "comment": ""
   },
   {
+    "term": "Allow clicks to pass through the widget",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Alt+←/Backspace: Back • F1/I: File Info • F10: Help • Esc: Close",
     "translation": "",
     "context": "",
@@ -1814,6 +1821,13 @@
   },
   {
     "term": "Click Import to add a .ovpn or .conf",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Click Through",
     "translation": "",
     "context": "",
     "reference": "",
@@ -4438,6 +4452,13 @@
     "comment": ""
   },
   {
+    "term": "Group",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Group Workspace Apps",
     "translation": "",
     "context": "",
@@ -4459,7 +4480,21 @@
     "comment": ""
   },
   {
+    "term": "Group removed",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Group repeated application icons in unfocused workspaces",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Groups",
     "translation": "",
     "context": "",
     "reference": "",
@@ -6097,6 +6132,13 @@
     "comment": ""
   },
   {
+    "term": "New group name...",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Next",
     "translation": "",
     "context": "greeter next button",
@@ -6728,6 +6770,13 @@
   },
   {
     "term": "Options",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Organize widgets into collapsible groups",
     "translation": "",
     "context": "",
     "reference": "",
@@ -9191,6 +9240,13 @@
     "comment": ""
   },
   {
+    "term": "Sync Position Across Screens",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Sync dark mode with settings portals for system-wide theme hints",
     "translation": "",
     "context": "",
@@ -9730,6 +9786,13 @@
     "comment": ""
   },
   {
+    "term": "Ungrouped",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Uninstall",
     "translation": "",
     "context": "uninstall action button",
@@ -10004,6 +10067,13 @@
   },
   {
     "term": "Use sound theme from system settings",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Use the same position and size on all displays",
     "translation": "",
     "context": "",
     "reference": "",

@@ -128,7 +128,9 @@ FloatingWindow {
                     iconName: "open_in_new"
                     backgroundColor: Theme.surfaceContainerHighest
                     textColor: Theme.surfaceText
-                    onClicked: Qt.openUrlExternally("https://danklinux.com/blog/dms-1-2-spicy-miso")
+                    // ! TODO - replace with blog before  tag
+                    //onClicked: Qt.openUrlExternally("https://danklinux.com/blog/v1.2-release")
+                    onClicked: Qt.openUrlExternally("https://github.com/AvengeMedia/DankMaterialShell/compare/v1.0.3...master")
                 }
 
                 DankButton {

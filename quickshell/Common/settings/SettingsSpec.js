@@ -418,6 +418,8 @@ var SPEC = {
 
     desktopWidgetInstances: { def: [] },
 
+    desktopWidgetGroups: { def: [] },
+
     builtInPluginSettings: { def: {} }
 };
 
