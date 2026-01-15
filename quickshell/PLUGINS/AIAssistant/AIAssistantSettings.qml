@@ -81,9 +81,9 @@ Item {
                         StyledText { text: I18n.tr("Provider"); font.pixelSize: Theme.fontSizeSmall; color: Theme.surfaceVariantText }
                         DankDropdown {
                             width: parent.width
-                            model: ["openai", "anthropic", "gemini", "custom"]
-                            currentIndex: model.indexOf(aiService.provider)
-                            onActivated: index => save("provider", model[index])
+                            options: ["openai", "anthropic", "gemini", "custom"]
+                            currentValue: aiService.provider
+                            onValueChanged: value => save("provider", value)
                         }
 
                         // Base URL
