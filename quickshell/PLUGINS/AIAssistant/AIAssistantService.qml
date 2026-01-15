@@ -55,24 +55,26 @@ Item {
         onBaseUrlChanged: handleConfigChanged()
         onModelChanged: handleConfigChanged()
 
-        function loadSettings() {
-            if (!pluginService) {
-                console.log("DEBUG: loadSettings skipped (no service)");
-                return;
-            }
-            console.log("DEBUG: loadSettings executing");
-            provider = pluginService.loadPluginData(pluginId, "provider", "openai")
-            baseUrl = pluginService.loadPluginData(pluginId, "baseUrl", "https://api.openai.com")
-            model = pluginService.loadPluginData(pluginId, "model", "gpt-4.1-mini")
-            temperature = pluginService.loadPluginData(pluginId, "temperature", 0.7)
-            maxTokens = pluginService.loadPluginData(pluginId, "maxTokens", 4096)
-            timeout = pluginService.loadPluginData(pluginId, "timeout", 30)
-            apiKey = pluginService.loadPluginData(pluginId, "apiKey", "")
-            saveApiKey = pluginService.loadPluginData(pluginId, "saveApiKey", false)
-            apiKeyEnvVar = pluginService.loadPluginData(pluginId, "apiKeyEnvVar", "")
-            useMonospace = pluginService.loadPluginData(pluginId, "useMonospace", false)
-        }
+            function loadSettings() {
+                if (!pluginService) {
+                    console.log("DEBUG: loadSettings skipped (no service)");
+                    return;
+                }
 
+                var val = pluginService.loadPluginData(pluginId, "saveApiKey", false);
+                console.log("DEBUG: loadSettings saveApiKey:", val, "ID:", pluginId);
+
+                provider = pluginService.loadPluginData(pluginId, "provider", "openai")
+                baseUrl = pluginService.loadPluginData(pluginId, "baseUrl", "https://api.openai.com")
+                model = pluginService.loadPluginData(pluginId, "model", "gpt-4.1-mini")
+                temperature = pluginService.loadPluginData(pluginId, "temperature", 0.7)
+                maxTokens = pluginService.loadPluginData(pluginId, "maxTokens", 4096)
+                timeout = pluginService.loadPluginData(pluginId, "timeout", 30)
+                apiKey = pluginService.loadPluginData(pluginId, "apiKey", "")
+                saveApiKey = val
+                apiKeyEnvVar = pluginService.loadPluginData(pluginId, "apiKeyEnvVar", "")
+                useMonospace = pluginService.loadPluginData(pluginId, "useMonospace", false)
+            }
             Connections {
                 target: pluginService
                 function onPluginDataChanged(pId) {
