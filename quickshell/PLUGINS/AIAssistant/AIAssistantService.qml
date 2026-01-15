@@ -73,24 +73,14 @@ Item {
             useMonospace = pluginService.loadPluginData(pluginId, "useMonospace", false)
         }
 
-        Connections {
-            target: pluginService
-            function onPluginDataChanged(pId, key, value) {
-                console.log("DEBUG: onPluginDataChanged", pId, key, value);
-                if (pId !== root.pluginId) return;
-                if (key === "provider") provider = value;
-                if (key === "baseUrl") baseUrl = value;
-                if (key === "model") model = value;
-                if (key === "temperature") temperature = value;
-                if (key === "maxTokens") maxTokens = value;
-                if (key === "timeout") timeout = value;
-                if (key === "apiKey") apiKey = value;
-                if (key === "saveApiKey") saveApiKey = value;
-                if (key === "apiKeyEnvVar") apiKeyEnvVar = value;
-                if (key === "useMonospace") useMonospace = value;
-            }
-        }
-    Process {
+            Connections {
+                target: pluginService
+                function onPluginDataChanged(pId) {
+                    console.log("DEBUG: onPluginDataChanged", pId);
+                    if (pId !== root.pluginId) return;
+                    loadSettings();
+                }
+            }    Process {
         id: mkdirProcess
         command: ["mkdir", "-p", root.baseDir]
         running: false
