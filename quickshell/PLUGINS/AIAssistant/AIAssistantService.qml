@@ -8,79 +8,88 @@ import "./AIApiAdapters.js" as AIApiAdapters
 Item {
     id: root
 
-    property var pluginService: null
-    property string pluginId: "aiAssistant"
+        property var pluginService: null
+        property string pluginId: "aiAssistant"
 
-    Component.onCompleted: {
-        console.info("[AIAssistantService Plugin] ready");
-        loadSettings();
-        mkdirProcess.running = true;
-    }
-
-    readonly property string baseDir: Paths.strip(StandardPaths.writableLocation(StandardPaths.GenericStateLocation) + "/DankMaterialShell/plugins/aiAssistant")
-    readonly property string sessionPath: baseDir + "/session.json"
-    property bool sessionLoaded: false
-    property string providerConfigHash: ""
-    property int maxStoredMessages: 50
-
-    property ListModel messagesModel: ListModel {}
-    property int messageCount: messagesModel.count
-    property bool isStreaming: false
-    property bool isOnline: false
-    property string activeStreamId: ""
-    property string lastUserText: ""
-    property int lastHttpStatus: 0
-
-    // Settings
-    property string provider: "openai"
-    property string baseUrl: "https://api.openai.com"
-    property string model: "gpt-4.1-mini"
-    property real temperature: 0.7
-    property int maxTokens: 4096
-    property int timeout: 30
-    property string apiKey: ""
-    property bool saveApiKey: false
-    property string sessionApiKey: "" // In-memory key
-    property string apiKeyEnvVar: ""
-    property bool useMonospace: false
-
-    readonly property bool debugEnabled: (Quickshell.env("DMS_LOG_LEVEL") || "").toLowerCase() === "debug"
-
-    onProviderChanged: handleConfigChanged()
-    onBaseUrlChanged: handleConfigChanged()
-    onModelChanged: handleConfigChanged()
-
-    function loadSettings() {
-        if (!pluginService) return;
-        provider = pluginService.loadPluginData(pluginId, "provider", "openai")
-        baseUrl = pluginService.loadPluginData(pluginId, "baseUrl", "https://api.openai.com")
-        model = pluginService.loadPluginData(pluginId, "model", "gpt-4.1-mini")
-        temperature = pluginService.loadPluginData(pluginId, "temperature", 0.7)
-        maxTokens = pluginService.loadPluginData(pluginId, "maxTokens", 4096)
-        timeout = pluginService.loadPluginData(pluginId, "timeout", 30)
-        apiKey = pluginService.loadPluginData(pluginId, "apiKey", "")
-        saveApiKey = pluginService.loadPluginData(pluginId, "saveApiKey", false)
-        apiKeyEnvVar = pluginService.loadPluginData(pluginId, "apiKeyEnvVar", "")
-        useMonospace = pluginService.loadPluginData(pluginId, "useMonospace", false)
-    }
-
-    Connections {
-        target: pluginService
-        function onPluginDataChanged(pId, key, value) {
-            if (pId !== root.pluginId) return;
-            if (key === "provider") provider = value;
-            if (key === "baseUrl") baseUrl = value;
-            if (key === "model") model = value;
-            if (key === "temperature") temperature = value;
-            if (key === "maxTokens") maxTokens = value;
-            if (key === "timeout") timeout = value;
-            if (key === "apiKey") apiKey = value;
-            if (key === "saveApiKey") saveApiKey = value;
-            if (key === "apiKeyEnvVar") apiKeyEnvVar = value;
-            if (key === "useMonospace") useMonospace = value;
+        onPluginServiceChanged: {
+            console.log("DEBUG: Service received pluginService:", pluginService);
+            if (pluginService) loadSettings();
         }
-    }
 
+        Component.onCompleted: {
+            console.info("[AIAssistantService Plugin] ready");
+            loadSettings();
+            mkdirProcess.running = true;
+        }
+
+        readonly property string baseDir: Paths.strip(StandardPaths.writableLocation(StandardPaths.GenericStateLocation) + "/DankMaterialShell/plugins/aiAssistant")
+        readonly property string sessionPath: baseDir + "/session.json"
+        property bool sessionLoaded: false
+        property string providerConfigHash: ""
+        property int maxStoredMessages: 50
+
+        property ListModel messagesModel: ListModel {}
+        property int messageCount: messagesModel.count
+        property bool isStreaming: false
+        property bool isOnline: false
+        property string activeStreamId: ""
+        property string lastUserText: ""
+        property int lastHttpStatus: 0
+
+        // Settings
+        property string provider: "openai"
+        property string baseUrl: "https://api.openai.com"
+        property string model: "gpt-4.1-mini"
+        property real temperature: 0.7
+        property int maxTokens: 4096
+        property int timeout: 30
+        property string apiKey: ""
+        property bool saveApiKey: false
+        property string sessionApiKey: "" // In-memory key
+        property string apiKeyEnvVar: ""
+        property bool useMonospace: false
+
+        readonly property bool debugEnabled: (Quickshell.env("DMS_LOG_LEVEL") || "").toLowerCase() === "debug"
+
+        onProviderChanged: handleConfigChanged()
+        onBaseUrlChanged: handleConfigChanged()
+        onModelChanged: handleConfigChanged()
+
+        function loadSettings() {
+            if (!pluginService) {
+                console.log("DEBUG: loadSettings skipped (no service)");
+                return;
+            }
+            console.log("DEBUG: loadSettings executing");
+            provider = pluginService.loadPluginData(pluginId, "provider", "openai")
+            baseUrl = pluginService.loadPluginData(pluginId, "baseUrl", "https://api.openai.com")
+            model = pluginService.loadPluginData(pluginId, "model", "gpt-4.1-mini")
+            temperature = pluginService.loadPluginData(pluginId, "temperature", 0.7)
+            maxTokens = pluginService.loadPluginData(pluginId, "maxTokens", 4096)
+            timeout = pluginService.loadPluginData(pluginId, "timeout", 30)
+            apiKey = pluginService.loadPluginData(pluginId, "apiKey", "")
+            saveApiKey = pluginService.loadPluginData(pluginId, "saveApiKey", false)
+            apiKeyEnvVar = pluginService.loadPluginData(pluginId, "apiKeyEnvVar", "")
+            useMonospace = pluginService.loadPluginData(pluginId, "useMonospace", false)
+        }
+
+        Connections {
+            target: pluginService
+            function onPluginDataChanged(pId, key, value) {
+                console.log("DEBUG: onPluginDataChanged", pId, key, value);
+                if (pId !== root.pluginId) return;
+                if (key === "provider") provider = value;
+                if (key === "baseUrl") baseUrl = value;
+                if (key === "model") model = value;
+                if (key === "temperature") temperature = value;
+                if (key === "maxTokens") maxTokens = value;
+                if (key === "timeout") timeout = value;
+                if (key === "apiKey") apiKey = value;
+                if (key === "saveApiKey") saveApiKey = value;
+                if (key === "apiKeyEnvVar") apiKeyEnvVar = value;
+                if (key === "useMonospace") useMonospace = value;
+            }
+        }
     Process {
         id: mkdirProcess
         command: ["mkdir", "-p", root.baseDir]

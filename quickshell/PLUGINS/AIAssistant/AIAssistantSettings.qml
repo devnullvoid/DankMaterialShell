@@ -14,6 +14,7 @@ Item {
     property string pluginId: aiService.pluginId
 
     function save(key, value) {
+        console.log("DEBUG: Settings saving:", key, value, "Service:", pluginService);
         if (pluginService) pluginService.savePluginData(pluginId, key, value)
     }
 
