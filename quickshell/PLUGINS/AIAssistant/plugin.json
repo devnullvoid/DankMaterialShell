@@ -1,0 +1,12 @@
+{
+    "id": "aiAssistant",
+    "name": "AI Assistant",
+    "description": "Integrated AI chat assistant with markdown support",
+    "version": "1.0.0",
+    "author": "DankMaterialShell",
+    "type": "widget",
+    "capabilities": ["slideout", "ai"],
+    "component": "./AIAssistantWidget.qml",
+    "icon": "smart_toy",
+    "permissions": ["settings_read", "settings_write"]
+}
