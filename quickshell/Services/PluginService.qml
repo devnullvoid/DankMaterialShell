@@ -559,6 +559,15 @@ Singleton {
         return loadPlugin(pluginId, true);
     }
 
+    function togglePlugin(pluginId) {
+        const instance = pluginInstances[pluginId];
+        if (instance && typeof instance.toggle === "function") {
+            instance.toggle();
+            return true;
+        }
+        return false;
+    }
+
     function savePluginData(pluginId, key, value) {
         SettingsData.setPluginSetting(pluginId, key, value);
         pluginDataChanged(pluginId);
