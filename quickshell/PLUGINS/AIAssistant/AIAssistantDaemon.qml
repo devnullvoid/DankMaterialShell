@@ -20,32 +20,31 @@ Item {
         }
     }
 
-    // Logic Component (Global for all variants)
-    AIAssistantService {
-        id: aiService
-        pluginService: root.pluginService
-        pluginId: root.pluginId
-        Component.onCompleted: console.log("DEBUG: AIAssistantService initialized")
-    }
-
-    Component.onCompleted: console.log("DEBUG: Daemon initialized, aiService:", aiService)
-
-    Variants {
-        id: variants
-        model: Quickshell.screens
-
-        delegate: DankSlideout {
-            id: slideout
-            required property var modelData
-            title: "AI Assistant"
-            slideoutWidth: 480
-            expandable: true
-            expandedWidthValue: 960
-
-            content: AIAssistant {
-                aiService: aiService
-                onHideRequested: slideout.hide()
-            }
+        // Logic Component (Global for all variants)
+        AIAssistantService {
+            id: aiLogic
+            pluginService: root.pluginService
+            pluginId: root.pluginId
+            Component.onCompleted: console.log("DEBUG: AIAssistantService initialized")
         }
-    }
-}
+
+        Component.onCompleted: console.log("DEBUG: Daemon initialized, aiService:", aiLogic)
+
+        Variants {
+            id: variants
+            model: Quickshell.screens
+
+            delegate: DankSlideout {
+                id: slideout
+                required property var modelData
+                title: "AI Assistant"
+                slideoutWidth: 480
+                expandable: true
+                expandedWidthValue: 960
+
+                content: AIAssistant {
+                    aiService: aiLogic
+                    onHideRequested: slideout.hide()
+                }
+            }
+        }}
