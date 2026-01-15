@@ -302,7 +302,6 @@ Item {
         anchors.fill: parent
         isVisible: showSettingsMenu
         onCloseRequested: showSettingsMenu = false
-        pluginService: aiService.pluginService
         pluginId: aiService.pluginId
         aiService: aiService
     }
