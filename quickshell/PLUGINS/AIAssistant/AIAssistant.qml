@@ -10,7 +10,8 @@ import qs.Widgets
 Item {
     id: root
 
-    Component.onCompleted: console.info("[AIAssistant UI Plugin] ready")
+    Component.onCompleted: console.info("[AIAssistant UI Plugin] ready, service:", aiService)
+    onAiServiceChanged: console.info("[AIAssistant UI Plugin] service changed:", aiService)
 
     required property var aiService
     property bool showSettingsMenu: false

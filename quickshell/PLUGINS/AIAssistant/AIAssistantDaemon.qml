@@ -25,7 +25,10 @@ Item {
         id: aiService
         pluginService: root.pluginService
         pluginId: root.pluginId
+        Component.onCompleted: console.log("DEBUG: AIAssistantService initialized")
     }
+
+    Component.onCompleted: console.log("DEBUG: Daemon initialized, aiService:", aiService)
 
     Variants {
         id: variants
