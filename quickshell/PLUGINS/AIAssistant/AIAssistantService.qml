@@ -3,7 +3,7 @@ import QtCore
 import Quickshell
 import Quickshell.Io
 import qs.Common
-import "../../Common/AIApiAdapters.js" as AIApiAdapters
+import "./AIApiAdapters.js" as AIApiAdapters
 
 Item {
     id: root
