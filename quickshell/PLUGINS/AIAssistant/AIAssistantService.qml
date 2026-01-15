@@ -3,86 +3,77 @@ import QtCore
 import Quickshell
 import Quickshell.Io
 import qs.Common
+import qs.Services
 import "./AIApiAdapters.js" as AIApiAdapters
 
 Item {
     id: root
 
-        property var pluginService: null
-        property string pluginId: "aiAssistant"
+    property string pluginId: "aiAssistant"
 
-        onPluginServiceChanged: {
-            console.log("DEBUG: Service received pluginService:", pluginService);
-            if (pluginService) loadSettings();
-        }
+    Component.onCompleted: {
+        console.info("[AIAssistantService Plugin] ready");
+        loadSettings();
+        mkdirProcess.running = true;
+    }
 
-        Component.onCompleted: {
-            console.info("[AIAssistantService Plugin] ready");
+    readonly property string baseDir: Paths.strip(StandardPaths.writableLocation(StandardPaths.GenericStateLocation) + "/DankMaterialShell/plugins/aiAssistant")
+    readonly property string sessionPath: baseDir + "/session.json"
+    property bool sessionLoaded: false
+    property string providerConfigHash: ""
+    property int maxStoredMessages: 50
+
+    property ListModel messagesModel: ListModel {}
+    property int messageCount: messagesModel.count
+    property bool isStreaming: false
+    property bool isOnline: false
+    property string activeStreamId: ""
+    property string lastUserText: ""
+    property int lastHttpStatus: 0
+
+    // Settings
+    property string provider: "openai"
+    property string baseUrl: "https://api.openai.com"
+    property string model: "gpt-4.1-mini"
+    property real temperature: 0.7
+    property int maxTokens: 4096
+    property int timeout: 30
+    property string apiKey: ""
+    property bool saveApiKey: false
+    property string sessionApiKey: "" // In-memory key
+    property string apiKeyEnvVar: ""
+    property bool useMonospace: false
+
+    readonly property bool debugEnabled: (Quickshell.env("DMS_LOG_LEVEL") || "").toLowerCase() === "debug"
+
+    onProviderChanged: handleConfigChanged()
+    onBaseUrlChanged: handleConfigChanged()
+    onModelChanged: handleConfigChanged()
+
+    function loadSettings() {
+        console.log("DEBUG: loadSettings executing via Singleton");
+        provider = PluginService.loadPluginData(pluginId, "provider", "openai")
+        baseUrl = PluginService.loadPluginData(pluginId, "baseUrl", "https://api.openai.com")
+        model = PluginService.loadPluginData(pluginId, "model", "gpt-4.1-mini")
+        temperature = PluginService.loadPluginData(pluginId, "temperature", 0.7)
+        maxTokens = PluginService.loadPluginData(pluginId, "maxTokens", 4096)
+        timeout = PluginService.loadPluginData(pluginId, "timeout", 30)
+        apiKey = PluginService.loadPluginData(pluginId, "apiKey", "")
+        saveApiKey = PluginService.loadPluginData(pluginId, "saveApiKey", false)
+        apiKeyEnvVar = PluginService.loadPluginData(pluginId, "apiKeyEnvVar", "")
+        useMonospace = PluginService.loadPluginData(pluginId, "useMonospace", false)
+    }
+
+    Connections {
+        target: PluginService
+        function onPluginDataChanged(pId) {
+            console.log("DEBUG: onPluginDataChanged", pId);
+            if (pId !== root.pluginId) return;
             loadSettings();
-            mkdirProcess.running = true;
         }
+    }
 
-        readonly property string baseDir: Paths.strip(StandardPaths.writableLocation(StandardPaths.GenericStateLocation) + "/DankMaterialShell/plugins/aiAssistant")
-        readonly property string sessionPath: baseDir + "/session.json"
-        property bool sessionLoaded: false
-        property string providerConfigHash: ""
-        property int maxStoredMessages: 50
-
-        property ListModel messagesModel: ListModel {}
-        property int messageCount: messagesModel.count
-        property bool isStreaming: false
-        property bool isOnline: false
-        property string activeStreamId: ""
-        property string lastUserText: ""
-        property int lastHttpStatus: 0
-
-        // Settings
-        property string provider: "openai"
-        property string baseUrl: "https://api.openai.com"
-        property string model: "gpt-4.1-mini"
-        property real temperature: 0.7
-        property int maxTokens: 4096
-        property int timeout: 30
-        property string apiKey: ""
-        property bool saveApiKey: false
-        property string sessionApiKey: "" // In-memory key
-        property string apiKeyEnvVar: ""
-        property bool useMonospace: false
-
-        readonly property bool debugEnabled: (Quickshell.env("DMS_LOG_LEVEL") || "").toLowerCase() === "debug"
-
-        onProviderChanged: handleConfigChanged()
-        onBaseUrlChanged: handleConfigChanged()
-        onModelChanged: handleConfigChanged()
-
-            function loadSettings() {
-                if (!pluginService) {
-                    console.log("DEBUG: loadSettings skipped (no service)");
-                    return;
-                }
-
-                var val = pluginService.loadPluginData(pluginId, "saveApiKey", false);
-                console.log("DEBUG: loadSettings saveApiKey:", val, "ID:", pluginId);
-
-                provider = pluginService.loadPluginData(pluginId, "provider", "openai")
-                baseUrl = pluginService.loadPluginData(pluginId, "baseUrl", "https://api.openai.com")
-                model = pluginService.loadPluginData(pluginId, "model", "gpt-4.1-mini")
-                temperature = pluginService.loadPluginData(pluginId, "temperature", 0.7)
-                maxTokens = pluginService.loadPluginData(pluginId, "maxTokens", 4096)
-                timeout = pluginService.loadPluginData(pluginId, "timeout", 30)
-                apiKey = pluginService.loadPluginData(pluginId, "apiKey", "")
-                saveApiKey = val
-                apiKeyEnvVar = pluginService.loadPluginData(pluginId, "apiKeyEnvVar", "")
-                useMonospace = pluginService.loadPluginData(pluginId, "useMonospace", false)
-            }
-            Connections {
-                target: pluginService
-                function onPluginDataChanged(pId) {
-                    console.log("DEBUG: onPluginDataChanged", pId);
-                    if (pId !== root.pluginId) return;
-                    loadSettings();
-                }
-            }    Process {
+    Process {
         id: mkdirProcess
         command: ["mkdir", "-p", root.baseDir]
         running: false
@@ -191,6 +182,7 @@ Item {
     }
 
     function resolveApiKey() {
+        console.log("DEBUG: resolveApiKey. saveApiKey:", saveApiKey, "apiKey len:", apiKey.length, "sessionApiKey len:", sessionApiKey.length);
         const p = provider;
 
         function scopedEnv(id) {
