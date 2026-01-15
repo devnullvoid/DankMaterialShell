@@ -4,9 +4,9 @@
     "description": "Integrated AI chat assistant with markdown support",
     "version": "1.0.0",
     "author": "DankMaterialShell",
-    "type": "widget",
+    "type": "daemon",
     "capabilities": ["slideout", "ai"],
-    "component": "./AIAssistantWidget.qml",
+    "component": "./AIAssistantDaemon.qml",
     "icon": "smart_toy",
     "permissions": ["settings_read", "settings_write"]
 }
