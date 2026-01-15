@@ -20,14 +20,12 @@ Item {
         }
     }
 
-        // Logic Component (Global for all variants)
-        AIAssistantService {
-            id: aiLogic
-            pluginService: root.pluginService
-            pluginId: root.pluginId
-            Component.onCompleted: console.log("DEBUG: AIAssistantService initialized")
-        }
-
+            // Logic Component (Global for all variants)
+            AIAssistantService {
+                id: aiLogic
+                pluginId: root.pluginId
+                Component.onCompleted: console.log("DEBUG: AIAssistantService initialized")
+            }
         Component.onCompleted: console.log("DEBUG: Daemon initialized, aiService:", aiLogic)
 
         Variants {
