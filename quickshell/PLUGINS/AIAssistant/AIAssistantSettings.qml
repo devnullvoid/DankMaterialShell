@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import qs.Common
 import qs.Widgets
+import qs.Services
 
 Item {
     id: root
@@ -10,11 +11,12 @@ Item {
     signal closeRequested
 
     required property var aiService
-    property var pluginService: aiService.pluginService
+    // property var pluginService: aiService.pluginService // Removed
     property string pluginId: aiService.pluginId
 
     function save(key, value) {
-        if (pluginService) pluginService.savePluginData(pluginId, key, value)
+        // Use PluginService global singleton directly
+        PluginService.savePluginData(pluginId, key, value)
     }
 
     visible: isVisible
