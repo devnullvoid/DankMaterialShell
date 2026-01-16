@@ -51,7 +51,6 @@ Item {
     onModelChanged: handleConfigChanged()
 
     function loadSettings() {
-        console.warn("DEBUG: loadSettings executing via Singleton");
         provider = PluginService.loadPluginData(pluginId, "provider", "openai")
         baseUrl = PluginService.loadPluginData(pluginId, "baseUrl", "https://api.openai.com")
         model = PluginService.loadPluginData(pluginId, "model", "gpt-4.1-mini")
@@ -62,14 +61,11 @@ Item {
         saveApiKey = PluginService.loadPluginData(pluginId, "saveApiKey", false)
         apiKeyEnvVar = PluginService.loadPluginData(pluginId, "apiKeyEnvVar", "")
         useMonospace = PluginService.loadPluginData(pluginId, "useMonospace", false)
-
-        console.warn("DEBUG: Loaded Settings -> saveApiKey:", saveApiKey, "apiKey:", apiKey ? "SET" : "EMPTY", "provider:", provider);
     }
 
     Connections {
         target: PluginService
         function onPluginDataChanged(pId) {
-            console.log("DEBUG: onPluginDataChanged", pId);
             if (pId !== root.pluginId) return;
             loadSettings();
         }
@@ -184,7 +180,6 @@ Item {
     }
 
     function resolveApiKey() {
-        console.warn("DEBUG: resolveApiKey. saveApiKey:", saveApiKey, "apiKey len:", apiKey.length, "sessionApiKey len:", sessionApiKey.length);
         const p = provider;
 
         function scopedEnv(id) {
