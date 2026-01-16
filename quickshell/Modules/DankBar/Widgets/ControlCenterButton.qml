@@ -214,7 +214,25 @@ BasePill {
     }
 
     function hasNoVisibleIcons() {
-        return !root.showNetworkIcon && !root.showBluetoothIcon && !root.showAudioIcon && !root.showVpnIcon && !root.showBrightnessIcon && !root.showMicIcon && !root.showBatteryIcon && !root.showPrinterIcon && !root.showScreenSharingIcon;
+        if (root.showScreenSharingIcon && NiriService.hasCasts)
+            return false;
+        if (root.showNetworkIcon && NetworkService.networkAvailable)
+            return false;
+        if (root.showVpnIcon && NetworkService.vpnAvailable && NetworkService.vpnConnected)
+            return false;
+        if (root.showBluetoothIcon && BluetoothService.available && BluetoothService.enabled)
+            return false;
+        if (root.showAudioIcon)
+            return false;
+        if (root.showMicIcon)
+            return false;
+        if (root.showBrightnessIcon && DisplayService.brightnessAvailable && root.hasPinnedBrightnessDevice())
+            return false;
+        if (root.showBatteryIcon && BatteryService.batteryAvailable)
+            return false;
+        if (root.showPrinterIcon && CupsService.cupsAvailable && root.hasPrintJobs())
+            return false;
+        return true;
     }
 
     content: Component {
