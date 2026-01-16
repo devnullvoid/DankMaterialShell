@@ -51,15 +51,15 @@ Item {
     onModelChanged: handleConfigChanged()
 
     function loadSettings() {
-        provider = PluginService.loadPluginData(pluginId, "provider", "openai")
-        baseUrl = PluginService.loadPluginData(pluginId, "baseUrl", "https://api.openai.com")
-        model = PluginService.loadPluginData(pluginId, "model", "gpt-4.1-mini")
+        provider = String(PluginService.loadPluginData(pluginId, "provider", "openai")).trim()
+        baseUrl = String(PluginService.loadPluginData(pluginId, "baseUrl", "https://api.openai.com")).trim()
+        model = String(PluginService.loadPluginData(pluginId, "model", "gpt-4.1-mini")).trim()
         temperature = PluginService.loadPluginData(pluginId, "temperature", 0.7)
         maxTokens = PluginService.loadPluginData(pluginId, "maxTokens", 4096)
         timeout = PluginService.loadPluginData(pluginId, "timeout", 30)
-        apiKey = PluginService.loadPluginData(pluginId, "apiKey", "")
+        apiKey = String(PluginService.loadPluginData(pluginId, "apiKey", "")).trim()
         saveApiKey = PluginService.loadPluginData(pluginId, "saveApiKey", false)
-        apiKeyEnvVar = PluginService.loadPluginData(pluginId, "apiKeyEnvVar", "")
+        apiKeyEnvVar = String(PluginService.loadPluginData(pluginId, "apiKeyEnvVar", "")).trim()
         useMonospace = PluginService.loadPluginData(pluginId, "useMonospace", false)
     }
 

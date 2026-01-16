@@ -94,7 +94,7 @@ Item {
                             width: parent.width
                             text: aiService.baseUrl
                             placeholderText: "https://api.openai.com"
-                            onEditingFinished: save("baseUrl", text)
+                            onEditingFinished: save("baseUrl", text.trim())
                         }
 
                         // Model
@@ -103,7 +103,7 @@ Item {
                             width: parent.width
                             text: aiService.model
                             placeholderText: "gpt-4-mini"
-                            onEditingFinished: save("model", text)
+                            onEditingFinished: save("model", text.trim())
                         }
                     }
 
@@ -129,9 +129,9 @@ Item {
                             leftIconName: aiService.saveApiKey ? "lock" : "vpn_key"
                             onEditingFinished: {
                                 if (aiService.saveApiKey) {
-                                    save("apiKey", text)
+                                    save("apiKey", text.trim())
                                 } else {
-                                    aiService.sessionApiKey = text // In memory
+                                    aiService.sessionApiKey = text.trim() // In memory
                                 }
                             }
                         }
