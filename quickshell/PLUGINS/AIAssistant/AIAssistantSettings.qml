@@ -20,14 +20,6 @@ Item {
     }
 
     onIsVisibleChanged: {
-        if (isVisible) {
-            console.warn("DEBUG: Settings Visible. aiService:", aiService);
-            if (aiService) {
-                console.warn("DEBUG: aiService.baseUrl:", aiService.baseUrl);
-                console.warn("DEBUG: aiService.provider:", aiService.provider);
-                console.warn("DEBUG: aiService.saveApiKey:", aiService.saveApiKey);
-            }
-        }
     }
 
     visible: isVisible
