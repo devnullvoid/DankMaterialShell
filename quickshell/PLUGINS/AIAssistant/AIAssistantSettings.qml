@@ -146,25 +146,25 @@ Item {
                             onEditingFinished: save("apiKeyEnvVar", text.trim())
                         }
 
-                        // Save Toggle
-                        RowLayout {
-                            width: parent.width
-                            spacing: Theme.spacingM
-                            StyledText {
-                                text: I18n.tr("Remember API Key")
-                                Layout.fillWidth: true
-                                color: Theme.surfaceText
-                            }
-                            DankToggle {
-                                checked: aiService.saveApiKey
-                                onToggled: checked => {
-                                    save("saveApiKey", checked)
-                                    // Logic to move key handled by user re-entry or I can try to move it here
-                                    // For simplicity, user re-enters or we rely on them typing it.
-                                }
-                            }
-                        }
-                    }
+                                                // Save Toggle
+                                                RowLayout {
+                                                    width: parent.width
+                                                    spacing: Theme.spacingM
+                                                    StyledText {
+                                                        text: I18n.tr("Remember API Key")
+                                                        Layout.fillWidth: true
+                                                        color: Theme.surfaceText
+                                                    }
+                                                    DankToggle {
+                                                        checked: aiService.saveApiKey
+                                                        onToggled: checked => {
+                                                            save("saveApiKey", checked)
+                                                            if (checked && aiService.sessionApiKey) {
+                                                                save("apiKey", aiService.sessionApiKey)
+                                                            }
+                                                        }
+                                                    }
+                                                }                    }
 
                     // Parameters Section
                     Column {
