@@ -966,6 +966,17 @@ Item {
             return success ? `PLUGIN_DISABLE_SUCCESS: ${pluginId}` : `PLUGIN_DISABLE_FAILED: ${pluginId}`;
         }
 
+        function toggle(pluginId: string): string {
+            if (!pluginId)
+                return "ERROR: No plugin ID specified";
+
+            if (!PluginService.availablePlugins[pluginId])
+                return `PLUGIN_NOT_FOUND: ${pluginId}`;
+
+            const success = PluginService.togglePlugin(pluginId);
+            return success ? `PLUGIN_TOGGLE_SUCCESS: ${pluginId}` : `PLUGIN_TOGGLE_FAILED: ${pluginId}`;
+        }
+
         function list(): string {
             const plugins = PluginService.getAvailablePlugins();
             if (plugins.length === 0)
