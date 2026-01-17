@@ -365,6 +365,7 @@ Item {
                 onContentItemReady: contentItem => {
                     contentItem.widthChanged.connect(() => layoutTimer.restart());
                     contentItem.heightChanged.connect(() => layoutTimer.restart());
+                    layoutTimer.restart();
                 }
 
                 onActiveChanged: layoutTimer.restart()
