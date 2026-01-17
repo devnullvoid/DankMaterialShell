@@ -569,10 +569,18 @@ Singleton {
     }
 
     function setSortBy(newSortBy) {
-        if (newSortBy === currentSort) {
+        if (newSortBy !== currentSort) {
+            currentSort = newSortBy;
+            sortAscending = false;
+            applySorting();
+        }
+    }
+
+    function toggleSort(column) {
+        if (column === currentSort) {
             sortAscending = !sortAscending;
         } else {
-            currentSort = newSortBy;
+            currentSort = column;
             sortAscending = false;
         }
         applySorting();

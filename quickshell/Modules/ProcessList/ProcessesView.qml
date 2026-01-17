@@ -105,7 +105,7 @@ Item {
                     sortKey: "name"
                     currentSort: DgopService.currentSort
                     sortAscending: DgopService.sortAscending
-                    onClicked: DgopService.setSortBy("name")
+                    onClicked: DgopService.toggleSort("name")
                     alignment: Text.AlignLeft
                 }
 
@@ -115,7 +115,7 @@ Item {
                     sortKey: "cpu"
                     currentSort: DgopService.currentSort
                     sortAscending: DgopService.sortAscending
-                    onClicked: DgopService.setSortBy("cpu")
+                    onClicked: DgopService.toggleSort("cpu")
                 }
 
                 SortableHeader {
@@ -124,7 +124,7 @@ Item {
                     sortKey: "memory"
                     currentSort: DgopService.currentSort
                     sortAscending: DgopService.sortAscending
-                    onClicked: DgopService.setSortBy("memory")
+                    onClicked: DgopService.toggleSort("memory")
                 }
 
                 SortableHeader {
@@ -133,7 +133,7 @@ Item {
                     sortKey: "pid"
                     currentSort: DgopService.currentSort
                     sortAscending: DgopService.sortAscending
-                    onClicked: DgopService.setSortBy("pid")
+                    onClicked: DgopService.toggleSort("pid")
                 }
 
                 Item {
