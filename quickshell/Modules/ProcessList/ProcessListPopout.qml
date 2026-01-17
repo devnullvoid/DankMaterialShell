@@ -159,7 +159,7 @@ DankPopout {
                         return gb >= 10 ? gb.toFixed(0) + " GB" : gb.toFixed(1) + " GB";
                     }
 
-                    readonly property real gaugeSize: Theme.fontSizeMedium * 6
+                    readonly property real gaugeSize: Theme.fontSizeMedium * 6.5
 
                     readonly property var enabledGpusWithTemp: {
                         if (!SessionData.enabledGpuPciIds || SessionData.enabledGpuPciIds.length === 0)
@@ -336,9 +336,16 @@ DankPopout {
         property color accentColor: Theme.primary
         property color detailColor: Theme.surfaceVariantText
 
-        readonly property real thickness: Math.max(3, Math.min(width, height) / 17)
-        readonly property real glowExtra: thickness * 1.6
-        readonly property real arcPadding: thickness / 1.5
+        readonly property real thickness: Math.max(4, Math.min(width, height) / 15)
+        readonly property real glowExtra: thickness * 1.4
+        readonly property real arcPadding: thickness / 1.3
+
+        readonly property real innerDiameter: width - (arcPadding + thickness + glowExtra) * 2
+        readonly property real maxTextWidth: innerDiameter * 0.9
+        readonly property real baseLabelSize: Math.round(width * 0.18)
+        readonly property real labelSize: Math.round(Math.min(baseLabelSize, maxTextWidth / Math.max(1, label.length * 0.65)))
+        readonly property real sublabelSize: Math.round(Math.min(width * 0.13, maxTextWidth / Math.max(1, sublabel.length * 0.7)))
+        readonly property real detailSize: Math.round(Math.min(width * 0.12, maxTextWidth / Math.max(1, detail.length * 0.65)))
 
         property real animValue: 0
 
@@ -447,11 +454,11 @@ DankPopout {
 
         Column {
             anchors.centerIn: parent
-            spacing: 0
+            spacing: 1
 
             StyledText {
                 text: gaugeRoot.label
-                font.pixelSize: Theme.fontSizeSmall
+                font.pixelSize: gaugeRoot.labelSize
                 font.family: SettingsData.monoFontFamily
                 font.weight: Font.Bold
                 color: Theme.surfaceText
@@ -460,14 +467,15 @@ DankPopout {
 
             StyledText {
                 text: gaugeRoot.sublabel
-                font.pixelSize: Theme.fontSizeSmall - 2
+                font.pixelSize: gaugeRoot.sublabelSize
+                font.weight: Font.Medium
                 color: gaugeRoot.accentColor
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
             StyledText {
                 text: gaugeRoot.detail
-                font.pixelSize: Theme.fontSizeSmall - 3
+                font.pixelSize: gaugeRoot.detailSize
                 font.family: SettingsData.monoFontFamily
                 color: gaugeRoot.detailColor
                 anchors.horizontalCenter: parent.horizontalCenter
