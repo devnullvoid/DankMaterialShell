@@ -495,7 +495,8 @@ Singleton {
             "shadowIntensity": 0,
             "shadowOpacity": 60,
             "shadowColorMode": "text",
-            "shadowCustomColor": "#000000"
+            "shadowCustomColor": "#000000",
+            "clickThrough": false
         }
     ]
 

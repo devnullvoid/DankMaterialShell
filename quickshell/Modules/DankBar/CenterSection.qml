@@ -296,6 +296,9 @@ Item {
     width: parent.width
     anchors.centerIn: parent
 
+    implicitWidth: isVertical ? widgetThickness : totalSize
+    implicitHeight: isVertical ? totalSize : widgetThickness
+
     Timer {
         id: layoutTimer
         interval: 0

@@ -373,7 +373,9 @@ Item {
 
                                         StyledText {
                                             text: {
-                                                switch (barCard.modelData.position) {
+                                                SettingsData.barConfigs;
+                                                const cfg = SettingsData.getBarConfig(barCard.modelData.id);
+                                                switch (cfg?.position ?? SettingsData.Position.Top) {
                                                 case SettingsData.Position.Top:
                                                     return I18n.tr("Top");
                                                 case SettingsData.Position.Bottom:
@@ -398,7 +400,9 @@ Item {
 
                                         StyledText {
                                             text: {
-                                                const prefs = barCard.modelData.screenPreferences || ["all"];
+                                                SettingsData.barConfigs;
+                                                const cfg = SettingsData.getBarConfig(barCard.modelData.id);
+                                                const prefs = cfg?.screenPreferences || ["all"];
                                                 if (prefs.includes("all") || (typeof prefs[0] === "string" && prefs[0] === "all"))
                                                     return I18n.tr("All displays");
                                                 return I18n.tr("%1 display(s)").replace("%1", prefs.length);
@@ -415,9 +419,11 @@ Item {
 
                                         StyledText {
                                             text: {
-                                                const left = barCard.modelData.leftWidgets?.length || 0;
-                                                const center = barCard.modelData.centerWidgets?.length || 0;
-                                                const right = barCard.modelData.rightWidgets?.length || 0;
+                                                SettingsData.barConfigs;
+                                                const cfg = SettingsData.getBarConfig(barCard.modelData.id);
+                                                const left = cfg?.leftWidgets?.length || 0;
+                                                const center = cfg?.centerWidgets?.length || 0;
+                                                const right = cfg?.rightWidgets?.length || 0;
                                                 return I18n.tr("%1 widgets").replace("%1", left + center + right);
                                             }
                                             font.pixelSize: Theme.fontSizeSmall
@@ -428,14 +434,22 @@ Item {
                                             text: "•"
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.surfaceVariantText
-                                            visible: !barCard.modelData.enabled && barCard.modelData.id !== "default"
+                                            visible: {
+                                                SettingsData.barConfigs;
+                                                const cfg = SettingsData.getBarConfig(barCard.modelData.id);
+                                                return !cfg?.enabled && barCard.modelData.id !== "default";
+                                            }
                                         }
 
                                         StyledText {
                                             text: I18n.tr("Disabled")
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.error
-                                            visible: !barCard.modelData.enabled && barCard.modelData.id !== "default"
+                                            visible: {
+                                                SettingsData.barConfigs;
+                                                const cfg = SettingsData.getBarConfig(barCard.modelData.id);
+                                                return !cfg?.enabled && barCard.modelData.id !== "default";
+                                            }
                                         }
                                     }
                                 }
@@ -750,6 +764,21 @@ Item {
                     height: 1
                     color: Theme.outline
                     opacity: 0.15
+                }
+
+                SettingsToggleRow {
+                    text: I18n.tr("Click Through")
+                    checked: selectedBarConfig?.clickThrough ?? false
+                    onToggled: toggled => SettingsData.updateBarConfig(selectedBarId, {
+                            clickThrough: toggled
+                        })
+                }
+
+                Rectangle {
+                    width: parent.width
+                    height: 1
+                    color: Theme.outline
+                    opacity: 0.15
                     visible: CompositorService.isNiri
                 }
 
@@ -1057,6 +1086,7 @@ Item {
             }
 
             SettingsCard {
+                id: shadowCard
                 iconName: "layers"
                 title: I18n.tr("Shadow", "bar shadow settings card")
                 visible: selectedBarConfig?.enabled
@@ -1076,7 +1106,7 @@ Item {
                 }
 
                 SettingsSliderRow {
-                    visible: parent.shadowActive
+                    visible: shadowCard.shadowActive
                     text: I18n.tr("Opacity")
                     minimum: 10
                     maximum: 100
@@ -1088,7 +1118,7 @@ Item {
                 }
 
                 Column {
-                    visible: parent.shadowActive
+                    visible: shadowCard.shadowActive
                     width: parent.width
                     spacing: Theme.spacingS
 

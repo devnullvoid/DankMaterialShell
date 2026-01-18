@@ -731,7 +731,8 @@ Item {
     Flow {
         id: workspaceRow
 
-        anchors.centerIn: parent
+        x: isVertical ? visualBackground.x : (parent.width - implicitWidth) / 2
+        y: isVertical ? (parent.height - implicitHeight) / 2 : visualBackground.y
         spacing: Theme.spacingS
         flow: isVertical ? Flow.TopToBottom : Flow.LeftToRight
 
@@ -993,12 +994,13 @@ Item {
                     dataUpdateTimer.restart();
                 }
 
-                width: root.isVertical ? root.barThickness : visualWidth
-                height: root.isVertical ? visualHeight : root.barThickness
+                width: root.isVertical ? root.widgetHeight : visualWidth
+                height: root.isVertical ? visualHeight : root.widgetHeight
 
                 Rectangle {
                     id: focusedBorderRing
-                    anchors.centerIn: parent
+                    x: root.isVertical ? (root.widgetHeight - width) / 2 : (parent.width - width) / 2
+                    y: root.isVertical ? (parent.height - height) / 2 : (root.widgetHeight - height) / 2
                     width: {
                         const borderWidth = (SettingsData.workspaceFocusedBorderEnabled && isActive && !isPlaceholder) ? SettingsData.workspaceFocusedBorderThickness : 0;
                         return delegateRoot.visualWidth + borderWidth * 2;
@@ -1045,7 +1047,8 @@ Item {
                     id: visualContent
                     width: delegateRoot.visualWidth
                     height: delegateRoot.visualHeight
-                    anchors.centerIn: parent
+                    x: root.isVertical ? (root.widgetHeight - width) / 2 : (parent.width - width) / 2
+                    y: root.isVertical ? (parent.height - height) / 2 : (root.widgetHeight - height) / 2
                     radius: Theme.cornerRadius
                     color: isActive ? activeColor : isUrgent ? urgentColor : isPlaceholder ? Theme.surfaceTextLight : isHovered ? Theme.withAlpha(unfocusedColor, 0.7) : isOccupied ? occupiedColor : unfocusedColor
 

@@ -20,6 +20,13 @@ Item {
 
     readonly property real innerPadding: barConfig?.innerPadding ?? 4
 
+    property alias hLeftSection: hLeftSection
+    property alias hCenterSection: hCenterSection
+    property alias hRightSection: hRightSection
+    property alias vLeftSection: vLeftSection
+    property alias vCenterSection: vCenterSection
+    property alias vRightSection: vRightSection
+
     anchors.fill: parent
     anchors.leftMargin: Math.max(Theme.spacingXS, innerPadding * 0.8)
     anchors.rightMargin: Math.max(Theme.spacingXS, innerPadding * 0.8)
