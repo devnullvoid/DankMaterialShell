@@ -511,6 +511,8 @@ func getCommonCommands() []*cobra.Command {
 		colorCmd,
 		screenshotCmd,
 		notifyActionCmd,
+		notifyCmd,
+		genericNotifyActionCmd,
 		matugenCmd,
 		clipboardCmd,
 		doctorCmd,
