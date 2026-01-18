@@ -4266,6 +4266,12 @@
     "comment": ""
   },
   {
+    "term": "Intelligent Auto-hide",
+    "context": "Intelligent Auto-hide",
+    "reference": "Modules/Settings/DockTab.qml:103",
+    "comment": ""
+  },
+  {
     "term": "Interface:",
     "context": "Interface:",
     "reference": "Modules/Settings/NetworkTab.qml:867",
@@ -7413,6 +7419,12 @@
     "term": "Show darkened overlay behind modal dialogs",
     "context": "Show darkened overlay behind modal dialogs",
     "reference": "Modules/Settings/ThemeColorsTab.qml:1375",
+    "comment": ""
+  },
+  {
+    "term": "Show dock when windows don't overlap its area, hide when they do",
+    "context": "Show dock when windows don't overlap its area, hide when they do",
+    "reference": "Modules/Settings/DockTab.qml:104",
     "comment": ""
   },
   {

@@ -231,6 +231,7 @@ var SPEC = {
 
     showDock: { def: false },
     dockAutoHide: { def: false },
+    dockSmartAutoHide: { def: false },
     dockGroupByApp: { def: false },
     dockOpenOnOverview: { def: false },
     dockPosition: { def: 1 },

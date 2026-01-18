@@ -4977,6 +4977,13 @@
     "comment": ""
   },
   {
+    "term": "Intelligent Auto-hide",
+    "translation": "",
+    "context": "Intelligent Auto-hide",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Interface:",
     "translation": "",
     "context": "",
@@ -8646,6 +8653,13 @@
   },
   {
     "term": "Show darkened overlay behind modal dialogs",
+    "translation": "",
+    "context": "",
+    "reference": "",
+    "comment": ""
+  },
+  {
+    "term": "Show dock when windows don't overlap its area, hide when they do",
     "translation": "",
     "context": "",
     "reference": "",
