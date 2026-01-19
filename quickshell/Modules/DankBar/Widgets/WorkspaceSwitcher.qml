@@ -757,12 +757,13 @@ Item {
                 }
                 property bool isOccupied: {
                     if (CompositorService.isHyprland)
-                        return Array.from(Hyprland.toplevels?.values || [])
-                            .some(tl => tl.workspace?.id === modelData?.id);
+                        return Array.from(Hyprland.toplevels?.values || []).some(tl => tl.workspace?.id === modelData?.id);
                     if (CompositorService.isDwl)
                         return modelData.clients > 0;
-                    if (CompositorService.isNiri)
-                        return NiriService.windows?.some(win => win.workspace_id === modelData?.id) ?? false;
+                    if (CompositorService.isNiri) {
+                        const workspace = NiriService.allWorkspaces.find(ws => ws.idx + 1 === modelData && ws.output === root.effectiveScreenName);
+                        return workspace ? (NiriService.windows?.some(win => win.workspace_id === workspace.id) ?? false) : false;
+                    }
                     return false;
                 }
                 property bool isPlaceholder: {
@@ -848,16 +849,18 @@ Item {
 
                 readonly property color occupiedColor: {
                     switch (SettingsData.workspaceOccupiedColorMode) {
+                    case "sec":
+                        return Theme.secondary;
                     case "s":
                         return Theme.surface;
                     case "sc":
                         return Theme.surfaceContainer;
                     case "sch":
                         return Theme.surfaceContainerHigh;
-                    case "none":
-                        return unfocusedColor;
+                    case "schh":
+                        return Theme.surfaceContainerHighest;
                     default:
-                        return Theme.secondary;
+                        return unfocusedColor;
                     }
                 }
 

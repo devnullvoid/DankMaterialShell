@@ -201,7 +201,7 @@ Item {
 
                 SettingsButtonGroupRow {
                     text: I18n.tr("Occupied Color")
-                    model: ["sec", "s", "sc", "sch", "none"]
+                    model: ["none", "sec", "s", "sc", "sch", "schh"]
                     visible: CompositorService.isNiri || CompositorService.isHyprland || CompositorService.isDwl
                     buttonHeight: 22
                     minButtonWidth: 36
@@ -210,15 +210,17 @@ Item {
                     textSize: Theme.fontSizeSmall - 1
                     spacing: 1
                     currentIndex: {
-                        switch (SettingsData.wokspaceColorMode) {
-                        case "s":
+                        switch (SettingsData.workspaceOccupiedColorMode) {
+                        case "sec":
                             return 1;
-                        case "sc":
+                        case "s":
                             return 2;
-                        case "sch":
+                        case "sc":
                             return 3;
-                        case "none":
+                        case "sch":
                             return 4;
+                        case "schh":
+                            return 5;
                         default:
                             return 0;
                         }
@@ -226,7 +228,7 @@ Item {
                     onSelectionChanged: (index, selected) => {
                         if (!selected)
                             return;
-                        const modes = ["default", "s", "sc", "sch", "none"];
+                        const modes = ["none", "sec", "s", "sc", "sch", "schh"];
                         SettingsData.set("workspaceOccupiedColorMode", modes[index]);
                     }
                 }

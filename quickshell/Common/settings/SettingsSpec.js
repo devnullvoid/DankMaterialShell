@@ -100,7 +100,7 @@ var SPEC = {
     reverseScrolling: { def: false },
     dwlShowAllTags: { def: false },
     workspaceColorMode: { def: "default" },
-    workspaceOccupiedColorMode: { def: "default" },
+    workspaceOccupiedColorMode: { def: "none" },
     workspaceUnfocusedColorMode: { def: "default" },
     workspaceUrgentColorMode: { def: "default" },
     workspaceFocusedBorderEnabled: { def: false },
