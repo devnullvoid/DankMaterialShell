@@ -404,6 +404,22 @@ Column {
                 topPadding: Theme.spacingM
                 rightPadding: Theme.spacingM
                 bottomPadding: Theme.spacingM
+                cursorDelegate: Rectangle {
+                    width: 1.5
+                    radius: 1
+                    color: Theme.surfaceText
+                    x: textArea.cursorRectangle.x
+                    y: textArea.cursorRectangle.y
+                    height: textArea.cursorRectangle.height
+                    opacity: 1.0
+
+                    SequentialAnimation on opacity {
+                        running: textArea.activeFocus
+                        loops: Animation.Infinite
+                        PropertyAnimation { from: 1.0; to: 0.0; duration: 650; easing.type: Easing.InOutQuad }
+                        PropertyAnimation { from: 0.0; to: 1.0; duration: 650; easing.type: Easing.InOutQuad }
+                    }
+                }
 
                 Component.onCompleted: {
                     loadCurrentTabContent()
