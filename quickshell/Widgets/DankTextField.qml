@@ -53,6 +53,7 @@ StyledRect {
     property real topPadding: Theme.spacingM
     property real bottomPadding: Theme.spacingM
     property bool ignoreLeftRightKeys: false
+    property bool ignoreUpDownKeys: false
     property bool ignoreTabKeys: false
     property var keyForwardTargets: []
     property Item keyNavigationTab: null
@@ -145,9 +146,16 @@ StyledRect {
             if (root.ignoreTabKeys && (event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab)) {
                 event.accepted = false;
                 for (var i = 0; i < root.keyForwardTargets.length; i++) {
-                    if (root.keyForwardTargets[i]) {
+                    if (root.keyForwardTargets[i])
                         root.keyForwardTargets[i].Keys.pressed(event);
-                    }
+                }
+                return;
+            }
+            if (root.ignoreUpDownKeys && (event.key === Qt.Key_Up || event.key === Qt.Key_Down)) {
+                event.accepted = false;
+                for (var i = 0; i < root.keyForwardTargets.length; i++) {
+                    if (root.keyForwardTargets[i])
+                        root.keyForwardTargets[i].Keys.pressed(event);
                 }
             }
         }
