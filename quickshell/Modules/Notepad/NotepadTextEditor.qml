@@ -383,7 +383,7 @@ Column {
 
             TextArea.flickable: TextArea {
                 id: textArea
-                placeholderText: I18n.tr("Start typing your notes here...")
+                placeholderText: ""
                 placeholderTextColor: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.5)
                 font.family: SettingsData.notepadUseMonospace ? SettingsData.monoFontFamily : (SettingsData.notepadFontFamily || SettingsData.fontFamily)
                 font.pixelSize: SettingsData.notepadFontSize * SettingsData.fontScale
@@ -479,6 +479,20 @@ Column {
                 background: Rectangle {
                     color: "transparent"
                 }
+            }
+
+            StyledText {
+                id: placeholderOverlay
+                text: I18n.tr("Start typing your notes here...")
+                color: Qt.rgba(Theme.surfaceText.r, Theme.surfaceText.g, Theme.surfaceText.b, 0.5)
+                font.family: textArea.font.family
+                font.pixelSize: textArea.font.pixelSize
+                visible: textArea.text.length === 0
+                anchors.left: textArea.left
+                anchors.top: textArea.top
+                anchors.leftMargin: textArea.leftPadding
+                anchors.topMargin: textArea.topPadding
+                z: textArea.z + 1
             }
         }
     }

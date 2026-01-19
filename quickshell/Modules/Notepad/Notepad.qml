@@ -182,30 +182,20 @@ Item {
             }
 
             onOpenRequested: {
-                if (hasUnsavedChanges()) {
-                    root.pendingAction = "open";
-                    root.confirmationDialogOpen = true;
-                    confirmationDialogLoader.active = true;
-                    if (confirmationDialogLoader.item)
-                        confirmationDialogLoader.item.open();
-                } else {
-                    root.fileDialogOpen = true;
-                    loadBrowserLoader.active = true;
-                    if (loadBrowserLoader.item)
-                        loadBrowserLoader.item.open();
+                textEditor.autoSaveToSession();
+                if (textEditor.text.length > 0) {
+                    createNewTab();
                 }
+
+                root.fileDialogOpen = true;
+                loadBrowserLoader.active = true;
+                if (loadBrowserLoader.item)
+                    loadBrowserLoader.item.open();
             }
 
             onNewRequested: {
-                if (hasUnsavedChanges()) {
-                    root.pendingAction = "new";
-                    root.confirmationDialogOpen = true;
-                    confirmationDialogLoader.active = true;
-                    if (confirmationDialogLoader.item)
-                        confirmationDialogLoader.item.open();
-                } else {
-                    createNewTab();
-                }
+                textEditor.autoSaveToSession();
+                createNewTab();
             }
 
             onEscapePressed: {
@@ -266,7 +256,7 @@ Item {
         id: saveBrowserLoader
         active: false
 
-        FileBrowserModal {
+        FileBrowserSurfaceModal {
             id: saveBrowser
 
             browserTitle: I18n.tr("Save Notepad File")
@@ -332,7 +322,7 @@ Item {
         id: loadBrowserLoader
         active: false
 
-        FileBrowserModal {
+        FileBrowserSurfaceModal {
             id: loadBrowser
 
             browserTitle: I18n.tr("Open Notepad File")
