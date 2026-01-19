@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Modals.Spotlight
@@ -18,6 +19,10 @@ Item {
     property var parentModal: null
     property string searchMode: "apps"
     property bool usePopupContextMenu: false
+
+    property bool editMode: false
+    property var editingApp: null
+    property string editAppId: ""
 
     function resetScroll() {
         if (searchMode === "apps") {
@@ -43,6 +48,49 @@ Item {
         }
     }
 
+    function openEditMode(app) {
+        if (!app)
+            return;
+        editingApp = app;
+        editAppId = app.id || app.execString || app.exec || "";
+        const existing = SessionData.getAppOverride(editAppId);
+        editNameField.text = existing?.name || "";
+        editIconField.text = existing?.icon || "";
+        editCommentField.text = existing?.comment || "";
+        editEnvVarsField.text = existing?.envVars || "";
+        editExtraFlagsField.text = existing?.extraFlags || "";
+        editMode = true;
+        Qt.callLater(() => editNameField.forceActiveFocus());
+    }
+
+    function closeEditMode() {
+        editMode = false;
+        editingApp = null;
+        editAppId = "";
+        Qt.callLater(() => searchField.forceActiveFocus());
+    }
+
+    function saveAppOverride() {
+        const override = {};
+        if (editNameField.text.trim())
+            override.name = editNameField.text.trim();
+        if (editIconField.text.trim())
+            override.icon = editIconField.text.trim();
+        if (editCommentField.text.trim())
+            override.comment = editCommentField.text.trim();
+        if (editEnvVarsField.text.trim())
+            override.envVars = editEnvVarsField.text.trim();
+        if (editExtraFlagsField.text.trim())
+            override.extraFlags = editExtraFlagsField.text.trim();
+        SessionData.setAppOverride(editAppId, override);
+        closeEditMode();
+    }
+
+    function resetAppOverride() {
+        SessionData.clearAppOverride(editAppId);
+        closeEditMode();
+    }
+
     onSearchModeChanged: {
         if (searchMode === "files") {
             appLauncher.keyboardNavigationActive = false;
@@ -55,10 +103,16 @@ Item {
     focus: true
     clip: false
     Keys.onPressed: event => {
+        if (editMode) {
+            if (event.key === Qt.Key_Escape) {
+                closeEditMode();
+                event.accepted = true;
+            }
+            return;
+        }
         if (event.key === Qt.Key_Escape) {
             if (parentModal)
                 parentModal.hide();
-
             event.accepted = true;
         } else if (event.key === Qt.Key_Down) {
             if (searchMode === "apps") {
@@ -155,7 +209,6 @@ Item {
             if (searchMode === "apps" && appLauncher.model.count > 0) {
                 const selectedApp = appLauncher.model.get(appLauncher.selectedIndex);
                 const menu = usePopupContextMenu ? popupContextMenu : layerContextMenuLoader.item;
-
                 if (selectedApp && menu && resultsView) {
                     const itemPos = resultsView.getSelectedItemPosition();
                     const contentPos = resultsView.mapToItem(spotlightKeyHandler, itemPos.x, itemPos.y);
@@ -168,7 +221,6 @@ Item {
 
     AppLauncher {
         id: appLauncher
-
         viewMode: SettingsData.spotlightModalViewMode
         gridColumns: SettingsData.appLauncherGridColumns
         onAppLaunched: () => {
@@ -185,7 +237,6 @@ Item {
 
     FileSearchController {
         id: fileSearchController
-
         onFileOpened: () => {
             if (parentModal)
                 parentModal.hide();
@@ -197,7 +248,6 @@ Item {
 
     SpotlightContextMenuPopup {
         id: popupContextMenu
-
         parent: spotlightKeyHandler
         appLauncher: spotlightKeyHandler.appLauncher
         parentHandler: spotlightKeyHandler
@@ -231,13 +281,29 @@ Item {
         target: parentModal
         function onSpotlightOpenChanged() {
             if (parentModal && !parentModal.spotlightOpen) {
-                if (layerContextMenuLoader.item) {
+                if (layerContextMenuLoader.item)
                     layerContextMenuLoader.item.hide();
-                }
                 popupContextMenu.hide();
+                if (editMode)
+                    closeEditMode();
             }
         }
         enabled: parentModal !== null
+    }
+
+    Connections {
+        target: popupContextMenu
+        function onEditAppRequested(app) {
+            spotlightKeyHandler.openEditMode(app);
+        }
+    }
+
+    Connections {
+        target: layerContextMenuLoader.item
+        function onEditAppRequested(app) {
+            spotlightKeyHandler.openEditMode(app);
+        }
+        enabled: layerContextMenuLoader.item !== null
     }
 
     Column {
@@ -245,6 +311,7 @@ Item {
         anchors.margins: Theme.spacingM
         spacing: Theme.spacingM
         clip: false
+        visible: !editMode
 
         Item {
             id: searchRow
@@ -275,18 +342,14 @@ Item {
                 ignoreTabKeys: true
                 keyForwardTargets: [spotlightKeyHandler]
                 onTextChanged: {
-                    if (searchMode === "apps") {
+                    if (searchMode === "apps")
                         appLauncher.searchQuery = text;
-                    }
                 }
-                onTextEdited: {
-                    updateSearchMode();
-                }
+                onTextEdited: updateSearchMode()
                 Keys.onPressed: event => {
                     if (event.key === Qt.Key_Escape) {
                         if (parentModal)
                             parentModal.hide();
-
                         event.accepted = true;
                     } else if ((event.key === Qt.Key_Return || event.key === Qt.Key_Enter) && text.length > 0) {
                         if (searchMode === "apps") {
@@ -334,13 +397,10 @@ Item {
 
                         MouseArea {
                             id: listViewArea
-
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            onClicked: () => {
-                                appLauncher.setViewMode("list");
-                            }
+                            onClicked: appLauncher.setViewMode("list")
                         }
                     }
 
@@ -359,13 +419,10 @@ Item {
 
                         MouseArea {
                             id: gridViewArea
-
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            onClicked: () => {
-                                appLauncher.setViewMode("grid");
-                            }
+                            onClicked: appLauncher.setViewMode("grid")
                         }
                     }
                 }
@@ -379,7 +436,6 @@ Item {
 
                     Rectangle {
                         id: filenameFilterButton
-
                         width: 36
                         height: 36
                         radius: Theme.cornerRadius
@@ -394,13 +450,10 @@ Item {
 
                         MouseArea {
                             id: filenameFilterArea
-
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            onClicked: () => {
-                                fileSearchController.searchField = "filename";
-                            }
+                            onClicked: fileSearchController.searchField = "filename"
                             onEntered: {
                                 filenameTooltipLoader.active = true;
                                 Qt.callLater(() => {
@@ -413,7 +466,6 @@ Item {
                             onExited: {
                                 if (filenameTooltipLoader.item)
                                     filenameTooltipLoader.item.hide();
-
                                 filenameTooltipLoader.active = false;
                             }
                         }
@@ -421,7 +473,6 @@ Item {
 
                     Rectangle {
                         id: contentFilterButton
-
                         width: 36
                         height: 36
                         radius: Theme.cornerRadius
@@ -436,13 +487,10 @@ Item {
 
                         MouseArea {
                             id: contentFilterArea
-
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
-                            onClicked: () => {
-                                fileSearchController.searchField = "body";
-                            }
+                            onClicked: fileSearchController.searchField = "body"
                             onEntered: {
                                 contentTooltipLoader.active = true;
                                 Qt.callLater(() => {
@@ -455,7 +503,6 @@ Item {
                             onExited: {
                                 if (contentTooltipLoader.item)
                                     contentTooltipLoader.item.hide();
-
                                 contentTooltipLoader.active = false;
                             }
                         }
@@ -474,13 +521,10 @@ Item {
                 anchors.fill: parent
                 appLauncher: spotlightKeyHandler.appLauncher
                 visible: searchMode === "apps"
-
                 onItemRightClicked: (index, modelData, mouseX, mouseY) => {
                     const menu = usePopupContextMenu ? popupContextMenu : layerContextMenuLoader.item;
-
                     if (menu?.show) {
                         const isPopup = menu.contentItem !== undefined;
-
                         if (isPopup) {
                             const localPos = popupContextMenu.parent.mapFromItem(null, mouseX, mouseY);
                             menu.show(localPos.x, localPos.y, modelData, false);
@@ -500,16 +544,320 @@ Item {
         }
     }
 
+    FocusScope {
+        id: editView
+        anchors.fill: parent
+        anchors.margins: Theme.spacingM
+        visible: editMode
+        focus: editMode
+
+        Keys.onPressed: event => {
+            switch (event.key) {
+            case Qt.Key_Escape:
+                closeEditMode();
+                event.accepted = true;
+                return;
+            case Qt.Key_Return:
+            case Qt.Key_Enter:
+                if (event.modifiers & Qt.ControlModifier) {
+                    saveAppOverride();
+                    event.accepted = true;
+                }
+                return;
+            case Qt.Key_S:
+                if (event.modifiers & Qt.ControlModifier) {
+                    saveAppOverride();
+                    event.accepted = true;
+                }
+                return;
+            case Qt.Key_R:
+                if ((event.modifiers & Qt.ControlModifier) && SessionData.getAppOverride(editAppId) !== null) {
+                    resetAppOverride();
+                    event.accepted = true;
+                }
+                return;
+            }
+        }
+
+        Column {
+            anchors.fill: parent
+            spacing: Theme.spacingM
+
+            Row {
+                width: parent.width
+                spacing: Theme.spacingM
+
+                Rectangle {
+                    width: 40
+                    height: 40
+                    radius: Theme.cornerRadius
+                    color: backButtonArea.containsMouse ? Theme.surfaceHover : "transparent"
+
+                    DankIcon {
+                        anchors.centerIn: parent
+                        name: "arrow_back"
+                        size: 20
+                        color: Theme.surfaceText
+                    }
+
+                    MouseArea {
+                        id: backButtonArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: closeEditMode()
+                    }
+                }
+
+                Image {
+                    width: 40
+                    height: 40
+                    source: editingApp?.icon ? "image://icon/" + editingApp.icon : "image://icon/application-x-executable"
+                    sourceSize.width: 40
+                    sourceSize.height: 40
+                    fillMode: Image.PreserveAspectFit
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                Column {
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 2
+
+                    StyledText {
+                        text: I18n.tr("Edit App")
+                        font.pixelSize: Theme.fontSizeLarge
+                        color: Theme.surfaceText
+                        font.weight: Font.Medium
+                    }
+
+                    StyledText {
+                        text: editingApp?.name || ""
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.surfaceVariantText
+                    }
+                }
+            }
+
+            Rectangle {
+                width: parent.width
+                height: 1
+                color: Theme.outlineMedium
+            }
+
+            Flickable {
+                width: parent.width
+                height: parent.height - y - buttonsRow.height - Theme.spacingM
+                contentHeight: editFieldsColumn.height
+                clip: true
+                boundsBehavior: Flickable.StopAtBounds
+
+                Column {
+                    id: editFieldsColumn
+                    width: parent.width
+                    spacing: Theme.spacingS
+
+                    Column {
+                        width: parent.width
+                        spacing: 4
+
+                        StyledText {
+                            text: I18n.tr("Name")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                        }
+
+                        DankTextField {
+                            id: editNameField
+                            width: parent.width
+                            height: 44
+                            placeholderText: editingApp?.name || ""
+                            keyNavigationTab: editIconField
+                            keyNavigationBacktab: editExtraFlagsField
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: 4
+
+                        StyledText {
+                            text: I18n.tr("Icon")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                        }
+
+                        DankTextField {
+                            id: editIconField
+                            width: parent.width
+                            height: 44
+                            placeholderText: editingApp?.icon || ""
+                            keyNavigationTab: editCommentField
+                            keyNavigationBacktab: editNameField
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: 4
+
+                        StyledText {
+                            text: I18n.tr("Description")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                        }
+
+                        DankTextField {
+                            id: editCommentField
+                            width: parent.width
+                            height: 44
+                            placeholderText: editingApp?.comment || ""
+                            keyNavigationTab: editEnvVarsField
+                            keyNavigationBacktab: editIconField
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: 4
+
+                        StyledText {
+                            text: I18n.tr("Environment Variables")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                        }
+
+                        StyledText {
+                            text: "KEY=value KEY2=value2"
+                            font.pixelSize: Theme.fontSizeSmall - 1
+                            color: Theme.surfaceVariantText
+                        }
+
+                        DankTextField {
+                            id: editEnvVarsField
+                            width: parent.width
+                            height: 44
+                            placeholderText: "VAR=value"
+                            keyNavigationTab: editExtraFlagsField
+                            keyNavigationBacktab: editCommentField
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: 4
+
+                        StyledText {
+                            text: I18n.tr("Extra Arguments")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                        }
+
+                        DankTextField {
+                            id: editExtraFlagsField
+                            width: parent.width
+                            height: 44
+                            placeholderText: "--flag --option=value"
+                            keyNavigationTab: editNameField
+                            keyNavigationBacktab: editEnvVarsField
+                        }
+                    }
+                }
+            }
+
+            Row {
+                id: buttonsRow
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: Theme.spacingM
+
+                Rectangle {
+                    id: resetButton
+                    width: 90
+                    height: 40
+                    radius: Theme.cornerRadius
+                    color: resetButtonArea.containsMouse ? Theme.surfacePressed : Theme.surfaceVariantAlpha
+                    visible: SessionData.getAppOverride(editAppId) !== null
+
+                    StyledText {
+                        text: I18n.tr("Reset")
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: Theme.error
+                        font.weight: Font.Medium
+                        anchors.centerIn: parent
+                    }
+
+                    MouseArea {
+                        id: resetButtonArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: resetAppOverride()
+                    }
+                }
+
+                Rectangle {
+                    id: cancelButton
+                    width: 90
+                    height: 40
+                    radius: Theme.cornerRadius
+                    color: cancelButtonArea.containsMouse ? Theme.surfacePressed : Theme.surfaceVariantAlpha
+
+                    StyledText {
+                        text: I18n.tr("Cancel")
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: Theme.surfaceText
+                        font.weight: Font.Medium
+                        anchors.centerIn: parent
+                    }
+
+                    MouseArea {
+                        id: cancelButtonArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: closeEditMode()
+                    }
+                }
+
+                Rectangle {
+                    id: saveButton
+                    width: 90
+                    height: 40
+                    radius: Theme.cornerRadius
+                    color: saveButtonArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.9) : Theme.primary
+
+                    StyledText {
+                        text: I18n.tr("Save")
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: Theme.primaryText
+                        font.weight: Font.Medium
+                        anchors.centerIn: parent
+                    }
+
+                    MouseArea {
+                        id: saveButtonArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: saveAppOverride()
+                    }
+                }
+            }
+        }
+    }
+
     Loader {
         id: filenameTooltipLoader
-
         active: false
         sourceComponent: DankTooltip {}
     }
 
     Loader {
         id: contentTooltipLoader
-
         active: false
         sourceComponent: DankTooltip {}
     }

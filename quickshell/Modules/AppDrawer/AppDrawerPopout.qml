@@ -1,11 +1,7 @@
 import QtQuick
-import QtQuick.Controls
-import Quickshell
-import Quickshell.Widgets
 import qs.Common
 import qs.Modals.Spotlight
 import qs.Modules.AppDrawer
-import qs.Services
 import qs.Widgets
 
 DankPopout {
@@ -15,6 +11,63 @@ DankPopout {
 
     property string searchMode: "apps"
     property alias fileSearch: fileSearchController
+    property bool editMode: false
+    property var editingApp: null
+    property string editAppId: ""
+
+    function openEditMode(app) {
+        if (!app)
+            return;
+        editingApp = app;
+        editAppId = app.id || app.execString || app.exec || "";
+        const existing = SessionData.getAppOverride(editAppId);
+        if (contentLoader.item) {
+            contentLoader.item.searchField.focus = false;
+            contentLoader.item.editNameField.text = existing?.name || "";
+            contentLoader.item.editIconField.text = existing?.icon || "";
+            contentLoader.item.editCommentField.text = existing?.comment || "";
+            contentLoader.item.editEnvVarsField.text = existing?.envVars || "";
+            contentLoader.item.editExtraFlagsField.text = existing?.extraFlags || "";
+        }
+        editMode = true;
+        Qt.callLater(() => {
+            if (contentLoader.item?.editNameField)
+                contentLoader.item.editNameField.forceActiveFocus();
+        });
+    }
+
+    function closeEditMode() {
+        editMode = false;
+        editingApp = null;
+        editAppId = "";
+        Qt.callLater(() => {
+            if (contentLoader.item?.searchField)
+                contentLoader.item.searchField.forceActiveFocus();
+        });
+    }
+
+    function saveAppOverride() {
+        const override = {};
+        if (contentLoader.item) {
+            if (contentLoader.item.editNameField.text.trim())
+                override.name = contentLoader.item.editNameField.text.trim();
+            if (contentLoader.item.editIconField.text.trim())
+                override.icon = contentLoader.item.editIconField.text.trim();
+            if (contentLoader.item.editCommentField.text.trim())
+                override.comment = contentLoader.item.editCommentField.text.trim();
+            if (contentLoader.item.editEnvVarsField.text.trim())
+                override.envVars = contentLoader.item.editEnvVarsField.text.trim();
+            if (contentLoader.item.editExtraFlagsField.text.trim())
+                override.extraFlags = contentLoader.item.editExtraFlagsField.text.trim();
+        }
+        SessionData.setAppOverride(editAppId, override);
+        closeEditMode();
+    }
+
+    function resetAppOverride() {
+        SessionData.clearAppOverride(editAppId);
+        closeEditMode();
+    }
 
     function updateSearchMode(text) {
         if (text.startsWith("/")) {
@@ -42,16 +95,25 @@ DankPopout {
     popupHeight: 600
     triggerWidth: 40
     positioning: ""
+    contentHandlesKeys: editMode
 
     onBackgroundClicked: {
         if (contextMenu.visible) {
             contextMenu.close();
+            return;
+        }
+        if (editMode) {
+            closeEditMode();
+            return;
         }
         close();
     }
 
     onOpened: {
         searchMode = "apps";
+        editMode = false;
+        editingApp = null;
+        editAppId = "";
         appLauncher.ensureInitialized();
         appLauncher.searchQuery = "";
         appLauncher.selectedIndex = 0;
@@ -100,8 +162,45 @@ DankPopout {
             LayoutMirroring.childrenInherit: true
 
             property alias searchField: searchField
+            property alias keyHandler: keyHandler
+            property alias editNameField: editNameField
+            property alias editIconField: editIconField
+            property alias editCommentField: editCommentField
+            property alias editEnvVarsField: editEnvVarsField
+            property alias editExtraFlagsField: editExtraFlagsField
 
+            focus: true
             color: "transparent"
+
+            Keys.onPressed: function (event) {
+                if (appDrawerPopout.editMode) {
+                    switch (event.key) {
+                    case Qt.Key_Escape:
+                        appDrawerPopout.closeEditMode();
+                        event.accepted = true;
+                        return;
+                    case Qt.Key_Return:
+                    case Qt.Key_Enter:
+                        if (event.modifiers & Qt.ControlModifier) {
+                            appDrawerPopout.saveAppOverride();
+                            event.accepted = true;
+                        }
+                        return;
+                    case Qt.Key_S:
+                        if (event.modifiers & Qt.ControlModifier) {
+                            appDrawerPopout.saveAppOverride();
+                            event.accepted = true;
+                        }
+                        return;
+                    case Qt.Key_R:
+                        if ((event.modifiers & Qt.ControlModifier) && SessionData.getAppOverride(appDrawerPopout.editAppId) !== null) {
+                            appDrawerPopout.resetAppOverride();
+                            event.accepted = true;
+                        }
+                        return;
+                    }
+                }
+            }
             radius: Theme.cornerRadius
             antialiasing: true
             smooth: true
@@ -140,7 +239,7 @@ DankPopout {
                 id: keyHandler
 
                 anchors.fill: parent
-                focus: true
+                focus: !appDrawerPopout.editMode
 
                 function selectNext() {
                     switch (appDrawerPopout.searchMode) {
@@ -172,6 +271,29 @@ DankPopout {
                     }
                 }
 
+                function getSelectedItemPosition() {
+                    const index = appLauncher.selectedIndex;
+                    if (appLauncher.viewMode === "list") {
+                        const y = index * (appList.itemHeight + appList.itemSpacing) - appList.contentY;
+                        return Qt.point(appList.width / 2, y + appList.itemHeight / 2 + appList.y);
+                    }
+                    const row = Math.floor(index / appGrid.actualColumns);
+                    const col = index % appGrid.actualColumns;
+                    const x = col * appGrid.cellWidth + appGrid.cellWidth / 2;
+                    const y = row * appGrid.cellHeight - appGrid.contentY + appGrid.cellHeight / 2 + appGrid.y;
+                    return Qt.point(x, y);
+                }
+
+                function openContextMenuForSelected() {
+                    if (appDrawerPopout.searchMode !== "apps" || appLauncher.model.count === 0)
+                        return;
+                    const selectedApp = appLauncher.model.get(appLauncher.selectedIndex);
+                    if (!selectedApp)
+                        return;
+                    const pos = getSelectedItemPosition();
+                    contextMenu.show(pos.x, pos.y, selectedApp, true);
+                }
+
                 readonly property var keyMappings: {
                     const mappings = {};
                     mappings[Qt.Key_Escape] = () => appDrawerPopout.close();
@@ -181,6 +303,8 @@ DankPopout {
                     mappings[Qt.Key_Enter] = () => keyHandler.activateSelected();
                     mappings[Qt.Key_Tab] = () => appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid" ? appLauncher.selectNextInRow() : keyHandler.selectNext();
                     mappings[Qt.Key_Backtab] = () => appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid" ? appLauncher.selectPreviousInRow() : keyHandler.selectPrevious();
+                    mappings[Qt.Key_Menu] = () => keyHandler.openContextMenuForSelected();
+                    mappings[Qt.Key_F10] = () => keyHandler.openContextMenuForSelected();
 
                     if (appDrawerPopout.searchMode === "apps" && appLauncher.viewMode === "grid") {
                         mappings[Qt.Key_Right] = () => I18n.isRtl ? appLauncher.selectPreviousInRow() : appLauncher.selectNextInRow();
@@ -191,6 +315,9 @@ DankPopout {
                 }
 
                 Keys.onPressed: function (event) {
+                    if (appDrawerPopout.editMode)
+                        return;
+
                     if (keyMappings[event.key]) {
                         keyMappings[event.key]();
                         event.accepted = true;
@@ -198,9 +325,8 @@ DankPopout {
                     }
 
                     const hasCtrl = event.modifiers & Qt.ControlModifier;
-                    if (!hasCtrl) {
+                    if (!hasCtrl)
                         return;
-                    }
 
                     switch (event.key) {
                     case Qt.Key_N:
@@ -234,6 +360,7 @@ DankPopout {
                     x: Theme.spacingS
                     y: Theme.spacingS
                     spacing: Theme.spacingS
+                    visible: !appDrawerPopout.editMode
 
                     Item {
                         width: parent.width
@@ -487,7 +614,7 @@ DankPopout {
                                 appLauncher.launchApp(modelData);
                             }
                             onItemRightClicked: function (index, modelData, mouseX, mouseY) {
-                                contextMenu.show(mouseX, mouseY, modelData);
+                                contextMenu.show(mouseX, mouseY, modelData, false);
                             }
                             onKeyboardNavigationReset: {
                                 appLauncher.keyboardNavigationActive = false;
@@ -574,7 +701,7 @@ DankPopout {
                                 appLauncher.launchApp(modelData);
                             }
                             onItemRightClicked: function (index, modelData, mouseX, mouseY) {
-                                contextMenu.show(mouseX, mouseY, modelData);
+                                contextMenu.show(mouseX, mouseY, modelData, false);
                             }
                             onKeyboardNavigationReset: {
                                 appLauncher.keyboardNavigationActive = false;
@@ -615,6 +742,281 @@ DankPopout {
                 }
             }
 
+            Item {
+                id: editView
+                anchors.fill: parent
+                anchors.margins: Theme.spacingS
+                visible: appDrawerPopout.editMode
+
+                Column {
+                    anchors.fill: parent
+                    spacing: Theme.spacingM
+
+                    Row {
+                        width: parent.width
+                        spacing: Theme.spacingM
+
+                        Rectangle {
+                            width: 40
+                            height: 40
+                            radius: Theme.cornerRadius
+                            color: backButtonArea.containsMouse ? Theme.surfaceHover : "transparent"
+
+                            DankIcon {
+                                anchors.centerIn: parent
+                                name: "arrow_back"
+                                size: 20
+                                color: Theme.surfaceText
+                            }
+
+                            MouseArea {
+                                id: backButtonArea
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: appDrawerPopout.closeEditMode()
+                            }
+                        }
+
+                        Image {
+                            width: 40
+                            height: 40
+                            source: appDrawerPopout.editingApp?.icon ? "image://icon/" + appDrawerPopout.editingApp.icon : "image://icon/application-x-executable"
+                            sourceSize.width: 40
+                            sourceSize.height: 40
+                            fillMode: Image.PreserveAspectFit
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        Column {
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 2
+
+                            StyledText {
+                                text: I18n.tr("Edit App")
+                                font.pixelSize: Theme.fontSizeLarge
+                                color: Theme.surfaceText
+                                font.weight: Font.Medium
+                            }
+
+                            StyledText {
+                                text: appDrawerPopout.editingApp?.name || ""
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: parent.width
+                        height: 1
+                        color: Theme.outlineMedium
+                    }
+
+                    Flickable {
+                        width: parent.width
+                        height: parent.height - y - editButtonsRow.height - Theme.spacingM
+                        contentHeight: editFieldsColumn.height
+                        clip: true
+                        boundsBehavior: Flickable.StopAtBounds
+
+                        Column {
+                            id: editFieldsColumn
+                            width: parent.width
+                            spacing: Theme.spacingS
+
+                            Column {
+                                width: parent.width
+                                spacing: 4
+
+                                StyledText {
+                                    text: I18n.tr("Name")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                DankTextField {
+                                    id: editNameField
+                                    width: parent.width
+                                    height: 44
+                                    focus: true
+                                    placeholderText: appDrawerPopout.editingApp?.name || ""
+                                    keyNavigationTab: editIconField
+                                    keyNavigationBacktab: editExtraFlagsField
+                                }
+                            }
+
+                            Column {
+                                width: parent.width
+                                spacing: 4
+
+                                StyledText {
+                                    text: I18n.tr("Icon")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                DankTextField {
+                                    id: editIconField
+                                    width: parent.width
+                                    height: 44
+                                    placeholderText: appDrawerPopout.editingApp?.icon || ""
+                                    keyNavigationTab: editCommentField
+                                    keyNavigationBacktab: editNameField
+                                }
+                            }
+
+                            Column {
+                                width: parent.width
+                                spacing: 4
+
+                                StyledText {
+                                    text: I18n.tr("Description")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                DankTextField {
+                                    id: editCommentField
+                                    width: parent.width
+                                    height: 44
+                                    placeholderText: appDrawerPopout.editingApp?.comment || ""
+                                    keyNavigationTab: editEnvVarsField
+                                    keyNavigationBacktab: editIconField
+                                }
+                            }
+
+                            Column {
+                                width: parent.width
+                                spacing: 4
+
+                                StyledText {
+                                    text: I18n.tr("Environment Variables")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                StyledText {
+                                    text: "KEY=value KEY2=value2"
+                                    font.pixelSize: Theme.fontSizeSmall - 1
+                                    color: Theme.surfaceVariantText
+                                }
+
+                                DankTextField {
+                                    id: editEnvVarsField
+                                    width: parent.width
+                                    height: 44
+                                    placeholderText: "VAR=value"
+                                    keyNavigationTab: editExtraFlagsField
+                                    keyNavigationBacktab: editCommentField
+                                }
+                            }
+
+                            Column {
+                                width: parent.width
+                                spacing: 4
+
+                                StyledText {
+                                    text: I18n.tr("Extra Arguments")
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: Theme.surfaceText
+                                    font.weight: Font.Medium
+                                }
+
+                                DankTextField {
+                                    id: editExtraFlagsField
+                                    width: parent.width
+                                    height: 44
+                                    placeholderText: "--flag --option=value"
+                                    keyNavigationTab: editNameField
+                                    keyNavigationBacktab: editEnvVarsField
+                                }
+                            }
+                        }
+                    }
+
+                    Row {
+                        id: editButtonsRow
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        spacing: Theme.spacingM
+
+                        Rectangle {
+                            width: 90
+                            height: 40
+                            radius: Theme.cornerRadius
+                            color: resetButtonArea.containsMouse ? Theme.surfacePressed : Theme.surfaceVariantAlpha
+                            visible: SessionData.getAppOverride(appDrawerPopout.editAppId) !== null
+
+                            StyledText {
+                                text: I18n.tr("Reset")
+                                font.pixelSize: Theme.fontSizeMedium
+                                color: Theme.error
+                                font.weight: Font.Medium
+                                anchors.centerIn: parent
+                            }
+
+                            MouseArea {
+                                id: resetButtonArea
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: appDrawerPopout.resetAppOverride()
+                            }
+                        }
+
+                        Rectangle {
+                            width: 90
+                            height: 40
+                            radius: Theme.cornerRadius
+                            color: cancelButtonArea.containsMouse ? Theme.surfacePressed : Theme.surfaceVariantAlpha
+
+                            StyledText {
+                                text: I18n.tr("Cancel")
+                                font.pixelSize: Theme.fontSizeMedium
+                                color: Theme.surfaceText
+                                font.weight: Font.Medium
+                                anchors.centerIn: parent
+                            }
+
+                            MouseArea {
+                                id: cancelButtonArea
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: appDrawerPopout.closeEditMode()
+                            }
+                        }
+
+                        Rectangle {
+                            width: 90
+                            height: 40
+                            radius: Theme.cornerRadius
+                            color: saveButtonArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.9) : Theme.primary
+
+                            StyledText {
+                                text: I18n.tr("Save")
+                                font.pixelSize: Theme.fontSizeMedium
+                                color: Theme.onPrimary
+                                font.weight: Font.Medium
+                                anchors.centerIn: parent
+                            }
+
+                            MouseArea {
+                                id: saveButtonArea
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: appDrawerPopout.saveAppOverride()
+                            }
+                        }
+                    }
+                }
+            }
+
             MouseArea {
                 anchors.fill: parent
                 visible: contextMenu.visible
@@ -624,338 +1026,21 @@ DankPopout {
         }
     }
 
-    Popup {
+    SpotlightContextMenuPopup {
         id: contextMenu
 
-        property var currentApp: null
-        readonly property var desktopEntry: (currentApp && !currentApp.isPlugin && appLauncher && appLauncher._uniqueApps && currentApp.appIndex >= 0 && currentApp.appIndex < appLauncher._uniqueApps.length) ? appLauncher._uniqueApps[currentApp.appIndex] : null
-        readonly property string appId: desktopEntry ? (desktopEntry.id || desktopEntry.execString || "") : ""
-        readonly property bool isPinned: appId && SessionData.isPinnedApp(appId)
+        parent: contentLoader.item
+        appLauncher: appLauncher
+        parentHandler: contentLoader.item?.keyHandler ?? null
+        searchField: contentLoader.item?.searchField ?? null
+        visible: false
+        z: 1000
+    }
 
-        function show(x, y, app) {
-            currentApp = app;
-            let finalX = x + 4;
-            let finalY = y + 4;
-
-            if (contextMenu.parent) {
-                const parentWidth = contextMenu.parent.width;
-                const parentHeight = contextMenu.parent.height;
-                const menuWidth = contextMenu.width;
-                const menuHeight = contextMenu.height;
-
-                if (finalX + menuWidth > parentWidth) {
-                    finalX = Math.max(0, parentWidth - menuWidth);
-                }
-
-                if (finalY + menuHeight > parentHeight) {
-                    finalY = Math.max(0, parentHeight - menuHeight);
-                }
-            }
-
-            contextMenu.x = finalX;
-            contextMenu.y = finalY;
-            contextMenu.open();
-        }
-
-        function hide() {
-            contextMenu.close();
-        }
-
-        width: Math.max(180, menuColumn.implicitWidth + Theme.spacingS * 2)
-        height: menuColumn.implicitHeight + Theme.spacingS * 2
-        padding: 0
-        closePolicy: Popup.CloseOnPressOutside
-        modal: false
-        dim: false
-
-        background: Rectangle {
-            radius: Theme.cornerRadius
-            color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
-            border.color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.08)
-            border.width: 1
-
-            Rectangle {
-                anchors.fill: parent
-                anchors.topMargin: 4
-                anchors.leftMargin: 2
-                anchors.rightMargin: -2
-                anchors.bottomMargin: -4
-                radius: parent.radius
-                color: Qt.rgba(0, 0, 0, 0.15)
-                z: -1
-            }
-        }
-
-        enter: Transition {
-            NumberAnimation {
-                property: "opacity"
-                from: 0
-                to: 1
-                duration: Theme.shortDuration
-                easing.type: Theme.emphasizedEasing
-            }
-        }
-
-        exit: Transition {
-            NumberAnimation {
-                property: "opacity"
-                from: 1
-                to: 0
-                duration: Theme.shortDuration
-                easing.type: Theme.emphasizedEasing
-            }
-        }
-
-        Column {
-            id: menuColumn
-
-            anchors.fill: parent
-            anchors.margins: Theme.spacingS
-            spacing: 1
-
-            Rectangle {
-                width: parent.width
-                height: 32
-                radius: Theme.cornerRadius
-                color: pinMouseArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12) : "transparent"
-
-                Row {
-                    anchors.left: parent.left
-                    anchors.leftMargin: Theme.spacingS
-                    anchors.verticalCenter: parent.verticalCenter
-                    spacing: Theme.spacingS
-
-                    DankIcon {
-                        name: contextMenu.isPinned ? "keep_off" : "push_pin"
-                        size: Theme.iconSize - 2
-                        color: Theme.surfaceText
-                        opacity: 0.7
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-
-                    StyledText {
-                        text: contextMenu.isPinned ? I18n.tr("Unpin from Dock") : I18n.tr("Pin to Dock")
-                        font.pixelSize: Theme.fontSizeSmall
-                        color: Theme.surfaceText
-                        font.weight: Font.Normal
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-
-                MouseArea {
-                    id: pinMouseArea
-
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        if (!contextMenu.desktopEntry) {
-                            return;
-                        }
-
-                        if (contextMenu.isPinned) {
-                            SessionData.removePinnedApp(contextMenu.appId);
-                        } else {
-                            SessionData.addPinnedApp(contextMenu.appId);
-                        }
-                        contextMenu.hide();
-                    }
-                }
-            }
-
-            Rectangle {
-                width: parent.width - Theme.spacingS * 2
-                height: 5
-                anchors.horizontalCenter: parent.horizontalCenter
-                color: "transparent"
-
-                Rectangle {
-                    anchors.centerIn: parent
-                    width: parent.width
-                    height: 1
-                    color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
-                }
-            }
-
-            Repeater {
-                model: contextMenu.desktopEntry && contextMenu.desktopEntry.actions ? contextMenu.desktopEntry.actions : []
-
-                Rectangle {
-                    width: Math.max(parent.width, actionRow.implicitWidth + Theme.spacingS * 2)
-                    height: 32
-                    radius: Theme.cornerRadius
-                    color: actionMouseArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12) : "transparent"
-
-                    Row {
-                        id: actionRow
-                        anchors.left: parent.left
-                        anchors.leftMargin: Theme.spacingS
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: Theme.spacingS
-
-                        Item {
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: Theme.iconSize - 2
-                            height: Theme.iconSize - 2
-                            visible: modelData.icon && modelData.icon !== ""
-
-                            IconImage {
-                                anchors.fill: parent
-                                source: modelData.icon ? Quickshell.iconPath(modelData.icon, true) : ""
-                                smooth: true
-                                asynchronous: true
-                                visible: status === Image.Ready
-                            }
-                        }
-
-                        StyledText {
-                            text: modelData.name || ""
-                            font.pixelSize: Theme.fontSizeSmall
-                            color: Theme.surfaceText
-                            font.weight: Font.Normal
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-                    }
-
-                    MouseArea {
-                        id: actionMouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            if (modelData && contextMenu.desktopEntry) {
-                                SessionService.launchDesktopAction(contextMenu.desktopEntry, modelData);
-                                if (contextMenu.currentApp) {
-                                    appLauncher.appLaunched(contextMenu.currentApp);
-                                }
-                            }
-                            contextMenu.hide();
-                        }
-                    }
-                }
-            }
-
-            Rectangle {
-                visible: contextMenu.desktopEntry && contextMenu.desktopEntry.actions && contextMenu.desktopEntry.actions.length > 0
-                width: parent.width - Theme.spacingS * 2
-                height: 5
-                anchors.horizontalCenter: parent.horizontalCenter
-                color: "transparent"
-
-                Rectangle {
-                    anchors.centerIn: parent
-                    width: parent.width
-                    height: 1
-                    color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
-                }
-            }
-
-            Rectangle {
-                width: parent.width
-                height: 32
-                radius: Theme.cornerRadius
-                color: launchMouseArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12) : "transparent"
-
-                Row {
-                    anchors.left: parent.left
-                    anchors.leftMargin: Theme.spacingS
-                    anchors.verticalCenter: parent.verticalCenter
-                    spacing: Theme.spacingS
-
-                    DankIcon {
-                        name: "launch"
-                        size: Theme.iconSize - 2
-                        color: Theme.surfaceText
-                        opacity: 0.7
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-
-                    StyledText {
-                        text: I18n.tr("Launch")
-                        font.pixelSize: Theme.fontSizeSmall
-                        color: Theme.surfaceText
-                        font.weight: Font.Normal
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-
-                MouseArea {
-                    id: launchMouseArea
-
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        if (contextMenu.currentApp)
-                            appLauncher.launchApp(contextMenu.currentApp);
-
-                        contextMenu.hide();
-                    }
-                }
-            }
-
-            Rectangle {
-                visible: SessionService.nvidiaCommand
-                width: parent.width - Theme.spacingS * 2
-                height: 5
-                anchors.horizontalCenter: parent.horizontalCenter
-                color: "transparent"
-
-                Rectangle {
-                    anchors.centerIn: parent
-                    width: parent.width
-                    height: 1
-                    color: Qt.rgba(Theme.outline.r, Theme.outline.g, Theme.outline.b, 0.2)
-                }
-            }
-
-            Rectangle {
-                visible: SessionService.nvidiaCommand
-                width: parent.width
-                height: 32
-                radius: Theme.cornerRadius
-                color: nvidiaMouseArea.containsMouse ? Qt.rgba(Theme.primary.r, Theme.primary.g, Theme.primary.b, 0.12) : "transparent"
-
-                Row {
-                    anchors.left: parent.left
-                    anchors.leftMargin: Theme.spacingS
-                    anchors.verticalCenter: parent.verticalCenter
-                    spacing: Theme.spacingS
-
-                    DankIcon {
-                        name: "memory"
-                        size: Theme.iconSize - 2
-                        color: Theme.surfaceText
-                        opacity: 0.7
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-
-                    StyledText {
-                        text: I18n.tr("Launch on dGPU")
-                        font.pixelSize: Theme.fontSizeSmall
-                        color: Theme.surfaceText
-                        font.weight: Font.Normal
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-
-                MouseArea {
-                    id: nvidiaMouseArea
-
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        if (contextMenu.desktopEntry) {
-                            SessionService.launchDesktopEntry(contextMenu.desktopEntry, true);
-                            if (contextMenu.currentApp) {
-                                appLauncher.appLaunched(contextMenu.currentApp);
-                            }
-                        }
-                        contextMenu.hide();
-                    }
-                }
-            }
+    Connections {
+        target: contextMenu
+        function onEditAppRequested(app) {
+            appDrawerPopout.openEditMode(app);
         }
     }
 }

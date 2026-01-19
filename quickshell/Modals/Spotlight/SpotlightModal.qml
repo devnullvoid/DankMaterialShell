@@ -65,6 +65,20 @@ DankModal {
         });
     }
 
+    function showWithEditApp(app) {
+        openedFromOverview = false;
+        isClosing = false;
+        resetContent();
+        spotlightOpen = true;
+        open();
+        Qt.callLater(() => {
+            if (spotlightContent?.appLauncher)
+                spotlightContent.appLauncher.ensureInitialized();
+            if (spotlightContent?.openEditMode)
+                spotlightContent.openEditMode(app);
+        });
+    }
+
     function hide() {
         openedFromOverview = false;
         isClosing = true;

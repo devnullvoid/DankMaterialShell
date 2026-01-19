@@ -463,6 +463,250 @@ Item {
             }
 
             SettingsCard {
+                width: parent.width
+                iconName: "search"
+                title: I18n.tr("Search Options")
+                settingKey: "searchOptions"
+
+                SettingsToggleRow {
+                    settingKey: "searchAppActions"
+                    tags: ["launcher", "search", "actions", "shortcuts"]
+                    text: I18n.tr("Search App Actions")
+                    description: I18n.tr("Include desktop actions (shortcuts) in search results.")
+                    checked: SessionData.searchAppActions
+                    onToggled: checked => SessionData.setSearchAppActions(checked)
+                }
+            }
+
+            SettingsCard {
+                id: hiddenAppsCard
+                width: parent.width
+                iconName: "visibility_off"
+                title: I18n.tr("Hidden Apps")
+                settingKey: "hiddenApps"
+
+                property var hiddenAppsModel: {
+                    SessionData.hiddenApps;
+                    const apps = [];
+                    const allApps = AppSearchService.applications || [];
+                    for (const hiddenId of SessionData.hiddenApps) {
+                        const app = allApps.find(a => (a.id || a.execString || a.exec) === hiddenId);
+                        if (app) {
+                            apps.push({
+                                id: hiddenId,
+                                name: app.name || hiddenId,
+                                icon: app.icon || "",
+                                comment: app.comment || ""
+                            });
+                        } else {
+                            apps.push({
+                                id: hiddenId,
+                                name: hiddenId,
+                                icon: "",
+                                comment: ""
+                            });
+                        }
+                    }
+                    return apps.sort((a, b) => a.name.localeCompare(b.name));
+                }
+
+                StyledText {
+                    width: parent.width
+                    text: I18n.tr("Hidden apps won't appear in the launcher. Right-click an app and select 'Hide App' to hide it.")
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.surfaceVariantText
+                    wrapMode: Text.WordWrap
+                }
+
+                Column {
+                    id: hiddenAppsList
+                    width: parent.width
+                    spacing: Theme.spacingS
+
+                    Repeater {
+                        model: hiddenAppsCard.hiddenAppsModel
+
+                        delegate: Rectangle {
+                            width: hiddenAppsList.width
+                            height: 48
+                            radius: Theme.cornerRadius
+                            color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.3)
+                            border.width: 0
+
+                            Row {
+                                anchors.left: parent.left
+                                anchors.leftMargin: Theme.spacingM
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: Theme.spacingM
+
+                                Image {
+                                    width: 24
+                                    height: 24
+                                    source: modelData.icon ? "image://icon/" + modelData.icon : "image://icon/application-x-executable"
+                                    sourceSize.width: 24
+                                    sourceSize.height: 24
+                                    fillMode: Image.PreserveAspectFit
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    onStatusChanged: {
+                                        if (status === Image.Error)
+                                            source = "image://icon/application-x-executable";
+                                    }
+                                }
+
+                                Column {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    spacing: 2
+
+                                    StyledText {
+                                        text: modelData.name
+                                        font.pixelSize: Theme.fontSizeMedium
+                                        font.weight: Font.Medium
+                                        color: Theme.surfaceText
+                                    }
+
+                                    StyledText {
+                                        text: modelData.comment || modelData.id
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.surfaceVariantText
+                                        visible: text.length > 0
+                                    }
+                                }
+                            }
+
+                            DankActionButton {
+                                anchors.right: parent.right
+                                anchors.rightMargin: Theme.spacingM
+                                anchors.verticalCenter: parent.verticalCenter
+                                iconName: "visibility"
+                                iconSize: 18
+                                iconColor: Theme.primary
+                                onClicked: SessionData.showApp(modelData.id)
+                            }
+                        }
+                    }
+
+                    StyledText {
+                        width: parent.width
+                        text: I18n.tr("No hidden apps.")
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: Theme.surfaceVariantText
+                        horizontalAlignment: Text.AlignHCenter
+                        visible: hiddenAppsCard.hiddenAppsModel.length === 0
+                    }
+                }
+            }
+
+            SettingsCard {
+                id: appOverridesCard
+                width: parent.width
+                iconName: "edit"
+                title: I18n.tr("App Customizations")
+                settingKey: "appOverrides"
+
+                property var overridesModel: {
+                    SessionData.appOverrides;
+                    const items = [];
+                    const allApps = AppSearchService.applications || [];
+                    for (const appId in SessionData.appOverrides) {
+                        const override = SessionData.appOverrides[appId];
+                        const app = allApps.find(a => (a.id || a.execString || a.exec) === appId);
+                        items.push({
+                            id: appId,
+                            name: override.name || app?.name || appId,
+                            originalName: app?.name || appId,
+                            icon: override.icon || app?.icon || "",
+                            hasOverride: true
+                        });
+                    }
+                    return items.sort((a, b) => a.name.localeCompare(b.name));
+                }
+
+                StyledText {
+                    width: parent.width
+                    text: I18n.tr("Apps with custom display name, icon, or launch options. Right-click an app and select 'Edit App' to customize.")
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.surfaceVariantText
+                    wrapMode: Text.WordWrap
+                }
+
+                Column {
+                    id: overridesList
+                    width: parent.width
+                    spacing: Theme.spacingS
+
+                    Repeater {
+                        model: appOverridesCard.overridesModel
+
+                        delegate: Rectangle {
+                            width: overridesList.width
+                            height: 48
+                            radius: Theme.cornerRadius
+                            color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.3)
+                            border.width: 0
+
+                            Row {
+                                anchors.left: parent.left
+                                anchors.leftMargin: Theme.spacingM
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: Theme.spacingM
+
+                                Image {
+                                    width: 24
+                                    height: 24
+                                    source: modelData.icon ? "image://icon/" + modelData.icon : "image://icon/application-x-executable"
+                                    sourceSize.width: 24
+                                    sourceSize.height: 24
+                                    fillMode: Image.PreserveAspectFit
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    onStatusChanged: {
+                                        if (status === Image.Error)
+                                            source = "image://icon/application-x-executable";
+                                    }
+                                }
+
+                                Column {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    spacing: 2
+
+                                    StyledText {
+                                        text: modelData.name
+                                        font.pixelSize: Theme.fontSizeMedium
+                                        font.weight: Font.Medium
+                                        color: Theme.surfaceText
+                                    }
+
+                                    StyledText {
+                                        text: modelData.originalName !== modelData.name ? modelData.originalName : modelData.id
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.surfaceVariantText
+                                    }
+                                }
+                            }
+
+                            DankActionButton {
+                                anchors.right: parent.right
+                                anchors.rightMargin: Theme.spacingM
+                                anchors.verticalCenter: parent.verticalCenter
+                                iconName: "delete"
+                                iconSize: 18
+                                iconColor: Theme.error
+                                onClicked: SessionData.clearAppOverride(modelData.id)
+                            }
+                        }
+                    }
+
+                    StyledText {
+                        width: parent.width
+                        text: I18n.tr("No app customizations.")
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: Theme.surfaceVariantText
+                        horizontalAlignment: Text.AlignHCenter
+                        visible: appOverridesCard.overridesModel.length === 0
+                    }
+                }
+            }
+
+            SettingsCard {
                 id: recentAppsCard
                 width: parent.width
                 iconName: "history"

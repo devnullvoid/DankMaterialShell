@@ -68,6 +68,27 @@ Item {
         hideRequested();
     }
 
+    readonly property bool isRegularApp: desktopEntry && !currentApp?.isPlugin && !currentApp?.isCore && !currentApp?.isAction && !currentApp?.isBuiltInLauncher
+
+    signal editAppRequested(var app)
+
+    function hideCurrentApp() {
+        if (!desktopEntry)
+            return;
+        const appId = desktopEntry.id || desktopEntry.execString || "";
+        SessionData.hideApp(appId);
+        if (appLauncher)
+            appLauncher.updateFilteredModel();
+        hideRequested();
+    }
+
+    function editCurrentApp() {
+        if (!desktopEntry)
+            return;
+        editAppRequested(desktopEntry);
+        hideRequested();
+    }
+
     readonly property var menuItems: {
         const items = [];
 
@@ -102,6 +123,21 @@ Item {
             text: isPinned ? I18n.tr("Unpin from Dock") : I18n.tr("Pin to Dock"),
             action: togglePin
         });
+
+        if (isRegularApp) {
+            items.push({
+                type: "item",
+                icon: "visibility_off",
+                text: I18n.tr("Hide App"),
+                action: hideCurrentApp
+            });
+            items.push({
+                type: "item",
+                icon: "edit",
+                text: I18n.tr("Edit App"),
+                action: editCurrentApp
+            });
+        }
 
         if (desktopEntry && desktopEntry.actions) {
             items.push({

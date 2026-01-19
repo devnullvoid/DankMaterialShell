@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import Quickshell
 import qs.Common
 import qs.Modals.Spotlight
 
@@ -10,6 +9,8 @@ Popup {
     property var appLauncher: null
     property var parentHandler: null
     property var searchField: null
+
+    signal editAppRequested(var app)
 
     function show(x, y, app, fromKeyboard) {
         fromKeyboard = fromKeyboard || false;
@@ -53,7 +54,7 @@ Popup {
         if (parentHandler) {
             parentHandler.enabled = true;
         }
-        if (searchField) {
+        if (searchField?.visible) {
             Qt.callLater(() => {
                 searchField.forceActiveFocus();
             });
@@ -84,5 +85,6 @@ Popup {
         id: menuContent
         appLauncher: root.appLauncher
         onHideRequested: root.hide()
+        onEditAppRequested: app => root.editAppRequested(app)
     }
 }

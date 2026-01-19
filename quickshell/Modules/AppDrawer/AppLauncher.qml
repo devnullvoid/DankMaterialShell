@@ -72,6 +72,16 @@ Item {
         }
     }
 
+    Connections {
+        target: SessionData
+        function onHiddenAppsChanged() {
+            updateFilteredModel();
+        }
+        function onAppOverridesChanged() {
+            updateFilteredModel();
+        }
+    }
+
     function updateFilteredModel() {
         if (suppressUpdatesWhileLaunching) {
             suppressUpdatesWhileLaunching = false;
@@ -124,7 +134,7 @@ Item {
                         emptyTriggerItems = emptyTriggerItems.concat(items);
                     });
                     const coreItems = AppSearchService.getCoreApps("");
-                    apps = AppSearchService.applications.concat(emptyTriggerItems).concat(coreItems);
+                    apps = AppSearchService.getVisibleApplications().concat(emptyTriggerItems).concat(coreItems);
                 } else {
                     apps = AppSearchService.getAppsInCategory(selectedCategory).slice(0, maxResults);
                     const coreItems = AppSearchService.getCoreApps("").filter(app => app.categories.includes(selectedCategory));
@@ -205,6 +215,7 @@ Item {
                     "isPlugin": isPluginItem,
                     "isCore": app.isCore === true,
                     "isBuiltInLauncher": app.isBuiltInLauncher === true,
+                    "isAction": app.isAction === true,
                     "appIndex": uniqueApps.length - 1,
                     "pinned": app._pinned === true
                 });
@@ -280,6 +291,13 @@ Item {
                 appLaunched(appData);
                 return;
             }
+            return;
+        }
+
+        if (appData.isAction && actualApp.parentApp && actualApp.actionData) {
+            SessionService.launchDesktopAction(actualApp.parentApp, actualApp.actionData);
+            appLaunched(appData);
+            AppUsageHistoryData.addAppUsage(actualApp.parentApp);
             return;
         }
 

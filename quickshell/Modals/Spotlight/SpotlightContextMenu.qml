@@ -1,7 +1,6 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
-import Quickshell.Widgets
 import qs.Common
 import qs.Modals.Spotlight
 
@@ -18,6 +17,8 @@ PanelWindow {
     property var parentModal: null
     property real menuPositionX: 0
     property real menuPositionY: 0
+
+    signal editAppRequested(var app)
 
     readonly property real shadowBuffer: 5
 
@@ -106,6 +107,7 @@ PanelWindow {
         }
 
         onHideRequested: root.hide()
+        onEditAppRequested: app => root.editAppRequested(app)
     }
 
     MouseArea {
