@@ -13,6 +13,12 @@ Singleton {
     property var _cachedVisibleApps: null
     property var _hiddenAppsSet: new Set()
 
+    property var _transformCache: ({})
+    property var _cachedDefaultSections: []
+    property var _cachedDefaultFlatModel: []
+    property bool _defaultCacheValid: false
+    property int cacheVersion: 0
+
     readonly property int maxResults: 10
     readonly property int frecencySampleSize: 10
 
@@ -43,6 +49,50 @@ Singleton {
         applications = DesktopEntries.applications.values;
         _cachedCategories = null;
         _cachedVisibleApps = null;
+        invalidateLauncherCache();
+    }
+
+    function invalidateLauncherCache() {
+        _transformCache = {};
+        _defaultCacheValid = false;
+        _cachedDefaultSections = [];
+        _cachedDefaultFlatModel = [];
+        cacheVersion++;
+    }
+
+    function getOrTransformApp(app, transformFn) {
+        const id = app.id || app.execString || app.exec || "";
+        if (!id)
+            return transformFn(app);
+        const cached = _transformCache[id];
+        if (cached) {
+            const currentIcon = app.icon || "";
+            const cachedSourceIcon = cached._sourceIcon || "";
+            if (currentIcon === cachedSourceIcon)
+                return cached;
+        }
+        const transformed = transformFn(app);
+        transformed._sourceIcon = app.icon || "";
+        _transformCache[id] = transformed;
+        return transformed;
+    }
+
+    function getCachedDefaultSections() {
+        if (!_defaultCacheValid)
+            return null;
+        return _cachedDefaultSections;
+    }
+
+    function setCachedDefaultSections(sections, flatModel) {
+        _cachedDefaultSections = sections.map(function (s) {
+            return Object.assign({}, s);
+        });
+        _cachedDefaultFlatModel = flatModel.slice();
+        _defaultCacheValid = true;
+    }
+
+    function isCacheValid() {
+        return _defaultCacheValid;
     }
 
     function _rebuildHiddenSet() {
@@ -68,9 +118,18 @@ Singleton {
         target: SessionData
         function onHiddenAppsChanged() {
             root._rebuildHiddenSet();
+            root.invalidateLauncherCache();
         }
         function onAppOverridesChanged() {
             root._cachedVisibleApps = null;
+            root.invalidateLauncherCache();
+        }
+    }
+
+    Connections {
+        target: AppUsageHistoryData
+        function onAppUsageRankingChanged() {
+            root.invalidateLauncherCache();
         }
     }
 

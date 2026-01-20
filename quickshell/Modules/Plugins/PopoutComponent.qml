@@ -9,6 +9,7 @@ Column {
     property string detailsText: ""
     property bool showCloseButton: false
     property var closePopout: null
+    property var parentPopout: null
     property alias headerActions: headerActionsLoader.sourceComponent
 
     readonly property int headerHeight: popoutHeader.visible ? popoutHeader.height : 0

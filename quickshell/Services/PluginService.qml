@@ -293,7 +293,6 @@ Singleton {
                 pluginDaemonComponents = newDaemons;
             } else if (isLauncher) {
                 const instance = comp.createObject(root, {
-                    "pluginId": pluginId,
                     "pluginService": root
                 });
                 if (!instance) {
@@ -700,6 +699,17 @@ Singleton {
             }
         }
         return plugins;
+    }
+
+    function getPluginViewPreference(pluginId) {
+        const plugin = availablePlugins[pluginId];
+        if (!plugin)
+            return null;
+
+        return {
+            mode: plugin.viewMode || null,
+            enforced: plugin.viewModeEnforced === true
+        };
     }
 
     function getGlobalVar(pluginId, varName, defaultValue) {

@@ -355,6 +355,116 @@ Item {
 
             SettingsCard {
                 width: parent.width
+                iconName: "tune"
+                title: I18n.tr("Appearance", "launcher appearance settings")
+                settingKey: "dankLauncherV2Appearance"
+
+                Column {
+                    width: parent.width
+                    spacing: Theme.spacingM
+
+                    StyledText {
+                        text: I18n.tr("Size", "launcher size option")
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.surfaceText
+                        font.weight: Font.Medium
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+
+                    Item {
+                        width: parent.width
+                        height: sizeGroup.implicitHeight
+                        clip: true
+
+                        DankButtonGroup {
+                            id: sizeGroup
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            buttonPadding: parent.width < 400 ? Theme.spacingS : Theme.spacingL
+                            minButtonWidth: parent.width < 400 ? 60 : 80
+                            textSize: parent.width < 400 ? Theme.fontSizeSmall : Theme.fontSizeMedium
+                            model: [I18n.tr("Compact", "compact launcher size"), I18n.tr("Medium", "medium launcher size"), I18n.tr("Large", "large launcher size")]
+                            currentIndex: SettingsData.dankLauncherV2Size === "compact" ? 0 : SettingsData.dankLauncherV2Size === "large" ? 2 : 1
+                            onSelectionChanged: (index, selected) => {
+                                if (!selected)
+                                    return;
+                                SettingsData.set("dankLauncherV2Size", index === 0 ? "compact" : index === 2 ? "large" : "medium");
+                            }
+                        }
+                    }
+                }
+
+                SettingsToggleRow {
+                    settingKey: "dankLauncherV2ShowFooter"
+                    tags: ["launcher", "footer", "hints", "shortcuts"]
+                    text: I18n.tr("Show Footer", "launcher footer visibility")
+                    description: I18n.tr("Show mode tabs and keyboard hints at the bottom.", "launcher footer description")
+                    checked: SettingsData.dankLauncherV2ShowFooter
+                    onToggled: checked => SettingsData.set("dankLauncherV2ShowFooter", checked)
+                }
+
+                SettingsToggleRow {
+                    settingKey: "dankLauncherV2BorderEnabled"
+                    tags: ["launcher", "border", "outline"]
+                    text: I18n.tr("Border", "launcher border option")
+                    checked: SettingsData.dankLauncherV2BorderEnabled
+                    onToggled: checked => SettingsData.set("dankLauncherV2BorderEnabled", checked)
+                }
+
+                Column {
+                    width: parent.width
+                    spacing: Theme.spacingM
+                    visible: SettingsData.dankLauncherV2BorderEnabled
+
+                    SettingsSliderRow {
+                        settingKey: "dankLauncherV2BorderThickness"
+                        tags: ["launcher", "border", "thickness"]
+                        text: I18n.tr("Thickness", "border thickness")
+                        minimum: 1
+                        maximum: 6
+                        value: SettingsData.dankLauncherV2BorderThickness
+                        defaultValue: 2
+                        unit: "px"
+                        onSliderValueChanged: newValue => SettingsData.set("dankLauncherV2BorderThickness", newValue)
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: Theme.spacingS
+
+                        StyledText {
+                            text: I18n.tr("Color", "border color")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+
+                        Item {
+                            width: parent.width
+                            height: borderColorGroup.implicitHeight
+                            clip: true
+
+                            DankButtonGroup {
+                                id: borderColorGroup
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                buttonPadding: parent.width < 400 ? Theme.spacingS : Theme.spacingL
+                                minButtonWidth: parent.width < 400 ? 50 : 70
+                                textSize: parent.width < 400 ? Theme.fontSizeSmall : Theme.fontSizeMedium
+                                model: [I18n.tr("Primary", "primary color"), I18n.tr("Secondary", "secondary color"), I18n.tr("Outline", "outline color"), I18n.tr("Text", "text color")]
+                                currentIndex: SettingsData.dankLauncherV2BorderColor === "secondary" ? 1 : SettingsData.dankLauncherV2BorderColor === "outline" ? 2 : SettingsData.dankLauncherV2BorderColor === "surfaceText" ? 3 : 0
+                                onSelectionChanged: (index, selected) => {
+                                    if (!selected)
+                                        return;
+                                    SettingsData.set("dankLauncherV2BorderColor", index === 1 ? "secondary" : index === 2 ? "outline" : index === 3 ? "surfaceText" : "primary");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            SettingsCard {
+                width: parent.width
                 iconName: "open_in_new"
                 title: I18n.tr("Niri Integration").replace("Niri", "niri")
                 visible: CompositorService.isNiri

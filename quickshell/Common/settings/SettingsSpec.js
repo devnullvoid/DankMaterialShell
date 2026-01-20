@@ -134,7 +134,13 @@ var SPEC = {
     sortAppsAlphabetically: { def: false },
     appLauncherGridColumns: { def: 4 },
     spotlightCloseNiriOverview: { def: true },
+    spotlightSectionViewModes: { def: {} },
     niriOverviewOverlayEnabled: { def: true },
+    dankLauncherV2Size: { def: "compact" },
+    dankLauncherV2BorderEnabled: { def: false },
+    dankLauncherV2BorderThickness: { def: 2 },
+    dankLauncherV2BorderColor: { def: "primary" },
+    dankLauncherV2ShowFooter: { def: true },
 
     useAutoLocation: { def: false },
     weatherEnabled: { def: true },

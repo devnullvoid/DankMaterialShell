@@ -7,6 +7,7 @@ import qs.Modals.Clipboard
 import qs.Modals.Greeter
 import qs.Modals.Settings
 import qs.Modals.Spotlight
+import qs.Modals.DankLauncherV2
 import qs.Modules
 import qs.Modules.AppDrawer
 import qs.Modules.DankDash
@@ -511,6 +512,25 @@ Item {
 
         Component.onCompleted: {
             PopoutService.spotlightModal = spotlightModal;
+        }
+    }
+
+    LazyLoader {
+        id: spotlightV2ModalLoader
+
+        active: false
+
+        Component.onCompleted: {
+            PopoutService.spotlightV2ModalLoader = spotlightV2ModalLoader;
+        }
+
+        DankLauncherV2Modal {
+            id: spotlightV2Modal
+
+            Component.onCompleted: {
+                PopoutService.spotlightV2Modal = spotlightV2Modal;
+                PopoutService._onSpotlightV2ModalLoaded();
+            }
         }
     }
 

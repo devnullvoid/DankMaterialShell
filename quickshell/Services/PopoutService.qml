@@ -21,6 +21,8 @@ Singleton {
     property var settingsModalLoader: null
     property var clipboardHistoryModal: null
     property var spotlightModal: null
+    property var spotlightV2Modal: null
+    property var spotlightV2ModalLoader: null
     property var powerMenuModal: null
     property var processListModal: null
     property var processListModalLoader: null
@@ -359,6 +361,62 @@ Singleton {
 
     function closeSpotlight() {
         spotlightModal?.close();
+    }
+
+    property bool _spotlightV2WantsOpen: false
+    property bool _spotlightV2WantsToggle: false
+    property string _spotlightV2PendingQuery: ""
+
+    function openSpotlightV2() {
+        if (spotlightV2Modal) {
+            spotlightV2Modal.show();
+        } else if (spotlightV2ModalLoader) {
+            _spotlightV2WantsOpen = true;
+            _spotlightV2WantsToggle = false;
+            spotlightV2ModalLoader.active = true;
+        }
+    }
+
+    function openSpotlightV2WithQuery(query: string) {
+        if (spotlightV2Modal) {
+            spotlightV2Modal.showWithQuery(query);
+        } else if (spotlightV2ModalLoader) {
+            _spotlightV2PendingQuery = query;
+            _spotlightV2WantsOpen = true;
+            _spotlightV2WantsToggle = false;
+            spotlightV2ModalLoader.active = true;
+        }
+    }
+
+    function closeSpotlightV2() {
+        spotlightV2Modal?.hide();
+    }
+
+    function toggleSpotlightV2() {
+        if (spotlightV2Modal) {
+            spotlightV2Modal.toggle();
+        } else if (spotlightV2ModalLoader) {
+            _spotlightV2WantsToggle = true;
+            _spotlightV2WantsOpen = false;
+            spotlightV2ModalLoader.active = true;
+        }
+    }
+
+    function _onSpotlightV2ModalLoaded() {
+        if (_spotlightV2WantsOpen) {
+            _spotlightV2WantsOpen = false;
+            if (_spotlightV2PendingQuery) {
+                spotlightV2Modal?.showWithQuery(_spotlightV2PendingQuery);
+                _spotlightV2PendingQuery = "";
+            } else {
+                spotlightV2Modal?.show();
+            }
+            return;
+        }
+        if (_spotlightV2WantsToggle) {
+            _spotlightV2WantsToggle = false;
+            spotlightV2Modal?.toggle();
+        }
     }
 
     function openPowerMenu() {

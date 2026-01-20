@@ -8,16 +8,8 @@ StyledRect {
     LayoutMirroring.enabled: I18n.isRtl
     LayoutMirroring.childrenInherit: true
 
-    activeFocusOnTab: true
-
     KeyNavigation.tab: keyNavigationTab
     KeyNavigation.backtab: keyNavigationBacktab
-
-    onActiveFocusChanged: {
-        if (activeFocus) {
-            textInput.forceActiveFocus();
-        }
-    }
 
     property alias text: textInput.text
     property string placeholderText: ""

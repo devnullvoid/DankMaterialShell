@@ -1027,6 +1027,35 @@ Item {
 
     IpcHandler {
         function open(): string {
+            PopoutService.openSpotlightV2();
+            return "LAUNCHER_OPEN_SUCCESS";
+        }
+
+        function close(): string {
+            PopoutService.closeSpotlightV2();
+            return "LAUNCHER_CLOSE_SUCCESS";
+        }
+
+        function toggle(): string {
+            PopoutService.toggleSpotlightV2();
+            return "LAUNCHER_TOGGLE_SUCCESS";
+        }
+
+        function openQuery(query: string): string {
+            PopoutService.openSpotlightV2WithQuery(query);
+            return "LAUNCHER_OPEN_QUERY_SUCCESS";
+        }
+
+        function toggleQuery(query: string): string {
+            PopoutService.toggleSpotlightV2();
+            return "LAUNCHER_TOGGLE_QUERY_SUCCESS";
+        }
+
+        target: "launcher"
+    }
+
+    IpcHandler {
+        function open(): string {
             FirstLaunchService.showWelcome();
             return "WELCOME_OPEN_SUCCESS";
         }

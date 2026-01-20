@@ -236,7 +236,13 @@ Singleton {
     property bool sortAppsAlphabetically: false
     property int appLauncherGridColumns: 4
     property bool spotlightCloseNiriOverview: true
+    property var spotlightSectionViewModes: ({})
     property bool niriOverviewOverlayEnabled: true
+    property string dankLauncherV2Size: "compact"
+    property bool dankLauncherV2BorderEnabled: false
+    property int dankLauncherV2BorderThickness: 2
+    property string dankLauncherV2BorderColor: "primary"
+    property bool dankLauncherV2ShowFooter: true
 
     property string _legacyWeatherLocation: "New York, NY"
     property string _legacyWeatherCoordinates: "40.7128,-74.0060"

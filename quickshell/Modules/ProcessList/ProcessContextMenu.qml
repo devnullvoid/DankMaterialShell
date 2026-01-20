@@ -318,7 +318,7 @@ Popup {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: modelData.enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-                            enabled: modelData.enabled
+                            enabled: modelData.enabled ?? false
                             onEntered: {
                                 keyboardNavigation = false;
                                 selectedIndex = index;
