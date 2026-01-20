@@ -151,10 +151,18 @@ FocusScope {
             controller.selectPageUp(8);
             return;
         case Qt.Key_Right:
-            controller.selectRight();
+            if (controller.getCurrentSectionViewMode() !== "list") {
+                controller.selectRight();
+                return;
+            }
+            event.accepted = false;
             return;
         case Qt.Key_Left:
-            controller.selectLeft();
+            if (controller.getCurrentSectionViewMode() !== "list") {
+                controller.selectLeft();
+                return;
+            }
+            event.accepted = false;
             return;
         case Qt.Key_J:
             if (hasCtrl) {
