@@ -68,11 +68,11 @@ Item {
 
         var targetY = sectionY + 32 + itemY;
         var targetBottom = targetY + itemHeight;
-        var stickyHeight = stickyHeader.visible ? 32 : 0;
+        var stickyHeight = mainFlickable.contentY > 0 ? 32 : 0;
 
         var shadowPadding = 24;
         if (targetY < mainFlickable.contentY + stickyHeight) {
-            mainFlickable.contentY = Math.max(0, targetY - stickyHeight);
+            mainFlickable.contentY = Math.max(0, targetY - 32);
         } else if (targetBottom > mainFlickable.contentY + mainFlickable.height - shadowPadding) {
             mainFlickable.contentY = Math.min(mainFlickable.contentHeight - mainFlickable.height, targetBottom - mainFlickable.height + shadowPadding);
         }
@@ -385,7 +385,7 @@ Item {
                 return null;
 
             var scrollY = mainFlickable.contentY;
-            if (scrollY <= 32)
+            if (scrollY <= 0)
                 return null;
 
             var y = 0;

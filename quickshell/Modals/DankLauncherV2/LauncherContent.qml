@@ -390,7 +390,7 @@ FocusScope {
             anchors.rightMargin: Theme.spacingM
             anchors.topMargin: Theme.spacingM
             anchors.bottomMargin: Theme.spacingXS
-            spacing: Theme.spacingM
+            spacing: Theme.spacingXS
             clip: false
 
             Row {
@@ -484,7 +484,7 @@ FocusScope {
 
             Item {
                 width: parent.width
-                height: parent.height - 56 - actionPanel.height - Theme.spacingM * 2
+                height: parent.height - 56 - actionPanel.height - Theme.spacingM - Theme.spacingXS
                 opacity: root.parentModal?.isClosing ? 0 : 1
 
                 ResultsList {
