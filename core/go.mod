@@ -4,6 +4,7 @@ go 1.24.6
 
 require (
 	github.com/Wifx/gonetworkmanager/v2 v2.2.0
+	github.com/alecthomas/chroma/v2 v2.17.2
 	github.com/charmbracelet/bubbles v0.21.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
@@ -28,6 +29,7 @@ require (
 	github.com/clipperhouse/uax29/v2 v2.3.0 // indirect
 	github.com/cloudflare/circl v1.6.2 // indirect
 	github.com/cyphar/filepath-securejoin v0.6.1 // indirect
+	github.com/dlclark/regexp2 v1.11.5 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/go-git/gcfg/v2 v2.0.2 // indirect
 	github.com/go-git/go-billy/v6 v6.0.0-20260114122816-19306b749ecc // indirect
@@ -38,6 +40,8 @@ require (
 	github.com/pjbgf/sha1cd v0.5.0 // indirect
 	github.com/sergi/go-diff v1.4.0 // indirect
 	github.com/stretchr/objx v0.5.3 // indirect
+	github.com/yuin/goldmark v1.7.16 // indirect
+	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc // indirect
 	golang.org/x/crypto v0.47.0 // indirect
 	golang.org/x/net v0.49.0 // indirect
 )

@@ -23,6 +23,7 @@ Item {
     property string pendingSaveContent: ""
 
     signal hideRequested
+    signal previewRequested(string content)
 
     Ref {
         service: NotepadStorageService
@@ -196,6 +197,10 @@ Item {
             onNewRequested: {
                 textEditor.autoSaveToSession();
                 createNewTab();
+            }
+
+            onPreviewRequested: {
+                textEditor.togglePreview()
             }
 
             onEscapePressed: {
