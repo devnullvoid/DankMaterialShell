@@ -678,8 +678,16 @@ Item {
 
     function transformBuiltInLauncherItem(item, pluginId) {
         var rawIcon = item.icon || "extension";
-        var iconType = detectIconType(rawIcon);
         var icon = stripIconPrefix(rawIcon);
+        var iconType = item.iconType;
+        if (!iconType) {
+            if (rawIcon.startsWith("material:"))
+                iconType = "material";
+            else if (rawIcon.startsWith("unicode:"))
+                iconType = "unicode";
+            else
+                iconType = "image";
+        }
 
         return {
             id: item.action || "",
@@ -1186,8 +1194,16 @@ Item {
 
     function transformPluginItem(item, pluginId) {
         var rawIcon = item.icon || "extension";
-        var iconType = item.iconType || detectIconType(rawIcon);
         var icon = stripIconPrefix(rawIcon);
+        var iconType = item.iconType;
+        if (!iconType) {
+            if (rawIcon.startsWith("material:"))
+                iconType = "material";
+            else if (rawIcon.startsWith("unicode:"))
+                iconType = "unicode";
+            else
+                iconType = "image";
+        }
 
         return {
             id: item.id || item.name || "",
