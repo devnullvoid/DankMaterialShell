@@ -11,6 +11,9 @@ Item {
 
     property string searchQuery: ""
     property string searchMode: "all"
+    property string previousSearchMode: "all"
+    property bool autoSwitchedToFiles: false
+    property bool isFileSearching: false
     property var sections: []
     property var flatModel: []
     property int selectedFlatIndex: 0
@@ -198,15 +201,30 @@ Item {
         }
     }
 
-    function setMode(mode) {
+    function setMode(mode, isAutoSwitch) {
         if (searchMode === mode)
             return;
+        if (isAutoSwitch) {
+            previousSearchMode = searchMode;
+            autoSwitchedToFiles = true;
+        } else {
+            autoSwitchedToFiles = false;
+        }
         searchMode = mode;
         modeChanged(mode);
         performSearch();
         if (mode === "files") {
             fileSearchDebounce.restart();
         }
+    }
+
+    function restorePreviousMode() {
+        if (!autoSwitchedToFiles)
+            return;
+        autoSwitchedToFiles = false;
+        searchMode = previousSearchMode;
+        modeChanged(previousSearchMode);
+        performSearch();
     }
 
     function cycleMode() {
@@ -219,6 +237,9 @@ Item {
     function reset() {
         searchQuery = "";
         searchMode = "all";
+        previousSearchMode = "all";
+        autoSwitchedToFiles = false;
+        isFileSearching = false;
         sections = [];
         flatModel = [];
         selectedFlatIndex = 0;
@@ -307,6 +328,8 @@ Item {
         clearActivePluginViewPreference();
 
         if (searchMode === "files") {
+            var fileQuery = searchQuery.startsWith("/") ? searchQuery.substring(1).trim() : searchQuery.trim();
+            isFileSearching = fileQuery.length >= 2 && DSearchService.dsearchAvailable;
             sections = [];
             flatModel = [];
             selectedFlatIndex = 0;
@@ -482,8 +505,12 @@ Item {
             return;
         }
 
-        if (fileQuery.length < 2)
+        if (fileQuery.length < 2) {
+            isFileSearching = false;
             return;
+        }
+
+        isFileSearching = true;
         var params = {
             limit: 20,
             fuzzy: true,
@@ -492,6 +519,7 @@ Item {
         };
 
         DSearchService.search(fileQuery, params, function (response) {
+            isFileSearching = false;
             if (response.error)
                 return;
             var fileItems = [];

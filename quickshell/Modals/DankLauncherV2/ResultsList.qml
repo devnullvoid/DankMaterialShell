@@ -421,7 +421,7 @@ Item {
 
     Item {
         anchors.centerIn: parent
-        visible: !root.controller?.sections || root.controller.sections.length === 0
+        visible: (!root.controller?.sections || root.controller.sections.length === 0) && !root.controller?.isFileSearching
         width: emptyColumn.implicitWidth
         height: emptyColumn.implicitHeight
 
@@ -437,15 +437,16 @@ Item {
 
                 function getEmptyIcon() {
                     var mode = root.controller?.searchMode ?? "all";
-                    if (mode === "files")
+                    switch (mode) {
+                    case "files":
                         return "folder_open";
-                    if (mode === "plugins")
+                    case "plugins":
                         return "extension";
-                    if (mode === "apps")
+                    case "apps":
                         return "apps";
-                    if (root.controller?.searchQuery?.length > 0)
-                        return "search_off";
-                    return "search";
+                    default:
+                        return root.controller?.searchQuery?.length > 0 ? "search_off" : "search";
+                    }
                 }
             }
 
@@ -460,7 +461,8 @@ Item {
                     var mode = root.controller?.searchMode ?? "all";
                     var hasQuery = root.controller?.searchQuery?.length > 0;
 
-                    if (mode === "files") {
+                    switch (mode) {
+                    case "files":
                         if (!DSearchService.dsearchAvailable)
                             return I18n.tr("File search requires dsearch\nInstall from github.com/morelazers/dsearch");
                         if (!hasQuery)
@@ -468,20 +470,13 @@ Item {
                         if (root.controller.searchQuery.length < 2)
                             return I18n.tr("Type at least 2 characters");
                         return I18n.tr("No files found");
+                    case "plugins":
+                        return hasQuery ? I18n.tr("No plugin results") : I18n.tr("Browse or search plugins");
+                    case "apps":
+                        return hasQuery ? I18n.tr("No apps found") : I18n.tr("Type to search apps");
+                    default:
+                        return hasQuery ? I18n.tr("No results found") : I18n.tr("Type to search");
                     }
-                    if (mode === "plugins") {
-                        if (!hasQuery)
-                            return I18n.tr("Browse or search plugins");
-                        return I18n.tr("No plugin results");
-                    }
-                    if (mode === "apps") {
-                        if (!hasQuery)
-                            return I18n.tr("Type to search apps");
-                        return I18n.tr("No apps found");
-                    }
-                    if (hasQuery)
-                        return I18n.tr("No results found");
-                    return I18n.tr("Type to search");
                 }
             }
         }

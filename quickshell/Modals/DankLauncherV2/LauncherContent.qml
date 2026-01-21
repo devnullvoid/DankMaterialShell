@@ -247,7 +247,7 @@ FocusScope {
             return;
         case Qt.Key_Slash:
             if (event.modifiers === Qt.NoModifier && searchField.text.length === 0) {
-                controller.setMode("files");
+                controller.setMode("files", true);
                 return;
             }
             event.accepted = false;
@@ -446,6 +446,9 @@ FocusScope {
 
                     onTextChanged: {
                         controller.setSearchQuery(text);
+                        if (text.length === 0) {
+                            controller.restorePreviousMode();
+                        }
                         if (actionPanel.expanded) {
                             actionPanel.hide();
                         }
