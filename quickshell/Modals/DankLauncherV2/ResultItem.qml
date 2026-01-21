@@ -16,6 +16,23 @@ Rectangle {
     signal clicked
     signal rightClicked(real mouseX, real mouseY)
 
+    readonly property string iconValue: {
+        if (!item)
+            return "";
+        switch (item.iconType) {
+        case "material":
+        case "nerd":
+            return "material:" + (item.icon || "apps");
+        case "unicode":
+            return "unicode:" + (item.icon || "");
+        case "composite":
+            return item.iconFull || "";
+        case "image":
+        default:
+            return item.icon || "";
+        }
+    }
+
     width: parent?.width ?? 200
     height: 52
     color: isSelected ? Theme.primaryPressed : isHovered ? Theme.primaryPressed : "transparent"
@@ -27,86 +44,14 @@ Rectangle {
         anchors.rightMargin: Theme.spacingM
         spacing: Theme.spacingM
 
-        Item {
+        AppIconRenderer {
             width: 36
             height: 36
             anchors.verticalCenter: parent.verticalCenter
-
-            Image {
-                id: appIcon
-                anchors.fill: parent
-                visible: root.item?.iconType === "image"
-                asynchronous: true
-                source: root.item?.iconType === "image" ? "image://icon/" + (root.item?.icon || "application-x-executable") : ""
-                sourceSize.width: 36
-                sourceSize.height: 36
-                fillMode: Image.PreserveAspectFit
-                cache: false
-            }
-
-            DankIcon {
-                anchors.centerIn: parent
-                visible: root.item?.iconType === "material" || root.item?.iconType === "nerd"
-                name: root.item?.icon ?? "apps"
-                size: 24
-                color: Theme.surfaceText
-            }
-
-            StyledText {
-                anchors.centerIn: parent
-                visible: root.item?.iconType === "unicode"
-                text: root.item?.icon ?? ""
-                font.pixelSize: 24
-                color: Theme.surfaceText
-            }
-
-            Item {
-                anchors.fill: parent
-                visible: root.item?.iconType === "composite"
-
-                Image {
-                    anchors.fill: parent
-                    asynchronous: true
-                    source: {
-                        if (!root.item || root.item.iconType !== "composite")
-                            return "";
-                        var iconFull = root.item.iconFull || "";
-                        if (iconFull.startsWith("svg+corner:")) {
-                            var parts = iconFull.substring(11).split("|");
-                            return parts[0] || "";
-                        }
-                        return "";
-                    }
-                    sourceSize.width: 36
-                    sourceSize.height: 36
-                    fillMode: Image.PreserveAspectFit
-                }
-
-                Rectangle {
-                    anchors.right: parent.right
-                    anchors.bottom: parent.bottom
-                    width: 16
-                    height: 16
-                    radius: 8
-                    color: Theme.surfaceContainer
-
-                    DankIcon {
-                        anchors.centerIn: parent
-                        name: {
-                            if (!root.item || root.item.iconType !== "composite")
-                                return "";
-                            var iconFull = root.item.iconFull || "";
-                            if (iconFull.startsWith("svg+corner:")) {
-                                var parts = iconFull.substring(11).split("|");
-                                return parts[1] || "";
-                            }
-                            return "";
-                        }
-                        size: 12
-                        color: Theme.surfaceText
-                    }
-                }
-            }
+            iconValue: root.iconValue
+            iconSize: 36
+            fallbackText: (root.item?.name?.length > 0) ? root.item.name.charAt(0).toUpperCase() : "?"
+            materialIconSizeAdjustment: 12
         }
 
         Column {

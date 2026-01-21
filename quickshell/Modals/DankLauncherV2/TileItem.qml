@@ -35,7 +35,23 @@ Rectangle {
     }
 
     readonly property bool useImage: imageSource.length > 0
-    readonly property bool useIconProvider: !useImage && item?.iconType === "image"
+
+    readonly property string iconValue: {
+        if (!item || useImage)
+            return "";
+        switch (item.iconType) {
+        case "material":
+        case "nerd":
+            return "material:" + (item.icon || "image");
+        case "unicode":
+            return "unicode:" + (item.icon || "");
+        case "composite":
+            return item.iconFull || "";
+        case "image":
+        default:
+            return item.icon || "";
+        }
+    }
 
     function isImageFile(path) {
         if (!path)
@@ -62,32 +78,15 @@ Rectangle {
                 maxCacheSize: 256
             }
 
-            Image {
-                id: iconImage
-                anchors.fill: parent
-                visible: root.useIconProvider
-                source: root.useIconProvider ? "image://icon/" + (root.item?.icon || "application-x-executable") : ""
-                sourceSize.width: parent.width * 2
-                sourceSize.height: parent.height * 2
-                fillMode: Image.PreserveAspectCrop
-                cache: false
-                asynchronous: true
-            }
-
-            DankIcon {
+            AppIconRenderer {
                 anchors.centerIn: parent
-                visible: !root.useImage && !root.useIconProvider && root.item?.iconType !== "unicode"
-                name: root.item?.icon ?? "image"
-                size: Math.min(parent.width, parent.height) * 0.4
-                color: Theme.surfaceVariantText
-            }
-
-            StyledText {
-                anchors.centerIn: parent
-                visible: root.item?.iconType === "unicode"
-                text: root.item?.icon ?? ""
-                font.pixelSize: Math.min(parent.width, parent.height) * 0.4
-                color: Theme.surfaceVariantText
+                visible: !root.useImage
+                width: Math.min(parent.width, parent.height) * 0.6
+                height: width
+                iconValue: root.iconValue
+                iconSize: width
+                fallbackText: (root.item?.name?.length > 0) ? root.item.name.charAt(0).toUpperCase() : "?"
+                materialIconSizeAdjustment: width * 0.3
             }
 
             Rectangle {

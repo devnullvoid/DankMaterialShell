@@ -71,7 +71,8 @@ Item {
 
         anchors.fill: parent
         source: root.iconPath
-        smooth: true
+        backer.sourceSize: Qt.size(root.iconSize, root.iconSize)
+        mipmap: true
         asynchronous: true
         visible: !root.isMaterial && !root.isUnicode && !root.isSvg && !root.isSvgCorner && root.iconPath !== "" && status === Image.Ready
     }

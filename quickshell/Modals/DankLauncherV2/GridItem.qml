@@ -16,6 +16,25 @@ Rectangle {
     signal clicked
     signal rightClicked(real mouseX, real mouseY)
 
+    readonly property string iconValue: {
+        if (!item)
+            return "";
+        switch (item.iconType) {
+        case "material":
+        case "nerd":
+            return "material:" + (item.icon || "apps");
+        case "unicode":
+            return "unicode:" + (item.icon || "");
+        case "composite":
+            return item.iconFull || "";
+        case "image":
+        default:
+            return item.icon || "";
+        }
+    }
+
+    readonly property int computedIconSize: Math.min(48, Math.max(32, width * 0.45))
+
     radius: Theme.cornerRadius
     color: isSelected ? Theme.primaryPressed : isHovered ? Theme.primaryPressed : "transparent"
 
@@ -25,88 +44,15 @@ Rectangle {
         spacing: Theme.spacingS
         width: parent.width - Theme.spacingM
 
-        Item {
-            width: iconSize
-            height: iconSize
+        AppIconRenderer {
+            width: root.computedIconSize
+            height: root.computedIconSize
             anchors.horizontalCenter: parent.horizontalCenter
-
-            property int iconSize: Math.min(48, Math.max(32, root.width * 0.45))
-
-            Image {
-                id: appIcon
-                anchors.fill: parent
-                visible: root.item?.iconType === "image"
-                asynchronous: true
-                source: root.item?.iconType === "image" ? "image://icon/" + (root.item?.icon || "application-x-executable") : ""
-                sourceSize.width: parent.iconSize
-                sourceSize.height: parent.iconSize
-                fillMode: Image.PreserveAspectFit
-                cache: false
-            }
-
-            DankIcon {
-                anchors.centerIn: parent
-                visible: root.item?.iconType === "material" || root.item?.iconType === "nerd"
-                name: root.item?.icon ?? "apps"
-                size: parent.iconSize * 0.7
-                color: root.isSelected ? Theme.primary : Theme.surfaceText
-            }
-
-            StyledText {
-                anchors.centerIn: parent
-                visible: root.item?.iconType === "unicode"
-                text: root.item?.icon ?? ""
-                font.pixelSize: parent.iconSize * 0.7
-                color: root.isSelected ? Theme.primary : Theme.surfaceText
-            }
-
-            Item {
-                anchors.fill: parent
-                visible: root.item?.iconType === "composite"
-
-                Image {
-                    anchors.fill: parent
-                    asynchronous: true
-                    source: {
-                        if (!root.item || root.item.iconType !== "composite")
-                            return "";
-                        var iconFull = root.item.iconFull || "";
-                        if (iconFull.startsWith("svg+corner:")) {
-                            var parts = iconFull.substring(11).split("|");
-                            return parts[0] || "";
-                        }
-                        return "";
-                    }
-                    sourceSize.width: parent.width
-                    sourceSize.height: parent.height
-                    fillMode: Image.PreserveAspectFit
-                }
-
-                Rectangle {
-                    anchors.right: parent.right
-                    anchors.bottom: parent.bottom
-                    width: 16
-                    height: 16
-                    radius: 8
-                    color: Theme.surfaceContainer
-
-                    DankIcon {
-                        anchors.centerIn: parent
-                        name: {
-                            if (!root.item || root.item.iconType !== "composite")
-                                return "";
-                            var iconFull = root.item.iconFull || "";
-                            if (iconFull.startsWith("svg+corner:")) {
-                                var parts = iconFull.substring(11).split("|");
-                                return parts[1] || "";
-                            }
-                            return "";
-                        }
-                        size: 12
-                        color: root.isSelected ? Theme.primary : Theme.surfaceText
-                    }
-                }
-            }
+            iconValue: root.iconValue
+            iconSize: root.computedIconSize
+            fallbackText: (root.item?.name?.length > 0) ? root.item.name.charAt(0).toUpperCase() : "?"
+            iconColor: root.isSelected ? Theme.primary : Theme.surfaceText
+            materialIconSizeAdjustment: root.computedIconSize * 0.3
         }
 
         StyledText {
