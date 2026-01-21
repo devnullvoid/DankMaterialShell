@@ -692,6 +692,7 @@ Item {
             data: item,
             pluginId: pluginId,
             isBuiltInLauncher: true,
+            keywords: item.keywords || [],
             actions: [],
             primaryAction: {
                 name: I18n.tr("Open"),
@@ -1198,6 +1199,7 @@ Item {
             section: "plugin_" + pluginId,
             data: item,
             pluginId: pluginId,
+            keywords: item.keywords || [],
             actions: item.actions || [],
             primaryAction: item.primaryAction || {
                 name: I18n.tr("Select"),

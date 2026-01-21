@@ -200,7 +200,7 @@ Item {
             }
 
             onPreviewRequested: {
-                textEditor.togglePreview()
+                textEditor.togglePreview();
             }
 
             onEscapePressed: {
@@ -362,8 +362,8 @@ Item {
         DankModal {
             id: confirmationDialog
 
-            width: 400
-            height: 180
+            modalWidth: 400
+            modalHeight: contentLoader.item ? contentLoader.item.implicitHeight + Theme.spacingM * 2 : 180
             shouldBeVisible: false
             allowStacking: true
 
@@ -376,6 +376,7 @@ Item {
                 FocusScope {
                     anchors.fill: parent
                     focus: true
+                    implicitHeight: contentColumn.implicitHeight
 
                     Keys.onEscapePressed: event => {
                         confirmationDialog.close();
@@ -384,47 +385,31 @@ Item {
                     }
 
                     Column {
-                        anchors.centerIn: parent
-                        width: parent.width - Theme.spacingM * 2
+                        id: contentColumn
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        anchors.margins: Theme.spacingM
                         spacing: Theme.spacingM
 
-                        Row {
+                        StyledText {
+                            text: I18n.tr("Unsaved Changes")
+                            font.pixelSize: Theme.fontSizeLarge
+                            color: Theme.surfaceText
+                            font.weight: Font.Medium
+                        }
+
+                        StyledText {
+                            text: root.pendingAction === "new" ? I18n.tr("You have unsaved changes. Save before creating a new file?") : root.pendingAction.startsWith("close_tab_") ? I18n.tr("You have unsaved changes. Save before closing this tab?") : root.pendingAction === "load_file" || root.pendingAction === "open" ? I18n.tr("You have unsaved changes. Save before opening a file?") : I18n.tr("You have unsaved changes. Save before continuing?")
+                            font.pixelSize: Theme.fontSizeMedium
+                            color: Theme.surfaceTextMedium
                             width: parent.width
-
-                            Column {
-                                width: parent.width - 40
-                                spacing: Theme.spacingXS
-
-                                StyledText {
-                                    text: I18n.tr("Unsaved Changes")
-                                    font.pixelSize: Theme.fontSizeLarge
-                                    color: Theme.surfaceText
-                                    font.weight: Font.Medium
-                                }
-
-                                StyledText {
-                                    text: root.pendingAction === "new" ? I18n.tr("You have unsaved changes. Save before creating a new file?") : root.pendingAction.startsWith("close_tab_") ? I18n.tr("You have unsaved changes. Save before closing this tab?") : root.pendingAction === "load_file" || root.pendingAction === "open" ? I18n.tr("You have unsaved changes. Save before opening a file?") : I18n.tr("You have unsaved changes. Save before continuing?")
-                                    font.pixelSize: Theme.fontSizeMedium
-                                    color: Theme.surfaceTextMedium
-                                    width: parent.width
-                                    wrapMode: Text.Wrap
-                                }
-                            }
-
-                            DankActionButton {
-                                iconName: "close"
-                                iconSize: Theme.iconSize - 4
-                                iconColor: Theme.surfaceText
-                                onClicked: {
-                                    confirmationDialog.close();
-                                    root.confirmationDialogOpen = false;
-                                }
-                            }
+                            wrapMode: Text.Wrap
                         }
 
                         Item {
                             width: parent.width
-                            height: 40
+                            height: 36
 
                             Row {
                                 anchors.right: parent.right
@@ -513,6 +498,20 @@ Item {
                                     }
                                 }
                             }
+                        }
+                    }
+
+                    DankActionButton {
+                        anchors.top: parent.top
+                        anchors.right: parent.right
+                        anchors.topMargin: Theme.spacingM
+                        anchors.rightMargin: Theme.spacingM
+                        iconName: "close"
+                        iconSize: Theme.iconSize - 4
+                        iconColor: Theme.surfaceText
+                        onClicked: {
+                            confirmationDialog.close();
+                            root.confirmationDialogOpen = false;
                         }
                     }
                 }
