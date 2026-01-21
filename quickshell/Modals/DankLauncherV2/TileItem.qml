@@ -76,9 +76,17 @@ Rectangle {
 
             DankIcon {
                 anchors.centerIn: parent
-                visible: !root.useImage && !root.useIconProvider
+                visible: !root.useImage && !root.useIconProvider && root.item?.iconType !== "unicode"
                 name: root.item?.icon ?? "image"
                 size: Math.min(parent.width, parent.height) * 0.4
+                color: Theme.surfaceVariantText
+            }
+
+            StyledText {
+                anchors.centerIn: parent
+                visible: root.item?.iconType === "unicode"
+                text: root.item?.icon ?? ""
+                font.pixelSize: Math.min(parent.width, parent.height) * 0.4
                 color: Theme.surfaceVariantText
             }
 

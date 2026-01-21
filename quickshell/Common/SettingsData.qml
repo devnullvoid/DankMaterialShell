@@ -79,6 +79,23 @@ Singleton {
         saveSettings();
     }
 
+    property var launcherPluginVisibility: ({})
+
+    function getPluginAllowWithoutTrigger(pluginId) {
+        if (!launcherPluginVisibility[pluginId])
+            return true;
+        return launcherPluginVisibility[pluginId].allowWithoutTrigger !== false;
+    }
+
+    function setPluginAllowWithoutTrigger(pluginId, allow) {
+        const updated = JSON.parse(JSON.stringify(launcherPluginVisibility));
+        if (!updated[pluginId])
+            updated[pluginId] = {};
+        updated[pluginId].allowWithoutTrigger = allow;
+        launcherPluginVisibility = updated;
+        saveSettings();
+    }
+
     property alias dankBarLeftWidgetsModel: leftWidgetsModel
     property alias dankBarCenterWidgetsModel: centerWidgetsModel
     property alias dankBarRightWidgetsModel: rightWidgetsModel

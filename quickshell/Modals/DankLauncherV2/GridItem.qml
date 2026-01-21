@@ -52,6 +52,14 @@ Rectangle {
                 color: root.isSelected ? Theme.primary : Theme.surfaceText
             }
 
+            StyledText {
+                anchors.centerIn: parent
+                visible: root.item?.iconType === "unicode"
+                text: root.item?.icon ?? ""
+                font.pixelSize: parent.iconSize * 0.7
+                color: root.isSelected ? Theme.primary : Theme.surfaceText
+            }
+
             Item {
                 anchors.fill: parent
                 visible: root.item?.iconType === "composite"

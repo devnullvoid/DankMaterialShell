@@ -573,6 +573,160 @@ Item {
             }
 
             SettingsCard {
+                id: pluginVisibilityCard
+                width: parent.width
+                iconName: "filter_list"
+                title: I18n.tr("Plugin Visibility")
+                settingKey: "pluginVisibility"
+
+                property var allLauncherPlugins: {
+                    SettingsData.launcherPluginVisibility;
+                    var plugins = [];
+                    var builtIn = AppSearchService.getBuiltInLauncherPlugins() || {};
+                    for (var pluginId in builtIn) {
+                        var plugin = builtIn[pluginId];
+                        plugins.push({
+                            id: pluginId,
+                            name: plugin.name || pluginId,
+                            icon: plugin.cornerIcon || "extension",
+                            iconType: "material",
+                            isBuiltIn: true,
+                            trigger: AppSearchService.getBuiltInPluginTrigger(pluginId) || ""
+                        });
+                    }
+                    var thirdParty = PluginService.getLauncherPlugins() || {};
+                    for (var pluginId in thirdParty) {
+                        var plugin = thirdParty[pluginId];
+                        var rawIcon = plugin.icon || "extension";
+                        plugins.push({
+                            id: pluginId,
+                            name: plugin.name || pluginId,
+                            icon: rawIcon.startsWith("material:") ? rawIcon.substring(9) : rawIcon.startsWith("unicode:") ? rawIcon.substring(8) : rawIcon,
+                            iconType: rawIcon.startsWith("unicode:") ? "unicode" : "material",
+                            isBuiltIn: false,
+                            trigger: PluginService.getPluginTrigger(pluginId) || ""
+                        });
+                    }
+                    return plugins.sort((a, b) => a.name.localeCompare(b.name));
+                }
+
+                StyledText {
+                    width: parent.width
+                    text: I18n.tr("Control which plugins appear in 'All' mode without requiring a trigger prefix. Disabled plugins will only show when using their trigger.")
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: Theme.surfaceVariantText
+                    wrapMode: Text.WordWrap
+                }
+
+                Column {
+                    width: parent.width
+                    spacing: Theme.spacingS
+
+                    Repeater {
+                        model: pluginVisibilityCard.allLauncherPlugins
+
+                        delegate: Rectangle {
+                            id: visibilityDelegate
+                            required property var modelData
+                            required property int index
+
+                            width: parent.width
+                            height: 52
+                            radius: Theme.cornerRadius
+                            color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.3)
+
+                            Row {
+                                anchors.left: parent.left
+                                anchors.leftMargin: Theme.spacingM
+                                anchors.verticalCenter: parent.verticalCenter
+                                spacing: Theme.spacingM
+
+                                Item {
+                                    width: Theme.iconSize
+                                    height: Theme.iconSize
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    DankIcon {
+                                        anchors.centerIn: parent
+                                        visible: visibilityDelegate.modelData.iconType !== "unicode"
+                                        name: visibilityDelegate.modelData.icon
+                                        size: Theme.iconSize
+                                        color: Theme.primary
+                                    }
+
+                                    StyledText {
+                                        anchors.centerIn: parent
+                                        visible: visibilityDelegate.modelData.iconType === "unicode"
+                                        text: visibilityDelegate.modelData.icon
+                                        font.pixelSize: Theme.iconSize
+                                        color: Theme.primary
+                                    }
+                                }
+
+                                Column {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    spacing: 2
+
+                                    Row {
+                                        spacing: Theme.spacingS
+
+                                        StyledText {
+                                            text: visibilityDelegate.modelData.name
+                                            font.pixelSize: Theme.fontSizeMedium
+                                            color: Theme.surfaceText
+                                        }
+
+                                        Rectangle {
+                                            visible: visibilityDelegate.modelData.isBuiltIn
+                                            width: dmsLabel.implicitWidth + Theme.spacingS
+                                            height: 16
+                                            radius: 8
+                                            color: Theme.primaryContainer
+                                            anchors.verticalCenter: parent.verticalCenter
+
+                                            StyledText {
+                                                id: dmsLabel
+                                                anchors.centerIn: parent
+                                                text: "DMS"
+                                                font.pixelSize: Theme.fontSizeSmall - 2
+                                                color: Theme.primaryText
+                                            }
+                                        }
+                                    }
+
+                                    StyledText {
+                                        text: visibilityDelegate.modelData.trigger ? I18n.tr("Trigger: %1").arg(visibilityDelegate.modelData.trigger) : I18n.tr("No trigger")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.surfaceVariantText
+                                    }
+                                }
+                            }
+
+                            DankToggle {
+                                id: visibilityToggle
+                                anchors.right: parent.right
+                                anchors.rightMargin: Theme.spacingM
+                                anchors.verticalCenter: parent.verticalCenter
+                                checked: SettingsData.getPluginAllowWithoutTrigger(visibilityDelegate.modelData.id)
+                                onToggled: function (isChecked) {
+                                    SettingsData.setPluginAllowWithoutTrigger(visibilityDelegate.modelData.id, isChecked);
+                                }
+                            }
+                        }
+                    }
+
+                    StyledText {
+                        width: parent.width
+                        text: I18n.tr("No launcher plugins installed.")
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: Theme.surfaceVariantText
+                        horizontalAlignment: Text.AlignHCenter
+                        visible: pluginVisibilityCard.allLauncherPlugins.length === 0
+                    }
+                }
+            }
+
+            SettingsCard {
                 width: parent.width
                 iconName: "search"
                 title: I18n.tr("Search Options")

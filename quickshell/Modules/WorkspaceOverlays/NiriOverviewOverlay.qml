@@ -122,8 +122,10 @@ Scope {
 
             onShouldShowSpotlightChanged: {
                 if (shouldShowSpotlight) {
-                    if (launcherContent?.controller)
+                    if (launcherContent?.controller) {
+                        launcherContent.controller.searchMode = "apps";
                         launcherContent.controller.performSearch();
+                    }
                     return;
                 }
                 if (!isActiveScreen)
@@ -198,8 +200,11 @@ Scope {
                 id: spotlightContainer
                 x: Theme.snap((parent.width - width) / 2, overlayWindow.dpr)
                 y: Theme.snap((parent.height - height) / 2, overlayWindow.dpr)
-                width: Theme.px(500, overlayWindow.dpr)
-                height: Theme.px(600, overlayWindow.dpr)
+
+                readonly property int baseWidth: SettingsData.dankLauncherV2Size === "medium" ? 720 : SettingsData.dankLauncherV2Size === "large" ? 860 : 620
+                readonly property int baseHeight: SettingsData.dankLauncherV2Size === "medium" ? 720 : SettingsData.dankLauncherV2Size === "large" ? 860 : 600
+                width: Math.min(baseWidth, overlayWindow.screen.width - 100)
+                height: Math.min(baseHeight, overlayWindow.screen.height - 100)
 
                 readonly property bool animatingOut: niriOverviewScope.isClosing && overlayWindow.isSpotlightScreen
 
@@ -252,7 +257,7 @@ Scope {
                         property bool isClosing: niriOverviewScope.isClosing
                         function hide() {
                             if (niriOverviewScope.searchActive) {
-                                niriOverviewScope.hideAndReleaseKeyboard();
+                                niriOverviewScope.hideSpotlight();
                                 return;
                             }
                             NiriService.toggleOverview();

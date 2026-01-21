@@ -53,7 +53,7 @@ Item {
 
     signal dialogClosed
 
-    function _initializeAndShow(query) {
+    function _initializeAndShow(query, mode) {
         contentVisible = true;
         spotlightContent.searchField.forceActiveFocus();
 
@@ -61,7 +61,8 @@ Item {
             spotlightContent.searchField.text = query;
         }
         if (spotlightContent.controller) {
-            spotlightContent.controller.searchMode = "all";
+            var targetMode = mode || "all";
+            spotlightContent.controller.searchMode = targetMode;
             spotlightContent.controller.activePluginId = "";
             spotlightContent.controller.activePluginName = "";
             spotlightContent.controller.pluginFilter = "";
@@ -134,6 +135,32 @@ Item {
 
     function toggle() {
         spotlightOpen ? hide() : show();
+    }
+
+    function showWithMode(mode) {
+        closeCleanupTimer.stop();
+        isClosing = false;
+        openedFromOverview = false;
+
+        var focusedScreen = CompositorService.getFocusedScreen();
+        if (focusedScreen)
+            launcherWindow.screen = focusedScreen;
+
+        spotlightOpen = true;
+        keyboardActive = true;
+        ModalManager.openModal(root);
+        if (useHyprlandFocusGrab)
+            focusGrab.active = true;
+
+        _initializeAndShow("", mode);
+    }
+
+    function toggleWithMode(mode) {
+        if (spotlightOpen) {
+            hide();
+        } else {
+            showWithMode(mode);
+        }
     }
 
     Timer {

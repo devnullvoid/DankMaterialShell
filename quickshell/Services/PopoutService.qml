@@ -366,6 +366,7 @@ Singleton {
     property bool _spotlightV2WantsOpen: false
     property bool _spotlightV2WantsToggle: false
     property string _spotlightV2PendingQuery: ""
+    property string _spotlightV2PendingMode: ""
 
     function openSpotlightV2() {
         if (spotlightV2Modal) {
@@ -388,6 +389,17 @@ Singleton {
         }
     }
 
+    function openSpotlightV2WithMode(mode: string) {
+        if (spotlightV2Modal) {
+            spotlightV2Modal.showWithMode(mode);
+        } else if (spotlightV2ModalLoader) {
+            _spotlightV2PendingMode = mode;
+            _spotlightV2WantsOpen = true;
+            _spotlightV2WantsToggle = false;
+            spotlightV2ModalLoader.active = true;
+        }
+    }
+
     function closeSpotlightV2() {
         spotlightV2Modal?.hide();
     }
@@ -402,12 +414,26 @@ Singleton {
         }
     }
 
+    function toggleSpotlightV2WithMode(mode: string) {
+        if (spotlightV2Modal) {
+            spotlightV2Modal.toggleWithMode(mode);
+        } else if (spotlightV2ModalLoader) {
+            _spotlightV2PendingMode = mode;
+            _spotlightV2WantsToggle = true;
+            _spotlightV2WantsOpen = false;
+            spotlightV2ModalLoader.active = true;
+        }
+    }
+
     function _onSpotlightV2ModalLoaded() {
         if (_spotlightV2WantsOpen) {
             _spotlightV2WantsOpen = false;
             if (_spotlightV2PendingQuery) {
                 spotlightV2Modal?.showWithQuery(_spotlightV2PendingQuery);
                 _spotlightV2PendingQuery = "";
+            } else if (_spotlightV2PendingMode) {
+                spotlightV2Modal?.showWithMode(_spotlightV2PendingMode);
+                _spotlightV2PendingMode = "";
             } else {
                 spotlightV2Modal?.show();
             }
@@ -415,7 +441,12 @@ Singleton {
         }
         if (_spotlightV2WantsToggle) {
             _spotlightV2WantsToggle = false;
-            spotlightV2Modal?.toggle();
+            if (_spotlightV2PendingMode) {
+                spotlightV2Modal?.toggleWithMode(_spotlightV2PendingMode);
+                _spotlightV2PendingMode = "";
+            } else {
+                spotlightV2Modal?.toggle();
+            }
         }
     }
 

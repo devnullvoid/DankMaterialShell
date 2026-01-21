@@ -1041,6 +1041,20 @@ Item {
             return "LAUNCHER_TOGGLE_SUCCESS";
         }
 
+        function openWith(mode: string): string {
+            if (!mode)
+                return "LAUNCHER_OPEN_FAILED: No mode specified";
+            PopoutService.openSpotlightV2WithMode(mode);
+            return `LAUNCHER_OPEN_SUCCESS: ${mode}`;
+        }
+
+        function toggleWith(mode: string): string {
+            if (!mode)
+                return "LAUNCHER_TOGGLE_FAILED: No mode specified";
+            PopoutService.toggleSpotlightV2WithMode(mode);
+            return `LAUNCHER_TOGGLE_SUCCESS: ${mode}`;
+        }
+
         function openQuery(query: string): string {
             PopoutService.openSpotlightV2WithQuery(query);
             return "LAUNCHER_OPEN_QUERY_SUCCESS";

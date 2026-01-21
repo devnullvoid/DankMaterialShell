@@ -431,14 +431,14 @@ Item {
 
         if (searchMode === "all") {
             if (searchQuery) {
-                var allPluginIds = getAllLauncherPluginIds();
+                var allPluginIds = getVisibleLauncherPluginIds();
                 for (var i = 0; i < allPluginIds.length; i++) {
                     var pluginId = allPluginIds[i];
                     var pItems = getPluginItems(pluginId, searchQuery);
                     allItems = allItems.concat(pItems);
                 }
 
-                var allBuiltInIds = getAllBuiltInLauncherIds();
+                var allBuiltInIds = getVisibleBuiltInLauncherIds();
                 for (var i = 0; i < allBuiltInIds.length; i++) {
                     var pluginId = allBuiltInIds[i];
                     var blItems = AppSearchService.getBuiltInLauncherItems(pluginId, searchQuery);
@@ -858,7 +858,10 @@ Item {
     }
 
     function getEmptyTriggerPlugins() {
-        return PluginService.getPluginsWithEmptyTrigger();
+        var plugins = PluginService.getPluginsWithEmptyTrigger();
+        return plugins.filter(function (pluginId) {
+            return SettingsData.getPluginAllowWithoutTrigger(pluginId);
+        });
     }
 
     function getAllLauncherPluginIds() {
@@ -866,9 +869,23 @@ Item {
         return Object.keys(launchers);
     }
 
+    function getVisibleLauncherPluginIds() {
+        var launchers = PluginService.getLauncherPlugins();
+        return Object.keys(launchers).filter(function (pluginId) {
+            return SettingsData.getPluginAllowWithoutTrigger(pluginId);
+        });
+    }
+
     function getAllBuiltInLauncherIds() {
         var launchers = AppSearchService.getBuiltInLauncherPlugins();
         return Object.keys(launchers);
+    }
+
+    function getVisibleBuiltInLauncherIds() {
+        var launchers = AppSearchService.getBuiltInLauncherPlugins();
+        return Object.keys(launchers).filter(function (pluginId) {
+            return SettingsData.getPluginAllowWithoutTrigger(pluginId);
+        });
     }
 
     function getPluginBrowseItems() {
@@ -930,7 +947,10 @@ Item {
     }
 
     function getBuiltInEmptyTriggerLaunchers() {
-        return AppSearchService.getBuiltInLauncherPluginsWithEmptyTrigger();
+        var plugins = AppSearchService.getBuiltInLauncherPluginsWithEmptyTrigger();
+        return plugins.filter(function (pluginId) {
+            return SettingsData.getPluginAllowWithoutTrigger(pluginId);
+        });
     }
 
     function getPluginItems(pluginId, query) {
@@ -947,11 +967,13 @@ Item {
     function detectIconType(iconName) {
         if (!iconName)
             return "material";
-        if (iconName.indexOf("/") >= 0 || iconName.indexOf(".") >= 0)
-            return "image";
+        if (iconName.startsWith("unicode:"))
+            return "unicode";
         if (iconName.startsWith("material:"))
             return "material";
         if (iconName.startsWith("image:"))
+            return "image";
+        if (iconName.indexOf("/") >= 0 || iconName.indexOf(".") >= 0)
             return "image";
         if (/^[a-z]+-[a-z]/.test(iconName.toLowerCase()))
             return "image";
@@ -961,6 +983,8 @@ Item {
     function stripIconPrefix(iconName) {
         if (!iconName)
             return "extension";
+        if (iconName.startsWith("unicode:"))
+            return iconName.substring(8);
         if (iconName.startsWith("material:"))
             return iconName.substring(9);
         if (iconName.startsWith("image:"))
