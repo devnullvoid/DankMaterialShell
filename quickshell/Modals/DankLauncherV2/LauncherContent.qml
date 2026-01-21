@@ -134,8 +134,14 @@ FocusScope {
                 root.parentModal.hide();
             return;
         case Qt.Key_Backspace:
-            if (searchField.text.length === 0 && controller.clearPluginFilter())
-                return;
+            if (searchField.text.length === 0) {
+                if (controller.clearPluginFilter())
+                    return;
+                if (controller.autoSwitchedToFiles) {
+                    controller.restorePreviousMode();
+                    return;
+                }
+            }
             event.accepted = false;
             return;
         case Qt.Key_Down:
