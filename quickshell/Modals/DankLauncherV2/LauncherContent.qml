@@ -282,26 +282,22 @@ FocusScope {
                         {
                             id: "all",
                             label: I18n.tr("All"),
-                            icon: "search",
-                            shortcut: "⌃1"
+                            icon: "search"
                         },
                         {
                             id: "apps",
                             label: I18n.tr("Apps"),
-                            icon: "apps",
-                            shortcut: "⌃2"
+                            icon: "apps"
                         },
                         {
                             id: "files",
                             label: I18n.tr("Files"),
-                            icon: "folder",
-                            shortcut: "⌃3"
+                            icon: "folder"
                         },
                         {
                             id: "plugins",
                             label: I18n.tr("Plugins"),
-                            icon: "extension",
-                            shortcut: "⌃4"
+                            icon: "extension"
                         }
                     ]
 
@@ -309,7 +305,7 @@ FocusScope {
                         required property var modelData
                         required property int index
 
-                        width: modeButtonMetrics.width + Theme.spacingM * 2
+                        width: modeButtonMetrics.width + 14 + Theme.spacingXS + Theme.spacingM * 2 + Theme.spacingS
                         height: footerBar.height - 4
                         radius: Theme.cornerRadius - 2
                         color: controller.searchMode === modelData.id || modeArea.containsMouse ? Theme.primaryContainer : "transparent"
@@ -317,7 +313,7 @@ FocusScope {
                         TextMetrics {
                             id: modeButtonMetrics
                             font.pixelSize: Theme.fontSizeSmall
-                            text: modelData.label + "  " + modelData.shortcut
+                            text: modelData.label
                         }
 
                         Row {
@@ -334,12 +330,6 @@ FocusScope {
                                 text: modelData.label
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: controller.searchMode === modelData.id ? Theme.primary : Theme.surfaceText
-                            }
-
-                            StyledText {
-                                text: modelData.shortcut
-                                font.pixelSize: Theme.fontSizeSmall - 2
-                                color: Theme.surfaceVariantText
                             }
                         }
 
@@ -395,15 +385,13 @@ FocusScope {
 
             Row {
                 width: parent.width
-                height: 56
                 spacing: Theme.spacingS
 
                 Rectangle {
                     id: pluginBadge
                     visible: controller.activePluginName.length > 0
                     width: visible ? pluginBadgeContent.implicitWidth + Theme.spacingM : 0
-                    height: 32
-                    anchors.verticalCenter: parent.verticalCenter
+                    height: searchField.height
                     radius: 16
                     color: Theme.primary
 
@@ -439,7 +427,6 @@ FocusScope {
                 DankTextField {
                     id: searchField
                     width: parent.width - (pluginBadge.visible ? pluginBadge.width + Theme.spacingS : 0)
-                    height: 56
                     cornerRadius: Theme.cornerRadius
                     backgroundColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                     normalBorderColor: Theme.outlineMedium
@@ -484,7 +471,7 @@ FocusScope {
 
             Item {
                 width: parent.width
-                height: parent.height - 56 - actionPanel.height - Theme.spacingM - Theme.spacingXS
+                height: parent.height - searchField.height - actionPanel.height - Theme.spacingXS * 2
                 opacity: root.parentModal?.isClosing ? 0 : 1
 
                 ResultsList {
@@ -635,7 +622,6 @@ FocusScope {
                         DankTextField {
                             id: editNameField
                             width: parent.width
-                            height: 44
                             placeholderText: editingApp?.name || ""
                             keyNavigationTab: editIconField
                             keyNavigationBacktab: editExtraFlagsField
@@ -656,7 +642,6 @@ FocusScope {
                         DankTextField {
                             id: editIconField
                             width: parent.width
-                            height: 44
                             placeholderText: editingApp?.icon || ""
                             keyNavigationTab: editCommentField
                             keyNavigationBacktab: editNameField
@@ -677,7 +662,6 @@ FocusScope {
                         DankTextField {
                             id: editCommentField
                             width: parent.width
-                            height: 44
                             placeholderText: editingApp?.comment || ""
                             keyNavigationTab: editEnvVarsField
                             keyNavigationBacktab: editIconField
@@ -704,7 +688,6 @@ FocusScope {
                         DankTextField {
                             id: editEnvVarsField
                             width: parent.width
-                            height: 44
                             placeholderText: "VAR=value"
                             keyNavigationTab: editExtraFlagsField
                             keyNavigationBacktab: editCommentField
@@ -725,7 +708,6 @@ FocusScope {
                         DankTextField {
                             id: editExtraFlagsField
                             width: parent.width
-                            height: 44
                             placeholderText: "--flag --option=value"
                             keyNavigationTab: editNameField
                             keyNavigationBacktab: editEnvVarsField

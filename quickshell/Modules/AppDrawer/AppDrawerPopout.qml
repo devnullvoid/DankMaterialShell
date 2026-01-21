@@ -398,7 +398,6 @@ DankPopout {
 
                         width: parent.width - Theme.spacingS * 2
                         anchors.horizontalCenter: parent.horizontalCenter
-                        height: 52
                         cornerRadius: Theme.cornerRadius
                         backgroundColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                         normalBorderColor: Theme.outlineMedium
@@ -531,7 +530,7 @@ DankPopout {
                         x: searchField.x
                         height: {
                             let usedHeight = 40 + Theme.spacingS;
-                            usedHeight += 52 + Theme.spacingS;
+                            usedHeight += searchField.height + Theme.spacingS;
                             usedHeight += appDrawerPopout.searchMode === "apps" ? 40 : 0;
                             return parent.height - usedHeight;
                         }
@@ -839,7 +838,6 @@ DankPopout {
                                 DankTextField {
                                     id: editNameField
                                     width: parent.width
-                                    height: 44
                                     focus: true
                                     placeholderText: appDrawerPopout.editingApp?.name || ""
                                     keyNavigationTab: editIconField
@@ -861,7 +859,6 @@ DankPopout {
                                 DankTextField {
                                     id: editIconField
                                     width: parent.width
-                                    height: 44
                                     placeholderText: appDrawerPopout.editingApp?.icon || ""
                                     keyNavigationTab: editCommentField
                                     keyNavigationBacktab: editNameField
@@ -882,7 +879,6 @@ DankPopout {
                                 DankTextField {
                                     id: editCommentField
                                     width: parent.width
-                                    height: 44
                                     placeholderText: appDrawerPopout.editingApp?.comment || ""
                                     keyNavigationTab: editEnvVarsField
                                     keyNavigationBacktab: editIconField
@@ -909,7 +905,6 @@ DankPopout {
                                 DankTextField {
                                     id: editEnvVarsField
                                     width: parent.width
-                                    height: 44
                                     placeholderText: "VAR=value"
                                     keyNavigationTab: editExtraFlagsField
                                     keyNavigationBacktab: editCommentField
@@ -930,7 +925,6 @@ DankPopout {
                                 DankTextField {
                                     id: editExtraFlagsField
                                     width: parent.width
-                                    height: 44
                                     placeholderText: "--flag --option=value"
                                     keyNavigationTab: editNameField
                                     keyNavigationBacktab: editEnvVarsField

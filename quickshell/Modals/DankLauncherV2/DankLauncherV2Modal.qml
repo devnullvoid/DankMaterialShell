@@ -9,6 +9,8 @@ import qs.Widgets
 Item {
     id: root
 
+    visible: false
+
     property bool spotlightOpen: false
     property bool keyboardActive: false
     property bool contentVisible: false
@@ -22,8 +24,8 @@ Item {
     readonly property real screenHeight: effectiveScreen?.height ?? 1080
     readonly property real dpr: effectiveScreen ? CompositorService.getScreenScale(effectiveScreen) : 1
 
-    readonly property int baseWidth: SettingsData.dankLauncherV2Size === "medium" ? 600 : SettingsData.dankLauncherV2Size === "large" ? 720 : 500
-    readonly property int baseHeight: SettingsData.dankLauncherV2Size === "medium" ? 680 : SettingsData.dankLauncherV2Size === "large" ? 820 : 560
+    readonly property int baseWidth: SettingsData.dankLauncherV2Size === "medium" ? 720 : SettingsData.dankLauncherV2Size === "large" ? 860 : 620
+    readonly property int baseHeight: SettingsData.dankLauncherV2Size === "medium" ? 720 : SettingsData.dankLauncherV2Size === "large" ? 860 : 600
     readonly property int modalWidth: Math.min(baseWidth, screenWidth - 100)
     readonly property int modalHeight: Math.min(baseHeight, screenHeight - 100)
     readonly property real modalX: (screenWidth - modalWidth) / 2
@@ -162,6 +164,27 @@ Item {
             if (excludedModal !== root && spotlightOpen) {
                 hide();
             }
+        }
+    }
+
+    Connections {
+        target: Quickshell
+        function onScreensChanged() {
+            if (!launcherWindow.screen)
+                return;
+            const currentScreenName = launcherWindow.screen.name;
+            let screenStillExists = false;
+            for (let i = 0; i < Quickshell.screens.length; i++) {
+                if (Quickshell.screens[i].name === currentScreenName) {
+                    screenStillExists = true;
+                    break;
+                }
+            }
+            if (screenStillExists)
+                return;
+            const newScreen = CompositorService.getFocusedScreen();
+            if (newScreen)
+                launcherWindow.screen = newScreen;
         }
     }
 

@@ -324,7 +324,6 @@ Item {
                 anchors.left: parent.left
                 anchors.right: buttonsContainer.left
                 anchors.rightMargin: Theme.spacingM
-                height: 56
                 cornerRadius: Theme.cornerRadius
                 backgroundColor: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                 normalBorderColor: Theme.outlineMedium
@@ -670,7 +669,6 @@ Item {
                         DankTextField {
                             id: editNameField
                             width: parent.width
-                            height: 44
                             placeholderText: editingApp?.name || ""
                             keyNavigationTab: editIconField
                             keyNavigationBacktab: editExtraFlagsField
@@ -691,7 +689,6 @@ Item {
                         DankTextField {
                             id: editIconField
                             width: parent.width
-                            height: 44
                             placeholderText: editingApp?.icon || ""
                             keyNavigationTab: editCommentField
                             keyNavigationBacktab: editNameField
@@ -712,7 +709,6 @@ Item {
                         DankTextField {
                             id: editCommentField
                             width: parent.width
-                            height: 44
                             placeholderText: editingApp?.comment || ""
                             keyNavigationTab: editEnvVarsField
                             keyNavigationBacktab: editIconField
@@ -739,7 +735,6 @@ Item {
                         DankTextField {
                             id: editEnvVarsField
                             width: parent.width
-                            height: 44
                             placeholderText: "VAR=value"
                             keyNavigationTab: editExtraFlagsField
                             keyNavigationBacktab: editCommentField
@@ -760,7 +755,6 @@ Item {
                         DankTextField {
                             id: editExtraFlagsField
                             width: parent.width
-                            height: 44
                             placeholderText: "--flag --option=value"
                             keyNavigationTab: editNameField
                             keyNavigationBacktab: editEnvVarsField

@@ -31,7 +31,7 @@ Rectangle {
     Row {
         id: leftContent
         anchors.left: parent.left
-        anchors.leftMargin: Theme.spacingS
+        anchors.leftMargin: Theme.spacingXS
         anchors.verticalCenter: parent.verticalCenter
         spacing: Theme.spacingS
 
@@ -61,7 +61,7 @@ Rectangle {
     Row {
         id: rightContent
         anchors.right: parent.right
-        anchors.rightMargin: Theme.spacingS
+        anchors.rightMargin: Theme.spacingXS
         anchors.verticalCenter: parent.verticalCenter
         spacing: Theme.spacingS
 
