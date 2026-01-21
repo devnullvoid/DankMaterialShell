@@ -9,6 +9,9 @@ import qs.Modules.Settings.Widgets
 Item {
     id: dankBarTab
 
+    LayoutMirroring.enabled: I18n.isRtl
+    LayoutMirroring.childrenInherit: true
+
     property var parentModal: null
     property string selectedBarId: "default"
 
@@ -366,9 +369,12 @@ Item {
                                         font.pixelSize: Theme.fontSizeMedium
                                         font.weight: Font.Medium
                                         color: Theme.surfaceText
+                                        width: parent.width
+                                        horizontalAlignment: Text.AlignLeft
                                     }
 
                                     Row {
+                                        width: parent.width
                                         spacing: Theme.spacingS
 
                                         StyledText {
@@ -390,12 +396,14 @@ Item {
                                             }
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.surfaceVariantText
+                                            horizontalAlignment: Text.AlignLeft
                                         }
 
                                         StyledText {
                                             text: "•"
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.surfaceVariantText
+                                            horizontalAlignment: Text.AlignLeft
                                         }
 
                                         StyledText {
@@ -409,12 +417,14 @@ Item {
                                             }
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.surfaceVariantText
+                                            horizontalAlignment: Text.AlignLeft
                                         }
 
                                         StyledText {
                                             text: "•"
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.surfaceVariantText
+                                            horizontalAlignment: Text.AlignLeft
                                         }
 
                                         StyledText {
@@ -428,12 +438,14 @@ Item {
                                             }
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.surfaceVariantText
+                                            horizontalAlignment: Text.AlignLeft
                                         }
 
                                         StyledText {
                                             text: "•"
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.surfaceVariantText
+                                            horizontalAlignment: Text.AlignLeft
                                             visible: {
                                                 SettingsData.barConfigs;
                                                 const cfg = SettingsData.getBarConfig(barCard.modelData.id);
@@ -445,6 +457,7 @@ Item {
                                             text: I18n.tr("Disabled")
                                             font.pixelSize: Theme.fontSizeSmall
                                             color: Theme.error
+                                            horizontalAlignment: Text.AlignLeft
                                             visible: {
                                                 SettingsData.barConfigs;
                                                 const cfg = SettingsData.getBarConfig(barCard.modelData.id);
@@ -520,6 +533,7 @@ Item {
                     font.pixelSize: Theme.fontSizeSmall
                     color: Theme.surfaceVariantText
                     wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignLeft
                 }
 
                 Column {
@@ -1126,7 +1140,9 @@ Item {
                         text: I18n.tr("Color")
                         font.pixelSize: Theme.fontSizeMedium
                         color: Theme.surfaceText
-                        x: Theme.spacingM
+                        horizontalAlignment: Text.AlignLeft
+                        anchors.left: parent.left
+                        anchors.leftMargin: Theme.spacingM
                     }
 
                     Item {
