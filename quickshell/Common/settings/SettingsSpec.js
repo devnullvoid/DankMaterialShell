@@ -416,7 +416,8 @@ var SPEC = {
     desktopWidgetGroups: { def: [] },
 
     builtInPluginSettings: { def: {} },
-    launcherPluginVisibility: { def: {} }
+    launcherPluginVisibility: { def: {} },
+    launcherPluginOrder: { def: [] }
 };
 
 function getValidKeys() {

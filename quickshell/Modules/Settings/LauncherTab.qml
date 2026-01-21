@@ -581,6 +581,7 @@ Item {
 
                 property var allLauncherPlugins: {
                     SettingsData.launcherPluginVisibility;
+                    SettingsData.launcherPluginOrder;
                     var plugins = [];
                     var builtIn = AppSearchService.getBuiltInLauncherPlugins() || {};
                     for (var pluginId in builtIn) {
@@ -607,109 +608,175 @@ Item {
                             trigger: PluginService.getPluginTrigger(pluginId) || ""
                         });
                     }
-                    return plugins.sort((a, b) => a.name.localeCompare(b.name));
+                    return SettingsData.getOrderedLauncherPlugins(plugins);
+                }
+
+                function reorderPlugin(fromIndex, toIndex) {
+                    if (fromIndex === toIndex)
+                        return;
+                    var currentOrder = allLauncherPlugins.map(p => p.id);
+                    var item = currentOrder.splice(fromIndex, 1)[0];
+                    currentOrder.splice(toIndex, 0, item);
+                    SettingsData.setLauncherPluginOrder(currentOrder);
                 }
 
                 StyledText {
                     width: parent.width
-                    text: I18n.tr("Control which plugins appear in 'All' mode without requiring a trigger prefix. Disabled plugins will only show when using their trigger.")
+                    text: I18n.tr("Control which plugins appear in 'All' mode without requiring a trigger prefix. Drag to reorder.")
                     font.pixelSize: Theme.fontSizeSmall
                     color: Theme.surfaceVariantText
                     wrapMode: Text.WordWrap
                 }
 
                 Column {
+                    id: pluginVisibilityColumn
                     width: parent.width
                     spacing: Theme.spacingS
 
                     Repeater {
                         model: pluginVisibilityCard.allLauncherPlugins
 
-                        delegate: Rectangle {
-                            id: visibilityDelegate
+                        delegate: Item {
+                            id: visibilityDelegateItem
                             required property var modelData
                             required property int index
 
-                            width: parent.width
+                            property bool held: pluginDragArea.pressed
+                            property real originalY: y
+
+                            width: pluginVisibilityColumn.width
                             height: 52
-                            radius: Theme.cornerRadius
-                            color: Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.3)
+                            z: held ? 2 : 1
 
-                            Row {
-                                anchors.left: parent.left
-                                anchors.leftMargin: Theme.spacingM
-                                anchors.verticalCenter: parent.verticalCenter
-                                spacing: Theme.spacingM
+                            Rectangle {
+                                id: visibilityDelegate
+                                width: parent.width
+                                height: 52
+                                radius: Theme.cornerRadius
+                                color: visibilityDelegateItem.held ? Theme.surfaceHover : Qt.rgba(Theme.surfaceContainer.r, Theme.surfaceContainer.g, Theme.surfaceContainer.b, 0.3)
 
-                                Item {
-                                    width: Theme.iconSize
-                                    height: Theme.iconSize
+                                Row {
+                                    anchors.left: parent.left
+                                    anchors.leftMargin: 28
                                     anchors.verticalCenter: parent.verticalCenter
+                                    spacing: Theme.spacingM
 
-                                    DankIcon {
-                                        anchors.centerIn: parent
-                                        visible: visibilityDelegate.modelData.iconType !== "unicode"
-                                        name: visibilityDelegate.modelData.icon
-                                        size: Theme.iconSize
-                                        color: Theme.primary
+                                    Item {
+                                        width: Theme.iconSize
+                                        height: Theme.iconSize
+                                        anchors.verticalCenter: parent.verticalCenter
+
+                                        DankIcon {
+                                            anchors.centerIn: parent
+                                            visible: visibilityDelegateItem.modelData.iconType !== "unicode"
+                                            name: visibilityDelegateItem.modelData.icon
+                                            size: Theme.iconSize
+                                            color: Theme.primary
+                                        }
+
+                                        StyledText {
+                                            anchors.centerIn: parent
+                                            visible: visibilityDelegateItem.modelData.iconType === "unicode"
+                                            text: visibilityDelegateItem.modelData.icon
+                                            font.pixelSize: Theme.iconSize
+                                            color: Theme.primary
+                                        }
                                     }
 
-                                    StyledText {
-                                        anchors.centerIn: parent
-                                        visible: visibilityDelegate.modelData.iconType === "unicode"
-                                        text: visibilityDelegate.modelData.icon
-                                        font.pixelSize: Theme.iconSize
-                                        color: Theme.primary
+                                    Column {
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        spacing: 2
+
+                                        Row {
+                                            spacing: Theme.spacingS
+
+                                            StyledText {
+                                                text: visibilityDelegateItem.modelData.name
+                                                font.pixelSize: Theme.fontSizeMedium
+                                                color: Theme.surfaceText
+                                            }
+
+                                            Rectangle {
+                                                visible: visibilityDelegateItem.modelData.isBuiltIn
+                                                width: dmsBadgeLabel.implicitWidth + Theme.spacingS
+                                                height: 16
+                                                radius: 8
+                                                color: Theme.primaryContainer
+                                                anchors.verticalCenter: parent.verticalCenter
+
+                                                StyledText {
+                                                    id: dmsBadgeLabel
+                                                    anchors.centerIn: parent
+                                                    text: "DMS"
+                                                    font.pixelSize: Theme.fontSizeSmall - 2
+                                                    color: Theme.primaryText
+                                                }
+                                            }
+                                        }
+
+                                        StyledText {
+                                            text: visibilityDelegateItem.modelData.trigger ? I18n.tr("Trigger: %1").arg(visibilityDelegateItem.modelData.trigger) : I18n.tr("No trigger")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.surfaceVariantText
+                                        }
                                     }
                                 }
 
-                                Column {
+                                DankToggle {
+                                    anchors.right: parent.right
+                                    anchors.rightMargin: Theme.spacingM
                                     anchors.verticalCenter: parent.verticalCenter
-                                    spacing: 2
-
-                                    Row {
-                                        spacing: Theme.spacingS
-
-                                        StyledText {
-                                            text: visibilityDelegate.modelData.name
-                                            font.pixelSize: Theme.fontSizeMedium
-                                            color: Theme.surfaceText
-                                        }
-
-                                        Rectangle {
-                                            visible: visibilityDelegate.modelData.isBuiltIn
-                                            width: dmsLabel.implicitWidth + Theme.spacingS
-                                            height: 16
-                                            radius: 8
-                                            color: Theme.primaryContainer
-                                            anchors.verticalCenter: parent.verticalCenter
-
-                                            StyledText {
-                                                id: dmsLabel
-                                                anchors.centerIn: parent
-                                                text: "DMS"
-                                                font.pixelSize: Theme.fontSizeSmall - 2
-                                                color: Theme.primaryText
-                                            }
-                                        }
-                                    }
-
-                                    StyledText {
-                                        text: visibilityDelegate.modelData.trigger ? I18n.tr("Trigger: %1").arg(visibilityDelegate.modelData.trigger) : I18n.tr("No trigger")
-                                        font.pixelSize: Theme.fontSizeSmall
-                                        color: Theme.surfaceVariantText
+                                    checked: SettingsData.getPluginAllowWithoutTrigger(visibilityDelegateItem.modelData.id)
+                                    onToggled: function (isChecked) {
+                                        SettingsData.setPluginAllowWithoutTrigger(visibilityDelegateItem.modelData.id, isChecked);
                                     }
                                 }
                             }
 
-                            DankToggle {
-                                id: visibilityToggle
-                                anchors.right: parent.right
-                                anchors.rightMargin: Theme.spacingM
+                            MouseArea {
+                                id: pluginDragArea
+                                anchors.left: parent.left
+                                anchors.top: parent.top
+                                width: 28
+                                height: parent.height
+                                hoverEnabled: true
+                                cursorShape: Qt.SizeVerCursor
+                                drag.target: visibilityDelegateItem.held ? visibilityDelegateItem : undefined
+                                drag.axis: Drag.YAxis
+                                preventStealing: true
+
+                                onPressed: {
+                                    visibilityDelegateItem.originalY = visibilityDelegateItem.y;
+                                }
+
+                                onReleased: {
+                                    if (!drag.active) {
+                                        visibilityDelegateItem.y = visibilityDelegateItem.originalY;
+                                        return;
+                                    }
+                                    const spacing = Theme.spacingS;
+                                    const itemH = visibilityDelegateItem.height + spacing;
+                                    var newIndex = Math.round(visibilityDelegateItem.y / itemH);
+                                    newIndex = Math.max(0, Math.min(newIndex, pluginVisibilityCard.allLauncherPlugins.length - 1));
+                                    pluginVisibilityCard.reorderPlugin(visibilityDelegateItem.index, newIndex);
+                                    visibilityDelegateItem.y = visibilityDelegateItem.originalY;
+                                }
+                            }
+
+                            DankIcon {
+                                x: Theme.spacingXS
                                 anchors.verticalCenter: parent.verticalCenter
-                                checked: SettingsData.getPluginAllowWithoutTrigger(visibilityDelegate.modelData.id)
-                                onToggled: function (isChecked) {
-                                    SettingsData.setPluginAllowWithoutTrigger(visibilityDelegate.modelData.id, isChecked);
+                                name: "drag_indicator"
+                                size: 18
+                                color: Theme.outline
+                                opacity: pluginDragArea.containsMouse || pluginDragArea.pressed ? 1 : 0.5
+                            }
+
+                            Behavior on y {
+                                enabled: !pluginDragArea.pressed && !pluginDragArea.drag.active
+                                NumberAnimation {
+                                    duration: Theme.shortDuration
+                                    easing.type: Theme.standardEasing
                                 }
                             }
                         }

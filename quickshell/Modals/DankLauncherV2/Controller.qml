@@ -431,35 +431,29 @@ Item {
 
         if (searchMode === "all") {
             if (searchQuery) {
-                var allPluginIds = getVisibleLauncherPluginIds();
-                for (var i = 0; i < allPluginIds.length; i++) {
-                    var pluginId = allPluginIds[i];
-                    var pItems = getPluginItems(pluginId, searchQuery);
-                    allItems = allItems.concat(pItems);
-                }
-
-                var allBuiltInIds = getVisibleBuiltInLauncherIds();
-                for (var i = 0; i < allBuiltInIds.length; i++) {
-                    var pluginId = allBuiltInIds[i];
-                    var blItems = AppSearchService.getBuiltInLauncherItems(pluginId, searchQuery);
-                    for (var j = 0; j < blItems.length; j++) {
-                        allItems.push(transformBuiltInLauncherItem(blItems[j], pluginId));
+                var allPluginsOrdered = getAllVisiblePluginsOrdered();
+                for (var i = 0; i < allPluginsOrdered.length; i++) {
+                    var plugin = allPluginsOrdered[i];
+                    if (plugin.isBuiltIn) {
+                        var blItems = AppSearchService.getBuiltInLauncherItems(plugin.id, searchQuery);
+                        for (var j = 0; j < blItems.length; j++)
+                            allItems.push(transformBuiltInLauncherItem(blItems[j], plugin.id));
+                    } else {
+                        var pItems = getPluginItems(plugin.id, searchQuery);
+                        allItems = allItems.concat(pItems);
                     }
                 }
             } else {
-                var emptyTriggerPlugins = getEmptyTriggerPlugins();
-                for (var i = 0; i < emptyTriggerPlugins.length; i++) {
-                    var pluginId = emptyTriggerPlugins[i];
-                    var pItems = getPluginItems(pluginId, searchQuery);
-                    allItems = allItems.concat(pItems);
-                }
-
-                var builtInLauncherPlugins = getBuiltInEmptyTriggerLaunchers();
-                for (var i = 0; i < builtInLauncherPlugins.length; i++) {
-                    var pluginId = builtInLauncherPlugins[i];
-                    var blItems = AppSearchService.getBuiltInLauncherItems(pluginId, searchQuery);
-                    for (var j = 0; j < blItems.length; j++) {
-                        allItems.push(transformBuiltInLauncherItem(blItems[j], pluginId));
+                var emptyTriggerOrdered = getEmptyTriggerPluginsOrdered();
+                for (var i = 0; i < emptyTriggerOrdered.length; i++) {
+                    var plugin = emptyTriggerOrdered[i];
+                    if (plugin.isBuiltIn) {
+                        var blItems = AppSearchService.getBuiltInLauncherItems(plugin.id, searchQuery);
+                        for (var j = 0; j < blItems.length; j++)
+                            allItems.push(transformBuiltInLauncherItem(blItems[j], plugin.id));
+                    } else {
+                        var pItems = getPluginItems(plugin.id, searchQuery);
+                        allItems = allItems.concat(pItems);
                     }
                 }
 
@@ -859,9 +853,10 @@ Item {
 
     function getEmptyTriggerPlugins() {
         var plugins = PluginService.getPluginsWithEmptyTrigger();
-        return plugins.filter(function (pluginId) {
+        var visible = plugins.filter(function (pluginId) {
             return SettingsData.getPluginAllowWithoutTrigger(pluginId);
         });
+        return sortPluginIdsByOrder(visible);
     }
 
     function getAllLauncherPluginIds() {
@@ -871,9 +866,10 @@ Item {
 
     function getVisibleLauncherPluginIds() {
         var launchers = PluginService.getLauncherPlugins();
-        return Object.keys(launchers).filter(function (pluginId) {
+        var visible = Object.keys(launchers).filter(function (pluginId) {
             return SettingsData.getPluginAllowWithoutTrigger(pluginId);
         });
+        return sortPluginIdsByOrder(visible);
     }
 
     function getAllBuiltInLauncherIds() {
@@ -883,8 +879,87 @@ Item {
 
     function getVisibleBuiltInLauncherIds() {
         var launchers = AppSearchService.getBuiltInLauncherPlugins();
-        return Object.keys(launchers).filter(function (pluginId) {
+        var visible = Object.keys(launchers).filter(function (pluginId) {
             return SettingsData.getPluginAllowWithoutTrigger(pluginId);
+        });
+        return sortPluginIdsByOrder(visible);
+    }
+
+    function sortPluginIdsByOrder(pluginIds) {
+        var order = SettingsData.launcherPluginOrder || [];
+        if (order.length === 0)
+            return pluginIds;
+        var orderMap = {};
+        for (var i = 0; i < order.length; i++)
+            orderMap[order[i]] = i;
+        return pluginIds.slice().sort(function (a, b) {
+            var aOrder = orderMap[a] !== undefined ? orderMap[a] : 9999;
+            var bOrder = orderMap[b] !== undefined ? orderMap[b] : 9999;
+            return aOrder - bOrder;
+        });
+    }
+
+    function getAllVisiblePluginsOrdered() {
+        var thirdPartyLaunchers = PluginService.getLauncherPlugins() || {};
+        var builtInLaunchers = AppSearchService.getBuiltInLauncherPlugins() || {};
+        var all = [];
+        for (var id in thirdPartyLaunchers) {
+            if (SettingsData.getPluginAllowWithoutTrigger(id))
+                all.push({
+                    id: id,
+                    isBuiltIn: false
+                });
+        }
+        for (var id in builtInLaunchers) {
+            if (SettingsData.getPluginAllowWithoutTrigger(id))
+                all.push({
+                    id: id,
+                    isBuiltIn: true
+                });
+        }
+        var order = SettingsData.launcherPluginOrder || [];
+        if (order.length === 0)
+            return all;
+        var orderMap = {};
+        for (var i = 0; i < order.length; i++)
+            orderMap[order[i]] = i;
+        return all.sort(function (a, b) {
+            var aOrder = orderMap[a.id] !== undefined ? orderMap[a.id] : 9999;
+            var bOrder = orderMap[b.id] !== undefined ? orderMap[b.id] : 9999;
+            return aOrder - bOrder;
+        });
+    }
+
+    function getEmptyTriggerPluginsOrdered() {
+        var thirdParty = PluginService.getPluginsWithEmptyTrigger() || [];
+        var builtIn = AppSearchService.getBuiltInLauncherPluginsWithEmptyTrigger() || [];
+        var all = [];
+        for (var i = 0; i < thirdParty.length; i++) {
+            var id = thirdParty[i];
+            if (SettingsData.getPluginAllowWithoutTrigger(id))
+                all.push({
+                    id: id,
+                    isBuiltIn: false
+                });
+        }
+        for (var i = 0; i < builtIn.length; i++) {
+            var id = builtIn[i];
+            if (SettingsData.getPluginAllowWithoutTrigger(id))
+                all.push({
+                    id: id,
+                    isBuiltIn: true
+                });
+        }
+        var order = SettingsData.launcherPluginOrder || [];
+        if (order.length === 0)
+            return all;
+        var orderMap = {};
+        for (var i = 0; i < order.length; i++)
+            orderMap[order[i]] = i;
+        return all.sort(function (a, b) {
+            var aOrder = orderMap[a.id] !== undefined ? orderMap[a.id] : 9999;
+            var bOrder = orderMap[b.id] !== undefined ? orderMap[b.id] : 9999;
+            return aOrder - bOrder;
         });
     }
 
@@ -948,9 +1023,10 @@ Item {
 
     function getBuiltInEmptyTriggerLaunchers() {
         var plugins = AppSearchService.getBuiltInLauncherPluginsWithEmptyTrigger();
-        return plugins.filter(function (pluginId) {
+        var visible = plugins.filter(function (pluginId) {
             return SettingsData.getPluginAllowWithoutTrigger(pluginId);
         });
+        return sortPluginIdsByOrder(visible);
     }
 
     function getPluginItems(pluginId, query) {

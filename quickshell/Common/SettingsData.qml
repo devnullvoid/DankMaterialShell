@@ -96,6 +96,28 @@ Singleton {
         saveSettings();
     }
 
+    property var launcherPluginOrder: []
+    onLauncherPluginOrderChanged: saveSettings()
+
+    function setLauncherPluginOrder(order) {
+        launcherPluginOrder = order;
+    }
+
+    function getOrderedLauncherPlugins(allPlugins) {
+        if (!launcherPluginOrder || launcherPluginOrder.length === 0)
+            return allPlugins;
+        const orderMap = {};
+        for (let i = 0; i < launcherPluginOrder.length; i++)
+            orderMap[launcherPluginOrder[i]] = i;
+        return allPlugins.slice().sort((a, b) => {
+            const aOrder = orderMap[a.id] ?? 9999;
+            const bOrder = orderMap[b.id] ?? 9999;
+            if (aOrder !== bOrder)
+                return aOrder - bOrder;
+            return a.name.localeCompare(b.name);
+        });
+    }
+
     property alias dankBarLeftWidgetsModel: leftWidgetsModel
     property alias dankBarCenterWidgetsModel: centerWidgetsModel
     property alias dankBarRightWidgetsModel: rightWidgetsModel
