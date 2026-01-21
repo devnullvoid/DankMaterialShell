@@ -474,14 +474,16 @@ Item {
             PopoutService.settingsModalLoader = settingsModalLoader;
         }
 
+        onActiveChanged: {
+            if (active && item) {
+                PopoutService.settingsModal = item;
+                PopoutService._onSettingsModalLoaded();
+            }
+        }
+
         SettingsModal {
             id: settingsModal
             property bool wasShown: false
-
-            Component.onCompleted: {
-                PopoutService.settingsModal = settingsModal;
-                PopoutService._onSettingsModalLoaded();
-            }
 
             onVisibleChanged: {
                 if (visible) {
