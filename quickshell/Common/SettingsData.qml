@@ -254,6 +254,7 @@ Singleton {
     property int appLauncherGridColumns: 4
     property bool spotlightCloseNiriOverview: true
     property var spotlightSectionViewModes: ({})
+    onSpotlightSectionViewModesChanged: saveSettings()
     property bool niriOverviewOverlayEnabled: true
     property string dankLauncherV2Size: "compact"
     property bool dankLauncherV2BorderEnabled: false
