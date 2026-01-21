@@ -21,24 +21,16 @@ Rectangle {
     border.width: isSelected ? 2 : 0
     border.color: Theme.primary
 
-    readonly property string imageSource: {
-        if (!item?.data)
+    readonly property string iconValue: {
+        if (!item)
             return "";
         var data = item.data;
-        if (data.imageUrl)
-            return data.imageUrl;
-        if (data.imagePath)
-            return data.imagePath;
-        if (data.path && isImageFile(data.path))
-            return data.path;
-        return "";
-    }
-
-    readonly property bool useImage: imageSource.length > 0
-
-    readonly property string iconValue: {
-        if (!item || useImage)
-            return "";
+        if (data?.imageUrl)
+            return "image:" + data.imageUrl;
+        if (data?.imagePath)
+            return "image:" + data.imagePath;
+        if (data?.path && isImageFile(data.path))
+            return "image:" + data.path;
         switch (item.iconType) {
         case "material":
         case "nerd":
@@ -71,22 +63,12 @@ Rectangle {
             color: Theme.surfaceContainerHigh
             clip: true
 
-            CachingImage {
-                anchors.fill: parent
-                visible: root.useImage
-                imagePath: root.imageSource
-                maxCacheSize: 256
-            }
-
             AppIconRenderer {
-                anchors.centerIn: parent
-                visible: !root.useImage
-                width: Math.min(parent.width, parent.height) * 0.6
-                height: width
+                anchors.fill: parent
                 iconValue: root.iconValue
-                iconSize: width
+                iconSize: Math.min(parent.width, parent.height)
                 fallbackText: (root.item?.name?.length > 0) ? root.item.name.charAt(0).toUpperCase() : "?"
-                materialIconSizeAdjustment: width * 0.3
+                materialIconSizeAdjustment: iconSize * 0.3
             }
 
             Rectangle {
