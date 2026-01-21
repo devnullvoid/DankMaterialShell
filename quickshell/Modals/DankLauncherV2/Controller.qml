@@ -176,9 +176,11 @@ Item {
         pluginViewPreferences = prefs;
     }
 
+    property int _searchVersion: 0
+
     Timer {
         id: searchDebounce
-        interval: 80
+        interval: searchMode === "all" && searchQuery.length > 0 ? 120 : 60
         onTriggered: root.performSearch()
     }
 
@@ -193,6 +195,7 @@ Item {
     }
 
     function setSearchQuery(query) {
+        _searchVersion++;
         searchQuery = query;
         searchDebounce.restart();
 
@@ -261,6 +264,7 @@ Item {
     }
 
     function performSearch() {
+        var currentVersion = _searchVersion;
         isSearching = true;
 
         var cachedSections = AppSearchService.getCachedDefaultSections();
@@ -430,20 +434,25 @@ Item {
         allItems = allItems.concat(apps);
 
         if (searchMode === "all") {
-            if (searchQuery) {
+            var includePlugins = !searchQuery || searchQuery.length >= 2;
+            if (searchQuery && includePlugins) {
                 var allPluginsOrdered = getAllVisiblePluginsOrdered();
+                var maxPerPlugin = 10;
                 for (var i = 0; i < allPluginsOrdered.length; i++) {
                     var plugin = allPluginsOrdered[i];
                     if (plugin.isBuiltIn) {
                         var blItems = AppSearchService.getBuiltInLauncherItems(plugin.id, searchQuery);
-                        for (var j = 0; j < blItems.length; j++)
+                        var blLimit = Math.min(blItems.length, maxPerPlugin);
+                        for (var j = 0; j < blLimit; j++)
                             allItems.push(transformBuiltInLauncherItem(blItems[j], plugin.id));
                     } else {
                         var pItems = getPluginItems(plugin.id, searchQuery);
+                        if (pItems.length > maxPerPlugin)
+                            pItems = pItems.slice(0, maxPerPlugin);
                         allItems = allItems.concat(pItems);
                     }
                 }
-            } else {
+            } else if (!searchQuery) {
                 var emptyTriggerOrdered = getEmptyTriggerPluginsOrdered();
                 for (var i = 0; i < emptyTriggerOrdered.length; i++) {
                     var plugin = emptyTriggerOrdered[i];
@@ -463,17 +472,29 @@ Item {
         }
 
         var dynamicDefs = buildDynamicSectionDefs(allItems);
+
+        if (currentVersion !== _searchVersion) {
+            isSearching = false;
+            return;
+        }
+
         var scoredItems = Scorer.scoreItems(allItems, searchQuery, getFrecencyForItem);
         var sortAlpha = !searchQuery && SettingsData.sortAppsAlphabetically;
-        sections = Scorer.groupBySection(scoredItems, dynamicDefs, sortAlpha, searchQuery ? 50 : 500);
+        var newSections = Scorer.groupBySection(scoredItems, dynamicDefs, sortAlpha, searchQuery ? 50 : 500);
 
-        for (var i = 0; i < sections.length; i++) {
-            var sid = sections[i].id;
+        if (currentVersion !== _searchVersion) {
+            isSearching = false;
+            return;
+        }
+
+        for (var i = 0; i < newSections.length; i++) {
+            var sid = newSections[i].id;
             if (collapsedSections[sid] !== undefined) {
-                sections[i].collapsed = collapsedSections[sid];
+                newSections[i].collapsed = collapsedSections[sid];
             }
         }
 
+        sections = newSections;
         flatModel = Scorer.flattenSections(sections);
 
         if (!AppSearchService.isCacheValid() && !searchQuery && searchMode === "all" && !pluginFilter) {
