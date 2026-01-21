@@ -12,7 +12,9 @@ Column {
     id: root
 
     Component.onCompleted: {
-        pluginHighlightedHtml = SettingsData.getBuiltInPluginSetting("dankNotepadModule", "highlightedHtml", "")
+        if (PluginService.isPluginLoaded("dankNotepadModule")) {
+            pluginHighlightedHtml = SettingsData.getBuiltInPluginSetting("dankNotepadModule", "highlightedHtml", "")
+        }
     }
 
     property alias text: textArea.text
@@ -193,6 +195,9 @@ Column {
     }
 
     function syncContentToPlugin() {
+        if (!PluginService.isPluginLoaded("dankNotepadModule"))
+            return
+
         if (!currentTab)
             return
 
@@ -892,7 +897,9 @@ Column {
     Connections {
         target: SettingsData
         function onBuiltInPluginSettingsChanged() {
-            pluginHighlightedHtml = SettingsData.getBuiltInPluginSetting("dankNotepadModule", "highlightedHtml", "")
+            if (PluginService.isPluginLoaded("dankNotepadModule")) {
+                pluginHighlightedHtml = SettingsData.getBuiltInPluginSetting("dankNotepadModule", "highlightedHtml", "")
+            }
         }
     }
 }

@@ -21,15 +21,16 @@ import (
 )
 
 var (
-	chromaLanguage string
-	chromaStyle    string
-	chromaInline   bool
-	chromaMarkdown bool
+	chromaLanguage    string
+	chromaStyle       string
+	chromaInline      bool
+	chromaMarkdown    bool
+	chromaLineNumbers bool
 
 	// Caching layer for performance
 	lexerCache     = make(map[string]chroma.Lexer)
 	styleCache     = make(map[string]*chroma.Style)
-	formatterCache = make(map[bool]*html.Formatter)
+	formatterCache = make(map[string]*html.Formatter)
 	cacheMutex     sync.RWMutex
 	maxFileSize    = int64(5 * 1024 * 1024) // 5MB default
 )
@@ -79,6 +80,7 @@ func init() {
 	chromaCmd.Flags().StringVarP(&chromaLanguage, "language", "l", "", "Language for highlighting (auto-detect if not specified)")
 	chromaCmd.Flags().StringVarP(&chromaStyle, "style", "s", "monokai", "Color style (monokai, dracula, github, etc.)")
 	chromaCmd.Flags().BoolVar(&chromaInline, "inline", false, "Output inline styles instead of CSS classes")
+	chromaCmd.Flags().BoolVar(&chromaLineNumbers, "line-numbers", false, "Show line numbers in output")
 	chromaCmd.Flags().BoolVarP(&chromaMarkdown, "markdown", "m", false, "Render markdown with syntax-highlighted code blocks")
 	chromaCmd.Flags().Int64Var(&maxFileSize, "max-size", 5*1024*1024, "Maximum file size to process without warning (bytes)")
 
@@ -123,23 +125,34 @@ func getCachedStyle(name string) *chroma.Style {
 	return style
 }
 
-func getCachedFormatter(inline bool) *html.Formatter {
+func getCachedFormatter(inline bool, lineNumbers bool) *html.Formatter {
+	key := fmt.Sprintf("inline=%t,lineNumbers=%t", inline, lineNumbers)
+
 	cacheMutex.RLock()
-	if formatter, ok := formatterCache[inline]; ok {
+	if formatter, ok := formatterCache[key]; ok {
 		cacheMutex.RUnlock()
 		return formatter
 	}
 	cacheMutex.RUnlock()
 
-	var formatter *html.Formatter
+	var opts []html.Option
 	if inline {
-		formatter = html.New(html.WithClasses(false), html.TabWidth(4))
+		opts = append(opts, html.WithClasses(false))
 	} else {
-		formatter = html.New(html.WithClasses(true), html.TabWidth(4))
+		opts = append(opts, html.WithClasses(true))
+	}
+	opts = append(opts, html.TabWidth(4))
+
+	if lineNumbers {
+		opts = append(opts, html.WithLineNumbers(true))
+		opts = append(opts, html.LineNumbersInTable(false))
+		opts = append(opts, html.WithLinkableLineNumbers(false, ""))
 	}
 
+	formatter := html.New(opts...)
+
 	cacheMutex.Lock()
-	formatterCache[inline] = formatter
+	formatterCache[key] = formatter
 	cacheMutex.Unlock()
 	return formatter
 }
@@ -239,15 +252,10 @@ func runChroma(cmd *cobra.Command, args []string) {
 			analyzeContent = source[:1024]
 		}
 		lexer = lexers.Analyse(analyzeContent)
-		if lexer != nil {
-			fmt.Fprintf(os.Stderr, "Info: Language auto-detected as '%s' from content analysis\n",
-				lexer.Config().Name)
-		}
 	}
 
 	// Fallback to plaintext
 	if lexer == nil {
-		fmt.Fprintf(os.Stderr, "Warning: Could not detect language, using plaintext\n")
 		lexer = lexers.Fallback
 	}
 
@@ -257,7 +265,7 @@ func runChroma(cmd *cobra.Command, args []string) {
 	style := getCachedStyle(chromaStyle)
 
 	// Get cached formatter
-	formatter := getCachedFormatter(chromaInline)
+	formatter := getCachedFormatter(chromaInline, chromaLineNumbers)
 
 	// Tokenize
 	iterator, err := lexer.Tokenise(nil, source)
@@ -267,8 +275,20 @@ func runChroma(cmd *cobra.Command, args []string) {
 	}
 
 	// Format and output
-	if err := formatter.Format(os.Stdout, style, iterator); err != nil {
-		fmt.Fprintf(os.Stderr, "Formatting error: %v\n", err)
-		os.Exit(1)
+	if chromaLineNumbers {
+		var buf bytes.Buffer
+		if err := formatter.Format(&buf, style, iterator); err != nil {
+			fmt.Fprintf(os.Stderr, "Formatting error: %v\n", err)
+			os.Exit(1)
+		}
+		// Add spacing between line numbers
+		output := buf.String()
+		output = strings.ReplaceAll(output, "</span><span>", "</span>\u00A0\u00A0<span>")
+		fmt.Print(output)
+	} else {
+		if err := formatter.Format(os.Stdout, style, iterator); err != nil {
+			fmt.Fprintf(os.Stderr, "Formatting error: %v\n", err)
+			os.Exit(1)
+		}
 	}
 }
