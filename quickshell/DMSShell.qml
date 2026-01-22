@@ -6,7 +6,6 @@ import qs.Modals.Changelog
 import qs.Modals.Clipboard
 import qs.Modals.Greeter
 import qs.Modals.Settings
-import qs.Modals.Spotlight
 import qs.Modals.DankLauncherV2
 import qs.Modules
 import qs.Modules.AppDrawer
@@ -509,29 +508,21 @@ Item {
         }
     }
 
-    SpotlightModal {
-        id: spotlightModal
-
-        Component.onCompleted: {
-            PopoutService.spotlightModal = spotlightModal;
-        }
-    }
-
     LazyLoader {
-        id: spotlightV2ModalLoader
+        id: dankLauncherV2ModalLoader
 
         active: false
 
         Component.onCompleted: {
-            PopoutService.spotlightV2ModalLoader = spotlightV2ModalLoader;
+            PopoutService.dankLauncherV2ModalLoader = dankLauncherV2ModalLoader;
         }
 
         DankLauncherV2Modal {
-            id: spotlightV2Modal
+            id: dankLauncherV2Modal
 
             Component.onCompleted: {
-                PopoutService.spotlightV2Modal = spotlightV2Modal;
-                PopoutService._onSpotlightV2ModalLoaded();
+                PopoutService.dankLauncherV2Modal = dankLauncherV2Modal;
+                PopoutService._onDankLauncherV2ModalLoaded();
             }
         }
     }

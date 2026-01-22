@@ -85,7 +85,9 @@ Singleton {
 
     function setCachedDefaultSections(sections, flatModel) {
         _cachedDefaultSections = sections.map(function (s) {
-            return Object.assign({}, s);
+            return Object.assign({}, s, {
+                items: s.items ? s.items.slice() : []
+            });
         });
         _cachedDefaultFlatModel = flatModel.slice();
         _defaultCacheValid = true;

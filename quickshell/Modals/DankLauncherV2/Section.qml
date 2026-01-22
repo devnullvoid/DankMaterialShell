@@ -95,7 +95,7 @@ Item {
                         required property var modelData
                         required property int index
 
-                        width: Math.floor((contentLoader.width - (root.gridColumns - 1) * 4) / root.gridColumns)
+                        width: Math.floor(contentLoader.width / root.gridColumns)
                         height: width + 24
                         item: modelData
                         isSelected: (root.startIndex + index) === root.controller?.selectedFlatIndex

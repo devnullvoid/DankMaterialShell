@@ -20,9 +20,8 @@ Singleton {
     property var settingsModal: null
     property var settingsModalLoader: null
     property var clipboardHistoryModal: null
-    property var spotlightModal: null
-    property var spotlightV2Modal: null
-    property var spotlightV2ModalLoader: null
+    property var dankLauncherV2Modal: null
+    property var dankLauncherV2ModalLoader: null
     property var powerMenuModal: null
     property var processListModal: null
     property var processListModalLoader: null
@@ -355,97 +354,89 @@ Singleton {
         clipboardHistoryModal?.close();
     }
 
-    function openSpotlight() {
-        spotlightModal?.show();
-    }
+    property bool _dankLauncherV2WantsOpen: false
+    property bool _dankLauncherV2WantsToggle: false
+    property string _dankLauncherV2PendingQuery: ""
+    property string _dankLauncherV2PendingMode: ""
 
-    function closeSpotlight() {
-        spotlightModal?.close();
-    }
-
-    property bool _spotlightV2WantsOpen: false
-    property bool _spotlightV2WantsToggle: false
-    property string _spotlightV2PendingQuery: ""
-    property string _spotlightV2PendingMode: ""
-
-    function openSpotlightV2() {
-        if (spotlightV2Modal) {
-            spotlightV2Modal.show();
-        } else if (spotlightV2ModalLoader) {
-            _spotlightV2WantsOpen = true;
-            _spotlightV2WantsToggle = false;
-            spotlightV2ModalLoader.active = true;
+    function openDankLauncherV2() {
+        if (dankLauncherV2Modal) {
+            dankLauncherV2Modal.show();
+        } else if (dankLauncherV2ModalLoader) {
+            _dankLauncherV2WantsOpen = true;
+            _dankLauncherV2WantsToggle = false;
+            dankLauncherV2ModalLoader.active = true;
         }
     }
 
-    function openSpotlightV2WithQuery(query: string) {
-        if (spotlightV2Modal) {
-            spotlightV2Modal.showWithQuery(query);
-        } else if (spotlightV2ModalLoader) {
-            _spotlightV2PendingQuery = query;
-            _spotlightV2WantsOpen = true;
-            _spotlightV2WantsToggle = false;
-            spotlightV2ModalLoader.active = true;
+    function openDankLauncherV2WithQuery(query: string) {
+        if (dankLauncherV2Modal) {
+            dankLauncherV2Modal.showWithQuery(query);
+        } else if (dankLauncherV2ModalLoader) {
+            _dankLauncherV2PendingQuery = query;
+            _dankLauncherV2WantsOpen = true;
+            _dankLauncherV2WantsToggle = false;
+            dankLauncherV2ModalLoader.active = true;
         }
     }
 
-    function openSpotlightV2WithMode(mode: string) {
-        if (spotlightV2Modal) {
-            spotlightV2Modal.showWithMode(mode);
-        } else if (spotlightV2ModalLoader) {
-            _spotlightV2PendingMode = mode;
-            _spotlightV2WantsOpen = true;
-            _spotlightV2WantsToggle = false;
-            spotlightV2ModalLoader.active = true;
+    function openDankLauncherV2WithMode(mode: string) {
+        if (dankLauncherV2Modal) {
+            dankLauncherV2Modal.showWithMode(mode);
+        } else if (dankLauncherV2ModalLoader) {
+            _dankLauncherV2PendingMode = mode;
+            _dankLauncherV2WantsOpen = true;
+            _dankLauncherV2WantsToggle = false;
+            dankLauncherV2ModalLoader.active = true;
         }
     }
 
-    function closeSpotlightV2() {
-        spotlightV2Modal?.hide();
+    function closeDankLauncherV2() {
+        dankLauncherV2Modal?.hide();
     }
 
-    function toggleSpotlightV2() {
-        if (spotlightV2Modal) {
-            spotlightV2Modal.toggle();
-        } else if (spotlightV2ModalLoader) {
-            _spotlightV2WantsToggle = true;
-            _spotlightV2WantsOpen = false;
-            spotlightV2ModalLoader.active = true;
+    function toggleDankLauncherV2() {
+        if (dankLauncherV2Modal) {
+            dankLauncherV2Modal.toggle();
+        } else if (dankLauncherV2ModalLoader) {
+            _dankLauncherV2WantsToggle = true;
+            _dankLauncherV2WantsOpen = false;
+            dankLauncherV2ModalLoader.active = true;
         }
     }
 
-    function toggleSpotlightV2WithMode(mode: string) {
-        if (spotlightV2Modal) {
-            spotlightV2Modal.toggleWithMode(mode);
-        } else if (spotlightV2ModalLoader) {
-            _spotlightV2PendingMode = mode;
-            _spotlightV2WantsToggle = true;
-            _spotlightV2WantsOpen = false;
-            spotlightV2ModalLoader.active = true;
+    function toggleDankLauncherV2WithMode(mode: string) {
+        if (dankLauncherV2Modal) {
+            dankLauncherV2Modal.toggleWithMode(mode);
+        } else if (dankLauncherV2ModalLoader) {
+            _dankLauncherV2PendingMode = mode;
+            _dankLauncherV2WantsToggle = true;
+            _dankLauncherV2WantsOpen = false;
+            dankLauncherV2ModalLoader.active = true;
         }
     }
 
-    function _onSpotlightV2ModalLoaded() {
-        if (_spotlightV2WantsOpen) {
-            _spotlightV2WantsOpen = false;
-            if (_spotlightV2PendingQuery) {
-                spotlightV2Modal?.showWithQuery(_spotlightV2PendingQuery);
-                _spotlightV2PendingQuery = "";
-            } else if (_spotlightV2PendingMode) {
-                spotlightV2Modal?.showWithMode(_spotlightV2PendingMode);
-                _spotlightV2PendingMode = "";
+    function _onDankLauncherV2ModalLoaded() {
+        if (_dankLauncherV2WantsOpen) {
+            _dankLauncherV2WantsOpen = false;
+            if (_dankLauncherV2PendingQuery) {
+                dankLauncherV2Modal?.showWithQuery(_dankLauncherV2PendingQuery);
+                _dankLauncherV2PendingQuery = "";
+            } else if (_dankLauncherV2PendingMode) {
+                dankLauncherV2Modal?.showWithMode(_dankLauncherV2PendingMode);
+                _dankLauncherV2PendingMode = "";
             } else {
-                spotlightV2Modal?.show();
+                dankLauncherV2Modal?.show();
             }
             return;
         }
-        if (_spotlightV2WantsToggle) {
-            _spotlightV2WantsToggle = false;
-            if (_spotlightV2PendingMode) {
-                spotlightV2Modal?.toggleWithMode(_spotlightV2PendingMode);
-                _spotlightV2PendingMode = "";
+        if (_dankLauncherV2WantsToggle) {
+            _dankLauncherV2WantsToggle = false;
+            if (_dankLauncherV2PendingMode) {
+                dankLauncherV2Modal?.toggleWithMode(_dankLauncherV2PendingMode);
+                _dankLauncherV2PendingMode = "";
             } else {
-                spotlightV2Modal?.toggle();
+                dankLauncherV2Modal?.toggle();
             }
         }
     }

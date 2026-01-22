@@ -277,6 +277,8 @@ Singleton {
     property bool spotlightCloseNiriOverview: true
     property var spotlightSectionViewModes: ({})
     onSpotlightSectionViewModesChanged: saveSettings()
+    property var appDrawerSectionViewModes: ({})
+    onAppDrawerSectionViewModesChanged: saveSettings()
     property bool niriOverviewOverlayEnabled: true
     property string dankLauncherV2Size: "compact"
     property bool dankLauncherV2BorderEnabled: false

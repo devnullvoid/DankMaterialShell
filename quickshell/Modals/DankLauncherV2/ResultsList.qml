@@ -59,7 +59,7 @@ Item {
             itemHeight = 52;
         } else {
             var cols = controller.getGridColumns(sectionId);
-            var cellWidth = mode === "tile" ? Math.floor(mainFlickable.width / 3) : Math.floor((mainFlickable.width - (root.gridColumns - 1) * 4) / root.gridColumns);
+            var cellWidth = mode === "tile" ? Math.floor(mainFlickable.width / 3) : Math.floor(mainFlickable.width / root.gridColumns);
             var cellHeight = mode === "tile" ? cellWidth * 0.75 : cellWidth + 24;
             var row = Math.floor(itemInSection / cols);
             itemY = row * cellHeight;
@@ -88,7 +88,7 @@ Item {
         } else {
             var cols = controller?.getGridColumns(section.id) ?? root.gridColumns;
             var rows = Math.ceil((section.items?.length ?? 0) / cols);
-            var cellWidth = mode === "tile" ? Math.floor(root.width / 3) : Math.floor((root.width - (cols - 1) * 4) / cols);
+            var cellWidth = mode === "tile" ? Math.floor(root.width / 3) : Math.floor(root.width / cols);
             var cellHeight = mode === "tile" ? cellWidth * 0.75 : cellWidth + 24;
             return 32 + rows * cellHeight;
         }
@@ -129,7 +129,7 @@ Item {
             itemH = 52;
         } else {
             var cols = controller.getGridColumns(entry.sectionId);
-            var cellWidth = mode === "tile" ? Math.floor(width / 3) : Math.floor((width - (cols - 1) * 4) / cols);
+            var cellWidth = mode === "tile" ? Math.floor(width / 3) : Math.floor(width / cols);
             var cellHeight = mode === "tile" ? cellWidth * 0.75 : cellWidth + 24;
             var row = Math.floor(itemInSection / cols);
             var col = itemInSection % cols;
@@ -245,7 +245,7 @@ Item {
                         visible: sectionDelegate.isGridMode && !sectionDelegate.isCollapsed
                         columns: sectionDelegate.currentViewMode === "tile" ? 3 : root.gridColumns
 
-                        readonly property real cellWidth: sectionDelegate.currentViewMode === "tile" ? Math.floor(width / 3) : Math.floor((width - (root.gridColumns - 1) * 4) / root.gridColumns)
+                        readonly property real cellWidth: sectionDelegate.currentViewMode === "tile" ? Math.floor(width / 3) : Math.floor(width / root.gridColumns)
                         readonly property real cellHeight: sectionDelegate.currentViewMode === "tile" ? cellWidth * 0.75 : cellWidth + 24
 
                         Repeater {

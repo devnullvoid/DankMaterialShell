@@ -135,6 +135,7 @@ var SPEC = {
     appLauncherGridColumns: { def: 4 },
     spotlightCloseNiriOverview: { def: true },
     spotlightSectionViewModes: { def: {} },
+    appDrawerSectionViewModes: { def: {} },
     niriOverviewOverlayEnabled: { def: true },
     dankLauncherV2Size: { def: "compact" },
     dankLauncherV2BorderEnabled: { def: false },

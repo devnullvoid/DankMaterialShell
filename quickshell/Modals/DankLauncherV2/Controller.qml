@@ -24,8 +24,9 @@ Item {
     property bool keyboardNavigationActive: false
     property var sectionViewModes: ({})
     property var pluginViewPreferences: ({})
-    property int gridColumns: 4
+    property int gridColumns: SettingsData.appLauncherGridColumns
     property int viewModeVersion: 0
+    property string viewModeContext: "spotlight"
 
     signal itemExecuted
     signal searchCompleted
@@ -96,7 +97,9 @@ Item {
         if (sectionViewModes[sectionId])
             return sectionViewModes[sectionId];
 
-        var savedModes = SettingsData.spotlightSectionViewModes || {};
+        var savedModes = viewModeContext === "appDrawer"
+            ? (SettingsData.appDrawerSectionViewModes || {})
+            : (SettingsData.spotlightSectionViewModes || {});
         if (savedModes[sectionId])
             return savedModes[sectionId];
 
@@ -116,10 +119,17 @@ Item {
             [sectionId]: mode
         });
         viewModeVersion++;
-        var savedModes = Object.assign({}, SettingsData.spotlightSectionViewModes || {}, {
-            [sectionId]: mode
-        });
-        SettingsData.spotlightSectionViewModes = savedModes;
+        if (viewModeContext === "appDrawer") {
+            var savedModes = Object.assign({}, SettingsData.appDrawerSectionViewModes || {}, {
+                [sectionId]: mode
+            });
+            SettingsData.appDrawerSectionViewModes = savedModes;
+        } else {
+            var savedModes = Object.assign({}, SettingsData.spotlightSectionViewModes || {}, {
+                [sectionId]: mode
+            });
+            SettingsData.spotlightSectionViewModes = savedModes;
+        }
         viewModeChanged(sectionId, mode);
     }
 
@@ -273,10 +283,11 @@ Item {
             activePluginName = "";
             clearActivePluginViewPreference();
             sections = cachedSections.map(function (s) {
-                var copy = Object.assign({}, s);
-                if (collapsedSections[s.id] !== undefined) {
+                var copy = Object.assign({}, s, {
+                    items: s.items ? s.items.slice() : []
+                });
+                if (collapsedSections[s.id] !== undefined)
                     copy.collapsed = collapsedSections[s.id];
-                }
                 return copy;
             });
             flatModel = Scorer.flattenSections(sections);
@@ -344,6 +355,27 @@ Item {
         }
 
         if (searchMode === "apps") {
+            var cachedSections = AppSearchService.getCachedDefaultSections();
+            if (cachedSections && !searchQuery) {
+                var appSectionIds = ["favorites", "apps"];
+                sections = cachedSections.filter(function (s) {
+                    return appSectionIds.indexOf(s.id) !== -1;
+                }).map(function (s) {
+                    var copy = Object.assign({}, s, {
+                        items: s.items ? s.items.slice() : []
+                    });
+                    if (collapsedSections[s.id] !== undefined)
+                        copy.collapsed = collapsedSections[s.id];
+                    return copy;
+                });
+                flatModel = Scorer.flattenSections(sections);
+                selectedFlatIndex = getFirstItemIndex();
+                updateSelectedItem();
+                isSearching = false;
+                searchCompleted();
+                return;
+            }
+
             var apps = searchApps(searchQuery);
             for (var i = 0; i < apps.length; i++) {
                 allItems.push(apps[i]);

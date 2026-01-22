@@ -1025,47 +1025,92 @@ Item {
         target: "clipboard"
     }
 
+    // ! spotlight and launcher should be synonymous for backwards compat
     IpcHandler {
         function open(): string {
-            PopoutService.openSpotlightV2();
+            PopoutService.openDankLauncherV2();
             return "LAUNCHER_OPEN_SUCCESS";
         }
 
         function close(): string {
-            PopoutService.closeSpotlightV2();
+            PopoutService.closeDankLauncherV2();
             return "LAUNCHER_CLOSE_SUCCESS";
         }
 
         function toggle(): string {
-            PopoutService.toggleSpotlightV2();
+            PopoutService.toggleDankLauncherV2();
             return "LAUNCHER_TOGGLE_SUCCESS";
         }
 
         function openWith(mode: string): string {
             if (!mode)
                 return "LAUNCHER_OPEN_FAILED: No mode specified";
-            PopoutService.openSpotlightV2WithMode(mode);
+            PopoutService.openDankLauncherV2WithMode(mode);
             return `LAUNCHER_OPEN_SUCCESS: ${mode}`;
         }
 
         function toggleWith(mode: string): string {
             if (!mode)
                 return "LAUNCHER_TOGGLE_FAILED: No mode specified";
-            PopoutService.toggleSpotlightV2WithMode(mode);
+            PopoutService.toggleDankLauncherV2WithMode(mode);
             return `LAUNCHER_TOGGLE_SUCCESS: ${mode}`;
         }
 
         function openQuery(query: string): string {
-            PopoutService.openSpotlightV2WithQuery(query);
+            PopoutService.openDankLauncherV2WithQuery(query);
             return "LAUNCHER_OPEN_QUERY_SUCCESS";
         }
 
         function toggleQuery(query: string): string {
-            PopoutService.toggleSpotlightV2();
+            PopoutService.toggleDankLauncherV2();
             return "LAUNCHER_TOGGLE_QUERY_SUCCESS";
         }
 
         target: "launcher"
+    }
+
+    // ! spotlight and launcher should be synonymous for backwards compat
+    IpcHandler {
+        function open(): string {
+            PopoutService.openDankLauncherV2();
+            return "SPOTLIGHT_OPEN_SUCCESS";
+        }
+
+        function close(): string {
+            PopoutService.closeDankLauncherV2();
+            return "SPOTLIGHT_CLOSE_SUCCESS";
+        }
+
+        function toggle(): string {
+            PopoutService.toggleDankLauncherV2();
+            return "SPOTLIGHT_TOGGLE_SUCCESS";
+        }
+
+        function openWith(mode: string): string {
+            if (!mode)
+                return "SPOTLIGHT_OPEN_FAILED: No mode specified";
+            PopoutService.openDankLauncherV2WithMode(mode);
+            return `SPOTLIGHT_OPEN_SUCCESS: ${mode}`;
+        }
+
+        function toggleWith(mode: string): string {
+            if (!mode)
+                return "SPOTLIGHT_TOGGLE_FAILED: No mode specified";
+            PopoutService.toggleDankLauncherV2WithMode(mode);
+            return `SPOTLIGHT_TOGGLE_SUCCESS: ${mode}`;
+        }
+
+        function openQuery(query: string): string {
+            PopoutService.openDankLauncherV2WithQuery(query);
+            return "SPOTLIGHT_OPEN_QUERY_SUCCESS";
+        }
+
+        function toggleQuery(query: string): string {
+            PopoutService.toggleDankLauncherV2();
+            return "SPOTLIGHT_TOGGLE_QUERY_SUCCESS";
+        }
+
+        target: "spotlight"
     }
 
     IpcHandler {

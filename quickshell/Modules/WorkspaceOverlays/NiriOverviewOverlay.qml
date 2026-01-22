@@ -13,7 +13,7 @@ Scope {
     property string searchActiveScreen: ""
     property bool isClosing: false
     property bool releaseKeyboard: false
-    readonly property bool spotlightModalOpen: PopoutService.spotlightModal?.spotlightOpen ?? false
+    readonly property bool spotlightModalOpen: PopoutService.dankLauncherV2Modal?.spotlightOpen ?? false
     property bool overlayActive: NiriService.inOverview || searchActive
 
     function showSpotlight(screenName) {
