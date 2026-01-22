@@ -76,8 +76,6 @@ FocusScope {
     function showContextMenu(item, x, y, fromKeyboard) {
         if (!item)
             return;
-        if (item.isCore)
-            return;
         if (!contextMenu.hasContextMenuActions(item))
             return;
         contextMenu.show(x, y, item, fromKeyboard);

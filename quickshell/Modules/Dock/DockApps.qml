@@ -91,6 +91,34 @@ Item {
                     return false;
                 }
 
+                function getCoreAppData(appId) {
+                    if (typeof AppSearchService === "undefined")
+                        return null;
+
+                    const coreApps = AppSearchService.coreApps || [];
+                    for (let i = 0; i < coreApps.length; i++) {
+                        const app = coreApps[i];
+                        if (app.builtInPluginId === appId) {
+                            return app;
+                        }
+                    }
+                    return null;
+                }
+
+                function getCoreAppDataByTitle(windowTitle) {
+                    if (typeof AppSearchService === "undefined" || !windowTitle)
+                        return null;
+
+                    const coreApps = AppSearchService.coreApps || [];
+                    for (let i = 0; i < coreApps.length; i++) {
+                        const app = coreApps[i];
+                        if (app.name === windowTitle) {
+                            return app;
+                        }
+                    }
+                    return null;
+                }
+
                 function insertLauncher(targetArray) {
                     if (!SettingsData.dockLauncherEnabled)
                         return;
@@ -119,21 +147,35 @@ Item {
 
                         pinnedApps.forEach(rawAppId => {
                             const appId = Paths.moddedAppId(rawAppId);
+                            const coreAppData = getCoreAppData(appId);
                             appGroups.set(appId, {
                                 appId: appId,
                                 isPinned: true,
-                                windows: []
+                                windows: [],
+                                isCoreApp: coreAppData !== null,
+                                coreAppData: coreAppData
                             });
                         });
 
                         sortedToplevels.forEach((toplevel, index) => {
                             const rawAppId = toplevel.appId || "unknown";
-                            const appId = Paths.moddedAppId(rawAppId);
+                            let appId = Paths.moddedAppId(rawAppId);
+                            
+                            let coreAppData = null;
+                            if (rawAppId === "org.quickshell") {
+                                coreAppData = getCoreAppDataByTitle(toplevel.title);
+                                if (coreAppData) {
+                                    appId = coreAppData.builtInPluginId;
+                                }
+                            }
+
                             if (!appGroups.has(appId)) {
                                 appGroups.set(appId, {
                                     appId: appId,
                                     isPinned: false,
-                                    windows: []
+                                    windows: [],
+                                    isCoreApp: coreAppData !== null,
+                                    coreAppData: coreAppData
                                 });
                             }
 
@@ -157,7 +199,9 @@ Item {
                                 isPinned: group.isPinned,
                                 isRunning: group.windows.length > 0,
                                 windowCount: group.windows.length,
-                                allWindows: group.windows
+                                allWindows: group.windows,
+                                isCoreApp: group.isCoreApp || false,
+                                coreAppData: group.coreAppData || null
                             };
 
                             if (group.isPinned) {
@@ -187,13 +231,16 @@ Item {
                     } else {
                         pinnedApps.forEach(rawAppId => {
                             const appId = Paths.moddedAppId(rawAppId);
+                            const coreAppData = getCoreAppData(appId);
                             items.push({
                                 uniqueKey: "pinned_" + appId,
                                 type: "pinned",
                                 appId: appId,
                                 toplevel: null,
                                 isPinned: true,
-                                isRunning: false
+                                isRunning: false,
+                                isCoreApp: coreAppData !== null,
+                                coreAppData: coreAppData
                             });
                         });
 
@@ -224,13 +271,31 @@ Item {
                                 }
                             }
 
+                            const rawAppId = toplevel.appId || "unknown";
+                            const moddedAppId = Paths.moddedAppId(rawAppId);
+
+                            // Check if this is a core app window (e.g., Settings modal with appId "org.quickshell")
+                            let coreAppData = null;
+                            let isCoreApp = false;
+                            if (rawAppId === "org.quickshell") {
+                                coreAppData = getCoreAppDataByTitle(toplevel.title);
+                                if (coreAppData) {
+                                    isCoreApp = true;
+                                }
+                            }
+
+                            const finalAppId = isCoreApp ? coreAppData.builtInPluginId : moddedAppId;
+                            const isPinned = pinnedApps.indexOf(finalAppId) !== -1;
+
                             items.push({
                                 uniqueKey: uniqueKey,
                                 type: "window",
-                                appId: Paths.moddedAppId(toplevel.appId),
+                                appId: finalAppId,
                                 toplevel: toplevel,
-                                isPinned: false,
-                                isRunning: true
+                                isPinned: isPinned,
+                                isRunning: true,
+                                isCoreApp: isCoreApp,
+                                coreAppData: coreAppData
                             });
                         });
                     }
