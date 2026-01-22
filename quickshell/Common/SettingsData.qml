@@ -147,6 +147,7 @@ Singleton {
     property bool use24HourClock: true
     property bool showSeconds: false
     property bool useFahrenheit: false
+    property string windSpeedUnit: "kmh"
     property bool nightModeEnabled: false
     property int animationSpeed: SettingsData.AnimationSpeed.Short
     property int customAnimationDuration: 500

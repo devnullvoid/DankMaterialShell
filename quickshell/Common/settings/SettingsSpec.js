@@ -33,6 +33,7 @@ var SPEC = {
     use24HourClock: { def: true },
     showSeconds: { def: false },
     useFahrenheit: { def: false },
+    windSpeedUnit: { def: "kmh" },
     nightModeEnabled: { def: false },
     animationSpeed: { def: 1 },
     customAnimationDuration: { def: 500 },
