@@ -274,8 +274,9 @@ FocusScope {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            height: SettingsData.dankLauncherV2ShowFooter ? 32 : 0
-            visible: SettingsData.dankLauncherV2ShowFooter
+            readonly property bool showFooter: SettingsData.dankLauncherV2Size !== "micro" && SettingsData.dankLauncherV2ShowFooter
+            height: showFooter ? 32 : 0
+            visible: showFooter
             color: Theme.surfaceContainerHigh
             radius: Theme.cornerRadius
 

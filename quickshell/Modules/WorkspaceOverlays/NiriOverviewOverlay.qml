@@ -201,8 +201,30 @@ Scope {
                 x: Theme.snap((parent.width - width) / 2, overlayWindow.dpr)
                 y: Theme.snap((parent.height - height) / 2, overlayWindow.dpr)
 
-                readonly property int baseWidth: SettingsData.dankLauncherV2Size === "medium" ? 720 : SettingsData.dankLauncherV2Size === "large" ? 860 : 620
-                readonly property int baseHeight: SettingsData.dankLauncherV2Size === "medium" ? 720 : SettingsData.dankLauncherV2Size === "large" ? 860 : 600
+                readonly property int baseWidth: {
+                    switch (SettingsData.dankLauncherV2Size) {
+                    case "micro":
+                        return 500;
+                    case "medium":
+                        return 720;
+                    case "large":
+                        return 860;
+                    default:
+                        return 620;
+                    }
+                }
+                readonly property int baseHeight: {
+                    switch (SettingsData.dankLauncherV2Size) {
+                    case "micro":
+                        return 480;
+                    case "medium":
+                        return 720;
+                    case "large":
+                        return 860;
+                    default:
+                        return 600;
+                    }
+                }
                 width: Math.min(baseWidth, overlayWindow.screen.width - 100)
                 height: Math.min(baseHeight, overlayWindow.screen.height - 100)
 

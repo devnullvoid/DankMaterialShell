@@ -25,8 +25,30 @@ Item {
     readonly property real screenHeight: effectiveScreen?.height ?? 1080
     readonly property real dpr: effectiveScreen ? CompositorService.getScreenScale(effectiveScreen) : 1
 
-    readonly property int baseWidth: SettingsData.dankLauncherV2Size === "medium" ? 720 : SettingsData.dankLauncherV2Size === "large" ? 860 : 620
-    readonly property int baseHeight: SettingsData.dankLauncherV2Size === "medium" ? 720 : SettingsData.dankLauncherV2Size === "large" ? 860 : 600
+    readonly property int baseWidth: {
+        switch (SettingsData.dankLauncherV2Size) {
+        case "micro":
+            return 500;
+        case "medium":
+            return 720;
+        case "large":
+            return 860;
+        default:
+            return 620;
+        }
+    }
+    readonly property int baseHeight: {
+        switch (SettingsData.dankLauncherV2Size) {
+        case "micro":
+            return 480;
+        case "medium":
+            return 720;
+        case "large":
+            return 860;
+        default:
+            return 600;
+        }
+    }
     readonly property int modalWidth: Math.min(baseWidth, screenWidth - 100)
     readonly property int modalHeight: Math.min(baseHeight, screenHeight - 100)
     readonly property real modalX: (screenWidth - modalWidth) / 2

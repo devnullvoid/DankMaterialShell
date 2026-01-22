@@ -382,12 +382,24 @@ Item {
                             buttonPadding: parent.width < 400 ? Theme.spacingS : Theme.spacingL
                             minButtonWidth: parent.width < 400 ? 60 : 80
                             textSize: parent.width < 400 ? Theme.fontSizeSmall : Theme.fontSizeMedium
-                            model: [I18n.tr("Compact", "compact launcher size"), I18n.tr("Medium", "medium launcher size"), I18n.tr("Large", "large launcher size")]
-                            currentIndex: SettingsData.dankLauncherV2Size === "compact" ? 0 : SettingsData.dankLauncherV2Size === "large" ? 2 : 1
+                            model: ["1", "2", "3", "4"]
+                            currentIndex: {
+                                switch (SettingsData.dankLauncherV2Size) {
+                                case "micro":
+                                    return 0;
+                                case "compact":
+                                    return 1;
+                                case "large":
+                                    return 3;
+                                default:
+                                    return 2;
+                                }
+                            }
                             onSelectionChanged: (index, selected) => {
                                 if (!selected)
                                     return;
-                                SettingsData.set("dankLauncherV2Size", index === 0 ? "compact" : index === 2 ? "large" : "medium");
+                                var sizes = ["micro", "compact", "medium", "large"];
+                                SettingsData.set("dankLauncherV2Size", sizes[index]);
                             }
                         }
                     }
@@ -399,6 +411,7 @@ Item {
                     text: I18n.tr("Show Footer", "launcher footer visibility")
                     description: I18n.tr("Show mode tabs and keyboard hints at the bottom.", "launcher footer description")
                     checked: SettingsData.dankLauncherV2ShowFooter
+                    enabled: SettingsData.dankLauncherV2Size !== "micro"
                     onToggled: checked => SettingsData.set("dankLauncherV2ShowFooter", checked)
                 }
 
