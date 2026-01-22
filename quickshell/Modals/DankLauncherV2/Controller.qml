@@ -97,9 +97,7 @@ Item {
         if (sectionViewModes[sectionId])
             return sectionViewModes[sectionId];
 
-        var savedModes = viewModeContext === "appDrawer"
-            ? (SettingsData.appDrawerSectionViewModes || {})
-            : (SettingsData.spotlightSectionViewModes || {});
+        var savedModes = viewModeContext === "appDrawer" ? (SettingsData.appDrawerSectionViewModes || {}) : (SettingsData.spotlightSectionViewModes || {});
         if (savedModes[sectionId])
             return savedModes[sectionId];
 
@@ -190,7 +188,7 @@ Item {
 
     Timer {
         id: searchDebounce
-        interval: searchMode === "all" && searchQuery.length > 0 ? 120 : 60
+        interval: searchMode === "all" && searchQuery.length > 0 ? 90 : 60
         onTriggered: root.performSearch()
     }
 
