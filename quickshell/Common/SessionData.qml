@@ -83,6 +83,7 @@ Singleton {
     property string nightModeLocationProvider: ""
 
     property var pinnedApps: []
+    property int dockLauncherPosition: 0
     property var hiddenTrayIds: []
     property var recentColors: []
     property bool showThirdPartyPlugins: false

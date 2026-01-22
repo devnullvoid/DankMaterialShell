@@ -431,6 +431,13 @@ Singleton {
     property real dockBorderOpacity: 1.0
     property int dockBorderThickness: 1
     property bool dockIsolateDisplays: false
+    property bool dockLauncherEnabled: false
+    property string dockLauncherLogoMode: "apps"
+    property string dockLauncherLogoCustomPath: ""
+    property string dockLauncherLogoColorOverride: ""
+    property int dockLauncherLogoSizeOffset: 0
+    property real dockLauncherLogoBrightness: 0.5
+    property real dockLauncherLogoContrast: 1
 
     property bool notificationOverlayEnabled: false
     property int overviewRows: 2

@@ -22,18 +22,34 @@ Item {
     implicitWidth: isVertical ? appLayout.height : appLayout.width
     implicitHeight: isVertical ? appLayout.width : appLayout.height
 
-    function movePinnedApp(fromIndex, toIndex) {
-        if (fromIndex === toIndex) {
+    function dockIndexToPinnedIndex(dockIndex) {
+        if (!SettingsData.dockLauncherEnabled) {
+            return dockIndex;
+        }
+
+        const launcherPos = SessionData.dockLauncherPosition;
+        if (dockIndex < launcherPos) {
+            return dockIndex;
+        } else {
+            return dockIndex - 1;
+        }
+    }
+
+    function movePinnedApp(fromDockIndex, toDockIndex) {
+        const fromPinnedIndex = dockIndexToPinnedIndex(fromDockIndex);
+        const toPinnedIndex = dockIndexToPinnedIndex(toDockIndex);
+
+        if (fromPinnedIndex === toPinnedIndex) {
             return;
         }
 
         const currentPinned = [...(SessionData.pinnedApps || [])];
-        if (fromIndex < 0 || fromIndex >= currentPinned.length || toIndex < 0 || toIndex >= currentPinned.length) {
+        if (fromPinnedIndex < 0 || fromPinnedIndex >= currentPinned.length || toPinnedIndex < 0 || toPinnedIndex >= currentPinned.length) {
             return;
         }
 
-        const movedApp = currentPinned.splice(fromIndex, 1)[0];
-        currentPinned.splice(toIndex, 0, movedApp);
+        const movedApp = currentPinned.splice(fromPinnedIndex, 1)[0];
+        currentPinned.splice(toPinnedIndex, 0, movedApp);
 
         SessionData.setPinnedApps(currentPinned);
     }
@@ -73,6 +89,23 @@ Item {
                             return true;
                     }
                     return false;
+                }
+
+                function insertLauncher(targetArray) {
+                    if (!SettingsData.dockLauncherEnabled)
+                        return;
+
+                    const launcherItem = {
+                        uniqueKey: "launcher_button",
+                        type: "launcher",
+                        appId: "__LAUNCHER__",
+                        toplevel: null,
+                        isPinned: true,
+                        isRunning: false
+                    };
+
+                    const pos = Math.max(0, Math.min(SessionData.dockLauncherPosition, targetArray.length));
+                    targetArray.splice(pos, 0, launcherItem);
                 }
 
                 function updateModel() {
@@ -136,6 +169,8 @@ Item {
 
                         pinnedGroups.forEach(item => items.push(item));
 
+                        insertLauncher(items);
+
                         if (pinnedGroups.length > 0 && unpinnedGroups.length > 0) {
                             items.push({
                                 uniqueKey: "separator_grouped",
@@ -148,7 +183,7 @@ Item {
                         }
 
                         unpinnedGroups.forEach(item => items.push(item));
-                        root.pinnedAppCount = pinnedGroups.length;
+                        root.pinnedAppCount = pinnedGroups.length + (SettingsData.dockLauncherEnabled ? 1 : 0);
                     } else {
                         pinnedApps.forEach(rawAppId => {
                             const appId = Paths.moddedAppId(rawAppId);
@@ -162,7 +197,9 @@ Item {
                             });
                         });
 
-                        root.pinnedAppCount = pinnedApps.length;
+                        root.pinnedAppCount = pinnedApps.length + (SettingsData.dockLauncherEnabled ? 1 : 0);
+
+                        insertLauncher(items);
 
                         if (pinnedApps.length > 0 && sortedToplevels.length > 0) {
                             items.push({
@@ -203,10 +240,10 @@ Item {
 
                 delegate: Item {
                     id: delegateItem
-                    property alias dockButton: button
+                    property var dockButton: itemData.type === "launcher" ? launcherButton : button
                     property var itemData: modelData
                     clip: false
-                    z: button.dragging ? 100 : 0
+                    z: (itemData.type === "launcher" ? launcherButton.dragging : button.dragging) ? 100 : 0
 
                     width: itemData.type === "separator" ? (root.isVertical ? root.iconSize : 8) : (root.isVertical ? root.iconSize : root.iconSize * 1.2)
                     height: itemData.type === "separator" ? (root.isVertical ? 8 : root.iconSize) : (root.isVertical ? root.iconSize * 1.2 : root.iconSize)
@@ -261,9 +298,22 @@ Item {
                         anchors.centerIn: parent
                     }
 
+                    DockLauncherButton {
+                        id: launcherButton
+                        visible: itemData.type === "launcher"
+                        anchors.centerIn: parent
+
+                        width: delegateItem.width
+                        height: delegateItem.height
+                        actualIconSize: root.iconSize
+
+                        dockApps: root
+                        index: model.index
+                    }
+
                     DockAppButton {
                         id: button
-                        visible: itemData.type !== "separator"
+                        visible: itemData.type !== "separator" && itemData.type !== "launcher"
                         anchors.centerIn: parent
 
                         width: delegateItem.width
@@ -313,6 +363,28 @@ Item {
         target: SettingsData
         function onDockIsolateDisplaysChanged() {
             repeater.updateModel();
+        }
+        function onDockLauncherEnabledChanged() {
+            root.suppressShiftAnimation = true;
+            root.draggedIndex = -1;
+            root.dropTargetIndex = -1;
+            repeater.updateModel();
+            Qt.callLater(() => {
+                root.suppressShiftAnimation = false;
+            });
+        }
+    }
+
+    Connections {
+        target: SessionData
+        function onDockLauncherPositionChanged() {
+            root.suppressShiftAnimation = true;
+            root.draggedIndex = -1;
+            root.dropTargetIndex = -1;
+            repeater.updateModel();
+            Qt.callLater(() => {
+                root.suppressShiftAnimation = false;
+            });
         }
     }
 }

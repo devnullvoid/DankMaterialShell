@@ -208,7 +208,7 @@ Item {
             targetIndex = -1;
             originalIndex = -1;
 
-            if (dockApps && !didReorder) {
+            if (dockApps) {
                 dockApps.draggedIndex = -1;
                 dockApps.dropTargetIndex = -1;
             }
