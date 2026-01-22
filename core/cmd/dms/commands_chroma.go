@@ -185,6 +185,12 @@ func runChroma(cmd *cobra.Command, args []string) {
 		}
 		source = string(content)
 	} else {
+		stat, _ := os.Stdin.Stat()
+		if (stat.Mode() & os.ModeCharDevice) != 0 {
+			_ = cmd.Help()
+			os.Exit(0)
+		}
+
 		content, err := io.ReadAll(os.Stdin)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "Error reading stdin: %v\n", err)
