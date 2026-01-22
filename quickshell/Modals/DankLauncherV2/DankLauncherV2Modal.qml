@@ -237,7 +237,20 @@ Item {
         exclusionMode: ExclusionMode.Ignore
 
         WlrLayershell.namespace: "dms:launcher"
-        WlrLayershell.layer: WlrLayer.Overlay
+        WlrLayershell.layer: {
+            switch (Quickshell.env("DMS_MODAL_LAYER")) {
+            case "bottom":
+                console.error("DankModal: 'bottom' layer is not valid for modals. Defaulting to 'top' layer.");
+                return WlrLayershell.Top;
+            case "background":
+                console.error("DankModal: 'background' layer is not valid for modals. Defaulting to 'top' layer.");
+                return WlrLayershell.Top;
+            case "overlay":
+                return WlrLayershell.Overlay;
+            default:
+                return WlrLayershell.Top;
+            }
+        }
         WlrLayershell.keyboardFocus: keyboardActive ? (root.useHyprlandFocusGrab ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.Exclusive) : WlrKeyboardFocus.None
 
         anchors {
