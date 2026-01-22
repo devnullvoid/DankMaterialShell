@@ -17,6 +17,7 @@ Item {
     property alias spotlightContent: launcherContent
     property bool openedFromOverview: false
     property bool isClosing: false
+    property bool _windowEnabled: true
 
     readonly property bool useHyprlandFocusGrab: CompositorService.useHyprlandFocusGrab
     readonly property var effectiveScreen: launcherWindow.screen
@@ -197,27 +198,41 @@ Item {
     Connections {
         target: Quickshell
         function onScreensChanged() {
-            if (!launcherWindow.screen)
+            if (Quickshell.screens.length === 0)
                 return;
-            const currentScreenName = launcherWindow.screen.name;
-            let screenStillExists = false;
-            for (let i = 0; i < Quickshell.screens.length; i++) {
-                if (Quickshell.screens[i].name === currentScreenName) {
-                    screenStillExists = true;
-                    break;
+
+            const screen = launcherWindow.screen;
+            const screenName = screen?.name;
+
+            let needsReset = !screen || !screenName;
+            if (!needsReset) {
+                needsReset = true;
+                for (let i = 0; i < Quickshell.screens.length; i++) {
+                    if (Quickshell.screens[i].name === screenName) {
+                        needsReset = false;
+                        break;
+                    }
                 }
             }
-            if (screenStillExists)
+
+            if (!needsReset)
                 return;
-            const newScreen = CompositorService.getFocusedScreen();
-            if (newScreen)
-                launcherWindow.screen = newScreen;
+
+            const newScreen = CompositorService.getFocusedScreen() ?? Quickshell.screens[0];
+            if (!newScreen)
+                return;
+
+            root._windowEnabled = false;
+            launcherWindow.screen = newScreen;
+            Qt.callLater(() => {
+                root._windowEnabled = true;
+            });
         }
     }
 
     PanelWindow {
         id: launcherWindow
-        visible: true
+        visible: root._windowEnabled
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
 
