@@ -131,7 +131,7 @@ Item {
             const didReorder = wasDragging && targetIndex >= 0 && dockApps;
 
             if (didReorder) {
-                SessionData.dockLauncherPosition = targetIndex;
+                SessionData.setDockLauncherPosition(targetIndex);
             }
 
             longPressing = false;

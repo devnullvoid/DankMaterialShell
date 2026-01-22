@@ -318,10 +318,10 @@ Singleton {
             PopoutService.focusOrToggleSettings();
             return true;
         case "notepad":
-            PopoutService.openNotepad();
+            PopoutService.toggleNotepad();
             return true;
         case "processlist":
-            PopoutService.showProcessListModal();
+            PopoutService.toggleProcessList();
             return true;
         }
         return false;

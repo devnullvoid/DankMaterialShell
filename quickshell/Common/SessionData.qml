@@ -758,6 +758,11 @@ Singleton {
         saveSettings();
     }
 
+    function setDockLauncherPosition(position) {
+        dockLauncherPosition = position;
+        saveSettings();
+    }
+
     function addPinnedApp(appId) {
         if (!appId)
             return;
