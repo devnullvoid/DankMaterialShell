@@ -160,7 +160,7 @@ Item {
                         sortedToplevels.forEach((toplevel, index) => {
                             const rawAppId = toplevel.appId || "unknown";
                             let appId = Paths.moddedAppId(rawAppId);
-                            
+
                             let coreAppData = null;
                             if (rawAppId === "org.quickshell") {
                                 coreAppData = getCoreAppDataByTitle(toplevel.title);
