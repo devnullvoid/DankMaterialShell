@@ -236,7 +236,7 @@ Item {
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
 
-        WlrLayershell.namespace: "dms:launcher"
+        WlrLayershell.namespace: "dms:spotlight"
         WlrLayershell.layer: {
             switch (Quickshell.env("DMS_MODAL_LAYER")) {
             case "bottom":
