@@ -132,18 +132,6 @@ Popup {
             action: launchApp
         });
 
-        if (SessionService.nvidiaCommand) {
-            items.push({
-                type: "separator"
-            });
-            items.push({
-                type: "item",
-                icon: "memory",
-                text: I18n.tr("Launch on dGPU"),
-                action: launchWithNvidia
-            });
-        }
-
         return items;
     }
 
