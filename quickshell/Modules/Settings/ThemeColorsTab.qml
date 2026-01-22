@@ -1863,9 +1863,9 @@ Item {
                     onToggled: checked => SettingsData.set("matugenTemplateVscode", checked)
                 }
 
-		SettingsToggleRow {
+                SettingsToggleRow {
                     tab: "theme"
-                    tags: ["matugen", "emacs, "template"]
+                    tags: ["matugen", "emacs", "template"]
                     settingKey: "matugenTemplateEmacs"
                     text: "Emacs"
                     description: getTemplateDescription("emacs", "")
