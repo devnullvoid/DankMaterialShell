@@ -1181,12 +1181,12 @@ Item {
                 height: 24
                 color: Qt.rgba(255, 255, 255, 0.2)
                 anchors.verticalCenter: parent.verticalCenter
-                visible: MprisController.activePlayer
+                visible: MprisController.activePlayer && SettingsData.lockScreenShowMediaPlayer
             }
 
             Row {
                 spacing: Theme.spacingS
-                visible: MprisController.activePlayer
+                visible: MprisController.activePlayer && SettingsData.lockScreenShowMediaPlayer
                 anchors.verticalCenter: parent.verticalCenter
 
                 Item {
@@ -1355,7 +1355,7 @@ Item {
                 height: 24
                 color: Qt.rgba(255, 255, 255, 0.2)
                 anchors.verticalCenter: parent.verticalCenter
-                visible: MprisController.activePlayer && WeatherService.weather.available
+                visible: MprisController.activePlayer && SettingsData.lockScreenShowMediaPlayer && WeatherService.weather.available
             }
 
             Row {
