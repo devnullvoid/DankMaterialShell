@@ -550,6 +550,11 @@ Item {
     AppPickerModal {
         id: filePickerModal
         title: I18n.tr("Open with...")
+        viewMode: SettingsData.appPickerViewMode || "grid"
+
+        onViewModeChanged: {
+            SettingsData.set("appPickerViewMode", viewMode)
+        }
 
         function shellEscape(str) {
             return "'" + str.replace(/'/g, "'\\''") + "'";

@@ -273,6 +273,8 @@ Singleton {
     property string spotlightModalViewMode: "list"
     property string browserPickerViewMode: "grid"
     property var browserUsageHistory: ({})
+    property string appPickerViewMode: "grid"
+    property var filePickerUsageHistory: ({})
     property bool sortAppsAlphabetically: false
     property int appLauncherGridColumns: 4
     property bool spotlightCloseNiriOverview: true
