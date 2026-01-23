@@ -686,14 +686,6 @@ Item {
             }
         }
 
-        if (SessionService.nvidiaCommand) {
-            actions.push({
-                name: I18n.tr("Launch on dGPU"),
-                icon: "memory",
-                action: "launch_dgpu"
-            });
-        }
-
         return {
             id: appId,
             type: "app",

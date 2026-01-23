@@ -50,6 +50,13 @@ Rectangle {
                     result.push(selectedItem.actions[i]);
                 }
             }
+            if (SessionService.nvidiaCommand) {
+                result.push({
+                    name: I18n.tr("Launch on dGPU"),
+                    icon: "memory",
+                    action: "launch_dgpu"
+                });
+            }
         }
         return result;
     }
