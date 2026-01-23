@@ -1292,4 +1292,41 @@ Item {
 
         target: "desktopWidget"
     }
+
+    IpcHandler {
+        function open(): string {
+            if (!workspaceRenameModalLoader || !workspaceRenameModalLoader.item) {
+                return "WORKSPACE_RENAME_MODAL_NOT_FOUND";
+            }
+            workspaceRenameModalLoader.active = true;
+            const ws = NiriService.workspaces[NiriService.focusedWorkspaceId];
+            workspaceRenameModalLoader.item.show(ws?.name || "");
+            return "WORKSPACE_RENAME_MODAL_OPENED";
+        }
+
+        function close(): string {
+            if (!workspaceRenameModalLoader || !workspaceRenameModalLoader.item) {
+                return "WORKSPACE_RENAME_MODAL_NOT_FOUND";
+            }
+            workspaceRenameModalLoader.item.hide();
+            return "WORKSPACE_RENAME_MODAL_CLOSED";
+        }
+
+        function toggle(): string {
+            if (!workspaceRenameModalLoader || !workspaceRenameModalLoader.item) {
+                return "WORKSPACE_RENAME_MODAL_NOT_FOUND";
+            }
+            if (workspaceRenameModalLoader.item.shouldBeVisible) {
+                workspaceRenameModalLoader.item.hide();
+                return "WORKSPACE_RENAME_MODAL_CLOSED";
+            } else {
+                workspaceRenameModalLoader.active = true;
+                const ws = NiriService.workspaces[NiriService.focusedWorkspaceId];
+                workspaceRenameModalLoader.item.show(ws?.name || "");
+                return "WORKSPACE_RENAME_MODAL_OPENED";
+            }
+        }
+
+        target: "workspace-rename"
+    }
 }

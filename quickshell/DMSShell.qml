@@ -645,6 +645,18 @@ Item {
     }
 
     LazyLoader {
+        id: workspaceRenameModalLoader
+
+        active: false
+
+        Component.onCompleted: PopoutService.workspaceRenameModalLoader = workspaceRenameModalLoader
+
+        WorkspaceRenameModal {
+            id: workspaceRenameModal
+        }
+    }
+
+    LazyLoader {
         id: processListModalLoader
 
         active: false
