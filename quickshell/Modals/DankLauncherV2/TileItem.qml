@@ -109,6 +109,18 @@ Rectangle {
                     color: Theme.primaryText
                 }
             }
+
+            Image {
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.margins: Theme.spacingXS
+                width: 40
+                height: 16
+                fillMode: Image.PreserveAspectFit
+                source: root.item?.data?.attribution || ""
+                visible: source !== ""
+                opacity: 0.9
+            }
         }
     }
 

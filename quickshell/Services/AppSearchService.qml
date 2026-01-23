@@ -855,6 +855,21 @@ Singleton {
         return false;
     }
 
+    function getPluginPasteText(pluginId, item) {
+        if (typeof PluginService === "undefined")
+            return null;
+
+        const instance = PluginService.pluginInstances[pluginId];
+        if (!instance)
+            return null;
+
+        if (typeof instance.getPasteText === "function") {
+            return instance.getPasteText(item);
+        }
+
+        return null;
+    }
+
     function searchPluginItems(query) {
         if (typeof PluginService === "undefined")
             return [];

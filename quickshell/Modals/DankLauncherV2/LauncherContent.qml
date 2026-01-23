@@ -209,6 +209,10 @@ FocusScope {
             return;
         case Qt.Key_Return:
         case Qt.Key_Enter:
+            if (event.modifiers & Qt.ShiftModifier) {
+                controller.pasteSelected();
+                return;
+            }
             if (actionPanel.expanded && actionPanel.selectedActionIndex > 0) {
                 actionPanel.executeSelectedAction();
             } else {

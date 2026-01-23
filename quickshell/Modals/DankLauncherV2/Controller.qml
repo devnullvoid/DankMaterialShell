@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
+import Quickshell.Io
 import qs.Common
 import qs.Services
 import "Scorer.js" as Scorer
@@ -39,6 +40,47 @@ Item {
         function onSortAppsAlphabeticallyChanged() {
             AppSearchService.invalidateLauncherCache();
         }
+    }
+
+    Connections {
+        target: PluginService
+        function onRequestLauncherUpdate(pluginId) {
+            if (activePluginId === pluginId || searchQuery) {
+                performSearch();
+            }
+        }
+    }
+
+    Process {
+        id: wtypeProcess
+        command: ["wtype", "-M", "ctrl", "-P", "v", "-p", "v", "-m", "ctrl"]
+        running: false
+    }
+
+    Timer {
+        id: pasteTimer
+        interval: 200
+        repeat: false
+        onTriggered: wtypeProcess.running = true
+    }
+
+    function pasteSelected() {
+        if (!selectedItem)
+            return;
+        if (!SessionService.wtypeAvailable) {
+            ToastService.showError("wtype not available - install wtype for paste support");
+            return;
+        }
+
+        const pluginId = selectedItem.pluginId;
+        if (!pluginId)
+            return;
+        const pasteText = AppSearchService.getPluginPasteText(pluginId, selectedItem.data);
+        if (!pasteText)
+            return;
+        Quickshell.execDetached(["dms", "cl", "copy", pasteText]);
+        itemExecuted();
+        pasteTimer.start();
     }
 
     readonly property var sectionDefinitions: [
