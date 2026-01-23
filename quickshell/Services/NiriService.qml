@@ -1426,7 +1426,8 @@ Singleton {
         return send({
             "Action": {
                 "SetWorkspaceName": {
-                    "name": name
+                    "name": name,
+                    "workspace": null
                 }
             }
         });

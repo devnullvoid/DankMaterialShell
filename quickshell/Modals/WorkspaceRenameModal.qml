@@ -12,8 +12,8 @@ FloatingWindow {
 
     objectName: "workspaceRenameModal"
     title: I18n.tr("Rename Workspace")
-    minimumSize: Qt.size(400, 180)
-    maximumSize: Qt.size(400, 180)
+    minimumSize: Qt.size(400, 160)
+    maximumSize: Qt.size(400, 160)
     color: Theme.surfaceContainer
     visible: false
 
@@ -45,7 +45,9 @@ FloatingWindow {
     onVisibleChanged: {
         if (visible) {
             Qt.callLater(() => nameInput.forceActiveFocus());
+            return;
         }
+        nameInput.text = "";
     }
 
     FocusScope {
@@ -54,13 +56,8 @@ FloatingWindow {
         anchors.fill: parent
         focus: true
 
-        Keys.onEscapePressed: {
+        Keys.onEscapePressed: event => {
             hide();
-            event.accepted = true;
-        }
-
-        Keys.onReturnPressed: {
-            submitAndClose();
             event.accepted = true;
         }
 
@@ -71,25 +68,25 @@ FloatingWindow {
             spacing: Theme.spacingM
 
             Item {
-                width: parent.width
-                height: Math.max(headerCol.height, buttonRow.height)
+                width: contentCol.width
+                height: Math.max(headerText.height, buttonRow.height)
 
                 MouseArea {
-                    anchors.fill: parent
+                    anchors.left: parent.left
+                    anchors.right: buttonRow.left
+                    anchors.rightMargin: Theme.spacingM
+                    height: parent.height
                     onPressed: windowControls.tryStartMove()
                     onDoubleClicked: windowControls.tryToggleMaximize()
+                }
 
-                    Column {
-                        id: headerCol
-                        width: parent.width
-
-                        StyledText {
-                            text: I18n.tr("Enter a new name for this workspace")
-                            font.pixelSize: Theme.fontSizeMedium
-                            color: Theme.surfaceTextMedium
-                            width: parent.width
-                        }
-                    }
+                StyledText {
+                    id: headerText
+                    text: I18n.tr("Enter a new name for this workspace")
+                    font.pixelSize: Theme.fontSizeMedium
+                    color: Theme.surfaceTextMedium
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: parent.width - buttonRow.width - Theme.spacingM
                 }
 
                 Row {

@@ -781,6 +781,7 @@ Item {
         hyprKeybindsModalLoader: hyprKeybindsModalLoader
         dankBarRepeater: dankBarRepeater
         hyprlandOverviewLoader: hyprlandOverviewLoader
+        workspaceRenameModalLoader: workspaceRenameModalLoader
     }
 
     Variants {
