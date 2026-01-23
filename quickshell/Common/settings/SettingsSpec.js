@@ -132,6 +132,8 @@ var SPEC = {
 
     appLauncherViewMode: { def: "list" },
     spotlightModalViewMode: { def: "list" },
+    browserPickerViewMode: { def: "grid" },
+    browserUsageHistory: { def: {} },
     sortAppsAlphabetically: { def: false },
     appLauncherGridColumns: { def: 4 },
     spotlightCloseNiriOverview: { def: true },
