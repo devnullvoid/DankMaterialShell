@@ -219,7 +219,8 @@ Singleton {
                 action: plugin.action,
                 categories: plugin.categories,
                 isCore: true,
-                builtInPluginId: pluginId
+                builtInPluginId: pluginId,
+                cornerIcon: plugin.cornerIcon
             });
         }
         return apps;
