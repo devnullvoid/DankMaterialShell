@@ -25,7 +25,6 @@ Item {
     property string screenName: ""
     property bool unlocking: false
     property string pamState: ""
-    property string randomFact: ""
     property string hyprlandCurrentLayout: ""
     property string hyprlandKeyboard: ""
     property int hyprlandLayoutCount: 0
@@ -41,15 +40,7 @@ Item {
         pamState = "";
     }
 
-    function pickRandomFact() {
-        randomFact = Facts.getRandomFact();
-    }
-
     Component.onCompleted: {
-        if (demoMode) {
-            pickRandomFact();
-        }
-
         WeatherService.addRef();
         UserInfoService.getUserInfo();
 
@@ -61,11 +52,6 @@ Item {
         lockerReadyArmed = true;
     }
 
-    onDemoModeChanged: {
-        if (demoMode) {
-            pickRandomFact();
-        }
-    }
     Component.onDestruction: {
         WeatherService.removeRef();
         if (CompositorService.isHyprland) {
@@ -1605,20 +1591,6 @@ Item {
                     powerMenu.show();
                 }
             }
-        }
-
-        StyledText {
-            anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.margins: Theme.spacingL
-            width: Math.min(parent.width - Theme.spacingXL * 2, implicitWidth)
-            text: root.randomFact
-            font.pixelSize: Theme.fontSizeSmall
-            color: "white"
-            opacity: 0.8
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.NoWrap
-            visible: root.randomFact !== ""
         }
     }
 

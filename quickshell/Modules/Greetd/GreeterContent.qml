@@ -23,17 +23,12 @@ Item {
 
     readonly property string xdgDataDirs: Quickshell.env("XDG_DATA_DIRS")
     property string screenName: ""
-    property string randomFact: ""
     property string hyprlandCurrentLayout: ""
     property string hyprlandKeyboard: ""
     property int hyprlandLayoutCount: 0
     property bool isPrimaryScreen: !Quickshell.screens?.length || screenName === Quickshell.screens[0]?.name
 
     signal launchRequested
-
-    function pickRandomFact() {
-        randomFact = Facts.getRandomFact();
-    }
 
     property bool weatherInitialized: false
 
@@ -58,7 +53,6 @@ Item {
     }
 
     Component.onCompleted: {
-        pickRandomFact();
         initWeatherService();
 
         if (isPrimaryScreen)
@@ -959,20 +953,6 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                 }
             }
-        }
-
-        StyledText {
-            anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.margins: Theme.spacingL
-            width: Math.min(parent.width - Theme.spacingXL * 2, implicitWidth)
-            text: root.randomFact
-            font.pixelSize: Theme.fontSizeSmall
-            color: "white"
-            opacity: 0.8
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.NoWrap
-            visible: root.randomFact !== ""
         }
 
         DankActionButton {
