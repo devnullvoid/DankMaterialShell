@@ -147,6 +147,10 @@ Item {
             if (sectionDefinitions[i].id === sectionId)
                 return sectionDefinitions[i].defaultViewMode || "list";
         }
+
+        if (pluginViewPreferences[sectionId]?.mode)
+            return pluginViewPreferences[sectionId].mode;
+
         return "list";
     }
 
@@ -313,9 +317,23 @@ Item {
         return false;
     }
 
+    function preserveSelectionAfterUpdate() {
+        var previousSelectedId = selectedItem?.id || "";
+        return function (newFlatModel) {
+            if (!previousSelectedId)
+                return getFirstItemIndex();
+            for (var i = 0; i < newFlatModel.length; i++) {
+                if (!newFlatModel[i].isHeader && newFlatModel[i].item?.id === previousSelectedId)
+                    return i;
+            }
+            return getFirstItemIndex();
+        };
+    }
+
     function performSearch() {
         var currentVersion = _searchVersion;
         isSearching = true;
+        var restoreSelection = preserveSelectionAfterUpdate();
 
         var cachedSections = AppSearchService.getCachedDefaultSections();
         if (cachedSections && !searchQuery && searchMode === "all" && !pluginFilter) {
@@ -331,7 +349,7 @@ Item {
                 return copy;
             });
             flatModel = Scorer.flattenSections(sections);
-            selectedFlatIndex = getFirstItemIndex();
+            selectedFlatIndex = restoreSelection(flatModel);
             updateSelectedItem();
             isSearching = false;
             searchCompleted();
@@ -370,7 +388,7 @@ Item {
             }
 
             flatModel = Scorer.flattenSections(sections);
-            selectedFlatIndex = getFirstItemIndex();
+            selectedFlatIndex = restoreSelection(flatModel);
             updateSelectedItem();
 
             isSearching = false;
@@ -409,7 +427,7 @@ Item {
                     return copy;
                 });
                 flatModel = Scorer.flattenSections(sections);
-                selectedFlatIndex = getFirstItemIndex();
+                selectedFlatIndex = restoreSelection(flatModel);
                 updateSelectedItem();
                 isSearching = false;
                 searchCompleted();
@@ -434,7 +452,7 @@ Item {
             }
 
             flatModel = Scorer.flattenSections(sections);
-            selectedFlatIndex = getFirstItemIndex();
+            selectedFlatIndex = restoreSelection(flatModel);
             updateSelectedItem();
 
             isSearching = false;
@@ -489,7 +507,7 @@ Item {
             }
 
             flatModel = Scorer.flattenSections(sections);
-            selectedFlatIndex = getFirstItemIndex();
+            selectedFlatIndex = restoreSelection(flatModel);
             updateSelectedItem();
 
             isSearching = false;
@@ -573,7 +591,7 @@ Item {
             AppSearchService.setCachedDefaultSections(sections, flatModel);
         }
 
-        selectedFlatIndex = getFirstItemIndex();
+        selectedFlatIndex = restoreSelection(flatModel);
         updateSelectedItem();
 
         isSearching = false;
@@ -1219,9 +1237,8 @@ Item {
                 defaultViewMode: viewPref.mode || "list"
             };
 
-            if (viewPref.enforced) {
-                setPluginViewPreference(section, viewPref.mode, true);
-            }
+            if (viewPref.mode)
+                setPluginViewPreference(section, viewPref.mode, viewPref.enforced);
 
             basePriority += 0.01;
         }
