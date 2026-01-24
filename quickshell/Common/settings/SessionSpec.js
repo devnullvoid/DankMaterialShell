@@ -69,7 +69,9 @@ var SPEC = {
 
     hiddenApps: { def: [] },
     appOverrides: { def: {} },
-    searchAppActions: { def: true }
+    searchAppActions: { def: true },
+
+    vpnLastConnected: { def: "" }
 };
 
 function getValidKeys() {

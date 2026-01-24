@@ -13,7 +13,7 @@ import "settings/SessionStore.js" as Store
 Singleton {
     id: root
 
-    readonly property int sessionConfigVersion: 2
+    readonly property int sessionConfigVersion: 3
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
     property bool _parseError: false
@@ -116,6 +116,8 @@ Singleton {
     property var hiddenApps: []
     property var appOverrides: ({})
     property bool searchAppActions: true
+
+    property string vpnLastConnected: ""
 
     Component.onCompleted: {
         if (!isGreeterMode) {
@@ -1035,6 +1037,11 @@ Singleton {
 
     function setSearchAppActions(enabled) {
         searchAppActions = enabled;
+        saveSettings();
+    }
+
+    function setVpnLastConnected(uuid) {
+        vpnLastConnected = uuid || "";
         saveSettings();
     }
 
