@@ -94,6 +94,12 @@ Singleton {
     property var matugenColors: ({})
     property var _pendingGenerateParams: null
 
+    // Theme automation
+    property bool themeModeAutomationActive: false
+
+    // Watch for DMSService connection to retry location setup
+    property bool dmsServiceWasDisconnected: true
+
     readonly property var dank16: {
         const raw = matugenColors?.dank16;
         if (!raw)
@@ -125,6 +131,8 @@ Singleton {
     readonly property string currentThemeId: customThemeRawData?.id || ""
 
     Component.onCompleted: {
+        console.warn("THEME AUTOMATION DEBUG: Component.onCompleted STARTING");
+        console.error("THEME AUTOMATION DEBUG: This is an error test");
         Quickshell.execDetached(["mkdir", "-p", stateDir]);
         Proc.runCommand("matugenCheck", ["which", "matugen"], (output, code) => {
             matugenAvailable = (code === 0) && !envDisableMatugen;
@@ -175,6 +183,277 @@ Singleton {
 
         if (typeof SettingsData !== "undefined" && SettingsData.currentThemeName) {
             switchTheme(SettingsData.currentThemeName, false, false);
+        }
+
+        if (typeof SessionData !== "undefined" && SessionData.themeModeAutoEnabled) {
+            console.error("*** THEME STARTUP: themeModeAutoEnabled = true, starting automation ***");
+            console.error("*** THEME STARTUP: themeModeAutoMode =", SessionData.themeModeAutoMode);
+            console.error("*** THEME STARTUP: current isLightMode =", root.isLightMode);
+            console.error("*** THEME STARTUP: DisplayService.gammaIsDay =", DisplayService?.gammaIsDay);
+            startThemeModeAutomation();
+            console.error("*** THEME STARTUP: automation started ***");
+        } else {
+            console.error("*** THEME STARTUP: automation NOT enabled ***");
+            if (typeof SessionData !== "undefined") {
+                console.error("*** THEME STARTUP: themeModeAutoEnabled =", SessionData.themeModeAutoEnabled);
+            }
+        }
+    }
+
+    Connections {
+        target: SessionData
+        enabled: typeof SessionData !== "undefined"
+
+        function onThemeModeAutoEnabledChanged() {
+            if (SessionData.themeModeAutoEnabled) {
+                root.startThemeModeAutomation();
+            } else {
+                root.stopThemeModeAutomation();
+            }
+        }
+
+        function onThemeModeAutoModeChanged() {
+            if (root.themeModeAutomationActive) {
+                root.evaluateThemeMode();
+                root.syncTimeThemeSchedule();
+                root.syncLocationThemeSchedule();
+            }
+        }
+
+        function onThemeModeStartHourChanged() {
+            if (root.themeModeAutomationActive && !SessionData.themeModeShareGammaSettings) {
+                root.evaluateThemeMode();
+                root.syncTimeThemeSchedule();
+            }
+        }
+
+        function onThemeModeStartMinuteChanged() {
+            if (root.themeModeAutomationActive && !SessionData.themeModeShareGammaSettings) {
+                root.evaluateThemeMode();
+                root.syncTimeThemeSchedule();
+            }
+        }
+
+        function onThemeModeEndHourChanged() {
+            if (root.themeModeAutomationActive && !SessionData.themeModeShareGammaSettings) {
+                root.evaluateThemeMode();
+                root.syncTimeThemeSchedule();
+            }
+        }
+
+        function onThemeModeEndMinuteChanged() {
+            if (root.themeModeAutomationActive && !SessionData.themeModeShareGammaSettings) {
+                root.evaluateThemeMode();
+                root.syncTimeThemeSchedule();
+            }
+        }
+
+        function onThemeModeShareGammaSettingsChanged() {
+            if (root.themeModeAutomationActive) {
+                root.evaluateThemeMode();
+                root.syncTimeThemeSchedule();
+                root.syncLocationThemeSchedule();
+            }
+        }
+
+        function onNightModeStartHourChanged() {
+            if (root.themeModeAutomationActive && SessionData.themeModeShareGammaSettings) {
+                root.evaluateThemeMode();
+                root.syncTimeThemeSchedule();
+            }
+        }
+
+        function onNightModeStartMinuteChanged() {
+            if (root.themeModeAutomationActive && SessionData.themeModeShareGammaSettings) {
+                root.evaluateThemeMode();
+                root.syncTimeThemeSchedule();
+            }
+        }
+
+        function onNightModeEndHourChanged() {
+            if (root.themeModeAutomationActive && SessionData.themeModeShareGammaSettings) {
+                root.evaluateThemeMode();
+                root.syncTimeThemeSchedule();
+            }
+        }
+
+        function onNightModeEndMinuteChanged() {
+            if (root.themeModeAutomationActive && SessionData.themeModeShareGammaSettings) {
+                root.evaluateThemeMode();
+                root.syncTimeThemeSchedule();
+            }
+        }
+
+        function onLatitudeChanged() {
+            if (root.themeModeAutomationActive && SessionData.themeModeAutoMode === "location") {
+                // Update backend with new coordinates
+                if (!SessionData.nightModeUseIPLocation &&
+                    SessionData.latitude !== 0.0 &&
+                    SessionData.longitude !== 0.0 &&
+                    typeof DMSService !== "undefined") {
+                    DMSService.sendRequest("wayland.gamma.setLocation", {
+                        "latitude": SessionData.latitude,
+                        "longitude": SessionData.longitude
+                    });
+                }
+                root.evaluateThemeMode();
+                root.syncLocationThemeSchedule();
+            }
+        }
+
+        function onLongitudeChanged() {
+            if (root.themeModeAutomationActive && SessionData.themeModeAutoMode === "location") {
+                // Update backend with new coordinates
+                if (!SessionData.nightModeUseIPLocation &&
+                    SessionData.latitude !== 0.0 &&
+                    SessionData.longitude !== 0.0 &&
+                    typeof DMSService !== "undefined") {
+                    DMSService.sendRequest("wayland.gamma.setLocation", {
+                        "latitude": SessionData.latitude,
+                        "longitude": SessionData.longitude
+                    });
+                }
+                root.evaluateThemeMode();
+                root.syncLocationThemeSchedule();
+            }
+        }
+
+        function onNightModeUseIPLocationChanged() {
+            if (root.themeModeAutomationActive && SessionData.themeModeAutoMode === "location") {
+                // Update backend with IP location preference
+                if (typeof DMSService !== "undefined") {
+                    DMSService.sendRequest("wayland.gamma.setUseIPLocation", {
+                        "use": SessionData.nightModeUseIPLocation
+                    }, response => {
+                        if (!response.error && !SessionData.nightModeUseIPLocation &&
+                            SessionData.latitude !== 0.0 && SessionData.longitude !== 0.0) {
+                            // If switching from IP to manual, send coordinates
+                            DMSService.sendRequest("wayland.gamma.setLocation", {
+                                "latitude": SessionData.latitude,
+                                "longitude": SessionData.longitude
+                            });
+                        }
+                    });
+                }
+                root.evaluateThemeMode();
+                root.syncLocationThemeSchedule();
+            }
+        }
+    }
+
+    // React to gamma backend's isDay state changes for location-based mode
+    // Note: gamma backend calculates isDay independently from whether
+    // gamma control is enabled for display adjustments
+    // Use gammaIsDay property instead of gammaState object for proper change notifications
+    Connections {
+        target: DisplayService
+        enabled: typeof DisplayService !== "undefined" &&
+                 typeof SessionData !== "undefined" &&
+                 SessionData.themeModeAutoEnabled &&
+                 SessionData.themeModeAutoMode === "location" &&
+                 !themeAutoBackendAvailable()
+
+        function onGammaIsDayChanged() {
+            console.error("!!! onGammaIsDayChanged FIRED !!!");
+            console.error("!!! gammaIsDay =", DisplayService.gammaIsDay);
+            console.error("!!! current isLightMode =", root.isLightMode);
+            console.error("!!! Will switch?", root.isLightMode !== DisplayService.gammaIsDay);
+            if (root.isLightMode !== DisplayService.gammaIsDay) {
+                console.error("!!! CALLING setLightMode from onGammaIsDayChanged");
+                root.setLightMode(DisplayService.gammaIsDay, true, true);
+            }
+        }
+    }
+
+    Connections {
+        target: DMSService
+        enabled: typeof DMSService !== "undefined" && typeof SessionData !== "undefined"
+
+        function onLoginctlEvent(event) {
+            console.error("### onLoginctlEvent FIRED:", event.event, "###");
+            // Only handle if automation is enabled
+            if (!SessionData.themeModeAutoEnabled) return;
+
+            // Re-evaluate theme mode when system wakes up or unlocks
+            // This ensures time-based and location-based (non-shared) modes stay accurate
+            if (event.event === "unlock" || event.event === "resume") {
+                if (!themeAutoBackendAvailable()) {
+                    root.evaluateThemeMode();
+                    return;
+                }
+                DMSService.sendRequest("theme.auto.trigger", {});
+            }
+        }
+
+        function onThemeAutoStateUpdate(data) {
+            if (!SessionData.themeModeAutoEnabled) {
+                return;
+            }
+            applyThemeAutoState(data);
+        }
+
+        function onConnectionStateChanged() {
+            console.error("@@@ onConnectionStateChanged FIRED @@@");
+            console.error("@@@ DMSService.isConnected =", DMSService.isConnected);
+            console.error("@@@ SessionData.themeModeAutoEnabled =", SessionData.themeModeAutoEnabled);
+            console.error("@@@ SessionData.themeModeAutoMode =", SessionData.themeModeAutoMode);
+            console.error("@@@ SessionData.latitude =", SessionData.latitude);
+            console.error("@@@ SessionData.longitude =", SessionData.longitude);
+
+            if (DMSService.isConnected && SessionData.themeModeAutoMode === "time") {
+                root.syncTimeThemeSchedule();
+            }
+
+            if (DMSService.isConnected && SessionData.themeModeAutoMode === "location") {
+                root.syncLocationThemeSchedule();
+            }
+
+            if (themeAutoBackendAvailable() && SessionData.themeModeAutoEnabled) {
+                DMSService.sendRequest("theme.auto.getState", null, response => {
+                    if (response && response.result) {
+                        applyThemeAutoState(response.result);
+                    }
+                });
+            }
+
+            // Only handle if automation is enabled
+            if (!SessionData.themeModeAutoEnabled) {
+                console.error("@@@ Automation not enabled, skipping @@@");
+                return;
+            }
+
+            // When DMSService connects, retry location initialization if in location mode
+            if (DMSService.isConnected && SessionData.themeModeAutoMode === "location") {
+                console.error("@@@ RETRYING location setup @@@");
+                if (SessionData.nightModeUseIPLocation) {
+                    console.error("@@@ Using IP location @@@");
+                    DMSService.sendRequest("wayland.gamma.setUseIPLocation", {
+                        "use": true
+                    }, response => {
+                        if (!response.error) {
+                            console.log("Theme automation: IP location enabled after connection");
+                        }
+                    });
+                } else if (SessionData.latitude !== 0.0 && SessionData.longitude !== 0.0) {
+                    console.error("@@@ Using manual coordinates:", SessionData.latitude, SessionData.longitude, "@@@");
+                    DMSService.sendRequest("wayland.gamma.setUseIPLocation", {
+                        "use": false
+                    }, response => {
+                        console.error("@@@ setUseIPLocation(false) response:", JSON.stringify(response), "@@@");
+                        if (!response.error) {
+                            console.error("@@@ Sending setLocation request @@@");
+                            DMSService.sendRequest("wayland.gamma.setLocation", {
+                                "latitude": SessionData.latitude,
+                                "longitude": SessionData.longitude
+                            }, locationResponse => {
+                                console.error("@@@ setLocation response:", JSON.stringify(locationResponse), "@@@");
+                            });
+                        }
+                    });
+                } else {
+                    console.error("@@@ No location configured - nightModeUseIPLocation:", SessionData.nightModeUseIPLocation, "@@@");
+                }
+            }
         }
     }
 
@@ -534,17 +813,27 @@ Singleton {
     }
 
     function setLightMode(light, savePrefs = true, enableTransition = false) {
+        console.error(">>> setLightMode CALLED: light =", light, ", savePrefs =", savePrefs, ", enableTransition =", enableTransition);
+        console.error(">>> BEFORE: root.isLightMode =", root.isLightMode);
+
         if (enableTransition) {
             screenTransition();
             lightModeTransitionTimer.lightMode = light;
             lightModeTransitionTimer.savePrefs = savePrefs;
             lightModeTransitionTimer.restart();
+            console.error(">>> setLightMode: Starting transition timer");
             return;
         }
 
         const isGreeterMode = (typeof SessionData !== "undefined" && SessionData.isGreeterMode);
-        if (savePrefs && typeof SessionData !== "undefined" && !isGreeterMode)
+        console.error(">>> setLightMode: isGreeterMode =", isGreeterMode, ", will save =", savePrefs && typeof SessionData !== "undefined" && !isGreeterMode);
+
+        if (savePrefs && typeof SessionData !== "undefined" && !isGreeterMode) {
+            console.error(">>> setLightMode: Calling SessionData.setLightMode(", light, ")");
             SessionData.setLightMode(light);
+            console.error(">>> setLightMode: AFTER SessionData.setLightMode - root.isLightMode =", root.isLightMode);
+        }
+
         if (!isGreeterMode) {
             // Skip with matugen because, our script runner will do it.
             if (!matugenAvailable) {
@@ -552,6 +841,8 @@ Singleton {
             }
             generateSystemThemesFromCurrentTheme();
         }
+
+        console.error(">>> setLightMode DONE: root.isLightMode =", root.isLightMode);
     }
 
     function toggleLightMode(savePrefs = true) {
@@ -1451,6 +1742,345 @@ Singleton {
         onTriggered: {
             root.currentThemeCategory = category;
             root.switchTheme(defaultTheme, true, false);
+        }
+    }
+
+    // Theme mode automation functions
+    function themeAutoBackendAvailable() {
+        return typeof DMSService !== "undefined" &&
+               DMSService.isConnected &&
+               Array.isArray(DMSService.capabilities) &&
+               DMSService.capabilities.includes("theme.auto");
+    }
+
+    function applyThemeAutoState(state) {
+        if (!state) {
+            return;
+        }
+        if (state.config && state.config.mode && state.config.mode !== SessionData.themeModeAutoMode) {
+            return;
+        }
+        if (state.isLight !== undefined && root.isLightMode !== state.isLight) {
+            root.setLightMode(state.isLight, true, true);
+        }
+    }
+
+    function syncTimeThemeSchedule() {
+        if (typeof SessionData === "undefined" || typeof DMSService === "undefined") {
+            return;
+        }
+
+        if (!DMSService.isConnected) {
+            return;
+        }
+
+        const timeModeActive = SessionData.themeModeAutoEnabled && SessionData.themeModeAutoMode === "time";
+
+        if (!timeModeActive) {
+            return;
+        }
+
+        DMSService.sendRequest("theme.auto.setMode", {"mode": "time"});
+
+        const shareSettings = SessionData.themeModeShareGammaSettings;
+        const startHour = shareSettings ? SessionData.nightModeStartHour : SessionData.themeModeStartHour;
+        const startMinute = shareSettings ? SessionData.nightModeStartMinute : SessionData.themeModeStartMinute;
+        const endHour = shareSettings ? SessionData.nightModeEndHour : SessionData.themeModeEndHour;
+        const endMinute = shareSettings ? SessionData.nightModeEndMinute : SessionData.themeModeEndMinute;
+
+        DMSService.sendRequest("theme.auto.setSchedule", {
+            "startHour": startHour,
+            "startMinute": startMinute,
+            "endHour": endHour,
+            "endMinute": endMinute
+        }, response => {
+            if (response && response.error) {
+                console.error("Theme automation: Failed to sync time schedule:", response.error);
+            }
+        });
+
+        DMSService.sendRequest("theme.auto.setEnabled", {"enabled": true});
+        DMSService.sendRequest("theme.auto.trigger", {});
+    }
+
+    function syncLocationThemeSchedule() {
+        if (typeof SessionData === "undefined" || typeof DMSService === "undefined") {
+            return;
+        }
+
+        if (!DMSService.isConnected) {
+            return;
+        }
+
+        const locationModeActive = SessionData.themeModeAutoEnabled && SessionData.themeModeAutoMode === "location";
+
+        if (!locationModeActive) {
+            return;
+        }
+
+        DMSService.sendRequest("theme.auto.setMode", {"mode": "location"});
+
+        if (SessionData.nightModeUseIPLocation) {
+            DMSService.sendRequest("theme.auto.setUseIPLocation", {"use": true});
+        } else {
+            DMSService.sendRequest("theme.auto.setUseIPLocation", {"use": false});
+            if (SessionData.latitude !== 0.0 && SessionData.longitude !== 0.0) {
+                DMSService.sendRequest("theme.auto.setLocation", {
+                    "latitude": SessionData.latitude,
+                    "longitude": SessionData.longitude
+                });
+            }
+        }
+
+        DMSService.sendRequest("theme.auto.setEnabled", {"enabled": true});
+        DMSService.sendRequest("theme.auto.trigger", {});
+    }
+
+    function evaluateThemeMode() {
+        if (typeof SessionData === "undefined" || !SessionData.themeModeAutoEnabled) {
+            return;
+        }
+
+        if (themeAutoBackendAvailable()) {
+            DMSService.sendRequest("theme.auto.getState", null, response => {
+                if (response && response.result) {
+                    applyThemeAutoState(response.result);
+                }
+            });
+            return;
+        }
+
+        const mode = SessionData.themeModeAutoMode;
+
+        // Location mode uses gamma backend or JavaScript fallback
+        // The Connections block also handles real-time gamma state updates
+        if (mode === "location") {
+            evaluateLocationBasedThemeMode();
+        } else {
+            // Time-based mode
+            evaluateTimeBasedThemeMode();
+        }
+    }
+
+    function evaluateLocationBasedThemeMode() {
+        console.error("=== THEME AUTOMATION DEBUG: evaluateLocationBasedThemeMode START ===");
+        console.error("THEME AUTO: DisplayService exists?", typeof DisplayService !== "undefined");
+        console.error("THEME AUTO: gammaState =", JSON.stringify(DisplayService?.gammaState || {}));
+        console.error("THEME AUTO: gammaIsDay =", DisplayService?.gammaIsDay);
+        console.error("THEME AUTO: current Theme.isLightMode =", root.isLightMode);
+
+        // When using IP location or manual coordinates, the gamma backend
+        // can calculate sun position and isDay independently from whether
+        // gamma control is enabled for display adjustments
+
+        // Try to use gamma backend's isDay state (works with both IP and manual location)
+        // Use gammaIsDay property for reliable value access
+        if (typeof DisplayService !== "undefined") {
+            const shouldBeLight = DisplayService.gammaIsDay;
+            console.error("THEME AUTO: shouldBeLight =", shouldBeLight);
+            console.error("THEME AUTO: Will switch?", root.isLightMode !== shouldBeLight);
+            if (root.isLightMode !== shouldBeLight) {
+                console.error("THEME AUTO: CALLING setLightMode(", shouldBeLight, ", true, true)");
+                root.setLightMode(shouldBeLight, true, true);
+                console.error("THEME AUTO: AFTER setLightMode - isLightMode =", root.isLightMode);
+            } else {
+                console.error("THEME AUTO: No change needed - already in correct mode");
+            }
+            console.error("=== THEME AUTOMATION DEBUG: evaluateLocationBasedThemeMode END ===");
+            return;
+        }
+
+        // Fallback: Use JavaScript sun calculation with manual coordinates
+        // This is less accurate but works if backend isn't available
+        if (!SessionData.nightModeUseIPLocation &&
+            SessionData.latitude !== 0.0 &&
+            SessionData.longitude !== 0.0) {
+            const shouldBeLight = calculateIsDaytime(
+                SessionData.latitude,
+                SessionData.longitude
+            );
+            if (root.isLightMode !== shouldBeLight) {
+                root.setLightMode(shouldBeLight, true, true);
+            }
+            return;
+        }
+
+        // Warn about missing configuration
+        if (root.themeModeAutomationActive) {
+            if (SessionData.nightModeUseIPLocation) {
+                console.warn("Theme automation: Waiting for IP location from backend");
+            } else {
+                console.warn("Theme automation: Location mode requires coordinates");
+            }
+        }
+    }
+
+    function evaluateTimeBasedThemeMode() {
+        const shareSettings = SessionData.themeModeShareGammaSettings;
+
+        // Get time settings (shared or independent)
+        const startHour = shareSettings ?
+            SessionData.nightModeStartHour : SessionData.themeModeStartHour;
+        const startMinute = shareSettings ?
+            SessionData.nightModeStartMinute : SessionData.themeModeStartMinute;
+        const endHour = shareSettings ?
+            SessionData.nightModeEndHour : SessionData.themeModeEndHour;
+        const endMinute = shareSettings ?
+            SessionData.nightModeEndMinute : SessionData.themeModeEndMinute;
+
+        const now = new Date();
+        const currentMinutes = now.getHours() * 60 + now.getMinutes();
+        const startMinutes = startHour * 60 + startMinute;
+        const endMinutes = endHour * 60 + endMinute;
+
+        // Light mode is OUTSIDE the dark period
+        let shouldBeLight;
+        if (startMinutes < endMinutes) {
+            // Normal case: dark period within same day (e.g., 01:00-05:00)
+            shouldBeLight = currentMinutes < startMinutes || currentMinutes >= endMinutes;
+        } else {
+            // Overnight case: dark period crosses midnight (e.g., 18:00-06:00)
+            shouldBeLight = currentMinutes >= endMinutes && currentMinutes < startMinutes;
+        }
+
+        if (root.isLightMode !== shouldBeLight) {
+            root.setLightMode(shouldBeLight, true, true);
+        }
+    }
+
+    function calculateIsDaytime(lat, lng) {
+        const now = new Date();
+        const start = new Date(now.getFullYear(), 0, 0);
+        const diff = now - start;
+        const dayOfYear = Math.floor(diff / 86400000);
+        const latRad = lat * Math.PI / 180;
+
+        // Solar declination approximation
+        const declination = 23.45 * Math.sin((360/365) * (dayOfYear - 81) * Math.PI / 180);
+        const declinationRad = declination * Math.PI / 180;
+
+        // Hour angle at sunrise/sunset
+        const cosHourAngle = -Math.tan(latRad) * Math.tan(declinationRad);
+
+        // Handle polar conditions
+        if (cosHourAngle > 1) {
+            return false; // Polar night
+        }
+        if (cosHourAngle < -1) {
+            return true; // Midnight sun
+        }
+
+        const hourAngle = Math.acos(cosHourAngle);
+        const hourAngleDeg = hourAngle * 180 / Math.PI;
+
+        // Sunrise/sunset in decimal hours (solar noon ± hour angle)
+        const sunriseHour = 12 - hourAngleDeg / 15;
+        const sunsetHour = 12 + hourAngleDeg / 15;
+
+        // Adjust for longitude (rough approximation)
+        const timeZoneOffset = now.getTimezoneOffset() / 60;
+        const localSunrise = sunriseHour - lng / 15 - timeZoneOffset;
+        const localSunset = sunsetHour - lng / 15 - timeZoneOffset;
+
+        const currentHour = now.getHours() + now.getMinutes() / 60;
+
+        // Normalize hours to 0-24 range
+        const normalizeSunrise = ((localSunrise % 24) + 24) % 24;
+        const normalizeSunset = ((localSunset % 24) + 24) % 24;
+
+        return currentHour >= normalizeSunrise && currentHour < normalizeSunset;
+    }
+
+    // Helper function to send location to backend
+    function sendLocationToBackend() {
+        if (typeof SessionData === "undefined" || typeof DMSService === "undefined") {
+            console.error("$$$ sendLocationToBackend: SessionData or DMSService unavailable $$$");
+            return false;
+        }
+
+        if (!DMSService.isConnected) {
+            console.error("$$$ sendLocationToBackend: DMSService not connected yet $$$");
+            return false;
+        }
+
+        console.error("$$$ sendLocationToBackend: SENDING location to backend $$$");
+
+        if (SessionData.nightModeUseIPLocation) {
+            console.error("$$$ Using IP location $$$");
+            DMSService.sendRequest("wayland.gamma.setUseIPLocation", {"use": true}, response => {
+                console.error("$$$ IP location response:", JSON.stringify(response), "$$$");
+            });
+            return true;
+        } else if (SessionData.latitude !== 0.0 && SessionData.longitude !== 0.0) {
+            console.error("$$$ Using manual coords:", SessionData.latitude, SessionData.longitude, "$$$");
+            DMSService.sendRequest("wayland.gamma.setUseIPLocation", {"use": false}, response => {
+                if (!response.error) {
+                    DMSService.sendRequest("wayland.gamma.setLocation", {
+                        "latitude": SessionData.latitude,
+                        "longitude": SessionData.longitude
+                    }, locResp => {
+                        console.error("$$$ setLocation response:", JSON.stringify(locResp), "$$$");
+                    });
+                }
+            });
+            return true;
+        }
+
+        console.error("$$$ sendLocationToBackend: No location configured $$$");
+        return false;
+    }
+
+    Timer {
+        id: locationRetryTimer
+        interval: 1000
+        repeat: true
+        running: false
+        property int retryCount: 0
+
+        onTriggered: {
+            console.error("$$$ locationRetryTimer triggered, attempt", retryCount + 1, "$$$");
+            if (root.sendLocationToBackend()) {
+                console.error("$$$ Location sent successfully, stopping retry timer $$$");
+                stop();
+                retryCount = 0;
+                root.evaluateThemeMode();
+            } else {
+                retryCount++;
+                if (retryCount >= 10) {
+                    console.error("$$$ Giving up after 10 retries $$$");
+                    stop();
+                    retryCount = 0;
+                }
+            }
+        }
+    }
+
+    function startThemeModeAutomation() {
+        console.error("XYZABC NEW startThemeModeAutomation VERSION XYZABC");
+        root.themeModeAutomationActive = true;
+
+        root.syncTimeThemeSchedule();
+        root.syncLocationThemeSchedule();
+
+        // Try to send location immediately
+        const sent = root.sendLocationToBackend();
+        console.error("XYZABC sendLocationToBackend returned:", sent, "XYZABC");
+
+        // If it failed (likely because DMSService not connected), retry
+        if (!sent && typeof SessionData !== "undefined" && SessionData.themeModeAutoMode === "location") {
+            console.error("XYZABC Starting retry timer XYZABC");
+            locationRetryTimer.start();
+        } else {
+            console.error("XYZABC Calling evaluateThemeMode XYZABC");
+            // Evaluate theme mode immediately
+            root.evaluateThemeMode();
+        }
+    }
+
+    function stopThemeModeAutomation() {
+        root.themeModeAutomationActive = false;
+        if (typeof DMSService !== "undefined" && DMSService.isConnected) {
+            DMSService.sendRequest("theme.auto.setEnabled", {"enabled": false});
         }
     }
 }

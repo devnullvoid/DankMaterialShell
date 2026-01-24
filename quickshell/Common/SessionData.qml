@@ -82,6 +82,14 @@ Singleton {
     property bool nightModeUseIPLocation: false
     property string nightModeLocationProvider: ""
 
+    property bool themeModeAutoEnabled: false
+    property string themeModeAutoMode: "time"
+    property int themeModeStartHour: 18
+    property int themeModeStartMinute: 0
+    property int themeModeEndHour: 6
+    property int themeModeEndMinute: 0
+    property bool themeModeShareGammaSettings: true
+
     property var pinnedApps: []
     property var barPinnedApps: []
     property int dockLauncherPosition: 0
@@ -751,6 +759,41 @@ Singleton {
 
     function setNightModeLocationProvider(provider) {
         nightModeLocationProvider = provider;
+        saveSettings();
+    }
+
+    function setThemeModeAutoEnabled(enabled) {
+        themeModeAutoEnabled = enabled;
+        saveSettings();
+    }
+
+    function setThemeModeAutoMode(mode) {
+        themeModeAutoMode = mode;
+        saveSettings();
+    }
+
+    function setThemeModeStartHour(hour) {
+        themeModeStartHour = hour;
+        saveSettings();
+    }
+
+    function setThemeModeStartMinute(minute) {
+        themeModeStartMinute = minute;
+        saveSettings();
+    }
+
+    function setThemeModeEndHour(hour) {
+        themeModeEndHour = hour;
+        saveSettings();
+    }
+
+    function setThemeModeEndMinute(minute) {
+        themeModeEndMinute = minute;
+        saveSettings();
+    }
+
+    function setThemeModeShareGammaSettings(share) {
+        themeModeShareGammaSettings = share;
         saveSettings();
     }
 
