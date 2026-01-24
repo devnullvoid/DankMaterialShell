@@ -33,7 +33,8 @@ Rectangle {
             result.push(selectedItem.primaryAction);
         }
 
-        if (selectedItem?.type === "plugin") {
+        switch (selectedItem?.type) {
+        case "plugin":
             var pluginActions = getPluginContextMenuActions();
             for (var i = 0; i < pluginActions.length; i++) {
                 var act = pluginActions[i];
@@ -44,7 +45,17 @@ Rectangle {
                     pluginAction: act.action
                 });
             }
-        } else if (selectedItem?.type === "app" && !selectedItem?.isCore) {
+            break;
+        case "plugin_browse":
+            if (selectedItem?.actions) {
+                for (var i = 0; i < selectedItem.actions.length; i++) {
+                    result.push(selectedItem.actions[i]);
+                }
+            }
+            break;
+        case "app":
+            if (selectedItem?.isCore)
+                break;
             if (selectedItem?.actions) {
                 for (var i = 0; i < selectedItem.actions.length; i++) {
                     result.push(selectedItem.actions[i]);
@@ -57,18 +68,22 @@ Rectangle {
                     action: "launch_dgpu"
                 });
             }
+            break;
         }
         return result;
     }
 
     readonly property bool hasActions: {
-        if (selectedItem?.type === "app" && !selectedItem?.isCore)
-            return true;
-        if (selectedItem?.type === "plugin") {
-            var pluginActions = getPluginContextMenuActions();
-            return pluginActions.length > 0;
+        switch (selectedItem?.type) {
+        case "app":
+            return !selectedItem?.isCore;
+        case "plugin":
+            return getPluginContextMenuActions().length > 0;
+        case "plugin_browse":
+            return selectedItem?.actions?.length > 0;
+        default:
+            return actions.length > 1;
         }
-        return actions.length > 1;
     }
 
     width: parent?.width ?? 200
