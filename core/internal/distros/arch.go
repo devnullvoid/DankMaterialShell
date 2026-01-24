@@ -41,7 +41,7 @@ func init() {
 	Register("artix", "#1793D1", FamilyArch, func(config DistroConfig, logChan chan<- string) Distribution {
 		return NewArchDistribution(config, logChan)
 	})
-	Register("XeroLinux", "##888fe2", FamilyArch, func(config DistroConfig, logChan chan<- string) Distribution {
+	Register("XeroLinux", "#888fe2", FamilyArch, func(config DistroConfig, logChan chan<- string) Distribution {
 		return NewArchDistribution(config, logChan)
 	})
 }
