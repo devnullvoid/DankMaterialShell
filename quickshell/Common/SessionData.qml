@@ -180,7 +180,7 @@ Singleton {
         } catch (e) {
             _parseError = true;
             const msg = e.message;
-            console.error("SessionData: Failed to parse session.json - file will not be overwritten. Error:", msg);
+            console.error("SessionData: Failed to parse session.json - file will not be overwritten.");
             Qt.callLater(() => ToastService.showError(I18n.tr("Failed to parse session.json"), msg));
         }
     }
@@ -194,14 +194,10 @@ Singleton {
         _isReadOnly = !writable;
         if (_isReadOnly) {
             _hasUnsavedChanges = _checkForUnsavedChanges();
-            if (!wasReadOnly)
-                console.info("SessionData: session.json is now read-only");
         } else {
             _loadedSessionSnapshot = getCurrentSessionJson();
             _hasUnsavedChanges = false;
-            if (wasReadOnly)
-                console.info("SessionData: session.json is now writable");
-            if (_pendingMigration)
+            if (wasReadOnly && _pendingMigration)
                 settingsFile.setText(JSON.stringify(_pendingMigration, null, 2));
         }
         _pendingMigration = null;
@@ -263,7 +259,7 @@ Singleton {
         } catch (e) {
             _parseError = true;
             const msg = e.message;
-            console.error("SessionData: Failed to parse session.json - file will not be overwritten. Error:", msg);
+            console.error("SessionData: Failed to parse session.json - file will not be overwritten.");
             Qt.callLater(() => ToastService.showError(I18n.tr("Failed to parse session.json"), msg));
         }
     }
@@ -281,7 +277,6 @@ Singleton {
     }
 
     function migrateFromUndefinedToV1(settings) {
-        console.info("SessionData: Migrating configuration from undefined to version 1");
         if (typeof SettingsData !== "undefined") {
             if (settings.acMonitorTimeout !== undefined) {
                 SettingsData.set("acMonitorTimeout", settings.acMonitorTimeout);
@@ -456,7 +451,7 @@ Singleton {
         }
 
         if (!screen) {
-            console.warn("SessionData: Screen not found:", screenName);
+            console.warn("SessionData: Screen not found");
             return;
         }
 
@@ -553,7 +548,7 @@ Singleton {
         }
 
         if (!screen) {
-            console.warn("SessionData: Screen not found:", screenName);
+            console.warn("SessionData: Screen not found");
             return;
         }
 
@@ -591,7 +586,7 @@ Singleton {
         }
 
         if (!screen) {
-            console.warn("SessionData: Screen not found:", screenName);
+            console.warn("SessionData: Screen not found");
             return;
         }
 
@@ -629,7 +624,7 @@ Singleton {
         }
 
         if (!screen) {
-            console.warn("SessionData: Screen not found:", screenName);
+            console.warn("SessionData: Screen not found");
             return;
         }
 
@@ -667,7 +662,7 @@ Singleton {
         }
 
         if (!screen) {
-            console.warn("SessionData: Screen not found:", screenName);
+            console.warn("SessionData: Screen not found");
             return;
         }
 
@@ -710,7 +705,6 @@ Singleton {
     }
 
     function setNightModeAutoEnabled(enabled) {
-        console.log("SessionData: Setting nightModeAutoEnabled to", enabled);
         nightModeAutoEnabled = enabled;
         saveSettings();
     }
@@ -746,13 +740,11 @@ Singleton {
     }
 
     function setLatitude(lat) {
-        console.log("SessionData: Setting latitude to", lat);
         latitude = lat;
         saveSettings();
     }
 
     function setLongitude(lng) {
-        console.log("SessionData: Setting longitude to", lng);
         longitude = lng;
         saveSettings();
     }

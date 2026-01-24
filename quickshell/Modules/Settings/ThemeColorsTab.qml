@@ -152,7 +152,6 @@ Item {
                     }
                     themeColorsTab.templateDetection = detection;
                 } catch (e) {
-                    console.warn("ThemeColorsTab: Failed to parse template check:", e);
                 }
             }
         }

@@ -392,15 +392,11 @@ func (m *Manager) recalcSchedule(now time.Time) {
 		cond = SunNormal
 	} else {
 		lat, lon := m.getLocation()
-		log.Errorf("@@@ recalcSchedule: lat=%v, lon=%v @@@", lat, lon)
 		if lat == nil || lon == nil {
-			log.Errorf("@@@ recalcSchedule: NO LOCATION, setting StateStatic @@@")
 			m.gammaState = StateStatic
 			return
 		}
-		log.Errorf("@@@ recalcSchedule: calculating sun times for lat=%.4f, lon=%.4f @@@", *lat, *lon)
 		times, cond = CalculateSunTimesWithTwilight(*lat, *lon, now, config.ElevationTwilight, config.ElevationDaylight)
-		log.Errorf("@@@ recalcSchedule: sunrise=%v, sunset=%v @@@", times.Sunrise, times.Sunset)
 	}
 
 	m.schedule.calcDay = dayStart
@@ -779,13 +775,9 @@ func (m *Manager) updateStateFromSchedule() {
 	config := m.config
 	m.configMutex.RUnlock()
 
-	log.Errorf("@@@ updateStateFromSchedule: config.Lat=%v, config.Lon=%v @@@", config.Latitude, config.Longitude)
-
 	m.scheduleMutex.RLock()
 	times := m.schedule.times
 	m.scheduleMutex.RUnlock()
-
-	log.Errorf("@@@ updateStateFromSchedule: times.Sunrise=%v, times.Sunset=%v @@@", times.Sunrise, times.Sunset)
 
 	var pos float64
 	var temp int
@@ -793,7 +785,6 @@ func (m *Manager) updateStateFromSchedule() {
 	var deadline time.Time
 
 	if times.Sunrise.IsZero() {
-		log.Errorf("@@@ updateStateFromSchedule: Sunrise is ZERO, defaulting isDay=true @@@")
 		pos = 1.0
 		temp = config.HighTemp
 		isDay = true
@@ -803,7 +794,6 @@ func (m *Manager) updateStateFromSchedule() {
 		temp = m.getTempFromPosition(pos)
 		deadline = m.getNextDeadline(now)
 		isDay = now.After(times.Sunrise) && now.Before(times.Sunset)
-		log.Errorf("@@@ updateStateFromSchedule: isDay=%v (now=%v, sunrise=%v, sunset=%v) @@@", isDay, now.Format("15:04:05"), times.Sunrise.Format("15:04:05"), times.Sunset.Format("15:04:05"))
 	}
 
 	newState := State{
