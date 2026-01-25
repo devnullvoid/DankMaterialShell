@@ -1708,6 +1708,9 @@ Singleton {
         if (state.config && state.config.mode && state.config.mode !== SessionData.themeModeAutoMode) {
             return;
         }
+        if (typeof SessionData !== "undefined" && state.nextTransition !== undefined) {
+            SessionData.themeModeNextTransition = state.nextTransition || "";
+        }
         if (state.isLight !== undefined && root.isLightMode !== state.isLight) {
             root.setLightMode(state.isLight, true, true);
         }

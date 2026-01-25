@@ -89,6 +89,7 @@ Singleton {
     property int themeModeEndHour: 6
     property int themeModeEndMinute: 0
     property bool themeModeShareGammaSettings: true
+    property string themeModeNextTransition: ""
 
     property var pinnedApps: []
     property var barPinnedApps: []

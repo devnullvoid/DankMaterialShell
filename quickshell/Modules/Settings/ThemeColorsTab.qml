@@ -125,6 +125,19 @@ Item {
         return Theme.warning;
     }
 
+    function formatThemeAutoTime(isoString) {
+        if (!isoString)
+            return "";
+        try {
+            const date = new Date(isoString);
+            if (isNaN(date.getTime()))
+                return "";
+            return date.toLocaleTimeString(Qt.locale(), "HH:mm");
+        } catch (e) {
+            return "";
+        }
+    }
+
     Component.onCompleted: {
         SettingsData.detectAvailableIconThemes();
         SettingsData.detectAvailableCursorThemes();
@@ -1287,35 +1300,117 @@ Item {
 
                         Rectangle {
                             width: parent.width
-                            height: statusColumn.implicitHeight + Theme.spacingM * 2
+                            height: statusRow.implicitHeight + Theme.spacingM * 2
                             radius: Theme.cornerRadius
                             color: Theme.surfaceContainerHigh
 
-                            Column {
-                                id: statusColumn
+                            Row {
+                                id: statusRow
                                 anchors.centerIn: parent
-                                spacing: Theme.spacingXS
+                                spacing: Theme.spacingL
+                                width: parent.width - Theme.spacingM * 2
 
-                                DankIcon {
-                                    name: SessionData.isLightMode ? "light_mode" : "dark_mode"
-                                    size: Theme.iconSize
-                                    color: SessionData.isLightMode ? "#FFA726" : "#7E57C2"
-                                    anchors.horizontalCenter: parent.horizontalCenter
+                                Column {
+                                    spacing: 2
+                                    width: (parent.width - Theme.spacingL * 2) / 3
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    Row {
+                                        spacing: Theme.spacingS
+                                        anchors.horizontalCenter: parent.horizontalCenter
+
+                                        Rectangle {
+                                            width: 8
+                                            height: 8
+                                            radius: 4
+                                            color: SessionData.themeModeAutoEnabled ? Theme.success : Theme.error
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+
+                                        StyledText {
+                                            text: I18n.tr("Automation")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.surfaceVariantText
+                                        }
+                                    }
+
+                                    StyledText {
+                                        text: SessionData.themeModeAutoEnabled ? I18n.tr("Enabled") : I18n.tr("Disabled")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        font.weight: Font.Medium
+                                        color: Theme.surfaceText
+                                        horizontalAlignment: Text.AlignHCenter
+                                        width: parent.width
+                                    }
                                 }
 
-                                StyledText {
-                                    text: SessionData.isLightMode ? I18n.tr("Light Mode Active") : I18n.tr("Dark Mode Active")
-                                    font.pixelSize: Theme.fontSizeMedium
-                                    font.weight: Font.Medium
-                                    color: Theme.surfaceText
-                                    anchors.horizontalCenter: parent.horizontalCenter
+                                Column {
+                                    spacing: 2
+                                    width: (parent.width - Theme.spacingL * 2) / 3
+                                    anchors.verticalCenter: parent.verticalCenter
+
+                                    Row {
+                                        anchors.horizontalCenter: parent.horizontalCenter
+                                        spacing: Theme.spacingS
+
+                                        DankIcon {
+                                            name: SessionData.isLightMode ? "light_mode" : "dark_mode"
+                                            size: Theme.iconSizeSmall
+                                            color: SessionData.isLightMode ? "#FFA726" : "#7E57C2"
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+
+                                        StyledText {
+                                            text: SessionData.isLightMode ? I18n.tr("Light Mode") : I18n.tr("Dark Mode")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            font.weight: Font.Bold
+                                            color: Theme.surfaceText
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+                                    }
+
+                                    StyledText {
+                                        text: I18n.tr("Active")
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        color: Theme.surfaceVariantText
+                                        horizontalAlignment: Text.AlignHCenter
+                                        width: parent.width
+                                    }
                                 }
 
-                                StyledText {
-                                    text: I18n.tr("Automation: ") + (SessionData.themeModeAutoEnabled ? I18n.tr("Enabled") : I18n.tr("Disabled"))
-                                    font.pixelSize: Theme.fontSizeSmall
-                                    color: Theme.surfaceVariantText
-                                    anchors.horizontalCenter: parent.horizontalCenter
+                                Column {
+                                    spacing: 2
+                                    width: (parent.width - Theme.spacingL * 2) / 3
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    visible: SessionData.themeModeAutoEnabled && SessionData.themeModeNextTransition
+
+                                    Row {
+                                        spacing: Theme.spacingS
+                                        anchors.horizontalCenter: parent.horizontalCenter
+
+                                        DankIcon {
+                                            name: "schedule"
+                                            size: Theme.iconSizeSmall
+                                            color: Theme.primary
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+
+                                        StyledText {
+                                            text: I18n.tr("Next Transition")
+                                            font.pixelSize: Theme.fontSizeSmall
+                                            color: Theme.surfaceVariantText
+                                            anchors.verticalCenter: parent.verticalCenter
+                                        }
+                                    }
+
+                                    StyledText {
+                                        text: themeColorsTab.formatThemeAutoTime(SessionData.themeModeNextTransition)
+                                        font.pixelSize: Theme.fontSizeSmall
+                                        font.weight: Font.Medium
+                                        color: Theme.surfaceText
+                                        horizontalAlignment: Text.AlignHCenter
+                                        width: parent.width
+                                    }
                                 }
                             }
                         }
