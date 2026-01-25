@@ -164,8 +164,7 @@ Item {
                         detection[item.id] = item.detected;
                     }
                     themeColorsTab.templateDetection = detection;
-                } catch (e) {
-                }
+                } catch (e) {}
             }
         }
     }
@@ -1028,8 +1027,14 @@ Item {
                                 height: 45
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 model: [
-                                    { "text": "Time", "icon": "access_time" },
-                                    { "text": "Location", "icon": "place" }
+                                    {
+                                        "text": "Time",
+                                        "icon": "access_time"
+                                    },
+                                    {
+                                        "text": "Location",
+                                        "icon": "place"
+                                    }
                                 ]
 
                                 Component.onCompleted: {
@@ -1104,7 +1109,8 @@ Item {
                                         currentValue: SessionData.themeModeStartHour.toString()
                                         options: {
                                             var hours = [];
-                                            for (var i = 0; i < 24; i++) hours.push(i.toString());
+                                            for (var i = 0; i < 24; i++)
+                                                hours.push(i.toString());
                                             return hours;
                                         }
                                         onValueChanged: value => {
@@ -1145,7 +1151,8 @@ Item {
                                         currentValue: SessionData.themeModeEndHour.toString()
                                         options: {
                                             var hours = [];
-                                            for (var i = 0; i < 24; i++) hours.push(i.toString());
+                                            for (var i = 0; i < 24; i++)
+                                                hours.push(i.toString());
                                             return hours;
                                         }
                                         onValueChanged: value => {
@@ -1356,7 +1363,7 @@ Item {
 
                                         DankIcon {
                                             name: SessionData.isLightMode ? "light_mode" : "dark_mode"
-                                            size: Theme.iconSizeMedium
+                                            size: Theme.iconSize
                                             color: SessionData.isLightMode ? "#FFA726" : "#7E57C2"
                                             anchors.verticalCenter: parent.verticalCenter
                                         }
@@ -1392,7 +1399,7 @@ Item {
 
                                         DankIcon {
                                             name: "schedule"
-                                            size: Theme.iconSizeMedium
+                                            size: Theme.iconSize
                                             color: Theme.primary
                                             anchors.verticalCenter: parent.verticalCenter
                                         }
