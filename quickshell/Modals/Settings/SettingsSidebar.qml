@@ -750,7 +750,7 @@ Rectangle {
                     Rectangle {
                         id: categoryRow
                         width: parent.width
-                        height: 40
+                        height: Math.max(Theme.iconSize, Theme.fontSizeMedium) + Theme.spacingS * 2
                         radius: Theme.cornerRadius
                         visible: categoryDelegate.modelData.separator !== true
 
@@ -847,7 +847,7 @@ Rectangle {
                                 readonly property bool isHighlighted: root.keyboardHighlightIndex === modelData.tabIndex
 
                                 width: childrenColumn.width
-                                height: 36
+                                height: Math.max(Theme.iconSize - 4, Theme.fontSizeSmall + 1) + Theme.spacingS * 2
                                 radius: Theme.cornerRadius
                                 visible: root.isItemVisible(modelData)
                                 color: {
