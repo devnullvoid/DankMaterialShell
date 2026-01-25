@@ -1171,7 +1171,7 @@ Item {
                             }
 
                             StyledText {
-                                text: I18n.tr("Light mode will be active from Light Start to Dark Start")
+                                text: SessionData.isLightMode ? I18n.tr("Light mode will be active from Light Start to Dark Start") : I18n.tr("Dark mode will be active from Dark Start to Light Start")
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.surfaceVariantText
                                 width: parent.width
@@ -1278,7 +1278,7 @@ Item {
                             }
 
                             StyledText {
-                                text: I18n.tr("Light mode will be active from sunrise to sunset")
+                                text: SessionData.isLightMode ? I18n.tr("Light mode will be active from sunrise to sunset") : I18n.tr("Dark mode will be active from sunset to sunrise")
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.primary
                                 width: parent.width
@@ -1329,14 +1329,15 @@ Item {
 
                                         StyledText {
                                             text: I18n.tr("Automation")
-                                            font.pixelSize: Theme.fontSizeSmall
-                                            color: Theme.surfaceVariantText
+                                            font.pixelSize: Theme.fontSizeMedium
+                                            font.weight: Font.Medium
+                                            color: Theme.surfaceText
                                         }
                                     }
 
                                     StyledText {
                                         text: SessionData.themeModeAutoEnabled ? I18n.tr("Enabled") : I18n.tr("Disabled")
-                                        font.pixelSize: Theme.fontSizeSmall
+                                        font.pixelSize: Theme.fontSizeMedium
                                         font.weight: Font.Medium
                                         color: Theme.surfaceText
                                         horizontalAlignment: Text.AlignHCenter
@@ -1355,14 +1356,14 @@ Item {
 
                                         DankIcon {
                                             name: SessionData.isLightMode ? "light_mode" : "dark_mode"
-                                            size: Theme.iconSizeSmall
+                                            size: Theme.iconSizeMedium
                                             color: SessionData.isLightMode ? "#FFA726" : "#7E57C2"
                                             anchors.verticalCenter: parent.verticalCenter
                                         }
 
                                         StyledText {
                                             text: SessionData.isLightMode ? I18n.tr("Light Mode") : I18n.tr("Dark Mode")
-                                            font.pixelSize: Theme.fontSizeSmall
+                                            font.pixelSize: Theme.fontSizeMedium
                                             font.weight: Font.Bold
                                             color: Theme.surfaceText
                                             anchors.verticalCenter: parent.verticalCenter
@@ -1371,8 +1372,9 @@ Item {
 
                                     StyledText {
                                         text: I18n.tr("Active")
-                                        font.pixelSize: Theme.fontSizeSmall
-                                        color: Theme.surfaceVariantText
+                                        font.pixelSize: Theme.fontSizeMedium
+                                        font.weight: Font.Medium
+                                        color: Theme.surfaceText
                                         horizontalAlignment: Text.AlignHCenter
                                         width: parent.width
                                     }
@@ -1390,22 +1392,23 @@ Item {
 
                                         DankIcon {
                                             name: "schedule"
-                                            size: Theme.iconSizeSmall
+                                            size: Theme.iconSizeMedium
                                             color: Theme.primary
                                             anchors.verticalCenter: parent.verticalCenter
                                         }
 
                                         StyledText {
                                             text: I18n.tr("Next Transition")
-                                            font.pixelSize: Theme.fontSizeSmall
-                                            color: Theme.surfaceVariantText
+                                            font.pixelSize: Theme.fontSizeMedium
+                                            font.weight: Font.Medium
+                                            color: Theme.surfaceText
                                             anchors.verticalCenter: parent.verticalCenter
                                         }
                                     }
 
                                     StyledText {
                                         text: themeColorsTab.formatThemeAutoTime(SessionData.themeModeNextTransition)
-                                        font.pixelSize: Theme.fontSizeSmall
+                                        font.pixelSize: Theme.fontSizeMedium
                                         font.weight: Font.Medium
                                         color: Theme.surfaceText
                                         horizontalAlignment: Text.AlignHCenter
