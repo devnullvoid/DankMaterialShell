@@ -45,6 +45,10 @@ func HandleRequest(conn net.Conn, req models.Request, m *Manager) {
 		handleGetPinnedEntries(conn, req, m)
 	case "clipboard.getPinnedCount":
 		handleGetPinnedCount(conn, req, m)
+	case "clipboard.startFileTransfer":
+		handleStartFileTransfer(conn, req, m)
+	case "clipboard.exportFile":
+		handleExportFile(conn, req, m)
 	default:
 		models.RespondError(conn, req.ID, "unknown method: "+req.Method)
 	}
@@ -280,4 +284,36 @@ func handleGetPinnedEntries(conn net.Conn, req models.Request, m *Manager) {
 func handleGetPinnedCount(conn net.Conn, req models.Request, m *Manager) {
 	count := m.GetPinnedCount()
 	models.Respond(conn, req.ID, map[string]int{"count": count})
+}
+
+func handleStartFileTransfer(conn net.Conn, req models.Request, m *Manager) {
+	filePath, err := params.String(req.Params, "filePath")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	key, err := m.StartFileTransfer(filePath)
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	models.Respond(conn, req.ID, map[string]string{"key": key})
+}
+
+func handleExportFile(conn net.Conn, req models.Request, m *Manager) {
+	filePath, err := params.String(req.Params, "filePath")
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	exportedPath, err := m.ExportFileForFlatpak(filePath)
+	if err != nil {
+		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	models.Respond(conn, req.ID, map[string]string{"path": exportedPath})
 }

@@ -7,6 +7,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/godbus/dbus/v5"
 	bolt "go.etcd.io/bbolt"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/wlcontext"
@@ -157,6 +158,9 @@ type Manager struct {
 	dirty       chan struct{}
 	notifierWg  sync.WaitGroup
 	lastState   *State
+
+	dbusConn      *dbus.Conn
+	transferFiles []*os.File // Keep files open for portal transfers
 }
 
 func (m *Manager) GetState() State {

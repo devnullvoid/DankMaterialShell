@@ -28,7 +28,7 @@ Item {
 
                 SettingsButtonGroupRow {
                     text: I18n.tr("Position")
-                    model: ["Top", "Bottom", "Left", "Right"]
+                    model: [I18n.tr("Top", "dock position option"), I18n.tr("Bottom", "dock position option"), I18n.tr("Left", "dock position option"), I18n.tr("Right", "dock position option")]
                     buttonPadding: Theme.spacingS
                     minButtonWidth: 44
                     textSize: Theme.fontSizeSmall
@@ -151,7 +151,7 @@ Item {
                     settingKey: "dockIndicatorStyle"
                     tags: ["dock", "indicator", "style", "circle", "line"]
                     text: I18n.tr("Indicator Style")
-                    model: ["Circle", "Line"]
+                    model: [I18n.tr("Circle", "dock indicator style option"), I18n.tr("Line", "dock indicator style option")]
                     buttonPadding: Theme.spacingS
                     minButtonWidth: 44
                     textSize: Theme.fontSizeSmall
@@ -500,7 +500,7 @@ Item {
                     text: I18n.tr("Border Color")
                     description: I18n.tr("Choose the border accent color")
                     visible: SettingsData.dockBorderEnabled
-                    model: ["Surface", "Secondary", "Primary"]
+                    model: [I18n.tr("Surface", "color option"), I18n.tr("Secondary", "color option"), I18n.tr("Primary", "color option")]
                     buttonPadding: Theme.spacingS
                     minButtonWidth: 44
                     textSize: Theme.fontSizeSmall

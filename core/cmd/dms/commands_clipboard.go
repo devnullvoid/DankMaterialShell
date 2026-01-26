@@ -23,7 +23,6 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/godbus/dbus/v5"
 	bolt "go.etcd.io/bbolt"
 	_ "golang.org/x/image/bmp"
 	_ "golang.org/x/image/tiff"
@@ -920,55 +919,99 @@ func downloadToTempFile(rawURL string) (string, error) {
 }
 
 func copyFileToClipboard(filePath string) error {
-	fileURI := "file://" + filePath
+	exportedPath, err := exportFileForFlatpak(filePath)
+	if err != nil {
+		log.Warnf("document export unavailable: %v, using local path", err)
+		exportedPath = filePath
+	}
+	fileURI := "file://" + exportedPath
 
 	transferKey, err := startPortalFileTransfer(filePath)
 	if err != nil {
 		log.Warnf("portal file transfer unavailable: %v", err)
 	}
 
-	offers := []clipboard.Offer{
-		{MimeType: "text/uri-list", Data: []byte(fileURI + "\r\n")},
-	}
+	portalOnly := os.Getenv("DMS_PORTAL_ONLY") == "1"
+
+	var offers []clipboard.Offer
 	if transferKey != "" {
 		offers = append(offers, clipboard.Offer{
 			MimeType: "application/vnd.portal.filetransfer",
 			Data:     []byte(transferKey),
 		})
 	}
+	if !portalOnly {
+		offers = append(offers, clipboard.Offer{
+			MimeType: "text/uri-list",
+			Data:     []byte(fileURI + "\r\n"),
+		})
+	}
+
+	if len(offers) == 0 {
+		return fmt.Errorf("no clipboard offers available")
+	}
 
 	return clipboard.CopyMulti(offers, clipCopyForeground, clipCopyPasteOnce)
 }
 
+func exportFileForFlatpak(filePath string) (string, error) {
+	req := models.Request{
+		ID:     1,
+		Method: "clipboard.exportFile",
+		Params: map[string]any{
+			"filePath": filePath,
+		},
+	}
+
+	resp, err := sendServerRequest(req)
+	if err != nil {
+		return "", fmt.Errorf("server request: %w", err)
+	}
+
+	if resp.Error != "" {
+		return "", fmt.Errorf("server error: %s", resp.Error)
+	}
+
+	result, ok := (*resp.Result).(map[string]any)
+	if !ok {
+		return "", fmt.Errorf("invalid response format")
+	}
+
+	path, ok := result["path"].(string)
+	if !ok {
+		return "", fmt.Errorf("missing path in response")
+	}
+
+	return path, nil
+}
+
 func startPortalFileTransfer(filePath string) (string, error) {
-	conn, err := dbus.ConnectSessionBus()
+	req := models.Request{
+		ID:     1,
+		Method: "clipboard.startFileTransfer",
+		Params: map[string]any{
+			"filePath": filePath,
+		},
+	}
+
+	resp, err := sendServerRequest(req)
 	if err != nil {
-		return "", fmt.Errorf("connect session bus: %w", err)
-	}
-	defer conn.Close()
-
-	portal := conn.Object("org.freedesktop.portal.Documents", "/org/freedesktop/portal/documents")
-
-	var key string
-	options := map[string]dbus.Variant{
-		"writable": dbus.MakeVariant(false),
-		"autostop": dbus.MakeVariant(true),
-	}
-	if err := portal.Call("org.freedesktop.portal.FileTransfer.StartTransfer", 0, options).Store(&key); err != nil {
-		return "", fmt.Errorf("start transfer: %w", err)
+		return "", fmt.Errorf("server request: %w", err)
 	}
 
-	fd, err := syscall.Open(filePath, syscall.O_RDONLY, 0)
-	if err != nil {
-		return "", fmt.Errorf("open file: %w", err)
+	if resp.Error != "" {
+		return "", fmt.Errorf("server error: %s", resp.Error)
 	}
 
-	addOptions := map[string]dbus.Variant{}
-	if err := portal.Call("org.freedesktop.portal.FileTransfer.AddFiles", 0, key, []dbus.UnixFD{dbus.UnixFD(fd)}, addOptions).Err; err != nil {
-		syscall.Close(fd)
-		return "", fmt.Errorf("add files: %w", err)
+	result, ok := (*resp.Result).(map[string]any)
+	if !ok {
+		return "", fmt.Errorf("invalid response format")
 	}
-	syscall.Close(fd)
+
+	key, ok := result["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("missing key in response")
+	}
 
 	return key, nil
 }

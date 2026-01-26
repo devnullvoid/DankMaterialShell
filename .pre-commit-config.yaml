@@ -14,7 +14,7 @@ repos:
     hooks:
       - id: go-mod-tidy
         name: go mod tidy
-        entry: go mod tidy
+        entry: bash -c 'cd core && go mod tidy'
         language: system
-        files: (go\.mod|go\.sum|\.go)$
+        files: ^core/.*\.(go|mod|sum)$
         pass_filenames: false

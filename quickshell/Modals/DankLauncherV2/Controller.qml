@@ -328,12 +328,25 @@ Item {
 
     function loadPluginCategories(pluginId) {
         if (!pluginId) {
-            activePluginCategories = [];
-            activePluginCategory = "";
+            if (activePluginCategories.length > 0) {
+                activePluginCategories = [];
+                activePluginCategory = "";
+            }
             return;
         }
 
         const categories = AppSearchService.getPluginLauncherCategories(pluginId);
+        if (categories.length === activePluginCategories.length) {
+            let same = true;
+            for (let i = 0; i < categories.length; i++) {
+                if (categories[i].id !== activePluginCategories[i]?.id) {
+                    same = false;
+                    break;
+                }
+            }
+            if (same)
+                return;
+        }
         activePluginCategories = categories;
         activePluginCategory = "";
         AppSearchService.setPluginLauncherCategory(pluginId, "");

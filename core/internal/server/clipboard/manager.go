@@ -10,6 +10,7 @@ import (
 	_ "image/png"
 	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"slices"
 	"strings"
@@ -19,6 +20,7 @@ import (
 	"hash/fnv"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/godbus/dbus/v5"
 	_ "golang.org/x/image/bmp"
 	_ "golang.org/x/image/tiff"
 	_ "golang.org/x/image/webp"
@@ -1528,4 +1530,134 @@ func (m *Manager) GetPinnedCount() int {
 	}
 
 	return count
+}
+
+func (m *Manager) StartFileTransfer(filePath string) (string, error) {
+	if _, err := os.Stat(filePath); err != nil {
+		return "", fmt.Errorf("file not found: %w", err)
+	}
+
+	if m.dbusConn == nil {
+		conn, err := dbus.ConnectSessionBus()
+		if err != nil {
+			return "", fmt.Errorf("connect session bus: %w", err)
+		}
+		if !conn.SupportsUnixFDs() {
+			conn.Close()
+			return "", fmt.Errorf("D-Bus connection does not support Unix FD passing")
+		}
+		m.dbusConn = conn
+	}
+
+	portal := m.dbusConn.Object("org.freedesktop.portal.Documents", "/org/freedesktop/portal/documents")
+
+	var key string
+	options := map[string]dbus.Variant{
+		"writable": dbus.MakeVariant(false),
+		"autostop": dbus.MakeVariant(false),
+	}
+	if err := portal.Call("org.freedesktop.portal.FileTransfer.StartTransfer", 0, options).Store(&key); err != nil {
+		return "", fmt.Errorf("start transfer: %w", err)
+	}
+
+	file, err := os.Open(filePath)
+	if err != nil {
+		return "", fmt.Errorf("open file: %w", err)
+	}
+	if _, err := file.Seek(0, 0); err != nil {
+		file.Close()
+		return "", fmt.Errorf("seek file: %w", err)
+	}
+	fd := int(file.Fd())
+
+	addOptions := map[string]dbus.Variant{}
+	if err := portal.Call("org.freedesktop.portal.FileTransfer.AddFiles", 0, key, []dbus.UnixFD{dbus.UnixFD(fd)}, addOptions).Err; err != nil {
+		file.Close()
+		return "", fmt.Errorf("add files: %w", err)
+	}
+	m.transferFiles = append(m.transferFiles, file)
+
+	return key, nil
+}
+
+func (m *Manager) ExportFileForFlatpak(filePath string) (string, error) {
+	if _, err := os.Stat(filePath); err != nil {
+		return "", fmt.Errorf("file not found: %w", err)
+	}
+
+	if m.dbusConn == nil {
+		conn, err := dbus.ConnectSessionBus()
+		if err != nil {
+			return "", fmt.Errorf("connect session bus: %w", err)
+		}
+		if !conn.SupportsUnixFDs() {
+			conn.Close()
+			return "", fmt.Errorf("D-Bus connection does not support Unix FD passing")
+		}
+		m.dbusConn = conn
+	}
+
+	file, err := os.Open(filePath)
+	if err != nil {
+		return "", fmt.Errorf("open file: %w", err)
+	}
+	fd := int(file.Fd())
+
+	portal := m.dbusConn.Object("org.freedesktop.portal.Documents", "/org/freedesktop/portal/documents")
+
+	var docIds []string
+	var extra map[string]dbus.Variant
+	flags := uint32(0)
+
+	err = portal.Call(
+		"org.freedesktop.portal.Documents.AddFull",
+		0,
+		[]dbus.UnixFD{dbus.UnixFD(fd)},
+		flags,
+		"",
+		[]string{},
+	).Store(&docIds, &extra)
+
+	file.Close()
+
+	if err != nil {
+		return "", fmt.Errorf("AddFull: %w", err)
+	}
+
+	if len(docIds) == 0 {
+		return "", fmt.Errorf("no doc IDs returned")
+	}
+
+	docId := docIds[0]
+
+	for _, app := range getInstalledFlatpaks() {
+		_ = portal.Call(
+			"org.freedesktop.portal.Documents.GrantPermissions",
+			0,
+			docId,
+			app,
+			[]string{"read"},
+		).Err
+	}
+
+	uid := os.Getuid()
+	basename := filepath.Base(filePath)
+	exportedPath := fmt.Sprintf("/run/user/%d/doc/%s/%s", uid, docId, basename)
+
+	return exportedPath, nil
+}
+
+func getInstalledFlatpaks() []string {
+	out, err := exec.Command("flatpak", "list", "--app", "--columns=application").Output()
+	if err != nil {
+		return nil
+	}
+
+	var apps []string
+	for _, line := range strings.Split(strings.TrimSpace(string(out)), "\n") {
+		if app := strings.TrimSpace(line); app != "" {
+			apps = append(apps, app)
+		}
+	}
+	return apps
 }
