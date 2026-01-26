@@ -79,7 +79,7 @@ Item {
         }
 
         Component.onCompleted: {
-            if (entryType !== "image") {
+            if (entryType !== "image" || listView.height <= 0) {
                 return;
             }
 
@@ -95,8 +95,9 @@ Item {
 
         Connections {
             target: listView
-            function onContentYChanged() {
-                if (entryType !== "image") {
+
+            function checkVisibility() {
+                if (entryType !== "image" || listView.height <= 0) {
                     return;
                 }
 
@@ -109,6 +110,14 @@ Item {
                     thumbnailImage.isVisible = true;
                     thumbnailImage.tryLoadImage();
                 }
+            }
+
+            function onContentYChanged() {
+                checkVisibility();
+            }
+
+            function onHeightChanged() {
+                checkVisibility();
             }
         }
     }
