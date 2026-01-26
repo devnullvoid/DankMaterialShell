@@ -65,6 +65,12 @@ Item {
         running: false
     }
 
+    Process {
+        id: copyProcess
+        running: false
+        onExited: pasteTimer.start()
+    }
+
     Timer {
         id: pasteTimer
         interval: 200
@@ -83,12 +89,12 @@ Item {
         const pluginId = selectedItem.pluginId;
         if (!pluginId)
             return;
-        const pasteText = AppSearchService.getPluginPasteText(pluginId, selectedItem.data);
-        if (!pasteText)
+        const pasteArgs = AppSearchService.getPluginPasteArgs(pluginId, selectedItem.data);
+        if (!pasteArgs)
             return;
-        Quickshell.execDetached(["dms", "cl", "copy", pasteText]);
+        copyProcess.command = pasteArgs;
+        copyProcess.running = true;
         itemExecuted();
-        pasteTimer.start();
     }
 
     readonly property var sectionDefinitions: [

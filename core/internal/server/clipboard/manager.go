@@ -21,6 +21,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 	_ "golang.org/x/image/bmp"
 	_ "golang.org/x/image/tiff"
+	_ "golang.org/x/image/webp"
 
 	bolt "go.etcd.io/bbolt"
 
@@ -316,6 +317,13 @@ func (m *Manager) readAndStore(r *os.File, mimeType string) {
 }
 
 func (m *Manager) storeClipboardEntry(data []byte, mimeType string) {
+	if mimeType == "text/uri-list" {
+		if imgData, imgMime, ok := m.tryReadImageFromURI(data); ok {
+			data = imgData
+			mimeType = imgMime
+		}
+	}
+
 	entry := Entry{
 		Data:      data,
 		MimeType:  mimeType,
@@ -327,6 +335,8 @@ func (m *Manager) storeClipboardEntry(data []byte, mimeType string) {
 	switch {
 	case entry.IsImage:
 		entry.Preview = m.imagePreview(data, mimeType)
+	case mimeType == "text/uri-list":
+		entry.Preview, entry.IsImage = m.uriListPreview(data)
 	default:
 		entry.Preview = m.textPreview(data)
 	}
@@ -507,6 +517,7 @@ func (m *Manager) hasSensitiveMimeType(mimes []string) bool {
 
 func (m *Manager) selectMimeType(mimes []string) string {
 	preferredTypes := []string{
+		"text/uri-list",
 		"text/plain;charset=utf-8",
 		"text/plain",
 		"UTF8_STRING",
@@ -555,6 +566,62 @@ func (m *Manager) imagePreview(data []byte, format string) string {
 		return fmt.Sprintf("[[ image %s %s ]]", sizeStr(len(data)), format)
 	}
 	return fmt.Sprintf("[[ image %s %s %dx%d ]]", sizeStr(len(data)), imgFmt, config.Width, config.Height)
+}
+
+func (m *Manager) uriListPreview(data []byte) (string, bool) {
+	text := strings.TrimSpace(string(data))
+	uris := strings.Split(text, "\r\n")
+	if len(uris) == 0 {
+		uris = strings.Split(text, "\n")
+	}
+
+	if len(uris) == 1 && strings.HasPrefix(uris[0], "file://") {
+		filePath := strings.TrimPrefix(uris[0], "file://")
+		if info, err := os.Stat(filePath); err == nil && !info.IsDir() {
+			if imgData, err := os.ReadFile(filePath); err == nil {
+				if config, imgFmt, err := image.DecodeConfig(bytes.NewReader(imgData)); err == nil {
+					return fmt.Sprintf("[[ file %s %s %dx%d ]]", filepath.Base(filePath), imgFmt, config.Width, config.Height), true
+				}
+			}
+			return fmt.Sprintf("[[ file %s ]]", filepath.Base(filePath)), false
+		}
+	}
+
+	if len(uris) > 1 {
+		return fmt.Sprintf("[[ %d files ]]", len(uris)), false
+	}
+
+	return m.textPreview(data), false
+}
+
+func (m *Manager) tryReadImageFromURI(data []byte) ([]byte, string, bool) {
+	text := strings.TrimSpace(string(data))
+	uris := strings.Split(text, "\r\n")
+	if len(uris) == 0 {
+		uris = strings.Split(text, "\n")
+	}
+
+	if len(uris) != 1 || !strings.HasPrefix(uris[0], "file://") {
+		return nil, "", false
+	}
+
+	filePath := strings.TrimPrefix(uris[0], "file://")
+	info, err := os.Stat(filePath)
+	if err != nil || info.IsDir() {
+		return nil, "", false
+	}
+
+	imgData, err := os.ReadFile(filePath)
+	if err != nil {
+		return nil, "", false
+	}
+
+	_, imgFmt, err := image.DecodeConfig(bytes.NewReader(imgData))
+	if err != nil {
+		return nil, "", false
+	}
+
+	return imgData, "image/" + imgFmt, true
 }
 
 func sizeStr(size int) string {
@@ -1291,6 +1358,8 @@ func (m *Manager) StoreData(data []byte, mimeType string) error {
 	switch {
 	case entry.IsImage:
 		entry.Preview = m.imagePreview(data, mimeType)
+	case mimeType == "text/uri-list":
+		entry.Preview, entry.IsImage = m.uriListPreview(data)
 	default:
 		entry.Preview = m.textPreview(data)
 	}

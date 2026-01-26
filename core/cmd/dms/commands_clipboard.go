@@ -12,17 +12,22 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
+	"net/http"
+	"net/url"
 	"os"
 	"os/exec"
 	"os/signal"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"syscall"
 	"time"
 
+	"github.com/godbus/dbus/v5"
 	bolt "go.etcd.io/bbolt"
 	_ "golang.org/x/image/bmp"
 	_ "golang.org/x/image/tiff"
+	_ "golang.org/x/image/webp"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/clipboard"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
@@ -48,6 +53,7 @@ var (
 	clipCopyForeground bool
 	clipCopyPasteOnce  bool
 	clipCopyType       string
+	clipCopyDownload   bool
 	clipJSONOutput     bool
 )
 
@@ -184,6 +190,7 @@ func init() {
 	clipCopyCmd.Flags().BoolVarP(&clipCopyForeground, "foreground", "f", false, "Stay in foreground instead of forking")
 	clipCopyCmd.Flags().BoolVarP(&clipCopyPasteOnce, "paste-once", "o", false, "Exit after first paste")
 	clipCopyCmd.Flags().StringVarP(&clipCopyType, "type", "t", "text/plain;charset=utf-8", "MIME type")
+	clipCopyCmd.Flags().BoolVarP(&clipCopyDownload, "download", "d", false, "Download URL as image and copy as file")
 
 	clipWatchCmd.Flags().BoolVar(&clipJSONOutput, "json", false, "Output as JSON")
 	clipHistoryCmd.Flags().BoolVar(&clipJSONOutput, "json", false, "Output as JSON")
@@ -215,9 +222,10 @@ func init() {
 func runClipCopy(cmd *cobra.Command, args []string) {
 	var data []byte
 
-	if len(args) > 0 {
+	switch {
+	case len(args) > 0:
 		data = []byte(args[0])
-	} else {
+	default:
 		var err error
 		data, err = io.ReadAll(os.Stdin)
 		if err != nil {
@@ -225,9 +233,65 @@ func runClipCopy(cmd *cobra.Command, args []string) {
 		}
 	}
 
+	if clipCopyDownload {
+		filePath, err := downloadToTempFile(strings.TrimSpace(string(data)))
+		if err != nil {
+			log.Fatalf("download: %v", err)
+		}
+		if err := copyFileToClipboard(filePath); err != nil {
+			log.Fatalf("copy file: %v", err)
+		}
+		return
+	}
+
+	if clipCopyType == "__multi__" {
+		offers, err := parseMultiOffers(data)
+		if err != nil {
+			log.Fatalf("parse multi offers: %v", err)
+		}
+		if err := clipboard.CopyMulti(offers, true, clipCopyPasteOnce); err != nil {
+			log.Fatalf("copy multi: %v", err)
+		}
+		return
+	}
+
 	if err := clipboard.CopyOpts(data, clipCopyType, clipCopyForeground, clipCopyPasteOnce); err != nil {
 		log.Fatalf("copy: %v", err)
 	}
+}
+
+func parseMultiOffers(data []byte) ([]clipboard.Offer, error) {
+	var offers []clipboard.Offer
+	pos := 0
+
+	for pos < len(data) {
+		mimeEnd := bytes.IndexByte(data[pos:], 0)
+		if mimeEnd == -1 {
+			break
+		}
+		mimeType := string(data[pos : pos+mimeEnd])
+		pos += mimeEnd + 1
+
+		lenEnd := bytes.IndexByte(data[pos:], 0)
+		if lenEnd == -1 {
+			break
+		}
+		dataLen, err := strconv.Atoi(string(data[pos : pos+lenEnd]))
+		if err != nil {
+			return nil, fmt.Errorf("parse length: %w", err)
+		}
+		pos += lenEnd + 1
+
+		if pos+dataLen > len(data) {
+			return nil, fmt.Errorf("data truncated")
+		}
+		offerData := data[pos : pos+dataLen]
+		pos += dataLen
+
+		offers = append(offers, clipboard.Offer{MimeType: mimeType, Data: offerData})
+	}
+
+	return offers, nil
 }
 
 func runClipPaste(cmd *cobra.Command, args []string) {
@@ -794,4 +858,117 @@ func detectMimeType(data []byte) string {
 
 func btoi(v []byte) uint64 {
 	return binary.BigEndian.Uint64(v)
+}
+
+func downloadToTempFile(rawURL string) (string, error) {
+	if !strings.HasPrefix(rawURL, "http://") && !strings.HasPrefix(rawURL, "https://") {
+		return "", fmt.Errorf("invalid URL: %s", rawURL)
+	}
+
+	parsedURL, err := url.Parse(rawURL)
+	if err != nil {
+		return "", fmt.Errorf("parse URL: %w", err)
+	}
+
+	ext := filepath.Ext(parsedURL.Path)
+	if ext == "" {
+		ext = ".png"
+	}
+
+	client := &http.Client{Timeout: 30 * time.Second}
+	resp, err := client.Get(rawURL)
+	if err != nil {
+		return "", fmt.Errorf("download: %w", err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("download failed: status %d", resp.StatusCode)
+	}
+
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return "", fmt.Errorf("read response: %w", err)
+	}
+
+	contentType := resp.Header.Get("Content-Type")
+	if idx := strings.Index(contentType, ";"); idx != -1 {
+		contentType = strings.TrimSpace(contentType[:idx])
+	}
+
+	if !strings.HasPrefix(contentType, "image/") && !strings.HasPrefix(contentType, "video/") {
+		if _, _, err := image.DecodeConfig(bytes.NewReader(data)); err != nil {
+			return "", fmt.Errorf("not a valid media file (content-type: %s)", contentType)
+		}
+	}
+
+	cacheDir, err := os.UserCacheDir()
+	if err != nil {
+		cacheDir = "/tmp"
+	}
+	clipDir := filepath.Join(cacheDir, "dms", "clipboard")
+	if err := os.MkdirAll(clipDir, 0755); err != nil {
+		return "", fmt.Errorf("create cache dir: %w", err)
+	}
+
+	filePath := filepath.Join(clipDir, fmt.Sprintf("%d%s", time.Now().UnixNano(), ext))
+	if err := os.WriteFile(filePath, data, 0644); err != nil {
+		return "", fmt.Errorf("write file: %w", err)
+	}
+
+	return filePath, nil
+}
+
+func copyFileToClipboard(filePath string) error {
+	fileURI := "file://" + filePath
+
+	transferKey, err := startPortalFileTransfer(filePath)
+	if err != nil {
+		log.Warnf("portal file transfer unavailable: %v", err)
+	}
+
+	offers := []clipboard.Offer{
+		{MimeType: "text/uri-list", Data: []byte(fileURI + "\r\n")},
+	}
+	if transferKey != "" {
+		offers = append(offers, clipboard.Offer{
+			MimeType: "application/vnd.portal.filetransfer",
+			Data:     []byte(transferKey),
+		})
+	}
+
+	return clipboard.CopyMulti(offers, clipCopyForeground, clipCopyPasteOnce)
+}
+
+func startPortalFileTransfer(filePath string) (string, error) {
+	conn, err := dbus.ConnectSessionBus()
+	if err != nil {
+		return "", fmt.Errorf("connect session bus: %w", err)
+	}
+	defer conn.Close()
+
+	portal := conn.Object("org.freedesktop.portal.Documents", "/org/freedesktop/portal/documents")
+
+	var key string
+	options := map[string]dbus.Variant{
+		"writable": dbus.MakeVariant(false),
+		"autostop": dbus.MakeVariant(true),
+	}
+	if err := portal.Call("org.freedesktop.portal.FileTransfer.StartTransfer", 0, options).Store(&key); err != nil {
+		return "", fmt.Errorf("start transfer: %w", err)
+	}
+
+	fd, err := syscall.Open(filePath, syscall.O_RDONLY, 0)
+	if err != nil {
+		return "", fmt.Errorf("open file: %w", err)
+	}
+
+	addOptions := map[string]dbus.Variant{}
+	if err := portal.Call("org.freedesktop.portal.FileTransfer.AddFiles", 0, key, []dbus.UnixFD{dbus.UnixFD(fd)}, addOptions).Err; err != nil {
+		syscall.Close(fd)
+		return "", fmt.Errorf("add files: %w", err)
+	}
+	syscall.Close(fd)
+
+	return key, nil
 }
