@@ -538,8 +538,14 @@ func (m *Manager) selectMimeType(mimes []string) string {
 		}
 	}
 
-	if len(mimes) > 0 {
-		return mimes[0]
+	// Skip useless MIME types when falling back
+	for _, mime := range mimes {
+		switch mime {
+		case "application/vnd.portal.filetransfer":
+			continue
+		default:
+			return mime
+		}
 	}
 
 	return ""
