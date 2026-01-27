@@ -126,13 +126,13 @@ func (cd *ConfigDeployer) deployNiriConfig(terminal deps.Terminal, useSystemd bo
 	}
 
 	configDir := filepath.Dir(result.Path)
-	if err := os.MkdirAll(configDir, 0755); err != nil {
+	if err := os.MkdirAll(configDir, 0o755); err != nil {
 		result.Error = fmt.Errorf("failed to create config directory: %w", err)
 		return result, result.Error
 	}
 
 	dmsDir := filepath.Join(configDir, "dms")
-	if err := os.MkdirAll(dmsDir, 0755); err != nil {
+	if err := os.MkdirAll(dmsDir, 0o755); err != nil {
 		result.Error = fmt.Errorf("failed to create dms directory: %w", err)
 		return result, result.Error
 	}
@@ -150,7 +150,7 @@ func (cd *ConfigDeployer) deployNiriConfig(terminal deps.Terminal, useSystemd bo
 
 		timestamp := time.Now().Format("2006-01-02_15-04-05")
 		result.BackupPath = result.Path + ".backup." + timestamp
-		if err := os.WriteFile(result.BackupPath, existingData, 0644); err != nil {
+		if err := os.WriteFile(result.BackupPath, existingData, 0o644); err != nil {
 			result.Error = fmt.Errorf("failed to create backup: %w", err)
 			return result, result.Error
 		}
@@ -185,7 +185,7 @@ func (cd *ConfigDeployer) deployNiriConfig(terminal deps.Terminal, useSystemd bo
 		}
 	}
 
-	if err := os.WriteFile(result.Path, []byte(newConfig), 0644); err != nil {
+	if err := os.WriteFile(result.Path, []byte(newConfig), 0o644); err != nil {
 		result.Error = fmt.Errorf("failed to write config: %w", err)
 		return result, result.Error
 	}
@@ -220,7 +220,7 @@ func (cd *ConfigDeployer) deployNiriDmsConfigs(dmsDir, terminalCommand string) e
 			cd.log(fmt.Sprintf("Skipping %s (already exists)", cfg.name))
 			continue
 		}
-		if err := os.WriteFile(path, []byte(cfg.content), 0644); err != nil {
+		if err := os.WriteFile(path, []byte(cfg.content), 0o644); err != nil {
 			return fmt.Errorf("failed to write %s: %w", cfg.name, err)
 		}
 		cd.log(fmt.Sprintf("Deployed %s", cfg.name))
@@ -238,7 +238,7 @@ func (cd *ConfigDeployer) deployGhosttyConfig() ([]DeploymentResult, error) {
 	}
 
 	configDir := filepath.Dir(mainResult.Path)
-	if err := os.MkdirAll(configDir, 0755); err != nil {
+	if err := os.MkdirAll(configDir, 0o755); err != nil {
 		mainResult.Error = fmt.Errorf("failed to create config directory: %w", err)
 		return []DeploymentResult{mainResult}, mainResult.Error
 	}
@@ -254,14 +254,14 @@ func (cd *ConfigDeployer) deployGhosttyConfig() ([]DeploymentResult, error) {
 
 		timestamp := time.Now().Format("2006-01-02_15-04-05")
 		mainResult.BackupPath = mainResult.Path + ".backup." + timestamp
-		if err := os.WriteFile(mainResult.BackupPath, existingData, 0644); err != nil {
+		if err := os.WriteFile(mainResult.BackupPath, existingData, 0o644); err != nil {
 			mainResult.Error = fmt.Errorf("failed to create backup: %w", err)
 			return []DeploymentResult{mainResult}, mainResult.Error
 		}
 		cd.log(fmt.Sprintf("Backed up existing config to %s", mainResult.BackupPath))
 	}
 
-	if err := os.WriteFile(mainResult.Path, []byte(GhosttyConfig), 0644); err != nil {
+	if err := os.WriteFile(mainResult.Path, []byte(GhosttyConfig), 0o644); err != nil {
 		mainResult.Error = fmt.Errorf("failed to write config: %w", err)
 		return []DeploymentResult{mainResult}, mainResult.Error
 	}
@@ -276,12 +276,12 @@ func (cd *ConfigDeployer) deployGhosttyConfig() ([]DeploymentResult, error) {
 	}
 
 	themesDir := filepath.Dir(colorResult.Path)
-	if err := os.MkdirAll(themesDir, 0755); err != nil {
+	if err := os.MkdirAll(themesDir, 0o755); err != nil {
 		mainResult.Error = fmt.Errorf("failed to create themes directory: %w", err)
 		return []DeploymentResult{mainResult}, mainResult.Error
 	}
 
-	if err := os.WriteFile(colorResult.Path, []byte(GhosttyColorConfig), 0644); err != nil {
+	if err := os.WriteFile(colorResult.Path, []byte(GhosttyColorConfig), 0o644); err != nil {
 		colorResult.Error = fmt.Errorf("failed to write color config: %w", err)
 		return results, colorResult.Error
 	}
@@ -302,7 +302,7 @@ func (cd *ConfigDeployer) deployKittyConfig() ([]DeploymentResult, error) {
 	}
 
 	configDir := filepath.Dir(mainResult.Path)
-	if err := os.MkdirAll(configDir, 0755); err != nil {
+	if err := os.MkdirAll(configDir, 0o755); err != nil {
 		mainResult.Error = fmt.Errorf("failed to create config directory: %w", err)
 		return []DeploymentResult{mainResult}, mainResult.Error
 	}
@@ -318,14 +318,14 @@ func (cd *ConfigDeployer) deployKittyConfig() ([]DeploymentResult, error) {
 
 		timestamp := time.Now().Format("2006-01-02_15-04-05")
 		mainResult.BackupPath = mainResult.Path + ".backup." + timestamp
-		if err := os.WriteFile(mainResult.BackupPath, existingData, 0644); err != nil {
+		if err := os.WriteFile(mainResult.BackupPath, existingData, 0o644); err != nil {
 			mainResult.Error = fmt.Errorf("failed to create backup: %w", err)
 			return []DeploymentResult{mainResult}, mainResult.Error
 		}
 		cd.log(fmt.Sprintf("Backed up existing config to %s", mainResult.BackupPath))
 	}
 
-	if err := os.WriteFile(mainResult.Path, []byte(KittyConfig), 0644); err != nil {
+	if err := os.WriteFile(mainResult.Path, []byte(KittyConfig), 0o644); err != nil {
 		mainResult.Error = fmt.Errorf("failed to write config: %w", err)
 		return []DeploymentResult{mainResult}, mainResult.Error
 	}
@@ -339,7 +339,7 @@ func (cd *ConfigDeployer) deployKittyConfig() ([]DeploymentResult, error) {
 		Path:       filepath.Join(os.Getenv("HOME"), ".config", "kitty", "dank-theme.conf"),
 	}
 
-	if err := os.WriteFile(themeResult.Path, []byte(KittyThemeConfig), 0644); err != nil {
+	if err := os.WriteFile(themeResult.Path, []byte(KittyThemeConfig), 0o644); err != nil {
 		themeResult.Error = fmt.Errorf("failed to write theme config: %w", err)
 		return results, themeResult.Error
 	}
@@ -353,7 +353,7 @@ func (cd *ConfigDeployer) deployKittyConfig() ([]DeploymentResult, error) {
 		Path:       filepath.Join(os.Getenv("HOME"), ".config", "kitty", "dank-tabs.conf"),
 	}
 
-	if err := os.WriteFile(tabsResult.Path, []byte(KittyTabsConfig), 0644); err != nil {
+	if err := os.WriteFile(tabsResult.Path, []byte(KittyTabsConfig), 0o644); err != nil {
 		tabsResult.Error = fmt.Errorf("failed to write tabs config: %w", err)
 		return results, tabsResult.Error
 	}
@@ -374,7 +374,7 @@ func (cd *ConfigDeployer) deployAlacrittyConfig() ([]DeploymentResult, error) {
 	}
 
 	configDir := filepath.Dir(mainResult.Path)
-	if err := os.MkdirAll(configDir, 0755); err != nil {
+	if err := os.MkdirAll(configDir, 0o755); err != nil {
 		mainResult.Error = fmt.Errorf("failed to create config directory: %w", err)
 		return []DeploymentResult{mainResult}, mainResult.Error
 	}
@@ -390,14 +390,14 @@ func (cd *ConfigDeployer) deployAlacrittyConfig() ([]DeploymentResult, error) {
 
 		timestamp := time.Now().Format("2006-01-02_15-04-05")
 		mainResult.BackupPath = mainResult.Path + ".backup." + timestamp
-		if err := os.WriteFile(mainResult.BackupPath, existingData, 0644); err != nil {
+		if err := os.WriteFile(mainResult.BackupPath, existingData, 0o644); err != nil {
 			mainResult.Error = fmt.Errorf("failed to create backup: %w", err)
 			return []DeploymentResult{mainResult}, mainResult.Error
 		}
 		cd.log(fmt.Sprintf("Backed up existing config to %s", mainResult.BackupPath))
 	}
 
-	if err := os.WriteFile(mainResult.Path, []byte(AlacrittyConfig), 0644); err != nil {
+	if err := os.WriteFile(mainResult.Path, []byte(AlacrittyConfig), 0o644); err != nil {
 		mainResult.Error = fmt.Errorf("failed to write config: %w", err)
 		return []DeploymentResult{mainResult}, mainResult.Error
 	}
@@ -411,7 +411,7 @@ func (cd *ConfigDeployer) deployAlacrittyConfig() ([]DeploymentResult, error) {
 		Path:       filepath.Join(os.Getenv("HOME"), ".config", "alacritty", "dank-theme.toml"),
 	}
 
-	if err := os.WriteFile(themeResult.Path, []byte(AlacrittyThemeConfig), 0644); err != nil {
+	if err := os.WriteFile(themeResult.Path, []byte(AlacrittyThemeConfig), 0o644); err != nil {
 		themeResult.Error = fmt.Errorf("failed to write theme config: %w", err)
 		return results, themeResult.Error
 	}
@@ -438,7 +438,7 @@ func (cd *ConfigDeployer) mergeNiriOutputSections(newConfig, existingConfig, dms
 			outputsContent.WriteString(output)
 			outputsContent.WriteString("\n\n")
 		}
-		if err := os.WriteFile(outputsPath, []byte(outputsContent.String()), 0644); err != nil {
+		if err := os.WriteFile(outputsPath, []byte(outputsContent.String()), 0o644); err != nil {
 			cd.log(fmt.Sprintf("Warning: Failed to migrate outputs to %s: %v", outputsPath, err))
 		} else {
 			cd.log("Migrated output sections to dms/outputs.kdl")
@@ -479,13 +479,13 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal, useSystem
 	}
 
 	configDir := filepath.Dir(result.Path)
-	if err := os.MkdirAll(configDir, 0755); err != nil {
+	if err := os.MkdirAll(configDir, 0o755); err != nil {
 		result.Error = fmt.Errorf("failed to create config directory: %w", err)
 		return result, result.Error
 	}
 
 	dmsDir := filepath.Join(configDir, "dms")
-	if err := os.MkdirAll(dmsDir, 0755); err != nil {
+	if err := os.MkdirAll(dmsDir, 0o755); err != nil {
 		result.Error = fmt.Errorf("failed to create dms directory: %w", err)
 		return result, result.Error
 	}
@@ -503,7 +503,7 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal, useSystem
 
 		timestamp := time.Now().Format("2006-01-02_15-04-05")
 		result.BackupPath = result.Path + ".backup." + timestamp
-		if err := os.WriteFile(result.BackupPath, existingData, 0644); err != nil {
+		if err := os.WriteFile(result.BackupPath, existingData, 0o644); err != nil {
 			result.Error = fmt.Errorf("failed to create backup: %w", err)
 			return result, result.Error
 		}
@@ -538,7 +538,7 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminal deps.Terminal, useSystem
 		}
 	}
 
-	if err := os.WriteFile(result.Path, []byte(newConfig), 0644); err != nil {
+	if err := os.WriteFile(result.Path, []byte(newConfig), 0o644); err != nil {
 		result.Error = fmt.Errorf("failed to write config: %w", err)
 		return result, result.Error
 	}
@@ -572,7 +572,7 @@ func (cd *ConfigDeployer) deployHyprlandDmsConfigs(dmsDir string, terminalComman
 			cd.log(fmt.Sprintf("Skipping %s (already exists)", cfg.name))
 			continue
 		}
-		if err := os.WriteFile(path, []byte(cfg.content), 0644); err != nil {
+		if err := os.WriteFile(path, []byte(cfg.content), 0o644); err != nil {
 			return fmt.Errorf("failed to write %s: %w", cfg.name, err)
 		}
 		cd.log(fmt.Sprintf("Deployed %s", cfg.name))
@@ -596,7 +596,7 @@ func (cd *ConfigDeployer) mergeHyprlandMonitorSections(newConfig, existingConfig
 			outputsContent.WriteString(monitor)
 			outputsContent.WriteString("\n")
 		}
-		if err := os.WriteFile(outputsPath, []byte(outputsContent.String()), 0644); err != nil {
+		if err := os.WriteFile(outputsPath, []byte(outputsContent.String()), 0o644); err != nil {
 			cd.log(fmt.Sprintf("Warning: Failed to migrate monitors to %s: %v", outputsPath, err))
 		} else {
 			cd.log("Migrated monitor sections to dms/outputs.conf")

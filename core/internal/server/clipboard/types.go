@@ -66,7 +66,7 @@ func SaveConfig(cfg Config) error {
 		return err
 	}
 
-	if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
 		return err
 	}
 
@@ -75,7 +75,7 @@ func SaveConfig(cfg Config) error {
 		return err
 	}
 
-	return os.WriteFile(path, data, 0644)
+	return os.WriteFile(path, data, 0o644)
 }
 
 type SearchParams struct {
@@ -159,8 +159,7 @@ type Manager struct {
 	notifierWg  sync.WaitGroup
 	lastState   *State
 
-	dbusConn      *dbus.Conn
-	transferFiles []*os.File // Keep files open for portal transfers
+	dbusConn *dbus.Conn
 }
 
 func (m *Manager) GetState() State {

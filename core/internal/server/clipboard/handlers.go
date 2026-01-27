@@ -45,10 +45,8 @@ func HandleRequest(conn net.Conn, req models.Request, m *Manager) {
 		handleGetPinnedEntries(conn, req, m)
 	case "clipboard.getPinnedCount":
 		handleGetPinnedCount(conn, req, m)
-	case "clipboard.startFileTransfer":
-		handleStartFileTransfer(conn, req, m)
-	case "clipboard.exportFile":
-		handleExportFile(conn, req, m)
+	case "clipboard.copyFile":
+		handleCopyFile(conn, req, m)
 	default:
 		models.RespondError(conn, req.ID, "unknown method: "+req.Method)
 	}
@@ -127,6 +125,19 @@ func handleCopyEntry(conn net.Conn, req models.Request, m *Manager) {
 	entry, err := m.GetEntry(uint64(id))
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
+		return
+	}
+
+	filePath := m.EntryToFile(entry)
+	if filePath != "" {
+		if err := m.CopyFile(filePath); err != nil {
+			models.RespondError(conn, req.ID, err.Error())
+			return
+		}
+		models.Respond(conn, req.ID, map[string]any{
+			"success":  true,
+			"filePath": filePath,
+		})
 		return
 	}
 
@@ -286,34 +297,17 @@ func handleGetPinnedCount(conn net.Conn, req models.Request, m *Manager) {
 	models.Respond(conn, req.ID, map[string]int{"count": count})
 }
 
-func handleStartFileTransfer(conn net.Conn, req models.Request, m *Manager) {
+func handleCopyFile(conn net.Conn, req models.Request, m *Manager) {
 	filePath, err := params.String(req.Params, "filePath")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	key, err := m.StartFileTransfer(filePath)
-	if err != nil {
+	if err := m.CopyFile(filePath); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
 	}
 
-	models.Respond(conn, req.ID, map[string]string{"key": key})
-}
-
-func handleExportFile(conn net.Conn, req models.Request, m *Manager) {
-	filePath, err := params.String(req.Params, "filePath")
-	if err != nil {
-		models.RespondError(conn, req.ID, err.Error())
-		return
-	}
-
-	exportedPath, err := m.ExportFileForFlatpak(filePath)
-	if err != nil {
-		models.RespondError(conn, req.ID, err.Error())
-		return
-	}
-
-	models.Respond(conn, req.ID, map[string]string{"path": exportedPath})
+	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "copied"})
 }

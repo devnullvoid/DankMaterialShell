@@ -107,7 +107,7 @@ func NewManager(wlCtx wlcontext.WaylandContext, config Config) (*Manager, error)
 }
 
 func openDB(path string) (*bolt.DB, error) {
-	db, err := bolt.Open(path, 0644, &bolt.Options{
+	db, err := bolt.Open(path, 0o644, &bolt.Options{
 		Timeout: 1 * time.Second,
 	})
 	if err != nil {
@@ -885,23 +885,23 @@ func (m *Manager) compactDB() error {
 	tmpPath := m.dbPath + ".compact"
 	defer os.Remove(tmpPath)
 
-	srcDB, err := bolt.Open(m.dbPath, 0644, &bolt.Options{ReadOnly: true, Timeout: time.Second})
+	srcDB, err := bolt.Open(m.dbPath, 0o644, &bolt.Options{ReadOnly: true, Timeout: time.Second})
 	if err != nil {
-		m.db, _ = bolt.Open(m.dbPath, 0644, &bolt.Options{Timeout: time.Second})
+		m.db, _ = bolt.Open(m.dbPath, 0o644, &bolt.Options{Timeout: time.Second})
 		return fmt.Errorf("open source: %w", err)
 	}
 
-	dstDB, err := bolt.Open(tmpPath, 0644, &bolt.Options{Timeout: time.Second})
+	dstDB, err := bolt.Open(tmpPath, 0o644, &bolt.Options{Timeout: time.Second})
 	if err != nil {
 		srcDB.Close()
-		m.db, _ = bolt.Open(m.dbPath, 0644, &bolt.Options{Timeout: time.Second})
+		m.db, _ = bolt.Open(m.dbPath, 0o644, &bolt.Options{Timeout: time.Second})
 		return fmt.Errorf("open destination: %w", err)
 	}
 
 	if err := bolt.Compact(dstDB, srcDB, 0); err != nil {
 		srcDB.Close()
 		dstDB.Close()
-		m.db, _ = bolt.Open(m.dbPath, 0644, &bolt.Options{Timeout: time.Second})
+		m.db, _ = bolt.Open(m.dbPath, 0o644, &bolt.Options{Timeout: time.Second})
 		return fmt.Errorf("compact: %w", err)
 	}
 
@@ -909,11 +909,11 @@ func (m *Manager) compactDB() error {
 	dstDB.Close()
 
 	if err := os.Rename(tmpPath, m.dbPath); err != nil {
-		m.db, _ = bolt.Open(m.dbPath, 0644, &bolt.Options{Timeout: time.Second})
+		m.db, _ = bolt.Open(m.dbPath, 0o644, &bolt.Options{Timeout: time.Second})
 		return fmt.Errorf("rename: %w", err)
 	}
 
-	m.db, err = bolt.Open(m.dbPath, 0644, &bolt.Options{Timeout: time.Second})
+	m.db, err = bolt.Open(m.dbPath, 0o644, &bolt.Options{Timeout: time.Second})
 	if err != nil {
 		return fmt.Errorf("reopen: %w", err)
 	}
@@ -1532,52 +1532,101 @@ func (m *Manager) GetPinnedCount() int {
 	return count
 }
 
-func (m *Manager) StartFileTransfer(filePath string) (string, error) {
+func (m *Manager) CopyFile(filePath string) error {
 	if _, err := os.Stat(filePath); err != nil {
-		return "", fmt.Errorf("file not found: %w", err)
+		return fmt.Errorf("file not found: %w", err)
 	}
 
-	if m.dbusConn == nil {
-		conn, err := dbus.ConnectSessionBus()
-		if err != nil {
-			return "", fmt.Errorf("connect session bus: %w", err)
-		}
-		if !conn.SupportsUnixFDs() {
-			conn.Close()
-			return "", fmt.Errorf("D-Bus connection does not support Unix FD passing")
-		}
-		m.dbusConn = conn
-	}
-
-	portal := m.dbusConn.Object("org.freedesktop.portal.Documents", "/org/freedesktop/portal/documents")
-
-	var key string
-	options := map[string]dbus.Variant{
-		"writable": dbus.MakeVariant(false),
-		"autostop": dbus.MakeVariant(false),
-	}
-	if err := portal.Call("org.freedesktop.portal.FileTransfer.StartTransfer", 0, options).Store(&key); err != nil {
-		return "", fmt.Errorf("start transfer: %w", err)
-	}
-
-	file, err := os.Open(filePath)
+	exportedPath, err := m.ExportFileForFlatpak(filePath)
 	if err != nil {
-		return "", fmt.Errorf("open file: %w", err)
+		exportedPath = filePath
 	}
-	if _, err := file.Seek(0, 0); err != nil {
-		file.Close()
-		return "", fmt.Errorf("seek file: %w", err)
-	}
-	fd := int(file.Fd())
+	fileURI := "file://" + exportedPath
 
-	addOptions := map[string]dbus.Variant{}
-	if err := portal.Call("org.freedesktop.portal.FileTransfer.AddFiles", 0, key, []dbus.UnixFD{dbus.UnixFD(fd)}, addOptions).Err; err != nil {
-		file.Close()
-		return "", fmt.Errorf("add files: %w", err)
-	}
-	m.transferFiles = append(m.transferFiles, file)
+	m.post(func() {
+		if m.dataControlMgr == nil || m.dataDevice == nil {
+			log.Error("Data control manager or device not initialized")
+			return
+		}
 
-	return key, nil
+		dataMgr := m.dataControlMgr.(*ext_data_control.ExtDataControlManagerV1)
+		source, err := dataMgr.CreateDataSource()
+		if err != nil {
+			log.Errorf("Failed to create data source: %v", err)
+			return
+		}
+
+		type offer struct {
+			mime string
+			data []byte
+		}
+		offers := []offer{
+			{"x-special/gnome-copied-files", []byte("copy\n" + fileURI)},
+			{"text/uri-list", []byte(fileURI + "\r\n")},
+			{"text/plain", []byte(filePath)},
+		}
+
+		offerData := make(map[string][]byte)
+		for _, o := range offers {
+			if err := source.Offer(o.mime); err != nil {
+				log.Errorf("Failed to offer %s: %v", o.mime, err)
+				return
+			}
+			offerData[o.mime] = o.data
+		}
+
+		source.SetSendHandler(func(e ext_data_control.ExtDataControlSourceV1SendEvent) {
+			fd := e.Fd
+			defer syscall.Close(fd)
+			file := os.NewFile(uintptr(fd), "clipboard-pipe")
+			defer file.Close()
+			if data, ok := offerData[e.MimeType]; ok {
+				file.Write(data)
+			}
+		})
+
+		m.currentSource = source
+		device := m.dataDevice.(*ext_data_control.ExtDataControlDeviceV1)
+		if err := device.SetSelection(source); err != nil {
+			log.Errorf("Failed to set selection: %v", err)
+		}
+	})
+
+	return nil
+}
+
+func (m *Manager) EntryToFile(entry *Entry) string {
+	switch {
+	case entry.MimeType == "text/uri-list":
+		data := strings.TrimSpace(string(entry.Data))
+		lines := strings.Split(data, "\n")
+		if len(lines) == 0 {
+			return ""
+		}
+		uri := strings.TrimSuffix(strings.TrimSpace(lines[0]), "\r")
+		if path, ok := strings.CutPrefix(uri, "file://"); ok {
+			return path
+		}
+	case entry.IsImage:
+		ext := ".png"
+		if suffix, ok := strings.CutPrefix(entry.MimeType, "image/"); ok {
+			ext = "." + suffix
+		}
+		cacheDir, err := os.UserCacheDir()
+		if err != nil {
+			return ""
+		}
+		clipDir := filepath.Join(cacheDir, "dms", "clipboard")
+		if err := os.MkdirAll(clipDir, 0o755); err != nil {
+			return ""
+		}
+		filePath := filepath.Join(clipDir, fmt.Sprintf("%d%s", time.Now().UnixNano(), ext))
+		if os.WriteFile(filePath, entry.Data, 0o644) != nil {
+			return ""
+		}
+		return filePath
+	}
+	return ""
 }
 
 func (m *Manager) ExportFileForFlatpak(filePath string) (string, error) {

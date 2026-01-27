@@ -194,7 +194,7 @@ func init() {
 	clipWatchCmd.Flags().BoolVar(&clipJSONOutput, "json", false, "Output as JSON")
 	clipHistoryCmd.Flags().BoolVar(&clipJSONOutput, "json", false, "Output as JSON")
 	clipGetCmd.Flags().BoolVar(&clipJSONOutput, "json", false, "Output as JSON")
-	clipGetCmd.Flags().BoolVarP(&clipGetCopy, "copy", "c", false, "Copy entry to clipboard")
+	clipGetCmd.Flags().BoolVarP(&clipGetCopy, "copy", "C", false, "Copy entry to clipboard")
 
 	clipSearchCmd.Flags().IntVarP(&clipSearchLimit, "limit", "l", 50, "Max results")
 	clipSearchCmd.Flags().IntVarP(&clipSearchOffset, "offset", "o", 0, "Result offset")
@@ -449,16 +449,13 @@ func runClipGet(cmd *cobra.Command, args []string) {
 		req := models.Request{
 			ID:     1,
 			Method: "clipboard.copyEntry",
-			Params: map[string]any{
-				"id": id,
-			},
+			Params: map[string]any{"id": id},
 		}
 
 		resp, err := sendServerRequest(req)
 		if err != nil {
 			log.Fatalf("Failed to copy clipboard entry: %v", err)
 		}
-
 		if resp.Error != "" {
 			log.Fatalf("Error: %s", resp.Error)
 		}
@@ -735,7 +732,7 @@ func runClipExport(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	if err := os.WriteFile(args[0], out, 0644); err != nil {
+	if err := os.WriteFile(args[0], out, 0o644); err != nil {
 		log.Fatalf("Failed to write file: %v", err)
 	}
 	fmt.Printf("Exported to %s\n", args[0])
@@ -790,7 +787,7 @@ func runClipMigrate(cmd *cobra.Command, args []string) {
 		log.Fatalf("Cliphist db not found: %s", dbPath)
 	}
 
-	db, err := bolt.Open(dbPath, 0644, &bolt.Options{
+	db, err := bolt.Open(dbPath, 0o644, &bolt.Options{
 		ReadOnly: true,
 		Timeout:  1 * time.Second,
 	})
@@ -906,12 +903,12 @@ func downloadToTempFile(rawURL string) (string, error) {
 		cacheDir = "/tmp"
 	}
 	clipDir := filepath.Join(cacheDir, "dms", "clipboard")
-	if err := os.MkdirAll(clipDir, 0755); err != nil {
+	if err := os.MkdirAll(clipDir, 0o755); err != nil {
 		return "", fmt.Errorf("create cache dir: %w", err)
 	}
 
 	filePath := filepath.Join(clipDir, fmt.Sprintf("%d%s", time.Now().UnixNano(), ext))
-	if err := os.WriteFile(filePath, data, 0644); err != nil {
+	if err := os.WriteFile(filePath, data, 0o644); err != nil {
 		return "", fmt.Errorf("write file: %w", err)
 	}
 
@@ -919,99 +916,18 @@ func downloadToTempFile(rawURL string) (string, error) {
 }
 
 func copyFileToClipboard(filePath string) error {
-	exportedPath, err := exportFileForFlatpak(filePath)
-	if err != nil {
-		log.Warnf("document export unavailable: %v, using local path", err)
-		exportedPath = filePath
-	}
-	fileURI := "file://" + exportedPath
-
-	transferKey, err := startPortalFileTransfer(filePath)
-	if err != nil {
-		log.Warnf("portal file transfer unavailable: %v", err)
-	}
-
-	portalOnly := os.Getenv("DMS_PORTAL_ONLY") == "1"
-
-	var offers []clipboard.Offer
-	if transferKey != "" {
-		offers = append(offers, clipboard.Offer{
-			MimeType: "application/vnd.portal.filetransfer",
-			Data:     []byte(transferKey),
-		})
-	}
-	if !portalOnly {
-		offers = append(offers, clipboard.Offer{
-			MimeType: "text/uri-list",
-			Data:     []byte(fileURI + "\r\n"),
-		})
-	}
-
-	if len(offers) == 0 {
-		return fmt.Errorf("no clipboard offers available")
-	}
-
-	return clipboard.CopyMulti(offers, clipCopyForeground, clipCopyPasteOnce)
-}
-
-func exportFileForFlatpak(filePath string) (string, error) {
 	req := models.Request{
 		ID:     1,
-		Method: "clipboard.exportFile",
-		Params: map[string]any{
-			"filePath": filePath,
-		},
+		Method: "clipboard.copyFile",
+		Params: map[string]any{"filePath": filePath},
 	}
 
 	resp, err := sendServerRequest(req)
 	if err != nil {
-		return "", fmt.Errorf("server request: %w", err)
+		return fmt.Errorf("server request: %w", err)
 	}
-
 	if resp.Error != "" {
-		return "", fmt.Errorf("server error: %s", resp.Error)
+		return fmt.Errorf("server error: %s", resp.Error)
 	}
-
-	result, ok := (*resp.Result).(map[string]any)
-	if !ok {
-		return "", fmt.Errorf("invalid response format")
-	}
-
-	path, ok := result["path"].(string)
-	if !ok {
-		return "", fmt.Errorf("missing path in response")
-	}
-
-	return path, nil
-}
-
-func startPortalFileTransfer(filePath string) (string, error) {
-	req := models.Request{
-		ID:     1,
-		Method: "clipboard.startFileTransfer",
-		Params: map[string]any{
-			"filePath": filePath,
-		},
-	}
-
-	resp, err := sendServerRequest(req)
-	if err != nil {
-		return "", fmt.Errorf("server request: %w", err)
-	}
-
-	if resp.Error != "" {
-		return "", fmt.Errorf("server error: %s", resp.Error)
-	}
-
-	result, ok := (*resp.Result).(map[string]any)
-	if !ok {
-		return "", fmt.Errorf("invalid response format")
-	}
-
-	key, ok := result["key"].(string)
-	if !ok {
-		return "", fmt.Errorf("missing key in response")
-	}
-
-	return key, nil
+	return nil
 }
