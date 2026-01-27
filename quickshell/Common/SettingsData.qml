@@ -443,6 +443,9 @@ Singleton {
     property int dockLauncherLogoSizeOffset: 0
     property real dockLauncherLogoBrightness: 0.5
     property real dockLauncherLogoContrast: 1
+    property int dockMaxVisibleApps: 0
+    property int dockMaxVisibleRunningApps: 0
+    property bool dockShowOverflowBadge: true
 
     property bool notificationOverlayEnabled: false
     property int overviewRows: 2

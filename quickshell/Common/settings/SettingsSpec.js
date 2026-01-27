@@ -272,6 +272,9 @@ var SPEC = {
     dockLauncherLogoSizeOffset: { def: 0 },
     dockLauncherLogoBrightness: { def: 0.5, coerce: percentToUnit },
     dockLauncherLogoContrast: { def: 1, coerce: percentToUnit },
+    dockMaxVisibleApps: { def: 0 },
+    dockMaxVisibleRunningApps: { def: 0 },
+    dockShowOverflowBadge: { def: true },
 
     notificationOverlayEnabled: { def: false },
     overviewRows: { def: 2, persist: false },

@@ -162,6 +162,39 @@ Item {
                         }
                     }
                 }
+
+                SettingsSliderRow {
+                    settingKey: "dockMaxVisibleApps"
+                    tags: ["dock", "overflow", "max", "apps", "limit"]
+                    text: I18n.tr("Max Pinned Apps (0 = Unlimited)")
+                    minimum: 0
+                    maximum: 30
+                    value: SettingsData.dockMaxVisibleApps
+                    defaultValue: 0
+                    unit: ""
+                    onSliderValueChanged: newValue => SettingsData.set("dockMaxVisibleApps", newValue)
+                }
+
+                SettingsSliderRow {
+                    settingKey: "dockMaxVisibleRunningApps"
+                    tags: ["dock", "overflow", "max", "running", "apps", "limit"]
+                    text: I18n.tr("Max Running Apps (0 = Unlimited)")
+                    minimum: 0
+                    maximum: 30
+                    value: SettingsData.dockMaxVisibleRunningApps
+                    defaultValue: 0
+                    unit: ""
+                    onSliderValueChanged: newValue => SettingsData.set("dockMaxVisibleRunningApps", newValue)
+                }
+
+                SettingsToggleRow {
+                    settingKey: "dockShowOverflowBadge"
+                    tags: ["dock", "overflow", "badge", "count", "indicator"]
+                    text: I18n.tr("Show Overflow Badge Count")
+                    description: I18n.tr("Displays count when overflow is active")
+                    checked: SettingsData.dockShowOverflowBadge
+                    onToggled: checked => SettingsData.set("dockShowOverflowBadge", checked)
+                }
             }
 
             SettingsCard {
