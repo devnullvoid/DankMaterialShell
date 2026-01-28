@@ -23,45 +23,48 @@ Item {
             SettingsCard {
                 width: parent.width
                 iconName: "swap_vert"
-                title: I18n.tr("Dock Position")
+                title: I18n.tr("Position")
                 settingKey: "dockPosition"
 
-                SettingsButtonGroupRow {
-                    text: I18n.tr("Position")
-                    model: [I18n.tr("Top", "dock position option"), I18n.tr("Bottom", "dock position option"), I18n.tr("Left", "dock position option"), I18n.tr("Right", "dock position option")]
-                    buttonPadding: Theme.spacingS
-                    minButtonWidth: 44
-                    textSize: Theme.fontSizeSmall
-                    currentIndex: {
-                        switch (SettingsData.dockPosition) {
-                        case SettingsData.Position.Top:
-                            return 0;
-                        case SettingsData.Position.Bottom:
-                            return 1;
-                        case SettingsData.Position.Left:
-                            return 2;
-                        case SettingsData.Position.Right:
-                            return 3;
-                        default:
-                            return 1;
+                Item {
+                    width: parent.width
+                    height: dockPositionButtonGroup.height
+
+                    DankButtonGroup {
+                        id: dockPositionButtonGroup
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        model: [I18n.tr("Top"), I18n.tr("Bottom"), I18n.tr("Left"), I18n.tr("Right")]
+                        currentIndex: {
+                            switch (SettingsData.dockPosition) {
+                            case SettingsData.Position.Top:
+                                return 0;
+                            case SettingsData.Position.Bottom:
+                                return 1;
+                            case SettingsData.Position.Left:
+                                return 2;
+                            case SettingsData.Position.Right:
+                                return 3;
+                            default:
+                                return 1;
+                            }
                         }
-                    }
-                    onSelectionChanged: (index, selected) => {
-                        if (!selected)
-                            return;
-                        switch (index) {
-                        case 0:
-                            SettingsData.setDockPosition(SettingsData.Position.Top);
-                            break;
-                        case 1:
-                            SettingsData.setDockPosition(SettingsData.Position.Bottom);
-                            break;
-                        case 2:
-                            SettingsData.setDockPosition(SettingsData.Position.Left);
-                            break;
-                        case 3:
-                            SettingsData.setDockPosition(SettingsData.Position.Right);
-                            break;
+                        onSelectionChanged: (index, selected) => {
+                            if (!selected)
+                                return;
+                            switch (index) {
+                            case 0:
+                                SettingsData.setDockPosition(SettingsData.Position.Top);
+                                break;
+                            case 1:
+                                SettingsData.setDockPosition(SettingsData.Position.Bottom);
+                                break;
+                            case 2:
+                                SettingsData.setDockPosition(SettingsData.Position.Left);
+                                break;
+                            case 3:
+                                SettingsData.setDockPosition(SettingsData.Position.Right);
+                                break;
+                            }
                         }
                     }
                 }
