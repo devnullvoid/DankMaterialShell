@@ -93,31 +93,41 @@ Item {
             }
         }
 
+        Timer {
+            id: visibilityTimer
+            interval: 100
+            onTriggered: thumbnailImage.checkVisibility()
+        }
+
+        function checkVisibility() {
+            if (entryType !== "image" || listView.height <= 0 || isVisible) {
+                return;
+            }
+            const itemY = itemIndex * (ClipboardConstants.itemHeight + listView.spacing);
+            const viewTop = listView.contentY - ClipboardConstants.viewportBuffer;
+            const viewBottom = viewTop + listView.height + ClipboardConstants.extendedBuffer;
+            const nowVisible = (itemY + ClipboardConstants.itemHeight >= viewTop && itemY <= viewBottom);
+            if (nowVisible) {
+                isVisible = true;
+                tryLoadImage();
+            }
+        }
+
         Connections {
             target: listView
 
-            function checkVisibility() {
-                if (entryType !== "image" || listView.height <= 0) {
+            function onContentYChanged() {
+                if (thumbnailImage.isVisible || entryType !== "image") {
                     return;
                 }
-
-                const itemY = itemIndex * (ClipboardConstants.itemHeight + listView.spacing);
-                const viewTop = listView.contentY - ClipboardConstants.viewportBuffer;
-                const viewBottom = viewTop + listView.height + ClipboardConstants.extendedBuffer;
-                const nowVisible = (itemY + ClipboardConstants.itemHeight >= viewTop && itemY <= viewBottom);
-
-                if (nowVisible && !thumbnailImage.isVisible) {
-                    thumbnailImage.isVisible = true;
-                    thumbnailImage.tryLoadImage();
-                }
-            }
-
-            function onContentYChanged() {
-                checkVisibility();
+                visibilityTimer.restart();
             }
 
             function onHeightChanged() {
-                checkVisibility();
+                if (thumbnailImage.isVisible || entryType !== "image") {
+                    return;
+                }
+                visibilityTimer.restart();
             }
         }
     }
