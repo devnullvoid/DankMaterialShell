@@ -240,6 +240,7 @@ func runClipCopy(cmd *cobra.Command, args []string) {
 		if err := copyFileToClipboard(filePath); err != nil {
 			log.Fatalf("copy file: %v", err)
 		}
+		fmt.Printf("Downloaded and copied: %s\n", filePath)
 		return
 	}
 
@@ -872,24 +873,58 @@ func downloadToTempFile(rawURL string) (string, error) {
 	}
 
 	client := &http.Client{Timeout: 30 * time.Second}
-	resp, err := client.Get(rawURL)
-	if err != nil {
-		return "", fmt.Errorf("download: %w", err)
-	}
-	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
-		return "", fmt.Errorf("download failed: status %d", resp.StatusCode)
+	var data []byte
+	var contentType string
+	var lastErr error
+
+	for attempt := 0; attempt < 3; attempt++ {
+		if attempt > 0 {
+			time.Sleep(time.Duration(attempt) * 500 * time.Millisecond)
+		}
+
+		req, err := http.NewRequest("GET", rawURL, nil)
+		if err != nil {
+			lastErr = fmt.Errorf("create request: %w", err)
+			continue
+		}
+		req.Header.Set("User-Agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
+		req.Header.Set("Accept", "image/*,video/*,*/*")
+
+		resp, err := client.Do(req)
+		if err != nil {
+			lastErr = fmt.Errorf("download (attempt %d): %w", attempt+1, err)
+			continue
+		}
+
+		if resp.StatusCode != http.StatusOK {
+			resp.Body.Close()
+			lastErr = fmt.Errorf("download failed (attempt %d): status %d", attempt+1, resp.StatusCode)
+			continue
+		}
+
+		data, err = io.ReadAll(resp.Body)
+		resp.Body.Close()
+		if err != nil {
+			lastErr = fmt.Errorf("read response (attempt %d): %w", attempt+1, err)
+			continue
+		}
+
+		contentType = resp.Header.Get("Content-Type")
+		if idx := strings.Index(contentType, ";"); idx != -1 {
+			contentType = strings.TrimSpace(contentType[:idx])
+		}
+
+		lastErr = nil
+		break
 	}
 
-	data, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return "", fmt.Errorf("read response: %w", err)
+	if lastErr != nil {
+		return "", lastErr
 	}
 
-	contentType := resp.Header.Get("Content-Type")
-	if idx := strings.Index(contentType, ";"); idx != -1 {
-		contentType = strings.TrimSpace(contentType[:idx])
+	if len(data) == 0 {
+		return "", fmt.Errorf("downloaded empty file")
 	}
 
 	if !strings.HasPrefix(contentType, "image/") && !strings.HasPrefix(contentType, "video/") {

@@ -1543,8 +1543,19 @@ func (m *Manager) GetPinnedCount() int {
 }
 
 func (m *Manager) CopyFile(filePath string) error {
-	if _, err := os.Stat(filePath); err != nil {
+	fileInfo, err := os.Stat(filePath)
+	if err != nil {
 		return fmt.Errorf("file not found: %w", err)
+	}
+
+	cfg := m.getConfig()
+	if fileInfo.Size() > cfg.MaxEntrySize {
+		return fmt.Errorf("file too large: %d > %d", fileInfo.Size(), cfg.MaxEntrySize)
+	}
+
+	fileData, err := os.ReadFile(filePath)
+	if err != nil {
+		return fmt.Errorf("read file: %w", err)
 	}
 
 	exportedPath, err := m.ExportFileForFlatpak(filePath)
@@ -1552,6 +1563,35 @@ func (m *Manager) CopyFile(filePath string) error {
 		exportedPath = filePath
 	}
 	fileURI := "file://" + exportedPath
+
+	if imgData, imgMime, ok := m.tryReadImageFromURI([]byte("file://" + filePath)); ok {
+		entry := Entry{
+			Data:      imgData,
+			MimeType:  imgMime,
+			Size:      len(imgData),
+			Timestamp: time.Now(),
+			IsImage:   true,
+			Preview:   m.imagePreview(imgData, imgMime),
+		}
+		if err := m.storeEntry(entry); err != nil {
+			log.Errorf("Failed to store file entry: %v", err)
+		}
+	} else {
+		entry := Entry{
+			Data:      fileData,
+			MimeType:  "text/uri-list",
+			Size:      len(fileData),
+			Timestamp: time.Now(),
+			IsImage:   false,
+			Preview:   fmt.Sprintf("[[ file %s ]]", filepath.Base(filePath)),
+		}
+		if err := m.storeEntry(entry); err != nil {
+			log.Errorf("Failed to store file entry: %v", err)
+		}
+	}
+
+	m.updateState()
+	m.notifySubscribers()
 
 	m.post(func() {
 		if m.dataControlMgr == nil || m.dataDevice == nil {

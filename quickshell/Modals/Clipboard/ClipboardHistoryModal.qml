@@ -284,6 +284,20 @@ DankModal {
         modal: clipboardHistoryModal
     }
 
+    Connections {
+        target: DMSService
+        function onClipboardStateUpdate(data) {
+            if (!clipboardHistoryModal.shouldBeVisible) {
+                return;
+            }
+            const newHistory = data.history || [];
+            internalEntries = newHistory;
+            pinnedEntries = newHistory.filter(e => e.pinned);
+            pinnedCount = pinnedEntries.length;
+            updateFilteredModel();
+        }
+    }
+
     ConfirmModal {
         id: clearConfirmDialog
         confirmButtonText: I18n.tr("Clear All")
