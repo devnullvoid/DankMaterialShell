@@ -263,6 +263,9 @@ Singleton {
     property bool clockCompactMode: false
     property bool focusedWindowCompactMode: false
     property bool runningAppsCompactMode: true
+    property int barMaxVisibleApps: 0
+    property int barMaxVisibleRunningApps: 0
+    property bool barShowOverflowBadge: true
     property bool keyboardLayoutNameCompactMode: false
     property bool runningAppsCurrentWorkspace: false
     property bool runningAppsGroupByApp: false
