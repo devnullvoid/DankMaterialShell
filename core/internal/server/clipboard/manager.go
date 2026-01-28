@@ -505,10 +505,10 @@ func computeHash(data []byte) uint64 {
 }
 
 func extractHash(data []byte) uint64 {
-	if len(data) < 8 {
+	if len(data) < 9 {
 		return 0
 	}
-	return binary.BigEndian.Uint64(data[len(data)-8:])
+	return binary.BigEndian.Uint64(data[len(data)-9 : len(data)-1])
 }
 
 func (m *Manager) hasSensitiveMimeType(mimes []string) bool {
@@ -960,10 +960,20 @@ func (m *Manager) SetClipboard(data []byte, mimeType string) error {
 			}
 		})
 
+		source.SetCancelledHandler(func(e ext_data_control.ExtDataControlSourceV1CancelledEvent) {
+			m.ownerLock.Lock()
+			m.isOwner = false
+			m.ownerLock.Unlock()
+		})
+
 		m.currentSource = source
 		m.sourceMutex.Lock()
 		m.sourceMimeTypes = []string{mimeType}
 		m.sourceMutex.Unlock()
+
+		m.ownerLock.Lock()
+		m.isOwner = true
+		m.ownerLock.Unlock()
 
 		device := m.dataDevice.(*ext_data_control.ExtDataControlDeviceV1)
 		if err := device.SetSelection(source); err != nil {
@@ -1585,7 +1595,18 @@ func (m *Manager) CopyFile(filePath string) error {
 			}
 		})
 
+		source.SetCancelledHandler(func(e ext_data_control.ExtDataControlSourceV1CancelledEvent) {
+			m.ownerLock.Lock()
+			m.isOwner = false
+			m.ownerLock.Unlock()
+		})
+
 		m.currentSource = source
+
+		m.ownerLock.Lock()
+		m.isOwner = true
+		m.ownerLock.Unlock()
+
 		device := m.dataDevice.(*ext_data_control.ExtDataControlDeviceV1)
 		if err := device.SetSelection(source); err != nil {
 			log.Errorf("Failed to set selection: %v", err)
