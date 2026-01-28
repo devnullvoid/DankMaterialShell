@@ -659,6 +659,7 @@ FloatingWindow {
                     CheckboxRow {
                         id: opacityEnabled
                         label: I18n.tr("Opacity")
+                        anchors.verticalCenter: parent.verticalCenter
                     }
 
                     DankSlider {
@@ -749,6 +750,7 @@ FloatingWindow {
                     CheckboxRow {
                         id: scrollFactorEnabled
                         label: I18n.tr("Scroll Factor")
+                        anchors.verticalCenter: parent.verticalCenter
                     }
 
                     DankSlider {
@@ -769,6 +771,7 @@ FloatingWindow {
                     CheckboxRow {
                         id: cornerRadiusEnabled
                         label: I18n.tr("Corner Radius")
+                        anchors.verticalCenter: parent.verticalCenter
                     }
 
                     DankSlider {
