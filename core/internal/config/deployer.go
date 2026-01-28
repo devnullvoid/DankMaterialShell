@@ -211,6 +211,7 @@ func (cd *ConfigDeployer) deployNiriDmsConfigs(dmsDir, terminalCommand string) e
 		{"binds.kdl", strings.ReplaceAll(NiriBindsConfig, "{{TERMINAL_COMMAND}}", terminalCommand)},
 		{"outputs.kdl", ""},
 		{"cursor.kdl", ""},
+		{"windowrules.kdl", ""},
 	}
 
 	for _, cfg := range configs {
@@ -563,6 +564,7 @@ func (cd *ConfigDeployer) deployHyprlandDmsConfigs(dmsDir string, terminalComman
 		{"binds.conf", strings.ReplaceAll(HyprBindsConfig, "{{TERMINAL_COMMAND}}", terminalCommand)},
 		{"outputs.conf", ""},
 		{"cursor.conf", ""},
+		{"windowrules.conf", ""},
 	}
 
 	for _, cfg := range configs {
