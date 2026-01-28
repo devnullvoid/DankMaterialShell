@@ -820,6 +820,28 @@ func (m *Manager) DeleteEntry(id uint64) error {
 	return err
 }
 
+func (m *Manager) TouchEntry(id uint64) error {
+	if m.db == nil {
+		return fmt.Errorf("database not available")
+	}
+
+	entry, err := m.GetEntry(id)
+	if err != nil {
+		return err
+	}
+
+	entry.Timestamp = time.Now()
+
+	if err := m.storeEntry(*entry); err != nil {
+		return err
+	}
+
+	m.updateState()
+	m.notifySubscribers()
+
+	return nil
+}
+
 func (m *Manager) ClearHistory() {
 	if m.db == nil {
 		return
