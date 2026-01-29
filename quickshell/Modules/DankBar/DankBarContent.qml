@@ -560,6 +560,7 @@ Item {
             axis: barWindow.axis
             section: topBarContent.getWidgetSection(parent)
             parentScreen: barWindow.screen
+            clipboardHistoryModal: PopoutService.clipboardHistoryModal
             onClicked: {
                 clipboardHistoryModalPopup.toggle();
             }
