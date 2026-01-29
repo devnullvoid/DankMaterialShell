@@ -351,6 +351,7 @@ var SPEC = {
     activeDisplayProfile: { def: {} },
     displayProfileAutoSelect: { def: false },
     displayShowDisconnected: { def: false },
+    displaySnapToEdge: { def: true },
 
     barConfigs: {
         def: [{

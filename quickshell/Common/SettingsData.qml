@@ -523,6 +523,7 @@ Singleton {
     property var activeDisplayProfile: ({})
     property bool displayProfileAutoSelect: false
     property bool displayShowDisconnected: false
+    property bool displaySnapToEdge: true
 
     property var barConfigs: [
         {

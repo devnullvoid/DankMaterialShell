@@ -348,7 +348,7 @@ Item {
                         }
 
                         Column {
-                            width: parent.width - Theme.iconSize - Theme.spacingM - (displayFormatColumn.visible ? displayFormatColumn.width + Theme.spacingM : 0)
+                            width: parent.width - Theme.iconSize - Theme.spacingM - (displayFormatColumn.visible ? displayFormatColumn.width + Theme.spacingM : 0) - (snapColumn.visible ? snapColumn.width + Theme.spacingM : 0)
                             spacing: Theme.spacingXS
                             anchors.verticalCenter: parent.verticalCenter
 
@@ -365,6 +365,29 @@ Item {
                                 color: Theme.surfaceVariantText
                                 wrapMode: Text.WordWrap
                                 width: parent.width
+                            }
+                        }
+
+                        Column {
+                            id: snapColumn
+                            visible: true
+                            spacing: Theme.spacingXS
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            StyledText {
+                                text: I18n.tr("Snap")
+                                font.pixelSize: Theme.fontSizeSmall
+                                color: Theme.surfaceVariantText
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+
+                            DankToggle {
+                                id: snapToggle
+                                checked: SettingsData.displaySnapToEdge
+                                onToggled: checked => {
+                                    SettingsData.displaySnapToEdge = checked;
+                                    SettingsData.saveSettings();
+                                }
                             }
                         }
 
