@@ -347,6 +347,10 @@ var SPEC = {
     showOnLastDisplay: { def: {} },
     niriOutputSettings: { def: {} },
     hyprlandOutputSettings: { def: {} },
+    displayProfiles: { def: {} },
+    activeDisplayProfile: { def: {} },
+    displayProfileAutoSelect: { def: false },
+    displayShowDisconnected: { def: false },
 
     barConfigs: {
         def: [{
