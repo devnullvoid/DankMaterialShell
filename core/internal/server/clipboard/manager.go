@@ -1615,6 +1615,8 @@ func (m *Manager) CopyFile(filePath string) error {
 	m.updateState()
 	m.notifySubscribers()
 
+	_, imgMime, imgErr := image.DecodeConfig(bytes.NewReader(fileData))
+
 	m.post(func() {
 		if m.dataControlMgr == nil || m.dataDevice == nil {
 			log.Error("Data control manager or device not initialized")
@@ -1636,6 +1638,11 @@ func (m *Manager) CopyFile(filePath string) error {
 			{"x-special/gnome-copied-files", []byte("copy\n" + fileURI)},
 			{"text/uri-list", []byte(fileURI + "\r\n")},
 			{"text/plain", []byte(filePath)},
+		}
+
+		if imgErr == nil {
+			imgMimeType := "image/" + imgMime
+			offers = append(offers, offer{imgMimeType, fileData})
 		}
 
 		offerData := make(map[string][]byte)
