@@ -4,30 +4,30 @@ import Quickshell.Wayland
 import qs.Common
 import qs.Modules.Plugins
 import qs.Widgets
-import qs.Services
 
 BasePill {
     id: root
 
     property bool isActive: false
-    property var clipboardHistoryModal: null
+    property var popoutTarget: null
     property var parentScreen: null
     property Item windowRoot: (Window.window ? Window.window.contentItem : null)
     property bool isAutoHideBar: false
+
+    signal clipboardClicked
+    signal showSavedItemsRequested
+    signal clearAllRequested
 
     readonly property real minTooltipY: {
         if (!parentScreen || !(axis?.isVertical ?? false)) {
             return 0;
         }
-
         if (isAutoHideBar) {
             return 0;
         }
-
         if (parentScreen.y > 0) {
             return barThickness + barSpacing;
         }
-
         return 0;
     }
 
@@ -51,15 +51,11 @@ BasePill {
         let anchorY = relativeY;
 
         if (isVertical) {
-            anchorX = edge === "left"
-                ? (root.barThickness + root.barSpacing + gap)
-                : (screen.width - (root.barThickness + root.barSpacing + gap));
+            anchorX = edge === "left" ? (root.barThickness + root.barSpacing + gap) : (screen.width - (root.barThickness + root.barSpacing + gap));
             anchorY = relativeY + root.minTooltipY;
         } else {
             anchorX = relativeX;
-            anchorY = edge === "bottom"
-                ? (screen.height - (root.barThickness + root.barSpacing + gap))
-                : (root.barThickness + root.barSpacing + gap);
+            anchorY = edge === "bottom" ? (screen.height - (root.barThickness + root.barSpacing + gap)) : (root.barThickness + root.barSpacing + gap);
         }
 
         contextMenuWindow.showAt(anchorX, anchorY, isVertical, edge, screen);
@@ -67,10 +63,16 @@ BasePill {
 
     MouseArea {
         anchors.fill: parent
-        acceptedButtons: Qt.RightButton
-        onClicked: function(mouse) {
-            if (mouse.button === Qt.RightButton) {
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        cursorShape: Qt.PointingHandCursor
+        onClicked: function (mouse) {
+            switch (mouse.button) {
+            case Qt.RightButton:
                 openContextMenu();
+                break;
+            case Qt.LeftButton:
+                clipboardClicked();
+                break;
             }
         }
     }
@@ -232,23 +234,7 @@ BasePill {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             contextMenuWindow.closeMenu();
-                            if (root.clipboardHistoryModal && root.clipboardHistoryModal.confirmDialog) {
-                                const hasPinned = root.clipboardHistoryModal.pinnedCount > 0;
-                                const message = hasPinned
-                                    ? I18n.tr("This will delete all unpinned entries. %1 pinned entries will be kept.").arg(root.clipboardHistoryModal.pinnedCount)
-                                    : I18n.tr("This will permanently delete all clipboard history.");
-
-                                root.clipboardHistoryModal.confirmDialog.show(
-                                    I18n.tr("Clear History?"),
-                                    message,
-                                    function () {
-                                        if (root.clipboardHistoryModal && typeof root.clipboardHistoryModal.clearAll === "function") {
-                                            root.clipboardHistoryModal.clearAll();
-                                        }
-                                    },
-                                    function () {}
-                                );
-                            }
+                            root.clearAllRequested();
                         }
                     }
                 }
@@ -288,16 +274,7 @@ BasePill {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             contextMenuWindow.closeMenu();
-                            if (root.clipboardHistoryModal) {
-                                if (typeof root.clipboardHistoryModal.show === "function") {
-                                    root.clipboardHistoryModal.show();
-                                }
-                                Qt.callLater(function () {
-                                    if (root.clipboardHistoryModal) {
-                                        root.clipboardHistoryModal.activeTab = "saved";
-                                    }
-                                });
-                            }
+                            root.showSavedItemsRequested();
                         }
                     }
                 }
