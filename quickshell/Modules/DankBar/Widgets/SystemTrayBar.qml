@@ -36,8 +36,17 @@ Item {
             return !hiddenTrayIds.includes(itemId.toLowerCase());
         });
     }
-    readonly property var mainBarItems: allTrayItems.filter(item => !SessionData.isHiddenTrayId(item?.id || ""))
-    readonly property var hiddenBarItems: allTrayItems.filter(item => SessionData.isHiddenTrayId(item?.id || ""))
+    function getTrayItemKey(item) {
+        const id = item?.id || "";
+        const tooltipTitle = item?.tooltipTitle || "";
+        if (!tooltipTitle || tooltipTitle === id) {
+            return id;
+        }
+        return `${id}::${tooltipTitle}`;
+    }
+
+    readonly property var mainBarItems: allTrayItems.filter(item => !SessionData.isHiddenTrayId(root.getTrayItemKey(item)))
+    readonly property var hiddenBarItems: allTrayItems.filter(item => SessionData.isHiddenTrayId(root.getTrayItemKey(item)))
     readonly property bool hasHiddenItems: allTrayItems.length > mainBarItems.length
     readonly property int calculatedSize: {
         if (allTrayItems.length === 0)
@@ -1226,7 +1235,7 @@ Item {
                                 anchors.right: parent.right
                                 anchors.rightMargin: Theme.spacingS
                                 anchors.verticalCenter: parent.verticalCenter
-                                name: SessionData.isHiddenTrayId(menuRoot.trayItem?.id || "") ? "visibility" : "visibility_off"
+                                name: SessionData.isHiddenTrayId(root.getTrayItemKey(menuRoot.trayItem)) ? "visibility" : "visibility_off"
                                 size: 16
                                 color: Theme.widgetTextColor
                             }
@@ -1237,13 +1246,13 @@ Item {
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
                                 onClicked: {
-                                    const itemId = menuRoot.trayItem?.id || "";
-                                    if (!itemId)
+                                    const itemKey = root.getTrayItemKey(menuRoot.trayItem);
+                                    if (!itemKey)
                                         return;
-                                    if (SessionData.isHiddenTrayId(itemId)) {
-                                        SessionData.showTrayId(itemId);
+                                    if (SessionData.isHiddenTrayId(itemKey)) {
+                                        SessionData.showTrayId(itemKey);
                                     } else {
-                                        SessionData.hideTrayId(itemId);
+                                        SessionData.hideTrayId(itemKey);
                                     }
                                     menuRoot.closeWithAction();
                                 }
