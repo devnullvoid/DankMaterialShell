@@ -111,8 +111,8 @@ DankPopout {
         return ClipboardService.getEntryType(entry);
     }
 
-    popupWidth: ClipboardConstants.modalWidth
-    popupHeight: ClipboardConstants.modalHeight
+    popupWidth: ClipboardConstants.popoutWidth
+    popupHeight: ClipboardConstants.popoutHeight
     triggerWidth: 55
     positioning: ""
     screen: triggerScreen
