@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to AI coding assistants (Claude Code, Gemini, ChatGPT, etc.) when working with code in this repository.
+This file provides guidance to AI coding assistants.
 
 ## AI Guidance
 
