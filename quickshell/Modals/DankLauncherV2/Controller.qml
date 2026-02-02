@@ -50,7 +50,7 @@ Item {
 
     Connections {
         target: AppSearchService
-        function onCacheInvalidated() {
+        function onCacheVersionChanged() {
             _clearModeCache();
         }
     }
