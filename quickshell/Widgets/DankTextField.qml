@@ -107,6 +107,8 @@ StyledRect {
         anchors.bottomMargin: root.bottomPadding
         font.pixelSize: Theme.fontSizeMedium
         color: Theme.surfaceText
+        selectionColor: Theme.primaryContainer
+        selectedTextColor: Theme.primary
         horizontalAlignment: TextInput.AlignLeft
         verticalAlignment: TextInput.AlignVCenter
         selectByMouse: !root.ignoreLeftRightKeys
