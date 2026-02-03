@@ -325,7 +325,7 @@ func SetupDMSGroup(logFunc func(string), sudoPassword string) error {
 	return nil
 }
 
-func SyncDMSConfigs(dmsPath string, logFunc func(string), sudoPassword string) error {
+func SyncDMSConfigs(dmsPath, compositor string, logFunc func(string), sudoPassword string) error {
 	homeDir, err := os.UserHomeDir()
 	if err != nil {
 		return fmt.Errorf("failed to get user home directory: %w", err)
@@ -379,6 +379,10 @@ func SyncDMSConfigs(dmsPath string, logFunc func(string), sudoPassword string) e
 		}
 
 		logFunc(fmt.Sprintf("✓ Synced %s", link.desc))
+	}
+
+	if strings.ToLower(compositor) != "niri" {
+		return nil
 	}
 
 	if err := syncNiriGreeterConfig(logFunc, sudoPassword); err != nil {
@@ -464,7 +468,7 @@ func syncNiriGreeterConfig(logFunc func(string), sudoPassword string) error {
 		return fmt.Errorf("failed to install greetd niri dms config: %w", err)
 	}
 
-	mainContent := fmt.Sprintf("hotkey-overlay {\n    skip-at-startup\n}\n\ninclude \"%s\"\n", dmsPath)
+	mainContent := fmt.Sprintf("%s\ninclude \"%s\"\n", config.NiriGreeterConfig, dmsPath)
 	mainTemp, err := os.CreateTemp("", "dms-greeter-niri-main-*.kdl")
 	if err != nil {
 		return fmt.Errorf("failed to create temp file: %w", err)
@@ -526,9 +530,8 @@ func ensureGreetdNiriConfig(logFunc func(string), sudoPassword string, niriConfi
 		if !strings.Contains(command, "--command niri") {
 			continue
 		}
-		if strings.Contains(command, " -C ") || strings.Contains(command, " --config ") || strings.Contains(command, "--config") {
-			return nil
-		}
+		// Strip existing -C or --config and their arguments
+		command = stripConfigFlag(command)
 
 		newCommand := fmt.Sprintf("%s -C %s", command, niriConfigPath)
 		idx := strings.Index(line, "command")
@@ -806,6 +809,37 @@ user = "greeter"
 
 	logFunc(fmt.Sprintf("✓ Updated greetd configuration (user: greeter, command: %s --command %s -p %s)", wrapperCmd, compositorLower, dmsPath))
 	return nil
+}
+
+func stripConfigFlag(command string) string {
+	for _, flag := range []string{" -C ", " --config "} {
+		idx := strings.Index(command, flag)
+		if idx == -1 {
+			continue
+		}
+
+		before := command[:idx]
+		after := command[idx+len(flag):]
+
+		switch {
+		case strings.HasPrefix(after, `"`):
+			if end := strings.Index(after[1:], `"`); end != -1 {
+				after = after[end+2:]
+			} else {
+				after = ""
+			}
+		default:
+			if space := strings.Index(after, " "); space != -1 {
+				after = after[space:]
+			} else {
+				after = ""
+			}
+		}
+
+		command = strings.TrimSpace(before + after)
+	}
+
+	return command
 }
 
 func runSudoCmd(sudoPassword string, command string, args ...string) error {
