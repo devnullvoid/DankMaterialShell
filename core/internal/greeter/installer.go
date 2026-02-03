@@ -464,7 +464,7 @@ func syncNiriGreeterConfig(logFunc func(string), sudoPassword string) error {
 		return fmt.Errorf("failed to install greetd niri dms config: %w", err)
 	}
 
-	mainContent := fmt.Sprintf("hotkey-overlay {\n    skip-at-startup\n}\n\ninclude \"%s\"\n", dmsPath)
+	mainContent := fmt.Sprintf("hotkey-overlay {\n    skip-at-startup\n}\n\nenvironment {\n    DMS_RUN_GREETER \"1\"\n}\n\ngestures {\n  hot-corners {\n    off\n  }\n}\n\nlayout {\n  background-color \"#000000\"\n}\n\ninclude \"%s\"\n", dmsPath)
 	mainTemp, err := os.CreateTemp("", "dms-greeter-niri-main-*.kdl")
 	if err != nil {
 		return fmt.Errorf("failed to create temp file: %w", err)
