@@ -453,25 +453,24 @@ Item {
                         }
                     }
 
-                    DankRectangle {
+                    Rectangle {
                         anchors.fill: parent
                         radius: Theme.cornerRadius
-                        color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+                        color: Theme.surfaceContainer
                     }
                 }
 
-                Item {
-                    id: contentLoaderWrapper
+                DankRectangle {
                     anchors.fill: parent
-                    x: Theme.snap(x, root.dpr)
-                    y: Theme.snap(y, root.dpr)
+                    radius: Theme.cornerRadius
+                    color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+                }
 
-                    Loader {
-                        id: contentLoader
-                        anchors.fill: parent
-                        active: shouldBeVisible || contentWindow.visible
-                        asynchronous: false
-                    }
+                Loader {
+                    id: contentLoader
+                    anchors.fill: parent
+                    active: shouldBeVisible || contentWindow.visible
+                    asynchronous: false
                 }
             }
         }
