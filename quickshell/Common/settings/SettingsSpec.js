@@ -20,6 +20,7 @@ var SPEC = {
     widgetBackgroundColor: { def: "sch" },
     widgetColorMode: { def: "default" },
     controlCenterTileColorMode: { def: "primary" },
+    buttonColorMode: { def: "primary" },
     cornerRadius: { def: 12, onChange: "updateCompositorLayout" },
     niriLayoutGapsOverride: { def: -1, onChange: "updateCompositorLayout" },
     niriLayoutRadiusOverride: { def: -1, onChange: "updateCompositorLayout" },

@@ -134,6 +134,7 @@ Singleton {
     property string widgetBackgroundColor: "sch"
     property string widgetColorMode: "default"
     property string controlCenterTileColorMode: "primary"
+    property string buttonColorMode: "primary"
     property real cornerRadius: 12
     property int niriLayoutGapsOverride: -1
     property int niriLayoutRadiusOverride: -1
