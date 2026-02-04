@@ -498,7 +498,7 @@ Rectangle {
     implicitWidth: __calculatedWidth
     width: __calculatedWidth
     height: parent.height
-    color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+    color: Theme.surfaceContainer
     radius: Theme.cornerRadius
 
     StyledTextMetrics {
@@ -596,12 +596,12 @@ Rectangle {
                 id: searchField
                 width: parent.width - parent.leftPadding - parent.rightPadding
                 placeholderText: I18n.tr("Search...")
-                backgroundColor: Theme.withAlpha(Theme.surfaceContainerHighest, Theme.popupTransparency)
                 normalBorderColor: Theme.outlineMedium
                 focusedBorderColor: Theme.primary
                 leftIconName: "search"
                 leftIconSize: Theme.iconSize - 4
                 showClearButton: text.length > 0
+                usePopupTransparency: false
                 onTextChanged: {
                     SettingsSearchService.search(text);
                     root.searchSelectedIndex = 0;

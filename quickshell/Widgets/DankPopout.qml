@@ -456,7 +456,7 @@ Item {
                     Rectangle {
                         anchors.fill: parent
                         radius: Theme.cornerRadius
-                        color: Theme.surfaceContainer
+                        color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
                     }
                 }
 
