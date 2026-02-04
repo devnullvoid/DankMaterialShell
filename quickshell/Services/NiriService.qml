@@ -668,7 +668,15 @@ Singleton {
             return;
         if (pendingScreenshotPath && data.path === pendingScreenshotPath) {
             const editor = Quickshell.env("DMS_SCREENSHOT_EDITOR");
-            const command = editor === "satty" ? ["satty", "-f", data.path] : ["swappy", "-f", data.path];
+            let command;
+            if (editor === "satty") {
+                command = ["satty", "-f", data.path];
+            } else if (editor === "swappy" || !editor) {
+                command = ["swappy", "-f", data.path];
+            } else {
+                // Custom command with %path% placeholder
+                command = editor.split(" ").map(arg => arg === "%path%" ? data.path : arg);
+            }
             Quickshell.execDetached({
                 "command": command
             });
