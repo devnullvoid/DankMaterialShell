@@ -312,7 +312,7 @@ Item {
                 NumberAnimation {
                     duration: Theme.modalAnimationDuration
                     easing.type: Easing.BezierSpline
-                    easing.bezierCurve: contentVisible ? Theme.expressiveCurves.expressiveFastSpatial : Theme.expressiveCurves.emphasized
+                    easing.bezierCurve: contentVisible ? Theme.expressiveCurves.expressiveDefaultSpatial : Theme.expressiveCurves.emphasized
                 }
             }
         }
@@ -348,7 +348,7 @@ Item {
                 NumberAnimation {
                     duration: Theme.modalAnimationDuration
                     easing.type: Easing.BezierSpline
-                    easing.bezierCurve: contentVisible ? Theme.expressiveCurves.expressiveFastSpatial : Theme.expressiveCurves.standardAccel
+                    easing.bezierCurve: contentVisible ? Theme.expressiveCurves.expressiveDefaultSpatial : Theme.expressiveCurves.emphasized
                 }
             }
 
@@ -356,7 +356,7 @@ Item {
                 NumberAnimation {
                     duration: Theme.modalAnimationDuration
                     easing.type: Easing.BezierSpline
-                    easing.bezierCurve: contentVisible ? Theme.expressiveCurves.expressiveFastSpatial : Theme.expressiveCurves.standardAccel
+                    easing.bezierCurve: contentVisible ? Theme.expressiveCurves.expressiveDefaultSpatial : Theme.expressiveCurves.emphasized
                 }
             }
 

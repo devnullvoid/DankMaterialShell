@@ -322,7 +322,7 @@ Item {
                     text: I18n.tr("Custom Duration")
                     description: I18n.tr("%1 custom animation duration").arg(I18n.tr("Popouts"))
                     minimum: 0
-                    maximum: 500
+                    maximum: 2000
                     value: Theme.popoutAnimationDuration
                     unit: "ms"
                     defaultValue: 150
@@ -402,7 +402,7 @@ Item {
                     text: I18n.tr("Custom Duration")
                     description: I18n.tr("%1 custom animation duration").arg(I18n.tr("Modals"))
                     minimum: 0
-                    maximum: 500
+                    maximum: 2000
                     value: Theme.modalAnimationDuration
                     unit: "ms"
                     defaultValue: 150

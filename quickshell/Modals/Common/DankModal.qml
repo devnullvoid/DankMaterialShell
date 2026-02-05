@@ -132,7 +132,7 @@ Item {
 
     Timer {
         id: closeTimer
-        interval: animationDuration + 120
+        interval: animationDuration + 50
         onTriggered: {
             if (shouldBeVisible)
                 return;
