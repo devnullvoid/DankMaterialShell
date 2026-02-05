@@ -26,7 +26,7 @@ Item {
     property bool closeOnEscapeKey: true
     property bool closeOnBackgroundClick: true
     property string animationType: "scale"
-    property int animationDuration: Theme.expressiveDurations.expressiveDefaultSpatial
+    property int animationDuration: Theme.modalAnimationDuration
     property real animationScaleCollapsed: 0.96
     property real animationOffset: Theme.spacingL
     property list<real> animationEnterCurve: Theme.expressiveCurves.expressiveDefaultSpatial

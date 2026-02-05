@@ -198,7 +198,7 @@ Item {
 
     Timer {
         id: closeCleanupTimer
-        interval: Theme.expressiveDurations.expressiveFastSpatial + 50
+        interval: Theme.modalAnimationDuration + 50
         repeat: false
         onTriggered: {
             isClosing = false;
@@ -310,7 +310,7 @@ Item {
 
             Behavior on opacity {
                 NumberAnimation {
-                    duration: Theme.expressiveDurations.expressiveFastSpatial
+                    duration: Theme.modalAnimationDuration
                     easing.type: Easing.BezierSpline
                     easing.bezierCurve: contentVisible ? Theme.expressiveCurves.expressiveFastSpatial : Theme.expressiveCurves.emphasized
                 }
@@ -346,7 +346,7 @@ Item {
 
             Behavior on opacity {
                 NumberAnimation {
-                    duration: Theme.expressiveDurations.fast
+                    duration: Theme.modalAnimationDuration
                     easing.type: Easing.BezierSpline
                     easing.bezierCurve: contentVisible ? Theme.expressiveCurves.expressiveFastSpatial : Theme.expressiveCurves.standardAccel
                 }
@@ -354,7 +354,7 @@ Item {
 
             Behavior on scale {
                 NumberAnimation {
-                    duration: Theme.expressiveDurations.fast
+                    duration: Theme.modalAnimationDuration
                     easing.type: Easing.BezierSpline
                     easing.bezierCurve: contentVisible ? Theme.expressiveCurves.expressiveFastSpatial : Theme.expressiveCurves.standardAccel
                 }
