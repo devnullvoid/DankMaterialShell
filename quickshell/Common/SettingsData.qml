@@ -279,8 +279,9 @@ Singleton {
     property int appsDockEnlargePercentage: 125
     property int appsDockIconSizePercentage: 100
     property bool keyboardLayoutNameCompactMode: false
-    property bool runningAppsCurrentWorkspace: false
+    property bool runningAppsCurrentWorkspace: true
     property bool runningAppsGroupByApp: false
+    property bool runningAppsCurrentMonitor: false
     property var appIdSubstitutions: []
     property string centeringMode: "index"
     property string clockDateFormat: ""

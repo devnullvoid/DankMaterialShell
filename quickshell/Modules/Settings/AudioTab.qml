@@ -105,7 +105,7 @@ Item {
             SettingsCard {
                 tab: "audio"
                 tags: ["audio", "device", "output", "speaker"]
-                title: I18n.tr("Output Devices")
+                title: I18n.tr("Output Devices", "Audio settings: speaker/headphone devices")
                 settingKey: "audioOutputDevices"
                 iconName: "volume_up"
 
@@ -115,7 +115,7 @@ Item {
 
                     StyledText {
                         width: parent.width
-                        text: I18n.tr("Set custom names for your audio output devices")
+                        text: I18n.tr("Set custom names for your audio output devices", "Audio settings description")
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceVariantText
                         wrapMode: Text.WordWrap
@@ -152,7 +152,7 @@ Item {
 
                     StyledText {
                         width: parent.width
-                        text: I18n.tr("No output devices found")
+                        text: I18n.tr("No output devices found", "Audio settings empty state")
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceVariantText
                         horizontalAlignment: Text.AlignHCenter
@@ -175,7 +175,7 @@ Item {
 
                     StyledText {
                         width: parent.width
-                        text: I18n.tr("Set custom names for your audio input devices")
+                        text: I18n.tr("Set custom names for your audio input devices", "Audio settings description")
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceVariantText
                         wrapMode: Text.WordWrap
@@ -212,7 +212,7 @@ Item {
 
                     StyledText {
                         width: parent.width
-                        text: I18n.tr("No input devices found")
+                        text: I18n.tr("No input devices found", "Audio settings empty state")
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceVariantText
                         horizontalAlignment: Text.AlignHCenter
@@ -265,7 +265,7 @@ Item {
                 anchors.horizontalCenter: parent.horizontalCenter
 
                 StyledText {
-                    text: I18n.tr("Restarting audio system...")
+                    text: I18n.tr("Restarting audio system...", "Loading overlay while WirePlumber restarts")
                     font.pixelSize: Theme.fontSizeLarge
                     font.weight: Font.Medium
                     color: Theme.surfaceText
@@ -273,7 +273,7 @@ Item {
                 }
 
                 StyledText {
-                    text: I18n.tr("This may take a few seconds")
+                    text: I18n.tr("This may take a few seconds", "Loading overlay subtitle")
                     font.pixelSize: Theme.fontSizeMedium
                     color: Theme.surfaceVariantText
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -340,7 +340,7 @@ Item {
                         spacing: 4
 
                         StyledText {
-                            text: I18n.tr("Set Custom Device Name")
+                            text: I18n.tr("Set Custom Device Name", "Audio device rename dialog title")
                             font.pixelSize: Theme.fontSizeLarge
                             font.weight: Font.Bold
                             color: Theme.surfaceText
@@ -358,7 +358,7 @@ Item {
 
                         StyledText {
                             visible: AudioService.hasDeviceAlias(root.editingDevice?.name ?? "")
-                            text: I18n.tr("Original: %1").arg(AudioService.originalName(root.editingDevice))
+                            text: I18n.tr("Original: %1", "Shows the original device name before renaming").arg(AudioService.originalName(root.editingDevice))
                             font.pixelSize: Theme.fontSizeSmall
                             color: Theme.surfaceVariantText
                             width: parent.width
@@ -373,7 +373,7 @@ Item {
                     spacing: Theme.spacingM
 
                     StyledText {
-                        text: I18n.tr("Custom Name")
+                        text: I18n.tr("Custom Name", "Audio device rename dialog field label")
                         font.pixelSize: Theme.fontSizeMedium
                         font.weight: Font.Medium
                         color: Theme.surfaceText
@@ -382,7 +382,7 @@ Item {
                     DankTextField {
                         id: nameInput
                         width: parent.width
-                        placeholderText: I18n.tr("Enter device name...")
+                        placeholderText: I18n.tr("Enter device name...", "Audio device rename dialog placeholder")
                         text: root.newDeviceName
                         normalBorderColor: Theme.outlineMedium
                         focusedBorderColor: Theme.primary
@@ -412,7 +412,7 @@ Item {
 
                     StyledText {
                         width: parent.width
-                        text: I18n.tr("Press Enter and the audio system will restart to apply the change")
+                        text: I18n.tr("Press Enter and the audio system will restart to apply the change", "Audio device rename dialog hint")
                         font.pixelSize: Theme.fontSizeSmall
                         color: Theme.surfaceVariantText
                         wrapMode: Text.WordWrap

@@ -136,8 +136,9 @@ var SPEC = {
     appsDockEnlargePercentage: { def: 125 },
     appsDockIconSizePercentage: { def: 100 },
     keyboardLayoutNameCompactMode: { def: false },
-    runningAppsCurrentWorkspace: { def: false },
+    runningAppsCurrentWorkspace: { def: true },
     runningAppsGroupByApp: { def: false },
+    runningAppsCurrentMonitor: { def: false },
     appIdSubstitutions: {
         def: [
             { pattern: "Spotify", replacement: "spotify", type: "exact" },
