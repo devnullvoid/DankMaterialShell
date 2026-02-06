@@ -1190,7 +1190,7 @@ Singleton {
         writeAlttabProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && cat > "${alttabPath}" << 'EOF'\n${alttabContent}\nEOF`];
         writeAlttabProcess.running = true;
 
-        for (const name of ["outputs", "binds", "cursor", "windowrules", "colors"]) {
+        for (const name of ["outputs", "binds", "cursor", "windowrules", "colors", "alttab", "layout"]) {
             const path = niriDmsDir + "/" + name + ".kdl";
             Proc.runCommand("niri-ensure-" + name, ["sh", "-c", `mkdir -p "${niriDmsDir}" && [ ! -f "${path}" ] && touch "${path}" || true`], (output, exitCode) => {
                 if (exitCode !== 0)
