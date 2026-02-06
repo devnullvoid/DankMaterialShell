@@ -39,7 +39,6 @@ DankOSD {
         }
 
         function onIsPlayingChanged() { handleUpdate() }
-        // Not enough room to show track name vertically - skip it
         function onTrackChanged() { if (!useVertical) handleUpdate() }
     }
 
@@ -92,7 +91,8 @@ DankOSD {
                 font.pixelSize: Theme.fontSizeMedium
                 font.weight: Font.Medium
                 color: Theme.surfaceText
-                elide: Text.ElideRight
+                wrapMode: Text.Wrap
+                maximumLineCount: 3
             }
         }
     }
