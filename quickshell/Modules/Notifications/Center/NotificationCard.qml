@@ -31,10 +31,16 @@ Rectangle {
     width: parent ? parent.width : 400
     height: expanded ? (expandedContent.height + cardPadding * 2) : (baseCardHeight + collapsedContent.extraHeight)
     radius: Theme.cornerRadius
+    property bool __initialized: false
+
+    Component.onCompleted: {
+        Qt.callLater(() => { __initialized = true; });
+    }
 
     Behavior on border.color {
+        enabled: root.__initialized
         ColorAnimation {
-            duration: Theme.shortDuration
+            duration: root.__initialized ? Theme.shortDuration : 0
             easing.type: Theme.standardEasing
         }
     }
@@ -344,6 +350,11 @@ Rectangle {
                     readonly property real expandedIconSize: compactMode ? 40 : 48
                     readonly property real expandedItemPadding: compactMode ? Theme.spacingS : Theme.spacingM
                     readonly property real expandedBaseHeight: expandedItemPadding * 2 + expandedIconSize + actionButtonHeight + contentSpacing * 2
+                    property bool __delegateInitialized: false
+
+                    Component.onCompleted: {
+                        Qt.callLater(() => { __delegateInitialized = true; });
+                    }
 
                     width: parent.width
                     height: {
@@ -360,8 +371,9 @@ Rectangle {
                     border.width: 1
 
                     Behavior on border.color {
+                        enabled: __delegateInitialized
                         ColorAnimation {
-                            duration: Theme.shortDuration
+                            duration: __delegateInitialized ? Theme.shortDuration : 0
                             easing.type: Theme.standardEasing
                         }
                     }
@@ -719,7 +731,7 @@ Rectangle {
         enabled: root.userInitiatedExpansion && root.animateExpansion
         NumberAnimation {
             duration: Theme.mediumDuration
-            easing.type: Theme.emphasizedEasing
+            easing.type: root.expanded ? Theme.emphasizedEasing : Theme.standardEasing
             onRunningChanged: {
                 if (running) {
                     root.isAnimating = true;
