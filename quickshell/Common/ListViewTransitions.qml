@@ -14,7 +14,7 @@ Singleton {
             property: "opacity"
             from: 0
             to: 1
-            duration: Theme.expressiveDurations.expressiveDefaultSpatial
+            duration: Theme.expressiveDurations.expressiveEffects
             easing.bezierCurve: Theme.expressiveCurves.emphasizedDecel
         }
     }
@@ -31,16 +31,16 @@ Singleton {
     readonly property Transition displaced: Transition {
         DankAnim {
             property: "y"
-            duration: Theme.expressiveDurations.expressiveDefaultSpatial
-            easing.bezierCurve: Theme.expressiveCurves.expressiveDefaultSpatial
+            duration: Theme.expressiveDurations.normal
+            easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
         }
     }
 
     readonly property Transition move: Transition {
         DankAnim {
             property: "y"
-            duration: Theme.expressiveDurations.expressiveDefaultSpatial
-            easing.bezierCurve: Theme.expressiveCurves.standard
+            duration: Theme.expressiveDurations.normal
+            easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
         }
     }
 }
