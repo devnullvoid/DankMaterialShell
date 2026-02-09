@@ -201,8 +201,9 @@ Item {
     function adjustVolume(step) {
         if (!volumeAvailable)
             return;
+        const maxVol = usePlayerVolume ? 100 : AudioService.sinkMaxVolume;
         const current = Math.round(currentVolume * 100);
-        const newVolume = Math.min(100, Math.max(0, current + step));
+        const newVolume = Math.min(maxVol, Math.max(0, current + step));
 
         SessionData.suppressOSDTemporarily();
         if (usePlayerVolume) {
@@ -778,7 +779,8 @@ Item {
                 SessionData.suppressOSDTemporarily();
                 const delta = wheelEvent.angleDelta.y;
                 const current = (currentVolume * 100) || 0;
-                const newVolume = delta > 0 ? Math.min(100, current + 5) : Math.max(0, current - 5);
+                const maxVol = usePlayerVolume ? 100 : AudioService.sinkMaxVolume;
+                const newVolume = delta > 0 ? Math.min(maxVol, current + 5) : Math.max(0, current - 5);
 
                 if (usePlayerVolume) {
                     activePlayer.volume = newVolume / 100;
