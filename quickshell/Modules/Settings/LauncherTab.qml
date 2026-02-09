@@ -1056,6 +1056,8 @@ Item {
                 iconName: "history"
                 title: I18n.tr("Recently Used Apps")
                 settingKey: "recentApps"
+                collapsible: true
+                expanded: false
 
                 property var rankedAppsModel: {
                     var ranking = AppUsageHistoryData.appUsageRanking;
