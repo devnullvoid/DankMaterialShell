@@ -438,7 +438,27 @@ Item {
                 property real shadowSpreadPx: 0
                 property real shadowBaseAlpha: 0.60
                 readonly property real popupSurfaceAlpha: SettingsData.popupTransparency
-                readonly property real effectiveShadowAlpha: Math.max(0, Math.min(1, shadowBaseAlpha * popupSurfaceAlpha * contentWrapper.opacity))
+                readonly property real effectiveShadowAlpha: Math.max(0, Math.min(1, shadowBaseAlpha * popupSurfaceAlpha))
+                readonly property int blurMax: 64
+
+                layer.enabled: Quickshell.env("DMS_DISABLE_LAYER") !== "true" && Quickshell.env("DMS_DISABLE_LAYER") !== "1"
+                layer.smooth: false
+                layer.textureSize: Qt.size(Math.round(width * root.dpr), Math.round(height * root.dpr))
+                layer.textureMirroring: ShaderEffectSource.MirrorVertically
+
+                layer.effect: MultiEffect {
+                    id: shadowFx
+                    autoPaddingEnabled: true
+                    shadowEnabled: true
+                    blurEnabled: false
+                    maskEnabled: false
+                    shadowBlur: Math.max(0, Math.min(1, contentWrapper.shadowBlurPx / contentWrapper.blurMax))
+                    shadowScale: 1 + (2 * contentWrapper.shadowSpreadPx) / Math.max(1, Math.min(contentWrapper.width, contentWrapper.height))
+                    shadowColor: {
+                        const baseColor = Theme.isLightMode ? Qt.rgba(0, 0, 0, 1) : Theme.surfaceContainerHighest;
+                        return Theme.withAlpha(baseColor, contentWrapper.effectiveShadowAlpha);
+                    }
+                }
 
                 Behavior on opacity {
                     NumberAnimation {
@@ -448,35 +468,10 @@ Item {
                     }
                 }
 
-                Item {
-                    id: bgShadowLayer
+                Rectangle {
                     anchors.fill: parent
-                    layer.enabled: Quickshell.env("DMS_DISABLE_LAYER") !== "true" && Quickshell.env("DMS_DISABLE_LAYER") !== "1"
-                    layer.smooth: false
-                    layer.textureSize: Qt.size(Math.round(width * root.dpr), Math.round(height * root.dpr))
-                    layer.textureMirroring: ShaderEffectSource.MirrorVertically
-
-                    readonly property int blurMax: 64
-
-                    layer.effect: MultiEffect {
-                        id: shadowFx
-                        autoPaddingEnabled: true
-                        shadowEnabled: true
-                        blurEnabled: false
-                        maskEnabled: false
-                        shadowBlur: Math.max(0, Math.min(1, contentWrapper.shadowBlurPx / bgShadowLayer.blurMax))
-                        shadowScale: 1 + (2 * contentWrapper.shadowSpreadPx) / Math.max(1, Math.min(bgShadowLayer.width, bgShadowLayer.height))
-                        shadowColor: {
-                            const baseColor = Theme.isLightMode ? Qt.rgba(0, 0, 0, 1) : Theme.surfaceContainerHighest;
-                            return Theme.withAlpha(baseColor, contentWrapper.effectiveShadowAlpha);
-                        }
-                    }
-
-                    Rectangle {
-                        anchors.fill: parent
-                        radius: Theme.cornerRadius
-                        color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
-                    }
+                    radius: Theme.cornerRadius
+                    color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
                 }
 
                 DankRectangle {
