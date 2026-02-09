@@ -442,9 +442,6 @@ Item {
                 readonly property int blurMax: 64
 
                 layer.enabled: Quickshell.env("DMS_DISABLE_LAYER") !== "true" && Quickshell.env("DMS_DISABLE_LAYER") !== "1"
-                layer.smooth: false
-                layer.textureSize: Qt.size(Math.round(width * root.dpr), Math.round(height * root.dpr))
-                layer.textureMirroring: ShaderEffectSource.MirrorVertically
 
                 layer.effect: MultiEffect {
                     id: shadowFx
