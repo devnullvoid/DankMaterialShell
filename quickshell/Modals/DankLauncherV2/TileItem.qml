@@ -124,7 +124,7 @@ Rectangle {
                     font.family: Theme.fontFamily
                     color: Theme.surfaceText
                     elide: Text.ElideRight
-                    horizontalAlignment: Text.AlignHCenter
+                    horizontalAlignment: Text.AlignLeft
                     verticalAlignment: Text.AlignVCenter
                 }
             }

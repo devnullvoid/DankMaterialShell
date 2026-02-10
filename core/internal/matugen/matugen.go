@@ -11,6 +11,7 @@ import (
 	"strings"
 	"sync"
 	"syscall"
+	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/dank16"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
@@ -260,6 +261,11 @@ func buildOnce(opts *Options) error {
 			syncAccentColor(primaryDark)
 		}
 		refreshGTK(opts.Mode)
+		refreshGTK4()
+	}
+
+	if !opts.ShouldSkipTemplate("qt6ct") && appExists(opts.AppChecker, []string{"qt6ct"}, nil) {
+		refreshQt6ct()
 	}
 
 	signalTerminals()
@@ -648,6 +654,33 @@ func isDMSGTKActive(configDir string) bool {
 func refreshGTK(mode ColorMode) {
 	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", "").Run()
 	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", mode.GTKTheme()).Run()
+}
+
+func refreshGTK4() {
+	output, err := exec.Command("gsettings", "get", "org.gnome.desktop.interface", "color-scheme").Output()
+	if err != nil {
+		return
+	}
+	current := strings.Trim(strings.TrimSpace(string(output)), "'")
+
+	var toggle string
+	if current == "prefer-dark" {
+		toggle = "default"
+	} else {
+		toggle = "prefer-dark"
+	}
+
+	if err := exec.Command("gsettings", "set", "org.gnome.desktop.interface", "color-scheme", toggle).Run(); err != nil {
+		return
+	}
+	time.Sleep(50 * time.Millisecond)
+	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "color-scheme", current).Run()
+}
+
+func refreshQt6ct() {
+	confPath := filepath.Join(utils.XDGConfigHome(), "qt6ct", "qt6ct.conf")
+	now := time.Now()
+	_ = os.Chtimes(confPath, now, now)
 }
 
 func signalTerminals() {
