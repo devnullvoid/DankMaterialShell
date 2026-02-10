@@ -26,6 +26,7 @@ Item {
     property string activePluginId: ""
     property var collapsedSections: ({})
     property bool keyboardNavigationActive: false
+    property bool active: false
     property var _modeSectionsCache: ({})
     property bool _queryDrivenSearch: false
     property bool _diskCacheConsumed: false
@@ -52,6 +53,8 @@ Item {
     Connections {
         target: AppSearchService
         function onCacheVersionChanged() {
+            if (!active)
+                return;
             _clearModeCache();
             if (!searchQuery && searchMode === "all")
                 performSearch();
@@ -61,6 +64,8 @@ Item {
     Connections {
         target: PluginService
         function onRequestLauncherUpdate(pluginId) {
+            if (!active)
+                return;
             if (activePluginId === pluginId) {
                 if (activePluginCategories.length <= 1)
                     loadPluginCategories(pluginId);
