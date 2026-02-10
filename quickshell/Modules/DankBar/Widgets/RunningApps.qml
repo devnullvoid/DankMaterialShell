@@ -351,6 +351,11 @@ BasePill {
                             elide: Text.ElideRight
                             maximumLineCount: 1
                         }
+
+                        DankRipple {
+                            id: itemRipple
+                            cornerRadius: Theme.cornerRadius
+                        }
                     }
 
                     MouseArea {
@@ -359,7 +364,10 @@ BasePill {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
-                        onPressed: mouse => root.triggerRipple(this, mouse.x, mouse.y)
+                        onPressed: mouse => {
+                            const pos = mapToItem(visualContent, mouse.x, mouse.y);
+                            itemRipple.trigger(pos.x, pos.y);
+                        }
                         onClicked: mouse => {
                             if (mouse.button === Qt.LeftButton) {
                                 if (isGrouped && windowCount > 1) {
@@ -597,6 +605,11 @@ BasePill {
                             elide: Text.ElideRight
                             maximumLineCount: 1
                         }
+
+                        DankRipple {
+                            id: itemRipple
+                            cornerRadius: Theme.cornerRadius
+                        }
                     }
 
                     MouseArea {
@@ -605,7 +618,10 @@ BasePill {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        onPressed: mouse => root.triggerRipple(this, mouse.x, mouse.y)
+                        onPressed: mouse => {
+                            const pos = mapToItem(visualContent, mouse.x, mouse.y);
+                            itemRipple.trigger(pos.x, pos.y);
+                        }
                         onClicked: mouse => {
                             if (mouse.button === Qt.LeftButton) {
                                 if (isGrouped && windowCount > 1) {
