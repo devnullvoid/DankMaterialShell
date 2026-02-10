@@ -53,6 +53,12 @@ Rectangle {
     color: isSelected ? Theme.primaryPressed : isHovered ? Theme.primaryHoverLight : "transparent"
     radius: Theme.cornerRadius
 
+    DankRipple {
+        id: rippleLayer
+        rippleColor: Theme.surfaceText
+        cornerRadius: root.radius
+    }
+
     MouseArea {
         id: itemArea
         z: 1
@@ -62,6 +68,10 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
+        onPressed: mouse => {
+            if (mouse.button === Qt.LeftButton)
+                rippleLayer.trigger(mouse.x, mouse.y);
+        }
         onClicked: mouse => {
             if (mouse.button === Qt.RightButton) {
                 var scenePos = mapToItem(null, mouse.x, mouse.y);

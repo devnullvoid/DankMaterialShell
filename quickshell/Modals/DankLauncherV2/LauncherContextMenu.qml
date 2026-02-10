@@ -475,6 +475,12 @@ Popup {
                                 }
                             }
 
+                            DankRipple {
+                                id: menuItemRipple
+                                rippleColor: Theme.surfaceText
+                                cornerRadius: Theme.cornerRadius
+                            }
+
                             MouseArea {
                                 id: itemMouseArea
                                 anchors.fill: parent
@@ -484,6 +490,7 @@ Popup {
                                     root.keyboardNavigation = false;
                                     root.selectedMenuIndex = menuItemDelegate.itemIndex;
                                 }
+                                onPressed: mouse => menuItemRipple.trigger(mouse.x, mouse.y)
                                 onClicked: {
                                     var menuItem = menuItemDelegate.modelData;
                                     if (menuItem.action)

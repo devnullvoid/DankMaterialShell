@@ -82,6 +82,12 @@ Rectangle {
         return ["jpg", "jpeg", "png", "gif", "webp", "svg", "bmp"].indexOf(ext) >= 0;
     }
 
+    DankRipple {
+        id: rippleLayer
+        rippleColor: Theme.surfaceText
+        cornerRadius: root.radius
+    }
+
     Item {
         anchors.fill: parent
         anchors.margins: 4
@@ -193,6 +199,10 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
+        onPressed: mouse => {
+            if (mouse.button === Qt.LeftButton)
+                rippleLayer.trigger(mouse.x, mouse.y);
+        }
         onClicked: mouse => {
             if (mouse.button === Qt.RightButton) {
                 var scenePos = mapToItem(null, mouse.x, mouse.y);
