@@ -28,6 +28,7 @@ Item {
     property bool keyboardNavigationActive: false
     property var _modeSectionsCache: ({})
     property bool _queryDrivenSearch: false
+    property bool _diskCacheConsumed: false
     property var sectionViewModes: ({})
     property var pluginViewPreferences: ({})
     property int gridColumns: SettingsData.appLauncherGridColumns
@@ -52,6 +53,8 @@ Item {
         target: AppSearchService
         function onCacheVersionChanged() {
             _clearModeCache();
+            if (!searchQuery && searchMode === "all")
+                performSearch();
         }
     }
 
@@ -423,6 +426,30 @@ Item {
         var restoreSelection = preserveSelectionAfterUpdate(shouldResetSelection);
 
         var cachedSections = AppSearchService.getCachedDefaultSections();
+        if (!cachedSections && !_diskCacheConsumed && !searchQuery && searchMode === "all" && !pluginFilter) {
+            _diskCacheConsumed = true;
+            var diskSections = _loadDiskCache();
+            if (diskSections) {
+                activePluginId = "";
+                activePluginName = "";
+                activePluginCategories = [];
+                activePluginCategory = "";
+                clearActivePluginViewPreference();
+                for (var i = 0; i < diskSections.length; i++) {
+                    if (collapsedSections[diskSections[i].id] !== undefined)
+                        diskSections[i].collapsed = collapsedSections[diskSections[i].id];
+                }
+                _applyHighlights(diskSections, "");
+                flatModel = Scorer.flattenSections(diskSections);
+                sections = diskSections;
+                selectedFlatIndex = restoreSelection(flatModel);
+                updateSelectedItem();
+                isSearching = false;
+                searchCompleted();
+                return;
+            }
+        }
+
         if (cachedSections && !searchQuery && searchMode === "all" && !pluginFilter) {
             activePluginId = "";
             activePluginName = "";
@@ -431,6 +458,7 @@ Item {
             clearActivePluginViewPreference();
             var modeCache = _getCachedModeData("all");
             if (modeCache) {
+                _applyHighlights(modeCache.sections, "");
                 sections = modeCache.sections;
                 flatModel = modeCache.flatModel;
             } else {
@@ -442,6 +470,7 @@ Item {
                         copy.collapsed = collapsedSections[s.id];
                     return copy;
                 });
+                _applyHighlights(newSections, "");
                 flatModel = Scorer.flattenSections(newSections);
                 sections = newSections;
                 _setCachedModeData("all", sections, flatModel);
@@ -489,6 +518,7 @@ Item {
                 }
             }
 
+            _applyHighlights(newSections, triggerMatch.query);
             flatModel = Scorer.flattenSections(newSections);
             sections = newSections;
             selectedFlatIndex = restoreSelection(flatModel);
@@ -522,6 +552,7 @@ Item {
             if (cachedSections && !searchQuery) {
                 var modeCache = _getCachedModeData("apps");
                 if (modeCache) {
+                    _applyHighlights(modeCache.sections, "");
                     sections = modeCache.sections;
                     flatModel = modeCache.flatModel;
                 } else {
@@ -536,6 +567,7 @@ Item {
                             copy.collapsed = collapsedSections[s.id];
                         return copy;
                     });
+                    _applyHighlights(newSections, "");
                     flatModel = Scorer.flattenSections(newSections);
                     sections = newSections;
                     _setCachedModeData("apps", sections, flatModel);
@@ -564,6 +596,7 @@ Item {
                 }
             }
 
+            _applyHighlights(newSections, searchQuery);
             flatModel = Scorer.flattenSections(newSections);
             sections = newSections;
             selectedFlatIndex = restoreSelection(flatModel);
@@ -623,6 +656,7 @@ Item {
                 }
             }
 
+            _applyHighlights(newSections, searchQuery);
             flatModel = Scorer.flattenSections(newSections);
             sections = newSections;
             selectedFlatIndex = restoreSelection(flatModel);
@@ -699,11 +733,13 @@ Item {
             }
         }
 
+        _applyHighlights(newSections, searchQuery);
         flatModel = Scorer.flattenSections(newSections);
         sections = newSections;
 
         if (!AppSearchService.isCacheValid() && !searchQuery && searchMode === "all" && !pluginFilter) {
             AppSearchService.setCachedDefaultSections(sections, flatModel);
+            _saveDiskCache(sections);
         }
 
         selectedFlatIndex = restoreSelection(flatModel);
@@ -762,6 +798,7 @@ Item {
                 newSections[i].collapsed = collapsedSections[sid];
         }
 
+        _applyHighlights(newSections, searchQuery);
         flatModel = Scorer.flattenSections(newSections);
         sections = newSections;
         selectedFlatIndex = restoreSelection(flatModel);
@@ -835,6 +872,7 @@ Item {
             newSections.sort(function (a, b) {
                 return a.priority - b.priority;
             });
+            _applyHighlights(newSections, searchQuery);
             flatModel = Scorer.flattenSections(newSections);
             sections = newSections;
             if (selectedFlatIndex >= flatModel.length) {
@@ -1184,6 +1222,83 @@ Item {
         _modeSectionsCache = {};
     }
 
+    function _saveDiskCache(sectionsData) {
+        var serializable = [];
+        for (var i = 0; i < sectionsData.length; i++) {
+            var s = sectionsData[i];
+            var items = [];
+            var srcItems = s.items || [];
+            for (var j = 0; j < srcItems.length; j++) {
+                var it = srcItems[j];
+                items.push({
+                    id: it.id,
+                    type: it.type,
+                    name: it.name || "",
+                    subtitle: it.subtitle || "",
+                    icon: it.icon || "",
+                    iconType: it.iconType || "image",
+                    iconFull: it.iconFull || "",
+                    section: it.section || "",
+                    isCore: it.isCore || false,
+                    isBuiltInLauncher: it.isBuiltInLauncher || false,
+                    pluginId: it.pluginId || ""
+                });
+            }
+            serializable.push({
+                id: s.id,
+                title: s.title || "",
+                icon: s.icon || "",
+                priority: s.priority || 0,
+                items: items
+            });
+        }
+        CacheData.saveLauncherCache(serializable);
+    }
+
+    function _loadDiskCache() {
+        var cached = CacheData.loadLauncherCache();
+        if (!cached || !Array.isArray(cached) || cached.length === 0)
+            return null;
+
+        var sectionsData = [];
+        for (var i = 0; i < cached.length; i++) {
+            var s = cached[i];
+            var items = [];
+            var srcItems = s.items || [];
+            for (var j = 0; j < srcItems.length; j++) {
+                var it = srcItems[j];
+                items.push({
+                    id: it.id || "",
+                    type: it.type || "app",
+                    name: it.name || "",
+                    subtitle: it.subtitle || "",
+                    icon: it.icon || "",
+                    iconType: it.iconType || "image",
+                    iconFull: it.iconFull || "",
+                    section: it.section || "",
+                    isCore: it.isCore || false,
+                    isBuiltInLauncher: it.isBuiltInLauncher || false,
+                    pluginId: it.pluginId || "",
+                    data: {
+                        id: it.id
+                    },
+                    actions: [],
+                    primaryAction: null,
+                    _diskCached: true
+                });
+            }
+            sectionsData.push({
+                id: s.id || "",
+                title: s.title || "",
+                icon: s.icon || "",
+                priority: s.priority || 0,
+                items: items,
+                collapsed: false
+            });
+        }
+        return sectionsData;
+    }
+
     function updateSelectedItem() {
         if (selectedFlatIndex >= 0 && selectedFlatIndex < flatModel.length) {
             var entry = flatModel[selectedFlatIndex];
@@ -1191,6 +1306,48 @@ Item {
         } else {
             selectedItem = null;
         }
+    }
+
+    function _applyHighlights(sectionsData, query) {
+        if (!query || query.length === 0) {
+            for (var i = 0; i < sectionsData.length; i++) {
+                var items = sectionsData[i].items;
+                for (var j = 0; j < items.length; j++) {
+                    var item = items[j];
+                    item._hName = item.name || "";
+                    item._hSub = item.subtitle || "";
+                    item._hRich = false;
+                }
+            }
+            return;
+        }
+
+        var highlightColor = Theme.primary;
+        var nameColor = Theme.surfaceText;
+        var subColor = Theme.surfaceVariantText;
+        var lowerQuery = query.toLowerCase();
+
+        for (var i = 0; i < sectionsData.length; i++) {
+            var items = sectionsData[i].items;
+            for (var j = 0; j < items.length; j++) {
+                var item = items[j];
+                item._hName = _highlightField(item.name || "", lowerQuery, query.length, nameColor, highlightColor);
+                item._hSub = _highlightField(item.subtitle || "", lowerQuery, query.length, subColor, highlightColor);
+                item._hRich = true;
+            }
+        }
+    }
+
+    function _highlightField(text, lowerQuery, queryLen, baseColor, highlightColor) {
+        if (!text)
+            return "";
+        var idx = text.toLowerCase().indexOf(lowerQuery);
+        if (idx === -1)
+            return text;
+        var before = text.substring(0, idx);
+        var match = text.substring(idx, idx + queryLen);
+        var after = text.substring(idx + queryLen);
+        return '<span style="color:' + baseColor + '">' + before + '</span><span style="color:' + highlightColor + '; font-weight:600">' + match + '</span><span style="color:' + baseColor + '">' + after + '</span>';
     }
 
     function getCurrentSectionViewMode() {
@@ -1334,6 +1491,10 @@ Item {
     }
 
     function executeSelected() {
+        if (searchDebounce.running) {
+            searchDebounce.stop();
+            performSearch();
+        }
         if (!selectedItem)
             return;
         executeItem(selectedItem);

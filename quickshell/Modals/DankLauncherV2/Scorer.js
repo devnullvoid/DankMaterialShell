@@ -220,6 +220,7 @@ function groupBySection(scoredItems, sectionOrder, sortAlphabetically, maxPerSec
 
 function flattenSections(sections) {
     var flat = []
+    var bounds = {}
 
     for (var i = 0; i < sections.length; i++) {
         var section = sections[i]
@@ -231,7 +232,8 @@ function flattenSections(sections) {
             sectionIndex: i
         })
 
-        section.flatStartIndex = flat.length
+        var itemStart = flat.length
+        section.flatStartIndex = itemStart
 
         if (!section.collapsed) {
             for (var j = 0; j < section.items.length; j++) {
@@ -244,7 +246,18 @@ function flattenSections(sections) {
                 })
             }
         }
+
+        var itemEnd = flat.length - 1
+        var itemCount = flat.length - itemStart
+        if (itemCount > 0) {
+            bounds[section.id] = {
+                start: itemStart,
+                end: itemEnd,
+                count: itemCount
+            }
+        }
     }
 
+    flat._sectionBounds = bounds
     return flat
 }
