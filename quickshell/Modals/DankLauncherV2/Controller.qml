@@ -853,7 +853,8 @@ Item {
                 icon: "folder",
                 priority: 4,
                 items: fileItems,
-                collapsed: collapsedSections["files"] || false
+                collapsed: collapsedSections["files"] || false,
+                flatStartIndex: 0
             };
 
             var newSections;
@@ -1284,7 +1285,11 @@ Item {
                     },
                     actions: [],
                     primaryAction: null,
-                    _diskCached: true
+                    _diskCached: true,
+                    _hName: "",
+                    _hSub: "",
+                    _hRich: false,
+                    _preScored: undefined
                 });
             }
             sectionsData.push({
@@ -1293,7 +1298,8 @@ Item {
                 icon: s.icon || "",
                 priority: s.priority || 0,
                 items: items,
-                collapsed: false
+                collapsed: false,
+                flatStartIndex: 0
             });
         }
         return sectionsData;

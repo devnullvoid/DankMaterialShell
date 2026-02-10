@@ -187,7 +187,8 @@ function groupBySection(scoredItems, sectionOrder, sortAlphabetically, maxPerSec
             icon: sectionOrder[i].icon,
             priority: sectionOrder[i].priority,
             items: [],
-            collapsed: false
+            collapsed: false,
+            flatStartIndex: 0
         }
     }
 
@@ -220,6 +221,7 @@ function groupBySection(scoredItems, sectionOrder, sortAlphabetically, maxPerSec
 
 function flattenSections(sections) {
     var flat = []
+    flat._sectionBounds = null
     var bounds = {}
 
     for (var i = 0; i < sections.length; i++) {

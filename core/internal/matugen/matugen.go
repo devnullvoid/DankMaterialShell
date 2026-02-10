@@ -652,16 +652,20 @@ func isDMSGTKActive(configDir string) bool {
 }
 
 func refreshGTK(mode ColorMode) {
-	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", "").Run()
-	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "gtk-theme", mode.GTKTheme()).Run()
+	if err := utils.GsettingsSet("org.gnome.desktop.interface", "gtk-theme", ""); err != nil {
+		log.Warnf("Failed to reset gtk-theme: %v", err)
+	}
+	if err := utils.GsettingsSet("org.gnome.desktop.interface", "gtk-theme", mode.GTKTheme()); err != nil {
+		log.Warnf("Failed to set gtk-theme: %v", err)
+	}
 }
 
 func refreshGTK4() {
-	output, err := exec.Command("gsettings", "get", "org.gnome.desktop.interface", "color-scheme").Output()
+	output, err := utils.GsettingsGet("org.gnome.desktop.interface", "color-scheme")
 	if err != nil {
 		return
 	}
-	current := strings.Trim(strings.TrimSpace(string(output)), "'")
+	current := strings.Trim(output, "'")
 
 	var toggle string
 	if current == "prefer-dark" {
@@ -670,17 +674,22 @@ func refreshGTK4() {
 		toggle = "prefer-dark"
 	}
 
-	if err := exec.Command("gsettings", "set", "org.gnome.desktop.interface", "color-scheme", toggle).Run(); err != nil {
+	if err := utils.GsettingsSet("org.gnome.desktop.interface", "color-scheme", toggle); err != nil {
+		log.Warnf("Failed to toggle color-scheme for GTK4 refresh: %v", err)
 		return
 	}
 	time.Sleep(50 * time.Millisecond)
-	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "color-scheme", current).Run()
+	if err := utils.GsettingsSet("org.gnome.desktop.interface", "color-scheme", current); err != nil {
+		log.Warnf("Failed to restore color-scheme for GTK4 refresh: %v", err)
+	}
 }
 
 func refreshQt6ct() {
 	confPath := filepath.Join(utils.XDGConfigHome(), "qt6ct", "qt6ct.conf")
 	now := time.Now()
-	_ = os.Chtimes(confPath, now, now)
+	if err := os.Chtimes(confPath, now, now); err != nil {
+		log.Warnf("Failed to touch qt6ct.conf: %v", err)
+	}
 }
 
 func signalTerminals() {
@@ -716,8 +725,8 @@ func syncColorScheme(mode ColorMode) {
 		scheme = "default"
 	}
 
-	if err := exec.Command("gsettings", "set", "org.gnome.desktop.interface", "color-scheme", scheme).Run(); err != nil {
-		exec.Command("dconf", "write", "/org/gnome/desktop/interface/color-scheme", "'"+scheme+"'").Run()
+	if err := utils.GsettingsSet("org.gnome.desktop.interface", "color-scheme", scheme); err != nil {
+		log.Warnf("Failed to sync color-scheme: %v", err)
 	}
 }
 
@@ -767,7 +776,9 @@ func closestAdwaitaAccent(primaryHex string) string {
 func syncAccentColor(primaryHex string) {
 	accent := closestAdwaitaAccent(primaryHex)
 	log.Infof("Setting GNOME accent color: %s", accent)
-	exec.Command("gsettings", "set", "org.gnome.desktop.interface", "accent-color", accent).Run()
+	if err := utils.GsettingsSet("org.gnome.desktop.interface", "accent-color", accent); err != nil {
+		log.Warnf("Failed to set accent-color: %v", err)
+	}
 }
 
 type TemplateCheck struct {
