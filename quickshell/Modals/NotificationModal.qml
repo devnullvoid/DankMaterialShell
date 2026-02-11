@@ -99,7 +99,6 @@ DankModal {
             }
             return;
         }
-
         if (event.key === Qt.Key_Right) {
             if (notificationHeaderRef && notificationHeaderRef.currentTab === 0 && SettingsData.notificationHistoryEnabled) {
                 notificationHeaderRef.currentTab = 1;

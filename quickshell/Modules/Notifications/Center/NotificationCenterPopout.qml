@@ -149,7 +149,7 @@ DankPopout {
                     event.accepted = true;
                     return;
                 }
-                
+
                 if (event.key === Qt.Key_Left) {
                     if (notificationHeader.currentTab > 0) {
                         notificationHeader.currentTab = 0;
@@ -165,7 +165,6 @@ DankPopout {
                     }
                     return;
                 }
-
                 if (notificationHeader.currentTab === 1) {
                     historyList.handleKey(event);
                     return;
