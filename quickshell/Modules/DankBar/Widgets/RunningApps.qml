@@ -227,7 +227,21 @@ BasePill {
                     property bool isGrouped: root._groupByApp
                     property var groupData: isGrouped ? modelData : null
                     property var toplevelData: isGrouped ? (modelData.windows.length > 0 ? modelData.windows[0].toplevel : null) : modelData
-                    property bool isFocused: toplevelData ? toplevelData.activated : false
+                    property bool isFocused: {
+                        if (!isGrouped)
+                            return toplevelData ? toplevelData.activated : false;
+                        const toplevels = CompositorService.sortedToplevels;
+                        if (!toplevels)
+                            return false;
+                        let result = false;
+                        for (let i = 0; i < toplevels.length; i++) {
+                            if ((toplevels[i].appId || "") !== appId)
+                                continue;
+                            if (toplevels[i].activated)
+                                result = true;
+                        }
+                        return result;
+                    }
                     property string appId: isGrouped ? modelData.appId : (modelData.appId || "")
                     property string windowTitle: toplevelData ? (toplevelData.title || "(Unnamed)") : "(Unnamed)"
                     property var toplevelObject: toplevelData
@@ -482,7 +496,21 @@ BasePill {
                     property bool isGrouped: root._groupByApp
                     property var groupData: isGrouped ? modelData : null
                     property var toplevelData: isGrouped ? (modelData.windows.length > 0 ? modelData.windows[0].toplevel : null) : modelData
-                    property bool isFocused: toplevelData ? toplevelData.activated : false
+                    property bool isFocused: {
+                        if (!isGrouped)
+                            return toplevelData ? toplevelData.activated : false;
+                        const toplevels = CompositorService.sortedToplevels;
+                        if (!toplevels)
+                            return false;
+                        let result = false;
+                        for (let i = 0; i < toplevels.length; i++) {
+                            if ((toplevels[i].appId || "") !== appId)
+                                continue;
+                            if (toplevels[i].activated)
+                                result = true;
+                        }
+                        return result;
+                    }
                     property string appId: isGrouped ? modelData.appId : (modelData.appId || "")
                     property string windowTitle: toplevelData ? (toplevelData.title || "(Unnamed)") : "(Unnamed)"
                     property var toplevelObject: toplevelData
