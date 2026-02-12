@@ -258,11 +258,13 @@ Item {
                             anchors.verticalCenter: parent.verticalCenter
 
                             Item {
+                                anchors.left: parent.left
                                 width: tempText.width + unitText.width + Theme.spacingXS
                                 height: tempText.height
 
                                 StyledText {
                                     id: tempText
+                                    LayoutMirroring.enabled: false
                                     text: (SettingsData.useFahrenheit ? WeatherService.weather.tempF : WeatherService.weather.temp) + "°"
                                     font.pixelSize: Theme.fontSizeXLarge + 8
                                     color: Theme.surfaceText
@@ -273,6 +275,7 @@ Item {
 
                                 StyledText {
                                     id: unitText
+                                    LayoutMirroring.enabled: false
                                     text: SettingsData.useFahrenheit ? "F" : "C"
                                     font.pixelSize: Theme.fontSizeMedium
                                     color: Theme.withAlpha(Theme.surfaceText, 0.7)
@@ -297,6 +300,7 @@ Item {
                                 text: WeatherService.getWeatherCondition(WeatherService.weather.wCode)
                                 font.pixelSize: Theme.fontSizeMedium
                                 color: Theme.withAlpha(Theme.surfaceText, 0.7)
+                                anchors.left: parent.left
                             }
 
                             StyledText {
@@ -304,6 +308,7 @@ Item {
                                 text: I18n.tr("Feels Like %1°", "weather feels like temperature").arg(feelsLike)
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.withAlpha(Theme.surfaceText, 0.5)
+                                anchors.left: parent.left
                             }
 
                             StyledText {
@@ -311,6 +316,7 @@ Item {
                                 font.pixelSize: Theme.fontSizeSmall
                                 color: Theme.withAlpha(Theme.surfaceText, 0.5)
                                 visible: text.length > 0
+                                anchors.left: parent.left
                             }
                         }
                     }
@@ -343,12 +349,14 @@ Item {
                                         text: modelData.label
                                         font.pixelSize: Theme.fontSizeSmall
                                         color: Theme.withAlpha(Theme.surfaceText, 0.5)
+                                        anchors.left: parent.left
                                     }
 
                                     StyledText {
                                         text: modelData.value
                                         font.pixelSize: Theme.fontSizeMedium
                                         color: Theme.surfaceText
+                                        anchors.left: parent.left
                                     }
                                 }
                             }
