@@ -66,6 +66,29 @@ PanelWindow {
 
     screen: modelData
     visible: false
+
+    Connections {
+        target: Quickshell
+        function onScreensChanged() {
+            if (!root.visible && !root.shouldBeVisible)
+                return;
+            const currentScreenName = root.screen?.name;
+            if (!currentScreenName) {
+                root.hide();
+                return;
+            }
+            for (let i = 0; i < Quickshell.screens.length; i++) {
+                if (Quickshell.screens[i].name === currentScreenName)
+                    return;
+            }
+            root.shouldBeVisible = false;
+            root.visible = false;
+            hideTimer.stop();
+            closeTimer.stop();
+            osdHidden();
+        }
+    }
+
     WlrLayershell.layer: WlrLayershell.Overlay
     WlrLayershell.exclusiveZone: -1
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
