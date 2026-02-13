@@ -27,11 +27,11 @@ DankOSD {
         let icon = "music_note";
         switch (player.playbackState) {
         case MprisPlaybackState.Playing:
-            icon = "pause";
+            icon = "play_arrow";
             break;
         case MprisPlaybackState.Paused:
         case MprisPlaybackState.Stopped:
-            icon = "play_arrow";
+            icon = "pause";
             break;
         }
         if (icon === _displayIcon)
@@ -75,7 +75,7 @@ DankOSD {
         function onLoadingChanged() {
             if (TrackArtService.loading || !root._pendingShow)
                 return;
-            if (!TrackArtService._bgArtSource || artPreloader.status !== Image.Loading) {
+            if (!TrackArtService._bgArtSource || artPreloader.status === Image.Ready) {
                 root._pendingShow = false;
                 root.show();
             }
@@ -87,9 +87,12 @@ DankOSD {
         function onStatusChanged() {
             if (!root._pendingShow || TrackArtService.loading)
                 return;
-            if (artPreloader.status !== Image.Loading) {
+            switch (artPreloader.status) {
+            case Image.Ready:
+            case Image.Error:
                 root._pendingShow = false;
                 root.show();
+                break;
             }
         }
     }
@@ -110,7 +113,11 @@ DankOSD {
                 root.show();
                 return;
             }
-            if (!TrackArtService.loading) {
+            if (TrackArtService.loading) {
+                root._pendingShow = true;
+                return;
+            }
+            if (!TrackArtService._bgArtSource || artPreloader.status === Image.Ready) {
                 root.show();
                 return;
             }
