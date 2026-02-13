@@ -89,7 +89,20 @@ PanelWindow {
         }
     }
 
-    WlrLayershell.layer: WlrLayershell.Overlay
+    WlrLayershell.layer: {
+        switch (Quickshell.env("DMS_OSD_LAYER")) {
+        case "bottom":
+            console.warn("DankOSD: 'bottom' layer is not valid for OSDs. Defaulting to 'overlay' layer.");
+            return WlrLayershell.Overlay;
+        case "background":
+            console.warn("DankOSD: 'background' layer is not valid for OSDs. Defaulting to 'overlay' layer.");
+            return WlrLayershell.Overlay;
+        case "top":
+            return WlrLayershell.Top;
+        default:
+            return WlrLayershell.Overlay;
+        }
+    }
     WlrLayershell.exclusiveZone: -1
     WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
     color: "transparent"
