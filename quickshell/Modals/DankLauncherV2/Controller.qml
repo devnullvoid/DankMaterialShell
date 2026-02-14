@@ -42,6 +42,14 @@ Item {
     signal viewModeChanged(string sectionId, string mode)
     signal searchQueryRequested(string query)
 
+    onActiveChanged: {
+        if (!active) {
+            sections = [];
+            flatModel = [];
+            selectedItem = null;
+        }
+    }
+
     Connections {
         target: SettingsData
         function onSortAppsAlphabeticallyChanged() {
