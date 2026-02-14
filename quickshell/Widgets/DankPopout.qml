@@ -467,12 +467,6 @@ Item {
                     }
                 }
 
-                Rectangle {
-                    anchors.fill: parent
-                    radius: Theme.cornerRadius
-                    color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
-                }
-
                 DankRectangle {
                     anchors.fill: parent
                     radius: Theme.cornerRadius
