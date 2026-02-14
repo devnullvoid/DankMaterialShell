@@ -689,6 +689,19 @@ func checkOptionalDependencies() []checkResult {
 	logindStatus, logindMsg := getOptionalDBusStatus("org.freedesktop.login1")
 	results = append(results, checkResult{catOptionalFeatures, "logind", logindStatus, logindMsg, "Session management", optionalFeaturesURL})
 
+	cupsPkHelperBus := "org.opensuse.CupsPkHelper.Mechanism"
+	var cupsPkStatus status
+	var cupsPkMsg string
+	switch {
+	case utils.IsDBusServiceAvailable(cupsPkHelperBus):
+		cupsPkStatus, cupsPkMsg = statusOK, "Running"
+	case utils.IsDBusServiceActivatable(cupsPkHelperBus):
+		cupsPkStatus, cupsPkMsg = statusOK, "Available"
+	default:
+		cupsPkStatus, cupsPkMsg = statusWarn, "Not available (install cups-pk-helper)"
+	}
+	results = append(results, checkResult{catOptionalFeatures, "cups-pk-helper", cupsPkStatus, cupsPkMsg, "Printer management", optionalFeaturesURL})
+
 	results = append(results, checkI2CAvailability())
 
 	terminals := []string{"ghostty", "kitty", "alacritty", "foot", "wezterm"}
