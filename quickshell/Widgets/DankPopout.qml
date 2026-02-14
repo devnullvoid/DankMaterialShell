@@ -4,7 +4,6 @@ import Quickshell
 import Quickshell.Wayland
 import qs.Common
 import qs.Services
-import qs.Widgets
 
 Item {
     id: root
@@ -467,10 +466,12 @@ Item {
                     }
                 }
 
-                DankRectangle {
+                Rectangle {
                     anchors.fill: parent
                     radius: Theme.cornerRadius
                     color: Theme.withAlpha(Theme.surfaceContainer, Theme.popupTransparency)
+                    border.color: Theme.outlineMedium
+                    border.width: 1
                 }
 
                 Loader {

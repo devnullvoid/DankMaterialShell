@@ -357,11 +357,11 @@ Item {
                 }
             }
 
-            DankRectangle {
+            Rectangle {
                 anchors.fill: parent
                 color: root.backgroundColor
-                borderColor: root.borderColor
-                borderWidth: root.borderWidth
+                border.color: root.borderColor
+                border.width: root.borderWidth
                 radius: root.cornerRadius
             }
 

@@ -4,7 +4,6 @@ import Quickshell
 import Quickshell.Wayland
 import qs.Common
 import qs.Services
-import qs.Widgets
 
 PanelWindow {
     id: root
@@ -260,11 +259,13 @@ PanelWindow {
         readonly property real popupSurfaceAlpha: SettingsData.popupTransparency
         readonly property real effectiveShadowAlpha: Math.max(0, Math.min(1, shadowBaseAlpha * popupSurfaceAlpha * osdContainer.opacity))
 
-        DankRectangle {
+        Rectangle {
             id: background
             anchors.fill: parent
             radius: Theme.cornerRadius
             color: Theme.withAlpha(Theme.surfaceContainer, osdContainer.popupSurfaceAlpha)
+            border.color: Theme.outlineMedium
+            border.width: 1
             z: -1
         }
 
@@ -293,9 +294,12 @@ PanelWindow {
                 }
             }
 
-            DankRectangle {
+            Rectangle {
                 anchors.fill: parent
                 radius: Theme.cornerRadius
+                color: Theme.surfaceContainer
+                border.color: Theme.outlineMedium
+                border.width: 1
             }
         }
 
