@@ -469,6 +469,8 @@ var SPEC = {
     desktopWidgetGroups: { def: [] },
 
     builtInPluginSettings: { def: {} },
+    clipboardEnterToPaste: { def: false },
+
     launcherPluginVisibility: { def: {} },
     launcherPluginOrder: { def: [] }
 };

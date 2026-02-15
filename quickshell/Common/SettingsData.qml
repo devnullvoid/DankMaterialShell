@@ -79,6 +79,8 @@ Singleton {
         saveSettings();
     }
 
+    property bool clipboardEnterToPaste: false
+
     property var launcherPluginVisibility: ({})
 
     function getPluginAllowWithoutTrigger(pluginId) {
@@ -2233,10 +2235,16 @@ Singleton {
             if ((existing.dark && typeof existing.dark === "object") || (existing.light && typeof existing.light === "object")) {
                 perMode = existing;
             } else if (typeof existing.flavor === "string") {
-                perMode.dark = {flavor: existing.flavor, accent: existing.accent || ""};
+                perMode.dark = {
+                    flavor: existing.flavor,
+                    accent: existing.accent || ""
+                };
             }
         }
-        perMode[mode || "dark"] = {flavor: flavor, accent: accent};
+        perMode[mode || "dark"] = {
+            flavor: flavor,
+            accent: accent
+        };
         variants[themeId] = perMode;
         registryThemeVariants = variants;
         saveSettings();
