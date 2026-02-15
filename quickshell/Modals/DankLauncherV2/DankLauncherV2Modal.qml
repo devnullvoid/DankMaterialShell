@@ -263,7 +263,7 @@ Item {
 
     PanelWindow {
         id: launcherWindow
-        visible: root._windowEnabled && (!SettingsData.dankLauncherV2UnloadOnClose || spotlightOpen || isClosing)
+        visible: root._windowEnabled
         color: "transparent"
         exclusionMode: ExclusionMode.Ignore
 
@@ -376,7 +376,9 @@ Item {
                 LauncherContent {
                     id: launcherContent
                     anchors.fill: parent
+                    focus: true
                     parentModal: root
+                    heavyContentActive: !SettingsData.dankLauncherV2UnloadOnClose || spotlightOpen || isClosing
                 }
 
                 Keys.onEscapePressed: event => {

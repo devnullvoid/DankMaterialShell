@@ -531,11 +531,6 @@ Item {
                 PopoutService.dankLauncherV2Modal = dankLauncherV2Modal;
                 PopoutService._onDankLauncherV2ModalLoaded();
             }
-
-            onDialogClosed: {
-                if (SettingsData.dankLauncherV2UnloadOnClose)
-                    PopoutService.unloadDankLauncherV2();
-            }
         }
     }
 
