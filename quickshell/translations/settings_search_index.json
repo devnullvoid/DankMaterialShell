@@ -2110,6 +2110,35 @@
     ]
   },
   {
+    "section": "dankLauncherV2UnloadOnClose",
+    "label": "Unload on Close",
+    "tabIndex": 9,
+    "category": "Launcher",
+    "keywords": [
+      "app drawer",
+      "app menu",
+      "applications",
+      "cause",
+      "close",
+      "closed",
+      "day",
+      "delay",
+      "drawer",
+      "free",
+      "launcher",
+      "light mode",
+      "memory",
+      "menu",
+      "reopening",
+      "slight",
+      "start",
+      "start menu",
+      "unload",
+      "vram"
+    ],
+    "description": "Free VRAM/memory when the launcher is closed. May cause a slight delay when reopening."
+  },
+  {
     "section": "matugenTemplateAlacritty",
     "label": "Alacritty",
     "tabIndex": 10,
