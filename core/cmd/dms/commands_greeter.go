@@ -185,13 +185,13 @@ func syncGreeter() error {
 		inGreeterGroup := strings.Contains(string(groupsOutput), "greeter")
 		if !inGreeterGroup {
 			fmt.Println("\n⚠ Warning: You are not in the greeter group.")
-			fmt.Print("Would you like to add your user to the greeter group? (y/N): ")
+			fmt.Print("Would you like to add your user to the greeter group? (Y/n): ")
 
 			var response string
 			fmt.Scanln(&response)
 			response = strings.ToLower(strings.TrimSpace(response))
 
-			if response == "y" || response == "yes" {
+			if response != "n" && response != "no" {
 				fmt.Println("\nAdding user to greeter group...")
 				addUserCmd := exec.Command("sudo", "usermod", "-aG", "greeter", currentUser.Username)
 				addUserCmd.Stdout = os.Stdout
@@ -201,6 +201,8 @@ func syncGreeter() error {
 				}
 				fmt.Println("✓ User added to greeter group")
 				fmt.Println("⚠ You will need to log out and back in for the group change to take effect")
+			} else {
+				return fmt.Errorf("aborted: user must be in the greeter group before syncing")
 			}
 		}
 	}
@@ -389,7 +391,7 @@ func ensureGraphicalTarget() error {
 func handleConflictingDisplayManagers() error {
 	fmt.Println("\n=== Checking for Conflicting Display Managers ===")
 
-	conflictingDMs := []string{"gdm", "gdm3", "lightdm", "sddm", "lxdm", "xdm"}
+	conflictingDMs := []string{"gdm", "gdm3", "lightdm", "sddm", "lxdm", "xdm", "cosmic-greeter"}
 
 	disabledAny := false
 	var errors []string
