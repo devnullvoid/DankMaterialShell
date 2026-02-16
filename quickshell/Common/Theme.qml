@@ -776,6 +776,53 @@ Singleton {
         };
     }
 
+    readonly property int notificationAnimationBaseDuration: {
+        if (typeof SettingsData === "undefined")
+            return 200;
+        if (SettingsData.notificationAnimationSpeed === SettingsData.AnimationSpeed.None)
+            return 0;
+        if (SettingsData.notificationAnimationSpeed === SettingsData.AnimationSpeed.Custom)
+            return SettingsData.notificationCustomAnimationDuration;
+        const presetMap = [0, 200, 400, 600];
+        return presetMap[SettingsData.notificationAnimationSpeed] ?? 200;
+    }
+
+    readonly property int notificationEnterDuration: {
+        const base = notificationAnimationBaseDuration;
+        return base === 0 ? 0 : Math.round(base * 0.875);
+    }
+
+    readonly property int notificationExitDuration: {
+        const base = notificationAnimationBaseDuration;
+        return base === 0 ? 0 : Math.round(base * 0.75);
+    }
+
+    readonly property int notificationExpandDuration: {
+        const base = notificationAnimationBaseDuration;
+        return base === 0 ? 0 : Math.round(base * 1.0);
+    }
+
+    readonly property int notificationCollapseDuration: {
+        const base = notificationAnimationBaseDuration;
+        return base === 0 ? 0 : Math.round(base * 0.85);
+    }
+
+    readonly property real notificationIconSizeNormal: 56
+    readonly property real notificationIconSizeCompact: 48
+    readonly property real notificationExpandedIconSizeNormal: 48
+    readonly property real notificationExpandedIconSizeCompact: 40
+    readonly property real notificationActionMinWidth: 48
+    readonly property real notificationButtonCornerRadius: cornerRadius / 2
+    readonly property real notificationHoverRevealMargin: spacingXL
+    readonly property real notificationContentSpacing: spacingXS
+    readonly property real notificationCardPadding: spacingM
+    readonly property real notificationCardPaddingCompact: spacingS
+
+    readonly property real stateLayerHover: 0.08
+    readonly property real stateLayerFocus: 0.12
+    readonly property real stateLayerPressed: 0.12
+    readonly property real stateLayerDrag: 0.16
+
     readonly property int popoutAnimationDuration: {
         if (typeof SettingsData === "undefined")
             return 150;
