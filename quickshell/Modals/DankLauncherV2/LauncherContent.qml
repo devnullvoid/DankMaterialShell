@@ -288,7 +288,7 @@ FocusScope {
             Rectangle {
                 anchors.fill: parent
                 anchors.topMargin: -Theme.cornerRadius
-                color: Theme.surfaceContainerHigh
+                color: Theme.withAlpha(Theme.surfaceContainerHigh, Theme.popupTransparency)
                 radius: Theme.cornerRadius
             }
 
