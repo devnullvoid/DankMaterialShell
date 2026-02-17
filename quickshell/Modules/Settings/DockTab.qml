@@ -509,6 +509,7 @@ Item {
                     value: SettingsData.dockIconSize
                     minimum: 24
                     maximum: 96
+                    unit: "px"
                     defaultValue: 48
                     onSliderValueChanged: newValue => SettingsData.set("dockIconSize", newValue)
                 }
