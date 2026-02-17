@@ -26,12 +26,16 @@ float sdRoundRect(vec2 p, vec2 b, float r) {
 }
 
 void main() {
+    if (ubuf.rippleOpacity <= 0.0 || ubuf.rippleRadius <= 0.0) {
+        fragColor = vec4(0.0);
+        return;
+    }
+
     vec2 px = qt_TexCoord0 * vec2(ubuf.widthPx, ubuf.heightPx) + vec2(ubuf.offsetX, ubuf.offsetY);
 
-    float aa = fwidth(length(px)) * 1.5;
-
     float circleD = length(px - vec2(ubuf.rippleCenterX, ubuf.rippleCenterY)) - ubuf.rippleRadius;
-    float circleMask = 1.0 - smoothstep(-aa, aa, circleD);
+    float aaCircle = max(fwidth(circleD), 0.001);
+    float circleMask = 1.0 - smoothstep(-aaCircle, aaCircle, circleD);
     if (circleMask <= 0.0) {
         fragColor = vec4(0.0);
         return;
@@ -40,9 +44,10 @@ void main() {
     float rrMask = 1.0;
     if (ubuf.cornerRadiusPx > 0.0) {
         vec2 halfSize = vec2(ubuf.parentWidth, ubuf.parentHeight) * 0.5;
-        float r = min(ubuf.cornerRadiusPx, min(halfSize.x, halfSize.y));
+        float r = clamp(ubuf.cornerRadiusPx, 0.0, min(halfSize.x, halfSize.y));
         float rrD = sdRoundRect(px - halfSize, halfSize, r);
-        rrMask = 1.0 - smoothstep(-aa, aa, rrD);
+        float aaRR = max(fwidth(rrD), 0.001);
+        rrMask = 1.0 - smoothstep(-aaRR, aaRR, rrD);
     }
 
     float mask = circleMask * rrMask;
