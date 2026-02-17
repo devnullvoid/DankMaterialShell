@@ -262,7 +262,7 @@ Item {
                                 }
 
                                 StyledText {
-                                    text: I18n.tr("Hidden (%1)").arg(root.hiddenOutputDeviceNames.length)
+                                    text: I18n.tr("Hidden (%1)", "count of hidden audio devices").arg(root.hiddenOutputDeviceNames.length)
                                     font.pixelSize: Theme.fontSizeSmall
                                     color: Theme.surfaceVariantText
                                     anchors.verticalCenter: parent.verticalCenter
@@ -406,7 +406,7 @@ Item {
                                 }
 
                                 StyledText {
-                                    text: I18n.tr("Hidden (%1)").arg(root.hiddenInputDeviceNames.length)
+                                    text: I18n.tr("Hidden (%1)", "count of hidden audio devices").arg(root.hiddenInputDeviceNames.length)
                                     font.pixelSize: Theme.fontSizeSmall
                                     color: Theme.surfaceVariantText
                                     anchors.verticalCenter: parent.verticalCenter

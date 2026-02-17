@@ -4678,50 +4678,6 @@
     "description": "Use smaller notification cards"
   },
   {
-    "section": "notificationAnimationSpeed",
-    "label": "Animation Speed",
-    "tabIndex": 17,
-    "category": "Notifications",
-    "keywords": [
-      "alert",
-      "animate",
-      "animation",
-      "duration",
-      "fast",
-      "messages",
-      "motion",
-      "notif",
-      "notification",
-      "notifications",
-      "popup",
-      "speed",
-      "toast"
-    ],
-    "description": "Control animation duration for notification popups and history"
-  },
-  {
-    "section": "notificationCustomAnimationDuration",
-    "label": "Animation Duration",
-    "tabIndex": 17,
-    "category": "Notifications",
-    "keywords": [
-      "alert",
-      "animate",
-      "animation",
-      "custom",
-      "duration",
-      "messages",
-      "ms",
-      "notif",
-      "notification",
-      "notifications",
-      "popup",
-      "speed",
-      "toast"
-    ],
-    "description": "Base duration for notification animations"
-  },
-  {
     "section": "notificationHistorySaveCritical",
     "label": "Critical Priority",
     "tabIndex": 17,
@@ -4788,6 +4744,29 @@
     ],
     "icon": "notifications_off",
     "description": "Suppress notification popups while enabled"
+  },
+  {
+    "section": "notificationCustomAnimationDuration",
+    "label": "Duration",
+    "tabIndex": 17,
+    "category": "Notifications",
+    "keywords": [
+      "alerts",
+      "animate",
+      "animation",
+      "animations",
+      "base",
+      "custom",
+      "duration",
+      "messages",
+      "motion",
+      "notification",
+      "notifications",
+      "speed",
+      "toast",
+      "transition"
+    ],
+    "description": "Base duration for animations (drag to use Custom)"
   },
   {
     "section": "notificationHistoryEnabled",
@@ -4952,6 +4931,25 @@
       "toast"
     ],
     "description": "Maximum number of notifications to keep"
+  },
+  {
+    "section": "mutedApps",
+    "label": "Muted Apps",
+    "tabIndex": 17,
+    "category": "Notifications",
+    "keywords": [
+      "alerts",
+      "apps",
+      "messages",
+      "mute",
+      "muted",
+      "notification",
+      "notifications",
+      "popup",
+      "toast",
+      "unmute"
+    ],
+    "icon": "volume_off"
   },
   {
     "section": "notificationHistorySaveNormal",
@@ -5130,6 +5128,56 @@
       "where"
     ],
     "description": "Choose where notification popups appear on screen"
+  },
+  {
+    "section": "notificationPopupShadowEnabled",
+    "label": "Popup Shadow",
+    "tabIndex": 17,
+    "category": "Notifications",
+    "keywords": [
+      "alert",
+      "alerts",
+      "drop",
+      "messages",
+      "notif",
+      "notification",
+      "notifications",
+      "popup",
+      "popups",
+      "radius",
+      "rounded",
+      "shadow",
+      "show",
+      "toast"
+    ],
+    "description": "Show drop shadow on notification popups"
+  },
+  {
+    "section": "notificationPopupPrivacyMode",
+    "label": "Privacy Mode",
+    "tabIndex": 17,
+    "category": "Notifications",
+    "keywords": [
+      "alert",
+      "alerts",
+      "body",
+      "collapsed",
+      "content",
+      "default",
+      "hide",
+      "messages",
+      "mode",
+      "notif",
+      "notification",
+      "notifications",
+      "popup",
+      "popups",
+      "privacy",
+      "show",
+      "toast",
+      "until"
+    ],
+    "description": "Hide notification content until expanded; popups show collapsed by default"
   },
   {
     "section": "osdAlwaysShowValue",

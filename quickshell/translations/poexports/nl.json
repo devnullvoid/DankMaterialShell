@@ -356,6 +356,9 @@
   "Apps with custom display name, icon, or launch options. Right-click an app and select 'Edit App' to customize.": {
     "Apps with custom display name, icon, or launch options. Right-click an app and select 'Edit App' to customize.": "Apps met aangepaste weergavenaam, pictogram of startopties. Klik rechts op een app en selecteer 'App bewerken' om aan te passen."
   },
+  "Apps with notification popups muted. Unmute or delete to remove.": {
+    "Apps with notification popups muted. Unmute or delete to remove.": ""
+  },
   "Arrange displays and configure resolution, refresh rate, and VRR": {
     "Arrange displays and configure resolution, refresh rate, and VRR": "Beeldschermen rangschikken en resolutie, verversingssnelheid en VRR configureren"
   },
@@ -558,6 +561,9 @@
   },
   "Bar Transparency": {
     "Bar Transparency": "Balktransparantie"
+  },
+  "Base duration for animations (drag to use Custom)": {
+    "Base duration for animations (drag to use Custom)": ""
   },
   "Battery": {
     "Battery": "Batterij"
@@ -1075,6 +1081,9 @@
   "Control Center Tile Color": {
     "Control Center Tile Color": "Tegelkleur bedieningspaneel"
   },
+  "Control animation duration for notification popups and history": {
+    "Control animation duration for notification popups and history": ""
+  },
   "Control currently playing media": {
     "Control currently playing media": "Huidige media bedienen"
   },
@@ -1164,6 +1173,9 @@
   },
   "Create rules to mute, ignore, hide from history, or override notification priority.": {
     "Create rules to mute, ignore, hide from history, or override notification priority.": "Maak regels om meldingen te dempen, te negeren, uit de geschiedenis te verbergen of de prioriteit te overschrijven."
+  },
+  "Create rules to mute, ignore, hide from history, or override notification priority. Default only overrides priority; notifications still show normally.": {
+    "Create rules to mute, ignore, hide from history, or override notification priority. Default only overrides priority; notifications still show normally.": ""
   },
   "Creating...": {
     "Creating...": "Aanmaken..."
@@ -1575,6 +1587,9 @@
   },
   "Duplicate Wallpaper with Blur": {
     "Duplicate Wallpaper with Blur": "Achtergrond dupliceren met vervaging"
+  },
+  "Duration": {
+    "Duration": ""
   },
   "Dusk (Astronomical Twilight)": {
     "Dusk (Astronomical Twilight)": "Avondschemering (Astronomische schemering)"
@@ -2215,6 +2230,9 @@
   "Hidden": {
     "Hidden": "Verborgen"
   },
+  "Hidden (%1)": {
+    "Hidden (%1)": ""
+  },
   "Hidden Apps": {
     "Hidden Apps": "Verborgen apps"
   },
@@ -2253,6 +2271,15 @@
   },
   "Hide cursor when using touch input": {
     "Hide cursor when using touch input": "Cursor verbergen bij gebruik van aanraakinvoer"
+  },
+  "Hide device": {
+    "Hide device": ""
+  },
+  "Hide notification content until expanded": {
+    "Hide notification content until expanded": ""
+  },
+  "Hide notification content until expanded; popups show collapsed by default": {
+    "Hide notification content until expanded; popups show collapsed by default": ""
   },
   "Hide on Touch": {
     "Hide on Touch": "Verbergen bij aanraking"
@@ -3076,6 +3103,12 @@
   "Moving to Paused": {
     "Moving to Paused": "Overschakelen naar gepauzeerd"
   },
+  "Mute popups for %1": {
+    "Mute popups for %1": ""
+  },
+  "Muted Apps": {
+    "Muted Apps": ""
+  },
   "Muted palette with subdued, calming tones.": {
     "Muted palette with subdued, calming tones.": "Gedempt palet met ingetogen, rustgevende tinten."
   },
@@ -3225,6 +3258,9 @@
   },
   "No apps have been launched yet.": {
     "No apps have been launched yet.": "Er zijn nog geen apps gestart."
+  },
+  "No apps muted. Right-click a notification and choose \"Mute popups\" to add one here.": {
+    "No apps muted. Right-click a notification and choose \"Mute popups\" to add one here.": ""
   },
   "No battery": {
     "No battery": "Geen batterij"
@@ -3717,6 +3753,9 @@
   "Popup Position": {
     "Popup Position": "Popup-positie"
   },
+  "Popup Shadow": {
+    "Popup Shadow": ""
+  },
   "Popup Transparency": {
     "Popup Transparency": "Popup-transparantie"
   },
@@ -3824,6 +3863,9 @@
   },
   "Privacy Indicator": {
     "Privacy Indicator": "Privacy-indicator"
+  },
+  "Privacy Mode": {
+    "Privacy Mode": ""
   },
   "Private Key Password": {
     "Private Key Password": "Wachtwoord privésleutel"
@@ -4281,6 +4323,9 @@
   "Set key and action to save": {
     "Set key and action to save": "Stel toets en actie in om op te slaan"
   },
+  "Set notification rules": {
+    "Set notification rules": ""
+  },
   "Setup": {
     "Setup": "Instellen"
   },
@@ -4452,8 +4497,14 @@
   "Show darkened overlay behind modal dialogs": {
     "Show darkened overlay behind modal dialogs": "Verduisterde overlay tonen achter modale vensters"
   },
+  "Show device": {
+    "Show device": ""
+  },
   "Show dock when floating windows don't overlap its area": {
     "Show dock when floating windows don't overlap its area": "Dock tonen wanneer zwevende vensters het gebied niet overlappen"
+  },
+  "Show drop shadow on notification popups": {
+    "Show drop shadow on notification popups": ""
   },
   "Show launcher overlay when typing in Niri overview. Disable to use another launcher.": {
     "Show launcher overlay when typing in Niri overview. Disable to use another launcher.": "Starter-overlay tonen bij typen in Niri-overzicht. Schakel uit om een andere starter te gebruiken."
@@ -4995,6 +5046,12 @@
   "Unload on Close": {
     "Unload on Close": ""
   },
+  "Unmute": {
+    "Unmute": ""
+  },
+  "Unmute popups for %1": {
+    "Unmute popups for %1": ""
+  },
   "Unnamed Rule": {
     "Unnamed Rule": "Naamloze regel"
   },
@@ -5490,6 +5547,9 @@
   "control center tile color setting description": {
     "Active tile background and icon color": "Achtergrond- en pictogramkleur van actieve tegel"
   },
+  "count of hidden audio devices": {
+    "Hidden (%1)": ""
+  },
   "current theme label": {
     "Current Theme: %1": "Huidig thema: %1"
   },
@@ -5904,6 +5964,9 @@
   "notification history toggle label": {
     "Enable History": "Geschiedenis inschakelen"
   },
+  "notification privacy mode placeholder": {
+    "Message Content": ""
+  },
   "notification rule action option": {
     "Ignore Completely": "Volledig negeren",
     "Mute Popups": "Pop-ups dempen",
@@ -6055,6 +6118,9 @@
   },
   "theme search placeholder": {
     "Search themes...": "Thema's zoeken..."
+  },
+  "this app": {
+    "this app": ""
   },
   "tile color option": {
     "Primary Container": "Primaire container",
