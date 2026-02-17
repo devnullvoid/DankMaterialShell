@@ -2574,6 +2574,13 @@ Singleton {
 
     property alias settingsFile: settingsFile
 
+    Timer {
+        id: settingsFileReloadDebounce
+        interval: 50
+        onTriggered: settingsFile.reload()
+        repeat: false
+    }
+
     FileView {
         id: settingsFile
 
@@ -2581,7 +2588,8 @@ Singleton {
         blockLoading: true
         blockWrites: true
         atomicWrites: true
-        watchChanges: !isGreeterMode
+        watchChanges: true
+        onFileChanged: settingsFileReloadDebounce.restart()
         onLoaded: {
             if (isGreeterMode)
                 return;
