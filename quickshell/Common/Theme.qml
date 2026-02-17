@@ -188,6 +188,8 @@ Singleton {
 
         if (typeof SettingsData !== "undefined" && SettingsData.currentThemeName) {
             switchTheme(SettingsData.currentThemeName, false, false);
+            const currentIsLight = (typeof SessionData !== "undefined") ? SessionData.isLightMode : false;
+            SettingsData.updateCosmicThemeMode(currentIsLight);
         }
 
         if (typeof SessionData !== "undefined" && SessionData.themeModeAutoEnabled) {
@@ -962,6 +964,9 @@ Singleton {
             // Skip with matugen because, our script runner will do it.
             if (!matugenAvailable) {
                 PortalService.setLightMode(light);
+            }
+            if (typeof SettingsData !== "undefined") {
+                SettingsData.updateCosmicThemeMode(light);
             }
             generateSystemThemesFromCurrentTheme();
         }

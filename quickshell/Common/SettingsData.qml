@@ -1014,6 +1014,42 @@ Singleton {
     function applyStoredIconTheme() {
         updateGtkIconTheme();
         updateQtIconTheme();
+        updateCosmicIconTheme();
+    }
+
+    function updateCosmicIconTheme() {
+        let cosmicThemeName = (iconTheme === "System Default") ? systemDefaultIconTheme : iconTheme;
+        if (!cosmicThemeName || cosmicThemeName === "System Default") {
+            const detectScript = `if command -v gsettings >/dev/null 2>&1; then
+            gsettings get org.gnome.desktop.interface icon-theme 2>/dev/null | sed "s/'//g"
+            elif command -v dconf >/dev/null 2>&1; then
+            dconf read /org/gnome/desktop/interface/icon-theme 2>/dev/null | sed "s/'//g"
+            fi`;
+            Proc.runCommand("detectCosmicIconTheme", ["sh", "-c", detectScript], (output, exitCode) => {
+                if (exitCode !== 0)
+                    return;
+                const detected = (output || "").trim();
+                if (!detected || detected === "System Default")
+                    return;
+                const detectedEscaped = detected.replace(/'/g, "'\\''");
+                const writeScript = `mkdir -p ${_configDir}/cosmic/com.system76.CosmicTk/v1
+                printf '"%s"\\n' '${detectedEscaped}' > ${_configDir}/cosmic/com.system76.CosmicTk/v1/icon_theme 2>/dev/null || true`;
+                Quickshell.execDetached(["sh", "-lc", writeScript]);
+            });
+            return;
+        }
+
+        const cosmicThemeNameEscaped = cosmicThemeName.replace(/'/g, "'\\''");
+        const script = `mkdir -p ${_configDir}/cosmic/com.system76.CosmicTk/v1
+        printf '"%s"\\n' '${cosmicThemeNameEscaped}' > ${_configDir}/cosmic/com.system76.CosmicTk/v1/icon_theme 2>/dev/null || true`;
+        Quickshell.execDetached(["sh", "-lc", script]);
+    }
+
+    function updateCosmicThemeMode(isLightMode) {
+        const isDark = isLightMode ? "false" : "true";
+        const script = `mkdir -p ${_configDir}/cosmic/com.system76.CosmicTheme.Mode/v1
+        printf '%s\\n' ${isDark} > ${_configDir}/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark 2>/dev/null || true`;
+        Quickshell.execDetached(["sh", "-lc", script]);
     }
 
     function updateGtkIconTheme() {
@@ -1820,6 +1856,7 @@ Singleton {
         iconTheme = themeName;
         updateGtkIconTheme();
         updateQtIconTheme();
+        updateCosmicIconTheme();
         saveSettings();
         if (typeof Theme !== "undefined" && Theme.currentTheme === Theme.dynamic)
             Theme.generateSystemThemesFromCurrentTheme();
