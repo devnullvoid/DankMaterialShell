@@ -19,8 +19,6 @@ func NewMiracleProvider(configPath string) *MiracleProvider {
 		configDir, err := os.UserConfigDir()
 		if err == nil {
 			configPath = filepath.Join(configDir, "miracle-wm")
-		} else {
-			configPath = "$HOME/.config/miracle-wm"
 		}
 	}
 	return &MiracleProvider{configPath: configPath}

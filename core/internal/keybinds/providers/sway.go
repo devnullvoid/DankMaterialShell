@@ -3,6 +3,7 @@ package providers
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/keybinds"
@@ -18,11 +19,19 @@ func NewSwayProvider(configPath string) *SwayProvider {
 	_, scrollEnvSet := os.LookupEnv("SCROLLSOCK")
 
 	if configPath == "" {
+		configDir, err := os.UserConfigDir()
+		if err != nil {
+			configDir = ""
+		}
 		if scrollEnvSet {
-			configPath = "$HOME/.config/scroll"
+			if configDir != "" {
+				configPath = filepath.Join(configDir, "scroll")
+			}
 			isScroll = true
 		} else {
-			configPath = "$HOME/.config/sway"
+			if configDir != "" {
+				configPath = filepath.Join(configDir, "sway")
+			}
 		}
 	} else {
 		isScroll = strings.Contains(configPath, "scroll")
