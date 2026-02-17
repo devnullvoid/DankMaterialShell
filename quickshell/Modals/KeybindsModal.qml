@@ -20,7 +20,11 @@ DankModal {
     modalHeight: _maxH
     onBackgroundClicked: close()
     onOpened: {
-        Qt.callLater(() => modalFocusScope.forceActiveFocus());
+        Qt.callLater(() => {
+            modalFocusScope.forceActiveFocus();
+            if (contentLoader.item?.searchField)
+                contentLoader.item.searchField.forceActiveFocus();
+        });
         if (!Object.keys(KeybindsService.cheatsheet).length && KeybindsService.cheatsheetAvailable)
             KeybindsService.loadCheatsheet();
     }
@@ -65,6 +69,7 @@ DankModal {
     content: Component {
         Item {
             anchors.fill: parent
+            property alias searchField: searchField
 
             Column {
                 anchors.fill: parent
