@@ -734,6 +734,26 @@
     "icon": "toolbar"
   },
   {
+    "section": "barShadowDirectionSource",
+    "label": "Direction Source",
+    "tabIndex": 3,
+    "category": "Dank Bar",
+    "keywords": [
+      "bar",
+      "choose",
+      "dank",
+      "direction",
+      "panel",
+      "resolves",
+      "shadow",
+      "source",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "description": "Choose how this bar resolves shadow direction"
+  },
+  {
     "section": "barDisplay",
     "label": "Display Assignment",
     "tabIndex": 3,
@@ -753,6 +773,25 @@
     "icon": "display_settings"
   },
   {
+    "section": "barShadowDirectionManual",
+    "label": "Manual Direction",
+    "tabIndex": 3,
+    "category": "Dank Bar",
+    "keywords": [
+      "bar",
+      "dank",
+      "direction",
+      "fixed",
+      "manual",
+      "panel",
+      "shadow",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "description": "Use a fixed shadow direction for this bar"
+  },
+  {
     "section": "barPosition",
     "label": "Position",
     "tabIndex": 3,
@@ -769,18 +808,23 @@
   },
   {
     "section": "barShadow",
-    "label": "Shadow",
+    "label": "Shadow Override",
     "tabIndex": 3,
     "category": "Dank Bar",
     "keywords": [
       "bar",
       "dank",
+      "global",
+      "override",
       "panel",
+      "settings",
       "shadow",
       "statusbar",
+      "taskbar",
       "topbar"
     ],
-    "icon": "layers"
+    "icon": "layers",
+    "description": "Override the global shadow with per-bar settings"
   },
   {
     "section": "barSpacing",
@@ -2253,6 +2297,33 @@
     "icon": "schedule"
   },
   {
+    "section": "barElevationEnabled",
+    "label": "Bar Shadows",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "appearance",
+      "bar",
+      "bars",
+      "colors",
+      "elevation",
+      "look",
+      "m3",
+      "navigation",
+      "panel",
+      "panels",
+      "scheme",
+      "shadow",
+      "shadows",
+      "statusbar",
+      "style",
+      "taskbar",
+      "theme",
+      "topbar"
+    ],
+    "description": "Shadow elevation on bars and panels"
+  },
+  {
     "section": "niriLayoutBorderSize",
     "label": "Border Size",
     "tabIndex": 10,
@@ -2415,74 +2486,6 @@
       "theme"
     ],
     "description": "0 = square corners"
-  },
-  {
-    "section": "m3ElevationEnabled",
-    "label": "M3 Elevation & Shadows",
-    "tabIndex": 10,
-    "category": "Theme & Colors",
-    "keywords": [
-      "appearance",
-      "elevation",
-      "lift",
-      "material",
-      "m3",
-      "shadow",
-      "shadows",
-      "theme"
-    ],
-    "description": "Material Design 3 shadows and elevation on modals, popouts, and dialogs"
-  },
-  {
-    "section": "modalElevationEnabled",
-    "label": "Modal Shadows",
-    "tabIndex": 10,
-    "category": "Theme & Colors",
-    "keywords": [
-      "dialog",
-      "elevation",
-      "m3",
-      "material",
-      "modal",
-      "shadow",
-      "shadows"
-    ],
-    "description": "Shadow elevation on modals and dialogs"
-  },
-  {
-    "section": "popoutElevationEnabled",
-    "label": "Popout Shadows",
-    "tabIndex": 10,
-    "category": "Theme & Colors",
-    "keywords": [
-      "dropdown",
-      "elevation",
-      "m3",
-      "material",
-      "osd",
-      "popout",
-      "popup",
-      "shadow",
-      "shadows"
-    ],
-    "description": "Shadow elevation on popouts, OSDs, and dropdowns"
-  },
-  {
-    "section": "barElevationEnabled",
-    "label": "Bar Shadows",
-    "tabIndex": 10,
-    "category": "Theme & Colors",
-    "keywords": [
-      "bar",
-      "elevation",
-      "m3",
-      "material",
-      "navigation",
-      "panel",
-      "shadow",
-      "shadows"
-    ],
-    "description": "Shadow elevation on bars and panels"
   },
   {
     "section": "cursorSize",
@@ -2759,6 +2762,32 @@
     ]
   },
   {
+    "section": "m3ElevationLightDirection",
+    "label": "Light Direction",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "advanced",
+      "appearance",
+      "cast",
+      "colors",
+      "controls",
+      "day",
+      "direction",
+      "elevation",
+      "layers",
+      "light",
+      "light mode",
+      "look",
+      "m3",
+      "scheme",
+      "shadow",
+      "style",
+      "theme"
+    ],
+    "description": "Controls shadow cast direction for elevation layers"
+  },
+  {
     "section": "isLightMode",
     "label": "Light Mode",
     "tabIndex": 10,
@@ -2897,6 +2926,29 @@
     ],
     "icon": "layers",
     "description": "Show darkened overlay behind modal dialogs"
+  },
+  {
+    "section": "modalElevationEnabled",
+    "label": "Modal Shadows",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "appearance",
+      "colors",
+      "dialog",
+      "dialogs",
+      "elevation",
+      "look",
+      "m3",
+      "modal",
+      "modals",
+      "scheme",
+      "shadow",
+      "shadows",
+      "style",
+      "theme"
+    ],
+    "description": "Shadow elevation on modals and dialogs"
   },
   {
     "section": "niriLayout",
@@ -3159,6 +3211,32 @@
     "description": "Use custom gaps instead of bar spacing"
   },
   {
+    "section": "popoutElevationEnabled",
+    "label": "Popout Shadows",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "appearance",
+      "colors",
+      "dropdown",
+      "dropdowns",
+      "elevation",
+      "look",
+      "m3",
+      "osd",
+      "osds",
+      "popout",
+      "popouts",
+      "popup",
+      "scheme",
+      "shadow",
+      "shadows",
+      "style",
+      "theme"
+    ],
+    "description": "Shadow elevation on popouts, OSDs, and dropdowns"
+  },
+  {
     "section": "popupTransparency",
     "label": "Popup Transparency",
     "tabIndex": 10,
@@ -3221,6 +3299,105 @@
       "theme",
       "user"
     ]
+  },
+  {
+    "section": "m3ElevationColorMode",
+    "label": "Shadow Color",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "appearance",
+      "applied",
+      "base",
+      "color",
+      "colors",
+      "colour",
+      "elevation",
+      "hue",
+      "look",
+      "m3",
+      "scheme",
+      "shadow",
+      "shadows",
+      "style",
+      "theme",
+      "tint"
+    ],
+    "description": "Base color for shadows (opacity is applied automatically)"
+  },
+  {
+    "section": "m3ElevationIntensity",
+    "label": "Shadow Intensity",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "appearance",
+      "base",
+      "blur",
+      "colors",
+      "controls",
+      "elevation",
+      "intensity",
+      "look",
+      "m3",
+      "offset",
+      "radius",
+      "scheme",
+      "shadow",
+      "shadows",
+      "style",
+      "theme"
+    ],
+    "description": "Controls the base blur radius and offset of shadows"
+  },
+  {
+    "section": "m3ElevationOpacity",
+    "label": "Shadow Opacity",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "alpha",
+      "appearance",
+      "colors",
+      "controls",
+      "elevation",
+      "look",
+      "m3",
+      "opacity",
+      "scheme",
+      "shadow",
+      "style",
+      "theme",
+      "translucent",
+      "transparency",
+      "transparent"
+    ],
+    "description": "Controls the transparency of the shadow"
+  },
+  {
+    "section": "m3ElevationEnabled",
+    "label": "Shadows",
+    "tabIndex": 10,
+    "category": "Theme & Colors",
+    "keywords": [
+      "appearance",
+      "colors",
+      "dialogs",
+      "elevation",
+      "inspired",
+      "lift",
+      "look",
+      "m3",
+      "material",
+      "modals",
+      "popouts",
+      "scheme",
+      "shadow",
+      "shadows",
+      "style",
+      "theme"
+    ],
+    "description": "Material inspired shadows and elevation on modals, popouts, and dialogs"
   },
   {
     "section": "syncModeWithPortal",
@@ -4037,27 +4214,6 @@
       "startup"
     ],
     "description": "Automatically lock the screen when DMS starts"
-  },
-  {
-    "section": "lockBeforeSuspend",
-    "label": "Lock before suspend",
-    "tabIndex": 11,
-    "category": "Lock Screen",
-    "keywords": [
-      "automatic",
-      "automatically",
-      "before",
-      "lock",
-      "login",
-      "password",
-      "prepares",
-      "screen",
-      "security",
-      "sleep",
-      "suspend",
-      "system"
-    ],
-    "description": "Automatically lock the screen when the system prepares to suspend"
   },
   {
     "section": "lockScreenNotificationMode",
@@ -5358,20 +5514,33 @@
     "keywords": [
       "alert",
       "alerts",
+      "appearance",
+      "colors",
+      "colour",
+      "colours",
       "drop",
+      "elevation",
+      "enabled",
+      "hue",
+      "look",
       "messages",
       "notif",
       "notification",
       "notifications",
+      "palette",
       "popup",
       "popups",
       "radius",
+      "requires",
       "rounded",
       "shadow",
       "show",
+      "style",
+      "theme",
+      "tint",
       "toast"
     ],
-    "description": "Show drop shadow on notification popups"
+    "description": "Show drop shadow on notification popups. Requires M3 Elevation to be enabled in Theme & Colors."
   },
   {
     "section": "notificationPopupPrivacyMode",
@@ -6024,6 +6193,27 @@
     "description": "Gradually fade the screen before locking with a configurable grace period"
   },
   {
+    "section": "lockBeforeSuspend",
+    "label": "Lock before suspend",
+    "tabIndex": 21,
+    "category": "Power & Sleep",
+    "keywords": [
+      "automatically",
+      "before",
+      "energy",
+      "lock",
+      "power",
+      "prepares",
+      "screen",
+      "security",
+      "shutdown",
+      "sleep",
+      "suspend",
+      "system"
+    ],
+    "description": "Automatically lock the screen when the system prepares to suspend"
+  },
+  {
     "section": "fadeToLockGracePeriod",
     "label": "Lock fade grace period",
     "tabIndex": 21,
@@ -6618,5 +6808,25 @@
     ],
     "icon": "language",
     "description": "Change the locale used by the DMS interface."
+  },
+  {
+    "section": "timeLocale",
+    "label": "Time & Date Locale",
+    "tabIndex": 30,
+    "category": "Locale",
+    "keywords": [
+      "change",
+      "country",
+      "date",
+      "format",
+      "formatting",
+      "independent",
+      "interface",
+      "language",
+      "locale",
+      "region",
+      "time"
+    ],
+    "description": "Change the locale used for date and time formatting, independent of the interface language."
   }
 ]
