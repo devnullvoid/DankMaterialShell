@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": "Профіль прискорення"
   },
-  "Accent Color": {
-    "Accent Color": "Акцентний колір"
-  },
-  "Accept": {
-    "Accept": "Прийняти"
-  },
   "Accept Jobs": {
     "Accept Jobs": "Прийняти завдання"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": "Активується негайно"
-  },
-  "Activation": {
-    "Activation": "Активація"
   },
   "Active": {
     "Active": "Активно"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": "Альтернатива (АБО)"
-  },
-  "Always Active": {
-    "Always Active": "Завжди активний"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "Завжди показувати відсоток"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": "Доступні оновлення (%1)"
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": "Доступно в режимах перегляду «Детально» та «Прогноз»"
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": "Ефект фону"
-  },
-  "Background Opacity": {
-    "Background Opacity": "Прозорість фону"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": "Невдала фонова синхронізація автентифікації. Спроба автентифікації через термінал"
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "Огляд"
   },
-  "Browse Files": {
-    "Browse Files": "Переглянути файли"
-  },
   "Browse Plugins": {
     "Browse Plugins": "Огляд плагінів"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": "Оберіть, як панель прилягає до краю екрана"
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": "Оберіть, як відображати віджет погоди"
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": "Оберіть, як ця панель визначає напрямок тіні"
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": "Оберіть монітори для інтерфейсу екрана блокування. Інші монітори показуватимуть суцільний колір для захисту OLED від вигоряння."
-  },
-  "Chroma Style": {
-    "Chroma Style": "Стиль Chroma"
   },
   "Cipher": {
     "Cipher": "Шифр"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": "Буфер обміну збережено"
   },
-  "Clipboard sent": {
-    "Clipboard sent": "Дані буфера надіслано"
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "Буфер обміну працює, але нічого не зберігається на диск"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "Колірна температура для нічного режиму"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": "Кольорова тема для підсвічування синтаксису."
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": "Кольорова тема для підсвічування синтаксису. Доступно %1 тем"
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "Кольорова тема з реєстру DMS"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": "Вміст"
   },
-  "Content copied": {
-    "Content copied": "Вміст скопійовано"
-  },
   "Contrast": {
     "Contrast": "Контраст"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "Затримка"
   },
-  "Copied GIF": {
-    "Copied GIF": "Скопійовано GIF"
-  },
-  "Copied MP4": {
-    "Copied MP4": "Скопійовано MP4"
-  },
-  "Copied WebP": {
-    "Copied WebP": "Скопійовано WebP"
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "Скопійовано до буфера обміну"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": "Копіювати"
-  },
-  "Copy Content": {
-    "Copy Content": "Копіювати вміст"
   },
   "Copy Full Command": {
     "Copy Full Command": "Копіювати повну команду"
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "Фонові зображення робочого столу"
   },
-  "Detailed": {
-    "Detailed": "Детально"
-  },
   "Details for \"%1": {
     "Details for \"%1\"": "Деталі для «%1»"
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "Пристрій зв'язано"
-  },
-  "Device unpaired": {
-    "Device unpaired": "Пристрій від'єднано"
   },
   "Diff": {
     "Diff": "Різниця"
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "Відображати назву активної програми"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": "Відображати погодинний прогноз погоди"
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": "Показувати номери рядків у редакторі"
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "Введіть PIN-код для "
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": "Введіть URI або текст для поширення"
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "Введіть нову назву для сесії «%1»"
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": "Затухання до вимкнення монітора"
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": "Не вдалося прийняти сполучення"
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "Не вдалося активувати конфігурацію"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": "Не вдалося застосувати профіль"
-  },
-  "Failed to browse device": {
-    "Failed to browse device": "Не вдалося переглянути пристрій"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "Не вдалося скасувати всі завдання"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "Не вдалося імпортувати VPN"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": "Не вдалося запустити SMS-програму"
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "Не вдалося завантажити конфігурацію VPN"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": "Не вдалося прочитати файл теми: %1"
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": "Не вдалося відхилити сполучення"
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "Не вдалося перезавантажити плагін: %1"
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "Не вдалося відновити роботу принтера"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": "Не вдалося викликати пристрій (дзвінок)"
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": "Не вдалося запустити 'dms-greeter status'. Переконайтеся, що пакет dms-greeter встановлено"
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": "Не вдалося зберегти профіль"
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": "Не вдалося надіслати SMS"
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": "Не вдалося надіслати вміст буфера обміну"
-  },
-  "Failed to send file": {
-    "Failed to send file": "Не вдалося надіслати файл"
-  },
-  "Failed to send ping": {
-    "Failed to send ping": "Не вдалося надіслати пінг"
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "Не вдалося встановити яскравість"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "Не вдалося встановити зображення профілю: %1"
-  },
-  "Failed to share": {
-    "Failed to share": "Не вдалося поширити"
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "Не вдалося розпочати підключення до %1"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": "Особливості"
   },
-  "Feels": {
-    "Feels": "Відчувається як"
-  },
   "Feels Like": {
     "Feels Like": "Відчувається як"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": "Файловий менеджер, що використовується для відкриття кошика. Оберіть «custom», щоб ввести власну команду"
-  },
-  "File received from %1": {
-    "File received from %1": "Файл отримано від %1"
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": "Пошук файлів потребує dsearch\nВстановіть з github.com/AvengeMedia/danksearch"
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "Примусово використовувати темні колірні схеми для термінальних програм"
   },
-  "Forecast": {
-    "Forecast": "Прогноз"
-  },
-  "Forecast Days": {
-    "Forecast Days": "Дні прогнозу"
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "Прогноз недоступний"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": "Формат дати на екрані входу"
-  },
-  "Forward 10s": {
-    "Forward 10s": "Перемотати вперед на 10 с."
   },
   "Frame": {
     "Frame": "Рамка"
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": "Погодинно"
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": "Кількість годин у прогнозі"
-  },
   "Hover Popouts": {
     "Hover Popouts": "Спливаючі вікна при наведенні"
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": "Комбінація клавіш"
   },
-  "Keybind Sources": {
-    "Keybind Sources": "Джерела гарячих клавіш"
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "Гарячі клавіші"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": "Налаштування пошуку гарячих клавіш"
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": "Гарячі клавіші відображаються разом зі звичайними результатами пошуку"
   },
   "Keyboard": {
     "Keyboard": "Клавіатура"
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": "Завантаження портів..."
   },
-  "Loading trending...": {
-    "Loading trending...": "Завантаження популярного..."
-  },
   "Loading...": {
     "Loading...": "Завантаження..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": "Зробити адміністратором"
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": "Переконайтеся, що KDE Connect або Valent запущено на ваших інших пристроях"
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": "Зробити фон панелі повністю прозорим"
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": "Об'єднати результати індексованих папок у вкладці «Всі» (потрібен dsearch)"
   },
-  "Message": {
-    "Message": "Повідомлення"
-  },
   "Message Content": {
     "Message Content": "Вміст повідомлення"
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "Монітор швидкості мережі"
   },
-  "Network Type": {
-    "Network Type": "Тип мережі"
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "Відображення швидкості завантаження та вивантаження мережі"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": "Без погоди"
   },
-  "No Weather Data": {
-    "No Weather Data": "Даних про погоду немає"
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "Немає доступних даних про погоду"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": "Облікових записів реальних користувачів не знайдено"
-  },
-  "No images found": {
-    "No images found": "Зображень не знайдено"
   },
   "No info items": {
     "No info items": "Інформаційних елементів немає"
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "Не виявлено"
   },
-  "Not paired": {
-    "Not paired": "Не сполучено"
-  },
   "Not set": {
     "Not set": "Не встановлено"
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "Офіс"
   },
-  "Offline": {
-    "Offline": "Офлайн"
-  },
   "Offline Report": {
     "Offline Report": "Звіт про автономну роботу"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "Відкрити"
-  },
-  "Open App": {
-    "Open App": "Відкрити програму"
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": "Відкривати вікна DMS як плаваючі замість плиточних"
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "Відкрити за допомогою..."
-  },
-  "Opening SMS app": {
-    "Opening SMS app": "Відкриття SMS-програми"
-  },
-  "Opening file browser": {
-    "Opening file browser": "Відкриття файлового браузера"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "Відкриття терміналу: "
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "Не вдалося створити пару"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": "Запит на сполучення від %1"
-  },
-  "Pairing request sent": {
-    "Pairing request sent": "Запит на сполучення надіслано"
-  },
-  "Pairing requested": {
-    "Pairing requested": "Запитано сполучення"
-  },
   "Pairing...": {
     "Pairing...": "Сполучення..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "Персоналізація"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": "Підключення телефону недоступне"
-  },
-  "Phone number": {
-    "Phone number": "Номер телефону"
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": "Оберіть іншого файлового менеджера в Налаштування → Док → Кошик"
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "Закріпити у Доці"
-  },
-  "Ping": {
-    "Ping": "Пінг"
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": "Пінг надіслано до %1"
   },
   "Pinned": {
     "Pinned": "Закріплено"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": "Платформений рендерер (FreeType)"
-  },
-  "Play": {
-    "Play": "Відтворити"
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": "Відтворювати відео при блокуванні екрана"
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": "Попередньо обрати останню використану сесію на екрані входу"
   },
-  "Precip": {
-    "Precip": "Опади"
-  },
   "Precipitation": {
     "Precipitation": "Опади"
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": "Попередній перегляд: %1"
-  },
-  "Previous": {
-    "Previous": "Попередній"
   },
   "Previous page": {
     "Previous page": "Попередня сторінка"
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "Останні кольори"
   },
-  "Recent Images": {
-    "Recent Images": "Нещодавні зображення"
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "Нещодавно використані програми"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": "Звичайний"
-  },
-  "Reject": {
-    "Reject": "Відхилити"
   },
   "Reject Jobs": {
     "Reject Jobs": "Відхиляти завдання"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "Звіт"
-  },
-  "Request Pairing": {
-    "Request Pairing": "Запитати сполучення"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "Вимагати утримання кнопки/клавіші для підтвердження вимкнення, перезавантаження, переходу в режим очікування, гібернації та виходу з системи"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": "Перемотати назад 10 с"
-  },
   "Right": {
     "Right": "Праворуч"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "Клацніть правою кнопкою миші на віджет панелі для перемикання"
-  },
-  "Ring": {
-    "Ring": "Дзвінок"
-  },
-  "Ringing %1...": {
-    "Ringing %1...": "Виклик %1..."
   },
   "Ripple Effects": {
     "Ripple Effects": "Ефекти хвиль"
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "Насиченість SDR"
-  },
-  "SMS": {
-    "SMS": "SMS"
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": "SMS успішно надіслано"
   },
   "SSID": {
     "SSID": "SSID"
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": "Пошук програм..."
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "Пошук за комбінацією клавіш, описом або назвою дії\n\nТипова дія копіює гарячу клавішу в буфер обміну.\nНатисніть правою кнопкою миші або стрілку вправо, щоб закріпити часто використовувані клавіші — вони з'являться зверху під час відсутності пошуку"
-  },
   "Search devices...": {
     "Search devices...": "Пошук пристроїв..."
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "Пошук комбінацій клавіш..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": "Пошук гарячих клавіш вашого композитора та програм"
   },
   "Search plugins...": {
     "Search plugins...": "Пошук плагінів..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": "Оберіть логотип запускача доку"
   },
-  "Select File to Send": {
-    "Select File to Send": "Оберіть файл для надсилання"
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "Вибрати логотип запускача"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "Вибрати файл зображення..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": "Оберіть принаймні одного провайдера"
-  },
   "Select background image": {
     "Select background image": "Оберіть зображення фону"
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": "Виберіть, який колір витягти зі шпалер для створення палітри"
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": "Оберіть, які провайдери гарячих клавіш включити"
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Вибрати, які переходи включити в рандомізацію"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "Вибраний файл зображення не знайдено"
-  },
-  "Send": {
-    "Send": "Надіслати"
-  },
-  "Send Clipboard": {
-    "Send Clipboard": "Надіслати вміст буфера обміну"
-  },
-  "Send SMS": {
-    "Send SMS": "Надіслати SMS"
-  },
-  "Sending %1...": {
-    "Sending %1...": "Надсилання %1..."
   },
   "Separate": {
     "Separate": "Окремий"
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": "Тіні"
   },
-  "Share": {
-    "Share": "Поширити"
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": "Поширити налаштування керування гаммою"
-  },
-  "Shared": {
-    "Shared": "Спільний"
   },
   "Shell": {
     "Shell": "Оболонка"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": "Показувати док поверх повноекранного режиму"
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": "Показувати температуру «відчувається як»"
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": "Показувати іконки-бейджі Flatpak, Snap, AppImage або Nix для елементів запускача."
   },
   "Show Footer": {
     "Show Footer": "Показувати футер"
-  },
-  "Show Forecast": {
-    "Show Forecast": "Показувати прогноз"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "Показувати температуру ГП"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "Показувати номери годин"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": "Показувати погодинний прогноз"
-  },
-  "Show Humidity": {
-    "Show Humidity": "Показувати вологість"
-  },
   "Show Icon": {
     "Show Icon": "Показувати іконку"
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "Показувати номери рядків"
-  },
-  "Show Location": {
-    "Show Location": "Показувати місцезнаходження"
   },
   "Show Lock": {
     "Show Lock": "Показувати блокування"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "Показувати вимкнення живлення"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": "Показувати ймовірність опадів"
-  },
-  "Show Pressure": {
-    "Show Pressure": "Показувати тиск"
-  },
   "Show Profile Image": {
     "Show Profile Image": "Показувати зображення профілю"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": "Показувати «М'яке перезавантаження»"
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": "Показувати схід/захід сонця"
   },
   "Show Suspend": {
     "Show Suspend": "Показувати режим очікування"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": "Показувати віртуальні пристрої"
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": "Показувати стан погоди"
-  },
   "Show Week Number": {
     "Show Week Number": "Показувати номер тижня"
   },
   "Show Welcome": {
     "Show Welcome": "Показати вітання"
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": "Показувати швидкість вітру"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "Показувати програми робочого столу"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "Сигнал"
-  },
-  "Signal Strength": {
-    "Signal Strength": "Рівень сигналу"
   },
   "Silence for a while": {
     "Silence for a while": "Вимкнути звук на деякий час"
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": "Запустити точку доступу?"
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": "Запустіть KDE Connect або Valent, щоб використовувати цей плагін"
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "Почніть вводити свої нотатки тут..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": "Виправлення іконок лотка"
   },
-  "Trending GIFs": {
-    "Trending GIFs": "Популярні GIF"
-  },
-  "Trending Stickers": {
-    "Trending Stickers": "Популярні стікери"
-  },
   "Trigger": {
     "Trigger": "Тригер"
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": "Префікс тригера"
   },
   "Trigger: %1": {
     "Trigger: %1": "Тригер: %1"
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": "Введіть принаймні 2 символи для пошуку файлів"
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": "Використовуйте цей префікс для пошуку гарячих клавіш"
-  },
   "Type to search files": {
     "Type to search files": "Почніть вводити для пошуку файлів"
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "Типографіка та анімація"
-  },
-  "URI": {
-    "URI": "URI"
   },
   "Unavailable": {
     "Unavailable": "Недоступно"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": "Безіменне правило"
   },
-  "Unpair": {
-    "Unpair": "Розірвати пару"
-  },
-  "Unpair failed": {
-    "Unpair failed": "Помилка розірвання пари"
-  },
   "Unpin": {
     "Unpin": "Відкріпити"
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": "Колір термінових сповіщень"
-  },
-  "Usage Tips": {
-    "Usage Tips": "Поради з використання"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "Використовувати 24-годинний формат часу замість 12-годинного"
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": "Використовувати однакову позицію та розмір на всіх дисплеях"
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": "Використовуйте префікс тригера для активації"
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": "Використовується для xdg-terminal-exec"
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": "Використовується, коли встановлено власний акцентний колір"
   },
   "User": {
     "User": "Користувач"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "Змінна частота оновлення"
   },
-  "Verification": {
-    "Verification": "Верифікація"
-  },
   "Version": {
     "Version": "Версія"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": "Відео-зберігач екрану"
-  },
-  "View Mode": {
-    "View Mode": "Режим перегляду"
   },
   "Visibility": {
     "Visibility": "Видимість"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": "від'єднано"
-  },
-  "device": {
-    "device": "пристрій"
   },
   "dgop not available": {
     "dgop not available": "dgop недоступний"

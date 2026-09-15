@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": "加速配置"
   },
-  "Accent Color": {
-    "Accent Color": "强调色"
-  },
-  "Accept": {
-    "Accept": "接受"
-  },
   "Accept Jobs": {
     "Accept Jobs": "接受作业"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": "立即生效"
-  },
-  "Activation": {
-    "Activation": "激活"
   },
   "Active": {
     "Active": "活动"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": "备选（或）"
-  },
-  "Always Active": {
-    "Always Active": "始终激活"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "始终显示百分比"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": "可用更新 (%1)"
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": "提供详细视图和预测视图两种模式"
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": "背景效果"
-  },
-  "Background Opacity": {
-    "Background Opacity": "背景透明度"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": "后台认证同步失败。请尝试终端模式。"
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "浏览"
   },
-  "Browse Files": {
-    "Browse Files": "浏览文件"
-  },
   "Browse Plugins": {
     "Browse Plugins": "浏览插件"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": ""
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": "选择天气部件的显示方式"
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": "选择此状态栏解析阴影方向的方式"
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": "选择哪些显示器显示锁屏界面。其他显示器将显示纯色以防止 OLED 烧屏。"
-  },
-  "Chroma Style": {
-    "Chroma Style": "色度风格"
   },
   "Cipher": {
     "Cipher": "密码"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": "剪贴板已保存"
   },
-  "Clipboard sent": {
-    "Clipboard sent": "已发送剪贴板"
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "剪贴板正常工作但无存入磁盘内容"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "夜间模式色温"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": "语法高亮颜色主题。"
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": "语法高亮颜色主题。共 %1 个主题可供使用。"
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "DMS 主题仓库的颜色主题"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": "内容"
   },
-  "Content copied": {
-    "Content copied": "内容已复制"
-  },
   "Contrast": {
     "Contrast": "对比度"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "冷却"
   },
-  "Copied GIF": {
-    "Copied GIF": "已复制的 GIF"
-  },
-  "Copied MP4": {
-    "Copied MP4": "已复制的 MP4"
-  },
-  "Copied WebP": {
-    "Copied WebP": "已复制的 WebP"
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "已复制到剪贴板"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": "复制"
-  },
-  "Copy Content": {
-    "Copy Content": "复制内容"
   },
   "Copy Full Command": {
     "Copy Full Command": "复制完整命令"
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "桌面壁纸"
   },
-  "Detailed": {
-    "Detailed": "详细"
-  },
   "Details for \"%1": {
     "Details for \"%1\"": "“%1”的详细信息"
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "设备已配对"
-  },
-  "Device unpaired": {
-    "Device unpaired": "设备已取消配对"
   },
   "Diff": {
     "Diff": "差异"
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "显示当前聚焦应用的标题"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": "显示每小时天气预测"
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": "在编辑器中显示行号"
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "输入 PIN "
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": "输入 URI 或文本以分享"
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "为会话“%1”设置新名称"
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": "渐变至熄屏"
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": "接受配对失败"
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "配置激活失败"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": "应用配置失败"
-  },
-  "Failed to browse device": {
-    "Failed to browse device": "浏览设备失败"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "取消所有任务失败"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "导入 VPN 失败"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": "启动短信应用失败"
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "加载 VPN 配置失败"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": "读取主题文件失败：%1"
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": "拒绝配对失败"
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "重载插件失败：%1"
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "恢复打印机失败"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": "响铃设备失败"
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": "运行“dms-greeter status”失败。请确认已安装 dms-greeter 软件包。"
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": "保存配置失败"
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": "发送短信失败"
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": "发送剪贴板失败"
-  },
-  "Failed to send file": {
-    "Failed to send file": "发送文件失败"
-  },
-  "Failed to send ping": {
-    "Failed to send ping": "发送 Ping 失败"
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "设置亮度失败"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "设置用户头像失败：%1"
-  },
-  "Failed to share": {
-    "Failed to share": "共享失败"
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "连接至 %1 失败"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": "功能"
   },
-  "Feels": {
-    "Feels": "体感"
-  },
   "Feels Like": {
     "Feels Like": "体感温度"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": "打开回收站的文件管理器。点击“自定义”以输入自定义命令。"
-  },
-  "File received from %1": {
-    "File received from %1": "已从 %1 收到文件"
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": "文件搜索需要 dsearch\n请从 github.com/AvengeMedia/danksearch 安装"
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "强制终端应用使用深色配色方案"
   },
-  "Forecast": {
-    "Forecast": "预测"
-  },
-  "Forecast Days": {
-    "Forecast Days": "预测天数"
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "暂无预报"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": "设置登录屏幕上的日期格式"
-  },
-  "Forward 10s": {
-    "Forward 10s": "快进 10 秒"
   },
   "Frame": {
     "Frame": "框架"
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": "每小时"
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": "每小时预测计数"
-  },
   "Hover Popouts": {
     "Hover Popouts": "悬停弹出"
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": ""
   },
-  "Keybind Sources": {
-    "Keybind Sources": "快捷键绑定源"
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "快捷键绑定"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": "快捷键绑定搜索设置"
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": "快捷键绑定与常规搜索结果并列显示"
   },
   "Keyboard": {
     "Keyboard": "键盘"
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": ""
   },
-  "Loading trending...": {
-    "Loading trending...": "正在加载热门内容..."
-  },
   "Loading...": {
     "Loading...": "正在加载..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": "设为管理员"
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": "确保 KDE Connect 或 Valent 正在您的其他设备上运行"
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": "使状态栏背景完全透明"
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": "将索引文件夹结果合并到全部标签页（需要 dsearch）"
   },
-  "Message": {
-    "Message": "消息"
-  },
   "Message Content": {
     "Message Content": "消息内容"
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "实时网速显示"
   },
-  "Network Type": {
-    "Network Type": "网络类型"
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "显示网络下载与上传速度"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": "无天气信息"
   },
-  "No Weather Data": {
-    "No Weather Data": "无天气数据"
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "暂无天气数据"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": "未找到普通用户账户。"
-  },
-  "No images found": {
-    "No images found": "未找到图片"
   },
   "No info items": {
     "No info items": "无信息项目"
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "未检测到"
   },
-  "Not paired": {
-    "Not paired": "未配对"
-  },
   "Not set": {
     "Not set": "未设置"
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "办公"
   },
-  "Offline": {
-    "Offline": "离线"
-  },
   "Offline Report": {
     "Offline Report": "离线报告"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "打开"
-  },
-  "Open App": {
-    "Open App": "打开应用"
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": ""
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "打开方式..."
-  },
-  "Opening SMS app": {
-    "Opening SMS app": "正在打开短信应用"
-  },
-  "Opening file browser": {
-    "Opening file browser": "正在打开文件浏览器"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "正在打开终端： "
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "配对失败"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": "来自 %1 的配对请求"
-  },
-  "Pairing request sent": {
-    "Pairing request sent": "配对请求已发送"
-  },
-  "Pairing requested": {
-    "Pairing requested": "配对已请求"
-  },
   "Pairing...": {
     "Pairing...": "配对中..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "个性化"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": "手机连接不可用"
-  },
-  "Phone number": {
-    "Phone number": "电话号码"
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": "在「设置 → Dock → 回收站」中选择其他文件管理器。"
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "固定到 Dock"
-  },
-  "Ping": {
-    "Ping": "Ping"
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": "已向 %1 发送 Ping"
   },
   "Pinned": {
     "Pinned": "已固定"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": ""
-  },
-  "Play": {
-    "Play": "播放"
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": "锁屏时播放视频"
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": "在登录界面预先选择上次使用的会话"
   },
-  "Precip": {
-    "Precip": "降水"
-  },
   "Precipitation": {
     "Precipitation": "降水量"
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": "预览：%1"
-  },
-  "Previous": {
-    "Previous": "上一个"
   },
   "Previous page": {
     "Previous page": "上一页"
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "最近拾取的颜色"
   },
-  "Recent Images": {
-    "Recent Images": "最近使用的图片"
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "最近使用的应用"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": "标准"
-  },
-  "Reject": {
-    "Reject": "拒绝"
   },
   "Reject Jobs": {
     "Reject Jobs": "拒绝作业"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "报告"
-  },
-  "Request Pairing": {
-    "Request Pairing": "请求配对"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "要求按住按钮/按键以确认关机、重启、休眠、挂起和注销"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": "快退 10 秒"
-  },
   "Right": {
     "Right": "右侧"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "右键点击状态栏上的部件以轮换"
-  },
-  "Ring": {
-    "Ring": "响铃"
-  },
-  "Ringing %1...": {
-    "Ringing %1...": "正在呼叫 %1..."
   },
   "Ripple Effects": {
     "Ripple Effects": "波纹效果"
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "SDR 饱和度"
-  },
-  "SMS": {
-    "SMS": "短信"
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": "短信发送成功"
   },
   "SSID": {
     "SSID": "SSID"
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": "搜索应用程序..."
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "通过按键组合、描述或动作名称进行搜索。\n\n默认操作是将按键绑定复制到剪贴板。\n按下鼠标右键或键盘右键可以固定常用的快捷键——不搜索时它们会出现在顶部。"
-  },
   "Search devices...": {
     "Search devices...": "查找设备..."
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "搜索快捷键..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": "从合成器与应用中搜索键盘快捷键"
   },
   "Search plugins...": {
     "Search plugins...": "搜索插件..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": "选择 Dock 启动器 Logo"
   },
-  "Select File to Send": {
-    "Select File to Send": "选择要发送的文件"
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "选择启动器 Logo"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "选择一张图片..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": "至少选择一个提供源"
-  },
   "Select background image": {
     "Select background image": "选择背景图片"
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": ""
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": "选择要引用的快捷键绑定提供者"
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "选择在随机轮换中使用的过渡效果"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "未找到所选图像文件。"
-  },
-  "Send": {
-    "Send": "发送"
-  },
-  "Send Clipboard": {
-    "Send Clipboard": "发送剪贴板"
-  },
-  "Send SMS": {
-    "Send SMS": "发送短信"
-  },
-  "Sending %1...": {
-    "Sending %1...": "正在发送 %1..."
   },
   "Separate": {
     "Separate": "分离"
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": "阴影"
   },
-  "Share": {
-    "Share": "共享"
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": "共享伽马控制设置"
-  },
-  "Shared": {
-    "Shared": "已共享"
   },
   "Shell": {
     "Shell": "Shell"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": ""
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": "显示体感温度"
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": "在启动器项目上显示 Flatpak、Snap、AppImage 或者 Nix 徽标"
   },
   "Show Footer": {
     "Show Footer": "显示页脚"
-  },
-  "Show Forecast": {
-    "Show Forecast": "显示预报"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "显示 GPU 温度"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "显示小时数"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": "显示每小时天气预报"
-  },
-  "Show Humidity": {
-    "Show Humidity": "显示湿度"
-  },
   "Show Icon": {
     "Show Icon": "显示图标"
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "显示行号"
-  },
-  "Show Location": {
-    "Show Location": "显示位置"
   },
   "Show Lock": {
     "Show Lock": "显示锁定"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "显示关机"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": "显示降水概率"
-  },
-  "Show Pressure": {
-    "Show Pressure": "显示气压"
-  },
   "Show Profile Image": {
     "Show Profile Image": "显示用户头像"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": "显示软重启"
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": "显示日出/日落"
   },
   "Show Suspend": {
     "Show Suspend": "显示挂起"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": ""
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": "显示天气状况"
-  },
   "Show Week Number": {
     "Show Week Number": "显示周数"
   },
   "Show Welcome": {
     "Show Welcome": "显示欢迎信息"
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": "显示风速"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "显示工作区内应用"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "信号"
-  },
-  "Signal Strength": {
-    "Signal Strength": "信号强度"
   },
   "Silence for a while": {
     "Silence for a while": "静默一会儿"
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": "启动热点？"
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": "启动 KDE Connect 或 Valent 以使用此插件"
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "在这里开始记录笔记..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": "托盘图标修复"
   },
-  "Trending GIFs": {
-    "Trending GIFs": "热门 GIF"
-  },
-  "Trending Stickers": {
-    "Trending Stickers": "热门贴纸"
-  },
   "Trigger": {
     "Trigger": "触发"
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": "触发前缀"
   },
   "Trigger: %1": {
     "Trigger: %1": "触发器：%1"
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": "至少输入 2 个字符以搜索文件。"
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": "键入此前缀以搜索快捷键绑定"
-  },
   "Type to search files": {
     "Type to search files": "键入以搜索文件"
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "排版与动画"
-  },
-  "URI": {
-    "URI": "URI"
   },
   "Unavailable": {
     "Unavailable": "不可用"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": "未命名规则"
   },
-  "Unpair": {
-    "Unpair": "取消配对"
-  },
-  "Unpair failed": {
-    "Unpair failed": "取消配对失败"
-  },
   "Unpin": {
     "Unpin": "解除固定"
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": "紧急颜色"
-  },
-  "Usage Tips": {
-    "Usage Tips": "使用提示"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "改用 24 小时制显示时间，而不是 12 小时 AM/PM 格式"
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": "在所有显示器上使用同样的位置与大小"
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": "使用触发前缀以激活"
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": "用于 xdg-terminal-exec"
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": "当强调色为“自定义”时使用"
   },
   "User": {
     "User": "用户"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "可变刷新率"
   },
-  "Verification": {
-    "Verification": "验证"
-  },
   "Version": {
     "Version": "版本"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": "动态屏保"
-  },
-  "View Mode": {
-    "View Mode": "查看模式"
   },
   "Visibility": {
     "Visibility": "可见性"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": "已分离"
-  },
-  "device": {
-    "device": "设备"
   },
   "dgop not available": {
     "dgop not available": "dgop 不可用"

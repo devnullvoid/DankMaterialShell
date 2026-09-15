@@ -435,16 +435,22 @@ def plugin_keys(plugin_id, checkout):
         error(f"{checkout.name} has no I18n.trFor(\"{plugin_id}\", ...) calls")
     return entries, [(split_plugin_context(e['context'])[1], e['term']) for e in entries]
 
-def cmd_migrate(plugin_id, flags):
+def cmd_migrate(plugin_ids, flags):
     api_token = get_env_or_error('POEDITOR_API_TOKEN')
     main_id = get_env_or_error('POEDITOR_PROJECT_ID')
     project_id = get_env_or_error('POEDITOR_PLUGINS_PROJECT_ID')
     dry_run = '--dry-run' in flags
 
     update_plugin_checkouts()
-    checkout = find_checkout(plugin_id)
-    entries, keys = plugin_keys(plugin_id, checkout)
-    info(f"{plugin_id}: {len(entries)} terms from {checkout.name}" + (" (dry run)" if dry_run else ""))
+    plugins = {}
+    entries = []
+    for plugin_id in plugin_ids:
+        checkout = find_checkout(plugin_id)
+        plugin_entries, keys = plugin_keys(plugin_id, checkout)
+        plugins[plugin_id] = (checkout, keys)
+        entries.extend(plugin_entries)
+        info(f"{plugin_id}: {len(plugin_entries)} terms from {checkout.name}")
+    info(f"{len(entries)} terms total" + (" (dry run)" if dry_run else ""))
 
     if not dry_run:
         upload_source_strings(api_token, project_id, entries)
@@ -452,23 +458,24 @@ def cmd_migrate(plugin_id, flags):
     print(f"{'lang':<8} {'merged':>6} {'main':>6} {'repo':>6}")
     for po_lang, filename in LANGUAGES.items():
         from_main = translation_index(list_terms(api_token, main_id, po_lang))
-        from_repo = checkout_translations(checkout, filename)
         merged = {}
         main_hits = 0
-        for context, term in keys:
-            value = from_main.get((context, term))
-            if value:
-                main_hits += 1
-            else:
-                value = from_repo.get(context, {}).get(term, "")
-            if value:
-                merged[(context, term)] = value
+        for plugin_id, (checkout, keys) in plugins.items():
+            from_repo = checkout_translations(checkout, filename)
+            for context, term in keys:
+                value = from_main.get((context, term))
+                if value:
+                    main_hits += 1
+                else:
+                    value = from_repo.get(context, {}).get(term, "")
+                if value:
+                    merged[(plugin_id, context, term)] = value
         print(f"{po_lang:<8} {len(merged):>6} {main_hits:>6} {len(merged) - main_hits:>6}")
         if dry_run or not merged:
             continue
         payload = [
             {'term': term, 'context': f"{plugin_id}:{context}", 'definition': value}
-            for (context, term), value in sorted(merged.items())
+            for (plugin_id, context, term), value in sorted(merged.items())
         ]
         result = poeditor_upload({
             'api_token': api_token,
@@ -485,7 +492,7 @@ def cmd_migrate(plugin_id, flags):
     if dry_run:
         info("Dry run: nothing uploaded. Re-run without --dry-run to migrate.")
         return
-    success(f"{plugin_id} migrated into DankPlugins. Run 'sync' next, then 'purge-main {plugin_id}'.")
+    success(f"Migrated into DankPlugins: {', '.join(plugin_ids)}. Run 'sync' next, then 'purge-main'.")
 
 def head_en_json():
     result = subprocess.run(
@@ -496,44 +503,58 @@ def head_en_json():
         error("Cannot read translations/en.json from git HEAD")
     return json.loads(result.stdout)
 
-def cmd_purge_main(plugin_id, flags):
+def cmd_purge_main(plugin_ids, flags):
     api_token = get_env_or_error('POEDITOR_API_TOKEN')
     main_id = get_env_or_error('POEDITOR_PROJECT_ID')
     project_id = get_env_or_error('POEDITOR_PLUGINS_PROJECT_ID')
     dry_run = '--dry-run' in flags
     confirmed = '--yes' in flags
 
-    tag = f"plugin-{plugin_id.lower()}"
+    update_plugin_checkouts()
+    owners = {}
+    current = {}
+    for plugin_id in plugin_ids:
+        checkout = find_checkout(plugin_id)
+        _, keys = plugin_keys(plugin_id, checkout)
+        owners[f"plugin-{plugin_id.lower()}"] = plugin_id
+        current[plugin_id] = set(keys)
+
     shared = entry_keys(load_common_entries())
-    candidates = sorted(
-        (e['context'] or e['term'], e['term'])
-        for e in head_en_json()
-        if e.get('tags') == [tag] and (e['context'] or e['term'], e['term']) not in shared
-    )
+    candidates = {}
+    for entry in head_en_json():
+        tags = entry.get('tags') or []
+        if not tags or not set(tags) <= set(owners):
+            continue
+        key = (entry['context'] or entry['term'], entry['term'])
+        if key in shared:
+            continue
+        candidates[key] = [owners[tag] for tag in tags]
     if not candidates:
-        error(f"No terms tagged only '{tag}' in the committed en.json; nothing to purge")
-    info(f"{len(candidates)} terms in the committed en.json are used only by {plugin_id}")
+        error(f"No terms in the committed en.json are used only by {', '.join(plugin_ids)}; nothing to purge")
+    info(f"{len(candidates)} terms in the committed en.json are used only by these plugins")
 
     main_keys = entry_keys(list_terms(api_token, main_id))
-    candidates = [key for key in candidates if key in main_keys]
+    candidates = {key: ids for key, ids in candidates.items() if key in main_keys}
     info(f"{len(candidates)} of them exist in the main project")
 
-    update_plugin_checkouts()
-    _, current = plugin_keys(plugin_id, find_checkout(plugin_id))
-    live = [key for key in candidates if key in set(current)]
-    dead = [key for key in candidates if key not in set(current)]
-    info(f"{len(live)} still used by {plugin_id}, {len(dead)} no longer in the plugin (deleted outright, translations not carried over)")
+    users = {key: [pid for pid in ids if key in current[pid]] for key, ids in candidates.items()}
+    dead = sorted(key for key, ids in users.items() if not ids)
+    live = {key: ids for key, ids in users.items() if ids}
+    info(f"{len(live)} still used, {len(dead)} no longer in any plugin (deleted outright, translations not carried over)")
     for context, term in dead[:15]:
         print(f"  dead: {context}")
     if len(dead) > 15:
         print(f"  ... and {len(dead) - 15} more")
 
     plugin_keys_remote = entry_keys(list_terms(api_token, project_id))
-    missing = [key for key in live if (f"{plugin_id}:{key[0]}", key[1]) not in plugin_keys_remote]
+    missing = [
+        (key, pid) for key, ids in live.items() for pid in ids
+        if (f"{pid}:{key[0]}", key[1]) not in plugin_keys_remote
+    ]
     if missing:
-        for context, term in missing[:15]:
-            print(f"  missing in DankPlugins: {context}")
-        error(f"{len(missing)} terms are not in DankPlugins yet; run 'migrate {plugin_id}' first")
+        for (context, term), pid in missing[:15]:
+            print(f"  missing in DankPlugins: {pid}:{context}")
+        error(f"{len(missing)} plugin terms are not in DankPlugins yet; run 'migrate' first")
 
     print(f"{'lang':<8} {'main':>6} {'plugins':>8} {'lost':>6}")
     lost_any = False
@@ -541,21 +562,25 @@ def cmd_purge_main(plugin_id, flags):
         from_main = translation_index(list_terms(api_token, main_id, po_lang))
         from_plugins = translation_index(list_terms(api_token, project_id, po_lang))
         translated = [key for key in live if from_main.get(key)]
-        lost = [key for key in translated if not from_plugins.get((f"{plugin_id}:{key[0]}", key[1]))]
+        lost = [
+            key for key in translated
+            if any(not from_plugins.get((f"{pid}:{key[0]}", key[1])) for pid in live[key])
+        ]
         lost_any = lost_any or bool(lost)
         print(f"{po_lang:<8} {len(translated):>6} {len(translated) - len(lost):>8} {len(lost):>6}")
     if lost_any:
         error("Some main translations are missing in DankPlugins; run 'migrate' again before purging")
 
+    doomed = sorted(set(live) | set(dead))
     if dry_run:
-        info("Dry run: nothing deleted.")
+        info(f"Dry run: nothing deleted. {len(doomed)} terms would go.")
         return
     if not confirmed:
-        error("Re-run with --yes to delete these terms from the main project")
+        error(f"Re-run with --yes to delete these {len(doomed)} terms from the main project")
 
     deleted = 0
-    for start in range(0, len(candidates), DELETE_BATCH):
-        batch = [{'term': term, 'context': context} for context, term in candidates[start:start + DELETE_BATCH]]
+    for start in range(0, len(doomed), DELETE_BATCH):
+        batch = [{'term': term, 'context': context} for context, term in doomed[start:start + DELETE_BATCH]]
         resp = poeditor_request('terms/delete', {'api_token': api_token, 'id': main_id, 'data': json.dumps(batch)})
         if resp.get('response', {}).get('status') != 'success':
             error(f"terms/delete failed after {deleted} deletions: {resp}")
@@ -563,13 +588,13 @@ def cmd_purge_main(plugin_id, flags):
     success(f"Deleted {deleted} terms from the main project. Run 'i18nsync.py sync' to refresh en.json and poexports.")
 
 def main():
-    usage = "Usage: i18nsync_plugins.py sync [--prune] [--no-pr] [--seed] [--dry-run] | check | pr | migrate <pluginId> [--dry-run] | purge-main <pluginId> [--dry-run] [--yes]"
+    usage = "Usage: i18nsync_plugins.py sync [--prune] [--no-pr] [--seed] [--dry-run] | check | pr | migrate <pluginId>... [--dry-run] | purge-main <pluginId>... [--dry-run] [--yes]"
     if len(sys.argv) < 2:
         error(usage)
     command = sys.argv[1]
     args = sys.argv[2:]
     flags = [a for a in args if a.startswith('--')]
-    positional = [a for a in args if not a.startswith('--')]
+    positional = [pid for a in args if not a.startswith('--') for pid in a.split()]
 
     if command == 'sync':
         cmd_sync(flags)
@@ -580,11 +605,11 @@ def main():
     elif command == 'migrate':
         if not positional:
             error(usage)
-        cmd_migrate(positional[0], flags)
+        cmd_migrate(positional, flags)
     elif command == 'purge-main':
         if not positional:
             error(usage)
-        cmd_purge_main(positional[0], flags)
+        cmd_purge_main(positional, flags)
     else:
         error(f"Unknown command: {command}")
 

@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": ""
   },
-  "Accent Color": {
-    "Accent Color": ""
-  },
-  "Accept": {
-    "Accept": ""
-  },
   "Accept Jobs": {
     "Accept Jobs": "İşleri Kabul Et"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": ""
-  },
-  "Activation": {
-    "Activation": ""
   },
   "Active": {
     "Active": "Etkin"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": ""
-  },
-  "Always Active": {
-    "Always Active": ""
   },
   "Always Show Percentage": {
     "Always Show Percentage": "Yüzdeyi Her Zaman Göster"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": ""
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": ""
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": ""
-  },
-  "Background Opacity": {
-    "Background Opacity": "Arkaplan Opaklığı"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": ""
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "Göz at"
   },
-  "Browse Files": {
-    "Browse Files": ""
-  },
   "Browse Plugins": {
     "Browse Plugins": "Eklentilere Göz At"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": ""
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": ""
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": ""
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": ""
-  },
-  "Chroma Style": {
-    "Chroma Style": ""
   },
   "Cipher": {
     "Cipher": "Şifre"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": ""
   },
-  "Clipboard sent": {
-    "Clipboard sent": ""
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "Pano çalışır fakat hiçbir şey diske kaydedilmez"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "Gece modu için renk sıcaklığı"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": ""
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": ""
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "DMS kayıt defterinden renk teması"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": ""
   },
-  "Content copied": {
-    "Content copied": ""
-  },
   "Contrast": {
     "Contrast": "Kontrast"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "Bekleme"
   },
-  "Copied GIF": {
-    "Copied GIF": ""
-  },
-  "Copied MP4": {
-    "Copied MP4": ""
-  },
-  "Copied WebP": {
-    "Copied WebP": ""
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "Panoya kopyalandı"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": ""
-  },
-  "Copy Content": {
-    "Copy Content": ""
   },
   "Copy Full Command": {
     "Copy Full Command": ""
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "Masaüstü arkaplan resimleri"
   },
-  "Detailed": {
-    "Detailed": ""
-  },
   "Details for \"%1": {
     "Details for \"%1\"": ""
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "Cihaz eşleştirildi"
-  },
-  "Device unpaired": {
-    "Device unpaired": ""
   },
   "Diff": {
     "Diff": ""
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "Şu anda odaklanmış uygulamanın başlığını göster"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": ""
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": ""
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "Şunun için PIN gir: "
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": ""
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": ""
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": ""
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": ""
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "Yapılandırma etkinleştirilemedi"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": ""
-  },
-  "Failed to browse device": {
-    "Failed to browse device": ""
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "Tüm işler iptal edemedi"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "VPN içe aktarılamadı"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": ""
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "VPN ayarı yüklenemedi"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": ""
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": ""
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": ""
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "Yazıcıyı devam ettirme başarısız"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": ""
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": ""
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": ""
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": ""
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": ""
-  },
-  "Failed to send file": {
-    "Failed to send file": ""
-  },
-  "Failed to send ping": {
-    "Failed to send ping": ""
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "Parlaklık ayarlanamadı"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "Profil resmi ayarlanamadı: %1"
-  },
-  "Failed to share": {
-    "Failed to share": ""
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "%1 bağlantı başlatılamadı"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": ""
   },
-  "Feels": {
-    "Feels": ""
-  },
   "Feels Like": {
     "Feels Like": "Hissedilen"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": ""
-  },
-  "File received from %1": {
-    "File received from %1": ""
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": ""
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "Terminal uygulamalarının her zaman koyu renk şemalarını kullanmasını zorla"
   },
-  "Forecast": {
-    "Forecast": ""
-  },
-  "Forecast Days": {
-    "Forecast Days": ""
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "Hava Tahmini Mevcut Değil"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": ""
-  },
-  "Forward 10s": {
-    "Forward 10s": ""
   },
   "Frame": {
     "Frame": ""
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": ""
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": ""
-  },
   "Hover Popouts": {
     "Hover Popouts": ""
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": ""
   },
-  "Keybind Sources": {
-    "Keybind Sources": ""
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "Kısayollar"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": ""
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": ""
   },
   "Keyboard": {
     "Keyboard": ""
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": ""
   },
-  "Loading trending...": {
-    "Loading trending...": ""
-  },
   "Loading...": {
     "Loading...": "Yükleniyor..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": ""
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": ""
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": ""
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": ""
   },
-  "Message": {
-    "Message": ""
-  },
   "Message Content": {
     "Message Content": ""
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "Ağ Hız Monitörü"
   },
-  "Network Type": {
-    "Network Type": ""
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "Ağ indirme ve yükleme hız gösterimi"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": ""
   },
-  "No Weather Data": {
-    "No Weather Data": ""
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "Hava Durumu Verileri Mevcut Değil"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": ""
-  },
-  "No images found": {
-    "No images found": ""
   },
   "No info items": {
     "No info items": ""
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "Algılanmadı"
   },
-  "Not paired": {
-    "Not paired": ""
-  },
   "Not set": {
     "Not set": ""
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "Ofis"
   },
-  "Offline": {
-    "Offline": ""
-  },
   "Offline Report": {
     "Offline Report": "Çevrimdışı Rapor"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "Aç"
-  },
-  "Open App": {
-    "Open App": ""
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": ""
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "... ile aç"
-  },
-  "Opening SMS app": {
-    "Opening SMS app": ""
-  },
-  "Opening file browser": {
-    "Opening file browser": ""
   },
   "Opening terminal: ": {
     "Opening terminal: ": ""
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "Eşleşme başarısız"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": ""
-  },
-  "Pairing request sent": {
-    "Pairing request sent": ""
-  },
-  "Pairing requested": {
-    "Pairing requested": ""
-  },
   "Pairing...": {
     "Pairing...": "Eşleşiyor..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "Kişiselleştirme"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": ""
-  },
-  "Phone number": {
-    "Phone number": ""
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": ""
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "Dock'a Sabitle"
-  },
-  "Ping": {
-    "Ping": ""
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": ""
   },
   "Pinned": {
     "Pinned": "Sabitlendi"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": ""
-  },
-  "Play": {
-    "Play": ""
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": ""
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": ""
   },
-  "Precip": {
-    "Precip": ""
-  },
   "Precipitation": {
     "Precipitation": ""
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": ""
-  },
-  "Previous": {
-    "Previous": ""
   },
   "Previous page": {
     "Previous page": ""
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "Son Renkler"
   },
-  "Recent Images": {
-    "Recent Images": ""
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "Son Kullanılan Uygulamalar"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": ""
-  },
-  "Reject": {
-    "Reject": ""
   },
   "Reject Jobs": {
     "Reject Jobs": "İşleri Reddet"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "Rapor"
-  },
-  "Request Pairing": {
-    "Request Pairing": ""
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "Güç kapatma, yeniden başlatma, askıya alma, hazırda bekletme ve oturumu kapatma işlemlerini onaylamak için düğmeyi/tuşu basılı tutmak gerekir"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": ""
-  },
   "Right": {
     "Right": "Sağ"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "Çubuk widget'ını sağ tıklayarak döngüye değiştir"
-  },
-  "Ring": {
-    "Ring": ""
-  },
-  "Ringing %1...": {
-    "Ringing %1...": ""
   },
   "Ripple Effects": {
     "Ripple Effects": ""
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "SDR Doygunluğu"
-  },
-  "SMS": {
-    "SMS": ""
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": ""
   },
   "SSID": {
     "SSID": ""
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": ""
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": ""
-  },
   "Search devices...": {
     "Search devices...": ""
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "Tuş kombinasyonları ara..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": ""
   },
   "Search plugins...": {
     "Search plugins...": "Eklentileri ara..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": ""
   },
-  "Select File to Send": {
-    "Select File to Send": ""
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "Başlatıcı Logosu Seç"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "Bir resim dosyası seçin..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": ""
-  },
   "Select background image": {
     "Select background image": ""
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": ""
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": ""
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Rastgele seçime dahil edilecek geçişleri seçin"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "Seçilen resim dosyası bulunamadı."
-  },
-  "Send": {
-    "Send": ""
-  },
-  "Send Clipboard": {
-    "Send Clipboard": ""
-  },
-  "Send SMS": {
-    "Send SMS": ""
-  },
-  "Sending %1...": {
-    "Sending %1...": ""
   },
   "Separate": {
     "Separate": ""
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": ""
   },
-  "Share": {
-    "Share": ""
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": ""
-  },
-  "Shared": {
-    "Shared": ""
   },
   "Shell": {
     "Shell": "Shell"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": ""
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": ""
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": ""
   },
   "Show Footer": {
     "Show Footer": ""
-  },
-  "Show Forecast": {
-    "Show Forecast": ""
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "GPU Sıcaklığını Göster"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "Saat Numaralarını Göster"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": ""
-  },
-  "Show Humidity": {
-    "Show Humidity": ""
-  },
   "Show Icon": {
     "Show Icon": ""
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "Satır Numaralarını Göster"
-  },
-  "Show Location": {
-    "Show Location": ""
   },
   "Show Lock": {
     "Show Lock": "Kilitleyi Göster"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "Kapatı Göster"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": ""
-  },
-  "Show Pressure": {
-    "Show Pressure": ""
-  },
   "Show Profile Image": {
     "Show Profile Image": "Profil Fotoğrafını Göster"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": ""
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": ""
   },
   "Show Suspend": {
     "Show Suspend": "Askıya Alı Göster"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": ""
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": ""
-  },
   "Show Week Number": {
     "Show Week Number": ""
   },
   "Show Welcome": {
     "Show Welcome": ""
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": ""
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "Çalışma Alanı Uygulamalarını Göster"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "Sinyal"
-  },
-  "Signal Strength": {
-    "Signal Strength": ""
   },
   "Silence for a while": {
     "Silence for a while": ""
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": ""
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": ""
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "Notunuzu buraya yazmaya başlayın..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": ""
   },
-  "Trending GIFs": {
-    "Trending GIFs": ""
-  },
-  "Trending Stickers": {
-    "Trending Stickers": ""
-  },
   "Trigger": {
     "Trigger": ""
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": ""
   },
   "Trigger: %1": {
     "Trigger: %1": ""
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": ""
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": ""
-  },
   "Type to search files": {
     "Type to search files": ""
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "Tipografi & Hareket"
-  },
-  "URI": {
-    "URI": ""
   },
   "Unavailable": {
     "Unavailable": "Mevcut Değil"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": ""
   },
-  "Unpair": {
-    "Unpair": ""
-  },
-  "Unpair failed": {
-    "Unpair failed": ""
-  },
   "Unpin": {
     "Unpin": ""
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": ""
-  },
-  "Usage Tips": {
-    "Usage Tips": ""
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "12 saatlik ÖÖ/ÖS yerine 24 saatlik zaman formatını kullanın."
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": ""
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": ""
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": ""
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": ""
   },
   "User": {
     "User": "Kullanıcı"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "Değişken Yenileme Hızı"
   },
-  "Verification": {
-    "Verification": ""
-  },
   "Version": {
     "Version": "Sürüm"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": ""
-  },
-  "View Mode": {
-    "View Mode": ""
   },
   "Visibility": {
     "Visibility": "Görüş"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": ""
-  },
-  "device": {
-    "device": ""
   },
   "dgop not available": {
     "dgop not available": "dgop mevcut değil"

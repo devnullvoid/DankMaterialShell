@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": "Hồ sơ Gia tốc"
   },
-  "Accent Color": {
-    "Accent Color": "Màu nhấn"
-  },
-  "Accept": {
-    "Accept": "Chấp nhận"
-  },
   "Accept Jobs": {
     "Accept Jobs": "Chấp nhận công việc"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": "Kích hoạt ngay lập tức"
-  },
-  "Activation": {
-    "Activation": "Kích hoạt"
   },
   "Active": {
     "Active": "Đang hoạt động"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": "Thay thế (HOẶC)"
-  },
-  "Always Active": {
-    "Always Active": "Luôn hoạt động"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "Luôn hiển thị phần trăm"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": "Số bản cập nhật khả dụng (%1)"
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": "Có sẵn trong chế độ xem Chi tiết và Dự báo"
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": "Hiệu ứng nền"
-  },
-  "Background Opacity": {
-    "Background Opacity": "Độ mờ của nền"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": "Đồng bộ xác thực nền thất bại. Đang thử chế độ dòng lệnh."
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "Duyệt"
   },
-  "Browse Files": {
-    "Browse Files": "Duyệt tệp"
-  },
   "Browse Plugins": {
     "Browse Plugins": "Duyệt plugin"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": ""
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": "Chọn cách hiển thị tiện ích thời tiết"
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": "Chọn cách thanh này xử lý hướng bóng"
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": "Chọn màn hình nào sẽ hiển thị giao diện màn hình khóa. Các màn hình khác sẽ hiển thị một màu đơn sắc để bảo vệ màn hình OLED khỏi hiện tượng lưu ảnh."
-  },
-  "Chroma Style": {
-    "Chroma Style": "Kiểu sắc độ"
   },
   "Cipher": {
     "Cipher": "Mật mã"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": "Đã lưu bảng nhớ tạm"
   },
-  "Clipboard sent": {
-    "Clipboard sent": "Đã gửi nội dung bảng nhớ tạm"
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "Bảng nhớ tạm hoạt động nhưng không có gì được lưu vào đĩa"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "Nhiệt độ màu cho chế độ ban đêm"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": "Chủ đề màu cho làm nổi bật cú pháp."
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": "Chủ đề màu cho làm nổi bật cú pháp. Có %1 chủ đề."
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "Chủ đề màu từ kho lưu trữ DMS"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": "Nội dung"
   },
-  "Content copied": {
-    "Content copied": "Nội dung đã được sao chép"
-  },
   "Contrast": {
     "Contrast": "Độ tương phản"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "Thời gian hồi"
   },
-  "Copied GIF": {
-    "Copied GIF": "Đã sao chép GIF"
-  },
-  "Copied MP4": {
-    "Copied MP4": "Đã sao chép MP4"
-  },
-  "Copied WebP": {
-    "Copied WebP": "Đã sao chép WebP"
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "Đã sao chép vào bảng nhớ tạm"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": "Sao chép"
-  },
-  "Copy Content": {
-    "Copy Content": "Sao chép nội dung"
   },
   "Copy Full Command": {
     "Copy Full Command": "Sao chép lệnh đầy đủ"
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "Ảnh nền màn hình"
   },
-  "Detailed": {
-    "Detailed": "Chi tiết"
-  },
   "Details for \"%1": {
     "Details for \"%1\"": "Chi tiết cho \"%1\""
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "Đã ghép nối thiết bị"
-  },
-  "Device unpaired": {
-    "Device unpaired": "Đã hủy ghép đôi thiết bị"
   },
   "Diff": {
     "Diff": "Khác biệt"
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "Hiển thị tên ứng dụng đang chọn"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": "Hiển thị dự báo thời tiết theo giờ"
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": "Hiển thị số dòng trong trình soạn thảo"
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "Nhập PIN cho "
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": "Nhập URI hoặc văn bản để chia sẻ"
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "Nhập tên mới cho phiên \"%1\""
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": "Làm mờ dần để tắt màn hình"
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": "Không thể chấp nhận ghép đôi"
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "Không thể kích hoạt cấu hình"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": "Áp dụng cấu hình thất bại"
-  },
-  "Failed to browse device": {
-    "Failed to browse device": "Duyệt thiết bị thất bại"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "Không thể hủy tất cả công việc"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "Nhập VPN thất bại"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": "Khởi chạy ứng dụng SMS thất bại"
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "Tải cấu hình VPN thất bại"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": "Đọc tệp chủ đề thất bại: %1"
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": "Từ chối ghép đôi thất bại"
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "Tải lại plugin thất bại: %1"
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "Không thể tiếp tục lại máy in"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": "Đổ chuông thiết bị thất bại"
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": "Không thể chạy 'dms-greeter status'. Đảm bảo gói dms-greeter được cài đặt."
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": "Lưu cấu hình thất bại"
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": "Không thể gửi SMS"
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": "Gửi bảng nhớ tạm thất bại"
-  },
-  "Failed to send file": {
-    "Failed to send file": "Gửi tệp thất bại"
-  },
-  "Failed to send ping": {
-    "Failed to send ping": "Gửi ping thất bại"
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "Đặt độ sáng thất bại"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "Đặt ảnh đại diện thất bại: %1"
-  },
-  "Failed to share": {
-    "Failed to share": "Chia sẻ thất bại"
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "Bắt đầu kết nối tới %1 thất bại"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": "Tính năng"
   },
-  "Feels": {
-    "Feels": "Cảm giác"
-  },
   "Feels Like": {
     "Feels Like": "Cảm giác như"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": "Trình quản lý tệp dùng để mở thùng rác. Chọn \"tùy chỉnh\" để nhập lệnh của riêng bạn."
-  },
-  "File received from %1": {
-    "File received from %1": "Tệp nhận được từ %1"
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": "Tìm kiếm tệp yêu cầu dsearch\nHãy cài đặt từ github.com/AvengeMedia/danksearch"
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "Bắt buộc các ứng dụng dòng lệnh luôn sử dụng giao diện tối"
   },
-  "Forecast": {
-    "Forecast": "Dự báo"
-  },
-  "Forecast Days": {
-    "Forecast Days": "Số ngày dự báo"
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "Dự báo không khả dụng"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": "Định dạng ngày trên màn hình đăng nhập"
-  },
-  "Forward 10s": {
-    "Forward 10s": "Tua Nhanh 10 giây"
   },
   "Frame": {
     "Frame": "Khung"
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": "Hàng giờ"
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": "Số lượng dự báo hàng giờ"
-  },
   "Hover Popouts": {
     "Hover Popouts": "Pop-out Khi Di chuột"
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": ""
   },
-  "Keybind Sources": {
-    "Keybind Sources": "Nguồn phím tắt"
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "Phím tắt"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": "Cài đặt tìm kiếm phím tắt"
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": "Các phím tắt được hiển thị bên cạnh kết quả tìm kiếm thông thường"
   },
   "Keyboard": {
     "Keyboard": ""
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": ""
   },
-  "Loading trending...": {
-    "Loading trending...": "Đang tải xu hướng..."
-  },
   "Loading...": {
     "Loading...": "Đang tải..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": "Cấp quyền quản trị"
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": "Đảm bảo KDE Connect hoặc Valent đang chạy trên các thiết bị khác của bạn"
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": "Làm cho nền của thanh hoàn toàn trong suốt"
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": "Hợp nhất các kết quả thư mục đã lập chỉ mục vào tab 'Tất cả' (yêu cầu dsearch)."
   },
-  "Message": {
-    "Message": "Tin nhắn"
-  },
   "Message Content": {
     "Message Content": "Nội dung tin nhắn"
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "Trình giám sát tốc độ mạng"
   },
-  "Network Type": {
-    "Network Type": "Loại Mạng"
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "Hiển thị tốc độ mạng (tải lên & tải xuống)"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": "Không có thời tiết"
   },
-  "No Weather Data": {
-    "No Weather Data": "Không có dữ liệu thời tiết"
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "Không có dữ liệu thời tiết"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": "Không tìm thấy tài khoản người dùng người thật nào."
-  },
-  "No images found": {
-    "No images found": "Không tìm thấy hình ảnh"
   },
   "No info items": {
     "No info items": "Không có mục thông tin nào"
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "Không phát hiện được"
   },
-  "Not paired": {
-    "Not paired": "Chưa ghép đôi"
-  },
   "Not set": {
     "Not set": "Chưa đặt"
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "Văn phòng"
   },
-  "Offline": {
-    "Offline": "Ngoại tuyến"
-  },
   "Offline Report": {
     "Offline Report": "Báo cáo ngoại tuyến"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "Mở"
-  },
-  "Open App": {
-    "Open App": "Mở ứng dụng"
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": ""
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "Mở bằng..."
-  },
-  "Opening SMS app": {
-    "Opening SMS app": "Đang mở ứng dụng SMS"
-  },
-  "Opening file browser": {
-    "Opening file browser": "Đang mở trình duyệt tệp"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "Đang mở cửa sổ dòng lệnh: "
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "Ghép nối không thành công"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": "Yêu cầu ghép nối từ %1"
-  },
-  "Pairing request sent": {
-    "Pairing request sent": "Yêu cầu ghép đôi đã được gửi"
-  },
-  "Pairing requested": {
-    "Pairing requested": "Đã yêu cầu ghép đôi"
-  },
   "Pairing...": {
     "Pairing...": "Đang ghép đôi..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "Cá nhân hóa"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": "Kết nối điện thoại không khả dụng"
-  },
-  "Phone number": {
-    "Phone number": "Số điện thoại"
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": "Chọn một trình quản lý tệp khác trong Cài đặt → Dock → Thùng rác."
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "Ghim thanh Dock"
-  },
-  "Ping": {
-    "Ping": "Ping"
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": "Ping được gửi đến %1"
   },
   "Pinned": {
     "Pinned": "Đã ghim"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": ""
-  },
-  "Play": {
-    "Play": "Phát"
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": "Phát một video khi màn hình khóa."
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": "Tự động chọn phiên được sử dụng cuối cùng trên màn hình chào"
   },
-  "Precip": {
-    "Precip": "Lượng kết tủa"
-  },
   "Precipitation": {
     "Precipitation": "Lượng kết tủa"
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": "Xem trước: %1"
-  },
-  "Previous": {
-    "Previous": "Trước"
   },
   "Previous page": {
     "Previous page": "Trang trước"
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "Màu gần đây"
   },
-  "Recent Images": {
-    "Recent Images": "Hình ảnh Gần đây"
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "Ứng dụng đã dùng gần đây"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": "Thường"
-  },
-  "Reject": {
-    "Reject": "Từ chối"
   },
   "Reject Jobs": {
     "Reject Jobs": "Từ chối công việc"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "Báo cáo"
-  },
-  "Request Pairing": {
-    "Request Pairing": "Yêu cầu ghép đôi"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "Yêu cầu nhấn giữ nút/phím để xác nhận tắt nguồn, khởi động lại, tạm dừng, ngủ đông và đăng xuất"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": "Tua Lại 10 giây"
-  },
   "Right": {
     "Right": "Phải"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "Nhấp chuột phải vào tiện ích thanh để xoay vòng"
-  },
-  "Ring": {
-    "Ring": "Đổ chuông"
-  },
-  "Ringing %1...": {
-    "Ringing %1...": "Đang gọi %1..."
   },
   "Ripple Effects": {
     "Ripple Effects": "Hiệu ứng gợn sóng"
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "Độ bão hòa SDR"
-  },
-  "SMS": {
-    "SMS": "SMS"
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": "SMS đã gửi thành công"
   },
   "SSID": {
     "SSID": "SSID"
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": "Tìm kiếm ứng dụng..."
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "Tìm kiếm theo tổ hợp phím, mô tả hoặc tên hành động.\n\nHành động mặc định sẽ sao chép phím tắt vào bảng nhớ tạm.\nNhấp chuột phải hoặc nhấn Mũi tên Phải để ghim các phím tắt thường dùng - chúng sẽ xuất hiện ở trên cùng khi không tìm kiếm."
-  },
   "Search devices...": {
     "Search devices...": "Tìm kiếm thiết bị..."
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "Tìm kiếm phím tắt..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": "Tìm kiếm phím tắt bàn phím từ compositor và các ứng dụng của bạn"
   },
   "Search plugins...": {
     "Search plugins...": "Tìm plugin..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": "Chọn logo trình khởi chạy dock"
   },
-  "Select File to Send": {
-    "Select File to Send": "Chọn tệp để gửi"
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "Chọn logo trình khởi chạy"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "Chọn tệp hình ảnh..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": "Chọn ít nhất một nhà cung cấp"
-  },
   "Select background image": {
     "Select background image": "Chọn hình ảnh nền"
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": ""
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": "Chọn các nhà cung cấp phím tắt nào để bao gồm"
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Chọn các hiệu ứng chuyển cảnh để đưa vào chế độ ngẫu nhiên"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "Không tìm thấy tập tin hình ảnh đã chọn."
-  },
-  "Send": {
-    "Send": "Gửi"
-  },
-  "Send Clipboard": {
-    "Send Clipboard": "Gửi bảng nhớ tạm"
-  },
-  "Send SMS": {
-    "Send SMS": "Gửi SMS"
-  },
-  "Sending %1...": {
-    "Sending %1...": "Đang gửi %1..."
   },
   "Separate": {
     "Separate": "Riêng biệt"
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": "Đổ bóng"
   },
-  "Share": {
-    "Share": "Chia sẻ"
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": "Chia sẻ cài đặt điều khiển Gamma"
-  },
-  "Shared": {
-    "Shared": "Đã chia sẻ"
   },
   "Shell": {
     "Shell": "Shell"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": ""
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": "Hiển thị nhiệt độ cảm nhận"
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": "Hiển thị biểu tượng lá cờ Flatpak, Snap, AppImage hoặc Nix trên các mục khởi chạy."
   },
   "Show Footer": {
     "Show Footer": "Hiển thị chân trang"
-  },
-  "Show Forecast": {
-    "Show Forecast": "Hiển thị dự báo"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "Hiển thị nhiệt độ GPU"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "Hiển thị số giờ"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": "Hiển thị dự báo hàng giờ"
-  },
-  "Show Humidity": {
-    "Show Humidity": "Hiển thị độ ẩm"
-  },
   "Show Icon": {
     "Show Icon": "Hiển thị biểu tượng"
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "Hiển thị số dòng"
-  },
-  "Show Location": {
-    "Show Location": "Hiển thị vị trí"
   },
   "Show Lock": {
     "Show Lock": "Hiển thị Khóa"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "Hiển thị Tắt nguồn"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": "Hiển thị khả năng có mưa"
-  },
-  "Show Pressure": {
-    "Show Pressure": "Hiển thị áp suất"
-  },
   "Show Profile Image": {
     "Show Profile Image": "Hiển thị ảnh đại diện"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": ""
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": "Hiển thị bình minh/hoàng hôn"
   },
   "Show Suspend": {
     "Show Suspend": "Hiển thị Ngủ"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": ""
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": "Hiển thị điều kiện thời tiết"
-  },
   "Show Week Number": {
     "Show Week Number": "Hiển thị số tuần"
   },
   "Show Welcome": {
     "Show Welcome": "Hiển thị lời chào"
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": "Hiển thị tốc độ gió"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "Hiển thị ứng dụng trong không gian làm việc"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "Tín hiệu"
-  },
-  "Signal Strength": {
-    "Signal Strength": "Cường độ Tín hiệu"
   },
   "Silence for a while": {
     "Silence for a while": "Tắt tiếng một lúc"
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": "Bắt đầu Điểm nóng?"
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": "Khởi động KDE Connect hoặc Valent để sử dụng plugin này"
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "Bắt đầu nhập ghi chú tại đây..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": "Sửa lỗi biểu tượng tray"
   },
-  "Trending GIFs": {
-    "Trending GIFs": "GIF xu hướng"
-  },
-  "Trending Stickers": {
-    "Trending Stickers": "Nhãn dán xu hướng"
-  },
   "Trigger": {
     "Trigger": "Bộ kích hoạt"
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": "Tiền tố kích hoạt"
   },
   "Trigger: %1": {
     "Trigger: %1": "Bộ kích hoạt: %1"
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": "Nhập ít nhất 2 ký tự để tìm kiếm tệp."
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": "Nhập tiền tố này để tìm kiếm phím tắt"
-  },
   "Type to search files": {
     "Type to search files": "Nhập để tìm kiếm tệp"
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "Kiểu chữ & Chuyển động"
-  },
-  "URI": {
-    "URI": "URI"
   },
   "Unavailable": {
     "Unavailable": "Không khả dụng"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": "Quy tắc không tên"
   },
-  "Unpair": {
-    "Unpair": "Hủy ghép đôi"
-  },
-  "Unpair failed": {
-    "Unpair failed": "Hủy ghép đôi thất bại"
-  },
   "Unpin": {
     "Unpin": "Bỏ ghim"
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": "Màu khẩn cấp"
-  },
-  "Usage Tips": {
-    "Usage Tips": "Mẹo sử dụng"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "Dùng định dạng 24 giờ thay cho 12 giờ AM/PM"
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": "Sử dụng cùng vị trí và kích thước trên tất cả màn hình"
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": "Sử dụng tiền tố kích hoạt để kích hoạt"
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": "Dùng cho xdg-terminal-exec"
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": "Dùng khi màu nhấn được đặt là Tùy chỉnh"
   },
   "User": {
     "User": "Người dùng"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "Tần số quét biến thiên"
   },
-  "Verification": {
-    "Verification": "Xác thực"
-  },
   "Version": {
     "Version": "Phiên bản"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": "Trình bảo vệ màn hình video"
-  },
-  "View Mode": {
-    "View Mode": "Chế độ xem"
   },
   "Visibility": {
     "Visibility": "Hiển thị"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": "đã tách ra"
-  },
-  "device": {
-    "device": "thiết bị"
   },
   "dgop not available": {
     "dgop not available": "dgop không khả dụng"

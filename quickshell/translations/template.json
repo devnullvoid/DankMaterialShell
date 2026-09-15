@@ -805,20 +805,6 @@
     "comment": ""
   },
   {
-    "term": "Accent Color",
-    "translation": "",
-    "context": "Accent Color",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Accept",
-    "translation": "",
-    "context": "Accept",
-    "reference": "",
-    "comment": "KDE Connect accept pairing button"
-  },
-  {
     "term": "Accept Jobs",
     "translation": "",
     "context": "Accept Jobs",
@@ -920,13 +906,6 @@
     "term": "Activates immediately",
     "translation": "",
     "context": "Activates immediately",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Activation",
-    "translation": "",
-    "context": "Activation",
     "reference": "",
     "comment": ""
   },
@@ -1370,13 +1349,6 @@
     "context": "Alternative (OR)",
     "reference": "",
     "comment": "U2F mode option: key works as standalone unlock method"
-  },
-  {
-    "term": "Always Active",
-    "translation": "",
-    "context": "Always Active",
-    "reference": "",
-    "comment": ""
   },
   {
     "term": "Always Show Percentage",
@@ -2422,13 +2394,6 @@
     "comment": ""
   },
   {
-    "term": "Available in Detailed and Forecast view modes",
-    "translation": "",
-    "context": "Available in Detailed and Forecast view modes",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "BSSID",
     "translation": "",
     "context": "BSSID",
@@ -2474,13 +2439,6 @@
     "term": "Background Effect",
     "translation": "",
     "context": "Background Effect",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Background Opacity",
-    "translation": "",
-    "context": "Background Opacity",
     "reference": "",
     "comment": ""
   },
@@ -2622,7 +2580,7 @@
     "translation": "",
     "context": "Battery",
     "reference": "",
-    "comment": "KDE Connect battery label | island settings: status group battery content"
+    "comment": "island settings: status group battery content"
   },
   {
     "term": "Battery %1",
@@ -3064,13 +3022,6 @@
     "context": "Browse",
     "reference": "",
     "comment": "theme category option"
-  },
-  {
-    "term": "Browse Files",
-    "translation": "",
-    "context": "Browse Files",
-    "reference": "",
-    "comment": "KDE Connect browse tooltip"
   },
   {
     "term": "Browse Plugins",
@@ -3584,13 +3535,6 @@
     "comment": ""
   },
   {
-    "term": "Choose how the weather widget is displayed",
-    "translation": "",
-    "context": "Choose how the weather widget is displayed",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Choose how this bar resolves shadow direction",
     "translation": "",
     "context": "Choose how this bar resolves shadow direction",
@@ -3692,13 +3636,6 @@
     "term": "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.",
     "translation": "",
     "context": "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Chroma Style",
-    "translation": "",
-    "context": "Chroma Style",
     "reference": "",
     "comment": ""
   },
@@ -3955,13 +3892,6 @@
     "comment": ""
   },
   {
-    "term": "Clipboard sent",
-    "translation": "",
-    "context": "Clipboard sent",
-    "reference": "",
-    "comment": "Phone Connect clipboard action"
-  },
-  {
     "term": "Clipboard works but nothing saved to disk",
     "translation": "",
     "context": "Clipboard works but nothing saved to disk",
@@ -4119,20 +4049,6 @@
     "term": "Color temperature for night mode",
     "translation": "",
     "context": "Color temperature for night mode",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Color theme for syntax highlighting.",
-    "translation": "",
-    "context": "Color theme for syntax highlighting.",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Color theme for syntax highlighting. %1 themes available.",
-    "translation": "",
-    "context": "Color theme for syntax highlighting. %1 themes available.",
     "reference": "",
     "comment": ""
   },
@@ -4578,13 +4494,6 @@
     "comment": "matugen color scheme option"
   },
   {
-    "term": "Content copied",
-    "translation": "",
-    "context": "Content copied",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Contrast",
     "translation": "",
     "context": "Contrast",
@@ -4718,27 +4627,6 @@
     "comment": ""
   },
   {
-    "term": "Copied GIF",
-    "translation": "",
-    "context": "Copied GIF",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Copied MP4",
-    "translation": "",
-    "context": "Copied MP4",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Copied WebP",
-    "translation": "",
-    "context": "Copied WebP",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Copied to clipboard",
     "translation": "",
     "context": "Copied to clipboard",
@@ -4758,13 +4646,6 @@
     "context": "Copy",
     "reference": "",
     "comment": "Copy to clipboard"
-  },
-  {
-    "term": "Copy Content",
-    "translation": "",
-    "context": "Copy Content",
-    "reference": "",
-    "comment": ""
   },
   {
     "term": "Copy Full Command",
@@ -5985,13 +5866,6 @@
     "comment": ""
   },
   {
-    "term": "Detailed",
-    "translation": "",
-    "context": "Detailed",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Details for \"%1\"",
     "translation": "",
     "context": "Details for \"%1\"",
@@ -6045,14 +5919,7 @@
     "translation": "",
     "context": "Device paired",
     "reference": "",
-    "comment": "Phone Connect pairing action"
-  },
-  {
-    "term": "Device unpaired",
-    "translation": "",
-    "context": "Device unpaired",
-    "reference": "",
-    "comment": "Phone Connect unpair action"
+    "comment": ""
   },
   {
     "term": "Diff",
@@ -6366,13 +6233,6 @@
     "term": "Display currently focused application title",
     "translation": "",
     "context": "Display currently focused application title",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Display hourly weather predictions",
-    "translation": "",
-    "context": "Display hourly weather predictions",
     "reference": "",
     "comment": ""
   },
@@ -7105,13 +6965,6 @@
     "comment": ""
   },
   {
-    "term": "Enter URI or text to share",
-    "translation": "",
-    "context": "Enter URI or text to share",
-    "reference": "",
-    "comment": "KDE Connect share input placeholder"
-  },
-  {
     "term": "Enter a new name for session \"%1\"",
     "translation": "",
     "context": "Enter a new name for session \"%1\"",
@@ -7469,13 +7322,6 @@
     "comment": ""
   },
   {
-    "term": "Failed to accept pairing",
-    "translation": "",
-    "context": "Failed to accept pairing",
-    "reference": "",
-    "comment": "Phone Connect error"
-  },
-  {
     "term": "Failed to activate configuration",
     "translation": "",
     "context": "Failed to activate configuration",
@@ -7509,13 +7355,6 @@
     "context": "Failed to apply profile",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Failed to browse device",
-    "translation": "",
-    "context": "Failed to browse device",
-    "reference": "",
-    "comment": "Phone Connect error"
   },
   {
     "term": "Failed to cancel all jobs",
@@ -7721,13 +7560,6 @@
     "comment": ""
   },
   {
-    "term": "Failed to launch SMS app",
-    "translation": "",
-    "context": "Failed to launch SMS app",
-    "reference": "",
-    "comment": "Phone Connect error"
-  },
-  {
     "term": "Failed to load VPN config",
     "translation": "",
     "context": "Failed to load VPN config",
@@ -7798,13 +7630,6 @@
     "comment": ""
   },
   {
-    "term": "Failed to reject pairing",
-    "translation": "",
-    "context": "Failed to reject pairing",
-    "reference": "",
-    "comment": "Phone Connect error"
-  },
-  {
     "term": "Failed to reload plugin: %1",
     "translation": "",
     "context": "Failed to reload plugin: %1",
@@ -7852,13 +7677,6 @@
     "context": "Failed to resume printer",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Failed to ring device",
-    "translation": "",
-    "context": "Failed to ring device",
-    "reference": "",
-    "comment": "Phone Connect error"
   },
   {
     "term": "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.",
@@ -7917,34 +7735,6 @@
     "comment": ""
   },
   {
-    "term": "Failed to send SMS",
-    "translation": "",
-    "context": "Failed to send SMS",
-    "reference": "",
-    "comment": "Phone Connect error"
-  },
-  {
-    "term": "Failed to send clipboard",
-    "translation": "",
-    "context": "Failed to send clipboard",
-    "reference": "",
-    "comment": "Phone Connect error"
-  },
-  {
-    "term": "Failed to send file",
-    "translation": "",
-    "context": "Failed to send file",
-    "reference": "",
-    "comment": "Phone Connect error"
-  },
-  {
-    "term": "Failed to send ping",
-    "translation": "",
-    "context": "Failed to send ping",
-    "reference": "",
-    "comment": "Phone Connect error"
-  },
-  {
     "term": "Failed to set brightness",
     "translation": "",
     "context": "Failed to set brightness",
@@ -7992,13 +7782,6 @@
     "context": "Failed to set profile image: %1",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Failed to share",
-    "translation": "",
-    "context": "Failed to share",
-    "reference": "",
-    "comment": "Phone Connect error"
   },
   {
     "term": "Failed to start connection to %1",
@@ -8120,13 +7903,6 @@
     "comment": "greeter welcome page section header"
   },
   {
-    "term": "Feels",
-    "translation": "",
-    "context": "Feels",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Feels Like",
     "translation": "",
     "context": "Feels Like",
@@ -8159,7 +7935,7 @@
     "translation": "",
     "context": "File",
     "reference": "",
-    "comment": "KDE Connect send file button"
+    "comment": ""
   },
   {
     "term": "File Manager",
@@ -8181,13 +7957,6 @@
     "context": "File manager used to open the trash. Pick \"custom\" to enter your own command.",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "File received from %1",
-    "translation": "",
-    "context": "File received from %1",
-    "reference": "",
-    "comment": "Phone Connect file share notification"
   },
   {
     "term": "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch",
@@ -8736,20 +8505,6 @@
     "comment": ""
   },
   {
-    "term": "Forecast",
-    "translation": "",
-    "context": "Forecast",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Forecast Days",
-    "translation": "",
-    "context": "Forecast Days",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Forecast Not Available",
     "translation": "",
     "context": "Forecast Not Available",
@@ -8832,13 +8587,6 @@
     "context": "Format the date on the login screen",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Forward 10s",
-    "translation": "",
-    "context": "Forward 10s",
-    "reference": "",
-    "comment": "Media forward tooltip"
   },
   {
     "term": "Frame",
@@ -9856,13 +9604,6 @@
     "comment": ""
   },
   {
-    "term": "Hourly Forecast Count",
-    "translation": "",
-    "context": "Hourly Forecast Count",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Hover Popouts",
     "translation": "",
     "context": "Hover Popouts",
@@ -10780,13 +10521,6 @@
     "comment": "lock screen security key shortcut key combination setting"
   },
   {
-    "term": "Keybind Sources",
-    "translation": "",
-    "context": "Keybind Sources",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Keybindings changed. Refresh and review your edit before saving.",
     "translation": "",
     "context": "Keybindings changed. Refresh and review your edit before saving.",
@@ -10799,20 +10533,6 @@
     "context": "Keybinds",
     "reference": "",
     "comment": "greeter settings link"
-  },
-  {
-    "term": "Keybinds Search Settings",
-    "translation": "",
-    "context": "Keybinds Search Settings",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Keybinds shown alongside regular search results",
-    "translation": "",
-    "context": "Keybinds shown alongside regular search results",
-    "reference": "",
-    "comment": ""
   },
   {
     "term": "Keyboard",
@@ -11291,13 +11011,6 @@
     "comment": "audio port selector loading state"
   },
   {
-    "term": "Loading trending...",
-    "translation": "",
-    "context": "Loading trending...",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Loading...",
     "translation": "",
     "context": "Loading...",
@@ -11513,13 +11226,6 @@
     "context": "Make admin",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Make sure KDE Connect or Valent is running on your other devices",
-    "translation": "",
-    "context": "Make sure KDE Connect or Valent is running on your other devices",
-    "reference": "",
-    "comment": "Phone Connect hint message"
   },
   {
     "term": "Make the bar background fully transparent",
@@ -12082,13 +11788,6 @@
     "comment": ""
   },
   {
-    "term": "Message",
-    "translation": "",
-    "context": "Message",
-    "reference": "",
-    "comment": "KDE Connect SMS message input placeholder"
-  },
-  {
     "term": "Message Content",
     "translation": "",
     "context": "Message Content",
@@ -12607,13 +12306,6 @@
     "comment": ""
   },
   {
-    "term": "Network Type",
-    "translation": "",
-    "context": "Network Type",
-    "reference": "",
-    "comment": "KDE Connect network type label"
-  },
-  {
     "term": "Network download and upload speed display",
     "translation": "",
     "context": "Network download and upload speed display",
@@ -12709,7 +12401,7 @@
     "translation": "",
     "context": "Next",
     "reference": "",
-    "comment": "Media next tooltip | greeter next button"
+    "comment": "greeter next button"
   },
   {
     "term": "Next Transition",
@@ -12908,13 +12600,6 @@
     "comment": ""
   },
   {
-    "term": "No Weather Data",
-    "translation": "",
-    "context": "No Weather Data",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "No Weather Data Available",
     "translation": "",
     "context": "No Weather Data Available",
@@ -13052,14 +12737,14 @@
     "translation": "",
     "context": "No devices",
     "reference": "",
-    "comment": "Phone Connect no devices status | bluetooth status"
+    "comment": "bluetooth status"
   },
   {
     "term": "No devices found",
     "translation": "",
     "context": "No devices found",
     "reference": "",
-    "comment": "KDE Connect no devices message"
+    "comment": ""
   },
   {
     "term": "No disk data",
@@ -13144,13 +12829,6 @@
     "context": "No human user accounts found.",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "No images found",
-    "translation": "",
-    "context": "No images found",
-    "reference": "",
-    "comment": "No recent images found message"
   },
   {
     "term": "No info items",
@@ -13615,13 +13293,6 @@
     "comment": ""
   },
   {
-    "term": "Not paired",
-    "translation": "",
-    "context": "Not paired",
-    "reference": "",
-    "comment": "KDE Connect not paired status"
-  },
-  {
     "term": "Not set",
     "translation": "",
     "context": "Not set",
@@ -13731,7 +13402,7 @@
     "translation": "",
     "context": "Notifications",
     "reference": "",
-    "comment": "KDE Connect notifications label | greeter settings link | island compact face: notification center label | island settings: notification badge slot row | island settings: notifications card title"
+    "comment": "greeter settings link | island compact face: notification center label | island settings: notification badge slot row | island settings: notifications card title"
   },
   {
     "term": "Notify when limit is reached",
@@ -13802,13 +13473,6 @@
     "context": "Office",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Offline",
-    "translation": "",
-    "context": "Offline",
-    "reference": "",
-    "comment": "KDE Connect offline status | Phone Connect offline status"
   },
   {
     "term": "Offline Report",
@@ -13958,13 +13622,6 @@
     "comment": ""
   },
   {
-    "term": "Open App",
-    "translation": "",
-    "context": "Open App",
-    "reference": "",
-    "comment": "KDE Connect open SMS app button"
-  },
-  {
     "term": "Open DMS windows floating instead of tiled",
     "translation": "",
     "context": "Open DMS windows floating instead of tiled",
@@ -14110,20 +13767,6 @@
     "context": "Open with...",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Opening SMS app",
-    "translation": "",
-    "context": "Opening SMS app",
-    "reference": "",
-    "comment": "Phone Connect SMS action"
-  },
-  {
-    "term": "Opening file browser",
-    "translation": "",
-    "context": "Opening file browser",
-    "reference": "",
-    "comment": "Phone Connect browse action"
   },
   {
     "term": "Opening terminal: ",
@@ -14480,35 +14123,14 @@
     "translation": "",
     "context": "Pairing failed",
     "reference": "",
-    "comment": "Phone Connect error"
-  },
-  {
-    "term": "Pairing request from %1",
-    "translation": "",
-    "context": "Pairing request from %1",
-    "reference": "",
-    "comment": "Phone Connect pairing request notification"
-  },
-  {
-    "term": "Pairing request sent",
-    "translation": "",
-    "context": "Pairing request sent",
-    "reference": "",
-    "comment": "Phone Connect pairing action"
-  },
-  {
-    "term": "Pairing requested",
-    "translation": "",
-    "context": "Pairing requested",
-    "reference": "",
-    "comment": "KDE Connect pairing requested status"
+    "comment": ""
   },
   {
     "term": "Pairing...",
     "translation": "",
     "context": "Pairing...",
     "reference": "",
-    "comment": "KDE Connect pairing in progress status"
+    "comment": ""
   },
   {
     "term": "Palette",
@@ -14641,7 +14263,7 @@
     "translation": "",
     "context": "Pause",
     "reference": "",
-    "comment": "Media pause tooltip"
+    "comment": ""
   },
   {
     "term": "Paused",
@@ -14735,20 +14357,6 @@
     "comment": ""
   },
   {
-    "term": "Phone Connect Not Available",
-    "translation": "",
-    "context": "Phone Connect Not Available",
-    "reference": "",
-    "comment": "Phone Connect unavailable error title"
-  },
-  {
-    "term": "Phone number",
-    "translation": "",
-    "context": "Phone number",
-    "reference": "",
-    "comment": "KDE Connect SMS phone input placeholder"
-  },
-  {
     "term": "Pick a different file manager in Settings → Dock → Trash.",
     "translation": "",
     "context": "Pick a different file manager in Settings → Dock → Trash.",
@@ -14789,20 +14397,6 @@
     "context": "Pin to Dock",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Ping",
-    "translation": "",
-    "context": "Ping",
-    "reference": "",
-    "comment": "KDE Connect ping tooltip"
-  },
-  {
-    "term": "Ping sent to %1",
-    "translation": "",
-    "context": "Ping sent to %1",
-    "reference": "",
-    "comment": "Phone Connect ping action"
   },
   {
     "term": "Pinned",
@@ -14880,13 +14474,6 @@
     "context": "Platform renderer (FreeType).",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Play",
-    "translation": "",
-    "context": "Play",
-    "reference": "",
-    "comment": "Media play tooltip"
   },
   {
     "term": "Play a video when the screen locks.",
@@ -15309,13 +14896,6 @@
     "comment": ""
   },
   {
-    "term": "Precip",
-    "translation": "",
-    "context": "Precip",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Precipitation",
     "translation": "",
     "context": "Precipitation",
@@ -15419,13 +14999,6 @@
     "context": "Preview: %1",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Previous",
-    "translation": "",
-    "context": "Previous",
-    "reference": "",
-    "comment": "Media previous tooltip"
   },
   {
     "term": "Previous page",
@@ -15883,13 +15456,6 @@
     "comment": ""
   },
   {
-    "term": "Recent Images",
-    "translation": "",
-    "context": "Recent Images",
-    "reference": "",
-    "comment": "Recent Images title"
-  },
-  {
     "term": "Recently Used Apps",
     "translation": "",
     "context": "Recently Used Apps",
@@ -15958,13 +15524,6 @@
     "context": "Regular",
     "reference": "",
     "comment": "font weight"
-  },
-  {
-    "term": "Reject",
-    "translation": "",
-    "context": "Reject",
-    "reference": "",
-    "comment": "KDE Connect reject pairing button"
   },
   {
     "term": "Reject Jobs",
@@ -16252,13 +15811,6 @@
     "context": "Report",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Request Pairing",
-    "translation": "",
-    "context": "Request Pairing",
-    "reference": "",
-    "comment": "KDE Connect request pairing button"
   },
   {
     "term": "Require holding button/key to confirm power off, restart, suspend, hibernate and logout",
@@ -16555,13 +16107,6 @@
     "comment": "Aqueous keyboard shortcut editor, retaining an unsaved edit while reviewing current bindings"
   },
   {
-    "term": "Rewind 10s",
-    "translation": "",
-    "context": "Rewind 10s",
-    "reference": "",
-    "comment": "Media rewind tooltip"
-  },
-  {
     "term": "Right",
     "translation": "",
     "context": "Right",
@@ -16609,20 +16154,6 @@
     "context": "Right-click bar widget to cycle",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Ring",
-    "translation": "",
-    "context": "Ring",
-    "reference": "",
-    "comment": "KDE Connect ring tooltip"
-  },
-  {
-    "term": "Ringing %1...",
-    "translation": "",
-    "context": "Ringing %1...",
-    "reference": "",
-    "comment": "Phone Connect ring action"
   },
   {
     "term": "Ripple Effects",
@@ -16777,20 +16308,6 @@
     "context": "SDR Saturation",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "SMS",
-    "translation": "",
-    "context": "SMS",
-    "reference": "",
-    "comment": "KDE Connect SMS tooltip"
-  },
-  {
-    "term": "SMS sent successfully",
-    "translation": "",
-    "context": "SMS sent successfully",
-    "reference": "",
-    "comment": "Phone Connect SMS action"
   },
   {
     "term": "SSID",
@@ -17136,13 +16653,6 @@
     "comment": ""
   },
   {
-    "term": "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.",
-    "translation": "",
-    "context": "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Search devices...",
     "translation": "",
     "context": "Search devices...",
@@ -17160,13 +16670,6 @@
     "term": "Search keybinds...",
     "translation": "",
     "context": "Search keybinds...",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Search keyboard shortcuts from your compositor and applications",
-    "translation": "",
-    "context": "Search keyboard shortcuts from your compositor and applications",
     "reference": "",
     "comment": ""
   },
@@ -17346,13 +16849,6 @@
     "comment": ""
   },
   {
-    "term": "Select File to Send",
-    "translation": "",
-    "context": "Select File to Send",
-    "reference": "",
-    "comment": "KDE Connect file browser title"
-  },
-  {
     "term": "Select Launcher Logo",
     "translation": "",
     "context": "Select Launcher Logo",
@@ -17444,13 +16940,6 @@
     "comment": ""
   },
   {
-    "term": "Select at least one provider",
-    "translation": "",
-    "context": "Select at least one provider",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Select background image",
     "translation": "",
     "context": "Select background image",
@@ -17535,13 +17024,6 @@
     "comment": ""
   },
   {
-    "term": "Select which keybind providers to include",
-    "translation": "",
-    "context": "Select which keybind providers to include",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Select which transitions to include in randomization",
     "translation": "",
     "context": "Select which transitions to include in randomization",
@@ -17561,34 +17043,6 @@
     "context": "Selected image file not found.",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Send",
-    "translation": "",
-    "context": "Send",
-    "reference": "",
-    "comment": "KDE Connect SMS send button"
-  },
-  {
-    "term": "Send Clipboard",
-    "translation": "",
-    "context": "Send Clipboard",
-    "reference": "",
-    "comment": "KDE Connect clipboard tooltip | KDE Connect send clipboard tooltip"
-  },
-  {
-    "term": "Send SMS",
-    "translation": "",
-    "context": "Send SMS",
-    "reference": "",
-    "comment": "KDE Connect SMS dialog title"
-  },
-  {
-    "term": "Sending %1...",
-    "translation": "",
-    "context": "Sending %1...",
-    "reference": "",
-    "comment": "Phone Connect file send"
   },
   {
     "term": "Separate",
@@ -17850,25 +17304,11 @@
     "comment": ""
   },
   {
-    "term": "Share",
-    "translation": "",
-    "context": "Share",
-    "reference": "",
-    "comment": "KDE Connect share dialog title | KDE Connect share tooltip"
-  },
-  {
     "term": "Share Gamma Control Settings",
     "translation": "",
     "context": "Share Gamma Control Settings",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Shared",
-    "translation": "",
-    "context": "Shared",
-    "reference": "",
-    "comment": "Phone Connect share success"
   },
   {
     "term": "Shell",
@@ -18032,13 +17472,6 @@
     "comment": "dock visibility toggle"
   },
   {
-    "term": "Show Feels Like Temperature",
-    "translation": "",
-    "context": "Show Feels Like Temperature",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.",
     "translation": "",
     "context": "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.",
@@ -18051,13 +17484,6 @@
     "context": "Show Footer",
     "reference": "",
     "comment": "launcher footer visibility"
-  },
-  {
-    "term": "Show Forecast",
-    "translation": "",
-    "context": "Show Forecast",
-    "reference": "",
-    "comment": ""
   },
   {
     "term": "Show GPU Temperature",
@@ -18088,20 +17514,6 @@
     "comment": ""
   },
   {
-    "term": "Show Hourly Forecast",
-    "translation": "",
-    "context": "Show Hourly Forecast",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Humidity",
-    "translation": "",
-    "context": "Show Humidity",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Show Icon",
     "translation": "",
     "context": "Show Icon",
@@ -18119,13 +17531,6 @@
     "term": "Show Line Numbers",
     "translation": "",
     "context": "Show Line Numbers",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Location",
-    "translation": "",
-    "context": "Show Location",
     "reference": "",
     "comment": ""
   },
@@ -18249,20 +17654,6 @@
     "comment": ""
   },
   {
-    "term": "Show Precipitation Probability",
-    "translation": "",
-    "context": "Show Precipitation Probability",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Pressure",
-    "translation": "",
-    "context": "Show Pressure",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Show Profile Image",
     "translation": "",
     "context": "Show Profile Image",
@@ -18315,13 +17706,6 @@
     "term": "Show Soft Reboot",
     "translation": "",
     "context": "Show Soft Reboot",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Sunrise/Sunset",
-    "translation": "",
-    "context": "Show Sunrise/Sunset",
     "reference": "",
     "comment": ""
   },
@@ -18389,13 +17773,6 @@
     "comment": ""
   },
   {
-    "term": "Show Weather Condition",
-    "translation": "",
-    "context": "Show Weather Condition",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Show Week Number",
     "translation": "",
     "context": "Show Week Number",
@@ -18406,13 +17783,6 @@
     "term": "Show Welcome",
     "translation": "",
     "context": "Show Welcome",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Show Wind Speed",
-    "translation": "",
-    "context": "Show Wind Speed",
     "reference": "",
     "comment": ""
   },
@@ -18716,13 +18086,6 @@
     "context": "Signal",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Signal Strength",
-    "translation": "",
-    "context": "Signal Strength",
-    "reference": "",
-    "comment": "KDE Connect signal strength label"
   },
   {
     "term": "Silence for a while",
@@ -19143,13 +18506,6 @@
     "context": "Start Hotspot?",
     "reference": "",
     "comment": "hotspot start confirmation title"
-  },
-  {
-    "term": "Start KDE Connect or Valent to use this plugin",
-    "translation": "",
-    "context": "Start KDE Connect or Valent to use this plugin",
-    "reference": "",
-    "comment": "Phone Connect daemon hint"
   },
   {
     "term": "Start typing your notes here...",
@@ -19905,7 +19261,7 @@
     "translation": "",
     "context": "Text",
     "reference": "",
-    "comment": "KDE Connect share text button | text color"
+    "comment": "text color"
   },
   {
     "term": "Text Color",
@@ -20699,30 +20055,9 @@
     "comment": ""
   },
   {
-    "term": "Trending GIFs",
-    "translation": "",
-    "context": "Trending GIFs",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Trending Stickers",
-    "translation": "",
-    "context": "Trending Stickers",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Trigger",
     "translation": "",
     "context": "Trigger",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Trigger Prefix",
-    "translation": "",
-    "context": "Trigger Prefix",
     "reference": "",
     "comment": ""
   },
@@ -20825,13 +20160,6 @@
     "comment": ""
   },
   {
-    "term": "Type this prefix to search keybinds",
-    "translation": "",
-    "context": "Type this prefix to search keybinds",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Type to search files",
     "translation": "",
     "context": "Type to search files",
@@ -20853,18 +20181,11 @@
     "comment": ""
   },
   {
-    "term": "URI",
-    "translation": "",
-    "context": "URI",
-    "reference": "",
-    "comment": "KDE Connect share URI button"
-  },
-  {
     "term": "Unavailable",
     "translation": "",
     "context": "Unavailable",
     "reference": "",
-    "comment": "Phone Connect unavailable status | audio port availability status"
+    "comment": "audio port availability status"
   },
   {
     "term": "Uncategorized",
@@ -20948,7 +20269,7 @@
     "translation": "",
     "context": "Unknown",
     "reference": "",
-    "comment": "KDE Connect unknown device status | Status | battery status | power profile option | unknown author | widget status"
+    "comment": "battery status | power profile option | unknown author | widget status"
   },
   {
     "term": "Unknown App",
@@ -21047,20 +20368,6 @@
     "context": "Unnamed Rule",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Unpair",
-    "translation": "",
-    "context": "Unpair",
-    "reference": "",
-    "comment": "KDE Connect unpair tooltip"
-  },
-  {
-    "term": "Unpair failed",
-    "translation": "",
-    "context": "Unpair failed",
-    "reference": "",
-    "comment": "Phone Connect error"
   },
   {
     "term": "Unpin",
@@ -21220,13 +20527,6 @@
     "term": "Urgent Color",
     "translation": "",
     "context": "Urgent Color",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Usage Tips",
-    "translation": "",
-    "context": "Usage Tips",
     "reference": "",
     "comment": ""
   },
@@ -21476,25 +20776,11 @@
     "comment": ""
   },
   {
-    "term": "Use trigger prefix to activate",
-    "translation": "",
-    "context": "Use trigger prefix to activate",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Used for xdg-terminal-exec",
     "translation": "",
     "context": "Used for xdg-terminal-exec",
     "reference": "",
     "comment": "Used for xdg-terminal-exec"
-  },
-  {
-    "term": "Used when accent color is set to Custom",
-    "translation": "",
-    "context": "Used when accent color is set to Custom",
-    "reference": "",
-    "comment": ""
   },
   {
     "term": "User",
@@ -21721,13 +21007,6 @@
     "comment": ""
   },
   {
-    "term": "Verification",
-    "translation": "",
-    "context": "Verification",
-    "reference": "",
-    "comment": "Phone Connect pairing verification key label"
-  },
-  {
     "term": "Version",
     "translation": "",
     "context": "Version",
@@ -21815,13 +21094,6 @@
     "term": "Video Screensaver",
     "translation": "",
     "context": "Video Screensaver",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "View Mode",
-    "translation": "",
-    "context": "View Mode",
     "reference": "",
     "comment": ""
   },
@@ -22699,13 +21971,6 @@
     "context": "detached",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "device",
-    "translation": "",
-    "context": "device",
-    "reference": "",
-    "comment": "Generic device name fallback"
   },
   {
     "term": "dgop not available",

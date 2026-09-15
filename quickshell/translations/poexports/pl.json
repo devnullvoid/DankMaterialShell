@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": "Profil akceleracji"
   },
-  "Accent Color": {
-    "Accent Color": "Kolor akcentu"
-  },
-  "Accept": {
-    "Accept": "Akceptuj"
-  },
   "Accept Jobs": {
     "Accept Jobs": "Akceptuj zadania"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": "Atywuje natychmiastowo"
-  },
-  "Activation": {
-    "Activation": "Aktywacja"
   },
   "Active": {
     "Active": "Aktywny"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": ""
-  },
-  "Always Active": {
-    "Always Active": "Zawsze aktywny"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "Zawsze pokazuj procenty"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": "Dostępne Aktualizacje (%1)"
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": ""
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": "Efekt Tła"
-  },
-  "Background Opacity": {
-    "Background Opacity": "Przeźroczystość tła"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": ""
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "Przeglądaj"
   },
-  "Browse Files": {
-    "Browse Files": "Przeglądaj pliki"
-  },
   "Browse Plugins": {
     "Browse Plugins": "Przeglądaj Wtyczki"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": ""
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": "Wybierz, jak wyświetlane jest rozszerzenie pogody"
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": ""
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": ""
-  },
-  "Chroma Style": {
-    "Chroma Style": ""
   },
   "Cipher": {
     "Cipher": "Szyfr"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": "Schowek zapisany"
   },
-  "Clipboard sent": {
-    "Clipboard sent": "Wysłano zawartość schowka"
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "Schowek działa, ale nic nie zostało zapisane na dysku"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "Temperatura barwowa dla trybu nocnego"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": ""
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": ""
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "Motyw z rejestru DMS"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": "Zawartość"
   },
-  "Content copied": {
-    "Content copied": "Zawartość została skopiowana"
-  },
   "Contrast": {
     "Contrast": "Kontrast"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "Czas Odnowienia"
   },
-  "Copied GIF": {
-    "Copied GIF": "Skopiowano GIF"
-  },
-  "Copied MP4": {
-    "Copied MP4": "Skopiowano MP4"
-  },
-  "Copied WebP": {
-    "Copied WebP": "Skopiowano WebP"
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "Skopiowano do schowka"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": "Kopiuj"
-  },
-  "Copy Content": {
-    "Copy Content": "Kopiuj Zawartość"
   },
   "Copy Full Command": {
     "Copy Full Command": "Skopiuj pełną komendę"
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "Obrazy tła pulpitu"
   },
-  "Detailed": {
-    "Detailed": "Szczegółowy"
-  },
   "Details for \"%1": {
     "Details for \"%1\"": "Szczegóły dla \"%1\""
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "Urządzenie sparowane"
-  },
-  "Device unpaired": {
-    "Device unpaired": "Urządzenie niesparowane"
   },
   "Diff": {
     "Diff": ""
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "Wyświetlaj tytuł aktywnej aplikacji"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": "Wyświetl godzinną prognozę pogody"
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": ""
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "Wprowadź PIN dla "
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": ""
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": ""
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": ""
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": "Nie udało się zaakceptować parowania"
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "Nie udało się aktywować konfiguracji"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": ""
-  },
-  "Failed to browse device": {
-    "Failed to browse device": "Nie udało się przeglądać plików urządzenia"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "Anulowanie wszystkich zadań nie powiodło się"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "Nie udało się zaimportować VPN"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": "Nie udało się uruchomić aplikacji do SMS-ów"
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "Nie udało się wczytać konfiguracji VPN"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": ""
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": "Nie udało się sparować"
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": ""
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "Wznowienie drukarki nie powiodło się"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": "Nie udało się "
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": ""
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": ""
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": "Nie udało się wysłać SMS"
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": "Nie udało się wysłać zawartości schowka"
-  },
-  "Failed to send file": {
-    "Failed to send file": "Nie udało się wysłać pliku"
-  },
-  "Failed to send ping": {
-    "Failed to send ping": "Nie udało się spingować"
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "Ustawienie jasności nie powiodło się"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "Ustawienie obrazu prof. nie powiodło się: %1"
-  },
-  "Failed to share": {
-    "Failed to share": "Nie udało się udostępnić"
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "Rozpoczęcie połączenia do %1 nie powiodło się"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": "Możliwości"
   },
-  "Feels": {
-    "Feels": "Odczuwalna"
-  },
   "Feels Like": {
     "Feels Like": "Odczuwalna"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": ""
-  },
-  "File received from %1": {
-    "File received from %1": "Plik otrzymany od %1"
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": ""
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "Wymuś ciemny motyw na aplikacjach terminala"
   },
-  "Forecast": {
-    "Forecast": "Prognoza"
-  },
-  "Forecast Days": {
-    "Forecast Days": "Dni prognozyz"
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "Prognoza niedostępna"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": ""
-  },
-  "Forward 10s": {
-    "Forward 10s": ""
   },
   "Frame": {
     "Frame": "Ramka"
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": "Godzinowa"
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": ""
-  },
   "Hover Popouts": {
     "Hover Popouts": ""
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": "Kombinacja klawiszy"
   },
-  "Keybind Sources": {
-    "Keybind Sources": "Źródła "
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "Skróty klawiszowe"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": "Ustawienia wyszukiwania skrótów klawiszowych"
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": ""
   },
   "Keyboard": {
     "Keyboard": "Klawiatura"
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": "Ładowanie portów..."
   },
-  "Loading trending...": {
-    "Loading trending...": "Wczytywanie popularnych..."
-  },
   "Loading...": {
     "Loading...": "Wczytywanie..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": ""
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": "Upewnij się, że KDE Connect lub Valent działają na twoich urządzeniach"
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": ""
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": ""
   },
-  "Message": {
-    "Message": "Wiadomość"
-  },
   "Message Content": {
     "Message Content": "Treść wiadomości"
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "Monitor prędkości sieci"
   },
-  "Network Type": {
-    "Network Type": "Typ sieci"
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "Wyświetlanie prędkości pobierania i wysyłania sieci"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": "Brak pogody"
   },
-  "No Weather Data": {
-    "No Weather Data": "Brak danych pogodowych"
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "Brak danych pogodowych"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": ""
-  },
-  "No images found": {
-    "No images found": "Nie znaleziono obrazów"
   },
   "No info items": {
     "No info items": ""
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "Nie wykryto"
   },
-  "Not paired": {
-    "Not paired": "Nie sparowano"
-  },
   "Not set": {
     "Not set": "Nie ustawiono"
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "Biuro"
   },
-  "Offline": {
-    "Offline": "Offline"
-  },
   "Offline Report": {
     "Offline Report": "Raport offline"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "Otwórz"
-  },
-  "Open App": {
-    "Open App": "Otwórz aplikację"
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": ""
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "Otwórz za pomocą..."
-  },
-  "Opening SMS app": {
-    "Opening SMS app": "Otwieranie aplikacji do SMS-ów"
-  },
-  "Opening file browser": {
-    "Opening file browser": "Otwieranie przeglądarki plików"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "Otwieranie terminala: "
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "Parowanie nieudane"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": "Żądanie parowania od %1"
-  },
-  "Pairing request sent": {
-    "Pairing request sent": "Wysłano żądanie parowania"
-  },
-  "Pairing requested": {
-    "Pairing requested": "Żądanie parowania"
-  },
   "Pairing...": {
     "Pairing...": "Parowanie..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "Personalizacja"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": "Phone Connect nie dostępne"
-  },
-  "Phone number": {
-    "Phone number": "Numer telefonu"
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": ""
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "Przypnij do doku"
-  },
-  "Ping": {
-    "Ping": "Ping"
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": "Ping wysłany do %1"
   },
   "Pinned": {
     "Pinned": "Przypięte"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": ""
-  },
-  "Play": {
-    "Play": "Odtwórz"
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": "Odtwarzaj wideo podczas blokady ekranu."
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": ""
   },
-  "Precip": {
-    "Precip": "Opady"
-  },
   "Precipitation": {
     "Precipitation": "Szansa na opady"
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": "Podgląd: %1"
-  },
-  "Previous": {
-    "Previous": "Poprzednie"
   },
   "Previous page": {
     "Previous page": "Poprzednia strona"
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "Ostatnie kolory"
   },
-  "Recent Images": {
-    "Recent Images": "Ostatnie obrazy"
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "Ostatnio używane aplikacje"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": "Regularna"
-  },
-  "Reject": {
-    "Reject": "Odrzuć"
   },
   "Reject Jobs": {
     "Reject Jobs": "Odrzucaj zadania"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "Raport"
-  },
-  "Request Pairing": {
-    "Request Pairing": "Sparuj"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "Wymagaj przytrzymania przycisku/klawisza, aby potwierdzić wyłączenie, ponowne uruchomienie, wstrzymanie, hibernację i wylogowanie"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": ""
-  },
   "Right": {
     "Right": "Prawo"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "Kliknij prawym przyciskiem myszy pasek widżetu, aby przejść do następnego"
-  },
-  "Ring": {
-    "Ring": "Zadzwoń"
-  },
-  "Ringing %1...": {
-    "Ringing %1...": "Dzwonienie %1..."
   },
   "Ripple Effects": {
     "Ripple Effects": "Ripple Effects"
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "Saturacja SDR"
-  },
-  "SMS": {
-    "SMS": "SMS"
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": ""
   },
   "SSID": {
     "SSID": "SSID"
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": "Szukaj programów..."
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": ""
-  },
   "Search devices...": {
     "Search devices...": "Szukanie urządzeń..."
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "Wyszukaj skróty klawiszowe..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": ""
   },
   "Search plugins...": {
     "Search plugins...": "Szukaj wtyczek..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": ""
   },
-  "Select File to Send": {
-    "Select File to Send": ""
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "Wybierz logo launchera"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "Wybierz plik obrazu..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": ""
-  },
   "Select background image": {
     "Select background image": "Wybierz tapetę"
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": ""
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": ""
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Wybierz, które przejścia uwzględnić w losowaniu"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "Nie znaleziono wybranego pliku obrazu."
-  },
-  "Send": {
-    "Send": "Wyślij"
-  },
-  "Send Clipboard": {
-    "Send Clipboard": "Wyślij schowek"
-  },
-  "Send SMS": {
-    "Send SMS": "Wyślij SMS"
-  },
-  "Sending %1...": {
-    "Sending %1...": "Wysyłanie %1"
   },
   "Separate": {
     "Separate": ""
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": "Cienie"
   },
-  "Share": {
-    "Share": "Udostępnij"
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": ""
-  },
-  "Shared": {
-    "Shared": "Udostępniono"
   },
   "Shell": {
     "Shell": "Powłoka"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": "Pokaż Dok W Trybie Pełnoekranowym"
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": "Pokaż odczuwalną temparaturę"
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": ""
   },
   "Show Footer": {
     "Show Footer": "Pokaż Stopkę"
-  },
-  "Show Forecast": {
-    "Show Forecast": "Pokaż prognozę"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "Pokaż temperaturę GPU"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "Pokaż Liczbę Godzin"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": "Pokaż prognozę godzinową"
-  },
-  "Show Humidity": {
-    "Show Humidity": "Pokaż wilgotność"
-  },
   "Show Icon": {
     "Show Icon": "Pokaż ikonę"
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "Pokaż numery wierszy"
-  },
-  "Show Location": {
-    "Show Location": "Pokaż lokację"
   },
   "Show Lock": {
     "Show Lock": "Pokaż blokadę"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "Pokaż wyłączone zasilanie"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": "Pokaż prawdopodobieństwo przewidywania"
-  },
-  "Show Pressure": {
-    "Show Pressure": "Pokaż ciśnienie atmosferyczne"
-  },
   "Show Profile Image": {
     "Show Profile Image": "Pokaż obraz profilowy"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": ""
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": "Pokaż wschód/zachód"
   },
   "Show Suspend": {
     "Show Suspend": "Pokaż wstrzymanie"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": ""
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": "Pokaż warunki pogodowe"
-  },
   "Show Week Number": {
     "Show Week Number": "Wyświetl numer tygodnia"
   },
   "Show Welcome": {
     "Show Welcome": "Pokaż Welcome"
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": "Pokaż prędkość wiatru"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "Pokaż aplikacje z obszaru roboczego"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "Sygnał"
-  },
-  "Signal Strength": {
-    "Signal Strength": ""
   },
   "Silence for a while": {
     "Silence for a while": ""
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": "Włączyć Hotspot?"
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": ""
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "Zacznij pisać swoje notatki tutaj..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": "Napraw ikony Zasobnika"
   },
-  "Trending GIFs": {
-    "Trending GIFs": "Popularne GIFy"
-  },
-  "Trending Stickers": {
-    "Trending Stickers": "Popularne Naklejki"
-  },
   "Trigger": {
     "Trigger": "Wyzwalacz"
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": "Prefix Wyzwalacza"
   },
   "Trigger: %1": {
     "Trigger: %1": "Wyzwalacz: %1"
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": ""
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": ""
-  },
   "Type to search files": {
     "Type to search files": "Wpisz, aby wyszukać pliki"
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "Czcionki i Animacje"
-  },
-  "URI": {
-    "URI": ""
   },
   "Unavailable": {
     "Unavailable": "Niedostępny"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": ""
   },
-  "Unpair": {
-    "Unpair": "Odparuj"
-  },
-  "Unpair failed": {
-    "Unpair failed": "Odparowanie nieudane"
-  },
   "Unpin": {
     "Unpin": "Odepnij"
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": ""
-  },
-  "Usage Tips": {
-    "Usage Tips": ""
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "Użyj 24-godzinnego formatu czasu zamiast 12-godzinnego AM/PM"
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": ""
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": ""
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": ""
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": "Używany, gdy kolor akcentu jest ustawiony na niestandardowy"
   },
   "User": {
     "User": "Użytkownik"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "Zmienna Częstotliwość Odświeżania"
   },
-  "Verification": {
-    "Verification": "Weryfikacja"
-  },
   "Version": {
     "Version": "Wersja"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": "Wygaszacz wideo"
-  },
-  "View Mode": {
-    "View Mode": "Tryb widoku"
   },
   "Visibility": {
     "Visibility": "Widoczność"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": ""
-  },
-  "device": {
-    "device": "urządzenie"
   },
   "dgop not available": {
     "dgop not available": "dgop niedostępne"

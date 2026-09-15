@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": ""
   },
-  "Accent Color": {
-    "Accent Color": "رنگ تأکیدی"
-  },
-  "Accept": {
-    "Accept": "پذیرفتن"
-  },
   "Accept Jobs": {
     "Accept Jobs": "پذیرش کار‌های چاپ"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": ""
-  },
-  "Activation": {
-    "Activation": "فعال‌سازی"
   },
   "Active": {
     "Active": "فعال"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": "جایگزین (OR)"
-  },
-  "Always Active": {
-    "Always Active": "همیشه فعال"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "همیشه درصد را نشان بده"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": ""
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": "در حالت‌های نمایش با جزئیات و پیش‌بینی در دسترس است"
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": "افکت پس‌زمینه"
-  },
-  "Background Opacity": {
-    "Background Opacity": "شفافیت پس‌زمینه"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": "همگام‌سازی احراز هویت در پس‌زمینه ناموفق بود. درحال تلاش در حالت ترمینال."
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "مرور"
   },
-  "Browse Files": {
-    "Browse Files": "مرور فایل‌ها"
-  },
   "Browse Plugins": {
     "Browse Plugins": "مرور افزونه‌ها"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": ""
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": "انتخاب کنید که ابزارک آب و هوا چگونه نمایش داده شود"
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": "انتخاب کنید که این نوار چگونه جهت سایه را مشخص کند"
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": ""
-  },
-  "Chroma Style": {
-    "Chroma Style": "استایل رنگی"
   },
   "Cipher": {
     "Cipher": "رمزگذار"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": "کلیپ‌بورد ذخیره شد"
   },
-  "Clipboard sent": {
-    "Clipboard sent": "کلیپ‌بورد ارسال شد"
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "کلیپ‌بورد کار می‌کند اما چیزی در دیسک ذخیره نمی‌شود"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "دمای رنگ برای حالت شب"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": "تم رنگی برای برجسته‌سازی کد."
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": "تم رنگی برای برجسته‌سازی کد. %1 تم دردسترس است."
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "رنگ تم از مخزن DMS"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": "محتوا"
   },
-  "Content copied": {
-    "Content copied": "محتوا کپی شد"
-  },
   "Contrast": {
     "Contrast": "کنتراست"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "زمان باقی‌مانده"
   },
-  "Copied GIF": {
-    "Copied GIF": "گیف کپی شد"
-  },
-  "Copied MP4": {
-    "Copied MP4": "MP4 کپی شد"
-  },
-  "Copied WebP": {
-    "Copied WebP": "WebP کپی شد"
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "در کلیپ‌بورد کپی شد"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": "کپی"
-  },
-  "Copy Content": {
-    "Copy Content": "کپی محتوا"
   },
   "Copy Full Command": {
     "Copy Full Command": "کپی دستور کامل"
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "تصاویر پس‌زمینه دسکتاپ"
   },
-  "Detailed": {
-    "Detailed": "با جزئیات"
-  },
   "Details for \"%1": {
     "Details for \"%1\"": "جزئیات برای «%1»"
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "دستگاه جفت شد"
-  },
-  "Device unpaired": {
-    "Device unpaired": "دستگاه جفت نشده"
   },
   "Diff": {
     "Diff": ""
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "نمایش عنوان برنامه فوکوس شده کنونی"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": "نمایش پیش‌بینی‌های ساعتی آب و هوا"
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": "نمایش شماره خطوط در ویرایشگر"
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "ورود PIN برای "
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": ""
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "یک نام جدید برای نشست «%1» وارد کنید"
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": "محو شدن تا خاموشی نمایشگر"
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": "پذیرش جفت‌سازی ناموفق بود"
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "فعال‌سازی پیکربندی ناموفق بود"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": "اعمال پروفایل ناموفق بود"
-  },
-  "Failed to browse device": {
-    "Failed to browse device": "مرور دستگاه ناموفق بود"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "لغو همه کار‌های چاپ ناموفق بود"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "وارد کردن VPN ناموفق بود"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": "اجرای برنامه SMS ناموفق بود"
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "بارگذاری پیکربندی VPN ناموفق بود"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": "خواندن فایل تم ناموفق بود: %1"
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": "رد کردن اتصال ناموفق بود"
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "بارگذاری دوباره افزونه ناموفق بود: %1"
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "ازسرگیری چاپگر ناموفق بود"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": "زنگ زدن دستگاه ناموفق بود"
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": ""
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": "ذخیره پروفایل ناموفق بود"
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": ""
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": "ارسال کلیپ‌بورد ناموفق بود"
-  },
-  "Failed to send file": {
-    "Failed to send file": "ارسال فایل ناموفق بود"
-  },
-  "Failed to send ping": {
-    "Failed to send ping": "ارسال پینگ ناموفق بود"
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "تنظیم روشنایی ناموفق بود"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "تنظیم تصویر نمایه ناموفق بود: %1"
-  },
-  "Failed to share": {
-    "Failed to share": "اشتراک‌گذاری ناموفق بود"
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "شروع اتصال به %1 ناموفق بود"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": "ویژگی‌ها"
   },
-  "Feels": {
-    "Feels": "دمای حسی"
-  },
   "Feels Like": {
     "Feels Like": "دمای حسی"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": "مدیر فایل استفاده شده برای زباله‌دان. «سفارشی» را انتخاب کرده تا دستور خود را وارد کنید."
-  },
-  "File received from %1": {
-    "File received from %1": ""
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": "جستجوی فایل به dsearch نیاز دارد\nاز github.com/morelazers/dsearch نصب کنید"
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "برنامه‌های ترمینال به استفاده از طرح‌های رنگی تیره وادار کن"
   },
-  "Forecast": {
-    "Forecast": "پیش‌بینی"
-  },
-  "Forecast Days": {
-    "Forecast Days": "پیش‌بینی روزها"
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "پیش‌بینی موجود نیست"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": ""
-  },
-  "Forward 10s": {
-    "Forward 10s": ""
   },
   "Frame": {
     "Frame": "قاب"
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": "ساعتی"
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": "تعداد پیش‌بینی‌های ساعتی"
-  },
   "Hover Popouts": {
     "Hover Popouts": ""
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": ""
   },
-  "Keybind Sources": {
-    "Keybind Sources": "منابع نگاشت‌کلیدها"
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "نگاشت‌کلیدها"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": "تنظیمات نگاشت‌کلیدهای جستجو"
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": "نگاشت‌کلیدها همراه نتایج عادی جستجو نمایش داده می‌شوند"
   },
   "Keyboard": {
     "Keyboard": ""
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": ""
   },
-  "Loading trending...": {
-    "Loading trending...": "درحال بارگذاری پرطرفدار‌ها..."
-  },
   "Loading...": {
     "Loading...": "درحال بارگذاری..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": "تبدیل به ادمین"
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": "از اجرای KDE Connect یا Valent در دستگاه‌های دیگر خود اطمینان حاصل کنید"
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": "پس‌زمینه نوار را کاملا شفاف کن"
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": ""
   },
-  "Message": {
-    "Message": "پیام"
-  },
   "Message Content": {
     "Message Content": "محتوای پیام"
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "نمایشگر سرعت شبکه"
   },
-  "Network Type": {
-    "Network Type": ""
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "نمایش سرعت بارگیری و بارگذاری شبکه"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": "هیچ آب و هوایی یافت نشد"
   },
-  "No Weather Data": {
-    "No Weather Data": "بدون داده آب و هوا"
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "داده آب و هوا در دسترس نیست"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": "هیچ حساب کاربری انسانی یافت نشد."
-  },
-  "No images found": {
-    "No images found": ""
   },
   "No info items": {
     "No info items": "مورد اطلاعاتی وجود ندارد"
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "تشخیص داده نشد"
   },
-  "Not paired": {
-    "Not paired": "جفت نشده"
-  },
   "Not set": {
     "Not set": "تنظیم نشده"
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "اداری"
   },
-  "Offline": {
-    "Offline": "آفلاین"
-  },
   "Offline Report": {
     "Offline Report": "گزارش آفلاین"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "باز‌ کردن"
-  },
-  "Open App": {
-    "Open App": "باز کردن برنامه"
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": ""
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "باز کردن با..."
-  },
-  "Opening SMS app": {
-    "Opening SMS app": "باز کردن برنامه SMS"
-  },
-  "Opening file browser": {
-    "Opening file browser": "باز کردن مرورگر فایل"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "باز کردن ترمینال: "
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "جفت‌سازی ناموفق بود"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": ""
-  },
-  "Pairing request sent": {
-    "Pairing request sent": "درخواست جفت‌سازی فرستاده شد"
-  },
-  "Pairing requested": {
-    "Pairing requested": "جفت‌سازی درخواست شد"
-  },
   "Pairing...": {
     "Pairing...": "درحال جفت شدن..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "شخصی‌سازی"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": "Phone Connect دردسترس نیست"
-  },
-  "Phone number": {
-    "Phone number": "شماره تلفن"
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": "یک برنامه مدیریت فایل متفاوت در تنظیمات ← داک ← زباله‌دان، انتخاب کنید."
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "سنجاق به داک"
-  },
-  "Ping": {
-    "Ping": "پینگ"
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": ""
   },
   "Pinned": {
     "Pinned": "سنجاق شده"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": ""
-  },
-  "Play": {
-    "Play": ""
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": "یک ویدئو هنگامی که صفحه قفل شده پخش شود."
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": "آخرین نشست استفاده شده را در صفحه خوش‌آمدگویی از قبل انتخاب کن"
   },
-  "Precip": {
-    "Precip": "بارش"
-  },
   "Precipitation": {
     "Precipitation": "احتمال بارش"
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": ""
-  },
-  "Previous": {
-    "Previous": ""
   },
   "Previous page": {
     "Previous page": ""
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "رنگ‌های اخیر"
   },
-  "Recent Images": {
-    "Recent Images": ""
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "برنامه‌های استفاده شده اخیر"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": "عادی"
-  },
-  "Reject": {
-    "Reject": "رد کردن"
   },
   "Reject Jobs": {
     "Reject Jobs": "ردکردن کارهای چاپ"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "گزارش"
-  },
-  "Request Pairing": {
-    "Request Pairing": "درخواست جفت‌سازی"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "برای تأیید خاموش، راه‌اندازی مجدد، تعلیق، هایبرنیت و خروج، نگه داشتن دکمه/کلید را الزام کن"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": ""
-  },
   "Right": {
     "Right": "راست"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "برای تغییر چیدمان، روی ابزارک نوار راست‌کلیک کنید"
-  },
-  "Ring": {
-    "Ring": "زنگ زدن"
-  },
-  "Ringing %1...": {
-    "Ringing %1...": ""
   },
   "Ripple Effects": {
     "Ripple Effects": "افکت موجی"
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "اشباع رنگ SDR"
-  },
-  "SMS": {
-    "SMS": "SMS"
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": ""
   },
   "SSID": {
     "SSID": ""
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": ""
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "با ترکیب کلید‌ها، توضیحات یا نام اقدام‌ جستجو کنید.\n\nاقدام پیش‌فرض نگاشت‌کلید را در کلیپ‌بورد کپی می‌کند.\nبرای سنجاق‌ کردن نگاشت‌کلید‌های پر استفاده راست‌کلیک کنید یا پیکان راست را فشار دهید - آن‌ها هنگام جستجو نکردن در بالای لیست ظاهر خواهند شد."
-  },
   "Search devices...": {
     "Search devices...": "جستجوی دستگاه‌ها..."
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "جستجو در نگاشت‌کلیدها..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": "میانبر‌های صفحه‌کلید از کامپازیتور یا برنامه‌هایتان را جستجو کنید"
   },
   "Search plugins...": {
     "Search plugins...": "جستجوی افزونه‌ها..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": "لوگوی لانچر داک را انتخاب کنید"
   },
-  "Select File to Send": {
-    "Select File to Send": "فایل را برای ارسال انتخاب کنید"
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "انتخاب لوگوی لانچر"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "انتخاب فایل تصویر..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": "حداقل یک ارائه‌دهنده انتخاب کنید"
-  },
   "Select background image": {
     "Select background image": ""
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": ""
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": "انتخاب کنید که کدام ارائه دهنده نگاشت‌کلید‌ها include شود"
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "انتخاب کنید کدام گذارها در تصادفی‌سازی باشند"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "فایل تصویر انتخاب شده یافت نشد."
-  },
-  "Send": {
-    "Send": "ارسال"
-  },
-  "Send Clipboard": {
-    "Send Clipboard": "ارسال کلیپ‌بورد"
-  },
-  "Send SMS": {
-    "Send SMS": "ارسال SMS"
-  },
-  "Sending %1...": {
-    "Sending %1...": ""
   },
   "Separate": {
     "Separate": "جدا"
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": "سایه‌ها"
   },
-  "Share": {
-    "Share": "اشتراک‌گذاری"
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": "اشتراک‌گذاری تنظیمات کنترل گاما"
-  },
-  "Shared": {
-    "Shared": "به اشتراک گذاشته شد"
   },
   "Shell": {
     "Shell": "شِل"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": ""
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": "نمایش دمای حسی"
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": ""
   },
   "Show Footer": {
     "Show Footer": "نمایش پاورقی"
-  },
-  "Show Forecast": {
-    "Show Forecast": "نمایش پیش‌بینی"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "نمایش دمای GPU"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "نمایش شماره‌های ساعت"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": "نمایش پیش‌بینی‌های ساعتی"
-  },
-  "Show Humidity": {
-    "Show Humidity": "نمایش رطوبت"
-  },
   "Show Icon": {
     "Show Icon": ""
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "نمایش شماره خطوط"
-  },
-  "Show Location": {
-    "Show Location": "نمایش موقعیت مکانی"
   },
   "Show Lock": {
     "Show Lock": "نمایش قفل"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "نمایش خاموش‌کردن"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": "نمایش احتمال بارش"
-  },
-  "Show Pressure": {
-    "Show Pressure": "نمایش فشار"
-  },
   "Show Profile Image": {
     "Show Profile Image": "نمایش تصویر نمایه"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": ""
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": "نمایش طلوع/غروب"
   },
   "Show Suspend": {
     "Show Suspend": "نمایش تعلیق"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": ""
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": "نمایش شرایط آب و هوا"
-  },
   "Show Week Number": {
     "Show Week Number": "نمایش شماره هفته"
   },
   "Show Welcome": {
     "Show Welcome": "نمایش خوش آمدید"
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": "نمایش سرعت باد"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "نمایش برنامه‌های محیط‌کار"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "سیگنال"
-  },
-  "Signal Strength": {
-    "Signal Strength": ""
   },
   "Silence for a while": {
     "Silence for a while": "ساکت کردن برای مدتی"
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": ""
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": "برنامه KDE Connect یا Valent را برای استفاده از این افزونه آغاز کنید"
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "تایپ‌کردن یادداشت‌هایتان را اینجا شروع کنید..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": ""
   },
-  "Trending GIFs": {
-    "Trending GIFs": "گیف‌های پرطرفدار"
-  },
-  "Trending Stickers": {
-    "Trending Stickers": "برچسب‌های پرطرفدار"
-  },
   "Trigger": {
     "Trigger": "راه‌انداز"
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": "پیشوند راه‌انداز"
   },
   "Trigger: %1": {
     "Trigger: %1": "راه‌انداز: %1"
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": "حداقل ۲ کاراکتر برای جستجوی فایل‌ها تایپ کنید."
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": "این پیشوند را برای جستجوی نگاشت‌کلیدها تایپ کنید"
-  },
   "Type to search files": {
     "Type to search files": "برای جستجوی فایل‌ها تایپ کنید"
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "تایپوگرافی و حرکت"
-  },
-  "URI": {
-    "URI": ""
   },
   "Unavailable": {
     "Unavailable": "ناموجود"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": "قاعده بی‌نام"
   },
-  "Unpair": {
-    "Unpair": "لغو جفت‌سازی"
-  },
-  "Unpair failed": {
-    "Unpair failed": "لغو جفت‌سازی ناموفق بود"
-  },
   "Unpin": {
     "Unpin": "برداشتن سنجاق"
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": "رنگ ضروری"
-  },
-  "Usage Tips": {
-    "Usage Tips": "راهنمای استفاده"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "از قالب 24 ساعته به جای 12 ساعته ق.ظ/ب.ظ استفاده کن"
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": "از مکان و اندازه یکسان بین تمامی نمایشگرها استفاده کن"
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": "از پیشوند راه‌انداز برای فعال‌کردن استفاده کن"
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": "استفاده شده برای xdg-terminal-exec"
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": "وقتی رنگ تأکیدی سفارشی تنظیم شده استفاده می‌شود"
   },
   "User": {
     "User": "کاربر"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "نرخ تازه‌سازی متغیر (VRR)"
   },
-  "Verification": {
-    "Verification": "تأیید"
-  },
   "Version": {
     "Version": "نسخه"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": "محافظ صفحه ویدئویی"
-  },
-  "View Mode": {
-    "View Mode": "حالت نمایش"
   },
   "Visibility": {
     "Visibility": "دید"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": "جدا شد"
-  },
-  "device": {
-    "device": "دستگاه"
   },
   "dgop not available": {
     "dgop not available": "dgop در دسترس نیست"

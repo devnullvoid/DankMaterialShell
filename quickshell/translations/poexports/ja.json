@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": ""
   },
-  "Accent Color": {
-    "Accent Color": "アクセントカラー"
-  },
-  "Accept": {
-    "Accept": "承諾"
-  },
   "Accept Jobs": {
     "Accept Jobs": "ジョブを受け付ける"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": ""
-  },
-  "Activation": {
-    "Activation": "有効化"
   },
   "Active": {
     "Active": "アクティブ"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": "代替方式（OR）"
-  },
-  "Always Active": {
-    "Always Active": "常にアクティブ"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "常に割合を表示"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": ""
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": "詳細表示と予報表示で利用可能"
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": "背景エフェクト"
-  },
-  "Background Opacity": {
-    "Background Opacity": "背景の透明度"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": "バックグラウンド認証の同期に失敗しました。端末モードを試します。"
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "ブラウズ"
   },
-  "Browse Files": {
-    "Browse Files": "ファイルをブラウズ"
-  },
   "Browse Plugins": {
     "Browse Plugins": "プラグインを閲覧"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": ""
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": "天気ウィジェットの表示方法を選ぶ"
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": "このバーが影の方向を決定する方法を選ぶ"
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": ""
-  },
-  "Chroma Style": {
-    "Chroma Style": "彩度スタイル"
   },
   "Cipher": {
     "Cipher": "暗号方式"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": "クリップボードを保存しました"
   },
-  "Clipboard sent": {
-    "Clipboard sent": "クリップボードを送信しました"
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "クリップボードは動作しますが、ディスクには何も保存されません"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "ナイトモードの色温度"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": "シンタックスハイライト用のカラーテーマ。"
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": "シンタックスハイライト用のカラーテーマ。%1 個のテーマが利用可能です。"
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "DMS レジストリのカラーテーマ"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": "内容"
   },
-  "Content copied": {
-    "Content copied": "内容をコピーしました"
-  },
   "Contrast": {
     "Contrast": "コントラスト"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "クールダウン"
   },
-  "Copied GIF": {
-    "Copied GIF": "GIF をコピーしました"
-  },
-  "Copied MP4": {
-    "Copied MP4": "MP4 をコピーしました"
-  },
-  "Copied WebP": {
-    "Copied WebP": "WebP をコピーしました"
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "クリップボードにコピーしました"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": "コピー"
-  },
-  "Copy Content": {
-    "Copy Content": "内容をコピー"
   },
   "Copy Full Command": {
     "Copy Full Command": "フルコマンドをコピー"
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "デスクトップの背景画像"
   },
-  "Detailed": {
-    "Detailed": "詳細"
-  },
   "Details for \"%1": {
     "Details for \"%1\"": "\"%1\" の詳細"
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "デバイスがペアリングされました"
-  },
-  "Device unpaired": {
-    "Device unpaired": "デバイスのペアリングを解除しました"
   },
   "Diff": {
     "Diff": ""
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "現在フォーカスされているアプリケーションのタイトルを表示"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": "時間ごとの天気予報を表示"
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": "エディタに行番号を表示する"
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "PINを入力してください "
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": "共有する URI またはテキストを入力"
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "セッション \"%1\" の新しい名前を入力"
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": "モニターオフへフェード"
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": "ペアリングの承認に失敗しました"
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "設定が適用できませんでした"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": "プロファイルの適用に失敗しました"
-  },
-  "Failed to browse device": {
-    "Failed to browse device": "デバイスの参照に失敗しました"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "すべてのジョブの取り消しに失敗しました"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "VPN のインポートに失敗しました"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": "SMS アプリの起動に失敗しました"
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "VPN 設定の読み込みに失敗しました"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": "テーマファイルの読み込みに失敗しました: %1"
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": "ペアリングの拒否に失敗しました"
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "プラグインの再読み込みに失敗しました: %1"
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "プリンタの再開に失敗しました"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": "デバイスの呼び出しに失敗しました"
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": ""
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": "プロファイルの保存に失敗しました"
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": "SMS の送信に失敗しました"
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": "クリップボードの送信に失敗しました"
-  },
-  "Failed to send file": {
-    "Failed to send file": "ファイルの送信に失敗しました"
-  },
-  "Failed to send ping": {
-    "Failed to send ping": "Ping の送信に失敗しました"
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "明るさの設定に失敗しました"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "プロフィール画像の設定に失敗しました: %1"
-  },
-  "Failed to share": {
-    "Failed to share": "共有に失敗しました"
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "%1 への接続開始に失敗しました"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": "機能"
   },
-  "Feels": {
-    "Feels": "体感"
-  },
   "Feels Like": {
     "Feels Like": "体感温度"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": "ゴミ箱を開くために使用するファイルマネージャーです。独自のコマンドを入力するには「カスタム」を選択してください。"
-  },
-  "File received from %1": {
-    "File received from %1": ""
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": "ファイル検索には dsearch が必要です\ngithub.com/AvengeMedia/danksearch からインストールしてください"
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "端末アプリで常に暗い配色を強制使用"
   },
-  "Forecast": {
-    "Forecast": "予報"
-  },
-  "Forecast Days": {
-    "Forecast Days": "予報日数"
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "予報は利用できません"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": ""
-  },
-  "Forward 10s": {
-    "Forward 10s": "10秒進む"
   },
   "Frame": {
     "Frame": "フレーム"
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": "1時間ごと"
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": "時間別予報件数"
-  },
   "Hover Popouts": {
     "Hover Popouts": ""
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": ""
   },
-  "Keybind Sources": {
-    "Keybind Sources": "キーバインドソース"
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "キーバインド"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": "キーバインド検索設定"
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": "通常の検索結果と一緒にキーバインドを表示"
   },
   "Keyboard": {
     "Keyboard": ""
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": ""
   },
-  "Loading trending...": {
-    "Loading trending...": "トレンドを読み込み中..."
-  },
   "Loading...": {
     "Loading...": "読み込み中..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": "管理者にする"
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": "他のデバイスで KDE Connect または Valent が実行されていることを確認してください"
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": "バー背景を完全に透明にする"
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": "インデックス化されたフォルダー結果を All タブに統合します（dsearch が必要）。"
   },
-  "Message": {
-    "Message": "メッセージ"
-  },
   "Message Content": {
     "Message Content": "メッセージ内容"
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "ネットワーク速度モニター"
   },
-  "Network Type": {
-    "Network Type": "ネットワーク種別"
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "ネットワークのダウンロードおよびアップロード速度を表示"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": "天気なし"
   },
-  "No Weather Data": {
-    "No Weather Data": "天気データなし"
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "気象データはありません"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": "通常ユーザーアカウントが見つかりません。"
-  },
-  "No images found": {
-    "No images found": "画像が見つかりません"
   },
   "No info items": {
     "No info items": "情報項目はありません"
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "未検出"
   },
-  "Not paired": {
-    "Not paired": "未ペアリング"
-  },
   "Not set": {
     "Not set": "未設定"
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "オフィス"
   },
-  "Offline": {
-    "Offline": "オフライン"
-  },
   "Offline Report": {
     "Offline Report": "オフライン報告"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "開ける"
-  },
-  "Open App": {
-    "Open App": "アプリを開く"
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": ""
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "別のアプリで開く..."
-  },
-  "Opening SMS app": {
-    "Opening SMS app": "SMS アプリを開いています"
-  },
-  "Opening file browser": {
-    "Opening file browser": "ファイルブラウザーを開いています"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "端末を開いています: "
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "ペアリングが失敗しました"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": ""
-  },
-  "Pairing request sent": {
-    "Pairing request sent": "ペアリング要求を送信しました"
-  },
-  "Pairing requested": {
-    "Pairing requested": "ペアリングを要求しました"
-  },
   "Pairing...": {
     "Pairing...": "ペアリング中..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "パーソナライゼーション"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": "Phone Connect は利用できません"
-  },
-  "Phone number": {
-    "Phone number": "電話番号"
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": "設定 → ドック → ゴミ箱で別のファイルマネージャーを選択してください。"
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "ドックにピン留め"
-  },
-  "Ping": {
-    "Ping": "Ping"
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": ""
   },
   "Pinned": {
     "Pinned": "固定済み"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": ""
-  },
-  "Play": {
-    "Play": "再生"
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": "画面がロックされたときに動画を再生します。"
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": "Greeter で最後に使用したセッションを事前選択"
   },
-  "Precip": {
-    "Precip": "降水"
-  },
   "Precipitation": {
     "Precipitation": "降水確率"
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": "プレビュー: %1"
-  },
-  "Previous": {
-    "Previous": "前へ"
   },
   "Previous page": {
     "Previous page": ""
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "最近の色"
   },
-  "Recent Images": {
-    "Recent Images": "最近の画像"
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "最近使用したアプリ"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": "レギュラー"
-  },
-  "Reject": {
-    "Reject": "拒否"
   },
   "Reject Jobs": {
     "Reject Jobs": "ジョブを拒否"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "報告"
-  },
-  "Request Pairing": {
-    "Request Pairing": "ペアリングを要求"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "電源オフ、再起動、サスペンド、休止、ログアウトの確認にボタン/キーの長押しを要求"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": "10秒戻る"
-  },
   "Right": {
     "Right": "右"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "バーウィジェットを右クリックして循環"
-  },
-  "Ring": {
-    "Ring": "着信"
-  },
-  "Ringing %1...": {
-    "Ringing %1...": ""
   },
   "Ripple Effects": {
     "Ripple Effects": "リップル効果"
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "SDR の彩度"
-  },
-  "SMS": {
-    "SMS": "SMS"
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": "SMS を送信しました"
   },
   "SSID": {
     "SSID": ""
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": "アプリケーションを検索..."
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "キーの組み合わせ、説明、またはアクション名で検索します。\n\n既定の操作ではキーバインドをクリップボードにコピーします。\nよく使うキーバインドは右クリックまたは右矢印キーでピン留めできます。検索していないときに上部に表示されます。"
-  },
   "Search devices...": {
     "Search devices...": "デバイスを検索..."
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "キーバインドを検索..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": "コンポジターとアプリケーションのキーボードショートカットを検索"
   },
   "Search plugins...": {
     "Search plugins...": "プラグインを検索..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": "Dock ランチャーロゴを選択"
   },
-  "Select File to Send": {
-    "Select File to Send": "送信するファイルを選択"
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "ランチャーロゴを選ぶ"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "画像ファイルを選ぶ..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": "少なくとも1つのプロバイダーを選択"
-  },
   "Select background image": {
     "Select background image": ""
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": ""
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": "含めるキーバインドプロバイダーを選択"
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "含めたいトランジションをランダム化に選択"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "選択した画像ファイルが見つかりませんでした。"
-  },
-  "Send": {
-    "Send": "送信"
-  },
-  "Send Clipboard": {
-    "Send Clipboard": "クリップボードを送信"
-  },
-  "Send SMS": {
-    "Send SMS": "SMS を送信"
-  },
-  "Sending %1...": {
-    "Sending %1...": ""
   },
   "Separate": {
     "Separate": "Separate"
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": "影"
   },
-  "Share": {
-    "Share": "共有"
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": "ガンマ制御設定を共有"
-  },
-  "Shared": {
-    "Shared": "共有済み"
   },
   "Shell": {
     "Shell": "シェル"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": ""
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": "体感温度を表示"
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": "ランチャー項目に Flatpak、Snap、AppImage、Nix のバッジアイコンを表示します。"
   },
   "Show Footer": {
     "Show Footer": "フッターを表示"
-  },
-  "Show Forecast": {
-    "Show Forecast": "予報を表示"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "GPU 温度を表示"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "時間の数字を表示"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": "時間ごとの予報を表示"
-  },
-  "Show Humidity": {
-    "Show Humidity": "湿度を表示"
-  },
   "Show Icon": {
     "Show Icon": "アイコンを表示"
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "行番号を表示"
-  },
-  "Show Location": {
-    "Show Location": "場所を表示"
   },
   "Show Lock": {
     "Show Lock": "ロックを表示"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "パワーオフを表示"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": "降水確率を表示"
-  },
-  "Show Pressure": {
-    "Show Pressure": "気圧を表示"
-  },
   "Show Profile Image": {
     "Show Profile Image": "プロフィール画像を表示"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": ""
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": "日の出/日の入りを表示"
   },
   "Show Suspend": {
     "Show Suspend": "一時停止を表示"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": ""
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": "天気の状態を表示"
-  },
   "Show Week Number": {
     "Show Week Number": "週番号を表示"
   },
   "Show Welcome": {
     "Show Welcome": "ウェルカムを表示"
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": "風速を表示"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "ワークスペースアプリを表示"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "Signal"
-  },
-  "Signal Strength": {
-    "Signal Strength": "信号強度"
   },
   "Silence for a while": {
     "Silence for a while": "しばらくミュート"
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": ""
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": "このプラグインを使うには KDE Connect または Valent を起動してください"
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "ここでメモを入力しましょう..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": "トレイアイコン修正"
   },
-  "Trending GIFs": {
-    "Trending GIFs": "人気の GIF"
-  },
-  "Trending Stickers": {
-    "Trending Stickers": "人気のステッカー"
-  },
   "Trigger": {
     "Trigger": "トリガー"
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": "トリガープレフィックス"
   },
   "Trigger: %1": {
     "Trigger: %1": "トリガー: %1"
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": "ファイルを検索するには、少なくとも2文字を入力してください。"
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": "キーバインドを検索するにはこの接頭辞を入力"
-  },
   "Type to search files": {
     "Type to search files": "入力してファイルを検索"
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "タイポグラフィとモーション"
-  },
-  "URI": {
-    "URI": "URI"
   },
   "Unavailable": {
     "Unavailable": "利用できません"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": "無名のルール"
   },
-  "Unpair": {
-    "Unpair": "ペアリング解除"
-  },
-  "Unpair failed": {
-    "Unpair failed": "ペアリング解除に失敗しました"
-  },
   "Unpin": {
     "Unpin": "固定解除"
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": "緊急時の色"
-  },
-  "Usage Tips": {
-    "Usage Tips": "使用のヒント"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "12時間制のAM/PMではなく、24時間表記を使用"
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": "すべてのディスプレイで同じ位置とサイズを使用"
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": "有効化にはトリガープレフィックスを使う"
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": "xdg-terminal-exec に使用されます"
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": "アクセントカラーが Custom に設定されている場合に使用"
   },
   "User": {
     "User": "ユーザー"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "可変リフレッシュレート"
   },
-  "Verification": {
-    "Verification": "確認"
-  },
   "Version": {
     "Version": "バージョン"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": "動画スクリーンセーバー"
-  },
-  "View Mode": {
-    "View Mode": "表示モード"
   },
   "Visibility": {
     "Visibility": "視界"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": "切り離し済み"
-  },
-  "device": {
-    "device": "デバイス"
   },
   "dgop not available": {
     "dgop not available": "dgop は利用できません"

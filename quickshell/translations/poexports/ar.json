@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": "ملف تعريف التسارع"
   },
-  "Accent Color": {
-    "Accent Color": "لون التمييز"
-  },
-  "Accept": {
-    "Accept": "قبول"
-  },
   "Accept Jobs": {
     "Accept Jobs": "قبول المهام"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": "يتفعل فوراً"
-  },
-  "Activation": {
-    "Activation": "التنشيط"
   },
   "Active": {
     "Active": "نشط"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": "بديل (أو)"
-  },
-  "Always Active": {
-    "Always Active": "نشط دائماً"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "إظهار النسبة المئوية دائماً"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": "التحديثات المتاحة (%1)"
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": "متاح في أوضاع العرض التفصيلي والتوقعات"
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": "تأثير الخلفية"
-  },
-  "Background Opacity": {
-    "Background Opacity": "عتامة الخلفية"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": "فشل مزامنة مصادقة الخلفية. جاري محاولة وضع المحطة الطرفية."
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "تصفح"
   },
-  "Browse Files": {
-    "Browse Files": "تصفح الملفات"
-  },
   "Browse Plugins": {
     "Browse Plugins": "تصفح الملحقات"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": "اختر كيفية ملاقاة الشريط لحافة الشاشة"
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": "اختر كيفية عرض أداة الطقس"
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": "اختر كيفية تحديد هذا الشريط لاتجاه الظل"
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": "اختر الشاشات التي تعرض واجهة شاشة القفل. ستعرض الشاشات الأخرى لوناً مصمتاً للحماية من احتراق شاشات OLED."
-  },
-  "Chroma Style": {
-    "Chroma Style": "نمط كروما"
   },
   "Cipher": {
     "Cipher": "شفرة التعمية"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": "تم حفظ الحافظة"
   },
-  "Clipboard sent": {
-    "Clipboard sent": "تم إرسال الحافظة"
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "الحافظة تعمل ولكن لا يتم حفظ أي شيء على القرص"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "درجة حرارة اللون للوضع الليلي"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": "نسق الألوان لتمييز الصيغة."
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": "نسق الألوان لتمييز الصيغة. %1 سمة متاحة."
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "سمة لونية من سجل DMS"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": "المحتوى"
   },
-  "Content copied": {
-    "Content copied": "تم نسخ المحتوى"
-  },
   "Contrast": {
     "Contrast": "التباين"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "فترة التهدئة"
   },
-  "Copied GIF": {
-    "Copied GIF": "تم نسخ GIF"
-  },
-  "Copied MP4": {
-    "Copied MP4": "تم نسخ MP4"
-  },
-  "Copied WebP": {
-    "Copied WebP": "تم نسخ WebP"
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "تم النسخ إلى الحافظة"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": "نسخ"
-  },
-  "Copy Content": {
-    "Copy Content": "نسخ المحتوى"
   },
   "Copy Full Command": {
     "Copy Full Command": "نسخ الأمر الكامل"
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "صور خلفية سطح المكتب"
   },
-  "Detailed": {
-    "Detailed": "مفصل"
-  },
   "Details for \"%1": {
     "Details for \"%1\"": "تفاصيل لـ \"%1\""
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "تم اقتران الجهاز"
-  },
-  "Device unpaired": {
-    "Device unpaired": "تم إلغاء اقتران الجهاز"
   },
   "Diff": {
     "Diff": "اختلاف (Diff)"
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "عرض عنوان التطبيق النشط حاليًا"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": "عرض توقعات الطقس بالساعة"
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": "عرض أرقام الأسطر في المحرر"
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "أدخل رمز PIN لـ "
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": "أدخل الرابط أو النص للمشاركة"
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "أدخل اسمًا جديدًا للجلسة \"%1\""
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": "التلاشي عند إيقاف تشغيل الشاشة"
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": "فشل قبول الاقتران"
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "فشل تفعيل الإعدادات"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": "فشل تطبيق الملف الشخصي"
-  },
-  "Failed to browse device": {
-    "Failed to browse device": "فشل تصفح الجهاز"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "تعذر إلغاء جميع المهام"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "فشل استيراد الـ VPN"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": "فشل تشغيل تطبيق الرسائل القصيرة"
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "فشل تحميل إعدادات الـ VPN"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": "فشل قراءة ملف السمة: %1"
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": "فشل في رفض الاقتران"
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "فشل إعادة تحميل الملحق: %1"
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "تعذر استئناف تشغيل الطابعة"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": "فشل في رنين الجهاز"
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": "فشل تشغيل 'dms-greeter status'. تأكد من تثبيت حزمة dms-greeter."
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": "فشل حفظ الملف الشخصي"
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": "فشل إرسال الرسالة القصيرة"
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": "فشل في إرسال الحافظة"
-  },
-  "Failed to send file": {
-    "Failed to send file": "فشل إرسال الملف"
-  },
-  "Failed to send ping": {
-    "Failed to send ping": "فشل في إرسال اختبار الاتصال (Ping)"
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "فشل في ضبط السطوع"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "فشل تعيين صورة الملف الشخصي: %1"
-  },
-  "Failed to share": {
-    "Failed to share": "فشل في المشاركة"
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "فشل بدء الاتصال بـ %1"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": "الميزات"
   },
-  "Feels": {
-    "Feels": "درجة الحرارة المحسوسة"
-  },
   "Feels Like": {
     "Feels Like": "الحرارة المحسوسة"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": "مدير الملفات المستخدم لفتح المهملات. اختر \"مخصص\" لإدخال أمرك الخاص."
-  },
-  "File received from %1": {
-    "File received from %1": "تم استلام الملف من %1"
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": "يتطلب البحث عن الملفات dsearch\nقم بالتثبيت من github.com/AvengeMedia/danksearch"
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "إجبار تطبيقات الطرفية على استخدام المظاهر الداكنة دائمًا"
   },
-  "Forecast": {
-    "Forecast": "توقعات الطقس"
-  },
-  "Forecast Days": {
-    "Forecast Days": "أيام التوقعات"
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "التوقعات غير متاحة"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": "نسق التاريخ على شاشة تسجيل الدخول"
-  },
-  "Forward 10s": {
-    "Forward 10s": "تقديم 10 ثوانٍ"
   },
   "Frame": {
     "Frame": "إطار"
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": "كل ساعة"
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": "عدد توقعات الطقس بالساعة"
-  },
   "Hover Popouts": {
     "Hover Popouts": "النوافذ المنبثقة عند التمرير"
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": "مجموعة المفاتيح"
   },
-  "Keybind Sources": {
-    "Keybind Sources": "مصادر اختصارات المفاتيح"
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "اختصارات لوحة المفاتيح"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": "إعدادات بحث اختصارات المفاتيح"
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": "اختصارات المفاتيح تظهر بجانب نتائج البحث العادية"
   },
   "Keyboard": {
     "Keyboard": "لوحة المفاتيح"
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": "جاري تحميل المنافذ..."
   },
-  "Loading trending...": {
-    "Loading trending...": "جارٍ تحميل الرائج..."
-  },
   "Loading...": {
     "Loading...": "جاري التحميل..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": "اجعل مسؤولًا"
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": "تأكد من تشغيل KDE Connect أو Valent على أجهزتك الأخرى"
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": "جعل خلفية الشريط شفافة تمامًا"
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": "دمج نتائج المجلدات المفهرسة في علامة التبويب الكل (يتطلب dsearch)."
   },
-  "Message": {
-    "Message": "رسالة"
-  },
   "Message Content": {
     "Message Content": "محتوى الرسالة"
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "مراقب سرعة الشبكة"
   },
-  "Network Type": {
-    "Network Type": "نوع الشبكة"
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "عرض سرعة التحميل والإرسال للشبكة"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": "لا يوجد طقس"
   },
-  "No Weather Data": {
-    "No Weather Data": "لا توجد بيانات طقس"
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "لا تتوفر بيانات عن الطقس"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": "لم يتم العثور على حسابات مستخدمين بشرية."
-  },
-  "No images found": {
-    "No images found": "لم يتم العثور على صور"
   },
   "No info items": {
     "No info items": "لا توجد عناصر معلومات"
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "لم يتم الكشف عنه"
   },
-  "Not paired": {
-    "Not paired": "غير مقترن"
-  },
   "Not set": {
     "Not set": "غير محدد"
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "المكتب"
   },
-  "Offline": {
-    "Offline": "غير متصل"
-  },
   "Offline Report": {
     "Offline Report": "تقرير عدم الاتصال"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "فتح"
-  },
-  "Open App": {
-    "Open App": "فتح التطبيق"
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": "فتح نوافذ DMS عائمة بدلاً من متجانبة"
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "فتح باستخدام..."
-  },
-  "Opening SMS app": {
-    "Opening SMS app": "فتح تطبيق الرسائل القصيرة"
-  },
-  "Opening file browser": {
-    "Opening file browser": "فتح متصفح الملفات"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "فتح الطرفيّة: "
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "فشل الاقتران"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": "طلب اقتران من %1"
-  },
-  "Pairing request sent": {
-    "Pairing request sent": "تم إرسال طلب الاقتران"
-  },
-  "Pairing requested": {
-    "Pairing requested": "تم طلب الاقتران"
-  },
   "Pairing...": {
     "Pairing...": "جاري الاقتران..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "التخصيص"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": "اتصال الهاتف غير متاح"
-  },
-  "Phone number": {
-    "Phone number": "رقم الهاتف"
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": "اختر مدير ملفات مختلف في الإعدادات ← شريط المهام ← المهملات."
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "اضافة الى الشريط"
-  },
-  "Ping": {
-    "Ping": "اختبار الاتصال (Ping)"
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": "تم إرسال إشارة إلى %1"
   },
   "Pinned": {
     "Pinned": "مثبت"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": "عارض المنصة (FreeType)."
-  },
-  "Play": {
-    "Play": "تشغيل"
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": "شغل فيديو عند قفل الشاشة."
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": "تحديد مسبق لآخر جلسة مستخدمة في شاشة الترحيب"
   },
-  "Precip": {
-    "Precip": "هطول الأمطار"
-  },
   "Precipitation": {
     "Precipitation": "هطول الأمطار"
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": "معاينة: %1"
-  },
-  "Previous": {
-    "Previous": "السابق"
   },
   "Previous page": {
     "Previous page": "الصفحة السابقة"
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "أحدث الألوان"
   },
-  "Recent Images": {
-    "Recent Images": "الصور الأخيرة"
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "التطبيقات المستخدمة مؤخراً"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": "عادي"
-  },
-  "Reject": {
-    "Reject": "رفض"
   },
   "Reject Jobs": {
     "Reject Jobs": "رفض المهام"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "تقرير"
-  },
-  "Request Pairing": {
-    "Request Pairing": "طلب الاقتران"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "يتطلب الاستمرار في الضغط على الزر/المفتاح لتأكيد إيقاف التشغيل، وإعادة التشغيل، والتعليق، والإسبات، وتسجيل الخروج"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": "ترجيع 10 ثوانٍ"
-  },
   "Right": {
     "Right": "يمين"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "اضغط بيمين الفأرة للتنقل بين الأنماط"
-  },
-  "Ring": {
-    "Ring": "رنين"
-  },
-  "Ringing %1...": {
-    "Ringing %1...": "يتم الاتصال بـ %1..."
   },
   "Ripple Effects": {
     "Ripple Effects": "تأثيرات التموج"
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "تشبع SDR"
-  },
-  "SMS": {
-    "SMS": "رسائل قصيرة"
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": "تم إرسال الرسالة القصيرة بنجاح"
   },
   "SSID": {
     "SSID": "SSID"
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": "البحث عن التطبيقات..."
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "البحث عن طريق اختصار المفاتيح، أو الوصف، أو اسم الإجراء. الإجراء الافتراضي ينسخ اختصار المفاتيح إلى الحافظة. اضغط بزر الفأرة الأيمن أو اضغط على السهم الأيمن لتثبيت اختصارات المفاتيح المستخدمة بشكل متكرر - ستظهر في الأعلى عند عدم البحث."
-  },
   "Search devices...": {
     "Search devices...": "البحث عن الأجهزة..."
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "البحث في اختصارات لوحة المفاتيح..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": "البحث عن اختصارات لوحة المفاتيح من مدير النوافذ والتطبيقات الخاصة بك"
   },
   "Search plugins...": {
     "Search plugins...": "ابحث عن ملحقات..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": "اختيار شعار مشغل التطبيقات في شريط التطبيقات"
   },
-  "Select File to Send": {
-    "Select File to Send": "حدد ملفاً لإرساله"
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "اختر أيقونة المشغل"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "اختر ملف صورة..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": "اختر مزوداً واحداً على الأقل"
-  },
   "Select background image": {
     "Select background image": "اختر صورة الخلفية"
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": "اختر اللون الذي يتم استخراجه من الخلفية لتغذية اللوحة"
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": "اختر مزودي اختصارات المفاتيح المراد تضمينهم"
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "اختر الانتقالات التي ترغب في تضمينها في الاختيار العشوائي"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "ملف الصورة المحدد غير موجود."
-  },
-  "Send": {
-    "Send": "إرسال"
-  },
-  "Send Clipboard": {
-    "Send Clipboard": "إرسال الحافظة"
-  },
-  "Send SMS": {
-    "Send SMS": "إرسال رسالة قصيرة"
-  },
-  "Sending %1...": {
-    "Sending %1...": "جاري الإرسال %1..."
   },
   "Separate": {
     "Separate": "منفصل"
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": "الظلال"
   },
-  "Share": {
-    "Share": "مشاركة"
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": "مشاركة إعدادات التحكم في حرارة الالوان"
-  },
-  "Shared": {
-    "Shared": "تمت المشاركة"
   },
   "Shell": {
     "Shell": "الغلاف"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": "إظهار الشريط فوق ملء الشاشة"
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": "عرض درجة الحرارة المحسوسة"
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": "إظهار أيقونات شارة Flatpak أو Snap أو AppImage أو Nix على عناصر المشغل."
   },
   "Show Footer": {
     "Show Footer": "إظهار التذييل"
-  },
-  "Show Forecast": {
-    "Show Forecast": "عرض توقعات الطقس"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "إظهار درجة حرارة وحدة معالجة الرسومات"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "إظهار أرقام الساعة"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": "عرض التوقعات بالساعة"
-  },
-  "Show Humidity": {
-    "Show Humidity": "عرض الرطوبة"
-  },
   "Show Icon": {
     "Show Icon": "إظهار الأيقونة"
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "إظهار أرقام الأسطر"
-  },
-  "Show Location": {
-    "Show Location": "عرض الموقع"
   },
   "Show Lock": {
     "Show Lock": "تفعيل خيار القفل"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "تفعيل خيار إيقاف التشغيل"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": "عرض احتمالية هطول الأمطار"
-  },
-  "Show Pressure": {
-    "Show Pressure": "عرض الضغط الجوي"
-  },
   "Show Profile Image": {
     "Show Profile Image": "إظهار صورة الملف الشخصي"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": "إظهار إعادة التشغيل البرمجية"
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": "عرض شروق/غروب الشمس"
   },
   "Show Suspend": {
     "Show Suspend": "تفعيل خيار السكون"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": "إظهار الأجهزة الافتراضية"
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": "عرض حالة الطقس"
-  },
   "Show Week Number": {
     "Show Week Number": "إظهار رقم الأسبوع"
   },
   "Show Welcome": {
     "Show Welcome": "عرض شاشة الترحيب"
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": "عرض سرعة الرياح"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "إظهار تطبيقات سطح المكتب"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "الإشارة"
-  },
-  "Signal Strength": {
-    "Signal Strength": "قوة الإشارة"
   },
   "Silence for a while": {
     "Silence for a while": "إسكات لفترة"
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": "بدء نقطة الاتصال؟"
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": "ابدأ KDE Connect أو Valent لاستخدام هذه الملحق"
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "ابدأ بكتابة ملاحظاتك هنا..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": "إصلاح أيقونة علبة النظام"
   },
-  "Trending GIFs": {
-    "Trending GIFs": "صور GIF الرائجة"
-  },
-  "Trending Stickers": {
-    "Trending Stickers": "ملصقات رائجة"
-  },
   "Trigger": {
     "Trigger": "المشغل"
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": "بادئة المشغل"
   },
   "Trigger: %1": {
     "Trigger: %1": "المشغل: %1"
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": "اكتب حرفين على الأقل للبحث عن الملفات."
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": "اكتب هذه البادئة للبحث عن اختصارات المفاتيح"
-  },
   "Type to search files": {
     "Type to search files": "اكتب للبحث عن الملفات"
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "الطباعة والحركة"
-  },
-  "URI": {
-    "URI": "رابط"
   },
   "Unavailable": {
     "Unavailable": "غير متاح"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": "قاعدة بدون اسم"
   },
-  "Unpair": {
-    "Unpair": "إلغاء الاقتران"
-  },
-  "Unpair failed": {
-    "Unpair failed": "فشل إلغاء الاقتران"
-  },
   "Unpin": {
     "Unpin": "إلغاء التثبيت"
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": "لون التنبيه"
-  },
-  "Usage Tips": {
-    "Usage Tips": "نصائح الاستخدام"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "استخدام تنسيق الوقت 24 ساعة بدلاً من 12 ساعة ص/م"
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": "استخدام نفس الموقع والحجم على جميع الشاشات"
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": "استخدم بادئة المشغل للتفعيل"
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": "يُستخدم لـ xdg-terminal-exec"
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": "يُستخدم عند ضبط لون التمييز على مخصص"
   },
   "User": {
     "User": "مستخدم"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "معدل التحديث المتغير (VRR)"
   },
-  "Verification": {
-    "Verification": "التحقق"
-  },
   "Version": {
     "Version": "الإصدار"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": "شاشة توقف الفيديو"
-  },
-  "View Mode": {
-    "View Mode": "وضع العرض"
   },
   "Visibility": {
     "Visibility": "الظهور"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": "غير متصل"
-  },
-  "device": {
-    "device": "جهاز"
   },
   "dgop not available": {
     "dgop not available": "dgop غير متاح"

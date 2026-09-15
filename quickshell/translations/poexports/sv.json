@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": ""
   },
-  "Accent Color": {
-    "Accent Color": "Accentfärg"
-  },
-  "Accept": {
-    "Accept": "Acceptera"
-  },
   "Accept Jobs": {
     "Accept Jobs": "Ta emot jobb"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": ""
-  },
-  "Activation": {
-    "Activation": "Aktivering"
   },
   "Active": {
     "Active": "Aktiv"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": "Alternativ (ELLER)"
-  },
-  "Always Active": {
-    "Always Active": "Alltid aktiv"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "Visa alltid procent"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": ""
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": "Tillgänglig i detaljerade och prognosvyer"
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": ""
-  },
-  "Background Opacity": {
-    "Background Opacity": "Bakgrundsopacitet"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": ""
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "Bläddra"
   },
-  "Browse Files": {
-    "Browse Files": "Bläddra bland filer"
-  },
   "Browse Plugins": {
     "Browse Plugins": "Bläddra bland tillägg"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": ""
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": "Välj hur väderwidgeten visas"
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": "Välj hur denna menyrad hanterar skuggriktning"
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": ""
-  },
-  "Chroma Style": {
-    "Chroma Style": "Chroma-stil"
   },
   "Cipher": {
     "Cipher": "Chiffer"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": ""
   },
-  "Clipboard sent": {
-    "Clipboard sent": "Urklipp skickat"
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "Urklipp fungerar men inget sparas till disk"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "Färgtemperatur för nattläge"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": "Färgtema för syntaxmarkering."
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": "Färgtema för syntaxmarkering. %1 teman tillgängliga."
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "Färgtema från DMS-registret"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": "Innehåll"
   },
-  "Content copied": {
-    "Content copied": "Innehåll kopierat"
-  },
   "Contrast": {
     "Contrast": "Kontrast"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "Nedkylningstid"
   },
-  "Copied GIF": {
-    "Copied GIF": "GIF kopierat"
-  },
-  "Copied MP4": {
-    "Copied MP4": "MP4 kopierat"
-  },
-  "Copied WebP": {
-    "Copied WebP": "WebP kopierat"
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "Kopierat till urklipp"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": "Kopiera"
-  },
-  "Copy Content": {
-    "Copy Content": "Kopiera innehåll"
   },
   "Copy Full Command": {
     "Copy Full Command": "Kopiera fullständigt kommando"
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "Skrivbordsbakgrund"
   },
-  "Detailed": {
-    "Detailed": "Detaljerad"
-  },
   "Details for \"%1": {
     "Details for \"%1\"": "Detaljer för \"%1\""
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "Enheten parkopplad"
-  },
-  "Device unpaired": {
-    "Device unpaired": "Enhet bortkopplad"
   },
   "Diff": {
     "Diff": ""
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "Visa rubrik på appen i fokus"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": "Visa timvisa väderprognoser"
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": ""
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "Ange PIN för "
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": ""
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "Ange ett nytt namn för sessionen \"%1\""
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": "Tona till bildskärm av"
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": "Misslyckades med att acceptera parkoppling"
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "Misslyckades med att aktivera konfiguration"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": ""
-  },
-  "Failed to browse device": {
-    "Failed to browse device": "Misslyckades med att bläddra på enhet"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "Misslyckades med att avbryta alla jobb"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "Misslyckades med att importera VPN"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": "Misslyckades med att starta SMS-app"
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "Misslyckades med att läsa in VPN-konfiguration"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": ""
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": "Misslyckades med att avvisa parkoppling"
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": ""
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "Misslyckades med att återuppta skrivaren"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": "Misslyckades med att ringa enheten"
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": ""
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": ""
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": ""
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": "Misslyckades med att skicka urklipp"
-  },
-  "Failed to send file": {
-    "Failed to send file": "Misslyckades med att skicka fil"
-  },
-  "Failed to send ping": {
-    "Failed to send ping": "Misslyckades med att skicka ping"
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "Misslyckades med att ange ljusstyrka"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "Misslyckades med att ange profilbild: %1"
-  },
-  "Failed to share": {
-    "Failed to share": "Misslyckades med att dela"
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "Misslyckades med att starta anslutning till %1"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": "Funktioner"
   },
-  "Feels": {
-    "Feels": "Känns som"
-  },
   "Feels Like": {
     "Feels Like": "Känns som"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": "Filhanteraren användes för att öppna papperskorgen. Välj \"anpassad\" för att välja ett eget kommando."
-  },
-  "File received from %1": {
-    "File received from %1": ""
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": "Filsökning kräver dsearch\nInstallera från github.com/AvengeMedia/danksearch"
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "Tvinga terminalprogram att alltid använda mörkt tema"
   },
-  "Forecast": {
-    "Forecast": "Prognos"
-  },
-  "Forecast Days": {
-    "Forecast Days": "Prognos­dagar"
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "Prognos otillgänglig"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": ""
-  },
-  "Forward 10s": {
-    "Forward 10s": ""
   },
   "Frame": {
     "Frame": ""
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": "Timvis"
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": "Antal timvisa prognoser"
-  },
   "Hover Popouts": {
     "Hover Popouts": ""
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": ""
   },
-  "Keybind Sources": {
-    "Keybind Sources": "Kortkommandokällor"
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "Kortkommandon"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": "Sökinställningar för kortkommandon"
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": "Kortkommandon visas bredvid vanliga sökresultat"
   },
   "Keyboard": {
     "Keyboard": ""
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": ""
   },
-  "Loading trending...": {
-    "Loading trending...": "Läser in trendande..."
-  },
   "Loading...": {
     "Loading...": "Läser in..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": ""
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": "Se till att KDE Connect eller Valent körs på dina andra enheter"
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": ""
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": ""
   },
-  "Message": {
-    "Message": "Meddelande"
-  },
   "Message Content": {
     "Message Content": "Meddelandeinnehåll"
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "Övervakning för nätverkshastighet"
   },
-  "Network Type": {
-    "Network Type": ""
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "Visa upp- och nedladdningshastighet"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": "Inget väder"
   },
-  "No Weather Data": {
-    "No Weather Data": "Ingen väderdata"
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "Väderinformation otillgänglig"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": ""
-  },
-  "No images found": {
-    "No images found": ""
   },
   "No info items": {
     "No info items": "Inga informationsobjekt"
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "Inte detekterat"
   },
-  "Not paired": {
-    "Not paired": "Inte parkopplad"
-  },
   "Not set": {
     "Not set": "Inte inställt"
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "Kontor"
   },
-  "Offline": {
-    "Offline": "Offline"
-  },
   "Offline Report": {
     "Offline Report": "Offlinerapport"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "Öppna"
-  },
-  "Open App": {
-    "Open App": "Öppna app"
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": ""
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "Öppna med..."
-  },
-  "Opening SMS app": {
-    "Opening SMS app": "Öppnar SMS-app"
-  },
-  "Opening file browser": {
-    "Opening file browser": "Öppnar filbläddraren"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "Öppnar terminal: "
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "Parkoppling misslyckades"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": ""
-  },
-  "Pairing request sent": {
-    "Pairing request sent": "Parkopplingsförfrågan skickad"
-  },
-  "Pairing requested": {
-    "Pairing requested": "Parkoppling begärd"
-  },
   "Pairing...": {
     "Pairing...": "Parkopplar..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "Anpassning"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": "Phone Connect är inte tillgängligt"
-  },
-  "Phone number": {
-    "Phone number": "Telefonnummer"
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": ""
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "Fäst på Dock"
-  },
-  "Ping": {
-    "Ping": "Ping"
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": ""
   },
   "Pinned": {
     "Pinned": "Fäst"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": ""
-  },
-  "Play": {
-    "Play": ""
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": "Spela upp en video när skärmen låses."
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": "Förmarkera den senast använda sessionen på välkomstskärmen"
   },
-  "Precip": {
-    "Precip": "Nbd."
-  },
   "Precipitation": {
     "Precipitation": "Nederbörd"
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": ""
-  },
-  "Previous": {
-    "Previous": ""
   },
   "Previous page": {
     "Previous page": ""
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "Nyligen använda färger"
   },
-  "Recent Images": {
-    "Recent Images": ""
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "Nyligen använda appar"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": ""
-  },
-  "Reject": {
-    "Reject": "Avvisa"
   },
   "Reject Jobs": {
     "Reject Jobs": "Avvisa jobb"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "Rapport"
-  },
-  "Request Pairing": {
-    "Request Pairing": "Begär parkoppling"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "Kräv att knapp/tangent hålls inne för att bekräfta stäng av, starta om, strömsparläge, viloläge och utloggning"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": ""
-  },
   "Right": {
     "Right": "Höger"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "Högerklicka på menyradswidget för att växla"
-  },
-  "Ring": {
-    "Ring": "Ring"
-  },
-  "Ringing %1...": {
-    "Ringing %1...": ""
   },
   "Ripple Effects": {
     "Ripple Effects": "Rippeleffekter"
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "SDR-mättnad"
-  },
-  "SMS": {
-    "SMS": "SMS"
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": ""
   },
   "SSID": {
     "SSID": ""
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": ""
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "Sök efter tangentkombination, beskrivning eller åtgärdsnamn.\n\nStandardåtgärden kopierar kortkommandot till urklipp.\nHögerklicka eller tryck på högerpil för att fästa kortkommandon – de visas överst när du inte söker."
-  },
   "Search devices...": {
     "Search devices...": ""
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "Sök kortkommandon..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": "Sök kortkommandon från din kompositor och dina program"
   },
   "Search plugins...": {
     "Search plugins...": "Sök tillägg..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": "Välj dockens startarikon"
   },
-  "Select File to Send": {
-    "Select File to Send": "Välj fil att skicka"
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "Välj appstartarens ikon"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "Välj en bild..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": "Välj minst en leverantör"
-  },
   "Select background image": {
     "Select background image": ""
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": ""
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": "Välj vilka kortkommandoleverantörer som ska inkluderas"
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "Välj övergångar som visas slumpmässigt"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "Den valda bildfilen hittades inte."
-  },
-  "Send": {
-    "Send": "Skicka"
-  },
-  "Send Clipboard": {
-    "Send Clipboard": "Skicka urklipp"
-  },
-  "Send SMS": {
-    "Send SMS": "Skicka SMS"
-  },
-  "Sending %1...": {
-    "Sending %1...": ""
   },
   "Separate": {
     "Separate": ""
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": "Skuggor"
   },
-  "Share": {
-    "Share": "Dela"
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": "Dela gammakontrollinställningar"
-  },
-  "Shared": {
-    "Shared": "Delat"
   },
   "Shell": {
     "Shell": "Shell"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": ""
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": "Visa känns som-temperatur"
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": ""
   },
   "Show Footer": {
     "Show Footer": "Visa sidfot"
-  },
-  "Show Forecast": {
-    "Show Forecast": "Visa prognos"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "Visa grafikkortstemperatur"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "Visa timvisare"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": "Visa timvis prognos"
-  },
-  "Show Humidity": {
-    "Show Humidity": "Visa luftfuktighet"
-  },
   "Show Icon": {
     "Show Icon": ""
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "Visa radnummer"
-  },
-  "Show Location": {
-    "Show Location": "Visa plats"
   },
   "Show Lock": {
     "Show Lock": "Visa lås"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "Visa stäng av"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": "Visa nederbördssannolikhet"
-  },
-  "Show Pressure": {
-    "Show Pressure": "Visa lufttryck"
-  },
   "Show Profile Image": {
     "Show Profile Image": "Visa profilbild"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": ""
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": "Visa soluppgång/solnedgång"
   },
   "Show Suspend": {
     "Show Suspend": "Visa strömsparläge"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": ""
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": "Visa väderförhållanden"
-  },
   "Show Week Number": {
     "Show Week Number": "Visa veckonummer"
   },
   "Show Welcome": {
     "Show Welcome": "Visa välkomstskärm"
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": "Visa vindhastighet"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "Visa appar i en arbetsyta"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "Signal"
-  },
-  "Signal Strength": {
-    "Signal Strength": ""
   },
   "Silence for a while": {
     "Silence for a while": ""
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": ""
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": "Starta KDE Connect eller Valent för att använda detta tillägg"
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "Skriv dina anteckningar här..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": ""
   },
-  "Trending GIFs": {
-    "Trending GIFs": "Trendande GIF:er"
-  },
-  "Trending Stickers": {
-    "Trending Stickers": "Trendande klistermärken"
-  },
   "Trigger": {
     "Trigger": "Utlösare"
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": "Utlösarprefix"
   },
   "Trigger: %1": {
     "Trigger: %1": "Utlösare: %1"
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": ""
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": "Skriv detta prefix för att söka kortkommandon"
-  },
   "Type to search files": {
     "Type to search files": "Skriv för att söka filer"
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "Typografi & rörelse"
-  },
-  "URI": {
-    "URI": ""
   },
   "Unavailable": {
     "Unavailable": "Otillgänglig"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": "Namnlös regel"
   },
-  "Unpair": {
-    "Unpair": "Ta bort parkoppling"
-  },
-  "Unpair failed": {
-    "Unpair failed": "Bortkoppling misslyckades"
-  },
   "Unpin": {
     "Unpin": "Ta bort fästning"
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": "Brådskande färg"
-  },
-  "Usage Tips": {
-    "Usage Tips": "Användartips"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "Använd 24-timmarsklocka istället för 12-timmarsklocka"
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": "Använd samma position och storlek på alla bildskärmar"
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": "Använd utlösarprefix för att aktivera"
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": ""
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": "Används när accentfärgen är inställd på Anpassad"
   },
   "User": {
     "User": "Användare"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "Variabel uppdateringsfrekvens"
   },
-  "Verification": {
-    "Verification": "Verifiering"
-  },
   "Version": {
     "Version": "Version"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": "Videoskärmsläckare"
-  },
-  "View Mode": {
-    "View Mode": "Visningsläge"
   },
   "Visibility": {
     "Visibility": "Synlighet"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": "frånkopplad"
-  },
-  "device": {
-    "device": "enhet"
   },
   "dgop not available": {
     "dgop not available": "dgop är inte tillgängligt"

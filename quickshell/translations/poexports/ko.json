@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": ""
   },
-  "Accent Color": {
-    "Accent Color": "강조 색상"
-  },
-  "Accept": {
-    "Accept": "수락"
-  },
   "Accept Jobs": {
     "Accept Jobs": "작업 수락"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": ""
-  },
-  "Activation": {
-    "Activation": "활성화"
   },
   "Active": {
     "Active": "활성"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": "'Alternative'는 키 단독으로 잠금을 해제합니다. 'Second factor'는 암호나 지문을 먼저 요구한 뒤 키를 요구합니다."
-  },
-  "Always Active": {
-    "Always Active": "항상 활성"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "항상 백분율 표시"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": "사용 가능한 업데이트 (%1)"
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": "상세 및 일기예보 보기 모드에서 사용 가능"
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": "배경 효과"
-  },
-  "Background Opacity": {
-    "Background Opacity": "배경 불투명도"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": "백그라운드 인증 동기화에 실패했습니다. 터미널 모드로 시도합니다."
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "찾아보기"
   },
-  "Browse Files": {
-    "Browse Files": "파일 찾아보기"
-  },
   "Browse Plugins": {
     "Browse Plugins": "플러그인 찾아보기"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": ""
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": "날씨 위젯이 표시되는 방식을 선택하세요"
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": "이 표시줄이 그림자 방향을 확인하는 방식을 선택하세요"
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": "잠금 화면 인터페이스를 표시할 모니터를 선택하세요. 다른 모니터는 OLED 번인 방지를 위해 단색을 표시합니다."
-  },
-  "Chroma Style": {
-    "Chroma Style": "크로마 스타일"
   },
   "Cipher": {
     "Cipher": "암호화 방식"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": "클립보드 저장됨"
   },
-  "Clipboard sent": {
-    "Clipboard sent": "클립보드 전송됨"
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "클립보드가 작동하지만 디스크에 아무것도 저장되지 않았습니다"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "야간 모드 색온도"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": "구문 강조를 위한 색상 테마입니다."
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": "구문 강조를 위한 색상 테마입니다. %1개의 테마를 사용할 수 있습니다."
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "DMS 레지스트리의 색상 테마"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": "콘텐츠"
   },
-  "Content copied": {
-    "Content copied": "콘텐츠 복사됨"
-  },
   "Contrast": {
     "Contrast": "대비"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "재사용 대기시간"
   },
-  "Copied GIF": {
-    "Copied GIF": "GIF 복사됨"
-  },
-  "Copied MP4": {
-    "Copied MP4": "MP4 복사됨"
-  },
-  "Copied WebP": {
-    "Copied WebP": "WebP 복사됨"
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "클립보드에 복사됨"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": "복사"
-  },
-  "Copy Content": {
-    "Copy Content": "콘텐츠 복사"
   },
   "Copy Full Command": {
     "Copy Full Command": "전체 명령어 복사"
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "데스크톱 배경 이미지"
   },
-  "Detailed": {
-    "Detailed": "자세히"
-  },
   "Details for \"%1": {
     "Details for \"%1\"": "\"%1\" 세부 정보"
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "기기 페어링됨"
-  },
-  "Device unpaired": {
-    "Device unpaired": "기기 페어링 해제됨"
   },
   "Diff": {
     "Diff": "차이점(Diff)"
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "현재 초점이 맞춰진 애플리케이션 제목 표시"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": "시간별 날씨 예보 표시"
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": "편집기에 줄 번호 표시"
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "PIN 입력:"
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": "공유할 URI 또는 텍스트 입력"
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "\"%1\" 세션의 새 이름 입력"
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": "모니터 끄기로 페이드"
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": "페어링 수락 실패"
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "구성 활성화 실패"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": "프로필 적용 실패"
-  },
-  "Failed to browse device": {
-    "Failed to browse device": "기기 찾아보기 실패"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "모든 작업 취소 실패"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "VPN 가져오기 실패"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": "SMS 앱 실행 실패"
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "VPN 구성 로드 실패"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": "테마 파일 읽기 실패: %1"
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": "페어링 거부 실패"
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "플러그인 다시 로드 실패: %1"
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "프린터 재개 실패"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": "기기 소리 울리기 실패"
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": ""
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": "프로필 저장 실패"
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": "SMS 전송 실패"
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": "클립보드 전송 실패"
-  },
-  "Failed to send file": {
-    "Failed to send file": "파일 전송 실패"
-  },
-  "Failed to send ping": {
-    "Failed to send ping": "핑 전송 실패"
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "밝기 설정 실패"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "프로필 이미지 설정 실패: %1"
-  },
-  "Failed to share": {
-    "Failed to share": "공유 실패"
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "%1에 대한 연결 시작 실패"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": "기능"
   },
-  "Feels": {
-    "Feels": "체감 온도"
-  },
   "Feels Like": {
     "Feels Like": "체감 온도"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": "휴지통을 열 때 사용되는 파일 관리자입니다. 자신만의 명령어를 입력하려면 \"사용자 지정\"을 선택하세요."
-  },
-  "File received from %1": {
-    "File received from %1": ""
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": "파일 검색에는 dsearch가 필요합니다\ngithub.com/AvengeMedia/danksearch에서 설치하세요"
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "터미널 앱이 항상 어두운 색상 체계를 사용하도록 강제"
   },
-  "Forecast": {
-    "Forecast": "일기예보"
-  },
-  "Forecast Days": {
-    "Forecast Days": "예보 일수"
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "일기예보를 사용할 수 없음"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": ""
-  },
-  "Forward 10s": {
-    "Forward 10s": "10초 앞으로"
   },
   "Frame": {
     "Frame": "프레임"
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": "매시간"
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": "시간별 예보 수"
-  },
   "Hover Popouts": {
     "Hover Popouts": "가리킬 때 팝아웃"
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": ""
   },
-  "Keybind Sources": {
-    "Keybind Sources": "단축키 소스"
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "단축키"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": "단축키 검색 설정"
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": "일반 검색 결과와 함께 표시되는 단축키"
   },
   "Keyboard": {
     "Keyboard": ""
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": ""
   },
-  "Loading trending...": {
-    "Loading trending...": "인기 항목 로드 중..."
-  },
   "Loading...": {
     "Loading...": "로드 중..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": "관리자 만들기"
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": "다른 기기에서 KDE Connect 또는 Valent가 실행 중인지 확인하세요"
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": "바 배경을 완전히 투명하게 만들기"
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": "인덱싱된 폴더 결과를 전체 탭에 병합합니다(dsearch 필요)."
   },
-  "Message": {
-    "Message": "메시지"
-  },
   "Message Content": {
     "Message Content": "메시지 내용"
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "네트워크 속도 모니터"
   },
-  "Network Type": {
-    "Network Type": "네트워크 유형"
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "네트워크 다운로드 및 업로드 속도 표시"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": "날씨 없음"
   },
-  "No Weather Data": {
-    "No Weather Data": "날씨 데이터 없음"
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "사용할 수 있는 날씨 데이터 없음"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": "실제 사용자 계정을 찾을 수 없습니다."
-  },
-  "No images found": {
-    "No images found": "이미지를 찾을 수 없음"
   },
   "No info items": {
     "No info items": "정보 항목 없음"
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "감지되지 않음"
   },
-  "Not paired": {
-    "Not paired": "페어링되지 않음"
-  },
   "Not set": {
     "Not set": "설정되지 않음"
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "사무실"
   },
-  "Offline": {
-    "Offline": "오프라인"
-  },
   "Offline Report": {
     "Offline Report": "오프라인 보고서"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "열기"
-  },
-  "Open App": {
-    "Open App": "앱 열기"
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": ""
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "연결 프로그램..."
-  },
-  "Opening SMS app": {
-    "Opening SMS app": "SMS 앱 여는 중"
-  },
-  "Opening file browser": {
-    "Opening file browser": "파일 브라우저 여는 중"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "터미널 여는 중:"
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "페어링 실패"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": ""
-  },
-  "Pairing request sent": {
-    "Pairing request sent": "페어링 요청 보냄"
-  },
-  "Pairing requested": {
-    "Pairing requested": "페어링 요청됨"
-  },
   "Pairing...": {
     "Pairing...": "페어링 중..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "개인 설정"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": "휴대폰 연결을 사용할 수 없음"
-  },
-  "Phone number": {
-    "Phone number": "전화번호"
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": "설정 → 독 → 휴지통에서 다른 파일 관리자를 선택하세요."
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "독에 고정"
-  },
-  "Ping": {
-    "Ping": "핑"
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": ""
   },
   "Pinned": {
     "Pinned": "고정됨"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": ""
-  },
-  "Play": {
-    "Play": "재생"
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": "화면이 잠길 때 비디오 재생."
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": "로그인 화면에서 마지막으로 사용한 세션 미리 선택"
   },
-  "Precip": {
-    "Precip": "강수"
-  },
   "Precipitation": {
     "Precipitation": "강수량"
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": "미리보기: %1"
-  },
-  "Previous": {
-    "Previous": "이전"
   },
   "Previous page": {
     "Previous page": "이전 페이지"
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "최근 색상"
   },
-  "Recent Images": {
-    "Recent Images": "최근 이미지"
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "최근 사용한 앱"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": "보통"
-  },
-  "Reject": {
-    "Reject": "거절"
   },
   "Reject Jobs": {
     "Reject Jobs": "작업 거부"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "보고서"
-  },
-  "Request Pairing": {
-    "Request Pairing": "페어링 요청"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "전원 끄기, 다시 시작, 절전, 최대 절전 및 로그아웃을 확인하려면 버튼/키를 길게 눌러야 함"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": "10초 되감기"
-  },
   "Right": {
     "Right": "오른쪽"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "바 위젯을 마우스 오른쪽 버튼으로 클릭하여 순환"
-  },
-  "Ring": {
-    "Ring": "벨 울리기"
-  },
-  "Ringing %1...": {
-    "Ringing %1...": ""
   },
   "Ripple Effects": {
     "Ripple Effects": "파문 효과"
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "SDR 채도"
-  },
-  "SMS": {
-    "SMS": "SMS"
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": "SMS가 성공적으로 전송됨"
   },
   "SSID": {
     "SSID": ""
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": "애플리케이션 검색..."
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "키 조합, 설명 또는 작업 이름으로 검색합니다.\n\n기본 작업은 단축키를 클립보드에 복사합니다.\n마우스 오른쪽 버튼을 클릭하거나 오른쪽 화살표를 눌러 자주 사용하는 단축키를 고정합니다 - 검색하지 않을 때 맨 위에 나타납니다."
-  },
   "Search devices...": {
     "Search devices...": "장치 검색..."
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "단축키 검색..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": "컴포지터 및 애플리케이션에서 키보드 바로 가기 검색"
   },
   "Search plugins...": {
     "Search plugins...": "플러그인 검색..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": "독 런처 로고 선택"
   },
-  "Select File to Send": {
-    "Select File to Send": "보낼 파일 선택"
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "런처 로고 선택"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "이미지 파일 선택..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": "하나 이상의 공급자 선택"
-  },
   "Select background image": {
     "Select background image": "배경 이미지 선택"
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": ""
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": "포함할 단축키 제공자 선택"
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "무작위화에 포함할 전환 선택"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "선택한 이미지 파일을 찾을 수 없습니다."
-  },
-  "Send": {
-    "Send": "보내기"
-  },
-  "Send Clipboard": {
-    "Send Clipboard": "클립보드 보내기"
-  },
-  "Send SMS": {
-    "Send SMS": "SMS 보내기"
-  },
-  "Sending %1...": {
-    "Sending %1...": ""
   },
   "Separate": {
     "Separate": "분리"
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": "그림자"
   },
-  "Share": {
-    "Share": "공유"
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": "감마 제어 설정 공유"
-  },
-  "Shared": {
-    "Shared": "공유됨"
   },
   "Shell": {
     "Shell": "Shell"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": ""
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": "체감 온도 표시"
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": "런처 항목에 Flatpak, Snap, AppImage 또는 Nix 배지 아이콘을 표시합니다."
   },
   "Show Footer": {
     "Show Footer": "바닥글 표시"
-  },
-  "Show Forecast": {
-    "Show Forecast": "일기예보 표시"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "GPU 온도 표시"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "시간 숫자 표시"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": "시간별 예보 표시"
-  },
-  "Show Humidity": {
-    "Show Humidity": "습도 표시"
-  },
   "Show Icon": {
     "Show Icon": "아이콘 표시"
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "줄 번호 표시"
-  },
-  "Show Location": {
-    "Show Location": "위치 표시"
   },
   "Show Lock": {
     "Show Lock": "잠금 표시"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "전원 끄기 표시"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": "강수 확률 표시"
-  },
-  "Show Pressure": {
-    "Show Pressure": "기압 표시"
-  },
   "Show Profile Image": {
     "Show Profile Image": "프로필 이미지 표시"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": ""
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": "일출/일몰 표시"
   },
   "Show Suspend": {
     "Show Suspend": "절전 표시"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": ""
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": "날씨 상태 표시"
-  },
   "Show Week Number": {
     "Show Week Number": "주 번호 표시"
   },
   "Show Welcome": {
     "Show Welcome": "환영 표시"
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": "풍속 표시"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "작업 공간 앱 표시"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "신호"
-  },
-  "Signal Strength": {
-    "Signal Strength": "신호 강도"
   },
   "Silence for a while": {
     "Silence for a while": "잠시 무음"
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": ""
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": "이 플러그인을 사용하려면 KDE Connect 또는 Valent 시작"
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "여기에 노트를 입력하세요..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": "트레이 아이콘 수정"
   },
-  "Trending GIFs": {
-    "Trending GIFs": "인기 있는 GIF"
-  },
-  "Trending Stickers": {
-    "Trending Stickers": "인기 있는 스티커"
-  },
   "Trigger": {
     "Trigger": "트리거"
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": "트리거 접두사"
   },
   "Trigger: %1": {
     "Trigger: %1": "트리거: %1"
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": "파일을 검색하려면 2자 이상 입력하세요."
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": "단축키를 검색하려면 이 접두사 입력"
-  },
   "Type to search files": {
     "Type to search files": "파일을 검색하려면 입력"
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "타이포그래피 및 모션"
-  },
-  "URI": {
-    "URI": "URI"
   },
   "Unavailable": {
     "Unavailable": "사용할 수 없음"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": "이름 없는 규칙"
   },
-  "Unpair": {
-    "Unpair": "페어링 해제"
-  },
-  "Unpair failed": {
-    "Unpair failed": "페어링 해제 실패"
-  },
   "Unpin": {
     "Unpin": "고정 해제"
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": "긴급 색상"
-  },
-  "Usage Tips": {
-    "Usage Tips": "사용 팁"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "12시간제 AM/PM 대신 24시간제 형식 사용"
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": "모든 디스플레이에 같은 위치 및 크기 사용"
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": "활성화하려면 트리거 접두사 사용"
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": "xdg-terminal-exec에 사용됨"
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": "강조 색상이 사용자 지정으로 설정된 경우 사용됨"
   },
   "User": {
     "User": "사용자"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "가변 주사율"
   },
-  "Verification": {
-    "Verification": "확인"
-  },
   "Version": {
     "Version": "버전"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": "비디오 화면 보호기"
-  },
-  "View Mode": {
-    "View Mode": "보기 모드"
   },
   "Visibility": {
     "Visibility": "가시성"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": "분리됨"
-  },
-  "device": {
-    "device": "기기"
   },
   "dgop not available": {
     "dgop not available": "dgop를 사용할 수 없음"

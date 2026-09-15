@@ -344,12 +344,6 @@
   "Acceleration Profile": {
     "Acceleration Profile": ""
   },
-  "Accent Color": {
-    "Accent Color": "強調色"
-  },
-  "Accept": {
-    "Accept": "接受"
-  },
   "Accept Jobs": {
     "Accept Jobs": "接受工作"
   },
@@ -391,9 +385,6 @@
   },
   "Activates immediately": {
     "Activates immediately": ""
-  },
-  "Activation": {
-    "Activation": "啟用"
   },
   "Active": {
     "Active": "啟用"
@@ -583,9 +574,6 @@
   },
   "Alternative (OR)": {
     "Alternative (OR)": "替代 (OR)"
-  },
-  "Always Active": {
-    "Always Active": "總是啟用"
   },
   "Always Show Percentage": {
     "Always Show Percentage": "始終顯示百分比"
@@ -1028,9 +1016,6 @@
   "Available Updates (%1)": {
     "Available Updates (%1)": ""
   },
-  "Available in Detailed and Forecast view modes": {
-    "Available in Detailed and Forecast view modes": "可於詳細和預報檢視模式中顯示"
-  },
   "BSSID": {
     "BSSID": "BSSID"
   },
@@ -1051,9 +1036,6 @@
   },
   "Background Effect": {
     "Background Effect": "背景特效"
-  },
-  "Background Opacity": {
-    "Background Opacity": "背景不透明度"
   },
   "Background authentication sync failed. Trying terminal mode.": {
     "Background authentication sync failed. Trying terminal mode.": "背景身份驗證同步失敗。正在嘗試終端機模式。"
@@ -1310,9 +1292,6 @@
   "Browse": {
     "Browse": "瀏覽"
   },
-  "Browse Files": {
-    "Browse Files": "瀏覽檔案"
-  },
   "Browse Plugins": {
     "Browse Plugins": "瀏覽插件"
   },
@@ -1529,9 +1508,6 @@
   "Choose how the bar meets the screen edge": {
     "Choose how the bar meets the screen edge": ""
   },
-  "Choose how the weather widget is displayed": {
-    "Choose how the weather widget is displayed": "選擇天氣小工具的顯示方式"
-  },
   "Choose how this bar resolves shadow direction": {
     "Choose how this bar resolves shadow direction": "選擇此列如何解析陰影方向"
   },
@@ -1576,9 +1552,6 @@
   },
   "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": {
     "Choose which monitors show the lock screen interface. Other monitors will display a solid color for OLED burn-in protection.": ""
-  },
-  "Chroma Style": {
-    "Chroma Style": "色度樣式"
   },
   "Cipher": {
     "Cipher": "密碼"
@@ -1688,9 +1661,6 @@
   "Clipboard Saved": {
     "Clipboard Saved": "剪貼簿已儲存"
   },
-  "Clipboard sent": {
-    "Clipboard sent": "剪貼簿已傳送"
-  },
   "Clipboard works but nothing saved to disk": {
     "Clipboard works but nothing saved to disk": "剪貼簿運作正常但未儲存任何內容至磁碟"
   },
@@ -1759,12 +1729,6 @@
   },
   "Color temperature for night mode": {
     "Color temperature for night mode": "夜晚螢幕的顏色溫度"
-  },
-  "Color theme for syntax highlighting.": {
-    "Color theme for syntax highlighting.": "語法標示的顏色佈景主題。"
-  },
-  "Color theme for syntax highlighting. %1 themes available.": {
-    "Color theme for syntax highlighting. %1 themes available.": "語法標示的顏色佈景主題。有 %1 個佈景主題可用。"
   },
   "Color theme from DMS registry": {
     "Color theme from DMS registry": "來自 DMS 登錄檔的色彩主題"
@@ -1955,9 +1919,6 @@
   "Content": {
     "Content": "內容"
   },
-  "Content copied": {
-    "Content copied": "內容已複製"
-  },
   "Contrast": {
     "Contrast": "對比"
   },
@@ -2015,15 +1976,6 @@
   "Cooldown": {
     "Cooldown": "冷卻時間"
   },
-  "Copied GIF": {
-    "Copied GIF": "已複製 GIF"
-  },
-  "Copied MP4": {
-    "Copied MP4": "已複製 MP4"
-  },
-  "Copied WebP": {
-    "Copied WebP": "已複製 WebP"
-  },
   "Copied to clipboard": {
     "Copied to clipboard": "複製到剪貼簿"
   },
@@ -2032,9 +1984,6 @@
   },
   "Copy": {
     "Copy": "複製"
-  },
-  "Copy Content": {
-    "Copy Content": "複製內容"
   },
   "Copy Full Command": {
     "Copy Full Command": "複製完整指令"
@@ -2555,9 +2504,6 @@
   "Desktop background images": {
     "Desktop background images": "桌面背景圖片"
   },
-  "Detailed": {
-    "Detailed": "詳細"
-  },
   "Details for \"%1": {
     "Details for \"%1\"": "「%1」的詳細資訊"
   },
@@ -2578,9 +2524,6 @@
   },
   "Device paired": {
     "Device paired": "裝置已配對"
-  },
-  "Device unpaired": {
-    "Device unpaired": "裝置已解除配對"
   },
   "Diff": {
     "Diff": ""
@@ -2716,9 +2659,6 @@
   },
   "Display currently focused application title": {
     "Display currently focused application title": "顯示目前焦點應用程式的標題"
-  },
-  "Display hourly weather predictions": {
-    "Display hourly weather predictions": "顯示每小時天氣預報"
   },
   "Display line numbers in editor": {
     "Display line numbers in editor": "在編輯器中顯示行號"
@@ -3029,9 +2969,6 @@
   "Enter PIN for ": {
     "Enter PIN for ": "請輸入 PIN 給 "
   },
-  "Enter URI or text to share": {
-    "Enter URI or text to share": ""
-  },
   "Enter a new name for session \"%1": {
     "Enter a new name for session \"%1\"": "為會話「%1」輸入新名稱"
   },
@@ -3185,9 +3122,6 @@
   "Fade to monitor off": {
     "Fade to monitor off": "螢幕淡出關閉"
   },
-  "Failed to accept pairing": {
-    "Failed to accept pairing": "無法接受配對"
-  },
   "Failed to activate configuration": {
     "Failed to activate configuration": "無法啟動配置"
   },
@@ -3202,9 +3136,6 @@
   },
   "Failed to apply profile": {
     "Failed to apply profile": "套用設定檔失敗"
-  },
-  "Failed to browse device": {
-    "Failed to browse device": "無法瀏覽裝置"
   },
   "Failed to cancel all jobs": {
     "Failed to cancel all jobs": "無法取消所有工作"
@@ -3293,9 +3224,6 @@
   "Failed to import VPN": {
     "Failed to import VPN": "匯入 VPN 失敗"
   },
-  "Failed to launch SMS app": {
-    "Failed to launch SMS app": "無法啟動簡訊應用程式"
-  },
   "Failed to load VPN config": {
     "Failed to load VPN config": "載入 VPN 設定失敗"
   },
@@ -3326,9 +3254,6 @@
   "Failed to read theme file: %1": {
     "Failed to read theme file: %1": "讀取主題檔案失敗：%1"
   },
-  "Failed to reject pairing": {
-    "Failed to reject pairing": "無法拒絕配對"
-  },
   "Failed to reload plugin: %1": {
     "Failed to reload plugin: %1": "重新載入外掛程式失敗：%1"
   },
@@ -3349,9 +3274,6 @@
   },
   "Failed to resume printer": {
     "Failed to resume printer": "印表機恢復失敗"
-  },
-  "Failed to ring device": {
-    "Failed to ring device": "無法讓裝置響鈴"
   },
   "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": {
     "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.": ""
@@ -3377,18 +3299,6 @@
   "Failed to save profile": {
     "Failed to save profile": "儲存設定檔失敗"
   },
-  "Failed to send SMS": {
-    "Failed to send SMS": ""
-  },
-  "Failed to send clipboard": {
-    "Failed to send clipboard": "無法傳送剪貼簿"
-  },
-  "Failed to send file": {
-    "Failed to send file": "傳送檔案失敗"
-  },
-  "Failed to send ping": {
-    "Failed to send ping": "無法傳送 Ping"
-  },
   "Failed to set brightness": {
     "Failed to set brightness": "無法設定亮度"
   },
@@ -3409,9 +3319,6 @@
   },
   "Failed to set profile image: %1": {
     "Failed to set profile image: %1": "無法設定個人檔案圖片：%1"
-  },
-  "Failed to share": {
-    "Failed to share": "無法分享"
   },
   "Failed to start connection to %1": {
     "Failed to start connection to %1": "無法啟動連線至 %1"
@@ -3464,9 +3371,6 @@
   "Features": {
     "Features": "功能"
   },
-  "Feels": {
-    "Feels": "體感"
-  },
   "Feels Like": {
     "Feels Like": "體感溫度"
   },
@@ -3490,9 +3394,6 @@
   },
   "File manager used to open the trash. Pick \"custom\" to enter your own command.": {
     "File manager used to open the trash. Pick \"custom\" to enter your own command.": "檔案管理器用於開啟垃圾桶。選擇「自訂」以輸入您自己的指令。"
-  },
-  "File received from %1": {
-    "File received from %1": ""
   },
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": "檔案搜尋需要 dsearch\n從 github.com/morelazers/dsearch 安裝"
@@ -3728,12 +3629,6 @@
   "Force terminal applications to always use dark color schemes": {
     "Force terminal applications to always use dark color schemes": "強制終端應用程式始終使用深色配色方案"
   },
-  "Forecast": {
-    "Forecast": "預報"
-  },
-  "Forecast Days": {
-    "Forecast Days": "預報天數"
-  },
   "Forecast Not Available": {
     "Forecast Not Available": "預報不可用"
   },
@@ -3769,9 +3664,6 @@
   },
   "Format the date on the login screen": {
     "Format the date on the login screen": ""
-  },
-  "Forward 10s": {
-    "Forward 10s": ""
   },
   "Frame": {
     "Frame": "框架"
@@ -4196,9 +4088,6 @@
   "Hourly": {
     "Hourly": "每小時"
   },
-  "Hourly Forecast Count": {
-    "Hourly Forecast Count": "每小時預報數量"
-  },
   "Hover Popouts": {
     "Hover Popouts": ""
   },
@@ -4595,20 +4484,11 @@
   "Key combination": {
     "Key combination": ""
   },
-  "Keybind Sources": {
-    "Keybind Sources": "快捷鍵來源"
-  },
   "Keybindings changed. Refresh and review your edit before saving.": {
     "Keybindings changed. Refresh and review your edit before saving.": ""
   },
   "Keybinds": {
     "Keybinds": "按鍵綁定"
-  },
-  "Keybinds Search Settings": {
-    "Keybinds Search Settings": "快捷鍵搜尋設定"
-  },
-  "Keybinds shown alongside regular search results": {
-    "Keybinds shown alongside regular search results": "快捷鍵與一般搜尋結果一同顯示"
   },
   "Keyboard": {
     "Keyboard": ""
@@ -4814,9 +4694,6 @@
   "Loading ports...": {
     "Loading ports...": ""
   },
-  "Loading trending...": {
-    "Loading trending...": "載入熱門項目中..."
-  },
   "Loading...": {
     "Loading...": "載入中..."
   },
@@ -4906,9 +4783,6 @@
   },
   "Make admin": {
     "Make admin": "設為管理員"
-  },
-  "Make sure KDE Connect or Valent is running on your other devices": {
-    "Make sure KDE Connect or Valent is running on your other devices": "請確認您的其他裝置上已執行 KDE Connect 或 Valent"
   },
   "Make the bar background fully transparent": {
     "Make the bar background fully transparent": "使工具列背景完全透明"
@@ -5147,9 +5021,6 @@
   "Merge indexed folder results into the All tab (requires dsearch).": {
     "Merge indexed folder results into the All tab (requires dsearch).": "將索引資料夾結果合併到「所有」分頁中（需要 dsearch）。"
   },
-  "Message": {
-    "Message": "訊息"
-  },
   "Message Content": {
     "Message Content": "訊息內容"
   },
@@ -5366,9 +5237,6 @@
   "Network Speed Monitor": {
     "Network Speed Monitor": "網速監視"
   },
-  "Network Type": {
-    "Network Type": ""
-  },
   "Network download and upload speed display": {
     "Network download and upload speed display": "顯示網路下載跟上傳速度"
   },
@@ -5495,9 +5363,6 @@
   "No Weather": {
     "No Weather": "無天氣"
   },
-  "No Weather Data": {
-    "No Weather Data": "無天氣資料"
-  },
   "No Weather Data Available": {
     "No Weather Data Available": "沒有氣象數據"
   },
@@ -5596,9 +5461,6 @@
   },
   "No human user accounts found.": {
     "No human user accounts found.": "找不到任何真實使用者帳戶。"
-  },
-  "No images found": {
-    "No images found": ""
   },
   "No info items": {
     "No info items": "無資訊項目"
@@ -5795,9 +5657,6 @@
   "Not detected": {
     "Not detected": "未偵測到"
   },
-  "Not paired": {
-    "Not paired": "未配對"
-  },
   "Not set": {
     "Not set": "未設定"
   },
@@ -5876,9 +5735,6 @@
   "Office": {
     "Office": "辦公"
   },
-  "Offline": {
-    "Offline": "離線"
-  },
   "Offline Report": {
     "Offline Report": "離線報告"
   },
@@ -5938,9 +5794,6 @@
   },
   "Open": {
     "Open": "打開"
-  },
-  "Open App": {
-    "Open App": "開啟應用程式"
   },
   "Open DMS windows floating instead of tiled": {
     "Open DMS windows floating instead of tiled": ""
@@ -6004,12 +5857,6 @@
   },
   "Open with...": {
     "Open with...": "開啟方式..."
-  },
-  "Opening SMS app": {
-    "Opening SMS app": "正在開啟簡訊應用程式"
-  },
-  "Opening file browser": {
-    "Opening file browser": "正在開啟檔案瀏覽器"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "正在開啟終端機："
@@ -6164,15 +6011,6 @@
   "Pairing failed": {
     "Pairing failed": "配對失敗"
   },
-  "Pairing request from %1": {
-    "Pairing request from %1": ""
-  },
-  "Pairing request sent": {
-    "Pairing request sent": "已送出配對要求"
-  },
-  "Pairing requested": {
-    "Pairing requested": "已要求配對"
-  },
   "Pairing...": {
     "Pairing...": "正在配對..."
   },
@@ -6272,12 +6110,6 @@
   "Personalization": {
     "Personalization": "個人化"
   },
-  "Phone Connect Not Available": {
-    "Phone Connect Not Available": "手機連線無法使用"
-  },
-  "Phone number": {
-    "Phone number": "電話號碼"
-  },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": "請在「設定」→「Dock」→「垃圾桶」中選擇不同的檔案管理器。"
   },
@@ -6295,12 +6127,6 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "釘選到 Dock"
-  },
-  "Ping": {
-    "Ping": "Ping"
-  },
-  "Ping sent to %1": {
-    "Ping sent to %1": ""
   },
   "Pinned": {
     "Pinned": "已釘選"
@@ -6334,9 +6160,6 @@
   },
   "Platform renderer (FreeType).": {
     "Platform renderer (FreeType).": ""
-  },
-  "Play": {
-    "Play": ""
   },
   "Play a video when the screen locks.": {
     "Play a video when the screen locks.": "螢幕鎖定時播放影片。"
@@ -6515,9 +6338,6 @@
   "Pre-select the last used session on the greeter": {
     "Pre-select the last used session on the greeter": "在歡迎畫面上預選上次使用的會話"
   },
-  "Precip": {
-    "Precip": "降水"
-  },
   "Precipitation": {
     "Precipitation": "降水"
   },
@@ -6562,9 +6382,6 @@
   },
   "Preview: %1": {
     "Preview: %1": ""
-  },
-  "Previous": {
-    "Previous": ""
   },
   "Previous page": {
     "Previous page": ""
@@ -6755,9 +6572,6 @@
   "Recent Colors": {
     "Recent Colors": "最近的顏色"
   },
-  "Recent Images": {
-    "Recent Images": ""
-  },
   "Recently Used Apps": {
     "Recently Used Apps": "最近使用的應用程式"
   },
@@ -6787,9 +6601,6 @@
   },
   "Regular": {
     "Regular": "標準"
-  },
-  "Reject": {
-    "Reject": "拒絕"
   },
   "Reject Jobs": {
     "Reject Jobs": "拒絕工作"
@@ -6913,9 +6724,6 @@
   },
   "Report": {
     "Report": "報告"
-  },
-  "Request Pairing": {
-    "Request Pairing": "要求配對"
   },
   "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": {
     "Require holding button/key to confirm power off, restart, suspend, hibernate and logout": "需要按住按鈕/鍵以確認關機、重新啟動、睡眠、休眠和登出"
@@ -7043,9 +6851,6 @@
   "Review the current bindings before saving this edit.": {
     "Review the current bindings before saving this edit.": ""
   },
-  "Rewind 10s": {
-    "Rewind 10s": ""
-  },
   "Right": {
     "Right": "右方"
   },
@@ -7066,12 +6871,6 @@
   },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "右鍵點擊長條小工具以循環"
-  },
-  "Ring": {
-    "Ring": "響鈴"
-  },
-  "Ringing %1...": {
-    "Ringing %1...": ""
   },
   "Ripple Effects": {
     "Ripple Effects": "漣漪效果"
@@ -7141,12 +6940,6 @@
   },
   "SDR Saturation": {
     "SDR Saturation": "SDR 飽和度"
-  },
-  "SMS": {
-    "SMS": "簡訊"
-  },
-  "SMS sent successfully": {
-    "SMS sent successfully": ""
   },
   "SSID": {
     "SSID": ""
@@ -7292,9 +7085,6 @@
   "Search applications...": {
     "Search applications...": "搜尋應用程式..."
   },
-  "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": {
-    "Search by key combo, description, or action name.\n\nDefault action copies the keybind to clipboard.\nRight-click or press Right Arrow to pin frequently used keybinds - they'll appear at the top when not searching.": "按組合鍵、描述或動作名稱搜尋。\n\n預設動作將綁定鍵複製到剪貼簿。\n右鍵點擊或按右箭頭以釘選常用綁定鍵 — 搜尋時它們將出現在頂部。"
-  },
   "Search devices...": {
     "Search devices...": "搜尋裝置..."
   },
@@ -7303,9 +7093,6 @@
   },
   "Search keybinds...": {
     "Search keybinds...": "搜尋按鍵綁定..."
-  },
-  "Search keyboard shortcuts from your compositor and applications": {
-    "Search keyboard shortcuts from your compositor and applications": "搜尋合成器與應用程式的鍵盤快捷鍵"
   },
   "Search plugins...": {
     "Search plugins...": "搜尋插件..."
@@ -7379,9 +7166,6 @@
   "Select Dock Launcher Logo": {
     "Select Dock Launcher Logo": "選擇 Dock 啟動器標誌"
   },
-  "Select File to Send": {
-    "Select File to Send": "選取要傳送的檔案"
-  },
   "Select Launcher Logo": {
     "Select Launcher Logo": "選擇啟動器 Logo"
   },
@@ -7421,9 +7205,6 @@
   "Select an image file...": {
     "Select an image file...": "選擇一張圖片..."
   },
-  "Select at least one provider": {
-    "Select at least one provider": "請至少選擇一個提供者"
-  },
   "Select background image": {
     "Select background image": ""
   },
@@ -7460,9 +7241,6 @@
   "Select which color is extracted from the wallpaper to seed the palette": {
     "Select which color is extracted from the wallpaper to seed the palette": ""
   },
-  "Select which keybind providers to include": {
-    "Select which keybind providers to include": "選擇要包含哪些快捷鍵提供者"
-  },
   "Select which transitions to include in randomization": {
     "Select which transitions to include in randomization": "選擇要包含在隨機中的轉換效果"
   },
@@ -7471,18 +7249,6 @@
   },
   "Selected image file not found.": {
     "Selected image file not found.": "未找到選定的圖片。"
-  },
-  "Send": {
-    "Send": "傳送"
-  },
-  "Send Clipboard": {
-    "Send Clipboard": "傳送剪貼簿"
-  },
-  "Send SMS": {
-    "Send SMS": "傳送簡訊"
-  },
-  "Sending %1...": {
-    "Sending %1...": ""
   },
   "Separate": {
     "Separate": "分離"
@@ -7595,14 +7361,8 @@
   "Shadows": {
     "Shadows": "陰影"
   },
-  "Share": {
-    "Share": "分享"
-  },
   "Share Gamma Control Settings": {
     "Share Gamma Control Settings": "分享 Gamma 控制設定"
-  },
-  "Shared": {
-    "Shared": "已分享"
   },
   "Shell": {
     "Shell": "Shell"
@@ -7673,17 +7433,11 @@
   "Show Dock Over Fullscreen": {
     "Show Dock Over Fullscreen": ""
   },
-  "Show Feels Like Temperature": {
-    "Show Feels Like Temperature": "顯示體感溫度"
-  },
   "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": {
     "Show Flatpak, Snap, AppImage, or Nix badge icons on launcher items.": ""
   },
   "Show Footer": {
     "Show Footer": "顯示頁尾"
-  },
-  "Show Forecast": {
-    "Show Forecast": "顯示預報"
   },
   "Show GPU Temperature": {
     "Show GPU Temperature": "顯示 GPU 溫度"
@@ -7697,12 +7451,6 @@
   "Show Hour Numbers": {
     "Show Hour Numbers": "顯示小時數字"
   },
-  "Show Hourly Forecast": {
-    "Show Hourly Forecast": "顯示每小時預報"
-  },
-  "Show Humidity": {
-    "Show Humidity": "顯示濕度"
-  },
   "Show Icon": {
     "Show Icon": "顯示圖示"
   },
@@ -7711,9 +7459,6 @@
   },
   "Show Line Numbers": {
     "Show Line Numbers": "顯示行數"
-  },
-  "Show Location": {
-    "Show Location": "顯示位置"
   },
   "Show Lock": {
     "Show Lock": "顯示鎖定"
@@ -7766,12 +7511,6 @@
   "Show Power Off": {
     "Show Power Off": "顯示關機"
   },
-  "Show Precipitation Probability": {
-    "Show Precipitation Probability": "顯示降雨機率"
-  },
-  "Show Pressure": {
-    "Show Pressure": "顯示氣壓"
-  },
   "Show Profile Image": {
     "Show Profile Image": "顯示個人資料圖片"
   },
@@ -7795,9 +7534,6 @@
   },
   "Show Soft Reboot": {
     "Show Soft Reboot": ""
-  },
-  "Show Sunrise/Sunset": {
-    "Show Sunrise/Sunset": "顯示日出/日落"
   },
   "Show Suspend": {
     "Show Suspend": "顯示睡眠"
@@ -7826,17 +7562,11 @@
   "Show Virtual Devices": {
     "Show Virtual Devices": ""
   },
-  "Show Weather Condition": {
-    "Show Weather Condition": "顯示天氣狀況"
-  },
   "Show Week Number": {
     "Show Week Number": "顯示週數"
   },
   "Show Welcome": {
     "Show Welcome": "顯示歡迎畫面"
-  },
-  "Show Wind Speed": {
-    "Show Wind Speed": "顯示風速"
   },
   "Show Workspace Apps": {
     "Show Workspace Apps": "顯示工作區應用程式"
@@ -7966,9 +7696,6 @@
   },
   "Signal": {
     "Signal": "訊號"
-  },
-  "Signal Strength": {
-    "Signal Strength": ""
   },
   "Silence for a while": {
     "Silence for a while": "靜音一會兒"
@@ -8143,9 +7870,6 @@
   },
   "Start Hotspot?": {
     "Start Hotspot?": ""
-  },
-  "Start KDE Connect or Valent to use this plugin": {
-    "Start KDE Connect or Valent to use this plugin": "啟動 KDE Connect 或 Valent 以使用此外掛"
   },
   "Start typing your notes here...": {
     "Start typing your notes here...": "從這裡開始輸入您的筆記..."
@@ -8801,17 +8525,8 @@
   "Tray Icon Fix": {
     "Tray Icon Fix": "系統匣圖示修復"
   },
-  "Trending GIFs": {
-    "Trending GIFs": "熱門 GIF"
-  },
-  "Trending Stickers": {
-    "Trending Stickers": "熱門貼圖"
-  },
   "Trigger": {
     "Trigger": "觸發"
-  },
-  "Trigger Prefix": {
-    "Trigger Prefix": "觸發前綴"
   },
   "Trigger: %1": {
     "Trigger: %1": "觸發條件：%1"
@@ -8852,9 +8567,6 @@
   "Type at least 2 characters to search files.": {
     "Type at least 2 characters to search files.": "請輸入至少 2 個字元來搜尋檔案。"
   },
-  "Type this prefix to search keybinds": {
-    "Type this prefix to search keybinds": "輸入此前綴以搜尋快捷鍵"
-  },
   "Type to search files": {
     "Type to search files": "輸入以搜尋檔案"
   },
@@ -8863,9 +8575,6 @@
   },
   "Typography & Motion": {
     "Typography & Motion": "字體排版和動態"
-  },
-  "URI": {
-    "URI": ""
   },
   "Unavailable": {
     "Unavailable": "不可用"
@@ -8948,12 +8657,6 @@
   "Unnamed Rule": {
     "Unnamed Rule": "未命名規則"
   },
-  "Unpair": {
-    "Unpair": "取消配對"
-  },
-  "Unpair failed": {
-    "Unpair failed": "取消配對失敗"
-  },
   "Unpin": {
     "Unpin": "取消釘選"
   },
@@ -9022,9 +8725,6 @@
   },
   "Urgent Color": {
     "Urgent Color": "緊急顏色"
-  },
-  "Usage Tips": {
-    "Usage Tips": "使用提示"
   },
   "Use 24-hour time format instead of 12-hour AM/PM": {
     "Use 24-hour time format instead of 12-hour AM/PM": "使用 24 小時時間格式，而不是 12 小時 AM/PM"
@@ -9131,14 +8831,8 @@
   "Use the same position and size on all displays": {
     "Use the same position and size on all displays": "在所有螢幕上使用相同的位置與大小"
   },
-  "Use trigger prefix to activate": {
-    "Use trigger prefix to activate": "使用觸發前綴啟用"
-  },
   "Used for xdg-terminal-exec": {
     "Used for xdg-terminal-exec": "用於 xdg-terminal-exec"
-  },
-  "Used when accent color is set to Custom": {
-    "Used when accent color is set to Custom": "當強調色設為自訂時使用"
   },
   "User": {
     "User": "使用者"
@@ -9236,9 +8930,6 @@
   "Variable Refresh Rate": {
     "Variable Refresh Rate": "可變更新率"
   },
-  "Verification": {
-    "Verification": "驗證"
-  },
   "Version": {
     "Version": "版本"
   },
@@ -9277,9 +8968,6 @@
   },
   "Video Screensaver": {
     "Video Screensaver": "影片螢幕保護程式"
-  },
-  "View Mode": {
-    "View Mode": "檢視模式"
   },
   "Visibility": {
     "Visibility": "能見度"
@@ -9652,9 +9340,6 @@
   },
   "detached": {
     "detached": "已分離"
-  },
-  "device": {
-    "device": "裝置"
   },
   "dgop not available": {
     "dgop not available": "dgop 無法使用"
