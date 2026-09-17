@@ -14,6 +14,7 @@ FocusScope {
     required property string activityId
     required property Component tabComponent
     property string entryId: activityId
+    property QtObject resizeGeometry: null
     property bool editMode: false
     property bool contentStaged: false
     readonly property bool live: root.controller.expanded && root.controller.activeActivity === root.activityId
@@ -21,6 +22,48 @@ FocusScope {
     readonly property real tabHeight: tab?.implicitHeight ?? 0
     readonly property real contentHeight: DashMetrics.panelHeightFor(entryId, tabHeight)
     readonly property real chromeHeight: header.height + Theme.spacingXS * 2 + DashMetrics.contentPadding
+    readonly property real editGutter: editMode ? PopoutMetrics.editOverflow : 0
+    readonly property int panelColumns: DashMetrics.panelColumnsFor(entryId)
+    readonly property int contentRows: DashMetrics.rowsForHeight(tabHeight)
+    readonly property int panelRows: Math.max(DashMetrics.panelFloorRowsFor(entryId), contentRows)
+
+    readonly property QtObject resizeHost: QtObject {
+        readonly property real renderedAlignedX: root.resizeGeometry?.renderedX ?? 0
+        readonly property real renderedAlignedY: root.resizeGeometry?.renderedY ?? 0
+
+        function alignedXFor(width) {
+            return root.resizeGeometry?.screenXFor(width) ?? 0;
+        }
+    }
+
+    readonly property DankPanelResizer panelResizer: DankPanelResizer {
+        popout: root.resizeHost
+        gutter: root.editGutter
+        stepWidth: DashMetrics.preferredColumnWidth + DashMetrics.gridGap
+        widthFor: columns => Math.min(root.controller.dashboardAvailableWidth, DashMetrics.widthFor(SettingsData.showWeekNumber, undefined, columns))
+        currentStep: () => root.panelColumns
+        currentRows: () => root.panelRows
+        minStep: DashMetrics.minimumGridColumns
+        maxStep: root.controller.dashboardColumnCap
+        rowUnit: DashMetrics.gridRowUnit + DashMetrics.gridGap
+        minRows: root.contentRows
+        maxRows: Math.min(root.controller.dashboardRowBudget, DashMetrics.maximumGridRows)
+        onPreview: (columns, rows) => DashMetrics.panelPreview = {
+                "id": root.entryId,
+                "columns": columns,
+                "rows": rows
+            }
+        onCommitted: (columns, rows, columnsChanged, rowsChanged) => {
+            const values = {};
+            if (columnsChanged)
+                values.panelColumns = columns;
+            if (rowsChanged)
+                values.panelRows = rows > root.contentRows ? rows : DashMetrics.minimumTabRows;
+            DashRegistry.setOptions(root.entryId, values);
+            DashMetrics.panelPreview = null;
+        }
+        onCanceled: DashMetrics.panelPreview = null
+    }
 
     clip: true
     LayoutMirroring.enabled: I18n.isRtl
@@ -51,8 +94,11 @@ FocusScope {
         tabOptions.dismiss();
     }
     onEditModeChanged: {
-        if (!editMode)
+        root.controller.setEditing(root.activityId, editMode);
+        if (!editMode) {
+            panelResizer.cancel();
             return;
+        }
         Qt.callLater(() => {
             if (root.live && root.editMode)
                 root.focusHeader(false);
@@ -78,8 +124,8 @@ FocusScope {
             left: parent.left
             right: parent.right
             topMargin: Theme.spacingXS
-            leftMargin: DashMetrics.contentPadding
-            rightMargin: DashMetrics.contentPadding
+            leftMargin: DashMetrics.contentPadding + root.editGutter
+            rightMargin: DashMetrics.contentPadding + root.editGutter
         }
         height: root.editMode ? editControls.height : Theme.buttonHeightXS
 
@@ -120,9 +166,9 @@ FocusScope {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
-            leftMargin: DashMetrics.contentPadding
-            rightMargin: DashMetrics.contentPadding
-            bottomMargin: DashMetrics.contentPadding
+            leftMargin: DashMetrics.contentPadding + root.editGutter
+            rightMargin: DashMetrics.contentPadding + root.editGutter
+            bottomMargin: DashMetrics.contentPadding + root.editGutter
         }
         contentHeight: tabLoader.height
         clip: contentHeight > height
@@ -151,6 +197,28 @@ FocusScope {
         }
     }
 
+    DankGridEditChrome {
+        id: panelChrome
+
+        anchors.fill: parent
+        anchors.margins: PopoutMetrics.panelChromeInset - contentInset
+        z: 2
+        visible: root.editMode
+        edgeResize: true
+        removable: false
+        edgeBandWidth: PopoutMetrics.panelResizeBand
+        cornerRadius: Math.max(0, Theme.windowRadius - PopoutMetrics.panelChromeInset)
+        buttonSize: PopoutMetrics.chromeButtonSize
+        iconSize: PopoutMetrics.chromeIconSize
+        resizing: root.panelResizer.resizing
+        atDefault: root.panelColumns === DashMetrics.defaultGridColumns && DashMetrics.panelFloorRowsFor(root.entryId) <= root.contentRows
+        sizeText: root.panelColumns + "×" + root.panelRows
+        onResizeStarted: (px, py, signX) => root.panelResizer.begin(px, py, signX)
+        onResizeMoved: (px, py) => root.panelResizer.move(px, py)
+        onResizeEnded: root.panelResizer.end()
+        onResizeCanceled: root.panelResizer.cancel()
+    }
+
     DankSpinner {
         anchors.centerIn: pages
         size: DashMetrics.spinnerSize
@@ -174,6 +242,8 @@ FocusScope {
             PopoutService.openSettingsWithTab("dank_dash");
         }
     }
+
+    Component.onDestruction: root.controller.setEditing(root.activityId, false)
 
     Component.onCompleted: {
         root.contentStaged = true;

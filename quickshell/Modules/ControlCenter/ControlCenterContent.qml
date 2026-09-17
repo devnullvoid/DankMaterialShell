@@ -27,6 +27,7 @@ FocusScope {
     }
     property var pageHistory: []
     readonly property bool panelResizing: panelResizer.resizing
+    readonly property real sheetContentWidth: host.sheetContentWidth ?? CcMetrics.sheetWidth
     readonly property real editGutter: host.editMode ? PopoutMetrics.editOverflow : 0
     readonly property DankPanelResizer panelResizer: DankPanelResizer {
         popout: root.host
@@ -207,7 +208,7 @@ FocusScope {
         Column {
             id: mainColumn
 
-            width: CcMetrics.sheetWidth - CcMetrics.sheetPadding * 2
+            width: root.sheetContentWidth - CcMetrics.sheetPadding * 2
             x: CcMetrics.sheetPadding + root.editGutter
             y: CcMetrics.sheetPadding
             spacing: Theme.spacingS

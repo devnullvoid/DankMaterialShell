@@ -75,7 +75,7 @@ Item {
     readonly property var springMassRange: [0.25, 3]
     readonly property int destinationMaxHeight: Math.max(destinationMinHeight, Math.min(destinationMaxHeightLimit, (root.screen?.height ?? referenceScreenHeight) - screenMargin))
     readonly property int maxActivityHeight: Math.max(controller.dashboardHeight, destinationMaxHeight)
-    readonly property int maxActivityWidth: Math.max(controller.dashboardMaxWidth, Math.min(activityMaxWidth, Math.max(activityMinWidth, (root.screen?.width ?? referenceScreenWidth) - screenMargin)))
+    readonly property int maxActivityWidth: Math.max(controller.dashboardMaxWidth, controller.controlCenterMaxWidth, Math.min(activityMaxWidth, Math.max(activityMinWidth, (root.screen?.width ?? referenceScreenWidth) - screenMargin)))
     readonly property int hostThickness: outerGap + (root.isVertical ? maxActivityWidth : maxActivityHeight) + Theme.spacingS
     readonly property real maximumAlongOffset: root.isVertical ? Math.max(0, (height - maxActivityHeight) / 2 - Theme.spacingS) : Math.max(0, (width - maxActivityWidth) / 2 - Theme.spacingS)
     readonly property bool scrollEnabled: root.barConfig?.scrollEnabled ?? true

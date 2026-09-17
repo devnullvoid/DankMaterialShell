@@ -93,6 +93,8 @@ Item {
     readonly property real targetScreenX: targetVisualX + root.hostOriginX
     readonly property real targetScreenY: targetVisualY + root.hostOriginY
     readonly property real targetVisualWidth: motion.targetWidth
+    readonly property real currentScreenX: currentVisualX + root.hostOriginX
+    readonly property real currentScreenY: currentVisualY + root.hostOriginY
     readonly property real targetVisualHeight: motion.targetHeight
     readonly property real currentVisualAlong: isVertical ? motion.currentHeight : motion.currentWidth
     readonly property real targetVisualAlong: isVertical ? motion.targetHeight : motion.targetWidth
@@ -101,6 +103,18 @@ Item {
         if (Math.abs(span) < 1)
             return controller.expanded ? 1 : 0;
         return Math.max(0, Math.min(1, (currentVisualCross - fadeCompactCross) / span));
+    }
+
+    readonly property QtObject resizeGeometry: QtObject {
+        readonly property real renderedX: root.currentScreenX
+        readonly property real renderedY: root.currentScreenY
+
+        function screenXFor(width) {
+            if (!root.isVertical)
+                return Math.round((root.alongExtent - width) / 2 + motion.targetOffsetAlong) + root.hostOriginX;
+            const cross = Math.round(motion.targetOffsetCross);
+            return (root.farEdge ? root.crossExtent - cross - width : cross) + root.hostOriginX;
+        }
     }
 
     function openAfterCollapse(windowName) {
@@ -361,6 +375,7 @@ Item {
 
         HomeExpanded {
             controller: root.controller
+            resizeGeometry: root.resizeGeometry
         }
     }
 
@@ -378,6 +393,7 @@ Item {
 
         MediaExpanded {
             controller: root.controller
+            resizeGeometry: root.resizeGeometry
         }
     }
 
@@ -441,6 +457,7 @@ Item {
             alignedY: root.targetScreenY
             alignedWidth: root.targetVisualWidth
             alignedHeight: root.targetVisualHeight
+            resizeGeometry: root.resizeGeometry
         }
     }
 
@@ -460,6 +477,7 @@ Item {
 
         WallpaperExpanded {
             controller: root.controller
+            resizeGeometry: root.resizeGeometry
             effectiveScreen: root.effectiveScreen
         }
     }
@@ -480,6 +498,7 @@ Item {
 
         WeatherExpanded {
             controller: root.controller
+            resizeGeometry: root.resizeGeometry
         }
     }
 
@@ -532,6 +551,7 @@ Item {
 
         NotificationCenterExpanded {
             controller: root.controller
+            resizeGeometry: root.resizeGeometry
         }
     }
 

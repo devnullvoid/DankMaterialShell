@@ -14,6 +14,8 @@ FocusScope {
     property real alignedY: 0
     property real alignedWidth: 0
     property real alignedHeight: 0
+    property QtObject resizeGeometry: null
+    readonly property real sideInset: Theme.spacingXS
     property real bottomInset: Theme.spacingM
     property bool _heightReportPending: false
     signal windowRequested(string windowName)
@@ -52,6 +54,11 @@ FocusScope {
         property bool editMode: false
         property string expandedSection: ""
 
+        onEditModeChanged: root.controller.setEditing("controlcenter", editMode)
+
+        readonly property real sheetContentWidth: CcMetrics.sheetWidth + root.controller.controlCenterSheetInset - root.sideInset * 2
+        readonly property real renderedAlignedX: (root.resizeGeometry?.renderedX ?? 0) + root.sideInset
+        readonly property real renderedAlignedY: root.resizeGeometry?.renderedY ?? 0
         readonly property bool shouldBeVisible: root.controller.activeActivity === "controlcenter" && root.controller.expanded
         readonly property bool headerTogglesClose: true
         readonly property bool powerMenuOpen: PopoutService.powerMenuModalLoader?.item?.shouldBeVisible ?? false
@@ -85,6 +92,10 @@ FocusScope {
         function collapseAll() {
             hostContract.expandedSection = "";
         }
+
+        function alignedXFor(width) {
+            return (root.resizeGeometry?.screenXFor(width + root.sideInset * 2) ?? 0) + root.sideInset;
+        }
     }
 
     function releaseScanState() {
@@ -104,6 +115,7 @@ FocusScope {
     }
 
     Component.onDestruction: {
+        root.controller.setEditing("controlcenter", false);
         if (hostContract.shouldBeVisible)
             root.releaseScanState();
     }
@@ -134,8 +146,8 @@ FocusScope {
 
         anchors {
             fill: parent
-            leftMargin: Theme.spacingXS
-            rightMargin: Theme.spacingXS
+            leftMargin: root.sideInset
+            rightMargin: root.sideInset
             topMargin: Theme.spacingXS
             bottomMargin: root.bottomInset
         }

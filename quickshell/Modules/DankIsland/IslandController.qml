@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
+import qs.Modules.ControlCenter
 import qs.Modules.DankDash
 
 QtObject {
@@ -50,6 +51,9 @@ QtObject {
     property int hoverCloseDelay: 150
     property int mediaReturnDelay: 1800
     property real controlCenterMaxHeight: 640
+    property string editingActivity: ""
+    readonly property real controlCenterSheetInset: 30
+    readonly property real controlCenterMaxWidth: (editingActivity === "controlcenter" ? CcMetrics.sheetWidthMax : CcMetrics.sheetWidth) + controlCenterSheetInset + PopoutMetrics.editOverflow * 2
     readonly property real controlCenterHeight: Math.max(320, Math.min(controlCenterMaxHeight, destinationContentHeight("controlcenter")))
 
     readonly property bool compactDense: compactThickness < 40
@@ -66,7 +70,8 @@ QtObject {
     property real mediaContentLength: 360
     property real dashboardAvailableWidth: 1920
     property real dashboardAvailableHeight: 1080
-    readonly property real dashboardMaxWidth: Math.min(dashboardAvailableWidth, DashMetrics.widthFor(SettingsData.showWeekNumber, undefined, DashRegistry.widestPanelColumns))
+    readonly property int dashboardColumnCap: DashMetrics.columnCapFor(dashboardAvailableWidth - PopoutMetrics.editOverflow * 2, SettingsData.showWeekNumber)
+    readonly property real dashboardMaxWidth: Math.min(dashboardAvailableWidth, DashMetrics.widthFor(SettingsData.showWeekNumber, undefined, editingActivity !== "" ? dashboardColumnCap : DashRegistry.widestPanelColumns) + PopoutMetrics.editOverflow * 2)
     property var dashboardContentHeights: ({})
     readonly property real dashboardChromeHeight: Theme.buttonHeightXS + Theme.spacingXS * 2 + DashMetrics.contentPadding
     readonly property real dashboardHeight: Math.min(dashboardAvailableHeight, Math.max(DashMetrics.tabMinHeight + dashboardChromeHeight, ...Object.values(dashboardContentHeights)))
@@ -118,7 +123,8 @@ QtObject {
     function dashboardTargetFor(activityId) {
         const minimum = DashMetrics.panelHeightFor(dashEntryIdFor(activityId));
         const height = Math.max(minimum + dashboardChromeHeight, dashboardContentHeights[activityId] ?? 0);
-        return sheetTarget(dashboardWidthFor(activityId), Math.min(dashboardAvailableHeight, height));
+        const gutter = editGutterFor(activityId);
+        return sheetTarget(dashboardWidthFor(activityId) + gutter * 2, Math.min(dashboardAvailableHeight, height + gutter));
     }
 
     function setMediaContentLength(length) {
@@ -204,6 +210,17 @@ QtObject {
             return;
         entry.contentLength = next;
         destinationRevision++;
+    }
+
+    function setEditing(activityId, editing) {
+        if (editing)
+            editingActivity = activityId;
+        else if (editingActivity === activityId)
+            editingActivity = "";
+    }
+
+    function editGutterFor(activityId) {
+        return editingActivity === activityId ? PopoutMetrics.editOverflow : 0;
     }
 
     function setDestinationContentHeight(activityId, height) {
@@ -367,7 +384,7 @@ QtObject {
     readonly property var homeExpandedTarget: dashboardTargetFor("home")
     readonly property var mediaExpandedTarget: dashboardTargetFor("media")
     readonly property var launcherExpandedTarget: sheetTarget(680, 560)
-    readonly property var controlCenterExpandedTarget: sheetTarget(580, controlCenterHeight)
+    readonly property var controlCenterExpandedTarget: sheetTarget(CcMetrics.sheetWidth + controlCenterSheetInset + editGutterFor("controlcenter") * 2, controlCenterHeight)
     readonly property var systemCompactTarget: pillTarget(root.isVertical ? 240 : (SettingsData.osdAlwaysShowValue ? 330 : 282), compactFaceThickness)
     readonly property var systemExpandedTarget: sheetTarget(460, 176)
     readonly property var notificationCompactTarget: pillTarget(Math.ceil(Math.max(notificationCompactMinLength, Math.min(notificationCompactMaxLength, notificationContentLength))), compactFaceThickness)
