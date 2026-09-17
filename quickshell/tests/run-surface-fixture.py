@@ -23,6 +23,18 @@ def read_line(fd):
     return data.decode().strip()
 
 
+def mesa_egl_vendor():
+    for directory in ["/etc/glvnd/egl_vendor.d", "/usr/share/glvnd/egl_vendor.d"]:
+        for path in sorted(Path(directory).glob("*.json")):
+            try:
+                library = json.loads(path.read_text())["ICD"]["library_path"]
+            except (OSError, ValueError, KeyError):
+                continue
+            if "libEGL_mesa" in library:
+                return str(path)
+    return None
+
+
 suite = len(sys.argv) > 1 and sys.argv[1] == "--suite"
 fixtures = [name for name in sys.argv[2:] if not name.startswith("--")] if suite else [sys.argv[1] if len(sys.argv) > 1 else "quickshell/tests/qml/instance-routing.qml"]
 if not fixtures:
@@ -71,6 +83,10 @@ with tempfile.TemporaryDirectory(prefix="dms-surface-test-") as temporary:
     for name in ["runtime", "config", "cache", "state", "data"]:
         env["XDG_" + name.upper() + ("_DIR" if name == "runtime" else "_HOME")] = str(root / name)
     env.update(QT_QPA_PLATFORM="wayland", QT_LOGGING_RULES="qml.debug=true", LIBGL_ALWAYS_SOFTWARE="1", DMS_DISABLE_HOT_RELOAD="1", DMS_DISABLE_MATUGEN="1", DBUS_SESSION_BUS_ADDRESS="unix:path=" + str(root / "no-session-bus"), DBUS_SYSTEM_BUS_ADDRESS="unix:path=" + str(root / "no-system-bus"), PULSE_SERVER="unix:" + str(root / "no-pulse"), PIPEWIRE_REMOTE="no-pipewire")
+    # glvnd loads the nvidia vendor first, which powers up a sleeping dGPU
+    mesa_vendor = mesa_egl_vendor()
+    if mesa_vendor:
+        env["__EGL_VENDOR_LIBRARY_FILENAMES"] = mesa_vendor
     if "--capture" in sys.argv:
         env["DMS_FIXTURE_CAPTURE"] = "1"
     if "--corners" in sys.argv:

@@ -11,7 +11,6 @@ DankModal {
     layerNamespace: "dms:power-menu"
     keepPopoutsOpen: true
     useOverlayLayer: true
-    backgroundColor: Theme.surfaceContainerHigh
     animationType: "fade"
     animationDuration: LockMetrics.effectsDuration
     animationEnterCurve: Theme.expressiveCurves.expressiveEffects

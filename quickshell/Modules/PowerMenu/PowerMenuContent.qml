@@ -431,6 +431,8 @@ FocusScope {
     PowerMenuView {
         id: powerView
         anchors.fill: parent
+        color: "transparent"
+        buttonColor: Theme.floatingWindowNestedSurface
         actions: root.visibleActions
         actionProvider: root.getActionData
         gridLayout: SettingsData.powerMenuGridLayout
