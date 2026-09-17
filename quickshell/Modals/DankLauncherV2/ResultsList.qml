@@ -577,7 +577,6 @@ Item {
                 void (stickyHeader.versionTrigger);
                 return root.controller?.canCollapseSection(stickyHeader.stickyHeaderSection?.id) ?? false;
             }
-            isSticky: true
             transientSurfaceTracker: root.transientSurfaceTracker
         }
     }
@@ -603,7 +602,6 @@ Item {
             return root.controller?.canChangeSectionViewMode(section?.id ?? "") ?? false;
         }
         canCollapse: root.controller?.canCollapseSection(section?.id ?? "") ?? false
-        isSticky: true
         popupAbove: true
         transientSurfaceTracker: root.transientSurfaceTracker
     }

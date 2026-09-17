@@ -17,7 +17,6 @@ Item {
     property string viewMode: "list"
     property bool canChangeViewMode: true
     property bool canCollapse: true
-    property bool isSticky: false
     property bool popupAbove: false
     property Item popupAboveItem: null
     property Item focusReturnTarget: null
@@ -146,14 +145,5 @@ Item {
                 return;
             root.controller.toggleSection(root.section.id);
         }
-    }
-
-    Rectangle {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        height: Theme.dividerWidth
-        color: Theme.outlineVariant
-        visible: root.isSticky
     }
 }
