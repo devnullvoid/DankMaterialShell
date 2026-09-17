@@ -126,13 +126,7 @@ Column {
                 return gpu.driver?.toUpperCase() ?? "";
             }
             clickable: configurable
-            onClicked: {
-                if (modelData.pluginId) {
-                    PopoutService.openSettingsWithTab(SettingsTabs.pluginPrefix + modelData.pluginId);
-                    return;
-                }
-                root.configureWidget(root.sectionId, index);
-            }
+            onClicked: root.configureWidget(root.sectionId, index)
 
             Item {
                 width: Theme.iconButtonSize

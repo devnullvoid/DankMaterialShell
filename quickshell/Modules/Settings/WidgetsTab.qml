@@ -430,6 +430,10 @@ Item {
         const item = getItemsForSection(sectionId)[widgetIndex];
         if (!item)
             return;
+        if (item.pluginId) {
+            parentModal?.navigateTo(SettingsTabs.pluginPrefix + item.pluginId);
+            return;
+        }
         SettingsUiState.selectedWidgetSection = sectionId;
         SettingsUiState.selectedWidgetIndex = widgetIndex;
         SettingsUiState.selectedWidgetTitle = item.text;
