@@ -41,6 +41,18 @@ ShellRoot {
         return (item.children || []).reduce((result, child) => result.concat(texts(child)), []);
     }
 
+    function hyprlandRecord(id, name) {
+        return {
+            "id": id,
+            "idx": id,
+            "name": name,
+            "output": root.output,
+            "active": false,
+            "placeholder": false,
+            "urgent": false
+        };
+    }
+
     function activeIdx() {
         return NiriService.allWorkspaces.find(ws => ws.output === root.output && ws.is_active)?.idx ?? -1;
     }
@@ -210,6 +222,13 @@ ShellRoot {
                             }
                         }
                     });
+                    root.switcher.workspaceList = root.switcher.hyprlandSlotList([root.hyprlandRecord(1, "web"), root.hyprlandRecord(3, "")]);
+                    advance();
+                    return;
+                case 6:
+                    if (root.pills().length !== 3 || waited < 4)
+                        return;
+                    root.check(root.pills().map(pill => root.texts(pill).join("|")).join() === "1: web,3,3", "hyprland slot pills label from their record, got " + root.pills().map(pill => root.texts(pill).join("|")).join());
                     console.log("FIXTURE_PASS");
                     stop();
                     Qt.quit();

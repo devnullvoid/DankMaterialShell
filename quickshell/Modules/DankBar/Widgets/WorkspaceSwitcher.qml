@@ -563,11 +563,11 @@ BasePill {
                 property bool isHovered: mouseArea.containsMouse
 
                 property bool loadedIsUrgent: false
-                property bool isUrgent: root.useNativeWorkspaces ? CompositorService.workspaceUrgent(modelData, loadedIsUrgent) : (modelData?.urgent ?? false)
+                property bool isUrgent: root.useNativeWorkspaces ? CompositorService.workspaceUrgent(record, loadedIsUrgent) : (modelData?.urgent ?? false)
                 readonly property var loadedIconData: {
                     if (isPlaceholder)
                         return null;
-                    const name = modelData?.name;
+                    const name = record?.name;
                     if (!name)
                         return null;
                     return SettingsData.getWorkspaceNameIcon(name);
@@ -817,7 +817,7 @@ BasePill {
                                 return;
                             root.switchToWorkspaceByModelData(modelData);
                         } else if (mouse.button === Qt.RightButton) {
-                            CompositorService.workspaceSecondaryAction(modelData, root.effectiveScreenName);
+                            CompositorService.workspaceSecondaryAction(record, root.effectiveScreenName);
                             root.toggleHyprlandOverview();
                         }
                     }
@@ -1069,7 +1069,7 @@ BasePill {
                                         StyledText {
                                             id: wsIndexText
                                             anchors.verticalCenter: parent.verticalCenter
-                                            text: loadedHasIcon ? (modelData?.name ?? "") : root.getWorkspaceIndex(modelData, index)
+                                            text: loadedHasIcon ? (record?.name ?? "") : root.getWorkspaceIndex(record, index)
                                             color: (isActive || isUrgent) ? Theme.withAlpha(Theme.surfaceContainer, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
                                             font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText)
                                             font.weight: (isActive && !isPlaceholder) ? Theme.fontWeightMedium : Theme.fontWeight
@@ -1228,7 +1228,7 @@ BasePill {
                                     StyledText {
                                         visible: (root.opt("showWorkspaceIndex") || root.opt("showWorkspaceName")) && !loadedHasIcon
                                         anchors.horizontalCenter: parent.horizontalCenter
-                                        text: root.getWorkspaceIndex(modelData, index)
+                                        text: root.getWorkspaceIndex(record, index)
                                         color: (isActive || isUrgent) ? Theme.withAlpha(Theme.surfaceContainer, 0.95) : isPlaceholder ? Theme.surfaceTextAlpha : Theme.surfaceTextMedium
                                         font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText)
                                         font.weight: (isActive && !isPlaceholder) ? Theme.fontWeightMedium : Theme.fontWeight
