@@ -537,6 +537,7 @@ FocusScope {
 
                 DankDropdown {
                     id: categoryDropdown
+                    transientSurfaceTracker: root.transientSurfaceTracker
                     visible: categoryRow.showPluginCategories
                     width: Math.min(200, parent.width)
                     compactMode: true
@@ -672,6 +673,7 @@ FocusScope {
 
                     DankDropdown {
                         id: sortDropdown
+                        transientSurfaceTracker: root.transientSurfaceTracker
                         anchors.verticalCenter: parent.verticalCenter
                         width: Math.min(130, parent.width / 3)
                         compactMode: true
