@@ -19,8 +19,8 @@ function relativeLevel(value, values, zeroBased) {
 
 function levelPath(width, height, radius, progress, amplitude) {
     const r = Math.min(radius, width / 2, height / 2);
-    const y = height * (1 - Math.max(0, Math.min(1, progress)));
-    const cornerDistance = Math.max(r - y, y - (height - r), 0);
+    const y = Math.max(r, height * (1 - Math.max(0, Math.min(1, progress))));
+    const cornerDistance = Math.max(y - (height - r), 0);
     const inset = r > 0 ? r - Math.sqrt(Math.max(0, r * r - cornerDistance * cornerDistance)) : 0;
     const wave = cornerDistance > 0 ? 0 : Math.min(amplitude, y / 2, (height - y) / 2);
     const span = width - inset * 2;
@@ -29,8 +29,6 @@ function levelPath(width, height, radius, progress, amplitude) {
         const x = inset + span * i / 4;
         path += ` C ${x + span / 12} ${y - wave} ${x + span / 6} ${y + wave} ${x + span / 4} ${y}`;
     }
-    if (y < r)
-        path += ` A ${r} ${r} 0 0 1 ${width} ${r}`;
     if (y <= height - r)
         path += ` L ${width} ${height - r}`;
     path += r > 0 ? ` A ${r} ${r} 0 0 1 ${width - r} ${height}` : ` L ${width} ${height}`;
@@ -38,8 +36,6 @@ function levelPath(width, height, radius, progress, amplitude) {
     if (y > height - r)
         return path + ` A ${r} ${r} 0 0 1 ${inset} ${y} Z`;
     path += r > 0 ? ` A ${r} ${r} 0 0 1 0 ${height - r}` : ` L 0 ${height}`;
-    if (y < r)
-        path += ` L 0 ${r} A ${r} ${r} 0 0 1 ${inset} ${y}`;
     return path + " Z";
 }
 
