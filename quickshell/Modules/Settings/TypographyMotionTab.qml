@@ -170,6 +170,22 @@ Item {
                         radius: Theme.cornerRadiusL
                         color: Theme.surfaceContainerLowest
 
+                        StyledText {
+                            x: parent.width - width - Theme.spacingL
+                            anchors.verticalCenter: parent.verticalCenter
+                            text: I18n.tr("Tap to play")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceVariantText
+                            opacity: motionPreview.atEnd ? 0 : 1
+
+                            Behavior on opacity {
+                                NumberAnimation {
+                                    duration: Theme.shortDuration
+                                    easing.type: Theme.standardEasing
+                                }
+                            }
+                        }
+
                         Rectangle {
                             x: motionPreview.trackPadding + pillSpring.value
                             anchors.verticalCenter: parent.verticalCenter
@@ -185,15 +201,6 @@ Item {
                                 color: Theme.onPrimary
                             }
                         }
-                    }
-
-                    StyledText {
-                        anchors.right: parent.right
-                        anchors.rightMargin: Theme.spacingL
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: I18n.tr("Tap to play")
-                        font.pixelSize: Theme.fontSizeSmall
-                        color: Theme.surfaceVariantText
                     }
 
                     MouseArea {
