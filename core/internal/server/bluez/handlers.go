@@ -6,6 +6,7 @@ import (
 	"math"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
+	"github.com/AvengeMedia/dankgo/ipc"
 	"github.com/AvengeMedia/dankgo/ipc/params"
 )
 
@@ -19,7 +20,7 @@ type BluetoothEvent struct {
 	Data BluetoothState `json:"data"`
 }
 
-func HandleRequest(conn *models.Conn, req models.Request, manager *Manager) {
+func HandleRequest(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	switch req.Method {
 	case "bluetooth.getState":
 		handleGetState(conn, req, manager)
@@ -56,11 +57,11 @@ func HandleRequest(conn *models.Conn, req models.Request, manager *Manager) {
 	}
 }
 
-func handleGetState(conn *models.Conn, req models.Request, manager *Manager) {
+func handleGetState(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	models.Respond(conn, req.ID, manager.GetState())
 }
 
-func handleMPRISPublish(conn *models.Conn, req models.Request, manager *Manager) {
+func handleMPRISPublish(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	lease, err := params.String(req.Params, "lease")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -154,7 +155,7 @@ func int64Param(values map[string]any, key string) (int64, error) {
 	return int64(number), nil
 }
 
-func handleStartDiscovery(conn *models.Conn, req models.Request, manager *Manager) {
+func handleStartDiscovery(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	if err := manager.StartDiscovery(params.StringOpt(req.Params, "adapter", "")); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
@@ -162,7 +163,7 @@ func handleStartDiscovery(conn *models.Conn, req models.Request, manager *Manage
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "discovery started"})
 }
 
-func handleStopDiscovery(conn *models.Conn, req models.Request, manager *Manager) {
+func handleStopDiscovery(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	if err := manager.StopDiscovery(params.StringOpt(req.Params, "adapter", "")); err != nil {
 		models.RespondError(conn, req.ID, err.Error())
 		return
@@ -170,7 +171,7 @@ func handleStopDiscovery(conn *models.Conn, req models.Request, manager *Manager
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "discovery stopped"})
 }
 
-func handleSetPowered(conn *models.Conn, req models.Request, manager *Manager) {
+func handleSetPowered(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	powered, err := params.Bool(req.Params, "powered")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -185,7 +186,7 @@ func handleSetPowered(conn *models.Conn, req models.Request, manager *Manager) {
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "powered state updated"})
 }
 
-func handleTogglePowered(conn *models.Conn, req models.Request, manager *Manager) {
+func handleTogglePowered(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	powered, err := manager.TogglePowered(params.StringOpt(req.Params, "adapter", ""))
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -195,7 +196,7 @@ func handleTogglePowered(conn *models.Conn, req models.Request, manager *Manager
 	models.Respond(conn, req.ID, PoweredResult{Success: true, Powered: powered})
 }
 
-func handlePairDevice(conn *models.Conn, req models.Request, manager *Manager) {
+func handlePairDevice(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	devicePath, err := params.String(req.Params, "device")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -210,7 +211,7 @@ func handlePairDevice(conn *models.Conn, req models.Request, manager *Manager) {
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "pairing initiated"})
 }
 
-func handleConnectDevice(conn *models.Conn, req models.Request, manager *Manager) {
+func handleConnectDevice(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	devicePath, err := params.String(req.Params, "device")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -225,7 +226,7 @@ func handleConnectDevice(conn *models.Conn, req models.Request, manager *Manager
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "connecting"})
 }
 
-func handleDisconnectDevice(conn *models.Conn, req models.Request, manager *Manager) {
+func handleDisconnectDevice(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	devicePath, err := params.String(req.Params, "device")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -240,7 +241,7 @@ func handleDisconnectDevice(conn *models.Conn, req models.Request, manager *Mana
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "disconnected"})
 }
 
-func handleRemoveDevice(conn *models.Conn, req models.Request, manager *Manager) {
+func handleRemoveDevice(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	devicePath, err := params.String(req.Params, "device")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -255,7 +256,7 @@ func handleRemoveDevice(conn *models.Conn, req models.Request, manager *Manager)
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "device removed"})
 }
 
-func handleTrustDevice(conn *models.Conn, req models.Request, manager *Manager) {
+func handleTrustDevice(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	devicePath, err := params.String(req.Params, "device")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -270,7 +271,7 @@ func handleTrustDevice(conn *models.Conn, req models.Request, manager *Manager) 
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "device trusted"})
 }
 
-func handleUntrustDevice(conn *models.Conn, req models.Request, manager *Manager) {
+func handleUntrustDevice(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	devicePath, err := params.String(req.Params, "device")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -285,7 +286,7 @@ func handleUntrustDevice(conn *models.Conn, req models.Request, manager *Manager
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "device untrusted"})
 }
 
-func handlePairingSubmit(conn *models.Conn, req models.Request, manager *Manager) {
+func handlePairingSubmit(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	token, err := params.String(req.Params, "token")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -303,7 +304,7 @@ func handlePairingSubmit(conn *models.Conn, req models.Request, manager *Manager
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "pairing response submitted"})
 }
 
-func handlePairingCancel(conn *models.Conn, req models.Request, manager *Manager) {
+func handlePairingCancel(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	token, err := params.String(req.Params, "token")
 	if err != nil {
 		models.RespondError(conn, req.ID, err.Error())
@@ -318,7 +319,7 @@ func handlePairingCancel(conn *models.Conn, req models.Request, manager *Manager
 	models.Respond(conn, req.ID, models.SuccessResult{Success: true, Message: "pairing cancelled"})
 }
 
-func handleSubscribe(conn *models.Conn, req models.Request, manager *Manager) {
+func handleSubscribe(conn *ipc.ConnWriter, req ipc.Request, manager *Manager) {
 	clientID := fmt.Sprintf("client-%p", conn)
 	stateChan := manager.Subscribe(clientID)
 	defer manager.Unsubscribe(clientID)
@@ -329,7 +330,7 @@ func handleSubscribe(conn *models.Conn, req models.Request, manager *Manager) {
 		Data: initialState,
 	}
 
-	if err := conn.WriteResponse(models.Response[BluetoothEvent]{
+	if err := conn.WriteResponse(ipc.Response[BluetoothEvent]{
 		ID:     req.ID,
 		Result: &event,
 	}); err != nil {
@@ -341,7 +342,7 @@ func handleSubscribe(conn *models.Conn, req models.Request, manager *Manager) {
 			Type: "state_changed",
 			Data: state,
 		}
-		if err := conn.WriteResponse(models.Response[BluetoothEvent]{
+		if err := conn.WriteResponse(ipc.Response[BluetoothEvent]{
 			Result: &event,
 		}); err != nil {
 			return

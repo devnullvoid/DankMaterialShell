@@ -9,8 +9,11 @@ import qs.Common
 Singleton {
     id: root
 
+    // playerctld mirrors whichever player is active and advertises shuffle/loop the real player may lack
+    readonly property string _playerctldBusName: "org.mpris.MediaPlayer2.playerctld"
+
     readonly property list<MprisPlayer> availablePlayers: {
-        const players = Mpris.players.values;
+        const players = Mpris.players.values.filter(p => p.dbusName !== _playerctldBusName);
         const excluded = SettingsData.mediaExcludePlayers || [];
         if (excluded.length === 0)
             return players;
@@ -173,7 +176,7 @@ Singleton {
     // Chromium reports stopped media w/blank metadata, resolve by checking idle status
     Timer {
         id: _idleGraceTimer
-        interval: 1223
+        interval: 3000
         onTriggered: {
             if (!root.isIdle(root.activePlayer))
                 return;
@@ -203,34 +206,27 @@ Singleton {
 
     Instantiator {
         model: root.availablePlayers
-        delegate: Connections {
+        delegate: QtObject {
             required property MprisPlayer modelData
-            target: modelData
-            ignoreUnknownSignals: true
-            function onIsPlayingChanged() {
+            readonly property bool playerIsPlaying: modelData.isPlaying
+            readonly property string playerTrackTitle: modelData.trackTitle
+            readonly property string playerTrackArtist: modelData.trackArtist
+            readonly property string playerTrackAlbum: modelData.trackAlbum
+            readonly property var playerMetadata: modelData.metadata
+            function syncMeta() {
+                if (playerIsPlaying)
+                    root._resolveActivePlayer();
+                root._syncStableMeta();
+            }
+            onPlayerIsPlayingChanged: {
+                root._checkIdle();
                 root._resolveActivePlayer();
                 root._syncStableMeta();
             }
-            function onTrackTitleChanged() {
-                if (modelData.isPlaying)
-                    root._resolveActivePlayer();
-                root._syncStableMeta();
-            }
-            function onTrackArtistChanged() {
-                if (modelData.isPlaying)
-                    root._resolveActivePlayer();
-                root._syncStableMeta();
-            }
-            function onTrackAlbumChanged() {
-                if (modelData.isPlaying)
-                    root._resolveActivePlayer();
-                root._syncStableMeta();
-            }
-            function onMetadataChanged() {
-                if (modelData.isPlaying)
-                    root._resolveActivePlayer();
-                root._syncStableMeta();
-            }
+            onPlayerTrackTitleChanged: syncMeta()
+            onPlayerTrackArtistChanged: syncMeta()
+            onPlayerTrackAlbumChanged: syncMeta()
+            onPlayerMetadataChanged: syncMeta()
         }
     }
 
@@ -480,10 +476,7 @@ Singleton {
 
         DMSService.sendRequest("bluetooth.mpris.publish", snapshot, response => {
             const changedWhileInFlight = root._mprisPublishDirty;
-            const currentConnection = requestEpoch === root._mprisConnectionEpoch
-                && requestLease === DMSService.mprisCommandLease
-                && DMSService.isConnected
-                && DMSService.subscribeConnected;
+            const currentConnection = requestEpoch === root._mprisConnectionEpoch && requestLease === DMSService.mprisCommandLease && DMSService.isConnected && DMSService.subscribeConnected;
             root._mprisRequestInFlight = false;
 
             if (!currentConnection) {

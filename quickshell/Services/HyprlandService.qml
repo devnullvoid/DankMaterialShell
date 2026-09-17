@@ -6,7 +6,9 @@ import QtQuick
 import Quickshell
 import Quickshell.Hyprland
 import qs.Common
+import "../Common/ConfigIncludeResolve.js" as ConfigIncludeResolve
 import qs.Services
+import "../Common/OutputModel.js" as OutputModel
 
 Singleton {
     id: root
@@ -109,9 +111,7 @@ Singleton {
     function getOutputIdentifier(output, outputName) {
         if (output.explicitIdentifier)
             return outputName;
-        if (SettingsData.displayNameMode === "model" && output.make && output.model)
-            return ("desc:" + [output.make, output.model, output.serial].filter(p => p).join(" ")).replace(/,/g, "");
-        return outputName;
+        return OutputModel.hyprlandIdentifier(output, outputName, SettingsData.displayNameMode);
     }
 
     function luaQuoted(str) {
@@ -130,7 +130,7 @@ Singleton {
             return;
 
         luaConfigStatusLoading = true;
-        Proc.runCommand("hypr-lua-config-status", [Proc.dmsBin, "config", "resolve-include", "hyprland", "outputs.lua"], (output, exitCode) => {
+        Proc.runCommand("hypr-lua-config-status", [Proc.dmsBin, "config", "resolve-include", ...ConfigIncludeResolve.resolveIncludeArgs("outputs", "hyprland")], (output, exitCode) => {
             luaConfigStatusLoading = false;
             luaConfigStatusReady = true;
             if (exitCode !== 0) {
@@ -222,7 +222,7 @@ Singleton {
 
             const parts = [`output = ${luaQuoted(identifier)}`, `mode = ${luaQuoted(resolution)}`, `position = ${luaQuoted(position)}`, `scale = ${Number(scale)}`];
 
-            const transform = transformToHyprland(output.logical?.transform ?? "Normal");
+            const transform = OutputModel.transformIndex(output.logical?.transform ?? "Normal");
             if (transform !== 0)
                 parts.push(`transform = ${transform}`);
 
@@ -321,12 +321,10 @@ Singleton {
 
     Instantiator {
         model: CompositorService.isHyprland ? Hyprland.monitors : null
-        delegate: Connections {
+        delegate: QtObject {
             required property HyprlandMonitor modelData
-            target: modelData
-            function onLastIpcObjectChanged() {
-                root._syncMonitorLayout();
-            }
+            readonly property var monitorLastIpcObject: modelData.lastIpcObject
+            onMonitorLastIpcObjectChanged: root._syncMonitorLayout()
         }
     }
 
@@ -389,11 +387,10 @@ Singleton {
         }
         layoutGenerationRunning = true;
 
-        const defaultRadius = typeof SettingsData !== "undefined" ? SettingsData.cornerRadius : 12;
         const defaultGaps = typeof SettingsData !== "undefined" ? Math.max(4, (SettingsData.getPrimaryBarConfig()?.spacing ?? 4)) : 4;
         const defaultBorderSize = 2;
 
-        const cornerRadius = (typeof SettingsData !== "undefined" && SettingsData.hyprlandLayoutRadiusOverride >= 0) ? SettingsData.hyprlandLayoutRadiusOverride : defaultRadius;
+        const cornerRadius = Theme.windowRadius;
         const gapsOverride = typeof SettingsData !== "undefined" ? SettingsData.hyprlandLayoutGapsOverride : -1;
         const manageGaps = gapsOverride !== -2;
         const gapsIn = gapsOverride >= 0 ? gapsOverride : defaultGaps;
@@ -470,52 +467,6 @@ hl.layer_rule({
                     layoutGenerationAction.schedule();
             });
         });
-    }
-
-    function transformToHyprland(transform) {
-        switch (transform) {
-        case "Normal":
-            return 0;
-        case "90":
-            return 1;
-        case "180":
-            return 2;
-        case "270":
-            return 3;
-        case "Flipped":
-            return 4;
-        case "Flipped90":
-            return 5;
-        case "Flipped180":
-            return 6;
-        case "Flipped270":
-            return 7;
-        default:
-            return 0;
-        }
-    }
-
-    function hyprlandToTransform(value) {
-        switch (value) {
-        case 0:
-            return "Normal";
-        case 1:
-            return "90";
-        case 2:
-            return "180";
-        case 3:
-            return "270";
-        case 4:
-            return "Flipped";
-        case 5:
-            return "Flipped90";
-        case 6:
-            return "Flipped180";
-        case 7:
-            return "Flipped270";
-        default:
-            return "Normal";
-        }
     }
 
     function generateCursorConfig() {

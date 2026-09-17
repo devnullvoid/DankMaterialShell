@@ -148,9 +148,8 @@ Item {
                 spacing: Theme.spacingS
 
                 StyledText {
-                    text: I18n.tr("System Check", "greeter doctor page title")
+                    text: I18n.tr("System check", "greeter doctor page title")
                     font.pixelSize: Theme.fontSizeXLarge
-                    font.weight: Font.Bold
                     color: Theme.surfaceText
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -212,9 +211,8 @@ Item {
                     spacing: Theme.spacingXXS
 
                     StyledText {
-                        text: I18n.tr("System Check", "greeter doctor page title")
+                        text: I18n.tr("System check", "greeter doctor page title")
                         font.pixelSize: Theme.fontSizeXLarge
-                        font.weight: Font.Bold
                         color: Theme.surfaceText
                     }
 

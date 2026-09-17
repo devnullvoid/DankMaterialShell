@@ -38,7 +38,7 @@ import (
 	"github.com/AvengeMedia/dankgo/syncmap"
 )
 
-const APIVersion = 34
+const APIVersion = 35
 
 var CLIVersion = "dev"
 
@@ -385,21 +385,21 @@ func InitializeSysUpdateManager() error {
 	return nil
 }
 
-func routeHandler(ctx context.Context, conn *models.Conn, req ipc.Request, _ *ipc.Subscriber) {
-	routeRequestRecovered(ctx, conn, models.Request(req))
+func routeHandler(ctx context.Context, conn *ipc.ConnWriter, req ipc.Request, _ *ipc.Subscriber) {
+	routeRequestRecovered(ctx, conn, req)
 }
 
-func subscribeHandler(ctx context.Context, conn *models.Conn, req ipc.Request, _ *ipc.Subscriber) {
+func subscribeHandler(ctx context.Context, conn *ipc.ConnWriter, req ipc.Request, _ *ipc.Subscriber) {
 	switch req.Method {
 	case "subscribe":
-		routeRequestRecovered(ctx, conn, models.Request(req))
+		routeRequestRecovered(ctx, conn, req)
 	default:
 		models.RespondError(conn, req.ID, fmt.Sprintf("unknown method: %s", req.Method))
 	}
 }
 
 // routeRequestRecovered keeps a panicking handler from taking down the whole daemon
-func routeRequestRecovered(ctx context.Context, conn *models.Conn, req models.Request) {
+func routeRequestRecovered(ctx context.Context, conn *ipc.ConnWriter, req ipc.Request) {
 	defer func() {
 		if r := recover(); r != nil {
 			log.Errorf("RouteRequest panic recovered: method=%s panic=%v\n%s", req.Method, r, debug.Stack())
@@ -410,7 +410,7 @@ func routeRequestRecovered(ctx context.Context, conn *models.Conn, req models.Re
 }
 
 func getCapabilities() Capabilities {
-	caps := []string{"plugins", "dgop"}
+	caps := []string{"plugins", "dgop", "lyrics"}
 
 	if networkManager != nil {
 		caps = append(caps, "network")
@@ -506,7 +506,7 @@ func serviceSubscribed(services []string, service string, includeAll bool) bool 
 	return slices.Contains(services, service) || includeAll && slices.Contains(services, "all")
 }
 
-func handleSubscribe(ctx context.Context, conn *models.Conn, req models.Request) {
+func handleSubscribe(ctx context.Context, conn *ipc.ConnWriter, req ipc.Request) {
 	clientID := fmt.Sprintf("meta-client-%p", conn)
 
 	dbusClient := dbusClientID
@@ -543,712 +543,204 @@ func handleSubscribe(ctx context.Context, conn *models.Conn, req models.Request)
 	capChan := make(chan ServerInfo, 64)
 	capabilitySubscribers.Store(clientID+"-capabilities", capChan)
 
-	wg.Go(func() {
-		defer capabilitySubscribers.Delete(clientID + "-capabilities")
-
-		for {
-			select {
-			case info, ok := <-capChan:
-				if !ok {
-					return
-				}
-				select {
-				case eventChan <- ServiceEvent{Service: "server", Data: info}:
-				case <-stopChan:
-					return
-				}
-			case <-stopChan:
-				return
-			}
-		}
-	})
+	forwardSubscription(&wg, eventChan, stopChan, "server", capChan, func() {
+		capabilitySubscribers.Delete(clientID + "-capabilities")
+	}, nil)
 
 	shouldSubscribe := func(service string) bool {
 		return serviceSubscribed(services, service, subscribeAll)
 	}
 
 	if shouldSubscribe("network") && networkManager != nil {
-		wg.Add(1)
-		netChan := networkManager.Subscribe(clientID + "-network")
-		go func() {
-			defer wg.Done()
-			defer networkManager.Unsubscribe(clientID + "-network")
-
-			initialState := networkManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "network", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-netChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "network", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := networkManager
+		id := clientID + "-network"
+		states := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "network", states, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("network.credentials") && networkManager != nil {
-		wg.Add(1)
-		credChan := networkManager.SubscribeCredentials(clientID + "-credentials")
-		go func() {
-			defer wg.Done()
-			defer networkManager.UnsubscribeCredentials(clientID + "-credentials")
-
-			for {
-				select {
-				case prompt, ok := <-credChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "network.credentials", Data: prompt}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := networkManager
+		id := clientID + "-credentials"
+		prompts := mgr.SubscribeCredentials(id)
+		forwardSubscription(&wg, eventChan, stopChan, "network.credentials", prompts, func() {
+			mgr.UnsubscribeCredentials(id)
+		}, nil)
 	}
 
 	if shouldSubscribe("loginctl") && loginctlManager != nil {
-		wg.Add(1)
-		loginChan := loginctlManager.Subscribe(clientID + "-loginctl")
-		go func() {
-			defer wg.Done()
-			defer loginctlManager.Unsubscribe(clientID + "-loginctl")
-
-			initialState := loginctlManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "loginctl", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-loginChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "loginctl", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := loginctlManager
+		id := clientID + "-loginctl"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "loginctl", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("freedesktop") && freedesktopManager != nil {
-		wg.Add(1)
-		freedesktopChan := freedesktopManager.Subscribe(clientID + "-freedesktop")
-		go func() {
-			defer wg.Done()
-			defer freedesktopManager.Unsubscribe(clientID + "-freedesktop")
-
-			initialState := freedesktopManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "freedesktop", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-freedesktopChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "freedesktop", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := freedesktopManager
+		id := clientID + "-freedesktop"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "freedesktop", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("freedesktop.screensaver") && freedesktopManager != nil {
-		wg.Add(1)
-		screensaverChan := freedesktopManager.SubscribeScreensaver(clientID + "-screensaver")
-		go func() {
-			defer wg.Done()
-			defer freedesktopManager.UnsubscribeScreensaver(clientID + "-screensaver")
-
-			initialState := freedesktopManager.GetScreensaverState()
-			select {
-			case eventChan <- ServiceEvent{Service: "freedesktop.screensaver", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-screensaverChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "freedesktop.screensaver", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := freedesktopManager
+		id := clientID + "-screensaver"
+		source := mgr.SubscribeScreensaver(id)
+		forwardSubscription(&wg, eventChan, stopChan, "freedesktop.screensaver", source, func() {
+			mgr.UnsubscribeScreensaver(id)
+		}, mgr.GetScreensaverState)
 	}
 
 	if shouldSubscribe("gamma") && waylandManager != nil {
-		wg.Add(1)
-		waylandChan := waylandManager.Subscribe(clientID + "-gamma")
-		go func() {
-			defer wg.Done()
-			defer waylandManager.Unsubscribe(clientID + "-gamma")
-
-			initialState := waylandManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "gamma", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-waylandChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "gamma", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := waylandManager
+		id := clientID + "-gamma"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "gamma", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("theme.auto") && themeModeManager != nil {
-		wg.Add(1)
-		themeAutoChan := themeModeManager.Subscribe(clientID + "-theme-auto")
-		go func() {
-			defer wg.Done()
-			defer themeModeManager.Unsubscribe(clientID + "-theme-auto")
-
-			initialState := themeModeManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "theme.auto", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-themeAutoChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "theme.auto", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := themeModeManager
+		id := clientID + "-theme-auto"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "theme.auto", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("wallpaper") && wallpaperManager != nil {
-		wg.Add(1)
-		wallpaperChan := wallpaperManager.Subscribe(clientID + "-wallpaper")
-		go func() {
-			defer wg.Done()
-			defer wallpaperManager.Unsubscribe(clientID + "-wallpaper")
-
-			initialState := wallpaperManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "wallpaper", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-wallpaperChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "wallpaper", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := wallpaperManager
+		id := clientID + "-wallpaper"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "wallpaper", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("bluetooth") && bluezManager != nil {
-		wg.Add(1)
-		bluezChan := bluezManager.Subscribe(clientID + "-bluetooth")
-		go func() {
-			defer wg.Done()
-			defer bluezManager.Unsubscribe(clientID + "-bluetooth")
-
-			initialState := bluezManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "bluetooth", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-bluezChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "bluetooth", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := bluezManager
+		id := clientID + "-bluetooth"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "bluetooth", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if serviceSubscribed(services, "mpris.command", false) && bluezManager != nil {
-		commandID := clientID + "-mpris-command"
-		commandChan, err := bluezManager.SubscribePlayerCommands(commandID)
+		mgr := bluezManager
+		id := clientID + "-mpris-command"
+		commands, err := mgr.SubscribePlayerCommands(id)
 		if err != nil {
 			log.Warnf("MPRIS command subscription rejected: %v", err)
 		} else {
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				defer bluezManager.UnsubscribePlayerCommands(commandID)
-
-				for {
-					select {
-					case command, ok := <-commandChan:
-						if !ok {
-							return
-						}
-						select {
-						case eventChan <- ServiceEvent{Service: "mpris.command", Data: command}:
-						case <-stopChan:
-							return
-						}
-					case <-stopChan:
-						return
-					}
-				}
-			}()
+			forwardSubscription(&wg, eventChan, stopChan, "mpris.command", commands, func() {
+				mgr.UnsubscribePlayerCommands(id)
+			}, nil)
 		}
 	}
 
 	if shouldSubscribe("bluetooth.pairing") && bluezManager != nil {
-		wg.Add(1)
-		pairingChan := bluezManager.SubscribePairing(clientID + "-pairing")
-		go func() {
-			defer wg.Done()
-			defer bluezManager.UnsubscribePairing(clientID + "-pairing")
-
-			for {
-				select {
-				case prompt, ok := <-pairingChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "bluetooth.pairing", Data: prompt}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := bluezManager
+		id := clientID + "-pairing"
+		source := mgr.SubscribePairing(id)
+		forwardSubscription(&wg, eventChan, stopChan, "bluetooth.pairing", source, func() {
+			mgr.UnsubscribePairing(id)
+		}, nil)
 	}
 
 	if shouldSubscribe("browser") && appPickerManager != nil {
-		wg.Add(1)
-		appPickerChan := appPickerManager.Subscribe(clientID + "-browser")
-		go func() {
-			defer wg.Done()
-			defer appPickerManager.Unsubscribe(clientID + "-browser")
-
-			for {
-				select {
-				case event, ok := <-appPickerChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "browser.open_requested", Data: event}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := appPickerManager
+		id := clientID + "-browser"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "browser.open_requested", source, func() {
+			mgr.Unsubscribe(id)
+		}, nil)
 	}
 
 	if shouldSubscribe("cups") {
-		cupsMu.Lock()
-		cupsSubscriberCount++
-		gained, err := initializeCupsManagerLocked()
-		mgr := cupsManager
-		cupsMu.Unlock()
-
-		if err != nil {
-			log.Warnf("Failed to initialize CUPS manager for subscription: %v", err)
-		} else if gained {
-			notifyCapabilityChange()
-		}
-
-		if mgr == nil {
-			releaseCupsSubscriber()
-		} else {
-			wg.Add(1)
-			cupsChan := mgr.Subscribe(clientID + "-cups")
-			go func() {
-				defer wg.Done()
-				defer func() {
-					mgr.Unsubscribe(clientID + "-cups")
-					releaseCupsSubscriber()
-				}()
-
-				initialState := mgr.GetState()
-				select {
-				case eventChan <- ServiceEvent{Service: "cups", Data: initialState}:
-				case <-stopChan:
-					return
-				}
-
-				for {
-					select {
-					case state, ok := <-cupsChan:
-						if !ok {
-							return
-						}
-						select {
-						case eventChan <- ServiceEvent{Service: "cups", Data: state}:
-						case <-stopChan:
-							return
-						}
-					case <-stopChan:
-						return
-					}
-				}
-			}()
-		}
+		subscribeCups(&wg, eventChan, stopChan, clientID)
 	}
 
 	if shouldSubscribe("tailscale") && tailscaleManager != nil && tailscaleManager.IsAvailable() {
-		wg.Add(1)
-		tailscaleChan := tailscaleManager.Subscribe(clientID + "-tailscale")
-		go func() {
-			defer wg.Done()
-			defer tailscaleManager.Unsubscribe(clientID + "-tailscale")
-
-			initialState := tailscaleManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "tailscale", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-tailscaleChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "tailscale", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := tailscaleManager
+		id := clientID + "-tailscale"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "tailscale", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("brightness") && brightnessManager != nil {
-		wg.Add(2)
-		brightnessStateChan := brightnessManager.Subscribe(clientID + "-brightness-state")
-		brightnessUpdateChan := brightnessManager.SubscribeUpdates(clientID + "-brightness-updates")
-
-		go func() {
-			defer wg.Done()
-			defer brightnessManager.Unsubscribe(clientID + "-brightness-state")
-
-			initialState := brightnessManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "brightness", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-brightnessStateChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "brightness", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
-
-		go func() {
-			defer wg.Done()
-			defer brightnessManager.UnsubscribeUpdates(clientID + "-brightness-updates")
-
-			for {
-				select {
-				case update, ok := <-brightnessUpdateChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "brightness.update", Data: update}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := brightnessManager
+		stateID := clientID + "-brightness-state"
+		updateID := clientID + "-brightness-updates"
+		states := mgr.Subscribe(stateID)
+		updates := mgr.SubscribeUpdates(updateID)
+		forwardSubscription(&wg, eventChan, stopChan, "brightness", states, func() {
+			mgr.Unsubscribe(stateID)
+		}, mgr.GetState)
+		forwardSubscription(&wg, eventChan, stopChan, "brightness.update", updates, func() {
+			mgr.UnsubscribeUpdates(updateID)
+		}, nil)
 	}
 
 	if shouldSubscribe("wlroutput") && wlrOutputManager != nil {
-		wg.Add(1)
-		wlrOutputChan := wlrOutputManager.Subscribe(clientID + "-wlroutput")
-		go func() {
-			defer wg.Done()
-			defer wlrOutputManager.Unsubscribe(clientID + "-wlroutput")
-
-			initialState := wlrOutputManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "wlroutput", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-wlrOutputChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "wlroutput", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := wlrOutputManager
+		id := clientID + "-wlroutput"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "wlroutput", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("evdev") && evdevManager != nil {
-		wg.Add(1)
-		evdevChan := evdevManager.Subscribe(clientID + "-evdev")
-		go func() {
-			defer wg.Done()
-			defer evdevManager.Unsubscribe(clientID + "-evdev")
-
-			initialState := evdevManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "evdev", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-evdevChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "evdev", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := evdevManager
+		id := clientID + "-evdev"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "evdev", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("clipboard") && clipboardManager != nil {
-		wg.Add(1)
-		clipboardChan := clipboardManager.Subscribe(clientID + "-clipboard")
-		go func() {
-			defer wg.Done()
-			defer clipboardManager.Unsubscribe(clientID + "-clipboard")
-
-			initialState := clipboardManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "clipboard", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-clipboardChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "clipboard", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := clipboardManager
+		id := clientID + "-clipboard"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "clipboard", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("location") && locationManager != nil {
-		wg.Add(1)
-		locationChan := locationManager.Subscribe(clientID + "-location")
-		go func() {
-			defer wg.Done()
-			defer locationManager.Unsubscribe(clientID + "-location")
-
-			initialState := locationManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "location", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-locationChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "location", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := locationManager
+		id := clientID + "-location"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "location", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("sysupdate") && sysUpdateManager != nil {
-		wg.Add(1)
-		sysupdateChan := sysUpdateManager.Subscribe(clientID + "-sysupdate")
-		go func() {
-			defer wg.Done()
-			defer sysUpdateManager.Unsubscribe(clientID + "-sysupdate")
-
-			initialState := sysUpdateManager.GetState()
-			select {
-			case eventChan <- ServiceEvent{Service: "sysupdate", Data: initialState}:
-			case <-stopChan:
-				return
-			}
-
-			for {
-				select {
-				case state, ok := <-sysupdateChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "sysupdate", Data: state}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := sysUpdateManager
+		id := clientID + "-sysupdate"
+		source := mgr.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "sysupdate", source, func() {
+			mgr.Unsubscribe(id)
+		}, mgr.GetState)
 	}
 
 	if shouldSubscribe("dbus") && dbusManager != nil {
-		wg.Add(1)
-		dbusChan := dbusManager.SubscribeSignals(dbusClient)
-		go func() {
-			defer wg.Done()
-			defer dbusManager.UnsubscribeSignals(dbusClient)
-
-			for {
-				select {
-				case event, ok := <-dbusChan:
-					if !ok {
-						return
-					}
-					select {
-					case eventChan <- ServiceEvent{Service: "dbus", Data: event}:
-					case <-stopChan:
-						return
-					}
-				case <-stopChan:
-					return
-				}
-			}
-		}()
+		mgr := dbusManager
+		events := mgr.SubscribeSignals(dbusClient)
+		forwardSubscription(&wg, eventChan, stopChan, "dbus", events, func() {
+			mgr.UnsubscribeSignals(dbusClient)
+		}, nil)
 	}
 
 	go func() {
@@ -1257,7 +749,7 @@ func handleSubscribe(ctx context.Context, conn *models.Conn, req models.Request)
 	}()
 
 	info := getServerInfo()
-	if err := conn.WriteResponse(models.Response[ServiceEvent]{
+	if err := conn.WriteResponse(ipc.Response[ServiceEvent]{
 		ID:     req.ID,
 		Result: &ServiceEvent{Service: "server", Data: info},
 	}); err != nil {
@@ -1272,7 +764,7 @@ func handleSubscribe(ctx context.Context, conn *models.Conn, req models.Request)
 			if !ok {
 				return
 			}
-			if err := conn.WriteResponse(models.Response[ServiceEvent]{
+			if err := conn.WriteResponse(ipc.Response[ServiceEvent]{
 				ID:     req.ID,
 				Result: &event,
 			}); err != nil {
@@ -1280,6 +772,32 @@ func handleSubscribe(ctx context.Context, conn *models.Conn, req models.Request)
 			}
 		}
 	}
+}
+
+func subscribeCups(wg *sync.WaitGroup, events chan<- ServiceEvent, stop <-chan struct{}, clientID string) {
+	cupsMu.Lock()
+	cupsSubscriberCount++
+	gained, err := initializeCupsManagerLocked()
+	mgr := cupsManager
+	cupsMu.Unlock()
+
+	if err != nil {
+		log.Warnf("Failed to initialize CUPS manager for subscription: %v", err)
+	}
+	if gained {
+		notifyCapabilityChange()
+	}
+	if mgr == nil {
+		releaseCupsSubscriber()
+		return
+	}
+
+	id := clientID + "-cups"
+	states := mgr.Subscribe(id)
+	forwardSubscription(wg, events, stop, "cups", states, func() {
+		mgr.Unsubscribe(id)
+		releaseCupsSubscriber()
+	}, mgr.GetState)
 }
 
 func cleanupManagers() {

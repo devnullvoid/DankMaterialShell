@@ -50,7 +50,7 @@ Rectangle {
             StyledText {
                 text: root.title
                 font.pixelSize: Theme.fontSizeSmall
-                font.weight: Font.Medium
+                font.weight: Theme.fontWeightMedium
                 color: Theme.surfaceText
                 anchors.horizontalCenter: parent.horizontalCenter
             }

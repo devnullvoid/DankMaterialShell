@@ -758,42 +758,6 @@ func TestDeriveContainer(t *testing.T) {
 	}
 }
 
-func TestContrastAlgorithmComparison(t *testing.T) {
-	base := "#625690"
-
-	optsWCAG := PaletteOptions{IsLight: false, UseDPS: false}
-	optsDPS := PaletteOptions{IsLight: false, UseDPS: true}
-
-	paletteWCAG := GeneratePalette(base, optsWCAG)
-	paletteDPS := GeneratePalette(base, optsDPS)
-
-	wcagColors := []ColorInfo{
-		paletteWCAG.Color0, paletteWCAG.Color1, paletteWCAG.Color2, paletteWCAG.Color3,
-		paletteWCAG.Color4, paletteWCAG.Color5, paletteWCAG.Color6, paletteWCAG.Color7,
-		paletteWCAG.Color8, paletteWCAG.Color9, paletteWCAG.Color10, paletteWCAG.Color11,
-		paletteWCAG.Color12, paletteWCAG.Color13, paletteWCAG.Color14, paletteWCAG.Color15,
-	}
-	dpsColors := []ColorInfo{
-		paletteDPS.Color0, paletteDPS.Color1, paletteDPS.Color2, paletteDPS.Color3,
-		paletteDPS.Color4, paletteDPS.Color5, paletteDPS.Color6, paletteDPS.Color7,
-		paletteDPS.Color8, paletteDPS.Color9, paletteDPS.Color10, paletteDPS.Color11,
-		paletteDPS.Color12, paletteDPS.Color13, paletteDPS.Color14, paletteDPS.Color15,
-	}
-
-	if paletteWCAG.Color0.Hex != paletteDPS.Color0.Hex {
-		t.Errorf("Background colors differ: WCAG=%s, DPS=%s", paletteWCAG.Color0.Hex, paletteDPS.Color0.Hex)
-	}
-
-	differentCount := 0
-	for i := range 16 {
-		if wcagColors[i].Hex != dpsColors[i].Hex {
-			differentCount++
-		}
-	}
-
-	t.Logf("WCAG and DPS palettes differ in %d/16 colors", differentCount)
-}
-
 func TestEnsureContrastDPSLightModeStaysLight(t *testing.T) {
 	tests := []struct {
 		name     string

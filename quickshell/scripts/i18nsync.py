@@ -13,6 +13,7 @@ EN_JSON = REPO_ROOT / "translations" / "en.json"
 TEMPLATE_JSON = REPO_ROOT / "translations" / "template.json"
 POEXPORTS_DIR = REPO_ROOT / "translations" / "poexports"
 SYNC_STATE = REPO_ROOT / ".git" / "i18n_sync_state.json"
+TERM_RENAMES_JSON = REPO_ROOT / "translations" / "term_renames.json"
 
 # dank-qml-common terms live in the same DMS POEditor project (tagged
 # dank-qml-common); their translations ship inside the submodule so every
@@ -290,6 +291,78 @@ def upload_source_strings(api_token, project_id, entries, prune=False):
     success(f"POEditor updated: {added} added, {updated} updated, {deleted} deleted")
     return True
 
+def load_term_renames():
+    if not TERM_RENAMES_JSON.exists():
+        return {}
+    with open(TERM_RENAMES_JSON) as f:
+        data = json.load(f)
+    return {old: new for old, new in data.items() if isinstance(new, str) and old != new}
+
+
+def export_language(api_token, project_id, po_lang):
+    export_resp = poeditor_request('projects/export', {
+        'api_token': api_token,
+        'id': project_id,
+        'language': po_lang,
+        'type': 'key_value_json'
+    })
+    url = export_resp.get('result', {}).get('url')
+    if export_resp.get('response', {}).get('status') != 'success' or not url:
+        warn(f"Export request failed for {po_lang}")
+        return None
+    try:
+        with request.urlopen(url) as response:
+            return json.loads(response.read().decode())
+    except Exception as e:
+        warn(f"Failed to download {po_lang}: {e}")
+        return None
+
+
+def flat_translations(data, out=None):
+    out = {} if out is None else out
+    for key, value in data.items():
+        if isinstance(value, dict):
+            flat_translations(value, out)
+            continue
+        if isinstance(value, str) and value:
+            out.setdefault(key, value)
+    return out
+
+
+def collect_rename_translations(api_token, project_id, renames):
+    if not renames:
+        return {}
+    info(f"Collecting translations for {len(renames)} renamed terms...")
+    carry = {}
+    for po_lang in LANGUAGES:
+        data = export_language(api_token, project_id, po_lang)
+        if data is None:
+            continue
+        existing = flat_translations(data)
+        entries = [
+            {'term': new, 'translation': existing[old]}
+            for old, new in renames.items()
+            if old in existing and new not in existing
+        ]
+        if entries:
+            carry[po_lang] = entries
+    return carry
+
+
+def apply_rename_translations(api_token, project_id, carry):
+    for po_lang, entries in carry.items():
+        info(f"Carrying {len(entries)} translations to renamed terms for {po_lang}...")
+        poeditor_upload({
+            'api_token': api_token,
+            'id': project_id,
+            'updating': 'terms_translations',
+            'language': po_lang,
+            'overwrite': '0',
+        }, entries, 'en.json')
+    if carry:
+        success(f"Carried translations over for {len(carry)} languages")
+
+
 def write_if_changed(repo_file, new_data):
     if not json_changed(repo_file, new_data):
         return False
@@ -467,10 +540,16 @@ def main():
                 last_common_en = json.load(f).get('common_en_json', {})
         common_changed = json.dumps(common_entries, sort_keys=True) != json.dumps(last_common_en, sort_keys=True)
 
+        renames = load_term_renames() if strings_changed else {}
+        carry = collect_rename_translations(api_token, project_id, renames)
+
         if strings_changed or common_changed or prune:
             combined = combine_entries(current_en, common_entries)
             combined = combine_entries(combined, greeter_entries)
             upload_source_strings(api_token, project_id, combined, prune)
+            apply_rename_translations(api_token, project_id, carry)
+            if renames:
+                TERM_RENAMES_JSON.unlink()
         else:
             info("No changes in source strings")
 

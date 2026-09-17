@@ -16,22 +16,24 @@ FocusScope {
     property real alignedHeight: 0
     property real bottomInset: Theme.spacingM
     property bool _heightReportPending: false
+    signal windowRequested(string windowName)
 
     clip: true
 
     function resetState() {
         hostContract.editMode = false;
         hostContract.expandedSection = "";
-        hostContract.expandedWidgetIndex = -1;
-        hostContract.expandedWidgetData = null;
     }
 
     function beginSession() {
         hostContract.editMode = false;
         hostContract.expandedSection = root.controller.controlCenterPendingSection || "";
-        hostContract.expandedWidgetIndex = -1;
-        hostContract.expandedWidgetData = null;
         root.queueHeightReport();
+    }
+
+    function focusFace() {
+        content.forceActiveFocus();
+        return true;
     }
 
     function queueHeightReport() {
@@ -49,8 +51,6 @@ FocusScope {
 
         property bool editMode: false
         property string expandedSection: ""
-        property int expandedWidgetIndex: -1
-        property var expandedWidgetData: null
 
         readonly property bool shouldBeVisible: root.controller.activeActivity === "controlcenter" && root.controller.expanded
         readonly property bool headerTogglesClose: true
@@ -72,19 +72,18 @@ FocusScope {
             root.controller.requestCollapse();
         }
 
-        function collapseAll() {
-            hostContract.expandedSection = "";
-            hostContract.expandedWidgetIndex = -1;
-            hostContract.expandedWidgetData = null;
+        function openSettings() {
+            root.windowRequested("settings");
         }
 
-        function toggleSection(section) {
-            if (hostContract.expandedSection === section) {
-                hostContract.expandedSection = "";
-                hostContract.expandedWidgetIndex = -1;
+        function openColorPicker() {
+            if (!PopoutService.colorPickerModal)
                 return;
-            }
-            hostContract.expandedSection = section;
+            root.windowRequested("colorPicker");
+        }
+
+        function collapseAll() {
+            hostContract.expandedSection = "";
         }
     }
 

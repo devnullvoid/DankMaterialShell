@@ -25,6 +25,8 @@ ALLOWED = [
     {"PIN", "Pin"},            # WPS PIN acronym vs the verb "pin"
     {"Device", "device"},      # label vs inline generic-noun fallback
     {"Until %1", "until %1"},  # sentence-initial vs mid-sentence position
+    {"Custom Color", "Custom color"},  # dms-plugins checkout, not this repo
+    {"Media Player", "Media player"},  # dms-plugins checkout, not this repo
 ]
 
 

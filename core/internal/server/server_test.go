@@ -12,6 +12,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/bluez"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/models"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/network"
+	"github.com/AvengeMedia/dankgo/ipc"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -83,9 +84,9 @@ func (m *mockConn) SetWriteDeadline(t time.Time) error { return nil }
 
 func TestRespondError(t *testing.T) {
 	mc := &mockConn{}
-	models.RespondError(models.NewConn(mc), 123, "test error")
+	models.RespondError(ipc.NewConnWriter(mc), 123, "test error")
 
-	var resp models.Response[any]
+	var resp ipc.Response[any]
 	err := json.Unmarshal(mc.written, &resp)
 	require.NoError(t, err)
 
@@ -97,9 +98,9 @@ func TestRespondError(t *testing.T) {
 func TestRespond(t *testing.T) {
 	mc := &mockConn{}
 	result := map[string]string{"foo": "bar"}
-	models.Respond(models.NewConn(mc), 123, result)
+	models.Respond(ipc.NewConnWriter(mc), 123, result)
 
-	var resp models.Response[map[string]string]
+	var resp ipc.Response[map[string]string]
 	err := json.Unmarshal(mc.written, &resp)
 	require.NoError(t, err)
 
@@ -107,56 +108,6 @@ func TestRespond(t *testing.T) {
 	assert.Empty(t, resp.Error)
 	require.NotNil(t, resp.Result)
 	assert.Equal(t, "bar", (*resp.Result)["foo"])
-}
-
-func TestRequest_JSON(t *testing.T) {
-	jsonStr := `{"id":123,"method":"test.method","params":{"key":"value"}}`
-	var req models.Request
-	err := json.Unmarshal([]byte(jsonStr), &req)
-	require.NoError(t, err)
-
-	assert.Equal(t, 123, req.ID)
-	assert.Equal(t, "test.method", req.Method)
-	assert.Equal(t, "value", req.Params["key"])
-}
-
-func TestResponse_JSON(t *testing.T) {
-	t.Run("success response", func(t *testing.T) {
-		result := "success"
-		resp := models.Response[string]{
-			ID:     123,
-			Result: &result,
-		}
-
-		data, err := json.Marshal(resp)
-		require.NoError(t, err)
-
-		var decoded models.Response[string]
-		err = json.Unmarshal(data, &decoded)
-		require.NoError(t, err)
-
-		assert.Equal(t, 123, decoded.ID)
-		assert.Equal(t, "success", *decoded.Result)
-		assert.Empty(t, decoded.Error)
-	})
-
-	t.Run("error response", func(t *testing.T) {
-		resp := models.Response[any]{
-			ID:    123,
-			Error: "test error",
-		}
-
-		data, err := json.Marshal(resp)
-		require.NoError(t, err)
-
-		var decoded models.Response[any]
-		err = json.Unmarshal(data, &decoded)
-		require.NoError(t, err)
-
-		assert.Equal(t, 123, decoded.ID)
-		assert.Equal(t, "test error", decoded.Error)
-		assert.Nil(t, decoded.Result)
-	})
 }
 
 func TestExclusiveServiceRequiresExplicitSubscription(t *testing.T) {
@@ -197,7 +148,7 @@ func TestSubscriptionCancellationPromotesMPRISWaiter(t *testing.T) {
 	done := make(chan struct{})
 	go func() {
 		defer close(done)
-		handleSubscribe(ctx, models.NewConn(serverConn), models.Request{
+		handleSubscribe(ctx, ipc.NewConnWriter(serverConn), ipc.Request{
 			ID:     42,
 			Method: "subscribe",
 			Params: map[string]any{"services": []any{"mpris.command"}},
@@ -208,7 +159,7 @@ func TestSubscriptionCancellationPromotesMPRISWaiter(t *testing.T) {
 	decoder := json.NewDecoder(clientConn)
 	var ownerLease string
 	for ownerLease == "" {
-		var response models.Response[ServiceEvent]
+		var response ipc.Response[ServiceEvent]
 		require.NoError(t, decoder.Decode(&response))
 		if response.Result == nil || response.Result.Service != "mpris.command" {
 			continue

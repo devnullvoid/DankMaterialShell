@@ -7,6 +7,7 @@ import Quickshell
 import Quickshell.Io
 import qs.Common
 import qs.Services
+import "../Common/OutputModel.js" as OutputModel
 
 Singleton {
     id: root
@@ -1195,11 +1196,10 @@ Singleton {
         configGenerationPending = false;
         log.debug("Generating layout config...");
 
-        const defaultRadius = typeof SettingsData !== "undefined" ? SettingsData.cornerRadius : 12;
         const defaultGaps = typeof SettingsData !== "undefined" ? Math.max(4, (SettingsData.getPrimaryBarConfig()?.spacing ?? 4)) : 4;
         const defaultBorderSize = 2;
 
-        const cornerRadius = (typeof SettingsData !== "undefined" && SettingsData.niriLayoutRadiusOverride >= 0) ? SettingsData.niriLayoutRadiusOverride : defaultRadius;
+        const cornerRadius = Theme.windowRadius;
         const gapsOverride = typeof SettingsData !== "undefined" ? SettingsData.niriLayoutGapsOverride : -1;
         const manageGaps = gapsOverride !== -2;
         const gaps = gapsOverride >= 0 ? gapsOverride : defaultGaps;
@@ -1273,7 +1273,7 @@ window-rule {
         writeConfigProcess.configContent = configContent;
         writeConfigProcess.configPath = configPath;
         writeConfigProcess.requestRevision = _layoutRequestRevision;
-        writeConfigProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && cat > "${configPath}" << 'EOF'\n${configContent}\nEOF`];
+        writeConfigProcess.command = ["sh", "-c", replaceFileCommand(configPath, configContent)];
         _awaitingLayoutReloadRevision = Math.max(_awaitingLayoutReloadRevision, _layoutRequestRevision);
         writeConfigProcess.running = true;
 
@@ -1281,7 +1281,7 @@ window-rule {
             _lastGeneratedAlttabContent = alttabContent;
             writeAlttabProcess.alttabContent = alttabContent;
             writeAlttabProcess.alttabPath = alttabPath;
-            writeAlttabProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && cat > "${alttabPath}" << 'EOF'\n${alttabContent}\nEOF`];
+            writeAlttabProcess.command = ["sh", "-c", replaceFileCommand(alttabPath, alttabContent)];
             writeAlttabProcess.running = true;
         }
 
@@ -1303,7 +1303,7 @@ window-rule {
         const sourceBlurrulePath = Paths.strip(Qt.resolvedUrl("niri-wpblur.kdl"));
 
         writeBlurruleProcess.blurrulePath = blurrulePath;
-        writeBlurruleProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && cp --no-preserve=mode "${sourceBlurrulePath}" "${blurrulePath}"`];
+        writeBlurruleProcess.command = ["sh", "-c", `${targetFileCommand(blurrulePath)} && cp --no-preserve=mode "${sourceBlurrulePath}" "$target.$$.tmp" && mv -f "$target.$$.tmp" "$target"`];
         writeBlurruleProcess.running = true;
     }
 
@@ -1365,10 +1365,17 @@ window-rule {
         writeCursorProcess.cursorContent = cursorContent;
         writeCursorProcess.cursorPath = cursorPath;
 
-        const escapedCursorContent = cursorContent.replace(/'/g, "'\\''");
-
-        writeCursorProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && printf '%s' '${escapedCursorContent}' > "${cursorPath}"`];
+        writeCursorProcess.command = ["sh", "-c", replaceFileCommand(cursorPath, cursorContent)];
         writeCursorProcess.running = true;
+    }
+
+    function targetFileCommand(path) {
+        return `mkdir -p "$(dirname "${path}")" && target="$(readlink -f "${path}")"`;
+    }
+
+    function replaceFileCommand(path, content) {
+        const body = content.endsWith("\n") ? content : content + "\n";
+        return `${targetFileCommand(path)} && cat > "$target.$$.tmp" << 'EOF' && mv -f "$target.$$.tmp" "$target"\n${body}EOF`;
     }
 
     function applyOutputConfig(outputName, config, callback) {
@@ -1445,11 +1452,7 @@ window-rule {
     function getOutputIdentifier(output, outputName) {
         if (output.explicitIdentifier)
             return outputName;
-        if (SettingsData.displayNameMode === "model" && output.make && output.model) {
-            const serial = output.serial || "Unknown";
-            return output.make + " " + output.model + " " + serial;
-        }
-        return outputName;
+        return OutputModel.niriIdentifier(output, outputName, SettingsData.displayNameMode);
     }
 
     function outputSettingsFor(output, outputName, niriSettings) {
@@ -1457,20 +1460,6 @@ window-rule {
         if (niriSettings)
             return niriSettings[identifier] || niriSettings[outputName] || {};
         return SessionData.getNiriOutputSettings(identifier);
-    }
-
-    function transformToNiri(transform) {
-        const transformMap = {
-            "Normal": "normal",
-            "90": "90",
-            "180": "180",
-            "270": "270",
-            "Flipped": "flipped",
-            "Flipped90": "flipped-90",
-            "Flipped180": "flipped-180",
-            "Flipped270": "flipped-270"
-        };
-        return transformMap[transform] || "normal";
     }
 
     function buildOutputsConfig(outputsData, niriSettings) {
@@ -1507,7 +1496,7 @@ window-rule {
                 kdlContent += `    scale ${output.logical.scale || 1.0}\n`;
 
                 if (output.logical.transform && output.logical.transform !== "Normal") {
-                    kdlContent += `    transform "${transformToNiri(output.logical.transform)}"\n`;
+                    kdlContent += `    transform "${OutputModel.niriTransform(output.logical.transform)}"\n`;
                 }
 
                 if (output.logical.x !== undefined && output.logical.y !== undefined) {
@@ -1551,7 +1540,7 @@ window-rule {
         const niriDmsDir = configDir + "/niri/dms";
         const outputsPath = niriDmsDir + "/outputs.kdl";
 
-        Proc.runCommand("niri-write-outputs", ["sh", "-c", `mkdir -p "${niriDmsDir}" && cat > "${outputsPath}" << 'EOF'\n${kdlContent}EOF`], (output, exitCode) => {
+        Proc.runCommand("niri-write-outputs", ["sh", "-c", replaceFileCommand(outputsPath, kdlContent)], (output, exitCode) => {
             if (exitCode !== 0) {
                 log.warn("Failed to write outputs config:", output);
                 if (callback)
@@ -1821,7 +1810,7 @@ window-rule {
 
         writeInputProcess.inputContent = inputContent;
         writeInputProcess.inputPath = inputPath;
-        writeInputProcess.command = ["sh", "-c", `mkdir -p "${niriDmsDir}" && cat > "${inputPath}" << 'EOF'\n${inputContent}\nEOF`];
+        writeInputProcess.command = ["sh", "-c", replaceFileCommand(inputPath, inputContent)];
         writeInputProcess.running = true;
     }
 
