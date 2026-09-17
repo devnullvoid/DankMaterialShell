@@ -30,7 +30,8 @@ OFFICIAL_PLUGINS_REPO = "https://github.com/AvengeMedia/dms-plugins.git"
 OFFICIAL_PLUGINS_DIR = REPO_ROOT / "dms-plugins"
 
 RATE_LIMIT_CODE = '4048'
-UPLOAD_MIN_INTERVAL = 25
+# https://poeditor.com/docs/api_rates: 1 upload per 20s free, 10s paid.
+UPLOAD_MIN_INTERVAL = float(os.environ.get('POEDITOR_UPLOAD_INTERVAL', 20))
 UPLOAD_RETRIES = 4
 _last_upload = 0.0
 
@@ -247,10 +248,10 @@ def poeditor_upload(fields, payload, filename, required=True):
                 result = json.loads(response.read().decode())
         except Exception as e:
             _last_upload = time.monotonic()
-            if required:
-                error(f"Upload failed: {e}")
-            warn(f"Upload failed: {e}")
-            return None
+            result = f"network error: {e}"
+            if attempt + 1 < UPLOAD_RETRIES:
+                warn(f"Upload failed ({e}), retrying ({attempt + 2}/{UPLOAD_RETRIES})")
+            continue
 
         _last_upload = time.monotonic()
         if result.get('response', {}).get('status') == 'success':

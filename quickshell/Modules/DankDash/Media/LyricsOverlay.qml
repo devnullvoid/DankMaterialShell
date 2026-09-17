@@ -25,6 +25,7 @@ FocusScope {
     readonly property bool showFollow: ready && controller.synced && !following
     readonly property bool animationsEnabled: !SettingsData.reduceMotion && Theme.currentAnimationSpeed !== SettingsData.AnimationSpeed.None
     readonly property int activeIndex: controller.activeIndex
+    readonly property int firstFocusedIndex: controller.focusedGroups[0] ?? -1
     readonly property string trackKey: controller.trackKey
     readonly property bool userScrolling: transcript.isUserScrolling || transcript.dragging
     readonly property real currentLineY: transcript.currentItem?.y ?? 0
@@ -48,6 +49,7 @@ FocusScope {
     Accessible.role: Accessible.Pane
     Accessible.name: I18n.tr("Lyrics", "Media player lyrics button")
     onActiveIndexChanged: followTimer.restart()
+    onFirstFocusedIndexChanged: followTimer.restart()
     onReadyChanged: followTimer.restart()
     onWidthChanged: snapToCurrent()
     onHeightChanged: snapToCurrent()

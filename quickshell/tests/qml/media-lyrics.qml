@@ -574,9 +574,11 @@ ShellRoot {
             input.wait(20);
             check(leadVocal.current && !backingVocal.current && !replyVocal.current && media.lyrics.activeIndex === 2, "parts end independently without scrolling backwards");
             check(replyVocal.highlighted && replyVocal.wordProgress === 1, "completed words retain their highlight while the line stays in focus");
-            source.position = 18.5;
-            input.wait(20);
             check(Math.abs(replyVocal.mapToItem(overlay, 0, 0).y - duetReplyY) < 1, "vocals ending above the active line leave it in place");
+            source.position = 18.5;
+            const duetList = find(overlay, item => typeof item.positionViewAtEnd === "function");
+            const replyLine = duetList.itemAtIndex(2);
+            input.tryVerify(() => Math.abs(replyLine.y + replyLine.height / 2 - duetList.contentY - duetList.height / 2) < 2, 1000, "the active line centers once the overlapping line above it is done");
             source.position = 22.5;
             input.wait(20);
             const finishedLine = find(overlay, item => item.part?.x === "After the duet");
