@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import Quickshell
 import qs.Common
 import qs.Services
 import qs.Widgets
@@ -16,7 +17,7 @@ FocusScope {
     focus: true
 
     readonly property var tabs: DashRegistry.tabEntries
-    readonly property var optionEntries: DashRegistry.entries.filter(e => (e.options?.length ?? 0) > 0)
+    readonly property var optionEntryIds: DashRegistry.entries.filter(e => (e.options?.length ?? 0) > 0).map(e => e.id)
     SettingsPage {
         SettingsCard {
             title: I18n.tr("Weather")
@@ -96,27 +97,32 @@ FocusScope {
         }
 
         Repeater {
-            model: root.optionEntries
+            // value-diffed ids keep a card alive across option changes, a rebuilt card collapses
+            model: ScriptModel {
+                values: root.optionEntryIds
+            }
 
             SettingsCard {
                 id: optionCard
 
-                required property var modelData
+                required property string modelData
+                readonly property var entry: DashRegistry.entries.find(e => e.id === modelData) ?? null
+                readonly property var options: entry?.options ?? []
 
-                title: modelData.text
-                settingKey: "dashOptions:" + modelData.id
+                title: entry?.text ?? ""
+                settingKey: "dashOptions:" + modelData
                 tab: "dank_dash"
                 collapsible: true
                 expanded: false
 
                 Repeater {
-                    model: optionCard.modelData.options
+                    model: optionCard.options.length
 
                     DashOptionRow {
-                        required property var modelData
+                        required property int index
 
-                        entryId: optionCard.modelData?.id ?? ""
-                        spec: modelData ?? ({})
+                        entryId: optionCard.modelData
+                        spec: optionCard.options[index] ?? ({})
                         settingKey: "dashOptions:" + entryId + ":" + spec.key
                     }
                 }
