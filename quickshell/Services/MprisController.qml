@@ -76,9 +76,6 @@ Singleton {
         function onMetadataChanged() {
             root._scheduleMPRISPublish();
         }
-        function onPositionChanged() {
-            root._scheduleMPRISPublish();
-        }
         function onPlaybackStateChanged() {
             root._syncStableMeta();
             root._checkIdle();
