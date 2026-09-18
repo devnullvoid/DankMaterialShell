@@ -150,6 +150,8 @@ test("hyprland padding fills numbered ids up to the minimum, skipping ids owned 
     assert.deepEqual(pick(model.hyprlandWorkspacesForScreen(raw, "HDMI-A-1", false, false, 0), "id"), [2, 4, -1337]);
     const filled = model.hyprlandWorkspacesForScreen(raw, "HDMI-A-1", false, false, 5).find(ws => ws.id === 5);
     assert.deepEqual(plain(filled), { id: 5, idx: 5, name: "5", output: "HDMI-A-1", active: false, placeholder: false, urgent: false });
+    raw.workspaces.push({ id: 5, name: "5", monitor: null, lastIpcObject: {} });
+    assert.deepEqual(pick(model.hyprlandWorkspacesForScreen(raw, "HDMI-A-1", false, false, 5), "id"), [2, 4, 5, -1337]);
 });
 
 test("hyprland padding honours workspace rules that bind ids to a monitor", () => {

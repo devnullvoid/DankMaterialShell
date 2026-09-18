@@ -1,7 +1,14 @@
 .pragma library
 
 function placeholder() {
-    return { id: null, idx: null, name: "", output: "", active: false, placeholder: true };
+    return {
+        id: null,
+        idx: null,
+        name: "",
+        output: "",
+        active: false,
+        placeholder: true
+    };
 }
 
 function neighbor(workspaces, index, direction) {
@@ -25,11 +32,29 @@ function dropStale(cache, ids) {
 }
 
 function niriFallback() {
-    return [{ id: 1, idx: 0, name: "" }, { id: 2, idx: 1, name: "" }];
+    return [
+        {
+            id: 1,
+            idx: 0,
+            name: ""
+        },
+        {
+            id: 2,
+            idx: 1,
+            name: ""
+        }
+    ];
 }
 
 function niriRecord(ws) {
-    return { id: ws.id, idx: ws.idx, name: ws.name ?? "", output: ws.output ?? "", active: ws.is_active === true, placeholder: false };
+    return {
+        id: ws.id,
+        idx: ws.idx,
+        name: ws.name ?? "",
+        output: ws.output ?? "",
+        active: ws.is_active === true,
+        placeholder: false
+    };
 }
 
 function niriCurrentIdx(raw, screenName, followFocus) {
@@ -92,7 +117,15 @@ function hyprlandOrder(a, b) {
 }
 
 function hyprlandRecord(ws) {
-    return { id: ws.id, idx: ws.id > 0 ? ws.id : null, name: ws.name ?? "", output: ws.monitor?.name ?? "", active: ws.active === true, placeholder: false, urgent: ws.urgent === true };
+    return {
+        id: ws.id,
+        idx: ws.id > 0 ? ws.id : null,
+        name: ws.name ?? "",
+        output: ws.monitor?.name ?? "",
+        active: ws.active === true,
+        placeholder: false,
+        urgent: ws.urgent === true
+    };
 }
 
 function hyprlandCurrentId(raw, screenName, followFocus) {
@@ -112,7 +145,10 @@ function hyprlandMonitorWorkspaces(raw, workspaces, screenName) {
 function hyprlandListedWorkspaces(raw, screenName, followFocus, occupiedOnly) {
     const regular = raw.workspaces.filter(ws => !hyprlandSpecial(ws));
     if (regular.length === 0)
-        return [hyprlandRecord({ id: 1, name: "1" })];
+        return [hyprlandRecord({
+                id: 1,
+                name: "1"
+            })];
     const workspaces = !screenName || followFocus ? regular.slice().sort(hyprlandOrder) : hyprlandMonitorWorkspaces(raw, regular, screenName);
     if (!occupiedOnly)
         return workspaces.map(hyprlandRecord);
@@ -168,8 +204,9 @@ function hyprlandPersistentWorkspaces(raw, records, screenName, followFocus, min
         return records;
     const perMonitor = !!screenName && !followFocus;
     const taken = new Set(records.map(ws => ws.id));
+    // a just-created workspace has no monitor until quickshell's j/workspaces refresh lands; claiming it for another monitor drops its slot for a frame
     if (perMonitor)
-        raw.workspaces.forEach(ws => ws.id > 0 && ws.monitor?.name !== screenName && taken.add(ws.id));
+        raw.workspaces.forEach(ws => ws.id > 0 && ws.monitor && ws.monitor.name !== screenName && taken.add(ws.id));
     const filled = records.slice();
     for (let id = 1; id <= minCount; id++) {
         if (taken.has(id))
@@ -179,7 +216,13 @@ function hyprlandPersistentWorkspaces(raw, records, screenName, followFocus, min
             if (bound && bound !== screenName)
                 continue;
         }
-        filled.push(hyprlandRecord({ id, name: String(id), monitor: { name: perMonitor ? screenName : "" } }));
+        filled.push(hyprlandRecord({
+            id,
+            name: String(id),
+            monitor: {
+                name: perMonitor ? screenName : ""
+            }
+        }));
     }
     return filled.sort(hyprlandOrder);
 }
@@ -191,7 +234,12 @@ function hyprlandWorkspacesForScreen(raw, screenName, followFocus, occupiedOnly,
 function hyprlandScrollWorkspaces(raw, screenName, followFocus) {
     const onScreen = !screenName || followFocus ? raw.workspaces : raw.workspaces.filter(ws => ws.lastIpcObject?.monitor === screenName);
     const numbered = onScreen.filter(ws => ws.id > -1).sort((a, b) => a.id - b.id);
-    return (numbered.length > 0 ? numbered : [{ id: 1, name: "1" }]).map(hyprlandRecord);
+    return (numbered.length > 0 ? numbered : [
+            {
+                id: 1,
+                name: "1"
+            }
+        ]).map(hyprlandRecord);
 }
 
 function hyprlandScrollCurrentId(raw, screenName) {
@@ -206,7 +254,14 @@ function hyprlandActiveWorkspace(raw, screenName) {
     const name = ws.name ?? "";
     if (hyprlandSpecialName(name))
         return null;
-    return { id: ws.id, idx: ws.id > 0 ? ws.id : null, name: name !== "" && name !== String(ws.id) ? name : "", output: monitor?.name ?? screenName, active: true, placeholder: false };
+    return {
+        id: ws.id,
+        idx: ws.id > 0 ? ws.id : null,
+        name: name !== "" && name !== String(ws.id) ? name : "",
+        output: monitor?.name ?? screenName,
+        active: true,
+        placeholder: false
+    };
 }
 
 function hyprlandWindowsOnWorkspace(windows, workspace, toplevels) {
@@ -224,7 +279,16 @@ function hyprlandWorkspaceOccupied(toplevels, workspace) {
 
 function mangoRecord(index, tag, output) {
     const state = tag?.state ?? 0;
-    return { id: index, idx: index + 1, name: "", output, active: state === 1, placeholder: false, urgent: state === 2, occupied: (tag?.clients ?? 0) > 0 };
+    return {
+        id: index,
+        idx: index + 1,
+        name: "",
+        output,
+        active: state === 1,
+        placeholder: false,
+        urgent: state === 2,
+        occupied: (tag?.clients ?? 0) > 0
+    };
 }
 
 function mangoWorkspacesForScreen(raw, screenName, showAllTags, minCount) {
@@ -255,8 +319,17 @@ function mangoCurrentTag(raw) {
 
 function mangoScrollWorkspaces(raw, screenName, showAllTags) {
     const current = mangoScrollCurrentTag(raw);
-    const tags = !raw.available ? [0] : showAllTags ? Array.from({ length: raw.tagCount }, (_, i) => i) : raw.visibleTags;
-    return tags.map(index => ({ id: index, idx: index + 1, name: "", output: screenName, active: index === current, placeholder: false }));
+    const tags = !raw.available ? [0] : showAllTags ? Array.from({
+        length: raw.tagCount
+    }, (_, i) => i) : raw.visibleTags;
+    return tags.map(index => ({
+                id: index,
+                idx: index + 1,
+                name: "",
+                output: screenName,
+                active: index === current,
+                placeholder: false
+            }));
 }
 
 function mangoScrollCurrentTag(raw) {
@@ -270,7 +343,14 @@ function mangoActiveWorkspace(raw, screenName) {
     const activeTags = raw.activeTags;
     if (activeTags.length === 0)
         return null;
-    return { id: activeTags[0], idx: activeTags[0] + 1, name: "", output: screenName, active: true, placeholder: false };
+    return {
+        id: activeTags[0],
+        idx: activeTags[0] + 1,
+        name: "",
+        output: screenName,
+        active: true,
+        placeholder: false
+    };
 }
 
 function mangoWindowsOnWorkspace(windows, workspace) {
@@ -302,7 +382,16 @@ function i3Order(a, b) {
 }
 
 function i3Record(ws) {
-    return { id: i3Key(ws), idx: ws.num !== -1 ? ws.num : null, name: i3StripNumber(ws.num, ws.name), output: ws.monitor?.name ?? "", active: ws.active === true, placeholder: false, urgent: ws.urgent === true, focused: ws.focused === true };
+    return {
+        id: i3Key(ws),
+        idx: ws.num !== -1 ? ws.num : null,
+        name: i3StripNumber(ws.num, ws.name),
+        output: ws.monitor?.name ?? "",
+        active: ws.active === true,
+        placeholder: false,
+        urgent: ws.urgent === true,
+        focused: ws.focused === true
+    };
 }
 
 function i3CurrentKey(raw, screenName, followFocus) {
@@ -313,11 +402,19 @@ function i3CurrentKey(raw, screenName, followFocus) {
 function i3ListedWorkspaces(raw, screenName, followFocus) {
     const workspaces = raw.workspaces;
     if (workspaces.length === 0)
-        return [{ num: 1 }];
+        return [
+            {
+                num: 1
+            }
+        ];
     if (!screenName || followFocus)
         return workspaces.slice();
     const onScreen = workspaces.filter(ws => ws.monitor?.name === screenName);
-    return onScreen.length > 0 ? onScreen : [{ num: 1 }];
+    return onScreen.length > 0 ? onScreen : [
+        {
+            num: 1
+        }
+    ];
 }
 
 // `workspace number N` creates the workspace on demand, so numbers up to minCount are real switch targets
@@ -332,7 +429,13 @@ function i3PersistentWorkspaces(raw, listed, screenName, followFocus, minCount) 
     for (let num = 1; num <= minCount; num++) {
         if (taken.has(num))
             continue;
-        filled.push({ num, name: String(num), monitor: { name: perMonitor ? screenName : "" } });
+        filled.push({
+            num,
+            name: String(num),
+            monitor: {
+                name: perMonitor ? screenName : ""
+            }
+        });
     }
     return filled;
 }
@@ -344,9 +447,13 @@ function i3WorkspacesForScreen(raw, screenName, followFocus, minCount) {
 function i3ScrollWorkspaces(raw, screenName, followFocus) {
     const workspaces = raw.workspaces;
     if (workspaces.length === 0)
-        return [i3Record({ num: 1 })];
+        return [i3Record({
+                num: 1
+            })];
     const onScreen = !screenName || followFocus ? workspaces.slice() : workspaces.filter(ws => ws.monitor?.name === screenName);
-    return onScreen.length > 0 ? onScreen.sort((a, b) => a.num - b.num).map(i3Record) : [i3Record({ num: 1 })];
+    return onScreen.length > 0 ? onScreen.sort((a, b) => a.num - b.num).map(i3Record) : [i3Record({
+            num: 1
+        })];
 }
 
 function i3ActiveWorkspace(raw, screenName) {
@@ -356,7 +463,14 @@ function i3ActiveWorkspace(raw, screenName) {
         return null;
     const num = ws.number;
     const name = i3StripNumber(num, ws.name);
-    return { id: num !== undefined && num !== -1 ? num : name, idx: num !== undefined && num > 0 ? num : null, name, output: ws.monitor?.name ?? screenName, active: true, placeholder: false };
+    return {
+        id: num !== undefined && num !== -1 ? num : name,
+        idx: num !== undefined && num > 0 ? num : null,
+        name,
+        output: ws.monitor?.name ?? screenName,
+        active: true,
+        placeholder: false
+    };
 }
 
 function i3WorkspaceFocused(raw, workspace) {
@@ -370,7 +484,16 @@ function i3WindowsOnWorkspace(windows, workspace) {
 }
 
 function aqueousRecord(ws, screenName) {
-    return { id: ws.id, idx: ws.number ?? null, name: ws.name ?? "", output: screenName, active: ws.active === true, placeholder: false, urgent: ws.urgent === true, session: ws.aqueousSession };
+    return {
+        id: ws.id,
+        idx: ws.number ?? null,
+        name: ws.name ?? "",
+        output: screenName,
+        active: ws.active === true,
+        placeholder: false,
+        urgent: ws.urgent === true,
+        session: ws.aqueousSession
+    };
 }
 
 function aqueousWorkspacesForScreen(raw, screenName, occupiedOnly, cache) {
