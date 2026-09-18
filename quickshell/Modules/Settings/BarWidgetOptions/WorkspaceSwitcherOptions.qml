@@ -153,9 +153,22 @@ Column {
         SettingsToggleRow {
             resetStore: root.page
             resetKeys: ["showWorkspacePadding"]
-            text: I18n.tr("Padding")
+            text: I18n.tr("Minimum workspaces")
+            description: CompositorService.supportsPersistentWorkspaces ? I18n.tr("Workspaces up to the count are always shown and can be opened") : I18n.tr("Empty placeholders fill the switcher up to the count")
             checked: root.page.value("showWorkspacePadding")
             onToggled: checked => root.page.set("showWorkspacePadding", checked)
+        }
+
+        SettingsSliderRow {
+            resetStore: root.page
+            resetKeys: ["workspacePaddingCount"]
+            enabled: root.page.value("showWorkspacePadding")
+            text: I18n.tr("Workspace count")
+            unit: ""
+            value: root.page.value("workspacePaddingCount")
+            minimum: 2
+            maximum: 10
+            onSliderValueChanged: newValue => root.page.set("workspacePaddingCount", newValue)
         }
 
         SettingsToggleRow {

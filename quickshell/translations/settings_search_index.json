@@ -8181,7 +8181,7 @@
     "optionFile": "SystemMonitorOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:16",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:17",
     "label": "Drag to reorder",
     "tabIndex": 22,
     "keywords": [],
@@ -8205,7 +8205,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:14",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:15",
     "label": "Follow display focus",
     "tabIndex": 22,
     "keywords": [],
@@ -8237,7 +8237,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:11",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:12",
     "label": "Group apps",
     "tabIndex": 22,
     "keywords": [],
@@ -8261,7 +8261,7 @@
     "optionFile": "RunningAppsOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:12",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:13",
     "label": "Group on active workspace",
     "tabIndex": 22,
     "keywords": [],
@@ -8277,7 +8277,7 @@
     "optionFile": "SystemUpdateOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:13",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:14",
     "label": "Highlight focused app",
     "tabIndex": 22,
     "keywords": [],
@@ -8413,6 +8413,14 @@
     "optionFile": "PrivacyOptions.qml"
   },
   {
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:10",
+    "label": "Minimum workspaces",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "WorkspaceSwitcherOptions.qml"
+  },
+  {
     "section": "barWidgetOption:SystemMonitorOptions.qml:5",
     "label": "Mount",
     "tabIndex": 22,
@@ -8461,15 +8469,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:10",
-    "label": "Padding",
-    "tabIndex": 22,
-    "keywords": [],
-    "runtimeType": "barWidgetOption",
-    "optionFile": "WorkspaceSwitcherOptions.qml"
-  },
-  {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:15",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:16",
     "label": "Reverse scroll direction",
     "tabIndex": 22,
     "keywords": [],
@@ -8509,7 +8509,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:17",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:18",
     "label": "Show all tags",
     "tabIndex": 22,
     "keywords": [],
@@ -8683,6 +8683,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "AppsDockOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:11",
+    "label": "Workspace count",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
     "section": "clipboardRememberTypeFilter",

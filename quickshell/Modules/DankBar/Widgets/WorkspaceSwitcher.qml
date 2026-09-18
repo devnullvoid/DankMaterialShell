@@ -96,11 +96,12 @@ BasePill {
 
         const baseList = CompositorService.workspacesForScreen(root.screenName, root.opt("workspaceFollowFocus"), {
             "occupiedOnly": root.opt("showOccupiedWorkspacesOnly"),
-            "showAllTags": root.opt("dwlShowAllTags")
+            "showAllTags": root.opt("dwlShowAllTags"),
+            "minCount": root.opt("showWorkspacePadding") ? root.opt("workspacePaddingCount") : 0
         });
         if (CompositorService.ephemeralWorkspaces)
             return hyprlandSlotList(baseList);
-        if (!root.opt("showWorkspacePadding") || (root.useAqueous && baseList.length === 0))
+        if (!root.opt("showWorkspacePadding") || CompositorService.supportsPersistentWorkspaces || (root.useAqueous && baseList.length === 0))
             return baseList;
         return padWorkspaces(baseList);
     }
@@ -159,12 +160,10 @@ BasePill {
         }
     }
 
-    readonly property var _hyprPlaceholder: WorkspaceModel.placeholder()
-
     function recordOf(entry) {
         if (!entry || entry.ws === undefined)
             return entry;
-        return entry.ws ?? _hyprPlaceholder;
+        return entry.ws;
     }
 
     function _hyprSlot(key, ws) {
@@ -179,14 +178,7 @@ BasePill {
     }
 
     function hyprlandSlotList(raw) {
-        const slots = raw.map(ws => _hyprSlot(ws.id > 0 ? ws.id : "name:" + (ws.name ?? ""), ws));
-        if (!root.opt("showWorkspacePadding"))
-            return slots;
-        // pad past the highest real id so a placeholder becomes that workspace's slot once created
-        let nextId = raw.reduce((max, ws) => Math.max(max, ws.id ?? 0), 0);
-        while (slots.length < 3)
-            slots.push(_hyprSlot(++nextId, null));
-        return slots;
+        return raw.map(ws => _hyprSlot(ws.id > 0 ? ws.id : "name:" + (ws.name ?? ""), ws));
     }
 
     // Stable placeholder instances so ScriptModel (identity-diffed) reuses padding delegates instead of recreating them on workspace churn
@@ -194,8 +186,9 @@ BasePill {
 
     function padWorkspaces(list) {
         const padded = list.slice();
+        const minCount = root.opt("workspacePaddingCount");
         let slot = 0;
-        while (padded.length < 3) {
+        while (padded.length < minCount) {
             if (root._placeholderPool.length <= slot)
                 root._placeholderPool.push(WorkspaceModel.placeholder());
             padded.push(root._placeholderPool[slot]);

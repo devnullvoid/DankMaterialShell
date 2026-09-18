@@ -109,7 +109,7 @@ function hyprlandMonitorWorkspaces(raw, workspaces, screenName) {
     return active ? [active] : [];
 }
 
-function hyprlandWorkspacesForScreen(raw, screenName, followFocus, occupiedOnly) {
+function hyprlandListedWorkspaces(raw, screenName, followFocus, occupiedOnly) {
     const regular = raw.workspaces.filter(ws => !hyprlandSpecial(ws));
     if (regular.length === 0)
         return [hyprlandRecord({ id: 1, name: "1" })];
@@ -119,6 +119,73 @@ function hyprlandWorkspacesForScreen(raw, screenName, followFocus, occupiedOnly)
     const currentId = hyprlandCurrentId(raw, screenName, followFocus);
     const toplevels = raw.toplevels;
     return workspaces.filter(ws => ws.id === currentId || toplevels.some(tl => tl.workspace?.id === ws.id)).map(hyprlandRecord);
+}
+
+function hyprlandRuleIds(workspaceString) {
+    const tokens = String(workspaceString ?? "").trim().split(/\s+/);
+    if (tokens.includes("s[true]"))
+        return [];
+    const ids = [];
+    for (const token of tokens) {
+        if (/^\d+$/.test(token)) {
+            ids.push(Number(token));
+            continue;
+        }
+        const range = /^r\[(\d+)-(\d+)\]$/.exec(token);
+        if (!range)
+            continue;
+        for (let id = Number(range[1]); id <= Number(range[2]); id++)
+            ids.push(id);
+    }
+    return ids;
+}
+
+// `desc:` rules match a description prefix, like Hyprland's getMonitorFromDesc; a rule for an unplugged monitor binds nothing
+function hyprlandRuleMonitor(raw, rule) {
+    const target = String(rule.monitor ?? "");
+    if (!target)
+        return "";
+    if (!target.startsWith("desc:"))
+        return raw.monitors.some(m => m.name === target) ? target : "";
+    const desc = target.slice(5).trim();
+    return raw.monitors.find(m => (m.description ?? m.lastIpcObject?.description ?? "").startsWith(desc))?.name ?? "";
+}
+
+function hyprlandBoundMonitor(raw, id) {
+    for (const rule of raw.workspaceRules ?? []) {
+        if (!hyprlandRuleIds(rule.workspaceString).includes(id))
+            continue;
+        const monitor = hyprlandRuleMonitor(raw, rule);
+        if (monitor)
+            return monitor;
+    }
+    return "";
+}
+
+// Hyprland creates a numbered workspace on demand, so ids up to minCount are real switch targets even before they exist
+function hyprlandPersistentWorkspaces(raw, records, screenName, followFocus, minCount) {
+    if (!(minCount > 0))
+        return records;
+    const perMonitor = !!screenName && !followFocus;
+    const taken = new Set(records.map(ws => ws.id));
+    if (perMonitor)
+        raw.workspaces.forEach(ws => ws.id > 0 && ws.monitor?.name !== screenName && taken.add(ws.id));
+    const filled = records.slice();
+    for (let id = 1; id <= minCount; id++) {
+        if (taken.has(id))
+            continue;
+        if (perMonitor) {
+            const bound = hyprlandBoundMonitor(raw, id);
+            if (bound && bound !== screenName)
+                continue;
+        }
+        filled.push(hyprlandRecord({ id, name: String(id), monitor: { name: perMonitor ? screenName : "" } }));
+    }
+    return filled.sort(hyprlandOrder);
+}
+
+function hyprlandWorkspacesForScreen(raw, screenName, followFocus, occupiedOnly, minCount) {
+    return hyprlandPersistentWorkspaces(raw, hyprlandListedWorkspaces(raw, screenName, followFocus, occupiedOnly), screenName, followFocus, minCount);
 }
 
 function hyprlandScrollWorkspaces(raw, screenName, followFocus) {
@@ -160,7 +227,7 @@ function mangoRecord(index, tag, output) {
     return { id: index, idx: index + 1, name: "", output, active: state === 1, placeholder: false, urgent: state === 2, occupied: (tag?.clients ?? 0) > 0 };
 }
 
-function mangoWorkspacesForScreen(raw, screenName, showAllTags) {
+function mangoWorkspacesForScreen(raw, screenName, showAllTags, minCount) {
     if (!raw.available)
         return [];
     const tags = raw.output?.tags;
@@ -168,7 +235,15 @@ function mangoWorkspacesForScreen(raw, screenName, showAllTags) {
         return [];
     if (showAllTags)
         return tags.map(tag => mangoRecord(tag.tag, tag, screenName));
-    return raw.visibleTags.map(index => mangoRecord(index, tags.find(tag => tag.tag === index), screenName));
+    if (!(minCount > 0))
+        return raw.visibleTags.map(index => mangoRecord(index, tags.find(tag => tag.tag === index), screenName));
+    // tags always exist per output, so the first minCount are real switch targets
+    const indices = raw.visibleTags.slice();
+    for (let index = 0; index < Math.min(minCount, tags.length); index++) {
+        if (!indices.includes(index))
+            indices.push(index);
+    }
+    return indices.sort((a, b) => a - b).map(index => mangoRecord(index, tags.find(tag => tag.tag === index), screenName));
 }
 
 function mangoCurrentTag(raw) {
@@ -235,14 +310,35 @@ function i3CurrentKey(raw, screenName, followFocus) {
     return focused ? i3Key(focused) : 1;
 }
 
-function i3WorkspacesForScreen(raw, screenName, followFocus) {
+function i3ListedWorkspaces(raw, screenName, followFocus) {
     const workspaces = raw.workspaces;
     if (workspaces.length === 0)
-        return [i3Record({ num: 1 })];
+        return [{ num: 1 }];
     if (!screenName || followFocus)
-        return workspaces.slice().sort(i3Order).map(i3Record);
+        return workspaces.slice();
     const onScreen = workspaces.filter(ws => ws.monitor?.name === screenName);
-    return onScreen.length > 0 ? onScreen.sort(i3Order).map(i3Record) : [i3Record({ num: 1 })];
+    return onScreen.length > 0 ? onScreen : [{ num: 1 }];
+}
+
+// `workspace number N` creates the workspace on demand, so numbers up to minCount are real switch targets
+function i3PersistentWorkspaces(raw, listed, screenName, followFocus, minCount) {
+    if (!(minCount > 0))
+        return listed;
+    const perMonitor = !!screenName && !followFocus;
+    const taken = new Set(listed.map(ws => ws.num));
+    if (perMonitor)
+        raw.workspaces.forEach(ws => ws.num !== -1 && ws.monitor?.name !== screenName && taken.add(ws.num));
+    const filled = listed.slice();
+    for (let num = 1; num <= minCount; num++) {
+        if (taken.has(num))
+            continue;
+        filled.push({ num, name: String(num), monitor: { name: perMonitor ? screenName : "" } });
+    }
+    return filled;
+}
+
+function i3WorkspacesForScreen(raw, screenName, followFocus, minCount) {
+    return i3PersistentWorkspaces(raw, i3ListedWorkspaces(raw, screenName, followFocus), screenName, followFocus, minCount).sort(i3Order).map(i3Record);
 }
 
 function i3ScrollWorkspaces(raw, screenName, followFocus) {

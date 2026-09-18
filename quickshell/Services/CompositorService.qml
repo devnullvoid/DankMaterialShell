@@ -133,6 +133,8 @@ Singleton {
     readonly property bool supportsDisplayConfig: isNiri || isHyprland || isMango || isAqueous
     readonly property bool supportsBarAutoHideReveal: isNiri || isHyprland || isMango
     readonly property bool supportsWorkspaces: isNiri || isHyprland || isMango || isAqueous
+    // compositors where a workspace that does not exist yet is still a valid switch target
+    readonly property bool supportsPersistentWorkspaces: isHyprland || isMango || isSway || isScroll || isMiracle
     readonly property bool supportsWorkspaceUrgency: isKnownCompositor && !isLabwc
     readonly property bool supportsWorkspaceFollowFocus: isKnownCompositor && !isLabwc
     readonly property bool supportsSmartDock: isNiri || isHyprland || isMango || isAqueous
@@ -859,6 +861,7 @@ Singleton {
             return;
         Hyprland.refreshMonitors();
         Hyprland.refreshWorkspaces();
+        HyprlandService.refreshWorkspaceRules();
     }
 
     function _screenForName(screenOrName) {
@@ -1514,6 +1517,9 @@ Singleton {
             },
             get toplevels() {
                 return Array.from(Hyprland.toplevels?.values || []);
+            },
+            get workspaceRules() {
+                return HyprlandService.workspaceRules;
             }
         };
     }
@@ -1575,16 +1581,16 @@ Singleton {
         case "niri":
             return WorkspaceModel.niriWorkspacesForScreen(_niriWorkspaceState(), screenName, followFocus, options.occupiedOnly, _workspaceRecords);
         case "hyprland":
-            return WorkspaceModel.hyprlandWorkspacesForScreen(_hyprlandWorkspaceState(), screenName, followFocus, options.occupiedOnly);
+            return WorkspaceModel.hyprlandWorkspacesForScreen(_hyprlandWorkspaceState(), screenName, followFocus, options.occupiedOnly, options.minCount);
         case "mango":
             {
                 const name = _followedScreen(screenName, followFocus);
-                return WorkspaceModel.mangoWorkspacesForScreen(_mangoWorkspaceState(name), name, options.showAllTags);
+                return WorkspaceModel.mangoWorkspacesForScreen(_mangoWorkspaceState(name), name, options.showAllTags, options.minCount);
             }
         case "sway":
         case "scroll":
         case "miracle":
-            return WorkspaceModel.i3WorkspacesForScreen(_i3WorkspaceState(), screenName, followFocus);
+            return WorkspaceModel.i3WorkspacesForScreen(_i3WorkspaceState(), screenName, followFocus, options.minCount);
         case "aqueous":
             {
                 const name = _followedScreen(screenName, followFocus);
