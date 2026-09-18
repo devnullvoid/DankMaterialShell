@@ -782,7 +782,7 @@ Item {
             if (!autoHide)
                 return;
 
-            if (hoverReveal) {
+            if (topBarMouseArea.containsMouse && !gapEnterSuppressed) {
                 SettingsData.setBarIpcReveal(barConfig?.id ?? "", false);
                 revealSticky = true;
                 revealHold.stop();
