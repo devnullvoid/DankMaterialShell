@@ -81,7 +81,7 @@ require (
 )
 
 require (
-	github.com/AvengeMedia/dankgo v1.6.3-0.20260917190930-d6fb7c12c518
+	github.com/AvengeMedia/dankgo v1.6.3-0.20260918210430-d03946da44cd
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/charmbracelet/colorprofile v0.4.3 // indirect
@@ -110,5 +110,3 @@ require (
 // v0.0.1 tag is missing a LICENSE file; master has it.
 // See: https://github.com/mattn/go-localereader/issues/2
 replace github.com/mattn/go-localereader v0.0.1 => github.com/mattn/go-localereader v0.0.2-0.20220822084749-2491eb6c1c75
-
-replace github.com/AvengeMedia/dankgo => ../../dankgo
