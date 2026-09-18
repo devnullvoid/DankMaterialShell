@@ -5,6 +5,7 @@ import Quickshell
 import QtQuick
 import qs.Common
 import qs.Services
+import "../DankCommon/Common/Contrast.js" as Contrast
 
 Singleton {
     id: root
@@ -30,7 +31,7 @@ Singleton {
             if (!MediaOptions.albumArtAccent || root._accent === null)
                 return Theme.onPrimary;
             const color = root._accent;
-            return root.contrastRatio(color, Theme.contrastDark) >= root.contrastRatio(color, Theme.contrastLight) ? Theme.contrastDark : Theme.contrastLight;
+            return Contrast.ratio(color, Theme.contrastDark) >= Contrast.ratio(color, Theme.contrastLight) ? Theme.contrastDark : Theme.contrastLight;
         }
     }
 
@@ -92,25 +93,14 @@ Singleton {
         return Qt.hsva(hue, Math.max(first.hsvSaturation, second.hsvSaturation), Math.max(first.hsvValue, second.hsvValue), 1);
     }
 
-    function relativeLuminance(color) {
-        const channels = [color.r, color.g, color.b].map(value => value <= 0.04045 ? value / 12.92 : Math.pow((value + 0.055) / 1.055, 2.4));
-        return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
-    }
-
-    function contrastRatio(first, second) {
-        const a = relativeLuminance(first);
-        const b = relativeLuminance(second);
-        return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
-    }
-
     function contrastTo(color, toward, background, target) {
-        if (contrastRatio(color, background) >= target)
+        if (Contrast.ratio(color, background) >= target)
             return color;
         let low = 0;
         let high = 1;
         for (let i = 0; i < 10; i++) {
             const amount = (low + high) / 2;
-            if (contrastRatio(Theme.blend(color, toward, amount), background) >= target)
+            if (Contrast.ratio(Theme.blend(color, toward, amount), background) >= target)
                 high = amount;
             else
                 low = amount;

@@ -42,7 +42,7 @@ Rectangle {
                 anchors.centerIn: parent
                 name: root.iconName
                 size: Theme.iconSize - 6
-                color: Theme.primary
+                color: Theme.accentOnPrimaryContainer
             }
         }
 

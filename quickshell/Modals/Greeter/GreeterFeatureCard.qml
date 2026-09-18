@@ -39,7 +39,7 @@ Rectangle {
                 anchors.centerIn: parent
                 name: root.iconName
                 size: Theme.iconSize - 4
-                color: Theme.primary
+                color: Theme.accentOnPrimaryContainer
             }
         }
 

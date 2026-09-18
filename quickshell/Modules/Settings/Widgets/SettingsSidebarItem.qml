@@ -56,7 +56,7 @@ Rectangle {
     bottomRightRadius: bottomRadius
     color: {
         if (active)
-            return Theme.primaryContainer;
+            return Theme.selectedContainer;
         if (highlighted)
             return Theme.blend(SettingsMetrics.rowColor, Theme.primary, SettingsMetrics.highlightBlend);
         return SettingsMetrics.rowColor;
@@ -92,7 +92,7 @@ Rectangle {
 
     DankRipple {
         id: ripple
-        rippleColor: root.active ? Theme.onPrimaryContainer : Theme.surfaceText
+        rippleColor: root.active ? Theme.onSelectedContainer : Theme.surfaceText
         topLeftRadius: root.topRadius
         topRightRadius: root.topRadius
         bottomLeftRadius: root.bottomRadius
@@ -150,7 +150,7 @@ Rectangle {
             text: root.title
             font.pixelSize: Theme.fontSizeMedium
             font.weight: Theme.fontWeightMedium
-            color: root.active ? Theme.onPrimaryContainer : Theme.surfaceText
+            color: root.active ? Theme.onSelectedContainer : Theme.surfaceText
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignLeft
         }
@@ -159,7 +159,7 @@ Rectangle {
             width: parent.width
             text: root.hint
             font.pixelSize: Theme.fontSizeSmall
-            color: root.active ? Theme.withAlpha(Theme.onPrimaryContainer, SettingsMetrics.activeHintAlpha) : Theme.surfaceVariantText
+            color: root.active ? Theme.withAlpha(Theme.onSelectedContainer, SettingsMetrics.activeHintAlpha) : Theme.surfaceVariantText
             wrapMode: Text.WordWrap
             maximumLineCount: 2
             elide: Text.ElideRight

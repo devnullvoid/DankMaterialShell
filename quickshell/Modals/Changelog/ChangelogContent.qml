@@ -69,7 +69,7 @@ Column {
                             text: "Marble Tabby"
                             font.pixelSize: Theme.fontSizeSmall
                             font.weight: Theme.fontWeightMedium
-                            color: Theme.primary
+                            color: Theme.accentOnPrimaryContainer
                         }
                     }
                 }

@@ -121,7 +121,7 @@ Item {
                         anchors.centerIn: parent
                         name: "vital_signs"
                         size: Theme.iconSizeLarge
-                        color: Theme.primary
+                        color: Theme.accentOnPrimaryContainer
                     }
 
                     SequentialAnimation on scale {
@@ -202,7 +202,7 @@ Item {
                         anchors.centerIn: parent
                         name: root.errorCount > 0 ? "warning" : "check_circle"
                         size: Theme.iconSize + 4
-                        color: root.errorCount > 0 ? Theme.error : Theme.primary
+                        color: root.errorCount > 0 ? Theme.onErrorContainer : Theme.accentOnPrimaryContainer
                     }
                 }
 

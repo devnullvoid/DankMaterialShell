@@ -35,7 +35,7 @@ Column {
         iconName: section.isUngrouped ? "widgets" : "folder"
         trailingBadge: section.instances.length.toString()
         visible: section.showHeader
-        rowColor: section.isDropTarget ? Theme.primaryContainer : SettingsMetrics.rowColor
+        rowColor: section.isDropTarget ? Theme.selectedContainer : SettingsMetrics.rowColor
         clickable: true
         onClicked: section.collapseToggled(section.sectionKey)
 
@@ -89,7 +89,7 @@ Column {
             height: Theme.listItemHeight
             radius: Theme.cornerRadius
             visible: section.dragActive && section.instances.length === 0
-            color: section.isDropTarget ? Theme.primaryContainer : "transparent"
+            color: section.isDropTarget ? Theme.selectedContainer : "transparent"
             border.width: Theme.layerOutlineWidth
             border.color: section.isDropTarget ? Theme.primary : Theme.outline
 

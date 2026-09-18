@@ -445,7 +445,7 @@ Item {
                     id: spinningIcon
                     name: "refresh"
                     size: 40
-                    color: Theme.primary
+                    color: Theme.accentOnPrimaryContainer
                     anchors.centerIn: parent
                     smoothTransform: loadingOverlay.visible
 
@@ -629,7 +629,7 @@ Item {
                         width: saveButtonContent.width + Theme.spacingL * 2
                         height: Theme.iconButtonSize
                         radius: Theme.cornerRadius
-                        color: saveButtonMouseArea.containsMouse ? Theme.primaryContainer : Theme.primary
+                        color: saveButtonMouseArea.containsMouse ? Theme.blend(Theme.primary, Theme.onPrimary, Theme.stateLayerHover) : Theme.primary
                         enabled: root.newDeviceName.trim() !== ""
                         opacity: enabled ? 1.0 : 0.5
 

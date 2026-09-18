@@ -326,7 +326,7 @@ DankModal {
                 width: parent.width
                 height: 56
                 radius: Theme.cornerRadius
-                color: muxModal.selectedIndex === -1 ? Theme.primaryContainer : (newMouse.containsMouse ? Theme.surfaceContainerHigh : Theme.surfaceContainer)
+                color: muxModal.selectedIndex === -1 ? Theme.selectedContainer : (newMouse.containsMouse ? Theme.surfaceContainerHigh : Theme.surfaceContainer)
 
                 RowLayout {
                     anchors.fill: parent
@@ -344,7 +344,7 @@ DankModal {
                             anchors.centerIn: parent
                             name: "add"
                             size: Theme.iconSize
-                            color: Theme.primary
+                            color: Theme.accentOnPrimaryContainer
                         }
                     }
 
@@ -403,7 +403,7 @@ DankModal {
                                 width: parent.width
                                 height: 64
                                 radius: Theme.cornerRadius
-                                color: muxModal.selectedIndex === index ? Theme.primaryContainer : (sessionMouse.containsMouse ? Theme.surfaceContainerHigh : Theme.withAlpha(Theme.surfaceContainerHigh, 0))
+                                color: muxModal.selectedIndex === index ? Theme.selectedContainer : (sessionMouse.containsMouse ? Theme.surfaceContainerHigh : Theme.withAlpha(Theme.surfaceContainerHigh, 0))
 
                                 MouseArea {
                                     id: sessionMouse
@@ -431,7 +431,7 @@ DankModal {
                                             text: modelData.name.charAt(0).toUpperCase()
                                             font.pixelSize: Theme.fontSizeLarge
                                             font.weight: Theme.fontWeightMedium
-                                            color: modelData.attached ? Theme.primary : Theme.surfaceText
+                                            color: modelData.attached ? Theme.accentOnPrimaryContainer : Theme.surfaceText
                                         }
                                     }
 

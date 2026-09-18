@@ -5,6 +5,7 @@ import QtCore
 import QtQuick
 import "../DankCommon/Common/Shape.js" as Shape
 import "../DankCommon/Common/Surface.js" as Surface
+import "../DankCommon/Common/Contrast.js" as Contrast
 import Quickshell
 import Quickshell.Io
 import qs.Common
@@ -269,10 +270,13 @@ Singleton {
             "primary": getMatugenColorForMode(colorMode, "primary", "#42a5f5"),
             "primaryText": getMatugenColorForMode(colorMode, "on_primary", "#ffffff"),
             "primaryContainer": getMatugenColorForMode(colorMode, "primary_container", "#1976d2"),
+            "onPrimaryContainer": getMatugenColorForMode(colorMode, "on_primary_container"),
             "secondary": getMatugenColorForMode(colorMode, "secondary", "#8ab4f8"),
             "secondaryContainer": getMatugenColorForMode(colorMode, "secondary_container", getMatugenColorForMode(colorMode, "surface_container_high", "#292b2f")),
+            "onSecondaryContainer": getMatugenColorForMode(colorMode, "on_secondary_container"),
             "tertiary": getMatugenColorForMode(colorMode, "tertiary", "#efb8c8"),
             "tertiaryContainer": getMatugenColorForMode(colorMode, "tertiary_container", getMatugenColorForMode(colorMode, "surface_container_high", "#292b2f")),
+            "onTertiaryContainer": getMatugenColorForMode(colorMode, "on_tertiary_container"),
             "surface": getMatugenColorForMode(colorMode, "surface", "#1a1c1e"),
             "surfaceText": getMatugenColorForMode(colorMode, "on_background", "#e3e8ef"),
             "surfaceVariant": getMatugenColorForMode(colorMode, "surface_variant", "#44464f"),
@@ -427,6 +431,9 @@ Singleton {
     property color primaryContainer: currentThemeData.primaryContainer || blend(surfaceContainerHigh, primary, 0.45)
     property color secondaryContainer: currentThemeData.secondaryContainer || blend(surfaceContainerHigh, secondary, 0.35)
     property color tertiaryContainer: currentThemeData.tertiaryContainer || blend(surfaceContainerHigh, tertiary, 0.35)
+    readonly property bool tonalPrimaryContainer: Contrast.isTonal(primaryContainer, surfaceText)
+    readonly property color selectedContainer: tonalPrimaryContainer ? primaryContainer : Contrast.tintedContainer(surfaceContainerHigh, primary, surfaceText)
+    readonly property color accentOnPrimaryContainer: Contrast.ratio(primary, primaryContainer) >= 3 ? primary : onPrimaryContainer
     property color inverseSurface: currentThemeData.inverseSurface || surfaceText
     property color inverseOnSurface: currentThemeData.inverseOnSurface || surface
 
@@ -439,6 +446,7 @@ Singleton {
     property color onError
     property color onErrorContainer
     property color onTertiaryContainer
+    property color onSelectedContainer
     property color onSurface_12: withAlpha(onSurface, 0.12)
     property color onSurface_38: withAlpha(onSurface, 0.38)
     property color onSurfaceVariant_30: withAlpha(onSurfaceVariant, 0.30)
@@ -477,19 +485,25 @@ Singleton {
         Binding {
             target: root
             property: "onPrimaryContainer"
-            value: root.currentThemeData.onPrimaryContainer || root.surfaceText
+            value: root.currentThemeData.onPrimaryContainer || root.currentThemeData.primaryContainerText || Contrast.readableOn(root.primaryContainer, root.onContainerCandidates)
         },
         Binding {
             target: root
             property: "onSecondaryContainer"
-            value: root.currentThemeData.onSecondaryContainer || root.surfaceText
+            value: root.currentThemeData.onSecondaryContainer || Contrast.readableOn(root.secondaryContainer, root.onContainerCandidates)
         },
         Binding {
             target: root
             property: "onTertiaryContainer"
-            value: root.currentThemeData.onTertiaryContainer || root.surfaceText
+            value: root.currentThemeData.onTertiaryContainer || Contrast.readableOn(root.tertiaryContainer, root.onContainerCandidates)
+        },
+        Binding {
+            target: root
+            property: "onSelectedContainer"
+            value: root.tonalPrimaryContainer ? root.onPrimaryContainer : root.surfaceText
         }
     ]
+    readonly property var onContainerCandidates: [surfaceText, surface, contrastLight, contrastDark]
     readonly property real tonalTintAlpha: 0.16
 
     property color error: currentThemeData.error || "#F2B8B5"
@@ -1930,18 +1944,26 @@ Singleton {
             return theme[key] || fallback;
         }
 
+        function onContainer(theme, container, explicit) {
+            if (explicit)
+                return explicit;
+            if (!container || !theme.surfaceText || !theme.surface)
+                return theme.surfaceText;
+            return Contrast.readableOn(Qt.color(container), [Qt.color(theme.surfaceText), Qt.color(theme.surface), contrastLight, contrastDark]).toString();
+        }
+
         addColor("primary", darkTheme.primary, lightTheme.primary);
         addColor("on_primary", darkTheme.primaryText, lightTheme.primaryText);
         addColor("primary_container", darkTheme.primaryContainer, lightTheme.primaryContainer);
-        addColor("on_primary_container", darkTheme.primaryContainerText || darkTheme.surfaceText, lightTheme.primaryContainerText || lightTheme.surfaceText);
+        addColor("on_primary_container", onContainer(darkTheme, darkTheme.primaryContainer, darkTheme.onPrimaryContainer || darkTheme.primaryContainerText), onContainer(lightTheme, lightTheme.primaryContainer, lightTheme.onPrimaryContainer || lightTheme.primaryContainerText));
         addColor("secondary", darkTheme.secondary, lightTheme.secondary);
         addColor("on_secondary", darkTheme.secondaryText || darkTheme.primaryText, lightTheme.secondaryText || lightTheme.primaryText);
         addColor("secondary_container", darkTheme.secondaryContainer || darkTheme.surfaceContainerHigh, lightTheme.secondaryContainer || lightTheme.surfaceContainerHigh);
-        addColor("on_secondary_container", darkTheme.secondaryContainerText || darkTheme.surfaceText, lightTheme.secondaryContainerText || lightTheme.surfaceText);
+        addColor("on_secondary_container", onContainer(darkTheme, darkTheme.secondaryContainer, darkTheme.onSecondaryContainer || darkTheme.secondaryContainerText), onContainer(lightTheme, lightTheme.secondaryContainer, lightTheme.onSecondaryContainer || lightTheme.secondaryContainerText));
         addColor("tertiary", darkTheme.tertiary || darkTheme.secondary, lightTheme.tertiary || lightTheme.secondary);
         addColor("on_tertiary", darkTheme.tertiaryText || darkTheme.secondaryText || darkTheme.primaryText, lightTheme.tertiaryText || lightTheme.secondaryText || lightTheme.primaryText);
         addColor("tertiary_container", darkTheme.tertiaryContainer || darkTheme.secondaryContainer || darkTheme.surfaceContainerHigh, lightTheme.tertiaryContainer || lightTheme.secondaryContainer || lightTheme.surfaceContainerHigh);
-        addColor("on_tertiary_container", darkTheme.tertiaryContainerText || darkTheme.surfaceText, lightTheme.tertiaryContainerText || lightTheme.surfaceText);
+        addColor("on_tertiary_container", onContainer(darkTheme, darkTheme.tertiaryContainer, darkTheme.onTertiaryContainer || darkTheme.tertiaryContainerText), onContainer(lightTheme, lightTheme.tertiaryContainer, lightTheme.onTertiaryContainer || lightTheme.tertiaryContainerText));
         addColor("error", darkTheme.error || "#F2B8B5", lightTheme.error || "#B3261E");
         addColor("on_error", darkTheme.errorText || "#601410", lightTheme.errorText || "#FFFFFF");
         addColor("error_container", darkTheme.errorContainer || "#8C1D18", lightTheme.errorContainer || "#F9DEDC");

@@ -677,7 +677,7 @@ Item {
                         Rectangle {
                             anchors.fill: parent
                             radius: Theme.cornerRadius
-                            color: root.recording ? Theme.primaryContainer : Theme.floatingWindowFieldColor
+                            color: root.recording ? Theme.selectedContainer : Theme.floatingWindowFieldColor
                             border.color: root.recording ? Theme.primary : Theme.outlineHeavy
                             border.width: root.recording ? Theme.outlineWidthFocused : Theme.outlineWidth
 

@@ -296,12 +296,12 @@ BasePill {
                 anchors.centerIn: parent
                 style: BarMetrics.widgetStyle(root.barConfig)
                 pressed: mouseArea.pressed
-                color: isFocused ? Theme.primaryContainer : "transparent"
+                color: isFocused ? Theme.selectedContainer : "transparent"
 
                 Rectangle {
                     anchors.fill: parent
                     radius: visualContent.radius
-                    color: Theme.withAlpha(isFocused ? Theme.onPrimaryContainer : Theme.onSurface, mouseArea.pressed ? Theme.stateLayerPressed : mouseArea.containsMouse ? Theme.stateLayerHover : 0)
+                    color: Theme.withAlpha(isFocused ? Theme.onSelectedContainer : Theme.onSurface, mouseArea.pressed ? Theme.stateLayerPressed : mouseArea.containsMouse ? Theme.stateLayerHover : 0)
                 }
 
                 IconImage {
@@ -340,7 +340,7 @@ BasePill {
                     anchors.verticalCenter: parent.verticalCenter
                     size: root.appIconSize
                     name: "sports_esports"
-                    color: isFocused ? Theme.onPrimaryContainer : Theme.widgetTextColor
+                    color: isFocused ? Theme.onSelectedContainer : Theme.widgetTextColor
                     visible: !iconImg.visible && Paths.isSteamApp(effectiveAppId)
                     opacity: delegateItem.isMinimized ? 0.4 : 1
                 }
@@ -358,7 +358,7 @@ BasePill {
                         return appName.charAt(0).toUpperCase();
                     }
                     font.pixelSize: 10
-                    color: isFocused ? Theme.onPrimaryContainer : Theme.widgetTextColor
+                    color: isFocused ? Theme.onSelectedContainer : Theme.widgetTextColor
                     opacity: delegateItem.isMinimized ? 0.4 : 1
                 }
 
@@ -391,14 +391,14 @@ BasePill {
                     visible: !root.compactMode
                     text: windowTitle
                     font.pixelSize: Theme.barTextSize(barThickness, barConfig?.fontScale, barConfig?.maximizeWidgetText)
-                    color: isFocused ? Theme.onPrimaryContainer : Theme.widgetTextColor
+                    color: isFocused ? Theme.onSelectedContainer : Theme.widgetTextColor
                     elide: Text.ElideRight
                     maximumLineCount: 1
                 }
 
                 DankRipple {
                     id: itemRipple
-                    rippleColor: isFocused ? Theme.onPrimaryContainer : Theme.onSurface
+                    rippleColor: isFocused ? Theme.onSelectedContainer : Theme.onSurface
                     cornerRadius: visualContent.radius
                 }
             }

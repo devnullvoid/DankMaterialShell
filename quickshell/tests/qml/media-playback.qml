@@ -6,6 +6,7 @@ import qs.Services
 import qs.Modules.OSD
 import qs.Modules.DankDash
 import qs.DankCommon.Common as DC
+import "DankCommon/Common/Contrast.js" as Contrast
 
 ShellRoot {
     id: root
@@ -66,12 +67,12 @@ ShellRoot {
                 const container = MediaAccentService.accentContainer;
                 const onContainer = MediaAccentService.onAccentContainer;
                 const label = " at hue " + hue + " saturation " + saturation;
-                check(MediaAccentService.contrastRatio(container, onContainer) >= 4.5, "accent container pair clears 4.5:1" + label);
-                check(MediaAccentService.contrastRatio(container, Theme.surfaceContainerHigh) >= 1.25, "accent container separates from the card" + label);
+                check(Contrast.ratio(container, onContainer) >= 4.5, "accent container pair clears 4.5:1" + label);
+                check(Contrast.ratio(container, Theme.surfaceContainerHigh) >= 1.25, "accent container separates from the card" + label);
                 const secondary = MediaAccentService.accentSecondaryContainer;
-                check(MediaAccentService.contrastRatio(secondary, MediaAccentService.onAccentSecondaryContainer) >= 4.5, "accent secondary pair clears 4.5:1" + label);
+                check(Contrast.ratio(secondary, MediaAccentService.onAccentSecondaryContainer) >= 4.5, "accent secondary pair clears 4.5:1" + label);
                 check(!Qt.colorEqual(secondary, Theme.secondaryContainer), "transport buttons follow the album, not the theme" + label);
-                check(MediaAccentService.contrastRatio(MediaAccentService.accent, MediaAccentService.onAccent) >= 4.5, "accent foreground clears 4.5:1" + label);
+                check(Contrast.ratio(MediaAccentService.accent, MediaAccentService.onAccent) >= 4.5, "accent foreground clears 4.5:1" + label);
             }
         }
     }
@@ -90,7 +91,7 @@ ShellRoot {
         check(Qt.colorEqual(fill, expectedFill), "play/pause follows album art preference");
         check(Qt.colorEqual(button.iconColor, expectedText), "play/pause uses matching foreground");
         if (hasArt)
-            check(MediaAccentService.contrastRatio(expectedFill, expectedText) >= 4.5, "play/pause foreground clears 4.5:1");
+            check(Contrast.ratio(expectedFill, expectedText) >= 4.5, "play/pause foreground clears 4.5:1");
     }
     Timer {
         interval: 1000

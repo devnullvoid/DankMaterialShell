@@ -102,7 +102,7 @@ Item {
                         anchors.centerIn: parent
                         name: "extension"
                         size: Theme.iconSize + 4
-                        color: Theme.primary
+                        color: Theme.accentOnPrimaryContainer
                     }
                 }
 

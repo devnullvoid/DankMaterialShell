@@ -324,7 +324,7 @@ Item {
                                     readonly property color contentColor: {
                                         if (destructive)
                                             return Theme.error;
-                                        return selected ? Theme.onPrimaryContainer : Theme.onSurface;
+                                        return selected ? Theme.onSelectedContainer : Theme.onSurface;
                                     }
                                     visible: !menuItemDelegate.isSeparator
                                     anchors.fill: parent
@@ -332,7 +332,7 @@ Item {
                                     color: {
                                         if (destructive)
                                             return selected ? Theme.errorSelected : itemMouseArea.containsMouse ? Theme.errorHover : "transparent";
-                                        return selected ? Theme.primaryContainer : itemMouseArea.pressed ? Theme.withAlpha(Theme.onSurface, Theme.stateLayerPressed) : itemMouseArea.containsMouse ? Theme.withAlpha(Theme.onSurface, Theme.stateLayerHover) : "transparent";
+                                        return selected ? Theme.selectedContainer : itemMouseArea.pressed ? Theme.withAlpha(Theme.onSurface, Theme.stateLayerPressed) : itemMouseArea.containsMouse ? Theme.withAlpha(Theme.onSurface, Theme.stateLayerHover) : "transparent";
                                     }
 
                                     Row {

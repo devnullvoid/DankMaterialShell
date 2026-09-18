@@ -94,7 +94,7 @@ LauncherTile {
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom
                 height: labelText.implicitHeight + Theme.spacingS * 2
-                color: root.isSelected ? Theme.primaryContainer : Theme.foregroundColor(Theme.surfaceContainerHigh, Theme.isFloatingWindow(root))
+                color: root.isSelected ? Theme.selectedContainer : Theme.foregroundColor(Theme.surfaceContainerHigh, Theme.isFloatingWindow(root))
                 visible: root.item?.name?.length > 0
 
                 StyledText {

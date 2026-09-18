@@ -22,7 +22,7 @@ Rectangle {
     property real maxIconSize: LauncherMetrics.gridIconSize
     property real iconSizeRatio: Theme.launcherImageRatio
     property bool externalHighlight: false
-    readonly property color contentColor: isSelected ? Theme.onPrimaryContainer : Theme.onSurface
+    readonly property color contentColor: isSelected ? Theme.onSelectedContainer : Theme.onSurface
     property var item: null
     property bool isSelected: false
     property bool isHovered: itemArea.containsMouse
@@ -53,7 +53,7 @@ Rectangle {
     readonly property int computedIconSize: Math.min(root.maxIconSize, Math.max(root.minIconSize, width * root.iconSizeRatio))
 
     radius: Theme.cornerRadiusL
-    color: externalHighlight ? "transparent" : isSelected ? Theme.primaryContainer : Theme.foregroundColor(Theme.surfaceContainerLow, Theme.isFloatingWindow(root))
+    color: externalHighlight ? "transparent" : isSelected ? Theme.selectedContainer : Theme.foregroundColor(Theme.surfaceContainerLow, Theme.isFloatingWindow(root))
 
     Rectangle {
         anchors.fill: parent

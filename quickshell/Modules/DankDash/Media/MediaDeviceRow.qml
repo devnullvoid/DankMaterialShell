@@ -27,8 +27,8 @@ SettingsRow {
     clickable: true
     paddingH: Theme.spacingL
     paddingV: Theme.spacingL
-    rowColor: selected ? Theme.primaryContainer : Theme.secondaryContainer
-    titleColor: selected ? Theme.onPrimaryContainer : Theme.onSecondaryContainer
+    rowColor: selected ? Theme.selectedContainer : Theme.secondaryContainer
+    titleColor: selected ? Theme.onSelectedContainer : Theme.onSecondaryContainer
     subtitleColor: titleColor
     topRadius: Theme.cornerRadiusLIncreased
     bottomRadius: Theme.cornerRadiusLIncreased
@@ -45,7 +45,7 @@ SettingsRow {
             anchors.centerIn: parent
             name: AudioService.sinkIcon(root.node)
             size: Theme.iconSizeMedium
-            color: root.selected ? Theme.onPrimaryContainer : Theme.onSurfaceVariant
+            color: root.selected ? Theme.onSelectedContainer : Theme.onSurfaceVariant
         }
     }
 
@@ -75,11 +75,11 @@ SettingsRow {
                 volume: root.node?.audio?.volume ?? 0
                 muted: root.node?.audio?.muted ?? false
                 maximumVolume: AudioService.getMaxVolumePercent(root.node)
-                fillColor: Theme.onPrimaryContainer
-                fillTextColor: Theme.primaryContainer
+                fillColor: Theme.onSelectedContainer
+                fillTextColor: Theme.selectedContainer
                 trackColor: Theme.onPrimary
-                trackTextColor: Theme.onPrimaryContainer
-                thumbOutlineColor: Theme.primaryContainer
+                trackTextColor: Theme.onSelectedContainer
+                thumbOutlineColor: Theme.selectedContainer
                 Accessible.name: I18n.tr("Volume") + ": " + root.title
                 onVolumeChangedByUser: volume => {
                     const audio = root.node?.audio;

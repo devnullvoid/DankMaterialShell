@@ -583,7 +583,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         focus: capturing
                         text: capturing ? I18n.tr("Press key...", "lock screen security key shortcut key combination capture prompt") : SettingsData.lockScreenSecurityKeyShortcut
-                        backgroundColor: capturing ? Theme.primaryContainer : Theme.surfaceContainerHigh
+                        backgroundColor: capturing ? Theme.selectedContainer : Theme.surfaceContainerHigh
                         textColor: Theme.surfaceText
 
                         property bool capturing: false

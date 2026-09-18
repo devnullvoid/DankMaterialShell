@@ -23,7 +23,7 @@ Item {
             anchors.centerIn: parent
             name: "music_note"
             size: root.placeholderIconSize
-            color: Theme.primary
+            color: Theme.accentOnPrimaryContainer
             visible: artwork.status !== Image.Ready
         }
 
