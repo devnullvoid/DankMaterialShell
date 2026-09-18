@@ -195,6 +195,8 @@ Singleton {
     readonly property real lyricsNearOpacity: 0.55
     readonly property real lyricsFarOpacity: 0.3
     readonly property real lyricsLineHeight: 1.25
+    readonly property real lyricsLeadHeightDivisor: 12
+    readonly property real lyricsLeadWidthDivisor: 11
     readonly property int wheelNotch: 120
 
     readonly property int dailyVisibleCount: 7

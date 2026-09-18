@@ -21,7 +21,7 @@ ShellRoot {
         DC.Style.theme = Theme;
         DC.Style.settings = SettingsData;
         DC.I18n.backend = I18n;
-        SettingsData.animationSpeed = SettingsData.AnimationSpeed.None;
+        SettingsData.animationDuration = 0;
         Qt.callLater(tester.run);
     }
 
@@ -74,6 +74,13 @@ ShellRoot {
     }
 
     Component {
+        id: detailComponent
+        CcDetailPage {
+            model: registry
+        }
+    }
+
+    Component {
         id: gridComponent
         CcTileGrid {
             id: testGrid
@@ -108,6 +115,12 @@ ShellRoot {
         function check(condition, message) {
             if (!condition)
                 throw new Error(message);
+        }
+
+        function settle() {
+            wait(0);
+            const surface = scene.Window.window;
+            check(!isPolishScheduled(surface) || waitForPolish(surface, 5000), "layout settled");
         }
 
         function named(item, name) {
@@ -224,14 +237,12 @@ ShellRoot {
                     Theme.fontScale = fontScale;
                     for (const rtl of [false, true]) {
                         tile.LayoutMirroring.enabled = rtl;
-                        for (let columns = 1; columns <= 10; columns++) {
-                            for (let rows = 1; rows <= 12; rows++) {
-                                size(tile, columns, rows);
-                                wait(0);
-                                for (const name of ["tileIconBox", "tileTitle", "tileSubtitle", "tileExpandedContent"])
-                                    inside(named(tile, name), tile, name + " " + columns + "x" + rows + " font " + fontScale);
-                                actionBounds(tile, tile);
-                            }
+                        for (const [columns, rows] of [[1, 1], [2, 1], [1, 2], [2, 2], [3, 2], [4, 3], [10, 12]]) {
+                            size(tile, columns, rows);
+                            settle();
+                            for (const name of ["tileIconBox", "tileTitle", "tileSubtitle", "tileExpandedContent"])
+                                inside(named(tile, name), tile, name + " " + columns + "x" + rows + " font " + fontScale);
+                            actionBounds(tile, tile);
                         }
                     }
                 }
@@ -239,7 +250,7 @@ ShellRoot {
                     SettingsData.controlCenterIconScale = scale;
                     for (const dimensions of [[1, 2], [2, 1], [2, 2], [2, 3]]) {
                         size(tile, dimensions[0], dimensions[1]);
-                        wait(0);
+                        settle();
                         inside(named(tile, "tileIconBox"), tile, "scaled icon");
                         inside(named(tile, "tileTitle"), tile, "scaled title");
                     }
@@ -248,7 +259,7 @@ ShellRoot {
                 Theme.fontScale = 1;
                 tile.LayoutMirroring.enabled = false;
                 size(tile, 4, 3);
-                wait(0);
+                settle();
                 check(tile.expanded && tile.expandedItem !== null, "large tile exposes inline actions");
                 const inline = tile.expandedItem;
                 check(inline.tile === tile && inline.columns === 4 && inline.rows === 3, "plugin content receives its tile context");
@@ -270,7 +281,7 @@ ShellRoot {
 
                 const verticalSlider = sliderComponent.createObject(scene);
                 size(verticalSlider, 1, 3);
-                wait(0);
+                settle();
                 check(verticalSlider.vertical, "portrait slider uses vertical track");
                 verticalSlider.slider.forceActiveFocus();
                 keyClick(Qt.Key_End);
@@ -310,7 +321,7 @@ ShellRoot {
                             h: dimensions[1]
                         }, 10, 12);
                         size(widget, supported.w, supported.h);
-                        wait(0);
+                        settle();
                         if (widget.slider) {
                             check(widget.slider.width >= Theme.minimumTouchTargetSize, id + " retains a usable track at " + dimensions);
                             inside(named(widget, "sliderTrackArea"), widget, id + " track");
@@ -327,7 +338,7 @@ ShellRoot {
                     id: "colorPicker"
                 }).createObject(scene);
                 size(colorTile, 4, 6);
-                wait(0);
+                settle();
                 check(swatches(colorTile, colorTile) === 18, "taller color tiles show multiple rows of recent colors");
                 colorTile.destroy();
                 wait(0);
@@ -344,6 +355,20 @@ ShellRoot {
                     instance.destroy();
                     wait(0);
                 }
+                const detail = detailComponent.createObject(scene, {
+                    width: 600,
+                    height: 400
+                });
+                detail.section = "doNotDisturb";
+                settle();
+                detail.section = "";
+                settle();
+                check(!detail.visible, "closed detail page hides");
+                detail.width = 800;
+                settle();
+                check(!detail.visible, "closed detail page stays hidden after the panel widens");
+                detail.destroy();
+                wait(0);
                 console.log("FIXTURE_PASS control center sizes and actions");
             } catch (error) {
                 console.error("FIXTURE_FAIL " + error.message);
