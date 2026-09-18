@@ -1372,12 +1372,6 @@ var LOCAL_SPEC = {
     frameRounding: {
         def: 23
     },
-    frameColor: {
-        def: ""
-    },
-    frameOpacity: {
-        def: 1.0
-    },
     frameScreenPreferences: {
         def: ["all"]
     },

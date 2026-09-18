@@ -21,7 +21,7 @@ Singleton {
     id: root
     readonly property var log: Log.scoped("SettingsData")
 
-    readonly property int settingsConfigVersion: 27
+    readonly property int settingsConfigVersion: 28
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 
@@ -342,10 +342,6 @@ Singleton {
     onFrameBarInsetPaddingChanged: saveSettings()
     property real frameRounding: Spec.SPEC.frameRounding.def
     onFrameRoundingChanged: saveSettings()
-    property string frameColor: Spec.SPEC.frameColor.def
-    onFrameColorChanged: saveSettings()
-    property real frameOpacity: Spec.SPEC.frameOpacity.def
-    onFrameOpacityChanged: saveSettings()
     property var frameScreenPreferences: Spec.SPEC.frameScreenPreferences.def
     onFrameScreenPreferencesChanged: saveSettings()
     property real frameBarSize: Spec.SPEC.frameBarSize.def
@@ -378,15 +374,9 @@ Singleton {
         _reconcileConnectedFrameBarStyles();
     }
 
-    readonly property color effectiveFrameColor: {
-        const fc = frameColor;
-        if (!fc || fc === "default")
-            return Theme.surfaceContainer;
-        if (fc === "primary")
-            return Theme.primary;
-        if (fc === "surface")
-            return Theme.surface;
-        return fc;
+    readonly property real frameSurfaceOpacity: {
+        barConfigs;
+        return barTransparency(barConfigs.find(bc => bc.enabled !== false && !isIslandBarConfig(bc)));
     }
 
     property string systemTrayIconTintMode: Spec.SPEC.systemTrayIconTintMode.def
@@ -834,8 +824,6 @@ Singleton {
             "islandHoverOpenDelay": 150,
             "islandHoverCloseDelay": 150,
             "islandPalette": "default",
-            "islandTransparency": 1,
-            "islandCornerRadius": 34,
             "islandHighContrast": false,
             "islandMediaClockVisible": true,
             "islandNotificationBadgeClearOnOpen": false,

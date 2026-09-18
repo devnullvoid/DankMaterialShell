@@ -392,7 +392,7 @@ Item {
     readonly property color _hostSurface: Theme.hostSurface
     readonly property string _barId: barConfig?.id ?? "default"
     property real _backgroundAlpha: SettingsData.barTransparency(barConfig)
-    readonly property color _bgColor: (FrameTransitionState.effectiveFrameEnabled && usesFrameBarChrome) ? Theme.withAlpha(SettingsData.effectiveFrameColor, SettingsData.frameOpacity) : Theme.withAlpha(_hostSurface, _backgroundAlpha)
+    readonly property color _bgColor: (FrameTransitionState.effectiveFrameEnabled && usesFrameBarChrome) ? Theme.frameSurfaceColor : Theme.withAlpha(_hostSurface, _backgroundAlpha)
 
     function _updateBackgroundAlpha() {
         const live = SettingsData.barConfigs.find(c => c.id === _barId);

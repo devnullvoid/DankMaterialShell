@@ -1011,8 +1011,9 @@ Singleton {
     readonly property color connectedSurfaceColor: {
         if (typeof SettingsData === "undefined")
             return withAlpha(hostSurface, popupTransparency);
-        return isConnectedEffect ? withAlpha(SettingsData.effectiveFrameColor, SettingsData.frameOpacity) : withAlpha(hostSurface, popupTransparency);
+        return isConnectedEffect ? frameSurfaceColor : withAlpha(hostSurface, popupTransparency);
     }
+    readonly property color frameSurfaceColor: withAlpha(hostSurface, typeof SettingsData === "undefined" ? popupTransparency : SettingsData.frameSurfaceOpacity)
     readonly property real connectedSurfaceRadius: isConnectedEffect ? connectedCornerRadius : windowRadius
     readonly property bool connectedSurfaceBlurEnabled: (typeof SettingsData === "undefined") ? true : (!isConnectedEffect || SettingsData.frameBlurEnabled)
     readonly property real effectScaleCollapsed: AnimVariants.effectScaleCollapsed
@@ -1361,8 +1362,6 @@ Singleton {
     property real popupTransparency: {
         if (typeof SettingsData === "undefined")
             return 1.0;
-        if (isConnectedEffect)
-            return SettingsData.frameOpacity !== undefined ? SettingsData.frameOpacity : 1.0;
         return SettingsData.popupTransparency !== undefined ? SettingsData.popupTransparency : 1.0;
     }
 

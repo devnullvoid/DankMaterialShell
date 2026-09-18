@@ -30,7 +30,7 @@ Column {
     readonly property var opacityTargets: {
         SettingsData.barConfigs;
         SettingsData.dockConfigs;
-        const bars = SettingsData.barConfigs.filter(config => !SettingsData.isIslandBarConfig(config)).map(config => ({
+        const bars = SettingsData.barConfigs.map(config => ({
                     kind: "bar",
                     id: config.id,
                     name: config.name || config.id,
@@ -82,14 +82,6 @@ Column {
             minimum: 0
             maximum: 100
             onSliderValueChanged: newValue => SettingsData.set("popupTransparency", newValue / 100)
-        }
-
-        SettingsControlledBy {
-            visible: root.connectedFrameModeActive
-            parentModal: root.parentModal
-            section: "frameOpacity"
-            settingLabel: I18n.tr("Opacity")
-            reason: I18n.tr("Managed by Frame in Connected Mode")
         }
 
         SettingsToggleRow {
