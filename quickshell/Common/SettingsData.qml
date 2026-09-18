@@ -21,7 +21,7 @@ Singleton {
     id: root
     readonly property var log: Log.scoped("SettingsData")
 
-    readonly property int settingsConfigVersion: 26
+    readonly property int settingsConfigVersion: 27
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 
@@ -309,10 +309,10 @@ Singleton {
     property bool blurWallpaperOnOverview: Spec.SPEC.blurWallpaperOnOverview.def
     property string wallpaperBackgroundColorMode: Spec.SPEC.wallpaperBackgroundColorMode.def
     property string wallpaperBackgroundCustomColor: Spec.SPEC.wallpaperBackgroundCustomColor.def
-    readonly property color effectiveWallpaperBackgroundColor: {
-        switch (wallpaperBackgroundColorMode) {
-        case "black":
-            return "#000000";
+    readonly property color effectiveWallpaperBackgroundColor: wallpaperBackgroundColorFor(wallpaperBackgroundColorMode)
+
+    function wallpaperBackgroundColorFor(mode) {
+        switch (mode) {
         case "white":
             return "#ffffff";
         case "primary":
@@ -393,7 +393,8 @@ Singleton {
     property int systemTrayIconTintSaturation: Spec.SPEC.systemTrayIconTintSaturation.def
     property int systemTrayIconTintStrength: Spec.SPEC.systemTrayIconTintStrength.def
 
-    property int controlCenterWidth: Spec.SPEC.controlCenterWidth.def
+    property int controlCenterColumns: Spec.SPEC.controlCenterColumns.def
+    property real controlCenterIconScale: Spec.SPEC.controlCenterIconScale.def
     property var controlCenterWidgets: Spec.SPEC.controlCenterWidgets.def
 
     property var workspaceNameIcons: Spec.SPEC.workspaceNameIcons.def
@@ -1660,8 +1661,10 @@ Singleton {
             _hasUnsavedChanges = false;
             if (wasReadOnly)
                 log.info("settings.json is now writable");
-            if (_pendingMigration)
+            if (_pendingMigration) {
+                _selfWrite = true;
                 settingsFile.setText(JSON.stringify(_pendingMigration, null, 2));
+            }
         }
         _pendingMigration = null;
     }

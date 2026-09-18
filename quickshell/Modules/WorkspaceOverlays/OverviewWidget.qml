@@ -249,7 +249,7 @@ Item {
         implicitWidth: workspaceGrid.implicitWidth + padding * 2
         implicitHeight: workspaceGrid.implicitHeight + padding * 2
         radius: Theme.cornerRadius
-        color: Theme.surfaceContainer
+        color: Theme.hostSurface
 
         ElevationShadow {
             anchors.fill: parent
@@ -257,7 +257,7 @@ Item {
             level: Theme.elevationLevel2
             fallbackOffset: 4
             targetRadius: Theme.cornerRadius
-            targetColor: Theme.surfaceContainer
+            targetColor: Theme.hostSurface
             shadowOpacity: Theme.elevationLevel2 && Theme.elevationLevel2.alpha !== undefined ? Theme.elevationLevel2.alpha : 0.25
             shadowEnabled: Theme.elevationEnabled
         }
@@ -283,8 +283,8 @@ Item {
                     property bool isActive: workspaceObj?.active ?? false
                     property bool isOnThisMonitor: (workspaceObj && root.monitor) ? (workspaceObj.monitor?.name === root.monitor.name) : true
                     property bool hasWindows: (workspaceValue > 0) ? root.workspaceHasWindows(workspaceValue) : false
-                    property color defaultWorkspaceColor: workspaceExists ? Theme.surfaceContainer : Theme.withAlpha(Theme.surfaceContainer, 0.3)
-                    property color hoveredWorkspaceColor: Qt.lighter(defaultWorkspaceColor, 1.1)
+                    property color defaultWorkspaceColor: workspaceExists ? Theme.cardSurface : Theme.withAlpha(Theme.cardSurface, 0.3)
+                    property color hoveredWorkspaceColor: Theme.hoverTint(defaultWorkspaceColor)
                     property color hoveredBorderColor: Theme.surfaceVariant
                     property bool hoveredWhileDragging: false
                     property bool shouldShowActiveIndicator: isActive && isOnThisMonitor && hasWindows
@@ -489,7 +489,7 @@ Item {
                         width: monitorNameText.contentWidth + Theme.spacingS * 2
                         height: monitorNameText.contentHeight + Theme.spacingXS * 2
                         radius: Theme.cornerRadius
-                        color: Theme.surface
+                        color: Theme.chipSurface
                         visible: labelItem.workspaceExists && labelItem.workspaceMonitorName !== ""
 
                         StyledText {

@@ -1094,7 +1094,7 @@ BasePill {
                                             Rectangle {
                                                 anchors.fill: parent
                                                 visible: !modelData.isQuickshell && !modelData.isSteamApp && rowAppIcon.status !== Image.Ready
-                                                color: Theme.surfaceContainer
+                                                color: Theme.chipSurface
                                                 radius: Math.min(Theme.cornerRadiusS, width / 2, height / 2)
                                                 border.width: Theme.outlineWidth
                                                 border.color: appBorderColor
@@ -1112,7 +1112,7 @@ BasePill {
                                             Rectangle {
                                                 anchors.fill: parent
                                                 visible: !modelData.isQuickshell && modelData.isSteamApp && rowSteamIcon.status !== Image.Ready
-                                                color: Theme.surfaceContainer
+                                                color: Theme.chipSurface
                                                 radius: Math.min(Theme.cornerRadiusS, width / 2, height / 2)
                                                 border.width: Theme.outlineWidth
                                                 border.color: appBorderColor
@@ -1252,7 +1252,7 @@ BasePill {
                                             Rectangle {
                                                 anchors.fill: parent
                                                 visible: !modelData.isQuickshell && !modelData.isSteamApp && colAppIcon.status !== Image.Ready
-                                                color: Theme.surfaceContainer
+                                                color: Theme.chipSurface
                                                 radius: Math.min(Theme.cornerRadiusS, width / 2, height / 2)
                                                 border.width: Theme.outlineWidth
                                                 border.color: appBorderColor
@@ -1270,7 +1270,7 @@ BasePill {
                                             Rectangle {
                                                 anchors.fill: parent
                                                 visible: !modelData.isQuickshell && modelData.isSteamApp && colSteamIcon.status !== Image.Ready
-                                                color: Theme.surfaceContainer
+                                                color: Theme.chipSurface
                                                 radius: Math.min(Theme.cornerRadiusS, width / 2, height / 2)
                                                 border.width: Theme.outlineWidth
                                                 border.color: appBorderColor

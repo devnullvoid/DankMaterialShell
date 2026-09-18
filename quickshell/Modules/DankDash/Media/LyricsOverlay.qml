@@ -331,7 +331,7 @@ FocusScope {
             Accessible.name: I18n.tr("Follow playback", "Resume automatic scrolling of lyrics")
             tooltipText: root.compact ? Accessible.name : ""
             iconName: "my_location"
-            backgroundColor: Theme.surfaceContainerHigh
+            backgroundColor: Theme.chipSurface
             textColor: MediaAccentService.readableAccent
             onClicked: {
                 root.following = true;
