@@ -36,8 +36,7 @@ Rectangle {
     Canvas {
         id: graphCanvas
         anchors.fill: parent
-        anchors.margins: Theme.spacingXS
-        anchors.topMargin: card.compact ? Theme.iconButtonSize : Theme.spacingXS
+        anchors.topMargin: card.compact ? Theme.iconButtonSize : 0
         renderStrategy: Canvas.Cooperative
 
         property var hist: card.history
@@ -55,6 +54,10 @@ Rectangle {
 
             if (!hist || hist.length < 2)
                 return;
+
+            ctx.beginPath();
+            ctx.roundedRect(0, -anchors.topMargin, card.width, card.height, card.radius, card.radius);
+            ctx.clip();
 
             let max = card.maxValue;
             if (max <= 0) {
