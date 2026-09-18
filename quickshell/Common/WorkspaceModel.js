@@ -227,8 +227,39 @@ function hyprlandPersistentWorkspaces(raw, records, screenName, followFocus, min
     return filled.sort(hyprlandOrder);
 }
 
-function hyprlandWorkspacesForScreen(raw, screenName, followFocus, occupiedOnly, minCount) {
-    return hyprlandPersistentWorkspaces(raw, hyprlandListedWorkspaces(raw, screenName, followFocus, occupiedOnly), screenName, followFocus, minCount);
+function hyprlandSpecialDisplayName(name) {
+    return name.startsWith("special:") ? name.slice(8) : name;
+}
+
+// Hyprland >= 0.56 reports every special workspace with a null id, so specials only match by name
+function hyprlandWorkspaceMatches(ws, record) {
+    if (record.special !== true)
+        return ws?.id === record.id;
+    const name = ws?.name ?? "";
+    return hyprlandSpecialName(name) && hyprlandSpecialDisplayName(name) === record.name;
+}
+
+// Hyprland overlays a special workspace on the monitor's regular one, so active comes from the tracked overlay, not ws.active
+function hyprlandSpecialWorkspaces(raw, screenName, followFocus, occupiedOnly) {
+    const perMonitor = !!screenName && !followFocus;
+    const visible = raw.visibleSpecials ?? {};
+    const toplevels = raw.toplevels;
+    const isVisible = normalized => perMonitor ? visible[screenName] === normalized : Object.values(visible).includes(normalized);
+    const specials = raw.workspaces.filter(ws => hyprlandSpecial(ws) && (!perMonitor || ws.monitor?.name === screenName)).map(ws => {
+        const name = ws.name ?? "";
+        return { id: ws.id, idx: null, name: hyprlandSpecialDisplayName(name), output: ws.monitor?.name ?? "", active: isVisible(name === "special" ? "special:special" : name), placeholder: false, urgent: ws.urgent === true, special: true };
+    }).filter(ws => !occupiedOnly || ws.active || toplevels.some(tl => hyprlandWorkspaceMatches(tl.workspace, ws))).sort((a, b) => a.name.localeCompare(b.name));
+    // the default scratchpad is always offered so it can be opened before Hyprland has created it
+    if (!specials.some(ws => ws.name === "special"))
+        specials.push({ id: null, idx: null, name: "special", output: screenName ?? "", active: isVisible("special:special"), placeholder: false, urgent: false, special: true });
+    return specials;
+}
+
+function hyprlandWorkspacesForScreen(raw, screenName, followFocus, occupiedOnly, minCount, showSpecial) {
+    const regular = hyprlandPersistentWorkspaces(raw, hyprlandListedWorkspaces(raw, screenName, followFocus, occupiedOnly), screenName, followFocus, minCount);
+    if (!showSpecial)
+        return regular;
+    return regular.concat(hyprlandSpecialWorkspaces(raw, screenName, followFocus, occupiedOnly));
 }
 
 function hyprlandScrollWorkspaces(raw, screenName, followFocus) {
@@ -246,11 +277,23 @@ function hyprlandScrollCurrentId(raw, screenName) {
     return raw.monitors.find(m => m.name === screenName)?.activeWorkspace?.id ?? 1;
 }
 
+function hyprlandVisibleSpecial(raw, monitorName) {
+    const tracked = raw.visibleSpecials?.[monitorName];
+    if (!tracked)
+        return null;
+    // the overlay event can land before the workspace list refresh, so the tracked name is the OSD's key
+    const ws = raw.workspaces.find(ws => hyprlandSpecial(ws) && (ws.name === "special" ? "special:special" : ws.name) === tracked);
+    return { id: ws?.id || tracked, idx: null, name: hyprlandSpecialDisplayName(tracked), output: monitorName, active: true, placeholder: false, special: true };
+}
+
 function hyprlandActiveWorkspace(raw, screenName) {
     const monitor = raw.monitors.find(m => !screenName || m.name === screenName);
     const ws = monitor?.activeWorkspace;
     if (!ws)
         return null;
+    const special = hyprlandVisibleSpecial(raw, monitor.name ?? screenName);
+    if (special)
+        return special;
     const name = ws.name ?? "";
     if (hyprlandSpecialName(name))
         return null;
@@ -265,16 +308,16 @@ function hyprlandActiveWorkspace(raw, screenName) {
 }
 
 function hyprlandWindowsOnWorkspace(windows, workspace, toplevels) {
-    const workspaceIds = new Map();
+    const workspaces = new Map();
     for (const toplevel of toplevels) {
-        if (!workspaceIds.has(toplevel.wayland))
-            workspaceIds.set(toplevel.wayland, toplevel.workspace?.id);
+        if (!workspaces.has(toplevel.wayland))
+            workspaces.set(toplevel.wayland, toplevel.workspace);
     }
-    return windows.filter(win => win && workspaceIds.get(win) === workspace.id);
+    return windows.filter(win => win && hyprlandWorkspaceMatches(workspaces.get(win), workspace));
 }
 
 function hyprlandWorkspaceOccupied(toplevels, workspace) {
-    return toplevels.some(tl => tl.workspace?.id === workspace.id);
+    return toplevels.some(tl => hyprlandWorkspaceMatches(tl.workspace, workspace));
 }
 
 function mangoRecord(index, tag, output) {

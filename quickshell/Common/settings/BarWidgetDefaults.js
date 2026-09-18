@@ -19,6 +19,7 @@ var DEFAULTS = {
         groupActiveWorkspaceApps: false,
         workspaceFollowFocus: false,
         showOccupiedWorkspacesOnly: false,
+        showSpecialWorkspaces: false,
         reverseScrolling: false,
         dwlShowAllTags: false,
         workspaceActiveAppHighlightEnabled: false,

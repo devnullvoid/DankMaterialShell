@@ -8338,14 +8338,6 @@
     "optionFile": "SystemTrayOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:8",
-    "label": "Icons",
-    "tabIndex": 22,
-    "keywords": [],
-    "runtimeType": "barWidgetOption",
-    "optionFile": "WorkspaceSwitcherOptions.qml"
-  },
-  {
     "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:2",
     "label": "Index numbers",
     "tabIndex": 22,
@@ -8624,6 +8616,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "BatteryOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:8",
+    "label": "Show scratchpads",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
     "section": "barWidgetOption:SystemMonitorOptions.qml:2",

@@ -13,6 +13,37 @@ Item {
     readonly property HyprlandMonitor monitor: Hyprland.monitorFor(panelWindow.screen)
     readonly property real dpr: CompositorService.getScreenScale(panelWindow.screen)
     readonly property int workspacesShown: SettingsData.overviewRows * SettingsData.overviewColumns
+    readonly property alias windowMenuWindow: windowMenu.contextWindow
+
+    function openWindowMenu(item, x, y) {
+        const address = item.windowData?.address;
+        if (!address || CompositorService.specialWorkspaceNames.length === 0)
+            return;
+        windowMenu.targetWindow = address;
+        const pos = item.mapToGlobal(x, y);
+        windowMenu.open(panelWindow.screen, pos.x - (panelWindow.screen?.x || 0), pos.y - (panelWindow.screen?.y || 0), false);
+    }
+
+    // scratchpad windows are not in the grid, so the menu only ever offers a move in
+    DankContextMenu {
+        id: windowMenu
+
+        property string targetWindow: ""
+
+        layerNamespace: "dms:overview-window-context-menu"
+        menuItems: CompositorService.specialWorkspaceNames.map(name => ({
+                    type: "item",
+                    icon: "inbox",
+                    text: name === "special" ? I18n.tr("Move to scratchpad") : I18n.tr("Move to scratchpad: %1", "%1 is the named special workspace").arg(name),
+                    action: () => {
+                        CompositorService.moveWindowToSpecial(windowMenu.targetWindow, name);
+                        Qt.callLater(() => {
+                            Hyprland.refreshToplevels();
+                            Hyprland.refreshWorkspaces();
+                        });
+                    }
+                }))
+    }
 
     readonly property var allWorkspaces: Hyprland.workspaces?.values || []
     readonly property var allWorkspaceIds: {
@@ -455,6 +486,13 @@ Item {
                                 event.accepted = true;
                             }
                         }
+                    }
+
+                    // on top of dragArea so a right press never starts a drag
+                    MouseArea {
+                        anchors.fill: parent
+                        acceptedButtons: Qt.RightButton
+                        onClicked: mouse => root.openWindowMenu(window, mouse.x, mouse.y)
                     }
                 }
             }

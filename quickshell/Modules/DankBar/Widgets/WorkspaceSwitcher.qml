@@ -97,7 +97,8 @@ BasePill {
         const baseList = CompositorService.workspacesForScreen(root.screenName, root.opt("workspaceFollowFocus"), {
             "occupiedOnly": root.opt("showOccupiedWorkspacesOnly"),
             "showAllTags": root.opt("dwlShowAllTags"),
-            "minCount": root.opt("showWorkspacePadding") ? root.opt("workspacePaddingCount") : 0
+            "minCount": root.opt("showWorkspacePadding") ? root.opt("workspacePaddingCount") : 0,
+            "showSpecial": root.opt("showSpecialWorkspaces")
         });
         if (CompositorService.ephemeralWorkspaces)
             return hyprlandSlotList(baseList);
@@ -178,7 +179,7 @@ BasePill {
     }
 
     function hyprlandSlotList(raw) {
-        return raw.map(ws => _hyprSlot(ws.id > 0 ? ws.id : "name:" + (ws.name ?? ""), ws));
+        return raw.map(ws => _hyprSlot(ws.id > 0 ? ws.id : (ws.special ? "special:" : "name:") + (ws.name ?? ""), ws));
     }
 
     // Stable placeholder instances so ScriptModel (identity-diffed) reuses padding delegates instead of recreating them on workspace churn
@@ -242,7 +243,7 @@ BasePill {
         if (!data || data.placeholder)
             return;
         if (root.useNativeWorkspaces) {
-            CompositorService.switchToWorkspace(data);
+            CompositorService.switchToWorkspace(data, root.effectiveScreenName);
             return;
         }
         if (root.useExtWorkspace && typeof data.activate === "function")
@@ -307,7 +308,8 @@ BasePill {
         }
         if (!useNativeWorkspaces)
             return;
-        CompositorService.stepWorkspace(getRealWorkspaces(), root.currentWorkspace, direction);
+        // specials are overlays you toggle, not positions you scroll to
+        CompositorService.stepWorkspace(getRealWorkspaces().map(ws => root.recordOf(ws)).filter(ws => ws.special !== true), root.currentWorkspace, direction);
     }
 
     function getWorkspaceIndexFallback(modelData, index) {
@@ -563,7 +565,13 @@ BasePill {
                     const name = record?.name;
                     if (!name)
                         return null;
-                    return SettingsData.getWorkspaceNameIcon(name);
+                    const custom = SettingsData.getWorkspaceNameIcon(name);
+                    if (custom || record.special !== true)
+                        return custom;
+                    return {
+                        "type": "icon",
+                        "value": "inbox"
+                    };
                 }
                 readonly property bool loadedHasIcon: loadedIconData !== null
                 property var loadedIcons: []

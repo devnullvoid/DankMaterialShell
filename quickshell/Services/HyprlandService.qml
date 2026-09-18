@@ -658,6 +658,14 @@ hl.layer_rule({
         }
     }
 
+    function focusMonitor(monitor) {
+        if (luaConfigActive) {
+            Hyprland.dispatch(`hl.dsp.focus({ monitor = ${luaString(monitor)} })`);
+        } else {
+            Hyprland.dispatch(`focusmonitor ${monitor}`);
+        }
+    }
+
     function toggleSpecial(specialName) {
         if (luaConfigActive) {
             Hyprland.dispatch(`hl.dsp.workspace.toggle_special(${luaString(specialName)})`);

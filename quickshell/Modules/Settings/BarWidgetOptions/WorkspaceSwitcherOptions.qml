@@ -81,67 +81,20 @@ Column {
             checked: root.page.value("showOccupiedWorkspacesOnly")
             onToggled: checked => root.page.set("showOccupiedWorkspacesOnly", checked)
         }
+
+        SettingsToggleRow {
+            resetStore: root.page
+            resetKeys: ["showSpecialWorkspaces"]
+            text: I18n.tr("Show scratchpads")
+            description: I18n.tr("Special workspaces appear last; click to show or hide")
+            visible: CompositorService.isHyprland
+            checked: root.page.value("showSpecialWorkspaces")
+            onToggled: checked => root.page.set("showSpecialWorkspaces", checked)
+        }
     }
 
     WorkspaceAppearanceCard {
         store: root.page.store
-    }
-
-    SettingsCard {
-        title: I18n.tr("Icons")
-        settingKey: "workspaceIcons"
-        visible: NiriService.hasNamedWorkspaces()
-
-        Repeater {
-            model: NiriService.getNamedWorkspaces()
-
-            SettingsRow {
-                required property string modelData
-
-                title: modelData
-
-                DankIconPicker {
-                    id: iconPicker
-                    anchors.verticalCenter: parent.verticalCenter
-
-                    Component.onCompleted: {
-                        const iconData = SettingsData.getWorkspaceNameIcon(modelData);
-                        if (iconData)
-                            setIcon(iconData.value, iconData.type);
-                    }
-
-                    onIconSelected: (iconName, iconType) => {
-                        SettingsData.setWorkspaceNameIcon(modelData, {
-                            "type": iconType,
-                            "value": iconName
-                        });
-                        setIcon(iconName, iconType);
-                    }
-
-                    Connections {
-                        target: SettingsData
-                        function onWorkspaceIconsUpdated() {
-                            const iconData = SettingsData.getWorkspaceNameIcon(modelData);
-                            if (iconData) {
-                                iconPicker.setIcon(iconData.value, iconData.type);
-                                return;
-                            }
-                            iconPicker.setIcon("", "icon");
-                        }
-                    }
-                }
-
-                DankActionButton {
-                    buttonSize: Theme.iconButtonSize
-                    iconName: "close"
-                    Accessible.name: I18n.tr("Remove")
-                    iconSize: Theme.iconSizeMedium
-                    iconColor: Theme.error
-                    anchors.verticalCenter: parent.verticalCenter
-                    onClicked: SettingsData.removeWorkspaceNameIcon(modelData)
-                }
-            }
-        }
     }
 
     SettingsCard {
