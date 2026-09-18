@@ -38,7 +38,7 @@ Rectangle {
         case "tertiary":
             return Theme.tertiary;
         case "error":
-            return Theme.error;
+            return Theme.onErrorContainer;
         default:
             return Theme.primary;
         }

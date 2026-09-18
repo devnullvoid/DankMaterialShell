@@ -457,7 +457,7 @@ Singleton {
         Binding {
             target: root
             property: "onErrorContainer"
-            value: root.currentThemeData.errorContainerText || root.getMatugenColor("on_error_container", root.onSurface)
+            value: root.currentThemeData.errorContainerText || root.getMatugenColor("on_error_container", root.blend(root.surfaceText, root.error, 0.5))
         },
         Binding {
             target: root
@@ -493,7 +493,7 @@ Singleton {
     readonly property real tonalTintAlpha: 0.16
 
     property color error: currentThemeData.error || "#F2B8B5"
-    property color errorContainer: currentThemeData.errorContainer || getMatugenColor("error_container", surfaceContainerHigh)
+    property color errorContainer: currentThemeData.errorContainer || getMatugenColor("error_container", blend(surfaceContainerHigh, error, 0.35))
     property color warning: currentThemeData.warning || "#FF9800"
     property color info: currentThemeData.info || "#2196F3"
     property color tempWarning: "#ff9933"
