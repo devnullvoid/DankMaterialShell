@@ -222,6 +222,157 @@ awk '$1 == "xray" { print FILENAME ":" FNR; exit }' $files 2>/dev/null`;
         }
 
         SettingsCard {
+            id: hyprTilingCard
+            width: parent.width
+            tags: ["hyprland", "layout", "tiling", "dwindle", "master", "scrolling", "general:layout"]
+            title: I18n.tr("Tiling layout")
+            settingKey: "hyprlandTilingLayout"
+            iconName: "view_quilt"
+            visible: CompositorService.isHyprland
+
+            readonly property var layoutIds: ["", "dwindle", "master", "scrolling"]
+
+            SettingsButtonGroupRow {
+                tags: ["hyprland", "layout", "tiling", "dwindle", "master", "scrolling"]
+                settingKey: "hyprlandTilingLayout"
+                text: I18n.tr("Layout")
+                model: [I18n.tr("Off"), I18n.tr("Dwindle", "Hyprland tiling layout name"), I18n.tr("Master", "Hyprland tiling layout name"), I18n.tr("Scrolling", "Hyprland tiling layout name")]
+                currentIndex: Math.max(0, hyprTilingCard.layoutIds.indexOf(SettingsData.hyprlandTilingLayout))
+                onSelectionChanged: (index, selected) => {
+                    if (!selected)
+                        return;
+                    SettingsData.set("hyprlandTilingLayout", hyprTilingCard.layoutIds[index]);
+                }
+            }
+
+            SettingsToggleRow {
+                tags: ["hyprland", "dwindle", "preserve", "split"]
+                settingKey: "hyprlandDwindlePreserveSplit"
+                visible: SettingsData.hyprlandTilingLayout === "dwindle"
+                text: I18n.tr("Preserve split")
+                description: I18n.tr("Split direction stays fixed when the container resizes")
+                checked: SettingsData.hyprlandDwindlePreserveSplit
+                onToggled: checked => SettingsData.set("hyprlandDwindlePreserveSplit", checked)
+            }
+
+            SettingsToggleRow {
+                tags: ["hyprland", "dwindle", "smart", "split", "cursor"]
+                settingKey: "hyprlandDwindleSmartSplit"
+                visible: SettingsData.hyprlandTilingLayout === "dwindle"
+                text: I18n.tr("Smart split")
+                description: I18n.tr("Split direction follows the cursor position in the window")
+                checked: SettingsData.hyprlandDwindleSmartSplit
+                onToggled: checked => SettingsData.set("hyprlandDwindleSmartSplit", checked)
+            }
+
+            SettingsButtonGroupRow {
+                tags: ["hyprland", "dwindle", "force", "split", "direction"]
+                settingKey: "hyprlandDwindleForceSplit"
+                visible: SettingsData.hyprlandTilingLayout === "dwindle"
+                text: I18n.tr("Force split")
+                model: [I18n.tr("Follow mouse"), I18n.tr("Left"), I18n.tr("Right")]
+                currentIndex: SettingsData.hyprlandDwindleForceSplit
+                onSelectionChanged: (index, selected) => {
+                    if (!selected)
+                        return;
+                    SettingsData.set("hyprlandDwindleForceSplit", index);
+                }
+            }
+
+            SettingsDropdownRow {
+                readonly property var ids: ["left", "right", "top", "bottom", "center"]
+                tags: ["hyprland", "master", "orientation", "position"]
+                settingKey: "hyprlandMasterOrientation"
+                visible: SettingsData.hyprlandTilingLayout === "master"
+                text: I18n.tr("Master position")
+                options: [I18n.tr("Left"), I18n.tr("Right"), I18n.tr("Top"), I18n.tr("Bottom"), I18n.tr("Center")]
+                currentValue: options[Math.max(0, ids.indexOf(SettingsData.hyprlandMasterOrientation))]
+                onValueChanged: value => SettingsData.set("hyprlandMasterOrientation", ids[Math.max(0, options.indexOf(value))])
+            }
+
+            SettingsButtonGroupRow {
+                readonly property var ids: ["slave", "master", "inherit"]
+                tags: ["hyprland", "master", "new", "window", "status", "slave"]
+                settingKey: "hyprlandMasterNewStatus"
+                visible: SettingsData.hyprlandTilingLayout === "master"
+                text: I18n.tr("New windows")
+                model: [I18n.tr("Stack"), I18n.tr("Master", "Hyprland tiling layout name"), I18n.tr("Inherit")]
+                currentIndex: Math.max(0, ids.indexOf(SettingsData.hyprlandMasterNewStatus))
+                onSelectionChanged: (index, selected) => {
+                    if (!selected)
+                        return;
+                    SettingsData.set("hyprlandMasterNewStatus", ids[index]);
+                }
+            }
+
+            SettingsToggleRow {
+                tags: ["hyprland", "master", "new", "top", "stack"]
+                settingKey: "hyprlandMasterNewOnTop"
+                visible: SettingsData.hyprlandTilingLayout === "master"
+                text: I18n.tr("New windows on top of the stack")
+                checked: SettingsData.hyprlandMasterNewOnTop
+                onToggled: checked => SettingsData.set("hyprlandMasterNewOnTop", checked)
+            }
+
+            SettingsSliderRow {
+                tags: ["hyprland", "master", "size", "mfact", "ratio"]
+                settingKey: "hyprlandMasterSize"
+                visible: SettingsData.hyprlandTilingLayout === "master"
+                text: I18n.tr("Master size")
+                value: SettingsData.hyprlandMasterSize
+                minimum: 10
+                maximum: 90
+                unit: "%"
+                onSliderValueChanged: newValue => SettingsData.set("hyprlandMasterSize", newValue)
+            }
+
+            SettingsButtonGroupRow {
+                readonly property var ids: ["right", "left", "down", "up"]
+                tags: ["hyprland", "scrolling", "direction"]
+                settingKey: "hyprlandScrollingDirection"
+                visible: SettingsData.hyprlandTilingLayout === "scrolling"
+                text: I18n.tr("Direction")
+                model: [I18n.tr("Right"), I18n.tr("Left"), I18n.tr("Down"), I18n.tr("Up")]
+                currentIndex: Math.max(0, ids.indexOf(SettingsData.hyprlandScrollingDirection))
+                onSelectionChanged: (index, selected) => {
+                    if (!selected)
+                        return;
+                    SettingsData.set("hyprlandScrollingDirection", ids[index]);
+                }
+            }
+
+            SettingsSliderRow {
+                tags: ["hyprland", "scrolling", "column", "width"]
+                settingKey: "hyprlandScrollingColumnWidth"
+                visible: SettingsData.hyprlandTilingLayout === "scrolling"
+                text: I18n.tr("Column Width")
+                value: SettingsData.hyprlandScrollingColumnWidth
+                minimum: 10
+                maximum: 100
+                unit: "%"
+                onSliderValueChanged: newValue => SettingsData.set("hyprlandScrollingColumnWidth", newValue)
+            }
+
+            SettingsToggleRow {
+                tags: ["hyprland", "scrolling", "fullscreen", "single", "column"]
+                settingKey: "hyprlandScrollingFullscreenOneColumn"
+                visible: SettingsData.hyprlandTilingLayout === "scrolling"
+                text: I18n.tr("Fullscreen single column")
+                checked: SettingsData.hyprlandScrollingFullscreenOneColumn
+                onToggled: checked => SettingsData.set("hyprlandScrollingFullscreenOneColumn", checked)
+            }
+
+            SettingsToggleRow {
+                tags: ["hyprland", "scrolling", "follow", "focus", "scroll"]
+                settingKey: "hyprlandScrollingFollowFocus"
+                visible: SettingsData.hyprlandTilingLayout === "scrolling"
+                text: I18n.tr("Follow focus")
+                checked: SettingsData.hyprlandScrollingFollowFocus
+                onToggled: checked => SettingsData.set("hyprlandScrollingFollowFocus", checked)
+            }
+        }
+
+        SettingsCard {
             width: parent.width
             tags: ["hyprland", "layout", "gaps", "radius", "window", "border", "rounding"]
             title: I18n.tr("Layout overrides")
@@ -234,7 +385,6 @@ awk '$1 == "xray" { print FILENAME ":" FNR; exit }' $files 2>/dev/null`;
                 settingKey: "hyprlandLayoutGapsMode"
                 resetKeys: ["hyprlandLayoutGapsOverride"]
                 text: I18n.tr("Gaps")
-                description: I18n.tr("Auto follows bar spacing, Off keeps your %1 config").arg("Hyprland")
                 model: [I18n.tr("Auto"), I18n.tr("Custom"), I18n.tr("Off")]
                 currentIndex: {
                     if (SettingsData.hyprlandLayoutGapsOverride === -2)

@@ -192,6 +192,18 @@ Singleton {
     property int hyprlandLayoutRadiusOverride: Spec.SPEC.hyprlandLayoutRadiusOverride.def
     property int hyprlandLayoutBorderSize: Spec.SPEC.hyprlandLayoutBorderSize.def
     property bool hyprlandResizeOnBorder: Spec.SPEC.hyprlandResizeOnBorder.def
+    property string hyprlandTilingLayout: Spec.SPEC.hyprlandTilingLayout.def
+    property bool hyprlandDwindlePreserveSplit: Spec.SPEC.hyprlandDwindlePreserveSplit.def
+    property bool hyprlandDwindleSmartSplit: Spec.SPEC.hyprlandDwindleSmartSplit.def
+    property int hyprlandDwindleForceSplit: Spec.SPEC.hyprlandDwindleForceSplit.def
+    property string hyprlandMasterOrientation: Spec.SPEC.hyprlandMasterOrientation.def
+    property string hyprlandMasterNewStatus: Spec.SPEC.hyprlandMasterNewStatus.def
+    property bool hyprlandMasterNewOnTop: Spec.SPEC.hyprlandMasterNewOnTop.def
+    property int hyprlandMasterSize: Spec.SPEC.hyprlandMasterSize.def
+    property string hyprlandScrollingDirection: Spec.SPEC.hyprlandScrollingDirection.def
+    property int hyprlandScrollingColumnWidth: Spec.SPEC.hyprlandScrollingColumnWidth.def
+    property bool hyprlandScrollingFullscreenOneColumn: Spec.SPEC.hyprlandScrollingFullscreenOneColumn.def
+    property bool hyprlandScrollingFollowFocus: Spec.SPEC.hyprlandScrollingFollowFocus.def
     property int mangoLayoutGapsOverride: Spec.SPEC.mangoLayoutGapsOverride.def
     property int mangoLayoutGapsOutOverride: Spec.SPEC.mangoLayoutGapsOutOverride.def
     property int mangoLayoutRadiusOverride: Spec.SPEC.mangoLayoutRadiusOverride.def

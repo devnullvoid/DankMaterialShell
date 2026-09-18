@@ -105,6 +105,54 @@ var LOCAL_SPEC = {
         def: false,
         onChange: "updateCompositorLayout"
     },
+    hyprlandTilingLayout: {
+        def: "",
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandDwindlePreserveSplit: {
+        def: false,
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandDwindleSmartSplit: {
+        def: false,
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandDwindleForceSplit: {
+        def: 0,
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandMasterOrientation: {
+        def: "left",
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandMasterNewStatus: {
+        def: "slave",
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandMasterNewOnTop: {
+        def: false,
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandMasterSize: {
+        def: 55,
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandScrollingDirection: {
+        def: "right",
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandScrollingColumnWidth: {
+        def: 50,
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandScrollingFullscreenOneColumn: {
+        def: true,
+        onChange: "updateCompositorLayout"
+    },
+    hyprlandScrollingFollowFocus: {
+        def: true,
+        onChange: "updateCompositorLayout"
+    },
     mangoLayoutGapsOverride: {
         def: -1,
         onChange: "updateCompositorLayout"

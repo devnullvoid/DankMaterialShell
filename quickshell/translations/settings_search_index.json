@@ -10600,6 +10600,67 @@
     "conditionKey": "layoutCapable"
   },
   {
+    "section": "hyprlandScrollingColumnWidth",
+    "label": "Column Width",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "column",
+      "hyprland",
+      "integrations",
+      "scrolling",
+      "system",
+      "width"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandScrollingDirection",
+    "label": "Direction",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "direction",
+      "hyprland",
+      "integrations",
+      "scrolling",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandScrollingFollowFocus",
+    "label": "Follow focus",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "focus",
+      "follow",
+      "hyprland",
+      "integrations",
+      "scroll",
+      "scrolling",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandDwindleForceSplit",
+    "label": "Force split",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "direction",
+      "dwindle",
+      "force",
+      "hyprland",
+      "integrations",
+      "split",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
     "section": "hyprlandLayoutBarXrayEnabled",
     "label": "Frame xray",
     "tabIndex": 37,
@@ -10652,34 +10713,36 @@
     "conditionKey": "isNiri"
   },
   {
+    "section": "hyprlandScrollingFullscreenOneColumn",
+    "label": "Fullscreen single column",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "column",
+      "fullscreen",
+      "hyprland",
+      "integrations",
+      "scrolling",
+      "single",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
     "section": "hyprlandLayoutGapsMode",
     "label": "Gaps",
     "tabIndex": 37,
     "category": "System & integrations",
     "keywords": [
-      "auto",
-      "config",
-      "follows",
-      "gap",
       "gaps",
       "hyprland",
       "inner",
       "integrations",
-      "keeps",
-      "margin",
-      "margins",
       "outer",
       "override",
-      "padding",
-      "panel",
-      "spacing",
-      "statusbar",
       "system",
-      "taskbar",
-      "topbar",
       "unmanaged"
     ],
-    "description": "Auto follows bar spacing, Off keeps your %1 config",
     "conditionKey": "layoutCapable"
   },
   {
@@ -10783,32 +10846,30 @@
     "tabIndex": 37,
     "category": "System & integrations",
     "keywords": [
-      "auto",
+      "background",
+      "beneath",
+      "bg",
+      "blurred",
       "border",
-      "config",
-      "follows",
-      "gap",
+      "desktop",
       "gaps",
       "hyprland",
+      "image",
       "integrations",
-      "keeps",
       "layout",
-      "margin",
-      "margins",
       "overrides",
-      "padding",
-      "panel",
+      "picture",
       "radius",
       "rounding",
-      "spacing",
-      "statusbar",
+      "show",
+      "surfaces",
       "system",
-      "taskbar",
-      "topbar",
-      "window"
+      "wallpaper",
+      "window",
+      "windows"
     ],
     "icon": "crop_square",
-    "description": "Auto follows bar spacing, Off keeps your %1 config",
+    "description": "Blurred surfaces show the wallpaper, not the windows beneath",
     "conditionKey": "isHyprland"
   },
   {
@@ -10878,6 +10939,72 @@
     "icon": "layers",
     "description": "Auto follows bar spacing, Off keeps your %1 config",
     "conditionKey": "isNiri"
+  },
+  {
+    "section": "hyprlandMasterOrientation",
+    "label": "Master position",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "hyprland",
+      "integrations",
+      "master",
+      "orientation",
+      "position",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandMasterSize",
+    "label": "Master size",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "hyprland",
+      "integrations",
+      "master",
+      "mfact",
+      "ratio",
+      "size",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandMasterNewStatus",
+    "label": "New windows",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "hyprland",
+      "integrations",
+      "master",
+      "new",
+      "slave",
+      "status",
+      "system",
+      "window",
+      "windows"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandMasterNewOnTop",
+    "label": "New windows on top of the stack",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "hyprland",
+      "integrations",
+      "master",
+      "new",
+      "stack",
+      "system",
+      "top",
+      "windows"
+    ],
+    "conditionKey": "layoutCapable"
   },
   {
     "section": "compositorNotifications",
@@ -11002,6 +11129,27 @@
     "conditionKey": "isNiri"
   },
   {
+    "section": "hyprlandDwindlePreserveSplit",
+    "label": "Preserve split",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "container",
+      "direction",
+      "dwindle",
+      "fixed",
+      "hyprland",
+      "integrations",
+      "preserve",
+      "resizes",
+      "split",
+      "stays",
+      "system"
+    ],
+    "description": "Split direction stays fixed when the container resizes",
+    "conditionKey": "layoutCapable"
+  },
+  {
     "section": "hyprlandResizeOnBorder",
     "label": "Resize on border",
     "tabIndex": 37,
@@ -11031,6 +11179,53 @@
       "toast"
     ],
     "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandDwindleSmartSplit",
+    "label": "Smart split",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "cursor",
+      "direction",
+      "dwindle",
+      "follows",
+      "hyprland",
+      "integrations",
+      "position",
+      "smart",
+      "split",
+      "system",
+      "window"
+    ],
+    "description": "Split direction follows the cursor position in the window",
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandTilingLayout",
+    "label": "Tiling layout",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "container",
+      "direction",
+      "dwindle",
+      "fixed",
+      "general:layout",
+      "hyprland",
+      "integrations",
+      "layout",
+      "master",
+      "resizes",
+      "scrolling",
+      "split",
+      "stays",
+      "system",
+      "tiling"
+    ],
+    "icon": "view_quilt",
+    "description": "Split direction stays fixed when the container resizes",
+    "conditionKey": "isHyprland"
   },
   {
     "section": "niriLayoutGapsOverride",
