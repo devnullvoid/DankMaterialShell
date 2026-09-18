@@ -8,7 +8,6 @@ Column {
     id: root
 
     property var parentModal: null
-    readonly property bool connectedFrameModeActive: SettingsData.connectedFrameModeActive
     readonly property bool followsSurfaces: SettingsData.floatingWindowSyncGlobal ?? true
     readonly property bool borderEnabled: SettingsData.blurBorderEnabled ?? true
     readonly property string windowRadiusKey: CompositorService.supportsLayoutConfig ? CompositorService.configKey + "LayoutRadiusOverride" : ""
@@ -77,7 +76,6 @@ Column {
             tags: ["surface", "popup", "transparency", "opacity", "modal"]
             settingKey: "popupTransparency"
             text: I18n.tr("Opacity")
-            visible: !root.connectedFrameModeActive
             value: Math.round(SettingsData.popupTransparency * 100)
             minimum: 0
             maximum: 100
@@ -316,7 +314,7 @@ Column {
             tags: ["surface", "opacity", "transparency", modelData.kind, "override"]
             title: modelData.title
             settingKey: modelData.settingKey
-            visible: !root.connectedFrameModeActive && targets.length > 0
+            visible: targets.length > 0
 
             Repeater {
                 model: targetCard.activeTargets
