@@ -1142,18 +1142,19 @@ Singleton {
     }
 
     readonly property real radiusStrength: typeof SettingsData !== "undefined" ? SettingsData.radiusStrength : 50
-    readonly property real shapeScale: Shape.scaleForStrength(radiusStrength)
+    readonly property real fixedRadius: typeof SettingsData !== "undefined" && SettingsData.radiusMode === "fixed" ? SettingsData.fixedRadius : -1
+    readonly property real shapeScale: fixedRadius >= 0 ? fixedRadius / Shape.corners.m : Shape.scaleForStrength(radiusStrength)
     readonly property real cornerRadius: cornerRadiusM
-    readonly property real cornerRadiusXXS: Shape.radius("xxs", shapeScale)
-    readonly property real cornerRadiusXS: Shape.radius("xs", shapeScale)
-    readonly property real cornerRadiusS: Shape.radius("s", shapeScale)
-    readonly property real cornerRadiusM: Shape.radius("m", shapeScale)
-    readonly property real cornerRadiusL: Shape.radius("l", shapeScale)
-    readonly property real cornerRadiusLIncreased: Shape.radius("lIncreased", shapeScale)
-    readonly property real cornerRadiusXL: Shape.radius("xl", shapeScale)
-    readonly property real cornerRadiusXLIncreased: Shape.radius("xlIncreased", shapeScale)
-    readonly property real cornerRadiusXXL: Shape.radius("xxl", shapeScale)
-    readonly property real cornerRadiusFull: shapeScale > 0 ? 9999 : 0
+    readonly property real cornerRadiusXXS: Shape.radius("xxs", shapeScale, fixedRadius)
+    readonly property real cornerRadiusXS: Shape.radius("xs", shapeScale, fixedRadius)
+    readonly property real cornerRadiusS: Shape.radius("s", shapeScale, fixedRadius)
+    readonly property real cornerRadiusM: Shape.radius("m", shapeScale, fixedRadius)
+    readonly property real cornerRadiusL: Shape.radius("l", shapeScale, fixedRadius)
+    readonly property real cornerRadiusLIncreased: Shape.radius("lIncreased", shapeScale, fixedRadius)
+    readonly property real cornerRadiusXL: Shape.radius("xl", shapeScale, fixedRadius)
+    readonly property real cornerRadiusXLIncreased: Shape.radius("xlIncreased", shapeScale, fixedRadius)
+    readonly property real cornerRadiusXXL: Shape.radius("xxl", shapeScale, fixedRadius)
+    readonly property real cornerRadiusFull: fixedRadius >= 0 ? fixedRadius : (shapeScale > 0 ? 9999 : 0)
     readonly property real cornerRadiusSmall: cornerRadiusS
     readonly property real cornerRadiusLarge: cornerRadiusL
     readonly property int compositorRadiusOverride: {
@@ -1167,15 +1168,15 @@ Singleton {
     readonly property real windowRadius: compositorRadiusOverride >= 0 ? compositorRadiusOverride : cornerRadiusL
 
     function scaledRadius(radius, limit) {
-        return Shape.scaledRadius(radius, limit, shapeScale);
+        return Shape.scaledRadius(radius, limit, shapeScale, fixedRadius);
     }
 
     function fullRadius(width, height) {
-        return Shape.fullRadius(width, height, shapeScale);
+        return Shape.fullRadius(width, height, shapeScale, fixedRadius);
     }
 
     function buttonRadius(width, height, sizeHeight, pressed, round) {
-        return Shape.buttonRadius(width, height, sizeHeight, pressed, round, shapeScale);
+        return Shape.buttonRadius(width, height, sizeHeight, pressed, round, shapeScale, fixedRadius);
     }
 
     readonly property real groupedListGap: spacingXXS

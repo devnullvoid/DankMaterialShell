@@ -78,7 +78,7 @@ QtObject {
     readonly property real dashboardMaxWidth: Math.min(dashboardAvailableWidth, DashMetrics.widthFor(SettingsData.showWeekNumber, undefined, editingActivity !== "" ? dashboardColumnCap : DashRegistry.widestPanelColumns) + PopoutMetrics.editOverflow * 2)
     property var dashboardContentHeights: ({})
     readonly property real dashboardChromeHeight: Theme.buttonHeightXS + Theme.spacingXS * 2 + DashMetrics.contentPadding
-    readonly property real dashboardHeight: Math.min(dashboardAvailableHeight, Math.max(DashMetrics.tabMinHeight + dashboardChromeHeight, ...Object.values(dashboardContentHeights)))
+    readonly property real dashboardHeight: Math.min(dashboardAvailableHeight, Math.max(DashMetrics.tabDefaultHeight + dashboardChromeHeight, ...Object.values(dashboardContentHeights)))
     readonly property int dashboardRowBudget: Math.max(DashMetrics.minimumTabRows, Math.floor((dashboardAvailableHeight - dashboardChromeHeight + DashMetrics.gridGap) / (DashMetrics.gridRowUnit + DashMetrics.gridGap)))
     readonly property real mediaCompactMaxLength: 360
     property real notificationContentLength: 0

@@ -66,7 +66,7 @@ DankPopout {
 
     popupWidth: DashMetrics.widthFor(SettingsData.showWeekNumber, screen?.width, DashMetrics.panelColumnsFor(activeTabId))
     minimumSurfaceWidth: DashMetrics.widthFor(SettingsData.showWeekNumber, screen?.width, DashRegistry.widestPanelColumns)
-    popupHeight: contentLoader.item?.implicitHeight ?? (DashMetrics.tabMinHeight + DashMetrics.tabBarBlockHeight + DashMetrics.contentGap + DashMetrics.contentPadding * 2)
+    popupHeight: contentLoader.item?.implicitHeight ?? (DashMetrics.tabDefaultHeight + DashMetrics.tabBarBlockHeight + DashMetrics.contentGap + DashMetrics.contentPadding * 2)
     triggerWidth: DashMetrics.triggerWidth
     screen: triggerScreen
 
@@ -247,7 +247,7 @@ DankPopout {
             readonly property int panelColumns: DashMetrics.panelColumnsFor(root.activeTabId)
             readonly property int contentRows: DashMetrics.rowsForHeight(pages.currentHostImplicitHeight)
             readonly property int panelRows: Math.max(DashMetrics.panelFloorRowsFor(root.activeTabId), contentRows)
-            readonly property bool panelAtDefault: panelColumns === DashMetrics.defaultGridColumns && DashMetrics.panelFloorRowsFor(root.activeTabId) <= contentRows
+            readonly property bool panelAtDefault: panelColumns === DashMetrics.defaultGridColumns && panelRows === DashMetrics.defaultPanelRows(root.activeTabId, contentRows)
             readonly property DankPanelResizer panelResizer: DankPanelResizer {
                 popout: root
                 stepWidth: DashMetrics.preferredColumnWidth + DashMetrics.gridGap
@@ -269,7 +269,7 @@ DankPopout {
                     if (columnsChanged)
                         values.panelColumns = columns;
                     if (rowsChanged)
-                        values.panelRows = rows > mainContainer.contentRows ? rows : DashMetrics.minimumTabRows;
+                        values.panelRows = DashMetrics.panelRowsToStore(root.activeTabId, rows, mainContainer.contentRows);
                     DashRegistry.setOptions(root.activeTabId, values);
                     DashMetrics.panelPreview = null;
                 }
@@ -691,7 +691,7 @@ DankPopout {
                         id: pages
 
                         property var currentHost: null
-                        property real settledHeight: DashMetrics.tabMinHeight
+                        property real settledHeight: DashMetrics.tabDefaultHeight
                         readonly property var currentItem: currentHost?.item ?? null
                         readonly property Item focusTarget: currentHost?.focusTarget ?? null
                         readonly property bool currentSettled: !!currentHost && (!!currentHost.item || currentHost.failed)

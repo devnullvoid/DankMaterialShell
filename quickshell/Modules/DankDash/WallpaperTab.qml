@@ -16,7 +16,7 @@ Item {
     LayoutMirroring.childrenInherit: true
 
     implicitWidth: DashMetrics.contentWidthFor(SettingsData.showWeekNumber, DashMetrics.panelColumnsFor(entryId))
-    implicitHeight: DashMetrics.tabMinHeight + DashMetrics.wallpaperFooterHeight
+    implicitHeight: DashMetrics.tabMinHeight
 
     property string wallpaperDir: ""
     readonly property string searchQuery: wallpaperSearchField.text

@@ -69,10 +69,10 @@ Singleton {
         return choice("tone", I18n.tr("Tone", "noun, dashboard widget color tone option label"), "", toneChoices);
     }
 
-    function panelOptions() {
+    function panelOptions(tab) {
         return [Object.assign(number("panelColumns", I18n.tr("Panel width (columns)"), DashMetrics.defaultGridColumns, DashMetrics.minimumGridColumns, DashMetrics.maximumGridColumns), {
                 "settingsOnly": true
-            }), Object.assign(number("panelRows", I18n.tr("Panel height (rows)"), DashMetrics.minimumTabRows, DashMetrics.minimumTabRows, DashMetrics.maximumGridRows), {
+            }), Object.assign(number("panelRows", I18n.tr("Panel height (rows)"), DashMetrics.defaultRowsForTab(tab), DashMetrics.minimumTabRows, DashMetrics.maximumGridRows), {
                 "settingsOnly": true
             })];
     }
@@ -95,7 +95,8 @@ Singleton {
             "description": I18n.tr("Now playing and media controls"),
             "tab": {
                 "component": mediaTab,
-                "async": true
+                "async": true,
+                "sizeToContent": true
             },
             "card": {
                 "component": mediaCard,
@@ -143,7 +144,8 @@ Singleton {
             "available": SettingsData.weatherEnabled,
             "tab": {
                 "component": weatherTab,
-                "async": true
+                "async": true,
+                "sizeToContent": true
             },
             "card": {
                 "component": weatherCard,
@@ -372,7 +374,6 @@ Singleton {
     }
 
     readonly property var entries: {
-        const panel = panelOptions();
         return builtins.map(e => e.card ? Object.assign({}, e, {
                 "card": Object.assign({
                     "text": e.text,
@@ -383,7 +384,7 @@ Singleton {
                     "maxH": DashMetrics.maximumCardRows
                 }, e.card)
             }) : e).concat(pluginEntries).map(e => e.tab ? Object.assign({}, e, {
-                "options": (e.options ?? []).concat(panel)
+                "options": (e.options ?? []).concat(panelOptions(e.tab))
             }) : e);
     }
 
@@ -548,7 +549,7 @@ Singleton {
         const stored = storedOptions(id);
         if (!("panelColumns" in stored) && !("panelRows" in stored))
             return;
-        setPanelSize(id, DashMetrics.defaultGridColumns, DashMetrics.minimumTabRows);
+        setPanelSize(id, DashMetrics.defaultGridColumns, DashMetrics.defaultRowsFor(id));
     }
 
     function resetOptions(id) {

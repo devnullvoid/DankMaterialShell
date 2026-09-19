@@ -81,7 +81,7 @@ FocusScope {
             viewport.contentY = Math.max(0, Math.min(point.y, bottom));
     }
 
-    implicitHeight: NotificationMetrics.centerMaxHeight
+    implicitHeight: DashMetrics.tabMinHeight
     enabled: interactive
     clip: true
     LayoutMirroring.enabled: I18n.isRtl

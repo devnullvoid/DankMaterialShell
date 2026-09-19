@@ -58,7 +58,7 @@ FocusScope {
             if (columnsChanged)
                 values.panelColumns = columns;
             if (rowsChanged)
-                values.panelRows = rows > root.contentRows ? rows : DashMetrics.minimumTabRows;
+                values.panelRows = DashMetrics.panelRowsToStore(root.entryId, rows, root.contentRows);
             DashRegistry.setOptions(root.entryId, values);
             DashMetrics.panelPreview = null;
         }
@@ -210,7 +210,7 @@ FocusScope {
         buttonSize: PopoutMetrics.chromeButtonSize
         iconSize: PopoutMetrics.chromeIconSize
         resizing: root.panelResizer.resizing
-        atDefault: root.panelColumns === DashMetrics.defaultGridColumns && DashMetrics.panelFloorRowsFor(root.entryId) <= root.contentRows
+        atDefault: root.panelColumns === DashMetrics.defaultGridColumns && root.panelRows === DashMetrics.defaultPanelRows(root.entryId, root.contentRows)
         sizeText: root.panelColumns + "×" + root.panelRows
         onResizeStarted: (px, py, signX) => root.panelResizer.begin(px, py, signX)
         onResizeMoved: (px, py) => root.panelResizer.move(px, py)
