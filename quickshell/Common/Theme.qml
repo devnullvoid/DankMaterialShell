@@ -1777,8 +1777,14 @@ Singleton {
         // binary is a supported setup (DMS_SHELL_DIR / -c), and an older binary
         // exits with "unknown flag: --source-mode" rather than ignoring it, so
         // the default must not put the flag on the command line at all.
-        if (typeof SettingsData !== "undefined" && SettingsData.matugenSourceMode && SettingsData.matugenSourceMode !== "dominant") {
+        const seedColor = (typeof SettingsData !== "undefined" && !stockColors) ? SettingsData.matugenSeedColor : "";
+        if (seedColor) {
+            args.push("--seed-color", seedColor);
+        } else if (typeof SettingsData !== "undefined" && SettingsData.matugenSourceMode && SettingsData.matugenSourceMode !== "dominant") {
             args.push("--source-mode", SettingsData.matugenSourceMode);
+        }
+        if (typeof SettingsData !== "undefined" && !stockColors && SettingsData.matugenSpec === "2025") {
+            args.push("--spec", "2025");
         }
 
         if (typeof SettingsData !== "undefined") {

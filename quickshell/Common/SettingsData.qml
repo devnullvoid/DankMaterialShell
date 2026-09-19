@@ -168,6 +168,8 @@ Singleton {
     property bool matugenSmartMode: Spec.SPEC.matugenSmartMode.def
     property string matugenSourceMode: Spec.SPEC.matugenSourceMode.def
     property real matugenContrast: Spec.SPEC.matugenContrast.def
+    property string matugenSeedColor: Spec.SPEC.matugenSeedColor.def
+    property string matugenSpec: Spec.SPEC.matugenSpec.def
     property bool runUserMatugenTemplates: Spec.SPEC.runUserMatugenTemplates.def
     property string matugenTargetMonitor: Spec.SPEC.matugenTargetMonitor.def
     property real popupTransparency: Spec.SPEC.popupTransparency.def
@@ -2504,6 +2506,22 @@ Singleton {
         if (matugenContrast === value)
             return;
         set("matugenContrast", value);
+    }
+
+    function setMatugenSeedColor(hex) {
+        var normalized = /^#[0-9a-f]{6}$/i.test(hex || "") ? hex.toLowerCase() : "";
+        if (matugenSeedColor === normalized)
+            return;
+        set("matugenSeedColor", normalized);
+    }
+
+    function setMatugenSpec(spec) {
+        var normalized = spec === "2025" ? "2025" : "2021";
+        if (matugenSpec === normalized)
+            return;
+        if (normalized === "2025" && matugenContrast < 0)
+            set("matugenContrast", 0);
+        set("matugenSpec", normalized);
     }
 
     function setMatugenTargetMonitor(monitorName) {
