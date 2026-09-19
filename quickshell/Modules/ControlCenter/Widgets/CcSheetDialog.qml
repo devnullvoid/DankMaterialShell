@@ -194,7 +194,7 @@ Item {
                 Column {
                     id: contentSlot
                     width: parent.width
-                    spacing: Theme.spacingM
+                    spacing: CcMetrics.detailContentGap
                 }
             }
         }

@@ -6481,6 +6481,31 @@
     "conditionKey": "soundsAvailable"
   },
   {
+    "section": "soundTheme",
+    "label": "Sound theme",
+    "tabIndex": 15,
+    "category": "Sounds",
+    "keywords": [
+      "appearance",
+      "audio",
+      "colors",
+      "colour",
+      "effects",
+      "gsettings",
+      "look",
+      "media",
+      "select",
+      "sfx",
+      "sound",
+      "sounds",
+      "style",
+      "system",
+      "theme"
+    ],
+    "parentLabel": "Sound & media",
+    "conditionKey": "soundsAvailable"
+  },
+  {
     "section": "_tab_15",
     "label": "Sounds",
     "tabIndex": 15,
@@ -6539,53 +6564,6 @@
       "sounds",
       "system",
       "volume"
-    ],
-    "parentLabel": "Sound & media",
-    "conditionKey": "soundsAvailable"
-  },
-  {
-    "section": "soundTheme",
-    "label": "Theme",
-    "tabIndex": 15,
-    "category": "Sounds",
-    "keywords": [
-      "appearance",
-      "audio",
-      "colors",
-      "colour",
-      "effects",
-      "look",
-      "media",
-      "select",
-      "sfx",
-      "sound",
-      "sounds",
-      "style",
-      "theme"
-    ],
-    "parentLabel": "Sound & media",
-    "conditionKey": "soundsAvailable"
-  },
-  {
-    "section": "useSystemSoundTheme",
-    "label": "Use system theme",
-    "tabIndex": 15,
-    "category": "Sounds",
-    "keywords": [
-      "appearance",
-      "audio",
-      "colors",
-      "colour",
-      "effects",
-      "gsettings",
-      "look",
-      "media",
-      "sfx",
-      "sound",
-      "sounds",
-      "style",
-      "system",
-      "theme"
     ],
     "parentLabel": "Sound & media",
     "conditionKey": "soundsAvailable"
