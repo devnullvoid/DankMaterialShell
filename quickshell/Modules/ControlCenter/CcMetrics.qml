@@ -55,7 +55,6 @@ Singleton {
     readonly property real tileTextGap: Theme.spacingM
     readonly property real headerActionSize: Theme.iconButtonSize * iconScale
     readonly property real headerActionIconSize: Theme.iconSize * iconScale
-    readonly property int wheelVolumeStep: 5
 
     readonly property real headerAvatarSize: 56
     readonly property real headerHeight: tileHeight

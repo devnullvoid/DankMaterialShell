@@ -564,7 +564,7 @@ Singleton {
             return foregroundLayerTransparency;
         return SettingsData.floatingWindowForegroundTransparency ?? 1.0;
     }
-    readonly property real foregroundAlpha: Surface.foregroundAlpha(foregroundLayers, foregroundLayerTransparency)
+    readonly property real foregroundAlpha: Surface.foregroundAlpha(foregroundLayers || !blurLayersActive, foregroundLayerTransparency)
     readonly property real floatingWindowForegroundAlpha: Surface.foregroundAlpha(floatingWindowForegroundLayers, floatingWindowForegroundTransparency)
 
     function isFloatingWindow(item) {

@@ -220,6 +220,30 @@ ShellRoot {
                 }
                 {
                     const grid = findGrid(c);
+                    const savedCards = JSON.parse(JSON.stringify(DashRegistry.placed));
+                    SettingsData.set("dashCards", [
+                        {
+                            id: "clock",
+                            w: 2,
+                            h: 1,
+                            col: 0,
+                            row: 0
+                        },
+                        {
+                            id: "user",
+                            w: 2,
+                            h: 1,
+                            col: 2,
+                            row: 0
+                        },
+                        {
+                            id: "media",
+                            w: 3,
+                            h: 1,
+                            col: 0,
+                            row: 1
+                        }
+                    ]);
                     const slots = grid.slotLayout.slots;
                     const lastRow = Math.max(...slots.map(s => s.row));
                     const index = slots.findIndex(s => s.row === lastRow);
@@ -234,6 +258,7 @@ ShellRoot {
                     check(grid.slotLayout.slots.every((s, i) => i === index || (s.col === others[i][0] && s.row === others[i][1])), "no other card moves for a lone card: " + JSON.stringify(grid.slotLayout.slots.map(s => [s.col, s.row])));
                     slot.cancelResize();
                     check(!DashMetrics.panelPreview && SettingsData.dashOptions?.overview === undefined, "cancel leaves nothing stored");
+                    SettingsData.set("dashCards", savedCards);
                 }
                 root.popout.editMode = false;
                 root.popout.requestTab("wallpaper");

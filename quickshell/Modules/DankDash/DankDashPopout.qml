@@ -254,7 +254,7 @@ DankPopout {
                 widthFor: columns => DashMetrics.widthFor(SettingsData.showWeekNumber, root.screen?.width, columns)
                 currentStep: () => mainContainer.panelColumns
                 currentRows: () => mainContainer.panelRows
-                minStep: DashMetrics.minimumGridColumns
+                minStep: Math.max(DashMetrics.minimumGridColumns, pages.currentItem?.usedColumns ?? 0)
                 maxStep: root.columnCap
                 rowUnit: DashMetrics.gridRowUnit + DashMetrics.gridGap
                 minRows: mainContainer.contentRows
@@ -527,10 +527,11 @@ DankPopout {
                 anchors.margins: -(contentInset + Theme.spacingS)
                 z: 2
                 visible: root.editMode
-                edgeResize: true
+                edgeResize: mainContainer.panelResizer.sideMovable(-1, mainContainer.panelColumns)
+                cornerResize: mainContainer.panelResizer.sideMovable(1, mainContainer.panelColumns)
                 removable: false
                 cornerRadius: Theme.windowRadius + Theme.spacingS
-                handleOverhang: contentInset + Theme.spacingL
+                handleOverhang: contentInset
                 buttonSize: PopoutMetrics.chromeButtonSize
                 iconSize: PopoutMetrics.chromeIconSize
                 resizing: mainContainer.panelResizing || mainContainer.panelShifted

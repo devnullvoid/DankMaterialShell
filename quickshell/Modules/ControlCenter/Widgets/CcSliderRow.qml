@@ -26,6 +26,7 @@ Item {
     property alias maximum: slider.maximum
     property alias unit: slider.unit
     property alias valueOverride: slider.valueOverride
+    property alias wheelStep: slider.wheelStep
     property bool sliderEnabled: true
     property alias isDragging: slider.isDragging
     readonly property bool tall: height >= CcMetrics.gridRowUnit * 2
@@ -116,6 +117,7 @@ Item {
                 rotation: root.vertical ? -90 : 0
                 LayoutMirroring.enabled: !root.vertical && I18n.isRtl
                 enabled: root.sliderEnabled && root.interactive
+                wheelInsideScrollable: true
                 size: {
                     if (!root.tall)
                         return "s";
