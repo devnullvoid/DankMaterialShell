@@ -20,7 +20,7 @@ DankPopout {
     resizeDuration: Theme.expressiveDurations.expressiveFastSpatial
     resizeMotion: true
     resizing: contentLoader.item?.panelResizing ?? false
-    surfaceFillsScreen: editMode
+    surfacePadding: PopoutMetrics.editOverflow * 2
     inputMargin: editGutter * 2
     hoverDismissSuspended: editMode
     onOpened: contentFocusTimer.restart()

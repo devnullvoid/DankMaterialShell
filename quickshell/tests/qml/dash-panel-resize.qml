@@ -1,5 +1,6 @@
 import QtQuick
 import Quickshell
+import Quickshell.Wayland
 import qs.Common
 import qs.Services
 import qs.Modules.DankDash
@@ -79,6 +80,11 @@ ShellRoot {
         return host.resizing && host.renderedAlignedX === host.alignedX;
     }
 
+    function surfaceGeometry(host) {
+        const window = host.contentWindow;
+        return JSON.stringify([window.anchors.right, window.implicitWidth, window.WlrLayershell.margins.left]);
+    }
+
     Component {
         id: dashComponent
         DankDashPopout {}
@@ -121,9 +127,11 @@ ShellRoot {
                 root.baseRows = c.panelRows;
                 check(root.baseRows >= DashMetrics.minimumTabRows && DashMetrics.storedPanelRows("overview") === 0, "unset rows fit the cards: " + root.baseRows);
                 check(!root.popout.contentWindow.anchors.right, "surface hugs the body outside edit mode");
+                const dashSurface = surfaceGeometry(root.popout);
                 root.popout.editMode = true;
                 check(root.popout.popupWidth === widthFor(DashMetrics.defaultGridColumns), "edit mode keeps the panel width");
-                check(root.popout.contentWindow.anchors.right, "edit mode anchors the surface to both sides");
+                check(surfaceGeometry(root.popout) === dashSurface, "entering edit mode preserves the bounded surface");
+                check(root.popout.contentWindow.implicitWidth >= root.popout.popupWidth + PopoutMetrics.editOverflow * 4, "surface reserves the edit handle padding");
                 beginDrag(root.popout, c);
                 dragTo(root.popout, c, 2 * columnGain(), 0);
                 check(DashMetrics.panelPreview?.columns === 8, "preview snaps two columns wider: " + JSON.stringify(DashMetrics.panelPreview));
@@ -328,7 +336,7 @@ ShellRoot {
                 check(root.popout.editMode, "weather edit mode");
                 root.closingHeight = c.height;
                 root.popout.dashVisible = false;
-                check(root.popout.editMode && root.popout.contentWindow.anchors.right, "edit mode and its surface hold while the close animation runs");
+                check(root.popout.editMode, "edit mode holds while closing");
                 DashRegistry.setPanelSize("weather", DashMetrics.defaultGridColumns, c.panelRows + 1);
                 interval = 150;
                 break;
@@ -344,9 +352,10 @@ ShellRoot {
                     const ccContent = root.cc.contentLoader?.item ?? null;
                     check(root.cc.shouldBeVisible && ccContent, "control center open");
                     check(root.cc.popupWidth === CcMetrics.sheetWidthDefault, "control center default width");
+                    const ccSurface = surfaceGeometry(root.cc);
                     root.cc.editMode = true;
                     check(root.cc.popupWidth === CcMetrics.sheetWidthDefault, "control center edit mode keeps the sheet width");
-                    check(root.cc.contentWindow.anchors.right, "control center edit mode anchors the surface to both sides");
+                    check(surfaceGeometry(root.cc) === ccSurface, "control center edit mode preserves the bounded surface");
                     beginDrag(root.cc, ccContent);
                     dragTo(root.cc, ccContent, 1.4 * ccGain(), 0);
                     check(CcMetrics.gridColumns === CcMetrics.defaultColumns + 1 && CcMetrics.sheetWidth === CcMetrics.sheetWidthFor(CcMetrics.defaultColumns + 1), "control center preview snaps to a column: " + CcMetrics.sheetWidth);
