@@ -117,9 +117,9 @@ ShellRoot {
 
         function settle() {
             wait(0);
-            const surface = root.dash?.contentLoader.item;
-            if (surface)
-                check(!isPolishScheduled(surface) || waitForPolish(surface, 3000), "dashboard layout settled");
+            const window = root.dash?.contentLoader.item?.Window.window;
+            if (window)
+                check(!isPolishScheduled(window) || waitForPolish(window, 3000), "dashboard layout settled");
         }
 
         function open(tab) {

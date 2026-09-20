@@ -21,8 +21,14 @@ FocusScope {
     readonly property var tab: tabLoader.item
     readonly property real tabHeight: tab?.implicitHeight ?? 0
     readonly property real contentHeight: DashMetrics.panelHeightFor(entryId, tabHeight)
-    readonly property real chromeHeight: header.height + Theme.spacingXS * 2 + DashMetrics.contentPadding
+    readonly property real chromeHeight: header.anchors.topMargin + header.height + pages.anchors.topMargin + pages.anchors.bottomMargin
     readonly property real editGutter: editMode ? PopoutMetrics.editOverflow : 0
+    // Mirrors the popout: the frame sits panelChromeInset inside the sheet, the header sits contentPadding
+    // below it, and the cards keep clear of the corner grips by the gutter.
+    readonly property real editHeaderInset: PopoutMetrics.panelChromeInset + DashMetrics.contentPadding
+    readonly property real editBottomInset: PopoutMetrics.panelChromeInset + PopoutMetrics.editOverflow
+    // Card pills overhang their card by half their height; the header row needs the same clearance below as above.
+    readonly property real editHeaderGap: PopoutMetrics.chromeButtonSize / 2 + DashMetrics.contentPadding
     readonly property int panelColumns: DashMetrics.panelColumnsFor(entryId)
     readonly property int contentRows: DashMetrics.rowsForHeight(tabHeight)
     readonly property int panelRows: Math.max(DashMetrics.panelFloorRowsFor(entryId), contentRows)
@@ -141,11 +147,11 @@ FocusScope {
             top: parent.top
             left: parent.left
             right: parent.right
-            topMargin: Theme.spacingXS
+            topMargin: root.editMode ? root.editHeaderInset : DashMetrics.islandHeaderInset
             leftMargin: DashMetrics.contentPadding + root.editGutter
             rightMargin: DashMetrics.contentPadding + root.editGutter
         }
-        height: Theme.minimumTouchTargetSize
+        height: DashMetrics.islandHeaderHeight
 
         DashPageTitle {
             id: pageTitle
@@ -158,7 +164,7 @@ FocusScope {
         DashPageActions {
             id: pageActions
             visible: root.editMode
-            anchors.right: parent.right
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             width: Math.min(parent.width, implicitWidth)
             height: parent.height
@@ -180,13 +186,13 @@ FocusScope {
         enabled: !tabOptions.shown && !pageActions.menuOpen
         anchors {
             top: header.bottom
-            topMargin: Theme.spacingXS
+            topMargin: root.editMode ? root.editHeaderGap : DashMetrics.islandHeaderInset
             left: parent.left
             right: parent.right
             bottom: parent.bottom
             leftMargin: DashMetrics.contentPadding + root.editGutter
             rightMargin: DashMetrics.contentPadding + root.editGutter
-            bottomMargin: DashMetrics.contentPadding + root.editGutter
+            bottomMargin: root.editMode ? root.editBottomInset : DashMetrics.contentPadding
         }
         contentHeight: tabLoader.height
         clip: contentHeight > height

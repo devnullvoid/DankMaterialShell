@@ -18,6 +18,9 @@ Singleton {
     readonly property real popoutWidthWide: popoutWidth + weekColumnWidth + Theme.spacingS
     readonly property real contentPadding: Theme.spacingM
     readonly property real contentGap: Theme.spacingM
+    readonly property real islandHeaderHeight: Theme.minimumTouchTargetSize
+    readonly property real islandHeaderInset: Theme.spacingXS
+    readonly property real islandChromeHeight: islandHeaderHeight + islandHeaderInset * 2 + contentPadding
     readonly property real spinnerSize: Theme.iconButtonSize
     readonly property real triggerWidth: CcMetrics.triggerWidth
     readonly property int transitionDuration: CcMetrics.transitionDuration
