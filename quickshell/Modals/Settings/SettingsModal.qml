@@ -171,6 +171,7 @@ DankFloatingWindow {
 
     onVisibleChanged: {
         if (!visible) {
+            pageHistory = [];
             closingModal();
         } else if (!isCompactMode || menuVisible) {
             Qt.callLater(() => {

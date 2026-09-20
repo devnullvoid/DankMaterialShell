@@ -5,7 +5,6 @@ import QtQuick.Templates as T
 import qs.Common
 import qs.Services
 import qs.Widgets
-import "../../../Common/QmlUtils.js" as QmlUtils
 
 T.Control {
     id: root
@@ -46,7 +45,7 @@ T.Control {
     property alias leading: leadingSlot.data
     property alias body: bodySlot.data
 
-    readonly property bool hasBody: bodySlot.visibleChildren.length > 0
+    readonly property bool hasBody: bodySlot.height > 0
     readonly property bool hasText: title !== "" || subtitle !== ""
     readonly property bool isHighlighted: settingKey !== "" && SettingsSearchService.highlightSection === settingKey
     readonly property bool isFirstInGroup: _edge(true)
@@ -107,22 +106,9 @@ T.Control {
     height: implicitHeight
     implicitHeight: paddingV * 2 + headerLine.height + (hasBody ? bodySlot.height + (headerLine.height > 0 ? Theme.spacingM : 0) : 0)
 
-    Component.onCompleted: {
-        if (!settingKey)
-            return;
-        const key = settingKey;
-        Qt.callLater(() => {
-            if (!root.parent)
-                return;
-            const flickable = QmlUtils.findParentFlickable(root.parent);
-            if (flickable)
-                SettingsSearchService.registerCard(key, root, flickable, QmlUtils.findParentCollapsible(root.parent));
-        });
-    }
-
-    Component.onDestruction: {
-        if (settingKey)
-            SettingsSearchService.unregisterCard(settingKey, root);
+    SettingsSearchRegistration {
+        target: root
+        settingKey: root.settingKey
     }
 
     Rectangle {
