@@ -215,10 +215,14 @@ QtObject {
     }
 
     function setEditing(activityId, editing) {
-        if (editing)
+        if (editing) {
             editingActivity = activityId;
-        else if (editingActivity === activityId)
+            // Option sheets open child popups; a hover peek would collapse under them
+            hoverExpanded = false;
+            hoverCloseTimer.stop();
+        } else if (editingActivity === activityId) {
             editingActivity = "";
+        }
     }
 
     function editGutterFor(activityId) {
