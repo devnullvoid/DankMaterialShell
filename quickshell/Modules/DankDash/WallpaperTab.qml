@@ -465,7 +465,7 @@ Item {
         showDotAndDotDot: false
         showHidden: false
         caseSensitive: false
-        nameFilters: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr"]
+        nameFilters: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr", "*.svg"]
         showFiles: true
         showDirs: false
         sortField: {
@@ -515,7 +515,7 @@ Item {
             browserTitle: I18n.tr("Select Wallpaper Directory", "wallpaper directory file browser title")
             browserType: "wallpaper"
             showHiddenFiles: false
-            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr"]
+            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr", "*.svg"]
             parentPopout: root.parentPopout
 
             onFileSelected: path => {

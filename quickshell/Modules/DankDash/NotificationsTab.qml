@@ -158,7 +158,7 @@ FocusScope {
             id: historyButton
             visible: SettingsData.notificationHistoryEnabled
             buttonSize: Theme.iconButtonSize
-            iconName: root.currentTab === 1 ? "notifications" : "history"
+            iconName: root.currentTab === 1 ? "inbox" : "history"
             backgroundColor: Theme.secondaryContainer
             iconColor: Theme.onSecondaryContainer
             tooltipText: root.currentTab === 1 ? I18n.tr("Current", "notification center tab") : I18n.tr("History", "notification center tab")

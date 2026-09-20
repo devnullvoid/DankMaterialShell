@@ -603,6 +603,12 @@ var LOCAL_SPEC = {
     keybindsFloatingWindow: {
         def: false
     },
+    dashTabPosition: {
+        def: "auto"
+    },
+    dashTabsEvenlySpaced: {
+        def: true
+    },
     dashTabs: {
         def: [
             {

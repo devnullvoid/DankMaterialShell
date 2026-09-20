@@ -113,7 +113,7 @@ QtObject {
     function dashEntryIdFor(activityId) {
         switch (activityId) {
         case "home":
-            return DashRegistry.fallbackId;
+            return DashRegistry.overviewId;
         case "notificationcenter":
             return "notifications";
         }

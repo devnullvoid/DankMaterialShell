@@ -68,16 +68,17 @@ FocusScope {
     clip: true
     LayoutMirroring.enabled: I18n.isRtl
     LayoutMirroring.childrenInherit: true
-    KeyNavigation.tab: root.tab?.focusTarget ?? null
+    KeyNavigation.tab: !root.editMode && !tabOptions.shown && !pageActions.menuOpen ? root.tab?.focusTarget ?? null : null
 
     function focusFace() {
+        pageActions.clearFocus();
         (root.tab?.focusTarget ?? root).forceActiveFocus();
         return true;
     }
 
     function focusHeader(backwards) {
-        const targets = root.editMode ? editControls.focusTargets : [menuButton];
-        targets[backwards ? targets.length - 1 : 0].forceActiveFocus();
+        const targets = root.editMode ? pageActions.focusTargets : [pageTitle.focusTarget];
+        targets[backwards ? targets.length - 1 : 0]?.forceActiveFocus(backwards ? Qt.BacktabFocusReason : Qt.TabFocusReason);
     }
 
     function reportHeight() {
@@ -90,7 +91,7 @@ FocusScope {
         if (live)
             return;
         editMode = false;
-        headerMenu.close();
+        pageActions.closeMenu();
         tabOptions.dismiss();
     }
     onEditModeChanged: {
@@ -100,13 +101,29 @@ FocusScope {
             return;
         }
         Qt.callLater(() => {
-            if (root.live && root.editMode)
-                root.focusHeader(false);
+            if (!root.live || !root.editMode)
+                return;
+            pageActions.clearFocus();
+            pageTitle.focusTarget.focus = false;
+            tabLoader.focus = false;
+            root.forceActiveFocus(Qt.OtherFocusReason);
         });
     }
 
     Keys.onPressed: event => {
+        if (tabOptions.shown || pageActions.menuOpen)
+            return;
+        if (root.editMode && (event.key === Qt.Key_Tab || event.key === Qt.Key_Backtab)) {
+            root.focusHeader(event.key === Qt.Key_Backtab || !!(event.modifiers & Qt.ShiftModifier));
+            event.accepted = true;
+            return;
+        }
         if (root.tab?.handleKeyEvent?.(event) === true) {
+            event.accepted = true;
+            return;
+        }
+        if (!root.editMode && (event.key === Qt.Key_F2 || (event.key === Qt.Key_E && (event.modifiers & Qt.ControlModifier)))) {
+            root.editMode = true;
             event.accepted = true;
             return;
         }
@@ -119,6 +136,7 @@ FocusScope {
 
     Item {
         id: header
+        enabled: !tabOptions.shown && !pageActions.menuOpen
         anchors {
             top: parent.top
             left: parent.left
@@ -127,30 +145,29 @@ FocusScope {
             leftMargin: DashMetrics.contentPadding + root.editGutter
             rightMargin: DashMetrics.contentPadding + root.editGutter
         }
-        height: root.editMode ? editControls.height : Theme.buttonHeightXS
+        height: Theme.minimumTouchTargetSize
 
-        DankActionButton {
-            id: menuButton
-            anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            buttonSize: Theme.buttonHeightXS
-            iconName: "more_vert"
-            Accessible.name: I18n.tr("Options")
+        DashPageTitle {
+            id: pageTitle
+            anchors.fill: parent
+            entryId: root.entryId
             visible: !root.editMode
-            KeyNavigation.tab: root.tab?.focusTarget ?? null
-            KeyNavigation.backtab: root.tab?.previousFocusTarget ?? root.tab?.focusTarget ?? null
-            onClicked: headerMenu.openAt(menuButton)
+            onEditRequested: root.editMode = true
         }
 
-        DashEditControls {
-            id: editControls
-            anchors.left: parent.left
+        DashPageActions {
+            id: pageActions
+            visible: root.editMode
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
-            visible: root.editMode
-            canAdd: (root.tab?.addable?.length ?? 0) > 0
-            onAddRequested: anchor => root.tab?.openAddMenu(anchor)
-            onMenuRequested: anchor => headerMenu.openAt(anchor)
+            width: Math.min(parent.width, implicitWidth)
+            height: parent.height
+            overlayParent: root
+            entryId: root.entryId
+            tabItem: root.tab
+            editMode: root.editMode
+            panelResizable: true
+            onOptionsRequested: tabOptions.presentFor(root.entryId)
             onFinished: {
                 root.editMode = false;
                 root.focusFace();
@@ -160,6 +177,7 @@ FocusScope {
 
     DankFlickable {
         id: pages
+        enabled: !tabOptions.shown && !pageActions.menuOpen
         anchors {
             top: header.bottom
             topMargin: Theme.spacingXS
@@ -227,19 +245,6 @@ FocusScope {
     DashOptionsSheet {
         id: tabOptions
         onDismissed: root.focusFace()
-    }
-
-    DashPageMenu {
-        id: headerMenu
-        entryId: root.entryId
-        tabItem: root.tab
-        editMode: root.editMode
-        onEditRequested: root.editMode = true
-        onOptionsRequested: tabOptions.presentFor(root.entryId)
-        onSettingsRequested: {
-            root.controller.requestCollapse();
-            PopoutService.openSettingsWithTab("dank_dash");
-        }
     }
 
     Component.onDestruction: root.controller.setEditing(root.activityId, false)

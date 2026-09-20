@@ -12000,6 +12000,20 @@
     "description": "Tabs and weather"
   },
   {
+    "section": "dashTabsEvenlySpaced",
+    "label": "Evenly space tabs",
+    "tabIndex": 43,
+    "category": "Dashboard",
+    "keywords": [
+      "dashboard",
+      "evenly",
+      "navigation",
+      "space",
+      "spacing",
+      "tabs"
+    ]
+  },
+  {
     "section": "dashMediaSettings",
     "label": "Media player",
     "tabIndex": 43,
@@ -12016,12 +12030,26 @@
     "icon": "music_note"
   },
   {
+    "section": "dashTabPosition",
+    "label": "Position",
+    "tabIndex": 43,
+    "category": "Dashboard",
+    "keywords": [
+      "dashboard",
+      "navigation",
+      "position",
+      "tabs"
+    ]
+  },
+  {
     "section": "dashTabs",
     "label": "Tabs",
     "tabIndex": 43,
     "category": "Dashboard",
     "keywords": [
       "dashboard",
+      "navigation",
+      "position",
       "tabs"
     ],
     "icon": "refresh"

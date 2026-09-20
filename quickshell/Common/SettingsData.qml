@@ -466,6 +466,8 @@ Singleton {
             "enabled": false
         }
     ]
+    property string dashTabPosition: Spec.SPEC.dashTabPosition.def
+    property bool dashTabsEvenlySpaced: Spec.SPEC.dashTabsEvenlySpaced.def
     property var dashTabs: Spec.SPEC.dashTabs.def
     onDashTabsChanged: saveSettings()
 

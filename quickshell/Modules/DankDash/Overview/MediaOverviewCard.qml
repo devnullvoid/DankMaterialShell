@@ -32,7 +32,7 @@ Card {
 
     entryId: "media"
     clickable: true
-    pad: compact ? Theme.spacingS : Theme.spacingM
+    pad: Theme.spacingM
 
     Keys.onShortcutOverride: event => {
         if (!root.interactive || event.key !== Qt.Key_F6)

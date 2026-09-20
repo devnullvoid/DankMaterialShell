@@ -10,7 +10,8 @@ Singleton {
     id: root
 
     readonly property string pluginPrefix: "plugin_"
-    readonly property string fallbackId: "overview"
+    readonly property string overviewId: "overview"
+    readonly property string defaultTabId: visibleTabIds[0] ?? ""
     readonly property string widgetsKey: "widgets"
 
     readonly property var toneChoices: [
@@ -83,7 +84,6 @@ Singleton {
             "text": I18n.tr("Overview", "dashboard tab name"),
             "icon": "dashboard",
             "description": I18n.tr("Clock, calendar, system info and profile"),
-            "locked": true,
             "tab": {
                 "component": overviewTab
             }
@@ -398,7 +398,7 @@ Singleton {
                 continue;
             seen[tab.id] = true;
             result.push(Object.assign({
-                "enabled": tab.enabled || def.locked === true
+                "enabled": tab.enabled
             }, def));
         }
         for (const def of known) {
@@ -616,7 +616,7 @@ Singleton {
     }
 
     function indexId(index) {
-        return visibleTabIds[index] ?? fallbackId;
+        return visibleTabIds[index] ?? defaultTabId;
     }
 
     function resolveId(tab) {
@@ -624,13 +624,13 @@ Singleton {
             return indexId(tab);
         const raw = String(tab ?? "").trim();
         if (raw === "")
-            return fallbackId;
+            return defaultTabId;
         if (/^\d+$/.test(raw))
             return indexId(parseInt(raw));
         if (hasTab(raw))
             return raw;
         const lower = raw.toLowerCase();
-        return tabIds.find(id => id.toLowerCase() === lower) ?? fallbackId;
+        return tabIds.find(id => id.toLowerCase() === lower) ?? defaultTabId;
     }
 
     function indexOf(id) {
