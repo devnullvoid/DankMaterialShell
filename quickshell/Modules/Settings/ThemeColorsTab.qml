@@ -21,7 +21,6 @@ Item {
     readonly property string matugenPreviewSource: SettingsData.matugenSeedColor || Theme.getMatugenColor("source_color", Theme.primary).toString()
     readonly property string matugenPreviewImage: (!SettingsData.matugenSeedColor && Theme.rawWallpaperPath && !Theme.rawWallpaperPath.startsWith("#")) ? Theme.rawWallpaperPath : ""
     readonly property string matugenPreviewKey: matugenPreviewSource + "|" + (SettingsData.matugenContrast ?? 0) + "|" + matugenPreviewImage + "|" + SettingsData.matugenSpec
-    property bool matugenGenerating: false
     readonly property var currentPalette: ThemePalette.pick({
         "primary": Theme.primary,
         "secondary": Theme.secondary,
@@ -32,7 +31,7 @@ Item {
         "warning": Theme.warning
     })
     property bool matugenPreviewFailed: false
-    readonly property bool matugenPreviewsReady: !matugenGenerating && (matugenPreviewLoadedKey === matugenPreviewKey || matugenPreviewFailed || !Theme.matugenAvailable)
+    readonly property bool matugenPreviewsReady: matugenPreviewLoadedKey === matugenPreviewKey || matugenPreviewFailed || !Theme.matugenAvailable
     onMatugenPreviewKeyChanged: refreshMatugenSchemePreviews()
     property var installedRegistryThemes: []
     readonly property var matugenSchemeOptions: {
@@ -113,12 +112,6 @@ Item {
         target: Theme
         function onMatugenAvailableChanged() {
             themeColorsTab.refreshMatugenSchemePreviews();
-        }
-        function onThemeGenerationStarting() {
-            themeColorsTab.matugenGenerating = true;
-        }
-        function onMatugenCompleted() {
-            themeColorsTab.matugenGenerating = false;
         }
     }
 

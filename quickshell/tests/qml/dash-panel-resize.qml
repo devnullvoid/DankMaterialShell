@@ -1,6 +1,5 @@
 import QtQuick
 import Quickshell
-import Quickshell.Wayland
 import qs.Common
 import qs.Services
 import qs.Modules.DankDash
@@ -80,11 +79,6 @@ ShellRoot {
         return host.resizing && host.renderedAlignedX === host.alignedX;
     }
 
-    function surfaceGeometry(host) {
-        const window = host.contentWindow;
-        return JSON.stringify([window.anchors.right, window.implicitWidth, window.WlrLayershell.margins.left]);
-    }
-
     Component {
         id: dashComponent
         DankDashPopout {}
@@ -127,11 +121,9 @@ ShellRoot {
                 root.baseRows = c.panelRows;
                 check(root.baseRows >= DashMetrics.minimumTabRows && DashMetrics.storedPanelRows("overview") === 0, "unset rows fit the cards: " + root.baseRows);
                 check(!root.popout.contentWindow.anchors.right, "surface hugs the body outside edit mode");
-                const dashSurface = surfaceGeometry(root.popout);
                 root.popout.editMode = true;
                 check(root.popout.popupWidth === widthFor(DashMetrics.defaultGridColumns), "edit mode keeps the panel width");
-                check(surfaceGeometry(root.popout) === dashSurface, "entering edit mode preserves the bounded surface");
-                check(root.popout.contentWindow.implicitWidth >= root.popout.popupWidth + PopoutMetrics.editOverflow * 4, "surface reserves the edit handle padding");
+                check(!root.popout.contentWindow.anchors.right && root.popout.contentWindow.implicitWidth >= widthFor(root.popout.columnCap) + PopoutMetrics.editOverflow * 4, "edit mode holds a bounded surface wide enough for the column cap plus handle padding");
                 beginDrag(root.popout, c);
                 dragTo(root.popout, c, 2 * columnGain(), 0);
                 check(DashMetrics.panelPreview?.columns === 8, "preview snaps two columns wider: " + JSON.stringify(DashMetrics.panelPreview));
@@ -352,10 +344,9 @@ ShellRoot {
                     const ccContent = root.cc.contentLoader?.item ?? null;
                     check(root.cc.shouldBeVisible && ccContent, "control center open");
                     check(root.cc.popupWidth === CcMetrics.sheetWidthDefault, "control center default width");
-                    const ccSurface = surfaceGeometry(root.cc);
                     root.cc.editMode = true;
                     check(root.cc.popupWidth === CcMetrics.sheetWidthDefault, "control center edit mode keeps the sheet width");
-                    check(surfaceGeometry(root.cc) === ccSurface, "control center edit mode preserves the bounded surface");
+                    check(!root.cc.contentWindow.anchors.right && root.cc.contentWindow.implicitWidth >= CcMetrics.sheetWidthFor(root.cc.gridColumnCap) + PopoutMetrics.editOverflow * 4, "control center edit mode holds a bounded surface wide enough for the column cap");
                     beginDrag(root.cc, ccContent);
                     dragTo(root.cc, ccContent, 1.4 * ccGain(), 0);
                     check(CcMetrics.gridColumns === CcMetrics.defaultColumns + 1 && CcMetrics.sheetWidth === CcMetrics.sheetWidthFor(CcMetrics.defaultColumns + 1), "control center preview snaps to a column: " + CcMetrics.sheetWidth);

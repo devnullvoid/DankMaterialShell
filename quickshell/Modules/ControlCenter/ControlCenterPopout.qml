@@ -15,6 +15,7 @@ DankPopout {
     resizing: contentLoader.item?.panelResizing ?? false
     surfacePadding: PopoutMetrics.editOverflow * 2
     inputMargin: editMode ? PopoutMetrics.editOverflow * 2 : 0
+    minimumSurfaceWidth: editMode ? CcMetrics.sheetWidthFor(gridColumnCap) : 0
 
     property string expandedSection: ""
     property string pendingSection: ""

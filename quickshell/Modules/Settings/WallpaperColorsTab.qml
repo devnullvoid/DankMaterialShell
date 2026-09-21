@@ -14,7 +14,6 @@ Column {
     id: root
 
     property var parentModal: null
-    property string browseTarget: "desktop"
     property var cachedIconThemes: SettingsData.availableIconThemes
     property var cachedCursorThemes: SettingsData.availableCursorThemes
 
@@ -27,7 +26,6 @@ Column {
     }
     readonly property bool hasWallpaper: currentWallpaper !== ""
     readonly property bool wallpaperIsImage: hasWallpaper && !currentWallpaper.startsWith("#")
-    readonly property bool canCycleWallpaper: wallpaperIsImage && !currentWallpaper.startsWith("we")
     readonly property bool cyclingEnabled: {
         SessionData.monitorCyclingSettings;
         return perMonitor ? SessionData.getMonitorCyclingSettings(selectedScreen).enabled : SessionData.wallpaperCyclingEnabled;
@@ -41,6 +39,7 @@ Column {
         "error": Theme.error,
         "warning": Theme.warning
     })
+    readonly property string modeLabel: SessionData.isLightMode ? I18n.tr("Light", "adjective, wallpaper thumbnail label for light mode") : I18n.tr("Dark", "adjective, wallpaper thumbnail label for dark mode")
     readonly property string colorModeStatus: {
         if (SettingsData.matugenSmartMode)
             return I18n.tr("Wallpaper");
@@ -92,22 +91,13 @@ Column {
         return I18n.tr("No displays");
     }
 
-    function openBrowser(target) {
-        browseTarget = target;
+    function openBrowser() {
         wallpaperBrowserLoader.active = true;
         if (wallpaperBrowserLoader.item)
             wallpaperBrowserLoader.item.open();
     }
 
-    function applyBrowsedPath(path) {
-        switch (browseTarget) {
-        case "light":
-            SessionData.setWallpaperForMode(path, true);
-            return;
-        case "dark":
-            SessionData.setWallpaperForMode(path, false);
-            return;
-        }
+    function applyWallpaper(path) {
         if (perMonitor) {
             SessionData.setMonitorWallpaper(selectedScreen, path);
             SessionData.setMonitorCyclingFolderPath(selectedScreen, "");
@@ -118,23 +108,26 @@ Column {
         SessionData.saveSettings();
     }
 
-    function pickColor(target, current, title) {
+    function pickColor() {
         const picker = PopoutService.colorPickerModal;
         if (!picker)
             return;
-        picker.selectedColor = current.startsWith("#") ? current : Theme.primary;
-        picker.pickerTitle = title;
+        picker.selectedColor = currentWallpaper.startsWith("#") ? currentWallpaper : Theme.primary;
+        picker.pickerTitle = I18n.tr("Choose Wallpaper Color", "wallpaper color picker title");
         picker.onColorSelectedCallback = function (color) {
-            root.browseTarget = target;
-            root.applyBrowsedPath(color.toString());
+            root.applyWallpaper(color.toString());
         };
         picker.show();
     }
 
-    function clearDesktopWallpaper() {
+    function clearWallpaper() {
         if (perMonitor) {
             SessionData.setMonitorWallpaper(selectedScreen, "");
             SessionData.setMonitorCyclingFolderPath(selectedScreen, "");
+            return;
+        }
+        if (perMode) {
+            SessionData.setWallpaperForMode("", SessionData.isLightMode);
             return;
         }
         if (Theme.currentTheme === Theme.dynamic)
@@ -142,24 +135,6 @@ Column {
         SessionData.clearWallpaper();
         SessionData.wallpaperCyclingFolderPath = "";
         SessionData.saveSettings();
-    }
-
-    function cycleWallpaper(previous) {
-        if (!canCycleWallpaper)
-            return;
-        if (perMonitor) {
-            if (previous) {
-                WallpaperCyclingService.cyclePrevForMonitor(selectedScreen);
-                return;
-            }
-            WallpaperCyclingService.cycleNextForMonitor(selectedScreen);
-            return;
-        }
-        if (previous) {
-            WallpaperCyclingService.cyclePrevManually();
-            return;
-        }
-        WallpaperCyclingService.cycleNextManually();
     }
 
     ConfigInclude {
@@ -189,10 +164,87 @@ Column {
         ToastService.showError(I18n.tr("Missing Environment Variables", "qt theme env error title"), I18n.tr("You need to set one of:\nQT_QPA_PLATFORMTHEME=gtk3 OR\nQT_QPA_PLATFORMTHEME=qt6ct OR\nQT_QPA_PLATFORMTHEME=qtengine\nas environment variables, and then restart the shell.\n\nOnly qt6ct requires qt6ct-kde to be installed.", "qt theme env error body"));
     }
 
+    component QuickTile: Rectangle {
+        id: tile
+
+        property string title: ""
+        property string hint: ""
+        default property alias leading: leadingSlot.data
+
+        signal clicked
+
+        width: parent.width
+        height: Theme.listItemTwoLineHeight
+        radius: Theme.cornerRadiusM
+        color: Theme.foregroundColor(Theme.chipSurface, true)
+
+        activeFocusOnTab: true
+        Accessible.role: Accessible.Button
+        Accessible.name: title
+        Accessible.description: hint
+        Accessible.onPressAction: tile.clicked()
+        Keys.onSpacePressed: tile.clicked()
+        Keys.onReturnPressed: tile.clicked()
+
+        FocusRing {}
+
+        Item {
+            id: leadingSlot
+            width: Theme.avatarSize
+            height: Theme.avatarSize
+            anchors.left: parent.left
+            anchors.leftMargin: Theme.spacingM
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        Column {
+            anchors.left: leadingSlot.right
+            anchors.leftMargin: Theme.spacingM
+            anchors.right: chevron.left
+            anchors.rightMargin: Theme.spacingS
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: Theme.spacingXXS
+
+            StyledText {
+                width: parent.width
+                text: tile.title
+                font.pixelSize: Theme.fontSizeMedium
+                font.weight: Theme.fontWeightMedium
+                color: Theme.surfaceText
+                elide: Text.ElideRight
+            }
+
+            StyledText {
+                width: parent.width
+                text: tile.hint
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.surfaceVariantText
+                elide: Text.ElideRight
+            }
+        }
+
+        DankIcon {
+            id: chevron
+            name: "chevron_right"
+            size: Theme.iconSize
+            color: Theme.surfaceVariantText
+            rotation: I18n.isRtl ? 180 : 0
+            anchors.right: parent.right
+            anchors.rightMargin: Theme.spacingM
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        StateLayer {
+            stateColor: Theme.surfaceText
+            cornerRadius: tile.radius
+            onClicked: tile.clicked()
+        }
+    }
+
     SettingsCard {
         tab: "wallpaper"
-        tags: ["background", "image", "picture", "light", "dark", "mode", "monitor", "display"]
-        title: I18n.tr("Wallpaper")
+        tags: ["background", "image", "picture", "light", "dark", "mode", "theme", "color", "palette"]
+        title: I18n.tr("Appearance")
         settingKey: "wallpaper"
 
         SettingsDropdownRow {
@@ -210,189 +262,89 @@ Column {
             settingKey: "colorMode"
             tags: ["light", "dark", "mode", "theme", "color", "palette"]
             body: Flow {
-                id: thumbs
+                id: hero
 
-                readonly property real thumbWidth: (width - spacing) / 2
+                readonly property bool stacked: width < SettingsMetrics.wallpaperHeroStackWidth
+                readonly property real thumbWidth: stacked ? width : Math.round(width * SettingsMetrics.wallpaperHeroSplit)
 
                 width: parent.width
                 spacing: Theme.spacingL
 
                 SettingsWallpaperThumb {
-                    width: thumbs.thumbWidth
-                    visible: !root.perMode
+                    width: hero.thumbWidth
                     path: root.currentWallpaper
-                    canCycle: root.canCycleWallpaper
-                    onBrowse: root.openBrowser("desktop")
-                    onPickColor: root.pickColor("desktop", root.currentWallpaper, I18n.tr("Choose Wallpaper Color", "wallpaper color picker title"))
-                    onClear: root.clearDesktopWallpaper()
-                    onPrevious: root.cycleWallpaper(true)
-                    onNext: root.cycleWallpaper(false)
+                    badge: root.perMode ? root.modeLabel : ""
+                    onBrowse: root.openBrowser()
+                    onPickColor: root.pickColor()
+                    onClear: root.clearWallpaper()
                 }
 
-                SettingsWallpaperThumb {
-                    width: thumbs.thumbWidth
-                    visible: root.perMode
-                    label: I18n.tr("Light", "adjective, wallpaper thumbnail label for light mode")
-                    placeholderIcon: "light_mode"
-                    path: SessionData.wallpaperPathLight
-                    canCycle: SessionData.isLightMode && root.canCycleWallpaper
-                    onBrowse: root.openBrowser("light")
-                    onPickColor: root.pickColor("light", SessionData.wallpaperPathLight, I18n.tr("Choose Light Mode Color", "light mode wallpaper color picker title"))
-                    onClear: {
-                        root.browseTarget = "light";
-                        root.applyBrowsedPath("");
-                    }
-                    onPrevious: root.cycleWallpaper(true)
-                    onNext: root.cycleWallpaper(false)
-                }
+                Column {
+                    width: hero.stacked ? hero.width : hero.width - hero.thumbWidth - hero.spacing
+                    spacing: Theme.spacingM
 
-                SettingsWallpaperThumb {
-                    width: thumbs.thumbWidth
-                    visible: root.perMode
-                    label: I18n.tr("Dark", "adjective, wallpaper thumbnail label for dark mode")
-                    placeholderIcon: "dark_mode"
-                    path: SessionData.wallpaperPathDark
-                    canCycle: !SessionData.isLightMode && root.canCycleWallpaper
-                    onBrowse: root.openBrowser("dark")
-                    onPickColor: root.pickColor("dark", SessionData.wallpaperPathDark, I18n.tr("Choose Dark Mode Color", "dark mode wallpaper color picker title"))
-                    onClear: {
-                        root.browseTarget = "dark";
-                        root.applyBrowsedPath("");
-                    }
-                    onPrevious: root.cycleWallpaper(true)
-                    onNext: root.cycleWallpaper(false)
-                }
-
-                Item {
-                    id: quickPanel
-                    width: root.perMode ? thumbs.width : thumbs.thumbWidth
-                    height: root.perMode ? quickColumn.implicitHeight : thumbs.thumbWidth * SettingsMetrics.wallpaperThumbRatio
-
-                    Column {
-                        id: quickColumn
+                    DankButtonGroup {
                         width: parent.width
-                        spacing: Theme.spacingM
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        Row {
-                            id: modeRow
-                            width: parent.width
-                            spacing: Theme.spacingS
-
-                            DankButtonGroup {
-                                width: parent.width - scheduleButton.width - parent.spacing
-                                fillWidth: true
-                                checkEnabled: false
-                                anchors.verticalCenter: parent.verticalCenter
-                                model: [
-                                    {
-                                        "text": I18n.tr("Light", "adjective, wallpaper thumbnail label for light mode"),
-                                        "icon": "light_mode"
-                                    },
-                                    {
-                                        "text": I18n.tr("Dark", "adjective, wallpaper thumbnail label for dark mode"),
-                                        "icon": "dark_mode"
-                                    }
-                                ]
-                                currentIndex: SessionData.isLightMode ? 0 : 1
-                                selectionMode: "single"
-                                onSelectionChanged: (index, selected) => {
-                                    if (!selected)
-                                        return;
-                                    const light = index === 0;
-                                    if (light === SessionData.isLightMode)
-                                        return;
-                                    Theme.screenTransition();
-                                    Theme.setLightMode(light);
-                                }
+                        fillWidth: true
+                        checkEnabled: false
+                        model: [
+                            {
+                                "text": I18n.tr("Light", "adjective, wallpaper thumbnail label for light mode"),
+                                "icon": "light_mode"
+                            },
+                            {
+                                "text": I18n.tr("Dark", "adjective, wallpaper thumbnail label for dark mode"),
+                                "icon": "dark_mode"
                             }
-
-                            DankActionButton {
-                                id: scheduleButton
-                                iconName: "schedule"
-                                anchors.verticalCenter: parent.verticalCenter
-                                Accessible.name: I18n.tr("Dark mode")
-                                tooltipText: root.colorModeStatus
-                                onClicked: root.parentModal?.navigateTo("theme_schedule")
-                            }
+                        ]
+                        currentIndex: SessionData.isLightMode ? 0 : 1
+                        selectionMode: "single"
+                        onSelectionChanged: (index, selected) => {
+                            if (!selected)
+                                return;
+                            const light = index === 0;
+                            if (light === SessionData.isLightMode)
+                                return;
+                            Theme.screenTransition();
+                            Theme.setLightMode(light);
                         }
+                    }
 
-                        Rectangle {
-                            id: themeTile
-                            width: parent.width
-                            height: Theme.listItemTwoLineHeight
-                            radius: Theme.cornerRadiusM
-                            color: Theme.foregroundColor(Theme.chipSurface, true)
+                    QuickTile {
+                        title: I18n.tr("Dark mode")
+                        hint: root.colorModeStatus
+                        onClicked: root.parentModal?.navigateTo("theme_schedule")
 
-                            activeFocusOnTab: true
-                            Accessible.role: Accessible.Button
-                            Accessible.name: I18n.tr("Theme & colors")
-                            Accessible.description: Theme.currentThemeLabel
-                            Accessible.onPressAction: root.parentModal?.navigateTo("theme")
-                            Keys.onSpacePressed: root.parentModal?.navigateTo("theme")
-                            Keys.onReturnPressed: root.parentModal?.navigateTo("theme")
+                        DankIcon {
+                            anchors.centerIn: parent
+                            name: "schedule"
+                            size: Theme.iconSize
+                            color: Theme.primary
+                        }
+                    }
 
-                            FocusRing {}
+                    QuickTile {
+                        title: I18n.tr("Theme & colors")
+                        hint: Theme.currentThemeLabel
+                        onClicked: root.parentModal?.navigateTo("theme")
 
-                            DankPaletteSwatch {
-                                id: themeSwatch
-                                width: Theme.avatarSize
-                                height: Theme.avatarSize
-                                anchors.left: parent.left
-                                anchors.leftMargin: Theme.spacingM
-                                anchors.verticalCenter: parent.verticalCenter
-                                primaryColor: root.themePalette.primary
-                                secondaryColor: root.themePalette.secondary
-                                tertiaryColor: root.themePalette.tertiary
-                            }
-
-                            Column {
-                                anchors.left: themeSwatch.right
-                                anchors.leftMargin: Theme.spacingM
-                                anchors.right: themeChevron.left
-                                anchors.rightMargin: Theme.spacingS
-                                anchors.verticalCenter: parent.verticalCenter
-                                spacing: Theme.spacingXXS
-
-                                StyledText {
-                                    width: parent.width
-                                    text: I18n.tr("Theme & colors")
-                                    font.pixelSize: Theme.fontSizeMedium
-                                    font.weight: Theme.fontWeightMedium
-                                    color: Theme.surfaceText
-                                    elide: Text.ElideRight
-                                }
-
-                                StyledText {
-                                    width: parent.width
-                                    text: Theme.currentThemeLabel
-                                    font.pixelSize: Theme.fontSizeSmall
-                                    color: Theme.surfaceVariantText
-                                    elide: Text.ElideRight
-                                }
-                            }
-
-                            DankIcon {
-                                id: themeChevron
-                                name: "chevron_right"
-                                size: Theme.iconSize
-                                color: Theme.surfaceVariantText
-                                rotation: I18n.isRtl ? 180 : 0
-                                anchors.right: parent.right
-                                anchors.rightMargin: Theme.spacingM
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-
-                            StateLayer {
-                                stateColor: Theme.surfaceText
-                                cornerRadius: themeTile.radius
-                                onClicked: root.parentModal?.navigateTo("theme")
-                            }
+                        DankPaletteSwatch {
+                            anchors.fill: parent
+                            primaryColor: root.themePalette.primary
+                            secondaryColor: root.themePalette.secondary
+                            tertiaryColor: root.themePalette.tertiary
                         }
                     }
                 }
             }
         }
+    }
+
+    SettingsCard {
+        tab: "wallpaper"
+        tags: ["background", "image", "picture", "fill", "cycling", "transition", "monitor", "display"]
+        title: I18n.tr("Wallpaper")
+        settingKey: "wallpaperOptions"
 
         SettingsDropdownRow {
             id: fillModeRow
@@ -860,9 +812,10 @@ Column {
             browserTitle: I18n.tr("Select Wallpaper", "wallpaper file browser title")
             browserType: "wallpaper"
             showHiddenFiles: true
+            revealPath: root.currentWallpaper
             fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr", "*.svg"]
             onFileSelected: path => {
-                root.applyBrowsedPath(path);
+                root.applyWallpaper(path);
                 close();
             }
         }
