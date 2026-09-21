@@ -6,7 +6,6 @@ import qs.Widgets
 Rectangle {
     id: root
 
-    property string badge: ""
     property string path: ""
     property string placeholderIcon: "image"
     property string emptyText: I18n.tr("Not set", "wallpaper not set label")
@@ -111,20 +110,28 @@ Rectangle {
 
     Rectangle {
         id: chip
+
         anchors.left: parent.left
         anchors.bottom: parent.bottom
         anchors.margins: Theme.spacingS
-        width: Math.min(chipText.implicitWidth + Theme.spacingS * 2, parent.width - Theme.spacingS * 2)
+        // sized from unelided metrics: the elided text's own implicitWidth shrinks with the chip and collapses it
+        width: Math.min(chipMetrics.advanceWidth + Theme.spacingS * 2, parent.width - Theme.spacingS * 2)
         height: chipText.implicitHeight + Theme.spacingXS * 2
         radius: Theme.cornerRadiusS
         color: Theme.withAlpha(Theme.scrimColor, Theme.scrimAlpha)
+
+        TextMetrics {
+            id: chipMetrics
+            font: chipText.font
+            text: chipMetrics.text
+        }
 
         StyledText {
             id: chipText
             anchors.fill: parent
             anchors.leftMargin: Theme.spacingS
             anchors.rightMargin: Theme.spacingS
-            text: root.badge !== "" ? root.badge + " · " + root.fileName : root.fileName
+            text: chipMetrics.text
             font.pixelSize: Theme.fontSizeSmall
             color: Theme.contrastLight
             elide: Text.ElideMiddle

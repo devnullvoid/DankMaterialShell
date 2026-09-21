@@ -130,7 +130,8 @@
       "tint",
       "wallpaper"
     ],
-    "page": "personalization"
+    "page": "personalization",
+    "icon": "schedule"
   },
   {
     "section": "_hub_applications",
@@ -707,34 +708,6 @@
       "palette",
       "picture",
       "timeout",
-      "tint",
-      "wallpaper"
-    ],
-    "page": "personalization"
-  },
-  {
-    "section": "colorMode",
-    "label": "Dark mode",
-    "tabIndex": -1,
-    "category": "Wallpaper & colors",
-    "keywords": [
-      "background",
-      "bg",
-      "color",
-      "colors",
-      "colour",
-      "colours",
-      "dark",
-      "dark mode",
-      "desktop",
-      "hue",
-      "image",
-      "light",
-      "mode",
-      "night",
-      "palette",
-      "picture",
-      "theme",
       "tint",
       "wallpaper"
     ],
@@ -2130,6 +2103,67 @@
       "upgrade"
     ],
     "icon": "memory"
+  },
+  {
+    "section": "colorMode",
+    "label": "Theme & colors",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "appearance",
+      "background",
+      "bg",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "dark",
+      "desktop",
+      "hue",
+      "image",
+      "light",
+      "look",
+      "mode",
+      "palette",
+      "picture",
+      "style",
+      "theme",
+      "tint",
+      "wallpaper"
+    ],
+    "page": "personalization",
+    "icon": "schedule"
+  },
+  {
+    "section": "themeNav",
+    "label": "Theme & colors",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "appearance",
+      "background",
+      "bg",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "custom",
+      "desktop",
+      "dynamic",
+      "hue",
+      "image",
+      "look",
+      "matugen",
+      "palette",
+      "picture",
+      "registry",
+      "style",
+      "theme",
+      "tint",
+      "wallpaper"
+    ],
+    "page": "personalization",
+    "icon": "format_paint"
   },
   {
     "section": "focusRingWidth",
