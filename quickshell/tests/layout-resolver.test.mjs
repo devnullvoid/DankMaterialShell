@@ -145,3 +145,19 @@ test("surface origins include native cross-edge exclusions without adding manual
     assert.equal(frameIsland.instances[0].rowOffset, 12);
     assert.equal(frameIsland.edges.top.reservation, 54);
 });
+
+test("an overview-only bar shares the row of a same-edge bar that retracts for the overview", () => {
+    const main = bar("main");
+    const standIn = bar("standin", 0, { visible: false, openOnOverview: true });
+    const always = bar("always", 0, { openOnOverview: true });
+    const offsets = layout => Object.fromEntries(layout.instances.map(instance => [instance.barId, instance.rowOffset]));
+    const shared = resolve([main, standIn]);
+    assert.deepEqual(offsets(shared), { main: 0, standin: 0 });
+    assert.equal(shared.instances.find(instance => instance.barId === "standin").margins.top, 0);
+    assert.equal(shared.edges.top.occupancy, 44);
+    assert.equal(shared.edges.top.reservation, 44);
+    assert.deepEqual(offsets(resolve([standIn, main])), { standin: 0, main: 0 });
+    assert.deepEqual(offsets(resolve([main, always, standIn])), { main: 0, always: 44, standin: 0 });
+    assert.deepEqual(offsets(resolve([always, standIn])), { always: 0, standin: 44 });
+    assert.deepEqual(offsets(resolve([main, standIn], { effectiveFrameEnabled: true })), { main: 0, standin: 48 });
+});
