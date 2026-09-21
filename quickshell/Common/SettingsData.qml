@@ -178,6 +178,14 @@ Singleton {
     property bool floatingWindowForegroundLayers: Spec.SPEC.floatingWindowForegroundLayers.def
     property real floatingWindowForegroundTransparency: Spec.SPEC.floatingWindowForegroundTransparency.def
     property bool dmsWindowsFloating: Spec.SPEC.dmsWindowsFloating.def
+    property string hostSurfaceColor: Spec.SPEC.hostSurfaceColor.def
+    property string hostSurfaceCustomColor: Spec.SPEC.hostSurfaceCustomColor.def
+    property string cardSurfaceColor: Spec.SPEC.cardSurfaceColor.def
+    property string cardSurfaceCustomColor: Spec.SPEC.cardSurfaceCustomColor.def
+    property string chipSurfaceColor: Spec.SPEC.chipSurfaceColor.def
+    property string chipSurfaceCustomColor: Spec.SPEC.chipSurfaceCustomColor.def
+    property string chipSurfaceNestedColor: Spec.SPEC.chipSurfaceNestedColor.def
+    property string chipSurfaceNestedCustomColor: Spec.SPEC.chipSurfaceNestedCustomColor.def
     property string widgetBackgroundColor: Spec.SPEC.widgetBackgroundColor.def
     property string widgetBackgroundCustomColor: Spec.SPEC.widgetBackgroundCustomColor.def
     property real widgetBackgroundCustomStrength: Spec.SPEC.widgetBackgroundCustomStrength.def
@@ -380,9 +388,18 @@ Singleton {
         _reconcileConnectedFrameBarStyles();
     }
 
+    function _frameBarConfig() {
+        return barConfigs.find(bc => bc.enabled !== false && !isIslandBarConfig(bc));
+    }
+
     readonly property real frameSurfaceOpacity: {
         barConfigs;
-        return barTransparency(barConfigs.find(bc => bc.enabled !== false && !isIslandBarConfig(bc)));
+        return barTransparency(_frameBarConfig());
+    }
+
+    readonly property color frameSurfaceBase: {
+        barConfigs;
+        return barSurfaceColor(_frameBarConfig());
     }
 
     property string systemTrayIconTintMode: Spec.SPEC.systemTrayIconTintMode.def
@@ -2180,6 +2197,10 @@ Singleton {
         if (config?.followInterfaceStyle !== false)
             return popupTransparency;
         return config?.transparency ?? 1.0;
+    }
+
+    function barSurfaceColor(config) {
+        return Theme.surfaceRoleColor(config?.surfaceColor, config?.surfaceCustomColor, Theme.hostSurface);
     }
 
     function widgetOption(widgetType, data, key) {

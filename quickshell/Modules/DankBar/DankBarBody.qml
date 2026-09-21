@@ -390,7 +390,7 @@ Item {
 
     readonly property bool isVertical: axis.isVertical
 
-    readonly property color _hostSurface: Theme.hostSurface
+    readonly property color _hostSurface: SettingsData.barSurfaceColor(barConfig)
     readonly property string _barId: barConfig?.id ?? "default"
     readonly property real _backgroundAlpha: SettingsData.barTransparency(barConfig)
     readonly property color _bgColor: (FrameTransitionState.effectiveFrameEnabled && usesFrameBarChrome) ? Theme.frameSurfaceColor : Theme.withAlpha(_hostSurface, _backgroundAlpha)

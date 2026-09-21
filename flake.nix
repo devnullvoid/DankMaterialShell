@@ -265,6 +265,7 @@
                 gnumake
                 nodejs
                 (python3.withPackages (ps: [ ps.dbus-next ]))
+                matugen
 
                 prek
                 uv # for prek

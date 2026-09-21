@@ -522,6 +522,69 @@ Column {
     }
 
     SettingsCard {
+        tab: "wallpaper"
+        tags: ["surface", "color", "bar", "popout", "modal", "card", "chip", "background", "elevation"]
+        title: I18n.tr("Surfaces")
+        settingKey: "surfaceColors"
+
+        SettingsRow {
+            settingKey: "surfaceColorsPreview"
+            body: SettingsSurfacePreview {
+                width: parent.width
+            }
+        }
+
+        Repeater {
+            model: [
+                {
+                    "key": "hostSurfaceColor",
+                    "customKey": "hostSurfaceCustomColor",
+                    "fallback": "s",
+                    "text": I18n.tr("Host"),
+                    "tags": ["host", "bar", "popout", "modal", "window"]
+                },
+                {
+                    "key": "cardSurfaceColor",
+                    "customKey": "cardSurfaceCustomColor",
+                    "fallback": "sc",
+                    "text": I18n.tr("Cards"),
+                    "tags": ["card", "row", "section"]
+                },
+                {
+                    "key": "chipSurfaceColor",
+                    "customKey": "chipSurfaceCustomColor",
+                    "fallback": "sch",
+                    "text": I18n.tr("Chip", "surface role"),
+                    "tags": ["chip", "field", "dropdown", "input"]
+                },
+                {
+                    "key": "chipSurfaceNestedColor",
+                    "customKey": "chipSurfaceNestedCustomColor",
+                    "fallback": "schh",
+                    "text": I18n.tr("Nested chip", "surface role"),
+                    "tags": ["nested", "chip", "control"]
+                }
+            ]
+
+            SurfaceColorRow {
+                required property var modelData
+
+                tab: "wallpaper"
+                tags: ["surface", "color"].concat(modelData.tags)
+                settingKey: modelData.key
+                resetKeys: [modelData.key, modelData.customKey]
+                text: modelData.text
+                defaultColor: Theme.roleColor(modelData.fallback)
+                currentMode: SettingsData[modelData.key]
+                customColor: SettingsData[modelData.customKey]
+                pickerTitle: modelData.text
+                onModeSelected: mode => SettingsData.set(modelData.key, mode)
+                onCustomColorSelected: selectedColor => SettingsData.set(modelData.customKey, selectedColor.toString())
+            }
+        }
+    }
+
+    SettingsCard {
         tab: "theme"
         tags: ["icon", "theme", "system"]
         title: I18n.tr("Icons", "settings card title for icon theme and icon options")

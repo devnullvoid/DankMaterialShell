@@ -27,6 +27,7 @@ Item {
     property string palette: "default"
     property bool highContrast: false
     property real transparency: 1
+    property color surfaceBase: Theme.hostSurface
     property string requestedWindow: ""
 
     readonly property color surfaceColor: {
@@ -38,7 +39,7 @@ Item {
         case "dim":
             return Theme.surfaceDim;
         }
-        return Theme.hostSurface;
+        return root.surfaceBase;
     }
     readonly property bool popupStyled: root.controller.expanded
     readonly property real islandOpacity: Math.max(0, Math.min(1, root.transparency))

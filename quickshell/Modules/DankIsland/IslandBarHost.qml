@@ -254,6 +254,7 @@ Item {
         palette: root.setting("islandPalette")
         highContrast: root.setting("islandHighContrast")
         transparency: SettingsData.barTransparency(root.barConfig)
+        surfaceBase: SettingsData.barSurfaceColor(root.barConfig)
         onScrollWheel: wheel => root.scrollWheel(wheel)
     }
 

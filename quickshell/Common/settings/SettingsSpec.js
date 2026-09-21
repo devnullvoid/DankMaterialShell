@@ -63,8 +63,32 @@ var LOCAL_SPEC = {
     dmsWindowsFloating: {
         def: true
     },
+    hostSurfaceColor: {
+        def: "default"
+    },
+    hostSurfaceCustomColor: {
+        def: "#6750A4"
+    },
+    cardSurfaceColor: {
+        def: "default"
+    },
+    cardSurfaceCustomColor: {
+        def: "#6750A4"
+    },
+    chipSurfaceColor: {
+        def: "default"
+    },
+    chipSurfaceCustomColor: {
+        def: "#6750A4"
+    },
+    chipSurfaceNestedColor: {
+        def: "default"
+    },
+    chipSurfaceNestedCustomColor: {
+        def: "#6750A4"
+    },
     widgetBackgroundColor: {
-        def: "sc"
+        def: "default"
     },
     widgetBackgroundCustomColor: {
         def: "#6750A4"
@@ -1279,6 +1303,8 @@ var LOCAL_SPEC = {
                 attachToScreenEdge: false,
                 followInterfaceStyle: true,
                 transparency: 1.0,
+                surfaceColor: "default",
+                surfaceCustomColor: "#6750A4",
                 widgetTransparency: 1.0,
                 squareCorners: false,
                 noBackground: false,

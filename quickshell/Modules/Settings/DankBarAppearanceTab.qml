@@ -80,6 +80,21 @@ Item {
                 }
             }
 
+            SurfaceColorRow {
+                settingKey: "barSurfaceColor"
+                tags: ["background", "color", "surface", "bar", "material"]
+                visible: !bar.selectedBarFrameStyled
+                resetStore: bar
+                resetKeys: ["surfaceColor", "surfaceCustomColor"]
+                text: I18n.tr("Background")
+                defaultColor: Theme.hostSurface
+                currentMode: bar.selectedBarConfig?.surfaceColor ?? "default"
+                customColor: bar.selectedBarConfig?.surfaceCustomColor ?? SettingsData.barConfigDefault("surfaceCustomColor")
+                pickerTitle: I18n.tr("Background")
+                onModeSelected: mode => bar.apply("surfaceColor", mode)
+                onCustomColorSelected: selectedColor => bar.apply("surfaceCustomColor", selectedColor.toString())
+            }
+
             SettingsControlledBy {
                 visible: !bar.selectedBarFrameStyled && !bar.islandOwnsSelectedBarTop
                 target: "surfaces"

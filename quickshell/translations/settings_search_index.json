@@ -3658,6 +3658,25 @@
     "parentLabel": "Bar"
   },
   {
+    "section": "barSurfaceColor",
+    "label": "Background",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "background",
+      "bar",
+      "color",
+      "material",
+      "panel",
+      "statusbar",
+      "surface",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
     "section": "widgetBackgroundColor",
     "label": "Background",
     "tabIndex": 6,
