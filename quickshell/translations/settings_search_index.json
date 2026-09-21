@@ -442,8 +442,7 @@
       "style",
       "surface"
     ],
-    "page": "theme_surfaces",
-    "icon": "border_style"
+    "page": "theme_surfaces"
   },
   {
     "section": "blurBorderColor",

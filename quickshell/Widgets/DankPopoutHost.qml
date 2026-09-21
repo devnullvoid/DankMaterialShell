@@ -1667,6 +1667,7 @@ Item {
                 id: popoutBlur
                 targetWindow: contentWindow
                 blurEnabled: Theme.connectedSurfaceBlurEnabled && !root.frameOwnsConnectedChrome
+                surfaceColor: chrome.surfaceColor
 
                 readonly property real s: Math.min(1, contentContainer.scaleValue)
                 readonly property bool trackBlurFromBarEdge: root.usesConnectedSurfaceChrome
@@ -1909,6 +1910,7 @@ Item {
             WindowBlur {
                 id: popoutBlur
                 targetWindow: contentWindow
+                surfaceColor: Theme.readableSurface
                 readonly property real s: Math.min(1, contentContainer.scaleValue)
                 readonly property real op: Math.max(0, Math.min(1, (morph.value - 0.08) * 1.6))
                 readonly property real visibleScale: s * op

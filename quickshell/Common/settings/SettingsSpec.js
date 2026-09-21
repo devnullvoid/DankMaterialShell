@@ -357,6 +357,9 @@ var LOCAL_SPEC = {
     blurEnabled: {
         def: false
     },
+    blurBorderSeeded: {
+        def: false
+    },
     blurForegroundLayers: {
         def: true
     },

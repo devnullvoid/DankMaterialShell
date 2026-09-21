@@ -31,8 +31,9 @@ FocusScope {
 
     function _focusPage() {
         Qt.callLater(() => {
-            if (sessionVisible && currentPageItem)
-                currentPageItem.forceActiveFocus();
+            if (!sessionVisible || !currentPageItem || parentModal?.searchFocused)
+                return;
+            currentPageItem.forceActiveFocus();
         });
     }
 

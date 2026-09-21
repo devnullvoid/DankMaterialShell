@@ -31,8 +31,7 @@ Rectangle {
         Loader {
             id: imageLoader
             anchors.fill: parent
-            active: root.visible && (root.Window.window?.visible ?? false) && root.isImage
-            asynchronous: true
+            active: root.isImage
 
             sourceComponent: CachingImage {
                 imagePath: root.path
@@ -47,7 +46,7 @@ Rectangle {
         name: root.placeholderIcon
         size: Theme.iconSizeLarge
         color: Theme.surfaceVariantText
-        visible: !root.isColor && imageLoader.item?.status !== Image.Ready
+        visible: !root.isColor && (!root.isImage || imageLoader.item?.status === Image.Error)
     }
 
     MouseArea {

@@ -240,8 +240,8 @@ T.Control {
                 id: textColumn
                 anchors.left: leadingArea.visible ? leadingArea.right : parent.left
                 anchors.leftMargin: leadingArea.visible ? Theme.spacingL : 0
-                anchors.right: resetButton.visible ? resetButton.left : (trailingArea.visible ? trailingArea.left : parent.right)
-                anchors.rightMargin: resetButton.visible || trailingArea.visible ? SettingsMetrics.rowContentSpacing : 0
+                anchors.right: resetButton.active ? resetButton.left : (trailingArea.visible ? trailingArea.left : parent.right)
+                anchors.rightMargin: resetButton.active || trailingArea.visible ? SettingsMetrics.rowContentSpacing : 0
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: Theme.spacingXXS
                 opacity: root.enabled ? 1 : SettingsMetrics.disabledOpacity
@@ -270,20 +270,24 @@ T.Control {
                 }
             }
 
-            DankActionButton {
+            Loader {
                 id: resetButton
                 anchors.right: trailingArea.visible ? trailingArea.left : parent.right
                 anchors.rightMargin: trailingArea.visible ? Theme.spacingS : 0
                 anchors.verticalCenter: parent.verticalCenter
-                buttonSize: Theme.iconButtonSize
-                iconName: "restart_alt"
-                iconSize: Theme.iconSizeMedium
-                iconColor: Theme.surfaceVariantText
-                tooltipText: I18n.tr("Reset to default")
-                Accessible.name: I18n.tr("Reset to default")
-                visible: root.modified && root.resetInHeader
-                enabled: root.enabled
-                onClicked: root.resetRequested()
+                active: root.modified && root.resetInHeader
+                visible: active
+
+                sourceComponent: DankActionButton {
+                    buttonSize: Theme.iconButtonSize
+                    iconName: "restart_alt"
+                    iconSize: Theme.iconSizeMedium
+                    iconColor: Theme.surfaceVariantText
+                    tooltipText: I18n.tr("Reset to default")
+                    Accessible.name: I18n.tr("Reset to default")
+                    enabled: root.enabled
+                    onClicked: root.resetRequested()
+                }
             }
 
             Row {
