@@ -29,6 +29,7 @@ Singleton {
     readonly property real buttonGroupCompactThreshold: 200
     readonly property real choiceCardPreviewRatio: 10 / 16
     readonly property real wallpaperThumbRatio: 10 / 16
+    readonly property int wallpaperThumbCache: 1024
     readonly property real wallpaperHeroStackWidth: 440
     readonly property real wallpaperHeroSplit: 0.55
     readonly property real disabledOpacity: 0.38

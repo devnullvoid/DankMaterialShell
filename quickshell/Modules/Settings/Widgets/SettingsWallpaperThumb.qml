@@ -36,6 +36,7 @@ Rectangle {
 
             sourceComponent: CachingImage {
                 imagePath: root.path
+                maxCacheSize: SettingsMetrics.wallpaperThumbCache
                 animate: false
             }
         }
@@ -123,7 +124,7 @@ Rectangle {
         TextMetrics {
             id: chipMetrics
             font: chipText.font
-            text: chipMetrics.text
+            text: root.fileName
         }
 
         StyledText {
