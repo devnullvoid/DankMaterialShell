@@ -2040,7 +2040,7 @@ Singleton {
 
     function taskbarInsetForEdge(screen, side) {
         const config = dockConfigForScreenEdge(screen, side);
-        if (!config || config.mode !== "taskbar")
+        if (!config?.enabled || config.mode !== "taskbar")
             return 0;
         const frameInset = !CompositorService.frameWindowVisibleForScreen(screen) ? 0 : !config.useOverlayLayer && CompositorService.usesConnectedFrameChromeForScreen(screen) ? frameEdgeReservation(screen, side) : frameThickness;
         return DockConfig.effectiveThickness(config) + frameInset;
