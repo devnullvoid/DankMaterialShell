@@ -228,6 +228,7 @@ DankModal {
                                     name: Theme.getPowerProfileIcon(modelData)
                                     size: Theme.iconSize + 16
                                     color: isActive ? Theme.primary : Theme.surfaceText
+                                    filled: isActive
                                     anchors.horizontalCenter: parent.horizontalCenter
                                 }
 

@@ -69,13 +69,10 @@ Item {
                         anchors.centerIn: parent
                         spacing: Theme.spacingXS
 
-                        Rectangle {
+                        DankColorSwatch {
                             width: Theme.iconSize
                             height: Theme.iconSize
-                            radius: Theme.fullRadius(width, height)
-                            color: modelData.color
-                            border.color: Theme.outline
-                            border.width: Theme.outlineWidth
+                            swatchColor: modelData.color
                             anchors.horizontalCenter: parent.horizontalCenter
 
                             DankIcon {

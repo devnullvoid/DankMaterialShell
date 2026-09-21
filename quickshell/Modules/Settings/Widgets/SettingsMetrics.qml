@@ -19,6 +19,8 @@ Singleton {
     readonly property real rowPaddingH: 20
     readonly property real rowPaddingV: 16
     readonly property real rowContentSpacing: Theme.spacingL
+    readonly property real heroPadding: rowPaddingV
+    readonly property real heroLeadingSize: Theme.avatarSize
     readonly property real sectionLabelTopGap: Theme.spacingS
     readonly property real sectionLabelBottomGap: Theme.spacingM
     readonly property real navIconSize: Theme.avatarSize
@@ -42,4 +44,6 @@ Singleton {
     readonly property color selectedRowColor: Theme.blend(rowColor, Theme.onSurface, Theme.stateLayerDrag)
     readonly property int transitionDuration: Theme.expressiveDurations.expressiveFastSpatial
     readonly property int fadeDuration: Theme.expressiveDurations.expressiveEffects
+    readonly property int pageSettleFrames: 2
+    readonly property int pageSettleDeadline: 250
 }

@@ -73,8 +73,12 @@ ShellRoot {
 
         function open(page) {
             root.content.currentPage = page;
+            try {
+                tryVerify(() => scrollable() !== null, 5000);
+            } catch (error) {
+                throw new Error(page + " has a scrollable page");
+            }
             settle();
-            check(scrollable() !== null, page + " has a scrollable page");
         }
 
         function expectPosition(y, label) {

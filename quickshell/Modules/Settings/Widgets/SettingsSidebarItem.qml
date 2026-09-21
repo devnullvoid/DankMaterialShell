@@ -108,6 +108,7 @@ Rectangle {
             name: root.iconName
             size: Theme.iconSizeMedium
             color: root.glyphColor
+            filled: root.active
         }
     }
 

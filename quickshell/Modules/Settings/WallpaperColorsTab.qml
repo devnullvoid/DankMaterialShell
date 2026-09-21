@@ -182,6 +182,8 @@ Column {
         SettingsRow {
             settingKey: "colorMode"
             tags: ["light", "dark", "mode", "theme", "color", "palette"]
+            paddingH: SettingsMetrics.heroPadding
+            paddingV: SettingsMetrics.heroPadding
             body: Flow {
                 id: hero
 
@@ -192,8 +194,8 @@ Column {
                 spacing: Theme.spacingL
 
                 SettingsWallpaperThumb {
+                    id: thumb
                     width: hero.thumbWidth
-                    height: hero.stacked ? width * SettingsMetrics.wallpaperThumbRatio : side.implicitHeight
                     path: root.currentWallpaper
                     onBrowse: root.openBrowser()
                     onPickColor: root.pickColor()
@@ -202,10 +204,14 @@ Column {
 
                 Column {
                     id: side
+
+                    readonly property real navRowHeight: (thumb.height - modeGroup.height - spacing - navGroup.spacing) / 2
+
                     width: hero.stacked ? hero.width : hero.width - hero.thumbWidth - hero.spacing
                     spacing: Theme.spacingM
 
                     DankButtonGroup {
+                        id: modeGroup
                         width: parent.width
                         fillWidth: true
                         checkEnabled: false
@@ -233,6 +239,7 @@ Column {
                     }
 
                     SettingsGroup {
+                        id: navGroup
                         width: parent.width
                         slotColor: Theme.foregroundColor(Theme.chipSurface, true)
 
@@ -243,6 +250,8 @@ Column {
                             title: I18n.tr("Dark mode")
                             hint: root.colorModeStatus
                             iconName: "schedule"
+                            iconBox: true
+                            height: hero.stacked ? implicitHeight : Math.max(implicitHeight, side.navRowHeight)
                             paddingH: Theme.spacingM
                             paddingV: Theme.spacingM
                             onClicked: root.parentModal?.navigateTo("theme_schedule")
@@ -254,12 +263,13 @@ Column {
                             settingKey: "themeNav"
                             title: I18n.tr("Theme & colors")
                             hint: Theme.currentThemeLabel
+                            height: hero.stacked ? implicitHeight : Math.max(implicitHeight, side.navRowHeight)
                             paddingH: Theme.spacingM
                             paddingV: Theme.spacingM
                             onClicked: root.parentModal?.navigateTo("theme")
 
                             leading: DankPaletteSwatch {
-                                width: Theme.iconSize
+                                width: SettingsMetrics.heroLeadingSize
                                 height: width
                                 primaryColor: root.themePalette.primary
                                 secondaryColor: root.themePalette.secondary

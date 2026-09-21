@@ -24,6 +24,7 @@ T.Control {
     property string subtitle: ""
     property color subtitleColor: Theme.surfaceVariantText
     property string iconName: ""
+    property bool iconBox: false
     property bool clickable: false
     property bool showChevron: false
     property string trailingBadge: ""
@@ -198,8 +199,7 @@ T.Control {
         id: mainColumn
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.topMargin: root.paddingV
+        anchors.verticalCenter: parent.verticalCenter
         anchors.leftMargin: root.paddingH
         anchors.rightMargin: root.paddingH
         spacing: Theme.spacingM
@@ -226,13 +226,21 @@ T.Control {
                     visible: children.length > 0
                 }
 
-                DankIcon {
+                Rectangle {
                     id: leadingIcon
                     anchors.verticalCenter: parent.verticalCenter
-                    name: root.iconName
-                    size: Theme.iconSize
-                    color: root.iconColor
+                    width: root.iconBox ? SettingsMetrics.heroLeadingSize : Theme.iconSize
+                    height: width
+                    radius: Theme.fullRadius(width, height)
+                    color: root.iconBox ? Theme.withAlpha(root.iconColor, Theme.tonalTintAlpha) : "transparent"
                     visible: root.iconName !== ""
+
+                    DankIcon {
+                        anchors.centerIn: parent
+                        name: root.iconName
+                        size: root.iconBox ? Theme.iconSizeMedium : Theme.iconSize
+                        color: root.iconColor
+                    }
                 }
             }
 
