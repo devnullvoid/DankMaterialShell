@@ -165,9 +165,24 @@ Item {
                         }
                     }
 
-                    SettingsThemeColorDots {
+                    SettingsSwatchGrid {
+                        readonly property bool genericTheme: Theme.currentThemeCategory === "generic" && Theme.currentTheme !== Theme.dynamic && Theme.currentThemeName !== "custom"
+
                         width: parent.width
-                        visible: Theme.currentThemeCategory === "generic" && Theme.currentTheme !== Theme.dynamic && Theme.currentThemeName !== "custom"
+                        visible: genericTheme
+                        options: ["blue", "purple", "green", "orange", "red", "cyan", "pink", "amber", "coral", "monochrome"].map(name => {
+                            const colors = Theme.getThemeColors(name);
+                            const palette = ThemePalette.pick(colors) ?? {};
+                            return {
+                                "value": name,
+                                "label": colors.name,
+                                "primary": palette.primary ?? Theme.primary.toString(),
+                                "secondary": palette.secondary,
+                                "tertiary": palette.tertiary
+                            };
+                        })
+                        currentValue: genericTheme ? Theme.currentThemeName : ""
+                        onSelected: value => Theme.switchTheme(value)
                     }
 
                     Row {

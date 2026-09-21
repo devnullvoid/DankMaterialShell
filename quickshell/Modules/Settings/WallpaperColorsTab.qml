@@ -41,6 +41,17 @@ Column {
     })
     readonly property bool dynamicTheme: Theme.currentTheme === Theme.dynamic && Theme.currentThemeCategory !== "registry"
     readonly property bool genericTheme: Theme.currentThemeCategory === "generic" && Theme.currentTheme !== Theme.dynamic && Theme.currentThemeName !== "custom"
+    readonly property var genericOptions: ["blue", "purple", "green", "orange", "red", "cyan", "pink", "amber", "coral", "monochrome"].map(name => {
+        const colors = Theme.getThemeColors(name);
+        const palette = ThemePalette.pick(colors) ?? {};
+        return {
+            "value": name,
+            "label": colors.name,
+            "primary": palette.primary ?? Theme.primary.toString(),
+            "secondary": palette.secondary,
+            "tertiary": palette.tertiary
+        };
+    })
     readonly property string themesDir: Quickshell.env("HOME") + "/.config/DankMaterialShell/themes"
     readonly property var installedRegistryThemes: DMSService.installedThemes
     readonly property var registryOptions: {
@@ -312,9 +323,13 @@ Column {
                         }
                     }
 
-                    SettingsThemeColorDots {
+                    SettingsSwatchGrid {
                         width: parent.width
                         visible: root.genericTheme
+                        compact: true
+                        options: root.genericOptions
+                        currentValue: root.genericTheme ? Theme.currentThemeName : ""
+                        onSelected: value => Theme.switchTheme(value)
                     }
 
                     SettingsSwatchGrid {
