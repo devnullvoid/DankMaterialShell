@@ -9937,6 +9937,7 @@
     "category": "Multiplexers",
     "keywords": [
       "general",
+      "herdr",
       "integrations",
       "multiplexer",
       "multiplexers",
@@ -9956,6 +9957,7 @@
     "tabIndex": 32,
     "category": "Multiplexers",
     "keywords": [
+      "herdr",
       "integrations",
       "multiplexers",
       "sessions",
@@ -9966,7 +9968,7 @@
     ],
     "icon": "terminal",
     "parentLabel": "System & integrations",
-    "description": "tmux and zellij sessions"
+    "description": "tmux, zellij, and herdr sessions"
   },
   {
     "section": "muxSessionFilter",
