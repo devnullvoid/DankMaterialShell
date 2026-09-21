@@ -79,10 +79,7 @@ Item {
             return false;
         }
 
-        let entry = DesktopEntries.heuristicLookup(desktopId);
-        if (!entry && desktopId.endsWith(".desktop")) {
-            entry = DesktopEntries.heuristicLookup(desktopId.slice(0, -8));
-        }
+        const entry = SessionService.resolveDesktopId(desktopId);
         if (!entry) {
             log.warn("Default app desktop entry not found:", desktopId, "for:", appName);
             return false;

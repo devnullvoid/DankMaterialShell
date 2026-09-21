@@ -2307,16 +2307,13 @@ Item {
     }
 
     function openFile(path) {
-        if (!path)
-            return;
-        Qt.openUrlExternally("file://" + path);
+        SessionService.openPath(path);
     }
 
     function openFolder(path) {
         if (!path)
             return;
-        var folder = path.substring(0, path.lastIndexOf("/"));
-        Qt.openUrlExternally("file://" + folder);
+        SessionService.openPath(path.substring(0, path.lastIndexOf("/")));
     }
 
     function openTerminal(path) {
