@@ -1653,12 +1653,12 @@ Singleton {
     function barTextSize(barThickness, fontScale, maximizeText) {
         const scale = barThickness / 48;
         const dankBarScale = fontScale !== undefined ? fontScale : 1.0;
-        const maxScale = (maximizeText ?? false) ? 1.5 : 1.0;
+        const maximized = maximizeText ?? false;
         if (scale <= 0.75)
-            return Math.round(fontSizeSmall * 0.9 * dankBarScale * maxScale);
+            return Math.round((maximized ? fontSizeMedium : fontSizeSmall * 0.9) * dankBarScale);
         if (scale >= 1.25)
-            return Math.round(fontSizeMedium * dankBarScale * maxScale);
-        return Math.round(fontSizeSmall * dankBarScale * maxScale);
+            return Math.round((maximized ? fontSizeXLarge : fontSizeMedium) * dankBarScale);
+        return Math.round((maximized ? fontSizeLarge : fontSizeSmall) * dankBarScale);
     }
 
     // !TODO: plugin API only (dms-plugins DankKDEConnect); fold into a parametrized BatteryService ladder and drop from Theme

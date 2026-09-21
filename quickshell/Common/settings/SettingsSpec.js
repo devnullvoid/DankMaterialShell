@@ -1294,6 +1294,8 @@ var LOCAL_SPEC = {
                 innerPadding: 4,
                 barInsetPadding: -1,
                 barLengthPadding: 0,
+                barLengthMode: "full",
+                barLengthPercent: 80,
                 bottomGap: 0,
                 attachToScreenEdge: false,
                 followInterfaceStyle: true,

@@ -3879,6 +3879,32 @@
     "parentLabel": "Bar"
   },
   {
+    "section": "barLengthMode",
+    "label": "Height",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "compact",
+      "custom",
+      "fit",
+      "full",
+      "height",
+      "hug",
+      "length",
+      "panel",
+      "percent",
+      "shrink",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "widgets",
+      "width"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
     "section": "islandHighContrast",
     "label": "High contrast",
     "tabIndex": 6,
@@ -4013,6 +4039,27 @@
       "surface",
       "taskbar",
       "topbar"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
+    "section": "barLengthPercent",
+    "label": "Percentage",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "custom",
+      "height",
+      "length",
+      "panel",
+      "percent",
+      "percentage",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "width"
     ],
     "parentLabel": "Bar"
   },
