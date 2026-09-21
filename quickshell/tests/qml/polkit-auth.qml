@@ -99,11 +99,11 @@ ShellRoot {
                 root.check(root.cancellations === 1, "duplicate close does not cancel twice");
 
                 let content = root.openModal();
-                root.find(content, item => item.text === "Cancel" && typeof item.click === "function").click();
+                content.actions[0].click();
                 root.check(root.cancellations === 2 && !modal.visible, "Cancel button cancels");
 
                 content = root.openModal();
-                root.find(content, item => item.Accessible.name === "Close" && typeof item.click === "function").click();
+                input.findChild(content, "closeWindow").click();
                 root.check(root.cancellations === 3 && !modal.visible, "header close cancels");
 
                 content = root.openModal();

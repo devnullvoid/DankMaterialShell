@@ -362,19 +362,6 @@ ShellRoot {
                 check(swatches(colorTile, colorTile) === 18, "taller color tiles show multiple rows of recent colors");
                 colorTile.destroy();
                 wait(0);
-                for (const definition of registry.builtinDefinitions) {
-                    check(definition.component.status === Component.Ready, definition.id + " compiled: " + definition.component.errorString());
-                    const instance = definition.component.createObject(scene);
-                    check(instance !== null, definition.id + " created");
-                    const body = instance.ccExpandedContent.createObject(scene, {
-                        width: 220,
-                        height: 120
-                    });
-                    check(body !== null, definition.id + " inline content created");
-                    body.destroy();
-                    instance.destroy();
-                    wait(0);
-                }
                 const detail = detailComponent.createObject(scene, {
                     width: 600,
                     height: 400

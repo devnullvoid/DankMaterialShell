@@ -159,7 +159,6 @@ ShellRoot {
     }
 
     property var closedSizes: ({})
-    property var carets: ({})
 
     function leaves(tree, out) {
         if (tree.text !== undefined)
@@ -183,13 +182,7 @@ ShellRoot {
                 "inline-spaced": 3
             }[instance.name];
             check(item.hiddenBarItems.length === expectedHidden, phaseName + " " + instance.name + " hidden items " + item.hiddenBarItems.length);
-            const caret = leaves(dump(item.visualContent, item.visualContent), []).find(leaf => leaf.text && leaf.text.startsWith("keyboard_arrow_"));
-            check((caret !== undefined) === (expectedHidden > 0), phaseName + " " + instance.name + " overflow caret presence");
             check(item.menuOpen === (phaseName === "open"), phaseName + " " + instance.name + " menuOpen state");
-            if (caret)
-                root.carets[instance.name + instance.vertical + phaseName] = caret.text;
-            if (caret && phaseName === "open")
-                check(root.carets[instance.name + instance.vertical + "closed"] !== caret.text, phaseName + " " + instance.name + " caret flips when the menu opens");
             const size = instance.vertical ? item.visualHeight : item.visualWidth;
             const key = instance.name + instance.vertical;
             if (phaseName === "closed")

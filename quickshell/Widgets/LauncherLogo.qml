@@ -20,7 +20,17 @@ Item {
     property string customPath: ""
     property bool fallbackToApps: false
 
-    readonly property bool colorize: colorOverride !== ""
+    readonly property string resolvedColor: {
+        switch (colorOverride) {
+        case "primary":
+            return Theme.primary;
+        case "surface":
+            return Theme.surfaceText;
+        default:
+            return colorOverride;
+        }
+    }
+    readonly property bool colorize: resolvedColor !== ""
     readonly property string resolvedMode: {
         const fallback = fallbackToApps ? "apps" : "";
         switch (mode) {
@@ -75,7 +85,7 @@ Item {
         anchors.centerIn: parent
         width: root.size
         height: root.size
-        colorOverride: root.colorOverride
+        colorOverride: root.resolvedColor
         brightnessOverride: root.brightness
         contrastOverride: root.contrast
     }
@@ -95,7 +105,7 @@ Item {
         layer.effect: MultiEffect {
             saturation: 0
             colorization: 1
-            colorizationColor: root.colorOverride
+            colorizationColor: root.resolvedColor
         }
     }
 
@@ -111,7 +121,7 @@ Item {
         layer.effect: MultiEffect {
             saturation: 0
             colorization: 1
-            colorizationColor: root.colorOverride
+            colorizationColor: root.resolvedColor
             brightness: root.brightness
             contrast: root.contrast
         }
@@ -129,7 +139,7 @@ Item {
         layer.effect: MultiEffect {
             saturation: 0
             colorization: 1
-            colorizationColor: root.colorOverride
+            colorizationColor: root.resolvedColor
             brightness: root.brightness
             contrast: root.contrast
         }

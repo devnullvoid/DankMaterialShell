@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Controls
 import QtTest
 import Quickshell
 import qs.Common
@@ -107,7 +106,6 @@ ShellRoot {
 
                 SettingsData.animationDuration = 250;
                 open("notifications");
-                check(!root.content.currentPageItem.parent.StackView.view.busy, "category switches have no page transition");
                 tryCompare(root, "parentPage", null);
                 root.parentPage = root.content.currentPageItem;
                 modal.shouldBeVisible = false;

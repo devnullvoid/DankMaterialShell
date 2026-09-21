@@ -114,7 +114,7 @@ ShellRoot {
                     }));
                 }
                 check(root.modals[0].item.networkInfoModalVisible && !root.modals[1].item.networkInfoModalVisible, "only the wifi modal is open");
-                check(texts(root.modals[0].item).includes('Details for "Home WiFi"') && texts(root.modals[0].item).includes("SSID: Home\nSignal: 80%"), "wifi modal shows name and details: " + texts(root.modals[0].item));
+                check(texts(root.modals[0].item).some(text => text.includes("Home WiFi")) && texts(root.modals[0].item).includes("SSID: Home\nSignal: 80%"), "wifi modal shows name and details: " + texts(root.modals[0].item));
                 root.modals[0].item.hideDialog();
                 root.modals[1].item.showNetworkInfo("Wired connection 1", {
                     uuid: "1234"
@@ -133,7 +133,7 @@ ShellRoot {
                     }));
                 }
                 check(!root.modals[0].item.networkInfoModalVisible && root.modals[1].item.networkInfoModalVisible, "only the wired modal is open");
-                check(texts(root.modals[1].item).includes('Details for "Wired connection 1"') && texts(root.modals[1].item).includes("Interface: eth0\nSpeed: 1000"), "wired modal shows connection name and details: " + texts(root.modals[1].item));
+                check(texts(root.modals[1].item).some(text => text.includes("Wired connection 1")) && texts(root.modals[1].item).includes("Interface: eth0\nSpeed: 1000"), "wired modal shows connection name and details: " + texts(root.modals[1].item));
                 check(root.modals[0].item.layerNamespace !== root.modals[1].item.layerNamespace, "wifi and wired use distinct layer namespaces");
                 root.modals[1].item.hideDialog();
                 return;

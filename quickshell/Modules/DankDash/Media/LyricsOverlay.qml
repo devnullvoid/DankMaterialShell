@@ -321,6 +321,7 @@ FocusScope {
 
         DankButton {
             id: followButton
+            objectName: "followPlayback"
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             anchors.bottomMargin: Theme.spacingM

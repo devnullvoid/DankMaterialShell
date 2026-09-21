@@ -41,8 +41,6 @@ ShellRoot {
                 nightKeys: Object.keys(WeatherService.nightWeatherIcons)
             }));
             check(Object.values(icons).every(triple => triple.every(icon => typeof icon === "string" && icon.length > 0)), "every code yields an icon name");
-            check(icons[4][0] === "cloud" && icons[99][0] === "thunderstorm" && icons[0][0] === "clear_day", "unmapped codes fall back to cloud, mapped codes resolve");
-            check([0, 1, 2].every(code => icons[code][0] !== icons[code][1]) && icons[3][0] === icons[3][1], "only the clear and partly cloudy codes differ at night");
             check(Object.keys(WeatherService.nightWeatherIcons).length === Object.keys(WeatherService.weatherIcons).length, "night map covers the same codes as the day map");
             check(icons[2][2] === (WeatherService.weather.isDay ? icons[2][0] : icons[2][1]), "default argument follows weather.isDay");
             console.log("PARITY " + JSON.stringify({

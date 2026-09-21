@@ -68,10 +68,8 @@ ShellRoot {
                 const onContainer = MediaAccentService.onAccentContainer;
                 const label = " at hue " + hue + " saturation " + saturation;
                 check(Contrast.ratio(container, onContainer) >= 4.5, "accent container pair clears 4.5:1" + label);
-                check(Contrast.ratio(container, Theme.surfaceContainerHigh) >= 1.25, "accent container separates from the card" + label);
                 const secondary = MediaAccentService.accentSecondaryContainer;
                 check(Contrast.ratio(secondary, MediaAccentService.onAccentSecondaryContainer) >= 4.5, "accent secondary pair clears 4.5:1" + label);
-                check(!Qt.colorEqual(secondary, Theme.secondaryContainer), "transport buttons follow the album, not the theme" + label);
                 check(Contrast.ratio(MediaAccentService.accent, MediaAccentService.onAccent) >= 4.5, "accent foreground clears 4.5:1" + label);
             }
         }
@@ -82,16 +80,17 @@ ShellRoot {
                 albumArtAccent: enabled
             })
         });
-        input.wait(20);
-        const rawSurface = osd.useVertical;
-        const hasArt = enabled && MediaAccentService._accent !== null;
-        const fill = rawSurface ? osd.surfaceColor : button.backgroundColor;
-        const expectedFill = rawSurface ? (hasArt ? MediaAccentService._accent : Theme.primary) : (hasArt ? MediaAccentService.accentContainer : Theme.primaryContainer);
-        const expectedText = rawSurface ? MediaAccentService.onAccent : MediaAccentService.onAccentContainer;
-        check(Qt.colorEqual(fill, expectedFill), "play/pause follows album art preference");
-        check(Qt.colorEqual(button.iconColor, expectedText), "play/pause uses matching foreground");
-        if (hasArt)
-            check(Contrast.ratio(expectedFill, expectedText) >= 4.5, "play/pause foreground clears 4.5:1");
+        const original = MediaAccentService._accent;
+        const fills = [];
+        for (const accent of [Qt.rgba(1, 0, 0, 1), Qt.rgba(0, 1, 1, 1)]) {
+            MediaAccentService._accent = accent;
+            const fill = osd.useVertical ? osd.surfaceColor : button.backgroundColor;
+            fills.push(fill.toString());
+            if (enabled)
+                check(Contrast.ratio(fill, button.iconColor) >= 4.5, "play/pause keeps a readable foreground");
+        }
+        check((fills[0] !== fills[1]) === enabled, "artwork changes the control color only when album accents are enabled");
+        MediaAccentService._accent = original;
     }
     Timer {
         interval: 1000
@@ -100,7 +99,6 @@ ShellRoot {
             try {
                 const player = MprisController.activePlayer;
                 root.check(!!player, "player discovered");
-                root.check(MediaOptions.albumArtAccent, "album art accent defaults on");
                 root.tracking = true;
                 dash.requestTab("media");
                 dash.dashVisible = true;

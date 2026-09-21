@@ -713,6 +713,65 @@
     "page": "personalization"
   },
   {
+    "section": "colorMode",
+    "label": "Dark mode",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "background",
+      "bg",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "dark",
+      "dark mode",
+      "desktop",
+      "hue",
+      "image",
+      "light",
+      "mode",
+      "night",
+      "palette",
+      "picture",
+      "theme",
+      "tint",
+      "wallpaper"
+    ],
+    "page": "personalization",
+    "icon": "schedule"
+  },
+  {
+    "section": "themeScheduleNav",
+    "label": "Dark mode",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "automatic",
+      "background",
+      "bg",
+      "colors",
+      "colour",
+      "colours",
+      "dark",
+      "dark mode",
+      "desktop",
+      "hue",
+      "image",
+      "light",
+      "location",
+      "mode",
+      "night",
+      "palette",
+      "picture",
+      "schedule",
+      "tint",
+      "wallpaper"
+    ],
+    "page": "personalization",
+    "icon": "schedule"
+  },
+  {
     "section": "iconThemeDark",
     "label": "Dark mode theme",
     "tabIndex": -1,
@@ -2104,36 +2163,6 @@
     "icon": "memory"
   },
   {
-    "section": "colorMode",
-    "label": "Theme & colors",
-    "tabIndex": -1,
-    "category": "Wallpaper & colors",
-    "keywords": [
-      "appearance",
-      "background",
-      "bg",
-      "color",
-      "colors",
-      "colour",
-      "colours",
-      "dark",
-      "desktop",
-      "hue",
-      "image",
-      "light",
-      "look",
-      "mode",
-      "palette",
-      "picture",
-      "style",
-      "theme",
-      "tint",
-      "wallpaper"
-    ],
-    "page": "personalization",
-    "icon": "schedule"
-  },
-  {
     "section": "themeNav",
     "label": "Theme & colors",
     "tabIndex": -1,
@@ -2161,8 +2190,7 @@
       "tint",
       "wallpaper"
     ],
-    "page": "personalization",
-    "icon": "format_paint"
+    "page": "personalization"
   },
   {
     "section": "focusRingWidth",
@@ -4397,28 +4425,6 @@
     "icon": "border_style"
   },
   {
-    "section": "launcherLogoBrightness",
-    "label": "Brightness",
-    "tabIndex": 9,
-    "category": "Launcher",
-    "keywords": [
-      "app drawer",
-      "app menu",
-      "applications",
-      "backlight",
-      "bright",
-      "brightness",
-      "color",
-      "dim",
-      "drawer",
-      "launcher",
-      "logo",
-      "menu",
-      "start",
-      "start menu"
-    ]
-  },
-  {
     "section": "launcherBuiltInPlugins",
     "label": "Built-in plugins",
     "tabIndex": 9,
@@ -4466,25 +4472,6 @@
       "start",
       "start menu",
       "tint"
-    ]
-  },
-  {
-    "section": "launcherLogoContrast",
-    "label": "Contrast",
-    "tabIndex": 9,
-    "category": "Launcher",
-    "keywords": [
-      "app drawer",
-      "app menu",
-      "applications",
-      "color",
-      "contrast",
-      "drawer",
-      "launcher",
-      "logo",
-      "menu",
-      "start",
-      "start menu"
     ]
   },
   {
@@ -4571,28 +4558,6 @@
       "start menu"
     ],
     "icon": "visibility_off"
-  },
-  {
-    "section": "launcherLogoMode",
-    "label": "Icon",
-    "tabIndex": 9,
-    "category": "Launcher",
-    "keywords": [
-      "app drawer",
-      "app menu",
-      "applications",
-      "compositor",
-      "custom",
-      "distro",
-      "drawer",
-      "icon",
-      "launcher",
-      "logo",
-      "menu",
-      "os",
-      "start",
-      "start menu"
-    ]
   },
   {
     "section": "dankLauncherV2IncludeFilesInAll",
@@ -4684,30 +4649,6 @@
     ],
     "icon": "grid_view",
     "description": "Style, shortcuts, search, hidden apps"
-  },
-  {
-    "section": "launcherLogo",
-    "label": "Launcher button",
-    "tabIndex": 9,
-    "category": "Launcher",
-    "keywords": [
-      "app drawer",
-      "app menu",
-      "applications",
-      "button",
-      "color",
-      "custom",
-      "distro",
-      "drawer",
-      "icon",
-      "launcher",
-      "logo",
-      "menu",
-      "os",
-      "start",
-      "start menu"
-    ],
-    "icon": "image"
   },
   {
     "section": "launcherLaunching",
@@ -5017,26 +4958,6 @@
       "medium",
       "menu",
       "micro",
-      "size",
-      "start",
-      "start menu"
-    ]
-  },
-  {
-    "section": "launcherLogoSizeOffset",
-    "label": "Size offset",
-    "tabIndex": 9,
-    "category": "Launcher",
-    "keywords": [
-      "app drawer",
-      "app menu",
-      "applications",
-      "drawer",
-      "launcher",
-      "logo",
-      "menu",
-      "offset",
-      "scale",
       "size",
       "start",
       "start menu"
@@ -8234,6 +8155,14 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
+    "section": "barWidgetOption:LauncherButtonOptions.qml:5",
+    "label": "Brightness",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "LauncherButtonOptions.qml"
+  },
+  {
     "section": "barWidgetOption:PrivacyOptions.qml:3",
     "label": "Camera",
     "tabIndex": 22,
@@ -8248,6 +8177,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "AppsDockOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:LauncherButtonOptions.qml:3",
+    "label": "Color override",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "LauncherButtonOptions.qml"
   },
   {
     "section": "barWidgetOption:AppsDockOptions.qml:23",
@@ -8306,6 +8243,14 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
+    "section": "barWidgetOption:LauncherButtonOptions.qml:6",
+    "label": "Contrast",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "LauncherButtonOptions.qml"
+  },
+  {
     "section": "barWidgetOption:RunningAppsOptions.qml:4",
     "label": "Current display",
     "tabIndex": 22,
@@ -8336,6 +8281,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "AppsDockOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:LauncherButtonOptions.qml:2",
+    "label": "Custom",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "LauncherButtonOptions.qml"
   },
   {
     "section": "barWidgetOption:AppsDockOptions.qml:19",
@@ -8464,6 +8417,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "AppsDockOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:LauncherButtonOptions.qml:1",
+    "label": "Icon",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "LauncherButtonOptions.qml"
   },
   {
     "section": "barWidgetOption:AppsDockOptions.qml:27",
@@ -8832,6 +8793,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "AppsDockOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:LauncherButtonOptions.qml:4",
+    "label": "Size offset",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "LauncherButtonOptions.qml"
   },
   {
     "section": "barWidgetOption:AppsDockOptions.qml:28",

@@ -21,7 +21,7 @@ Singleton {
     id: root
     readonly property var log: Log.scoped("SettingsData")
 
-    readonly property int settingsConfigVersion: 28
+    readonly property int settingsConfigVersion: 29
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 
@@ -588,14 +588,6 @@ Singleton {
     property var cursorSettings: Spec.SPEC.cursorSettings.def
     property var availableCursorThemes: Spec.SPEC.availableCursorThemes.def
     property string systemDefaultCursorTheme: Spec.SPEC.systemDefaultCursorTheme.def
-
-    property string launcherLogoMode: Spec.SPEC.launcherLogoMode.def
-    property string launcherLogoCustomPath: Spec.SPEC.launcherLogoCustomPath.def
-    property string launcherLogoColorOverride: Spec.SPEC.launcherLogoColorOverride.def
-    property bool launcherLogoColorInvertOnMode: Spec.SPEC.launcherLogoColorInvertOnMode.def
-    property real launcherLogoBrightness: Spec.SPEC.launcherLogoBrightness.def
-    property real launcherLogoContrast: Spec.SPEC.launcherLogoContrast.def
-    property int launcherLogoSizeOffset: Spec.SPEC.launcherLogoSizeOffset.def
 
     property string fontFamily: Spec.SPEC.fontFamily.def
     property string monoFontFamily: Spec.SPEC.monoFontFamily.def

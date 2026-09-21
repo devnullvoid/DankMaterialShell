@@ -275,6 +275,7 @@ DankOSD {
                 DankActionButton {
                     buttonSize: Theme.buttonHeightXS
                     anchors.verticalCenter: parent.verticalCenter
+                    objectName: "previousTrack"
                     iconName: "skip_previous"
                     iconSize: Theme.iconSizeSmall
                     iconColor: Theme.onSurface

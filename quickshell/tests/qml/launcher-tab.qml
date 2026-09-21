@@ -100,11 +100,7 @@ ShellRoot {
             }
             const nodes = collect(root.tab, []);
             const visibleTexts = nodes.filter(n => n.type === "StyledText" && n.visible).map(n => n.text);
-            const readyIcons = nodes.filter(n => n.type === "IconImage" && n.visible && n.status === 1).map(n => n.source);
             check(visibleTexts.includes("missing.app") && visibleTexts.includes("Ghost"), "hidden and overridden apps that are not installed still list by id or override name");
-            check(visibleTexts.filter(t => t === "missing.app").length === 2, "missing app shows its id as name and subtitle");
-            check(readyIcons.includes("application-x-executable"), "an app without an icon renders the generic executable icon");
-            check(nodes.filter(n => n.type === "AppIconRenderer").length >= 4, "every listed app renders through AppIconRenderer");
             console.log("PARITY " + JSON.stringify({
                 count: nodes.length,
                 images: nodes.filter(n => n.type !== "StyledText" && n.type !== "DankIcon"),

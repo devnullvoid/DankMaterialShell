@@ -83,23 +83,24 @@ ShellRoot {
             try {
                 root.open("dndDuration");
                 root.check(popout.shouldBeVisible && popout.contentLoader.item, "popout opens");
-                root.check(root.rows().length === 7, "seven presets and no turn-off row while off: " + root.rows().length);
+                root.check(root.rows().length === popout.presets.presetOptions.length, "presets and no turn-off row while off: " + root.rows().length);
 
+                const minutes = popout.presets.presetOptions[0].minutes;
                 const before = Date.now();
                 root.rows()[0].clicked();
                 root.check(SessionData.doNotDisturb, "selecting a preset enables do not disturb");
-                root.check(Math.abs(SessionData.doNotDisturbUntil - (before + 15 * 60000)) < 2000, "fifteen minute preset sets the deadline");
+                root.check(Math.abs(SessionData.doNotDisturbUntil - (before + minutes * 60000)) < 2000, "selected duration sets the deadline");
                 root.settle();
                 root.check(!popout.shouldBeVisible, "selecting a preset closes the popout");
 
                 root.open("dndDuration");
-                root.check(root.statusShown() && root.rows().length === 8, "while on, the turn-off row appears with the status");
-                root.rows()[7].clicked();
+                root.check(root.statusShown() && root.rows().length === popout.presets.presetOptions.length + 1, "while on, the turn-off row appears with the status");
+                root.rows().find(row => row.modelData === undefined).clicked();
                 root.check(!SessionData.doNotDisturb, "turn off row disables do not disturb");
                 root.settle();
 
                 root.open("idleInhibit");
-                root.check(popout.presets === IdleInhibitPresets && root.rows().length === 7, "same popout serves keep awake presets");
+                root.check(popout.presets === IdleInhibitPresets && root.rows().length === popout.presets.presetOptions.length, "same popout serves keep awake presets");
                 popout.close();
                 root.settle();
 

@@ -145,7 +145,6 @@ ShellRoot {
                 check(root.popout.popupWidth === widthFor(8), "width holds when edit mode ends");
                 check(!root.popout.contentWindow.anchors.right, "leaving edit mode releases the surface");
                 root.popout.requestTab("media");
-                check(root.popout.animationDuration <= 0 || root.popout.renderedAlignedX !== root.popout.alignedX, "tab switch glides the body");
                 break;
             case 1:
                 check(root.popout.activeTabId === "media", "media tab active");

@@ -149,21 +149,21 @@ ShellRoot {
             const label = phase.name + " " + instance.name + (instance.vertical ? " vertical" : " horizontal");
             const grouped = instance.name.endsWith("grouped");
             const rows = delegates(item.visualContent, []);
-            const tooltips = rows.map(row => row.tooltipText);
+            const appIds = rows.map(row => row.appId);
             check(item.visible && item.windowCount === (grouped ? 3 : 4), label + " window count " + item.windowCount);
             check(rows.length === item.windowCount, label + " renders one delegate per window, got " + rows.length);
-            check(tooltips.includes("kitty • zsh"), label + " shows the kitty window");
+            check(appIds.includes("kitty"), label + " shows the kitty window");
             if (grouped)
-                check(rows.some(row => row.tooltipText === "Firefox (2 windows)" && row.windowCount === 2), label + " groups the two firefox windows, got " + JSON.stringify(tooltips));
+                check(rows.some(row => row.appId === "firefox" && row.windowCount === 2), label + " groups the two firefox windows, got " + JSON.stringify(appIds));
             else
-                check(tooltips.includes("Firefox • Mozilla Firefox") && tooltips.includes("Firefox • Downloads"), label + " lists both firefox windows, got " + JSON.stringify(tooltips));
-            const focused = rows.filter(row => row.isFocused).map(row => row.tooltipText);
+                check(rows.filter(row => row.appId === "firefox").length === 2, label + " lists both firefox windows, got " + JSON.stringify(appIds));
+            const focused = rows.filter(row => row.isFocused).map(row => row.appId);
             switch (phase.active) {
             case "0x1":
-                check(focused.length === 1 && focused[0].startsWith("Firefox"), label + " focuses firefox, got " + JSON.stringify(focused));
+                check(focused.length === 1 && focused[0] === "firefox", label + " focuses firefox, got " + JSON.stringify(focused));
                 break;
             case "0x3":
-                check(JSON.stringify(focused) === JSON.stringify(["kitty • zsh"]), label + " focuses kitty, got " + JSON.stringify(focused));
+                check(JSON.stringify(focused) === JSON.stringify(["kitty"]), label + " focuses kitty, got " + JSON.stringify(focused));
                 break;
             default:
                 check(focused.length === 0, label + " has no focused window, got " + JSON.stringify(focused));

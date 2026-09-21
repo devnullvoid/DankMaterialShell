@@ -403,20 +403,25 @@ Item {
         DestinationCompact {
             id: launcherFace
 
-            readonly property real logoSize: Math.max(12, Theme.iconSizeSmall + SettingsData.launcherLogoSizeOffset)
-            readonly property color logoColor: Theme.effectiveLogoColor !== "" ? Theme.effectiveLogoColor : Theme.surfaceText
+            readonly property var launcherEntry: SettingsData.barWidgetEntry(root.controller.barConfig, "launcherButton")
+
+            function opt(key) {
+                return SettingsData.widgetOption("launcherButton", launcherFace.launcherEntry, key);
+            }
 
             controller: root.controller
             activityId: "launcher"
             label: I18n.tr("Launcher", "island compact face: launcher label")
             leading: LauncherLogo {
-                mode: SettingsData.launcherLogoMode
-                size: launcherFace.logoSize
-                appsIconColor: launcherFace.logoColor
-                colorOverride: String(launcherFace.logoColor)
-                brightness: SettingsData.launcherLogoBrightness
-                contrast: SettingsData.launcherLogoContrast
-                customPath: SettingsData.launcherLogoCustomPath
+                id: faceLogo
+
+                mode: launcherFace.opt("launcherLogoMode")
+                size: Math.max(12, Theme.iconSizeSmall + launcherFace.opt("launcherLogoSizeOffset"))
+                appsIconColor: faceLogo.resolvedColor
+                colorOverride: launcherFace.opt("launcherLogoColorOverride") || "surface"
+                brightness: launcherFace.opt("launcherLogoBrightness")
+                contrast: launcherFace.opt("launcherLogoContrast")
+                customPath: launcherFace.opt("launcherLogoCustomPath")
                 fallbackToApps: true
             }
         }

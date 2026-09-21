@@ -721,27 +721,6 @@ var LOCAL_SPEC = {
         def: "",
         persist: false
     },
-    launcherLogoMode: {
-        def: "apps"
-    },
-    launcherLogoCustomPath: {
-        def: ""
-    },
-    launcherLogoColorOverride: {
-        def: ""
-    },
-    launcherLogoColorInvertOnMode: {
-        def: false
-    },
-    launcherLogoBrightness: {
-        def: 0.5
-    },
-    launcherLogoContrast: {
-        def: 1
-    },
-    launcherLogoSizeOffset: {
-        def: 0
-    },
     notepadUseMonospace: {
         def: true
     },

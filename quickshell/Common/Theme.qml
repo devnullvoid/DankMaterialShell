@@ -2237,61 +2237,6 @@ Singleton {
         return 1 / (dpr || 1);
     }
 
-    function invertHex(hex) {
-        hex = hex.replace('#', '');
-
-        if (!/^[0-9A-Fa-f]{6}$/.test(hex)) {
-            return hex;
-        }
-
-        const r = parseInt(hex.substr(0, 2), 16);
-        const g = parseInt(hex.substr(2, 2), 16);
-        const b = parseInt(hex.substr(4, 2), 16);
-
-        const invR = (255 - r).toString(16).padStart(2, '0');
-        const invG = (255 - g).toString(16).padStart(2, '0');
-        const invB = (255 - b).toString(16).padStart(2, '0');
-
-        return `#${invR}${invG}${invB}`;
-    }
-
-    property var baseLogoColor: {
-        if (typeof SettingsData === "undefined")
-            return "";
-        const colorOverride = SettingsData.launcherLogoColorOverride;
-        if (!colorOverride || colorOverride === "")
-            return "";
-        if (colorOverride === "primary")
-            return primary;
-        if (colorOverride === "surface")
-            return surfaceText;
-        return colorOverride;
-    }
-
-    property var effectiveLogoColor: {
-        if (typeof SettingsData === "undefined")
-            return "";
-
-        const colorOverride = SettingsData.launcherLogoColorOverride;
-        if (!colorOverride || colorOverride === "")
-            return "";
-
-        if (colorOverride === "primary")
-            return primary;
-        if (colorOverride === "surface")
-            return surfaceText;
-
-        if (!SettingsData.launcherLogoColorInvertOnMode) {
-            return colorOverride;
-        }
-
-        if (isLightMode) {
-            return invertHex(colorOverride);
-        }
-
-        return colorOverride;
-    }
-
     Process {
         id: systemThemeGenerator
         running: false

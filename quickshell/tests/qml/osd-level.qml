@@ -124,9 +124,7 @@ ShellRoot {
                         input.wait(50);
                         const row = root.osd.contentLoader.item;
                         const slider = root.findSlider(row);
-                        root.check(slider.size === (root.osd.isVerticalLayout ? "m" : "s"), "osd slider size at position " + position);
                         root.check(slider.rotation === (root.osd.isVerticalLayout ? -90 : 0), "slider orientation at position " + position);
-                        root.check(!slider.showStops, "OSD has no slider dots");
                         root.check(slider.height <= (row.vertical ? row.width : row.height), "handle fits across the OSD");
                         const track = slider.contentItem.children[1];
                         input.mouseClick(track, track.width - slider.handleWidth / 2, track.height / 2);

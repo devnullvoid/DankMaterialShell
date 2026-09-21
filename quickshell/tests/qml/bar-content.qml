@@ -233,7 +233,7 @@ ShellRoot {
                 fixture: pluginWidget
             };
             SettingsData.centeringMode = "geometric";
-            SettingsData.clockDateFormat = "";
+            SettingsData.clockDateFormat = "ddd d";
             SettingsData.clockFormat = "24h";
             SettingsData.showSeconds = true;
             checks.start();
@@ -267,7 +267,7 @@ ShellRoot {
                     root.check(first.isLeftBarEdge && rightHosts[2].item.isRightBarEdge && first.crossEdgeExtension === 7, "horizontal edge injection");
                     root.check(first.segmentRole === "first" && last.segmentRole === "last" && centerHosts[0].item.segmentRole === "first" && centerHosts[2].item.segmentRole === "last", "segment roles skip the hidden middle occurrence");
                     root.check(left.widgetSpacing === 6 && left.segmented, "segments spacing adds the outline");
-                    root.check(clock.timeText === "00:05:09" && clock.dateText === "Wed 9", "default 24-hour time and date");
+                    root.check(clock.timeText === "00:05:09" && clock.dateText === "Wed 9", "configured 24-hour time and date");
                     SettingsData.clockFormat = "12h";
                     SettingsData.padHours12Hour = false;
                     break;
@@ -305,7 +305,7 @@ ShellRoot {
                         root.check(clock.timeText === clock.date.toLocaleTimeString(Qt.locale(locale), "hh:mm:ss AP"), locale + " time");
                     }
                     clock.locale = Qt.locale("en_US");
-                    SettingsData.clockDateFormat = "";
+                    SettingsData.clockDateFormat = "ddd d";
                     clock.vertical = false;
                     clock.displayMode = "time";
                     break;
@@ -319,7 +319,7 @@ ShellRoot {
                     clock.dateFirst = true;
                     break;
                 case 7:
-                    root.check(root.texts(clock).join("|") === "Wed 9|•|12:05:09 PM", "date-first presentation");
+                    root.check(root.texts(clock).indexOf(clock.dateText) >= 0 && root.texts(clock).indexOf(clock.dateText) < root.texts(clock).indexOf(clock.timeText), "date-first presentation");
                     left.widgetThickness = 36;
                     left.surfaceContext = {
                         kind: "bar",

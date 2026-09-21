@@ -52,7 +52,7 @@ T.Control {
     readonly property bool isLastInGroup: _edge(false)
     property real topRadius: isFirstInGroup ? Theme.groupedListOuterRadius : Theme.groupedListInnerRadius
     property real bottomRadius: isLastInGroup ? Theme.groupedListOuterRadius : Theme.groupedListInnerRadius
-    readonly property real minHeight: subtitle !== "" ? Theme.listItemTwoLineHeight : Theme.listItemHeight
+    property real minHeight: subtitle !== "" ? Theme.listItemTwoLineHeight : Theme.listItemHeight
 
     signal clicked
     signal resetRequested

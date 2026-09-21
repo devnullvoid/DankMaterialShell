@@ -1,6 +1,5 @@
 import QtQuick
 import qs.Common
-import qs.Modals.FileBrowser
 import qs.Services
 import qs.Widgets
 import qs.Modules.Settings.Widgets
@@ -14,7 +13,6 @@ Item {
     readonly property int keybindDataVersion: KeybindsService._dataVersion
     readonly property bool keybindsAvailable: KeybindsService.available
     readonly property string defaultLauncherKeybindSearch: "spotlight toggle"
-    readonly property string compositorLabel: CompositorService.displayName || I18n.tr("Compositor")
     readonly property string spotlightBarKeybindSearch: "spotlight-bar"
 
     function openKeybindsSearch(query) {
@@ -40,14 +38,6 @@ Item {
     Component.onCompleted: {
         if (KeybindsService.available)
             KeybindsService.loadBinds(false);
-    }
-
-    FileBrowserModal {
-        id: logoFileBrowser
-        browserTitle: I18n.tr("Select Launcher Logo")
-        browserType: "generic"
-        filterExtensions: ["*.svg", "*.png", "*.jpg", "*.jpeg", "*.webp"]
-        onFileSelected: path => SettingsData.set("launcherLogoCustomPath", path.replace("file://", ""))
     }
 
     SettingsPage {
@@ -735,200 +725,6 @@ Item {
             }
 
             TerminalPickerRow {}
-        }
-
-        SettingsCard {
-            width: parent.width
-            iconName: "image"
-            title: I18n.tr("Launcher button")
-            settingKey: "launcherLogo"
-            tags: ["launcher", "logo", "icon", "button", "os", "distro", "custom", "color"]
-
-            SettingsButtonGroupRow {
-                readonly property var modes: ["apps", "os", "dank", "compositor", "custom"]
-
-                settingKey: "launcherLogoMode"
-                tags: ["launcher", "logo", "icon", "os", "distro", "compositor", "custom"]
-                text: I18n.tr("Icon")
-                model: [I18n.tr("Apps Icon"), I18n.tr("OS Logo"), "Dank", root.compositorLabel, I18n.tr("Custom")]
-                currentIndex: Math.max(0, modes.indexOf(SettingsData.launcherLogoMode))
-                onSelectionChanged: (index, selected) => {
-                    if (!selected)
-                        return;
-                    SettingsData.set("launcherLogoMode", modes[index]);
-                }
-            }
-
-            SettingsRow {
-                visible: SettingsData.launcherLogoMode === "custom"
-                body: Row {
-                    width: parent.width
-                    spacing: Theme.spacingM
-
-                    StyledRect {
-                        width: parent.width - selectButton.width - Theme.spacingM
-                        height: 36
-                        radius: Theme.cornerRadius
-                        color: Theme.floatingWindowFieldColor
-                        border.color: Theme.floatingWindowFieldBorderColor
-                        border.width: Theme.outlineWidth
-
-                        StyledText {
-                            anchors.left: parent.left
-                            anchors.leftMargin: Theme.spacingM
-                            anchors.verticalCenter: parent.verticalCenter
-                            text: SettingsData.launcherLogoCustomPath || I18n.tr("Select an image file...")
-                            font.pixelSize: Theme.fontSizeMedium
-                            color: SettingsData.launcherLogoCustomPath ? Theme.surfaceText : Theme.outlineButton
-                            width: parent.width - Theme.spacingM * 2
-                            wrapMode: Text.NoWrap
-                            elide: Text.ElideMiddle
-                            horizontalAlignment: Text.AlignLeft
-                        }
-                    }
-
-                    DankActionButton {
-                        id: selectButton
-                        iconName: "folder_open"
-                        Accessible.name: I18n.tr("Select Launcher Logo")
-                        width: 36
-                        height: 36
-                        onClicked: logoFileBrowser.open()
-                    }
-                }
-            }
-
-            SettingsRow {
-                visible: SettingsData.launcherLogoMode !== "apps"
-                title: I18n.tr("Color override")
-                resetKeys: ["launcherLogoColorOverride"]
-                body: Column {
-                    width: parent.width
-                    spacing: Theme.spacingM
-
-                    Item {
-                        width: parent.width
-                        height: colorOverrideRow.implicitHeight
-                        clip: true
-
-                        Row {
-                            id: colorOverrideRow
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            spacing: Theme.spacingM
-
-                            DankButtonGroup {
-                                id: colorModeGroup
-                                maximumWidth: parent.parent.width - (colorPickerCircle.visible ? colorPickerCircle.width + Theme.spacingM : 0)
-                                buttonPadding: parent.parent.width < 480 ? Theme.spacingS : Theme.spacingL
-                                minButtonWidth: parent.parent.width < 480 ? 44 : 64
-                                textSize: parent.parent.width < 480 ? Theme.fontSizeSmall : Theme.fontSizeMedium
-                                model: [I18n.tr("Default"), I18n.tr("Primary"), I18n.tr("Surface"), I18n.tr("Custom")]
-                                currentIndex: {
-                                    const override = SettingsData.launcherLogoColorOverride;
-                                    if (override === "")
-                                        return 0;
-                                    if (override === "primary")
-                                        return 1;
-                                    if (override === "surface")
-                                        return 2;
-                                    return 3;
-                                }
-                                onSelectionChanged: (index, selected) => {
-                                    if (!selected)
-                                        return;
-                                    switch (index) {
-                                    case 0:
-                                        SettingsData.set("launcherLogoColorOverride", "");
-                                        break;
-                                    case 1:
-                                        SettingsData.set("launcherLogoColorOverride", "primary");
-                                        break;
-                                    case 2:
-                                        SettingsData.set("launcherLogoColorOverride", "surface");
-                                        break;
-                                    case 3:
-                                        const currentOverride = SettingsData.launcherLogoColorOverride;
-                                        const isPreset = currentOverride === "" || currentOverride === "primary" || currentOverride === "surface";
-                                        if (isPreset) {
-                                            SettingsData.set("launcherLogoColorOverride", "#ffffff");
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
-
-                            Rectangle {
-                                id: colorPickerCircle
-                                visible: {
-                                    const override = SettingsData.launcherLogoColorOverride;
-                                    return override !== "" && override !== "primary" && override !== "surface";
-                                }
-                                width: 36
-                                height: 36
-                                radius: Theme.fullRadius(width, height)
-                                color: {
-                                    const override = SettingsData.launcherLogoColorOverride;
-                                    if (override !== "" && override !== "primary" && override !== "surface")
-                                        return override;
-                                    return "#ffffff";
-                                }
-                                border.color: Theme.outline
-                                border.width: Theme.outlineWidth
-                                anchors.verticalCenter: parent.verticalCenter
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: {
-                                        if (!PopoutService.colorPickerModal)
-                                            return;
-                                        PopoutService.colorPickerModal.selectedColor = SettingsData.launcherLogoColorOverride;
-                                        PopoutService.colorPickerModal.pickerTitle = I18n.tr("Choose Launcher Logo Color");
-                                        PopoutService.colorPickerModal.onColorSelectedCallback = function (selectedColor) {
-                                            SettingsData.set("launcherLogoColorOverride", selectedColor);
-                                        };
-                                        PopoutService.colorPickerModal.show();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            SettingsSliderRow {
-                visible: SettingsData.launcherLogoMode !== "apps"
-                settingKey: "launcherLogoSizeOffset"
-                tags: ["launcher", "logo", "size", "offset", "scale"]
-                text: I18n.tr("Size offset")
-                unit: "px"
-                minimum: -12
-                maximum: 12
-                value: SettingsData.launcherLogoSizeOffset
-                onSliderValueChanged: newValue => SettingsData.set("launcherLogoSizeOffset", newValue)
-            }
-
-            SettingsSliderRow {
-                visible: SettingsData.launcherLogoMode !== "apps" && !["", "primary", "surface"].includes(SettingsData.launcherLogoColorOverride)
-                settingKey: "launcherLogoBrightness"
-                tags: ["launcher", "logo", "brightness", "color"]
-                text: I18n.tr("Brightness")
-                minimum: 0
-                maximum: 100
-                value: Math.round(SettingsData.launcherLogoBrightness * 100)
-                onSliderValueChanged: newValue => SettingsData.set("launcherLogoBrightness", newValue / 100)
-            }
-
-            SettingsSliderRow {
-                visible: SettingsData.launcherLogoMode !== "apps" && !["", "primary", "surface"].includes(SettingsData.launcherLogoColorOverride)
-                settingKey: "launcherLogoContrast"
-                tags: ["launcher", "logo", "contrast", "color"]
-                text: I18n.tr("Contrast")
-                minimum: 0
-                maximum: 200
-                value: Math.round(SettingsData.launcherLogoContrast * 100)
-                onSliderValueChanged: newValue => SettingsData.set("launcherLogoContrast", newValue / 100)
-            }
         }
 
         SettingsCard {

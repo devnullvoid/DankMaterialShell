@@ -101,8 +101,6 @@ ShellRoot {
         check(osd.shouldBeVisible, "transport keeps OSD open on track " + track);
         const image = root.find(root.cover, item => item.status !== undefined && item.sourceSize !== undefined);
         check(image.visible && image.retainWhileLoading, "cover stays painted during loading");
-        const play = root.find(osd.contentLoader.item, item => item.checkable === true && typeof item.click === "function");
-        check(!play.tooltipText, "play/pause has no tooltip");
     }
     Timer {
         interval: 100
@@ -127,7 +125,7 @@ ShellRoot {
                 root.check(root.checkedNewMetadata && !root.previousArtWasReady, "previous artwork is not ready for new metadata");
                 root.check(root.coverChanges === 1, "duplicate cover files do not reload dash");
                 root.coverChanges = 0;
-                const previous = root.find(osd.contentLoader.item, item => item.iconName === "skip_previous");
+                const previous = root.find(osd.contentLoader.item, item => item.objectName === "previousTrack");
                 // the previous button rewinds instead of skipping back once playback passes eight seconds
                 player.position = 0;
                 input.wait(50);

@@ -83,7 +83,7 @@ ShellRoot {
         running: true
         onTriggered: {
             ClipboardService.keyboardNavigationActive = true;
-            const help = actions.children.find(child => child.iconName === "info");
+            const help = input.findChild(actions, "keyboardHints");
             input.mouseClick(help, help.width / 2, help.height / 2);
             root.check(testModal.showKeyboardHints, "mouse opens keyboard hints");
             root.check(help.activeFocus, "help button receives focus");
@@ -120,7 +120,7 @@ ShellRoot {
         id: mouseCheck
         interval: 500
         onTriggered: {
-            const preview = root.findItem(history, item => item.iconName === "preview" && item.visible);
+            const preview = root.findItem(history, item => item.objectName === "previewEntry" && item.visible);
             root.check(preview !== null, "image row exposes a mouse preview action");
             if (preview) {
                 input.mouseClick(preview, preview.width / 2, preview.height / 2);
