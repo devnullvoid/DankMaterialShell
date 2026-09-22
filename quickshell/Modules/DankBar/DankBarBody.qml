@@ -225,7 +225,7 @@ Item {
 
             Region {
                 intersection: Intersection.Subtract
-                radius: wingRegion.wing.radius
+                shape: RegionShape.Ellipse
                 x: wingRegion.x + wingRegion.wing.discRect.x
                 y: wingRegion.y + wingRegion.wing.discRect.y
                 width: wingRegion.wing.discRect.width

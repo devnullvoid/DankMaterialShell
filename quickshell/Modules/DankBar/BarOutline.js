@@ -41,6 +41,7 @@ function frame(g, start, end, thickness, attachedStart, attachedEnd, farStart, f
         thickness,
         inset,
         wing: Math.max(0, g.wing),
+        wingCross: Math.max(0, g.wingCross ?? g.wing),
         attachedStart: shrink(attachedStart),
         attachedEnd: shrink(attachedEnd),
         farStart: shrink(farStart),
@@ -136,9 +137,10 @@ function alongOps(f) {
     const p = pen();
     const i = f.inset;
     const r = f.wing;
+    const rc = f.wingCross;
     const T = f.thickness;
-    // the offset of a wing arc meets the offset attached edge 2*sqrt(r*i) short of the wing tip
-    const reach = 2 * Math.sqrt(r * i);
+    // the offset of a wing arc meets the offset attached edge 2*sqrt(rc*i) short of the tip, stretched by the along/cross ratio
+    const reach = rc + i > 0 ? (r + i) * 2 * Math.sqrt(rc * i) / (rc + i) : 0;
     const startTip = f.start - r;
     const endTip = f.end + r;
     if (r > 0) {
@@ -146,7 +148,7 @@ function alongOps(f) {
             p.at(startTip + reach, i).at(endTip - reach, i);
         else
             p.at(endTip, -i);
-        p.arc(r + i, 0, f.end - i, r);
+        p.arc(r + i, 0, f.end - i, rc, rc + i);
     } else {
         if (f.attachedVisible)
             p.at(f.start + i + f.attachedStart, i);
@@ -155,11 +157,11 @@ function alongOps(f) {
     p.at(f.end - i, T - i - f.farEnd).corner(f.farEnd, f.end - i - f.farEnd, T - i);
     p.at(f.start + i + f.farStart, T - i).corner(f.farStart, f.start + i, T - i - f.farStart);
     if (r > 0) {
-        p.at(f.start + i, r);
+        p.at(f.start + i, rc);
         if (f.attachedVisible)
-            p.arc(r + i, 0, startTip + reach, i);
+            p.arc(r + i, 0, startTip + reach, i, rc + i);
         else
-            p.arc(r + i, 0, startTip, -i);
+            p.arc(r + i, 0, startTip, -i, rc + i);
     } else {
         p.at(f.start + i, i + f.attachedStart).corner(f.attachedStart, f.start + i + f.attachedStart, i);
     }
@@ -182,10 +184,11 @@ function pen() {
             self.down = true;
             return self;
         },
-        arc(radius, sweep, a, c) {
+        arc(radius, sweep, a, c, crossRadius) {
             self.ops.push({
                 op: "A",
                 radius,
+                crossRadius: crossRadius ?? radius,
                 sweep,
                 a,
                 c
@@ -215,6 +218,7 @@ function pen() {
 function serialize(ops, position, width, height) {
     const map = mapper(position, width, height);
     const flipSweep = position === "bottom" || position === "left";
+    const vertical = position === "left" || position === "right";
     return ops.map(op => {
         if (op.op === "Z")
             return "Z";
@@ -223,7 +227,9 @@ function serialize(ops, position, width, height) {
         if (op.op !== "A")
             return `${op.op} ${target}`;
         const sweep = flipSweep ? 1 - op.sweep : op.sweep;
-        return `A ${num(op.radius)} ${num(op.radius)} 0 0 ${sweep} ${target}`;
+        const rx = vertical ? op.crossRadius : op.radius;
+        const ry = vertical ? op.radius : op.crossRadius;
+        return `A ${num(rx)} ${num(ry)} 0 0 ${sweep} ${target}`;
     }).join(" ");
 }
 

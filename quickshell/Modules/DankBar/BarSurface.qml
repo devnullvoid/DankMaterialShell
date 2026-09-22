@@ -22,7 +22,11 @@ Item {
     readonly property bool farEdge: isBottom || isRight
     readonly property bool edgeAttached: (barConfig?.attachToScreenEdge ?? false) && !frameShapesBar
     readonly property bool alongWings: !(barWindow.spansEdge ?? true)
+    readonly property real crossSize: axis.isVertical ? (parent?.width ?? 0) : (parent?.height ?? 0)
+    readonly property real wingCrossCap: Math.max(0, crossSize - Math.min(rt, crossSize / 2))
     readonly property real wing: gothEnabled ? barWindow._wingR : 0
+    readonly property real wingAlong: Math.max(0, motion.currentOffsetAlong)
+    readonly property real wingCross: alongWings ? Math.min(wingAlong, wingCrossCap) : wingAlong
     readonly property real windowLength: axis.isVertical ? barWindow.height : barWindow.width
     readonly property string startSide: axis.isVertical ? "top" : "left"
     readonly property string endSide: axis.isVertical ? "bottom" : "right"
@@ -216,21 +220,25 @@ Item {
 
     GothCorner {
         id: leadingWing
-        radius: Math.max(0, motion.currentOffsetAlong)
+        radius: root.wingAlong
+        radiusX: root.axis.isVertical ? root.wingCross : radius
+        radiusY: root.axis.isVertical ? radius : root.wingCross
         color: root.barWindow._bgColor
         visible: root.gothEnabled && radius > 0 && root.startCover <= 0
-        x: root.alongWings ? (root.axis.isVertical && root.isRight ? root.width - radius : 0) : (root.isLeft ? body.width : 0)
-        y: root.alongWings ? (!root.axis.isVertical && root.isBottom ? root.height - radius : 0) : (root.isTop ? body.height : 0)
+        x: root.alongWings ? (root.axis.isVertical && root.isRight ? root.width - width : 0) : (root.isLeft ? body.width : 0)
+        y: root.alongWings ? (!root.axis.isVertical && root.isBottom ? root.height - height : 0) : (root.isTop ? body.height : 0)
         corner: root.alongWings ? root.alongWingCorner(true) : root.isTop ? "bottomRight" : root.isBottom ? "topRight" : root.isLeft ? "bottomRight" : "bottomLeft"
     }
 
     GothCorner {
         id: trailingWing
-        radius: Math.max(0, motion.currentOffsetAlong)
+        radius: root.wingAlong
+        radiusX: root.axis.isVertical ? root.wingCross : radius
+        radiusY: root.axis.isVertical ? radius : root.wingCross
         color: root.barWindow._bgColor
         visible: root.gothEnabled && radius > 0 && root.endCover <= 0
-        x: root.axis.isVertical ? (root.alongWings ? (root.isRight ? root.width - radius : 0) : (root.isLeft ? body.width : 0)) : root.width - radius
-        y: root.axis.isVertical ? root.height - radius : (root.alongWings ? (root.isBottom ? root.height - radius : 0) : (root.isTop ? body.height : 0))
+        x: root.axis.isVertical ? (root.alongWings ? (root.isRight ? root.width - width : 0) : (root.isLeft ? body.width : 0)) : root.width - width
+        y: root.axis.isVertical ? root.height - height : (root.alongWings ? (root.isBottom ? root.height - height : 0) : (root.isTop ? body.height : 0))
         corner: root.alongWings ? root.alongWingCorner(false) : root.isTop ? "bottomLeft" : root.isBottom ? "topLeft" : root.isLeft ? "topRight" : "topLeft"
     }
 
@@ -257,6 +265,7 @@ Item {
                 bottomRight: body.bottomRightRadius
             },
             wing: root.gothEnabled ? leadingWing.radius : 0,
+            wingCross: root.gothEnabled ? root.wingCross : 0,
             alongWings: root.alongWings,
             inset: thickness / 2,
             open: !showFullBorder,
