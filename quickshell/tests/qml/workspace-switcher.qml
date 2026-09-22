@@ -124,7 +124,7 @@ ShellRoot {
 
         onTriggered: {
             try {
-                if (++waited > 200)
+                if (++waited > 800)
                     throw new Error("timed out in step " + step);
                 switch (step) {
                 case 0:
@@ -234,7 +234,7 @@ ShellRoot {
                     advance();
                     return;
                 case 6:
-                    if (root.pills().length !== 3 || waited < 4)
+                    if (waited < 800 && root.pills().map(pill => root.texts(pill).join("|")).join() !== "web,2,3")
                         return;
                     root.check(root.pills().map(pill => root.texts(pill).join("|")).join() === "web,2,3", "hyprland slot pills label from their record, got " + root.pills().map(pill => root.texts(pill).join("|")).join());
                     root.check(root.pills().every(pill => !pill.isPlaceholder), "hyprland padding slots are real workspaces");

@@ -1,7 +1,5 @@
 import QtQuick
-import Quickshell
 import Quickshell.Io
-import Quickshell.Hyprland
 import Quickshell.Wayland
 import Quickshell.Services.SystemTray
 import Quickshell.Services.UPower
@@ -449,20 +447,7 @@ Item {
 
     IpcHandler {
         function getFocusedScreenName() {
-            if (CompositorService.isHyprland && Hyprland.focusedMonitor) {
-                return Hyprland.focusedMonitor.name;
-            }
-            if (CompositorService.isNiri && NiriService.currentOutput) {
-                return NiriService.currentOutput;
-            }
-            if ((CompositorService.isSway || CompositorService.isScroll || CompositorService.isMiracle) && I3.workspaces?.values) {
-                const focusedWs = I3.workspaces.values.find(ws => ws.focused === true);
-                return focusedWs?.monitor?.name || "";
-            }
-            if (CompositorService.isMango && MangoService.activeOutput) {
-                return MangoService.activeOutput;
-            }
-            return "";
+            return CompositorService.getFocusedScreenName();
         }
 
         function getActiveNotepadInstance() {

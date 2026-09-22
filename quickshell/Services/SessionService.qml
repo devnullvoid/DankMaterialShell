@@ -453,6 +453,11 @@ Singleton {
                 return;
             }
 
+            if (CompositorService.isUmbriel) {
+                UmbrielService.action("session-quit:skip-confirmation");
+                return;
+            }
+
             if (CompositorService.isSway || CompositorService.isScroll || CompositorService.isMiracle) {
                 try {
                     I3.dispatch("exit");

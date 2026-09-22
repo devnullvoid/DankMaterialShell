@@ -4,7 +4,7 @@ import test from "node:test";
 import vm from "node:vm";
 
 const COMPOSITORS = ["niri", "hyprland", "mango", "sway", "scroll", "miracle", "labwc", "aqueous"];
-const IDENTITY = { niri: "isNiri", hyprland: "isHyprland", mango: "isMango", sway: "isSway", scroll: "isScroll", miracle: "isMiracle", labwc: "isLabwc", aqueous: "isAqueous" };
+const IDENTITY = { niri: "isNiri", hyprland: "isHyprland", mango: "isMango", sway: "isSway", scroll: "isScroll", miracle: "isMiracle", labwc: "isLabwc", aqueous: "isAqueous", umbriel: "isUmbriel" };
 
 const service = readFileSync(new URL("../Services/CompositorService.qml", import.meta.url), "utf8");
 

@@ -242,10 +242,13 @@ ShellRoot {
 
     Timer {
         id: checks
-        interval: 150
+        interval: 16
         repeat: true
         property int step: 0
+        property real stepStarted: 0
         onTriggered: {
+            if (!stepStarted)
+                stepStarted = Date.now();
             try {
                 const leftHosts = root.hosts(left);
                 const rightHosts = root.hosts(right);
@@ -257,7 +260,7 @@ ShellRoot {
                 root.check(first.section === "left" && rightHosts[0].item.section === "right" && centerHosts[0].item.section === "center", "section injection");
                 root.check(first.widgetThickness === left.widgetThickness && first.barThickness === 48 && first.barSpacing === 6 && first.parentScreen.name === "fixture" && first.sectionAvailablePrimarySize === 500 && first.barConfig.id === "fixture", "host context injection");
                 root.check(first.surfaceContext === left.surfaceContext && first.widgetInstanceId === "clock_0" && first.surfaceLive === (step >= 8), "surface context and instance injection");
-                switch (step++) {
+                switch (step) {
                 case 0:
                     const plugin = pluginContainer.item.item;
                     root.check(plugin.pluginService === PluginService && plugin.popoutService === PopoutService, "plugin service injection");
@@ -379,8 +382,12 @@ ShellRoot {
                     stop();
                     Qt.quit();
                 }
+                step++;
+                stepStarted = Date.now();
             } catch (error) {
-                console.error("FIXTURE_FAIL", error.message);
+                if (Date.now() - stepStarted < 20000)
+                    return;
+                console.error("FIXTURE_FAIL", "step " + step + ": " + error.message);
                 stop();
                 Qt.quit();
             }

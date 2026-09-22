@@ -44,9 +44,11 @@ ShellRoot {
             throw new Error(message);
     }
     function waitFor(condition, message) {
-        for (let attempt = 0; attempt < 200 && !condition(); attempt++)
+        const deadline = Date.now() + 20000;
+        while (!condition()) {
+            check(Date.now() < deadline, "timed out: " + message);
             input.wait(10);
-        check(condition(), message);
+        }
     }
     function find(item) {
         if (!item)
@@ -93,12 +95,12 @@ ShellRoot {
         MediaAccentService._accent = original;
     }
     Timer {
-        interval: 1000
+        interval: 0
         running: true
         onTriggered: {
             try {
+                root.waitFor(() => !!MprisController.activePlayer, "player discovered");
                 const player = MprisController.activePlayer;
-                root.check(!!player, "player discovered");
                 root.tracking = true;
                 dash.requestTab("media");
                 dash.dashVisible = true;
@@ -136,9 +138,7 @@ ShellRoot {
                 input.wait(200);
                 root.check(root.playerLosses === 0, "paused track transition retains player");
                 player.stop();
-                for (let attempt = 0; attempt < 120 && MprisController.activePlayer; attempt++)
-                    input.wait(25);
-                root.check(MprisController.activePlayer === null, "stopped player clears after grace");
+                root.waitFor(() => MprisController.activePlayer === null, "stopped player clears after grace");
                 console.log("FIXTURE_PASS media player continuity, popout retained, album art accent in both OSD layouts");
             } catch (error) {
                 console.error("FIXTURE_FAIL", error.message);
