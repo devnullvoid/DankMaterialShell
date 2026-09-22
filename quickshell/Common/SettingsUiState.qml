@@ -14,6 +14,7 @@ Singleton {
     // Set only while the widget settings page is showing a dock-hosted widget; empty means bar-hosted.
     property string selectedDockId: ""
     property string selectedDockWidgetId: ""
+    property string selectedDesktopWidgetId: ""
     property string selectedWidgetSection: ""
     property int selectedWidgetIndex: -1
     property string selectedWidgetTitle: ""

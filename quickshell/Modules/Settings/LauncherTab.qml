@@ -14,6 +14,7 @@ Item {
     readonly property bool keybindsAvailable: KeybindsService.available
     readonly property string defaultLauncherKeybindSearch: "spotlight toggle"
     readonly property string spotlightBarKeybindSearch: "spotlight-bar"
+    readonly property var builtInPluginIds: ["dms_settings", "dms_notepad", "dms_sysmon", "dms_colorpicker", "dms_settings_search", "dms_clipboard_search", "dms_power", "dms_vpn", "dms_qr_generator"]
 
     function openKeybindsSearch(query) {
         if (!root.parentModal)
@@ -33,6 +34,25 @@ Item {
         if (!keys || keys.length === 0)
             return I18n.tr("Not bound");
         return keys.join(", ");
+    }
+
+    function lastLaunchedText(lastUsed) {
+        if (!lastUsed)
+            return I18n.tr("Never used");
+        const date = new Date(lastUsed);
+        const diffMs = Date.now() - date.getTime();
+        const diffMins = Math.floor(diffMs / (1000 * 60));
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        if (diffMins < 1)
+            return I18n.tr("Last launched just now");
+        if (diffMins < 60)
+            return diffMins === 1 ? I18n.tr("Last launched %1 minute ago", "singular, app usage list in launcher settings, %1 is 1").arg(diffMins) : I18n.tr("Last launched %1 minutes ago", "plural, app usage list in launcher settings, %1 is a count").arg(diffMins);
+        if (diffHours < 24)
+            return diffHours === 1 ? I18n.tr("Last launched %1 hour ago", "singular, app usage list in launcher settings, %1 is 1").arg(diffHours) : I18n.tr("Last launched %1 hours ago", "plural, app usage list in launcher settings, %1 is a count").arg(diffHours);
+        if (diffDays < 7)
+            return diffDays === 1 ? I18n.tr("Last launched %1 day ago", "singular, app usage list in launcher settings, %1 is 1").arg(diffDays) : I18n.tr("Last launched %1 days ago", "plural, app usage list in launcher settings, %1 is a count").arg(diffDays);
+        return I18n.tr("Last launched %1", "app usage list in launcher settings, %1 is a localized date").arg(date.toLocaleDateString());
     }
 
     Component.onCompleted: {
@@ -320,78 +340,41 @@ Item {
                 }
             }
 
+            Repeater {
+                model: hiddenAppsCard.hiddenAppsModel
+
+                SettingsRow {
+                    id: hiddenAppRow
+
+                    required property var modelData
+
+                    title: modelData.name
+                    subtitle: modelData.comment || modelData.id
+                    leading: AppIconRenderer {
+                        width: Theme.iconSize
+                        height: Theme.iconSize
+                        iconValue: hiddenAppRow.modelData.icon || "application-x-executable"
+                        iconSize: Theme.iconSize
+                        fallbackText: (hiddenAppRow.modelData.name || "?").charAt(0).toUpperCase()
+                    }
+
+                    DankActionButton {
+                        iconName: "visibility"
+                        Accessible.name: I18n.tr("Show")
+                        iconColor: Theme.primary
+                        onClicked: SessionData.showApp(hiddenAppRow.modelData.id)
+                    }
+                }
+            }
+
             SettingsRow {
-                body: Column {
-                    id: hiddenAppsList
+                visible: hiddenAppsCard.hiddenAppsModel.length === 0
+                body: StyledText {
                     width: parent.width
-                    spacing: Theme.spacingS
-
-                    Repeater {
-                        model: hiddenAppsCard.hiddenAppsModel
-
-                        delegate: Rectangle {
-                            width: hiddenAppsList.width
-                            height: 48
-                            radius: Theme.cornerRadius
-                            color: Theme.floatingWindowFieldColor
-                            border.width: 0
-
-                            Row {
-                                anchors.left: parent.left
-                                anchors.leftMargin: Theme.spacingM
-                                anchors.verticalCenter: parent.verticalCenter
-                                spacing: Theme.spacingM
-
-                                AppIconRenderer {
-                                    width: 24
-                                    height: 24
-                                    iconValue: modelData.icon || "application-x-executable"
-                                    iconSize: 24
-                                    fallbackText: (modelData.name || "?").charAt(0).toUpperCase()
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-
-                                Column {
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    spacing: Theme.spacingXXS
-
-                                    StyledText {
-                                        text: modelData.name
-                                        font.pixelSize: Theme.fontSizeMedium
-                                        font.weight: Theme.fontWeightMedium
-                                        color: Theme.surfaceText
-                                    }
-
-                                    StyledText {
-                                        text: modelData.comment || modelData.id
-                                        font.pixelSize: Theme.fontSizeSmall
-                                        color: Theme.surfaceVariantText
-                                        visible: text.length > 0
-                                    }
-                                }
-                            }
-
-                            DankActionButton {
-                                anchors.right: parent.right
-                                anchors.rightMargin: Theme.spacingM
-                                anchors.verticalCenter: parent.verticalCenter
-                                iconName: "visibility"
-                                Accessible.name: I18n.tr("Show")
-                                iconSize: 18
-                                iconColor: Theme.primary
-                                onClicked: SessionData.showApp(modelData.id)
-                            }
-                        }
-                    }
-
-                    StyledText {
-                        width: parent.width
-                        text: I18n.tr("No hidden apps.")
-                        font.pixelSize: Theme.fontSizeMedium
-                        color: Theme.surfaceVariantText
-                        horizontalAlignment: Text.AlignHCenter
-                        visible: hiddenAppsCard.hiddenAppsModel.length === 0
-                    }
+                    text: I18n.tr("No hidden apps.")
+                    font.pixelSize: Theme.fontSizeMedium
+                    color: Theme.surfaceVariantText
+                    horizontalAlignment: Text.AlignHCenter
                 }
             }
         }
@@ -431,77 +414,63 @@ Item {
                 }
             }
 
+            Repeater {
+                model: appOverridesCard.overridesModel
+
+                SettingsRow {
+                    id: overrideRow
+
+                    required property var modelData
+
+                    title: modelData.name
+                    subtitle: modelData.originalName !== modelData.name ? modelData.originalName : modelData.id
+                    leading: AppIconRenderer {
+                        width: Theme.iconSize
+                        height: Theme.iconSize
+                        iconValue: overrideRow.modelData.icon || "application-x-executable"
+                        iconSize: Theme.iconSize
+                        fallbackText: (overrideRow.modelData.name || "?").charAt(0).toUpperCase()
+                    }
+
+                    DankActionButton {
+                        iconName: "delete"
+                        tooltipText: I18n.tr("Reset to default")
+                        iconColor: Theme.error
+                        onClicked: SessionData.clearAppOverride(overrideRow.modelData.id)
+                    }
+                }
+            }
+
             SettingsRow {
-                body: Column {
-                    id: overridesList
+                visible: appOverridesCard.overridesModel.length === 0
+                body: StyledText {
                     width: parent.width
-                    spacing: Theme.spacingS
+                    text: I18n.tr("No app customizations.")
+                    font.pixelSize: Theme.fontSizeMedium
+                    color: Theme.surfaceVariantText
+                    horizontalAlignment: Text.AlignHCenter
+                }
+            }
+        }
 
-                    Repeater {
-                        model: appOverridesCard.overridesModel
+        SettingsCard {
+            width: parent.width
+            iconName: "apps"
+            title: I18n.tr("Built-in apps", "launcher settings card, DMS tools listed with the installed apps")
+            settingKey: "launcherBuiltInApps"
+            tags: ["launcher", "apps", "builtin", "settings", "notepad", "system monitor", "color picker"]
 
-                        delegate: Rectangle {
-                            width: overridesList.width
-                            height: 48
-                            radius: Theme.cornerRadius
-                            color: Theme.floatingWindowFieldColor
-                            border.width: 0
+            Repeater {
+                model: root.builtInPluginIds.filter(id => AppSearchService.builtInPlugins[id]?.isLauncher !== true)
 
-                            Row {
-                                anchors.left: parent.left
-                                anchors.leftMargin: Theme.spacingM
-                                anchors.verticalCenter: parent.verticalCenter
-                                spacing: Theme.spacingM
+                SettingsToggleRow {
+                    required property string modelData
+                    readonly property var plugin: AppSearchService.builtInPlugins[modelData]
 
-                                AppIconRenderer {
-                                    width: 24
-                                    height: 24
-                                    iconValue: modelData.icon || "application-x-executable"
-                                    iconSize: 24
-                                    fallbackText: (modelData.name || "?").charAt(0).toUpperCase()
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-
-                                Column {
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    spacing: Theme.spacingXXS
-
-                                    StyledText {
-                                        text: modelData.name
-                                        font.pixelSize: Theme.fontSizeMedium
-                                        font.weight: Theme.fontWeightMedium
-                                        color: Theme.surfaceText
-                                    }
-
-                                    StyledText {
-                                        text: modelData.originalName !== modelData.name ? modelData.originalName : modelData.id
-                                        font.pixelSize: Theme.fontSizeSmall
-                                        color: Theme.surfaceVariantText
-                                    }
-                                }
-                            }
-
-                            DankActionButton {
-                                anchors.right: parent.right
-                                anchors.rightMargin: Theme.spacingM
-                                anchors.verticalCenter: parent.verticalCenter
-                                iconName: "delete"
-                                tooltipText: I18n.tr("Reset to default")
-                                iconSize: 18
-                                iconColor: Theme.error
-                                onClicked: SessionData.clearAppOverride(modelData.id)
-                            }
-                        }
-                    }
-
-                    StyledText {
-                        width: parent.width
-                        text: I18n.tr("No app customizations.")
-                        font.pixelSize: Theme.fontSizeMedium
-                        color: Theme.surfaceVariantText
-                        horizontalAlignment: Text.AlignHCenter
-                        visible: appOverridesCard.overridesModel.length === 0
-                    }
+                    iconName: plugin?.cornerIcon ?? "extension"
+                    text: plugin?.name ?? modelData
+                    checked: SettingsData.getBuiltInPluginSetting(modelData, "enabled", true)
+                    onToggled: checked => SettingsData.setBuiltInPluginSetting(modelData, "enabled", checked)
                 }
             }
         }
@@ -596,10 +565,18 @@ Item {
                     title: modelData.name
                     subtitle: modelData.trigger ? I18n.tr("Trigger: %1", "launcher plugin subtitle, %1 is the trigger prefix text").arg(modelData.trigger) : I18n.tr("No trigger")
                     iconName: modelData.iconType !== "unicode" ? modelData.icon : ""
-                    trailingBadge: modelData.isBuiltIn ? "DMS" : ""
                     textIcon: modelData.iconType === "unicode" ? modelData.icon : ""
 
+                    DankBadge {
+                        anchors.verticalCenter: parent.verticalCenter
+                        visible: pluginRow.modelData.isBuiltIn
+                        text: I18n.tr("Built-in", "badge on launcher plugins that ship with DMS")
+                        color: Theme.primaryHover
+                        textColor: Theme.primary
+                    }
+
                     DankToggle {
+                        anchors.verticalCenter: parent.verticalCenter
                         hideText: true
                         checked: {
                             switch (pluginRow.modelData.id) {
@@ -644,10 +621,10 @@ Item {
             iconName: "extension"
             title: I18n.tr("Built-in plugins")
             settingKey: "launcherBuiltInPlugins"
-            tags: ["launcher", "plugins", "trigger", "builtin", "settings", "notepad", "calculator", "clipboard", "power"]
+            tags: ["launcher", "plugins", "trigger", "builtin", "power", "vpn", "qr", "clipboard", "search"]
 
             Repeater {
-                model: ["dms_settings", "dms_notepad", "dms_sysmon", "dms_settings_search", "dms_clipboard_search", "dms_power", "dms_vpn", "dms_colorpicker", "dms_qr_generator"]
+                model: root.builtInPluginIds.filter(id => AppSearchService.builtInPlugins[id]?.isLauncher === true)
 
                 SettingsRow {
                     id: builtInRow
@@ -657,14 +634,12 @@ Item {
 
                     iconName: plugin?.cornerIcon ?? "extension"
                     title: plugin?.name ?? modelData
-                    subtitle: plugin?.comment ?? ""
 
                     DankTextField {
                         outlined: true
                         leftIconName: "keyboard"
                         labelText: I18n.tr("Trigger", "noun, launcher plugin trigger prefix text field label")
                         width: Theme.fontSizeMedium * 6 + Theme.iconButtonSize
-                        visible: builtInRow.plugin?.isLauncher === true
                         anchors.verticalCenter: parent.verticalCenter
                         onTextEdited: SettingsData.setBuiltInPluginSetting(builtInRow.modelData, "trigger", text)
                         Component.onCompleted: text = SettingsData.getBuiltInPluginSetting(builtInRow.modelData, "trigger", builtInRow.plugin?.defaultTrigger ?? "")
@@ -790,110 +765,58 @@ Item {
                 }
             }
 
-            SettingsRow {
-                body: Column {
-                    id: rankedAppsList
-                    width: parent.width
-                    spacing: Theme.spacingS
+            Repeater {
+                model: recentAppsCard.rankedAppsModel
 
-                    Repeater {
-                        model: recentAppsCard.rankedAppsModel
+                SettingsRow {
+                    id: rankedAppRow
 
-                        delegate: Rectangle {
-                            width: rankedAppsList.width
-                            height: 48
-                            radius: Theme.cornerRadius
-                            color: Theme.floatingWindowFieldColor
-                            border.width: 0
+                    required property var modelData
+                    required property int index
 
-                            Row {
-                                anchors.left: parent.left
-                                anchors.leftMargin: Theme.spacingM
-                                anchors.verticalCenter: parent.verticalCenter
-                                spacing: Theme.spacingM
+                    title: modelData.name || I18n.tr("Unknown App")
+                    subtitle: root.lastLaunchedText(modelData.lastUsed)
+                    leading: [
+                        StyledText {
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: Theme.iconSize
+                            text: (rankedAppRow.index + 1).toString()
+                            font.pixelSize: Theme.fontSizeSmall
+                            font.weight: Theme.fontWeightMedium
+                            color: Theme.primary
+                        },
+                        AppIconRenderer {
+                            anchors.verticalCenter: parent.verticalCenter
+                            width: Theme.iconSize
+                            height: Theme.iconSize
+                            iconValue: rankedAppRow.modelData.icon || "application-x-executable"
+                            iconSize: Theme.iconSize
+                            fallbackText: (rankedAppRow.modelData.name || "?").charAt(0).toUpperCase()
+                        }
+                    ]
 
-                                StyledText {
-                                    text: (index + 1).toString()
-                                    font.pixelSize: Theme.fontSizeSmall
-                                    font.weight: Theme.fontWeightMedium
-                                    color: Theme.primary
-                                    width: 20
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-
-                                AppIconRenderer {
-                                    width: 24
-                                    height: 24
-                                    iconValue: modelData.icon || "application-x-executable"
-                                    iconSize: 24
-                                    fallbackText: (modelData.name || "?").charAt(0).toUpperCase()
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-
-                                Column {
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    spacing: Theme.spacingXXS
-
-                                    StyledText {
-                                        text: modelData.name || I18n.tr("Unknown App")
-                                        font.pixelSize: Theme.fontSizeMedium
-                                        font.weight: Theme.fontWeightMedium
-                                        color: Theme.surfaceText
-                                    }
-
-                                    StyledText {
-                                        text: {
-                                            if (!modelData.lastUsed)
-                                                return I18n.tr("Never used");
-                                            var date = new Date(modelData.lastUsed);
-                                            var now = new Date();
-                                            var diffMs = now - date;
-                                            var diffMins = Math.floor(diffMs / (1000 * 60));
-                                            var diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-                                            var diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-                                            if (diffMins < 1)
-                                                return I18n.tr("Last launched just now");
-                                            if (diffMins < 60)
-                                                return diffMins === 1 ? I18n.tr("Last launched %1 minute ago", "singular, app usage list in launcher settings, %1 is 1").arg(diffMins) : I18n.tr("Last launched %1 minutes ago", "plural, app usage list in launcher settings, %1 is a count").arg(diffMins);
-                                            if (diffHours < 24)
-                                                return diffHours === 1 ? I18n.tr("Last launched %1 hour ago", "singular, app usage list in launcher settings, %1 is 1").arg(diffHours) : I18n.tr("Last launched %1 hours ago", "plural, app usage list in launcher settings, %1 is a count").arg(diffHours);
-                                            if (diffDays < 7)
-                                                return diffDays === 1 ? I18n.tr("Last launched %1 day ago", "singular, app usage list in launcher settings, %1 is 1").arg(diffDays) : I18n.tr("Last launched %1 days ago", "plural, app usage list in launcher settings, %1 is a count").arg(diffDays);
-                                            return I18n.tr("Last launched %1", "app usage list in launcher settings, %1 is a localized date").arg(date.toLocaleDateString());
-                                        }
-                                        font.pixelSize: Theme.fontSizeSmall
-                                        color: Theme.surfaceVariantText
-                                    }
-                                }
-                            }
-
-                            DankActionButton {
-                                anchors.right: parent.right
-                                anchors.rightMargin: Theme.spacingM
-                                anchors.verticalCenter: parent.verticalCenter
-                                circular: true
-                                iconName: "close"
-                                Accessible.name: I18n.tr("Remove")
-                                iconSize: 16
-                                iconColor: Theme.error
-                                onClicked: {
-                                    var currentRanking = Object.assign({}, AppUsageHistoryData.appUsageRanking || {});
-                                    delete currentRanking[modelData.id];
-                                    AppUsageHistoryData.appUsageRanking = currentRanking;
-                                    AppUsageHistoryData.saveSettings();
-                                }
-                            }
+                    DankActionButton {
+                        iconName: "close"
+                        Accessible.name: I18n.tr("Remove")
+                        iconColor: Theme.error
+                        onClicked: {
+                            const currentRanking = Object.assign({}, AppUsageHistoryData.appUsageRanking || {});
+                            delete currentRanking[rankedAppRow.modelData.id];
+                            AppUsageHistoryData.appUsageRanking = currentRanking;
+                            AppUsageHistoryData.saveSettings();
                         }
                     }
+                }
+            }
 
-                    StyledText {
-                        width: parent.width
-                        text: I18n.tr("No apps have been launched yet.")
-                        font.pixelSize: Theme.fontSizeMedium
-                        color: Theme.surfaceVariantText
-                        horizontalAlignment: Text.AlignHCenter
-                        visible: recentAppsCard.rankedAppsModel.length === 0
-                    }
+            SettingsRow {
+                visible: recentAppsCard.rankedAppsModel.length === 0
+                body: StyledText {
+                    width: parent.width
+                    text: I18n.tr("No apps have been launched yet.")
+                    font.pixelSize: Theme.fontSizeMedium
+                    color: Theme.surfaceVariantText
+                    horizontalAlignment: Text.AlignHCenter
                 }
             }
         }

@@ -4444,6 +4444,30 @@
     "icon": "border_style"
   },
   {
+    "section": "launcherBuiltInApps",
+    "label": "Built-in apps",
+    "tabIndex": 9,
+    "category": "Launcher",
+    "keywords": [
+      "app drawer",
+      "app menu",
+      "applications",
+      "apps",
+      "built",
+      "builtin",
+      "color picker",
+      "drawer",
+      "launcher",
+      "menu",
+      "notepad",
+      "settings",
+      "start",
+      "start menu",
+      "system monitor"
+    ],
+    "icon": "apps"
+  },
+  {
     "section": "launcherBuiltInPlugins",
     "label": "Built-in plugins",
     "tabIndex": 9,
@@ -4455,19 +4479,19 @@
       "applications",
       "built",
       "builtin",
-      "calculator",
       "clipboard",
       "drawer",
       "extensions",
       "launcher",
       "menu",
-      "notepad",
       "plugins",
       "power",
-      "settings",
+      "qr",
+      "search",
       "start",
       "start menu",
       "trigger",
+      "vpn",
       "widgets"
     ],
     "icon": "extension"
@@ -9489,6 +9513,32 @@
       "widgets"
     ],
     "icon": "add"
+  },
+  {
+    "section": "_hub_desktop_widgets",
+    "label": "Desktop widgets",
+    "tabIndex": 27,
+    "page": "desktop_widgets",
+    "category": "Desktop widgets",
+    "keywords": [
+      "addons",
+      "clocks",
+      "components",
+      "conky",
+      "desktop",
+      "desktop clock",
+      "extensions",
+      "modules",
+      "monitors",
+      "plugins",
+      "settings",
+      "system",
+      "time",
+      "watch",
+      "widget",
+      "widgets"
+    ],
+    "icon": "widgets"
   },
   {
     "section": "_tab_27",
@@ -14859,6 +14909,29 @@
     "parentLabel": "Interface style"
   },
   {
+    "section": "_tab_54",
+    "label": "Bar widgets: Widget settings",
+    "tabIndex": 54,
+    "category": "Widget settings",
+    "keywords": [
+      "bar",
+      "components",
+      "instance",
+      "modules",
+      "options",
+      "panel",
+      "settings",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "widget",
+      "widgets"
+    ],
+    "icon": "tune",
+    "parentLabel": "Bar widgets",
+    "description": "Options of one widget instance"
+  },
+  {
     "section": "barWidgetGeneral",
     "label": "Show in dock",
     "tabIndex": 54,
@@ -14879,29 +14952,6 @@
     ],
     "parentLabel": "Bar widgets",
     "icon": "SettingsUiState.selectedWidgetIcon"
-  },
-  {
-    "section": "_tab_54",
-    "label": "Widget settings",
-    "tabIndex": 54,
-    "category": "Widget settings",
-    "keywords": [
-      "bar",
-      "components",
-      "instance",
-      "modules",
-      "options",
-      "panel",
-      "settings",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "widget",
-      "widgets"
-    ],
-    "icon": "tune",
-    "parentLabel": "Bar widgets",
-    "description": "Options of one widget instance"
   },
   {
     "section": "mutedApps",
@@ -15593,5 +15643,26 @@
     "parentLabel": "Security",
     "description": "DMS removes its managed block from /etc/pam.d/greetd and stops write services",
     "conditionKey": "greeterAvailable"
+  },
+  {
+    "section": "_tab_63",
+    "label": "Desktop widgets: Widget settings",
+    "tabIndex": 63,
+    "category": "Widget settings",
+    "keywords": [
+      "components",
+      "conky",
+      "desktop",
+      "desktop clock",
+      "instance",
+      "modules",
+      "options",
+      "settings",
+      "widget",
+      "widgets"
+    ],
+    "icon": "tune",
+    "parentLabel": "Desktop widgets",
+    "description": "Options of one widget instance"
   }
 ]

@@ -218,6 +218,7 @@ FocusScope {
             "power_sleep": "PowerSleepTab.qml",
             "clipboard": "ClipboardTab.qml",
             "desktop_widgets": "DesktopWidgetsTab.qml",
+            "desktop_widget": "DesktopWidgetTab.qml",
             "audio": "AudioTab.qml",
             "locale": "LocaleTab.qml",
             "multiplexers": "MuxTab.qml",

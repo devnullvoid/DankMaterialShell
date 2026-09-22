@@ -200,7 +200,19 @@ Singleton {
             "text": I18n.tr("Desktop widgets"),
             "icon": "widgets",
             "tabIndex": 27,
-            "hint": I18n.tr("Clocks, system monitors, plugins")
+            "hubHeader": "DesktopWidgetsTab",
+            "hint": I18n.tr("Clocks, system monitors, plugins"),
+            "children": [
+                {
+                    "id": "desktop_widget",
+                    "hidden": true,
+                    "titleFrom": "selectedWidgetTitle",
+                    "text": I18n.tr("Widget settings"),
+                    "icon": "tune",
+                    "tabIndex": 63,
+                    "hint": I18n.tr("Options of one widget instance")
+                }
+            ]
         },
         {
             "id": "separator_2",

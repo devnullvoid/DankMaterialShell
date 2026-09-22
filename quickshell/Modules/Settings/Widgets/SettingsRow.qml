@@ -86,8 +86,16 @@ T.Control {
     }
 
     function _edge(first) {
-        if (groupItem.parent?.isSettingsGroupHost)
-            return groupItem.parent.isEdge(groupItem, first);
+        const container = groupItem.parent;
+        if (container?.isSettingsGroupHost)
+            return container.isEdge(groupItem, first);
+        if (!_edgeInContainer(first))
+            return false;
+        const host = container?.parent;
+        return host?.isSettingsGroupHost ? host.isEdge(container, first) : true;
+    }
+
+    function _edgeInContainer(first) {
         const siblings = groupItem.parent?.visibleChildren;
         if (!siblings)
             return true;
