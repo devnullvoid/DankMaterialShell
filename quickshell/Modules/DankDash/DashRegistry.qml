@@ -113,6 +113,14 @@ Singleton {
                     {
                         "value": "circle",
                         "text": I18n.tr("Circle")
+                    },
+                    {
+                        "value": "square",
+                        "text": I18n.tr("Soft square", "Album artwork shape")
+                    },
+                    {
+                        "value": "slanted",
+                        "text": I18n.tr("Slanted", "Album artwork shape")
                     }
                 ]), choice("titleFont", I18n.tr("Title font"), MediaOptions.defaultTitleFont, Theme.fontChoices), toggle("seekbar", I18n.tr("Show seekbar"), MediaOptions.defaults.seekbar), toggle("waveProgress", I18n.tr("Wave progress bars"), MediaOptions.defaults.waveProgress), toggle("albumArtBackdrop", I18n.tr("Album art backdrop"), MediaOptions.defaults.albumArtBackdrop), toggle("albumArtAccent", I18n.tr("Use album art accent"), MediaOptions.defaults.albumArtAccent), toggle("animatedArt", I18n.tr("Apple Music animated covers"), MediaOptions.defaults.animatedArt, I18n.tr("Sends the playing artist and album name to Apple")), toggle("lyrics", I18n.tr("Lyrics", "Media player lyrics button"), MediaOptions.defaults.lyrics, I18n.tr("Sends the playing track, artist and album name to enabled lyrics providers"))]
         },

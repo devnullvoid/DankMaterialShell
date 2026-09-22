@@ -94,9 +94,10 @@ Item {
         iconName: AudioService.sinkIcon(AudioService.sink)
         tooltipText: root.fittedSinkName === root.sinkName ? root.devicesLabel : root.sinkName
         Accessible.name: root.devicesLabel + ": " + root.sinkName
-        backgroundColor: "transparent"
-        textColor: Theme.onSurfaceVariant
-        horizontalPadding: Theme.spacingS
+        buttonHeight: Theme.buttonHeightXS
+        backgroundColor: MediaAccentService.accentSecondaryContainer
+        textColor: MediaAccentService.onAccentSecondaryContainer
+        horizontalPadding: Theme.spacingM
         onClicked: root.player.togglePanel("devices")
 
         MediaSinkWheel {}

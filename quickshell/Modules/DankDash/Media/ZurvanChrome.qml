@@ -10,11 +10,9 @@ import "../../../Common/Format.js" as Format
 MediaChromeBase {
     id: root
 
-    readonly property bool compact: width < Theme.smallBreakpoint
+    readonly property bool compact: width < Theme.smallBreakpoint || halfWidth < headerHeight + controls.implicitHeight
     readonly property real halfWidth: Math.max(0, (width - padding * 2 - Theme.spacingXL) / 2)
     readonly property real bodyHeight: Math.max(0, height - padding * 2)
-    readonly property real paneWidth: artworkSize
-    readonly property real paneOffset: Math.max(0, (width - padding * 2 - paneWidth * 2 - Theme.spacingXL) / 2)
     // !TODO: expose this variant? playerPaneOpen false gives art beside lyrics, or art alone with hover transport
     readonly property bool playerPane: root.player.playerPaneOpen
     readonly property bool controlsColumn: playerPane
@@ -26,24 +24,24 @@ MediaChromeBase {
     readonly property real columnHeight: compact ? artworkSize : Math.max(artworkSize, paneHeight)
     readonly property real paneHeight: Math.max(artworkSize, headerHeight + controls.implicitHeight)
     readonly property real paneMinHeight: Math.max(naturalArtSize, headerHeight + controls.implicitHeight)
-    readonly property real headerHeight: sourceRow.height + Theme.spacingL
+    readonly property real headerHeight: sourceRow.height + Theme.spacingS
     readonly property real renderScale: Window.window?.devicePixelRatio ?? Screen.devicePixelRatio
     readonly property int artSide: TrackArtService.resolvedArtSide
     readonly property bool lowResArt: artSide > 0 && artSide < artworkSize * renderScale * DashMetrics.mediaArtLowResRatio
 
     artSize: DashMetrics.mediaArtSizeDash
-    surfaceColor: DashMetrics.cardColor
+    surfaceColor: Theme.foregroundColor(Theme.hostSurface)
     baseHeight: Math.max(DashMetrics.tabMinHeight, padding * 2 + (compact ? naturalArtSize + Theme.spacingXL + paneMinHeight : Math.max(naturalArtSize, paneMinHeight)))
-    focusTargets: (viewToggle.visible ? [viewToggle] : []).concat(artTransportLoader.item?.focusTargets ?? [], [playerButton], seekbar.canSeek && seekBlock.visible ? [seekbar] : [], transport.focusTargets, sourceGroup.focusTargets)
+    focusTargets: (viewToggle.visible ? [viewToggle] : []).concat(artTransportLoader.item?.focusTargets ?? [], [playerButton], sourceGroup.focusTargets, transport.focusTargets, seekbar.canSeek && seekBlock.visible ? [seekbar] : [])
     panelButtons: [playerButton].concat(sourceGroup.panelButtons)
     inlineVolume: true
 
     Item {
         id: artPane
 
-        x: root.compact || !root.splitPanes ? (parent.width - width) / 2 : root.paneOffset + (I18n.isRtl ? root.paneWidth + Theme.spacingXL : 0)
+        x: root.compact || !root.splitPanes ? (parent.width - width) / 2 : I18n.isRtl ? parent.width - width : 0
         y: root.compact && root.splitPanes ? 0 : (parent.height - height) / 2
-        width: root.compact ? parent.width : root.paneWidth
+        width: root.compact ? parent.width : art.width
         height: root.columnHeight
 
         Behavior on x {
@@ -57,8 +55,11 @@ MediaChromeBase {
 
         Item {
             id: art
+
+            readonly property real scaledSize: root.artworkSize * (root.lowResArt ? DashMetrics.mediaArtLowResScale : 1)
+
             anchors.centerIn: parent
-            width: root.artworkSize * (root.lowResArt ? DashMetrics.mediaArtLowResScale : 1)
+            width: root.compact ? scaledSize : Math.min(root.artworkSize, Math.max(scaledSize, root.headerHeight + controls.implicitHeight))
             height: width
 
             HoverHandler {
@@ -191,6 +192,7 @@ MediaChromeBase {
 
     component ArtTransportButton: MediaTransportButton {
         player: root.player
+        keepNavigation: true
         round: true
         checkable: false
         buttonSize: Theme.minimumTouchTargetSize
@@ -202,9 +204,9 @@ MediaChromeBase {
     Item {
         id: contentPane
 
-        x: root.compact ? 0 : root.paneOffset + (I18n.isRtl ? 0 : root.paneWidth + Theme.spacingXL)
+        x: root.compact || I18n.isRtl ? 0 : artPane.width + Theme.spacingXL
         y: root.compact ? root.artworkSize + Theme.spacingXL : (parent.height - height) / 2
-        width: root.compact ? parent.width : root.paneWidth
+        width: root.compact ? parent.width : parent.width - artPane.width - Theme.spacingXL
         height: root.compact ? root.paneHeight : root.columnHeight
         visible: root.splitPanes
 
@@ -225,20 +227,22 @@ MediaChromeBase {
         Column {
             id: controls
             visible: root.controlsColumn
-            y: root.headerHeight + (parent.height - root.headerHeight - height) / 2
+            y: root.compact ? parent.height - height : art.y + art.height - height
             width: parent.width
-            spacing: Theme.spacingL
+            spacing: Theme.spacingS
 
             Rectangle {
                 width: parent.width
-                height: metadata.implicitHeight + Theme.spacingL * 2
+                height: metadata.implicitHeight + Theme.spacingS * 2
                 radius: Theme.cornerRadiusL
                 color: DashMetrics.cardColor
+                border.width: Theme.layerOutlineWidth
+                border.color: Theme.outlineMedium
 
                 Column {
                     id: metadata
                     x: Theme.spacingL
-                    y: Theme.spacingL
+                    y: Theme.spacingS
                     width: parent.width - Theme.spacingL * 2
                     spacing: Theme.spacingXS
 
@@ -248,7 +252,7 @@ MediaChromeBase {
                         font: Qt.font({
                             family: titleText.font.family,
                             weight: titleText.font.weight,
-                            pixelSize: Theme.fontSizeXXLarge
+                            pixelSize: Theme.fontSizeDisplay
                         })
                     }
 
@@ -262,9 +266,9 @@ MediaChromeBase {
 
                         readonly property real fittedPixelSize: {
                             if (fullSizeTitle.advanceWidth <= width)
-                                return Theme.fontSizeXXLarge;
-                            const fitted = Math.floor(Theme.fontSizeXXLarge * width / fullSizeTitle.advanceWidth);
-                            return Math.max(Theme.fontSizeXLarge, fitted);
+                                return Theme.fontSizeDisplay;
+                            const fitted = Math.floor(Theme.fontSizeDisplay * width / fullSizeTitle.advanceWidth);
+                            return Math.max(Theme.fontSizeXXLarge, fitted);
                         }
 
                         width: parent.width
@@ -299,7 +303,8 @@ MediaChromeBase {
                 height: playback.implicitHeight + Theme.spacingL * 2
                 radius: Theme.cornerRadiusL
                 color: DashMetrics.cardColor
-                visible: root.hasSeekbar || transport.hasControls
+                border.width: Theme.layerOutlineWidth
+                border.color: Theme.outlineMedium
 
                 Column {
                     id: playback
@@ -307,6 +312,20 @@ MediaChromeBase {
                     y: Theme.spacingL
                     width: parent.width - Theme.spacingL * 2
                     spacing: Theme.spacingS
+
+                    MediaSourceGroup {
+                        id: sourceGroup
+                        width: parent.width
+                        player: root.player
+                    }
+
+                    MediaTransport {
+                        id: transport
+                        width: parent.width
+                        player: root.player
+                        presentation: root.presentation
+                        visible: hasControls
+                    }
 
                     Item {
                         id: seekBlock
@@ -316,16 +335,12 @@ MediaChromeBase {
                         LayoutMirroring.enabled: false
                         LayoutMirroring.childrenInherit: true
 
-                        NumericText {
+                        TimeLabel {
                             id: elapsed
                             anchors.left: parent.left
                             anchors.verticalCenter: parent.verticalCenter
-                            width: Math.ceil(reservedWidth)
                             text: Format.formatDuration(seekbar.value * (root.presentation?.length ?? 0))
                             reserveText: duration.text.replace(/\d/g, "8")
-                            isMonospace: false
-                            color: Theme.onSurfaceVariant
-                            font.pixelSize: Theme.fontSizeSmall
                         }
 
                         MediaSeekbar {
@@ -337,41 +352,22 @@ MediaChromeBase {
                             player: root.player
                         }
 
-                        NumericText {
+                        TimeLabel {
                             id: duration
                             anchors.right: parent.right
                             anchors.verticalCenter: parent.verticalCenter
-                            width: Math.ceil(reservedWidth)
                             text: Format.formatDuration(root.presentation?.length ?? 0)
                             reserveText: text.replace(/\d/g, "8")
-                            isMonospace: false
-                            color: Theme.onSurfaceVariant
-                            font.pixelSize: Theme.fontSizeSmall
                         }
                     }
-
-                    MediaTransport {
-                        id: transport
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: Math.min(parent.width, implicitWidth)
-                        player: root.player
-                        presentation: root.presentation
-                        visible: hasControls
-                    }
                 }
-            }
-
-            MediaSourceGroup {
-                id: sourceGroup
-                width: parent.width
-                player: root.player
             }
         }
 
         Item {
             id: sourceRow
 
-            y: Math.round((controls.y - height) / 2)
+            y: root.compact ? Math.round((controls.y - height) / 2) : art.y
             width: parent.width
             height: Theme.buttonHeightXS
 
@@ -408,5 +404,13 @@ MediaChromeBase {
                 }
             }
         }
+    }
+
+    component TimeLabel: NumericText {
+        width: Math.ceil(reservedWidth)
+        isMonospace: false
+        color: Theme.onSurfaceVariant
+        font.pixelSize: Theme.fontSizeSmall
+        font.weight: Theme.fontWeightMedium
     }
 }

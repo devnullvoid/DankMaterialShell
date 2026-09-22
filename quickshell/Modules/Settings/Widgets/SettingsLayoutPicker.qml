@@ -1,20 +1,21 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Layouts
 import qs.Common
 import qs.Modules.DankBar
 import qs.Widgets
 
-Row {
+GridLayout {
     id: root
 
-    property bool dockPlacement: false
+    property bool edgePlacement: false
     property bool widgetStyle: false
     property var choices: barModes
     property string selectedKey: activeBarMode
     signal selected(string key)
     onSelected: key => {
-        if (!dockPlacement && !widgetStyle)
+        if (!edgePlacement && !widgetStyle)
             applyBarMode(key);
     }
 
@@ -37,6 +38,8 @@ Row {
     readonly property real previewAspect: 0.62
     readonly property real previewStripRatio: 0.55
     readonly property real previewIslandRatio: 0.42
+    readonly property real previewWidth: Math.round(Theme.iconSize * previewWidthRatio)
+    readonly property real minimumCardWidth: previewWidth + Theme.spacingL * 2
     readonly property var targetConfig: {
         SettingsData.barConfigs;
         SettingsUiState.selectedBarId;
@@ -70,7 +73,13 @@ Row {
     }
 
     width: parent?.width ?? 0
-    spacing: Theme.spacingS
+    columns: {
+        const count = Math.max(1, root.choices.length);
+        const availableColumns = Math.max(1, Math.floor((width + columnSpacing) / (minimumCardWidth + columnSpacing)));
+        return Math.ceil(count / Math.ceil(count / availableColumns));
+    }
+    columnSpacing: Theme.spacingS
+    rowSpacing: Theme.spacingS
 
     Repeater {
         model: root.choices
@@ -83,11 +92,14 @@ Row {
 
             readonly property bool isActive: root.selectedKey === modelData.key
 
-            width: (root.width - root.spacing * (root.choices.length - 1)) / Math.max(1, root.choices.length)
-            height: Math.round(Theme.fontSizeMedium * root.cardHeightRatio)
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.minimumWidth: 0
+            implicitWidth: root.minimumCardWidth
+            implicitHeight: Math.max(Math.round(Theme.fontSizeMedium * root.cardHeightRatio), cardContent.implicitHeight + Theme.spacingM * 2)
             radius: Theme.cornerRadius
             color: Theme.floatingWindowNestedSurface
-            border.width: isActive ? Theme.outlineWidthFocused : Theme.outlineWidth
+            border.width: isActive ? Theme.outlineWidthFocused : Theme.layerOutlineWidth
             border.color: isActive ? Theme.primary : Theme.outlineMedium
 
             activeFocusOnTab: true
@@ -108,7 +120,10 @@ Row {
             }
 
             Column {
+                id: cardContent
+
                 anchors.centerIn: parent
+                width: Math.max(0, parent.width - Theme.spacingM * 2)
                 spacing: Theme.spacingS
 
                 Rectangle {
@@ -116,7 +131,7 @@ Row {
                     readonly property real edgePad: Math.max(2, Math.round(width * 0.045))
                     readonly property real stripSize: Math.round(width * 0.11)
 
-                    width: Math.round(Theme.iconSize * root.previewWidthRatio)
+                    width: Math.min(root.previewWidth, cardContent.width)
                     height: Math.round(width * root.previewAspect)
                     radius: Theme.spacingXS
                     color: Theme.chipSurface
@@ -148,7 +163,7 @@ Row {
                     Rectangle {
                         readonly property int edge: Number(modeCard.modelData.key)
                         readonly property bool vertical: edge === SettingsData.Position.Left || edge === SettingsData.Position.Right
-                        visible: root.dockPlacement
+                        visible: root.edgePlacement
                         x: edge === SettingsData.Position.Right ? parent.width - width - screenPreview.edgePad : screenPreview.edgePad
                         y: edge === SettingsData.Position.Bottom ? parent.height - height - screenPreview.edgePad : screenPreview.edgePad
                         width: vertical ? screenPreview.stripSize : parent.width - screenPreview.edgePad * 2
@@ -158,7 +173,7 @@ Row {
                     }
 
                     Rectangle {
-                        visible: !root.widgetStyle && !root.dockPlacement && modeCard.modelData.key === "standard"
+                        visible: !root.widgetStyle && !root.edgePlacement && modeCard.modelData.key === "standard"
                         anchors.top: parent.top
                         anchors.left: parent.left
                         anchors.right: parent.right
@@ -202,11 +217,13 @@ Row {
                 }
 
                 StyledText {
+                    width: parent.width
                     text: modeCard.modelData.label
                     font.pixelSize: Theme.fontSizeSmall
                     font.weight: Theme.fontWeightMedium
                     color: modeCard.isActive ? Theme.primary : Theme.surfaceText
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.Wrap
                 }
             }
 

@@ -392,7 +392,7 @@ var LOCAL_SPEC = {
         coerce: Util.percentToUnit
     },
     blurLayerOutlineOpacity: {
-        def: 0.12,
+        def: 0,
         coerce: Util.percentToUnit
     },
     focusRingEnabled: {

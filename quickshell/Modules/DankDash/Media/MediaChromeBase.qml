@@ -59,6 +59,8 @@ Item {
         anchors.fill: parent
         radius: root.backdropRadius
         color: root.surfaceColor
+        border.width: Theme.layerOutlineWidth
+        border.color: Theme.outlineMedium
 
         Loader {
             anchors.fill: parent

@@ -58,7 +58,7 @@ ShellRoot {
 
     Loader {
         id: shellCoreLoader
-        active: !entrypoint.runGreeter
+        active: !entrypoint.runGreeter && IconThemeService.ready
         asynchronous: true
         source: "ShellCore.qml"
         onLoaded: dmsShellLoader.setSource("DMSShell.qml", {
@@ -73,7 +73,7 @@ ShellRoot {
 
     Loader {
         id: dmsGreeterLoader
-        active: entrypoint.runGreeter
+        active: entrypoint.runGreeter && IconThemeService.ready
         asynchronous: false
         source: "DMSGreeter.qml"
     }

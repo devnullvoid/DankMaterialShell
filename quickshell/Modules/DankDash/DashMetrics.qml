@@ -198,8 +198,12 @@ Singleton {
     readonly property real mediaArtLowResScale: 0.85
     readonly property real mediaArtSizeMaterial: 200
     readonly property real mediaArtRadius: Theme.cornerRadiusXL
+    readonly property real mediaArtSoftRadiusRatio: 0.3
     readonly property real mediaArtPlaceholderIcon: Theme.buttonHeightM
     readonly property real mediaSeekbarHeight: 22
+    readonly property real mediaPlayWidthRatio: 1.5
+    readonly property real mediaPlayWidthStep: 0.75
+    readonly property real mediaTransportPressScale: 1.2
     readonly property real accentSelectedAlpha: 0.2
     readonly property real groupIdleAlpha: 0.1
     readonly property int mediaPositionPollInterval: 1000

@@ -46,6 +46,8 @@ Item {
         Layer {
             label: I18n.tr("Cards")
             color: Theme.cardSurface
+            border.width: Theme.layerOutlineWidth
+            border.color: Theme.outlineMedium
             radius: Theme.cornerRadiusM
 
             Layer {

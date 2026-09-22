@@ -196,8 +196,8 @@ DankModal {
                                 return Theme.floatingWindowNestedSurface;
                             }
 
-                            border.color: isActive ? Theme.primary : (isSelected ? Theme.withAlpha(Theme.primary, 0.5) : Theme.withAlpha(Theme.primary, 0))
-                            border.width: (isActive || isSelected) ? 2 : 0
+                            border.color: isActive ? Theme.primary : (isSelected ? Theme.withAlpha(Theme.primary, 0.5) : Theme.outlineMedium)
+                            border.width: (isActive || isSelected) ? Theme.outlineWidthFocused : Theme.layerOutlineWidth
 
                             // Shortcut Key Badge on Top-Right Corner
                             Rectangle {

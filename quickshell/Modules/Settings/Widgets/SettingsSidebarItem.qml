@@ -46,6 +46,8 @@ Rectangle {
     bottomLeftRadius: bottomRadius
     bottomRightRadius: bottomRadius
     color: active ? SettingsMetrics.selectedRowColor : SettingsMetrics.rowColor
+    border.width: Theme.layerOutlineWidth
+    border.color: Theme.outlineMedium
 
     Behavior on color {
         enabled: Theme.currentAnimationSpeed !== SettingsData.AnimationSpeed.None

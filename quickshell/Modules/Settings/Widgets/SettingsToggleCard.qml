@@ -37,6 +37,8 @@ Item {
         anchors.fill: parent
         radius: Theme.groupedListOuterRadius
         color: SettingsMetrics.rowColor
+        border.width: Theme.layerOutlineWidth
+        border.color: Theme.outlineMedium
         visible: root.standalone
     }
 

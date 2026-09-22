@@ -1329,7 +1329,9 @@ Item {
             newSections = existingNonFile.concat(fileSections);
         }
         newSections.sort(function (a, b) {
-            return a.priority - b.priority;
+            if (a.priority !== b.priority)
+                return a.priority - b.priority;
+            return a.id.localeCompare(b.id);
         });
         _applyHighlights(newSections, searchQuery);
         flatModel = Scorer.flattenSections(newSections);
@@ -1713,7 +1715,9 @@ Item {
         }
 
         baseDefs.sort(function (a, b) {
-            return a.priority - b.priority;
+            if (a.priority !== b.priority)
+                return a.priority - b.priority;
+            return a.id.localeCompare(b.id);
         });
         return baseDefs;
     }
@@ -1930,7 +1934,9 @@ Item {
             return null;
 
         sectionsData.sort(function (a, b) {
-            return a.priority - b.priority;
+            if (a.priority !== b.priority)
+                return a.priority - b.priority;
+            return a.id.localeCompare(b.id);
         });
         return sectionsData;
     }

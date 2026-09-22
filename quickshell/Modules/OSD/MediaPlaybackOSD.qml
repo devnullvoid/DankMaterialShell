@@ -294,6 +294,7 @@ DankOSD {
                     round: false
                     checkable: true
                     checked: root.playing
+                    iconFilled: false
                     iconName: root._displayIcon
                     containerColor: MediaAccentService.accentContainer
                     contentColor: MediaAccentService.onAccentContainer
@@ -360,6 +361,7 @@ DankOSD {
             round: false
             checkable: true
             checked: root.playing
+            iconFilled: false
             backgroundColor: "transparent"
             iconColor: MediaAccentService.onAccent
             iconName: root._displayIcon

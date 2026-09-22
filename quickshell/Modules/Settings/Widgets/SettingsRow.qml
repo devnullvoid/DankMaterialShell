@@ -116,6 +116,8 @@ T.Control {
         anchors.fill: parent
         visible: root.paintBackground
         color: root.isHighlighted ? Theme.blend(root.rowColor, Theme.primary, SettingsMetrics.highlightBlend) : root.rowColor
+        border.width: Theme.layerOutlineWidth
+        border.color: Theme.outlineMedium
         topLeftRadius: root.topRadius
         topRightRadius: root.topRadius
         bottomLeftRadius: root.bottomRadius

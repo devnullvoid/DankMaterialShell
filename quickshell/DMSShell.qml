@@ -253,7 +253,6 @@ Item {
         PolkitService.polkitAvailable;
         DisplayConfigState.hasOutputBackend;
         PortalService.systemColorScheme;
-        IconThemeService.revision;
         DesktopService.isSystemd;
         TrashService.count;
         WallpaperCyclingService.cyclingActive;

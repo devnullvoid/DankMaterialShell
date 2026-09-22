@@ -56,29 +56,19 @@ Item {
                 subtitle: I18n.tr("The Island holds this edge on a display this bar covers, so the bar stays hidden there")
             }
 
-            SettingsRow {
-                body: Item {
-                    width: parent.width
-                    height: positionButtonGroup.height
-
-                    DankButtonGroup {
-                        id: positionButtonGroup
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        model: bar.positionChoices.map(pos => bar.positionLabel(pos))
-                        currentIndex: {
-                            bar.selectedBarId;
-                            const config = SettingsData.getBarConfig(bar.selectedBarId);
-                            return bar.positionChoices.indexOf(config?.position ?? SettingsData.Position.Top);
-                        }
-                        onSelectionChanged: (index, selected) => {
-                            if (!selected || index < 0 || index >= bar.positionChoices.length)
-                                return;
-                            SettingsData.updateBarConfig(bar.selectedBarId, {
-                                position: bar.positionChoices[index]
-                            });
-                            bar.notifyHorizontalBarChange();
-                        }
-                    }
+            SettingsLayoutPicker {
+                edgePlacement: true
+                choices: [SettingsData.Position.Top, SettingsData.Position.Bottom, SettingsData.Position.Left, SettingsData.Position.Right].map(position => ({
+                            key: String(position),
+                            label: bar.positionLabel(position),
+                            enabled: bar.positionChoices.includes(position)
+                        }))
+                selectedKey: String(bar.selectedBarConfig?.position ?? SettingsData.Position.Top)
+                onSelected: key => {
+                    SettingsData.updateBarConfig(bar.selectedBarId, {
+                        position: Number(key)
+                    });
+                    bar.notifyHorizontalBarChange();
                 }
             }
 

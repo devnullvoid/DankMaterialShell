@@ -325,6 +325,8 @@ DankFloatingWindow {
                 width: parent.width
                 height: showBanner ? bannerContent.implicitHeight + Theme.spacingM * 2 : 0
                 color: Theme.floatingWindowNestedSurface
+                border.width: Theme.layerOutlineWidth
+                border.color: Theme.outlineMedium
                 visible: showBanner
                 clip: true
 
