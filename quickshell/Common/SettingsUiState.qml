@@ -20,6 +20,9 @@ Singleton {
     property string selectedWidgetTitle: ""
     property string selectedWidgetDescription: ""
     property string selectedWidgetIcon: ""
+    readonly property bool selectedBarIsDot: SettingsData.isDotBarConfig(SettingsData.getBarConfig(selectedBarId))
+    readonly property string selectedIslandTitle: selectedBarIsDot ? I18n.tr("Dot", "bar layout: free-floating dot that opens island activities") : I18n.tr("Island", "noun, dank island feature, settings page and layout option")
+    readonly property string selectedIslandHint: selectedBarIsDot ? I18n.tr("Popups, expand, badge", "settings hub hint for the dot island page") : I18n.tr("Home layout, notifications, satellites")
 
     function normalizeSelectedBar() {
         if (SettingsData.getBarConfig(selectedBarId))

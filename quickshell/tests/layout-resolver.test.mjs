@@ -161,3 +161,22 @@ test("an overview-only bar shares the row of a same-edge bar that retracts for t
     assert.deepEqual(offsets(resolve([always, standIn])), { always: 0, standin: 44 });
     assert.deepEqual(offsets(resolve([main, standIn], { effectiveFrameEnabled: true })), { main: 0, standin: 48 });
 });
+
+test("free islands and dots keep their key but leave every band, reservation and shadow untouched", () => {
+    const configs = [bar("top"), bar("dot", 0, { dot: true }), bar("edge", 1, { island: true }), bar("free", 0, { island: true, islandFloating: true, islandPlacement: "free" })];
+    for (const options of [{}, { effectiveFrameEnabled: true }, { effectiveFrameEnabled: true, effectiveConnected: true }]) {
+        const layout = resolve(configs, options);
+        const dot = layout.instances.find(instance => instance.barId === "dot");
+        assert.deepEqual(plain({ ...dot, paintedBounds: undefined, margins: undefined }), { key: JSON.stringify(["DP-1", "dot"]), screenName: "DP-1", barId: "dot", configOrder: 1, edge: "", kind: "island", free: true, dot: true, row: 0, rowThickness: 0, rowOffset: 0, reservation: 0, exclusiveZone: -1, exclusionSize: 0 });
+        assert.equal(layout.instances.find(instance => instance.barId === "free").dot, false);
+        assert.equal(layout.edges.top.island, null);
+        assert.equal(layout.edges.top.islandThickness, 0);
+        assert.equal(layout.edges.top.occupancy, resolve([configs[0]], options).edges.top.occupancy);
+        assert.equal(layout.edges.bottom.island.id, "edge");
+        assert.equal(layout.manualPlacement, false);
+        assert.equal(layout.islands.length, 3);
+    }
+    const layout = resolve(configs);
+    assert.deepEqual(plain(layout.instances.filter(instance => instance.free).map(instance => instance.barId)), ["dot", "free"]);
+    assert.equal(resolver.adjacentInfo(layout, configs[0], configs[0]).topBar, 0);
+});

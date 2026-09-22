@@ -71,7 +71,7 @@ Item {
                 resetStore: bar
                 resetKeys: ["islandBatteryStyle"]
                 text: I18n.tr("Battery style", "island settings: battery meter style row")
-                visible: bar.selectedBarIsIsland && SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "status") && BatteryService.batteryAvailable && SettingsData.islandHomeStatusContent(bar.selectedBarConfig) === "battery"
+                visible: bar.selectedBarIsIsland && !SettingsData.isDotBarConfig(bar.selectedBarConfig) && SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "status") && BatteryService.batteryAvailable && SettingsData.islandHomeStatusContent(bar.selectedBarConfig) === "battery"
                 model: [I18n.tr("Solid", "island settings: filled battery meter style"), I18n.tr("Outline", "island settings: outlined battery meter style"), I18n.tr("Circle", "island settings: circular battery meter style")]
                 currentIndex: root.valueIndex(root.batteryStyleValues, bar.islandSetting("islandBatteryStyle"), "solid")
                 onSelectionChanged: (index, selected) => {

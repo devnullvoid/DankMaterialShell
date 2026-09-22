@@ -163,6 +163,17 @@ Item {
     anchors.bottomMargin: _bottomMargin
     clip: false
 
+    // Observes presses for last-used shortcut routing, then hands the gesture on unchanged.
+    MouseArea {
+        anchors.fill: parent
+        z: 1
+        acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
+        onPressed: mouse => {
+            SettingsData.recordBarInteraction(topBarContent.barWindow.screen, topBarContent.barConfig?.id);
+            mouse.accepted = false;
+        }
+    }
+
     DeferredAction {
         id: enableFrameInsetAnimation
         onTriggered: topBarContent._animateFrameInsets = true

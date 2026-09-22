@@ -18,6 +18,12 @@ Item {
     }
 
     readonly property var interactionModeValues: ["click", "hybrid"]
+    readonly property var routingValues: ["normal", "always", "last-used"]
+    readonly property var placementValues: ["edge", "free"]
+    readonly property bool selectedBarIsDot: SettingsData.isDotBarConfig(bar.selectedBarConfig)
+    readonly property bool selectedIslandFree: bar.selectedBarIsIsland && SettingsData.islandFreePlacement(bar.selectedBarConfig)
+    readonly property bool selectedIslandEdgeOrFree: bar.selectedBarIsIsland && !selectedBarIsDot
+    readonly property bool selectedIslandAnywhere: selectedIslandFree && !selectedBarIsDot
 
     function valueIndex(values, value, fallback) {
         const index = values.indexOf(value);
@@ -56,8 +62,40 @@ Item {
                 subtitle: I18n.tr("The Island holds this edge on a display this bar covers, so the bar stays hidden there")
             }
 
+            SettingsDropdownRow {
+                id: sharedRouting
+                settingKey: "islandSharedRouting"
+                tags: ["dot", "island", "routing", "launcher", "dash", "control center", "ipc", "last used"]
+                visible: bar.selectedBarIsIsland
+                resetStore: bar
+                resetKeys: ["islandSharedRouting"]
+                text: I18n.tr("Shared shortcuts")
+                description: I18n.tr("Routes launcher, dash, control center and notification shortcuts")
+                options: [I18n.tr("Normal routing"), I18n.tr("Always here"), I18n.tr("Last used on this screen")]
+                dropdownWidth: Theme.smallBreakpoint / 2
+                currentValue: options[dankBarTab.valueIndex(dankBarTab.routingValues, SettingsData.islandSharedRoutingMode(bar.selectedBarConfig), "normal")]
+                onValueChanged: value => SettingsData.setIslandSharedRouting(bar.selectedBarId, dankBarTab.routingValues[options.indexOf(value)] ?? "normal")
+            }
+
+            SettingsButtonGroupRow {
+                settingKey: "islandFreeOrientation"
+                tags: ["island", "free", "orientation", "horizontal", "vertical"]
+                visible: dankBarTab.selectedIslandAnywhere
+                text: I18n.tr("Orientation", "island settings: horizontal or vertical row for a free island")
+                model: [I18n.tr("Horizontal", "island settings: free island orientation"), I18n.tr("Vertical", "island settings: free island orientation")]
+                currentIndex: SettingsData.islandVertical(bar.selectedBarConfig) ? 1 : 0
+                onSelectionChanged: (index, selected) => {
+                    if (!selected)
+                        return;
+                    SettingsData.updateBarConfig(bar.selectedBarId, {
+                        position: index === 1 ? SettingsData.Position.Left : SettingsData.Position.Top
+                    });
+                }
+            }
+
             SettingsLayoutPicker {
                 edgePlacement: true
+                visible: !dankBarTab.selectedIslandFree
                 choices: [SettingsData.Position.Top, SettingsData.Position.Bottom, SettingsData.Position.Left, SettingsData.Position.Right].map(position => ({
                             key: String(position),
                             label: bar.positionLabel(position),
@@ -75,18 +113,47 @@ Item {
             SettingsToggleRow {
                 settingKey: "islandFloating"
                 tags: ["island", "placement", "float", "overlay", "exclusive", "reserve"]
-                visible: bar.selectedBarIsIsland
+                visible: dankBarTab.selectedIslandEdgeOrFree
                 resetStore: bar
                 resetKeys: ["islandFloating"]
                 text: I18n.tr("Float", "island settings: float toggle")
+                description: I18n.tr("Set floating overlay or enable drag anywhere mode")
                 checked: bar.islandSetting("islandFloating")
                 onToggled: checked => bar.apply("islandFloating", checked)
+            }
+
+            SettingsButtonGroupRow {
+                settingKey: "islandPlacement"
+                tags: ["island", "placement", "free", "floating", "dot", "edge", "drag"]
+                visible: dankBarTab.selectedIslandEdgeOrFree && bar.islandSetting("islandFloating")
+                resetStore: bar
+                resetKeys: ["islandPlacement"]
+                text: I18n.tr("Placement", "island settings: edge or free placement row")
+                model: [I18n.tr("Edge", "island settings: floats along a screen edge"), I18n.tr("Anywhere", "island settings: floats anywhere on the display")]
+                currentIndex: dankBarTab.valueIndex(dankBarTab.placementValues, bar.islandSetting("islandPlacement"), "edge")
+                onSelectionChanged: (index, selected) => {
+                    if (!selected)
+                        return;
+                    bar.apply("islandPlacement", dankBarTab.placementValues[index] ?? "edge");
+                    bar.notifyHorizontalBarChange();
+                }
+            }
+
+            SettingsRow {
+                visible: dankBarTab.selectedIslandAnywhere
+                body: StyledText {
+                    width: parent.width
+                    text: I18n.tr("Drag to move, click to open activities", "island settings: free placement hint")
+                    color: Theme.surfaceVariantText
+                    font.pixelSize: Theme.fontSizeSmall
+                    wrapMode: Text.WordWrap
+                }
             }
 
             SettingsSliderRow {
                 settingKey: "islandReserveThickness"
                 tags: ["island", "placement", "reservation", "exclusive", "height", "width", "thickness"]
-                visible: bar.selectedBarIsIsland
+                visible: bar.selectedBarIsIsland && !dankBarTab.selectedIslandFree
                 resetStore: bar
                 resetKeys: ["islandReserveThickness"]
                 text: bar.selectedBarIsVertical ? I18n.tr("Reserved width", "island settings: reserved strip width slider") : I18n.tr("Reserved height", "island settings: reserved strip height slider")
@@ -102,7 +169,7 @@ Item {
             SettingsSliderRow {
                 settingKey: "islandCompactThickness"
                 tags: ["island", "placement", "compact", "height", "width", "thickness", "size", "satellite"]
-                visible: bar.selectedBarIsIsland
+                visible: bar.selectedBarIsIsland && !dankBarTab.selectedIslandFree
                 resetStore: bar
                 resetKeys: ["islandCompactThickness"]
                 text: bar.selectedBarIsVertical ? I18n.tr("Compact width", "island settings: compact pill width slider") : I18n.tr("Compact height", "island settings: compact pill height slider")
@@ -117,7 +184,7 @@ Item {
             SettingsSliderRow {
                 settingKey: "islandOuterGap"
                 tags: ["island", "placement", "gap", "top", "margin"]
-                visible: bar.selectedBarIsIsland
+                visible: bar.selectedBarIsIsland && !dankBarTab.selectedIslandFree
                 resetStore: bar
                 resetKeys: ["islandOuterGap"]
                 text: I18n.tr("Outer gap", "island settings: gap between screen edge and island")
@@ -132,7 +199,7 @@ Item {
             SettingsSliderRow {
                 settingKey: "islandAlongOffset"
                 tags: ["island", "placement", "horizontal", "vertical", "offset", "center"]
-                visible: bar.selectedBarIsIsland
+                visible: bar.selectedBarIsIsland && !dankBarTab.selectedIslandFree
                 resetStore: bar
                 resetKeys: ["islandAlongOffset"]
                 text: bar.selectedBarIsVertical ? I18n.tr("Vertical offset", "island settings: vertical offset slider") : I18n.tr("Horizontal offset", "island settings: horizontal offset slider")
@@ -142,6 +209,83 @@ Item {
                 step: 1
                 value: bar.islandSetting("islandAlongOffset")
                 onSliderValueChanged: value => bar.apply("islandAlongOffset", value)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandFreeSize"
+                tags: ["island", "free", "dot", "size", "diameter"]
+                visible: dankBarTab.selectedBarIsDot
+                resetStore: bar
+                resetKeys: ["islandFreeSize"]
+                text: I18n.tr("Dot size", "island settings: free dot diameter slider")
+                unit: "px"
+                minimum: 24
+                maximum: 160
+                step: 1
+                value: bar.islandSetting("islandFreeSize")
+                onSliderValueChanged: value => bar.apply("islandFreeSize", value)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandFreeEdgeMargin"
+                tags: ["island", "free", "dot", "edge", "margin", "gap"]
+                visible: dankBarTab.selectedIslandFree
+                resetStore: bar
+                resetKeys: ["islandFreeEdgeMargin"]
+                text: I18n.tr("Edge margin", "island settings: gap kept from the display edge")
+                unit: "px"
+                minimum: 0
+                maximum: 64
+                step: 1
+                value: bar.islandSetting("islandFreeEdgeMargin")
+                onSliderValueChanged: value => bar.apply("islandFreeEdgeMargin", value)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandFreeIdleDelay"
+                tags: ["island", "free", "dot", "idle", "delay", "fade", "timeout"]
+                visible: dankBarTab.selectedBarIsDot
+                resetStore: bar
+                resetKeys: ["islandFreeIdleDelay"]
+                text: I18n.tr("Idle delay", "island settings: time before the dot fades, 0 disables idling")
+                unit: "ms"
+                minimum: 0
+                maximum: 30000
+                step: 500
+                value: bar.islandSetting("islandFreeIdleDelay")
+                onSliderValueChanged: value => bar.apply("islandFreeIdleDelay", value)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandFreeIdleOpacity"
+                tags: ["island", "free", "dot", "idle", "opacity", "fade"]
+                visible: dankBarTab.selectedBarIsDot
+                resetStore: bar
+                resetKeys: ["islandFreeIdleOpacity"]
+                text: I18n.tr("Idle opacity", "island settings: dot opacity while idle")
+                unit: "%"
+                minimum: 5
+                maximum: 100
+                step: 1
+                value: Math.round(bar.islandSetting("islandFreeIdleOpacity") * 100)
+                enabled: bar.islandSetting("islandFreeIdleDelay") > 0
+                onSliderValueChanged: value => bar.apply("islandFreeIdleOpacity", value / 100)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandFreeIdleScale"
+                tags: ["island", "free", "dot", "idle", "shrink", "scale"]
+                visible: dankBarTab.selectedBarIsDot
+                resetStore: bar
+                resetKeys: ["islandFreeIdleScale"]
+                text: I18n.tr("Idle size", "island settings: how far the dot shrinks while idle")
+                unit: "%"
+                minimum: 20
+                maximum: 100
+                step: 1
+                value: Math.round(bar.islandSetting("islandFreeIdleScale") * 100)
+                enabled: bar.islandSetting("islandFreeIdleDelay") > 0
+                onSliderValueChanged: value => bar.apply("islandFreeIdleScale", value / 100)
             }
         }
 
@@ -281,7 +425,7 @@ Item {
             title: I18n.tr("Behavior", "island settings: behavior card title")
             settingKey: "islandInteraction"
             tags: ["island", "interaction", "click", "hybrid", "expand", "hover", "delay"]
-            visible: (bar.selectedBarConfig?.enabled ?? false) && bar.selectedBarIsIsland
+            visible: (bar.selectedBarConfig?.enabled ?? false) && bar.selectedBarIsIsland && !dankBarTab.selectedIslandFree
 
             SettingsButtonGroupRow {
                 settingKey: "islandInteractionMode"

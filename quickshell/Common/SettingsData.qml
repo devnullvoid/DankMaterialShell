@@ -827,11 +827,23 @@ Singleton {
     property bool notificationFocusedMonitor: Spec.SPEC.notificationFocusedMonitor.def
     readonly property var islandBarConfigs: {
         barConfigs;
-        return (barConfigs || []).filter(cfg => cfg && cfg.island === true);
+        return (barConfigs || []).filter(cfg => isIslandBarConfig(cfg));
     }
     readonly property bool dankIslandEnabled: islandBarConfigs.some(cfg => cfg.enabled ?? false)
+    // Session-only: which bar, island or dot last-used shared shortcuts follow on each screen.
+    property var lastUsedBarByScreen: ({})
+    // One slot per edge; a dot floats, so it never takes one.
+    readonly property int edgeBarConfigCount: (barConfigs || []).filter(cfg => cfg && !isDotBarConfig(cfg)).length
     readonly property var islandDefaults: ({
             "islandFloating": false,
+            "islandPlacement": "edge",
+            "islandFreeSize": 48,
+            "islandFreeIcon": "blur_on",
+            "islandFreeEdgeMargin": 2,
+            "islandFreeIdleDelay": 2500,
+            "islandFreeIdleOpacity": 0.45,
+            "islandFreeIdleScale": 0.4,
+            "islandSharedRouting": "normal",
             "islandUseOverlayLayer": false,
             "islandReserveThickness": 40,
             "islandCompactThickness": 38,
@@ -1522,10 +1534,9 @@ Singleton {
         return DockConfig.create("", "");
     }
 
-    // Frame mode hosts bars inside the frame surface, which has nowhere to put an island.
+    // Frame mode hosts bars inside the frame surface, which has nowhere to put an edge island; a dot floats over it.
     function clearIslandBars() {
-        const islands = islandBarConfigs;
-        if (islands.length === 0)
+        if (!islandBarConfigs.some(cfg => !isDotBarConfig(cfg)))
             return;
         const configs = JSON.parse(JSON.stringify(barConfigs));
         for (const cfg of configs)
@@ -1586,7 +1597,7 @@ Singleton {
             Store.parse(root, obj);
 
             // set() enforces this pair, but a hand-edited settings.json bypasses set() entirely.
-            if (frameEnabled && islandBarConfigs.length > 0)
+            if (frameEnabled)
                 clearIslandBars();
 
             if (obj?.directionalAnimationMode === 3 && frameMode !== "connected")
@@ -2292,12 +2303,15 @@ Singleton {
         updateBarConfig(barId, patch);
     }
 
-    function setBarIsland(barId, on) {
+    function setBarIsland(barId, on, dot) {
         const config = getBarConfig(barId);
-        if (!config || (config.island === true) === (on === true))
+        const wantIsland = on === true && dot !== true;
+        const wantDot = on === true && dot === true;
+        if (!config || ((config.island === true) === wantIsland && (config.dot === true) === wantDot))
             return;
         const updates = {
-            island: on === true
+            island: wantIsland,
+            dot: wantDot
         };
         if (on === true) {
             if (!config.enabled)
@@ -2449,7 +2463,72 @@ Singleton {
     }
 
     function isIslandBarConfig(bc) {
-        return !!bc && bc.island === true;
+        return !!bc && (bc.island === true || bc.dot === true);
+    }
+
+    function isDotBarConfig(bc) {
+        return !!bc && bc.dot === true;
+    }
+
+    function islandFreePlacement(bc) {
+        return isDotBarConfig(bc) || (islandSetting(bc, "islandFloating") && islandSetting(bc, "islandPlacement") === "free");
+    }
+
+    function islandSharedRoutingMode(bc) {
+        const mode = bc?.islandSharedRouting;
+        return ["always", "last-used"].includes(mode) ? mode : "normal";
+    }
+
+    function sharedShortcutsFollowLastUsed(screen) {
+        return activeIslandConfigsForScreen(screen).some(cfg => islandSharedRoutingMode(cfg) === "last-used");
+    }
+
+    function sharedShortcutsOverridden(screen) {
+        return activeIslandConfigsForScreen(screen).some(cfg => islandSharedRoutingMode(cfg) !== "normal");
+    }
+
+    function recordBarInteraction(screen, barId) {
+        const name = screen?.name;
+        if (!name || !barId || lastUsedBarByScreen[name] === barId || !sharedShortcutsFollowLastUsed(screen))
+            return;
+        lastUsedBarByScreen = Object.assign({}, lastUsedBarByScreen, {
+            [name]: barId
+        });
+    }
+
+    function sharedTriggerIslandConfig(screen) {
+        const configs = activeIslandConfigsForScreen(screen);
+        if (sharedShortcutsFollowLastUsed(screen)) {
+            const lastId = lastUsedBarByScreen[screen?.name];
+            const lastIsland = configs.find(cfg => cfg.id === lastId);
+            if (lastIsland)
+                return lastIsland;
+        } else {
+            const fixed = configs.find(cfg => islandSharedRoutingMode(cfg) === "always");
+            if (fixed)
+                return fixed;
+        }
+        if (getActiveBarEdgesForScreen(screen).length > 0)
+            return null;
+        return configs.find(cfg => !isDotBarConfig(cfg)) ?? configs[0] ?? null;
+    }
+
+    // "Always here" is exclusive per screen, or config order would silently pick the winner.
+    function setIslandSharedRouting(barId, mode) {
+        const configs = JSON.parse(JSON.stringify(barConfigs));
+        const target = configs.find(cfg => cfg.id === barId);
+        if (!target)
+            return;
+        target.islandSharedRouting = mode;
+        if (mode === "always") {
+            const screens = Quickshell.screens.filter(screen => barConfigCoversScreen(target, screen));
+            for (const cfg of configs) {
+                if (cfg.id !== barId && isIslandBarConfig(cfg) && islandSharedRoutingMode(cfg) === "always" && screens.some(screen => barConfigCoversScreen(cfg, screen)))
+                    delete cfg.islandSharedRouting;
+            }
+        }
+        barConfigs = configs;
+        updateBarConfigs();
     }
 
     function activeIslandConfigsForScreen(screen) {
@@ -2474,10 +2553,6 @@ Singleton {
 
     function dankIslandEdgeOffset(screen, edge) {
         return ShellLayout.edge(screen, edge)?.islandThickness ?? 0;
-    }
-
-    function dankIslandIsSoleBarForScreen(screen) {
-        return dankIslandCoversScreen(screen) && getActiveBarEdgesForScreen(screen).length === 0;
     }
 
     function getActiveBarEdgesForScreen(screen) {

@@ -38,8 +38,8 @@ FocusScope {
                     required property var modelData
 
                     iconName: modelData.icon
-                    title: modelData.text
-                    hint: modelData.hint ?? ""
+                    title: (modelData.titleFrom ? SettingsUiState[modelData.titleFrom] : "") || modelData.text
+                    hint: (modelData.hintFrom ? SettingsUiState[modelData.hintFrom] : "") || (modelData.hint ?? "")
                     trailingBadge: modelData.kind === "plugin" && PluginService.loadedPlugins[modelData.pluginId] === undefined ? I18n.tr("Disabled") : ""
                     onClicked: root.parentModal?.navigateTo(modelData.id)
                 }

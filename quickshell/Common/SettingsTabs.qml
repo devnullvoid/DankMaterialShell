@@ -109,6 +109,8 @@ Singleton {
                     "icon": "view_in_ar",
                     "tabIndex": 46,
                     "islandOnly": true,
+                    "titleFrom": "selectedIslandTitle",
+                    "hintFrom": "selectedIslandHint",
                     "hint": I18n.tr("Home layout, notifications, satellites")
                 },
                 {

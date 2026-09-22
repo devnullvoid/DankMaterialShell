@@ -1372,6 +1372,7 @@
     "category": "Bar",
     "keywords": [
       "bar",
+      "dot",
       "frame",
       "island",
       "layout",
@@ -2964,6 +2965,47 @@
     "icon": "display_settings"
   },
   {
+    "section": "islandFreeSize",
+    "label": "Dot size",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "diameter",
+      "dot",
+      "free",
+      "general",
+      "island",
+      "panel",
+      "size",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
+    "section": "islandFreeEdgeMargin",
+    "label": "Edge margin",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "dot",
+      "edge",
+      "free",
+      "gap",
+      "general",
+      "island",
+      "margin",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
     "section": "islandInteractionMode",
     "label": "Expansion mode",
     "tabIndex": 3,
@@ -2991,11 +3033,16 @@
     "tabIndex": 3,
     "category": "General",
     "keywords": [
+      "anywhere",
       "bar",
+      "drag",
+      "enable",
       "exclusive",
       "float",
+      "floating",
       "general",
       "island",
+      "mode",
       "overlay",
       "panel",
       "placement",
@@ -3004,7 +3051,8 @@
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "description": "Set floating overlay or enable drag anywhere mode"
   },
   {
     "section": "islandHoverCloseDelay",
@@ -3069,6 +3117,82 @@
     ],
     "parentLabel": "Bar",
     "icon": "touch_app"
+  },
+  {
+    "section": "islandFreeIdleDelay",
+    "label": "Idle delay",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "afk",
+      "bar",
+      "delay",
+      "dot",
+      "fade",
+      "free",
+      "general",
+      "idle",
+      "inactive",
+      "island",
+      "panel",
+      "screensaver",
+      "statusbar",
+      "taskbar",
+      "timeout",
+      "topbar"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
+    "section": "islandFreeIdleOpacity",
+    "label": "Idle opacity",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "afk",
+      "bar",
+      "dot",
+      "fade",
+      "free",
+      "general",
+      "idle",
+      "inactive",
+      "island",
+      "opacity",
+      "panel",
+      "screensaver",
+      "statusbar",
+      "taskbar",
+      "timeout",
+      "topbar"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
+    "section": "islandFreeIdleScale",
+    "label": "Idle size",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "afk",
+      "bar",
+      "dot",
+      "free",
+      "general",
+      "idle",
+      "inactive",
+      "island",
+      "panel",
+      "scale",
+      "screensaver",
+      "shrink",
+      "size",
+      "statusbar",
+      "taskbar",
+      "timeout",
+      "topbar"
+    ],
+    "parentLabel": "Bar"
   },
   {
     "section": "islandMediaClockVisible",
@@ -3154,6 +3278,26 @@
     "parentLabel": "Bar"
   },
   {
+    "section": "islandFreeOrientation",
+    "label": "Orientation",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "free",
+      "general",
+      "horizontal",
+      "island",
+      "orientation",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "vertical"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
     "section": "islandOuterGap",
     "label": "Outer gap",
     "tabIndex": 3,
@@ -3175,27 +3319,63 @@
     "parentLabel": "Bar"
   },
   {
+    "section": "islandPlacement",
+    "label": "Placement",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "dot",
+      "drag",
+      "edge",
+      "floating",
+      "free",
+      "general",
+      "island",
+      "panel",
+      "placement",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
     "section": "barPosition",
     "label": "Position",
     "tabIndex": 3,
     "category": "General",
     "keywords": [
+      "alert",
+      "app drawer",
+      "app menu",
+      "applications",
       "bar",
-      "exclusive",
-      "float",
+      "center",
+      "control",
+      "control center",
+      "dash",
+      "dot",
       "general",
+      "ipc",
       "island",
-      "overlay",
+      "last used",
+      "launcher",
+      "notif",
+      "notification",
       "panel",
-      "placement",
       "position",
-      "reserve",
+      "routes",
+      "routing",
+      "shortcuts",
+      "start menu",
       "statusbar",
       "taskbar",
       "topbar"
     ],
     "parentLabel": "Bar",
-    "icon": "vertical_align_center"
+    "icon": "vertical_align_center",
+    "description": "Routes launcher, dash, control center and notification shortcuts"
   },
   {
     "section": "islandReducedMotion",
@@ -3261,6 +3441,42 @@
     ],
     "parentLabel": "Bar",
     "icon": "mouse"
+  },
+  {
+    "section": "islandSharedRouting",
+    "label": "Shared shortcuts",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "alert",
+      "app drawer",
+      "app menu",
+      "applications",
+      "bar",
+      "center",
+      "control",
+      "control center",
+      "dash",
+      "dot",
+      "general",
+      "ipc",
+      "island",
+      "last used",
+      "launcher",
+      "notif",
+      "notification",
+      "panel",
+      "routes",
+      "routing",
+      "shared",
+      "shortcuts",
+      "start menu",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "description": "Routes launcher, dash, control center and notification shortcuts"
   },
   {
     "section": "barOpenOnOverview",

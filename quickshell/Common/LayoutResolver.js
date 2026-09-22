@@ -53,33 +53,47 @@ function islandThickness(config, defaults) {
     return islandMetrics(config, defaults).thickness;
 }
 
+function isIsland(config) {
+    return config.island === true || config.dot === true;
+}
+
 function overviewStandInHost(input, selected) {
     const config = input.config;
-    if (config.island === true || config.visible !== false || !config.openOnOverview)
+    if (isIsland(config) || config.visible !== false || !config.openOnOverview)
         return null;
-    return selected.find(other => other.config.island !== true && !other.config.openOnOverview) ?? null;
+    return selected.find(other => !isIsland(other.config) && !other.config.openOnOverview) ?? null;
 }
 
 function resolveScreen(inputs, screen, options) {
     const assigned = inputs.filter(input => coversScreen(input.config, screen, options.screens, options.displayNameMode));
     const enabled = assigned.filter(input => input.config.enabled);
-    const islands = enabled.filter(input => input.config.island === true);
-    const bars = enabled.filter(input => input.config.island !== true);
+    const islands = enabled.filter(input => isIsland(input.config));
+    const bars = enabled.filter(input => !isIsland(input.config));
     const frameConfigured = screenMatches(screen, options.framePreferences, options.screens, options.displayNameMode);
     const frameStyled = options.effectiveFrameEnabled && frameConfigured;
     const frameHosted = options.effectiveConnected && frameStyled;
     const bands = {};
     const instances = [];
+    // Free islands and dots float anywhere on the screen, so they never join an edge band.
+    const isFree = input => input.config.dot === true || (isIsland(input.config) && (input.islandPlacement ?? input.config.islandPlacement) === "free");
+    for (const input of enabled.filter(isFree)) {
+        instances.push({
+            key: JSON.stringify([screen.name, input.config.id]), screenName: screen.name,
+            barId: input.config.id, configOrder: inputs.indexOf(input), edge: "", kind: "island", free: true, dot: input.config.dot === true,
+            row: 0, rowThickness: 0, rowOffset: 0, reservation: 0, exclusiveZone: -1, exclusionSize: 0,
+            paintedBounds: { x: 0, y: 0, width: 0, height: 0 }, margins: { top: 0, bottom: 0, left: 0, right: 0 }
+        });
+    }
     for (const edge of edges) {
-        const selected = enabled.filter(input => (edgeName(input.config.position ?? 0) || "top") === edge);
-        const active = selected.filter(input => input.config.island !== true);
+        const selected = enabled.filter(input => !isFree(input) && (edgeName(input.config.position ?? 0) || "top") === edge);
+        const active = selected.filter(input => !isIsland(input.config));
         const hosted = active.filter(input => !input.config.useOverlayLayer);
         let offset = 0;
         let reservation = 0;
         const rowOffsets = new Map();
         const place = (input, rowOffset) => {
             const config = input.config;
-            const kind = config.island === true ? "island" : frameHosted && !config.useOverlayLayer ? "frame" : "bar";
+            const kind = isIsland(config) ? "island" : frameHosted && !config.useOverlayLayer ? "frame" : "bar";
             const spacing = frameStyled || config.attachToScreenEdge ? 0 : config.spacing ?? 4;
             const thickness = kind === "island" ? input.islandThickness : frameStyled ? Math.round(Math.round(options.frameBarSize * (screen.scale || 1)) / (screen.scale || 1)) : input.barThickness + spacing + (config.bottomGap ?? 0);
             const paintedThickness = thickness + (kind !== "island" && !frameStyled ? input.wingSize ?? 0 : 0);
@@ -109,10 +123,10 @@ function resolveScreen(inputs, screen, options) {
         }
         for (const input of standIns)
             place(input, rowOffsets.get(overviewStandInHost(input, selected)));
-        const island = selected.find(input => input.config.island === true);
+        const island = selected.find(input => isIsland(input.config));
         bands[edge] = {
             island: island?.config ?? null,
-            islandThickness: selected.filter(input => input.config.island === true).reduce((sum, input) => sum + input.islandThickness, 0),
+            islandThickness: selected.filter(input => isIsland(input.config)).reduce((sum, input) => sum + input.islandThickness, 0),
             bars: active.map(input => input.config),
             hostedBars: hosted.map(input => input.config),
             occupancy: offset,
@@ -124,7 +138,7 @@ function resolveScreen(inputs, screen, options) {
     const manualPlacement = edges.some(edge => instances.filter(instance => instance.edge === edge).length > 1);
     if (!manualPlacement && frameStyled) {
         for (const instance of instances) {
-            if (instance.kind !== "island")
+            if (instance.kind !== "island" || instance.free)
                 continue;
             const band = bands[instance.edge];
             instance.rowOffset += options.frameThickness;
@@ -133,6 +147,8 @@ function resolveScreen(inputs, screen, options) {
         }
     }
     for (const instance of instances) {
+        if (instance.free)
+            continue;
         const band = bands[instance.edge];
         instance.exclusiveZone = manualPlacement || instance.kind === "frame" ? -1 : instance.reservation || -1;
         instance.exclusionSize = manualPlacement && !frameStyled && instance.row === 0 ? band.reservation : 0;

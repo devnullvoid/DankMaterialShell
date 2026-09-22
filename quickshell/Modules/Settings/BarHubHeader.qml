@@ -36,7 +36,7 @@ Column {
 
     // A new bar shows up right away on every display, on an edge nothing else holds when there is one.
     function createNewBar() {
-        if (SettingsData.barConfigs.length >= 4)
+        if (SettingsData.edgeBarConfigCount >= 4)
             return;
         const defaultBar = SettingsData.getBarConfig("default");
         if (!defaultBar)
@@ -45,13 +45,14 @@ Column {
         const freeEdge = SettingsData.firstFreeEdge(newId, ["all"], [SettingsData.Position.Top, SettingsData.Position.Bottom, SettingsData.Position.Left, SettingsData.Position.Right]);
         const newBar = Object.assign(JSON.parse(JSON.stringify(defaultBar)), {
             id: newId,
-            name: "Bar " + (SettingsData.barConfigs.length + 1),
+            name: "Bar " + (SettingsData.edgeBarConfigCount + 1),
             enabled: true,
             position: freeEdge >= 0 ? freeEdge : (defaultBar.position ?? 0),
             screenPreferences: ["all"],
             showOnLastDisplay: true
         });
         delete newBar.island;
+        delete newBar.dot;
         SettingsData.addBarConfig(newBar);
         bar.selectedBarId = newId;
     }
@@ -81,13 +82,15 @@ Column {
     }
 
     function barSummary(config) {
-        const parts = [bar.positionLabel(config.position ?? SettingsData.Position.Top)];
+        const parts = SettingsData.islandFreePlacement(config) ? [I18n.tr("Free", "bar summary: island floats anywhere on the display")] : [bar.positionLabel(config.position ?? SettingsData.Position.Top)];
         const prefs = config.screenPreferences || ["all"];
         if (prefs.includes("all"))
             parts.push(I18n.tr("All displays"));
         else
             parts.push(prefs.length === 1 ? I18n.tr("%1 display", "singular, bar summary of assigned monitors, %1 is 1").arg(prefs.length) : I18n.tr("%1 displays", "plural, bar summary of assigned monitors, %1 is a count").arg(prefs.length));
-        if (SettingsData.isIslandBarConfig(config))
+        if (SettingsData.isDotBarConfig(config))
+            parts.push(I18n.tr("Dot", "bar summary: free-floating dot layout"));
+        else if (SettingsData.isIslandBarConfig(config))
             parts.push(I18n.tr("Island"));
         return parts.join(" • ");
     }
@@ -104,7 +107,7 @@ Column {
             text: I18n.tr("Add")
             iconName: "add"
             buttonHeight: Theme.buttonHeightXS
-            visible: SettingsData.barConfigs.length < 4
+            visible: SettingsData.edgeBarConfigCount < 4
             onClicked: root.createNewBar()
         }
 
@@ -181,7 +184,7 @@ Column {
         iconName: "toolbar"
         title: I18n.tr("Layout", "noun, settings section title for arrangement options")
         settingKey: "barLayout"
-        tags: ["layout", "standard", "frame", "island", "mode", "bar"]
+        tags: ["layout", "standard", "frame", "island", "dot", "mode", "bar"]
 
         SettingsLayoutPicker {}
     }

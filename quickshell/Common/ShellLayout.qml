@@ -25,7 +25,8 @@ Singleton {
                     wingSize: config.gothCornersEnabled && root.barSpansEdge(config) ? Math.max(0, config.gothCornerRadiusOverride ? config.gothCornerRadiusValue ?? 12 : Theme.windowRadius) : 0,
                     popupThickness: Theme.barThickness(Resolver.option(config, "innerPadding", root.primaryBar, 4), screen.scale),
                     islandThickness: Resolver.islandThickness(config, SettingsData.islandDefaults),
-                    islandFloating: SettingsData.islandSetting(config, "islandFloating")
+                    islandFloating: SettingsData.islandSetting(config, "islandFloating"),
+                    islandPlacement: SettingsData.islandFreePlacement(config) ? "free" : "edge"
                 })), screen, {
             screens: root.screens,
             displayNameMode: SettingsData.displayNameMode,
@@ -35,7 +36,8 @@ Singleton {
             frameThickness: SettingsData.frameThickness,
             frameBarSize: SettingsData.frameBarSize
         }))
-    readonly property var islandKeys: layouts.reduce((keys, layout) => keys.concat(layout.instances.filter(instance => instance.kind === "island").map(instance => instance.key)), [])
+    readonly property var islandKeys: layouts.reduce((keys, layout) => keys.concat(layout.instances.filter(instance => instance.kind === "island" && !instance.free).map(instance => instance.key)), [])
+    readonly property var freeIslandKeys: layouts.reduce((keys, layout) => keys.concat(layout.instances.filter(instance => instance.free).map(instance => instance.key)), [])
 
     function barSpansEdge(config) {
         return (config?.barLengthMode ?? "full") === "full" && (config?.barLengthPadding ?? 0) <= 0;
@@ -76,7 +78,7 @@ Singleton {
     }
 
     function hostedScreens(barId) {
-        return Quickshell.screens.filter(screen => forScreen(screen)?.instances.some(instance => instance.barId === barId && (instance.kind === "bar" || instance.kind === "island")));
+        return Quickshell.screens.filter(screen => forScreen(screen)?.instances.some(instance => instance.barId === barId && !instance.free && (instance.kind === "bar" || instance.kind === "island")));
     }
 
     function frameKeys(screen) {

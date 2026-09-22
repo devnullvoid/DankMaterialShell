@@ -20,6 +20,8 @@ Item {
     readonly property string selectedIslandId: bar.selectedBarIsIsland ? bar.selectedBarId : ""
     readonly property var config: bar.selectedBarConfig
     readonly property bool islandEnabled: bar.selectedBarIsIsland && (bar.selectedBarConfig?.enabled ?? false)
+    readonly property bool isDot: SettingsData.isDotBarConfig(root.config)
+    readonly property bool isFree: SettingsData.islandFreePlacement(root.config)
 
     readonly property var clockDisplayValues: ["time", "date", "both"]
     readonly property var systemLevelDisplayValues: ["icon", "percentage", "both"]
@@ -39,7 +41,7 @@ Item {
             iconName: "home"
             title: I18n.tr("Home compact", "island settings: home face card title")
             settingKey: "islandActivities"
-            visible: root.islandEnabled
+            visible: root.islandEnabled && !root.isDot
 
             IslandHomeLayoutEditor {
                 width: parent.width
@@ -177,7 +179,7 @@ Item {
                 resetKeys: ["islandNotificationBadgeClearOnOpen"]
                 text: I18n.tr("Clear badge on open", "island settings: clear the notification badge when the center opens")
                 checked: bar.islandSetting("islandNotificationBadgeClearOnOpen")
-                enabled: SettingsData.islandHomeGroupEnabled(root.config, "notifications")
+                enabled: root.isDot || SettingsData.islandHomeGroupEnabled(root.config, "notifications")
                 onToggled: checked => bar.apply("islandNotificationBadgeClearOnOpen", checked)
             }
         }
@@ -189,7 +191,7 @@ Item {
             settingKey: "islandSatellites"
             collapsible: true
             expanded: true
-            visible: root.islandEnabled
+            visible: root.islandEnabled && !root.isFree
 
             SettingsToggleRow {
                 settingKey: "islandSatellitesEnabled"
