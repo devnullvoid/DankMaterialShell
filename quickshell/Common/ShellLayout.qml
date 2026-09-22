@@ -115,6 +115,38 @@ Singleton {
         return (layout?.instances ?? []).filter(instance => instance.edge === side).reduce((sum, instance) => sum + instance.reservation, 0);
     }
 
+    // non-manual layouts let the compositor stack exclusive zones, so the bar that was mapped later is the tucked one
+    function adjacentCover(screen, side, config, length) {
+        const layout = forScreen(screen);
+        const neighbour = adjacentBar(screen, side, config);
+        if (!layout || !neighbour)
+            return null;
+        const opposite = {
+            top: "bottom",
+            bottom: "top",
+            left: "right",
+            right: "left"
+        }[side];
+        const near = layout.edges[side].reservation;
+        const far = adjacentBar(screen, opposite, config) ? layout.edges[opposite].reservation : 0;
+        const deficit = (side === "top" || side === "bottom" ? layout.screen.height : layout.screen.width) - length;
+        const order = id => layout.instances.find(instance => instance.barId === id)?.configOrder ?? 0;
+        let tucked;
+        if (deficit >= near + far - 1)
+            tucked = true;
+        else if (deficit < near - 1)
+            tucked = false;
+        else if (Math.abs(near - far) > 1)
+            tucked = Math.abs(deficit - near) <= 1;
+        else
+            tucked = order(neighbour.config.id) < order(config?.id);
+        return {
+            reach: dockAdjacentThickness(screen, side),
+            wing: neighbour.wingSize ?? 0,
+            tucked
+        };
+    }
+
     function adjacentInfo(screen, config) {
         return Resolver.adjacentInfo(forScreen(screen), config, primaryBar);
     }

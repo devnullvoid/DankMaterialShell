@@ -321,6 +321,8 @@ Item {
 
             if (hasBar && barBackground.gothEnabled && barWindow._wingR > 0) {
                 for (const wingItem of [barBackground.leadingWing, barBackground.trailingWing]) {
+                    if (!wingItem.visible)
+                        continue;
                     const wing = blurWingRegionComp.createObject(region, {
                         wing: wingItem
                     });
