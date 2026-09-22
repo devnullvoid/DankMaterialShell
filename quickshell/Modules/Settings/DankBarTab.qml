@@ -364,26 +364,19 @@ Item {
                     hoverPopouts: checked
                 })
 
-            Column {
-                width: parent.width
-                spacing: Theme.spacingS
+            SettingsSliderRow {
                 visible: bar.selectedBarConfig?.hoverPopouts ?? false
-                leftPadding: Theme.spacingM
-
-                SettingsSliderRow {
-                    width: parent.width - parent.leftPadding
-                    text: I18n.tr("Open delay")
-                    resetStore: bar
-                    resetKeys: ["hoverPopoutDelay"]
-                    value: bar.selectedBarConfig?.hoverPopoutDelay ?? 150
-                    minimum: 0
-                    maximum: 1000
-                    unit: "ms"
-                    onSliderValueChanged: newValue => {
-                        SettingsData.updateBarConfig(bar.selectedBarId, {
-                            hoverPopoutDelay: newValue
-                        });
-                    }
+                text: I18n.tr("Open delay")
+                resetStore: bar
+                resetKeys: ["hoverPopoutDelay"]
+                value: bar.selectedBarConfig?.hoverPopoutDelay ?? 150
+                minimum: 0
+                maximum: 1000
+                unit: "ms"
+                onSliderValueChanged: newValue => {
+                    SettingsData.updateBarConfig(bar.selectedBarId, {
+                        hoverPopoutDelay: newValue
+                    });
                 }
             }
         }

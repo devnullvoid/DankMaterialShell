@@ -65,16 +65,15 @@ Item {
 
         Item {
             width: parent.width
-            height: root.hasContent ? expandedContent.height + Theme.spacingM : 0
+            height: root.hasContent ? expandedContent.height : 0
 
             Column {
                 id: expandedContent
                 enabled: root.checked
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.leftMargin: SettingsMetrics.rowPaddingH
-                anchors.rightMargin: SettingsMetrics.rowPaddingH
-                spacing: Theme.spacingM
+                anchors.leftMargin: root.iconName !== "" ? Theme.iconSize + Theme.spacingL : 0
+                spacing: 0
             }
         }
     }

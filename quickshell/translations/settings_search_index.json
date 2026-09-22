@@ -9380,39 +9380,8 @@
     "description": "Night mode, gamma, contrast"
   },
   {
-    "section": "nightModeTemperature",
-    "label": "Night temperature",
-    "tabIndex": 25,
-    "category": "Gamma control",
-    "keywords": [
-      "blue light",
-      "celsius",
-      "color",
-      "color temperature",
-      "control",
-      "displays",
-      "fahrenheit",
-      "gamma",
-      "kelvin",
-      "monitor",
-      "monitors",
-      "night",
-      "night light",
-      "output",
-      "outputs",
-      "redshift",
-      "resolution",
-      "screen",
-      "screens",
-      "temp",
-      "temperature",
-      "warm"
-    ],
-    "parentLabel": "Displays"
-  },
-  {
     "section": "nightModeTransitionMinutes",
-    "label": "Transition duration",
+    "label": "Mode",
     "tabIndex": 25,
     "category": "Gamma control",
     "keywords": [
@@ -9423,6 +9392,7 @@
       "duration",
       "fade",
       "gamma",
+      "mode",
       "monitor",
       "monitors",
       "night",
@@ -9436,6 +9406,38 @@
       "transition"
     ],
     "parentLabel": "Displays"
+  },
+  {
+    "section": "nightModeTemperature",
+    "label": "Night mode",
+    "tabIndex": 25,
+    "category": "Gamma control",
+    "keywords": [
+      "available",
+      "blue light",
+      "color",
+      "color temperature",
+      "control",
+      "displays",
+      "gamma",
+      "kelvin",
+      "mode",
+      "monitor",
+      "monitors",
+      "night",
+      "night light",
+      "output",
+      "outputs",
+      "redshift",
+      "requires",
+      "resolution",
+      "screen",
+      "screens",
+      "temperature",
+      "warm"
+    ],
+    "parentLabel": "Displays",
+    "description": "Gamma control not available. Requires DMS API v6+."
   },
   {
     "section": "_tab_26",
