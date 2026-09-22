@@ -199,11 +199,11 @@ ShellRoot {
             viewport.width = 780;
             SettingsData.dashOptions = {
                 media: {
-                    playerStyle: "zurvan"
+                    playerStyle: "bento"
                 }
             };
             input.wait(30);
-            check(!!find(media, item => item.loop === true), "switching back restores Zurvan");
+            check(!!find(media, item => item.loop === true), "switching back restores Bento");
             media.lyricsOpen = false;
             media.playerPaneOpen = false;
             input.wait(30);
@@ -215,7 +215,7 @@ ShellRoot {
             input.wait(30);
             SettingsData.dashOptions = {
                 media: {
-                    playerStyle: "zurvan",
+                    playerStyle: "bento",
                     lyrics: false
                 }
             };
@@ -225,7 +225,7 @@ ShellRoot {
             check(!!lyricsToggle && !lyricsToggle.visible, "lyrics option gates the button");
             SettingsData.dashOptions = {
                 media: {
-                    playerStyle: "zurvan",
+                    playerStyle: "bento",
                     lyrics: true
                 }
             };

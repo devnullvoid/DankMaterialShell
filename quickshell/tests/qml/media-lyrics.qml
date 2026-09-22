@@ -202,7 +202,7 @@ ShellRoot {
             SettingsData.reduceMotion = true;
             SettingsData.dashOptions = {
                 media: {
-                    playerStyle: "zurvan",
+                    playerStyle: "bento",
                     lyrics: true
                 }
             };
@@ -237,7 +237,7 @@ ShellRoot {
             check(media.lyrics.lines.length === 5 && media.lyrics.lines[2].x.includes("backing vocal"), "same-time lyrics stay together");
             let overlay = media.lyricsFocusTarget;
             check(overlay && overlay.activeFocus, "lyrics receives keyboard focus");
-            check(overlay.width === artwork.width && overlay.height === artwork.height, "Zurvan lyrics stay within the artwork shape");
+            check(overlay.width === artwork.width && overlay.height === artwork.height, "Bento lyrics stay within the artwork shape");
             const openCorners = artCorners(artwork);
             check(openCorners === corners, "opening lyrics leaves pixels outside the artwork untouched: " + corners + " -> " + openCorners);
             const line = find(overlay, item => item.text === root.longLine && item.truncated !== undefined);
@@ -248,7 +248,7 @@ ShellRoot {
             check(line.lineCount === wrappedLineCount, "lyric highlighting preserves line breaks");
             source.position = 10;
             input.wait(30);
-            capture("zurvan");
+            capture("bento");
             input.keyClick(Qt.Key_PageDown);
             input.wait(30);
             check(!overlay.following && input.findChild(overlay, "followPlayback")?.visible, "browsing pauses automatic following");
@@ -413,7 +413,7 @@ ShellRoot {
             check(media.lyrics.state === "ready" && !media.lyrics.synced, "embedded lyrics remain available with all providers off");
             SettingsData.dashOptions = {
                 media: {
-                    playerStyle: "zurvan",
+                    playerStyle: "bento",
                     lyrics: true,
                     artStyle: "circle"
                 }
@@ -438,7 +438,7 @@ ShellRoot {
             SettingsData.reduceMotion = false;
             SettingsData.dashOptions = {
                 media: {
-                    playerStyle: "zurvan",
+                    playerStyle: "bento",
                     lyrics: true
                 }
             };

@@ -1424,8 +1424,6 @@ Item {
         screen: root.surfaceScreen
         visible: false
         color: "transparent"
-        readonly property bool closeVisualActive: root.shouldBeVisible || root.isClosing
-
         onVisibleChanged: {
             if (!visible) {
                 root._surfaceFrameReady = false;
@@ -1506,13 +1504,14 @@ Item {
             height: root.maskHeight
         }
 
+        // Empty input region to avoid the animating surface taking pointer events
         Item {
             id: contentMaskRect
             visible: false
             x: contentContainer.x - contentContainer.horizontalConnectorExtent - root.inputMargin
             y: contentContainer.y - contentContainer.verticalConnectorExtent - root.inputMargin
-            width: root.connected || contentWindow.closeVisualActive ? root.renderedAlignedWidth + contentContainer.horizontalConnectorExtent * 2 + root.inputMargin * 2 : 0
-            height: root.connected || contentWindow.closeVisualActive ? root.renderedAlignedHeight + contentContainer.verticalConnectorExtent * 2 + root.inputMargin * 2 : 0
+            width: root.shouldBeVisible ? root.renderedAlignedWidth + contentContainer.horizontalConnectorExtent * 2 + root.inputMargin * 2 : 0
+            height: root.shouldBeVisible ? root.renderedAlignedHeight + contentContainer.verticalConnectorExtent * 2 + root.inputMargin * 2 : 0
         }
 
         Loader {

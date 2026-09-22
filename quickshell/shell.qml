@@ -34,6 +34,7 @@ ShellRoot {
         DC.Log.backend = Log;
         DC.Host.session = SessionService;
         DC.Host.cache = CacheData;
+        void IconThemeService.ready;
         if (entrypoint.runGreeter)
             return;
         // Build the polkit agent here, outside incubation: first-touching it from a Connections target during DMSShell's async load crashed QQmlConnections::connectSignalsToMethods.
@@ -58,7 +59,7 @@ ShellRoot {
 
     Loader {
         id: shellCoreLoader
-        active: !entrypoint.runGreeter && IconThemeService.ready
+        active: !entrypoint.runGreeter
         asynchronous: true
         source: "ShellCore.qml"
         onLoaded: dmsShellLoader.setSource("DMSShell.qml", {
@@ -73,7 +74,7 @@ ShellRoot {
 
     Loader {
         id: dmsGreeterLoader
-        active: entrypoint.runGreeter && IconThemeService.ready
+        active: entrypoint.runGreeter
         asynchronous: false
         source: "DMSGreeter.qml"
     }

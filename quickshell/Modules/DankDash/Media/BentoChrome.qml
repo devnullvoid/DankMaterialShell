@@ -12,27 +12,25 @@ MediaChromeBase {
 
     readonly property bool compact: width < Theme.smallBreakpoint || halfWidth < headerHeight + controls.implicitHeight
     readonly property real halfWidth: Math.max(0, (width - padding * 2 - Theme.spacingXL) / 2)
-    readonly property real bodyHeight: Math.max(0, height - padding * 2)
     // !TODO: expose this variant? playerPaneOpen false gives art beside lyrics, or art alone with hover transport
     readonly property bool playerPane: root.player.playerPaneOpen
     readonly property bool controlsColumn: playerPane
     readonly property bool lyricsColumn: root.player.lyricsOpen && !playerPane
     readonly property bool splitPanes: controlsColumn || lyricsColumn
     readonly property bool artTransport: !playerPane && !!root.presentation
-    readonly property real naturalArtSize: Math.max(0, Math.min(artSize, compact ? width / 2 : halfWidth))
-    readonly property real artworkSize: compact ? naturalArtSize : Math.max(naturalArtSize, Math.min(halfWidth, bodyHeight))
+    readonly property real naturalArtSize: Math.round(Math.max(0, Math.min(artSize, compact ? width / 2 : halfWidth)))
+    // Sized from the controls column, never from this item's own height: reading back the height
+    // the artwork itself sets makes the split settle wherever the current track happened to put it.
+    readonly property real artworkSize: Math.round(compact ? naturalArtSize : Math.min(halfWidth, Math.max(naturalArtSize, headerHeight + controls.implicitHeight)))
     readonly property real columnHeight: compact ? artworkSize : Math.max(artworkSize, paneHeight)
     readonly property real paneHeight: Math.max(artworkSize, headerHeight + controls.implicitHeight)
     readonly property real paneMinHeight: Math.max(naturalArtSize, headerHeight + controls.implicitHeight)
     readonly property real headerHeight: sourceRow.height + Theme.spacingS
-    readonly property real renderScale: Window.window?.devicePixelRatio ?? Screen.devicePixelRatio
-    readonly property int artSide: TrackArtService.resolvedArtSide
-    readonly property bool lowResArt: artSide > 0 && artSide < artworkSize * renderScale * DashMetrics.mediaArtLowResRatio
 
     artSize: DashMetrics.mediaArtSizeDash
     surfaceColor: Theme.foregroundColor(Theme.hostSurface)
     baseHeight: Math.max(DashMetrics.tabMinHeight, padding * 2 + (compact ? naturalArtSize + Theme.spacingXL + paneMinHeight : Math.max(naturalArtSize, paneMinHeight)))
-    focusTargets: (viewToggle.visible ? [viewToggle] : []).concat(artTransportLoader.item?.focusTargets ?? [], [playerButton], sourceGroup.focusTargets, transport.focusTargets, seekbar.canSeek && seekBlock.visible ? [seekbar] : [])
+    focusTargets: (viewToggle.visible ? [viewToggle] : []).concat(artTransportLoader.item?.focusTargets ?? [], [playerButton], sourceGroup.focusTargets, transport.focusTargets, seekbar.canSeek && root.hasSeekbar ? [seekbar] : [])
     panelButtons: [playerButton].concat(sourceGroup.panelButtons)
     inlineVolume: true
 
@@ -56,10 +54,8 @@ MediaChromeBase {
         Item {
             id: art
 
-            readonly property real scaledSize: root.artworkSize * (root.lowResArt ? DashMetrics.mediaArtLowResScale : 1)
-
             anchors.centerIn: parent
-            width: root.compact ? scaledSize : Math.min(root.artworkSize, Math.max(scaledSize, root.headerHeight + controls.implicitHeight))
+            width: root.artworkSize
             height: width
 
             HoverHandler {
@@ -282,6 +278,7 @@ MediaChromeBase {
                         loop: true
                         fadeEdges: true
                         pxPerMs: DashMetrics.mediaTextScrollSpeed / 1000
+                        stepInterval: DashMetrics.mediaTextScrollStep
                     }
 
                     ScrollingText {
@@ -294,6 +291,7 @@ MediaChromeBase {
                         loop: true
                         fadeEdges: true
                         pxPerMs: DashMetrics.mediaTextScrollSpeed / 1000
+                        stepInterval: DashMetrics.mediaTextScrollStep
                     }
                 }
             }
@@ -327,11 +325,13 @@ MediaChromeBase {
                         visible: hasControls
                     }
 
+                    // Kept in the column for a length-less stream so the pane, and with it the
+                    // artwork it sizes, does not resize when one comes up in the queue.
                     Item {
                         id: seekBlock
                         width: parent.width
                         height: Theme.buttonHeightXS
-                        visible: root.hasSeekbar
+                        visible: root.seekbarEnabled && !!root.presentation
                         LayoutMirroring.enabled: false
                         LayoutMirroring.childrenInherit: true
 
@@ -339,6 +339,7 @@ MediaChromeBase {
                             id: elapsed
                             anchors.left: parent.left
                             anchors.verticalCenter: parent.verticalCenter
+                            visible: root.hasSeekbar
                             text: Format.formatDuration(seekbar.value * (root.presentation?.length ?? 0))
                             reserveText: duration.text.replace(/\d/g, "8")
                         }
@@ -349,6 +350,7 @@ MediaChromeBase {
                             anchors.right: duration.left
                             anchors.margins: Theme.spacingS
                             anchors.verticalCenter: parent.verticalCenter
+                            visible: root.hasSeekbar
                             player: root.player
                         }
 
@@ -356,6 +358,7 @@ MediaChromeBase {
                             id: duration
                             anchors.right: parent.right
                             anchors.verticalCenter: parent.verticalCenter
+                            visible: root.hasSeekbar
                             text: Format.formatDuration(root.presentation?.length ?? 0)
                             reserveText: text.replace(/\d/g, "8")
                         }
