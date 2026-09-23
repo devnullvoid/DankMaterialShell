@@ -11,7 +11,7 @@ Column {
 
     property var parentModal: null
     property string confirmingRemoveId: ""
-    property bool renaming: false
+    property string editingBarId: ""
     property string renameDraft: ""
     readonly property bool dotEnabled: SettingsData.dotBarConfig?.enabled ?? false
     readonly property var barPages: ["dankbar_settings", "dankbar_appearance"].map(id => SettingsTabs.page(id)).filter(page => page)
@@ -20,19 +20,14 @@ Column {
         id: bar
 
         onSelectedBarIdChanged: {
-            root.renaming = false;
+            root.editingBarId = "";
             root.confirmingRemoveId = "";
         }
     }
 
-    function startRename() {
-        renameDraft = bar.selectedBarName;
-        renaming = true;
-    }
-
     function finishRename(value) {
-        renaming = false;
-        const id = bar.selectedBarId;
+        const id = editingBarId;
+        editingBarId = "";
         const name = value.trim();
         if (!id || !name || SettingsData.barConfigs.some(config => config.id !== id && config.name === name))
             return;
@@ -149,32 +144,33 @@ Column {
         settingKey: "barLayout"
         tags: ["layout", "standard", "frame", "island", "mode", "bar", "name", "rename"]
         visible: !!bar.selectedBarConfig
-        headerActions: [
+
+        SettingsRow {
+            title: I18n.tr("Name")
+            subtitle: root.editingBarId ? "" : bar.selectedBarName
+
             DankActionButton {
-                iconName: root.renaming ? "check" : "edit"
-                Accessible.name: root.renaming ? I18n.tr("Save") : I18n.tr("Rename")
+                iconName: root.editingBarId ? "check" : "edit"
+                Accessible.name: root.editingBarId ? I18n.tr("Save") : I18n.tr("Rename")
                 onClicked: {
-                    if (root.renaming) {
+                    if (root.editingBarId) {
                         root.finishRename(root.renameDraft);
                         return;
                     }
-                    root.startRename();
+                    root.renameDraft = bar.selectedBarName;
+                    root.editingBarId = bar.selectedBarId;
                 }
-            },
+            }
             DankActionButton {
-                visible: root.renaming
+                visible: root.editingBarId !== ""
                 iconName: "close"
                 Accessible.name: I18n.tr("Cancel")
-                onClicked: root.renaming = false
+                onClicked: root.editingBarId = ""
             }
-        ]
-
-        SettingsRow {
-            visible: root.renaming
 
             body: Loader {
                 width: parent.width
-                active: root.renaming
+                active: root.editingBarId !== ""
                 visible: active
                 sourceComponent: DankTextField {
                     id: renameField
@@ -184,7 +180,7 @@ Column {
                     text: root.renameDraft
                     onTextEdited: root.renameDraft = renameField.text
                     onAccepted: root.finishRename(renameField.text)
-                    Keys.onEscapePressed: root.renaming = false
+                    Keys.onEscapePressed: root.editingBarId = ""
                     Component.onCompleted: {
                         renameField.forceActiveFocus();
                         renameField.selectAll();

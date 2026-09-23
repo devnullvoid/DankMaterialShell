@@ -8,12 +8,6 @@ Singleton {
     id: root
 
     property string selectedBarId: "default"
-    readonly property string selectedBarTitle: {
-        SettingsData.barConfigs;
-        return SettingsData.getBarConfig(selectedBarId)?.name || I18n.tr("Bar", "fallback name for an unnamed bar");
-    }
-    readonly property string selectedBarGeneralTitle: selectedBarTitle + " • " + I18n.tr("General", "adjective, settings page and section title for general options")
-    readonly property string selectedBarAppearanceTitle: selectedBarTitle + " • " + I18n.tr("Appearance", "settings page and section title for visual options")
     property string selectedWallpaperScreen: ""
     // Which dock the Dock hub pages are editing.
     property string dockHubSelection: ""

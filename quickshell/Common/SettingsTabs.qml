@@ -92,7 +92,6 @@ Singleton {
                 {
                     "id": "dankbar_settings",
                     "hidden": true,
-                    "titleFrom": "selectedBarGeneralTitle",
                     "aliases": ["dank_island", "island"],
                     "text": I18n.tr("General", "adjective, settings page and section title for general options"),
                     "icon": "tune",
@@ -102,7 +101,6 @@ Singleton {
                 {
                     "id": "dankbar_appearance",
                     "hidden": true,
-                    "titleFrom": "selectedBarAppearanceTitle",
                     "aliases": ["frame"],
                     "text": I18n.tr("Appearance", "settings page and section title for visual options"),
                     "icon": "palette",
