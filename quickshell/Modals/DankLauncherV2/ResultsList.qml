@@ -43,22 +43,32 @@ Item {
         var cumHeights = [];
         var cumY = 0;
         const rowHeight = LauncherMetrics.rowHeight + LauncherMetrics.rowGap;
-        const sectionHeight = LauncherMetrics.sectionHeight;
+        const sectionBand = LauncherMetrics.sectionBand;
+        const sectionGap = LauncherMetrics.resultsGap;
 
         for (var s = 0; s < sections.length; s++) {
             var section = sections[s];
             var sectionId = section.id;
 
             if (!root._bottomSectionHeaderActive || s > 0) {
+                if (rows.length > 0) {
+                    cumHeights.push(cumY);
+                    rows.push({
+                        _rowId: "sp_" + sectionId,
+                        type: "spacer",
+                        height: sectionGap
+                    });
+                    cumY += sectionGap;
+                }
                 cumHeights.push(cumY);
                 rows.push({
                     _rowId: "h_" + sectionId,
                     type: "header",
                     section: section,
                     sectionId: sectionId,
-                    height: sectionHeight
+                    height: sectionBand
                 });
-                cumY += sectionHeight;
+                cumY += sectionBand;
             }
 
             if (section.collapsed)
@@ -249,7 +259,7 @@ Item {
         }
 
         var visualY = rowY - mainListView.contentY + mainListView.originY + itemH / 2;
-        var clampedY = Math.max(LauncherMetrics.sectionHeight, Math.min(height - LauncherMetrics.sectionHeight, visualY));
+        var clampedY = Math.max(LauncherMetrics.sectionBand, Math.min(height - LauncherMetrics.sectionBand, visualY));
         return mapToItem(null, itemX, clampedY);
     }
 
@@ -269,8 +279,8 @@ Item {
     Item {
         id: listClip
         anchors.fill: parent
-        anchors.topMargin: stickyHeader.visible ? LauncherMetrics.sectionHeight : 0
-        anchors.bottomMargin: bottomSectionHeader.visible ? bottomSectionHeader.height : 0
+        anchors.topMargin: stickyHeader.visible ? LauncherMetrics.sectionBand : 0
+        anchors.bottomMargin: bottomSectionHeader.visible ? bottomSectionHeader.height + LauncherMetrics.resultsGap : 0
         clip: true
 
         DankListView {
@@ -279,7 +289,7 @@ Item {
             width: parent.width
             height: parent.height + listClip.anchors.topMargin
             clip: true
-            scrollBarTopMargin: (root.controller?.sections?.length > 0) ? LauncherMetrics.sectionHeight : 0
+            scrollBarTopMargin: (root.controller?.sections?.length > 0) ? LauncherMetrics.sectionBand : 0
 
             model: ScriptModel {
                 values: root._visualRows
@@ -343,6 +353,7 @@ Item {
 
                 Loader {
                     anchors.fill: parent
+                    anchors.bottomMargin: LauncherMetrics.resultsGap
                     active: delegateRoot.rowType === "header"
                     visible: active
                     sourceComponent: SectionHeader {
@@ -532,7 +543,7 @@ Item {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
-        height: LauncherMetrics.sectionHeight
+        height: LauncherMetrics.sectionBand
         z: 101
         color: "transparent"
         visible: !root._bottomSectionHeaderActive && stickyHeaderSection !== null

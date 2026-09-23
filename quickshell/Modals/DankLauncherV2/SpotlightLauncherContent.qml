@@ -31,7 +31,7 @@ FocusScope {
     readonly property real actionPanelHeight: actionPanel.height
     readonly property real _statusH: Theme.listItemTwoLineHeight + Theme.spacingXL
     readonly property real _maxResultsH: root.maxResultsHeight > 0 ? root.maxResultsHeight : Math.max(0, Math.min(LauncherMetrics.maxResultsHeight + resultsInset + resultsList.bottomInset, (parentModal?.screenHeight ?? Theme.mediumBreakpoint) - (parentModal?.modalY ?? 0) - LauncherMetrics.pillHeight - actionPanel.height - Theme.spacingL))
-    readonly property real _resultsContentH: resultsList.contentHeight > 0 ? resultsInset + resultsList.contentHeight + resultsList.bottomInset : _statusH
+    readonly property real _resultsContentH: resultsList.contentHeight > 0 ? LauncherMetrics.resultsGap + resultsList.contentHeight + resultsList.bottomInset : _statusH
     readonly property real _resultsH: _hasQuery ? Math.min(_resultsContentH, _maxResultsH) : 0
     readonly property int _resizeDuration: Theme.expressiveDurations.expressiveFastSpatial
     readonly property real _frameClipRadius: Math.max(0, (parentModal?.frameBottomRadius ?? 0) - resultsInset)
@@ -375,7 +375,7 @@ FocusScope {
             keyForwardTargets: [searchKeyHandler]
             readonly property real bottomInset: Theme.spacingS
             anchors.fill: parent
-            anchors.topMargin: root.resultsInset
+            anchors.topMargin: LauncherMetrics.resultsGap
             controller: root.controller
             showEmptyState: root._hasQuery
 

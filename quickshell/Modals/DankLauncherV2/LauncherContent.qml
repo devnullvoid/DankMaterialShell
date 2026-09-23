@@ -437,9 +437,9 @@ FocusScope {
             anchors.bottom: contentHolder.inverted ? searchRow.top : footerBar.top
             anchors.leftMargin: Theme.spacingM
             anchors.rightMargin: Theme.spacingM
-            anchors.topMargin: contentHolder.inverted && !footerBar.showFooter ? Theme.spacingM : (contentHolder.inverted || categoryRow.visible || fileFilterRow.visible ? contentStack.gap : 0)
+            anchors.topMargin: contentHolder.inverted && !footerBar.showFooter ? Theme.spacingM : contentStack.gap
             anchors.bottomMargin: 0
-            readonly property real gap: controller.searchMode === "files" ? Theme.spacingS : Theme.spacingXS
+            readonly property real gap: LauncherMetrics.resultsGap
             clip: false
 
             Row {
