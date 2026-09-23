@@ -3,9 +3,11 @@ package screenshot
 import (
 	"fmt"
 	"math"
+	"runtime"
 	"slices"
 	"strconv"
 	"strings"
+	"sync"
 )
 
 const (
@@ -237,11 +239,36 @@ func opaqueRow(p []byte) {
 	}
 }
 
-func (r *RegionSelector) dimBackground(renderBuf *ShmBuffer) {
-	data := renderBuf.Data()
-	for y := range renderBuf.Height {
-		dimRow(data[y*renderBuf.Stride:][:renderBuf.Width*4])
+func parallelRows(rows int, fn func(y1, y2 int)) {
+	workers := min(runtime.GOMAXPROCS(0), 8, rows)
+	if workers <= 1 {
+		fn(0, rows)
+		return
 	}
+	chunk := (rows + workers - 1) / workers
+	var wg sync.WaitGroup
+	for y := 0; y < rows; y += chunk {
+		wg.Add(1)
+		go func(y1, y2 int) {
+			defer wg.Done()
+			fn(y1, y2)
+		}(y, min(y+chunk, rows))
+	}
+	wg.Wait()
+}
+
+func paintDimmedFrame(dst, src *ShmBuffer) {
+	dstData, srcData := dst.Data(), src.Data()
+	rowLen := min(dst.Width, src.Width) * 4
+	parallelRows(min(dst.Height, src.Height), func(y1, y2 int) {
+		for y := y1; y < y2; y++ {
+			d := dstData[y*dst.Stride:][:rowLen]
+			s := srcData[y*src.Stride:][:rowLen]
+			for i := 0; i+3 < rowLen; i += 4 {
+				d[i], d[i+1], d[i+2], d[i+3] = dimLUT[s[i]], dimLUT[s[i+1]], dimLUT[s[i+2]], 255
+			}
+		}
+	})
 }
 
 // paintRect copies area from the capture into dst, dimmed or bright.
