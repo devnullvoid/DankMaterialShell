@@ -182,35 +182,6 @@ DankFloatingWindow {
     }
 
     Connections {
-        target: SettingsData
-
-        function onFrameEnabledChanged() {
-            if (!SettingsData.frameEnabled && settingsModal.currentPage === "frame")
-                settingsModal.setPage("dankbar");
-        }
-
-        function onIslandBarConfigsChanged() {
-            settingsModal.leaveIslandPageIfHidden();
-        }
-    }
-
-    function leaveIslandPageIfHidden() {
-        if (settingsModal.currentPage !== "dank_island")
-            return;
-        if (SettingsData.isIslandBarConfig(SettingsData.getBarConfig(SettingsUiState.selectedBarId)))
-            return;
-        settingsModal.setPage("dankbar");
-    }
-
-    Connections {
-        target: SettingsUiState
-
-        function onSelectedBarIdChanged() {
-            settingsModal.leaveIslandPageIfHidden();
-        }
-    }
-
-    Connections {
         target: PluginService
 
         function onPluginListUpdated() {

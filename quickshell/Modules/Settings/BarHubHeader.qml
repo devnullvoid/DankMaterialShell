@@ -13,6 +13,8 @@ Column {
     property string confirmingRemoveId: ""
     property string editingBarId: ""
     property string renameDraft: ""
+    readonly property bool dotSelected: SettingsData.isDotBarConfig(bar.selectedBarConfig)
+    readonly property bool dotEnabled: SettingsData.dotBarConfig?.enabled ?? false
 
     BarSelectionState {
         id: bar
@@ -54,7 +56,7 @@ Column {
         delete newBar.island;
         delete newBar.dot;
         SettingsData.addBarConfig(newBar);
-        bar.selectedBarId = newId;
+        bar.select(newId);
     }
 
     function canDeleteBar(config) {
@@ -68,7 +70,7 @@ Column {
         }
         confirmingRemoveId = "";
         SettingsData.deleteBarConfig(barId);
-        bar.selectedBarId = "default";
+        bar.select("default");
     }
 
     function canToggleBar(config) {
@@ -81,16 +83,28 @@ Column {
         });
     }
 
+    function setDotEnabled(enabled) {
+        SettingsData.setDotEnabled(enabled, bar.selectedBarId);
+        if (enabled) {
+            bar.select(SettingsData.dotBarConfig?.id ?? bar.selectedBarId);
+            return;
+        }
+        if (dotSelected)
+            bar.select(SettingsData.barConfigs.find(config => config.enabled && !SettingsData.isDotBarConfig(config))?.id ?? "default");
+    }
+
+    function barTitle(config) {
+        return config.name || I18n.tr("Bar %1", "numbered name for an unnamed bar, %1 is its position").arg(SettingsData.barConfigs.indexOf(config) + 1);
+    }
+
     function barSummary(config) {
-        const parts = SettingsData.islandFreePlacement(config) ? [I18n.tr("Free", "bar summary: island floats anywhere on the display")] : [bar.positionLabel(config.position ?? SettingsData.Position.Top)];
+        const parts = SettingsData.islandFreePlacement(config) ? [I18n.tr("Floating", "bar summary: island can be dragged anywhere on the display")] : [bar.positionLabel(config.position ?? SettingsData.Position.Top)];
         const prefs = config.screenPreferences || ["all"];
         if (prefs.includes("all"))
             parts.push(I18n.tr("All displays"));
         else
             parts.push(prefs.length === 1 ? I18n.tr("%1 display", "singular, bar summary of assigned monitors, %1 is 1").arg(prefs.length) : I18n.tr("%1 displays", "plural, bar summary of assigned monitors, %1 is a count").arg(prefs.length));
-        if (SettingsData.isDotBarConfig(config))
-            parts.push(I18n.tr("Dot", "bar summary: free-floating dot layout"));
-        else if (SettingsData.isIslandBarConfig(config))
+        if (SettingsData.isIslandBarConfig(config))
             parts.push(I18n.tr("Island"));
         return parts.join(" • ");
     }
@@ -112,22 +126,21 @@ Column {
         }
 
         Repeater {
-            model: SettingsData.barConfigs
+            model: SettingsData.barConfigs.filter(config => !SettingsData.isDotBarConfig(config))
 
             delegate: SettingsInstanceRow {
                 required property var modelData
-                required property int index
 
-                title: modelData.name || I18n.tr("Bar %1", "numbered name for an unnamed bar, %1 is its position").arg(index + 1)
+                title: root.barTitle(modelData)
                 summary: root.barSummary(modelData)
                 selected: bar.selectedBarId === modelData.id
                 checked: modelData.enabled ?? false
                 toggleVisible: root.canToggleBar(modelData)
                 deletable: root.canDeleteBar(modelData)
                 confirmingDelete: root.confirmingRemoveId === modelData.id
-                onClicked: bar.selectedBarId = modelData.id
+                onClicked: bar.select(modelData.id)
                 onToggled: checked => {
-                    bar.selectedBarId = modelData.id;
+                    bar.select(modelData.id);
                     root.setBarEnabled(modelData.id, checked);
                 }
                 onDeleteRequested: root.deleteBar(modelData.id)
@@ -137,7 +150,7 @@ Column {
         SettingsRow {
             title: I18n.tr("Name")
             subtitle: root.editingBarId ? "" : bar.selectedBarName
-            visible: !!bar.selectedBarConfig
+            visible: !!bar.selectedBarConfig && !root.dotSelected
 
             DankActionButton {
                 iconName: root.editingBarId ? "check" : "edit"
@@ -180,11 +193,25 @@ Column {
         }
     }
 
+    SettingsInstanceRow {
+        title: I18n.tr("Dot", "bar layout: free-floating dot that opens island activities")
+        summary: I18n.tr("A floating companion that works alongside any bar layout", "bar settings: what the dot is")
+        settingKey: "dotEnabled"
+        tags: ["dot", "dankdot", "companion", "floating", "island", "enable"]
+        clickable: root.dotEnabled
+        selected: root.dotSelected
+        checked: root.dotEnabled
+        deletable: false
+        onClicked: bar.select(SettingsData.dotBarConfig.id)
+        onToggled: checked => root.setDotEnabled(checked)
+    }
+
     SettingsCard {
         iconName: "toolbar"
         title: I18n.tr("Layout", "noun, settings section title for arrangement options")
         settingKey: "barLayout"
-        tags: ["layout", "standard", "frame", "island", "dot", "mode", "bar"]
+        visible: !root.dotSelected
+        tags: ["layout", "standard", "frame", "island", "mode", "bar"]
 
         SettingsLayoutPicker {}
     }

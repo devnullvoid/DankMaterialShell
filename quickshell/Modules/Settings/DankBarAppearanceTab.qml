@@ -14,11 +14,15 @@ Item {
 
     property var parentModal: null
     readonly property bool widgetBackgroundEnabled: !(bar.selectedBarConfig?.noBackground ?? false)
-    readonly property bool trayTinted: ["primary", "secondary"].includes(SettingsData.systemTrayIconTintMode || "none")
     readonly property var outlineColors: ["surfaceText", "secondary", "primary"]
     readonly property var outlineColorLabels: [I18n.tr("Surface"), I18n.tr("Secondary"), I18n.tr("Primary")]
     readonly property var paletteValues: ["default", "bright", "dim"]
     readonly property var batteryStyleValues: ["solid", "outline", "ring"]
+    readonly property var satellitePositionValues: ["island", "edges"]
+    readonly property bool isDot: SettingsData.isDotBarConfig(bar.selectedBarConfig)
+    readonly property bool selectedIslandEnabled: bar.selectedBarIsIsland && (bar.selectedBarConfig?.enabled ?? false)
+    readonly property bool selectedIslandFree: bar.selectedBarIsIsland && SettingsData.islandFreePlacement(bar.selectedBarConfig)
+    readonly property int frameInsetPaddingDisplay: Math.round(SettingsData.frameBarContentGap)
 
     function valueIndex(values, value, fallback) {
         const index = values.indexOf(value);
@@ -33,11 +37,111 @@ Item {
         id: mainColumn
 
         SettingsCard {
+            iconName: "border_outer"
+            title: I18n.tr("Frame")
+            settingKey: "frameBorder"
+            collapsible: true
+            visible: !root.isDot && SettingsData.frameEnabled
+
+            SettingsSliderRow {
+                settingKey: "frameRounding"
+                tags: ["frame", "border", "rounding", "radius", "corner"]
+                text: I18n.tr("Radius", "corner radius slider label")
+                unit: "px"
+                minimum: 0
+                maximum: 100
+                step: 1
+                value: SettingsData.frameRounding
+                onSliderDragFinished: v => SettingsData.set("frameRounding", v)
+            }
+
+            SettingsSliderRow {
+                settingKey: "frameThickness"
+                tags: ["frame", "border", "thickness", "size", "width"]
+                text: I18n.tr("Width")
+                unit: "px"
+                minimum: 2
+                maximum: 100
+                step: 1
+                value: SettingsData.frameThickness
+                onSliderDragFinished: v => SettingsData.set("frameThickness", v)
+            }
+
+            SettingsSliderRow {
+                settingKey: "frameBarSize"
+                tags: ["frame", "bar", "thickness", "size", "height", "width"]
+                text: I18n.tr("Bar size")
+                unit: "px"
+                minimum: 24
+                maximum: 100
+                step: 1
+                value: SettingsData.frameBarSize
+                onSliderDragFinished: v => SettingsData.set("frameBarSize", v)
+            }
+
+            SettingsSliderRow {
+                settingKey: "frameBarInsetPadding"
+                tags: ["frame", "bar", "edge", "inset", "padding", "corner", "end"]
+                text: I18n.tr("Bar inset padding")
+                minimumLabel: I18n.tr("Edge to edge", "slider minimum label, bar touches the screen edges")
+                unit: "px"
+                minimum: 0
+                maximum: 48
+                step: 1
+                value: root.frameInsetPaddingDisplay
+                onSliderDragFinished: v => SettingsData.set("frameBarInsetPadding", v)
+            }
+
+            SettingsToggleRow {
+                id: frameBlurToggle
+                settingKey: "frameBlurEnabled"
+                tags: ["frame", "blur", "background", "glass", "transparency", "frosted"]
+                text: I18n.tr("Blur")
+                checked: SettingsData.frameBlurEnabled
+                onToggled: checked => SettingsData.set("frameBlurEnabled", checked)
+                enabled: BlurService.available && SettingsData.blurEnabled
+                visible: BlurService.available
+            }
+
+            SettingsRow {
+                visible: BlurService.available && !SettingsData.blurEnabled
+                body: Item {
+                    width: parent.width
+                    height: blurToggleNote.height + Theme.spacingM * 2
+
+                    Row {
+                        id: blurToggleNote
+                        x: Theme.spacingM
+                        width: parent.width - Theme.spacingM * 2
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: Theme.spacingS
+
+                        DankIcon {
+                            name: "blur_on"
+                            size: Theme.fontSizeMedium
+                            color: Theme.primary
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                        StyledText {
+                            text: I18n.tr("Frame Blur follows Background Blur in Theme & Colors")
+                            font.pixelSize: Theme.fontSizeSmall
+                            color: Theme.surfaceVariantText
+                            wrapMode: Text.WordWrap
+                            width: parent.width - Theme.fontSizeMedium - Theme.spacingS
+                        }
+                    }
+                }
+            }
+        }
+
+        SettingsCard {
             iconName: "rounded_corner"
-            title: I18n.tr("Bar")
+            title: !root.isDot ? I18n.tr("Bar") : I18n.tr("Dot", "bar layout: free-floating dot that opens island activities")
             settingKey: "barCorners"
             tags: ["background", "opacity", "corners", "rounded", "goth", "shadow"]
-            visible: (bar.selectedBarConfig?.enabled ?? false) && !bar.selectedBarFrameStyled
+            // Frame styling never reaches the dot's surface, which always paints its own palette and background.
+            visible: (bar.selectedBarConfig?.enabled ?? false) && (root.isDot || !bar.selectedBarFrameStyled)
 
             SettingsButtonGroupRow {
                 settingKey: "islandPalette"
@@ -71,7 +175,7 @@ Item {
                 resetStore: bar
                 resetKeys: ["islandBatteryStyle"]
                 text: I18n.tr("Battery style", "island settings: battery meter style row")
-                visible: bar.selectedBarIsIsland && !SettingsData.isDotBarConfig(bar.selectedBarConfig) && SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "status") && BatteryService.batteryAvailable && SettingsData.islandHomeStatusContent(bar.selectedBarConfig) === "battery"
+                visible: bar.selectedBarIsIsland && !root.isDot && SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "status") && BatteryService.batteryAvailable && SettingsData.islandHomeStatusContent(bar.selectedBarConfig) === "battery"
                 model: [I18n.tr("Solid", "island settings: filled battery meter style"), I18n.tr("Outline", "island settings: outlined battery meter style"), I18n.tr("Circle", "island settings: circular battery meter style")]
                 currentIndex: root.valueIndex(root.batteryStyleValues, bar.islandSetting("islandBatteryStyle"), "solid")
                 onSelectionChanged: (index, selected) => {
@@ -80,10 +184,25 @@ Item {
                 }
             }
 
+            SettingsButtonGroupRow {
+                settingKey: "islandBatteryColorMode"
+                tags: ["island", "battery", "color", "level", "theme", "meter", "accent", "green", "red"]
+                resetStore: bar
+                resetKeys: ["batteryColorMode"]
+                text: I18n.tr("Battery")
+                visible: bar.selectedBarIsIsland && !root.isDot && SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "status") && BatteryService.batteryAvailable && SettingsData.islandHomeStatusContent(bar.selectedBarConfig) === "battery"
+                model: [I18n.tr("Theme", "battery settings: theme accent indicator colors"), I18n.tr("Level", "battery settings: charge level indicator colors")]
+                currentIndex: (bar.selectedBarConfig?.batteryColorMode ?? "theme") === "level" ? 1 : 0
+                onSelectionChanged: (index, selected) => {
+                    if (selected)
+                        bar.apply("batteryColorMode", index === 1 ? "level" : "theme");
+                }
+            }
+
             SurfaceColorRow {
                 settingKey: "barSurfaceColor"
                 tags: ["background", "color", "surface", "bar", "material"]
-                visible: !bar.selectedBarFrameStyled
+                visible: root.isDot || !bar.selectedBarFrameStyled
                 resetStore: bar
                 resetKeys: ["surfaceColor", "surfaceCustomColor"]
                 text: I18n.tr("Background")
@@ -96,11 +215,44 @@ Item {
             }
 
             SettingsControlledBy {
-                visible: !bar.selectedBarFrameStyled && !bar.islandOwnsSelectedBarTop
+                visible: !root.isDot && !bar.selectedBarFrameStyled && !bar.islandOwnsSelectedBarTop
                 target: "surfaces"
                 parentModal: root.parentModal
                 section: "surfaceOpacity_bar_" + bar.selectedBarId
                 settingLabel: I18n.tr("Opacity")
+            }
+
+            SettingsSliderRow {
+                settingKey: "dotOpacity"
+                tags: ["dot", "opacity", "transparency", "background"]
+                visible: root.isDot
+                resetStore: bar
+                resetKeys: ["transparency"]
+                text: I18n.tr("Opacity")
+                minimum: 0
+                maximum: 100
+                step: 1
+                value: Math.round(SettingsData.barTransparency(bar.selectedBarConfig) * 100)
+                onSliderDragFinished: finalValue => SettingsData.updateBarConfig(bar.selectedBarId, {
+                        followInterfaceStyle: false,
+                        transparency: finalValue / 100
+                    })
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandFreeIdleOpacity"
+                tags: ["island", "free", "dot", "idle", "opacity", "fade"]
+                visible: root.isDot
+                resetStore: bar
+                resetKeys: ["islandFreeIdleOpacity"]
+                text: I18n.tr("Idle opacity", "island settings: dot opacity while idle")
+                unit: "%"
+                minimum: 5
+                maximum: 100
+                step: 1
+                value: Math.round(bar.islandSetting("islandFreeIdleOpacity") * 100)
+                enabled: bar.islandSetting("islandFreeIdleDelay") > 0
+                onSliderValueChanged: value => bar.apply("islandFreeIdleOpacity", value / 100)
             }
 
             SettingsButtonGroupRow {
@@ -229,20 +381,73 @@ Item {
             }
         }
 
-        SettingsControlledBy {
-            visible: (bar.selectedBarConfig?.enabled ?? false) && bar.selectedBarFrameSanitized && !bar.islandOwnsSelectedBarTop
-            parentModal: root.parentModal
-            section: "frameBorder"
-            settingLabel: I18n.tr("Bar surface and spacing")
-            reason: SettingsData.connectedFrameModeActive ? I18n.tr("Managed by Frame in Connected Mode") : I18n.tr("Managed by Frame")
-        }
-
         SettingsCard {
             iconName: "space_bar"
             title: I18n.tr("Size & spacing")
             settingKey: "barSpacing"
             tags: ["size", "scale", "font", "icon", "spacing", "padding", "inset", "length"]
-            visible: bar.selectedBarConfig?.enabled ?? false
+            visible: (bar.selectedBarConfig?.enabled ?? false) && !root.isDot
+
+            SettingsSliderRow {
+                settingKey: "islandReserveThickness"
+                tags: ["island", "placement", "reservation", "exclusive", "height", "width", "thickness"]
+                visible: bar.selectedBarIsIsland && !root.selectedIslandFree
+                resetStore: bar
+                resetKeys: ["islandReserveThickness"]
+                text: bar.selectedBarIsVertical ? I18n.tr("Reserved width", "island settings: reserved strip width slider") : I18n.tr("Reserved height", "island settings: reserved strip height slider")
+                unit: "px"
+                minimum: 24
+                maximum: 128
+                step: 1
+                value: bar.islandSetting("islandReserveThickness")
+                enabled: !bar.islandSetting("islandFloating")
+                onSliderValueChanged: value => bar.apply("islandReserveThickness", value)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandCompactThickness"
+                tags: ["island", "placement", "compact", "height", "width", "thickness", "size", "satellite"]
+                visible: bar.selectedBarIsIsland && !root.selectedIslandFree
+                resetStore: bar
+                resetKeys: ["islandCompactThickness"]
+                text: bar.selectedBarIsVertical ? I18n.tr("Compact width", "island settings: compact pill width slider") : I18n.tr("Compact height", "island settings: compact pill height slider")
+                unit: "px"
+                minimum: 24
+                maximum: 72
+                step: 1
+                value: bar.islandSetting("islandCompactThickness")
+                onSliderValueChanged: value => bar.apply("islandCompactThickness", value)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandOuterGap"
+                tags: ["island", "placement", "gap", "top", "margin"]
+                visible: bar.selectedBarIsIsland && !root.selectedIslandFree
+                resetStore: bar
+                resetKeys: ["islandOuterGap"]
+                text: I18n.tr("Outer gap", "island settings: gap between screen edge and island")
+                unit: "px"
+                minimum: 0
+                maximum: 48
+                step: 1
+                value: bar.islandSetting("islandOuterGap")
+                onSliderValueChanged: value => bar.apply("islandOuterGap", value)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandAlongOffset"
+                tags: ["island", "placement", "horizontal", "vertical", "offset", "center"]
+                visible: bar.selectedBarIsIsland && !root.selectedIslandFree
+                resetStore: bar
+                resetKeys: ["islandAlongOffset"]
+                text: bar.selectedBarIsVertical ? I18n.tr("Vertical offset", "island settings: vertical offset slider") : I18n.tr("Horizontal offset", "island settings: horizontal offset slider")
+                unit: "px"
+                minimum: -600
+                maximum: 600
+                step: 1
+                value: bar.islandSetting("islandAlongOffset")
+                onSliderValueChanged: value => bar.apply("islandAlongOffset", value)
+            }
 
             SettingsSliderRow {
                 settingKey: "barSize"
@@ -387,10 +592,114 @@ Item {
 
         SettingsCard {
             iconName: "widgets"
+            title: I18n.tr("Satellites", "island settings: satellite widgets card title")
+            settingKey: "islandSatellites"
+            collapsible: true
+            expanded: true
+            visible: root.selectedIslandEnabled && !root.isDot
+
+            SettingsToggleRow {
+                settingKey: "islandSatellitesEnabled"
+                tags: ["island", "satellite", "widgets", "left", "right"]
+                resetStore: bar
+                resetKeys: ["islandSatellitesEnabled"]
+                text: I18n.tr("Show", "island settings: satellite widgets toggle")
+                checked: bar.islandSetting("islandSatellitesEnabled")
+                onToggled: checked => bar.apply("islandSatellitesEnabled", checked)
+            }
+
+            SettingsButtonGroupRow {
+                settingKey: "islandSatellitePosition"
+                tags: ["island", "satellite", "widgets", "position", "edges", "center"]
+                resetStore: bar
+                resetKeys: ["islandSatellitePosition"]
+                text: I18n.tr("Position", "island settings: position card title")
+                model: [I18n.tr("Near island", "island settings: satellites hug the island"), I18n.tr("Display edges", "island settings: satellites sit at screen edges")]
+                currentIndex: root.valueIndex(root.satellitePositionValues, bar.islandSetting("islandSatellitePosition"), "island")
+                enabled: bar.islandSetting("islandSatellitesEnabled")
+                onSelectionChanged: (index, selected) => {
+                    if (selected)
+                        bar.apply("islandSatellitePosition", root.satellitePositionValues[index] ?? "island");
+                }
+            }
+
+            SettingsToggleRow {
+                settingKey: "islandSatelliteBackground"
+                tags: ["island", "satellite", "widgets", "background", "chrome"]
+                resetStore: bar
+                resetKeys: ["islandSatelliteBackground"]
+                text: I18n.tr("Background", "island settings: satellite background toggle")
+                checked: bar.islandSetting("islandSatelliteBackground")
+                visible: bar.islandSetting("islandSatellitesEnabled")
+                onToggled: checked => bar.apply("islandSatelliteBackground", checked)
+            }
+
+            SettingsToggleRow {
+                settingKey: "islandSatelliteGothCorners"
+                tags: ["island", "satellite", "goth", "corners", "wing", "sweep"]
+                resetStore: bar
+                resetKeys: ["islandSatelliteGothCorners"]
+                text: I18n.tr("Goth corners", "island settings: satellite goth corners toggle")
+                checked: bar.islandSetting("islandSatelliteGothCorners")
+                visible: bar.islandSetting("islandSatellitesEnabled")
+                enabled: bar.islandSetting("islandSatelliteBackground")
+                onToggled: checked => bar.apply("islandSatelliteGothCorners", checked)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandSatelliteSwoopRadius"
+                tags: ["island", "satellite", "goth", "corners", "radius", "sweep", "size"]
+                resetStore: bar
+                resetKeys: ["islandSatelliteSwoopRadius"]
+                text: I18n.tr("Goth corner radius", "island settings: satellite goth corner radius slider")
+                unit: "px"
+                minimum: 4
+                maximum: 64
+                step: 1
+                value: bar.islandSetting("islandSatelliteSwoopRadius")
+                visible: bar.islandSetting("islandSatellitesEnabled")
+                enabled: bar.islandSetting("islandSatelliteBackground") && bar.islandSetting("islandSatelliteGothCorners")
+                onSliderValueChanged: value => bar.apply("islandSatelliteSwoopRadius", value)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandSatelliteTransparency"
+                tags: ["island", "satellite", "background", "opacity", "transparency", "blur"]
+                resetStore: bar
+                resetKeys: ["islandSatelliteTransparency"]
+                text: I18n.tr("Opacity", "island settings: satellite background opacity slider")
+                minimum: 0
+                maximum: 100
+                step: 1
+                value: Math.round(bar.islandSetting("islandSatelliteTransparency") * 100)
+                visible: bar.islandSetting("islandSatellitesEnabled")
+                enabled: bar.islandSetting("islandSatelliteBackground")
+                onSliderValueChanged: value => bar.apply("islandSatelliteTransparency", value / 100)
+            }
+
+            SettingsSliderRow {
+                settingKey: "islandSatelliteGap"
+                tags: ["island", "satellite", "widgets", "gap", "spacing"]
+                resetStore: bar
+                resetKeys: ["islandSatelliteGap"]
+                text: I18n.tr("Gap", "island settings: satellite to island gap slider")
+                unit: "px"
+                minimum: 4
+                maximum: 48
+                step: 1
+                value: bar.islandSetting("islandSatelliteGap")
+                visible: bar.islandSetting("islandSatellitesEnabled")
+                enabled: bar.islandSetting("islandSatellitePosition") !== "edges"
+                onSliderValueChanged: value => bar.apply("islandSatelliteGap", value)
+            }
+        }
+
+        SettingsCard {
+            iconName: "widgets"
             title: I18n.tr("Widgets")
             settingKey: "barWidgets"
             tags: ["widget", "style", "pills", "segments", "opacity", "padding", "maximize"]
-            visible: bar.selectedBarConfig?.enabled ?? false
+            visible: (bar.selectedBarConfig?.enabled ?? false) && !root.isDot
 
             SettingsRow {
                 settingKey: "barWidgetStyle"
@@ -492,7 +801,7 @@ Item {
             settingKey: "barWidgetOutline"
             iconName: "highlight"
             title: I18n.tr("Widget outline")
-            visible: bar.selectedBarConfig?.enabled ?? false
+            visible: (bar.selectedBarConfig?.enabled ?? false) && !root.isDot
             enabled: root.widgetBackgroundEnabled
             resetStore: bar
             resetKeys: ["widgetOutlineEnabled"]
@@ -550,6 +859,7 @@ Item {
             title: I18n.tr("Widget colors")
             settingKey: "widgetStyling"
             tags: ["widget", "background", "color", "colorful", "text", "all", "bars"]
+            visible: !root.isDot
 
             WidgetTextStyleRow {}
 
@@ -559,120 +869,6 @@ Item {
 
             WidgetBackgroundStrengthRow {
                 enabled: root.widgetBackgroundEnabled
-            }
-        }
-
-        SettingsCard {
-            iconName: "palette"
-            title: I18n.tr("Icons")
-            settingKey: "trayIconTint"
-            tags: ["icon", "tray", "tint", "battery", "color"]
-            visible: bar.selectedBarConfig?.enabled ?? false
-
-            SettingsButtonGroupRow {
-                settingKey: "batteryColorMode"
-                tags: ["battery", "color", "level", "theme", "icon", "meter", "indicator", "accent", "green", "red"]
-                text: I18n.tr("Battery")
-                visible: BatteryService.batteryAvailable
-                resetStore: bar
-                resetKeys: ["batteryColorMode"]
-                model: [I18n.tr("Theme", "battery settings: theme accent indicator colors"), I18n.tr("Level", "battery settings: charge level indicator colors")]
-                currentIndex: (bar.selectedBarConfig?.batteryColorMode ?? "theme") === "level" ? 1 : 0
-                onSelectionChanged: (index, selected) => {
-                    if (!selected)
-                        return;
-                    SettingsData.updateBarConfig(bar.selectedBarId, {
-                        batteryColorMode: index === 1 ? "level" : "theme"
-                    });
-                }
-            }
-
-            SettingsButtonGroupRow {
-                readonly property var modes: ["none", "monochrome", "primary", "secondary"]
-
-                tags: ["tray", "icon", "tint", "monochrome", "system tray"]
-                text: I18n.tr("Tray icon tint")
-                resetKeys: ["systemTrayIconTintMode"]
-                model: [I18n.tr("None"), I18n.tr("Monochrome"), I18n.tr("Primary"), I18n.tr("Secondary")]
-                currentIndex: Math.max(0, modes.indexOf(SettingsData.systemTrayIconTintMode || "none"))
-                onSelectionChanged: (index, selected) => {
-                    if (!selected)
-                        return;
-                    SettingsData.set("systemTrayIconTintMode", modes[index]);
-                }
-            }
-
-            SettingsSliderRow {
-                text: I18n.tr("Tint saturation")
-                tags: ["tray", "tint", "saturation"]
-                visible: root.trayTinted
-                resetKeys: ["systemTrayIconTintSaturation"]
-                value: SettingsData.systemTrayIconTintSaturation ?? 50
-                minimum: 0
-                maximum: 100
-                onSliderDragFinished: finalValue => SettingsData.set("systemTrayIconTintSaturation", finalValue)
-            }
-
-            SettingsSliderRow {
-                text: I18n.tr("Tint strength")
-                tags: ["tray", "tint", "strength"]
-                visible: root.trayTinted
-                resetKeys: ["systemTrayIconTintStrength"]
-                value: SettingsData.systemTrayIconTintStrength ?? 135
-                minimum: 0
-                maximum: 200
-                onSliderDragFinished: finalValue => SettingsData.set("systemTrayIconTintStrength", finalValue)
-            }
-        }
-
-        SettingsCard {
-            title: I18n.tr("Advanced")
-            settingKey: "barAppearanceAdvanced"
-            tags: ["bar", "advanced", "exclusive", "zone", "popup", "gaps"]
-            collapsible: true
-            expanded: false
-            visible: (bar.selectedBarConfig?.enabled ?? false) && !bar.selectedBarFrameStyled
-
-            SettingsSliderRow {
-                settingKey: "barExclusiveZone"
-                tags: ["exclusive", "zone", "reserved", "offset"]
-                visible: !bar.islandOwnsSelectedBarTop
-                text: I18n.tr("Exclusive zone offset")
-                resetStore: bar
-                resetKeys: ["bottomGap"]
-                value: bar.selectedBarConfig?.bottomGap ?? 0
-                minimum: -50
-                maximum: 50
-                unit: "px"
-                onSliderDragFinished: finalValue => SettingsData.updateBarConfig(bar.selectedBarId, {
-                        bottomGap: finalValue
-                    })
-            }
-
-            SettingsToggleRow {
-                text: I18n.tr("Auto popup gaps")
-                tags: ["popup", "gaps", "auto"]
-                resetStore: bar
-                resetKeys: ["popupGapsAuto"]
-                checked: bar.selectedBarConfig?.popupGapsAuto ?? true
-                onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
-                        popupGapsAuto: checked
-                    })
-            }
-
-            SettingsSliderRow {
-                visible: !(bar.selectedBarConfig?.popupGapsAuto ?? true)
-                text: I18n.tr("Gap size")
-                tags: ["popup", "gaps", "size"]
-                resetStore: bar
-                resetKeys: ["popupGapsManual"]
-                unit: "px"
-                value: bar.selectedBarConfig?.popupGapsManual ?? 4
-                minimum: 0
-                maximum: 50
-                onSliderDragFinished: finalValue => SettingsData.updateBarConfig(bar.selectedBarId, {
-                        popupGapsManual: finalValue
-                    })
             }
         }
     }

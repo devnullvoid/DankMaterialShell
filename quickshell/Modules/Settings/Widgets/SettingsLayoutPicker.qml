@@ -31,10 +31,6 @@ GridLayout {
         {
             "key": "island",
             "label": I18n.tr("Island")
-        },
-        {
-            "key": "dot",
-            "label": I18n.tr("Dot", "bar layout: free-floating dot that opens island activities")
         }
     ]
     readonly property real cardHeightRatio: 7.5
@@ -44,13 +40,6 @@ GridLayout {
     readonly property real previewIslandRatio: 0.42
     readonly property real previewWidth: Math.round(Theme.iconSize * previewWidthRatio)
     readonly property real minimumCardWidth: previewWidth + Theme.spacingL * 2
-    // The dot is a companion, not a mode: its card toggles a dot config alongside whatever the selected bar is.
-    readonly property var dotConfig: {
-        SettingsData.barConfigs;
-        return (SettingsData.barConfigs || []).find(cfg => SettingsData.isDotBarConfig(cfg)) ?? null;
-    }
-    readonly property bool dotActive: root.dotConfig?.enabled ?? false
-    readonly property bool dotSelected: !root.edgePlacement && !root.widgetStyle && SettingsData.isDotBarConfig(SettingsData.getBarConfig(SettingsUiState.selectedBarId))
     readonly property var targetConfig: {
         SettingsData.barConfigs;
         SettingsUiState.selectedBarId;
@@ -60,40 +49,9 @@ GridLayout {
     }
     readonly property string activeBarMode: SettingsData.frameEnabled ? "frame" : (SettingsData.isIslandBarConfig(root.targetConfig) ? "island" : "standard")
 
-    function toggleDot() {
-        const existing = root.dotConfig;
-        if (existing) {
-            SettingsData.updateBarConfig(existing.id, {
-                enabled: !existing.enabled
-            });
-            SettingsUiState.selectedBarId = existing.enabled ? (root.targetConfig?.id ?? "default") : existing.id;
-            return;
-        }
-        const base = root.targetConfig ?? SettingsData.getBarConfig("default");
-        if (!base)
-            return;
-        const id = "dot" + Date.now();
-        const config = Object.assign(JSON.parse(JSON.stringify(base)), {
-            id,
-            name: I18n.tr("Dot", "bar layout: free-floating dot that opens island activities"),
-            enabled: true,
-            island: false,
-            dot: true,
-            screenPreferences: ["all"],
-            showOnLastDisplay: true
-        });
-        // An inherited "always here" would make the base island and the dot fight by config order.
-        delete config.islandSharedRouting;
-        SettingsData.addBarConfig(config);
-        SettingsUiState.selectedBarId = id;
-    }
-
     function applyBarMode(mode) {
         const target = root.targetConfig;
         switch (mode) {
-        case "dot":
-            root.toggleDot();
-            return;
         case "frame":
             if (SettingsData.frameEnabled)
                 return;
@@ -130,10 +88,10 @@ GridLayout {
         Rectangle {
             id: modeCard
             required property var modelData
-            enabled: (modelData.enabled ?? true) && (modelData.key === "dot" || !root.dotSelected)
+            enabled: modelData.enabled ?? true
             opacity: enabled ? 1 : SettingsMetrics.disabledOpacity
 
-            readonly property bool isActive: modelData.key === "dot" && !root.edgePlacement && !root.widgetStyle ? root.dotActive : root.selectedKey === modelData.key
+            readonly property bool isActive: root.selectedKey === modelData.key
 
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -146,7 +104,7 @@ GridLayout {
             border.color: isActive ? Theme.primary : Theme.outlineMedium
 
             activeFocusOnTab: true
-            Accessible.role: modelData.key === "dot" ? Accessible.CheckBox : Accessible.RadioButton
+            Accessible.role: Accessible.RadioButton
             Accessible.name: modelData.label
             Accessible.checked: isActive
             Accessible.onPressAction: root.selected(modelData.key)
@@ -244,16 +202,6 @@ GridLayout {
                         anchors.margins: screenPreview.edgePad
                         height: screenPreview.stripSize
                         radius: screenPreview.radius
-                        color: Theme.primary
-                    }
-
-                    Rectangle {
-                        visible: !root.widgetStyle && modeCard.modelData.key === "dot"
-                        x: Math.round(parent.width * 0.62)
-                        y: Math.round(parent.height * 0.3)
-                        width: Math.round(screenPreview.stripSize * 1.6)
-                        height: width
-                        radius: width / 2
                         color: Theme.primary
                     }
 

@@ -26,7 +26,8 @@ Singleton {
                     popupThickness: Theme.barThickness(Resolver.option(config, "innerPadding", root.primaryBar, 4), screen.scale),
                     islandThickness: Resolver.islandThickness(config, SettingsData.islandDefaults),
                     islandFloating: SettingsData.islandSetting(config, "islandFloating"),
-                    islandPlacement: SettingsData.islandFreePlacement(config) ? "free" : "edge"
+                    islandPlacement: SettingsData.islandFreePlacement(config) ? "free" : "edge",
+                    islandSatellites: SettingsData.islandSetting(config, "islandSatellitesEnabled")
                 })), screen, {
             screens: root.screens,
             displayNameMode: SettingsData.displayNameMode,
@@ -78,7 +79,7 @@ Singleton {
     }
 
     function hostedScreens(barId) {
-        return Quickshell.screens.filter(screen => forScreen(screen)?.instances.some(instance => instance.barId === barId && !instance.free && (instance.kind === "bar" || instance.kind === "island")));
+        return Quickshell.screens.filter(screen => forScreen(screen)?.instances.some(instance => instance.barId === barId && Resolver.hostsBarWindow(instance)));
     }
 
     function frameKeys(screen) {

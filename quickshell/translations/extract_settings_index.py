@@ -99,7 +99,6 @@ TAB_INDEX_MAP = {
     "KeybindsTab.qml": 2,
     "DankBarTab.qml": 3,
     "DankDashTab.qml": 43,
-    "DankIslandTab.qml": 46,
     "CompositorLayoutTab.qml": 37,
     "WindowRulesTab.qml": 38,
     "DockGeneralTab.qml": 5,
@@ -107,6 +106,7 @@ TAB_INDEX_MAP = {
     "DockAppearanceTab.qml": 58,
     "DockAdvancedTab.qml": 59,
     "DankBarAppearanceTab.qml": 6,
+    "DankBarAdvancedTab.qml": 64,
     "NetworkStatusTab.qml": 7,
     "NetworkEthernetTab.qml": 39,
     "NetworkWifiTab.qml": 40,
@@ -141,7 +141,6 @@ TAB_INDEX_MAP = {
     "LocaleTab.qml": 30,
     "GreeterTab.qml": 31,
     "MuxTab.qml": 32,
-    "FrameTab.qml": 33,
     "DefaultAppsTab.qml": 34,
     "UsersTab.qml": 35,
     "UserAccountsTab.qml": 60,
@@ -165,8 +164,6 @@ SIDEBAR_GATE_CONDITIONS = [
     ("pointerCapable", "pointerCapable"),
     ("windowRulesCapable", "windowRulesCapable"),
     ("layoutCapable", "layoutCapable"),
-    ("frameOnly", "frameEnabled"),
-    ("islandOnly", "islandEnabled"),
     ("cellularOnly", "cellularAvailable"),
 ]
 
@@ -182,6 +179,9 @@ FILE_PAGE_MAP = {
 }
 
 TAB_META_DEFAULT = ("Settings", None, None)
+
+# Frame and island rows live on the bar pages; ungated ones still need their feature on.
+BAR_TAB_FILES = {"DankBarTab.qml", "DankBarAppearanceTab.qml", "DankBarAdvancedTab.qml"}
 
 SEARCHABLE_COMPONENTS = [
     "SettingsCard",
@@ -383,7 +383,7 @@ def find_settings_components(content, filename, wrappers, tab_meta, hub_meta):
             if tags_raw:
                 tags = extract_tags(tags_raw)
 
-            desc_raw = extract_property(block, "description") or defaults.get("description")
+            desc_raw = extract_property(block, "description") or extract_property(block, "summary") or defaults.get("description")
             description = None
             if desc_raw:
                 description = extract_i18n_string(desc_raw)
@@ -435,6 +435,11 @@ def find_settings_components(content, filename, wrappers, tab_meta, hub_meta):
                     condition_key = "dmsConnected"
                 elif "Theme.matugenAvailable" in visible_raw:
                     condition_key = "matugenAvailable"
+            if filename in BAR_TAB_FILES and not condition_key:
+                if setting_key.startswith("frame"):
+                    condition_key = "frameEnabled"
+                elif setting_key.startswith("island"):
+                    condition_key = "islandEnabled"
 
             category, parent_label, _ = page_meta if page_meta else tab_meta.get(tab_index, TAB_META_DEFAULT)
             enriched_keywords = enrich_keywords(label, description, category, tags, parent_label)
@@ -679,12 +684,12 @@ def extract_settings_index(root_dir, tab_meta, hub_meta):
         )
 
     if "islandHomeLayout" not in seen_keys:
-        category, parent_label, _ = tab_meta.get(46, TAB_META_DEFAULT)
+        category, parent_label, _ = tab_meta.get(3, TAB_META_DEFAULT)
         all_entries.append(
             {
                 "section": "islandHomeLayout",
                 "label": "Home Layout",
-                "tabIndex": 46,
+                "tabIndex": 3,
                 "category": category,
                 "parentLabel": parent_label,
                 "keywords": enrich_keywords(

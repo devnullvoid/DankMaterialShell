@@ -186,6 +186,7 @@ FocusScope {
             "window_rules": "WindowRulesTab.qml",
             "dankbar_settings": "DankBarTab.qml",
             "dankbar_appearance": "DankBarAppearanceTab.qml",
+            "dankbar_advanced": "DankBarAdvancedTab.qml",
             "bar_widget": "BarWidgetTab.qml",
             "compositor_layout": "CompositorLayoutTab.qml",
             "dock_general": "DockGeneralTab.qml",
@@ -222,8 +223,6 @@ FocusScope {
             "audio": "AudioTab.qml",
             "locale": "LocaleTab.qml",
             "multiplexers": "MuxTab.qml",
-            "frame": "FrameTab.qml",
-            "dank_island": "DankIslandTab.qml",
             "users": "UsersTab.qml",
             "user_create": "CreateUserTab.qml",
             "greeter_auth": "GreeterAuthTab.qml",
@@ -235,7 +234,7 @@ FocusScope {
             "plugins_manage": "PluginsManageTab.qml"
         })
 
-    readonly property var pagesWithParentModal: ["dankbar_widgets", "window_rules", "display_config", "users", "time_weather", "weather", "lock_screen", "greeter", "dank_dash", "wallpaper_cycling", "theme_schedule", "surface_shadows", "keybinds", "dankbar_settings", "dankbar_appearance", "bar_widget", "dock_general", "dock_widgets", "dock_appearance", "dock_advanced", "launcher", "theme", "theme_apps", "media_player", "desktop_widgets", "dank_island", "autostart", "compositor_layout"]
+    readonly property var pagesWithParentModal: ["dankbar_widgets", "window_rules", "display_config", "users", "time_weather", "weather", "lock_screen", "greeter", "dank_dash", "wallpaper_cycling", "theme_schedule", "surface_shadows", "keybinds", "dankbar_settings", "dankbar_appearance", "bar_widget", "dock_general", "dock_widgets", "dock_appearance", "dock_advanced", "launcher", "theme", "theme_apps", "media_player", "desktop_widgets", "autostart", "compositor_layout"]
 
     Column {
         anchors.fill: parent

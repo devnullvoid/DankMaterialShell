@@ -289,11 +289,11 @@
     "page": "dankbar",
     "category": "Bar",
     "keywords": [
+      "advanced",
       "appearance",
       "bar",
-      "frame",
       "general",
-      "island",
+      "layout",
       "panel",
       "position",
       "statusbar",
@@ -955,6 +955,30 @@
     "icon": "dock_to_bottom"
   },
   {
+    "section": "dotEnabled",
+    "label": "Dot",
+    "tabIndex": -1,
+    "category": "Bar",
+    "keywords": [
+      "alongside",
+      "bar",
+      "companion",
+      "dankdot",
+      "dot",
+      "enable",
+      "floating",
+      "island",
+      "layout",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "works"
+    ],
+    "page": "dankbar",
+    "description": "A floating companion that works alongside any bar layout"
+  },
+  {
     "section": "wallpaperFillMode",
     "label": "Fill mode",
     "tabIndex": -1,
@@ -1372,7 +1396,6 @@
     "category": "Bar",
     "keywords": [
       "bar",
-      "dot",
       "frame",
       "island",
       "layout",
@@ -2800,28 +2823,26 @@
     "conditionKey": "keybindsAvailable"
   },
   {
-    "section": "barAdvanced",
-    "label": "Advanced",
+    "section": "frameLauncherArcExtender",
+    "label": "Arc extender",
     "tabIndex": 3,
     "category": "General",
     "keywords": [
-      "advanced",
+      "arc",
       "bar",
-      "click",
+      "center",
+      "connected",
+      "extender",
+      "frame",
       "general",
-      "island",
-      "layer",
-      "maximize",
-      "motion",
-      "overlay",
+      "launcher",
       "panel",
-      "spring",
       "statusbar",
       "taskbar",
-      "through",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "frameEnabled"
   },
   {
     "section": "barAutoHide",
@@ -2894,52 +2915,158 @@
       "topbar"
     ],
     "parentLabel": "Bar",
-    "icon": "touch_app"
+    "icon": "touch_app",
+    "conditionKey": "islandEnabled"
   },
   {
-    "section": "barClickThrough",
-    "label": "Click through",
+    "section": "islandHomeBrightnessDisplay",
+    "label": "Brightness style",
     "tabIndex": 3,
     "category": "General",
     "keywords": [
+      "backlight",
       "bar",
-      "click",
-      "clickthrough",
+      "bright",
+      "brightness",
+      "compact",
+      "dim",
       "general",
-      "input",
-      "mask",
-      "mouse",
+      "home",
+      "icon",
+      "island",
       "panel",
-      "passthrough",
+      "percentage",
       "statusbar",
+      "style",
       "taskbar",
-      "through",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
-    "section": "islandCompactThickness",
-    "label": "Compact width",
+    "section": "islandNotificationBadgeClearOnOpen",
+    "label": "Clear badge on open",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "badge",
+      "bar",
+      "clear",
+      "dismiss",
+      "general",
+      "home",
+      "island",
+      "notifications",
+      "open",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "unread"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandHomeClockDisplay",
+    "label": "Clock style",
     "tabIndex": 3,
     "category": "General",
     "keywords": [
       "bar",
+      "clock",
+      "compact",
+      "date",
+      "general",
+      "home",
+      "island",
+      "panel",
+      "statusbar",
+      "style",
+      "taskbar",
+      "time",
+      "topbar",
+      "watch"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandHomeCompactTight",
+    "label": "Compact pill",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "clock",
       "compact",
       "general",
       "height",
+      "home",
       "island",
+      "narrow",
       "panel",
-      "placement",
-      "satellite",
-      "size",
+      "pill",
       "statusbar",
       "taskbar",
-      "thickness",
       "topbar",
       "width"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "frameConnectedOptions",
+    "label": "Connected",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "arcs",
+      "bar",
+      "connected",
+      "curves",
+      "edge",
+      "expose",
+      "frame",
+      "gap",
+      "general",
+      "notification",
+      "panel",
+      "popout",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "icon": "blur_linear",
+    "conditionKey": "frameEnabled"
+  },
+  {
+    "section": "islandHomeStatusContent",
+    "label": "Control Center",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "battery",
+      "bluetooth",
+      "center",
+      "compact",
+      "connectivity",
+      "control",
+      "general",
+      "home",
+      "island",
+      "panel",
+      "status",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "wifi"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barDisplay",
@@ -2982,7 +3109,30 @@
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "frameLauncherEdgeHover",
+    "label": "Edge hover reveal",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "connected",
+      "edge",
+      "frame",
+      "general",
+      "hover",
+      "launcher",
+      "panel",
+      "reveal",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "frameEnabled"
   },
   {
     "section": "islandFreeEdgeMargin",
@@ -3003,7 +3153,30 @@
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandNotificationExpand",
+    "label": "Expand by default",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "arrival",
+      "bar",
+      "default",
+      "expand",
+      "general",
+      "island",
+      "notifications",
+      "panel",
+      "size",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "islandInteractionMode",
@@ -3025,34 +3198,78 @@
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
-    "section": "islandFloating",
-    "label": "Float",
+    "section": "frameCloseGaps",
+    "label": "Expose the arcs",
     "tabIndex": 3,
     "category": "General",
     "keywords": [
-      "anywhere",
+      "arcs",
       "bar",
-      "drag",
-      "enable",
-      "exclusive",
-      "float",
-      "floating",
+      "connected",
+      "curves",
+      "edge",
+      "expose",
+      "frame",
+      "gap",
       "general",
-      "island",
-      "mode",
-      "overlay",
+      "notification",
       "panel",
-      "placement",
-      "reserve",
+      "popout",
       "statusbar",
       "taskbar",
       "topbar"
     ],
     "parentLabel": "Bar",
-    "description": "Set floating overlay or enable drag anywhere mode"
+    "conditionKey": "frameEnabled"
+  },
+  {
+    "section": "frameEnabled",
+    "label": "Frame",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "frame",
+      "general",
+      "mode",
+      "overview",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "icon": "tune",
+    "conditionKey": "frameEnabled"
+  },
+  {
+    "section": "frameDisplays",
+    "label": "Frame displays",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "displays",
+      "frame",
+      "general",
+      "monitor",
+      "monitors",
+      "output",
+      "outputs",
+      "panel",
+      "screen",
+      "screens",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "icon": "monitor",
+    "conditionKey": "frameEnabled"
   },
   {
     "section": "islandHoverCloseDelay",
@@ -3073,7 +3290,8 @@
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barHideWhenWindowsOpen",
@@ -3095,6 +3313,69 @@
     ],
     "parentLabel": "Bar",
     "conditionKey": "windowRulesCapable"
+  },
+  {
+    "section": "islandHomeLayout",
+    "label": "Home Layout",
+    "tabIndex": 3,
+    "category": "General",
+    "parentLabel": "Bar",
+    "keywords": [
+      "around",
+      "badge",
+      "bar",
+      "battery",
+      "brightness",
+      "clock",
+      "general",
+      "groups",
+      "hidden",
+      "hide",
+      "home",
+      "island",
+      "launcher",
+      "layout",
+      "left",
+      "media",
+      "notifications",
+      "order",
+      "panel",
+      "reorder",
+      "right",
+      "statusbar",
+      "taskbar",
+      "time",
+      "topbar",
+      "volume",
+      "watch",
+      "weather"
+    ],
+    "icon": "home",
+    "description": "Order and hide the groups around the island clock",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandActivities",
+    "label": "Home compact",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "clock",
+      "compact",
+      "date",
+      "general",
+      "home",
+      "island",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "time",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "icon": "home",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "hoverPopouts",
@@ -3141,32 +3422,8 @@
       "timeout",
       "topbar"
     ],
-    "parentLabel": "Bar"
-  },
-  {
-    "section": "islandFreeIdleOpacity",
-    "label": "Idle opacity",
-    "tabIndex": 3,
-    "category": "General",
-    "keywords": [
-      "afk",
-      "bar",
-      "dot",
-      "fade",
-      "free",
-      "general",
-      "idle",
-      "inactive",
-      "island",
-      "opacity",
-      "panel",
-      "screensaver",
-      "statusbar",
-      "taskbar",
-      "timeout",
-      "topbar"
-    ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "islandFreeIdleScale",
@@ -3192,7 +3449,8 @@
       "timeout",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "islandMediaClockVisible",
@@ -3214,7 +3472,37 @@
       "topbar",
       "watch"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "frameLauncherEmergeSide",
+    "label": "Launcher emerge side",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "app drawer",
+      "app menu",
+      "applications",
+      "bar",
+      "bottom",
+      "connected",
+      "direction",
+      "emerge",
+      "frame",
+      "general",
+      "launcher",
+      "modal",
+      "panel",
+      "side",
+      "start menu",
+      "statusbar",
+      "taskbar",
+      "top",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "frameEnabled"
   },
   {
     "section": "barManualVisibility",
@@ -3237,25 +3525,31 @@
     "parentLabel": "Bar"
   },
   {
-    "section": "barMaximizeDetection",
-    "label": "Maximize detection",
+    "section": "islandNotifications",
+    "label": "Notifications",
     "tabIndex": 3,
     "category": "General",
     "keywords": [
+      "alert",
+      "alerts",
+      "arrival",
       "bar",
-      "border",
-      "detection",
-      "fullscreen",
-      "gaps",
       "general",
-      "maximize",
+      "island",
+      "notif",
+      "notifications",
+      "notifs",
       "panel",
+      "popup",
+      "stack",
+      "standard",
       "statusbar",
       "taskbar",
       "topbar"
     ],
     "parentLabel": "Bar",
-    "conditionKey": "windowRulesCapable"
+    "icon": "notifications",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "islandHoverOpenDelay",
@@ -3275,7 +3569,8 @@
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "islandFreeOrientation",
@@ -3295,28 +3590,8 @@
       "topbar",
       "vertical"
     ],
-    "parentLabel": "Bar"
-  },
-  {
-    "section": "islandOuterGap",
-    "label": "Outer gap",
-    "tabIndex": 3,
-    "category": "General",
-    "keywords": [
-      "bar",
-      "gap",
-      "general",
-      "island",
-      "margin",
-      "outer",
-      "panel",
-      "placement",
-      "statusbar",
-      "taskbar",
-      "top",
-      "topbar"
-    ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "islandPlacement",
@@ -3324,21 +3599,27 @@
     "tabIndex": 3,
     "category": "General",
     "keywords": [
+      "anywhere",
       "bar",
-      "dot",
+      "docked",
       "drag",
       "edge",
+      "exclusive",
+      "float",
       "floating",
       "free",
       "general",
       "island",
+      "overlay",
       "panel",
       "placement",
+      "reserve",
       "statusbar",
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barPosition",
@@ -3353,73 +3634,28 @@
       "bar",
       "center",
       "control",
-      "control center",
       "dash",
-      "dot",
+      "free",
       "general",
-      "ipc",
+      "horizontal",
       "island",
-      "last used",
       "launcher",
       "notif",
       "notification",
+      "orientation",
       "panel",
       "position",
       "routes",
-      "routing",
       "shortcuts",
       "start menu",
       "statusbar",
       "taskbar",
-      "topbar"
+      "topbar",
+      "vertical"
     ],
     "parentLabel": "Bar",
     "icon": "vertical_align_center",
     "description": "Routes launcher, dash, control center and notification shortcuts"
-  },
-  {
-    "section": "islandReducedMotion",
-    "label": "Reduce motion",
-    "tabIndex": 3,
-    "category": "General",
-    "keywords": [
-      "accessibility",
-      "animation",
-      "bar",
-      "general",
-      "island",
-      "motion",
-      "panel",
-      "reduce",
-      "spring",
-      "statusbar",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar"
-  },
-  {
-    "section": "islandReserveThickness",
-    "label": "Reserved width",
-    "tabIndex": 3,
-    "category": "General",
-    "keywords": [
-      "bar",
-      "exclusive",
-      "general",
-      "height",
-      "island",
-      "panel",
-      "placement",
-      "reservation",
-      "reserved",
-      "statusbar",
-      "taskbar",
-      "thickness",
-      "topbar",
-      "width"
-    ],
-    "parentLabel": "Bar"
   },
   {
     "section": "barScrollWheel",
@@ -3476,7 +3712,8 @@
       "topbar"
     ],
     "parentLabel": "Bar",
-    "description": "Routes launcher, dash, control center and notification shortcuts"
+    "description": "Routes launcher, dash, control center and notification shortcuts",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barOpenOnOverview",
@@ -3499,66 +3736,25 @@
     "conditionKey": "nativeOverviewCapable"
   },
   {
-    "section": "islandSpringDamping",
-    "label": "Spring damping",
+    "section": "frameShowOnOverview",
+    "label": "Show on overview",
     "tabIndex": 3,
     "category": "General",
     "keywords": [
-      "animation",
       "bar",
-      "bounce",
-      "damping",
+      "frame",
       "general",
-      "island",
-      "motion",
+      "hide",
+      "niri",
+      "overview",
       "panel",
-      "spring",
+      "show",
       "statusbar",
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
-  },
-  {
-    "section": "islandSpringMass",
-    "label": "Spring mass",
-    "tabIndex": 3,
-    "category": "General",
-    "keywords": [
-      "animation",
-      "bar",
-      "general",
-      "inertia",
-      "island",
-      "mass",
-      "motion",
-      "panel",
-      "spring",
-      "statusbar",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar"
-  },
-  {
-    "section": "islandSpringStiffness",
-    "label": "Spring stiffness",
-    "tabIndex": 3,
-    "category": "General",
-    "keywords": [
-      "animation",
-      "bar",
-      "general",
-      "island",
-      "motion",
-      "panel",
-      "spring",
-      "statusbar",
-      "stiffness",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "nativeOverviewCapable"
   },
   {
     "section": "barAutoHideStrict",
@@ -3581,62 +3777,51 @@
     "parentLabel": "Bar"
   },
   {
-    "section": "barUseOverlayLayer",
-    "label": "Use overlay layer",
+    "section": "frameModeSelector",
+    "label": "Surfaces",
     "tabIndex": 3,
     "category": "General",
     "keywords": [
       "bar",
-      "fullscreen",
+      "connected",
+      "float",
+      "flush",
+      "frame",
       "general",
-      "layer",
-      "overlay",
+      "mode",
       "panel",
+      "popout",
+      "separate",
+      "statusbar",
+      "surfaces",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "frameEnabled"
+  },
+  {
+    "section": "islandNotificationPopups",
+    "label": "Use standard popups",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "arrival",
+      "bar",
+      "general",
+      "island",
+      "notifications",
+      "panel",
+      "popup",
+      "popups",
+      "stack",
+      "standard",
       "statusbar",
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
-  },
-  {
-    "section": "islandUseOverlayLayer",
-    "label": "Use overlay layer",
-    "tabIndex": 3,
-    "category": "General",
-    "keywords": [
-      "bar",
-      "fullscreen",
-      "general",
-      "island",
-      "layer",
-      "overlay",
-      "panel",
-      "statusbar",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar"
-  },
-  {
-    "section": "islandAlongOffset",
-    "label": "Vertical offset",
-    "tabIndex": 3,
-    "category": "General",
-    "keywords": [
-      "bar",
-      "center",
-      "general",
-      "horizontal",
-      "island",
-      "offset",
-      "panel",
-      "placement",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "vertical"
-    ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barVisibility",
@@ -3662,6 +3847,33 @@
     ],
     "parentLabel": "Bar",
     "icon": "visibility"
+  },
+  {
+    "section": "islandHomeVolumeDisplay",
+    "label": "Volume style",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "audio",
+      "bar",
+      "compact",
+      "general",
+      "home",
+      "icon",
+      "island",
+      "loudness",
+      "panel",
+      "percentage",
+      "sound",
+      "speaker",
+      "statusbar",
+      "style",
+      "taskbar",
+      "topbar",
+      "volume"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "dockAutoHide",
@@ -3836,26 +4048,6 @@
     "icon": "visibility_off"
   },
   {
-    "section": "barAppearanceAdvanced",
-    "label": "Advanced",
-    "tabIndex": 6,
-    "category": "Appearance",
-    "keywords": [
-      "advanced",
-      "appearance",
-      "bar",
-      "exclusive",
-      "gaps",
-      "panel",
-      "popup",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "zone"
-    ],
-    "parentLabel": "Bar"
-  },
-  {
     "section": "barNoBackground",
     "label": "Background",
     "tabIndex": 6,
@@ -3891,6 +4083,27 @@
       "topbar"
     ],
     "parentLabel": "Bar"
+  },
+  {
+    "section": "islandSatelliteBackground",
+    "label": "Background",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "background",
+      "bar",
+      "chrome",
+      "island",
+      "panel",
+      "satellite",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "widgets"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "widgetBackgroundColor",
@@ -3935,6 +4148,49 @@
     "icon": "rounded_corner"
   },
   {
+    "section": "frameBarInsetPadding",
+    "label": "Bar inset padding",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "corner",
+      "edge",
+      "end",
+      "frame",
+      "inset",
+      "padding",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "frameEnabled"
+  },
+  {
+    "section": "frameBarSize",
+    "label": "Bar size",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "frame",
+      "height",
+      "panel",
+      "size",
+      "statusbar",
+      "taskbar",
+      "thickness",
+      "topbar",
+      "width"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "frameEnabled"
+  },
+  {
     "section": "_tab_6",
     "label": "Bar: Appearance",
     "tabIndex": 6,
@@ -3965,7 +4221,7 @@
     "description": "Background, corners, spacing, widget style"
   },
   {
-    "section": "batteryColorMode",
+    "section": "islandBatteryColorMode",
     "label": "Battery",
     "tabIndex": 6,
     "category": "Appearance",
@@ -3978,8 +4234,7 @@
       "charging",
       "color",
       "green",
-      "icon",
-      "indicator",
+      "island",
       "level",
       "meter",
       "panel",
@@ -3990,7 +4245,8 @@
       "theme",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "islandBatteryStyle",
@@ -4016,7 +4272,30 @@
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "frameBlurEnabled",
+    "label": "Blur",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "background",
+      "bar",
+      "blur",
+      "frame",
+      "frosted",
+      "glass",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "transparency"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "frameEnabled"
   },
   {
     "section": "barBorder",
@@ -4034,6 +4313,30 @@
     ],
     "parentLabel": "Bar",
     "icon": "border_style"
+  },
+  {
+    "section": "islandCompactThickness",
+    "label": "Compact width",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "compact",
+      "height",
+      "island",
+      "panel",
+      "placement",
+      "satellite",
+      "size",
+      "statusbar",
+      "taskbar",
+      "thickness",
+      "topbar",
+      "width"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barCornerStyle",
@@ -4082,25 +4385,6 @@
     "parentLabel": "Bar"
   },
   {
-    "section": "barExclusiveZone",
-    "label": "Exclusive zone offset",
-    "tabIndex": 6,
-    "category": "Appearance",
-    "keywords": [
-      "appearance",
-      "bar",
-      "exclusive",
-      "offset",
-      "panel",
-      "reserved",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "zone"
-    ],
-    "parentLabel": "Bar"
-  },
-  {
     "section": "barFontScale",
     "label": "Font scale",
     "tabIndex": 6,
@@ -4118,6 +4402,75 @@
       "topbar"
     ],
     "parentLabel": "Bar"
+  },
+  {
+    "section": "frameBorder",
+    "label": "Frame",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "border",
+      "corner",
+      "frame",
+      "panel",
+      "radius",
+      "rounding",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "icon": "border_outer",
+    "conditionKey": "frameEnabled"
+  },
+  {
+    "section": "islandSatelliteGap",
+    "label": "Gap",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "gap",
+      "island",
+      "panel",
+      "satellite",
+      "spacing",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "widgets"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandSatelliteSwoopRadius",
+    "label": "Goth corner radius",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "corner",
+      "corners",
+      "goth",
+      "island",
+      "panel",
+      "radius",
+      "round",
+      "rounded",
+      "satellite",
+      "size",
+      "statusbar",
+      "sweep",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barGothCorners",
@@ -4140,6 +4493,31 @@
       "topbar"
     ],
     "parentLabel": "Bar"
+  },
+  {
+    "section": "islandSatelliteGothCorners",
+    "label": "Goth corners",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "corners",
+      "goth",
+      "island",
+      "panel",
+      "radius",
+      "round",
+      "rounded",
+      "satellite",
+      "statusbar",
+      "sweep",
+      "taskbar",
+      "topbar",
+      "wing"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barLengthMode",
@@ -4185,7 +4563,8 @@
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barIconScale",
@@ -4206,26 +4585,30 @@
     "parentLabel": "Bar"
   },
   {
-    "section": "trayIconTint",
-    "label": "Icons",
+    "section": "islandFreeIdleOpacity",
+    "label": "Idle opacity",
     "tabIndex": 6,
     "category": "Appearance",
     "keywords": [
+      "afk",
       "appearance",
       "bar",
-      "battery",
-      "color",
-      "icon",
-      "icons",
+      "dot",
+      "fade",
+      "free",
+      "idle",
+      "inactive",
+      "island",
+      "opacity",
       "panel",
+      "screensaver",
       "statusbar",
       "taskbar",
-      "tint",
-      "topbar",
-      "tray"
+      "timeout",
+      "topbar"
     ],
     "parentLabel": "Bar",
-    "icon": "palette"
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barLengthPadding",
@@ -4286,6 +4669,69 @@
     "parentLabel": "Bar"
   },
   {
+    "section": "dotOpacity",
+    "label": "Opacity",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "background",
+      "bar",
+      "dot",
+      "opacity",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "transparency"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
+    "section": "islandSatelliteTransparency",
+    "label": "Opacity",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "background",
+      "bar",
+      "blur",
+      "island",
+      "opacity",
+      "panel",
+      "satellite",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "transparency"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandOuterGap",
+    "label": "Outer gap",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "gap",
+      "island",
+      "margin",
+      "outer",
+      "panel",
+      "placement",
+      "statusbar",
+      "taskbar",
+      "top",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
     "section": "islandPalette",
     "label": "Palette",
     "tabIndex": 6,
@@ -4303,7 +4749,8 @@
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barLengthPercent",
@@ -4325,6 +4772,118 @@
       "width"
     ],
     "parentLabel": "Bar"
+  },
+  {
+    "section": "islandSatellitePosition",
+    "label": "Position",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "center",
+      "edges",
+      "island",
+      "panel",
+      "position",
+      "satellite",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "widgets"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "frameRounding",
+    "label": "Radius",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "border",
+      "corner",
+      "frame",
+      "panel",
+      "radius",
+      "rounding",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "frameEnabled"
+  },
+  {
+    "section": "islandReserveThickness",
+    "label": "Reserved width",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "exclusive",
+      "height",
+      "island",
+      "panel",
+      "placement",
+      "reservation",
+      "reserved",
+      "statusbar",
+      "taskbar",
+      "thickness",
+      "topbar",
+      "width"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandSatellites",
+    "label": "Satellites",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "island",
+      "left",
+      "panel",
+      "right",
+      "satellite",
+      "satellites",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "widgets"
+    ],
+    "parentLabel": "Bar",
+    "icon": "widgets",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandSatellitesEnabled",
+    "label": "Show",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "island",
+      "left",
+      "panel",
+      "right",
+      "satellite",
+      "show",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "widgets"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barSize",
@@ -4394,6 +4953,28 @@
       "widget"
     ],
     "parentLabel": "Bar"
+  },
+  {
+    "section": "islandAlongOffset",
+    "label": "Vertical offset",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "center",
+      "horizontal",
+      "island",
+      "offset",
+      "panel",
+      "placement",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "vertical"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "widgetStyling",
@@ -4489,6 +5070,27 @@
     ],
     "parentLabel": "Bar",
     "icon": "widgets"
+  },
+  {
+    "section": "frameThickness",
+    "label": "Width",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "border",
+      "frame",
+      "panel",
+      "size",
+      "statusbar",
+      "taskbar",
+      "thickness",
+      "topbar",
+      "width"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "frameEnabled"
   },
   {
     "section": "networkStatus",
@@ -8398,6 +9000,14 @@
     "description": "Add, remove, reorder and configure"
   },
   {
+    "section": "barWidgetOption:BatteryOptions.qml:7",
+    "label": "Battery",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "BatteryOptions.qml"
+  },
+  {
     "section": "barWidgetOption:BatteryOptions.qml:6",
     "label": "Battery style",
     "tabIndex": 22,
@@ -9086,12 +9696,36 @@
     "optionFile": "ClockOptions.qml"
   },
   {
+    "section": "barWidgetOption:SystemTrayOptions.qml:7",
+    "label": "Tint saturation",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "SystemTrayOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:SystemTrayOptions.qml:8",
+    "label": "Tint strength",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "SystemTrayOptions.qml"
+  },
+  {
     "section": "barWidgetOption:AppsDockOptions.qml:17",
     "label": "Trash",
     "tabIndex": 22,
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "AppsDockOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:SystemTrayOptions.qml:6",
+    "label": "Tray icon tint",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "SystemTrayOptions.qml"
   },
   {
     "section": "barWidgetOption:SystemTrayOptions.qml:1",
@@ -10280,401 +10914,6 @@
     "parentLabel": "System & integrations",
     "icon": "desktop_windows",
     "description": "The custom command used when attaching to sessions (receives the session name as the first argument)"
-  },
-  {
-    "section": "frameLauncherArcExtender",
-    "label": "Arc extender",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "arc",
-      "bar",
-      "border",
-      "center",
-      "connected",
-      "decoration",
-      "extender",
-      "frame",
-      "launcher",
-      "panel",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameBarInsetPadding",
-    "label": "Bar inset padding",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "bar",
-      "border",
-      "corner",
-      "decoration",
-      "edge",
-      "end",
-      "frame",
-      "inset",
-      "padding",
-      "panel",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameBarSize",
-    "label": "Bar size",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "bar",
-      "border",
-      "decoration",
-      "frame",
-      "height",
-      "panel",
-      "size",
-      "statusbar",
-      "taskbar",
-      "thickness",
-      "topbar",
-      "width",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameEnabled",
-    "label": "Behavior",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "bar",
-      "behavior",
-      "border",
-      "decoration",
-      "frame",
-      "mode",
-      "overview",
-      "panel",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "icon": "tune",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameBlurEnabled",
-    "label": "Blur",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "background",
-      "bar",
-      "blur",
-      "border",
-      "decoration",
-      "frame",
-      "frosted",
-      "glass",
-      "panel",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "transparency",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameBorder",
-    "label": "Border",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "bar",
-      "border",
-      "corner",
-      "decoration",
-      "frame",
-      "panel",
-      "radius",
-      "rounding",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "icon": "border_outer",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameConnectedOptions",
-    "label": "Connected",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "arcs",
-      "bar",
-      "border",
-      "connected",
-      "curves",
-      "decoration",
-      "edge",
-      "expose",
-      "frame",
-      "gap",
-      "notification",
-      "panel",
-      "popout",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "icon": "blur_linear",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameDisplays",
-    "label": "Displays",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "bar",
-      "border",
-      "decoration",
-      "displays",
-      "frame",
-      "monitor",
-      "monitors",
-      "output",
-      "outputs",
-      "panel",
-      "screen",
-      "screens",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "icon": "monitor",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameLauncherEdgeHover",
-    "label": "Edge hover reveal",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "bar",
-      "border",
-      "connected",
-      "decoration",
-      "edge",
-      "frame",
-      "hover",
-      "launcher",
-      "panel",
-      "reveal",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameCloseGaps",
-    "label": "Expose the arcs",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "arcs",
-      "bar",
-      "border",
-      "connected",
-      "curves",
-      "decoration",
-      "edge",
-      "expose",
-      "frame",
-      "gap",
-      "notification",
-      "panel",
-      "popout",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "_tab_33",
-    "label": "Frame",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "arcs",
-      "bar",
-      "border",
-      "connected",
-      "decoration",
-      "frame",
-      "mode",
-      "panel",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "icon": "frame_source",
-    "parentLabel": "Bar",
-    "description": "Border, connected mode, arcs",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameLauncherEmergeSide",
-    "label": "Launcher emerge side",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "app drawer",
-      "app menu",
-      "applications",
-      "bar",
-      "border",
-      "bottom",
-      "connected",
-      "decoration",
-      "direction",
-      "emerge",
-      "frame",
-      "launcher",
-      "modal",
-      "panel",
-      "side",
-      "start menu",
-      "statusbar",
-      "taskbar",
-      "top",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameRounding",
-    "label": "Radius",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "bar",
-      "border",
-      "corner",
-      "decoration",
-      "frame",
-      "panel",
-      "radius",
-      "rounding",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameShowOnOverview",
-    "label": "Show on overview",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "bar",
-      "border",
-      "decoration",
-      "frame",
-      "hide",
-      "niri",
-      "overview",
-      "panel",
-      "show",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "nativeOverviewCapable"
-  },
-  {
-    "section": "frameModeSelector",
-    "label": "Surfaces",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "bar",
-      "border",
-      "connected",
-      "decoration",
-      "float",
-      "flush",
-      "frame",
-      "mode",
-      "panel",
-      "popout",
-      "separate",
-      "statusbar",
-      "surfaces",
-      "taskbar",
-      "topbar",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "frameEnabled"
-  },
-  {
-    "section": "frameThickness",
-    "label": "Width",
-    "tabIndex": 33,
-    "category": "Frame",
-    "keywords": [
-      "bar",
-      "border",
-      "decoration",
-      "frame",
-      "panel",
-      "size",
-      "statusbar",
-      "taskbar",
-      "thickness",
-      "topbar",
-      "width",
-      "window"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "frameEnabled"
   },
   {
     "section": "_tab_34",
@@ -12992,481 +13231,6 @@
     "conditionKey": "isNiri"
   },
   {
-    "section": "islandSatelliteBackground",
-    "label": "Background",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "background",
-      "bar",
-      "chrome",
-      "island",
-      "panel",
-      "satellite",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "widgets"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandHomeBrightnessDisplay",
-    "label": "Brightness style",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "backlight",
-      "bar",
-      "bright",
-      "brightness",
-      "compact",
-      "dim",
-      "home",
-      "icon",
-      "island",
-      "panel",
-      "percentage",
-      "statusbar",
-      "style",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandNotificationBadgeClearOnOpen",
-    "label": "Clear badge on open",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "badge",
-      "bar",
-      "clear",
-      "dismiss",
-      "home",
-      "island",
-      "notifications",
-      "open",
-      "panel",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "unread"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandHomeClockDisplay",
-    "label": "Clock style",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "bar",
-      "clock",
-      "compact",
-      "date",
-      "home",
-      "island",
-      "panel",
-      "statusbar",
-      "style",
-      "taskbar",
-      "time",
-      "topbar",
-      "watch"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandHomeCompactTight",
-    "label": "Compact pill",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "bar",
-      "clock",
-      "compact",
-      "height",
-      "home",
-      "island",
-      "narrow",
-      "panel",
-      "pill",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "width"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandHomeStatusContent",
-    "label": "Control Center",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "bar",
-      "battery",
-      "bluetooth",
-      "center",
-      "compact",
-      "connectivity",
-      "control",
-      "home",
-      "island",
-      "panel",
-      "status",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "wifi"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandNotificationExpand",
-    "label": "Expand by default",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "arrival",
-      "bar",
-      "default",
-      "expand",
-      "island",
-      "notifications",
-      "panel",
-      "size",
-      "statusbar",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandSatelliteGap",
-    "label": "Gap",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "bar",
-      "gap",
-      "island",
-      "panel",
-      "satellite",
-      "spacing",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "widgets"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandSatelliteSwoopRadius",
-    "label": "Goth corner radius",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "bar",
-      "corner",
-      "corners",
-      "goth",
-      "island",
-      "panel",
-      "radius",
-      "round",
-      "rounded",
-      "satellite",
-      "size",
-      "statusbar",
-      "sweep",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandSatelliteGothCorners",
-    "label": "Goth corners",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "bar",
-      "corners",
-      "goth",
-      "island",
-      "panel",
-      "radius",
-      "round",
-      "rounded",
-      "satellite",
-      "statusbar",
-      "sweep",
-      "taskbar",
-      "topbar",
-      "wing"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandHomeLayout",
-    "label": "Home Layout",
-    "tabIndex": 46,
-    "category": "Island",
-    "parentLabel": "Bar",
-    "keywords": [
-      "around",
-      "badge",
-      "bar",
-      "battery",
-      "brightness",
-      "clock",
-      "groups",
-      "hidden",
-      "hide",
-      "home",
-      "island",
-      "launcher",
-      "layout",
-      "left",
-      "media",
-      "notifications",
-      "order",
-      "panel",
-      "reorder",
-      "right",
-      "statusbar",
-      "taskbar",
-      "time",
-      "topbar",
-      "volume",
-      "watch",
-      "weather"
-    ],
-    "icon": "home",
-    "description": "Order and hide the groups around the island clock",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandActivities",
-    "label": "Home compact",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "bar",
-      "clock",
-      "compact",
-      "date",
-      "home",
-      "island",
-      "panel",
-      "statusbar",
-      "taskbar",
-      "time",
-      "topbar"
-    ],
-    "parentLabel": "Bar",
-    "icon": "home",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "_tab_46",
-    "label": "Island",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "alert",
-      "alerts",
-      "bar",
-      "home",
-      "island",
-      "layout",
-      "notif",
-      "notifications",
-      "notifs",
-      "panel",
-      "satellites",
-      "statusbar",
-      "taskbar",
-      "topbar"
-    ],
-    "icon": "view_in_ar",
-    "parentLabel": "Bar",
-    "description": "Home layout, notifications, satellites",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandNotifications",
-    "label": "Notifications",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "alert",
-      "alerts",
-      "arrival",
-      "bar",
-      "island",
-      "notif",
-      "notifications",
-      "notifs",
-      "panel",
-      "popup",
-      "stack",
-      "standard",
-      "statusbar",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar",
-    "icon": "notifications",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandSatelliteTransparency",
-    "label": "Opacity",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "background",
-      "bar",
-      "blur",
-      "island",
-      "opacity",
-      "panel",
-      "satellite",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "transparency"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandSatellitePosition",
-    "label": "Position",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "bar",
-      "center",
-      "edges",
-      "island",
-      "panel",
-      "position",
-      "satellite",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "widgets"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandSatellites",
-    "label": "Satellites",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "bar",
-      "island",
-      "left",
-      "panel",
-      "right",
-      "satellite",
-      "satellites",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "widgets"
-    ],
-    "parentLabel": "Bar",
-    "icon": "widgets",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandSatellitesEnabled",
-    "label": "Show",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "bar",
-      "island",
-      "left",
-      "panel",
-      "right",
-      "satellite",
-      "show",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "widgets"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandNotificationPopups",
-    "label": "Use standard popups",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "arrival",
-      "bar",
-      "island",
-      "notifications",
-      "panel",
-      "popup",
-      "popups",
-      "stack",
-      "standard",
-      "statusbar",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandHomeVolumeDisplay",
-    "label": "Volume style",
-    "tabIndex": 46,
-    "category": "Island",
-    "keywords": [
-      "audio",
-      "bar",
-      "compact",
-      "home",
-      "icon",
-      "island",
-      "loudness",
-      "panel",
-      "percentage",
-      "sound",
-      "speaker",
-      "statusbar",
-      "style",
-      "taskbar",
-      "topbar",
-      "volume"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
     "section": "_tab_47",
     "label": "Cellular",
     "tabIndex": 47,
@@ -15488,26 +15252,6 @@
     "parentLabel": "Dock"
   },
   {
-    "section": "_tab_59",
-    "label": "Advanced",
-    "tabIndex": 59,
-    "category": "Advanced",
-    "keywords": [
-      "advanced",
-      "dock",
-      "exclusive",
-      "fullscreen",
-      "launcher bar",
-      "layers",
-      "panel",
-      "taskbar",
-      "zone"
-    ],
-    "icon": "settings",
-    "parentLabel": "Dock",
-    "description": "Layers, fullscreen, exclusive zone"
-  },
-  {
     "section": "dockAdvancedDisplays",
     "label": "Displays",
     "tabIndex": 59,
@@ -15530,6 +15274,26 @@
     ],
     "parentLabel": "Dock",
     "icon": "monitor"
+  },
+  {
+    "section": "_tab_59",
+    "label": "Dock: Advanced",
+    "tabIndex": 59,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "dock",
+      "exclusive",
+      "fullscreen",
+      "launcher bar",
+      "layers",
+      "panel",
+      "taskbar",
+      "zone"
+    ],
+    "icon": "settings",
+    "parentLabel": "Dock",
+    "description": "Layers, fullscreen, exclusive zone"
   },
   {
     "section": "dockExclusiveZone",
@@ -15880,5 +15644,258 @@
     "icon": "tune",
     "parentLabel": "Desktop widgets",
     "description": "Options of one widget instance"
+  },
+  {
+    "section": "_tab_64",
+    "label": "Bar: Advanced",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "bar",
+      "exclusive",
+      "fullscreen",
+      "layers",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "zone"
+    ],
+    "icon": "settings",
+    "parentLabel": "Bar",
+    "description": "Layers, fullscreen, exclusive zone"
+  },
+  {
+    "section": "barAdvanced",
+    "label": "Behavior",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "bar",
+      "behavior",
+      "click",
+      "island",
+      "layer",
+      "maximize",
+      "motion",
+      "overlay",
+      "panel",
+      "spring",
+      "statusbar",
+      "taskbar",
+      "through",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "icon": "tune"
+  },
+  {
+    "section": "barClickThrough",
+    "label": "Click through",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "bar",
+      "click",
+      "clickthrough",
+      "input",
+      "mask",
+      "mouse",
+      "panel",
+      "passthrough",
+      "statusbar",
+      "taskbar",
+      "through",
+      "topbar"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
+    "section": "barExclusiveZone",
+    "label": "Exclusive zone offset",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "bar",
+      "exclusive",
+      "offset",
+      "panel",
+      "reserved",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "zone"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
+    "section": "barAppearanceAdvanced",
+    "label": "Gaps",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "bar",
+      "exclusive",
+      "gaps",
+      "panel",
+      "popup",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "zone"
+    ],
+    "parentLabel": "Bar",
+    "icon": "space_bar"
+  },
+  {
+    "section": "barMaximizeDetection",
+    "label": "Maximize detection",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "bar",
+      "border",
+      "detection",
+      "fullscreen",
+      "gaps",
+      "maximize",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "windowRulesCapable"
+  },
+  {
+    "section": "islandReducedMotion",
+    "label": "Reduce motion",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "accessibility",
+      "advanced",
+      "animation",
+      "bar",
+      "island",
+      "motion",
+      "panel",
+      "reduce",
+      "spring",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandSpringDamping",
+    "label": "Spring damping",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "animation",
+      "bar",
+      "bounce",
+      "damping",
+      "island",
+      "motion",
+      "panel",
+      "spring",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandSpringMass",
+    "label": "Spring mass",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "animation",
+      "bar",
+      "inertia",
+      "island",
+      "mass",
+      "motion",
+      "panel",
+      "spring",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandSpringStiffness",
+    "label": "Spring stiffness",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "animation",
+      "bar",
+      "island",
+      "motion",
+      "panel",
+      "spring",
+      "statusbar",
+      "stiffness",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "barUseOverlayLayer",
+    "label": "Use overlay layer",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "bar",
+      "fullscreen",
+      "layer",
+      "overlay",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar"
+  },
+  {
+    "section": "islandUseOverlayLayer",
+    "label": "Use overlay layer",
+    "tabIndex": 64,
+    "category": "Advanced",
+    "keywords": [
+      "advanced",
+      "bar",
+      "fullscreen",
+      "island",
+      "layer",
+      "overlay",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   }
 ]

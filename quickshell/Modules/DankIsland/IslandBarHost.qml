@@ -62,7 +62,7 @@ Item {
     readonly property real freeMargin: Math.max(0, Math.min(64, root.setting("islandFreeEdgeMargin")))
     readonly property int compactThickness: root.dotMode ? Math.max(24, Math.min(72, root.dotSize)) : root.islandMetrics.compact
     readonly property bool floating: root.setting("islandFloating")
-    readonly property bool usesOverlayLayer: CompositorService.framePeerSurfacesUseOverlayForScreen(root.screen) || LayerShell.envUsesOverlay("DMS_DANKISLAND_LAYER", root.setting("islandUseOverlayLayer"))
+    readonly property bool usesOverlayLayer: root.dotMode || CompositorService.framePeerSurfacesUseOverlayForScreen(root.screen) || LayerShell.envUsesOverlay("DMS_DANKISLAND_LAYER", root.setting("islandUseOverlayLayer"))
     // A free island's position only picks the orientation; a dot is always a circle.
     readonly property bool isVertical: !root.dotMode && SettingsData.islandVertical(root.barConfig)
     readonly property string edge: root.freeMode ? (root.isVertical ? "left" : "top") : SettingsData.islandEdge(root.barConfig)

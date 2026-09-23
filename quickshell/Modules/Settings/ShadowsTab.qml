@@ -234,7 +234,7 @@ Item {
                 visible: shadowCard.bars.length > 1
                 options: shadowCard.bars.map(config => config.name || config.id)
                 currentValue: bar.selectedBarConfig?.name || bar.selectedBarConfig?.id || ""
-                onValueChanged: value => bar.selectedBarId = shadowCard.bars.find(config => (config.name || config.id) === value)?.id ?? bar.selectedBarId
+                onValueChanged: value => bar.select(shadowCard.bars.find(config => (config.name || config.id) === value)?.id ?? bar.selectedBarId)
             }
 
             SettingsToggleRow {

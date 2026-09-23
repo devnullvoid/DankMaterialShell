@@ -29,7 +29,7 @@ Column {
     readonly property var opacityTargets: {
         SettingsData.barConfigs;
         SettingsData.dockConfigs;
-        const bars = SettingsData.barConfigs.map(config => ({
+        const bars = SettingsData.barConfigs.filter(config => !SettingsData.isDotBarConfig(config)).map(config => ({
                     kind: "bar",
                     id: config.id,
                     name: config.name || config.id,

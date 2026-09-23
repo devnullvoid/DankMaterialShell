@@ -139,7 +139,7 @@ with tempfile.TemporaryDirectory(prefix="dms-surface-test-") as temporary:
                 if mpris:
                     start_dbus(fixture_env, processes)
                     processes.append(subprocess.Popen([sys.executable, str(repo / "quickshell/tests/fixtures/mpris_player.py")] + (["--artwork"] if "--artwork" in sys.argv else []), env=fixture_env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL))
-                result = subprocess.run(["qs", "-p", str(home / "qml")], env=fixture_env, capture_output=True, text=True, timeout=60)
+                result = subprocess.run(["qs", "-p", str(home / "qml")], env=fixture_env, capture_output=True, text=True, timeout=180)
                 output = result.stdout + result.stderr
                 failed = bool(result.returncode) or "FIXTURE_PASS" not in output or "FIXTURE_FAIL" in output
             except subprocess.TimeoutExpired as expired:

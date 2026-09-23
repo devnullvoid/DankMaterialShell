@@ -834,6 +834,7 @@ Singleton {
     property var lastUsedBarByScreen: ({})
     // One slot per edge; a dot floats, so it never takes one.
     readonly property int edgeBarConfigCount: (barConfigs || []).filter(cfg => cfg && !isDotBarConfig(cfg)).length
+    readonly property var dotBarConfig: (barConfigs || []).find(cfg => isDotBarConfig(cfg)) ?? null
     readonly property var islandDefaults: ({
             "islandFloating": false,
             "islandPlacement": "edge",
@@ -2468,6 +2469,38 @@ Singleton {
 
     function isDotBarConfig(bc) {
         return !!bc && bc.dot === true;
+    }
+
+    // The dot is a companion, not a layout: the first enable clones the base bar so it inherits its look.
+    function setDotEnabled(enabled, baseId) {
+        const existing = dotBarConfig;
+        if (existing) {
+            if ((existing.enabled ?? false) !== enabled)
+                updateBarConfig(existing.id, {
+                    enabled
+                });
+            return;
+        }
+        if (!enabled)
+            return;
+        const base = getBarConfig(baseId);
+        const source = base && !isDotBarConfig(base) ? base : getBarConfig("default");
+        if (!source)
+            return;
+        const config = Object.assign(JSON.parse(JSON.stringify(source)), {
+            id: "dot" + Date.now(),
+            name: I18n.tr("Dot", "bar layout: free-floating dot that opens island activities"),
+            enabled: true,
+            island: false,
+            dot: true,
+            screenPreferences: ["all"],
+            showOnLastDisplay: true,
+            followInterfaceStyle: false,
+            transparency: barTransparency(source)
+        });
+        // An inherited "always here" would make the base island and the dot fight by config order.
+        delete config.islandSharedRouting;
+        addBarConfig(config);
     }
 
     function islandFreePlacement(bc) {

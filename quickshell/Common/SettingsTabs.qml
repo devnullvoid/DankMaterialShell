@@ -86,11 +86,13 @@ Singleton {
             "id": "dankbar",
             "text": I18n.tr("Bar"),
             "icon": "toolbar",
-            "hint": I18n.tr("Position, appearance, island"),
+            "aliases": ["dot", "dankdot"],
+            "hint": I18n.tr("Layout, position, appearance", "settings hub hint for the bar pages"),
             "hubHeader": "BarHubHeader",
             "children": [
                 {
                     "id": "dankbar_settings",
+                    "aliases": ["dank_island", "island"],
                     "text": I18n.tr("General", "adjective, settings page and section title for general options"),
                     "icon": "tune",
                     "tabIndex": 3,
@@ -98,28 +100,19 @@ Singleton {
                 },
                 {
                     "id": "dankbar_appearance",
+                    "aliases": ["frame"],
                     "text": I18n.tr("Appearance", "settings page and section title for visual options"),
                     "icon": "palette",
                     "tabIndex": 6,
                     "hint": I18n.tr("Background, corners, spacing, widget style")
                 },
                 {
-                    "id": "dank_island",
-                    "text": I18n.tr("Island", "noun, dank island feature, settings page and layout option"),
-                    "icon": "view_in_ar",
-                    "tabIndex": 46,
-                    "islandOnly": true,
-                    "titleFrom": "selectedIslandTitle",
-                    "hintFrom": "selectedIslandHint",
-                    "hint": I18n.tr("Home layout, notifications, satellites")
-                },
-                {
-                    "id": "frame",
-                    "text": I18n.tr("Frame", "noun, screen frame feature, settings page and layout option"),
-                    "icon": "frame_source",
-                    "tabIndex": 33,
-                    "frameOnly": true,
-                    "hint": I18n.tr("Border, connected mode, arcs")
+                    "id": "dankbar_advanced",
+                    "advanced": true,
+                    "text": I18n.tr("Advanced"),
+                    "icon": "settings",
+                    "tabIndex": 64,
+                    "hint": I18n.tr("Layers, fullscreen, exclusive zone")
                 }
             ]
         },
@@ -753,10 +746,6 @@ Singleton {
         if (entry.greeterOnly && !GreeterService.available)
             return false;
         if (entry.autostartOnly && !DesktopService.autostartAvailable)
-            return false;
-        if (entry.frameOnly && !SettingsData.frameEnabled)
-            return false;
-        if (entry.islandOnly && !SettingsData.isIslandBarConfig(SettingsData.getBarConfig(SettingsUiState.selectedBarId)))
             return false;
         if (entry.cellularOnly && (NetworkService.cellularDevices?.length ?? 0) === 0)
             return false;

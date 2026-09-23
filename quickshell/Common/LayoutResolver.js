@@ -77,9 +77,13 @@ function resolveScreen(inputs, screen, options) {
     // Free islands and dots float anywhere on the screen, so they never join an edge band.
     const isFree = input => input.config.dot === true || (isIsland(input.config) && (input.islandPlacement ?? input.config.islandPlacement) === "free");
     for (const input of enabled.filter(isFree)) {
+        const dot = input.config.dot === true;
+        // A free island keeps its satellites in a bar window on its configured edge; that band never reserves or shadows.
+        const satellites = !dot && (input.islandSatellites ?? input.config.islandSatellitesEnabled ?? true);
         instances.push({
             key: JSON.stringify([screen.name, input.config.id]), screenName: screen.name,
-            barId: input.config.id, configOrder: inputs.indexOf(input), edge: "", kind: "island", free: true, dot: input.config.dot === true,
+            barId: input.config.id, configOrder: inputs.indexOf(input), edge: "", kind: "island", free: true, dot,
+            satelliteEdge: satellites ? edgeName(input.config.position ?? 0) || "top" : "",
             row: 0, rowThickness: 0, rowOffset: 0, reservation: 0, exclusiveZone: -1, exclusionSize: 0,
             paintedBounds: { x: 0, y: 0, width: 0, height: 0 }, margins: { top: 0, bottom: 0, left: 0, right: 0 }
         });
@@ -183,6 +187,10 @@ function resolveScreen(inputs, screen, options) {
         frameStyled,
         manualPlacement
     };
+}
+
+function hostsBarWindow(instance) {
+    return instance.free ? !!instance.satelliteEdge : instance.kind === "bar" || instance.kind === "island";
 }
 
 function adjacentBar(layout, edge, config) {
