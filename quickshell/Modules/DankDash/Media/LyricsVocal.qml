@@ -50,7 +50,7 @@ Item {
             if (activeOnly)
                 return active ? text : '<font color="transparent">' + text + '</font>';
             const sung = highlighted && word.t < wordStart;
-            const color = sung || (active && !sweep) ? accent : Theme.onSurfaceVariant;
+            const color = sung || (active && !sweep) ? accent : active ? "transparent" : Theme.onSurfaceVariant;
             return '<font color="' + color + '">' + text + '</font>';
         }).join("");
     }
@@ -134,8 +134,7 @@ Item {
                 textFormat: Text.StyledText
                 Accessible.ignored: true
                 font: line.font
-                color: root.accent
-                opacity: root.wordProgress
+                color: Qt.tint(Theme.onSurfaceVariant, Theme.withAlpha(root.accent, root.wordProgress))
                 lineHeight: line.lineHeight
                 horizontalAlignment: line.horizontalAlignment
                 wrapMode: line.wrapMode

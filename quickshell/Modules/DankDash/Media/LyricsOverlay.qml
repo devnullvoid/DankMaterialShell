@@ -205,8 +205,6 @@ FocusScope {
             anchors.fill: parent
             radius: root.backgroundRadius
             color: root.blurSource ? MediaAccentService.lyricsTint : DashMetrics.cardColor
-            border.width: root.backgroundParent ? 0 : Theme.layerOutlineWidth
-            border.color: Theme.outlineMedium
             antialiasing: true
         }
     }
