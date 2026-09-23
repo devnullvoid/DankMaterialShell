@@ -49,7 +49,7 @@ Singleton {
     property var sinkPorts: ({})
     property var cards: []
     property var pendingCardSwitch: null
-    readonly property var switchableOutputPorts: root.collectSwitchableOutputPorts(root.cards)
+    readonly property var switchableOutputPorts: root.collectSwitchableOutputPorts(root.cards, SessionData.hiddenOutputDeviceNames ?? [])
 
     readonly property int sinkMaxVolume: {
         const name = sink?.name ?? "";
@@ -409,7 +409,14 @@ Singleton {
         return candidates[0];
     }
 
-    function collectSwitchableOutputPorts(cards) {
+    function profileSinkNames(cardName, profile) {
+        if (!cardName.startsWith("alsa_card."))
+            return [];
+        const prefix = "alsa_output." + cardName.substring(10) + ".";
+        return profile.split("+").filter(part => part.startsWith("output:")).map(part => prefix + part.substring(7));
+    }
+
+    function collectSwitchableOutputPorts(cards, hiddenSinkNames) {
         const entries = [];
         for (const card of cards || []) {
             if (!card.activeProfile || card.activeProfile === "pro-audio")
@@ -417,8 +424,12 @@ Singleton {
             for (const port of card.ports) {
                 if (port.availability === "no" || port.profiles.includes(card.activeProfile))
                     continue;
+                if (port.profiles.some(name => name.startsWith("input:")))
+                    continue;
                 const profile = bestOutputProfile(card, port);
                 if (!profile)
+                    continue;
+                if (profileSinkNames(card.name, profile).some(name => hiddenSinkNames.includes(name)))
                     continue;
                 const product = port.props["device.product.name"] || "";
                 entries.push({
