@@ -10,7 +10,7 @@ FocusScope {
     id: root
 
     required property var player
-    property real radius: DashMetrics.mediaArtRadius
+    property real radius: DashMetrics.mediaInnerRadius
     property Item blurSource: null
     property Item backgroundParent: null
     property real backgroundRadius: radius
@@ -34,8 +34,6 @@ FocusScope {
     readonly property real leadFontSize: Math.round(Math.max(Theme.fontSizeXLarge, Math.min(Theme.fontSizeDisplay, transcript.height / DashMetrics.lyricsLeadHeightDivisor, transcript.width / DashMetrics.lyricsLeadWidthDivisor)))
     readonly property string message: {
         switch (controller.state) {
-        case "loading":
-            return controller.showLoading ? I18n.tr("Loading...") : "";
         case "instrumental":
             return I18n.tr("Instrumental", "Track has no lyrics because it is instrumental");
         case "error":
@@ -51,10 +49,12 @@ FocusScope {
     Accessible.name: I18n.tr("Lyrics", "Media player lyrics button")
     onActiveIndexChanged: followTimer.restart()
     onFirstFocusedIndexChanged: followTimer.restart()
-    onReadyChanged: followTimer.restart()
+    onReadyChanged: snapToCurrent()
     onWidthChanged: snapToCurrent()
     onHeightChanged: snapToCurrent()
     onTrackKeyChanged: {
+        if (controller.holdsSong())
+            return;
         following = true;
         followMotion.stop();
         transcript.stopMomentum();
@@ -198,12 +198,15 @@ FocusScope {
             anchors.fill: parent
             radius: root.backgroundRadius
             sourceItem: root.blurSource
+            active: root.blurSource !== null && MediaAccentService.lyricsTint.a < 1
         }
 
         Rectangle {
             anchors.fill: parent
             radius: root.backgroundRadius
-            color: root.blurSource ? Theme.withAlpha(Theme.surfaceContainerLowest, DashMetrics.lyricsScrimAlpha) : Theme.foregroundColor(Theme.surfaceContainerLowest, false)
+            color: root.blurSource ? MediaAccentService.lyricsTint : DashMetrics.cardColor
+            border.width: root.backgroundParent ? 0 : Theme.layerOutlineWidth
+            border.color: Theme.outlineMedium
             antialiasing: true
         }
     }
@@ -235,6 +238,7 @@ FocusScope {
             anchors.margins: Theme.spacingM
             clip: true
             visible: root.ready
+            opacity: root.ready ? 1 : 0
             reuseItems: true
             spacing: Theme.spacingXXS
             model: root.controller.synced ? root.controller.lines : root.controller.plainLines
@@ -273,6 +277,15 @@ FocusScope {
             }
             onCountChanged: followTimer.restart()
 
+            Behavior on opacity {
+                enabled: root.animationsEnabled
+                NumberAnimation {
+                    duration: Theme.expressiveDurations.expressiveEffects
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
+                }
+            }
+
             delegate: Item {
                 id: lyric
                 required property int index
@@ -307,6 +320,7 @@ FocusScope {
                             leadFontSize: root.leadFontSize
                             distance: lyric ? Math.abs(lyric.index - root.activeIndex) : 0
                             animationsEnabled: root.animationsEnabled
+                            smoothHighlight: root.player.smoothLyrics
                             inViewport: {
                                 if (!lyric)
                                     return false;
@@ -343,11 +357,44 @@ FocusScope {
             }
         }
 
+        Loader {
+            anchors.centerIn: transcript
+            active: opacity > 0
+            opacity: root.controller.pending ? 1 : 0
+
+            Behavior on opacity {
+                enabled: root.animationsEnabled
+                NumberAnimation {
+                    duration: Theme.expressiveDurations.expressiveEffects
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
+                }
+            }
+
+            sourceComponent: DankLoadingIndicator {
+                color: MediaAccentService.lyricsAccents[0]
+                Accessible.role: Accessible.ProgressBar
+                Accessible.name: I18n.tr("Loading...")
+            }
+        }
+
         Column {
+            readonly property bool shown: !root.ready && root.message !== ""
+
             anchors.centerIn: parent
             width: parent.width - Theme.spacingL * 2
             spacing: Theme.spacingM
-            visible: !root.ready
+            visible: shown
+            opacity: shown ? 1 : 0
+
+            Behavior on opacity {
+                enabled: root.animationsEnabled
+                NumberAnimation {
+                    duration: Theme.expressiveDurations.expressiveEffects
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
+                }
+            }
 
             StyledText {
                 width: parent.width

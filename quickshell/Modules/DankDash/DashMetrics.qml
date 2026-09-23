@@ -195,7 +195,7 @@ Singleton {
     readonly property real mediaArtSize: 150
     readonly property real mediaArtSizeDash: 336
     readonly property real mediaArtSizeMaterial: 200
-    readonly property real mediaArtRadius: Theme.cornerRadiusXL
+    readonly property real mediaInnerRadius: Math.max(Theme.cornerRadiusXS, surfaceRadius - mediaCardMargin - Theme.layerOutlineWidth)
     readonly property real mediaArtSoftRadiusRatio: 0.3
     readonly property real mediaArtPlaceholderIcon: Theme.buttonHeightM
     readonly property real mediaSeekbarHeight: 22
@@ -214,8 +214,6 @@ Singleton {
     readonly property int mediaLyricsRequestTimeout: 16000
     readonly property int mediaLyricsLoadingDelay: 300
     readonly property real mediaLyricsPositionTolerance: 0.05
-    readonly property real lyricsScrimAlpha: 0.82
-    readonly property real mediaArtOverlayAlpha: 0.65
     readonly property real lyricsNearOpacity: 0.55
     readonly property real lyricsFarOpacity: 0.3
     readonly property real lyricsLineHeight: 1.25

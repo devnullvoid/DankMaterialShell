@@ -13,6 +13,7 @@ Singleton {
             albumArtAccent: true,
             animatedArt: false,
             lyrics: true,
+            smoothLyrics: true,
             deviceName: true
         })
 

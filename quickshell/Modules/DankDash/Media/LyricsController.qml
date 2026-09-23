@@ -41,8 +41,12 @@ QtObject {
     property var cueTimes: []
     property var focusedGroups: []
     property string state: "idle"
-    property bool showLoading: false
+    readonly property bool pending: state === "loading" || (state === "idle" && enabled && requestDelay.running)
     property string requestedKey: ""
+    property string requestedSong: ""
+    property string shownSong: ""
+    property string shownResult: ""
+    property bool refreshPending: false
     property int requestedDuration: 0
     property var requestId: null
     readonly property bool staleDuration: duration !== requestedDuration && state !== "ready" && state !== "instrumental"
@@ -55,7 +59,9 @@ QtObject {
 
     onTrackKeyChanged: {
         cancel();
-        clear();
+        refreshPending = holdsSong();
+        if (!refreshPending)
+            clear();
         requestedKey = "";
         if (enabled)
             requestDelay.restart();
@@ -100,12 +106,24 @@ QtObject {
         requestId = null;
         tick.stop();
         anchorUpdate.stop();
-        loadingDelay.stop();
         requestDelay.stop();
-        showLoading = false;
+    }
+
+    function songTitle() {
+        return (presentation?.title ?? "").trim().toLowerCase();
+    }
+
+    function holdsSong() {
+        const title = songTitle();
+        return (state === "ready" || state === "instrumental") && title !== "" && title === shownSong;
     }
 
     function clear() {
+        clearContent();
+        state = "idle";
+    }
+
+    function clearContent() {
         lines = [];
         plainLines = [];
         synced = false;
@@ -118,30 +136,36 @@ QtObject {
         cueTimes = [];
         focusedGroups = [];
         wordRevision++;
-        state = "idle";
+        shownSong = "";
+        shownResult = "";
     }
 
     function request() {
         cancel();
         if (!enabled)
             return;
+        const refreshing = refreshPending && holdsSong();
         if (root.player.presentationSettling) {
-            state = "loading";
-            loadingDelay.restart();
+            if (!refreshing)
+                state = "loading";
             requestDelay.restart();
             return;
         }
-        clear();
+        refreshPending = false;
+        if (!refreshing)
+            clear();
         requestedKey = trackKey;
         requestedDuration = duration;
+        requestedSong = songTitle();
         const snapshot = presentation;
         if (!snapshot || ((!snapshot.title || !snapshot.artist) && !fileUrl)) {
-            useEmbeddedText("none");
+            if (!refreshing)
+                useEmbeddedText("none");
             return;
         }
         const token = serial;
-        state = "loading";
-        loadingDelay.restart();
+        if (!refreshing)
+            state = "loading";
         requestId = backend.sendRequest("lyrics.get", {
             "title": snapshot.title || "",
             "artist": snapshot.artist || "",
@@ -150,24 +174,32 @@ QtObject {
             "fileUrl": fileUrl,
             "allowNetwork": MediaOptions.enabledLyricsProviders.length > 0,
             "providers": MediaOptions.enabledLyricsProviders
-        }, response => root.receive(token, response), DashMetrics.mediaLyricsRequestTimeout) ?? null;
+        }, response => root.receive(token, response, refreshing), DashMetrics.mediaLyricsRequestTimeout) ?? null;
     }
 
-    function receive(token, response) {
+    function receive(token, response, refreshing) {
         if (token !== serial || !enabled)
             return;
         requestId = null;
-        loadingDelay.stop();
-        showLoading = false;
+        const result = response.error ? null : response.result;
+        const found = !!result?.found && (result.instrumental || (result.synced ?? []).length > 0 || (result.plain ?? "").trim() !== "");
+        if (refreshing && !found)
+            return;
+        const resultKey = found ? JSON.stringify([result.instrumental === true, result.synced ?? [], result.voices ?? {}, result.plain ?? "", result.attribution ?? {}]) : "";
+        if (refreshing && resultKey === shownResult)
+            return;
+        if (refreshing)
+            clearContent();
         if (response.error) {
             useEmbeddedText("error");
             return;
         }
-        const result = response.result;
         if (!result?.found) {
             useEmbeddedText("none");
             return;
         }
+        shownSong = requestedSong;
+        shownResult = resultKey;
         if (result.instrumental) {
             state = "instrumental";
             return;
@@ -278,6 +310,7 @@ QtObject {
         }
         plainLines = embeddedText.trim().split("\n");
         synced = false;
+        shownSong = requestedSong;
         state = "ready";
     }
 
@@ -393,10 +426,5 @@ QtObject {
     property Timer requestDelay: Timer {
         interval: DashMetrics.mediaLyricsLoadingDelay
         onTriggered: root.request()
-    }
-
-    property Timer loadingDelay: Timer {
-        interval: DashMetrics.mediaLyricsLoadingDelay
-        onTriggered: root.showLoading = true
     }
 }

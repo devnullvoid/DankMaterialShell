@@ -11,8 +11,9 @@ Item {
     property real radius: Theme.cornerRadius
     property real blurAmount: 1.0
     property int blurMax: 96
+    property bool active: BlurService.enabled
 
-    readonly property bool blurActive: visible && BlurService.enabled
+    readonly property bool blurActive: visible && active
 
     ShaderEffectSource {
         id: snapshot

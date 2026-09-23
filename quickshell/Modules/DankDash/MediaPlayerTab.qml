@@ -18,6 +18,7 @@ Item {
     readonly property var options: DashRegistry.resolvedOptions(entryId)
     readonly property string playerStyle: options?.playerStyle ?? MediaOptions.defaultPlayerStyle
     readonly property bool lyricsEnabled: (options?.lyrics ?? MediaOptions.defaults.lyrics) && DMSService.capabilities.includes("lyrics")
+    readonly property bool smoothLyrics: options?.smoothLyrics ?? MediaOptions.defaults.smoothLyrics
     property bool lyricsOpen: false
     property bool playerPaneOpen: true
     property Item lyricsFocusTarget: null
