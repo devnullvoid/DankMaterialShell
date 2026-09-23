@@ -286,19 +286,6 @@ Item {
         height: (motion.running ? Math.max(root.motionStartBounds.y + root.motionStartBounds.height, root.targetVisualY + motion.targetHeight) : root.targetVisualY + motion.targetHeight) + overshootBudget - y
     }
 
-    MouseArea {
-        x: root.currentVisualX
-        y: root.currentVisualY
-        width: root.currentVisualWidth
-        height: root.currentVisualHeight
-        z: 1
-        acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
-        onPressed: mouse => {
-            SettingsData.recordBarInteraction(root.effectiveScreen, root.controller.barConfig?.id);
-            mouse.accepted = false;
-        }
-    }
-
     MorphSurface {
         id: island
         motion: root.surfaceMotion
@@ -329,7 +316,10 @@ Item {
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton
             enabled: !root.controller.expanded || !root.controller.activityOwnsBlankClicks
-            onClicked: root.controller.requestToggle(true)
+            onClicked: {
+                SettingsData.recordBarInteraction(root.effectiveScreen, root.controller.barConfig?.id);
+                root.controller.requestToggle(true);
+            }
             onWheel: wheel => {
                 if (root.controller.expanded) {
                     wheel.accepted = false;
@@ -413,7 +403,10 @@ Item {
         MouseArea {
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton
-            onClicked: root.controller.requestToggle(true)
+            onClicked: {
+                SettingsData.recordBarInteraction(root.effectiveScreen, root.controller.barConfig?.id);
+                root.controller.requestToggle(true);
+            }
             onWheel: wheel => {
                 root.scrollWheel(wheel);
                 wheel.accepted = true;
