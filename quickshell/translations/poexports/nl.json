@@ -206,6 +206,9 @@
   "50 uses Material shapes. Lower values reduce rounding; higher values increase it.": {
     "50 uses Material shapes. Lower values reduce rounding; higher values increase it.": ""
   },
+  "A floating companion that works alongside any bar layout": {
+    "A floating companion that works alongside any bar layout": ""
+  },
   "A hidden field appears as soon as a key is pressed": {
     "A hidden field appears as soon as a key is pressed": ""
   },
@@ -437,6 +440,9 @@
   "Alternative (OR)": {
     "Alternative (OR)": "Alternatief (OF)"
   },
+  "Always here": {
+    "Always here": ""
+  },
   "Always on icons": {
     "Always on icons": "Altijd-aan pictogrammen"
   },
@@ -595,6 +601,9 @@
   },
   "Are you sure you want to kill session \"%1\"?": {
     "Are you sure you want to kill session \"%1\"?": "Weet u zeker dat u sessie \"%1\" wilt beëindigen?"
+  },
+  "Arguments": {
+    "Arguments": ""
   },
   "Arrangement": {
     "Arrangement": ""
@@ -1049,6 +1058,12 @@
   "Browser, terminal, file manager, media": {
     "Browser, terminal, file manager, media": ""
   },
+  "Built-in": {
+    "Built-in": ""
+  },
+  "Built-in apps": {
+    "Built-in apps": ""
+  },
   "Built-in plugins": {
     "Built-in plugins": ""
   },
@@ -1238,6 +1253,9 @@
   "Checking...": {
     "Checking...": "Controleren..."
   },
+  "Chip": {
+    "Chip": ""
+  },
   "Choose Dark Mode Color": {
     "Choose Dark Mode Color": "Kleur donkere modus kiezen"
   },
@@ -1339,6 +1357,9 @@
   },
   "Click to paste": {
     "Click to paste": ""
+  },
+  "Click to run": {
+    "Click to run": ""
   },
   "Click to select a custom theme JSON file": {
     "Click to select a custom theme JSON file": "Klik om een aangepast thema-JSON-bestand te selecteren"
@@ -1820,6 +1841,9 @@
   "Custom interval in minutes (minimum 5)": {
     "Custom interval in minutes (minimum 5)": "Aangepast interval in minuten (minimaal 5)"
   },
+  "Custom label": {
+    "Custom label": ""
+  },
   "Custom location": {
     "Custom location": ""
   },
@@ -2042,6 +2066,9 @@
   "Depth": {
     "Depth": "Diepte"
   },
+  "Derived color": {
+    "Derived color": ""
+  },
   "Derives colors that closely match the underlying image.": {
     "Derives colors that closely match the underlying image.": "Leidt kleuren af die nauw aansluiten bij de onderliggende afbeelding."
   },
@@ -2234,6 +2261,9 @@
   "Display the power system menu": {
     "Display the power system menu": "Het systeem-energiemenu weergeven"
   },
+  "Displayed label": {
+    "Displayed label": ""
+  },
   "Displays": {
     "Displays": "Beeldschermen"
   },
@@ -2270,6 +2300,9 @@
   "Dock window": {
     "Dock window": "Venster docken"
   },
+  "Docked": {
+    "Docked": ""
+  },
   "Docks": {
     "Docks": ""
   },
@@ -2291,6 +2324,12 @@
   "Door Open": {
     "Door Open": "Deur open"
   },
+  "Dot": {
+    "Dot": ""
+  },
+  "Down": {
+    "Down": ""
+  },
   "Drag a widget by its handle here to reorder it or drop it into another group": {
     "Drag a widget by its handle here to reorder it or drop it into another group": "Sleep een widget aan de handgreep hiernaartoe om de volgorde te wijzigen of zet hem in een andere groep"
   },
@@ -2302,6 +2341,9 @@
   },
   "Drag the handle to reorder. Tap a widget for its settings, use the switch to hide it without changing spacing, or X to remove it.": {
     "Drag the handle to reorder. Tap a widget for its settings, use the switch to hide it without changing spacing, or X to remove it.": ""
+  },
+  "Drag to move, click to open activities": {
+    "Drag to move, click to open activities": ""
   },
   "Drag to reorder": {
     "Drag to reorder": ""
@@ -2333,6 +2375,9 @@
   "Dusk (Nautical Twilight)": {
     "Dusk (Nautical Twilight)": "Avondschemering (Nautische schemering)"
   },
+  "Dwindle": {
+    "Dwindle": ""
+  },
   "Dynamic": {
     "Dynamic": "Dynamisch"
   },
@@ -2362,6 +2407,9 @@
   },
   "Edge hover reveal": {
     "Edge hover reveal": ""
+  },
+  "Edge margin": {
+    "Edge margin": ""
   },
   "Edge spacing": {
     "Edge spacing": ""
@@ -2410,6 +2458,9 @@
   },
   "Empty Trash (%1)": {
     "Empty Trash (%1)": "Prullenbak legen (%1)"
+  },
+  "Empty placeholders fill the switcher up to the count": {
+    "Empty placeholders fill the switcher up to the count": ""
   },
   "Enable Wi-Fi before starting the hotspot.": {
     "Enable Wi-Fi before starting the hotspot.": ""
@@ -2516,6 +2567,9 @@
   "Ethernet": {
     "Ethernet": "Ethernet"
   },
+  "Evenly space tabs": {
+    "Evenly space tabs": ""
+  },
   "Event title": {
     "Event title": "Titel van afspraak"
   },
@@ -2575,6 +2629,9 @@
   },
   "Extensible architecture": {
     "Extensible architecture": "Uitbreidbare architectuur"
+  },
+  "External palette commands, namespaces": {
+    "External palette commands, namespaces": ""
   },
   "Extra Arguments": {
     "Extra Arguments": "Extra argumenten"
@@ -2879,6 +2936,9 @@
   "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": {
     "File search requires dsearch\nInstall from github.com/AvengeMedia/danksearch": "Bestandszoeken vereist dsearch\nInstalleer via github.com/morelazers/dsearch"
   },
+  "File the command writes; leave empty to read stdout": {
+    "File the command writes; leave empty to read stdout": ""
+  },
   "Files": {
     "Files": "Bestanden"
   },
@@ -2935,6 +2995,9 @@
   },
   "Fit": {
     "Fit": "Passend"
+  },
+  "Fixed": {
+    "Fixed": ""
   },
   "Flags": {
     "Flags": "Vlaggen"
@@ -3038,6 +3101,9 @@
   "Follow focus": {
     "Follow focus": "Focus volgen"
   },
+  "Follow mouse": {
+    "Follow mouse": ""
+  },
   "Follow playback": {
     "Follow playback": ""
   },
@@ -3073,6 +3139,9 @@
   },
   "Force padding": {
     "Force padding": ""
+  },
+  "Force split": {
+    "Force split": ""
   },
   "Forecast": {
     "Forecast": ""
@@ -3134,6 +3203,9 @@
   "From %1": {
     "From %1": ""
   },
+  "From wallpaper": {
+    "From wallpaper": ""
+  },
   "Fruit Salad": {
     "Fruit Salad": "Fruitsalade"
   },
@@ -3154,6 +3226,9 @@
   },
   "Fullscreen only": {
     "Fullscreen only": ""
+  },
+  "Fullscreen single column": {
+    "Fullscreen single column": ""
   },
   "Fully Charged": {
     "Fully Charged": "Volledig opgeladen"
@@ -3548,8 +3623,17 @@
   "Idle": {
     "Idle": "Inactief"
   },
+  "Idle delay": {
+    "Idle delay": ""
+  },
   "Idle inhibitor": {
     "Idle inhibitor": ""
+  },
+  "Idle opacity": {
+    "Idle opacity": ""
+  },
+  "Idle size": {
+    "Idle size": ""
   },
   "Idle timeouts, power menu, custom actions": {
     "Idle timeouts, power menu, custom actions": ""
@@ -3661,6 +3745,9 @@
   },
   "Initialised": {
     "Initialised": "Geïnitialiseerd"
+  },
+  "Injected palettes": {
+    "Injected palettes": ""
   },
   "Inline": {
     "Inline": ""
@@ -3779,6 +3866,9 @@
   "Isolate displays": {
     "Isolate displays": ""
   },
+  "JSON output path": {
+    "JSON output path": ""
+  },
   "Jobs": {
     "Jobs": "Taken"
   },
@@ -3857,6 +3947,9 @@
   "LabWC website": {
     "LabWC website": ""
   },
+  "Label overrides": {
+    "Label overrides": ""
+  },
   "Language": {
     "Language": ""
   },
@@ -3902,6 +3995,9 @@
   "Last modified": {
     "Last modified": ""
   },
+  "Last used on this screen": {
+    "Last used on this screen": ""
+  },
   "Latitude": {
     "Latitude": "Breedtegraad"
   },
@@ -3946,6 +4042,9 @@
   },
   "Layout, authentication, screensaver": {
     "Layout, authentication, screensaver": ""
+  },
+  "Layout, position, appearance": {
+    "Layout, position, appearance": ""
   },
   "Layouts": {
     "Layouts": ""
@@ -4015,6 +4114,9 @@
   },
   "Line: %1": {
     "Line: %1": "Regel: %1"
+  },
+  "Lines": {
+    "Lines": ""
   },
   "Lines: %1": {
     "Lines: %1": "Regels: %1"
@@ -4199,6 +4301,15 @@
   "Marker Waste Full": {
     "Marker Waste Full": "Afvaltank vol"
   },
+  "Master": {
+    "Master": ""
+  },
+  "Master position": {
+    "Master position": ""
+  },
+  "Master size": {
+    "Master size": ""
+  },
   "Match (%1)": {
     "Match (%1)": "Match (%1)"
   },
@@ -4216,6 +4327,12 @@
   },
   "Material colors generated from wallpaper": {
     "Material colors generated from wallpaper": "Material-kleuren gegenereerd van achtergrond"
+  },
+  "Material palette": {
+    "Material palette": ""
+  },
+  "Material scale": {
+    "Material scale": ""
   },
   "Matugen Missing": {
     "Matugen Missing": "Matugen ontbreekt"
@@ -4361,6 +4478,9 @@
   "Minimize": {
     "Minimize": ""
   },
+  "Minimum workspaces": {
+    "Minimum workspaces": ""
+  },
   "Mirror display": {
     "Mirror display": ""
   },
@@ -4442,6 +4562,15 @@
   "Move down": {
     "Move down": ""
   },
+  "Move out of scratchpad": {
+    "Move out of scratchpad": ""
+  },
+  "Move to scratchpad": {
+    "Move to scratchpad": ""
+  },
+  "Move to scratchpad: %1": {
+    "Move to scratchpad: %1": ""
+  },
   "Move up": {
     "Move up": ""
   },
@@ -4502,6 +4631,9 @@
   "Name format": {
     "Name format": ""
   },
+  "Named workspaces and scratchpads": {
+    "Named workspaces and scratchpads": ""
+  },
   "Names": {
     "Names": ""
   },
@@ -4516,6 +4648,9 @@
   },
   "Near island": {
     "Near island": ""
+  },
+  "Nested chip": {
+    "Nested chip": ""
   },
   "Network": {
     "Network": "Netwerk"
@@ -4582,6 +4717,12 @@
   },
   "New tab": {
     "New tab": ""
+  },
+  "New windows": {
+    "New windows": ""
+  },
+  "New windows on top of the stack": {
+    "New windows on top of the stack": ""
   },
   "Next": {
     "Next": "Volgende"
@@ -4769,6 +4910,9 @@
   "No keybinds found": {
     "No keybinds found": "Geen sneltoetsen gevonden"
   },
+  "No label overrides": {
+    "No label overrides": ""
+  },
   "No launcher plugins installed.": {
     "No launcher plugins installed.": "Geen starter-plug-ins geïnstalleerd."
   },
@@ -4801,6 +4945,9 @@
   },
   "No packages ignored. Add one here or hover an update in the popout and click the hide button.": {
     "No packages ignored. Add one here or hover an update in the popout and click the hide button.": "Geen pakketten genegeerd. Voeg er hier een toe of beweeg over een update in de pop-out en klik op de verberg-knop."
+  },
+  "No palettes configured. Use + to add one.": {
+    "No palettes configured. Use + to add one.": ""
   },
   "No peers found": {
     "No peers found": "Geen peers gevonden"
@@ -4864,6 +5011,9 @@
   },
   "No supported package manager found.": {
     "No supported package manager found.": "Geen ondersteunde pakketbeheerder gevonden."
+  },
+  "No tabs enabled": {
+    "No tabs enabled": ""
   },
   "No themes found": {
     "No themes found": "Geen thema's gevonden"
@@ -4934,6 +5084,9 @@
   "Normal Priority": {
     "Normal Priority": "Normale prioriteit"
   },
+  "Normal routing": {
+    "Normal routing": ""
+  },
   "Not available": {
     "Not available": "Niet beschikbaar"
   },
@@ -4984,6 +5137,9 @@
   },
   "Notification Center": {
     "Notification Center": "Meldingencentrum"
+  },
+  "Notification badge": {
+    "Notification badge": ""
   },
   "Notification popups": {
     "Notification popups": ""
@@ -5144,6 +5300,9 @@
   "Options of one widget instance": {
     "Options of one widget instance": ""
   },
+  "Orientation": {
+    "Orientation": ""
+  },
   "Original: %1": {
     "Original: %1": "Origineel: %1"
   },
@@ -5264,6 +5423,12 @@
   "Palette": {
     "Palette": ""
   },
+  "Palette %1": {
+    "Palette %1": ""
+  },
+  "Palette name": {
+    "Palette name": ""
+  },
   "Panel height (rows)": {
     "Panel height (rows)": ""
   },
@@ -5383,6 +5548,9 @@
   },
   "Place plugin directories here. Each plugin should have a plugin.json manifest file.": {
     "Place plugin directories here. Each plugin should have a plugin.json manifest file.": "Plaats plug-inmappen hier. Elke plug-in moet een plugin.json manifestbestand hebben."
+  },
+  "Placement": {
+    "Placement": ""
   },
   "Play": {
     "Play": ""
@@ -5563,6 +5731,9 @@
   },
   "Preference": {
     "Preference": "Voorkeur"
+  },
+  "Preserve split": {
+    "Preserve split": ""
   },
   "Preset widths (%)": {
     "Preset widths (%)": ""
@@ -5912,6 +6083,9 @@
   "Repeat rate": {
     "Repeat rate": ""
   },
+  "Replace a displayed layout label with custom text, e.g. \"am-phonetic-alt\" → \"am": {
+    "Replace a displayed layout label with custom text, e.g. \"am-phonetic-alt\" → \"am\"": ""
+  },
   "Replacement": {
     "Replacement": "Vervanging"
   },
@@ -6059,6 +6233,9 @@
   "Route Bluetooth headset controls to the active DMS media player": {
     "Route Bluetooth headset controls to the active DMS media player": ""
   },
+  "Routes launcher, dash, control center and notification shortcuts": {
+    "Routes launcher, dash, control center and notification shortcuts": ""
+  },
   "Rows": {
     "Rows": ""
   },
@@ -6091,6 +6268,9 @@
   },
   "Run a shell command (e.g., notify-send)": {
     "Run a shell command (e.g., notify-send)": "Een shell-opdracht uitvoeren (bijv. notify-send)"
+  },
+  "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": {
+    "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": ""
   },
   "Run user templates": {
     "Run user templates": ""
@@ -6236,6 +6416,9 @@
   "Search devices...": {
     "Search devices...": "Apparaten zoeken..."
   },
+  "Search keybinds...": {
+    "Search keybinds...": ""
+  },
   "Search plugins...": {
     "Search plugins...": "Plug-ins zoeken..."
   },
@@ -6298,6 +6481,9 @@
   },
   "Security-key support was detected, but no registered key was found yet. You can enable this now and register one later.": {
     "Security-key support was detected, but no registered key was found yet. You can enable this now and register one later.": "Ondersteuning voor beveiligingssleutels gedetecteerd, maar er is nog geen geregistreerde sleutel gevonden. U kunt dit nu inschakelen en later een sleutel registreren."
+  },
+  "Seed color": {
+    "Seed color": ""
   },
   "Segments": {
     "Segments": ""
@@ -6452,6 +6638,9 @@
   "Share gamma control settings": {
     "Share gamma control settings": ""
   },
+  "Shared shortcuts": {
+    "Shared shortcuts": ""
+  },
   "Shell": {
     "Shell": "Shell"
   },
@@ -6514,6 +6703,9 @@
   },
   "Show device": {
     "Show device": "Apparaat tonen"
+  },
+  "Show device name": {
+    "Show device name": ""
   },
   "Show discharge rate": {
     "Show discharge rate": ""
@@ -6623,6 +6815,9 @@
   "Show restart DMS": {
     "Show restart DMS": ""
   },
+  "Show scratchpads": {
+    "Show scratchpads": ""
+  },
   "Show seconds": {
     "Show seconds": ""
   },
@@ -6719,6 +6914,9 @@
   "Skip the greeter password after boot until you sign out. Lock screen unlock is unchanged. Takes effect on the next reboot after sync.": {
     "Skip the greeter password after boot until you sign out. Lock screen unlock is unchanged. Takes effect on the next reboot after sync.": "Sla het greeter-wachtwoord na het opstarten over totdat je uitlogt. Het ontgrendelen van het vergrendelscherm blijft ongewijzigd. Wordt van kracht bij de volgende herstart na synchronisatie."
   },
+  "Slanted": {
+    "Slanted": ""
+  },
   "Slideout": {
     "Slideout": "Uitschuifmenu"
   },
@@ -6731,11 +6929,17 @@
   "Smart auto-hide": {
     "Smart auto-hide": ""
   },
+  "Smart split": {
+    "Smart split": ""
+  },
   "Smartcard Authentication": {
     "Smartcard Authentication": "Smartcard-authenticatie"
   },
   "Smooth": {
     "Smooth": ""
+  },
+  "Smooth lyrics highlight": {
+    "Smooth lyrics highlight": ""
   },
   "Snap": {
     "Snap": "Vastklikken"
@@ -6745,6 +6949,9 @@
   },
   "Soft reboot": {
     "Soft reboot": ""
+  },
+  "Soft square": {
+    "Soft square": ""
   },
   "Solid": {
     "Solid": ""
@@ -6764,6 +6971,9 @@
   "Sound & media": {
     "Sound & media": ""
   },
+  "Sound theme": {
+    "Sound theme": ""
+  },
   "Sounds": {
     "Sounds": "Geluiden"
   },
@@ -6776,6 +6986,9 @@
   "Sources for plugins and themes. Registries are git repositories with a plugins/ or themes/ directory.": {
     "Sources for plugins and themes. Registries are git repositories with a plugins/ or themes/ directory.": "Bronnen voor plug-ins en thema's. Registers zijn git-repositories met een plugins/- of themes/-map."
   },
+  "Space-separated; {image} and {mode} are substituted": {
+    "Space-separated; {image} and {mode} are substituted": ""
+  },
   "Spacer": {
     "Spacer": "Afstandhouder"
   },
@@ -6785,11 +6998,20 @@
   "Speaker settings": {
     "Speaker settings": "Luidsprekerinstellingen"
   },
+  "Special workspaces appear last; click to show or hide": {
+    "Special workspaces appear last; click to show or hide": ""
+  },
   "Speed": {
     "Speed": "Snelheid"
   },
   "Speed, scrolling, tap to click": {
     "Speed, scrolling, tap to click": ""
+  },
+  "Split direction follows the cursor position in the window": {
+    "Split direction follows the cursor position in the window": ""
+  },
+  "Split direction stays fixed when the container resizes": {
+    "Split direction stays fixed when the container resizes": ""
   },
   "Spool Area Full": {
     "Spool Area Full": "Spool-gebied vol"
@@ -6817,6 +7039,9 @@
   },
   "Square": {
     "Square": ""
+  },
+  "Stack": {
+    "Stack": ""
   },
   "Stacked": {
     "Stacked": "Gestapeld"
@@ -6934,6 +7159,9 @@
   },
   "Suspend then hibernate": {
     "Suspend then hibernate": ""
+  },
+  "Swap": {
+    "Swap": ""
   },
   "Sway website": {
     "Sway website": ""
@@ -7280,6 +7508,9 @@
   "Tile Vertically": {
     "Tile Vertically": "Verticaal betegelen"
   },
+  "Tile color": {
+    "Tile color": ""
+  },
   "Tiled": {
     "Tiled": "Getegeld"
   },
@@ -7288,6 +7519,9 @@
   },
   "Tiling": {
     "Tiling": "Tegelen"
+  },
+  "Tiling layout": {
+    "Tiling layout": ""
   },
   "Time": {
     "Time": "Tijd"
@@ -7600,6 +7834,9 @@
   },
   "Untrusted VPN certificate": {
     "Untrusted VPN certificate": "Niet-vertrouwd VPN-certificaat"
+  },
+  "Up": {
+    "Up": ""
   },
   "Up to date": {
     "Up to date": "Bijgewerkt"
@@ -8045,11 +8282,17 @@
   "Workspace Switch": {
     "Workspace Switch": ""
   },
+  "Workspace count": {
+    "Workspace count": ""
+  },
   "Workspace name": {
     "Workspace name": "Werkbladnaam"
   },
   "Workspace switcher": {
     "Workspace switcher": ""
+  },
+  "Workspaces up to the count are always shown and can be opened": {
+    "Workspaces up to the count are always shown and can be opened": ""
   },
   "Wrap the app command. %command% is replaced with the actual executable": {
     "Wrap the app command. %command% is replaced with the actual executable": "Omhul het app-commando. %command% wordt vervangen door het eigenlijke uitvoerbare bestand"
@@ -8098,6 +8341,9 @@
   },
   "You're All Set!": {
     "You're All Set!": "U bent helemaal klaar!"
+  },
+  "You're all caught up": {
+    "You're all caught up": ""
   },
   "Your compositor does not support background blur (ext-background-effect-v1)": {
     "Your compositor does not support background blur (ext-background-effect-v1)": "Je compositor ondersteunt geen achtergrondvervaging (ext-background-effect-v1)"
@@ -8320,6 +8566,9 @@
   },
   "tmux and zellij sessions": {
     "tmux and zellij sessions": ""
+  },
+  "tmux, zellij, and herdr sessions": {
+    "tmux, zellij, and herdr sessions": ""
   },
   "unmaintained": {
     "unmaintained": "ononderhouden"
