@@ -24,13 +24,15 @@ type niriActionPart struct {
 	quoted bool
 }
 
-var niriActionPropertyOrder = []string{"focus", "show-pointer", "write-to-disk", "skip-confirmation", "delay-ms"}
+var niriActionPropertyOrder = []string{"focus", "show-pointer", "write-to-disk", "skip-confirmation", "delay-ms", "filter", "scope"}
 var niriActionProperties = map[string]struct{}{
 	"focus":             {},
 	"show-pointer":      {},
 	"write-to-disk":     {},
 	"skip-confirmation": {},
 	"delay-ms":          {},
+	"filter":            {},
+	"scope":             {},
 }
 
 func NewNiriProvider(configDir string) *NiriProvider {
@@ -466,7 +468,7 @@ func (n *NiriProvider) buildActionNode(action string) *document.Node {
 }
 
 func (n *NiriProvider) isNiriActionPropertyToken(part niriActionPart) bool {
-	if part.quoted || !strings.Contains(part.value, "=") {
+	if !strings.Contains(part.value, "=") {
 		return false
 	}
 	key, _, ok := strings.Cut(part.value, "=")

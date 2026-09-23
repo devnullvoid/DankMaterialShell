@@ -322,6 +322,81 @@ Singleton {
         cheatsheetProcess.running = true;
     }
 
+    function canExecuteAction(action) {
+        if (!action)
+            return false;
+        if (action.startsWith("spawn ") || action.startsWith("spawn_shell ") || action.startsWith("spawn-sh ") || action.startsWith("exec "))
+            return true;
+        const provider = currentProvider || cheatsheetProvider;
+        if (provider === "niri") {
+            const base = action.trim().split(/\s+/)[0];
+            if (base === "next-window" || base === "previous-window")
+                return false;
+        }
+        return provider === "niri" || provider === "hyprland" || provider === "mangowc";
+    }
+
+    function executeAction(action) {
+        if (!action)
+            return false;
+        log.info("Executing keybind action:", action);
+
+        if (action.startsWith("spawn ") || action.startsWith("spawn_shell ") || action.startsWith("spawn-sh ") || action.startsWith("exec ")) {
+            let cmd = action;
+            if (cmd.startsWith("spawn "))
+                cmd = cmd.slice(6).trim();
+            else if (cmd.startsWith("spawn_shell "))
+                cmd = cmd.slice(12).trim();
+            else if (cmd.startsWith("spawn-sh ")) {
+                cmd = cmd.slice(9).trim();
+                if ((cmd.startsWith('"') && cmd.endsWith('"')) || (cmd.startsWith("'") && cmd.endsWith("'")))
+                    cmd = cmd.slice(1, -1);
+            } else if (cmd.startsWith("exec "))
+                cmd = cmd.slice(5).trim();
+
+            Quickshell.execDetached(["sh", "-c", cmd]);
+            return true;
+        }
+
+        const provider = currentProvider || cheatsheetProvider;
+        if (provider === "niri") {
+            const parts = action.trim().split(/\s+/);
+            if (parts.length === 0 || parts[0] === "next-window" || parts[0] === "previous-window")
+                return false;
+
+            const cmdParts = [];
+            for (let i = 0; i < parts.length; i++) {
+                const part = parts[i];
+                const eqIdx = part.indexOf("=");
+                if (eqIdx !== -1) {
+                    const key = part.slice(0, eqIdx);
+                    const val = part.slice(eqIdx + 1).replace(/^["']|["']$/g, "");
+                    if (key === "skip-confirmation") {
+                        if (val === "true")
+                            cmdParts.push("--skip-confirmation");
+                    } else {
+                        cmdParts.push("--" + key + "=" + val);
+                    }
+                } else {
+                    cmdParts.push(part);
+                }
+            }
+            Quickshell.execDetached(["sh", "-c", "niri msg action " + cmdParts.join(" ")]);
+            return true;
+        }
+        if (provider === "hyprland") {
+            Quickshell.execDetached(["sh", "-c", "hyprctl dispatch " + action]);
+            return true;
+        }
+        if (provider === "mangowc") {
+            const mmsgParams = action.trim().split(/\s+/).join(",");
+            Quickshell.execDetached(["sh", "-c", "mmsg -d " + mmsgParams]);
+            return true;
+        }
+
+        return false;
+    }
+
     function loadBinds(showLoading) {
         if (currentProvider === "aqueous") {
             _loadPending = true;
