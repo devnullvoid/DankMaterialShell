@@ -536,6 +536,25 @@ DankFloatingWindow {
         }
     }
 
+    component TriCheckboxRow: DankButton {
+        property string label: ""
+        property int triState: 0
+        readonly property bool forcedOff: triState === 2
+
+        text: forcedOff ? label + ": " + I18n.tr("Off") : label
+        maximumWidth: parent.width
+        wrapText: true
+        iconName: triState === 1 ? "check_box" : forcedOff ? "disabled_by_default" : "check_box_outline_blank"
+        backgroundColor: triState === 0 ? "transparent" : forcedOff ? Theme.errorContainer : Theme.secondaryContainer
+        textColor: triState === 0 ? Theme.onSurface : forcedOff ? Theme.onErrorContainer : Theme.onSecondaryContainer
+        shape: triState === 0 ? "square" : "round"
+        checkable: true
+        checked: triState !== 0
+        Accessible.role: Accessible.CheckBox
+        Accessible.checked: triState === 1
+        onClicked: triState = (triState + 1) % 3
+    }
+
     component MatchCond: StyledButton {
         id: mc
         property string label: ""
@@ -832,19 +851,13 @@ DankFloatingWindow {
 
             Flow {
                 width: parent.width
-                spacing: Theme.spacingS
-                visible: isNiri
-
-                MatchCond {
-                    id: floatingCond
-                    label: I18n.tr("Float")
-                }
-            }
-
-            Flow {
-                width: parent.width
                 spacing: Theme.spacingL
 
+                TriCheckboxRow {
+                    id: floatingCond
+                    label: I18n.tr("Float")
+                    visible: isNiri
+                }
                 CheckboxRow {
                     id: floatingToggle
                     label: I18n.tr("Float")

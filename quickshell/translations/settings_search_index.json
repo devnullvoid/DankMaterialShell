@@ -9461,6 +9461,14 @@
     "optionFile": "KeyboardLayoutOptions.qml"
   },
   {
+    "section": "barWidgetOption:ClockOptions.qml:3",
+    "label": "Notification badge",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "ClockOptions.qml"
+  },
+  {
     "section": "barWidgetOption:BatteryOptions.qml:2",
     "label": "Only on battery",
     "tabIndex": 22,
@@ -9701,7 +9709,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:ClockOptions.qml:3",
+    "section": "barWidgetOption:ClockOptions.qml:4",
     "label": "Time & weather",
     "tabIndex": 22,
     "keywords": [],

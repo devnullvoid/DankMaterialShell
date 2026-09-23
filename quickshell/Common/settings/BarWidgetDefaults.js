@@ -60,7 +60,8 @@ var DEFAULTS = {
     },
     clock: {
         clockCompactMode: false,
-        clockDateOrder: "timeFirst"
+        clockDateOrder: "timeFirst",
+        clockNotificationBadge: false
     },
     music: {
         mediaSize: 1,
