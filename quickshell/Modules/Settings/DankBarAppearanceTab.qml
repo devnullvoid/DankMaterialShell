@@ -7,8 +7,6 @@ import qs.Modules.Settings.Widgets
 Item {
     id: root
 
-    readonly property var barLengthModes: ["full", "percent", "fit"]
-
     LayoutMirroring.enabled: I18n.isRtl
     LayoutMirroring.childrenInherit: true
 
@@ -19,9 +17,12 @@ Item {
     readonly property var paletteValues: ["default", "bright", "dim"]
     readonly property var batteryStyleValues: ["solid", "outline", "ring"]
     readonly property var satellitePositionValues: ["island", "edges"]
-    readonly property bool isDot: SettingsData.isDotBarConfig(bar.selectedBarConfig)
+    readonly property var clockDisplayValues: ["time", "date", "both"]
+    readonly property var systemLevelDisplayValues: ["icon", "percentage", "both"]
+    readonly property var statusContentValues: ["battery", "connectivity"]
     readonly property bool selectedIslandEnabled: bar.selectedBarIsIsland && (bar.selectedBarConfig?.enabled ?? false)
     readonly property bool selectedIslandFree: bar.selectedBarIsIsland && SettingsData.islandFreePlacement(bar.selectedBarConfig)
+    readonly property bool homeBatteryShown: root.selectedIslandEnabled && SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "status") && BatteryService.batteryAvailable && SettingsData.islandHomeStatusContent(bar.selectedBarConfig) === "battery"
     readonly property int frameInsetPaddingDisplay: Math.round(SettingsData.frameBarContentGap)
 
     function valueIndex(values, value, fallback) {
@@ -41,7 +42,7 @@ Item {
             title: I18n.tr("Frame")
             settingKey: "frameBorder"
             collapsible: true
-            visible: !root.isDot && SettingsData.frameEnabled
+            visible: SettingsData.frameEnabled
 
             SettingsSliderRow {
                 settingKey: "frameRounding"
@@ -137,11 +138,10 @@ Item {
 
         SettingsCard {
             iconName: "rounded_corner"
-            title: !root.isDot ? I18n.tr("Bar") : I18n.tr("Dot", "bar layout: free-floating dot that opens island activities")
+            title: I18n.tr("Surface")
             settingKey: "barCorners"
-            tags: ["background", "opacity", "corners", "rounded", "goth", "shadow"]
-            // Frame styling never reaches the dot's surface, which always paints its own palette and background.
-            visible: (bar.selectedBarConfig?.enabled ?? false) && (root.isDot || !bar.selectedBarFrameStyled)
+            tags: ["background", "opacity", "corners", "rounded", "goth", "shadow", "palette", "contrast"]
+            visible: (bar.selectedBarConfig?.enabled ?? false) && !bar.selectedBarFrameStyled
 
             SettingsButtonGroupRow {
                 settingKey: "islandPalette"
@@ -169,40 +169,9 @@ Item {
                 onToggled: checked => bar.apply("islandHighContrast", checked)
             }
 
-            SettingsButtonGroupRow {
-                settingKey: "islandBatteryStyle"
-                tags: ["island", "battery", "gauge", "solid", "outline", "ring", "circle", "appearance"]
-                resetStore: bar
-                resetKeys: ["islandBatteryStyle"]
-                text: I18n.tr("Battery style", "island settings: battery meter style row")
-                visible: bar.selectedBarIsIsland && !root.isDot && SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "status") && BatteryService.batteryAvailable && SettingsData.islandHomeStatusContent(bar.selectedBarConfig) === "battery"
-                model: [I18n.tr("Solid", "island settings: filled battery meter style"), I18n.tr("Outline", "island settings: outlined battery meter style"), I18n.tr("Circle", "island settings: circular battery meter style")]
-                currentIndex: root.valueIndex(root.batteryStyleValues, bar.islandSetting("islandBatteryStyle"), "solid")
-                onSelectionChanged: (index, selected) => {
-                    if (selected)
-                        bar.apply("islandBatteryStyle", root.batteryStyleValues[index] ?? "solid");
-                }
-            }
-
-            SettingsButtonGroupRow {
-                settingKey: "islandBatteryColorMode"
-                tags: ["island", "battery", "color", "level", "theme", "meter", "accent", "green", "red"]
-                resetStore: bar
-                resetKeys: ["batteryColorMode"]
-                text: I18n.tr("Battery")
-                visible: bar.selectedBarIsIsland && !root.isDot && SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "status") && BatteryService.batteryAvailable && SettingsData.islandHomeStatusContent(bar.selectedBarConfig) === "battery"
-                model: [I18n.tr("Theme", "battery settings: theme accent indicator colors"), I18n.tr("Level", "battery settings: charge level indicator colors")]
-                currentIndex: (bar.selectedBarConfig?.batteryColorMode ?? "theme") === "level" ? 1 : 0
-                onSelectionChanged: (index, selected) => {
-                    if (selected)
-                        bar.apply("batteryColorMode", index === 1 ? "level" : "theme");
-                }
-            }
-
             SurfaceColorRow {
                 settingKey: "barSurfaceColor"
                 tags: ["background", "color", "surface", "bar", "material"]
-                visible: root.isDot || !bar.selectedBarFrameStyled
                 resetStore: bar
                 resetKeys: ["surfaceColor", "surfaceCustomColor"]
                 text: I18n.tr("Background")
@@ -215,44 +184,11 @@ Item {
             }
 
             SettingsControlledBy {
-                visible: !root.isDot && !bar.selectedBarFrameStyled && !bar.islandOwnsSelectedBarTop
+                visible: !bar.islandOwnsSelectedBarTop
                 target: "surfaces"
                 parentModal: root.parentModal
                 section: "surfaceOpacity_bar_" + bar.selectedBarId
                 settingLabel: I18n.tr("Opacity")
-            }
-
-            SettingsSliderRow {
-                settingKey: "dotOpacity"
-                tags: ["dot", "opacity", "transparency", "background"]
-                visible: root.isDot
-                resetStore: bar
-                resetKeys: ["transparency"]
-                text: I18n.tr("Opacity")
-                minimum: 0
-                maximum: 100
-                step: 1
-                value: Math.round(SettingsData.barTransparency(bar.selectedBarConfig) * 100)
-                onSliderDragFinished: finalValue => SettingsData.updateBarConfig(bar.selectedBarId, {
-                        followInterfaceStyle: false,
-                        transparency: finalValue / 100
-                    })
-            }
-
-            SettingsSliderRow {
-                settingKey: "islandFreeIdleOpacity"
-                tags: ["island", "free", "dot", "idle", "opacity", "fade"]
-                visible: root.isDot
-                resetStore: bar
-                resetKeys: ["islandFreeIdleOpacity"]
-                text: I18n.tr("Idle opacity", "island settings: dot opacity while idle")
-                unit: "%"
-                minimum: 5
-                maximum: 100
-                step: 1
-                value: Math.round(bar.islandSetting("islandFreeIdleOpacity") * 100)
-                enabled: bar.islandSetting("islandFreeIdleDelay") > 0
-                onSliderValueChanged: value => bar.apply("islandFreeIdleOpacity", value / 100)
             }
 
             SettingsButtonGroupRow {
@@ -386,23 +322,7 @@ Item {
             title: I18n.tr("Size & spacing")
             settingKey: "barSpacing"
             tags: ["size", "scale", "font", "icon", "spacing", "padding", "inset", "length"]
-            visible: (bar.selectedBarConfig?.enabled ?? false) && !root.isDot
-
-            SettingsSliderRow {
-                settingKey: "islandReserveThickness"
-                tags: ["island", "placement", "reservation", "exclusive", "height", "width", "thickness"]
-                visible: bar.selectedBarIsIsland && !root.selectedIslandFree
-                resetStore: bar
-                resetKeys: ["islandReserveThickness"]
-                text: bar.selectedBarIsVertical ? I18n.tr("Reserved width", "island settings: reserved strip width slider") : I18n.tr("Reserved height", "island settings: reserved strip height slider")
-                unit: "px"
-                minimum: 24
-                maximum: 128
-                step: 1
-                value: bar.islandSetting("islandReserveThickness")
-                enabled: !bar.islandSetting("islandFloating")
-                onSliderValueChanged: value => bar.apply("islandReserveThickness", value)
-            }
+            visible: bar.selectedBarConfig?.enabled ?? false
 
             SettingsSliderRow {
                 settingKey: "islandCompactThickness"
@@ -417,36 +337,6 @@ Item {
                 step: 1
                 value: bar.islandSetting("islandCompactThickness")
                 onSliderValueChanged: value => bar.apply("islandCompactThickness", value)
-            }
-
-            SettingsSliderRow {
-                settingKey: "islandOuterGap"
-                tags: ["island", "placement", "gap", "top", "margin"]
-                visible: bar.selectedBarIsIsland && !root.selectedIslandFree
-                resetStore: bar
-                resetKeys: ["islandOuterGap"]
-                text: I18n.tr("Outer gap", "island settings: gap between screen edge and island")
-                unit: "px"
-                minimum: 0
-                maximum: 48
-                step: 1
-                value: bar.islandSetting("islandOuterGap")
-                onSliderValueChanged: value => bar.apply("islandOuterGap", value)
-            }
-
-            SettingsSliderRow {
-                settingKey: "islandAlongOffset"
-                tags: ["island", "placement", "horizontal", "vertical", "offset", "center"]
-                visible: bar.selectedBarIsIsland && !root.selectedIslandFree
-                resetStore: bar
-                resetKeys: ["islandAlongOffset"]
-                text: bar.selectedBarIsVertical ? I18n.tr("Vertical offset", "island settings: vertical offset slider") : I18n.tr("Horizontal offset", "island settings: horizontal offset slider")
-                unit: "px"
-                minimum: -600
-                maximum: 600
-                step: 1
-                value: bar.islandSetting("islandAlongOffset")
-                onSliderValueChanged: value => bar.apply("islandAlongOffset", value)
             }
 
             SettingsSliderRow {
@@ -508,21 +398,35 @@ Item {
                     })
             }
 
-            SettingsButtonGroupRow {
+            SettingsRow {
                 settingKey: "barLengthMode"
                 tags: ["bar", "width", "height", "length", "fit", "full", "custom", "percent", "compact", "widgets", "hug", "shrink"]
-                text: bar.selectedBarIsVertical ? I18n.tr("Height") : I18n.tr("Width")
+                title: bar.selectedBarIsVertical ? I18n.tr("Height") : I18n.tr("Width")
                 visible: !bar.selectedBarFrameStyled && !bar.islandOwnsSelectedBarTop
                 resetStore: bar
                 resetKeys: ["barLengthMode", "barLengthPercent"]
-                model: [I18n.tr("Full", "bar length option, the bar spans the whole edge"), I18n.tr("Custom", "bar length option, the bar spans a percentage of the edge"), I18n.tr("Fit", "bar length option, the bar spans only its widgets")]
-                currentIndex: Math.max(0, root.barLengthModes.indexOf(bar.selectedBarConfig?.barLengthMode ?? "full"))
-                onSelectionChanged: (index, selected) => {
-                    if (!selected)
-                        return;
-                    SettingsData.updateBarConfig(bar.selectedBarId, {
-                        barLengthMode: root.barLengthModes[index] ?? "full"
-                    });
+
+                body: SettingsLayoutPicker {
+                    barLength: true
+                    vertical: bar.selectedBarIsVertical
+                    choices: [
+                        {
+                            key: "full",
+                            label: I18n.tr("Full", "bar length option, the bar spans the whole edge")
+                        },
+                        {
+                            key: "percent",
+                            label: I18n.tr("Custom", "bar length option, the bar spans a percentage of the edge")
+                        },
+                        {
+                            key: "fit",
+                            label: I18n.tr("Fit", "bar length option, the bar spans only its widgets")
+                        }
+                    ]
+                    selectedKey: bar.selectedBarConfig?.barLengthMode ?? "full"
+                    onSelected: key => SettingsData.updateBarConfig(bar.selectedBarId, {
+                            barLengthMode: key
+                        })
                 }
             }
 
@@ -591,12 +495,132 @@ Item {
         }
 
         SettingsCard {
+            iconName: "home"
+            title: I18n.tr("Home compact", "island settings: home face card title")
+            settingKey: "islandActivities"
+            tags: ["island", "home", "compact", "clock", "volume", "brightness", "battery", "pill"]
+            visible: root.selectedIslandEnabled
+
+            SettingsRow {
+                title: I18n.tr("Layout", "noun, settings section title for arrangement options")
+
+                DankButton {
+                    text: I18n.tr("Bar widgets")
+                    iconName: "widgets"
+                    onClicked: {
+                        if (!root.parentModal)
+                            return;
+                        SettingsSearchService.navigateToSection("islandHomeLayout");
+                        root.parentModal.navigateTo("dankbar_widgets");
+                    }
+                }
+            }
+
+            SettingsButtonGroupRow {
+                settingKey: "islandHomeClockDisplay"
+                tags: ["island", "home", "compact", "clock", "time", "date"]
+                resetStore: bar
+                resetKeys: ["islandHomeClockDisplay"]
+                text: I18n.tr("Clock style", "island settings: clock display mode row")
+                model: [I18n.tr("Time", "island settings: clock shows time only"), I18n.tr("Date", "island settings: clock shows date only"), I18n.tr("Both", "island settings: clock shows time and date")]
+                currentIndex: root.valueIndex(root.clockDisplayValues, bar.islandSetting("islandHomeClockDisplay"), "both")
+                onSelectionChanged: (index, selected) => {
+                    if (selected)
+                        bar.apply("islandHomeClockDisplay", root.clockDisplayValues[index] ?? "both");
+                }
+            }
+
+            SettingsButtonGroupRow {
+                settingKey: "islandHomeVolumeDisplay"
+                tags: ["island", "home", "compact", "volume", "icon", "percentage"]
+                resetStore: bar
+                resetKeys: ["islandHomeVolumeDisplay"]
+                text: I18n.tr("Volume style", "island settings: volume display mode row")
+                visible: SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "volume")
+                model: [I18n.tr("Icon", "island settings: level shown as icon only"), I18n.tr("Percentage", "island settings: level shown as percentage only"), I18n.tr("Both", "island settings: level shown as icon and percentage")]
+                currentIndex: root.valueIndex(root.systemLevelDisplayValues, bar.islandSetting("islandHomeVolumeDisplay"), "both")
+                onSelectionChanged: (index, selected) => {
+                    if (selected)
+                        bar.apply("islandHomeVolumeDisplay", root.systemLevelDisplayValues[index] ?? "both");
+                }
+            }
+
+            SettingsButtonGroupRow {
+                settingKey: "islandHomeBrightnessDisplay"
+                tags: ["island", "home", "compact", "brightness", "icon", "percentage"]
+                resetStore: bar
+                resetKeys: ["islandHomeBrightnessDisplay"]
+                text: I18n.tr("Brightness style", "island settings: brightness display mode row")
+                visible: SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "brightness")
+                model: [I18n.tr("Icon", "island settings: level shown as icon only"), I18n.tr("Percentage", "island settings: level shown as percentage only"), I18n.tr("Both", "island settings: level shown as icon and percentage")]
+                currentIndex: root.valueIndex(root.systemLevelDisplayValues, bar.islandSetting("islandHomeBrightnessDisplay"), "both")
+                onSelectionChanged: (index, selected) => {
+                    if (selected)
+                        bar.apply("islandHomeBrightnessDisplay", root.systemLevelDisplayValues[index] ?? "both");
+                }
+            }
+
+            SettingsButtonGroupRow {
+                settingKey: "islandHomeStatusContent"
+                tags: ["island", "home", "compact", "status", "battery", "wifi", "bluetooth", "connectivity"]
+                text: I18n.tr("Control Center", "island settings: status group content row")
+                visible: SettingsData.islandHomeGroupEnabled(bar.selectedBarConfig, "status")
+                model: [I18n.tr("Battery", "island settings: status group battery content"), I18n.tr("Wi-Fi & Bluetooth", "island settings: status group connectivity content")]
+                currentIndex: root.valueIndex(root.statusContentValues, SettingsData.islandHomeStatusContent(bar.selectedBarConfig), "battery")
+                onSelectionChanged: (index, selected) => {
+                    if (selected)
+                        bar.apply("islandHomeStatusContent", root.statusContentValues[index] ?? "battery");
+                }
+            }
+
+            SettingsButtonGroupRow {
+                settingKey: "islandBatteryStyle"
+                tags: ["island", "battery", "gauge", "solid", "outline", "ring", "circle", "appearance"]
+                resetStore: bar
+                resetKeys: ["islandBatteryStyle"]
+                text: I18n.tr("Battery style", "island settings: battery meter style row")
+                visible: root.homeBatteryShown
+                model: [I18n.tr("Solid", "island settings: filled battery meter style"), I18n.tr("Outline", "island settings: outlined battery meter style"), I18n.tr("Circle", "island settings: circular battery meter style")]
+                currentIndex: root.valueIndex(root.batteryStyleValues, bar.islandSetting("islandBatteryStyle"), "solid")
+                onSelectionChanged: (index, selected) => {
+                    if (selected)
+                        bar.apply("islandBatteryStyle", root.batteryStyleValues[index] ?? "solid");
+                }
+            }
+
+            SettingsButtonGroupRow {
+                settingKey: "islandBatteryColorMode"
+                tags: ["island", "battery", "color", "level", "theme", "meter", "accent", "green", "red"]
+                resetStore: bar
+                resetKeys: ["batteryColorMode"]
+                text: I18n.tr("Battery")
+                visible: root.homeBatteryShown
+                model: [I18n.tr("Theme", "battery settings: theme accent indicator colors"), I18n.tr("Level", "battery settings: charge level indicator colors")]
+                currentIndex: (bar.selectedBarConfig?.batteryColorMode ?? "theme") === "level" ? 1 : 0
+                onSelectionChanged: (index, selected) => {
+                    if (selected)
+                        bar.apply("batteryColorMode", index === 1 ? "level" : "theme");
+                }
+            }
+
+            SettingsToggleRow {
+                settingKey: "islandHomeCompactTight"
+                tags: ["island", "home", "compact", "narrow", "width", "height", "clock"]
+                resetStore: bar
+                resetKeys: ["islandHomeCompactTight"]
+                text: I18n.tr("Compact pill", "island settings: tighter home pill toggle")
+                checked: bar.islandSetting("islandHomeCompactTight")
+                onToggled: checked => bar.apply("islandHomeCompactTight", checked)
+            }
+        }
+
+        SettingsCard {
             iconName: "widgets"
             title: I18n.tr("Satellites", "island settings: satellite widgets card title")
             settingKey: "islandSatellites"
             collapsible: true
             expanded: true
-            visible: root.selectedIslandEnabled && !root.isDot
+            visible: root.selectedIslandEnabled
 
             SettingsToggleRow {
                 settingKey: "islandSatellitesEnabled"
@@ -699,7 +723,7 @@ Item {
             title: I18n.tr("Widgets")
             settingKey: "barWidgets"
             tags: ["widget", "style", "pills", "segments", "opacity", "padding", "maximize"]
-            visible: (bar.selectedBarConfig?.enabled ?? false) && !root.isDot
+            visible: bar.selectedBarConfig?.enabled ?? false
 
             SettingsRow {
                 settingKey: "barWidgetStyle"
@@ -801,7 +825,7 @@ Item {
             settingKey: "barWidgetOutline"
             iconName: "highlight"
             title: I18n.tr("Widget outline")
-            visible: (bar.selectedBarConfig?.enabled ?? false) && !root.isDot
+            visible: bar.selectedBarConfig?.enabled ?? false
             enabled: root.widgetBackgroundEnabled
             resetStore: bar
             resetKeys: ["widgetOutlineEnabled"]
@@ -859,7 +883,6 @@ Item {
             title: I18n.tr("Widget colors")
             settingKey: "widgetStyling"
             tags: ["widget", "background", "color", "colorful", "text", "all", "bars"]
-            visible: !root.isDot
 
             WidgetTextStyleRow {}
 

@@ -155,6 +155,10 @@ FocusScope {
 
                 running: loader.status === Loader.Ready && !host.presented
                 onTriggered: {
+                    if (loader.item?.settling) {
+                        stableFrames = 0;
+                        return;
+                    }
                     const h = loader.item?.contentHeight ?? loader.item?.height ?? 0;
                     if (h === lastHeight)
                         stableFrames++;
@@ -186,7 +190,7 @@ FocusScope {
             "window_rules": "WindowRulesTab.qml",
             "dankbar_settings": "DankBarTab.qml",
             "dankbar_appearance": "DankBarAppearanceTab.qml",
-            "dankbar_advanced": "DankBarAdvancedTab.qml",
+            "dankbar_dot": "DankDotTab.qml",
             "bar_widget": "BarWidgetTab.qml",
             "compositor_layout": "CompositorLayoutTab.qml",
             "dock_general": "DockGeneralTab.qml",

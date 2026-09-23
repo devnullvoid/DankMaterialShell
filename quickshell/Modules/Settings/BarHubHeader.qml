@@ -11,23 +11,28 @@ Column {
 
     property var parentModal: null
     property string confirmingRemoveId: ""
-    property string editingBarId: ""
+    property bool renaming: false
     property string renameDraft: ""
-    readonly property bool dotSelected: SettingsData.isDotBarConfig(bar.selectedBarConfig)
     readonly property bool dotEnabled: SettingsData.dotBarConfig?.enabled ?? false
+    readonly property var barPages: ["dankbar_settings", "dankbar_appearance"].map(id => SettingsTabs.page(id)).filter(page => page)
 
     BarSelectionState {
         id: bar
 
         onSelectedBarIdChanged: {
-            root.editingBarId = "";
+            root.renaming = false;
             root.confirmingRemoveId = "";
         }
     }
 
+    function startRename() {
+        renameDraft = bar.selectedBarName;
+        renaming = true;
+    }
+
     function finishRename(value) {
-        const id = editingBarId;
-        editingBarId = "";
+        renaming = false;
+        const id = bar.selectedBarId;
         const name = value.trim();
         if (!id || !name || SettingsData.barConfigs.some(config => config.id !== id && config.name === name))
             return;
@@ -83,18 +88,8 @@ Column {
         });
     }
 
-    function setDotEnabled(enabled) {
-        SettingsData.setDotEnabled(enabled, bar.selectedBarId);
-        if (enabled) {
-            bar.select(SettingsData.dotBarConfig?.id ?? bar.selectedBarId);
-            return;
-        }
-        if (dotSelected)
-            bar.select(SettingsData.barConfigs.find(config => config.enabled && !SettingsData.isDotBarConfig(config))?.id ?? "default");
-    }
-
     function barTitle(config) {
-        return config.name || I18n.tr("Bar %1", "numbered name for an unnamed bar, %1 is its position").arg(SettingsData.barConfigs.indexOf(config) + 1);
+        return config.name || I18n.tr("Bar %1", "numbered name for an unnamed bar, %1 is its position").arg(SettingsData.barConfigs.findIndex(candidate => candidate.id === config.id) + 1);
     }
 
     function barSummary(config) {
@@ -146,34 +141,40 @@ Column {
                 onDeleteRequested: root.deleteBar(modelData.id)
             }
         }
+    }
 
-        SettingsRow {
-            title: I18n.tr("Name")
-            subtitle: root.editingBarId ? "" : bar.selectedBarName
-            visible: !!bar.selectedBarConfig && !root.dotSelected
-
+    SettingsCard {
+        iconName: bar.selectedBarIsIsland ? "view_in_ar" : "toolbar"
+        title: bar.selectedBarName
+        settingKey: "barLayout"
+        tags: ["layout", "standard", "frame", "island", "mode", "bar", "name", "rename"]
+        visible: !!bar.selectedBarConfig
+        headerActions: [
             DankActionButton {
-                iconName: root.editingBarId ? "check" : "edit"
-                Accessible.name: root.editingBarId ? I18n.tr("Save") : I18n.tr("Rename")
+                iconName: root.renaming ? "check" : "edit"
+                Accessible.name: root.renaming ? I18n.tr("Save") : I18n.tr("Rename")
                 onClicked: {
-                    if (root.editingBarId) {
+                    if (root.renaming) {
                         root.finishRename(root.renameDraft);
                         return;
                     }
-                    root.renameDraft = bar.selectedBarName;
-                    root.editingBarId = bar.selectedBarId;
+                    root.startRename();
                 }
-            }
+            },
             DankActionButton {
-                visible: root.editingBarId !== ""
+                visible: root.renaming
                 iconName: "close"
                 Accessible.name: I18n.tr("Cancel")
-                onClicked: root.editingBarId = ""
+                onClicked: root.renaming = false
             }
+        ]
+
+        SettingsRow {
+            visible: root.renaming
 
             body: Loader {
                 width: parent.width
-                active: root.editingBarId !== ""
+                active: root.renaming
                 visible: active
                 sourceComponent: DankTextField {
                     id: renameField
@@ -183,7 +184,7 @@ Column {
                     text: root.renameDraft
                     onTextEdited: root.renameDraft = renameField.text
                     onAccepted: root.finishRename(renameField.text)
-                    Keys.onEscapePressed: root.editingBarId = ""
+                    Keys.onEscapePressed: root.renaming = false
                     Component.onCompleted: {
                         renameField.forceActiveFocus();
                         renameField.selectAll();
@@ -191,28 +192,62 @@ Column {
                 }
             }
         }
+
+        SettingsRow {
+            title: I18n.tr("Layout", "noun, settings section title for arrangement options")
+
+            body: SettingsLayoutPicker {}
+        }
+
+        Repeater {
+            model: root.barPages
+
+            delegate: SettingsNavRow {
+                required property var modelData
+
+                iconName: modelData.icon
+                title: modelData.text
+                hint: modelData.hint ?? ""
+                onClicked: root.parentModal?.navigateTo(modelData.id)
+            }
+        }
     }
 
-    SettingsInstanceRow {
-        title: I18n.tr("Dot", "bar layout: free-floating dot that opens island activities")
-        summary: I18n.tr("A floating companion that works alongside any bar layout", "bar settings: what the dot is")
+    SettingsRow {
+        id: dotRow
+
         settingKey: "dotEnabled"
         tags: ["dot", "dankdot", "companion", "floating", "island", "enable"]
+        iconName: "blur_on"
+        iconColor: root.dotEnabled ? Theme.primary : Theme.onSurfaceVariant
+        title: I18n.tr("Dot", "bar layout: free-floating dot that opens island activities")
+        subtitle: I18n.tr("A floating companion that works alongside any bar layout", "bar settings: what the dot is")
         clickable: root.dotEnabled
-        selected: root.dotSelected
-        checked: root.dotEnabled
-        deletable: false
-        onClicked: bar.select(SettingsData.dotBarConfig.id)
-        onToggled: checked => root.setDotEnabled(checked)
-    }
+        onClicked: root.parentModal?.navigateTo("dankbar_dot")
 
-    SettingsCard {
-        iconName: "toolbar"
-        title: I18n.tr("Layout", "noun, settings section title for arrangement options")
-        settingKey: "barLayout"
-        visible: !root.dotSelected
-        tags: ["layout", "standard", "frame", "island", "mode", "bar"]
+        DankIcon {
+            name: "chevron_right"
+            size: Theme.iconSize
+            color: Theme.onSurfaceVariant
+            rotation: I18n.isRtl ? 180 : 0
+            visible: root.dotEnabled
+            anchors.verticalCenter: parent.verticalCenter
+        }
 
-        SettingsLayoutPicker {}
+        Rectangle {
+            width: Theme.dividerWidth
+            height: SettingsMetrics.splitDividerHeight
+            color: Theme.outlineVariant
+            visible: root.dotEnabled
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        DankToggle {
+            hideText: true
+            text: dotRow.title
+            checked: root.dotEnabled
+            anchors.verticalCenter: parent.verticalCenter
+            onToggled: value => SettingsData.setDotEnabled(value, bar.selectedBarId)
+        }
     }
 }

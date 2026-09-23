@@ -11,11 +11,13 @@ GridLayout {
 
     property bool edgePlacement: false
     property bool widgetStyle: false
+    property bool barLength: false
+    property bool vertical: false
     property var choices: barModes
     property string selectedKey: activeBarMode
     signal selected(string key)
     onSelected: key => {
-        if (!edgePlacement && !widgetStyle)
+        if (!edgePlacement && !widgetStyle && !barLength)
             applyBarMode(key);
     }
 
@@ -38,6 +40,11 @@ GridLayout {
     readonly property real previewAspect: 0.62
     readonly property real previewStripRatio: 0.55
     readonly property real previewIslandRatio: 0.42
+    readonly property var lengthPreviewRatios: ({
+            "full": 1,
+            "percent": 0.7,
+            "fit": 0.45
+        })
     readonly property real previewWidth: Math.round(Theme.iconSize * previewWidthRatio)
     readonly property real minimumCardWidth: previewWidth + Theme.spacingL * 2
     readonly property var targetConfig: {
@@ -169,6 +176,18 @@ GridLayout {
                         y: edge === SettingsData.Position.Bottom ? parent.height - height - screenPreview.edgePad : screenPreview.edgePad
                         width: vertical ? screenPreview.stripSize : parent.width - screenPreview.edgePad * 2
                         height: vertical ? parent.height - screenPreview.edgePad * 2 : screenPreview.stripSize
+                        radius: Theme.fullRadius(width, height)
+                        color: Theme.primary
+                    }
+
+                    Rectangle {
+                        readonly property real span: root.lengthPreviewRatios[modeCard.modelData.key] ?? 1
+                        readonly property real extent: (root.vertical ? parent.height : parent.width) - screenPreview.edgePad * 2
+                        visible: root.barLength
+                        x: root.vertical ? screenPreview.edgePad : Math.round((parent.width - width) / 2)
+                        y: root.vertical ? Math.round((parent.height - height) / 2) : screenPreview.edgePad
+                        width: root.vertical ? screenPreview.stripSize : Math.round(extent * span)
+                        height: root.vertical ? Math.round(extent * span) : screenPreview.stripSize
                         radius: Theme.fullRadius(width, height)
                         color: Theme.primary
                     }

@@ -106,7 +106,7 @@ TAB_INDEX_MAP = {
     "DockAppearanceTab.qml": 58,
     "DockAdvancedTab.qml": 59,
     "DankBarAppearanceTab.qml": 6,
-    "DankBarAdvancedTab.qml": 64,
+    "DankDotTab.qml": 65,
     "NetworkStatusTab.qml": 7,
     "NetworkEthernetTab.qml": 39,
     "NetworkWifiTab.qml": 40,
@@ -181,7 +181,7 @@ FILE_PAGE_MAP = {
 TAB_META_DEFAULT = ("Settings", None, None)
 
 # Frame and island rows live on the bar pages; ungated ones still need their feature on.
-BAR_TAB_FILES = {"DankBarTab.qml", "DankBarAppearanceTab.qml", "DankBarAdvancedTab.qml"}
+BAR_TAB_FILES = {"DankBarTab.qml", "DankBarAppearanceTab.qml"}
 
 SEARCHABLE_COMPONENTS = [
     "SettingsCard",
@@ -440,6 +440,8 @@ def find_settings_components(content, filename, wrappers, tab_meta, hub_meta):
                     condition_key = "frameEnabled"
                 elif setting_key.startswith("island"):
                     condition_key = "islandEnabled"
+            if filename == "DankDotTab.qml" and not condition_key and setting_key != "dotEnabled":
+                condition_key = "dotEnabled"
 
             category, parent_label, _ = page_meta if page_meta else tab_meta.get(tab_index, TAB_META_DEFAULT)
             enriched_keywords = enrich_keywords(label, description, category, tags, parent_label)

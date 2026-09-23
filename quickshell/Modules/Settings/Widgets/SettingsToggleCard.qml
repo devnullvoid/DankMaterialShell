@@ -19,6 +19,7 @@ Item {
     property string description: ""
     property string iconName: ""
     property bool checked: false
+    property bool userToggled: false
 
     property alias resetStore: header.resetStore
     property alias resetKeys: header.resetKeys
@@ -60,12 +61,30 @@ Item {
             checked: root.checked
             enabled: root.enabled
             paintBackground: false
-            onToggled: value => root.toggled(value)
+            onToggled: value => {
+                root.userToggled = true;
+                root.toggled(value);
+            }
         }
 
         Item {
             width: parent.width
-            height: root.hasContent ? expandedContent.height : 0
+            visible: root.checked || height > 0
+            height: root.checked && root.hasContent ? expandedContent.height : 0
+            clip: true
+
+            Behavior on height {
+                enabled: root.userToggled && Theme.currentAnimationSpeed !== SettingsData.AnimationSpeed.None
+                NumberAnimation {
+                    duration: SettingsMetrics.transitionDuration
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: Theme.expressiveCurves.expressiveDefaultSpatial
+                    onRunningChanged: {
+                        if (!running)
+                            root.userToggled = false;
+                    }
+                }
+            }
 
             Column {
                 id: expandedContent

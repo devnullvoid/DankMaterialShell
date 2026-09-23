@@ -86,12 +86,13 @@ Singleton {
             "id": "dankbar",
             "text": I18n.tr("Bar"),
             "icon": "toolbar",
-            "aliases": ["dot", "dankdot"],
             "hint": I18n.tr("Layout, position, appearance", "settings hub hint for the bar pages"),
             "hubHeader": "BarHubHeader",
             "children": [
                 {
                     "id": "dankbar_settings",
+                    "hidden": true,
+                    "titleFrom": "selectedBarGeneralTitle",
                     "aliases": ["dank_island", "island"],
                     "text": I18n.tr("General", "adjective, settings page and section title for general options"),
                     "icon": "tune",
@@ -100,6 +101,8 @@ Singleton {
                 },
                 {
                     "id": "dankbar_appearance",
+                    "hidden": true,
+                    "titleFrom": "selectedBarAppearanceTitle",
                     "aliases": ["frame"],
                     "text": I18n.tr("Appearance", "settings page and section title for visual options"),
                     "icon": "palette",
@@ -107,12 +110,13 @@ Singleton {
                     "hint": I18n.tr("Background, corners, spacing, widget style")
                 },
                 {
-                    "id": "dankbar_advanced",
-                    "advanced": true,
-                    "text": I18n.tr("Advanced"),
-                    "icon": "settings",
-                    "tabIndex": 64,
-                    "hint": I18n.tr("Layers, fullscreen, exclusive zone")
+                    "id": "dankbar_dot",
+                    "hidden": true,
+                    "aliases": ["dot", "dankdot"],
+                    "text": I18n.tr("Dot", "bar layout: free-floating dot that opens island activities"),
+                    "icon": "blur_on",
+                    "tabIndex": 65,
+                    "hint": I18n.tr("A floating companion that works alongside any bar layout", "bar settings: what the dot is")
                 }
             ]
         },
