@@ -461,7 +461,10 @@ Item {
     property bool _fitSettled: false
     property real effectiveSpacing: isIsland || (FrameTransitionState.effectiveFrameEnabled && usesFrameBarChrome) ? 0 : ((edgeAttached || (flattenForMaximizedWindow && hasMaximizedToplevel)) ? 0 : (barConfig?.spacing ?? 4))
 
-    Behavior on effectiveSpacing {
+    property real renderedSpacing: effectiveSpacing
+    readonly property real surfaceSpacing: Math.max(effectiveSpacing, renderedSpacing)
+
+    Behavior on renderedSpacing {
         enabled: (barWindow.hostWindow?.visible ?? false) && !SettingsData.reduceMotion
         NumberAnimation {
             duration: Theme.shortDuration
@@ -480,12 +483,12 @@ Item {
             return 0;
         const pad = Math.max(0, barConfig?.barLengthPadding ?? 0);
         const length = isVertical ? height : width;
-        return length > 0 ? Math.min(pad, Math.max(0, length / 2 - effectiveSpacing)) : pad;
+        return length > 0 ? Math.min(pad, Math.max(0, length / 2 - renderedSpacing)) : pad;
     }
     readonly property real fittedAvailableLength: {
         const length = isVertical ? topBarMouseArea.height : topBarMouseArea.width;
-        const startGap = isVertical && hasAdjacentTopBar ? 0 : effectiveSpacing;
-        const endGap = isVertical && hasAdjacentBottomBar ? 0 : effectiveSpacing;
+        const startGap = isVertical && hasAdjacentTopBar ? 0 : renderedSpacing;
+        const endGap = isVertical && hasAdjacentBottomBar ? 0 : renderedSpacing;
         return Math.max(0, length - startGap - endGap);
     }
     property real fittedLeadingPad: fitToWidgets ? Math.max(0, topBarContent.fittedLeadingPad) : 0
@@ -525,7 +528,7 @@ Item {
     readonly property real taskbarStartInset: SettingsData.taskbarInsetForEdge(screen, isVertical ? "top" : "left")
     readonly property real taskbarEndInset: SettingsData.taskbarInsetForEdge(screen, isVertical ? "bottom" : "right")
 
-    readonly property real barSurfaceThickness: Theme.px(effectiveBarThickness + effectiveSpacing + ((renderBarConfig?.gothCornersEnabled ?? false) && !hasMaximizedToplevel && spansEdge ? _wingR : 0), _dpr) + _shadowBuffer
+    readonly property real barSurfaceThickness: Theme.px(effectiveBarThickness + surfaceSpacing + ((renderBarConfig?.gothCornersEnabled ?? false) && !hasMaximizedToplevel && spansEdge ? _wingR : 0), _dpr) + _shadowBuffer
     readonly property real hostThickness: isIsland ? (islandHost?.hostThickness ?? islandStripThickness) : barSurfaceThickness
     readonly property real surfaceImplicitHeight: !isVertical ? hostThickness : 0
     readonly property real surfaceImplicitWidth: isVertical ? hostThickness : 0
@@ -603,7 +606,7 @@ Item {
     Item {
         id: inputMask
 
-        readonly property int barThickness: Theme.px(barWindow.isIsland ? barWindow.islandStripThickness : barWindow.effectiveBarThickness + barWindow.effectiveSpacing, barWindow._dpr)
+        readonly property int barThickness: Theme.px(barWindow.isIsland ? barWindow.islandStripThickness : barWindow.effectiveBarThickness + barWindow.surfaceSpacing, barWindow._dpr)
         readonly property bool inOverviewWithShow: CompositorService.overviewActiveOnScreen(barWindow.screenName) && barWindow.effectiveOpenOnOverview
         readonly property bool effectiveVisible: (barConfig?.visible ?? true) || inOverviewWithShow
         readonly property bool showing: effectiveVisible && (topBarCore.reveal || inOverviewWithShow)
@@ -857,8 +860,8 @@ Item {
             // Switching stretch anchors can leave stale dimensions after an orientation change
             x: barWindow.isIsland ? 0 : !barWindow.isVertical ? barWindow.taskbarStartInset : barPos === SettingsData.Position.Right ? parent.width - width : 0
             y: barWindow.isIsland ? 0 : barWindow.isVertical ? barWindow.taskbarStartInset : barPos === SettingsData.Position.Bottom ? parent.height - height : 0
-            width: barWindow.isIsland ? parent.width : barWindow.isVertical ? Theme.px(barWindow.effectiveBarThickness + barWindow.effectiveSpacing, barWindow._dpr) : Math.max(0, parent.width - barWindow.taskbarStartInset - barWindow.taskbarEndInset)
-            height: barWindow.isIsland ? parent.height : !barWindow.isVertical ? Theme.px(barWindow.effectiveBarThickness + barWindow.effectiveSpacing, barWindow._dpr) : Math.max(0, parent.height - barWindow.taskbarStartInset - barWindow.taskbarEndInset)
+            width: barWindow.isIsland ? parent.width : barWindow.isVertical ? Theme.px(barWindow.effectiveBarThickness + barWindow.surfaceSpacing, barWindow._dpr) : Math.max(0, parent.width - barWindow.taskbarStartInset - barWindow.taskbarEndInset)
+            height: barWindow.isIsland ? parent.height : !barWindow.isVertical ? Theme.px(barWindow.effectiveBarThickness + barWindow.surfaceSpacing, barWindow._dpr) : Math.max(0, parent.height - barWindow.taskbarStartInset - barWindow.taskbarEndInset)
             readonly property bool inOverview: CompositorService.overviewActiveOnScreen(barWindow.screenName) && barWindow.effectiveOpenOnOverview
             hoverEnabled: topBarCore.autoHide && !inOverview && !topBarCore.popoutPinsReveal
             acceptedButtons: barWindow.clickThroughEnabled || barWindow.isIsland ? Qt.NoButton : Qt.RightButton
@@ -902,7 +905,7 @@ Item {
 
                 Item {
                     id: barUnitInset
-                    property int spacingPx: Theme.px(barWindow.effectiveSpacing, barWindow._dpr)
+                    property int spacingPx: Theme.px(barWindow.renderedSpacing, barWindow._dpr)
                     readonly property int islandBandPx: Theme.px(barWindow.islandStripThickness, barWindow._dpr)
                     anchors.fill: parent
                     anchors.leftMargin: barWindow.isIsland ? (barWindow.isVertical ? (axis.edge === "left" ? 0 : parent.width - islandBandPx) : barWindow.taskbarStartInset) : !barWindow.isVertical ? spacingPx + barWindow.lengthPaddingStartPx : (axis.edge === "left" ? spacingPx : 0)

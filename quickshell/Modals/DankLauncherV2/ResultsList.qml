@@ -15,6 +15,7 @@ Item {
     property Item focusReturnTarget: null
     property int gridColumns: controller?.gridColumns ?? 4
     property bool leadingSectionHeaderAtBottom: false
+    property bool showEmptyState: true
     property var _visualModel: ({
             rows: [],
             indexMap: {},
@@ -30,6 +31,7 @@ Item {
     readonly property bool _bottomSectionHeaderActive: leadingSectionHeaderAtBottom && (controller?.sections?.length ?? 0) > 0
 
     readonly property real contentHeight: _visualModel.height
+    readonly property int pageRows: Math.max(1, Math.floor(height / (LauncherMetrics.rowHeight + LauncherMetrics.rowGap)))
 
     signal itemRightClicked(int index, var item, real mouseX, real mouseY)
 
@@ -612,7 +614,7 @@ Item {
 
     Item {
         anchors.centerIn: parent
-        visible: (!root.controller?.sections || root.controller.sections.length === 0) && !root.controller?.isFileSearching
+        visible: root.showEmptyState && (!root.controller?.sections || root.controller.sections.length === 0) && !root.controller?.isFileSearching
         width: emptyColumn.implicitWidth
         height: emptyColumn.implicitHeight
 
@@ -627,6 +629,8 @@ Item {
                 color: Theme.outlineButton
 
                 function getEmptyIcon() {
+                    if (root.controller?.activePluginId)
+                        return root.controller.getPluginMetadata(root.controller.activePluginId).icon;
                     var mode = root.controller?.searchMode ?? "all";
                     switch (mode) {
                     case "files":
@@ -657,6 +661,8 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
 
                 function getEmptyText() {
+                    if (root.controller?.activePluginName)
+                        return I18n.tr("No results found");
                     var mode = root.controller?.searchMode ?? "all";
                     var hasQuery = root.controller?.searchQuery?.length > 0;
 

@@ -11,7 +11,7 @@ FocusScope {
     required property var components
     property var model: []
     property var applicationStrip: null
-    readonly property real crossOverflow: surfaceContext.host?.animationHeadroom ?? 0
+    readonly property real crossOverflow: surfaceContext.host?.stripOverflow ?? 0
     property real availableSize: width
     property real spacing: Theme.spacingXS
     property bool fillAvailable: false

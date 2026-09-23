@@ -323,6 +323,22 @@ Singleton {
         });
     }
 
+    function keepUnchanged(previous, next) {
+        if (!Array.isArray(previous) || !Array.isArray(next))
+            return next;
+        const byContent = new Map();
+        for (const item of previous)
+            byContent.set(JSON.stringify(item), item);
+        let same = previous.length === next.length;
+        const merged = [];
+        for (let i = 0; i < next.length; i++) {
+            const item = byContent.get(JSON.stringify(next[i])) ?? next[i];
+            same = same && item === previous[i];
+            merged.push(item);
+        }
+        return same ? previous : merged;
+    }
+
     function updateState(state) {
         const previousConnecting = isConnecting;
         const previousConnectingSSID = connectingSSID;
@@ -336,9 +352,9 @@ Singleton {
         ethernetInterface = state.ethernetDevice || "";
         ethernetConnected = state.ethernetConnected || false;
         ethernetConnectionUuid = state.ethernetConnectionUuid || "";
-        ethernetDevices = state.ethernetDevices || [];
+        ethernetDevices = keepUnchanged(ethernetDevices, state.ethernetDevices || []);
 
-        wiredConnections = state.wiredConnections || [];
+        wiredConnections = keepUnchanged(wiredConnections, state.wiredConnections || []);
 
         cellularIP = state.cellularIP || "";
         cellularInterface = state.cellularDevice || "";
@@ -346,8 +362,8 @@ Singleton {
         cellularEnabled = state.cellularEnabled !== undefined ? state.cellularEnabled : true;
         cellularHardwareEnabled = state.cellularHardwareEnabled !== undefined ? state.cellularHardwareEnabled : true;
         cellularConnectionUuid = state.cellularConnectionUuid || "";
-        cellularDevices = state.cellularDevices || [];
-        cellularConnections = state.cellularConnections || [];
+        cellularDevices = keepUnchanged(cellularDevices, state.cellularDevices || []);
+        cellularConnections = keepUnchanged(cellularConnections, state.cellularConnections || []);
 
         wifiIP = state.wifiIP || "";
         wifiInterface = state.wifiDevice || "";
@@ -356,7 +372,7 @@ Singleton {
         wifiConnectionUuid = state.wifiConnectionUuid || "";
         wifiDevicePath = state.wifiDevicePath || "";
         activeAccessPointPath = state.activeAccessPointPath || "";
-        wifiDevices = state.wifiDevices || [];
+        wifiDevices = keepUnchanged(wifiDevices, state.wifiDevices || []);
         connectingDevice = state.connectingDevice || "";
 
         if (DMSService.apiVersion >= hotspotApiVersion) {
@@ -400,36 +416,37 @@ Singleton {
         wifiSignalStrength = state.wifiSignal || 0;
 
         if (state.wifiNetworks) {
-            wifiNetworks = state.wifiNetworks;
+            wifiNetworks = keepUnchanged(wifiNetworks, state.wifiNetworks);
         }
 
         if (state.wifiNetworks || state.savedWifiNetworks) {
             const hasSavedWifiState = DMSService.apiVersion >= savedWifiStateApiVersion && Array.isArray(state.savedWifiNetworks);
             const sourceSavedNetworks = hasSavedWifiState ? state.savedWifiNetworks : (state.wifiNetworks || []).filter(network => network.saved);
-            const saved = [];
-            const mapping = {};
-            for (const network of sourceSavedNetworks) {
-                const normalized = Object.assign({}, network, {
+            const normalized = sourceSavedNetworks.map(network => Object.assign({}, network, {
                     saved: true,
                     outOfRange: hasSavedWifiState ? network.outOfRange === true : false
-                });
-                saved.push(normalized);
-                if (network?.ssid)
-                    mapping[network.ssid] = network.ssid;
+                }));
+            const saved = keepUnchanged(savedWifiNetworks, normalized);
+            if (saved !== savedWifiNetworks) {
+                const mapping = {};
+                for (const network of saved) {
+                    if (network?.ssid)
+                        mapping[network.ssid] = network.ssid;
+                }
+                savedConnections = saved;
+                savedWifiNetworks = saved;
+                ssidToConnectionName = mapping;
             }
-            savedConnections = saved;
-            savedWifiNetworks = saved;
-            ssidToConnectionName = mapping;
 
             networksUpdated();
         }
 
         if (state.vpnProfiles) {
-            vpnProfiles = state.vpnProfiles;
+            vpnProfiles = keepUnchanged(vpnProfiles, state.vpnProfiles);
         }
 
         const previousVpnActive = vpnActive;
-        vpnActive = state.vpnActive || [];
+        vpnActive = keepUnchanged(vpnActive, state.vpnActive || []);
 
         if (vpnConnected && activeUuid) {
             lastConnectedVpnUuid = activeUuid;
@@ -752,17 +769,12 @@ Singleton {
                 savedConnections = savedConnections.filter(s => s.ssid !== ssid);
                 savedWifiNetworks = savedWifiNetworks.filter(s => s.ssid !== ssid);
 
-                const updated = [...wifiNetworks];
-                for (const network of updated) {
-                    if (network.ssid === ssid) {
-                        network.saved = false;
-                        if (network.connected) {
-                            network.connected = false;
-                            currentWifiSSID = "";
-                        }
-                    }
-                }
-                wifiNetworks = updated;
+                if (wifiNetworks.some(network => network.ssid === ssid && network.connected))
+                    currentWifiSSID = "";
+                wifiNetworks = wifiNetworks.map(network => network.ssid !== ssid ? network : Object.assign({}, network, {
+                        saved: false,
+                        connected: false
+                    }));
                 networksUpdated();
                 Qt.callLater(() => refreshSavedWifiNetworks());
             }

@@ -127,16 +127,10 @@ DankPopout {
             requestedWindow = "";
             expandedSection = pendingSection;
             pendingSection = "";
-            Qt.callLater(() => {
-                contentLoader.item?.forceActiveFocus();
-                if (NetworkService.activeService)
-                    NetworkService.activeService.autoRefreshEnabled = NetworkService.wifiEnabled;
-            });
+            Qt.callLater(() => contentLoader.item?.forceActiveFocus());
             return;
         }
         Qt.callLater(() => {
-            if (NetworkService.activeService)
-                NetworkService.activeService.autoRefreshEnabled = false;
             if (BluetoothService.adapter && BluetoothService.adapter.discovering)
                 BluetoothService.adapter.discovering = false;
         });

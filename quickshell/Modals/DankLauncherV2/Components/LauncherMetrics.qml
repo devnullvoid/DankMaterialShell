@@ -11,6 +11,7 @@ Singleton {
     readonly property real tileSize: Theme.launcherTileSize
     readonly property real tileGap: Theme.spacingXS
     readonly property real tileLabelHeight: Theme.spacingXL
+    readonly property real tileLabelBlockHeight: tileLabelMetrics.lineSpacing * 2
     readonly property real tileImageRatio: Theme.launcherImageRatio
     readonly property real pillHeight: Theme.listItemHeight
     readonly property real sectionHeight: Theme.buttonHeightXS + Theme.spacingXS * 2
@@ -19,7 +20,7 @@ Singleton {
     readonly property real previewWidth: Theme.listItemHeight
     readonly property real previewHeight: Theme.avatarSize
     readonly property real footerHeight: Theme.buttonHeightXS
-    readonly property real footerChipHeight: footerHeight - Theme.spacingXS * 2
+    readonly property real modeChipHeight: Theme.buttonHeightXS - Theme.spacingXS * 2
     readonly property int maxVisibleRows: Theme.launcherMaxVisibleRows
     readonly property real maxResultsHeight: maxVisibleRows * (rowHeight + rowGap) + sectionHeight
     readonly property real minSearchWidth: Theme.fieldDefaultWidth
@@ -27,7 +28,14 @@ Singleton {
     readonly property real screenMargin: Theme.launcherScreenMargin
     readonly property real spotlightWidth: Theme.launcherWidthWide
     readonly property real spotlightTopFraction: 0.33
-    readonly property real spotlightInset: Theme.spacingS
+    readonly property real spotlightInset: Theme.spacingM
+
+    FontMetrics {
+        id: tileLabelMetrics
+        font.pixelSize: Theme.fontSizeSmall
+        font.weight: Theme.fontWeightMedium
+        font.family: Theme.fontFamily
+    }
 
     function sizeWidth(size) {
         switch (size) {

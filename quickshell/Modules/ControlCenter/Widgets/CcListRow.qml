@@ -15,11 +15,13 @@ SettingsRow {
     rowColor: CcMetrics.rowColor
     iconColor: active ? Theme.primary : Theme.surfaceText
 
-    DankIcon {
-        name: "check"
-        size: Theme.iconSize
-        color: Theme.primary
-        visible: root.active && root.showActiveCheck
+    Loader {
         anchors.verticalCenter: parent.verticalCenter
+        active: root.active && root.showActiveCheck
+        sourceComponent: DankIcon {
+            name: "check"
+            size: Theme.iconSize
+            color: Theme.primary
+        }
     }
 }

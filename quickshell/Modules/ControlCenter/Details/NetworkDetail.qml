@@ -20,8 +20,15 @@ Item {
 
     readonly property string title: I18n.tr("Network")
 
-    Component.onCompleted: NetworkService.addRef()
-    Component.onDestruction: NetworkService.removeRef()
+    property bool transitioning: false
+    property bool holdsScanRef: false
+
+    Component.onCompleted: acquireScanRef()
+    Component.onDestruction: {
+        if (holdsScanRef)
+            NetworkService.removeRef();
+    }
+    onTransitioningChanged: acquireScanRef()
 
     readonly property bool hasEthernetAvailable: (NetworkService.ethernetDevices?.length ?? 0) > 0
     readonly property bool hasWifiAvailable: (NetworkService.wifiDevices?.length ?? 0) > 0
@@ -51,7 +58,7 @@ Item {
     readonly property bool showHotspotRow: wifiMode && NetworkService.hotspotAvailable && hotspotRelevant
     readonly property bool hotspotWorking: NetworkService.hotspotBusy || NetworkService.hotspotActivating
     readonly property var pinnedNetworks: QmlUtils.normalizePinList((CacheData.wifiNetworkPins || {})["preferredWifi"])
-    readonly property bool wifiScanningEmpty: wifiMode && NetworkService.wifiEnabled && !NetworkService.wifiToggling && NetworkService.wifiInterface && (NetworkService.wifiNetworks?.length ?? 0) < 1 && NetworkService.isScanning
+    readonly property bool wifiScanningEmpty: wifiMode && NetworkService.wifiEnabled && !NetworkService.wifiToggling && NetworkService.wifiInterface && (NetworkService.wifiNetworks?.length ?? 0) < 1 && (NetworkService.isScanning || transitioning)
     readonly property bool wifiListVisible: wifiMode && NetworkService.wifiEnabled && !NetworkService.wifiToggling && !wifiScanningEmpty
 
     readonly property int currentPreferenceIndex: {
@@ -98,6 +105,13 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             settingsTab: "network_" + root.currentConnectionType
         }
+    }
+
+    function acquireScanRef() {
+        if (transitioning || holdsScanRef)
+            return;
+        holdsScanRef = true;
+        NetworkService.addRef();
     }
 
     function dismissTransient() {
@@ -177,7 +191,6 @@ Item {
                 "action": () => NetworkService.forgetWifiNetwork(ssid)
             }
         ];
-        wifiListModel.frozen = true;
         wifiMenu.openAt(anchor);
     }
 
@@ -214,7 +227,7 @@ Item {
         id: wifiListModel
         objectProp: "ssid"
 
-        property bool frozen: false
+        readonly property bool frozen: wifiMenu.open || root.transitioning
         property var frozenNetworks: []
         readonly property var sortedNetworks: {
             const ssid = NetworkService.currentWifiSSID;
@@ -283,15 +296,21 @@ Item {
         }
     }
 
-    DankFlickable {
-        anchors.fill: parent
-        contentHeight: column.height
-        clip: true
+    DankListView {
+        id: pageList
 
-        Column {
-            id: column
-            width: parent.width
+        anchors.fill: parent
+        clip: true
+        spacing: Theme.groupedListGap
+        add: null
+        displaced: null
+        move: null
+        model: root.wifiListVisible ? wifiListModel : null
+
+        header: Column {
+            width: pageList.width
             spacing: CcMetrics.detailContentGap
+            bottomPadding: pageList.count > 0 ? CcMetrics.detailContentGap : 0
 
             DankButtonGroup {
                 readonly property var labelsByType: ({
@@ -410,92 +429,6 @@ Item {
             CcSectionLabel {
                 text: I18n.tr("Available networks")
                 visible: root.wifiListVisible
-            }
-
-            CcGroup {
-                visible: root.wifiListVisible
-
-                Repeater {
-                    model: wifiListModel
-
-                    CcListRow {
-                        id: wifiRow
-
-                        required property var modelData
-
-                        readonly property bool isConnected: modelData.ssid === NetworkService.currentWifiSSID
-                        readonly property bool isConnecting: NetworkService.isWifiConnecting && NetworkService.connectingSSID === modelData.ssid
-                        readonly property int signalStrength: modelData.signal || 0
-
-                        iconName: {
-                            if (isConnecting)
-                                return "";
-                            if (signalStrength >= CcMetrics.wifiSignalStrong)
-                                return "wifi";
-                            return signalStrength >= CcMetrics.wifiSignalBucket ? "wifi_2_bar" : "wifi_1_bar";
-                        }
-                        active: isConnected
-                        title: modelData.ssid || I18n.tr("Unknown Network")
-                        subtitle: {
-                            const parts = [];
-                            if (isConnecting)
-                                parts.push(I18n.tr("Connecting..."));
-                            else if (isConnected)
-                                parts.push(I18n.tr("Connected"));
-                            else
-                                parts.push(modelData.secured ? I18n.tr("Secured") : I18n.tr("Open", "network security type", true));
-                            if (modelData.saved)
-                                parts.push(I18n.tr("Saved", "wifi network status, network has a saved profile", true));
-                            parts.push(signalStrength + "%");
-                            return parts.join(" • ");
-                        }
-                        subtitleColor: isConnecting ? Theme.warning : Theme.surfaceVariantText
-                        clickable: true
-                        onClicked: {
-                            if (isConnected || NetworkService.isWifiConnecting)
-                                return;
-                            WifiConnectionActions.connectToNetwork(modelData, {
-                                connected: isConnected
-                            });
-                        }
-
-                        leading: DankSpinner {
-                            size: Theme.iconSizeMedium
-                            strokeWidth: CcMetrics.spinnerStroke
-                            color: Theme.warning
-                            visible: wifiRow.isConnecting
-                            running: visible
-                        }
-
-                        DankActionButton {
-                            anchors.verticalCenter: parent.verticalCenter
-                            visible: wifiRow.modelData.secured && wifiRow.modelData.saved && !(wifiRow.modelData.enterprise || false)
-                            buttonSize: Theme.buttonHeightXS
-                            iconSize: Theme.iconSizeMedium
-                            iconName: "qr_code"
-                            tooltipText: I18n.tr("Show QR Code")
-                            iconColor: Theme.surfaceText
-                            onClicked: PopoutService.showWifiQRCodeModal(wifiRow.modelData.ssid)
-                        }
-
-                        CcPinChip {
-                            anchors.verticalCenter: parent.verticalCenter
-                            pinned: root.pinnedNetworks.includes(wifiRow.modelData.ssid)
-                            onToggled: root.togglePin(wifiRow.modelData.ssid)
-                        }
-
-                        DankActionButton {
-                            id: wifiOptionsButton
-                            anchors.verticalCenter: parent.verticalCenter
-                            buttonSize: Theme.buttonHeightXS
-                            iconSize: Theme.iconSizeMedium
-                            iconName: "more_horiz"
-                            Accessible.name: I18n.tr("Options")
-                            iconColor: Theme.surfaceText
-                            onClicked: root.openWifiMenu(wifiRow.modelData, wifiRow.isConnected, wifiRow.isConnecting, wifiOptionsButton)
-                        }
-                    }
-                }
             }
 
             CcGroup {
@@ -634,11 +567,96 @@ Item {
                 title: I18n.tr("No devices found")
             }
         }
+
+        delegate: CcListRow {
+            id: wifiRow
+
+            required property var modelData
+            required property int index
+
+            readonly property bool isConnected: modelData.ssid === NetworkService.currentWifiSSID
+            readonly property bool isConnecting: NetworkService.isWifiConnecting && NetworkService.connectingSSID === modelData.ssid
+            readonly property int signalStrength: modelData.signal || 0
+            readonly property bool sharesQrCode: modelData.secured && modelData.saved && !(modelData.enterprise || false)
+
+            width: pageList.width
+            topRadius: index === 0 ? Theme.groupedListOuterRadius : Theme.groupedListInnerRadius
+            bottomRadius: index === pageList.count - 1 ? Theme.groupedListOuterRadius : Theme.groupedListInnerRadius
+            iconName: {
+                if (isConnecting)
+                    return "";
+                if (signalStrength >= CcMetrics.wifiSignalStrong)
+                    return "wifi";
+                return signalStrength >= CcMetrics.wifiSignalBucket ? "wifi_2_bar" : "wifi_1_bar";
+            }
+            active: isConnected
+            title: modelData.ssid || I18n.tr("Unknown Network")
+            subtitle: {
+                const parts = [];
+                if (isConnecting)
+                    parts.push(I18n.tr("Connecting..."));
+                else if (isConnected)
+                    parts.push(I18n.tr("Connected"));
+                else
+                    parts.push(modelData.secured ? I18n.tr("Secured") : I18n.tr("Open", "network security type", true));
+                if (modelData.saved)
+                    parts.push(I18n.tr("Saved", "wifi network status, network has a saved profile", true));
+                parts.push(signalStrength + "%");
+                return parts.join(" • ");
+            }
+            subtitleColor: isConnecting ? Theme.warning : Theme.surfaceVariantText
+            clickable: true
+            onClicked: {
+                if (isConnected || NetworkService.isWifiConnecting)
+                    return;
+                WifiConnectionActions.connectToNetwork(modelData, {
+                    connected: isConnected
+                });
+            }
+
+            leading: Loader {
+                active: wifiRow.isConnecting
+                sourceComponent: DankSpinner {
+                    size: Theme.iconSizeMedium
+                    strokeWidth: CcMetrics.spinnerStroke
+                    color: Theme.warning
+                }
+            }
+
+            Loader {
+                anchors.verticalCenter: parent.verticalCenter
+                active: wifiRow.sharesQrCode
+                sourceComponent: DankActionButton {
+                    buttonSize: Theme.buttonHeightXS
+                    iconSize: Theme.iconSizeMedium
+                    iconName: "qr_code"
+                    tooltipText: I18n.tr("Show QR Code")
+                    iconColor: Theme.surfaceText
+                    onClicked: PopoutService.showWifiQRCodeModal(wifiRow.modelData.ssid)
+                }
+            }
+
+            CcPinChip {
+                anchors.verticalCenter: parent.verticalCenter
+                pinned: root.pinnedNetworks.includes(wifiRow.modelData.ssid)
+                onToggled: root.togglePin(wifiRow.modelData.ssid)
+            }
+
+            DankActionButton {
+                id: wifiOptionsButton
+                anchors.verticalCenter: parent.verticalCenter
+                buttonSize: Theme.buttonHeightXS
+                iconSize: Theme.iconSizeMedium
+                iconName: "more_horiz"
+                Accessible.name: I18n.tr("Options")
+                iconColor: Theme.surfaceText
+                onClicked: root.openWifiMenu(wifiRow.modelData, wifiRow.isConnected, wifiRow.isConnecting, wifiOptionsButton)
+            }
+        }
     }
 
     CcMenu {
         id: wifiMenu
-        onClosed: wifiListModel.frozen = false
     }
 
     CcMenu {

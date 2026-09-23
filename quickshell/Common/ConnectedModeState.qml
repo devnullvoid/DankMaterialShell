@@ -19,12 +19,14 @@ Singleton {
         id: motionComponent
 
         QtObject {
-            property real bodyX: 0
-            property real bodyY: 0
-            property real bodyW: 0
-            property real bodyH: 0
-            property real animX: 0
-            property real animY: 0
+            property var frame: ({
+                    "bodyX": 0,
+                    "bodyY": 0,
+                    "bodyW": 0,
+                    "bodyH": 0,
+                    "animX": 0,
+                    "animY": 0
+                })
         }
     }
 
@@ -46,14 +48,7 @@ Singleton {
         const motion = surfaceMotion[_motionKey(screenName, slot)];
         if (!motion)
             return base;
-        return SurfaceDescriptor.normalize({
-            "bodyX": motion.bodyX,
-            "bodyY": motion.bodyY,
-            "bodyW": motion.bodyW,
-            "bodyH": motion.bodyH,
-            "animX": motion.animX,
-            "animY": motion.animY
-        }, base);
+        return SurfaceDescriptor.normalize(motion.frame, base);
     }
 
     function surfaceDescriptorsOfKind(screenName, kind) {
@@ -120,12 +115,14 @@ Singleton {
             _bumpSurfaceRevision(screenName);
         const key = _motionKey(screenName, slot);
         const motion = surfaceMotion[key] ?? motionComponent.createObject(root);
-        motion.bodyX = next.bodyRect.x;
-        motion.bodyY = next.bodyRect.y;
-        motion.bodyW = next.bodyRect.width;
-        motion.bodyH = next.bodyRect.height;
-        motion.animX = next.animationOffset.x;
-        motion.animY = next.animationOffset.y;
+        motion.frame = {
+            "bodyX": next.bodyRect.x,
+            "bodyY": next.bodyRect.y,
+            "bodyW": next.bodyRect.width,
+            "bodyH": next.bodyRect.height,
+            "animX": next.animationOffset.x,
+            "animY": next.animationOffset.y
+        };
         if (!surfaceMotion[key])
             surfaceMotion = Object.assign({}, surfaceMotion, {
                 [key]: motion
@@ -156,11 +153,16 @@ Singleton {
         const motion = surfaceMotion[_motionKey(screenName, slot)];
         if (!motion)
             return false;
+        let frame = null;
         for (const key in patch) {
             const value = Number(patch[key]);
-            if (!isNaN(value) && motion[key] !== value)
-                motion[key] = value;
+            if (isNaN(value) || !(key in motion.frame) || motion.frame[key] === value)
+                continue;
+            frame = frame ?? Object.assign({}, motion.frame);
+            frame[key] = value;
         }
+        if (frame)
+            motion.frame = frame;
         return true;
     }
 

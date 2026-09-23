@@ -22,6 +22,23 @@ Item {
     property Item focusReturnTarget: null
     property var transientSurfaceTracker: null
     readonly property bool hasAppCategories: section?.id === "apps" && (controller?.appCategories?.length ?? 0) > 0
+    readonly property var viewModes: [
+        {
+            mode: "list",
+            icon: "view_list",
+            label: I18n.tr("List", "noun, list view mode option")
+        },
+        {
+            mode: "grid",
+            icon: "grid_view",
+            label: I18n.tr("Grid", "noun, grid view mode and layout option")
+        },
+        {
+            mode: "tile",
+            icon: "view_module",
+            label: I18n.tr("Tile")
+        }
+    ]
 
     signal viewModeToggled
 
@@ -45,6 +62,7 @@ Item {
             sourceComponent: DankDropdown {
                 focusPolicy: Qt.NoFocus
                 triggerHeight: Theme.buttonHeightXS
+                triggerRadius: Theme.fullRadius(width, triggerHeight)
                 dropdownWidth: width
                 compactMode: true
                 options: root.controller?.appCategories ?? []
@@ -86,38 +104,18 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         spacing: Theme.groupedListGap
 
-        Repeater {
-            model: root.canChangeViewMode && !root.section?.collapsed ? [
-                {
-                    mode: "list",
-                    icon: "view_list",
-                    label: I18n.tr("List", "noun, list view mode option")
-                },
-                {
-                    mode: "grid",
-                    icon: "grid_view",
-                    label: I18n.tr("Grid", "noun, grid view mode and layout option")
-                },
-                {
-                    mode: "tile",
-                    icon: "view_module",
-                    label: I18n.tr("Tile")
-                }
-            ] : []
-
-            DankActionButton {
-                required property var modelData
-                focusPolicy: Qt.NoFocus
-                iconName: modelData.icon
-                tooltipText: modelData.label
-                iconSize: Theme.iconSizeSmall
-                backgroundColor: root.viewMode === modelData.mode ? Theme.secondaryContainer : "transparent"
-                iconColor: root.viewMode === modelData.mode ? Theme.onSecondaryContainer : Theme.onSurfaceVariant
-                onClicked: {
-                    if (!root.controller || !root.section || root.viewMode === modelData.mode)
-                        return;
-                    root.controller.setSectionViewMode(root.section.id, modelData.mode);
-                }
+        DankActionButton {
+            readonly property var current: root.viewModes.find(entry => entry.mode === root.viewMode) ?? root.viewModes[0]
+            focusPolicy: Qt.NoFocus
+            visible: root.canChangeViewMode && !root.section?.collapsed
+            iconName: current.icon
+            tooltipText: current.label
+            iconSize: Theme.iconSizeSmall
+            onClicked: {
+                if (!root.controller || !root.section)
+                    return;
+                const index = root.viewModes.indexOf(current);
+                root.controller.setSectionViewMode(root.section.id, root.viewModes[(index + 1) % root.viewModes.length].mode);
             }
         }
 

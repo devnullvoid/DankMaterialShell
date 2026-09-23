@@ -39,6 +39,7 @@ Item {
     property bool fullHeightSurface: false
     property real minimumSurfaceWidth: 0
     property bool _primeContent: false
+    property bool _warmContent: false
 
     property real storedBarThickness: Theme.barThickness(SettingsData.getPrimaryBarConfig()?.innerPadding ?? 4, 1)
     property real storedBarSpacing: 4
@@ -399,6 +400,8 @@ Item {
             root.shouldBeVisible = false;
         if (root._primeContent)
             it.primeContent();
+        if (root._warmContent)
+            it.warmContent();
         if (_pendingOpen)
             _pendingOpenTimer.restart();
     }
@@ -413,6 +416,12 @@ Item {
         _primeContent = false;
         if (impl.item)
             impl.item.clearPrimedContent();
+    }
+
+    function warmContent() {
+        _warmContent = true;
+        if (impl.item)
+            impl.item.warmContent();
     }
 
     onShouldBeVisibleChanged: {

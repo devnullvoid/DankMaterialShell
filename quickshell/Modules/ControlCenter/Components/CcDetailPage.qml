@@ -24,6 +24,8 @@ Item {
     signal portSelectorRequested(var node)
 
     property string shownSection: ""
+    property bool slidePending: false
+    readonly property bool transitioning: slidePending || slideIn.running
     readonly property var pageItem: pageLoader.item
     readonly property real preferredHeight: CcMetrics.pageHeaderHeight + CcMetrics.preferredDetailHeight(shownSection, pageItem?.preferredHeight ?? 0)
     readonly property string title: {
@@ -76,18 +78,27 @@ Item {
 
     onSectionChanged: {
         if (section === "") {
+            slidePending = false;
+            slideIn.stop();
             slideOut.start();
             return;
         }
         slideOut.stop();
+        slidePending = CcMetrics.animationsEnabled;
+        slideIn.stop();
+        panel.x = CcMetrics.animationsEnabled ? offscreenX : 0;
         shownSection = section;
         pageLoader.sourceComponent = _componentFor(section);
-        if (!CcMetrics.animationsEnabled) {
-            panel.x = 0;
-            return;
+    }
+
+    Connections {
+        target: root.Window.window
+        enabled: root.slidePending
+
+        function onFrameSwapped() {
+            root.slidePending = false;
+            slideIn.start();
         }
-        panel.x = offscreenX;
-        slideIn.start();
     }
 
     NumberAnimation {
@@ -211,7 +222,9 @@ Item {
 
     Component {
         id: networkComponent
-        NetworkDetail {}
+        NetworkDetail {
+            transitioning: root.transitioning
+        }
     }
 
     Component {

@@ -52,6 +52,7 @@ Item {
     property real minimumSurfaceWidth: popoutHandle.minimumSurfaceWidth
     property bool _primeContent: false
     property bool _contentWarm: false
+    property bool _backgroundWarm: false
     property bool _contentRenderActive: Theme.isDirectionalEffect || shouldBeVisible
     // Keyboard focus grabbed one tick after emerge starts, to avoid stalling first frames.
     property bool _keyboardReady: false
@@ -200,6 +201,11 @@ Item {
 
     function clearPrimedContent() {
         _primeContent = false;
+    }
+
+    function warmContent() {
+        _backgroundWarm = true;
+        _contentWarm = true;
     }
 
     function _captureChromeAnimTravel() {
@@ -609,6 +615,7 @@ Item {
             return;
         closeTimer.stop();
         contentWindow.visible = false;
+        morph.snapTo(0);
         _endMorphTravel();
         _fluidMotionActive = false;
         isClosing = false;
@@ -1630,6 +1637,7 @@ Item {
             }
 
             readonly property real computedScaleCollapsed: root.animationScaleCollapsed
+            readonly property real morphTravelPx: Math.max(1, Math.abs(offsetX), Math.abs(offsetY), (1 - computedScaleCollapsed) * Math.max(root.alignedWidth, root.alignedHeight), root._fluidMotionActive ? Math.max(root.alignedWidth, root.alignedHeight) : 0)
 
             PopoutHoverBodyTracker {
                 controller: hoverDismissController
@@ -1644,8 +1652,8 @@ Item {
                 }
                 enabled: root.animationsEnabled && !(root.connected && root._fluidMotionActive)
                 reducedMotion: root.animationDuration <= 0
-                positionEpsilon: 0.001
-                velocityEpsilon: 0.001
+                positionEpsilon: Math.max(0.001, 0.25 / root.dpr / contentContainer.morphTravelPx)
+                velocityEpsilon: positionEpsilon * damping / Math.max(0.001, 2 * mass)
                 stiffness: root._geometrySpringParams.stiffness
                 damping: root._geometrySpringParams.damping
 
@@ -1690,7 +1698,7 @@ Item {
                 sourceComponent: root.popoutHandle.content
                 // _contentWarm keeps the tree loaded across close for fast re-open; reclaimed by PopoutService on lock/idle.
                 active: root._primeContent || root.shouldBeVisible || contentWindow.visible || root._contentWarm
-                asynchronous: false
+                asynchronous: root._backgroundWarm && !root._primeContent && !root.shouldBeVisible && !contentWindow.visible
             }
         }
 

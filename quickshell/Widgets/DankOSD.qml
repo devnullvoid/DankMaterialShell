@@ -250,7 +250,7 @@ PanelWindow {
         id: osdScaleSpring
         reducedMotion: root.animationDuration <= 0
         positionEpsilon: 0.001
-        velocityEpsilon: 0.001
+        velocityEpsilon: positionEpsilon * damping / Math.max(0.001, 2 * mass)
         stiffness: root.scaleSpringParams.stiffness
         damping: root.scaleSpringParams.damping
         value: root.presented ? 1 : Theme.popupEnterScale

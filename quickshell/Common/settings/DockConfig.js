@@ -381,11 +381,7 @@ function indicatorLane(config) {
     return Math.max(8, Math.round(config.iconSize * 0.18));
 }
 
-function contentThickness(config) {
-    return config.iconSize + indicatorLane(config);
-}
-
 // Thickness is derived, never set: content decides it and padding surrounds it.
 function effectiveThickness(config) {
-    return contentThickness(config) + config.spacing * 2;
+    return config.iconSize + config.spacing * 2;
 }

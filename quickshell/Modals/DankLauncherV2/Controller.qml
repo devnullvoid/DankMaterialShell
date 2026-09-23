@@ -354,7 +354,7 @@ Item {
     }
 
     function canCollapseSection(sectionId) {
-        return searchMode === "all";
+        return searchMode === "all" && (sections.length > 1 || collapsedSections[sectionId] === true);
     }
 
     function setPluginViewPreference(pluginId, mode, enforced) {
@@ -780,7 +780,9 @@ Item {
 
         var allItems = [];
 
-        var triggerMatch = detectTrigger(searchQuery);
+        var triggerMatch = searchMode === "files" ? {
+            pluginId: null
+        } : detectTrigger(searchQuery);
         if (triggerMatch.pluginId) {
             var pluginChanged = activePluginId !== triggerMatch.pluginId;
             activePluginId = triggerMatch.pluginId;

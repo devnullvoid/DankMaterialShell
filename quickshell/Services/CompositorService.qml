@@ -209,6 +209,8 @@ Singleton {
             root.workspaceStateChanged();
         }
         function onWindowsChanged() {
+            if (NiriService.titleOnlyWindowsUpdate)
+                return;
             root.workspaceStateChanged();
         }
         function onCurrentOutputChanged() {
