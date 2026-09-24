@@ -131,7 +131,7 @@ Item {
     Rectangle {
         id: panel
         width: CcMetrics.menuMinWidth
-        height: column.implicitHeight + Theme.spacingS * 2
+        height: root.visibleItems.length * Theme.menuItemHeight + Theme.spacingS * 2
         radius: Theme.windowRadius
         color: Theme.nestedSurface
         border.width: Theme.layerOutlineWidth
@@ -166,7 +166,6 @@ Item {
         }
 
         Column {
-            id: column
             anchors.left: parent.left
             anchors.top: parent.top
             anchors.margins: Theme.spacingS

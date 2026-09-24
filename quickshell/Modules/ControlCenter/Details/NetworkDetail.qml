@@ -18,6 +18,8 @@ Item {
     LayoutMirroring.enabled: I18n.isRtl
     LayoutMirroring.childrenInherit: true
 
+    property Item menuParent: root
+
     readonly property string title: I18n.tr("Network")
 
     property bool transitioning: false
@@ -657,10 +659,12 @@ Item {
 
     CcMenu {
         id: wifiMenu
+        parent: root.menuParent
     }
 
     CcMenu {
         id: wiredMenu
+        parent: root.menuParent
     }
 
     Loader {

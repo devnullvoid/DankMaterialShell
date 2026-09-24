@@ -18,13 +18,15 @@ FocusScope {
 
     readonly property bool pageOpen: (host.expandedSection ?? "") !== ""
     readonly property real gridHeight: widgetGrid.gridHeight
-    readonly property real bodyHeight: detailPage.shownSection !== "" ? Math.max(gridHeight, detailPage.preferredHeight) : gridHeight
     readonly property real targetImplicitHeight: {
-        let total = CcMetrics.sheetPadding * 2 + headerPane.height + Theme.spacingS + bodyHeight;
+        let total = CcMetrics.sheetPadding * 2 + headerPane.height + Theme.spacingS + gridHeight;
         if (host.editMode)
             total += Theme.spacingS + editControls.height;
-        return total;
+        if (detailPage.shownSection === "")
+            return total;
+        return Math.max(total, detailPage.topInset + detailPage.minimumHeight + CcMetrics.detailDialogInset);
     }
+    property Item detailReturnFocus: null
     property var pageHistory: []
     property var editSnapshot: null
     readonly property bool panelResizing: panelResizer.resizing
@@ -60,6 +62,8 @@ FocusScope {
             return;
         if (host.expandedSection)
             pageHistory = pageHistory.concat([host.expandedSection]);
+        else if (detailPage.shownSection === "")
+            detailReturnFocus = root.Window.window?.activeFocusItem ?? null;
         host.expandedSection = section;
     }
 
@@ -143,13 +147,13 @@ FocusScope {
             event.accepted = true;
             return;
         }
-        if (host.editMode) {
-            host.editMode = false;
+        if (pageOpen) {
+            goBack();
             event.accepted = true;
             return;
         }
-        if (pageOpen) {
-            goBack();
+        if (host.editMode) {
+            host.editMode = false;
             event.accepted = true;
             return;
         }
@@ -164,7 +168,6 @@ FocusScope {
         if (expandedSection !== "")
             return;
         pageHistory = [];
-        forceActiveFocus();
     }
 
     onEditModeChanged: {
@@ -188,6 +191,7 @@ FocusScope {
         anchors.margins: -(contentInset + Theme.spacingS)
         z: 1
         visible: root.host.editMode
+        enabled: detailPage.shownSection === ""
         edgeResize: root.panelResizing || root.panelResizer.sideMovable(-1, root.gridColumns)
         cornerResize: root.panelResizing || root.panelResizer.sideMovable(1, root.gridColumns)
         horizontalResize: true
@@ -279,41 +283,23 @@ FocusScope {
                 id: body
 
                 width: parent.width
-                height: root.bodyHeight
-                clip: detailPage.shownSection !== ""
+                height: root.gridHeight
 
                 CcTileGrid {
                     id: widgetGrid
                     columns: root.gridColumns
                     availableHeight: root.availableGridHeight
 
-                    x: detailPage.gridOffset
                     width: parent.width
                     anchors.top: parent.top
                     editMode: root.host.editMode
                     model: widgetModel
-                    live: root.host.shouldBeVisible
+                    live: root.host.shouldBeVisible && detailPage.shownSection === ""
                     screenName: root.host.triggerScreen?.name || ""
-                    visible: Math.abs(x) < width
-                    enabled: !root.pageOpen
                     onExpandClicked: widgetData => root.openWidgetPage(widgetData)
                     onRemoveWidget: index => widgetModel.removeWidget(index)
                     onConfigRequested: (index, widgetData, anchor) => root.openConfigOverlay(index, widgetData, anchor)
                     onColorPickerRequested: root.host.openColorPicker()
-                }
-
-                CcDetailPage {
-                    id: detailPage
-
-                    anchors.fill: parent
-                    section: root.host.expandedSection ?? ""
-                    model: widgetModel
-                    screenName: root.host.triggerScreen?.name || ""
-                    screenModel: root.host.triggerScreen?.model || ""
-                    onCodecSelectorRequested: device => root.showCodecSelector(device)
-                    onPortSelectorRequested: node => root.showPortSelector(node)
-                    onBackRequested: root.goBack()
-                    onCollapseRequested: root.host.collapseAll()
                 }
             }
 
@@ -338,6 +324,33 @@ FocusScope {
                 onResetToDefault: () => widgetModel.resetToDefault()
                 onClearAll: () => widgetModel.clearAll()
             }
+        }
+    }
+
+    CcDetailPage {
+        id: detailPage
+
+        z: 1
+        anchors.fill: parent
+        section: root.host.expandedSection ?? ""
+        topInset: CcMetrics.sheetPadding + headerPane.height + Theme.spacingS
+        minimumContentHeight: Math.max(0, root.gridHeight - CcMetrics.pageHeaderHeight)
+        cornerRadii: root.surfaceCornerRadii
+        model: widgetModel
+        screenName: root.host.triggerScreen?.name || ""
+        screenModel: root.host.triggerScreen?.model || ""
+        onCodecSelectorRequested: device => root.showCodecSelector(device)
+        onPortSelectorRequested: node => root.showPortSelector(node)
+        onBackRequested: root.goBack()
+        onCollapseRequested: root.host.collapseAll()
+        onDismissed: {
+            const target = root.detailReturnFocus;
+            root.detailReturnFocus = null;
+            if (target?.visible && target.enabled) {
+                target.forceActiveFocus();
+                return;
+            }
+            root.forceActiveFocus();
         }
     }
 

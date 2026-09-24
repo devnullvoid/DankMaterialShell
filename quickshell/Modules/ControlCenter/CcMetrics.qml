@@ -59,6 +59,9 @@ Singleton {
     readonly property real headerAvatarSize: 56
     readonly property real headerHeight: tileHeight
 
+    readonly property real detailDialogInset: Theme.spacingL
+    readonly property real detailDialogPadding: Theme.spacingS
+    readonly property real detailMinContentHeight: Theme.listItemTwoLineHeight * 3
     readonly property real pageHeaderHeight: Theme.fontSizeXXLarge + Theme.spacingM * 2
     readonly property real pageTitleSize: Theme.fontSizeXXLarge
     readonly property real detailHeightList: 350
