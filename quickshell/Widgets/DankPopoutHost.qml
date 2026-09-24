@@ -794,7 +794,7 @@ Item {
     readonly property real shadowMotionPadding: directionalRevealActive ? 0 : Math.max(0, animationOffset)
     readonly property real shadowBuffer: Theme.snap(Math.max(popoutHandle.surfacePadding, shadowRenderPadding + shadowMotionPadding), dpr)
     readonly property real alignedWidth: Theme.px(popupWidth, dpr)
-    readonly property real alignedHeight: Theme.px(popupHeight, dpr)
+    readonly property real alignedHeight: Theme.pxCeil(popupHeight, dpr)
     readonly property real surfaceBodyWidth: Math.max(alignedWidth, Theme.px(Math.min(minimumSurfaceWidth, screenWidth), dpr))
     readonly property real surfaceBodyX: Theme.snap(_standaloneAlignedXFor(surfaceBodyWidth), dpr)
     readonly property real _surfaceOriginX: connected ? 0 : _surfaceX

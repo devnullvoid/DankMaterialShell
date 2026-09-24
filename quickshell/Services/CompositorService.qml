@@ -313,6 +313,11 @@ Singleton {
         }, 0, 3000);
     }
 
+    // wlr-output reports wl_fixed (1/256 steps), surfaces render at fractional-scale-v1 N/120
+    function fractionalScale(fixedScale) {
+        return Math.round(fixedScale * 120) / 120;
+    }
+
     function getScreenScale(screen) {
         if (!screen)
             return 1;
@@ -323,12 +328,12 @@ Singleton {
 
         const randrScale = randrScales[screen.name];
         if (randrScale !== undefined && randrScale > 0)
-            return Math.round(randrScale * 20) / 20;
+            return fractionalScale(randrScale);
 
         if (WlrOutputService.wlrOutputAvailable && screen) {
             const wlrOutput = WlrOutputService.getOutput(screen.name);
             if (wlrOutput?.enabled && wlrOutput.scale !== undefined && wlrOutput.scale > 0) {
-                return Math.round(wlrOutput.scale * 20) / 20;
+                return fractionalScale(wlrOutput.scale);
             }
         }
 

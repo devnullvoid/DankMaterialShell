@@ -2238,6 +2238,12 @@ Singleton {
         return Math.round(value * s) / s;
     }
 
+    // the epsilon keeps a value already on the grid from gaining a pixel through float error
+    function pxCeil(value, dpr) {
+        const s = dpr || 1;
+        return Math.ceil(value * s - 0.001) / s;
+    }
+
     function barWidgetThickness(innerPadding, dpr) {
         return snapEven(Math.max(20, 26 + innerPadding * 0.6), dpr);
     }
