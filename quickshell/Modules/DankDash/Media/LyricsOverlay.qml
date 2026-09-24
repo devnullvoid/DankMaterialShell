@@ -136,9 +136,6 @@ FocusScope {
 
     Keys.onPressed: event => {
         switch (event.key) {
-        case Qt.Key_Escape:
-            root.player.lyricsOpen = false;
-            break;
         case Qt.Key_Up:
             scrollBy(-Theme.listItemHeight);
             break;

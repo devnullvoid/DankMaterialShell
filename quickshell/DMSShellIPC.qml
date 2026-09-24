@@ -330,98 +330,94 @@ Item {
         target: "screenshot"
     }
 
+    function dashIslandActivity(tabId) {
+        switch (tabId) {
+        case "overview":
+            return "home";
+        case "media":
+        case "wallpaper":
+        case "weather":
+            return tabId;
+        default:
+            return "";
+        }
+    }
+
+    function routeDashToIsland(tabId, toggle) {
+        const activity = dashIslandActivity(tabId);
+        if (activity === "")
+            return false;
+        return PopoutService.routeToIsland(activity, null, toggle);
+    }
+
+    function resolveDashPosition(position) {
+        switch ((position || "").toLowerCase()) {
+        case "left":
+            return "left";
+        case "center":
+            return "center";
+        case "right":
+            return "right";
+        default:
+            return "";
+        }
+    }
+
+    function dashBar(position) {
+        if (position)
+            return root.getPreferredBar();
+        return root.getPreferredBar("clockButtonRef") || root.getPreferredBar();
+    }
+
+    function openDash(tab, position) {
+        const tabId = DashRegistry.resolveId(tab);
+        if (!position && routeDashToIsland(tabId, false))
+            return true;
+
+        const bar = dashBar(position);
+        if (!bar)
+            return false;
+
+        const dash = root.dankDashPopoutLoader.item;
+        if (dash && dash.shouldBeVisible && dash.triggerScreen?.name === bar.screen?.name) {
+            if (position && bar.positionDash)
+                bar.positionDash(dash, position);
+            dash.requestTab(tabId);
+            if (dash.updateSurfacePosition)
+                dash.updateSurfacePosition();
+            return true;
+        }
+
+        return bar.triggerDashTab(tabId, position);
+    }
+
+    function toggleDash(tab, position) {
+        if (root.dankDashPopoutLoader.item?.dashVisible) {
+            root.dankDashPopoutLoader.item.dashVisible = false;
+            return true;
+        }
+
+        const tabId = DashRegistry.resolveId(tab);
+        if (!position && routeDashToIsland(tabId, true))
+            return true;
+
+        const bar = dashBar(position);
+        if (!bar)
+            return false;
+        return bar.triggerDashTab(tabId, position);
+    }
+
     IpcHandler {
-        function _resolveTabId(tab) {
-            return DashRegistry.resolveId(tab);
-        }
-
-        function _islandActivity(tabId) {
-            switch (tabId) {
-            case "overview":
-                return "home";
-            case "media":
-            case "wallpaper":
-            case "weather":
-                return tabId;
-            default:
-                return "";
-            }
-        }
-
-        function _routeToIsland(tabId, toggle) {
-            const activity = _islandActivity(tabId);
-            if (activity === "")
-                return false;
-            return PopoutService.routeToIsland(activity, null, toggle);
-        }
-
-        function _resolvePosition(position) {
-            switch ((position || "").toLowerCase()) {
-            case "left":
-                return "left";
-            case "center":
-                return "center";
-            case "right":
-                return "right";
-            default:
-                return "";
-            }
-        }
-
-        function _dashBar(position) {
-            if (position)
-                return root.getPreferredBar();
-            return root.getPreferredBar("clockButtonRef") || root.getPreferredBar();
-        }
-
-        function _openDash(tab, position) {
-            const tabId = _resolveTabId(tab);
-            if (!position && _routeToIsland(tabId, false))
-                return true;
-
-            const bar = _dashBar(position);
-            if (!bar)
-                return false;
-
-            const dash = root.dankDashPopoutLoader.item;
-            if (dash && dash.shouldBeVisible && dash.triggerScreen?.name === bar.screen?.name) {
-                if (position && bar.positionDash)
-                    bar.positionDash(dash, position);
-                dash.requestTab(tabId);
-                if (dash.updateSurfacePosition)
-                    dash.updateSurfacePosition();
-                return true;
-            }
-
-            return bar.triggerDashTab(tabId, position);
-        }
-
-        function _toggleDash(tab, position) {
-            if (root.dankDashPopoutLoader.item?.dashVisible) {
-                root.dankDashPopoutLoader.item.dashVisible = false;
-                return true;
-            }
-
-            const tabId = _resolveTabId(tab);
-            if (!position && _routeToIsland(tabId, true))
-                return true;
-
-            const bar = _dashBar(position);
-            if (!bar)
-                return false;
-            return bar.triggerDashTab(tabId, position);
-        }
-
         function resolveTabIndex(tab: string): int {
-            return Math.max(0, DashRegistry.indexOf(_resolveTabId(tab)));
+            return Math.max(0, DashRegistry.indexOf(DashRegistry.resolveId(tab)));
         }
 
         function open(tab: string): string {
-            return _openDash(tab, "") ? "DASH_OPEN_SUCCESS" : "DASH_OPEN_FAILED";
+            return root.openDash(tab, "") ? "DASH_OPEN_SUCCESS" : "DASH_OPEN_FAILED";
         }
 
         function openAt(tab: string, position: string): string {
-            return _openDash(tab, _resolvePosition(position)) ? "DASH_OPEN_SUCCESS" : "DASH_OPEN_FAILED";
+            return root.openDash(tab, root.resolveDashPosition(position)) ? "DASH_OPEN_SUCCESS" : "DASH_OPEN_FAILED";
         }
 
         function close(): string {
@@ -435,11 +431,11 @@ Item {
         }
 
         function toggle(tab: string): string {
-            return _toggleDash(tab, "") ? "DASH_TOGGLE_SUCCESS" : "DASH_TOGGLE_FAILED";
+            return root.toggleDash(tab, "") ? "DASH_TOGGLE_SUCCESS" : "DASH_TOGGLE_FAILED";
         }
 
         function toggleAt(tab: string, position: string): string {
-            return _toggleDash(tab, _resolvePosition(position)) ? "DASH_TOGGLE_SUCCESS" : "DASH_TOGGLE_FAILED";
+            return root.toggleDash(tab, root.resolveDashPosition(position)) ? "DASH_TOGGLE_SUCCESS" : "DASH_TOGGLE_FAILED";
         }
 
         target: "dash"
@@ -1180,7 +1176,7 @@ Item {
             if (!widgetId)
                 return "ERROR: No widget ID specified";
 
-            if (!BarWidgetService.hasWidget(widgetId))
+            if (!BarWidgetService.ensureWidget(widgetId))
                 return `WIDGET_NOT_FOUND: ${widgetId}`;
 
             const success = BarWidgetService.triggerWidgetPopout(widgetId);
@@ -1190,7 +1186,7 @@ Item {
         function openWith(widgetId: string, mode: string): string {
             if (!widgetId)
                 return "ERROR: No widget ID specified";
-            if (!BarWidgetService.hasWidget(widgetId))
+            if (!BarWidgetService.ensureWidget(widgetId))
                 return `WIDGET_NOT_FOUND: ${widgetId}`;
 
             const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);
@@ -1206,7 +1202,7 @@ Item {
         function toggleWith(widgetId: string, mode: string): string {
             if (!widgetId)
                 return "ERROR: No widget ID specified";
-            if (!BarWidgetService.hasWidget(widgetId))
+            if (!BarWidgetService.ensureWidget(widgetId))
                 return `WIDGET_NOT_FOUND: ${widgetId}`;
 
             const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);
@@ -1222,7 +1218,7 @@ Item {
         function openQuery(widgetId: string, query: string): string {
             if (!widgetId)
                 return "ERROR: No widget ID specified";
-            if (!BarWidgetService.hasWidget(widgetId))
+            if (!BarWidgetService.ensureWidget(widgetId))
                 return `WIDGET_NOT_FOUND: ${widgetId}`;
 
             const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);
@@ -1238,7 +1234,7 @@ Item {
         function toggleQuery(widgetId: string, query: string): string {
             if (!widgetId)
                 return "ERROR: No widget ID specified";
-            if (!BarWidgetService.hasWidget(widgetId))
+            if (!BarWidgetService.ensureWidget(widgetId))
                 return `WIDGET_NOT_FOUND: ${widgetId}`;
 
             const widget = BarWidgetService.getWidgetOnFocusedScreen(widgetId);

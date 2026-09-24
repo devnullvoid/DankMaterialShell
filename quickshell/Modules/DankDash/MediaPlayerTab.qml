@@ -239,15 +239,11 @@ Item {
         if (event.key === Qt.Key_F6)
             return cycleFocus(!!(event.modifiers & Qt.ShiftModifier));
         if (event.key === Qt.Key_Escape) {
-            if (panel !== "") {
-                const panelId = panel;
-                panel = "";
-                mediaChrome.item?.focusPanelButton(panelId);
-                return true;
-            }
-            if (!lyricsOpen)
+            if (panel === "")
                 return false;
-            lyricsOpen = false;
+            const panelId = panel;
+            panel = "";
+            mediaChrome.item?.focusPanelButton(panelId);
             return true;
         }
         if (panel !== "")

@@ -268,9 +268,6 @@ ShellRoot {
             const list = find(overlay, item => typeof item.positionViewAtEnd === "function");
             waitFor(() => list.contentY > 0, "plain lyrics scroll to the end");
             check(!media.lyrics.synced, "plain lyrics are not synchronized");
-            input.keyClick(Qt.Key_Escape);
-            check(!media.lyricsOpen, "Escape closes lyrics");
-            media.lyricsOpen = true;
             source.metadata = {
                 "xesam:asText": "Embedded text remains available offline"
             };
