@@ -1422,6 +1422,20 @@ Item {
                     acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
                     onClicked: root.backgroundClicked()
                 }
+
+                HoverHandler {
+                    enabled: root.hoverDismissEnabled && root.shouldBeVisible
+
+                    function notePointer() {
+                        if (!hovered)
+                            return;
+                        PopoutManager.updateHoverCursor(point.position.x, point.position.y);
+                        hoverDismissController.notePointerMoved();
+                    }
+
+                    onHoveredChanged: notePointer()
+                    onPointChanged: notePointer()
+                }
             }
         }
     }

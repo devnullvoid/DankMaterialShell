@@ -97,7 +97,7 @@ Item {
     property bool keyboardFocusArmed: true
     readonly property var keyboardFocusPolicy: KeyboardFocus.keyboardFocus(controller.keyboardDismissRequested && root.keyboardFocusArmed && !controller.keyboardYielded, null)
     readonly property bool wantsFocusGrab: KeyboardFocus.wantsGrab(controller.keyboardDismissRequested && !controller.keyboardYielded, null)
-    readonly property var transientFocusWindows: launcherTransientSurfaces.focusWindows
+    readonly property var transientFocusWindows: islandTransientSurfaces.focusWindows
     readonly property string registryKey: IslandHostRegistry.key(root.screen?.name, root.barId)
     property string registeredKey: ""
 
@@ -189,11 +189,12 @@ Item {
         onKeyboardDismissRequestedChanged: root.requestKeyboardFocus()
         onLauncherSessionActiveChanged: {
             if (!launcherSessionActive)
-                launcherTransientSurfaces.closeAll();
+                islandTransientSurfaces.closeAll();
         }
 
         barConfig: root.barConfig
         edge: root.edge
+        transientSurfaces: islandTransientSurfaces
         freeMode: root.freeMode
         dotMode: root.dotMode
         dotSize: root.dotSize * root.freeScale
@@ -230,7 +231,7 @@ Item {
     }
 
     TransientSurfaceTracker {
-        id: launcherTransientSurfaces
+        id: islandTransientSurfaces
     }
 
     IslandMediaSource {
@@ -262,7 +263,7 @@ Item {
         systemModel: systemSource
         notificationModel: notificationSource
         launcherController: launcherController
-        launcherTransientSurfaceTracker: launcherTransientSurfaces
+        launcherTransientSurfaceTracker: islandTransientSurfaces
         effectiveScreen: root.screen
         hostOriginX: root.hostOriginX
         hostOriginY: root.hostOriginY

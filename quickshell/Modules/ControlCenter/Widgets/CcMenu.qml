@@ -133,7 +133,7 @@ Item {
         width: CcMetrics.menuMinWidth
         height: root.visibleItems.length * Theme.menuItemHeight + Theme.spacingS * 2
         radius: Theme.windowRadius
-        color: Theme.nestedSurface
+        color: Theme.foregroundColor(Theme.chipSurface, Theme.isFloatingWindow(root))
         border.width: Theme.layerOutlineWidth
         border.color: Theme.outlineMedium
         opacity: root._open ? 1 : 0

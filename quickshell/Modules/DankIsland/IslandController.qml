@@ -26,6 +26,14 @@ QtObject {
         if (launcherInputFocused)
             hoverExpanded = false;
     }
+    property var transientSurfaces: null
+    readonly property bool transientSurfacesActive: transientSurfaces?.active ?? false
+    onTransientSurfacesActiveChanged: {
+        if (!transientSurfacesActive)
+            return;
+        hoverExpanded = false;
+        hoverCloseTimer.stop();
+    }
     property string launcherPendingQuery: ""
     property string launcherPendingMode: ""
     property string controlCenterPendingSection: ""

@@ -49,7 +49,7 @@ Item {
         topRightRadius: root.cornerRadii.y
         bottomRightRadius: root.cornerRadii.z
         bottomLeftRadius: root.cornerRadii.w
-        color: Qt.rgba(0, 0, 0, Theme.scrimAlpha)
+        color: Theme.withAlpha(Theme.scrimColor, Theme.scrimAlpha)
         opacity: root.shown ? 1 : 0
 
         Behavior on opacity {
@@ -81,7 +81,7 @@ Item {
         width: Math.min(root.panelWidth, root.width - Theme.spacingL * 2)
         height: column.implicitHeight + Theme.spacingL * 2
         radius: Theme.windowRadius
-        color: Theme.nestedSurface
+        color: Theme.readableSurface
         border.width: Theme.layerOutlineWidth
         border.color: Theme.outlineMedium
         opacity: root.shown ? 1 : 0
