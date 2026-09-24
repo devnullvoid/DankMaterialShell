@@ -957,19 +957,12 @@ Item {
     FileBrowserModal {
         id: fileBrowserModal
         browserTitle: I18n.tr("Select Custom Theme", "custom theme file browser title")
-        filterExtensions: ["*.json"]
+        bucket: "theme"
+        filters: ["*.json"]
         showHiddenFiles: true
-
-        function selectCustomTheme() {
-            shouldBeVisible = true;
-        }
-
-        onFileSelected: function (filePath) {
-            if (filePath.endsWith(".json")) {
-                SettingsData.set("customThemeFile", filePath);
-                Theme.switchTheme("custom");
-                close();
-            }
+        onAccepted: paths => {
+            SettingsData.set("customThemeFile", paths[0]);
+            Theme.switchTheme("custom");
         }
     }
 
@@ -981,16 +974,11 @@ Item {
             id: saveBrowser
 
             browserTitle: I18n.tr("Save Extracted Theme", "extract theme save dialog title")
-            browserType: "default"
-            fileExtensions: ["*.json"]
-            allowStacking: true
-            saveMode: true
-            defaultFileName: "dms-extracted-theme.json"
-
-            onFileSelected: path => {
-                saveExtractedTheme(pendingExtractJson, Paths.strip(path));
-                close();
-            }
+            bucket: "theme"
+            filters: ["*.json"]
+            mode: "save"
+            defaultName: "dms-extracted-theme.json"
+            onAccepted: paths => saveExtractedTheme(pendingExtractJson, paths[0])
         }
     }
 

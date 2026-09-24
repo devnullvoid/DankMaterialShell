@@ -126,6 +126,14 @@ func newRequestMux() *ipc.Mux {
 
 	mux.HandlePrefix("mime.", requestHandler(mime.HandleRequest))
 
+	mux.HandlePrefix("files.", func(ctx context.Context, conn *ipc.ConnWriter, req ipc.Request, _ *ipc.Subscriber) {
+		if filesService == nil {
+			models.RespondError(conn, req.ID, "files service not initialized")
+			return
+		}
+		filesService.Handle(ctx, conn, req)
+	})
+
 	mux.HandlePrefix("dgop.", requestHandler(serverDgop.HandleRequest))
 
 	mux.HandlePrefix("lyrics.", requestHandler(serverLyrics.HandleRequest))

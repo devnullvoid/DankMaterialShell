@@ -214,13 +214,10 @@ DankFloatingWindow {
             allowStacking: true
             parentModal: settingsModal
             browserTitle: I18n.tr("Select Profile Image", "profile image file browser title")
-            browserType: "profile"
+            bucket: "profile"
             showHiddenFiles: true
-            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr", "*.svg"]
-            onFileSelected: path => {
-                PortalService.setProfileImage(path);
-                close();
-            }
+            filters: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr", "*.svg"]
+            onAccepted: paths => PortalService.setProfileImage(paths[0])
             onDialogClosed: () => {
                 allowStacking = true;
                 Qt.callLater(() => profileBrowserLoader.active = false);
@@ -238,14 +235,13 @@ DankFloatingWindow {
             allowStacking: true
             parentModal: settingsModal
             browserTitle: I18n.tr("Select Wallpaper", "wallpaper file browser title")
-            browserType: "wallpaper"
+            bucket: "wallpaper"
             showHiddenFiles: true
-            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr", "*.svg"]
-            onFileSelected: path => {
-                SessionData.setWallpaper(path);
+            filters: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr", "*.svg"]
+            onAccepted: paths => {
+                SessionData.setWallpaper(paths[0]);
                 SessionData.wallpaperCyclingFolderPath = "";
                 SessionData.saveSettings();
-                close();
             }
             onDialogClosed: () => {
                 allowStacking = true;

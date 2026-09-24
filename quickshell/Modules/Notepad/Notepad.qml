@@ -563,11 +563,9 @@ Item {
             id: saveBrowser
 
             browserTitle: I18n.tr("Save Notepad File")
-            browserType: "notepad_save"
-            fileExtensions: ["*.txt", "*.md", "*.*"]
-            allowStacking: true
-            saveMode: true
-            defaultFileName: {
+            bucket: "notepad_save"
+            mode: "save"
+            defaultName: {
                 if (currentTab && currentTab.title && currentTab.title !== "Untitled") {
                     return currentTab.title;
                 } else if (currentTab && !currentTab.isTemporary && currentTab.filePath) {
@@ -577,9 +575,9 @@ Item {
                 }
             }
 
-            onFileSelected: path => {
+            onAccepted: paths => {
                 root.fileDialogOpen = false;
-                const cleanPath = decodeURI(path.toString().replace(/^file:\/\//, ''));
+                const cleanPath = paths[0];
                 const fileName = cleanPath.split('/').pop();
                 const fileUrl = "file://" + cleanPath;
 
@@ -611,8 +609,6 @@ Item {
                     });
                 }
                 root.pendingAction = "";
-
-                close();
             }
 
             onDialogClosed: {
@@ -629,21 +625,16 @@ Item {
             id: loadBrowser
 
             browserTitle: I18n.tr("Open Notepad File")
-            browserType: "notepad_load"
-            fileExtensions: ["*"]
-            allowStacking: true
+            bucket: "notepad_load"
 
-            onFileSelected: path => {
+            onAccepted: paths => {
                 root.fileDialogOpen = false;
-                const cleanPath = path.toString().replace(/^file:\/\//, '');
-                const fileName = cleanPath.split('/').pop();
-                const fileUrl = "file://" + cleanPath;
+                const fileUrl = "file://" + paths[0];
 
-                root.currentFileName = fileName;
+                root.currentFileName = paths[0].split('/').pop();
                 root.currentFileUrl = fileUrl;
 
                 loadFromFile(fileUrl);
-                close();
             }
 
             onDialogClosed: {

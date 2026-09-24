@@ -672,12 +672,7 @@ Singleton {
             }
         }
         if (typeof CacheData !== "undefined") {
-            if (settings.wallpaperLastPath !== undefined) {
-                CacheData.wallpaperLastPath = settings.wallpaperLastPath;
-            }
-            if (settings.profileLastPath !== undefined) {
-                CacheData.profileLastPath = settings.profileLastPath;
-            }
+            CacheData.fileBrowserSettings = CacheData.withLegacyLastPaths(CacheData.fileBrowserSettings, settings);
             CacheData.saveCache();
         }
     }

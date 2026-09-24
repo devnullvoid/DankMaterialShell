@@ -815,14 +815,11 @@ Column {
         FileBrowserModal {
             parentModal: root.parentModal
             browserTitle: I18n.tr("Select Wallpaper", "wallpaper file browser title")
-            browserType: "wallpaper"
+            bucket: "wallpaper"
             showHiddenFiles: true
-            revealPath: root.currentWallpaper
-            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr", "*.svg"]
-            onFileSelected: path => {
-                root.applyWallpaper(path);
-                close();
-            }
+            startPath: root.currentWallpaper
+            filters: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.exr", "*.svg"]
+            onAccepted: paths => root.applyWallpaper(paths[0])
         }
     }
 }

@@ -45,12 +45,9 @@ Item {
 
                 FileBrowserModal {
                     browserTitle: I18n.tr("Import VPN")
-                    browserType: "vpn"
-                    fileExtensions: VPNService.getFileFilter()
-
-                    onFileSelected: path => {
-                        VPNService.importVpn(path.replace("file://", ""));
-                    }
+                    bucket: "vpn"
+                    filters: VPNService.getFileFilter()
+                    onAccepted: paths => VPNService.importVpn(paths[0])
                 }
             }
 

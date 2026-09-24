@@ -480,6 +480,10 @@ func getCapabilities() Capabilities {
 		caps = append(caps, "sysupdate")
 	}
 
+	if filesService != nil {
+		caps = append(caps, "files")
+	}
+
 	return Capabilities{Capabilities: caps}
 }
 
@@ -735,6 +739,14 @@ func handleSubscribe(ctx context.Context, conn *ipc.ConnWriter, req ipc.Request)
 		}, mgr.GetState)
 	}
 
+	if shouldSubscribe("files") && filesService != nil {
+		id := clientID + "-files"
+		source := filesEvents.Subscribe(id)
+		forwardSubscription(&wg, eventChan, stopChan, "files", source, func() {
+			filesEvents.Unsubscribe(id)
+		}, nil)
+	}
+
 	if shouldSubscribe("dbus") && dbusManager != nil {
 		mgr := dbusManager
 		events := mgr.SubscribeSignals(dbusClient)
@@ -866,6 +878,9 @@ func cleanupManagers() {
 	}
 	if tailscaleManager != nil {
 		tailscaleManager.Close()
+	}
+	if filesService != nil {
+		filesService.Close()
 	}
 }
 
@@ -1240,6 +1255,8 @@ func (s *Server) Serve(printDocs bool) error {
 	if err := InitializeAppPickerManager(); err != nil {
 		log.Debugf("AppPicker manager unavailable: %v", err)
 	}
+
+	InitializeFilesService()
 
 	if err := InitializeWlrOutputManager(); err != nil {
 		log.Debugf("WlrOutput manager unavailable: %v", err)

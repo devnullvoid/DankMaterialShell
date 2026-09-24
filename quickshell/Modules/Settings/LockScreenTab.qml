@@ -148,24 +148,20 @@ Item {
         FileBrowserModal {
             parentModal: root.parentModal
             browserTitle: I18n.tr("Select lock screen background image")
-            browserType: "wallpaper"
+            bucket: "wallpaper"
             showHiddenFiles: true
-            revealPath: SettingsData.lockScreenWallpaperPath || Theme.wallpaperPath
-            fileExtensions: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.svg"]
-            onFileSelected: path => {
-                SettingsData.set("lockScreenWallpaperPath", path);
-                close();
-            }
+            startPath: SettingsData.lockScreenWallpaperPath || Theme.wallpaperPath
+            filters: ["*.jpg", "*.jpeg", "*.png", "*.bmp", "*.gif", "*.webp", "*.jxl", "*.avif", "*.heif", "*.svg"]
+            onAccepted: paths => SettingsData.set("lockScreenWallpaperPath", paths[0])
         }
     }
 
     FileBrowserModal {
         id: videoBrowserModal
         browserTitle: I18n.tr("Select Video or Folder")
-        browserType: "video"
-        showHiddenFiles: false
-        fileExtensions: ["*.mp4", "*.mkv", "*.webm", "*.mov", "*.avi", "*.m4v"]
-        onFileSelected: path => SettingsData.set("lockScreenVideoPath", path)
+        bucket: "video"
+        filters: ["*.mp4", "*.mkv", "*.webm", "*.mov", "*.avi", "*.m4v"]
+        onAccepted: paths => SettingsData.set("lockScreenVideoPath", paths[0])
     }
 
     Process {

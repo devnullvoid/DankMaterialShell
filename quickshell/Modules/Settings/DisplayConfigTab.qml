@@ -442,14 +442,11 @@ Item {
         id: iccFileBrowser
         parentModal: root.parentModal || null
         browserTitle: I18n.tr("Select ICC Profile", "ICC profile file browser title")
-        browserIcon: "palette"
-        browserType: "icc"
-        showHiddenFiles: false
-        fileExtensions: ["*.icc", "*.icm"]
-        onFileSelected: path => {
-            if (pendingICCOutput) {
-                ICCService.applyICC(pendingICCOutput, path);
-            }
+        bucket: "icc"
+        filters: ["*.icc", "*.icm"]
+        onAccepted: paths => {
+            if (pendingICCOutput)
+                ICCService.applyICC(pendingICCOutput, paths[0]);
         }
     }
 
