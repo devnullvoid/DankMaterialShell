@@ -138,7 +138,7 @@ PanelWindow {
     Component.onDestruction: KeyboardFocus.unregisterBarWindow(root)
 
     DankFocusGrab {
-        windows: [root, dismissWindow]
+        windows: [root, dismissWindow].concat(body.transientFocusWindows)
         wanted: body.wantsFocusGrab
     }
 

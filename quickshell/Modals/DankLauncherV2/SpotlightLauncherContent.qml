@@ -378,6 +378,7 @@ FocusScope {
             anchors.topMargin: LauncherMetrics.resultsGap
             controller: root.controller
             showEmptyState: root._hasQuery
+            transientSurfaceTracker: root.transientSurfaceTracker
 
             onItemRightClicked: (index, item, sceneX, sceneY) => {
                 root._showContextMenu(item, sceneX, sceneY, false);

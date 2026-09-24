@@ -82,7 +82,7 @@ PanelWindow {
     WlrLayershell.keyboardFocus: islandHost?.keyboardFocusPolicy ?? WlrKeyboardFocus.None
 
     DankFocusGrab {
-        windows: [barWindow]
+        windows: [barWindow].concat(barWindow.islandHost?.transientFocusWindows ?? [])
         wanted: barWindow.islandHost?.wantsFocusGrab ?? false
     }
 
