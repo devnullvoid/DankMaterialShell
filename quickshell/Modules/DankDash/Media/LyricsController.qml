@@ -25,6 +25,7 @@ QtObject {
     readonly property real position: activePlayer?.position ?? 0
     readonly property int playbackState: activePlayer?.playbackState ?? MprisPlaybackState.Stopped
     readonly property bool playing: playbackState === MprisPlaybackState.Playing
+    readonly property bool stopped: playbackState === MprisPlaybackState.Stopped
     readonly property real rate: activePlayer?.rate ?? 1
 
     property var lines: []
@@ -69,6 +70,7 @@ QtObject {
     onEnabledChanged: {
         if (!enabled) {
             cancel();
+            stopClock();
             if (state === "loading") {
                 requestedKey = "";
                 state = "idle";
@@ -93,20 +95,22 @@ QtObject {
     onPositionChanged: scheduleAnchor()
     onRateChanged: updatePlaybackClock()
     onPlayingChanged: updatePlaybackClock()
-    onPlaybackStateChanged: {
-        if (playbackState === MprisPlaybackState.Stopped && !anchorPlaying)
-            updatePlaybackClock();
+    Component.onDestruction: {
+        cancel();
+        stopClock();
     }
-    Component.onDestruction: cancel()
 
     function cancel() {
         serial++;
         if (requestId !== null)
             backend.cancelRequest(requestId);
         requestId = null;
+        requestDelay.stop();
+    }
+
+    function stopClock() {
         tick.stop();
         anchorUpdate.stop();
-        requestDelay.stop();
     }
 
     function songTitle() {
@@ -124,6 +128,7 @@ QtObject {
     }
 
     function clearContent() {
+        stopClock();
         lines = [];
         plainLines = [];
         synced = false;
@@ -188,8 +193,6 @@ QtObject {
         const resultKey = found ? JSON.stringify([result.instrumental === true, result.synced ?? [], result.voices ?? {}, result.plain ?? "", result.attribution ?? {}]) : "";
         if (refreshing && resultKey === shownResult)
             return;
-        if (refreshing)
-            clearContent();
         if (response.error) {
             useEmbeddedText("error");
             return;
@@ -201,6 +204,7 @@ QtObject {
         shownSong = requestedSong;
         shownResult = resultKey;
         if (result.instrumental) {
+            clearContent();
             state = "instrumental";
             return;
         }
@@ -323,9 +327,9 @@ QtObject {
     function updatePlaybackClock() {
         const predicted = currentTime();
         const sampled = position + (anchorPlaying ? (Date.now() - positionWall) * anchorRate / 1000 : 0);
-        const pendingSeek = anchorUpdate.running && Math.abs(sampled - predicted) >= DashMetrics.mediaLyricsPositionTolerance;
+        const pendingSeek = !stopped && anchorUpdate.running && Math.abs(sampled - predicted) >= DashMetrics.mediaLyricsPositionTolerance;
         anchorUpdate.stop();
-        anchorPosition = playbackState === MprisPlaybackState.Stopped ? 0 : pendingSeek ? sampled : predicted;
+        anchorPosition = pendingSeek ? sampled : predicted;
         anchorWall = Date.now();
         anchorPlaying = playing;
         anchorRate = rate;
@@ -334,7 +338,7 @@ QtObject {
 
     function scheduleAnchor() {
         positionWall = Date.now();
-        if (enabled && synced && !anchorUpdate.running)
+        if (enabled && synced && !stopped && !anchorUpdate.running)
             anchorUpdate.start();
     }
 

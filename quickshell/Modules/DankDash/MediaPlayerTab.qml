@@ -100,10 +100,10 @@ Item {
             if (!root.live || !root.lyricsOpener?.visible || !root.lyricsOpener.enabled)
                 return;
             if (typeof root.lyricsOpener.requestFocus === "function") {
-                root.lyricsOpener.requestFocus(false);
+                root.lyricsOpener.requestFocus(false, Qt.OtherFocusReason);
                 return;
             }
-            root.lyricsOpener.forceActiveFocus(Qt.PopupFocusReason);
+            root.lyricsOpener.forceActiveFocus(Qt.OtherFocusReason);
         }
     }
 

@@ -78,7 +78,12 @@ FocusScope {
 
     function focusFace() {
         pageActions.clearFocus();
-        (root.tab?.focusTarget ?? root).forceActiveFocus();
+        const target = root.tab?.focusTarget ?? root;
+        if (typeof target.requestFocus === "function") {
+            target.requestFocus(false, Qt.OtherFocusReason);
+            return true;
+        }
+        target.forceActiveFocus(Qt.OtherFocusReason);
         return true;
     }
 

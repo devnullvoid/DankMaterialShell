@@ -27,6 +27,7 @@ FocusScope {
     readonly property int activeIndex: controller.activeIndex
     readonly property int firstFocusedIndex: controller.focusedGroups[0] ?? -1
     readonly property string trackKey: controller.trackKey
+    readonly property string shownResult: controller.shownResult
     readonly property bool userScrolling: transcript.isUserScrolling || transcript.dragging
     readonly property real currentLineY: transcript.currentItem?.y ?? 0
     readonly property real shapeInset: Math.ceil(Math.min(radius, width / 2, height / 2) * (1 - Math.SQRT1_2))
@@ -50,6 +51,7 @@ FocusScope {
     onActiveIndexChanged: followTimer.restart()
     onFirstFocusedIndexChanged: followTimer.restart()
     onReadyChanged: snapToCurrent()
+    onShownResultChanged: snapToCurrent()
     onWidthChanged: snapToCurrent()
     onHeightChanged: snapToCurrent()
     onTrackKeyChanged: {

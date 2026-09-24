@@ -206,6 +206,20 @@ ShellRoot {
             check(!overlay.following && input.findChild(overlay, "followPlayback")?.visible, "browsing pauses automatic following");
             input.findChild(overlay, "followPlayback").click();
             check(overlay.following, "follow action resumes synchronized scrolling");
+            const settledCalls = backend.calls;
+            MprisController.stableAlbum = "Late album";
+            waitFor(() => backend.calls === settledCalls + 1, "a late album refreshes the lookup");
+            check(media.lyrics.state === "ready" && media.lyrics.tick.running, "the shown lyrics keep following during the refresh");
+            backend.respond({
+                result: {
+                    found: true,
+                    synced: root.timed
+                }
+            });
+            check(media.lyrics.tick.running, "an unchanged refresh keeps the timer running");
+            source.playbackState = MprisPlaybackState.Stopped;
+            check(media.lyrics.activeIndex === 1, "stopped playback holds the lyric position");
+            source.playbackState = MprisPlaybackState.Playing;
             source.playbackState = MprisPlaybackState.Paused;
             check(!media.lyrics.tick.running, "paused playback has no lyric timer");
             source.playbackState = MprisPlaybackState.Playing;
@@ -229,7 +243,7 @@ ShellRoot {
             check(!media.lyrics.tick.running, "closing stops scheduling");
             media.lyricsOpen = true;
             waitFor(() => !!media.lyricsFocusTarget, "reopened lyrics load");
-            check(backend.calls === 1 && media.lyrics.state === "ready", "reopening reuses loaded lyrics");
+            check(backend.calls === settledCalls + 1 && media.lyrics.state === "ready", "reopening reuses loaded lyrics");
             media.lyrics.request();
             const stale = backend.pending[backend.nextId];
             MprisController.stableTitle = "Next track";
