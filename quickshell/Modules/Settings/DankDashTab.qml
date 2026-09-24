@@ -107,7 +107,10 @@ FocusScope {
             SettingsReorderList {
                 id: tabList
 
-                model: root.tabs
+                model: ScriptModel {
+                    values: root.tabs
+                    objectProp: "id"
+                }
                 onReordered: indices => SettingsData.setDashTabOrder(indices.map(i => root.tabs[i].id))
 
                 delegate: SettingsReorderRow {

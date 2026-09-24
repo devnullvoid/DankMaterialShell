@@ -483,7 +483,6 @@ Item {
             settingKey: "pluginVisibility"
 
             property var allLauncherPlugins: {
-                SettingsData.launcherPluginVisibility;
                 SettingsData.launcherPluginOrder;
                 SettingsData.dankLauncherV2IncludeFilesInAll;
                 SettingsData.dankLauncherV2IncludeFoldersInAll;

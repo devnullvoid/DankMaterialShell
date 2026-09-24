@@ -323,12 +323,11 @@ Item {
 
             SettingsToggleRow {
                 settingKey: "displaySnapToEdge"
+                visible: monitorCanvas.filteredOutputs.length > 1
                 text: I18n.tr("Snap", "verb, toggle to snap monitors to edges when arranging")
+                description: I18n.tr("Dragged displays line up with neighboring edges without overlapping", "display arrangement snap toggle description")
                 checked: SettingsData.displaySnapToEdge
-                onToggled: checked => {
-                    SettingsData.displaySnapToEdge = checked;
-                    SettingsData.saveSettings();
-                }
+                onToggled: checked => SettingsData.set("displaySnapToEdge", checked)
             }
 
             SettingsButtonGroupRow {

@@ -3986,15 +3986,20 @@
       "floating",
       "general",
       "hide",
+      "hides",
       "intelligent",
       "launcher bar",
       "overlap",
+      "overlaps",
       "panel",
       "smart",
       "taskbar",
+      "while",
+      "window",
       "windows"
     ],
     "parentLabel": "Dock",
+    "description": "Hides only while a window overlaps the dock",
     "conditionKey": "smartDockCapable"
   },
   {
@@ -4009,16 +4014,21 @@
       "general",
       "hidden",
       "hide",
+      "hides",
       "hover",
       "launcher bar",
+      "overlaps",
       "panel",
       "show",
       "taskbar",
       "visibility",
-      "visible"
+      "visible",
+      "while",
+      "window"
     ],
     "parentLabel": "Dock",
-    "icon": "visibility_off"
+    "icon": "visibility_off",
+    "description": "Hides only while a window overlaps the dock"
   },
   {
     "section": "barNoBackground",
@@ -6087,8 +6097,7 @@
       "wallpaper",
       "wallpaper colors"
     ],
-    "parentLabel": "Wallpaper & colors",
-    "icon": "download"
+    "parentLabel": "Wallpaper & colors"
   },
   {
     "section": "matugenSourceMode",
@@ -10077,17 +10086,24 @@
       "configuration",
       "configure",
       "displays",
+      "dragged",
+      "edges",
+      "line",
       "monitor",
       "monitors",
+      "neighboring",
       "output",
       "outputs",
+      "overlapping",
       "resolution",
       "screen",
       "screens",
-      "setup"
+      "setup",
+      "without"
     ],
     "parentLabel": "Displays",
-    "icon": "monitor"
+    "icon": "monitor",
+    "description": "Dragged displays line up with neighboring edges without overlapping"
   },
   {
     "section": "_tab_24",
