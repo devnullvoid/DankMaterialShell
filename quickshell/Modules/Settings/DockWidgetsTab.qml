@@ -235,15 +235,6 @@ Item {
                     }
                 }
             }
-
-            SettingsNavRow {
-                title: I18n.tr("Add widget")
-                iconName: "add"
-                onClicked: {
-                    picker.widgets = root.widgetChoices.filter(widget => widget.id !== "appsDock" || !dock.config.widgets.some(item => item.widgetId === "appsDock"));
-                    picker.show();
-                }
-            }
         }
 
         Loader {
@@ -252,6 +243,19 @@ Item {
             visible: active
             sourceComponent: AppsDockOptions {
                 page: root
+            }
+        }
+
+        SettingsFabBar {
+            shown: dock.hasConfig
+
+            DankFab {
+                text: I18n.tr("Add widget")
+                iconName: "add"
+                onClicked: {
+                    picker.widgets = root.widgetChoices.filter(widget => widget.id !== "appsDock" || !dock.config.widgets.some(item => item.widgetId === "appsDock"));
+                    picker.show();
+                }
             }
         }
     }

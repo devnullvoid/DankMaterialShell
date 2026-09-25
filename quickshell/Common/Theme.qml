@@ -955,7 +955,10 @@ Singleton {
         "standardDecel": [0, 0, 0, 1, 1, 1],
         "expressiveFastSpatial": [0.42, 1.67, 0.21, 0.9, 1, 1],
         "expressiveDefaultSpatial": [0.38, 1.21, 0.22, 1, 1, 1],
-        "expressiveEffects": [0.34, 0.8, 0.34, 1, 1, 1]
+        "expressiveSlowSpatial": [0.39, 1.29, 0.35, 0.98, 1, 1],
+        "expressiveFastEffects": [0.31, 0.94, 0.34, 1, 1, 1],
+        "expressiveEffects": [0.34, 0.8, 0.34, 1, 1, 1],
+        "expressiveSlowEffects": [0.34, 0.88, 0.34, 1, 1, 1]
     }
 
     // Theme is the canonical access point for animation variant state. The
@@ -1010,7 +1013,10 @@ Singleton {
                 "extraLarge": 1000,
                 "expressiveFastSpatial": 350,
                 "expressiveDefaultSpatial": 500,
-                "expressiveEffects": 200
+                "expressiveSlowSpatial": 650,
+                "expressiveFastEffects": 150,
+                "expressiveEffects": 200,
+                "expressiveSlowEffects": 300
             };
         }
 
@@ -1022,7 +1028,10 @@ Singleton {
             "extraLarge": baseDuration * 2.0,
             "expressiveFastSpatial": baseDuration * 0.7,
             "expressiveDefaultSpatial": baseDuration,
-            "expressiveEffects": baseDuration * 0.4
+            "expressiveSlowSpatial": baseDuration * 1.3,
+            "expressiveFastEffects": baseDuration * 0.3,
+            "expressiveEffects": baseDuration * 0.4,
+            "expressiveSlowEffects": baseDuration * 0.6
         };
     }
 
@@ -1295,6 +1304,7 @@ Singleton {
     readonly property real bottomSheetHandleWidth: 36
     readonly property real bottomSheetHandleHeight: 4
     readonly property real popupEnterScale: 0.92
+    readonly property real fabEnterScale: 0.2
     readonly property real pendingOpacity: 0.6
     readonly property real spinnerStrokeWidth: 2
     readonly property real tabMinWidth: 64

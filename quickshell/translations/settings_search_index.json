@@ -10467,24 +10467,6 @@
     "description": "Which displays show the dock, popups, OSDs and wallpaper"
   },
   {
-    "section": "desktopWidgetsManage",
-    "label": "Add widget",
-    "tabIndex": 27,
-    "category": "Desktop widgets",
-    "keywords": [
-      "add",
-      "clock",
-      "components",
-      "conky",
-      "desktop",
-      "desktop clock",
-      "modules",
-      "widget",
-      "widgets"
-    ],
-    "icon": "add"
-  },
-  {
     "section": "_hub_desktop_widgets",
     "label": "Desktop widgets",
     "tabIndex": 27,

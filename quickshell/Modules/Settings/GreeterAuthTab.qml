@@ -99,5 +99,7 @@ Item {
                 onToggled: checked => SettingsData.set("greeterEnableU2f", checked)
             }
         }
+
+        GreeterSyncFabBar {}
     }
 }

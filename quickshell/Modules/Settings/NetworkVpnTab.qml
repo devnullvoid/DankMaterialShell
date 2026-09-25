@@ -100,42 +100,6 @@ Item {
                             Rectangle {
                                 height: 28
                                 radius: Theme.cornerRadiusL
-                                width: importVpnRow.width + Theme.spacingM * 2
-                                color: importVpnArea.containsMouse ? Theme.primaryHoverLight : Theme.chipSurface
-                                opacity: VPNService.importing ? 0.5 : 1.0
-
-                                Row {
-                                    id: importVpnRow
-                                    anchors.centerIn: parent
-                                    spacing: Theme.spacingXS
-
-                                    DankIcon {
-                                        name: VPNService.importing ? "sync" : "add"
-                                        size: Theme.fontSizeSmall
-                                        color: Theme.primary
-                                    }
-
-                                    StyledText {
-                                        text: I18n.tr("Import")
-                                        font.pixelSize: Theme.fontSizeSmall
-                                        color: Theme.primary
-                                        font.weight: Theme.fontWeightMedium
-                                    }
-                                }
-
-                                MouseArea {
-                                    id: importVpnArea
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    cursorShape: VPNService.importing ? Qt.BusyCursor : Qt.PointingHandCursor
-                                    enabled: !VPNService.importing
-                                    onClicked: root.openVpnFileBrowser()
-                                }
-                            }
-
-                            Rectangle {
-                                height: 28
-                                radius: Theme.cornerRadiusL
                                 width: disconnectAllRow.width + Theme.spacingM * 2
                                 color: disconnectAllArea.containsMouse ? Theme.errorHover : Theme.chipSurface
                                 visible: DMSNetworkService.connected
@@ -486,6 +450,18 @@ Item {
                         }
                     }
                 }
+            }
+        }
+
+        SettingsFabBar {
+            shown: DMSNetworkService.vpnAvailable
+
+            DankFab {
+                text: I18n.tr("Import")
+                iconName: "add"
+                busy: VPNService.importing
+                enabled: !VPNService.importing
+                onClicked: root.openVpnFileBrowser()
             }
         }
     }

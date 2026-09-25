@@ -3,11 +3,11 @@
     "dank-qml-common": {
       "flake": false,
       "locked": {
-        "lastModified": 1790347475,
-        "narHash": "sha256-gtYgcN2D5mtkSvy+3tv/cRk6RTTbnhwln2hMSh5tKwU=",
+        "lastModified": 1790362482,
+        "narHash": "sha256-SH1xzOXvX9wB/UK3ScuzaE2oUwVKKOUYQKAahLtsppU=",
         "owner": "AvengeMedia",
         "repo": "dank-qml-common",
-        "rev": "ef5d55230114ce2ff8a90ef1362196d34d636404",
+        "rev": "e86a23ec3f1c44269ade854c7497c3c8b6f375c0",
         "type": "github"
       },
       "original": {

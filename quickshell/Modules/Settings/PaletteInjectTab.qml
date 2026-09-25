@@ -23,17 +23,6 @@ Item {
             tags: ["palette", "matugen", "inject", "namespace", "command", "template", "color"]
             visible: Theme.matugenAvailable
 
-            headerActions: [
-                DankActionButton {
-                    buttonSize: 36
-                    iconName: "add"
-                    iconSize: 20
-                    Accessible.name: I18n.tr("Add")
-                    iconColor: Theme.primary
-                    onClicked: PaletteInjectService.addPalette()
-                }
-            ]
-
             SettingsRow {
                 body: Column {
                     width: parent.width
@@ -180,6 +169,16 @@ Item {
                         }
                     }
                 }
+            }
+        }
+
+        SettingsFabBar {
+            shown: Theme.matugenAvailable
+
+            DankFab {
+                iconName: "add"
+                Accessible.name: I18n.tr("Add")
+                onClicked: PaletteInjectService.addPalette()
             }
         }
     }

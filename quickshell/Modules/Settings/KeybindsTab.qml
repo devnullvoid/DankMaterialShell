@@ -467,7 +467,7 @@ Item {
             width: flickable.width
             spacing: Theme.spacingL
             topPadding: Theme.spacingXL
-            bottomPadding: Theme.spacingXL
+            bottomPadding: Theme.spacingXL + newBindFab.reservedHeight
 
             StyledRect {
                 width: Math.min(SettingsMetrics.contentMaxWidth, parent.width - Theme.spacingL * 2)
@@ -521,33 +521,13 @@ Item {
                         }
                     }
 
-                    Row {
+                    DankSearchField {
+                        id: searchField
                         width: parent.width
-                        spacing: Theme.spacingM
-
-                        DankSearchField {
-                            id: searchField
-                            width: parent.width - addButton.width - Theme.spacingM
-                            placeholderText: I18n.tr("Search shortcuts...")
-                            onTextChanged: {
-                                keybindsTab.searchQuery = text;
-                                searchDebounce.restart();
-                            }
-                        }
-
-                        DankActionButton {
-                            id: addButton
-                            width: searchField.height
-                            height: searchField.height
-                            circular: false
-                            iconName: "add"
-                            Accessible.name: I18n.tr("New Keybind")
-                            iconSize: Theme.iconSize
-                            iconColor: Theme.primary
-                            anchors.verticalCenter: parent.verticalCenter
-                            enabled: !keybindsTab.showingNewBind && !KeybindsService.readOnly
-                            opacity: enabled ? 1 : 0.5
-                            onClicked: keybindsTab.startNewBind()
+                        placeholderText: I18n.tr("Search shortcuts...")
+                        onTextChanged: {
+                            keybindsTab.searchQuery = text;
+                            searchDebounce.restart();
                         }
                     }
                 }
@@ -1021,6 +1001,20 @@ Item {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    SettingsFabBar {
+        id: newBindFab
+        shown: !keybindsTab.showingNewBind && !KeybindsService.readOnly
+
+        DankFab {
+            text: I18n.tr("New Keybind")
+            iconName: "add"
+            onClicked: {
+                keybindsTab.startNewBind();
+                keybindsTab.scrollToTop();
             }
         }
     }
