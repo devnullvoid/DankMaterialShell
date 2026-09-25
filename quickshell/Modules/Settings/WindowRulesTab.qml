@@ -184,6 +184,7 @@ Item {
             try {
                 const result = JSON.parse(output.trim());
                 const allRules = result.rules || [];
+                CompositorService.syncDmsWindowFloatingRule(allRules);
                 windowRules = allRules.filter(r => (r.source || "").includes("dms/windowrules"));
                 externalRules = allRules.filter(r => !(r.source || "").includes("dms/windowrules"));
                 windowRulesInclude.applyStatus(result.dmsStatus);

@@ -678,6 +678,13 @@ function migrateToVersion(obj, targetVersion) {
         settings.configVersion = 29;
     }
 
+    if (currentVersion < 30 && targetVersion >= 30) {
+        if (settings.dmsWindowsFloating === false)
+            settings.dmsWindowsFloatingSeeded = ["niri", "hyprland", "mango"];
+        delete settings.dmsWindowsFloating;
+        settings.configVersion = 30;
+    }
+
     return settings;
 }
 

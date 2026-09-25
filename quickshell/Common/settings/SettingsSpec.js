@@ -60,8 +60,8 @@ var LOCAL_SPEC = {
         def: 1.0,
         coerce: Util.percentToUnit
     },
-    dmsWindowsFloating: {
-        def: true
+    dmsWindowsFloatingSeeded: {
+        def: []
     },
     hostSurfaceColor: {
         def: "default"

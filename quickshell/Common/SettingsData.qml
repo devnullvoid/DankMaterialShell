@@ -21,7 +21,7 @@ Singleton {
     id: root
     readonly property var log: Log.scoped("SettingsData")
 
-    readonly property int settingsConfigVersion: 29
+    readonly property int settingsConfigVersion: 30
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 
@@ -177,7 +177,7 @@ Singleton {
     property real floatingWindowTransparency: Spec.SPEC.floatingWindowTransparency.def
     property bool floatingWindowForegroundLayers: Spec.SPEC.floatingWindowForegroundLayers.def
     property real floatingWindowForegroundTransparency: Spec.SPEC.floatingWindowForegroundTransparency.def
-    property bool dmsWindowsFloating: Spec.SPEC.dmsWindowsFloating.def
+    property var dmsWindowsFloatingSeeded: Spec.SPEC.dmsWindowsFloatingSeeded.def
     property string hostSurfaceColor: Spec.SPEC.hostSurfaceColor.def
     property string hostSurfaceCustomColor: Spec.SPEC.hostSurfaceCustomColor.def
     property string cardSurfaceColor: Spec.SPEC.cardSurfaceColor.def
