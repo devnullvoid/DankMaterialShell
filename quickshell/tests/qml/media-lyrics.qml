@@ -133,6 +133,14 @@ ShellRoot {
         }
     }
 
+    Component {
+        id: recreatedTab
+        MediaPlayerTab {
+            visible: false
+            live: false
+        }
+    }
+
     function check(value, message) {
         if (!value)
             throw new Error(message);
@@ -244,6 +252,13 @@ ShellRoot {
             media.lyricsOpen = true;
             waitFor(() => !!media.lyricsFocusTarget, "reopened lyrics load");
             check(backend.calls === settledCalls + 1 && media.lyrics.state === "ready", "reopening reuses loaded lyrics");
+            const recreated = recreatedTab.createObject(stage);
+            recreated.lyrics.backend = backend;
+            recreated.lyrics.player = lyricsPlayer;
+            recreated.lyricsOpen = true;
+            recreated.live = true;
+            check(recreated.lyrics.state === "ready" && !recreated.lyrics.pending && recreated.lyrics.lines.length === media.lyrics.lines.length && backend.calls === settledCalls + 1, "a recreated media tab shows the loaded lyrics without loading");
+            recreated.destroy();
             media.lyrics.request();
             const stale = backend.pending[backend.nextId];
             MprisController.stableTitle = "Next track";

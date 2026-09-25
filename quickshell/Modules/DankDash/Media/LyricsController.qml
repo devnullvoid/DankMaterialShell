@@ -65,7 +65,7 @@ QtObject {
             clear();
         requestedKey = "";
         if (enabled)
-            requestDelay.restart();
+            resume();
     }
     onEnabledChanged: {
         if (!enabled) {
@@ -75,13 +75,10 @@ QtObject {
                 requestedKey = "";
                 state = "idle";
             }
+            remember();
             return;
         }
-        if (requestedKey !== trackKey || staleDuration || state === "idle" || state === "error") {
-            requestDelay.restart();
-            return;
-        }
-        reanchor();
+        resume();
     }
     onStaleDurationChanged: {
         if (!enabled || !staleDuration)
@@ -98,6 +95,7 @@ QtObject {
     Component.onDestruction: {
         cancel();
         stopClock();
+        remember();
     }
 
     function cancel() {
@@ -111,6 +109,45 @@ QtObject {
     function stopClock() {
         tick.stop();
         anchorUpdate.stop();
+    }
+
+    function resume() {
+        recall();
+        if (requestedKey !== trackKey || staleDuration || state === "idle" || state === "error") {
+            requestDelay.restart();
+            return;
+        }
+        reanchor();
+    }
+
+    function remember() {
+        if (requestedKey === "" || (state !== "ready" && state !== "instrumental" && state !== "none"))
+            return;
+        LyricsMemo.last = {
+            requestedKey,
+            requestedDuration,
+            requestedSong,
+            lines,
+            plainLines,
+            synced,
+            cueTimes,
+            attributionName,
+            attributionUrl,
+            attributionText,
+            shownSong,
+            shownResult,
+            state
+        };
+    }
+
+    function recall() {
+        const last = LyricsMemo.last;
+        if (!last || last.requestedKey !== trackKey || requestedKey === trackKey)
+            return;
+        refreshPending = false;
+        clearContent();
+        for (const name in last)
+            root[name] = last[name];
     }
 
     function songTitle() {
