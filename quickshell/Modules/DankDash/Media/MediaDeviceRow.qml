@@ -70,7 +70,6 @@ SettingsRow {
                 Layout.fillWidth: true
                 size: "xs"
                 insetIcon: ""
-                wheelInsideScrollable: false
                 volume: root.node?.audio?.volume ?? 0
                 muted: root.node?.audio?.muted ?? false
                 maximumVolume: AudioService.getMaxVolumePercent(root.node)

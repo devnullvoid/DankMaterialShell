@@ -121,7 +121,6 @@ Item {
                 rotation: root.vertical ? -90 : 0
                 LayoutMirroring.enabled: !root.vertical && I18n.isRtl
                 enabled: root.sliderEnabled && root.interactive
-                wheelInsideScrollable: true
                 size: {
                     if (!root.tall)
                         return "s";
