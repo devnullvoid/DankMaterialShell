@@ -369,7 +369,9 @@ FocusScope {
             }
 
             sourceComponent: DankLoadingIndicator {
-                color: MediaAccentService.lyricsAccents[0]
+                contained: true
+                containerColor: MediaAccentService.accentContainer
+                color: MediaAccentService.onAccentContainer
                 Accessible.role: Accessible.ProgressBar
                 Accessible.name: I18n.tr("Loading...")
             }

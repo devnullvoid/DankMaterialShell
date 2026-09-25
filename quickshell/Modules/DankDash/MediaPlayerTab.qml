@@ -25,6 +25,7 @@ Item {
     property Item lyricsOpener: null
     readonly property alias lyrics: lyricsController
     readonly property var presentation: mediaPresentation.current
+    readonly property bool idle: !presentation
     readonly property bool presentationSettling: mediaPresentation.settling
     property bool wallpaperEnabled: MediaOptions.albumArtBackdrop
     property string panel: ""
@@ -82,6 +83,13 @@ Item {
         playerPaneOpen = true;
     }
 
+    onIdleChanged: {
+        if (!idle)
+            return;
+        panel = "";
+        isSeeking = false;
+    }
+
     onLyricsOpenChanged: {
         if (!lyricsOpen)
             lyricsFocusTimer.restart();
@@ -90,7 +98,7 @@ Item {
     LyricsController {
         id: lyricsController
         player: root
-        enabled: root.lyricsOpen && root.live && root.lyricsEnabled
+        enabled: root.lyricsOpen && root.live && root.lyricsEnabled && !root.idle
     }
 
     Timer {
@@ -304,7 +312,14 @@ Item {
     Loader {
         id: mediaChrome
         anchors.fill: parent
+        active: !root.idle
         sourceComponent: root.playerStyle === "material" ? materialChrome : bentoChrome
+    }
+
+    Loader {
+        anchors.fill: parent
+        active: root.idle
+        sourceComponent: MediaEmptyState {}
     }
 
     Component {
