@@ -83,7 +83,7 @@ Item {
     readonly property color fillColor: {
         if (noBackground)
             return "transparent";
-        const transparency = barConfig?.widgetTransparency ?? 1.0;
+        const transparency = SettingsData.barWidgetTransparency(barConfig);
         const baseColor = Theme.widgetBaseBackgroundColor;
         if (Theme.widgetBackgroundHasAlpha)
             return Theme.blendAlpha(baseColor, transparency);

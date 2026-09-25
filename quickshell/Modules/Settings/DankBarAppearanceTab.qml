@@ -756,18 +756,35 @@ Item {
                 }
             }
 
-            SettingsSliderRow {
-                text: I18n.tr("Opacity")
-                tags: ["widget", "opacity", "transparency"]
+            SettingsToggleRow {
+                id: widgetOpacityRow
+
+                readonly property bool overridden: bar.selectedBarConfig?.widgetFollowInterfaceStyle === false
+
+                text: I18n.tr("Override", "verb, toggle to override the global setting for this item")
+                tags: ["widget", "opacity", "transparency", "override", "foreground", "interface", "style"]
                 enabled: root.widgetBackgroundEnabled
                 resetStore: bar
-                resetKeys: ["widgetTransparency"]
-                value: (bar.selectedBarConfig?.widgetTransparency ?? 1.0) * 100
-                minimum: 0
-                maximum: 100
-                onSliderDragFinished: finalValue => SettingsData.updateBarConfig(bar.selectedBarId, {
-                        widgetTransparency: finalValue / 100
+                resetKeys: ["widgetFollowInterfaceStyle", "widgetTransparency"]
+                resetByKeys: true
+                checked: overridden
+                onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
+                        widgetFollowInterfaceStyle: !checked
                     })
+
+                body: SettingsSliderRow {
+                    width: parent.width
+                    text: I18n.tr("Opacity")
+                    enabled: root.widgetBackgroundEnabled && widgetOpacityRow.overridden
+                    resetStore: bar
+                    resetKeys: ["widgetTransparency"]
+                    value: Math.round(SettingsData.barWidgetTransparency(bar.selectedBarConfig) * 100)
+                    minimum: 0
+                    maximum: 100
+                    onSliderDragFinished: finalValue => SettingsData.updateBarConfig(bar.selectedBarId, {
+                            widgetTransparency: finalValue / 100
+                        })
+                }
             }
 
             SettingsSliderRow {

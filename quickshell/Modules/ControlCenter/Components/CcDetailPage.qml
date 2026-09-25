@@ -20,6 +20,7 @@ FocusScope {
     property real topInset: 0
     property real minimumContentHeight: 0
     property vector4d cornerRadii: Qt.vector4d(Theme.windowRadius, Theme.windowRadius, Theme.windowRadius, Theme.windowRadius)
+    property real coverage: 0
 
     signal dismissed
     signal backRequested
@@ -217,7 +218,7 @@ FocusScope {
         width: Math.max(0, root.width - CcMetrics.detailDialogInset * 2)
         height: Math.max(0, Math.min(root.chromeHeight + root.contentHeight, root.maximumHeight))
         radius: Theme.cornerRadiusXL
-        color: Theme.readableSurface
+        color: CcMetrics.dialogColor
         border.width: Theme.layerOutlineWidth
         border.color: Theme.outlineMedium
         property real entryScale: 1
@@ -233,6 +234,7 @@ FocusScope {
 
             anchors.fill: parent
             anchors.margins: CcMetrics.detailDialogPadding
+            opacity: CcMetrics.hideCoveredContent ? 1 - root.coverage : 1
 
             Item {
                 id: header

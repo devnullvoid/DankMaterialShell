@@ -15,6 +15,7 @@ Item {
     property bool shown: false
     property real panelWidth: CcMetrics.dialogWidth
     property vector4d cornerRadii: Qt.vector4d(Theme.windowRadius, Theme.windowRadius, Theme.windowRadius, Theme.windowRadius)
+    readonly property real presence: panel.opacity
     default property alias content: contentSlot.data
 
     signal dismissed
@@ -81,7 +82,7 @@ Item {
         width: Math.min(root.panelWidth, root.width - Theme.spacingL * 2)
         height: column.implicitHeight + Theme.spacingL * 2
         radius: Theme.windowRadius
-        color: Theme.readableSurface
+        color: CcMetrics.dialogColor
         border.width: Theme.layerOutlineWidth
         border.color: Theme.outlineMedium
         opacity: root.shown ? 1 : 0

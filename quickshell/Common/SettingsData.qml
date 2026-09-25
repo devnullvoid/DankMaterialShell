@@ -21,7 +21,7 @@ Singleton {
     id: root
     readonly property var log: Log.scoped("SettingsData")
 
-    readonly property int settingsConfigVersion: 30
+    readonly property int settingsConfigVersion: 31
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 
@@ -2209,6 +2209,12 @@ Singleton {
         if (config?.followInterfaceStyle !== false)
             return popupTransparency;
         return config?.transparency ?? 1.0;
+    }
+
+    function barWidgetTransparency(config) {
+        if (config?.widgetFollowInterfaceStyle !== false)
+            return Theme.foregroundAlpha;
+        return config?.widgetTransparency ?? 1.0;
     }
 
     function barSurfaceColor(config) {

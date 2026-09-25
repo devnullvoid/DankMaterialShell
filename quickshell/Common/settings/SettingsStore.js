@@ -685,6 +685,19 @@ function migrateToVersion(obj, targetVersion) {
         settings.configVersion = 30;
     }
 
+    if (currentVersion < 31 && targetVersion >= 31) {
+        const glassLayers = settings.blurEnabled === true && settings.blurForegroundLayers === false;
+        const foregroundOpacity = Util.percentToUnit(settings.foregroundLayerTransparency) ?? 1.0;
+        const followedOpacity = glassLayers ? 0 : foregroundOpacity;
+        const bars = Array.isArray(settings.barConfigs) ? settings.barConfigs : [];
+        for (const bc of bars) {
+            if (!bc || bc.widgetFollowInterfaceStyle !== undefined)
+                continue;
+            bc.widgetFollowInterfaceStyle = (bc.widgetTransparency ?? 1.0) === followedOpacity;
+        }
+        settings.configVersion = 31;
+    }
+
     return settings;
 }
 

@@ -1305,6 +1305,7 @@ var LOCAL_SPEC = {
                 transparency: 1.0,
                 surfaceColor: "default",
                 surfaceCustomColor: "#6750A4",
+                widgetFollowInterfaceStyle: true,
                 widgetTransparency: 1.0,
                 squareCorners: false,
                 noBackground: false,

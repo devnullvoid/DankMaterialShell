@@ -284,6 +284,7 @@ FocusScope {
 
                 width: parent.width
                 height: root.gridHeight
+                opacity: CcMetrics.hideCoveredContent ? 1 - detailPage.opacity : 1
 
                 CcTileGrid {
                     id: widgetGrid
@@ -336,6 +337,7 @@ FocusScope {
         topInset: CcMetrics.sheetPadding + headerPane.height + Theme.spacingS
         minimumContentHeight: Math.max(0, root.gridHeight - CcMetrics.pageHeaderHeight)
         cornerRadii: root.surfaceCornerRadii
+        coverage: Math.max(codecSelectorLoader.item?.presence ?? 0, portSelectorLoader.item?.presence ?? 0)
         model: widgetModel
         screenName: root.host.triggerScreen?.name || ""
         screenModel: root.host.triggerScreen?.model || ""
