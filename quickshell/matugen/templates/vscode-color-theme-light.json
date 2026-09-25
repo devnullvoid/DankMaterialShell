@@ -213,7 +213,7 @@
         "constant.character"
       ],
       "settings": {
-        "foreground": "{{dank16.color0.light.hex}}"
+        "foreground": "{{dank16.color1.light.hex}}"
       }
     },
     {
@@ -263,7 +263,7 @@
     {
       "scope": ["constant.language.boolean.yaml", "constant.language.null.yaml"],
       "settings": {
-        "foreground": "{{dank16.color0.light.hex}}"
+        "foreground": "{{dank16.color1.light.hex}}"
       }
     },
     {
@@ -281,7 +281,7 @@
     {
       "scope": ["constant.language.boolean.toml", "constant.numeric.toml"],
       "settings": {
-        "foreground": "{{dank16.color0.light.hex}}"
+        "foreground": "{{dank16.color1.light.hex}}"
       }
     },
     {
