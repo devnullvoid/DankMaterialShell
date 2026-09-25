@@ -513,7 +513,15 @@ var LOCAL_SPEC = {
                 enabled: true
             },
             {
+                id: "kugou",
+                enabled: true
+            },
+            {
                 id: "lrclib",
+                enabled: true
+            },
+            {
+                id: "youtubemusic",
                 enabled: true
             }
         ]

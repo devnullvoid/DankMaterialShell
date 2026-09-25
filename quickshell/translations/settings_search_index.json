@@ -7798,6 +7798,7 @@
     "keywords": [
       "audio",
       "better lyrics",
+      "kugou",
       "lrclib",
       "lyrics",
       "lyricsplus",
@@ -7813,7 +7814,8 @@
       "sound",
       "source",
       "spotify",
-      "unison"
+      "unison",
+      "youtube music"
     ],
     "parentLabel": "Sound & media",
     "icon": "restart_alt"
