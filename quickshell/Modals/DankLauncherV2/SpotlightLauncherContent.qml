@@ -345,7 +345,7 @@ FocusScope {
         height: Theme.outlineWidth
         z: 1
         color: Theme.outlineVariant
-        visible: root._hasQuery
+        visible: root._hasQuery && !(Theme.focusRingWidth > 0 && searchInput.getActiveFocus())
     }
 
     ClippingRectangle {

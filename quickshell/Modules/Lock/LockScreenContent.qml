@@ -615,6 +615,7 @@ Item {
 
                     property bool showPassword: false
                     property real errorOffset: 0
+                    readonly property bool focusRingShown: passwordField.activeFocus && Theme.focusRingWidth > 0
                     transform: Translate {
                         x: Math.max(-LockMetrics.shakeDistance, Math.min(LockMetrics.shakeDistance, passwordBox.errorOffset))
                     }
@@ -623,8 +624,8 @@ Item {
                     Layout.preferredHeight: LockMetrics.fieldHeight
                     radius: Theme.fullRadius(width, height)
                     color: Theme.cardSurface
-                    border.width: passwordField.activeFocus ? Math.max(Theme.outlineWidth, Theme.focusRingWidth) : Theme.layerOutlineWidth
-                    border.color: passwordField.activeFocus ? Theme.focusRingColor : Theme.outlineMedium
+                    border.width: focusRingShown ? Math.max(Theme.outlineWidth, Theme.focusRingWidth) : Theme.layerOutlineWidth
+                    border.color: focusRingShown ? Theme.focusRingColor : Theme.outlineMedium
                     Accessible.name: I18n.tr("Password")
                     visible: SettingsData.lockScreenShowPasswordField || root.passwordBuffer.length > 0
 
