@@ -32,9 +32,13 @@ FocusScope {
     readonly property bool animationsEnabled: CcMetrics.animationsEnabled && !SettingsData.reduceMotion
     readonly property bool transitioning: enterPending || enterAnimation.running
     readonly property var pageItem: pageLoader.item
-    readonly property real contentHeight: Math.max(minimumContentHeight, CcMetrics.preferredDetailHeight(shownSection, pageItem?.preferredHeight ?? 0))
-    readonly property real minimumHeight: preferredHeight - contentHeight + Math.min(contentHeight, CcMetrics.detailMinContentHeight)
-    readonly property real preferredHeight: panel.height + CcMetrics.detailDialogPadding * 2
+    readonly property real pageHeight: CcMetrics.preferredDetailHeight(shownSection, pageItem?.preferredHeight ?? 0)
+    readonly property real contentHeight: Math.max(minimumContentHeight, pageHeight)
+    readonly property real chromeHeight: header.height + footer.height + CcMetrics.detailDialogPadding * 2
+    readonly property real maximumHeight: height - topInset - CcMetrics.detailDialogInset
+    // plugin detail content may not scroll itself, so the panel grows to fit it
+    readonly property bool pageScrollsItself: !shownSection.startsWith("plugin_")
+    readonly property real minimumHeight: chromeHeight + (pageScrollsItself ? Math.min(contentHeight, CcMetrics.detailMinContentHeight) : pageHeight)
     readonly property string title: {
         const own = pageItem?.title ?? "";
         if (own)
@@ -138,7 +142,6 @@ FocusScope {
         root.opacity = enterPending ? 0 : 1;
         dialogSurface.entryScale = enterPending ? CcMetrics.popupEnterScale : 1;
         shownSection = section;
-        dialogViewport.contentY = 0;
         pageLoader.sourceComponent = _componentFor(section);
         (pageItem ?? root).forceActiveFocus();
     }
@@ -212,7 +215,7 @@ FocusScope {
         x: CcMetrics.detailDialogInset
         y: root.topInset
         width: Math.max(0, root.width - CcMetrics.detailDialogInset * 2)
-        height: Math.max(0, Math.min(root.preferredHeight, root.height - root.topInset - CcMetrics.detailDialogInset))
+        height: Math.max(0, Math.min(root.chromeHeight + root.contentHeight, root.maximumHeight))
         radius: Theme.cornerRadiusXL
         color: Theme.readableSurface
         border.width: Theme.layerOutlineWidth
@@ -225,98 +228,75 @@ FocusScope {
             acceptedButtons: Qt.AllButtons
         }
 
-        DankFlickable {
-            id: dialogViewport
+        Item {
+            id: panel
 
             anchors.fill: parent
             anchors.margins: CcMetrics.detailDialogPadding
-            contentWidth: width
-            contentHeight: panel.height
-            clip: true
-            interactive: contentHeight > height
-            wheelEnabled: interactive
 
-            readonly property Item windowFocusItem: root.Window.window?.activeFocusItem ?? null
-            onWindowFocusItemChanged: {
-                const item = windowFocusItem;
-                if (!root.section || !item?.activeFocusOnTab || !root.containsItem(item) || !interactive)
-                    return;
-                const top = item.mapToItem(contentItem, 0, 0).y;
-                const bottom = top + item.height;
-                const target = top < contentY ? top : Math.max(contentY, bottom - height);
-                contentY = Math.max(0, Math.min(contentHeight - height, target));
+            Item {
+                id: header
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                height: CcMetrics.pageHeaderHeight
+
+                StyledText {
+                    anchors.left: parent.left
+                    anchors.leftMargin: Theme.spacingS
+                    anchors.right: headerSlot.left
+                    anchors.rightMargin: Theme.spacingM
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: root.title
+                    font.pixelSize: CcMetrics.pageTitleSize
+                    color: Theme.surfaceText
+                    elide: Text.ElideRight
+                    horizontalAlignment: Text.AlignLeft
+                }
+
+                Item {
+                    id: headerSlot
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    width: childrenRect.width
+                    height: parent.height
+                }
+            }
+
+            Loader {
+                id: pageLoader
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: header.bottom
+                anchors.bottom: footer.top
+                active: root.shownSection !== ""
+                onLoaded: {
+                    const actions = item.headerActions ?? null;
+                    if (actions)
+                        actions.parent = headerSlot;
+                }
             }
 
             Item {
-                id: panel
+                id: footer
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                height: closeButton.height + Theme.spacingS
 
-                width: dialogViewport.width
-                height: header.height + root.contentHeight + footer.height
-
-                Item {
-                    id: header
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-                    height: CcMetrics.pageHeaderHeight
-
-                    StyledText {
-                        anchors.left: parent.left
-                        anchors.leftMargin: Theme.spacingS
-                        anchors.right: headerSlot.left
-                        anchors.rightMargin: Theme.spacingM
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: root.title
-                        font.pixelSize: CcMetrics.pageTitleSize
-                        color: Theme.surfaceText
-                        elide: Text.ElideRight
-                        horizontalAlignment: Text.AlignLeft
-                    }
-
-                    Item {
-                        id: headerSlot
-                        anchors.right: parent.right
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: childrenRect.width
-                        height: parent.height
-                    }
-                }
-
-                Loader {
-                    id: pageLoader
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.top: header.bottom
-                    anchors.bottom: footer.top
-                    active: root.shownSection !== ""
-                    onLoaded: {
-                        const actions = item.headerActions ?? null;
-                        if (actions)
-                            actions.parent = headerSlot;
-                    }
-                }
-
-                Item {
-                    id: footer
-                    anchors.left: parent.left
+                DankButton {
+                    id: closeButton
                     anchors.right: parent.right
                     anchors.bottom: parent.bottom
-                    height: closeButton.height + Theme.spacingS
-
-                    DankButton {
-                        id: closeButton
-                        anchors.right: parent.right
-                        anchors.bottom: parent.bottom
-                        text: I18n.tr("Close")
-                        onClicked: root.backRequested()
-                    }
+                    text: I18n.tr("Close")
+                    onClicked: root.backRequested()
                 }
             }
         }
 
         Item {
             id: menuOverlay
-            anchors.fill: dialogViewport
+            anchors.fill: panel
         }
     }
 
