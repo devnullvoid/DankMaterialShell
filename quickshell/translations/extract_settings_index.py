@@ -235,24 +235,31 @@ STOPWORDS = {
 }
 
 
+def alias_keywords(text):
+    aliases = set()
+    for term in sorted(ABBREVIATIONS, key=len, reverse=True):
+        pattern = rf"\b{re.escape(term)}(?:e?s)?\b"
+        if not re.search(pattern, text):
+            continue
+        aliases.update(ABBREVIATIONS[term])
+        if " " in term or "-" in term:
+            text = re.sub(pattern, " ", text)
+    return aliases
+
+
 def enrich_keywords(label, description, category, existing_tags, parent_label=None):
     keywords = set(existing_tags)
 
     label_lower = label.lower()
     label_words = re.split(r"[\s\-_&/]+", label_lower)
     keywords.update(w for w in label_words if len(w) > 2)
-
-    for term, aliases in ABBREVIATIONS.items():
-        if term in label_lower:
-            keywords.update(aliases)
+    keywords.update(alias_keywords(label_lower))
 
     if description:
         desc_lower = description.lower()
         desc_words = re.split(r"[\s\-_&/,.]+", desc_lower)
         keywords.update(w for w in desc_words if len(w) > 3 and w.isalpha())
-        for term, aliases in ABBREVIATIONS.items():
-            if term in desc_lower:
-                keywords.update(aliases)
+        keywords.update(alias_keywords(desc_lower))
 
     for name in (category, parent_label):
         if not name:
@@ -260,9 +267,7 @@ def enrich_keywords(label, description, category, existing_tags, parent_label=No
         keywords.update(CATEGORY_KEYWORDS.get(name, []))
         name_lower = name.lower()
         keywords.update(w for w in re.split(r"[\s\-_&/]+", name_lower) if len(w) > 2)
-        for term, aliases in ABBREVIATIONS.items():
-            if term in name_lower:
-                keywords.update(aliases)
+        keywords.update(alias_keywords(name_lower))
 
     keywords = {k for k in keywords if k not in STOPWORDS and len(k) > 1}
     return sorted(keywords)
@@ -597,6 +602,8 @@ def generate_hub_entries(hubs):
             "keywords": sorted(k for k in keywords if k not in STOPWORDS),
             "icon": hub["icon"],
         }
+        if hub["hint"]:
+            entry["description"] = hub["hint"]
         if hub["conditionKey"]:
             entry["conditionKey"] = hub["conditionKey"]
         entries.append(entry)
@@ -614,7 +621,7 @@ def generate_tab_entries(leaves, settings_entries):
     entries = []
     for leaf in leaves:
         base_label = leaf["label"]
-        if not base_label:
+        if not base_label or leaf["children"]:
             continue
         label = (
             f"{leaf['parentLabel']}: {base_label}"

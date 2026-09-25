@@ -300,7 +300,8 @@
       "taskbar",
       "topbar"
     ],
-    "icon": "toolbar"
+    "icon": "toolbar",
+    "description": "Layout, position, appearance"
   },
   {
     "section": "barConfigurations",
@@ -931,7 +932,8 @@
       "visible",
       "widgets"
     ],
-    "icon": "dock_to_bottom"
+    "icon": "dock_to_bottom",
+    "description": "Visibility, position, pinned apps, trash"
   },
   {
     "section": "dockConfiguration",
@@ -2456,27 +2458,6 @@
     "icon": "palette"
   },
   {
-    "section": "_tab_0",
-    "label": "Wallpaper & colors",
-    "tabIndex": 0,
-    "category": "Wallpaper & colors",
-    "keywords": [
-      "background",
-      "bg",
-      "colors",
-      "colour",
-      "colours",
-      "desktop",
-      "hue",
-      "image",
-      "palette",
-      "picture",
-      "tint",
-      "wallpaper"
-    ],
-    "icon": "palette"
-  },
-  {
     "section": "clockDateFormat",
     "label": "Bar format",
     "tabIndex": 1,
@@ -3908,9 +3889,7 @@
       "panel",
       "screen",
       "screens",
-      "statusbar",
-      "taskbar",
-      "topbar"
+      "taskbar"
     ],
     "icon": "tune",
     "parentLabel": "Dock",
@@ -5370,13 +5349,11 @@
       "app menu",
       "applications",
       "background",
-      "dark mode",
       "darken",
       "drawer",
       "launcher",
       "menu",
       "modal",
-      "night",
       "overlay",
       "start",
       "start menu"
@@ -5882,10 +5859,8 @@
       "applications",
       "bar",
       "chips",
-      "day",
       "drawer",
       "launcher",
-      "light mode",
       "menu",
       "panel",
       "shortcut",
@@ -7031,24 +7006,6 @@
       "registries",
       "widgets"
     ],
-    "icon": "extension"
-  },
-  {
-    "section": "_tab_12",
-    "label": "Plugins",
-    "tabIndex": 12,
-    "category": "Plugins",
-    "keywords": [
-      "addon",
-      "addons",
-      "browse",
-      "extend",
-      "extensions",
-      "install",
-      "plugins",
-      "registries",
-      "widgets"
-    ],
     "icon": "extension",
     "description": "Browse, install, registries"
   },
@@ -7883,26 +7840,6 @@
       "rules",
       "toast"
     ],
-    "icon": "notifications"
-  },
-  {
-    "section": "_tab_17",
-    "label": "Notifications",
-    "tabIndex": 17,
-    "category": "Notifications",
-    "keywords": [
-      "alert",
-      "alerts",
-      "disturb",
-      "dnd",
-      "messages",
-      "notif",
-      "notifications",
-      "notifs",
-      "popups",
-      "rules",
-      "toast"
-    ],
     "icon": "notifications",
     "description": "Popups, do not disturb, rules"
   },
@@ -7915,15 +7852,10 @@
       "always",
       "displays",
       "indicator",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "percentage",
       "popup",
       "screen",
-      "screens",
       "show"
     ]
   },
@@ -7936,14 +7868,10 @@
       "audio",
       "displays",
       "indicator",
-      "monitor",
-      "monitors",
       "osd",
       "output",
-      "outputs",
       "popup",
       "screen",
-      "screens",
       "switch"
     ]
   },
@@ -7959,14 +7887,9 @@
       "dim",
       "displays",
       "indicator",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
-      "screen",
-      "screens"
+      "screen"
     ]
   },
   {
@@ -7979,14 +7902,9 @@
       "displays",
       "indicator",
       "lock",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
-      "screen",
-      "screens"
+      "screen"
     ]
   },
   {
@@ -8001,14 +7919,9 @@
       "inactive",
       "indicator",
       "inhibitor",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
       "screen",
-      "screens",
       "screensaver",
       "timeout"
     ]
@@ -8022,15 +7935,10 @@
       "displays",
       "indicator",
       "media",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "playback",
       "popup",
-      "screen",
-      "screens"
+      "screen"
     ]
   },
   {
@@ -8044,14 +7952,9 @@
       "indicator",
       "loudness",
       "media",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
       "screen",
-      "screens",
       "sound",
       "speaker",
       "volume"
@@ -8066,15 +7969,10 @@
       "displays",
       "indicator",
       "microphone",
-      "monitor",
-      "monitors",
       "mute",
       "osd",
-      "output",
-      "outputs",
       "popup",
-      "screen",
-      "screens"
+      "screen"
     ]
   },
   {
@@ -8088,14 +7986,9 @@
       "indicator",
       "loudness",
       "microphone",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
       "screen",
-      "screens",
       "sound",
       "speaker",
       "volume"
@@ -8117,15 +8010,10 @@
       "indicator",
       "lock",
       "loudness",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
       "position",
       "screen",
-      "screens",
       "sound",
       "speaker",
       "volume"
@@ -8141,15 +8029,10 @@
     "keywords": [
       "displays",
       "indicator",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
       "position",
-      "screen",
-      "screens"
+      "screen"
     ]
   },
   {
@@ -8160,15 +8043,10 @@
     "keywords": [
       "displays",
       "indicator",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
       "position",
-      "screen",
-      "screens"
+      "screen"
     ]
   },
   {
@@ -8180,18 +8058,13 @@
       "displays",
       "hibernate",
       "indicator",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
       "power",
       "profile",
       "reboot",
       "restart",
       "screen",
-      "screens",
       "shutdown",
       "sleep",
       "suspend"
@@ -8205,14 +8078,9 @@
     "keywords": [
       "displays",
       "indicator",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
       "screen",
-      "screens",
       "show"
     ]
   },
@@ -8226,14 +8094,9 @@
       "displays",
       "indicator",
       "loudness",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
       "screen",
-      "screens",
       "sound",
       "speaker",
       "volume"
@@ -8248,14 +8111,9 @@
       "desktop",
       "displays",
       "indicator",
-      "monitor",
-      "monitors",
       "osd",
-      "output",
-      "outputs",
       "popup",
       "screen",
-      "screens",
       "switch",
       "virtual",
       "workspace"
@@ -9079,26 +8937,6 @@
       "taskbar",
       "topbar",
       "widget",
-      "widgets"
-    ],
-    "icon": "widgets"
-  },
-  {
-    "section": "_tab_22",
-    "label": "Bar widgets",
-    "tabIndex": 22,
-    "category": "Bar widgets",
-    "keywords": [
-      "bar",
-      "components",
-      "configure",
-      "modules",
-      "panel",
-      "remove",
-      "reorder",
-      "statusbar",
-      "taskbar",
-      "topbar",
       "widgets"
     ],
     "icon": "widgets",
@@ -10488,29 +10326,6 @@
       "time",
       "watch",
       "widget",
-      "widgets"
-    ],
-    "icon": "widgets"
-  },
-  {
-    "section": "_tab_27",
-    "label": "Desktop widgets",
-    "tabIndex": 27,
-    "category": "Desktop widgets",
-    "keywords": [
-      "addons",
-      "clocks",
-      "components",
-      "conky",
-      "desktop",
-      "desktop clock",
-      "extensions",
-      "modules",
-      "monitors",
-      "plugins",
-      "system",
-      "time",
-      "watch",
       "widgets"
     ],
     "icon": "widgets",
@@ -13405,25 +13220,6 @@
       "shadows",
       "style"
     ],
-    "icon": "layers"
-  },
-  {
-    "section": "_tab_48",
-    "label": "Interface style",
-    "tabIndex": 48,
-    "category": "Interface style",
-    "keywords": [
-      "blur",
-      "borders",
-      "corners",
-      "interface",
-      "opacity",
-      "radius",
-      "round",
-      "rounded",
-      "shadows",
-      "style"
-    ],
     "icon": "layers",
     "description": "Opacity, borders, blur, shadows, corners"
   },
@@ -15560,17 +15356,6 @@
       "accounts",
       "create",
       "user",
-      "users"
-    ],
-    "icon": "account_circle"
-  },
-  {
-    "section": "_tab_60",
-    "label": "Users & accounts",
-    "tabIndex": 60,
-    "category": "Users & accounts",
-    "keywords": [
-      "accounts",
       "users"
     ],
     "icon": "account_circle"
