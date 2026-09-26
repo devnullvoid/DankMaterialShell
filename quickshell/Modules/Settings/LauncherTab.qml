@@ -253,6 +253,7 @@ Item {
                 settingKey: "searchAppActions"
                 tags: ["launcher", "search", "actions", "shortcuts", "desktop"]
                 text: I18n.tr("App actions")
+                description: I18n.tr("Search also matches actions apps provide, like New Window", "launcher app actions search toggle description")
                 checked: SessionData.searchAppActions
                 onToggled: checked => SessionData.setSearchAppActions(checked)
             }
@@ -692,6 +693,7 @@ Item {
                 settingKey: "launchPrefix"
                 tags: ["launcher", "prefix", "uwsm", "command", "launch"]
                 text: I18n.tr("Launch prefix")
+                description: I18n.tr("Added in front of every app launch command", "launcher launch prefix field description")
                 leftIconName: "terminal"
                 placeholderText: I18n.tr("Enter launch prefix (e.g., 'uwsm-app')")
                 value: SettingsData.launchPrefix
@@ -840,6 +842,7 @@ Item {
                 settingKey: "dankLauncherV2UnloadOnClose"
                 tags: ["launcher", "unload", "close", "memory", "vram"]
                 text: I18n.tr("Unload on close")
+                description: I18n.tr("Frees the launcher when closed and rebuilds it on open", "launcher unload on close toggle description")
                 checked: SettingsData.dankLauncherV2UnloadOnClose
                 onToggled: checked => SettingsData.set("dankLauncherV2UnloadOnClose", checked)
             }

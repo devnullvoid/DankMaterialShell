@@ -299,10 +299,12 @@ Singleton {
 
     readonly property var _matugenSchemeDefs: [({
                 "value": "scheme-tonal-spot",
+                "spec2025": true,
                 "label": I18n.tr("Tonal Spot", "matugen color scheme option"),
                 "description": I18n.tr("Balanced palette with focused accents (default).")
             }), ({
                 "value": "scheme-vibrant",
+                "spec2025": true,
                 "label": I18n.tr("Vibrant", "matugen color scheme option"),
                 "description": I18n.tr("Lively palette with saturated accents.")
             }), ({
@@ -311,6 +313,7 @@ Singleton {
                 "description": I18n.tr("Derives colors that closely match the underlying image.")
             }), ({
                 "value": "scheme-expressive",
+                "spec2025": true,
                 "label": I18n.tr("Expressive", "matugen color scheme option"),
                 "description": I18n.tr("Vibrant palette with playful saturation.")
             }), ({
@@ -327,6 +330,7 @@ Singleton {
                 "description": I18n.tr("Minimal palette built around a single hue.")
             }), ({
                 "value": "scheme-neutral",
+                "spec2025": true,
                 "label": I18n.tr("Neutral", "matugen color scheme option"),
                 "description": I18n.tr("Muted palette with subdued, calming tones.")
             }), ({

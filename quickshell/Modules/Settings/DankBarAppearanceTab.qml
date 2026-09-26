@@ -220,6 +220,7 @@ Item {
                 settingKey: "barGothCorners"
                 tags: ["goth", "corners", "concave", "cutout"]
                 text: I18n.tr("Goth corners")
+                description: I18n.tr("Adds concave curves where the bar meets the screen edge", "bar goth corners toggle description")
                 visible: !bar.selectedBarFrameSanitized && !bar.islandOwnsSelectedBarTop
                 resetStore: bar
                 resetKeys: ["gothCornersEnabled"]
@@ -450,6 +451,7 @@ Item {
                 settingKey: "barLengthPadding"
                 visible: !bar.selectedBarFrameStyled && !bar.islandOwnsSelectedBarTop && (bar.selectedBarConfig?.barLengthMode ?? "full") === "full"
                 text: I18n.tr("Length padding")
+                description: I18n.tr("Shortens the bar at both ends", "bar length padding slider description")
                 tags: ["bar", "length", "padding", "size", "shorter", "ends"]
                 resetStore: bar
                 resetKeys: ["barLengthPadding"]
@@ -465,6 +467,7 @@ Item {
             SettingsSliderRow {
                 visible: !bar.selectedBarFrameStyled
                 text: I18n.tr("Inset padding")
+                description: I18n.tr("Gap between the bar ends and the outermost widgets", "bar inset padding slider description")
                 tags: ["bar", "padding", "inset", "edge", "corner", "end", "gap"]
                 minimumLabel: I18n.tr("Edge to edge", "slider minimum label, bar touches the screen edges")
                 resetStore: SettingsData.barInsetPaddingSyncAll ? SettingsData : bar

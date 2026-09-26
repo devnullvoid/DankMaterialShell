@@ -141,6 +141,7 @@ Item {
                 settingKey: "fadeToLockEnabled"
                 tags: ["fade", "lock", "screen", "idle", "grace period"]
                 text: I18n.tr("Fade to lock screen")
+                description: I18n.tr("Fades the screen out first. Input during the fade cancels it", "idle fade toggle description")
                 checked: SettingsData.fadeToLockEnabled
                 onToggled: checked => SettingsData.set("fadeToLockEnabled", checked)
             }
@@ -159,6 +160,7 @@ Item {
                 settingKey: "fadeToDpmsEnabled"
                 tags: ["fade", "dpms", "monitor", "screen", "idle", "grace period"]
                 text: I18n.tr("Fade to display off")
+                description: I18n.tr("Fades the screen out first. Input during the fade cancels it", "idle fade toggle description")
                 checked: SettingsData.fadeToDpmsEnabled
                 onToggled: checked => SettingsData.set("fadeToDpmsEnabled", checked)
             }

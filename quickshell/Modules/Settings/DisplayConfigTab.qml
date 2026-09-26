@@ -119,6 +119,7 @@ Item {
             SettingsToggleRow {
                 settingKey: "displayProfileAutoSelect"
                 text: I18n.tr("Auto")
+                description: I18n.tr("Applies the saved profile that matches the connected displays", "display profile auto select toggle description")
                 checked: SettingsData.displayProfileAutoSelect
                 onToggled: checked => {
                     SettingsData.displayProfileAutoSelect = checked;

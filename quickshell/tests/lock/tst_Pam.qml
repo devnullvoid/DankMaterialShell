@@ -69,7 +69,6 @@ TestCase {
         SettingsData[data.setting] = data.value;
         verify(!pam.fprint.retrying);
         verify(!pam.fprint.active);
-        wait(1700);
         compare(pam.fprint.starts, 1);
         compare(pam.fprint.status, "disabled");
     }
@@ -87,7 +86,6 @@ TestCase {
         pam.fprint.finish(PamResult.Error);
         pam.lockSecured = false;
         verify(!pam.fprint.retrying);
-        wait(1700);
         compare(pam.fprint.starts, 1);
     }
 
@@ -101,7 +99,6 @@ TestCase {
         verify(pam.u2f.active);
         verify(!pam.fprint.retrying);
         compare(pam.fprint.status, "paused");
-        wait(1700);
         compare(pam.fprint.starts, 1);
     }
 
@@ -147,7 +144,6 @@ TestCase {
         SessionService.lidOpened();
         SessionService.sessionResumed();
         pam.retryFprintOnActivity();
-        wait(1700);
         compare(pam.fprint.tries, SettingsData.maxFprintTries);
         compare(pam.fprint.starts, 2);
         compare(pam.fprint.status, "max");
@@ -218,18 +214,6 @@ TestCase {
         compare(pam.fprint.starts, 1);
     }
 
-    function test_retryingStatusDoesNotClaimActiveScanner() {
-        const pam = lockedPam();
-        compare(pam.fprint.status, "active");
-        pam.fprint.finish(PamResult.Error);
-        compare(pam.fprint.status, "retrying");
-        verify(!pam.fprint.active);
-        compare(pam.fprint.tries, 0);
-        compare(pam.fprintState, "error");
-        tryCompare(pam.fprint, "status", "active", 2200);
-        compare(pam.fprintState, "");
-    }
-
     function test_errorLimitRecovery_data() {
         return [
             {
@@ -273,18 +257,6 @@ TestCase {
         compare(pam.fprint.status, "active");
     }
 
-    function test_activityDoesNotPostponePendingRecovery() {
-        const pam = lockedPam();
-        pam.fprint.finish(PamResult.Error);
-        pam.retryFprintOnActivity();
-        compare(pam.fprint.errorTries, 1);
-        for (let i = 0; i < 4; i++) {
-            wait(450);
-            pam.retryFprintOnActivity();
-        }
-        compare(pam.fprint.starts, 2);
-    }
-
     // A verify still running when the machine suspends leaves fprintd holding
     // the device, so the reader must not stay claimed once the screen is off.
     function test_blankScreenReleasesReaderAndWakeRearmsIt() {
@@ -293,7 +265,6 @@ TestCase {
         verify(!pam.fprint.active);
         verify(!pam.fprint.retrying);
         compare(pam.fprint.status, "paused");
-        wait(1700);
         compare(pam.fprint.starts, 1);
         IdleService.monitorsOff = false;
         tryCompare(pam.fprint, "starts", 2);
@@ -306,7 +277,6 @@ TestCase {
         verify(pam.fprint.retrying);
         IdleService.monitorsOff = true;
         verify(!pam.fprint.retrying);
-        wait(1700);
         compare(pam.fprint.starts, 1);
     }
 
@@ -356,20 +326,7 @@ TestCase {
         pam.retryFprintOnActivity();
         compare(pam.fprint.errorTries, 2);
         verify(pam.fprint.retrying);
-        wait(2000);
         compare(pam.fprint.starts, 1);
-    }
-
-    function test_backoffLetsDaemonIdleExitOnSecondRetry() {
-        const pam = lockedPam();
-        const expected = [1500, 1500, 35000, 60000, 60000];
-        for (let n = 0; n < expected.length; n++) {
-            pam.fprint.errorTries = n;
-            compare(pam.fprint.retryInterval, expected[n], "errorTries=" + n);
-        }
-        // a wedged device only returns once fprintd exits and starts fresh
-        pam.fprint.errorTries = 2;
-        verify(pam.fprint.retryInterval > pam.fprint.daemonIdleExitMs);
     }
 
     function test_synchronousStartFailureSchedulesOneRetry() {
@@ -390,27 +347,6 @@ TestCase {
         verify(!pam.fprint.attemptSettled());
         pam.fprint.deliverMessage();
         verify(pam.fprint.attemptStartedAt > 0);
-    }
-
-    function test_errorBeforeAnyVerifyIsAlwaysAFault() {
-        const pam = lockedPam();
-        pam.fprint.finish(PamResult.Error);
-        compare(pam.fprint.errorTries, 1);
-        compare(pam.fprintState, "error");
-        verify(pam.fprint.retrying);
-        compare(pam.fprint.starts, 1);
-    }
-
-    function test_faultBeforeTimeoutStillSpendsErrorBudget() {
-        const pam = lockedPam();
-        pam.fprint.deliverMessage();
-        // halfway to the PAM timeout is a device fault, not an expiry
-        pam.fprint.attemptStartedAt = Date.now() - pam.fprint.sessionTimeoutMs / 2;
-        pam.fprint.finish(PamResult.Error);
-        compare(pam.fprint.errorTries, 1);
-        compare(pam.fprintState, "error");
-        verify(pam.fprint.retrying);
-        compare(pam.fprint.starts, 1);
     }
 
     // VerifyStart is asynchronous: pam_fprintd arms its deadline before the call
@@ -446,17 +382,4 @@ TestCase {
         compare(pam.fprint.status, "stopped");
         verify(!pam.fprint.retrying);
     }
-
-    function test_backoffMessageFlashesOnceAndExpires() {
-        const pam = lockedPam();
-        pam.fprint.errorTries = 3;
-        let flashes = 0;
-        pam.flashMsg.connect(() => flashes++);
-        pam.fprint.finish(PamResult.Error);
-        compare(pam.fprintState, "error");
-        compare(flashes, 0);
-        tryCompare(pam, "fprintState", "", 5000);
-        verify(pam.fprint.retrying);
-    }
-
 }

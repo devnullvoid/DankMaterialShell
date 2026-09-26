@@ -259,6 +259,7 @@ Item {
                 visible: (bar.selectedBarConfig?.autoHide ?? false) && !bar.islandOwnsSelectedBarTop
                 tags: ["autohide", "strict", "popout"]
                 text: I18n.tr("Strict auto-hide", "Dank bar setting: hide the bar when the pointer leaves even if a menu or bar popover is still open")
+                description: I18n.tr("Hides even while a bar popout or menu is open", "bar strict auto-hide toggle description")
                 resetStore: bar
                 resetKeys: ["autoHideStrict"]
                 checked: bar.selectedBarConfig?.autoHideStrict ?? false
@@ -275,6 +276,7 @@ Item {
                 tags: ["hide", "windows", "empty", "workspace"]
                 visible: (bar.selectedBarConfig?.autoHide ?? false) && !bar.islandOwnsSelectedBarTop && CompositorService.supportsBarAutoHideReveal
                 text: I18n.tr("Hide when windows open")
+                description: I18n.tr("Stays visible while the workspace has no windows", "bar hide when windows open toggle description")
                 resetStore: bar
                 resetKeys: ["showOnWindowsOpen"]
                 checked: bar.selectedBarConfig?.showOnWindowsOpen ?? false
@@ -301,6 +303,7 @@ Item {
                 tags: ["manual", "show", "hide", "ipc", "toggle"]
                 visible: !bar.islandOwnsSelectedBarTop
                 text: I18n.tr("Manual show/hide")
+                description: I18n.tr("Off keeps the bar hidden until turned back on or shown over IPC", "bar manual visibility toggle description")
                 resetStore: bar
                 resetKeys: ["visible"]
                 checked: bar.selectedBarConfig?.visible ?? true
@@ -412,6 +415,7 @@ Item {
                 resetStore: bar
                 resetKeys: ["islandNotificationPopups"]
                 text: I18n.tr("Use standard popups", "island settings: show arriving notifications as stacked popups instead of in the island")
+                description: I18n.tr("New notifications show as regular popups", "island standard popups toggle description")
                 checked: bar.islandSetting("islandNotificationPopups")
                 onToggled: checked => bar.apply("islandNotificationPopups", checked)
             }
@@ -641,6 +645,7 @@ Item {
                 tags: ["frame", "connected", "launcher", "hover", "edge", "reveal"]
                 visible: SettingsData.frameMode === "connected"
                 text: I18n.tr("Edge hover reveal")
+                description: I18n.tr("Pointer at the launcher edge opens it, unless a bar or dock is there", "frame launcher edge hover toggle description")
                 checked: SettingsData.frameLauncherEdgeHover
                 onToggled: checked => SettingsData.set("frameLauncherEdgeHover", checked)
             }
@@ -667,6 +672,7 @@ Item {
                 tags: ["clickthrough", "click", "through", "mouse", "input", "mask", "passthrough"]
                 visible: !bar.islandOwnsSelectedBarTop
                 text: I18n.tr("Click through")
+                description: I18n.tr("Clicks on empty bar space reach the windows below", "bar click through toggle description")
                 checked: bar.selectedBarConfig?.clickThrough ?? false
                 onToggled: toggled => SettingsData.updateBarConfig(bar.selectedBarId, {
                         clickThrough: toggled
@@ -707,6 +713,7 @@ Item {
                 tags: ["maximize", "gaps", "border", "fullscreen"]
                 visible: CompositorService.supportsBarAutoHideReveal
                 text: I18n.tr("Maximize detection")
+                description: I18n.tr("Drops bar gaps and rounding while a window is maximized", "bar maximize detection toggle description")
                 checked: bar.selectedBarConfig?.maximizeDetection ?? true
                 onToggled: toggled => SettingsData.updateBarConfig(bar.selectedBarId, {
                         maximizeDetection: toggled
@@ -718,6 +725,7 @@ Item {
                 tags: ["exclusive", "zone", "reserved", "offset"]
                 visible: !bar.islandOwnsSelectedBarTop && !bar.selectedBarFrameStyled
                 text: I18n.tr("Exclusive zone offset")
+                description: I18n.tr("Grows or shrinks the space windows keep clear", "bar and dock exclusive zone offset slider description")
                 resetStore: bar
                 resetKeys: ["bottomGap"]
                 value: bar.selectedBarConfig?.bottomGap ?? 0
@@ -731,6 +739,7 @@ Item {
 
             SettingsToggleRow {
                 text: I18n.tr("Auto popup gaps")
+                description: I18n.tr("Gap between the bar and its popouts follows edge spacing", "bar auto popup gaps toggle description")
                 tags: ["popup", "gaps", "auto"]
                 visible: !bar.selectedBarFrameStyled
                 resetStore: bar

@@ -159,6 +159,7 @@ Column {
             tags: ["foreground", "layers", "contrast", "surface", "blur", "glass", "frosted"]
             settingKey: "blurForegroundLayers"
             text: I18n.tr("Foreground layers")
+            description: I18n.tr("With background blur on, cards and tiles keep their own backing", "surface foreground layers toggle description")
             checked: SettingsData.blurForegroundLayers ?? true
             onToggled: checked => SettingsData.set("blurForegroundLayers", checked)
         }

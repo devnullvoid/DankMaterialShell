@@ -14,24 +14,28 @@
       "colours",
       "desktop",
       "disable",
+      "display",
+      "drawing",
+      "every",
       "external",
       "hue",
       "hyprpaper",
       "image",
       "layer",
-      "namespace",
-      "needs",
-      "niri",
+      "monitor",
+      "output",
       "palette",
       "picture",
-      "rule",
+      "screen",
+      "stops",
       "swaybg",
       "swww",
       "tint",
-      "wallpaper"
+      "wallpaper",
+      "wallpapers"
     ],
     "page": "personalization",
-    "description": "Layer namespace dms:blurwallpaper, needs a niri blur rule",
+    "description": "DMS stops drawing wallpapers on every display",
     "conditionKey": "isNiri"
   },
   {
@@ -52,10 +56,12 @@
       "notifications",
       "notifs",
       "priority",
+      "still",
       "toast",
       "urgent"
     ],
-    "page": "notifications"
+    "page": "notifications",
+    "description": "Critical notifications still pop up"
   },
   {
     "section": "notificationAnimationDuration",
@@ -887,6 +893,7 @@
     "keywords": [
       "alert",
       "alerts",
+      "critical",
       "disturb",
       "dnd",
       "messages",
@@ -897,11 +904,13 @@
       "notifications",
       "notifs",
       "silent",
+      "still",
       "suppress",
       "toast"
     ],
     "page": "notifications",
-    "icon": "notifications_off"
+    "icon": "notifications_off",
+    "description": "Critical notifications still pop up"
   },
   {
     "section": "_hub_dock",
@@ -1075,17 +1084,24 @@
     "tabIndex": -1,
     "category": "Interface style",
     "keywords": [
+      "background",
+      "backing",
       "blur",
+      "cards",
       "contrast",
       "foreground",
       "frosted",
       "glass",
       "interface",
+      "keep",
       "layers",
       "style",
-      "surface"
+      "surface",
+      "their",
+      "tiles"
     ],
-    "page": "theme_surfaces"
+    "page": "theme_surfaces",
+    "description": "With background blur on, cards and tiles keep their own backing"
   },
   {
     "section": "floatingWindowForegroundLayers",
@@ -1512,16 +1528,19 @@
     "tabIndex": -1,
     "category": "Wallpaper & colors",
     "keywords": [
+      "appearance",
       "background",
       "bg",
       "colors",
       "colour",
       "colours",
+      "come",
       "desktop",
       "display",
       "dynamic",
       "hue",
       "image",
+      "look",
       "material",
       "matugen",
       "monitor",
@@ -1530,13 +1549,16 @@
       "picture",
       "screen",
       "source",
+      "style",
       "target",
+      "theme",
       "theming",
       "tint",
       "wallpaper",
       "wallpaper colors"
     ],
-    "page": "personalization"
+    "page": "personalization",
+    "description": "Theme colors come from this display"
   },
   {
     "section": "notificationHistoryMaxCount",
@@ -1813,18 +1835,23 @@
       "alert",
       "alerts",
       "content",
+      "expanded",
       "hide",
       "lock",
+      "message",
       "messages",
       "notif",
       "notification",
       "notifications",
       "notifs",
+      "popups",
       "privacy",
-      "toast"
+      "toast",
+      "until"
     ],
     "page": "notifications",
-    "icon": "visibility_off"
+    "icon": "visibility_off",
+    "description": "Popups hide the message until expanded"
   },
   {
     "section": "notificationPopupPrivacyMode",
@@ -1836,7 +1863,9 @@
       "alerts",
       "body",
       "content",
+      "expanded",
       "hide",
+      "message",
       "messages",
       "mode",
       "notif",
@@ -1844,10 +1873,13 @@
       "notifications",
       "notifs",
       "popup",
+      "popups",
       "privacy",
-      "toast"
+      "toast",
+      "until"
     ],
-    "page": "notifications"
+    "page": "notifications",
+    "description": "Popups hide the message until expanded"
   },
   {
     "section": "radiusStrength",
@@ -2138,16 +2170,16 @@
     "category": "Interface style",
     "keywords": [
       "background",
+      "backing",
       "blur",
-      "compositor",
+      "cards",
       "corner",
-      "does",
-      "effect",
       "elevation",
       "foreground",
       "frosted",
       "glass",
       "interface",
+      "keep",
       "layers",
       "modal",
       "opacity",
@@ -2155,13 +2187,14 @@
       "radius",
       "shadow",
       "style",
-      "support",
       "surface",
       "surfaces",
+      "their",
+      "tiles",
       "transparency"
     ],
     "page": "theme_surfaces",
-    "description": "Your compositor does not support background blur (ext-background-effect-v1)"
+    "description": "With background blur on, cards and tiles keep their own backing"
   },
   {
     "section": "_hub_system",
@@ -2340,20 +2373,29 @@
       "colours",
       "desktop",
       "disable",
+      "display",
+      "drawing",
+      "every",
       "external",
       "hue",
       "hyprpaper",
       "image",
       "management",
       "manager",
+      "monitor",
+      "output",
       "palette",
       "picture",
+      "screen",
+      "stops",
       "swaybg",
       "swww",
       "tint",
-      "wallpaper"
+      "wallpaper",
+      "wallpapers"
     ],
-    "page": "personalization"
+    "page": "personalization",
+    "description": "DMS stops drawing wallpapers on every display"
   },
   {
     "section": "wallpaperOptions",
@@ -2361,26 +2403,34 @@
     "tabIndex": -1,
     "category": "Wallpaper & colors",
     "keywords": [
+      "appearance",
       "background",
       "bg",
       "colors",
       "colour",
       "colours",
+      "come",
       "cycling",
       "desktop",
       "display",
       "fill",
       "hue",
       "image",
+      "look",
       "monitor",
+      "output",
       "palette",
       "picture",
+      "screen",
+      "style",
+      "theme",
       "tint",
       "transition",
       "wallpaper"
     ],
     "page": "personalization",
-    "icon": "lock"
+    "icon": "lock",
+    "description": "Theme colors come from this display"
   },
   {
     "section": "windowRadius",
@@ -2814,7 +2864,10 @@
     "keywords": [
       "advanced",
       "bar",
+      "below",
       "click",
+      "clicks",
+      "empty",
       "exclusive",
       "gaps",
       "general",
@@ -2825,15 +2878,19 @@
       "overlay",
       "panel",
       "popup",
+      "reach",
+      "space",
       "spring",
       "statusbar",
       "taskbar",
       "through",
       "topbar",
+      "windows",
       "zone"
     ],
     "parentLabel": "Bar",
-    "icon": "tune"
+    "icon": "tune",
+    "description": "Clicks on empty bar space reach the windows below"
   },
   {
     "section": "frameLauncherArcExtender",
@@ -2977,20 +3034,27 @@
     "category": "General",
     "keywords": [
       "bar",
+      "below",
       "click",
+      "clicks",
       "clickthrough",
+      "empty",
       "general",
       "input",
       "mask",
       "mouse",
       "panel",
       "passthrough",
+      "reach",
+      "space",
       "statusbar",
       "taskbar",
       "through",
-      "topbar"
+      "topbar",
+      "windows"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "description": "Clicks on empty bar space reach the windows below"
   },
   {
     "section": "barDisplay",
@@ -3021,20 +3085,30 @@
     "tabIndex": 3,
     "category": "General",
     "keywords": [
+      "app drawer",
+      "app menu",
+      "applications",
       "bar",
       "connected",
+      "dock",
       "edge",
       "frame",
       "general",
       "hover",
       "launcher",
+      "opens",
       "panel",
+      "pointer",
       "reveal",
+      "start menu",
       "statusbar",
       "taskbar",
-      "topbar"
+      "there",
+      "topbar",
+      "unless"
     ],
     "parentLabel": "Bar",
+    "description": "Pointer at the launcher edge opens it, unless a bar or dock is there",
     "conditionKey": "frameEnabled"
   },
   {
@@ -3065,17 +3139,24 @@
     "category": "General",
     "keywords": [
       "bar",
+      "clear",
       "exclusive",
       "general",
+      "grows",
+      "keep",
       "offset",
       "panel",
       "reserved",
+      "shrinks",
+      "space",
       "statusbar",
       "taskbar",
       "topbar",
+      "windows",
       "zone"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "description": "Grows or shrinks the space windows keep clear"
   },
   {
     "section": "islandNotificationExpand",
@@ -3153,21 +3234,33 @@
     "tabIndex": 3,
     "category": "General",
     "keywords": [
+      "app drawer",
+      "app menu",
+      "applications",
       "bar",
       "connected",
       "displays",
+      "dock",
+      "edge",
       "frame",
       "general",
+      "launcher",
       "mode",
+      "opens",
       "overview",
       "panel",
+      "pointer",
       "separate",
+      "start menu",
       "statusbar",
       "taskbar",
-      "topbar"
+      "there",
+      "topbar",
+      "unless"
     ],
     "parentLabel": "Bar",
     "icon": "border_outer",
+    "description": "Pointer at the launcher edge opens it, unless a bar or dock is there",
     "conditionKey": "frameEnabled"
   },
   {
@@ -3199,18 +3292,24 @@
     "category": "General",
     "keywords": [
       "bar",
+      "desktop",
       "empty",
       "general",
       "hide",
       "open",
       "panel",
       "statusbar",
+      "stays",
       "taskbar",
       "topbar",
+      "virtual",
+      "visible",
+      "while",
       "windows",
       "workspace"
     ],
     "parentLabel": "Bar",
+    "description": "Stays visible while the workspace has no windows",
     "conditionKey": "windowRulesCapable"
   },
   {
@@ -3293,19 +3392,27 @@
     "tabIndex": 3,
     "category": "General",
     "keywords": [
+      "back",
       "bar",
       "general",
+      "hidden",
       "hide",
       "ipc",
+      "keeps",
       "manual",
+      "over",
       "panel",
       "show",
+      "shown",
       "statusbar",
       "taskbar",
       "toggle",
-      "topbar"
+      "topbar",
+      "turned",
+      "until"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "description": "Off keeps the bar hidden until turned back on or shown over IPC"
   },
   {
     "section": "barMaximizeDetection",
@@ -3316,16 +3423,22 @@
       "bar",
       "border",
       "detection",
+      "drops",
       "fullscreen",
       "gaps",
       "general",
       "maximize",
+      "maximized",
       "panel",
+      "rounding",
       "statusbar",
       "taskbar",
-      "topbar"
+      "topbar",
+      "while",
+      "window"
     ],
     "parentLabel": "Bar",
+    "description": "Drops bar gaps and rounding while a window is maximized",
     "conditionKey": "windowRulesCapable"
   },
   {
@@ -3345,6 +3458,9 @@
       "notifs",
       "panel",
       "popup",
+      "popups",
+      "regular",
+      "show",
       "stack",
       "standard",
       "statusbar",
@@ -3353,6 +3469,7 @@
     ],
     "parentLabel": "Bar",
     "icon": "notifications",
+    "description": "New notifications show as regular popups",
     "conditionKey": "islandEnabled"
   },
   {
@@ -3686,16 +3803,22 @@
       "auto",
       "autohide",
       "bar",
+      "even",
       "general",
       "hide",
+      "hides",
+      "menu",
+      "open",
       "panel",
       "popout",
       "statusbar",
       "strict",
       "taskbar",
-      "topbar"
+      "topbar",
+      "while"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "description": "Hides even while a bar popout or menu is open"
   },
   {
     "section": "frameModeSelector",
@@ -3765,14 +3888,20 @@
     "tabIndex": 3,
     "category": "General",
     "keywords": [
+      "alert",
+      "alerts",
       "arrival",
       "bar",
       "general",
       "island",
+      "notif",
       "notifications",
+      "notifs",
       "panel",
       "popup",
       "popups",
+      "regular",
+      "show",
       "stack",
       "standard",
       "statusbar",
@@ -3780,6 +3909,7 @@
       "topbar"
     ],
     "parentLabel": "Bar",
+    "description": "New notifications show as regular popups",
     "conditionKey": "islandEnabled"
   },
   {
@@ -3813,21 +3943,28 @@
       "auto-hide",
       "autohide",
       "bar",
+      "even",
       "general",
       "hidden",
       "hide",
+      "hides",
       "intellihide",
+      "menu",
+      "open",
       "panel",
+      "popout",
       "reveal",
       "show",
       "statusbar",
       "taskbar",
       "topbar",
       "visibility",
-      "visible"
+      "visible",
+      "while"
     ],
     "parentLabel": "Bar",
-    "icon": "visibility"
+    "icon": "visibility",
+    "description": "Hides even while a bar popout or menu is open"
   },
   {
     "section": "dockAutoHide",
@@ -4518,21 +4655,28 @@
     "tabIndex": 6,
     "category": "Appearance",
     "keywords": [
+      "adds",
       "appearance",
       "bar",
       "concave",
       "corners",
+      "curves",
       "cutout",
+      "edge",
       "goth",
+      "meets",
       "panel",
       "radius",
       "round",
       "rounded",
+      "screen",
       "statusbar",
       "taskbar",
-      "topbar"
+      "topbar",
+      "where"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "description": "Adds concave curves where the bar meets the screen edge"
   },
   {
     "section": "islandSatelliteGothCorners",
@@ -4657,17 +4801,20 @@
     "keywords": [
       "appearance",
       "bar",
+      "both",
       "ends",
       "length",
       "padding",
       "panel",
+      "shortens",
       "shorter",
       "size",
       "statusbar",
       "taskbar",
       "topbar"
     ],
-    "parentLabel": "Bar"
+    "parentLabel": "Bar",
+    "description": "Shortens the bar at both ends"
   },
   {
     "section": "barMaximizeWidgetIcons",
@@ -4886,6 +5033,8 @@
     "keywords": [
       "appearance",
       "bar",
+      "both",
+      "ends",
       "font",
       "gap",
       "gaps",
@@ -4897,6 +5046,7 @@
       "padding",
       "panel",
       "scale",
+      "shortens",
       "size",
       "spacing",
       "statusbar",
@@ -4904,7 +5054,8 @@
       "topbar"
     ],
     "parentLabel": "Bar",
-    "icon": "space_bar"
+    "icon": "space_bar",
+    "description": "Shortens the bar at both ends"
   },
   {
     "section": "barCorners",
@@ -4912,24 +5063,32 @@
     "tabIndex": 6,
     "category": "Appearance",
     "keywords": [
+      "adds",
       "appearance",
       "background",
       "bar",
+      "concave",
       "contrast",
       "corners",
+      "curves",
+      "edge",
       "goth",
+      "meets",
       "opacity",
       "palette",
       "panel",
       "rounded",
+      "screen",
       "shadow",
       "statusbar",
       "surface",
       "taskbar",
-      "topbar"
+      "topbar",
+      "where"
     ],
     "parentLabel": "Bar",
-    "icon": "rounded_corner"
+    "icon": "rounded_corner",
+    "description": "Adds concave curves where the bar meets the screen edge"
   },
   {
     "section": "widgetColorMode",
@@ -5171,16 +5330,21 @@
       "app drawer",
       "app menu",
       "applications",
+      "closed",
       "drawer",
+      "frees",
       "launcher",
       "layer",
       "memory",
       "menu",
+      "open",
       "overlay",
+      "rebuilds",
       "start",
       "start menu",
       "unload"
-    ]
+    ],
+    "description": "Frees the launcher when closed and rebuilds it on open"
   },
   {
     "section": "searchAppActions",
@@ -5193,15 +5357,20 @@
       "app drawer",
       "app menu",
       "applications",
+      "apps",
       "desktop",
       "drawer",
       "launcher",
+      "matches",
       "menu",
+      "provide",
       "search",
       "shortcuts",
       "start",
-      "start menu"
-    ]
+      "start menu",
+      "window"
+    ],
+    "description": "Search also matches actions apps provide, like New Window"
   },
   {
     "section": "appOverrides",
@@ -5475,11 +5644,14 @@
     "tabIndex": 9,
     "category": "Launcher",
     "keywords": [
+      "added",
       "app drawer",
       "app menu",
       "applications",
       "command",
       "drawer",
+      "every",
+      "front",
       "launch",
       "launcher",
       "menu",
@@ -5488,7 +5660,8 @@
       "start menu",
       "uwsm"
     ],
-    "icon": "restart_alt"
+    "icon": "restart_alt",
+    "description": "Added in front of every app launch command"
   },
   {
     "section": "_tab_9",
@@ -5519,10 +5692,15 @@
     "tabIndex": 9,
     "category": "Launcher",
     "keywords": [
+      "added",
       "app drawer",
       "app menu",
       "applications",
+      "command",
       "drawer",
+      "every",
+      "front",
+      "launch",
       "launcher",
       "launching",
       "menu",
@@ -5532,7 +5710,8 @@
       "terminal",
       "uwsm"
     ],
-    "icon": "rocket_launch"
+    "icon": "rocket_launch",
+    "description": "Added in front of every app launch command"
   },
   {
     "section": "launcherStyleSelector",
@@ -5722,16 +5901,21 @@
       "app drawer",
       "app menu",
       "applications",
+      "apps",
       "desktop",
       "drawer",
       "launcher",
+      "matches",
       "menu",
+      "provide",
       "search",
       "shortcuts",
       "start",
-      "start menu"
+      "start menu",
+      "window"
     ],
-    "icon": "search"
+    "icon": "search",
+    "description": "Search also matches actions apps provide, like New Window"
   },
   {
     "section": "dankLauncherV2ShowFooter",
@@ -5918,15 +6102,20 @@
       "app menu",
       "applications",
       "close",
+      "closed",
       "drawer",
+      "frees",
       "launcher",
       "memory",
       "menu",
+      "open",
+      "rebuilds",
       "start",
       "start menu",
       "unload",
       "vram"
-    ]
+    ],
+    "description": "Frees the launcher when closed and rebuilds it on open"
   },
   {
     "section": "launcherUseOverlayLayer",
@@ -5985,10 +6174,12 @@
       "appearance",
       "background",
       "bg",
+      "builds",
       "color",
       "colors",
       "colour",
       "colours",
+      "custom",
       "derived",
       "desktop",
       "dynamic",
@@ -6007,7 +6198,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "description": "Custom builds the palette from a color you pick"
   },
   {
     "section": "generateThemeAtStartup",
@@ -6057,9 +6249,13 @@
       "background",
       "bg",
       "bold",
+      "bolder",
       "colors",
       "colour",
       "colours",
+      "dark",
+      "dark mode",
+      "darker",
       "desktop",
       "dynamic",
       "expressive",
@@ -6068,18 +6264,27 @@
       "look",
       "material",
       "matugen",
+      "mode",
+      "neutral",
+      "night",
       "palette",
       "picture",
       "saturated",
       "scheme",
+      "softer",
       "spec",
+      "spot",
       "style",
+      "surfaces",
       "theme",
       "tint",
+      "tonal",
+      "vibrant",
       "vivid",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "description": "2025 has darker surfaces in dark mode. Tonal Spot and Neutral get softer, Vibrant and Expressive get bolder"
   },
   {
     "section": "matugenScheme",
@@ -6121,6 +6326,7 @@
       "appearance",
       "background",
       "bg",
+      "built",
       "color",
       "colors",
       "colour",
@@ -6141,7 +6347,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "description": "Which wallpaper color the palette is built from"
   },
   {
     "section": "themeStartupBehavior",
@@ -6193,6 +6400,7 @@
       "appearance",
       "background",
       "bg",
+      "built",
       "color",
       "colors",
       "colour",
@@ -6210,7 +6418,8 @@
       "wallpaper"
     ],
     "parentLabel": "Wallpaper & colors",
-    "icon": "palette"
+    "icon": "palette",
+    "description": "Which wallpaper color the palette is built from"
   },
   {
     "section": "_tab_10",
@@ -7033,18 +7242,25 @@
     "category": "Fonts & motion",
     "keywords": [
       "advanced",
+      "animate",
       "animation",
+      "animations",
       "duration",
       "fonts",
+      "main",
       "modal",
+      "modals",
       "motion",
       "popout",
+      "popouts",
       "quality",
       "render",
       "rendering",
       "sync",
-      "text"
-    ]
+      "text",
+      "transition"
+    ],
+    "description": "Popouts and modals use the main animation duration"
   },
   {
     "section": "animations",
@@ -7357,17 +7573,23 @@
     "tabIndex": 14,
     "category": "Fonts & motion",
     "keywords": [
+      "animate",
       "animation",
+      "animations",
+      "duration",
       "fonts",
       "global",
+      "main",
       "modal",
       "modals",
       "motion",
       "popout",
       "popouts",
       "sync",
-      "text"
-    ]
+      "text",
+      "transition"
+    ],
+    "description": "Popouts and modals use the main animation duration"
   },
   {
     "section": "fontWeight",
@@ -8499,25 +8721,32 @@
     "category": "Power & sleep",
     "keywords": [
       "battery",
+      "cancels",
       "charge",
       "charging",
       "display",
       "dpms",
+      "during",
       "energy",
       "fade",
+      "fades",
+      "first",
       "grace",
       "hibernate",
+      "input",
       "lock",
       "period",
       "power",
       "reboot",
       "restart",
+      "screen",
       "shutdown",
       "sleep",
       "suspend"
     ],
     "parentLabel": "Power & battery",
-    "icon": "gradient"
+    "icon": "gradient",
+    "description": "Fades the screen out first. Input during the fade cancels it"
   },
   {
     "section": "fadeToDpmsEnabled",
@@ -8526,15 +8755,20 @@
     "category": "Power & sleep",
     "keywords": [
       "battery",
+      "cancels",
       "charge",
       "charging",
       "display",
       "dpms",
+      "during",
       "energy",
       "fade",
+      "fades",
+      "first",
       "grace period",
       "hibernate",
       "idle",
+      "input",
       "monitor",
       "off",
       "output",
@@ -8546,7 +8780,8 @@
       "sleep",
       "suspend"
     ],
-    "parentLabel": "Power & battery"
+    "parentLabel": "Power & battery",
+    "description": "Fades the screen out first. Input during the fade cancels it"
   },
   {
     "section": "fadeToLockEnabled",
@@ -8555,13 +8790,18 @@
     "category": "Power & sleep",
     "keywords": [
       "battery",
+      "cancels",
       "charge",
       "charging",
+      "during",
       "energy",
       "fade",
+      "fades",
+      "first",
       "grace period",
       "hibernate",
       "idle",
+      "input",
       "lock",
       "lockscreen",
       "login",
@@ -8574,7 +8814,8 @@
       "sleep",
       "suspend"
     ],
-    "parentLabel": "Power & battery"
+    "parentLabel": "Power & battery",
+    "description": "Fades the screen out first. Input during the fade cancels it"
   },
   {
     "section": "powerMenuGridLayout",
@@ -10080,24 +10321,28 @@
     "tabIndex": 24,
     "category": "Configuration",
     "keywords": [
+      "applies",
       "config",
       "configuration",
       "configure",
       "connected",
       "displays",
+      "matches",
       "monitor",
       "monitors",
       "output",
       "outputs",
+      "profile",
       "profiles",
       "resolution",
+      "saved",
       "screen",
       "screens",
       "setup"
     ],
     "parentLabel": "Displays",
     "icon": "tune",
-    "description": "Connected"
+    "description": "Applies the saved profile that matches the connected displays"
   },
   {
     "section": "displayContrast",
@@ -11157,15 +11402,19 @@
       "close",
       "dock",
       "focus",
+      "focuses",
       "integrations",
       "launch",
       "launcher",
+      "launches",
+      "leaves",
       "niri",
       "overview",
       "settings",
       "system",
       "window"
     ],
+    "description": "Leaves the overview when DMS launches an app or focuses a window",
     "conditionKey": "layoutCapable"
   },
   {
@@ -11685,9 +11934,12 @@
     "keywords": [
       "dock",
       "focus",
+      "focuses",
       "integrations",
       "launch",
       "launcher",
+      "launches",
+      "leaves",
       "niri",
       "overview",
       "settings",
@@ -11695,6 +11947,7 @@
       "window"
     ],
     "icon": "overview",
+    "description": "Leaves the overview when DMS launches an app or focuses a window",
     "conditionKey": "isNiri"
   },
   {
@@ -12193,9 +12446,12 @@
       "saver",
       "shutdown",
       "sleep",
-      "suspend"
+      "suspend",
+      "switches",
+      "threshold"
     ],
-    "parentLabel": "Power & battery"
+    "parentLabel": "Power & battery",
+    "description": "Switches to power saver at the low battery threshold"
   },
   {
     "section": "_tab_42",
@@ -12443,13 +12699,17 @@
       "reboot",
       "refresh",
       "restart",
+      "saver",
       "shutdown",
       "sleep",
       "suspend",
+      "switches",
+      "threshold",
       "vrr"
     ],
     "parentLabel": "Power & battery",
-    "icon": "power"
+    "icon": "power",
+    "description": "Switches to power saver at the low battery threshold"
   },
   {
     "section": "acProfileName",
@@ -13568,6 +13828,7 @@
       "colors",
       "colour",
       "colours",
+      "config",
       "desktop",
       "dynamic",
       "hue",
@@ -13576,14 +13837,17 @@
       "matugen",
       "palette",
       "picture",
+      "runs",
       "templates",
       "theming",
       "tint",
+      "toml",
       "wallpaper",
       "wallpaper colors"
     ],
     "parentLabel": "Wallpaper & colors",
     "icon": "auto_awesome",
+    "description": "Also runs the templates in your matugen config.toml",
     "conditionKey": "matugenAvailable"
   },
   {
@@ -13596,16 +13860,26 @@
       "applications",
       "background",
       "bg",
+      "color",
       "colors",
       "colour",
       "colours",
       "dark",
+      "dark mode",
+      "day",
       "desktop",
+      "follow",
       "hue",
       "image",
+      "light",
+      "light mode",
+      "mode",
+      "night",
       "palette",
       "picture",
       "portal",
+      "scheme",
+      "system",
       "terminal",
       "terminals",
       "theming",
@@ -13613,7 +13887,8 @@
       "wallpaper"
     ],
     "parentLabel": "Wallpaper & colors",
-    "icon": "apps"
+    "icon": "apps",
+    "description": "Light and dark mode follow and set the system color scheme"
   },
   {
     "section": "runDmsMatugenTemplates",
@@ -13654,20 +13929,27 @@
       "colors",
       "colour",
       "colours",
+      "config",
       "desktop",
+      "dynamic",
       "hue",
       "image",
+      "material",
       "matugen",
       "palette",
       "picture",
       "run",
+      "runs",
       "templates",
       "theming",
       "tint",
+      "toml",
       "user",
-      "wallpaper"
+      "wallpaper",
+      "wallpaper colors"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "description": "Also runs the templates in your matugen config.toml"
   },
   {
     "section": "syncModeWithPortal",
@@ -13678,24 +13960,34 @@
       "app",
       "background",
       "bg",
+      "color",
       "colors",
       "colour",
       "colours",
       "dark",
+      "dark mode",
+      "day",
       "desktop",
+      "follow",
       "hue",
       "image",
+      "light",
+      "light mode",
       "mode",
+      "night",
       "palette",
       "picture",
       "portal",
+      "scheme",
       "sync",
+      "system",
       "theming",
       "tint",
       "wallpaper",
       "xdg"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "description": "Light and dark mode follow and set the system color scheme"
   },
   {
     "section": "terminalsAlwaysDark",
@@ -15188,10 +15480,13 @@
       "panel",
       "screen",
       "screens",
-      "taskbar"
+      "shows",
+      "taskbar",
+      "windows"
     ],
     "parentLabel": "Dock",
-    "icon": "monitor"
+    "icon": "monitor",
+    "description": "Shows only windows from the dock"
   },
   {
     "section": "dockExclusiveZone",
@@ -15200,16 +15495,23 @@
     "category": "Advanced",
     "keywords": [
       "advanced",
+      "clear",
       "dock",
       "exclusive",
+      "grows",
+      "keep",
       "launcher bar",
       "offset",
       "panel",
       "reserved",
+      "shrinks",
+      "space",
       "taskbar",
+      "windows",
       "zone"
     ],
-    "parentLabel": "Dock"
+    "parentLabel": "Dock",
+    "description": "Grows or shrinks the space windows keep clear"
   },
   {
     "section": "dockIsolateDisplays",
@@ -15230,9 +15532,12 @@
       "panel",
       "screen",
       "screens",
-      "taskbar"
+      "shows",
+      "taskbar",
+      "windows"
     ],
-    "parentLabel": "Dock"
+    "parentLabel": "Dock",
+    "description": "Shows only windows from the dock"
   },
   {
     "section": "dockAdvanced",
@@ -15244,15 +15549,20 @@
       "dock",
       "exclusive",
       "fullscreen",
+      "keeps",
       "launcher bar",
       "layers",
+      "over",
       "overlay",
       "overview",
       "panel",
-      "taskbar"
+      "showing",
+      "taskbar",
+      "windows"
     ],
     "parentLabel": "Dock",
-    "icon": "layers"
+    "icon": "layers",
+    "description": "Keeps the dock showing over fullscreen windows"
   },
   {
     "section": "dockShowOnFullscreen",
@@ -15263,15 +15573,19 @@
       "advanced",
       "dock",
       "fullscreen",
+      "keeps",
       "launcher bar",
       "over",
       "overlay",
       "panel",
       "show",
+      "showing",
       "taskbar",
-      "visibility"
+      "visibility",
+      "windows"
     ],
-    "parentLabel": "Dock"
+    "parentLabel": "Dock",
+    "description": "Keeps the dock showing over fullscreen windows"
   },
   {
     "section": "dockRestoreSpecialWorkspaceOnClick",
@@ -15280,18 +15594,22 @@
     "category": "Advanced",
     "keywords": [
       "advanced",
+      "clicking",
       "desktop",
       "dock",
       "hyprland",
       "launcher bar",
+      "opens",
       "panel",
       "restore",
       "special",
       "taskbar",
       "virtual",
+      "window",
       "workspace"
     ],
     "parentLabel": "Dock",
+    "description": "Clicking a window in a special workspace opens that workspace",
     "conditionKey": "isHyprland"
   },
   {
@@ -15815,12 +16133,16 @@
       "notifs",
       "panel",
       "popup",
+      "popups",
+      "regular",
+      "show",
       "statusbar",
       "taskbar",
       "topbar"
     ],
     "parentLabel": "Bar",
     "icon": "notifications",
+    "description": "New notifications show as regular popups",
     "conditionKey": "dotEnabled"
   },
   {
@@ -16027,13 +16349,19 @@
     "tabIndex": 65,
     "category": "Dot",
     "keywords": [
+      "alert",
+      "alerts",
       "arrival",
       "bar",
       "dot",
+      "notif",
       "notifications",
+      "notifs",
       "panel",
       "popup",
       "popups",
+      "regular",
+      "show",
       "stack",
       "standard",
       "statusbar",
@@ -16041,6 +16369,7 @@
       "topbar"
     ],
     "parentLabel": "Bar",
+    "description": "New notifications show as regular popups",
     "conditionKey": "dotEnabled"
   }
 ]

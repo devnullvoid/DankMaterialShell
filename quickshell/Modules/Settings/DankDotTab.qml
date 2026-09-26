@@ -301,6 +301,7 @@ Item {
                 resetStore: dot
                 resetKeys: ["islandNotificationPopups"]
                 text: I18n.tr("Use standard popups", "island settings: show arriving notifications as stacked popups instead of in the island")
+                description: I18n.tr("New notifications show as regular popups", "island standard popups toggle description")
                 checked: dot.setting("islandNotificationPopups")
                 onToggled: checked => dot.apply("islandNotificationPopups", checked)
             }
