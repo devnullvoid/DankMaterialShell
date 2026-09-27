@@ -44,8 +44,7 @@ DankDialog {
     readonly property string actionType: Actions.getActionType(editAction)
     readonly property string actionLabel: KeybindsService.getActionLabel(editAction) || I18n.tr("Select", "verb, dropdown placeholder or option that opens a picker") + "…"
     readonly property var configConflict: bindData.conflict || null
-    readonly property string conflictModKey: KeybindsService.currentProvider === "niri" ? KeybindsService.modKey : "Super"
-    readonly property var conflicts: editKey ? KeyUtils.getConflictingBinds(editKey, bindData.action, KeybindsService.getFlatBinds(), conflictModKey) : []
+    readonly property var conflicts: editKey ? KeyUtils.getConflictingBinds(editKey, bindData.action, KeybindsService.getFlatBinds(), KeybindsService.modKey, KeybindsService.modSymbol) : []
     readonly property bool canReset: !isNew && !readOnly && editingKey?.isOverride === true && editingKey?.hasDefault === true
     readonly property bool canSave: !readOnly && !saveBlocked && editKey !== "" && Actions.isValidAction(editAction)
     readonly property bool canSubmit: canSave && (isNew || hasChanges) && !busy
@@ -300,8 +299,7 @@ DankDialog {
                 mods.push("Shift");
         }
         const hasShift = mods.includes("Shift");
-        if (KeybindsService.currentProvider === "niri")
-            mods = KeyUtils.withSymbolicMod(mods, KeybindsService.modKey);
+        mods = KeyUtils.withSymbolicMod(mods, KeybindsService.modKey, KeybindsService.modSymbol);
 
         const key = KeyUtils.xkbKeyFromQtKey(qtKey, !!(event.modifiers & Qt.KeypadModifier), hasShift, event.nativeScanCode);
         if (!key) {
@@ -325,8 +323,7 @@ DankDialog {
             mods.push("Alt");
         if (wheel.modifiers & Qt.MetaModifier)
             mods.push("Super");
-        if (KeybindsService.currentProvider === "niri")
-            mods = KeyUtils.withSymbolicMod(mods, KeybindsService.modKey);
+        mods = KeyUtils.withSymbolicMod(mods, KeybindsService.modKey, KeybindsService.modSymbol);
 
         const wheelKey = wheelKeyName(wheel.angleDelta);
         if (!wheelKey)
