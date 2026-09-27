@@ -84,7 +84,7 @@ Item {
 
     readonly property var widgetChoices: {
         catalogRevision;
-        return BarWidgetCatalog.widgets.concat(PluginService.getAllPluginVariants().filter(variant => variant.loaded).map(variant => ({
+        return BarWidgetCatalog.widgets.filter(widget => !widget.barOnly).concat(PluginService.getAllPluginVariants().filter(variant => variant.loaded).map(variant => ({
                     id: variant.fullId,
                     text: variant.name,
                     icon: variant.icon

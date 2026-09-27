@@ -323,7 +323,7 @@ def load_wrapper_components(root_dir):
     wrappers = {}
 
     for qml_file in sorted(widgets_dir.glob("*.qml")):
-        if qml_file.stem in SEARCHABLE_COMPONENTS:
+        if qml_file.stem in SEARCHABLE_COMPONENTS or SHARED_CARD_NAME.fullmatch(qml_file.stem):
             continue
 
         with open(qml_file, "r", encoding="utf-8") as f:
@@ -339,6 +339,40 @@ def load_wrapper_components(root_dir):
         }
 
     return wrappers
+
+
+SHARED_CARD_NAME = re.compile(r"Island\w+Card")
+SHARED_CARD_PATTERN = re.compile(r"\b(Island\w+Card)\s*\{")
+SHARED_CARD_ROW_PATTERN = re.compile(r"\b(?:Settings\w*Row|Loader)\s*\{")
+
+
+def strip_hidden_rows(card_content, hosted, docked, dot):
+    """Drop rows the instance hides for good: `visible: !root.hosted` on a hosted page, `visible: root.docked` on an undocked one, `visible: !root.dot` on the dot."""
+    result = card_content
+    for match in reversed(list(SHARED_CARD_ROW_PATTERN.finditer(card_content))):
+        block = parse_component_block(card_content, match.start(), "")
+        visible = extract_property(block, "visible") or ""
+        if (hosted and "!root.hosted" in visible) or (not docked and "root.docked" in visible) or (dot and "!root.dot" in visible):
+            result = result[: match.start()] + result[match.start() + len(block):]
+    return result
+
+
+def inline_shared_cards(root_dir, content):
+    """Append each shared island card a page instantiates, with its settingKeys rewritten to the page's keyPrefix."""
+    widgets_dir = Path(root_dir) / "Modules" / "Settings" / "Widgets"
+    for match in SHARED_CARD_PATTERN.finditer(content):
+        card_file = widgets_dir / f"{match.group(1)}.qml"
+        if not card_file.exists():
+            continue
+        instance = parse_component_block(content, match.start(), match.group(1))
+        prefix_match = re.search(r'keyPrefix:\s*"(\w+)"', instance)
+        prefix = prefix_match.group(1) if prefix_match else "island"
+        hosted = "hosted: true" in instance
+        docked = "docked: false" not in instance
+        dot = "dot: true" in instance
+        card = strip_hidden_rows(card_file.read_text(encoding="utf-8"), hosted, docked, dot)
+        content += "\n" + card.replace('settingKey: root.keyPrefix + "', f'settingKey: "{prefix}')
+    return content
 
 
 def find_settings_components(content, filename, wrappers, tab_meta, hub_meta):
@@ -361,7 +395,7 @@ def find_settings_components(content, filename, wrappers, tab_meta, hub_meta):
             if setting_key:
                 setting_key = setting_key.strip("\"'")
 
-            if not setting_key:
+            if not setting_key or not re.fullmatch(r"\w+", setting_key):
                 continue
 
             tab_index = file_tab_index
@@ -662,7 +696,7 @@ def extract_settings_index(root_dir, tab_meta, hub_meta):
             continue
 
         with open(qml_file, "r", encoding="utf-8") as f:
-            content = f.read()
+            content = inline_shared_cards(root_dir, f.read())
 
         entries = find_settings_components(content, qml_file.name, wrappers, tab_meta, hub_meta)
         for entry in entries:
@@ -730,7 +764,7 @@ def extract_bar_widget_option_labels(root_dir):
     entries = []
     for qml_file in sorted(options_dir.glob("*Options.qml")):
         labels = []
-        for label in OPTION_LABEL_PATTERN.findall(qml_file.read_text(encoding="utf-8")):
+        for label in OPTION_LABEL_PATTERN.findall(inline_shared_cards(root_dir, qml_file.read_text(encoding="utf-8"))):
             if not label or label in labels:
                 continue
             labels.append(label)

@@ -908,7 +908,7 @@ FocusScope {
                     text: variant.name,
                     icon: variant.icon
                 }));
-        return BarWidgetCatalog.widgets.concat(plugins).filter(widget => widget.id !== "appsDock" || !hasApps);
+        return BarWidgetCatalog.widgets.concat(plugins).filter(widget => !widget.barOnly && (widget.id !== "appsDock" || !hasApps));
     }
 
     MouseArea {

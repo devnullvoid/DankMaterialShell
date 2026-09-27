@@ -3057,6 +3057,49 @@
     "description": "Clicks on empty bar space reach the windows below"
   },
   {
+    "section": "islandRouteControlCenter",
+    "label": "Control Center",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "center",
+      "control",
+      "general",
+      "ipc",
+      "island",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandRouteDash",
+    "label": "Dashboard",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "dashboard",
+      "general",
+      "ipc",
+      "island",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
     "section": "barDisplay",
     "label": "Displays",
     "tabIndex": 3,
@@ -3358,6 +3401,31 @@
     "conditionKey": "islandEnabled"
   },
   {
+    "section": "islandRouteLauncher",
+    "label": "Launcher",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "app drawer",
+      "app menu",
+      "applications",
+      "bar",
+      "general",
+      "ipc",
+      "island",
+      "launcher",
+      "panel",
+      "routing",
+      "shortcuts",
+      "start menu",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
     "section": "frameLauncherEmergeSide",
     "label": "Launcher emerge side",
     "tabIndex": 3,
@@ -3442,6 +3510,73 @@
     "conditionKey": "windowRulesCapable"
   },
   {
+    "section": "islandRouteMedia",
+    "label": "Media",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "general",
+      "ipc",
+      "island",
+      "media",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandMotion",
+    "label": "Motion",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "animation",
+      "bar",
+      "general",
+      "island",
+      "motion",
+      "panel",
+      "reduce",
+      "spring",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "icon": "animation",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandRouteNotificationCenter",
+    "label": "Notification Center",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "alert",
+      "bar",
+      "center",
+      "general",
+      "ipc",
+      "island",
+      "notif",
+      "notification",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
     "section": "islandNotifications",
     "label": "Notifications",
     "tabIndex": 3,
@@ -3449,20 +3584,20 @@
     "keywords": [
       "alert",
       "alerts",
-      "arrival",
+      "badge",
       "bar",
+      "expand",
       "general",
       "island",
       "notif",
       "notifications",
       "notifs",
+      "osd",
       "panel",
       "popup",
       "popups",
       "regular",
       "show",
-      "stack",
-      "standard",
       "statusbar",
       "taskbar",
       "topbar"
@@ -3489,6 +3624,34 @@
       "statusbar",
       "taskbar",
       "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandRouteActivities",
+    "label": "Open in the Island",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "control center",
+      "dashboard",
+      "general",
+      "ipc",
+      "island",
+      "launcher",
+      "media",
+      "notification center",
+      "open",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "wallpaper",
+      "weather"
     ],
     "parentLabel": "Bar",
     "conditionKey": "islandEnabled"
@@ -3883,6 +4046,29 @@
     "conditionKey": "islandEnabled"
   },
   {
+    "section": "islandSystemOsd",
+    "label": "Use standard OSDs",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "brightness",
+      "general",
+      "island",
+      "level",
+      "osd",
+      "osds",
+      "panel",
+      "standard",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "volume"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
     "section": "islandNotificationPopups",
     "label": "Use standard popups",
     "tabIndex": 3,
@@ -3965,6 +4151,56 @@
     "parentLabel": "Bar",
     "icon": "visibility",
     "description": "Hides even while a bar popout or menu is open"
+  },
+  {
+    "section": "islandRouteWallpaper",
+    "label": "Wallpapers",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "background",
+      "bar",
+      "bg",
+      "desktop",
+      "general",
+      "image",
+      "ipc",
+      "island",
+      "panel",
+      "picture",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "wallpapers"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandRouteWeather",
+    "label": "Weather",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "climate",
+      "forecast",
+      "general",
+      "ipc",
+      "island",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "temperature",
+      "topbar",
+      "weather"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "dockAutoHide",
@@ -4202,6 +4438,31 @@
       "widgets"
     ],
     "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
+    "section": "islandWidgetBackground",
+    "label": "Background",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "background",
+      "bar",
+      "behind",
+      "compact",
+      "face",
+      "island",
+      "panel",
+      "pill",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "transparent",
+      "widget"
+    ],
+    "parentLabel": "Bar",
+    "description": "Bar widget background behind the compact face",
     "conditionKey": "islandEnabled"
   },
   {
@@ -4757,22 +5018,30 @@
     "category": "Appearance",
     "keywords": [
       "appearance",
+      "background",
       "bar",
       "battery",
+      "behind",
       "brightness",
       "clock",
       "compact",
+      "face",
+      "groups",
       "home",
       "island",
+      "layout",
+      "order",
       "panel",
       "pill",
       "statusbar",
       "taskbar",
       "topbar",
-      "volume"
+      "volume",
+      "widget"
     ],
     "parentLabel": "Bar",
     "icon": "home",
+    "description": "Bar widget background behind the compact face",
     "conditionKey": "islandEnabled"
   },
   {
@@ -9163,6 +9432,14 @@
     "optionFile": "SystemTrayOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:8",
+    "label": "Background",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "_hub_dankbar_widgets",
     "label": "Bar widgets",
     "tabIndex": 22,
@@ -9203,6 +9480,22 @@
     "optionFile": "BatteryOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:6",
+    "label": "Battery style",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:9",
+    "label": "Behavior",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:AppsDockOptions.qml:15",
     "label": "Brightness",
     "tabIndex": 22,
@@ -9219,12 +9512,36 @@
     "optionFile": "LauncherButtonOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:4",
+    "label": "Brightness style",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:PrivacyOptions.qml:3",
     "label": "Camera",
     "tabIndex": 22,
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "PrivacyOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:25",
+    "label": "Clear badge on open",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:2",
+    "label": "Clock style",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
   },
   {
     "section": "barWidgetOption:AppsDockOptions.qml:13",
@@ -9291,6 +9608,14 @@
     "optionFile": "RunningAppsOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:7",
+    "label": "Compact pill",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:AppsDockOptions.qml:16",
     "label": "Contrast",
     "tabIndex": 22,
@@ -9305,6 +9630,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "LauncherButtonOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:5",
+    "label": "Control Center",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
   },
   {
     "section": "barWidgetOption:RunningAppsOptions.qml:4",
@@ -9355,6 +9688,14 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:12",
+    "label": "Dashboard",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:SystemMonitorOptions.qml:7",
     "label": "Disk usage format",
     "tabIndex": 22,
@@ -9385,6 +9726,22 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "AppsDockOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:24",
+    "label": "Expand by default",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:16",
+    "label": "Expansion mode",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
   },
   {
     "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:16",
@@ -9451,6 +9808,14 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:19",
+    "label": "Hide delay",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:SystemUpdateOptions.qml:1",
     "label": "Hide when no updates",
     "tabIndex": 22,
@@ -9465,6 +9830,22 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "WorkspaceSwitcherOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:1",
+    "label": "Home compact",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:17",
+    "label": "Hybrid peeks the current compact face on hover. Click pins a destination so it stays open",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
   },
   {
     "section": "barWidgetOption:AppsDockOptions.qml:11",
@@ -9539,12 +9920,28 @@
     "optionFile": "ControlCenterOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:20",
+    "label": "Keep clock with media",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:KeyboardLayoutOptions.qml:3",
     "label": "Label overrides",
     "tabIndex": 22,
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "KeyboardLayoutOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:10",
+    "label": "Launcher",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
   },
   {
     "section": "barWidgetOption:AppsDockOptions.qml:9",
@@ -9587,6 +9984,14 @@
     "optionFile": "SystemTrayOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:13",
+    "label": "Media",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:MusicOptions.qml:4",
     "label": "Media player",
     "tabIndex": 22,
@@ -9609,6 +10014,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "WorkspaceSwitcherOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:26",
+    "label": "Motion",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
   },
   {
     "section": "barWidgetOption:SystemMonitorOptions.qml:5",
@@ -9635,6 +10048,14 @@
     "optionFile": "KeyboardLayoutOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:11",
+    "label": "Notification Center",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:ClockOptions.qml:3",
     "label": "Notification badge",
     "tabIndex": 22,
@@ -9643,12 +10064,28 @@
     "optionFile": "ClockOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:21",
+    "label": "Notifications",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:BatteryOptions.qml:2",
     "label": "Only on battery",
     "tabIndex": 22,
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "BatteryOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:18",
+    "label": "Open delay",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
   },
   {
     "section": "barWidgetOption:AppsDockOptions.qml:18",
@@ -9673,6 +10110,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "AppsDockOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:27",
+    "label": "Reduce motion",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
   },
   {
     "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:17",
@@ -9875,6 +10320,30 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:29",
+    "label": "Spring damping",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:30",
+    "label": "Spring mass",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:28",
+    "label": "Spring stiffness",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:2",
     "label": "Style",
     "tabIndex": 22,
@@ -9931,12 +10400,52 @@
     "optionFile": "SystemTrayOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:23",
+    "label": "Use standard OSDs",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:22",
+    "label": "Use standard popups",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:AppsDockOptions.qml:20",
     "label": "Visual effects",
     "tabIndex": 22,
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "AppsDockOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:3",
+    "label": "Volume style",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:15",
+    "label": "Wallpapers",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:14",
+    "label": "Weather",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
   },
   {
     "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:12",
@@ -15904,31 +16413,35 @@
     "conditionKey": "dotEnabled"
   },
   {
-    "section": "dotBehavior",
+    "section": "dotInteraction",
     "label": "Behavior",
     "tabIndex": 65,
     "category": "Dot",
     "keywords": [
       "alert",
-      "animation",
       "app drawer",
       "app menu",
       "applications",
       "bar",
       "behavior",
       "center",
+      "click",
       "control",
       "dash",
+      "delay",
       "dot",
+      "expand",
+      "hover",
+      "hybrid",
+      "interaction",
+      "island",
       "launcher",
-      "motion",
       "notif",
       "notification",
       "panel",
       "routes",
       "routing",
       "shortcuts",
-      "spring",
       "start menu",
       "statusbar",
       "taskbar",
@@ -15950,6 +16463,8 @@
       "clear",
       "dismiss",
       "dot",
+      "home",
+      "island",
       "notifications",
       "open",
       "panel",
@@ -15957,6 +16472,49 @@
       "taskbar",
       "topbar",
       "unread"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "dotEnabled"
+  },
+  {
+    "section": "dotRouteControlCenter",
+    "label": "Control Center",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "bar",
+      "center",
+      "control",
+      "dot",
+      "ipc",
+      "island",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "dotEnabled"
+  },
+  {
+    "section": "dotRouteDash",
+    "label": "Dashboard",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "bar",
+      "dashboard",
+      "dot",
+      "ipc",
+      "island",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar"
     ],
     "parentLabel": "Bar",
     "conditionKey": "dotEnabled"
@@ -16019,6 +16577,7 @@
       "default",
       "dot",
       "expand",
+      "island",
       "notifications",
       "panel",
       "size",
@@ -16120,6 +16679,98 @@
     "conditionKey": "dotEnabled"
   },
   {
+    "section": "dotRouteLauncher",
+    "label": "Launcher",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "app drawer",
+      "app menu",
+      "applications",
+      "bar",
+      "dot",
+      "ipc",
+      "island",
+      "launcher",
+      "panel",
+      "routing",
+      "shortcuts",
+      "start menu",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "dotEnabled"
+  },
+  {
+    "section": "dotRouteMedia",
+    "label": "Media",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "bar",
+      "dot",
+      "ipc",
+      "island",
+      "media",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "dotEnabled"
+  },
+  {
+    "section": "dotMotion",
+    "label": "Motion",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "animation",
+      "bar",
+      "dot",
+      "island",
+      "motion",
+      "panel",
+      "reduce",
+      "spring",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "icon": "animation",
+    "conditionKey": "dotEnabled"
+  },
+  {
+    "section": "dotRouteNotificationCenter",
+    "label": "Notification Center",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "alert",
+      "bar",
+      "center",
+      "dot",
+      "ipc",
+      "island",
+      "notif",
+      "notification",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "dotEnabled"
+  },
+  {
     "section": "dotNotifications",
     "label": "Notifications",
     "tabIndex": 65,
@@ -16131,9 +16782,11 @@
       "bar",
       "dot",
       "expand",
+      "island",
       "notif",
       "notifications",
       "notifs",
+      "osd",
       "panel",
       "popup",
       "popups",
@@ -16168,6 +16821,34 @@
     "conditionKey": "dotEnabled"
   },
   {
+    "section": "dotRouteActivities",
+    "label": "Open in the Island",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "bar",
+      "control center",
+      "dashboard",
+      "dot",
+      "ipc",
+      "island",
+      "launcher",
+      "media",
+      "notification center",
+      "open",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "wallpaper",
+      "weather"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "dotEnabled"
+  },
+  {
     "section": "dotPalette",
     "label": "Palette",
     "tabIndex": 65,
@@ -16197,6 +16878,7 @@
       "animation",
       "bar",
       "dot",
+      "island",
       "motion",
       "panel",
       "reduce",
@@ -16225,6 +16907,7 @@
       "dash",
       "dot",
       "ipc",
+      "island",
       "last used",
       "launcher",
       "notif",
@@ -16272,6 +16955,7 @@
       "bounce",
       "damping",
       "dot",
+      "island",
       "motion",
       "panel",
       "spring",
@@ -16292,6 +16976,7 @@
       "bar",
       "dot",
       "inertia",
+      "island",
       "mass",
       "motion",
       "panel",
@@ -16312,6 +16997,7 @@
       "animation",
       "bar",
       "dot",
+      "island",
       "motion",
       "panel",
       "spring",
@@ -16347,6 +17033,29 @@
     "conditionKey": "dotEnabled"
   },
   {
+    "section": "dotSystemOsd",
+    "label": "Use standard OSDs",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "bar",
+      "brightness",
+      "dot",
+      "island",
+      "level",
+      "osd",
+      "osds",
+      "panel",
+      "standard",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "volume"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "dotEnabled"
+  },
+  {
     "section": "dotNotificationPopups",
     "label": "Use standard popups",
     "tabIndex": 65,
@@ -16357,6 +17066,7 @@
       "arrival",
       "bar",
       "dot",
+      "island",
       "notif",
       "notifications",
       "notifs",
@@ -16373,6 +17083,56 @@
     ],
     "parentLabel": "Bar",
     "description": "New notifications show as regular popups",
+    "conditionKey": "dotEnabled"
+  },
+  {
+    "section": "dotRouteWallpaper",
+    "label": "Wallpapers",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "background",
+      "bar",
+      "bg",
+      "desktop",
+      "dot",
+      "image",
+      "ipc",
+      "island",
+      "panel",
+      "picture",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "wallpapers"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "dotEnabled"
+  },
+  {
+    "section": "dotRouteWeather",
+    "label": "Weather",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "bar",
+      "climate",
+      "dot",
+      "forecast",
+      "ipc",
+      "island",
+      "panel",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "temperature",
+      "topbar",
+      "weather"
+    ],
+    "parentLabel": "Bar",
     "conditionKey": "dotEnabled"
   }
 ]

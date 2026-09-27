@@ -280,14 +280,13 @@ Item {
             return "CONTROL_CENTER_BACK_SUCCESS";
         }
 
+        // The island and the popout can both show the control center, so close and status cover both.
         function hide(): string {
-            if (PopoutService.closeIslandActivity("controlcenter"))
-                return "CONTROL_CENTER_HIDE_SUCCESS";
-            if (root.controlCenterLoader.item && root.controlCenterLoader.item.shouldBeVisible) {
+            const islandClosed = PopoutService.closeIslandActivity("controlcenter");
+            const popoutOpen = root.controlCenterLoader.item?.shouldBeVisible ?? false;
+            if (popoutOpen)
                 root.controlCenterLoader.item.close();
-                return "CONTROL_CENTER_HIDE_SUCCESS";
-            }
-            return "CONTROL_CENTER_HIDE_FAILED";
+            return islandClosed || popoutOpen ? "CONTROL_CENTER_HIDE_SUCCESS" : "CONTROL_CENTER_HIDE_FAILED";
         }
 
         function toggle(): string {
@@ -307,9 +306,8 @@ Item {
         }
 
         function status(): string {
-            if (PopoutService.islandControlCenterOpen)
-                return "visible";
-            return (root.controlCenterLoader.item && root.controlCenterLoader.item.shouldBeVisible) ? "visible" : "hidden";
+            const popoutOpen = root.controlCenterLoader.item?.shouldBeVisible ?? false;
+            return popoutOpen || PopoutService.islandControlCenterOpen ? "visible" : "hidden";
         }
 
         target: "control-center"
@@ -421,13 +419,10 @@ Item {
         }
 
         function close(): string {
-            if (PopoutService.closeIslandActivity("home") || PopoutService.closeIslandActivity("media") || PopoutService.closeIslandActivity("wallpaper") || PopoutService.closeIslandActivity("weather"))
-                return "DASH_CLOSE_SUCCESS";
-            if (root.dankDashPopoutLoader.item) {
+            const islandClosed = SettingsData.islandDashActivities.filter(activity => PopoutService.closeIslandActivity(activity)).length > 0;
+            if (root.dankDashPopoutLoader.item)
                 root.dankDashPopoutLoader.item.dashVisible = false;
-                return "DASH_CLOSE_SUCCESS";
-            }
-            return "DASH_CLOSE_FAILED";
+            return islandClosed || root.dankDashPopoutLoader.item ? "DASH_CLOSE_SUCCESS" : "DASH_CLOSE_FAILED";
         }
 
         function toggle(tab: string): string {

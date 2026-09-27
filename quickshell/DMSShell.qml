@@ -40,19 +40,17 @@ Item {
 
     property bool osdSurfacesLoaded: false
     property int pendingOsdResumeReloads: 0
-    readonly property var dankIslandScreens: Quickshell.screens.filter(screen => SettingsData.dankIslandCoversScreen(screen))
     readonly property var notificationPopupScreens: {
         const screens = SettingsData.notificationFocusedMonitor ? Quickshell.screens : SettingsData.getFilteredScreens("notifications");
         if (!SettingsData.dankIslandEnabled)
             return screens;
         return screens.filter(screen => !SettingsData.dankIslandHandlesNotifications(screen));
     }
-    readonly property var legacySystemLevelOsdScreens: root.withoutDankIslandScreens(SettingsData.getFilteredScreens("osd"))
-
-    function withoutDankIslandScreens(screens) {
+    readonly property var legacySystemLevelOsdScreens: {
+        const screens = SettingsData.getFilteredScreens("osd");
         if (!SettingsData.dankIslandEnabled)
             return screens;
-        return screens.filter(screen => root.dankIslandScreens.indexOf(screen) === -1);
+        return screens.filter(screen => !SettingsData.dankIslandHandlesSystemOsd(screen));
     }
 
     function recreateOsdSurfaces() {
