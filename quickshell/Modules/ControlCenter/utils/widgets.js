@@ -75,7 +75,7 @@ function headerShowsUser(widgetData) {
 }
 
 function headerHasBackground(widgetData) {
-    return widgetData?.background !== false;
+    return widgetData?.background === true;
 }
 
 function defaultWidget(id, columns) {
