@@ -57,7 +57,7 @@ Item {
     readonly property bool networkManager: NetworkService.backend === "networkmanager"
     // hosting on the sole wifi radio with no ethernet uplink drops connectivity
     readonly property bool hotspotRelevant: NetworkService.hotspotEnabled || NetworkService.hotspotActivating || NetworkService.hotspotBusy || NetworkService.ethernetConnected || (NetworkService.wifiDevices?.length ?? 0) > 1
-    readonly property bool showHotspotRow: wifiMode && NetworkService.hotspotAvailable && hotspotRelevant
+    readonly property bool showHotspotRow: wifiMode && NetworkService.hotspotAvailable && NetworkService.hotspotConfigured && hotspotRelevant
     readonly property bool hotspotWorking: NetworkService.hotspotBusy || NetworkService.hotspotActivating
     readonly property var pinnedNetworks: QmlUtils.normalizePinList((CacheData.wifiNetworkPins || {})["preferredWifi"])
     readonly property bool wifiScanningEmpty: wifiMode && NetworkService.wifiEnabled && !NetworkService.wifiToggling && NetworkService.wifiInterface && (NetworkService.wifiNetworks?.length ?? 0) < 1 && (NetworkService.isScanning || transitioning)
@@ -147,11 +147,6 @@ Item {
             confirmText: I18n.tr("Start", "hotspot start confirmation action"),
             onConfirm: () => NetworkService.startHotspot()
         });
-    }
-
-    function openHotspotSettings() {
-        PopoutService.closeControlCenter();
-        PopoutService.openSettingsWithTab("network_wifi");
     }
 
     function togglePin(ssid) {
@@ -249,6 +244,10 @@ Item {
                     return -1;
                 if (b.ssid === ssid)
                     return 1;
+                const aKnown = !!a.saved && (a.signal || 0) > 0;
+                const bKnown = !!b.saved && (b.signal || 0) > 0;
+                if (aKnown !== bKnown)
+                    return aKnown ? -1 : 1;
                 const aBucket = Math.floor((a.signal || 0) / CcMetrics.wifiSignalBucket);
                 const bBucket = Math.floor((b.signal || 0) / CcMetrics.wifiSignalBucket);
                 if (aBucket !== bBucket)
@@ -357,17 +356,15 @@ Item {
                 CcListRow {
                     id: hotspotRow
 
-                    readonly property bool warnsWifiDrop: NetworkService.hotspotConfigured && NetworkService.wifiEnabled && !root.hotspotWorking && !NetworkService.hotspotEnabled && NetworkService.hotspotWouldDisconnectWifi
+                    readonly property bool warnsWifiDrop: NetworkService.wifiEnabled && !root.hotspotWorking && !NetworkService.hotspotEnabled && NetworkService.hotspotWouldDisconnectWifi
 
                     visible: root.showHotspotRow
                     iconName: NetworkService.hotspotEnabled ? "wifi_tethering" : "wifi_tethering_off"
                     active: NetworkService.hotspotEnabled
-                    title: NetworkService.hotspotConfigured ? I18n.tr("Hotspot", "hotspot control label") : I18n.tr("Set up hotspot", "hotspot setup action label")
+                    title: I18n.tr("Hotspot", "hotspot control label")
                     subtitle: {
                         if (warnsWifiDrop)
                             return (NetworkService.hotspotSSID || I18n.tr("Ready", "hotspot ready status")) + " • " + I18n.tr("Will disconnect \"%1\"", "hotspot WiFi disconnection warning").arg(NetworkService.currentWifiSSID);
-                        if (!NetworkService.hotspotConfigured)
-                            return I18n.tr("Set up hotspot in Settings", "unconfigured hotspot status message");
                         if (root.hotspotWorking)
                             return I18n.tr("Starting...", "hotspot activation status");
                         if (NetworkService.hotspotEnabled)
@@ -377,23 +374,20 @@ Item {
                         return NetworkService.hotspotSSID || I18n.tr("Ready", "hotspot ready status");
                     }
                     subtitleColor: warnsWifiDrop ? Theme.warning : Theme.surfaceVariantText
-                    clickable: !NetworkService.hotspotConfigured
-                    showChevron: !NetworkService.hotspotConfigured
-                    onClicked: root.openHotspotSettings()
 
                     DankSpinner {
                         anchors.verticalCenter: parent.verticalCenter
                         size: Theme.iconSizeMedium
                         strokeWidth: CcMetrics.spinnerStroke
                         color: Theme.primary
-                        visible: NetworkService.hotspotConfigured && root.hotspotWorking
+                        visible: root.hotspotWorking
                         running: visible
                     }
 
                     DankToggle {
                         anchors.verticalCenter: parent.verticalCenter
                         hideText: true
-                        visible: NetworkService.hotspotConfigured && !root.hotspotWorking
+                        visible: !root.hotspotWorking
                         checked: NetworkService.hotspotEnabled
                         onToggled: checked => {
                             if (!checked) {

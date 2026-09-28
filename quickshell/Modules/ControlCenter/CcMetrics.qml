@@ -45,7 +45,7 @@ Singleton {
     readonly property real sliderRowHeight: Theme.minimumTouchTargetSize
     readonly property real stripTrackHeight: 32
     readonly property real stripHandleHeight: stripTrackHeight + Theme.sliderHandleGap * 2
-    readonly property real stripIconSize: Theme.iconSizeMedium
+    readonly property real stripIconSize: Theme.iconSize
     readonly property real gridGap: Theme.spacingS
     readonly property real tilePaddingH: Theme.spacingL
     readonly property real iconScale: SettingsData.controlCenterIconScale
@@ -126,7 +126,7 @@ Singleton {
     readonly property color tileInactiveSubtitle: Theme.surfaceVariantText
     readonly property color tileInactiveIcon: Theme.primary
 
-    readonly property bool animationsEnabled: Theme.currentAnimationSpeed !== SettingsData.AnimationSpeed.None
+    readonly property bool animationsEnabled: !SettingsData.reduceMotion && Theme.currentAnimationSpeed !== SettingsData.AnimationSpeed.None
 
     function preferredDetailHeight(section, pluginHeight) {
         if (!section)

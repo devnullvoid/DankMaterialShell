@@ -12,7 +12,40 @@ ShellRoot {
     id: root
 
     readonly property var screen: Quickshell.screens[0]
-    readonly property var cases: [{ position: 0, section: "left" }, { position: 0, section: "center" }, { position: 0, section: "right" }, { position: 1, section: "center" }, { position: 1, section: "right" }, { position: 2, section: "left" }, { position: 2, section: "center" }, { position: 2, section: "right" }]
+    readonly property var cases: [
+        {
+            position: 0,
+            section: "left"
+        },
+        {
+            position: 0,
+            section: "center"
+        },
+        {
+            position: 0,
+            section: "right"
+        },
+        {
+            position: 1,
+            section: "center"
+        },
+        {
+            position: 1,
+            section: "right"
+        },
+        {
+            position: 2,
+            section: "left"
+        },
+        {
+            position: 2,
+            section: "center"
+        },
+        {
+            position: 2,
+            section: "right"
+        }
+    ]
     property int caseIndex: 0
     readonly property string barId: "main" + caseIndex
 
@@ -40,10 +73,30 @@ ShellRoot {
 
     function applyCase() {
         const current = root.cases[root.caseIndex];
-        const widgets = { leftWidgets: ["clock"], centerWidgets: ["clock"], rightWidgets: ["clock"] };
-        widgets[current.section + "Widgets"] = ["clock", { id: "island", enabled: true }, "clock"];
+        const widgets = {
+            leftWidgets: ["clock"],
+            centerWidgets: ["clock"],
+            rightWidgets: ["clock"]
+        };
+        widgets[current.section + "Widgets"] = ["clock",
+            {
+                id: "island",
+                enabled: true
+            },
+            "clock"];
         // Flat keys are what the bar used as a free island; the hosted island must ignore them.
-        SettingsData.barConfigs = [Object.assign({ id: root.barId, enabled: true, visible: true, position: current.position, islandFloating: true, islandPlacement: "free", islandSatellitePosition: "island", islandPalette: "dim", islandUseOverlayLayer: true, screenPreferences: ["all"] }, widgets)];
+        SettingsData.barConfigs = [Object.assign({
+                id: root.barId,
+                enabled: true,
+                visible: true,
+                position: current.position,
+                islandFloating: true,
+                islandPlacement: "free",
+                islandSatellitePosition: "island",
+                islandPalette: "dim",
+                islandUseOverlayLayer: true,
+                screenPreferences: ["all"]
+            }, widgets)];
     }
 
     Component.onCompleted: {
@@ -73,6 +126,7 @@ ShellRoot {
         property real restLeadingStart: 0
         property real lastSlotPos: -1
         property bool sprung: false
+        property string lastOverlap: ""
         readonly property var body: IslandHostRegistry.hostFor(root.screen.name, root.barId)
         readonly property var slot: body?.slotItem ?? null
         readonly property var window: body?.hostWindow ?? null
@@ -165,12 +219,13 @@ ShellRoot {
             return x < rect.x + rect.w && x + body.currentVisualWidth > rect.x && y < rect.y + rect.h && y + body.currentVisualHeight > rect.y;
         }
 
-        // Rows re-place siblings on polish, one frame after the slot resizes: wait for the slot to hold still across two ticks.
+        // Rows re-place siblings on polish, one frame after the slot resizes: wait for the slot to hold still across two ticks and for the neighbours to have moved out of its way.
         function layoutPending() {
             const pos = slotCentreMapped();
             const moved = Math.abs(pos - lastSlotPos) > 0.5;
             lastSlotPos = pos;
-            return moved;
+            lastOverlap = overlapsNeighbour();
+            return moved || lastOverlap !== "";
         }
 
         function overlapsNeighbour() {
@@ -180,7 +235,12 @@ ShellRoot {
                 if (!item || !item.visible || item.width <= 0 || item.height <= 0)
                     continue;
                 const pos = item.mapToItem(null, 0, 0);
-                if (intersects({ x: pos.x, y: pos.y, w: item.width, h: item.height }))
+                if (intersects({
+                    x: pos.x,
+                    y: pos.y,
+                    w: item.width,
+                    h: item.height
+                }))
                     return `sibling at ${pos.x},${pos.y} ${item.width}x${item.height} vs pill ${body.originOffsetX + body.currentVisualX},${body.originOffsetY + body.currentVisualY} ${body.currentVisualWidth}x${body.currentVisualHeight} (slot ${slot.mapToItem(null, 0, 0).x} ${slot.width}, section ${wrapper.parent.width})`;
             }
             const section = root.cases[root.caseIndex].section;
@@ -212,7 +272,7 @@ ShellRoot {
 
         onTriggered: {
             if (++waited > 240) {
-                finish(label(!slot ? "slot never registered" : index === 4 ? "window never shrank back after collapse" : "timed out at step " + index));
+                finish(label(!slot ? "slot never registered" : index === 4 ? "window never shrank back after collapse" : "timed out at step " + index + (lastOverlap ? ", still overlapping: " + lastOverlap : "")));
                 return;
             }
             const controller = body.islandController;

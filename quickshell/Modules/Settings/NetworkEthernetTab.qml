@@ -89,13 +89,6 @@ Item {
                                 border.color: Theme.outlineMedium
                                 clip: true
 
-                                Behavior on height {
-                                    NumberAnimation {
-                                        duration: 150
-                                        easing.type: Easing.OutQuad
-                                    }
-                                }
-
                                 Column {
                                     anchors.fill: parent
                                     spacing: 0

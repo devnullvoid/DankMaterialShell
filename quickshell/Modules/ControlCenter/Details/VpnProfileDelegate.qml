@@ -76,21 +76,24 @@ CcListRow {
     clickable: true
     onClicked: DMSNetworkService.toggle(profile.uuid)
 
-    Behavior on height {
-        enabled: CcMetrics.animationsEnabled
-        NumberAnimation {
-            duration: Theme.expressiveDurations.expressiveFastSpatial
-            easing.type: Easing.BezierSpline
-            easing.bezierCurve: Theme.expressiveCurves.expressiveFastSpatial
-        }
-    }
-
     leading: DankSpinner {
         size: Theme.iconSizeMedium
         strokeWidth: CcMetrics.spinnerStroke
         color: Theme.warning
         visible: root.isConnecting
         running: visible
+    }
+
+    DankActionButton {
+        anchors.verticalCenter: parent.verticalCenter
+        visible: root.isActive
+        buttonSize: Theme.buttonHeightXS
+        iconSize: Theme.iconSizeMedium
+        iconName: "link_off"
+        Accessible.name: I18n.tr("Disconnect")
+        iconColor: root.contentColor
+        enabled: !DMSNetworkService.isBusy
+        onClicked: DMSNetworkService.toggle(root.profile.uuid)
     }
 
     DankActionButton {

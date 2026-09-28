@@ -132,6 +132,7 @@ Item {
                     return "m";
                 }
                 insetIcon: root.tall ? "" : root.iconName
+                insetIconPosition: "end"
                 insetIconClickable: true
                 insetIconTooltip: root.iconTooltip
                 insetIconLabel: root.iconLabel
