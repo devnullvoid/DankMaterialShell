@@ -2,6 +2,7 @@ import QtQuick
 import QtTest
 import Quickshell
 import qs.Common
+import qs.Services
 import qs.Modules.ControlCenter
 import qs.Modules.DankIsland
 import qs.Modules.ControlCenter.Components
@@ -341,6 +342,22 @@ ShellRoot {
                     width: 600,
                     height: 400
                 });
+                NetworkService.wifiEnabled = true;
+                NetworkService.wifiInterface = "wlan0";
+                NetworkService.wifiNetworks = Array.from({
+                    length: 8
+                }, (_, i) => ({
+                    ssid: "Net" + i,
+                    signal: 90 - i * 8,
+                    secured: true
+                }));
+                detail.section = "wifi";
+                waitFor(() => !detail.transitioning && detail.pageItem !== null, "wifi detail page loads");
+                settle();
+                const networkList = named(detail.pageItem, "networkList");
+                waitFor(() => networkList.count === 8, "wifi rows load");
+                settle();
+                check(networkList.atYBeginning, "network popup opens at the top, contentY " + networkList.contentY + " vs origin " + networkList.originY);
                 detail.section = "doNotDisturb";
                 settle();
                 detail.section = "";

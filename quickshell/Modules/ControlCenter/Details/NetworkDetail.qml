@@ -299,6 +299,7 @@ Item {
 
     DankListView {
         id: pageList
+        objectName: "networkList"
 
         anchors.fill: parent
         clip: true
