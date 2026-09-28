@@ -67,7 +67,7 @@ CcListRow {
     }
 
     iconName: isConnecting ? "" : (isActive ? "vpn_lock" : (hasError ? "error" : "vpn_key_off"))
-    iconColor: hasError ? Theme.error : (isActive ? Theme.primary : Theme.surfaceText)
+    iconColor: hasError ? Theme.error : contentColor
     active: isActive
     title: profile?.name ?? ""
     subtitle: isConnecting ? I18n.tr("Connecting...") : (hasError ? DMSNetworkService.vpnError : VPNService.getVpnTypeFromProfile(profile))

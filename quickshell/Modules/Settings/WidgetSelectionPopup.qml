@@ -54,9 +54,9 @@ WidgetPickerWindow {
             height: Math.max(60, textColumn.implicitHeight + 24)
             radius: Theme.cornerRadius
             property bool isSelected: root.keyboardNavigationActive && index === root.selectedIndex && !modelData.disabled
-            color: isSelected ? Theme.withAlpha(Theme.primary, root.blurActive ? 0.22 : 0.16) : widgetArea.containsMouse ? Theme.withAlpha(Theme.primary, root.blurActive ? 0.14 : 0.08) : Theme.floatingWindowNestedSurface
-            border.color: isSelected ? Theme.primary : Theme.outlineMedium
-            border.width: isSelected ? Theme.outlineWidthFocused : Theme.layerOutlineWidth
+            color: isSelected ? Theme.selectedContainer : widgetArea.containsMouse ? Theme.withAlpha(Theme.primary, root.blurActive ? 0.14 : 0.08) : Theme.floatingWindowNestedSurface
+            border.color: Theme.outlineMedium
+            border.width: Theme.layerOutlineWidth
             antialiasing: true
 
             Row {

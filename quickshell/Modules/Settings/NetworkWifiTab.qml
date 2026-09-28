@@ -317,8 +317,9 @@ Item {
                     visible: NetworkService.wifiEnabled && !NetworkService.wifiToggling
 
                     SettingsRow {
+                        id: wifiNetworkRow
                         title: wifiNetworkDelegate.modelData.ssid || I18n.tr("Unknown")
-                        titleColor: wifiNetworkDelegate.isConnected ? Theme.primary : Theme.surfaceText
+                        active: wifiNetworkDelegate.isConnected
                         subtitle: {
                             const parts = [wifiNetworkDelegate.isConnecting ? I18n.tr("Connecting...") : (wifiNetworkDelegate.isConnected ? I18n.tr("Connected") : (wifiNetworkDelegate.modelData.secured ? I18n.tr("Secured", "adjective, wifi network requires a password, opposite of open") : I18n.tr("Open", "network security type", true)))];
                             if (wifiNetworkDelegate.modelData.saved)
@@ -328,7 +329,7 @@ Item {
                             parts.push(wifiNetworkDelegate.modelData.signal + "%");
                             return parts.join(" • ");
                         }
-                        subtitleColor: wifiNetworkDelegate.isConnecting ? Theme.warning : (wifiNetworkDelegate.isConnected ? Theme.primary : Theme.surfaceVariantText)
+                        subtitleColor: wifiNetworkDelegate.isConnecting ? Theme.warning : supportingContentColor
                         clickable: !NetworkService.isWifiConnecting || wifiNetworkDelegate.isConnected
                         onClicked: {
                             WifiConnectionActions.connectToNetwork(wifiNetworkDelegate.modelData, {
@@ -357,7 +358,7 @@ Item {
                                     return "wifi_1_bar";
                                 }
                                 size: Theme.iconSizeMedium
-                                color: wifiNetworkDelegate.isConnected ? Theme.primary : Theme.surfaceText
+                                color: wifiNetworkRow.contentColor
                                 anchors.verticalCenter: parent.verticalCenter
                             }
                         ]
@@ -566,8 +567,9 @@ Item {
                     spacing: Theme.groupedListGap
 
                     SettingsRow {
+                        id: savedWifiRow
                         title: savedWifiDelegate.modelData.ssid || I18n.tr("Unknown")
-                        titleColor: savedWifiDelegate.isConnected ? Theme.primary : Theme.surfaceText
+                        active: savedWifiDelegate.isConnected
                         subtitle: {
                             if (savedWifiDelegate.isConnecting)
                                 return I18n.tr("Connecting...");
@@ -577,7 +579,7 @@ Item {
                                 parts.push(I18n.tr("Hidden"));
                             return parts.join(" • ");
                         }
-                        subtitleColor: savedWifiDelegate.isConnecting ? Theme.warning : (savedWifiDelegate.isConnected ? Theme.primary : Theme.surfaceVariantText)
+                        subtitleColor: savedWifiDelegate.isConnecting ? Theme.warning : supportingContentColor
                         clickable: !savedWifiDelegate.isOutOfRange && (!NetworkService.isWifiConnecting || savedWifiDelegate.isConnected)
                         onClicked: {
                             if (savedWifiDelegate.isOutOfRange)
@@ -611,7 +613,7 @@ Item {
                                     return "wifi_1_bar";
                                 }
                                 size: Theme.iconSizeMedium
-                                color: savedWifiDelegate.isConnected ? Theme.primary : Theme.surfaceText
+                                color: savedWifiRow.contentColor
                                 anchors.verticalCenter: parent.verticalCenter
                             }
                         ]

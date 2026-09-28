@@ -27,8 +27,8 @@ SettingsRow {
     clickable: true
     paddingH: Theme.spacingL
     paddingV: Theme.spacingL
-    rowColor: selected ? Theme.selectedContainer : Theme.secondaryContainer
-    titleColor: selected ? Theme.onSelectedContainer : Theme.onSecondaryContainer
+    rowColor: selected ? Theme.selectedContainer : Theme.chipSurface
+    titleColor: selected ? Theme.onSelectedContainer : Theme.surfaceText
     subtitleColor: titleColor
     topRadius: Theme.cornerRadiusLIncreased
     bottomRadius: Theme.cornerRadiusLIncreased
@@ -39,7 +39,7 @@ SettingsRow {
         width: Theme.iconButtonSize
         height: width
         radius: Theme.fullRadius(width, height)
-        color: root.selected ? Theme.onPrimary : Theme.chipSurface
+        color: root.selected ? Theme.onPrimary : Theme.chipSurfaceNested
 
         DankIcon {
             anchors.centerIn: parent

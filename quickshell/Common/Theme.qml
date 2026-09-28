@@ -244,7 +244,7 @@ Singleton {
             "primaryContainer": getMatugenColorForMode(colorMode, "primary_container", "#1976d2"),
             "onPrimaryContainer": getMatugenColorForMode(colorMode, "on_primary_container"),
             "secondary": getMatugenColorForMode(colorMode, "secondary", "#8ab4f8"),
-            "secondaryContainer": getMatugenColorForMode(colorMode, "secondary_container", getMatugenColorForMode(colorMode, "surface_container_high", "#292b2f")),
+            "secondaryContainer": getMatugenColorForMode(colorMode, "secondary_container"),
             "onSecondaryContainer": getMatugenColorForMode(colorMode, "on_secondary_container"),
             "tertiary": getMatugenColorForMode(colorMode, "tertiary", "#efb8c8"),
             "tertiaryContainer": getMatugenColorForMode(colorMode, "tertiary_container", getMatugenColorForMode(colorMode, "surface_container_high", "#292b2f")),
@@ -411,9 +411,11 @@ Singleton {
     property color primaryContainer: currentThemeData.primaryContainer || blend(surfaceContainerHigh, primary, 0.45)
     property color secondaryContainer: currentThemeData.secondaryContainer || blend(surfaceContainerHigh, secondary, 0.35)
     property color tertiaryContainer: currentThemeData.tertiaryContainer || blend(surfaceContainerHigh, tertiary, 0.35)
-    readonly property bool tonalPrimaryContainer: Contrast.isTonal(primaryContainer, surfaceText)
-    readonly property color selectedContainer: tonalPrimaryContainer ? primaryContainer : Contrast.tintedContainer(surfaceContainerHigh, primary, surfaceText)
-    readonly property color accentOnPrimaryContainer: Contrast.ratio(primary, primaryContainer) >= 3 ? primary : onPrimaryContainer
+    readonly property real selectedContainerTint: currentThemeData.selectedContainerTint ?? 0.2
+    readonly property bool themedSelectedContainer: !!currentThemeData.secondaryContainer && Contrast.isTonal(secondaryContainer, onSecondaryContainer) && Contrast.isTonal(secondaryContainer, surfaceText)
+    readonly property color selectedContainer: currentThemeData.selectedContainer || (themedSelectedContainer ? secondaryContainer : Contrast.subtleTint(surfaceContainerHigh, primary, surfaceText, selectedContainerTint))
+    readonly property color accentOnSelectedContainer: currentThemeData.accentOnSelectedContainer || (Contrast.ratio(primary, selectedContainer) >= 3 ? primary : onSelectedContainer)
+    readonly property color accentOnPrimaryContainer: currentThemeData.accentOnPrimaryContainer || (Contrast.ratio(primary, primaryContainer) >= 3 ? primary : onPrimaryContainer)
     readonly property var accents: Accents.derive(primary, isLightMode, currentThemeData.accents ?? null)
     property color inverseSurface: currentThemeData.inverseSurface || surfaceText
     property color inverseOnSurface: currentThemeData.inverseOnSurface || surface
@@ -481,7 +483,7 @@ Singleton {
         Binding {
             target: root
             property: "onSelectedContainer"
-            value: root.tonalPrimaryContainer ? root.onPrimaryContainer : root.surfaceText
+            value: root.currentThemeData.onSelectedContainer || (root.currentThemeData.selectedContainer ? Contrast.readableOn(root.selectedContainer, root.onContainerCandidates) : root.themedSelectedContainer ? root.onSecondaryContainer : root.surfaceText)
         }
     ]
     readonly property var onContainerCandidates: [surfaceText, surface, contrastLight, contrastDark]

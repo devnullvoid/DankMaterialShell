@@ -257,7 +257,7 @@ Item {
                         iconColor: {
                             if (isConnecting)
                                 return Theme.warning;
-                            return isConnected ? Theme.primary : Theme.surfaceText;
+                            return contentColor;
                         }
                         active: isConnected
                         title: deviceName

@@ -446,7 +446,6 @@ Item {
 
                         iconName: "lan"
                         active: modelData.isActive
-                        showActiveCheck: true
                         title: modelData.id || I18n.tr("Unknown Config")
                         subtitle: active ? I18n.tr("Connected") : I18n.tr("Available")
                         clickable: true

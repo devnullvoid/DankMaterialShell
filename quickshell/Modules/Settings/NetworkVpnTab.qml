@@ -191,9 +191,9 @@ Item {
                                 width: parent.width
                                 height: isExpanded ? 56 + vpnExpandedContent.height : 56
                                 radius: Theme.cornerRadius
-                                color: vpnRowArea.containsMouse ? Theme.primaryHoverLight : (isActive ? Theme.primaryPressed : Theme.floatingWindowNestedSurface)
-                                border.width: isActive ? Theme.outlineWidthFocused : Theme.layerOutlineWidth
-                                border.color: isActive ? Theme.primary : Theme.outlineMedium
+                                color: isActive ? Theme.selectedContainer : vpnRowArea.containsMouse ? Theme.primaryHoverLight : Theme.floatingWindowNestedSurface
+                                border.width: Theme.layerOutlineWidth
+                                border.color: Theme.outlineMedium
                                 opacity: DMSNetworkService.isBusy ? 0.6 : 1.0
                                 clip: true
 
@@ -226,7 +226,7 @@ Item {
                                         DankIcon {
                                             name: isActive ? "vpn_lock" : "vpn_key_off"
                                             size: 20
-                                            color: isActive ? Theme.primary : Theme.surfaceText
+                                            color: isActive ? Theme.accentOnSelectedContainer : Theme.surfaceText
                                             anchors.verticalCenter: parent.verticalCenter
                                         }
 
@@ -239,7 +239,7 @@ Item {
                                                 text: modelData.name
                                                 font.pixelSize: Theme.fontSizeMedium
                                                 font.weight: Theme.fontWeightMedium
-                                                color: isActive ? Theme.primary : Theme.surfaceText
+                                                color: isActive ? Theme.onSelectedContainer : Theme.surfaceText
                                                 elide: Text.ElideRight
                                                 width: parent.width
                                                 horizontalAlignment: Text.AlignLeft
@@ -248,7 +248,7 @@ Item {
                                             StyledText {
                                                 text: VPNService.getVpnTypeFromProfile(modelData)
                                                 font.pixelSize: Theme.fontSizeSmall
-                                                color: Theme.surfaceVariantText
+                                                color: isActive ? Theme.onSelectedContainer : Theme.surfaceVariantText
                                                 anchors.left: parent.left
                                             }
                                         }

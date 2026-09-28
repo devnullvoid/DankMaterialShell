@@ -183,7 +183,6 @@ Item {
 
                         iconName: root.deviceIcon(modelData, deviceBrightness)
                         active: deviceName === root.currentDeviceName
-                        showActiveCheck: true
                         title: BrightnessService.deviceTitle(modelData)
                         subtitle: deviceName + " • " + root.deviceClassLabel(modelData)
                         trailingBadge: Math.round(deviceBrightness) + "%"

@@ -42,7 +42,7 @@ Singleton {
     readonly property real swatchTileMinWidth: 96
     readonly property color rowColor: Theme.foregroundColor(Theme.cardSurface, true)
     readonly property color rowHighlightColor: Theme.withAlpha(Theme.primary, highlightBlend)
-    readonly property color selectedRowColor: Theme.blend(rowColor, Theme.onSurface, Theme.stateLayerDrag)
+    readonly property color selectedRowColor: Theme.selectedContainer
     readonly property int transitionDuration: Theme.expressiveDurations.expressiveFastSpatial
     readonly property int fadeDuration: Theme.expressiveDurations.expressiveEffects
     readonly property int pageSettleFrames: 2
