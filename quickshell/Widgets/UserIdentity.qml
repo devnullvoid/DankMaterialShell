@@ -12,6 +12,7 @@ Item {
     property real textGap: Theme.spacingM
     property bool narrow: false
     property bool tall: false
+    property bool stacked: false
     property color contentColor: Theme.surfaceText
     property color mutedColor: Theme.surfaceVariantText
     property color badgeColor: Theme.primaryContainer
@@ -27,6 +28,7 @@ Item {
     readonly property bool showUptime: options.uptime !== false
     readonly property bool showBadge: options.badge !== false
     readonly property string compositorName: CompositorService.displayName
+    readonly property string detailsText: [showHostname ? UserInfoService.hostname : "", showCompositor ? compositorName : ""].filter(text => text !== "").join(" · ")
     readonly property string uptimeText: {
         const prefix = I18n.tr("up", "uptime prefix, e.g. 'up 4h 2m'");
         return DgopService.shortUptime ? prefix + DgopService.shortUptime.slice(2) : prefix;
@@ -41,6 +43,8 @@ Item {
 
     LayoutMirroring.enabled: I18n.isRtl
     LayoutMirroring.childrenInherit: true
+    Accessible.role: Accessible.StaticText
+    Accessible.name: [UserInfoService.username, detailsText, showUptime && DgopService.shortUptime !== "" ? uptimeText : ""].filter(text => text !== "").join(", ")
 
     Ref {
         service: DgopService
@@ -51,7 +55,7 @@ Item {
     Item {
         id: avatarBox
 
-        x: root.narrow ? (parent.width - width) / 2 : 0
+        x: root.narrow ? (parent.width - width) / 2 : I18n.isRtl ? parent.width - width : 0
         anchors.verticalCenter: parent.verticalCenter
         width: root.avatarDiameter
         height: root.avatarDiameter
@@ -92,25 +96,38 @@ Item {
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         visible: !root.narrow
+        spacing: root.stacked ? Theme.spacingXS : 0
 
         StyledText {
             width: parent.width
-            text: root.showHostname ? UserInfoService.username + " @ " + UserInfoService.hostname : UserInfoService.username
-            font.pixelSize: root.tall ? Theme.fontSizeXLarge : Theme.fontSizeLarge
+            text: !root.stacked && root.showHostname ? UserInfoService.username + " @ " + UserInfoService.hostname : UserInfoService.username
+            font.pixelSize: root.stacked || root.tall ? Theme.fontSizeXLarge : Theme.fontSizeLarge
             font.weight: Theme.fontWeightMedium
             color: root.contentColor
+            horizontalAlignment: Text.AlignLeft
             elide: Text.ElideRight
+            Accessible.ignored: true
         }
 
-        // Tall cards have room for a second line, so uptime wraps there and elides everywhere else.
+        StyledText {
+            width: parent.width
+            visible: root.stacked && text !== ""
+            text: root.detailsText
+            font.pixelSize: Theme.fontSizeSmall
+            color: root.mutedColor
+            horizontalAlignment: Text.AlignLeft
+            elide: Text.ElideRight
+            Accessible.ignored: true
+        }
+
         Flow {
             width: parent.width
-            spacing: Theme.spacingS
+            spacing: root.stacked ? 0 : Theme.spacingS
 
             Row {
                 id: compositorDetails
                 spacing: Theme.spacingXS
-                visible: root.showCompositor
+                visible: root.showCompositor && !root.stacked
 
                 DankIcon {
                     anchors.verticalCenter: parent.verticalCenter
@@ -124,15 +141,17 @@ Item {
                     text: root.compositorName
                     font.pixelSize: Theme.fontSizeSmall
                     color: root.mutedColor
+                    Accessible.ignored: true
                 }
             }
 
             Row {
                 readonly property real remaining: parent.width - (compositorDetails.visible ? compositorDetails.width + parent.spacing : 0)
 
-                width: root.tall ? Math.min(implicitWidth, parent.width) : remaining
+                width: root.tall && !root.stacked ? Math.min(uptimeIcon.width + spacing + uptimeLabel.implicitWidth, parent.width) : Math.max(0, remaining)
                 spacing: Theme.spacingXS
-                visible: root.showUptime && DgopService.shortUptime !== ""
+                visible: root.showUptime
+                opacity: DgopService.shortUptime !== "" ? 1 : 0
 
                 DankIcon {
                     id: uptimeIcon
@@ -143,13 +162,17 @@ Item {
                 }
 
                 StyledText {
+                    id: uptimeLabel
+
                     anchors.verticalCenter: parent.verticalCenter
-                    width: root.tall ? implicitWidth : Math.max(0, parent.width - uptimeIcon.width - parent.spacing)
+                    width: Math.max(0, parent.width - uptimeIcon.width - parent.spacing)
                     text: root.uptimeText
                     font.pixelSize: Theme.fontSizeSmall
                     color: root.mutedColor
                     wrapMode: Text.NoWrap
+                    horizontalAlignment: Text.AlignLeft
                     elide: Text.ElideRight
+                    Accessible.ignored: true
                 }
             }
         }

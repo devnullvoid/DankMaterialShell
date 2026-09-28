@@ -706,10 +706,15 @@ function migrateToVersion(obj, targetVersion) {
         settings.configVersion = 33;
     }
 
+    if (currentVersion < 34 && targetVersion >= 34) {
+        if (Array.isArray(settings.controlCenterWidgets))
+            settings.controlCenterWidgets = splitControlCenterHeader(settings.controlCenterWidgets, settings.controlCenterColumns ?? SpecModule.SPEC.controlCenterColumns.def);
+        settings.configVersion = 34;
+    }
+
     return settings;
 }
 
-// The split user card and quick actions tiles of the unreleased v32 format collapse into one pinned header carrying both option sets.
 function migrateControlCenterHeader(widgets) {
     const rest = widgets.filter(widget => !CC_LEGACY_HEADER_IDS.includes(widget?.id));
     if (rest.some(widget => widget?.id === "header"))
@@ -729,6 +734,45 @@ function migrateControlCenterHeader(widgets) {
         }
     }
     return [header].concat(rest);
+}
+
+function splitControlCenterHeader(widgets, columns) {
+    const userDefaults = SpecModule.SPEC.controlCenterWidgets.def.find(widget => widget.id === "userCard");
+    const actionDefaults = SpecModule.SPEC.controlCenterWidgets.def.find(widget => widget.id === "quickActions");
+    const result = [];
+    for (const widget of widgets) {
+        if (widget?.id !== "header") {
+            result.push(widget);
+            continue;
+        }
+        const actions = Object.assign({}, actionDefaults);
+        const user = Object.assign({}, userDefaults, {
+            w: Math.max(1, Math.min(Number(widget.w) || columns, columns) - actions.w),
+            h: Math.max(userDefaults.h, Number(widget.h) || userDefaults.h)
+        });
+        for (const key of ["hostname", "compositor", "uptime", "badge", "background"]) {
+            if (key in widget)
+                user[key] = widget[key];
+        }
+        for (const key of ["actions", "powerAccent"]) {
+            if (key in widget)
+                actions[key] = widget[key];
+        }
+        if (Number.isFinite(widget.row)) {
+            user.row = widget.row;
+            actions.row = widget.row;
+        }
+        if (Number.isFinite(widget.col)) {
+            user.col = widget.col;
+            actions.col = widget.col + (widget.showUser === false ? 0 : user.w);
+        }
+        if (widget.showUser !== false)
+            result.push(user);
+        result.push(actions);
+    }
+    if (!result.some(widget => widget?.id === "quickActions"))
+        result.unshift(Object.assign({}, actionDefaults));
+    return result;
 }
 
 function migrateBarWidgetGlobals(settings) {

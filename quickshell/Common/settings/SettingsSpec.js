@@ -431,10 +431,16 @@ var LOCAL_SPEC = {
     controlCenterWidgets: {
         def: [
             {
-                id: "header",
+                id: "userCard",
                 enabled: true,
-                w: 8,
-                h: 1
+                w: 6.5,
+                h: 1.5
+            },
+            {
+                id: "quickActions",
+                enabled: true,
+                w: 1.5,
+                h: 1.5
             },
             {
                 id: "volumeSlider",

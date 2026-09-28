@@ -294,6 +294,17 @@ ShellRoot {
                 verticalSlider.destroy();
                 wait(0);
 
+                const stripSlider = sliderComponent.createObject(scene);
+                let iconClicks = 0;
+                stripSlider.iconClicked.connect(() => iconClicks++);
+                size(stripSlider, 4, 1);
+                settle();
+                check(stripSlider.slider.mapToItem(stripSlider, 0, 0).x === 0 && stripSlider.slider.width === stripSlider.width, "strip slider track spans the row");
+                mouseClick(stripSlider.slider, Theme.spacingXS + CcMetrics.stripIconSize / 2, stripSlider.slider.height / 2);
+                check(iconClicks === 1 && stripSlider.slider.value === 50, "strip slider inset icon takes the click without moving the value");
+                stripSlider.destroy();
+                wait(0);
+
                 const ids = ["wifi", "bluetooth", "audioOutput", "audioInput", "volumeSlider", "inputVolumeSlider", "brightnessSlider", "nightMode", "darkMode", "doNotDisturb", "idleInhibitor", "battery", "diskUsage", "colorPicker"];
                 for (const id of ids) {
                     const component = registry.componentForWidget({

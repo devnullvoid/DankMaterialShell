@@ -104,8 +104,11 @@ QtObject {
     readonly property Component colorPickerTile: Component {
         ColorPickerTile {}
     }
-    readonly property Component headerTile: Component {
-        HeaderTile {}
+    readonly property Component userCard: Component {
+        UserCard {}
+    }
+    readonly property Component quickActions: Component {
+        QuickActions {}
     }
     readonly property Component pluginTile: Component {
         PluginTile {}
@@ -160,8 +163,10 @@ QtObject {
             return diskUsageTile;
         case "colorPicker":
             return colorPickerTile;
-        case "header":
-            return headerTile;
+        case "userCard":
+            return userCard;
+        case "quickActions":
+            return quickActions;
         default:
             return null;
         }
@@ -180,6 +185,14 @@ QtObject {
     }
 
     readonly property var baseWidgetDefinitions: [
+        {
+            "id": "userCard",
+            "text": I18n.tr("User"),
+            "description": I18n.tr("Show hostname"),
+            "icon": "person",
+            "type": "info",
+            "enabled": true
+        },
         {
             "id": "nightMode",
             "text": I18n.tr("Night mode"),

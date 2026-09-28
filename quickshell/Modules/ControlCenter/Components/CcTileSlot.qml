@@ -34,6 +34,17 @@ DankEditableGridSlot {
             else
                 width = Math.min(2, sizeSpec.maxW);
         }
+        if (widgetData.id === "quickActions") {
+            const count = WidgetUtils.enabledQuickActions(widgetData).length;
+            if (height !== current.h)
+                width = Math.max(width, CcMetrics.actionSpan(Math.ceil(count / CcMetrics.actionCapacity(height))));
+            const size = WidgetUtils.clampSize(Object.assign({}, widgetData, {
+                w: width,
+                h: height
+            }), grid.columns, grid.maximumRows);
+            width = size.w;
+            height = size.h;
+        }
         const changes = {};
         if (width !== current.w)
             changes.w = width;
@@ -124,7 +135,7 @@ DankEditableGridSlot {
         visible: root.grid.editMode
         enabled: root.interactionEnabled
         widgetData: root.widgetData
-        passthrough: root.passthrough
+        resizeEdgeWidth: root.widgetData.id === "quickActions" ? Theme.spacingL : -1
         dragging: root.dragging
         resizing: root.resizing
         cornerRadius: root.tileItem?.bodyRadius ?? Theme.fullRadius(root.width, root.height)

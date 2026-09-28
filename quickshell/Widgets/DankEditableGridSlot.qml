@@ -13,7 +13,6 @@ Item {
     readonly property bool resizing: grid.sizePreview?.index === index
     property var resizeOrigin: null
     property var dragOrigin: null
-    // A child the tile keeps interactive in edit mode; drag input is masked away from it.
     property Item passthrough: null
     readonly property bool interactionEnabled: resizeOrigin !== null || dragOrigin !== null || !grid.interacting
 
@@ -78,7 +77,6 @@ Item {
     width: slot ? slot.w : 0
     height: slot ? slot.h : 0
     z: dragging || resizing ? 1 : 0
-    containmentMask: passthrough && grid.editMode ? passthroughMask : null
 
     QtObject {
         id: passthroughMask
@@ -156,7 +154,7 @@ Item {
         hoverEnabled: enabled
         acceptedButtons: Qt.LeftButton
         cursorShape: root.dragging ? Qt.ClosedHandCursor : Qt.OpenHandCursor
-        containmentMask: root.containmentMask
+        containmentMask: root.passthrough ? passthroughMask : null
         onPressAndHold: root.pressAndHold()
         onWheel: wheel => wheel.accepted = true
     }

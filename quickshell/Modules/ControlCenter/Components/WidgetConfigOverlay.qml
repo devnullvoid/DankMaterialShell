@@ -33,9 +33,9 @@ Item {
     readonly property bool isPlugin: widgetId.startsWith("plugin_")
     readonly property bool isDisk: widgetId === "diskUsage"
     readonly property bool isIdleInhibitor: widgetId === "idleInhibitor"
-    readonly property bool isHeader: widgetId === "header"
-    readonly property bool showsUser: isHeader && WidgetUtils.headerShowsUser(widgetData)
-    readonly property var quickActions: isHeader ? WidgetUtils.quickActions(widgetData) : []
+    readonly property bool isUser: widgetId === "userCard"
+    readonly property bool isQuickActions: widgetId === "quickActions"
+    readonly property var quickActions: isQuickActions ? WidgetUtils.quickActions(widgetData) : []
 
     visible: widgetIndex >= 0
     z: CcMetrics.overlayZ
@@ -195,15 +195,8 @@ Item {
                     }
                 }
 
-                CcToggleRow {
-                    visible: root.isHeader
-                    text: I18n.tr("User")
-                    checked: root.showsUser
-                    onToggled: checked => root.persistOption("showUser", checked)
-                }
-
                 Repeater {
-                    model: root.showsUser ? DashRegistry.sheetOptionSpecs("user") : []
+                    model: root.isUser ? DashRegistry.sheetOptionSpecs("user") : []
 
                     CcToggleRow {
                         required property var modelData
@@ -217,7 +210,7 @@ Item {
                 SettingsReorderList {
                     id: actionList
 
-                    visible: root.isHeader
+                    visible: root.isQuickActions
                     model: root.quickActions
                     onReordered: indices => root.persistOption("actions", indices.map(i => root.quickActions[i]))
 
@@ -246,14 +239,14 @@ Item {
                 }
 
                 CcToggleRow {
-                    visible: root.isHeader
+                    visible: root.isUser
                     text: I18n.tr("Background")
-                    checked: WidgetUtils.headerHasBackground(root.widgetData)
+                    checked: root.widgetData?.background !== false
                     onToggled: checked => root.persistOption("background", checked)
                 }
 
                 CcToggleRow {
-                    visible: root.isHeader
+                    visible: root.isQuickActions
                     text: I18n.tr("Highlight power", "toggle that gives the control center power button the error color")
                     checked: root.widgetData?.powerAccent === true
                     onToggled: checked => root.persistOption("powerAccent", checked)

@@ -43,6 +43,9 @@ Singleton {
     readonly property real gridRowUnit: tileHeight
     readonly property real expandedTileMinWidth: columnWidth * 3 + gridGap * 2
     readonly property real sliderRowHeight: Theme.minimumTouchTargetSize
+    readonly property real stripTrackHeight: 32
+    readonly property real stripHandleHeight: stripTrackHeight + Theme.sliderHandleGap * 2
+    readonly property real stripIconSize: Theme.iconSizeMedium
     readonly property real gridGap: Theme.spacingS
     readonly property real tilePaddingH: Theme.spacingL
     readonly property real iconScale: SettingsData.controlCenterIconScale
@@ -54,15 +57,18 @@ Singleton {
     readonly property real iconBoxIconSize: Theme.iconSize * iconScale
     readonly property real tallMeterThickness: 28
     readonly property real tileTextGap: Theme.spacingM
-    readonly property real actionSize: iconBoxSize
-    readonly property real actionIconSize: iconBoxIconSize
+    readonly property real actionSize: Theme.minimumTouchTargetSize
+    readonly property real actionIconSize: Theme.iconSizeMedium
     readonly property real actionGap: Theme.spacingXS
-    // DankCircularImage clips the picture this far inside its frame, so the frame grows to keep the visible disc at icon box size.
-    readonly property real avatarFrameInset: 2
-    readonly property real headerAvatarSize: iconBoxSize + avatarFrameInset * 2
-    // Buttons never shrink, so the header cannot go narrower than its action row plus padding.
-    function headerMinColumns(count) {
-        return Math.ceil((actionSize * count + actionGap * Math.max(0, count - 1) + Theme.spacingS * 2 + gridGap) / (columnWidth + gridGap) / gridStep) * gridStep;
+    readonly property real headerHeight: actionSize * 2 + actionGap
+
+    function actionSpan(count) {
+        return Math.ceil((actionSize * count + actionGap * Math.max(0, count - 1) + gridGap) / (columnWidth + gridGap) / gridStep) * gridStep;
+    }
+
+    function actionCapacity(span) {
+        const size = span * (columnWidth + gridGap) - gridGap;
+        return Math.max(1, Math.floor((size + actionGap) / (actionSize + actionGap)));
     }
 
     readonly property real detailDialogInset: Theme.spacingL

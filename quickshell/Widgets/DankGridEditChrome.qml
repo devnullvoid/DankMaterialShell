@@ -17,6 +17,7 @@ Item {
     property bool horizontalResize: false
     property bool edgeResize: false
     property bool cornerResize: true
+    property real resizeEdgeWidth: -1
     property real hitOverflow: -1
     // A child of the tile that keeps its own input in edit mode; resize bands never claim points over it.
     property Item passthrough: null
@@ -25,7 +26,7 @@ Item {
     property real iconSize: Theme.iconSizeSmall
     readonly property real touchTargetSize: Math.max(Theme.minimumTouchTargetSize, buttonSize)
     readonly property real contentInset: touchTargetSize / 2
-    readonly property bool showOptionsButton: hasOptions && width - contentInset * 2 >= touchTargetSize * (horizontalResize ? 3 : 2)
+    readonly property bool showOptionsButton: hasOptions && width - contentInset * 2 >= touchTargetSize * (1 + (removable ? 1 : 0) + (horizontalResize ? 1 : 0))
     readonly property int chromeButtons: (removable ? 1 : 0) + (showOptionsButton ? 1 : 0)
     readonly property rect hitBounds: Qt.rect(contentInset - hitOverflow, contentInset - hitOverflow, width - (contentInset - hitOverflow) * 2, height - (contentInset - hitOverflow) * 2)
 
@@ -220,6 +221,12 @@ Item {
                 function contains(point: point): bool {
                     if (root.hitOverflow >= 0 && (point.x < handleMask.x || point.y < handleMask.y || point.x >= handleMask.x + handleMask.width || point.y >= handleMask.y + handleMask.height))
                         return false;
+                    if (root.resizeEdgeWidth >= 0 && !root.horizontalResize) {
+                        const local = band.mapToItem(root, point.x, point.y);
+                        const fromEdge = handleItem.diagonalFlipped ? local.x - root.contentInset : root.width - root.contentInset - local.x;
+                        if (fromEdge > root.resizeEdgeWidth && root.height - root.contentInset - local.y > root.resizeEdgeWidth)
+                            return false;
+                    }
                     const target = root.passthrough;
                     if (!target?.visible)
                         return true;

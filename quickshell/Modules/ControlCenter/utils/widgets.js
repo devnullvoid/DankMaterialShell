@@ -2,8 +2,8 @@
 .import qs.Modules.ControlCenter as ControlCenter
 .import "../../../Common/GridLayout.js" as GridLayout
 
-var PINNED_IDS = ["header"];
-var OPTION_IDS = ["diskUsage", "brightnessSlider", "idleInhibitor", "header"];
+var PINNED_IDS = ["quickActions"];
+var OPTION_IDS = ["diskUsage", "brightnessSlider", "idleInhibitor", "userCard", "quickActions"];
 var QUICK_ACTIONS = [
     {
         "id": "lock",
@@ -40,7 +40,6 @@ function hasOptions(id) {
     return OPTION_IDS.includes(id) || String(id ?? "").startsWith("plugin_");
 }
 
-// Saved order wins, unknown ids drop, missing ones append so new actions show up without a migration.
 function quickActions(widgetData) {
     const saved = Array.isArray(widgetData?.actions) ? widgetData.actions : [];
     const out = saved.filter(action => QUICK_ACTION_IDS.includes(action?.id)).map(action => ({
@@ -65,17 +64,8 @@ function quickActionIcon(id) {
     return QUICK_ACTIONS.find(action => action.id === id)?.icon ?? "";
 }
 
-// Untranslated catalog term; callers wrap it in I18n.tr.
 function quickActionLabel(id) {
     return QUICK_ACTIONS.find(action => action.id === id)?.label ?? "";
-}
-
-function headerShowsUser(widgetData) {
-    return widgetData?.showUser !== false;
-}
-
-function headerHasBackground(widgetData) {
-    return widgetData?.background === true;
 }
 
 function defaultWidget(id, columns) {
@@ -101,12 +91,18 @@ function sizeSpec(widget, columns, rows = Infinity) {
         "maxH": rows,
         "step": ControlCenter.CcMetrics.gridStep
     };
-    if ((widget?.id || "") !== "header")
+    switch (widget?.id) {
+    case "userCard":
+        spec.w = Math.max(1, (Number.isFinite(columns) ? columns : ControlCenter.CcMetrics.defaultColumns) - ControlCenter.CcMetrics.actionSpan(2));
+        spec.h = ControlCenter.CcMetrics.actionSpan(2);
         return spec;
-    spec.minW = Math.min(ControlCenter.CcMetrics.headerMinColumns(enabledQuickActions(widget).length), columns);
-    spec.w = Number.isFinite(columns) ? Math.max(spec.minW, columns) : ControlCenter.CcMetrics.defaultColumns;
-    spec.maxH = Math.min(2, rows);
-    return spec;
+    case "quickActions":
+        spec.w = ControlCenter.CcMetrics.actionSpan(2);
+        spec.h = ControlCenter.CcMetrics.actionSpan(2);
+        return spec;
+    default:
+        return spec;
+    }
 }
 
 function clampSize(widget, columns, rows = Infinity) {
@@ -115,6 +111,18 @@ function clampSize(widget, columns, rows = Infinity) {
         "w": GridLayout.dimension(widget.w, spec.minW, spec.maxW, spec.w, spec.step),
         "h": GridLayout.dimension(widget.h, spec.minH, spec.maxH, spec.h, spec.step)
     };
+    if (widget.id === "quickActions") {
+        const count = enabledQuickActions(widget).length;
+        const capacity = ControlCenter.CcMetrics.actionCapacity(size.w);
+        const neededRows = ControlCenter.CcMetrics.actionSpan(Math.ceil(count / capacity));
+        if (neededRows <= rows) {
+            size.h = Math.max(size.h, neededRows);
+            return size;
+        }
+        size.h = rows;
+        size.w = Math.min(columns, Math.max(size.w, ControlCenter.CcMetrics.actionSpan(Math.ceil(count / ControlCenter.CcMetrics.actionCapacity(rows)))));
+        return size;
+    }
     if (!isSliderWidget(widget.id) || size.w >= 2 || size.h >= 2)
         return size;
     if (rows > 1)
@@ -164,8 +172,8 @@ function setLayout(widgets) {
 }
 
 function resetToDefault(columns) {
-    const ids = ["volumeSlider", "brightnessSlider", "wifi", "bluetooth", "audioOutput", "audioInput", "nightMode", "darkMode"];
-    Common.SettingsData.set("controlCenterWidgets", pinnedWidgets(columns).concat(ids.map(id => defaultWidget(id, columns))));
+    const ids = ["userCard", "quickActions", "volumeSlider", "brightnessSlider", "wifi", "bluetooth", "audioOutput", "audioInput", "nightMode", "darkMode"];
+    Common.SettingsData.set("controlCenterWidgets", ids.map(id => defaultWidget(id, columns)));
 }
 
 function clearAll(columns) {
