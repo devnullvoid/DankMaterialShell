@@ -104,11 +104,8 @@ QtObject {
     readonly property Component colorPickerTile: Component {
         ColorPickerTile {}
     }
-    readonly property Component userCardTile: Component {
-        UserCardTile {}
-    }
-    readonly property Component quickActionsTile: Component {
-        QuickActionsTile {}
+    readonly property Component headerTile: Component {
+        HeaderTile {}
     }
     readonly property Component pluginTile: Component {
         PluginTile {}
@@ -163,10 +160,8 @@ QtObject {
             return diskUsageTile;
         case "colorPicker":
             return colorPickerTile;
-        case "userCard":
-            return userCardTile;
-        case "quickActions":
-            return quickActionsTile;
+        case "header":
+            return headerTile;
         default:
             return null;
         }

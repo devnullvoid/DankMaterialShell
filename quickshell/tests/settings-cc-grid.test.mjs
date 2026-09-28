@@ -26,9 +26,10 @@ test("sparse settings migrate without inventing grid keys", () => {
     assert.equal(sparse.controlCenterWidgets, undefined);
 });
 
-test("pinned header tiles are prepended once to a saved layout", () => {
-    const migrated = store.migrateToVersion({ configVersion: 31, controlCenterWidgets: [{ id: "wifi", w: 4, h: 1, col: 0, row: 0 }, { id: "quickActions", w: 4, h: 1 }] }, 32);
-    assert.deepEqual(JSON.parse(JSON.stringify(migrated.controlCenterWidgets)).map(w => w.id), ["userCard", "wifi", "quickActions"]);
-    assert.equal(migrated.configVersion, 32);
-    assert.equal(store.migrateToVersion({ configVersion: 31 }, 32).controlCenterWidgets, undefined);
+test("split header tiles collapse into one pinned header ahead of the layout", () => {
+    const migrated = store.migrateToVersion({ configVersion: 32, controlCenterWidgets: [{ id: "userCard", w: 4, h: 1, hostname: false }, { id: "wifi", w: 4, h: 1, col: 0, row: 0 }, { id: "quickActions", w: 4, h: 1, powerAccent: true, actions: [{ id: "power", enabled: true }] }] }, 33);
+    assert.deepEqual(JSON.parse(JSON.stringify(migrated.controlCenterWidgets)), [{ id: "header", enabled: true, w: 8, h: 1, hostname: false, actions: [{ id: "power", enabled: true }], powerAccent: true }, { id: "wifi", w: 4, h: 1, col: 0, row: 0 }]);
+    assert.equal(migrated.configVersion, 33);
+    assert.deepEqual(JSON.parse(JSON.stringify(store.migrateToVersion({ configVersion: 31, controlCenterWidgets: [{ id: "wifi", w: 4, h: 1 }] }, 33).controlCenterWidgets.map(w => w.id))), ["header", "wifi"]);
+    assert.equal(store.migrateToVersion({ configVersion: 31 }, 33).controlCenterWidgets, undefined);
 });

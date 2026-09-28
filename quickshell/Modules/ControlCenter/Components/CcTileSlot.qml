@@ -15,6 +15,8 @@ DankEditableGridSlot {
     readonly property bool compact: cols <= 2 && rows === 1
     readonly property var tileItem: tileLoader.item
 
+    passthrough: tileItem?.passthrough ?? null
+
     onPressAndHold: {
         if (!editChrome.hasOptions)
             return;
@@ -122,6 +124,7 @@ DankEditableGridSlot {
         visible: root.grid.editMode
         enabled: root.interactionEnabled
         widgetData: root.widgetData
+        passthrough: root.passthrough
         dragging: root.dragging
         resizing: root.resizing
         cornerRadius: root.tileItem?.bodyRadius ?? Theme.fullRadius(root.width, root.height)

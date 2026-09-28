@@ -2,25 +2,30 @@
 .import qs.Modules.ControlCenter as ControlCenter
 .import "../../../Common/GridLayout.js" as GridLayout
 
-var PINNED_IDS = ["userCard", "quickActions"];
-var OPTION_IDS = ["diskUsage", "brightnessSlider", "idleInhibitor", "userCard", "quickActions"];
-var QUICK_ACTIONS = [{
+var PINNED_IDS = ["header"];
+var OPTION_IDS = ["diskUsage", "brightnessSlider", "idleInhibitor", "header"];
+var QUICK_ACTIONS = [
+    {
         "id": "lock",
         "icon": "lock",
         "label": "Lock"
-    }, {
+    },
+    {
         "id": "power",
         "icon": "power_settings_new",
         "label": "Power"
-    }, {
+    },
+    {
         "id": "settings",
         "icon": "settings",
         "label": "Settings"
-    }, {
+    },
+    {
         "id": "edit",
         "icon": "edit",
         "label": "Edit"
-    }];
+    }
+];
 var QUICK_ACTION_IDS = QUICK_ACTIONS.map(action => action.id);
 
 function isSliderWidget(id) {
@@ -52,10 +57,8 @@ function quickActions(widgetData) {
     return out;
 }
 
-var QUICK_ACTION_ROLES = ["primary", "primaryContainer", "secondary", "surfaceVariant", "surfaceText"];
-
-function quickActionRole(widgetData) {
-    return QUICK_ACTION_ROLES.includes(widgetData?.buttonColor) ? widgetData.buttonColor : "default";
+function enabledQuickActions(widgetData) {
+    return quickActions(widgetData).filter(action => action.enabled);
 }
 
 function quickActionIcon(id) {
@@ -65,6 +68,14 @@ function quickActionIcon(id) {
 // Untranslated catalog term; callers wrap it in I18n.tr.
 function quickActionLabel(id) {
     return QUICK_ACTIONS.find(action => action.id === id)?.label ?? "";
+}
+
+function headerShowsUser(widgetData) {
+    return widgetData?.showUser !== false;
+}
+
+function headerHasBackground(widgetData) {
+    return widgetData?.background !== false;
 }
 
 function defaultWidget(id, columns) {
@@ -81,7 +92,6 @@ function pinnedWidgets(columns) {
 }
 
 function sizeSpec(widget, columns, rows = Infinity) {
-    const id = widget?.id || "";
     const spec = {
         "w": 4,
         "h": 1,
@@ -91,17 +101,11 @@ function sizeSpec(widget, columns, rows = Infinity) {
         "maxH": rows,
         "step": ControlCenter.CcMetrics.gridStep
     };
-    switch (id) {
-    case "userCard":
-        spec.w = Number.isFinite(columns) ? Math.max(1, columns - 4) : 4;
-        spec.maxH = Math.min(2, rows);
-        break;
-    case "quickActions":
-        spec.minW = Math.min(ControlCenter.CcMetrics.quickActionsMinColumns(quickActions(widget).filter(action => action.enabled).length), columns);
-        spec.w = Math.max(spec.minW, 4);
-        spec.maxH = Math.min(2, rows);
-        break;
-    }
+    if ((widget?.id || "") !== "header")
+        return spec;
+    spec.minW = Math.min(ControlCenter.CcMetrics.headerMinColumns(enabledQuickActions(widget).length), columns);
+    spec.w = Number.isFinite(columns) ? Math.max(spec.minW, columns) : ControlCenter.CcMetrics.defaultColumns;
+    spec.maxH = Math.min(2, rows);
     return spec;
 }
 

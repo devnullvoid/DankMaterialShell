@@ -33,9 +33,9 @@ Item {
     readonly property bool isPlugin: widgetId.startsWith("plugin_")
     readonly property bool isDisk: widgetId === "diskUsage"
     readonly property bool isIdleInhibitor: widgetId === "idleInhibitor"
-    readonly property bool isUserCard: widgetId === "userCard"
-    readonly property bool isQuickActions: widgetId === "quickActions"
-    readonly property var quickActions: isQuickActions ? WidgetUtils.quickActions(widgetData) : []
+    readonly property bool isHeader: widgetId === "header"
+    readonly property bool showsUser: isHeader && WidgetUtils.headerShowsUser(widgetData)
+    readonly property var quickActions: isHeader ? WidgetUtils.quickActions(widgetData) : []
 
     visible: widgetIndex >= 0
     z: CcMetrics.overlayZ
@@ -56,8 +56,8 @@ Item {
 
     function toggleAction(id, enabled) {
         persistOption("actions", quickActions.map(action => action.id === id ? Object.assign({}, action, {
-                    "enabled": enabled
-                }) : action));
+                "enabled": enabled
+            }) : action));
     }
 
     function persistOption(key, value) {
@@ -92,14 +92,16 @@ Item {
     Rectangle {
         id: panel
 
+        readonly property real preferredY: root.anchorY - height - Theme.spacingS < Theme.spacingS ? root.anchorY + root.anchorHeight + Theme.spacingS : root.anchorY - height - Theme.spacingS
+
         width: CcMetrics.configMenuWidth
-        height: menu.implicitHeight + Theme.spacingS * 2
+        height: Math.min(menu.implicitHeight, root.height - Theme.spacingS * 4) + Theme.spacingS * 2
         radius: Theme.windowRadius
         color: CcMetrics.dialogColor
         border.width: Theme.layerOutlineWidth
         border.color: Theme.outlineMedium
         x: Math.max(Theme.spacingS, Math.min(root.anchorX + root.anchorWidth - width, root.width - width - Theme.spacingS))
-        y: root.anchorY - height - Theme.spacingS < Theme.spacingS ? root.anchorY + root.anchorHeight + Theme.spacingS : root.anchorY - height - Theme.spacingS
+        y: Math.max(Theme.spacingS, Math.min(preferredY, root.height - height - Theme.spacingS))
         opacity: root.visible ? 1 : 0
         scale: root.visible ? 1 : CcMetrics.popupEnterScale
         transformOrigin: Item.TopRight
@@ -170,155 +172,116 @@ Item {
             onClicked: mouse => mouse.accepted = true
         }
 
-        CcGroup {
-            id: menu
-            anchors.left: parent.left
-            anchors.top: parent.top
+        DankFlickable {
+            anchors.fill: parent
             anchors.margins: Theme.spacingS
-            width: parent.width - Theme.spacingS * 2
+            clip: true
+            contentWidth: width
+            contentHeight: menu.implicitHeight
+            interactive: contentHeight > height
 
-            CcListRow {
-                visible: root.isPlugin
-                iconName: "settings"
-                title: I18n.tr("Plugin settings")
-                clickable: true
-                onClicked: {
-                    PopoutService.openSettingsWithTab(SettingsTabs.pluginPrefix + root.widgetId.replace("plugin_", ""));
-                    root.close();
+            CcGroup {
+                id: menu
+                width: parent.width
+
+                CcListRow {
+                    visible: root.isPlugin
+                    iconName: "settings"
+                    title: I18n.tr("Plugin settings")
+                    clickable: true
+                    onClicked: {
+                        PopoutService.openSettingsWithTab(SettingsTabs.pluginPrefix + root.widgetId.replace("plugin_", ""));
+                        root.close();
+                    }
                 }
-            }
-
-            Repeater {
-                model: root.isUserCard ? DashRegistry.sheetOptionSpecs("user") : []
 
                 CcToggleRow {
-                    required property var modelData
-
-                    text: modelData.text
-                    checked: DashRegistry.optionValue(modelData, root.widgetData?.[modelData.key])
-                    onToggled: checked => root.persistOption(modelData.key, checked)
+                    visible: root.isHeader
+                    text: I18n.tr("User")
+                    checked: root.showsUser
+                    onToggled: checked => root.persistOption("showUser", checked)
                 }
-            }
 
-            SettingsReorderList {
-                id: actionList
+                Repeater {
+                    model: root.showsUser ? DashRegistry.sheetOptionSpecs("user") : []
 
-                visible: root.isQuickActions
-                model: root.quickActions
-                onReordered: indices => root.persistOption("actions", indices.map(i => root.quickActions[i]))
+                    CcToggleRow {
+                        required property var modelData
 
-                delegate: SettingsReorderRow {
-                    required property var modelData
-                    readonly property bool locked: modelData.id === "edit"
-
-                    reorderList: actionList
-                    paddingH: CcMetrics.rowPaddingH
-                    paddingV: CcMetrics.rowPaddingV
-                    rowColor: dragging ? Theme.blend(CcMetrics.rowColor, Theme.onSurface, Theme.stateLayerDrag) : CcMetrics.rowColor
-                    iconName: WidgetUtils.quickActionIcon(modelData.id)
-                    title: I18n.tr(WidgetUtils.quickActionLabel(modelData.id))
-                    clickable: !locked
-                    onClicked: root.toggleAction(modelData.id, !modelData.enabled)
-
-                    DankToggle {
-                        hideText: true
-                        text: parent.title
-                        activeFocusOnTab: false
-                        checked: modelData.enabled
-                        enabled: !locked
-                        onToggled: value => root.toggleAction(modelData.id, value)
+                        text: modelData.text
+                        checked: DashRegistry.optionValue(modelData, root.widgetData?.[modelData.key])
+                        onToggled: checked => root.persistOption(modelData.key, checked)
                     }
                 }
-            }
 
-            CcListRow {
-                id: colorRow
+                SettingsReorderList {
+                    id: actionList
 
-                readonly property var roles: [{
-                        "value": "default",
-                        "label": I18n.tr("Default"),
-                        "color": Theme.secondaryContainer
-                    }, {
-                        "value": "primary",
-                        "label": I18n.tr("Primary"),
-                        "color": Theme.primary
-                    }, {
-                        "value": "primaryContainer",
-                        "label": I18n.tr("Primary Container"),
-                        "color": Theme.primaryContainer
-                    }, {
-                        "value": "secondary",
-                        "label": I18n.tr("Secondary"),
-                        "color": Theme.secondary
-                    }, {
-                        "value": "surfaceVariant",
-                        "label": I18n.tr("Surface Variant"),
-                        "color": Theme.surfaceVariant
-                    }, {
-                        "value": "surfaceText",
-                        "label": I18n.tr("Text Color"),
-                        "color": Theme.surfaceText
-                    }]
+                    visible: root.isHeader
+                    model: root.quickActions
+                    onReordered: indices => root.persistOption("actions", indices.map(i => root.quickActions[i]))
 
-                visible: root.isQuickActions
-                iconName: "palette"
-                title: I18n.tr("Button color")
-                body: DankDropdown {
-                    compactMode: true
-                    dropdownWidth: parent.width
-                    currentValue: colorRow.roles.find(role => role.value === WidgetUtils.quickActionRole(root.widgetData))?.label ?? ""
-                    options: colorRow.roles.map(role => role.label)
-                    // QV4 has no Object.fromEntries.
-                    optionColorMap: {
-                        const map = {};
-                        for (const role of colorRow.roles)
-                            map[role.label] = role.color;
-                        return map;
-                    }
-                    onValueChanged: value => {
-                        const role = colorRow.roles.find(role => role.label === value);
-                        if (role)
-                            root.persistOption("buttonColor", role.value);
+                    delegate: SettingsReorderRow {
+                        required property var modelData
+                        readonly property bool locked: modelData.id === "edit"
+
+                        reorderList: actionList
+                        paddingH: CcMetrics.rowPaddingH
+                        paddingV: CcMetrics.rowPaddingV
+                        rowColor: dragging ? Theme.blend(CcMetrics.rowColor, Theme.onSurface, Theme.stateLayerDrag) : CcMetrics.rowColor
+                        iconName: WidgetUtils.quickActionIcon(modelData.id)
+                        title: I18n.tr(WidgetUtils.quickActionLabel(modelData.id))
+                        clickable: !locked
+                        onClicked: root.toggleAction(modelData.id, !modelData.enabled)
+
+                        DankToggle {
+                            hideText: true
+                            text: parent.title
+                            activeFocusOnTab: false
+                            checked: modelData.enabled
+                            enabled: !locked
+                            onToggled: value => root.toggleAction(modelData.id, value)
+                        }
                     }
                 }
-            }
 
-            CcToggleRow {
-                visible: root.isQuickActions
-                text: I18n.tr("Background")
-                checked: root.widgetData?.background === true
-                onToggled: checked => root.persistOption("background", checked)
-            }
+                CcToggleRow {
+                    visible: root.isHeader
+                    text: I18n.tr("Background")
+                    checked: WidgetUtils.headerHasBackground(root.widgetData)
+                    onToggled: checked => root.persistOption("background", checked)
+                }
 
-            CcToggleRow {
-                visible: root.isQuickActions
-                text: I18n.tr("Highlight power", "toggle that gives the control center power button the error color")
-                checked: root.widgetData?.powerAccent === true
-                onToggled: checked => root.persistOption("powerAccent", checked)
-            }
+                CcToggleRow {
+                    visible: root.isHeader
+                    text: I18n.tr("Highlight power", "toggle that gives the control center power button the error color")
+                    checked: root.widgetData?.powerAccent === true
+                    onToggled: checked => root.persistOption("powerAccent", checked)
+                }
 
-            CcToggleRow {
-                visible: root.isDisk
-                text: I18n.tr("Show mount path", "toggle in control center disk usage widget to turn mount path display on or off")
-                checked: root.widgetData?.showMountPath !== false
-                onToggled: checked => root.persistOption("showMountPath", checked)
-            }
+                CcToggleRow {
+                    visible: root.isDisk
+                    text: I18n.tr("Show mount path", "toggle in control center disk usage widget to turn mount path display on or off")
+                    checked: root.widgetData?.showMountPath !== false
+                    onToggled: checked => root.persistOption("showMountPath", checked)
+                }
 
-            CcListRow {
-                visible: root.isIdleInhibitor
-                iconName: "timer"
-                title: I18n.tr("Duration")
-                body: DankDropdown {
-                    readonly property var presets: IdleInhibitPresets.presetOptions
+                CcListRow {
+                    visible: root.isIdleInhibitor
+                    iconName: "timer"
+                    title: I18n.tr("Duration")
+                    body: DankDropdown {
+                        readonly property var presets: IdleInhibitPresets.presetOptions
 
-                    compactMode: true
-                    dropdownWidth: parent.width
-                    currentValue: presets.find(p => p.minutes === (root.widgetData?.durationMinutes ?? 0))?.label ?? ""
-                    options: presets.map(p => p.label)
-                    onValueChanged: value => {
-                        const preset = presets.find(p => p.label === value);
-                        if (preset)
-                            root.persistOption("durationMinutes", preset.minutes);
+                        compactMode: true
+                        dropdownWidth: parent.width
+                        currentValue: presets.find(p => p.minutes === (root.widgetData?.durationMinutes ?? 0))?.label ?? ""
+                        options: presets.map(p => p.label)
+                        onValueChanged: value => {
+                            const preset = presets.find(p => p.label === value);
+                            if (preset)
+                                root.persistOption("durationMinutes", preset.minutes);
+                        }
                     }
                 }
             }

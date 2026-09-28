@@ -15,7 +15,8 @@ var SESSION_BACKED_PLUGIN_IDS = ["dankNotepadModule"];
 var STALE_WIDGET_KEYS = ["desktopClockEnabled", "desktopClockStyle", "desktopClockTransparency", "desktopClockColorMode", "desktopClockCustomColor", "desktopClockShowDate", "desktopClockShowAnalogNumbers", "desktopClockShowAnalogSeconds", "desktopClockX", "desktopClockY", "desktopClockWidth", "desktopClockHeight", "desktopClockDisplayPreferences", "systemMonitorEnabled", "systemMonitorShowHeader", "systemMonitorTransparency", "systemMonitorColorMode", "systemMonitorCustomColor", "systemMonitorShowCpu", "systemMonitorShowCpuGraph", "systemMonitorShowCpuTemp", "systemMonitorShowGpuTemp", "systemMonitorGpuPciId", "systemMonitorShowMemory", "systemMonitorShowMemoryGraph", "systemMonitorShowNetwork", "systemMonitorShowNetworkGraph", "systemMonitorShowDisk", "systemMonitorShowTopProcesses", "systemMonitorTopProcessCount", "systemMonitorTopProcessSortBy", "systemMonitorGraphInterval", "systemMonitorLayoutMode", "systemMonitorX", "systemMonitorY", "systemMonitorWidth", "systemMonitorHeight", "systemMonitorDisplayPreferences", "systemMonitorVariants", "desktopWidgetPositions"];
 
 var BAR_WIDGET_LIST_KEYS = ["leftWidgets", "centerWidgets", "rightWidgets"];
-var CC_PINNED_WIDGETS = ["userCard", "quickActions"];
+var CC_LEGACY_HEADER_IDS = ["userCard", "quickActions"];
+var CC_HEADER_OPTION_KEYS = ["hostname", "compositor", "uptime", "badge", "actions", "background", "powerAccent"];
 
 var REMOVED_KEYS_V21 = ["showBattery", "showCapsLockIndicator", "showClipboard", "showClock", "showControlCenterButton", "showCpuUsage", "showFocusedWindow", "showLauncherButton", "showMemUsage", "showMusic", "showNotificationButton", "showPrivacyButton", "showSystemTray", "showWeather", "showWorkspaceSwitcher", "hideBrightnessSlider", "updaterHideWidget", "workspaceScrolling", "appLauncherViewMode", "spotlightModalViewMode", "audioDeviceScrollVolumeEnabled", "desktopClockX", "desktopClockY", "desktopClockWidth", "desktopClockHeight", "desktopClockDisplayPreferences", "systemMonitorX", "systemMonitorY", "systemMonitorWidth", "systemMonitorHeight", "systemMonitorDisplayPreferences", "systemMonitorVariants"];
 
@@ -699,21 +700,35 @@ function migrateToVersion(obj, targetVersion) {
         settings.configVersion = 31;
     }
 
-    if (currentVersion < 32 && targetVersion >= 32) {
-        if (Array.isArray(settings.controlCenterWidgets)) {
-            const ids = settings.controlCenterWidgets.map(widget => widget?.id);
-            const pinned = CC_PINNED_WIDGETS.filter(id => !ids.includes(id)).map(id => ({
-                        id: id,
-                        enabled: true,
-                        w: 4,
-                        h: 1
-                    }));
-            settings.controlCenterWidgets = pinned.concat(settings.controlCenterWidgets);
-        }
-        settings.configVersion = 32;
+    if (currentVersion < 33 && targetVersion >= 33) {
+        if (Array.isArray(settings.controlCenterWidgets))
+            settings.controlCenterWidgets = migrateControlCenterHeader(settings.controlCenterWidgets);
+        settings.configVersion = 33;
     }
 
     return settings;
+}
+
+// The split user card and quick actions tiles of the unreleased v32 format collapse into one pinned header carrying both option sets.
+function migrateControlCenterHeader(widgets) {
+    const rest = widgets.filter(widget => !CC_LEGACY_HEADER_IDS.includes(widget?.id));
+    if (rest.some(widget => widget?.id === "header"))
+        return rest;
+    const header = {
+        id: "header",
+        enabled: true,
+        w: 8,
+        h: 1
+    };
+    for (const legacy of widgets) {
+        if (!CC_LEGACY_HEADER_IDS.includes(legacy?.id))
+            continue;
+        for (const key of CC_HEADER_OPTION_KEYS) {
+            if (key in legacy)
+                header[key] = legacy[key];
+        }
+    }
+    return [header].concat(rest);
 }
 
 function migrateBarWidgetGlobals(settings) {

@@ -18,6 +18,8 @@ Item {
     property bool edgeResize: false
     property bool cornerResize: true
     property real hitOverflow: -1
+    // A child of the tile that keeps its own input in edit mode; resize bands never claim points over it.
+    property Item passthrough: null
     property real cornerRadius: Theme.cornerRadiusXL
     property real buttonSize: Theme.iconSizeLarge
     property real iconSize: Theme.iconSizeSmall
@@ -200,14 +202,30 @@ Item {
         }
 
         ResizeBand {
+            id: band
+
             anchors.fill: parent
             signX: handleItem.signX
             cursorShape: root.horizontalResize ? Qt.SizeHorCursor : (handleItem.diagonalFlipped ? Qt.SizeBDiagCursor : Qt.SizeFDiagCursor)
-            containmentMask: root.hitOverflow < 0 ? null : handleMask
+            containmentMask: root.hitOverflow < 0 && !root.passthrough ? null : bandMask
 
             HitMask {
                 id: handleMask
                 target: handleItem
+            }
+
+            QtObject {
+                id: bandMask
+
+                function contains(point: point): bool {
+                    if (root.hitOverflow >= 0 && (point.x < handleMask.x || point.y < handleMask.y || point.x >= handleMask.x + handleMask.width || point.y >= handleMask.y + handleMask.height))
+                        return false;
+                    const target = root.passthrough;
+                    if (!target?.visible)
+                        return true;
+                    const local = band.mapToItem(target, point.x, point.y);
+                    return local.x < 0 || local.y < 0 || local.x >= target.width || local.y >= target.height;
+                }
             }
         }
     }

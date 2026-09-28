@@ -9,6 +9,7 @@ Item {
     property bool live: Window.window?.visible ?? false
     property var options: ({})
     property real avatarSize: Theme.buttonHeightM
+    property real textGap: Theme.spacingM
     property bool narrow: false
     property bool tall: false
     property color contentColor: Theme.surfaceText
@@ -87,7 +88,7 @@ Item {
 
     Column {
         anchors.left: avatarBox.right
-        anchors.leftMargin: Theme.spacingM
+        anchors.leftMargin: root.textGap
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
         visible: !root.narrow
