@@ -28,7 +28,7 @@ Column {
                 ringColor: Theme.avatarRingColor
                 height: width
                 imageSource: PortalService.profileImage
-                fallbackIcon: "person"
+                fallbackIcon: "material:person"
             }
 
             DankActionButton {
@@ -48,22 +48,28 @@ Column {
         SettingsDropdownRow {
             id: ringRow
 
-            readonly property var rings: [{
+            readonly property var rings: [
+                {
                     "value": "none",
                     "label": I18n.tr("None")
-                }, {
+                },
+                {
                     "value": "outline",
                     "label": I18n.tr("Outline")
-                }, {
+                },
+                {
                     "value": "primary",
                     "label": I18n.tr("Primary")
-                }, {
+                },
+                {
                     "value": "secondary",
                     "label": I18n.tr("Secondary")
-                }, {
+                },
+                {
                     "value": "tertiary",
                     "label": I18n.tr("Tertiary")
-                }]
+                }
+            ]
 
             settingKey: "avatarRing"
             tags: ["user", "account", "profile", "avatar", "ring", "border", "color"]

@@ -137,7 +137,7 @@ Item {
                             ringWidth: Theme.avatarRingWidth
                             ringColor: Theme.avatarRingColor
                             imageSource: root.profileImageSource(userRow.modelData.username)
-                            fallbackIcon: "person"
+                            fallbackIcon: "material:person"
                         }
                     }
 

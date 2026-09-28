@@ -848,7 +848,7 @@ Item {
                                     return encodeFileUrl(PortalService.profileImage);
                                 return PortalService.profileImage;
                             }
-                            fallbackIcon: "person"
+                            fallbackIcon: "material:person"
                         }
 
                         Rectangle {

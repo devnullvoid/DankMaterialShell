@@ -28,7 +28,7 @@ SettingsNavRow {
             anchors.leftMargin: (SettingsMetrics.navIconSize - width) / 2
             anchors.verticalCenter: parent.verticalCenter
             imageSource: PortalService.profileImage
-            fallbackIcon: imageSource ? "person" : ""
+            fallbackIcon: imageSource ? "material:person" : ""
             fallbackText: root.title.charAt(0).toLocaleUpperCase()
         }
     }
