@@ -428,7 +428,7 @@ Singleton {
                 {
                     "id": "user_create",
                     "hidden": true,
-                    "text": I18n.tr("Create user"),
+                    "text": I18n.tr("Add user"),
                     "icon": "person_add",
                     "tabIndex": 61
                 }

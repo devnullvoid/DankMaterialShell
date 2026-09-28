@@ -457,7 +457,7 @@ Item {
             shown: DMSNetworkService.vpnAvailable
 
             DankFab {
-                text: I18n.tr("Import")
+                text: I18n.tr("Import VPN")
                 iconName: "add"
                 busy: VPNService.importing
                 enabled: !VPNService.importing

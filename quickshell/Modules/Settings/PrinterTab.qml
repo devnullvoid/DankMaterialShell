@@ -422,7 +422,7 @@ Item {
         SettingsCard {
             width: parent.width
             iconName: "print"
-            title: I18n.tr("Printers")
+            title: I18n.tr("Installed")
             visible: CupsService.cupsAvailable
 
             headerActions: [

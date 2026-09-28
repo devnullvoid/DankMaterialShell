@@ -12,7 +12,6 @@ Item {
 
     readonly property var paletteValues: ["default", "bright", "dim"]
 
-
     readonly property IslandSettingsStore dot: IslandSettingsStore {
         barId: SettingsData.dotBarConfig?.id ?? ""
     }
@@ -22,7 +21,7 @@ Item {
             settingKey: "dotSize"
             tags: ["dot", "dankdot", "size", "diameter", "idle", "fade"]
             iconName: "blur_on"
-            title: I18n.tr("Dot", "bar layout: free-floating dot that opens island activities")
+            title: I18n.tr("General")
 
             SettingsSliderRow {
                 settingKey: "islandFreeSize"

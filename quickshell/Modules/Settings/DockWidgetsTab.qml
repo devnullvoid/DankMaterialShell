@@ -148,7 +148,6 @@ Item {
             width: parent.width
             visible: dock.hasConfig
             iconName: "widgets"
-            title: I18n.tr("Apps & widgets")
             settingKey: "dockWidgets"
             tags: ["dock", "widgets", "apps", "add", "remove", "order"]
 

@@ -422,7 +422,6 @@ Item {
         SettingsCard {
             width: parent.width
             iconName: "info"
-            title: I18n.tr("About")
 
             SettingsRow {
                 body: StyledText {

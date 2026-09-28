@@ -318,6 +318,26 @@ def extract_property(block, prop_name):
     return None
 
 
+def own_scope(block):
+    """The block with every nested component body removed, so a card without a title does not borrow one from its rows."""
+    depth = 0
+    kept = []
+    for char in block:
+        if char == "{":
+            depth += 1
+            if depth <= 1:
+                kept.append(char)
+            continue
+        if char == "}":
+            depth -= 1
+            if depth <= 0:
+                kept.append(char)
+            continue
+        if depth <= 1:
+            kept.append(char)
+    return "".join(kept)
+
+
 def load_wrapper_components(root_dir):
     widgets_dir = Path(root_dir) / "Modules" / "Settings" / "Widgets"
     wrappers = {}
@@ -400,13 +420,17 @@ def find_settings_components(content, filename, wrappers, tab_meta, hub_meta):
 
             tab_index = file_tab_index
 
-            title_raw = extract_property(block, "title") or defaults.get("title")
-            text_raw = extract_property(block, "text") or defaults.get("text")
+            own = own_scope(block)
+            title_raw = extract_property(own, "title") or defaults.get("title")
+            text_raw = extract_property(own, "text") or defaults.get("text")
             label = None
             if title_raw:
                 label = extract_i18n_string(title_raw)
             if not label and text_raw:
                 label = extract_i18n_string(text_raw)
+            if not label and component == "SettingsCard":
+                page_label = hub_meta.get(file_page) if file_page else tab_meta.get(file_tab_index, TAB_META_DEFAULT)
+                label = page_label[0]
 
             if not label:
                 continue

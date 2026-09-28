@@ -305,7 +305,6 @@ Item {
             id: headerSection
             width: parent.width
             iconName: "select_window"
-            title: I18n.tr("Window rules")
 
             SettingsRow {
                 subtitle: I18n.tr("Define rules for window behavior. Saves to %1", "window rules settings description, %1 is a config file name").arg(root.dmsRulesFileName)

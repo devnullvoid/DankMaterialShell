@@ -190,7 +190,7 @@ Item {
             shown: PolkitService.polkitAvailable
 
             DankFab {
-                text: I18n.tr("Create user")
+                text: I18n.tr("Add user")
                 iconName: "person_add"
                 onClicked: root.parentModal?.navigateTo("user_create")
             }

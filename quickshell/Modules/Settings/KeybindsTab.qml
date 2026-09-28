@@ -785,7 +785,7 @@ Item {
                     shown: !KeybindsService.readOnly
 
                     DankFab {
-                        text: I18n.tr("New shortcut")
+                        text: I18n.tr("Add shortcut")
                         iconName: "add"
                         onClicked: keybindsTab.openNewEditor()
                     }
