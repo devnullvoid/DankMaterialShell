@@ -9,7 +9,7 @@ DankEditableGridSlot {
     id: root
 
     readonly property var widgetData: JSON.parse(json)
-    readonly property var sizeSpec: WidgetUtils.sizeSpec(widgetData.id || "", grid.columns, grid.maximumRows)
+    readonly property var sizeSpec: WidgetUtils.sizeSpec(widgetData, grid.columns, grid.maximumRows)
     readonly property real cols: slot?.cols ?? 1
     readonly property real rows: slot?.rows ?? 1
     readonly property bool compact: cols <= 2 && rows === 1

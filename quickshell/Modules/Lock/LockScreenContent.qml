@@ -600,6 +600,8 @@ Item {
 
                 DankCircularImage {
                     Layout.preferredWidth: LockMetrics.avatarSize
+                    ringWidth: Theme.avatarRingWidth
+                    ringColor: Theme.avatarRingColor
                     Layout.preferredHeight: LockMetrics.fieldHeight
                     imageSource: {
                         if (PortalService.profileImage === "")

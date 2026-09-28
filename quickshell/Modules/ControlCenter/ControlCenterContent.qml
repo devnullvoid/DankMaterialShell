@@ -19,7 +19,7 @@ FocusScope {
     readonly property bool pageOpen: (host.expandedSection ?? "") !== ""
     readonly property real gridHeight: widgetGrid.gridHeight
     readonly property real targetImplicitHeight: {
-        let total = CcMetrics.sheetPadding * 2 + headerPane.height + Theme.spacingS + gridHeight;
+        let total = CcMetrics.sheetPadding * 2 + gridHeight;
         if (host.editMode)
             total += Theme.spacingS + editControls.height;
         if (detailPage.shownSection === "")
@@ -34,7 +34,7 @@ FocusScope {
     readonly property vector4d surfaceCornerRadii: host.surfaceCornerRadii ?? Qt.vector4d(Theme.windowRadius, Theme.windowRadius, Theme.windowRadius, Theme.windowRadius)
     readonly property int gridColumnCap: host.gridColumnCap ?? CcMetrics.columnCapFor((host.triggerScreen?.width ?? CcMetrics.sheetWidthDefault + Theme.spacingL * 2) - Theme.spacingL * 2)
     readonly property int gridColumns: host.gridColumns ?? Math.min(CcMetrics.gridColumns, gridColumnCap)
-    readonly property real availableGridHeight: (host.availableHeight ?? (host.triggerScreen?.height ?? CcMetrics.fallbackScreenHeight) - CcMetrics.maxHeightInset) - CcMetrics.sheetPadding * 2 - CcMetrics.headerHeight - Theme.spacingS * 2 - editControls.height
+    readonly property real availableGridHeight: (host.availableHeight ?? (host.triggerScreen?.height ?? CcMetrics.fallbackScreenHeight) - CcMetrics.maxHeightInset) - CcMetrics.sheetPadding * 2 - Theme.spacingS - editControls.height
     readonly property real editGutter: host.editGutter ?? 0
     readonly property DankPanelResizer panelResizer: DankPanelResizer {
         popout: root.host
@@ -252,33 +252,6 @@ FocusScope {
             y: CcMetrics.sheetPadding
             spacing: Theme.spacingS
 
-            HeaderPane {
-                id: headerPane
-
-                width: parent.width
-                editMode: root.host.editMode
-                live: root.host.shouldBeVisible
-                tapToClose: root.host.headerTogglesClose ?? false
-                onHeaderTapped: root.host.close()
-                onEditModeToggled: root.host.editMode = !root.host.editMode
-                onEditCancelled: root.cancelEdit()
-                onPowerButtonClicked: {
-                    const loader = root.host.powerMenuModalLoader;
-                    if (!loader)
-                        return;
-                    loader.active = true;
-                    if (!loader.item)
-                        return;
-                    const bounds = Qt.rect(root.host.alignedX, root.host.alignedY, root.host.popupWidth, root.host.popupHeight);
-                    loader.item.openFromControlCenter(bounds, root.host.screen);
-                }
-                onLockRequested: {
-                    root.host.close();
-                    root.host.lockRequested();
-                }
-                onSettingsButtonClicked: root.host.openSettings()
-            }
-
             Item {
                 id: body
 
@@ -297,10 +270,28 @@ FocusScope {
                     model: widgetModel
                     live: root.host.shouldBeVisible && detailPage.shownSection === ""
                     screenName: root.host.triggerScreen?.name || ""
+                    tapToClose: root.host.headerTogglesClose ?? false
                     onExpandClicked: widgetData => root.openWidgetPage(widgetData)
                     onRemoveWidget: index => widgetModel.removeWidget(index)
                     onConfigRequested: (index, widgetData, anchor) => root.openConfigOverlay(index, widgetData, anchor)
                     onColorPickerRequested: root.host.openColorPicker()
+                    onHeaderTapped: root.host.close()
+                    onEditRequested: root.host.editMode = !root.host.editMode
+                    onSettingsRequested: root.host.openSettings()
+                    onLockRequested: {
+                        root.host.close();
+                        root.host.lockRequested();
+                    }
+                    onPowerRequested: {
+                        const loader = root.host.powerMenuModalLoader;
+                        if (!loader)
+                            return;
+                        loader.active = true;
+                        if (!loader.item)
+                            return;
+                        const bounds = Qt.rect(root.host.alignedX, root.host.alignedY, root.host.popupWidth, root.host.popupHeight);
+                        loader.item.openFromControlCenter(bounds, root.host.screen);
+                    }
                 }
             }
 
@@ -324,6 +315,8 @@ FocusScope {
                 onAddWidget: widgetId => widgetModel.addWidget(widgetId)
                 onResetToDefault: () => widgetModel.resetToDefault()
                 onClearAll: () => widgetModel.clearAll()
+                onFinishRequested: root.host.editMode = false
+                onCancelRequested: root.cancelEdit()
             }
         }
     }
@@ -334,7 +327,7 @@ FocusScope {
         z: 1
         anchors.fill: parent
         section: root.host.expandedSection ?? ""
-        topInset: CcMetrics.sheetPadding + headerPane.height + Theme.spacingS
+        topInset: CcMetrics.sheetPadding
         minimumContentHeight: Math.max(0, root.gridHeight - CcMetrics.pageHeaderHeight)
         cornerRadii: root.surfaceCornerRadii
         coverage: Math.max(codecSelectorLoader.item?.presence ?? 0, portSelectorLoader.item?.presence ?? 0)
@@ -387,6 +380,7 @@ FocusScope {
         z: CcMetrics.overlayZ
         active: false
         sourceComponent: WidgetConfigOverlay {
+            backdrop: contentFlickable
             onVisibleChanged: {
                 if (visible)
                     return;

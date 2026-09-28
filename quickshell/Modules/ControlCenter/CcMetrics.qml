@@ -54,11 +54,13 @@ Singleton {
     readonly property real iconBoxIconSize: Theme.iconSize * iconScale
     readonly property real tallMeterThickness: 28
     readonly property real tileTextGap: Theme.spacingM
-    readonly property real headerActionSize: Theme.iconButtonSize * iconScale
-    readonly property real headerActionIconSize: Theme.iconSize * iconScale
-
-    readonly property real headerAvatarSize: 56
-    readonly property real headerHeight: tileHeight
+    readonly property real actionSize: Theme.iconButtonSize * iconScale
+    readonly property real actionIconSize: Theme.iconSize * iconScale
+    readonly property real actionGap: Theme.spacingS
+    // Buttons never shrink, so the actions tile cannot go narrower than its pills plus padding.
+    function quickActionsMinColumns(count) {
+        return Math.ceil((actionSize * count + actionGap * Math.max(0, count - 1) + Theme.spacingS * 2 + gridGap) / (columnWidth + gridGap) / gridStep) * gridStep;
+    }
 
     readonly property real detailDialogInset: Theme.spacingL
     readonly property real detailDialogPadding: Theme.spacingS
@@ -105,6 +107,7 @@ Singleton {
     readonly property int overlayZ: 10000
     readonly property real popupEnterScale: 0.92
     readonly property color dialogColor: Theme.foregroundColor(Theme.hostSurface)
+    readonly property int backdropBlurRadius: 32
     readonly property bool hideCoveredContent: BlurService.enabled && Theme.connectedSurfaceBlurEnabled && dialogColor.a < 1
 
     readonly property color tileActiveColor: Theme.ccTileActiveBg

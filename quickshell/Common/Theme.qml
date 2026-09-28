@@ -578,6 +578,9 @@ Singleton {
         }
     }
 
+    readonly property real avatarRingWidth: SettingsData.avatarRing === "none" ? 0 : outlineWidth
+    readonly property color avatarRingColor: SettingsData.avatarRing === "outline" ? surfaceVariant : roleColor(SettingsData.avatarRing)
+
     function roleColor(mode) {
         switch (mode) {
         case "primary":

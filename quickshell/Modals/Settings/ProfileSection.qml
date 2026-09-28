@@ -21,6 +21,8 @@ SettingsNavRow {
 
         DankCircularImage {
             width: Theme.minimumTouchTargetSize
+            ringWidth: Theme.avatarRingWidth
+            ringColor: Theme.avatarRingColor
             height: width
             anchors.left: parent.left
             anchors.leftMargin: (SettingsMetrics.navIconSize - width) / 2

@@ -16189,6 +16189,24 @@
     "parentLabel": "Dock"
   },
   {
+    "section": "avatarRing",
+    "label": "Avatar ring",
+    "tabIndex": 60,
+    "category": "Users & accounts",
+    "keywords": [
+      "account",
+      "accounts",
+      "avatar",
+      "border",
+      "color",
+      "profile",
+      "ring",
+      "user",
+      "users"
+    ],
+    "page": "user_accounts"
+  },
+  {
     "section": "userProfile",
     "label": "Profile",
     "tabIndex": 60,

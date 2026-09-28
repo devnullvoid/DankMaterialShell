@@ -431,6 +431,18 @@ var LOCAL_SPEC = {
     controlCenterWidgets: {
         def: [
             {
+                id: "userCard",
+                enabled: true,
+                w: 4,
+                h: 1
+            },
+            {
+                id: "quickActions",
+                enabled: true,
+                w: 4,
+                h: 1
+            },
+            {
                 id: "volumeSlider",
                 enabled: true,
                 w: 4,
@@ -634,6 +646,9 @@ var LOCAL_SPEC = {
     },
     launcherStyle: {
         def: "full"
+    },
+    avatarRing: {
+        def: "outline"
     },
     spotlightBarShowModeChips: {
         def: false

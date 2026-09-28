@@ -134,6 +134,8 @@ Item {
 
                         DankCircularImage {
                             anchors.fill: parent
+                            ringWidth: Theme.avatarRingWidth
+                            ringColor: Theme.avatarRingColor
                             imageSource: root.profileImageSource(userRow.modelData.username)
                             fallbackIcon: "person"
                         }

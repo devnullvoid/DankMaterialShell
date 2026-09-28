@@ -201,10 +201,14 @@ ShellRoot {
                 check(Math.abs(grid.slotLayout.slots[1].w - grid.slotLayout.slots[1].h) < 0.01, "host inset preserves square geometry");
                 grid.availableHeight = CcMetrics.gridRowUnit * 5 + CcMetrics.gridGap * 4;
                 check(grid.slotLayout.slots[0].rows <= 5, "tile height fits the available screen");
-                grid.beginDrag(0);
-                grid.updateDragTarget(0, grid.cellWidth);
+                grid.beginDrag(1);
+                grid.updateDragTarget(0, 0);
                 grid.endDrag();
-                check(SettingsData.controlCenterWidgets[0].w === 10 && SettingsData.controlCenterWidgets[0].h === 12 && SettingsData.controlCenterWidgets[0].row === 1 && SettingsData.controlCenterWidgets[1].row === grid.maximumRows + 1, "moving on a smaller screen preserves saved spans and pushes the collided tile " + JSON.stringify(SettingsData.controlCenterWidgets));
+                check(SettingsData.controlCenterWidgets[0].w === 10 && SettingsData.controlCenterWidgets[0].h === 12 && SettingsData.controlCenterWidgets[0].row === 2 && SettingsData.controlCenterWidgets[1].row === 0, "moving on a smaller screen preserves saved spans and pushes the collided tile " + JSON.stringify(SettingsData.controlCenterWidgets));
+                grid.beginDrag(0);
+                grid.updateDragTarget(0, grid.cellWidth * 4);
+                grid.endDrag();
+                check(SettingsData.controlCenterWidgets[0].row === 2, "gravity closes the gap a drop below free space would leave " + JSON.stringify(SettingsData.controlCenterWidgets));
                 grid.previewSize(0, {
                     w: 6
                 });

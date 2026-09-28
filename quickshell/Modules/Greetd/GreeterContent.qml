@@ -833,6 +833,8 @@ Item {
 
                         DankCircularImage {
                             anchors.fill: parent
+                            ringWidth: Theme.avatarRingWidth
+                            ringColor: Theme.avatarRingColor
                             imageSource: {
                                 const displayUser = GreeterState.username || root.pickerThemeUsername;
                                 if (displayUser) {

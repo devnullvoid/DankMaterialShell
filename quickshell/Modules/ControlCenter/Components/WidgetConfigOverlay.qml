@@ -1,14 +1,22 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
+import QtQuick.Effects
+import Quickshell.Widgets
 import qs.Common
 import qs.Modules.ControlCenter
 import qs.Modules.ControlCenter.Widgets
 import qs.Modules.DankBar.Widgets
+import qs.Modules.DankDash
+import qs.Modules.Settings.Widgets
+import "../utils/widgets.js" as WidgetUtils
 import qs.Services
 import qs.Widgets
 
 Item {
     id: root
 
+    property Item backdrop: null
     property int widgetIndex: -1
     property real anchorX: 0
     property real anchorY: 0
@@ -25,6 +33,9 @@ Item {
     readonly property bool isPlugin: widgetId.startsWith("plugin_")
     readonly property bool isDisk: widgetId === "diskUsage"
     readonly property bool isIdleInhibitor: widgetId === "idleInhibitor"
+    readonly property bool isUserCard: widgetId === "userCard"
+    readonly property bool isQuickActions: widgetId === "quickActions"
+    readonly property var quickActions: isQuickActions ? WidgetUtils.quickActions(widgetData) : []
 
     visible: widgetIndex >= 0
     z: CcMetrics.overlayZ
@@ -41,6 +52,12 @@ Item {
 
     function close() {
         widgetIndex = -1;
+    }
+
+    function toggleAction(id, enabled) {
+        persistOption("actions", quickActions.map(action => action.id === id ? Object.assign({}, action, {
+                    "enabled": enabled
+                }) : action));
     }
 
     function persistOption(key, value) {
@@ -105,6 +122,48 @@ Item {
             }
         }
 
+        // The popout is not a real subsurface, so fake compositor blur the same way the detail dialog does, but from the sheet content it covers.
+        Loader {
+            anchors.fill: parent
+            z: -1
+            active: root.visible && root.backdrop !== null && CcMetrics.hideCoveredContent
+
+            sourceComponent: ClippingRectangle {
+                id: clipArea
+
+                // Children land in an internal content item, so `parent` never reaches this pad.
+                readonly property real pad: CcMetrics.backdropBlurRadius
+
+                radius: panel.radius
+                color: "transparent"
+
+                ShaderEffectSource {
+                    id: backdropSource
+
+                    x: -clipArea.pad
+                    y: -clipArea.pad
+                    width: clipArea.width + clipArea.pad * 2
+                    height: clipArea.height + clipArea.pad * 2
+                    visible: false
+                    sourceItem: root.backdrop
+                    // mapFromItem is not reactive, so the capture is rebuilt from the panel's own geometry.
+                    sourceRect: {
+                        const origin = root.backdrop.mapFromItem(root, panel.x - clipArea.pad, panel.y - clipArea.pad);
+                        return Qt.rect(origin.x, origin.y, width, height);
+                    }
+                }
+
+                MultiEffect {
+                    anchors.fill: backdropSource
+                    source: backdropSource
+                    blurEnabled: true
+                    blur: 1
+                    blurMax: CcMetrics.backdropBlurRadius
+                    autoPaddingEnabled: false
+                }
+            }
+        }
+
         MouseArea {
             anchors.fill: parent
             acceptedButtons: Qt.AllButtons
@@ -127,6 +186,115 @@ Item {
                     PopoutService.openSettingsWithTab(SettingsTabs.pluginPrefix + root.widgetId.replace("plugin_", ""));
                     root.close();
                 }
+            }
+
+            Repeater {
+                model: root.isUserCard ? DashRegistry.sheetOptionSpecs("user") : []
+
+                CcToggleRow {
+                    required property var modelData
+
+                    text: modelData.text
+                    checked: DashRegistry.optionValue(modelData, root.widgetData?.[modelData.key])
+                    onToggled: checked => root.persistOption(modelData.key, checked)
+                }
+            }
+
+            SettingsReorderList {
+                id: actionList
+
+                visible: root.isQuickActions
+                model: root.quickActions
+                onReordered: indices => root.persistOption("actions", indices.map(i => root.quickActions[i]))
+
+                delegate: SettingsReorderRow {
+                    required property var modelData
+                    readonly property bool locked: modelData.id === "edit"
+
+                    reorderList: actionList
+                    paddingH: CcMetrics.rowPaddingH
+                    paddingV: CcMetrics.rowPaddingV
+                    rowColor: dragging ? Theme.blend(CcMetrics.rowColor, Theme.onSurface, Theme.stateLayerDrag) : CcMetrics.rowColor
+                    iconName: WidgetUtils.quickActionIcon(modelData.id)
+                    title: I18n.tr(WidgetUtils.quickActionLabel(modelData.id))
+                    clickable: !locked
+                    onClicked: root.toggleAction(modelData.id, !modelData.enabled)
+
+                    DankToggle {
+                        hideText: true
+                        text: parent.title
+                        activeFocusOnTab: false
+                        checked: modelData.enabled
+                        enabled: !locked
+                        onToggled: value => root.toggleAction(modelData.id, value)
+                    }
+                }
+            }
+
+            CcListRow {
+                id: colorRow
+
+                readonly property var roles: [{
+                        "value": "default",
+                        "label": I18n.tr("Default"),
+                        "color": Theme.secondaryContainer
+                    }, {
+                        "value": "primary",
+                        "label": I18n.tr("Primary"),
+                        "color": Theme.primary
+                    }, {
+                        "value": "primaryContainer",
+                        "label": I18n.tr("Primary Container"),
+                        "color": Theme.primaryContainer
+                    }, {
+                        "value": "secondary",
+                        "label": I18n.tr("Secondary"),
+                        "color": Theme.secondary
+                    }, {
+                        "value": "surfaceVariant",
+                        "label": I18n.tr("Surface Variant"),
+                        "color": Theme.surfaceVariant
+                    }, {
+                        "value": "surfaceText",
+                        "label": I18n.tr("Text Color"),
+                        "color": Theme.surfaceText
+                    }]
+
+                visible: root.isQuickActions
+                iconName: "palette"
+                title: I18n.tr("Button color")
+                body: DankDropdown {
+                    compactMode: true
+                    dropdownWidth: parent.width
+                    currentValue: colorRow.roles.find(role => role.value === WidgetUtils.quickActionRole(root.widgetData))?.label ?? ""
+                    options: colorRow.roles.map(role => role.label)
+                    // QV4 has no Object.fromEntries.
+                    optionColorMap: {
+                        const map = {};
+                        for (const role of colorRow.roles)
+                            map[role.label] = role.color;
+                        return map;
+                    }
+                    onValueChanged: value => {
+                        const role = colorRow.roles.find(role => role.label === value);
+                        if (role)
+                            root.persistOption("buttonColor", role.value);
+                    }
+                }
+            }
+
+            CcToggleRow {
+                visible: root.isQuickActions
+                text: I18n.tr("Background")
+                checked: root.widgetData?.background === true
+                onToggled: checked => root.persistOption("background", checked)
+            }
+
+            CcToggleRow {
+                visible: root.isQuickActions
+                text: I18n.tr("Highlight power", "toggle that gives the control center power button the error color")
+                checked: root.widgetData?.powerAccent === true
+                onToggled: checked => root.persistOption("powerAccent", checked)
             }
 
             CcToggleRow {

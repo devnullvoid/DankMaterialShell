@@ -25,3 +25,10 @@ test("sparse settings migrate without inventing grid keys", () => {
     assert.equal(sparse.controlCenterColumns, undefined);
     assert.equal(sparse.controlCenterWidgets, undefined);
 });
+
+test("pinned header tiles are prepended once to a saved layout", () => {
+    const migrated = store.migrateToVersion({ configVersion: 31, controlCenterWidgets: [{ id: "wifi", w: 4, h: 1, col: 0, row: 0 }, { id: "quickActions", w: 4, h: 1 }] }, 32);
+    assert.deepEqual(JSON.parse(JSON.stringify(migrated.controlCenterWidgets)).map(w => w.id), ["userCard", "wifi", "quickActions"]);
+    assert.equal(migrated.configVersion, 32);
+    assert.equal(store.migrateToVersion({ configVersion: 31 }, 32).controlCenterWidgets, undefined);
+});

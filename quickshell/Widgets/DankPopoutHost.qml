@@ -1834,12 +1834,13 @@ Item {
                 visible: !root._surfaceSwitching
                 readonly property bool shouldClip: Theme.isDirectionalEffect || root.usesConnectedSurfaceChrome
                 readonly property real clipOversize: 1000
+                // inputMargin is only non-zero while a grid is being edited; let its chrome cross the connected edge instead of clipping it.
                 readonly property real connectedClipAllowance: {
                     if (!root.usesConnectedSurfaceChrome)
                         return 0;
                     if (root.frameOwnsConnectedChrome)
-                        return 0;
-                    return -Theme.connectedCornerRadius;
+                        return root.inputMargin;
+                    return -Theme.connectedCornerRadius + root.inputMargin;
                 }
 
                 clip: shouldClip

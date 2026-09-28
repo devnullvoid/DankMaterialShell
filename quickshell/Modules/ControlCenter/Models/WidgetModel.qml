@@ -104,6 +104,12 @@ QtObject {
     readonly property Component colorPickerTile: Component {
         ColorPickerTile {}
     }
+    readonly property Component userCardTile: Component {
+        UserCardTile {}
+    }
+    readonly property Component quickActionsTile: Component {
+        QuickActionsTile {}
+    }
     readonly property Component pluginTile: Component {
         PluginTile {}
     }
@@ -157,6 +163,10 @@ QtObject {
             return diskUsageTile;
         case "colorPicker":
             return colorPickerTile;
+        case "userCard":
+            return userCardTile;
+        case "quickActions":
+            return quickActionsTile;
         default:
             return null;
         }
@@ -406,6 +416,6 @@ QtObject {
     }
 
     function clearAll() {
-        WidgetUtils.clearAll();
+        WidgetUtils.clearAll(columns);
     }
 }

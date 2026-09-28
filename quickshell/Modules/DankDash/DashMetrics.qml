@@ -140,10 +140,6 @@ Singleton {
 
     readonly property real avatarSize: Theme.buttonHeightM
     readonly property real avatarSizeHero: 72
-    readonly property real userBadgeSize: 26
-    readonly property real userBadgeOverhang: 0.2
-    readonly property real userBadgeIconSize: Theme.iconSizeSmall
-    readonly property real userChipHeight: 28
 
     readonly property int historyLength: 60
     readonly property real tileTrendRatio: 0.45
