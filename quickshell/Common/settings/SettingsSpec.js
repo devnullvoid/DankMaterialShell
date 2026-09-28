@@ -1269,7 +1269,17 @@ var LOCAL_SPEC = {
         def: ""
     },
     updaterIntervalSeconds: {
-        def: 1800
+        def: 86400
+    },
+    updaterNotify: {
+        def: false
+    },
+    updaterPauseOnBattery: {
+        def: false
+    },
+    // 0 = every time the count grows
+    updaterNotifyMinSeconds: {
+        def: 86400
     },
     updaterIncludeFlatpak: {
         def: true

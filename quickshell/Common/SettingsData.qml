@@ -1077,6 +1077,9 @@ Singleton {
     property string updaterCustomCommand: Spec.SPEC.updaterCustomCommand.def
     property string updaterTerminalAdditionalParams: Spec.SPEC.updaterTerminalAdditionalParams.def
     property int updaterIntervalSeconds: Spec.SPEC.updaterIntervalSeconds.def
+    property bool updaterNotify: Spec.SPEC.updaterNotify.def
+    property bool updaterPauseOnBattery: Spec.SPEC.updaterPauseOnBattery.def
+    property int updaterNotifyMinSeconds: Spec.SPEC.updaterNotifyMinSeconds.def
     property bool updaterIncludeFlatpak: Spec.SPEC.updaterIncludeFlatpak.def
     property bool updaterAllowAUR: Spec.SPEC.updaterAllowAUR.def
     property bool updaterReopenAfterUpgrade: Spec.SPEC.updaterReopenAfterUpgrade.def

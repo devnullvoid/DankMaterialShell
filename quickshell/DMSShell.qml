@@ -1343,11 +1343,6 @@ Item {
             Component.onCompleted: show()
         }
 
-        Component.onCompleted: {
-            if (ChangelogService.shouldShowChangelog)
-                active = true;
-        }
-
         Connections {
             target: ChangelogService
             function onChangelogRequested() {

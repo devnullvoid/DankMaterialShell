@@ -2196,15 +2196,15 @@
       "history",
       "integrations",
       "multiplexers",
-      "packages",
+      "notes",
       "paste",
       "print",
       "printers",
       "printing",
+      "release",
+      "software",
       "system",
-      "updater",
-      "updates",
-      "upgrade"
+      "updates"
     ],
     "icon": "memory"
   },
@@ -8557,38 +8557,34 @@
     "section": "systemUpdaterAdvanced",
     "label": "Advanced",
     "tabIndex": 20,
-    "category": "System updater",
+    "category": "Software updates",
     "keywords": [
       "advanced",
       "command",
       "custom",
       "integrations",
-      "packages",
+      "software",
       "system",
       "terminal",
-      "updater",
-      "updates",
-      "upgrade"
+      "updates"
     ],
     "parentLabel": "System & integrations",
-    "icon": "tune"
+    "icon": "terminal"
   },
   {
     "section": "systemUpdaterCheckInterval",
     "label": "Check interval",
     "tabIndex": 20,
-    "category": "System updater",
+    "category": "Software updates",
     "keywords": [
       "check",
       "frequency",
       "integrations",
       "interval",
-      "packages",
       "poll",
+      "software",
       "system",
-      "updater",
-      "updates",
-      "upgrade"
+      "updates"
     ],
     "parentLabel": "System & integrations"
   },
@@ -8596,56 +8592,71 @@
     "section": "systemUpdaterCheckOnStart",
     "label": "Check on startup",
     "tabIndex": 20,
-    "category": "System updater",
+    "category": "Software updates",
     "keywords": [
       "boot",
       "check",
       "integrations",
-      "packages",
+      "software",
       "startup",
       "system",
-      "updater",
-      "updates",
-      "upgrade"
+      "updates"
     ],
     "parentLabel": "System & integrations"
+  },
+  {
+    "section": "softwareUpdatesShell",
+    "label": "DankMaterialShell",
+    "tabIndex": 20,
+    "category": "Software updates",
+    "keywords": [
+      "channel",
+      "dankmaterialshell",
+      "dms",
+      "integrations",
+      "restart",
+      "shell",
+      "software",
+      "system",
+      "updates",
+      "version"
+    ],
+    "parentLabel": "System & integrations",
+    "icon": "deployed_code"
   },
   {
     "section": "systemUpdaterIgnoredPackages",
     "label": "Ignored packages",
     "tabIndex": 20,
-    "category": "System updater",
+    "category": "Software updates",
     "keywords": [
       "ignore",
       "ignored",
       "integrations",
       "package",
       "packages",
+      "software",
       "system",
       "update",
-      "updater",
-      "updates",
-      "upgrade"
+      "updates"
     ],
     "parentLabel": "System & integrations",
-    "icon": "inventory_2"
+    "icon": "visibility_off"
   },
   {
     "section": "systemUpdaterAUR",
     "label": "Include AUR updates",
     "tabIndex": 20,
-    "category": "System updater",
+    "category": "Software updates",
     "keywords": [
       "aur",
       "include",
       "integrations",
-      "packages",
       "paru",
       "shelly",
+      "software",
       "system",
-      "updater",
       "updates",
-      "upgrade",
       "yay"
     ],
     "parentLabel": "System & integrations"
@@ -8654,16 +8665,92 @@
     "section": "systemUpdaterFlatpak",
     "label": "Include Flatpak updates",
     "tabIndex": 20,
-    "category": "System updater",
+    "category": "Software updates",
     "keywords": [
       "flatpak",
       "include",
       "integrations",
-      "packages",
+      "software",
       "system",
-      "updater",
-      "updates",
-      "upgrade"
+      "updates"
+    ],
+    "parentLabel": "System & integrations"
+  },
+  {
+    "section": "systemUpdaterNotifyMin",
+    "label": "Notify at most",
+    "tabIndex": 20,
+    "category": "Software updates",
+    "keywords": [
+      "frequency",
+      "integrations",
+      "most",
+      "notification",
+      "notify",
+      "software",
+      "system",
+      "throttle",
+      "updates"
+    ],
+    "parentLabel": "System & integrations"
+  },
+  {
+    "section": "systemUpdaterNotify",
+    "label": "Notify me on new updates",
+    "tabIndex": 20,
+    "category": "Software updates",
+    "keywords": [
+      "alert",
+      "count",
+      "grows",
+      "integrations",
+      "new",
+      "notification",
+      "notify",
+      "software",
+      "system",
+      "updates"
+    ],
+    "parentLabel": "System & integrations",
+    "description": "Only when the count grows."
+  },
+  {
+    "section": "systemUpdater",
+    "label": "Options",
+    "tabIndex": 20,
+    "category": "Software updates",
+    "keywords": [
+      "count",
+      "frequency",
+      "grows",
+      "integrations",
+      "interval",
+      "options",
+      "poll",
+      "software",
+      "system",
+      "updates"
+    ],
+    "parentLabel": "System & integrations",
+    "icon": "tune",
+    "description": "Only when the count grows."
+  },
+  {
+    "section": "systemUpdaterPauseOnBattery",
+    "label": "Pause checks on battery",
+    "tabIndex": 20,
+    "category": "Software updates",
+    "keywords": [
+      "battery",
+      "charge",
+      "charging",
+      "checks",
+      "integrations",
+      "pause",
+      "power",
+      "software",
+      "system",
+      "updates"
     ],
     "parentLabel": "System & integrations"
   },
@@ -8671,56 +8758,67 @@
     "section": "systemUpdaterReopenAfterUpgrade",
     "label": "Reopen panel after update",
     "tabIndex": 20,
-    "category": "System updater",
+    "category": "Software updates",
     "keywords": [
       "after",
       "integrations",
-      "packages",
       "panel",
       "popout",
       "reopen",
+      "software",
       "system",
       "terminal",
       "update",
-      "updater",
       "updates",
       "upgrade"
     ],
     "parentLabel": "System & integrations"
   },
   {
-    "section": "systemUpdater",
-    "label": "System updater",
+    "section": "_tab_20",
+    "label": "Software updates",
     "tabIndex": 20,
-    "category": "System updater",
+    "category": "Software updates",
     "keywords": [
-      "frequency",
       "integrations",
-      "interval",
-      "packages",
-      "poll",
+      "software",
       "system",
-      "updater",
-      "updates",
-      "upgrade"
+      "updates"
     ],
-    "parentLabel": "System & integrations"
+    "icon": "system_update_alt",
+    "parentLabel": "System & integrations",
+    "description": "DMS and system updates"
+  },
+  {
+    "section": "softwareUpdatesSystem",
+    "label": "System packages",
+    "tabIndex": 20,
+    "category": "Software updates",
+    "keywords": [
+      "aur",
+      "flatpak",
+      "integrations",
+      "packages",
+      "software",
+      "system",
+      "updates"
+    ],
+    "parentLabel": "System & integrations",
+    "icon": "inventory_2"
   },
   {
     "section": "systemUpdaterCustomCommand",
     "label": "Use custom command",
     "tabIndex": 20,
-    "category": "System updater",
+    "category": "Software updates",
     "keywords": [
       "command",
       "custom",
       "integrations",
-      "packages",
+      "software",
       "system",
       "terminal",
-      "updater",
-      "updates",
-      "upgrade"
+      "updates"
     ],
     "parentLabel": "System & integrations"
   },
@@ -10214,6 +10312,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "LauncherButtonOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:SystemUpdateOptions.qml:2",
+    "label": "Software updates",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "SystemUpdateOptions.qml"
   },
   {
     "section": "barWidgetOption:AppsDockOptions.qml:28",
@@ -16988,5 +17094,21 @@
     ],
     "parentLabel": "Bar",
     "conditionKey": "dotEnabled"
+  },
+  {
+    "section": "softwareUpdatesChangelog",
+    "label": "Release notes",
+    "tabIndex": 66,
+    "category": "Release notes",
+    "keywords": [
+      "changelog",
+      "highlights",
+      "integrations",
+      "notes",
+      "release",
+      "system"
+    ],
+    "parentLabel": "System & integrations",
+    "icon": "cloud_off"
   }
 ]

@@ -542,11 +542,18 @@ Singleton {
             "children": [
                 {
                     "id": "updater",
-                    "text": I18n.tr("System updater"),
-                    "icon": "refresh",
+                    "text": I18n.tr("Software updates"),
+                    "icon": "system_update_alt",
                     "tabIndex": 20,
-                    "updaterOnly": true,
-                    "hint": I18n.tr("Check interval, ignored packages, custom command")
+                    "hint": I18n.tr("DMS and system updates")
+                },
+                {
+                    "id": "updater_changelog",
+                    "hidden": true,
+                    "text": I18n.tr("Release notes"),
+                    "icon": "auto_awesome",
+                    "tabIndex": 66,
+                    "hint": I18n.tr("Summary, highlights, links")
                 },
                 {
                     "id": "clipboard",
@@ -750,8 +757,6 @@ Singleton {
         if (entry.pointerCapable && !CompositorService.supportsPointerConfig)
             return false;
         if (entry.clipboardOnly && (!DMSService.isConnected || DMSService.apiVersion < 23))
-            return false;
-        if (entry.updaterOnly && !SystemUpdateService.sysupdateAvailable)
             return false;
         if (entry.greeterOnly && !GreeterService.available)
             return false;

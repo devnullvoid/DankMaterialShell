@@ -43,6 +43,9 @@ readonly property int sessionConfigVersion: 7
     property bool idleInhibited: false
     property real idleInhibitedUntil: 0
     property string terminalOverride: ""
+    property int updaterNotifiedUnix: 0
+    property int updaterNotifiedCount: 0
+    property string changelogSeenVersion: ""
     property bool isSwitchingMode: false
     property bool suppressOSD: true
 
