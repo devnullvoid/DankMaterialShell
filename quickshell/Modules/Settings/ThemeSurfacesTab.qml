@@ -519,6 +519,16 @@ Column {
         }
     }
 
+    SettingsToggleCard {
+        tab: "theme"
+        tags: ["scroll", "scrollbar", "scrollbars", "list", "page"]
+        settingKey: "scrollbarsEnabled"
+        iconName: "unfold_more"
+        title: I18n.tr("Scrollbars")
+        checked: SettingsData.scrollbarsEnabled
+        onToggled: checked => SettingsData.set("scrollbarsEnabled", checked)
+    }
+
     SettingsCard {
         tab: "theme"
         tags: ["button", "color", "accent"]

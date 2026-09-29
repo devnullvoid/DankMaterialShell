@@ -79,7 +79,7 @@ Item {
     readonly property color iconBoxColor: {
         if (!enabled)
             return Theme.onSurface_12;
-        return active ? CcMetrics.tileActiveColor : CcMetrics.tileInactiveColor;
+        return active ? CcMetrics.tileActiveColor : CcMetrics.iconBoxInactiveColor;
     }
 
     property real bodyRadius: bodyLayer.pressed ? Math.min(Theme.cornerRadiusM, width / 2, height / 2) : restRadius

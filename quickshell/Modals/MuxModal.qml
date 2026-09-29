@@ -1,7 +1,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell.Io
 import Quickshell
@@ -385,11 +384,13 @@ DankModal {
                 radius: Theme.cornerRadius
                 color: "transparent"
 
-                ScrollView {
+                DankFlickable {
                     anchors.fill: parent
                     clip: true
+                    contentHeight: sessionsColumn.height
 
                     Column {
+                        id: sessionsColumn
                         width: parent.width
                         spacing: Theme.spacingXS
 

@@ -190,6 +190,7 @@ FocusScope {
     DankFlickable {
         id: pages
         enabled: !tabOptions.shown && !pageActions.menuOpen
+        showScrollBar: false
         anchors {
             top: header.bottom
             topMargin: root.editMode ? root.editHeaderGap : 0

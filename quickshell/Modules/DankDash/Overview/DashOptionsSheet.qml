@@ -24,6 +24,7 @@ CcSheetDialog {
     iconName: entry?.icon ?? "tune"
     title: entry?.text ?? ""
     subtitle: I18n.tr("Options")
+    showScrollBar: false
 
     SettingsGroup {
         width: parent.width

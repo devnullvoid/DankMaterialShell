@@ -671,6 +671,7 @@ DankPopout {
                     DankFlickable {
                         id: pages
                         enabled: !tabOptions.shown && !pageActions.menuOpen
+                        showScrollBar: false
 
                         property var currentHost: null
                         property real settledHeight: DashMetrics.tabDefaultHeight

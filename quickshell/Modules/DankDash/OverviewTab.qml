@@ -129,6 +129,7 @@ FocusScope {
     CcSheetDialog {
         id: detailSheet
         backdrop: grid
+        showScrollBar: false
 
         property var eventData: null
 
@@ -172,6 +173,7 @@ FocusScope {
     CcSheetDialog {
         id: editorSheet
         backdrop: grid
+        showScrollBar: false
 
         property var eventData: null
         property date initialDate: new Date()

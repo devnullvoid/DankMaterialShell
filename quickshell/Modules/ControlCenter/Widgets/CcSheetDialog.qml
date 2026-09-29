@@ -18,6 +18,7 @@ Item {
     property Item backdrop: null
     readonly property real presence: panel.opacity
     default property alias content: contentSlot.data
+    property alias showScrollBar: contentFlickable.showScrollBar
 
     signal dismissed
 

@@ -15,11 +15,12 @@ Item {
 
     property bool editMode: false
     property var toplevels: []
-    property bool resetArmed: false
+    property string pendingAction: ""
 
     signal runningAppsRequested
     signal addWidgetRequested
     signal resetRequested
+    signal clearRequested
     signal editToggled
     signal cancelRequested
 
@@ -37,7 +38,16 @@ Item {
     implicitHeight: CcMetrics.footerHeight
 
     function cancelConfirmation() {
-        resetArmed = false;
+        pendingAction = "";
+    }
+
+    function confirm(action) {
+        if (pendingAction !== action) {
+            pendingAction = action;
+            return false;
+        }
+        pendingAction = "";
+        return true;
     }
 
     onEditModeChanged: cancelConfirmation()
@@ -77,7 +87,7 @@ Item {
                     width: appsChip.iconBox
                     height: width
                     radius: Theme.fullRadius(width, height)
-                    color: Theme.surfaceContainerHighest
+                    color: CcMetrics.iconBoxInactiveColor
 
                     CcAppIcon {
                         anchors.centerIn: parent
@@ -145,23 +155,37 @@ Item {
         }
 
         DankButton {
-            buttonHeight: CcMetrics.footerHeight
-            maximumWidth: Math.max(0, root.leadingWidth - addButton.width - editActions.spacing)
             readonly property string label: I18n.tr("Defaults", "noun, control center edit button restoring the default layout")
             readonly property string confirmLabel: I18n.tr("Confirm")
+            readonly property bool armed: root.pendingAction === "reset"
 
+            buttonHeight: CcMetrics.footerHeight
+            maximumWidth: Math.max(0, root.leadingWidth - addButton.width - clearButton.width - editActions.spacing * 2)
             iconName: "settings_backup_restore"
-            text: root.resetArmed ? confirmLabel : label
-            reserveText: root.resetArmed ? label : confirmLabel
-            backgroundColor: root.resetArmed ? Theme.primary : Theme.surfaceContainerHighest
-            textColor: root.resetArmed ? Theme.onPrimary : Theme.onSurface
+            text: armed ? confirmLabel : label
+            reserveText: armed ? label : confirmLabel
+            backgroundColor: armed ? Theme.primary : CcMetrics.tileInactiveColor
+            textColor: armed ? Theme.onPrimary : CcMetrics.tileInactiveContent
             onClicked: {
-                if (!root.resetArmed) {
-                    root.resetArmed = true;
-                    return;
-                }
-                root.resetArmed = false;
-                root.resetRequested();
+                if (root.confirm("reset"))
+                    root.resetRequested();
+            }
+        }
+
+        DankActionButton {
+            id: clearButton
+
+            readonly property bool armed: root.pendingAction === "clear"
+
+            buttonSize: CcMetrics.footerHeight
+            iconName: "clear_all"
+            iconSize: CcMetrics.iconBoxIconSize
+            iconColor: armed ? Theme.onError : Theme.error
+            backgroundColor: armed ? Theme.error : CcMetrics.tileInactiveColor
+            tooltipText: armed ? I18n.tr("Confirm") : I18n.tr("Clear All")
+            onClicked: {
+                if (root.confirm("clear"))
+                    root.clearRequested();
             }
         }
     }

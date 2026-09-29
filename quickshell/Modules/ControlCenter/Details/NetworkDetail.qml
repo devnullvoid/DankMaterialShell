@@ -15,6 +15,8 @@ import "../../../Common/QmlUtils.js" as QmlUtils
 Item {
     id: root
 
+    implicitHeight: pageList.contentHeight
+
     LayoutMirroring.enabled: I18n.isRtl
     LayoutMirroring.childrenInherit: true
 
@@ -95,8 +97,8 @@ Item {
         DankRefreshButton {
             Accessible.name: I18n.tr("Scan")
             anchors.verticalCenter: parent.verticalCenter
-            buttonSize: Theme.iconButtonSize
-            iconSize: Theme.iconSize
+            buttonSize: CcMetrics.headerActionSize
+            iconSize: CcMetrics.headerActionIconSize
             iconColor: Theme.surfaceText
             visible: root.wifiMode && NetworkService.wifiEnabled && !NetworkService.wifiToggling
             busy: NetworkService.isScanning

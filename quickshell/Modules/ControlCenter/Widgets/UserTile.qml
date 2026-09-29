@@ -29,12 +29,7 @@ Item {
     readonly property Item passthrough: shapeButton
     readonly property real bodyRadius: Theme.fullRadius(avatarSide, avatarSide)
     readonly property real fallbackGlyphRatio: 0.5
-    readonly property string avatarSource: {
-        const image = PortalService.profileImage;
-        if (image === "")
-            return "";
-        return image.startsWith("/") ? "file://" + image : image;
-    }
+    readonly property string avatarSource: PortalService.profileImageUrl
     readonly property bool hasImage: picture.status === Image.Ready
 
     width: parent?.width ?? 0

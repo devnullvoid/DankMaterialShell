@@ -63,6 +63,9 @@ Singleton {
     readonly property real detailDialogInset: Theme.spacingL
     readonly property real detailDialogPadding: Theme.spacingS
     readonly property real detailMinContentHeight: Theme.listItemTwoLineHeight * 3
+    readonly property real headerActionSize: Theme.buttonHeightXS
+    readonly property real headerActionIconSize: Theme.iconSizeMedium
+    readonly property real headerEdgeInset: rowPaddingH - (headerActionSize - headerActionIconSize) / 2
     readonly property real pageHeaderHeight: Theme.fontSizeXXLarge + Theme.spacingM * 2
     readonly property real pageTitleSize: Theme.fontSizeXXLarge
     readonly property real detailHeightList: 350
@@ -87,9 +90,8 @@ Singleton {
     readonly property real dialogWidth: 320
     readonly property real libraryPanelWidth: 400
     readonly property real libraryPanelHeight: 400
-    readonly property real widgetSheetMinHeight: libraryPanelHeight
-    readonly property real previewMinWidth: columnWidth * 1.5
-    readonly property real previewTileHeight: Theme.minimumTouchTargetSize
+    readonly property real widgetSheetHeightRatio: 0.85
+    readonly property real previewSize: 76
     readonly property real configMenuWidth: 260
     readonly property real vpnPopoutListHeight: 200
     readonly property real headerDropdownWidth: 120
@@ -113,6 +115,7 @@ Singleton {
     readonly property color tileActiveColor: Theme.ccTileActiveBg
     readonly property color tileActiveContent: Theme.ccTileActiveText
     readonly property color tileInactiveColor: Theme.ccPillInactiveBg
+    readonly property color iconBoxInactiveColor: Theme.ccIconBoxInactiveBg
     readonly property color tileInactiveContent: Theme.surfaceText
     readonly property color tileInactiveSubtitle: Theme.surfaceVariantText
     readonly property color tileInactiveIcon: Theme.primary

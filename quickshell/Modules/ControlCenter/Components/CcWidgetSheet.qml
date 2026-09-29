@@ -1,9 +1,9 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Layouts
 import qs.Common
 import qs.Modules.ControlCenter
+import qs.Services
 import qs.Widgets
 import "../utils/widgets.js" as WidgetUtils
 
@@ -11,56 +11,59 @@ DankBottomSheet {
     id: root
 
     property var widgets: []
+    readonly property var addable: widgets.filter(widget => widget.enabled !== false)
     readonly property string query: searchField.text.trim()
-    readonly property var matches: WidgetUtils.filterWidgets(widgets, query)
+    readonly property var matches: WidgetUtils.filterWidgets(addable, query)
     readonly property var categories: [
         {
             "id": "user",
-            "title": I18n.tr("User")
+            "title": I18n.tr("User"),
+            "icon": "account_circle"
         },
         {
             "id": "network",
-            "title": I18n.tr("Network")
+            "title": I18n.tr("Network"),
+            "icon": "hub"
         },
         {
             "id": "audio",
-            "title": I18n.tr("Audio")
+            "title": I18n.tr("Audio"),
+            "icon": "tune"
         },
         {
             "id": "display",
-            "title": I18n.tr("Display")
+            "title": I18n.tr("Display"),
+            "icon": "display_settings"
         },
         {
             "id": "system",
-            "title": I18n.tr("System")
+            "title": I18n.tr("System"),
+            "icon": "dns"
         },
         {
             "id": "plugins",
-            "title": I18n.tr("Plugins")
+            "title": I18n.tr("Plugins"),
+            "icon": "extension"
         }
     ]
-    readonly property var shownCategories: categories.filter(category => widgets.some(widget => (widget.category ?? "plugins") === category.id))
+    readonly property var shownCategories: categories.filter(category => addable.some(widget => (widget.category ?? "plugins") === category.id))
 
     signal chosen(string widgetId)
-    signal clearRequested
 
-    title: I18n.tr("Widgets")
+    function toggleCategory(id) {
+        const collapsed = CacheData.controlCenterCollapsedCategories;
+        CacheData.set("controlCenterCollapsedCategories", collapsed.includes(id) ? collapsed.filter(entry => entry !== id) : collapsed.concat([id]));
+    }
+
+    Accessible.name: I18n.tr("Widgets")
     initialFocusItem: searchField
+    sheetHeight: height * CcMetrics.widgetSheetHeightRatio
+    contentSpacing: Theme.spacingM
 
     onOpenedChanged: {
         if (opened)
             searchField.text = "";
     }
-
-    headerActions: [
-        DankActionButton {
-            buttonSize: Theme.buttonHeightS
-            iconName: "clear_all"
-            iconColor: Theme.error
-            tooltipText: I18n.tr("Clear All")
-            onClicked: root.clearRequested()
-        }
-    ]
 
     component PreviewGrid: Grid {
         id: grid
@@ -69,73 +72,179 @@ DankBottomSheet {
 
         signal chosen(string widgetId)
 
-        columns: Math.max(1, Math.floor((width + spacing) / (CcMetrics.previewMinWidth + spacing)))
-        spacing: Theme.spacingS
+        columns: Math.max(1, Math.floor((width + columnSpacing) / (CcMetrics.previewSize + columnSpacing)))
+        columnSpacing: Theme.spacingM
+        rowSpacing: Theme.spacingL
 
         Repeater {
             model: grid.entries
 
             StyledButton {
-                id: preview
+                id: item
 
                 required property var modelData
-                readonly property bool isUser: modelData.id === "user"
-                readonly property bool available: modelData.enabled !== false
 
-                width: (grid.width - grid.spacing * (grid.columns - 1)) / grid.columns
-                height: CcMetrics.previewTileHeight + Theme.spacingXS + label.implicitHeight + Theme.spacingS * 2
-                radius: Theme.cornerRadiusL
+                width: (grid.width - grid.columnSpacing * (grid.columns - 1)) / grid.columns
+                height: preview.height + Theme.spacingS + label.implicitHeight
                 Accessible.name: modelData.text
-                Accessible.description: modelData.warning ?? modelData.description ?? ""
-                onClicked: {
-                    if (!available)
-                        return;
-                    grid.chosen(modelData.id);
-                }
+                Accessible.description: modelData.description ?? ""
+                onClicked: grid.chosen(modelData.id)
 
                 Rectangle {
-                    id: miniTile
+                    id: preview
+
                     anchors.horizontalCenter: parent.horizontalCenter
-                    y: Theme.spacingS
-                    width: preview.isUser ? height : parent.width - Theme.spacingS * 2
-                    height: CcMetrics.previewTileHeight
-                    radius: Theme.fullRadius(width, height)
-                    color: preview.available ? CcMetrics.tileInactiveColor : Theme.onSurface_12
-                    border.width: Theme.layerOutlineWidth
-                    border.color: Theme.outlineMedium
+                    width: CcMetrics.previewSize
+                    height: width
+                    radius: item.modelData.id === "user" ? Theme.fullRadius(width, height) : Theme.cornerRadiusLIncreased
+                    color: CcMetrics.iconBoxInactiveColor
 
                     DankIcon {
                         anchors.centerIn: parent
-                        name: preview.modelData.icon
-                        size: CcMetrics.iconBoxIconSize
-                        color: preview.available ? CcMetrics.tileInactiveIcon : Theme.onSurface_38
+                        name: item.modelData.icon
+                        size: Theme.iconSizeLarge
+                        color: Theme.primary
+                        visible: item.modelData.id !== "user" || PortalService.profileImageUrl === ""
+                    }
+
+                    DankCircularImage {
+                        anchors.fill: parent
+                        imageSource: PortalService.profileImageUrl
+                        fallbackIcon: "material:person"
+                        visible: item.modelData.id === "user" && PortalService.profileImageUrl !== ""
+                    }
+
+                    FocusRing {
+                        visible: item.visualFocus
+                    }
+
+                    StateLayer {
+                        control: item
+                        stateColor: Theme.primary
                     }
                 }
 
                 StyledText {
                     id: label
-                    anchors.top: miniTile.bottom
-                    anchors.topMargin: Theme.spacingXS
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    width: parent.width - Theme.spacingXS * 2
-                    text: preview.modelData.text
+                    anchors.top: preview.bottom
+                    anchors.topMargin: Theme.spacingS
+                    width: parent.width
+                    text: item.modelData.text
                     font.pixelSize: Theme.fontSizeSmall
-                    color: preview.available ? Theme.surfaceText : Theme.onSurface_38
+                    color: Theme.surfaceText
                     horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.Wrap
-                    maximumLineCount: 2
+                    wrapMode: Text.NoWrap
                     elide: Text.ElideRight
                 }
+            }
+        }
+    }
 
-                FocusRing {
-                    visible: preview.visualFocus
-                }
+    component CategoryCard: Rectangle {
+        id: card
 
-                StateLayer {
-                    control: preview
-                    tooltipText: preview.modelData.warning ?? ""
+        required property var category
+        property var entries: []
+        property bool expanded: true
+        readonly property real collapsedHeight: Theme.avatarSize + Theme.spacingL * 2
+
+        signal chosen(string widgetId)
+        signal toggleRequested
+
+        height: expanded ? items.y + items.implicitHeight + Theme.spacingL : collapsedHeight
+        radius: Theme.cornerRadiusXL
+        color: CcMetrics.rowColor
+        clip: true
+
+        Behavior on height {
+            enabled: CcMetrics.animationsEnabled
+            NumberAnimation {
+                duration: Theme.expressiveDurations.expressiveDefaultSpatial
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: Theme.expressiveCurves.expressiveDefaultSpatial
+            }
+        }
+
+        StyledButton {
+            id: header
+
+            width: parent.width
+            height: card.collapsedHeight
+            radius: card.radius
+            bottomLeftRadius: card.expanded ? 0 : card.radius
+            bottomRightRadius: card.expanded ? 0 : card.radius
+            Accessible.name: card.category.title
+            onClicked: card.toggleRequested()
+
+            Rectangle {
+                id: badge
+                anchors.left: parent.left
+                anchors.leftMargin: Theme.spacingL
+                anchors.verticalCenter: parent.verticalCenter
+                width: Theme.avatarSize
+                height: width
+                radius: Theme.fullRadius(width, height)
+                color: CcMetrics.iconBoxInactiveColor
+
+                DankIcon {
+                    anchors.centerIn: parent
+                    name: card.category.icon
+                    size: Theme.iconSize
+                    color: Theme.primary
                 }
             }
+
+            StyledText {
+                anchors.left: badge.right
+                anchors.leftMargin: Theme.spacingL
+                anchors.right: chevron.left
+                anchors.rightMargin: Theme.spacingM
+                anchors.verticalCenter: parent.verticalCenter
+                text: card.category.title
+                font.pixelSize: Theme.fontSizeMedium
+                font.weight: Theme.fontWeightMedium
+                color: Theme.surfaceText
+                elide: Text.ElideRight
+            }
+
+            DankIcon {
+                id: chevron
+                anchors.right: parent.right
+                anchors.rightMargin: Theme.spacingL
+                anchors.verticalCenter: parent.verticalCenter
+                name: "expand_more"
+                size: Theme.iconSize
+                color: Theme.onSurfaceVariant
+                rotation: card.expanded ? 180 : 0
+
+                Behavior on rotation {
+                    enabled: CcMetrics.animationsEnabled
+                    NumberAnimation {
+                        duration: Theme.expressiveDurations.expressiveFastSpatial
+                        easing.type: Easing.BezierSpline
+                        easing.bezierCurve: Theme.expressiveCurves.expressiveFastSpatial
+                    }
+                }
+            }
+
+            FocusRing {
+                visible: header.visualFocus
+            }
+
+            StateLayer {
+                control: header
+            }
+        }
+
+        PreviewGrid {
+            id: items
+            x: Theme.spacingL
+            y: header.height + Theme.spacingM
+            width: parent.width - Theme.spacingL * 2
+            entries: card.entries
+            visible: card.height > card.collapsedHeight
+            enabled: card.expanded
+            onChosen: widgetId => card.chosen(widgetId)
         }
     }
 
@@ -145,30 +254,23 @@ DankBottomSheet {
         height: Theme.fieldHeightLarge
         placeholderText: I18n.tr("Search widgets...")
         onAccepted: {
-            const first = root.matches.find(widget => widget.enabled !== false);
-            if (first)
-                root.chosen(first.id);
+            if (root.matches.length > 0)
+                root.chosen(root.matches[0].id);
         }
     }
 
     Repeater {
         model: root.query === "" ? root.shownCategories : []
 
-        DankCollapsibleSection {
-            id: section
-
+        CategoryCard {
             required property var modelData
-            required property int index
 
             width: parent?.width ?? 0
-            title: modelData.title
-            expanded: index === 0
-
-            PreviewGrid {
-                Layout.fillWidth: true
-                entries: root.widgets.filter(widget => (widget.category ?? "plugins") === section.modelData.id)
-                onChosen: widgetId => root.chosen(widgetId)
-            }
+            category: modelData
+            entries: root.addable.filter(widget => (widget.category ?? "plugins") === modelData.id)
+            expanded: !CacheData.controlCenterCollapsedCategories.includes(modelData.id)
+            onChosen: widgetId => root.chosen(widgetId)
+            onToggleRequested: root.toggleCategory(modelData.id)
         }
     }
 

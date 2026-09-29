@@ -33,8 +33,6 @@ FocusScope {
     readonly property string placedWidgetIds: (SettingsData.controlCenterWidgets || []).map(w => w.id).sort().join(",")
     readonly property real targetImplicitHeight: {
         const total = CcMetrics.sheetPadding * 2 + gridHeight + chromeHeight;
-        if (widgetSheetOpen)
-            return Math.max(total, CcMetrics.widgetSheetMinHeight);
         if (detailPage.shownSection === "")
             return total;
         return Math.max(total, detailPage.topInset + detailPage.minimumHeight + CcMetrics.detailDialogInset);
@@ -59,10 +57,8 @@ FocusScope {
         maxStep: root.gridColumnCap
         onPreview: columns => CcMetrics.columnPreview = columns
         onCommitted: columns => {
-            const widgets = widgetGrid.displayedItems();
             SettingsData.set("controlCenterColumns", columns);
             CcMetrics.columnPreview = 0;
-            widgetModel.setLayout(widgets);
         }
         onCanceled: CcMetrics.columnPreview = 0
     }
@@ -170,7 +166,7 @@ FocusScope {
     }
 
     Keys.onEscapePressed: event => {
-        if (footer.resetArmed) {
+        if (footer.pendingAction !== "") {
             footer.cancelConfirmation();
             event.accepted = true;
             return;
@@ -227,8 +223,18 @@ FocusScope {
     DankGridEditChrome {
         id: panelChrome
 
+        readonly property real screenWidth: root.host.triggerScreen?.width ?? Infinity
+        readonly property real screenHeight: root.host.triggerScreen?.height ?? Infinity
+
+        function ringOffset(room) {
+            return Math.max(0, Math.min(Theme.spacingS, room - Theme.outlineWidthFocused));
+        }
+
         anchors.fill: parent
-        anchors.margins: -(contentInset + Theme.spacingS)
+        anchors.leftMargin: -(contentInset + ringOffset(root.host.alignedX))
+        anchors.rightMargin: -(contentInset + ringOffset(screenWidth - root.host.alignedX - root.width))
+        anchors.topMargin: -(contentInset + ringOffset(root.host.alignedY))
+        anchors.bottomMargin: -(contentInset + ringOffset(screenHeight - root.host.alignedY - root.height))
         z: 1
         visible: root.host.editMode
         enabled: detailPage.shownSection === "" && !root.widgetSheetOpen
@@ -278,10 +284,14 @@ FocusScope {
     DankFlickable {
         id: contentFlickable
 
-        anchors.fill: parent
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: footer.top
+        anchors.bottomMargin: Theme.spacingS
         clip: contentHeight > height
         contentWidth: width
-        contentHeight: Math.max(height, mainColumn.implicitHeight + CcMetrics.sheetPadding * 2)
+        contentHeight: Math.max(height, mainColumn.implicitHeight + CcMetrics.sheetPadding)
         interactive: contentHeight > height
 
         Column {
@@ -333,21 +343,25 @@ FocusScope {
                     }
                 }
             }
-
-            CcFooter {
-                id: footer
-
-                width: parent.width
-                editMode: root.host.editMode
-                toplevels: root.runningToplevels
-                opacity: body.opacity
-                onRunningAppsRequested: root.navigateTo("runningApps")
-                onAddWidgetRequested: root.openWidgetSheet()
-                onResetRequested: widgetModel.resetToDefault()
-                onEditToggled: root.host.editMode = !root.host.editMode
-                onCancelRequested: root.cancelEdit()
-            }
         }
+    }
+
+    CcFooter {
+        id: footer
+
+        x: CcMetrics.sheetPadding + root.editGutter
+        width: root.sheetContentWidth - CcMetrics.sheetPadding * 2
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: CcMetrics.sheetPadding
+        editMode: root.host.editMode
+        toplevels: root.runningToplevels
+        opacity: body.opacity
+        onRunningAppsRequested: root.navigateTo("runningApps")
+        onAddWidgetRequested: root.openWidgetSheet()
+        onResetRequested: widgetModel.resetToDefault()
+        onClearRequested: widgetModel.clearAll()
+        onEditToggled: root.host.editMode = !root.host.editMode
+        onCancelRequested: root.cancelEdit()
     }
 
     CcDetailPage {
@@ -357,7 +371,6 @@ FocusScope {
         anchors.fill: parent
         section: root.host.expandedSection ?? ""
         topInset: CcMetrics.sheetPadding
-        minimumContentHeight: Math.max(0, root.gridHeight - CcMetrics.pageHeaderHeight)
         cornerRadii: root.surfaceCornerRadii
         coverage: Math.max(codecSelectorLoader.item?.presence ?? 0, portSelectorLoader.item?.presence ?? 0)
         model: widgetModel
@@ -437,10 +450,6 @@ FocusScope {
             onDismissRequested: opened = false
             onChosen: widgetId => {
                 widgetModel.addWidget(widgetId);
-                opened = false;
-            }
-            onClearRequested: {
-                widgetModel.clearAll();
                 opened = false;
             }
         }

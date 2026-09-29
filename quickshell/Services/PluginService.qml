@@ -25,7 +25,7 @@ Singleton {
 
     property bool pluginDirectoryExists: false
     property string systemPluginDirectory: "/etc/xdg/quickshell/dms-plugins"
-    readonly property string previewApiBase: "https://api.danklinux.com/previews/"
+    readonly property string previewApiBase: Site.api + "/previews/"
 
     property var knownManifests: ({})
     property var pathToPluginId: ({})
@@ -348,7 +348,7 @@ Singleton {
     }
 
     function _onManifestParsed(absPath, manifest, sourceTag, mtimeEpochMs) {
-        if (!manifest || !manifest.id || !manifest.name || (!manifest.component && !manifest.components)) {
+        if (!manifest || !manifest.id || !manifest.name) {
             log.error("invalid manifest fields:", absPath);
             knownManifests[absPath] = {
                 mtime: mtimeEpochMs,
@@ -368,7 +368,7 @@ Singleton {
 
         const componentPaths = _resolveComponentPaths(manifest, dir);
         const surfaces = Object.keys(componentPaths);
-        if (surfaces.length === 0) {
+        if (surfaces.length === 0 && !manifest.lyrics?.command) {
             log.error("no valid component surfaces in manifest:", absPath);
             knownManifests[absPath] = {
                 mtime: mtimeEpochMs,
@@ -491,7 +491,7 @@ Singleton {
 
         const componentPaths = plugin.componentPaths || {};
         const surfaces = Object.keys(componentPaths);
-        if (surfaces.length === 0) {
+        if (surfaces.length === 0 && !plugin.lyrics?.command) {
             log.error("Plugin has no component surfaces:", pluginId);
             pluginLoadFailed(pluginId, "No component surfaces");
             return false;

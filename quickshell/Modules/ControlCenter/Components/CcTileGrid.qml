@@ -68,12 +68,6 @@ DankEditableGrid {
         return widgets;
     }
 
-    function displayedItems() {
-        return withHidden(GridUtils.placedItems(sourceItems.map(widget => Object.assign({}, widget, {
-                "w": WidgetUtils.clampSize(widget, columns).w
-            })), slotLayout.slots));
-    }
-
     Repeater {
         id: tileRepeater
 

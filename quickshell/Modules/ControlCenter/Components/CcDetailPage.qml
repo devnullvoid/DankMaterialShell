@@ -19,7 +19,6 @@ FocusScope {
     property string screenModel: ""
     property var transientSurfaceTracker: null
     property real topInset: 0
-    property real minimumContentHeight: 0
     property vector4d cornerRadii: Qt.vector4d(Theme.windowRadius, Theme.windowRadius, Theme.windowRadius, Theme.windowRadius)
     property real coverage: 0
     property var runningToplevels: []
@@ -36,9 +35,9 @@ FocusScope {
     readonly property bool animationsEnabled: CcMetrics.animationsEnabled && !SettingsData.reduceMotion
     readonly property bool transitioning: enterPending || enterAnimation.running
     readonly property var pageItem: pageLoader.item
-    readonly property real pageHeight: CcMetrics.preferredDetailHeight(shownSection, pageItem?.preferredHeight ?? 0)
-    readonly property real contentHeight: Math.max(minimumContentHeight, pageHeight)
-    readonly property real chromeHeight: header.height + footer.height + CcMetrics.detailDialogPadding * 2
+    readonly property real pageHeight: (pageItem?.implicitHeight ?? 0) > 0 ? pageItem.implicitHeight : CcMetrics.preferredDetailHeight(shownSection, pageItem?.preferredHeight ?? 0)
+    readonly property real contentHeight: pageHeight
+    readonly property real chromeHeight: header.height + CcMetrics.detailDialogPadding * 2
     readonly property real maximumHeight: height - topInset - CcMetrics.detailDialogInset
     // plugin detail content may not scroll itself, so the panel grows to fit it
     readonly property bool pageScrollsItself: !shownSection.startsWith("plugin_")
@@ -219,10 +218,19 @@ FocusScope {
         id: dialogSurface
 
         x: CcMetrics.detailDialogInset
-        y: root.topInset
+        y: root.topInset + Math.max(0, (root.maximumHeight - height) / 2)
         width: Math.max(0, root.width - CcMetrics.detailDialogInset * 2)
         height: Math.max(0, Math.min(root.chromeHeight + root.contentHeight, root.maximumHeight))
         radius: Theme.cornerRadiusXL
+
+        Behavior on height {
+            enabled: root.animationsEnabled && !root.transitioning && root.section !== ""
+            NumberAnimation {
+                duration: Theme.expressiveDurations.expressiveFastSpatial
+                easing.type: Easing.BezierSpline
+                easing.bezierCurve: Theme.expressiveCurves.standard
+            }
+        }
         color: CcMetrics.dialogColor
         border.width: Theme.layerOutlineWidth
         border.color: Theme.outlineMedium
@@ -250,7 +258,7 @@ FocusScope {
 
                 StyledText {
                     anchors.left: parent.left
-                    anchors.leftMargin: Theme.spacingS
+                    anchors.leftMargin: CcMetrics.rowPaddingH
                     anchors.right: headerSlot.left
                     anchors.rightMargin: Theme.spacingM
                     anchors.verticalCenter: parent.verticalCenter
@@ -263,10 +271,24 @@ FocusScope {
 
                 Item {
                     id: headerSlot
-                    anchors.right: parent.right
+                    anchors.right: closeButton.left
+                    anchors.rightMargin: Theme.spacingS
                     anchors.verticalCenter: parent.verticalCenter
                     width: childrenRect.width
-                    height: parent.height
+                    height: childrenRect.height
+                }
+
+                DankActionButton {
+                    id: closeButton
+                    anchors.right: parent.right
+                    anchors.rightMargin: CcMetrics.headerEdgeInset
+                    anchors.verticalCenter: parent.verticalCenter
+                    buttonSize: CcMetrics.headerActionSize
+                    iconName: "close"
+                    iconSize: CcMetrics.headerActionIconSize
+                    iconColor: Theme.surfaceText
+                    Accessible.name: I18n.tr("Close")
+                    onClicked: root.backRequested()
                 }
             }
 
@@ -275,28 +297,12 @@ FocusScope {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: header.bottom
-                anchors.bottom: footer.top
+                anchors.bottom: parent.bottom
                 active: root.shownSection !== ""
                 onLoaded: {
                     const actions = item.headerActions ?? null;
                     if (actions)
                         actions.parent = headerSlot;
-                }
-            }
-
-            Item {
-                id: footer
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.bottom: parent.bottom
-                height: closeButton.height + Theme.spacingS
-
-                DankButton {
-                    id: closeButton
-                    anchors.right: parent.right
-                    anchors.bottom: parent.bottom
-                    text: I18n.tr("Close")
-                    onClicked: root.backRequested()
                 }
             }
         }

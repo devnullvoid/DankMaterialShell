@@ -64,7 +64,7 @@ Item {
             x: root.vertical ? (parent.width - width) / 2 : root.LayoutMirroring.enabled ? parent.width - width : 0
             y: root.vertical ? parent.height - height : root.tall ? 0 : (parent.height - height) / 2
             buttonSize: root.actionSize
-            backgroundColor: CcMetrics.tileInactiveColor
+            backgroundColor: root.tall ? CcMetrics.iconBoxInactiveColor : CcMetrics.tileInactiveColor
             border.width: Theme.layerOutlineWidth
             border.color: Theme.outlineMedium
             iconName: root.iconName

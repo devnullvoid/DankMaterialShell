@@ -279,6 +279,8 @@ Singleton {
     onSpringBounceChanged: saveSettings()
     property bool enableRippleEffects: Spec.SPEC.enableRippleEffects.def
     onEnableRippleEffectsChanged: saveSettings()
+    property bool scrollbarsEnabled: Spec.SPEC.scrollbarsEnabled.def
+    onScrollbarsEnabledChanged: saveSettings()
     property int motionEffect: SettingsData.AnimationEffect.Standard
     onMotionEffectChanged: saveSettings()
     property bool m3ElevationEnabled: Spec.SPEC.m3ElevationEnabled.def

@@ -229,6 +229,7 @@ Item {
         iconName: spec?.icon ?? "tune"
         title: spec?.text ?? ""
         subtitle: I18n.tr("Options")
+        showScrollBar: false
 
         SettingsGroup {
             width: parent.width
