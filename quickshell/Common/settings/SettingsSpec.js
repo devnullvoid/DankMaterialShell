@@ -339,6 +339,9 @@ var LOCAL_SPEC = {
     audioShowStreamDevices: {
         def: false
     },
+    audioMono: {
+        def: false
+    },
     windSpeedUnit: {
         def: "kmh"
     },
