@@ -796,7 +796,7 @@ Singleton {
     }
 
     function hubHint(entry) {
-        return entry.hint || visibleLeaves(entry.id).map(child => child.text).join(", ");
+        return entry.hint || visibleLeaves(entry.id).filter(child => entry.hubHeader || !child.hidden).map(child => child.text).join(", ");
     }
 
     function hubMainRows(hubId) {
