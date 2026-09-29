@@ -265,7 +265,7 @@ Item {
 
             SettingsNavRow {
                 title: I18n.tr("Wallpaper & colors")
-                iconName: "palette"
+                iconName: "wallpaper"
                 onClicked: root.parentModal?.navigateTo("personalization")
             }
 

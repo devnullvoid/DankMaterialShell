@@ -2561,7 +2561,7 @@
       "tint",
       "wallpaper"
     ],
-    "icon": "palette"
+    "icon": "wallpaper"
   },
   {
     "section": "clockDateFormat",
@@ -11447,7 +11447,7 @@
       "wallpaper"
     ],
     "parentLabel": "Security",
-    "icon": "palette",
+    "icon": "wallpaper",
     "conditionKey": "greeterAvailable"
   },
   {
