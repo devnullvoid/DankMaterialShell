@@ -15865,6 +15865,30 @@
     "icon": "widgets"
   },
   {
+    "section": "dockMagnificationProfile",
+    "label": "Animation style",
+    "tabIndex": 58,
+    "category": "Appearance",
+    "keywords": [
+      "animate",
+      "animation",
+      "animations",
+      "appearance",
+      "curve",
+      "dock",
+      "launcher bar",
+      "magnification",
+      "motion",
+      "panel",
+      "profile",
+      "style",
+      "taskbar",
+      "transition",
+      "zoom"
+    ],
+    "parentLabel": "Dock"
+  },
+  {
     "section": "dockBorder",
     "label": "Border",
     "tabIndex": 58,
@@ -15919,6 +15943,26 @@
     "parentLabel": "Dock"
   },
   {
+    "section": "dockMagnification",
+    "label": "Magnification",
+    "tabIndex": 58,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "dock",
+      "fisheye",
+      "hover",
+      "launcher bar",
+      "magnification",
+      "panel",
+      "scale",
+      "taskbar",
+      "zoom"
+    ],
+    "parentLabel": "Dock",
+    "icon": "zoom_in"
+  },
+  {
     "section": "dockMargin",
     "label": "Margin",
     "tabIndex": 58,
@@ -15948,6 +15992,23 @@
       "panel",
       "spacing",
       "taskbar"
+    ],
+    "parentLabel": "Dock"
+  },
+  {
+    "section": "dockMagnificationScale",
+    "label": "Scale",
+    "tabIndex": 58,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "dock",
+      "launcher bar",
+      "magnification",
+      "panel",
+      "scale",
+      "taskbar",
+      "zoom"
     ],
     "parentLabel": "Dock"
   },
