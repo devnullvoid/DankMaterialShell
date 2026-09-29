@@ -3131,8 +3131,7 @@ Singleton {
         saveSettings();
     }
 
-    property bool _pendingExpandNotificationRules: false
-    property int _pendingNotificationRuleIndex: -1
+    property var pendingNotificationRule: null
 
     function _newNotificationRule(overrides) {
         return Object.assign({
@@ -3146,27 +3145,20 @@ Singleton {
         }, overrides || {});
     }
 
-    function addNotificationRule() {
+    function addNotificationRule(ruleData) {
         var rules = JSON.parse(JSON.stringify(notificationRules || []));
-        rules.push(_newNotificationRule());
+        rules.push(_newNotificationRule(ruleData));
         notificationRules = rules;
         saveSettings();
     }
 
-    function addNotificationRuleForNotification(appName, desktopEntry) {
-        var rules = JSON.parse(JSON.stringify(notificationRules || []));
-        var pattern = desktopEntry || appName || "";
-        rules.push(_newNotificationRule(pattern ? {
+    function requestNotificationRuleForNotification(appName, desktopEntry) {
+        const pattern = desktopEntry || appName || "";
+        pendingNotificationRule = _newNotificationRule(pattern ? {
             field: desktopEntry ? "desktopEntry" : "appName",
             pattern: pattern,
             matchType: "exact"
-        } : {}));
-        notificationRules = rules;
-        saveSettings();
-        var index = rules.length - 1;
-        _pendingExpandNotificationRules = true;
-        _pendingNotificationRuleIndex = index;
-        return index;
+        } : {});
     }
 
     function _isMuteRule(rule) {
