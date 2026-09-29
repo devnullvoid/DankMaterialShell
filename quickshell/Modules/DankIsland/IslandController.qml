@@ -74,7 +74,7 @@ QtObject {
     readonly property int controlCenterColumnCap: CcMetrics.columnCapFor(dashboardAvailableWidth - controlCenterSheetInset - PopoutMetrics.editOverflow * 2)
     readonly property int controlCenterColumns: Math.min(CcMetrics.gridColumns, controlCenterColumnCap)
     readonly property real controlCenterSheetWidth: CcMetrics.sheetWidthFor(controlCenterColumns)
-    readonly property real controlCenterMaxWidth: CcMetrics.sheetWidthFor(editingActivity === "controlcenter" ? controlCenterColumnCap : controlCenterColumns) + controlCenterSheetInset + PopoutMetrics.editOverflow * 2
+    readonly property real controlCenterMaxWidth: CcMetrics.sheetWidthFor(editingActivity === "controlcenter" ? controlCenterColumnCap : controlCenterColumns) + controlCenterSheetInset
     readonly property real controlCenterHeight: Math.max(320, Math.min(controlCenterMaxHeight, destinationContentHeight("controlcenter")))
 
     readonly property bool compactDense: compactThickness < 40
@@ -92,7 +92,7 @@ QtObject {
     property real dashboardAvailableWidth: 1920
     property real dashboardAvailableHeight: 1080
     readonly property int dashboardColumnCap: DashMetrics.columnCapFor(dashboardAvailableWidth - PopoutMetrics.editOverflow * 2, SettingsData.showWeekNumber)
-    readonly property real dashboardMaxWidth: Math.min(dashboardAvailableWidth, DashMetrics.widthFor(SettingsData.showWeekNumber, undefined, editingActivity !== "" ? dashboardColumnCap : DashRegistry.widestPanelColumns) + PopoutMetrics.editOverflow * 2)
+    readonly property real dashboardMaxWidth: Math.min(dashboardAvailableWidth, DashMetrics.widthFor(SettingsData.showWeekNumber, undefined, editingActivity !== "" ? dashboardColumnCap : DashRegistry.widestPanelColumns))
     property var dashboardContentHeights: ({})
     readonly property real dashChromeHeight: DashMetrics.islandHandleChromeHeight
     readonly property real dashboardHeight: Math.min(dashboardAvailableHeight, Math.max(DashMetrics.tabDefaultHeight + root.dashChromeHeight, ...Object.values(dashboardContentHeights)))
@@ -144,7 +144,7 @@ QtObject {
     function dashboardTargetFor(activityId) {
         const minimum = DashMetrics.panelHeightFor(dashEntryIdFor(activityId));
         const height = Math.max(minimum + root.dashChromeHeight, dashboardContentHeights[activityId] ?? 0);
-        return sheetTarget(dashboardWidthFor(activityId) + editGutterFor(activityId) * 2, Math.min(dashboardAvailableHeight, height));
+        return sheetTarget(dashboardWidthFor(activityId), Math.min(dashboardAvailableHeight, height));
     }
 
     function setMediaContentLength(length) {
@@ -245,10 +245,6 @@ QtObject {
         } else if (editingActivity === activityId) {
             editingActivity = "";
         }
-    }
-
-    function editGutterFor(activityId) {
-        return editingActivity === activityId ? PopoutMetrics.editOverflow : 0;
     }
 
     function setDestinationContentHeight(activityId, height) {
@@ -431,7 +427,7 @@ QtObject {
     readonly property var homeExpandedTarget: dashboardTargetFor("home")
     readonly property var mediaExpandedTarget: dashboardTargetFor("media")
     readonly property var launcherExpandedTarget: sheetTarget(Math.min(dashboardAvailableWidth, LauncherMetrics.sizeWidth(SettingsData.dankLauncherV2Size)), Math.min(dashboardAvailableHeight, LauncherMetrics.sizeHeight(SettingsData.dankLauncherV2Size)))
-    readonly property var controlCenterExpandedTarget: sheetTarget(controlCenterSheetWidth + controlCenterSheetInset + editGutterFor("controlcenter") * 2, controlCenterHeight)
+    readonly property var controlCenterExpandedTarget: sheetTarget(controlCenterSheetWidth + controlCenterSheetInset, controlCenterHeight)
     readonly property var systemCompactTarget: pillTarget(root.isVertical ? 240 : (SettingsData.osdAlwaysShowValue ? 330 : 282), compactFaceThickness)
     readonly property var systemExpandedTarget: sheetTarget(460, 176)
     readonly property var notificationCompactTarget: pillTarget(Math.ceil(Math.max(notificationCompactMinLength, Math.min(notificationCompactMaxLength, notificationContentLength))), compactFaceThickness)

@@ -144,6 +144,7 @@ Item {
         anchors.right: parent.right
         anchors.margins: PopoutMetrics.contentPadding
         showHints: notificationHeader.currentTab === 0 ? (root.externalKeyboardController?.showKeyboardHints ?? false) : historyList.showKeyboardHints
+        historyTab: notificationHeader.currentTab === 1
         z: 200
     }
 }

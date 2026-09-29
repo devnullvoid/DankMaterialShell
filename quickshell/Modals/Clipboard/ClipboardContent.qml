@@ -214,7 +214,7 @@ Item {
         anchors.bottom: parent.bottom
         anchors.leftMargin: PopoutMetrics.contentPadding
         anchors.rightMargin: PopoutMetrics.contentPadding
-        anchors.bottomMargin: (modal.showKeyboardHints ? (ClipboardConstants.keyboardHintsHeight + PopoutMetrics.contentPadding * 2) : 0) + Theme.spacingXS
+        anchors.bottomMargin: (keyboardHintsLoader.item ? keyboardHintsLoader.item.implicitHeight + PopoutMetrics.contentPadding * 2 : 0) + Theme.spacingXS
         clip: true
 
         DankListView {
@@ -299,7 +299,7 @@ Item {
         anchors.rightMargin: PopoutMetrics.contentPadding
         anchors.bottomMargin: active ? PopoutMetrics.contentPadding : 0
         active: modal.showKeyboardHints
-        height: active ? ClipboardConstants.keyboardHintsHeight : 0
+        height: item ? item.implicitHeight : 0
 
         Behavior on height {
             NumberAnimation {

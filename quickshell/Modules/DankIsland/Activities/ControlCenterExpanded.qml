@@ -56,7 +56,7 @@ FocusScope {
 
         onEditModeChanged: root.controller.setEditing("controlcenter", editMode)
 
-        readonly property real editGutter: editMode ? PopoutMetrics.editOverflow : 0
+        readonly property vector4d chromeRoom: Qt.vector4d(root.sideInset, Theme.spacingXS, root.sideInset, root.bottomInset)
         readonly property int gridColumnCap: root.controller.controlCenterColumnCap
         readonly property int gridColumns: root.controller.controlCenterColumns
         readonly property real availableHeight: root.controller.controlCenterMaxHeight - Theme.spacingXS - root.bottomInset

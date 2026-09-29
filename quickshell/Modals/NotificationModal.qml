@@ -270,6 +270,7 @@ DankModal {
                 anchors.right: parent.right
                 anchors.margins: Theme.spacingL
                 showHints: notificationHeader.currentTab === 0 ? modalKeyboardController.showKeyboardHints : historyList.showKeyboardHints
+                historyTab: notificationHeader.currentTab === 1
             }
         }
     }

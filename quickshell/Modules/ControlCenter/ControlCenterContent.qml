@@ -46,10 +46,9 @@ FocusScope {
     readonly property int gridColumnCap: host.gridColumnCap ?? CcMetrics.columnCapFor((host.triggerScreen?.width ?? CcMetrics.sheetWidthDefault + Theme.spacingL * 2) - Theme.spacingL * 2)
     readonly property int gridColumns: host.gridColumns ?? Math.min(CcMetrics.gridColumns, gridColumnCap)
     readonly property real availableGridHeight: (host.availableHeight ?? (host.triggerScreen?.height ?? CcMetrics.fallbackScreenHeight) - CcMetrics.maxHeightInset) - CcMetrics.sheetPadding * 2 - chromeHeight
-    readonly property real editGutter: host.editGutter ?? 0
+    readonly property vector4d chromeRoom: host.chromeRoom ?? Qt.vector4d(Infinity, Infinity, Infinity, Infinity)
     readonly property DankPanelResizer panelResizer: DankPanelResizer {
         popout: root.host
-        gutter: root.editGutter
         stepWidth: CcMetrics.columnWidth + CcMetrics.gridGap
         widthFor: columns => CcMetrics.sheetWidthFor(columns) + root.sheetContentWidth - CcMetrics.sheetWidthFor(root.gridColumns)
         currentStep: () => root.gridColumns
@@ -227,14 +226,14 @@ FocusScope {
         readonly property real screenHeight: root.host.triggerScreen?.height ?? Infinity
 
         function ringOffset(room) {
-            return Math.max(0, Math.min(Theme.spacingS, room - Theme.outlineWidthFocused));
+            return Math.min(Theme.spacingS, room - handleThickness / 2 - Theme.outlineWidthFocused);
         }
 
         anchors.fill: parent
-        anchors.leftMargin: -(contentInset + ringOffset(root.host.alignedX))
-        anchors.rightMargin: -(contentInset + ringOffset(screenWidth - root.host.alignedX - root.width))
-        anchors.topMargin: -(contentInset + ringOffset(root.host.alignedY))
-        anchors.bottomMargin: -(contentInset + ringOffset(screenHeight - root.host.alignedY - root.height))
+        anchors.leftMargin: -(contentInset + ringOffset(Math.min(root.host.alignedX, root.chromeRoom.x)))
+        anchors.rightMargin: -(contentInset + ringOffset(Math.min(screenWidth - root.host.alignedX - root.width, root.chromeRoom.z)))
+        anchors.topMargin: -(contentInset + ringOffset(Math.min(root.host.alignedY, root.chromeRoom.y)))
+        anchors.bottomMargin: -(contentInset + ringOffset(Math.min(screenHeight - root.host.alignedY - root.height, root.chromeRoom.w)))
         z: 1
         visible: root.host.editMode
         enabled: detailPage.shownSection === "" && !root.widgetSheetOpen
@@ -298,7 +297,7 @@ FocusScope {
             id: mainColumn
 
             width: root.sheetContentWidth - CcMetrics.sheetPadding * 2
-            x: CcMetrics.sheetPadding + root.editGutter
+            x: CcMetrics.sheetPadding
             y: CcMetrics.sheetPadding
             spacing: Theme.spacingS
 
@@ -349,7 +348,7 @@ FocusScope {
     CcFooter {
         id: footer
 
-        x: CcMetrics.sheetPadding + root.editGutter
+        x: CcMetrics.sheetPadding
         width: root.sheetContentWidth - CcMetrics.sheetPadding * 2
         anchors.bottom: parent.bottom
         anchors.bottomMargin: CcMetrics.sheetPadding

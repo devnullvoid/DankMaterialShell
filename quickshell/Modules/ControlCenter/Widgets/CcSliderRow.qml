@@ -24,7 +24,6 @@ Item {
     property alias slider: slider
     property alias minimum: slider.minimum
     property alias maximum: slider.maximum
-    property alias unit: slider.unit
     property alias valueOverride: slider.valueOverride
     property alias wheelStep: slider.wheelStep
     property bool sliderEnabled: true
@@ -71,7 +70,7 @@ Item {
             iconSize: CcMetrics.iconBoxIconSize
             iconColor: CcMetrics.tileInactiveContent
             enabled: root.sliderEnabled && root.interactive
-            tooltipText: root.iconTooltip
+            tooltipText: root.iconTooltip || root.iconLabel
             Accessible.name: root.iconLabel
             onClicked: root.iconClicked()
         }
