@@ -257,13 +257,25 @@ Column {
             onSliderValueChanged: newValue => SettingsData.set("fixedRadius", newValue)
         }
 
+        SettingsToggleRow {
+            tab: "theme"
+            tags: ["window", "corner", "radius", "match", "follow", "link", "strength", "compositor"]
+            settingKey: "windowRadiusMatch"
+            text: I18n.tr("Match corner style", "toggle: window radius follows the corner style setting")
+            visible: root.windowRadiusKey !== ""
+            resetKeys: root.windowRadiusKey !== "" ? [root.windowRadiusKey] : []
+            checked: Theme.compositorRadiusOverride < 0
+            onToggled: checked => SettingsData.set(root.windowRadiusKey, checked ? -1 : Math.round(Theme.windowRadius))
+        }
+
         SettingsSliderRow {
             tab: "theme"
             tags: ["window", "corner", "radius", "rounded", "popout", "menu", "modal", "compositor", "niri", "hyprland", "mango"]
             settingKey: "windowRadius"
             text: I18n.tr("Window radius")
             visible: root.windowRadiusKey !== ""
-            resetKeys: root.windowRadiusKey !== "" ? [root.windowRadiusKey] : []
+            enabled: Theme.compositorRadiusOverride >= 0
+            resetKeys: []
             value: Theme.windowRadius
             minimum: 0
             maximum: 64

@@ -47,13 +47,14 @@ Item {
 
     readonly property bool tall: height >= CcMetrics.gridRowUnit * 2
     readonly property bool hasIconBox: (showExpand || opensPage || expanded) && !compact
+    readonly property bool showsActive: active && interactive
     readonly property real restRadius: {
-        if (active)
+        if (showsActive)
             return Math.min(CcMetrics.tileActiveRadius, width / 2, height / 2);
         return tall ? Math.min(CcMetrics.tallTileRadius, width / 2, height / 2) : Theme.fullRadius(width, height);
     }
     readonly property bool acceptsInput: interactive && enabled
-    readonly property bool bodyActive: active && !hasIconBox
+    readonly property bool bodyActive: showsActive && !hasIconBox
     readonly property color bodyColor: {
         if (!enabled)
             return Theme.onSurface_12;
@@ -73,20 +74,20 @@ Item {
         if (!enabled)
             return Theme.onSurface_38;
         if (hasIconBox)
-            return active ? CcMetrics.tileActiveContent : CcMetrics.tileInactiveContent;
+            return showsActive ? CcMetrics.tileActiveContent : CcMetrics.tileInactiveContent;
         return bodyActive ? CcMetrics.tileActiveContent : root.restIconColor;
     }
     readonly property color iconBoxColor: {
         if (!enabled)
             return Theme.onSurface_12;
-        return active ? CcMetrics.tileActiveColor : CcMetrics.iconBoxInactiveColor;
+        return showsActive ? CcMetrics.tileActiveColor : CcMetrics.iconBoxInactiveColor;
     }
 
     property real bodyRadius: bodyLayer.pressed ? Math.min(Theme.cornerRadiusM, width / 2, height / 2) : restRadius
     property real iconBoxRadius: {
         if (boxLayer.pressed)
             return Math.min(Theme.cornerRadiusS, CcMetrics.iconBoxSize / 2);
-        if (active)
+        if (showsActive)
             return Math.min(CcMetrics.iconBoxActiveRadius, CcMetrics.iconBoxSize / 2);
         return Theme.fullRadius(CcMetrics.iconBoxSize, CcMetrics.iconBoxSize);
     }
@@ -198,7 +199,7 @@ Item {
             name: root.iconName
             size: CcMetrics.tileIconSize
             color: root.iconColor
-            filled: root.active
+            filled: root.showsActive
             rotation: root.iconRotation
             visible: root.compact
 
@@ -260,7 +261,7 @@ Item {
                     name: root.iconName
                     size: root.hasIconBox ? CcMetrics.iconBoxIconSize : CcMetrics.tileIconSize
                     color: root.iconColor
-                    filled: root.active
+                    filled: root.showsActive
                     rotation: root.iconRotation
 
                     DankBlink {

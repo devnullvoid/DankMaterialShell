@@ -103,6 +103,7 @@ Item {
                 id: notificationHeader
 
                 objectName: "notificationHeader"
+                historyView: historyList
                 transientSurfaceTracker: root.host.transientSurfaceTracker ?? null
                 onHeightChanged: root.cachedHeaderHeight = height
                 onSettingsRequested: {

@@ -1528,6 +1528,28 @@
     "page": "notifications"
   },
   {
+    "section": "windowRadiusMatch",
+    "label": "Match corner style",
+    "tabIndex": -1,
+    "category": "Interface style",
+    "keywords": [
+      "compositor",
+      "corner",
+      "corners",
+      "follow",
+      "interface",
+      "link",
+      "match",
+      "radius",
+      "round",
+      "rounded",
+      "strength",
+      "style",
+      "window"
+    ],
+    "page": "theme_surfaces"
+  },
+  {
     "section": "matugenTargetMonitor",
     "label": "Matugen source display",
     "tabIndex": -1,
