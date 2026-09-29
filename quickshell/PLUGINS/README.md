@@ -722,7 +722,7 @@ QtObject {
 }
 ```
 
-A synchronous variant is supported too - declare `check()` with no argument and return the result directly. When the check fails the enable toggle reverts and the error is shown as a toast (the `details` are expandable, and any `http(s)` URL in them becomes a clickable link). Plugins without a `startupCheck` are unaffected. See `ExampleStartupCheck` for a complete plugin; the last error per plugin is available at `PluginService.pluginLoadErrors[pluginId]`.
+A synchronous variant is supported too - declare `check()` with no argument and return the result directly. When the check fails the enable toggle reverts and the error is shown as a toast (the `details` are expandable, and any `http(s)` URL in them becomes a clickable link). A check that fails to load, has no `check` function, or throws blocks activation the same way, with its error as the message. The check also runs again on reload. Plugins without a `startupCheck` are unaffected. See `ExampleStartupCheck` for a complete plugin; the last error per plugin is available at `PluginService.pluginLoadErrors[pluginId]`.
 
 ## Plugin Global Variables
 

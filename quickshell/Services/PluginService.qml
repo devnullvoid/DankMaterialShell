@@ -893,10 +893,8 @@ Singleton {
 
     function _makeStartupCheckObject(pluginId, plugin) {
         const comp = Qt.createComponent(pluginComponentUrl(pluginId, plugin.startupCheckPath), Component.PreferSynchronous);
-        if (comp.status === Component.Error) {
-            log.error("startupCheck component error", pluginId, comp.errorString());
-            return null;
-        }
+        if (comp.status === Component.Error)
+            throw new Error(comp.errorString());
         return comp.createObject(root);
     }
 
@@ -915,8 +913,12 @@ Singleton {
             return ok;
         }
 
-        const probe = _makeStartupCheckObject(pluginId, plugin);
+        let probe = null;
+        let settled = false;
         const finish = result => {
+            if (settled)
+                return;
+            settled = true;
             if (probe)
                 probe.destroy();
             const err = _normalizeStartupError(result);
@@ -937,28 +939,20 @@ Singleton {
                 onResult(ok);
         };
 
-        const check = probe ? probe.check : null;
-        if (typeof check !== "function") {
-            finish(null);
-            return true;
-        }
-        if (check.length >= 1) {
-            try {
-                check(finish);
-            } catch (e) {
-                log.warn("startupCheck threw for", pluginId, e.message);
-                finish(null);
-            }
-            return true;
-        }
-        let r = null;
         try {
-            r = check();
+            probe = _makeStartupCheckObject(pluginId, plugin);
+            const check = probe?.check;
+            if (typeof check !== "function")
+                throw new Error("startupCheck has no check function");
+            if (check.length >= 1)
+                check(finish);
+            else
+                finish(check());
         } catch (e) {
-            log.warn("startupCheck threw for", pluginId, e.message);
-            r = null;
+            const message = String(e?.message || e);
+            log.warn("startupCheck failed for", pluginId, message);
+            finish(message);
         }
-        finish(r);
         return true;
     }
 
@@ -973,7 +967,7 @@ Singleton {
         const plugin = availablePlugins[pluginId];
         if (plugin)
             _loadPluginTranslations(pluginId, plugin.pluginDirectory);
-        return loadPlugin(pluginId);
+        return runStartupGate(pluginId);
     }
 
     function ensureLauncherInstance(pluginId) {
