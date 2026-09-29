@@ -174,7 +174,7 @@ FocusScope {
             anchors.verticalCenter: parent.verticalCenter
             width: Math.min(parent.width, implicitWidth)
             height: parent.height
-            overlayParent: root
+            transientSurfaceTracker: root.controller.transientSurfaces
             entryId: root.entryId
             tabItem: root.tab
             editMode: root.editMode
@@ -256,6 +256,7 @@ FocusScope {
 
     DashOptionsSheet {
         id: tabOptions
+        backdrop: pages
         onDismissed: root.focusFace()
     }
 

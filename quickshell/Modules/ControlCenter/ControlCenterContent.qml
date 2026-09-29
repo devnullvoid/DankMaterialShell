@@ -334,6 +334,7 @@ FocusScope {
         model: widgetModel
         screenName: root.host.triggerScreen?.name || ""
         screenModel: root.host.triggerScreen?.model || ""
+        transientSurfaceTracker: root.host.transientSurfaceTracker
         onCodecSelectorRequested: device => root.showCodecSelector(device)
         onPortSelectorRequested: node => root.showPortSelector(node)
         onBackRequested: root.goBack()
@@ -376,11 +377,9 @@ FocusScope {
     Loader {
         id: configOverlayLoader
 
-        anchors.fill: parent
-        z: CcMetrics.overlayZ
         active: false
         sourceComponent: WidgetConfigOverlay {
-            backdrop: contentFlickable
+            transientSurfaceTracker: root.host.transientSurfaceTracker
             onVisibleChanged: {
                 if (visible)
                     return;

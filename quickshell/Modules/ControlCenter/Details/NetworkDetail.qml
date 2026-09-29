@@ -18,7 +18,7 @@ Item {
     LayoutMirroring.enabled: I18n.isRtl
     LayoutMirroring.childrenInherit: true
 
-    property Item menuParent: root
+    property var transientSurfaceTracker: null
 
     readonly property string title: I18n.tr("Network")
 
@@ -653,12 +653,12 @@ Item {
 
     CcMenu {
         id: wifiMenu
-        parent: root.menuParent
+        transientSurfaceTracker: root.transientSurfaceTracker
     }
 
     CcMenu {
         id: wiredMenu
-        parent: root.menuParent
+        transientSurfaceTracker: root.transientSurfaceTracker
     }
 
     Loader {

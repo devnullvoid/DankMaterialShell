@@ -1,8 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Effects
-import Quickshell.Widgets
+import Quickshell
 import qs.Common
 import qs.Modules.ControlCenter
 import qs.Modules.ControlCenter.Widgets
@@ -16,12 +15,9 @@ import qs.Widgets
 Item {
     id: root
 
-    property Item backdrop: null
     property int widgetIndex: -1
-    property real anchorX: 0
-    property real anchorY: 0
-    property real anchorWidth: 0
-    property real anchorHeight: 0
+    property var transientSurfaceTracker: null
+    property Item _anchor: null
 
     readonly property var widgetData: {
         if (widgetIndex < 0)
@@ -37,21 +33,38 @@ Item {
     readonly property bool isQuickActions: widgetId === "quickActions"
     readonly property var quickActions: isQuickActions ? WidgetUtils.quickActions(widgetData) : []
 
-    visible: widgetIndex >= 0
-    z: CcMetrics.overlayZ
+    visible: widgetIndex >= 0 || contextMenu.renderActive
 
     function open(index, data, anchorItem) {
-        const pos = anchorItem.mapToItem(root, 0, 0);
-        anchorX = pos.x;
-        anchorY = pos.y;
-        anchorWidth = anchorItem.width;
-        anchorHeight = anchorItem.height;
         widgetIndex = index;
-        focusScope.forceActiveFocus();
+        _anchor = anchorItem;
+        // Placement needs the final menu height, which settles after widgetIndex propagates.
+        Qt.callLater(() => {
+            const window = root.QsWindow.window;
+            const screen = window?.screen;
+            if (root.widgetIndex !== index || !anchorItem || !screen)
+                return;
+            const pos = anchorItem.mapToGlobal(0, 0);
+            const x = pos.x - screen.x;
+            const y = pos.y - screen.y;
+            const menuX = I18n.isRtl ? x : x + anchorItem.width - contextMenu.effectiveMenuWidth;
+            const aboveY = () => y - contextMenu.effectiveMenuHeight - Theme.spacingS;
+            if (aboveY() < Theme.spacingS) {
+                contextMenu.open(screen, menuX, y + anchorItem.height + Theme.spacingS, false);
+                return;
+            }
+            contextMenu.open(screen, menuX, aboveY(), false);
+            contextMenu.anchorY = Qt.binding(aboveY);
+        });
     }
 
     function close() {
-        widgetIndex = -1;
+        if (!contextMenu.renderActive) {
+            widgetIndex = -1;
+            _anchor = null;
+            return;
+        }
+        contextMenu.hide();
     }
 
     function toggleAction(id, enabled) {
@@ -70,120 +83,25 @@ Item {
         SettingsData.set("controlCenterWidgets", widgets);
     }
 
-    MouseArea {
-        anchors.fill: parent
-        enabled: root.visible
-        acceptedButtons: Qt.AllButtons
-        onClicked: root.close()
-        onWheel: wheel => wheel.accepted = true
-    }
+    DankContextMenu {
+        id: contextMenu
+        layerNamespace: "dms:control-center-widget-options"
+        minMenuWidth: CcMetrics.configMenuWidth
+        customContentWidth: CcMetrics.configMenuWidth
+        keyboardNavigable: true
+        transientSurfaceTracker: root.transientSurfaceTracker
 
-    FocusScope {
-        id: focusScope
-        anchors.fill: parent
-        focus: root.visible
-
-        Keys.onEscapePressed: event => {
-            root.close();
-            event.accepted = true;
-        }
-    }
-
-    Rectangle {
-        id: panel
-
-        readonly property real preferredY: root.anchorY - height - Theme.spacingS < Theme.spacingS ? root.anchorY + root.anchorHeight + Theme.spacingS : root.anchorY - height - Theme.spacingS
-
-        width: CcMetrics.configMenuWidth
-        height: Math.min(menu.implicitHeight, root.height - Theme.spacingS * 4) + Theme.spacingS * 2
-        radius: Theme.windowRadius
-        color: CcMetrics.dialogColor
-        border.width: Theme.layerOutlineWidth
-        border.color: Theme.outlineMedium
-        x: Math.max(Theme.spacingS, Math.min(root.anchorX + root.anchorWidth - width, root.width - width - Theme.spacingS))
-        y: Math.max(Theme.spacingS, Math.min(preferredY, root.height - height - Theme.spacingS))
-        opacity: root.visible ? 1 : 0
-        scale: root.visible ? 1 : CcMetrics.popupEnterScale
-        transformOrigin: Item.TopRight
-
-        Behavior on opacity {
-            enabled: CcMetrics.animationsEnabled
-            NumberAnimation {
-                duration: Theme.expressiveDurations.expressiveEffects
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
-            }
+        onOpenStateChanged: {
+            if (openState)
+                return;
+            root.widgetIndex = -1;
+            if (root._anchor?.visible && root._anchor.enabled)
+                root._anchor.forceActiveFocus();
+            root._anchor = null;
         }
 
-        Behavior on scale {
-            enabled: CcMetrics.animationsEnabled
-            NumberAnimation {
-                duration: Theme.expressiveDurations.expressiveFastSpatial
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Theme.expressiveCurves.expressiveFastSpatial
-            }
-        }
-
-        // The popout is not a real subsurface, so fake compositor blur the same way the detail dialog does, but from the sheet content it covers.
-        Loader {
-            anchors.fill: parent
-            z: -1
-            active: root.visible && root.backdrop !== null && CcMetrics.hideCoveredContent
-
-            sourceComponent: ClippingRectangle {
-                id: clipArea
-
-                // Children land in an internal content item, so `parent` never reaches this pad.
-                readonly property real pad: CcMetrics.backdropBlurRadius
-
-                radius: panel.radius
-                color: "transparent"
-
-                ShaderEffectSource {
-                    id: backdropSource
-
-                    x: -clipArea.pad
-                    y: -clipArea.pad
-                    width: clipArea.width + clipArea.pad * 2
-                    height: clipArea.height + clipArea.pad * 2
-                    visible: false
-                    sourceItem: root.backdrop
-                    // mapFromItem is not reactive, so the capture is rebuilt from the panel's own geometry.
-                    sourceRect: {
-                        const origin = root.backdrop.mapFromItem(root, panel.x - clipArea.pad, panel.y - clipArea.pad);
-                        return Qt.rect(origin.x, origin.y, width, height);
-                    }
-                }
-
-                MultiEffect {
-                    anchors.fill: backdropSource
-                    source: backdropSource
-                    blurEnabled: true
-                    blur: 1
-                    blurMax: CcMetrics.backdropBlurRadius
-                    autoPaddingEnabled: false
-                }
-            }
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            acceptedButtons: Qt.AllButtons
-            onClicked: mouse => mouse.accepted = true
-        }
-
-        DankFlickable {
-            anchors.fill: parent
-            anchors.margins: Theme.spacingS
-            clip: true
-            contentWidth: width
-            contentHeight: menu.implicitHeight
-            interactive: contentHeight > height
-
+        customContent: Component {
             CcGroup {
-                id: menu
-                width: parent.width
-
                 CcListRow {
                     visible: root.isPlugin
                     iconName: "settings"
@@ -239,10 +157,17 @@ Item {
                 }
 
                 CcToggleRow {
-                    visible: root.isUser
+                    visible: root.isUser || root.isQuickActions
                     text: I18n.tr("Background")
-                    checked: root.widgetData?.background !== false
+                    checked: root.isUser ? root.widgetData?.background !== false : root.widgetData?.background === true
                     onToggled: checked => root.persistOption("background", checked)
+                }
+
+                CcToggleRow {
+                    visible: root.isQuickActions && root.widgetData?.background === true
+                    text: I18n.tr("Button backgrounds")
+                    checked: root.widgetData?.buttonBackgrounds === true
+                    onToggled: checked => root.persistOption("buttonBackgrounds", checked)
                 }
 
                 CcToggleRow {
@@ -268,6 +193,7 @@ Item {
 
                         compactMode: true
                         dropdownWidth: parent.width
+                        transientSurfaceTracker: contextMenu.transientSurfaceTracker
                         currentValue: presets.find(p => p.minutes === (root.widgetData?.durationMinutes ?? 0))?.label ?? ""
                         options: presets.map(p => p.label)
                         onValueChanged: value => {

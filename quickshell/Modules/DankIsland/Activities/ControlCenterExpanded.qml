@@ -70,6 +70,7 @@ FocusScope {
         readonly property var triggerScreen: root.effectiveScreen
         readonly property var colorPickerModal: PopoutService.colorPickerModal
         readonly property var powerMenuModalLoader: PopoutService.powerMenuModalLoader
+        readonly property var transientSurfaceTracker: root.controller.transientSurfaces
         readonly property real alignedX: root.alignedX
         readonly property real alignedY: root.alignedY
         readonly property real alignedWidth: root.alignedWidth

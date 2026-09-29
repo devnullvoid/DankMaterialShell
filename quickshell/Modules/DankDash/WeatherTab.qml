@@ -15,6 +15,7 @@ Item {
     property bool live: Window.window?.visible ?? false
     property bool editMode: false
     property bool weatherRefHeld: false
+    property var transientSurfaceTracker: null
     readonly property var options: DashRegistry.resolvedOptions(entryId)
     readonly property bool available: WeatherService.weather.available
     readonly property var addable: widgets.addable
@@ -69,6 +70,7 @@ Item {
         id: widgets
         anchors.fill: parent
         entryId: root.entryId
+        transientSurfaceTracker: root.transientSurfaceTracker
         live: root.live && root.available
         editMode: root.editMode
         visible: root.available || root.editMode

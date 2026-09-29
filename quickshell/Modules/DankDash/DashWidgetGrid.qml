@@ -18,6 +18,7 @@ Item {
     property bool live: Window.window?.visible ?? false
     property int columns: width < Theme.smallBreakpoint ? 2 : 4
     property real cardRadius: Theme.cornerRadiusXL
+    property var transientSurfaceTracker: null
     readonly property var widgets: WidgetUtils.resolve(definitions, DashRegistry.widgetLayout(entryId))
     readonly property var addable: definitions.filter(d => !widgets.some(w => w.id === d.id))
     readonly property Item focusTarget: grid
@@ -200,7 +201,7 @@ Item {
 
     CcMenu {
         id: addMenu
-        parent: root.Window.window?.contentItem ?? root
+        transientSurfaceTracker: root.transientSurfaceTracker
         items: root.addable.map(spec => ({
                     label: spec.text,
                     iconName: spec.icon,
@@ -214,7 +215,7 @@ Item {
 
     CcMenu {
         id: widgetMenu
-        parent: root.Window.window?.contentItem ?? root
+        transientSurfaceTracker: root.transientSurfaceTracker
         property string widgetId: ""
         readonly property int widgetIndex: root.widgets.findIndex(w => w.id === widgetId)
         readonly property var widget: root.widgets[widgetIndex] ?? {}

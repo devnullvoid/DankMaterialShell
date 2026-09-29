@@ -21,7 +21,9 @@ Item {
     readonly property Item passthrough: actionGrid
     readonly property bool editMode: host?.editMode ?? false
     readonly property var actions: WidgetUtils.enabledQuickActions(widgetData)
-    readonly property real bodyRadius: Theme.cornerRadiusL
+    readonly property bool background: widgetData?.background === true
+    readonly property bool buttonBackgrounds: widgetData?.buttonBackgrounds === true
+    readonly property real bodyRadius: background ? Theme.cornerRadiusXL : Theme.cornerRadiusL
     readonly property int actionColumns: Math.max(1, Math.min(actions.length, Math.floor((width + CcMetrics.actionGap) / (CcMetrics.actionSize + CcMetrics.actionGap))))
 
     width: parent?.width ?? 0
@@ -46,6 +48,15 @@ Item {
         }
     }
 
+    Rectangle {
+        anchors.fill: parent
+        radius: root.bodyRadius
+        color: Theme.foregroundColor(Theme.cardSurface)
+        border.width: Theme.layerOutlineWidth
+        border.color: Theme.outlineMedium
+        visible: root.background
+    }
+
     Grid {
         id: actionGrid
 
@@ -64,10 +75,10 @@ Item {
 
                 buttonSize: CcMetrics.actionSize
                 iconSize: CcMetrics.actionIconSize
-                circular: false
+                circular: root.background
                 iconName: WidgetUtils.quickActionIcon(actionId)
                 iconColor: editing ? Theme.onPrimary : destructive ? Theme.error : Theme.onSurface
-                backgroundColor: editing ? Theme.primary : Theme.foregroundColor(Theme.cardSurface)
+                backgroundColor: editing ? Theme.primary : root.background ? (root.buttonBackgrounds ? Theme.foregroundColor(Theme.chipSurface) : "transparent") : Theme.foregroundColor(Theme.cardSurface)
                 tooltipText: I18n.tr(WidgetUtils.quickActionLabel(actionId))
                 checkable: actionId === "edit"
                 checked: editing

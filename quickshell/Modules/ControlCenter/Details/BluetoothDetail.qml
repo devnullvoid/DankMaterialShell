@@ -16,7 +16,7 @@ Item {
     LayoutMirroring.enabled: I18n.isRtl
     LayoutMirroring.childrenInherit: true
 
-    property Item menuParent: root
+    property var transientSurfaceTracker: null
 
     readonly property string title: I18n.tr("Bluetooth")
     readonly property var adapter: BluetoothService.adapter
@@ -362,7 +362,7 @@ Item {
 
     CcMenu {
         id: deviceMenu
-        parent: root.menuParent
+        transientSurfaceTracker: root.transientSurfaceTracker
     }
 
     Connections {

@@ -17,6 +17,7 @@ FocusScope {
     property var model: null
     property string screenName: ""
     property string screenModel: ""
+    property var transientSurfaceTracker: null
     property real topInset: 0
     property real minimumContentHeight: 0
     property vector4d cornerRadii: Qt.vector4d(Theme.windowRadius, Theme.windowRadius, Theme.windowRadius, Theme.windowRadius)
@@ -295,11 +296,6 @@ FocusScope {
                 }
             }
         }
-
-        Item {
-            id: menuOverlay
-            anchors.fill: panel
-        }
     }
 
     MouseArea {
@@ -347,7 +343,7 @@ FocusScope {
     Component {
         id: networkComponent
         NetworkDetail {
-            menuParent: menuOverlay
+            transientSurfaceTracker: root.transientSurfaceTracker
             transitioning: root.transitioning
         }
     }
@@ -355,7 +351,7 @@ FocusScope {
     Component {
         id: bluetoothComponent
         BluetoothDetail {
-            menuParent: menuOverlay
+            transientSurfaceTracker: root.transientSurfaceTracker
         }
     }
 
