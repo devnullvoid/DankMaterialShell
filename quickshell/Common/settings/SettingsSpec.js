@@ -109,6 +109,9 @@ var LOCAL_SPEC = {
     buttonColorMode: {
         def: "primary"
     },
+    containerSaturation: {
+        def: 100
+    },
     niriLayoutGapsOverride: {
         def: -1,
         onChange: "updateCompositorLayout"

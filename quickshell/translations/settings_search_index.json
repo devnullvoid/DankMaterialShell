@@ -552,7 +552,10 @@
     "category": "Interface style",
     "keywords": [
       "accent",
+      "across",
+      "badges",
       "button",
+      "cards",
       "color",
       "colors",
       "colour",
@@ -560,10 +563,13 @@
       "hue",
       "interface",
       "palette",
+      "shell",
       "style",
-      "tint"
+      "tint",
+      "tinted"
     ],
-    "page": "theme_surfaces"
+    "page": "theme_surfaces",
+    "description": "Tinted cards and badges across the shell"
   },
   {
     "section": "notificationCompactMode",
@@ -585,6 +591,31 @@
       "toast"
     ],
     "page": "notifications"
+  },
+  {
+    "section": "containerSaturation",
+    "label": "Container saturation",
+    "tabIndex": -1,
+    "category": "Interface style",
+    "keywords": [
+      "accent",
+      "across",
+      "badges",
+      "card",
+      "cards",
+      "color",
+      "container",
+      "interface",
+      "pastel",
+      "primary",
+      "saturation",
+      "shell",
+      "style",
+      "tint",
+      "tinted"
+    ],
+    "page": "theme_surfaces",
+    "description": "Tinted cards and badges across the shell"
   },
   {
     "section": "controlCenterIcons",

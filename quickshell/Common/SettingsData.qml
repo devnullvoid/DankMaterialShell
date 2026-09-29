@@ -193,6 +193,7 @@ Singleton {
     property string widgetColorMode: Spec.SPEC.widgetColorMode.def
     property string controlCenterTileColorMode: Spec.SPEC.controlCenterTileColorMode.def
     property string buttonColorMode: Spec.SPEC.buttonColorMode.def
+    property int containerSaturation: Spec.SPEC.containerSaturation.def
     property int radiusStrength: Spec.SPEC.radiusStrength.def
     property string radiusMode: Spec.SPEC.radiusMode.def
     property int fixedRadius: Spec.SPEC.fixedRadius.def

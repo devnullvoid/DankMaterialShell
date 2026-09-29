@@ -563,6 +563,7 @@ DankPopout {
             DashOptionsSheet {
                 id: tabOptions
                 backdrop: contentColumn
+                tabScope: true
                 onDismissed: mainContainer.focusInitial()
             }
 

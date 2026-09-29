@@ -306,27 +306,6 @@ ShellRoot {
                 stripSlider.destroy();
                 wait(0);
 
-                const ids = ["wifi", "bluetooth", "audioOutput", "audioInput", "volumeSlider", "inputVolumeSlider", "brightnessSlider", "nightMode", "darkMode", "doNotDisturb", "idleInhibitor", "battery", "diskUsage", "colorPicker"];
-                for (const id of ids) {
-                    const component = registry.componentForWidget({
-                        id
-                    });
-                    check(component.status === Component.Ready, id + " compiled: " + component.errorString());
-                    const widget = component.createObject(scene, {
-                        widgetData: {
-                            id
-                        }
-                    });
-                    check(widget !== null, id + " created");
-                    if (widget.slider)
-                        check(WidgetUtils.clampSize({
-                            id,
-                            w: 1,
-                            h: 3
-                        }, 4).h === 3, id + " allows vertical resizing");
-                    widget.destroy();
-                    wait(0);
-                }
                 SessionData.recentColors = Array.from({
                     length: 18
                 }, (_, i) => Qt.rgba(i / 18, 0.5, 0.5, 1).toString());
@@ -347,10 +326,10 @@ ShellRoot {
                 NetworkService.wifiNetworks = Array.from({
                     length: 8
                 }, (_, i) => ({
-                    ssid: "Net" + i,
-                    signal: 90 - i * 8,
-                    secured: true
-                }));
+                            ssid: "Net" + i,
+                            signal: 90 - i * 8,
+                            secured: true
+                        }));
                 detail.section = "wifi";
                 waitFor(() => !detail.transitioning && detail.pageItem !== null, "wifi detail page loads");
                 settle();

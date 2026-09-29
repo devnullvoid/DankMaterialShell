@@ -257,6 +257,7 @@ FocusScope {
     DashOptionsSheet {
         id: tabOptions
         backdrop: pages
+        tabScope: true
         onDismissed: root.focusFace()
     }
 

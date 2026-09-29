@@ -564,6 +564,19 @@ Column {
                 SettingsData.set("buttonColorMode", "primary");
             }
         }
+
+        SettingsSliderRow {
+            tab: "theme"
+            tags: ["container", "accent", "color", "saturation", "tint", "pastel", "primary", "card"]
+            settingKey: "containerSaturation"
+            text: I18n.tr("Container saturation", "theme setting, saturation of tinted accent containers")
+            description: I18n.tr("Tinted cards and badges across the shell", "container saturation setting description")
+            value: SettingsData.containerSaturation
+            minimum: 0
+            maximum: 200
+            step: 5
+            onSliderValueChanged: newValue => SettingsData.set("containerSaturation", newValue)
+        }
     }
 
     SettingsCard {
