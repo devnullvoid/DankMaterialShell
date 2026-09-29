@@ -22,10 +22,12 @@ FocusScope {
     property real minimumContentHeight: 0
     property vector4d cornerRadii: Qt.vector4d(Theme.windowRadius, Theme.windowRadius, Theme.windowRadius, Theme.windowRadius)
     property real coverage: 0
+    property var runningToplevels: []
 
     signal dismissed
     signal backRequested
     signal collapseRequested
+    signal closeRequested
     signal codecSelectorRequested(var device)
     signal portSelectorRequested(var node)
 
@@ -119,6 +121,8 @@ FocusScope {
             return diskUsageComponent;
         case "brightnessSlider":
             return brightnessComponent;
+        case "runningApps":
+            return runningAppsComponent;
         }
         if (sectionId.startsWith("builtin_") || sectionId.startsWith("plugin_"))
             return pluginComponent;
@@ -338,6 +342,10 @@ FocusScope {
         function onDismissRequested() {
             root.backRequested();
         }
+
+        function onCloseRequested() {
+            root.closeRequested();
+        }
     }
 
     Component {
@@ -396,6 +404,13 @@ FocusScope {
             instanceId: widgetEntry?.instanceId || ""
             screenName: root.screenName
             screenModel: root.screenModel
+        }
+    }
+
+    Component {
+        id: runningAppsComponent
+        RunningAppsDetail {
+            toplevels: root.runningToplevels
         }
     }
 

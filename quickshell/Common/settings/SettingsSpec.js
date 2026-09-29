@@ -434,25 +434,37 @@ var LOCAL_SPEC = {
     controlCenterWidgets: {
         def: [
             {
-                id: "userCard",
+                id: "user",
                 enabled: true,
-                w: 6.5,
-                h: 1.5
+                w: 5,
+                h: 1
             },
             {
-                id: "quickActions",
+                id: "settings",
                 enabled: true,
-                w: 1.5,
-                h: 1.5
+                w: 1,
+                h: 1
             },
             {
-                id: "volumeSlider",
+                id: "lock",
+                enabled: true,
+                w: 1,
+                h: 1
+            },
+            {
+                id: "power",
+                enabled: true,
+                w: 1,
+                h: 1
+            },
+            {
+                id: "brightnessSlider",
                 enabled: true,
                 w: 4,
                 h: 1
             },
             {
-                id: "brightnessSlider",
+                id: "volumeSlider",
                 enabled: true,
                 w: 4,
                 h: 1
@@ -482,13 +494,37 @@ var LOCAL_SPEC = {
                 h: 1
             },
             {
+                id: "darkMode",
+                enabled: true,
+                w: 2,
+                h: 1
+            },
+            {
                 id: "nightMode",
+                enabled: true,
+                w: 2,
+                h: 1
+            },
+            {
+                id: "doNotDisturb",
+                enabled: true,
+                w: 2,
+                h: 1
+            },
+            {
+                id: "idleInhibitor",
+                enabled: true,
+                w: 2,
+                h: 1
+            },
+            {
+                id: "battery",
                 enabled: true,
                 w: 4,
                 h: 1
             },
             {
-                id: "darkMode",
+                id: "diskUsage",
                 enabled: true,
                 w: 4,
                 h: 1

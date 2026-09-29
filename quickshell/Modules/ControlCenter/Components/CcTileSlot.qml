@@ -20,7 +20,7 @@ DankEditableGridSlot {
     onPressAndHold: {
         if (!editChrome.hasOptions)
             return;
-        root.grid.configRequested(root.index, root.widgetData, editChrome);
+        root.grid.configRequested(root.grid.savedIndex(root.index), root.widgetData, editChrome);
     }
 
     onResizeRequested: (requestedWidth, requestedHeight) => {
@@ -33,17 +33,6 @@ DankEditableGridSlot {
                 height = 2;
             else
                 width = Math.min(2, sizeSpec.maxW);
-        }
-        if (widgetData.id === "quickActions") {
-            const count = WidgetUtils.enabledQuickActions(widgetData).length;
-            if (height !== current.h)
-                width = Math.max(width, CcMetrics.actionSpan(Math.ceil(count / CcMetrics.actionCapacity(height))));
-            const size = WidgetUtils.clampSize(Object.assign({}, widgetData, {
-                w: width,
-                h: height
-            }), grid.columns, grid.maximumRows);
-            width = size.w;
-            height = size.h;
         }
         const changes = {};
         if (width !== current.w)
@@ -124,6 +113,10 @@ DankEditableGridSlot {
                 return;
             root.grid.expandClicked(root.widgetData);
         }
+
+        function onOptionChanged(key, value) {
+            root.grid.model?.setOption(root.grid.savedIndex(root.index), key, value);
+        }
     }
 
     CcEditChrome {
@@ -135,7 +128,7 @@ DankEditableGridSlot {
         visible: root.grid.editMode
         enabled: root.interactionEnabled
         widgetData: root.widgetData
-        resizeEdgeWidth: root.widgetData.id === "quickActions" ? Theme.spacingL : -1
+        passthrough: root.passthrough
         dragging: root.dragging
         resizing: root.resizing
         cornerRadius: root.tileItem?.bodyRadius ?? Theme.fullRadius(root.width, root.height)
@@ -144,7 +137,7 @@ DankEditableGridSlot {
         onResizeMoved: (px, py) => root.resizeTo(px, py)
         onResizeEnded: root.finishResize()
         onResizeCanceled: root.cancelResize()
-        onRemoveRequested: root.grid.removeWidget(root.index)
-        onConfigRequested: anchor => root.grid.configRequested(root.index, root.widgetData, anchor)
+        onRemoveRequested: root.grid.removeWidget(root.grid.savedIndex(root.index))
+        onConfigRequested: anchor => root.grid.configRequested(root.grid.savedIndex(root.index), root.widgetData, anchor)
     }
 }

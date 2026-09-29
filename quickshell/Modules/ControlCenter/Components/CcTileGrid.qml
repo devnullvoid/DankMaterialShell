@@ -24,24 +24,54 @@ DankEditableGrid {
     signal lockRequested
     signal powerRequested
     signal settingsRequested
-    signal editRequested
-    signal headerTapped
+    signal closeRequested
     property bool tapToClose: false
 
     readonly property real gridHeight: layoutHeight
     readonly property real cellWidth: (width + CcMetrics.gridGap) / columns
     readonly property CcTileSlot draggingSlot: tileRepeater.itemAt(draggingSourceIndex) as CcTileSlot
 
-    sourceItems: (SettingsData.controlCenterWidgets || []).map(widget => Object.assign({}, widget, WidgetUtils.clampSize(widget, Infinity)))
+    readonly property var savedWidgets: SettingsData.controlCenterWidgets || []
+    readonly property var shownIndices: savedWidgets.reduce((indices, widget, i) => WidgetUtils.isShown(widget) ? indices.concat([i]) : indices, [])
+
+    sourceItems: shownIndices.map(i => Object.assign({}, savedWidgets[i], sizeWithHiddenTwin(i)))
     slotLayout: GridUtils.packCards(layoutItems.map(widget => Object.assign({}, widget, WidgetUtils.clampSize(widget, columns, maximumRows))), placementOrder, columns, width, CcMetrics.gridGap, cellWidth - CcMetrics.gridGap, I18n.isRtl, null, CcMetrics.gridStep, true)
     placeholderRadius: draggingSlot?.tileItem?.bodyRadius ?? Theme.fullRadius(width, CcMetrics.tileHeight)
 
-    onLayoutCommitted: items => model.setLayout(items)
+    onLayoutCommitted: items => model.setLayout(withHidden(items))
+
+    function sizeWithHiddenTwin(index) {
+        const widget = savedWidgets[index];
+        const size = WidgetUtils.clampSize(widget, Infinity);
+        if (!WidgetUtils.isUnplaced(widget))
+            return size;
+        for (const neighbor of [index + 1, index - 1]) {
+            const twin = savedWidgets[neighbor];
+            if (!twin || shownIndices.includes(neighbor) || !WidgetUtils.isUnplaced(twin))
+                continue;
+            const twinSize = WidgetUtils.clampSize(twin, Infinity);
+            if (twinSize.w !== size.w || twinSize.h !== size.h)
+                continue;
+            size.w += twinSize.w;
+            return size;
+        }
+        return size;
+    }
+
+    function savedIndex(index) {
+        return shownIndices[index] ?? -1;
+    }
+
+    function withHidden(items) {
+        const widgets = savedWidgets.slice();
+        shownIndices.forEach((saved, i) => widgets[saved] = items[i]);
+        return widgets;
+    }
 
     function displayedItems() {
-        return GridUtils.placedItems(sourceItems.map(widget => Object.assign({}, widget, {
+        return withHidden(GridUtils.placedItems(sourceItems.map(widget => Object.assign({}, widget, {
                 "w": WidgetUtils.clampSize(widget, columns).w
-            })), slotLayout.slots);
+            })), slotLayout.slots));
     }
 
     Repeater {

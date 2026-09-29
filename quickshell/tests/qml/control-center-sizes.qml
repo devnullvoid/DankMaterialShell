@@ -185,7 +185,7 @@ ShellRoot {
                         h: 12
                     },
                     {
-                        id: "diskUsage",
+                        id: "colorPicker",
                         w: 2,
                         h: 2
                     }
@@ -293,17 +293,6 @@ ShellRoot {
                 mouseClick(verticalSlider.slider, verticalSlider.slider.width * 0.75, verticalSlider.slider.height / 2);
                 check(verticalSlider.slider.value >= 74 && verticalSlider.slider.value <= 77, "portrait pointer coordinates follow slider value");
                 verticalSlider.destroy();
-                wait(0);
-
-                const stripSlider = sliderComponent.createObject(scene);
-                let iconClicks = 0;
-                stripSlider.iconClicked.connect(() => iconClicks++);
-                size(stripSlider, 4, 1);
-                settle();
-                check(stripSlider.slider.mapToItem(stripSlider, 0, 0).x === 0 && stripSlider.slider.width === stripSlider.width, "strip slider track spans the row");
-                mouseClick(stripSlider.slider, stripSlider.slider.width - Theme.spacingXS - CcMetrics.stripIconSize / 2, stripSlider.slider.height / 2);
-                check(iconClicks === 1 && stripSlider.slider.value === 50, "strip slider inset icon takes the click without moving the value");
-                stripSlider.destroy();
                 wait(0);
 
                 SessionData.recentColors = Array.from({

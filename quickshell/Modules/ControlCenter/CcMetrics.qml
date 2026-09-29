@@ -14,7 +14,6 @@ Singleton {
     readonly property real gridStep: 0.5
     property int columnPreview: 0
     readonly property int gridColumns: columnPreview > 0 ? columnPreview : clampColumns(SettingsData.controlCenterColumns)
-    readonly property real sheetWidth: sheetWidthFor(gridColumns)
 
     function clampColumns(value) {
         const columns = Math.round(Number(value));
@@ -45,9 +44,7 @@ Singleton {
     readonly property real sliderRowHeight: Theme.minimumTouchTargetSize
     readonly property real stripTrackHeight: 32
     readonly property real stripHandleHeight: stripTrackHeight + Theme.sliderHandleGap * 2
-    readonly property real stripIconSize: Theme.iconSize
     readonly property real gridGap: Theme.spacingS
-    readonly property real tilePaddingH: Theme.spacingL
     readonly property real iconScale: SettingsData.controlCenterIconScale
     readonly property real tileIconSize: Theme.iconSizeLarge * iconScale
     readonly property real iconBoxSize: Theme.minimumTouchTargetSize * iconScale
@@ -57,19 +54,11 @@ Singleton {
     readonly property real iconBoxIconSize: Theme.iconSize * iconScale
     readonly property real tallMeterThickness: 28
     readonly property real tileTextGap: Theme.spacingM
-    readonly property real actionSize: Theme.minimumTouchTargetSize
-    readonly property real actionIconSize: Theme.iconSizeMedium
-    readonly property real actionGap: Theme.spacingXS
-    readonly property real headerHeight: actionSize * 2 + actionGap
-
-    function actionSpan(count) {
-        return Math.ceil((actionSize * count + actionGap * Math.max(0, count - 1) + gridGap) / (columnWidth + gridGap) / gridStep) * gridStep;
-    }
-
-    function actionCapacity(span) {
-        const size = span * (columnWidth + gridGap) - gridGap;
-        return Math.max(1, Math.floor((size + actionGap) / (actionSize + actionGap)));
-    }
+    readonly property real footerHeight: iconBoxSize
+    readonly property real footerGap: Theme.spacingM
+    readonly property real footerAppIconSize: Theme.iconSize * iconScale
+    readonly property int footerMaxAppIcons: 3
+    readonly property real shapeButtonSize: Theme.iconSize
 
     readonly property real detailDialogInset: Theme.spacingL
     readonly property real detailDialogPadding: Theme.spacingS
@@ -98,6 +87,9 @@ Singleton {
     readonly property real dialogWidth: 320
     readonly property real libraryPanelWidth: 400
     readonly property real libraryPanelHeight: 400
+    readonly property real widgetSheetMinHeight: libraryPanelHeight
+    readonly property real previewMinWidth: columnWidth * 1.5
+    readonly property real previewTileHeight: Theme.minimumTouchTargetSize
     readonly property real configMenuWidth: 260
     readonly property real vpnPopoutListHeight: 200
     readonly property real headerDropdownWidth: 120
@@ -144,6 +136,7 @@ Singleton {
         case "audioOutput":
         case "audioInput":
         case "diskUsage":
+        case "runningApps":
             return detailHeightList;
         default:
             return detailHeightDefault;

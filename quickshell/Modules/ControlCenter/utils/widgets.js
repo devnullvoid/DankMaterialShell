@@ -1,71 +1,44 @@
 .import qs.Common as Common
+.import qs.Services as Services
 .import qs.Modules.ControlCenter as ControlCenter
 .import "../../../Common/GridLayout.js" as GridLayout
 
-var PINNED_IDS = ["quickActions"];
-var OPTION_IDS = ["diskUsage", "brightnessSlider", "idleInhibitor", "userCard", "quickActions"];
-var QUICK_ACTIONS = [
-    {
-        "id": "lock",
-        "icon": "lock",
-        "label": "Lock"
-    },
-    {
-        "id": "power",
-        "icon": "power_settings_new",
-        "label": "Power"
-    },
-    {
-        "id": "settings",
-        "icon": "settings",
-        "label": "Settings"
-    },
-    {
-        "id": "edit",
-        "icon": "edit",
-        "label": "Edit"
-    }
-];
-var QUICK_ACTION_IDS = QUICK_ACTIONS.map(action => action.id);
+var OPTION_IDS = ["diskUsage", "brightnessSlider", "idleInhibitor", "user"];
+var ACTION_IDS = ["settings", "lock", "power"];
+var USER_SHAPES = ["circle", "cookie4", "cookie7", "cookie12", "clover4", "clover8", "sunny", "pentagon", "arch", "slanted", "gem", "square"];
 
 function isSliderWidget(id) {
     return id === "volumeSlider" || id === "brightnessSlider" || id === "inputVolumeSlider";
 }
 
-function isPinned(id) {
-    return PINNED_IDS.includes(id);
+function isShown(widget) {
+    switch (widget?.id) {
+    case "battery":
+        return Services.BatteryService.batteryAvailable || Services.PowerProfileWatcher.available;
+    case "diskUsage":
+        return Services.DgopService.dgopAvailable;
+    default:
+        return true;
+    }
+}
+
+function isUnplaced(widget) {
+    return !Number.isFinite(widget?.col) || !Number.isFinite(widget?.row);
 }
 
 function hasOptions(id) {
     return OPTION_IDS.includes(id) || String(id ?? "").startsWith("plugin_");
 }
 
-function quickActions(widgetData) {
-    const saved = Array.isArray(widgetData?.actions) ? widgetData.actions : [];
-    const out = saved.filter(action => QUICK_ACTION_IDS.includes(action?.id)).map(action => ({
-                "id": action.id,
-                "enabled": action.id === "edit" || action.enabled !== false
-            }));
-    for (const id of QUICK_ACTION_IDS) {
-        if (!out.some(action => action.id === id))
-            out.push({
-                "id": id,
-                "enabled": true
-            });
-    }
-    return out;
+function filterWidgets(widgets, query) {
+    const needle = query.trim().toLowerCase();
+    if (!needle)
+        return widgets;
+    return widgets.filter(widget => [widget.text, widget.description, widget.id].some(value => (value || "").toLowerCase().includes(needle)));
 }
 
-function enabledQuickActions(widgetData) {
-    return quickActions(widgetData).filter(action => action.enabled);
-}
-
-function quickActionIcon(id) {
-    return QUICK_ACTIONS.find(action => action.id === id)?.icon ?? "";
-}
-
-function quickActionLabel(id) {
-    return QUICK_ACTIONS.find(action => action.id === id)?.label ?? "";
+function nextUserShape(shape) {
+    return USER_SHAPES[(USER_SHAPES.indexOf(shape) + 1) % USER_SHAPES.length];
 }
 
 function defaultWidget(id, columns) {
@@ -75,10 +48,6 @@ function defaultWidget(id, columns) {
     }, clampSize({
         "id": id
     }, columns));
-}
-
-function pinnedWidgets(columns) {
-    return PINNED_IDS.map(id => defaultWidget(id, columns));
 }
 
 function sizeSpec(widget, columns, rows = Infinity) {
@@ -91,18 +60,11 @@ function sizeSpec(widget, columns, rows = Infinity) {
         "maxH": rows,
         "step": ControlCenter.CcMetrics.gridStep
     };
-    switch (widget?.id) {
-    case "userCard":
-        spec.w = Math.max(1, (Number.isFinite(columns) ? columns : ControlCenter.CcMetrics.defaultColumns) - ControlCenter.CcMetrics.actionSpan(2));
-        spec.h = ControlCenter.CcMetrics.actionSpan(2);
-        return spec;
-    case "quickActions":
-        spec.w = ControlCenter.CcMetrics.actionSpan(2);
-        spec.h = ControlCenter.CcMetrics.actionSpan(2);
-        return spec;
-    default:
-        return spec;
-    }
+    if (widget?.id === "user")
+        spec.w = (Number.isFinite(columns) ? columns : ControlCenter.CcMetrics.defaultColumns) - ACTION_IDS.length;
+    if (ACTION_IDS.includes(widget?.id))
+        spec.w = 1;
+    return spec;
 }
 
 function clampSize(widget, columns, rows = Infinity) {
@@ -111,18 +73,6 @@ function clampSize(widget, columns, rows = Infinity) {
         "w": GridLayout.dimension(widget.w, spec.minW, spec.maxW, spec.w, spec.step),
         "h": GridLayout.dimension(widget.h, spec.minH, spec.maxH, spec.h, spec.step)
     };
-    if (widget.id === "quickActions") {
-        const count = enabledQuickActions(widget).length;
-        const capacity = ControlCenter.CcMetrics.actionCapacity(size.w);
-        const neededRows = ControlCenter.CcMetrics.actionSpan(Math.ceil(count / capacity));
-        if (neededRows <= rows) {
-            size.h = Math.max(size.h, neededRows);
-            return size;
-        }
-        size.h = rows;
-        size.w = Math.min(columns, Math.max(size.w, ControlCenter.CcMetrics.actionSpan(Math.ceil(count / ControlCenter.CcMetrics.actionCapacity(rows)))));
-        return size;
-    }
     if (!isSliderWidget(widget.id) || size.w >= 2 || size.h >= 2)
         return size;
     if (rows > 1)
@@ -161,9 +111,19 @@ function generateUniqueId() {
 
 function removeWidget(index) {
     const widgets = Common.SettingsData.controlCenterWidgets.slice();
-    if (index < 0 || index >= widgets.length || isPinned(widgets[index]?.id))
+    if (index < 0 || index >= widgets.length)
         return;
     widgets.splice(index, 1);
+    Common.SettingsData.set("controlCenterWidgets", widgets);
+}
+
+function setOption(index, key, value) {
+    const widgets = Common.SettingsData.controlCenterWidgets.slice();
+    if (index < 0 || index >= widgets.length)
+        return;
+    widgets[index] = Object.assign({}, widgets[index], {
+        [key]: value
+    });
     Common.SettingsData.set("controlCenterWidgets", widgets);
 }
 
@@ -171,11 +131,10 @@ function setLayout(widgets) {
     Common.SettingsData.set("controlCenterWidgets", widgets);
 }
 
-function resetToDefault(columns) {
-    const ids = ["userCard", "quickActions", "volumeSlider", "brightnessSlider", "wifi", "bluetooth", "audioOutput", "audioInput", "nightMode", "darkMode"];
-    Common.SettingsData.set("controlCenterWidgets", ids.map(id => defaultWidget(id, columns)));
+function resetToDefault() {
+    Common.SettingsData.resetToDefault(["controlCenterWidgets", "controlCenterColumns"]);
 }
 
-function clearAll(columns) {
-    Common.SettingsData.set("controlCenterWidgets", pinnedWidgets(columns));
+function clearAll() {
+    Common.SettingsData.set("controlCenterWidgets", []);
 }

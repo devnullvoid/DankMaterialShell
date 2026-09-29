@@ -35,6 +35,7 @@ Item {
     readonly property bool showSubtitle: subtitle !== "" && (!stacked || height - tilePadding * 2 >= iconExtent + Theme.spacingS + titleLabel.implicitHeight + Theme.spacingXXS + subtitleLabel.implicitHeight)
     property bool showExpand: false
     property bool opensPage: false
+    property color restIconColor: CcMetrics.tileInactiveIcon
     property Component tallContent: null
     property bool interactive: true
     property bool iconBlinking: false
@@ -73,7 +74,7 @@ Item {
             return Theme.onSurface_38;
         if (hasIconBox)
             return active ? CcMetrics.tileActiveContent : CcMetrics.tileInactiveContent;
-        return bodyActive ? CcMetrics.tileActiveContent : CcMetrics.tileInactiveIcon;
+        return bodyActive ? CcMetrics.tileActiveContent : root.restIconColor;
     }
     readonly property color iconBoxColor: {
         if (!enabled)

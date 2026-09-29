@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
+import qs.Services
 import qs.Modules.ControlCenter.Components
 import qs.Modules.ControlCenter.Models
 import qs.Modules.ControlCenter.Details
@@ -18,10 +19,22 @@ FocusScope {
 
     readonly property bool pageOpen: (host.expandedSection ?? "") !== ""
     readonly property real gridHeight: widgetGrid.gridHeight
+    readonly property real chromeHeight: Theme.spacingS + footer.height
+    readonly property bool widgetSheetOpen: widgetSheetLoader.item?.active ?? false
+    readonly property real coveredAmount: Math.max(detailPage.opacity, widgetSheetLoader.item?.progress ?? 0)
+    property bool widgetSheetRequested: false
+    property int toplevelRevision: 0
+    readonly property var runningToplevels: {
+        toplevelRevision;
+        const all = CompositorService.sortedToplevels ?? [];
+        const current = CompositorService.filterCurrentWorkspace(all, host.triggerScreen?.name) || [];
+        return current.concat(all.filter(toplevel => !current.includes(toplevel)));
+    }
+    readonly property string placedWidgetIds: (SettingsData.controlCenterWidgets || []).map(w => w.id).sort().join(",")
     readonly property real targetImplicitHeight: {
-        let total = CcMetrics.sheetPadding * 2 + gridHeight;
-        if (host.editMode)
-            total += Theme.spacingS + editControls.height;
+        const total = CcMetrics.sheetPadding * 2 + gridHeight + chromeHeight;
+        if (widgetSheetOpen)
+            return Math.max(total, CcMetrics.widgetSheetMinHeight);
         if (detailPage.shownSection === "")
             return total;
         return Math.max(total, detailPage.topInset + detailPage.minimumHeight + CcMetrics.detailDialogInset);
@@ -34,7 +47,7 @@ FocusScope {
     readonly property vector4d surfaceCornerRadii: host.surfaceCornerRadii ?? Qt.vector4d(Theme.windowRadius, Theme.windowRadius, Theme.windowRadius, Theme.windowRadius)
     readonly property int gridColumnCap: host.gridColumnCap ?? CcMetrics.columnCapFor((host.triggerScreen?.width ?? CcMetrics.sheetWidthDefault + Theme.spacingL * 2) - Theme.spacingL * 2)
     readonly property int gridColumns: host.gridColumns ?? Math.min(CcMetrics.gridColumns, gridColumnCap)
-    readonly property real availableGridHeight: (host.availableHeight ?? (host.triggerScreen?.height ?? CcMetrics.fallbackScreenHeight) - CcMetrics.maxHeightInset) - CcMetrics.sheetPadding * 2 - Theme.spacingS - editControls.height
+    readonly property real availableGridHeight: (host.availableHeight ?? (host.triggerScreen?.height ?? CcMetrics.fallbackScreenHeight) - CcMetrics.maxHeightInset) - CcMetrics.sheetPadding * 2 - chromeHeight
     readonly property real editGutter: host.editGutter ?? 0
     readonly property DankPanelResizer panelResizer: DankPanelResizer {
         popout: root.host
@@ -141,7 +154,32 @@ FocusScope {
             SettingsData.set("controlCenterColumns", snapshot.columns);
     }
 
+    function openWidgetSheet() {
+        const sheet = widgetSheetLoader.item;
+        if (!sheet) {
+            widgetSheetRequested = true;
+            return;
+        }
+        sheet.opened = true;
+    }
+
+    function closeWidgetSheet() {
+        if (!widgetSheetLoader.item)
+            return;
+        widgetSheetLoader.item.opened = false;
+    }
+
     Keys.onEscapePressed: event => {
+        if (footer.resetArmed) {
+            footer.cancelConfirmation();
+            event.accepted = true;
+            return;
+        }
+        if (widgetSheetLoader.item?.opened) {
+            closeWidgetSheet();
+            event.accepted = true;
+            return;
+        }
         if (configOverlayLoader.item?.visible) {
             configOverlayLoader.item.close();
             event.accepted = true;
@@ -180,8 +218,10 @@ FocusScope {
         } else {
             panelResizer.cancel();
             editSnapshot = null;
+            widgetSheetRequested = false;
         }
-        forceActiveFocus();
+        if (!activeFocus)
+            forceActiveFocus();
     }
 
     DankGridEditChrome {
@@ -191,7 +231,7 @@ FocusScope {
         anchors.margins: -(contentInset + Theme.spacingS)
         z: 1
         visible: root.host.editMode
-        enabled: detailPage.shownSection === ""
+        enabled: detailPage.shownSection === "" && !root.widgetSheetOpen
         edgeResize: root.panelResizing || root.panelResizer.sideMovable(-1, root.gridColumns)
         cornerResize: root.panelResizing || root.panelResizer.sideMovable(1, root.gridColumns)
         horizontalResize: true
@@ -257,7 +297,7 @@ FocusScope {
 
                 width: parent.width
                 height: root.gridHeight
-                opacity: CcMetrics.hideCoveredContent ? 1 - detailPage.opacity : 1
+                opacity: CcMetrics.hideCoveredContent ? 1 - root.coveredAmount : 1
 
                 CcTileGrid {
                     id: widgetGrid
@@ -275,8 +315,7 @@ FocusScope {
                     onRemoveWidget: index => widgetModel.removeWidget(index)
                     onConfigRequested: (index, widgetData, anchor) => root.openConfigOverlay(index, widgetData, anchor)
                     onColorPickerRequested: root.host.openColorPicker()
-                    onHeaderTapped: root.host.close()
-                    onEditRequested: root.host.editMode = !root.host.editMode
+                    onCloseRequested: root.host.close()
                     onSettingsRequested: root.host.openSettings()
                     onLockRequested: {
                         root.host.close();
@@ -295,27 +334,17 @@ FocusScope {
                 }
             }
 
-            EditControls {
-                id: editControls
+            CcFooter {
+                id: footer
 
                 width: parent.width
-                visible: root.host.editMode
-                popupScreen: root.host.screen
-                popoutX: root.host.alignedX
-                popoutY: root.host.alignedY
-                popoutWidth: root.host.alignedWidth
-                popoutHeight: root.host.alignedHeight
-                availableWidgets: {
-                    if (!root.host.editMode)
-                        return [];
-                    const existingIds = (SettingsData.controlCenterWidgets || []).map(w => w.id);
-                    const allWidgets = widgetModel.baseWidgetDefinitions.concat(widgetModel.getPluginWidgets());
-                    return allWidgets.filter(w => w.allowMultiple || !existingIds.includes(w.id));
-                }
-                onAddWidget: widgetId => widgetModel.addWidget(widgetId)
-                onResetToDefault: () => widgetModel.resetToDefault()
-                onClearAll: () => widgetModel.clearAll()
-                onFinishRequested: root.host.editMode = false
+                editMode: root.host.editMode
+                toplevels: root.runningToplevels
+                opacity: body.opacity
+                onRunningAppsRequested: root.navigateTo("runningApps")
+                onAddWidgetRequested: root.openWidgetSheet()
+                onResetRequested: widgetModel.resetToDefault()
+                onEditToggled: root.host.editMode = !root.host.editMode
                 onCancelRequested: root.cancelEdit()
             }
         }
@@ -337,8 +366,10 @@ FocusScope {
         transientSurfaceTracker: root.host.transientSurfaceTracker
         onCodecSelectorRequested: device => root.showCodecSelector(device)
         onPortSelectorRequested: node => root.showPortSelector(node)
+        runningToplevels: root.runningToplevels
         onBackRequested: root.goBack()
         onCollapseRequested: root.host.collapseAll()
+        onCloseRequested: root.host.close()
         onDismissed: {
             const target = root.detailReturnFocus;
             root.detailReturnFocus = null;
@@ -371,6 +402,47 @@ FocusScope {
         sourceComponent: AudioPortSelector {
             cornerRadii: root.surfaceCornerRadii
             onDismissed: Qt.callLater(root.releaseSheet, portSelectorLoader)
+        }
+    }
+
+    Connections {
+        target: CompositorService
+
+        function onToplevelsChanged() {
+            root.toplevelRevision++;
+        }
+    }
+
+    Loader {
+        id: widgetSheetLoader
+
+        anchors.fill: parent
+        z: CcMetrics.overlayZ
+        active: root.host.editMode
+        asynchronous: true
+        onLoaded: {
+            if (!root.widgetSheetRequested)
+                return;
+            root.widgetSheetRequested = false;
+            item.opened = true;
+        }
+        sourceComponent: CcWidgetSheet {
+            scrimRadii: root.surfaceCornerRadii
+            surfaceColor: CcMetrics.dialogColor
+            widgets: {
+                const existingIds = root.placedWidgetIds.split(",");
+                const allWidgets = widgetModel.baseWidgetDefinitions.concat(widgetModel.getPluginWidgets());
+                return allWidgets.filter(w => w.allowMultiple || !existingIds.includes(w.id));
+            }
+            onDismissRequested: opened = false
+            onChosen: widgetId => {
+                widgetModel.addWidget(widgetId);
+                opened = false;
+            }
+            onClearRequested: {
+                widgetModel.clearAll();
+                opened = false;
+            }
         }
     }
 

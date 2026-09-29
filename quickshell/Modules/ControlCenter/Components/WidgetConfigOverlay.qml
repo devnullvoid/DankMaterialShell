@@ -7,7 +7,6 @@ import qs.Modules.ControlCenter
 import qs.Modules.ControlCenter.Widgets
 import qs.Modules.DankBar.Widgets
 import qs.Modules.DankDash
-import qs.Modules.Settings.Widgets
 import "../utils/widgets.js" as WidgetUtils
 import qs.Services
 import qs.Widgets
@@ -29,9 +28,7 @@ Item {
     readonly property bool isPlugin: widgetId.startsWith("plugin_")
     readonly property bool isDisk: widgetId === "diskUsage"
     readonly property bool isIdleInhibitor: widgetId === "idleInhibitor"
-    readonly property bool isUser: widgetId === "userCard"
-    readonly property bool isQuickActions: widgetId === "quickActions"
-    readonly property var quickActions: isQuickActions ? WidgetUtils.quickActions(widgetData) : []
+    readonly property bool isUser: widgetId === "user"
 
     visible: widgetIndex >= 0 || contextMenu.renderActive
 
@@ -67,20 +64,8 @@ Item {
         contextMenu.hide();
     }
 
-    function toggleAction(id, enabled) {
-        persistOption("actions", quickActions.map(action => action.id === id ? Object.assign({}, action, {
-                "enabled": enabled
-            }) : action));
-    }
-
     function persistOption(key, value) {
-        const widgets = (SettingsData.controlCenterWidgets || []).slice();
-        if (widgetIndex < 0 || widgetIndex >= widgets.length)
-            return;
-        widgets[widgetIndex] = Object.assign({}, widgets[widgetIndex], {
-            [key]: value
-        });
-        SettingsData.set("controlCenterWidgets", widgets);
+        WidgetUtils.setOption(widgetIndex, key, value);
     }
 
     DankContextMenu {
@@ -123,58 +108,6 @@ Item {
                         checked: DashRegistry.optionValue(modelData, root.widgetData?.[modelData.key])
                         onToggled: checked => root.persistOption(modelData.key, checked)
                     }
-                }
-
-                SettingsReorderList {
-                    id: actionList
-
-                    visible: root.isQuickActions
-                    model: root.quickActions
-                    onReordered: indices => root.persistOption("actions", indices.map(i => root.quickActions[i]))
-
-                    delegate: SettingsReorderRow {
-                        required property var modelData
-                        readonly property bool locked: modelData.id === "edit"
-
-                        reorderList: actionList
-                        paddingH: CcMetrics.rowPaddingH
-                        paddingV: CcMetrics.rowPaddingV
-                        rowColor: dragging ? Theme.blend(CcMetrics.rowColor, Theme.onSurface, Theme.stateLayerDrag) : CcMetrics.rowColor
-                        iconName: WidgetUtils.quickActionIcon(modelData.id)
-                        title: I18n.tr(WidgetUtils.quickActionLabel(modelData.id))
-                        clickable: !locked
-                        onClicked: root.toggleAction(modelData.id, !modelData.enabled)
-
-                        DankToggle {
-                            hideText: true
-                            text: parent.title
-                            activeFocusOnTab: false
-                            checked: modelData.enabled
-                            enabled: !locked
-                            onToggled: value => root.toggleAction(modelData.id, value)
-                        }
-                    }
-                }
-
-                CcToggleRow {
-                    visible: root.isUser || root.isQuickActions
-                    text: I18n.tr("Background")
-                    checked: root.isUser ? root.widgetData?.background !== false : root.widgetData?.background === true
-                    onToggled: checked => root.persistOption("background", checked)
-                }
-
-                CcToggleRow {
-                    visible: root.isQuickActions && root.widgetData?.background === true
-                    text: I18n.tr("Button backgrounds")
-                    checked: root.widgetData?.buttonBackgrounds === true
-                    onToggled: checked => root.persistOption("buttonBackgrounds", checked)
-                }
-
-                CcToggleRow {
-                    visible: root.isQuickActions
-                    text: I18n.tr("Highlight power", "toggle that gives the control center power button the error color")
-                    checked: root.widgetData?.powerAccent === true
-                    onToggled: checked => root.persistOption("powerAccent", checked)
                 }
 
                 CcToggleRow {
