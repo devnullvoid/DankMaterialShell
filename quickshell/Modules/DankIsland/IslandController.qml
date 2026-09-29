@@ -2,6 +2,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
+import qs.Modals.Clipboard
+import qs.Modals.DankLauncherV2.Components
 import qs.Modules.ControlCenter
 import qs.Modules.DankBar
 import qs.Modules.DankDash
@@ -152,8 +154,8 @@ QtObject {
         mediaContentLength = next;
     }
 
-    readonly property var destinations: ["launcher", "controlcenter", "wallpaper", "weather", "notificationcenter"]
-    readonly property var blankClickOwners: ["launcher", "controlcenter", "wallpaper", "notificationcenter"]
+    readonly property var destinations: ["launcher", "controlcenter", "wallpaper", "weather", "notificationcenter", "clipboard"]
+    readonly property var blankClickOwners: ["launcher", "controlcenter", "wallpaper", "notificationcenter", "clipboard"]
     readonly property var destinationDefaults: ({
             "launcher": {
                 "contentLength": 160,
@@ -174,6 +176,10 @@ QtObject {
             "notificationcenter": {
                 "contentLength": 170,
                 "contentHeight": 320
+            },
+            "clipboard": {
+                "contentLength": 150,
+                "contentHeight": 0
             }
         })
     property var destinationState: root.freshDestinationState()
@@ -330,6 +336,7 @@ QtObject {
             controlCenterPendingSection = "";
             return;
         case "wallpaper":
+        case "clipboard":
             keyboardYielded = false;
             return;
         }
@@ -423,13 +430,14 @@ QtObject {
     readonly property var mediaCompactTarget: pillTarget(mediaCompactLength, compactFaceThickness)
     readonly property var homeExpandedTarget: dashboardTargetFor("home")
     readonly property var mediaExpandedTarget: dashboardTargetFor("media")
-    readonly property var launcherExpandedTarget: sheetTarget(680, 560)
+    readonly property var launcherExpandedTarget: sheetTarget(Math.min(dashboardAvailableWidth, LauncherMetrics.sizeWidth(SettingsData.dankLauncherV2Size)), Math.min(dashboardAvailableHeight, LauncherMetrics.sizeHeight(SettingsData.dankLauncherV2Size)))
     readonly property var controlCenterExpandedTarget: sheetTarget(controlCenterSheetWidth + controlCenterSheetInset + editGutterFor("controlcenter") * 2, controlCenterHeight)
     readonly property var systemCompactTarget: pillTarget(root.isVertical ? 240 : (SettingsData.osdAlwaysShowValue ? 330 : 282), compactFaceThickness)
     readonly property var systemExpandedTarget: sheetTarget(460, 176)
     readonly property var notificationCompactTarget: pillTarget(Math.ceil(Math.max(notificationCompactMinLength, Math.min(notificationCompactMaxLength, notificationContentLength))), compactFaceThickness)
     readonly property var notificationExpandedTarget: sheetTarget(520, 220)
     readonly property var notificationCenterExpandedTarget: dashboardTargetFor("notificationcenter")
+    readonly property var clipboardExpandedTarget: sheetTarget(Math.min(dashboardAvailableWidth, ClipboardConstants.sizeWidth(SettingsData.clipboardSize)), Math.min(dashboardAvailableHeight, ClipboardConstants.sizeHeight(SettingsData.clipboardSize)))
 
     readonly property bool systemActivityActive: activeActivity === "volume" || activeActivity === "brightness"
     readonly property bool notificationActive: activeActivity === "notification"
@@ -471,6 +479,8 @@ QtObject {
             return controlCenterExpandedTarget;
         case "notificationcenter":
             return notificationCenterExpandedTarget;
+        case "clipboard":
+            return clipboardExpandedTarget;
         case "media":
             return mediaExpandedTarget;
         }
@@ -697,6 +707,12 @@ QtObject {
             return requestCollapse();
         root.consumeTransientNotification();
         return requestActivity("notificationcenter", true, true);
+    }
+
+    function requestClipboard(shouldToggle) {
+        if (shouldToggle === true && activeActivity === "clipboard" && expanded)
+            return requestCollapse();
+        return requestActivity("clipboard", true, true);
     }
 
     function cycleActivity(direction, shouldExpand) {

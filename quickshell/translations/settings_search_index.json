@@ -3016,6 +3016,31 @@
     "description": "Clicks on empty bar space reach the windows below"
   },
   {
+    "section": "islandRouteClipboard",
+    "label": "Clipboard",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "clipboard",
+      "cliphist",
+      "copy",
+      "general",
+      "history",
+      "ipc",
+      "island",
+      "panel",
+      "paste",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
     "section": "islandRouteControlCenter",
     "label": "Control Center",
     "tabIndex": 3,
@@ -3594,6 +3619,7 @@
     "category": "General",
     "keywords": [
       "bar",
+      "clipboard",
       "control center",
       "dashboard",
       "general",
@@ -9530,8 +9556,16 @@
     "optionFile": "PrivacyOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:25",
+    "section": "barWidgetOption:IslandOptions.qml:26",
     "label": "Clear badge on open",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:12",
+    "label": "Clipboard",
     "tabIndex": 22,
     "keywords": [],
     "runtimeType": "barWidgetOption",
@@ -9690,7 +9724,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:12",
+    "section": "barWidgetOption:IslandOptions.qml:13",
     "label": "Dashboard",
     "tabIndex": 22,
     "keywords": [],
@@ -9730,7 +9764,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:24",
+    "section": "barWidgetOption:IslandOptions.qml:25",
     "label": "Expand by default",
     "tabIndex": 22,
     "keywords": [],
@@ -9738,7 +9772,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:16",
+    "section": "barWidgetOption:IslandOptions.qml:17",
     "label": "Expansion mode",
     "tabIndex": 22,
     "keywords": [],
@@ -9810,7 +9844,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:19",
+    "section": "barWidgetOption:IslandOptions.qml:20",
     "label": "Hide delay",
     "tabIndex": 22,
     "keywords": [],
@@ -9842,7 +9876,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:17",
+    "section": "barWidgetOption:IslandOptions.qml:18",
     "label": "Hybrid peeks the current compact face on hover. Click pins a destination so it stays open",
     "tabIndex": 22,
     "keywords": [],
@@ -9922,7 +9956,7 @@
     "optionFile": "ControlCenterOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:20",
+    "section": "barWidgetOption:IslandOptions.qml:21",
     "label": "Keep clock with media",
     "tabIndex": 22,
     "keywords": [],
@@ -9986,7 +10020,7 @@
     "optionFile": "SystemTrayOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:13",
+    "section": "barWidgetOption:IslandOptions.qml:14",
     "label": "Media",
     "tabIndex": 22,
     "keywords": [],
@@ -10018,7 +10052,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:26",
+    "section": "barWidgetOption:IslandOptions.qml:27",
     "label": "Motion",
     "tabIndex": 22,
     "keywords": [],
@@ -10066,7 +10100,7 @@
     "optionFile": "ClockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:21",
+    "section": "barWidgetOption:IslandOptions.qml:22",
     "label": "Notifications",
     "tabIndex": 22,
     "keywords": [],
@@ -10082,7 +10116,7 @@
     "optionFile": "BatteryOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:18",
+    "section": "barWidgetOption:IslandOptions.qml:19",
     "label": "Open delay",
     "tabIndex": 22,
     "keywords": [],
@@ -10114,7 +10148,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:27",
+    "section": "barWidgetOption:IslandOptions.qml:28",
     "label": "Reduce motion",
     "tabIndex": 22,
     "keywords": [],
@@ -10330,7 +10364,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:29",
+    "section": "barWidgetOption:IslandOptions.qml:30",
     "label": "Spring damping",
     "tabIndex": 22,
     "keywords": [],
@@ -10338,7 +10372,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:30",
+    "section": "barWidgetOption:IslandOptions.qml:31",
     "label": "Spring mass",
     "tabIndex": 22,
     "keywords": [],
@@ -10346,7 +10380,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:28",
+    "section": "barWidgetOption:IslandOptions.qml:29",
     "label": "Spring stiffness",
     "tabIndex": 22,
     "keywords": [],
@@ -10410,7 +10444,7 @@
     "optionFile": "SystemTrayOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:23",
+    "section": "barWidgetOption:IslandOptions.qml:24",
     "label": "Use standard OSDs",
     "tabIndex": 22,
     "keywords": [],
@@ -10418,7 +10452,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:22",
+    "section": "barWidgetOption:IslandOptions.qml:23",
     "label": "Use standard popups",
     "tabIndex": 22,
     "keywords": [],
@@ -10442,7 +10476,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:15",
+    "section": "barWidgetOption:IslandOptions.qml:16",
     "label": "Wallpapers",
     "tabIndex": 22,
     "keywords": [],
@@ -10450,7 +10484,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:14",
+    "section": "barWidgetOption:IslandOptions.qml:15",
     "label": "Weather",
     "tabIndex": 22,
     "keywords": [],
@@ -16414,6 +16448,31 @@
     "conditionKey": "dotEnabled"
   },
   {
+    "section": "dotRouteClipboard",
+    "label": "Clipboard",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "bar",
+      "clipboard",
+      "cliphist",
+      "copy",
+      "dot",
+      "history",
+      "ipc",
+      "island",
+      "panel",
+      "paste",
+      "routing",
+      "shortcuts",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "dotEnabled"
+  },
+  {
     "section": "dotRouteControlCenter",
     "label": "Control Center",
     "tabIndex": 65,
@@ -16787,6 +16846,7 @@
     "category": "Dot",
     "keywords": [
       "bar",
+      "clipboard",
       "control center",
       "dashboard",
       "dot",

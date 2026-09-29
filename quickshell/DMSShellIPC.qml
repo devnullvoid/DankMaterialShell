@@ -1466,7 +1466,7 @@ Item {
             if (!PopoutService.clipboardHistoryModal) {
                 return "CLIPBOARD_NOT_AVAILABLE";
             }
-            PopoutService.clipboardHistoryModal.show();
+            PopoutService.openClipboardHistory();
             return "CLIPBOARD_OPEN_SUCCESS";
         }
 
@@ -1474,7 +1474,7 @@ Item {
             if (!PopoutService.clipboardHistoryModal) {
                 return "CLIPBOARD_NOT_AVAILABLE";
             }
-            PopoutService.clipboardHistoryModal.hide();
+            PopoutService.closeClipboardHistory();
             return "CLIPBOARD_CLOSE_SUCCESS";
         }
 
@@ -1482,7 +1482,7 @@ Item {
             if (!PopoutService.clipboardHistoryModal) {
                 return "CLIPBOARD_NOT_AVAILABLE";
             }
-            PopoutService.clipboardHistoryModal.toggle();
+            PopoutService.toggleClipboardHistory();
             return "CLIPBOARD_TOGGLE_SUCCESS";
         }
 

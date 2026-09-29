@@ -2704,6 +2704,8 @@ Singleton {
             return "islandRouteWeather";
         case "wallpaper":
             return "islandRouteWallpaper";
+        case "clipboard":
+            return "islandRouteClipboard";
         }
         return "";
     }
