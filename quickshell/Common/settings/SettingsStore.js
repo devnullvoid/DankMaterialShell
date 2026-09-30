@@ -17,7 +17,7 @@ var STALE_WIDGET_KEYS = ["desktopClockEnabled", "desktopClockStyle", "desktopClo
 var BAR_WIDGET_LIST_KEYS = ["leftWidgets", "centerWidgets", "rightWidgets"];
 var CC_HEADER_IDS = ["userCard", "quickActions", "header"];
 var CC_ACTION_TILE_IDS = ["settings", "lock", "power"];
-var CC_USER_KEYS = ["w", "h", "col", "row", "hostname", "compositor", "uptime", "badge"];
+var CC_USER_KEYS = ["w", "h", "col", "row", "hostname", "compositor", "uptime", "badge", "background"];
 
 var REMOVED_KEYS_V21 = ["showBattery", "showCapsLockIndicator", "showClipboard", "showClock", "showControlCenterButton", "showCpuUsage", "showFocusedWindow", "showLauncherButton", "showMemUsage", "showMusic", "showNotificationButton", "showPrivacyButton", "showSystemTray", "showWeather", "showWorkspaceSwitcher", "hideBrightnessSlider", "updaterHideWidget", "workspaceScrolling", "appLauncherViewMode", "spotlightModalViewMode", "audioDeviceScrollVolumeEnabled", "desktopClockX", "desktopClockY", "desktopClockWidth", "desktopClockHeight", "desktopClockDisplayPreferences", "systemMonitorX", "systemMonitorY", "systemMonitorWidth", "systemMonitorHeight", "systemMonitorDisplayPreferences", "systemMonitorVariants"];
 
@@ -707,6 +707,20 @@ function migrateToVersion(obj, targetVersion) {
         settings.configVersion = 35;
     }
 
+    if (currentVersion < 36 && targetVersion >= 36) {
+        // The footer's running-apps chip became a grid tile; layouts saved before then never mention it.
+        const widgets = settings.controlCenterWidgets;
+        if (Array.isArray(widgets) && !widgets.some(widget => widget?.id === "runningApps"))
+            settings.controlCenterWidgets = widgets.concat([{
+                        id: "runningApps",
+                        enabled: true,
+                        w: Math.max(1, (settings.controlCenterColumns ?? 8) - 1),
+                        h: 1,
+                        small: true
+                    }]);
+        settings.configVersion = 36;
+    }
+
     return settings;
 }
 
@@ -721,7 +735,8 @@ function migrateControlCenterHeader(widgets, fixedHeader, columns) {
                 id: id,
                 enabled: true,
                 w: 1,
-                h: 1
+                h: 1,
+                small: true
             }));
     const identity = header.length === 0 ? {} : header.find(widget => widget.id === "userCard" || (widget.id === "header" && widget.showUser !== false));
     if (!identity || rest.some(widget => widget?.id === "user"))

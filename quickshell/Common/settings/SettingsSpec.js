@@ -446,19 +446,22 @@ var LOCAL_SPEC = {
                 id: "settings",
                 enabled: true,
                 w: 1,
-                h: 1
+                h: 1,
+                small: true
             },
             {
                 id: "lock",
                 enabled: true,
                 w: 1,
-                h: 1
+                h: 1,
+                small: true
             },
             {
                 id: "power",
                 enabled: true,
                 w: 1,
-                h: 1
+                h: 1,
+                small: true
             },
             {
                 id: "brightnessSlider",
@@ -531,6 +534,13 @@ var LOCAL_SPEC = {
                 enabled: true,
                 w: 4,
                 h: 1
+            },
+            {
+                id: "runningApps",
+                enabled: true,
+                w: 7,
+                h: 1,
+                small: true
             }
         ]
     },

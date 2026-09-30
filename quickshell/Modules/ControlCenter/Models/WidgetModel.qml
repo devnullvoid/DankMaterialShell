@@ -110,6 +110,9 @@ QtObject {
     readonly property Component actionTile: Component {
         ActionTile {}
     }
+    readonly property Component runningAppsTile: Component {
+        RunningAppsTile {}
+    }
     readonly property Component pluginTile: Component {
         PluginTile {}
     }
@@ -168,7 +171,10 @@ QtObject {
         case "lock":
         case "power":
         case "settings":
+        case "edit":
             return actionTile;
+        case "runningApps":
+            return runningAppsTile;
         default:
             return null;
         }
@@ -219,6 +225,24 @@ QtObject {
             "text": I18n.tr("Power"),
             "description": I18n.tr("Power menu"),
             "icon": "power_settings_new",
+            "type": "action",
+            "category": "system",
+            "enabled": true
+        },
+        {
+            "id": "edit",
+            "text": I18n.tr("Edit"),
+            "description": "",
+            "icon": "edit",
+            "type": "action",
+            "category": "system",
+            "enabled": true
+        },
+        {
+            "id": "runningApps",
+            "text": I18n.tr("Running apps"),
+            "description": "",
+            "icon": "apps",
             "type": "action",
             "category": "system",
             "enabled": true

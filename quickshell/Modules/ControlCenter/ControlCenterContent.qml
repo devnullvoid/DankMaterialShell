@@ -8,6 +8,7 @@ import qs.Modules.ControlCenter.Models
 import qs.Modules.ControlCenter.Details
 import qs.Widgets
 import "./utils/sections.js" as Sections
+import "./utils/widgets.js" as WidgetUtils
 
 FocusScope {
     id: root
@@ -19,7 +20,7 @@ FocusScope {
 
     readonly property bool pageOpen: (host.expandedSection ?? "") !== ""
     readonly property real gridHeight: widgetGrid.gridHeight
-    readonly property real chromeHeight: Theme.spacingS + footer.height
+    readonly property real chromeHeight: footer.occupied ? Theme.spacingS + footer.height : 0
     readonly property bool widgetSheetOpen: widgetSheetLoader.item?.active ?? false
     readonly property real coveredAmount: Math.max(detailPage.opacity, widgetSheetLoader.item?.progress ?? 0)
     property bool widgetSheetRequested: false
@@ -30,7 +31,8 @@ FocusScope {
         const current = CompositorService.filterCurrentWorkspace(all, host.triggerScreen?.name) || [];
         return current.concat(all.filter(toplevel => !current.includes(toplevel)));
     }
-    readonly property string placedWidgetIds: (SettingsData.controlCenterWidgets || []).map(w => w.id).sort().join(",")
+    readonly property string placedWidgetIds: WidgetUtils.placedIds(SettingsData.controlCenterWidgets).sort().join(",")
+    readonly property bool editPlaced: placedWidgetIds.split(",").includes("edit")
     readonly property real targetImplicitHeight: {
         const total = CcMetrics.sheetPadding * 2 + gridHeight + chromeHeight;
         if (detailPage.shownSection === "")
@@ -45,7 +47,8 @@ FocusScope {
     readonly property vector4d surfaceCornerRadii: host.surfaceCornerRadii ?? Qt.vector4d(Theme.windowRadius, Theme.windowRadius, Theme.windowRadius, Theme.windowRadius)
     readonly property int gridColumnCap: host.gridColumnCap ?? CcMetrics.columnCapFor((host.triggerScreen?.width ?? CcMetrics.sheetWidthDefault + Theme.spacingL * 2) - Theme.spacingL * 2)
     readonly property int gridColumns: host.gridColumns ?? Math.min(CcMetrics.gridColumns, gridColumnCap)
-    readonly property real availableGridHeight: (host.availableHeight ?? (host.triggerScreen?.height ?? CcMetrics.fallbackScreenHeight) - CcMetrics.maxHeightInset) - CcMetrics.sheetPadding * 2 - chromeHeight
+    // Always reserve the footer: the row cap stays the same in edit mode and cannot loop through the docked edit button.
+    readonly property real availableGridHeight: (host.availableHeight ?? (host.triggerScreen?.height ?? CcMetrics.fallbackScreenHeight) - CcMetrics.maxHeightInset) - CcMetrics.sheetPadding * 2 - Theme.spacingS - CcMetrics.footerHeight
     readonly property vector4d chromeRoom: host.chromeRoom ?? Qt.vector4d(Infinity, Infinity, Infinity, Infinity)
     readonly property DankPanelResizer panelResizer: DankPanelResizer {
         popout: root.host
@@ -287,7 +290,7 @@ FocusScope {
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: footer.top
-        anchors.bottomMargin: Theme.spacingS
+        anchors.bottomMargin: footer.occupied ? Theme.spacingS : 0
         clip: contentHeight > height
         contentWidth: width
         contentHeight: Math.max(height, mainColumn.implicitHeight + CcMetrics.sheetPadding)
@@ -320,12 +323,16 @@ FocusScope {
                     live: root.host.shouldBeVisible && detailPage.shownSection === ""
                     screenName: root.host.triggerScreen?.name || ""
                     tapToClose: root.host.headerTogglesClose ?? false
+                    runningToplevels: root.runningToplevels
+                    dockEdit: !root.editPlaced && !root.host.editMode
                     onExpandClicked: widgetData => root.openWidgetPage(widgetData)
                     onRemoveWidget: index => widgetModel.removeWidget(index)
                     onConfigRequested: (index, widgetData, anchor) => root.openConfigOverlay(index, widgetData, anchor)
                     onColorPickerRequested: root.host.openColorPicker()
                     onCloseRequested: root.host.close()
                     onSettingsRequested: root.host.openSettings()
+                    onAccountsRequested: root.host.openAccounts()
+                    onEditRequested: root.host.editMode = true
                     onLockRequested: {
                         root.host.close();
                         root.host.lockRequested();
@@ -353,9 +360,8 @@ FocusScope {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: CcMetrics.sheetPadding
         editMode: root.host.editMode
-        toplevels: root.runningToplevels
+        showEdit: !root.editPlaced && widgetGrid.editDock === null
         opacity: body.opacity
-        onRunningAppsRequested: root.navigateTo("runningApps")
         onAddWidgetRequested: root.openWidgetSheet()
         onResetRequested: widgetModel.resetToDefault()
         onClearRequested: widgetModel.clearAll()
@@ -459,6 +465,8 @@ FocusScope {
 
         active: false
         sourceComponent: WidgetConfigOverlay {
+            model: widgetModel
+            columns: root.gridColumns
             transientSurfaceTracker: root.host.transientSurfaceTracker
             onVisibleChanged: {
                 if (visible)

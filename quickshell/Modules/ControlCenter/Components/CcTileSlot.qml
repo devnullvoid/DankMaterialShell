@@ -13,9 +13,25 @@ DankEditableGridSlot {
     readonly property real cols: slot?.cols ?? 1
     readonly property real rows: slot?.rows ?? 1
     readonly property bool compact: cols <= 2 && rows === 1
+    readonly property bool small: WidgetUtils.isSmall(grid.layoutItems[index] ?? widgetData, rows)
     readonly property var tileItem: tileLoader.item
+    // Small tiles resize from a virtual half cell so growing them passes through full size first.
+    property real biasW: 0
+    property real biasH: 0
+    readonly property real smallSpanLimit: (1 + CcMetrics.smallRowFraction) / 2
 
     passthrough: tileItem?.passthrough ?? null
+
+    function reanchor(small) {
+        const shift = ((small ? CcMetrics.smallRowFraction : 1) - smallSpanLimit) * grid.cellWidth;
+        biasH += shift;
+        if (cols === 1)
+            biasW += shift;
+    }
+
+    function spanOf(requested, bias) {
+        return (requested + bias + CcMetrics.gridGap) / grid.cellWidth;
+    }
 
     onPressAndHold: {
         if (!editChrome.hasOptions)
@@ -25,8 +41,13 @@ DankEditableGridSlot {
 
     onResizeRequested: (requestedWidth, requestedHeight) => {
         const step = sizeSpec.step;
-        let width = GridUtils.dimension(Math.round((requestedWidth + CcMetrics.gridGap) / grid.cellWidth / step) * step, sizeSpec.minW, sizeSpec.maxW, sizeSpec.w, step);
-        let height = GridUtils.dimension(Math.round((requestedHeight + CcMetrics.gridGap) / grid.cellWidth / step) * step, sizeSpec.minH, sizeSpec.maxH, sizeSpec.h, step);
+        const canShrink = WidgetUtils.canShrink(widgetData.id);
+        if (canShrink && root.small !== (spanOf(requestedHeight, biasH) < smallSpanLimit))
+            reanchor(!root.small);
+        const spanW = spanOf(requestedWidth, biasW);
+        const spanH = spanOf(requestedHeight, biasH);
+        let width = GridUtils.dimension(Math.round(spanW / step) * step, sizeSpec.minW, sizeSpec.maxW, sizeSpec.w, step);
+        let height = GridUtils.dimension(Math.round(spanH / step) * step, sizeSpec.minH, sizeSpec.maxH, sizeSpec.h, step);
         const current = WidgetUtils.clampSize(widgetData, grid.columns, grid.maximumRows);
         if (WidgetUtils.isSliderWidget(widgetData.id) && width < 2 && height < 2) {
             if (width !== current.w && sizeSpec.maxH > 1)
@@ -39,6 +60,9 @@ DankEditableGridSlot {
             changes.w = width;
         if (height !== current.h)
             changes.h = height;
+        const small = canShrink && height === 1 && spanH < smallSpanLimit;
+        if (small !== (widgetData.small === true))
+            changes.small = small;
         grid.previewSize(index, changes);
     }
 
@@ -104,6 +128,13 @@ DankEditableGridSlot {
         when: root.tileItem !== null
     }
 
+    Binding {
+        target: root.tileItem
+        property: "small"
+        value: root.small
+        when: root.tileItem !== null && "small" in root.tileItem
+    }
+
     Connections {
         target: root.tileItem
         ignoreUnknownSignals: true
@@ -131,9 +162,13 @@ DankEditableGridSlot {
         passthrough: root.passthrough
         dragging: root.dragging
         resizing: root.resizing
-        cornerRadius: root.tileItem?.bodyRadius ?? Theme.fullRadius(root.width, root.height)
-        sizeText: root.cols + "×" + root.rows
-        onResizeStarted: (px, py) => root.beginResize(px, py)
+        cornerRadius: root.small ? Theme.fullRadius(root.width, root.height) : (root.tileItem?.bodyRadius ?? Theme.fullRadius(root.width, root.height))
+        sizeText: (root.small && root.cols === 1 ? CcMetrics.smallRowFraction : root.cols) + "×" + (root.small ? CcMetrics.smallRowFraction : root.rows)
+        onResizeStarted: (px, py) => {
+            root.biasH = root.small ? (CcMetrics.smallRowFraction - 1) * root.grid.cellWidth : 0;
+            root.biasW = root.small && root.cols === 1 ? root.biasH : 0;
+            root.beginResize(px, py);
+        }
         onResizeMoved: (px, py) => root.resizeTo(px, py)
         onResizeEnded: root.finishResize()
         onResizeCanceled: root.cancelResize()

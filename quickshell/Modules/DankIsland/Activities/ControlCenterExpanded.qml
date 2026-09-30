@@ -88,6 +88,10 @@ FocusScope {
             root.windowRequested("settings");
         }
 
+        function openAccounts() {
+            root.windowRequested("accounts");
+        }
+
         function openColorPicker() {
             if (!PopoutService.colorPickerModal)
                 return;

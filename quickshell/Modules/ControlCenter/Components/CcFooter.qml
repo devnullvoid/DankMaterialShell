@@ -1,10 +1,8 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import Quickshell
 import qs.Common
 import qs.Modules.ControlCenter
-import qs.Modules.ControlCenter.Widgets
 import qs.Widgets
 
 Item {
@@ -14,28 +12,20 @@ Item {
     LayoutMirroring.childrenInherit: true
 
     property bool editMode: false
-    property var toplevels: []
+    property bool showEdit: true
     property string pendingAction: ""
 
-    signal runningAppsRequested
     signal addWidgetRequested
     signal resetRequested
     signal clearRequested
     signal editToggled
     signal cancelRequested
 
-    readonly property var appIds: {
-        const ids = [];
-        for (const toplevel of toplevels) {
-            const id = toplevel?.appId ?? "";
-            if (!ids.includes(id))
-                ids.push(id);
-        }
-        return ids;
-    }
     readonly property real leadingWidth: Math.max(0, width - trailing.width - CcMetrics.footerGap)
+    readonly property bool occupied: editMode || showEdit
 
-    implicitHeight: CcMetrics.footerHeight
+    implicitHeight: occupied ? CcMetrics.footerHeight : 0
+    visible: occupied
 
     function cancelConfirmation() {
         pendingAction = "";
@@ -51,86 +41,6 @@ Item {
     }
 
     onEditModeChanged: cancelConfirmation()
-
-    StyledButton {
-        id: appsChip
-
-        readonly property real iconBox: height - Theme.spacingS * 2
-
-        anchors.left: parent.left
-        height: parent.height
-        width: Math.min(Theme.spacingS + icons.width + Theme.spacingS + countLabel.implicitWidth + Theme.spacingXS + chevron.width + Theme.spacingM, root.leadingWidth)
-        radius: Theme.fullRadius(width, height)
-        color: CcMetrics.tileInactiveColor
-        border.width: Theme.layerOutlineWidth
-        border.color: Theme.outlineMedium
-        visible: !root.editMode && root.toplevels.length > 0
-        Accessible.name: countLabel.text
-        onClicked: root.runningAppsRequested()
-
-        Row {
-            id: icons
-
-            anchors.left: parent.left
-            anchors.leftMargin: Theme.spacingS
-            anchors.verticalCenter: parent.verticalCenter
-            spacing: Theme.spacingXS
-
-            Repeater {
-                model: ScriptModel {
-                    values: root.appIds.slice(0, CcMetrics.footerMaxAppIcons)
-                }
-
-                Rectangle {
-                    required property string modelData
-
-                    width: appsChip.iconBox
-                    height: width
-                    radius: Theme.fullRadius(width, height)
-                    color: CcMetrics.iconBoxInactiveColor
-
-                    CcAppIcon {
-                        anchors.centerIn: parent
-                        appId: parent.modelData
-                        iconSize: CcMetrics.footerAppIconSize
-                    }
-                }
-            }
-        }
-
-        StyledText {
-            id: countLabel
-            anchors.left: icons.right
-            anchors.leftMargin: Theme.spacingS
-            anchors.right: chevron.left
-            anchors.rightMargin: Theme.spacingXS
-            anchors.verticalCenter: parent.verticalCenter
-            text: root.toplevels.length === 1 ? I18n.tr("%1 window", "singular, %1 is 1, open windows in the control center footer").arg(1) : I18n.tr("%1 windows", "plural, %1 is a count of open windows in the control center footer").arg(root.toplevels.length)
-            font.pixelSize: Theme.fontSizeMedium
-            font.weight: Theme.fontWeightMedium
-            color: CcMetrics.tileInactiveContent
-            elide: Text.ElideRight
-        }
-
-        DankIcon {
-            id: chevron
-            anchors.right: parent.right
-            anchors.rightMargin: Theme.spacingM
-            anchors.verticalCenter: parent.verticalCenter
-            name: I18n.isRtl ? "chevron_left" : "chevron_right"
-            size: Theme.iconSizeSmall
-            color: Theme.onSurfaceVariant
-        }
-
-        FocusRing {
-            visible: parent.visualFocus
-        }
-
-        StateLayer {
-            control: parent
-            stateColor: CcMetrics.tileInactiveContent
-        }
-    }
 
     Row {
         id: editActions
@@ -230,7 +140,7 @@ Item {
             border.width: Theme.layerOutlineWidth
             border.color: Theme.outlineMedium
             tooltipText: I18n.tr("Edit")
-            visible: !root.editMode
+            visible: !root.editMode && root.showEdit
             onClicked: root.editToggled()
         }
     }

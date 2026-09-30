@@ -1,6 +1,6 @@
 import QtQuick
-import qs.Common
 import qs.Modules.ControlCenter
+import "../utils/widgets.js" as WidgetUtils
 
 CcTile {
     id: root
@@ -10,19 +10,7 @@ CcTile {
     toggle: false
     iconName: widgetDef?.icon ?? ""
     title: widgetDef?.text ?? ""
-    restIconColor: action === "power" ? Theme.error : CcMetrics.tileInactiveIcon
+    restIconColor: CcMetrics.actionIconColor(action)
 
-    onClicked: {
-        switch (action) {
-        case "lock":
-            host?.lockRequested();
-            return;
-        case "power":
-            host?.powerRequested();
-            return;
-        case "settings":
-            host?.settingsRequested();
-            return;
-        }
-    }
+    onClicked: WidgetUtils.triggerButton(host, action)
 }

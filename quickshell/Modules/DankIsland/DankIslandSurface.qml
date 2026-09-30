@@ -163,6 +163,9 @@ Item {
             case "settings":
                 PopoutService.focusOrToggleSettings();
                 break;
+            case "accounts":
+                PopoutService.openSettingsWithTab("user_accounts");
+                break;
             case "colorPicker":
                 PopoutService.showColorPicker();
                 break;
