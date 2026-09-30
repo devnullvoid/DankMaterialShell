@@ -1241,6 +1241,9 @@ var LOCAL_SPEC = {
     osdPosition: {
         def: 5
     },
+    osdPositionOverrides: {
+        def: {}
+    },
     osdVolumeEnabled: {
         def: true
     },

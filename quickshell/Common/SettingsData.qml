@@ -1050,6 +1050,7 @@ Singleton {
 
     property bool osdAlwaysShowValue: Spec.SPEC.osdAlwaysShowValue.def
     property int osdPosition: SettingsData.Position.BottomCenter
+    property var osdPositionOverrides: Spec.SPEC.osdPositionOverrides.def
     property bool osdVolumeEnabled: Spec.SPEC.osdVolumeEnabled.def
     property bool osdMediaVolumeEnabled: Spec.SPEC.osdMediaVolumeEnabled.def
     property bool osdMediaPlaybackEnabled: Spec.SPEC.osdMediaPlaybackEnabled.def
@@ -1584,6 +1585,41 @@ Singleton {
             if (key in Spec.SPEC)
                 Spec.set(root, key, null, saveSettings, _hooks);
         }
+    }
+
+    function osdPositionFor(kind) {
+        const override = osdPositionOverrides?.[kind];
+        return typeof override === "number" ? override : osdPosition;
+    }
+
+    function hasOsdPositionOverride(kind) {
+        return typeof osdPositionOverrides?.[kind] === "number";
+    }
+
+    function setOsdPosition(kind, position) {
+        if (!kind) {
+            set("osdPosition", position);
+            return;
+        }
+        if (position === osdPosition) {
+            resetOsdPosition(kind);
+            return;
+        }
+        set("osdPositionOverrides", Object.assign({}, osdPositionOverrides, {
+            [kind]: position
+        }));
+    }
+
+    function resetOsdPosition(kind) {
+        if (!kind) {
+            resetToDefault(["osdPosition"]);
+            return;
+        }
+        if (!hasOsdPositionOverride(kind))
+            return;
+        const next = Object.assign({}, osdPositionOverrides);
+        delete next[kind];
+        set("osdPositionOverrides", next);
     }
 
     function barConfigDefault(field) {
