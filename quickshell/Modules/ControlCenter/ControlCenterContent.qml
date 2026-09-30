@@ -174,10 +174,18 @@ FocusScope {
         if (!widgetGrid.heldOutside)
             return false;
         const savedIndex = widgetGrid.savedIndex(index);
-        const before = footer.savedIndexAt(footer.insertionAt(scenePoint));
+        if (footer.trashContains(scenePoint)) {
+            Qt.callLater(() => {
+                widgetModel.removeWidget(savedIndex);
+                widgetGrid.cancelInteraction();
+            });
+            return true;
+        }
+        const slot = footer.insertionAt(scenePoint);
+        const before = footer.savedIndexAt(slot);
         const cells = Math.min(WidgetUtils.footerCells(gridDragWidget), footer.freeCells());
         Qt.callLater(() => {
-            WidgetUtils.moveToFooter(savedIndex, before, cells);
+            WidgetUtils.moveToFooter(savedIndex, before, cells, slot.end);
             widgetGrid.cancelInteraction();
         });
         return true;
@@ -205,6 +213,10 @@ FocusScope {
     }
 
     function dropFromFooter(index, scenePoint) {
+        if (footer.trashContains(scenePoint)) {
+            Qt.callLater(() => widgetModel.removeWidget(index));
+            return true;
+        }
         if (widgetGrid.externalItem) {
             const placed = widgetGrid.committedItems();
             const cell = placed.pop();
@@ -215,13 +227,15 @@ FocusScope {
             });
             return true;
         }
-        if (footer.liftedAt < 0)
+        const slot = footer.liftedSlot;
+        if (!slot)
             return false;
-        const before = footer.savedIndexAt(footer.liftedAt);
-        if (before === footer.followingIndex(index))
+        const current = footer.slotOf(index);
+        if (slot.end === current.end && slot.at === current.at)
             return false;
+        const before = footer.savedIndexAt(slot);
         const cells = WidgetUtils.footerCells(SettingsData.controlCenterWidgets[index]);
-        Qt.callLater(() => WidgetUtils.moveToFooter(index, before, cells));
+        Qt.callLater(() => WidgetUtils.moveToFooter(index, before, cells, slot.end));
         return true;
     }
 
@@ -394,7 +408,7 @@ FocusScope {
                     screenName: root.host.triggerScreen?.name || ""
                     tapToClose: root.host.headerTogglesClose ?? false
                     runningToplevels: root.runningToplevels
-                    dragsOutside: (index, scenePoint, tile) => root.footerTakesGridDrag(tile)
+                    dragsOutside: (index, scenePoint, tile) => footer.trashContains(scenePoint) || root.footerTakesGridDrag(tile)
                     dropHandler: (index, scenePoint) => root.dropFromGrid(index, scenePoint)
                     onExpandClicked: widgetData => root.openWidgetPage(widgetData)
                     onRemoveWidget: index => widgetModel.removeWidget(index)
@@ -433,10 +447,11 @@ FocusScope {
         onTop: root.footerOnTop
         transientSurfaceTracker: root.host.transientSurfaceTracker
         items: root.footerItems
-        incoming: root.gridDragWidget !== null && widgetGrid.heldOutside ? {
-            "cells": Math.min(WidgetUtils.footerCells(root.gridDragWidget), footer.freeCells()),
-            "at": footer.insertionAt(widgetGrid.dragScenePoint)
-        } : null
+        gridDragging: root.gridDragWidget !== null
+        gridDragPoint: widgetGrid.dragScenePoint
+        incoming: root.gridDragWidget !== null && widgetGrid.heldOutside && !footer.overTrash ? Object.assign({
+            "cells": Math.min(WidgetUtils.footerCells(root.gridDragWidget), footer.freeCells())
+        }, footer.gridSlot) : null
         dropHandler: (index, cells, scenePoint) => root.dropFromFooter(index, scenePoint)
         leavesRow: visual => root.gridTakesFooterDrag(visual)
         opacity: body.opacity

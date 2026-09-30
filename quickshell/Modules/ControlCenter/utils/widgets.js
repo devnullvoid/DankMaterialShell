@@ -43,6 +43,10 @@ function footerFills(widget) {
     return widget?.footerFill === true;
 }
 
+function footerEnds(widget) {
+    return widget?.footerEnd === true;
+}
+
 function fitFooterCells(sizes, mins, capacity) {
     const fitted = sizes.slice();
     let over = fitted.reduce((sum, cells) => sum + cells, 0) - capacity;
@@ -179,7 +183,7 @@ function setOption(index, key, value) {
 }
 
 // Footer order is the saved order of footer entries, so the moved entry lands just before `beforeIndex`.
-function moveToFooter(index, beforeIndex, cells) {
+function moveToFooter(index, beforeIndex, cells, end) {
     const widgets = Common.SettingsData.controlCenterWidgets.slice();
     const widget = widgets[index];
     if (!widget)
@@ -187,10 +191,15 @@ function moveToFooter(index, beforeIndex, cells) {
     const before = beforeIndex === index ? null : widgets[beforeIndex] ?? null;
     widgets.splice(index, 1);
     const at = before ? widgets.indexOf(before) : widgets.length;
-    widgets.splice(at, 0, Object.assign({}, widget, {
+    const moved = Object.assign({}, widget, {
         "footer": true,
         "footerW": cells
-    }));
+    });
+    if (end)
+        moved.footerEnd = true;
+    else
+        delete moved.footerEnd;
+    widgets.splice(at, 0, moved);
     Common.SettingsData.set("controlCenterWidgets", widgets);
 }
 
@@ -230,6 +239,7 @@ function placeFromFooter(widgets, index, col, row) {
         "row": row
     });
     delete tile.footer;
+    delete tile.footerEnd;
     const placed = widgets.slice();
     placed[index] = tile;
     return placed;

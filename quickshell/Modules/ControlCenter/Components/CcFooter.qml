@@ -19,15 +19,23 @@ Item {
     property var items: []
     property bool onTop: false
     property var transientSurfaceTracker: null
-    // A grid tile hovering the row: {"cells", "at"}.
+    // A grid tile hovering the row: {"cells", "end", "at"}, with `at` counted within the start or end group.
     property var incoming: null
     // Takes (savedIndex, cells, scenePoint) and returns true when it takes the dropped item.
     property var dropHandler: null
     // Takes the dragged item's scene rect and returns true while something outside the row will take it.
     property var leavesRow: null
     property int liftedIndex: -1
-    property int liftedAt: -1
+    property var liftedSlot: null
+    property point liftedPoint: Qt.point(0, 0)
+    property bool gridDragging: false
+    property point gridDragPoint: Qt.point(0, 0)
+    // Set from the pointer, not bound: the slot reads the widths that the incoming tile changes.
+    property var gridSlot: null
     property var resizePreview: null
+    property Item flyingItem: null
+    readonly property bool dragging: gridDragging || liftedIndex >= 0
+    readonly property bool overTrash: trashContains(liftedIndex >= 0 ? liftedPoint : gridDragPoint)
 
     signal addWidgetRequested
     signal resetRequested
@@ -51,6 +59,7 @@ Item {
     readonly property int capacity: Math.max(0, Math.floor((trackWidth + spacing) / pitch))
     readonly property var fills: items.map(item => resizePreview?.index === item.index ? resizePreview.fill : WidgetUtils.footerFills(item.widget))
     readonly property var mins: items.map(item => WidgetUtils.footerMinCells(item.widget.id))
+    readonly property var ends: items.map(item => WidgetUtils.footerEnds(item.widget))
     // Fill items count at their minimum, so a drop or a neighbour growing takes room from them first.
     readonly property var fixedCells: WidgetUtils.fitFooterCells(items.map((item, i) => fills[i] ? mins[i] : (resizePreview?.index === item.index ? resizePreview.cells : WidgetUtils.footerCells(item.widget))), mins, capacity)
     readonly property int fixedUsed: fixedCells.reduce((sum, count) => sum + count, 0)
@@ -68,31 +77,24 @@ Item {
         });
     }
     readonly property var layout: {
+        const shown = groups();
         const lifted = items.findIndex(item => item.index === liftedIndex);
-        const order = items.map((item, i) => i).filter(i => i !== lifted && cells[i] > 0);
-        const gapAt = lifted >= 0 ? liftedAt : (incoming?.at ?? -1);
+        const gap = lifted >= 0 ? liftedSlot : incoming;
         const gapCells = lifted >= 0 ? cells[lifted] : (incoming?.cells ?? 0);
-        const offsets = [];
-        let offset = 0;
-        let gapOffset = -1;
-        for (let k = 0; k <= order.length; k++) {
-            if (k === gapAt) {
-                gapOffset = offset;
-                offset += gapCells * pitch;
-            }
-            if (k === order.length)
-                break;
-            offsets[order[k]] = offset;
-            offset += cells[order[k]] * pitch + (order[k] === slackIndex ? fillSlack : 0);
-        }
+        const endGapAt = gap?.end ? gap.at : -1;
+        const endFrom = trackWidth + spacing - groupWidth(shown.ends) - (endGapAt >= 0 ? gapCells * pitch : 0);
+        const start = placeGroup(shown.starts, 0, gap && !gap.end ? gap.at : -1, gapCells);
+        const end = placeGroup(shown.ends, endFrom, endGapAt, gapCells);
         return {
-            "offsets": offsets,
-            "gapOffset": gapOffset,
+            "offsets": Object.assign(start.offsets, end.offsets),
+            "gapOffset": Math.max(start.gapOffset, end.gapOffset),
             "gapCells": gapCells
         };
     }
 
     implicitHeight: CcMetrics.footerHeight
+
+    onGridDragPointChanged: gridSlot = gridDragging ? insertionAt(gridDragPoint) : null
 
     function spanWidth(count) {
         return count * pitch - spacing;
@@ -106,38 +108,106 @@ Item {
         return capacity - fixedUsed;
     }
 
+    function trashContains(scenePosition) {
+        if (!editMode || !dragging)
+            return false;
+        return trash.contains(trash.mapFromItem(null, scenePosition.x, scenePosition.y));
+    }
+
     function containsScene(scenePosition) {
         const point = mapFromItem(null, scenePosition.x, scenePosition.y);
         return point.x >= 0 && point.x <= width && point.y >= -CcMetrics.gridGap && point.y <= height + CcMetrics.gridGap;
     }
 
+    function spanAt(i) {
+        return cells[i] * pitch + (i === slackIndex ? fillSlack : 0);
+    }
+
+    function groupWidth(group) {
+        return group.reduce((sum, i) => sum + spanAt(i), 0);
+    }
+
+    // Shown items other than the lifted one, split into the start and end groups in saved order.
+    function groups() {
+        const shown = items.map((item, i) => i).filter(i => items[i].index !== liftedIndex && cells[i] > 0);
+        return {
+            "starts": shown.filter(i => !ends[i]),
+            "ends": shown.filter(i => ends[i])
+        };
+    }
+
+    function placeGroup(group, from, gapAt, gapCells) {
+        const offsets = [];
+        let gapOffset = -1;
+        let offset = from;
+        for (let k = 0; k <= group.length; k++) {
+            if (k === gapAt) {
+                gapOffset = offset;
+                offset += gapCells * pitch;
+            }
+            if (k === group.length)
+                break;
+            offsets[group[k]] = offset;
+            offset += spanAt(group[k]);
+        }
+        return {
+            "offsets": offsets,
+            "gapOffset": gapOffset
+        };
+    }
+
+    // The free space between the groups splits at its middle: the start half appends to the start group, the rest joins the end group.
     function insertionAt(scenePosition) {
         const local = track.mapFromItem(null, scenePosition.x, scenePosition.y).x - track.overhang;
         const distance = I18n.isRtl ? trackWidth - local : local;
+        const shown = groups();
         let offset = 0;
-        let position = 0;
-        for (let i = 0; i < items.length; i++) {
-            if (items[i].index === liftedIndex || cells[i] === 0)
-                continue;
-            const span = cells[i] * pitch;
+        for (let k = 0; k < shown.starts.length; k++) {
+            const span = spanAt(shown.starts[k]);
             if (distance < offset + span / 2)
-                return position;
+                return {
+                    "end": false,
+                    "at": k
+                };
             offset += span;
-            position++;
         }
-        return position;
+        const endFrom = trackWidth + spacing - groupWidth(shown.ends);
+        if (distance < (offset + endFrom) / 2)
+            return {
+                "end": false,
+                "at": shown.starts.length
+            };
+        offset = endFrom;
+        for (let k = 0; k < shown.ends.length; k++) {
+            const span = spanAt(shown.ends[k]);
+            if (distance < offset + span / 2)
+                return {
+                    "end": true,
+                    "at": k
+                };
+            offset += span;
+        }
+        return {
+            "end": true,
+            "at": shown.ends.length
+        };
     }
 
-    // The saved index of the item a drop at `position` lands before, or -1 for the end.
-    function savedIndexAt(position) {
-        const shown = items.filter((item, i) => item.index !== liftedIndex && cells[i] > 0);
-        return shown[position]?.index ?? -1;
+    // The saved index a drop at `slot` goes before, or -1 for the end of the list.
+    function savedIndexAt(slot) {
+        const group = groups()[slot.end ? "ends" : "starts"];
+        if (slot.at < group.length)
+            return items[group[slot.at]].index;
+        return group.length > 0 ? items[group[group.length - 1]].index + 1 : -1;
     }
 
-    function followingIndex(savedIndex) {
-        const shown = items.filter((item, i) => cells[i] > 0);
-        const at = shown.findIndex(item => item.index === savedIndex);
-        return shown[at + 1]?.index ?? -1;
+    function slotOf(savedIndex) {
+        const at = items.findIndex(item => item.index === savedIndex);
+        const end = ends[at] ?? false;
+        return {
+            "end": end,
+            "at": groups()[end ? "ends" : "starts"].filter(i => i < at).length
+        };
     }
 
     Item {
@@ -218,6 +288,8 @@ Item {
                     return Qt.point(point.x - grab.x, point.y - grab.y);
                 }
                 property bool landed: false
+                readonly property bool flying: lifted || landed
+                readonly property bool atEnd: root.ends[index] ?? false
 
                 x: lifted || landed ? dragPosition.x : restX
                 y: lifted || landed ? dragPosition.y : track.overhang
@@ -226,8 +298,17 @@ Item {
                 height: CcMetrics.footerHeight
                 visible: cells > 0
 
-                // A reorder moves this entry, which is the moment a dropped item leaves the pointer for its slot.
+                // A reorder or a switch of side is the moment a dropped item leaves the pointer for its slot.
                 onIndexChanged: landed = false
+                onAtEndChanged: landed = false
+                onFlyingChanged: {
+                    if (flying) {
+                        root.flyingItem = footerItem;
+                        return;
+                    }
+                    if (root.flyingItem === footerItem)
+                        root.flyingItem = null;
+                }
 
                 Behavior on x {
                     enabled: !footerItem.lifted && !footerItem.landed && CcMetrics.animationsEnabled
@@ -315,21 +396,23 @@ Item {
                         if (active) {
                             footerItem.grab = footerItem.mapFromItem(null, centroid.scenePressPosition.x, centroid.scenePressPosition.y);
                             footerItem.dragScene = centroid.scenePosition;
+                            root.liftedPoint = centroid.scenePosition;
                             root.liftedIndex = footerItem.entry.index;
-                            root.liftedAt = root.insertionAt(centroid.scenePosition);
+                            root.liftedSlot = root.insertionAt(centroid.scenePosition);
                             return;
                         }
                         footerItem.landed = root.dropHandler?.(footerItem.entry.index, footerItem.cells, footerItem.dragScene) ?? false;
                         root.liftedIndex = -1;
-                        root.liftedAt = -1;
+                        root.liftedSlot = null;
                     }
                     onCentroidChanged: {
                         if (!active)
                             return;
                         footerItem.dragScene = centroid.scenePosition;
+                        root.liftedPoint = centroid.scenePosition;
                         const visual = footerItem.mapToItem(null, 0, 0, footerItem.width, footerItem.height);
-                        const leaving = root.leavesRow?.(visual) ?? false;
-                        root.liftedAt = leaving ? -1 : root.insertionAt(footerItem.dragScene);
+                        const leaving = !root.overTrash && (root.leavesRow?.(visual) ?? false);
+                        root.liftedSlot = leaving || root.overTrash ? null : root.insertionAt(footerItem.dragScene);
                         root.itemMoved(footerItem.entry.index, visual, leaving);
                     }
                 }
@@ -342,7 +425,7 @@ Item {
         anchors.rightMargin: CcMetrics.footerGap
         anchors.verticalCenter: parent.verticalCenter
         spacing: root.spacing
-        visible: root.editMode
+        visible: root.editMode && !root.dragging
 
         DankActionButton {
             buttonSize: Theme.iconButtonSize
@@ -366,6 +449,36 @@ Item {
             border.color: Theme.outlineMedium
             tooltipText: I18n.tr("More")
             onClicked: editMenu.openAt(moreButton)
+        }
+    }
+
+    StyledRect {
+        id: trash
+
+        anchors.right: trailing.left
+        anchors.rightMargin: CcMetrics.footerGap
+        anchors.verticalCenter: parent.verticalCenter
+        width: root.editActionsWidth
+        height: CcMetrics.footerHeight
+        radius: Theme.fullRadius(width, height)
+        color: root.overTrash ? Theme.errorContainer : CcMetrics.tileInactiveColor
+        visible: root.editMode && root.dragging
+        Accessible.role: Accessible.Graphic
+        Accessible.name: I18n.tr("Remove")
+
+        Behavior on color {
+            ColorAnimation {
+                duration: Theme.shortDuration
+                easing.type: Theme.standardEasing
+            }
+        }
+
+        DankIcon {
+            anchors.centerIn: parent
+            name: "delete"
+            size: CcMetrics.iconBoxIconSize
+            filled: root.overTrash
+            color: root.overTrash ? Theme.onErrorContainer : CcMetrics.tileInactiveContent
         }
     }
 
@@ -403,10 +516,12 @@ Item {
 
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-        width: CcMetrics.footerHeight
+        // One column, the same pill as a small button docked beside it.
+        width: root.spanWidth(1)
         height: CcMetrics.footerHeight
 
         DankActionButton {
+            anchors.fill: parent
             buttonSize: CcMetrics.footerHeight
             iconName: "check"
             iconSize: CcMetrics.iconBoxIconSize
@@ -418,6 +533,7 @@ Item {
         }
 
         DankActionButton {
+            anchors.fill: parent
             buttonSize: CcMetrics.footerHeight
             iconName: "edit"
             iconSize: CcMetrics.iconBoxIconSize
@@ -429,5 +545,30 @@ Item {
             visible: !root.editMode
             onClicked: root.editToggled()
         }
+    }
+
+    // The track's layer only draws inside the row, so a lifted item is shown from here while it travels.
+    ShaderEffectSource {
+        readonly property real pad: PopoutMetrics.editOverflow
+        readonly property point at: {
+            const item = root.flyingItem;
+            if (!item)
+                return Qt.point(0, 0);
+            item.x;
+            item.y;
+            trackScale.xScale;
+            return root.mapFromItem(item, -pad, -pad);
+        }
+
+        visible: root.flyingItem !== null
+        sourceItem: root.flyingItem
+        hideSource: true
+        smooth: true
+        mipmap: true
+        sourceRect: root.flyingItem ? Qt.rect(-pad, -pad, root.flyingItem.width + pad * 2, root.flyingItem.height + pad * 2) : Qt.rect(0, 0, 0, 0)
+        x: at.x
+        y: at.y
+        width: sourceRect.width * trackScale.xScale
+        height: sourceRect.height * trackScale.yScale
     }
 }
