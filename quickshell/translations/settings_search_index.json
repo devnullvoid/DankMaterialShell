@@ -1585,7 +1585,7 @@
       "wallpaper colors"
     ],
     "page": "personalization",
-    "description": "Theme colors come from this display"
+    "description": "Theme colors come from this display's wallpaper"
   },
   {
     "section": "notificationHistoryMaxCount",
@@ -2486,7 +2486,7 @@
     ],
     "page": "personalization",
     "icon": "lock",
-    "description": "Theme colors come from this display"
+    "description": "Theme colors come from this display's wallpaper"
   },
   {
     "section": "windowRadius",
@@ -7214,19 +7214,25 @@
     "category": "Lock screen",
     "keywords": [
       "factor",
+      "fingerprint",
+      "first",
       "key",
+      "lets",
       "lock",
       "lockscreen",
       "login",
       "mode",
       "password",
+      "requires",
       "screen",
       "second",
       "security",
       "u2f",
+      "unlock",
       "yubikey"
     ],
-    "parentLabel": "Security"
+    "parentLabel": "Security",
+    "description": "'Alternative' lets the key unlock on its own. 'Second factor' requires password or fingerprint first, then the key."
   },
   {
     "section": "lockScreenSecurityKeyShortcutEnabled",
@@ -11967,6 +11973,28 @@
     "icon": "handyman"
   },
   {
+    "section": "_tab_37",
+    "label": "",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "borders",
+      "corner",
+      "corners",
+      "gaps",
+      "integrations",
+      "radius",
+      "round",
+      "rounded",
+      "system",
+      "window"
+    ],
+    "icon": "layers",
+    "description": "Gaps, window borders, corner radius",
+    "conditionKey": "layoutCapable",
+    "runtimeType": "pageLabel"
+  },
+  {
     "section": "hyprlandLayoutBorderSize",
     "label": "Border size",
     "tabIndex": 37,
@@ -12611,13 +12639,15 @@
   },
   {
     "section": "showConfigReloadToast",
-    "label": "Show \\",
+    "label": "Show \"config reloaded\" toast",
     "tabIndex": 37,
     "category": "System & integrations",
     "keywords": [
       "compositor",
+      "config",
       "integrations",
       "reload",
+      "reloaded",
       "show",
       "system",
       "toast"
@@ -16104,6 +16134,7 @@
     "category": "Advanced",
     "keywords": [
       "advanced",
+      "display",
       "displays",
       "dock",
       "isolate",
@@ -16122,7 +16153,7 @@
     ],
     "parentLabel": "Dock",
     "icon": "monitor",
-    "description": "Shows only windows from the dock"
+    "description": "Shows only windows from the dock's own display"
   },
   {
     "section": "dockExclusiveZone",
@@ -16156,6 +16187,7 @@
     "category": "Advanced",
     "keywords": [
       "advanced",
+      "display",
       "displays",
       "dock",
       "isolate",
@@ -16173,7 +16205,7 @@
       "windows"
     ],
     "parentLabel": "Dock",
-    "description": "Shows only windows from the dock"
+    "description": "Shows only windows from the dock's own display"
   },
   {
     "section": "dockAdvanced",
