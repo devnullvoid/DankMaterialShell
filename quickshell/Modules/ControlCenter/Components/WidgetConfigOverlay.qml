@@ -15,8 +15,6 @@ Item {
     id: root
 
     property int widgetIndex: -1
-    property var model: null
-    property int columns: CcMetrics.gridColumns
     property var transientSurfaceTracker: null
     property Item _anchor: null
 
@@ -31,8 +29,6 @@ Item {
     readonly property bool isDisk: widgetId === "diskUsage"
     readonly property bool isIdleInhibitor: widgetId === "idleInhibitor"
     readonly property bool isUser: widgetId === "user"
-    readonly property bool isRunningApps: widgetId === "runningApps"
-    readonly property var cardActions: WidgetUtils.cardActions(widgetData)
 
     visible: widgetIndex >= 0 || contextMenu.renderActive
 
@@ -90,96 +86,60 @@ Item {
         }
 
         customContent: Component {
-            Column {
-                width: parent?.width ?? 0
-
-                CcGroup {
-                    width: parent.width
-
-                    CcListRow {
-                        visible: root.isPlugin
-                        iconName: "settings"
-                        title: I18n.tr("Plugin settings")
-                        clickable: true
-                        onClicked: {
-                            PopoutService.openSettingsWithTab(SettingsTabs.pluginPrefix + root.widgetId.replace("plugin_", ""));
-                            root.close();
-                        }
-                    }
-
-                    CcToggleRow {
-                        visible: root.isUser
-                        text: I18n.tr("Background")
-                        checked: root.widgetData?.background === true
-                        onToggled: checked => root.persistOption("background", checked)
-                    }
-
-                    Repeater {
-                        model: root.isUser ? DashRegistry.sheetOptionSpecs("user") : []
-
-                        CcToggleRow {
-                            required property var modelData
-
-                            text: modelData.text
-                            checked: DashRegistry.optionValue(modelData, root.widgetData?.[modelData.key])
-                            onToggled: checked => root.persistOption(modelData.key, checked)
-                        }
-                    }
-
-                    CcToggleRow {
-                        visible: root.isRunningApps
-                        text: I18n.tr("Show window count", "toggle in control center running apps widget options")
-                        checked: root.widgetData?.showCount !== false
-                        onToggled: checked => root.persistOption("showCount", checked)
-                    }
-
-                    CcToggleRow {
-                        visible: root.isDisk
-                        text: I18n.tr("Show mount path", "toggle in control center disk usage widget to turn mount path display on or off")
-                        checked: root.widgetData?.showMountPath !== false
-                        onToggled: checked => root.persistOption("showMountPath", checked)
-                    }
-
-                    CcListRow {
-                        visible: root.isIdleInhibitor
-                        iconName: "timer"
-                        title: I18n.tr("Duration")
-                        body: DankDropdown {
-                            readonly property var presets: IdleInhibitPresets.presetOptions
-
-                            compactMode: true
-                            dropdownWidth: parent.width
-                            transientSurfaceTracker: contextMenu.transientSurfaceTracker
-                            currentValue: presets.find(p => p.minutes === (root.widgetData?.durationMinutes ?? 0))?.label ?? ""
-                            options: presets.map(p => p.label)
-                            onValueChanged: value => {
-                                const preset = presets.find(p => p.label === value);
-                                if (preset)
-                                    root.persistOption("durationMinutes", preset.minutes);
-                            }
-                        }
+            CcGroup {
+                CcListRow {
+                    visible: root.isPlugin
+                    iconName: "settings"
+                    title: I18n.tr("Plugin settings")
+                    clickable: true
+                    onClicked: {
+                        PopoutService.openSettingsWithTab(SettingsTabs.pluginPrefix + root.widgetId.replace("plugin_", ""));
+                        root.close();
                     }
                 }
 
-                CcSectionLabel {
-                    width: parent.width
+                CcToggleRow {
                     visible: root.isUser
-                    text: I18n.tr("Actions")
+                    text: I18n.tr("Background")
+                    checked: root.widgetData?.background === true
+                    onToggled: checked => root.persistOption("background", checked)
                 }
 
-                CcGroup {
-                    width: parent.width
-                    visible: root.isUser
+                Repeater {
+                    model: root.isUser ? DashRegistry.sheetOptionSpecs("user") : []
 
-                    Repeater {
-                        model: root.isUser ? WidgetUtils.BUTTON_IDS : []
+                    CcToggleRow {
+                        required property var modelData
 
-                        CcToggleRow {
-                            required property string modelData
+                        text: modelData.text
+                        checked: DashRegistry.optionValue(modelData, root.widgetData?.[modelData.key])
+                        onToggled: checked => root.persistOption(modelData.key, checked)
+                    }
+                }
 
-                            text: root.model?.getWidgetForId(modelData)?.text ?? modelData
-                            checked: root.cardActions.includes(modelData)
-                            onToggled: checked => root.widgetIndex = WidgetUtils.setCardAction(root.widgetIndex, modelData, checked, root.columns)
+                CcToggleRow {
+                    visible: root.isDisk
+                    text: I18n.tr("Show mount path", "toggle in control center disk usage widget to turn mount path display on or off")
+                    checked: root.widgetData?.showMountPath !== false
+                    onToggled: checked => root.persistOption("showMountPath", checked)
+                }
+
+                CcListRow {
+                    visible: root.isIdleInhibitor
+                    iconName: "timer"
+                    title: I18n.tr("Duration")
+                    body: DankDropdown {
+                        readonly property var presets: IdleInhibitPresets.presetOptions
+
+                        compactMode: true
+                        dropdownWidth: parent.width
+                        transientSurfaceTracker: contextMenu.transientSurfaceTracker
+                        currentValue: presets.find(p => p.minutes === (root.widgetData?.durationMinutes ?? 0))?.label ?? ""
+                        options: presets.map(p => p.label)
+                        onValueChanged: value => {
+                            const preset = presets.find(p => p.label === value);
+                            if (preset)
+                                root.persistOption("durationMinutes", preset.minutes);
                         }
                     }
                 }

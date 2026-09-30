@@ -413,6 +413,7 @@ Singleton {
 
     property int controlCenterColumns: Spec.SPEC.controlCenterColumns.def
     property real controlCenterIconScale: Spec.SPEC.controlCenterIconScale.def
+    property string controlCenterFooterPosition: Spec.SPEC.controlCenterFooterPosition.def
     property var controlCenterWidgets: Spec.SPEC.controlCenterWidgets.def
 
     property var workspaceNameIcons: Spec.SPEC.workspaceNameIcons.def
