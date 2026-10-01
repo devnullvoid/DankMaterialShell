@@ -13459,6 +13459,18 @@
     "description": "Tabs and weather"
   },
   {
+    "section": "dashWellbeingSettings",
+    "label": "Digital wellbeing",
+    "tabIndex": 43,
+    "category": "Dashboard",
+    "keywords": [
+      "dashboard",
+      "digital",
+      "wellbeing"
+    ],
+    "icon": "digital_wellbeing"
+  },
+  {
     "section": "dashTabsEvenlySpaced",
     "label": "Evenly space tabs",
     "tabIndex": 43,
@@ -17401,5 +17413,141 @@
     ],
     "parentLabel": "System & integrations",
     "icon": "cloud_off"
+  },
+  {
+    "section": "wellbeingAppLimits",
+    "label": "App limits",
+    "tabIndex": 67,
+    "category": "Digital wellbeing",
+    "keywords": [
+      "app",
+      "digital",
+      "limit",
+      "limits",
+      "screen time",
+      "wellbeing"
+    ],
+    "icon": "timer"
+  },
+  {
+    "section": "wellbeingDailyLimit",
+    "label": "Daily limit",
+    "tabIndex": 67,
+    "category": "Digital wellbeing",
+    "keywords": [
+      "daily",
+      "digital",
+      "limit",
+      "screen time",
+      "wellbeing"
+    ]
+  },
+  {
+    "section": "_tab_67",
+    "label": "Digital wellbeing",
+    "tabIndex": 67,
+    "category": "Digital wellbeing",
+    "keywords": [
+      "digital",
+      "limits",
+      "screen",
+      "time",
+      "wellbeing"
+    ],
+    "icon": "digital_wellbeing",
+    "description": "Screen time and app limits"
+  },
+  {
+    "section": "wellbeingHistory",
+    "label": "History",
+    "tabIndex": 67,
+    "category": "Digital wellbeing",
+    "keywords": [
+      "clear",
+      "digital",
+      "history",
+      "screen time",
+      "wellbeing"
+    ],
+    "icon": "history"
+  },
+  {
+    "section": "wellbeingApps",
+    "label": "Most used apps",
+    "tabIndex": 67,
+    "category": "Digital wellbeing",
+    "keywords": [
+      "apps",
+      "digital",
+      "most",
+      "screen time",
+      "usage",
+      "wellbeing"
+    ],
+    "icon": "apps"
+  },
+  {
+    "section": "wellbeing",
+    "label": "Screen time",
+    "tabIndex": 67,
+    "category": "Digital wellbeing",
+    "keywords": [
+      "active",
+      "counts",
+      "device",
+      "digital",
+      "focused",
+      "limit",
+      "screen",
+      "screen time",
+      "session",
+      "stays",
+      "time",
+      "usage",
+      "wellbeing",
+      "while"
+    ],
+    "icon": "digital_wellbeing",
+    "description": "Counts time in the focused app while the session is active. Stays on this device."
+  },
+  {
+    "section": "wellbeingEnabled",
+    "label": "Track screen time",
+    "tabIndex": 67,
+    "category": "Digital wellbeing",
+    "keywords": [
+      "active",
+      "counts",
+      "device",
+      "digital",
+      "focused",
+      "screen",
+      "screen time",
+      "session",
+      "stays",
+      "time",
+      "track",
+      "tracking",
+      "wellbeing",
+      "while"
+    ],
+    "description": "Counts time in the focused app while the session is active. Stays on this device."
+  },
+  {
+    "section": "wellbeingChart",
+    "label": "Weekly screen time",
+    "tabIndex": 67,
+    "category": "Digital wellbeing",
+    "keywords": [
+      "chart",
+      "digital",
+      "screen",
+      "screen time",
+      "time",
+      "week",
+      "weekly",
+      "wellbeing"
+    ],
+    "icon": "show_chart"
   }
 ]

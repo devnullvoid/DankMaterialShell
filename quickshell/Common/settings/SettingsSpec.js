@@ -736,6 +736,10 @@ var LOCAL_SPEC = {
                 enabled: true
             },
             {
+                id: "wellbeing",
+                enabled: true
+            },
+            {
                 id: "notifications",
                 enabled: false
             }
@@ -771,6 +775,15 @@ var LOCAL_SPEC = {
         ]
     },
     dashOptions: {
+        def: {}
+    },
+    wellbeingEnabled: {
+        def: true
+    },
+    wellbeingDailyLimit: {
+        def: 0
+    },
+    wellbeingAppLimits: {
         def: {}
     },
     networkPreference: {

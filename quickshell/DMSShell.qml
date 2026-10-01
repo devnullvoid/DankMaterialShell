@@ -257,6 +257,7 @@ Item {
         TrashService.count;
         WallpaperCyclingService.cyclingActive;
         ThemeAutoService.active;
+        WellbeingService.tracking;
     }
 
     Loader {

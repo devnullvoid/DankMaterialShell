@@ -101,6 +101,7 @@ TAB_INDEX_MAP = {
     "KeybindsTab.qml": 2,
     "DankBarTab.qml": 3,
     "DankDashTab.qml": 43,
+    "DigitalWellbeingTab.qml": 67,
     "CompositorLayoutTab.qml": 37,
     "WindowRulesTab.qml": 38,
     "DockGeneralTab.qml": 5,

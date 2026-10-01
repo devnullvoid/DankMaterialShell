@@ -488,6 +488,10 @@ Singleton {
             "enabled": true
         },
         {
+            "id": "wellbeing",
+            "enabled": true
+        },
+        {
             "id": "notifications",
             "enabled": false
         }
@@ -528,6 +532,9 @@ Singleton {
     onDashCardsChanged: saveSettings()
     property var dashOptions: Spec.SPEC.dashOptions.def
     onDashOptionsChanged: saveSettings()
+    property bool wellbeingEnabled: Spec.SPEC.wellbeingEnabled.def
+    property int wellbeingDailyLimit: Spec.SPEC.wellbeingDailyLimit.def
+    property var wellbeingAppLimits: Spec.SPEC.wellbeingAppLimits.def
 
     function getDashTabs() {
         const stored = Array.isArray(dashTabs) ? dashTabs : [];

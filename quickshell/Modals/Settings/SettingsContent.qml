@@ -243,6 +243,7 @@ FocusScope {
             "autostart": "AutoStartTab.qml",
             "battery": "BatteryTab.qml",
             "dank_dash": "DankDashTab.qml",
+            "wellbeing": "DigitalWellbeingTab.qml",
             "mouse_touchpad": "MouseTouchpadTab.qml",
             "keyboard": "KeyboardTab.qml",
             "plugins_manage": "PluginsManageTab.qml"

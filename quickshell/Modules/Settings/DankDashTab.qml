@@ -45,6 +45,19 @@ FocusScope {
         }
 
         SettingsCard {
+            title: I18n.tr("Digital wellbeing")
+
+            SettingsNavRow {
+                tab: "dank_dash"
+                settingKey: "dashWellbeingSettings"
+                title: I18n.tr("Digital wellbeing")
+                hint: I18n.tr("Screen time and app limits")
+                iconName: "digital_wellbeing"
+                onClicked: root.parentModal?.navigateTo("wellbeing")
+            }
+        }
+
+        SettingsCard {
             title: I18n.tr("Tabs", "noun, card title for dashboard tabs")
             settingKey: "dashTabs"
             tab: "dank_dash"

@@ -173,6 +173,25 @@ Singleton {
             "options": [cardOnly(toggle("city", I18n.tr("Show city"), false)), cardOnly(toggle("readings", I18n.tr("Show readings"), true)), cardOnly(toneOption())]
         },
         {
+            "id": "wellbeing",
+            "text": I18n.tr("Digital wellbeing"),
+            "icon": "digital_wellbeing",
+            "description": SettingsData.wellbeingEnabled ? I18n.tr("Screen time and app limits") : I18n.tr("Hidden until screen time tracking is enabled"),
+            "available": SettingsData.wellbeingEnabled,
+            "tab": {
+                "component": wellbeingTab,
+                "async": true
+            },
+            "card": {
+                "component": wellbeingCard,
+                "w": 2,
+                "h": 1,
+                "minW": 1,
+                "minH": 1,
+                "maxH": 3
+            }
+        },
+        {
             "id": "notifications",
             "text": I18n.tr("Notifications"),
             "icon": "notifications",
@@ -714,6 +733,16 @@ Singleton {
     Component {
         id: notificationsCard
         NotificationsOverviewCard {}
+    }
+
+    Component {
+        id: wellbeingTab
+        WellbeingTab {}
+    }
+
+    Component {
+        id: wellbeingCard
+        WellbeingOverviewCard {}
     }
 
     Component {
