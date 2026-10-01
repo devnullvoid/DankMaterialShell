@@ -263,8 +263,7 @@ Item {
                                 anchors.verticalCenter: parent.verticalCenter
                                 iconName: profileDelegate.isActive ? "link_off" : "link"
                                 tooltipText: profileDelegate.isActive ? I18n.tr("Disconnect") : I18n.tr("Connect")
-                                buttonSize: 28
-                                iconSize: 18
+                                iconSize: Theme.iconSizeSmall
                                 iconColor: profileDelegate.isActive ? Theme.error : Theme.primary
                                 onClicked: {
                                     if (profileDelegate.isActive)

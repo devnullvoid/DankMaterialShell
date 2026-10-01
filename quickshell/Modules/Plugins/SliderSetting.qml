@@ -58,6 +58,7 @@ Column {
     }
 
     DankSlider {
+        upDownKeysStep: false
         width: parent.width
         value: root.value
         minimum: root.minimum

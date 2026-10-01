@@ -111,20 +111,24 @@ GridLayout {
             border.color: isActive ? Theme.primary : Theme.outlineMedium
 
             activeFocusOnTab: true
-            Accessible.role: Accessible.RadioButton
+            Accessible.role: Accessible.Button
             Accessible.name: modelData.label
+            Accessible.checkable: true
             Accessible.checked: isActive
             Accessible.onPressAction: root.selected(modelData.key)
             Keys.onSpacePressed: root.selected(modelData.key)
+            Keys.onEnterPressed: root.selected(modelData.key)
             Keys.onReturnPressed: root.selected(modelData.key)
 
-            FocusRing {}
+            FocusRing {
+                id: cardRing
+            }
 
             Rectangle {
                 anchors.fill: parent
                 radius: parent.radius
                 color: Theme.primary
-                opacity: modeMouse.containsMouse ? Theme.stateLayerHover : 0
+                opacity: cardRing.visible ? Theme.stateLayerFocus : modeMouse.containsMouse ? Theme.stateLayerHover : 0
             }
 
             Column {
@@ -252,7 +256,11 @@ GridLayout {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                onClicked: root.selected(modeCard.modelData.key)
+                onClicked: {
+                    cardRing.pointerFocused = true;
+                    modeCard.forceActiveFocus(Qt.MouseFocusReason);
+                    root.selected(modeCard.modelData.key);
+                }
             }
         }
     }

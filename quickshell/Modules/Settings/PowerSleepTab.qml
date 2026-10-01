@@ -301,6 +301,7 @@ Item {
 
                 DankDropdown {
                     id: bootEntryDropdown
+                    downKeyOpens: false
                     enabled: bootEntryPicker.options.length > 0
                     Accessible.name: bootEntryPicker.title
                     width: Math.min(dropdownWidth, bootEntryPicker.width - SettingsMetrics.rowPaddingH * 2)

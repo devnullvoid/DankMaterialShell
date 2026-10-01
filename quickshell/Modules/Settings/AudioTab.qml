@@ -16,11 +16,8 @@ Item {
     property var outputDevices: []
     property var inputDevices: []
     property var parentModal: null
-    property bool renameOpen: false
-    property bool renameMounted: false
     property var editingDevice: null
     property string editingDeviceType: ""
-    property string newDeviceName: ""
     property bool isReloadingAudio: false
     property var hiddenOutputDeviceNames: SessionData.hiddenOutputDeviceNames ?? []
     property var hiddenInputDeviceNames: SessionData.hiddenInputDeviceNames ?? []
@@ -28,30 +25,16 @@ Item {
     property bool showHiddenInputDevices: false
 
     function openRenameDialog(device, type) {
-        if (renameOpen)
-            return;
         editingDevice = device;
         editingDeviceType = type;
-        newDeviceName = AudioService.displayName(device);
-        renameOpen = true;
-        renameMounted = true;
-        if (renameLoader.item)
-            renameLoader.item.show();
+        renameDialog.show(AudioService.displayName(device));
     }
 
-    function closeRenameDialog() {
-        if (!renameOpen)
+    function saveDeviceName(name) {
+        if (!editingDevice)
             return;
-        renameOpen = false;
-        if (renameLoader.item)
-            renameLoader.item.opened = false;
-    }
-
-    function saveDeviceName() {
-        if (!editingDevice || newDeviceName.trim() === "")
-            return;
-        AudioService.setDeviceAlias(editingDevice.name, newDeviceName);
-        closeRenameDialog();
+        AudioService.setDeviceAlias(editingDevice.name, name);
+        renameDialog.hide();
     }
 
     function persistHiddenOutputDeviceNames(deviceNames) {
@@ -216,9 +199,7 @@ Item {
                         deviceType: "output"
                         showHideButton: true
 
-                        onEditRequested: device => {
-                            root.openRenameDialog(device, "output");
-                        }
+                        onEditRequested: device => root.openRenameDialog(device, "output")
 
                         onHideRequested: device => {
                             root.persistHiddenOutputDeviceNames([...root.hiddenOutputDeviceNames, device.name]);
@@ -242,6 +223,7 @@ Item {
 
                         DankSlider {
                             id: maxVolSlider
+                            upDownKeysStep: false
                             anchors.left: maxVolLabel.right
                             anchors.leftMargin: Theme.spacingS
                             anchors.right: parent.right
@@ -381,9 +363,7 @@ Item {
                             deviceType: "input"
                             showHideButton: true
 
-                            onEditRequested: device => {
-                                root.openRenameDialog(device, "input");
-                            }
+                            onEditRequested: device => root.openRenameDialog(device, "input")
 
                             onHideRequested: device => {
                                 root.persistHiddenInputDeviceNames([...root.hiddenInputDeviceNames, device.name]);
@@ -513,82 +493,32 @@ Item {
 
     }
 
-    Loader {
-        id: renameLoader
+    SettingsRenameDialog {
+        id: renameDialog
         parent: root.parentModal?.modalFocusScope ?? root
-        anchors.fill: parent
-        z: 1000
-        active: root.renameMounted
-        onLoaded: item.show()
+        title: I18n.tr("Set custom device name")
+        supportingText: root.editingDevice?.name ?? ""
+        labelText: I18n.tr("Custom name")
+        leftIconName: root.editingDeviceType === "input" ? "mic" : "speaker"
+        onAccepted: name => root.saveDeviceName(name)
 
-        sourceComponent: DankDialog {
-            id: renameDialog
+        aboveField: StyledText {
+            visible: AudioService.hasDeviceAlias(root.editingDevice?.name ?? "")
+            text: I18n.tr("Original: %1", "Shows the original device name before renaming").arg(AudioService.originalName(root.editingDevice))
+            font.pixelSize: Theme.fontSizeSmall
+            color: Theme.surfaceVariantText
+            width: parent.width
+            elide: Text.ElideRight
+            horizontalAlignment: Text.AlignLeft
+        }
 
-            embedded: nativeWindow
-            opened: nativeWindow
-            maximumWidth: SettingsMetrics.formDialogWidth
-            surfaceColor: Theme.hostSurface
-            title: I18n.tr("Set custom device name")
-            supportingText: root.editingDevice?.name ?? ""
-            acceptEnabled: root.newDeviceName.trim() !== ""
-            onAccepted: root.saveDeviceName()
-            onRejected: root.closeRenameDialog()
-            onActiveChanged: {
-                if (!active && !root.renameOpen)
-                    root.renameMounted = false;
-            }
-
-            function show() {
-                nameInput.text = root.newDeviceName;
-                opened = true;
-                forceActiveFocus();
-                nameInput.forceActiveFocus();
-                nameInput.selectAll();
-            }
-
-            actions: [
-                DankButton {
-                    text: I18n.tr("Cancel")
-                    backgroundColor: "transparent"
-                    textColor: Theme.primary
-                    onClicked: renameDialog.rejected()
-                },
-                DankButton {
-                    text: I18n.tr("Save")
-                    iconName: "check"
-                    enabled: renameDialog.acceptEnabled
-                    onClicked: root.saveDeviceName()
-                }
-            ]
-
-            StyledText {
-                visible: AudioService.hasDeviceAlias(root.editingDevice?.name ?? "")
-                text: I18n.tr("Original: %1", "Shows the original device name before renaming").arg(AudioService.originalName(root.editingDevice))
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.surfaceVariantText
-                width: parent.width
-                elide: Text.ElideRight
-                horizontalAlignment: Text.AlignLeft
-            }
-
-            DankTextField {
-                id: nameInput
-                outlined: true
-                leftIconName: root.editingDeviceType === "input" ? "mic" : "speaker"
-                labelText: I18n.tr("Custom name")
-                width: parent.width
-                showClearButton: true
-                onTextChanged: root.newDeviceName = text
-            }
-
-            StyledText {
-                width: parent.width
-                text: I18n.tr("Press Enter and the audio system will restart to apply the change", "Audio device rename dialog hint")
-                font.pixelSize: Theme.fontSizeSmall
-                color: Theme.surfaceVariantText
-                wrapMode: Text.WordWrap
-                horizontalAlignment: Text.AlignLeft
-            }
+        belowField: StyledText {
+            width: parent.width
+            text: I18n.tr("Press Enter and the audio system will restart to apply the change", "Audio device rename dialog hint")
+            font.pixelSize: Theme.fontSizeSmall
+            color: Theme.surfaceVariantText
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignLeft
         }
     }
 }

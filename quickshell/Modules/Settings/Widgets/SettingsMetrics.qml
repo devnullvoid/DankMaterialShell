@@ -43,7 +43,9 @@ Singleton {
     readonly property real bannerTextMinWidth: 100
     readonly property real fontMenuExtraWidth: 100
     readonly property real swatchTileMinWidth: 96
+    readonly property real previewTileMinWidth: 140
     readonly property real emptyStateHeight: 100
+    readonly property real noteMaxHeight: 160
     readonly property color rowColor: Theme.foregroundColor(Theme.cardSurface, true)
     readonly property color rowHighlightColor: Theme.withAlpha(Theme.primary, highlightBlend)
     readonly property color selectedRowColor: Theme.selectedContainer

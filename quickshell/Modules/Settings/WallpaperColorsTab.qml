@@ -211,6 +211,7 @@ Column {
                     spacing: Theme.spacingM
 
                     DankButtonGroup {
+                        arrowKeysSelect: false
                         id: modeGroup
                         width: parent.width
                         fillWidth: true
@@ -254,7 +255,7 @@ Column {
                             height: hero.stacked ? implicitHeight : Math.max(implicitHeight, side.navRowHeight)
                             paddingH: Theme.spacingM
                             paddingV: Theme.spacingM
-                            onClicked: root.parentModal?.navigateTo("theme_schedule")
+                            onClicked: keyboard => root.parentModal?.navigateTo("theme_schedule", keyboard)
                         }
 
                         SettingsNavRow {
@@ -266,7 +267,7 @@ Column {
                             height: hero.stacked ? implicitHeight : Math.max(implicitHeight, side.navRowHeight)
                             paddingH: Theme.spacingM
                             paddingV: Theme.spacingM
-                            onClicked: root.parentModal?.navigateTo("theme")
+                            onClicked: keyboard => root.parentModal?.navigateTo("theme", keyboard)
 
                             leading: DankPaletteSwatch {
                                 width: SettingsMetrics.heroLeadingSize
@@ -410,7 +411,7 @@ Column {
             title: I18n.tr("Automatic cycling")
             subtitle: SettingsTabs.page("wallpaper_cycling")?.hint ?? ""
             checked: root.cyclingEnabled
-            onNavigated: root.parentModal?.navigateTo("wallpaper_cycling")
+            onNavigated: keyboard => root.parentModal?.navigateTo("wallpaper_cycling", keyboard)
             onToggled: toggled => {
                 if (root.perMonitor) {
                     SessionData.setMonitorCyclingEnabled(root.selectedScreen, toggled);
@@ -505,9 +506,9 @@ Column {
             iconName: "lock"
             title: I18n.tr("Lock screen")
             hint: SettingsData.lockScreenWallpaperPath ? SettingsData.lockScreenWallpaperPath.split("/").pop() : I18n.tr("Use desktop wallpaper")
-            onClicked: {
+            onClicked: keyboard => {
                 SettingsSearchService.navigateToSection("lockScreenWallpaperPath");
-                root.parentModal?.navigateTo("lock_screen");
+                root.parentModal?.navigateTo("lock_screen", keyboard);
             }
         }
 

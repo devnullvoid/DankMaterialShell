@@ -127,6 +127,12 @@ Item {
             return;
         var ctrl = (event.modifiers & Qt.ControlModifier) !== 0;
         if (event.key === Qt.Key_Up || event.key === Qt.Key_Down) {
+            var focusedRow = focusedWidgetRow();
+            if (focusedRow) {
+                highlightedSection = focusedRow.section;
+                highlightedId = focusedRow.id;
+            }
+            widgetsTab.forceActiveFocus();
             var dir = event.key === Qt.Key_Down ? 1 : -1;
             if (ctrl) {
                 if (highlightedId !== "")
@@ -154,9 +160,14 @@ Item {
             if (highlightedId !== "")
                 moveAcrossSections(highlightedSection, highlightedId, event.key === Qt.Key_Right ? 1 : -1);
             event.accepted = true;
-        } else if (event.key === Qt.Key_Space || event.key === Qt.Key_Return) {
+        } else if (event.key === Qt.Key_Space) {
             if (highlightedId !== "") {
                 toggleHighlighted();
+                event.accepted = true;
+            }
+        } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+            if (highlightedId !== "") {
+                configureHighlighted();
                 event.accepted = true;
             }
         }
@@ -380,6 +391,23 @@ Item {
         SettingsData.updateBarConfig(selectedBarId, updates);
     }
 
+    // A row reached with Tab has focus but no cursor, so the cursor starts from it
+    function focusedWidgetRow() {
+        for (var item = Window.activeFocusItem; item; item = item.parent) {
+            if (item.reorderList === undefined || !item.modelData?.id)
+                continue;
+            for (var section = item.parent; section; section = section.parent) {
+                if (section.sectionId !== undefined)
+                    return {
+                        "section": section.sectionId,
+                        "id": item.modelData.id
+                    };
+            }
+            return null;
+        }
+        return null;
+    }
+
     function flatList() {
         var out = [];
         ["left", "center", "right"].forEach(s => {
@@ -423,6 +451,15 @@ Item {
             return;
         var en = (typeof w === "string") ? true : (w.enabled !== false);
         handleItemEnabledChanged(highlightedSection, highlightedId, !en);
+    }
+
+    function configureHighlighted() {
+        const index = getWidgetsForSection(highlightedSection).findIndex(x => (typeof x === "string" ? x : x.id) === highlightedId);
+        if (index < 0)
+            return;
+        if (!BarWidgetCatalog.configurable(getItemsForSection(highlightedSection)[index]))
+            return;
+        configureWidget(highlightedSection, index);
     }
 
     function handleSpacerSizeChanged(sectionId, widgetIndex, newSize) {
@@ -536,6 +573,10 @@ Item {
     SettingsPage {
         id: mainColumn
 
+        TapHandler {
+            onTapped: widgetsTab.forceActiveFocus()
+        }
+
         SettingsCard {
             iconName: "toolbar"
             title: I18n.tr("Bar")
@@ -543,6 +584,7 @@ Item {
 
             SettingsRow {
                 body: DankButtonGroup {
+                    arrowKeysSelect: false
                     id: barSelectorGroup
                     width: parent.width
                     model: SettingsData.barConfigs.map(cfg => cfg.name || ("Bar " + (SettingsData.barConfigs.indexOf(cfg) + 1)))

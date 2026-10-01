@@ -261,37 +261,11 @@ Item {
                                                             return fields;
                                                         }
 
-                                                        delegate: Rectangle {
+                                                        delegate: DankDetailChip {
                                                             required property var modelData
-                                                            required property int index
 
-                                                            width: ethFieldContent.width + Theme.spacingM * 2
-                                                            height: 32
-                                                            radius: Theme.cornerRadius - Theme.outlineWidthFocused
-                                                            color: Theme.floatingWindowFieldColor
-                                                            border.width: Theme.outlineWidth
-                                                            border.color: Theme.floatingWindowFieldBorderColor
-
-                                                            Row {
-                                                                id: ethFieldContent
-                                                                anchors.centerIn: parent
-                                                                spacing: Theme.spacingXS
-
-                                                                StyledText {
-                                                                    text: modelData.label + ":"
-                                                                    font.pixelSize: Theme.fontSizeSmall
-                                                                    color: Theme.surfaceVariantText
-                                                                    anchors.verticalCenter: parent.verticalCenter
-                                                                }
-
-                                                                StyledText {
-                                                                    text: modelData.value
-                                                                    font.pixelSize: Theme.fontSizeSmall
-                                                                    color: Theme.surfaceText
-                                                                    font.weight: Theme.fontWeightMedium
-                                                                    anchors.verticalCenter: parent.verticalCenter
-                                                                }
-                                                            }
+                                                            label: modelData.label
+                                                            value: modelData.value
                                                         }
                                                     }
                                                 }

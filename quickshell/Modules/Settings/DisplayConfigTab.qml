@@ -140,6 +140,7 @@ Item {
 
                     DankDropdown {
                         id: profileDropdown
+                        downKeyOpens: false
                         width: parent.width - newButton.width - editMonitorsButton.width - deleteButton.width - Theme.spacingS * 3
                         compactMode: true
                         dropdownWidth: width

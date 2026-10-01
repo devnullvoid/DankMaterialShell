@@ -276,4 +276,8 @@ Singleton {
     function hasOptions(id) {
         return optionFiles[id] !== undefined;
     }
+
+    function configurable(item) {
+        return hasOptions(item?.id) || !!item?.pluginId;
+    }
 }

@@ -69,10 +69,10 @@ Column {
 
             required property var modelData
 
-            readonly property bool configurable: BarWidgetCatalog.hasOptions(modelData.id) || !!modelData.pluginId
-            readonly property bool highlighted: root.highlightedId === modelData.id && root.highlightedSection === root.sectionId
+            readonly property bool configurable: BarWidgetCatalog.configurable(modelData)
 
             reorderList: reorderArea
+            highlighted: !dragging && root.highlightedId === modelData.id && root.highlightedSection === root.sectionId
             opacity: dragging && reorderArea.crossSectionActive ? 0 : 1
             title: modelData.text
             iconName: modelData.icon
@@ -125,12 +125,9 @@ Column {
                 anchors.verticalCenter: parent.verticalCenter
             }
 
-            Rectangle {
-                width: Theme.dividerWidth
-                height: SettingsMetrics.splitDividerHeight
-                color: Theme.outlineVariant
+            SettingsDivider {
+                vertical: true
                 visible: widgetRow.configurable
-                anchors.verticalCenter: parent.verticalCenter
             }
 
             DankNumberStepper {
@@ -157,20 +154,6 @@ Column {
                 Accessible.name: I18n.tr("Remove")
                 anchors.verticalCenter: parent.verticalCenter
                 onClicked: root.removeWidget(root.sectionId, widgetRow.index)
-            }
-
-            Rectangle {
-                parent: widgetRow
-                anchors.fill: parent
-                anchors.margins: Theme.focusRingWidth / 2
-                topLeftRadius: Math.max(0, widgetRow.topRadius - Theme.focusRingWidth / 2)
-                topRightRadius: topLeftRadius
-                bottomLeftRadius: Math.max(0, widgetRow.bottomRadius - Theme.focusRingWidth / 2)
-                bottomRightRadius: bottomLeftRadius
-                color: "transparent"
-                border.width: Theme.focusRingWidth
-                border.color: Theme.focusRingColor
-                visible: widgetRow.highlighted && !widgetRow.dragging
             }
         }
     }

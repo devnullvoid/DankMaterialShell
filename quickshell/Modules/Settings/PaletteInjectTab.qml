@@ -84,8 +84,6 @@ Item {
 
                                     DankToggle {
                                         id: enableToggle
-                                        width: 40
-                                        height: 24
                                         hideText: true
                                         checked: paletteItem.modelData.enabled !== false
                                         onToggled: checked => PaletteInjectService.updatePalette(paletteItem.index, "enabled", checked)

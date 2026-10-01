@@ -130,6 +130,17 @@ Column {
             height: Theme.listItemHeight
             radius: Theme.cornerRadiusM
             color: Theme.chipSurface
+            activeFocusOnTab: root.currentMode === "custom"
+            Accessible.role: Accessible.Button
+            Accessible.name: I18n.tr("Custom color")
+            Accessible.onPressAction: root.openCustomColorPicker()
+            Keys.onSpacePressed: root.openCustomColorPicker()
+            Keys.onReturnPressed: root.openCustomColorPicker()
+            Keys.onEnterPressed: root.openCustomColorPicker()
+
+            FocusRing {
+                id: chipRing
+            }
 
             Row {
                 anchors.fill: parent
@@ -187,7 +198,12 @@ Column {
             StateLayer {
                 stateColor: Theme.surfaceText
                 cornerRadius: customChip.radius
-                onClicked: root.openCustomColorPicker()
+                focused: chipRing.visible
+                onClicked: {
+                    chipRing.pointerFocused = true;
+                    customChip.forceActiveFocus(Qt.MouseFocusReason);
+                    root.openCustomColorPicker();
+                }
             }
         }
     }

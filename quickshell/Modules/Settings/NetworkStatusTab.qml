@@ -137,6 +137,7 @@ Item {
                         }
 
                         DankButtonGroup {
+                            arrowKeysSelect: false
                             id: preferenceButtons
 
                             readonly property var preferenceValues: {

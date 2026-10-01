@@ -418,7 +418,7 @@ Column {
             wrapText: true
             Layout.alignment: Qt.AlignTop
             Layout.topMargin: (Theme.buttonHeightS - Theme.buttonHeightXS) / 2
-            onClicked: root.parentModal?.navigateTo("plugins_manage")
+            onClicked: keyboard => root.parentModal?.navigateTo("plugins_manage", keyboard)
         }
     }
 
@@ -482,7 +482,7 @@ Column {
                     textColor: storeCard.accentColor
                     maximumWidth: parent.width
                     wrapText: true
-                    onClicked: root.parentModal?.navigateTo("plugins_manage")
+                    onClicked: keyboard => root.parentModal?.navigateTo("plugins_manage", keyboard)
                 }
             }
         }
@@ -611,7 +611,7 @@ Column {
                 color: SettingsSearchService.highlightSection === highlightKey ? Theme.blend(surfaceColor, Theme.primary, SettingsMetrics.highlightBlend) : surfaceColor
                 clickable: true
                 Accessible.name: modelData.text
-                onClicked: root.parentModal?.navigateTo(modelData.id)
+                onClicked: keyboard => root.parentModal?.navigateTo(modelData.id, keyboard)
 
                 Timer {
                     interval: 0
@@ -750,7 +750,7 @@ Column {
                             iconName: "settings"
                             variant: "tonal"
                             Accessible.name: I18n.tr("Settings")
-                            onClicked: root.parentModal?.navigateTo(installedCard.modelData.id)
+                            onClicked: keyboard => root.parentModal?.navigateTo(installedCard.modelData.id, keyboard)
                         }
                         Row {
                             id: cardActions

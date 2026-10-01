@@ -587,6 +587,7 @@ Item {
 
     DankListView {
         id: flickable
+        keyNavigationEnabled: false
 
         readonly property real columnWidth: Math.min(SettingsMetrics.contentMaxWidth, width - Theme.spacingL * 2)
         property Item fabBar: null

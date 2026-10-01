@@ -65,6 +65,7 @@ SettingsRow {
 
         DankSlider {
             id: slider
+            upDownKeysStep: false
             Accessible.name: root.text
             Accessible.description: root.description
             size: "s"

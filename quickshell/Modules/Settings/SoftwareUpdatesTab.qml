@@ -436,7 +436,7 @@ Item {
                 title: I18n.tr("Release notes")
                 iconName: "auto_awesome"
                 hint: root.notesRelease?.codename ? "v" + root.notesRelease.version + " · " + root.notesRelease.codename : "v" + (root.notesRelease?.version ?? "")
-                onClicked: root.parentModal?.navigateTo("updater_changelog")
+                onClicked: keyboard => root.parentModal?.navigateTo("updater_changelog", keyboard)
             }
 
             SettingsRow {

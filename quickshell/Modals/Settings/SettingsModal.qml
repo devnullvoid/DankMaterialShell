@@ -31,6 +31,7 @@ DankFloatingWindow {
     }
     property alias sidebar: sidebar
     readonly property alias modalFocusScope: contentFocusScope
+    readonly property alias focusPane: contentFocusScope.activePane
     property string currentPage: "personalization"
     property var pageHistory: []
     readonly property int currentTabIndex: SettingsTabs.tabIndexForPage(currentPage)
@@ -54,6 +55,8 @@ DankFloatingWindow {
             visible = false;
         }
         CompositorService.closeNiriOverviewOnWindowFocus();
+        if (!shouldBeVisible && isCompactMode)
+            menuVisible = true;
         shouldBeVisible = true;
         if (readyToMap)
             visible = true;
@@ -82,12 +85,15 @@ DankFloatingWindow {
         return true;
     }
 
-    function navigateTo(pageId: string): bool {
+    // Rows report how they were activated; buttons and cards fall back to the focused control's reason
+    function navigateTo(pageId, keyboard = contentFocusScope.keyboardDriven()): bool {
         const resolved = SettingsTabs.resolvePage(pageId);
         if (!resolved || resolved === currentPage)
             return false;
+        content.rememberFocus();
         pageHistory = pageHistory.concat([currentPage]);
         currentPage = resolved;
+        focusCurrentPage(keyboard);
         return true;
     }
 
@@ -95,17 +101,19 @@ DankFloatingWindow {
         return setPage(name);
     }
 
-    function goBack() {
+    function goBack(keyboard = contentFocusScope.keyboardDriven()) {
         if (pageHistory.length > 0) {
             const history = pageHistory.slice();
             const target = history.pop();
             pageHistory = history;
             currentPage = target;
+            focusCurrentPage(keyboard);
             return;
         }
         if (!currentParentId)
             return;
         currentPage = currentParentId;
+        focusCurrentPage(keyboard);
     }
 
     function setTabIndex(tabIndex: int) {
@@ -140,20 +148,22 @@ DankFloatingWindow {
         show();
     }
 
-    function focusCurrentPage() {
-        content._focusPage();
+    function focusCurrentPage(keyboard = true) {
+        contentFocusScope.focusContent(keyboard);
+    }
+
+    function focusSidebar() {
+        contentFocusScope.focusSidebar();
     }
 
     function focusSearch() {
-        if (isCompactMode)
-            menuVisible = true;
-        Qt.callLater(sidebar.focusSearch);
+        contentFocusScope.focusSearch();
     }
 
     function toggleMenu() {
         menuVisible = !menuVisible;
         if (menuVisible)
-            Qt.callLater(sidebar.focusSearch);
+            focusSearch();
     }
 
     objectName: "settingsModal"
@@ -184,9 +194,11 @@ DankFloatingWindow {
         if (!visible) {
             pageHistory = [];
             closingModal();
-        } else if (!isCompactMode || menuVisible) {
+        } else {
+            const revision = contentFocusScope.focusRevision;
             Qt.callLater(() => {
-                sidebar.focusSearch();
+                if (settingsModal.visible && revision === contentFocusScope.focusRevision)
+                    settingsModal.focusSearch();
             });
         }
     }
@@ -257,21 +269,18 @@ DankFloatingWindow {
         }
     }
 
-    FocusScope {
+    SettingsPaneNavigation {
         id: contentFocusScope
+
+        sidebar: sidebar
+        content: content
+        parentModal: settingsModal
 
         LayoutMirroring.enabled: I18n.isRtl
         LayoutMirroring.childrenInherit: true
 
         anchors.fill: parent
         focus: true
-
-        Keys.onPressed: event => {
-            if (event.key !== Qt.Key_F || !(event.modifiers & Qt.ControlModifier))
-                return;
-            settingsModal.focusSearch();
-            event.accepted = true;
-        }
 
         Keys.onBackPressed: event => {
             settingsModal.goBack();

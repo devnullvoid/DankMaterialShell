@@ -7,6 +7,10 @@ import qs.Modules.Settings.Widgets
 SettingsNavRow {
     id: root
 
+    signal navigationRequested(bool keyboard)
+
+    onClicked: keyboard => navigationRequested(keyboard)
+
     title: UserInfoService.fullName || I18n.tr("User")
     hint: DgopService.hostname || "DMS"
     singleLineTitle: true

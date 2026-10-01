@@ -132,7 +132,7 @@ Item {
             SettingsNavRow {
                 title: I18n.tr("Weather")
                 iconName: "partly_cloudy_day"
-                onClicked: root.parentModal?.navigateTo("weather")
+                onClicked: keyboard => root.parentModal?.navigateTo("weather", keyboard)
             }
         }
 
