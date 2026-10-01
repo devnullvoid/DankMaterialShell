@@ -307,137 +307,24 @@ Item {
             title: I18n.tr("Help", "noun, card title for desktop widget usage tips")
 
             SettingsRow {
-                body: Column {
-                    width: parent.width
-                    spacing: Theme.spacingM
+                iconName: "drag_pan"
+                iconBox: true
+                title: I18n.tr("Move", "verb, help item title for moving a desktop widget")
+                subtitle: I18n.tr("Right-click and drag anywhere on the widget")
+            }
 
-                    Row {
-                        width: parent.width
-                        spacing: Theme.spacingM
+            SettingsRow {
+                iconName: "open_in_full"
+                iconBox: true
+                title: I18n.tr("Resize", "verb, help item title for resizing a desktop widget")
+                subtitle: I18n.tr("Right-click and drag the bottom-right corner")
+            }
 
-                        Rectangle {
-                            width: 40
-                            height: 40
-                            radius: Theme.fullRadius(width, height)
-                            color: Theme.primarySelected
-
-                            DankIcon {
-                                anchors.centerIn: parent
-                                name: "drag_pan"
-                                size: Theme.iconSize
-                                color: Theme.primary
-                            }
-                        }
-
-                        Column {
-                            spacing: Theme.spacingXXS
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: parent.width - 40 - Theme.spacingM
-
-                            StyledText {
-                                text: I18n.tr("Move", "verb, help item title for moving a desktop widget")
-                                font.pixelSize: Theme.fontSizeMedium
-                                font.weight: Theme.fontWeightMedium
-                                color: Theme.surfaceText
-                                width: parent.width
-                                horizontalAlignment: Text.AlignLeft
-                            }
-
-                            StyledText {
-                                text: I18n.tr("Right-click and drag anywhere on the widget")
-                                font.pixelSize: Theme.fontSizeSmall
-                                color: Theme.surfaceVariantText
-                                width: parent.width
-                                horizontalAlignment: Text.AlignLeft
-                            }
-                        }
-                    }
-
-                    Row {
-                        width: parent.width
-                        spacing: Theme.spacingM
-
-                        Rectangle {
-                            width: 40
-                            height: 40
-                            radius: Theme.fullRadius(width, height)
-                            color: Theme.primarySelected
-
-                            DankIcon {
-                                anchors.centerIn: parent
-                                name: "open_in_full"
-                                size: Theme.iconSize
-                                color: Theme.primary
-                            }
-                        }
-
-                        Column {
-                            spacing: Theme.spacingXXS
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: parent.width - 40 - Theme.spacingM
-
-                            StyledText {
-                                text: I18n.tr("Resize", "verb, help item title for resizing a desktop widget")
-                                font.pixelSize: Theme.fontSizeMedium
-                                font.weight: Theme.fontWeightMedium
-                                color: Theme.surfaceText
-                                width: parent.width
-                                horizontalAlignment: Text.AlignLeft
-                            }
-
-                            StyledText {
-                                text: I18n.tr("Right-click and drag the bottom-right corner")
-                                font.pixelSize: Theme.fontSizeSmall
-                                color: Theme.surfaceVariantText
-                                width: parent.width
-                                horizontalAlignment: Text.AlignLeft
-                            }
-                        }
-                    }
-
-                    Row {
-                        width: parent.width
-                        spacing: Theme.spacingM
-
-                        Rectangle {
-                            width: 40
-                            height: 40
-                            radius: Theme.fullRadius(width, height)
-                            color: Theme.primarySelected
-
-                            DankIcon {
-                                anchors.centerIn: parent
-                                name: "drag_indicator"
-                                size: Theme.iconSize
-                                color: Theme.primary
-                            }
-                        }
-
-                        Column {
-                            spacing: Theme.spacingXXS
-                            anchors.verticalCenter: parent.verticalCenter
-                            width: parent.width - 40 - Theme.spacingM
-
-                            StyledText {
-                                text: I18n.tr("Reorder & group")
-                                font.pixelSize: Theme.fontSizeMedium
-                                font.weight: Theme.fontWeightMedium
-                                color: Theme.surfaceText
-                                width: parent.width
-                                horizontalAlignment: Text.AlignLeft
-                            }
-
-                            StyledText {
-                                text: I18n.tr("Drag a widget by its handle here to reorder it or drop it into another group")
-                                font.pixelSize: Theme.fontSizeSmall
-                                color: Theme.surfaceVariantText
-                                width: parent.width
-                                wrapMode: Text.WordWrap
-                                horizontalAlignment: Text.AlignLeft
-                            }
-                        }
-                    }
-                }
+            SettingsRow {
+                iconName: "drag_indicator"
+                iconBox: true
+                title: I18n.tr("Reorder & group")
+                subtitle: I18n.tr("Drag a widget by its handle here to reorder it or drop it into another group")
             }
         }
 

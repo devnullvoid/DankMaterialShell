@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Layouts
 import Quickshell
 import qs.Common
 import qs.Services
@@ -537,42 +536,13 @@ Item {
     SettingsPage {
         id: mainColumn
 
-        StyledRect {
-            width: parent.width
-            height: barSelectorContent.implicitHeight + Theme.spacingL * 2
-            radius: Theme.cornerRadius
-            color: Theme.floatingWindowNestedSurface
-            border.color: Theme.outlineMedium
-            border.width: Theme.layerOutlineWidth
+        SettingsCard {
+            iconName: "toolbar"
+            title: I18n.tr("Bar")
             visible: hasMultipleBars
 
-            Column {
-                id: barSelectorContent
-                anchors.fill: parent
-                anchors.margins: Theme.spacingL
-                spacing: Theme.spacingM
-
-                Row {
-                    width: parent.width
-                    spacing: Theme.spacingM
-
-                    DankIcon {
-                        name: "toolbar"
-                        size: Theme.iconSize
-                        color: Theme.primary
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-
-                    StyledText {
-                        text: I18n.tr("Bar")
-                        font.pixelSize: Theme.fontSizeLarge
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.surfaceText
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-
-                DankButtonGroup {
+            SettingsRow {
+                body: DankButtonGroup {
                     id: barSelectorGroup
                     width: parent.width
                     model: SettingsData.barConfigs.map(cfg => cfg.name || ("Bar " + (SettingsData.barConfigs.indexOf(cfg) + 1)))
@@ -591,95 +561,25 @@ Item {
             }
         }
 
-        StyledRect {
-            width: parent.width
-            height: widgetManagementHeader.implicitHeight + Theme.spacingL * 2
-            radius: Theme.cornerRadius
-            color: Theme.floatingWindowNestedSurface
-            border.color: Theme.outlineMedium
-            border.width: Theme.layerOutlineWidth
+        SettingsCard {
+            iconName: "widgets"
+            title: I18n.tr("Sections", "bar widget settings heading for left, center, right sections")
 
-            Column {
-                id: widgetManagementHeader
-                anchors.fill: parent
-                anchors.margins: Theme.spacingL
-                spacing: Theme.spacingM
-
-                RowLayout {
-                    width: parent.width
-                    spacing: Theme.spacingM
-
-                    DankIcon {
-                        name: "widgets"
-                        size: Theme.iconSize
-                        color: Theme.primary
-                        Layout.alignment: Qt.AlignVCenter
-                    }
-
-                    StyledText {
-                        text: I18n.tr("Sections", "bar widget settings heading for left, center, right sections")
-                        font.pixelSize: Theme.fontSizeLarge
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.surfaceText
-                        Layout.alignment: Qt.AlignVCenter
-                    }
-
-                    Item {
-                        height: 1
-                        Layout.fillWidth: true
-                    }
-
-                    Rectangle {
-                        width: resetContentRow.implicitWidth + Theme.spacingM * 2
-                        height: 28
-                        radius: Theme.cornerRadius
-                        color: resetArea.containsMouse ? Theme.hoverTint(Theme.chipSurface) : Theme.chipSurface
-                        Layout.alignment: Qt.AlignVCenter
-                        border.width: 0
-
-                        Row {
-                            id: resetContentRow
-                            anchors.centerIn: parent
-                            spacing: Theme.spacingXS
-
-                            DankIcon {
-                                name: "refresh"
-                                size: 14
-                                color: Theme.surfaceText
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-
-                            StyledText {
-                                text: I18n.tr("Reset")
-                                font.pixelSize: Theme.fontSizeSmall
-                                font.weight: Theme.fontWeightMedium
-                                color: Theme.surfaceText
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-
-                        MouseArea {
-                            id: resetArea
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                setWidgetsForSection("left", defaultLeftWidgets);
-                                setWidgetsForSection("center", defaultCenterWidgets);
-                                setWidgetsForSection("right", defaultRightWidgets);
-                            }
-                        }
-
-                        Behavior on color {
-                            ColorAnimation {
-                                duration: Theme.shortDuration
-                                easing.type: Theme.standardEasing
-                            }
-                        }
-                    }
+            headerActions: DankButton {
+                text: I18n.tr("Reset")
+                iconName: "refresh"
+                buttonHeight: Theme.buttonHeightXS
+                backgroundColor: Theme.secondaryContainer
+                textColor: Theme.onSecondaryContainer
+                onClicked: {
+                    setWidgetsForSection("left", defaultLeftWidgets);
+                    setWidgetsForSection("center", defaultCenterWidgets);
+                    setWidgetsForSection("right", defaultRightWidgets);
                 }
+            }
 
-                StyledText {
+            SettingsRow {
+                body: StyledText {
                     width: parent.width
                     text: I18n.tr("Drag the handle to reorder. Tap a widget for its settings, use the switch to hide it without changing spacing, or X to remove it.")
                     font.pixelSize: Theme.fontSizeSmall

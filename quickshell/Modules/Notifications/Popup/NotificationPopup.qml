@@ -691,7 +691,7 @@ PanelWindow {
                     NotificationCard {
                         id: notificationCard
                         surfaceColor: Theme.notificationFloatingSurface
-                        chipColor: Theme.chipSurface
+                        chipColor: Theme.notificationChipSurface
                         width: parent.width
                         height: win.inlineHeightAnimating ? Math.min(targetHeight, cardSurface.height - win.timeoutRailClearance) : targetHeight
                         notificationData: win.notificationData

@@ -8,7 +8,6 @@ Rectangle {
     property string label: ""
     property string iconName: ""
     property color tone: Theme.primary
-    property bool onImage: false
 
     height: Theme.iconSize
     width: content.implicitWidth + Theme.spacingS * 2

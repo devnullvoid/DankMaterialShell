@@ -181,7 +181,7 @@ Item {
         iconSize: Theme.iconSizeSmall
         iconName: "shuffle"
         iconColor: Theme.onSurface
-        backgroundColor: Theme.surfaceContainerHighest
+        backgroundColor: Theme.chipSurfaceNested
         Accessible.name: I18n.tr("Shuffle")
         visible: root.editMode && avatar.visible
         onClicked: root.optionChanged("shape", WidgetUtils.nextUserShape(root.shape))

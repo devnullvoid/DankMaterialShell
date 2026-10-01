@@ -207,13 +207,13 @@ Item {
                         width: 120
                         height: 90
                         radius: Theme.cornerRadius
-                        color: Theme.floatingWindowNestedSurface
+                        color: Theme.floatingWindowFieldColor
                         border.width: Theme.layerOutlineWidth
                         border.color: Theme.outlineMedium
 
                         ClippingRectangle {
                             anchors.fill: parent
-                            anchors.margins: 1
+                            anchors.margins: Theme.outlineWidth
                             radius: Theme.cornerRadius - Theme.outlineWidth
                             color: "transparent"
 
@@ -237,7 +237,7 @@ Item {
 
                         Rectangle {
                             anchors.fill: parent
-                            anchors.margins: 1
+                            anchors.margins: Theme.outlineWidth
                             radius: Theme.cornerRadius - Theme.outlineWidth
                             color: Theme.wallpaperPath && Theme.wallpaperPath.startsWith("#") ? Theme.wallpaperPath : Theme.withAlpha(Theme.wallpaperPath, 0)
                             visible: Theme.wallpaperPath && Theme.wallpaperPath.startsWith("#")
@@ -535,7 +535,7 @@ Item {
                                 width: themeGrid.cardWidth
                                 height: themeGrid.cardHeight
                                 radius: Theme.cornerRadius
-                                color: Theme.floatingWindowNestedSurface
+                                color: Theme.floatingWindowFieldColor
                                 border.color: isActive ? Theme.primary : Theme.outlineMedium
                                 border.width: isActive ? Theme.outlineWidthFocused : Theme.layerOutlineWidth
                                 scale: isActive ? 1.03 : 1
@@ -583,14 +583,15 @@ Item {
                                     anchors.right: parent.right
                                     anchors.bottom: parent.bottom
                                     height: themeGrid.cardWidth < 120 ? 18 : 22
-                                    radius: Theme.cornerRadius
-                                    color: Qt.rgba(0, 0, 0, 0.6)
+                                    bottomLeftRadius: parent.radius
+                                    bottomRightRadius: parent.radius
+                                    color: Theme.withAlpha(Theme.scrimColor, Theme.scrimAlpha)
 
                                     StyledText {
                                         anchors.centerIn: parent
                                         text: modelData.name
                                         font.pixelSize: themeGrid.cardWidth < 120 ? Theme.fontSizeSmall - 2 : Theme.fontSizeSmall
-                                        color: "white"
+                                        color: Theme.contrastLight
                                         font.weight: Theme.fontWeightMedium
                                         elide: Text.ElideRight
                                         width: parent.width - Theme.spacingXS * 2
@@ -604,7 +605,7 @@ Item {
                                     anchors.margins: themeGrid.cardWidth < 120 ? 2 : 4
                                     width: themeGrid.cardWidth < 120 ? 16 : 20
                                     height: width
-                                    radius: width / 2
+                                    radius: Theme.fullRadius(width, height)
                                     color: Theme.primary
                                     visible: themeCard.isActive
 
@@ -612,30 +613,21 @@ Item {
                                         anchors.centerIn: parent
                                         name: "check"
                                         size: themeGrid.cardWidth < 120 ? 10 : 14
-                                        color: Theme.surface
+                                        color: Theme.onPrimary
                                     }
                                 }
 
-                                Rectangle {
+                                DankBadge {
                                     anchors.top: parent.top
                                     anchors.left: parent.left
                                     anchors.margins: themeGrid.cardWidth < 120 ? 2 : 4
-                                    width: themeGrid.cardWidth < 120 ? 16 : 20
-                                    height: width
-                                    radius: width / 2
-                                    color: Theme.secondary
+                                    color: Theme.secondaryContainer
+                                    textColor: Theme.onSecondaryContainer
                                     visible: themeCard.hasVariants && !deleteButton.visible
-
-                                    StyledText {
-                                        anchors.centerIn: parent
-                                        text: {
-                                            if (themeCard.variants?.type === "multi")
-                                                return themeCard.variants?.accents?.length || 0;
-                                            return themeCard.variants?.options?.length || 0;
-                                        }
-                                        font.pixelSize: themeGrid.cardWidth < 120 ? Theme.fontSizeSmall - 4 : Theme.fontSizeSmall - 2
-                                        color: Theme.surface
-                                        font.weight: Theme.fontWeightMedium
+                                    text: {
+                                        if (themeCard.variants?.type === "multi")
+                                            return themeCard.variants?.accents?.length || 0;
+                                        return themeCard.variants?.options?.length || 0;
                                     }
                                 }
 
@@ -652,18 +644,19 @@ Item {
                                     }
                                 }
 
-                                Rectangle {
+                                DankActionButton {
                                     id: deleteButton
-                                    Accessible.role: Accessible.Button
-                                    Accessible.name: I18n.tr("Delete")
                                     anchors.top: parent.top
                                     anchors.left: parent.left
                                     anchors.margins: themeGrid.cardWidth < 120 ? 2 : 4
-                                    width: themeGrid.cardWidth < 120 ? 18 : 24
-                                    height: width
-                                    radius: width / 2
-                                    color: deleteMouseArea.containsMouse ? Theme.error : Qt.rgba(0, 0, 0, 0.6)
-                                    opacity: cardMouseArea.containsMouse || deleteMouseArea.containsMouse ? 1 : 0
+                                    buttonSize: themeGrid.cardWidth < 120 ? 18 : 24
+                                    iconName: "close"
+                                    iconSize: themeGrid.cardWidth < 120 ? 10 : 14
+                                    iconColor: Theme.contrastLight
+                                    backgroundColor: Theme.withAlpha(Theme.scrimColor, Theme.scrimAlpha)
+                                    stateColor: Theme.error
+                                    tooltipText: I18n.tr("Delete")
+                                    opacity: cardMouseArea.containsMouse || hovered ? 1 : 0
                                     visible: opacity > 0
 
                                     Behavior on opacity {
@@ -672,29 +665,16 @@ Item {
                                         }
                                     }
 
-                                    DankIcon {
-                                        anchors.centerIn: parent
-                                        name: "close"
-                                        size: themeGrid.cardWidth < 120 ? 10 : 14
-                                        color: "white"
-                                    }
-
-                                    MouseArea {
-                                        id: deleteMouseArea
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        onClicked: {
-                                            ToastService.showInfo(I18n.tr("Uninstalling: %1", "uninstallation progress").arg(modelData.name));
-                                            DMSService.uninstallTheme(modelData.id, response => {
-                                                if (response.error) {
-                                                    ToastService.showError(I18n.tr("Uninstall failed: %1", "uninstallation error").arg(response.error));
-                                                    return;
-                                                }
-                                                ToastService.showInfo(I18n.tr("Uninstalled: %1", "uninstallation success").arg(modelData.name));
-                                                DMSService.listInstalledThemes();
-                                            });
-                                        }
+                                    onClicked: {
+                                        ToastService.showInfo(I18n.tr("Uninstalling: %1", "uninstallation progress").arg(modelData.name));
+                                        DMSService.uninstallTheme(modelData.id, response => {
+                                            if (response.error) {
+                                                ToastService.showError(I18n.tr("Uninstall failed: %1", "uninstallation error").arg(response.error));
+                                                return;
+                                            }
+                                            ToastService.showInfo(I18n.tr("Uninstalled: %1", "uninstallation success").arg(modelData.name));
+                                            DMSService.listInstalledThemes();
+                                        });
                                     }
                                 }
                             }
@@ -860,7 +840,7 @@ Item {
                         Grid {
                             id: accentColorsGrid
                             property int accentCount: variantSelector.activeThemeVariants?.accents?.length ?? 0
-                            property int dotSize: parent.width < 300 ? 28 : 32
+                            property int dotSize: parent.width < 300 ? Theme.buttonHeightXXS : Theme.buttonHeightXS
                             columns: accentCount > 0 ? Math.ceil(accentCount / 2) : 1
                             rowSpacing: Theme.spacingS
                             columnSpacing: Theme.spacingS
@@ -876,29 +856,16 @@ Item {
                                     property bool isSelected: accentId === variantSelector.selectedAccent
                                     width: accentColorsGrid.dotSize
                                     height: accentColorsGrid.dotSize
-                                    radius: width / 2
+                                    radius: Theme.fullRadius(width, height)
                                     color: modelData.color || modelData[variantSelector.selectedFlavor]?.primary || Theme.primary
                                     border.color: Theme.outline
                                     border.width: isSelected ? Theme.outlineWidthFocused : Theme.outlineWidth
                                     scale: isSelected ? 1.1 : 1
 
-                                    Rectangle {
-                                        width: accentNameText.contentWidth + Theme.spacingS * 2
-                                        height: accentNameText.contentHeight + Theme.spacingXS * 2
-                                        color: Theme.floatingWindowSurface
-                                        radius: Theme.cornerRadius
-                                        anchors.bottom: parent.top
-                                        anchors.bottomMargin: Theme.spacingXS
-                                        anchors.horizontalCenter: parent.horizontalCenter
-                                        visible: accentMouseArea.containsMouse
-
-                                        StyledText {
-                                            id: accentNameText
-                                            text: modelData.name
-                                            font.pixelSize: Theme.fontSizeSmall
-                                            color: Theme.surfaceText
-                                            anchors.centerIn: parent
-                                        }
+                                    DankTooltipHost {
+                                        text: modelData.name
+                                        target: parent
+                                        hoverArea: accentMouseArea
                                     }
 
                                     MouseArea {

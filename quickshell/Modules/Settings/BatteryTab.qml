@@ -132,12 +132,12 @@ done
 
                     Item {
                         width: parent.width
-                        height: 4
+                        height: Theme.spacingXS
 
                         Rectangle {
                             anchors.fill: parent
                             radius: Theme.fullRadius(width, height)
-                            color: Theme.withAlpha(Theme.primary, 0.16)
+                            color: Theme.withAlpha(root.batteryStatusColor, Theme.tonalTintAlpha)
                         }
 
                         Rectangle {

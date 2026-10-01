@@ -122,7 +122,7 @@ PluginComponent {
             width: content.implicitWidth + Theme.spacingM * 2
             height: parent.widgetThickness
             radius: Theme.cornerRadius
-            color: Theme.surfaceContainerHigh
+            color: Theme.chipSurface
 
             StyledText {
                 id: content
@@ -202,7 +202,7 @@ PluginComponent {
     ccDetailContent: Component {
         Rectangle {
             implicitHeight: 200
-            color: Theme.surfaceContainerHigh
+            color: Theme.foregroundColor(Theme.cardSurface)
             radius: Theme.cornerRadius
             // Your detail UI here
         }
@@ -391,7 +391,7 @@ PluginSettings {
                 width: parent.width
                 height: 40
                 radius: Theme.cornerRadius
-                color: Theme.surfaceContainerHigh
+                color: Theme.chipSurface
 
                 StyledText {
                     anchors.left: parent.left
@@ -779,7 +779,7 @@ PluginComponent {
             width: content.implicitWidth + Theme.spacingM * 2
             height: parent.widgetThickness
             radius: Theme.cornerRadius
-            color: Theme.surfaceContainerHigh
+            color: Theme.chipSurface
 
             StyledText {
                 id: content
@@ -907,7 +907,7 @@ PluginComponent {
             width: textItem.implicitWidth + Theme.spacingM * 2
             height: parent.widgetThickness
             radius: Theme.cornerRadius
-            color: Theme.surfaceContainerHigh
+            color: Theme.chipSurface
 
             StyledText {
                 id: textItem
@@ -924,7 +924,7 @@ PluginComponent {
             width: parent.widgetThickness
             height: textItem.implicitWidth + Theme.spacingM * 2
             radius: Theme.cornerRadius
-            color: Theme.surfaceContainerHigh
+            color: Theme.chipSurface
 
             StyledText {
                 id: textItem
@@ -1674,7 +1674,7 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: Theme.cornerRadius
-        color: Theme.surfaceContainer
+        color: Theme.hostSurface
         opacity: 0.85
 
         // Widget content here

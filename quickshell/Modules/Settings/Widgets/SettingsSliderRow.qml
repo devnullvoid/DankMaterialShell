@@ -15,7 +15,6 @@ SettingsRow {
     property alias showStops: slider.showStops
     property alias unit: slider.unit
     property alias decimals: slider.decimals
-    property alias thumbOutlineColor: slider.thumbOutlineColor
     property alias size: slider.size
 
     readonly property bool atMinimum: minimumLabel !== "" && slider.value === slider.minimum

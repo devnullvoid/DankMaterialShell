@@ -99,7 +99,6 @@ DankCard {
                     label: modelData.label
                     iconName: modelData.icon
                     tone: PluginService.badgeTone(modelData.tone)
-                    onImage: true
                 }
             }
         }
@@ -111,7 +110,6 @@ DankCard {
             iconName: "thumb_up"
             label: root.plugin.upvotes || 0
             tone: Theme.primary
-            onImage: true
             visible: !!root.plugin.issueUrl
         }
     }

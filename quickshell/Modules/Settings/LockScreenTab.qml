@@ -708,30 +708,23 @@ Item {
                     const prefs = SettingsData.screenPreferences?.lockScreen;
                     return Array.isArray(prefs) && !prefs.includes("all") && prefs.length > 0;
                 }
+                clickable: true
+                onClicked: {
+                    if (!PopoutService.colorPickerModal)
+                        return;
+                    PopoutService.colorPickerModal.selectedColor = SettingsData.lockScreenInactiveColor;
+                    PopoutService.colorPickerModal.pickerTitle = I18n.tr("Inactive display color");
+                    PopoutService.colorPickerModal.onColorSelectedCallback = function (selectedColor) {
+                        SettingsData.set("lockScreenInactiveColor", selectedColor);
+                    };
+                    PopoutService.colorPickerModal.show();
+                }
 
-                Rectangle {
-                    width: Theme.iconButtonSize
-                    height: Theme.iconButtonSize
-                    radius: Theme.cornerRadius
-                    color: SettingsData.lockScreenInactiveColor
-                    border.color: Theme.outline
-                    border.width: Theme.outlineWidth
+                DankColorSwatch {
+                    width: Theme.iconSizeMedium
+                    height: width
+                    swatchColor: SettingsData.lockScreenInactiveColor
                     anchors.verticalCenter: parent.verticalCenter
-
-                    MouseArea {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            if (!PopoutService.colorPickerModal)
-                                return;
-                            PopoutService.colorPickerModal.selectedColor = SettingsData.lockScreenInactiveColor;
-                            PopoutService.colorPickerModal.pickerTitle = I18n.tr("Inactive display color");
-                            PopoutService.colorPickerModal.onColorSelectedCallback = function (selectedColor) {
-                                SettingsData.set("lockScreenInactiveColor", selectedColor);
-                            };
-                            PopoutService.colorPickerModal.show();
-                        }
-                    }
                 }
             }
         }

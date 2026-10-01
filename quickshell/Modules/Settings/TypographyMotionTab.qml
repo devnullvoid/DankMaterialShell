@@ -166,7 +166,7 @@ Item {
                         id: springLane
                         width: motionPreview.laneWidth
                         height: parent.height
-                        radius: Theme.cornerRadiusL
+                        radius: Theme.cornerRadiusM
                         color: Theme.chipSurface
 
                         StyledText {

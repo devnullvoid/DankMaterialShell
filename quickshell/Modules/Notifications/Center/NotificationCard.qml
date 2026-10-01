@@ -24,7 +24,7 @@ Item {
     property real contentOpacity: 1
     property real swipeBleed: 0
     readonly property color cardSurfaceColor: Theme.foregroundColor(nested ? Theme.chipSurface : Theme.cardSurface, Theme.isFloatingWindow(root))
-    readonly property color cardChipColor: nested ? Theme.withAlpha(Theme.onSurface, Theme.stateLayerFocus) : Theme.chipSurface
+    readonly property color cardChipColor: nested ? Theme.withAlpha(Theme.onSurface, Theme.stateLayerFocus) : Theme.foregroundColor(Theme.chipSurface, Theme.isFloatingWindow(root))
     readonly property real expandedTargetHeight: {
         let total = groupHeader.height;
         for (const child of expandedContent.children) {

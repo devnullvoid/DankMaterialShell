@@ -289,7 +289,7 @@ Item {
                                 }
 
                                 Item {
-                                    width: Math.max(0, parent.width - parent.spacing - mutedAppLabel.width - unmuteBtn.width - mutedDeleteBtn.width - Theme.spacingS * 5)
+                                    width: Math.max(0, parent.width - mutedAppLabel.width - unmuteBtn.width - parent.spacing * 2)
                                     height: 1
                                 }
 
@@ -299,36 +299,6 @@ Item {
                                     backgroundColor: Theme.chipSurface
                                     textColor: Theme.primary
                                     onClicked: SettingsData.removeNotificationRule(modelData.index)
-                                }
-
-                                Item {
-                                    id: mutedDeleteBtn
-                                    Accessible.role: Accessible.Button
-                                    Accessible.name: I18n.tr("Remove")
-                                    width: 28
-                                    height: 28
-                                    anchors.verticalCenter: parent.verticalCenter
-
-                                    Rectangle {
-                                        anchors.fill: parent
-                                        radius: Theme.cornerRadius
-                                        color: mutedDeleteArea.containsMouse ? Theme.withAlpha(Theme.error, 0.2) : Theme.withAlpha(Theme.error, 0)
-                                    }
-
-                                    DankIcon {
-                                        anchors.centerIn: parent
-                                        name: "delete"
-                                        size: 18
-                                        color: mutedDeleteArea.containsMouse ? Theme.error : Theme.surfaceVariantText
-                                    }
-
-                                    MouseArea {
-                                        id: mutedDeleteArea
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                        cursorShape: Qt.PointingHandCursor
-                                        onClicked: SettingsData.removeNotificationRule(modelData.index)
-                                    }
                                 }
                             }
                         }
