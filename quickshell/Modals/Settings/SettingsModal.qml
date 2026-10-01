@@ -205,6 +205,12 @@ DankFloatingWindow {
         }
     }
 
+    // The printers page is gated on the cups capability, which core only probes once someone subscribes.
+    Ref {
+        service: CupsService
+        active: settingsModal.visible
+    }
+
     LazyLoader {
         id: profileBrowserLoader
         active: false
