@@ -8,6 +8,7 @@ import qs.Modules.ControlCenter.Widgets
 import qs.Modules.DankBar.Widgets
 import qs.Modules.DankDash
 import "../utils/widgets.js" as WidgetUtils
+import "../../../Common/QmlUtils.js" as QmlUtils
 import qs.Services
 import qs.Widgets
 
@@ -38,12 +39,12 @@ Item {
         // Placement needs the final menu height, which settles after widgetIndex propagates.
         Qt.callLater(() => {
             const window = root.QsWindow.window;
-            const screen = window?.screen;
-            if (root.widgetIndex !== index || !anchorItem || !screen)
+            const pos = QmlUtils.screenPointOf(window, anchorItem, 0, 0);
+            if (root.widgetIndex !== index || !pos)
                 return;
-            const pos = anchorItem.mapToGlobal(0, 0);
-            const x = pos.x - screen.x;
-            const y = pos.y - screen.y;
+            const screen = window.screen;
+            const x = pos.x;
+            const y = pos.y;
             const menuX = I18n.isRtl ? x : x + anchorItem.width - contextMenu.effectiveMenuWidth;
             const aboveY = () => y - contextMenu.effectiveMenuHeight - Theme.spacingS;
             if (aboveY() < Theme.spacingS) {
