@@ -147,7 +147,6 @@ Singleton {
     readonly property real avatarSize: Theme.buttonHeightM
     readonly property real avatarSizeHero: 72
 
-    readonly property int historyLength: 60
     readonly property real tileTrendRatio: 0.45
     readonly property real tileTrendFillAlpha: 0.1
     readonly property real tileValueSizeCompact: Math.round((Theme.fontSizeXXLarge + Theme.fontSizeXLarge) / 2)

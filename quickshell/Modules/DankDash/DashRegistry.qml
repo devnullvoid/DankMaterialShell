@@ -352,6 +352,15 @@ Singleton {
                         "value": "ring",
                         "text": I18n.tr("Ring", "noun, battery widget ring gauge style option")
                     }
+                ]), choice("color", I18n.tr("Color"), "level", [
+                    {
+                        "value": "level",
+                        "text": I18n.tr("Level", "battery settings: charge level indicator colors")
+                    },
+                    {
+                        "value": "theme",
+                        "text": I18n.tr("Theme", "battery settings: theme accent indicator colors")
+                    }
                 ]), toggle("health", I18n.tr("Show health"), false), toneOption()]
         }
     ]
