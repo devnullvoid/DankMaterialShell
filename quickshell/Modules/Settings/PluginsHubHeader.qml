@@ -432,6 +432,7 @@ Column {
 
     DankCard {
         id: storeCard
+        color: SettingsMetrics.rowColor
         width: parent.width
         implicitHeight: storeContent.implicitHeight + pad * 2
         visible: root.plugins.length === 0
@@ -608,7 +609,7 @@ Column {
                 pad: Theme.spacingL
                 radius: Theme.cornerRadiusM
                 readonly property string highlightKey: "installedPlugin:" + modelData.pluginId
-                color: SettingsSearchService.highlightSection === highlightKey ? Theme.blend(surfaceColor, Theme.primary, SettingsMetrics.highlightBlend) : surfaceColor
+                color: SettingsSearchService.highlightSection === highlightKey ? Theme.blend(SettingsMetrics.rowColor, Theme.primary, SettingsMetrics.highlightBlend) : SettingsMetrics.rowColor
                 clickable: true
                 Accessible.name: modelData.text
                 onClicked: keyboard => root.parentModal?.navigateTo(modelData.id, keyboard)

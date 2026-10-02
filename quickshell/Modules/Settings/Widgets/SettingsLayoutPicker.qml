@@ -106,7 +106,7 @@ GridLayout {
             implicitWidth: root.minimumCardWidth
             implicitHeight: Math.max(Math.round(Theme.fontSizeMedium * root.cardHeightRatio), cardContent.implicitHeight + Theme.spacingM * 2)
             radius: Theme.cornerRadius
-            color: Theme.floatingWindowNestedSurface
+            color: SettingsMetrics.rowColor
             border.width: isActive ? Theme.outlineWidthFocused : Theme.layerOutlineWidth
             border.color: isActive ? Theme.primary : Theme.outlineMedium
 
@@ -146,7 +146,7 @@ GridLayout {
                     width: Math.min(root.previewWidth, cardContent.width)
                     height: Math.round(width * root.previewAspect)
                     radius: Theme.spacingXS
-                    color: Theme.chipSurface
+                    color: SettingsMetrics.controlColor
                     border.width: Theme.outlineWidth
                     border.color: Theme.outline
                     anchors.horizontalCenter: parent.horizontalCenter

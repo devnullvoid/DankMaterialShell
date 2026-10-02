@@ -72,7 +72,7 @@ FocusScope {
                     currentPageItem.forceActiveFocus(Qt.TabFocusReason);
                     return;
                 }
-            } while (!item.visible || !item.enabled || !_inViewport(item));
+            } while (!item.visible || !item.enabled || !_inViewport(item))
             item.forceActiveFocus(Qt.TabFocusReason);
         });
     }
@@ -124,7 +124,7 @@ FocusScope {
             item = item.nextItemInFocusChain(forward);
             if (!item || item === start || !_contains(page, item))
                 return false;
-        } while (!item.visible || !item.enabled);
+        } while (!item.visible || !item.enabled)
         item.forceActiveFocus(forward ? Qt.TabFocusReason : Qt.BacktabFocusReason);
         _reveal(item);
         return true;
@@ -430,13 +430,13 @@ FocusScope {
 
     Column {
         anchors.fill: parent
-        anchors.leftMargin: root.isCompactMode ? Theme.spacingS : SettingsMetrics.scrollGutter
-        anchors.rightMargin: root.isCompactMode ? Theme.spacingS : SettingsMetrics.scrollGutter
+        anchors.leftMargin: SettingsMetrics.panePadding
+        anchors.rightMargin: SettingsMetrics.panePadding
         spacing: 0
 
         Item {
             id: pageHeader
-            width: Math.min(root.pageContentMaxWidth, parent.width - Theme.spacingL * 2)
+            width: Math.min(root.pageContentMaxWidth, parent.width)
             anchors.horizontalCenter: parent.horizontalCenter
             height: Math.max(SettingsMetrics.pageHeaderHeight, pageHeading.implicitHeight + Theme.spacingM * 2)
 

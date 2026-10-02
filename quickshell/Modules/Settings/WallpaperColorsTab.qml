@@ -188,7 +188,7 @@ Column {
                 id: hero
 
                 readonly property bool stacked: width < SettingsMetrics.wallpaperHeroStackWidth
-                readonly property real thumbWidth: stacked ? width : Math.round(width * SettingsMetrics.wallpaperHeroSplit)
+                readonly property real thumbWidth: stacked ? width : Math.round(Math.min(width, SettingsMetrics.mediaMaxWidth) * SettingsMetrics.wallpaperHeroSplit)
 
                 width: parent.width
                 spacing: Theme.spacingL
@@ -211,8 +211,8 @@ Column {
                     spacing: Theme.spacingM
 
                     DankButtonGroup {
-                        arrowKeysSelect: false
                         id: modeGroup
+                        arrowKeysSelect: false
                         width: parent.width
                         fillWidth: true
                         checkEnabled: false
@@ -242,7 +242,7 @@ Column {
                     SettingsGroup {
                         id: navGroup
                         width: parent.width
-                        slotColor: Theme.foregroundColor(Theme.chipSurface, true)
+                        slotColor: SettingsMetrics.controlColor
 
                         SettingsNavRow {
                             tab: "wallpaper"

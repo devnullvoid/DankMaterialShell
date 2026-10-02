@@ -606,7 +606,7 @@ Item {
                         width: 200
                         anchors.verticalCenter: parent.verticalCenter
                         text: capturing ? I18n.tr("Press key...", "lock screen security key shortcut key combination capture prompt") : SettingsData.lockScreenSecurityKeyShortcut
-                        backgroundColor: capturing ? Theme.selectedContainer : Theme.chipSurface
+                        backgroundColor: capturing ? Theme.selectedContainer : SettingsMetrics.controlColor
                         textColor: Theme.surfaceText
 
                         property bool capturing: false
@@ -809,7 +809,7 @@ Item {
                 maxHeight: SettingsMetrics.noteMaxHeight
                 text: root.authValidateMessage
                 tint: !root.authValidateOk ? Theme.error : (root.authValidateWarn ? Theme.warning : Theme.surfaceVariantText)
-                tintBackground: Theme.floatingWindowFieldColor
+                tintBackground: SettingsMetrics.controlColor
             }
 
             SettingsDropdownRow {
@@ -863,7 +863,7 @@ Item {
                 maxHeight: SettingsMetrics.noteMaxHeight
                 text: root.u2fValidateMessage
                 tint: !root.u2fValidateOk ? Theme.error : (root.u2fValidateWarn ? Theme.warning : Theme.surfaceVariantText)
-                tintBackground: Theme.floatingWindowFieldColor
+                tintBackground: SettingsMetrics.controlColor
             }
 
             SettingsRow {

@@ -141,6 +141,7 @@ Item {
                     DankDropdown {
                         id: profileDropdown
                         downKeyOpens: false
+                        backgroundColor: SettingsMetrics.controlSurface
                         width: parent.width - newButton.width - editMonitorsButton.width - deleteButton.width - Theme.spacingS * 3
                         compactMode: true
                         dropdownWidth: width
@@ -166,7 +167,7 @@ Item {
                         iconName: "add"
                         text: ""
                         horizontalPadding: Theme.spacingM
-                        backgroundColor: Theme.chipSurface
+                        backgroundColor: SettingsMetrics.controlSurface
                         textColor: Theme.surfaceText
                         enabled: !SettingsData.displayProfileAutoSelect
                         onClicked: {
@@ -181,7 +182,7 @@ Item {
                         iconName: "edit"
                         text: ""
                         horizontalPadding: Theme.spacingM
-                        backgroundColor: Theme.chipSurface
+                        backgroundColor: SettingsMetrics.controlSurface
                         textColor: Theme.surfaceText
                         enabled: root.selectedProfileId !== "" && !SettingsData.displayProfileAutoSelect
                         onClicked: root.openEditMonitorsDialog()
@@ -193,7 +194,7 @@ Item {
                         iconName: "delete"
                         text: ""
                         horizontalPadding: Theme.spacingM
-                        backgroundColor: Theme.chipSurface
+                        backgroundColor: SettingsMetrics.controlSurface
                         textColor: Theme.error
                         enabled: root.selectedProfileId !== "" && !SettingsData.displayProfileAutoSelect
                         onClicked: root.showDeleteConfirmDialog = true

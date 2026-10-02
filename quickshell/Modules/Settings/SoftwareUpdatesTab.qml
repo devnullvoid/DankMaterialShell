@@ -330,7 +330,7 @@ Item {
                         buttonSize: Theme.buttonHeightS
                         iconName: "refresh"
                         iconColor: Theme.surfaceText
-                        backgroundColor: Theme.chipSurface
+                        backgroundColor: SettingsMetrics.controlSurface
                         Accessible.name: I18n.tr("Check for updates")
                         onClicked: SystemUpdateService.checkForUpdates()
                     }
@@ -439,7 +439,7 @@ Item {
                     anchors.verticalCenter: parent.verticalCenter
                     text: I18n.tr("Restart DMS")
                     iconName: "restart_alt"
-                    backgroundColor: Theme.chipSurface
+                    backgroundColor: SettingsMetrics.controlSurface
                     textColor: Theme.surfaceText
                     onClicked: SystemUpdateService.restartShell()
                 }
@@ -477,7 +477,7 @@ Item {
                     visible: root.systemCount > 0 && !SystemUpdateService.isUpgrading
                     text: I18n.tr("Update All")
                     iconName: "system_update_alt"
-                    backgroundColor: Theme.chipSurface
+                    backgroundColor: SettingsMetrics.controlSurface
                     textColor: Theme.surfaceText
                     enabled: !root.busy
                     onClicked: root.runUpdateAll()
@@ -556,7 +556,7 @@ Item {
                     visible: root.upgradeFailed && !root.upgradeRunsInTerminal
                     text: I18n.tr("Open in terminal")
                     iconName: "terminal"
-                    backgroundColor: Theme.chipSurface
+                    backgroundColor: SettingsMetrics.controlSurface
                     textColor: Theme.surfaceText
                     onClicked: root.runUpdateAll(true)
                 }

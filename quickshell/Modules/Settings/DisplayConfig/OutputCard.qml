@@ -157,6 +157,7 @@ Column {
             DankDropdown {
                 id: scaleDropdown
                 downKeyOpens: false
+                backgroundColor: SettingsMetrics.controlSurface
                 visible: !scaleRow.customMode
                 width: Math.min(dropdownWidth, scaleRow.width - SettingsMetrics.rowPaddingH * 2)
                 Accessible.name: scaleRow.title

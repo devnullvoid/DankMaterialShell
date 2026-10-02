@@ -42,7 +42,7 @@ Flow {
             width: root.tileWidth
             height: root.compact ? root.compactTileHeight : media.height + label.implicitHeight + Theme.spacingS * 3
             radius: Theme.cornerRadiusM
-            color: Theme.floatingWindowFieldColor
+            color: SettingsMetrics.controlColor
             border.width: isActive ? Theme.outlineWidthFocused : Theme.layerOutlineWidth
             border.color: isActive ? Theme.primary : Theme.outlineMedium
 
@@ -133,7 +133,7 @@ Flow {
                 visible: tile.deletable && !root.compact && (tile.activeFocus || activeFocus || hovered || tileState.containsMouse)
                 iconName: "delete"
                 iconColor: Theme.error
-                backgroundColor: Theme.floatingWindowFieldColor
+                backgroundColor: SettingsMetrics.controlSurface
                 tooltipText: I18n.tr("Delete")
                 onClicked: root.deleteRequested(tile.modelData.value)
             }

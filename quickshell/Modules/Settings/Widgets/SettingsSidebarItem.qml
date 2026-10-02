@@ -63,7 +63,7 @@ Rectangle {
     topRightRadius: topRadius
     bottomLeftRadius: bottomRadius
     bottomRightRadius: bottomRadius
-    color: active ? SettingsMetrics.selectedRowColor : SettingsMetrics.rowColor
+    color: active ? SettingsMetrics.selectedRowColor : SettingsMetrics.sidebarRowColor
     border.width: Theme.layerOutlineWidth
     border.color: Theme.outlineMedium
 

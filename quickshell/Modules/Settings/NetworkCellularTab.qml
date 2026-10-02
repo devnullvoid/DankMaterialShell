@@ -96,7 +96,7 @@ Item {
                                 width: parent.width
                                 height: 56
                                 radius: Theme.cornerRadius
-                                color: isConnected ? Theme.selectedContainer : modemMouseArea.containsMouse ? Theme.primaryHoverLight : Theme.floatingWindowFieldColor
+                                color: isConnected ? Theme.selectedContainer : modemMouseArea.containsMouse ? Theme.primaryHoverLight : SettingsMetrics.controlColor
                                 border.width: Theme.layerOutlineWidth
                                 border.color: Theme.outlineMedium
 
@@ -212,7 +212,7 @@ Item {
                             width: parent.width
                             height: 56
                             radius: Theme.cornerRadius
-                            color: isActive ? Theme.selectedContainer : profileMouseArea.containsMouse ? Theme.primaryHoverLight : Theme.floatingWindowFieldColor
+                            color: isActive ? Theme.selectedContainer : profileMouseArea.containsMouse ? Theme.primaryHoverLight : SettingsMetrics.controlColor
                             border.color: Theme.outlineMedium
                             border.width: Theme.layerOutlineWidth
 

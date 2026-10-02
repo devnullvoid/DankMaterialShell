@@ -222,7 +222,7 @@ Item {
                 monospace: true
                 text: root.greeterStatusOutput
                 tint: root.greeterStatusRunning ? Theme.surfaceVariantText : Theme.surfaceText
-                tintBackground: Theme.floatingWindowFieldColor
+                tintBackground: SettingsMetrics.controlColor
             }
         }
 

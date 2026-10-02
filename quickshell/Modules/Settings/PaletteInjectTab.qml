@@ -56,7 +56,7 @@ Item {
                             width: parent.width
                             height: paletteColumn.implicitHeight + Theme.spacingM * 2
                             radius: Theme.cornerRadius
-                            color: Theme.floatingWindowFieldColor
+                            color: SettingsMetrics.controlColor
 
                             Column {
                                 id: paletteColumn

@@ -27,7 +27,7 @@ DankCard {
 
     implicitHeight: previewHeight + infoHeight + Theme.spacingS * 2 + Theme.spacingM
     radius: Theme.cornerRadiusM
-    color: Theme.floatingWindowNestedSurface
+    color: SettingsMetrics.rowColor
     border.color: focusRingShown ? Theme.focusRingColor : Theme.outlineMedium
     border.width: focusRingShown ? Theme.focusRingWidth : Theme.layerOutlineWidth
     pad: 0
@@ -46,7 +46,7 @@ DankCard {
         ClippingRectangle {
             anchors.fill: parent
             radius: Theme.cornerRadiusS
-            color: Theme.chipSurface
+            color: SettingsMetrics.controlColor
 
             CachingImage {
                 id: cardPreview

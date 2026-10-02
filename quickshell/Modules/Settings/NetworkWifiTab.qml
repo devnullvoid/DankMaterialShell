@@ -920,7 +920,7 @@ Item {
                     visible: hotspotCard.editing
                     text: I18n.tr("Cancel", "cancel hotspot editing action")
                     buttonHeight: 36
-                    backgroundColor: Theme.chipSurface
+                    backgroundColor: SettingsMetrics.controlSurface
                     textColor: Theme.surfaceText
                     onClicked: hotspotCard.stopEditing()
                 }
@@ -931,7 +931,7 @@ Item {
                     iconName: "edit"
                     buttonHeight: 36
                     enabled: !NetworkService.hotspotEnabled && !hotspotCard.starting
-                    backgroundColor: Theme.chipSurface
+                    backgroundColor: SettingsMetrics.controlSurface
                     textColor: Theme.surfaceText
                     onClicked: hotspotCard.beginEditing()
                 }
@@ -942,7 +942,7 @@ Item {
                     iconName: "save"
                     buttonHeight: 36
                     enabled: hotspotCard.buildCanConfigure()
-                    backgroundColor: Theme.chipSurface
+                    backgroundColor: SettingsMetrics.controlSurface
                     textColor: Theme.surfaceText
                     onClicked: hotspotCard.saveOnly()
                 }

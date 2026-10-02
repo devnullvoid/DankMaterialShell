@@ -126,8 +126,8 @@ Item {
                         clip: true
 
                         DankButtonGroup {
-                            arrowKeysSelect: false
                             id: themeCategoryGroup
+                            arrowKeysSelect: false
                             anchors.horizontalCenter: parent.horizontalCenter
                             buttonPadding: parent.width < 420 ? Theme.spacingS : Theme.spacingL
                             minButtonWidth: parent.width < 420 ? 44 : 64
@@ -211,7 +211,7 @@ Item {
                         width: 120
                         height: 90
                         radius: Theme.cornerRadius
-                        color: Theme.floatingWindowFieldColor
+                        color: SettingsMetrics.controlColor
                         border.width: Theme.layerOutlineWidth
                         border.color: Theme.outlineMedium
 
@@ -666,8 +666,8 @@ Item {
                         visible: variantSelector.isMultiVariant && variantSelector.flavorOptions.length > 1
 
                         DankButtonGroup {
-                            arrowKeysSelect: false
                             id: flavorButtonGroup
+                            arrowKeysSelect: false
                             anchors.horizontalCenter: parent.horizontalCenter
                             property int _count: variantSelector.flavorNames.length
                             property real _maxPerItem: _count > 1 ? (parent.width - (_count - 1) * spacing) / _count : parent.width
@@ -743,8 +743,8 @@ Item {
                         visible: !variantSelector.isMultiVariant && variantSelector.variantNames.length > 0
 
                         DankButtonGroup {
-                            arrowKeysSelect: false
                             id: variantButtonGroup
+                            arrowKeysSelect: false
                             anchors.horizontalCenter: parent.horizontalCenter
                             property int _count: variantSelector.variantNames.length
                             property real _maxPerItem: _count > 1 ? (parent.width - (_count - 1) * spacing) / _count : parent.width

@@ -344,6 +344,7 @@ Item {
                 DankDropdown {
                     id: windowSelector
                     downKeyOpens: false
+                    backgroundColor: SettingsMetrics.controlSurface
                     anchors.verticalCenter: parent.verticalCenter
                     dropdownWidth: Math.min(400, createRuleRow.width - SettingsMetrics.rowPaddingH * 2)
                     compactMode: true
@@ -526,7 +527,7 @@ Item {
                         visible: externalCard.sourceFile.length > 0
                         anchors.verticalCenter: parent.verticalCenter
                         text: externalCard.sourceFile
-                        color: Theme.floatingWindowFieldColor
+                        color: SettingsMetrics.controlColor
                         textColor: Theme.surfaceVariantText
                     }
 

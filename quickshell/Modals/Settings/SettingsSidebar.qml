@@ -90,7 +90,7 @@ Item {
                 ancestor = ancestor.parent;
             if (!ancestor)
                 return false;
-        } while (!item.visible || !item.enabled);
+        } while (!item.visible || !item.enabled)
         keyboardHighlightId = "";
         item.forceActiveFocus(forward ? Qt.TabFocusReason : Qt.BacktabFocusReason);
         ensureRowVisible(item);
@@ -219,19 +219,10 @@ Item {
 
     Component.onCompleted: GreeterService.refresh()
 
-    Rectangle {
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        width: Theme.dividerWidth
-        color: Theme.outlineVariant
-        visible: !(root.parentModal?.isCompactMode ?? false)
-    }
-
     DankSearchField {
         id: searchField
 
-        property real sideInset: root.searchActive ? Theme.spacingS : Theme.spacingL
+        property real sideInset: root.searchActive ? Theme.spacingS : SettingsMetrics.paneMargin
 
         Behavior on sideInset {
             enabled: Theme.currentAnimationSpeed !== SettingsData.AnimationSpeed.None
@@ -247,7 +238,6 @@ Item {
         anchors.top: parent.top
         anchors.leftMargin: sideInset
         anchors.rightMargin: sideInset
-        anchors.topMargin: SettingsMetrics.searchBarGap
         height: SettingsMetrics.searchBarHeight
         placeholderText: I18n.tr("Search settings", "settings search field placeholder")
         onFocusStateChanged: hasFocus => {
@@ -342,9 +332,9 @@ Item {
         Column {
             id: sidebarColumn
             width: parent.width
-            leftPadding: Theme.spacingL
-            rightPadding: Theme.spacingL
-            bottomPadding: Theme.spacingL
+            leftPadding: SettingsMetrics.paneMargin
+            rightPadding: SettingsMetrics.paneMargin
+            bottomPadding: SettingsMetrics.paneMargin
             spacing: SettingsMetrics.sidebarGroupGap
 
             ProfileSection {

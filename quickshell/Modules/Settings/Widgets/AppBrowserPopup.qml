@@ -72,7 +72,8 @@ DankFloatingWindow {
 
                 Column {
                     anchors.fill: parent
-                    anchors.margins: Theme.spacingL
+                    anchors.margins: Theme.windowInset
+                    anchors.topMargin: 0
                     spacing: Theme.spacingM
 
                     DankSearchField {

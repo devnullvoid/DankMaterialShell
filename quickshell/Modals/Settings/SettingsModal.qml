@@ -300,18 +300,25 @@ DankFloatingWindow {
                 onCloseRequested: settingsModal.hide()
             }
 
-            Rectangle {
+            Item {
                 id: readOnlyBanner
 
                 property bool showBanner: (SettingsData._isReadOnly && SettingsData._hasUnsavedChanges) || (SessionData._isReadOnly && SessionData._hasUnsavedChanges)
 
                 width: parent.width
                 height: showBanner ? bannerContent.implicitHeight + Theme.spacingM * 2 : 0
-                color: Theme.floatingWindowNestedSurface
-                border.width: Theme.layerOutlineWidth
-                border.color: Theme.outlineMedium
                 visible: showBanner
                 clip: true
+
+                Rectangle {
+                    anchors.fill: parent
+                    anchors.leftMargin: body.paneInset
+                    anchors.rightMargin: body.paneInset
+                    radius: SettingsMetrics.paneRadius
+                    color: SettingsMetrics.paneColor
+                    border.width: Theme.layerOutlineWidth
+                    border.color: Theme.outlineMedium
+                }
 
                 Behavior on height {
                     NumberAnimation {
@@ -326,9 +333,10 @@ DankFloatingWindow {
 
                     anchors.left: parent.left
                     anchors.right: parent.right
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.leftMargin: Theme.spacingL
-                    anchors.rightMargin: Theme.spacingM
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: Theme.spacingM
+                    anchors.leftMargin: body.paneInset + SettingsMetrics.panePadding
+                    anchors.rightMargin: body.paneInset + SettingsMetrics.panePadding
                     spacing: Theme.spacingM
 
                     DankIcon {
@@ -387,6 +395,9 @@ DankFloatingWindow {
 
             Item {
                 id: body
+
+                readonly property real paneInset: SettingsMetrics.paneMargin
+
                 width: parent.width
                 height: parent.height - titleBar.height - readOnlyBanner.height
                 clip: true
@@ -414,12 +425,15 @@ DankFloatingWindow {
                     x: {
                         const flip = I18n.isRtl ? -1 : 1;
                         if (settingsModal.isCompactMode)
-                            return settingsModal.menuVisible ? body.width * flip : 0;
-                        return I18n.isRtl ? 0 : sidebar.width;
+                            return (settingsModal.menuVisible ? body.width * flip : 0) + body.paneInset;
+                        return I18n.isRtl ? body.paneInset : sidebar.width;
                     }
-                    width: settingsModal.isCompactMode ? body.width : body.width - sidebar.width
-                    height: body.height
-                    color: settingsModal.isCompactMode ? Theme.floatingWindowSurface : "transparent"
+                    width: settingsModal.isCompactMode ? body.width - body.paneInset * 2 : body.width - sidebar.width - body.paneInset
+                    height: body.height - body.paneInset
+                    radius: SettingsMetrics.paneRadius
+                    color: SettingsMetrics.paneColor
+                    border.width: Theme.layerOutlineWidth
+                    border.color: Theme.outlineMedium
                     clip: true
 
                     Behavior on x {

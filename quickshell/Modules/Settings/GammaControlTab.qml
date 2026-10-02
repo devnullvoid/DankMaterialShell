@@ -19,7 +19,7 @@ Item {
         width: (parent.width - Theme.spacingM) / 2
         height: tileColumn.implicitHeight + Theme.spacingM * 2
         radius: Theme.cornerRadius
-        color: Theme.floatingWindowFieldColor
+        color: SettingsMetrics.controlColor
         border.color: Theme.floatingWindowFieldBorderColor
         border.width: Theme.outlineWidth
 

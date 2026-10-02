@@ -21,7 +21,7 @@ Rectangle {
 
     height: width * SettingsMetrics.wallpaperThumbRatio
     radius: Theme.cornerRadiusM
-    color: isColor ? path : Theme.chipSurface
+    color: isColor ? path : SettingsMetrics.controlColor
 
     ClippingRectangle {
         anchors.fill: parent
@@ -79,7 +79,7 @@ Rectangle {
                 buttonSize: Theme.iconButtonSize
                 iconName: "folder_open"
                 iconSize: Theme.iconSizeMedium
-                backgroundColor: Theme.chipSurface
+                backgroundColor: SettingsMetrics.controlSurface
                 iconColor: Theme.surfaceText
                 Accessible.name: I18n.tr("Browse")
                 onClicked: root.browse()
@@ -89,7 +89,7 @@ Rectangle {
                 buttonSize: Theme.iconButtonSize
                 iconName: "palette"
                 iconSize: Theme.iconSizeMedium
-                backgroundColor: Theme.chipSurface
+                backgroundColor: SettingsMetrics.controlSurface
                 iconColor: Theme.surfaceText
                 visible: root.allowColor
                 tooltipText: I18n.tr("Custom")
@@ -100,7 +100,7 @@ Rectangle {
                 buttonSize: Theme.iconButtonSize
                 iconName: "close"
                 iconSize: Theme.iconSizeMedium
-                backgroundColor: Theme.chipSurface
+                backgroundColor: SettingsMetrics.controlSurface
                 iconColor: Theme.error
                 visible: root.path !== ""
                 Accessible.name: I18n.tr("Clear")

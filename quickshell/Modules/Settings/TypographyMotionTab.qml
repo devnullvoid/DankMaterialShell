@@ -167,7 +167,7 @@ Item {
                         width: motionPreview.laneWidth
                         height: parent.height
                         radius: Theme.cornerRadiusM
-                        color: Theme.chipSurface
+                        color: SettingsMetrics.controlColor
 
                         StyledText {
                             x: parent.width - width - Theme.spacingL

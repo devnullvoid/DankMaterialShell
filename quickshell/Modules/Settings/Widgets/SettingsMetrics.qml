@@ -7,7 +7,8 @@ import qs.Common
 Singleton {
     readonly property real sidebarWidth: 320
     readonly property real compactBreakpoint: 700
-    readonly property real contentMaxWidth: 720
+    readonly property real contentMaxWidth: Number.POSITIVE_INFINITY
+    readonly property real mediaMaxWidth: 720
     readonly property real windowWidth: 1100
     readonly property real windowHeight: 940
     readonly property real windowMinWidth: 500
@@ -15,7 +16,9 @@ Singleton {
     readonly property real formDialogWidth: 640
     readonly property real pagePaddingH: 40
     readonly property real pagePaddingV: 32
-    readonly property real scrollGutter: 32
+    readonly property real paneMargin: Theme.windowInset
+    readonly property real panePadding: Theme.spacingXL
+    readonly property real paneRadius: Theme.cornerRadiusL
     readonly property real pageHeaderHeight: Theme.fontSizeXXLarge + Theme.spacingXL + Theme.spacingM
     readonly property real rowPaddingH: 20
     readonly property real rowPaddingV: 16
@@ -46,7 +49,11 @@ Singleton {
     readonly property real previewTileMinWidth: 140
     readonly property real emptyStateHeight: 100
     readonly property real noteMaxHeight: 160
-    readonly property color rowColor: Theme.foregroundColor(Theme.cardSurface, true)
+    readonly property color paneColor: Theme.floatingWindowNestedSurface
+    readonly property color sidebarRowColor: Theme.floatingWindowNestedSurface
+    readonly property color rowColor: Theme.foregroundColor(Theme.chipSurface, true)
+    readonly property color controlSurface: Theme.chipSurfaceNested
+    readonly property color controlColor: Theme.foregroundColor(controlSurface, true)
     readonly property color rowHighlightColor: Theme.withAlpha(Theme.primary, highlightBlend)
     readonly property color selectedRowColor: Theme.selectedContainer
     readonly property int transitionDuration: Theme.expressiveDurations.expressiveFastSpatial

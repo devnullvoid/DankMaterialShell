@@ -129,7 +129,7 @@ Column {
             width: parent.width - SettingsMetrics.rowPaddingH * 2
             height: Theme.listItemHeight
             radius: Theme.cornerRadiusM
-            color: Theme.chipSurface
+            color: SettingsMetrics.controlColor
             activeFocusOnTab: root.currentMode === "custom"
             Accessible.role: Accessible.Button
             Accessible.name: I18n.tr("Custom color")
