@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Effects
 import Quickshell.Widgets
 import qs.Common
-import qs.Modals.Common
 import qs.Services
 import qs.Widgets
 import qs.Modules.Settings.Widgets
@@ -18,10 +17,6 @@ Item {
     Ref {
         service: SystemUpdateService
         modules: ["releases"]
-    }
-
-    ConfirmModal {
-        id: updateConfirm
     }
 
     readonly property var intervalOptions: [
@@ -59,6 +54,8 @@ Item {
     readonly property int systemCount: SystemUpdateService.systemUpdates.length
     readonly property int flatpakCount: SystemUpdateService.systemUpdates.filter(p => p.repo === "flatpak").length
     readonly property bool busy: SystemUpdateService.isChecking || SystemUpdateService.isUpgrading
+    // A refresh clears the log, so a log next to an error means the upgrade itself failed.
+    readonly property bool upgradeFailed: SystemUpdateService.hasError && !busy && (SystemUpdateService.recentLog || []).length > 0
     readonly property bool anythingToInstall: SystemUpdateService.updateCount > 0 && SystemUpdateService.helperAvailable
     readonly property string displayVersion: {
         const semver = ShellVersionService.semverVersion.replace(/^v/, "");
@@ -219,27 +216,19 @@ Item {
             SystemUpdateService.restartShell();
             return;
         case root.anythingToInstall:
-            root.confirmUpdateAll();
+            root.runUpdateAll();
             return;
         default:
             SystemUpdateService.checkForUpdates();
         }
     }
 
-    function confirmUpdateAll() {
-        updateConfirm.showWithOptions({
-            "title": I18n.tr("Install %1?", "confirm dialog title, %1 is an update count such as '34 updates'").arg(root.countText(SystemUpdateService.updateCount)),
-            "message": root.upgradeRunsInTerminal ? I18n.tr("The upgrade runs in a terminal window and may ask for your password.") : I18n.tr("You may be asked for your password. Keep the shell running until it finishes."),
-            "confirmText": I18n.tr("Update All"),
-            "onConfirm": () => root.runUpdateAll()
-        });
-    }
-
-    function runUpdateAll() {
+    function runUpdateAll(interactive) {
         SystemUpdateService.runUpdates({
             includeFlatpak: SettingsData.updaterIncludeFlatpak,
             includeAUR: SettingsData.updaterAllowAUR,
-            terminal: SessionData.terminalOverride
+            terminal: SessionData.terminalOverride,
+            interactive: interactive === true
         });
         packagesExpanded = false;
     }
@@ -491,7 +480,7 @@ Item {
                     backgroundColor: Theme.chipSurface
                     textColor: Theme.surfaceText
                     enabled: !root.busy
-                    onClicked: root.confirmUpdateAll()
+                    onClicked: root.runUpdateAll()
                 }
             }
 
@@ -533,7 +522,7 @@ Item {
             }
 
             SettingsRow {
-                visible: SystemUpdateService.isUpgrading
+                visible: SystemUpdateService.isUpgrading || (root.upgradeFailed && !root.upgradeRunsInTerminal)
                 body: Item {
                     readonly property real lineHeight: logText.implicitHeight / Math.max(1, logText.lineCount)
 
@@ -561,6 +550,16 @@ Item {
                 subtitle: SystemUpdateService.errorHint
                 iconName: "error_outline"
                 iconColor: Theme.error
+
+                DankButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: root.upgradeFailed && !root.upgradeRunsInTerminal
+                    text: I18n.tr("Open in terminal")
+                    iconName: "terminal"
+                    backgroundColor: Theme.chipSurface
+                    textColor: Theme.surfaceText
+                    onClicked: root.runUpdateAll(true)
+                }
             }
         }
 
