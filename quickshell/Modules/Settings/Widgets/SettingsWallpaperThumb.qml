@@ -9,11 +9,14 @@ Rectangle {
     property string path: ""
     property string placeholderIcon: "image"
     property string emptyText: I18n.tr("Not set", "wallpaper not set label")
+    property bool showMaterial: false
+    property var materialComposition: null
     property bool allowColor: true
 
     readonly property bool isColor: path.startsWith("#")
     readonly property bool isImage: path !== "" && !isColor
-    readonly property string fileName: path !== "" ? path.split("/").pop() : emptyText
+    readonly property bool isMaterial: showMaterial && path === ""
+    readonly property string fileName: path !== "" ? path.split("/").pop() : (showMaterial ? I18n.tr("Material", "wallpaper type") : emptyText)
 
     signal browse
     signal pickColor
@@ -27,6 +30,14 @@ Rectangle {
         anchors.fill: parent
         radius: root.radius
         color: "transparent"
+
+        Loader {
+            anchors.fill: parent
+            active: root.showMaterial && !root.isColor && (!root.isImage || imageLoader.item?.status === Image.Error)
+            sourceComponent: MaterialWallpaper {
+                composition: root.materialComposition
+            }
+        }
 
         Loader {
             id: imageLoader
@@ -47,7 +58,7 @@ Rectangle {
         name: root.placeholderIcon
         size: Theme.iconSizeLarge
         color: Theme.surfaceVariantText
-        visible: !root.isColor && (!root.isImage || imageLoader.item?.status === Image.Error)
+        visible: !root.showMaterial && !root.isColor && (!root.isImage || imageLoader.item?.status === Image.Error)
     }
 
     MouseArea {

@@ -269,7 +269,7 @@ Item {
                                     return I18n.tr("Matugen Missing", "matugen not found status");
                                 if (Theme.wallpaperPath)
                                     return Theme.wallpaperPath.split('/').pop();
-                                return I18n.tr("No wallpaper selected", "no wallpaper status");
+                                return I18n.tr("Material", "wallpaper type");
                             }
                             font.pixelSize: Theme.fontSizeLarge
                             color: Theme.surfaceText
@@ -366,7 +366,7 @@ Item {
                 description: I18n.tr("Which wallpaper color the palette is built from", "matugen source color dropdown description")
                 options: cachedSourceModes
                 currentValue: Theme.getSourceMode(SettingsData.matugenSourceMode).label
-                enabled: Theme.matugenAvailable && !SettingsData.matugenSeedColor
+                enabled: Theme.matugenAvailable && !SettingsData.matugenSeedColor && !!Theme.rawWallpaperPath
                 onValueChanged: value => {
                     for (var i = 0; i < Theme.availableSourceModes.length; i++) {
                         var option = Theme.availableSourceModes[i];
@@ -389,8 +389,8 @@ Item {
                 options: [
                     {
                         "value": "default",
-                        "previewColor": Theme.getMatugenColor("source_color", Theme.primary),
-                        "label": I18n.tr("From wallpaper", "matugen seed color option")
+                        "previewColor": (!Theme.rawWallpaperPath ? Theme.materialWallpaperSeed : Theme.getMatugenColor("source_color", Theme.primary)),
+                        "label": Theme.rawWallpaperPath ? I18n.tr("From wallpaper", "matugen seed color option") : I18n.tr("Material", "wallpaper type")
                     },
                     {
                         "value": "custom",
@@ -398,7 +398,7 @@ Item {
                     }
                 ]
                 currentMode: SettingsData.matugenSeedColor ? "custom" : "default"
-                customColor: SettingsData.matugenSeedColor || Theme.getMatugenColor("source_color", Theme.primary)
+                customColor: SettingsData.matugenSeedColor || (!Theme.rawWallpaperPath ? Theme.materialWallpaperSeed : Theme.getMatugenColor("source_color", Theme.primary))
                 pickerTitle: I18n.tr("Seed color")
                 onModeSelected: mode => {
                     if (mode !== "custom") {
@@ -407,7 +407,7 @@ Item {
                     }
                     if (SettingsData.matugenSeedColor)
                         return;
-                    SettingsData.setMatugenSeedColor(Theme.getMatugenColor("source_color", Theme.primary).toString());
+                    SettingsData.setMatugenSeedColor((!Theme.rawWallpaperPath ? Theme.materialWallpaperSeed : Theme.getMatugenColor("source_color", Theme.primary)).toString());
                 }
                 onCustomColorSelected: selectedColor => SettingsData.setMatugenSeedColor(Theme.withAlpha(selectedColor, 1).toString())
             }

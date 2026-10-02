@@ -1323,6 +1323,37 @@
     "icon": "view_in_ar"
   },
   {
+    "section": "materialSeedHue",
+    "label": "Hue",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "around",
+      "background",
+      "bg",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "cool",
+      "desktop",
+      "fine",
+      "hue",
+      "image",
+      "material",
+      "palette",
+      "picture",
+      "seed",
+      "tint",
+      "tune",
+      "wallpaper",
+      "warm",
+      "wheel"
+    ],
+    "page": "personalization",
+    "description": "Fine-tune the seed around the color wheel"
+  },
+  {
     "section": "controlCenterIconScale",
     "label": "Icon scale",
     "tabIndex": -1,
@@ -1548,6 +1579,36 @@
       "window"
     ],
     "page": "theme_surfaces"
+  },
+  {
+    "section": "materialPresets",
+    "label": "Material",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "background",
+      "bg",
+      "bloom",
+      "colors",
+      "colour",
+      "colours",
+      "dank",
+      "desktop",
+      "dune",
+      "garden",
+      "hue",
+      "image",
+      "material",
+      "orbit",
+      "palette",
+      "petal",
+      "picture",
+      "preset",
+      "shape",
+      "tint",
+      "wallpaper"
+    ],
+    "page": "personalization"
   },
   {
     "section": "matugenTargetMonitor",
@@ -1788,6 +1849,33 @@
     "page": "theme_surfaces"
   },
   {
+    "section": "paletteStyleNav",
+    "label": "Palette style",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "background",
+      "bg",
+      "colors",
+      "colour",
+      "colours",
+      "desktop",
+      "expressive",
+      "hue",
+      "image",
+      "matugen",
+      "neutral",
+      "palette",
+      "picture",
+      "scheme",
+      "style",
+      "tint",
+      "vibrant",
+      "wallpaper"
+    ],
+    "page": "personalization"
+  },
+  {
     "section": "pluginManagerUnavailable",
     "label": "Plugins",
     "tabIndex": -1,
@@ -2018,6 +2106,31 @@
       "security"
     ],
     "icon": "lock"
+  },
+  {
+    "section": "materialSeedColor",
+    "label": "Seed color",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "background",
+      "bg",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "desktop",
+      "hue",
+      "image",
+      "material",
+      "palette",
+      "picture",
+      "seed",
+      "tint",
+      "wallpaper"
+    ],
+    "page": "personalization",
+    "icon": "colorize"
   },
   {
     "section": "perModeWallpaper",
@@ -2307,6 +2420,42 @@
       "wallpaper"
     ],
     "page": "personalization"
+  },
+  {
+    "section": "materialSeed",
+    "label": "Theme color",
+    "tabIndex": -1,
+    "category": "Wallpaper & colors",
+    "keywords": [
+      "appearance",
+      "around",
+      "background",
+      "bg",
+      "color",
+      "colors",
+      "colour",
+      "colours",
+      "desktop",
+      "dynamic",
+      "fine",
+      "hue",
+      "image",
+      "look",
+      "material",
+      "matugen",
+      "palette",
+      "picture",
+      "seed",
+      "style",
+      "theme",
+      "tint",
+      "tune",
+      "wallpaper",
+      "wheel"
+    ],
+    "page": "personalization",
+    "icon": "colorize",
+    "description": "Fine-tune the seed around the color wheel"
   },
   {
     "section": "focusRingWidth",

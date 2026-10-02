@@ -16,6 +16,7 @@ SettingsRow {
     property alias unit: slider.unit
     property alias decimals: slider.decimals
     property alias size: slider.size
+    property alias trackGradient: slider.trackGradient
 
     readonly property bool atMinimum: minimumLabel !== "" && slider.value === slider.minimum
     readonly property int stepAmount: Math.max(1, step)
