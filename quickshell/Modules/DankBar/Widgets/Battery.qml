@@ -36,7 +36,7 @@ BasePill {
     }
 
     SequentialAnimation on criticalPulse {
-        running: battery.critical && !SettingsData.reduceMotion
+        running: battery.critical && battery.surfaceLive && !SettingsData.reduceMotion
         loops: Animation.Infinite
         onRunningChanged: {
             if (!running)

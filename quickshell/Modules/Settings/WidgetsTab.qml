@@ -640,6 +640,7 @@ Item {
                 width: parent.width
                 title: selectedBarIsVertical ? I18n.tr("Top section") : I18n.tr("Left section")
                 sectionId: "left"
+                barId: widgetsTab.selectedBarId
                 allWidgets: widgetsTab.baseWidgetDefinitions
                 items: widgetsTab.getItemsForSection("left")
                 onItemEnabledChanged: (sectionId, itemId, enabled) => {
@@ -723,6 +724,7 @@ Item {
                 width: parent.width
                 title: selectedBarIsVertical ? I18n.tr("Middle section") : I18n.tr("Center section")
                 sectionId: "center"
+                barId: widgetsTab.selectedBarId
                 allWidgets: widgetsTab.baseWidgetDefinitions
                 items: widgetsTab.getItemsForSection("center")
                 onItemEnabledChanged: (sectionId, itemId, enabled) => {
@@ -756,6 +758,7 @@ Item {
                 width: parent.width
                 title: selectedBarIsVertical ? I18n.tr("Bottom section") : I18n.tr("Right section")
                 sectionId: "right"
+                barId: widgetsTab.selectedBarId
                 allWidgets: widgetsTab.baseWidgetDefinitions
                 items: widgetsTab.getItemsForSection("right")
                 onItemEnabledChanged: (sectionId, itemId, enabled) => {
