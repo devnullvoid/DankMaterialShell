@@ -358,7 +358,7 @@ Scope {
                 return;
             lockWakeAllowed = false;
             resetPowerOffFade();
-            if (IdleService.monitorsOff && powerOffOnLock) {
+            if (IdleService.monitorsOff) {
                 IdleService.monitorsOff = false;
                 CompositorService.powerOnMonitors();
             }
