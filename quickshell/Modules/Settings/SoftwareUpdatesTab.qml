@@ -55,6 +55,7 @@ Item {
     readonly property int logTailLines: 20
     readonly property real logViewHeight: Theme.listItemHeight * 5
     readonly property bool upgradeRunsInTerminal: SystemUpdateService.useCustomCommand || (SystemUpdateService.backends || []).some(b => b.runsInTerminal === true)
+    readonly property bool upgradeInWindow: SettingsData.updaterUpgradeInWindow && !upgradeRunsInTerminal
     readonly property int systemCount: SystemUpdateService.systemUpdates.length
     readonly property int flatpakCount: SystemUpdateService.systemUpdates.filter(p => p.repo === "flatpak").length
     readonly property bool busy: SystemUpdateService.isChecking || SystemUpdateService.isUpgrading
@@ -264,6 +265,8 @@ Item {
             interactive: interactive === true
         });
         packagesExpanded = false;
+        if (upgradeInWindow && interactive !== true)
+            PopoutService.showSystemUpdateModal();
     }
 
     SettingsPage {
@@ -542,7 +545,23 @@ Item {
             }
 
             SettingsRow {
-                visible: SystemUpdateService.isUpgrading || (root.upgradeFailed && !root.upgradeRunsInTerminal)
+                visible: root.upgradeInWindow && SystemUpdateService.isUpgrading
+                title: I18n.tr("Upgrading...", "system update popout status while packages upgrade")
+                iconName: "open_in_new"
+
+                DankButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    buttonHeight: Theme.buttonHeightS
+                    text: I18n.tr("Show window", "button, brings back the floating system update window")
+                    iconName: "open_in_new"
+                    backgroundColor: SettingsMetrics.controlSurface
+                    textColor: Theme.surfaceText
+                    onClicked: PopoutService.showSystemUpdateModal()
+                }
+            }
+
+            SettingsRow {
+                visible: (SystemUpdateService.isUpgrading && !root.upgradeInWindow) || (root.upgradeFailed && !root.upgradeRunsInTerminal)
                 body: Item {
                     readonly property real lineHeight: logText.implicitHeight / Math.max(1, logText.lineCount)
 
@@ -708,6 +727,17 @@ Item {
                 visible: root.upgradeRunsInTerminal
                 checked: SettingsData.updaterReopenAfterUpgrade
                 onToggled: checked => SettingsData.set("updaterReopenAfterUpgrade", checked)
+            }
+
+            SettingsToggleRow {
+                settingKey: "systemUpdaterUpgradeInWindow"
+                tags: ["window", "popout", "floating", "log", "output"]
+                resetKeys: ["updaterUpgradeInWindow"]
+                text: I18n.tr("Show upgrade in a window")
+                description: I18n.tr("Opens a floating window with the live output")
+                visible: !root.upgradeRunsInTerminal
+                checked: SettingsData.updaterUpgradeInWindow
+                onToggled: checked => SettingsData.set("updaterUpgradeInWindow", checked)
             }
 
             TerminalPickerRow {}

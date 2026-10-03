@@ -1364,6 +1364,9 @@ var LOCAL_SPEC = {
     updaterReopenAfterUpgrade: {
         def: true
     },
+    updaterUpgradeInWindow: {
+        def: false
+    },
     updaterIgnoredPackages: {
         def: []
     },

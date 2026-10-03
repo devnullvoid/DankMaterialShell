@@ -1001,6 +1001,29 @@ Item {
     }
 
     LazyLoader {
+        id: systemUpdateModalLoader
+
+        active: false
+
+        Component.onCompleted: PopoutService.systemUpdateModalLoader = systemUpdateModalLoader
+
+        SystemUpdateModal {
+            id: systemUpdateModal
+            property bool wasShown: false
+
+            Component.onCompleted: PopoutService.systemUpdateModal = systemUpdateModal
+
+            onVisibleChanged: {
+                if (systemUpdateModal.visible) {
+                    wasShown = true;
+                } else if (wasShown) {
+                    PopoutService.unloadSystemUpdateModal();
+                }
+            }
+        }
+    }
+
+    LazyLoader {
         id: systemUpdateLoader
 
         active: false

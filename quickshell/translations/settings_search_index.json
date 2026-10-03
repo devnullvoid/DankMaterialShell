@@ -9036,6 +9036,29 @@
     "parentLabel": "System & integrations"
   },
   {
+    "section": "systemUpdaterUpgradeInWindow",
+    "label": "Show upgrade in a window",
+    "tabIndex": 20,
+    "category": "Software updates",
+    "keywords": [
+      "floating",
+      "integrations",
+      "live",
+      "log",
+      "opens",
+      "output",
+      "popout",
+      "show",
+      "software",
+      "system",
+      "updates",
+      "upgrade",
+      "window"
+    ],
+    "parentLabel": "System & integrations",
+    "description": "Opens a floating window with the live output"
+  },
+  {
     "section": "_tab_20",
     "label": "Software updates",
     "tabIndex": 20,
