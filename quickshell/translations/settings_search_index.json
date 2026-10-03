@@ -3182,6 +3182,40 @@
     "conditionKey": "islandEnabled"
   },
   {
+    "section": "islandChargingPulse",
+    "label": "Charging",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "bar",
+      "battery",
+      "briefly",
+      "charge",
+      "charging",
+      "connected",
+      "general",
+      "hibernate",
+      "island",
+      "panel",
+      "plugged",
+      "power",
+      "pulse",
+      "reboot",
+      "removed",
+      "restart",
+      "show",
+      "shutdown",
+      "sleep",
+      "statusbar",
+      "suspend",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "description": "Show the battery briefly when power is connected or removed",
+    "conditionKey": "islandEnabled"
+  },
+  {
     "section": "islandNotificationBadgeClearOnOpen",
     "label": "Clear badge on open",
     "tabIndex": 3,
@@ -4257,12 +4291,16 @@
     "keywords": [
       "bar",
       "brightness",
+      "caps lock",
       "general",
+      "idle inhibitor",
       "island",
       "level",
+      "microphone",
       "osd",
       "osds",
       "panel",
+      "power profile",
       "standard",
       "statusbar",
       "taskbar",
@@ -4802,6 +4840,7 @@
       "charge",
       "charging",
       "circle",
+      "duo",
       "gauge",
       "island",
       "outline",
@@ -4812,7 +4851,8 @@
       "statusbar",
       "style",
       "taskbar",
-      "topbar"
+      "topbar",
+      "wifi"
     ],
     "parentLabel": "Bar",
     "conditionKey": "islandEnabled"
@@ -9814,7 +9854,15 @@
     "optionFile": "PrivacyOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:26",
+    "section": "barWidgetOption:IslandOptions.qml:25",
+    "label": "Charging",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:27",
     "label": "Clear badge on open",
     "tabIndex": 22,
     "keywords": [],
@@ -10030,7 +10078,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:25",
+    "section": "barWidgetOption:IslandOptions.qml:26",
     "label": "Expand by default",
     "tabIndex": 22,
     "keywords": [],
@@ -10326,7 +10374,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:27",
+    "section": "barWidgetOption:IslandOptions.qml:28",
     "label": "Motion",
     "tabIndex": 22,
     "keywords": [],
@@ -10422,7 +10470,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:28",
+    "section": "barWidgetOption:IslandOptions.qml:29",
     "label": "Reduce motion",
     "tabIndex": 22,
     "keywords": [],
@@ -10638,7 +10686,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:30",
+    "section": "barWidgetOption:IslandOptions.qml:31",
     "label": "Spring damping",
     "tabIndex": 22,
     "keywords": [],
@@ -10646,7 +10694,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:31",
+    "section": "barWidgetOption:IslandOptions.qml:32",
     "label": "Spring mass",
     "tabIndex": 22,
     "keywords": [],
@@ -10654,7 +10702,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:29",
+    "section": "barWidgetOption:IslandOptions.qml:30",
     "label": "Spring stiffness",
     "tabIndex": 22,
     "keywords": [],
@@ -16855,6 +16903,40 @@
     "conditionKey": "dotEnabled"
   },
   {
+    "section": "dotChargingPulse",
+    "label": "Charging",
+    "tabIndex": 65,
+    "category": "Dot",
+    "keywords": [
+      "bar",
+      "battery",
+      "briefly",
+      "charge",
+      "charging",
+      "connected",
+      "dot",
+      "hibernate",
+      "island",
+      "panel",
+      "plugged",
+      "power",
+      "pulse",
+      "reboot",
+      "removed",
+      "restart",
+      "show",
+      "shutdown",
+      "sleep",
+      "statusbar",
+      "suspend",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "description": "Show the battery briefly when power is connected or removed",
+    "conditionKey": "dotEnabled"
+  },
+  {
     "section": "dotNotificationBadgeClearOnOpen",
     "label": "Clear badge on open",
     "tabIndex": 65,
@@ -17491,12 +17573,16 @@
     "keywords": [
       "bar",
       "brightness",
+      "caps lock",
       "dot",
+      "idle inhibitor",
       "island",
       "level",
+      "microphone",
       "osd",
       "osds",
       "panel",
+      "power profile",
       "standard",
       "statusbar",
       "taskbar",

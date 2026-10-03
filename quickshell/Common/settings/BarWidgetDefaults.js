@@ -36,6 +36,7 @@ var ISLAND_DEFAULTS = {
     islandNotificationExpand: false,
     islandNotificationPopups: false,
     islandSystemOsd: true,
+    islandChargingPulse: true,
     islandHomeCompactTight: false,
     islandHomeClockDisplay: "both",
     islandHomeVolumeDisplay: "both",

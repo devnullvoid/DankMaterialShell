@@ -236,6 +236,10 @@ QtObject {
     }
 
     function setDestinationContentLength(activityId, length) {
+        if (isSystemActivity(activityId)) {
+            setSystemStateContentLength(length);
+            return;
+        }
         const entry = destinationState[activityId];
         const next = Math.ceil(length);
         if (!entry || !isFinite(next) || next <= 0 || Math.abs(next - entry.contentLength) < 2)
@@ -429,7 +433,13 @@ QtObject {
             "bottomLeftRadius": root.dotSize / 2,
             "bottomRightRadius": root.dotSize / 2
         })
-    readonly property var dotTransientActivities: ["notification", "volume", "brightness"]
+    readonly property var systemLevelActivities: ["volume", "brightness", "mic"]
+    readonly property var systemStateActivities: ["capslock", "powerprofile", "idleinhibitor", "charging"]
+    readonly property var systemActivities: systemLevelActivities.concat(systemStateActivities)
+    readonly property var dotTransientActivities: ["notification"].concat(systemActivities)
+    function isSystemActivity(activityId) {
+        return root.systemActivities.indexOf(activityId) !== -1;
+    }
     // Transients keep their island pill so the dot can still show a notification or a level.
     function usesDotFace(activityId) {
         return root.dotMode && root.dotTransientActivities.indexOf(activityId) === -1;
@@ -441,13 +451,15 @@ QtObject {
     readonly property var launcherExpandedTarget: sheetTarget(Math.min(dashboardAvailableWidth, LauncherMetrics.sizeWidth(SettingsData.dankLauncherV2Size)), Math.min(dashboardAvailableHeight, LauncherMetrics.sizeHeight(SettingsData.dankLauncherV2Size)))
     readonly property var controlCenterExpandedTarget: sheetTarget(controlCenterSheetWidth + controlCenterSheetInset, controlCenterHeight)
     readonly property var systemCompactTarget: pillTarget(root.isVertical ? 240 : (SettingsData.osdAlwaysShowValue ? 330 : 282), compactFaceThickness)
+    property real systemStateContentLength: 0
+    readonly property var systemStateCompactTarget: pillTarget(Math.ceil(Math.max(compactFaceThickness, systemStateContentLength + destinationCompactEndPad * 2)), compactFaceThickness)
     readonly property var systemExpandedTarget: sheetTarget(460, 176)
     readonly property var notificationCompactTarget: pillTarget(Math.ceil(Math.max(notificationCompactMinLength, Math.min(notificationCompactMaxLength, notificationContentLength))), compactFaceThickness)
     readonly property var notificationExpandedTarget: sheetTarget(520, 220)
     readonly property var notificationCenterExpandedTarget: dashboardTargetFor("notificationcenter")
     readonly property var clipboardExpandedTarget: sheetTarget(Math.min(dashboardAvailableWidth, ClipboardConstants.sizeWidth(SettingsData.clipboardSize)), Math.min(dashboardAvailableHeight, ClipboardConstants.sizeHeight(SettingsData.clipboardSize)))
 
-    readonly property bool systemActivityActive: activeActivity === "volume" || activeActivity === "brightness"
+    readonly property bool systemActivityActive: isSystemActivity(activeActivity)
     readonly property bool notificationActive: activeActivity === "notification"
     readonly property bool notificationHeldForSystem: root.systemActivityActive && root.transientReturnActivity === "notification"
     readonly property bool transientActive: systemActivityActive || notificationActive
@@ -460,14 +472,15 @@ QtObject {
         switch (activityId) {
         case "notification":
             return notificationCompactTarget;
-        case "volume":
-        case "brightness":
-            return systemCompactTarget;
         case "media":
             return mediaCompactTarget;
         case "home":
             return homeCompactTarget;
         }
+        if (systemLevelActivities.indexOf(activityId) !== -1)
+            return systemCompactTarget;
+        if (systemStateActivities.indexOf(activityId) !== -1)
+            return systemStateCompactTarget;
         return isDestination(activityId) ? pillTarget(destinationCompactLength(activityId), compactFaceThickness) : homeCompactTarget;
     }
 
@@ -478,9 +491,6 @@ QtObject {
             return homeExpandedTarget;
         case "notification":
             return notificationExpandedTarget;
-        case "volume":
-        case "brightness":
-            return systemExpandedTarget;
         case "launcher":
             return launcherExpandedTarget;
         case "controlcenter":
@@ -492,7 +502,7 @@ QtObject {
         case "media":
             return mediaExpandedTarget;
         }
-        return dashboardTargetFor(activityId);
+        return isSystemActivity(activityId) ? systemExpandedTarget : dashboardTargetFor(activityId);
     }
 
     readonly property var expandedTarget: expandedTargetFor(activeActivity)
@@ -758,8 +768,15 @@ QtObject {
         activeActivity = returnActivity;
     }
 
+    function setSystemStateContentLength(length) {
+        const next = Math.ceil(length);
+        if (!isFinite(next) || next <= 0 || Math.abs(next - systemStateContentLength) < 2)
+            return;
+        systemStateContentLength = next;
+    }
+
     function requestSystemActivity(activityId) {
-        if (activityId !== "volume" && activityId !== "brightness")
+        if (!isSystemActivity(activityId))
             return false;
 
         launcherSessionActive = false;

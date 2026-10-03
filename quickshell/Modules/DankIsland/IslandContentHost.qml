@@ -54,7 +54,15 @@ Item {
     readonly property real outgoingCompactFade: root.fadeCompact(root.outgoingMorph)
     readonly property real outgoingExpandedFade: root.fadeExpanded(root.outgoingMorph)
     readonly property bool mediaSurfaceActive: root.surfaceActive("media")
-    readonly property bool systemSurfaceActive: root.surfaceActive("volume") || root.surfaceActive("brightness")
+    readonly property bool systemSurfaceActive: root.controller.systemActivities.some(id => root.surfaceActive(id))
+
+    function systemCompactOpacity() {
+        return Math.max(0, ...root.controller.systemActivities.map(id => root.compactOpacity(id)));
+    }
+
+    function systemExpandedOpacity() {
+        return Math.max(0, ...root.controller.systemActivities.map(id => root.expandedOpacity(id)));
+    }
 
     property string renderedActivity: "home"
     property string outgoingActivity: ""
@@ -342,7 +350,7 @@ Item {
         active: root.systemSurfaceActive
         activity: "volume"
         face: root.systemCompactComponent
-        opacity: Math.max(root.compactOpacity("volume"), root.compactOpacity("brightness"))
+        opacity: root.systemCompactOpacity()
     }
 
     ExpandedFace {
@@ -350,7 +358,7 @@ Item {
         active: root.systemSurfaceActive && (root.expanded || root.expandedFade > 0)
         asynchronous: false
         sourceComponent: root.systemExpandedComponent
-        opacity: Math.max(root.expandedOpacity("volume"), root.expandedOpacity("brightness"))
+        opacity: root.systemExpandedOpacity()
     }
 
     CompactFace {

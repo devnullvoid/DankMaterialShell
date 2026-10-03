@@ -593,3 +593,57 @@ test("an expanding hosted island closes its own bar's popout only for deliberate
     host.closeSameEdgeSurfaces();
     assert.deepEqual(closed.splice(0), ["modal:launcher"], "connected chrome closes only the same-edge slot, and only this screen's modal");
 });
+
+const controllerSource = readFileSync(new URL("../Modules/DankIsland/IslandController.qml", import.meta.url), "utf8");
+
+function controllerContext() {
+    const context = vm.createContext({
+        systemLevelActivities: ["volume", "brightness", "mic"],
+        systemStateActivities: ["capslock", "powerprofile", "idleinhibitor", "charging"],
+        activeActivity: "home",
+        expanded: false,
+        notificationActive: false,
+        launcherSessionActive: false,
+        transientReturnActivity: "",
+        hoverExpanded: false,
+        keyboardDismissRequested: false,
+        transientTimer: { stop() {}, restart() {} },
+        notificationTimer: { stop() {} },
+        hoverOpenTimer: { stop() {} },
+        hoverCloseTimer: { stop() {} },
+        destinations: [],
+        destinationState: {},
+        destinationRevision: 0,
+        timeoutSuspended: false
+    });
+    context.root = context;
+    context.systemActivities = context.systemLevelActivities.concat(context.systemStateActivities);
+    Object.defineProperty(context, "systemActivityActive", { get: () => context.isSystemActivity(context.activeActivity) });
+    return functions(controllerSource, "    ", context);
+}
+
+test("state pulses are system transients that return to the interrupted activity", () => {
+    const controller = controllerContext();
+    controller.activeActivity = "media";
+    assert.equal(controller.requestSystemActivity("capslock"), true);
+    assert.equal(controller.activeActivity, "capslock");
+    assert.equal(controller.transientReturnActivity, "media");
+    assert.equal(controller.requestSystemActivity("charging"), true, "a second pulse replaces the first");
+    assert.equal(controller.transientReturnActivity, "media", "the return point is kept across chained pulses");
+    assert.equal(controller.requestSystemActivity("bogus"), false);
+    assert.equal(controller.activeActivity, "charging");
+    controller.expanded = true;
+    assert.equal(controller.requestSystemActivity("mic"), false, "an open sheet is not interrupted");
+});
+
+test("the privacy slot is a known home layout entry appended after stored ones", () => {
+    const groupIds = JSON.parse(settingsSource.match(/_islandHomeGroupIds: (\[.*\])/)[1]);
+    const layoutDefault = JSON.parse(settingsSource.match(/_islandHomeLayoutDefault: (\[[\s\S]*?\n    \])/)[1]);
+    const settings = functions(settingsSource, "    ", vm.createContext({ _islandHomeGroupIds: groupIds, _islandHomeLayoutDefault: layoutDefault }));
+    settings.islandSetting = (config, key) => config[key];
+    settings.islandSettings = config => config;
+    const legacy = { islandHomeLayout: [{ id: "clock" }, { id: "media", enabled: false }] };
+    const ids = settings.getIslandHomeLayout(legacy).map(entry => entry.id);
+    assert.ok(ids.includes("privacy"), "a stored layout gains the privacy slot");
+    assert.equal(ids.indexOf("privacy"), ids.length - 1, "new slots append after the stored order");
+});

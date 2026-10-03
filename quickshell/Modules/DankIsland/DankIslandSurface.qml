@@ -680,10 +680,27 @@ Item {
     Component {
         id: compactSystemComponent
 
+        Loader {
+            sourceComponent: root.systemModel.levelActivity ? compactSystemLevelComponent : compactSystemStateComponent
+        }
+    }
+
+    Component {
+        id: compactSystemLevelComponent
+
         SystemLevelCompact {
             systemModel: root.systemModel
             isVertical: root.isVertical
             iconSize: root.controller.compactIconSize
+        }
+    }
+
+    Component {
+        id: compactSystemStateComponent
+
+        SystemStateCompact {
+            systemModel: root.systemModel
+            controller: root.controller
         }
     }
 

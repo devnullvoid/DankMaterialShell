@@ -55,6 +55,11 @@ Column {
                 "icon": "notifications",
                 "text": I18n.tr("Notifications", "island settings: notification badge slot row"),
                 "description": ""
+            },
+            "privacy": {
+                "icon": "privacy_tip",
+                "text": I18n.tr("Privacy", "island settings: microphone, camera and screen share indicator slot row"),
+                "description": I18n.tr("Shown only while the microphone, camera or screen sharing is in use", "island settings: privacy slot hint")
             }
         })
 

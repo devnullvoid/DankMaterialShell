@@ -39,7 +39,7 @@ CcTile {
     }
     active: false
     opensPage: true
-    enabled: DgopService.dgopAvailable
+    available: DgopService.dgopAvailable
     tallContent: Component {
         Item {
             DankRingGauge {

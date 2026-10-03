@@ -1280,7 +1280,7 @@ Item {
                 }
 
                 Variants {
-                    model: SettingsData.getFilteredScreens("osd")
+                    model: root.legacySystemLevelOsdScreens
 
                     delegate: MicVolumeOSD {}
                 }
@@ -1292,19 +1292,19 @@ Item {
                 }
 
                 Variants {
-                    model: SettingsData.getFilteredScreens("osd")
+                    model: root.legacySystemLevelOsdScreens
 
                     delegate: IdleInhibitorOSD {}
                 }
 
                 Variants {
-                    model: SettingsData.osdPowerProfileEnabled ? SettingsData.getFilteredScreens("osd") : []
+                    model: SettingsData.osdPowerProfileEnabled ? root.legacySystemLevelOsdScreens : []
 
                     delegate: PowerProfileOSD {}
                 }
 
                 Variants {
-                    model: SettingsData.getFilteredScreens("osd")
+                    model: root.legacySystemLevelOsdScreens
 
                     delegate: CapsLockOSD {}
                 }

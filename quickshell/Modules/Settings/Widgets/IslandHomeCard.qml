@@ -14,7 +14,7 @@ SettingsCard {
     readonly property var clockDisplayValues: ["time", "date", "both"]
     readonly property var systemLevelDisplayValues: ["icon", "percentage", "both"]
     readonly property var statusContentValues: ["battery", "connectivity"]
-    readonly property var batteryStyleValues: ["solid", "outline", "ring"]
+    readonly property var batteryStyleValues: ["solid", "outline", "ring", "duo"]
     readonly property bool batteryShown: SettingsData.islandHomeGroupEnabled(root.store.config, "status") && BatteryService.batteryAvailable && SettingsData.islandHomeStatusContent(root.store.config) === "battery"
 
 
@@ -110,12 +110,12 @@ SettingsCard {
 
     SettingsButtonGroupRow {
         settingKey: root.keyPrefix + "BatteryStyle"
-        tags: ["island", "battery", "gauge", "solid", "outline", "ring", "circle", "appearance"]
+        tags: ["island", "battery", "gauge", "solid", "outline", "ring", "circle", "duo", "wifi", "appearance"]
         resetStore: root.store
         resetKeys: ["islandBatteryStyle"]
         text: I18n.tr("Battery style", "island settings: battery meter style row")
         visible: root.batteryShown
-        model: [I18n.tr("Solid", "island settings: filled battery meter style"), I18n.tr("Outline", "island settings: outlined battery meter style"), I18n.tr("Circle", "island settings: circular battery meter style")]
+        model: [I18n.tr("Solid", "island settings: filled battery meter style"), I18n.tr("Outline", "island settings: outlined battery meter style"), I18n.tr("Circle", "island settings: circular battery meter style"), I18n.tr("Duo", "battery meter style: open battery arc around the network glyph")]
         values: root.batteryStyleValues
         value: root.store.setting("islandBatteryStyle")
         fallbackValue: "solid"

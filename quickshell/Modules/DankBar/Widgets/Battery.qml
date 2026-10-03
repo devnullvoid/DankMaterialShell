@@ -109,12 +109,15 @@ BasePill {
         return parts.join(" ");
     }
 
-    // Percent always stays inside the pill; time and wattage show beside it.
+    // Percent stays inside the pill unless the duo glyph occupies it; time and wattage show beside it.
     readonly property string horizontalSideText: {
         if (!pillStyle) {
             return horizontalDisplayText;
         }
         const parts = [];
+        if (showPercent && batteryStyle === "duo") {
+            parts.push(`${BatteryService.batteryLevel}%`);
+        }
         if (showTime && batteryTimeText) {
             parts.push(batteryTimeText);
         }
