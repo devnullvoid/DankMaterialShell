@@ -244,7 +244,7 @@ ShellRoot {
         waitFor(() => focused()?.cursorPosition !== undefined && inside(sidebar, focused()), "sidebar search takes focus");
         input.keyClick(Qt.Key_Tab);
         const afterTab = focused();
-        check(inside(sidebar, afterTab) && afterTab.hint !== undefined && modal.pageFocuses === 0, "Tab from the sidebar search reaches the first sidebar row");
+        check(inside(sidebar, afterTab) && afterTab.tooltipText === "Users & accounts" && modal.pageFocuses === 0, "Tab from the sidebar search reaches the avatar button");
 
         const sidebarScroll = find(sidebar, item => item.contentY !== undefined && typeof item.flick === "function");
         const categoryIds = sidebar.navigableIds();
@@ -268,7 +268,7 @@ ShellRoot {
         sidebar.focusSearch();
         input.keyClick(Qt.Key_Tab);
         const profile = focused();
-        check(profile === afterTab && profile.highlighted, "profile row shows keyboard focus");
+        check(profile === afterTab && find(profile, item => item.stateOpacity !== undefined).stateOpacity > 0, "avatar button shows keyboard focus");
         input.keyClick(Qt.Key_Tab);
         const firstRow = checkCategory(categoryIds[0]);
         const ring = find(firstRow, item => item.pointerFocused !== undefined);
@@ -287,7 +287,7 @@ ShellRoot {
             checkCategory(categoryIds[i]);
         }
         input.keyClick(Qt.Key_Backtab, Qt.ShiftModifier);
-        check(focused() === profile && sidebarScroll.contentY === 0, "Shift+Tab reveals the profile row again");
+        check(focused() === profile && sidebarScroll.contentY === 0, "Shift+Tab returns to the avatar button");
         input.keyClick(Qt.Key_Backtab, Qt.ShiftModifier);
         check(focused()?.cursorPosition !== undefined && inside(sidebar, focused()), "Shift+Tab returns to search");
 

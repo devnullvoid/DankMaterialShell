@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import qs.Common
-import qs.Modals.Settings
 import qs.Services
 import qs.Widgets
 import qs.Modules.Settings.Widgets
@@ -240,6 +239,7 @@ Item {
         anchors.rightMargin: sideInset
         height: SettingsMetrics.searchBarHeight
         placeholderText: I18n.tr("Search settings", "settings search field placeholder")
+        rightAccessoryWidth: avatarButton.width + Theme.spacingS
         onFocusStateChanged: hasFocus => {
             root.searchFocused = hasFocus;
             if (!hasFocus)
@@ -317,6 +317,34 @@ Item {
                 event.accepted = true;
             }
         }
+
+        DankActionButton {
+            id: avatarButton
+
+            anchors.right: parent.right
+            anchors.rightMargin: Theme.spacingS
+            anchors.verticalCenter: parent.verticalCenter
+            buttonSize: Theme.iconButtonSize
+            focusPolicy: Qt.TabFocus
+            tooltipText: I18n.tr("Users & accounts", "settings sidebar category")
+            onClicked: {
+                root.pageRequested("user_accounts");
+                root.focusAfterNavigation(visualFocus);
+            }
+
+            // Below the state layer so hover, press and focus tint the avatar
+            DankCircularImage {
+                z: -1
+                anchors.centerIn: parent
+                width: Theme.iconSizeLarge
+                height: width
+                ringWidth: Theme.avatarRingWidth
+                ringColor: Theme.avatarRingColor
+                imageSource: PortalService.profileImage
+                fallbackIcon: imageSource ? "material:person" : ""
+                fallbackText: (UserInfoService.fullName || I18n.tr("User")).charAt(0).toLocaleUpperCase()
+            }
+        }
     }
 
     DankFlickable {
@@ -336,21 +364,6 @@ Item {
             rightPadding: SettingsMetrics.paneMargin
             bottomPadding: SettingsMetrics.paneMargin
             spacing: SettingsMetrics.sidebarGroupGap
-
-            ProfileSection {
-                id: profileRow
-                width: parent.width - parent.leftPadding - parent.rightPadding
-                visible: !root.searchActive
-                highlighted: activeFocus
-                onActiveFocusChanged: {
-                    if (activeFocus)
-                        root.ensureRowVisible(profileRow);
-                }
-                onNavigationRequested: keyboard => {
-                    root.pageRequested("user_accounts");
-                    root.focusAfterNavigation(keyboard);
-                }
-            }
 
             Column {
                 id: searchResultsColumn

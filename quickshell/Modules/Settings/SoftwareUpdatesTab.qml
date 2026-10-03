@@ -1,10 +1,14 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Effects
 import Quickshell.Widgets
 import qs.Common
 import qs.Services
 import qs.Widgets
+import qs.Modals.Common
 import qs.Modules.Settings.Widgets
+import "../../Common/Format.js" as Format
 
 Item {
     id: root
@@ -56,7 +60,8 @@ Item {
     readonly property bool busy: SystemUpdateService.isChecking || SystemUpdateService.isUpgrading
     // A refresh clears the log, so a log next to an error means the upgrade itself failed.
     readonly property bool upgradeFailed: SystemUpdateService.hasError && !busy && (SystemUpdateService.recentLog || []).length > 0
-    readonly property bool anythingToInstall: SystemUpdateService.updateCount > 0 && SystemUpdateService.helperAvailable
+    readonly property var installablePackages: SystemUpdateService.availableUpdates.filter(p => SettingsData.updaterIncludeFlatpak || p.repo !== "flatpak")
+    readonly property bool anythingToInstall: installablePackages.length > 0 && SystemUpdateService.helperAvailable
     readonly property string displayVersion: {
         const semver = ShellVersionService.semverVersion.replace(/^v/, "");
         const base = semver.match(/^\d+\.\d+/);
@@ -154,8 +159,7 @@ Item {
         }
     }
 
-    function heroStatus() {
-        const checked = lastCheckedText();
+    function statusTitle() {
         switch (true) {
         case !SystemUpdateService.sysupdateAvailable:
             return I18n.tr("Unavailable");
@@ -163,8 +167,6 @@ Item {
             return I18n.tr("Upgrading...", "system update popout status while packages upgrade");
         case SystemUpdateService.isChecking:
             return I18n.tr("Checking for updates...");
-        case SystemUpdateService.restartPending:
-            return I18n.tr("Requires restart");
         case SystemUpdateService.hasError:
             return I18n.tr("Failed: %1", "system update error status, %1 is the error message").arg(SystemUpdateService.errorMessage);
         case !SystemUpdateService.helperAvailable:
@@ -175,22 +177,28 @@ Item {
                 return root.systemCount > 0 ? shell + " · " + root.countText(root.systemCount) : shell;
             }
         case root.systemCount > 0:
-            return checked ? root.countText(root.systemCount) + " · " + checked : root.countText(root.systemCount);
+            return root.countText(root.systemCount);
         default:
-            return checked ? I18n.tr("Up to date") + " · " + checked : I18n.tr("Up to date");
+            return I18n.tr("Up to date");
         }
+    }
+
+    function statusSubtitle() {
+        if (SystemUpdateService.restartPending)
+            return I18n.tr("Requires restart");
+        if (SystemUpdateService.rebootRecommended)
+            return I18n.tr("Reboot recommended", "chip shown after a kernel or systemd upgrade") + " · " + SystemUpdateService.rebootPackages.join(", ");
+        return root.lastCheckedText();
     }
 
     function primaryLabel() {
         switch (true) {
         case SystemUpdateService.isUpgrading:
             return I18n.tr("Cancel");
-        case SystemUpdateService.restartPending:
-            return I18n.tr("Restart DMS");
         case root.anythingToInstall:
-            return I18n.tr("Update All");
+            return I18n.tr("Install", "install action button");
         default:
-            return I18n.tr("Check for updates");
+            return I18n.tr("Restart DMS");
         }
     }
 
@@ -198,12 +206,10 @@ Item {
         switch (true) {
         case SystemUpdateService.isUpgrading:
             return "stop";
-        case SystemUpdateService.restartPending:
-            return "restart_alt";
         case root.anythingToInstall:
             return "system_update_alt";
         default:
-            return "refresh";
+            return "restart_alt";
         }
     }
 
@@ -212,15 +218,33 @@ Item {
         case SystemUpdateService.isUpgrading:
             SystemUpdateService.cancelUpdates();
             return;
-        case SystemUpdateService.restartPending:
-            SystemUpdateService.restartShell();
-            return;
         case root.anythingToInstall:
-            root.runUpdateAll();
+            installConfirm.showWithOptions({
+                title: I18n.tr("Install system updates?"),
+                message: root.installSummary(),
+                confirmText: I18n.tr("Install", "install action button"),
+                onConfirm: () => root.runUpdateAll()
+            });
             return;
         default:
-            SystemUpdateService.checkForUpdates();
+            SystemUpdateService.restartShell();
         }
+    }
+
+    function installSummary() {
+        const pkgs = root.installablePackages;
+        const bytes = pkgs.reduce((sum, p) => sum + (p.sizeBytes || 0), 0);
+        const via = SystemUpdateService.useCustomCommand ? SettingsData.updaterCustomCommand.trim().split(/\s+/)[0] : (SystemUpdateService.backends || []).filter(b => pkgs.some(p => p.backend === b.id)).map(b => b.displayName).join(", ");
+        let text;
+        if (bytes > 0)
+            text = I18n.tr("%1 will be downloaded and installed via %2.", "system update confirmation, %1 is a download size, %2 the package managers").arg(Format.formatBytes(bytes)).arg(via);
+        else if (pkgs.length === 1)
+            text = I18n.tr("%1 package will be installed via %2.", "singular, %1 is 1, %2 the package managers").arg(1).arg(via);
+        else
+            text = I18n.tr("%1 packages will be installed via %2.", "plural, %1 is a package count, %2 the package managers").arg(pkgs.length).arg(via);
+        if (!root.upgradeRunsInTerminal)
+            return text;
+        return text + " " + I18n.tr("Runs in a terminal.", "system update confirmation, the upgrade opens a terminal window");
     }
 
     function runUpdateAll(interactive) {
@@ -257,7 +281,7 @@ Item {
                     fillMode: Image.Stretch
                     asynchronous: true
                     cache: false
-                    sourceSize: Qt.size(width, height)
+                    sourceSize.width: SettingsMetrics.windowWidth
                     opacity: Theme.pendingOpacity
                     layer.enabled: true
                     layer.effect: MultiEffect {
@@ -303,74 +327,6 @@ Item {
                     elide: Text.ElideRight
                 }
 
-                Row {
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    topPadding: Theme.spacingM
-                    spacing: Theme.spacingS
-                    visible: SystemUpdateService.sysupdateAvailable
-
-                    DankButton {
-                        id: primaryButton
-                        anchors.verticalCenter: parent.verticalCenter
-                        buttonHeight: Theme.buttonHeightS
-                        text: root.primaryLabel()
-                        iconName: root.primaryIcon()
-                        busy: SystemUpdateService.isChecking
-                        enabled: !SystemUpdateService.isChecking
-                        backgroundColor: Theme.primary
-                        textColor: Theme.onPrimary
-                        onClicked: root.primaryAction()
-                    }
-
-                    // Re-check while the primary button is busy installing or restarting.
-                    DankActionButton {
-                        anchors.verticalCenter: parent.verticalCenter
-                        visible: root.anythingToInstall || SystemUpdateService.restartPending
-                        enabled: !root.busy
-                        buttonSize: Theme.buttonHeightS
-                        iconName: "refresh"
-                        iconColor: Theme.surfaceText
-                        backgroundColor: SettingsMetrics.controlSurface
-                        Accessible.name: I18n.tr("Check for updates")
-                        onClicked: SystemUpdateService.checkForUpdates()
-                    }
-                }
-
-                StyledText {
-                    width: parent.width
-                    topPadding: Theme.spacingXS
-                    text: root.heroStatus()
-                    font.pixelSize: Theme.fontSizeSmall
-                    color: SystemUpdateService.hasError && !root.busy ? Theme.error : Theme.surfaceVariantText
-                    horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.WordWrap
-                }
-
-                Item {
-                    width: parent.width
-                    height: rebootChip.implicitHeight
-                    visible: SystemUpdateService.rebootRecommended
-
-                    DankBadge {
-                        id: rebootChip
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        maximumWidth: parent.width
-                        text: I18n.tr("Reboot recommended", "chip shown after a kernel or systemd upgrade") + " · " + SystemUpdateService.rebootPackages.join(", ")
-                        color: Theme.tertiaryContainer
-                        textColor: Theme.onTertiaryContainer
-                    }
-                }
-
-                StyledText {
-                    width: parent.width
-                    visible: SystemUpdateService.hasError && !root.busy && SystemUpdateService.errorHint !== ""
-                    text: SystemUpdateService.errorHint
-                    font.pixelSize: Theme.fontSizeSmall
-                    color: Theme.surfaceVariantText
-                    horizontalAlignment: Text.AlignHCenter
-                    wrapMode: Text.WordWrap
-                }
-
                 M3WaveProgress {
                     id: upgradeWave
                     width: parent.width
@@ -390,6 +346,41 @@ Item {
             iconName: "deployed_code"
             settingKey: "softwareUpdatesShell"
             tags: ["dms", "shell", "version", "channel", "restart"]
+
+            SettingsRow {
+                readonly property bool failed: SystemUpdateService.hasError && !root.busy
+
+                title: root.statusTitle()
+                titleColor: failed ? Theme.error : contentColor
+                subtitle: root.statusSubtitle()
+                iconName: failed ? "error_outline" : SystemUpdateService.restartPending ? "restart_alt" : "system_update_alt"
+                iconColor: failed ? Theme.error : SystemUpdateService.restartPending ? Theme.warning : Theme.primary
+
+                DankActionButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: SystemUpdateService.sysupdateAvailable
+                    enabled: !root.busy
+                    buttonSize: Theme.buttonHeightS
+                    iconName: "refresh"
+                    iconColor: Theme.surfaceText
+                    backgroundColor: SettingsMetrics.controlSurface
+                    tooltipText: I18n.tr("Check for updates")
+                    onClicked: SystemUpdateService.checkForUpdates()
+                }
+
+                DankButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: SystemUpdateService.isUpgrading || root.anythingToInstall || SystemUpdateService.restartPending
+                    buttonHeight: Theme.buttonHeightS
+                    text: root.primaryLabel()
+                    iconName: root.primaryIcon()
+                    busy: SystemUpdateService.isChecking
+                    enabled: !SystemUpdateService.isChecking
+                    backgroundColor: Theme.primary
+                    textColor: Theme.onPrimary
+                    onClicked: root.primaryAction()
+                }
+            }
 
             SettingsRow {
                 title: I18n.tr("Version")
@@ -412,12 +403,32 @@ Item {
             }
 
             SettingsRow {
+                readonly property var master: SystemUpdateService.releases?.master ?? null
+
                 visible: SystemUpdateService.shellChannel === "git" && SystemUpdateService.commitsBehind >= 0
-                title: SystemUpdateService.commitsBehind === 0 ? I18n.tr("Up to date with master") : I18n.tr("%1 commits behind master", "git channel row, %1 is a count").arg(SystemUpdateService.commitsBehind)
+                title: I18n.tr("Master branch", "git channel row, the branch the build tracks")
+                subtitle: {
+                    const date = new Date(master?.date ?? NaN);
+                    return isNaN(date) ? "" : I18n.tr("Last commit %1", "git channel row, %1 is a localized date").arg(date.toLocaleDateString(Qt.locale(), Locale.ShortFormat));
+                }
                 iconName: "commit"
                 clickable: true
-                showChevron: true
                 onClicked: Qt.openUrlExternally("https://github.com/AvengeMedia/DankMaterialShell/commits/master")
+
+                // Drawn in the slot so it precedes the icon; trailingBadge would land after it
+                StyledText {
+                    anchors.verticalCenter: parent.verticalCenter
+                    text: SystemUpdateService.commitsBehind === 0 ? I18n.tr("Up to date") : I18n.tr("%1 behind", "git channel badge, %1 is the number of commits master is ahead").arg(SystemUpdateService.commitsBehind)
+                    font.pixelSize: Theme.fontSizeSmall
+                    color: SystemUpdateService.commitsBehind === 0 ? Theme.surfaceVariantText : Theme.primary
+                }
+
+                DankIcon {
+                    anchors.verticalCenter: parent.verticalCenter
+                    name: "open_in_new"
+                    size: Theme.iconSize
+                    color: Theme.surfaceVariantText
+                }
             }
 
             SettingsNavRow {
@@ -434,15 +445,6 @@ Item {
                 iconName: "restart_alt"
                 iconColor: Theme.warning
                 subtitle: SystemUpdateService.shellInstalled ? I18n.tr("Installed %1, still running %2", "%1 is the installed version, %2 the running one").arg(SystemUpdateService.shellInstalled).arg(SystemUpdateService.shellRunning) : I18n.tr("A newer dms binary is installed.")
-
-                DankButton {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: I18n.tr("Restart DMS")
-                    iconName: "restart_alt"
-                    backgroundColor: SettingsMetrics.controlSurface
-                    textColor: Theme.surfaceText
-                    onClicked: SystemUpdateService.restartShell()
-                }
             }
         }
 
@@ -468,19 +470,27 @@ Item {
                     const names = (SystemUpdateService.backends || []).map(b => b.displayName).join(", ");
                     return distro && names ? distro + " · " + names : distro || names;
                 }
-                iconName: root.packagesExpanded ? "expand_less" : "expand_more"
+                iconName: !SystemUpdateService.helperAvailable ? "error_outline" : root.systemCount === 0 ? "check_circle" : "package_2"
+                iconColor: SystemUpdateService.helperAvailable ? Theme.primary : Theme.error
                 clickable: root.systemCount > 0
                 onClicked: root.packagesExpanded = !root.packagesExpanded
 
-                DankButton {
+                DankIcon {
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: root.systemCount > 0 && !SystemUpdateService.isUpgrading
-                    text: I18n.tr("Update All")
-                    iconName: "system_update_alt"
-                    backgroundColor: SettingsMetrics.controlSurface
-                    textColor: Theme.surfaceText
-                    enabled: !root.busy
-                    onClicked: root.runUpdateAll()
+                    visible: root.systemCount > 0
+                    name: "expand_more"
+                    size: Theme.iconSize
+                    color: Theme.surfaceVariantText
+                    rotation: root.packagesExpanded ? 180 : 0
+
+                    Behavior on rotation {
+                        enabled: Theme.currentAnimationSpeed !== SettingsData.AnimationSpeed.None
+                        NumberAnimation {
+                            duration: Theme.expressiveDurations.expressiveFastSpatial
+                            easing.type: Easing.BezierSpline
+                            easing.bezierCurve: Theme.expressiveCurves.expressiveDefaultSpatial
+                        }
+                    }
                 }
             }
 
@@ -824,5 +834,10 @@ Item {
                 onValueEdited: value => SettingsData.set("updaterTerminalAdditionalParams", value.trim())
             }
         }
+    }
+
+    ConfirmDialogOverlay {
+        id: installConfirm
+        parent: root.parentModal?.modalFocusScope ?? root
     }
 }

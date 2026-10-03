@@ -71,14 +71,17 @@ ShellRoot {
         input.keyClick(Qt.Key_Return);
         until(() => inside(content.currentPageItem, focused()), "Enter on the selected category enters content");
 
-        const profile = find(modal.sidebar, item => item.navigationRequested !== undefined);
-        input.mouseClick(profile, profile.width / 2, profile.height / 2);
-        check(focused() === profile, "profile click focuses the public navigation row");
+        const avatar = find(modal.sidebar, item => item.tooltipText === "Users & accounts");
         let profileRequests = 0;
         modal.sidebar.pageRequested.connect(() => profileRequests++);
+        input.mouseClick(avatar, avatar.width / 2, avatar.height / 2);
+        check(profileRequests === 1, "avatar click requests its page exactly once");
+        modal.sidebar.focusSearch();
+        input.keyClick(Qt.Key_Tab);
+        check(focused() === avatar, "Tab from search reaches the avatar button");
         input.keyClick(Qt.Key_Return);
-        check(profileRequests === 1, "Enter on the profile row requests its page exactly once");
-        until(() => inside(content.currentPageItem, focused()), "Enter after clicking profile enters its page");
+        check(profileRequests === 2, "Enter on the avatar requests its page");
+        until(() => inside(content.currentPageItem, focused()), "Enter on the avatar enters its page");
 
         modal.setPage("personalization");
         modal.focusCurrentPage();
