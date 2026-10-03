@@ -9934,6 +9934,14 @@
     "optionFile": "IslandOptions.qml"
   },
   {
+    "section": "barWidgetOption:MusicOptions.qml:4",
+    "label": "Cover art",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "MusicOptions.qml"
+  },
+  {
     "section": "barWidgetOption:RunningAppsOptions.qml:4",
     "label": "Current display",
     "tabIndex": 22,
@@ -10294,7 +10302,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:MusicOptions.qml:5",
+    "section": "barWidgetOption:MusicOptions.qml:6",
     "label": "Media player",
     "tabIndex": 22,
     "keywords": [],
@@ -10438,7 +10446,7 @@
     "optionFile": "PrivacyOptions.qml"
   },
   {
-    "section": "barWidgetOption:MusicOptions.qml:4",
+    "section": "barWidgetOption:MusicOptions.qml:5",
     "label": "Scroll wheel",
     "tabIndex": 22,
     "keywords": [],

@@ -32,6 +32,7 @@ Column {
         SettingsData.barConfigs;
         SettingsData.dockConfigs;
         const bars = SettingsData.barConfigs.filter(config => !SettingsData.isDotBarConfig(config)).map(config => ({
+                    key: "bar:" + config.id,
                     kind: "bar",
                     id: config.id,
                     name: config.name || config.id,
@@ -40,6 +41,7 @@ Column {
                     transparency: config.transparency ?? 1
                 }));
         const docks = SettingsData.dockConfigs.map(config => ({
+                    key: "dock:" + config.id,
                     kind: "dock",
                     id: config.id,
                     name: config.name,
@@ -372,37 +374,38 @@ Column {
         SettingsToggleRow {
             id: overrideRow
 
-            required property var modelData
+            required property string modelData
+            readonly property var target: root.opacityTargets.find(entry => entry.key === modelData) ?? null
 
             tab: "theme"
             tags: ["surface", "opacity", "transparency", "bar", "dock", "override"]
-            settingKey: "surfaceOpacity_" + modelData.kind + "_" + modelData.id
-            text: modelData.name
+            settingKey: "surfaceOpacity_" + modelData.replace(":", "_")
+            text: target?.name ?? ""
             description: I18n.tr("Override")
-            checked: modelData.override
-            modified: modelData.override
+            checked: target?.override ?? false
+            modified: target?.override ?? false
             resetByKeys: false
-            onResetRequested: root.setOpacityOverride(modelData, {
+            onResetRequested: root.setOpacityOverride(target, {
                 followInterfaceStyle: true,
                 transparency: 1
             })
-            onToggled: checked => root.setOpacityOverride(modelData, {
+            onToggled: checked => root.setOpacityOverride(target, {
                     followInterfaceStyle: !checked
                 })
 
             body: SettingsSliderRow {
                 width: parent.width
-                enabled: overrideRow.modelData.override
+                enabled: overrideRow.target?.override ?? false
                 text: I18n.tr("Opacity")
-                value: Math.round(overrideRow.modelData.transparency * 100)
+                value: Math.round((overrideRow.target?.transparency ?? 1) * 100)
                 minimum: 0
                 maximum: 100
                 modified: value !== 100
                 resetByKeys: false
-                onResetRequested: root.setOpacityOverride(overrideRow.modelData, {
+                onResetRequested: root.setOpacityOverride(overrideRow.target, {
                     transparency: 1
                 })
-                onSliderDragFinished: finalValue => root.setOpacityOverride(overrideRow.modelData, {
+                onSliderDragFinished: finalValue => root.setOpacityOverride(overrideRow.target, {
                         transparency: finalValue / 100
                     })
             }
@@ -430,6 +433,9 @@ Column {
             readonly property var targets: root.opacityTargets.filter(target => target.kind === modelData.kind)
             readonly property var activeTargets: targets.filter(target => target.enabled)
             readonly property var hiddenTargets: targets.filter(target => !target.enabled)
+            // String keys: a config edit must not rebuild the row holding the focused control
+            readonly property string activeKeys: activeTargets.map(target => target.key).join("\n")
+            readonly property string hiddenKeys: hiddenTargets.map(target => target.key).join("\n")
             property bool showHidden: false
 
             tab: "theme"
@@ -439,7 +445,7 @@ Column {
             visible: targets.length > 0
 
             Repeater {
-                model: targetCard.activeTargets
+                model: targetCard.activeKeys ? targetCard.activeKeys.split("\n") : []
                 delegate: opacityTargetRow
             }
 
@@ -461,7 +467,7 @@ Column {
             }
 
             Repeater {
-                model: targetCard.showHidden ? targetCard.hiddenTargets : []
+                model: targetCard.showHidden && targetCard.hiddenKeys ? targetCard.hiddenKeys.split("\n") : []
                 delegate: opacityTargetRow
             }
         }

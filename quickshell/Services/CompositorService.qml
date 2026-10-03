@@ -149,7 +149,7 @@ Singleton {
     readonly property string displayName: {
         switch (compositor) {
         case "niri":
-            return "Niri";
+            return "niri";
         case "hyprland":
             return "Hyprland";
         case "mango":

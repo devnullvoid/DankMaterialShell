@@ -46,6 +46,14 @@ Column {
             onToggled: checked => root.page.set("mediaShowLyrics", checked)
         }
 
+        SettingsToggleRow {
+            resetStore: root.page
+            resetKeys: ["mediaShowCoverArt"]
+            text: I18n.tr("Cover art", "media widget option showing the album cover in the pill")
+            checked: root.page.value("mediaShowCoverArt")
+            onToggled: checked => root.page.set("mediaShowCoverArt", checked)
+        }
+
         SettingsDropdownRow {
             resetStore: root.page
             resetKeys: ["audioScrollMode"]

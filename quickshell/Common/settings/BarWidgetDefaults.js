@@ -128,6 +128,7 @@ var DEFAULTS = {
         mediaSize: 1,
         mediaAdaptiveWidthEnabled: true,
         mediaShowLyrics: true,
+        mediaShowCoverArt: true,
         audioScrollMode: "volume"
     },
     focusedWindow: {

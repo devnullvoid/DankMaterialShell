@@ -189,24 +189,25 @@ Item {
             }
 
             Repeater {
-                model: SettingsData.notificationRules
+                // Count model: a rule edit must not rebuild the row holding the focused toggle
+                model: SettingsData.notificationRules.length
 
                 delegate: SettingsRow {
                     id: ruleRow
 
-                    required property var modelData
                     required property int index
-                    readonly property var badges: root.outcomeBadges(modelData)
+                    readonly property var rule: SettingsData.notificationRules[index] ?? ({})
+                    readonly property var badges: root.outcomeBadges(rule)
 
-                    title: modelData.pattern || I18n.tr("Rule %1", "notification rule heading, %1 is the rule number").arg(index + 1)
-                    titleColor: modelData.enabled !== false ? Theme.surfaceText : Theme.surfaceVariantText
-                    subtitle: root.matchSummary(modelData)
+                    title: rule.pattern || I18n.tr("Rule %1", "notification rule heading, %1 is the rule number").arg(index + 1)
+                    titleColor: rule.enabled !== false ? Theme.surfaceText : Theme.surfaceVariantText
+                    subtitle: root.matchSummary(rule)
 
                     DankToggle {
                         anchors.verticalCenter: parent.verticalCenter
                         hideText: true
                         text: ruleRow.title
-                        checked: ruleRow.modelData.enabled !== false
+                        checked: ruleRow.rule.enabled !== false
                         onToggled: checked => SettingsData.updateNotificationRuleField(ruleRow.index, "enabled", checked)
                     }
 
@@ -214,7 +215,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         iconName: "edit"
                         Accessible.name: I18n.tr("Edit rule")
-                        onClicked: root.openEditor(ruleRow.index, ruleRow.modelData)
+                        onClicked: root.openEditor(ruleRow.index, ruleRow.rule)
                     }
 
                     DankActionButton {
