@@ -239,7 +239,7 @@ Item {
         anchors.rightMargin: sideInset
         height: SettingsMetrics.searchBarHeight
         placeholderText: I18n.tr("Search settings", "settings search field placeholder")
-        rightAccessoryWidth: avatarButton.width + Theme.spacingXS
+        rightAccessoryWidth: avatarButton.visible ? avatarButton.width + Theme.spacingXS : 0
         onFocusStateChanged: hasFocus => {
             root.searchFocused = hasFocus;
             if (!hasFocus)
@@ -324,6 +324,7 @@ Item {
             anchors.right: parent.right
             anchors.rightMargin: Theme.spacingXS
             anchors.verticalCenter: parent.verticalCenter
+            visible: !root.searchActive
             buttonSize: SettingsMetrics.searchBarHeight - Theme.spacingXS * 2
             radius: Theme.buttonRadius(width, height, buttonSize, false, circular)
             focusPolicy: Qt.TabFocus
