@@ -36,6 +36,7 @@ Rectangle {
     readonly property bool hasMoreText: bodyText.truncated || summaryText.truncated
     readonly property bool hasBody: (notificationData?.htmlBody || "").replace(/<[^>]*>/g, "").trim().length > 0
     readonly property string appIcon: NotificationService.notificationAppIcon(notificationData?.appIcon || "", notificationData?.desktopEntry || "")
+    readonly property bool dmsIcon: appIcon === "com.danklinux.dms"
     readonly property string contentImageSource: notificationData?.hasDisplayImage ? notificationData?.displayImage || "" : ""
     readonly property bool hasContentImage: contentImageSource.length > 0 && contentImage.status !== Image.Error
     readonly property bool contentVisible: !headerOnly && (!privacyMode || descriptionExpanded)
@@ -171,9 +172,10 @@ Rectangle {
         AppIconRenderer {
             anchors.fill: parent
             visible: !appImage.visible
-            iconValue: NotificationService.notificationFallbackIcon(root.headerOnly ? "" : root.notificationData?.image || "", root.appIcon)
+            iconValue: root.dmsIcon ? "svg:" + Theme.shellDir + "/assets/danklogonormal.svg" : NotificationService.notificationFallbackIcon(root.headerOnly ? "" : root.notificationData?.image || "", root.appIcon)
             iconSize: NotificationMetrics.appIconSize
             iconColor: Theme.onSurfaceVariant
+            colorOverride: root.dmsIcon ? Theme.primary : "transparent"
             fallbackText: (root.notificationData?.appName || "?").charAt(0).toUpperCase()
             fallbackRadius: Theme.fullRadius(width, height)
             fallbackBackgroundColor: Theme.secondaryContainer
@@ -194,11 +196,10 @@ Rectangle {
         Item {
             id: messageBlock
             readonly property real thumbnailReserve: !root.descriptionExpanded && imagePreview.visible ? imagePreview.width + Theme.spacingM : 0
-            readonly property real controlsReserve: controls.width > 0 ? controls.width + Theme.spacingXS : 0
-            readonly property real trailingReserve: thumbnailReserve > 0 ? thumbnailReserve + controlsReserve : 0
+            readonly property real thumbnailTop: header.height + Theme.spacingS
             readonly property real textHeight: header.height + (root.headerOnly ? 0 : NotificationMetrics.contentSpacing + messageText.implicitHeight)
             width: parent.width
-            height: root.descriptionExpanded ? textHeight + (imagePreview.visible ? NotificationMetrics.contentSpacing + imagePreview.height : 0) : Math.max(textHeight, imagePreview.visible ? imagePreview.height : 0)
+            height: root.descriptionExpanded ? textHeight + (imagePreview.visible ? NotificationMetrics.contentSpacing + imagePreview.height : 0) : Math.max(textHeight, imagePreview.visible ? thumbnailTop + imagePreview.height : 0)
 
             Item {
                 id: header
@@ -209,7 +210,7 @@ Rectangle {
                 StyledText {
                     anchors.left: parent.left
                     anchors.right: controls.left
-                    anchors.rightMargin: Theme.spacingXS + messageBlock.thumbnailReserve
+                    anchors.rightMargin: Theme.spacingXS
                     anchors.verticalCenter: parent.verticalCenter
                     text: (root.notificationData?.appName || "") + (root.showTime && root.notificationData?.timeStr ? " · " + root.notificationData.timeStr : "")
                     horizontalAlignment: Text.AlignLeft
@@ -278,7 +279,7 @@ Rectangle {
                 id: messageText
                 anchors.left: parent.left
                 y: header.height + NotificationMetrics.contentSpacing
-                width: Math.max(0, parent.width - messageBlock.trailingReserve)
+                width: Math.max(0, parent.width - messageBlock.thumbnailReserve)
                 visible: !root.headerOnly
                 spacing: NotificationMetrics.contentSpacing
 
@@ -347,12 +348,9 @@ Rectangle {
 
             ClippingRectangle {
                 id: imagePreview
-                x: {
-                    if (root.descriptionExpanded)
-                        return I18n.isRtl ? parent.width - width : 0;
-                    return I18n.isRtl ? messageBlock.controlsReserve : parent.width - messageBlock.controlsReserve - width;
-                }
-                y: root.descriptionExpanded ? messageBlock.textHeight + NotificationMetrics.contentSpacing : 0
+                readonly property bool alignRight: root.descriptionExpanded ? I18n.isRtl : !I18n.isRtl
+                x: alignRight ? parent.width - width : 0
+                y: root.descriptionExpanded ? messageBlock.textHeight + NotificationMetrics.contentSpacing : messageBlock.thumbnailTop
                 width: root.descriptionExpanded ? Math.min(parent.width, NotificationMetrics.imageMaxHeight * contentImage.aspectRatio) : Math.min(NotificationMetrics.thumbnailSize, NotificationMetrics.thumbnailSize * contentImage.aspectRatio)
                 height: width / contentImage.aspectRatio
                 radius: Theme.cornerRadiusM
