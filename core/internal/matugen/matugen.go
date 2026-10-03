@@ -176,8 +176,8 @@ func PreviewSchemes(sourceColor string, contrast float64, imagePath, spec string
 
 	previews := make(map[string]SchemePreview, len(previewSchemeTypes)+1)
 	for _, schemeType := range previewSchemeTypes {
-		if spec == Spec2025 && SpecSupportsScheme(schemeType) {
-			colors, err := GenerateSpecColors(sourceColor, schemeType, contrast, ColorModeDark, Spec2025)
+		if UsesSpecGenerator(spec, schemeType) {
+			colors, err := GenerateSpecColors(sourceColor, schemeType, contrast, ColorModeDark, spec)
 			if err != nil {
 				return nil, fmt.Errorf("preview %s: %w", schemeType, err)
 			}
@@ -462,14 +462,14 @@ func buildOnce(opts *Options) (bool, error) {
 		// overrides matugen's own roles through the import, so templates,
 		// {{image}} and the user's own config keep working unchanged.
 		var specColors string
-		if opts.Spec == Spec2025 && SpecSupportsScheme(opts.MatugenType) {
+		if UsesSpecGenerator(opts.Spec, opts.MatugenType) {
 			seed := opts.Value
 			if opts.Kind != "hex" {
 				seed = extractMatugenColor(matJSON, "source_color", "dark")
 			}
-			specColors, err = GenerateSpecColors(seed, opts.MatugenType, opts.Contrast, opts.Mode, Spec2025)
+			specColors, err = GenerateSpecColors(seed, opts.MatugenType, opts.Contrast, opts.Mode, opts.Spec)
 			if err != nil {
-				return false, fmt.Errorf("spec 2025 palette failed: %w", err)
+				return false, fmt.Errorf("spec %s palette failed: %w", opts.Spec, err)
 			}
 		}
 

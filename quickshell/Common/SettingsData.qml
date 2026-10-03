@@ -2935,11 +2935,15 @@ Singleton {
     }
 
     function setMatugenSpec(spec) {
-        var normalized = spec === "2025" ? "2025" : "2021";
+        var normalized = spec === "2025" || spec === "dms" ? spec : "2021";
         if (matugenSpec === normalized)
             return;
-        if (normalized === "2025" && matugenContrast < 0)
-            set("matugenContrast", 0);
+        if (normalized !== "2021") {
+            if (matugenContrast < 0)
+                set("matugenContrast", 0);
+            if (typeof Theme !== "undefined" && !Theme.getMatugenScheme(matugenScheme).spec2025)
+                set("matugenScheme", "scheme-tonal-spot");
+        }
         set("matugenSpec", normalized);
     }
 
@@ -3267,8 +3271,8 @@ Singleton {
 
     function addMuteRuleForApp(appName, desktopEntry) {
         if (!_updateAppRule(appName, desktopEntry, _hasNoAction, {
-                action: "mute"
-            }))
+            action: "mute"
+        }))
             _addAppRule(appName, desktopEntry, {
                 action: "mute"
             });
@@ -3298,8 +3302,8 @@ Singleton {
         if (isAppDndBypassed(appName, desktopEntry))
             return;
         if (!_updateAppRule(appName, desktopEntry, () => true, {
-                bypassDnd: true
-            }))
+            bypassDnd: true
+        }))
             _addAppRule(appName, desktopEntry, {
                 bypassDnd: true
             });

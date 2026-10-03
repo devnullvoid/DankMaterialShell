@@ -316,6 +316,22 @@ Item {
                 }
             }
 
+            SettingsButtonGroupRow {
+                visible: themeColorsTab.dynamicTheme
+                tab: "theme"
+                tags: ["matugen", "spec", "expressive", "vivid", "saturated", "bold", "dynamic"]
+                settingKey: "matugenSpec"
+                text: I18n.tr("Material palette")
+                enabled: Theme.matugenAvailable
+                model: ["2021", "2025", "DMS"]
+                currentIndex: SettingsData.matugenSpec === "dms" ? 2 : SettingsData.matugenSpec === "2025" ? 1 : 0
+                onSelectionChanged: (index, selected) => {
+                    if (!selected)
+                        return;
+                    SettingsData.setMatugenSpec(["2021", "2025", "dms"][index]);
+                }
+            }
+
             SettingsRow {
                 visible: themeColorsTab.dynamicTheme
                 tab: "theme"
@@ -412,23 +428,6 @@ Item {
                 onCustomColorSelected: selectedColor => SettingsData.setMatugenSeedColor(Theme.withAlpha(selectedColor, 1).toString())
             }
 
-            SettingsButtonGroupRow {
-                visible: themeColorsTab.dynamicTheme
-                tab: "theme"
-                tags: ["matugen", "spec", "expressive", "vivid", "saturated", "bold", "dynamic"]
-                settingKey: "matugenSpec"
-                text: I18n.tr("Material palette")
-                description: I18n.tr("2025 has darker surfaces in dark mode. Tonal Spot and Neutral get softer, Vibrant and Expressive get bolder", "material color spec year description")
-                enabled: Theme.matugenAvailable && Theme.getMatugenScheme(SettingsData.matugenScheme).spec2025 === true
-                model: ["2021", "2025"]
-                currentIndex: SettingsData.matugenSpec === "2025" ? 1 : 0
-                onSelectionChanged: (index, selected) => {
-                    if (!selected)
-                        return;
-                    SettingsData.setMatugenSpec(index === 1 ? "2025" : "2021");
-                }
-            }
-
             SettingsSliderRow {
                 id: contrastRow
                 visible: themeColorsTab.dynamicTheme
@@ -441,7 +440,7 @@ Item {
                 maximum: 100
                 enabled: Theme.matugenAvailable
                 onSliderDragFinished: finalValue => {
-                    const clamped = SettingsData.matugenSpec === "2025" ? Math.max(0, finalValue) : finalValue;
+                    const clamped = SettingsData.matugenSpec !== "2021" ? Math.max(0, finalValue) : finalValue;
                     SettingsData.setMatugenContrast(clamped / 100);
                     if (clamped !== finalValue)
                         contrastRow.resync();

@@ -1801,8 +1801,8 @@ Singleton {
         } else if (typeof SettingsData !== "undefined" && SettingsData.matugenSourceMode && SettingsData.matugenSourceMode !== "dominant") {
             args.push("--source-mode", SettingsData.matugenSourceMode);
         }
-        if (typeof SettingsData !== "undefined" && !stockColors && SettingsData.matugenSpec === "2025") {
-            args.push("--spec", "2025");
+        if (typeof SettingsData !== "undefined" && !stockColors && SettingsData.matugenSpec !== "2021") {
+            args.push("--spec", SettingsData.matugenSpec);
         }
 
         if (typeof SettingsData !== "undefined") {
