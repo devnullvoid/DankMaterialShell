@@ -50,9 +50,9 @@ Item {
         const paged = key + "/" + width + "/" + fontKey;
         if (paged !== pagedKey) {
             pagedKey = paged;
-            pages = paginate(next.cues.length > 0 ? next.cues.map(cue => cue.x) : (flat(next.x).match(/\S+\s*/g) ?? [flat(next.x)]));
+            pages = paginate(next.w.length > 0 ? next.w.map(word => word.x) : (flat(next.x).match(/\S+\s*/g) ?? [flat(next.x)]));
         }
-        if (next.cues.length > 0) {
+        if (next.w.length > 0) {
             placeWords(key, next, at);
             return;
         }
@@ -61,9 +61,9 @@ Item {
 
     function placeWords(key, line, at) {
         nextPage.stop();
-        const index = controller.indexFor(at, line.cues);
+        const index = lastStarted(line.w, at);
         const page = pages.find(candidate => index <= candidate.last) ?? pages[pages.length - 1];
-        const sung = index < page.first ? 0 : widthOf(flat(line.cues.slice(page.first, index + 1).map(cue => cue.x).join("")));
+        const sung = index < page.first ? 0 : widthOf(flat(line.w.slice(page.first, index + 1).map(word => word.x).join("")));
         turnTo(key + "/" + page.first, page.text, sung);
     }
 
@@ -79,6 +79,16 @@ Item {
         const boundary = line.t + span * (pageIndex + 1) / pages.length;
         nextPage.interval = Math.max(1, Math.min(2147483647, (boundary - at) * 1000 / controller.rate));
         nextPage.start();
+    }
+
+    // Time-sorted cues reorder kugou's space cues, which share the next word's start; w keeps text order.
+    function lastStarted(words, at) {
+        let index = -1;
+        for (let i = 0; i < words.length; i++) {
+            if (words[i].t <= at)
+                index = i;
+        }
+        return index;
     }
 
     function paginate(chunks) {
