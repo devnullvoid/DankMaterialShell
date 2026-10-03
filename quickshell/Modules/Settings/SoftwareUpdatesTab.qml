@@ -191,14 +191,18 @@ Item {
         return root.lastCheckedText();
     }
 
+    readonly property bool primaryIsCheck: !SystemUpdateService.isUpgrading && !root.anythingToInstall && !SystemUpdateService.restartPending
+
     function primaryLabel() {
         switch (true) {
         case SystemUpdateService.isUpgrading:
             return I18n.tr("Cancel");
         case root.anythingToInstall:
             return I18n.tr("Install", "install action button");
-        default:
+        case SystemUpdateService.restartPending:
             return I18n.tr("Restart DMS");
+        default:
+            return I18n.tr("Check for updates");
         }
     }
 
@@ -208,8 +212,10 @@ Item {
             return "stop";
         case root.anythingToInstall:
             return "system_update_alt";
-        default:
+        case SystemUpdateService.restartPending:
             return "restart_alt";
+        default:
+            return "refresh";
         }
     }
 
@@ -226,8 +232,11 @@ Item {
                 onConfirm: () => root.runUpdateAll()
             });
             return;
-        default:
+        case SystemUpdateService.restartPending:
             SystemUpdateService.restartShell();
+            return;
+        default:
+            SystemUpdateService.checkForUpdates();
         }
     }
 
@@ -358,7 +367,7 @@ Item {
 
                 DankActionButton {
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: SystemUpdateService.sysupdateAvailable
+                    visible: SystemUpdateService.sysupdateAvailable && !root.primaryIsCheck
                     enabled: !root.busy
                     buttonSize: Theme.buttonHeightS
                     iconName: "refresh"
@@ -370,7 +379,7 @@ Item {
 
                 DankButton {
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: SystemUpdateService.isUpgrading || root.anythingToInstall || SystemUpdateService.restartPending
+                    visible: SystemUpdateService.sysupdateAvailable
                     buttonHeight: Theme.buttonHeightS
                     text: root.primaryLabel()
                     iconName: root.primaryIcon()
@@ -412,10 +421,8 @@ Item {
                     return isNaN(date) ? "" : I18n.tr("Last commit %1", "git channel row, %1 is a localized date").arg(date.toLocaleDateString(Qt.locale(), Locale.ShortFormat));
                 }
                 iconName: "commit"
-                clickable: true
-                onClicked: Qt.openUrlExternally("https://github.com/AvengeMedia/DankMaterialShell/commits/master")
 
-                // Drawn in the slot so it precedes the icon; trailingBadge would land after it
+                // Drawn in the slot so it precedes the button; trailingBadge would land after it
                 StyledText {
                     anchors.verticalCenter: parent.verticalCenter
                     text: SystemUpdateService.commitsBehind === 0 ? I18n.tr("Up to date") : I18n.tr("%1 behind", "git channel badge, %1 is the number of commits master is ahead").arg(SystemUpdateService.commitsBehind)
@@ -423,11 +430,14 @@ Item {
                     color: SystemUpdateService.commitsBehind === 0 ? Theme.surfaceVariantText : Theme.primary
                 }
 
-                DankIcon {
+                DankActionButton {
                     anchors.verticalCenter: parent.verticalCenter
-                    name: "open_in_new"
-                    size: Theme.iconSize
-                    color: Theme.surfaceVariantText
+                    buttonSize: Theme.buttonHeightS
+                    iconName: "open_in_browser"
+                    iconColor: Theme.primary
+                    backgroundColor: SettingsMetrics.controlSurface
+                    tooltipText: I18n.tr("View on GitHub")
+                    onClicked: Qt.openUrlExternally("https://github.com/AvengeMedia/DankMaterialShell/commits/master")
                 }
             }
 
