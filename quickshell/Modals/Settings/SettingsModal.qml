@@ -60,6 +60,8 @@ DankFloatingWindow {
         shouldBeVisible = true;
         if (readyToMap)
             visible = true;
+        if (backingWindowVisible)
+            contentFocusScope.Window.window?.requestActivate();
     }
 
     function hide() {
