@@ -7,7 +7,8 @@ import qs.Common
 Singleton {
     readonly property real sidebarWidth: 320
     readonly property real compactBreakpoint: 700
-    readonly property real contentMaxWidth: Number.POSITIVE_INFINITY
+    readonly property real contentMaxWidth: 920
+    readonly property real paneMaxWidth: contentMaxWidth + panePadding * 2
     readonly property real mediaMaxWidth: 720
     readonly property real windowWidth: 1100
     readonly property real windowHeight: 940

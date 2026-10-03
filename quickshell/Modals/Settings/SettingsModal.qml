@@ -397,6 +397,7 @@ DankFloatingWindow {
                 id: body
 
                 readonly property real paneInset: SettingsMetrics.paneMargin
+                readonly property real paneSpace: width - sidebar.width - paneInset
 
                 width: parent.width
                 height: parent.height - titleBar.height - readOnlyBanner.height
@@ -426,9 +427,10 @@ DankFloatingWindow {
                         const flip = I18n.isRtl ? -1 : 1;
                         if (settingsModal.isCompactMode)
                             return (settingsModal.menuVisible ? body.width * flip : 0) + body.paneInset;
-                        return I18n.isRtl ? body.paneInset : sidebar.width;
+                        const slack = (body.paneSpace - width) / 2;
+                        return (I18n.isRtl ? body.paneInset : sidebar.width) + slack;
                     }
-                    width: settingsModal.isCompactMode ? body.width - body.paneInset * 2 : body.width - sidebar.width - body.paneInset
+                    width: settingsModal.isCompactMode ? body.width - body.paneInset * 2 : Math.min(body.paneSpace, SettingsMetrics.paneMaxWidth)
                     height: body.height - body.paneInset
                     radius: SettingsMetrics.paneRadius
                     color: SettingsMetrics.paneColor

@@ -239,7 +239,7 @@ Item {
         anchors.rightMargin: sideInset
         height: SettingsMetrics.searchBarHeight
         placeholderText: I18n.tr("Search settings", "settings search field placeholder")
-        rightAccessoryWidth: avatarButton.width + Theme.spacingS
+        rightAccessoryWidth: avatarButton.width + Theme.spacingXS
         onFocusStateChanged: hasFocus => {
             root.searchFocused = hasFocus;
             if (!hasFocus)
@@ -322,9 +322,10 @@ Item {
             id: avatarButton
 
             anchors.right: parent.right
-            anchors.rightMargin: Theme.spacingS
+            anchors.rightMargin: Theme.spacingXS
             anchors.verticalCenter: parent.verticalCenter
-            buttonSize: Theme.iconButtonSize
+            buttonSize: SettingsMetrics.searchBarHeight - Theme.spacingXS * 2
+            radius: Theme.buttonRadius(width, height, buttonSize, false, circular)
             focusPolicy: Qt.TabFocus
             tooltipText: I18n.tr("Users & accounts", "settings sidebar category")
             onClicked: {
@@ -335,9 +336,7 @@ Item {
             // Below the state layer so hover, press and focus tint the avatar
             DankCircularImage {
                 z: -1
-                anchors.centerIn: parent
-                width: Theme.iconSizeLarge
-                height: width
+                anchors.fill: parent
                 ringWidth: Theme.avatarRingWidth
                 ringColor: Theme.avatarRingColor
                 imageSource: PortalService.profileImage
