@@ -127,6 +127,7 @@ var DEFAULTS = {
     music: {
         mediaSize: 1,
         mediaAdaptiveWidthEnabled: true,
+        mediaShowLyrics: true,
         audioScrollMode: "volume"
     },
     focusedWindow: {

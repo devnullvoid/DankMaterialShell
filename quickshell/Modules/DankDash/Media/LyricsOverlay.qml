@@ -121,8 +121,8 @@ FocusScope {
         let target = transcript.contentY;
         const first = transcript.itemAtIndex(controller.focusedGroups[0] ?? transcript.currentIndex);
         const last = transcript.currentItem;
-        if (first && last && last.y + last.height - first.y <= transcript.height)
-            target = Math.max(transcript.originY, Math.min(transcript.maximumContentY, (first.y + last.y + last.height - transcript.height) / 2));
+        if (first && last && first !== last && first.y < target && last.y + last.height - first.y <= transcript.height)
+            target = Math.max(transcript.originY, Math.min(transcript.maximumContentY, first.y));
         target = Math.round(target);
         transcript.contentY = target;
         followedItem = last;

@@ -5,12 +5,14 @@ import QtQuick
 import Quickshell
 import Quickshell.Services.Mpris
 import qs.Services
+import qs.Modules.DankDash
 import qs.Modules.DankDash.Media
 
 Singleton {
     id: root
 
     property int refCount: 0
+    readonly property bool allowed: DashRegistry.option("media", "lyrics") === true && controller.available
     readonly property bool subscribed: refCount > 0 && controller.available
     property var activePlayer: subscribed ? MprisController.activePlayer : null
     readonly property real stableLength: subscribed ? MprisController.activePlayerStableLength : 0

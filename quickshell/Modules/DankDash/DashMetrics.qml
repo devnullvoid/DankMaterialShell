@@ -215,6 +215,9 @@ Singleton {
     readonly property int mediaLyricsRequestTimeout: 16000
     readonly property int mediaLyricsLoadingDelay: 300
     readonly property real mediaLyricsPositionTolerance: 0.05
+    readonly property int mediaLyricsPositionProbeInterval: 5000
+    readonly property real mediaLyricsPositionProbeDrift: 1.5
+    readonly property real mediaLyricsPositionProbeThreshold: 1
     readonly property real lyricsNearOpacity: 0.55
     readonly property real lyricsFarOpacity: 0.3
     readonly property real lyricsLineHeight: 1.25

@@ -26,6 +26,16 @@ BasePill {
     property bool compactMode: false
     property var widgetData: null
     readonly property bool adaptiveWidthEnabled: SettingsData.widgetOption("music", widgetData, "mediaAdaptiveWidthEnabled")
+    readonly property bool lyricsEnabled: SettingsData.widgetOption("music", widgetData, "mediaShowLyrics") && LyricsService.allowed
+    readonly property bool lyricActive: {
+        if (!lyricsEnabled)
+            return false;
+        const controller = LyricsService.controller;
+        if (!controller.enabled || !controller.synced)
+            return false;
+        const parts = controller.lines[controller.activeIndex]?.parts ?? [];
+        return parts.some(part => part.x.trim() !== "");
+    }
     readonly property int maxTextWidth: {
         const size = SettingsData.widgetOption("music", widgetData, "mediaSize");
         switch (size) {
@@ -56,6 +66,10 @@ BasePill {
 
     property real scrollAccumulatorY: 0
     property real touchpadThreshold: 100
+
+    LyricsSubscription {
+        active: root.lyricsEnabled && root.playerAvailable
+    }
 
     onWheel: function (wheelEvent) {
         if (SettingsData.widgetOption("music", widgetData, "audioScrollMode") === "nothing")
@@ -152,7 +166,7 @@ BasePill {
                 if (!root.playerAvailable || root.maxTextWidth <= 0)
                     return 0;
                 // Preserve the fixed-width text slot even if metadata is briefly empty.
-                if (!root.adaptiveWidthEnabled)
+                if (!root.adaptiveWidthEnabled || root.lyricActive)
                     return root.maxTextWidth;
                 if (textContainer.displayText.length === 0)
                     return 0;
@@ -311,11 +325,22 @@ BasePill {
                             id: mediaText
                             width: contentRoot.measuredTextWidth
                             height: parent.height
+                            visible: !root.lyricActive
                             text: textContainer.displayText
                             color: root.contentColor
                             font.pixelSize: Theme.barTextSize(root.barThickness, root.barConfig?.fontScale, root.barConfig?.maximizeWidgetText)
                             active: root.surfaceLive && root._isPlaying
                             animateTextChange: true
+                        }
+
+                        MediaLyricLine {
+                            width: contentRoot.measuredTextWidth
+                            height: parent.height
+                            visible: root.lyricActive
+                            controller: LyricsService.controller
+                            color: root.contentColor
+                            font.pixelSize: mediaText.font.pixelSize
+                            live: root.surfaceLive
                         }
 
                         MouseArea {
