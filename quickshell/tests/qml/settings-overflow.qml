@@ -79,6 +79,7 @@ ShellRoot {
                 started = Date.now();
             try {
                 const config = SettingsData.getBarConfig(section.barId);
+                const placement = root.find(page, item => item.placementLabels !== undefined);
                 switch (step) {
                 case 0:
                     root.check(page.entry && section.autoOverflow && section.overflowPosition === 2, "sections default to auto overflow");
@@ -89,12 +90,16 @@ ShellRoot {
                     const position = root.find(section, item => item.positionLabels !== undefined);
                     root.check(position.positionLabels.length === 3 && position.currentValue === position.positionLabels[2], "position dropdown lists the start and every entry, defaulting to the end");
                     root.check(section.overflowStore.isDefault(["leftOverflowMode", "leftOverflowPosition"]), "omitted section keys read as default");
+                    root.check(placement.placementLabels.length === 3 && placement.currentValue === "Auto" && placement.placementLabels.includes("Keep in Bar"), "placement leads with the section mode and lists no duplicate of it");
                     section.setOverflowOption("Mode", "bar");
                     position.valueChanged(position.positionLabels[1]);
                     break;
                 case 1:
                     root.check(!section.autoOverflow && section.overflowPosition === 1, "section controls save and update their bindings");
                     root.check(!section.overflowStore.isDefault(["leftOverflowMode"]) && !section.overflowStore.isDefault(["leftOverflowPosition"]), "changed section keys are no longer default");
+                    root.check(placement.currentValue === "Keep in Bar" && placement.placementLabels.includes("Auto"), "placement follows the section when it switches to the bar");
+                    page.set("overflowMode", "bar");
+                    root.check(placement.currentValue === "Keep in Bar" && placement.placementValue === "section", "an explicit copy of the section mode shows as the section entry");
                     section.setOverflowOption("Mode", "auto");
                     section.overflowStore.resetToDefault(["leftOverflowPosition"]);
                     root.check(config.leftWidgets.every(entry => typeof entry === "string"), "section-wide overflow does not rewrite each widget");
