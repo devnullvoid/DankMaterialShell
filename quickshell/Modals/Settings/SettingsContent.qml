@@ -135,8 +135,8 @@ FocusScope {
             if (typeof f.flick !== "function")
                 continue;
             const y = item.mapToItem(f.contentItem, 0, 0).y;
-            const top = Math.max(0, y - Theme.spacingL);
-            const bottom = Math.min(f.contentHeight, y + item.height + Theme.spacingL);
+            const top = Math.max(f.originY, y - Theme.spacingL);
+            const bottom = Math.min(f.originY + f.contentHeight, y + item.height + Theme.spacingL);
             if (top < f.contentY || bottom > f.contentY + f.height)
                 return false;
         }
@@ -150,9 +150,9 @@ FocusScope {
             const top = item.mapToItem(f.contentItem, 0, 0).y - Theme.spacingL;
             const bottom = top + item.height + Theme.spacingL * 2;
             if (top < f.contentY)
-                f.contentY = Math.max(0, top);
+                f.contentY = Math.max(f.originY, top);
             else if (bottom > f.contentY + f.height)
-                f.contentY = Math.min(f.contentHeight - f.height, bottom - f.height);
+                f.contentY = Math.min(f.originY + f.contentHeight - f.height, bottom - f.height);
             return;
         }
     }
