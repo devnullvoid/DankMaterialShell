@@ -707,6 +707,12 @@ function migrateToVersion(obj, targetVersion) {
         settings.configVersion = 35;
     }
 
+    if (currentVersion < 37 && targetVersion >= 37) {
+        if (Array.isArray(settings.controlCenterWidgets) && !settings.controlCenterWidgets.some(widget => widget?.id === "edit"))
+            settings.controlCenterWidgets = settings.controlCenterWidgets.concat([Object.assign({}, SpecModule.SPEC.controlCenterWidgets.def.find(widget => widget.id === "edit"))]);
+        settings.configVersion = 37;
+    }
+
     return settings;
 }
 

@@ -74,6 +74,9 @@ FocusScope {
     implicitHeight: targetImplicitHeight
     focus: true
 
+    Component.onCompleted: WidgetUtils.ensureEditButton()
+    onPlacedWidgetIdsChanged: WidgetUtils.ensureEditButton()
+
     function navigateTo(section) {
         if (section === host.expandedSection)
             return;
@@ -279,6 +282,13 @@ FocusScope {
         event.accepted = true;
     }
 
+    Shortcut {
+        sequences: ["F2", "Ctrl+E"]
+        enabled: root.host.shouldBeVisible && !root.host.editMode && !root.pageOpen
+        context: Qt.WindowShortcut
+        onActivated: root.host.editMode = true
+    }
+
     readonly property string expandedSection: host.expandedSection ?? ""
     readonly property bool editMode: host.editMode
 
@@ -416,6 +426,7 @@ FocusScope {
                     onColorPickerRequested: root.host.openColorPicker()
                     onCloseRequested: root.host.close()
                     onSettingsRequested: root.host.openSettings()
+                    onEditRequested: root.host.editMode = true
                     onAccountsRequested: root.host.openAccounts()
                     onLockRequested: {
                         root.host.close();
@@ -449,6 +460,7 @@ FocusScope {
         items: root.footerItems
         gridDragging: root.gridDragWidget !== null
         gridDragPoint: widgetGrid.dragScenePoint
+        incomingRemovable: WidgetUtils.isRemovable(root.gridDragWidget)
         incoming: root.gridDragWidget !== null && widgetGrid.heldOutside && !footer.overTrash ? Object.assign({
             "cells": Math.min(WidgetUtils.footerCells(root.gridDragWidget), footer.freeCells())
         }, footer.gridSlot) : null
@@ -463,7 +475,7 @@ FocusScope {
         onConfigRequested: (index, widgetData, anchor) => root.openConfigOverlay(index, widgetData, anchor)
         onItemMoved: (index, sceneRect, leaving) => root.previewFooterDrag(index, sceneRect, leaving)
         onResized: (index, cells, fill) => WidgetUtils.setFooterSize(index, cells, fill)
-        onEditToggled: root.host.editMode = !root.host.editMode
+        onFinishRequested: root.host.editMode = false
         onCancelRequested: root.cancelEdit()
     }
 

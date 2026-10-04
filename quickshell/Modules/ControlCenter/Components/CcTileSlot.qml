@@ -88,7 +88,7 @@ DankEditableGridSlot {
         dragging: root.dragging
         resizing: root.resizing
         cornerRadius: root.small ? Theme.fullRadius(root.width, root.height) : (root.tileItem?.bodyRadius ?? Theme.fullRadius(root.width, root.height))
-        sizeText: root.cols + "×" + root.rows
+        sizeText: root.cols + "×" + (root.small ? CcMetrics.smallRowFraction : root.rows)
         onResizeStarted: (px, py) => {
             root.biasH = root.small ? (CcMetrics.smallRowFraction - 1) * root.grid.cellWidth : 0;
             root.beginResize(px, py);

@@ -24,6 +24,7 @@ DankEditableGrid {
     signal lockRequested
     signal powerRequested
     signal settingsRequested
+    signal editRequested
     signal accountsRequested
     signal closeRequested
     property bool tapToClose: false

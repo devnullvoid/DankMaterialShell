@@ -544,6 +544,15 @@ var LOCAL_SPEC = {
                 w: 4,
                 h: 1,
                 footer: true
+            },
+            {
+                id: "edit",
+                enabled: true,
+                w: 1,
+                h: 1,
+                small: true,
+                footer: true,
+                footerEnd: true
             }
         ]
     },

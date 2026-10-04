@@ -54,7 +54,7 @@ Item {
         if (interactingIndex < 0 || !changes)
             return items;
         const changed = items.map((item, i) => i === interactingIndex ? Object.assign({}, item, changes) : item);
-        return swapDrags && dragCell && draggingSourceIndex >= 0 ? GridUtils.swapInto(changed, pinnedCells, draggingSourceIndex, dragCell) : changed;
+        return swapDrags && dragCell && draggingSourceIndex >= 0 ? GridUtils.dropInto(changed, pinnedCells, draggingSourceIndex, dragCell) : changed;
     }
 
     signal layoutCommitted(var items)

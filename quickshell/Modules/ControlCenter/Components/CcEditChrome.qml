@@ -12,6 +12,7 @@ DankGridEditChrome {
     signal configRequested(var anchor)
 
     hasOptions: WidgetUtils.hasOptions(widgetData.id)
+    removable: WidgetUtils.isRemovable(widgetData)
     buttonSize: Theme.iconSize
     hitOverflow: CcMetrics.gridGap / 2
     iconSize: PopoutMetrics.chromeIconSize
