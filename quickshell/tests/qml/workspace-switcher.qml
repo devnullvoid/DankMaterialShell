@@ -16,6 +16,7 @@ ShellRoot {
     property var content: null
     property string output: ""
     property var workspaceIds: []
+    property real dotWidth: 0
 
     function check(condition, message) {
         if (!condition)
@@ -238,10 +239,39 @@ ShellRoot {
                         return;
                     root.check(root.pills().map(pill => root.texts(pill).join("|")).join() === "web,2,3", "hyprland slot pills label from their record, got " + root.pills().map(pill => root.texts(pill).join("|")).join());
                     root.check(root.pills().every(pill => !pill.isPlaceholder), "hyprland padding slots are real workspaces");
+                    root.switcher.widgetData = {
+                        "id": "workspaceSwitcher",
+                        "workspaceIndicatorStyle": "dots",
+                        "workspaceIndicatorRoundness": 0,
+                        "showWorkspacePadding": true
+                    };
+                    advance();
+                    return;
+                case 7: {
+                    const idle = root.pills().filter(pill => !pill.isActive);
+                    if (idle.length === 0 || root.pills().some(pill => pill.visualWidth !== pill.visualHeight))
+                        return;
+                    const surface = pill => (pill.children || []).find(child => child.radiusOverride !== undefined);
+                    root.check(idle.every(pill => surface(pill)?.radius === 0), "roundness 0 squares the dots, got " + idle.map(pill => surface(pill)?.radius).join());
+                    const active = root.pills().find(pill => pill.isActive);
+                    root.check(!active || active.visualWidth > idle[0].visualWidth, "the active dot is a larger square");
+                    root.dotWidth = idle[0].visualWidth;
+                    root.switcher.widgetData = Object.assign({}, root.switcher.widgetData, {
+                        "workspaceIndicatorCompact": true
+                    });
+                    advance();
+                    return;
+                }
+                case 8: {
+                    const idle = root.pills().filter(pill => !pill.isActive);
+                    if (idle.some(pill => pill.visualWidth !== pill.visualHeight || pill.visualWidth >= root.dotWidth))
+                        return;
+                    root.check(idle.every(pill => pill.visualWidth < root.dotWidth), "compact shrinks the dots");
                     console.log("FIXTURE_PASS");
                     stop();
                     Qt.quit();
                     return;
+                }
                 }
             } catch (error) {
                 console.error("FIXTURE_FAIL", error.message);

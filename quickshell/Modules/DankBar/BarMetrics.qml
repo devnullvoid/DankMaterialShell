@@ -42,6 +42,49 @@ Singleton {
         return barConfig?.widgetStyle ?? "pills";
     }
 
+    // workspace indicator extents as fractions of the widget thickness: along the bar (compact/active) and across it (slim/activeSlim)
+    readonly property var indicatorRatios: ({
+            "pills": {
+                "compact": 0.7,
+                "active": 1.05,
+                "slim": 0.5,
+                "activeSlim": 0.5
+            },
+            "dots": {
+                "compact": 0.5,
+                "active": 0.6,
+                "slim": 0.5,
+                "activeSlim": 0.6
+            },
+            "lines": {
+                "compact": 0.7,
+                "active": 1.6,
+                "slim": 0.12,
+                "activeSlim": 0.2
+            },
+            "cards": {
+                "compact": 0.75,
+                "active": 0.9,
+                "slim": 0.5,
+                "activeSlim": 0.6
+            }
+        })
+
+    readonly property real indicatorCompactScale: 0.7
+
+    function indicatorRatio(style, key, compact) {
+        return (indicatorRatios[style] ?? indicatorRatios.pills)[key] * (compact ? indicatorCompactScale : 1);
+    }
+
+    // roundness 0..100 is the corner as a share of the half thickness; below 0 follows the theme
+    function indicatorRadius(style, thickness, roundness) {
+        if (roundness >= 0)
+            return thickness / 2 * Math.min(100, roundness) / 100;
+        if (style === "cards")
+            return Math.min(Theme.cornerRadiusXS, thickness / 2);
+        return -1;
+    }
+
     // islandBandFit is the inverse of compactFaceThickness; both read these.
     readonly property real islandFaceBloomSmall: 2
     readonly property real islandFaceBloomLarge: 4

@@ -23,15 +23,16 @@ BasePill {
     readonly property string indicatorStyle: root.opt("workspaceIndicatorStyle")
     readonly property bool linesStyle: indicatorStyle === "lines"
     readonly property bool cardsStyle: indicatorStyle === "cards"
-    readonly property bool segmented: !linesStyle && !cardsStyle && surfaceContext?.kind !== "dock" && BarMetrics.widgetStyle(barConfig) === "segments" && !noBackground
-    readonly property real compactRatio: cardsStyle ? 0.75 : 0.7
-    readonly property real slimRatio: 0.5
-    readonly property real activeSlimRatio: 0.6
-    readonly property real activeRatio: linesStyle ? 1.6 : cardsStyle ? 0.9 : 1.05
+    readonly property bool dotsStyle: indicatorStyle === "dots"
+    readonly property real roundness: root.opt("workspaceIndicatorRoundness")
+    readonly property bool compactIndicators: root.opt("workspaceIndicatorCompact")
+    readonly property bool segmented: !linesStyle && !cardsStyle && !dotsStyle && surfaceContext?.kind !== "dock" && BarMetrics.widgetStyle(barConfig) === "segments" && !noBackground
+    readonly property real compactRatio: BarMetrics.indicatorRatio(indicatorStyle, "compact", compactIndicators)
+    readonly property real slimRatio: BarMetrics.indicatorRatio(indicatorStyle, "slim", compactIndicators)
+    readonly property real activeSlimRatio: BarMetrics.indicatorRatio(indicatorStyle, "activeSlim", compactIndicators)
+    readonly property real activeRatio: BarMetrics.indicatorRatio(indicatorStyle, "active", compactIndicators)
     readonly property real activeIconRatio: 1.6
     readonly property real iconRatio: 1.2
-    readonly property real lineRatio: 0.12
-    readonly property real activeLineRatio: 0.2
     readonly property real overviewTintAlpha: 0.18
     readonly property real dragOpacity: 0.8
     readonly property real hoverFadeAlpha: 0.7
@@ -609,9 +610,10 @@ BasePill {
                     return (root.opt("groupWorkspaceApps") && (!isActive || root.opt("groupActiveWorkspaceApps"))) ? groupedCount : wins.length;
                 }
 
-                readonly property real lineThickness: Math.max(Theme.spacingXXS, root.widgetThickness * (isActive ? root.activeLineRatio : root.lineRatio))
-                readonly property real primaryBase: isActive ? Math.max(root.widgetThickness * root.activeRatio, root.appIconSize * root.activeIconRatio) : Math.max(root.widgetThickness * root.compactRatio, root.appIconSize * root.iconRatio)
-                readonly property real crossBase: root.opt("showWorkspaceApps") ? Math.max(widgetThickness * root.compactRatio, root.appIconSize + Theme.spacingXS * 2) : widgetThickness * (root.cardsStyle && isActive ? root.activeSlimRatio : root.slimRatio)
+                readonly property real lineThickness: Math.max(Theme.spacingXXS, root.widgetThickness * (isActive ? root.activeSlimRatio : root.slimRatio))
+                readonly property real crossBase: root.opt("showWorkspaceApps") ? Math.max(widgetThickness * root.compactRatio, root.appIconSize + Theme.spacingXS * 2) : widgetThickness * (isActive ? root.activeSlimRatio : root.slimRatio)
+                // a dot is square until it holds content; the active one grows instead of stretching
+                readonly property real primaryBase: root.dotsStyle ? crossBase : isActive ? Math.max(root.widgetThickness * root.activeRatio, root.appIconSize * root.activeIconRatio) : Math.max(root.widgetThickness * root.compactRatio, root.appIconSize * root.iconRatio)
                 readonly property real baseWidth: root.isVertical ? (root.linesStyle ? lineThickness : crossBase) : primaryBase
                 readonly property real baseHeight: root.isVertical ? primaryBase : (root.linesStyle ? lineThickness : crossBase)
                 readonly property bool hasWorkspaceName: root.opt("showWorkspaceName") && record?.name && record.name !== ""
@@ -1009,7 +1011,7 @@ BasePill {
                     joinedEnd: root.segmented && index < workspaceRepeater.count - 1
                     pressed: mouseArea.pressed
                     color: root.cardsStyle && !isActive ? "transparent" : delegateRoot.displayColor
-                    radiusOverride: root.cardsStyle ? Math.min(Theme.cornerRadiusXS, thickness / 2) : -1
+                    radiusOverride: BarMetrics.indicatorRadius(root.indicatorStyle, thickness, root.roundness)
                     opacity: dragHandler.dragging ? root.dragOpacity : 1.0
 
                     border.width: root.cardsStyle && !isActive ? Math.max(Theme.outlineWidth, delegateRoot.outlineWidth) : delegateRoot.outlineWidth

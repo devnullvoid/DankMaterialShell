@@ -9721,7 +9721,7 @@
     "optionFile": "KeyboardLayoutOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:10",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:13",
     "label": "Advanced",
     "tabIndex": 22,
     "keywords": [],
@@ -9897,6 +9897,14 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:3",
+    "label": "Compact",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "WorkspaceSwitcherOptions.qml"
+  },
+  {
     "section": "barWidgetOption:AppsDockOptions.qml:1",
     "label": "Compact mode",
     "tabIndex": 22,
@@ -10041,7 +10049,7 @@
     "optionFile": "SystemMonitorOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:18",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:21",
     "label": "Drag to reorder",
     "tabIndex": 22,
     "keywords": [],
@@ -10081,7 +10089,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:16",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:19",
     "label": "Follow display focus",
     "tabIndex": 22,
     "keywords": [],
@@ -10113,7 +10121,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:13",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:16",
     "label": "Group apps",
     "tabIndex": 22,
     "keywords": [],
@@ -10137,7 +10145,7 @@
     "optionFile": "RunningAppsOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:14",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:17",
     "label": "Group on active workspace",
     "tabIndex": 22,
     "keywords": [],
@@ -10161,7 +10169,7 @@
     "optionFile": "SystemUpdateOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:15",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:18",
     "label": "Highlight focused app",
     "tabIndex": 22,
     "keywords": [],
@@ -10209,7 +10217,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:7",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:10",
     "label": "Icon size",
     "tabIndex": 22,
     "keywords": [],
@@ -10225,7 +10233,7 @@
     "optionFile": "SystemTrayOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:3",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:6",
     "label": "Index numbers",
     "tabIndex": 22,
     "keywords": [],
@@ -10297,7 +10305,7 @@
     "optionFile": "MusicOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:6",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:9",
     "label": "Max apps to show",
     "tabIndex": 22,
     "keywords": [],
@@ -10353,7 +10361,7 @@
     "optionFile": "PrivacyOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:11",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:14",
     "label": "Minimum workspaces",
     "tabIndex": 22,
     "keywords": [],
@@ -10377,7 +10385,7 @@
     "optionFile": "SystemMonitorOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:4",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:7",
     "label": "Names",
     "tabIndex": 22,
     "keywords": [],
@@ -10457,6 +10465,14 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:4",
+    "label": "Override",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "WorkspaceSwitcherOptions.qml"
+  },
+  {
     "section": "barWidgetOption:IslandOptions.qml:29",
     "label": "Reduce motion",
     "tabIndex": 22,
@@ -10465,8 +10481,16 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:17",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:20",
     "label": "Reverse scroll direction",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "WorkspaceSwitcherOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:5",
+    "label": "Roundness",
     "tabIndex": 22,
     "keywords": [],
     "runtimeType": "barWidgetOption",
@@ -10505,7 +10529,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:19",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:22",
     "label": "Show all tags",
     "tabIndex": 22,
     "keywords": [],
@@ -10513,7 +10537,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:5",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:8",
     "label": "Show apps",
     "tabIndex": 22,
     "keywords": [],
@@ -10577,7 +10601,7 @@
     "optionFile": "SystemMonitorOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:8",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:11",
     "label": "Show occupied only",
     "tabIndex": 22,
     "keywords": [],
@@ -10601,7 +10625,7 @@
     "optionFile": "BatteryOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:9",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:12",
     "label": "Show scratchpads",
     "tabIndex": 22,
     "keywords": [],
@@ -10801,7 +10825,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:12",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:15",
     "label": "Workspace count",
     "tabIndex": 22,
     "keywords": [],
