@@ -235,22 +235,6 @@
             kdePackages.qtdeclarative
           ]
           ++ (qmlPkgs pkgs);
-          # the surface fixtures run niri on winit/X11, which dlopens these
-          niriForTests = pkgs.symlinkJoin {
-            name = "niri-x11";
-            paths = [ pkgs.niri ];
-            nativeBuildInputs = [ pkgs.makeWrapper ];
-            postBuild = ''
-              wrapProgram $out/bin/niri --prefix LD_LIBRARY_PATH : ${
-                pkgs.lib.makeLibraryPath [
-                  (pkgs.libx11 or pkgs.xorg.libX11)
-                  (pkgs.libxcb or pkgs.xorg.libxcb)
-                  (pkgs.libxcursor or pkgs.xorg.libXcursor)
-                  (pkgs.libxi or pkgs.xorg.libXi)
-                ]
-              }
-            '';
-          };
         in
         {
           default = pkgs.mkShell {
@@ -265,7 +249,7 @@
                 gnumake
                 nodejs
                 lua
-                (python3.withPackages (ps: [ ps.dbus-next ]))
+                python3
                 matugen
 
                 prek
@@ -276,8 +260,7 @@
                 nixd
                 nil
               ]
-              ++ devQmlPkgs
-              ++ pkgs.lib.optionals pkgs.stdenv.hostPlatform.isLinux [ niriForTests pkgs.xvfb pkgs.dbus ];
+              ++ devQmlPkgs;
 
             shellHook = ''
               touch quickshell/.qmlls.ini 2>/dev/null
