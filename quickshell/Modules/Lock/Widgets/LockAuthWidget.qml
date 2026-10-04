@@ -842,6 +842,8 @@ Item {
                         }
                         if (root.pam.passwd.active)
                             return I18n.tr("Authenticating...", "lock screen status text while the password is checked");
+                        if (root.passwordVisibility !== "always")
+                            return "";
                         return I18n.tr("Password", "lock screen password field placeholder") + "…";
                     }
                     color: {

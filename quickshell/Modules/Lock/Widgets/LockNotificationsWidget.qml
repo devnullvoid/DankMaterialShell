@@ -16,7 +16,9 @@ Item {
     readonly property int notificationMode: cfg.mode ?? 1
     readonly property bool resizable: true
     readonly property real minWidth: Theme.listItemTwoLineHeight * 2
-    readonly property real minHeight: Theme.listItemHeight
+    readonly property real minHeight: Theme.buttonHeightXS
+    readonly property real defaultWidth: LockMetrics.notificationCardWidth
+    readonly property real defaultHeight: fullContent ? LockMetrics.notificationMaxHeight : Theme.buttonHeightS
 
     readonly property var notifications: NotificationService.groupedNotifications
     readonly property int totalCount: {
@@ -46,53 +48,98 @@ Item {
 
     readonly property bool editPlaceholder: !hasNotifications && (lockHost?.demoMode ?? false)
     readonly property bool chips: notificationMode === 2 && !editPlaceholder
+    readonly property bool fullContent: notificationMode === 3 && !editPlaceholder
     readonly property var visibleGroups: appNameGroups.slice(0, LockMetrics.notificationLimit)
-    readonly property int hiddenGroups: Math.max(0, appNameGroups.length - LockMetrics.notificationLimit)
 
-    implicitWidth: chips ? contentLoader.implicitWidth : LockMetrics.notificationCardWidth
+    implicitWidth: contentLoader.implicitWidth
     implicitHeight: hasNotifications || editPlaceholder ? contentLoader.implicitHeight : 0
     clip: true
 
     Loader {
         id: contentLoader
-        anchors.left: parent.left
-        anchors.right: root.chips ? undefined : parent.right
-        anchors.top: parent.top
+        anchors.fill: parent
         active: root.hasNotifications || root.editPlaceholder
         sourceComponent: {
-            if (root.notificationMode === 1 || root.editPlaceholder)
-                return countOnlyComponent;
-            return root.chips ? chipRowComponent : notificationListComponent;
+            if (root.chips)
+                return chipRowComponent;
+            if (root.fullContent)
+                return notificationListComponent;
+            return countOnlyComponent;
+        }
+    }
+
+    component Chip: Rectangle {
+        default property alias content: chipContent.data
+        readonly property real contentWidth: chipContent.implicitWidth
+        height: Theme.buttonHeightXS
+        width: contentWidth + Theme.spacingM * 2
+        radius: Theme.cornerRadiusM
+        color: Theme.notificationFloatingSurface
+        border.width: Theme.layerOutlineWidth
+        border.color: Theme.outlineVariant
+
+        Row {
+            id: chipContent
+            anchors.centerIn: parent
+            spacing: Theme.spacingXS
         }
     }
 
     Component {
         id: chipRowComponent
 
-        Row {
-            spacing: Theme.spacingS
+        Item {
+            id: chipHost
 
-            Repeater {
-                model: root.visibleGroups
+            property int fitCount: root.visibleGroups.length
+            readonly property int hiddenCount: root.appNameGroups.length - fitCount
+            implicitWidth: chipRow.implicitWidth
+            implicitHeight: chipRow.implicitHeight
 
-                Rectangle {
-                    id: chip
+            function measure() {
+                const widths = [];
+                for (let i = 0; i < chipRepeater.count; i++)
+                    widths.push(chipRepeater.itemAt(i)?.width ?? 0);
+                const total = count => widths.slice(0, count).reduce((sum, w) => sum + w, 0) + Math.max(0, count - 1) * chipRow.spacing;
+                const overflow = count => root.appNameGroups.length > count ? moreMetrics.width + Theme.spacingM * 2 + chipRow.spacing : 0;
+                let count = widths.length;
+                while (count > 1 && total(count) + overflow(count) > width)
+                    count--;
+                fitCount = count;
+            }
 
-                    required property var modelData
-                    readonly property string appIcon: NotificationService.notificationAppIcon(modelData.latestNotification?.appIcon || "", modelData.latestNotification?.desktopEntry || "")
+            onWidthChanged: Qt.callLater(measure)
+            Component.onCompleted: measure()
 
-                    height: Theme.buttonHeightXS
-                    width: chipRow.implicitWidth + Theme.spacingM * 2
-                    radius: Theme.cornerRadiusM
-                    color: Theme.notificationFloatingSurface
-                    border.width: Theme.layerOutlineWidth
-                    border.color: Theme.outlineVariant
-                    Accessible.name: modelData.appName
+            TextMetrics {
+                id: moreMetrics
+                font.pixelSize: Theme.fontSizeSmall
+                font.weight: Theme.fontWeightMedium
+                text: I18n.tr("+ %1 more", "lock screen notification list overflow, %1 is a count of hidden apps").arg(root.appNameGroups.length)
+                onWidthChanged: Qt.callLater(chipHost.measure)
+            }
 
-                    Row {
-                        id: chipRow
-                        anchors.centerIn: parent
-                        spacing: Theme.spacingXS
+            Row {
+                id: chipRow
+                anchors.centerIn: parent
+                spacing: Theme.spacingS
+
+                Repeater {
+                    id: chipRepeater
+                    model: root.visibleGroups
+                    onItemAdded: Qt.callLater(chipHost.measure)
+                    onItemRemoved: Qt.callLater(chipHost.measure)
+
+                    Chip {
+                        id: chip
+
+                        required property var modelData
+                        required property int index
+                        readonly property string appIcon: NotificationService.notificationAppIcon(modelData.latestNotification?.appIcon || "", modelData.latestNotification?.desktopEntry || "")
+
+                        visible: index < chipHost.fitCount
+                        Accessible.name: modelData.appName
+                        onWidthChanged: Qt.callLater(chipHost.measure)
 
                         Item {
                             width: Theme.iconSizeSmall
@@ -151,24 +198,17 @@ Item {
                         }
                     }
                 }
-            }
 
-            Rectangle {
-                visible: root.hiddenGroups > 0
-                height: Theme.buttonHeightXS
-                width: moreText.implicitWidth + Theme.spacingM * 2
-                radius: Theme.cornerRadiusM
-                color: Theme.notificationFloatingSurface
-                border.width: Theme.layerOutlineWidth
-                border.color: Theme.outlineVariant
+                Chip {
+                    visible: chipHost.hiddenCount > 0
 
-                StyledText {
-                    id: moreText
-                    anchors.centerIn: parent
-                    text: I18n.tr("+ %1 more", "lock screen notification list overflow, %1 is a count of hidden apps").arg(root.hiddenGroups)
-                    font.pixelSize: Theme.fontSizeSmall
-                    font.weight: Theme.fontWeightMedium
-                    color: Theme.onSurfaceVariant
+                    StyledText {
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: I18n.tr("+ %1 more", "lock screen notification list overflow, %1 is a count of hidden apps").arg(chipHost.hiddenCount)
+                        font.pixelSize: Theme.fontSizeSmall
+                        font.weight: Theme.fontWeightMedium
+                        color: Theme.onSurfaceVariant
+                    }
                 }
             }
         }
@@ -177,28 +217,42 @@ Item {
     Component {
         id: countOnlyComponent
 
-        LockNotificationCard {
-            implicitHeight: Theme.listItemHeight
-            color: Theme.notificationFloatingSurface
-            Accessible.name: countLabel.text
+        Item {
+            implicitWidth: countPill.width
+            implicitHeight: countPill.height
 
-            Row {
+            Rectangle {
+                id: countPill
                 anchors.centerIn: parent
-                spacing: Theme.spacingS
+                width: countRow.implicitWidth + Theme.spacingL * 2
+                height: Theme.buttonHeightS
+                radius: Theme.fullRadius(width, height)
+                color: Theme.notificationFloatingSurface
+                border.width: Theme.layerOutlineWidth
+                border.color: Theme.outlineVariant
+                scale: Math.min(1, parent.width / width, parent.height / height)
+                Accessible.name: countLabel.text
 
-                DankIcon {
-                    name: "notifications"
-                    size: Theme.iconSize
-                    color: Theme.onSurfaceVariant
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+                Row {
+                    id: countRow
+                    anchors.centerIn: parent
+                    spacing: Theme.spacingS
 
-                StyledText {
-                    id: countLabel
-                    text: root.editPlaceholder ? I18n.tr("Notifications") : root.totalCount === 1 ? I18n.tr("1 notification") : I18n.tr("%1 notifications").arg(root.totalCount)
-                    font.pixelSize: Theme.fontSizeMedium
-                    color: Theme.onSurface
-                    anchors.verticalCenter: parent.verticalCenter
+                    DankIcon {
+                        name: "notifications"
+                        size: Theme.iconSizeSmall + Theme.spacingXXS
+                        color: Theme.onSurfaceVariant
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    StyledText {
+                        id: countLabel
+                        text: root.editPlaceholder ? I18n.tr("Notifications") : root.totalCount === 1 ? I18n.tr("1 notification") : I18n.tr("%1 notifications").arg(root.totalCount)
+                        font.pixelSize: Theme.fontSizeMedium
+                        font.weight: Theme.fontWeightMedium
+                        color: Theme.onSurface
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
                 }
             }
         }
@@ -207,46 +261,52 @@ Item {
     Component {
         id: notificationListComponent
 
-        DankFlickable {
-            implicitHeight: Math.min(notificationColumn.implicitHeight, LockMetrics.notificationMaxHeight, Math.max(0, (root.lockHost?.height ?? 0) - (root.parent?.y ?? 0) - Theme.spacingXL))
-            height: Math.min(notificationColumn.implicitHeight, root.height)
-            contentHeight: notificationColumn.implicitHeight
-            clip: true
+        Item {
+            implicitWidth: LockMetrics.notificationCardWidth
+            implicitHeight: Math.min(notificationColumn.implicitHeight, LockMetrics.notificationMaxHeight)
 
-            Column {
-                id: notificationColumn
+            DankFlickable {
+                anchors.centerIn: parent
                 width: parent.width
-                spacing: Theme.groupedListGap
+                height: Math.min(notificationColumn.implicitHeight, parent.height)
+                contentHeight: notificationColumn.implicitHeight
+                clip: true
 
-                Repeater {
-                    id: notificationRepeater
-                    model: root.appNameGroups.slice(0, LockMetrics.notificationLimit)
-
-                    Notifications.NotificationCard {
-                        required property var modelData
-                        required property int index
-                        width: notificationColumn.width
-                        notificationData: modelData.latestNotification
-                        groupCount: modelData.count
-                        interactive: false
-                        headerOnly: false
-                        showActions: false
-                        showDismiss: false
-                        showClose: false
-                        showTime: !headerOnly
-                        animateHeight: false
-                        firstInGroup: index === 0
-                        lastInGroup: index === notificationRepeater.count - 1
-                    }
-                }
-
-                StyledText {
+                Column {
+                    id: notificationColumn
                     width: parent.width
-                    visible: root.appNameGroups.length > LockMetrics.notificationLimit
-                    text: I18n.tr("+ %1 more", "lock screen notification list overflow, %1 is a count of hidden apps").arg(root.appNameGroups.length - LockMetrics.notificationLimit)
-                    font.pixelSize: Theme.fontSizeSmall
-                    color: Theme.lockScreenContentColor
-                    horizontalAlignment: Text.AlignHCenter
+                    spacing: Theme.groupedListGap
+
+                    Repeater {
+                        id: notificationRepeater
+                        model: root.visibleGroups
+
+                        Notifications.NotificationCard {
+                            required property var modelData
+                            required property int index
+                            width: notificationColumn.width
+                            notificationData: modelData.latestNotification
+                            groupCount: modelData.count
+                            interactive: false
+                            headerOnly: false
+                            showActions: false
+                            showDismiss: false
+                            showClose: false
+                            showTime: !headerOnly
+                            animateHeight: false
+                            firstInGroup: index === 0
+                            lastInGroup: index === notificationRepeater.count - 1
+                        }
+                    }
+
+                    StyledText {
+                        width: parent.width
+                        visible: root.appNameGroups.length > LockMetrics.notificationLimit
+                        text: I18n.tr("+ %1 more", "lock screen notification list overflow, %1 is a count of hidden apps").arg(root.appNameGroups.length - LockMetrics.notificationLimit)
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.lockScreenContentColor
+                        horizontalAlignment: Text.AlignHCenter
+                    }
                 }
             }
         }

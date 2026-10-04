@@ -87,6 +87,13 @@ Item {
         return Qt.point(guideX ?? snapped.x, guideY ?? snapped.y);
     }
 
+    function pinPosition() {
+        geometry.savePosition(geometry.widgetX, geometry.widgetY);
+        SettingsData.updateDesktopWidgetInstanceConfig(instanceId, {
+            autoPosition: false
+        });
+    }
+
     function commitPosition(finalX, finalY) {
         if (stock && finalX === stock.x && finalY === stock.y) {
             SessionData.resetDesktopWidgetInstanceGeometry(instanceId, ["x", "y"]);
@@ -223,8 +230,10 @@ Item {
                     geometry.dragOverrideH = next.height;
                 }
                 onResizeEnded: {
-                    resizing = false;
                     geometry.saveSize(geometry.dragOverrideW, geometry.dragOverrideH);
+                    if (root.automaticPlacement)
+                        root.pinPosition();
+                    resizing = false;
                     geometry.clearDragOverrides();
                 }
                 onResizeCanceled: {

@@ -181,6 +181,8 @@ FocusScope {
         panelWidth: DashMetrics.sheetWidth
         iconName: "edit_calendar"
         title: eventData ? I18n.tr("Edit event") : I18n.tr("New event")
+        statusText: editorLoader.item?.errorText ?? ""
+        statusColor: Theme.error
 
         onDismissed: {
             eventData = null;
@@ -188,6 +190,8 @@ FocusScope {
         }
 
         Loader {
+            id: editorLoader
+
             width: parent.width
             active: editorSheet.visible
 

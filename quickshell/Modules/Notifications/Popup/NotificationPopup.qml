@@ -667,7 +667,7 @@ PanelWindow {
             anchors.fill: parent
             anchors.margins: content.cardInset
             radius: win.connectedFrameMode ? Theme.connectedSurfaceRadius : NotificationMetrics.popupRadius
-            color: Theme.notificationFloatingSurface
+            color: "transparent"
 
             HoverHandler {
                 id: cardHoverHandler
@@ -711,7 +711,7 @@ PanelWindow {
                         dismissText: I18n.tr("Clear")
                         animateHeight: false
                         outerRadius: win.connectedFrameMode ? Theme.connectedSurfaceRadius : NotificationMetrics.popupRadius
-                        color: Theme.notificationFloatingSurface
+                        color: "transparent"
                         onExpandRequested: win.descriptionExpanded = !win.descriptionExpanded
                         onCloseRequested: win.dismissPopupReliably()
                         onDismissRequested: {

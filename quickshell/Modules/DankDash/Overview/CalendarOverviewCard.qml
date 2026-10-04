@@ -596,6 +596,13 @@ Card {
             }
         }
 
+        StateLayer {
+            cornerRadius: taskItem.radius
+            stateColor: taskItem.accentColor
+            disabled: !taskItem.modelData || taskItem.isEditing || !root.interactive
+            onClicked: taskItem.activate()
+        }
+
         FocusRing {}
 
         onIndexChanged: visualIndex = index
@@ -775,15 +782,6 @@ Card {
                     event.accepted = true;
                 }
             }
-        }
-
-        StateLayer {
-            anchors.leftMargin: taskItem.leadingWidth
-            anchors.rightMargin: taskItem.trailingWidth
-            cornerRadius: taskItem.radius
-            stateColor: taskItem.accentColor
-            disabled: !taskItem.modelData || taskItem.isEditing || !root.interactive
-            onClicked: taskItem.activate()
         }
 
         DankActionButton {

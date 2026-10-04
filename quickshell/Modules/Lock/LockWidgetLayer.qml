@@ -95,8 +95,20 @@ FocusScope {
     readonly property real edgeInset: Theme.spacingXL * 2
     property bool completed: false
     property var lockedPositions: ({})
+    // Snapshot taken when a drag or resize starts so the auto-placed clock cannot jump under the pointer.
+    property var heldPlacement: ({})
     readonly property string backgroundKey: LockPlacementService.backgroundKey(screenName, width, height)
-    readonly property var autoPositions: editMode && completed ? currentPlacement() : lockedPositions
+    readonly property var autoPositions: {
+        if (!editMode || !completed)
+            return lockedPositions;
+        if (interactingItem)
+            return heldPlacement;
+        return currentPlacement();
+    }
+    onInteractingItemChanged: {
+        if (interactingItem)
+            heldPlacement = currentPlacement();
+    }
 
     function currentPlacement() {
         return LockPlacementService.layoutFor(screenName, LockPlacementService.sampleFor(screenName, backgroundKey), placementKey, placeClocks);
@@ -213,6 +225,15 @@ FocusScope {
         for (let i = 0; i < repeater.count; i++) {
             const item = repeater.itemAt(i);
             if (item && item.dragging)
+                return item;
+        }
+        return null;
+    }
+
+    readonly property var interactingItem: {
+        for (let i = 0; i < repeater.count; i++) {
+            const item = repeater.itemAt(i);
+            if (item && item.interacting)
                 return item;
         }
         return null;

@@ -190,7 +190,6 @@ Singleton {
     readonly property real eventActionIconSize: Theme.iconSizeSmall
     readonly property real taskInputHeight: Theme.buttonHeightS
     readonly property real sheetWidth: 400
-    readonly property real sheetFormHeight: 300
 
     readonly property real mediaCardMargin: Theme.spacingL
     readonly property real mediaArtSize: 150
