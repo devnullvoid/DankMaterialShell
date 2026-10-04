@@ -41,6 +41,7 @@ SettingsRow {
         DankDragHandle {
             id: handle
 
+            visible: root.reorderEnabled
             coordinateItem: root.reorderList
             upDownKeysMove: false
             label: root.title

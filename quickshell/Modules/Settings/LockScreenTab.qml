@@ -268,108 +268,76 @@ Item {
         }
     }
 
+    LazyLoader {
+        id: lockWidgetBrowserLoader
+        active: false
+
+        DesktopWidgetBrowser {
+            parentModal: root.parentModal
+            listKey: "lockScreenWidgetInstances"
+            title: I18n.tr("Add widget")
+            onWidgetAdded: ToastService.showInfo(I18n.tr("Widget added"))
+        }
+    }
+
     SettingsPage {
         id: mainColumn
 
         SettingsCard {
             width: parent.width
-            iconName: "lock"
-            title: I18n.tr("Layout")
-            settingKey: "lockLayout"
+            iconName: "widgets"
+            title: I18n.tr("Widgets")
+            settingKey: "lockScreenWidgets"
+            tags: ["lock", "screen", "widgets", "clock", "plugins"]
 
-            SettingsToggleRow {
-                settingKey: "lockScreenShowPowerActions"
-                tags: ["lock", "screen", "power", "actions", "shutdown", "reboot"]
-                text: I18n.tr("Show power actions")
-                checked: SettingsData.lockScreenShowPowerActions
-                onToggled: checked => SettingsData.set("lockScreenShowPowerActions", checked)
-            }
+            SettingsReorderList {
+                id: lockWidgetList
 
-            SettingsToggleRow {
-                settingKey: "lockScreenShowSystemIcons"
-                tags: ["lock", "screen", "system", "icons", "status"]
-                text: I18n.tr("Show system icons")
-                checked: SettingsData.lockScreenShowSystemIcons
-                onToggled: checked => SettingsData.set("lockScreenShowSystemIcons", checked)
-            }
+                model: SettingsData.lockScreenWidgetInstances || []
 
-            SettingsToggleRow {
-                settingKey: "lockScreenShowTime"
-                tags: ["lock", "screen", "time", "clock", "display"]
-                text: I18n.tr("Show time")
-                checked: SettingsData.lockScreenShowTime
-                onToggled: checked => SettingsData.set("lockScreenShowTime", checked)
-            }
+                delegate: DesktopWidgetInstanceCard {
+                    required property var modelData
 
-            SettingsButtonGroupRow {
-                settingKey: "lockScreenClockStyle"
-                tags: ["lock", "screen", "time", "clock", "style", "vertical"]
-                text: I18n.tr("Clock style")
-                visible: SettingsData.lockScreenShowTime
-                model: [I18n.tr("Horizontal", "lock screen clock style option"), I18n.tr("Vertical", "lock screen clock style option")]
-                currentIndex: SettingsData.lockScreenClockStyle === "vertical" ? 1 : 0
-                onSelectionChanged: (index, selected) => {
-                    if (!selected)
-                        return;
-                    SettingsData.set("lockScreenClockStyle", index === 1 ? "vertical" : "horizontal");
-                }
-            }
+                    reorderList: lockWidgetList
+                    reorderEnabled: false
+                    instanceData: modelData
+                    fixed: modelData.widgetType === "lockAuth"
 
-            SettingsToggleRow {
-                settingKey: "lockScreenShowDate"
-                tags: ["lock", "screen", "date", "calendar", "display"]
-                text: I18n.tr("Show date")
-                checked: SettingsData.lockScreenShowDate
-                onToggled: checked => SettingsData.set("lockScreenShowDate", checked)
-            }
-
-            SettingsToggleRow {
-                settingKey: "lockScreenShowProfileImage"
-                tags: ["lock", "screen", "profile", "image", "avatar", "picture"]
-                text: I18n.tr("Show profile image")
-                checked: SettingsData.lockScreenShowProfileImage
-                onToggled: checked => SettingsData.set("lockScreenShowProfileImage", checked)
-            }
-
-            SettingsToggleRow {
-                settingKey: "lockScreenShowPasswordField"
-                tags: ["lock", "screen", "password", "field", "input", "visible"]
-                text: I18n.tr("Show password field")
-                description: I18n.tr("A hidden field appears as soon as a key is pressed")
-                checked: SettingsData.lockScreenShowPasswordField
-                onToggled: checked => SettingsData.set("lockScreenShowPasswordField", checked)
-            }
-
-            SettingsToggleRow {
-                settingKey: "lockScreenShowMediaPlayer"
-                tags: ["lock", "screen", "media", "player", "music", "mpris"]
-                text: I18n.tr("Show media player")
-                checked: SettingsData.lockScreenShowMediaPlayer
-                onToggled: checked => SettingsData.set("lockScreenShowMediaPlayer", checked)
-            }
-
-            SettingsSplitRow {
-                settingKey: "lockScreenShowWeather"
-                tab: "lock_screen"
-                tags: ["weather", "temperature"]
-                title: I18n.tr("Weather")
-                checked: SettingsData.lockScreenShowWeather
-                onToggled: checked => SettingsData.set("lockScreenShowWeather", checked)
-                onNavigated: keyboard => root.parentModal?.navigateTo("weather", keyboard)
-            }
-
-            SettingsDropdownRow {
-                settingKey: "lockScreenNotificationMode"
-                tags: ["lock", "screen", "notification", "notifications", "privacy"]
-                text: I18n.tr("Notifications")
-                options: [I18n.tr("Disabled", "lock screen notification mode option"), I18n.tr("Count only", "lock screen notification mode option"), I18n.tr("App names", "lock screen notification mode option"), I18n.tr("Full content", "lock screen notification mode option")]
-                currentValue: options[SettingsData.lockScreenNotificationMode] || options[0]
-                onValueChanged: value => {
-                    const idx = options.indexOf(value);
-                    if (idx >= 0) {
-                        SettingsData.set("lockScreenNotificationMode", idx);
+                    onConfigureRequested: {
+                        SettingsUiState.selectedDesktopWidgetId = instanceId;
+                        SettingsUiState.selectedWidgetTitle = widgetName;
+                        root.parentModal?.navigateTo("desktop_widget");
+                    }
+                    onDuplicateRequested: SettingsData.duplicateDesktopWidgetInstance(instanceId)
+                    onDeleteRequested: {
+                        SettingsData.removeDesktopWidgetInstance(instanceId);
+                        ToastService.showInfo(I18n.tr("Widget removed"));
                     }
                 }
+            }
+
+            SettingsRow {
+                iconName: "add"
+                title: I18n.tr("Add widget")
+                clickable: true
+                onClicked: {
+                    lockWidgetBrowserLoader.active = true;
+                    lockWidgetBrowserLoader.item?.show();
+                }
+            }
+
+            SettingsRow {
+                iconName: "edit"
+                title: I18n.tr("Edit widgets")
+                clickable: true
+                onClicked: SessionService.lockEditorRequested()
+            }
+
+            SettingsRow {
+                iconName: "restart_alt"
+                title: I18n.tr("Reset to default")
+                clickable: true
+                onClicked: SettingsData.resetLockScreenWidgets()
             }
         }
 

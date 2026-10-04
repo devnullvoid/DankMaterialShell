@@ -1517,6 +1517,30 @@
     "description": "Requires restart"
   },
   {
+    "section": "lockNotificationsMode",
+    "label": "Lock screen content",
+    "tabIndex": -1,
+    "category": "Notifications",
+    "keywords": [
+      "alert",
+      "alerts",
+      "content",
+      "lock",
+      "lockscreen",
+      "login",
+      "messages",
+      "notif",
+      "notification",
+      "notifications",
+      "notifs",
+      "privacy",
+      "screen",
+      "security",
+      "toast"
+    ],
+    "page": "notifications"
+  },
+  {
     "section": "notificationHistorySaveLow",
     "label": "Low",
     "tabIndex": -1,
@@ -7089,26 +7113,6 @@
     "icon": "lock"
   },
   {
-    "section": "lockScreenClockStyle",
-    "label": "Clock style",
-    "tabIndex": 11,
-    "category": "Lock screen",
-    "keywords": [
-      "clock",
-      "lock",
-      "lockscreen",
-      "login",
-      "password",
-      "screen",
-      "security",
-      "style",
-      "time",
-      "vertical",
-      "watch"
-    ],
-    "parentLabel": "Security"
-  },
-  {
     "section": "lockDisplay",
     "label": "Displays",
     "tabIndex": 11,
@@ -7175,33 +7179,6 @@
     "parentLabel": "Security"
   },
   {
-    "section": "lockLayout",
-    "label": "Layout",
-    "tabIndex": 11,
-    "category": "Lock screen",
-    "keywords": [
-      "actions",
-      "appears",
-      "field",
-      "hidden",
-      "layout",
-      "lock",
-      "lockscreen",
-      "login",
-      "password",
-      "power",
-      "pressed",
-      "reboot",
-      "screen",
-      "security",
-      "shutdown",
-      "soon"
-    ],
-    "parentLabel": "Security",
-    "icon": "lock",
-    "description": "A hidden field appears as soon as a key is pressed"
-  },
-  {
     "section": "lockAtStartup",
     "label": "Lock at startup",
     "tabIndex": 11,
@@ -7259,28 +7236,6 @@
     "icon": "lock",
     "parentLabel": "Security",
     "description": "Layout, authentication, screensaver"
-  },
-  {
-    "section": "lockScreenNotificationMode",
-    "label": "Notifications",
-    "tabIndex": 11,
-    "category": "Lock screen",
-    "keywords": [
-      "alert",
-      "alerts",
-      "lock",
-      "lockscreen",
-      "login",
-      "notif",
-      "notification",
-      "notifications",
-      "notifs",
-      "password",
-      "privacy",
-      "screen",
-      "security"
-    ],
-    "parentLabel": "Security"
   },
   {
     "section": "lockScreenVideoEnabled",
@@ -7432,153 +7387,6 @@
     "parentLabel": "Security"
   },
   {
-    "section": "lockScreenShowDate",
-    "label": "Show date",
-    "tabIndex": 11,
-    "category": "Lock screen",
-    "keywords": [
-      "calendar",
-      "date",
-      "display",
-      "lock",
-      "lockscreen",
-      "login",
-      "password",
-      "screen",
-      "security",
-      "show"
-    ],
-    "parentLabel": "Security"
-  },
-  {
-    "section": "lockScreenShowMediaPlayer",
-    "label": "Show media player",
-    "tabIndex": 11,
-    "category": "Lock screen",
-    "keywords": [
-      "audio",
-      "lock",
-      "lockscreen",
-      "login",
-      "media",
-      "mpris",
-      "music",
-      "password",
-      "playback",
-      "player",
-      "screen",
-      "security",
-      "show"
-    ],
-    "parentLabel": "Security"
-  },
-  {
-    "section": "lockScreenShowPasswordField",
-    "label": "Show password field",
-    "tabIndex": 11,
-    "category": "Lock screen",
-    "keywords": [
-      "appears",
-      "field",
-      "hidden",
-      "input",
-      "lock",
-      "lockscreen",
-      "login",
-      "password",
-      "pressed",
-      "screen",
-      "security",
-      "show",
-      "soon",
-      "visible"
-    ],
-    "parentLabel": "Security",
-    "description": "A hidden field appears as soon as a key is pressed"
-  },
-  {
-    "section": "lockScreenShowPowerActions",
-    "label": "Show power actions",
-    "tabIndex": 11,
-    "category": "Lock screen",
-    "keywords": [
-      "actions",
-      "hibernate",
-      "lock",
-      "lockscreen",
-      "login",
-      "password",
-      "power",
-      "reboot",
-      "restart",
-      "screen",
-      "security",
-      "show",
-      "shutdown",
-      "sleep",
-      "suspend"
-    ],
-    "parentLabel": "Security"
-  },
-  {
-    "section": "lockScreenShowProfileImage",
-    "label": "Show profile image",
-    "tabIndex": 11,
-    "category": "Lock screen",
-    "keywords": [
-      "avatar",
-      "image",
-      "lock",
-      "lockscreen",
-      "login",
-      "password",
-      "picture",
-      "profile",
-      "screen",
-      "security",
-      "show"
-    ],
-    "parentLabel": "Security"
-  },
-  {
-    "section": "lockScreenShowSystemIcons",
-    "label": "Show system icons",
-    "tabIndex": 11,
-    "category": "Lock screen",
-    "keywords": [
-      "icons",
-      "lock",
-      "lockscreen",
-      "login",
-      "password",
-      "screen",
-      "security",
-      "show",
-      "status",
-      "system"
-    ],
-    "parentLabel": "Security"
-  },
-  {
-    "section": "lockScreenShowTime",
-    "label": "Show time",
-    "tabIndex": 11,
-    "category": "Lock screen",
-    "keywords": [
-      "clock",
-      "display",
-      "lock",
-      "lockscreen",
-      "login",
-      "password",
-      "screen",
-      "security",
-      "show",
-      "time"
-    ],
-    "parentLabel": "Security"
-  },
-  {
     "section": "lockPamExternallyManaged",
     "label": "Use system PAM authentication",
     "tabIndex": 11,
@@ -7643,23 +7451,25 @@
     "parentLabel": "Security"
   },
   {
-    "section": "lockScreenShowWeather",
-    "label": "Weather",
+    "section": "lockScreenWidgets",
+    "label": "Widgets",
     "tabIndex": 11,
     "category": "Lock screen",
     "keywords": [
-      "climate",
-      "forecast",
+      "clock",
+      "components",
       "lock",
       "lockscreen",
       "login",
+      "modules",
       "password",
+      "plugins",
       "screen",
       "security",
-      "temperature",
-      "weather"
+      "widgets"
     ],
-    "parentLabel": "Security"
+    "parentLabel": "Security",
+    "icon": "widgets"
   },
   {
     "section": "loginctlLockIntegration",
@@ -16139,6 +15949,27 @@
       "forecast",
       "location",
       "region",
+      "temperature",
+      "time",
+      "weather"
+    ],
+    "parentLabel": "Date, time & region"
+  },
+  {
+    "section": "lockStatusWeather",
+    "label": "Lock screen",
+    "tabIndex": 56,
+    "category": "Weather",
+    "keywords": [
+      "climate",
+      "date,",
+      "forecast",
+      "lock",
+      "lockscreen",
+      "login",
+      "region",
+      "screen",
+      "security",
       "temperature",
       "time",
       "weather"

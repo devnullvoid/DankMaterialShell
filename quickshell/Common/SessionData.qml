@@ -292,6 +292,7 @@ Singleton {
     property var activeDisplayProfileModes: ({})
     property var desktopWidgetGridSettings: ({})
     property var desktopWidgetInstancePositions: ({})
+    property var lockScreenAutoPositions: ({})
     property var islandFreePositions: ({})
     property var builtInPluginState: ({})
     property bool greeterSyncPending: false
@@ -648,6 +649,15 @@ Singleton {
         const updated = JSON.parse(JSON.stringify(desktopWidgetInstancePositions));
         updated[instanceId]["_synced"] = synced;
         desktopWidgetInstancePositions = updated;
+        saveSettings();
+    }
+
+    function setLockScreenAutoPositions(screenKey, placement) {
+        if (JSON.stringify(lockScreenAutoPositions[screenKey] ?? null) === JSON.stringify(placement))
+            return;
+        const updated = Object.assign({}, lockScreenAutoPositions);
+        updated[screenKey] = placement;
+        lockScreenAutoPositions = updated;
         saveSettings();
     }
 

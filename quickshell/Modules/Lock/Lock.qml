@@ -13,6 +13,7 @@ Scope {
     readonly property var log: Log.scoped("Lock")
 
     property string sharedPasswordBuffer: ""
+    property bool inputRevealed: false
     property bool shouldLock: false
 
     onSharedPasswordBufferChanged: {
@@ -22,6 +23,7 @@ Scope {
     }
 
     onShouldLockChanged: {
+        inputRevealed = false;
         IdleService.isShellLocked = shouldLock;
     }
 
@@ -223,6 +225,12 @@ Scope {
             resumeRelockTimer.restart();
         }
 
+        function onLockEditorRequested() {
+            if (shouldLock)
+                return;
+            demoWindow.showDemo();
+        }
+
         function onLoginctlStateChanged() {
             if (SessionService.active && pendingLock) {
                 pendingLock = false;
@@ -285,6 +293,8 @@ Scope {
                 lock: sessionLock
                 pam: sharedPam
                 sharedPasswordBuffer: root.sharedPasswordBuffer
+                inputRevealed: root.inputRevealed
+                onInputRevealRequested: revealed => root.inputRevealed = revealed
                 screenName: lockSurface.currentScreenName
                 isLocked: shouldLock
                 onUnlockRequested: root.unlock()

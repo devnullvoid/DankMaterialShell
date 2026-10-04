@@ -21,7 +21,7 @@ Singleton {
     id: root
     readonly property var log: Log.scoped("SettingsData")
 
-    readonly property int settingsConfigVersion: 37
+    readonly property int settingsConfigVersion: 38
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 
@@ -773,13 +773,7 @@ Singleton {
     property bool modalDarkenBackground: Spec.SPEC.modalDarkenBackground.def
 
     property bool lockScreenShowPowerActions: Spec.SPEC.lockScreenShowPowerActions.def
-    property bool lockScreenShowSystemIcons: Spec.SPEC.lockScreenShowSystemIcons.def
-    property bool lockScreenShowTime: Spec.SPEC.lockScreenShowTime.def
-    property string lockScreenClockStyle: Spec.SPEC.lockScreenClockStyle.def
-    property bool lockScreenShowDate: Spec.SPEC.lockScreenShowDate.def
     property bool lockScreenShowProfileImage: Spec.SPEC.lockScreenShowProfileImage.def
-    property bool lockScreenShowPasswordField: Spec.SPEC.lockScreenShowPasswordField.def
-    property bool lockScreenShowMediaPlayer: Spec.SPEC.lockScreenShowMediaPlayer.def
     property bool lockScreenShowWeather: Spec.SPEC.lockScreenShowWeather.def
     property bool lockScreenPowerOffMonitorsOnLock: Spec.SPEC.lockScreenPowerOffMonitorsOnLock.def
     property bool lockAtStartup: Spec.SPEC.lockAtStartup.def
@@ -813,7 +807,6 @@ Singleton {
     property bool lockScreenSecurityKeyShortcutEnabled: Spec.SPEC.lockScreenSecurityKeyShortcutEnabled.def
     property bool greeterPamExternallyManaged: Spec.SPEC.greeterPamExternallyManaged.def
     property string lockScreenInactiveColor: Spec.SPEC.lockScreenInactiveColor.def
-    property int lockScreenNotificationMode: Spec.SPEC.lockScreenNotificationMode.def
     property bool lockScreenVideoEnabled: Spec.SPEC.lockScreenVideoEnabled.def
     property string lockScreenVideoPath: Spec.SPEC.lockScreenVideoPath.def
     property bool lockScreenVideoCycling: Spec.SPEC.lockScreenVideoCycling.def
@@ -1119,6 +1112,34 @@ Singleton {
 
     property var desktopWidgetInstances: Spec.SPEC.desktopWidgetInstances.def
     property var desktopWidgetGroups: Spec.SPEC.desktopWidgetGroups.def
+    property var lockScreenWidgetInstances: Spec.SPEC.lockScreenWidgetInstances.def
+    readonly property var widgetInstanceListKeys: ["desktopWidgetInstances", "lockScreenWidgetInstances"]
+
+    // The greeter still reads these three shared keys, so they follow the lock widgets.
+    onLockScreenWidgetInstancesChanged: {
+        const status = lockWidgetInstance("lockStatus");
+        const auth = lockWidgetInstance("lockAuth");
+        const power = lockWidgetInstance("lockPower");
+        const mirror = (key, value) => {
+            if (root[key] !== value)
+                set(key, value);
+        };
+        mirror("lockScreenShowWeather", !!status && status.enabled !== false && (status.config?.showWeather ?? true));
+        mirror("lockScreenShowProfileImage", !!auth && (auth.config?.showProfileImage ?? true));
+        mirror("lockScreenShowPowerActions", !!power && power.enabled !== false);
+    }
+
+    function lockWidgetInstance(widgetType) {
+        return (lockScreenWidgetInstances || []).find(inst => inst.widgetType === widgetType) ?? null;
+    }
+
+    function resetLockScreenWidgets() {
+        for (const inst of lockScreenWidgetInstances || [])
+            SessionData.removeDesktopWidgetInstancePositions(inst.id);
+        for (const inst of Spec.SPEC.lockScreenWidgetInstances.def)
+            SessionData.removeDesktopWidgetInstancePositions(inst.id);
+        resetToDefault(["lockScreenWidgetInstances"]);
+    }
 
     function getDefaultSystemMonitorConfig() {
         return {
@@ -1149,45 +1170,53 @@ Singleton {
         };
     }
 
-    function createDesktopWidgetInstance(widgetType, name, config) {
-        const id = "dw_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
+    function widgetInstanceListKey(instanceId) {
+        return widgetInstanceListKeys.find(key => (root[key] || []).some(inst => inst.id === instanceId)) ?? "desktopWidgetInstances";
+    }
+
+    function createDesktopWidgetInstance(widgetType, name, config, listKey = "desktopWidgetInstances") {
+        const lockScreen = listKey === "lockScreenWidgetInstances";
         const instance = {
-            id: id,
+            id: (lockScreen ? "lw_" : "dw_") + Date.now() + "_" + Math.random().toString(36).substr(2, 9),
             widgetType: widgetType,
             name: name || widgetType,
             enabled: true,
-            config: config || {}
+            config: Object.assign(lockScreen ? {
+                syncPositionAcrossScreens: true
+            } : {}, config || {})
         };
-        const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
+        const instances = JSON.parse(JSON.stringify(root[listKey] || []));
         instances.push(instance);
-        desktopWidgetInstances = instances;
+        root[listKey] = instances;
         saveSettings();
         return instance;
     }
 
     function updateDesktopWidgetInstance(instanceId, updates) {
-        const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
+        const listKey = widgetInstanceListKey(instanceId);
+        const instances = JSON.parse(JSON.stringify(root[listKey] || []));
         const idx = instances.findIndex(inst => inst.id === instanceId);
         if (idx === -1)
             return;
         Object.assign(instances[idx], updates);
-        desktopWidgetInstances = instances;
+        root[listKey] = instances;
         saveSettings();
     }
 
     function updateDesktopWidgetInstanceConfig(instanceId, configUpdates) {
-        const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
+        const listKey = widgetInstanceListKey(instanceId);
+        const instances = JSON.parse(JSON.stringify(root[listKey] || []));
         const idx = instances.findIndex(inst => inst.id === instanceId);
         if (idx === -1)
             return;
         instances[idx].config = Object.assign({}, instances[idx].config || {}, configUpdates);
-        desktopWidgetInstances = instances;
+        root[listKey] = instances;
         saveSettings();
     }
 
     function removeDesktopWidgetInstance(instanceId) {
-        const instances = (desktopWidgetInstances || []).filter(inst => inst.id !== instanceId);
-        desktopWidgetInstances = instances;
+        const listKey = widgetInstanceListKey(instanceId);
+        root[listKey] = (root[listKey] || []).filter(inst => inst.id !== instanceId);
         SessionData.removeDesktopWidgetInstancePositions(instanceId);
         saveSettings();
     }
@@ -1196,23 +1225,21 @@ Singleton {
         const source = getDesktopWidgetInstance(instanceId);
         if (!source)
             return null;
-        const newId = "dw_" + Date.now() + "_" + Math.random().toString(36).substr(2, 9);
-        const instance = {
-            id: newId,
-            widgetType: source.widgetType,
-            name: source.name + " (Copy)",
-            enabled: source.enabled,
-            config: JSON.parse(JSON.stringify(source.config || {}))
-        };
-        const instances = JSON.parse(JSON.stringify(desktopWidgetInstances || []));
-        instances.push(instance);
-        desktopWidgetInstances = instances;
-        saveSettings();
+        const instance = createDesktopWidgetInstance(source.widgetType, source.name + " (Copy)", JSON.parse(JSON.stringify(source.config || {})), widgetInstanceListKey(instanceId));
+        if (!source.enabled)
+            updateDesktopWidgetInstance(instance.id, {
+                enabled: false
+            });
         return instance;
     }
 
     function getDesktopWidgetInstance(instanceId) {
-        return (desktopWidgetInstances || []).find(inst => inst.id === instanceId) || null;
+        for (const key of widgetInstanceListKeys) {
+            const found = (root[key] || []).find(inst => inst.id === instanceId);
+            if (found)
+                return found;
+        }
+        return null;
     }
 
     function moveDesktopWidgetInstanceToGroup(instanceId, groupId, newIndexInGroup) {

@@ -713,7 +713,50 @@ function migrateToVersion(obj, targetVersion) {
         settings.configVersion = 37;
     }
 
+    if (currentVersion < 38 && targetVersion >= 38) {
+        migrateLockScreenWidgets(settings);
+        settings.configVersion = 38;
+    }
+
     return settings;
+}
+
+var LOCK_WIDGET_MOVED_KEYS = ["lockScreenShowSystemIcons", "lockScreenShowTime", "lockScreenClockStyle", "lockScreenShowDate", "lockScreenShowPasswordField", "lockScreenShowMediaPlayer", "lockScreenNotificationMode"];
+var LOCK_WIDGET_GREETER_KEYS = ["lockScreenShowPowerActions", "lockScreenShowProfileImage", "lockScreenShowWeather"];
+
+function migrateLockScreenWidgets(settings) {
+    if (Array.isArray(settings.lockScreenWidgetInstances))
+        return;
+    const present = key => key in settings;
+    if (!LOCK_WIDGET_MOVED_KEYS.concat(LOCK_WIDGET_GREETER_KEYS).some(present))
+        return;
+    const instances = SpecModule.lockWidgetDefaults();
+    const byId = id => instances.find(inst => inst.id === id);
+    if (present("lockScreenShowTime"))
+        byId("lock_clock").enabled = !!settings.lockScreenShowTime;
+    if (present("lockScreenClockStyle"))
+        byId("lock_clock").config.style = settings.lockScreenClockStyle;
+    if (present("lockScreenShowDate"))
+        byId("lock_date").enabled = !!settings.lockScreenShowDate;
+    byId("lock_auth").config.profileVisibility = settings.lockScreenShowProfileImage === false ? "never" : "always";
+    byId("lock_auth").config.passwordVisibility = settings.lockScreenShowPasswordField === false ? "typing" : "always";
+    if (present("lockScreenNotificationMode")) {
+        const mode = Number(settings.lockScreenNotificationMode) || 0;
+        byId("lock_notifications").enabled = mode > 0;
+        if (mode > 0)
+            byId("lock_notifications").config.mode = mode;
+    }
+    if (present("lockScreenShowSystemIcons"))
+        byId("lock_status").enabled = !!settings.lockScreenShowSystemIcons;
+    if (present("lockScreenShowMediaPlayer"))
+        byId("lock_status").config.showMediaPlayer = !!settings.lockScreenShowMediaPlayer;
+    if (present("lockScreenShowWeather"))
+        byId("lock_status").config.showWeather = !!settings.lockScreenShowWeather;
+    if (present("lockScreenShowPowerActions"))
+        byId("lock_power").enabled = !!settings.lockScreenShowPowerActions;
+    settings.lockScreenWidgetInstances = instances;
+    for (const key of LOCK_WIDGET_MOVED_KEYS)
+        delete settings[key];
 }
 
 function migrateControlCenterHeader(widgets, fixedHeader, columns) {

@@ -14,7 +14,8 @@ SettingsReorderRow {
     readonly property string instanceId: instanceData?.id ?? ""
     readonly property string widgetType: instanceData?.widgetType ?? ""
     readonly property var widgetDef: DesktopWidgetRegistry.getWidget(widgetType)
-    readonly property string widgetName: instanceData?.name ?? widgetDef?.name ?? widgetType
+    readonly property string widgetName: instanceData?.name || widgetDef?.name || widgetType
+    property bool fixed: false
 
     signal configureRequested
     signal deleteRequested
@@ -40,6 +41,7 @@ SettingsReorderRow {
         },
         DankToggle {
             anchors.verticalCenter: parent.verticalCenter
+            visible: !root.fixed
             hideText: true
             text: root.title
             checked: root.instanceData?.enabled ?? true
@@ -51,6 +53,7 @@ SettingsReorderRow {
         },
         DankActionButton {
             anchors.verticalCenter: parent.verticalCenter
+            visible: !root.fixed
             iconName: "content_copy"
             tooltipText: I18n.tr("Duplicate", "verb, desktop widget menu action")
             onClicked: root.duplicateRequested()
@@ -58,6 +61,7 @@ SettingsReorderRow {
         SettingsDeleteButton {
             id: deleteButton
             anchors.verticalCenter: parent.verticalCenter
+            visible: !root.fixed
             onDeleteRequested: root.deleteRequested()
         }
     ]

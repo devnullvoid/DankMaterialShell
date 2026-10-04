@@ -4,6 +4,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import qs.Common
+import "../Common/settings/SettingsSpec.js" as Spec
 
 Singleton {
     id: root
@@ -15,6 +16,7 @@ Singleton {
 
     Component.onCompleted: {
         registerBuiltins();
+        registerLockBuiltins();
         Qt.callLater(syncPluginWidgets);
     }
 
@@ -62,6 +64,28 @@ Singleton {
                 height: 480
             }
         });
+    }
+
+    function registerLockBuiltins() {
+        const lockWidget = (id, name, icon) => registerWidget({
+                id: id,
+                name: name,
+                icon: icon,
+                description: "",
+                type: "builtin",
+                lockOnly: true,
+                defaultConfig: Spec.SPEC.lockScreenWidgetInstances.def.find(inst => inst.widgetType === id)?.config ?? {},
+                defaultSize: {
+                    width: 200,
+                    height: 200
+                }
+            });
+        lockWidget("lockClock", I18n.tr("Clock"), "schedule");
+        lockWidget("lockDate", I18n.tr("Date"), "event");
+        lockWidget("lockAuth", I18n.tr("Password"), "lock");
+        lockWidget("lockNotifications", I18n.tr("Notifications"), "notifications");
+        lockWidget("lockStatus", I18n.tr("Status"), "wifi");
+        lockWidget("lockPower", I18n.tr("Power"), "power_settings_new");
     }
 
     function getDefaultClockConfig() {
@@ -133,18 +157,24 @@ Singleton {
         if (!widget)
             return {};
 
-        if (widget.type === "builtin") {
-            switch (widgetType) {
-            case "desktopClock":
-                return getDefaultClockConfig();
-            case "systemMonitor":
-                return getDefaultSystemMonitorConfig();
-            default:
-                return widget.defaultConfig ?? {};
-            }
+        switch (widgetType) {
+        case "desktopClock":
+            return getDefaultClockConfig();
+        case "systemMonitor":
+            return getDefaultSystemMonitorConfig();
         }
+        return JSON.parse(JSON.stringify(widget.defaultConfig ?? {}));
+    }
 
-        return widget.defaultConfig ?? {};
+    function showsOnScreen(prefs, screen) {
+        if (!Array.isArray(prefs) || prefs.length === 0 || prefs.includes("all"))
+            return true;
+        const screenKey = SettingsData.getScreenDisplayName(screen);
+        return prefs.some(p => {
+            if (typeof p === "string")
+                return p === screenKey || p === screen?.name;
+            return p?.name === screen?.name || p === screenKey;
+        });
     }
 
     function getDefaultSize(widgetType) {
@@ -218,7 +248,11 @@ Singleton {
     }
 
     function getBuiltinWidgets() {
-        return registeredWidgetsList.filter(w => w.type === "builtin");
+        return registeredWidgetsList.filter(w => w.type === "builtin" && !w.lockOnly);
+    }
+
+    function getDesktopWidgets() {
+        return registeredWidgetsList.filter(w => !w.lockOnly);
     }
 
     function getPluginWidgets() {

@@ -127,12 +127,17 @@ Item {
             settingKey: "weatherDisplay"
 
             SettingsToggleRow {
+                readonly property var lockStatus: SettingsData.lockWidgetInstance("lockStatus")
+
                 tab: "weather"
-                settingKey: "lockScreenShowWeather"
+                settingKey: "lockStatusWeather"
                 tags: ["weather", "lock", "screen"]
+                visible: lockStatus !== null
                 text: I18n.tr("Lock screen")
-                checked: SettingsData.lockScreenShowWeather
-                onToggled: checked => SettingsData.set("lockScreenShowWeather", checked)
+                checked: lockStatus?.config?.showWeather ?? true
+                onToggled: checked => SettingsData.updateDesktopWidgetInstanceConfig(lockStatus.id, {
+                        showWeather: checked
+                    })
             }
 
             SettingsNavRow {

@@ -3,6 +3,10 @@
 .import "../../DankCommon/Common/settings/SpecUtil.js" as Util
 .import "DockConfig.js" as DockConfig
 
+function lockWidgetDefaults() {
+    return Shared.lockWidgetDefaults();
+}
+
 var LOCAL_SPEC = {
     dockConfigs: {
         def: [DockConfig.create("dock", "Dock")]
@@ -1143,24 +1147,6 @@ var LOCAL_SPEC = {
     modalDarkenBackground: {
         def: true
     },
-    lockScreenShowSystemIcons: {
-        def: true
-    },
-    lockScreenShowTime: {
-        def: true
-    },
-    lockScreenClockStyle: {
-        def: "horizontal"
-    },
-    lockScreenShowDate: {
-        def: true
-    },
-    lockScreenShowPasswordField: {
-        def: true
-    },
-    lockScreenShowMediaPlayer: {
-        def: true
-    },
     lockScreenPowerOffMonitorsOnLock: {
         def: false
     },
@@ -1203,9 +1189,6 @@ var LOCAL_SPEC = {
     },
     lockScreenInactiveColor: {
         def: "#000000"
-    },
-    lockScreenNotificationMode: {
-        def: 0
     },
     lockScreenVideoEnabled: {
         def: false
@@ -1378,9 +1361,6 @@ var LOCAL_SPEC = {
     },
     updaterIgnoredPackages: {
         def: []
-    },
-    displayNameMode: {
-        def: "system"
     },
     screenPreferences: {
         def: {}

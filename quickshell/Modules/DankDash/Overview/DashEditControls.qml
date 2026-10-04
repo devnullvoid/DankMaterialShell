@@ -11,6 +11,7 @@ Item {
     property bool vertical: false
     property bool canAdd: true
     property bool hasWidgets: true
+    property bool canClear: true
     property bool hasOptions: false
     property bool hasCustomActions: false
     property string pendingAction: ""
@@ -172,7 +173,7 @@ Item {
                 iconName: "clear_all"
                 armedColor: Theme.error
                 armedTextColor: Theme.onError
-                visible: root.hasWidgets
+                visible: root.hasWidgets && root.canClear
                 onConfirmed: root.clearRequested()
             }
 

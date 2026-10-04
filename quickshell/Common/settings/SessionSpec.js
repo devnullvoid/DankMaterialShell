@@ -36,9 +36,6 @@ var LOCAL_SPEC = {
     terminalOverride: {
         def: ""
     },
-    perModeWallpaper: {
-        def: false
-    },
     wallpaperPathLight: {
         def: ""
     },
@@ -248,9 +245,6 @@ var LOCAL_SPEC = {
         def: {}
     },
     desktopWidgetGridSettings: {
-        def: {}
-    },
-    desktopWidgetInstancePositions: {
         def: {}
     },
     islandFreePositions: {

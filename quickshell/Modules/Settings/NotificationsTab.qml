@@ -319,16 +319,26 @@ Column {
         }
 
         SettingsDropdownRow {
-            settingKey: "lockScreenNotificationMode"
+            readonly property var lockNotifications: SettingsData.lockWidgetInstance("lockNotifications")
+            readonly property int currentMode: !lockNotifications || lockNotifications.enabled === false ? 0 : (lockNotifications.config?.mode ?? 1)
+
+            settingKey: "lockNotificationsMode"
             tags: ["lock", "screen", "notification", "notifications", "privacy"]
+            visible: lockNotifications !== null
             text: I18n.tr("Lock screen content")
             options: [I18n.tr("Disabled", "lock screen notification mode option"), I18n.tr("Count only", "lock screen notification mode option"), I18n.tr("App names", "lock screen notification mode option"), I18n.tr("Full content", "lock screen notification mode option")]
-            currentValue: options[SettingsData.lockScreenNotificationMode] || options[0]
+            currentValue: options[currentMode] || options[0]
             onValueChanged: value => {
                 const idx = options.indexOf(value);
                 if (idx < 0)
                     return;
-                SettingsData.set("lockScreenNotificationMode", idx);
+                SettingsData.updateDesktopWidgetInstance(lockNotifications.id, {
+                    enabled: idx > 0
+                });
+                if (idx > 0)
+                    SettingsData.updateDesktopWidgetInstanceConfig(lockNotifications.id, {
+                        mode: idx
+                    });
             }
         }
     }

@@ -8,20 +8,22 @@ import qs.Widgets
 WidgetPickerWindow {
     id: root
 
+    property string listKey: "desktopWidgetInstances"
+
     signal widgetAdded(string widgetType)
 
     function addWidget(widget) {
         const widgetType = widget.id;
         const defaultConfig = DesktopWidgetRegistry.getDefaultConfig(widgetType);
         const name = widget.name || widgetType;
-        SettingsData.createDesktopWidgetInstance(widgetType, name, defaultConfig);
+        SettingsData.createDesktopWidgetInstance(widgetType, name, defaultConfig, listKey);
         root.widgetAdded(widgetType);
         root.hide();
     }
 
     objectName: "desktopWidgetBrowser"
     title: I18n.tr("Add Desktop Widget")
-    widgets: DesktopWidgetRegistry.registeredWidgetsList || []
+    widgets: (DesktopWidgetRegistry.registeredWidgetsList || []).filter(widget => !widget.lockOnly)
     featuredFirst: true
     showEmptyState: true
     widgetDelegate: tileDelegate
