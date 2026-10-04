@@ -247,6 +247,9 @@ var LOCAL_SPEC = {
     desktopWidgetGridSettings: {
         def: {}
     },
+    lockScreenWidgetGridSettings: {
+        def: {}
+    },
     islandFreePositions: {
         def: {}
     },

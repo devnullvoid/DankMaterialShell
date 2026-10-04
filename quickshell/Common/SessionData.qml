@@ -291,6 +291,7 @@ Singleton {
     property var activeDisplayProfile: ({})
     property var activeDisplayProfileModes: ({})
     property var desktopWidgetGridSettings: ({})
+    property var lockScreenWidgetGridSettings: ({})
     property var desktopWidgetInstancePositions: ({})
     property var lockScreenAutoPositions: ({})
     property var islandFreePositions: ({})
@@ -588,17 +589,21 @@ Singleton {
         saveSettings();
     }
 
-    function getDesktopWidgetGridSetting(screenKey, property, defaultValue) {
-        const val = desktopWidgetGridSettings?.[screenKey]?.[property];
+    function getWidgetGridSetting(lockScreen, screenKey, property, defaultValue) {
+        const store = lockScreen ? lockScreenWidgetGridSettings : desktopWidgetGridSettings;
+        const val = store?.[screenKey]?.[property];
         return val !== undefined ? val : defaultValue;
     }
 
-    function setDesktopWidgetGridSetting(screenKey, property, value) {
-        const allSettings = JSON.parse(JSON.stringify(desktopWidgetGridSettings || {}));
+    function setWidgetGridSetting(lockScreen, screenKey, property, value) {
+        const allSettings = JSON.parse(JSON.stringify((lockScreen ? lockScreenWidgetGridSettings : desktopWidgetGridSettings) || {}));
         if (!allSettings[screenKey])
             allSettings[screenKey] = {};
         allSettings[screenKey][property] = value;
-        desktopWidgetGridSettings = allSettings;
+        if (lockScreen)
+            lockScreenWidgetGridSettings = allSettings;
+        else
+            desktopWidgetGridSettings = allSettings;
         saveSettings();
     }
 

@@ -111,6 +111,7 @@ Item {
         instanceId: root.instanceId
         instanceData: root.instanceData
         screen: root.screen
+        lockScreen: true
         minWidth: content.contentMinWidth
         minHeight: content.contentMinHeight
         forceSquare: content.contentForceSquare

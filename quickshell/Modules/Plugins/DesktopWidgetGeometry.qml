@@ -10,6 +10,7 @@ QtObject {
     property real minWidth: 100
     property real minHeight: 100
     property bool forceSquare: false
+    property bool lockScreen: false
 
     readonly property bool isInstance: instanceId !== "" && instanceData !== null
     readonly property bool syncPositionAcrossScreens: instanceData?.config?.syncPositionAcrossScreens ?? false
@@ -61,14 +62,14 @@ QtObject {
     readonly property real widgetWidth: Math.max(minWidth, Math.min(effectiveW, screenWidth))
     readonly property real widgetHeight: Math.max(minHeight, Math.min(effectiveH, screenHeight))
 
-    property var _gridSettingsTrigger: SessionData.desktopWidgetGridSettings
+    property var _gridSettingsTrigger: lockScreen ? SessionData.lockScreenWidgetGridSettings : SessionData.desktopWidgetGridSettings
     readonly property int gridSize: {
         void _gridSettingsTrigger;
-        return SessionData.getDesktopWidgetGridSetting(screenKey, "size", 40);
+        return SessionData.getWidgetGridSetting(lockScreen, screenKey, "size", 40);
     }
     readonly property bool gridEnabled: {
         void _gridSettingsTrigger;
-        return SessionData.getDesktopWidgetGridSetting(screenKey, "enabled", false);
+        return SessionData.getWidgetGridSetting(lockScreen, screenKey, "enabled", false);
     }
 
     function snapToGrid(value) {

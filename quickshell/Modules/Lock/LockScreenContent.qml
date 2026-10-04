@@ -6,6 +6,7 @@ import qs.Common
 import qs.Modals
 import qs.Modules.ControlCenter.Widgets
 import qs.Modules.DankDash.Overview
+import qs.Modules.Plugins
 import qs.Modules.Settings.DesktopWidgetSettings
 import qs.Modules.Settings.Widgets
 import qs.Services
@@ -153,6 +154,26 @@ FocusScope {
         screenName: root.screenName
     }
 
+    // Grid keys live here because a selected widget holds active focus inside the layer, not the editor.
+    Keys.onPressed: event => {
+        if (!demoMode)
+            return;
+        switch (event.key) {
+        case Qt.Key_G:
+            widgetLayer.toggleGrid();
+            break;
+        case Qt.Key_Z:
+            widgetLayer.stepGrid(-10);
+            break;
+        case Qt.Key_X:
+            widgetLayer.stepGrid(10);
+            break;
+        default:
+            return;
+        }
+        event.accepted = true;
+    }
+
     LockWidgetLayer {
         id: widgetLayer
         anchors.fill: parent
@@ -239,23 +260,6 @@ FocusScope {
                 root.unlockRequested();
             }
 
-            Keys.onPressed: event => {
-                switch (event.key) {
-                case Qt.Key_G:
-                    widgetLayer.toggleGrid();
-                    break;
-                case Qt.Key_Z:
-                    widgetLayer.stepGrid(-10);
-                    break;
-                case Qt.Key_X:
-                    widgetLayer.stepGrid(10);
-                    break;
-                default:
-                    return;
-                }
-                event.accepted = true;
-            }
-
             MouseArea {
                 anchors.fill: parent
                 visible: editor.libraryOpen
@@ -308,6 +312,15 @@ FocusScope {
                     instanceData: optionsSheet.instanceData
                     widgetDef: optionsSheet.widgetDef
                 }
+            }
+
+            DesktopWidgetGridHint {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: fabBar.reservedHeight + Theme.spacingL
+                visible: fabBar.shown && (widgetLayer.selectedInstanceId !== "" || widgetLayer.interactingItem !== null)
+                gridEnabled: widgetLayer.gridEnabled
+                gridSize: widgetLayer.gridSize
             }
 
             SettingsFabBar {

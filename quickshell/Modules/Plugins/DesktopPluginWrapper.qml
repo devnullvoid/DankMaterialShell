@@ -114,15 +114,15 @@ Item {
                     return;
                 switch (event.key) {
                 case Qt.Key_G:
-                    SessionData.setDesktopWidgetGridSetting(geometry.screenKey, "enabled", !geometry.gridEnabled);
+                    SessionData.setWidgetGridSetting(false, geometry.screenKey, "enabled", !geometry.gridEnabled);
                     event.accepted = true;
                     break;
                 case Qt.Key_Z:
-                    SessionData.setDesktopWidgetGridSetting(geometry.screenKey, "size", Math.max(10, geometry.gridSize - 10));
+                    SessionData.setWidgetGridSetting(false, geometry.screenKey, "size", Math.max(10, geometry.gridSize - 10));
                     event.accepted = true;
                     break;
                 case Qt.Key_X:
-                    SessionData.setDesktopWidgetGridSetting(geometry.screenKey, "size", Math.min(200, geometry.gridSize + 10));
+                    SessionData.setWidgetGridSetting(false, geometry.screenKey, "size", Math.min(200, geometry.gridSize + 10));
                     event.accepted = true;
                     break;
                 }
@@ -374,79 +374,12 @@ Item {
 
             implicitHeight: 60
 
-            Rectangle {
-                id: helperContent
+            DesktopWidgetGridHint {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: Theme.spacingL
-                width: helperRow.implicitWidth + Theme.spacingM * 2
-                height: 32
-                radius: Theme.cornerRadius
-                color: Theme.hostSurface
-
-                Row {
-                    id: helperRow
-                    anchors.centerIn: parent
-                    spacing: Theme.spacingM
-                    height: parent.height
-
-                    Row {
-                        spacing: Theme.spacingS
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        DankIcon {
-                            name: "grid_on"
-                            size: 16
-                            color: geometry.gridEnabled ? Theme.primary : Theme.surfaceText
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-
-                        StyledText {
-                            text: geometry.gridEnabled ? I18n.tr("Grid: ON", "Widget grid snap status") : I18n.tr("Grid: OFF", "Widget grid snap status")
-                            font.pixelSize: Theme.fontSizeSmall
-                            font.family: Theme.fontFamily
-                            color: geometry.gridEnabled ? Theme.primary : Theme.surfaceText
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-
-                        DankKeycap {
-                            text: "G"
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-                    }
-
-                    Rectangle {
-                        width: 1
-                        height: 16
-                        color: Theme.outline
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-
-                    Row {
-                        spacing: Theme.spacingS
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        DankKeycap {
-                            text: "Z"
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-
-                        NumericText {
-                            text: geometry.gridSize + "px"
-                            reserveText: "200px"
-                            width: Math.ceil(reservedWidth)
-                            horizontalAlignment: Text.AlignHCenter
-                            font.pixelSize: Theme.fontSizeSmall
-                            color: Theme.surfaceText
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-
-                        DankKeycap {
-                            text: "X"
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-                    }
-                }
+                gridEnabled: geometry.gridEnabled
+                gridSize: geometry.gridSize
             }
         }
     }

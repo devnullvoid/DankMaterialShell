@@ -19,14 +19,14 @@ FocusScope {
     readonly property var screen: Quickshell.screens.find(s => s.name === screenName) ?? null
     readonly property var instances: SettingsData.lockScreenWidgetInstances || []
     readonly property string screenKey: SettingsData.getScreenDisplayName(screen)
-    property var _gridSettingsTrigger: SessionData.desktopWidgetGridSettings
+    property var _gridSettingsTrigger: SessionData.lockScreenWidgetGridSettings
     readonly property int gridSize: {
         void _gridSettingsTrigger;
-        return SessionData.getDesktopWidgetGridSetting(screenKey, "size", 40);
+        return SessionData.getWidgetGridSetting(true, screenKey, "size", 40);
     }
     readonly property bool gridEnabled: {
         void _gridSettingsTrigger;
-        return SessionData.getDesktopWidgetGridSetting(screenKey, "enabled", false);
+        return SessionData.getWidgetGridSetting(true, screenKey, "enabled", false);
     }
 
     signal focusStolen
@@ -70,11 +70,11 @@ FocusScope {
     }
 
     function toggleGrid() {
-        SessionData.setDesktopWidgetGridSetting(screenKey, "enabled", !gridEnabled);
+        SessionData.setWidgetGridSetting(true, screenKey, "enabled", !gridEnabled);
     }
 
     function stepGrid(delta) {
-        SessionData.setDesktopWidgetGridSetting(screenKey, "size", Math.max(10, Math.min(200, gridSize + delta)));
+        SessionData.setWidgetGridSetting(true, screenKey, "size", Math.max(10, Math.min(200, gridSize + delta)));
     }
 
     activeFocusOnTab: false
