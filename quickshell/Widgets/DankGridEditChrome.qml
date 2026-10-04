@@ -13,6 +13,7 @@ Item {
     property bool resizing: false
     property bool hasOptions: false
     property bool atDefault: false
+    property bool snapped: false
     property bool removable: true
     property bool horizontalResize: false
     property bool edgeResize: false
@@ -132,7 +133,7 @@ Item {
         width: sizeLabel.implicitWidth + Theme.spacingM * 2
         height: root.buttonSize
         radius: Theme.fullRadius(width, height)
-        color: root.atDefault ? Theme.primary : Theme.chipSurface
+        color: root.atDefault || root.snapped ? Theme.primary : Theme.chipSurface
         visible: root.resizing && root.sizeText.length > 0
 
         StyledText {
@@ -141,7 +142,7 @@ Item {
             text: root.sizeText
             font.pixelSize: Theme.fontSizeMedium
             font.weight: Theme.fontWeightMedium
-            color: root.atDefault ? Theme.onPrimary : Theme.surfaceText
+            color: root.atDefault || root.snapped ? Theme.onPrimary : Theme.surfaceText
         }
     }
 

@@ -18,6 +18,7 @@ Item {
     readonly property bool selected: hostLayer.selectedInstanceId === instanceId
     readonly property bool interacting: editChrome.item?.interacting ?? false
     readonly property var contrastColors: content.item?.contrastColors ?? []
+    readonly property real bottomOverflow: content.item?.bottomOverflow ?? 0
     readonly property bool hasSavedPosition: geometry.hasSavedPosition
     readonly property bool automaticPlacement: widgetType === "lockClock" && (instanceData?.config?.autoPosition ?? true) && !hasSavedPosition
     readonly property bool dragging: editChrome.item?.dragging ?? false
@@ -215,6 +216,7 @@ Item {
                 hasOptions: true
                 cornerResize: content.contentResizable
                 sizeText: Math.round(root.width) + "×" + Math.round(root.height)
+                snapped: geometry.squareSnapped
                 onRemoveRequested: root.removeRequested()
                 onOptionsRequested: root.optionsRequested()
                 onResizeStarted: (px, py) => {

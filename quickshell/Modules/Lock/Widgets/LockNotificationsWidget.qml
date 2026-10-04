@@ -95,6 +95,7 @@ Item {
             property int fitCount: root.visibleGroups.length
             // One width for every app chip keeps the row symmetric about the centre whatever the label lengths.
             property real chipWidth: 0
+            property bool moreFits: true
             readonly property int hiddenCount: root.appNameGroups.length - fitCount
             implicitWidth: chipRow.implicitWidth
             implicitHeight: chipRow.implicitHeight
@@ -110,6 +111,7 @@ Item {
                 while (count > 1 && total(count) + overflow(count) > width)
                     count--;
                 fitCount = count;
+                moreFits = total(count) + overflow(count) <= width;
             }
 
             onWidthChanged: Qt.callLater(measure)
@@ -205,7 +207,7 @@ Item {
                 }
 
                 Chip {
-                    visible: chipHost.hiddenCount > 0
+                    visible: chipHost.hiddenCount > 0 && chipHost.moreFits
 
                     StyledText {
                         anchors.verticalCenter: parent.verticalCenter

@@ -170,7 +170,7 @@ FocusScope {
                 const auth = itemOfType("lockAuth");
                 return {
                     x: centerX,
-                    y: auth ? auth.y + auth.height + Theme.spacingL : height / 2 + Theme.spacingL
+                    y: auth ? auth.y + auth.height + auth.bottomOverflow + Theme.spacingL : height / 2 + Theme.spacingL
                 };
             }
         case "lockStatus":

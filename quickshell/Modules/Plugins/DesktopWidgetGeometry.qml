@@ -51,6 +51,7 @@ QtObject {
     property real dragOverrideY: -1
     property real dragOverrideW: -1
     property real dragOverrideH: -1
+    property bool squareSnapped: false
 
     readonly property real effectiveX: dragOverrideX >= 0 ? dragOverrideX : savedX
     readonly property real effectiveY: dragOverrideY >= 0 ? dragOverrideY : savedY
@@ -81,6 +82,7 @@ QtObject {
         dragOverrideY = -1;
         dragOverrideW = -1;
         dragOverrideH = -1;
+        squareSnapped = false;
     }
 
     function requestResize(width, height) {
@@ -148,8 +150,11 @@ QtObject {
             newW = Math.max(minWidth, snapToGrid(newW));
             newH = Math.max(minHeight, snapToGrid(newH));
         }
-        if (!forceSquare)
-            return Qt.size(newW, newH);
+        if (!forceSquare) {
+            squareSnapped = Math.abs(newW - newH) <= (gridEnabled ? gridSize / 2 : Theme.spacingL);
+            if (!squareSnapped)
+                return Qt.size(newW, newH);
+        }
         const size = Math.max(newW, newH);
         return Qt.size(Math.min(size, screenWidth - widgetX), Math.min(size, screenHeight - widgetY));
     }

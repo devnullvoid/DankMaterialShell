@@ -53,7 +53,7 @@ Item {
     readonly property color accentColor: Theme.primary
     readonly property color plainColor: Theme.lockScreenContentColor
     readonly property bool resizable: true
-    readonly property real minWidth: LockMetrics.fieldWidth / 2
+    readonly property real minWidth: ring ? ringSize : LockMetrics.fieldWidth / 2
     readonly property real minHeight: implicitHeight
     property alias showPassword: passwordBox.showPassword
 
@@ -63,8 +63,10 @@ Item {
     readonly property string pamState: lockHost?.pamState ?? ""
     readonly property string passwordBuffer: lockHost?.passwordBuffer ?? ""
 
-    implicitWidth: Math.min(LockMetrics.passwordRowWidth, (lockHost?.width ?? LockMetrics.passwordRowWidth) - Theme.spacingXL * 2)
-    implicitHeight: passwordLayout.implicitHeight + Theme.spacingS + capsLockRow.implicitHeight
+    implicitWidth: ring ? ringSize : Math.min(LockMetrics.passwordRowWidth, (lockHost?.width ?? LockMetrics.passwordRowWidth) - Theme.spacingXL * 2)
+    implicitHeight: passwordLayout.implicitHeight
+    // Feedback and the caps lock warning hang below the box so centring the box centres the field.
+    readonly property real bottomOverflow: Theme.spacingS + Math.max(capsLockRow.implicitHeight, authFeedbackText.height)
 
     function encodeFileUrl(path) {
         if (!path)
@@ -165,7 +167,7 @@ Item {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        spacing: Theme.spacingM
+        spacing: 0
 
         Item {
             id: ringIndicator
@@ -1106,12 +1108,21 @@ Item {
                 }
             }
         }
+    }
+
+    Column {
+        id: belowField
+        anchors.top: passwordLayout.bottom
+        anchors.topMargin: Theme.spacingS
+        width: Math.max(parent.width, LockMetrics.passwordRowWidth)
+        x: (parent.width - width) / 2
+        spacing: Theme.spacingXS
 
         StyledText {
             id: authFeedbackText
 
-            Layout.fillWidth: true
-            Layout.preferredHeight: text.length > 0 ? Math.min(implicitHeight, Math.ceil(Theme.fontSizeSmall * 4.5)) : 0
+            width: parent.width
+            height: text.length > 0 ? Math.min(implicitHeight, Math.ceil(Theme.fontSizeSmall * 4.5)) : 0
             text: root.currentAuthFeedbackText()
             color: root.authFeedbackIsHint() ? Theme.outline : Theme.error
             font.pixelSize: Theme.fontSizeSmall
@@ -1129,35 +1140,33 @@ Item {
                 }
             }
         }
-    }
 
-    Row {
-        id: capsLockRow
-        anchors.top: passwordLayout.bottom
-        anchors.topMargin: Theme.spacingS
-        anchors.horizontalCenter: passwordLayout.horizontalCenter
-        spacing: Theme.spacingXS
-        opacity: DMSService.capsLockState ? 1 : 0
+        Row {
+            id: capsLockRow
+            x: (parent.width - width) / 2
+            spacing: Theme.spacingXS
+            opacity: DMSService.capsLockState ? 1 : 0
 
-        DankIcon {
-            name: "shift_lock"
-            size: Theme.iconSizeSmall
-            color: Theme.error
-            anchors.verticalCenter: parent.verticalCenter
-        }
+            DankIcon {
+                name: "shift_lock"
+                size: Theme.iconSizeSmall
+                color: Theme.error
+                anchors.verticalCenter: parent.verticalCenter
+            }
 
-        StyledText {
-            text: I18n.tr("Caps Lock is on")
-            font.pixelSize: Theme.fontSizeSmall
-            color: Theme.error
-            anchors.verticalCenter: parent.verticalCenter
-        }
+            StyledText {
+                text: I18n.tr("Caps Lock is on")
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.error
+                anchors.verticalCenter: parent.verticalCenter
+            }
 
-        Behavior on opacity {
-            NumberAnimation {
-                duration: LockMetrics.effectsDuration
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: LockMetrics.effectsDuration
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
+                }
             }
         }
     }
