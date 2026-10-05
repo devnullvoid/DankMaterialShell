@@ -395,6 +395,9 @@
   "Add rule": {
     "Add rule": ""
   },
+  "Add shortcut": {
+    "Add shortcut": ""
+  },
   "Add substitution": {
     "Add substitution": ""
   },
@@ -416,8 +419,8 @@
   "Add, remove and configure dock items": {
     "Add, remove and configure dock items": "Dokkelemek hozzáadása, eltávolítása és konfigurálása"
   },
-  "Add, remove, reorder and configure": {
-    "Add, remove, reorder and configure": "Hozzáadás, eltávolítás, átrendezés és konfigurálás"
+  "Add, reorder, configure": {
+    "Add, reorder, configure": ""
   },
   "Added in front of every app launch command": {
     "Added in front of every app launch command": "Minden alkalmazásindító parancs elé beillesztve"
@@ -434,8 +437,8 @@
   "Adds them to the %1 group so they can use sudo": {
     "Adds them to the %1 group so they can use sudo": "Hozzáadja őket a(z) %1 csoporthoz, így használhatják a sudo parancsot"
   },
-  "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": {
-    "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": "Rendszergazdai hozzáférés szükséges. Az alkalmazáshoz használd a Szinkronizálás gombot a Beállítások → Üdvözlőképernyő menüpontban."
+  "Administrator access is required. Press Apply changes in Settings → Greeter.": {
+    "Administrator access is required. Press Apply changes in Settings → Greeter.": ""
   },
   "Advanced": {
     "Advanced": "Speciális"
@@ -631,9 +634,6 @@
   },
   "Applications and commands to start automatically when you log in": {
     "Applications and commands to start automatically when you log in": "Bejelentkezéskor automatikusan elinduló alkalmazások és parancsok"
-  },
-  "Applies on the next greeter sync": {
-    "Applies on the next greeter sync": "A következő üdvözlőképernyő-szinkronizáláskor lép életbe"
   },
   "Applies the saved profile that matches the connected displays": {
     "Applies the saved profile that matches the connected displays": "Alkalmazza a csatlakoztatott kijelzőkhöz illeszkedő, elmentett profilt"
@@ -1073,6 +1073,9 @@
   "Blur on overview": {
     "Blur on overview": "Elmosás az áttekintőben"
   },
+  "Blur, shadows, corners": {
+    "Blur, shadows, corners": ""
+  },
   "Blurred surfaces show the wallpaper, not the windows beneath": {
     "Blurred surfaces show the wallpaper, not the windows beneath": "Az elmosott felületek a háttérképet mutatják, nem az alatta lévő ablakokat"
   },
@@ -1177,6 +1180,9 @@
   },
   "Built-in plugins": {
     "Built-in plugins": "Beépített bővítmények"
+  },
+  "Bundled greeter active": {
+    "Bundled greeter active": ""
   },
   "Button areas": {
     "Button areas": "Gombterületek"
@@ -1502,8 +1508,11 @@
   "Clock, calendar, system info and profile": {
     "Clock, calendar, system info and profile": "Óra, naptár, rendszerinformáció és profil"
   },
-  "Clocks, system monitors, plugins": {
-    "Clocks, system monitors, plugins": "Órák, rendszerfigyelők, bővítmények"
+  "Clock, weather, locale": {
+    "Clock, weather, locale": ""
+  },
+  "Clocks, monitors, plugins": {
+    "Clocks, monitors, plugins": ""
   },
   "Close All Windows": {
     "Close All Windows": "Összes ablak bezárása"
@@ -2117,6 +2126,9 @@
   "Default width (%)": {
     "Default width (%)": "Alapértelmezett szélesség (%)"
   },
+  "Defaults, autostart, rules": {
+    "Defaults, autostart, rules": ""
+  },
   "Define rules for window behavior. Saves to %1": {
     "Define rules for window behavior. Saves to %1": "Ablakviselkedési szabályok meghatározása. Mentés ide: %1"
   },
@@ -2561,6 +2573,18 @@
   "Edit widgets": {
     "Edit widgets": "Widgetek szerkesztése"
   },
+  "Editing the lock screen": {
+    "Editing the lock screen": ""
+  },
+  "Editing the lock screen, the login screen follows it": {
+    "Editing the lock screen, the login screen follows it": ""
+  },
+  "Editing the login screen": {
+    "Editing the login screen": ""
+  },
+  "Editing the login screen, shared with the lock screen": {
+    "Editing the login screen, shared with the lock screen": ""
+  },
   "Education": {
     "Education": "Oktatás"
   },
@@ -2701,6 +2725,9 @@
   },
   "Exact": {
     "Exact": "Pontos egyezés"
+  },
+  "Excluded apps": {
+    "Excluded apps": ""
   },
   "Excluded players": {
     "Excluded players": "Kizárt lejátszók"
@@ -3029,9 +3056,6 @@
   "Family": {
     "Family": "Betűcsalád"
   },
-  "Family, weight, scale, animation speed": {
-    "Family, weight, scale, animation speed": "Család, vastagság, skála, animáció sebessége"
-  },
   "Features": {
     "Features": "Funkciók"
   },
@@ -3221,6 +3245,9 @@
   "Follow focus": {
     "Follow focus": "Fókusz követése"
   },
+  "Follow lock screen": {
+    "Follow lock screen": ""
+  },
   "Follow mouse": {
     "Follow mouse": "Egér követése"
   },
@@ -3244,6 +3271,9 @@
   },
   "Fonts & motion": {
     "Fonts & motion": "Betűkészletek és mozgás"
+  },
+  "Fonts, scale, animations": {
+    "Fonts, scale, animations": ""
   },
   "For %1": {
     "For %1": "Itt: %1"
@@ -3352,6 +3382,9 @@
   },
   "Fullscreen single column": {
     "Fullscreen single column": "Teljes képernyős egyoszlopos"
+  },
+  "Fullscreen windows": {
+    "Fullscreen windows": ""
   },
   "Fully Charged": {
     "Fully Charged": "Teljesen feltöltve"
@@ -4214,6 +4247,9 @@
   "Layout, position, appearance": {
     "Layout, position, appearance": "Elrendezés, pozíció, megjelenés"
   },
+  "Layout, scale, night mode": {
+    "Layout, scale, night mode": ""
+  },
   "Layouts": {
     "Layouts": "Kiosztások"
   },
@@ -4298,6 +4334,18 @@
   "Lines: %1": {
     "Lines: %1": "%1 sor"
   },
+  "Link your DMS settings so the login screen follows them.": {
+    "Link your DMS settings so the login screen follows them.": ""
+  },
+  "Link your DMS settings so the login screen follows them. Administrator access is required.": {
+    "Link your DMS settings so the login screen follows them. Administrator access is required.": ""
+  },
+  "Linked": {
+    "Linked": ""
+  },
+  "Linked as a snapshot": {
+    "Linked as a snapshot": ""
+  },
   "List": {
     "List": "Lista"
   },
@@ -4375,6 +4423,9 @@
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Bejelentkezési képernyő megjelenése és hitelesítés"
+  },
+  "Login screen unlinked.": {
+    "Login screen unlinked.": ""
   },
   "Long": {
     "Long": ""
@@ -4949,6 +5000,9 @@
   "Night mode & gamma": {
     "Night mode & gamma": "Éjszakai mód és gamma"
   },
+  "Night mode exceptions": {
+    "Night mode exceptions": ""
+  },
   "Night mode failed: DMS gamma control not available": {
     "Night mode failed: DMS gamma control not available": "Az éjszakai mód nem sikerült: a DMS gammavezérlése nem érhető el"
   },
@@ -5077,6 +5131,9 @@
   },
   "No errors": {
     "No errors": "Nincsenek hibák"
+  },
+  "No excluded apps configured": {
+    "No excluded apps configured": ""
   },
   "No excluded players configured": {
     "No excluded players configured": "Nincsenek kizárt lejátszók beállítva"
@@ -5297,6 +5354,9 @@
   "Normal routing": {
     "Normal routing": "Normál útvonalválasztás"
   },
+  "Not active": {
+    "Not active": ""
+  },
   "Not available": {
     "Not available": "Nem érhető el"
   },
@@ -5320,6 +5380,12 @@
   },
   "Not detected": {
     "Not detected": "Nem észlelhető"
+  },
+  "Not installed": {
+    "Not installed": ""
+  },
+  "Not linked": {
+    "Not linked": ""
   },
   "Not set": {
     "Not set": "Nincs beállítva"
@@ -5446,9 +5512,6 @@
   },
   "Opacity": {
     "Opacity": "Átlátszatlanság"
-  },
-  "Opacity, borders, blur, shadows, corners": {
-    "Opacity, borders, blur, shadows, corners": "Átlátszatlanság, keretek, elmosás, árnyékok, sarkok"
   },
   "Opaque": {
     "Opaque": "Átlátszatlan"
@@ -5741,6 +5804,12 @@
   "Pause checks on battery": {
     "Pause checks on battery": ""
   },
+  "Pause night mode while a fullscreen window has focus": {
+    "Pause night mode while a fullscreen window has focus": ""
+  },
+  "Pause night mode while one of these apps has focus": {
+    "Pause night mode while one of these apps has focus": ""
+  },
   "Paused": {
     "Paused": "Szüneteltetve"
   },
@@ -5960,6 +6029,9 @@
   "Position, pinned apps": {
     "Position, pinned apps": "Pozíció, rögzített alkalmazások"
   },
+  "Position, pinned apps, trash": {
+    "Position, pinned apps, trash": ""
+  },
   "Possible override conflicts": {
     "Possible override conflicts": "Lehetséges felülbírálási ütközések"
   },
@@ -6019,6 +6091,9 @@
   },
   "Preset widths (%)": {
     "Preset widths (%)": "Előre beállított szélességek (%)"
+  },
+  "Press Apply changes to update the login screen": {
+    "Press Apply changes to update the login screen": ""
   },
   "Press Ctrl+N or click 'New Session' to create one": {
     "Press Ctrl+N or click 'New Session' to create one": "Nyomd meg a Ctrl+N billentyűkombinációt vagy kattints az „Új munkamenet” gombra a létrehozásához"
@@ -6128,6 +6203,9 @@
   "Profile error": {
     "Profile error": "Profilhiba"
   },
+  "Profile image": {
+    "Profile image": ""
+  },
   "Profile image is too large. Please use a smaller image.": {
     "Profile image is too large. Please use a smaller image.": "A profilkép túl nagy, használj kisebb képet."
   },
@@ -6148,6 +6226,9 @@
   },
   "Profile saved: %1": {
     "Profile saved: %1": "Profil mentve: %1"
+  },
+  "Profile sync failed.": {
+    "Profile sync failed.": ""
   },
   "Profiles": {
     "Profiles": "Profilok"
@@ -6214,6 +6295,9 @@
   },
   "Rate": {
     "Rate": "Sebesség"
+  },
+  "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": {
+    "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": ""
   },
   "Re-enter the password before saving.": {
     "Re-enter the password before saving.": "Mentés előtt add meg újra a jelszót."
@@ -6572,6 +6656,9 @@
   "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": {
     "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": "Külső parancs futtatása minden háttérkép-változtatáskor, és annak JSON-palettájának beolvasztása a matugenbe egy névtér alatt, így a sablonok használhatják pl. a {{name.color0}} változót. A parancs megkapja a háttérképet {image} / $DMS_WALLPAPER formátumban, a módot pedig {mode} / $DMS_MODE formátumban."
   },
+  "Run full sync": {
+    "Run full sync": ""
+  },
   "Run user templates": {
     "Run user templates": "Felhasználói sablonok futtatása"
   },
@@ -6896,6 +6983,9 @@
   "Server": {
     "Server": "Kiszolgáló"
   },
+  "Session": {
+    "Session": ""
+  },
   "Session filter": {
     "Session filter": "Munkamenet-szűrő"
   },
@@ -6919,6 +7009,9 @@
   },
   "Set under Theme & colors, Derived color": {
     "Set under Theme & colors, Derived color": ""
+  },
+  "Set up": {
+    "Set up": ""
   },
   "Set up a Wi-Fi hotspot for sharing this connection.": {
     "Set up a Wi-Fi hotspot for sharing this connection.": "Wi-Fi hotspot beállítása a kapcsolat megosztásához."
@@ -6979,6 +7072,9 @@
   },
   "Shortcuts (%1)": {
     "Shortcuts (%1)": "Gyorsbillentyűk (%1)"
+  },
+  "Shortcuts, keyboard, mouse": {
+    "Shortcuts, keyboard, mouse": ""
   },
   "Shortens the bar at both ends": {
     "Shortens the bar at both ends": "Mindkét végén lerövidíti a rudat"
@@ -7274,6 +7370,9 @@
   "Soft square": {
     "Soft square": "Lágy négyzet"
   },
+  "Software updates": {
+    "Software updates": ""
+  },
   "Software updates are ready to install.": {
     "Software updates are ready to install.": ""
   },
@@ -7421,6 +7520,9 @@
   "Stopping": {
     "Stopping": "Megállítás"
   },
+  "Stops syncing your DMS settings to the greeter. Set up links them again.": {
+    "Stops syncing your DMS settings to the greeter. Set up links them again.": ""
+  },
   "Stretch": {
     "Stretch": "Nyújtás"
   },
@@ -7433,8 +7535,8 @@
   "Style": {
     "Style": "Stílus"
   },
-  "Style, shortcuts, search, hidden apps": {
-    "Style, shortcuts, search, hidden apps": "Stílus, billentyűparancsok, keresés, rejtett alkalmazások"
+  "Style, search, hidden apps": {
+    "Style, search, hidden apps": ""
   },
   "Success": {
     "Success": "Siker"
@@ -7520,9 +7622,6 @@
   "Sync": {
     "Sync": "Szinkronizálás"
   },
-  "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": {
-    "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": "A szinkronizálás alkalmazza a témáját és a beállításait a bejelentkezési képernyőre. A megosztott felhasználóknak a dms-greeter sync --profile parancsot kell futtatniuk az elsődleges felhasználói szinkronizálás helyett."
-  },
   "Sync completed successfully.": {
     "Sync completed successfully.": "Szinkronizálás sikeresen befejeződött."
   },
@@ -7543,9 +7642,6 @@
   },
   "Sync position across displays": {
     "Sync position across displays": "Pozíció szinkronizálása a kijelzők között"
-  },
-  "Sync to apply": {
-    "Sync to apply": "Szinkronizálás az alkalmazáshoz"
   },
   "Sync with portal": {
     "Sync with portal": "Szinkronizálás a portállal"
@@ -7661,6 +7757,9 @@
   "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": {
     "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": "Terminál helyettesítési kísérlet sikertelen. Telepítsd a támogatott terminálemulátorok egyikét, vagy futtasd a 'dms-greeter sync' parancsot."
   },
+  "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": {
+    "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": ""
+  },
   "Terminal fallback opened. Complete authentication there; it will close automatically when done.": {
     "Terminal fallback opened. Complete authentication there; it will close automatically when done.": "Terminálos másodlagos hitelesítés megnyitva. Végezd el ott a hitelesítést; befejezés után automatikusan bezárul."
   },
@@ -7745,6 +7844,15 @@
   "The job queue of this printer is empty": {
     "The job queue of this printer is empty": "A nyomtató feladatlistája üres"
   },
+  "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": {
+    "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": ""
+  },
+  "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": {
+    "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": ""
+  },
+  "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": {
+    "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": ""
+  },
   "The new shortcut is already in use. Choose another shortcut.": {
     "The new shortcut is already in use. Choose another shortcut.": "Az új gyorsbillentyű már használatban van. Válassz egy másikat."
   },
@@ -7802,6 +7910,9 @@
   "Theme, light and dark, matugen": {
     "Theme, light and dark, matugen": "Téma, világos és sötét, matugen"
   },
+  "Theme, palette, dark mode": {
+    "Theme, palette, dark mode": ""
+  },
   "Themes": {
     "Themes": "Témák"
   },
@@ -7847,6 +7958,9 @@
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "Ez a bővítmény nem rendelkezik „settings_write” engedéllyel.\n\nAdd hozzá a \"permissions\": [\"settings_read\", \"settings_write\"] sort a plugin.json fájlhoz"
   },
+  "This system cannot link settings live. Sync again after changing them.": {
+    "This system cannot link settings live. Sync again after changing them.": ""
+  },
   "This system was not started in UEFI mode": {
     "This system was not started in UEFI mode": ""
   },
@@ -7879,6 +7993,9 @@
   },
   "Tile Vertically": {
     "Tile Vertically": "Csempézés függőlegesen"
+  },
+  "Tile color": {
+    "Tile color": "Csempe színe"
   },
   "Tiled": {
     "Tiled": "Csempézett"
@@ -8153,6 +8270,18 @@
   "Unknown Track": {
     "Unknown Track": "Ismeretlen szám"
   },
+  "Unlink": {
+    "Unlink": ""
+  },
+  "Unlink login screen": {
+    "Unlink login screen": ""
+  },
+  "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": {
+    "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": ""
+  },
+  "Unlink now?": {
+    "Unlink now?": ""
+  },
   "Unload on close": {
     "Unload on close": "Eltávolítás bezáráskor"
   },
@@ -8233,6 +8362,9 @@
   },
   "Update the dms package with your package manager, then restart the shell.": {
     "Update the dms package with your package manager, then restart the shell.": ""
+  },
+  "Updates, clipboard, %1": {
+    "Updates, clipboard, %1": ""
   },
   "Updating %1...": {
     "Updating %1...": "A(z) %1 frissítése…"
@@ -8447,9 +8579,6 @@
   "Visibility": {
     "Visibility": "Láthatóság"
   },
-  "Visibility, position, pinned apps, trash": {
-    "Visibility, position, pinned apps, trash": "Láthatóság, pozíció, rögzített alkalmazások, kuka"
-  },
   "Visible entry actions": {
     "Visible entry actions": "Látható bejegyzésműveletek"
   },
@@ -8477,8 +8606,8 @@
   "Volume style": {
     "Volume style": "Hangerő stílusa"
   },
-  "Volume, brightness, caps lock, position": {
-    "Volume, brightness, caps lock, position": "Hangerő, fényerő, Caps Lock, pozíció"
+  "Volume, brightness, caps lock": {
+    "Volume, brightness, caps lock": ""
   },
   "Votes": {
     "Votes": "Szavazatok"
@@ -8578,6 +8707,9 @@
   },
   "Wi-Fi not available": {
     "Wi-Fi not available": "A Wi-Fi nem érhető el"
+  },
+  "Wi-Fi, Ethernet, VPN": {
+    "Wi-Fi, Ethernet, VPN": ""
   },
   "WiFi QR code for ": {
     "WiFi QR code for ": "Wi-Fi QR-kód ehhez: "
@@ -8750,6 +8882,9 @@
   "Your compositor does not support background blur (ext-background-effect-v1)": {
     "Your compositor does not support background blur (ext-background-effect-v1)": "A kompozitor nem támogatja a háttér elmosását (ext-background-effect-v1)"
   },
+  "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": {
+    "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": ""
+  },
   "Your hotspot is running.": {
     "Your hotspot is running.": "A hotspot fut."
   },
@@ -8854,6 +8989,9 @@
   },
   "featured": {
     "featured": "kiemelt"
+  },
+  "greetd is not using the DMS greeter yet.": {
+    "greetd is not using the DMS greeter yet.": ""
   },
   "keyboard tab key name": {
     "Tab": "Lap"

@@ -1088,7 +1088,7 @@
   {
     "term": "Add",
     "context": "Add",
-    "reference": "Modules/Plugins/ListSettingWithInput.qml:53, Modules/Settings/DockHubHeader.qml:53, Modules/Settings/NotificationRuleEditorDialog.qml:87, Modules/Settings/BarHubHeader.qml:103, Modules/Settings/MediaPlayerTab.qml:198, Modules/Settings/KeybindEditorDialog.qml:697, Modules/Settings/PluginsManageTab.qml:180, Modules/Settings/WindowRuleEditorDialog.qml:660, Modules/Settings/DesktopWidgetsTab.qml:134, Modules/Settings/BarWidgetOptions/KeyboardLayoutOptions.qml:98",
+    "reference": "Modules/Plugins/ListSettingWithInput.qml:53, Modules/Settings/DockHubHeader.qml:53, Modules/Settings/NotificationRuleEditorDialog.qml:87, Modules/Settings/GammaControlTab.qml:301, Modules/Settings/BarHubHeader.qml:103, Modules/Settings/MediaPlayerTab.qml:198, Modules/Settings/KeybindEditorDialog.qml:697, Modules/Settings/PluginsManageTab.qml:180, Modules/Settings/WindowRuleEditorDialog.qml:660, Modules/Settings/DesktopWidgetsTab.qml:134, Modules/Settings/BarWidgetOptions/KeyboardLayoutOptions.qml:98",
     "comment": "verb, button that adds a new item to a list",
     "tags": [
       "settings",
@@ -1881,7 +1881,7 @@
   {
     "term": "App name or identity (e.g., firefox)",
     "context": "App name or identity (e.g., firefox)",
-    "reference": "Modules/Settings/MediaPlayerTab.qml:191",
+    "reference": "Modules/Settings/GammaControlTab.qml:294, Modules/Settings/MediaPlayerTab.qml:191",
     "comment": "",
     "tags": [
       "settings"
@@ -2699,7 +2699,7 @@
   {
     "term": "Automatic control",
     "context": "Automatic control",
-    "reference": "Modules/Settings/GammaControlTab.qml:134, Modules/Settings/ThemeScheduleTab.qml:73",
+    "reference": "Modules/Settings/GammaControlTab.qml:148, Modules/Settings/ThemeScheduleTab.qml:73",
     "comment": "",
     "tags": [
       "settings"
@@ -3538,7 +3538,7 @@
   {
     "term": "Browse",
     "context": "Browse",
-    "reference": "Modals/DankLauncherV2/Controller.qml:344, Modals/DankLauncherV2/Controller.qml:2073, Modules/Settings/WallpaperCyclingTab.qml:189, Modules/Settings/ThemeColorsTab.qml:147, Modules/Settings/MediaPlayerTab.qml:204, Modules/Settings/PluginsHubHeader.qml:471, Modules/Settings/PluginsHubHeader.qml:788, Modules/Settings/LockScreenTab.qml:469, Modules/Settings/DisplayConfig/OutputCard.qml:290, Modules/Settings/Widgets/SettingsWallpaperThumb.qml:95",
+    "reference": "Modals/DankLauncherV2/Controller.qml:344, Modals/DankLauncherV2/Controller.qml:2073, Modules/Settings/WallpaperCyclingTab.qml:189, Modules/Settings/ThemeColorsTab.qml:147, Modules/Settings/GammaControlTab.qml:307, Modules/Settings/MediaPlayerTab.qml:204, Modules/Settings/PluginsHubHeader.qml:471, Modules/Settings/PluginsHubHeader.qml:788, Modules/Settings/LockScreenTab.qml:469, Modules/Settings/DisplayConfig/OutputCard.qml:290, Modules/Settings/Widgets/SettingsWallpaperThumb.qml:95",
     "comment": "Browse | theme category option",
     "tags": [
       "settings",
@@ -4789,7 +4789,7 @@
   {
     "term": "Color Temperature",
     "context": "Color Temperature",
-    "reference": "Modules/Settings/GammaControlTab.qml:105, Modules/Settings/DisplayConfig/OutputCard.qml:301, Modules/ControlCenter/Widgets/NightModeTile.qml:21, Modules/ControlCenter/Widgets/NightModeTile.qml:33",
+    "reference": "Modules/Settings/GammaControlTab.qml:119, Modules/Settings/DisplayConfig/OutputCard.qml:301, Modules/ControlCenter/Widgets/NightModeTile.qml:21, Modules/ControlCenter/Widgets/NightModeTile.qml:33",
     "comment": "Color Temperature",
     "tags": [
       "settings",
@@ -5380,7 +5380,7 @@
   {
     "term": "Contrast",
     "context": "Contrast",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:437, Modules/Settings/GammaControlTab.qml:81, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:237, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:133",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:437, Modules/Settings/GammaControlTab.qml:95, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:237, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:133",
     "comment": "noun, slider label for color or display contrast",
     "tags": [
       "settings"
@@ -5808,7 +5808,7 @@
   {
     "term": "Current period",
     "context": "Current period",
-    "reference": "Modules/Settings/GammaControlTab.qml:223",
+    "reference": "Modules/Settings/GammaControlTab.qml:237",
     "comment": "",
     "tags": [
       "settings"
@@ -5817,7 +5817,7 @@
   {
     "term": "Current status",
     "context": "Current status",
-    "reference": "Modules/Settings/GammaControlTab.qml:203",
+    "reference": "Modules/Settings/GammaControlTab.qml:217",
     "comment": "",
     "tags": [
       "settings"
@@ -5826,7 +5826,7 @@
   {
     "term": "Current temperature",
     "context": "Current temperature",
-    "reference": "Modules/Settings/GammaControlTab.qml:216",
+    "reference": "Modules/Settings/GammaControlTab.qml:230",
     "comment": "",
     "tags": [
       "settings"
@@ -6473,7 +6473,7 @@
   {
     "term": "Day temperature",
     "context": "Day temperature",
-    "reference": "Modules/Settings/GammaControlTab.qml:124",
+    "reference": "Modules/Settings/GammaControlTab.qml:138",
     "comment": "",
     "tags": [
       "settings"
@@ -6482,7 +6482,7 @@
   {
     "term": "Daytime",
     "context": "Daytime",
-    "reference": "Modules/Settings/GammaControlTab.qml:222",
+    "reference": "Modules/Settings/GammaControlTab.qml:236",
     "comment": "night mode status label, current period is day",
     "tags": [
       "settings"
@@ -7446,7 +7446,7 @@
   {
     "term": "Dock",
     "context": "Dock",
-    "reference": "Common/SettingsData.qml:2371, Common/SettingsData.qml:2374, Common/SettingsTabs.qml:152, Modals/Greeter/GreeterCompletePage.qml:436, Modules/Notepad/NotepadTextEditor.qml:920",
+    "reference": "Common/SettingsData.qml:2374, Common/SettingsData.qml:2377, Common/SettingsTabs.qml:152, Modals/Greeter/GreeterCompletePage.qml:436, Modules/Notepad/NotepadTextEditor.qml:920",
     "comment": "greeter settings link",
     "tags": [
       "shell"
@@ -7564,7 +7564,7 @@
   {
     "term": "Dot",
     "context": "Dot",
-    "reference": "Common/SettingsData.qml:2825, Common/SettingsTabs.qml:123, Modules/Settings/BarHubHeader.qml:208",
+    "reference": "Common/SettingsData.qml:2828, Common/SettingsTabs.qml:123, Modules/Settings/BarHubHeader.qml:208",
     "comment": "bar layout: free-floating dot that opens island activities",
     "tags": [
       "settings",
@@ -8148,7 +8148,7 @@
   {
     "term": "End",
     "context": "End",
-    "reference": "Modules/Settings/GammaControlTab.qml:168, Modules/DankDash/Overview/CalendarEventEditor.qml:184",
+    "reference": "Modules/Settings/GammaControlTab.qml:182, Modules/DankDash/Overview/CalendarEventEditor.qml:184",
     "comment": "noun, end time label for night mode schedule or calendar event",
     "tags": [
       "settings",
@@ -8365,7 +8365,7 @@
   {
     "term": "Error",
     "context": "Error",
-    "reference": "Modals/WorkspaceRenameModal.qml:27, Services/AqueousService.qml:340, Services/CompositorService.qml:48, Services/CupsService.qml:718, Modules/SystemUpdate/SystemUpdatePanel.qml:100, Modules/Settings/PluginsManageTab.qml:127, Modules/Settings/WorkspaceAppearanceCard.qml:46, Modules/Settings/DisplayConfig/DisplayConfigState.qml:70, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1665, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:28, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:175",
+    "reference": "Modals/WorkspaceRenameModal.qml:27, Services/AqueousService.qml:340, Services/CompositorService.qml:52, Services/CupsService.qml:718, Modules/SystemUpdate/SystemUpdatePanel.qml:100, Modules/Settings/PluginsManageTab.qml:127, Modules/Settings/WorkspaceAppearanceCard.qml:46, Modules/Settings/DisplayConfig/DisplayConfigState.qml:70, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1665, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:28, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:175",
     "comment": "workspace color option",
     "tags": [
       "settings",
@@ -8459,6 +8459,15 @@
     "context": "Exact",
     "reference": "Modules/Settings/NotificationRulesTab.qml:51",
     "comment": "notification rule match type option",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Excluded apps",
+    "context": "Excluded apps",
+    "reference": "Modules/Settings/GammaControlTab.qml:292",
+    "comment": "night mode exceptions: list of apps that pause night mode while focused",
     "tags": [
       "settings"
     ]
@@ -8738,7 +8747,7 @@
   {
     "term": "Failed to change display power",
     "context": "Failed to change display power",
-    "reference": "Services/CompositorService.qml:48",
+    "reference": "Services/CompositorService.qml:52",
     "comment": "Error shown when changing monitor power fails",
     "tags": [
       "shell"
@@ -8837,7 +8846,7 @@
   {
     "term": "Failed to disable night mode",
     "context": "Failed to disable night mode",
-    "reference": "Services/NightModeService.qml:76",
+    "reference": "Services/NightModeService.qml:49",
     "comment": "",
     "tags": [
       "shell"
@@ -8891,7 +8900,7 @@
   {
     "term": "Failed to enable IP location",
     "context": "Failed to enable IP location",
-    "reference": "Services/NightModeService.qml:241",
+    "reference": "Services/NightModeService.qml:297",
     "comment": "",
     "tags": [
       "shell"
@@ -8918,7 +8927,7 @@
   {
     "term": "Failed to enable night mode",
     "context": "Failed to enable night mode",
-    "reference": "Services/NightModeService.qml:48",
+    "reference": "Services/NightModeService.qml:49",
     "comment": "",
     "tags": [
       "shell"
@@ -9045,7 +9054,7 @@
   {
     "term": "Failed to parse %1",
     "context": "Failed to parse %1",
-    "reference": "Common/SettingsData.qml:1849, Common/SettingsData.qml:1972, Common/SettingsData.qml:3638, Services/ToastService.qml:188",
+    "reference": "Common/SettingsData.qml:1852, Common/SettingsData.qml:1975, Common/SettingsData.qml:3665, Services/ToastService.qml:188",
     "comment": "error toast, %1 is a settings file name",
     "tags": [
       "shell"
@@ -9243,7 +9252,7 @@
   {
     "term": "Failed to set night mode location",
     "context": "Failed to set night mode location",
-    "reference": "Services/NightModeService.qml:261",
+    "reference": "Services/NightModeService.qml:317",
     "comment": "",
     "tags": [
       "shell"
@@ -9252,7 +9261,7 @@
   {
     "term": "Failed to set night mode schedule",
     "context": "Failed to set night mode schedule",
-    "reference": "Services/NightModeService.qml:203",
+    "reference": "Services/NightModeService.qml:259",
     "comment": "",
     "tags": [
       "shell"
@@ -9261,7 +9270,7 @@
   {
     "term": "Failed to set night mode temperature",
     "context": "Failed to set night mode temperature",
-    "reference": "Services/NightModeService.qml:141, Services/NightModeService.qml:192, Services/NightModeService.qml:231",
+    "reference": "Services/NightModeService.qml:197, Services/NightModeService.qml:248, Services/NightModeService.qml:287",
     "comment": "",
     "tags": [
       "shell"
@@ -10455,6 +10464,15 @@
     ]
   },
   {
+    "term": "Fullscreen windows",
+    "context": "Fullscreen windows",
+    "reference": "Modules/Settings/GammaControlTab.qml:283",
+    "comment": "night mode exceptions toggle: pause while a fullscreen window is focused",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
     "term": "Fully Charged",
     "context": "Fully Charged",
     "reference": "Services/BatteryService.qml:459",
@@ -10540,7 +10558,7 @@
   {
     "term": "Gamma",
     "context": "Gamma",
-    "reference": "Modules/Settings/GammaControlTab.qml:66, Modules/Settings/DisplayConfig/ICCProfileInfoModal.qml:27",
+    "reference": "Modules/Settings/GammaControlTab.qml:80, Modules/Settings/DisplayConfig/ICCProfileInfoModal.qml:27",
     "comment": "Gamma",
     "tags": [
       "settings"
@@ -10558,7 +10576,7 @@
   {
     "term": "Gamma control not available. Requires DMS API v6+.",
     "context": "Gamma control not available. Requires DMS API v6+.",
-    "reference": "Modules/Settings/GammaControlTab.qml:93",
+    "reference": "Modules/Settings/GammaControlTab.qml:107",
     "comment": "",
     "tags": [
       "settings"
@@ -11750,7 +11768,7 @@
   {
     "term": "Icon theme changed outside DMS; switched to System Default",
     "context": "Icon theme changed outside DMS; switched to System Default",
-    "reference": "Common/SettingsData.qml:1471",
+    "reference": "Common/SettingsData.qml:1474",
     "comment": "shown when an external tool overrides the icon theme DMS applied",
     "tags": [
       "shell"
@@ -13560,7 +13578,7 @@
   {
     "term": "Location",
     "context": "Location",
-    "reference": "Modules/Settings/GammaControlTab.qml:152, Modules/Settings/WallpaperColorsTab.qml:54, Modules/Settings/PrinterTab.qml:382, Modules/Settings/PrinterTab.qml:565, Modules/Settings/ThemeScheduleTab.qml:17, Modules/Settings/WeatherSettingsTab.qml:56",
+    "reference": "Modules/Settings/GammaControlTab.qml:166, Modules/Settings/WallpaperColorsTab.qml:54, Modules/Settings/PrinterTab.qml:382, Modules/Settings/PrinterTab.qml:565, Modules/Settings/ThemeScheduleTab.qml:17, Modules/Settings/WeatherSettingsTab.qml:56",
     "comment": "noun, automatic mode based on geographic location, also weather location card | noun, physical place of a printer, text field label",
     "tags": [
       "settings"
@@ -14669,7 +14687,7 @@
   {
     "term": "Mode",
     "context": "Mode",
-    "reference": "Modules/Settings/WallpaperCyclingTab.qml:213, Modules/Settings/GammaControlTab.qml:151, Modules/Settings/NetworkWifiTab.qml:53, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1598",
+    "reference": "Modules/Settings/WallpaperCyclingTab.qml:213, Modules/Settings/GammaControlTab.qml:165, Modules/Settings/NetworkWifiTab.qml:53, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1598",
     "comment": "noun, setting label, e.g. wallpaper cycling mode, wifi mode, display mode",
     "tags": [
       "settings"
@@ -15433,7 +15451,7 @@
   {
     "term": "Next Transition",
     "context": "Next Transition",
-    "reference": "Modules/Settings/GammaControlTab.qml:253, Modules/Settings/ThemeScheduleTab.qml:119",
+    "reference": "Modules/Settings/GammaControlTab.qml:267, Modules/Settings/ThemeScheduleTab.qml:119",
     "comment": "",
     "tags": [
       "settings"
@@ -15451,7 +15469,7 @@
   {
     "term": "Night",
     "context": "Night",
-    "reference": "Services/WeatherService.qml:314, Modules/Settings/GammaControlTab.qml:222",
+    "reference": "Services/WeatherService.qml:314, Modules/Settings/GammaControlTab.qml:236",
     "comment": "noun, time of day period, also night mode state",
     "tags": [
       "settings",
@@ -15461,7 +15479,7 @@
   {
     "term": "Night mode",
     "context": "Night mode",
-    "reference": "Modules/Settings/GammaControlTab.qml:92, Modules/ControlCenter/Models/WidgetModel.qml:252, Modules/ControlCenter/Widgets/NightModeTile.qml:10",
+    "reference": "Modules/Settings/GammaControlTab.qml:106, Modules/ControlCenter/Models/WidgetModel.qml:252, Modules/ControlCenter/Widgets/NightModeTile.qml:10",
     "comment": "",
     "tags": [
       "settings",
@@ -15478,9 +15496,18 @@
     ]
   },
   {
+    "term": "Night mode exceptions",
+    "context": "Night mode exceptions",
+    "reference": "Modules/Settings/GammaControlTab.qml:274",
+    "comment": "settings card title: windows and apps that pause night mode while focused",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
     "term": "Night mode failed: DMS gamma control not available",
     "context": "Night mode failed: DMS gamma control not available",
-    "reference": "Services/NightModeService.qml:36",
+    "reference": "Services/NightModeService.qml:37",
     "comment": "",
     "tags": [
       "shell"
@@ -15498,7 +15525,7 @@
   {
     "term": "Night temperature",
     "context": "Night temperature",
-    "reference": "Modules/Settings/GammaControlTab.qml:105",
+    "reference": "Modules/Settings/GammaControlTab.qml:119",
     "comment": "",
     "tags": [
       "settings"
@@ -15866,6 +15893,15 @@
     "comment": "greeter doctor page empty state",
     "tags": [
       "shell"
+    ]
+  },
+  {
+    "term": "No excluded apps configured",
+    "context": "No excluded apps configured",
+    "reference": "Modules/Settings/GammaControlTab.qml:335",
+    "comment": "night mode exceptions empty list placeholder",
+    "tags": [
+      "settings"
     ]
   },
   {
@@ -17961,6 +17997,24 @@
     ]
   },
   {
+    "term": "Pause night mode while a fullscreen window has focus",
+    "context": "Pause night mode while a fullscreen window has focus",
+    "reference": "Modules/Settings/GammaControlTab.qml:284",
+    "comment": "night mode exceptions toggle description",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Pause night mode while one of these apps has focus",
+    "context": "Pause night mode while one of these apps has focus",
+    "reference": "Modules/Settings/GammaControlTab.qml:293",
+    "comment": "night mode excluded apps field description",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
     "term": "Paused",
     "context": "Paused",
     "reference": "Services/CupsService.qml:698",
@@ -19845,7 +19899,7 @@
   {
     "term": "Remove",
     "context": "Remove",
-    "reference": "Services/KeybindsService.qml:642, Widgets/DankGridEditChrome.qml:85, Modules/Plugins/ListSettingRemoveButton.qml:20, Modules/SurfaceWidgets/SurfaceStrip.qml:512, Modules/Settings/WidgetsTabSection.qml:227, Modules/Settings/PaletteInjectTab.qml:97, Modules/Settings/AutoStartTab.qml:549, Modules/Settings/MediaPlayerTab.qml:224, Modules/Settings/PowerSleepTab.qml:343, Modules/Settings/LauncherTab.qml:801, Modules/Settings/RunningAppsTab.qml:51, Modules/Settings/UsersTab.qml:109, Modules/Settings/UsersTab.qml:137, Modules/Settings/PluginsManageTab.qml:152, Modules/Settings/DigitalWellbeingTab.qml:165, Modules/Settings/WorkspaceAppearanceCard.qml:253, Modules/Settings/NotificationsTab.qml:288, Modules/Settings/KeybindsTab.qml:328, Modules/Settings/KeybindsTab.qml:524, Modules/Settings/DisplayConfig/OutputCard.qml:284, Modules/Settings/BarWidgetOptions/KeyboardLayoutOptions.qml:142, Modules/ControlCenter/Components/CcFooter.qml:479",
+    "reference": "Services/KeybindsService.qml:642, Widgets/DankGridEditChrome.qml:85, Modules/Plugins/ListSettingRemoveButton.qml:20, Modules/SurfaceWidgets/SurfaceStrip.qml:512, Modules/Settings/WidgetsTabSection.qml:227, Modules/Settings/PaletteInjectTab.qml:97, Modules/Settings/GammaControlTab.qml:327, Modules/Settings/AutoStartTab.qml:549, Modules/Settings/MediaPlayerTab.qml:224, Modules/Settings/PowerSleepTab.qml:343, Modules/Settings/LauncherTab.qml:801, Modules/Settings/RunningAppsTab.qml:51, Modules/Settings/UsersTab.qml:109, Modules/Settings/UsersTab.qml:137, Modules/Settings/PluginsManageTab.qml:152, Modules/Settings/DigitalWellbeingTab.qml:165, Modules/Settings/WorkspaceAppearanceCard.qml:253, Modules/Settings/NotificationsTab.qml:288, Modules/Settings/KeybindsTab.qml:328, Modules/Settings/KeybindsTab.qml:524, Modules/Settings/DisplayConfig/OutputCard.qml:284, Modules/Settings/BarWidgetOptions/KeyboardLayoutOptions.qml:142, Modules/ControlCenter/Components/CcFooter.qml:479",
     "comment": "verb, button that removes an item from a list",
     "tags": [
       "settings",
@@ -23177,7 +23231,7 @@
   {
     "term": "Start",
     "context": "Start",
-    "reference": "Modules/Settings/GammaControlTab.qml:165, Modules/Settings/NetworkWifiTab.qml:679, Modules/Settings/NetworkWifiTab.qml:956, Modules/ControlCenter/Details/NetworkDetail.qml:149, Modules/DankDash/Overview/CalendarEventEditor.qml:181",
+    "reference": "Modules/Settings/GammaControlTab.qml:179, Modules/Settings/NetworkWifiTab.qml:679, Modules/Settings/NetworkWifiTab.qml:956, Modules/ControlCenter/Details/NetworkDetail.qml:149, Modules/DankDash/Overview/CalendarEventEditor.qml:181",
     "comment": "hotspot start confirmation action | start hotspot action",
     "tags": [
       "settings",
@@ -23427,7 +23481,7 @@
   {
     "term": "Sunrise",
     "context": "Sunrise",
-    "reference": "Services/WeatherService.qml:246, Modules/Settings/GammaControlTab.qml:237, Modules/DankDash/Weather/WeatherHero.qml:82, Modules/DankDash/Weather/WeatherSky.qml:165",
+    "reference": "Services/WeatherService.qml:246, Modules/Settings/GammaControlTab.qml:251, Modules/DankDash/Weather/WeatherHero.qml:82, Modules/DankDash/Weather/WeatherSky.qml:165",
     "comment": "sunrise time label, also time of day period name",
     "tags": [
       "settings",
@@ -23437,7 +23491,7 @@
   {
     "term": "Sunset",
     "context": "Sunset",
-    "reference": "Services/WeatherService.qml:271, Modules/Settings/GammaControlTab.qml:245, Modules/DankDash/Weather/WeatherHero.qml:87, Modules/DankDash/Weather/WeatherSky.qml:186",
+    "reference": "Services/WeatherService.qml:271, Modules/Settings/GammaControlTab.qml:259, Modules/DankDash/Weather/WeatherHero.qml:87, Modules/DankDash/Weather/WeatherSky.qml:186",
     "comment": "sunset time label, also time of day period name",
     "tags": [
       "settings",
@@ -24843,7 +24897,7 @@
   {
     "term": "Time",
     "context": "Time",
-    "reference": "Modules/Settings/WallpaperCyclingTab.qml:214, Modules/Settings/GammaControlTab.qml:152, Modules/Settings/TimeWeatherTab.qml:41, Modules/Settings/Widgets/IslandHomeCard.qml:62",
+    "reference": "Modules/Settings/WallpaperCyclingTab.qml:214, Modules/Settings/GammaControlTab.qml:166, Modules/Settings/TimeWeatherTab.qml:41, Modules/Settings/Widgets/IslandHomeCard.qml:62",
     "comment": "island settings: clock shows time only | wallpaper cycling mode tab",
     "tags": [
       "settings"
@@ -25260,7 +25314,7 @@
   {
     "term": "Transition duration",
     "context": "Transition duration",
-    "reference": "Modules/Settings/GammaControlTab.qml:186",
+    "reference": "Modules/Settings/GammaControlTab.qml:200",
     "comment": "",
     "tags": [
       "settings"
@@ -25938,10 +25992,10 @@
     ]
   },
   {
-    "term": "Updates and clipboard",
-    "context": "Updates and clipboard",
+    "term": "Updates, clipboard, %1",
+    "context": "Updates, clipboard, %1",
     "reference": "Common/SettingsTabs.qml:556",
-    "comment": "settings sidebar hint for the system and integrations page",
+    "comment": "settings sidebar hint for the system and integrations page, %1 is the compositor name",
     "tags": [
       "shell"
     ]

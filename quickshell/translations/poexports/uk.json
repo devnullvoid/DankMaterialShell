@@ -395,6 +395,9 @@
   "Add rule": {
     "Add rule": ""
   },
+  "Add shortcut": {
+    "Add shortcut": ""
+  },
   "Add substitution": {
     "Add substitution": ""
   },
@@ -416,8 +419,8 @@
   "Add, remove and configure dock items": {
     "Add, remove and configure dock items": "Додавати, видаляти та налаштовувати елементи дока"
   },
-  "Add, remove, reorder and configure": {
-    "Add, remove, reorder and configure": "Додавати, видаляти, змінювати порядок і налаштовувати"
+  "Add, reorder, configure": {
+    "Add, reorder, configure": ""
   },
   "Added in front of every app launch command": {
     "Added in front of every app launch command": "Додається перед кожною командою запуску програми"
@@ -434,8 +437,8 @@
   "Adds them to the %1 group so they can use sudo": {
     "Adds them to the %1 group so they can use sudo": "Додає їх до групи %1, щоб вони могли використовувати sudo"
   },
-  "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": {
-    "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": "Потрібен доступ адміністратора. Використовуйте кнопку Синхронізація в Налаштування → Екран входу, щоб застосувати"
+  "Administrator access is required. Press Apply changes in Settings → Greeter.": {
+    "Administrator access is required. Press Apply changes in Settings → Greeter.": ""
   },
   "Advanced": {
     "Advanced": "Додатково"
@@ -631,9 +634,6 @@
   },
   "Applications and commands to start automatically when you log in": {
     "Applications and commands to start automatically when you log in": "Програми та команди для автоматичного запуску при вході в систему"
-  },
-  "Applies on the next greeter sync": {
-    "Applies on the next greeter sync": "Застосується під час наступної синхронізації вікна входу"
   },
   "Applies the saved profile that matches the connected displays": {
     "Applies the saved profile that matches the connected displays": "Застосовує збережений профіль, що відповідає підключеним дисплеям"
@@ -1073,6 +1073,9 @@
   "Blur on overview": {
     "Blur on overview": "Розмиття в огляді"
   },
+  "Blur, shadows, corners": {
+    "Blur, shadows, corners": ""
+  },
   "Blurred surfaces show the wallpaper, not the windows beneath": {
     "Blurred surfaces show the wallpaper, not the windows beneath": "Розмиті поверхні показують шпалери, а не вікна під ними"
   },
@@ -1177,6 +1180,9 @@
   },
   "Built-in plugins": {
     "Built-in plugins": "Вбудовані розширення"
+  },
+  "Bundled greeter active": {
+    "Bundled greeter active": ""
   },
   "Button areas": {
     "Button areas": "Області кнопок"
@@ -1502,8 +1508,11 @@
   "Clock, calendar, system info and profile": {
     "Clock, calendar, system info and profile": "Годинник, календар, системна інформація та профіль"
   },
-  "Clocks, system monitors, plugins": {
-    "Clocks, system monitors, plugins": "Годинники, системні монітори, розширення"
+  "Clock, weather, locale": {
+    "Clock, weather, locale": ""
+  },
+  "Clocks, monitors, plugins": {
+    "Clocks, monitors, plugins": ""
   },
   "Close All Windows": {
     "Close All Windows": "Закрити всі вікна"
@@ -2117,6 +2126,9 @@
   "Default width (%)": {
     "Default width (%)": "Типова ширина (%)"
   },
+  "Defaults, autostart, rules": {
+    "Defaults, autostart, rules": ""
+  },
   "Define rules for window behavior. Saves to %1": {
     "Define rules for window behavior. Saves to %1": "Визначте правила поведінки вікон. Зберігається у %1"
   },
@@ -2561,6 +2573,18 @@
   "Edit widgets": {
     "Edit widgets": "Редагувати пристосунки"
   },
+  "Editing the lock screen": {
+    "Editing the lock screen": ""
+  },
+  "Editing the lock screen, the login screen follows it": {
+    "Editing the lock screen, the login screen follows it": ""
+  },
+  "Editing the login screen": {
+    "Editing the login screen": ""
+  },
+  "Editing the login screen, shared with the lock screen": {
+    "Editing the login screen, shared with the lock screen": ""
+  },
   "Education": {
     "Education": "Освіта"
   },
@@ -2701,6 +2725,9 @@
   },
   "Exact": {
     "Exact": "Точний"
+  },
+  "Excluded apps": {
+    "Excluded apps": ""
   },
   "Excluded players": {
     "Excluded players": "Виключені програвачі"
@@ -3029,9 +3056,6 @@
   "Family": {
     "Family": "Сімейство"
   },
-  "Family, weight, scale, animation speed": {
-    "Family, weight, scale, animation speed": "Сімейство, накреслення, масштаб, швидкість анімації"
-  },
   "Features": {
     "Features": "Особливості"
   },
@@ -3221,6 +3245,9 @@
   "Follow focus": {
     "Follow focus": "Слідувати за фокусом"
   },
+  "Follow lock screen": {
+    "Follow lock screen": ""
+  },
   "Follow mouse": {
     "Follow mouse": "Слідувати за мишею"
   },
@@ -3244,6 +3271,9 @@
   },
   "Fonts & motion": {
     "Fonts & motion": "Шрифти та рух"
+  },
+  "Fonts, scale, animations": {
+    "Fonts, scale, animations": ""
   },
   "For %1": {
     "For %1": "Для %1"
@@ -3352,6 +3382,9 @@
   },
   "Fullscreen single column": {
     "Fullscreen single column": "Одна повноекранна колонка"
+  },
+  "Fullscreen windows": {
+    "Fullscreen windows": ""
   },
   "Fully Charged": {
     "Fully Charged": "Повністю заряджено"
@@ -4214,6 +4247,9 @@
   "Layout, position, appearance": {
     "Layout, position, appearance": "Макет, позиція, зовнішній вигляд"
   },
+  "Layout, scale, night mode": {
+    "Layout, scale, night mode": ""
+  },
   "Layouts": {
     "Layouts": "Макети"
   },
@@ -4298,6 +4334,18 @@
   "Lines: %1": {
     "Lines: %1": "Рядків: %1"
   },
+  "Link your DMS settings so the login screen follows them.": {
+    "Link your DMS settings so the login screen follows them.": ""
+  },
+  "Link your DMS settings so the login screen follows them. Administrator access is required.": {
+    "Link your DMS settings so the login screen follows them. Administrator access is required.": ""
+  },
+  "Linked": {
+    "Linked": ""
+  },
+  "Linked as a snapshot": {
+    "Linked as a snapshot": ""
+  },
   "List": {
     "List": "Список"
   },
@@ -4375,6 +4423,9 @@
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Зовнішній вигляд екрана входу та автентифікація"
+  },
+  "Login screen unlinked.": {
+    "Login screen unlinked.": ""
   },
   "Long": {
     "Long": ""
@@ -4949,6 +5000,9 @@
   "Night mode & gamma": {
     "Night mode & gamma": "Нічний режим та гамма"
   },
+  "Night mode exceptions": {
+    "Night mode exceptions": ""
+  },
   "Night mode failed: DMS gamma control not available": {
     "Night mode failed: DMS gamma control not available": "Помилка нічного режиму: керування гаммою DMS недоступне"
   },
@@ -5077,6 +5131,9 @@
   },
   "No errors": {
     "No errors": "Помилок немає"
+  },
+  "No excluded apps configured": {
+    "No excluded apps configured": ""
   },
   "No excluded players configured": {
     "No excluded players configured": "Виключених програвачів не налаштовано"
@@ -5297,6 +5354,9 @@
   "Normal routing": {
     "Normal routing": "Звичайний маршрут"
   },
+  "Not active": {
+    "Not active": ""
+  },
   "Not available": {
     "Not available": "Недоступно"
   },
@@ -5320,6 +5380,12 @@
   },
   "Not detected": {
     "Not detected": "Не виявлено"
+  },
+  "Not installed": {
+    "Not installed": ""
+  },
+  "Not linked": {
+    "Not linked": ""
   },
   "Not set": {
     "Not set": "Не встановлено"
@@ -5446,9 +5512,6 @@
   },
   "Opacity": {
     "Opacity": "Непрозорість"
-  },
-  "Opacity, borders, blur, shadows, corners": {
-    "Opacity, borders, blur, shadows, corners": "Прозорість, межі, розмиття, тіні, кути"
   },
   "Opaque": {
     "Opaque": "Непрозорий"
@@ -5741,6 +5804,12 @@
   "Pause checks on battery": {
     "Pause checks on battery": ""
   },
+  "Pause night mode while a fullscreen window has focus": {
+    "Pause night mode while a fullscreen window has focus": ""
+  },
+  "Pause night mode while one of these apps has focus": {
+    "Pause night mode while one of these apps has focus": ""
+  },
   "Paused": {
     "Paused": "Призупинено"
   },
@@ -5960,6 +6029,9 @@
   "Position, pinned apps": {
     "Position, pinned apps": "Позиція закріплених програм"
   },
+  "Position, pinned apps, trash": {
+    "Position, pinned apps, trash": ""
+  },
   "Possible override conflicts": {
     "Possible override conflicts": "Можливі конфлікти замін"
   },
@@ -6019,6 +6091,9 @@
   },
   "Preset widths (%)": {
     "Preset widths (%)": "Типові ширини (%)"
+  },
+  "Press Apply changes to update the login screen": {
+    "Press Apply changes to update the login screen": ""
   },
   "Press Ctrl+N or click 'New Session' to create one": {
     "Press Ctrl+N or click 'New Session' to create one": "Натисніть Ctrl+N або «Нова сесія», щоб створити її"
@@ -6128,6 +6203,9 @@
   "Profile error": {
     "Profile error": "Помилка профілю"
   },
+  "Profile image": {
+    "Profile image": ""
+  },
   "Profile image is too large. Please use a smaller image.": {
     "Profile image is too large. Please use a smaller image.": "Зображення профілю завелике. Будь ласка, використайте менше зображення"
   },
@@ -6148,6 +6226,9 @@
   },
   "Profile saved: %1": {
     "Profile saved: %1": "Профіль збережено: %1"
+  },
+  "Profile sync failed.": {
+    "Profile sync failed.": ""
   },
   "Profiles": {
     "Profiles": "Профілі"
@@ -6214,6 +6295,9 @@
   },
   "Rate": {
     "Rate": "Швидкість"
+  },
+  "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": {
+    "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": ""
   },
   "Re-enter the password before saving.": {
     "Re-enter the password before saving.": "Повторно введіть пароль перед збереженням"
@@ -6572,6 +6656,9 @@
   "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": {
     "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": "Запустити зовнішню команду при кожній зміні шпалер і об'єднати її JSON-палітру в matugen під простором імен, щоб шаблони могли використовувати, наприклад, {{name.color0}}. Команда отримує шпалери як {image} / $DMS_WALLPAPER та режим як {mode} / $DMS_MODE"
   },
+  "Run full sync": {
+    "Run full sync": ""
+  },
   "Run user templates": {
     "Run user templates": "Запустити шаблони користувача"
   },
@@ -6896,6 +6983,9 @@
   "Server": {
     "Server": "Сервер"
   },
+  "Session": {
+    "Session": ""
+  },
   "Session filter": {
     "Session filter": "Фільтр сесії"
   },
@@ -6919,6 +7009,9 @@
   },
   "Set under Theme & colors, Derived color": {
     "Set under Theme & colors, Derived color": ""
+  },
+  "Set up": {
+    "Set up": ""
   },
   "Set up a Wi-Fi hotspot for sharing this connection.": {
     "Set up a Wi-Fi hotspot for sharing this connection.": "Налаштувати точку доступу Wi-Fi для спільного використання цього підключення"
@@ -6979,6 +7072,9 @@
   },
   "Shortcuts (%1)": {
     "Shortcuts (%1)": "Ярлики (%1)"
+  },
+  "Shortcuts, keyboard, mouse": {
+    "Shortcuts, keyboard, mouse": ""
   },
   "Shortens the bar at both ends": {
     "Shortens the bar at both ends": "Скорочує панель з обох кінців"
@@ -7274,6 +7370,9 @@
   "Soft square": {
     "Soft square": "М'який квадрат"
   },
+  "Software updates": {
+    "Software updates": ""
+  },
   "Software updates are ready to install.": {
     "Software updates are ready to install.": ""
   },
@@ -7421,6 +7520,9 @@
   "Stopping": {
     "Stopping": "Зупинка"
   },
+  "Stops syncing your DMS settings to the greeter. Set up links them again.": {
+    "Stops syncing your DMS settings to the greeter. Set up links them again.": ""
+  },
   "Stretch": {
     "Stretch": "Розтягнути"
   },
@@ -7433,8 +7535,8 @@
   "Style": {
     "Style": "Стиль"
   },
-  "Style, shortcuts, search, hidden apps": {
-    "Style, shortcuts, search, hidden apps": "Стиль, комбінації, пошук, приховані програми"
+  "Style, search, hidden apps": {
+    "Style, search, hidden apps": ""
   },
   "Success": {
     "Success": "Успішно"
@@ -7520,9 +7622,6 @@
   "Sync": {
     "Sync": "Синхронізація"
   },
-  "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": {
-    "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": "Синхронізація застосовує вашу тему та налаштування до екрана входу. Спільні користувачі мають запускати 'dms-greeter sync --profile' замість синхронізації основного користувача"
-  },
   "Sync completed successfully.": {
     "Sync completed successfully.": "Синхронізацію успішно завершено"
   },
@@ -7543,9 +7642,6 @@
   },
   "Sync position across displays": {
     "Sync position across displays": "Синхронізувати позицію між дисплеями"
-  },
-  "Sync to apply": {
-    "Sync to apply": "Синхронізуйте для застосування"
   },
   "Sync with portal": {
     "Sync with portal": "Синхронізувати з порталом"
@@ -7661,6 +7757,9 @@
   "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": {
     "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": "Невдалий запуск резервного терміналу. Встановіть один із підтримуваних емуляторів термінала або запустіть 'dms-greeter sync' вручну"
   },
+  "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": {
+    "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": ""
+  },
   "Terminal fallback opened. Complete authentication there; it will close automatically when done.": {
     "Terminal fallback opened. Complete authentication there; it will close automatically when done.": "Відкрито резервний термінал. Завершіть автентифікацію там; він закриється автоматично після завершення"
   },
@@ -7745,6 +7844,15 @@
   "The job queue of this printer is empty": {
     "The job queue of this printer is empty": "Черга завдань цього принтера порожня"
   },
+  "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": {
+    "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": ""
+  },
+  "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": {
+    "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": ""
+  },
+  "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": {
+    "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": ""
+  },
   "The new shortcut is already in use. Choose another shortcut.": {
     "The new shortcut is already in use. Choose another shortcut.": "Нова комбінація вже використовується. Виберіть іншу комбінацію"
   },
@@ -7802,6 +7910,9 @@
   "Theme, light and dark, matugen": {
     "Theme, light and dark, matugen": "Тема, світла та темна, matugen"
   },
+  "Theme, palette, dark mode": {
+    "Theme, palette, dark mode": ""
+  },
   "Themes": {
     "Themes": "Теми"
   },
@@ -7847,6 +7958,9 @@
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "Це розширення не має дозволу 'settings_write'.\n\nДодайте \"permissions\": [\"settings_read\", \"settings_write\"] до файлу plugin.json"
   },
+  "This system cannot link settings live. Sync again after changing them.": {
+    "This system cannot link settings live. Sync again after changing them.": ""
+  },
   "This system was not started in UEFI mode": {
     "This system was not started in UEFI mode": ""
   },
@@ -7879,6 +7993,9 @@
   },
   "Tile Vertically": {
     "Tile Vertically": "Розмістити по вертикалі"
+  },
+  "Tile color": {
+    "Tile color": "Колір плитки"
   },
   "Tiled": {
     "Tiled": "Плитковий режим"
@@ -8153,6 +8270,18 @@
   "Unknown Track": {
     "Unknown Track": "Невідомий трек"
   },
+  "Unlink": {
+    "Unlink": ""
+  },
+  "Unlink login screen": {
+    "Unlink login screen": ""
+  },
+  "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": {
+    "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": ""
+  },
+  "Unlink now?": {
+    "Unlink now?": ""
+  },
   "Unload on close": {
     "Unload on close": "Вивантажити при закритті"
   },
@@ -8233,6 +8362,9 @@
   },
   "Update the dms package with your package manager, then restart the shell.": {
     "Update the dms package with your package manager, then restart the shell.": ""
+  },
+  "Updates, clipboard, %1": {
+    "Updates, clipboard, %1": ""
   },
   "Updating %1...": {
     "Updating %1...": "Оновлення %1..."
@@ -8447,9 +8579,6 @@
   "Visibility": {
     "Visibility": "Видимість"
   },
-  "Visibility, position, pinned apps, trash": {
-    "Visibility, position, pinned apps, trash": "Видимість, позиція, закріплені програми, кошик"
-  },
   "Visible entry actions": {
     "Visible entry actions": "Дії для видимих записів"
   },
@@ -8477,8 +8606,8 @@
   "Volume style": {
     "Volume style": "Стиль гучності"
   },
-  "Volume, brightness, caps lock, position": {
-    "Volume, brightness, caps lock, position": "Гучність, яскравість, Caps Lock, позиція"
+  "Volume, brightness, caps lock": {
+    "Volume, brightness, caps lock": ""
   },
   "Votes": {
     "Votes": "Голоси"
@@ -8578,6 +8707,9 @@
   },
   "Wi-Fi not available": {
     "Wi-Fi not available": "Wi-Fi недоступний"
+  },
+  "Wi-Fi, Ethernet, VPN": {
+    "Wi-Fi, Ethernet, VPN": ""
   },
   "WiFi QR code for ": {
     "WiFi QR code for ": "QR-код Wi-Fi для "
@@ -8750,6 +8882,9 @@
   "Your compositor does not support background blur (ext-background-effect-v1)": {
     "Your compositor does not support background blur (ext-background-effect-v1)": "Ваш композитор не підтримує розмиття фону (ext-background-effect-v1)"
   },
+  "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": {
+    "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": ""
+  },
   "Your hotspot is running.": {
     "Your hotspot is running.": "Ваша точка доступу працює"
   },
@@ -8854,6 +8989,9 @@
   },
   "featured": {
     "featured": "рекомендоване"
+  },
+  "greetd is not using the DMS greeter yet.": {
+    "greetd is not using the DMS greeter yet.": ""
   },
   "keyboard tab key name": {
     "Tab": "Вкладка"

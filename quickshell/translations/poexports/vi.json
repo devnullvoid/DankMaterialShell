@@ -395,6 +395,9 @@
   "Add rule": {
     "Add rule": ""
   },
+  "Add shortcut": {
+    "Add shortcut": ""
+  },
   "Add substitution": {
     "Add substitution": ""
   },
@@ -416,8 +419,8 @@
   "Add, remove and configure dock items": {
     "Add, remove and configure dock items": "Thêm, xóa và định cấu hình các mục trên đế"
   },
-  "Add, remove, reorder and configure": {
-    "Add, remove, reorder and configure": "Thêm, xóa, sắp xếp lại và định cấu hình"
+  "Add, reorder, configure": {
+    "Add, reorder, configure": ""
   },
   "Added in front of every app launch command": {
     "Added in front of every app launch command": "Đã thêm vào trước mỗi lệnh khởi chạy ứng dụng"
@@ -434,8 +437,8 @@
   "Adds them to the %1 group so they can use sudo": {
     "Adds them to the %1 group so they can use sudo": "Thêm họ vào nhóm %1 để họ có thể sử dụng sudo"
   },
-  "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": {
-    "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": "Cần quyền truy cập Quản trị viên. Sử dụng nút Đồng bộ hóa trong Cài đặt → Greeter để áp dụng."
+  "Administrator access is required. Press Apply changes in Settings → Greeter.": {
+    "Administrator access is required. Press Apply changes in Settings → Greeter.": ""
   },
   "Advanced": {
     "Advanced": "Nâng cao"
@@ -631,9 +634,6 @@
   },
   "Applications and commands to start automatically when you log in": {
     "Applications and commands to start automatically when you log in": "Các ứng dụng và lệnh tự động khởi động khi bạn đăng nhập"
-  },
-  "Applies on the next greeter sync": {
-    "Applies on the next greeter sync": "Áp dụng trong lần đồng bộ hóa greeter tiếp theo"
   },
   "Applies the saved profile that matches the connected displays": {
     "Applies the saved profile that matches the connected displays": "Áp dụng cấu hình đã lưu phù hợp với màn hình được kết nối"
@@ -1073,6 +1073,9 @@
   "Blur on overview": {
     "Blur on overview": "Làm mờ trên Tổng quan"
   },
+  "Blur, shadows, corners": {
+    "Blur, shadows, corners": ""
+  },
   "Blurred surfaces show the wallpaper, not the windows beneath": {
     "Blurred surfaces show the wallpaper, not the windows beneath": "Bề mặt mờ hiển thị hình nền chứ không phải cửa sổ bên dưới"
   },
@@ -1177,6 +1180,9 @@
   },
   "Built-in plugins": {
     "Built-in plugins": "Các plugin tích hợp"
+  },
+  "Bundled greeter active": {
+    "Bundled greeter active": ""
   },
   "Button areas": {
     "Button areas": "Khu vực nút"
@@ -1502,8 +1508,11 @@
   "Clock, calendar, system info and profile": {
     "Clock, calendar, system info and profile": "Đồng hồ, lịch, thông tin hệ thống và hồ sơ"
   },
-  "Clocks, system monitors, plugins": {
-    "Clocks, system monitors, plugins": "Đồng hồ, màn hình hệ thống, plugin"
+  "Clock, weather, locale": {
+    "Clock, weather, locale": ""
+  },
+  "Clocks, monitors, plugins": {
+    "Clocks, monitors, plugins": ""
   },
   "Close All Windows": {
     "Close All Windows": "Đóng tất cả cửa sổ"
@@ -2117,6 +2126,9 @@
   "Default width (%)": {
     "Default width (%)": "Chiều rộng mặc định (%)"
   },
+  "Defaults, autostart, rules": {
+    "Defaults, autostart, rules": ""
+  },
   "Define rules for window behavior. Saves to %1": {
     "Define rules for window behavior. Saves to %1": "Định nghĩa các quy tắc cho hành vi cửa sổ. Lưu vào %1"
   },
@@ -2561,6 +2573,18 @@
   "Edit widgets": {
     "Edit widgets": "Chỉnh sửa tiện ích"
   },
+  "Editing the lock screen": {
+    "Editing the lock screen": ""
+  },
+  "Editing the lock screen, the login screen follows it": {
+    "Editing the lock screen, the login screen follows it": ""
+  },
+  "Editing the login screen": {
+    "Editing the login screen": ""
+  },
+  "Editing the login screen, shared with the lock screen": {
+    "Editing the login screen, shared with the lock screen": ""
+  },
   "Education": {
     "Education": "Giáo dục"
   },
@@ -2701,6 +2725,9 @@
   },
   "Exact": {
     "Exact": "Chính xác"
+  },
+  "Excluded apps": {
+    "Excluded apps": ""
   },
   "Excluded players": {
     "Excluded players": "Trình phát Bị loại trừ"
@@ -3029,9 +3056,6 @@
   "Family": {
     "Family": "Gia đình"
   },
-  "Family, weight, scale, animation speed": {
-    "Family, weight, scale, animation speed": "Gia đình, trọng lượng, quy mô, tốc độ hoạt hình"
-  },
   "Features": {
     "Features": "Tính năng"
   },
@@ -3221,6 +3245,9 @@
   "Follow focus": {
     "Follow focus": "Theo tiêu điểm"
   },
+  "Follow lock screen": {
+    "Follow lock screen": ""
+  },
   "Follow mouse": {
     "Follow mouse": "Theo dõi chuột"
   },
@@ -3244,6 +3271,9 @@
   },
   "Fonts & motion": {
     "Fonts & motion": "Phông chữ & chuyển động"
+  },
+  "Fonts, scale, animations": {
+    "Fonts, scale, animations": ""
   },
   "For %1": {
     "For %1": "Đối với %1"
@@ -3352,6 +3382,9 @@
   },
   "Fullscreen single column": {
     "Fullscreen single column": "Cột đơn toàn màn hình"
+  },
+  "Fullscreen windows": {
+    "Fullscreen windows": ""
   },
   "Fully Charged": {
     "Fully Charged": "Đã sạc đầy"
@@ -4214,6 +4247,9 @@
   "Layout, position, appearance": {
     "Layout, position, appearance": "Bố cục, vị trí, diện mạo"
   },
+  "Layout, scale, night mode": {
+    "Layout, scale, night mode": ""
+  },
   "Layouts": {
     "Layouts": "Bố cục"
   },
@@ -4298,6 +4334,18 @@
   "Lines: %1": {
     "Lines: %1": "Dòng: %1"
   },
+  "Link your DMS settings so the login screen follows them.": {
+    "Link your DMS settings so the login screen follows them.": ""
+  },
+  "Link your DMS settings so the login screen follows them. Administrator access is required.": {
+    "Link your DMS settings so the login screen follows them. Administrator access is required.": ""
+  },
+  "Linked": {
+    "Linked": ""
+  },
+  "Linked as a snapshot": {
+    "Linked as a snapshot": ""
+  },
   "List": {
     "List": "Danh sách"
   },
@@ -4375,6 +4423,9 @@
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Giao diện và xác thực màn hình đăng nhập"
+  },
+  "Login screen unlinked.": {
+    "Login screen unlinked.": ""
   },
   "Long": {
     "Long": ""
@@ -4949,6 +5000,9 @@
   "Night mode & gamma": {
     "Night mode & gamma": "Chế độ ban đêm & gamma"
   },
+  "Night mode exceptions": {
+    "Night mode exceptions": ""
+  },
   "Night mode failed: DMS gamma control not available": {
     "Night mode failed: DMS gamma control not available": "Chế độ ban đêm thất bại: Điều khiển gamma DMS không khả dụng"
   },
@@ -5077,6 +5131,9 @@
   },
   "No errors": {
     "No errors": "Không có lỗi"
+  },
+  "No excluded apps configured": {
+    "No excluded apps configured": ""
   },
   "No excluded players configured": {
     "No excluded players configured": "Không có trình phát bị loại trừ nào được cấu hình"
@@ -5297,6 +5354,9 @@
   "Normal routing": {
     "Normal routing": "Định tuyến bình thường"
   },
+  "Not active": {
+    "Not active": ""
+  },
   "Not available": {
     "Not available": "Không khả dụng"
   },
@@ -5320,6 +5380,12 @@
   },
   "Not detected": {
     "Not detected": "Không phát hiện được"
+  },
+  "Not installed": {
+    "Not installed": ""
+  },
+  "Not linked": {
+    "Not linked": ""
   },
   "Not set": {
     "Not set": "Chưa đặt"
@@ -5446,9 +5512,6 @@
   },
   "Opacity": {
     "Opacity": "Độ mờ"
-  },
-  "Opacity, borders, blur, shadows, corners": {
-    "Opacity, borders, blur, shadows, corners": "Độ mờ, đường viền, độ mờ, bóng, góc"
   },
   "Opaque": {
     "Opaque": "Đục (Không trong suốt)"
@@ -5741,6 +5804,12 @@
   "Pause checks on battery": {
     "Pause checks on battery": ""
   },
+  "Pause night mode while a fullscreen window has focus": {
+    "Pause night mode while a fullscreen window has focus": ""
+  },
+  "Pause night mode while one of these apps has focus": {
+    "Pause night mode while one of these apps has focus": ""
+  },
   "Paused": {
     "Paused": "Đã tạm dừng"
   },
@@ -5960,6 +6029,9 @@
   "Position, pinned apps": {
     "Position, pinned apps": "Vị trí, các ứng dụng đã ghim"
   },
+  "Position, pinned apps, trash": {
+    "Position, pinned apps, trash": ""
+  },
   "Possible override conflicts": {
     "Possible override conflicts": "Các xung đột ghi đè có thể xảy ra"
   },
@@ -6019,6 +6091,9 @@
   },
   "Preset widths (%)": {
     "Preset widths (%)": "Các chiều rộng đặt trước (%)"
+  },
+  "Press Apply changes to update the login screen": {
+    "Press Apply changes to update the login screen": ""
   },
   "Press Ctrl+N or click 'New Session' to create one": {
     "Press Ctrl+N or click 'New Session' to create one": "Nhấn Ctrl+N hoặc nhấp vào 'Phiên Mới' để tạo một phiên"
@@ -6128,6 +6203,9 @@
   "Profile error": {
     "Profile error": "Lỗi cấu hình"
   },
+  "Profile image": {
+    "Profile image": ""
+  },
   "Profile image is too large. Please use a smaller image.": {
     "Profile image is too large. Please use a smaller image.": "Hình ảnh hồ sơ quá lớn. Vui lòng sử dụng hình ảnh nhỏ hơn."
   },
@@ -6148,6 +6226,9 @@
   },
   "Profile saved: %1": {
     "Profile saved: %1": "Đã lưu cấu hình: %1"
+  },
+  "Profile sync failed.": {
+    "Profile sync failed.": ""
   },
   "Profiles": {
     "Profiles": "Hồ sơ"
@@ -6214,6 +6295,9 @@
   },
   "Rate": {
     "Rate": "Tỷ lệ / Tần số"
+  },
+  "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": {
+    "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": ""
   },
   "Re-enter the password before saving.": {
     "Re-enter the password before saving.": "Nhập lại mật khẩu trước khi lưu."
@@ -6572,6 +6656,9 @@
   "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": {
     "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": "Chạy lệnh bên ngoài trên mỗi lần thay đổi hình nền và hợp nhất bảng JSON của nó vào matugen trong một không gian tên để các mẫu có thể sử dụng, ví dụ: {{tên.color0}}. Lệnh nhận hình nền là {image} / $DMS_WALLPAPER và chế độ là {mode} / $DMS_MODE."
   },
+  "Run full sync": {
+    "Run full sync": ""
+  },
   "Run user templates": {
     "Run user templates": "Chạy mẫu người dùng"
   },
@@ -6896,6 +6983,9 @@
   "Server": {
     "Server": "Máy chủ"
   },
+  "Session": {
+    "Session": ""
+  },
   "Session filter": {
     "Session filter": "Bộ lọc phiên"
   },
@@ -6919,6 +7009,9 @@
   },
   "Set under Theme & colors, Derived color": {
     "Set under Theme & colors, Derived color": ""
+  },
+  "Set up": {
+    "Set up": ""
   },
   "Set up a Wi-Fi hotspot for sharing this connection.": {
     "Set up a Wi-Fi hotspot for sharing this connection.": "Thiết lập điểm phát sóng Wi-Fi để chia sẻ kết nối này."
@@ -6979,6 +7072,9 @@
   },
   "Shortcuts (%1)": {
     "Shortcuts (%1)": "Phím tắt (%1)"
+  },
+  "Shortcuts, keyboard, mouse": {
+    "Shortcuts, keyboard, mouse": ""
   },
   "Shortens the bar at both ends": {
     "Shortens the bar at both ends": "Rút ngắn thanh ở cả hai đầu"
@@ -7274,6 +7370,9 @@
   "Soft square": {
     "Soft square": "Hình vuông mềm"
   },
+  "Software updates": {
+    "Software updates": ""
+  },
   "Software updates are ready to install.": {
     "Software updates are ready to install.": ""
   },
@@ -7421,6 +7520,9 @@
   "Stopping": {
     "Stopping": "Đang dừng"
   },
+  "Stops syncing your DMS settings to the greeter. Set up links them again.": {
+    "Stops syncing your DMS settings to the greeter. Set up links them again.": ""
+  },
   "Stretch": {
     "Stretch": "Kéo giãn"
   },
@@ -7433,8 +7535,8 @@
   "Style": {
     "Style": "Kiểu dáng"
   },
-  "Style, shortcuts, search, hidden apps": {
-    "Style, shortcuts, search, hidden apps": "Kiểu, phím tắt, tìm kiếm, ứng dụng ẩn"
+  "Style, search, hidden apps": {
+    "Style, search, hidden apps": ""
   },
   "Success": {
     "Success": "Thành công"
@@ -7520,9 +7622,6 @@
   "Sync": {
     "Sync": "Đồng bộ"
   },
-  "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": {
-    "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": "Đồng bộ hóa áp dụng chủ đề và cài đặt của bạn vào màn hình đăng nhập. Những người dùng chia sẻ nên chạy dms-greeter sync --profile thay vì đồng bộ hóa người dùng chính."
-  },
   "Sync completed successfully.": {
     "Sync completed successfully.": "Đồng bộ hoàn tất thành công."
   },
@@ -7543,9 +7642,6 @@
   },
   "Sync position across displays": {
     "Sync position across displays": "Đồng bộ hóa vị trí trên các màn hình"
-  },
-  "Sync to apply": {
-    "Sync to apply": "Đồng bộ hóa để áp dụng"
   },
   "Sync with portal": {
     "Sync with portal": "Đồng bộ hóa với cổng thông tin"
@@ -7661,6 +7757,9 @@
   "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": {
     "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": "Fallback Terminal thất bại. Cài đặt một trong các trình giả lập terminal được hỗ trợ hoặc chạy 'dms-greeter sync' theo cách thủ công."
   },
+  "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": {
+    "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": ""
+  },
   "Terminal fallback opened. Complete authentication there; it will close automatically when done.": {
     "Terminal fallback opened. Complete authentication there; it will close automatically when done.": "Fallback Terminal đã mở. Hoàn tất xác thực ở đó; nó sẽ đóng tự động khi hoàn thành."
   },
@@ -7745,6 +7844,15 @@
   "The job queue of this printer is empty": {
     "The job queue of this printer is empty": "Hàng đợi công việc của máy in này trống"
   },
+  "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": {
+    "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": ""
+  },
+  "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": {
+    "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": ""
+  },
+  "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": {
+    "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": ""
+  },
   "The new shortcut is already in use. Choose another shortcut.": {
     "The new shortcut is already in use. Choose another shortcut.": "Phím tắt mới đã được sử dụng. Chọn một phím tắt khác."
   },
@@ -7802,6 +7910,9 @@
   "Theme, light and dark, matugen": {
     "Theme, light and dark, matugen": "Chủ đề, ánh sáng và bóng tối, matugen"
   },
+  "Theme, palette, dark mode": {
+    "Theme, palette, dark mode": ""
+  },
   "Themes": {
     "Themes": "Các chủ đề"
   },
@@ -7847,6 +7958,9 @@
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "Plugin này không có quyền 'settings_write'.\n\nHãy thêm \"permissions\": [\"settings_read\", \"settings_write\"] vào tệp plugin.json"
   },
+  "This system cannot link settings live. Sync again after changing them.": {
+    "This system cannot link settings live. Sync again after changing them.": ""
+  },
   "This system was not started in UEFI mode": {
     "This system was not started in UEFI mode": ""
   },
@@ -7879,6 +7993,9 @@
   },
   "Tile Vertically": {
     "Tile Vertically": "Gạch lát theo chiều dọc"
+  },
+  "Tile color": {
+    "Tile color": "Màu ngói"
   },
   "Tiled": {
     "Tiled": "Được xếp ô"
@@ -8153,6 +8270,18 @@
   "Unknown Track": {
     "Unknown Track": "Bài hát không xác định"
   },
+  "Unlink": {
+    "Unlink": ""
+  },
+  "Unlink login screen": {
+    "Unlink login screen": ""
+  },
+  "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": {
+    "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": ""
+  },
+  "Unlink now?": {
+    "Unlink now?": ""
+  },
   "Unload on close": {
     "Unload on close": "Giải phóng khi đóng"
   },
@@ -8233,6 +8362,9 @@
   },
   "Update the dms package with your package manager, then restart the shell.": {
     "Update the dms package with your package manager, then restart the shell.": ""
+  },
+  "Updates, clipboard, %1": {
+    "Updates, clipboard, %1": ""
   },
   "Updating %1...": {
     "Updating %1...": "Đang cập nhật %1..."
@@ -8447,9 +8579,6 @@
   "Visibility": {
     "Visibility": "Hiển thị"
   },
-  "Visibility, position, pinned apps, trash": {
-    "Visibility, position, pinned apps, trash": "Khả năng hiển thị, vị trí, ứng dụng được ghim, thùng rác"
-  },
   "Visible entry actions": {
     "Visible entry actions": "Hành động nhập có thể nhìn thấy"
   },
@@ -8477,8 +8606,8 @@
   "Volume style": {
     "Volume style": "Kiểu âm lượng"
   },
-  "Volume, brightness, caps lock, position": {
-    "Volume, brightness, caps lock, position": "Âm lượng, độ sáng, mũ khóa, vị trí"
+  "Volume, brightness, caps lock": {
+    "Volume, brightness, caps lock": ""
   },
   "Votes": {
     "Votes": "Phiếu bầu"
@@ -8578,6 +8707,9 @@
   },
   "Wi-Fi not available": {
     "Wi-Fi not available": "Wi-Fi không khả dụng"
+  },
+  "Wi-Fi, Ethernet, VPN": {
+    "Wi-Fi, Ethernet, VPN": ""
   },
   "WiFi QR code for ": {
     "WiFi QR code for ": "QR WiFi cho "
@@ -8750,6 +8882,9 @@
   "Your compositor does not support background blur (ext-background-effect-v1)": {
     "Your compositor does not support background blur (ext-background-effect-v1)": "Compositor của bạn không hỗ trợ làm mờ nền (ext-background-effect-v1)"
   },
+  "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": {
+    "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": ""
+  },
   "Your hotspot is running.": {
     "Your hotspot is running.": "Điểm nóng của bạn đang chạy."
   },
@@ -8854,6 +8989,9 @@
   },
   "featured": {
     "featured": "đặc sắc"
+  },
+  "greetd is not using the DMS greeter yet.": {
+    "greetd is not using the DMS greeter yet.": ""
   },
   "keyboard tab key name": {
     "Tab": "Tab"

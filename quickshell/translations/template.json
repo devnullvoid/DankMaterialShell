@@ -6496,6 +6496,13 @@
     "comment": "notification rule match type option"
   },
   {
+    "term": "Excluded apps",
+    "translation": "",
+    "context": "Excluded apps",
+    "reference": "",
+    "comment": "night mode exceptions: list of apps that pause night mode while focused"
+  },
+  {
     "term": "Excluded players",
     "translation": "",
     "context": "Excluded players",
@@ -8034,6 +8041,13 @@
     "context": "Fullscreen single column",
     "reference": "",
     "comment": "Hyprland scrolling layout toggle, a lone column fills the screen"
+  },
+  {
+    "term": "Fullscreen windows",
+    "translation": "",
+    "context": "Fullscreen windows",
+    "reference": "",
+    "comment": "night mode exceptions toggle: pause while a fullscreen window is focused"
   },
   {
     "term": "Fully Charged",
@@ -11900,6 +11914,13 @@
     "comment": "greeter feature card description"
   },
   {
+    "term": "Night mode exceptions",
+    "translation": "",
+    "context": "Night mode exceptions",
+    "reference": "",
+    "comment": "settings card title: windows and apps that pause night mode while focused"
+  },
+  {
     "term": "Night mode failed: DMS gamma control not available",
     "translation": "",
     "context": "Night mode failed: DMS gamma control not available",
@@ -12199,6 +12220,13 @@
     "context": "No errors",
     "reference": "",
     "comment": "greeter doctor page empty state"
+  },
+  {
+    "term": "No excluded apps configured",
+    "translation": "",
+    "context": "No excluded apps configured",
+    "reference": "",
+    "comment": "night mode exceptions empty list placeholder"
   },
   {
     "term": "No excluded players configured",
@@ -13802,6 +13830,20 @@
     "context": "Pause checks on battery",
     "reference": "",
     "comment": "software updates toggle, skip background checks on battery power"
+  },
+  {
+    "term": "Pause night mode while a fullscreen window has focus",
+    "translation": "",
+    "context": "Pause night mode while a fullscreen window has focus",
+    "reference": "",
+    "comment": "night mode exceptions toggle description"
+  },
+  {
+    "term": "Pause night mode while one of these apps has focus",
+    "translation": "",
+    "context": "Pause night mode while one of these apps has focus",
+    "reference": "",
+    "comment": "night mode excluded apps field description"
   },
   {
     "term": "Paused",
@@ -19929,11 +19971,11 @@
     "comment": "shown when the running shell is older than the installed dms binary"
   },
   {
-    "term": "Updates and clipboard",
+    "term": "Updates, clipboard, %1",
     "translation": "",
-    "context": "Updates and clipboard",
+    "context": "Updates, clipboard, %1",
     "reference": "",
-    "comment": "settings sidebar hint for the system and integrations page"
+    "comment": "settings sidebar hint for the system and integrations page, %1 is the compositor name"
   },
   {
     "term": "Updating %1...",

@@ -395,6 +395,9 @@
   "Add rule": {
     "Add rule": ""
   },
+  "Add shortcut": {
+    "Add shortcut": ""
+  },
   "Add substitution": {
     "Add substitution": ""
   },
@@ -416,8 +419,8 @@
   "Add, remove and configure dock items": {
     "Add, remove and configure dock items": "إضافة وإزالة وتكوين عناصر الشريط"
   },
-  "Add, remove, reorder and configure": {
-    "Add, remove, reorder and configure": "إضافة وإزالة وإعادة ترتيب وتكوين"
+  "Add, reorder, configure": {
+    "Add, reorder, configure": ""
   },
   "Added in front of every app launch command": {
     "Added in front of every app launch command": "تتم إضافته قبل كل أمر لتشغيل التطبيق"
@@ -434,8 +437,8 @@
   "Adds them to the %1 group so they can use sudo": {
     "Adds them to the %1 group so they can use sudo": "يضيفهم إلى مجموعة %1 حتى يتمكنوا من استخدام sudo"
   },
-  "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": {
-    "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": "مطلوب صلاحيات المسؤول. استخدم زر المزامنة في الإعدادات → Greeter للتطبيق."
+  "Administrator access is required. Press Apply changes in Settings → Greeter.": {
+    "Administrator access is required. Press Apply changes in Settings → Greeter.": ""
   },
   "Advanced": {
     "Advanced": "متقدم"
@@ -631,9 +634,6 @@
   },
   "Applications and commands to start automatically when you log in": {
     "Applications and commands to start automatically when you log in": "التطبيقات والأوامر التي تبدأ تلقائياً عند تسجيل الدخول"
-  },
-  "Applies on the next greeter sync": {
-    "Applies on the next greeter sync": "يُطبق عند مزامنة الgreeter التالية"
   },
   "Applies the saved profile that matches the connected displays": {
     "Applies the saved profile that matches the connected displays": "يُطبق الملف الشخصي المحفوظ الذي يتطابق مع الشاشات المتصلة"
@@ -1073,6 +1073,9 @@
   "Blur on overview": {
     "Blur on overview": "تمويه عند النظرة العامة"
   },
+  "Blur, shadows, corners": {
+    "Blur, shadows, corners": ""
+  },
   "Blurred surfaces show the wallpaper, not the windows beneath": {
     "Blurred surfaces show the wallpaper, not the windows beneath": "الأسطح المموهة تظهر خلفية الشاشة، وليس النوافذ الموجودة تحتها"
   },
@@ -1177,6 +1180,9 @@
   },
   "Built-in plugins": {
     "Built-in plugins": "الإضافات المدمجة"
+  },
+  "Bundled greeter active": {
+    "Bundled greeter active": ""
   },
   "Button areas": {
     "Button areas": "مناطق الأزرار"
@@ -1502,8 +1508,11 @@
   "Clock, calendar, system info and profile": {
     "Clock, calendar, system info and profile": "الساعة والتقويم ومعلومات النظام والملف الشخصي"
   },
-  "Clocks, system monitors, plugins": {
-    "Clocks, system monitors, plugins": "الساعات، مراقبات النظام، الملحقات"
+  "Clock, weather, locale": {
+    "Clock, weather, locale": ""
+  },
+  "Clocks, monitors, plugins": {
+    "Clocks, monitors, plugins": ""
   },
   "Close All Windows": {
     "Close All Windows": "إغلاق كل النوافذ"
@@ -2117,6 +2126,9 @@
   "Default width (%)": {
     "Default width (%)": "العرض الافتراضي (%)"
   },
+  "Defaults, autostart, rules": {
+    "Defaults, autostart, rules": ""
+  },
   "Define rules for window behavior. Saves to %1": {
     "Define rules for window behavior. Saves to %1": "تحديد قواعد لسلوك النافذة. يتم الحفظ في %1"
   },
@@ -2561,6 +2573,18 @@
   "Edit widgets": {
     "Edit widgets": "تحرير الواجهات"
   },
+  "Editing the lock screen": {
+    "Editing the lock screen": ""
+  },
+  "Editing the lock screen, the login screen follows it": {
+    "Editing the lock screen, the login screen follows it": ""
+  },
+  "Editing the login screen": {
+    "Editing the login screen": ""
+  },
+  "Editing the login screen, shared with the lock screen": {
+    "Editing the login screen, shared with the lock screen": ""
+  },
   "Education": {
     "Education": "تعليم"
   },
@@ -2701,6 +2725,9 @@
   },
   "Exact": {
     "Exact": "مطابق تماماً"
+  },
+  "Excluded apps": {
+    "Excluded apps": ""
   },
   "Excluded players": {
     "Excluded players": "المشغلات المستبعدة"
@@ -3029,9 +3056,6 @@
   "Family": {
     "Family": "العائلة"
   },
-  "Family, weight, scale, animation speed": {
-    "Family, weight, scale, animation speed": "العائلة، الوزن، الحجم، سرعة الرسوم المتحركة"
-  },
   "Features": {
     "Features": "الميزات"
   },
@@ -3221,6 +3245,9 @@
   "Follow focus": {
     "Follow focus": "متابعة التركيز"
   },
+  "Follow lock screen": {
+    "Follow lock screen": ""
+  },
   "Follow mouse": {
     "Follow mouse": "متابعة الفأرة"
   },
@@ -3244,6 +3271,9 @@
   },
   "Fonts & motion": {
     "Fonts & motion": "الخطوط والحركة"
+  },
+  "Fonts, scale, animations": {
+    "Fonts, scale, animations": ""
   },
   "For %1": {
     "For %1": "لـ %1"
@@ -3352,6 +3382,9 @@
   },
   "Fullscreen single column": {
     "Fullscreen single column": "عمود واحد بملء الشاشة"
+  },
+  "Fullscreen windows": {
+    "Fullscreen windows": ""
   },
   "Fully Charged": {
     "Fully Charged": "مشحون بالكامل"
@@ -4214,6 +4247,9 @@
   "Layout, position, appearance": {
     "Layout, position, appearance": "التخطيط، الموضع، المظهر"
   },
+  "Layout, scale, night mode": {
+    "Layout, scale, night mode": ""
+  },
   "Layouts": {
     "Layouts": "التخطيطات"
   },
@@ -4298,6 +4334,18 @@
   "Lines: %1": {
     "Lines: %1": "الأسطر: %1"
   },
+  "Link your DMS settings so the login screen follows them.": {
+    "Link your DMS settings so the login screen follows them.": ""
+  },
+  "Link your DMS settings so the login screen follows them. Administrator access is required.": {
+    "Link your DMS settings so the login screen follows them. Administrator access is required.": ""
+  },
+  "Linked": {
+    "Linked": ""
+  },
+  "Linked as a snapshot": {
+    "Linked as a snapshot": ""
+  },
   "List": {
     "List": "قائمة"
   },
@@ -4375,6 +4423,9 @@
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "مظهر شاشة تسجيل الدخول والمصادقة"
+  },
+  "Login screen unlinked.": {
+    "Login screen unlinked.": ""
   },
   "Long": {
     "Long": ""
@@ -4949,6 +5000,9 @@
   "Night mode & gamma": {
     "Night mode & gamma": "الوضع الليلي وحرارة الالوان"
   },
+  "Night mode exceptions": {
+    "Night mode exceptions": ""
+  },
   "Night mode failed: DMS gamma control not available": {
     "Night mode failed: DMS gamma control not available": "فشل الوضع الليلي: التحكم في حرارة الوان DMS غير متاح"
   },
@@ -5077,6 +5131,9 @@
   },
   "No errors": {
     "No errors": "لا توجد أخطاء"
+  },
+  "No excluded apps configured": {
+    "No excluded apps configured": ""
   },
   "No excluded players configured": {
     "No excluded players configured": "لم يتم تكوين مشغلات مستبعدة"
@@ -5297,6 +5354,9 @@
   "Normal routing": {
     "Normal routing": "التوجيه العادي"
   },
+  "Not active": {
+    "Not active": ""
+  },
   "Not available": {
     "Not available": "غير متاح"
   },
@@ -5320,6 +5380,12 @@
   },
   "Not detected": {
     "Not detected": "لم يتم الكشف عنه"
+  },
+  "Not installed": {
+    "Not installed": ""
+  },
+  "Not linked": {
+    "Not linked": ""
   },
   "Not set": {
     "Not set": "غير محدد"
@@ -5446,9 +5512,6 @@
   },
   "Opacity": {
     "Opacity": "الشفافية"
-  },
-  "Opacity, borders, blur, shadows, corners": {
-    "Opacity, borders, blur, shadows, corners": "الشفافية، الحدود، الضبابية، الظلال، الزوايا"
   },
   "Opaque": {
     "Opaque": "غير شفاف"
@@ -5741,6 +5804,12 @@
   "Pause checks on battery": {
     "Pause checks on battery": ""
   },
+  "Pause night mode while a fullscreen window has focus": {
+    "Pause night mode while a fullscreen window has focus": ""
+  },
+  "Pause night mode while one of these apps has focus": {
+    "Pause night mode while one of these apps has focus": ""
+  },
   "Paused": {
     "Paused": "متوقف"
   },
@@ -5960,6 +6029,9 @@
   "Position, pinned apps": {
     "Position, pinned apps": "الموضع، التطبيقات المثبتة"
   },
+  "Position, pinned apps, trash": {
+    "Position, pinned apps, trash": ""
+  },
   "Possible override conflicts": {
     "Possible override conflicts": "تعارضات التجاوز المحتملة"
   },
@@ -6019,6 +6091,9 @@
   },
   "Preset widths (%)": {
     "Preset widths (%)": "العروض المحددة مسبقًا (%)"
+  },
+  "Press Apply changes to update the login screen": {
+    "Press Apply changes to update the login screen": ""
   },
   "Press Ctrl+N or click 'New Session' to create one": {
     "Press Ctrl+N or click 'New Session' to create one": "اضغط Ctrl+N أو انقر على 'جلسة جديدة' لإنشاء واحدة"
@@ -6128,6 +6203,9 @@
   "Profile error": {
     "Profile error": "خطأ في ملف التعريف"
   },
+  "Profile image": {
+    "Profile image": ""
+  },
   "Profile image is too large. Please use a smaller image.": {
     "Profile image is too large. Please use a smaller image.": "صورة الملف الشخصي كبيرة جدًا. يرجى استخدام صورة بحجم أصغر."
   },
@@ -6148,6 +6226,9 @@
   },
   "Profile saved: %1": {
     "Profile saved: %1": "تم حفظ ملف التعريف: %1"
+  },
+  "Profile sync failed.": {
+    "Profile sync failed.": ""
   },
   "Profiles": {
     "Profiles": "ملفات التعريف"
@@ -6214,6 +6295,9 @@
   },
   "Rate": {
     "Rate": "المعدل"
+  },
+  "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": {
+    "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": ""
   },
   "Re-enter the password before saving.": {
     "Re-enter the password before saving.": "أعد إدخال كلمة المرور قبل الحفظ."
@@ -6572,6 +6656,9 @@
   "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": {
     "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": "تشغيل أمر خارجي عند كل تغيير للخلفية ودمج لوحة JSON الخاصة به في matugen تحت مساحة اسم، بحيث يمكن للقوالب استخدام على سبيل المثال {{name.color0}}. يستقبل الأمر الخلفية كـ {image} / $DMS_WALLPAPER والوضع كـ {mode} / $DMS_MODE."
   },
+  "Run full sync": {
+    "Run full sync": ""
+  },
   "Run user templates": {
     "Run user templates": "تشغيل قوالب المستخدم"
   },
@@ -6896,6 +6983,9 @@
   "Server": {
     "Server": "الخادم"
   },
+  "Session": {
+    "Session": ""
+  },
   "Session filter": {
     "Session filter": "عامل تصفية الجلسة"
   },
@@ -6919,6 +7009,9 @@
   },
   "Set under Theme & colors, Derived color": {
     "Set under Theme & colors, Derived color": ""
+  },
+  "Set up": {
+    "Set up": ""
   },
   "Set up a Wi-Fi hotspot for sharing this connection.": {
     "Set up a Wi-Fi hotspot for sharing this connection.": "إعداد نقطة اتصال Wi-Fi لمشاركة هذا الاتصال."
@@ -6979,6 +7072,9 @@
   },
   "Shortcuts (%1)": {
     "Shortcuts (%1)": "الاختصارات (%1)"
+  },
+  "Shortcuts, keyboard, mouse": {
+    "Shortcuts, keyboard, mouse": ""
   },
   "Shortens the bar at both ends": {
     "Shortens the bar at both ends": "يقصّر الشريط من كلا الطرفين"
@@ -7274,6 +7370,9 @@
   "Soft square": {
     "Soft square": "مربع ناعم"
   },
+  "Software updates": {
+    "Software updates": ""
+  },
   "Software updates are ready to install.": {
     "Software updates are ready to install.": ""
   },
@@ -7421,6 +7520,9 @@
   "Stopping": {
     "Stopping": "جاري الإيقاف"
   },
+  "Stops syncing your DMS settings to the greeter. Set up links them again.": {
+    "Stops syncing your DMS settings to the greeter. Set up links them again.": ""
+  },
   "Stretch": {
     "Stretch": "تمديد"
   },
@@ -7433,8 +7535,8 @@
   "Style": {
     "Style": "النمط"
   },
-  "Style, shortcuts, search, hidden apps": {
-    "Style, shortcuts, search, hidden apps": "النمط، الاختصارات، البحث، التطبيقات المخفية"
+  "Style, search, hidden apps": {
+    "Style, search, hidden apps": ""
   },
   "Success": {
     "Success": "نجاح"
@@ -7520,9 +7622,6 @@
   "Sync": {
     "Sync": "مزامنة"
   },
-  "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": {
-    "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": "يطبق Sync السمة والإعدادات الخاصة بك على شاشة تسجيل الدخول. يجب على المستخدمين المشتركين تشغيل dms-greeter sync --profile بدلاً من المزامنة للمستخدم الأساسي."
-  },
   "Sync completed successfully.": {
     "Sync completed successfully.": "تمت المزامنة بنجاح."
   },
@@ -7543,9 +7642,6 @@
   },
   "Sync position across displays": {
     "Sync position across displays": "مزامنة الموضع عبر الشاشات"
-  },
-  "Sync to apply": {
-    "Sync to apply": "مزامنة للتطبيق"
   },
   "Sync with portal": {
     "Sync with portal": "مزامنة مع البوابة"
@@ -7661,6 +7757,9 @@
   "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": {
     "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": "فشل الاحتياط للطرفية. قم بتثبيت أحد محاكيات الطرفية المدعومة أو قم بتشغيل 'dms-greeter sync' يدوياً."
   },
+  "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": {
+    "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": ""
+  },
   "Terminal fallback opened. Complete authentication there; it will close automatically when done.": {
     "Terminal fallback opened. Complete authentication there; it will close automatically when done.": "تم فتح الاحطياط للطرفية. أكمل المصادقة هناك؛ سيتم إغلاقه تلقائيًا عند الانتهاء."
   },
@@ -7745,6 +7844,15 @@
   "The job queue of this printer is empty": {
     "The job queue of this printer is empty": "قائمة مهام هذه الطابعة فارغة"
   },
+  "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": {
+    "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": ""
+  },
+  "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": {
+    "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": ""
+  },
+  "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": {
+    "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": ""
+  },
   "The new shortcut is already in use. Choose another shortcut.": {
     "The new shortcut is already in use. Choose another shortcut.": "الاختصار الجديد مستخدم بالفعل. اختر اختصاراً آخر."
   },
@@ -7802,6 +7910,9 @@
   "Theme, light and dark, matugen": {
     "Theme, light and dark, matugen": "السمات، فاتح وداكن، matugen"
   },
+  "Theme, palette, dark mode": {
+    "Theme, palette, dark mode": ""
+  },
   "Themes": {
     "Themes": "السمات"
   },
@@ -7847,6 +7958,9 @@
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "هذه الإضافة لا تملك إذن 'settings_write'. أضف \"permissions\": [\"settings_read\", \"settings_write\"] إلى ملف plugin.json"
   },
+  "This system cannot link settings live. Sync again after changing them.": {
+    "This system cannot link settings live. Sync again after changing them.": ""
+  },
   "This system was not started in UEFI mode": {
     "This system was not started in UEFI mode": ""
   },
@@ -7879,6 +7993,9 @@
   },
   "Tile Vertically": {
     "Tile Vertically": "تجانب رأسياً"
+  },
+  "Tile color": {
+    "Tile color": "لون البلاطة"
   },
   "Tiled": {
     "Tiled": "مُبلّط"
@@ -8153,6 +8270,18 @@
   "Unknown Track": {
     "Unknown Track": "مسار غير معروف"
   },
+  "Unlink": {
+    "Unlink": ""
+  },
+  "Unlink login screen": {
+    "Unlink login screen": ""
+  },
+  "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": {
+    "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": ""
+  },
+  "Unlink now?": {
+    "Unlink now?": ""
+  },
   "Unload on close": {
     "Unload on close": "إلغاء التحميل عند الإغلاق"
   },
@@ -8233,6 +8362,9 @@
   },
   "Update the dms package with your package manager, then restart the shell.": {
     "Update the dms package with your package manager, then restart the shell.": ""
+  },
+  "Updates, clipboard, %1": {
+    "Updates, clipboard, %1": ""
   },
   "Updating %1...": {
     "Updating %1...": "جاري تحديث %1..."
@@ -8447,9 +8579,6 @@
   "Visibility": {
     "Visibility": "الظهور"
   },
-  "Visibility, position, pinned apps, trash": {
-    "Visibility, position, pinned apps, trash": "الرؤية، الموضع، التطبيقات المثبتة، سلة المهملات"
-  },
   "Visible entry actions": {
     "Visible entry actions": "إجراءات الإدخال المرئية"
   },
@@ -8477,8 +8606,8 @@
   "Volume style": {
     "Volume style": "نمط مستوى الصوت"
   },
-  "Volume, brightness, caps lock, position": {
-    "Volume, brightness, caps lock, position": "مستوى الصوت، السطوع، قفل الأحرف الكبيرة، الموضع"
+  "Volume, brightness, caps lock": {
+    "Volume, brightness, caps lock": ""
   },
   "Votes": {
     "Votes": "الأصوات"
@@ -8578,6 +8707,9 @@
   },
   "Wi-Fi not available": {
     "Wi-Fi not available": "شبكة Wi-Fi غير متاحة"
+  },
+  "Wi-Fi, Ethernet, VPN": {
+    "Wi-Fi, Ethernet, VPN": ""
   },
   "WiFi QR code for ": {
     "WiFi QR code for ": "رمز QR لشبكة WiFi لـ "
@@ -8750,6 +8882,9 @@
   "Your compositor does not support background blur (ext-background-effect-v1)": {
     "Your compositor does not support background blur (ext-background-effect-v1)": "مدير النوافذ الخاص بك لا يدعم ميزة تخبيش الخلفية (ext-background-effect-v1)"
   },
+  "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": {
+    "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": ""
+  },
   "Your hotspot is running.": {
     "Your hotspot is running.": "نقطة الاتصال الخاصة بك قيد التشغيل."
   },
@@ -8854,6 +8989,9 @@
   },
   "featured": {
     "featured": "مميز"
+  },
+  "greetd is not using the DMS greeter yet.": {
+    "greetd is not using the DMS greeter yet.": ""
   },
   "keyboard tab key name": {
     "Tab": "Tab"

@@ -395,6 +395,9 @@
   "Add rule": {
     "Add rule": ""
   },
+  "Add shortcut": {
+    "Add shortcut": ""
+  },
   "Add substitution": {
     "Add substitution": ""
   },
@@ -416,8 +419,8 @@
   "Add, remove and configure dock items": {
     "Add, remove and configure dock items": "הוספה, הסרה והגדרה של פריטים מהDock"
   },
-  "Add, remove, reorder and configure": {
-    "Add, remove, reorder and configure": "הוספה, הסרה, שינוי סדר והגדרה"
+  "Add, reorder, configure": {
+    "Add, reorder, configure": ""
   },
   "Added in front of every app launch command": {
     "Added in front of every app launch command": "נוסף לפני כל פקודת הפעלה של אפליקציה"
@@ -434,8 +437,8 @@
   "Adds them to the %1 group so they can use sudo": {
     "Adds them to the %1 group so they can use sudo": "מוסיף את המשתמש/ת לקבוצה %1 כדי לאפשר שימוש בsudo"
   },
-  "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": {
-    "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": "נדרשת גישת מנהל מערכת. השתמש/י בכפתור 'סנכרון' תחת הגדרות → מסך ההתחברות כדי להחיל."
+  "Administrator access is required. Press Apply changes in Settings → Greeter.": {
+    "Administrator access is required. Press Apply changes in Settings → Greeter.": ""
   },
   "Advanced": {
     "Advanced": "מתקדם"
@@ -631,9 +634,6 @@
   },
   "Applications and commands to start automatically when you log in": {
     "Applications and commands to start automatically when you log in": "אפליקציות ופקודות שיופעלו אוטומטית בעת ההתחברות"
-  },
-  "Applies on the next greeter sync": {
-    "Applies on the next greeter sync": "יוחל בסנכרון הבא של מסך ההתחברות"
   },
   "Applies the saved profile that matches the connected displays": {
     "Applies the saved profile that matches the connected displays": "מחיל את הפרופיל השמור שתואם למסכים המחוברים"
@@ -1073,6 +1073,9 @@
   "Blur on overview": {
     "Blur on overview": "טשטוש בסקירה"
   },
+  "Blur, shadows, corners": {
+    "Blur, shadows, corners": ""
+  },
   "Blurred surfaces show the wallpaper, not the windows beneath": {
     "Blurred surfaces show the wallpaper, not the windows beneath": "משטחים מטושטשים מציגים את תמונת הרקע, ולא את החלונות שמתחתיהם"
   },
@@ -1177,6 +1180,9 @@
   },
   "Built-in plugins": {
     "Built-in plugins": "תוספים מובנים"
+  },
+  "Bundled greeter active": {
+    "Bundled greeter active": ""
   },
   "Button areas": {
     "Button areas": "אזורי כפתורים"
@@ -1502,8 +1508,11 @@
   "Clock, calendar, system info and profile": {
     "Clock, calendar, system info and profile": "שעון, יומן, מידע מערכת ופרופיל"
   },
-  "Clocks, system monitors, plugins": {
-    "Clocks, system monitors, plugins": "שעונים, צגי מערכת ותוספים"
+  "Clock, weather, locale": {
+    "Clock, weather, locale": ""
+  },
+  "Clocks, monitors, plugins": {
+    "Clocks, monitors, plugins": ""
   },
   "Close All Windows": {
     "Close All Windows": "סגור/י את כל החלונות"
@@ -2117,6 +2126,9 @@
   "Default width (%)": {
     "Default width (%)": "רוחב ברירת מחדל (%)"
   },
+  "Defaults, autostart, rules": {
+    "Defaults, autostart, rules": ""
+  },
   "Define rules for window behavior. Saves to %1": {
     "Define rules for window behavior. Saves to %1": "הגדר/י חוקים להתנהגות חלון. נשמר ב%1"
   },
@@ -2561,6 +2573,18 @@
   "Edit widgets": {
     "Edit widgets": "עריכת ווידג׳טים"
   },
+  "Editing the lock screen": {
+    "Editing the lock screen": ""
+  },
+  "Editing the lock screen, the login screen follows it": {
+    "Editing the lock screen, the login screen follows it": ""
+  },
+  "Editing the login screen": {
+    "Editing the login screen": ""
+  },
+  "Editing the login screen, shared with the lock screen": {
+    "Editing the login screen, shared with the lock screen": ""
+  },
   "Education": {
     "Education": "חינוך"
   },
@@ -2701,6 +2725,9 @@
   },
   "Exact": {
     "Exact": "מדויק"
+  },
+  "Excluded apps": {
+    "Excluded apps": ""
   },
   "Excluded players": {
     "Excluded players": "נגנים שלא נכללים"
@@ -3029,9 +3056,6 @@
   "Family": {
     "Family": "משפחת הגופן"
   },
-  "Family, weight, scale, animation speed": {
-    "Family, weight, scale, animation speed": "משפחה, משקל, קנה מידה ומהירות אנימציה"
-  },
   "Features": {
     "Features": "תכונות"
   },
@@ -3221,6 +3245,9 @@
   "Follow focus": {
     "Follow focus": "עקוב/י אחר מיקוד"
   },
+  "Follow lock screen": {
+    "Follow lock screen": ""
+  },
   "Follow mouse": {
     "Follow mouse": "עקוב/י אחר העכבר"
   },
@@ -3244,6 +3271,9 @@
   },
   "Fonts & motion": {
     "Fonts & motion": "גופנים ותנועה"
+  },
+  "Fonts, scale, animations": {
+    "Fonts, scale, animations": ""
   },
   "For %1": {
     "For %1": "למשך %1"
@@ -3352,6 +3382,9 @@
   },
   "Fullscreen single column": {
     "Fullscreen single column": "עמודה יחידה במסך מלא"
+  },
+  "Fullscreen windows": {
+    "Fullscreen windows": ""
   },
   "Fully Charged": {
     "Fully Charged": "טעונה במלואה"
@@ -4214,6 +4247,9 @@
   "Layout, position, appearance": {
     "Layout, position, appearance": "פריסה, מיקום ומראה"
   },
+  "Layout, scale, night mode": {
+    "Layout, scale, night mode": ""
+  },
   "Layouts": {
     "Layouts": "פריסות"
   },
@@ -4298,6 +4334,18 @@
   "Lines: %1": {
     "Lines: %1": "שורות: %1"
   },
+  "Link your DMS settings so the login screen follows them.": {
+    "Link your DMS settings so the login screen follows them.": ""
+  },
+  "Link your DMS settings so the login screen follows them. Administrator access is required.": {
+    "Link your DMS settings so the login screen follows them. Administrator access is required.": ""
+  },
+  "Linked": {
+    "Linked": ""
+  },
+  "Linked as a snapshot": {
+    "Linked as a snapshot": ""
+  },
   "List": {
     "List": "רשימה"
   },
@@ -4375,6 +4423,9 @@
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "מראה מסך ההתחברות ואימות"
+  },
+  "Login screen unlinked.": {
+    "Login screen unlinked.": ""
   },
   "Long": {
     "Long": ""
@@ -4949,6 +5000,9 @@
   "Night mode & gamma": {
     "Night mode & gamma": "מצב לילה וגאמה"
   },
+  "Night mode exceptions": {
+    "Night mode exceptions": ""
+  },
   "Night mode failed: DMS gamma control not available": {
     "Night mode failed: DMS gamma control not available": "מצב לילה נכשל: בקרת גאמה של DMS אינה זמינה"
   },
@@ -5077,6 +5131,9 @@
   },
   "No errors": {
     "No errors": "אין שגיאות"
+  },
+  "No excluded apps configured": {
+    "No excluded apps configured": ""
   },
   "No excluded players configured": {
     "No excluded players configured": "לא הוגדרו נגנים שלא נכללים"
@@ -5297,6 +5354,9 @@
   "Normal routing": {
     "Normal routing": "ניתוב רגיל"
   },
+  "Not active": {
+    "Not active": ""
+  },
   "Not available": {
     "Not available": "לא זמינה"
   },
@@ -5320,6 +5380,12 @@
   },
   "Not detected": {
     "Not detected": "לא זוהה"
+  },
+  "Not installed": {
+    "Not installed": ""
+  },
+  "Not linked": {
+    "Not linked": ""
   },
   "Not set": {
     "Not set": "לא מוגדר"
@@ -5446,9 +5512,6 @@
   },
   "Opacity": {
     "Opacity": "שקיפות"
-  },
-  "Opacity, borders, blur, shadows, corners": {
-    "Opacity, borders, blur, shadows, corners": "שקיפות, מסגרות, טשטוש, צללים ופינות"
   },
   "Opaque": {
     "Opaque": "אטום"
@@ -5741,6 +5804,12 @@
   "Pause checks on battery": {
     "Pause checks on battery": ""
   },
+  "Pause night mode while a fullscreen window has focus": {
+    "Pause night mode while a fullscreen window has focus": ""
+  },
+  "Pause night mode while one of these apps has focus": {
+    "Pause night mode while one of these apps has focus": ""
+  },
   "Paused": {
     "Paused": "מושהה"
   },
@@ -5960,6 +6029,9 @@
   "Position, pinned apps": {
     "Position, pinned apps": "מיקום, אפליקציות מוצמדות"
   },
+  "Position, pinned apps, trash": {
+    "Position, pinned apps, trash": ""
+  },
   "Possible override conflicts": {
     "Possible override conflicts": "קונפליקטים אפשריים של דריסה"
   },
@@ -6019,6 +6091,9 @@
   },
   "Preset widths (%)": {
     "Preset widths (%)": "רוחבים מוגדרים מראש (%)"
+  },
+  "Press Apply changes to update the login screen": {
+    "Press Apply changes to update the login screen": ""
   },
   "Press Ctrl+N or click 'New Session' to create one": {
     "Press Ctrl+N or click 'New Session' to create one": "לחץ/י על Ctrl+N או על הכפתור 'הפעלה חדשה' כדי ליצור אחת"
@@ -6128,6 +6203,9 @@
   "Profile error": {
     "Profile error": "שגיאת פרופיל"
   },
+  "Profile image": {
+    "Profile image": ""
+  },
   "Profile image is too large. Please use a smaller image.": {
     "Profile image is too large. Please use a smaller image.": "תמונת הפרופיל גדולה מדי. נא להשתמש בתמונה קטנה יותר."
   },
@@ -6148,6 +6226,9 @@
   },
   "Profile saved: %1": {
     "Profile saved: %1": "פרופיל נשמר: %1"
+  },
+  "Profile sync failed.": {
+    "Profile sync failed.": ""
   },
   "Profiles": {
     "Profiles": "פרופילים"
@@ -6214,6 +6295,9 @@
   },
   "Rate": {
     "Rate": "קצב"
+  },
+  "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": {
+    "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": ""
   },
   "Re-enter the password before saving.": {
     "Re-enter the password before saving.": "הזן/י את הסיסמה מחדש לפני השמירה."
@@ -6572,6 +6656,9 @@
   "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": {
     "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": "הרץ/י פקודה חיצונית בכל שינוי של תמונת הרקע ומזג/י את פלטת הJSON שלה לתוך matugen תחת מרחב שמות, כדי שתבניות יוכלו להשתמש, לדוגמה, ב{{name.color0}}. הפקודה מקבלת את תמונת הרקע בתור {image} / $DMS_WALLPAPER ואת המצב בתור {mode} / $DMS_MODE."
   },
+  "Run full sync": {
+    "Run full sync": ""
+  },
   "Run user templates": {
     "Run user templates": "הרץ/י תבניות משתמש"
   },
@@ -6896,6 +6983,9 @@
   "Server": {
     "Server": "שרת"
   },
+  "Session": {
+    "Session": ""
+  },
   "Session filter": {
     "Session filter": "מסנן הפעלות"
   },
@@ -6919,6 +7009,9 @@
   },
   "Set under Theme & colors, Derived color": {
     "Set under Theme & colors, Derived color": ""
+  },
+  "Set up": {
+    "Set up": ""
   },
   "Set up a Wi-Fi hotspot for sharing this connection.": {
     "Set up a Wi-Fi hotspot for sharing this connection.": "הגדר/י נקודה חמה של WiFi כדי לשתף את החיבור הזה."
@@ -6979,6 +7072,9 @@
   },
   "Shortcuts (%1)": {
     "Shortcuts (%1)": "קיצורי דרך (%1)"
+  },
+  "Shortcuts, keyboard, mouse": {
+    "Shortcuts, keyboard, mouse": ""
   },
   "Shortens the bar at both ends": {
     "Shortens the bar at both ends": "מקצר את הסרגל בשני קצותיו"
@@ -7274,6 +7370,9 @@
   "Soft square": {
     "Soft square": "ריבוע רך"
   },
+  "Software updates": {
+    "Software updates": ""
+  },
   "Software updates are ready to install.": {
     "Software updates are ready to install.": ""
   },
@@ -7421,6 +7520,9 @@
   "Stopping": {
     "Stopping": "עוצר"
   },
+  "Stops syncing your DMS settings to the greeter. Set up links them again.": {
+    "Stops syncing your DMS settings to the greeter. Set up links them again.": ""
+  },
   "Stretch": {
     "Stretch": "מתיחה"
   },
@@ -7433,8 +7535,8 @@
   "Style": {
     "Style": "סגנון"
   },
-  "Style, shortcuts, search, hidden apps": {
-    "Style, shortcuts, search, hidden apps": "סגנון, קיצורי דרך, חיפוש ואפליקציות מוסתרות"
+  "Style, search, hidden apps": {
+    "Style, search, hidden apps": ""
   },
   "Success": {
     "Success": "הצלחה"
@@ -7520,9 +7622,6 @@
   "Sync": {
     "Sync": "סנכרון"
   },
-  "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": {
-    "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": "הסנכרון מחיל את ערכת הנושא וההגדרות שלך על מסך ההתחברות. משתמשים משותפים צריכים להריץ dms-greeter sync --profile במקום סנכרון של המשתמש הראשי."
-  },
   "Sync completed successfully.": {
     "Sync completed successfully.": "הסנכרון הושלם בהצלחה."
   },
@@ -7543,9 +7642,6 @@
   },
   "Sync position across displays": {
     "Sync position across displays": "סנכרון מיקום בין מסכים"
-  },
-  "Sync to apply": {
-    "Sync to apply": "הרץ/י סנכרון כדי להחיל"
   },
   "Sync with portal": {
     "Sync with portal": "סנכרון עם הפורטל"
@@ -7661,6 +7757,9 @@
   "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": {
     "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": "המעבר למסוף כגיבוי נכשל. התקן/י את אחד מיישומי המסוף הנתמכים או הרץ/י את הפקודה 'dms-greeter sync' באופן ידני."
   },
+  "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": {
+    "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": ""
+  },
   "Terminal fallback opened. Complete authentication there; it will close automatically when done.": {
     "Terminal fallback opened. Complete authentication there; it will close automatically when done.": "נפתח מסוף כגיבוי. השלם/י את האימות שם; הוא ייסגר אוטומטית בסיום."
   },
@@ -7745,6 +7844,15 @@
   "The job queue of this printer is empty": {
     "The job queue of this printer is empty": "תור ההדפסה של מדפסת זו ריק"
   },
+  "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": {
+    "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": ""
+  },
+  "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": {
+    "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": ""
+  },
+  "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": {
+    "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": ""
+  },
   "The new shortcut is already in use. Choose another shortcut.": {
     "The new shortcut is already in use. Choose another shortcut.": "קיצור הדרך החדש כבר נמצא בשימוש. בחר/י קיצור דרך אחר."
   },
@@ -7802,6 +7910,9 @@
   "Theme, light and dark, matugen": {
     "Theme, light and dark, matugen": "ערכת נושא, מצב בהיר וכהה ו-matugen"
   },
+  "Theme, palette, dark mode": {
+    "Theme, palette, dark mode": ""
+  },
   "Themes": {
     "Themes": "ערכות נושא"
   },
@@ -7847,6 +7958,9 @@
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "לתוסף זה אין הרשאת 'settings_write'.\n\nהוסף/י \"permissions\": [\"settings_read\", \"settings_write\"] ל-plugin.json"
   },
+  "This system cannot link settings live. Sync again after changing them.": {
+    "This system cannot link settings live. Sync again after changing them.": ""
+  },
   "This system was not started in UEFI mode": {
     "This system was not started in UEFI mode": ""
   },
@@ -7879,6 +7993,9 @@
   },
   "Tile Vertically": {
     "Tile Vertically": "ריצוף אנכי"
+  },
+  "Tile color": {
+    "Tile color": "צבע אריח"
   },
   "Tiled": {
     "Tiled": "באריחים"
@@ -8153,6 +8270,18 @@
   "Unknown Track": {
     "Unknown Track": "רצועה לא ידועה"
   },
+  "Unlink": {
+    "Unlink": ""
+  },
+  "Unlink login screen": {
+    "Unlink login screen": ""
+  },
+  "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": {
+    "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": ""
+  },
+  "Unlink now?": {
+    "Unlink now?": ""
+  },
   "Unload on close": {
     "Unload on close": "פריקה בעת הסגירה"
   },
@@ -8233,6 +8362,9 @@
   },
   "Update the dms package with your package manager, then restart the shell.": {
     "Update the dms package with your package manager, then restart the shell.": ""
+  },
+  "Updates, clipboard, %1": {
+    "Updates, clipboard, %1": ""
   },
   "Updating %1...": {
     "Updating %1...": "מעדכן את %1..."
@@ -8447,9 +8579,6 @@
   "Visibility": {
     "Visibility": "נראות"
   },
-  "Visibility, position, pinned apps, trash": {
-    "Visibility, position, pinned apps, trash": "נראות, מיקום, אפליקציות מוצמדות ואשפה"
-  },
   "Visible entry actions": {
     "Visible entry actions": "פעולות רשומה גלויות"
   },
@@ -8477,8 +8606,8 @@
   "Volume style": {
     "Volume style": "סגנון עוצמת השמע"
   },
-  "Volume, brightness, caps lock, position": {
-    "Volume, brightness, caps lock, position": "עוצמת קול, בהירות, Caps Lock ומיקום"
+  "Volume, brightness, caps lock": {
+    "Volume, brightness, caps lock": ""
   },
   "Votes": {
     "Votes": "הצבעות"
@@ -8578,6 +8707,9 @@
   },
   "Wi-Fi not available": {
     "Wi-Fi not available": "Wi-Fi אינו זמין"
+  },
+  "Wi-Fi, Ethernet, VPN": {
+    "Wi-Fi, Ethernet, VPN": ""
   },
   "WiFi QR code for ": {
     "WiFi QR code for ": "קוד QR לרשת הWiFi "
@@ -8750,6 +8882,9 @@
   "Your compositor does not support background blur (ext-background-effect-v1)": {
     "Your compositor does not support background blur (ext-background-effect-v1)": "הקומפוזיטור שלך אינו תומך בטשטוש רקע (ext-background-effect-v1)"
   },
+  "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": {
+    "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": ""
+  },
   "Your hotspot is running.": {
     "Your hotspot is running.": "הנקודה החמה שלך פעילה."
   },
@@ -8854,6 +8989,9 @@
   },
   "featured": {
     "featured": "מומלץ"
+  },
+  "greetd is not using the DMS greeter yet.": {
+    "greetd is not using the DMS greeter yet.": ""
   },
   "keyboard tab key name": {
     "Tab": "טאב"

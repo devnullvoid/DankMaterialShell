@@ -395,6 +395,9 @@
   "Add rule": {
     "Add rule": ""
   },
+  "Add shortcut": {
+    "Add shortcut": ""
+  },
   "Add substitution": {
     "Add substitution": ""
   },
@@ -416,8 +419,8 @@
   "Add, remove and configure dock items": {
     "Add, remove and configure dock items": "Aggiungi, rimuovi e configura gli elementi del dock"
   },
-  "Add, remove, reorder and configure": {
-    "Add, remove, reorder and configure": "Aggiungi, rimuovi, riordina e configura"
+  "Add, reorder, configure": {
+    "Add, reorder, configure": ""
   },
   "Added in front of every app launch command": {
     "Added in front of every app launch command": "Aggiunto davanti a ogni comando di avvio delle app"
@@ -434,8 +437,8 @@
   "Adds them to the %1 group so they can use sudo": {
     "Adds them to the %1 group so they can use sudo": "Li aggiunge al gruppo %1 così possono usare sudo"
   },
-  "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": {
-    "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": "È richiesto l'accesso come amministratore. Usa il pulsante Sincronizza in Impostazioni → Greeter per applicare."
+  "Administrator access is required. Press Apply changes in Settings → Greeter.": {
+    "Administrator access is required. Press Apply changes in Settings → Greeter.": ""
   },
   "Advanced": {
     "Advanced": "Avanzate"
@@ -631,9 +634,6 @@
   },
   "Applications and commands to start automatically when you log in": {
     "Applications and commands to start automatically when you log in": "Applicazioni e comandi da avviare automaticamente all'accesso"
-  },
-  "Applies on the next greeter sync": {
-    "Applies on the next greeter sync": "Verrà applicato alla prossima sincronizzazione del greeter"
   },
   "Applies the saved profile that matches the connected displays": {
     "Applies the saved profile that matches the connected displays": "Applica il profilo salvato che corrisponde agli schermi connessi"
@@ -1073,6 +1073,9 @@
   "Blur on overview": {
     "Blur on overview": "Sfocatura nella panoramica"
   },
+  "Blur, shadows, corners": {
+    "Blur, shadows, corners": ""
+  },
   "Blurred surfaces show the wallpaper, not the windows beneath": {
     "Blurred surfaces show the wallpaper, not the windows beneath": "Le superfici sfocate mostrano lo sfondo, non le finestre sottostanti"
   },
@@ -1177,6 +1180,9 @@
   },
   "Built-in plugins": {
     "Built-in plugins": "Plugin integrati"
+  },
+  "Bundled greeter active": {
+    "Bundled greeter active": ""
   },
   "Button areas": {
     "Button areas": "Aree dei pulsanti"
@@ -1502,8 +1508,11 @@
   "Clock, calendar, system info and profile": {
     "Clock, calendar, system info and profile": "Orologio, calendario, informazioni di sistema e profilo"
   },
-  "Clocks, system monitors, plugins": {
-    "Clocks, system monitors, plugins": "Orologi, monitor di sistema, plugin"
+  "Clock, weather, locale": {
+    "Clock, weather, locale": ""
+  },
+  "Clocks, monitors, plugins": {
+    "Clocks, monitors, plugins": ""
   },
   "Close All Windows": {
     "Close All Windows": "Chiudi tutte le finestre"
@@ -2117,6 +2126,9 @@
   "Default width (%)": {
     "Default width (%)": "Larghezza predefinita (%)"
   },
+  "Defaults, autostart, rules": {
+    "Defaults, autostart, rules": ""
+  },
   "Define rules for window behavior. Saves to %1": {
     "Define rules for window behavior. Saves to %1": "Definisci le regole per il comportamento delle finestre. Salvataggio in %1."
   },
@@ -2561,6 +2573,18 @@
   "Edit widgets": {
     "Edit widgets": "Modifica widget"
   },
+  "Editing the lock screen": {
+    "Editing the lock screen": ""
+  },
+  "Editing the lock screen, the login screen follows it": {
+    "Editing the lock screen, the login screen follows it": ""
+  },
+  "Editing the login screen": {
+    "Editing the login screen": ""
+  },
+  "Editing the login screen, shared with the lock screen": {
+    "Editing the login screen, shared with the lock screen": ""
+  },
   "Education": {
     "Education": "Istruzione"
   },
@@ -2701,6 +2725,9 @@
   },
   "Exact": {
     "Exact": "Esatto"
+  },
+  "Excluded apps": {
+    "Excluded apps": ""
   },
   "Excluded players": {
     "Excluded players": "Lettori esclusi"
@@ -3029,9 +3056,6 @@
   "Family": {
     "Family": "Famiglia"
   },
-  "Family, weight, scale, animation speed": {
-    "Family, weight, scale, animation speed": "Famiglia, peso, scala, velocità animazione"
-  },
   "Features": {
     "Features": "Funzionalità"
   },
@@ -3221,6 +3245,9 @@
   "Follow focus": {
     "Follow focus": "Segui il focus"
   },
+  "Follow lock screen": {
+    "Follow lock screen": ""
+  },
   "Follow mouse": {
     "Follow mouse": "Segui il mouse"
   },
@@ -3244,6 +3271,9 @@
   },
   "Fonts & motion": {
     "Fonts & motion": "Font e animazioni"
+  },
+  "Fonts, scale, animations": {
+    "Fonts, scale, animations": ""
   },
   "For %1": {
     "For %1": "Per %1"
@@ -3352,6 +3382,9 @@
   },
   "Fullscreen single column": {
     "Fullscreen single column": "Colonna singola a schermo intero"
+  },
+  "Fullscreen windows": {
+    "Fullscreen windows": ""
   },
   "Fully Charged": {
     "Fully Charged": "Carica completa"
@@ -4214,6 +4247,9 @@
   "Layout, position, appearance": {
     "Layout, position, appearance": "Layout, posizione, aspetto"
   },
+  "Layout, scale, night mode": {
+    "Layout, scale, night mode": ""
+  },
   "Layouts": {
     "Layouts": "Layout"
   },
@@ -4298,6 +4334,18 @@
   "Lines: %1": {
     "Lines: %1": "Righe: %1"
   },
+  "Link your DMS settings so the login screen follows them.": {
+    "Link your DMS settings so the login screen follows them.": ""
+  },
+  "Link your DMS settings so the login screen follows them. Administrator access is required.": {
+    "Link your DMS settings so the login screen follows them. Administrator access is required.": ""
+  },
+  "Linked": {
+    "Linked": ""
+  },
+  "Linked as a snapshot": {
+    "Linked as a snapshot": ""
+  },
   "List": {
     "List": "Elenco"
   },
@@ -4375,6 +4423,9 @@
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "Aspetto della schermata di accesso e autenticazione"
+  },
+  "Login screen unlinked.": {
+    "Login screen unlinked.": ""
   },
   "Long": {
     "Long": ""
@@ -4949,6 +5000,9 @@
   "Night mode & gamma": {
     "Night mode & gamma": "Modalità notturna e gamma"
   },
+  "Night mode exceptions": {
+    "Night mode exceptions": ""
+  },
   "Night mode failed: DMS gamma control not available": {
     "Night mode failed: DMS gamma control not available": "Modalità notturna non riuscita: controllo gamma DMS non disponibile"
   },
@@ -5077,6 +5131,9 @@
   },
   "No errors": {
     "No errors": "Nessun errore"
+  },
+  "No excluded apps configured": {
+    "No excluded apps configured": ""
   },
   "No excluded players configured": {
     "No excluded players configured": "Nessun lettore escluso configurato"
@@ -5297,6 +5354,9 @@
   "Normal routing": {
     "Normal routing": "Routing normale"
   },
+  "Not active": {
+    "Not active": ""
+  },
   "Not available": {
     "Not available": "Non disponibile"
   },
@@ -5320,6 +5380,12 @@
   },
   "Not detected": {
     "Not detected": "Non rilevato"
+  },
+  "Not installed": {
+    "Not installed": ""
+  },
+  "Not linked": {
+    "Not linked": ""
   },
   "Not set": {
     "Not set": "Non impostato"
@@ -5446,9 +5512,6 @@
   },
   "Opacity": {
     "Opacity": "Opacità"
-  },
-  "Opacity, borders, blur, shadows, corners": {
-    "Opacity, borders, blur, shadows, corners": "Opacità, bordi, sfocatura, ombre, angoli"
   },
   "Opaque": {
     "Opaque": "Opaco"
@@ -5741,6 +5804,12 @@
   "Pause checks on battery": {
     "Pause checks on battery": ""
   },
+  "Pause night mode while a fullscreen window has focus": {
+    "Pause night mode while a fullscreen window has focus": ""
+  },
+  "Pause night mode while one of these apps has focus": {
+    "Pause night mode while one of these apps has focus": ""
+  },
   "Paused": {
     "Paused": "In Pausa"
   },
@@ -5960,6 +6029,9 @@
   "Position, pinned apps": {
     "Position, pinned apps": "Posizione, app fissate"
   },
+  "Position, pinned apps, trash": {
+    "Position, pinned apps, trash": ""
+  },
   "Possible override conflicts": {
     "Possible override conflicts": "Possibili conflitti di sovrascrittura"
   },
@@ -6019,6 +6091,9 @@
   },
   "Preset widths (%)": {
     "Preset widths (%)": "Larghezze predefinite (%)"
+  },
+  "Press Apply changes to update the login screen": {
+    "Press Apply changes to update the login screen": ""
   },
   "Press Ctrl+N or click 'New Session' to create one": {
     "Press Ctrl+N or click 'New Session' to create one": "Premi Ctrl+N o fai clic su \"Nuova Sessione\" per crearne una"
@@ -6128,6 +6203,9 @@
   "Profile error": {
     "Profile error": "Errore profilo"
   },
+  "Profile image": {
+    "Profile image": ""
+  },
   "Profile image is too large. Please use a smaller image.": {
     "Profile image is too large. Please use a smaller image.": "La foto profilo è troppo grande. Usa un'immagine più piccola."
   },
@@ -6148,6 +6226,9 @@
   },
   "Profile saved: %1": {
     "Profile saved: %1": "Profilo salvato: %1"
+  },
+  "Profile sync failed.": {
+    "Profile sync failed.": ""
   },
   "Profiles": {
     "Profiles": "Profili"
@@ -6214,6 +6295,9 @@
   },
   "Rate": {
     "Rate": "Velocità"
+  },
+  "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": {
+    "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": ""
   },
   "Re-enter the password before saving.": {
     "Re-enter the password before saving.": "Reinserisci la password prima di salvare."
@@ -6572,6 +6656,9 @@
   "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": {
     "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": "Esegue un comando esterno a ogni cambio di sfondo e unisce la sua palette JSON in matugen sotto un namespace, in modo che i template possano usare ad es. {{name.color0}}. Il comando riceve lo sfondo come {image} / $DMS_WALLPAPER e la modalità come {mode} / $DMS_MODE."
   },
+  "Run full sync": {
+    "Run full sync": ""
+  },
   "Run user templates": {
     "Run user templates": "Esegui template utente"
   },
@@ -6896,6 +6983,9 @@
   "Server": {
     "Server": "Server"
   },
+  "Session": {
+    "Session": ""
+  },
   "Session filter": {
     "Session filter": "Filtro sessioni"
   },
@@ -6919,6 +7009,9 @@
   },
   "Set under Theme & colors, Derived color": {
     "Set under Theme & colors, Derived color": ""
+  },
+  "Set up": {
+    "Set up": ""
   },
   "Set up a Wi-Fi hotspot for sharing this connection.": {
     "Set up a Wi-Fi hotspot for sharing this connection.": "Configura un hotspot Wi-Fi per condividere questa connessione."
@@ -6979,6 +7072,9 @@
   },
   "Shortcuts (%1)": {
     "Shortcuts (%1)": "Scorciatoie (%1)"
+  },
+  "Shortcuts, keyboard, mouse": {
+    "Shortcuts, keyboard, mouse": ""
   },
   "Shortens the bar at both ends": {
     "Shortens the bar at both ends": "Accorcia la barra a entrambe le estremità"
@@ -7274,6 +7370,9 @@
   "Soft square": {
     "Soft square": "Quadrato morbido"
   },
+  "Software updates": {
+    "Software updates": ""
+  },
   "Software updates are ready to install.": {
     "Software updates are ready to install.": ""
   },
@@ -7421,6 +7520,9 @@
   "Stopping": {
     "Stopping": "In Arresto"
   },
+  "Stops syncing your DMS settings to the greeter. Set up links them again.": {
+    "Stops syncing your DMS settings to the greeter. Set up links them again.": ""
+  },
   "Stretch": {
     "Stretch": "Estendi"
   },
@@ -7433,8 +7535,8 @@
   "Style": {
     "Style": "Stile"
   },
-  "Style, shortcuts, search, hidden apps": {
-    "Style, shortcuts, search, hidden apps": "Stile, scorciatoie, ricerca, app nascoste"
+  "Style, search, hidden apps": {
+    "Style, search, hidden apps": ""
   },
   "Success": {
     "Success": "Operazione riuscita"
@@ -7520,9 +7622,6 @@
   "Sync": {
     "Sync": "Sincronizza"
   },
-  "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": {
-    "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": "La sincronizzazione applica tema e impostazioni personali alla schermata di accesso. Gli utenti condivisi dovrebbero eseguire dms-greeter sync --profile invece di una sincronizzazione dell'utente principale."
-  },
   "Sync completed successfully.": {
     "Sync completed successfully.": "Sincronizzazione completata correttamente."
   },
@@ -7543,9 +7642,6 @@
   },
   "Sync position across displays": {
     "Sync position across displays": "Sincronizza posizione tra gli schermi"
-  },
-  "Sync to apply": {
-    "Sync to apply": "Sincronizza per applicare"
   },
   "Sync with portal": {
     "Sync with portal": "Sincronizza con portal"
@@ -7661,6 +7757,9 @@
   "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": {
     "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": "Avvio del terminale di ripiego non riuscito. Installa uno degli emulatori di terminale supportati o esegui manualmente \"dms-greeter sync\"."
   },
+  "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": {
+    "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": ""
+  },
   "Terminal fallback opened. Complete authentication there; it will close automatically when done.": {
     "Terminal fallback opened. Complete authentication there; it will close automatically when done.": "Terminale di ripiego aperto. Completa lì l'autenticazione; si chiuderà automaticamente al termine."
   },
@@ -7745,6 +7844,15 @@
   "The job queue of this printer is empty": {
     "The job queue of this printer is empty": "La coda di stampa di questa stampante è vuota"
   },
+  "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": {
+    "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": ""
+  },
+  "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": {
+    "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": ""
+  },
+  "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": {
+    "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": ""
+  },
   "The new shortcut is already in use. Choose another shortcut.": {
     "The new shortcut is already in use. Choose another shortcut.": "La nuova scorciatoia è già in uso. Scegli un'altra scorciatoia."
   },
@@ -7802,6 +7910,9 @@
   "Theme, light and dark, matugen": {
     "Theme, light and dark, matugen": "Tema, chiaro e scuro, matugen"
   },
+  "Theme, palette, dark mode": {
+    "Theme, palette, dark mode": ""
+  },
   "Themes": {
     "Themes": "Temi"
   },
@@ -7847,6 +7958,9 @@
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "Questo plugin non ha il permesso \"settings_write\".\n\nAggiungi \"permissions\": [\"settings_read\", \"settings_write\"] al plugin.json"
   },
+  "This system cannot link settings live. Sync again after changing them.": {
+    "This system cannot link settings live. Sync again after changing them.": ""
+  },
   "This system was not started in UEFI mode": {
     "This system was not started in UEFI mode": ""
   },
@@ -7879,6 +7993,9 @@
   },
   "Tile Vertically": {
     "Tile Vertically": "Affianca verticalmente"
+  },
+  "Tile color": {
+    "Tile color": "Colore riquadro"
   },
   "Tiled": {
     "Tiled": "Affiancato"
@@ -8153,6 +8270,18 @@
   "Unknown Track": {
     "Unknown Track": "Traccia sconosciuta"
   },
+  "Unlink": {
+    "Unlink": ""
+  },
+  "Unlink login screen": {
+    "Unlink login screen": ""
+  },
+  "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": {
+    "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": ""
+  },
+  "Unlink now?": {
+    "Unlink now?": ""
+  },
   "Unload on close": {
     "Unload on close": "Scarica alla chiusura"
   },
@@ -8233,6 +8362,9 @@
   },
   "Update the dms package with your package manager, then restart the shell.": {
     "Update the dms package with your package manager, then restart the shell.": ""
+  },
+  "Updates, clipboard, %1": {
+    "Updates, clipboard, %1": ""
   },
   "Updating %1...": {
     "Updating %1...": "Aggiornamento di %1..."
@@ -8447,9 +8579,6 @@
   "Visibility": {
     "Visibility": "Visibilità"
   },
-  "Visibility, position, pinned apps, trash": {
-    "Visibility, position, pinned apps, trash": "Visibilità, posizione, app fissate, cestino"
-  },
   "Visible entry actions": {
     "Visible entry actions": "Azioni visibili della voce"
   },
@@ -8477,8 +8606,8 @@
   "Volume style": {
     "Volume style": "Stile del volume"
   },
-  "Volume, brightness, caps lock, position": {
-    "Volume, brightness, caps lock, position": "Volume, luminosità, Blocco Maiuscole, posizione"
+  "Volume, brightness, caps lock": {
+    "Volume, brightness, caps lock": ""
   },
   "Votes": {
     "Votes": "Voti"
@@ -8578,6 +8707,9 @@
   },
   "Wi-Fi not available": {
     "Wi-Fi not available": "Wi-Fi non disponibile"
+  },
+  "Wi-Fi, Ethernet, VPN": {
+    "Wi-Fi, Ethernet, VPN": ""
   },
   "WiFi QR code for ": {
     "WiFi QR code for ": "Codice QR Wi-Fi per "
@@ -8750,6 +8882,9 @@
   "Your compositor does not support background blur (ext-background-effect-v1)": {
     "Your compositor does not support background blur (ext-background-effect-v1)": "Il tuo compositor non supporta la sfocatura dello sfondo (ext-background-effect-v1)"
   },
+  "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": {
+    "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": ""
+  },
   "Your hotspot is running.": {
     "Your hotspot is running.": "Il tuo hotspot è in esecuzione."
   },
@@ -8854,6 +8989,9 @@
   },
   "featured": {
     "featured": "in primo piano"
+  },
+  "greetd is not using the DMS greeter yet.": {
+    "greetd is not using the DMS greeter yet.": ""
   },
   "keyboard tab key name": {
     "Tab": "Scheda"

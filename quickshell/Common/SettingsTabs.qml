@@ -553,7 +553,7 @@ Singleton {
             "id": "system",
             "text": I18n.tr("System & integrations"),
             "icon": "memory",
-            "hint": I18n.tr("Updates and clipboard", "settings sidebar hint for the system and integrations page"),
+            "hint": I18n.tr("Updates, clipboard, %1", "settings sidebar hint for the system and integrations page, %1 is the compositor name").arg(CompositorService.displayName),
             "children": [
                 {
                     "id": "updater",

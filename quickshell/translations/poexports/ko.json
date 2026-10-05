@@ -395,6 +395,9 @@
   "Add rule": {
     "Add rule": ""
   },
+  "Add shortcut": {
+    "Add shortcut": ""
+  },
   "Add substitution": {
     "Add substitution": ""
   },
@@ -416,8 +419,8 @@
   "Add, remove and configure dock items": {
     "Add, remove and configure dock items": "독 항목 추가, 제거 및 구성"
   },
-  "Add, remove, reorder and configure": {
-    "Add, remove, reorder and configure": "추가, 제거, 순서 변경 및 구성"
+  "Add, reorder, configure": {
+    "Add, reorder, configure": ""
   },
   "Added in front of every app launch command": {
     "Added in front of every app launch command": ""
@@ -434,8 +437,8 @@
   "Adds them to the %1 group so they can use sudo": {
     "Adds them to the %1 group so they can use sudo": "%1 그룹에 추가하여 sudo를 사용할 수 있게 합니다"
   },
-  "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": {
-    "Administrator access is required. Use the Sync button in Settings → Greeter to apply.": "관리자 권한이 필요합니다. 적용하려면 설정 → Greeter에서 동기화 버튼을 사용하세요."
+  "Administrator access is required. Press Apply changes in Settings → Greeter.": {
+    "Administrator access is required. Press Apply changes in Settings → Greeter.": ""
   },
   "Advanced": {
     "Advanced": "고급"
@@ -631,9 +634,6 @@
   },
   "Applications and commands to start automatically when you log in": {
     "Applications and commands to start automatically when you log in": "로그인할 때 자동으로 시작할 애플리케이션 및 명령"
-  },
-  "Applies on the next greeter sync": {
-    "Applies on the next greeter sync": "다음 로그인 화면 동기화 시 적용됩니다"
   },
   "Applies the saved profile that matches the connected displays": {
     "Applies the saved profile that matches the connected displays": ""
@@ -1073,6 +1073,9 @@
   "Blur on overview": {
     "Blur on overview": "개요 화면에서 흐림 효과"
   },
+  "Blur, shadows, corners": {
+    "Blur, shadows, corners": ""
+  },
   "Blurred surfaces show the wallpaper, not the windows beneath": {
     "Blurred surfaces show the wallpaper, not the windows beneath": "흐림 처리된 표면에는 아래 창이 아니라 배경화면이 표시됩니다"
   },
@@ -1177,6 +1180,9 @@
   },
   "Built-in plugins": {
     "Built-in plugins": "내장 플러그인"
+  },
+  "Bundled greeter active": {
+    "Bundled greeter active": ""
   },
   "Button areas": {
     "Button areas": "버튼 영역"
@@ -1502,8 +1508,11 @@
   "Clock, calendar, system info and profile": {
     "Clock, calendar, system info and profile": "시계, 달력, 시스템 정보 및 프로필"
   },
-  "Clocks, system monitors, plugins": {
-    "Clocks, system monitors, plugins": "시계, 시스템 모니터, 플러그인"
+  "Clock, weather, locale": {
+    "Clock, weather, locale": ""
+  },
+  "Clocks, monitors, plugins": {
+    "Clocks, monitors, plugins": ""
   },
   "Close All Windows": {
     "Close All Windows": "모든 창 닫기"
@@ -2117,6 +2126,9 @@
   "Default width (%)": {
     "Default width (%)": "기본 너비(%)"
   },
+  "Defaults, autostart, rules": {
+    "Defaults, autostart, rules": ""
+  },
   "Define rules for window behavior. Saves to %1": {
     "Define rules for window behavior. Saves to %1": "창 동작 규칙을 정의합니다. %1에 저장됩니다."
   },
@@ -2561,6 +2573,18 @@
   "Edit widgets": {
     "Edit widgets": "위젯 편집"
   },
+  "Editing the lock screen": {
+    "Editing the lock screen": ""
+  },
+  "Editing the lock screen, the login screen follows it": {
+    "Editing the lock screen, the login screen follows it": ""
+  },
+  "Editing the login screen": {
+    "Editing the login screen": ""
+  },
+  "Editing the login screen, shared with the lock screen": {
+    "Editing the login screen, shared with the lock screen": ""
+  },
   "Education": {
     "Education": "교육"
   },
@@ -2701,6 +2725,9 @@
   },
   "Exact": {
     "Exact": "정확히 일치"
+  },
+  "Excluded apps": {
+    "Excluded apps": ""
   },
   "Excluded players": {
     "Excluded players": "제외된 플레이어"
@@ -3029,9 +3056,6 @@
   "Family": {
     "Family": "글꼴 패밀리"
   },
-  "Family, weight, scale, animation speed": {
-    "Family, weight, scale, animation speed": "글꼴 패밀리, 굵기, 배율, 애니메이션 속도"
-  },
   "Features": {
     "Features": "기능"
   },
@@ -3221,6 +3245,9 @@
   "Follow focus": {
     "Follow focus": "포커스 따르기"
   },
+  "Follow lock screen": {
+    "Follow lock screen": ""
+  },
   "Follow mouse": {
     "Follow mouse": "마우스 따라가기"
   },
@@ -3244,6 +3271,9 @@
   },
   "Fonts & motion": {
     "Fonts & motion": "글꼴 및 모션"
+  },
+  "Fonts, scale, animations": {
+    "Fonts, scale, animations": ""
   },
   "For %1": {
     "For %1": "%1 동안"
@@ -3352,6 +3382,9 @@
   },
   "Fullscreen single column": {
     "Fullscreen single column": "단일 열 전체 화면"
+  },
+  "Fullscreen windows": {
+    "Fullscreen windows": ""
   },
   "Fully Charged": {
     "Fully Charged": "충전 완료"
@@ -4214,6 +4247,9 @@
   "Layout, position, appearance": {
     "Layout, position, appearance": "레이아웃, 위치, 모양"
   },
+  "Layout, scale, night mode": {
+    "Layout, scale, night mode": ""
+  },
   "Layouts": {
     "Layouts": "레이아웃"
   },
@@ -4298,6 +4334,18 @@
   "Lines: %1": {
     "Lines: %1": "줄 수: %1"
   },
+  "Link your DMS settings so the login screen follows them.": {
+    "Link your DMS settings so the login screen follows them.": ""
+  },
+  "Link your DMS settings so the login screen follows them. Administrator access is required.": {
+    "Link your DMS settings so the login screen follows them. Administrator access is required.": ""
+  },
+  "Linked": {
+    "Linked": ""
+  },
+  "Linked as a snapshot": {
+    "Linked as a snapshot": ""
+  },
   "List": {
     "List": "목록"
   },
@@ -4375,6 +4423,9 @@
   },
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "로그인 화면 모양 및 인증"
+  },
+  "Login screen unlinked.": {
+    "Login screen unlinked.": ""
   },
   "Long": {
     "Long": ""
@@ -4949,6 +5000,9 @@
   "Night mode & gamma": {
     "Night mode & gamma": "야간 모드 및 감마"
   },
+  "Night mode exceptions": {
+    "Night mode exceptions": ""
+  },
   "Night mode failed: DMS gamma control not available": {
     "Night mode failed: DMS gamma control not available": "야간 모드 실패: DMS 감마 제어를 사용할 수 없음"
   },
@@ -5077,6 +5131,9 @@
   },
   "No errors": {
     "No errors": "오류 없음"
+  },
+  "No excluded apps configured": {
+    "No excluded apps configured": ""
   },
   "No excluded players configured": {
     "No excluded players configured": "구성된 제외 플레이어 없음"
@@ -5297,6 +5354,9 @@
   "Normal routing": {
     "Normal routing": "일반 연결"
   },
+  "Not active": {
+    "Not active": ""
+  },
   "Not available": {
     "Not available": "사용할 수 없음"
   },
@@ -5320,6 +5380,12 @@
   },
   "Not detected": {
     "Not detected": "감지되지 않음"
+  },
+  "Not installed": {
+    "Not installed": ""
+  },
+  "Not linked": {
+    "Not linked": ""
   },
   "Not set": {
     "Not set": "설정되지 않음"
@@ -5446,9 +5512,6 @@
   },
   "Opacity": {
     "Opacity": "불투명도"
-  },
-  "Opacity, borders, blur, shadows, corners": {
-    "Opacity, borders, blur, shadows, corners": "불투명도, 테두리, 블러, 그림자, 모서리"
   },
   "Opaque": {
     "Opaque": "불투명"
@@ -5741,6 +5804,12 @@
   "Pause checks on battery": {
     "Pause checks on battery": ""
   },
+  "Pause night mode while a fullscreen window has focus": {
+    "Pause night mode while a fullscreen window has focus": ""
+  },
+  "Pause night mode while one of these apps has focus": {
+    "Pause night mode while one of these apps has focus": ""
+  },
   "Paused": {
     "Paused": "일시 중지됨"
   },
@@ -5960,6 +6029,9 @@
   "Position, pinned apps": {
     "Position, pinned apps": "위치, 고정된 앱"
   },
+  "Position, pinned apps, trash": {
+    "Position, pinned apps, trash": ""
+  },
   "Possible override conflicts": {
     "Possible override conflicts": "오버라이드 충돌 가능성"
   },
@@ -6019,6 +6091,9 @@
   },
   "Preset widths (%)": {
     "Preset widths (%)": "사전 설정 너비(%)"
+  },
+  "Press Apply changes to update the login screen": {
+    "Press Apply changes to update the login screen": ""
   },
   "Press Ctrl+N or click 'New Session' to create one": {
     "Press Ctrl+N or click 'New Session' to create one": "Ctrl+N을 누르거나 '새 세션'을 클릭하여 생성하세요"
@@ -6128,6 +6203,9 @@
   "Profile error": {
     "Profile error": "프로필 오류"
   },
+  "Profile image": {
+    "Profile image": ""
+  },
   "Profile image is too large. Please use a smaller image.": {
     "Profile image is too large. Please use a smaller image.": "프로필 이미지가 너무 큽니다. 더 작은 이미지를 사용하세요."
   },
@@ -6148,6 +6226,9 @@
   },
   "Profile saved: %1": {
     "Profile saved: %1": "프로필 저장됨: %1"
+  },
+  "Profile sync failed.": {
+    "Profile sync failed.": ""
   },
   "Profiles": {
     "Profiles": "프로필"
@@ -6214,6 +6295,9 @@
   },
   "Rate": {
     "Rate": "속도"
+  },
+  "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": {
+    "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.": ""
   },
   "Re-enter the password before saving.": {
     "Re-enter the password before saving.": "저장하기 전에 비밀번호를 다시 입력하세요."
@@ -6572,6 +6656,9 @@
   "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": {
     "Run an external command on each wallpaper change and merge its JSON palette into matugen under a namespace, so templates can use e.g. {{name.color0}}. The command receives the wallpaper as {image} / $DMS_WALLPAPER and the mode as {mode} / $DMS_MODE.": "배경화면이 바뀔 때마다 외부 명령을 실행하고, 출력된 JSON 팔레트를 지정된 네임스페이스로 matugen에 병합하여 템플릿에서 {{name.color0}} 등을 사용할 수 있게 합니다. 명령에는 배경화면이 {image} / $DMS_WALLPAPER로, 모드가 {mode} / $DMS_MODE로 전달됩니다."
   },
+  "Run full sync": {
+    "Run full sync": ""
+  },
   "Run user templates": {
     "Run user templates": "사용자 템플릿 실행"
   },
@@ -6896,6 +6983,9 @@
   "Server": {
     "Server": "서버"
   },
+  "Session": {
+    "Session": ""
+  },
   "Session filter": {
     "Session filter": "세션 필터"
   },
@@ -6919,6 +7009,9 @@
   },
   "Set under Theme & colors, Derived color": {
     "Set under Theme & colors, Derived color": ""
+  },
+  "Set up": {
+    "Set up": ""
   },
   "Set up a Wi-Fi hotspot for sharing this connection.": {
     "Set up a Wi-Fi hotspot for sharing this connection.": "이 연결을 공유할 Wi-Fi 핫스팟을 설정합니다."
@@ -6979,6 +7072,9 @@
   },
   "Shortcuts (%1)": {
     "Shortcuts (%1)": "바로 가기(%1)"
+  },
+  "Shortcuts, keyboard, mouse": {
+    "Shortcuts, keyboard, mouse": ""
   },
   "Shortens the bar at both ends": {
     "Shortens the bar at both ends": ""
@@ -7274,6 +7370,9 @@
   "Soft square": {
     "Soft square": "둥근 사각형"
   },
+  "Software updates": {
+    "Software updates": ""
+  },
   "Software updates are ready to install.": {
     "Software updates are ready to install.": ""
   },
@@ -7421,6 +7520,9 @@
   "Stopping": {
     "Stopping": "중지 중"
   },
+  "Stops syncing your DMS settings to the greeter. Set up links them again.": {
+    "Stops syncing your DMS settings to the greeter. Set up links them again.": ""
+  },
   "Stretch": {
     "Stretch": "늘이기"
   },
@@ -7433,8 +7535,8 @@
   "Style": {
     "Style": "스타일"
   },
-  "Style, shortcuts, search, hidden apps": {
-    "Style, shortcuts, search, hidden apps": "스타일, 바로 가기, 검색, 숨겨진 앱"
+  "Style, search, hidden apps": {
+    "Style, search, hidden apps": ""
   },
   "Success": {
     "Success": "성공"
@@ -7520,9 +7622,6 @@
   "Sync": {
     "Sync": "동기화"
   },
-  "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": {
-    "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.": "동기화하면 테마와 설정이 로그인 화면에 적용됩니다. 공유 사용자는 기본 사용자 동기화 대신 dms-greeter sync --profile을 실행해야 합니다."
-  },
   "Sync completed successfully.": {
     "Sync completed successfully.": "동기화가 성공적으로 완료되었습니다."
   },
@@ -7543,9 +7642,6 @@
   },
   "Sync position across displays": {
     "Sync position across displays": "디스플레이 간 위치 동기화"
-  },
-  "Sync to apply": {
-    "Sync to apply": "적용하려면 동기화"
   },
   "Sync with portal": {
     "Sync with portal": "포털과 동기화"
@@ -7661,6 +7757,9 @@
   "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": {
     "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.": "터미널 대체 실행에 실패했습니다. 지원되는 터미널 에뮬레이터 중 하나를 설치하거나 'dms-greeter sync'를 수동으로 실행하세요."
   },
+  "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": {
+    "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.": ""
+  },
   "Terminal fallback opened. Complete authentication there; it will close automatically when done.": {
     "Terminal fallback opened. Complete authentication there; it will close automatically when done.": "대체 터미널이 열렸습니다. 그곳에서 인증을 완료하세요. 완료되면 자동으로 닫힙니다."
   },
@@ -7745,6 +7844,15 @@
   "The job queue of this printer is empty": {
     "The job queue of this printer is empty": "이 프린터의 작업 대기열이 비어 있습니다."
   },
+  "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": {
+    "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.": ""
+  },
+  "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": {
+    "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.": ""
+  },
+  "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": {
+    "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.": ""
+  },
   "The new shortcut is already in use. Choose another shortcut.": {
     "The new shortcut is already in use. Choose another shortcut.": "새 단축키가 이미 사용 중입니다. 다른 단축키를 선택하세요."
   },
@@ -7802,6 +7910,9 @@
   "Theme, light and dark, matugen": {
     "Theme, light and dark, matugen": "테마, 라이트 및 다크, matugen"
   },
+  "Theme, palette, dark mode": {
+    "Theme, palette, dark mode": ""
+  },
   "Themes": {
     "Themes": "테마"
   },
@@ -7847,6 +7958,9 @@
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "이 플러그인에는 'settings_write' 권한이 없습니다.\n\nplugin.json에 \"permissions\": [\"settings_read\", \"settings_write\"]를 추가하세요."
   },
+  "This system cannot link settings live. Sync again after changing them.": {
+    "This system cannot link settings live. Sync again after changing them.": ""
+  },
   "This system was not started in UEFI mode": {
     "This system was not started in UEFI mode": ""
   },
@@ -7879,6 +7993,9 @@
   },
   "Tile Vertically": {
     "Tile Vertically": "세로로 타일"
+  },
+  "Tile color": {
+    "Tile color": "타일 색상"
   },
   "Tiled": {
     "Tiled": "타일링됨"
@@ -8153,6 +8270,18 @@
   "Unknown Track": {
     "Unknown Track": "알 수 없는 트랙"
   },
+  "Unlink": {
+    "Unlink": ""
+  },
+  "Unlink login screen": {
+    "Unlink login screen": ""
+  },
+  "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": {
+    "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.": ""
+  },
+  "Unlink now?": {
+    "Unlink now?": ""
+  },
   "Unload on close": {
     "Unload on close": "닫을 때 언로드"
   },
@@ -8233,6 +8362,9 @@
   },
   "Update the dms package with your package manager, then restart the shell.": {
     "Update the dms package with your package manager, then restart the shell.": ""
+  },
+  "Updates, clipboard, %1": {
+    "Updates, clipboard, %1": ""
   },
   "Updating %1...": {
     "Updating %1...": "%1 업데이트 중..."
@@ -8447,9 +8579,6 @@
   "Visibility": {
     "Visibility": "가시성"
   },
-  "Visibility, position, pinned apps, trash": {
-    "Visibility, position, pinned apps, trash": "표시 여부, 위치, 고정된 앱, 휴지통"
-  },
   "Visible entry actions": {
     "Visible entry actions": "표시되는 항목 작업"
   },
@@ -8477,8 +8606,8 @@
   "Volume style": {
     "Volume style": "볼륨 스타일"
   },
-  "Volume, brightness, caps lock, position": {
-    "Volume, brightness, caps lock, position": "볼륨, 밝기, Caps Lock, 위치"
+  "Volume, brightness, caps lock": {
+    "Volume, brightness, caps lock": ""
   },
   "Votes": {
     "Votes": "투표수"
@@ -8578,6 +8707,9 @@
   },
   "Wi-Fi not available": {
     "Wi-Fi not available": "Wi-Fi를 사용할 수 없음"
+  },
+  "Wi-Fi, Ethernet, VPN": {
+    "Wi-Fi, Ethernet, VPN": ""
   },
   "WiFi QR code for ": {
     "WiFi QR code for ": "WiFi QR 코드:"
@@ -8750,6 +8882,9 @@
   "Your compositor does not support background blur (ext-background-effect-v1)": {
     "Your compositor does not support background blur (ext-background-effect-v1)": "컴포지터가 배경 블러(ext-background-effect-v1)를 지원하지 않습니다"
   },
+  "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": {
+    "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.": ""
+  },
   "Your hotspot is running.": {
     "Your hotspot is running.": "핫스팟이 실행 중입니다."
   },
@@ -8854,6 +8989,9 @@
   },
   "featured": {
     "featured": "추천"
+  },
+  "greetd is not using the DMS greeter yet.": {
+    "greetd is not using the DMS greeter yet.": ""
   },
   "keyboard tab key name": {
     "Tab": "Tab"
