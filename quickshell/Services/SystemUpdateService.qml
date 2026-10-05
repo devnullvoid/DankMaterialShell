@@ -233,7 +233,7 @@ Singleton {
     }
 
     function _packageMatchesIgnore(pkgName, ignored) {
-        const split = (s) => {
+        const split = s => {
             if (!s)
                 return [s || "", ""];
             const idx = s.indexOf(":");
@@ -303,7 +303,7 @@ Singleton {
         const count = updateCount;
         DMSService.notifySend({
             "summary": count === 1 ? I18n.tr("%1 update", "singular, %1 is 1, available system update count").arg(count) : I18n.tr("%1 updates", "plural, %1 is a count of available system updates").arg(count),
-            "body": I18n.tr("Software updates are ready to install."),
+            "body": I18n.tr("Software updates are ready to install.", "notification body when system updates are available"),
             "actionLabel": I18n.tr("Settings"),
             "actionArgs": ["ipc", "call", "settings", "openWith", "updater"]
         }, resp => {

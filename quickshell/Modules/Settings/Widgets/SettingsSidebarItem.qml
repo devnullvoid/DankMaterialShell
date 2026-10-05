@@ -157,8 +157,6 @@ Rectangle {
             font.pixelSize: Theme.fontSizeSmall
             color: root.active ? Theme.onSelectedContainer : Theme.surfaceVariantText
             wrapMode: Text.WordWrap
-            maximumLineCount: 2
-            elide: Text.ElideRight
             visible: root.hint !== ""
             horizontalAlignment: Text.AlignLeft
         }

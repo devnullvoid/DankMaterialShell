@@ -75,7 +75,7 @@ Item {
                 tab: "sounds"
                 tags: ["sound", "theme", "system", "gsettings", "select"]
                 settingKey: "soundTheme"
-                text: I18n.tr("Sound theme")
+                text: I18n.tr("Sound theme", "sounds settings dropdown label, which set of system sounds to use")
                 options: {
                     const themes = AudioService.availableSoundThemes;
                     const current = AudioService.currentSoundTheme;

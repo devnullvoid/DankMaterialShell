@@ -321,7 +321,7 @@ Item {
                 tab: "theme"
                 tags: ["matugen", "spec", "expressive", "vivid", "saturated", "bold", "dynamic"]
                 settingKey: "matugenSpec"
-                text: I18n.tr("Material palette")
+                text: I18n.tr("Material palette", "theme settings card title, matugen palette options")
                 enabled: Theme.matugenAvailable
                 model: ["2021", "2025", "DMS"]
                 currentIndex: SettingsData.matugenSpec === "dms" ? 2 : SettingsData.matugenSpec === "2025" ? 1 : 0
@@ -399,7 +399,7 @@ Item {
                 tab: "theme"
                 tags: ["matugen", "seed", "pick", "eyedropper", "dynamic"]
                 settingKey: "matugenSeedColor"
-                text: I18n.tr("Derived color")
+                text: I18n.tr("Derived color", "matugen dropdown label, which color the palette is derived from")
                 description: I18n.tr("Custom builds the palette from a color you pick", "matugen derived color dropdown description")
                 enabled: Theme.matugenAvailable
                 options: [
@@ -415,7 +415,7 @@ Item {
                 ]
                 currentMode: SettingsData.matugenSeedColor ? "custom" : "default"
                 customColor: SettingsData.matugenSeedColor || (!Theme.rawWallpaperPath ? Theme.materialWallpaperSeed : Theme.getMatugenColor("source_color", Theme.primary))
-                pickerTitle: I18n.tr("Seed color")
+                pickerTitle: I18n.tr("Seed color", "color picker title, the color the dynamic palette is built from")
                 onModeSelected: mode => {
                     if (mode !== "custom") {
                         SettingsData.setMatugenSeedColor("");
@@ -780,7 +780,7 @@ Item {
         SettingsCard {
             tab: "theme"
             tags: ["matugen", "startup", "theming"]
-            title: I18n.tr("Startup Behavior", "settings card title")
+            title: I18n.tr("Startup Behavior", "theme settings card title, what happens to the dynamic theme when DMS starts")
             settingKey: "themeStartupBehavior"
             iconName: "power_settings_new"
             visible: Theme.matugenAvailable
@@ -789,8 +789,8 @@ Item {
                 tab: "theme"
                 tags: ["matugen", "startup", "generate"]
                 settingKey: "generateThemeAtStartup"
-                text: I18n.tr("Generate Theme at Startup", "toggle label")
-                description: I18n.tr("Regenerate matugen colors when DMS starts, even if nothing changed.", "toggle description")
+                text: I18n.tr("Generate Theme at Startup", "theme settings toggle, rerun matugen on every shell start")
+                description: I18n.tr("Regenerate matugen colors when DMS starts, even if nothing changed.", "generate theme at startup toggle description")
                 checked: SettingsData.generateThemeAtStartup
                 onToggled: checked => SettingsData.set("generateThemeAtStartup", checked)
             }

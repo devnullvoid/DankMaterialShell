@@ -514,7 +514,7 @@ Item {
         items: [
             {
                 "iconName": root.onTop ? "vertical_align_bottom" : "vertical_align_top",
-                "label": root.onTop ? I18n.tr("Move row to footer") : I18n.tr("Move row to header"),
+                "label": root.onTop ? I18n.tr("Move row to footer", "control center edit menu, moves the row from the header to the footer") : I18n.tr("Move row to header", "control center edit menu, moves the row from the footer to the header"),
                 "action": () => root.moveRequested()
             },
             {

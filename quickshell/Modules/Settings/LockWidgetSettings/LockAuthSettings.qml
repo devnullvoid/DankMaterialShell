@@ -27,7 +27,7 @@ DesktopWidgetInstanceSettings {
     }
 
     SettingsDropdownRow {
-        text: I18n.tr("Profile image")
+        text: I18n.tr("Profile image", "lock screen toggle, show the user avatar")
         options: root.visibilityLabels
         currentValue: root.visibilityLabels[Math.max(0, root.visibilityModes.indexOf(root.profileVisibility))]
         onValueChanged: value => {

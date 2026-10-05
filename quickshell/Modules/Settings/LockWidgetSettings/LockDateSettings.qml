@@ -17,11 +17,11 @@ DesktopWidgetInstanceSettings {
     }
 
     SettingsDropdownRow {
-        text: I18n.tr("Date format")
-        options: [I18n.tr("Short"), I18n.tr("Long")]
-        currentValue: (root.cfg.format ?? "long") === "short" ? I18n.tr("Short") : I18n.tr("Long")
+        text: I18n.tr("Date format", "lock screen date widget dropdown")
+        options: [I18n.tr("Short", "date format option"), I18n.tr("Long", "date format option")]
+        currentValue: (root.cfg.format ?? "long") === "short" ? I18n.tr("Short", "date format option") : I18n.tr("Long", "date format option")
         enabled: SettingsData.lockDateFormat === ""
-        onValueChanged: value => root.updateConfig("format", value === I18n.tr("Short") ? "short" : "long")
+        onValueChanged: value => root.updateConfig("format", value === I18n.tr("Short", "date format option") ? "short" : "long")
     }
 
     SettingsColorPicker {

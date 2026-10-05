@@ -43,7 +43,7 @@ DankCard {
     restRadius: DashMetrics.cardRadius
     pad: Theme.spacingL
     Accessible.role: Accessible.Chart
-    Accessible.name: I18n.tr("Weekly screen time")
+    Accessible.name: I18n.tr("Weekly screen time", "chart title, screen time per day over the week")
 
     Column {
         anchors.fill: parent
@@ -52,7 +52,7 @@ DankCard {
         StyledText {
             width: parent.width
             visible: root.showTitle
-            text: I18n.tr("Weekly screen time")
+            text: I18n.tr("Weekly screen time", "chart title, screen time per day over the week")
             font.pixelSize: Theme.fontSizeLarge
             font.weight: Theme.fontWeightMedium
             color: root.contentColor
@@ -198,7 +198,7 @@ DankCard {
                         required property int modelData
                         anchors.right: axisLabels.right
                         y: root.yFor(modelData * Wellbeing.secondsPerHour) - height / 2
-                        text: I18n.tr("%1h").arg(modelData)
+                        text: I18n.tr("%1h", "hours abbreviation, %1 is a number").arg(modelData)
                         font.pixelSize: Theme.fontSizeSmall
                         font.features: ({
                                 "tnum": 1

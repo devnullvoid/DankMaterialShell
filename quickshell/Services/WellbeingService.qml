@@ -136,7 +136,7 @@ Singleton {
     }
 
     function notifyLimit(limit) {
-        const summary = limit.kind === "daily" ? I18n.tr("Daily screen time limit reached") : I18n.tr("%1 limit reached", "screen time notification title, %1 is an app name").arg(appName(limit.appId));
+        const summary = limit.kind === "daily" ? I18n.tr("Daily screen time limit reached", "screen time notification title") : I18n.tr("%1 limit reached", "screen time notification title, %1 is an app name").arg(appName(limit.appId));
         DMSService.notifySend({
             "summary": summary,
             "body": formatDuration(limit.used) + " · " + I18n.tr("Today"),

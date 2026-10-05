@@ -68,7 +68,7 @@ Item {
             return I18n.tr("Hyprland conf mode is read-only in Settings");
         if (KeybindsService.requiresBindReview)
             return "";
-        return I18n.tr("Changes save to %1", "keybind editor dialog hint, %1 is the binds file path").arg(bindsFileLabel());
+        return I18n.tr("Changes save to %1", "hint under the keybind and window rule editors, %1 is the config file the changes are written to").arg(bindsFileLabel());
     }
 
     function bindsFileLabel() {
@@ -788,7 +788,7 @@ Item {
                     shown: !KeybindsService.readOnly
 
                     DankFab {
-                        text: I18n.tr("Add shortcut")
+                        text: I18n.tr("Add shortcut", "keybind editor dialog title and button")
                         iconName: "add"
                         onClicked: keybindsTab.openNewEditor()
                     }

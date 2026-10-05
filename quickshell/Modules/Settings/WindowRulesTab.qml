@@ -658,7 +658,7 @@ Item {
         onLoaded: root.presentEditor()
 
         sourceComponent: WindowRuleEditorDialog {
-            supportingText: I18n.tr("Changes save to %1", "keybind editor dialog hint, %1 is the binds file path").arg(root.dmsRulesFileName)
+            supportingText: I18n.tr("Changes save to %1", "hint under the keybind and window rule editors, %1 is the config file the changes are written to").arg(root.dmsRulesFileName)
             onRejected: root.closeEditor()
             onRuleSubmitted: {
                 root.loadWindowRules();

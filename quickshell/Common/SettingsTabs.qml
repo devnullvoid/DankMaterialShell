@@ -54,10 +54,10 @@ Singleton {
                 {
                     "id": "palette_inject",
                     "advanced": true,
-                    "text": I18n.tr("Injected palettes"),
+                    "text": I18n.tr("Injected palettes", "settings page title, external palette commands merged into matugen"),
                     "icon": "colorize",
                     "tabIndex": 64,
-                    "hint": I18n.tr("External palette commands, namespaces")
+                    "hint": I18n.tr("External palette commands, namespaces", "settings sidebar hint for the injected palettes page")
                 }
             ]
         },
@@ -250,11 +250,11 @@ Singleton {
         },
         {
             "id": "wellbeing",
-            "text": I18n.tr("Digital wellbeing"),
+            "text": I18n.tr("Digital wellbeing", "settings page and dashboard tab title, screen time tracking"),
             "icon": "digital_wellbeing",
             "tabIndex": 67,
             "aliases": ["screen_time"],
-            "hint": I18n.tr("Screen time and app limits")
+            "hint": I18n.tr("Screen time and app limits", "settings sidebar hint and dashboard tab description for digital wellbeing")
         },
         {
             "id": "sound_media",
@@ -436,7 +436,7 @@ Singleton {
                 {
                     "id": "user_create",
                     "hidden": true,
-                    "text": I18n.tr("Add user"),
+                    "text": I18n.tr("Add user", "button and settings page title, creates a new user account"),
                     "icon": "person_add",
                     "tabIndex": 61
                 }
@@ -550,18 +550,18 @@ Singleton {
             "children": [
                 {
                     "id": "updater",
-                    "text": I18n.tr("Software updates"),
+                    "text": I18n.tr("Software updates", "settings page, modal and bar widget title, DMS and system package updates"),
                     "icon": "system_update_alt",
                     "tabIndex": 20,
-                    "hint": I18n.tr("DMS and system updates")
+                    "hint": I18n.tr("DMS and system updates", "settings sidebar hint for the software updates page")
                 },
                 {
                     "id": "updater_changelog",
                     "hidden": true,
-                    "text": I18n.tr("Release notes"),
+                    "text": I18n.tr("Release notes", "settings page and card title, notes for a DMS release"),
                     "icon": "auto_awesome",
                     "tabIndex": 66,
-                    "hint": I18n.tr("Summary, highlights, links")
+                    "hint": I18n.tr("Summary, highlights, links", "settings sidebar hint for the release notes page")
                 },
                 {
                     "id": "clipboard",

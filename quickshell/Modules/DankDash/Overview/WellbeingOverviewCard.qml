@@ -26,7 +26,7 @@ Card {
     entryId: "wellbeing"
     clipContent: true
     pad: Theme.spacingM
-    Accessible.name: I18n.tr("Screen time")
+    Accessible.name: I18n.tr("Screen time", "dashboard card and settings card title, time spent in apps")
 
     Row {
         id: header
@@ -45,7 +45,7 @@ Card {
         StyledText {
             anchors.verticalCenter: parent.verticalCenter
             width: parent.width - Theme.iconSizeMedium - parent.spacing
-            text: I18n.tr("Screen time")
+            text: I18n.tr("Screen time", "dashboard card and settings card title, time spent in apps")
             font.pixelSize: Theme.fontSizeMedium
             font.weight: Theme.fontWeightMedium
             color: root.contentColor

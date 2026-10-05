@@ -174,9 +174,9 @@ Singleton {
         },
         {
             "id": "wellbeing",
-            "text": I18n.tr("Digital wellbeing"),
+            "text": I18n.tr("Digital wellbeing", "settings page and dashboard tab title, screen time tracking"),
             "icon": "digital_wellbeing",
-            "description": SettingsData.wellbeingEnabled ? I18n.tr("Screen time and app limits") : I18n.tr("Hidden until screen time tracking is enabled"),
+            "description": SettingsData.wellbeingEnabled ? I18n.tr("Screen time and app limits", "settings sidebar hint and dashboard tab description for digital wellbeing") : I18n.tr("Hidden until screen time tracking is enabled", "dashboard tab description while digital wellbeing is off"),
             "available": SettingsData.wellbeingEnabled,
             "tab": {
                 "component": wellbeingTab,

@@ -85,7 +85,7 @@ DankDialog {
     opened: false
     maximumWidth: SettingsMetrics.formDialogWidth
     surfaceColor: Theme.hostSurface
-    title: isNew ? I18n.tr("Add shortcut") : I18n.tr("Edit shortcut", "keybind editor dialog title")
+    title: isNew ? I18n.tr("Add shortcut", "keybind editor dialog title and button") : I18n.tr("Edit shortcut", "keybind editor dialog title")
     closeEnabled: !busy
     acceptEnabled: canSubmit
     onAccepted: save()

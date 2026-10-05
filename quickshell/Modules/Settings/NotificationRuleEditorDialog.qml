@@ -27,7 +27,7 @@ DankDialog {
     opened: nativeWindow
     maximumWidth: SettingsMetrics.formDialogWidth
     surfaceColor: Theme.hostSurface
-    title: isEditMode ? I18n.tr("Edit rule") : I18n.tr("Add rule")
+    title: isEditMode ? I18n.tr("Edit rule") : I18n.tr("Add rule", "notification rule dialog title and button")
     acceptEnabled: patternInput.text.trim() !== ""
     onAccepted: submit()
 

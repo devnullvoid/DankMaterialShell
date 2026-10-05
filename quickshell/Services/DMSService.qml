@@ -257,7 +257,7 @@ Singleton {
             if (response.error.includes("unknown method") && response.error.includes("subscribe")) {
                 if (!shownOutdatedError) {
                     log.error("Server does not support subscribe method");
-                    ToastService.showError(I18n.tr("DMS out of date"), I18n.tr("Update the dms package with your package manager, then restart the shell."));
+                    ToastService.showError(I18n.tr("DMS out of date"), I18n.tr("Update the dms package with your package manager, then restart the shell.", "shown when the running shell is older than the installed dms binary"));
                     shownOutdatedError = true;
                 }
             }

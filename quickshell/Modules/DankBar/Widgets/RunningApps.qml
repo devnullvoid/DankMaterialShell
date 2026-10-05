@@ -495,14 +495,14 @@ BasePill {
                 items.push({
                     type: "item",
                     icon: "outbox",
-                    text: I18n.tr("Move out of scratchpad"),
+                    text: I18n.tr("Move out of scratchpad", "window context menu action, brings the window back from the special workspace"),
                     action: () => CompositorService.moveWindowOutOfSpecial(windowContextMenu.currentWindow)
                 });
             for (const name of scratchpad ? [] : CompositorService.specialWorkspaceNames) {
                 items.push({
                     type: "item",
                     icon: "inbox",
-                    text: name === "special" ? I18n.tr("Move to scratchpad") : I18n.tr("Move to scratchpad: %1", "%1 is the named special workspace").arg(name),
+                    text: name === "special" ? I18n.tr("Move to scratchpad", "window context menu action, sends the window to the unnamed special workspace") : I18n.tr("Move to scratchpad: %1", "%1 is the named special workspace").arg(name),
                     action: () => CompositorService.moveWindowToSpecial(windowContextMenu.currentWindow, name)
                 });
             }

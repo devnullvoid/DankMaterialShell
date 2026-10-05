@@ -43,7 +43,7 @@ DesktopWidgetInstanceSettings {
 
     SettingsToggleRow {
         visible: root.style === "digital"
-        text: I18n.tr("Italic")
+        text: I18n.tr("Italic", "clock font style toggle")
         checked: root.cfg.italic ?? false
         onToggled: checked => root.updateConfig("italic", checked)
     }

@@ -91,7 +91,7 @@ DankFloatingWindow {
                 spacing: Theme.spacingM
 
                 DankButton {
-                    text: I18n.tr("Release notes")
+                    text: I18n.tr("Release notes", "settings page and card title, notes for a DMS release")
                     iconName: "auto_awesome"
                     backgroundColor: Theme.chipSurface
                     textColor: Theme.surfaceText

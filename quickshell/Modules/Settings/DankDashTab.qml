@@ -45,13 +45,13 @@ FocusScope {
         }
 
         SettingsCard {
-            title: I18n.tr("Digital wellbeing")
+            title: I18n.tr("Digital wellbeing", "settings page and dashboard tab title, screen time tracking")
 
             SettingsNavRow {
                 tab: "dank_dash"
                 settingKey: "dashWellbeingSettings"
-                title: I18n.tr("Digital wellbeing")
-                hint: I18n.tr("Screen time and app limits")
+                title: I18n.tr("Digital wellbeing", "settings page and dashboard tab title, screen time tracking")
+                hint: I18n.tr("Screen time and app limits", "settings sidebar hint and dashboard tab description for digital wellbeing")
                 iconName: "digital_wellbeing"
                 onClicked: root.parentModal?.navigateTo("wellbeing")
             }
@@ -112,7 +112,7 @@ FocusScope {
                 settingKey: "dashTabsEvenlySpaced"
                 tab: "dank_dash"
                 tags: ["dashboard", "tabs", "spacing", "navigation"]
-                text: I18n.tr("Evenly space tabs")
+                text: I18n.tr("Evenly space tabs", "dashboard tab bar toggle")
                 checked: SettingsData.dashTabsEvenlySpaced
                 onToggled: checked => SettingsData.set("dashTabsEvenlySpaced", checked)
             }

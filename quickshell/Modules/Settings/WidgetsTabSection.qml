@@ -38,7 +38,9 @@ Column {
     }
 
     function setOverflowOption(name, value) {
-        SettingsData.updateBarConfig(barId, { [sectionId + "Overflow" + name]: value });
+        SettingsData.updateBarConfig(barId, {
+            [sectionId + "Overflow" + name]: value
+        });
     }
 
     signal itemEnabledChanged(string sectionId, string itemId, bool enabled)
@@ -98,7 +100,7 @@ Column {
 
         SettingsToggleRow {
             text: I18n.tr("Auto overflow")
-            description: I18n.tr("Widgets in this section move into overflow when space runs out")
+            description: I18n.tr("Widgets in this section move into overflow when space runs out", "bar section overflow description")
             resetStore: root.overflowStore
             resetKeys: [root.sectionId + "OverflowMode"]
             checked: root.autoOverflow
@@ -107,16 +109,16 @@ Column {
 
         SettingsDropdownRow {
             readonly property var positionLabels: {
-                const labels = [I18n.tr("Start")];
+                const labels = [I18n.tr("Start", "noun, overflow button position before the first widget", true)];
                 const seen = {};
                 for (const item of root.items) {
                     seen[item.text] = (seen[item.text] ?? 0) + 1;
-                    labels.push(I18n.tr("After %1").arg(seen[item.text] > 1 ? item.text + " " + seen[item.text] : item.text));
+                    labels.push(I18n.tr("After %1", "overflow button position option, %1 is a widget name").arg(seen[item.text] > 1 ? item.text + " " + seen[item.text] : item.text));
                 }
                 return labels;
             }
 
-            text: I18n.tr("Overflow button position")
+            text: I18n.tr("Overflow button position", "bar section dropdown label")
             resetStore: root.overflowStore
             resetKeys: [root.sectionId + "OverflowPosition"]
             options: positionLabels

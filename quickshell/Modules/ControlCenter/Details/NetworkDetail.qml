@@ -319,7 +319,7 @@ Item {
             DankButtonGroup {
                 readonly property var labelsByType: ({
                         "ethernet": I18n.tr("Ethernet"),
-                        "wifi": I18n.tr("WiFi", "wireless network, control center section title"),
+                        "wifi": I18n.tr("Wi-Fi", "wireless network, page and section title"),
                         "cellular": I18n.tr("Cellular")
                     })
 
@@ -343,7 +343,7 @@ Item {
                 CcToggleRow {
                     iconName: NetworkService.wifiEnabled ? "wifi" : "wifi_off"
                     iconColor: NetworkService.wifiEnabled ? Theme.primary : Theme.surfaceText
-                    text: I18n.tr("WiFi", "wireless network, control center section title")
+                    text: I18n.tr("Wi-Fi", "wireless network, page and section title")
                     description: {
                         if (NetworkService.wifiToggling)
                             return NetworkService.wifiEnabled ? I18n.tr("Disabling WiFi...") : I18n.tr("Enabling WiFi...");

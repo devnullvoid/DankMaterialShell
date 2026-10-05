@@ -63,7 +63,7 @@ FocusScope {
         visible: !WellbeingService.available
         iconName: "digital_wellbeing"
         title: I18n.tr("DMS out of date")
-        subtitle: I18n.tr("Update the dms package with your package manager, then restart the shell.")
+        subtitle: I18n.tr("Update the dms package with your package manager, then restart the shell.", "shown when the running shell is older than the installed dms binary")
     }
 
     Column {

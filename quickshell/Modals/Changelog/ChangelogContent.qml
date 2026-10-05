@@ -292,7 +292,7 @@ Column {
             }
 
             StyledText {
-                text: I18n.tr("What changed")
+                text: I18n.tr("What changed", "changelog section heading listing the changes in a release")
                 font.pixelSize: Theme.fontSizeMedium
                 font.weight: Theme.fontWeightMedium
                 color: Theme.surfaceText

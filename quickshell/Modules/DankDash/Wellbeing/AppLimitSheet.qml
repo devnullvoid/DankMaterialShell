@@ -20,7 +20,7 @@ CcSheetDialog {
     panelWidth: DashMetrics.optionSheetWidth
     iconName: "timer"
     title: WellbeingService.appName(appId)
-    subtitle: I18n.tr("Daily limit")
+    subtitle: I18n.tr("Daily limit", "screen time limit per day, total or for one app")
     showScrollBar: false
 
     SettingsGroup {
@@ -28,8 +28,8 @@ CcSheetDialog {
         slotColor: Theme.chipSurface
 
         SettingsRow {
-            title: I18n.tr("Daily limit")
-            subtitle: root.minutes > 0 ? I18n.tr("Notifies when today's use of this app passes the limit") : I18n.tr("Off")
+            title: I18n.tr("Daily limit", "screen time limit per day, total or for one app")
+            subtitle: root.minutes > 0 ? I18n.tr("Notifies when today's use of this app passes the limit", "per-app daily screen time limit description") : I18n.tr("Off")
 
             DurationSteppers {
                 anchors.verticalCenter: parent.verticalCenter

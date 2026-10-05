@@ -543,7 +543,7 @@ Column {
         tags: ["scroll", "scrollbar", "scrollbars", "list", "page"]
         settingKey: "scrollbarsEnabled"
         iconName: "unfold_more"
-        title: I18n.tr("Scrollbars")
+        title: I18n.tr("Scrollbars", "theme settings toggle, show scrollbars on lists and pages")
         checked: SettingsData.scrollbarsEnabled
         onToggled: checked => SettingsData.set("scrollbarsEnabled", checked)
     }
@@ -618,7 +618,7 @@ Column {
             tab: "theme"
             tags: ["control", "center", "tile", "button", "color", "active"]
             settingKey: "controlCenterTileColorMode"
-            text: I18n.tr("Tile color")
+            text: I18n.tr("Tile color", "control center tile color dropdown label")
             options: [I18n.tr("Primary", "tile color option"), I18n.tr("Primary Container", "tile color option"), I18n.tr("Secondary", "tile color option"), I18n.tr("Surface Variant", "tile color option")]
             optionColorMap: ({
                     [I18n.tr("Primary", "tile color option")]: Theme.roleColor("primary"),

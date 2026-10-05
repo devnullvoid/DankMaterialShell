@@ -163,8 +163,8 @@ Column {
         SettingsToggleRow {
             resetStore: root.page
             resetKeys: ["showSpecialWorkspaces"]
-            text: I18n.tr("Show scratchpads")
-            description: I18n.tr("Special workspaces appear last; click to show or hide")
+            text: I18n.tr("Show scratchpads", "workspace switcher toggle, special workspaces as entries")
+            description: I18n.tr("Special workspaces appear last; click to show or hide", "workspace switcher show scratchpads toggle description")
             visible: CompositorService.isHyprland
             checked: root.page.value("showSpecialWorkspaces")
             onToggled: checked => root.page.set("showSpecialWorkspaces", checked)
@@ -184,8 +184,8 @@ Column {
         SettingsToggleRow {
             resetStore: root.page
             resetKeys: ["showWorkspacePadding"]
-            text: I18n.tr("Minimum workspaces")
-            description: CompositorService.supportsPersistentWorkspaces ? I18n.tr("Workspaces up to the count are always shown and can be opened") : I18n.tr("Empty placeholders fill the switcher up to the count")
+            text: I18n.tr("Minimum workspaces", "workspace switcher slider label")
+            description: CompositorService.supportsPersistentWorkspaces ? I18n.tr("Workspaces up to the count are always shown and can be opened", "workspace switcher minimum workspaces description on compositors with persistent workspaces") : I18n.tr("Empty placeholders fill the switcher up to the count", "workspace switcher minimum workspaces description")
             checked: root.page.value("showWorkspacePadding")
             onToggled: checked => root.page.set("showWorkspacePadding", checked)
         }
@@ -194,7 +194,7 @@ Column {
             resetStore: root.page
             resetKeys: ["workspacePaddingCount"]
             enabled: root.page.value("showWorkspacePadding")
-            text: I18n.tr("Workspace count")
+            text: I18n.tr("Workspace count", "workspace switcher slider label, number of workspaces to show")
             unit: ""
             value: root.page.value("workspacePaddingCount")
             minimum: 2

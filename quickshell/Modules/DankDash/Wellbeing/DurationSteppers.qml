@@ -19,7 +19,7 @@ Row {
     spacing: Theme.spacingS
 
     DankNumberStepper {
-        text: I18n.tr("%1h").arg(root.hours)
+        text: I18n.tr("%1h", "hours abbreviation, %1 is a number").arg(root.hours)
         incrementEnabled: root.minutes + 60 <= root.maxMinutes
         decrementEnabled: root.hours > 0
         onIncrement: () => root.commit(root.minutes + 60)

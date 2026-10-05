@@ -178,7 +178,7 @@ Item {
                     spacing: Theme.spacingM
 
                     DankButton {
-                        text: root.operationPending ? I18n.tr("Working...", "create user button text while the operation runs") : I18n.tr("Add user")
+                        text: root.operationPending ? I18n.tr("Working...", "create user button text while the operation runs") : I18n.tr("Add user", "button and settings page title, creates a new user account")
                         iconName: "person_add"
                         backgroundColor: Theme.primary
                         textColor: Theme.primaryText

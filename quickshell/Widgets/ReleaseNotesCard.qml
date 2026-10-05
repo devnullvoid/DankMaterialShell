@@ -43,7 +43,7 @@ Column {
 
         DankBadge {
             visible: root.hasRelease && root.release.prerelease === true
-            text: I18n.tr("Pre-release")
+            text: I18n.tr("Pre-release", "badge on a release that is not a stable version")
             color: Theme.chipSurface
             textColor: Theme.surfaceVariantText
             anchors.verticalCenter: parent.verticalCenter
@@ -118,7 +118,7 @@ Column {
 
         DankButton {
             visible: root.blogUrl !== ""
-            text: I18n.tr("Read the blog post")
+            text: I18n.tr("Read the blog post", "release notes link")
             iconName: "article"
             backgroundColor: Theme.primary
             textColor: Theme.onPrimary
@@ -127,7 +127,7 @@ Column {
 
         DankButton {
             visible: root.releaseUrl !== ""
-            text: I18n.tr("View on GitHub")
+            text: I18n.tr("View on GitHub", "link to the release on GitHub")
             iconName: "open_in_new"
             backgroundColor: Theme.chipSurface
             textColor: Theme.surfaceText

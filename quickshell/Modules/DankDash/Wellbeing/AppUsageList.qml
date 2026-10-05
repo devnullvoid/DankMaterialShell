@@ -20,15 +20,15 @@ DankCard {
     readonly property var periods: [
         {
             "value": "day",
-            "text": I18n.tr("Day")
+            "text": I18n.tr("Day", "screen time range filter")
         },
         {
             "value": "week",
-            "text": I18n.tr("Week")
+            "text": I18n.tr("Week", "screen time range filter")
         },
         {
             "value": "month",
-            "text": I18n.tr("Month")
+            "text": I18n.tr("Month", "screen time range filter")
         }
     ]
     readonly property var apps: Wellbeing.topApps(Wellbeing.periodDays(days, new Date(), firstDayOfWeek, period), WellbeingMetrics.listedApps)
@@ -54,7 +54,7 @@ DankCard {
             anchors.rightMargin: Theme.spacingM
             anchors.verticalCenter: parent.verticalCenter
             visible: root.showTitle
-            text: I18n.tr("Most used apps")
+            text: I18n.tr("Most used apps", "screen time card title, apps ranked by time")
             font.pixelSize: Theme.fontSizeLarge
             font.weight: Theme.fontWeightMedium
             color: root.contentColor

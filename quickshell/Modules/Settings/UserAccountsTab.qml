@@ -73,7 +73,7 @@ Column {
 
             settingKey: "avatarRing"
             tags: ["user", "account", "profile", "avatar", "ring", "border", "color"]
-            text: I18n.tr("Avatar ring")
+            text: I18n.tr("Avatar ring", "user accounts dropdown, colored ring around the profile picture")
             options: rings.map(ring => ring.label)
             optionColorMap: {
                 const map = {};

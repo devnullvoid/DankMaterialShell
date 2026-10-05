@@ -170,7 +170,7 @@ Item {
             id: notificationRulesCard
             width: parent.width
             iconName: "rule_settings"
-            title: I18n.tr("Notification rules")
+            title: I18n.tr("Notification rules", "settings card title, per-app notification rules list")
             settingKey: "notificationRules"
             tags: ["notification", "rules", "mute", "ignore", "priority", "regex", "history"]
 
@@ -277,7 +277,7 @@ Item {
 
         SettingsFabBar {
             DankFab {
-                text: I18n.tr("Add rule")
+                text: I18n.tr("Add rule", "notification rule dialog title and button")
                 iconName: "add"
                 onClicked: root.openEditor(-1, null)
             }

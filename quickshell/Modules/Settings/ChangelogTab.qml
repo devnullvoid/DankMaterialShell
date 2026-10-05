@@ -27,8 +27,8 @@ Item {
             SettingsRow {
                 visible: root.feedMissing
                 iconName: "cloud_off"
-                title: I18n.tr("Release notes are unavailable")
-                subtitle: I18n.tr("They load with the next update check. Release notes are also published on GitHub.")
+                title: I18n.tr("Release notes are unavailable", "empty state title when no release notes are loaded")
+                subtitle: I18n.tr("They load with the next update check. Release notes are also published on GitHub.", "release notes empty state description")
 
                 DankButton {
                     anchors.verticalCenter: parent.verticalCenter
@@ -43,7 +43,7 @@ Item {
 
                 DankButton {
                     anchors.verticalCenter: parent.verticalCenter
-                    text: I18n.tr("View on GitHub")
+                    text: I18n.tr("View on GitHub", "link to the release on GitHub")
                     iconName: "open_in_new"
                     backgroundColor: SettingsMetrics.controlSurface
                     textColor: Theme.surfaceText

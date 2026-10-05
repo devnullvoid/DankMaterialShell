@@ -81,11 +81,17 @@ Item {
         y: root.sectionContext.isVertical ? root.sectionContext.overflowButtonPosition : (root.sectionContext.height - height) / 2
         activeFocusOnTab: true
         Accessible.role: Accessible.Button
-        Accessible.name: I18n.tr("More widgets")
+        Accessible.name: I18n.tr("More widgets", "accessible name of the bar overflow button")
         Accessible.description: I18n.tr("Overflow") + ": " + root.sectionContext.overflowCount
         onClicked: root.toggle()
-        Keys.onSpacePressed: event => { root.toggle(); event.accepted = true; }
-        Keys.onReturnPressed: event => { root.toggle(); event.accepted = true; }
+        Keys.onSpacePressed: event => {
+            root.toggle();
+            event.accepted = true;
+        }
+        Keys.onReturnPressed: event => {
+            root.toggle();
+            event.accepted = true;
+        }
         content: Component {
             Item {
                 implicitWidth: Math.max(0, root.button.widgetThickness - root.button.horizontalPadding * 2)

@@ -141,7 +141,7 @@ Column {
         if (!picker)
             return;
         picker.selectedColor = materialEntry.seed;
-        picker.pickerTitle = I18n.tr("Seed color");
+        picker.pickerTitle = I18n.tr("Seed color", "color picker title, the color the dynamic palette is built from");
         picker.onColorSelectedCallback = function (color) {
             root.selectSeed(Theme.withAlpha(color, 1).toString());
         };
@@ -605,7 +605,7 @@ Column {
             settingKey: "materialSeedColor"
             visible: root.dynamicTheme
             enabled: Theme.matugenAvailable
-            title: I18n.tr("Seed color")
+            title: I18n.tr("Seed color", "color picker title, the color the dynamic palette is built from")
             subtitle: I18n.tr("The shell palette is built from this color. Shapes take their colors from that palette.", "Material seed picker description")
             modified: root.materialEntry.seed !== Art.defaultSeed
             onResetRequested: root.selectSeed(Art.defaultSeed)

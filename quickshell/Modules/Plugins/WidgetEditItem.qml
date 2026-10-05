@@ -40,7 +40,7 @@ Item {
     width: geometry.widgetWidth
     height: geometry.widgetHeight
     activeFocusOnTab: editMode
-    Accessible.name: instanceData?.name || I18n.tr("Widget")
+    Accessible.name: instanceData?.name || I18n.tr("Widget", "fallback accessible name for an unnamed plugin widget")
     Accessible.role: Accessible.Button
     onActiveFocusChanged: {
         if (editMode && activeFocus)

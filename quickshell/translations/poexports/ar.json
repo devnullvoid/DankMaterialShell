@@ -8,6 +8,9 @@
   "%1 DMS binds may be overridden by config binds that come after the include.": {
     "%1 DMS binds may be overridden by config binds that come after the include.": "قد يتم تجاوز روابط %1 DMS بواسطة روابط التهيئة التي تأتي بعد التضمين."
   },
+  "%1 Flatpak": {
+    "%1 Flatpak": ""
+  },
   "%1 KB": {
     "%1 KB": "%1 كيلوبايت"
   },
@@ -34,6 +37,12 @@
   },
   "%1 before": {
     "%1 before": "%1 قبل"
+  },
+  "%1 behind": {
+    "%1 behind": ""
+  },
+  "%1 breaking": {
+    "%1 breaking": ""
   },
   "%1 character": {
     "%1 character": "%1 حرف"
@@ -68,8 +77,14 @@
   "%1 displays": {
     "%1 displays": "%1 شاشات"
   },
+  "%1 features": {
+    "%1 features": ""
+  },
   "%1 filtered": {
     "%1 filtered": "%1 تمت تصفيته"
+  },
+  "%1 fixes": {
+    "%1 fixes": ""
   },
   "%1 h %2 m left": {
     "%1 h %2 m left": "متبقي %1 ساعة %2 دقيقة"
@@ -87,7 +102,7 @@
     "%1 hours": "%1 ساعات"
   },
   "%1 is %2 and may use a lot of memory.": {
-    "%1 is %2 and may use a lot of memory.": ""
+    "%1 is %2 and may use a lot of memory.": "%1 هو %2 وقد يستهلك الكثير من الذاكرة."
   },
   "%1 is now included in config": {
     "%1 is now included in config": "تم تضمين %1 في الإعدادات الآن"
@@ -103,6 +118,9 @@
   },
   "%1 jobs": {
     "%1 jobs": "%1 وظائف"
+  },
+  "%1 limit reached": {
+    "%1 limit reached": ""
   },
   "%1 min": {
     "%1 min": "%1 دقيقة"
@@ -124,6 +142,15 @@
   },
   "%1 online": {
     "%1 online": "%1 متصل"
+  },
+  "%1 other": {
+    "%1 other": ""
+  },
+  "%1 package will be installed via %2.": {
+    "%1 package will be installed via %2.": ""
+  },
+  "%1 packages will be installed via %2.": {
+    "%1 packages will be installed via %2.": ""
   },
   "%1 position": {
     "%1 position": "موضع %1"
@@ -158,6 +185,9 @@
   "%1 wallpapers  •  %2 / %3": {
     "%1 wallpapers  •  %2 / %3": "%1 خلفيات  •  %2 / %3"
   },
+  "%1 will be downloaded and installed via %2.": {
+    "%1 will be downloaded and installed via %2.": ""
+  },
   "%1 will be removed from your system.": {
     "%1 will be removed from your system.": "سيتم إزالة %1 من نظامك."
   },
@@ -169,6 +199,9 @@
   },
   "%1: %2": {
     "%1: %2": "%1: %2"
+  },
+  "%1h": {
+    "%1h": ""
   },
   "%1h %2m": {
     "%1h %2m": "%1 ساعة %2 دقيقة"
@@ -200,9 +233,6 @@
   "2.4 GHz": {
     "2.4 GHz": "2.4 GHz"
   },
-  "2025 has darker surfaces in dark mode. Tonal Spot and Neutral get softer, Vibrant and Expressive get bolder": {
-    "2025 has darker surfaces in dark mode. Tonal Spot and Neutral get softer, Vibrant and Expressive get bolder": ""
-  },
   "3rd party": {
     "3rd party": "جهة خارجية"
   },
@@ -212,14 +242,17 @@
   "50 uses Material shapes. Lower values reduce rounding; higher values increase it.": {
     "50 uses Material shapes. Lower values reduce rounding; higher values increase it.": "يستخدم 50 أشكال Material. القيم الأقل تقلل التقريب؛ القيم الأعلى تزيده."
   },
+  "A custom seed color overrides this": {
+    "A custom seed color overrides this": ""
+  },
   "A floating companion that works alongside any bar layout": {
     "A floating companion that works alongside any bar layout": "رفيق عائم يعمل جنبًا إلى جنب مع أي تخطيط شريط"
   },
-  "A hidden field appears as soon as a key is pressed": {
-    "A hidden field appears as soon as a key is pressed": "يظهر حقل مخفي بمجرد الضغط على مفتاح"
-  },
   "A modern desktop shell for Wayland compositors": {
     "A modern desktop shell for Wayland compositors": "سطح مكتب حديث لWayland"
+  },
+  "A newer dms binary is installed.": {
+    "A newer dms binary is installed.": ""
   },
   "A user with that name already exists.": {
     "A user with that name already exists.": "يوجد مستخدم بهذا الاسم بالفعل."
@@ -229,9 +262,6 @@
   },
   "AC power": {
     "AC power": "طاقة التيار المتردد"
-  },
-  "AM": {
-    "AM": "صباحاً"
   },
   "API": {
     "API": "API"
@@ -247,6 +277,9 @@
   },
   "Acceleration profile": {
     "Acceleration profile": "ملف تعريف التسارع"
+  },
+  "Accent minutes": {
+    "Accent minutes": ""
   },
   "Accept jobs": {
     "Accept jobs": "قبول الوظائف"
@@ -353,11 +386,23 @@
   "Add notes": {
     "Add notes": "إضافة ملاحظات"
   },
+  "Add palette": {
+    "Add palette": ""
+  },
   "Add printer": {
     "Add printer": "إضافة طابعة"
   },
+  "Add rule": {
+    "Add rule": ""
+  },
+  "Add substitution": {
+    "Add substitution": ""
+  },
   "Add to autostart": {
     "Add to autostart": "إضافة إلى التشغيل التلقائي"
+  },
+  "Add user": {
+    "Add user": ""
   },
   "Add widget": {
     "Add widget": "إضافة عنصر واجهة"
@@ -375,10 +420,13 @@
     "Add, remove, reorder and configure": "إضافة وإزالة وإعادة ترتيب وتكوين"
   },
   "Added in front of every app launch command": {
-    "Added in front of every app launch command": ""
+    "Added in front of every app launch command": "تتم إضافته قبل كل أمر لتشغيل التطبيق"
+  },
+  "Adds a compositor window rule so DMS windows such as Settings open floating": {
+    "Adds a compositor window rule so DMS windows such as Settings open floating": ""
   },
   "Adds concave curves where the bar meets the screen edge": {
-    "Adds concave curves where the bar meets the screen edge": ""
+    "Adds concave curves where the bar meets the screen edge": "يضيف منحنيات مقعرة حيث يلتقي الشريط بحافة الشاشة"
   },
   "Adds them to the %1 group so they can run dms-greeter sync --profile": {
     "Adds them to the %1 group so they can run dms-greeter sync --profile": "يضيفهم إلى مجموعة %1 حتى يتمكنوا من تشغيل dms-greeter sync --profile"
@@ -394,6 +442,9 @@
   },
   "Advanced comma-separated libxkbcommon options.": {
     "Advanced comma-separated libxkbcommon options.": "خيارات libxkbcommon المتقدمة مفصولة بفواصل."
+  },
+  "After %1": {
+    "After %1": ""
   },
   "Afternoon": {
     "Afternoon": "بعد الظهر"
@@ -447,7 +498,13 @@
     "Already on that session": "أنت بالفعل في تلك الجلسة"
   },
   "Also runs the templates in your matugen config.toml": {
-    "Also runs the templates in your matugen config.toml": ""
+    "Also runs the templates in your matugen config.toml": "يقوم أيضاً بتشغيل القوالب الموجودة في ملف matugen config.toml الخاص بك"
+  },
+  "Also saves the screenshot to disk": {
+    "Also saves the screenshot to disk": ""
+  },
+  "Also works on the lock screen": {
+    "Also works on the lock screen": ""
   },
   "Alt + Shift": {
     "Alt + Shift": "Alt + Shift"
@@ -458,8 +515,17 @@
   "Always here": {
     "Always here": "موجود دائمًا"
   },
+  "Always in overflow": {
+    "Always in overflow": ""
+  },
   "Always on icons": {
     "Always on icons": "إيقونات مرئية دائمًا"
+  },
+  "Always open here": {
+    "Always open here": ""
+  },
+  "Always show": {
+    "Always show": ""
   },
   "Always show percentage": {
     "Always show percentage": "إظهار النسبة المئوية دائماً"
@@ -470,6 +536,9 @@
   "Amount": {
     "Amount": "الكمية"
   },
+  "An Island bar already covers a display this bar is on": {
+    "An Island bar already covers a display this bar is on": ""
+  },
   "An uninstallation is already in progress": {
     "An uninstallation is already in progress": "عملية إلغاء التثبيت قيد التنفيذ بالفعل"
   },
@@ -479,8 +548,8 @@
   "Analog": {
     "Analog": "تناظري"
   },
-  "Analog, digital, or stacked clock display": {
-    "Analog, digital, or stacked clock display": "عرض ساعة تناظرية، رقمية، أو مكدسة"
+  "Analog, digital, stacked, expressive, or overlapping clock": {
+    "Analog, digital, stacked, expressive, or overlapping clock": ""
   },
   "Analyzing configuration...": {
     "Analyzing configuration...": "تحليل التكوين..."
@@ -490,6 +559,9 @@
   },
   "Animation duration": {
     "Animation duration": "مدة الحركة"
+  },
+  "Animation style": {
+    "Animation style": ""
   },
   "Animations": {
     "Animations": "الحركات"
@@ -533,6 +605,12 @@
   "App launcher": {
     "App launcher": "مشغل التطبيقات"
   },
+  "App limits": {
+    "App limits": ""
+  },
+  "App name": {
+    "App name": ""
+  },
   "App name or identity (e.g., firefox)": {
     "App name or identity (e.g., firefox)": "اسم التطبيق أو هويته (مثل firefox)"
   },
@@ -558,7 +636,7 @@
     "Applies on the next greeter sync": "يُطبق عند مزامنة الgreeter التالية"
   },
   "Applies the saved profile that matches the connected displays": {
-    "Applies the saved profile that matches the connected displays": ""
+    "Applies the saved profile that matches the connected displays": "يُطبق الملف الشخصي المحفوظ الذي يتطابق مع الشاشات المتصلة"
   },
   "Apply": {
     "Apply": "تطبيق"
@@ -602,6 +680,9 @@
   "Apps dock": {
     "Apps dock": "شريط التطبيقات"
   },
+  "Apps that capture the keyboard can block it": {
+    "Apps that capture the keyboard can block it": ""
+  },
   "Apps with notification popups muted. Unmute or delete to remove.": {
     "Apps with notification popups muted. Unmute or delete to remove.": "التطبيقات ذات النوافذ المنبثقة للإشعارات المكتومة. قم بإلغاء الكتم أو الحذف لإزالتها."
   },
@@ -616,6 +697,9 @@
   },
   "Architecture": {
     "Architecture": "الهندسة المعمارية"
+  },
+  "Archive manager": {
+    "Archive manager": ""
   },
   "Are you sure you want to kill session \"%1\"?": {
     "Are you sure you want to kill session \"%1\"?": "هل أنت متأكد من أنك تريد إنهاء الجلسة \"%1\"؟"
@@ -743,6 +827,9 @@
   "Auto mode is on. Manual profile selection is disabled.": {
     "Auto mode is on. Manual profile selection is disabled.": "الوضع التلقائي مفعل. تم تعطيل اختيار الملف الشخصي اليدوي."
   },
+  "Auto moves this widget into overflow when the bar runs out of space": {
+    "Auto moves this widget into overflow when the bar runs out of space": ""
+  },
   "Auto overflow": {
     "Auto overflow": "تجاوز تلقائي"
   },
@@ -794,6 +881,9 @@
   "Automatic cycling": {
     "Automatic cycling": "دورة تلقائية"
   },
+  "Automatic placement": {
+    "Automatic placement": ""
+  },
   "Automatically enable while screen sharing": {
     "Automatically enable while screen sharing": "تمكين تلقائي أثناء مشاركة الشاشة"
   },
@@ -824,8 +914,8 @@
   "Available networks": {
     "Available networks": "الشبكات المتاحة"
   },
-  "Back": {
-    "Back": "رجوع"
+  "Avatar ring": {
+    "Avatar ring": ""
   },
   "Backend": {
     "Backend": "النظام الخلفي"
@@ -884,11 +974,11 @@
   "Bar size": {
     "Bar size": "حجم الشريط"
   },
-  "Bar surface and spacing": {
-    "Bar surface and spacing": "سطح الشريط والتباعد"
-  },
   "Bar visibility": {
     "Bar visibility": "رؤية الشريط"
+  },
+  "Bar widget background behind the compact face": {
+    "Bar widget background behind the compact face": ""
   },
   "Bar widgets": {
     "Bar widgets": "أدوات الشريط"
@@ -926,9 +1016,6 @@
   "Behavior": {
     "Behavior": "السلوك"
   },
-  "Better Lyrics": {
-    "Better Lyrics": "كلمات أغاني أفضل"
-  },
   "Bind the %1 IPC action in your compositor config.": {
     "Bind the %1 IPC action in your compositor config.": "قم بربط إجراء IPC %1 في إعدادات مدير النوافذ الخاص بك."
   },
@@ -955,6 +1042,12 @@
   },
   "Blocked": {
     "Blocked": "محظور"
+  },
+  "Bloom": {
+    "Bloom": ""
+  },
+  "Blue": {
+    "Blue": ""
   },
   "Blue light filter": {
     "Blue light filter": "مرشح الضوء الأزرق"
@@ -992,6 +1085,9 @@
   "Body font size": {
     "Body font size": "حجم خط النص"
   },
+  "Boot entry changed. Remove it and add it again.": {
+    "Boot entry changed. Remove it and add it again.": ""
+  },
   "Border": {
     "Border": "الحدود"
   },
@@ -1012,9 +1108,6 @@
   },
   "Border with Background": {
     "Border with Background": "حدود مع خلفية"
-  },
-  "Border, connected mode, arcs": {
-    "Border, connected mode, arcs": "الحدود، وضع الاتصال، الأقواس"
   },
   "Both": {
     "Both": "كلاهما"
@@ -1220,6 +1313,9 @@
   "Change Volume": {
     "Change Volume": "تغيير مستوى الصوت"
   },
+  "Changes save to %1": {
+    "Changes save to %1": ""
+  },
   "Channel": {
     "Channel": "القناة"
   },
@@ -1253,11 +1349,11 @@
   "Check interval": {
     "Check interval": "فاصل الفحص"
   },
-  "Check interval, ignored packages, custom command": {
-    "Check interval, ignored packages, custom command": "فاصل التحقق، الحزم المتجاهلة، أمر مخصص"
-  },
   "Check on startup": {
     "Check on startup": "التحقق عند بدء التشغيل"
+  },
+  "Check status": {
+    "Check status": ""
   },
   "Check your custom command in Settings → Dock → Trash.": {
     "Check your custom command in Settings → Dock → Trash.": "تحقق من أمرك المخصص في الإعدادات ← قفص الاتهام (Dock) ← المهملات."
@@ -1271,20 +1367,20 @@
   "Checking...": {
     "Checking...": "جاري التحقق..."
   },
+  "Checks in the background at the check interval. Notifies only when the count grows.": {
+    "Checks in the background at the check interval. Notifies only when the count grows.": ""
+  },
   "Chip": {
     "Chip": "شريحة"
-  },
-  "Choose Dark Mode Color": {
-    "Choose Dark Mode Color": "اختر لون الوضع الداكن"
   },
   "Choose Launcher Logo Color": {
     "Choose Launcher Logo Color": "اختر لون ايقونة مُشغِّل التطبيقات"
   },
-  "Choose Light Mode Color": {
-    "Choose Light Mode Color": "اختر لون الوضع الفاتح"
-  },
   "Choose Wallpaper Color": {
     "Choose Wallpaper Color": "اختر لون الخلفية"
+  },
+  "Choose a clear area of the background. Drag the clock to place it yourself.": {
+    "Choose a clear area of the background. Drag the clock to place it yourself.": ""
   },
   "Choose a power profile": {
     "Choose a power profile": "اختر ملف تعريف الطاقة"
@@ -1310,17 +1406,11 @@
   "Class": {
     "Class": "فئة"
   },
-  "Class regex": {
-    "Class regex": "تعبير نمطي للفئة"
-  },
   "Class regex (e.g. ^firefox$)": {
     "Class regex (e.g. ^firefox$)": "تعبير نمطي للفئة (مثال: ^firefox$)"
   },
   "Classes": {
     "Classes": "فئات"
-  },
-  "Clear": {
-    "Clear": "مسح"
   },
   "Clear All": {
     "Clear All": "مسح الكل"
@@ -1352,15 +1442,6 @@
   "Click Import to add a .ovpn or .conf": {
     "Click Import to add a .ovpn or .conf": "اضغط استيراد لإضافة ملف .ovpn أو .conf"
   },
-  "Click Refresh to check status.": {
-    "Click Refresh to check status.": "انقر على 'تحديث' للتحقق من الحالة."
-  },
-  "Click any shortcut to edit Aqueous configuration": {
-    "Click any shortcut to edit Aqueous configuration": "انقر على أي اختصار لتعديل إعدادات Aqueous"
-  },
-  "Click any shortcut to edit. Changes save to %1": {
-    "Click any shortcut to edit. Changes save to %1": "انقر على أي اختصار للتعديل. سيتم حفظ التغييرات في %1"
-  },
   "Click method": {
     "Click method": "طريقة النقر"
   },
@@ -1386,10 +1467,10 @@
     "Clickfinger": "Clickfinger"
   },
   "Clicking a window in a special workspace opens that workspace": {
-    "Clicking a window in a special workspace opens that workspace": ""
+    "Clicking a window in a special workspace opens that workspace": "النقر على نافذة في مساحة عمل خاصة يفتح مساحة العمل تلك"
   },
   "Clicks on empty bar space reach the windows below": {
-    "Clicks on empty bar space reach the windows below": ""
+    "Clicks on empty bar space reach the windows below": "النقرات على مساحة الشريط الفارغة تصل إلى النوافذ الموجودة بالأسفل"
   },
   "Clip": {
     "Clip": "قص"
@@ -1424,9 +1505,6 @@
   "Clocks, system monitors, plugins": {
     "Clocks, system monitors, plugins": "الساعات، مراقبات النظام، الملحقات"
   },
-  "Close": {
-    "Close": "اغلاق"
-  },
   "Close All Windows": {
     "Close All Windows": "إغلاق كل النوافذ"
   },
@@ -1444,9 +1522,6 @@
   },
   "Collapse": {
     "Collapse": "طي"
-  },
-  "Color": {
-    "Color": "اللون"
   },
   "Color %1 copied": {
     "Color %1 copied": "تم نسخ اللون %1"
@@ -1469,11 +1544,11 @@
   "Color gamut": {
     "Color gamut": "التدرج اللوني"
   },
-  "Color mode": {
-    "Color mode": "وضع الألوان"
-  },
   "Color override": {
     "Color override": "تجاوز اللون"
+  },
+  "Color previews unavailable": {
+    "Color previews unavailable": ""
   },
   "Color space": {
     "Color space": "مساحة اللون"
@@ -1583,14 +1658,8 @@
   "Configure a new printer": {
     "Configure a new printer": "إعداد طابعة جديدة"
   },
-  "Configure match criteria and actions": {
-    "Configure match criteria and actions": "تكوين معايير المطابقة والإجراءات"
-  },
   "Configure one in Settings → Dock → Trash.": {
     "Configure one in Settings → Dock → Trash.": "قم بتهيئة واحدة في الإعدادات ← شريط المهام ← المهملات."
-  },
-  "Confirm": {
-    "Confirm": "تأكيد"
   },
   "Confirm Delete": {
     "Confirm Delete": "تأكيد الحذف"
@@ -1631,9 +1700,6 @@
   "Connected Frame Mode uses the connected launcher for default launcher shortcuts.": {
     "Connected Frame Mode uses the connected launcher for default launcher shortcuts.": "يستخدم وضع الإطار المتصل المشغل المتصل لاختصارات المشغل الافتراضية."
   },
-  "Connected displays": {
-    "Connected displays": "الشاشات المتصلة"
-  },
   "Connected to %1": {
     "Connected to %1": "متصل بـ %1"
   },
@@ -1652,6 +1718,9 @@
   "Connections and autoconnect": {
     "Connections and autoconnect": "الاتصالات والاتصال التلقائي"
   },
+  "Container saturation": {
+    "Container saturation": ""
+  },
   "Contains": {
     "Contains": "يحتوي على"
   },
@@ -1667,9 +1736,6 @@
   "Control Center": {
     "Control Center": "مركز التحكم"
   },
-  "Control Center tile color": {
-    "Control Center tile color": "لون بلاطة مركز التحكم"
-  },
   "Control currently playing media": {
     "Control currently playing media": "التحكم في الوسائط المشغلة حاليًا"
   },
@@ -1684,6 +1750,9 @@
   },
   "Copied!": {
     "Copied!": "تم النسخ!"
+  },
+  "Copies the screenshot to the clipboard": {
+    "Copies the screenshot to the clipboard": ""
   },
   "Copy": {
     "Copy": "نسخ"
@@ -1712,6 +1781,9 @@
   "Corner style": {
     "Corner style": "نمط الزاوية"
   },
+  "Cosine": {
+    "Cosine": ""
+  },
   "Couldn't load hotspot password": {
     "Couldn't load hotspot password": "تعذر تحميل كلمة مرور نقطة الاتصال"
   },
@@ -1721,14 +1793,14 @@
   "Count only": {
     "Count only": "العد فقط"
   },
+  "Counts time in the focused app while the session is active. Stays on this device.": {
+    "Counts time in the focused app while the session is active. Stays on this device.": ""
+  },
   "Cover Open": {
     "Cover Open": "الغطاء مفتوح"
   },
-  "Create": {
-    "Create": "إنشاء"
-  },
-  "Create Window Rule": {
-    "Create Window Rule": "إنشاء قاعدة نافذة"
+  "Cover art": {
+    "Cover art": ""
   },
   "Create a new %1 session (^N)": {
     "Create a new %1 session (^N)": "إنشاء جلسة %1 جديدة (^N)"
@@ -1741,9 +1813,6 @@
   },
   "Create rule for:": {
     "Create rule for:": "إنشاء قاعدة لـ:"
-  },
-  "Create user": {
-    "Create user": "إنشاء مستخدم"
   },
   "Creating...": {
     "Creating...": "جاري الإنشاء..."
@@ -1764,7 +1833,7 @@
     "Critical notification": "إشعار حرج"
   },
   "Critical notifications still pop up": {
-    "Critical notifications still pop up": ""
+    "Critical notifications still pop up": "لا تزال الإشعارات الحرجة تظهر"
   },
   "Critical threshold": {
     "Critical threshold": "عتبة حرجة"
@@ -1774,21 +1843,6 @@
   },
   "Ctrl+%1 is used for password editing": {
     "Ctrl+%1 is used for password editing": "يستخدم Ctrl+%1 لتحرير كلمة المرور"
-  },
-  "Ctrl+A: Select All • Ctrl+P: Preview • Enter/Shift+Enter: Find Next/Previous • Esc: Close": {
-    "Ctrl+A: Select All • Ctrl+P: Preview • Enter/Shift+Enter: Find Next/Previous • Esc: Close": "Ctrl+A: تحديد الكل • Ctrl+P: معاينة • Enter/Shift+Enter: البحث عن التالي/السابق • Esc: إغلاق"
-  },
-  "Ctrl+S: Save • Ctrl+O: Open • Ctrl+N: New • Ctrl+F: Find": {
-    "Ctrl+S: Save • Ctrl+O: Open • Ctrl+N: New • Ctrl+F: Find": "Ctrl+S: حفظ • Ctrl+O: فتح • Ctrl+N: جديد • Ctrl+F: بحث"
-  },
-  "Ctrl+Tab: Switch Tab • Ctrl+S: Pin/Unpin • Shift+Del: Clear All • Esc: Close": {
-    "Ctrl+Tab: Switch Tab • Ctrl+S: Pin/Unpin • Shift+Del: Clear All • Esc: Close": "Ctrl+Tab: تبديل علامة التبويب • Ctrl+S: تثبيت/إلغاء تثبيت • Shift+Del: مسح الكل • Esc: إغلاق"
-  },
-  "Ctrl+Tab: Switch Tabs • Ctrl+S: Pin/Unpin • Shift+Enter: Copy • Shift+Del: Clear All • F10: Help • Esc: Close": {
-    "Ctrl+Tab: Switch Tabs • Ctrl+S: Pin/Unpin • Shift+Enter: Copy • Shift+Del: Clear All • F10: Help • Esc: Close": "Ctrl+Tab: تبديل علامات التبويب • Ctrl+S: تثبيت/إلغاء التثبيت • Shift+Enter: نسخ • Shift+Del: مسح الكل • F10: مساعدة • Esc: إغلاق"
-  },
-  "Ctrl+Tab: Switch Tabs • Ctrl+S: Pin/Unpin • Shift+Enter: Paste • Shift+Del: Clear All • F10: Help • Esc: Close": {
-    "Ctrl+Tab: Switch Tabs • Ctrl+S: Pin/Unpin • Shift+Enter: Paste • Shift+Del: Clear All • F10: Help • Esc: Close": "Ctrl+Tab: تبديل علامات التبويب • Ctrl+S: تثبيت/إلغاء التثبيت • Shift+Enter: لصق • Shift+Del: مسح الكل • F10: مساعدة • Esc: إغلاق"
   },
   "Current": {
     "Current": "الحالي"
@@ -1854,7 +1908,7 @@
     "Custom blend": "مزج مخصص"
   },
   "Custom builds the palette from a color you pick": {
-    "Custom builds the palette from a color you pick": ""
+    "Custom builds the palette from a color you pick": "يبني اللوحة بشكل مخصص من لون تختاره أنت"
   },
   "Custom color": {
     "Custom color": "لون مخصص"
@@ -1898,8 +1952,8 @@
   "DDC/CI monitor": {
     "DDC/CI monitor": "شاشة DDC/CI"
   },
-  "DEMO MODE - Click anywhere to exit": {
-    "DEMO MODE - Click anywhere to exit": "الوضع التجريبي - انقر في أي مكان للخروج"
+  "DMS %1 available": {
+    "DMS %1 available": ""
   },
   "DMS Settings": {
     "DMS Settings": "إعدادات DMS"
@@ -1909,6 +1963,9 @@
   },
   "DMS Shortcuts": {
     "DMS Shortcuts": "اختصارات DMS"
+  },
+  "DMS and system updates": {
+    "DMS and system updates": ""
   },
   "DMS chooser": {
     "DMS chooser": "مُختار DMS"
@@ -1932,7 +1989,7 @@
     "DMS shell actions (launcher, clipboard, etc.)": "إجراءات غلاف DMS (المشغل، الحافظة، غيرها)"
   },
   "DMS stops drawing wallpapers on every display": {
-    "DMS stops drawing wallpapers on every display": ""
+    "DMS stops drawing wallpapers on every display": "يتوقف DMS عن رسم الخلفيات على كل شاشة"
   },
   "DMS uses the font family, weight and scale. Exact face, slant, width and separately scaled bars may differ.": {
     "DMS uses the font family, weight and scale. Exact face, slant, width and separately scaled bars may differ.": "يستخدم DMS عائلة الخط والوزن والمقياس. قد يختلف الوجه الدقيق والميل والعرض والأشرطة ذات الحجم المقياس بشكل منفصل."
@@ -1943,8 +2000,14 @@
   "Daily": {
     "Daily": "يومياً"
   },
-  "Dank Island instance": {
-    "Dank Island instance": "مثيل Dank Island"
+  "Daily limit": {
+    "Daily limit": ""
+  },
+  "Daily screen time limit reached": {
+    "Daily screen time limit reached": ""
+  },
+  "Dank": {
+    "Dank": ""
   },
   "DankBar": {
     "DankBar": "DankBar"
@@ -1991,6 +2054,9 @@
   "Date first": {
     "Date first": "التاريخ أولاً"
   },
+  "Date format": {
+    "Date format": ""
+  },
   "Date, time & region": {
     "Date, time & region": "التاريخ والوقت والمنطقة"
   },
@@ -2002,6 +2068,9 @@
   },
   "Dawn (Nautical Twilight)": {
     "Dawn (Nautical Twilight)": "الفجر (الغسق البحري)"
+  },
+  "Day": {
+    "Day": ""
   },
   "Day date": {
     "Day date": "يوم التاريخ"
@@ -2017,9 +2086,6 @@
   },
   "Deck": {
     "Deck": "متطابق"
-  },
-  "Decrease": {
-    "Decrease": "إنقاص"
   },
   "Default": {
     "Default": "الخيار الافتراضي"
@@ -2039,6 +2105,9 @@
   "Default apps": {
     "Default apps": "التطبيقات الافتراضية"
   },
+  "Default leaves it to niri, which floats dialogs and fixed-size windows and tiles the rest": {
+    "Default leaves it to niri, which floats dialogs and fixed-size windows and tiles the rest": ""
+  },
   "Default selected action": {
     "Default selected action": "الإجراء المحدد افتراضيًا"
   },
@@ -2048,14 +2117,8 @@
   "Default width (%)": {
     "Default width (%)": "العرض الافتراضي (%)"
   },
-  "Defaults": {
-    "Defaults": "الافتراضيات"
-  },
   "Define rules for window behavior. Saves to %1": {
     "Define rules for window behavior. Saves to %1": "تحديد قواعد لسلوك النافذة. يتم الحفظ في %1"
-  },
-  "Del: Clear • Shift+Del: Clear All • 1-9: Actions • F10: Help • Esc: Close": {
-    "Del: Clear • Shift+Del: Clear All • 1-9: Actions • F10: Help • Esc: Close": "Del: مسح • Shift+Del: مسح الكل • 1-9: إجراءات • F10: مساعدة • Esc: إغلاق"
   },
   "Delete": {
     "Delete": "حذف"
@@ -2093,6 +2156,9 @@
   "Delete user": {
     "Delete user": "حذف المستخدم"
   },
+  "Deletes all stored screen time": {
+    "Deletes all stored screen time": ""
+  },
   "Dependencies & documentation": {
     "Dependencies & documentation": "التبعيات والتوثيق"
   },
@@ -2108,9 +2174,6 @@
   "Description": {
     "Description": "الوصف"
   },
-  "Desktop Clock": {
-    "Desktop Clock": "ساعة سطح المكتب"
-  },
   "Desktop Entry": {
     "Desktop Entry": "إدخال سطح المكتب"
   },
@@ -2125,9 +2188,6 @@
   },
   "Details for \"%1": {
     "Details for \"%1\"": "تفاصيل لـ \"%1\""
-  },
-  "Detected backends: %1": {
-    "Detected backends: %1": "الخلفيات المكتشفة: %1"
   },
   "Device": {
     "Device": "الجهاز"
@@ -2152,6 +2212,9 @@
   },
   "Digital": {
     "Digital": "رقمي"
+  },
+  "Digital wellbeing": {
+    "Digital wellbeing": ""
   },
   "Dim": {
     "Dim": "خافت"
@@ -2342,6 +2405,9 @@
   "Docs": {
     "Docs": "المستندات"
   },
+  "Documents": {
+    "Documents": "المستندات"
+  },
   "Domain (optional)": {
     "Domain (optional)": "العنوان (اختياري)"
   },
@@ -2359,6 +2425,9 @@
   },
   "Dot": {
     "Dot": "نقطة"
+  },
+  "Dots": {
+    "Dots": ""
   },
   "Down": {
     "Down": "لأسفل"
@@ -2378,11 +2447,8 @@
   "Drag to move, click to open activities": {
     "Drag to move, click to open activities": "اسحب للتحريك، انقر لفتح الأنشطة"
   },
-  "Drag to reorder": {
-    "Drag to reorder": "اسحب لإعادة الترتيب"
-  },
   "Dragged displays line up with neighboring edges without overlapping": {
-    "Dragged displays line up with neighboring edges without overlapping": ""
+    "Dragged displays line up with neighboring edges without overlapping": "تتراصف الشاشات المسحوبة مع الحواف المجاورة دون تداخل"
   },
   "Driver": {
     "Driver": "Driver"
@@ -2397,7 +2463,13 @@
     "Drop your override for %1 so the DMS default action re-applies?": "هل تريد إسقاط التجاوز الخاص بك لـ %1 حتى يتم إعادة تطبيق إجراء DMS الافتراضي؟"
   },
   "Drops bar gaps and rounding while a window is maximized": {
-    "Drops bar gaps and rounding while a window is maximized": ""
+    "Drops bar gaps and rounding while a window is maximized": "يُسقط فجوات الشريط والتقريب بينما تكون النافذة مكبرة"
+  },
+  "Dune": {
+    "Dune": ""
+  },
+  "Duo": {
+    "Duo": ""
   },
   "Duplicate": {
     "Duplicate": "تكرار"
@@ -2435,6 +2507,9 @@
   "Dynamic colors, presets": {
     "Dynamic colors, presets": "ألوان ديناميكية، إعدادات مسبقة"
   },
+  "Dynamic theme is off": {
+    "Dynamic theme is off": ""
+  },
   "Dynamic width": {
     "Dynamic width": "عرض ديناميكي"
   },
@@ -2455,9 +2530,6 @@
   },
   "Edge to edge": {
     "Edge to edge": "من الحافة إلى الحافة"
-  },
-  "Edit": {
-    "Edit": "تعديل"
   },
   "Edit App": {
     "Edit App": "تعديل التطبيق"
@@ -2482,6 +2554,9 @@
   },
   "Edit rule": {
     "Edit rule": "تحرير القاعدة"
+  },
+  "Edit shortcut": {
+    "Edit shortcut": ""
   },
   "Edit widgets": {
     "Edit widgets": "تحرير الواجهات"
@@ -2615,6 +2690,9 @@
   "Every %1": {
     "Every %1": "كل %1"
   },
+  "Every check": {
+    "Every check": ""
+  },
   "Every edge of this display is already taken": {
     "Every edge of this display is already taken": "كل حافة من هذه الشاشة مشغولة بالفعل"
   },
@@ -2691,7 +2769,7 @@
     "Fade to lock screen": "تلاشي الشاشة حتى القفل"
   },
   "Fades the screen out first. Input during the fade cancels it": {
-    "Fades the screen out first. Input during the fade cancels it": ""
+    "Fades the screen out first. Input during the fade cancels it": "يُلاشي الشاشة تدريجياً أولاً. الإدخال أثناء التلاشي يلغيه"
   },
   "Failed to activate configuration": {
     "Failed to activate configuration": "فشل تفعيل الإعدادات"
@@ -2879,6 +2957,9 @@
   "Failed to set brightness": {
     "Failed to set brightness": "فشل في ضبط السطوع"
   },
+  "Failed to set next boot entry": {
+    "Failed to set next boot entry": ""
+  },
   "Failed to set night mode location": {
     "Failed to set night mode location": "فشل في تعيين موقع الوضع الليلي"
   },
@@ -2963,9 +3044,6 @@
   "Field": {
     "Field": "الحقل"
   },
-  "File": {
-    "File": "ملف"
-  },
   "File changed on disk": {
     "File changed on disk": "تم تغيير الملف على القرص"
   },
@@ -3005,6 +3083,9 @@
   "Find in note...": {
     "Find in note...": "بحث في الملاحظة..."
   },
+  "Fine-tune the seed around the color wheel": {
+    "Fine-tune the seed around the color wheel": ""
+  },
   "Fingerprint": {
     "Fingerprint": "بصمة الإصبع"
   },
@@ -3039,13 +3120,10 @@
     "Fit": "احتواء"
   },
   "Fits the song title instead of keeping a fixed width": {
-    "Fits the song title instead of keeping a fixed width": ""
+    "Fits the song title instead of keeping a fixed width": "يُلائم عنوان الأغنية بدلاً من الحفاظ على عرض ثابت"
   },
   "Fixed": {
     "Fixed": "ثابت"
-  },
-  "Flags": {
-    "Flags": "الأعلام"
   },
   "Flat": {
     "Flat": "مسطح"
@@ -3128,9 +3206,6 @@
   "Fog": {
     "Fog": "ضباب"
   },
-  "Folder": {
-    "Folder": "مجلد"
-  },
   "Folder, interval, daily time": {
     "Folder, interval, daily time": "المجلد، الفاصل الزمني، الوقت اليومي"
   },
@@ -3151,6 +3226,9 @@
   },
   "Follow playback": {
     "Follow playback": "متابعة التشغيل"
+  },
+  "Follows the theme radius strength until overridden": {
+    "Follows the theme radius strength until overridden": ""
   },
   "Font": {
     "Font": "الخط"
@@ -3233,14 +3311,11 @@
   "Frame Blur follows Background Blur in Theme & Colors": {
     "Frame Blur follows Background Blur in Theme & Colors": "تخبيش الإطار يتبع تخبيش الخلفية في المظهر والألوان"
   },
-  "Frame Border Color": {
-    "Frame Border Color": "لون حدود الإطار"
-  },
   "Frame xray": {
     "Frame xray": "أشعة إكس للإطار"
   },
   "Frees the launcher when closed and rebuilds it on open": {
-    "Frees the launcher when closed and rebuilds it on open": ""
+    "Frees the launcher when closed and rebuilds it on open": "يُحرر المشغل عند إغلاقه ويعيد بنائه عند فتحه"
   },
   "Freezing Drizzle": {
     "Freezing Drizzle": "رذاذ متجمد"
@@ -3318,10 +3393,10 @@
     "Gap": "فجوة"
   },
   "Gap between the bar and its popouts follows edge spacing": {
-    "Gap between the bar and its popouts follows edge spacing": ""
+    "Gap between the bar and its popouts follows edge spacing": "الفجوة بين الشريط والنوافذ المنبثقة تتبع تباعد الحواف"
   },
   "Gap between the bar ends and the outermost widgets": {
-    "Gap between the bar ends and the outermost widgets": ""
+    "Gap between the bar ends and the outermost widgets": "الفجوة بين نهايات الشريط والأدوات الخارجية"
   },
   "Gap size": {
     "Gap size": "حجم الفجوة"
@@ -3332,11 +3407,17 @@
   "Gaps, window borders, corner radius": {
     "Gaps, window borders, corner radius": "الفجوات، حدود النوافذ، نصف قطر الزاوية"
   },
+  "Garden": {
+    "Garden": ""
+  },
+  "Gaussian": {
+    "Gaussian": ""
+  },
   "General": {
     "General": "عام"
   },
   "Generate Theme at Startup": {
-    "Generate Theme at Startup": ""
+    "Generate Theme at Startup": "إنشاء السمة عند بدء التشغيل"
   },
   "Generate baseline GTK3/4, QT5/QT6, or qtengine configurations to follow DMS colors (only qt6ct requires qt6ct-kde). Only needed once.<br /><br />It is recommended to configure %1 prior to applying GTK themes.": {
     "Generate baseline GTK3/4, QT5/QT6, or qtengine configurations to follow DMS colors (only qt6ct requires qt6ct-kde). Only needed once.<br /><br />It is recommended to configure %1 prior to applying GTK themes.": "إنشاء تكوينات أساسية لـ GTK3/4، أو QT5/QT6، أو qtengine لتتبع ألوان DMS (يتطلب qt6ct فقط qt6ct-kde). يلزم القيام بذلك مرة واحدة فقط.<br /><br />يُوصى بتهيئة %1 قبل تطبيق سمات GTK."
@@ -3352,6 +3433,9 @@
   },
   "Get Started": {
     "Get Started": "ابدأ"
+  },
+  "Git": {
+    "Git": ""
   },
   "Global fonts can be configured in Settings → Personalization": {
     "Global fonts can be configured in Settings → Personalization": "يمكن تكوين الخطوط العامة في الإعدادات ← إضفاء الطابع الشخصي"
@@ -3385,6 +3469,9 @@
   },
   "Graphics": {
     "Graphics": "الرسومات"
+  },
+  "Green": {
+    "Green": ""
   },
   "Greeter": {
     "Greeter": "شاشة الترحيب (Greeter)"
@@ -3429,7 +3516,7 @@
     "Groups": "المجموعات"
   },
   "Grows or shrinks the space windows keep clear": {
-    "Grows or shrinks the space windows keep clear": ""
+    "Grows or shrinks the space windows keep clear": "يكبّر أو يصغّر المساحة التي تبقيها النوافذ فارغة"
   },
   "H": {
     "H": "H"
@@ -3483,7 +3570,10 @@
     "Hidden apps": "التطبيقات المخفية"
   },
   "Hidden icons expand in place instead of in a popup": {
-    "Hidden icons expand in place instead of in a popup": ""
+    "Hidden icons expand in place instead of in a popup": "تتوسع الأيقونات المخفية في مكانها بدلاً من الظهور في نافذة منبثقة"
+  },
+  "Hidden until screen time tracking is enabled": {
+    "Hidden until screen time tracking is enabled": ""
   },
   "Hidden until weather is enabled": {
     "Hidden until weather is enabled": "مخفي حتى يتم تمكين الطقس"
@@ -3509,8 +3599,8 @@
   "Hide installed": {
     "Hide installed": "إخفاء المثبتة"
   },
-  "Hide password": {
-    "Hide password": "إخفاء كلمة المرور"
+  "Hide until typing": {
+    "Hide until typing": ""
   },
   "Hide when no updates": {
     "Hide when no updates": "إخفاء عند عدم وجود تحديثات"
@@ -3519,10 +3609,10 @@
     "Hide when windows open": "إخفاء عند فتح النوافذ"
   },
   "Hides even while a bar popout or menu is open": {
-    "Hides even while a bar popout or menu is open": ""
+    "Hides even while a bar popout or menu is open": "يختفي حتى أثناء فتح نافذة منبثقة للشريط أو قائمة"
   },
   "Hides only while a window overlaps the dock": {
-    "Hides only while a window overlaps the dock": ""
+    "Hides only while a window overlaps the dock": "يختفي فقط عندما تتداخل نافذة مع القفص (Dock)"
   },
   "High": {
     "High": "عالي"
@@ -3565,9 +3655,6 @@
   },
   "Home compact": {
     "Home compact": "الصفحة الرئيسية المدمجة"
-  },
-  "Home layout, notifications, satellites": {
-    "Home layout, notifications, satellites": "تخطيط الصفحة الرئيسية، الإشعارات، الأقمار الصناعية"
   },
   "Horizontal": {
     "Horizontal": "أفقي"
@@ -3767,6 +3854,9 @@
   "Include transitions": {
     "Include transitions": "تضمين الانتقالات"
   },
+  "Includes the mouse pointer": {
+    "Includes the mouse pointer": ""
+  },
   "Incompatible plugins loaded": {
     "Incompatible plugins loaded": "تم تحميل إضافات غير متوافقة"
   },
@@ -3775,9 +3865,6 @@
   },
   "Incorrect password - try again": {
     "Incorrect password - try again": "كلمة مرور غير صحيحة - حاول مجدداً"
-  },
-  "Increase": {
-    "Increase": "زيادة"
   },
   "Index centering": {
     "Index centering": "توسيط المؤشر"
@@ -3793,9 +3880,6 @@
   },
   "Individual Batteries": {
     "Individual Batteries": "البطاريات الفردية"
-  },
-  "Individual bar configuration": {
-    "Individual bar configuration": "إعدادات الأشرطة المنفردة"
   },
   "Info": {
     "Info": "معلومات"
@@ -3869,6 +3953,9 @@
   "Install plugin '%1' from the DMS registry?": {
     "Install plugin '%1' from the DMS registry?": "هل تريد تثبيت الملحق '%1' من سجل DMS؟"
   },
+  "Install system updates?": {
+    "Install system updates?": ""
+  },
   "Install theme '%1' from the DMS registry?": {
     "Install theme '%1' from the DMS registry?": "هل تريد تثبيت السمة '%1' من سجل DMS؟"
   },
@@ -3877,6 +3964,9 @@
   },
   "Installed": {
     "Installed": "مثبت"
+  },
+  "Installed %1, still running %2": {
+    "Installed %1, still running %2": ""
   },
   "Installed first": {
     "Installed first": "المثبتة أولاً"
@@ -3920,8 +4010,8 @@
   "Invalid configuration": {
     "Invalid configuration": "تكوين غير صالح"
   },
-  "Invalid package name — letters, digits and @._+:- only.": {
-    "Invalid package name — letters, digits and @._+:- only.": "اسم التطبيق غير صالح — يُسمح فقط بالأحرف، والأرقام، والرموز التالية: @._+:-"
+  "Invalid package name — letters, digits and @._+:/- only.": {
+    "Invalid package name — letters, digits and @._+:/- only.": ""
   },
   "Invalid username": {
     "Invalid username": "اسم المستخدم غير صالح"
@@ -3934,6 +4024,9 @@
   },
   "Isolate displays": {
     "Isolate displays": "عزل الشاشات"
+  },
+  "Italic": {
+    "Italic": ""
   },
   "JSON output path": {
     "JSON output path": "مسار إخراج JSON"
@@ -3966,10 +4059,13 @@
     "Keeping Awake": "منع الخمول نشط"
   },
   "Keeps the dock showing over fullscreen windows": {
-    "Keeps the dock showing over fullscreen windows": ""
+    "Keeps the dock showing over fullscreen windows": "يبقي القفص (Dock) ظاهراً فوق النوافذ بملء الشاشة"
   },
   "Keeps the widget above windows instead of below them": {
-    "Keeps the widget above windows instead of below them": ""
+    "Keeps the widget above windows instead of below them": "يبقي الأداة فوق النوافذ بدلاً من أسفلها"
+  },
+  "Kept for %1 days on this device": {
+    "Kept for %1 days on this device": ""
   },
   "Kernel": {
     "Kernel": "النواة"
@@ -3998,9 +4094,6 @@
   "Keymap file": {
     "Keymap file": "ملف تخطيط المفاتيح"
   },
-  "Keys": {
-    "Keys": "مفاتيح"
-  },
   "Kill": {
     "Kill": "إنهاء (Kill)"
   },
@@ -4012,9 +4105,6 @@
   },
   "LED device": {
     "LED device": "جهاز LED"
-  },
-  "LRCLIB": {
-    "LRCLIB": "LRCLIB"
   },
   "LabWC IRC channel": {
     "LabWC IRC channel": "قناة IRC الخاصة بـ LabWC"
@@ -4039,6 +4129,9 @@
   },
   "Largest": {
     "Largest": "الأكبر"
+  },
+  "Last commit %1": {
+    "Last commit %1": ""
   },
   "Last hour": {
     "Last hour": "الساعة الماضية"
@@ -4134,7 +4227,7 @@
     "Least Saturated": "الأقل تشبعاً"
   },
   "Leaves the overview when DMS launches an app or focuses a window": {
-    "Leaves the overview when DMS launches an app or focuses a window": ""
+    "Leaves the overview when DMS launches an app or focuses a window": "يغادر نظرة عامة (overview) عندما يقوم DMS بتشغيل تطبيق أو التركيز على نافذة"
   },
   "Left": {
     "Left": "اليسار"
@@ -4167,7 +4260,7 @@
     "Light Snow Showers": "زخات ثلجية خفيفة"
   },
   "Light and dark mode follow and set the system color scheme": {
-    "Light and dark mode follow and set the system color scheme": ""
+    "Light and dark mode follow and set the system color scheme": "يتبع الوضعان الفاتح والمظلم نظام ألوان الجهاز ويقومان بضبطه"
   },
   "Light direction": {
     "Light direction": "اتجاه الضوء"
@@ -4186,6 +4279,9 @@
   },
   "Lightest": {
     "Lightest": "الأكثر سطوعاً"
+  },
+  "Limit": {
+    "Limit": ""
   },
   "Limit set to %1%": {
     "Limit set to %1%": "تم ضبط الحد على %1%"
@@ -4209,7 +4305,10 @@
     "Listening from": "الاستماع من"
   },
   "Lists workspaces from whichever display has focus": {
-    "Lists workspaces from whichever display has focus": ""
+    "Lists workspaces from whichever display has focus": "يسرد مساحات العمل من أي شاشة لديها التركيز"
+  },
+  "Live activities that grow out of the bar": {
+    "Live activities that grow out of the bar": ""
   },
   "Lively palette with saturated accents.": {
     "Lively palette with saturated accents.": "لوحة ألوان حيوية مع عناصر بارزة مشبعة."
@@ -4240,9 +4339,6 @@
   },
   "Locale": {
     "Locale": "الإعدادات الإقليمية (Locale)"
-  },
-  "Location": {
-    "Location": "الموقع"
   },
   "Location search": {
     "Location search": "البحث عن الموقع"
@@ -4280,6 +4376,9 @@
   "Login screen appearance and authentication": {
     "Login screen appearance and authentication": "مظهر شاشة تسجيل الدخول والمصادقة"
   },
+  "Long": {
+    "Long": ""
+  },
   "Long Text": {
     "Long Text": "نص طويل"
   },
@@ -4313,11 +4412,11 @@
   "Lyrics providers": {
     "Lyrics providers": "مزودو كلمات الأغاني"
   },
-  "LyricsPlus": {
-    "LyricsPlus": "LyricsPlus"
-  },
   "MIT License": {
     "MIT License": "رخصة MIT"
+  },
+  "Magnification": {
+    "Magnification": ""
   },
   "Mail": {
     "Mail": "البريد"
@@ -4328,11 +4427,11 @@
   "Manage Registries": {
     "Manage Registries": "إدارة السجلات"
   },
-  "Managed by Frame": {
-    "Managed by Frame": "مدار بواسطة الإطار"
-  },
   "Managed by Frame in Connected Mode": {
     "Managed by Frame in Connected Mode": "مدار بواسطة الإطار في الوضع المتصل"
+  },
+  "Managed by Nix": {
+    "Managed by Nix": ""
   },
   "Managed by the primary PAM source": {
     "Managed by the primary PAM source": "تتم إدارتها بواسطة مصدر PAM الأساسي"
@@ -4388,6 +4487,9 @@
   "Master": {
     "Master": "رئيسي"
   },
+  "Master branch": {
+    "Master branch": ""
+  },
   "Master position": {
     "Master position": "موضع الرئيسي"
   },
@@ -4403,8 +4505,17 @@
   "Match Criteria": {
     "Match Criteria": "معايير المطابقة"
   },
+  "Match corner style": {
+    "Match corner style": ""
+  },
+  "Match type": {
+    "Match type": ""
+  },
   "Matches player identity or desktop file name, case-insensitive": {
     "Matches player identity or desktop file name, case-insensitive": "يطابق هوية المشغل أو اسم ملف سطح المكتب، غير حساس لحالة الأحرف"
+  },
+  "Material": {
+    "Material": ""
   },
   "Material Design inspired color themes": {
     "Material Design inspired color themes": "سمات لونية مستوحاة من Material Design"
@@ -4453,9 +4564,6 @@
   },
   "Max volume": {
     "Max volume": "الحد الأقصى لمستوى الصوت"
-  },
-  "Maximize": {
-    "Maximize": "تكبير"
   },
   "Maximize detection": {
     "Maximize detection": "كشف التكبير"
@@ -4556,11 +4664,11 @@
   "Min W": {
     "Min W": "أدنى عرض"
   },
+  "Minimal": {
+    "Minimal": ""
+  },
   "Minimal palette built around a single hue.": {
     "Minimal palette built around a single hue.": "لوحة ألوان مبسطة مبنية حول درجة لون واحدة."
-  },
-  "Minimize": {
-    "Minimize": "تصغير"
   },
   "Minimum workspaces": {
     "Minimum workspaces": "الحد الأدنى لمساحات العمل"
@@ -4570,6 +4678,9 @@
   },
   "Missing Environment Variables": {
     "Missing Environment Variables": "متغيرات البيئة مفقودة"
+  },
+  "Mix all stereo content into a single channel": {
+    "Mix all stereo content into a single channel": ""
   },
   "Mixed": {
     "Mixed": "مختلط"
@@ -4595,6 +4706,9 @@
   "Monitor": {
     "Monitor": "شاشة العرض"
   },
+  "Mono Audio": {
+    "Mono Audio": ""
+  },
   "Monochrome": {
     "Monochrome": "أحادي اللون"
   },
@@ -4603,6 +4717,9 @@
   },
   "Monospace family": {
     "Monospace family": "عائلة الخط أحادي المسافة"
+  },
+  "Month": {
+    "Month": ""
   },
   "Month date": {
     "Month date": "تاريخ الشهر"
@@ -4619,6 +4736,9 @@
   "More": {
     "More": "المزيد"
   },
+  "More widgets": {
+    "More widgets": ""
+  },
   "Morning": {
     "Morning": "الصباح"
   },
@@ -4627,6 +4747,12 @@
   },
   "Most Vivid": {
     "Most Vivid": "الأكثر حيوية"
+  },
+  "Most used apps": {
+    "Most used apps": ""
+  },
+  "Motion": {
+    "Motion": ""
   },
   "Mount": {
     "Mount": "تركيب (Mount)"
@@ -4640,14 +4766,14 @@
   "Mouse & touchpad": {
     "Mouse & touchpad": "الماوس ولوحة اللمس"
   },
-  "Move": {
-    "Move": "تحريك"
-  },
-  "Move down": {
-    "Move down": "تحريك للأسفل"
-  },
   "Move out of scratchpad": {
     "Move out of scratchpad": "نقل خارج لوحة الخدش"
+  },
+  "Move row to footer": {
+    "Move row to footer": ""
+  },
+  "Move row to header": {
+    "Move row to header": ""
   },
   "Move to scratchpad": {
     "Move to scratchpad": "نقل إلى لوحة الخدش"
@@ -4655,8 +4781,8 @@
   "Move to scratchpad: %1": {
     "Move to scratchpad: %1": "نقل إلى لوحة الخدش: %1"
   },
-  "Move up": {
-    "Move up": "تحريك للأعلى"
+  "Moves focus along with the column": {
+    "Moves focus along with the column": ""
   },
   "Moving to Paused": {
     "Moving to Paused": "جاري الإيقاف المؤقت"
@@ -4772,9 +4898,6 @@
   "New": {
     "New": "جديد"
   },
-  "New Keybind": {
-    "New Keybind": "اختصار لوحة مفاتيح جديد"
-  },
   "New Session": {
     "New Session": "جلسة جديدة"
   },
@@ -4794,13 +4917,10 @@
     "New notification": "إشعار جديد"
   },
   "New notifications show as regular popups": {
-    "New notifications show as regular popups": ""
+    "New notifications show as regular popups": "تظهر الإشعارات الجديدة كنوافذ منبثقة عادية"
   },
   "New profile": {
     "New profile": "ملف تعريف جديد"
-  },
-  "New shortcut": {
-    "New shortcut": "اختصار جديد"
   },
   "New tab": {
     "New tab": "علامة تبويب جديدة"
@@ -4889,6 +5009,9 @@
   "No app customizations.": {
     "No app customizations.": "لا توجد تخصيصات للتطبيقات."
   },
+  "No app limits": {
+    "No app limits": ""
+  },
   "No application selected": {
     "No application selected": "لم يتم اختيار أي تطبيق"
   },
@@ -4915,9 +5038,6 @@
   },
   "No brightness devices available": {
     "No brightness devices available": "لا توجد أجهزة سطوع متاحة"
-  },
-  "No changes": {
-    "No changes": "لا توجد تغييرات"
   },
   "No checks passed": {
     "No checks passed": "لم يتم اجتياز أي فحص"
@@ -5016,7 +5136,7 @@
     "No matching processes": "لا توجد عمليات مطابقة"
   },
   "No media found.": {
-    "No media found.": ""
+    "No media found.": "لم يتم العثور على وسائط."
   },
   "No monitors": {
     "No monitors": "لا توجد شاشات"
@@ -5219,8 +5339,8 @@
   "Nothing": {
     "Nothing": "لا شيء"
   },
-  "Nothing to see here": {
-    "Nothing to see here": "لا يوجد شيء لعرضه هنا"
+  "Nothing tracked yet": {
+    "Nothing tracked yet": ""
   },
   "Notification": {
     "Notification": "إشعار"
@@ -5234,8 +5354,23 @@
   "Notification popups": {
     "Notification popups": "نوافذ الإشعارات المنبثقة"
   },
+  "Notification rules": {
+    "Notification rules": ""
+  },
   "Notifications": {
     "Notifications": "الإشعارات"
+  },
+  "Notifies when today's screen time passes the limit": {
+    "Notifies when today's screen time passes the limit": ""
+  },
+  "Notifies when today's use of this app passes the limit": {
+    "Notifies when today's use of this app passes the limit": ""
+  },
+  "Notify at most": {
+    "Notify at most": ""
+  },
+  "Notify me on new updates": {
+    "Notify me on new updates": ""
   },
   "Notify when limit is reached": {
     "Notify when limit is reached": "أشعرني عند الوصول إلى الحد"
@@ -5252,9 +5387,6 @@
   "Numeric (M/D)": {
     "Numeric (M/D)": "رقمي (ش/ي)"
   },
-  "OK": {
-    "OK": "موافق"
-  },
   "OS Logo": {
     "OS Logo": "أيقونة النظام"
   },
@@ -5268,7 +5400,7 @@
     "Off": "إيقاف"
   },
   "Off keeps the bar hidden until turned back on or shown over IPC": {
-    "Off keeps the bar hidden until turned back on or shown over IPC": ""
+    "Off keeps the bar hidden until turned back on or shown over IPC": "يُبقي خيار إيقاف التشغيل الشريط مخفياً حتى يتم تشغيله مرة أخرى أو إظهاره عبر IPC"
   },
   "Office": {
     "Office": "المكتب"
@@ -5300,6 +5432,9 @@
   "Once a day": {
     "Once a day": "مرة واحدة يومياً"
   },
+  "Once a week": {
+    "Once a week": ""
+  },
   "Online": {
     "Online": "متصل"
   },
@@ -5318,17 +5453,11 @@
   "Opaque": {
     "Opaque": "غير شفاف"
   },
-  "Open": {
-    "Open": "فتح"
-  },
   "Open Frame": {
     "Open Frame": "فتح الإطار"
   },
   "Open From": {
     "Open From": "فتح من"
-  },
-  "Open Island": {
-    "Open Island": "فتح الجزيرة"
   },
   "Open Notepad File": {
     "Open Notepad File": "فتح ملف ملاحظات"
@@ -5351,14 +5480,14 @@
   "Open folder": {
     "Open folder": "فتح المجلد"
   },
-  "Open in Browser": {
-    "Open in Browser": "فتح في المتصفح"
-  },
   "Open in terminal": {
     "Open in terminal": "فتح في الطرفية"
   },
+  "Open in the Island": {
+    "Open in the Island": ""
+  },
   "Open large file?": {
-    "Open large file?": ""
+    "Open large file?": "فتح ملف كبير؟"
   },
   "Open network": {
     "Open network": "شبكة مفتوحة"
@@ -5378,6 +5507,12 @@
   "Opens": {
     "Opens": "يفتح"
   },
+  "Opens %1": {
+    "Opens %1": ""
+  },
+  "Opens a floating window with the live output": {
+    "Opens a floating window with the live output": ""
+  },
   "Optional description": {
     "Optional description": "وصف اختياري"
   },
@@ -5395,6 +5530,15 @@
   },
   "Options of one widget instance": {
     "Options of one widget instance": "خيارات مثيل أداة واحدة"
+  },
+  "Orange": {
+    "Orange": ""
+  },
+  "Orbit": {
+    "Orbit": ""
+  },
+  "Order": {
+    "Order": "ترتيب"
   },
   "Orientation": {
     "Orientation": "الاتجاه"
@@ -5450,6 +5594,12 @@
   "Overflow": {
     "Overflow": "تجاوز"
   },
+  "Overflow button position": {
+    "Overflow button position": ""
+  },
+  "Overlapping": {
+    "Overlapping": ""
+  },
   "Overlay": {
     "Overlay": "تراكب (Overlay)"
   },
@@ -5489,9 +5639,6 @@
   "PIN": {
     "PIN": "PIN"
   },
-  "PM": {
-    "PM": "م"
-  },
   "Package name (e.g., docker)": {
     "Package name (e.g., docker)": "اسم التطبيق (مثال: docker)"
   },
@@ -5525,6 +5672,9 @@
   "Palette name": {
     "Palette name": "اسم اللوحة"
   },
+  "Palette style": {
+    "Palette style": ""
+  },
   "Panel height (rows)": {
     "Panel height (rows)": "ارتفاع اللوحة (صفوف)"
   },
@@ -5533,6 +5683,9 @@
   },
   "Panel width (columns)": {
     "Panel width (columns)": "عرض اللوحة (أعمدة)"
+  },
+  "Parabolic": {
+    "Parabolic": ""
   },
   "Partially synchronized": {
     "Partially synchronized": "متزامن جزئياً"
@@ -5551,6 +5704,9 @@
   },
   "Password change failed (exit %1)": {
     "Password change failed (exit %1)": "فشل تغيير كلمة المرور (رمز الخروج %1)"
+  },
+  "Password field": {
+    "Password field": ""
   },
   "Password must be 8 to 63 characters, or a 64-digit hex key.": {
     "Password must be 8 to 63 characters, or a 64-digit hex key.": "يجب أن تكون كلمة المرور من 8 إلى 63 حرفًا، أو مفتاح ست عشري مكون من 64 رقمًا."
@@ -5582,6 +5738,9 @@
   "Pause": {
     "Pause": "إيقاف مؤقت"
   },
+  "Pause checks on battery": {
+    "Pause checks on battery": ""
+  },
   "Paused": {
     "Paused": "متوقف"
   },
@@ -5612,17 +5771,26 @@
   "Permission denied to set profile image.": {
     "Permission denied to set profile image.": "تم رفض الإذن بتعيين صورة الملف الشخصي."
   },
+  "Petal": {
+    "Petal": ""
+  },
   "Pick Color": {
     "Pick Color": "اختر اللون"
   },
   "Pick a different file manager in Settings → Dock → Trash.": {
     "Pick a different file manager in Settings → Dock → Trash.": "اختر مدير ملفات مختلف في الإعدادات ← شريط المهام ← المهملات."
   },
+  "Pick an app from the list above or the dashboard tab": {
+    "Pick an app from the list above or the dashboard tab": ""
+  },
   "Pick how long to pause notifications": {
     "Pick how long to pause notifications": "اختر مدة إيقاف الإشعارات مؤقتاً"
   },
   "Pick how long to stay awake": {
     "Pick how long to stay awake": "اختر المدة التي تريد البقاء فيها مستيقظاً"
+  },
+  "Pill": {
+    "Pill": ""
   },
   "Pills": {
     "Pills": "أقراص"
@@ -5632,6 +5800,9 @@
   },
   "Pin to Dock": {
     "Pin to Dock": "اضافة الى الشريط"
+  },
+  "Pink": {
+    "Pink": ""
   },
   "Pinned": {
     "Pinned": "مثبت"
@@ -5690,6 +5861,9 @@
   "Plugin": {
     "Plugin": "ملحق"
   },
+  "Plugin Source Code": {
+    "Plugin Source Code": ""
+  },
   "Plugin dependency missing": {
     "Plugin dependency missing": "تعذر العثور على تبعية الملحق"
   },
@@ -5727,7 +5901,7 @@
     "Pointer": "المؤشر"
   },
   "Pointer at the launcher edge opens it, unless a bar or dock is there": {
-    "Pointer at the launcher edge opens it, unless a bar or dock is there": ""
+    "Pointer at the launcher edge opens it, unless a bar or dock is there": "المؤشر عند حافة المشغل يفتحه، ما لم يكن هناك شريط أو قفص (Dock) هناك"
   },
   "Pointer speed": {
     "Pointer speed": "سرعة المؤشر"
@@ -5742,7 +5916,7 @@
     "Popouts": "النوافذ المنبثقة"
   },
   "Popouts and modals use the main animation duration": {
-    "Popouts and modals use the main animation duration": ""
+    "Popouts and modals use the main animation duration": "تستخدم النوافذ المنبثقة والنماذج مدة الرسوم المتحركة الرئيسية"
   },
   "Popular Plugins": {
     "Popular Plugins": "الملحقات الشائعة"
@@ -5757,7 +5931,7 @@
     "Popups": "نوافذ منبثقة"
   },
   "Popups hide the message until expanded": {
-    "Popups hide the message until expanded": ""
+    "Popups hide the message until expanded": "تخفي النوافذ المنبثقة الرسالة حتى يتم توسيعها"
   },
   "Popups, do not disturb, rules": {
     "Popups, do not disturb, rules": "النوافذ المنبثقة، عدم الإزعاج، القواعد"
@@ -5779,9 +5953,6 @@
   },
   "Position": {
     "Position": "الموقع"
-  },
-  "Position, appearance, island": {
-    "Position, appearance, island": "الموقع، المظهر، الجزيرة"
   },
   "Position, displays, auto-hide, behavior": {
     "Position, displays, auto-hide, behavior": "الموقع، الشاشات، الإخفاء التلقائي، السلوك"
@@ -5831,20 +6002,23 @@
   "Power source": {
     "Power source": "مصدر الطاقة"
   },
+  "Pre-release": {
+    "Pre-release": ""
+  },
   "Precipitation": {
     "Precipitation": "هطول الأمطار"
   },
   "Preference": {
     "Preference": "التفضيلات"
   },
+  "Presentation": {
+    "Presentation": ""
+  },
   "Preserve split": {
     "Preserve split": "الحفاظ على الانقسام"
   },
   "Preset widths (%)": {
     "Preset widths (%)": "العروض المحددة مسبقًا (%)"
-  },
-  "Presets": {
-    "Presets": "الإعدادات المسبقة"
   },
   "Press Ctrl+N or click 'New Session' to create one": {
     "Press Ctrl+N or click 'New Session' to create one": "اضغط Ctrl+N أو انقر على 'جلسة جديدة' لإنشاء واحدة"
@@ -5984,6 +6158,15 @@
   "Protocol": {
     "Protocol": "البروتوكول"
   },
+  "Pulse animation": {
+    "Pulse animation": ""
+  },
+  "Purple": {
+    "Purple": ""
+  },
+  "Push neighboring icons": {
+    "Push neighboring icons": ""
+  },
   "QR Generator": {
     "QR Generator": "مولد رمز الاستجابة السريعة"
   },
@@ -6038,8 +6221,8 @@
   "Reach local network devices while using an exit node": {
     "Reach local network devices while using an exit node": "الوصول إلى أجهزة الشبكة المحلية أثناء استخدام عقدة الخروج"
   },
-  "Read-only legacy config": {
-    "Read-only legacy config": "تكوين قديم للقراءة فقط"
+  "Read the blog post": {
+    "Read the blog post": ""
   },
   "Read:": {
     "Read:": "قراءة:"
@@ -6049,6 +6232,15 @@
   },
   "Reason": {
     "Reason": "السبب"
+  },
+  "Reboot recommended": {
+    "Reboot recommended": ""
+  },
+  "Reboot to %1": {
+    "Reboot to %1": ""
+  },
+  "Reboot to another OS": {
+    "Reboot to another OS": ""
   },
   "Recent": {
     "Recent": "الأخيرة"
@@ -6065,11 +6257,11 @@
   "Record": {
     "Record": "تسجيل"
   },
+  "Red": {
+    "Red": ""
+  },
   "Reduce motion": {
     "Reduce motion": "تقليل الحركة"
-  },
-  "Refresh": {
-    "Refresh": "إعادة تحميل"
   },
   "Refresh Weather": {
     "Refresh Weather": "تحديث الطقس"
@@ -6078,7 +6270,7 @@
     "Refreshing...": "جاري التحديث..."
   },
   "Regenerate matugen colors when DMS starts, even if nothing changed.": {
-    "Regenerate matugen colors when DMS starts, even if nothing changed.": ""
+    "Regenerate matugen colors when DMS starts, even if nothing changed.": "إعادة إنشاء ألوان matugen عند بدء تشغيل DMS، حتى لو لم يتغير شيء."
   },
   "Regex": {
     "Regex": "تعبير نمطي (Regex)"
@@ -6094,6 +6286,12 @@
   },
   "Release": {
     "Release": "تحرير"
+  },
+  "Release notes": {
+    "Release notes": ""
+  },
+  "Release notes are unavailable": {
+    "Release notes are unavailable": ""
   },
   "Release to confirm": {
     "Release to confirm": "أفلِت للتأكيد"
@@ -6152,6 +6350,9 @@
   "Remove match": {
     "Remove match": "إزالة المطابقة"
   },
+  "Remove override": {
+    "Remove override": ""
+  },
   "Remove the shortcut %1?": {
     "Remove the shortcut %1?": "هل تريد إزالة الاختصار %1؟"
   },
@@ -6163,9 +6364,6 @@
   },
   "Removed greeter login access": {
     "Removed greeter login access": "تمت إزالة وصول تسجيل الدخول الترحيبي"
-  },
-  "Rename": {
-    "Rename": "إعادة تسمية"
   },
   "Rename Session": {
     "Rename Session": "إعادة تسمية الجلسة"
@@ -6190,6 +6388,9 @@
   },
   "Repeat rate": {
     "Repeat rate": "معدل التكرار"
+  },
+  "Repeats while the key is held": {
+    "Repeats while the key is held": ""
   },
   "Replace a displayed layout label with custom text, e.g. \"am-phonetic-alt\" → \"am": {
     "Replace a displayed layout label with custom text, e.g. \"am-phonetic-alt\" → \"am\"": "استبدال تسمية التخطيط المعروضة بنص مخصص، على سبيل المثال \"am-phonetic-alt\" → \"am\""
@@ -6251,9 +6452,6 @@
   "Reset to default": {
     "Reset to default": "إعادة التعيين إلى الافتراضي"
   },
-  "Resize": {
-    "Resize": "تغيير الحجم"
-  },
   "Resize on border": {
     "Resize on border": "تغيير الحجم عند الحدود"
   },
@@ -6268,9 +6466,6 @@
   },
   "Restarting audio system...": {
     "Restarting audio system...": "جارٍ إعادة تشغيل نظام الصوت..."
-  },
-  "Restore": {
-    "Restore": "استعادة"
   },
   "Restore special workspace": {
     "Restore special workspace": "استعادة مساحة العمل الخاصة"
@@ -6314,12 +6509,6 @@
   "Right-click an app in the launcher and choose 'Hide App'": {
     "Right-click an app in the launcher and choose 'Hide App'": "انقر بزر الماوس الأيمن على تطبيق في المشغّل واختر 'إخفاء التطبيق'"
   },
-  "Right-click and drag anywhere on the widget": {
-    "Right-click and drag anywhere on the widget": "انقر بزر الماوس الأيمن واسحب في أي مكان على الأداة"
-  },
-  "Right-click and drag the bottom-right corner": {
-    "Right-click and drag the bottom-right corner": "انقر بزر الماوس الأيمن واسحب الزاوية اليمنى السفلية"
-  },
   "Right-click bar widget to cycle": {
     "Right-click bar widget to cycle": "اضغط بيمين الفأرة للتنقل بين الأنماط"
   },
@@ -6337,6 +6526,9 @@
   },
   "Rounded": {
     "Rounded": "مستدير"
+  },
+  "Roundness": {
+    "Roundness": ""
   },
   "Route Bluetooth headset controls to the active DMS media player": {
     "Route Bluetooth headset controls to the active DMS media player": "توجيه عناصر تحكم سماعة البلوتوث إلى مشغل وسائط DMS النشط"
@@ -6394,6 +6586,9 @@
   },
   "Running in terminal": {
     "Running in terminal": "مشغل في الطرفية حالياً"
+  },
+  "Runs in a terminal.": {
+    "Runs in a terminal.": ""
   },
   "S": {
     "S": "S"
@@ -6488,6 +6683,15 @@
   "Screen sharing": {
     "Screen sharing": "مشاركة الشاشة"
   },
+  "Screen time": {
+    "Screen time": ""
+  },
+  "Screen time and app limits": {
+    "Screen time and app limits": ""
+  },
+  "Screen time history": {
+    "Screen time history": ""
+  },
   "Screenshot unavailable": {
     "Screenshot unavailable": "لقطة الشاشة غير متاحة"
   },
@@ -6512,6 +6716,9 @@
   "Scroll wheel": {
     "Scroll wheel": "عجلة التمرير"
   },
+  "Scrollbars": {
+    "Scrollbars": ""
+  },
   "Scrolling": {
     "Scrolling": "شريطي"
   },
@@ -6519,7 +6726,7 @@
     "Search": "بحث"
   },
   "Search also matches actions apps provide, like New Window": {
-    "Search also matches actions apps provide, like New Window": ""
+    "Search also matches actions apps provide, like New Window": "يطابق البحث أيضاً الإجراءات التي توفرها التطبيقات، مثل نافذة جديدة"
   },
   "Search applications...": {
     "Search applications...": "البحث عن التطبيقات..."
@@ -6641,9 +6848,6 @@
   "Select an image file...": {
     "Select an image file...": "اختر ملف صورة..."
   },
-  "Select background image": {
-    "Select background image": "اختر صورة الخلفية"
-  },
   "Select device": {
     "Select device": "تحديد الجهاز"
   },
@@ -6707,20 +6911,17 @@
   "Set custom names for your audio output devices": {
     "Set custom names for your audio output devices": "تعيين أسماء مخصصة لأجهزة إخراج الصوت الخاصة بك"
   },
-  "Set key and action to save": {
-    "Set key and action to save": "اضبط المفتاح والإجراء للحفظ"
+  "Set limit": {
+    "Set limit": ""
   },
   "Set notification rules": {
     "Set notification rules": "ضبط قواعد الإشعارات"
   },
+  "Set under Theme & colors, Derived color": {
+    "Set under Theme & colors, Derived color": ""
+  },
   "Set up a Wi-Fi hotspot for sharing this connection.": {
     "Set up a Wi-Fi hotspot for sharing this connection.": "إعداد نقطة اتصال Wi-Fi لمشاركة هذا الاتصال."
-  },
-  "Set up hotspot": {
-    "Set up hotspot": "إعداد نقطة اتصال"
-  },
-  "Set up hotspot in Settings": {
-    "Set up hotspot in Settings": "إعداد نقطة اتصال في الإعدادات"
   },
   "Setting": {
     "Setting": "إعداد"
@@ -6746,6 +6947,9 @@
   "Shadows": {
     "Shadows": "الظلال"
   },
+  "Shapes use the %1 theme's colors": {
+    "Shapes use the %1 theme's colors": ""
+  },
   "Share gamma control settings": {
     "Share gamma control settings": "مشاركة إعدادات التحكم في جاما"
   },
@@ -6761,6 +6965,9 @@
   "Shift+Enter to paste": {
     "Shift+Enter to paste": "Shift+Enter للصق"
   },
+  "Short": {
+    "Short": ""
+  },
   "Shortcut": {
     "Shortcut": "اختصار"
   },
@@ -6774,7 +6981,7 @@
     "Shortcuts (%1)": "الاختصارات (%1)"
   },
   "Shortens the bar at both ends": {
-    "Shortens the bar at both ends": ""
+    "Shortens the bar at both ends": "يقصّر الشريط من كلا الطرفين"
   },
   "Show": {
     "Show": "إظهار"
@@ -6881,9 +7088,6 @@
   "Show occupied only": {
     "Show occupied only": "عرض المشغول فقط"
   },
-  "Show on displays": {
-    "Show on displays": "العرض على الشاشات"
-  },
   "Show on last display": {
     "Show on last display": "العرض على الشاشة الأخيرة"
   },
@@ -6899,23 +7103,11 @@
   "Show package source badges": {
     "Show package source badges": "عرض شارات مصدر الحزمة"
   },
-  "Show password": {
-    "Show password": "عرض كلمة المرور"
-  },
-  "Show password field": {
-    "Show password field": "عرض حقل كلمة المرور"
-  },
   "Show percentage": {
     "Show percentage": "عرض النسبة المئوية"
   },
-  "Show power actions": {
-    "Show power actions": "عرض إجراءات الطاقة"
-  },
   "Show power off": {
     "Show power off": "عرض إيقاف التشغيل"
-  },
-  "Show profile image": {
-    "Show profile image": "عرض صورة الملف الشخصي"
   },
   "Show readings": {
     "Show readings": "عرض القراءات"
@@ -6950,20 +7142,20 @@
   "Show switch user": {
     "Show switch user": "عرض تبديل المستخدم"
   },
-  "Show system icons": {
-    "Show system icons": "عرض أيقونات النظام"
-  },
   "Show temperature": {
     "Show temperature": "عرض درجة الحرارة"
+  },
+  "Show the battery briefly when power is connected or removed": {
+    "Show the battery briefly when power is connected or removed": ""
   },
   "Show the current media activity": {
     "Show the current media activity": "عرض نشاط الوسائط الحالي"
   },
-  "Show time": {
-    "Show time": "عرض الوقت"
-  },
   "Show trend": {
     "Show trend": "عرض الاتجاه"
+  },
+  "Show upgrade in a window": {
+    "Show upgrade in a window": ""
   },
   "Show uptime": {
     "Show uptime": "عرض وقت التشغيل"
@@ -6977,6 +7169,15 @@
   "Show welcome": {
     "Show welcome": "عرض الترحيب"
   },
+  "Show window": {
+    "Show window": ""
+  },
+  "Shown only while the microphone, camera or screen sharing is in use": {
+    "Shown only while the microphone, camera or screen sharing is in use": ""
+  },
+  "Shown while no image or color is set": {
+    "Shown while no image or color is set": ""
+  },
   "Shows all running applications with focus indication": {
     "Shows all running applications with focus indication": "يعرض جميع التطبيقات قيد التشغيل مع بيان التطبيق النشط"
   },
@@ -6984,7 +7185,10 @@
     "Shows current workspace and allows switching": "يعرض سطح المكتب الحالية ويسمح بالتبديل بينها"
   },
   "Shows only windows from the dock's own display": {
-    "Shows only windows from the dock's own display": ""
+    "Shows only windows from the dock's own display": "يعرض فقط النوافذ من شاشة القفص (Dock) نفسها"
+  },
+  "Shows the line being sung instead of the title and artist while synced lyrics are available": {
+    "Shows the line being sung instead of the title and artist while synced lyrics are available": ""
   },
   "Shows when caps lock is active": {
     "Shows when caps lock is active": "يظهر عند تفعيل Caps Lock"
@@ -7070,6 +7274,9 @@
   "Soft square": {
     "Soft square": "مربع ناعم"
   },
+  "Software updates are ready to install.": {
+    "Software updates are ready to install.": ""
+  },
   "Solid": {
     "Solid": "صلب"
   },
@@ -7142,6 +7349,9 @@
   "Spotlight bar": {
     "Spotlight bar": "شريط Spotlight"
   },
+  "Spreadsheet": {
+    "Spreadsheet": ""
+  },
   "Spring": {
     "Spring": "نابض (Spring)"
   },
@@ -7156,6 +7366,9 @@
   },
   "Square": {
     "Square": "مربع"
+  },
+  "Stable": {
+    "Stable": ""
   },
   "Stack": {
     "Stack": "مكدس"
@@ -7185,13 +7398,13 @@
     "Starting...": "جاري البدء..."
   },
   "Startup Behavior": {
-    "Startup Behavior": ""
+    "Startup Behavior": "سلوك بدء التشغيل"
   },
   "State": {
     "State": "الحالة"
   },
   "Stays visible while the workspace has no windows": {
-    "Stays visible while the workspace has no windows": ""
+    "Stays visible while the workspace has no windows": "يبقى مرئياً بينما لا تحتوي مساحة العمل على نوافذ"
   },
   "Stop": {
     "Stop": "قف"
@@ -7231,6 +7444,9 @@
   },
   "Summary font size": {
     "Summary font size": "حجم خط الملخص"
+  },
+  "Summary, highlights, links": {
+    "Summary, highlights, links": ""
   },
   "Sun": {
     "Sun": "شمس"
@@ -7286,6 +7502,9 @@
   "Swap": {
     "Swap": "تبديل"
   },
+  "Swatches show the seed color itself": {
+    "Swatches show the seed color itself": ""
+  },
   "Sway website": {
     "Sway website": "موقع Sway"
   },
@@ -7296,7 +7515,7 @@
     "Switch layout shortcut": "اختصار تبديل التخطيط"
   },
   "Switches to power saver at the low battery threshold": {
-    "Switches to power saver at the low battery threshold": ""
+    "Switches to power saver at the low battery threshold": "يتحول إلى وضع توفير الطاقة عند وصول البطارية إلى حد منخفض"
   },
   "Sync": {
     "Sync": "مزامنة"
@@ -7358,6 +7577,9 @@
   "System notification area icons": {
     "System notification area icons": "أيقونات منطقة إشعارات النظام"
   },
+  "System packages": {
+    "System packages": ""
+  },
   "System sound theme and events": {
     "System sound theme and events": "سمة أصوات النظام والأحداث"
   },
@@ -7375,9 +7597,6 @@
   },
   "System update": {
     "System update": "تحديث النظام"
-  },
-  "System updater": {
-    "System updater": "مُحدِّث النظام"
   },
   "Systemd override generated": {
     "Systemd override generated": "تم إنشاء تجاوز Systemd"
@@ -7423,6 +7642,9 @@
   },
   "Taskbar": {
     "Taskbar": "شريط المهام"
+  },
+  "Teal": {
+    "Teal": ""
   },
   "Temperature": {
     "Temperature": "درجة الحرارة"
@@ -7535,6 +7757,12 @@
   "The quick brown fox jumps over the lazy dog": {
     "The quick brown fox jumps over the lazy dog": "الثعلب البني السريع يقفز فوق الكلب الكسول"
   },
+  "The rest follow the shared rule": {
+    "The rest follow the shared rule": ""
+  },
+  "The rest open the bar's own popouts": {
+    "The rest open the bar's own popouts": ""
+  },
   "The result is unknown. Refresh before trying again.": {
     "The result is unknown. Refresh before trying again.": "النتيجة غير معروفة. قم بالتحديث قبل المحاولة مرة أخرى."
   },
@@ -7550,14 +7778,20 @@
   "The server certificate has changed since it was last trusted. Only continue if you recognize the new fingerprint.": {
     "The server certificate has changed since it was last trusted. Only continue if you recognize the new fingerprint.": "تغيرت شهادة الخادم منذ آخر مرة تم الوثوق بها. تابع فقط إذا كنت تتعرف على البصمة الجديدة."
   },
+  "The shell palette is built from this color. Shapes take their colors from that palette.": {
+    "The shell palette is built from this color. Shapes take their colors from that palette.": ""
+  },
   "Theme": {
     "Theme": "السمة"
   },
   "Theme & colors": {
     "Theme & colors": "السمات والألوان"
   },
+  "Theme color": {
+    "Theme color": ""
+  },
   "Theme colors come from this display's wallpaper": {
-    "Theme colors come from this display's wallpaper": ""
+    "Theme colors come from this display's wallpaper": "تأتي ألوان السمة من خلفية هذه الشاشة"
   },
   "Theme extracted to: %1": {
     "Theme extracted to: %1": "تم استخراج السمة إلى: %1"
@@ -7574,6 +7808,9 @@
   "These add entries to the XDG autostart directory (~/.config/autostart/*.desktop)": {
     "These add entries to the XDG autostart directory (~/.config/autostart/*.desktop)": "تضيف هذه إدخالات إلى دليل البدء التلقائي XDG (~/.config/autostart/*.desktop)"
   },
+  "They load with the next update check. Release notes are also published on GitHub.": {
+    "They load with the next update check. Release notes are also published on GitHub.": ""
+  },
   "Thickness": {
     "Thickness": "السُمك"
   },
@@ -7585,6 +7822,9 @@
   },
   "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.": {
     "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.": "الملحقات الخارجية تم إنشاؤها بواسطة المجتمع ولا يتم دعمها رسميًا بواسطة DankMaterialShell. قد تشكل هذه الملحقات مخاطر أمنية وخصوصية - التثبيت على مسؤوليتك الخاصة."
+  },
+  "This bar is the Island": {
+    "This bar is the Island": ""
   },
   "This bind is overridden by config.kdl": {
     "This bind is overridden by config.kdl": "هذا الربط تم تجاوزه بواسطة config.kdl"
@@ -7606,6 +7846,9 @@
   },
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "هذه الإضافة لا تملك إذن 'settings_write'. أضف \"permissions\": [\"settings_read\", \"settings_write\"] إلى ملف plugin.json"
+  },
+  "This system was not started in UEFI mode": {
+    "This system was not started in UEFI mode": ""
   },
   "This widget prevents GPU power off states, which can significantly impact battery life on laptops. It is not recommended to use this on laptops with hybrid graphics.": {
     "This widget prevents GPU power off states, which can significantly impact battery life on laptops. It is not recommended to use this on laptops with hybrid graphics.": "تمنع هذه الأداة المعالج الرسومي من الدخول في حالات إيقاف التشغيل، مما قد يؤثر سلباً بشكل كبير على عمر البطارية في الأجهزة المحمولة. لا يُنصح باستخدامها على الأجهزة المحمولة التي تحتوي على بطاقات رسوميات هجينة."
@@ -7636,9 +7879,6 @@
   },
   "Tile Vertically": {
     "Tile Vertically": "تجانب رأسياً"
-  },
-  "Tile color": {
-    "Tile color": "لون البلاطة"
   },
   "Tiled": {
     "Tiled": "مُبلّط"
@@ -7679,6 +7919,9 @@
   "Tint strength": {
     "Tint strength": "قوة الصبغة"
   },
+  "Tinted cards and badges across the shell": {
+    "Tinted cards and badges across the shell": ""
+  },
   "Title": {
     "Title": "عنوان"
   },
@@ -7699,9 +7942,6 @@
   },
   "To sign in as a different user, log out and pick the account from the greeter. Creating a fresh session in parallel needs a multi-session greeter (greetd-flexiserver / GDM / LightDM).": {
     "To sign in as a different user, log out and pick the account from the greeter. Creating a fresh session in parallel needs a multi-session greeter (greetd-flexiserver / GDM / LightDM).": "لتسجيل الدخول كمستخدم مختلف، قم بتسجيل الخروج واختر الحساب من شاشة الترحيب. إنشاء جلسة جديدة بالتوازي يتطلب شاشة ترحيب متعددة الجلسات (greetd-flexiserver / GDM / LightDM)."
-  },
-  "To update, run the following command:": {
-    "To update, run the following command:": "للتحديث، نفذ الأمر التالي:"
   },
   "To use this DMS bind, remove or change the keybind in your config.kdl": {
     "To use this DMS bind, remove or change the keybind in your config.kdl": "لاستخدام ربط DMS هذا، قم بإزالة أو تغيير ربط المفاتيح في ملف config.kdl"
@@ -7781,6 +8021,9 @@
   "Touchpad": {
     "Touchpad": "لوحة اللمس"
   },
+  "Track screen time": {
+    "Track screen time": ""
+  },
   "Transform": {
     "Transform": "تحويل"
   },
@@ -7808,6 +8051,12 @@
   "Trigger: %1": {
     "Trigger: %1": "المشغل: %1"
   },
+  "Triggers after holding the key": {
+    "Triggers after holding the key": ""
+  },
+  "Triggers when the key is released": {
+    "Triggers when the key is released": ""
+  },
   "Trust": {
     "Trust": "موثوق"
   },
@@ -7834,6 +8083,9 @@
   },
   "Typing in the overview opens the launcher": {
     "Typing in the overview opens the launcher": "الكتابة في النظرة العامة تفتح المشغل"
+  },
+  "Typing reveals the field. Escape hides it again. The editor always shows it.": {
+    "Typing reveals the field. Escape hides it again. The editor always shows it.": ""
   },
   "URL": {
     "URL": "رابط URL"
@@ -7874,12 +8126,6 @@
   "Uninstalling: %1": {
     "Uninstalling: %1": "جاري إلغاء التثبيت: %1"
   },
-  "Unison": {
-    "Unison": "Unison"
-  },
-  "Unknown": {
-    "Unknown": "غير معروف"
-  },
   "Unknown App": {
     "Unknown App": "تطبيق غير معروف"
   },
@@ -7897,9 +8143,6 @@
   },
   "Unknown Model": {
     "Unknown Model": "طراز غير معروف"
-  },
-  "Unknown Monitor": {
-    "Unknown Monitor": "شاشة غير معروفة"
   },
   "Unknown Network": {
     "Unknown Network": "شبكة غير معروفة"
@@ -7988,6 +8231,9 @@
   "Update plugin": {
     "Update plugin": "تحديث الملحق"
   },
+  "Update the dms package with your package manager, then restart the shell.": {
+    "Update the dms package with your package manager, then restart the shell.": ""
+  },
   "Updating %1...": {
     "Updating %1...": "جاري تحديث %1..."
   },
@@ -8009,17 +8255,14 @@
   "Urgent color": {
     "Urgent color": "لون التنبيه"
   },
-  "Use HH:MM time format": {
-    "Use HH:MM time format": "استخدام تنسيق الوقت HH:MM"
+  "Use Dynamic": {
+    "Use Dynamic": ""
   },
   "Use IP Location": {
     "Use IP Location": "استخدام موقع IP"
   },
   "Use Monospace Font": {
     "Use Monospace Font": "استخدام خط أحادي المسافة"
-  },
-  "Use a custom image for the lock screen, or leave empty to use your desktop wallpaper.": {
-    "Use a custom image for the lock screen, or leave empty to use your desktop wallpaper.": "استخدم صورة مخصصة لشاشة القفل، أو اتركها فارغة لاستخدام خلفية سطح المكتب الخاصة بك."
   },
   "Use a security key for lock screen authentication": {
     "Use a security key for lock screen authentication": "استخدم مفتاح أمان للمصادقة على شاشة القفل"
@@ -8029,6 +8272,9 @@
   },
   "Use custom command": {
     "Use custom command": "استخدام أمر مخصص"
+  },
+  "Use default wallpaper": {
+    "Use default wallpaper": ""
   },
   "Use desktop wallpaper": {
     "Use desktop wallpaper": "استخدام خلفية سطح المكتب"
@@ -8048,14 +8294,14 @@
   "Use overlay layer": {
     "Use overlay layer": "استخدام طبقة التراكب"
   },
+  "Use standard OSDs": {
+    "Use standard OSDs": ""
+  },
   "Use standard popups": {
     "Use standard popups": "استخدام النوافذ المنبثقة القياسية"
   },
   "Use system PAM authentication": {
     "Use system PAM authentication": "استخدم مصادقة PAM الخاصة بالنظام"
-  },
-  "Use system theme": {
-    "Use system theme": "استخدام سمة النظام"
   },
   "User": {
     "User": "مستخدم"
@@ -8195,6 +8441,9 @@
   "View Changes": {
     "View Changes": "عرض التغييرات"
   },
+  "View on GitHub": {
+    "View on GitHub": ""
+  },
   "Visibility": {
     "Visibility": "الظهور"
   },
@@ -8276,6 +8525,12 @@
   "Web browser": {
     "Web browser": "متصفح الويب"
   },
+  "Week": {
+    "Week": ""
+  },
+  "Weekly screen time": {
+    "Weekly screen time": ""
+  },
   "Weight": {
     "Weight": "الوزن"
   },
@@ -8284,6 +8539,9 @@
   },
   "Welcome to DankMaterialShell": {
     "Welcome to DankMaterialShell": "مرحباً بك في DankMaterialShell"
+  },
+  "What changed": {
+    "What changed": ""
   },
   "When locked": {
     "When locked": "عند القفل"
@@ -8295,7 +8553,7 @@
     "Which displays show the dock, popups, OSDs and wallpaper": "أي الشاشات تعرض شريط المهام، النوافذ المنبثقة، شاشات العرض على الشاشة (OSD) والخلفية"
   },
   "Which wallpaper color the palette is built from": {
-    "Which wallpaper color the palette is built from": ""
+    "Which wallpaper color the palette is built from": "لون الخلفية الذي يتم بناء اللوحة منه"
   },
   "White": {
     "White": "أبيض"
@@ -8321,9 +8579,6 @@
   "Wi-Fi not available": {
     "Wi-Fi not available": "شبكة Wi-Fi غير متاحة"
   },
-  "WiFi": {
-    "WiFi": "WiFi"
-  },
   "WiFi QR code for ": {
     "WiFi QR code for ": "رمز QR لشبكة WiFi لـ "
   },
@@ -8338,6 +8593,9 @@
   },
   "Wide (BT2020)": {
     "Wide (BT2020)": "واسع (BT2020)"
+  },
+  "Widget": {
+    "Widget": ""
   },
   "Widget Background Color": {
     "Widget Background Color": "لون خلفية الأداة"
@@ -8362,6 +8620,9 @@
   },
   "Widgets": {
     "Widgets": "الادوات"
+  },
+  "Widgets in this section move into overflow when space runs out": {
+    "Widgets in this section move into overflow when space runs out": ""
   },
   "Widgets, layout, style": {
     "Widgets, layout, style": "الأدوات، التخطيط، النمط"
@@ -8403,7 +8664,10 @@
     "With Shelly, only Flatpak packages in the current update list can be ignored.": "مع Shelly، لا يمكن تجاهل سوى حزم Flatpak في قائمة التحديث الحالية."
   },
   "With background blur on, cards and tiles keep their own backing": {
-    "With background blur on, cards and tiles keep their own backing": ""
+    "With background blur on, cards and tiles keep their own backing": "مع تشغيل ضبابية الخلفية، تحتفظ البطاقات والمربعات بخلفيتها الخاصة"
+  },
+  "Word processor": {
+    "Word processor": ""
   },
   "Working...": {
     "Working...": "جاري العمل..."
@@ -8456,6 +8720,9 @@
   "Y axis": {
     "Y axis": "المحور ص"
   },
+  "Yellow": {
+    "Yellow": ""
+  },
   "Yes": {
     "Yes": "نعم"
   },
@@ -8489,6 +8756,9 @@
   "Your hotspot profile is saved and ready to start.": {
     "Your hotspot profile is saved and ready to start.": "تم حفظ ملف تعريف نقطة الاتصال الخاص بك وهو جاهز للبدء."
   },
+  "Your keyboard layout puts %1 above the first level, so this bind will never fire. Pick a key the layout types without an extra layer.": {
+    "Your keyboard layout puts %1 above the first level, so this bind will never fire. Pick a key the layout types without an extra layer.": ""
+  },
   "Your system is up to date!": {
     "Your system is up to date!": "نظامك محدث!"
   },
@@ -8500,6 +8770,9 @@
   },
   "adverb, wallpaper changes every day at a set time": {
     "Daily": "يومي"
+  },
+  "and %1 more": {
+    "and %1 more": ""
   },
   "attached": {
     "attached": "متصل"
@@ -8573,6 +8846,9 @@
   "e.g., scratch, /^tmp_.*/, build": {
     "e.g., scratch, /^tmp_.*/, build": "مثلاً: scratch، /^tmp_.*/، build"
   },
+  "efibootmgr failed": {
+    "efibootmgr failed": ""
+  },
   "ext": {
     "ext": "ext"
   },
@@ -8618,6 +8894,9 @@
   "matugen not found - install matugen package for dynamic theming": {
     "matugen not found - install matugen package for dynamic theming": "لم يتم العثور على matugen - قم بتثبيت حزمة matugen للسمات الديناميكية"
   },
+  "missing program": {
+    "Requires %1": ""
+  },
   "mpris-proxy is running and will create duplicate Bluetooth players. Disable it with: systemctl --user disable --now mpris-proxy.service": {
     "mpris-proxy is running and will create duplicate Bluetooth players. Disable it with: systemctl --user disable --now mpris-proxy.service": "mpris-proxy قيد التشغيل وسيقوم بإنشاء مشغلات بلوتوث مكررة. قم بتعطيله باستخدام: systemctl --user disable --now mpris-proxy.service"
   },
@@ -8653,6 +8932,9 @@
   },
   "noun, badge on a keybind that overrides the default": {
     "Override": "تجاوز"
+  },
+  "noun, overflow button position before the first widget": {
+    "Start": ""
   },
   "now": {
     "now": "الآن"
@@ -8698,9 +8980,6 @@
   },
   "this app": {
     "this app": "هذا التطبيق"
-  },
-  "tmux and zellij sessions": {
-    "tmux and zellij sessions": "جلسات tmux و zellij"
   },
   "tmux, zellij, and herdr sessions": {
     "tmux, zellij, and herdr sessions": "جلسات tmux و zellij و herdr"
@@ -8764,14 +9043,5 @@
   },
   "• yyyy - Year (2024)": {
     "• yyyy - Year (2024)": "• (2024) السنة - yyyy"
-  },
-  "↑/↓: Nav • Space: Expand • Enter: Action/Expand • E: Text": {
-    "↑/↓: Nav • Space: Expand • Enter: Action/Expand • E: Text": "↑/↓: تنقل • مسافة: توسيع • إدخال: إجراء/توسيع • E: نص"
-  },
-  "↑/↓: Navigate • Enter/Ctrl+C: Copy • Del: Delete • Ctrl+E: Edit • Ctrl+S: Pin/Unpin • F10: Help": {
-    "↑/↓: Navigate • Enter/Ctrl+C: Copy • Del: Delete • Ctrl+E: Edit • Ctrl+S: Pin/Unpin • F10: Help": "↑/↓: تنقل • Enter/Ctrl+C: نسخ • Del: حذف • Ctrl+E: تعديل • Ctrl+S: تثبيت/إلغاء تثبيت • F10: مساعدة"
-  },
-  "↑/↓: Navigate • Enter: Paste • Ctrl+C: Copy • Del: Delete • Ctrl+E: Edit • Ctrl+S: Pin/Unpin • F10: Help": {
-    "↑/↓: Navigate • Enter: Paste • Ctrl+C: Copy • Del: Delete • Ctrl+E: Edit • Ctrl+S: Pin/Unpin • F10: Help": "↑/↓: تنقل • Enter: لصق • Ctrl+C: نسخ • Del: حذف • Ctrl+E: تحرير • Ctrl+S: تثبيت/إلغاء التثبيت • F10: مساعدة"
   }
 }
