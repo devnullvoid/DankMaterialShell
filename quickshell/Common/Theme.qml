@@ -69,6 +69,10 @@ Singleton {
     property int _colorsRetryCount: 0
     property double _lastGenerateMs: 0
     property string _matugenRunKey: ""
+    property var _workerStderr: []
+    property bool _workerStderrUsage: false
+    readonly property int _workerStderrKeep: 8
+    readonly property string themeTroubleshootingUrl: "https://danklinux.com/docs/dankmaterialshell/application-themes#troubleshooting"
 
     property bool blurLayersActive: false
     property bool matugenToastSuppressed: false
@@ -1880,8 +1884,52 @@ Singleton {
         workerRunning = true;
         _matugenRunKey = runKey;
         _lastGenerateMs = Date.now();
+        _workerStderr = [];
+        _workerStderrUsage = false;
         systemThemeGenerator.command = args;
         systemThemeGenerator.running = true;
+    }
+
+    // an older dms rejecting a newer flag prints cobra usage after the error line, which must stay in view
+    function _recordWorkerStderr(line) {
+        const text = line.replace(/\x1b\[[0-9;]*[a-zA-Z]/g, "").replace(/^\s*(FATAL|ERROR|WARN|INFO|DEBUG)\s+\S+:\s*/, "").replace(/^Theme generation failed:\s*/, "").trim();
+        if (!text || _workerStderrUsage || /^(Backtrace omitted|Run with RUST_BACKTRACE)/.test(text))
+            return;
+        if (text === "Usage:") {
+            _workerStderrUsage = true;
+            return;
+        }
+        _workerStderr = _workerStderr.concat(text).slice(-_workerStderrKeep);
+    }
+
+    function _shellQuote(arg) {
+        return /^[\w@%+=:,.\/-]+$/.test(arg) ? arg : "'" + arg.replace(/'/g, "'\\''") + "'";
+    }
+
+    function _workerReproduceCommand() {
+        const args = systemThemeGenerator.command.slice();
+        const queueAt = args.indexOf("queue");
+        if (queueAt > 0)
+            args[queueAt] = "generate";
+        return args.map(_shellQuote).join(" ");
+    }
+
+    function _reportWorkerFailure(message) {
+        const details = _workerStderr.concat(themeTroubleshootingUrl).join("\n");
+        if (typeof ToastService !== "undefined")
+            ToastService.showError(message, details, _workerReproduceCommand(), "theme-worker");
+        log.warn(message);
+    }
+
+    function _workerStartFailed() {
+        if (!workerRunning || systemThemeGenerator.running)
+            return;
+        workerRunning = false;
+        pendingThemeRequest = null;
+        if (CacheData.matugenAppliedKey !== "")
+            CacheData.set("matugenAppliedKey", "");
+        _reportWorkerFailure(I18n.tr("Theme worker failed to start", "error toast, the dms binary could not be launched"));
+        root.matugenCompleted((typeof SessionData !== "undefined" && SessionData.isLightMode) ? "light" : "dark", "error");
     }
 
     function generateSystemThemesFromCurrentTheme() {
@@ -2268,7 +2316,16 @@ Singleton {
             onRead: data => log.info("Theme worker:", data)
         }
         stderr: SplitParser {
-            onRead: data => log.warn("Theme worker:", data)
+            onRead: data => {
+                log.warn("Theme worker:", data);
+                _recordWorkerStderr(data);
+            }
+        }
+
+        // FailedToStart only flips running, it never emits exited
+        onRunningChanged: {
+            if (!running)
+                Qt.callLater(root._workerStartFailed);
         }
 
         onExited: exitCode => {
@@ -2285,10 +2342,7 @@ Singleton {
                 root.matugenCompleted(currentMode, "no-changes");
                 break;
             default:
-                if (typeof ToastService !== "undefined") {
-                    ToastService.showError(I18n.tr("Theme worker failed (%1)", "error toast, %1 is a process exit code").arg(exitCode));
-                }
-                log.warn("Matugen worker failed with exit code:", exitCode);
+                _reportWorkerFailure(I18n.tr("Theme worker failed (%1)", "error toast, %1 is a process exit code").arg(exitCode));
                 root.matugenCompleted(currentMode, "error");
             }
 

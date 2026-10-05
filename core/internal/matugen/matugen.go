@@ -5,10 +5,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"math"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"slices"
 	"strconv"
 	"strings"
@@ -1078,12 +1080,7 @@ func runMatugen(baseArgs []string, sourceMode string) error {
 		return err
 	}
 
-	args := buildMatugenArgs(baseArgs, flags, sourceMode)
-	cmd := exec.Command("matugen", args...)
-	cmd.Env = utils.EnvWithUserBinPath(nil)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	runErr := cmd.Run()
+	runErr := execMatugen(buildMatugenArgs(baseArgs, flags, sourceMode))
 	if runErr == nil {
 		return nil
 	}
@@ -1096,12 +1093,41 @@ func runMatugen(baseArgs []string, sourceMode string) error {
 	}
 
 	log.Warnf("Matugen version changed (v4: %v -> %v), retrying", flags.isV4, newFlags.isV4)
-	args = buildMatugenArgs(baseArgs, newFlags, sourceMode)
-	retryCmd := exec.Command("matugen", args...)
-	retryCmd.Env = utils.EnvWithUserBinPath(nil)
-	retryCmd.Stdout = os.Stdout
-	retryCmd.Stderr = os.Stderr
-	return retryCmd.Run()
+	return execMatugen(buildMatugenArgs(baseArgs, newFlags, sourceMode))
+}
+
+// matugen's stderr is echoed as before and its tail travels in the error, so a failure
+// reaching the shell through the socket still names the broken template or option.
+func execMatugen(args []string) error {
+	cmd := exec.Command("matugen", args...)
+	cmd.Env = utils.EnvWithUserBinPath(nil)
+	cmd.Stdout = os.Stdout
+	var stderr bytes.Buffer
+	cmd.Stderr = io.MultiWriter(os.Stderr, &stderr)
+	err := cmd.Run()
+	if err == nil {
+		return nil
+	}
+	tail := stderrTail(stderr.String(), 6)
+	if tail == "" {
+		return fmt.Errorf("matugen: %w", err)
+	}
+	return fmt.Errorf("matugen: %w\n%s", err, tail)
+}
+
+var ansiEscapeRe = regexp.MustCompile(`\x1b\[[0-9;]*[a-zA-Z]`)
+
+func stderrTail(output string, maxLines int) string {
+	var lines []string
+	for _, line := range strings.Split(ansiEscapeRe.ReplaceAllString(output, ""), "\n") {
+		if line = strings.TrimSpace(line); line != "" {
+			lines = append(lines, line)
+		}
+	}
+	if len(lines) > maxLines {
+		lines = lines[len(lines)-maxLines:]
+	}
+	return strings.Join(lines, "\n")
 }
 
 func runMatugenDryRun(opts *Options) (string, error) {
@@ -1172,8 +1198,8 @@ func execDryRun(opts *Options, flags matugenFlags) (string, error) {
 	cmd.Stderr = &stderr
 	output, err := cmd.Output()
 	if err != nil {
-		if stderr.Len() > 0 {
-			return "", fmt.Errorf("matugen %v failed (v4=%v): %s", baseArgs, flags.isV4, strings.TrimSpace(stderr.String()))
+		if tail := stderrTail(stderr.String(), 6); tail != "" {
+			return "", fmt.Errorf("matugen %v failed (v4=%v): %s", baseArgs, flags.isV4, tail)
 		}
 		return "", fmt.Errorf("matugen %v failed (v4=%v): %w", baseArgs, flags.isV4, err)
 	}
