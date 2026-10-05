@@ -8,7 +8,7 @@ import qs.DCommon.Widgets
 import qs.Widgets
 import "../Common/Format.js" as Format
 
-DankFloatingWindow {
+DFloatingWindow {
     id: processListModal
     readonly property var log: Log.scoped("ProcessListModal")
 

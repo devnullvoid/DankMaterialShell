@@ -155,7 +155,7 @@ Column {
             title: I18n.tr("Scale")
             onCurrentLabelChanged: scaleDropdown.currentValue = currentLabel
 
-            DankDropdown {
+            DDropdown {
                 id: scaleDropdown
                 downKeyOpens: false
                 backgroundColor: SettingsMetrics.controlSurface

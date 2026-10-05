@@ -3,7 +3,7 @@ import Quickshell.Io
 import qs.Common
 import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
-import qs.Modules.DankDash
+import qs.Modules.DDash
 import qs.Services
 
 Item {

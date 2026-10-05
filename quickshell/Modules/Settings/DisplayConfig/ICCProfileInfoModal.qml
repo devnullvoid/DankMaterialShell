@@ -4,7 +4,7 @@ import qs.Modals.Common
 import qs.Services
 import qs.DCommon.Widgets
 
-DankModal {
+DModal {
     id: root
 
     layerNamespace: "dms:icc-profile-info"

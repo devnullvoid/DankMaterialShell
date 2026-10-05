@@ -696,7 +696,7 @@ RegistryBrowserWindow {
                     Layout.alignment: Qt.AlignVCenter
                 }
 
-                DankDropdown {
+                DDropdown {
                     Layout.fillWidth: true
                     Layout.preferredHeight: Theme.buttonHeightS
                     backgroundColor: SettingsMetrics.controlSurface

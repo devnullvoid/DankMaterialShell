@@ -7,8 +7,8 @@ import qs.DCommon.Widgets
 import qs.Modals.Common
 import qs.Modules.Settings.Widgets
 import qs.Modules.ControlCenter.Widgets
-import qs.Modules.DankDash.Wellbeing
-import "../DankDash/Wellbeing/Wellbeing.js" as Wellbeing
+import qs.Modules.DDash.Wellbeing
+import "../DDash/Wellbeing/Wellbeing.js" as Wellbeing
 
 Item {
     id: root

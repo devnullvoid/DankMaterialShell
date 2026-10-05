@@ -65,7 +65,7 @@ PluginComponent {
                             title: I18n.tr("Printers")
                             subtitle: CupsService.getCurrentPrinterStatePrettyShort()
 
-                            DankDropdown {
+                            DDropdown {
                                 anchors.verticalCenter: parent.verticalCenter
                                 compactMode: true
                                 dropdownWidth: CcMetrics.rowDropdownWidth

@@ -7,7 +7,7 @@ import qs.Widgets
 import Quickshell.Services.Mpris
 import Quickshell.Widgets
 
-DankOSD {
+DOSD {
     id: root
 
     osdKind: "mediaPlayback"

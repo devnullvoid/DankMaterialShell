@@ -184,7 +184,7 @@ Item {
             Component {
                 id: filterMenuComponent
 
-                DankDropdown {
+                DDropdown {
                     showTrigger: false
                     popupAnchorItem: filterButton
                     popupWidth: 180

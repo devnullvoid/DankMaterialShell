@@ -3,7 +3,7 @@ import qs.Common
 import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
-import qs.Modules.DankBar
+import qs.Modules.DBar
 
 Item {
     id: root

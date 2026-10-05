@@ -57,7 +57,7 @@ FocusScope {
     readonly property int gridColumns: host.gridColumns ?? Math.min(CcMetrics.gridColumns, gridColumnCap)
     readonly property real availableGridHeight: (host.availableHeight ?? (host.triggerScreen?.height ?? CcMetrics.fallbackScreenHeight) - CcMetrics.maxHeightInset) - CcMetrics.sheetPadding * 2 - chromeHeight
     readonly property vector4d chromeRoom: host.chromeRoom ?? Qt.vector4d(Infinity, Infinity, Infinity, Infinity)
-    readonly property DankPanelResizer panelResizer: DankPanelResizer {
+    readonly property DPanelResizer panelResizer: DPanelResizer {
         popout: root.host
         stepWidth: CcMetrics.columnWidth + CcMetrics.gridGap
         widthFor: columns => CcMetrics.sheetWidthFor(columns) + root.sheetContentWidth - CcMetrics.sheetWidthFor(root.gridColumns)
@@ -316,7 +316,7 @@ FocusScope {
             forceActiveFocus();
     }
 
-    DankGridEditChrome {
+    DGridEditChrome {
         id: panelChrome
 
         readonly property real screenWidth: root.host.triggerScreen?.width ?? Infinity

@@ -155,7 +155,7 @@ Item {
         }
     }
 
-    DankDropdown {
+    DDropdown {
         id: durationMenu
         showTrigger: false
         popupAnchorItem: dndButton

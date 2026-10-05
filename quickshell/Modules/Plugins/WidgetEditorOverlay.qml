@@ -5,7 +5,7 @@ import qs.Common
 import qs.Services
 import qs.DCommon.Widgets
 import qs.Modules.ControlCenter.Widgets
-import qs.Modules.DankDash.Overview
+import qs.Modules.DDash.Overview
 import qs.Modules.Settings.DesktopWidgetSettings
 import qs.Modules.Settings.Widgets
 

@@ -8,7 +8,7 @@ import qs.Common
 import qs.Services
 import qs.DCommon.Widgets
 
-DankModal {
+DModal {
     id: root
     visible: false
     layerNamespace: "dms:wifi-qrcode"

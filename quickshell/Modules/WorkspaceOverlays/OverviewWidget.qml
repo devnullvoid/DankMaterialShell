@@ -26,7 +26,7 @@ Item {
     }
 
     // scratchpad windows are not in the grid, so the menu only ever offers a move in
-    DankContextMenu {
+    DContextMenu {
         id: windowMenu
 
         property string targetWindow: ""

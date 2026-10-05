@@ -6,7 +6,7 @@ import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
 
-DankPopout {
+DPopout {
     id: processListPopout
 
     layerNamespace: "dms:process-list-popout"

@@ -10,7 +10,7 @@ import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
 
-DankModal {
+DModal {
     id: muxModal
 
     layerNamespace: "dms:mux"
@@ -559,7 +559,7 @@ DankModal {
                 }
             }
 
-            DankKeyHints {
+            DKeyHints {
                 id: shortcutsBar
 
                 width: parent.width

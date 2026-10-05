@@ -5,7 +5,7 @@ import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.Notepad
 
-DankFloatingWindow {
+DFloatingWindow {
     id: win
 
     property alias shouldBeVisible: win.visible

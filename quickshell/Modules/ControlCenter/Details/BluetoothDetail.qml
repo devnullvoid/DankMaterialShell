@@ -31,7 +31,7 @@ Item {
     readonly property Item headerActions: Row {
         spacing: Theme.spacingS
 
-        DankDropdown {
+        DDropdown {
             id: adapterDropdown
 
             function adapterLabel(adapter) {

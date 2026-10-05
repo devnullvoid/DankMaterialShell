@@ -99,7 +99,7 @@ DDialog {
                 width: parent.width
                 spacing: Theme.spacingS
 
-                DankDropdown {
+                DDropdown {
                     id: fieldDropdown
                     width: Math.round(parent.width / 3)
                     anchors.verticalCenter: parent.verticalCenter
@@ -109,7 +109,7 @@ DDialog {
                     onValueChanged: value => root.ruleField = root.valueOf(root.fieldOptions, value)
                 }
 
-                DankDropdown {
+                DDropdown {
                     id: matchTypeDropdown
                     width: Math.round(parent.width / 4)
                     anchors.verticalCenter: parent.verticalCenter

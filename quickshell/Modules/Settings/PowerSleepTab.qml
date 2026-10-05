@@ -300,7 +300,7 @@ Item {
                 visible: BootEntryService.status === "ready"
                 title: I18n.tr("Add entry", "settings row that adds an EFI boot entry to the power menu")
 
-                DankDropdown {
+                DDropdown {
                     id: bootEntryDropdown
                     downKeyOpens: false
                     backgroundColor: SettingsMetrics.controlSurface

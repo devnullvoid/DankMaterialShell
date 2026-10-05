@@ -247,7 +247,7 @@ Item {
         onAppMuted: NotificationService.dismissGroup(root.notificationGroup?.key || "")
     }
 
-    DankDropdown {
+    DDropdown {
         id: notificationCardContextMenu
         showTrigger: false
         popupWidth: NotificationMetrics.menuWidth

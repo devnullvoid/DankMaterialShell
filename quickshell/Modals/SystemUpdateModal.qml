@@ -6,7 +6,7 @@ import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
 
-DankFloatingWindow {
+DFloatingWindow {
     id: root
 
     function show() {

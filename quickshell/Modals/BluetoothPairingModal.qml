@@ -4,7 +4,7 @@ import qs.Modals.Common
 import qs.Services
 import qs.DCommon.Widgets
 
-DankModal {
+DModal {
     id: root
     readonly property var log: Log.scoped("BluetoothPairingModal")
 

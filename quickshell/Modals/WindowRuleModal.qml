@@ -6,7 +6,7 @@ import qs.Modules.Settings.Widgets
 import qs.DCommon.Widgets
 import qs.Widgets
 
-DankFloatingWindow {
+DFloatingWindow {
     id: root
 
     signal ruleSubmitted

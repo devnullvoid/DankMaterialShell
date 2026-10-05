@@ -36,6 +36,7 @@ ShellRoot {
         DC.Host.session = SessionService;
         DC.Host.cache = CacheData;
         DC.Host.files = FilesService;
+        DC.Host.hyprlandFocusGrab = Qt.binding(() => CompositorService.useHyprlandFocusGrab);
         void IconThemeService.ready;
         if (entrypoint.runGreeter)
             return;

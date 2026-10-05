@@ -625,7 +625,7 @@ Item {
         return hasCustomWallpaper ? "Fill" : SessionData.getMonitorWallpaperFillMode(screenName);
     }
 
-    DankBackdrop {
+    DBackdrop {
         anchors.fill: parent
         screenName: root.screenName
         blur: Theme.lockScreenBlur
@@ -1287,7 +1287,7 @@ Item {
                 }
             }
 
-            DankDropdown {
+            DDropdown {
                 id: sessionDropdown
                 anchors.fill: parent
                 text: ""

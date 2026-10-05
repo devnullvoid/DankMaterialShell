@@ -7,7 +7,7 @@ import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
 
-DankOSD {
+DOSD {
     id: root
 
     osdKind: "workspace"

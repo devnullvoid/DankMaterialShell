@@ -3,7 +3,7 @@ import Quickshell
 import qs.Common
 import qs.DCommon.Widgets
 import qs.Modules.Plugins
-import qs.Modules.DankDash
+import qs.Modules.DDash
 
 DashCardComponent {
     id: root

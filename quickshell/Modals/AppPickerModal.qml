@@ -2,11 +2,11 @@ import QtQuick
 import Quickshell
 import qs.Common
 import qs.Modals.Common
-import qs.Modals.DankLauncherV2.Components
+import qs.Modals.DLauncherV2.Components
 import qs.DCommon.Widgets
 import qs.Services
 
-DankModal {
+DModal {
     id: root
     readonly property var log: Log.scoped("AppPickerModal")
 

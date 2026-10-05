@@ -139,7 +139,7 @@ Item {
                     spacing: Theme.spacingS
                     opacity: SettingsData.displayProfileAutoSelect ? 0.4 : 1.0
 
-                    DankDropdown {
+                    DDropdown {
                         id: profileDropdown
                         downKeyOpens: false
                         backgroundColor: SettingsMetrics.controlSurface

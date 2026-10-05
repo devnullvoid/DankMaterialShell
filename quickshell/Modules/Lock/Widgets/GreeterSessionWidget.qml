@@ -24,7 +24,7 @@ Item {
         text: root.sessionName
     }
 
-    DankDropdown {
+    DDropdown {
         anchors.fill: parent
         text: ""
         description: ""

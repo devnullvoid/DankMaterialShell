@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 import qs.Common
-import qs.Modules.DankBar.Widgets
+import qs.Modules.DBar.Widgets
 import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets

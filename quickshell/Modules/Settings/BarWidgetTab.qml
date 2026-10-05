@@ -6,7 +6,7 @@ import qs.Services
 import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
 import "../../Common/settings/DockConfig.js" as DockConfig
-import "../DankBar/OverflowLayout.js" as OverflowLayout
+import "../DBar/OverflowLayout.js" as OverflowLayout
 
 Item {
     id: root

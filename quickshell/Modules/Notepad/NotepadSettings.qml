@@ -235,7 +235,7 @@ Item {
                     color: "transparent"
                     visible: !SettingsData.notepadUseMonospace
 
-                    DankDropdown {
+                    DDropdown {
                         id: fontDropdown
                         anchors.left: parent.left
                         anchors.leftMargin: -Theme.spacingM
@@ -539,7 +539,7 @@ Item {
                         anchors.top: shortcutsHeader.bottom
                         anchors.horizontalCenter: parent.horizontalCenter
 
-                        sourceComponent: DankKeyHints {
+                        sourceComponent: DKeyHints {
                             hints: [
                                 {
                                     keys: ["Ctrl+S"],

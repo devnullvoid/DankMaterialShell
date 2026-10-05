@@ -4,7 +4,7 @@ import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.Settings.Widgets
 
-DankFloatingWindow {
+DFloatingWindow {
     id: root
 
     property var widgets: []

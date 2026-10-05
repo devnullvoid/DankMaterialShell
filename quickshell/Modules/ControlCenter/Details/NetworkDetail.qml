@@ -83,7 +83,7 @@ Item {
     readonly property Item headerActions: Row {
         spacing: Theme.spacingS
 
-        DankDropdown {
+        DDropdown {
             anchors.verticalCenter: parent.verticalCenter
             visible: root.wifiMode && (NetworkService.wifiDevices?.length ?? 0) > 1
             compactMode: true

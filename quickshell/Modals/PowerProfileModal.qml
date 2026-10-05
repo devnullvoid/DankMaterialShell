@@ -5,7 +5,7 @@ import qs.Services
 import qs.DCommon.Widgets
 import Quickshell.Services.UPower
 
-DankModal {
+DModal {
     id: root
 
     layerNamespace: "dms:power-profiles"

@@ -5,7 +5,7 @@ import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
 
-DankModal {
+DModal {
     id: root
 
     layerNamespace: "dms:wifi-password"
@@ -438,7 +438,7 @@ DankModal {
                     color: Theme.surfaceVariantText
                 }
 
-                DankDropdown {
+                DDropdown {
                     width: parent.width
                     dropdownWidth: parent.width
                     compactMode: true
@@ -462,7 +462,7 @@ DankModal {
                     color: Theme.surfaceVariantText
                 }
 
-                DankDropdown {
+                DDropdown {
                     width: parent.width
                     dropdownWidth: parent.width
                     compactMode: true

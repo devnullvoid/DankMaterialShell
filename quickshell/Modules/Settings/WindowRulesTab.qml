@@ -345,7 +345,7 @@ Item {
                 visible: root.activeWindows.length > 0
                 title: I18n.tr("Create rule for:")
 
-                DankDropdown {
+                DDropdown {
                     id: windowSelector
                     downKeyOpens: false
                     backgroundColor: SettingsMetrics.controlSurface

@@ -5,7 +5,7 @@ import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
 
-DankFloatingWindow {
+DFloatingWindow {
     id: root
     readonly property var log: Log.scoped("GreeterModal")
 

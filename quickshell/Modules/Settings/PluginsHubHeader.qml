@@ -521,7 +521,7 @@ Column {
                     filterMenu.openDropdownMenu();
                 }
 
-                DankDropdown {
+                DDropdown {
                     id: filterMenu
                     showTrigger: false
                     popupAnchorItem: filterButton.trailingButton
@@ -549,7 +549,7 @@ Column {
                     sortMenu.openDropdownMenu();
                 }
 
-                DankDropdown {
+                DDropdown {
                     id: sortMenu
                     showTrigger: false
                     popupAnchorItem: sortButton.trailingButton

@@ -117,7 +117,7 @@ PluginComponent {
                             iconName: "alt_route"
                             title: I18n.tr("Exit node", "Tailscale exit node selector label")
 
-                            DankDropdown {
+                            DDropdown {
                                 anchors.verticalCenter: parent.verticalCenter
                                 compactMode: true
                                 dropdownWidth: CcMetrics.rowDropdownWidth

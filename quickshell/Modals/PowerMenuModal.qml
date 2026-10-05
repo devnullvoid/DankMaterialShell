@@ -5,7 +5,7 @@ import qs.Services
 import qs.Modules.PowerMenu
 import qs.DCommon.Session
 
-DankModal {
+DModal {
     id: root
 
     layerNamespace: "dms:power-menu"

@@ -5,7 +5,7 @@ import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
 
-DankFloatingWindow {
+DFloatingWindow {
     id: win
 
     property alias shouldBeVisible: win.visible

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Effects
 import qs.Common
 import qs.Modules.ControlCenter
-import qs.Modules.DankDash
+import qs.Modules.DDash
 import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets

@@ -3,7 +3,7 @@ import qs.Common
 import qs.Modals.Common
 import qs.DCommon.Widgets
 
-DankModal {
+DModal {
     id: root
 
     layerNamespace: "dms:input-modal"

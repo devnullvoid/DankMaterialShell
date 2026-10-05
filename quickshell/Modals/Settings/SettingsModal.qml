@@ -7,7 +7,7 @@ import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.Settings.Widgets
 
-DankFloatingWindow {
+DFloatingWindow {
     id: settingsModal
 
     property var profileBrowser: profileBrowserLoader.item

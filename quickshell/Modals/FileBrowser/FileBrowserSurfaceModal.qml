@@ -4,7 +4,7 @@ import qs.Common
 import qs.DCommon.FileBrowser
 import qs.Modals.Common
 
-DankModal {
+DModal {
     id: fileBrowserSurfaceModal
 
     property string mode: folderMode ? "openFolder" : saveMode ? "save" : "open"

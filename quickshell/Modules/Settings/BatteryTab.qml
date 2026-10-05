@@ -4,7 +4,7 @@ import qs.Common
 import qs.Services
 import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
-import qs.Modules.DankBar.Popouts
+import qs.Modules.DBar.Popouts
 
 Item {
     id: root

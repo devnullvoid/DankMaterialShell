@@ -5,7 +5,7 @@ import qs.Common
 import qs.DCommon.Widgets
 import qs.Services
 import qs.Modules.Settings.Widgets
-import "../DankBar/OverflowLayout.js" as OverflowLayout
+import "../DBar/OverflowLayout.js" as OverflowLayout
 
 Column {
     id: root

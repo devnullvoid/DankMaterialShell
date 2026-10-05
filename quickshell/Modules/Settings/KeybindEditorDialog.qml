@@ -925,7 +925,7 @@ DDialog {
         SettingsRow {
             visible: root.actionType === "dms"
 
-            body: DankDropdown {
+            body: DDropdown {
                 id: dmsActionDropdown
                 width: parent.width
                 compactMode: true
@@ -950,7 +950,7 @@ DDialog {
                 width: parent.width
                 spacing: Theme.spacingS
 
-                DankDropdown {
+                DDropdown {
                     id: compositorCategoryDropdown
                     width: Math.round((parent.width - parent.spacing) / 3)
                     compactMode: true
@@ -958,7 +958,7 @@ DDialog {
                     onValueChanged: value => root.selectCompositorCategory(value)
                 }
 
-                DankDropdown {
+                DDropdown {
                     id: compositorActionDropdown
                     visible: !root.useCustomCompositor
                     width: parent.width - compositorCategoryDropdown.width - parent.spacing
@@ -1091,7 +1091,7 @@ DDialog {
             visible: root.showDmsArgs && root.dmsArgDefs.some(arg => arg.name === "tab")
             title: I18n.tr("Tab", "noun, keybind argument label for a dashboard tab")
 
-            DankDropdown {
+            DDropdown {
                 id: dashTabDropdown
                 compactMode: true
                 options: [I18n.tr("Overview"), I18n.tr("Media"), I18n.tr("Wallpaper"), I18n.tr("Weather")]

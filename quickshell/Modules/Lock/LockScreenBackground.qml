@@ -37,7 +37,7 @@ Item {
         }
         asynchronous: false
 
-        sourceComponent: DankBackdrop {
+        sourceComponent: DBackdrop {
             screenName: root.screenName
             blur: Theme.lockScreenBlur
             blurMax: Theme.lockScreenBlurMax

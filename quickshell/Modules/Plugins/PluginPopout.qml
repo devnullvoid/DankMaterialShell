@@ -2,7 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Widgets
 
-DankPopout {
+DPopout {
     id: root
 
     layerNamespace: "dms:plugins:" + layerNamespacePlugin

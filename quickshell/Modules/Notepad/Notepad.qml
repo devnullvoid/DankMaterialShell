@@ -692,7 +692,7 @@ Item {
         id: confirmationDialogLoader
         active: false
 
-        DankModal {
+        DModal {
             id: confirmationDialog
 
             modalWidth: 400

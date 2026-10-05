@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell
 import Quickshell.Wayland
 import qs.Common
-import qs.Modules.DankIsland
+import qs.Modules.DIsland
 import qs.Services
 import "../../Common/ConnectorGeometry.js" as ConnectorGeometry
 import "../../Common/ConnectedSurfaceGeometry.js" as SurfaceGeometry
