@@ -682,6 +682,10 @@ var LOCAL_SPEC = {
     rememberLastQuery: {
         def: false
     },
+    launcherHistoryEnabled: {
+        def: true,
+        onChange: "syncLauncherHistory"
+    },
     rememberLastMode: {
         def: true
     },

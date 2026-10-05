@@ -1658,7 +1658,15 @@ Singleton {
         saveSettings();
     }
 
+    function clearLauncherHistory() {
+        launcherLastQuery = "";
+        launcherQueryHistory = [];
+        saveSettings();
+    }
+
     function addLauncherHistory(query, skipLastQuery) {
+        if (!SettingsData.launcherHistoryEnabled)
+            return;
         let q = query.trim();
 
         if (!skipLastQuery)

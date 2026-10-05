@@ -442,6 +442,7 @@ Singleton {
     property int appLauncherGridColumns: Spec.SPEC.appLauncherGridColumns.def
     property bool closeNiriOverviewOnWindowFocus: Spec.SPEC.closeNiriOverviewOnWindowFocus.def
     property bool rememberLastQuery: Spec.SPEC.rememberLastQuery.def
+    property bool launcherHistoryEnabled: Spec.SPEC.launcherHistoryEnabled.def
     property bool rememberLastMode: Spec.SPEC.rememberLastMode.def
     property var spotlightSectionViewModes: Spec.SPEC.spotlightSectionViewModes.def
     onSpotlightSectionViewModesChanged: saveSettings()
@@ -1623,6 +1624,13 @@ Singleton {
         });
     }
 
+    function syncLauncherHistory(who, key) {
+        if (who[key])
+            return;
+        AppUsageHistoryData.clear();
+        SessionData.clearLauncherHistory();
+    }
+
     function markGreeterSyncPending(who, key, oldValue) {
         if (isGreeterMode)
             return;
@@ -1679,7 +1687,8 @@ Singleton {
             "updateCompositorCursor": updateCompositorCursor,
             "scheduleAuthApply": scheduleAuthApply,
             "scheduleGreeterAutoLoginSync": scheduleGreeterAutoLoginSync,
-            "markGreeterSyncPending": markGreeterSyncPending
+            "markGreeterSyncPending": markGreeterSyncPending,
+            "syncLauncherHistory": syncLauncherHistory
         })
 
     function set(key, value) {

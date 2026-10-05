@@ -267,6 +267,15 @@ Item {
             }
 
             SettingsToggleRow {
+                settingKey: "launcherHistoryEnabled"
+                tags: ["launcher", "history", "privacy", "usage", "recent", "persist", "save"]
+                text: I18n.tr("History")
+                description: I18n.tr("Record app usage and past queries. Turning this off clears what is stored.", "launcher history toggle description")
+                checked: SettingsData.launcherHistoryEnabled
+                onToggled: checked => SettingsData.set("launcherHistoryEnabled", checked)
+            }
+
+            SettingsToggleRow {
                 settingKey: "rememberLastQuery"
                 tags: ["launcher", "remember", "last", "search", "query"]
                 text: I18n.tr("Remember last query")
@@ -709,6 +718,7 @@ Item {
             iconName: "history"
             title: I18n.tr("Recently used apps")
             settingKey: "recentApps"
+            visible: SettingsData.launcherHistoryEnabled
             collapsible: true
             expanded: false
 
@@ -758,10 +768,7 @@ Item {
                         iconSize: Theme.iconSizeMedium
                         iconColor: Theme.error
                         anchors.verticalCenter: parent.verticalCenter
-                        onClicked: {
-                            AppUsageHistoryData.appUsageRanking = {};
-                            AppUsageHistoryData.saveSettings();
-                        }
+                        onClicked: AppUsageHistoryData.clear()
                     }
                 }
             }
