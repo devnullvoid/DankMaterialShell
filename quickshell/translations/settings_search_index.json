@@ -11503,6 +11503,26 @@
     "parentLabel": "Date, time & region"
   },
   {
+    "section": "greeterAdvanced",
+    "label": "Advanced",
+    "tabIndex": 31,
+    "category": "Greeter",
+    "keywords": [
+      "advanced",
+      "display manager",
+      "greetd",
+      "greeter",
+      "login",
+      "repair",
+      "security",
+      "status",
+      "sync"
+    ],
+    "parentLabel": "Security",
+    "icon": "tune",
+    "conditionKey": "greeterAvailable"
+  },
+  {
     "section": "greeterAppearance",
     "label": "Appearance",
     "tabIndex": 31,
@@ -11612,6 +11632,37 @@
     "conditionKey": "greeterAvailable"
   },
   {
+    "section": "greeterFollowLockScreen",
+    "label": "Follow lock screen",
+    "tabIndex": 31,
+    "category": "Greeter",
+    "keywords": [
+      "arrange",
+      "components",
+      "display manager",
+      "follow",
+      "greetd",
+      "greeter",
+      "layout",
+      "lock",
+      "lockscreen",
+      "login",
+      "modules",
+      "picker",
+      "screen",
+      "security",
+      "separately",
+      "session",
+      "shows",
+      "supports",
+      "turn",
+      "widgets"
+    ],
+    "parentLabel": "Security",
+    "description": "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.",
+    "conditionKey": "greeterAvailable"
+  },
+  {
     "section": "_tab_31",
     "label": "Greeter",
     "tabIndex": 31,
@@ -11677,12 +11728,46 @@
       "display manager",
       "greetd",
       "greeter",
+      "link",
       "login",
       "security",
-      "status"
+      "status",
+      "sync"
     ],
     "parentLabel": "Security",
     "icon": "info",
+    "conditionKey": "greeterAvailable"
+  },
+  {
+    "section": "greeterWidgets",
+    "label": "Widgets",
+    "tabIndex": 31,
+    "category": "Greeter",
+    "keywords": [
+      "arrange",
+      "clock",
+      "components",
+      "display manager",
+      "greetd",
+      "greeter",
+      "layout",
+      "lock",
+      "lockscreen",
+      "login",
+      "modules",
+      "picker",
+      "screen",
+      "security",
+      "separately",
+      "session",
+      "shows",
+      "supports",
+      "turn",
+      "widgets"
+    ],
+    "parentLabel": "Security",
+    "icon": "widgets",
+    "description": "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.",
     "conditionKey": "greeterAvailable"
   },
   {

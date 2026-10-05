@@ -7,6 +7,18 @@ function lockWidgetDefaults() {
     return Shared.lockWidgetDefaults();
 }
 
+function greeterWidgetsFromLock(lockInstances, previous) {
+    return Shared.greeterWidgetsFromLock(lockInstances, previous);
+}
+
+function greeterSessionDefault() {
+    return Shared.greeterSessionDefault();
+}
+
+function greeterWidgetDefaults() {
+    return Shared.greeterWidgetDefaults();
+}
+
 var LOCAL_SPEC = {
     dockConfigs: {
         def: [DockConfig.create("dock", "Dock")]
@@ -644,6 +656,9 @@ var LOCAL_SPEC = {
     greeterAutoLogin: {
         def: false,
         onChange: "scheduleGreeterAutoLoginSync"
+    },
+    greeterFollowLockScreen: {
+        def: true
     },
     greeterPamExternallyManaged: {
         def: false,

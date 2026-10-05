@@ -27,6 +27,8 @@ Loader {
             return lockDateSettings;
         case "lockPower":
             return lockPowerSettings;
+        case "greeterSession":
+            return null;
         default:
             return pluginSettings;
         }

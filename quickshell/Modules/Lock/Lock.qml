@@ -242,6 +242,12 @@ Scope {
             demoWindow.showDemo();
         }
 
+        function onGreeterEditorRequested() {
+            if (shouldLock)
+                return;
+            demoWindow.showDemo(true);
+        }
+
         function onLoginctlStateChanged() {
             if (SessionService.active && pendingLock) {
                 pendingLock = false;

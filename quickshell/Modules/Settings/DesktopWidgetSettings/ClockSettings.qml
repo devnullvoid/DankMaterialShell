@@ -42,6 +42,13 @@ DesktopWidgetInstanceSettings {
     }
 
     SettingsToggleRow {
+        visible: root.style === "expressive"
+        text: I18n.tr("Rounded")
+        checked: root.cfg.rounded ?? true
+        onToggled: checked => root.updateConfig("rounded", checked)
+    }
+
+    SettingsToggleRow {
         visible: root.style === "digital"
         text: I18n.tr("Italic", "clock font style toggle")
         checked: root.cfg.italic ?? false

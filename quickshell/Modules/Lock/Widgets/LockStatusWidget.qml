@@ -32,7 +32,7 @@ Item {
         anchors.right: parent.right
         anchors.margins: root.pad
         interactive: !(root.lockHost?.demoMode ?? true)
-        showMediaPlayer: root.cfg.showMediaPlayer ?? true
+        showMediaPlayer: (root.cfg.showMediaPlayer ?? true) && !(root.lockHost?.greeterPreview ?? false)
         showWeather: root.cfg.showWeather ?? true
         useFahrenheit: SettingsData.useFahrenheit
     }

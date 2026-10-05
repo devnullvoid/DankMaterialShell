@@ -12,13 +12,14 @@ FocusScope {
 
     required property string screenName
     property bool lockScreen: false
+    property bool greeter: false
     property var lockHost: null
     property bool editMode: false
     property string selectedInstanceId: ""
 
     readonly property var screen: Quickshell.screens.find(s => s.name === screenName) ?? null
-    readonly property string listKey: lockScreen ? "lockScreenWidgetInstances" : "desktopWidgetInstances"
-    readonly property var instances: (lockScreen ? SettingsData.lockScreenWidgetInstances : SettingsData.desktopWidgetInstances) || []
+    readonly property string listKey: greeter ? "greeterWidgetInstances" : (lockScreen ? "lockScreenWidgetInstances" : "desktopWidgetInstances")
+    readonly property var instances: (greeter ? SettingsData.greeterWidgetInstances : (lockScreen ? SettingsData.lockScreenWidgetInstances : SettingsData.desktopWidgetInstances)) || []
     readonly property string screenKey: SettingsData.getScreenDisplayName(screen)
     property var _gridSettingsTrigger: lockScreen ? SessionData.lockScreenWidgetGridSettings : SessionData.desktopWidgetGridSettings
     readonly property int gridSize: {
@@ -133,6 +134,17 @@ FocusScope {
         return LockPlacementService.layoutFor(screenName, LockPlacementService.sampleFor(screenName, backgroundKey), placementKey, placeClocks);
     }
 
+    // The greeter list never renders outside the editor, so the editor publishes its auto placement.
+    onAutoPositionsChanged: {
+        if (!greeter || !editMode || !completed || interactingItem || width <= 0 || height <= 0)
+            return;
+        SessionData.setGreeterAutoPositions(screenKey, {
+            width: width,
+            height: height,
+            positions: autoPositions
+        });
+    }
+
     function refreshPlacement() {
         if (!lockScreen || !completed || editMode || width <= 0 || height <= 0)
             return;
@@ -202,6 +214,11 @@ FocusScope {
         case "lockPower":
             return {
                 x: Theme.spacingXL,
+                y: height - Theme.spacingXL - item.height
+            };
+        case "greeterSession":
+            return {
+                x: width - Theme.spacingXL - item.width,
                 y: height - Theme.spacingXL - item.height
             };
         }

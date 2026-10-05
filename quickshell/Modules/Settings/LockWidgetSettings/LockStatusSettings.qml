@@ -17,6 +17,7 @@ DesktopWidgetInstanceSettings {
     }
 
     SettingsToggleRow {
+        visible: !root.greeterInstance
         text: I18n.tr("Show media player")
         checked: root.cfg.showMediaPlayer ?? true
         onToggled: checked => root.updateConfig("showMediaPlayer", checked)

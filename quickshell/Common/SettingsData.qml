@@ -1113,13 +1113,15 @@ Singleton {
     property var desktopWidgetInstances: Spec.SPEC.desktopWidgetInstances.def
     property var desktopWidgetGroups: Spec.SPEC.desktopWidgetGroups.def
     property var lockScreenWidgetInstances: Spec.SPEC.lockScreenWidgetInstances.def
-    readonly property var widgetInstanceListKeys: ["desktopWidgetInstances", "lockScreenWidgetInstances"]
+    property var greeterWidgetInstances: Spec.SPEC.greeterWidgetInstances.def
+    property bool greeterFollowLockScreen: Spec.SPEC.greeterFollowLockScreen.def
+    readonly property var widgetInstanceListKeys: ["desktopWidgetInstances", "lockScreenWidgetInstances", "greeterWidgetInstances"]
 
-    // The greeter still reads these three shared keys, so they follow the lock widgets.
+    // Released greeters still read these three shared keys, so they follow the lock widgets.
     onLockScreenWidgetInstancesChanged: {
-        const status = lockWidgetInstance("lockStatus");
-        const auth = lockWidgetInstance("lockAuth");
-        const power = lockWidgetInstance("lockPower");
+        const status = widgetInstanceOfType("lockScreenWidgetInstances", "lockStatus");
+        const auth = widgetInstanceOfType("lockScreenWidgetInstances", "lockAuth");
+        const power = widgetInstanceOfType("lockScreenWidgetInstances", "lockPower");
         const mirror = (key, value) => {
             if (root[key] !== value)
                 set(key, value);
@@ -1127,10 +1129,52 @@ Singleton {
         mirror("lockScreenShowWeather", !!status && status.enabled !== false && (status.config?.showWeather ?? true));
         mirror("lockScreenShowProfileImage", !!auth && (auth.config?.showProfileImage ?? true));
         mirror("lockScreenShowPowerActions", !!power && power.enabled !== false);
+        syncGreeterWidgets();
+    }
+
+    function widgetInstanceOfType(listKey, widgetType) {
+        return (root[listKey] || []).find(inst => inst.widgetType === widgetType) ?? null;
     }
 
     function lockWidgetInstance(widgetType) {
-        return (lockScreenWidgetInstances || []).find(inst => inst.widgetType === widgetType) ?? null;
+        return widgetInstanceOfType("lockScreenWidgetInstances", widgetType);
+    }
+
+    function syncGreeterWidgets() {
+        if (!greeterFollowLockScreen)
+            return;
+        const next = Spec.greeterWidgetsFromLock(lockScreenWidgetInstances, greeterWidgetInstances);
+        if (JSON.stringify(next) === JSON.stringify(greeterWidgetInstances))
+            return;
+        set("greeterWidgetInstances", next);
+    }
+
+    function setGreeterFollowLockScreen(follow) {
+        if (follow === greeterFollowLockScreen)
+            return;
+        if (follow) {
+            for (const inst of greeterWidgetInstances || []) {
+                if (inst.id.startsWith("gw_"))
+                    SessionData.removeDesktopWidgetInstancePositions(inst.id);
+            }
+            set("greeterFollowLockScreen", true);
+            syncGreeterWidgets();
+            return;
+        }
+        const detached = (greeterWidgetInstances || []).map(inst => {
+            if (inst.widgetType === "greeterSession")
+                return inst;
+            const copy = JSON.parse(JSON.stringify(inst));
+            copy.id = "gw_" + inst.id;
+            SessionData.copyDesktopWidgetInstancePositions(inst.id, copy.id);
+            if (inst.widgetType !== "desktopClock" || inst.config?.autoPosition === false)
+                return copy;
+            copy.config.autoPosition = false;
+            SessionData.pinPublishedLockPosition(inst.id, copy.id, inst.config?.syncPositionAcrossScreens ?? false);
+            return copy;
+        });
+        set("greeterWidgetInstances", detached);
+        set("greeterFollowLockScreen", false);
     }
 
     function resetLockScreenWidgets() {
@@ -1139,6 +1183,22 @@ Singleton {
         for (const inst of Spec.SPEC.lockScreenWidgetInstances.def)
             SessionData.removeDesktopWidgetInstancePositions(inst.id);
         resetToDefault(["lockScreenWidgetInstances"]);
+    }
+
+    // Following means the lock layout is the greeter layout, so that is what resets.
+    function resetGreeterWidgets() {
+        for (const inst of greeterWidgetInstances || []) {
+            if (!greeterFollowLockScreen || inst.widgetType === "greeterSession")
+                SessionData.removeDesktopWidgetInstancePositions(inst.id);
+        }
+        if (greeterFollowLockScreen) {
+            resetLockScreenWidgets();
+            set("greeterWidgetInstances", Spec.greeterWidgetsFromLock(lockScreenWidgetInstances, []));
+            return;
+        }
+        set("greeterWidgetInstances", Spec.greeterWidgetDefaults().map(inst => inst.widgetType === "greeterSession" ? inst : Object.assign(inst, {
+                id: "gw_" + inst.id
+            })));
     }
 
     function getDefaultSystemMonitorConfig() {
@@ -1174,10 +1234,16 @@ Singleton {
         return widgetInstanceListKeys.find(key => (root[key] || []).some(inst => inst.id === instanceId)) ?? "desktopWidgetInstances";
     }
 
+    readonly property var widgetInstanceIdPrefixes: ({
+            desktopWidgetInstances: "dw_",
+            lockScreenWidgetInstances: "lw_",
+            greeterWidgetInstances: "gw_"
+        })
+
     function createDesktopWidgetInstance(widgetType, name, config, listKey = "desktopWidgetInstances") {
-        const lockScreen = listKey === "lockScreenWidgetInstances";
+        const lockScreen = listKey !== "desktopWidgetInstances";
         const instance = {
-            id: (lockScreen ? "lw_" : "dw_") + Date.now() + "_" + Math.random().toString(36).substr(2, 9),
+            id: widgetInstanceIdPrefixes[listKey] + Date.now() + "_" + Math.random().toString(36).substr(2, 9),
             widgetType: widgetType,
             name: name || widgetType,
             enabled: true,
@@ -1566,6 +1632,22 @@ Singleton {
         SessionData.saveSettings();
     }
 
+    // Older builds flagged keys the linked slot now serves live; drop them so Apply does not nag forever.
+    function pruneGreeterSyncPending() {
+        const baseline = SessionData.greeterSyncBaseline || {};
+        const keys = Object.keys(baseline);
+        const live = keys.filter(key => Spec.SPEC[key]?.onChange === "markGreeterSyncPending");
+        if (live.length === keys.length)
+            return;
+        const pruned = {};
+        for (const key of live)
+            pruned[key] = baseline[key];
+        SessionData.greeterSyncBaseline = pruned;
+        if (live.length === 0)
+            SessionData.greeterSyncPending = false;
+        SessionData.saveSettings();
+    }
+
     function clearGreeterSyncPending() {
         SessionData.greeterSyncBaseline = {};
         SessionData.greeterSyncPending = false;
@@ -1778,6 +1860,7 @@ Singleton {
     function _mergeSessionState() {
         if (!_hasLoaded || !SessionData._hasLoaded)
             return;
+        pruneGreeterSyncPending();
 
         const pluginState = SessionData.builtInPluginState || {};
         if (Object.keys(pluginState).length > 0) {

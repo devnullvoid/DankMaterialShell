@@ -33,6 +33,8 @@ Loader {
             return lockStatusComponent;
         case "lockPower":
             return lockPowerComponent;
+        case "greeterSession":
+            return greeterSessionComponent;
         }
         return PluginService.pluginDesktopComponents[pluginId] ?? null;
     }
@@ -70,6 +72,10 @@ Loader {
 
     property Component lockPowerComponent: Component {
         LockPowerWidget {}
+    }
+
+    property Component greeterSessionComponent: Component {
+        GreeterSessionWidget {}
     }
 
     onInstanceDataChanged: {

@@ -23,7 +23,7 @@ WidgetPickerWindow {
 
     objectName: "desktopWidgetBrowser"
     title: I18n.tr("Add Desktop Widget")
-    widgets: (DesktopWidgetRegistry.registeredWidgetsList || []).filter(widget => !widget.lockOnly)
+    widgets: DesktopWidgetRegistry.getListWidgets(listKey).filter(widget => listKey === "desktopWidgetInstances" ? true : (widget.id !== "lockAuth" && widget.id !== "greeterSession"))
     featuredFirst: true
     showEmptyState: true
     widgetDelegate: tileDelegate

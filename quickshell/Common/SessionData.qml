@@ -294,6 +294,7 @@ Singleton {
     property var lockScreenWidgetGridSettings: ({})
     property var desktopWidgetInstancePositions: ({})
     property var lockScreenAutoPositions: ({})
+    property var greeterAutoPositions: ({})
     property var islandFreePositions: ({})
     property var builtInPluginState: ({})
     property bool greeterSyncPending: false
@@ -657,6 +658,14 @@ Singleton {
         saveSettings();
     }
 
+    function setGreeterAutoPositions(screenKey, placement) {
+        if (JSON.stringify(greeterAutoPositions[screenKey] ?? null) === JSON.stringify(placement))
+            return;
+        const updated = Object.assign({}, greeterAutoPositions);
+        updated[screenKey] = placement;
+        greeterAutoPositions = updated;
+        saveSettings();
+    }
     function setLockScreenAutoPositions(screenKey, placement) {
         if (JSON.stringify(lockScreenAutoPositions[screenKey] ?? null) === JSON.stringify(placement))
             return;
@@ -666,6 +675,43 @@ Singleton {
         saveSettings();
     }
 
+    function copyDesktopWidgetInstancePositions(fromId, toId) {
+        const source = desktopWidgetInstancePositions[fromId];
+        if (!source)
+            return;
+        const updated = JSON.parse(JSON.stringify(desktopWidgetInstancePositions));
+        updated[toId] = JSON.parse(JSON.stringify(source));
+        desktopWidgetInstancePositions = updated;
+        saveSettings();
+    }
+    // Detached greeter clocks keep the spot the lock screen picked for them.
+    function pinPublishedLockPosition(fromId, toId, synced) {
+        const updated = JSON.parse(JSON.stringify(desktopWidgetInstancePositions));
+        let pinned = false;
+        for (const screenKey in lockScreenAutoPositions) {
+            const entry = lockScreenAutoPositions[screenKey];
+            const position = entry?.positions?.[fromId];
+            if (!position || !(entry.width > 0) || !(entry.height > 0))
+                continue;
+            const key = synced ? "_synced" : screenKey;
+            if (!updated[toId])
+                updated[toId] = {};
+            updated[toId][key] = Object.assign({}, updated[toId][key] || {}, synced ? {
+                x: position.x / entry.width,
+                y: position.y / entry.height
+            } : {
+                x: position.x,
+                y: position.y
+            });
+            pinned = true;
+            if (synced)
+                break;
+        }
+        if (!pinned)
+            return;
+        desktopWidgetInstancePositions = updated;
+        saveSettings();
+    }
     function removeDesktopWidgetInstancePositions(instanceId) {
         if (!(instanceId in desktopWidgetInstancePositions))
             return;

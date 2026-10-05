@@ -14,7 +14,7 @@ Item {
     readonly property string instanceId: instanceData?.id ?? ""
     readonly property string widgetType: instanceData?.widgetType ?? ""
     readonly property bool lockScreen: hostLayer.lockScreen
-    readonly property bool removable: widgetType !== "lockAuth"
+    readonly property bool removable: widgetType !== "lockAuth" && widgetType !== "greeterSession"
     readonly property bool selected: hostLayer.selectedInstanceId === instanceId
     readonly property bool interacting: editChrome.item?.interacting ?? false
     readonly property var contrastColors: content.item?.contrastColors ?? []
