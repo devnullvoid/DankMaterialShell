@@ -7,7 +7,7 @@ import qs.Modules.DankDash
 import "Wellbeing.js" as Wellbeing
 
 Singleton {
-    readonly property real chartHeight: DashMetrics.gridRowUnit * 2.5
+    readonly property real chartHeight: DashMetrics.heightForRows(2)
     readonly property real barWidthRatio: 0.72
     readonly property real dimmedBarOpacity: 0.55
     readonly property real axisLabelWidth: 28

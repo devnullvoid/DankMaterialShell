@@ -180,7 +180,8 @@ Singleton {
             "available": SettingsData.wellbeingEnabled,
             "tab": {
                 "component": wellbeingTab,
-                "async": true
+                "async": true,
+                "sizeToContent": true
             },
             "card": {
                 "component": wellbeingCard,
