@@ -268,6 +268,16 @@ Item {
         }
     }
 
+    function showWidgetBrowser() {
+        lockWidgetBrowserLoader.active = true;
+        lockWidgetBrowserLoader.item?.show();
+    }
+
+    function showPluginBrowser() {
+        lockPluginBrowserLoader.active = true;
+        lockPluginBrowserLoader.item?.show();
+    }
+
     LazyLoader {
         id: lockWidgetBrowserLoader
         active: false
@@ -277,6 +287,16 @@ Item {
             listKey: "lockScreenWidgetInstances"
             title: I18n.tr("Add widget")
             onWidgetAdded: ToastService.showInfo(I18n.tr("Widget added"))
+        }
+    }
+
+    LazyLoader {
+        id: lockPluginBrowserLoader
+        active: false
+
+        PluginBrowser {
+            parentModal: root.parentModal
+            typeFilter: "desktop-widget"
         }
     }
 
@@ -314,23 +334,6 @@ Item {
                         ToastService.showInfo(I18n.tr("Widget removed"));
                     }
                 }
-            }
-
-            SettingsRow {
-                iconName: "add"
-                title: I18n.tr("Add widget")
-                clickable: true
-                onClicked: {
-                    lockWidgetBrowserLoader.active = true;
-                    lockWidgetBrowserLoader.item?.show();
-                }
-            }
-
-            SettingsRow {
-                iconName: "edit"
-                title: I18n.tr("Edit widgets")
-                clickable: true
-                onClicked: SessionService.lockEditorRequested()
             }
 
             SettingsRow {
@@ -857,6 +860,28 @@ Item {
                         return;
                     SettingsData.set("loginctlLockIntegration", checked);
                 }
+            }
+        }
+
+        SettingsFabBar {
+            DankFab {
+                text: I18n.tr("Browse plugins")
+                iconName: "store"
+                colorRole: "secondaryContainer"
+                onClicked: root.showPluginBrowser()
+            }
+
+            DankFab {
+                text: I18n.tr("Edit widgets")
+                iconName: "edit"
+                colorRole: "secondaryContainer"
+                onClicked: SessionService.lockEditorRequested()
+            }
+
+            DankFab {
+                text: I18n.tr("Add widget")
+                iconName: "add"
+                onClicked: root.showWidgetBrowser()
             }
         }
     }

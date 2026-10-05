@@ -1874,6 +1874,11 @@ Item {
             return enabledBool ? `DESKTOP_WIDGET_SYNC_POSITION_ENABLED: ${instanceId}` : `DESKTOP_WIDGET_SYNC_POSITION_DISABLED: ${instanceId}`;
         }
 
+        function edit(): string {
+            DesktopWidgetRegistry.editing = true;
+            return "DESKTOP_WIDGET_EDITOR_OPENED";
+        }
+
         target: "desktopWidget"
     }
 

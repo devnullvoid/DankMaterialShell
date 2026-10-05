@@ -1,6 +1,6 @@
 import QtQuick
 import QtQuick.Window
-import "LockPlacement.js" as Placement
+import "../../Common/WidgetPlacement.js" as Placement
 
 Item {
     id: root

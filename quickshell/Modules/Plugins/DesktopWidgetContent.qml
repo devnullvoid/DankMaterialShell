@@ -23,8 +23,6 @@ Loader {
             return clockComponent;
         case "systemMonitor":
             return systemMonitorComponent;
-        case "lockClock":
-            return lockClockComponent;
         case "lockDate":
             return lockDateComponent;
         case "lockAuth":
@@ -52,10 +50,6 @@ Loader {
 
     property Component systemMonitorComponent: Component {
         SystemMonitorWidget {}
-    }
-
-    property Component lockClockComponent: Component {
-        LockClockWidget {}
     }
 
     property Component lockDateComponent: Component {

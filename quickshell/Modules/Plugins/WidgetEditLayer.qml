@@ -4,29 +4,30 @@ import QtQuick
 import Quickshell
 import qs.Common
 import qs.Services
-import qs.Modules.Plugins
-import "LockPlacement.js" as Placement
+import "../../Common/WidgetPlacement.js" as Placement
 import qs.DankCommon.Session
 
 FocusScope {
     id: root
 
     required property string screenName
+    property bool lockScreen: false
     property var lockHost: null
     property bool editMode: false
     property string selectedInstanceId: ""
 
     readonly property var screen: Quickshell.screens.find(s => s.name === screenName) ?? null
-    readonly property var instances: SettingsData.lockScreenWidgetInstances || []
+    readonly property string listKey: lockScreen ? "lockScreenWidgetInstances" : "desktopWidgetInstances"
+    readonly property var instances: (lockScreen ? SettingsData.lockScreenWidgetInstances : SettingsData.desktopWidgetInstances) || []
     readonly property string screenKey: SettingsData.getScreenDisplayName(screen)
-    property var _gridSettingsTrigger: SessionData.lockScreenWidgetGridSettings
+    property var _gridSettingsTrigger: lockScreen ? SessionData.lockScreenWidgetGridSettings : SessionData.desktopWidgetGridSettings
     readonly property int gridSize: {
         void _gridSettingsTrigger;
-        return SessionData.getWidgetGridSetting(true, screenKey, "size", 40);
+        return SessionData.getWidgetGridSetting(lockScreen, screenKey, "size", 40);
     }
     readonly property bool gridEnabled: {
         void _gridSettingsTrigger;
-        return SessionData.getWidgetGridSetting(true, screenKey, "enabled", false);
+        return SessionData.getWidgetGridSetting(lockScreen, screenKey, "enabled", false);
     }
 
     signal focusStolen
@@ -70,11 +71,29 @@ FocusScope {
     }
 
     function toggleGrid() {
-        SessionData.setWidgetGridSetting(true, screenKey, "enabled", !gridEnabled);
+        SessionData.setWidgetGridSetting(lockScreen, screenKey, "enabled", !gridEnabled);
     }
 
     function stepGrid(delta) {
-        SessionData.setWidgetGridSetting(true, screenKey, "size", Math.max(10, Math.min(200, gridSize + delta)));
+        SessionData.setWidgetGridSetting(lockScreen, screenKey, "size", Math.max(10, Math.min(200, gridSize + delta)));
+    }
+
+    // Called by the common ancestor of this layer and the editor bar, since either side can hold focus.
+    function handleKey(event) {
+        if (!editMode)
+            return false;
+        switch (event.key) {
+        case Qt.Key_G:
+            toggleGrid();
+            return true;
+        case Qt.Key_Z:
+            stepGrid(-10);
+            return true;
+        case Qt.Key_X:
+            stepGrid(10);
+            return true;
+        }
+        return false;
     }
 
     activeFocusOnTab: false
@@ -97,16 +116,16 @@ FocusScope {
     property var lockedPositions: ({})
     // Snapshot taken when a drag or resize starts so the auto-placed clock cannot jump under the pointer.
     property var heldPlacement: ({})
-    readonly property string backgroundKey: LockPlacementService.backgroundKey(screenName, width, height)
+    readonly property string backgroundKey: lockScreen ? LockPlacementService.backgroundKey(screenName, width, height) : ""
     readonly property var autoPositions: {
-        if (!editMode || !completed)
+        if (!lockScreen || !editMode || !completed)
             return lockedPositions;
         if (interactingItem)
             return heldPlacement;
         return currentPlacement();
     }
     onInteractingItemChanged: {
-        if (interactingItem)
+        if (lockScreen && interactingItem)
             heldPlacement = currentPlacement();
     }
 
@@ -115,7 +134,7 @@ FocusScope {
     }
 
     function refreshPlacement() {
-        if (!completed || editMode || width <= 0 || height <= 0)
+        if (!lockScreen || !completed || editMode || width <= 0 || height <= 0)
             return;
         lockedPositions = currentPlacement();
         SessionData.setLockScreenAutoPositions(screenKey, {
@@ -133,10 +152,10 @@ FocusScope {
     onHeightChanged: refreshPlacement()
     onEditModeChanged: refreshPlacement()
 
-    readonly property string placementKey: JSON.stringify(instances.map(instance => {
+    readonly property string placementKey: lockScreen ? JSON.stringify(instances.map(instance => {
         const item = itemById(instance.id);
         return [instance.id, instance.enabled, instance.config, item?.width, item?.height, item?.automaticPlacement ? null : item?.x, item?.automaticPlacement ? null : item?.y, item?.hasSavedPosition, item?.contrastColors];
-    }).concat([width, height, Theme.primary.toString(), Theme.secondary.toString(), Theme.lockScreenContentColor.toString(), SessionData.desktopWidgetInstancePositions]))
+    }).concat([width, height, Theme.primary.toString(), Theme.secondary.toString(), Theme.lockScreenContentColor.toString(), SessionData.desktopWidgetInstancePositions])) : ""
 
     function itemById(id) {
         for (let i = 0; i < repeater.count; i++) {
@@ -148,9 +167,11 @@ FocusScope {
     }
 
     function stockRect(widgetType, item) {
+        if (!lockScreen)
+            return null;
         const centerX = (width - item.width) / 2;
         switch (widgetType) {
-        case "lockClock":
+        case "desktopClock":
             return item.automaticPlacement && autoPositions[item.instanceId] ? autoPositions[item.instanceId] : {
                 x: Math.max(0, centerX),
                 y: edgeInset
@@ -273,7 +294,7 @@ FocusScope {
             values: root.instances
         }
 
-        LockWidgetItem {
+        WidgetEditItem {
             required property var modelData
             required property int index
 

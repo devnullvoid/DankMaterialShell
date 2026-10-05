@@ -110,7 +110,7 @@ Variants {
                 }
 
                 readonly property bool shouldBeVisible: {
-                    if (!liveInstanceData.enabled)
+                    if (!liveInstanceData.enabled || DesktopWidgetRegistry.editing)
                         return false;
                     const prefs = liveInstanceData.config?.displayPreferences ?? ["all"];
                     return DesktopWidgetRegistry.showsOnScreen(prefs, screenDelegate.screen);

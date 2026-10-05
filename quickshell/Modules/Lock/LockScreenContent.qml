@@ -4,11 +4,7 @@ import QtQuick
 import QtQuick.Window
 import qs.Common
 import qs.Modals
-import qs.Modules.ControlCenter.Widgets
-import qs.Modules.DankDash.Overview
 import qs.Modules.Plugins
-import qs.Modules.Settings.DesktopWidgetSettings
-import qs.Modules.Settings.Widgets
 import qs.Services
 import qs.Widgets
 import qs.DankCommon.Session
@@ -73,12 +69,6 @@ FocusScope {
             return custom;
         }
         return Theme.lockScreenContentColor;
-    }
-
-    function addLockWidget(widgetType) {
-        const def = DesktopWidgetRegistry.getWidget(widgetType);
-        const instance = SettingsData.createDesktopWidgetInstance(widgetType, def?.name ?? widgetType, DesktopWidgetRegistry.getDefaultConfig(widgetType), "lockScreenWidgetInstances");
-        widgetLayer.pendingIds = widgetLayer.pendingIds.concat([instance.id]);
     }
 
     Component.onCompleted: {
@@ -154,31 +144,17 @@ FocusScope {
         screenName: root.screenName
     }
 
-    // Grid keys live here because a selected widget holds active focus inside the layer, not the editor.
     Keys.onPressed: event => {
-        if (!demoMode)
-            return;
-        switch (event.key) {
-        case Qt.Key_G:
-            widgetLayer.toggleGrid();
-            break;
-        case Qt.Key_Z:
-            widgetLayer.stepGrid(-10);
-            break;
-        case Qt.Key_X:
-            widgetLayer.stepGrid(10);
-            break;
-        default:
-            return;
-        }
-        event.accepted = true;
+        if (widgetLayer.handleKey(event))
+            event.accepted = true;
     }
 
-    LockWidgetLayer {
+    WidgetEditLayer {
         id: widgetLayer
         anchors.fill: parent
         focus: true
         screenName: root.screenName
+        lockScreen: true
         lockHost: root
         editMode: root.demoMode
         bottomInset: editorLoader.item?.fabReserved ?? 0
@@ -229,112 +205,9 @@ FocusScope {
         anchors.fill: parent
         active: root.demoMode
 
-        sourceComponent: FocusScope {
-            id: editor
-
-            property bool libraryOpen: false
-            readonly property real fabReserved: fabBar.reservedHeight
-
-            function closeLibrary() {
-                libraryOpen = false;
-                forceActiveFocus();
-            }
-
-            function showOptions(instanceData) {
-                optionsSheet.instanceId = instanceData?.id ?? "";
-                optionsSheet.opened = true;
-            }
-
-            focus: true
-            Component.onCompleted: forceActiveFocus()
-
-            Keys.onEscapePressed: {
-                if (editControls.pendingAction !== "") {
-                    editControls.cancelConfirmation();
-                    return;
-                }
-                if (libraryOpen) {
-                    closeLibrary();
-                    return;
-                }
-                root.unlockRequested();
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                visible: editor.libraryOpen
-                acceptedButtons: Qt.AllButtons
-                onClicked: editor.closeLibrary()
-            }
-
-            Loader {
-                anchors.centerIn: parent
-                active: editor.libraryOpen
-
-                sourceComponent: CcWidgetLibrary {
-                    width: Math.min(implicitWidth, editor.width - Theme.spacingL * 2)
-                    height: Math.min(implicitHeight, editor.height - Theme.spacingL * 2)
-                    widgets: DesktopWidgetRegistry.registeredWidgetsList.filter(widget => widget.id !== "lockAuth" || !SettingsData.lockWidgetInstance("lockAuth")).map(widget => ({
-                                id: widget.id,
-                                text: widget.name,
-                                icon: widget.icon,
-                                description: widget.description
-                            }))
-                    Component.onCompleted: reset()
-                    onChosen: widgetId => {
-                        root.addLockWidget(widgetId);
-                        editor.closeLibrary();
-                    }
-                    onDismissed: editor.closeLibrary()
-                }
-            }
-
-            DankBottomSheet {
-                id: optionsSheet
-
-                property string instanceId: ""
-                readonly property var instanceData: SettingsData.getDesktopWidgetInstance(instanceId)
-                readonly property var widgetDef: DesktopWidgetRegistry.getWidget(instanceData?.widgetType ?? "")
-
-                maximumWidth: Math.min(Theme.mediumBreakpoint, editor.width - Theme.spacingXL * 2)
-                topMargin: editor.height * 0.3
-                returnFocusItem: editor
-                title: instanceData?.name || widgetDef?.name || ""
-                onDismissRequested: opened = false
-                onActiveChanged: {
-                    if (!active)
-                        instanceId = "";
-                }
-
-                DesktopWidgetTypeSettings {
-                    width: parent.width
-                    instanceId: optionsSheet.instanceId
-                    instanceData: optionsSheet.instanceData
-                    widgetDef: optionsSheet.widgetDef
-                }
-            }
-
-            DesktopWidgetGridHint {
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: fabBar.reservedHeight + Theme.spacingL
-                visible: fabBar.shown && (widgetLayer.selectedInstanceId !== "" || widgetLayer.interactingItem !== null)
-                gridEnabled: widgetLayer.gridEnabled
-                gridSize: widgetLayer.gridSize
-            }
-
-            SettingsFabBar {
-                id: fabBar
-                shown: !editor.libraryOpen && !optionsSheet.active
-
-                DashEditControls {
-                    id: editControls
-                    canClear: false
-                    onAddRequested: editor.libraryOpen = true
-                    onResetRequested: SettingsData.resetLockScreenWidgets()
-                    onFinished: root.unlockRequested()
-                }
-            }
+        sourceComponent: WidgetEditorOverlay {
+            editLayer: widgetLayer
+            onFinished: root.unlockRequested()
         }
     }
 

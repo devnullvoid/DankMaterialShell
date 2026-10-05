@@ -12,7 +12,7 @@ Singleton {
 
     function neededFor(screen) {
         return SettingsData.lockScreenWidgetInstances.some(instance => {
-            if (instance.widgetType !== "lockClock" || instance.enabled === false || instance.config?.autoPosition === false || !DesktopWidgetRegistry.showsOnScreen(instance.config?.displayPreferences, screen))
+            if (instance.widgetType !== "desktopClock" || instance.enabled === false || instance.config?.autoPosition === false || !DesktopWidgetRegistry.showsOnScreen(instance.config?.displayPreferences, screen))
                 return false;
             const positionKey = instance.config?.syncPositionAcrossScreens ? "_synced" : SettingsData.getScreenDisplayName(screen);
             return SessionData.desktopWidgetInstancePositions[instance.id]?.[positionKey]?.x === undefined;

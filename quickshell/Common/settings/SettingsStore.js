@@ -735,7 +735,7 @@ function migrateLockScreenWidgets(settings) {
     if (present("lockScreenShowTime"))
         byId("lock_clock").enabled = !!settings.lockScreenShowTime;
     if (present("lockScreenClockStyle"))
-        byId("lock_clock").config.style = settings.lockScreenClockStyle;
+        byId("lock_clock").config.style = settings.lockScreenClockStyle === "vertical" ? "overlap" : "digital";
     if (present("lockScreenShowDate"))
         byId("lock_date").enabled = !!settings.lockScreenShowDate;
     byId("lock_auth").config.profileVisibility = settings.lockScreenShowProfileImage === false ? "never" : "always";

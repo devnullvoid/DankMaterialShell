@@ -1,7 +1,6 @@
 import QtQuick
 import qs.Common
 import qs.Widgets
-import qs.Modules.Plugins
 
 Item {
     id: root
@@ -14,13 +13,14 @@ Item {
 
     readonly property string instanceId: instanceData?.id ?? ""
     readonly property string widgetType: instanceData?.widgetType ?? ""
+    readonly property bool lockScreen: hostLayer.lockScreen
     readonly property bool removable: widgetType !== "lockAuth"
     readonly property bool selected: hostLayer.selectedInstanceId === instanceId
     readonly property bool interacting: editChrome.item?.interacting ?? false
     readonly property var contrastColors: content.item?.contrastColors ?? []
     readonly property real bottomOverflow: content.item?.bottomOverflow ?? 0
     readonly property bool hasSavedPosition: geometry.hasSavedPosition
-    readonly property bool automaticPlacement: widgetType === "lockClock" && (instanceData?.config?.autoPosition ?? true) && !hasSavedPosition
+    readonly property bool automaticPlacement: lockScreen && widgetType === "desktopClock" && (instanceData?.config?.autoPosition ?? true) && !hasSavedPosition
     readonly property bool dragging: editChrome.item?.dragging ?? false
     readonly property var stock: hostLayer.stockRect(widgetType, root)
     property bool snappedCenterX: false
@@ -101,7 +101,7 @@ Item {
             return;
         }
         geometry.savePosition(finalX, finalY);
-        if (widgetType === "lockClock" && (instanceData?.config?.autoPosition ?? true))
+        if (lockScreen && widgetType === "desktopClock" && (instanceData?.config?.autoPosition ?? true))
             SettingsData.updateDesktopWidgetInstanceConfig(instanceId, {
                 autoPosition: false
             });
@@ -112,7 +112,7 @@ Item {
         instanceId: root.instanceId
         instanceData: root.instanceData
         screen: root.screen
-        lockScreen: true
+        lockScreen: root.lockScreen
         minWidth: content.contentMinWidth
         minHeight: content.contentMinHeight
         forceSquare: content.contentForceSquare
@@ -132,7 +132,7 @@ Item {
         instanceData: root.instanceData
         screen: root.screen
         geometry: geometry
-        lockScreen: true
+        lockScreen: root.lockScreen
         lockHost: root.lockHost
         persistDefaults: false
     }

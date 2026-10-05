@@ -3,6 +3,7 @@ import Quickshell
 import qs.Common
 import qs.Services
 import qs.Widgets
+import "../../DankCommon/Common/Hct.js" as Hct
 
 Item {
     id: root
@@ -12,85 +13,140 @@ Item {
 
     property string instanceId: ""
     property var instanceData: null
+    property bool lockScreen: false
+    property var lockHost: null
     readonly property var cfg: instanceData?.config ?? ({})
 
-    property string clockStyle: cfg.style ?? "analog"
-    property bool forceSquare: clockStyle === "analog"
+    readonly property string face: {
+        switch (cfg.style ?? "analog") {
+        case "analog":
+        case "stacked":
+        case "expressive":
+        case "overlap":
+            return cfg.style;
+        }
+        return "digital";
+    }
+    readonly property bool analog: face === "analog"
+    readonly property bool resizable: true
+    property bool forceSquare: analog
+    readonly property real defaultScale: lockScreen ? 1.75 : 1
 
-    property real defaultWidth: {
-        switch (clockStyle) {
+    function baseWidth() {
+        switch (face) {
         case "analog":
             return 200;
         case "stacked":
             return 100;
-        default:
+        case "overlap":
             return 160;
+        case "expressive":
+            return 240;
         }
+        return 160;
     }
-    property real defaultHeight: {
-        switch (clockStyle) {
+
+    function baseHeight() {
+        switch (face) {
         case "analog":
+        case "overlap":
             return 200;
         case "stacked":
             return 160;
-        default:
-            return 70;
+        case "expressive":
+            return 120;
         }
+        return 70;
     }
+
+    property real defaultWidth: baseWidth() * defaultScale
+    property real defaultHeight: baseHeight() * defaultScale
     property real minWidth: {
-        switch (clockStyle) {
+        switch (face) {
         case "analog":
             return 120;
         case "stacked":
             return 70;
-        default:
-            return 100;
+        case "overlap":
+            return 80;
         }
+        return 100;
     }
     property real minHeight: {
-        switch (clockStyle) {
+        switch (face) {
         case "analog":
             return 120;
         case "stacked":
+        case "overlap":
             return 100;
-        default:
-            return 45;
         }
+        return 45;
     }
 
     enabled: instanceData?.enabled ?? true
-    property real transparency: cfg.transparency ?? 0.8
-    property string colorMode: cfg.colorMode ?? "primary"
-    property color customColor: cfg.customColor ?? "#ffffff"
-    property bool showDate: cfg.showDate ?? true
-    property bool showAnalogNumbers: cfg.showAnalogNumbers ?? false
-
-    readonly property real scaleFactor: Math.min(width, height) / 200
-
-    readonly property color accentColor: {
-        if (colorMode === "primary")
-            return Theme.primary;
-        if (colorMode === "secondary")
-            return Theme.secondary;
-        if (colorMode === "custom")
-            return customColor;
-        return Theme.primary;
-    }
-
-    readonly property color handColor: accentColor
-    readonly property color handColorDim: Theme.withAlpha(accentColor, 0.65)
-    readonly property color textColor: Theme.onSurface
-    readonly property color subtleTextColor: Theme.onSurfaceVariant
-    readonly property color backgroundColor: Theme.withAlpha(Theme.hostSurface, root.transparency)
-
+    readonly property real transparency: cfg.transparency ?? (lockScreen ? 0 : 0.8)
+    readonly property string colorMode: cfg.colorMode ?? (lockScreen ? "default" : "primary")
+    readonly property color customColor: cfg.customColor ?? "#ffffff"
+    readonly property bool showDate: cfg.showDate ?? !lockScreen
+    readonly property bool twoTone: cfg.twoTone ?? lockScreen
+    readonly property bool showAnalogNumbers: cfg.showAnalogNumbers ?? false
     readonly property bool showAnalogSeconds: cfg.showAnalogSeconds ?? true
     readonly property bool showDigitalSeconds: cfg.showDigitalSeconds ?? false
-    readonly property bool needsSeconds: clockStyle === "analog" ? showAnalogSeconds : showDigitalSeconds
-    readonly property string formattedDate: {
-        if (SettingsData.clockDateFormat && SettingsData.clockDateFormat.length > 0)
-            return systemClock.date?.toLocaleDateString(I18n.locale(), SettingsData.clockDateFormat) ?? "";
-        return systemClock.date?.toLocaleDateString(I18n.locale(), "ddd, MMM d") ?? "";
+    readonly property bool italic: face === "digital" && (cfg.italic ?? false)
+    readonly property string fontFamily: cfg.fontFamily || (lockScreen ? SettingsData.lockScreenFontFamily : "")
+    readonly property int weight: cfg.weight ?? 0
+    readonly property int digitWeight: weight > 0 ? weight : Theme.fontWeightMedium
+
+    readonly property color accentColor: {
+        if (lockHost)
+            return lockHost.contentColor(colorMode, customColor);
+        switch (colorMode) {
+        case "secondary":
+            return Theme.secondary;
+        case "custom":
+            return customColor;
+        }
+        return Theme.primary;
     }
+    readonly property color minutesColor: twoTone ? Theme.primary : accentColor
+    readonly property color dimColor: Theme.withAlpha(accentColor, 0.65)
+    readonly property color backgroundColor: Theme.withAlpha(Theme.hostSurface, transparency)
+    readonly property bool themedOverlap: lockScreen && colorMode === "default"
+    readonly property var primaryHct: Hct.toHct(Theme.primary)
+    readonly property color overlapFaceColor: {
+        if (!themedOverlap)
+            return accentColor;
+        return Theme.isLightMode ? Hct.fromHct(primaryHct.hue, primaryHct.chroma, 65) : Theme.accentOnPrimaryContainer;
+    }
+    readonly property color overlapShadowColor: {
+        if (themedOverlap)
+            return Theme.isLightMode ? Hct.fromHct(primaryHct.hue, primaryHct.chroma, 30) : Theme.primaryContainer;
+        const source = Hct.toHct(accentColor);
+        return Hct.fromHct(source.hue, source.chroma, source.tone > 50 ? 30 : 80);
+    }
+    readonly property var contrastColors: {
+        switch (face) {
+        case "overlap":
+            return [overlapFaceColor, overlapShadowColor];
+        case "digital":
+        case "stacked":
+        case "expressive":
+            return [accentColor, minutesColor];
+        }
+        return [accentColor];
+    }
+
+    readonly property bool needsSeconds: analog ? showAnalogSeconds : showDigitalSeconds
+    readonly property string hoursText: {
+        const hours = systemClock.date?.getHours() ?? 0;
+        const display = SettingsData.use24HourClock ? hours : (hours % 12 || 12);
+        return SettingsData.use24HourClock || SettingsData.padHours12Hour ? String(display).padStart(2, "0") : String(display);
+    }
+    readonly property string minutesText: String(systemClock.date?.getMinutes() ?? 0).padStart(2, "0")
+    readonly property string secondsText: String(systemClock.date?.getSeconds() ?? 0).padStart(2, "0")
+    readonly property string meridiem: (systemClock.date?.getHours() ?? 0) >= 12 ? "PM" : "AM"
+    readonly property string dateFormat: lockScreen ? SettingsData.lockDateFormat : SettingsData.clockDateFormat
+    readonly property string formattedDate: systemClock.date?.toLocaleDateString(I18n.locale(), dateFormat || "ddd, MMM d") ?? ""
 
     SystemClock {
         id: systemClock
@@ -106,21 +162,38 @@ Item {
         }
     }
 
+    component DigitText: StyledText {
+        font.weight: root.digitWeight
+        font.italic: root.italic
+        font.family: root.fontFamily !== "" ? root.fontFamily : resolvedFontFamily
+        font.features: ({
+                "tnum": 1
+            })
+        color: root.accentColor
+        horizontalAlignment: Text.AlignHCenter
+    }
+
     Rectangle {
         anchors.fill: parent
         radius: Theme.cornerRadius
         color: root.backgroundColor
-        visible: root.clockStyle !== "analog"
+        visible: !root.analog
     }
 
     Loader {
         anchors.fill: parent
-        anchors.margins: root.clockStyle === "analog" ? 0 : Theme.spacingM
+        anchors.margins: root.analog ? 0 : Theme.spacingM
         sourceComponent: {
-            if (root.clockStyle === "analog")
+            switch (root.face) {
+            case "analog":
                 return analogClock;
-            if (root.clockStyle === "stacked")
+            case "stacked":
                 return stackedClock;
+            case "expressive":
+                return expressiveClock;
+            case "overlap":
+                return overlapClock;
+            }
             return digitalClock;
         }
     }
@@ -141,116 +214,124 @@ Item {
     }
 
     Component {
+        id: expressiveClock
+
+        DankClockFace {
+            readonly property bool tallBox: height > width * 0.6
+
+            hours: root.hoursText
+            minutes: root.minutesText
+            seconds: root.showDigitalSeconds && !tallBox ? root.secondsText : ""
+            dateText: root.showDate ? root.formattedDate : ""
+            stacked: tallBox
+            color: root.accentColor
+            minutesColor: root.minutesColor
+            supportingColor: root.dimColor
+        }
+    }
+
+    Component {
+        id: overlapClock
+
+        Item {
+            DankOverlapClockFace {
+                anchors.centerIn: parent
+                width: implicitWidth
+                height: implicitHeight
+                hours: root.hoursText
+                minutes: root.minutesText
+                color: root.overlapFaceColor
+                shadowColor: root.overlapShadowColor
+                fontFamily: root.fontFamily
+                weight: root.weight > 0 ? root.weight : 1000
+                scale: implicitWidth > 0 && implicitHeight > 0 ? Math.min(parent.width / implicitWidth, parent.height / implicitHeight) : 1
+                renderScale: scale
+            }
+        }
+    }
+
+    Component {
         id: digitalClock
 
         Item {
             id: digitalRoot
 
-            property bool hasDate: root.showDate
-            property bool hasAmPm: !SettingsData.use24HourClock
-            property real verticalScale: hasDate && hasAmPm ? 0.55 : (hasDate || hasAmPm ? 0.65 : 0.8)
-            property real baseSize: Math.min(height * verticalScale, width * 0.22)
-            property real digitWidth: baseSize * 0.62
-            property real smallSize: baseSize * 0.35
-
-            property string hoursStr: {
-                const hours = SettingsData.use24HourClock ? systemClock.date?.getHours() ?? 0 : ((systemClock.date?.getHours() ?? 0) % 12 || 12);
-                if (SettingsData.use24HourClock || SettingsData.padHours12Hour)
-                    return String(hours).padStart(2, '0');
-                return String(hours);
-            }
-            property string minutesStr: String(systemClock.date?.getMinutes() ?? 0).padStart(2, '0')
-            property string secondsStr: String(systemClock.date?.getSeconds() ?? 0).padStart(2, '0')
+            readonly property bool hasAmPm: !SettingsData.use24HourClock
+            readonly property real verticalScale: root.showDate && hasAmPm ? 0.55 : (root.showDate || hasAmPm ? 0.65 : 0.8)
+            readonly property real baseSize: Math.min(height * verticalScale, width * 0.22)
+            readonly property real digitWidth: baseSize * 0.62
+            readonly property real smallSize: baseSize * 0.35
 
             Column {
                 anchors.centerIn: parent
                 spacing: 0
 
-                StyledText {
+                DigitText {
                     visible: root.showDate
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: root.formattedDate
                     font.pixelSize: digitalRoot.smallSize
-                    color: Theme.withAlpha(root.accentColor, 0.7)
+                    color: root.dimColor
                 }
 
                 Row {
                     anchors.horizontalCenter: parent.horizontalCenter
                     spacing: 0
 
-                    StyledText {
-                        visible: digitalRoot.hoursStr.length > 1
-                        width: digitalRoot.digitWidth
-                        text: digitalRoot.hoursStr.charAt(0)
-                        font.pixelSize: digitalRoot.baseSize
-                        font.weight: Theme.fontWeightMedium
-                        color: root.accentColor
-                        horizontalAlignment: Text.AlignHCenter
+                    Repeater {
+                        model: root.hoursText.split("")
+
+                        DigitText {
+                            required property string modelData
+                            width: digitalRoot.digitWidth
+                            text: modelData
+                            font.pixelSize: digitalRoot.baseSize
+                        }
                     }
-                    StyledText {
-                        width: digitalRoot.digitWidth
-                        text: digitalRoot.hoursStr.length > 1 ? digitalRoot.hoursStr.charAt(1) : digitalRoot.hoursStr.charAt(0)
-                        font.pixelSize: digitalRoot.baseSize
-                        font.weight: Theme.fontWeightMedium
-                        color: root.accentColor
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                    StyledText {
+
+                    DigitText {
                         text: ":"
                         font.pixelSize: digitalRoot.baseSize
-                        font.weight: Theme.fontWeightMedium
-                        color: root.accentColor
                     }
-                    StyledText {
-                        width: digitalRoot.digitWidth
-                        text: digitalRoot.minutesStr.charAt(0)
-                        font.pixelSize: digitalRoot.baseSize
-                        font.weight: Theme.fontWeightMedium
-                        color: root.accentColor
-                        horizontalAlignment: Text.AlignHCenter
+
+                    Repeater {
+                        model: root.minutesText.split("")
+
+                        DigitText {
+                            required property string modelData
+                            width: digitalRoot.digitWidth
+                            text: modelData
+                            font.pixelSize: digitalRoot.baseSize
+                            color: root.minutesColor
+                        }
                     }
-                    StyledText {
-                        width: digitalRoot.digitWidth
-                        text: digitalRoot.minutesStr.charAt(1)
-                        font.pixelSize: digitalRoot.baseSize
-                        font.weight: Theme.fontWeightMedium
-                        color: root.accentColor
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                    StyledText {
+
+                    DigitText {
                         visible: root.showDigitalSeconds
                         text: ":"
                         font.pixelSize: digitalRoot.baseSize
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.withAlpha(root.accentColor, 0.7)
+                        color: root.dimColor
                     }
-                    StyledText {
-                        visible: root.showDigitalSeconds
-                        width: digitalRoot.digitWidth
-                        text: digitalRoot.secondsStr.charAt(0)
-                        font.pixelSize: digitalRoot.baseSize
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.withAlpha(root.accentColor, 0.7)
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                    StyledText {
-                        visible: root.showDigitalSeconds
-                        width: digitalRoot.digitWidth
-                        text: digitalRoot.secondsStr.charAt(1)
-                        font.pixelSize: digitalRoot.baseSize
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.withAlpha(root.accentColor, 0.7)
-                        horizontalAlignment: Text.AlignHCenter
+
+                    Repeater {
+                        model: root.showDigitalSeconds ? root.secondsText.split("") : []
+
+                        DigitText {
+                            required property string modelData
+                            width: digitalRoot.digitWidth
+                            text: modelData
+                            font.pixelSize: digitalRoot.baseSize
+                            color: root.dimColor
+                        }
                     }
                 }
 
-                StyledText {
-                    visible: !SettingsData.use24HourClock
+                DigitText {
+                    visible: digitalRoot.hasAmPm
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: (systemClock.date?.getHours() ?? 0) >= 12 ? "PM" : "AM"
+                    text: root.meridiem
                     font.pixelSize: digitalRoot.smallSize
-                    font.weight: Theme.fontWeightMedium
-                    color: Theme.withAlpha(root.accentColor, 0.7)
+                    color: root.dimColor
                 }
             }
         }
@@ -262,14 +343,12 @@ Item {
         Item {
             id: stackedRoot
 
-            property bool hasSeconds: root.showDigitalSeconds
-            property bool hasDate: root.showDate
-            property bool hasAmPm: !SettingsData.use24HourClock
-            property real extraContent: (hasSeconds ? 0.12 : 0) + (hasDate ? 0.08 : 0) + (hasAmPm ? 0.08 : 0)
-            property real baseSize: height * (0.42 - extraContent * 0.5)
-            property real digitWidth: baseSize * 0.58
-            property real smallSize: baseSize * 0.5
-            property real rowSpacing: -baseSize * 0.17
+            readonly property bool hasAmPm: !SettingsData.use24HourClock
+            readonly property real extraContent: (root.showDigitalSeconds ? 0.12 : 0) + (root.showDate ? 0.08 : 0) + (hasAmPm ? 0.08 : 0)
+            readonly property real baseSize: height * (0.42 - extraContent * 0.5)
+            readonly property real digitWidth: baseSize * 0.58
+            readonly property real smallSize: baseSize * 0.5
+            readonly property real rowSpacing: -baseSize * 0.17
 
             Column {
                 anchors.centerIn: parent
@@ -283,34 +362,15 @@ Item {
                         spacing: 0
                         anchors.horizontalCenter: parent.horizontalCenter
 
-                        StyledText {
-                            text: {
-                                if (SettingsData.use24HourClock)
-                                    return String(systemClock.date?.getHours() ?? 0).padStart(2, '0').charAt(0);
-                                const hours = systemClock.date?.getHours() ?? 0;
-                                const display = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
-                                return String(display).padStart(2, '0').charAt(0);
-                            }
-                            font.pixelSize: stackedRoot.baseSize
-                            font.weight: Theme.fontWeightMedium
-                            color: root.accentColor
-                            width: stackedRoot.digitWidth
-                            horizontalAlignment: Text.AlignHCenter
-                        }
+                        Repeater {
+                            model: root.hoursText.padStart(2, "0").split("")
 
-                        StyledText {
-                            text: {
-                                if (SettingsData.use24HourClock)
-                                    return String(systemClock.date?.getHours() ?? 0).padStart(2, '0').charAt(1);
-                                const hours = systemClock.date?.getHours() ?? 0;
-                                const display = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
-                                return String(display).padStart(2, '0').charAt(1);
+                            DigitText {
+                                required property string modelData
+                                width: stackedRoot.digitWidth
+                                text: modelData
+                                font.pixelSize: stackedRoot.baseSize
                             }
-                            font.pixelSize: stackedRoot.baseSize
-                            font.weight: Theme.fontWeightMedium
-                            color: root.accentColor
-                            width: stackedRoot.digitWidth
-                            horizontalAlignment: Text.AlignHCenter
                         }
                     }
 
@@ -318,71 +378,58 @@ Item {
                         spacing: 0
                         anchors.horizontalCenter: parent.horizontalCenter
 
-                        StyledText {
-                            text: String(systemClock.date?.getMinutes() ?? 0).padStart(2, '0').charAt(0)
-                            font.pixelSize: stackedRoot.baseSize
-                            font.weight: Theme.fontWeightMedium
-                            color: root.accentColor
-                            width: stackedRoot.digitWidth
-                            horizontalAlignment: Text.AlignHCenter
-                        }
+                        Repeater {
+                            model: root.minutesText.split("")
 
-                        StyledText {
-                            text: String(systemClock.date?.getMinutes() ?? 0).padStart(2, '0').charAt(1)
-                            font.pixelSize: stackedRoot.baseSize
-                            font.weight: Theme.fontWeightMedium
-                            color: root.accentColor
-                            width: stackedRoot.digitWidth
-                            horizontalAlignment: Text.AlignHCenter
+                            DigitText {
+                                required property string modelData
+                                width: stackedRoot.digitWidth
+                                text: modelData
+                                font.pixelSize: stackedRoot.baseSize
+                                color: root.minutesColor
+                            }
                         }
                     }
                 }
 
                 Row {
-                    visible: stackedRoot.hasSeconds
+                    visible: root.showDigitalSeconds
                     spacing: 0
                     anchors.horizontalCenter: parent.horizontalCenter
 
-                    StyledText {
-                        text: String(systemClock.date?.getSeconds() ?? 0).padStart(2, '0').charAt(0)
-                        font.pixelSize: stackedRoot.smallSize
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.withAlpha(root.accentColor, 0.7)
-                        width: stackedRoot.smallSize * 0.58
-                        horizontalAlignment: Text.AlignHCenter
-                    }
+                    Repeater {
+                        model: root.showDigitalSeconds ? root.secondsText.split("") : []
 
-                    StyledText {
-                        text: String(systemClock.date?.getSeconds() ?? 0).padStart(2, '0').charAt(1)
-                        font.pixelSize: stackedRoot.smallSize
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.withAlpha(root.accentColor, 0.7)
-                        width: stackedRoot.smallSize * 0.58
-                        horizontalAlignment: Text.AlignHCenter
+                        DigitText {
+                            required property string modelData
+                            width: stackedRoot.smallSize * 0.58
+                            text: modelData
+                            font.pixelSize: stackedRoot.smallSize
+                            color: root.dimColor
+                        }
                     }
                 }
 
                 Item {
                     width: 1
                     height: stackedRoot.baseSize * 0.1
-                    visible: stackedRoot.hasDate
+                    visible: root.showDate
                 }
 
-                StyledText {
-                    visible: stackedRoot.hasDate
+                DigitText {
+                    visible: root.showDate
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: systemClock.date?.toLocaleDateString(I18n.locale(), "MMM dd") ?? ""
                     font.pixelSize: stackedRoot.smallSize * 0.7
-                    color: Theme.withAlpha(root.accentColor, 0.7)
+                    color: root.dimColor
                 }
 
-                StyledText {
+                DigitText {
                     visible: stackedRoot.hasAmPm
                     anchors.horizontalCenter: parent.horizontalCenter
-                    text: (systemClock.date?.getHours() ?? 0) >= 12 ? "PM" : "AM"
+                    text: root.meridiem
                     font.pixelSize: stackedRoot.smallSize * 0.7
-                    font.weight: Theme.fontWeightMedium
-                    color: Theme.withAlpha(root.accentColor, 0.7)
+                    color: root.dimColor
                 }
             }
         }

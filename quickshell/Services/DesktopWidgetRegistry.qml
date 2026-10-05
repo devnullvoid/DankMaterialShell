@@ -11,6 +11,7 @@ Singleton {
 
     property var registeredWidgets: ({})
     property var registeredWidgetsList: []
+    property bool editing: false
 
     signal registryChanged
 
@@ -37,9 +38,9 @@ Singleton {
     function registerBuiltins() {
         registerWidget({
             id: "desktopClock",
-            name: I18n.tr("Desktop Clock", "Desktop clock widget name"),
+            name: I18n.tr("Clock"),
             icon: "schedule",
-            description: I18n.tr("Analog, digital, or stacked clock display", "Desktop clock widget description"),
+            description: I18n.tr("Analog, digital, stacked, expressive, or overlapping clock", "Desktop clock widget description"),
             type: "builtin",
             component: "qs.Modules.BuiltinDesktopPlugins.DesktopClockWidget",
             settingsComponent: "qs.Modules.Settings.DesktopWidgetSettings.ClockSettings",
@@ -80,7 +81,6 @@ Singleton {
                     height: 200
                 }
             });
-        lockWidget("lockClock", I18n.tr("Clock"), "schedule");
         lockWidget("lockDate", I18n.tr("Date"), "event");
         lockWidget("lockAuth", I18n.tr("Password"), "lock");
         lockWidget("lockNotifications", I18n.tr("Notifications"), "notifications");

@@ -17,8 +17,6 @@ Loader {
             return clockSettings;
         case "systemMonitor":
             return systemMonitorSettings;
-        case "lockClock":
-            return lockClockSettings;
         case "lockAuth":
             return lockAuthSettings;
         case "lockNotifications":
@@ -47,15 +45,6 @@ Loader {
         id: systemMonitorSettings
 
         SystemMonitorSettings {
-            instanceId: root.instanceId
-            instanceData: root.instanceData
-        }
-    }
-
-    Component {
-        id: lockClockSettings
-
-        LWS.LockClockSettings {
             instanceId: root.instanceId
             instanceData: root.instanceData
         }

@@ -61,6 +61,8 @@ Item {
 
     DesktopWidgetLayer {}
 
+    DesktopWidgetEditor {}
+
     Lock {
         id: lock
     }
