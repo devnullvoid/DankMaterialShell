@@ -35,7 +35,7 @@ Item {
             var currentWallpaper = SessionData.getMonitorWallpaper(screenName);
             return !currentWallpaper || (currentWallpaper && currentWallpaper.startsWith("#"));
         }
-        asynchronous: true
+        asynchronous: false
 
         sourceComponent: DankBackdrop {
             screenName: root.screenName

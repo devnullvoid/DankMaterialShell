@@ -79,7 +79,8 @@ Loader {
     }
 
     sourceComponent: activeComponent
-    opacity: 0
+    // The lock surface is presented as one frame, so its widgets must not fade in after the background.
+    opacity: lockScreen ? 1 : 0
 
     NumberAnimation {
         id: revealFade
@@ -131,7 +132,8 @@ Loader {
     onLoaded: {
         if (!item)
             return;
-        revealFade.restart();
+        if (!lockScreen)
+            revealFade.restart();
         if (item.pluginService !== undefined)
             item.pluginService = instanceScopedPluginService;
         if (item.pluginId !== undefined)
