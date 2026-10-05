@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import Quickshell
+import Quickshell.Io
 import Quickshell.Wayland
 import qs.Common
 import qs.Services
@@ -187,5 +188,68 @@ Singleton {
         if (split.hours === 0)
             return I18n.tr("%1m").arg(split.minutes);
         return I18n.tr("%1h %2m").arg(split.hours).arg(split.minutes);
+    }
+
+    function parseMinutes(value) {
+        const minutes = Number(value);
+        return Number.isInteger(minutes) && minutes >= 0 ? minutes : -1;
+    }
+
+    function formatLimit(minutes) {
+        return minutes > 0 ? formatDuration(minutes * 60) : "none";
+    }
+
+    IpcHandler {
+        function enable(): string {
+            SettingsData.set("wellbeingEnabled", true);
+            return "Screen time tracking enabled";
+        }
+
+        function disable(): string {
+            SettingsData.set("wellbeingEnabled", false);
+            return "Screen time tracking disabled";
+        }
+
+        function toggle(): string {
+            return SettingsData.wellbeingEnabled ? disable() : enable();
+        }
+
+        function status(): string {
+            if (!root.available)
+                return "Screen time tracking: unavailable (DMS server without wellbeing support)";
+            const lines = ["Screen time tracking: " + (root.enabled ? "enabled" : "disabled")];
+            if (root.tracking)
+                lines.push("Today: " + root.formatDuration(root.today.active ?? 0));
+            lines.push("Daily limit: " + root.formatLimit(SettingsData.wellbeingDailyLimit));
+            return lines.join("\n");
+        }
+
+        function today(): string {
+            return String(root.tracking ? root.today.active ?? 0 : 0);
+        }
+
+        function dailyLimit(minutes: string): string {
+            if (minutes === "")
+                return root.formatLimit(SettingsData.wellbeingDailyLimit);
+            const parsed = root.parseMinutes(minutes);
+            if (parsed < 0)
+                return "Invalid limit. Use whole minutes, 0 to clear.";
+            SettingsData.set("wellbeingDailyLimit", parsed);
+            return "Daily limit: " + root.formatLimit(parsed);
+        }
+
+        function appLimit(appId: string, minutes: string): string {
+            if (!appId)
+                return "Missing app id";
+            if (minutes === "")
+                return root.formatLimit(root.appLimitMinutes(appId));
+            const parsed = root.parseMinutes(minutes);
+            if (parsed < 0)
+                return "Invalid limit. Use whole minutes, 0 to clear.";
+            root.setAppLimit(appId, parsed);
+            return root.appName(appId) + " limit: " + root.formatLimit(parsed);
+        }
+
+        target: "wellbeing"
     }
 }

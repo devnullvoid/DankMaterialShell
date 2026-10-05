@@ -285,6 +285,10 @@ const DMS_ACTIONS = [
         label: "Dashboard: Weather"
     },
     {
+        id: "spawn dms ipc call dash open wellbeing",
+        label: "Dashboard: Digital Wellbeing"
+    },
+    {
         id: "spawn dms ipc call dankdash wallpaper",
         label: "Wallpaper Browser"
     },
@@ -457,6 +461,10 @@ const DMS_ACTIONS = [
     {
         id: "spawn dms ipc call night disable",
         label: "Night Mode: Disable"
+    },
+    {
+        id: "spawn dms ipc call wellbeing toggle",
+        label: "Screen Time Tracking: Toggle"
     },
     {
         id: "spawn dms ipc call bar toggle index 0",
