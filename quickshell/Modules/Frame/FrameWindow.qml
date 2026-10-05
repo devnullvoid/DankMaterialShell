@@ -6,7 +6,6 @@ import Quickshell.Wayland
 import qs.Common
 import qs.Modules.DankIsland
 import qs.Services
-import qs.Widgets
 import "../../Common/ConnectorGeometry.js" as ConnectorGeometry
 import "../../Common/ConnectedSurfaceGeometry.js" as SurfaceGeometry
 

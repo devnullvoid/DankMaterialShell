@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modals.DankLauncherV2.Components
 
 Item {
@@ -290,7 +290,7 @@ Item {
         anchors.bottomMargin: bottomSectionHeader.visible ? bottomSectionHeader.height + LauncherMetrics.resultsGap : 0
         clip: true
 
-        DankListView {
+        DListView {
             id: mainListView
             y: -listClip.anchors.topMargin
             width: parent.width
@@ -640,7 +640,7 @@ Item {
             id: emptyColumn
             spacing: Theme.spacingM
 
-            DankIcon {
+            DIcon {
                 anchors.horizontalCenter: parent.horizontalCenter
                 name: getEmptyIcon()
                 size: LauncherMetrics.gridIconSize

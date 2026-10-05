@@ -3,7 +3,7 @@ import qs.Common
 import qs.Modules.DankBar
 import qs.Modules.Plugins
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 BasePill {
     id: root
@@ -75,7 +75,7 @@ BasePill {
                     visible: root.showMicIcon || PrivacyService.microphoneActive
                     anchors.horizontalCenter: parent.horizontalCenter
 
-                    DankIcon {
+                    DIcon {
                         name: {
                             const sourceAudio = AudioService.source?.audio;
                             const muted = !sourceAudio || sourceAudio.muted || sourceAudio.volume === 0.0;
@@ -96,7 +96,7 @@ BasePill {
                     visible: root.showCameraIcon || PrivacyService.cameraActive
                     anchors.horizontalCenter: parent.horizontalCenter
 
-                    DankIcon {
+                    DIcon {
                         name: "camera_video"
                         size: Theme.iconSizeSmall
                         color: PrivacyService.cameraActive ? Theme.error : Theme.surfaceText
@@ -123,7 +123,7 @@ BasePill {
                     visible: root.showScreenSharingIcon || PrivacyService.screensharingActive
                     anchors.horizontalCenter: parent.horizontalCenter
 
-                    DankIcon {
+                    DIcon {
                         name: "screen_share"
                         size: Theme.iconSizeSmall
                         color: PrivacyService.screensharingActive ? Theme.warning : Theme.surfaceText
@@ -144,7 +144,7 @@ BasePill {
                     visible: root.showMicIcon || PrivacyService.microphoneActive
                     anchors.verticalCenter: parent.verticalCenter
 
-                    DankIcon {
+                    DIcon {
                         name: {
                             const sourceAudio = AudioService.source?.audio;
                             const muted = !sourceAudio || sourceAudio.muted || sourceAudio.volume === 0.0;
@@ -165,7 +165,7 @@ BasePill {
                     visible: root.showCameraIcon || PrivacyService.cameraActive
                     anchors.verticalCenter: parent.verticalCenter
 
-                    DankIcon {
+                    DIcon {
                         name: "camera_video"
                         size: Theme.iconSizeSmall
                         color: PrivacyService.cameraActive ? Theme.error : Theme.surfaceText
@@ -192,7 +192,7 @@ BasePill {
                     visible: root.showScreenSharingIcon || PrivacyService.screensharingActive
                     anchors.verticalCenter: parent.verticalCenter
 
-                    DankIcon {
+                    DIcon {
                         name: "screen_share"
                         size: Theme.iconSizeSmall
                         color: PrivacyService.screensharingActive ? Theme.warning : Theme.surfaceText

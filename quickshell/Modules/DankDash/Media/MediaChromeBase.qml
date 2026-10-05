@@ -4,7 +4,7 @@ import QtQuick
 import qs.Common
 import qs.Widgets
 import qs.Modules.DankDash
-import "../../../DankCommon/Common/FocusNavigation.js" as FocusNavigation
+import "../../../DCommon/Common/FocusNavigation.js" as FocusNavigation
 
 Item {
     id: root

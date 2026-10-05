@@ -8,7 +8,7 @@ import qs.Modules.Settings.Widgets
 import qs.Modules.DankDash.Overview
 import "../../Common/GridLayout.js" as GridUtils
 import "utils/widgets.js" as WidgetUtils
-import "../../DankCommon/Common/FocusNavigation.js" as FocusNavigation
+import "../../DCommon/Common/FocusNavigation.js" as FocusNavigation
 
 Item {
     id: root

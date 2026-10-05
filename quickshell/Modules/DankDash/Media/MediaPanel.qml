@@ -3,10 +3,10 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 
-DankBottomSheet {
+DBottomSheet {
     id: root
 
     required property var player

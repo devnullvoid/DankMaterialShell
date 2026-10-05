@@ -4,10 +4,11 @@ import QtQuick
 import Quickshell.Services.Mpris
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.DankDash
 import qs.Modules.DankDash.Media
-import "../../../DankCommon/Common/FocusNavigation.js" as FocusNavigation
+import "../../../DCommon/Common/FocusNavigation.js" as FocusNavigation
 
 Card {
     id: root
@@ -71,7 +72,7 @@ Card {
         spacing: Theme.spacingXS
         visible: !root.activePlayer
 
-        DankIcon {
+        DIcon {
             anchors.horizontalCenter: parent.horizontalCenter
             name: "music_note"
             size: Theme.iconSizeLarge
@@ -177,7 +178,7 @@ Card {
             height: stacked ? buttonHeight * 2 + spacing : buttonHeight
             y: root.tiny ? (parent.height - height) / 2 : parent.height - height
 
-            DankIconButton {
+            DIconButton {
                 id: playButton
                 x: transport.centered ? previousButton.width + transport.spacing : 0
                 anchors.top: parent.top
@@ -203,7 +204,7 @@ Card {
                 onClicked: root.activePlayer.togglePlaying()
             }
 
-            DankIconButton {
+            DIconButton {
                 id: previousButton
                 x: transport.stacked || transport.centered ? 0 : playButton.width + transport.spacing
                 anchors.bottom: parent.bottom
@@ -221,7 +222,7 @@ Card {
                 onClicked: MprisController.previousOrRewind()
             }
 
-            DankIconButton {
+            DIconButton {
                 id: nextButton
                 anchors.right: parent.right
                 anchors.bottom: parent.bottom

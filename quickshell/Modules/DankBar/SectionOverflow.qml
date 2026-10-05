@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Modules.SurfaceWidgets
+import qs.DCommon.Widgets
 import qs.Widgets
 import "OverflowLayout.js" as OverflowLayout
 
@@ -96,7 +97,7 @@ Item {
             Item {
                 implicitWidth: Math.max(0, root.button.widgetThickness - root.button.horizontalPadding * 2)
                 implicitHeight: implicitWidth
-                DankIcon {
+                DIcon {
                     anchors.centerIn: parent
                     name: OverflowLayout.expanderIcon(root.sectionContext.axis?.edge, root.open)
                     size: Theme.iconSizeSmall
@@ -123,7 +124,7 @@ Item {
                         readonly property var widgetHost: scroller.contentItem
                         // A hosted widget holding focus would starve the popout's own Escape handler.
                         Keys.onEscapePressed: root.popout?.close()
-                        DankFlickable {
+                        DFlickable {
                             id: scroller
                             anchors.fill: parent
                             anchors.margins: Theme.spacingS

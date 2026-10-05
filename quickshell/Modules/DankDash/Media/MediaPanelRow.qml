@@ -1,6 +1,6 @@
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
 import qs.Modules.DankDash
 
@@ -20,7 +20,7 @@ SettingsRow {
     Accessible.selected: selected
     onClicked: activated()
 
-    DankIcon {
+    DIcon {
         name: "check"
         size: Theme.iconSizeMedium
         color: root.accent

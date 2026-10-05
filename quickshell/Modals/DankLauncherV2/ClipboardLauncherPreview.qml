@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 Rectangle {
     id: root
@@ -79,7 +79,7 @@ Rectangle {
         visible: status === Image.Ready
     }
 
-    DankIcon {
+    DIcon {
         anchors.centerIn: parent
         name: "image"
         size: Math.min(Theme.iconSize, Math.max(Theme.iconSizeSmall, root.height / 2))

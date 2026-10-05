@@ -1,7 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
 
 Item {
@@ -359,7 +359,7 @@ Item {
                         fallbackText: (hiddenAppRow.modelData.name || "?").charAt(0).toUpperCase()
                     }
 
-                    DankActionButton {
+                    DActionButton {
                         iconName: "visibility"
                         Accessible.name: I18n.tr("Show")
                         iconColor: Theme.primary
@@ -433,7 +433,7 @@ Item {
                         fallbackText: (overrideRow.modelData.name || "?").charAt(0).toUpperCase()
                     }
 
-                    DankActionButton {
+                    DActionButton {
                         iconName: "delete"
                         tooltipText: I18n.tr("Reset to default")
                         iconColor: Theme.error
@@ -567,7 +567,7 @@ Item {
                     iconName: modelData.iconType !== "unicode" ? modelData.icon : ""
                     textIcon: modelData.iconType === "unicode" ? modelData.icon : ""
 
-                    DankBadge {
+                    DBadge {
                         anchors.verticalCenter: parent.verticalCenter
                         visible: pluginRow.modelData.isBuiltIn
                         text: I18n.tr("Built-in", "badge on launcher plugins that ship with DMS")
@@ -575,7 +575,7 @@ Item {
                         textColor: Theme.primary
                     }
 
-                    DankToggle {
+                    DToggle {
                         anchors.verticalCenter: parent.verticalCenter
                         hideText: true
                         checked: {
@@ -635,7 +635,7 @@ Item {
                     iconName: plugin?.cornerIcon ?? "extension"
                     title: plugin?.name ?? modelData
 
-                    DankTextField {
+                    DTextField {
                         outlined: true
                         leftIconName: "keyboard"
                         labelText: I18n.tr("Trigger", "noun, launcher plugin trigger prefix text field label")
@@ -645,7 +645,7 @@ Item {
                         Component.onCompleted: text = SettingsData.getBuiltInPluginSetting(builtInRow.modelData, "trigger", builtInRow.plugin?.defaultTrigger ?? "")
                     }
 
-                    DankToggle {
+                    DToggle {
                         hideText: true
                         anchors.verticalCenter: parent.verticalCenter
                         checked: SettingsData.getBuiltInPluginSetting(builtInRow.modelData, "enabled", true)
@@ -751,7 +751,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                     }
 
-                    DankActionButton {
+                    DActionButton {
                         id: clearAllButton
                         iconName: "delete_sweep"
                         tooltipText: I18n.tr("Clear All")
@@ -796,7 +796,7 @@ Item {
                         }
                     ]
 
-                    DankActionButton {
+                    DActionButton {
                         iconName: "close"
                         Accessible.name: I18n.tr("Remove")
                         iconColor: Theme.error

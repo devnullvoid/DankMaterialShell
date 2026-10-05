@@ -2,7 +2,7 @@ import QtQuick
 import Quickshell
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 
 Card {
@@ -37,7 +37,7 @@ Card {
     Component {
         id: digitalFace
 
-        DankClockFace {
+        DClockFace {
             hours: root.hourText
             minutes: root.minuteText
             seconds: root.showSeconds ? root.secondText : ""
@@ -61,7 +61,7 @@ Card {
             readonly property real groupWidth: sideDate ? dialSize + Theme.spacingS + dateMetrics.advanceWidth : dialSize
             readonly property real groupHeight: belowDate ? dialSize + Theme.spacingS + root.supportLine : dialSize
 
-            DankAnalogClock {
+            DAnalogClock {
                 id: dial
                 x: (face.width - face.groupWidth) / 2
                 y: (face.height - face.groupHeight) / 2

@@ -1,7 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
 
 Item {
@@ -19,7 +19,6 @@ Item {
     readonly property bool selectedIslandEnabled: bar.selectedBarIsIsland && (bar.selectedBarConfig?.enabled ?? false)
     readonly property bool selectedIslandFree: bar.selectedBarIsIsland && SettingsData.islandFreePlacement(bar.selectedBarConfig)
     readonly property int frameInsetPaddingDisplay: Math.round(SettingsData.frameBarContentGap)
-
 
     BarSelectionState {
         id: bar
@@ -108,7 +107,7 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         spacing: Theme.spacingS
 
-                        DankIcon {
+                        DIcon {
                             name: "blur_on"
                             size: Theme.fontSizeMedium
                             color: Theme.primary

@@ -1,7 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 
 Card {
@@ -88,13 +88,13 @@ Card {
     Component.onCompleted: syncDgopRef(live)
     Component.onDestruction: syncDgopRef(false)
 
-    DankTooltipHost {
+    DTooltipHost {
         id: meterTooltip
         text: target ? root.meterLabel(target.meter) : ""
         side: root.horizontal ? "bottom" : "top"
     }
 
-    component MeterIcon: DankIcon {
+    component MeterIcon: DIcon {
         id: icon
 
         property string meter: ""

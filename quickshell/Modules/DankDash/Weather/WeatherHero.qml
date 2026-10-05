@@ -1,7 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import "WeatherVisuals.js" as Visuals
 
 Rectangle {
@@ -22,7 +22,7 @@ Rectangle {
     border.width: flat ? 0 : Theme.layerOutlineWidth
     border.color: Theme.outlineMedium
 
-    DankTone {
+    DTone {
         id: toneColors
         tone: root.tone
         floatingWindow: Theme.isFloatingWindow(root)
@@ -96,7 +96,7 @@ Rectangle {
                     Accessible.role: Accessible.StaticText
                     Accessible.name: modelData.label + " " + (modelData.time || "--")
 
-                    DankNFIcon {
+                    DNFIcon {
                         anchors.verticalCenter: parent.verticalCenter
                         name: sunTime.modelData.icon
                         size: Theme.iconSizeSmall
@@ -140,7 +140,7 @@ Rectangle {
             })
     }
 
-    DankMaterialShape {
+    DMaterialShape {
         id: emblem
         anchors.right: parent.right
         anchors.rightMargin: Theme.spacingL
@@ -151,7 +151,7 @@ Rectangle {
         shape: Visuals.conditionShape(root.weather.wCode, root.weather.isDay)
         color: Theme.primary
 
-        DankIcon {
+        DIcon {
             anchors.centerIn: parent
             name: WeatherService.getWeatherIcon(root.weather.wCode, root.weather.isDay)
             size: parent.width / 2

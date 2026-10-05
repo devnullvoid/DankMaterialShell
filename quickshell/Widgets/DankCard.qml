@@ -1,3 +1,8 @@
-import qs.DankCommon.Widgets as DankCommon
+import QtQuick
+import qs.Common
+import qs.DCommon.Widgets as DCommon
 
-DankCommon.DankCard {}
+DCommon.DCard {
+    id: shim
+    Component.onCompleted: Deprecation.type(shim, "DankCard", "DCard", "qs.DCommon.Widgets")
+}

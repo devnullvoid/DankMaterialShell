@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
 import qs.Modules.DankDash
 import qs.Modules.DankDash.Overview
@@ -62,7 +62,7 @@ FocusScope {
             settingKey: "dashTabs"
             tab: "dank_dash"
 
-            headerActions: DankActionButton {
+            headerActions: DActionButton {
                 iconName: "refresh"
                 iconSize: Theme.iconSizeSmall
                 tooltipText: I18n.tr("Reset to default")
@@ -147,7 +147,7 @@ FocusScope {
                         spacing: Theme.spacingXS
                         anchors.verticalCenter: parent.verticalCenter
 
-                        DankActionButton {
+                        DActionButton {
                             anchors.verticalCenter: parent.verticalCenter
                             objectName: "editDashTab"
                             iconName: "edit"
@@ -157,7 +157,7 @@ FocusScope {
                             onClicked: PopoutService.openDankDashEditor(tabRow.modelData.id, root.Window.window?.screen)
                         }
 
-                        DankToggle {
+                        DToggle {
                             anchors.verticalCenter: parent.verticalCenter
                             hideText: true
                             checked: tabRow.modelData.enabled

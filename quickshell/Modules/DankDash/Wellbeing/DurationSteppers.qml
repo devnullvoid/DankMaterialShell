@@ -1,6 +1,6 @@
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 
 Row {
     id: root
@@ -18,7 +18,7 @@ Row {
 
     spacing: Theme.spacingS
 
-    DankNumberStepper {
+    DNumberStepper {
         text: I18n.tr("%1h", "hours abbreviation, %1 is a number").arg(root.hours)
         incrementEnabled: root.minutes + 60 <= root.maxMinutes
         decrementEnabled: root.hours > 0
@@ -26,7 +26,7 @@ Row {
         onDecrement: () => root.commit(root.minutes - 60)
     }
 
-    DankNumberStepper {
+    DNumberStepper {
         text: I18n.tr("%1m").arg(root.remainder)
         incrementEnabled: root.minutes < root.maxMinutes
         decrementEnabled: root.minutes > 0

@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Shapes
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 import "WeatherVisuals.js" as Visuals
 
@@ -124,7 +124,7 @@ Rectangle {
     Accessible.name: reading.label + " " + (hasValue ? reading.value : I18n.tr("Not available")) + " " + (reading.detail ?? "")
     Accessible.description: graphicDescription
 
-    DankTone {
+    DTone {
         id: toneColors
         tone: root.widgetOptions.tone ?? ""
     }
@@ -138,7 +138,7 @@ Rectangle {
         tooltipText: root.graphicDescription
     }
 
-    DankMaterialShape {
+    DMaterialShape {
         anchors.centerIn: parent
         readonly property real aspectRatio: root.widgetId === "wind" && Theme.shapeScale > 0 ? 17 / 20 : 1
         readonly property real artworkSize: Math.max(0, Math.min(parent.width, parent.height) - (root.widgetId === "uv" ? 0 : root.widgetId === "wind" ? Theme.spacingXS * 2 : Theme.spacingS * 2)) * (root.widgetId === "wind" && Theme.shapeScale > 0 ? rotationScaleForAspectRatio(aspectRatio) : 1)
@@ -213,7 +213,7 @@ Rectangle {
             width: Math.min(implicitWidth, parent.width - Theme.spacingXL * 2)
             spacing: Theme.spacingXS
 
-            DankIcon {
+            DIcon {
                 anchors.verticalCenter: parent.verticalCenter
                 name: root.reading.icon ?? "cloud_off"
                 size: Theme.iconSize

@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.WindowManager
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 DankOSD {

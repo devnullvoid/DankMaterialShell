@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.DankDash
 import "../../../Common/Format.js" as Format
@@ -96,7 +97,7 @@ MediaChromeBase {
                     }
                 }
 
-                DankButtonGroup {
+                DButtonGroup {
                     id: viewToggle
 
                     anchors.centerIn: parent
@@ -393,7 +394,7 @@ MediaChromeBase {
                     elide: Text.ElideRight
                 }
 
-                DankButton {
+                DButton {
                     id: playerButton
 
                     readonly property string panelId: "players"

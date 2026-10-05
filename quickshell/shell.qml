@@ -10,7 +10,7 @@
 import QtQuick
 import Quickshell
 import qs.Common
-import qs.DankCommon.Common as DC
+import qs.DCommon.Common as DC
 import qs.Modules
 import qs.Modules.Lock
 import qs.Services

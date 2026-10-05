@@ -2,6 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.DankBar
 import qs.Modules.Plugins
+import qs.DCommon.Widgets
 import qs.Widgets
 
 BasePill {

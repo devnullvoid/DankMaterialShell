@@ -6,7 +6,7 @@ import QtQuick.Shapes
 import Quickshell.Widgets
 import qs.Common
 import qs.Modules.DankDash
-import "../../../DankCommon/Widgets/MaterialShapes.js" as Shapes
+import "../../../DCommon/Widgets/MaterialShapes.js" as Shapes
 
 ClippingRectangle {
     id: root

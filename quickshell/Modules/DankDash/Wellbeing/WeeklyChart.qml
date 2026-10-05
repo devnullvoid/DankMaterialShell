@@ -4,11 +4,11 @@ import QtQuick
 import QtQuick.Shapes
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 import "Wellbeing.js" as Wellbeing
 
-DankCard {
+DCard {
     id: root
 
     property var days: []
@@ -143,7 +143,7 @@ DankCard {
                 width: parent.width - x
                 height: totalLabel.height
 
-                DankActionButton {
+                DActionButton {
                     anchors.right: rangeLabel.left
                     anchors.verticalCenter: parent.verticalCenter
                     buttonSize: Theme.buttonHeightXS
@@ -170,7 +170,7 @@ DankCard {
                     elide: Text.ElideRight
                 }
 
-                DankActionButton {
+                DActionButton {
                     id: nextButton
                     anchors.right: parent.right
                     anchors.verticalCenter: parent.verticalCenter
@@ -213,7 +213,7 @@ DankCard {
                 }
             }
 
-            DankFlickable {
+            DFlickable {
                 id: pager
                 anchors.left: plot.left
                 anchors.right: plot.right

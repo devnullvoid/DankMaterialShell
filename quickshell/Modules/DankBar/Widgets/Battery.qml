@@ -2,6 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 BasePill {
@@ -173,7 +174,7 @@ BasePill {
                 anchors.centerIn: parent
                 spacing: 1
 
-                DankIcon {
+                DIcon {
                     name: BatteryService.getBatteryIcon()
                     visible: !battery.pillStyle
                     size: Theme.barIconSize(battery.barThickness, undefined, battery.barConfig?.maximizeWidgetIcons, battery.barConfig?.iconScale)
@@ -231,7 +232,7 @@ BasePill {
                 anchors.centerIn: parent
                 spacing: (barConfig?.noBackground ?? false) ? 1 : 2
 
-                DankIcon {
+                DIcon {
                     name: BatteryService.getBatteryIcon()
                     visible: !battery.pillStyle
                     size: Theme.barIconSize(battery.barThickness, -4, battery.barConfig?.maximizeWidgetIcons, battery.barConfig?.iconScale)

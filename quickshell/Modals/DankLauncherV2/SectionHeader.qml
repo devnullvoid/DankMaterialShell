@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modals.DankLauncherV2.Components
 
@@ -65,7 +66,7 @@ Item {
             readonly property string _iconType: root.section?.iconType ?? "material"
             readonly property bool _iconSpaceReserved: root.hasAppCategories || _iconVisible
 
-            DankIcon {
+            DIcon {
                 anchors.verticalCenter: parent.verticalCenter
                 visible: root.hasAppCategories || (labelContent._iconVisible && labelContent._iconType !== "image")
                 name: root.hasAppCategories ? AppSearchService.getCategoryIcon(root.categoryLabel) : (root.section?.icon ?? "folder")
@@ -103,7 +104,7 @@ Item {
                 elide: Text.ElideRight
             }
 
-            DankIcon {
+            DIcon {
                 id: chevron
                 visible: root.hasAppCategories
                 anchors.verticalCenter: parent.verticalCenter
@@ -148,7 +149,7 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         spacing: Theme.groupedListGap
 
-        DankActionButton {
+        DActionButton {
             readonly property var current: root.viewModes.find(entry => entry.mode === root.viewMode) ?? root.viewModes[0]
             focusPolicy: Qt.NoFocus
             visible: root.canChangeViewMode && !root.section?.collapsed
@@ -163,7 +164,7 @@ Item {
             }
         }
 
-        DankActionButton {
+        DActionButton {
             focusPolicy: Qt.NoFocus
             visible: root.canCollapse
             iconName: root.section?.collapsed ? "expand_more" : "expand_less"

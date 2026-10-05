@@ -1,3 +1,8 @@
-import qs.DankCommon.Widgets as DankCommon
+import QtQuick
+import qs.Common
+import qs.DCommon.Widgets as DCommon
 
-DankCommon.DankTooltipHost {}
+DCommon.DTooltipHost {
+    id: shim
+    Component.onCompleted: Deprecation.type(shim, "DankTooltipHost", "DTooltipHost", "qs.DCommon.Widgets")
+}

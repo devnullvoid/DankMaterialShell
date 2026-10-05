@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 
 Item {
     id: root
@@ -40,7 +40,7 @@ Item {
             sourceComponent: root.leading
         }
 
-        DankIcon {
+        DIcon {
             anchors.verticalCenter: parent.verticalCenter
             visible: root.iconName !== ""
             name: root.iconName
@@ -82,7 +82,7 @@ Item {
             sourceComponent: root.leading
         }
 
-        DankIcon {
+        DIcon {
             anchors.horizontalCenter: parent.horizontalCenter
             visible: root.iconName !== ""
             name: root.iconName

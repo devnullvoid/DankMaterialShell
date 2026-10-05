@@ -1,6 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.Notepad
 
@@ -42,7 +43,7 @@ DankFloatingWindow {
     Item {
         anchors.fill: parent
 
-        DankWindowHeader {
+        DWindowHeader {
             id: titleBar
             anchors.top: parent.top
             anchors.left: parent.left

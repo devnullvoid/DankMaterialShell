@@ -6,7 +6,7 @@ import qs.Modals.Common
 import qs.Modals.FileBrowser
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 DankModal {
     id: root
@@ -111,7 +111,7 @@ DankModal {
                         Layout.alignment: Qt.AlignLeft
                     }
 
-                    DankActionButton {
+                    DActionButton {
                         iconName: "save"
                         Accessible.name: I18n.tr("Save QR Code")
                         iconSize: Theme.iconSize - 4
@@ -125,7 +125,7 @@ DankModal {
                         Layout.alignment: Qt.AlignRight
                     }
 
-                    DankActionButton {
+                    DActionButton {
                         iconName: "close"
                         Accessible.name: I18n.tr("Close")
                         iconSize: Theme.iconSize - 4

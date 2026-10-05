@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Shapes
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 
 Rectangle {
@@ -44,7 +44,7 @@ Rectangle {
     border.width: Theme.layerOutlineWidth
     border.color: Theme.outlineMedium
 
-    DankTone {
+    DTone {
         id: toneColors
         tone: root.widgetOptions.tone ?? ""
     }
@@ -55,7 +55,7 @@ Rectangle {
         anchors.margins: Theme.spacingM
         spacing: Theme.spacingS
 
-        DankIcon {
+        DIcon {
             name: root.moon ? "dark_mode" : "light_mode"
             size: Theme.iconSize
             color: toneColors.contentColor
@@ -114,7 +114,7 @@ Rectangle {
             color: Theme.outlineVariant
         }
 
-        DankMaterialShape {
+        DMaterialShape {
             readonly property real progress: I18n.isRtl ? 1 - root.dayProgress : root.dayProgress
             x: arc.width * progress - width / 2
             y: arc.height * (1 - 4 * progress * (1 - progress)) - height / 2
@@ -125,7 +125,7 @@ Rectangle {
             visible: !root.moon && root.hasSunTimes && root.currentDate.getTime() >= root.sunriseTime && root.currentDate.getTime() <= root.sunsetTime
         }
 
-        DankSparkline {
+        DSparkline {
             anchors.fill: parent
             visible: root.moon
             values: I18n.isRtl ? (root.moonTrack?.values ?? []).slice().reverse() : (root.moonTrack?.values ?? [])
@@ -138,7 +138,7 @@ Rectangle {
             fillOpacity: Theme.stateLayerDrag
         }
 
-        DankNFIcon {
+        DNFIcon {
             readonly property real progress: root.moonTrack?.progress ?? 0
             x: arc.width * (I18n.isRtl ? 1 - progress : progress) - width / 2
             y: arc.height * (1 - (root.moonTrack?.altitude ?? 0)) / 2 - height / 2

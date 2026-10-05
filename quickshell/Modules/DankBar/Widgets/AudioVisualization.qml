@@ -2,7 +2,7 @@ import QtQuick
 import Quickshell.Services.Mpris
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 Item {
     id: root
@@ -74,7 +74,7 @@ Item {
         fragmentShader: Qt.resolvedUrl("../../../Shaders/qsb/viz_bars.frag.qsb")
     }
 
-    DankIcon {
+    DIcon {
         anchors.centerIn: parent
         visible: !root.showBars
         name: root.idleIconName

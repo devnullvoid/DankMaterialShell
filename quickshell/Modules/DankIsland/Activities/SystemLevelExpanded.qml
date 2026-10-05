@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 
 Item {
     id: root
@@ -50,7 +50,7 @@ Item {
             }
         }
 
-        DankSlider {
+        DSlider {
             id: levelSlider
 
             width: parent.width

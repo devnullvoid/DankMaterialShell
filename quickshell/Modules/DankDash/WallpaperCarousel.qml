@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell.Widgets
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 
 Item {
@@ -167,7 +167,7 @@ Item {
                     color: Theme.primary
                     visible: slide.selected
 
-                    DankIcon {
+                    DIcon {
                         anchors.centerIn: parent
                         name: "check"
                         size: Theme.iconSizeSmall

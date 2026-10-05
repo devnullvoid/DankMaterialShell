@@ -1,7 +1,7 @@
 import QtQuick
 import Quickshell.Wayland
 import qs.Common
-import qs.DankCommon.FileBrowser
+import qs.DCommon.FileBrowser
 import qs.Modals.Common
 
 DankModal {

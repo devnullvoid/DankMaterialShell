@@ -3,7 +3,7 @@ import qs.Common
 import qs.Modules.DankBar
 import qs.Modules.Plugins
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 BasePill {
     id: root
@@ -52,7 +52,7 @@ BasePill {
             implicitWidth: root.isVerticalOrientation ? root.widgetThickness : updaterIcon.implicitWidth
             implicitHeight: root.widgetThickness
 
-            DankIcon {
+            DIcon {
                 id: statusIcon
                 anchors.centerIn: parent
                 visible: root.isVerticalOrientation
@@ -108,7 +108,7 @@ BasePill {
                 spacing: Theme.spacingXS
                 visible: !root.isVerticalOrientation
 
-                DankIcon {
+                DIcon {
                     id: statusIconHorizontal
                     anchors.verticalCenter: parent.verticalCenter
                     smoothTransform: root.isChecking

@@ -6,6 +6,7 @@ import qs.Services
 import qs.Modules.ControlCenter.Components
 import qs.Modules.ControlCenter.Models
 import qs.Modules.ControlCenter.Details
+import qs.DCommon.Widgets
 import qs.Widgets
 import "./utils/sections.js" as Sections
 import "./utils/widgets.js" as WidgetUtils
@@ -376,7 +377,7 @@ FocusScope {
         }
     }
 
-    DankFlickable {
+    DFlickable {
         id: contentFlickable
 
         anchors.left: parent.left

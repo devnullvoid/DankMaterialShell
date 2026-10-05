@@ -4,6 +4,7 @@ import QtQuick
 import Quickshell
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.DankDash
 import "../../../Common/DateOnly.js" as DateOnly
@@ -212,7 +213,7 @@ Card {
             anchors.rightMargin: Theme.spacingS
             spacing: Theme.spacingS
 
-            DankIcon {
+            DIcon {
                 name: "warning"
                 size: Theme.iconSizeSmall
                 color: Theme.warning
@@ -228,7 +229,7 @@ Card {
                 wrapMode: Text.Wrap
             }
 
-            DankButton {
+            DButton {
                 id: launchButton
                 anchors.verticalCenter: parent.verticalCenter
                 visible: CalendarService.dankBinaryExists
@@ -346,7 +347,7 @@ Card {
         anchors.topMargin: Theme.spacingS
         anchors.bottom: parent.bottom
 
-        DankMonthGrid {
+        DMonthGrid {
             id: calendarGrid
 
             anchors.fill: parent
@@ -381,7 +382,7 @@ Card {
             visible: root.showEventDetails
             spacing: Theme.spacingS
 
-            DankFlickable {
+            DFlickable {
                 id: flickableArea
                 showScrollBar: false
                 width: parent.width
@@ -491,7 +492,7 @@ Card {
                 }
             }
 
-            DankTextField {
+            DTextField {
                 id: taskInput
                 width: parent.width
                 height: DashMetrics.taskInputHeight
@@ -523,7 +524,7 @@ Card {
         }
     }
 
-    component NavButton: DankActionButton {
+    component NavButton: DActionButton {
         buttonSize: DashMetrics.monthNavSize
         iconSize: DashMetrics.monthNavIconSize
         iconColor: Theme.primary
@@ -652,7 +653,7 @@ Card {
             color: taskItem.accentColor
         }
 
-        DankIcon {
+        DIcon {
             id: dragHandle
             anchors.left: parent.left
             anchors.leftMargin: Theme.spacingM + DashMetrics.eventAccentWidth + Theme.spacingM
@@ -697,7 +698,7 @@ Card {
             }
         }
 
-        DankActionButton {
+        DActionButton {
             anchors.left: parent.left
             anchors.leftMargin: Theme.spacingM + DashMetrics.eventAccentWidth + Theme.spacingM + (taskItem.isLocalTask && !taskItem.isEditing ? DashMetrics.eventActionSize + Theme.spacingXS : 0)
             anchors.verticalCenter: parent.verticalCenter
@@ -755,7 +756,7 @@ Card {
             }
         }
 
-        DankTextField {
+        DTextField {
             id: editInput
             anchors.left: parent.left
             anchors.right: parent.right
@@ -784,7 +785,7 @@ Card {
             }
         }
 
-        DankActionButton {
+        DActionButton {
             anchors.right: parent.right
             anchors.rightMargin: Theme.spacingS
             anchors.verticalCenter: parent.verticalCenter
@@ -798,7 +799,7 @@ Card {
             onClicked: Qt.openUrlExternally(taskItem.quickUrl)
         }
 
-        DankActionButton {
+        DActionButton {
             id: deleteButton
             anchors.right: parent.right
             anchors.rightMargin: Theme.spacingS
@@ -819,7 +820,7 @@ Card {
             }
         }
 
-        DankActionButton {
+        DActionButton {
             anchors.right: deleteButton.left
             anchors.rightMargin: Theme.spacingXS
             anchors.verticalCenter: parent.verticalCenter

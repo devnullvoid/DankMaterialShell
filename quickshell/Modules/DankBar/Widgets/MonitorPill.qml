@@ -2,7 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 BasePill {
     id: root
@@ -51,7 +51,7 @@ BasePill {
                 anchors.centerIn: parent
                 spacing: Theme.hairline(root.dpr)
 
-                DankIcon {
+                DIcon {
                     name: root.iconName
                     size: root.iconSize
                     color: root.levelColor
@@ -85,7 +85,7 @@ BasePill {
                 anchors.centerIn: parent
                 spacing: Theme.spacingXS
 
-                DankIcon {
+                DIcon {
                     name: root.iconName
                     size: root.iconSize
                     color: root.levelColor

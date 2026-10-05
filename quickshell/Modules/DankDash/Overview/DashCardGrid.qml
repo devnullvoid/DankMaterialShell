@@ -6,7 +6,7 @@ import qs.Widgets
 import qs.Modules.DankDash
 import "../../../Common/GridLayout.js" as GridUtils
 import "../utils/cards.js" as CardUtils
-import "../../../DankCommon/Common/FocusNavigation.js" as FocusNavigation
+import "../../../DCommon/Common/FocusNavigation.js" as FocusNavigation
 
 DankEditableGrid {
     id: root

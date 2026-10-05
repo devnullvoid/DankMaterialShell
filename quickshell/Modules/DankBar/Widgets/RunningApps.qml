@@ -6,6 +6,7 @@ import qs.Common
 import qs.Modules.DankBar
 import qs.Modules.Plugins
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 BasePill {
@@ -321,7 +322,7 @@ BasePill {
                     }
                 }
 
-                DankIcon {
+                DIcon {
                     anchors.left: parent.left
                     anchors.leftMargin: root.compactMode ? Math.round((parent.width - root.appIconSize) / 2) : Theme.spacingXS
                     anchors.verticalCenter: parent.verticalCenter
@@ -383,7 +384,7 @@ BasePill {
                     maximumLineCount: 1
                 }
 
-                DankRipple {
+                DRipple {
                     id: itemRipple
                     rippleColor: isFocused ? Theme.onSelectedContainer : Theme.onSurface
                     cornerRadius: visualContent.radius

@@ -1,7 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 import qs.Modules.DankDash.Weather
 import "../Weather/WeatherVisuals.js" as Visuals
@@ -87,7 +87,7 @@ Card {
                 width: Math.min(parent.height, parent.width * DashMetrics.weatherCompactIconRatio)
                 height: width
 
-                DankIcon {
+                DIcon {
                     anchors.centerIn: parent
                     name: root.iconName
                     size: parent.width
@@ -95,7 +95,7 @@ Card {
                     visible: root.available || !WeatherService.weather.loading
                 }
 
-                DankSpinner {
+                DSpinner {
                     anchors.centerIn: parent
                     size: parent.width
                     color: root.contentColor
@@ -135,14 +135,14 @@ Card {
         anchors.fill: parent
         visible: root.stacked && !root.compact && !root.heroLayout
 
-        DankMaterialShape {
+        DMaterialShape {
             id: stackedChip
             width: Math.min(parent.width * 0.5, parent.height * 0.42)
             height: width
             shape: Visuals.conditionShape(WeatherService.weather.wCode, WeatherService.weather.isDay)
             color: root.chipColor
 
-            DankIcon {
+            DIcon {
                 anchors.centerIn: parent
                 name: root.iconName
                 size: parent.width * 0.55
@@ -150,7 +150,7 @@ Card {
                 visible: root.available || !WeatherService.weather.loading
             }
 
-            DankSpinner {
+            DSpinner {
                 anchors.centerIn: parent
                 size: parent.width * 0.55
                 color: root.contentColor
@@ -240,7 +240,7 @@ Card {
         spacing: Theme.spacingM
         visible: !root.stacked
 
-        DankMaterialShape {
+        DMaterialShape {
             id: iconChip
             anchors.verticalCenter: parent.verticalCenter
             width: Math.min(DashMetrics.weatherChipSize, root.height - root.pad * 2)
@@ -248,7 +248,7 @@ Card {
             shape: Visuals.conditionShape(WeatherService.weather.wCode, WeatherService.weather.isDay)
             color: root.chipColor
 
-            DankIcon {
+            DIcon {
                 anchors.centerIn: parent
                 name: root.iconName
                 size: Theme.iconSize

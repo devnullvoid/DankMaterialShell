@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Wayland
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import "../Common/ConnectedSurfaceGeometry.js" as SurfaceGeometry
 import "../Common/FluidGeometry.js" as FluidGeometry
@@ -1947,7 +1948,7 @@ Item {
                         }
                     }
 
-                    DankLayer {
+                    DLayer {
                         id: contentWrapper
                         width: rollOutAdjuster.baseWidth
                         height: rollOutAdjuster.baseHeight
@@ -2107,7 +2108,7 @@ Item {
                     shadowEnabled: Theme.elevationEnabled && SettingsData.popoutElevationEnabled && Quickshell.env("DMS_DISABLE_LAYER") !== "true" && Quickshell.env("DMS_DISABLE_LAYER") !== "1" && !(root.suspendShadowWhileResizing && root._resizeActive)
                 }
 
-                DankLayer {
+                DLayer {
                     id: contentWrapper
                     width: chrome.width
                     height: chrome.height

@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modals.DankLauncherV2
 
 Rectangle {
@@ -65,7 +65,7 @@ Rectangle {
         visible: root.isHovered || itemArea.pressed
     }
 
-    DankRipple {
+    DRipple {
         id: rippleLayer
         rippleColor: root.contentColor
         cornerRadius: root.radius
@@ -84,14 +84,14 @@ Rectangle {
             glyphSize: Theme.iconSizeSmall
         }
 
-        DankIcon {
+        DIcon {
             name: "push_pin"
             size: Theme.iconSizeSmall
             color: root.contentColor
             visible: root.item?.pinned === true
         }
 
-        DankIcon {  // dmenu --multi-select checkbox
+        DIcon {  // dmenu --multi-select checkbox
             name: root.item?.data?.checked ? "check_box" : "check_box_outline_blank"
             size: Theme.iconSizeSmall
             color: root.item?.data?.checked ? Theme.primary : root.contentColor

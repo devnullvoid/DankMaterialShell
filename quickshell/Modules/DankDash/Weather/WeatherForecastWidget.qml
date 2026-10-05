@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 
 Rectangle {
@@ -50,7 +50,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             spacing: Theme.spacingS
 
-            DankIcon {
+            DIcon {
                 anchors.verticalCenter: parent.verticalCenter
                 name: root.daily ? "calendar_month" : "schedule"
                 size: Theme.iconSize
@@ -75,7 +75,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             spacing: Theme.spacingXS
 
-            DankActionButton {
+            DActionButton {
                 buttonSize: Theme.buttonHeightS
                 iconName: I18n.isRtl ? "chevron_right" : "chevron_left"
                 Accessible.name: I18n.tr("Previous")
@@ -83,14 +83,14 @@ Rectangle {
                 onClicked: root.step(-1)
             }
 
-            DankActionButton {
+            DActionButton {
                 buttonSize: Theme.buttonHeightS
                 iconName: "today"
                 Accessible.name: I18n.tr("Today")
                 onClicked: root.startIndex = root.daily ? 0 : (WeatherService.weather.currentHourIndex ?? new Date().getHours())
             }
 
-            DankActionButton {
+            DActionButton {
                 buttonSize: Theme.buttonHeightS
                 iconName: I18n.isRtl ? "chevron_left" : "chevron_right"
                 Accessible.name: I18n.tr("Next")

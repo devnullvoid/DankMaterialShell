@@ -2,7 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modals.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 DankModal {
     id: root
@@ -161,7 +161,7 @@ DankModal {
                         }
                     }
 
-                    DankTextField {
+                    DTextField {
                         id: pinInputField
 
                         anchors.fill: parent
@@ -196,7 +196,7 @@ DankModal {
                         }
                     }
 
-                    DankTextField {
+                    DTextField {
                         id: passkeyInputField
 
                         anchors.fill: parent
@@ -349,7 +349,7 @@ DankModal {
                 }
             }
 
-            DankActionButton {
+            DActionButton {
                 anchors.top: parent.top
                 anchors.right: parent.right
                 anchors.topMargin: Theme.spacingM

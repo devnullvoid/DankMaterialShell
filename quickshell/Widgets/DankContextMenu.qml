@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Wayland
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 Item {
@@ -292,7 +293,7 @@ Item {
                     shadowEnabled: Theme.elevationEnabled
                 }
 
-                DankFlickable {
+                DFlickable {
                     id: menuFlickable
                     anchors.fill: parent
                     anchors.margins: Theme.spacingS
@@ -369,7 +370,7 @@ Item {
                                         anchors.verticalCenter: parent.verticalCenter
                                         spacing: Theme.spacingS
 
-                                        DankIcon {
+                                        DIcon {
                                             name: menuItemDelegate.modelData?.icon ?? ""
                                             size: Theme.iconSizeMedium
                                             color: menuRow.contentColor
@@ -387,7 +388,7 @@ Item {
                                         }
                                     }
 
-                                    DankRipple {
+                                    DRipple {
                                         id: menuItemRipple
                                         rippleColor: menuRow.contentColor
                                         cornerRadius: Theme.cornerRadiusM

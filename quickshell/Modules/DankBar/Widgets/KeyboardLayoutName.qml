@@ -2,7 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import "KeyboardLayoutLabels.js" as KeyboardLayoutLabels
 
 BasePill {
@@ -51,7 +51,7 @@ BasePill {
                 anchors.centerIn: parent
                 spacing: 1
 
-                DankIcon {
+                DIcon {
                     name: "keyboard"
                     size: Theme.barIconSize(root.barThickness, undefined, root.barConfig?.maximizeWidgetIcons, root.barConfig?.iconScale)
                     color: root.contentColor
@@ -77,7 +77,7 @@ BasePill {
                 anchors.centerIn: parent
                 spacing: Theme.spacingS
 
-                DankIcon {
+                DIcon {
                     name: "keyboard"
                     size: Theme.barIconSize(root.barThickness, undefined, root.barConfig?.maximizeWidgetIcons, root.barConfig?.iconScale)
                     color: root.contentColor

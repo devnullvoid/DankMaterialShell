@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Modules.OSD
-import qs.Widgets
+import qs.DCommon.Widgets
 
 Item {
     id: root
@@ -14,7 +14,7 @@ Item {
 
     readonly property int maximum: Math.max(root.systemModel.minimum + 1, Math.round(root.systemModel.maximum))
     readonly property real fillRatio: Math.max(0, Math.min(1, (root.systemModel.value - root.systemModel.minimum) / Math.max(1, root.maximum - root.systemModel.minimum)))
-    // DankSlider's own metrics, transposed, so the two orientations read as the same control.
+    // DSlider's own metrics, transposed, so the two orientations read as the same control.
     readonly property real trackThickness: 12
     readonly property real handleThickness: 4
     readonly property real handleBreadth: 20
@@ -49,7 +49,7 @@ Item {
         onSliderValueChanged: newValue => root.systemModel.setRatio(newValue / Math.max(1, root.maximum))
     }
 
-    // DankSlider is horizontal only, so a side strip gets its own stacked track.
+    // DSlider is horizontal only, so a side strip gets its own stacked track.
     Item {
         id: verticalFace
 
@@ -58,7 +58,7 @@ Item {
         anchors.bottomMargin: Theme.spacingS
         visible: root.isVertical
 
-        DankIcon {
+        DIcon {
             id: levelIcon
 
             anchors.horizontalCenter: parent.horizontalCenter

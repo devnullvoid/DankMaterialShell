@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
 import qs.Modules.DankDash.Overview
 import qs.Modules.ControlCenter.Widgets
 import "utils/cards.js" as CardUtils

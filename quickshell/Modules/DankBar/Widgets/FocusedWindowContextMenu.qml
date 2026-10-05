@@ -4,6 +4,7 @@ import Quickshell.Widgets
 import qs.Common
 import qs.Modules.DankBar
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 DankPopout {
@@ -200,7 +201,7 @@ DankPopout {
                         }
                     ]
 
-                    delegate: DankListRow {
+                    delegate: DListRow {
                         id: copyRow
                         required property var modelData
                         required property int index
@@ -267,7 +268,7 @@ DankPopout {
                         anchors.leftMargin: Theme.spacingS
                         spacing: Theme.spacingS
 
-                        DankIcon {
+                        DIcon {
                             name: "outbox"
                             size: Theme.iconSizeSmall
                             color: Theme.surfaceText
@@ -305,7 +306,7 @@ DankPopout {
                             anchors.leftMargin: Theme.spacingS
                             spacing: Theme.spacingS
 
-                            DankIcon {
+                            DIcon {
                                 name: "inbox"
                                 size: Theme.iconSizeSmall
                                 color: Theme.surfaceText
@@ -340,7 +341,7 @@ DankPopout {
                         anchors.leftMargin: Theme.spacingS
                         spacing: Theme.spacingS
 
-                        DankIcon {
+                        DIcon {
                             name: root.hasMatchingRule ? "edit" : "rule"
                             size: Theme.iconSizeSmall
                             color: Theme.surfaceText
@@ -370,7 +371,7 @@ DankPopout {
                         anchors.leftMargin: Theme.spacingS
                         spacing: Theme.spacingS
 
-                        DankIcon {
+                        DIcon {
                             name: "close"
                             size: Theme.iconSizeSmall
                             color: Theme.error

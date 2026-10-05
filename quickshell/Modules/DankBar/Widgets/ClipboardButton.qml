@@ -2,6 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 BasePill {
@@ -108,7 +109,7 @@ BasePill {
                 }
             }
 
-            DankIcon {
+            DIcon {
                 id: icon
                 anchors.centerIn: parent
                 name: root.dropConfirmed ? "check" : "content_paste"

@@ -1,6 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.Notifications
 import qs.Modules.Notifications.Center
@@ -163,7 +164,7 @@ FocusScope {
         spacing: Theme.spacingS
         height: Theme.iconButtonSize
 
-        DankActionButton {
+        DActionButton {
             id: historyButton
             visible: SettingsData.notificationHistoryEnabled
             buttonSize: Theme.iconButtonSize
@@ -174,7 +175,7 @@ FocusScope {
             onClicked: root.currentTab = root.currentTab === 0 ? 1 : 0
         }
 
-        DankButton {
+        DButton {
             width: Math.max(0, footer.width - dndButton.width - (historyButton.visible ? historyButton.width + footer.spacing : 0) - footer.spacing)
             text: I18n.tr("Clear All")
             buttonHeight: Theme.iconButtonSize
@@ -190,7 +191,7 @@ FocusScope {
             }
         }
 
-        DankActionButton {
+        DActionButton {
             id: dndButton
             buttonSize: Theme.iconButtonSize
             iconName: SessionData.doNotDisturb ? "notifications_off" : "notifications"

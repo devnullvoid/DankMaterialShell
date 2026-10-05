@@ -1,5 +1,6 @@
 import QtQuick
 import qs.Common
+import qs.DCommon.Widgets
 import qs.Widgets
 
 Item {
@@ -71,7 +72,7 @@ Item {
         visible: root.chromeButtons > 0
     }
 
-    DankActionButton {
+    DActionButton {
         id: removeButton
 
         x: I18n.isRtl ? root.width - root.contentInset - width : root.contentInset
@@ -103,7 +104,7 @@ Item {
         }
     }
 
-    DankActionButton {
+    DActionButton {
         id: optionsButton
 
         readonly property real slotOffset: root.removable ? root.touchTargetSize : 0

@@ -5,6 +5,7 @@ import qs.Common
 import qs.Modules.DankBar
 import qs.Modules.Plugins
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 BasePill {
@@ -191,7 +192,7 @@ BasePill {
             visible: root.visualizerEnabled
         }
 
-        DankIcon {
+        DIcon {
             anchors.fill: parent
             name: "music_note"
             size: parent.width
@@ -205,7 +206,7 @@ BasePill {
         height: width
         visible: root.playerAvailable
 
-        DankIconButton {
+        DIconButton {
             anchors.centerIn: parent
             width: parent.width
             height: parent.height
@@ -419,7 +420,7 @@ BasePill {
                         visible: root.playerAvailable
                         opacity: (activePlayer && activePlayer.canGoPrevious) ? 1 : 0.3
 
-                        DankIcon {
+                        DIcon {
                             anchors.centerIn: parent
                             name: "skip_previous"
                             size: 12 * root.contentScale
@@ -447,7 +448,7 @@ BasePill {
                         visible: playerAvailable
                         opacity: (activePlayer && activePlayer.canGoNext) ? 1 : 0.3
 
-                        DankIcon {
+                        DIcon {
                             anchors.centerIn: parent
                             name: "skip_next"
                             size: 12 * root.contentScale

@@ -1,7 +1,7 @@
 import QtQuick
 import qs.Services
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
 import qs.Modules.ControlCenter.Widgets
 import qs.Modules.DankDash
@@ -60,7 +60,7 @@ CcSheetDialog {
         }
     }
 
-    DankButton {
+    DButton {
         anchors.right: parent.right
         text: I18n.tr("Reset to default")
         iconName: "restart_alt"

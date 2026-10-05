@@ -1,8 +1,8 @@
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 
-DankSearchField {
+DSearchField {
     id: root
 
     property string mode: "all"
@@ -74,7 +74,7 @@ DankSearchField {
             color: Theme.primaryContainer
             clip: true
 
-            DankIcon {
+            DIcon {
                 id: pluginIconGlyph
                 visible: root.pluginIconVisible
                 anchors.left: parent.left
@@ -103,7 +103,7 @@ DankSearchField {
         }
     }
 
-    DankFlickable {
+    DFlickable {
         id: modeViewport
         anchors.right: parent.right
         anchors.rightMargin: Theme.spacingM
@@ -117,7 +117,7 @@ DankSearchField {
         flickableDirection: Flickable.HorizontalFlick
         clip: true
 
-        DankFilterChips {
+        DFilterChips {
             id: chips
             width: implicitWidth
             flow: Flow.TopToBottom

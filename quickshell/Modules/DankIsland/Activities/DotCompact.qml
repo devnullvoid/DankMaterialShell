@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 
 Item {
     id: root
@@ -12,7 +12,7 @@ Item {
 
     readonly property real diameter: Math.min(width, height)
 
-    DankIcon {
+    DIcon {
         anchors.centerIn: parent
         name: root.iconName
         size: Math.max(Theme.fontSizeSmall, Math.round(root.diameter * 0.46))

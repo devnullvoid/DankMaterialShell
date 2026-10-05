@@ -3,8 +3,8 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
-import "../../../DankCommon/Common/FocusNavigation.js" as FocusNavigation
+import qs.DCommon.Widgets
+import "../../../DCommon/Common/FocusNavigation.js" as FocusNavigation
 
 Row {
     id: root
@@ -20,7 +20,7 @@ Row {
 
     Keys.onPressed: event => event.accepted = FocusNavigation.handleHorizontalKey(event, focusTargets, I18n.isRtl)
 
-    DankIconButton {
+    DIconButton {
         id: lyricsButton
         variant: "outlined"
         checkable: true
@@ -64,7 +64,7 @@ Row {
         iconName: "assistant_device"
     }
 
-    component GroupButton: DankIconButton {
+    component GroupButton: DIconButton {
         required property string panelId
 
         readonly property bool active: root.player.panel === panelId

@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 
 Item {
@@ -116,7 +116,7 @@ Item {
                     elide: Text.ElideRight
                 }
 
-                DankIcon {
+                DIcon {
                     anchors.horizontalCenter: parent.horizontalCenter
                     name: WeatherService.getWeatherIcon(column.modelData.wCode || 0, column.modelData.isDay ?? true)
                     size: Theme.iconSize
@@ -139,7 +139,7 @@ Item {
         }
     }
 
-    DankSparkline {
+    DSparkline {
         x: Theme.spacingM + root.columnWidth / 2
         y: root.chartTop
         width: Math.max(0, root.width - Theme.spacingM * 2 - root.columnWidth)
@@ -183,7 +183,7 @@ Item {
                     anchors.centerIn: parent
                     spacing: Theme.spacingXXS
 
-                    DankIcon {
+                    DIcon {
                         visible: !root.daily
                         name: "rainy"
                         size: Theme.iconSizeSmall

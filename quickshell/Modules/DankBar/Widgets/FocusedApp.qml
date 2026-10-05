@@ -6,6 +6,7 @@ import Quickshell.Widgets
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 BasePill {
@@ -148,7 +149,7 @@ BasePill {
                 }
             }
 
-            DankIcon {
+            DIcon {
                 anchors.centerIn: parent
                 size: 18
                 name: "sports_esports"
@@ -208,7 +209,7 @@ BasePill {
                         }
                     }
 
-                    DankIcon {
+                    DIcon {
                         id: horizontalSteamIcon
                         width: contentRow.iconSize
                         size: contentRow.iconSize

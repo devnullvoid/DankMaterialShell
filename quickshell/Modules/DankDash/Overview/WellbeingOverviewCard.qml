@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 import qs.Modules.DankDash.Wellbeing
 import qs.Modules.ControlCenter.Widgets
@@ -35,7 +35,7 @@ Card {
         anchors.top: parent.top
         spacing: Theme.spacingS
 
-        DankIcon {
+        DIcon {
             anchors.verticalCenter: parent.verticalCenter
             name: "digital_wellbeing"
             size: Theme.iconSizeMedium

@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Wayland
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 PanelWindow {
@@ -261,7 +262,7 @@ PanelWindow {
                             id: buttonRow
                             spacing: Theme.spacingXS
 
-                            DankActionButton {
+                            DActionButton {
                                 id: expandButton
                                 iconName: root.expandedWidth ? "unfold_less" : "unfold_more"
                                 tooltipText: root.expandedWidth ? I18n.tr("Collapse") : I18n.tr("Expand")
@@ -277,7 +278,7 @@ PanelWindow {
                                 }
                             }
 
-                            DankActionButton {
+                            DActionButton {
                                 id: closeButton
                                 iconName: "close"
                                 Accessible.name: I18n.tr("Close")

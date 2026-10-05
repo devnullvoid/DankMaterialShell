@@ -4,10 +4,11 @@ import QtQuick
 import Quickshell
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.ControlCenter.Widgets
 import qs.Modules.DankDash.Overview
-import "../../DankCommon/Common/FocusNavigation.js" as FocusNavigation
+import "../../DCommon/Common/FocusNavigation.js" as FocusNavigation
 
 DankPopout {
     id: root
@@ -619,7 +620,7 @@ DankPopout {
                         width: root.verticalNavigation ? Theme.navigationRailWidth : parent.width
                         height: root.verticalNavigation ? parent.height : mainContainer.horizontalChromeHeight - DashMetrics.contentGap
 
-                        DankNavigationBar {
+                        DNavigationBar {
                             id: tabBar
 
                             width: parent.width
@@ -668,7 +669,7 @@ DankPopout {
                         }
                     }
 
-                    DankFlickable {
+                    DFlickable {
                         id: pages
                         enabled: !tabOptions.shown && !pageActions.menuOpen
                         showScrollBar: false
@@ -713,7 +714,7 @@ DankPopout {
                                 title: I18n.tr("No tabs enabled", "Dashboard empty state when all navigation tabs are hidden")
                             }
 
-                            DankButton {
+                            DButton {
                                 id: emptySettings
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 text: I18n.tr("Settings")

@@ -1,7 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
 
 Column {
@@ -162,13 +162,13 @@ Column {
             subtitle: Qt.formatDate(root.fDate, "ddd, MMM d yyyy")
             subtitleColor: Theme.surfaceText
 
-            DankActionButton {
+            DActionButton {
                 iconName: I18n.isRtl ? "chevron_right" : "chevron_left"
                 Accessible.name: I18n.tr("Previous")
                 onClicked: root.shiftDate(-1)
             }
 
-            DankActionButton {
+            DActionButton {
                 iconName: I18n.isRtl ? "chevron_left" : "chevron_right"
                 Accessible.name: I18n.tr("Next")
                 onClicked: root.shiftDate(1)
@@ -240,14 +240,14 @@ Column {
         spacing: Theme.spacingS
         layoutDirection: Qt.RightToLeft
 
-        DankButton {
+        DButton {
             text: root.saving ? I18n.tr("Saving...") : I18n.tr("Save")
             iconName: "check"
             enabled: !root.saving
             onClicked: root.save()
         }
 
-        DankButton {
+        DButton {
             text: I18n.tr("Cancel")
             backgroundColor: "transparent"
             textColor: Theme.primary

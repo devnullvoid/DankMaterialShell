@@ -2,11 +2,11 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modals.DankLauncherV2
 import "../../../Common/htmlElide.js" as HtmlElide
 
-DankListItem {
+DListItem {
     id: root
 
     LayoutMirroring.enabled: I18n.isRtl
@@ -156,7 +156,7 @@ DankListItem {
         anchors.verticalCenter: parent.verticalCenter
         spacing: Theme.spacingS
 
-        DankIcon {
+        DIcon {
             name: "push_pin"
             size: Theme.iconSizeSmall
             color: root.contentColor
@@ -164,7 +164,7 @@ DankListItem {
             anchors.verticalCenter: parent.verticalCenter
         }
 
-        DankIcon {  // dmenu --multi-select checkbox
+        DIcon {  // dmenu --multi-select checkbox
             name: root.item?.data?.checked ? "check_box" : "check_box_outline_blank"
             size: Theme.iconSizeSmall
             color: root.item?.data?.checked ? Theme.primary : root.contentColor
@@ -215,7 +215,7 @@ DankListItem {
                 radius: Theme.fullRadius(width, height)
                 color: allModeToggleArea.containsMouse ? Theme.surfaceHover : Theme.withAlpha(Theme.surfaceHover, 0)
 
-                DankIcon {
+                DIcon {
                     anchors.centerIn: parent
                     name: toggleButton.isAllowed ? "visibility" : "visibility_off"
                     size: Theme.chipIconSize

@@ -1,3 +1,8 @@
-import qs.DankCommon.Widgets as DankCommon
+import QtQuick
+import qs.Common
+import qs.DCommon.Widgets as DCommon
 
-DankCommon.DankClockWidget {}
+DCommon.DClockWidget {
+    id: shim
+    Component.onCompleted: Deprecation.type(shim, "DankClockWidget", "DClockWidget", "qs.DCommon.Widgets")
+}

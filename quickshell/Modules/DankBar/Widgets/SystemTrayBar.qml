@@ -6,6 +6,7 @@ import qs.Common
 import qs.Modules.DankBar
 import qs.Modules.Plugins
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import "../OverflowLayout.js" as OverflowLayout
 
@@ -596,14 +597,14 @@ BasePill {
                     pressed: caretArea.pressed
                     color: Theme.withAlpha(Theme.onSurface, caretArea.pressed ? Theme.stateLayerPressed : caretArea.containsMouse ? Theme.stateLayerHover : 0)
 
-                    DankIcon {
+                    DIcon {
                         anchors.centerIn: parent
                         name: root.toggleIconName()
                         size: root.trayIconSize
                         color: Theme.widgetTextColor
                     }
 
-                    DankRipple {
+                    DRipple {
                         id: caretRipple
                         cornerRadius: caretButton.radius
                     }
@@ -695,7 +696,7 @@ BasePill {
                     source: iconSource
                 }
 
-                DankRipple {
+                DRipple {
                     id: inlineItemRipple
                     cornerRadius: inlineVisualContent.radius
                 }
@@ -811,7 +812,7 @@ BasePill {
                     source: delegateRoot.iconSource
                 }
 
-                DankRipple {
+                DRipple {
                     id: itemRipple
                     topLeftRadius: visualContent.topLeftRadius
                     topRightRadius: visualContent.topRightRadius
@@ -934,14 +935,14 @@ BasePill {
                     pressed: caretAreaVert.pressed
                     color: Theme.withAlpha(Theme.onSurface, caretAreaVert.pressed ? Theme.stateLayerPressed : caretAreaVert.containsMouse ? Theme.stateLayerHover : 0)
 
-                    DankIcon {
+                    DIcon {
                         anchors.centerIn: parent
                         name: root.toggleIconName()
                         size: root.trayIconSize
                         color: Theme.widgetTextColor
                     }
 
-                    DankRipple {
+                    DRipple {
                         id: caretRippleVert
                         cornerRadius: caretButtonVert.radius
                     }
@@ -1265,7 +1266,7 @@ BasePill {
                     trayMenuState.close();
             }
 
-            DankFlickable {
+            DFlickable {
                 id: menuFlickable
                 anchors.fill: parent
                 anchors.margins: Theme.spacingS
@@ -1304,7 +1305,7 @@ BasePill {
                             width: parent.width - Theme.spacingS * 2 - (Theme.iconSizeSmall + Theme.spacingS)
                         }
 
-                        DankIcon {
+                        DIcon {
                             anchors.right: parent.right
                             anchors.rightMargin: Theme.spacingS
                             anchors.verticalCenter: parent.verticalCenter
@@ -1358,7 +1359,7 @@ BasePill {
                             anchors.verticalCenter: parent.verticalCenter
                             spacing: Theme.spacingXS
 
-                            DankIcon {
+                            DIcon {
                                 name: "arrow_back"
                                 size: Theme.iconSizeSmall
                                 color: Theme.widgetTextColor
@@ -1455,7 +1456,7 @@ BasePill {
                                         visible: menuEntry?.checkState === 2
                                     }
 
-                                    DankIcon {
+                                    DIcon {
                                         anchors.centerIn: parent
                                         name: "check"
                                         size: Theme.iconSizeSmall - Theme.spacingXS - Theme.spacingXXS
@@ -1497,7 +1498,7 @@ BasePill {
                                     Layout.alignment: Qt.AlignVCenter
                                     visible: menuEntry?.hasChildren ?? false
 
-                                    DankIcon {
+                                    DIcon {
                                         anchors.centerIn: parent
                                         name: "chevron_right"
                                         size: Theme.iconSizeSmall - 2

@@ -3,6 +3,7 @@ import Quickshell
 import Quickshell.Hyprland
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 Item {

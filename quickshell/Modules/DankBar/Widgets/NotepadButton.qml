@@ -3,6 +3,7 @@ import Quickshell.Hyprland
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 BasePill {
@@ -91,7 +92,7 @@ BasePill {
             implicitWidth: notepadIcon.width
             implicitHeight: root.contentThickness
 
-            DankIcon {
+            DIcon {
                 id: notepadIcon
 
                 anchors.centerIn: parent

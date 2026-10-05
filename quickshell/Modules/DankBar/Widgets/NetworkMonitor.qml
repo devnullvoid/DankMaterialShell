@@ -2,7 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import "../../../Common/Format.js" as Format
 
 BasePill {
@@ -25,7 +25,7 @@ BasePill {
                 spacing: Theme.spacingXXS
                 visible: root.isVerticalOrientation
 
-                DankIcon {
+                DIcon {
                     name: "network_check"
                     size: Theme.barIconSize(root.barThickness, undefined, root.barConfig?.maximizeWidgetIcons, root.barConfig?.iconScale)
                     color: root.contentColor
@@ -67,7 +67,7 @@ BasePill {
                 spacing: Theme.spacingS
                 visible: !root.isVerticalOrientation
 
-                DankIcon {
+                DIcon {
                     name: "network_check"
                     size: Theme.barIconSize(root.barThickness, undefined, root.barConfig?.maximizeWidgetIcons, root.barConfig?.iconScale)
                     color: root.contentColor

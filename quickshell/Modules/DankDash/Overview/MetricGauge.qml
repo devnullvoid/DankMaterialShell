@@ -1,9 +1,9 @@
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 
-DankRingGauge {
+DRingGauge {
     id: root
 
     property real usage: -1
@@ -28,7 +28,7 @@ DankRingGauge {
         color: root.discColor
     }
 
-    DankIcon {
+    DIcon {
         anchors.centerIn: parent
         name: root.iconName
         size: root.iconSize

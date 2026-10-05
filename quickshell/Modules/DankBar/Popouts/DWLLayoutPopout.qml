@@ -2,6 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.DankBar
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 DankPopout {
@@ -164,7 +165,7 @@ DankPopout {
                         id: layoutRepeater
                         model: MangoService.layouts
 
-                        delegate: DankListItem {
+                        delegate: DListItem {
                             id: layoutRow
                             required property string modelData
                             required property int index
@@ -190,7 +191,7 @@ DankPopout {
                                 anchors.verticalCenter: parent.verticalCenter
                                 spacing: Theme.spacingM
 
-                                DankIcon {
+                                DIcon {
                                     name: root.getLayoutIcon(layoutRow.modelData)
                                     size: Theme.iconSizeMedium
                                     color: layoutRow.contentColor

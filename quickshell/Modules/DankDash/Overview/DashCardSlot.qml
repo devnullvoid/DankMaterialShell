@@ -1,6 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.DankDash
 import "../utils/cards.js" as CardUtils
@@ -130,7 +131,7 @@ DankEditableGridSlot {
         }
     }
 
-    DankSpinner {
+    DSpinner {
         anchors.centerIn: parent
         size: DashMetrics.spinnerSize
         visible: cardLoader.status === Loader.Loading

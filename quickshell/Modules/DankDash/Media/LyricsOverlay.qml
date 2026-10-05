@@ -2,6 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Services
 import qs.Modules.DankDash
@@ -233,7 +234,7 @@ FocusScope {
             visible: root.unsynced && !root.compact
         }
 
-        DankListView {
+        DListView {
             id: transcript
             showScrollBar: false
             anchors.left: parent.left
@@ -341,7 +342,7 @@ FocusScope {
             }
         }
 
-        DankButton {
+        DButton {
             id: followButton
             objectName: "followPlayback"
             anchors.horizontalCenter: parent.horizontalCenter
@@ -379,7 +380,7 @@ FocusScope {
                 }
             }
 
-            sourceComponent: DankLoadingIndicator {
+            sourceComponent: DLoadingIndicator {
                 contained: true
                 containerColor: MediaAccentService.accentContainer
                 color: MediaAccentService.onAccentContainer
@@ -415,7 +416,7 @@ FocusScope {
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
-            DankButton {
+            DButton {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: I18n.tr("Retry")
                 visible: root.controller.state === "error"

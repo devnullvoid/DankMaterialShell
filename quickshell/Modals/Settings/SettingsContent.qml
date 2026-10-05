@@ -3,7 +3,7 @@ import QtQuick.Controls
 import qs.Common
 import qs.Modules.Settings.Widgets
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 FocusScope {
     id: root
@@ -451,7 +451,7 @@ FocusScope {
                 width: root.showBack ? Theme.iconButtonSize + Theme.spacingM - glyphInset : 0
                 height: Theme.iconButtonSize
 
-                DankActionButton {
+                DActionButton {
                     buttonSize: Theme.iconButtonSize
                     iconName: I18n.isRtl ? "arrow_forward" : "arrow_back"
                     Accessible.name: I18n.tr("Back")
@@ -496,7 +496,7 @@ FocusScope {
                 toX: pageStack.slideOffscreen
             }
 
-            DankSpinner {
+            DSpinner {
                 id: pageSpinner
 
                 readonly property bool loading: pageStack.currentItem?.presented === false

@@ -7,7 +7,7 @@ import qs.Common
 import qs.Modules.DankBar
 import qs.Modules.Plugins
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import "../../../Common/WorkspaceModel.js" as WorkspaceModel
 
 BasePill {
@@ -467,7 +467,7 @@ BasePill {
                     anchors.centerIn: parent
                     spacing: Theme.spacingXS
 
-                    DankIcon {
+                    DIcon {
                         anchors.verticalCenter: parent.verticalCenter
                         name: "grid_view"
                         size: overviewPill.labelSize + 2
@@ -781,7 +781,7 @@ BasePill {
 
                 readonly property color displayColor: pillColor.value
 
-                DankColorAnimation {
+                DColorAnimation {
                     id: pillColor
                     to: delegateRoot.requestedColor
                     animated: delegateRoot.colorAnimationReady
@@ -1123,7 +1123,7 @@ BasePill {
                                     width: wsIcon.width
                                     height: root.appIconSize
 
-                                    DankIcon {
+                                    DIcon {
                                         id: wsIcon
                                         anchors.verticalCenter: parent.verticalCenter
                                         name: loadedIconData?.value ?? ""
@@ -1212,7 +1212,7 @@ BasePill {
                                             border.color: appBorderColor
                                             opacity: appOpacity
 
-                                            DankIcon {
+                                            DIcon {
                                                 anchors.centerIn: parent
                                                 size: parent.width * 0.7
                                                 name: "sports_esports"
@@ -1241,7 +1241,7 @@ BasePill {
                                             visible: modelData.isSteamApp && modelData.icon
                                         }
 
-                                        DankIcon {
+                                        DIcon {
                                             anchors.centerIn: parent
                                             size: root.appIconSize
                                             name: "sports_esports"
@@ -1294,7 +1294,7 @@ BasePill {
                                 spacing: Theme.spacingXS
                                 visible: loadedIcons.length > 0 || root.opt("showWorkspaceIndex") || root.opt("showWorkspaceName") || loadedHasIcon
 
-                                DankIcon {
+                                DIcon {
                                     visible: loadedHasIcon && loadedIconData?.type === "icon"
                                     anchors.horizontalCenter: parent.horizontalCenter
                                     name: loadedIconData?.value ?? ""
@@ -1370,7 +1370,7 @@ BasePill {
                                             border.color: appBorderColor
                                             opacity: appOpacity
 
-                                            DankIcon {
+                                            DIcon {
                                                 anchors.centerIn: parent
                                                 size: parent.width * 0.7
                                                 name: "sports_esports"
@@ -1399,7 +1399,7 @@ BasePill {
                                             visible: modelData.isSteamApp && modelData.icon
                                         }
 
-                                        DankIcon {
+                                        DIcon {
                                             anchors.centerIn: parent
                                             size: root.appIconSize
                                             name: "sports_esports"

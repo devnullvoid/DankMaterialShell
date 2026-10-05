@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 
 Item {
     id: root
@@ -26,7 +26,7 @@ Item {
     Component.onCompleted: root.pushMeasuredLength()
 
     // A side strip only fits the sender's icon; the text lives in the expanded face.
-    DankCircularImage {
+    DCircularImage {
         anchors.centerIn: parent
         visible: root.isVertical
         width: root.iconSize
@@ -46,7 +46,7 @@ Item {
         }
         spacing: Theme.spacingS
 
-        DankCircularImage {
+        DCircularImage {
             anchors.verticalCenter: parent.verticalCenter
             width: root.iconSize
             height: width

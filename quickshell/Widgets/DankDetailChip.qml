@@ -1,3 +1,8 @@
-import qs.DankCommon.Widgets as DankCommon
+import QtQuick
+import qs.Common
+import qs.DCommon.Widgets as DCommon
 
-DankCommon.DankDetailChip {}
+DCommon.DDetailChip {
+    id: shim
+    Component.onCompleted: Deprecation.type(shim, "DankDetailChip", "DDetailChip", "qs.DCommon.Widgets")
+}

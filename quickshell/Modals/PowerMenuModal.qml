@@ -3,7 +3,7 @@ import qs.Common
 import qs.Modals.Common
 import qs.Services
 import qs.Modules.PowerMenu
-import qs.DankCommon.Session
+import qs.DCommon.Session
 
 DankModal {
     id: root

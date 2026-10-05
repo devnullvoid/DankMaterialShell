@@ -5,7 +5,7 @@ import Quickshell.Widgets
 import Quickshell.Wayland
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modals.DankLauncherV2.Components
 
 LauncherTile {
@@ -124,7 +124,7 @@ LauncherTile {
                 color: Theme.primary
                 visible: root.isSelected
 
-                DankIcon {
+                DIcon {
                     anchors.centerIn: parent
                     name: "check"
                     size: Theme.iconSizeSmall

@@ -4,7 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
 
 SettingsRow {
@@ -41,7 +41,7 @@ SettingsRow {
         radius: Theme.fullRadius(width, height)
         color: root.selected ? Theme.onPrimary : Theme.chipSurfaceNested
 
-        DankIcon {
+        DIcon {
             anchors.centerIn: parent
             name: AudioService.sinkIcon(root.node)
             size: Theme.iconSizeMedium
@@ -57,7 +57,7 @@ SettingsRow {
         sourceComponent: RowLayout {
             spacing: Theme.spacingS
 
-            DankActionButton {
+            DActionButton {
                 buttonSize: Theme.iconButtonSize
                 iconName: volumeSlider.volumeIcon
                 iconColor: root.titleColor

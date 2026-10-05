@@ -2,7 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.Notifications
 import qs.Modules.Plugins
-import qs.Widgets
+import qs.DCommon.Widgets
 
 BasePill {
     id: root
@@ -15,7 +15,7 @@ BasePill {
             implicitWidth: notifIcon.width
             implicitHeight: root.contentThickness
 
-            DankIcon {
+            DIcon {
                 id: notifIcon
                 anchors.centerIn: parent
                 name: SessionData.doNotDisturb ? "notifications_off" : "notifications"

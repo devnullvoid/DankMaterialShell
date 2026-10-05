@@ -4,6 +4,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.DankBar.Widgets
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 Item {
@@ -216,7 +217,7 @@ Item {
         height: root.iconSize
         opacity: root.connectivityIconOpacity(connectivityIcon.type)
 
-        DankIcon {
+        DIcon {
             id: connectivityGlyph
 
             anchors.centerIn: parent
@@ -224,14 +225,14 @@ Item {
             size: root.statusIconSize
             color: root.connectivityIconColor(connectivityIcon.type)
 
-            DankBlink {
+            DBlink {
                 target: connectivityGlyph
                 running: connectivityIcon.visible && root.connectivityBusy(connectivityIcon.type)
             }
         }
     }
 
-    component PrivacyIcon: DankIcon {
+    component PrivacyIcon: DIcon {
         required property bool active
 
         visible: active
@@ -339,14 +340,14 @@ Item {
                 visible: group.isMedia && root.controller.mediaAvailable
             }
 
-            DankIcon {
+            DIcon {
                 visible: group.isMedia && !root.controller.mediaAvailable
                 name: "search"
                 size: root.iconSize
                 color: Theme.surfaceTextMedium
             }
 
-            DankIcon {
+            DIcon {
                 visible: group.isWeather
                 name: WeatherService.getWeatherIcon(WeatherService.weather.wCode)
                 size: root.statusIconSize
@@ -360,7 +361,7 @@ Item {
                 font.pixelSize: root.textSize
             }
 
-            DankIcon {
+            DIcon {
                 visible: group.isNotifications
                 name: "notifications"
                 size: root.statusIconSize
@@ -374,7 +375,7 @@ Item {
                 font.pixelSize: root.textSize
             }
 
-            DankIcon {
+            DIcon {
                 visible: group.isSystemLevel && (group.vertical || group.levelDisplay !== "percentage")
                 name: group.isVolume ? AudioService.sinkVolumeIconName : BrightnessService.brightnessIconName(root.brightnessDevice, BrightnessService.brightnessLevel)
                 size: root.statusIconSize
@@ -434,7 +435,7 @@ Item {
                 }
             }
 
-            DankIcon {
+            DIcon {
                 visible: group.isStatus && !group.usesBattery && !group.usesConnectivity
                 name: "tune"
                 size: root.iconSize

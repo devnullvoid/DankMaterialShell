@@ -2,7 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 BasePill {
     id: layout
@@ -57,7 +57,7 @@ BasePill {
                 anchors.centerIn: parent
                 spacing: 1
 
-                DankIcon {
+                DIcon {
                     name: layout.getLayoutIcon(layout.currentLayoutSymbol)
                     size: Theme.barIconSize(layout.barThickness, undefined, layout.barConfig?.maximizeWidgetIcons, root.barConfig?.iconScale)
                     color: layout.contentColor
@@ -78,7 +78,7 @@ BasePill {
                 anchors.centerIn: parent
                 spacing: (barConfig?.noBackground ?? false) ? 1 : 2
 
-                DankIcon {
+                DIcon {
                     name: layout.getLayoutIcon(layout.currentLayoutSymbol)
                     size: Theme.barIconSize(layout.barThickness, -4, layout.barConfig?.maximizeWidgetIcons, root.barConfig?.iconScale)
                     color: layout.contentColor

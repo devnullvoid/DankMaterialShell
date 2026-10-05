@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 import qs.Modules.DankDash.Weather
 import qs.Modules.ControlCenter.Widgets
@@ -292,14 +292,14 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingS
 
-            DankRefreshButton {
+            DRefreshButton {
                 id: refreshButton
                 busy: WeatherService.weather.loading
                 Accessible.name: I18n.tr("Refresh Weather")
                 onClicked: WeatherService.forceRefresh()
             }
 
-            DankButton {
+            DButton {
                 text: I18n.tr("Settings")
                 iconName: "settings"
                 onClicked: {

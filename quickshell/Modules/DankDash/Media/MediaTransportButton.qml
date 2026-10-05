@@ -4,9 +4,9 @@ import QtQuick
 import Quickshell.Services.Mpris
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
-DankIconButton {
+DIconButton {
     id: root
 
     required property var player

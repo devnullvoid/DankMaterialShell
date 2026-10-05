@@ -3,9 +3,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
-import "../../../DankCommon/Common/FocusNavigation.js" as FocusNavigation
+import "../../../DCommon/Common/FocusNavigation.js" as FocusNavigation
 
 Item {
     id: root
@@ -26,7 +26,7 @@ Item {
 
     Keys.onPressed: event => event.accepted = FocusNavigation.handleHorizontalKey(event, focusTargets, I18n.isRtl)
 
-    DankRingGauge {
+    DRingGauge {
         id: volumeRing
 
         anchors.left: parent.left
@@ -42,7 +42,7 @@ Item {
         trackColor: MediaAccentService.accentTrack
         animated: root.player.live
 
-        DankActionButton {
+        DActionButton {
             id: volumeButton
 
             readonly property string panelId: "volume"
@@ -63,7 +63,7 @@ Item {
         }
     }
 
-    DankButton {
+    DButton {
         id: deviceChip
 
         readonly property string panelId: "devices"
@@ -85,7 +85,7 @@ Item {
         MediaSinkWheel {}
     }
 
-    DankActionButton {
+    DActionButton {
         id: deviceIcon
 
         readonly property string panelId: "devices"

@@ -4,10 +4,11 @@ import QtQuick
 import QtQuick.Shapes
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import "BatteryHistory.js" as History
 
-DankCard {
+DCard {
     id: root
 
     property var samples: []
@@ -131,7 +132,7 @@ DankCard {
                 LayoutMirroring.enabled: false
                 LayoutMirroring.childrenInherit: true
 
-                DankActionButton {
+                DActionButton {
                     buttonSize: Theme.buttonHeightXS
                     iconName: "chevron_left"
                     Accessible.name: I18n.tr("Previous")
@@ -139,7 +140,7 @@ DankCard {
                     onClicked: root.scrollTo(timeline.contentX - timeline.width)
                 }
 
-                DankActionButton {
+                DActionButton {
                     buttonSize: Theme.buttonHeightXS
                     iconName: "today"
                     Accessible.name: I18n.tr("Today")
@@ -147,7 +148,7 @@ DankCard {
                     onClicked: root.showLatest()
                 }
 
-                DankActionButton {
+                DActionButton {
                     buttonSize: Theme.buttonHeightXS
                     iconName: "chevron_right"
                     Accessible.name: I18n.tr("Next")
@@ -176,7 +177,7 @@ DankCard {
                 }
             }
 
-            DankFlickable {
+            DFlickable {
                 id: timeline
                 width: parent.width - percentLabel.implicitWidth - Theme.spacingS
                 height: parent.height
@@ -224,7 +225,7 @@ DankCard {
                     Repeater {
                         model: root.segments
 
-                        DankSparkline {
+                        DSparkline {
                             required property var modelData
                             anchors.fill: parent
                             values: modelData.samples.map(sample => sample[1])

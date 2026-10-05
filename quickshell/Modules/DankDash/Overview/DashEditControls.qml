@@ -2,8 +2,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
-import qs.Widgets
-import "../../../DankCommon/Common/FocusNavigation.js" as FocusNavigation
+import qs.DCommon.Widgets
+import "../../../DCommon/Common/FocusNavigation.js" as FocusNavigation
 
 Item {
     id: root
@@ -56,7 +56,7 @@ Item {
 
     onVisibleChanged: cancelConfirmation()
 
-    component EditButton: DankButton {
+    component EditButton: DButton {
         property string label: ""
         text: root.vertical ? "" : label
         tooltipText: root.vertical ? label : null
@@ -100,7 +100,7 @@ Item {
         event.accepted = true;
     }
 
-    DankFlickable {
+    DFlickable {
         id: viewport
         anchors.fill: parent
         anchors.margins: -root.focusPadding

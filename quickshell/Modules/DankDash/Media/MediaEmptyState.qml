@@ -3,8 +3,8 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Shapes
 import qs.Common
-import qs.Widgets
-import qs.DankCommon.Common as DankCommon
+import qs.DCommon.Widgets
+import qs.DCommon.Common as DCommon
 
 Item {
     id: root
@@ -47,7 +47,7 @@ Item {
             width: parent.width
             text: I18n.tr("No media found.", "Media player empty state when no player is running")
             color: root.inkColor
-            fontToken: DankCommon.Fonts.gochiHand
+            fontToken: DCommon.Fonts.gochiHand
             font.pixelSize: root.textSize
             horizontalAlignment: Text.AlignHCenter
         }

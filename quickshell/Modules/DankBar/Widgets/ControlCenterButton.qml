@@ -4,7 +4,7 @@ import Quickshell
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 BasePill {
     id: root
@@ -490,7 +490,7 @@ BasePill {
                             root.refreshInteractionRefs();
                         }
 
-                        DankIcon {
+                        DIcon {
                             id: vIconOnlyItem
                             anchors.centerIn: parent
                             visible: !verticalGroupItem.modelData.composite
@@ -540,13 +540,13 @@ BasePill {
                                 }
                             }
 
-                            DankBlink {
+                            DBlink {
                                 target: vIconOnlyItem
                                 running: root.surfaceLive && root.getIconBlinking(verticalGroupItem.modelData.id)
                             }
                         }
 
-                        DankIcon {
+                        DIcon {
                             id: audioIconV
                             visible: verticalGroupItem.modelData.id === "audio"
                             name: AudioService.sinkVolumeIconName
@@ -568,7 +568,7 @@ BasePill {
                             anchors.topMargin: 2
                         }
 
-                        DankIcon {
+                        DIcon {
                             id: micIconV
                             visible: verticalGroupItem.modelData.id === "microphone"
                             name: root.getMicIconName()
@@ -590,7 +590,7 @@ BasePill {
                             anchors.topMargin: 2
                         }
 
-                        DankIcon {
+                        DIcon {
                             id: brightnessIconV
                             visible: verticalGroupItem.modelData.id === "brightness"
                             name: root.getBrightnessIconName()
@@ -619,7 +619,7 @@ BasePill {
                     height: root.vIconSize
                     visible: root.hasNoVisibleIcons()
 
-                    DankIcon {
+                    DIcon {
                         name: "settings"
                         size: root.vIconSize
                         color: root.isActive ? Theme.primary : Theme.widgetIconColor
@@ -674,7 +674,7 @@ BasePill {
                             root.refreshInteractionRefs();
                         }
 
-                        DankIcon {
+                        DIcon {
                             id: iconOnlyItem
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.left: parent.left
@@ -725,7 +725,7 @@ BasePill {
                                 }
                             }
 
-                            DankBlink {
+                            DBlink {
                                 target: iconOnlyItem
                                 running: root.surfaceLive && root.getIconBlinking(horizontalGroupItem.modelData.id)
                             }
@@ -747,7 +747,7 @@ BasePill {
                                 anchors.verticalCenter: parent.verticalCenter
                                 spacing: Theme.spacingXXS
 
-                                DankIcon {
+                                DIcon {
                                     id: audioIcon
                                     name: AudioService.sinkVolumeIconName
                                     size: root.getControlCenterIconSize()
@@ -784,7 +784,7 @@ BasePill {
                                 anchors.verticalCenter: parent.verticalCenter
                                 spacing: Theme.spacingXXS
 
-                                DankIcon {
+                                DIcon {
                                     id: micIcon
                                     name: root.getMicIconName()
                                     size: root.getControlCenterIconSize()
@@ -821,7 +821,7 @@ BasePill {
                                 anchors.verticalCenter: parent.verticalCenter
                                 spacing: Theme.spacingXXS
 
-                                DankIcon {
+                                DIcon {
                                     id: brightnessIcon
                                     name: root.getBrightnessIconName()
                                     size: root.getControlCenterIconSize()
@@ -844,7 +844,7 @@ BasePill {
                     }
                 }
 
-                DankIcon {
+                DIcon {
                     name: "settings"
                     size: root.getControlCenterIconSize()
                     color: root.isActive ? Theme.primary : Theme.widgetIconColor

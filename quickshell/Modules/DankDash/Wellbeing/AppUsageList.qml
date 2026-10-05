@@ -3,12 +3,12 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 import qs.Modules.ControlCenter.Widgets
 import "Wellbeing.js" as Wellbeing
 
-DankCard {
+DCard {
     id: root
 
     property var days: []
@@ -63,7 +63,7 @@ DankCard {
             elide: Text.ElideRight
         }
 
-        DankButtonGroup {
+        DButtonGroup {
             id: periodGroup
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
@@ -119,7 +119,7 @@ DankCard {
     Component {
         id: scrolling
 
-        DankListView {
+        DListView {
             clip: true
             spacing: Theme.groupedListGap
             showScrollBar: false
@@ -131,7 +131,7 @@ DankCard {
         }
     }
 
-    component AppRow: DankListItem {
+    component AppRow: DListItem {
         id: row
 
         required property var modelData
@@ -210,7 +210,7 @@ DankCard {
             color: row.overLimit ? Theme.error : row.contentColor
         }
 
-        DankActionButton {
+        DActionButton {
             id: limitButton
             anchors.right: parent.right
             anchors.rightMargin: Theme.spacingS

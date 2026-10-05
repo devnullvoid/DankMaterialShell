@@ -1,6 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import "../../../Common/Format.js" as Format
 
@@ -184,13 +185,13 @@ Column {
         spacing: Theme.spacingS
         layoutDirection: Qt.RightToLeft
 
-        DankButton {
+        DButton {
             text: I18n.tr("Close")
             buttonHeight: Theme.buttonHeightS
             onClicked: root.closeRequested()
         }
 
-        DankButton {
+        DButton {
             text: I18n.tr("Delete")
             iconName: "delete"
             buttonHeight: Theme.buttonHeightS
@@ -200,7 +201,7 @@ Column {
             onClicked: root.deleteRequested()
         }
 
-        DankButton {
+        DButton {
             text: I18n.tr("Edit")
             iconName: "edit"
             buttonHeight: Theme.buttonHeightS
@@ -261,7 +262,7 @@ Column {
             anchors.rightMargin: Theme.spacingXS
             spacing: Theme.spacingXS
 
-            DankIcon {
+            DIcon {
                 name: detailRow.iconName
                 size: Theme.iconSizeSmall
                 color: detailRow.link ? Theme.primary : Theme.onSurfaceVariant

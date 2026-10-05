@@ -4,11 +4,12 @@ import Quickshell
 import Quickshell.Widgets
 import qs.Common
 import qs.Modals.FileBrowser
-import qs.DankCommon.FileBrowser as FB
+import qs.DCommon.FileBrowser as FB
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.ControlCenter.Widgets
 import qs.Modules.DankDash
-import "../../DankCommon/Common/FocusNavigation.js" as FocusNavigation
+import "../../DCommon/Common/FocusNavigation.js" as FocusNavigation
 
 Item {
     id: root
@@ -721,7 +722,7 @@ Item {
                 }
             }
 
-            DankSpinner {
+            DSpinner {
                 anchors.centerIn: parent
                 size: DashMetrics.spinnerSize
                 visible: wallpaperFolderModel.status === FolderListModel.Loading && wallpaperFolderModel.count === 0
@@ -733,7 +734,7 @@ Item {
                 iconName: root.searchQuery.trim() !== "" ? "search_off" : "wallpaper"
                 title: root.searchQuery.trim() !== "" ? I18n.tr("No results found") : I18n.tr("No wallpapers")
 
-                DankButton {
+                DButton {
                     anchors.horizontalCenter: parent.horizontalCenter
                     text: I18n.tr("Choose wallpaper folder")
                     visible: root.searchQuery.trim() === ""
@@ -765,7 +766,7 @@ Item {
                         onClicked: root.currentPage = (root.currentPage - 1 + root.totalPages) % root.totalPages
                     }
 
-                    DankButton {
+                    DButton {
                         id: pageButton
                         anchors.verticalCenter: parent.verticalCenter
                         text: root.wallpaperCount > 0 ? (root.wallpaperCount === 1 ? I18n.tr("%1 wallpaper  •  %2 / %3", "singular, %1 is 1, %2 current page, %3 total pages").arg(root.wallpaperCount).arg(root.currentPage + 1).arg(root.totalPages) : I18n.tr("%1 wallpapers  •  %2 / %3", "plural, %1 is a count, %2 current page, %3 total pages").arg(root.wallpaperCount).arg(root.currentPage + 1).arg(root.totalPages)) : I18n.tr("No wallpapers")
@@ -866,7 +867,7 @@ Item {
                             onClicked: root.focusSearch()
                         }
 
-                        DankSearchField {
+                        DSearchField {
                             id: wallpaperSearchField
 
                             anchors.fill: parent
@@ -979,7 +980,7 @@ Item {
                 color: Theme.onSurfaceVariant
             }
 
-            DankTextField {
+            DTextField {
                 id: pageJumpField
                 width: parent.width
                 placeholderText: "1 - " + root.totalPages
@@ -995,14 +996,14 @@ Item {
         }
     }
 
-    component FooterButton: DankActionButton {
+    component FooterButton: DActionButton {
         anchors.verticalCenter: parent.verticalCenter
         iconSize: DashMetrics.wallpaperControlIconSize
         buttonSize: DashMetrics.wallpaperControlSize
         tooltipSide: "top"
     }
 
-    component SearchButton: DankActionButton {
+    component SearchButton: DActionButton {
         anchors.verticalCenter: parent.verticalCenter
         z: 2
         iconSize: Theme.iconSizeSmall

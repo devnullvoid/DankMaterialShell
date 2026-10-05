@@ -1,6 +1,6 @@
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 
 // Every island dash face wears the M3 sheet handle instead of a title row: the compact pill already names the page.
 Item {

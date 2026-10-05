@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 Rectangle {
     id: root
@@ -145,7 +145,7 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: Theme.spacingS
 
-        DankFlickable {
+        DFlickable {
             id: actionsFlickable
             anchors.left: parent.left
             anchors.right: tabHint.left
@@ -167,7 +167,7 @@ Rectangle {
                     id: actionRepeater
                     model: root.actions
 
-                    DankButton {
+                    DButton {
                         id: actionButton
                         required property var modelData
                         required property int index
@@ -191,7 +191,7 @@ Rectangle {
             }
         }
 
-        DankKeycap {
+        DKeycap {
             id: tabHint
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter

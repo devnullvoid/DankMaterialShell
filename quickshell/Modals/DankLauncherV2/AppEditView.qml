@@ -1,7 +1,7 @@
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 
 FocusScope {
     id: root
@@ -73,7 +73,7 @@ FocusScope {
                 radius: Theme.cornerRadius
                 color: backButtonArea.containsMouse ? Theme.surfaceHover : Theme.withAlpha(Theme.surfaceHover, 0)
 
-                DankIcon {
+                DIcon {
                     anchors.centerIn: parent
                     name: "arrow_back"
                     size: Theme.iconSizeMedium
@@ -124,7 +124,7 @@ FocusScope {
             color: Theme.outlineMedium
         }
 
-        DankFlickable {
+        DFlickable {
             width: parent.width
             height: parent.height - y - buttonsRow.height - Theme.spacingM
             contentHeight: editFieldsColumn.height
@@ -147,7 +147,7 @@ FocusScope {
                         font.weight: Theme.fontWeightMedium
                     }
 
-                    DankTextField {
+                    DTextField {
                         id: editNameField
                         width: parent.width
                         placeholderText: root.editingApp?.name || ""
@@ -167,7 +167,7 @@ FocusScope {
                         font.weight: Theme.fontWeightMedium
                     }
 
-                    DankTextField {
+                    DTextField {
                         id: editIconField
                         width: parent.width
                         placeholderText: root.editingApp?.icon || ""
@@ -187,7 +187,7 @@ FocusScope {
                         font.weight: Theme.fontWeightMedium
                     }
 
-                    DankTextField {
+                    DTextField {
                         id: editCommentField
                         width: parent.width
                         placeholderText: root.editingApp?.comment || ""
@@ -213,7 +213,7 @@ FocusScope {
                         color: Theme.onSurfaceVariant
                     }
 
-                    DankTextField {
+                    DTextField {
                         id: editEnvVarsField
                         width: parent.width
                         placeholderText: "VAR=value"
@@ -233,7 +233,7 @@ FocusScope {
                         font.weight: Theme.fontWeightMedium
                     }
 
-                    DankTextField {
+                    DTextField {
                         id: editExtraFlagsField
                         width: parent.width
                         placeholderText: "--flag --option=value"
@@ -249,7 +249,7 @@ FocusScope {
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: Theme.spacingM
 
-            DankButton {
+            DButton {
                 text: I18n.tr("Reset", "verb, button that restores defaults")
                 backgroundColor: Theme.chipSurface
                 textColor: Theme.error
@@ -257,14 +257,14 @@ FocusScope {
                 onClicked: root.resetAppOverride()
             }
 
-            DankButton {
+            DButton {
                 text: I18n.tr("Cancel")
                 backgroundColor: Theme.chipSurface
                 textColor: Theme.onSurface
                 onClicked: root.closeRequested()
             }
 
-            DankButton {
+            DButton {
                 text: I18n.tr("Save")
                 onClicked: root.saveAppOverride()
             }

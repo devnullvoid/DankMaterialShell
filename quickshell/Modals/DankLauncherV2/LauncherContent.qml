@@ -4,6 +4,7 @@ import QtQuick
 import QtQuick.Layouts
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modals.DankLauncherV2.Components
 
@@ -348,7 +349,7 @@ FocusScope {
                 border.color: Theme.outlineMedium
                 radius: Theme.windowRadius
             }
-            DankFilterChips {
+            DFilterChips {
                 id: modeChips
                 anchors.left: parent.left
                 anchors.leftMargin: Theme.spacingM
@@ -659,7 +660,7 @@ FocusScope {
                         }
                     }
 
-                    DankTextField {
+                    DTextField {
                         id: extFilterField
                         Layout.fillWidth: true
                         Layout.preferredWidth: 1

@@ -2,7 +2,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 
 Item {
     id: root
@@ -26,7 +26,7 @@ Item {
             height: 46
             spacing: Theme.spacingM
 
-            DankCircularImage {
+            DCircularImage {
                 anchors.verticalCenter: parent.verticalCenter
                 width: 46
                 height: 46
@@ -59,7 +59,7 @@ Item {
                 }
             }
 
-            DankActionButton {
+            DActionButton {
                 id: closeButton
 
                 anchors.verticalCenter: parent.verticalCenter
@@ -115,7 +115,7 @@ Item {
             height: 34
             spacing: Theme.spacingS
 
-            DankButton {
+            DButton {
                 height: parent.height
                 radius: Theme.fullRadius(width, height)
                 text: I18n.tr("Dismiss", "island notification face: dismiss button")
@@ -128,7 +128,7 @@ Item {
                 onClicked: root.notificationModel.dismiss()
             }
 
-            DankButton {
+            DButton {
                 visible: root.notificationModel.hasAction
                 height: parent.height
                 radius: Theme.fullRadius(width, height)

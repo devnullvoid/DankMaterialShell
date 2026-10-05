@@ -1,9 +1,9 @@
 import QtQuick
 import qs.Common
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.DankDash
 
-DankCard {
+DCard {
     id: root
 
     property Item focusTarget: clickable ? root : null

@@ -3,7 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modules.ControlCenter.Widgets
 import qs.Modules.DankDash.Overview
 import qs.Modules.Settings.DesktopWidgetSettings
@@ -108,7 +108,7 @@ FocusScope {
         }
     }
 
-    DankBottomSheet {
+    DBottomSheet {
         id: optionsSheet
 
         property string instanceId: ""
@@ -150,7 +150,7 @@ FocusScope {
             anchors.centerIn: parent
             spacing: Theme.spacingS
 
-            DankIcon {
+            DIcon {
                 anchors.verticalCenter: parent.verticalCenter
                 name: root.greeter ? "login" : "lock"
                 size: Theme.iconSizeMedium

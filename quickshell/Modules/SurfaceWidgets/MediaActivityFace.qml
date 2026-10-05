@@ -5,6 +5,7 @@ import Quickshell
 import qs.Common
 import qs.Modules.DankBar.Widgets
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 Item {

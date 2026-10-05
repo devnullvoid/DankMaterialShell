@@ -2,6 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.Plugins
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 
 BasePill {
@@ -20,7 +21,7 @@ BasePill {
             implicitWidth: icon.width
             implicitHeight: root.contentThickness
 
-            DankIcon {
+            DIcon {
                 id: icon
 
                 name: DMSNetworkService.connected ? "vpn_lock" : "vpn_key_off"

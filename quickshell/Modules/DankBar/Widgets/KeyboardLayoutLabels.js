@@ -1,5 +1,5 @@
 .pragma library
-.import "../../../DankCommon/Common/LayoutCodes.js" as LayoutCodes
+.import "../../../DCommon/Common/LayoutCodes.js" as LayoutCodes
 
 // Overrides are keyed by whatever string would otherwise be displayed, so the same
 // map applies after any compositor-specific shortening (compact vs. vertical mode).

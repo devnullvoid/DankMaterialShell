@@ -2,7 +2,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
-import qs.Widgets
 import qs.Modules.Plugins
 import qs.Modules.Dock
 import qs.Modules.SurfaceWidgets

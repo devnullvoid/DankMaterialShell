@@ -1,5 +1,6 @@
 import QtQuick
 import qs.Common
+import qs.DCommon.Widgets
 import "../Common/KeyUtils.js" as KeyUtils
 
 Item {
@@ -65,7 +66,7 @@ Item {
                             Repeater {
                                 model: KeyUtils.formatKeyTokens(combo.modelData)
 
-                                DankKeycap {
+                                DKeycap {
                                     required property string modelData
 
                                     text: modelData

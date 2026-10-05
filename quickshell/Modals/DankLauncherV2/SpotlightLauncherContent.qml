@@ -4,7 +4,7 @@ import QtQuick
 import Quickshell.Widgets
 import qs.Common
 import qs.Services
-import qs.Widgets
+import qs.DCommon.Widgets
 import qs.Modals.DankLauncherV2.Components
 
 FocusScope {

@@ -2,6 +2,7 @@ import QtQuick
 import qs.Common
 import qs.Modules.DankBar.Widgets
 import qs.Modules.Notifications
+import qs.DCommon.Widgets
 import qs.Widgets
 
 DankPopout {
@@ -62,7 +63,7 @@ DankPopout {
                         id: optionRepeater
                         model: root.presets.presetOptions
 
-                        DankListItem {
+                        DListItem {
                             required property var modelData
                             required property int index
 
@@ -89,7 +90,7 @@ DankPopout {
                         }
                     }
 
-                    DankListItem {
+                    DListItem {
                         id: turnOffRow
                         width: optionList.width
                         implicitHeight: Theme.listItemTwoLineHeight
@@ -111,7 +112,7 @@ DankPopout {
                             anchors.verticalCenter: parent.verticalCenter
                             spacing: Theme.spacingS
 
-                            DankIcon {
+                            DIcon {
                                 id: turnOffIcon
                                 name: "power_settings_new"
                                 size: Theme.iconSizeSmall

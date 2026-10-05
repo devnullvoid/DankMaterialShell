@@ -1,3 +1,8 @@
-import qs.DankCommon.Widgets as DankCommon
+import QtQuick
+import qs.Common
+import qs.DCommon.Widgets as DCommon
 
-DankCommon.DankNavigationBar {}
+DCommon.DNavigationBar {
+    id: shim
+    Component.onCompleted: Deprecation.type(shim, "DankNavigationBar", "DNavigationBar", "qs.DCommon.Widgets")
+}

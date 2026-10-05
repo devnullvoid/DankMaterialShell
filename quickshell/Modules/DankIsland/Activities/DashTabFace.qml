@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import qs.Common
 import qs.Services
+import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.DankDash
 import qs.Modules.DankDash.Overview
@@ -178,7 +179,7 @@ FocusScope {
         }
     }
 
-    DankFlickable {
+    DFlickable {
         id: pages
         enabled: !tabOptions.shown && !pageActions.menuOpen
         showScrollBar: false
@@ -241,7 +242,7 @@ FocusScope {
         onResizeCanceled: root.panelResizer.cancel()
     }
 
-    DankSpinner {
+    DSpinner {
         anchors.centerIn: pages
         size: DashMetrics.spinnerSize
         visible: !tabLoader.visible
