@@ -152,6 +152,7 @@
       "apps",
       "autostart",
       "default",
+      "defaults",
       "floating",
       "matching",
       "open",
@@ -163,7 +164,8 @@
       "window",
       "windows"
     ],
-    "icon": "apps"
+    "icon": "apps",
+    "description": "Defaults, autostart, rules"
   },
   {
     "section": "aqueousCursor",
@@ -843,15 +845,18 @@
     "category": "Date, time & region",
     "keywords": [
       "climate",
+      "clock",
       "date,",
       "forecast",
       "locale",
       "region",
       "temperature",
       "time",
+      "watch",
       "weather"
     ],
-    "icon": "schedule"
+    "icon": "schedule",
+    "description": "Clock, weather, locale"
   },
   {
     "section": "selectedMonitor",
@@ -895,18 +900,23 @@
       "display",
       "displays",
       "gamma",
+      "layout",
+      "mode",
       "monitor",
       "monitors",
+      "night",
       "night light",
       "output",
       "outputs",
       "redshift",
       "resolution",
+      "scale",
       "screen",
       "screens",
       "setup"
     ],
-    "icon": "monitor"
+    "icon": "monitor",
+    "description": "Layout, scale, night mode"
   },
   {
     "section": "doNotDisturb",
@@ -945,27 +955,20 @@
       "advanced",
       "appearance",
       "apps",
-      "auto-hide",
-      "autohide",
       "components",
       "dock",
       "general",
-      "hidden",
-      "hide",
       "launcher bar",
       "modules",
       "panel",
       "pinned",
       "position",
-      "show",
       "taskbar",
       "trash",
-      "visibility",
-      "visible",
       "widgets"
     ],
     "icon": "dock_to_bottom",
-    "description": "Visibility, position, pinned apps, trash"
+    "description": "Position, pinned apps, trash"
   },
   {
     "section": "dockConfiguration",
@@ -1445,7 +1448,8 @@
       "shortcuts",
       "touchpad"
     ],
-    "icon": "keyboard"
+    "icon": "keyboard",
+    "description": "Shortcuts, keyboard, mouse"
   },
   {
     "section": "blurLayerOutlineOpacity",
@@ -1721,6 +1725,7 @@
       "wireless"
     ],
     "icon": "wifi",
+    "description": "Wi-Fi, Ethernet, VPN",
     "conditionKey": "networkAvailable"
   },
   {
@@ -2422,7 +2427,8 @@
       "system",
       "updates"
     ],
-    "icon": "memory"
+    "icon": "memory",
+    "description": "Updates and clipboard"
   },
   {
     "section": "themeNav",
@@ -2743,7 +2749,8 @@
       "tint",
       "wallpaper"
     ],
-    "icon": "wallpaper"
+    "icon": "wallpaper",
+    "description": "Theme, palette, dark mode"
   },
   {
     "section": "clockDateFormat",
@@ -6202,13 +6209,12 @@
       "launcher",
       "menu",
       "search",
-      "shortcuts",
       "start",
       "start menu",
       "style"
     ],
     "icon": "grid_view",
-    "description": "Style, shortcuts, search, hidden apps"
+    "description": "Style, search, hidden apps"
   },
   {
     "section": "launcherLaunching",
@@ -7686,17 +7692,14 @@
       "animate",
       "animation",
       "animations",
-      "family",
       "fonts",
       "motion",
       "scale",
-      "speed",
       "text",
-      "transition",
-      "weight"
+      "transition"
     ],
     "icon": "text_fields",
-    "description": "Family, weight, scale, animation speed"
+    "description": "Fonts, scale, animations"
   },
   {
     "section": "modalAnimationDuration",
@@ -9583,7 +9586,6 @@
       "configure",
       "modules",
       "panel",
-      "remove",
       "reorder",
       "settings",
       "statusbar",
@@ -9593,7 +9595,7 @@
       "widgets"
     ],
     "icon": "widgets",
-    "description": "Add, remove, reorder and configure"
+    "description": "Add, reorder, configure"
   },
   {
     "section": "barWidgetOption:BatteryOptions.qml:7",
@@ -11314,14 +11316,13 @@
       "monitors",
       "plugins",
       "settings",
-      "system",
       "time",
       "watch",
       "widget",
       "widgets"
     ],
     "icon": "widgets",
-    "description": "Clocks, system monitors, plugins"
+    "description": "Clocks, monitors, plugins"
   },
   {
     "section": "desktopWidgetGroups",
@@ -14351,10 +14352,8 @@
     "category": "Interface style",
     "keywords": [
       "blur",
-      "borders",
       "corners",
       "interface",
-      "opacity",
       "radius",
       "round",
       "rounded",
@@ -14362,7 +14361,7 @@
       "style"
     ],
     "icon": "layers",
-    "description": "Opacity, borders, blur, shadows, corners"
+    "description": "Blur, shadows, corners"
   },
   {
     "section": "matugenTemplateAlacritty",

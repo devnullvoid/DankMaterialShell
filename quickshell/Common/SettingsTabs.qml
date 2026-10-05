@@ -15,6 +15,7 @@ Singleton {
             "id": "personalization",
             "text": I18n.tr("Wallpaper & colors"),
             "icon": "wallpaper",
+            "hint": I18n.tr("Theme, palette, dark mode", "settings sidebar hint for the wallpaper and colors page"),
             "tabIndex": 0,
             "hubHeader": "WallpaperColorsTab",
             "aliases": ["wallpaper", "theme_cursor_icons"],
@@ -67,7 +68,7 @@ Singleton {
             "icon": "layers",
             "tabIndex": 48,
             "hubHeader": "ThemeSurfacesTab",
-            "hint": I18n.tr("Opacity, borders, blur, shadows, corners"),
+            "hint": I18n.tr("Blur, shadows, corners", "settings sidebar hint for the interface style page"),
             "children": [
                 {
                     "id": "surface_shadows",
@@ -84,7 +85,7 @@ Singleton {
             "text": I18n.tr("Fonts & motion"),
             "icon": "text_fields",
             "tabIndex": 14,
-            "hint": I18n.tr("Family, weight, scale, animation speed")
+            "hint": I18n.tr("Fonts, scale, animations", "settings sidebar hint for the fonts and motion page")
         },
         {
             "id": "separator_1",
@@ -133,7 +134,7 @@ Singleton {
             "tabIndex": 22,
             "hubHeader": "WidgetsTab",
             "aliases": ["workspaces", "workspaces_widgets"],
-            "hint": I18n.tr("Add, remove, reorder and configure"),
+            "hint": I18n.tr("Add, reorder, configure", "settings sidebar hint for the bar widgets page"),
             "children": [
                 {
                     "id": "bar_widget",
@@ -152,7 +153,7 @@ Singleton {
             "aliases": ["desktop", "dock_launcher"],
             "icon": "dock_to_bottom",
             "hubHeader": "DockHubHeader",
-            "hint": I18n.tr("Visibility, position, pinned apps, trash"),
+            "hint": I18n.tr("Position, pinned apps, trash", "settings sidebar hint for the dock page"),
             "children": [
                 {
                     "id": "dock_general",
@@ -190,7 +191,7 @@ Singleton {
             "text": I18n.tr("Launcher"),
             "icon": "grid_view",
             "tabIndex": 9,
-            "hint": I18n.tr("Style, shortcuts, search, hidden apps")
+            "hint": I18n.tr("Style, search, hidden apps", "settings sidebar hint for the launcher page")
         },
         {
             "id": "dank_dash",
@@ -206,7 +207,7 @@ Singleton {
             "icon": "widgets",
             "tabIndex": 27,
             "hubHeader": "DesktopWidgetsTab",
-            "hint": I18n.tr("Clocks, system monitors, plugins"),
+            "hint": I18n.tr("Clocks, monitors, plugins", "settings sidebar hint for the desktop widgets page"),
             "children": [
                 {
                     "id": "desktop_widget",
@@ -246,7 +247,7 @@ Singleton {
             "text": I18n.tr("On-screen displays"),
             "icon": "picture_in_picture",
             "tabIndex": 18,
-            "hint": I18n.tr("Volume, brightness, caps lock, position")
+            "hint": I18n.tr("Volume, brightness, caps lock", "settings sidebar hint for the on-screen displays page")
         },
         {
             "id": "wellbeing",
@@ -293,6 +294,7 @@ Singleton {
             "id": "displays",
             "text": I18n.tr("Displays"),
             "icon": "monitor",
+            "hint": I18n.tr("Layout, scale, night mode", "settings sidebar hint for the displays page"),
             "children": [
                 {
                     "id": "display_config",
@@ -321,6 +323,7 @@ Singleton {
             "id": "input",
             "text": I18n.tr("Input", "noun, settings page name for input devices"),
             "icon": "keyboard",
+            "hint": I18n.tr("Shortcuts, keyboard, mouse", "settings sidebar hint for the input page"),
             "children": [
                 {
                     "id": "keybinds",
@@ -374,6 +377,7 @@ Singleton {
             "id": "network",
             "text": I18n.tr("Network", "noun, settings page and widget title"),
             "icon": "wifi",
+            "hint": I18n.tr("Wi-Fi, Ethernet, VPN", "settings sidebar hint for the network page"),
             "dmsOnly": true,
             "children": [
                 {
@@ -480,6 +484,7 @@ Singleton {
             "id": "applications",
             "text": I18n.tr("Applications"),
             "icon": "apps",
+            "hint": I18n.tr("Defaults, autostart, rules", "settings sidebar hint for the applications page"),
             "children": [
                 {
                     "id": "default_apps",
@@ -519,6 +524,7 @@ Singleton {
             "id": "date_time_region",
             "text": I18n.tr("Date, time & region"),
             "icon": "schedule",
+            "hint": I18n.tr("Clock, weather, locale", "settings sidebar hint for the date, time and region page"),
             "children": [
                 {
                     "id": "time_weather",
@@ -547,6 +553,7 @@ Singleton {
             "id": "system",
             "text": I18n.tr("System & integrations"),
             "icon": "memory",
+            "hint": I18n.tr("Updates and clipboard", "settings sidebar hint for the system and integrations page"),
             "children": [
                 {
                     "id": "updater",

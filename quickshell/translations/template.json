@@ -994,11 +994,11 @@
     "comment": ""
   },
   {
-    "term": "Add, remove, reorder and configure",
+    "term": "Add, reorder, configure",
     "translation": "",
-    "context": "Add, remove, reorder and configure",
+    "context": "Add, reorder, configure",
     "reference": "",
-    "comment": ""
+    "comment": "settings sidebar hint for the bar widgets page"
   },
   {
     "term": "Added in front of every app launch command",
@@ -1036,9 +1036,9 @@
     "comment": "create user admin toggle description, %1 is a group name"
   },
   {
-    "term": "Administrator access is required. Use the Sync button in Settings → Greeter to apply.",
+    "term": "Administrator access is required. Press Apply changes in Settings → Greeter.",
     "translation": "",
-    "context": "Administrator access is required. Use the Sync button in Settings → Greeter to apply.",
+    "context": "Administrator access is required. Press Apply changes in Settings → Greeter.",
     "reference": "",
     "comment": ""
   },
@@ -1496,13 +1496,6 @@
     "context": "Applications and commands to start automatically when you log in",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Applies on the next greeter sync",
-    "translation": "",
-    "context": "Applies on the next greeter sync",
-    "reference": "",
-    "comment": "greeter auth setting description"
   },
   {
     "term": "Applies the saved profile that matches the connected displays",
@@ -2555,6 +2548,13 @@
     "comment": ""
   },
   {
+    "term": "Blur, shadows, corners",
+    "translation": "",
+    "context": "Blur, shadows, corners",
+    "reference": "",
+    "comment": "settings sidebar hint for the interface style page"
+  },
+  {
     "term": "Blurred surfaces show the wallpaper, not the windows beneath",
     "translation": "",
     "context": "Blurred surfaces show the wallpaper, not the windows beneath",
@@ -2798,6 +2798,13 @@
     "context": "Built-in plugins",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "Bundled greeter active",
+    "translation": "",
+    "context": "Bundled greeter active",
+    "reference": "",
+    "comment": "greeter status"
   },
   {
     "term": "Button areas",
@@ -3570,11 +3577,18 @@
     "comment": ""
   },
   {
-    "term": "Clocks, system monitors, plugins",
+    "term": "Clock, weather, locale",
     "translation": "",
-    "context": "Clocks, system monitors, plugins",
+    "context": "Clock, weather, locale",
     "reference": "",
-    "comment": ""
+    "comment": "settings sidebar hint for the date, time and region page"
+  },
+  {
+    "term": "Clocks, monitors, plugins",
+    "translation": "",
+    "context": "Clocks, monitors, plugins",
+    "reference": "",
+    "comment": "settings sidebar hint for the desktop widgets page"
   },
   {
     "term": "Close",
@@ -5054,6 +5068,13 @@
     "comment": "niri output field label, default column width percent"
   },
   {
+    "term": "Defaults, autostart, rules",
+    "translation": "",
+    "context": "Defaults, autostart, rules",
+    "reference": "",
+    "comment": "settings sidebar hint for the applications page"
+  },
+  {
     "term": "Define rules for window behavior. Saves to %1",
     "translation": "",
     "context": "Define rules for window behavior. Saves to %1",
@@ -6116,6 +6137,34 @@
     "context": "Edit widgets",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "Editing the lock screen",
+    "translation": "",
+    "context": "Editing the lock screen",
+    "reference": "",
+    "comment": "widget editor banner"
+  },
+  {
+    "term": "Editing the lock screen, the login screen follows it",
+    "translation": "",
+    "context": "Editing the lock screen, the login screen follows it",
+    "reference": "",
+    "comment": "widget editor banner"
+  },
+  {
+    "term": "Editing the login screen",
+    "translation": "",
+    "context": "Editing the login screen",
+    "reference": "",
+    "comment": "widget editor banner"
+  },
+  {
+    "term": "Editing the login screen, shared with the lock screen",
+    "translation": "",
+    "context": "Editing the login screen, shared with the lock screen",
+    "reference": "",
+    "comment": "widget editor banner"
   },
   {
     "term": "Education",
@@ -7210,13 +7259,6 @@
     "comment": "font family dropdown label"
   },
   {
-    "term": "Family, weight, scale, animation speed",
-    "translation": "",
-    "context": "Family, weight, scale, animation speed",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Features",
     "translation": "",
     "context": "Features",
@@ -7672,6 +7714,13 @@
     "comment": ""
   },
   {
+    "term": "Follow lock screen",
+    "translation": "",
+    "context": "Follow lock screen",
+    "reference": "",
+    "comment": "greeter widgets toggle"
+  },
+  {
     "term": "Follow mouse",
     "translation": "",
     "context": "Follow mouse",
@@ -7726,6 +7775,13 @@
     "context": "Fonts & motion",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "Fonts, scale, animations",
+    "translation": "",
+    "context": "Fonts, scale, animations",
+    "reference": "",
+    "comment": "settings sidebar hint for the fonts and motion page"
   },
   {
     "term": "For %1",
@@ -10038,6 +10094,13 @@
     "comment": "settings hub hint for the bar pages"
   },
   {
+    "term": "Layout, scale, night mode",
+    "translation": "",
+    "context": "Layout, scale, night mode",
+    "reference": "",
+    "comment": "settings sidebar hint for the displays page"
+  },
+  {
     "term": "Layouts",
     "translation": "",
     "context": "Layouts",
@@ -10234,6 +10297,34 @@
     "comment": "plural, notepad status bar line count, %1 is a count"
   },
   {
+    "term": "Link your DMS settings so the login screen follows them.",
+    "translation": "",
+    "context": "Link your DMS settings so the login screen follows them.",
+    "reference": "",
+    "comment": "greeter status"
+  },
+  {
+    "term": "Link your DMS settings so the login screen follows them. Administrator access is required.",
+    "translation": "",
+    "context": "Link your DMS settings so the login screen follows them. Administrator access is required.",
+    "reference": "",
+    "comment": "greeter status"
+  },
+  {
+    "term": "Linked",
+    "translation": "",
+    "context": "Linked",
+    "reference": "",
+    "comment": "greeter status, login screen follows DMS settings live"
+  },
+  {
+    "term": "Linked as a snapshot",
+    "translation": "",
+    "context": "Linked as a snapshot",
+    "reference": "",
+    "comment": "greeter status, login screen reads a copy of DMS settings"
+  },
+  {
     "term": "List",
     "translation": "",
     "context": "List",
@@ -10428,6 +10519,13 @@
     "context": "Login screen appearance and authentication",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "Login screen unlinked.",
+    "translation": "",
+    "context": "Login screen unlinked.",
+    "reference": "",
+    "comment": "greeter unlink status"
   },
   {
     "term": "Long",
@@ -12621,6 +12719,13 @@
     "comment": "shared shortcuts option, shortcuts open where they normally would"
   },
   {
+    "term": "Not active",
+    "translation": "",
+    "context": "Not active",
+    "reference": "",
+    "comment": "greeter status, greetd does not run the DMS greeter"
+  },
+  {
     "term": "Not available",
     "translation": "",
     "context": "Not available",
@@ -12675,6 +12780,20 @@
     "context": "Not detected",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "Not installed",
+    "translation": "",
+    "context": "Not installed",
+    "reference": "",
+    "comment": "greeter status"
+  },
+  {
+    "term": "Not linked",
+    "translation": "",
+    "context": "Not linked",
+    "reference": "",
+    "comment": "greeter status, no greeter slot for this user"
   },
   {
     "term": "Not set",
@@ -12976,13 +13095,6 @@
     "context": "Opacity",
     "reference": "",
     "comment": "island settings: satellite background opacity slider"
-  },
-  {
-    "term": "Opacity, borders, blur, shadows, corners",
-    "translation": "",
-    "context": "Opacity, borders, blur, shadows, corners",
-    "reference": "",
-    "comment": ""
   },
   {
     "term": "Opaque",
@@ -14203,6 +14315,13 @@
     "comment": "greeter dock description"
   },
   {
+    "term": "Position, pinned apps, trash",
+    "translation": "",
+    "context": "Position, pinned apps, trash",
+    "reference": "",
+    "comment": "settings sidebar hint for the dock page"
+  },
+  {
     "term": "Possible override conflicts",
     "translation": "",
     "context": "Possible override conflicts",
@@ -14355,6 +14474,13 @@
     "context": "Preset widths (%)",
     "reference": "",
     "comment": "niri output field label, preset column width percents"
+  },
+  {
+    "term": "Press Apply changes to update the login screen",
+    "translation": "",
+    "context": "Press Apply changes to update the login screen",
+    "reference": "",
+    "comment": "greeter auth setting description"
   },
   {
     "term": "Press Ctrl+N or click 'New Session' to create one",
@@ -14679,6 +14805,13 @@
     "comment": "toast after saving a display profile, %1 is the profile name"
   },
   {
+    "term": "Profile sync failed.",
+    "translation": "",
+    "context": "Profile sync failed.",
+    "reference": "",
+    "comment": ""
+  },
+  {
     "term": "Profiles",
     "translation": "",
     "context": "Profiles",
@@ -14831,6 +14964,13 @@
     "context": "Rate",
     "reference": "",
     "comment": "noun, wifi network detail label, link speed in Mbps"
+  },
+  {
+    "term": "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.",
+    "translation": "",
+    "context": "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.",
+    "reference": "",
+    "comment": "greeter advanced action"
   },
   {
     "term": "Re-enter the password before saving.",
@@ -15708,6 +15848,13 @@
     "comment": "injected palettes settings description, the placeholders in braces and the $DMS_ variables stay as is"
   },
   {
+    "term": "Run full sync",
+    "translation": "",
+    "context": "Run full sync",
+    "reference": "",
+    "comment": "greeter advanced action"
+  },
+  {
     "term": "Run user templates",
     "translation": "",
     "context": "Run user templates",
@@ -16492,6 +16639,13 @@
     "comment": ""
   },
   {
+    "term": "Session",
+    "translation": "",
+    "context": "Session",
+    "reference": "",
+    "comment": "greeter session picker widget"
+  },
+  {
     "term": "Session filter",
     "translation": "",
     "context": "Session filter",
@@ -16546,6 +16700,13 @@
     "context": "Set under Theme & colors, Derived color",
     "reference": "",
     "comment": "Material seed card status"
+  },
+  {
+    "term": "Set up",
+    "translation": "",
+    "context": "Set up",
+    "reference": "",
+    "comment": "greeter setup button, links DMS settings to the login screen"
   },
   {
     "term": "Set up a Wi-Fi hotspot for sharing this connection.",
@@ -16686,6 +16847,13 @@
     "context": "Shortcuts (%1)",
     "reference": "",
     "comment": "plural, keybind list heading, %1 is a count"
+  },
+  {
+    "term": "Shortcuts, keyboard, mouse",
+    "translation": "",
+    "context": "Shortcuts, keyboard, mouse",
+    "reference": "",
+    "comment": "settings sidebar hint for the input page"
   },
   {
     "term": "Shortens the bar at both ends",
@@ -17752,6 +17920,13 @@
     "comment": "printer state reason"
   },
   {
+    "term": "Stops syncing your DMS settings to the greeter. Set up links them again.",
+    "translation": "",
+    "context": "Stops syncing your DMS settings to the greeter. Set up links them again.",
+    "reference": "",
+    "comment": "greeter advanced action"
+  },
+  {
     "term": "Stretch",
     "translation": "",
     "context": "Stretch",
@@ -17780,11 +17955,11 @@
     "comment": "noun, visual style option label for a widget or the dock"
   },
   {
-    "term": "Style, shortcuts, search, hidden apps",
+    "term": "Style, search, hidden apps",
     "translation": "",
-    "context": "Style, shortcuts, search, hidden apps",
+    "context": "Style, search, hidden apps",
     "reference": "",
-    "comment": ""
+    "comment": "settings sidebar hint for the launcher page"
   },
   {
     "term": "Success",
@@ -17997,13 +18172,6 @@
     "comment": "verb, button that copies settings to the login greeter"
   },
   {
-    "term": "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.",
-    "translation": "",
-    "context": "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Sync completed successfully.",
     "translation": "",
     "context": "Sync completed successfully.",
@@ -18049,13 +18217,6 @@
     "term": "Sync position across displays",
     "translation": "",
     "context": "Sync position across displays",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Sync to apply",
-    "translation": "",
-    "context": "Sync to apply",
     "reference": "",
     "comment": ""
   },
@@ -18340,6 +18501,13 @@
     "comment": ""
   },
   {
+    "term": "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.",
+    "translation": "",
+    "context": "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.",
+    "reference": "",
+    "comment": "greeter unlink status"
+  },
+  {
     "term": "Terminal fallback opened. Complete authentication there; it will close automatically when done.",
     "translation": "",
     "context": "Terminal fallback opened. Complete authentication there; it will close automatically when done.",
@@ -18536,6 +18704,27 @@
     "comment": ""
   },
   {
+    "term": "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.",
+    "translation": "",
+    "context": "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.",
+    "reference": "",
+    "comment": "greeter status"
+  },
+  {
+    "term": "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.",
+    "translation": "",
+    "context": "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.",
+    "reference": "",
+    "comment": "greeter widgets toggle"
+  },
+  {
+    "term": "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.",
+    "translation": "",
+    "context": "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.",
+    "reference": "",
+    "comment": "greeter unlink confirmation"
+  },
+  {
     "term": "The new shortcut is already in use. Choose another shortcut.",
     "translation": "",
     "context": "The new shortcut is already in use. Choose another shortcut.",
@@ -18669,6 +18858,13 @@
     "comment": ""
   },
   {
+    "term": "Theme, palette, dark mode",
+    "translation": "",
+    "context": "Theme, palette, dark mode",
+    "reference": "",
+    "comment": "settings sidebar hint for the wallpaper and colors page"
+  },
+  {
     "term": "Themes",
     "translation": "",
     "context": "Themes",
@@ -18772,6 +18968,13 @@
     "context": "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "This system cannot link settings live. Sync again after changing them.",
+    "translation": "",
+    "context": "This system cannot link settings live. Sync again after changing them.",
+    "reference": "",
+    "comment": "greeter status"
   },
   {
     "term": "This system was not started in UEFI mode",
@@ -19509,6 +19712,34 @@
     "comment": "island media face: fallback title"
   },
   {
+    "term": "Unlink",
+    "translation": "",
+    "context": "Unlink",
+    "reference": "",
+    "comment": "verb, greeter unlink button"
+  },
+  {
+    "term": "Unlink login screen",
+    "translation": "",
+    "context": "Unlink login screen",
+    "reference": "",
+    "comment": "greeter advanced action"
+  },
+  {
+    "term": "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.",
+    "translation": "",
+    "context": "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.",
+    "reference": "",
+    "comment": "greeter unlink status"
+  },
+  {
+    "term": "Unlink now?",
+    "translation": "",
+    "context": "Unlink now?",
+    "reference": "",
+    "comment": "greeter unlink second confirmation"
+  },
+  {
     "term": "Unload on close",
     "translation": "",
     "context": "Unload on close",
@@ -19696,6 +19927,13 @@
     "context": "Update the dms package with your package manager, then restart the shell.",
     "reference": "",
     "comment": "shown when the running shell is older than the installed dms binary"
+  },
+  {
+    "term": "Updates and clipboard",
+    "translation": "",
+    "context": "Updates and clipboard",
+    "reference": "",
+    "comment": "settings sidebar hint for the system and integrations page"
   },
   {
     "term": "Updating %1...",
@@ -20202,13 +20440,6 @@
     "comment": ""
   },
   {
-    "term": "Visibility, position, pinned apps, trash",
-    "translation": "",
-    "context": "Visibility, position, pinned apps, trash",
-    "reference": "",
-    "comment": ""
-  },
-  {
     "term": "Visible entry actions",
     "translation": "",
     "context": "Visible entry actions",
@@ -20272,11 +20503,11 @@
     "comment": "island settings: volume display mode row"
   },
   {
-    "term": "Volume, brightness, caps lock, position",
+    "term": "Volume, brightness, caps lock",
     "translation": "",
-    "context": "Volume, brightness, caps lock, position",
+    "context": "Volume, brightness, caps lock",
     "reference": "",
-    "comment": ""
+    "comment": "settings sidebar hint for the on-screen displays page"
   },
   {
     "term": "Votes",
@@ -20508,6 +20739,13 @@
     "context": "Wi-Fi not available",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "Wi-Fi, Ethernet, VPN",
+    "translation": "",
+    "context": "Wi-Fi, Ethernet, VPN",
+    "reference": "",
+    "comment": "settings sidebar hint for the network page"
   },
   {
     "term": "WiFi QR code for ",
@@ -20916,6 +21154,13 @@
     "comment": ""
   },
   {
+    "term": "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.",
+    "translation": "",
+    "context": "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.",
+    "reference": "",
+    "comment": "greeter unlink second confirmation"
+  },
+  {
     "term": "Your hotspot is running.",
     "translation": "",
     "context": "Your hotspot is running.",
@@ -21124,6 +21369,13 @@
     "context": "featured",
     "reference": "",
     "comment": "adjective, lowercase plugin badge"
+  },
+  {
+    "term": "greetd is not using the DMS greeter yet.",
+    "translation": "",
+    "context": "greetd is not using the DMS greeter yet.",
+    "reference": "",
+    "comment": "greeter status"
   },
   {
     "term": "khal",

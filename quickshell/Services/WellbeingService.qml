@@ -13,7 +13,7 @@ Singleton {
     id: root
 
     readonly property int idleTimeoutSeconds: 300
-    readonly property int summaryDays: Wellbeing.monthLength
+    readonly property int summaryDays: Wellbeing.retentionDays
     readonly property var ownAppIds: ["com.danklinux.dms", "org.quickshell", "quickshell"]
     readonly property bool available: DMSService.isConnected && DMSService.capabilities.includes("wellbeing")
     readonly property bool enabled: SettingsData.wellbeingEnabled

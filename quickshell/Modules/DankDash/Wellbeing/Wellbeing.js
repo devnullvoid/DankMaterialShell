@@ -3,6 +3,8 @@
 const secondsPerHour = 3600;
 const weekLength = 7;
 const monthLength = 30;
+const retentionDays = 92;
+const msPerDay = 86400000;
 
 function dateKey(date) {
     const pad = n => String(n).padStart(2, "0");
@@ -31,13 +33,35 @@ function byDate(days) {
     return map;
 }
 
-function weekDays(days, today, firstDayOfWeek) {
+function addDays(date, count) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate() + count);
+}
+
+function weekStart(anchor, firstDayOfWeek) {
+    return addDays(anchor, -((anchor.getDay() - firstDayOfWeek + weekLength) % weekLength));
+}
+
+function oldestWeekOffset(today, firstDayOfWeek) {
+    const current = weekStart(today, firstDayOfWeek);
+    const oldest = weekStart(addDays(today, 1 - retentionDays), firstDayOfWeek);
+    return -Math.round((current - oldest) / (weekLength * msPerDay));
+}
+
+function weeksBack(days, today, firstDayOfWeek) {
+    const count = 1 - oldestWeekOffset(today, firstDayOfWeek);
+    const weeks = [];
+    for (let i = 0; i < count; i++)
+        weeks.push(weekDays(days, addDays(today, (i - count + 1) * weekLength), firstDayOfWeek, today));
+    return weeks;
+}
+
+function weekDays(days, anchor, firstDayOfWeek, today) {
     const map = byDate(days);
-    const todayKey = dateKey(today);
-    const offset = (today.getDay() - firstDayOfWeek + weekLength) % weekLength;
+    const todayKey = dateKey(today ?? anchor);
+    const start = weekStart(anchor, firstDayOfWeek);
     const result = [];
     for (let i = 0; i < weekLength; i++) {
-        const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - offset + i);
+        const date = addDays(start, i);
         const key = dateKey(date);
         result.push({
             date: key,
@@ -51,14 +75,15 @@ function weekDays(days, today, firstDayOfWeek) {
     return result;
 }
 
-function periodDays(days, today, firstDayOfWeek, period) {
+function periodDays(days, anchor, firstDayOfWeek, period, today) {
+    const anchorKey = dateKey(anchor);
     switch (period) {
     case "day":
-        return weekDays(days, today, firstDayOfWeek).filter(day => day.today);
+        return weekDays(days, anchor, firstDayOfWeek, today).filter(day => day.date === anchorKey);
     case "week":
-        return weekDays(days, today, firstDayOfWeek).filter(day => !day.future);
+        return weekDays(days, anchor, firstDayOfWeek, today).filter(day => !day.future);
     default:
-        return Array.isArray(days) ? days.slice(-monthLength) : [];
+        return (Array.isArray(days) ? days : []).filter(day => day?.date <= anchorKey).slice(-monthLength);
     }
 }
 
@@ -102,6 +127,10 @@ function axis(peakSeconds) {
         top: top * secondsPerHour,
         ticks
     };
+}
+
+function monthDayFormat(shortDateFormat) {
+    return String(shortDateFormat).replace(/[^A-Za-z]*y+[^A-Za-z]*/, "");
 }
 
 function splitDuration(seconds) {

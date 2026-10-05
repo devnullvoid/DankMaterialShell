@@ -16,6 +16,8 @@ Item {
     property var parentModal: null
     property var days: []
 
+    readonly property date today: new Date()
+    readonly property date anchor: Wellbeing.addDays(today, chart.weekOffset * Wellbeing.weekLength)
     readonly property var limits: SettingsData.wellbeingAppLimits ?? {}
     readonly property var limitedApps: Object.keys(limits).filter(appId => Number(limits[appId]) > 0).sort((a, b) => WellbeingService.appName(a).localeCompare(WellbeingService.appName(b)))
     readonly property bool available: WellbeingService.available
@@ -51,11 +53,14 @@ Item {
             tags: ["wellbeing", "screen time", "chart", "week"]
 
             WeeklyChart {
+                id: chart
                 height: WellbeingMetrics.chartHeight
                 color: "transparent"
                 pad: 0
                 showTitle: false
-                week: Wellbeing.weekDays(root.days, new Date(), root.firstDayOfWeek)
+                days: root.days
+                today: root.today
+                firstDayOfWeek: root.firstDayOfWeek
                 limitSeconds: SettingsData.wellbeingDailyLimit * 60
             }
         }
@@ -77,6 +82,8 @@ Item {
                 fillHeight: false
                 days: root.days
                 firstDayOfWeek: root.firstDayOfWeek
+                anchor: root.anchor
+                today: root.today
                 onLimitRequested: appId => root.toggleLimit(appId)
             }
         }

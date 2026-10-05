@@ -13,6 +13,8 @@ DankCard {
 
     property var days: []
     property int firstDayOfWeek: 1
+    property date anchor: new Date()
+    property date today: anchor
     property string period: "week"
     property bool showTitle: true
     property bool fillHeight: true
@@ -31,7 +33,7 @@ DankCard {
             "text": I18n.tr("Month", "screen time range filter")
         }
     ]
-    readonly property var apps: Wellbeing.topApps(Wellbeing.periodDays(days, new Date(), firstDayOfWeek, period), WellbeingMetrics.listedApps)
+    readonly property var apps: Wellbeing.topApps(Wellbeing.periodDays(days, anchor, firstDayOfWeek, period, today), WellbeingMetrics.listedApps)
     readonly property real longest: apps.length > 0 ? apps[0].seconds : 0
     readonly property real listHeight: Math.max(1, apps.length) * WellbeingMetrics.appRowHeight + Math.max(0, apps.length - 1) * Theme.groupedListGap
 

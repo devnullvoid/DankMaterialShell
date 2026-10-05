@@ -371,7 +371,7 @@
   {
     "term": "%1 min",
     "context": "%1 min",
-    "reference": "Modules/ControlCenter/Details/DoNotDisturbDetail.qml:23, Modules/ControlCenter/Details/DoNotDisturbDetail.qml:27, Modules/ControlCenter/Details/IdleInhibitorDetail.qml:24, Modules/ControlCenter/Details/IdleInhibitorDetail.qml:28, Modules/ControlCenter/Widgets/CcDurationActions.qml:8, Modules/DankDash/Wellbeing/AppUsageList.qml:219",
+    "reference": "Modules/ControlCenter/Details/DoNotDisturbDetail.qml:23, Modules/ControlCenter/Details/DoNotDisturbDetail.qml:27, Modules/ControlCenter/Details/IdleInhibitorDetail.qml:24, Modules/ControlCenter/Details/IdleInhibitorDetail.qml:28, Modules/ControlCenter/Widgets/CcDurationActions.qml:8, Modules/DankDash/Wellbeing/AppUsageList.qml:221",
     "comment": "short duration chip, %1 is a number of minutes",
     "tags": [
       "shell"
@@ -607,7 +607,7 @@
   {
     "term": "%1h",
     "context": "%1h",
-    "reference": "Modules/DankDash/Wellbeing/WeeklyChart.qml:201, Modules/DankDash/Wellbeing/DurationSteppers.qml:22",
+    "reference": "Modules/DankDash/Wellbeing/WeeklyChart.qml:395, Modules/DankDash/Wellbeing/DurationSteppers.qml:22",
     "comment": "hours abbreviation, %1 is a number",
     "tags": [
       "shell"
@@ -742,7 +742,7 @@
   {
     "term": "A floating companion that works alongside any bar layout",
     "context": "A floating companion that works alongside any bar layout",
-    "reference": "Common/SettingsTabs.qml:125, Modules/Settings/BarHubHeader.qml:209",
+    "reference": "Common/SettingsTabs.qml:126, Modules/Settings/BarHubHeader.qml:209",
     "comment": "bar settings: what the dot is",
     "tags": [
       "settings",
@@ -833,7 +833,7 @@
   {
     "term": "About",
     "context": "About",
-    "reference": "Common/SettingsTabs.qml:625",
+    "reference": "Common/SettingsTabs.qml:632",
     "comment": "settings page name",
     "tags": [
       "shell"
@@ -851,7 +851,7 @@
   {
     "term": "Accent minutes",
     "context": "Accent minutes",
-    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:53",
+    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:60",
     "comment": "lock screen clock colors",
     "tags": [
       "settings"
@@ -914,7 +914,7 @@
   {
     "term": "Accounts",
     "context": "Accounts",
-    "reference": "Common/SettingsTabs.qml:431",
+    "reference": "Common/SettingsTabs.qml:435",
     "comment": "settings page name for user accounts",
     "tags": [
       "shell"
@@ -932,7 +932,7 @@
   {
     "term": "Action failed or terminal was closed.",
     "context": "Action failed or terminal was closed.",
-    "reference": "Modules/Settings/GreeterTab.qml:165",
+    "reference": "Modules/Settings/GreeterTab.qml:264",
     "comment": "",
     "tags": [
       "settings"
@@ -951,7 +951,7 @@
   {
     "term": "Activate",
     "context": "Activate",
-    "reference": "Modules/Settings/GreeterTab.qml:37, Modules/Settings/GreeterTab.qml:81, Modules/ControlCenter/Details/NetworkDetail.qml:200",
+    "reference": "Modules/Settings/GreeterTab.qml:129, Modules/Settings/GreeterTab.qml:164, Modules/Settings/GreeterTab.qml:173, Modules/ControlCenter/Details/NetworkDetail.qml:200",
     "comment": "verb, enable the greeter, also activate a wired network profile",
     "tags": [
       "settings",
@@ -961,7 +961,7 @@
   {
     "term": "Activate Greeter",
     "context": "Activate Greeter",
-    "reference": "Modules/Settings/GreeterTab.qml:79",
+    "reference": "Modules/Settings/GreeterTab.qml:171",
     "comment": "greeter action confirmation",
     "tags": [
       "settings"
@@ -970,7 +970,7 @@
   {
     "term": "Activate the DMS greeter? A terminal will open for sudo authentication. Run Sync after activation to apply your settings.",
     "context": "Activate the DMS greeter? A terminal will open for sudo authentication. Run Sync after activation to apply your settings.",
-    "reference": "Modules/Settings/GreeterTab.qml:80",
+    "reference": "Modules/Settings/GreeterTab.qml:172",
     "comment": "",
     "tags": [
       "settings"
@@ -1061,7 +1061,7 @@
   {
     "term": "Adapters and saved configurations",
     "context": "Adapters and saved configurations",
-    "reference": "Common/SettingsTabs.qml:391",
+    "reference": "Common/SettingsTabs.qml:395",
     "comment": "",
     "tags": [
       "shell"
@@ -1242,7 +1242,7 @@
   {
     "term": "Add user",
     "context": "Add user",
-    "reference": "Common/SettingsTabs.qml:439, Modules/Settings/UsersTab.qml:193, Modules/Settings/CreateUserTab.qml:181",
+    "reference": "Common/SettingsTabs.qml:443, Modules/Settings/UsersTab.qml:193, Modules/Settings/CreateUserTab.qml:181",
     "comment": "button and settings page title, creates a new user account",
     "tags": [
       "settings",
@@ -1252,7 +1252,7 @@
   {
     "term": "Add widget",
     "context": "Add widget",
-    "reference": "Modules/DankDash/DashWidgetGrid.qml:197, Modules/Settings/DockWidgetsTab.qml:239, Modules/Settings/WidgetsTabSection.qml:236, Modules/Settings/WidgetSelectionPopup.qml:30, Modules/Settings/LockScreenTab.qml:288, Modules/Settings/LockScreenTab.qml:882, Modules/Settings/DesktopWidgetsTab.qml:271, Modules/Dock/DockEditChrome.qml:52, Modules/ControlCenter/Components/CcFooter.qml:449, Modules/ControlCenter/Widgets/CcWidgetLibrary.qml:54, Modules/DankDash/Overview/DashEditControls.qml:136",
+    "reference": "Modules/DankDash/DashWidgetGrid.qml:197, Modules/Settings/DockWidgetsTab.qml:239, Modules/Settings/WidgetsTabSection.qml:236, Modules/Settings/GreeterTab.qml:197, Modules/Settings/GreeterTab.qml:541, Modules/Settings/WidgetSelectionPopup.qml:30, Modules/Settings/LockScreenTab.qml:288, Modules/Settings/LockScreenTab.qml:882, Modules/Settings/DesktopWidgetsTab.qml:271, Modules/Dock/DockEditChrome.qml:52, Modules/ControlCenter/Components/CcFooter.qml:449, Modules/ControlCenter/Widgets/CcWidgetLibrary.qml:54, Modules/DankDash/Overview/DashEditControls.qml:136",
     "comment": "",
     "tags": [
       "settings",
@@ -1281,17 +1281,17 @@
   {
     "term": "Add, remove and configure dock items",
     "context": "Add, remove and configure dock items",
-    "reference": "Common/SettingsTabs.qml:169",
+    "reference": "Common/SettingsTabs.qml:170",
     "comment": "",
     "tags": [
       "shell"
     ]
   },
   {
-    "term": "Add, remove, reorder and configure",
-    "context": "Add, remove, reorder and configure",
-    "reference": "Common/SettingsTabs.qml:136",
-    "comment": "",
+    "term": "Add, reorder, configure",
+    "context": "Add, reorder, configure",
+    "reference": "Common/SettingsTabs.qml:137",
+    "comment": "settings sidebar hint for the bar widgets page",
     "tags": [
       "shell"
     ]
@@ -1342,8 +1342,8 @@
     ]
   },
   {
-    "term": "Administrator access is required. Use the Sync button in Settings → Greeter to apply.",
-    "context": "Administrator access is required. Use the Sync button in Settings → Greeter to apply.",
+    "term": "Administrator access is required. Press Apply changes in Settings → Greeter.",
+    "context": "Administrator access is required. Press Apply changes in Settings → Greeter.",
     "reference": "Common/settings/Processes.qml:372",
     "comment": "",
     "tags": [
@@ -1353,7 +1353,7 @@
   {
     "term": "Advanced",
     "context": "Advanced",
-    "reference": "Common/SettingsTabs.qml:181, Modules/Settings/TypographyMotionTab.qml:277, Modules/Settings/WallpaperColorsTab.qml:984, Modules/Settings/LauncherTab.qml:827, Modules/Settings/SoftwareUpdatesTab.qml:829, Modules/Settings/LockScreenTab.qml:710, Modules/Settings/DankBarTab.qml:539, Modules/Settings/ClipboardTab.qml:483, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:179",
+    "reference": "Common/SettingsTabs.qml:182, Modules/Settings/TypographyMotionTab.qml:277, Modules/Settings/GreeterTab.qml:433, Modules/Settings/WallpaperColorsTab.qml:984, Modules/Settings/LauncherTab.qml:827, Modules/Settings/SoftwareUpdatesTab.qml:829, Modules/Settings/LockScreenTab.qml:710, Modules/Settings/DankBarTab.qml:539, Modules/Settings/ClipboardTab.qml:483, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:179",
     "comment": "adjective, settings section title for advanced options",
     "tags": [
       "settings",
@@ -1826,7 +1826,7 @@
   {
     "term": "App ID substitutions",
     "context": "App ID substitutions",
-    "reference": "Common/SettingsTabs.qml:514, Modules/Settings/RunningAppsTab.qml:15",
+    "reference": "Common/SettingsTabs.qml:519, Modules/Settings/RunningAppsTab.qml:15",
     "comment": "",
     "tags": [
       "settings",
@@ -1863,7 +1863,7 @@
   {
     "term": "App limits",
     "context": "App limits",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:120",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:127",
     "comment": "settings card title, per-app screen time limits",
     "tags": [
       "settings"
@@ -1899,7 +1899,7 @@
   {
     "term": "App theming",
     "context": "App theming",
-    "reference": "Common/SettingsTabs.qml:49",
+    "reference": "Common/SettingsTabs.qml:50",
     "comment": "",
     "tags": [
       "shell"
@@ -1908,7 +1908,7 @@
   {
     "term": "Appearance",
     "context": "Appearance",
-    "reference": "Common/SettingsTabs.qml:113, Common/SettingsTabs.qml:173, Modules/Settings/GreeterTab.qml:240, Modules/Settings/WallpaperColorsTab.qml:181, Modules/Settings/LauncherTab.qml:142, Modules/Settings/LockScreenTab.qml:350, Modules/Settings/WorkspaceAppearanceCard.qml:11, Modules/Settings/NotificationsTab.qml:414, Modules/Settings/ClipboardTab.qml:457, Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:30",
+    "reference": "Common/SettingsTabs.qml:114, Common/SettingsTabs.qml:174, Modules/Settings/GreeterTab.qml:370, Modules/Settings/WallpaperColorsTab.qml:181, Modules/Settings/LauncherTab.qml:142, Modules/Settings/LockScreenTab.qml:350, Modules/Settings/WorkspaceAppearanceCard.qml:11, Modules/Settings/NotificationsTab.qml:414, Modules/Settings/ClipboardTab.qml:457, Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:32",
     "comment": "settings page and section title for visual options",
     "tags": [
       "settings",
@@ -1927,7 +1927,7 @@
   {
     "term": "Applications",
     "context": "Applications",
-    "reference": "Common/SettingsTabs.qml:481, Modals/DankLauncherV2/Controller.qml:323, Modules/SurfaceWidgets/ApplicationItem.qml:23, Modules/Dock/DockLauncherButton.qml:17",
+    "reference": "Common/SettingsTabs.qml:485, Modals/DankLauncherV2/Controller.qml:323, Modules/SurfaceWidgets/ApplicationItem.qml:23, Modules/Dock/DockLauncherButton.qml:17",
     "comment": "launcher section title and settings page name",
     "tags": [
       "shell"
@@ -1938,15 +1938,6 @@
     "context": "Applications and commands to start automatically when you log in",
     "reference": "Modules/Settings/AutoStartTab.qml:496",
     "comment": "",
-    "tags": [
-      "settings"
-    ]
-  },
-  {
-    "term": "Applies on the next greeter sync",
-    "context": "Applies on the next greeter sync",
-    "reference": "Modules/Settings/GreeterAuthTab.qml:23, Modules/Settings/GreeterAuthTab.qml:43",
-    "comment": "greeter auth setting description",
     "tags": [
       "settings"
     ]
@@ -1990,7 +1981,7 @@
   {
     "term": "Apply changes",
     "context": "Apply changes",
-    "reference": "Modules/Settings/LockScreenTab.qml:769, Modules/Settings/LockScreenTab.qml:823, Modules/Settings/DisplayConfigTab.qml:427, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:212",
+    "reference": "Modules/Settings/GreeterTab.qml:523, Modules/Settings/GreeterSyncFabBar.qml:23, Modules/Settings/LockScreenTab.qml:769, Modules/Settings/LockScreenTab.qml:823, Modules/Settings/DisplayConfigTab.qml:427, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:212",
     "comment": "",
     "tags": [
       "settings"
@@ -2045,7 +2036,7 @@
   {
     "term": "Apps & widgets",
     "context": "Apps & widgets",
-    "reference": "Common/SettingsTabs.qml:166",
+    "reference": "Common/SettingsTabs.qml:167",
     "comment": "",
     "tags": [
       "shell"
@@ -2063,7 +2054,7 @@
   {
     "term": "Apps and commands started with the session",
     "context": "Apps and commands started with the session",
-    "reference": "Common/SettingsTabs.qml:497",
+    "reference": "Common/SettingsTabs.qml:502",
     "comment": "",
     "tags": [
       "shell"
@@ -2180,7 +2171,7 @@
   {
     "term": "Arrangement, resolution, scale, profiles",
     "context": "Arrangement, resolution, scale, profiles",
-    "reference": "Common/SettingsTabs.qml:302",
+    "reference": "Common/SettingsTabs.qml:304",
     "comment": "",
     "tags": [
       "shell"
@@ -2244,7 +2235,7 @@
   {
     "term": "Audio",
     "context": "Audio",
-    "reference": "Common/SettingsTabs.qml:266, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:34, Modules/ControlCenter/Components/CcWidgetSheet.qml:30",
+    "reference": "Common/SettingsTabs.qml:267, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:34, Modules/ControlCenter/Components/CcWidgetSheet.qml:30",
     "comment": "settings page name",
     "tags": [
       "settings",
@@ -2371,7 +2362,7 @@
   {
     "term": "Authentication",
     "context": "Authentication",
-    "reference": "Modals/PolkitAuthModal.qml:37, Modals/WifiPasswordModal.qml:435, Common/SettingsTabs.qml:469, Modules/Settings/GreeterTab.qml:233, Modules/Settings/LockScreenTab.qml:488",
+    "reference": "Modals/PolkitAuthModal.qml:37, Modals/WifiPasswordModal.qml:435, Common/SettingsTabs.qml:473, Modules/Settings/GreeterTab.qml:312, Modules/Settings/LockScreenTab.qml:488",
     "comment": "noun, polkit dialog title and settings section title",
     "tags": [
       "settings",
@@ -2662,7 +2653,7 @@
   {
     "term": "Auto-login on startup",
     "context": "Auto-login on startup",
-    "reference": "Modules/Settings/GreeterTab.qml:292",
+    "reference": "Modules/Settings/GreeterTab.qml:422",
     "comment": "",
     "tags": [
       "settings"
@@ -2717,7 +2708,7 @@
   {
     "term": "Automatic cycling",
     "context": "Automatic cycling",
-    "reference": "Common/SettingsTabs.qml:41, Modules/Settings/WallpaperCyclingTab.qml:176, Modules/Settings/WallpaperColorsTab.qml:450, Modules/Settings/LockScreenTab.qml:477",
+    "reference": "Common/SettingsTabs.qml:42, Modules/Settings/WallpaperCyclingTab.qml:176, Modules/Settings/WallpaperColorsTab.qml:450, Modules/Settings/LockScreenTab.qml:477",
     "comment": "",
     "tags": [
       "settings",
@@ -2727,7 +2718,7 @@
   {
     "term": "Automatic placement",
     "context": "Automatic placement",
-    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:88",
+    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:95",
     "comment": "lock screen clock placement",
     "tags": [
       "settings"
@@ -2772,7 +2763,7 @@
   {
     "term": "Autostart apps",
     "context": "Autostart apps",
-    "reference": "Common/SettingsTabs.qml:493",
+    "reference": "Common/SettingsTabs.qml:498",
     "comment": "",
     "tags": [
       "shell"
@@ -2856,7 +2847,7 @@
   {
     "term": "Backend and connection preference",
     "context": "Backend and connection preference",
-    "reference": "Common/SettingsTabs.qml:414",
+    "reference": "Common/SettingsTabs.qml:418",
     "comment": "",
     "tags": [
       "shell"
@@ -2920,7 +2911,7 @@
   {
     "term": "Background, corners, spacing, widget style",
     "context": "Background, corners, spacing, widget style",
-    "reference": "Common/SettingsTabs.qml:116",
+    "reference": "Common/SettingsTabs.qml:117",
     "comment": "",
     "tags": [
       "shell"
@@ -2975,7 +2966,7 @@
   {
     "term": "Bar",
     "context": "Bar",
-    "reference": "Common/SettingsTabs.qml:95, Modules/Settings/WidgetsTab.qml:582, Modules/Settings/ShadowsTab.qml:223, Modules/Settings/ShadowsTab.qml:233, Modules/Settings/Widgets/BarSelectionState.qml:24",
+    "reference": "Common/SettingsTabs.qml:96, Modules/Settings/WidgetsTab.qml:582, Modules/Settings/ShadowsTab.qml:223, Modules/Settings/ShadowsTab.qml:233, Modules/Settings/Widgets/BarSelectionState.qml:24",
     "comment": "fallback name for an unnamed bar",
     "tags": [
       "settings",
@@ -3039,7 +3030,7 @@
   {
     "term": "Bar widgets",
     "context": "Bar widgets",
-    "reference": "Common/SettingsTabs.qml:131, Modules/Settings/WeatherSettingsTab.qml:150, Modules/Settings/Widgets/IslandHomeCard.qml:32",
+    "reference": "Common/SettingsTabs.qml:132, Modules/Settings/WeatherSettingsTab.qml:150, Modules/Settings/Widgets/IslandHomeCard.qml:32",
     "comment": "",
     "tags": [
       "settings",
@@ -3067,7 +3058,7 @@
   {
     "term": "Battery",
     "context": "Battery",
-    "reference": "Common/SettingsTabs.qml:366, Common/BarWidgetCatalog.qml:162, Modules/DankDash/DashRegistry.qml:330, Modules/Settings/PowerSleepTab.qml:58, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:58, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:98, Modules/Settings/Widgets/IslandHomeCard.qml:104, Modules/Settings/Widgets/IslandHomeCard.qml:131, Modules/ControlCenter/Details/BatteryDetail.qml:7, Modules/ControlCenter/Models/WidgetModel.qml:356, Modules/ControlCenter/Widgets/BatteryTile.qml:17",
+    "reference": "Common/SettingsTabs.qml:369, Common/BarWidgetCatalog.qml:162, Modules/DankDash/DashRegistry.qml:330, Modules/Settings/PowerSleepTab.qml:58, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:58, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:98, Modules/Settings/Widgets/IslandHomeCard.qml:104, Modules/Settings/Widgets/IslandHomeCard.qml:131, Modules/ControlCenter/Details/BatteryDetail.qml:7, Modules/ControlCenter/Models/WidgetModel.qml:356, Modules/ControlCenter/Widgets/BatteryTile.qml:17",
     "comment": "island settings: status group battery content",
     "tags": [
       "settings",
@@ -3140,7 +3131,7 @@
   {
     "term": "Behavior",
     "context": "Behavior",
-    "reference": "Modules/Settings/KeyboardTab.qml:131, Modules/Settings/GreeterTab.qml:270, Modules/Settings/LockScreenTab.qml:405, Modules/Settings/DesktopWidgetTab.qml:93, Modules/Settings/ClipboardTab.qml:430, Modules/Settings/Widgets/IslandBehaviorCard.qml:22",
+    "reference": "Modules/Settings/KeyboardTab.qml:131, Modules/Settings/GreeterTab.qml:400, Modules/Settings/LockScreenTab.qml:405, Modules/Settings/DesktopWidgetTab.qml:95, Modules/Settings/ClipboardTab.qml:430, Modules/Settings/Widgets/IslandBehaviorCard.qml:22",
     "comment": "island settings: behavior card title",
     "tags": [
       "settings"
@@ -3316,6 +3307,15 @@
     "comment": "",
     "tags": [
       "settings"
+    ]
+  },
+  {
+    "term": "Blur, shadows, corners",
+    "context": "Blur, shadows, corners",
+    "reference": "Common/SettingsTabs.qml:71",
+    "comment": "settings sidebar hint for the interface style page",
+    "tags": [
+      "shell"
     ]
   },
   {
@@ -3594,7 +3594,7 @@
   {
     "term": "Browse, install, registries",
     "context": "Browse, install, registries",
-    "reference": "Common/SettingsTabs.qml:605",
+    "reference": "Common/SettingsTabs.qml:612",
     "comment": "",
     "tags": [
       "shell"
@@ -3603,7 +3603,7 @@
   {
     "term": "Browser, terminal, file manager, media",
     "context": "Browser, terminal, file manager, media",
-    "reference": "Common/SettingsTabs.qml:489",
+    "reference": "Common/SettingsTabs.qml:494",
     "comment": "",
     "tags": [
       "shell"
@@ -3632,6 +3632,15 @@
     "context": "Built-in plugins",
     "reference": "Modules/Settings/LauncherTab.qml:622",
     "comment": "",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Bundled greeter active",
+    "context": "Bundled greeter active",
+    "reference": "Modules/Settings/GreeterTab.qml:107",
+    "comment": "greeter status",
     "tags": [
       "settings"
     ]
@@ -3713,7 +3722,7 @@
   {
     "term": "CPU, memory, network, and disk monitoring",
     "context": "CPU, memory, network, and disk monitoring",
-    "reference": "Services/DesktopWidgetRegistry.qml:58",
+    "reference": "Services/DesktopWidgetRegistry.qml:59",
     "comment": "System monitor widget description",
     "tags": [
       "shell"
@@ -3758,7 +3767,7 @@
   {
     "term": "CUPS printers, jobs and classes",
     "context": "CUPS printers, jobs and classes",
-    "reference": "Common/SettingsTabs.qml:597",
+    "reference": "Common/SettingsTabs.qml:604",
     "comment": "",
     "tags": [
       "shell"
@@ -3804,7 +3813,7 @@
   {
     "term": "Cancel",
     "context": "Cancel",
-    "reference": "DMSShell.qml:371, DMSShell.qml:398, Modals/PolkitAuthContent.qml:174, Modals/WorkspaceRenameModal.qml:118, Modals/BluetoothPairingModal.qml:269, Modals/BluetoothPairingModal.qml:358, Modals/WifiPasswordModal.qml:571, Modals/DankLauncherV2/AppEditView.qml:261, Modals/Common/InputModal.qml:17, Modals/Common/InputModal.qml:28, Modals/Common/InputModal.qml:41, Modals/Common/ConfirmModal.qml:15, Modals/Common/ConfirmModal.qml:33, Modals/Common/ConfirmDialogOverlay.qml:13, Modals/Common/ConfirmDialogOverlay.qml:36, Modals/Clipboard/ClipboardEditor.qml:340, Modules/SystemUpdate/SystemUpdatePanel.qml:397, Modules/Settings/DockHubHeader.qml:99, Modules/Settings/NotificationRuleEditorDialog.qml:81, Modules/Settings/PluginBrowser.qml:464, Modules/Settings/PluginBrowser.qml:522, Modules/Settings/GreeterTab.qml:82, Modules/Settings/BarHubHeader.qml:158, Modules/Settings/PluginUpdatesDialog.qml:143, Modules/Settings/KeybindEditorDialog.qml:690, Modules/Settings/PrinterTab.qml:173, Modules/Settings/PrinterTab.qml:696, Modules/Settings/SoftwareUpdatesTab.qml:200, Modules/Settings/ThemeBrowser.qml:235, Modules/Settings/WindowRuleEditorDialog.qml:653, Modules/Settings/DisplayConfigTab.qml:239, Modules/Settings/DisplayConfigTab.qml:262, Modules/Settings/DisplayConfigTab.qml:310, Modules/Settings/NetworkWifiTab.qml:921, Modules/Settings/Widgets/SettingsRenameDialog.qml:79, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:141, Modules/DankDash/Overview/CalendarEventEditor.qml:251, Modules/DankDash/Overview/CalendarOverviewCard.qml:809",
+    "reference": "DMSShell.qml:371, DMSShell.qml:398, Modals/PolkitAuthContent.qml:174, Modals/WorkspaceRenameModal.qml:118, Modals/BluetoothPairingModal.qml:269, Modals/BluetoothPairingModal.qml:358, Modals/WifiPasswordModal.qml:571, Modals/DankLauncherV2/AppEditView.qml:261, Modals/Common/InputModal.qml:17, Modals/Common/InputModal.qml:28, Modals/Common/InputModal.qml:41, Modals/Common/ConfirmModal.qml:15, Modals/Common/ConfirmModal.qml:33, Modals/Common/ConfirmDialogOverlay.qml:13, Modals/Common/ConfirmDialogOverlay.qml:36, Modals/Clipboard/ClipboardEditor.qml:340, Modules/SystemUpdate/SystemUpdatePanel.qml:397, Modules/Settings/DockHubHeader.qml:99, Modules/Settings/NotificationRuleEditorDialog.qml:81, Modules/Settings/PluginBrowser.qml:464, Modules/Settings/PluginBrowser.qml:522, Modules/Settings/GreeterTab.qml:37, Modules/Settings/GreeterTab.qml:49, Modules/Settings/GreeterTab.qml:174, Modules/Settings/BarHubHeader.qml:158, Modules/Settings/PluginUpdatesDialog.qml:143, Modules/Settings/KeybindEditorDialog.qml:690, Modules/Settings/PrinterTab.qml:173, Modules/Settings/PrinterTab.qml:696, Modules/Settings/SoftwareUpdatesTab.qml:200, Modules/Settings/ThemeBrowser.qml:235, Modules/Settings/WindowRuleEditorDialog.qml:653, Modules/Settings/DisplayConfigTab.qml:239, Modules/Settings/DisplayConfigTab.qml:262, Modules/Settings/DisplayConfigTab.qml:310, Modules/Settings/NetworkWifiTab.qml:921, Modules/Settings/Widgets/SettingsRenameDialog.qml:79, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:141, Modules/DankDash/Overview/CalendarEventEditor.qml:251, Modules/DankDash/Overview/CalendarOverviewCard.qml:809",
     "comment": "cancel hotspot editing action",
     "tags": [
       "settings",
@@ -3971,7 +3980,7 @@
   {
     "term": "Cellular",
     "context": "Cellular",
-    "reference": "Common/SettingsTabs.qml:402, Modules/Settings/NetworkStatusTab.qml:94, Modules/Settings/NetworkStatusTab.qml:153, Modules/ControlCenter/Details/NetworkDetail.qml:323, Modules/ControlCenter/Details/NetworkDetail.qml:475, Modules/ControlCenter/Widgets/NetworkTile.qml:43, Modules/ControlCenter/Widgets/NetworkTile.qml:48",
+    "reference": "Common/SettingsTabs.qml:406, Modules/Settings/NetworkStatusTab.qml:94, Modules/Settings/NetworkStatusTab.qml:153, Modules/ControlCenter/Details/NetworkDetail.qml:323, Modules/ControlCenter/Details/NetworkDetail.qml:475, Modules/ControlCenter/Widgets/NetworkTile.qml:43, Modules/ControlCenter/Widgets/NetworkTile.qml:48",
     "comment": "network status",
     "tags": [
       "settings",
@@ -4116,7 +4125,7 @@
   {
     "term": "Charge limit, alerts, power profiles",
     "context": "Charge limit, alerts, power profiles",
-    "reference": "Common/SettingsTabs.qml:369",
+    "reference": "Common/SettingsTabs.qml:372",
     "comment": "",
     "tags": [
       "shell"
@@ -4180,7 +4189,7 @@
   {
     "term": "Check status",
     "context": "Check status",
-    "reference": "Modules/Settings/GreeterTab.qml:198",
+    "reference": "Modules/Settings/GreeterTab.qml:450",
     "comment": "greeter settings button, runs dms-greeter status",
     "tags": [
       "settings"
@@ -4208,7 +4217,7 @@
   {
     "term": "Checking whether sudo authentication is needed...",
     "context": "Checking whether sudo authentication is needed...",
-    "reference": "Services/GreeterService.qml:29",
+    "reference": "Services/GreeterService.qml:37",
     "comment": "",
     "tags": [
       "shell"
@@ -4217,7 +4226,7 @@
   {
     "term": "Checking...",
     "context": "Checking...",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:98, Modules/Settings/GreeterTab.qml:42",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:98, Modules/Settings/GreeterTab.qml:146",
     "comment": "greeter status loading",
     "tags": [
       "settings",
@@ -4263,7 +4272,7 @@
   {
     "term": "Choose a clear area of the background. Drag the clock to place it yourself.",
     "context": "Choose a clear area of the background. Drag the clock to place it yourself.",
-    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:89",
+    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:96",
     "comment": "lock screen automatic clock placement",
     "tags": [
       "settings"
@@ -4365,7 +4374,7 @@
   {
     "term": "Clear",
     "context": "Clear",
-    "reference": "Modules/DankDash/WallpaperTab.qml:887, Modules/Settings/UserAccountsTab.qml:42, Modules/Settings/PrinterTab.qml:652, Modules/Settings/DigitalWellbeingTab.qml:180, Modules/Settings/DigitalWellbeingTab.qml:187, Modules/Settings/Widgets/SettingsWallpaperThumb.qml:117, Modules/Notifications/Popup/NotificationPopup.qml:711, Modules/Notifications/Center/NotificationKeyboardHints.qml:58",
+    "reference": "Modules/DankDash/WallpaperTab.qml:887, Modules/Settings/UserAccountsTab.qml:42, Modules/Settings/PrinterTab.qml:652, Modules/Settings/DigitalWellbeingTab.qml:187, Modules/Settings/DigitalWellbeingTab.qml:194, Modules/Settings/Widgets/SettingsWallpaperThumb.qml:117, Modules/Notifications/Popup/NotificationPopup.qml:711, Modules/Notifications/Center/NotificationKeyboardHints.qml:58",
     "comment": "verb, button clearing a search, image, job list or notification",
     "tags": [
       "settings",
@@ -4394,7 +4403,7 @@
   {
     "term": "Clear History?",
     "context": "Clear History?",
-    "reference": "Modals/Clipboard/ClipboardHistoryContent.qml:185, Modals/Clipboard/ClipboardHistoryContent.qml:192, Modules/SurfaceWidgets/SurfaceWidgetFactory.qml:219, Modules/Settings/DigitalWellbeingTab.qml:185",
+    "reference": "Modals/Clipboard/ClipboardHistoryContent.qml:185, Modals/Clipboard/ClipboardHistoryContent.qml:192, Modules/SurfaceWidgets/SurfaceWidgetFactory.qml:219, Modules/Settings/DigitalWellbeingTab.qml:192",
     "comment": "",
     "tags": [
       "settings",
@@ -4486,7 +4495,7 @@
   {
     "term": "Click through",
     "context": "Click through",
-    "reference": "Modules/Settings/DankBarTab.qml:552, Modules/Settings/DesktopWidgetTab.qml:119",
+    "reference": "Modules/Settings/DankBarTab.qml:552, Modules/Settings/DesktopWidgetTab.qml:121",
     "comment": "",
     "tags": [
       "settings"
@@ -4576,7 +4585,7 @@
   {
     "term": "Clipboard",
     "context": "Clipboard",
-    "reference": "Common/SettingsTabs.qml:568, Services/AppSearchService.qml:282, Modals/DankLauncherV2/Controller.qml:337, Modals/DankLauncherV2/Controller.qml:1877, Modals/DankLauncherV2/Components/LauncherRow.qml:262, Modules/DankIsland/DankIslandSurface.qml:757, Modules/Settings/KeybindEditorDialog.qml:410, Modules/Settings/Widgets/IslandBehaviorCard.qml:79",
+    "reference": "Common/SettingsTabs.qml:575, Services/AppSearchService.qml:282, Modals/DankLauncherV2/Controller.qml:337, Modals/DankLauncherV2/Controller.qml:1877, Modals/DankLauncherV2/Components/LauncherRow.qml:262, Modules/DankIsland/DankIslandSurface.qml:757, Modules/Settings/KeybindEditorDialog.qml:410, Modules/Settings/Widgets/IslandBehaviorCard.qml:79",
     "comment": "noun, settings page name and launcher section title",
     "tags": [
       "settings",
@@ -4623,7 +4632,7 @@
   {
     "term": "Clock format, calendar, weather location",
     "context": "Clock format, calendar, weather location",
-    "reference": "Common/SettingsTabs.qml:528, Modules/Settings/BarWidgetOptions/ClockOptions.qml:49",
+    "reference": "Common/SettingsTabs.qml:534, Modules/Settings/BarWidgetOptions/ClockOptions.qml:49",
     "comment": "",
     "tags": [
       "settings",
@@ -4649,10 +4658,19 @@
     ]
   },
   {
-    "term": "Clocks, system monitors, plugins",
-    "context": "Clocks, system monitors, plugins",
-    "reference": "Common/SettingsTabs.qml:209",
-    "comment": "",
+    "term": "Clock, weather, locale",
+    "context": "Clock, weather, locale",
+    "reference": "Common/SettingsTabs.qml:527",
+    "comment": "settings sidebar hint for the date, time and region page",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Clocks, monitors, plugins",
+    "context": "Clocks, monitors, plugins",
+    "reference": "Common/SettingsTabs.qml:210",
+    "comment": "settings sidebar hint for the desktop widgets page",
     "tags": [
       "shell"
     ]
@@ -4935,7 +4953,7 @@
   {
     "term": "Command",
     "context": "Command",
-    "reference": "Modules/Settings/PaletteInjectTab.qml:117, Modules/Settings/AutoStartTab.qml:419, Modules/Settings/AutoStartTab.qml:447, Modules/Settings/KeybindEditorDialog.qml:220, Modules/Settings/KeybindEditorDialog.qml:1004, Modules/Settings/DesktopWidgetTab.qml:137",
+    "reference": "Modules/Settings/PaletteInjectTab.qml:117, Modules/Settings/AutoStartTab.qml:419, Modules/Settings/AutoStartTab.qml:447, Modules/Settings/KeybindEditorDialog.qml:220, Modules/Settings/KeybindEditorDialog.qml:1004, Modules/Settings/DesktopWidgetTab.qml:139",
     "comment": "noun, text field label for a shell command",
     "tags": [
       "settings"
@@ -5043,7 +5061,7 @@
   {
     "term": "Compositor and shell key bindings",
     "context": "Compositor and shell key bindings",
-    "reference": "Common/SettingsTabs.qml:331",
+    "reference": "Common/SettingsTabs.qml:334",
     "comment": "",
     "tags": [
       "shell"
@@ -5079,7 +5097,7 @@
   {
     "term": "Configuration",
     "context": "Configuration",
-    "reference": "Common/SettingsTabs.qml:299",
+    "reference": "Common/SettingsTabs.qml:301",
     "comment": "settings page name under displays",
     "tags": [
       "shell"
@@ -5326,7 +5344,7 @@
   {
     "term": "Connections and autoconnect",
     "context": "Connections and autoconnect",
-    "reference": "Common/SettingsTabs.qml:398",
+    "reference": "Common/SettingsTabs.qml:402",
     "comment": "",
     "tags": [
       "shell"
@@ -5417,7 +5435,7 @@
   {
     "term": "Copied to clipboard",
     "context": "Copied to clipboard",
-    "reference": "Modals/AppPickerModal.qml:202, Services/ClipboardService.qml:227, Modals/Settings/SettingsModal.qml:375, Modals/Settings/SettingsModal.qml:392, Modules/Notifications/NotificationActions.qml:73, Modules/Notepad/NotepadTextEditor.qml:337, Modules/Settings/DesktopWidgetTab.qml:161, Modules/DankBar/Widgets/FocusedWindowContextMenu.qml:93",
+    "reference": "Modals/AppPickerModal.qml:202, Services/ClipboardService.qml:227, Modals/Settings/SettingsModal.qml:375, Modals/Settings/SettingsModal.qml:392, Modules/Notifications/NotificationActions.qml:73, Modules/Notepad/NotepadTextEditor.qml:337, Modules/Settings/DesktopWidgetTab.qml:163, Modules/DankBar/Widgets/FocusedWindowContextMenu.qml:93",
     "comment": "",
     "tags": [
       "settings",
@@ -5445,7 +5463,7 @@
   {
     "term": "Copy",
     "context": "Copy",
-    "reference": "Modules/Toast.qml:308, Modals/QRGeneratorModal.qml:251, Modals/DankLauncherV2/Controller.qml:1873, Modals/Clipboard/ClipboardKeyboardHints.qml:41, Modals/Clipboard/ClipboardEntry.qml:84, Modals/Clipboard/ClipboardContextMenu.qml:25, Modules/ColorPicker/ColorPickerContent.qml:251, Modules/ColorPicker/ColorPickerContent.qml:325, Modules/ColorPicker/ColorPickerContent.qml:338, Modules/Notifications/NotificationActions.qml:38, Modules/Settings/DesktopWidgetTab.qml:158, Modules/Settings/ClipboardTab.qml:157, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:227, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:256, Modules/ControlCenter/Widgets/ColorPickerTile.qml:49",
+    "reference": "Modules/Toast.qml:308, Modals/QRGeneratorModal.qml:251, Modals/DankLauncherV2/Controller.qml:1873, Modals/Clipboard/ClipboardKeyboardHints.qml:41, Modals/Clipboard/ClipboardEntry.qml:84, Modals/Clipboard/ClipboardContextMenu.qml:25, Modules/ColorPicker/ColorPickerContent.qml:251, Modules/ColorPicker/ColorPickerContent.qml:325, Modules/ColorPicker/ColorPickerContent.qml:338, Modules/Notifications/NotificationActions.qml:38, Modules/Settings/DesktopWidgetTab.qml:160, Modules/Settings/ClipboardTab.qml:157, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:227, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:256, Modules/ControlCenter/Widgets/ColorPickerTile.qml:49",
     "comment": "Copy to clipboard",
     "tags": [
       "settings",
@@ -5573,7 +5591,7 @@
   {
     "term": "Counts time in the focused app while the session is active. Stays on this device.",
     "context": "Counts time in the focused app while the session is active. Stays on this device.",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:97",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:104",
     "comment": "track screen time toggle description",
     "tags": [
       "settings"
@@ -6098,7 +6116,7 @@
   {
     "term": "DMS and system updates",
     "context": "DMS and system updates",
-    "reference": "Common/SettingsTabs.qml:556, Modules/Settings/BarWidgetOptions/SystemUpdateOptions.qml:27",
+    "reference": "Common/SettingsTabs.qml:563, Modules/Settings/BarWidgetOptions/SystemUpdateOptions.qml:27",
     "comment": "settings sidebar hint for the software updates page",
     "tags": [
       "settings",
@@ -6126,7 +6144,7 @@
   {
     "term": "DMS out of date",
     "context": "DMS out of date",
-    "reference": "Services/DMSService.qml:260, Modules/DankDash/WellbeingTab.qml:65",
+    "reference": "Services/DMSService.qml:260, Modules/DankDash/WellbeingTab.qml:68",
     "comment": "",
     "tags": [
       "shell"
@@ -6216,7 +6234,7 @@
   {
     "term": "Daily limit",
     "context": "Daily limit",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:106, Modules/DankDash/Wellbeing/AppLimitSheet.qml:23, Modules/DankDash/Wellbeing/AppLimitSheet.qml:31",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:113, Modules/DankDash/Wellbeing/AppLimitSheet.qml:23, Modules/DankDash/Wellbeing/AppLimitSheet.qml:31",
     "comment": "screen time limit per day, total or for one app",
     "tags": [
       "settings",
@@ -6290,7 +6308,7 @@
   {
     "term": "Dark mode",
     "context": "Dark mode",
-    "reference": "Common/SettingsTabs.qml:33, Modules/Settings/WallpaperColorsTab.qml:266, Modules/Settings/ThemeScheduleTab.qml:59, Modules/ControlCenter/Models/WidgetModel.qml:262, Modules/ControlCenter/Widgets/DarkModeTile.qml:12",
+    "reference": "Common/SettingsTabs.qml:34, Modules/Settings/WallpaperColorsTab.qml:266, Modules/Settings/ThemeScheduleTab.qml:59, Modules/ControlCenter/Models/WidgetModel.qml:262, Modules/ControlCenter/Widgets/DarkModeTile.qml:12",
     "comment": "",
     "tags": [
       "settings",
@@ -6354,7 +6372,7 @@
   {
     "term": "Dashboard",
     "context": "Dashboard",
-    "reference": "Common/SettingsTabs.qml:197, Modules/DankDash/DashPageTitle.qml:26, Modules/DankDash/DashPageTitle.qml:49, Modules/Settings/MediaPlayerTab.qml:88, Modules/Settings/WeatherSettingsTab.qml:144, Modules/Settings/Widgets/IslandBehaviorCard.qml:87",
+    "reference": "Common/SettingsTabs.qml:198, Modules/DankDash/DashPageTitle.qml:26, Modules/DankDash/DashPageTitle.qml:49, Modules/Settings/MediaPlayerTab.qml:88, Modules/Settings/WeatherSettingsTab.qml:144, Modules/Settings/Widgets/IslandBehaviorCard.qml:87",
     "comment": "settings page name for the dank dash popout",
     "tags": [
       "settings",
@@ -6364,7 +6382,7 @@
   {
     "term": "Date",
     "context": "Date",
-    "reference": "Services/DesktopWidgetRegistry.qml:84, Modules/Settings/TimeWeatherTab.qml:100, Modules/Settings/Widgets/IslandHomeCard.qml:62, Modules/DankDash/Overview/CalendarEventEditor.qml:161",
+    "reference": "Services/DesktopWidgetRegistry.qml:86, Modules/Settings/TimeWeatherTab.qml:100, Modules/Settings/Widgets/IslandHomeCard.qml:62, Modules/DankDash/Overview/CalendarEventEditor.qml:161",
     "comment": "island settings: clock shows date only",
     "tags": [
       "settings",
@@ -6392,7 +6410,7 @@
   {
     "term": "Date, time & region",
     "context": "Date, time & region",
-    "reference": "Common/SettingsTabs.qml:520",
+    "reference": "Common/SettingsTabs.qml:525",
     "comment": "",
     "tags": [
       "shell"
@@ -6428,7 +6446,7 @@
   {
     "term": "Day",
     "context": "Day",
-    "reference": "Modules/DankDash/Wellbeing/AppUsageList.qml:23",
+    "reference": "Modules/DankDash/Wellbeing/AppUsageList.qml:25",
     "comment": "screen time range filter",
     "tags": [
       "shell"
@@ -6538,7 +6556,7 @@
   {
     "term": "Default apps",
     "context": "Default apps",
-    "reference": "Common/SettingsTabs.qml:486",
+    "reference": "Common/SettingsTabs.qml:491",
     "comment": "",
     "tags": [
       "shell"
@@ -6578,6 +6596,15 @@
     "comment": "niri output field label, default column width percent",
     "tags": [
       "settings"
+    ]
+  },
+  {
+    "term": "Defaults, autostart, rules",
+    "context": "Defaults, autostart, rules",
+    "reference": "Common/SettingsTabs.qml:487",
+    "comment": "settings sidebar hint for the applications page",
+    "tags": [
+      "shell"
     ]
   },
   {
@@ -6703,7 +6730,7 @@
   {
     "term": "Deletes all stored screen time",
     "context": "Deletes all stored screen time",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:186",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:193",
     "comment": "confirmation message before clearing screen time history",
     "tags": [
       "settings"
@@ -6712,7 +6739,7 @@
   {
     "term": "Dependencies & documentation",
     "context": "Dependencies & documentation",
-    "reference": "Modules/Settings/GreeterTab.qml:303",
+    "reference": "Modules/Settings/GreeterTab.qml:471",
     "comment": "",
     "tags": [
       "settings"
@@ -6795,7 +6822,7 @@
   {
     "term": "Desktop widgets",
     "context": "Desktop widgets",
-    "reference": "Common/SettingsTabs.qml:205, Modules/Settings/PluginSettingsPage.qml:202",
+    "reference": "Common/SettingsTabs.qml:206, Modules/Settings/PluginSettingsPage.qml:202",
     "comment": "",
     "tags": [
       "settings",
@@ -6896,7 +6923,7 @@
   {
     "term": "Digital wellbeing",
     "context": "Digital wellbeing",
-    "reference": "Common/SettingsTabs.qml:253, Modules/DankDash/DashRegistry.qml:177, Modules/Settings/DankDashTab.qml:48, Modules/Settings/DankDashTab.qml:53",
+    "reference": "Common/SettingsTabs.qml:254, Modules/DankDash/DashRegistry.qml:177, Modules/Settings/DankDashTab.qml:48, Modules/Settings/DankDashTab.qml:53",
     "comment": "settings page and dashboard tab title, screen time tracking",
     "tags": [
       "settings",
@@ -7182,10 +7209,9 @@
   {
     "term": "Dismiss",
     "context": "Dismiss",
-    "reference": "Modules/Notifications/NotificationCard.qml:21, Modules/Notifications/NotificationCard.qml:272, Modules/Notifications/NotificationActions.qml:11, Modules/Notepad/Notepad.qml:367, Modules/Settings/GreeterSyncFabBar.qml:17, Modules/DankIsland/Activities/NotificationExpanded.qml:67, Modules/DankIsland/Activities/NotificationExpanded.qml:121, Modules/Notifications/Center/NotificationCard.qml:151",
+    "reference": "Modules/Notifications/NotificationCard.qml:21, Modules/Notifications/NotificationCard.qml:272, Modules/Notifications/NotificationActions.qml:11, Modules/Notepad/Notepad.qml:367, Modules/DankIsland/Activities/NotificationExpanded.qml:67, Modules/DankIsland/Activities/NotificationExpanded.qml:121, Modules/Notifications/Center/NotificationCard.qml:151",
     "comment": "island notification face: dismiss button",
     "tags": [
-      "settings",
       "shell"
     ]
   },
@@ -7238,7 +7264,7 @@
   {
     "term": "Display assignment",
     "context": "Display assignment",
-    "reference": "Common/SettingsTabs.qml:313",
+    "reference": "Common/SettingsTabs.qml:315",
     "comment": "",
     "tags": [
       "shell"
@@ -7346,7 +7372,7 @@
   {
     "term": "Displays",
     "context": "Displays",
-    "reference": "Common/SettingsTabs.qml:294, Modals/Greeter/GreeterCompletePage.qml:387, Modules/Settings/DockAdvancedTab.qml:78, Modules/Settings/LockScreenTab.qml:655, Modules/Settings/DankDotTab.qml:161, Modules/Settings/DankBarTab.qml:186, Modules/Settings/DockGeneralTab.qml:21, Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:51",
+    "reference": "Common/SettingsTabs.qml:295, Modals/Greeter/GreeterCompletePage.qml:387, Modules/Settings/DockAdvancedTab.qml:78, Modules/Settings/LockScreenTab.qml:655, Modules/Settings/DankDotTab.qml:161, Modules/Settings/DankBarTab.qml:186, Modules/Settings/DockGeneralTab.qml:21, Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:53",
     "comment": "greeter settings link",
     "tags": [
       "settings",
@@ -7374,7 +7400,7 @@
   {
     "term": "Displays, taskbar, auto-hide",
     "context": "Displays, taskbar, auto-hide",
-    "reference": "Common/SettingsTabs.qml:162",
+    "reference": "Common/SettingsTabs.qml:163",
     "comment": "",
     "tags": [
       "shell"
@@ -7420,7 +7446,7 @@
   {
     "term": "Dock",
     "context": "Dock",
-    "reference": "Common/SettingsData.qml:2288, Common/SettingsData.qml:2291, Common/SettingsTabs.qml:151, Modals/Greeter/GreeterCompletePage.qml:436, Modules/Notepad/NotepadTextEditor.qml:920",
+    "reference": "Common/SettingsData.qml:2371, Common/SettingsData.qml:2374, Common/SettingsTabs.qml:152, Modals/Greeter/GreeterCompletePage.qml:436, Modules/Notepad/NotepadTextEditor.qml:920",
     "comment": "greeter settings link",
     "tags": [
       "shell"
@@ -7538,7 +7564,7 @@
   {
     "term": "Dot",
     "context": "Dot",
-    "reference": "Common/SettingsData.qml:2742, Common/SettingsTabs.qml:122, Modules/Settings/BarHubHeader.qml:208",
+    "reference": "Common/SettingsData.qml:2825, Common/SettingsTabs.qml:123, Modules/Settings/BarHubHeader.qml:208",
     "comment": "bar layout: free-floating dot that opens island activities",
     "tags": [
       "settings",
@@ -7965,10 +7991,46 @@
   {
     "term": "Edit widgets",
     "context": "Edit widgets",
-    "reference": "Modules/Settings/LockScreenTab.qml:875, Modules/Settings/DesktopWidgetsTab.qml:264, Modules/Dock/DockContextMenu.qml:423, Modules/ControlCenter/Models/WidgetModel.qml:235",
+    "reference": "Modules/Settings/GreeterTab.qml:533, Modules/Settings/LockScreenTab.qml:875, Modules/Settings/DesktopWidgetsTab.qml:264, Modules/Dock/DockContextMenu.qml:423, Modules/ControlCenter/Models/WidgetModel.qml:235",
     "comment": "",
     "tags": [
       "settings",
+      "shell"
+    ]
+  },
+  {
+    "term": "Editing the lock screen",
+    "context": "Editing the lock screen",
+    "reference": "Modules/Plugins/WidgetEditorOverlay.qml:37",
+    "comment": "widget editor banner",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Editing the lock screen, the login screen follows it",
+    "context": "Editing the lock screen, the login screen follows it",
+    "reference": "Modules/Plugins/WidgetEditorOverlay.qml:37",
+    "comment": "widget editor banner",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Editing the login screen",
+    "context": "Editing the login screen",
+    "reference": "Modules/Plugins/WidgetEditorOverlay.qml:34",
+    "comment": "widget editor banner",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Editing the login screen, shared with the lock screen",
+    "context": "Editing the login screen, shared with the lock screen",
+    "reference": "Modules/Plugins/WidgetEditorOverlay.qml:34",
+    "comment": "widget editor banner",
+    "tags": [
       "shell"
     ]
   },
@@ -8331,7 +8393,7 @@
   {
     "term": "Ethernet",
     "context": "Ethernet",
-    "reference": "Common/SettingsTabs.qml:388, Modules/Settings/NetworkStatusTab.qml:90, Modules/Settings/NetworkStatusTab.qml:151, Modules/ControlCenter/Details/NetworkDetail.qml:321, Modules/ControlCenter/Widgets/NetworkTile.qml:41, Modules/ControlCenter/Widgets/NetworkTile.qml:46",
+    "reference": "Common/SettingsTabs.qml:392, Modules/Settings/NetworkStatusTab.qml:90, Modules/Settings/NetworkStatusTab.qml:151, Modules/ControlCenter/Details/NetworkDetail.qml:321, Modules/ControlCenter/Widgets/NetworkTile.qml:41, Modules/ControlCenter/Widgets/NetworkTile.qml:46",
     "comment": "network status",
     "tags": [
       "settings",
@@ -8541,7 +8603,7 @@
   {
     "term": "External palette commands, namespaces",
     "context": "External palette commands, namespaces",
-    "reference": "Common/SettingsTabs.qml:60",
+    "reference": "Common/SettingsTabs.qml:61",
     "comment": "settings sidebar hint for the injected palettes page",
     "tags": [
       "shell"
@@ -8983,7 +9045,7 @@
   {
     "term": "Failed to parse %1",
     "context": "Failed to parse %1",
-    "reference": "Common/SettingsData.qml:1767, Common/SettingsData.qml:1889, Common/SettingsData.qml:3555, Services/ToastService.qml:188",
+    "reference": "Common/SettingsData.qml:1849, Common/SettingsData.qml:1972, Common/SettingsData.qml:3638, Services/ToastService.qml:188",
     "comment": "error toast, %1 is a settings file name",
     "tags": [
       "shell"
@@ -9091,7 +9153,7 @@
   {
     "term": "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.",
     "context": "Failed to run 'dms-greeter status'. Ensure the dms-greeter package is installed.",
-    "reference": "Modules/Settings/GreeterTab.qml:139",
+    "reference": "Modules/Settings/GreeterTab.qml:238",
     "comment": "greeter status error",
     "tags": [
       "settings"
@@ -9384,15 +9446,6 @@
     "comment": "font family dropdown label",
     "tags": [
       "settings"
-    ]
-  },
-  {
-    "term": "Family, weight, scale, animation speed",
-    "context": "Family, weight, scale, animation speed",
-    "reference": "Common/SettingsTabs.qml:87",
-    "comment": "",
-    "tags": [
-      "shell"
     ]
   },
   {
@@ -9796,7 +9849,7 @@
   {
     "term": "Floating, opacity and placement rules per app",
     "context": "Floating, opacity and placement rules per app",
-    "reference": "Common/SettingsTabs.qml:505",
+    "reference": "Common/SettingsTabs.qml:510",
     "comment": "",
     "tags": [
       "shell"
@@ -9941,7 +9994,7 @@
   {
     "term": "Folder, interval, daily time",
     "context": "Folder, interval, daily time",
-    "reference": "Common/SettingsTabs.qml:44",
+    "reference": "Common/SettingsTabs.qml:45",
     "comment": "",
     "tags": [
       "shell"
@@ -9980,6 +10033,15 @@
     "context": "Follow focus",
     "reference": "Modules/Settings/KeybindEditorDialog.qml:491, Modules/Settings/CompositorLayoutTab.qml:368",
     "comment": "",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Follow lock screen",
+    "context": "Follow lock screen",
+    "reference": "Modules/Settings/GreeterTab.qml:328",
+    "comment": "greeter widgets toggle",
     "tags": [
       "settings"
     ]
@@ -10051,10 +10113,19 @@
   {
     "term": "Fonts & motion",
     "context": "Fonts & motion",
-    "reference": "Common/SettingsTabs.qml:84, Modules/Settings/GreeterTab.qml:255",
+    "reference": "Common/SettingsTabs.qml:85, Modules/Settings/GreeterTab.qml:385",
     "comment": "",
     "tags": [
       "settings",
+      "shell"
+    ]
+  },
+  {
+    "term": "Fonts, scale, animations",
+    "context": "Fonts, scale, animations",
+    "reference": "Common/SettingsTabs.qml:88",
+    "comment": "settings sidebar hint for the fonts and motion page",
+    "tags": [
       "shell"
     ]
   },
@@ -10142,7 +10213,7 @@
   {
     "term": "Forecast and conditions",
     "context": "Forecast and conditions",
-    "reference": "Common/SettingsTabs.qml:535, Modules/DankDash/DashRegistry.qml:159",
+    "reference": "Common/SettingsTabs.qml:541, Modules/DankDash/DashRegistry.qml:159",
     "comment": "",
     "tags": [
       "shell"
@@ -10451,7 +10522,7 @@
   {
     "term": "GTK, Qt, portal, matugen templates",
     "context": "GTK, Qt, portal, matugen templates",
-    "reference": "Common/SettingsTabs.qml:52",
+    "reference": "Common/SettingsTabs.qml:53",
     "comment": "",
     "tags": [
       "shell"
@@ -10478,7 +10549,7 @@
   {
     "term": "Gamma control",
     "context": "Gamma control",
-    "reference": "Common/SettingsTabs.qml:306",
+    "reference": "Common/SettingsTabs.qml:308",
     "comment": "",
     "tags": [
       "shell"
@@ -10541,7 +10612,7 @@
   {
     "term": "Gaps, window borders, corner radius",
     "context": "Gaps, window borders, corner radius",
-    "reference": "Common/SettingsTabs.qml:580",
+    "reference": "Common/SettingsTabs.qml:587",
     "comment": "",
     "tags": [
       "shell"
@@ -10568,7 +10639,7 @@
   {
     "term": "General",
     "context": "General",
-    "reference": "Common/SettingsTabs.qml:104, Common/SettingsTabs.qml:159, Modules/Settings/MediaPlayerTab.qml:55, Modules/Settings/LocaleTab.qml:38, Modules/Settings/DankDotTab.qml:24, Modules/Settings/WeatherSettingsTab.qml:22, Modules/Settings/MuxTab.qml:19, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:45",
+    "reference": "Common/SettingsTabs.qml:105, Common/SettingsTabs.qml:160, Modules/Settings/MediaPlayerTab.qml:55, Modules/Settings/LocaleTab.qml:38, Modules/Settings/DankDotTab.qml:24, Modules/Settings/WeatherSettingsTab.qml:22, Modules/Settings/MuxTab.qml:19, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:45",
     "comment": "adjective, settings page and section title for general options",
     "tags": [
       "settings",
@@ -10749,7 +10820,7 @@
   {
     "term": "Greeter",
     "context": "Greeter",
-    "reference": "Common/SettingsTabs.qml:459, Modules/Settings/UsersTab.qml:86",
+    "reference": "Common/SettingsTabs.qml:463, Modules/Settings/UsersTab.qml:86",
     "comment": "noun, login screen settings page and greeter account badge",
     "tags": [
       "settings",
@@ -10759,7 +10830,7 @@
   {
     "term": "Greeter activated. greetd is now enabled.",
     "context": "Greeter activated. greetd is now enabled.",
-    "reference": "Modules/Settings/GreeterTab.qml:168",
+    "reference": "Modules/Settings/GreeterTab.qml:267",
     "comment": "",
     "tags": [
       "settings"
@@ -10768,7 +10839,7 @@
   {
     "term": "Greeter sync complete",
     "context": "Greeter sync complete",
-    "reference": "Services/GreeterService.qml:116",
+    "reference": "Services/GreeterService.qml:135, Services/GreeterService.qml:186",
     "comment": "",
     "tags": [
       "shell"
@@ -10823,7 +10894,7 @@
   {
     "term": "Group",
     "context": "Group",
-    "reference": "Modules/Settings/DesktopWidgetTab.qml:75",
+    "reference": "Modules/Settings/DesktopWidgetTab.qml:77",
     "comment": "noun, dropdown label for a desktop widget group",
     "tags": [
       "settings"
@@ -11005,7 +11076,7 @@
   {
     "term": "Hibernate",
     "context": "Hibernate",
-    "reference": "Services/SessionService.qml:723, Modules/Settings/PowerSleepTab.qml:114, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:421",
+    "reference": "Services/SessionService.qml:724, Modules/Settings/PowerSleepTab.qml:114, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:421",
     "comment": "verb, power menu action",
     "tags": [
       "settings",
@@ -11015,7 +11086,7 @@
   {
     "term": "Hibernate failed",
     "context": "Hibernate failed",
-    "reference": "Services/SessionService.qml:160",
+    "reference": "Services/SessionService.qml:161",
     "comment": "",
     "tags": [
       "shell"
@@ -11260,7 +11331,7 @@
   {
     "term": "History",
     "context": "History",
-    "reference": "Modules/DankDash/NotificationsTab.qml:173, Modules/Settings/BatteryTab.qml:220, Modules/Settings/DigitalWellbeingTab.qml:168, Modules/Settings/NotificationsTab.qml:348, Modules/Settings/NotificationsTab.qml:354, Modules/Settings/ClipboardTab.qml:271, Modules/Notifications/Center/NotificationHeader.qml:25, Modules/DankBar/Popouts/BatteryHistoryChart.qml:34, Modules/DankBar/Popouts/BatteryHistoryChart.qml:191",
+    "reference": "Modules/DankDash/NotificationsTab.qml:173, Modules/Settings/BatteryTab.qml:220, Modules/Settings/DigitalWellbeingTab.qml:175, Modules/Settings/NotificationsTab.qml:348, Modules/Settings/NotificationsTab.qml:354, Modules/Settings/ClipboardTab.qml:271, Modules/Notifications/Center/NotificationHeader.qml:25, Modules/DankBar/Popouts/BatteryHistoryChart.qml:34, Modules/DankBar/Popouts/BatteryHistoryChart.qml:191",
     "comment": "notification center tab",
     "tags": [
       "settings",
@@ -11288,7 +11359,7 @@
   {
     "term": "History size, retention, paste behavior",
     "context": "History size, retention, paste behavior",
-    "reference": "Common/SettingsTabs.qml:572",
+    "reference": "Common/SettingsTabs.qml:579",
     "comment": "",
     "tags": [
       "shell"
@@ -11679,7 +11750,7 @@
   {
     "term": "Icon theme changed outside DMS; switched to System Default",
     "context": "Icon theme changed outside DMS; switched to System Default",
-    "reference": "Common/SettingsData.qml:1405",
+    "reference": "Common/SettingsData.qml:1471",
     "comment": "shown when an external tool overrides the icon theme DMS applied",
     "tags": [
       "shell"
@@ -11770,7 +11841,7 @@
   {
     "term": "Idle timeouts, power menu, custom actions",
     "context": "Idle timeouts, power menu, custom actions",
-    "reference": "Common/SettingsTabs.qml:362",
+    "reference": "Common/SettingsTabs.qml:365",
     "comment": "",
     "tags": [
       "shell"
@@ -12107,7 +12178,7 @@
   {
     "term": "Injected palettes",
     "context": "Injected palettes",
-    "reference": "Common/SettingsTabs.qml:57",
+    "reference": "Common/SettingsTabs.qml:58",
     "comment": "settings page title, external palette commands merged into matugen",
     "tags": [
       "shell"
@@ -12143,7 +12214,7 @@
   {
     "term": "Input",
     "context": "Input",
-    "reference": "Common/SettingsTabs.qml:322",
+    "reference": "Common/SettingsTabs.qml:324",
     "comment": "noun, settings page name for input devices",
     "tags": [
       "shell"
@@ -12289,7 +12360,7 @@
   {
     "term": "Installation and PAM setup are documented in the ",
     "context": "Installation and PAM setup are documented in the ",
-    "reference": "Modules/Settings/GreeterTab.qml:319",
+    "reference": "Modules/Settings/GreeterTab.qml:487",
     "comment": "",
     "tags": [
       "settings"
@@ -12370,7 +12441,7 @@
   {
     "term": "Intensity, color, light direction",
     "context": "Intensity, color, light direction",
-    "reference": "Common/SettingsTabs.qml:78",
+    "reference": "Common/SettingsTabs.qml:79",
     "comment": "",
     "tags": [
       "shell"
@@ -12388,7 +12459,7 @@
   {
     "term": "Interface style",
     "context": "Interface style",
-    "reference": "Common/SettingsTabs.qml:66, Modules/Settings/Widgets/SettingsControlledBy.qml:34",
+    "reference": "Common/SettingsTabs.qml:67, Modules/Settings/Widgets/SettingsControlledBy.qml:34",
     "comment": "",
     "tags": [
       "settings",
@@ -12490,7 +12561,7 @@
   {
     "term": "Italic",
     "context": "Italic",
-    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:46",
+    "reference": "Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:53",
     "comment": "clock font style toggle",
     "tags": [
       "settings"
@@ -12600,7 +12671,7 @@
   {
     "term": "Keeps the widget above windows instead of below them",
     "context": "Keeps the widget above windows instead of below them",
-    "reference": "Modules/Settings/DesktopWidgetTab.qml:98",
+    "reference": "Modules/Settings/DesktopWidgetTab.qml:100",
     "comment": "desktop widget show on overlay toggle description",
     "tags": [
       "settings"
@@ -12609,7 +12680,7 @@
   {
     "term": "Kept for %1 days on this device",
     "context": "Kept for %1 days on this device",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:175",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:182",
     "comment": "screen time history description, %1 is a number of days",
     "tags": [
       "settings"
@@ -12663,7 +12734,7 @@
   {
     "term": "Keyboard",
     "context": "Keyboard",
-    "reference": "Common/SettingsTabs.qml:335",
+    "reference": "Common/SettingsTabs.qml:338",
     "comment": "settings page name",
     "tags": [
       "shell"
@@ -12681,7 +12752,7 @@
   {
     "term": "Keyboard shortcuts",
     "context": "Keyboard shortcuts",
-    "reference": "Common/SettingsTabs.qml:327, Modals/Clipboard/ClipboardActions.qml:36, Modules/Notepad/NotepadSettings.qml:526, Modules/Notifications/Center/NotificationHeader.qml:87",
+    "reference": "Common/SettingsTabs.qml:330, Modals/Clipboard/ClipboardActions.qml:36, Modules/Notepad/NotepadSettings.qml:526, Modules/Notifications/Center/NotificationHeader.qml:87",
     "comment": "",
     "tags": [
       "shell"
@@ -12771,7 +12842,7 @@
   {
     "term": "Language, time and date locale",
     "context": "Language, time and date locale",
-    "reference": "Common/SettingsTabs.qml:542",
+    "reference": "Common/SettingsTabs.qml:548",
     "comment": "",
     "tags": [
       "shell"
@@ -12951,7 +13022,7 @@
   {
     "term": "Launcher",
     "context": "Launcher",
-    "reference": "Common/SettingsTabs.qml:190, Modules/DankIsland/DankIslandSurface.qml:584, Modules/Settings/WidgetsTab.qml:698, Modules/Settings/Widgets/IslandBehaviorCard.qml:55",
+    "reference": "Common/SettingsTabs.qml:191, Modules/DankIsland/DankIslandSurface.qml:584, Modules/Settings/WidgetsTab.qml:698, Modules/Settings/Widgets/IslandBehaviorCard.qml:55",
     "comment": "island compact face: launcher label | island settings: button to launcher tab",
     "tags": [
       "settings",
@@ -13015,7 +13086,7 @@
   {
     "term": "Layers, fullscreen, exclusive zone",
     "context": "Layers, fullscreen, exclusive zone",
-    "reference": "Common/SettingsTabs.qml:184",
+    "reference": "Common/SettingsTabs.qml:185",
     "comment": "",
     "tags": [
       "shell"
@@ -13043,7 +13114,7 @@
   {
     "term": "Layout, authentication, screensaver",
     "context": "Layout, authentication, screensaver",
-    "reference": "Common/SettingsTabs.qml:455",
+    "reference": "Common/SettingsTabs.qml:459",
     "comment": "",
     "tags": [
       "shell"
@@ -13052,8 +13123,17 @@
   {
     "term": "Layout, position, appearance",
     "context": "Layout, position, appearance",
-    "reference": "Common/SettingsTabs.qml:97",
+    "reference": "Common/SettingsTabs.qml:98",
     "comment": "settings hub hint for the bar pages",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Layout, scale, night mode",
+    "context": "Layout, scale, night mode",
+    "reference": "Common/SettingsTabs.qml:297",
+    "comment": "settings sidebar hint for the displays page",
     "tags": [
       "shell"
     ]
@@ -13070,7 +13150,7 @@
   {
     "term": "Layouts, repeat rate, num lock",
     "context": "Layouts, repeat rate, num lock",
-    "reference": "Common/SettingsTabs.qml:339",
+    "reference": "Common/SettingsTabs.qml:342",
     "comment": "",
     "tags": [
       "shell"
@@ -13262,7 +13342,7 @@
   {
     "term": "Limit",
     "context": "Limit",
-    "reference": "Modules/DankDash/Wellbeing/WeeklyChart.qml:171",
+    "reference": "Modules/DankDash/Wellbeing/WeeklyChart.qml:351",
     "comment": "label on the daily screen time limit line of a chart",
     "tags": [
       "shell"
@@ -13311,6 +13391,42 @@
     "comment": "plural, notepad status bar line count, %1 is a count",
     "tags": [
       "shell"
+    ]
+  },
+  {
+    "term": "Link your DMS settings so the login screen follows them.",
+    "context": "Link your DMS settings so the login screen follows them.",
+    "reference": "Modules/Settings/GreeterTab.qml:120",
+    "comment": "greeter status",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Link your DMS settings so the login screen follows them. Administrator access is required.",
+    "context": "Link your DMS settings so the login screen follows them. Administrator access is required.",
+    "reference": "Modules/Settings/GreeterTab.qml:120",
+    "comment": "greeter status",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Linked",
+    "context": "Linked",
+    "reference": "Modules/Settings/GreeterTab.qml:99",
+    "comment": "greeter status, login screen follows DMS settings live",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Linked as a snapshot",
+    "context": "Linked as a snapshot",
+    "reference": "Modules/Settings/GreeterTab.qml:101",
+    "comment": "greeter status, login screen reads a copy of DMS settings",
+    "tags": [
+      "settings"
     ]
   },
   {
@@ -13435,7 +13551,7 @@
   {
     "term": "Locale",
     "context": "Locale",
-    "reference": "Common/SettingsTabs.qml:539",
+    "reference": "Common/SettingsTabs.qml:545",
     "comment": "settings page name for language and region",
     "tags": [
       "shell"
@@ -13471,7 +13587,7 @@
   {
     "term": "Lock",
     "context": "Lock",
-    "reference": "Services/SessionService.qml:711, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:403, Modules/ControlCenter/Models/WidgetModel.qml:216",
+    "reference": "Services/SessionService.qml:712, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:403, Modules/ControlCenter/Models/WidgetModel.qml:216",
     "comment": "verb, power menu action that locks the screen",
     "tags": [
       "settings",
@@ -13508,7 +13624,7 @@
   {
     "term": "Lock screen",
     "context": "Lock screen",
-    "reference": "Common/SettingsTabs.qml:452, Modules/Settings/GreeterTab.qml:261, Modules/Settings/WallpaperColorsTab.qml:546, Modules/Settings/WeatherSettingsTab.qml:136, Modules/ControlCenter/Models/WidgetModel.qml:217",
+    "reference": "Common/SettingsTabs.qml:456, Modules/Settings/GreeterTab.qml:391, Modules/Settings/WallpaperColorsTab.qml:546, Modules/Settings/WeatherSettingsTab.qml:136, Modules/ControlCenter/Models/WidgetModel.qml:217",
     "comment": "",
     "tags": [
       "settings",
@@ -13545,7 +13661,7 @@
   {
     "term": "Log out",
     "context": "Log out",
-    "reference": "Modals/SwitchUserModal.qml:216, Services/SessionService.qml:699, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:203, Modules/Settings/PowerSleepTab.qml:409",
+    "reference": "Modals/SwitchUserModal.qml:216, Services/SessionService.qml:700, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:203, Modules/Settings/PowerSleepTab.qml:409",
     "comment": "",
     "tags": [
       "settings",
@@ -13564,8 +13680,17 @@
   {
     "term": "Login screen appearance and authentication",
     "context": "Login screen appearance and authentication",
-    "reference": "Common/SettingsTabs.qml:463",
+    "reference": "Common/SettingsTabs.qml:467",
     "comment": "",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Login screen unlinked.",
+    "context": "Login screen unlinked.",
+    "reference": "Services/GreeterService.qml:208",
+    "comment": "greeter unlink status",
     "tags": [
       "shell"
     ]
@@ -13719,7 +13844,7 @@
   {
     "term": "Manage Registries",
     "context": "Manage Registries",
-    "reference": "Common/SettingsTabs.qml:612, Modules/Settings/PluginsHubHeader.qml:412, Modules/Settings/PluginsHubHeader.qml:481",
+    "reference": "Common/SettingsTabs.qml:619, Modules/Settings/PluginsHubHeader.qml:412, Modules/Settings/PluginsHubHeader.qml:481",
     "comment": "plugin registry management",
     "tags": [
       "settings",
@@ -14306,7 +14431,7 @@
   {
     "term": "Media player",
     "context": "Media player",
-    "reference": "Common/SettingsTabs.qml:281, Modules/Settings/DankDashTab.qml:35, Modules/Settings/DankDashTab.qml:40, Modules/Settings/BarWidgetOptions/MusicOptions.qml:75, Modules/DankDash/Overview/DashOptionsSheet.qml:54",
+    "reference": "Common/SettingsTabs.qml:282, Modules/Settings/DankDashTab.qml:35, Modules/Settings/DankDashTab.qml:40, Modules/Settings/BarWidgetOptions/MusicOptions.qml:75, Modules/DankDash/Overview/DashOptionsSheet.qml:54",
     "comment": "",
     "tags": [
       "settings",
@@ -14562,7 +14687,7 @@
   {
     "term": "Modem and mobile data",
     "context": "Modem and mobile data",
-    "reference": "Common/SettingsTabs.qml:406",
+    "reference": "Common/SettingsTabs.qml:410",
     "comment": "",
     "tags": [
       "shell"
@@ -14645,7 +14770,7 @@
   {
     "term": "Month",
     "context": "Month",
-    "reference": "Modules/DankDash/Wellbeing/AppUsageList.qml:31",
+    "reference": "Modules/DankDash/Wellbeing/AppUsageList.qml:33",
     "comment": "screen time range filter",
     "tags": [
       "shell"
@@ -14736,7 +14861,7 @@
   {
     "term": "Most used apps",
     "context": "Most used apps",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:67, Modules/DankDash/Wellbeing/AppUsageList.qml:57",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:72, Modules/DankDash/Wellbeing/AppUsageList.qml:59",
     "comment": "screen time card title, apps ranked by time",
     "tags": [
       "settings",
@@ -14782,7 +14907,7 @@
   {
     "term": "Mouse & touchpad",
     "context": "Mouse & touchpad",
-    "reference": "Common/SettingsTabs.qml:343",
+    "reference": "Common/SettingsTabs.qml:346",
     "comment": "",
     "tags": [
       "shell"
@@ -14881,7 +15006,7 @@
   {
     "term": "Multiplexers",
     "context": "Multiplexers",
-    "reference": "Common/SettingsTabs.qml:585",
+    "reference": "Common/SettingsTabs.qml:592",
     "comment": "settings page name for terminal multiplexers like tmux",
     "tags": [
       "shell"
@@ -14935,7 +15060,7 @@
   {
     "term": "Mute, ignore and priority rules per app",
     "context": "Mute, ignore and priority rules per app",
-    "reference": "Common/SettingsTabs.qml:240, Modules/Settings/NotificationRulesTab.qml:188",
+    "reference": "Common/SettingsTabs.qml:241, Modules/Settings/NotificationRulesTab.qml:188",
     "comment": "",
     "tags": [
       "settings",
@@ -15008,7 +15133,7 @@
   {
     "term": "Name",
     "context": "Name",
-    "reference": "Modals/DankLauncherV2/AppEditView.qml:144, Modals/DankLauncherV2/LauncherContent.qml:641, Modals/DankLauncherV2/LauncherContent.qml:650, Modals/DankLauncherV2/LauncherContent.qml:655, Modules/ProcessList/ProcessesView.qml:292, Modules/DankDash/WallpaperTab.qml:53, Modules/Settings/DockHubHeader.qml:80, Modules/Settings/DockHubHeader.qml:111, Modules/Settings/PaletteInjectTab.qml:106, Modules/Settings/PluginBrowser.qml:52, Modules/Settings/DisplayWidgetsTab.qml:115, Modules/Settings/BarHubHeader.qml:140, Modules/Settings/BarHubHeader.qml:170, Modules/Settings/AutoStartTab.qml:437, Modules/Settings/MediaPlayerTab.qml:189, Modules/Settings/PluginsHubHeader.qml:33, Modules/Settings/PrinterTab.qml:373, Modules/Settings/SoftwareUpdatesTab.qml:776, Modules/Settings/PluginsManageTab.qml:170, Modules/Settings/DesktopWidgetsTab.qml:118, Modules/Settings/DisplayConfigTab.qml:339, Modules/Settings/DesktopWidgetTab.qml:66, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1589, Modules/Settings/Widgets/SettingsRenameDialog.qml:11",
+    "reference": "Modals/DankLauncherV2/AppEditView.qml:144, Modals/DankLauncherV2/LauncherContent.qml:641, Modals/DankLauncherV2/LauncherContent.qml:650, Modals/DankLauncherV2/LauncherContent.qml:655, Modules/ProcessList/ProcessesView.qml:292, Modules/DankDash/WallpaperTab.qml:53, Modules/Settings/DockHubHeader.qml:80, Modules/Settings/DockHubHeader.qml:111, Modules/Settings/PaletteInjectTab.qml:106, Modules/Settings/PluginBrowser.qml:52, Modules/Settings/DisplayWidgetsTab.qml:115, Modules/Settings/BarHubHeader.qml:140, Modules/Settings/BarHubHeader.qml:170, Modules/Settings/AutoStartTab.qml:437, Modules/Settings/MediaPlayerTab.qml:189, Modules/Settings/PluginsHubHeader.qml:33, Modules/Settings/PrinterTab.qml:373, Modules/Settings/SoftwareUpdatesTab.qml:776, Modules/Settings/PluginsManageTab.qml:170, Modules/Settings/DesktopWidgetsTab.qml:118, Modules/Settings/DisplayConfigTab.qml:339, Modules/Settings/DesktopWidgetTab.qml:68, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1589, Modules/Settings/Widgets/SettingsRenameDialog.qml:11",
     "comment": "plugin browser sort option",
     "tags": [
       "settings",
@@ -15090,7 +15215,7 @@
   {
     "term": "Network",
     "context": "Network",
-    "reference": "Common/SettingsTabs.qml:375, Services/CupsService.qml:136, Modules/ProcessList/PerformanceView.qml:67, Modules/DankDash/DashRegistry.qml:302, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:87, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:16, Modules/ControlCenter/Details/NetworkDetail.qml:25, Modules/ControlCenter/Models/WidgetModel.qml:289, Modules/ControlCenter/Components/CcWidgetSheet.qml:25, Modules/DankDash/Overview/NetworkCard.qml:10",
+    "reference": "Common/SettingsTabs.qml:378, Services/CupsService.qml:136, Modules/ProcessList/PerformanceView.qml:67, Modules/DankDash/DashRegistry.qml:302, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:87, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:16, Modules/ControlCenter/Details/NetworkDetail.qml:25, Modules/ControlCenter/Models/WidgetModel.qml:289, Modules/ControlCenter/Components/CcWidgetSheet.qml:25, Modules/DankDash/Overview/NetworkCard.qml:10",
     "comment": "noun, settings page and widget title | printer device class, a network printer",
     "tags": [
       "settings",
@@ -15154,7 +15279,7 @@
   {
     "term": "Networks, saved networks, hotspot",
     "context": "Networks, saved networks, hotspot",
-    "reference": "Common/SettingsTabs.qml:384",
+    "reference": "Common/SettingsTabs.qml:388",
     "comment": "",
     "tags": [
       "shell"
@@ -15298,7 +15423,7 @@
   {
     "term": "Next",
     "context": "Next",
-    "reference": "Modals/Greeter/GreeterModal.qml:265, Modules/Lock/LockStatusRow.qml:231, Modules/Notepad/NotepadTextEditor.qml:476, Modules/Notepad/NotepadSettings.qml:561, Modules/OSD/MediaPlaybackOSD.qml:317, Modules/Settings/WallpaperCyclingTab.qml:166, Modules/DankDash/Media/MediaTransportButton.qml:49, Modules/DankDash/Weather/WeatherForecastWidget.qml:96, Modules/DankDash/Overview/MediaOverviewCard.qml:236, Modules/DankDash/Overview/CalendarEventEditor.qml:173, Modules/DankDash/Overview/CalendarOverviewCard.qml:296, Modules/DankBar/Popouts/BatteryHistoryChart.qml:153",
+    "reference": "Modals/Greeter/GreeterModal.qml:265, Modules/Lock/LockStatusRow.qml:231, Modules/Notepad/NotepadTextEditor.qml:476, Modules/Notepad/NotepadSettings.qml:561, Modules/OSD/MediaPlaybackOSD.qml:317, Modules/Settings/WallpaperCyclingTab.qml:166, Modules/DankDash/Media/MediaTransportButton.qml:49, Modules/DankDash/Wellbeing/WeeklyChart.qml:181, Modules/DankDash/Weather/WeatherForecastWidget.qml:96, Modules/DankDash/Overview/MediaOverviewCard.qml:236, Modules/DankDash/Overview/CalendarEventEditor.qml:173, Modules/DankDash/Overview/CalendarOverviewCard.qml:296, Modules/DankBar/Popouts/BatteryHistoryChart.qml:153",
     "comment": "greeter next button",
     "tags": [
       "settings",
@@ -15364,7 +15489,7 @@
   {
     "term": "Night mode, gamma, contrast",
     "context": "Night mode, gamma, contrast",
-    "reference": "Common/SettingsTabs.qml:309",
+    "reference": "Common/SettingsTabs.qml:311",
     "comment": "",
     "tags": [
       "shell"
@@ -15538,7 +15663,7 @@
   {
     "term": "No app limits",
     "context": "No app limits",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:127",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:134",
     "comment": "empty state, per-app screen time limits list",
     "tags": [
       "settings"
@@ -16167,7 +16292,7 @@
   {
     "term": "No status output.",
     "context": "No status output.",
-    "reference": "Modules/Settings/GreeterTab.qml:134",
+    "reference": "Modules/Settings/GreeterTab.qml:233",
     "comment": "",
     "tags": [
       "settings"
@@ -16359,7 +16484,7 @@
   {
     "term": "None",
     "context": "None",
-    "reference": "Services/KeybindsService.qml:638, Services/KeybindsService.qml:643, Services/KeybindsService.qml:644, Services/CupsService.qml:668, Modules/Settings/UserAccountsTab.qml:54, Modules/Settings/WallpaperColorsTab.qml:476, Modules/Settings/WindowRuleEditorDialog.qml:237, Modules/Settings/DankBarTab.qml:457, Modules/Settings/DankBarTab.qml:457, Modules/Settings/DankBarTab.qml:499, Modules/Settings/WorkspaceAppearanceCard.qml:32, Modules/Settings/DesktopWidgetTab.qml:28, Modules/Settings/DesktopWidgetTab.qml:77, Modules/Settings/WindowRulesTab.qml:620, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:41, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:47, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:51, Modules/Settings/BarWidgetOptions/SystemTrayOptions.qml:77, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:51, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:291",
+    "reference": "Services/KeybindsService.qml:638, Services/KeybindsService.qml:643, Services/KeybindsService.qml:644, Services/CupsService.qml:668, Modules/Settings/UserAccountsTab.qml:54, Modules/Settings/WallpaperColorsTab.qml:476, Modules/Settings/WindowRuleEditorDialog.qml:237, Modules/Settings/DankBarTab.qml:457, Modules/Settings/DankBarTab.qml:457, Modules/Settings/DankBarTab.qml:499, Modules/Settings/WorkspaceAppearanceCard.qml:32, Modules/Settings/DesktopWidgetTab.qml:30, Modules/Settings/DesktopWidgetTab.qml:79, Modules/Settings/WindowRulesTab.qml:620, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:41, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:47, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:51, Modules/Settings/BarWidgetOptions/SystemTrayOptions.qml:77, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:51, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:291",
     "comment": "Tailscale exit node: none selected | wallpaper transition option | workspace color option",
     "tags": [
       "settings",
@@ -16416,6 +16541,15 @@
     "context": "Normal routing",
     "reference": "Modules/Settings/Widgets/IslandBehaviorCard.qml:34",
     "comment": "shared shortcuts option, shortcuts open where they normally would",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Not active",
+    "context": "Not active",
+    "reference": "Modules/Settings/GreeterTab.qml:103",
+    "comment": "greeter status, greetd does not run the DMS greeter",
     "tags": [
       "settings"
     ]
@@ -16495,6 +16629,24 @@
     ]
   },
   {
+    "term": "Not installed",
+    "context": "Not installed",
+    "reference": "Modules/Settings/GreeterTab.qml:109",
+    "comment": "greeter status",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Not linked",
+    "context": "Not linked",
+    "reference": "Modules/Settings/GreeterTab.qml:105",
+    "comment": "greeter status, no greeter slot for this user",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
     "term": "Not set",
     "context": "Not set",
     "reference": "Modules/Settings/Widgets/SettingsWallpaperThumb.qml:11",
@@ -16552,7 +16704,7 @@
   {
     "term": "Nothing tracked yet",
     "context": "Nothing tracked yet",
-    "reference": "Modules/DankDash/Wellbeing/AppUsageList.qml:83",
+    "reference": "Modules/DankDash/Wellbeing/AppUsageList.qml:85",
     "comment": "empty state of the screen time app list",
     "tags": [
       "shell"
@@ -16608,7 +16760,7 @@
   {
     "term": "Notifications",
     "context": "Notifications",
-    "reference": "Common/SettingsTabs.qml:228, Services/DesktopWidgetRegistry.qml:86, Modals/Greeter/GreeterCompletePage.qml:411, Modules/DankDash/DashRegistry.qml:196, Modules/DankIsland/DankIslandSurface.qml:737, Modules/Settings/ShadowsTab.qml:201, Modules/Settings/CompositorLayoutTab.qml:193, Modules/Settings/Widgets/IslandNotificationsCard.qml:14, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:56, Modules/DankDash/Overview/NotificationsOverviewCard.qml:18, Modules/Lock/Widgets/LockNotificationsWidget.qml:257",
+    "reference": "Common/SettingsTabs.qml:229, Services/DesktopWidgetRegistry.qml:88, Modals/Greeter/GreeterCompletePage.qml:411, Modules/DankDash/DashRegistry.qml:196, Modules/DankIsland/DankIslandSurface.qml:737, Modules/Settings/ShadowsTab.qml:201, Modules/Settings/CompositorLayoutTab.qml:193, Modules/Settings/Widgets/IslandNotificationsCard.qml:14, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:56, Modules/DankDash/Overview/NotificationsOverviewCard.qml:18, Modules/Lock/Widgets/LockNotificationsWidget.qml:257",
     "comment": "greeter settings link | island compact face: notification center label | island settings: notification badge slot row | island settings: notifications card title",
     "tags": [
       "settings",
@@ -16618,7 +16770,7 @@
   {
     "term": "Notifies when today's screen time passes the limit",
     "context": "Notifies when today's screen time passes the limit",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:107",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:114",
     "comment": "daily screen time limit description",
     "tags": [
       "settings"
@@ -16735,7 +16887,7 @@
   {
     "term": "Off",
     "context": "Off",
-    "reference": "Modules/ProcessList/SystemView.qml:276, Modules/DankDash/NotificationsTab.qml:211, Modules/DankDash/NotificationsTab.qml:213, Modules/DankIsland/IslandSystemSource.qml:71, Modules/DankIsland/IslandSystemSource.qml:75, Modules/Settings/TypographyMotionTab.qml:219, Modules/Settings/TypographyMotionTab.qml:347, Modules/Settings/TypographyMotionTab.qml:361, Modules/Settings/ThemeSurfacesTab.qml:188, Modules/Settings/WallpaperColorsTab.qml:963, Modules/Settings/DigitalWellbeingTab.qml:107, Modules/Settings/WindowRuleEditorDialog.qml:43, Modules/Settings/NotificationsTab.qml:454, Modules/Settings/WindowRulesTab.qml:76, Modules/Settings/CompositorLayoutTab.qml:98, Modules/Settings/CompositorLayoutTab.qml:240, Modules/Settings/CompositorLayoutTab.qml:387, Modules/Settings/CompositorLayoutTab.qml:513, Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/OutputCard.qml:227, Modules/Settings/DisplayConfig/OutputCard.qml:230, Modules/Settings/DisplayConfig/OutputCard.qml:238, Modules/Settings/DisplayConfig/OutputCard.qml:245, Modules/Settings/DisplayConfig/OutputCard.qml:248, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:47, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:55, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:62, Modules/ControlCenter/Widgets/IdleInhibitTile.qml:12, Modules/ControlCenter/Widgets/DndTile.qml:11, Modules/ControlCenter/Widgets/BluetoothTile.qml:41, Modules/DankDash/Wellbeing/AppLimitSheet.qml:32, Modules/Notifications/Center/NotificationHeader.qml:72, Modules/Notifications/Center/NotificationHeader.qml:74, Modules/Notifications/Center/NotificationHeader.qml:163, Modules/Notifications/Center/NotificationHeader.qml:164, Modules/Notifications/Center/NotificationHeader.qml:171, Modules/DankBar/Widgets/IdleInhibitPresets.qml:15",
+    "reference": "Modules/ProcessList/SystemView.qml:276, Modules/DankDash/NotificationsTab.qml:211, Modules/DankDash/NotificationsTab.qml:213, Modules/DankIsland/IslandSystemSource.qml:71, Modules/DankIsland/IslandSystemSource.qml:75, Modules/Settings/TypographyMotionTab.qml:219, Modules/Settings/TypographyMotionTab.qml:347, Modules/Settings/TypographyMotionTab.qml:361, Modules/Settings/ThemeSurfacesTab.qml:188, Modules/Settings/WallpaperColorsTab.qml:963, Modules/Settings/DigitalWellbeingTab.qml:114, Modules/Settings/WindowRuleEditorDialog.qml:43, Modules/Settings/NotificationsTab.qml:454, Modules/Settings/WindowRulesTab.qml:76, Modules/Settings/CompositorLayoutTab.qml:98, Modules/Settings/CompositorLayoutTab.qml:240, Modules/Settings/CompositorLayoutTab.qml:387, Modules/Settings/CompositorLayoutTab.qml:513, Modules/Settings/DisplayConfig/OutputCard.qml:220, Modules/Settings/DisplayConfig/OutputCard.qml:227, Modules/Settings/DisplayConfig/OutputCard.qml:230, Modules/Settings/DisplayConfig/OutputCard.qml:238, Modules/Settings/DisplayConfig/OutputCard.qml:245, Modules/Settings/DisplayConfig/OutputCard.qml:248, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:47, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:55, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:62, Modules/ControlCenter/Widgets/IdleInhibitTile.qml:12, Modules/ControlCenter/Widgets/DndTile.qml:11, Modules/ControlCenter/Widgets/BluetoothTile.qml:41, Modules/DankDash/Wellbeing/AppLimitSheet.qml:32, Modules/Notifications/Center/NotificationHeader.qml:72, Modules/Notifications/Center/NotificationHeader.qml:74, Modules/Notifications/Center/NotificationHeader.qml:163, Modules/Notifications/Center/NotificationHeader.qml:164, Modules/Notifications/Center/NotificationHeader.qml:171, Modules/DankBar/Widgets/IdleInhibitPresets.qml:15",
     "comment": "bluetooth status",
     "tags": [
       "settings",
@@ -16818,7 +16970,7 @@
   {
     "term": "On-screen displays",
     "context": "On-screen displays",
-    "reference": "Common/SettingsTabs.qml:246",
+    "reference": "Common/SettingsTabs.qml:247",
     "comment": "",
     "tags": [
       "shell"
@@ -16881,19 +17033,10 @@
   {
     "term": "Opacity",
     "context": "Opacity",
-    "reference": "Modules/ColorPicker/ColorPickerContent.qml:278, Modules/ColorPicker/ColorPickerContent.qml:299, Modules/Settings/ThemeSurfacesTab.qml:82, Modules/Settings/ThemeSurfacesTab.qml:321, Modules/Settings/ThemeSurfacesTab.qml:400, Modules/Settings/DankBarAppearanceTab.qml:181, Modules/Settings/DankBarAppearanceTab.qml:286, Modules/Settings/DankBarAppearanceTab.qml:585, Modules/Settings/DankBarAppearanceTab.qml:670, Modules/Settings/DankBarAppearanceTab.qml:766, Modules/Settings/DockAppearanceTab.qml:152, Modules/Settings/DockAppearanceTab.qml:188, Modules/Settings/WindowRuleEditorDialog.qml:925, Modules/Settings/WindowRuleEditorDialog.qml:933, Modules/Settings/DankDotTab.qml:124, Modules/Settings/ShadowsTab.qml:58, Modules/Settings/ShadowsTab.qml:275, Modules/Settings/WindowRulesTab.qml:110, Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:34",
+    "reference": "Modules/ColorPicker/ColorPickerContent.qml:278, Modules/ColorPicker/ColorPickerContent.qml:299, Modules/Settings/ThemeSurfacesTab.qml:82, Modules/Settings/ThemeSurfacesTab.qml:321, Modules/Settings/ThemeSurfacesTab.qml:400, Modules/Settings/DankBarAppearanceTab.qml:181, Modules/Settings/DankBarAppearanceTab.qml:286, Modules/Settings/DankBarAppearanceTab.qml:585, Modules/Settings/DankBarAppearanceTab.qml:670, Modules/Settings/DankBarAppearanceTab.qml:766, Modules/Settings/DockAppearanceTab.qml:152, Modules/Settings/DockAppearanceTab.qml:188, Modules/Settings/WindowRuleEditorDialog.qml:925, Modules/Settings/WindowRuleEditorDialog.qml:933, Modules/Settings/DankDotTab.qml:124, Modules/Settings/ShadowsTab.qml:58, Modules/Settings/ShadowsTab.qml:275, Modules/Settings/WindowRulesTab.qml:110, Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:36",
     "comment": "island settings: satellite background opacity slider",
     "tags": [
       "settings",
-      "shell"
-    ]
-  },
-  {
-    "term": "Opacity, borders, blur, shadows, corners",
-    "context": "Opacity, borders, blur, shadows, corners",
-    "reference": "Common/SettingsTabs.qml:70",
-    "comment": "",
-    "tags": [
       "shell"
     ]
   },
@@ -17075,7 +17218,7 @@
   {
     "term": "Opening terminal: ",
     "context": "Opening terminal: ",
-    "reference": "Modules/Settings/GreeterTab.qml:69",
+    "reference": "Modules/Settings/GreeterTab.qml:164",
     "comment": "",
     "tags": [
       "settings"
@@ -17157,7 +17300,7 @@
   {
     "term": "Options of one widget instance",
     "context": "Options of one widget instance",
-    "reference": "Common/SettingsTabs.qml:145, Common/SettingsTabs.qml:218",
+    "reference": "Common/SettingsTabs.qml:146, Common/SettingsTabs.qml:219",
     "comment": "",
     "tags": [
       "shell"
@@ -17302,7 +17445,7 @@
   {
     "term": "Output and input devices",
     "context": "Output and input devices",
-    "reference": "Common/SettingsTabs.qml:269",
+    "reference": "Common/SettingsTabs.qml:270",
     "comment": "",
     "tags": [
       "shell"
@@ -17682,7 +17825,7 @@
   {
     "term": "Password",
     "context": "Password",
-    "reference": "Modals/PolkitAuthContent.qml:155, Modals/WifiPasswordModal.qml:184, Modals/WifiPasswordModal.qml:194, Modals/WifiPasswordModal.qml:508, Services/DesktopWidgetRegistry.qml:85, Modules/Settings/CreateUserTab.qml:118, Modules/Settings/NetworkWifiTab.qml:872, Modules/ControlCenter/Details/VpnProfileDelegate.qml:184, Modules/Lock/Widgets/LockAuthWidget.qml:370, Modules/Lock/Widgets/LockAuthWidget.qml:554, Modules/Lock/Widgets/LockAuthWidget.qml:849",
+    "reference": "Modals/PolkitAuthContent.qml:155, Modals/WifiPasswordModal.qml:184, Modals/WifiPasswordModal.qml:194, Modals/WifiPasswordModal.qml:508, Services/DesktopWidgetRegistry.qml:87, Modules/Settings/CreateUserTab.qml:118, Modules/Settings/NetworkWifiTab.qml:872, Modules/ControlCenter/Details/VpnProfileDelegate.qml:184, Modules/Lock/Widgets/LockAuthWidget.qml:370, Modules/Lock/Widgets/LockAuthWidget.qml:554, Modules/Lock/Widgets/LockAuthWidget.qml:849",
     "comment": "hotspot password field label | lock screen password field placeholder",
     "tags": [
       "settings",
@@ -17938,7 +18081,7 @@
   {
     "term": "Pick an app from the list above or the dashboard tab",
     "context": "Pick an app from the list above or the dashboard tab",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:128",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:135",
     "comment": "app limits empty state description",
     "tags": [
       "settings"
@@ -18212,7 +18355,7 @@
   {
     "term": "Plugin directory and registries",
     "context": "Plugin directory and registries",
-    "reference": "Common/SettingsTabs.qml:615",
+    "reference": "Common/SettingsTabs.qml:622",
     "comment": "",
     "tags": [
       "shell"
@@ -18275,7 +18418,7 @@
   {
     "term": "Plugins",
     "context": "Plugins",
-    "reference": "Common/SettingsTabs.qml:603, Modals/Greeter/GreeterWelcomePage.qml:104, Modals/DankLauncherV2/LauncherContent.qml:327, Modals/DankLauncherV2/Components/LauncherSearchField.qml:28, Modules/Settings/AboutTab.qml:233, Modules/Settings/AboutTab.qml:234, Modules/ControlCenter/Components/CcWidgetSheet.qml:45",
+    "reference": "Common/SettingsTabs.qml:610, Modals/Greeter/GreeterWelcomePage.qml:104, Modals/DankLauncherV2/LauncherContent.qml:327, Modals/DankLauncherV2/Components/LauncherSearchField.qml:28, Modules/Settings/AboutTab.qml:233, Modules/Settings/AboutTab.qml:234, Modules/ControlCenter/Components/CcWidgetSheet.qml:45",
     "comment": "greeter feature card title",
     "tags": [
       "settings",
@@ -18403,7 +18546,7 @@
   {
     "term": "Popups, do not disturb, rules",
     "context": "Popups, do not disturb, rules",
-    "reference": "Common/SettingsTabs.qml:232",
+    "reference": "Common/SettingsTabs.qml:233",
     "comment": "",
     "tags": [
       "shell"
@@ -18466,7 +18609,7 @@
   {
     "term": "Position, displays, auto-hide, behavior",
     "context": "Position, displays, auto-hide, behavior",
-    "reference": "Common/SettingsTabs.qml:107",
+    "reference": "Common/SettingsTabs.qml:108",
     "comment": "",
     "tags": [
       "shell"
@@ -18477,6 +18620,15 @@
     "context": "Position, pinned apps",
     "reference": "Modals/Greeter/GreeterCompletePage.qml:437",
     "comment": "greeter dock description",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Position, pinned apps, trash",
+    "context": "Position, pinned apps, trash",
+    "reference": "Common/SettingsTabs.qml:156",
+    "comment": "settings sidebar hint for the dock page",
     "tags": [
       "shell"
     ]
@@ -18493,7 +18645,7 @@
   {
     "term": "Power",
     "context": "Power",
-    "reference": "Common/BarWidgetCatalog.qml:239, Services/AppSearchService.qml:239, Services/AppSearchService.qml:393, Services/DesktopWidgetRegistry.qml:88, Modules/ControlCenter/Details/BatteryDetail.qml:7, Modules/ControlCenter/Models/WidgetModel.qml:225",
+    "reference": "Common/BarWidgetCatalog.qml:239, Services/AppSearchService.qml:239, Services/AppSearchService.qml:393, Services/DesktopWidgetRegistry.qml:90, Modules/ControlCenter/Details/BatteryDetail.qml:7, Modules/ControlCenter/Models/WidgetModel.qml:225",
     "comment": "noun, power menu widget name, shutdown and reboot actions",
     "tags": [
       "shell"
@@ -18511,7 +18663,7 @@
   {
     "term": "Power & battery",
     "context": "Power & battery",
-    "reference": "Common/SettingsTabs.qml:353",
+    "reference": "Common/SettingsTabs.qml:356",
     "comment": "",
     "tags": [
       "shell"
@@ -18520,7 +18672,7 @@
   {
     "term": "Power & sleep",
     "context": "Power & sleep",
-    "reference": "Common/SettingsTabs.qml:359",
+    "reference": "Common/SettingsTabs.qml:362",
     "comment": "",
     "tags": [
       "shell"
@@ -18575,7 +18727,7 @@
   {
     "term": "Power off",
     "context": "Power off",
-    "reference": "Services/SessionService.qml:705, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:433",
+    "reference": "Services/SessionService.qml:706, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:433",
     "comment": "",
     "tags": [
       "settings",
@@ -18683,6 +18835,15 @@
     ]
   },
   {
+    "term": "Press Apply changes to update the login screen",
+    "context": "Press Apply changes to update the login screen",
+    "reference": "Modules/Settings/GreeterAuthTab.qml:23, Modules/Settings/GreeterAuthTab.qml:43",
+    "comment": "greeter auth setting description",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
     "term": "Press Ctrl+N or click 'New Session' to create one",
     "context": "Press Ctrl+N or click 'New Session' to create one",
     "reference": "Modals/MuxModal.qml:550",
@@ -18767,7 +18928,7 @@
   {
     "term": "Previous",
     "context": "Previous",
-    "reference": "Modules/Lock/LockStatusRow.qml:178, Modules/Notepad/NotepadTextEditor.qml:465, Modules/Notepad/NotepadSettings.qml:565, Modules/OSD/MediaPlaybackOSD.qml:284, Modules/Settings/WallpaperCyclingTab.qml:154, Modules/DankDash/Media/MediaTransportButton.qml:45, Modules/DankDash/Weather/WeatherForecastWidget.qml:81, Modules/DankDash/Overview/MediaOverviewCard.qml:218, Modules/DankDash/Overview/CalendarEventEditor.qml:167, Modules/DankDash/Overview/CalendarOverviewCard.qml:261, Modules/DankBar/Popouts/BatteryHistoryChart.qml:137",
+    "reference": "Modules/Lock/LockStatusRow.qml:178, Modules/Notepad/NotepadTextEditor.qml:465, Modules/Notepad/NotepadSettings.qml:565, Modules/OSD/MediaPlaybackOSD.qml:284, Modules/Settings/WallpaperCyclingTab.qml:154, Modules/DankDash/Media/MediaTransportButton.qml:45, Modules/DankDash/Wellbeing/WeeklyChart.qml:153, Modules/DankDash/Weather/WeatherForecastWidget.qml:81, Modules/DankDash/Overview/MediaOverviewCard.qml:218, Modules/DankDash/Overview/CalendarEventEditor.qml:167, Modules/DankDash/Overview/CalendarOverviewCard.qml:261, Modules/DankBar/Popouts/BatteryHistoryChart.qml:137",
     "comment": "button going to the previous track, page, day, month or match",
     "tags": [
       "settings",
@@ -18886,7 +19047,7 @@
   {
     "term": "Printers",
     "context": "Printers",
-    "reference": "Common/SettingsTabs.qml:593, Modules/Settings/PrinterTab.qml:151, Modules/ControlCenter/Models/WidgetModel.qml:397, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:18, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:24, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:34, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:64",
+    "reference": "Common/SettingsTabs.qml:600, Modules/Settings/PrinterTab.qml:151, Modules/ControlCenter/Models/WidgetModel.qml:397, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:18, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:24, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:34, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:64",
     "comment": "settings page name and control center widget title",
     "tags": [
       "settings",
@@ -19102,6 +19263,15 @@
     ]
   },
   {
+    "term": "Profile sync failed.",
+    "context": "Profile sync failed.",
+    "reference": "Services/GreeterService.qml:130",
+    "comment": "",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
     "term": "Profiles",
     "context": "Profiles",
     "reference": "Modules/Settings/DisplayConfigTab.qml:116",
@@ -19301,6 +19471,15 @@
     ]
   },
   {
+    "term": "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.",
+    "context": "Re-applies the greetd command, permissions and PAM authentication. Needs administrator access.",
+    "reference": "Modules/Settings/GreeterTab.qml:442",
+    "comment": "greeter advanced action",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
     "term": "Re-enter the password before saving.",
     "context": "Re-enter the password before saving.",
     "reference": "Modules/Settings/NetworkWifiTab.qml:724, Modules/Settings/NetworkWifiTab.qml:728",
@@ -19357,7 +19536,7 @@
   {
     "term": "Reboot",
     "context": "Reboot",
-    "reference": "Services/SessionService.qml:687, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:427",
+    "reference": "Services/SessionService.qml:688, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:427",
     "comment": "verb, power menu action",
     "tags": [
       "settings",
@@ -19376,7 +19555,7 @@
   {
     "term": "Reboot to %1",
     "context": "Reboot to %1",
-    "reference": "Services/SessionService.qml:679",
+    "reference": "Services/SessionService.qml:680",
     "comment": "power menu action, %1 is a boot entry such as Windows Boot Manager",
     "tags": [
       "shell"
@@ -19539,7 +19718,7 @@
   {
     "term": "Release notes",
     "context": "Release notes",
-    "reference": "Common/SettingsTabs.qml:561, Modals/Changelog/ChangelogModal.qml:94, Modules/Settings/SoftwareUpdatesTab.qml:449",
+    "reference": "Common/SettingsTabs.qml:568, Modals/Changelog/ChangelogModal.qml:94, Modules/Settings/SoftwareUpdatesTab.qml:449",
     "comment": "settings page and card title, notes for a DMS release",
     "tags": [
       "settings",
@@ -19621,7 +19800,7 @@
   {
     "term": "Remember last session",
     "context": "Remember last session",
-    "reference": "Modules/Settings/GreeterTab.qml:276",
+    "reference": "Modules/Settings/GreeterTab.qml:406",
     "comment": "",
     "tags": [
       "settings"
@@ -19630,7 +19809,7 @@
   {
     "term": "Remember last user",
     "context": "Remember last user",
-    "reference": "Modules/Settings/GreeterTab.qml:284",
+    "reference": "Modules/Settings/GreeterTab.qml:414",
     "comment": "",
     "tags": [
       "settings"
@@ -19666,7 +19845,7 @@
   {
     "term": "Remove",
     "context": "Remove",
-    "reference": "Services/KeybindsService.qml:642, Widgets/DankGridEditChrome.qml:85, Modules/Plugins/ListSettingRemoveButton.qml:20, Modules/SurfaceWidgets/SurfaceStrip.qml:512, Modules/Settings/WidgetsTabSection.qml:227, Modules/Settings/PaletteInjectTab.qml:97, Modules/Settings/AutoStartTab.qml:549, Modules/Settings/MediaPlayerTab.qml:224, Modules/Settings/PowerSleepTab.qml:343, Modules/Settings/LauncherTab.qml:801, Modules/Settings/RunningAppsTab.qml:51, Modules/Settings/UsersTab.qml:109, Modules/Settings/UsersTab.qml:137, Modules/Settings/PluginsManageTab.qml:152, Modules/Settings/DigitalWellbeingTab.qml:158, Modules/Settings/WorkspaceAppearanceCard.qml:253, Modules/Settings/NotificationsTab.qml:288, Modules/Settings/KeybindsTab.qml:328, Modules/Settings/KeybindsTab.qml:524, Modules/Settings/DisplayConfig/OutputCard.qml:284, Modules/Settings/BarWidgetOptions/KeyboardLayoutOptions.qml:142, Modules/ControlCenter/Components/CcFooter.qml:479",
+    "reference": "Services/KeybindsService.qml:642, Widgets/DankGridEditChrome.qml:85, Modules/Plugins/ListSettingRemoveButton.qml:20, Modules/SurfaceWidgets/SurfaceStrip.qml:512, Modules/Settings/WidgetsTabSection.qml:227, Modules/Settings/PaletteInjectTab.qml:97, Modules/Settings/AutoStartTab.qml:549, Modules/Settings/MediaPlayerTab.qml:224, Modules/Settings/PowerSleepTab.qml:343, Modules/Settings/LauncherTab.qml:801, Modules/Settings/RunningAppsTab.qml:51, Modules/Settings/UsersTab.qml:109, Modules/Settings/UsersTab.qml:137, Modules/Settings/PluginsManageTab.qml:152, Modules/Settings/DigitalWellbeingTab.qml:165, Modules/Settings/WorkspaceAppearanceCard.qml:253, Modules/Settings/NotificationsTab.qml:288, Modules/Settings/KeybindsTab.qml:328, Modules/Settings/KeybindsTab.qml:524, Modules/Settings/DisplayConfig/OutputCard.qml:284, Modules/Settings/BarWidgetOptions/KeyboardLayoutOptions.qml:142, Modules/ControlCenter/Components/CcFooter.qml:479",
     "comment": "verb, button that removes an item from a list",
     "tags": [
       "settings",
@@ -19967,7 +20146,7 @@
   {
     "term": "Requires greetd, dms-greeter, and your user in the greeter group (plus fprintd/pam_fprintd for fingerprint, pam_u2f for security keys).",
     "context": "Requires greetd, dms-greeter, and your user in the greeter group (plus fprintd/pam_fprintd for fingerprint, pam_u2f for security keys).",
-    "reference": "Modules/Settings/GreeterTab.qml:308",
+    "reference": "Modules/Settings/GreeterTab.qml:476",
     "comment": "",
     "tags": [
       "settings"
@@ -19985,7 +20164,7 @@
   {
     "term": "Requires remembering the last user and session. Enable those options first.",
     "context": "Requires remembering the last user and session. Enable those options first.",
-    "reference": "Modules/Settings/GreeterTab.qml:293",
+    "reference": "Modules/Settings/GreeterTab.qml:423",
     "comment": "",
     "tags": [
       "settings"
@@ -20040,7 +20219,7 @@
   {
     "term": "Reset Position",
     "context": "Reset Position",
-    "reference": "Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:61",
+    "reference": "Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:63",
     "comment": "",
     "tags": [
       "settings"
@@ -20049,7 +20228,7 @@
   {
     "term": "Reset Size",
     "context": "Reset Size",
-    "reference": "Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:68",
+    "reference": "Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:70",
     "comment": "",
     "tags": [
       "settings"
@@ -20058,7 +20237,7 @@
   {
     "term": "Reset to default",
     "context": "Reset to default",
-    "reference": "Modules/Settings/MediaPlayerTab.qml:145, Modules/Settings/LauncherTab.qml:438, Modules/Settings/RunningAppsTab.qml:21, Modules/Settings/KeybindEditorDialog.qml:682, Modules/Settings/LockScreenTab.qml:341, Modules/Settings/NotificationRulesTab.qml:180, Modules/Settings/KeybindsTab.qml:353, Modules/Settings/DankDashTab.qml:68, Modules/Settings/Widgets/SettingsRow.qml:321, Modules/Settings/Widgets/SettingsRow.qml:322, Modules/Settings/Widgets/SettingsTextFieldRow.qml:61, Modules/Settings/Widgets/SettingsTextFieldRow.qml:62, Modules/ControlCenter/Components/CcFooter.qml:522, Modules/DankDash/Overview/DashOptionsSheet.qml:65, Modules/DankDash/Overview/DashEditControls.qml:164",
+    "reference": "Modules/Settings/GreeterTab.qml:362, Modules/Settings/MediaPlayerTab.qml:145, Modules/Settings/LauncherTab.qml:438, Modules/Settings/RunningAppsTab.qml:21, Modules/Settings/KeybindEditorDialog.qml:682, Modules/Settings/LockScreenTab.qml:341, Modules/Settings/NotificationRulesTab.qml:180, Modules/Settings/KeybindsTab.qml:353, Modules/Settings/DankDashTab.qml:68, Modules/Settings/Widgets/SettingsRow.qml:321, Modules/Settings/Widgets/SettingsRow.qml:322, Modules/Settings/Widgets/SettingsTextFieldRow.qml:61, Modules/Settings/Widgets/SettingsTextFieldRow.qml:62, Modules/ControlCenter/Components/CcFooter.qml:522, Modules/DankDash/Overview/DashOptionsSheet.qml:65, Modules/DankDash/Overview/DashEditControls.qml:164",
     "comment": "",
     "tags": [
       "settings",
@@ -20095,7 +20274,7 @@
   {
     "term": "Restart DMS",
     "context": "Restart DMS",
-    "reference": "Services/SessionService.qml:729, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/SoftwareUpdatesTab.qml:204",
+    "reference": "Services/SessionService.qml:730, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/SoftwareUpdatesTab.qml:204",
     "comment": "",
     "tags": [
       "settings",
@@ -20170,9 +20349,10 @@
   {
     "term": "Revert",
     "context": "Revert",
-    "reference": "Modals/DisplayConfirmationModal.qml:142",
+    "reference": "Modals/DisplayConfirmationModal.qml:142, Modules/Settings/GreeterTab.qml:514, Modules/Settings/GreeterSyncFabBar.qml:15",
     "comment": "verb, undo display changes in confirmation dialog",
     "tags": [
+      "settings",
       "shell"
     ]
   },
@@ -20298,7 +20478,7 @@
   {
     "term": "Rounded",
     "context": "Rounded",
-    "reference": "Modules/DankDash/DashRegistry.qml:118, Modules/Settings/DankBarAppearanceTab.qml:191",
+    "reference": "Modules/DankDash/DashRegistry.qml:118, Modules/Settings/DankBarAppearanceTab.qml:191, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:46",
     "comment": "bar corner style option",
     "tags": [
       "settings",
@@ -20371,7 +20551,7 @@
   {
     "term": "Rules",
     "context": "Rules",
-    "reference": "Common/SettingsTabs.qml:237, Modules/Settings/NotificationsTab.qml:300",
+    "reference": "Common/SettingsTabs.qml:238, Modules/Settings/NotificationsTab.qml:300",
     "comment": "",
     "tags": [
       "settings",
@@ -20442,6 +20622,15 @@
     ]
   },
   {
+    "term": "Run full sync",
+    "context": "Run full sync",
+    "reference": "Modules/Settings/GreeterTab.qml:441",
+    "comment": "greeter advanced action",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
     "term": "Run user templates",
     "context": "Run user templates",
     "reference": "Modules/Settings/ThemeAppsTab.qml:151",
@@ -20462,7 +20651,7 @@
   {
     "term": "Running apps",
     "context": "Running apps",
-    "reference": "Common/SettingsTabs.qml:510, Common/BarWidgetCatalog.qml:41, Modules/ControlCenter/Details/RunningAppsDetail.qml:19, Modules/ControlCenter/Models/WidgetModel.qml:243",
+    "reference": "Common/SettingsTabs.qml:515, Common/BarWidgetCatalog.qml:41, Modules/ControlCenter/Details/RunningAppsDetail.qml:19, Modules/ControlCenter/Models/WidgetModel.qml:243",
     "comment": "",
     "tags": [
       "shell"
@@ -20471,7 +20660,7 @@
   {
     "term": "Running greeter sync...",
     "context": "Running greeter sync...",
-    "reference": "Services/GreeterService.qml:81",
+    "reference": "Services/GreeterService.qml:151",
     "comment": "",
     "tags": [
       "shell"
@@ -20774,7 +20963,7 @@
   {
     "term": "Schedule, sunset, wallpaper brightness",
     "context": "Schedule, sunset, wallpaper brightness",
-    "reference": "Common/SettingsTabs.qml:36",
+    "reference": "Common/SettingsTabs.qml:37",
     "comment": "",
     "tags": [
       "shell"
@@ -20810,7 +20999,7 @@
   {
     "term": "Screen time",
     "context": "Screen time",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:87, Modules/DankDash/Overview/WellbeingOverviewCard.qml:29, Modules/DankDash/Overview/WellbeingOverviewCard.qml:48",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:94, Modules/DankDash/Overview/WellbeingOverviewCard.qml:29, Modules/DankDash/Overview/WellbeingOverviewCard.qml:48",
     "comment": "dashboard card and settings card title, time spent in apps",
     "tags": [
       "settings",
@@ -20820,7 +21009,7 @@
   {
     "term": "Screen time and app limits",
     "context": "Screen time and app limits",
-    "reference": "Common/SettingsTabs.qml:257, Modules/DankDash/DashRegistry.qml:179, Modules/Settings/DankDashTab.qml:54",
+    "reference": "Common/SettingsTabs.qml:258, Modules/DankDash/DashRegistry.qml:179, Modules/Settings/DankDashTab.qml:54",
     "comment": "settings sidebar hint and dashboard tab description for digital wellbeing",
     "tags": [
       "settings",
@@ -20830,7 +21019,7 @@
   {
     "term": "Screen time history",
     "context": "Screen time history",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:174",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:181",
     "comment": "settings row title, stored screen time data",
     "tags": [
       "settings"
@@ -21088,7 +21277,7 @@
   {
     "term": "Security",
     "context": "Security",
-    "reference": "Common/SettingsTabs.qml:447, Modules/Settings/NetworkWifiTab.qml:62",
+    "reference": "Common/SettingsTabs.qml:451, Modules/Settings/NetworkWifiTab.qml:62",
     "comment": "noun, settings page name and wifi security type label",
     "tags": [
       "settings",
@@ -21470,6 +21659,15 @@
     ]
   },
   {
+    "term": "Session",
+    "context": "Session",
+    "reference": "Services/DesktopWidgetRegistry.qml:93, Modules/Lock/Widgets/GreeterSessionWidget.qml:16",
+    "comment": "greeter session picker widget",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
     "term": "Session filter",
     "context": "Session filter",
     "reference": "Modules/Settings/MuxTab.qml:63",
@@ -21517,7 +21715,7 @@
   {
     "term": "Set limit",
     "context": "Set limit",
-    "reference": "Modules/DankDash/Wellbeing/AppUsageList.qml:219",
+    "reference": "Modules/DankDash/Wellbeing/AppUsageList.qml:221",
     "comment": "button that opens the per-app screen time limit editor",
     "tags": [
       "shell"
@@ -21537,6 +21735,15 @@
     "context": "Set under Theme & colors, Derived color",
     "reference": "Modules/Settings/WallpaperColorsTab.qml:590",
     "comment": "Material seed card status",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Set up",
+    "context": "Set up",
+    "reference": "Modules/Settings/GreeterTab.qml:131",
+    "comment": "greeter setup button, links DMS settings to the login screen",
     "tags": [
       "settings"
     ]
@@ -21571,7 +21778,7 @@
   {
     "term": "Settings",
     "context": "Settings",
-    "reference": "Services/SystemUpdateService.qml:307, Services/AppSearchService.qml:195, Services/AppSearchService.qml:474, Services/AppSearchService.qml:873, Services/PopoutService.qml:531, Services/PopoutService.qml:657, Services/PopoutService.qml:674, Modals/DankLauncherV2/Controller.qml:330, Modals/Settings/SettingsModal.qml:172, Modals/Settings/SettingsModal.qml:301, Modals/Clipboard/ClipboardActions.qml:50, Modules/DankDash/WeatherTab.qml:30, Modules/DankDash/WeatherTab.qml:303, Modules/DankDash/WellbeingTab.qml:26, Modules/DankDash/DankDashPopout.qml:719, Modules/Notepad/NotepadTextEditor.qml:928, Modules/OSD/OsdDetailSheet.qml:61, Modules/Settings/PluginSettingsPage.qml:209, Modules/Settings/DockWidgetsTab.qml:198, Modules/Settings/PluginsHubHeader.qml:753, Modules/Dock/DockTrashContextMenu.qml:49, Modules/Dock/DockEditChrome.qml:66, Modules/ControlCenter/Models/WidgetModel.qml:207, Modules/ControlCenter/Widgets/CcSettingsButton.qml:14, Modules/Notifications/Center/NotificationHeader.qml:130, Modules/DankBar/Popouts/BatteryPopoutContent.qml:236",
+    "reference": "Services/SystemUpdateService.qml:307, Services/AppSearchService.qml:195, Services/AppSearchService.qml:474, Services/AppSearchService.qml:873, Services/PopoutService.qml:531, Services/PopoutService.qml:657, Services/PopoutService.qml:674, Modals/DankLauncherV2/Controller.qml:330, Modals/Settings/SettingsModal.qml:172, Modals/Settings/SettingsModal.qml:301, Modals/Clipboard/ClipboardActions.qml:50, Modules/DankDash/WeatherTab.qml:30, Modules/DankDash/WeatherTab.qml:303, Modules/DankDash/WellbeingTab.qml:27, Modules/DankDash/DankDashPopout.qml:719, Modules/Notepad/NotepadTextEditor.qml:928, Modules/OSD/OsdDetailSheet.qml:61, Modules/Settings/PluginSettingsPage.qml:209, Modules/Settings/DockWidgetsTab.qml:198, Modules/Settings/PluginsHubHeader.qml:753, Modules/Dock/DockTrashContextMenu.qml:49, Modules/Dock/DockEditChrome.qml:66, Modules/ControlCenter/Models/WidgetModel.qml:207, Modules/ControlCenter/Widgets/CcSettingsButton.qml:14, Modules/Notifications/Center/NotificationHeader.qml:130, Modules/DankBar/Popouts/BatteryPopoutContent.qml:236",
     "comment": "settings window title",
     "tags": [
       "settings",
@@ -21617,7 +21824,7 @@
   {
     "term": "Shadows",
     "context": "Shadows",
-    "reference": "Common/SettingsTabs.qml:75, Modules/Settings/ThemeSurfacesTab.qml:292, Modules/Settings/ShadowsTab.qml:36, Modules/Settings/Widgets/SettingsControlledBy.qml:36",
+    "reference": "Common/SettingsTabs.qml:76, Modules/Settings/ThemeSurfacesTab.qml:292, Modules/Settings/ShadowsTab.qml:36, Modules/Settings/Widgets/SettingsControlledBy.qml:36",
     "comment": "noun, settings page name and toggle for surface shadows",
     "tags": [
       "settings",
@@ -21721,6 +21928,15 @@
     "comment": "plural, keybind list heading, %1 is a count",
     "tags": [
       "settings"
+    ]
+  },
+  {
+    "term": "Shortcuts, keyboard, mouse",
+    "context": "Shortcuts, keyboard, mouse",
+    "reference": "Common/SettingsTabs.qml:326",
+    "comment": "settings sidebar hint for the input page",
+    "tags": [
+      "shell"
     ]
   },
   {
@@ -21845,7 +22061,7 @@
   {
     "term": "Show date",
     "context": "Show date",
-    "reference": "Modules/DankDash/DashRegistry.qml:229, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:81, Modules/Settings/LockWidgetSettings/LockDateSettings.qml:12",
+    "reference": "Modules/DankDash/DashRegistry.qml:229, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:88, Modules/Settings/LockWidgetSettings/LockDateSettings.qml:12",
     "comment": "",
     "tags": [
       "settings",
@@ -21954,7 +22170,7 @@
   {
     "term": "Show hour numbers",
     "context": "Show hour numbers",
-    "reference": "Modules/DankDash/DashRegistry.qml:229, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:60",
+    "reference": "Modules/DankDash/DashRegistry.qml:229, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:67",
     "comment": "",
     "tags": [
       "settings",
@@ -22018,7 +22234,7 @@
   {
     "term": "Show media player",
     "context": "Show media player",
-    "reference": "Modules/Settings/LockWidgetSettings/LockStatusSettings.qml:20",
+    "reference": "Modules/Settings/LockWidgetSettings/LockStatusSettings.qml:21",
     "comment": "",
     "tags": [
       "settings"
@@ -22064,7 +22280,7 @@
   {
     "term": "Show on overlay",
     "context": "Show on overlay",
-    "reference": "Modules/Settings/DesktopWidgetTab.qml:97",
+    "reference": "Modules/Settings/DesktopWidgetTab.qml:99",
     "comment": "",
     "tags": [
       "settings"
@@ -22073,7 +22289,7 @@
   {
     "term": "Show on overview",
     "context": "Show on overview",
-    "reference": "Modules/Settings/DockAdvancedTab.qml:52, Modules/Settings/DankBarTab.qml:285, Modules/Settings/DankBarTab.qml:354, Modules/Settings/DesktopWidgetTab.qml:105",
+    "reference": "Modules/Settings/DockAdvancedTab.qml:52, Modules/Settings/DankBarTab.qml:285, Modules/Settings/DankBarTab.qml:354, Modules/Settings/DesktopWidgetTab.qml:107",
     "comment": "",
     "tags": [
       "settings"
@@ -22082,7 +22298,7 @@
   {
     "term": "Show on overview only",
     "context": "Show on overview only",
-    "reference": "Modules/Settings/DesktopWidgetTab.qml:112",
+    "reference": "Modules/Settings/DesktopWidgetTab.qml:114",
     "comment": "",
     "tags": [
       "settings"
@@ -22172,7 +22388,7 @@
   {
     "term": "Show seconds",
     "context": "Show seconds",
-    "reference": "Modules/DankDash/DashRegistry.qml:229, Modules/Settings/TimeWeatherTab.qml:81, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:67, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:74",
+    "reference": "Modules/DankDash/DashRegistry.qml:229, Modules/Settings/TimeWeatherTab.qml:81, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:74, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:81",
     "comment": "",
     "tags": [
       "settings",
@@ -22472,7 +22688,7 @@
   {
     "term": "Size, padding, opacity, borders",
     "context": "Size, padding, opacity, borders",
-    "reference": "Common/SettingsTabs.qml:176",
+    "reference": "Common/SettingsTabs.qml:177",
     "comment": "",
     "tags": [
       "shell"
@@ -22508,7 +22724,7 @@
   {
     "term": "Skip the greeter password after boot until you sign out. Lock screen unlock is unchanged. Takes effect on the next reboot after sync.",
     "context": "Skip the greeter password after boot until you sign out. Lock screen unlock is unchanged. Takes effect on the next reboot after sync.",
-    "reference": "Modules/Settings/GreeterTab.qml:293",
+    "reference": "Modules/Settings/GreeterTab.qml:423",
     "comment": "",
     "tags": [
       "settings"
@@ -22616,7 +22832,7 @@
   {
     "term": "Soft reboot",
     "context": "Soft reboot",
-    "reference": "Services/SessionService.qml:693, Modules/Settings/PowerSleepTab.qml:200",
+    "reference": "Services/SessionService.qml:694, Modules/Settings/PowerSleepTab.qml:200",
     "comment": "",
     "tags": [
       "settings",
@@ -22635,7 +22851,7 @@
   {
     "term": "Software updates",
     "context": "Software updates",
-    "reference": "Modals/SystemUpdateModal.qml:20, Common/SettingsTabs.qml:553, Modules/Settings/BarWidgetOptions/SystemUpdateOptions.qml:26",
+    "reference": "Modals/SystemUpdateModal.qml:20, Common/SettingsTabs.qml:560, Modules/Settings/BarWidgetOptions/SystemUpdateOptions.qml:26",
     "comment": "settings page, modal and bar widget title, DMS and system package updates",
     "tags": [
       "settings",
@@ -22700,7 +22916,7 @@
   {
     "term": "Sound & media",
     "context": "Sound & media",
-    "reference": "Common/SettingsTabs.qml:261",
+    "reference": "Common/SettingsTabs.qml:262",
     "comment": "",
     "tags": [
       "shell"
@@ -22718,7 +22934,7 @@
   {
     "term": "Sounds",
     "context": "Sounds",
-    "reference": "Common/SettingsTabs.qml:273",
+    "reference": "Common/SettingsTabs.qml:274",
     "comment": "noun, settings page name for system sounds",
     "tags": [
       "shell"
@@ -22808,7 +23024,7 @@
   {
     "term": "Speed, scrolling, tap to click",
     "context": "Speed, scrolling, tap to click",
-    "reference": "Common/SettingsTabs.qml:347",
+    "reference": "Common/SettingsTabs.qml:350",
     "comment": "",
     "tags": [
       "shell"
@@ -23046,7 +23262,7 @@
   {
     "term": "Status",
     "context": "Status",
-    "reference": "Common/SettingsTabs.qml:411, Services/DesktopWidgetRegistry.qml:87, Modules/Settings/AboutTab.qml:415, Modules/Settings/GreeterTab.qml:178, Modules/Settings/NetworkStatusTab.qml:60, Modules/Settings/PrinterTab.qml:142, Modules/Settings/BatteryTab.qml:76",
+    "reference": "Common/SettingsTabs.qml:415, Services/DesktopWidgetRegistry.qml:89, Modules/Settings/AboutTab.qml:415, Modules/Settings/GreeterTab.qml:277, Modules/Settings/NetworkStatusTab.qml:60, Modules/Settings/PrinterTab.qml:142, Modules/Settings/BatteryTab.qml:76",
     "comment": "noun, settings row or section title showing current state",
     "tags": [
       "settings",
@@ -23109,6 +23325,15 @@
     ]
   },
   {
+    "term": "Stops syncing your DMS settings to the greeter. Set up links them again.",
+    "context": "Stops syncing your DMS settings to the greeter. Set up links them again.",
+    "reference": "Modules/Settings/GreeterTab.qml:460",
+    "comment": "greeter advanced action",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
     "term": "Stretch",
     "context": "Stretch",
     "reference": "Modules/Settings/WallpaperColorsTab.qml:328",
@@ -23146,10 +23371,10 @@
     ]
   },
   {
-    "term": "Style, shortcuts, search, hidden apps",
-    "context": "Style, shortcuts, search, hidden apps",
-    "reference": "Common/SettingsTabs.qml:193",
-    "comment": "",
+    "term": "Style, search, hidden apps",
+    "context": "Style, search, hidden apps",
+    "reference": "Common/SettingsTabs.qml:194",
+    "comment": "settings sidebar hint for the launcher page",
     "tags": [
       "shell"
     ]
@@ -23184,7 +23409,7 @@
   {
     "term": "Summary, highlights, links",
     "context": "Summary, highlights, links",
-    "reference": "Common/SettingsTabs.qml:564",
+    "reference": "Common/SettingsTabs.qml:571",
     "comment": "settings sidebar hint for the release notes page",
     "tags": [
       "shell"
@@ -23322,7 +23547,7 @@
   {
     "term": "Suspend",
     "context": "Suspend",
-    "reference": "Services/SessionService.qml:717, Modules/Settings/PowerSleepTab.qml:114, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:415",
+    "reference": "Services/SessionService.qml:718, Modules/Settings/PowerSleepTab.qml:114, Modules/Settings/PowerSleepTab.qml:200, Modules/Settings/PowerSleepTab.qml:415",
     "comment": "verb, power menu action",
     "tags": [
       "settings",
@@ -23386,7 +23611,7 @@
   {
     "term": "Switch User",
     "context": "Switch User",
-    "reference": "Modals/SwitchUserModal.qml:72, Services/SessionService.qml:735",
+    "reference": "Modals/SwitchUserModal.qml:72, Services/SessionService.qml:736",
     "comment": "",
     "tags": [
       "shell"
@@ -23422,17 +23647,8 @@
   {
     "term": "Sync",
     "context": "Sync",
-    "reference": "Modules/Settings/GreeterTab.qml:190",
+    "reference": "Modules/Settings/GreeterTab.qml:133",
     "comment": "verb, button that copies settings to the login greeter",
-    "tags": [
-      "settings"
-    ]
-  },
-  {
-    "term": "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.",
-    "context": "Sync applies your theme and settings to the login screen. Shared users should run dms-greeter sync --profile instead of a primary user sync.",
-    "reference": "Modules/Settings/GreeterTab.qml:182",
-    "comment": "",
     "tags": [
       "settings"
     ]
@@ -23440,7 +23656,7 @@
   {
     "term": "Sync completed successfully.",
     "context": "Sync completed successfully.",
-    "reference": "Services/GreeterService.qml:114",
+    "reference": "Services/GreeterService.qml:134, Services/GreeterService.qml:184",
     "comment": "",
     "tags": [
       "shell"
@@ -23458,7 +23674,7 @@
   {
     "term": "Sync failed in background mode. Trying terminal mode so you can authenticate interactively.",
     "context": "Sync failed in background mode. Trying terminal mode so you can authenticate interactively.",
-    "reference": "Services/GreeterService.qml:110",
+    "reference": "Services/GreeterService.qml:180",
     "comment": "",
     "tags": [
       "shell"
@@ -23476,7 +23692,7 @@
   {
     "term": "Sync needs sudo authentication. Opening terminal so you can use password or fingerprint.",
     "context": "Sync needs sudo authentication. Opening terminal so you can use password or fingerprint.",
-    "reference": "Services/GreeterService.qml:85",
+    "reference": "Services/GreeterService.qml:155",
     "comment": "",
     "tags": [
       "shell"
@@ -23494,16 +23710,7 @@
   {
     "term": "Sync position across displays",
     "context": "Sync position across displays",
-    "reference": "Modules/Settings/DesktopWidgetTab.qml:125",
-    "comment": "",
-    "tags": [
-      "settings"
-    ]
-  },
-  {
-    "term": "Sync to apply",
-    "context": "Sync to apply",
-    "reference": "Modules/Settings/GreeterSyncFabBar.qml:22",
+    "reference": "Modules/Settings/DesktopWidgetTab.qml:127",
     "comment": "",
     "tags": [
       "settings"
@@ -23530,7 +23737,7 @@
   {
     "term": "Syncing...",
     "context": "Syncing...",
-    "reference": "Modules/Settings/GreeterSyncFabBar.qml:22",
+    "reference": "Modules/Settings/GreeterTab.qml:523, Modules/Settings/GreeterSyncFabBar.qml:23",
     "comment": "greeter settings status while sync is running",
     "tags": [
       "settings"
@@ -23548,7 +23755,7 @@
   {
     "term": "System & integrations",
     "context": "System & integrations",
-    "reference": "Common/SettingsTabs.qml:548",
+    "reference": "Common/SettingsTabs.qml:554",
     "comment": "",
     "tags": [
       "shell"
@@ -23566,7 +23773,7 @@
   {
     "term": "System Monitor",
     "context": "System Monitor",
-    "reference": "Modals/ProcessListModal.qml:53, Modals/ProcessListModal.qml:77, Modals/ProcessListModal.qml:207, Services/AppSearchService.qml:217, Services/DesktopWidgetRegistry.qml:56, Modules/DankDash/DashRegistry.qml:261",
+    "reference": "Modals/ProcessListModal.qml:53, Modals/ProcessListModal.qml:77, Modals/ProcessListModal.qml:207, Services/AppSearchService.qml:217, Services/DesktopWidgetRegistry.qml:57, Modules/DankDash/DashRegistry.qml:261",
     "comment": "System monitor widget name | sysmon window title",
     "tags": [
       "shell"
@@ -23621,7 +23828,7 @@
   {
     "term": "System sound theme and events",
     "context": "System sound theme and events",
-    "reference": "Common/SettingsTabs.qml:277",
+    "reference": "Common/SettingsTabs.qml:278",
     "comment": "",
     "tags": [
       "shell"
@@ -23721,7 +23928,7 @@
   {
     "term": "Tabs and weather",
     "context": "Tabs and weather",
-    "reference": "Common/SettingsTabs.qml:201",
+    "reference": "Common/SettingsTabs.qml:202",
     "comment": "",
     "tags": [
       "shell"
@@ -23865,8 +24072,17 @@
   {
     "term": "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.",
     "context": "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter sync' manually.",
-    "reference": "Services/GreeterService.qml:138",
+    "reference": "Services/GreeterService.qml:246",
     "comment": "",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.",
+    "context": "Terminal fallback failed. Install one of the supported terminal emulators or run 'dms-greeter unlink' manually.",
+    "reference": "Services/GreeterService.qml:224",
+    "comment": "greeter unlink status",
     "tags": [
       "shell"
     ]
@@ -23874,7 +24090,7 @@
   {
     "term": "Terminal fallback opened. Complete authentication there; it will close automatically when done.",
     "context": "Terminal fallback opened. Complete authentication there; it will close automatically when done.",
-    "reference": "Services/GreeterService.qml:132, Common/settings/Processes.qml:534",
+    "reference": "Services/GreeterService.qml:240, Common/settings/Processes.qml:534",
     "comment": "",
     "tags": [
       "shell"
@@ -23883,7 +24099,7 @@
   {
     "term": "Terminal opened. Complete authentication there; it will close automatically when done.",
     "context": "Terminal opened. Complete authentication there; it will close automatically when done.",
-    "reference": "Services/GreeterService.qml:132, Common/settings/Processes.qml:534",
+    "reference": "Services/GreeterService.qml:240, Common/settings/Processes.qml:534",
     "comment": "",
     "tags": [
       "shell"
@@ -24101,7 +24317,7 @@
   {
     "term": "The greeter bundled with DMS is active (archinstall setup). It keeps working as is, but syncing theme and settings needs the standalone greeter. Install greetd-dms-greeter-bin from the AUR, then run Sync to migrate the login screen.",
     "context": "The greeter bundled with DMS is active (archinstall setup). It keeps working as is, but syncing theme and settings needs the standalone greeter. Install greetd-dms-greeter-bin from the AUR, then run Sync to migrate the login screen.",
-    "reference": "Modules/Settings/GreeterTab.qml:46",
+    "reference": "Modules/Settings/GreeterTab.qml:122",
     "comment": "embedded greeter status",
     "tags": [
       "settings"
@@ -24123,6 +24339,33 @@
     "comment": "",
     "tags": [
       "shell"
+    ]
+  },
+  {
+    "term": "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.",
+    "context": "The login screen follows your theme, wallpaper, widgets and behavior live. Only authentication changes need applying.",
+    "reference": "Modules/Settings/GreeterTab.qml:114",
+    "comment": "greeter status",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.",
+    "context": "The login screen shows the lock screen widgets it supports and its own session picker. Turn off to arrange it separately.",
+    "reference": "Modules/Settings/GreeterTab.qml:329",
+    "comment": "greeter widgets toggle",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.",
+    "context": "The login screen stops following your DMS theme, wallpaper, widgets and settings. greetd, authentication and other users are not affected.",
+    "reference": "Modules/Settings/GreeterTab.qml:35",
+    "comment": "greeter unlink confirmation",
+    "tags": [
+      "settings"
     ]
   },
   {
@@ -24246,7 +24489,7 @@
   {
     "term": "Theme & colors",
     "context": "Theme & colors",
-    "reference": "Common/SettingsTabs.qml:25, Modals/Greeter/GreeterCompletePage.qml:403, Modules/Settings/WallpaperColorsTab.qml:280",
+    "reference": "Common/SettingsTabs.qml:26, Modals/Greeter/GreeterCompletePage.qml:403, Modules/Settings/WallpaperColorsTab.qml:280",
     "comment": "greeter settings link",
     "tags": [
       "settings",
@@ -24292,8 +24535,17 @@
   {
     "term": "Theme, light and dark, matugen",
     "context": "Theme, light and dark, matugen",
-    "reference": "Common/SettingsTabs.qml:28",
+    "reference": "Common/SettingsTabs.qml:29",
     "comment": "",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Theme, palette, dark mode",
+    "context": "Theme, palette, dark mode",
+    "reference": "Common/SettingsTabs.qml:18",
+    "comment": "settings sidebar hint for the wallpaper and colors page",
     "tags": [
       "shell"
     ]
@@ -24432,6 +24684,15 @@
     "comment": "",
     "tags": [
       "shell"
+    ]
+  },
+  {
+    "term": "This system cannot link settings live. Sync again after changing them.",
+    "context": "This system cannot link settings live. Sync again after changing them.",
+    "reference": "Modules/Settings/GreeterTab.qml:116",
+    "comment": "greeter status",
+    "tags": [
+      "settings"
     ]
   },
   {
@@ -24591,7 +24852,7 @@
   {
     "term": "Time & weather",
     "context": "Time & weather",
-    "reference": "Common/SettingsTabs.qml:525, Modules/Settings/WidgetsTab.qml:709, Modules/Settings/BarWidgetOptions/ClockOptions.qml:48",
+    "reference": "Common/SettingsTabs.qml:531, Modules/Settings/WidgetsTab.qml:709, Modules/Settings/BarWidgetOptions/ClockOptions.qml:48",
     "comment": "island settings: button to weather tab",
     "tags": [
       "settings",
@@ -24935,7 +25196,7 @@
   {
     "term": "Total",
     "context": "Total",
-    "reference": "Modules/Settings/BarWidgetOptions/SystemMonitorOptions.qml:90, Modules/DankDash/Wellbeing/WeeklyChart.qml:80",
+    "reference": "Modules/Settings/BarWidgetOptions/SystemMonitorOptions.qml:90, Modules/DankDash/Wellbeing/WeeklyChart.qml:135",
     "comment": "disk usage format option, total disk size",
     "tags": [
       "settings",
@@ -24972,7 +25233,7 @@
   {
     "term": "Track screen time",
     "context": "Track screen time",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:96",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:103",
     "comment": "digital wellbeing main toggle",
     "tags": [
       "settings"
@@ -25394,6 +25655,42 @@
     ]
   },
   {
+    "term": "Unlink",
+    "context": "Unlink",
+    "reference": "Modules/Settings/GreeterTab.qml:36, Modules/Settings/GreeterTab.qml:48",
+    "comment": "verb, greeter unlink button",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Unlink login screen",
+    "context": "Unlink login screen",
+    "reference": "Modules/Settings/GreeterTab.qml:34, Modules/Settings/GreeterTab.qml:459",
+    "comment": "greeter advanced action",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.",
+    "context": "Unlink needs sudo authentication. Opening terminal so you can use password or fingerprint.",
+    "reference": "Services/GreeterService.qml:212",
+    "comment": "greeter unlink status",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Unlink now?",
+    "context": "Unlink now?",
+    "reference": "Modules/Settings/GreeterTab.qml:46",
+    "comment": "greeter unlink second confirmation",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
     "term": "Unload on close",
     "context": "Unload on close",
     "reference": "Modules/Settings/LauncherTab.qml:844",
@@ -25634,8 +25931,17 @@
   {
     "term": "Update the dms package with your package manager, then restart the shell.",
     "context": "Update the dms package with your package manager, then restart the shell.",
-    "reference": "Services/DMSService.qml:260, Modules/DankDash/WellbeingTab.qml:66",
+    "reference": "Services/DMSService.qml:260, Modules/DankDash/WellbeingTab.qml:69",
     "comment": "shown when the running shell is older than the installed dms binary",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Updates and clipboard",
+    "context": "Updates and clipboard",
+    "reference": "Common/SettingsTabs.qml:556",
+    "comment": "settings sidebar hint for the system and integrations page",
     "tags": [
       "shell"
     ]
@@ -25952,7 +26258,7 @@
   {
     "term": "Users",
     "context": "Users",
-    "reference": "Common/SettingsTabs.qml:434",
+    "reference": "Common/SettingsTabs.qml:438",
     "comment": "hint under the accounts settings sidebar entry",
     "tags": [
       "shell"
@@ -25961,7 +26267,7 @@
   {
     "term": "Users & accounts",
     "context": "Users & accounts",
-    "reference": "Common/SettingsTabs.qml:424, Modals/Settings/SettingsSidebar.qml:331, Modules/ControlCenter/Widgets/UserTile.qml:161",
+    "reference": "Common/SettingsTabs.qml:428, Modals/Settings/SettingsSidebar.qml:331, Modules/ControlCenter/Widgets/UserTile.qml:161",
     "comment": "settings sidebar category",
     "tags": [
       "settings",
@@ -25980,7 +26286,7 @@
   {
     "term": "Uses your wallpaper, fonts and lock screen settings.",
     "context": "Uses your wallpaper, fonts and lock screen settings.",
-    "reference": "Modules/Settings/GreeterTab.qml:245",
+    "reference": "Modules/Settings/GreeterTab.qml:375",
     "comment": "login screen appearance",
     "tags": [
       "settings"
@@ -26017,7 +26323,7 @@
   {
     "term": "VPN",
     "context": "VPN",
-    "reference": "Common/SettingsTabs.qml:395, Common/BarWidgetCatalog.qml:169, Services/AppSearchService.qml:250, Services/AppSearchService.qml:426, Services/DMSNetworkService.qml:523, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:22, Modules/ControlCenter/Details/VpnDetailContent.qml:23, Modules/ControlCenter/Models/WidgetModel.qml:386, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:19",
+    "reference": "Common/SettingsTabs.qml:399, Common/BarWidgetCatalog.qml:169, Services/AppSearchService.qml:250, Services/AppSearchService.qml:426, Services/DMSNetworkService.qml:523, Modules/Settings/BarWidgetOptions/ControlCenterOptions.qml:22, Modules/ControlCenter/Details/VpnDetailContent.qml:23, Modules/ControlCenter/Models/WidgetModel.qml:386, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:19",
     "comment": "virtual private network, widget and page title",
     "tags": [
       "settings",
@@ -26144,7 +26450,7 @@
   {
     "term": "Version, links, diagnostics",
     "context": "Version, links, diagnostics",
-    "reference": "Common/SettingsTabs.qml:627",
+    "reference": "Common/SettingsTabs.qml:634",
     "comment": "",
     "tags": [
       "shell"
@@ -26298,15 +26604,6 @@
     ]
   },
   {
-    "term": "Visibility, position, pinned apps, trash",
-    "context": "Visibility, position, pinned apps, trash",
-    "reference": "Common/SettingsTabs.qml:155",
-    "comment": "",
-    "tags": [
-      "shell"
-    ]
-  },
-  {
     "term": "Visible entry actions",
     "context": "Visible entry actions",
     "reference": "Modules/Settings/ClipboardTab.qml:516",
@@ -26336,7 +26633,7 @@
   {
     "term": "Visualizer, album art, excluded players",
     "context": "Visualizer, album art, excluded players",
-    "reference": "Common/SettingsTabs.qml:284, Modules/Settings/BarWidgetOptions/MusicOptions.qml:76",
+    "reference": "Common/SettingsTabs.qml:285, Modules/Settings/BarWidgetOptions/MusicOptions.qml:76",
     "comment": "",
     "tags": [
       "settings",
@@ -26390,10 +26687,10 @@
     ]
   },
   {
-    "term": "Volume, brightness, caps lock, position",
-    "context": "Volume, brightness, caps lock, position",
-    "reference": "Common/SettingsTabs.qml:249",
-    "comment": "",
+    "term": "Volume, brightness, caps lock",
+    "context": "Volume, brightness, caps lock",
+    "reference": "Common/SettingsTabs.qml:250",
+    "comment": "settings sidebar hint for the on-screen displays page",
     "tags": [
       "shell"
     ]
@@ -26439,7 +26736,7 @@
   {
     "term": "Wallpaper & colors",
     "context": "Wallpaper & colors",
-    "reference": "Common/SettingsTabs.qml:16, Modules/Settings/GreeterTab.qml:249",
+    "reference": "Common/SettingsTabs.qml:16, Modules/Settings/GreeterTab.qml:379",
     "comment": "",
     "tags": [
       "settings",
@@ -26522,7 +26819,7 @@
   {
     "term": "Weather",
     "context": "Weather",
-    "reference": "Common/SettingsTabs.qml:532, Common/BarWidgetCatalog.qml:71, Modules/DankDash/DashRegistry.qml:157, Modules/DankIsland/DankIslandSurface.qml:667, Modules/Settings/BarWidgetTab.qml:136, Modules/Settings/BarWidgetTab.qml:139, Modules/Settings/KeybindEditorDialog.qml:386, Modules/Settings/KeybindEditorDialog.qml:398, Modules/Settings/KeybindEditorDialog.qml:1096, Modules/Settings/TimeWeatherTab.qml:423, Modules/Settings/WeatherSettingsTab.qml:30, Modules/Settings/DankDashTab.qml:23, Modules/Settings/DankDashTab.qml:28, Modules/Settings/LockWidgetSettings/LockStatusSettings.qml:26, Modules/Settings/Widgets/IslandBehaviorCard.qml:103, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:36",
+    "reference": "Common/SettingsTabs.qml:538, Common/BarWidgetCatalog.qml:71, Modules/DankDash/DashRegistry.qml:157, Modules/DankIsland/DankIslandSurface.qml:667, Modules/Settings/BarWidgetTab.qml:136, Modules/Settings/BarWidgetTab.qml:139, Modules/Settings/KeybindEditorDialog.qml:386, Modules/Settings/KeybindEditorDialog.qml:398, Modules/Settings/KeybindEditorDialog.qml:1096, Modules/Settings/TimeWeatherTab.qml:423, Modules/Settings/WeatherSettingsTab.qml:30, Modules/Settings/DankDashTab.qml:23, Modules/Settings/DankDashTab.qml:28, Modules/Settings/LockWidgetSettings/LockStatusSettings.qml:27, Modules/Settings/Widgets/IslandBehaviorCard.qml:103, Modules/Settings/Widgets/IslandHomeLayoutEditor.qml:36",
     "comment": "island compact face: weather label | island settings: weather slot row",
     "tags": [
       "settings",
@@ -26541,7 +26838,7 @@
   {
     "term": "Week",
     "context": "Week",
-    "reference": "Modules/DankDash/Wellbeing/AppUsageList.qml:27",
+    "reference": "Modules/DankDash/Wellbeing/AppUsageList.qml:29",
     "comment": "screen time range filter",
     "tags": [
       "shell"
@@ -26550,7 +26847,7 @@
   {
     "term": "Weekly screen time",
     "context": "Weekly screen time",
-    "reference": "Modules/Settings/DigitalWellbeingTab.qml:48, Modules/DankDash/Wellbeing/WeeklyChart.qml:46, Modules/DankDash/Wellbeing/WeeklyChart.qml:55",
+    "reference": "Modules/Settings/DigitalWellbeingTab.qml:50, Modules/DankDash/Wellbeing/WeeklyChart.qml:81, Modules/DankDash/Wellbeing/WeeklyChart.qml:108",
     "comment": "chart title, screen time per day over the week",
     "tags": [
       "settings",
@@ -26614,7 +26911,7 @@
   {
     "term": "Which displays show the dock, popups, OSDs and wallpaper",
     "context": "Which displays show the dock, popups, OSDs and wallpaper",
-    "reference": "Common/SettingsTabs.qml:316",
+    "reference": "Common/SettingsTabs.qml:318",
     "comment": "",
     "tags": [
       "shell"
@@ -26650,7 +26947,7 @@
   {
     "term": "Wi-Fi",
     "context": "Wi-Fi",
-    "reference": "Common/SettingsTabs.qml:381, Modules/Settings/NetworkStatusTab.qml:92, Modules/Settings/NetworkStatusTab.qml:152, Modules/Settings/NetworkWifiTab.qml:185, Modules/ControlCenter/Details/NetworkDetail.qml:322, Modules/ControlCenter/Details/NetworkDetail.qml:346",
+    "reference": "Common/SettingsTabs.qml:385, Modules/Settings/NetworkStatusTab.qml:92, Modules/Settings/NetworkStatusTab.qml:152, Modules/Settings/NetworkWifiTab.qml:185, Modules/ControlCenter/Details/NetworkDetail.qml:322, Modules/ControlCenter/Details/NetworkDetail.qml:346",
     "comment": "wireless network, page and section title",
     "tags": [
       "settings",
@@ -26699,6 +26996,15 @@
     "context": "Wi-Fi not available",
     "reference": "Modules/ControlCenter/Models/WidgetModel.qml:295",
     "comment": "",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "Wi-Fi, Ethernet, VPN",
+    "context": "Wi-Fi, Ethernet, VPN",
+    "reference": "Common/SettingsTabs.qml:380",
+    "comment": "settings sidebar hint for the network page",
     "tags": [
       "shell"
     ]
@@ -26769,7 +27075,7 @@
   {
     "term": "Widget added",
     "context": "Widget added",
-    "reference": "Modules/Settings/LockScreenTab.qml:289, Modules/Settings/DesktopWidgetsTab.qml:82",
+    "reference": "Modules/Settings/GreeterTab.qml:198, Modules/Settings/LockScreenTab.qml:289, Modules/Settings/DesktopWidgetsTab.qml:82",
     "comment": "",
     "tags": [
       "settings"
@@ -26796,7 +27102,7 @@
   {
     "term": "Widget removed",
     "context": "Widget removed",
-    "reference": "Modules/Settings/LockScreenTab.qml:334, Modules/Settings/DesktopWidgetsTab.qml:199, Modules/Settings/DesktopWidgetsTab.qml:228",
+    "reference": "Modules/Settings/GreeterTab.qml:355, Modules/Settings/LockScreenTab.qml:334, Modules/Settings/DesktopWidgetsTab.qml:199, Modules/Settings/DesktopWidgetsTab.qml:228",
     "comment": "",
     "tags": [
       "settings"
@@ -26805,7 +27111,7 @@
   {
     "term": "Widget settings",
     "context": "Widget settings",
-    "reference": "Common/SettingsTabs.qml:142, Common/SettingsTabs.qml:215",
+    "reference": "Common/SettingsTabs.qml:143, Common/SettingsTabs.qml:216",
     "comment": "",
     "tags": [
       "shell"
@@ -26823,7 +27129,7 @@
   {
     "term": "Widgets",
     "context": "Widgets",
-    "reference": "Modules/Settings/DankBarAppearanceTab.qml:616, Modules/Settings/LockScreenTab.qml:309, Modules/ControlCenter/Components/CcWidgetSheet.qml:58",
+    "reference": "Modules/Settings/GreeterTab.qml:321, Modules/Settings/DankBarAppearanceTab.qml:616, Modules/Settings/LockScreenTab.qml:309, Modules/ControlCenter/Components/CcWidgetSheet.qml:58",
     "comment": "",
     "tags": [
       "settings",
@@ -26932,7 +27238,7 @@
   {
     "term": "Window rules",
     "context": "Window rules",
-    "reference": "Common/SettingsTabs.qml:501",
+    "reference": "Common/SettingsTabs.qml:506",
     "comment": "",
     "tags": [
       "shell"
@@ -27228,6 +27534,15 @@
     ]
   },
   {
+    "term": "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.",
+    "context": "Your greeter slot and any cache links to your home are removed. Administrator access may be required. Set up links them again.",
+    "reference": "Modules/Settings/GreeterTab.qml:47",
+    "comment": "greeter unlink second confirmation",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
     "term": "Your hotspot is running.",
     "context": "Your hotspot is running.",
     "reference": "Modules/Settings/NetworkWifiTab.qml:804",
@@ -27396,7 +27711,7 @@
   {
     "term": "dms-greeter is not installed. Install the dms-greeter package to manage the greeter.",
     "context": "dms-greeter is not installed. Install the dms-greeter package to manage the greeter.",
-    "reference": "Modules/Settings/GreeterTab.qml:48",
+    "reference": "Modules/Settings/GreeterTab.qml:124",
     "comment": "greeter status placeholder",
     "tags": [
       "settings"
@@ -27500,6 +27815,15 @@
     "tags": [
       "settings",
       "shell"
+    ]
+  },
+  {
+    "term": "greetd is not using the DMS greeter yet.",
+    "context": "greetd is not using the DMS greeter yet.",
+    "reference": "Modules/Settings/GreeterTab.qml:118",
+    "comment": "greeter status",
+    "tags": [
+      "settings"
     ]
   },
   {
@@ -27821,7 +28145,7 @@
   {
     "term": "tmux, zellij, and herdr sessions",
     "context": "tmux, zellij, and herdr sessions",
-    "reference": "Common/SettingsTabs.qml:588",
+    "reference": "Common/SettingsTabs.qml:595",
     "comment": "settings page description for terminal multiplexer sessions; tmux, zellij, and herdr are product names",
     "tags": [
       "shell"

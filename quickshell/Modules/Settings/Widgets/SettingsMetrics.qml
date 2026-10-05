@@ -5,7 +5,7 @@ import Quickshell
 import qs.Common
 
 Singleton {
-    readonly property real sidebarWidth: 320
+    readonly property real sidebarWidth: 336
     readonly property real compactBreakpoint: 700
     readonly property real contentMaxWidth: 920
     readonly property real paneMaxWidth: contentMaxWidth + panePadding * 2
@@ -29,7 +29,7 @@ Singleton {
     readonly property real sectionLabelTopGap: Theme.spacingS
     readonly property real sectionLabelBottomGap: Theme.spacingM
     readonly property real navIconSize: Theme.avatarSize
-    readonly property real navItemMinHeight: Theme.listItemTwoLineHeight
+    readonly property real navItemMinHeight: Theme.listItemHeight
     readonly property real sidebarGroupGap: Theme.spacingS
     readonly property real searchBarHeight: 56
     readonly property real searchBarGap: Theme.spacingM

@@ -18,7 +18,8 @@ FocusScope {
     property var days: []
 
     readonly property int firstDayOfWeek: SettingsData.firstDayOfWeek >= 7 || SettingsData.firstDayOfWeek < 0 ? Qt.locale().firstDayOfWeek : SettingsData.firstDayOfWeek
-    readonly property var week: Wellbeing.weekDays(days, new Date(), firstDayOfWeek)
+    readonly property date today: new Date()
+    readonly property date anchor: Wellbeing.addDays(today, chart.weekOffset * Wellbeing.weekLength)
     readonly property int revision: WellbeingService.revision
     readonly property Item focusTarget: root
     readonly property var menuActions: [
@@ -37,10 +38,12 @@ FocusScope {
     LayoutMirroring.childrenInherit: true
 
     onLiveChanged: {
-        if (live)
-            refresh();
-        else
+        if (!live) {
             limitSheet.dismiss();
+            return;
+        }
+        chart.showCurrentWeek();
+        refresh();
     }
     onRevisionChanged: {
         if (live)
@@ -73,9 +76,12 @@ FocusScope {
         visible: WellbeingService.available
 
         WeeklyChart {
+            id: chart
             width: parent.width
             height: WellbeingMetrics.chartHeight
-            week: root.week
+            days: root.days
+            today: root.today
+            firstDayOfWeek: root.firstDayOfWeek
             limitSeconds: SettingsData.wellbeingDailyLimit * 60
         }
 
@@ -84,6 +90,8 @@ FocusScope {
             height: parent.height - y
             days: root.days
             firstDayOfWeek: root.firstDayOfWeek
+            anchor: root.anchor
+            today: root.today
             onLimitRequested: appId => limitSheet.presentFor(appId)
         }
     }
