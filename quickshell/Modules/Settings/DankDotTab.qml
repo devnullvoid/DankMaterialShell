@@ -177,7 +177,7 @@ Item {
             store: dot
             keyPrefix: "dot"
             docked: false
-            dot: true
+            isDot: true
         }
 
         IslandNotificationsCard {

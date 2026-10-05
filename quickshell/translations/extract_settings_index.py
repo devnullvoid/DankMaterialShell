@@ -369,12 +369,12 @@ SHARED_CARD_ROW_PATTERN = re.compile(r"\b(?:Settings\w*Row|Loader)\s*\{")
 
 
 def strip_hidden_rows(card_content, hosted, docked, dot):
-    """Drop rows the instance hides for good: `visible: !root.hosted` on a hosted page, `visible: root.docked` on an undocked one, `visible: !root.dot` on the dot."""
+    """Drop rows the instance hides for good: `visible: !root.hosted` on a hosted page, `visible: root.docked` on an undocked one, `visible: !root.isDot` on the dot."""
     result = card_content
     for match in reversed(list(SHARED_CARD_ROW_PATTERN.finditer(card_content))):
         block = parse_component_block(card_content, match.start(), "")
         visible = extract_property(block, "visible") or ""
-        if (hosted and "!root.hosted" in visible) or (not docked and "root.docked" in visible) or (dot and "!root.dot" in visible):
+        if (hosted and "!root.hosted" in visible) or (not docked and "root.docked" in visible) or (dot and "!root.isDot" in visible):
             result = result[: match.start()] + result[match.start() + len(block):]
     return result
 
@@ -391,7 +391,7 @@ def inline_shared_cards(root_dir, content):
         prefix = prefix_match.group(1) if prefix_match else "island"
         hosted = "hosted: true" in instance
         docked = "docked: false" not in instance
-        dot = "dot: true" in instance
+        dot = "isDot: true" in instance
         card = strip_hidden_rows(card_file.read_text(encoding="utf-8"), hosted, docked, dot)
         content += "\n" + card.replace('settingKey: root.keyPrefix + "', f'settingKey: "{prefix}')
     return content

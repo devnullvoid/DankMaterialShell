@@ -10,7 +10,7 @@ SettingsCard {
     property bool hosted: false
     property bool docked: true
     // A dot's compact face is a circle, so it never shows the media face.
-    property bool dot: false
+    property bool isDot: false
 
     readonly property var routingValues: ["normal", "always", "last-used"]
     readonly property var interactionModeValues: ["click", "hybrid"]
@@ -169,7 +169,7 @@ SettingsCard {
     SettingsToggleRow {
         settingKey: root.keyPrefix + "MediaClockVisible"
         tags: ["island", "media", "clock", "compact", "time"]
-        visible: !root.dot
+        visible: !root.isDot
         resetStore: root.store
         resetKeys: ["islandMediaClockVisible"]
         text: I18n.tr("Keep clock with media", "island settings: clock in media face toggle")
