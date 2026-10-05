@@ -352,6 +352,7 @@ Column {
             tags: ["floating", "window", "tile", "tiling", "compositor", "rule", "niri", "hyprland", "mango"]
             settingKey: "dmsWindowsFloating"
             text: I18n.tr("Open floating")
+            description: I18n.tr("Adds a compositor window rule so DMS windows such as Settings open floating", "theme floating windows section, open floating toggle description")
             visible: windowRulesInclude.compositorSupported
             checked: CompositorService.dmsWindowFloatingActive
             modified: !checked

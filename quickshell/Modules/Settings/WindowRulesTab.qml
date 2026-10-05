@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Wayland
 import qs.Common
 import "../../Common/ConfigIncludeResolve.js" as ConfigIncludeResolve
+import "../../Common/WindowRuleSize.js" as WindowRuleSize
 import qs.Services
 import qs.Widgets
 import qs.Modules.Settings.Widgets
@@ -73,6 +74,8 @@ Item {
             const label = root.actionLabels[k] || k;
             if (typeof a[k] === "boolean")
                 return a[k] ? label : label + ": " + I18n.tr("Off");
+            if (k === "defaultColumnWidth" || k === "defaultWindowHeight")
+                return label + ": " + WindowRuleSize.label(a[k]);
             return label + ": " + a[k];
         });
     }

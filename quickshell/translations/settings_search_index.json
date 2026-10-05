@@ -1042,14 +1042,18 @@
     "tabIndex": -1,
     "category": "Interface style",
     "keywords": [
+      "adds",
       "authentication",
+      "compositor",
       "floating",
       "foreground",
       "interface",
       "notepad",
       "opacity",
+      "open",
       "override",
       "polkit",
+      "rule",
       "settings",
       "style",
       "tile",
@@ -1058,7 +1062,8 @@
       "window",
       "windows"
     ],
-    "page": "theme_surfaces"
+    "page": "theme_surfaces",
+    "description": "Adds a compositor window rule so DMS windows such as Settings open floating"
   },
   {
     "section": "focusRingEnabled",
@@ -1818,6 +1823,7 @@
     "tabIndex": -1,
     "category": "Interface style",
     "keywords": [
+      "adds",
       "compositor",
       "floating",
       "hyprland",
@@ -1826,12 +1832,15 @@
       "niri",
       "open",
       "rule",
+      "settings",
       "style",
       "tile",
       "tiling",
-      "window"
+      "window",
+      "windows"
     ],
-    "page": "theme_surfaces"
+    "page": "theme_surfaces",
+    "description": "Adds a compositor window rule so DMS windows such as Settings open floating"
   },
   {
     "section": "notificationOverlayEnabled",

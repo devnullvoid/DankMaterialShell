@@ -298,11 +298,13 @@ FocusScope {
                 width: transcript.width
                 height: vocals.implicitHeight
 
+                // Positioners relayout on polish, so the list would measure reused and rescaled rows at their old height.
                 Column {
                     id: vocals
                     width: parent.width
 
                     Repeater {
+                        onItemAdded: vocals.forceLayout()
                         model: root.controller.synced ? lyric.modelData.parts : [
                             {
                                 x: lyric.modelData,
@@ -326,6 +328,7 @@ FocusScope {
                             distance: lyric ? Math.abs(lyric.index - root.activeIndex) : 0
                             animationsEnabled: root.animationsEnabled
                             smoothHighlight: root.smoothHighlight
+                            onImplicitHeightChanged: vocals.forceLayout()
                             inViewport: {
                                 if (!lyric)
                                     return false;
