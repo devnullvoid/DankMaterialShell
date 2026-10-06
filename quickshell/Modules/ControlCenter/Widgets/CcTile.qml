@@ -132,6 +132,12 @@ Item {
         clicked();
     }
 
+    function expand() {
+        if (!showExpand && !opensPage)
+            return;
+        expandClicked();
+    }
+
     Keys.onPressed: event => {
         if (!acceptsInput)
             return;
@@ -190,16 +196,9 @@ Item {
             anchors.bottomMargin: root.expanded ? root.height - root.headerHeight - root.tilePadding * 2 : 0
             stateColor: root.contentColor
             cornerRadius: root.bodyRadius
-            acceptedButtons: Qt.LeftButton | Qt.RightButton
             tooltipText: root.compact || root.docked ? [root.title, root.subtitle].filter(text => text !== "").join(" · ") : ""
-            onClicked: mouse => {
-                if (mouse.button === Qt.RightButton) {
-                    if (root.showExpand || root.opensPage)
-                        root.expandClicked();
-                    return;
-                }
-                root.activate();
-            }
+            onClicked: root.activate()
+            onPressAndHold: root.expand()
             onWheel: wheelEvent => {
                 wheelEvent.accepted = false;
                 root.wheel(wheelEvent);
