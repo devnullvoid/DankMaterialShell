@@ -195,6 +195,7 @@ SEARCHABLE_COMPONENTS = [
     "SettingsButtonGroupRow",
     "SettingsSliderRow",
     "SettingsToggleCard",
+    "SettingsToggleSliderRow",
     "SettingsSplitRow",
     "SettingsNavRow",
     "SettingsRow",

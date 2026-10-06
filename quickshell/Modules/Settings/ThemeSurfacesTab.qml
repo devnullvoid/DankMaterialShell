@@ -10,6 +10,7 @@ Column {
     property var parentModal: null
     readonly property bool followsSurfaces: SettingsData.floatingWindowSyncGlobal ?? true
     readonly property bool borderEnabled: SettingsData.blurBorderEnabled ?? false
+    readonly property bool layerOutlineEnabled: (SettingsData.blurLayerOutlineOpacity ?? 0) > 0
     readonly property string windowRadiusKey: CompositorService.supportsLayoutConfig ? CompositorService.configKey + "LayoutRadiusOverride" : ""
 
     width: parent?.width ?? 0
@@ -86,108 +87,100 @@ Column {
             onSliderValueChanged: newValue => SettingsData.set("popupTransparency", newValue / 100)
         }
 
-        SettingsToggleRow {
+        SettingsToggleSliderRow {
             tab: "theme"
-            tags: ["surface", "popup", "modal", "border", "outline", "edge"]
-            settingKey: "blurBorderEnabled"
-            text: I18n.tr("Border")
-            checked: root.borderEnabled
-            onToggled: checked => SettingsData.set("blurBorderEnabled", checked)
-        }
-
-        SettingsDropdownRow {
-            tab: "theme"
-            tags: ["surface", "popup", "modal", "border", "outline", "edge", "color"]
-            settingKey: "blurBorderColor"
-            visible: root.borderEnabled
-            resetKeys: ["blurBorderColor", "blurBorderCustomColor"]
-            text: I18n.tr("Border color")
-            options: [I18n.tr("Outline", "surface border color"), I18n.tr("Primary", "surface border color"), I18n.tr("Secondary", "surface border color"), I18n.tr("Text Color", "surface border color"), I18n.tr("Custom", "surface border color")]
-            optionColorMap: ({
-                    [I18n.tr("Outline", "surface border color")]: Theme.outline,
-                    [I18n.tr("Primary", "surface border color")]: Theme.primary,
-                    [I18n.tr("Secondary", "surface border color")]: Theme.secondary,
-                    [I18n.tr("Text Color", "surface border color")]: Theme.surfaceText,
-                    [I18n.tr("Custom", "surface border color")]: SettingsData.blurBorderCustomColor ?? "#ffffff"
-                })
-            currentValue: {
-                switch (SettingsData.blurBorderColor) {
-                case "primary":
-                    return I18n.tr("Primary", "surface border color");
-                case "secondary":
-                    return I18n.tr("Secondary", "surface border color");
-                case "surfaceText":
-                    return I18n.tr("Text Color", "surface border color");
-                case "custom":
-                    return I18n.tr("Custom", "surface border color");
-                default:
-                    return I18n.tr("Outline", "surface border color");
-                }
-            }
-            onValueChanged: value => {
-                switch (value) {
-                case I18n.tr("Primary", "surface border color"):
-                    SettingsData.set("blurBorderColor", "primary");
-                    return;
-                case I18n.tr("Secondary", "surface border color"):
-                    SettingsData.set("blurBorderColor", "secondary");
-                    return;
-                case I18n.tr("Text Color", "surface border color"):
-                    SettingsData.set("blurBorderColor", "surfaceText");
-                    return;
-                case I18n.tr("Custom", "surface border color"):
-                    SettingsData.set("blurBorderColor", "custom");
-                    root.openSurfaceBorderColorPicker();
-                    return;
-                }
-                SettingsData.set("blurBorderColor", "outline");
-            }
-        }
-
-        SettingsSliderRow {
-            tab: "theme"
-            tags: ["surface", "popup", "modal", "border", "opacity"]
-            settingKey: "blurBorderOpacity"
-            visible: root.borderEnabled
-            text: I18n.tr("Border opacity")
-            value: Math.round((SettingsData.blurBorderOpacity ?? 0.35) * 100)
-            minimum: 0
-            maximum: 100
-            onSliderValueChanged: newValue => SettingsData.set("blurBorderOpacity", newValue / 100)
-        }
-
-        SettingsToggleRow {
-            tab: "theme"
-            tags: ["foreground", "layers", "contrast", "surface", "blur", "glass", "frosted"]
+            tags: ["foreground", "layers", "opacity", "transparency", "contrast", "cards", "surface", "blur", "glass", "frosted"]
             settingKey: "blurForegroundLayers"
+            valueKeys: ["foregroundLayerTransparency"]
             text: I18n.tr("Foreground layers")
-            description: I18n.tr("With background blur on, cards and tiles keep their own backing", "surface foreground layers toggle description")
             checked: SettingsData.blurForegroundLayers ?? true
-            onToggled: checked => SettingsData.set("blurForegroundLayers", checked)
-        }
-
-        SettingsSliderRow {
-            tab: "theme"
-            tags: ["foreground", "layers", "opacity", "transparency", "contrast", "cards"]
-            settingKey: "foregroundLayerTransparency"
-            text: I18n.tr("Foreground opacity")
-            visible: SettingsData.blurForegroundLayers ?? true
             value: Math.round((SettingsData.foregroundLayerTransparency ?? 1.0) * 100)
             minimum: 0
             maximum: 100
+            onToggled: checked => SettingsData.set("blurForegroundLayers", checked)
             onSliderValueChanged: newValue => SettingsData.set("foregroundLayerTransparency", newValue / 100)
         }
 
-        SettingsSliderRow {
+        SettingsToggleSliderRow {
             tab: "theme"
-            tags: ["foreground", "layers", "outline", "border", "cards", "pills", "widgets", "notifications", "control center"]
-            settingKey: "blurLayerOutlineOpacity"
-            text: I18n.tr("Layer outline opacity")
+            tags: ["foreground", "layers", "outline", "border", "opacity", "cards", "pills", "widgets", "notifications", "control center"]
+            settingKey: "blurLayerOutline"
+            resetKeys: ["blurLayerOutlineOpacity"]
+            text: I18n.tr("Layer outline")
+            description: I18n.tr("Faint edge on cards, pills and widgets", "surface layer outline toggle description")
+            checked: root.layerOutlineEnabled
             value: Math.round((SettingsData.blurLayerOutlineOpacity ?? 0) * 100)
-            minimum: 0
-            minimumLabel: I18n.tr("Off")
+            minimum: 1
             maximum: 40
+            onToggled: checked => SettingsData.set("blurLayerOutlineOpacity", checked ? 0.12 : 0)
             onSliderValueChanged: newValue => SettingsData.set("blurLayerOutlineOpacity", newValue / 100)
+        }
+
+        SettingsToggleSliderRow {
+            tab: "theme"
+            tags: ["surface", "popup", "modal", "border", "outline", "edge", "color", "opacity"]
+            settingKey: "blurBorderEnabled"
+            accessoryKeys: ["blurBorderColor", "blurBorderCustomColor"]
+            valueKeys: ["blurBorderOpacity"]
+            text: I18n.tr("Border")
+            description: I18n.tr("Edge around popups and modals", "surface border toggle description")
+            checked: root.borderEnabled
+            value: Math.round((SettingsData.blurBorderOpacity ?? 0.35) * 100)
+            minimum: 0
+            maximum: 100
+            onToggled: checked => SettingsData.set("blurBorderEnabled", checked)
+            onSliderValueChanged: newValue => SettingsData.set("blurBorderOpacity", newValue / 100)
+
+            accessory: DDropdown {
+                id: borderColorMenu
+                visible: root.borderEnabled
+                anchors.verticalCenter: parent.verticalCenter
+                text: I18n.tr("Border color")
+                showLabel: false
+                downKeyOpens: false
+                triggerHeight: Theme.switchTrackHeight
+                alignPopupRight: !I18n.isRtl
+                options: [I18n.tr("Outline", "surface border color"), I18n.tr("Primary", "surface border color"), I18n.tr("Secondary", "surface border color"), I18n.tr("Text Color", "surface border color"), I18n.tr("Custom", "surface border color")]
+                optionColorMap: ({
+                        [I18n.tr("Outline", "surface border color")]: Theme.outline,
+                        [I18n.tr("Primary", "surface border color")]: Theme.primary,
+                        [I18n.tr("Secondary", "surface border color")]: Theme.secondary,
+                        [I18n.tr("Text Color", "surface border color")]: Theme.surfaceText,
+                        [I18n.tr("Custom", "surface border color")]: SettingsData.blurBorderCustomColor ?? "#ffffff"
+                    })
+                currentValue: {
+                    switch (SettingsData.blurBorderColor) {
+                    case "primary":
+                        return I18n.tr("Primary", "surface border color");
+                    case "secondary":
+                        return I18n.tr("Secondary", "surface border color");
+                    case "surfaceText":
+                        return I18n.tr("Text Color", "surface border color");
+                    case "custom":
+                        return I18n.tr("Custom", "surface border color");
+                    default:
+                        return I18n.tr("Outline", "surface border color");
+                    }
+                }
+                onValueChanged: value => {
+                    switch (value) {
+                    case I18n.tr("Primary", "surface border color"):
+                        SettingsData.set("blurBorderColor", "primary");
+                        return;
+                    case I18n.tr("Secondary", "surface border color"):
+                        SettingsData.set("blurBorderColor", "secondary");
+                        return;
+                    case I18n.tr("Text Color", "surface border color"):
+                        SettingsData.set("blurBorderColor", "surfaceText");
+                        return;
+                    case I18n.tr("Custom", "surface border color"):
+                        SettingsData.set("blurBorderColor", "custom");
+                        root.openSurfaceBorderColorPicker();
+                        return;
+                    }
+                    SettingsData.set("blurBorderColor", "outline");
+                }
+            }
         }
 
         SettingsToggleRow {
@@ -216,6 +209,25 @@ Column {
             title: I18n.tr("Xray options are in Compositor → Layout")
             onClicked: keyboard => root.parentModal?.navigateTo("compositor_layout", keyboard)
         }
+
+        SettingsSplitRow {
+            tab: "theme"
+            tags: ["elevation", "shadow", "lift", "m3", "material"]
+            settingKey: "m3ElevationLink"
+            title: I18n.tr("Shadows")
+            subtitle: SettingsTabs.page("surface_shadows")?.hint ?? ""
+            resetKeys: ["m3ElevationEnabled"]
+            checked: SettingsData.m3ElevationEnabled ?? true
+            onNavigated: keyboard => root.parentModal?.navigateTo("surface_shadows", keyboard)
+            onToggled: checked => SettingsData.set("m3ElevationEnabled", checked)
+        }
+    }
+
+    SettingsCard {
+        tab: "theme"
+        tags: ["corner", "radius", "rounded", "square", "fixed", "material", "shape", "window"]
+        title: I18n.tr("Corners")
+        settingKey: "surfaceCorners"
 
         SettingsButtonGroupRow {
             tab: "theme"
@@ -284,17 +296,66 @@ Column {
             unit: "px"
             onSliderDragFinished: finalValue => SettingsData.set(root.windowRadiusKey, finalValue)
         }
+    }
 
-        SettingsSplitRow {
+    Repeater {
+        model: [
+            {
+                kind: "bar",
+                title: I18n.tr("Bars"),
+                settingKey: "barOpacityOverrides"
+            },
+            {
+                kind: "dock",
+                title: I18n.tr("Docks"),
+                settingKey: "dockOpacityOverrides"
+            }
+        ]
+
+        SettingsCard {
+            id: targetCard
+
+            required property var modelData
+            readonly property var targets: root.opacityTargets.filter(target => target.kind === modelData.kind)
+            readonly property var activeTargets: targets.filter(target => target.enabled)
+            readonly property var hiddenTargets: targets.filter(target => !target.enabled)
+            // String keys: a config edit must not rebuild the row holding the focused control
+            readonly property string activeKeys: activeTargets.map(target => target.key).join("\n")
+            readonly property string hiddenKeys: hiddenTargets.map(target => target.key).join("\n")
+            property bool showHidden: false
+
             tab: "theme"
-            tags: ["elevation", "shadow", "lift", "m3", "material"]
-            settingKey: "m3ElevationLink"
-            title: I18n.tr("Shadows")
-            subtitle: SettingsTabs.page("surface_shadows")?.hint ?? ""
-            resetKeys: ["m3ElevationEnabled"]
-            checked: SettingsData.m3ElevationEnabled ?? true
-            onNavigated: keyboard => root.parentModal?.navigateTo("surface_shadows", keyboard)
-            onToggled: checked => SettingsData.set("m3ElevationEnabled", checked)
+            tags: ["surface", "opacity", "transparency", modelData.kind, "override"]
+            title: modelData.title
+            settingKey: modelData.settingKey
+            visible: targets.length > 0
+
+            Repeater {
+                model: targetCard.activeKeys ? targetCard.activeKeys.split("\n") : []
+                delegate: opacityTargetRow
+            }
+
+            SettingsRow {
+                tab: "theme"
+                tags: ["surface", "opacity", "transparency", targetCard.modelData.kind, "hidden", "disabled"]
+                title: I18n.tr("Hidden (%1)", "island settings: hidden groups divider, %1 is count").arg(targetCard.hiddenTargets.length)
+                iconName: "visibility_off"
+                visible: targetCard.hiddenTargets.length > 0
+                clickable: true
+                onClicked: targetCard.showHidden = !targetCard.showHidden
+
+                DIcon {
+                    anchors.verticalCenter: parent.verticalCenter
+                    name: targetCard.showHidden ? "expand_less" : "expand_more"
+                    size: Theme.iconSize
+                    color: Theme.onSurfaceVariant
+                }
+            }
+
+            Repeater {
+                model: targetCard.showHidden && targetCard.hiddenKeys ? targetCard.hiddenKeys.split("\n") : []
+                delegate: opacityTargetRow
+            }
         }
     }
 
@@ -325,25 +386,18 @@ Column {
             onSliderValueChanged: newValue => SettingsData.set("floatingWindowTransparency", newValue / 100)
         }
 
-        SettingsToggleRow {
+        SettingsToggleSliderRow {
             enabled: !root.followsSurfaces
             tab: "theme"
-            tags: ["floating", "window", "foreground", "layers", "contrast", "cards", "blur", "glass"]
+            tags: ["floating", "window", "foreground", "layers", "opacity", "transparency", "contrast", "cards", "blur", "glass"]
             settingKey: "floatingWindowForegroundLayers"
+            valueKeys: ["floatingWindowForegroundTransparency"]
             text: I18n.tr("Foreground layers")
             checked: Theme.floatingWindowForegroundLayers
-            onToggled: checked => SettingsData.set("floatingWindowForegroundLayers", checked)
-        }
-
-        SettingsSliderRow {
-            tab: "theme"
-            tags: ["floating", "window", "foreground", "layers", "opacity", "transparency", "cards"]
-            settingKey: "floatingWindowForegroundTransparency"
-            text: I18n.tr("Foreground opacity")
-            visible: !root.followsSurfaces && Theme.floatingWindowForegroundLayers
             value: Math.round(Theme.floatingWindowForegroundTransparency * 100)
             minimum: 0
             maximum: 100
+            onToggled: checked => SettingsData.set("floatingWindowForegroundLayers", checked)
             onSliderValueChanged: newValue => SettingsData.set("floatingWindowForegroundTransparency", newValue / 100)
         }
 
@@ -409,67 +463,6 @@ Column {
                 onSliderDragFinished: finalValue => root.setOpacityOverride(overrideRow.target, {
                         transparency: finalValue / 100
                     })
-            }
-        }
-    }
-
-    Repeater {
-        model: [
-            {
-                kind: "bar",
-                title: I18n.tr("Bars"),
-                settingKey: "barOpacityOverrides"
-            },
-            {
-                kind: "dock",
-                title: I18n.tr("Docks"),
-                settingKey: "dockOpacityOverrides"
-            }
-        ]
-
-        SettingsCard {
-            id: targetCard
-
-            required property var modelData
-            readonly property var targets: root.opacityTargets.filter(target => target.kind === modelData.kind)
-            readonly property var activeTargets: targets.filter(target => target.enabled)
-            readonly property var hiddenTargets: targets.filter(target => !target.enabled)
-            // String keys: a config edit must not rebuild the row holding the focused control
-            readonly property string activeKeys: activeTargets.map(target => target.key).join("\n")
-            readonly property string hiddenKeys: hiddenTargets.map(target => target.key).join("\n")
-            property bool showHidden: false
-
-            tab: "theme"
-            tags: ["surface", "opacity", "transparency", modelData.kind, "override"]
-            title: modelData.title
-            settingKey: modelData.settingKey
-            visible: targets.length > 0
-
-            Repeater {
-                model: targetCard.activeKeys ? targetCard.activeKeys.split("\n") : []
-                delegate: opacityTargetRow
-            }
-
-            SettingsRow {
-                tab: "theme"
-                tags: ["surface", "opacity", "transparency", targetCard.modelData.kind, "hidden", "disabled"]
-                title: I18n.tr("Hidden (%1)", "island settings: hidden groups divider, %1 is count").arg(targetCard.hiddenTargets.length)
-                iconName: "visibility_off"
-                visible: targetCard.hiddenTargets.length > 0
-                clickable: true
-                onClicked: targetCard.showHidden = !targetCard.showHidden
-
-                DIcon {
-                    anchors.verticalCenter: parent.verticalCenter
-                    name: targetCard.showHidden ? "expand_less" : "expand_more"
-                    size: Theme.iconSize
-                    color: Theme.onSurfaceVariant
-                }
-            }
-
-            Repeater {
-                model: targetCard.showHidden && targetCard.hiddenKeys ? targetCard.hiddenKeys.split("\n") : []
-                delegate: opacityTargetRow
             }
         }
     }

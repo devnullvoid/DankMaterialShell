@@ -10,6 +10,7 @@ SettingsRow {
     property color descriptionColor: Theme.surfaceVariantText
     property bool checked: false
     property bool toggling: false
+    property alias accessory: accessorySlot.data
 
     signal toggled(bool checked)
 
@@ -32,7 +33,15 @@ SettingsRow {
         toggled(!checked);
     }
 
+    Row {
+        id: accessorySlot
+        spacing: Theme.spacingS
+        visible: children.length > 0
+        anchors.verticalCenter: parent.verticalCenter
+    }
+
     DToggle {
+        anchors.verticalCenter: parent.verticalCenter
         hideText: true
         text: root.text
         description: root.description

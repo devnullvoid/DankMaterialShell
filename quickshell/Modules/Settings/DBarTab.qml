@@ -216,32 +216,25 @@ Item {
                 subtitle: I18n.tr("The Island holds this edge on a display this bar covers, so the bar stays hidden there")
             }
 
-            SettingsToggleRow {
+            SettingsToggleSliderRow {
                 settingKey: "barAutoHide"
-                tags: ["autohide", "auto-hide", "reveal", "intellihide"]
+                tags: ["autohide", "auto-hide", "reveal", "intellihide", "delay", "hide"]
                 visible: !bar.islandOwnsSelectedBarTop
                 text: I18n.tr("Auto-hide", "toggle to automatically hide the bar or dock")
                 resetStore: bar
                 resetKeys: ["autoHide"]
+                valueKeys: ["autoHideDelay"]
                 checked: bar.selectedBarConfig?.autoHide ?? false
+                value: bar.selectedBarConfig?.autoHideDelay ?? 250
+                minimum: 0
+                maximum: 2000
+                unit: "ms"
                 onToggled: toggled => {
                     SettingsData.updateBarConfig(bar.selectedBarId, {
                         autoHide: toggled
                     });
                     bar.notifyHorizontalBarChange();
                 }
-            }
-
-            SettingsSliderRow {
-                visible: (bar.selectedBarConfig?.autoHide ?? false) && !bar.islandOwnsSelectedBarTop
-                text: I18n.tr("Hide delay")
-                tags: ["autohide", "delay", "hide"]
-                resetStore: bar
-                resetKeys: ["autoHideDelay"]
-                value: bar.selectedBarConfig?.autoHideDelay ?? 250
-                minimum: 0
-                maximum: 2000
-                unit: "ms"
                 onSliderValueChanged: newValue => SettingsData.updateBarConfig(bar.selectedBarId, {
                         autoHideDelay: newValue
                     })

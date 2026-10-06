@@ -463,53 +463,22 @@
     "tabIndex": -1,
     "category": "Interface style",
     "keywords": [
-      "border",
-      "edge",
-      "interface",
-      "modal",
-      "outline",
-      "popup",
-      "style",
-      "surface"
-    ],
-    "page": "theme_surfaces"
-  },
-  {
-    "section": "blurBorderColor",
-    "label": "Border color",
-    "tabIndex": -1,
-    "category": "Interface style",
-    "keywords": [
+      "around",
       "border",
       "color",
-      "colour",
       "edge",
-      "hue",
       "interface",
       "modal",
+      "modals",
+      "opacity",
       "outline",
       "popup",
-      "style",
-      "surface",
-      "tint"
-    ],
-    "page": "theme_surfaces"
-  },
-  {
-    "section": "blurBorderOpacity",
-    "label": "Border opacity",
-    "tabIndex": -1,
-    "category": "Interface style",
-    "keywords": [
-      "border",
-      "interface",
-      "modal",
-      "opacity",
-      "popup",
+      "popups",
       "style",
       "surface"
     ],
-    "page": "theme_surfaces"
+    "page": "theme_surfaces",
+    "description": "Edge around popups and modals"
   },
   {
     "section": "buttonColorMode",
@@ -674,6 +643,35 @@
       "style"
     ],
     "page": "theme_surfaces"
+  },
+  {
+    "section": "surfaceCorners",
+    "label": "Corners",
+    "tabIndex": -1,
+    "category": "Interface style",
+    "keywords": [
+      "corner",
+      "corners",
+      "fixed",
+      "higher",
+      "increase",
+      "interface",
+      "lower",
+      "material",
+      "radius",
+      "reduce",
+      "round",
+      "rounded",
+      "shape",
+      "shapes",
+      "square",
+      "style",
+      "uses",
+      "values",
+      "window"
+    ],
+    "page": "theme_surfaces",
+    "description": "50 uses Material shapes. Lower values reduce rounding; higher values increase it."
   },
   {
     "section": "notificationHistorySaveCritical",
@@ -1115,8 +1113,6 @@
     "tabIndex": -1,
     "category": "Interface style",
     "keywords": [
-      "background",
-      "backing",
       "blur",
       "cards",
       "contrast",
@@ -1124,15 +1120,13 @@
       "frosted",
       "glass",
       "interface",
-      "keep",
       "layers",
+      "opacity",
       "style",
       "surface",
-      "their",
-      "tiles"
+      "transparency"
     ],
-    "page": "theme_surfaces",
-    "description": "With background blur on, cards and tiles keep their own backing"
+    "page": "theme_surfaces"
   },
   {
     "section": "floatingWindowForegroundLayers",
@@ -1148,7 +1142,9 @@
       "glass",
       "interface",
       "layers",
+      "opacity",
       "style",
+      "transparency",
       "window"
     ],
     "page": "theme_surfaces"
@@ -1176,41 +1172,6 @@
       "toast"
     ],
     "page": "notifications"
-  },
-  {
-    "section": "floatingWindowForegroundTransparency",
-    "label": "Foreground opacity",
-    "tabIndex": -1,
-    "category": "Interface style",
-    "keywords": [
-      "cards",
-      "floating",
-      "foreground",
-      "interface",
-      "layers",
-      "opacity",
-      "style",
-      "transparency",
-      "window"
-    ],
-    "page": "theme_surfaces"
-  },
-  {
-    "section": "foregroundLayerTransparency",
-    "label": "Foreground opacity",
-    "tabIndex": -1,
-    "category": "Interface style",
-    "keywords": [
-      "cards",
-      "contrast",
-      "foreground",
-      "interface",
-      "layers",
-      "opacity",
-      "style",
-      "transparency"
-    ],
-    "page": "theme_surfaces"
   },
   {
     "section": "cursorHideOnTouch",
@@ -1452,18 +1413,22 @@
     "description": "Shortcuts, keyboard, mouse"
   },
   {
-    "section": "blurLayerOutlineOpacity",
-    "label": "Layer outline opacity",
+    "section": "blurLayerOutline",
+    "label": "Layer outline",
     "tabIndex": -1,
     "category": "Interface style",
     "keywords": [
       "border",
       "cards",
+      "components",
       "control center",
+      "edge",
+      "faint",
       "foreground",
       "interface",
       "layer",
       "layers",
+      "modules",
       "notifications",
       "opacity",
       "outline",
@@ -1471,7 +1436,8 @@
       "style",
       "widgets"
     ],
-    "page": "theme_surfaces"
+    "page": "theme_surfaces",
+    "description": "Faint edge on cards, pills and widgets"
   },
   {
     "section": "dockPlacement",
@@ -2377,31 +2343,33 @@
     "category": "Interface style",
     "keywords": [
       "background",
-      "backing",
       "blur",
       "cards",
+      "components",
       "corner",
+      "edge",
       "elevation",
+      "faint",
       "foreground",
       "frosted",
       "glass",
       "interface",
-      "keep",
       "layers",
       "modal",
+      "modules",
       "opacity",
+      "pills",
       "popup",
       "radius",
       "shadow",
       "style",
       "surface",
       "surfaces",
-      "their",
-      "tiles",
-      "transparency"
+      "transparency",
+      "widgets"
     ],
     "page": "theme_surfaces",
-    "description": "With background blur on, cards and tiles keep their own backing"
+    "description": "Faint edge on cards, pills and widgets"
   },
   {
     "section": "_hub_system",
@@ -3142,6 +3110,7 @@
       "auto-hide",
       "autohide",
       "bar",
+      "delay",
       "general",
       "hide",
       "intellihide",
@@ -4528,6 +4497,7 @@
       "auto-hide",
       "autohide",
       "bar",
+      "delay",
       "even",
       "general",
       "hidden",
@@ -10017,7 +9987,7 @@
     "optionFile": "SystemMonitorOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:21",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:20",
     "label": "Drag to reorder",
     "tabIndex": 22,
     "keywords": [],
@@ -10027,14 +9997,6 @@
   {
     "section": "barWidgetOption:AppsDockOptions.qml:25",
     "label": "Enlarge on hover",
-    "tabIndex": 22,
-    "keywords": [],
-    "runtimeType": "barWidgetOption",
-    "optionFile": "AppsDockOptions.qml"
-  },
-  {
-    "section": "barWidgetOption:AppsDockOptions.qml:26",
-    "label": "Enlargement",
     "tabIndex": 22,
     "keywords": [],
     "runtimeType": "barWidgetOption",
@@ -10057,7 +10019,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:19",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:18",
     "label": "Follow display focus",
     "tabIndex": 22,
     "keywords": [],
@@ -10089,7 +10051,7 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:16",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:15",
     "label": "Group apps",
     "tabIndex": 22,
     "keywords": [],
@@ -10113,7 +10075,7 @@
     "optionFile": "RunningAppsOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:17",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:16",
     "label": "Group on active workspace",
     "tabIndex": 22,
     "keywords": [],
@@ -10137,7 +10099,7 @@
     "optionFile": "SystemUpdateOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:18",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:17",
     "label": "Highlight focused app",
     "tabIndex": 22,
     "keywords": [],
@@ -10177,7 +10139,7 @@
     "optionFile": "LauncherButtonOptions.qml"
   },
   {
-    "section": "barWidgetOption:AppsDockOptions.qml:27",
+    "section": "barWidgetOption:AppsDockOptions.qml:26",
     "label": "Icon size",
     "tabIndex": 22,
     "keywords": [],
@@ -10449,7 +10411,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:20",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:19",
     "label": "Reverse scroll direction",
     "tabIndex": 22,
     "keywords": [],
@@ -10497,7 +10459,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:22",
+    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:21",
     "label": "Show all tags",
     "tabIndex": 22,
     "keywords": [],
@@ -10657,7 +10619,7 @@
     "optionFile": "SystemUpdateOptions.qml"
   },
   {
-    "section": "barWidgetOption:AppsDockOptions.qml:28",
+    "section": "barWidgetOption:AppsDockOptions.qml:27",
     "label": "Spacing",
     "tabIndex": 22,
     "keywords": [],
@@ -10791,14 +10753,6 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "IslandOptions.qml"
-  },
-  {
-    "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:15",
-    "label": "Workspace count",
-    "tabIndex": 22,
-    "keywords": [],
-    "runtimeType": "barWidgetOption",
-    "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
     "section": "clipboardRememberTypeFilter",
@@ -12363,55 +12317,6 @@
     "runtimeType": "pageLabel"
   },
   {
-    "section": "hyprlandLayoutBorderSize",
-    "label": "Border size",
-    "tabIndex": 37,
-    "category": "System & integrations",
-    "keywords": [
-      "border",
-      "border_size",
-      "hyprland",
-      "integrations",
-      "override",
-      "size",
-      "system"
-    ],
-    "conditionKey": "layoutCapable"
-  },
-  {
-    "section": "mangoLayoutBorderSize",
-    "label": "Border size",
-    "tabIndex": 37,
-    "category": "System & integrations",
-    "keywords": [
-      "border",
-      "borderpx",
-      "integrations",
-      "mango",
-      "mangowc",
-      "override",
-      "size",
-      "system"
-    ],
-    "conditionKey": "layoutCapable"
-  },
-  {
-    "section": "niriLayoutBorderSize",
-    "label": "Border size",
-    "tabIndex": 37,
-    "category": "System & integrations",
-    "keywords": [
-      "border",
-      "focus-ring",
-      "integrations",
-      "niri",
-      "override",
-      "size",
-      "system"
-    ],
-    "conditionKey": "layoutCapable"
-  },
-  {
     "section": "closeNiriOverviewOnWindowFocus",
     "label": "Close on window focus",
     "tabIndex": 37,
@@ -12904,6 +12809,7 @@
     "category": "System & integrations",
     "keywords": [
       "border",
+      "border_size",
       "hyprland",
       "integrations",
       "override",
@@ -12919,6 +12825,7 @@
     "category": "System & integrations",
     "keywords": [
       "border",
+      "borderpx",
       "integrations",
       "mango",
       "mangowc",

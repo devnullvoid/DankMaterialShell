@@ -922,56 +922,38 @@ DDialog {
         title: I18n.tr("Dynamic Properties")
         visible: root.isNiri || root.isHyprland
 
-        SettingsToggleRow {
+        SettingsToggleSliderRow {
             text: I18n.tr("Opacity")
             checked: root.opacityOn
-            enabled: root.fieldsEnabled
-            onToggled: checked => root.opacityOn = checked
-        }
-
-        SettingsSliderRow {
-            visible: root.opacityOn
-            text: I18n.tr("Opacity")
             value: root.opacityValue
             minimum: 10
             unit: "%"
             enabled: root.fieldsEnabled
+            onToggled: checked => root.opacityOn = checked
             onSliderValueChanged: newValue => root.opacityValue = newValue
         }
 
-        SettingsToggleRow {
+        SettingsToggleSliderRow {
             text: I18n.tr("Corner radius")
             checked: root.cornerRadiusOn
-            enabled: root.fieldsEnabled
-            onToggled: checked => root.cornerRadiusOn = checked
-        }
-
-        SettingsSliderRow {
-            visible: root.cornerRadiusOn
-            text: I18n.tr("Corner radius")
             value: root.cornerRadiusValue
             maximum: 24
             unit: "px"
             enabled: root.fieldsEnabled
+            onToggled: checked => root.cornerRadiusOn = checked
             onSliderValueChanged: newValue => root.cornerRadiusValue = newValue
         }
 
-        SettingsToggleRow {
+        SettingsToggleSliderRow {
             visible: root.isNiri
             text: I18n.tr("Scroll Factor")
             checked: root.scrollFactorOn
-            enabled: root.fieldsEnabled
-            onToggled: checked => root.scrollFactorOn = checked
-        }
-
-        SettingsSliderRow {
-            visible: root.isNiri && root.scrollFactorOn
-            text: I18n.tr("Scroll Factor")
             value: root.scrollFactorValue
             minimum: 10
             maximum: 200
             unit: "%"
             enabled: root.fieldsEnabled
+            onToggled: checked => root.scrollFactorOn = checked
             onSliderValueChanged: newValue => root.scrollFactorValue = newValue
         }
 
@@ -1035,36 +1017,24 @@ DDialog {
             }
         }
 
-        SettingsToggleRow {
+        SettingsToggleSliderRow {
             text: I18n.tr("Noise", "window rule background noise effect checkbox")
             checked: root.noiseOn
-            enabled: root.fieldsEnabled
-            onToggled: checked => root.noiseOn = checked
-        }
-
-        SettingsSliderRow {
-            visible: root.noiseOn
-            text: I18n.tr("Noise", "window rule background noise effect checkbox")
             value: root.noiseValue
             unit: "%"
             enabled: root.fieldsEnabled
+            onToggled: checked => root.noiseOn = checked
             onSliderValueChanged: newValue => root.noiseValue = newValue
         }
 
-        SettingsToggleRow {
+        SettingsToggleSliderRow {
             text: I18n.tr("Saturation", "window rule background color saturation checkbox")
             checked: root.saturationOn
-            enabled: root.fieldsEnabled
-            onToggled: checked => root.saturationOn = checked
-        }
-
-        SettingsSliderRow {
-            visible: root.saturationOn
-            text: I18n.tr("Saturation", "window rule background color saturation checkbox")
             value: root.saturationValue
             maximum: 200
             unit: "%"
             enabled: root.fieldsEnabled
+            onToggled: checked => root.saturationOn = checked
             onSliderValueChanged: newValue => root.saturationValue = newValue
         }
     }

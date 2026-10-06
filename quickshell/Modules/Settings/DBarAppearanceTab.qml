@@ -219,27 +219,21 @@ Item {
                     })
             }
 
-            SettingsToggleRow {
+            SettingsToggleSliderRow {
                 text: I18n.tr("Custom radius")
                 tags: ["goth", "corners", "radius"]
                 visible: (bar.selectedBarConfig?.gothCornersEnabled ?? false) && !bar.selectedBarFrameSanitized && !bar.islandOwnsSelectedBarTop
                 resetStore: bar
                 resetKeys: ["gothCornerRadiusOverride"]
+                valueKeys: ["gothCornerRadiusValue"]
                 checked: bar.selectedBarConfig?.gothCornerRadiusOverride ?? false
-                onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
-                        gothCornerRadiusOverride: checked
-                    })
-            }
-
-            SettingsSliderRow {
-                visible: (bar.selectedBarConfig?.gothCornersEnabled ?? false) && (bar.selectedBarConfig?.gothCornerRadiusOverride ?? false) && !bar.selectedBarFrameSanitized && !bar.islandOwnsSelectedBarTop
-                text: I18n.tr("Radius")
                 unit: "px"
-                resetStore: bar
-                resetKeys: ["gothCornerRadiusValue"]
                 value: bar.selectedBarConfig?.gothCornerRadiusValue ?? 12
                 minimum: 0
                 maximum: 64
+                onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
+                        gothCornerRadiusOverride: checked
+                    })
                 onSliderDragFinished: finalValue => SettingsData.updateBarConfig(bar.selectedBarId, {
                         gothCornerRadiusValue: finalValue
                     })
