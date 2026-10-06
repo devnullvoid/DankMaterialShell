@@ -237,10 +237,15 @@ Item {
     function syncAnchor() {
         if (!root.freeMode && !root.embedded)
             return;
-        const target = root.resolveTarget(controller.targetDescriptor);
-        const sameSize = target.width === motion.targetWidth && target.height === motion.targetHeight;
-        if (root.anchorSnaps || (root.embedded && !motion.running && !controller.expanded && sameSize)) {
-            motion.snapTo(target);
+        if (root.anchorSnaps) {
+            motion.snapTo(root.resolveTarget(controller.targetDescriptor));
+            return;
+        }
+        // targetDescriptor may not have updated yet when the slot resizes, compactTarget has.
+        const compact = root.resolveTarget(controller.compactTarget);
+        const settledCompact = root.embedded && !motion.running && !controller.expanded && compact.width === motion.targetWidth && compact.height === motion.targetHeight;
+        if (settledCompact) {
+            motion.snapTo(compact);
             return;
         }
         root.applyTarget();
