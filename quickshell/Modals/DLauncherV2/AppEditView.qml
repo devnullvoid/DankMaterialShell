@@ -11,6 +11,8 @@ FocusScope {
 
     signal closeRequested
 
+    implicitHeight: headerRow.height + editFieldsColumn.height + buttonsRow.height + Theme.outlineWidth + Theme.spacingM * 3
+
     function loadOverride() {
         var existing = SessionData.getAppOverride(editAppId);
         editNameField.text = existing?.name || "";
@@ -62,6 +64,7 @@ FocusScope {
         spacing: Theme.spacingM
 
         Row {
+            id: headerRow
             width: parent.width
             spacing: Theme.spacingM
 

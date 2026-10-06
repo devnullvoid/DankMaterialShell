@@ -11,7 +11,6 @@ DContextMenu {
     property var controller: null
     property var searchField: null
     property var parentHandler: null
-    property bool allowEditActions: true
     property string pinDockId: ""
 
     readonly property bool isCoreApp: item?.type === "app" && !!item?.isCore
@@ -65,13 +64,12 @@ DContextMenu {
                 text: I18n.tr("Hide App"),
                 action: hideCurrentApp
             });
-            if (allowEditActions)
-                items.push({
-                    type: "item",
-                    icon: "edit",
-                    text: I18n.tr("Edit App"),
-                    action: editCurrentApp
-                });
+            items.push({
+                type: "item",
+                icon: "edit",
+                text: I18n.tr("Edit App"),
+                action: editCurrentApp
+            });
         }
         if (item?.actions?.length > 0) {
             items.push({

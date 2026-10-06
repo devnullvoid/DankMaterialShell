@@ -24,6 +24,10 @@ FocusScope {
     property real maxResultsHeight: 0
     property real resultsInset: LauncherMetrics.spotlightInset
 
+    property bool editMode: false
+    property var editingApp: null
+    property string editAppId: ""
+
     readonly property bool _hasQuery: root.showResultsWithoutQuery || searchInput.text.length > 0 || root.controller.searchMode === "dmenu"
     readonly property real _searchBarH: LauncherMetrics.pillHeight
     readonly property real _searchAreaH: _searchBarH
@@ -38,8 +42,10 @@ FocusScope {
     readonly property real _resultsH: _hasQuery ? Math.min(_resultsContentH, _maxResultsH) : 0
     readonly property int _resizeDuration: Theme.expressiveDurations.expressiveFastSpatial
     readonly property real _frameClipRadius: Math.max(0, (parentModal?.frameBottomRadius ?? 0) - resultsInset)
+    readonly property real _editAvailableH: maxResultsHeight > 0 ? maxResultsHeight + _searchAreaH : Math.max(LauncherMetrics.maxResultsHeight, (parentModal?.screenHeight ?? Theme.mediumBreakpoint) - (parentModal?.modalY ?? 0) - Theme.spacingL)
+    readonly property real _editH: Math.min(editLoader.implicitHeight, _editAvailableH)
 
-    implicitHeight: _searchAreaH + mesgRow.height + resultsContainer.height + actionPanel.height
+    implicitHeight: editMode ? _editH + Theme.spacingM * 2 : _searchAreaH + mesgRow.height + resultsContainer.height + actionPanel.height
 
     property bool _animateResize: false
 
@@ -68,7 +74,27 @@ FocusScope {
     function closeTransientUi() {
         transientSurfaceTracker?.closeAll?.();
         actionPanel.hide();
+        root._clearEditState();
         root.enabled = true;
+    }
+
+    function _clearEditState() {
+        editMode = false;
+        editingApp = null;
+        editAppId = "";
+    }
+
+    function openEditMode(app) {
+        if (!app)
+            return;
+        editingApp = app;
+        editAppId = app.id || app.execString || app.exec || "";
+        editMode = true;
+    }
+
+    function closeEditMode() {
+        root._clearEditState();
+        Qt.callLater(root._focusSearch);
     }
 
     function _focusSearch() {
@@ -84,6 +110,14 @@ FocusScope {
     }
 
     function _handleKey(event) {
+        if (root.editMode) {
+            if (event.key === Qt.Key_Escape) {
+                root.closeEditMode();
+                event.accepted = true;
+            }
+            return;
+        }
+
         const hasCtrl = event.modifiers & Qt.ControlModifier;
         const hasAlt = event.modifiers & Qt.AltModifier;
 
@@ -274,8 +308,9 @@ FocusScope {
         controller: root.controller
         searchField: searchInput
         parentHandler: root
-        allowEditActions: false
         transientSurfaceTracker: root.transientSurfaceTracker
+
+        onEditAppRequested: app => root.openEditMode(app)
     }
 
     Connections {
@@ -326,6 +361,7 @@ FocusScope {
         anchors.left: parent.left
         anchors.right: parent.right
         height: root._searchAreaH
+        visible: !root.editMode
 
         LauncherSearchField {
             id: searchInput
@@ -372,7 +408,7 @@ FocusScope {
         anchors.leftMargin: root.resultsInset
         anchors.rightMargin: root.resultsInset
         height: _visible ? mesgText.implicitHeight + Theme.spacingS * 2 : 0
-        visible: _visible
+        visible: _visible && !root.editMode
 
         StyledText {
             id: mesgText
@@ -394,7 +430,7 @@ FocusScope {
         height: Theme.outlineWidth
         z: 1
         color: Theme.outlineVariant
-        visible: root._hasQuery && !(Theme.focusRingWidth > 0 && searchInput.getActiveFocus())
+        visible: !root.editMode && root._hasQuery && !(Theme.focusRingWidth > 0 && searchInput.getActiveFocus())
     }
 
     ClippingRectangle {
@@ -408,6 +444,7 @@ FocusScope {
         bottomLeftRadius: actionPanel.height > 0 ? 0 : root._frameClipRadius
         bottomRightRadius: bottomLeftRadius
         height: root._resultsH
+        visible: !root.editMode
 
         Behavior on height {
             enabled: root._animateResize
@@ -442,6 +479,28 @@ FocusScope {
         anchors.right: parent.right
         selectedItem: root.controller.selectedItem
         controller: root.controller
+        visible: !root.editMode
+    }
+
+    Loader {
+        id: editLoader
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.margins: Theme.spacingM
+        height: root.editMode ? root._editH : 0
+        active: root.editMode
+        visible: active
+        focus: root.editMode
+
+        sourceComponent: AppEditView {
+            focus: true
+            editingApp: root.editingApp
+            editAppId: root.editAppId
+            onCloseRequested: root.closeEditMode()
+        }
+
+        onLoaded: item.loadOverride()
     }
 
     function _cycleCategory(reverse) {
