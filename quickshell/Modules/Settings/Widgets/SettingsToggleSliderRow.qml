@@ -25,9 +25,11 @@ Item {
 
     property alias resetStore: header.resetStore
     property alias resetKeys: header.resetKeys
+    property alias resetByKeys: header.resetByKeys
     property var accessoryKeys: []
     property var valueKeys: []
     property alias modified: header.modified
+    property bool valueModified: valueKeys.length > 0 && !resetStore.isDefault(valueKeys)
     property alias accessory: header.accessory
 
     readonly property bool standalone: !(parent?.isSettingsGroupHost ?? false)
@@ -37,6 +39,8 @@ Item {
     signal toggled(bool checked)
     signal sliderValueChanged(int newValue)
     signal sliderDragFinished(int finalValue)
+    signal resetRequested
+    signal valueResetRequested
 
     width: parent?.width ?? 0
     height: column.height
@@ -63,7 +67,10 @@ Item {
             tags: root.tags
             settingKey: root.settingKey
             modified: (root.resetKeys.length > 0 && !resetStore.isDefault(root.resetKeys)) || (root.checked && root.accessoryKeys.length > 0 && !resetStore.isDefault(root.accessoryKeys))
-            onResetRequested: resetStore.resetToDefault(root.accessoryKeys)
+            onResetRequested: {
+                resetStore.resetToDefault(root.accessoryKeys);
+                root.resetRequested();
+            }
             text: root.text
             description: root.description
             checked: root.checked
@@ -102,8 +109,11 @@ Item {
                 value: root.value
                 accessibleName: root.text
                 accessibleDescription: root.description
-                showReset: root.valueKeys.length > 0 && !root.resetStore.isDefault(root.valueKeys)
-                onResetRequested: root.resetStore.resetToDefault(root.valueKeys)
+                showReset: root.valueModified
+                onResetRequested: {
+                    root.resetStore.resetToDefault(root.valueKeys);
+                    root.valueResetRequested();
+                }
                 onSliderValueChanged: newValue => root.sliderValueChanged(newValue)
                 onSliderDragFinished: finalValue => root.sliderDragFinished(finalValue)
             }

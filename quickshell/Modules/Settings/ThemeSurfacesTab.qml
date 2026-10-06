@@ -271,29 +271,19 @@ Column {
             onSliderValueChanged: newValue => SettingsData.set("fixedRadius", newValue)
         }
 
-        SettingsToggleRow {
+        SettingsToggleSliderRow {
             tab: "theme"
-            tags: ["window", "corner", "radius", "match", "follow", "link", "strength", "compositor"]
-            settingKey: "windowRadiusMatch"
-            text: I18n.tr("Match corner style", "toggle: window radius follows the corner style setting")
+            tags: ["window", "corner", "radius", "match", "follow", "link", "strength", "rounded", "popout", "menu", "modal", "compositor", "niri", "hyprland", "mango"]
+            settingKey: "windowRadius"
+            text: I18n.tr("Override window radius", "toggle: stop the window radius following the corner style setting")
             visible: root.windowRadiusKey !== ""
             resetKeys: root.windowRadiusKey !== "" ? [root.windowRadiusKey] : []
-            checked: Theme.compositorRadiusOverride < 0
-            onToggled: checked => SettingsData.set(root.windowRadiusKey, checked ? -1 : Math.round(Theme.windowRadius))
-        }
-
-        SettingsSliderRow {
-            tab: "theme"
-            tags: ["window", "corner", "radius", "rounded", "popout", "menu", "modal", "compositor", "niri", "hyprland", "mango"]
-            settingKey: "windowRadius"
-            text: I18n.tr("Window radius")
-            visible: root.windowRadiusKey !== ""
-            enabled: Theme.compositorRadiusOverride >= 0
-            resetKeys: []
+            checked: Theme.compositorRadiusOverride >= 0
             value: Theme.windowRadius
             minimum: 0
             maximum: 64
             unit: "px"
+            onToggled: checked => SettingsData.set(root.windowRadiusKey, checked ? Math.round(Theme.windowRadius) : -1)
             onSliderDragFinished: finalValue => SettingsData.set(root.windowRadiusKey, finalValue)
         }
     }
@@ -365,40 +355,38 @@ Column {
         title: I18n.tr("Floating windows")
         settingKey: "floatingWindows"
 
-        SettingsToggleRow {
+        SettingsToggleCard {
             tab: "theme"
             tags: ["floating", "window", "sync", "global", "surface", "opacity", "override"]
             settingKey: "floatingWindowSyncGlobal"
-            text: I18n.tr("Override", "verb, toggle to override the global setting for this item")
+            title: I18n.tr("Override", "verb, toggle to override the global setting for this item")
             checked: !root.followsSurfaces
             onToggled: checked => SettingsData.set("floatingWindowSyncGlobal", !checked)
-        }
 
-        SettingsSliderRow {
-            enabled: !root.followsSurfaces
-            tab: "theme"
-            tags: ["floating", "window", "opacity", "transparency", "settings", "notepad", "authentication", "polkit"]
-            settingKey: "floatingWindowTransparency"
-            text: I18n.tr("Opacity")
-            value: Math.round(Theme.floatingWindowTransparency * 100)
-            minimum: 0
-            maximum: 100
-            onSliderValueChanged: newValue => SettingsData.set("floatingWindowTransparency", newValue / 100)
-        }
+            SettingsSliderRow {
+                tab: "theme"
+                tags: ["floating", "window", "opacity", "transparency", "settings", "notepad", "authentication", "polkit"]
+                settingKey: "floatingWindowTransparency"
+                text: I18n.tr("Opacity")
+                value: Math.round(Theme.floatingWindowTransparency * 100)
+                minimum: 0
+                maximum: 100
+                onSliderValueChanged: newValue => SettingsData.set("floatingWindowTransparency", newValue / 100)
+            }
 
-        SettingsToggleSliderRow {
-            enabled: !root.followsSurfaces
-            tab: "theme"
-            tags: ["floating", "window", "foreground", "layers", "opacity", "transparency", "contrast", "cards", "blur", "glass"]
-            settingKey: "floatingWindowForegroundLayers"
-            valueKeys: ["floatingWindowForegroundTransparency"]
-            text: I18n.tr("Foreground layers")
-            checked: Theme.floatingWindowForegroundLayers
-            value: Math.round(Theme.floatingWindowForegroundTransparency * 100)
-            minimum: 0
-            maximum: 100
-            onToggled: checked => SettingsData.set("floatingWindowForegroundLayers", checked)
-            onSliderValueChanged: newValue => SettingsData.set("floatingWindowForegroundTransparency", newValue / 100)
+            SettingsToggleSliderRow {
+                tab: "theme"
+                tags: ["floating", "window", "foreground", "layers", "opacity", "transparency", "contrast", "cards", "blur", "glass"]
+                settingKey: "floatingWindowForegroundLayers"
+                valueKeys: ["floatingWindowForegroundTransparency"]
+                text: I18n.tr("Foreground layers")
+                checked: Theme.floatingWindowForegroundLayers
+                value: Math.round(Theme.floatingWindowForegroundTransparency * 100)
+                minimum: 0
+                maximum: 100
+                onToggled: checked => SettingsData.set("floatingWindowForegroundLayers", checked)
+                onSliderValueChanged: newValue => SettingsData.set("floatingWindowForegroundTransparency", newValue / 100)
+            }
         }
 
         SettingsToggleRow {
@@ -426,7 +414,7 @@ Column {
     Component {
         id: opacityTargetRow
 
-        SettingsToggleRow {
+        SettingsToggleSliderRow {
             id: overrideRow
 
             required property string modelData
@@ -438,32 +426,25 @@ Column {
             text: target?.name ?? ""
             description: I18n.tr("Override")
             checked: target?.override ?? false
+            value: Math.round((target?.transparency ?? 1) * 100)
+            minimum: 0
+            maximum: 100
             modified: target?.override ?? false
-            resetByKeys: false
+            valueModified: (target?.transparency ?? 1) !== 1
+            resetByKeys: true
             onResetRequested: root.setOpacityOverride(target, {
                 followInterfaceStyle: true,
+                transparency: 1
+            })
+            onValueResetRequested: root.setOpacityOverride(target, {
                 transparency: 1
             })
             onToggled: checked => root.setOpacityOverride(target, {
                     followInterfaceStyle: !checked
                 })
-
-            body: SettingsSliderRow {
-                width: parent.width
-                enabled: overrideRow.target?.override ?? false
-                text: I18n.tr("Opacity")
-                value: Math.round((overrideRow.target?.transparency ?? 1) * 100)
-                minimum: 0
-                maximum: 100
-                modified: value !== 100
-                resetByKeys: false
-                onResetRequested: root.setOpacityOverride(overrideRow.target, {
-                    transparency: 1
+            onSliderDragFinished: finalValue => root.setOpacityOverride(target, {
+                    transparency: finalValue / 100
                 })
-                onSliderDragFinished: finalValue => root.setOpacityOverride(overrideRow.target, {
-                        transparency: finalValue / 100
-                    })
-            }
         }
     }
 

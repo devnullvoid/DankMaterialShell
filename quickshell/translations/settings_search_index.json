@@ -1558,28 +1558,6 @@
     "page": "notifications"
   },
   {
-    "section": "windowRadiusMatch",
-    "label": "Match corner style",
-    "tabIndex": -1,
-    "category": "Interface style",
-    "keywords": [
-      "compositor",
-      "corner",
-      "corners",
-      "follow",
-      "interface",
-      "link",
-      "match",
-      "radius",
-      "round",
-      "rounded",
-      "strength",
-      "style",
-      "window"
-    ],
-    "page": "theme_surfaces"
-  },
-  {
     "section": "materialPresets",
     "label": "Material",
     "tabIndex": -1,
@@ -1848,6 +1826,33 @@
       "style",
       "surface",
       "sync",
+      "window"
+    ],
+    "page": "theme_surfaces"
+  },
+  {
+    "section": "windowRadius",
+    "label": "Override window radius",
+    "tabIndex": -1,
+    "category": "Interface style",
+    "keywords": [
+      "compositor",
+      "corner",
+      "follow",
+      "hyprland",
+      "interface",
+      "link",
+      "mango",
+      "match",
+      "menu",
+      "modal",
+      "niri",
+      "override",
+      "popout",
+      "radius",
+      "rounded",
+      "strength",
+      "style",
       "window"
     ],
     "page": "theme_surfaces"
@@ -2643,28 +2648,6 @@
     "page": "personalization",
     "icon": "lock",
     "description": "Theme colors come from this display's wallpaper"
-  },
-  {
-    "section": "windowRadius",
-    "label": "Window radius",
-    "tabIndex": -1,
-    "category": "Interface style",
-    "keywords": [
-      "compositor",
-      "corner",
-      "hyprland",
-      "interface",
-      "mango",
-      "menu",
-      "modal",
-      "niri",
-      "popout",
-      "radius",
-      "rounded",
-      "style",
-      "window"
-    ],
-    "page": "theme_surfaces"
   },
   {
     "section": "blurXrayLink",
