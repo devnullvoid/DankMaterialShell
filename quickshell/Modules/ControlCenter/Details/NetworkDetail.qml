@@ -52,7 +52,7 @@ Item {
     readonly property string currentConnectionType: {
         if (selectedType && connectionTypes.includes(selectedType))
             return selectedType;
-        return connectionTypes[Math.max(0, currentPreferenceIndex)] || "wifi";
+        return connectionTypes[defaultTypeIndex] || "wifi";
     }
     readonly property bool wifiMode: currentConnectionType === "wifi"
     readonly property bool ethernetMode: currentConnectionType === "ethernet"
@@ -66,18 +66,21 @@ Item {
     readonly property bool wifiScanningEmpty: wifiMode && NetworkService.wifiEnabled && !NetworkService.wifiToggling && NetworkService.wifiInterface && (NetworkService.wifiNetworks?.length ?? 0) < 1 && (NetworkService.isScanning || transitioning)
     readonly property bool wifiListVisible: wifiMode && NetworkService.wifiEnabled && !NetworkService.wifiToggling && !wifiScanningEmpty
 
-    readonly property int currentPreferenceIndex: {
-        if (DMSService.apiVersion < 5)
-            return 1;
-        if (!networkManager || DMSService.apiVersion <= 10)
-            return 1;
-        const pref = NetworkService.userPreference;
-        if (connectionTypes.indexOf(pref) !== -1)
-            return connectionTypes.indexOf(pref);
-        if (connectionTypes.indexOf(NetworkService.networkStatus) !== -1)
-            return connectionTypes.indexOf(NetworkService.networkStatus);
-        const wifiIndex = connectionTypes.indexOf("wifi");
-        return wifiIndex !== -1 ? wifiIndex : 0;
+    readonly property bool paneSwitchSupported: connectionTypes.length > 1 && networkManager && DMSService.apiVersion > 10
+    readonly property var typeLabels: ({
+            "ethernet": I18n.tr("Ethernet"),
+            "wifi": I18n.tr("Wi-Fi", "wireless network, page and section title"),
+            "cellular": I18n.tr("Cellular")
+        })
+    readonly property int defaultTypeIndex: {
+        const wifiIndex = Math.max(0, connectionTypes.indexOf("wifi"));
+        if (!paneSwitchSupported)
+            return wifiIndex;
+        const byStatus = connectionTypes.indexOf(NetworkService.networkStatus);
+        if (byStatus !== -1)
+            return byStatus;
+        const byPreference = connectionTypes.indexOf(NetworkService.userPreference);
+        return byPreference !== -1 ? byPreference : wifiIndex;
     }
 
     readonly property Item headerActions: Row {
@@ -318,23 +321,16 @@ Item {
             bottomPadding: pageList.count > 0 ? CcMetrics.detailContentGap : 0
 
             DButtonGroup {
-                readonly property var labelsByType: ({
-                        "ethernet": I18n.tr("Ethernet"),
-                        "wifi": I18n.tr("Wi-Fi", "wireless network, page and section title"),
-                        "cellular": I18n.tr("Cellular")
-                    })
-
                 anchors.horizontalCenter: parent.horizontalCenter
                 size: "small"
-                visible: root.connectionTypes.length > 1 && root.networkManager && DMSService.apiVersion > 10
-                model: root.connectionTypes.map(t => labelsByType[t] || t)
+                visible: root.paneSwitchSupported
+                model: root.connectionTypes.map(t => root.typeLabels[t] || t)
                 currentIndex: Math.max(0, root.connectionTypes.indexOf(root.currentConnectionType))
                 selectionMode: "single"
                 onSelectionChanged: (index, selected) => {
                     if (!selected)
                         return;
                     root.selectedType = root.connectionTypes[index] || "wifi";
-                    NetworkService.setNetworkPreference(root.selectedType);
                 }
             }
 

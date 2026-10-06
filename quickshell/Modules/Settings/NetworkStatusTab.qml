@@ -122,7 +122,7 @@ Item {
                     Row {
                         width: parent.width
                         spacing: Theme.spacingM
-                        visible: NetworkService.backend === "networkmanager" && [NetworkService.ethernetConnected, NetworkService.wifiConnected, NetworkService.cellularConnected].filter(v => v).length > 1
+                        visible: NetworkService.backend === "networkmanager" && [NetworkService.ethernetDevices, NetworkService.wifiDevices, NetworkService.cellularDevices].filter(d => (d?.length ?? 0) > 0).length > 1
 
                         StyledText {
                             text: I18n.tr("Preference", "noun, which network connection type is preferred")
