@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Shapes
+import Quickshell
 import qs.Common
 import qs.Services
 import qs.DCommon.Widgets
@@ -782,31 +783,36 @@ Item {
                     }
 
                     // IME commits use a hidden password input: https://github.com/AvengeMedia/DankMaterialShell/issues/2950
-                    TextInput {
-                        id: imeCommitSink
-
+                    // An in-process module like fcitx5-qt draws its popup as an xdg_popup, which the lock surface cannot parent: https://github.com/AvengeMedia/DankMaterialShell/issues/3669
+                    Loader {
                         focus: true
-                        width: Theme.dividerWidth
-                        height: 1
-                        opacity: 0
-                        cursorDelegate: Item {}
-                        echoMode: TextInput.Password
-                        inputMethodHints: Qt.ImhHiddenText | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
-                        KeyNavigation.tab: passwordField.KeyNavigation.tab
-                        KeyNavigation.backtab: passwordField.KeyNavigation.backtab
-                        Keys.onPressed: event => {
-                            passwordField.handleKey(event);
-                            if (!event.accepted && (event.modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)))
-                                event.accepted = true;
-                        }
-                        onTextChanged: {
-                            if (text.length === 0)
-                                return;
-                            const committed = text;
-                            text = "";
-                            if (root.demoMode || root.unlocking || root.pam.passwd.active)
-                                return;
-                            passwordField.insertText(committed);
+                        active: KeyUtils.compositorTextInputSelected(Quickshell.env("QT_IM_MODULES"), Quickshell.env("QT_IM_MODULE"))
+                        sourceComponent: TextInput {
+                            id: imeCommitSink
+
+                            focus: true
+                            width: Theme.dividerWidth
+                            height: 1
+                            opacity: 0
+                            cursorDelegate: Item {}
+                            echoMode: TextInput.Password
+                            inputMethodHints: Qt.ImhHiddenText | Qt.ImhSensitiveData | Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
+                            KeyNavigation.tab: passwordField.KeyNavigation.tab
+                            KeyNavigation.backtab: passwordField.KeyNavigation.backtab
+                            Keys.onPressed: event => {
+                                passwordField.handleKey(event);
+                                if (!event.accepted && (event.modifiers & (Qt.ControlModifier | Qt.AltModifier | Qt.MetaModifier)))
+                                    event.accepted = true;
+                            }
+                            onTextChanged: {
+                                if (text.length === 0)
+                                    return;
+                                const committed = text;
+                                text = "";
+                                if (root.demoMode || root.unlocking || root.pam.passwd.active)
+                                    return;
+                                passwordField.insertText(committed);
+                            }
                         }
                     }
 
