@@ -372,6 +372,7 @@ RegistryBrowserWindow {
                     busy: !!root.pendingThemes[cardCell.modelData.id]
                     fallbackIcon: "palette"
                     previewSource: root.themePreviewUrl(cardCell.modelData)
+                    previewFallback: ""
                     badges: root.themeBadges(cardCell.modelData)
                     palette: root.themePalette(cardCell.modelData)
                     allowUninstall: true
