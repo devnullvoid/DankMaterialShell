@@ -11,6 +11,7 @@ SettingsRow {
     property string currentValue: ""
     property alias options: dropdown.options
     property alias optionIcons: dropdown.optionIcons
+    property alias optionImages: dropdown.optionImages
     property alias optionIconMap: dropdown.optionIconMap
     property alias optionColorMap: dropdown.optionColorMap
     property alias enableFuzzySearch: dropdown.enableFuzzySearch
