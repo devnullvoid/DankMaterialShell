@@ -182,6 +182,12 @@ Item {
         Qt.callLater(checkGreeterInstallState);
     }
 
+    Process {
+        id: greetdEnabledCheckProcess
+        command: ["sh", "-c", "if [ \"$(uname -s)\" = FreeBSD ]; then service -e 2>/dev/null | grep -Eq \"/greetd$\" && echo enabled || echo disabled; else systemctl is-enabled greetd 2>/dev/null; fi"]
+        running: false
+    }
+
     function showWidgetBrowser() {
         greeterWidgetBrowserLoader.active = true;
         greeterWidgetBrowserLoader.item?.show();
