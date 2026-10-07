@@ -742,7 +742,7 @@ var LOCAL_SPEC = {
         def: "full"
     },
     avatarRing: {
-        def: "outline"
+        def: "none"
     },
     spotlightBarShowModeChips: {
         def: false

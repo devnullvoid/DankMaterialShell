@@ -322,10 +322,10 @@ Item {
             id: avatarButton
 
             anchors.right: parent.right
-            anchors.rightMargin: Theme.spacingXS
+            anchors.rightMargin: (SettingsMetrics.searchBarHeight - buttonSize) / 2
             anchors.verticalCenter: parent.verticalCenter
             visible: !root.searchActive
-            buttonSize: SettingsMetrics.searchBarHeight - Theme.spacingXS * 2
+            buttonSize: Theme.avatarSize
             radius: Theme.buttonRadius(width, height, buttonSize, false, circular)
             focusPolicy: Qt.TabFocus
             tooltipText: I18n.tr("Users & accounts", "settings sidebar category")
