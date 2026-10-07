@@ -45,6 +45,7 @@ QtObject {
     property real alongOffset: 0
     property real outerGap: 8
     property var barConfig: null
+    property var screen: null
     property string edge: "top"
     readonly property bool isVertical: edge === "left" || edge === "right"
     readonly property bool farEdge: edge === "bottom" || edge === "right"

@@ -371,6 +371,7 @@ Item {
         }
 
         barConfig: root.barConfig
+        screen: root.screen
         edge: root.edge
         transientSurfaces: islandTransientSurfaces
         freeMode: root.freeMode

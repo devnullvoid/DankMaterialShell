@@ -971,8 +971,12 @@ Singleton {
     function islandStripThickness(bc) {
         return LayoutResolver.islandThickness(islandSettings(bc), islandDefaultsFor(bc));
     }
-    readonly property var _islandHomeGroupIds: ["media", "clock", "weather", "status", "volume", "brightness", "notifications", "privacy"]
+    readonly property var _islandHomeGroupIds: ["workspaces", "media", "clock", "weather", "status", "volume", "brightness", "notifications", "privacy"]
     readonly property var _islandHomeLayoutDefault: [
+        {
+            "id": "workspaces",
+            "enabled": false
+        },
         {
             "id": "media",
             "enabled": true
