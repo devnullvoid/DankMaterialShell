@@ -68,6 +68,9 @@ var LOCAL_SPEC = {
     floatingWindowSyncGlobal: {
         def: true
     },
+    floatingWindowTitleBars: {
+        def: true
+    },
     floatingWindowTransparency: {
         def: 1.0,
         coerce: Util.percentToUnit

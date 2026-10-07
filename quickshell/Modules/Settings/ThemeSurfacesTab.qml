@@ -391,6 +391,16 @@ Column {
 
         SettingsToggleRow {
             tab: "theme"
+            tags: ["floating", "window", "title", "bar", "header", "csd", "decoration", "compositor", "kwin", "controls"]
+            settingKey: "floatingWindowTitleBars"
+            text: I18n.tr("Title bars")
+            description: I18n.tr("Off lets the compositor decorate DMS windows. Open windows update when reopened.", "theme floating windows section, title bars toggle description")
+            checked: SettingsData.floatingWindowTitleBars
+            onToggled: checked => SettingsData.set("floatingWindowTitleBars", checked)
+        }
+
+        SettingsToggleRow {
+            tab: "theme"
             tags: ["floating", "window", "tile", "tiling", "compositor", "rule", "niri", "hyprland", "mango"]
             settingKey: "dmsWindowsFloating"
             text: I18n.tr("Open floating")

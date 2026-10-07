@@ -175,6 +175,7 @@ Singleton {
     property string matugenTargetMonitor: Spec.SPEC.matugenTargetMonitor.def
     property real popupTransparency: Spec.SPEC.popupTransparency.def
     property bool floatingWindowSyncGlobal: Spec.SPEC.floatingWindowSyncGlobal.def
+    property bool floatingWindowTitleBars: Spec.SPEC.floatingWindowTitleBars.def
     property real floatingWindowTransparency: Spec.SPEC.floatingWindowTransparency.def
     property bool floatingWindowForegroundLayers: Spec.SPEC.floatingWindowForegroundLayers.def
     property real floatingWindowForegroundTransparency: Spec.SPEC.floatingWindowForegroundTransparency.def

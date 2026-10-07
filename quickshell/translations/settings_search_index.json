@@ -1043,28 +1043,30 @@
     "tabIndex": -1,
     "category": "Interface style",
     "keywords": [
-      "adds",
       "authentication",
       "compositor",
+      "decorate",
       "floating",
       "foreground",
       "interface",
+      "lets",
       "notepad",
       "opacity",
       "open",
       "override",
       "polkit",
-      "rule",
+      "reopened",
       "settings",
       "style",
       "tile",
       "tiling",
       "transparency",
+      "update",
       "window",
       "windows"
     ],
     "page": "theme_surfaces",
-    "description": "Adds a compositor window rule so DMS windows such as Settings open floating"
+    "description": "Off lets the compositor decorate DMS windows. Open windows update when reopened."
   },
   {
     "section": "focusRingEnabled",
@@ -2551,6 +2553,39 @@
       "toast"
     ],
     "page": "notifications"
+  },
+  {
+    "section": "floatingWindowTitleBars",
+    "label": "Title bars",
+    "tabIndex": -1,
+    "category": "Interface style",
+    "keywords": [
+      "bar",
+      "bars",
+      "compositor",
+      "controls",
+      "csd",
+      "decorate",
+      "decoration",
+      "floating",
+      "header",
+      "interface",
+      "kwin",
+      "lets",
+      "open",
+      "panel",
+      "reopened",
+      "statusbar",
+      "style",
+      "taskbar",
+      "title",
+      "topbar",
+      "update",
+      "window",
+      "windows"
+    ],
+    "page": "theme_surfaces",
+    "description": "Off lets the compositor decorate DMS windows. Open windows update when reopened."
   },
   {
     "section": "wallpaperTransition",
