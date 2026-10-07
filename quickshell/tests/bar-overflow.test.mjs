@@ -69,3 +69,20 @@ test("a center holder does not replace the configured middle-widget anchor", () 
         assert.equal(clockStart + 40, 300);
     }
 });
+
+test("flexible widgets shrink to their minimum before anything overflows", () => {
+    const result = solve([entry(100), { size: 200, min: 60, mode: "auto" }], [entry(80)], [], { length: 500 });
+    assert.deepEqual(plain(result.hidden), { left: [], center: [], right: [] });
+    assert.deepEqual(plain(result.sizes.left), [100, 102]);
+    assert.equal(result.fits, true);
+    const tight = solve([entry(100), { size: 200, min: 60, mode: "auto" }], [entry(80)], [], { length: 400 });
+    assert.deepEqual(plain(tight.hidden.left), [1]);
+});
+
+test("a hidden flexible widget returns once its minimum fits the margin", () => {
+    const sections = [[entry(100), { size: 200, min: 60, mode: "auto" }], [entry(80)], []];
+    const result = solve(...sections, { length: 432 }, { left: [1] });
+    assert.deepEqual(plain(result.hidden.left), []);
+    assert.deepEqual(plain(result.sizes.left), [100, 68]);
+    assert.deepEqual(plain(solve(...sections, { length: 420 }, { left: [1] }).hidden.left), [1]);
+});

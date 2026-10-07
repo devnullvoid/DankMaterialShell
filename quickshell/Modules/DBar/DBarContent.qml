@@ -79,6 +79,7 @@ Item {
         }, overflowPlan.hidden);
         const next = {
             hidden: result.hidden,
+            sizes: result.sizes,
             fits: result.fits
         };
         if (JSON.stringify(next) !== JSON.stringify(overflowPlan))
@@ -428,7 +429,6 @@ Item {
         surfaceContext: widgetContext
         spacingTight: topBarContent.spacingTight
         overlapping: topBarContent.overlapping
-        leadingSectionLimit: topBarContent.fitToWidgets || topBarContent._barIsVertical || hCenterSection.contentSize <= 0 ? Infinity : hCenterSection.x + hCenterSection.contentStart - topBarContent.sectionGap - hLeftSection.x
     }
     readonly property var allComponents: widgetFactory.componentMap
     readonly property var componentMap: widgetFactory.componentMap
