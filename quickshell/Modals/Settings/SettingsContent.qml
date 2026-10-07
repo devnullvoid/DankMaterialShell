@@ -332,6 +332,7 @@ FocusScope {
             readonly property string parentId: SettingsTabs.parentOf(page)
             readonly property bool canGoBack: pathIndex > 0 || (parentId !== "" && (SettingsTabs.isPluginPage(page) || SettingsTabs.visibleLeaves(parentId).length > 1 || !!SettingsTabs.page(parentId)?.hubHeader))
             property Item rememberedFocus: null
+            property Item scroller: null
             property bool pending: true
             property bool presented: false
 
@@ -412,6 +413,7 @@ FocusScope {
                     if (item.pageActive !== undefined)
                         item.pageActive = Qt.binding(() => host.pageActive);
                     const scroller = root._scrollerOf(item);
+                    host.scroller = scroller;
                     if (scroller)
                         scrollerTap.createObject(scroller, {
                             "parent": scroller
@@ -520,6 +522,28 @@ FocusScope {
         })
 
     readonly property var pagesWithParentModal: ["dankbar_widgets", "window_rules", "notification_rules", "display_config", "users", "time_weather", "weather", "lock_screen", "greeter", "dank_dash", "wallpaper_cycling", "theme_schedule", "surface_shadows", "keybinds", "dankbar_settings", "dankbar_appearance", "bar_widget", "dock_general", "dock_widgets", "dock_appearance", "dock_advanced", "launcher", "theme", "theme_apps", "media_player", "desktop_widgets", "desktop_widget", "autostart", "compositor_layout", "updater", "display_gamma"]
+
+    // The page scroller stops at the Loader edges; wheel over the header and gutters lands here instead
+    WheelHandler {
+        acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+
+        onWheel: event => {
+            const scroller = pageStack.currentItem?.scroller;
+            if (!scroller?.forwardWheel || !scroller.enabled) {
+                event.accepted = false;
+                return;
+            }
+            scroller.forwardWheel(event);
+        }
+
+        onActiveChanged: {
+            if (active)
+                return;
+            const scroller = pageStack.currentItem?.scroller;
+            if (scroller?.forwardWheelEnd)
+                scroller.forwardWheelEnd();
+        }
+    }
 
     StackView {
         id: pageStack
