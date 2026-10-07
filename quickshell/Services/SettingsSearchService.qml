@@ -79,7 +79,8 @@ Singleton {
             "frameEnabled": () => SettingsData.frameEnabled,
             "islandEnabled": () => SettingsData.islandBarConfigs.length > 0,
             "dotEnabled": () => SettingsData.dotBarConfig?.enabled ?? false,
-            "cellularAvailable": () => NetworkService.cellularAvailable
+            "cellularAvailable": () => NetworkService.cellularAvailable,
+            "dockEnabled": () => (SettingsData.dockConfigs ?? []).some(dock => dock.enabled)
         })
 
     property var pluginSettingLabels: ({})

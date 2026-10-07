@@ -4605,7 +4605,8 @@
       "panel",
       "taskbar"
     ],
-    "parentLabel": "Dock"
+    "parentLabel": "Dock",
+    "conditionKey": "dockEnabled"
   },
   {
     "section": "dockDisplays",
@@ -4672,7 +4673,8 @@
       "widgets"
     ],
     "parentLabel": "Dock",
-    "icon": "edit"
+    "icon": "edit",
+    "conditionKey": "dockEnabled"
   },
   {
     "section": "dockLayout",
@@ -4711,7 +4713,8 @@
       "space",
       "taskbar"
     ],
-    "parentLabel": "Dock"
+    "parentLabel": "Dock",
+    "conditionKey": "dockEnabled"
   },
   {
     "section": "dockSmartAutoHide",
@@ -4767,7 +4770,8 @@
     ],
     "parentLabel": "Dock",
     "icon": "visibility_off",
-    "description": "Hides only while a window overlaps the dock"
+    "description": "Hides only while a window overlaps the dock",
+    "conditionKey": "dockEnabled"
   },
   {
     "section": "barNoBackground",
@@ -6423,7 +6427,8 @@
       "start",
       "start menu",
       "style"
-    ]
+    ],
+    "conditionKey": "isNiri"
   },
   {
     "section": "niriOverviewOverlayEnabled",
@@ -6446,7 +6451,8 @@
       "start menu",
       "typing"
     ],
-    "description": "Typing in the overview opens the launcher"
+    "description": "Typing in the overview opens the launcher",
+    "conditionKey": "isNiri"
   },
   {
     "section": "launcherNiriOverview",
@@ -6902,7 +6908,8 @@
       "wallpaper colors"
     ],
     "parentLabel": "Wallpaper & colors",
-    "description": "Regenerate matugen colors when DMS starts, even if nothing changed."
+    "description": "Regenerate matugen colors when DMS starts, even if nothing changed.",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenSpec",
@@ -11460,6 +11467,33 @@
     "description": "Clocks, monitors, plugins"
   },
   {
+    "section": "desktopGeneral",
+    "label": "General",
+    "tabIndex": 27,
+    "category": "Desktop widgets",
+    "keywords": [
+      "auto",
+      "clicks",
+      "components",
+      "compositors",
+      "conky",
+      "context",
+      "desktop",
+      "desktop clock",
+      "empty",
+      "general",
+      "menu",
+      "modules",
+      "right click",
+      "themselves",
+      "turns",
+      "wallpaper",
+      "widgets"
+    ],
+    "icon": "mouse",
+    "description": "Auto turns it off on compositors that use clicks on the empty desktop themselves"
+  },
+  {
     "section": "desktopWidgetGroups",
     "label": "Groups",
     "tabIndex": 27,
@@ -11476,6 +11510,30 @@
       "widgets"
     ],
     "icon": "folder"
+  },
+  {
+    "section": "desktopContextMenu",
+    "label": "Right-click menu",
+    "tabIndex": 27,
+    "category": "Desktop widgets",
+    "keywords": [
+      "auto",
+      "click",
+      "clicks",
+      "components",
+      "compositors",
+      "conky",
+      "desktop",
+      "desktop clock",
+      "empty",
+      "menu",
+      "modules",
+      "right",
+      "themselves",
+      "turns",
+      "widgets"
+    ],
+    "description": "Auto turns it off on compositors that use clicks on the empty desktop themselves"
   },
   {
     "section": "pluginDirectory",
@@ -14491,7 +14549,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "_tab_50",
@@ -14554,7 +14613,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateEmacs",
@@ -14580,7 +14640,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateFcitx5",
@@ -14607,7 +14668,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateFirefox",
@@ -14633,7 +14695,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateNeovimSetBackground",
@@ -14663,7 +14726,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateGtk",
@@ -14689,7 +14753,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "systemAppTheming",
@@ -14744,7 +14809,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateHyprland",
@@ -14770,7 +14836,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateKcolorscheme",
@@ -14797,7 +14864,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplates",
@@ -14898,7 +14966,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "runUserMatugenTemplates",
@@ -14932,7 +15001,8 @@
       "wallpaper colors"
     ],
     "parentLabel": "Wallpaper & colors",
-    "description": "Also runs the templates in your matugen config.toml"
+    "description": "Also runs the templates in your matugen config.toml",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "syncModeWithPortal",
@@ -15036,7 +15106,8 @@
       "wallpaper"
     ],
     "parentLabel": "Wallpaper & colors",
-    "description": "Requires the DMS Theme extension from the editor marketplace"
+    "description": "Requires the DMS Theme extension from the editor marketplace",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateWezterm",
@@ -15063,7 +15134,8 @@
       "wallpaper",
       "wezterm"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateZed",
@@ -15089,7 +15161,8 @@
       "wallpaper",
       "zed"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateDgop",
@@ -15115,7 +15188,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateEquibop",
@@ -15142,7 +15216,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateFoot",
@@ -15169,7 +15244,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateKitty",
@@ -15196,7 +15272,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateMangowc",
@@ -15222,7 +15299,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateNeovim",
@@ -15251,7 +15329,8 @@
       "wallpaper"
     ],
     "parentLabel": "Wallpaper & colors",
-    "description": "Required plugin: "
+    "description": "Required plugin: ",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateNiri",
@@ -15277,7 +15356,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplatePywalfox",
@@ -15303,7 +15383,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateQt5ct",
@@ -15329,7 +15410,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateQt6ct",
@@ -15355,7 +15437,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateQtengine",
@@ -15382,7 +15465,8 @@
       "tint",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateVencord",
@@ -15409,7 +15493,8 @@
       "vencord",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateVesktop",
@@ -15436,7 +15521,8 @@
       "vesktop",
       "wallpaper"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "matugenTemplateZenBrowser",
@@ -15462,7 +15548,8 @@
       "wallpaper",
       "zenbrowser"
     ],
-    "parentLabel": "Wallpaper & colors"
+    "parentLabel": "Wallpaper & colors",
+    "conditionKey": "matugenAvailable"
   },
   {
     "section": "themeModeAutoEnabled",

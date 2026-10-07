@@ -61,6 +61,10 @@ Item {
 
     DesktopWidgetEditor {}
 
+    DesktopContextMenu {
+        Component.onCompleted: PopoutService.desktopContextMenu = this
+    }
+
     Lock {
         id: lock
     }

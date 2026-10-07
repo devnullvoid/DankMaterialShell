@@ -613,6 +613,18 @@ Item {
             tags: ["widget", "style", "pills", "segments", "opacity", "padding", "maximize"]
             visible: bar.selectedBarConfig?.enabled ?? false
 
+            SettingsToggleRow {
+                settingKey: "barNoBackground"
+                tags: ["transparent", "background", "invisible"]
+                text: I18n.tr("Background")
+                resetStore: bar
+                resetKeys: ["noBackground"]
+                checked: !(bar.selectedBarConfig?.noBackground ?? false)
+                onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
+                        noBackground: !checked
+                    })
+            }
+
             SettingsRow {
                 settingKey: "barWidgetStyle"
                 tags: ["widget", "style", "segments", "pills", "flat", "connected", "group"]
@@ -686,18 +698,6 @@ Item {
                 unit: "px"
                 onSliderValueChanged: newValue => SettingsData.updateBarConfig(bar.selectedBarId, {
                         widgetPadding: newValue
-                    })
-            }
-
-            SettingsToggleRow {
-                settingKey: "barNoBackground"
-                tags: ["transparent", "background", "invisible"]
-                text: I18n.tr("Background")
-                resetStore: bar
-                resetKeys: ["noBackground"]
-                checked: !(bar.selectedBarConfig?.noBackground ?? false)
-                onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
-                        noBackground: !checked
                     })
             }
 

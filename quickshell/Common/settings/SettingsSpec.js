@@ -1493,6 +1493,9 @@ var LOCAL_SPEC = {
     desktopWidgetGroups: {
         def: []
     },
+    desktopContextMenu: {
+        def: "auto"
+    },
     builtInPluginSettings: {
         def: {}
     },

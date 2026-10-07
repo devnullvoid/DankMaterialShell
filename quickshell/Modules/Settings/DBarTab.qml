@@ -17,6 +17,7 @@ Item {
     }
 
     readonly property bool selectedIslandEnabled: bar.selectedBarIsIsland && (bar.selectedBarConfig?.enabled ?? false)
+    readonly property string clickThroughHint: I18n.tr("Disabled by Click through", "bar hover popouts card, Click through is the Advanced toggle name")
     readonly property bool selectedIslandFree: bar.selectedBarIsIsland && SettingsData.islandFreePlacement(bar.selectedBarConfig)
     readonly property bool selectedIslandDocked: bar.selectedBarIsIsland && !selectedIslandFree
     readonly property int placementIndex: !bar.islandSetting("islandFloating") ? 0 : (bar.islandSetting("islandPlacement") === "free" ? 2 : 1)
@@ -405,6 +406,7 @@ Item {
             tags: ["bar", "hover", "popout", "reveal", "widget", "delay"]
             iconName: "touch_app"
             title: I18n.tr("Hover popouts")
+            description: enabled ? "" : root.clickThroughHint
             visible: bar.selectedBarConfig?.enabled ?? false
             enabled: !(bar.selectedBarConfig?.clickThrough ?? false)
             opacity: (bar.selectedBarConfig?.clickThrough ?? false) ? 0.5 : 1.0

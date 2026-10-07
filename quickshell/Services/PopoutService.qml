@@ -32,6 +32,7 @@ Singleton {
     property var clipboardHistoryPopout: null
     property var clipboardHistoryPopoutLoader: null
 
+    property var desktopContextMenu: null
     property var settingsModal: null
     property var settingsModalLoader: null
     property var clipboardHistoryModal: null

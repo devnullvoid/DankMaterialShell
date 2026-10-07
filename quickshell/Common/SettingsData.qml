@@ -1131,6 +1131,7 @@ Singleton {
 
     property var desktopWidgetInstances: Spec.SPEC.desktopWidgetInstances.def
     property var desktopWidgetGroups: Spec.SPEC.desktopWidgetGroups.def
+    property string desktopContextMenu: Spec.SPEC.desktopContextMenu.def
     property var lockScreenWidgetInstances: Spec.SPEC.lockScreenWidgetInstances.def
     property var greeterWidgetInstances: Spec.SPEC.greeterWidgetInstances.def
     property bool greeterFollowLockScreen: Spec.SPEC.greeterFollowLockScreen.def

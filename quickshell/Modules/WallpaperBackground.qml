@@ -13,6 +13,16 @@ Variants {
     // An entry present in PanelWindow.onCompleted means we're recreating
     // after a wl_output rebind, not at initial startup.
     property var _seenScreens: ({})
+    readonly property bool desktopMenuEnabled: {
+        switch (SettingsData.desktopContextMenu) {
+        case "on":
+            return true;
+        case "off":
+            return false;
+        default:
+            return !CompositorService.reservesDesktopInput;
+        }
+    }
     model: SettingsData.getFilteredScreens("wallpaper")
 
     PanelWindow {
@@ -36,8 +46,18 @@ Variants {
 
         updatesEnabled: root.renderActive || root._settleFrames > 0
 
-        mask: Region {
-            item: Item {}
+        Region {
+            id: emptyRegion
+        }
+
+        mask: variants.desktopMenuEnabled ? null : emptyRegion
+
+        MouseArea {
+            anchors.fill: parent
+            z: 1
+            enabled: variants.desktopMenuEnabled
+            acceptedButtons: Qt.RightButton
+            onClicked: mouse => PopoutService.desktopContextMenu?.open(wallpaperWindow.screen, mouse.x, mouse.y, false)
         }
 
         Item {

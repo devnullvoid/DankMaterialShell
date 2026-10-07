@@ -25,6 +25,7 @@ Singleton {
     property bool isLabwc: false
     property bool isAqueous: false
     property bool isUmbriel: false
+    property bool isKwin: false
     property string compositor: "unknown"
     property bool compositorDetected: false
     property bool outputPowerAvailable: false
@@ -145,6 +146,8 @@ Singleton {
     readonly property bool supportsPersistentWorkspaces: isHyprland || isMango || isSway || isScroll || isMiracle
     readonly property bool supportsWorkspaceUrgency: isKnownCompositor && !isLabwc
     readonly property bool supportsWorkspaceFollowFocus: isKnownCompositor && !isLabwc
+    // labwc root menu and desktop scroll, sway/scroll --whole-window binds, plasmashell desktop menu
+    readonly property bool reservesDesktopInput: isLabwc || isSway || isScroll || isKwin
     readonly property bool supportsSmartDock: isNiri || isHyprland || isMango || isAqueous
     readonly property bool supportsNativeOverview: isNiri || isAqueous
     readonly property bool supportsPointerConfig: isNiri || isMango
@@ -170,6 +173,8 @@ Singleton {
             return "Aqueous";
         case "umbriel":
             return "Umbriel";
+        case "kwin":
+            return "KWin";
         default:
             return "";
         }
@@ -1413,6 +1418,8 @@ Singleton {
             return "aqueous";
         case "umbriel":
             return "umbriel";
+        case "kwin_wayland":
+            return "kwin";
         default:
             return "";
         }
@@ -1428,6 +1435,7 @@ Singleton {
         isLabwc = name === "labwc";
         isAqueous = name === "aqueous";
         isUmbriel = name === "umbriel";
+        isKwin = name === "kwin";
         compositor = name;
         compositorDetected = true;
         if (isNiri)
@@ -1601,6 +1609,12 @@ Singleton {
                 present: !!hyprlandSignature,
                 test: ["test", "-S", runtimeDir + "/hypr/" + hyprlandSignature + "/.socket.sock"],
                 detail: "HYPRLAND_INSTANCE_SIGNATURE " + hyprlandSignature
+            },
+            {
+                name: "kwin",
+                present: !!Quickshell.env("KDE_FULL_SESSION"),
+                test: ["pgrep", "-x", "kwin_wayland"],
+                detail: "KDE_FULL_SESSION"
             }
         ];
     }

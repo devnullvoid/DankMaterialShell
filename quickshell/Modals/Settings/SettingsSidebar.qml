@@ -393,7 +393,10 @@ Item {
                         hint: modelData.category
                         accent: SettingsTabs.accentFor(modelData.page || SettingsTabs.pageForTabIndex(modelData.tabIndex))
                         active: root.searchSelectedIndex === index
-                        onClicked: keyboard => root.selectSearchResult(modelData, keyboard)
+                        onClicked: keyboard => {
+                            root.searchSelectedIndex = index;
+                            root.selectSearchResult(modelData, keyboard);
+                        }
                     }
                 }
 
