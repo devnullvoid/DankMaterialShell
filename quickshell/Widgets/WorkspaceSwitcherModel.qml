@@ -4,6 +4,7 @@ import Quickshell.WindowManager
 import qs.Common
 import qs.Services
 import "../Common/WorkspaceModel.js" as WorkspaceModel
+import "../DCommon/Common/WheelInput.js" as WheelInput
 
 // Workspace list, focus and switching for one screen, shared by every host that draws workspace indicators.
 QtObject {
@@ -213,7 +214,7 @@ QtObject {
         if (_scrollInProgress)
             return;
         const delta = wheel.angleDelta.y;
-        const isTouchpad = wheel.pixelDelta && wheel.pixelDelta.y !== 0;
+        const isTouchpad = WheelInput.isTouchpad(wheel);
         const reverse = reverseScrolling ? -1 : 1;
 
         if (isTouchpad) {
