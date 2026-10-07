@@ -710,6 +710,7 @@ PanelWindow {
                         bodyInvokesAction: win.bodyClickInvokesAction
                         persistImage: true
                         showClose: true
+                        revealControls: win.hovered || win.contextMenuActive
                         dismissText: I18n.tr("Clear")
                         animateHeight: false
                         outerRadius: win.connectedFrameMode ? Theme.connectedSurfaceRadius : NotificationMetrics.popupRadius
