@@ -677,7 +677,6 @@ Item {
     readonly property real surfaceImplicitWidth: isVertical ? hostThickness : 0
 
     Component.onCompleted: {
-        updateGpuTempConfig();
         _updateHasMaximizedToplevel();
         _updateShouldHideForWindows();
         fitSettle.schedule();
@@ -695,27 +694,9 @@ Item {
         }
     }
 
-    function updateGpuTempConfig() {
-        const leftWidgets = barConfig?.leftWidgets || [];
-        const centerWidgets = barConfig?.centerWidgets || [];
-        const rightWidgets = barConfig?.rightWidgets || [];
-        const allWidgets = [...leftWidgets, ...centerWidgets, ...rightWidgets];
-
-        const hasGpuTempWidget = allWidgets.some(widget => {
-            const widgetId = typeof widget === "string" ? widget : widget.id;
-            const widgetEnabled = typeof widget === "string" ? true : (widget.enabled !== false);
-            return widgetId === "gpuTemp" && widgetEnabled;
-        });
-
-        DgopService.gpuTempEnabled = hasGpuTempWidget || SessionData.nvidiaGpuTempEnabled || SessionData.nonNvidiaGpuTempEnabled;
-        DgopService.nvidiaGpuTempEnabled = hasGpuTempWidget || SessionData.nvidiaGpuTempEnabled;
-        DgopService.nonNvidiaGpuTempEnabled = hasGpuTempWidget || SessionData.nonNvidiaGpuTempEnabled;
-    }
-
     readonly property var rootWindowBarConfig: rootWindow.barConfig
 
     onRootWindowBarConfigChanged: {
-        updateGpuTempConfig();
         _updateHasMaximizedToplevel();
         _updateShouldHideForWindows();
     }
@@ -731,12 +712,6 @@ Item {
             barWindow._updateShouldHideForWindows();
         }
     }
-
-    readonly property bool sessionNvidiaGpuTempEnabled: SessionData.nvidiaGpuTempEnabled
-    readonly property bool sessionNonNvidiaGpuTempEnabled: SessionData.nonNvidiaGpuTempEnabled
-
-    onSessionNvidiaGpuTempEnabledChanged: updateGpuTempConfig()
-    onSessionNonNvidiaGpuTempEnabledChanged: updateGpuTempConfig()
 
     readonly property int barPos: barConfig?.position ?? 0
 

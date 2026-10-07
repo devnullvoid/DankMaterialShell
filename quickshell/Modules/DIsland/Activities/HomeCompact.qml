@@ -18,6 +18,10 @@ Item {
     readonly property real textSize: root.tight ? Theme.fontSizeSmall : Theme.fontSizeMedium
     readonly property real iconSize: root.textSize + Theme.spacingXS
     readonly property real statusIconSize: root.textSize + Theme.spacingXXS
+
+    Ref {
+        service: PrivacyService
+    }
     readonly property real groupSpacing: root.controller.homeSlotMargin
     readonly property bool isVertical: root.controller.isVertical
     readonly property string clockDisplay: root.controller.homeClockDisplay

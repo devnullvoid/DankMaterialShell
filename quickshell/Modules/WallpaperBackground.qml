@@ -75,18 +75,17 @@ Variants {
 
             Connections {
                 target: SessionData
+                enabled: SessionData.perModeWallpaper
+
                 function onIsLightModeChanged() {
-                    if (SessionData.perModeWallpaper) {
-                        var newSource = SessionData.getMonitorWallpaper(modelData.name) || "";
-                        if (newSource !== root.source) {
-                            root.source = newSource;
-                        }
-                    }
+                    const newSource = SessionData.getMonitorWallpaper(modelData.name) || "";
+                    if (newSource !== root.source)
+                        root.source = newSource;
                 }
             }
 
             Connections {
-                target: NiriService
+                target: CompositorService.isNiri ? NiriService : null
                 enabled: CompositorService.isNiri && root.scrollingEnabled
 
                 function onAllWorkspacesChanged() {

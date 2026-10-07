@@ -95,6 +95,7 @@ Item {
     Component.onDestruction: {
         _editAlive = false;
         _editRequest++;
+        KeybindsService.removeRef();
     }
 
     function beginEdit(binding, key) {
@@ -470,6 +471,7 @@ Item {
     }
 
     Component.onCompleted: {
+        KeybindsService.addRef();
         _ensureCurrentProvider();
         Qt.callLater(_applyRequestedSearch);
     }

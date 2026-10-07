@@ -14,8 +14,8 @@ Singleton {
     readonly property int batteryRefreshRateTarget: 60000
     readonly property int batteryRefreshRateTolerance: 1000
 
-    property int powerSyncRecoveryAttempt: 0
-    readonly property var powerSyncRecoveryIntervals: [1000, 5000, 15000, 30000]
+    property int _resumeRecoveryAttempt: 0
+    readonly property var _resumeRecoveryIntervals: [1000, 5000, 15000, 30000]
     property var _lastAppliedTargets: ({})
 
     Timer {
@@ -38,38 +38,40 @@ Singleton {
         id: startupRefreshRateSync
         interval: 500
         repeat: false
-        running: true
+        running: SettingsData.lowerDisplayRefreshRateOnBattery
         onTriggered: root.requestSync("startup")
     }
 
     Timer {
-        id: powerSyncRecoveryTimer
-        interval: root.powerSyncRecoveryIntervals[0]
+        id: resumeRecoveryTimer
+        interval: root._resumeRecoveryIntervals[0]
         repeat: false
         onTriggered: {
             root.requestSync("resume-reconcile");
-            root.powerSyncRecoveryAttempt++;
-            if (root.powerSyncRecoveryAttempt < root.powerSyncRecoveryIntervals.length) {
-                interval = root.powerSyncRecoveryIntervals[root.powerSyncRecoveryAttempt];
+            root._resumeRecoveryAttempt++;
+            if (root._resumeRecoveryAttempt < root._resumeRecoveryIntervals.length) {
+                interval = root._resumeRecoveryIntervals[root._resumeRecoveryAttempt];
                 restart();
                 return;
             }
-            root.powerSyncRecoveryAttempt = 0;
-            interval = root.powerSyncRecoveryIntervals[0];
+            root._resumeRecoveryAttempt = 0;
+            interval = root._resumeRecoveryIntervals[0];
         }
     }
 
     Connections {
         target: SessionService
+        enabled: SettingsData.lowerDisplayRefreshRateOnBattery
         function onSessionResumed() {
-            root.powerSyncRecoveryAttempt = 0;
-            powerSyncRecoveryTimer.interval = root.powerSyncRecoveryIntervals[0];
-            powerSyncRecoveryTimer.restart();
+            root._resumeRecoveryAttempt = 0;
+            resumeRecoveryTimer.interval = root._resumeRecoveryIntervals[0];
+            resumeRecoveryTimer.restart();
         }
     }
 
     Connections {
         target: BatteryService
+        enabled: SettingsData.lowerDisplayRefreshRateOnBattery
         function onIsPluggedInChanged() {
             root.requestSync("power-change");
         }
@@ -78,12 +80,14 @@ Singleton {
     Connections {
         target: SettingsData
         function onLowerDisplayRefreshRateOnBatteryChanged() {
+            resumeRecoveryTimer.stop();
             root.requestSync("setting-change");
         }
     }
 
     Connections {
         target: SessionData
+        enabled: SettingsData.lowerDisplayRefreshRateOnBattery
         function onActiveDisplayProfileChanged() {
             root.requestSync("profile-change");
         }
@@ -95,6 +99,7 @@ Singleton {
 
     Connections {
         target: NiriService
+        enabled: SettingsData.lowerDisplayRefreshRateOnBattery
         function onOutputsChanged() {
             root.requestSync("output-change");
         }
@@ -102,6 +107,7 @@ Singleton {
 
     Connections {
         target: WlrOutputService
+        enabled: SettingsData.lowerDisplayRefreshRateOnBattery
         function onStateChanged() {
             root.requestSync("output-change");
         }

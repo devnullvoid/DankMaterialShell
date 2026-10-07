@@ -785,6 +785,10 @@ Singleton {
     property bool lockAtStartup: Spec.SPEC.lockAtStartup.def
 
     property bool enableFprint: Spec.SPEC.enableFprint.def
+    onEnableFprintChanged: {
+        if (enableFprint)
+            refreshAuthAvailability();
+    }
     property int maxFprintTries: Spec.SPEC.maxFprintTries.def
     readonly property bool fprintdAvailable: Processes.fprintdAvailable
     readonly property bool lockFingerprintCanEnable: Processes.lockFingerprintCanEnable
@@ -795,6 +799,10 @@ Singleton {
     readonly property string greeterFingerprintReason: Processes.greeterFingerprintReason
     readonly property string greeterFingerprintSource: Processes.greeterFingerprintSource
     property bool enableU2f: Spec.SPEC.enableU2f.def
+    onEnableU2fChanged: {
+        if (enableU2f)
+            refreshAuthAvailability();
+    }
     property string u2fMode: Spec.SPEC.u2fMode.def
     readonly property bool u2fAvailable: Processes.u2fAvailable
     readonly property bool lockU2fCanEnable: Processes.lockU2fCanEnable
@@ -1404,8 +1412,6 @@ Singleton {
         Processes.settingsRoot = root;
         loadSettings();
         initializeListModels();
-        refreshAuthAvailability();
-        Processes.checkPluginSettings();
     }
 
     function applyStoredTheme() {
@@ -3795,7 +3801,7 @@ Singleton {
     FileView {
         id: greeterSettingsFile
 
-        path: root.greeterSettingsBaseDir ? (root.greeterSettingsBaseDir + "/settings.json") : ""
+        path: isGreeterMode && root.greeterSettingsBaseDir ? (root.greeterSettingsBaseDir + "/settings.json") : ""
         preload: isGreeterMode
         blockLoading: false
         blockWrites: true
@@ -3823,13 +3829,16 @@ Singleton {
         onLoaded: {
             if (isGreeterMode)
                 return;
+            pluginSettingsFileExists = true;
             parsePluginSettings(pluginSettingsFile.text());
         }
         onLoadFailed: error => {
             if (isGreeterMode)
                 return;
             const msg = String(error || "");
-            if (!_isMissingPluginSettingsError(error))
+            const missing = _isMissingPluginSettingsError(error);
+            pluginSettingsFileExists = !missing;
+            if (!missing)
                 log.warn("Failed to load plugin_settings.json. Error:", msg);
             _resetPluginSettings();
         }

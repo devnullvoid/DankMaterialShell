@@ -70,13 +70,12 @@ Singleton {
 
     Component.onCompleted: {
         _recomputeGroups();
-        Quickshell.execDetached(["mkdir", "-p", Paths.strip(Paths.cache)]);
-        Quickshell.execDetached(["mkdir", "-p", imageCacheDir]);
+        Quickshell.execDetached(["mkdir", "-p", Paths.strip(Paths.cache), imageCacheDir]);
     }
 
     FileView {
         id: historyFileView
-        path: root.historyFile
+        path: SettingsData.notificationHistoryEnabled ? root.historyFile : ""
         printErrors: false
         onLoaded: root.loadHistory()
         onLoadFailed: error => {
@@ -173,6 +172,8 @@ Singleton {
     }
 
     function performSaveHistory() {
+        if (historyFileView.path === "")
+            return;
         try {
             historyAdapter.notifications = historyList;
             historyFileView.writeAdapter();
@@ -559,10 +560,17 @@ Singleton {
         }
         historyList = [];
         historyAdapter.notifications = [];
+        if (historyFileView.path === "") {
+            Quickshell.execDetached(["rm", "-f", root.historyFile]);
+            return;
+        }
         historyFileView.writeAdapter();
     }
 
+    property bool overlayOpen: false
+
     function onOverlayOpen() {
+        overlayOpen = true;
         popupsDisabled = true;
         markNotificationsSeen();
         addGate.stop();
@@ -580,6 +588,7 @@ Singleton {
     }
 
     function onOverlayClose() {
+        overlayOpen = false;
         popupsDisabled = false;
         markNotificationsSeen();
         processQueue();
@@ -600,7 +609,7 @@ Singleton {
         id: timeUpdateTimer
         interval: 30000
         repeat: true
-        running: root.allWrappers.length > 0 || visibleNotifications.length > 0
+        running: root.overlayOpen && (root.allWrappers.length > 0 || visibleNotifications.length > 0)
         triggeredOnStart: false
         onTriggered: {
             root.timeUpdateTick = !root.timeUpdateTick;
@@ -1495,7 +1504,7 @@ Singleton {
     }
 
     Connections {
-        target: PrivacyService
+        target: SettingsData.notificationDndWhileScreenSharing ? PrivacyService : null
         function onScreensharingActiveChanged() {
             SessionData.syncScreenShareDnd();
         }

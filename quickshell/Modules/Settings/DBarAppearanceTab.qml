@@ -10,6 +10,8 @@ Item {
     LayoutMirroring.enabled: I18n.isRtl
     LayoutMirroring.childrenInherit: true
 
+    Component.onCompleted: BlurService.probe()
+
     property var parentModal: null
     readonly property bool widgetBackgroundEnabled: !(bar.selectedBarConfig?.noBackground ?? false)
     readonly property var outlineColors: ["surfaceText", "secondary", "primary"]

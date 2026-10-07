@@ -65,6 +65,7 @@ Singleton {
         target: Quickshell
         function onScreensChanged() {
             root.probeOutputPower();
+            root.refreshHyprlandMonitorLayout();
         }
     }
     readonly property bool frameCompositorLayoutReady: (!isNiri || NiriService.frameLayoutReady) && (!isHyprland || HyprlandService.frameLayoutReady)
@@ -194,9 +195,8 @@ Singleton {
 
     Connections {
         target: AqueousService
+        enabled: root.isAqueous
         function onStateChanged() {
-            if (!root.isAqueous)
-                return;
             root.scheduleSort();
             if (AqueousService.available)
                 root.workspaceStateChanged();
@@ -496,6 +496,7 @@ Singleton {
     }
     Connections {
         target: NiriService
+        enabled: root.isNiri
         function onWindowsChanged() {
             root.scheduleSort();
         }
@@ -506,23 +507,17 @@ Singleton {
         detectCompositor();
         updateHyprlandVisibleSpecialWorkspaces(null);
         scheduleSort();
-        Qt.callLater(() => {
-            NiriService.generateNiriLayoutConfig();
-            HyprlandService.generateLayoutConfig();
-        });
     }
 
     Connections {
         target: MangoService
+        enabled: root.isMango
         function onStateChanged() {
-            if (!root.isMango)
-                return;
             root.scheduleSort();
             root.workspaceStateChanged();
         }
         function onWindowsChanged() {
-            if (isMango)
-                scheduleSort();
+            root.scheduleSort();
         }
     }
 
@@ -1000,13 +995,6 @@ Singleton {
         }
     }
 
-    Connections {
-        target: Quickshell
-        function onScreensChanged() {
-            root.refreshHyprlandMonitorLayout();
-        }
-    }
-
     // Workspace moves can land before Hyprland announces the monitor and before the Wayland
     // output reaches us, so re-read both models once the screen set settles (#3133)
     function refreshHyprlandMonitorLayout() {
@@ -1376,22 +1364,6 @@ Singleton {
         } catch (e) {}
 
         return toplevels.filter(w => map.get(w) === currentWorkspaceId);
-    }
-
-    Timer {
-        id: compositorInitTimer
-        interval: 100
-        running: true
-        repeat: false
-        onTriggered: {
-            detectCompositor();
-            compositorDetected = true;
-            Qt.callLater(() => {
-                NiriService.generateNiriLayoutConfig();
-                HyprlandService.generateLayoutConfig();
-                MangoService.generateLayoutConfig();
-            });
-        }
     }
 
     // Primary detection asks the kernel which process owns the $WAYLAND_DISPLAY

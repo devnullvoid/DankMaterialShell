@@ -62,8 +62,10 @@ Singleton {
         target: pipewireBackendLoader.item
         ignoreUnknownSignals: true
         function onNodesUpdated() {
-            root.rebuildTypedNodeLists();
             root.adoptPendingCardSink();
+            if (root.refCount === 0)
+                return;
+            root.rebuildTypedNodeLists();
             root.deviceRevision++;
         }
     }
@@ -259,6 +261,8 @@ Singleton {
     function setDefaultSinkByName(name) {
         if (!name)
             return false;
+        if (refCount === 0)
+            rebuildTypedNodeLists();
         for (const node of typedSinks) {
             if (node?.name === name)
                 return setSink(node);
@@ -269,6 +273,8 @@ Singleton {
     function setDefaultSourceByName(name) {
         if (!name)
             return false;
+        if (refCount === 0)
+            rebuildTypedNodeLists();
         for (const node of typedSources) {
             if (node?.name === name)
                 return setSource(node);
@@ -893,6 +899,7 @@ EOFCONFIG
 
     Connections {
         target: root.sink?.audio ?? null
+        enabled: SettingsData.soundsEnabled && SettingsData.soundVolumeChanged
 
         function onVolumeChanged() {
             if (SessionData.suppressOSD)
@@ -1688,7 +1695,7 @@ EOFCONFIG
 
     // Re-apply the saved preference: the live PipeWire value is runtime-only and resets on restart
     function applyMonoStartupPreference() {
-        if (!SettingsData._hasLoaded)
+        if (!SettingsData._hasLoaded || !SettingsData.audioMono)
             return;
         queryMonoSetting((supported, currentValue) => {
             if (supported && currentValue !== SettingsData.audioMono)
@@ -1771,8 +1778,11 @@ EOFCONFIG
     }
 
     onRefCountChanged: {
-        if (root.refCount === 1)
-            root.refreshFreeBsdDevices();
+        if (root.refCount !== 1)
+            return;
+        root.rebuildTypedNodeLists();
+        root.deviceRevision++;
+        root.refreshFreeBsdDevices();
     }
 
     Timer {

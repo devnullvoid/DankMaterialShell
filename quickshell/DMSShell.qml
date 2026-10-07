@@ -30,11 +30,9 @@ import qs.Services
 Item {
     id: root
     readonly property var log: Log.scoped("DMSShell")
-    readonly property var _sessionsServiceRef: SessionsService
     readonly property var _nightModeServiceRef: NightModeService
     readonly property var _brightnessServiceRef: BrightnessService
     readonly property var _refreshRateServiceRef: RefreshRateService
-    readonly property var _displayServiceRef: DisplayService
 
     property var core: null
 
@@ -1251,9 +1249,7 @@ Item {
     Variants {
         model: SettingsData.getFilteredScreens("toast")
 
-        delegate: Toast {
-            visible: ToastService.toastVisible
-        }
+        delegate: Toast {}
     }
 
     Loader {
@@ -1264,37 +1260,37 @@ Item {
         sourceComponent: Component {
             Item {
                 Variants {
-                    model: root.legacySystemLevelOsdScreens
+                    model: SettingsData.osdVolumeEnabled ? root.legacySystemLevelOsdScreens : []
 
                     delegate: VolumeOSD {}
                 }
 
                 Variants {
-                    model: SettingsData.getFilteredScreens("osd")
+                    model: SettingsData.osdMediaVolumeEnabled ? SettingsData.getFilteredScreens("osd") : []
 
                     delegate: MediaVolumeOSD {}
                 }
 
                 Variants {
-                    model: SettingsData.getFilteredScreens("osd")
+                    model: SettingsData.osdMediaPlaybackEnabled ? SettingsData.getFilteredScreens("osd") : []
 
                     delegate: MediaPlaybackOSD {}
                 }
 
                 Variants {
-                    model: root.legacySystemLevelOsdScreens
+                    model: (SettingsData.osdMicMuteEnabled || SettingsData.osdMicVolumeEnabled) ? root.legacySystemLevelOsdScreens : []
 
                     delegate: MicVolumeOSD {}
                 }
 
                 Variants {
-                    model: root.legacySystemLevelOsdScreens
+                    model: SettingsData.osdBrightnessEnabled ? root.legacySystemLevelOsdScreens : []
 
                     delegate: BrightnessOSD {}
                 }
 
                 Variants {
-                    model: root.legacySystemLevelOsdScreens
+                    model: SettingsData.osdIdleInhibitorEnabled ? root.legacySystemLevelOsdScreens : []
 
                     delegate: IdleInhibitorOSD {}
                 }
@@ -1306,13 +1302,13 @@ Item {
                 }
 
                 Variants {
-                    model: root.legacySystemLevelOsdScreens
+                    model: SettingsData.osdCapsLockEnabled ? root.legacySystemLevelOsdScreens : []
 
                     delegate: CapsLockOSD {}
                 }
 
                 Variants {
-                    model: SettingsData.getFilteredScreens("osd")
+                    model: SettingsData.osdAudioOutputEnabled ? SettingsData.getFilteredScreens("osd") : []
 
                     delegate: AudioOutputOSD {}
                 }

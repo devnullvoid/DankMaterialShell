@@ -16,7 +16,10 @@ Column {
     width: parent?.width ?? 0
     spacing: Theme.spacingL
 
-    Component.onCompleted: CompositorService.refreshDmsWindowFloatingRule()
+    Component.onCompleted: {
+        BlurService.probe();
+        CompositorService.refreshDmsWindowFloatingRule();
+    }
 
     ConfigInclude {
         id: windowRulesInclude
