@@ -51,7 +51,6 @@ var ISLAND_DEFAULTS = {
     islandSatelliteFollowInterfaceStyle: true,
     islandSatelliteTransparency: 1,
     islandSatelliteSwoopRadius: 24,
-    islandReducedMotion: false,
     islandSpringStiffness: 560,
     islandSpringDamping: 37,
     islandSpringMass: 1

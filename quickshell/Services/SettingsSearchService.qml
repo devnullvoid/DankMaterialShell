@@ -77,11 +77,28 @@ Singleton {
             "matugenAvailable": () => Theme.matugenAvailable,
             "greeterAvailable": () => GreeterService.available,
             "frameEnabled": () => SettingsData.frameEnabled,
-            "islandEnabled": () => SettingsData.islandBarConfigs.length > 0,
+            "islandEnabled": () => root.islandBarFor("islandEnabled") !== null,
+            "islandFree": () => root.islandBarFor("islandFree") !== null,
+            "islandDocked": () => root.islandBarFor("islandDocked") !== null,
             "dotEnabled": () => SettingsData.dotBarConfig?.enabled ?? false,
             "cellularAvailable": () => NetworkService.cellularAvailable,
             "dockEnabled": () => (SettingsData.dockConfigs ?? []).some(dock => dock.enabled)
         })
+
+    readonly property var islandBarFilters: ({
+            "islandEnabled": cfg => true,
+            "islandFree": cfg => SettingsData.islandFreePlacement(cfg),
+            "islandDocked": cfg => !SettingsData.islandFreePlacement(cfg)
+        })
+
+    // The bar pages only show island rows for the selected bar, so a result has to pick one that fits its condition.
+    function islandBarFor(conditionKey, preferredId) {
+        const filter = islandBarFilters[conditionKey];
+        if (!filter)
+            return null;
+        const bars = SettingsData.enabledIslandBarConfigs.filter(filter);
+        return bars.find(cfg => cfg.id === preferredId) ?? bars[0] ?? null;
+    }
 
     property var pluginSettingLabels: ({})
 

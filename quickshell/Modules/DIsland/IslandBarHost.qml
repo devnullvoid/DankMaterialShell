@@ -465,7 +465,7 @@ Item {
         compactBackground: root.embedded && root.setting("islandWidgetBackground") === true && !(root.barConfig?.noBackground ?? false)
         compactBackgroundColor: BarMetrics.widgetFill(root.barConfig)
         opacity: root.freeOpacity
-        reducedMotion: root.setting("islandReducedMotion") || SettingsData.reduceMotion || SettingsData.animationDuration <= 0
+        reducedMotion: SettingsData.reduceMotion || SettingsData.animationDuration <= 0
         springStiffness: Math.max(root.springStiffnessRange[0], Math.min(root.springStiffnessRange[1], root.setting("islandSpringStiffness")))
         springDamping: Math.max(root.springDampingRange[0], Math.min(root.springDampingRange[1], root.setting("islandSpringDamping")))
         springMass: Math.max(root.springMassRange[0], Math.min(root.springMassRange[1], root.setting("islandSpringMass")))

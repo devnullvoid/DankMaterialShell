@@ -3468,7 +3468,7 @@
       "topbar"
     ],
     "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
+    "conditionKey": "islandFree"
   },
   {
     "section": "barExclusiveZone",
@@ -3894,7 +3894,6 @@
       "island",
       "motion",
       "panel",
-      "reduce",
       "spring",
       "statusbar",
       "taskbar",
@@ -4028,7 +4027,7 @@
       "vertical"
     ],
     "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
+    "conditionKey": "islandFree"
   },
   {
     "section": "islandOuterGap",
@@ -4050,7 +4049,7 @@
       "topbar"
     ],
     "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
+    "conditionKey": "islandDocked"
   },
   {
     "section": "islandPlacement",
@@ -4103,28 +4102,6 @@
     "icon": "vertical_align_center"
   },
   {
-    "section": "islandReducedMotion",
-    "label": "Reduce motion",
-    "tabIndex": 3,
-    "category": "General",
-    "keywords": [
-      "accessibility",
-      "animation",
-      "bar",
-      "general",
-      "island",
-      "motion",
-      "panel",
-      "reduce",
-      "spring",
-      "statusbar",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
     "section": "islandReserveThickness",
     "label": "Reserved width",
     "tabIndex": 3,
@@ -4146,7 +4123,7 @@
       "width"
     ],
     "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
+    "conditionKey": "islandDocked"
   },
   {
     "section": "barRightClickAction",
@@ -4504,7 +4481,7 @@
       "vertical"
     ],
     "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
+    "conditionKey": "islandDocked"
   },
   {
     "section": "barVisibility",
@@ -5141,7 +5118,7 @@
       "width"
     ],
     "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
+    "conditionKey": "islandDocked"
   },
   {
     "section": "islandHomeStatusContent",
@@ -7730,7 +7707,6 @@
       "fonts",
       "motion",
       "physics",
-      "reduce",
       "ripple",
       "speed",
       "spring",
@@ -10444,14 +10420,6 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:29",
-    "label": "Reduce motion",
-    "tabIndex": 22,
-    "keywords": [],
-    "runtimeType": "barWidgetOption",
-    "optionFile": "IslandOptions.qml"
-  },
-  {
     "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:19",
     "label": "Reverse scroll direction",
     "tabIndex": 22,
@@ -10668,7 +10636,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:31",
+    "section": "barWidgetOption:IslandOptions.qml:30",
     "label": "Spring damping",
     "tabIndex": 22,
     "keywords": [],
@@ -10676,7 +10644,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:32",
+    "section": "barWidgetOption:IslandOptions.qml:31",
     "label": "Spring mass",
     "tabIndex": 22,
     "keywords": [],
@@ -10684,7 +10652,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:30",
+    "section": "barWidgetOption:IslandOptions.qml:29",
     "label": "Spring stiffness",
     "tabIndex": 22,
     "keywords": [],
@@ -17484,7 +17452,6 @@
       "island",
       "motion",
       "panel",
-      "reduce",
       "spring",
       "statusbar",
       "taskbar",
@@ -17611,28 +17578,6 @@
       "panel",
       "statusbar",
       "surface",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "dotEnabled"
-  },
-  {
-    "section": "dotReducedMotion",
-    "label": "Reduce motion",
-    "tabIndex": 65,
-    "category": "Dot",
-    "keywords": [
-      "accessibility",
-      "animation",
-      "bar",
-      "dot",
-      "island",
-      "motion",
-      "panel",
-      "reduce",
-      "spring",
-      "statusbar",
       "taskbar",
       "topbar"
     ],

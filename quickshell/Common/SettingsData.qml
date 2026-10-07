@@ -22,7 +22,7 @@ Singleton {
     id: root
     readonly property var log: Log.scoped("SettingsData")
 
-    readonly property int settingsConfigVersion: 38
+    readonly property int settingsConfigVersion: 39
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 
@@ -853,6 +853,7 @@ Singleton {
         return (barConfigs || []).filter(cfg => isIslandBarConfig(cfg));
     }
     readonly property bool dankIslandEnabled: (barConfigs || []).some(cfg => (cfg.enabled ?? false) && hostsIsland(cfg))
+    readonly property var enabledIslandBarConfigs: (barConfigs || []).filter(cfg => cfg?.island === true && (cfg.enabled ?? false))
     // Session-only: which bar, island or dot last-used shared shortcuts follow on each screen.
     property var lastUsedBarByScreen: ({})
     // One slot per edge; a dot floats, so it never takes one.
