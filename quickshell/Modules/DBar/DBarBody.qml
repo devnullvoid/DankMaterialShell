@@ -975,8 +975,11 @@ Item {
         Component.onCompleted: topBarCore.updateActivePopoutState()
 
         function evaluateReveal() {
-            if (!autoHide)
+            if (!autoHide) {
+                revealHold.stop();
+                revealSticky = false;
                 return;
+            }
 
             if (topBarMouseArea.containsMouse && !gapEnterSuppressed) {
                 SettingsData.setBarIpcReveal(barConfig?.id ?? "", false);
