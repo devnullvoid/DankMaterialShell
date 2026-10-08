@@ -328,7 +328,37 @@ Item {
             y: topBarMouseArea.y + islandLoader.y + topBarSlide.y + (barWindow.islandHost?.currentVisualY ?? 0)
             width: barWindow.islandHost?.currentVisualWidth ?? 0
             height: barWindow.islandHost?.currentVisualHeight ?? 0
-            radius: barWindow.islandHost?.currentSurfaceRadius ?? 0
+            topLeftRadius: barWindow.islandHost?.surface.surfaceMotion.currentTopLeftRadius ?? 0
+            topRightRadius: barWindow.islandHost?.surface.surfaceMotion.currentTopRightRadius ?? 0
+            bottomLeftRadius: barWindow.islandHost?.surface.surfaceMotion.currentBottomLeftRadius ?? 0
+            bottomRightRadius: barWindow.islandHost?.surface.surfaceMotion.currentBottomRightRadius ?? 0
+        }
+    }
+
+    Component {
+        id: blurIslandJoinRegionComp
+
+        Region {
+            id: joinRegion
+
+            property Item corner
+
+            readonly property real sx: topBarMouseArea.x + islandLoader.x + topBarSlide.x
+            readonly property real sy: topBarMouseArea.y + islandLoader.y + topBarSlide.y
+
+            x: sx + corner.x
+            y: sy + corner.y
+            width: corner.width
+            height: corner.height
+
+            Region {
+                intersection: Intersection.Subtract
+                shape: RegionShape.Ellipse
+                x: joinRegion.x + joinRegion.corner.discRect.x
+                y: joinRegion.y + joinRegion.corner.discRect.y
+                width: joinRegion.corner.discRect.width
+                height: joinRegion.corner.discRect.height
+            }
         }
     }
 
@@ -419,6 +449,7 @@ Item {
 
         readonly property bool barHasTransparency: !barWindow.isIsland && barWindow._backgroundAlpha > 0 && barWindow._backgroundAlpha < 1
         readonly property bool islandTranslucent: !!barWindow.islandHost && barWindow.islandHost.surfaceOpacity > 0 && barWindow.islandHost.surfaceOpacity < 1
+        readonly property bool islandNotch: barWindow.islandHost?.notch ?? false
         readonly property bool satelliteTranslucent: barWindow.islandSatelliteBackground && barWindow.islandSatellitesEnabled && barWindow.islandSatelliteOpacity > 0 && barWindow.islandSatelliteOpacity < 1
 
         function rebuild() {
@@ -455,6 +486,13 @@ Item {
                 const islandSub = blurIslandRegionComp.createObject(region);
                 if (islandSub)
                     subRegions.push(islandSub);
+                for (const corner of barWindow.islandHost.notch ? barWindow.islandHost.surface.joinCorners : []) {
+                    const sub = blurIslandJoinRegionComp.createObject(region, {
+                        corner: corner
+                    });
+                    if (sub)
+                        subRegions.push(sub);
+                }
             }
             if (satelliteTranslucent) {
                 for (const surface of [leadingSatelliteSurface, trailingSatelliteSurface]) {
@@ -513,6 +551,7 @@ Item {
 
         onBarHasTransparencyChanged: _blurRebuildTimer.restart()
         onIslandTranslucentChanged: _blurRebuildTimer.restart()
+        onIslandNotchChanged: _blurRebuildTimer.restart()
         onSatelliteTranslucentChanged: _blurRebuildTimer.restart()
 
         readonly property bool blurServiceEnabled: BlurService.enabled

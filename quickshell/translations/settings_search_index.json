@@ -3904,6 +3904,30 @@
     "conditionKey": "islandEnabled"
   },
   {
+    "section": "islandNotch",
+    "label": "Notch Mode",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "attached",
+      "bar",
+      "corners",
+      "edge",
+      "flush",
+      "general",
+      "island",
+      "macbook",
+      "mode",
+      "notch",
+      "panel",
+      "statusbar",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandDocked"
+  },
+  {
     "section": "islandRouteNotificationCenter",
     "label": "Notification Center",
     "tabIndex": 3,

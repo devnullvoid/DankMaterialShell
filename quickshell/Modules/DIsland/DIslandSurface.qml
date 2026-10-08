@@ -51,6 +51,8 @@ Item {
     property Component compactFaceOverride: null
     // "own" paints the palette; "band" wears the host bar's colour with join corners; "none" paints nothing and leaves the silhouette to the frame SDF.
     property string chrome: "own"
+    // Flush with the screen edge, with concave flares where it meets it.
+    property bool notch: false
     property color bandColor: Theme.hostSurface
     property bool compactBackground: false
     property color compactBackgroundColor: "transparent"
@@ -354,8 +356,8 @@ Item {
         height: root.currentVisualHeight
         // Embedded, the band already paints the in-band strip; overhangFill draws the rest, so a translucent band never double-alphas.
         color: root.embedded ? "transparent" : root.effectiveSurfaceColor
-        border.width: root.notificationAccentColor !== "transparent" ? 1.5 : root.embedded ? 0 : (root.highContrast ? 2 : (root.popupStyled ? BlurService.borderWidth : 0))
-        border.color: root.notificationAccentColor !== "transparent" ? root.notificationAccentColor : (root.highContrast ? Theme.outlineStrong : (root.popupStyled ? BlurService.borderColor : "transparent"))
+        border.width: root.notificationAccentColor !== "transparent" ? 1.5 : root.embedded ? 0 : (root.highContrast ? 2 : (root.popupStyled && !root.notch ? BlurService.borderWidth : 0))
+        border.color: root.notificationAccentColor !== "transparent" ? root.notificationAccentColor : (root.highContrast ? Theme.outlineStrong : (root.popupStyled && !root.notch ? BlurService.borderColor : "transparent"))
 
         Behavior on color {
             ColorAnimation {
@@ -490,48 +492,62 @@ Item {
 
     // crossExtent is the band here, so the overhang is how far the sheet has left the bar.
     readonly property real embeddedOverhang: !root.embedded || root.chromeless ? 0 : Math.max(0, root.farEdge ? -(root.isVertical ? root.currentVisualX : root.currentVisualY) : (root.isVertical ? root.currentVisualX + root.currentVisualWidth : root.currentVisualY + root.currentVisualHeight) - root.crossExtent)
-    readonly property real embeddedJoinRadius: Math.min(Theme.connectedCornerRadius, root.embeddedOverhang)
+    readonly property real joinRadius: root.notch ? Theme.windowRadius : Math.min(Theme.connectedCornerRadius, root.embeddedOverhang)
+    // Where the join corners sit: the band's inner edge when embedded, the screen edge for a notch.
+    readonly property real joinCross: root.notch === root.farEdge ? root.crossExtent : 0
+    readonly property var joinCorners: joinChrome.item ? [joinChrome.item.leadingCorner, joinChrome.item.trailingCorner] : []
 
     // A Loader, not visible:, so islands and dots skip these per-frame motion bindings.
     Loader {
-        active: root.embedded && !root.chromeless
+        id: joinChrome
+
+        active: (root.embedded && !root.chromeless) || root.notch
         z: island.z - 1
         sourceComponent: Item {
-            id: overhangChrome
-            Item {
-                id: overhangClip
+            readonly property alias leadingCorner: leadingCorner
+            readonly property alias trailingCorner: trailingCorner
 
-                visible: root.embeddedOverhang > 0
-                clip: true
-                x: root.isVertical ? (root.farEdge ? -root.embeddedOverhang : root.crossExtent) : 0
-                y: root.isVertical ? 0 : (root.farEdge ? -root.embeddedOverhang : root.crossExtent)
-                width: root.isVertical ? root.embeddedOverhang : root.width
-                height: root.isVertical ? root.height : root.embeddedOverhang
+            Loader {
+                active: root.embedded
+                sourceComponent: Item {
+                    id: overhangClip
 
-                MorphSurface {
-                    motion: root.surfaceMotion
-                    x: root.currentVisualX - overhangClip.x
-                    y: root.currentVisualY - overhangClip.y
-                    color: root.effectiveSurfaceColor
+                    visible: root.embeddedOverhang > 0
+                    clip: true
+                    x: root.isVertical ? (root.farEdge ? -root.embeddedOverhang : root.crossExtent) : 0
+                    y: root.isVertical ? 0 : (root.farEdge ? -root.embeddedOverhang : root.crossExtent)
+                    width: root.isVertical ? root.embeddedOverhang : root.width
+                    height: root.isVertical ? root.height : root.embeddedOverhang
+
+                    MorphSurface {
+                        motion: root.surfaceMotion
+                        x: root.currentVisualX - overhangClip.x
+                        y: root.currentVisualY - overhangClip.y
+                        color: root.effectiveSurfaceColor
+                    }
                 }
             }
 
             GothCorner {
-                visible: root.embeddedJoinRadius > 0
-                radius: root.embeddedJoinRadius
+                id: leadingCorner
+
+                visible: root.joinRadius > 0
+                radius: root.joinRadius
                 color: root.effectiveSurfaceColor
                 corner: root.isVertical ? (root.farEdge ? "topLeft" : "topRight") : (root.farEdge ? "topLeft" : "bottomLeft")
-                x: root.isVertical ? (root.farEdge ? -radius : root.crossExtent) : root.currentVisualX - radius
-                y: root.isVertical ? root.currentVisualY - radius : (root.farEdge ? -radius : root.crossExtent)
+                x: root.isVertical ? (root.farEdge ? root.joinCross - radius : root.joinCross) : root.currentVisualX - radius
+                y: root.isVertical ? root.currentVisualY - radius : (root.farEdge ? root.joinCross - radius : root.joinCross)
             }
 
             GothCorner {
-                visible: root.embeddedJoinRadius > 0
-                radius: root.embeddedJoinRadius
+                id: trailingCorner
+
+                visible: root.joinRadius > 0
+                radius: root.joinRadius
                 color: root.effectiveSurfaceColor
                 corner: root.isVertical ? (root.farEdge ? "bottomLeft" : "bottomRight") : (root.farEdge ? "topRight" : "bottomRight")
-                x: root.isVertical ? (root.farEdge ? -radius : root.crossExtent) : root.currentVisualX + root.currentVisualWidth
-                y: root.isVertical ? root.currentVisualY + root.currentVisualHeight : (root.farEdge ? -radius : root.crossExtent)
+                x: root.isVertical ? (root.farEdge ? root.joinCross - radius : root.joinCross) : root.currentVisualX + root.currentVisualWidth
+                y: root.isVertical ? root.currentVisualY + root.currentVisualHeight : (root.farEdge ? root.joinCross - radius : root.joinCross)
             }
         }
     }

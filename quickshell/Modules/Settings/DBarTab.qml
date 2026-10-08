@@ -109,6 +109,17 @@ Item {
                 }
             }
 
+            SettingsToggleRow {
+                settingKey: "islandNotch"
+                tags: ["island", "notch", "flush", "attached", "edge", "corners", "macbook"]
+                visible: dankBarTab.selectedIslandDocked
+                resetStore: bar
+                resetKeys: ["islandNotch"]
+                text: I18n.tr("Notch Mode", "island settings: toggle that attaches the island to the screen edge like a notch")
+                checked: bar.islandSetting("islandNotch")
+                onToggled: checked => bar.apply("islandNotch", checked)
+            }
+
             SettingsRow {
                 visible: dankBarTab.selectedIslandFree
                 body: StyledText {
@@ -138,7 +149,7 @@ Item {
             SettingsSliderRow {
                 settingKey: "islandOuterGap"
                 tags: ["island", "placement", "gap", "top", "margin"]
-                visible: dankBarTab.selectedIslandDocked
+                visible: dankBarTab.selectedIslandDocked && !bar.islandSetting("islandNotch")
                 resetStore: bar
                 resetKeys: ["islandOuterGap"]
                 text: I18n.tr("Outer gap", "island settings: gap between screen edge and island")

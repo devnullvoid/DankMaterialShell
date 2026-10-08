@@ -25,6 +25,7 @@ var ISLAND_DEFAULTS = {
     islandReserveThickness: 40,
     islandCompactThickness: 38,
     islandOuterGap: 4,
+    islandNotch: false,
     islandAlongOffset: 0,
     islandInteractionMode: "hybrid",
     islandHoverOpenDelay: 150,
