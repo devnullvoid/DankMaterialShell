@@ -235,8 +235,11 @@ FocusScope {
         const deferred = parentModal?.visible ?? false;
         const pages = [];
         for (let index = shared; index < pagePath.length; index++) {
+            const top = index === pagePath.length - 1;
             const page = _createPage(pagePath[index], index);
-            page.load(deferred && index === pagePath.length - 1);
+            // StackView only transitions the top of a multi-item push; pages beneath stay painted until hidden here
+            page.visible = top;
+            page.load(deferred && top);
             pages.push(page);
         }
         if (shared < pageStack.depth) {

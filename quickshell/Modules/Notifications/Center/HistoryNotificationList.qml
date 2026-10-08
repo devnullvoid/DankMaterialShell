@@ -1,6 +1,5 @@
 import QtQuick
 import qs.Modules.Notifications
-import qs.DCommon.Common as DC
 import Quickshell
 import qs.Common
 import qs.Services
@@ -245,10 +244,7 @@ Item {
             leftMargin: root.swipeBleed
             rightMargin: root.swipeBleed
             spacing: Theme.groupedListGap
-
-            add: NotificationMetrics.animationsEnabled ? DC.ListViewTransitions.add : null
-            remove: NotificationMetrics.animationsEnabled ? DC.ListViewTransitions.fadeRemove : null
-            displaced: NotificationMetrics.animationsEnabled ? DC.ListViewTransitions.displaced : null
+            rowFadeEnabled: NotificationMetrics.animationsEnabled
 
             model: ScriptModel {
                 id: historyModel
@@ -274,6 +270,8 @@ Item {
                 width: ListView.view.width - root.swipeBleed * 2
                 height: historyCard.height
                 onDismissed: root.removeWithScrollPreserve(modelData?.id || "")
+
+                Component.onCompleted: historyListView.fadeIn(delegateRoot, index)
 
                 HistoryNotificationCard {
                     id: historyCard

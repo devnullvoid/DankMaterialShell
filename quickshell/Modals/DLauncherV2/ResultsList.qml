@@ -303,11 +303,6 @@ Item {
                 objectProp: "_rowId"
             }
 
-            add: ListViewTransitions.add
-            remove: ListViewTransitions.remove
-            displaced: null
-            move: null
-
             currentIndex: root._flatIndexToRowMap[root.controller?.selectedFlatIndex] ?? -1
             highlightFollowsCurrentItem: false
             highlight: LauncherHighlight {
@@ -335,6 +330,8 @@ Item {
                 z: 1
                 width: mainListView.width
                 height: modelData?.height ?? LauncherMetrics.rowHeight
+
+                Component.onCompleted: mainListView.fadeIn(delegateRoot, index)
 
                 Loader {
                     active: delegateRoot.rowType === "list_item"
