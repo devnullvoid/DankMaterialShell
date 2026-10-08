@@ -501,6 +501,11 @@ Singleton {
 
         setWorkspaces(updatedWorkspaces);
 
+        if (!data.focused) {
+            updateCurrentOutputWorkspaces();
+            return;
+        }
+
         focusedWorkspaceId = data.id;
         focusedWorkspaceIndex = allWorkspaces.findIndex(w => w.id === data.id);
 
