@@ -1210,12 +1210,12 @@ Item {
 
         active: false
 
+        Component.onCompleted: PopoutService.keybindsModalLoader = hyprKeybindsModalLoader
+
         KeybindsModal {
             id: keybindsModal
 
-            Component.onCompleted: {
-                PopoutService.hyprKeybindsModal = keybindsModal;
-            }
+            Component.onCompleted: PopoutService.keybindsModal = keybindsModal
         }
     }
 
