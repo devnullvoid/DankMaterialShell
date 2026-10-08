@@ -109,15 +109,29 @@ Item {
                 }
             }
 
-            SettingsToggleRow {
+            SettingsRow {
                 settingKey: "islandNotch"
-                tags: ["island", "notch", "flush", "attached", "edge", "corners", "macbook"]
+                tags: ["island", "notch", "pill", "shape", "style", "flush", "attached", "edge", "corners", "macbook"]
+                title: I18n.tr("Style")
                 visible: dankBarTab.selectedIslandDocked
                 resetStore: bar
                 resetKeys: ["islandNotch"]
-                text: I18n.tr("Notch Mode", "island settings: toggle that attaches the island to the screen edge like a notch")
-                checked: bar.islandSetting("islandNotch")
-                onToggled: checked => bar.apply("islandNotch", checked)
+
+                body: SettingsLayoutPicker {
+                    islandShape: true
+                    choices: [
+                        {
+                            key: "pill",
+                            label: I18n.tr("Pill")
+                        },
+                        {
+                            key: "notch",
+                            label: I18n.tr("Notch", "island style option, the island is fused to the screen edge like a notch")
+                        }
+                    ]
+                    selectedKey: bar.islandSetting("islandNotch") ? "notch" : "pill"
+                    onSelected: key => bar.apply("islandNotch", key === "notch")
+                }
             }
 
             SettingsRow {

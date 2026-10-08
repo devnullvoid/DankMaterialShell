@@ -463,6 +463,7 @@ Item {
         compactFaceOverride: root.dotMode ? dotFaceComponent : null
         chrome: root.chrome
         notch: root.notch
+        notchRadius: BarMetrics.gothRadius(root.barConfig)
         bandColor: root.bandColor
         compactBackground: root.embedded && root.setting("islandWidgetBackground") === true && !(root.barConfig?.noBackground ?? false)
         compactBackgroundColor: BarMetrics.widgetFill(root.barConfig)

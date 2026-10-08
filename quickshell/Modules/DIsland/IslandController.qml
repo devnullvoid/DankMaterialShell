@@ -59,7 +59,7 @@ QtObject {
     property bool notch: false
     property real dotSize: 48
     property real compactThickness: 38
-    property string batteryStyle: "solid"
+    property string batteryStyle: "duo"
     property bool mediaClockVisible: true
     property int transientTimeout: 2200
     property int notificationTimeout: 5000

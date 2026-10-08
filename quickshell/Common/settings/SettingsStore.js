@@ -51,7 +51,6 @@ var ISLAND_KEY_MOVES = {
     dankIslandSatelliteBackground: "islandSatelliteBackground",
     dankIslandSatelliteGothCorners: "islandSatelliteGothCorners",
     dankIslandSatelliteTransparency: "islandSatelliteTransparency",
-    dankIslandSatelliteSwoopRadius: "islandSatelliteSwoopRadius",
     dankIslandReducedMotion: "islandReducedMotion",
     dankIslandSpringStiffness: "islandSpringStiffness",
     dankIslandSpringDamping: "islandSpringDamping",
@@ -518,6 +517,7 @@ function migrateToVersion(obj, targetVersion) {
         for (var dropKey in ISLAND_KEY_MOVES)
             delete settings[dropKey];
         delete settings.dankIslandBarId;
+        delete settings.dankIslandSatelliteSwoopRadius;
 
         settings.configVersion = 18;
     }

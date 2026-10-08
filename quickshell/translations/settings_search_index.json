@@ -3904,30 +3904,6 @@
     "conditionKey": "islandEnabled"
   },
   {
-    "section": "islandNotch",
-    "label": "Notch Mode",
-    "tabIndex": 3,
-    "category": "General",
-    "keywords": [
-      "attached",
-      "bar",
-      "corners",
-      "edge",
-      "flush",
-      "general",
-      "island",
-      "macbook",
-      "mode",
-      "notch",
-      "panel",
-      "statusbar",
-      "taskbar",
-      "topbar"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandDocked"
-  },
-  {
     "section": "islandRouteNotificationCenter",
     "label": "Notification Center",
     "tabIndex": 3,
@@ -4365,6 +4341,32 @@
     ],
     "parentLabel": "Bar",
     "description": "Hides even while a bar popout or menu is open"
+  },
+  {
+    "section": "islandNotch",
+    "label": "Style",
+    "tabIndex": 3,
+    "category": "General",
+    "keywords": [
+      "attached",
+      "bar",
+      "corners",
+      "edge",
+      "flush",
+      "general",
+      "island",
+      "macbook",
+      "notch",
+      "panel",
+      "pill",
+      "shape",
+      "statusbar",
+      "style",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandDocked"
   },
   {
     "section": "frameModeSelector",
@@ -4951,63 +4953,6 @@
     "description": "Background, corners, spacing, widget style"
   },
   {
-    "section": "islandBatteryColorMode",
-    "label": "Battery",
-    "tabIndex": 6,
-    "category": "Appearance",
-    "keywords": [
-      "accent",
-      "appearance",
-      "bar",
-      "battery",
-      "charge",
-      "charging",
-      "color",
-      "green",
-      "island",
-      "level",
-      "meter",
-      "panel",
-      "power",
-      "red",
-      "statusbar",
-      "taskbar",
-      "theme",
-      "topbar"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandBatteryStyle",
-    "label": "Battery style",
-    "tabIndex": 6,
-    "category": "Appearance",
-    "keywords": [
-      "appearance",
-      "bar",
-      "battery",
-      "charge",
-      "charging",
-      "circle",
-      "duo",
-      "gauge",
-      "island",
-      "outline",
-      "panel",
-      "power",
-      "ring",
-      "solid",
-      "statusbar",
-      "style",
-      "taskbar",
-      "topbar",
-      "wifi"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
     "section": "frameBlurEnabled",
     "label": "Blur",
     "tabIndex": 6,
@@ -5097,25 +5042,29 @@
     "conditionKey": "islandEnabled"
   },
   {
-    "section": "islandHomeCompactTight",
-    "label": "Compact pill",
+    "section": "islandBatteryColorMode",
+    "label": "Color",
     "tabIndex": 6,
     "category": "Appearance",
     "keywords": [
+      "accent",
       "appearance",
       "bar",
-      "clock",
-      "compact",
-      "height",
-      "home",
+      "battery",
+      "color",
+      "colour",
+      "green",
+      "hue",
       "island",
-      "narrow",
+      "level",
+      "meter",
       "panel",
-      "pill",
+      "red",
       "statusbar",
       "taskbar",
-      "topbar",
-      "width"
+      "theme",
+      "tint",
+      "topbar"
     ],
     "parentLabel": "Bar",
     "conditionKey": "islandEnabled"
@@ -5143,32 +5092,6 @@
     ],
     "parentLabel": "Bar",
     "conditionKey": "islandDocked"
-  },
-  {
-    "section": "islandHomeStatusContent",
-    "label": "Control Center",
-    "tabIndex": 6,
-    "category": "Appearance",
-    "keywords": [
-      "appearance",
-      "bar",
-      "battery",
-      "bluetooth",
-      "center",
-      "compact",
-      "connectivity",
-      "control",
-      "home",
-      "island",
-      "panel",
-      "status",
-      "statusbar",
-      "taskbar",
-      "topbar",
-      "wifi"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
   },
   {
     "section": "barCornerStyle",
@@ -5215,6 +5138,31 @@
       "widget"
     ],
     "parentLabel": "Bar"
+  },
+  {
+    "section": "islandGothCornerRadius",
+    "label": "Custom radius",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "corners",
+      "custom",
+      "goth",
+      "island",
+      "notch",
+      "panel",
+      "radius",
+      "satellite",
+      "size",
+      "statusbar",
+      "sweep",
+      "taskbar",
+      "topbar"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barFontScale",
@@ -5274,32 +5222,6 @@
       "taskbar",
       "topbar",
       "widgets"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandEnabled"
-  },
-  {
-    "section": "islandSatelliteSwoopRadius",
-    "label": "Goth corner radius",
-    "tabIndex": 6,
-    "category": "Appearance",
-    "keywords": [
-      "appearance",
-      "bar",
-      "corner",
-      "corners",
-      "goth",
-      "island",
-      "panel",
-      "radius",
-      "round",
-      "rounded",
-      "satellite",
-      "size",
-      "statusbar",
-      "sweep",
-      "taskbar",
-      "topbar"
     ],
     "parentLabel": "Bar",
     "conditionKey": "islandEnabled"
@@ -5540,6 +5462,7 @@
       "transparency"
     ],
     "parentLabel": "Bar",
+    "description": "Opacity",
     "conditionKey": "islandEnabled"
   },
   {
@@ -5637,6 +5560,7 @@
       "bar",
       "island",
       "left",
+      "opacity",
       "panel",
       "right",
       "satellite",
@@ -5648,6 +5572,7 @@
     ],
     "parentLabel": "Bar",
     "icon": "widgets",
+    "description": "Opacity",
     "conditionKey": "islandEnabled"
   },
   {
@@ -5692,6 +5617,32 @@
     "parentLabel": "Bar"
   },
   {
+    "section": "islandHomeCompactTight",
+    "label": "Size",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "clock",
+      "compact",
+      "height",
+      "home",
+      "island",
+      "narrow",
+      "panel",
+      "pill",
+      "size",
+      "statusbar",
+      "taskbar",
+      "tight",
+      "topbar",
+      "width"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
+  },
+  {
     "section": "barSpacing",
     "label": "Size & spacing",
     "tabIndex": 6,
@@ -5722,6 +5673,36 @@
     "parentLabel": "Bar",
     "icon": "space_bar",
     "description": "Shortens the bar at both ends"
+  },
+  {
+    "section": "islandHomeStatusContent",
+    "label": "Status",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "battery",
+      "bluetooth",
+      "circle",
+      "compact",
+      "connectivity",
+      "duo",
+      "gauge",
+      "home",
+      "island",
+      "outline",
+      "panel",
+      "ring",
+      "solid",
+      "status",
+      "statusbar",
+      "taskbar",
+      "topbar",
+      "wifi"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandEnabled"
   },
   {
     "section": "barCorners",
@@ -5898,7 +5879,8 @@
       "widgets"
     ],
     "parentLabel": "Bar",
-    "icon": "widgets"
+    "icon": "widgets",
+    "description": "Opacity"
   },
   {
     "section": "frameThickness",
@@ -9709,7 +9691,7 @@
     "optionFile": "SystemTrayOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:8",
+    "section": "barWidgetOption:IslandOptions.qml:7",
     "label": "Background",
     "tabIndex": 22,
     "keywords": [],
@@ -9756,15 +9738,7 @@
     "optionFile": "BatteryOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:6",
-    "label": "Battery style",
-    "tabIndex": 22,
-    "keywords": [],
-    "runtimeType": "barWidgetOption",
-    "optionFile": "IslandOptions.qml"
-  },
-  {
-    "section": "barWidgetOption:IslandOptions.qml:9",
+    "section": "barWidgetOption:IslandOptions.qml:8",
     "label": "Behavior",
     "tabIndex": 22,
     "keywords": [],
@@ -9916,14 +9890,6 @@
     "optionFile": "RunningAppsOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:7",
-    "label": "Compact pill",
-    "tabIndex": 22,
-    "keywords": [],
-    "runtimeType": "barWidgetOption",
-    "optionFile": "IslandOptions.qml"
-  },
-  {
     "section": "barWidgetOption:AppsDockOptions.qml:16",
     "label": "Contrast",
     "tabIndex": 22,
@@ -9940,7 +9906,7 @@
     "optionFile": "LauncherButtonOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:5",
+    "section": "barWidgetOption:IslandOptions.qml:10",
     "label": "Control Center",
     "tabIndex": 22,
     "keywords": [],
@@ -10252,7 +10218,7 @@
     "optionFile": "KeyboardLayoutOptions.qml"
   },
   {
-    "section": "barWidgetOption:IslandOptions.qml:10",
+    "section": "barWidgetOption:IslandOptions.qml:9",
     "label": "Launcher",
     "tabIndex": 22,
     "keywords": [],
@@ -10620,6 +10586,14 @@
     "optionFile": "FocusedWindowOptions.qml"
   },
   {
+    "section": "barWidgetOption:IslandOptions.qml:6",
+    "label": "Size",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
     "section": "barWidgetOption:MusicOptions.qml:1",
     "label": "Size",
     "tabIndex": 22,
@@ -10678,6 +10652,14 @@
   {
     "section": "barWidgetOption:IslandOptions.qml:29",
     "label": "Spring stiffness",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:IslandOptions.qml:5",
+    "label": "Status",
     "tabIndex": 22,
     "keywords": [],
     "runtimeType": "barWidgetOption",

@@ -43,7 +43,7 @@ var ISLAND_DEFAULTS = {
     islandHomeVolumeDisplay: "both",
     islandHomeBrightnessDisplay: "both",
     islandHomeStatusContent: "battery",
-    islandBatteryStyle: "solid",
+    islandBatteryStyle: "duo",
     islandSatellitesEnabled: true,
     islandSatellitePosition: "edges",
     islandSatelliteGap: 12,
@@ -51,7 +51,6 @@ var ISLAND_DEFAULTS = {
     islandSatelliteGothCorners: true,
     islandSatelliteFollowInterfaceStyle: true,
     islandSatelliteTransparency: 1,
-    islandSatelliteSwoopRadius: 24,
     islandSpringStiffness: 560,
     islandSpringDamping: 37,
     islandSpringMass: 1
