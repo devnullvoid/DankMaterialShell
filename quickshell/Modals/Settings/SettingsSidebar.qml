@@ -351,6 +351,7 @@ Item {
         anchors.topMargin: SettingsMetrics.searchBarGap
         clip: true
         contentHeight: sidebarColumn.height
+        fadeSideInset: SettingsMetrics.paneMargin
 
         Column {
             id: sidebarColumn
