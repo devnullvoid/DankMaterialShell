@@ -145,6 +145,10 @@ FocusScope {
                 continue;
             const top = item.mapToItem(f.contentItem, 0, 0).y - Theme.spacingL;
             const bottom = top + item.height + Theme.spacingL * 2;
+            if (typeof f.revealRange === "function") {
+                f.revealRange(top, bottom);
+                return;
+            }
             if (top < f.contentY)
                 f.contentY = Math.max(f.originY, top);
             else if (bottom > f.contentY + f.height)

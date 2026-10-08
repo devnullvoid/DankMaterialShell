@@ -203,16 +203,8 @@ Item {
         if (!result || !contentItem)
             return;
 
-        const mapped = result.mapToItem(contentItem, 0, 0);
-        const margin = Theme.spacingS;
-        const top = mapped.y;
-        const bottom = top + result.height;
-        const maxContentY = Math.max(0, sidebarFlickable.contentHeight - sidebarFlickable.height);
-        if (top < sidebarFlickable.contentY + margin) {
-            sidebarFlickable.contentY = Math.max(0, top - margin);
-        } else if (bottom > sidebarFlickable.contentY + sidebarFlickable.height - margin) {
-            sidebarFlickable.contentY = Math.min(maxContentY, bottom - sidebarFlickable.height + margin);
-        }
+        const top = result.mapToItem(contentItem, 0, 0).y;
+        sidebarFlickable.revealRange(top - Theme.spacingS, top + result.height + Theme.spacingS);
     }
 
     implicitWidth: SettingsMetrics.sidebarWidth

@@ -432,7 +432,7 @@ Item {
         const index = _filteredBinds.findIndex(bind => bind.action === action);
         if (!action || index < 0)
             return;
-        flickable.positionViewAtIndex(index, ListView.Contain);
+        flickable.revealIndex(index);
     }
 
     function _ensureCurrentProvider() {

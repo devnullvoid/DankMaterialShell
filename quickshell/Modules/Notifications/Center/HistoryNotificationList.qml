@@ -296,7 +296,7 @@ Item {
             return;
         keyboardActive = true;
         selectedIndex = Math.min(selectedIndex + 1, historyModel.values.length - 1);
-        historyListView.positionViewAtIndex(selectedIndex, ListView.Contain);
+        historyListView.revealIndex(selectedIndex);
     }
 
     function selectPrevious() {
@@ -308,7 +308,7 @@ Item {
             return;
         }
         selectedIndex = Math.max(selectedIndex - 1, 0);
-        historyListView.positionViewAtIndex(selectedIndex, ListView.Contain);
+        historyListView.revealIndex(selectedIndex);
     }
 
     function clearSelected() {
