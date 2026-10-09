@@ -36,6 +36,7 @@ var resolveIncludeCmd = &cobra.Command{
 				"layout.lua",
 				"outputs.lua",
 				"cursor.lua",
+				"input.lua",
 				"windowrules.lua",
 				"cursor.kdl",
 				"layout.kdl",
@@ -132,27 +133,18 @@ func checkHyprlandInclude(filename string) (IncludeResult, error) {
 	mainLua := filepath.Join(configDir, "hyprland.lua")
 	if _, err := os.Stat(mainLua); err == nil {
 		result.ConfigFormat = "lua"
-		result.ReadOnly = false
-		processedLua := make(map[string]bool)
-		if luaconfig.RequiresTarget(mainLua, targetAbs, processedLua) {
-			result.Included = true
-			return result, nil
-		}
+		result.Included = luaconfig.RequiresTarget(mainLua, targetAbs, make(map[string]bool))
+		return result, nil
 	}
 
+	// 0.55/0.56 installs still on hyprland.conf: read-only until migrated.
 	mainConf := filepath.Join(configDir, "hyprland.conf")
-	if _, err := os.Stat(mainConf); err == nil {
-		if result.ConfigFormat == "" {
-			result.ConfigFormat = "hyprlang"
-			result.ReadOnly = true
-		}
-		processed := make(map[string]bool)
-		if hyprlandFindIncludeHyprlang(mainConf, targetAbs, processed) {
-			result.Included = true
-			return result, nil
-		}
+	if _, err := os.Stat(mainConf); err != nil {
+		return result, nil
 	}
-
+	result.ConfigFormat = "hyprlang"
+	result.ReadOnly = true
+	result.Included = hyprlandFindIncludeHyprlang(mainConf, targetAbs, make(map[string]bool))
 	return result, nil
 }
 
@@ -173,14 +165,8 @@ func hyprlandFindIncludeHyprlang(filePath, target string, processed map[string]b
 	}
 
 	baseDir := filepath.Dir(absPath)
-	lines := strings.SplitSeq(string(data), "\n")
-
-	for line := range lines {
+	for line := range strings.SplitSeq(string(data), "\n") {
 		trimmed := strings.TrimSpace(line)
-		if strings.HasPrefix(trimmed, "#") || trimmed == "" {
-			continue
-		}
-
 		if !strings.HasPrefix(trimmed, "source") {
 			continue
 		}

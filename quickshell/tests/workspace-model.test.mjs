@@ -149,7 +149,7 @@ test("hyprland padding fills numbered ids up to the minimum, skipping ids owned 
     assert.deepEqual(pick(model.hyprlandWorkspacesForScreen(hyprland("empty"), "DP-1", false, false, 3), "id"), [1, 2, 3]);
     assert.deepEqual(pick(model.hyprlandWorkspacesForScreen(raw, "HDMI-A-1", false, false, 0), "id"), [2, 4, -1337]);
     const filled = model.hyprlandWorkspacesForScreen(raw, "HDMI-A-1", false, false, 5).find(ws => ws.id === 5);
-    assert.deepEqual(plain(filled), { id: 5, idx: 5, name: "5", output: "HDMI-A-1", active: false, placeholder: false, urgent: false });
+    assert.deepEqual(plain(filled), { id: 5, idx: 5, address: "", name: "5", output: "HDMI-A-1", active: false, placeholder: false, urgent: false });
     raw.workspaces.push({ id: 5, name: "5", monitor: null, lastIpcObject: {} });
     assert.deepEqual(pick(model.hyprlandWorkspacesForScreen(raw, "HDMI-A-1", false, false, 5), "id"), [2, 4, 5, -1337]);
 });
@@ -246,6 +246,23 @@ test("hyprland active workspace, windows and occupancy", () => {
     assert.deepEqual(plain(model.hyprlandWindowsOnWorkspace(raw.windows, { id: 1 }, raw.toplevels)), []);
     assert.equal(model.hyprlandWorkspaceOccupied(raw.toplevels, { id: 1 }), true);
     assert.equal(model.hyprlandWorkspaceOccupied(raw.toplevels, { id: 2 }), false);
+});
+
+test("hyprland main: named workspaces all report id -1, so identity and targets come from the address", () => {
+    const monitor = { name: "DP-1" };
+    const ws = (id, address, name) => ({ id, address, name, monitor, lastIpcObject: {} });
+    const workspaces = [ws(1, "1", "1"), ws(-1, "music", "Tunes"), ws(-1, "chat", "chat"), ws(-1, "notes", "notes")];
+    const [one, music, chat] = workspaces;
+    monitor.activeWorkspace = chat;
+    const win = { address: "0xa" };
+    const toplevels = [{ workspace: one, wayland: null }, { workspace: music, wayland: win }];
+    const raw = { workspaces, monitors: [monitor], focusedWorkspace: chat, toplevels, visibleSpecials: {} };
+    assert.equal(model.hyprlandCurrentId(raw, "DP-1", false), "chat");
+    assert.deepEqual(pick(model.hyprlandWorkspacesForScreen(raw, "DP-1", false, true), "name"), ["1", "chat", "Tunes"]);
+    const chatRecord = model.hyprlandWorkspacesForScreen(raw, "DP-1", false, false).find(record => record.name === "chat");
+    assert.equal(model.hyprlandWorkspaceOccupied(toplevels, chatRecord), false);
+    assert.deepEqual(model.hyprlandWindowsOnWorkspace([win], chatRecord, toplevels), []);
+    assert.deepEqual([one, music, { id: -1337, address: "-1337", name: "chat" }, { id: -1, address: "special:scratch", name: "special:scratch" }].map(model.hyprlandSelector), [1, "name:music", "name:chat", "special:scratch"]);
 });
 
 test("mango tags come from the output state, visible or all", () => {

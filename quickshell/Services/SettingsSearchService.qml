@@ -60,6 +60,7 @@ Singleton {
     readonly property var conditionMap: ({
             "isNiri": () => CompositorService.isNiri,
             "pointerCapable": () => CompositorService.supportsPointerConfig,
+            "inputCapable": () => CompositorService.supportsInputConfig,
             "isHyprland": () => CompositorService.isHyprland,
             "isMango": () => CompositorService.isMango,
             "isAqueous": () => CompositorService.isAqueous,

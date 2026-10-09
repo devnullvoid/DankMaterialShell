@@ -11,8 +11,7 @@ vm.runInContext(readFileSync(new URL("../Common/ConfigIncludeResolve.js", import
 const plain = value => JSON.parse(JSON.stringify(value));
 
 test("includeSpec returns null off the table", () => {
-    assert.equal(resolve.includeSpec("input", "hyprland"), null, "input exists for niri only");
-    assert.equal(resolve.includeSpec("input", "mango"), null, "input exists for niri only");
+    assert.equal(resolve.includeSpec("input", "mango"), null, "input exists for niri and hyprland only");
     assert.equal(resolve.includeSpec("colors", "niri"), null, "unknown kind");
     assert.equal(resolve.includeSpec("outputs", "sway"), null, "unknown compositor");
     assert.equal(resolve.includeSpec("outputs", ""), null, "empty compositor");
@@ -35,18 +34,19 @@ test("includePaths joins the compositor directory, with hypr for hyprland", () =
     assert.deepEqual(plain(mango.fragmentFiles), ["/home/u/.config/mango/dms/cursor.conf"]);
     const binds = resolve.includePaths("binds", "hyprland", "/home/u/.config");
     assert.deepEqual(plain(binds.fragmentFiles), ["/home/u/.config/hypr/dms/binds.lua", "/home/u/.config/hypr/dms/binds-user.lua"]);
-    assert.equal(resolve.includePaths("input", "hyprland", "/home/u/.config"), null, "no spec, no paths");
+    assert.equal(resolve.includePaths("input", "mango", "/home/u/.config"), null, "no spec, no paths");
 });
 
 test("resolveIncludeArgs spells mango as mangowc and names the fragment", () => {
     assert.deepEqual(plain(resolve.resolveIncludeArgs("outputs", "niri")), ["niri", "outputs.kdl"]);
     assert.deepEqual(plain(resolve.resolveIncludeArgs("layout", "hyprland")), ["hyprland", "layout.lua"]);
+    assert.deepEqual(plain(resolve.resolveIncludeArgs("input", "hyprland")), ["hyprland", "input.lua"]);
     assert.deepEqual(plain(resolve.resolveIncludeArgs("windowrules", "mango")), ["mangowc", "windowrules.conf"]);
     assert.equal(resolve.resolveIncludeArgs("input", "mango"), null, "no spec, no args");
 });
 
 test("repairScriptFor returns an empty script off the table", () => {
-    assert.equal(resolve.repairScriptFor("input", "hyprland", "/home/u/.config", "/x"), "");
+    assert.equal(resolve.repairScriptFor("input", "mango", "/home/u/.config", "/x"), "");
     assert.equal(resolve.repairScriptFor("nope", "niri", "/home/u/.config", "/x"), "");
 });
 

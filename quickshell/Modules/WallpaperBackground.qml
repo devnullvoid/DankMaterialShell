@@ -6,6 +6,7 @@ import Quickshell.Wayland
 import qs.Common
 import qs.Widgets
 import qs.Services
+import "../Common/WorkspaceModel.js" as WorkspaceModel
 
 Variants {
     id: variants
@@ -421,8 +422,8 @@ Variants {
                     const monitorWorkspaces = workspaces.filter(ws => ws.monitor?.name === modelData.name).sort((a, b) => a.id - b.id);
 
                     totalWorkspaces = monitorWorkspaces.length;
-                    const focusedId = Hyprland.focusedWorkspace?.id;
-                    currentWorkspaceIndex = monitorWorkspaces.findIndex(ws => ws.id === focusedId);
+                    const focusedKey = WorkspaceModel.hyprlandKey(Hyprland.focusedWorkspace);
+                    currentWorkspaceIndex = monitorWorkspaces.findIndex(ws => WorkspaceModel.hyprlandKey(ws) === focusedKey);
 
                     if (currentWorkspaceIndex < 0)
                         currentWorkspaceIndex = 0;

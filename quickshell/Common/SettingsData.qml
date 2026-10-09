@@ -208,6 +208,27 @@ Singleton {
     property int hyprlandLayoutBorderSize: Spec.SPEC.hyprlandLayoutBorderSize.def
     property bool hyprlandResizeOnBorder: Spec.SPEC.hyprlandResizeOnBorder.def
     property int hyprlandWindowOpacity: Spec.SPEC.hyprlandWindowOpacity.def
+    property int hyprlandBorderGrabArea: Spec.SPEC.hyprlandBorderGrabArea.def
+    property string hyprlandBlurVariant: Spec.SPEC.hyprlandBlurVariant.def
+    property int hyprlandBlurAcrylicClarity: Spec.SPEC.hyprlandBlurAcrylicClarity.def
+    property int hyprlandBlurAuroraIntensity: Spec.SPEC.hyprlandBlurAuroraIntensity.def
+    property int hyprlandBlurAuroraSpeed: Spec.SPEC.hyprlandBlurAuroraSpeed.def
+    property int hyprlandBlurHazeIntensity: Spec.SPEC.hyprlandBlurHazeIntensity.def
+    property int hyprlandBlurHazeIridescence: Spec.SPEC.hyprlandBlurHazeIridescence.def
+    property int hyprlandBlurRippleStrength: Spec.SPEC.hyprlandBlurRippleStrength.def
+    property int hyprlandBlurWaterStrength: Spec.SPEC.hyprlandBlurWaterStrength.def
+    property bool hyprlandGlowEnabled: Spec.SPEC.hyprlandGlowEnabled.def
+    property int hyprlandGlowRange: Spec.SPEC.hyprlandGlowRange.def
+    property int hyprlandGlowRenderPower: Spec.SPEC.hyprlandGlowRenderPower.def
+    property bool hyprlandWobbleEnabled: Spec.SPEC.hyprlandWobbleEnabled.def
+    property int hyprlandWobbleIntensity: Spec.SPEC.hyprlandWobbleIntensity.def
+    property int hyprlandWobbleStiffness: Spec.SPEC.hyprlandWobbleStiffness.def
+    property bool hyprlandMotionBlurEnabled: Spec.SPEC.hyprlandMotionBlurEnabled.def
+    property int hyprlandMotionBlurSamples: Spec.SPEC.hyprlandMotionBlurSamples.def
+    property bool hyprlandGroupbarBlur: Spec.SPEC.hyprlandGroupbarBlur.def
+    property int hyprlandGroupbarTextPadding: Spec.SPEC.hyprlandGroupbarTextPadding.def
+    property bool hyprlandGroupbarMiddleClickClose: Spec.SPEC.hyprlandGroupbarMiddleClickClose.def
+    property bool hyprlandGroupbarDisableWhenOnly: Spec.SPEC.hyprlandGroupbarDisableWhenOnly.def
     property string hyprlandTilingLayout: Spec.SPEC.hyprlandTilingLayout.def
     property bool hyprlandDwindlePreserveSplit: Spec.SPEC.hyprlandDwindlePreserveSplit.def
     property bool hyprlandDwindleSmartSplit: Spec.SPEC.hyprlandDwindleSmartSplit.def

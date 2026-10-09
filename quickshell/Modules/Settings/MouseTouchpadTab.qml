@@ -26,7 +26,7 @@ Item {
 
         SettingsCard {
             width: parent.width
-            visible: CompositorService.isNiri
+            visible: CompositorService.supportsInputConfig
             tags: ["mouse", "input", "sensitivity", "acceleration", "pointer"]
             title: I18n.tr("Mouse", "mouse input settings card title")
             settingKey: "mouseSettings"
@@ -113,6 +113,7 @@ Item {
             }
 
             SettingsToggleRow {
+                visible: CompositorService.isNiri
                 tags: ["mouse", "middle", "click", "emulation"]
                 settingKey: "mouseMiddleEmulation"
                 text: I18n.tr("Middle click emulation")
@@ -140,7 +141,7 @@ Item {
 
         SettingsCard {
             width: parent.width
-            visible: CompositorService.isNiri
+            visible: CompositorService.supportsInputConfig
             tags: ["touchpad", "input", "sensitivity", "tap", "click", "natural"]
             title: I18n.tr("Touchpad", "touchpad input settings card title")
             settingKey: "touchpadSettings"
@@ -269,6 +270,7 @@ Item {
             }
 
             SettingsToggleRow {
+                visible: CompositorService.isNiri
                 tags: ["touchpad", "disable", "external", "mouse"]
                 settingKey: "touchpadDisableOnExternalMouse"
                 text: I18n.tr("Disable with external mouse")

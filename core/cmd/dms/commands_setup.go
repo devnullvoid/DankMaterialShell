@@ -146,7 +146,9 @@ var dmsConfigSpecs = map[string]dmsConfigSpec{
 	},
 	"input": {
 		niriFile:    "input.kdl",
+		hyprFile:    "input.lua",
 		niriContent: func(_ string) string { return config.NiriInputConfig },
+		hyprContent: func(_ string) string { return config.DMSInputLuaConfig },
 	},
 	"outputs": {
 		niriFile:     "outputs.kdl",
@@ -188,6 +190,11 @@ func installedTerminals() []string {
 		}
 	}
 	return found
+}
+
+func installedHyprlandVersion() string {
+	_, ver := getVersionFromCommand("Hyprland", "--version", distros.ParseHyprlandVersion)
+	return ver
 }
 
 func defaultTerminalCommand() string {
@@ -396,6 +403,9 @@ func runSetup() error {
 		terminalCommand := defaultTerminalCommand()
 		if terminalSelected {
 			terminalCommand = terminal.Command()
+		}
+		if wm == deps.WindowManagerHyprland {
+			deployer.SetHyprlandVersion(installedHyprlandVersion())
 		}
 		var result config.DeploymentResult
 		result, err = deployer.DeployCompositor(wm, terminalCommand, useSystemd)

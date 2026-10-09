@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/deps"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/version"
 )
 
 const hyprlandBackupDirName = ".dms-backups"
@@ -17,6 +18,7 @@ const hyprlandBackupDirName = ".dms-backups"
 type ConfigDeployer struct {
 	logChan           chan<- string
 	replaceMangoBinds bool
+	hyprlandVersion   string
 }
 
 type DeploymentResult struct {
@@ -39,6 +41,18 @@ func (cd *ConfigDeployer) log(message string) {
 	}
 }
 
+// SetHyprlandVersion gates the Lua deploy; empty means unknown (e.g. no session on a TTY) and deploys anyway.
+func (cd *ConfigDeployer) SetHyprlandVersion(ver string) {
+	cd.hyprlandVersion = ver
+}
+
+func hyprlandLuaUnsupported(ver string) error {
+	if ver == "" || version.CompareVersions(ver, "0.55.0") >= 0 {
+		return nil
+	}
+	return fmt.Errorf("hyprland.lua is not loaded by Hyprland %s; DMS needs 0.55 or newer", ver)
+}
+
 func (cd *ConfigDeployer) DeployConfigurationsSelectiveWithReinstalls(ctx context.Context, wm deps.WindowManager, terminal deps.Terminal, installedDeps []deps.Dependency, replaceConfigs map[string]bool, reinstallItems map[string]bool) ([]DeploymentResult, error) {
 	return cd.deployConfigurationsInternal(ctx, wm, terminal, installedDeps, replaceConfigs, reinstallItems, true)
 }
@@ -47,7 +61,7 @@ func (cd *ConfigDeployer) DeployConfigurationsSelectiveWithReinstallsAndSystemd(
 	return cd.deployConfigurationsInternal(ctx, wm, terminal, installedDeps, replaceConfigs, reinstallItems, useSystemd)
 }
 
-func (cd *ConfigDeployer) deployConfigurationsInternal(_ context.Context, wm deps.WindowManager, terminal deps.Terminal, _ []deps.Dependency, replaceConfigs map[string]bool, _ map[string]bool, useSystemd bool) ([]DeploymentResult, error) {
+func (cd *ConfigDeployer) deployConfigurationsInternal(_ context.Context, wm deps.WindowManager, terminal deps.Terminal, installedDeps []deps.Dependency, replaceConfigs map[string]bool, _ map[string]bool, useSystemd bool) ([]DeploymentResult, error) {
 	var results []DeploymentResult
 
 	// Primary config file paths used to detect fresh installs.
@@ -57,6 +71,7 @@ func (cd *ConfigDeployer) deployConfigurationsInternal(_ context.Context, wm dep
 		},
 		"Hyprland": {
 			filepath.Join(os.Getenv("HOME"), ".config", "hypr", "hyprland.lua"),
+			// A conf-only install still counts: deploying moves it into backups.
 			filepath.Join(os.Getenv("HOME"), ".config", "hypr", "hyprland.conf"),
 		},
 		"Mango": {
@@ -110,6 +125,11 @@ func (cd *ConfigDeployer) deployConfigurationsInternal(_ context.Context, wm dep
 			}
 		}
 	case deps.WindowManagerHyprland:
+		for _, dep := range installedDeps {
+			if dep.Name == "hyprland" && cd.hyprlandVersion == "" {
+				cd.hyprlandVersion = dep.Version
+			}
+		}
 		if shouldReplaceConfig("Hyprland") {
 			result, err := cd.deployHyprlandConfig(terminalCommand, useSystemd)
 			results = append(results, result)
@@ -538,6 +558,10 @@ func (cd *ConfigDeployer) deployHyprlandConfig(terminalCommand string, useSystem
 		ConfigType: "Hyprland",
 		Path:       filepath.Join(os.Getenv("HOME"), ".config", "hypr", "hyprland.lua"),
 	}
+	if err := hyprlandLuaUnsupported(cd.hyprlandVersion); err != nil {
+		result.Error = err
+		return result, err
+	}
 
 	configDir := filepath.Dir(result.Path)
 	if err := os.MkdirAll(configDir, 0o755); err != nil {
@@ -743,6 +767,7 @@ func (cd *ConfigDeployer) deployHyprlandDmsConfigs(dmsDir string, terminalComman
 		{name: "binds-user.lua", content: DMSBindsUserLuaConfig},
 		{name: "outputs.lua", content: DMSOutputsLuaConfig},
 		{name: "cursor.lua", content: DMSCursorLuaConfig},
+		{name: "input.lua", content: DMSInputLuaConfig},
 		{name: "windowrules.lua", content: DMSWindowRulesLuaConfig},
 	}
 

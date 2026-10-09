@@ -132,6 +132,7 @@ Item {
             iconName: "settings"
 
             SettingsButtonGroupRow {
+                visible: CompositorService.isNiri
                 tags: ["keyboard", "track", "layout"]
                 settingKey: "keyboardTrackLayout"
                 text: I18n.tr("Remember layout")

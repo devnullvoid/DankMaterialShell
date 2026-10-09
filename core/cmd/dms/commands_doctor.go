@@ -90,7 +90,6 @@ func (ds *DoctorStatus) OKCount() int {
 
 var (
 	quickshellVersionRegex = regexp.MustCompile(`(?i)quickshell (\d+\.\d+\.\d+)`)
-	hyprlandVersionRegex   = regexp.MustCompile(`v?(\d+\.\d+\.\d+)`)
 	niriVersionRegex       = regexp.MustCompile(`niri (\d+\.\d+)`)
 	swayVersionRegex       = regexp.MustCompile(`sway version (\d+\.\d+)`)
 	riverVersionRegex      = regexp.MustCompile(`river (\d+\.\d+)`)
@@ -735,20 +734,20 @@ func checkDMSInstallation() []checkResult {
 func checkWindowManagers() []checkResult {
 	compositors := []struct {
 		name, versionCmd, versionArg string
-		versionRegex                 *regexp.Regexp
+		parseVersion                 func(string) string
 		commands                     []string
 	}{
-		{"Hyprland", "Hyprland", "--version", hyprlandVersionRegex, []string{"hyprland", "Hyprland"}},
-		{"niri", "niri", "--version", niriVersionRegex, []string{"niri"}},
-		{"Sway", "sway", "--version", swayVersionRegex, []string{"sway"}},
-		{"River", "river", "-version", riverVersionRegex, []string{"river"}},
-		{"Wayfire", "wayfire", "--version", wayfireVersionRegex, []string{"wayfire"}},
-		{"labwc", "labwc", "--version", labwcVersionRegex, []string{"labwc"}},
-		{"mangowc", "mango", "-v", mangowcVersionRegex, []string{"mango"}},
-		{"Miracle WM", "miracle-wm", "--version", miracleVersionRegex, []string{"miracle-wm"}},
-		{"Scroll", "scroll", "--version", scrollVersionRegex, []string{"scroll"}},
-		{"Aqueous", "aqueous", "-version", aqueousVersionRegex, []string{"aqueous"}},
-		{"Umbriel", "umbriel", "--version", umbrielVersionRegex, []string{"umbriel"}},
+		{"Hyprland", "Hyprland", "--version", distros.ParseHyprlandVersion, []string{"hyprland", "Hyprland"}},
+		{"niri", "niri", "--version", firstSubmatch(niriVersionRegex), []string{"niri"}},
+		{"Sway", "sway", "--version", firstSubmatch(swayVersionRegex), []string{"sway"}},
+		{"River", "river", "-version", firstSubmatch(riverVersionRegex), []string{"river"}},
+		{"Wayfire", "wayfire", "--version", firstSubmatch(wayfireVersionRegex), []string{"wayfire"}},
+		{"labwc", "labwc", "--version", firstSubmatch(labwcVersionRegex), []string{"labwc"}},
+		{"mangowc", "mango", "-v", firstSubmatch(mangowcVersionRegex), []string{"mango"}},
+		{"Miracle WM", "miracle-wm", "--version", firstSubmatch(miracleVersionRegex), []string{"miracle-wm"}},
+		{"Scroll", "scroll", "--version", firstSubmatch(scrollVersionRegex), []string{"scroll"}},
+		{"Aqueous", "aqueous", "-version", firstSubmatch(aqueousVersionRegex), []string{"aqueous"}},
+		{"Umbriel", "umbriel", "--version", firstSubmatch(umbrielVersionRegex), []string{"umbriel"}},
 	}
 
 	var results []checkResult
@@ -770,11 +769,22 @@ func checkWindowManagers() []checkResult {
 		if doctorVerbose && compositorPath != "" {
 			details = compositorPath
 		}
+		display, ver := getVersionFromCommand(c.versionCmd, c.versionArg, c.parseVersion)
 		results = append(results, checkResult{
-			catCompositor, c.name, statusOK,
-			getVersionFromCommand(c.versionCmd, c.versionArg, c.versionRegex), details,
+			catCompositor, c.name, statusOK, display, details,
 			doctorDocsURL + "#compositor-checks",
 		})
+		if c.name == "Hyprland" && hyprlandLacksLua(ver) {
+			results = append(results, checkResult{
+				catCompositor, "Hyprland Lua config", statusWarn,
+				fmt.Sprintf("Hyprland %s is older than 0.55", ver),
+				"DMS writes Hyprland config in Lua only, which needs Hyprland 0.55 or newer",
+				doctorDocsURL + "#compositor-checks",
+			})
+		}
+		if c.name == "Hyprland" {
+			results = append(results, checkHyprlandConfigFormat(filepath.Join(utils.XDGConfigHome(), "hypr"))...)
+		}
 	}
 
 	if !foundAny {
@@ -869,21 +879,50 @@ func checkCompositorBlurSupport() checkResult {
 	return checkResult{catCompositor, "Background Blur", statusWarn, "Unsupported", "Compositor does not support ext-background-effect-v1", doctorDocsURL + "#compositor-checks"}
 }
 
-func getVersionFromCommand(cmd, arg string, regex *regexp.Regexp) string {
+// Same detection as the keybinds parser: a regular hyprland.lua wins, else hyprland.conf is read-only.
+func checkHyprlandConfigFormat(hyprDir string) []checkResult {
+	if st, err := os.Stat(filepath.Join(hyprDir, "hyprland.lua")); err == nil && st.Mode().IsRegular() {
+		return nil
+	}
+	if st, err := os.Stat(filepath.Join(hyprDir, "hyprland.conf")); err != nil || !st.Mode().IsRegular() {
+		return nil
+	}
+	return []checkResult{{
+		catCompositor, "Hyprland Lua config", statusWarn,
+		"Hyprland config is hyprland.conf",
+		"DMS keybinds, window rules and displays are read-only until you run `dms setup` to migrate to Lua. Hyprland 0.57 drops .conf support.",
+		doctorDocsURL + "#compositor-checks",
+	}}
+}
+
+func hyprlandLacksLua(ver string) bool {
+	return ver != "" && version.CompareVersions(ver, "0.55.0") < 0
+}
+
+func firstSubmatch(re *regexp.Regexp) func(string) string {
+	return func(s string) string {
+		if m := re.FindStringSubmatch(s); len(m) > 1 {
+			return m[1]
+		}
+		return ""
+	}
+}
+
+func getVersionFromCommand(cmd, arg string, parse func(string) string) (display, ver string) {
 	output, err := exec.Command(cmd, arg).CombinedOutput()
 	if err != nil && len(output) == 0 {
-		return "installed"
+		return "installed", ""
 	}
 
 	outStr := string(output)
-	if matches := regex.FindStringSubmatch(outStr); len(matches) > 1 {
-		ver := matches[1]
-		if strings.Contains(outStr, "git") || strings.Contains(outStr, "dirty") {
-			return ver + " (git)"
-		}
-		return ver
+	ver = parse(outStr)
+	if ver == "" {
+		return strings.TrimSpace(outStr), ""
 	}
-	return strings.TrimSpace(outStr)
+	if strings.Contains(outStr, "git") || strings.Contains(outStr, "dirty") {
+		return ver + " (git)", ver
+	}
+	return ver, ver
 }
 
 func detectRunningWM() string {

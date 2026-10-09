@@ -90,6 +90,9 @@ func runSetupHeadless(compositor, terminal string, noSystemd, force, skipExistin
 		if termSelected {
 			terminalCommand = term.Command()
 		}
+		if wm == deps.WindowManagerHyprland {
+			deployer.SetHyprlandVersion(installedHyprlandVersion())
+		}
 		result, err := deployer.DeployCompositor(wm, terminalCommand, headlessUseSystemd(wm, noSystemd))
 		results = append(results, result)
 		deployErr = err

@@ -253,3 +253,41 @@ func TestCheckMangoConfigFlagsWrongDialectAndOverviewBinds(t *testing.T) {
 		t.Fatalf("snake: %+v", got)
 	}
 }
+
+func TestHyprlandLacksLua(t *testing.T) {
+	for ver, want := range map[string]bool{
+		"0.41.2": true,
+		"0.54.9": true,
+		"0.55.0": false,
+		"0.56.2": false,
+		"1.0.0":  false,
+		"":       false,
+	} {
+		if got := hyprlandLacksLua(ver); got != want {
+			t.Errorf("hyprlandLacksLua(%q) = %v, want %v", ver, got, want)
+		}
+	}
+}
+
+func TestCheckHyprlandConfigFormat(t *testing.T) {
+	for name, tc := range map[string]struct {
+		files []string
+		warn  bool
+	}{
+		"lua only":  {[]string{"hyprland.lua"}, false},
+		"lua wins":  {[]string{"hyprland.lua", "hyprland.conf"}, false},
+		"conf only": {[]string{"hyprland.conf"}, true},
+		"neither":   {nil, false},
+	} {
+		dir := t.TempDir()
+		for _, f := range tc.files {
+			if err := os.WriteFile(filepath.Join(dir, f), nil, 0o644); err != nil {
+				t.Fatal(err)
+			}
+		}
+		got := checkHyprlandConfigFormat(dir)
+		if warned := len(got) == 1 && got[0].status == statusWarn; warned != tc.warn || (!tc.warn && len(got) != 0) {
+			t.Errorf("%s: got %+v, want warn=%v", name, got, tc.warn)
+		}
+	}
+}

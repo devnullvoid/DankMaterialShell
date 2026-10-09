@@ -46,7 +46,7 @@ FocusScope {
         DListItem {
             id: keybindRow
             required property var modelData
-            readonly property bool canExecute: !keybindRow.modelData.isRange && KeybindsService.canExecuteAction(keybindRow.modelData.action)
+            readonly property bool canExecute: !keybindRow.modelData.isRange && KeybindsService.canExecuteAction(keybindRow.modelData.action, keybindRow.modelData.luaAction)
 
             Layout.fillWidth: true
             Layout.preferredHeight: implicitHeight
@@ -57,7 +57,7 @@ FocusScope {
             Accessible.name: keybindRow.modelData.label || content.getBindLabel(keybindRow.modelData)
             Accessible.description: (keybindRow.modelData.allKeys ? keybindRow.modelData.allKeys.join(", ") : (keybindRow.modelData.key || "")) + " • " + (keybindRow.modelData.action || "")
             onClicked: {
-                if (keybindRow.canExecute && KeybindsService.executeAction(keybindRow.modelData.action))
+                if (keybindRow.canExecute && KeybindsService.executeAction(keybindRow.modelData.action, keybindRow.modelData.luaAction))
                     content.closeRequested();
             }
 
@@ -447,6 +447,7 @@ FocusScope {
                         sigs[tokenSig] = true;
                     subcatMap[subcatName][groupKey] = {
                         action: bindAction,
+                        luaAction: bind.luaAction || "",
                         desc: bind.desc,
                         label: label,
                         key: bind.key,

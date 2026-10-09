@@ -338,7 +338,7 @@ Singleton {
                     "text": I18n.tr("Keyboard", "settings page name"),
                     "icon": "keyboard",
                     "tabIndex": 45,
-                    "niriOnly": true,
+                    "inputCapable": true,
                     "hint": I18n.tr("Layouts, repeat rate, num lock")
                 },
                 {
@@ -767,7 +767,7 @@ Singleton {
             return false;
         if (entry.layoutCapable && !CompositorService.supportsLayoutConfig)
             return false;
-        if (entry.niriOnly && !CompositorService.supportsInputConfig)
+        if (entry.inputCapable && !CompositorService.supportsInputConfig)
             return false;
         if (entry.pointerCapable && !CompositorService.supportsPointerConfig)
             return false;

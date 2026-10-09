@@ -368,21 +368,24 @@ Singleton {
         cheatsheetProcess.running = true;
     }
 
-    function canExecuteAction(action) {
+    function canExecuteAction(action, luaAction) {
         if (!action)
             return false;
         if (action.startsWith("spawn ") || action.startsWith("spawn_shell ") || action.startsWith("spawn-sh ") || action.startsWith("exec "))
             return true;
         const provider = currentProvider || cheatsheetProvider;
-        if (provider === "niri") {
-            const base = action.trim().split(/\s+/)[0];
-            if (base === "next-window" || base === "previous-window")
-                return false;
-        }
+        const base = action.trim().split(/\s+/)[0];
+        if (provider === "niri" && (base === "next-window" || base === "previous-window"))
+            return false;
+        // Mouse-drag dispatchers do nothing without a pointer, and exit would end the session.
+        if (provider === "hyprland" && (action.trim() === "movewindow" || action.trim() === "resizewindow" || base === "exit"))
+            return false;
+        if (provider === "hyprland" && !luaAction && HyprlandService.luaConfigActive)
+            return false;
         return provider === "niri" || provider === "hyprland" || provider === "mangowc";
     }
 
-    function executeAction(action) {
+    function executeAction(action, luaAction) {
         if (!action)
             return false;
         log.info("Executing keybind action:", action);
@@ -431,7 +434,14 @@ Singleton {
             return true;
         }
         if (provider === "hyprland") {
-            Quickshell.execDetached(["sh", "-c", "hyprctl dispatch " + action]);
+            if (!HyprlandService.luaConfigActive) {
+                Quickshell.execDetached(["sh", "-c", "hyprctl dispatch " + action]);
+                return true;
+            }
+            // Lua-config Hyprland rejects legacy dispatcher text as a syntax error.
+            if (!luaAction)
+                return false;
+            Quickshell.execDetached(["hyprctl", "dispatch", luaAction]);
             return true;
         }
         if (provider === "mangowc") {

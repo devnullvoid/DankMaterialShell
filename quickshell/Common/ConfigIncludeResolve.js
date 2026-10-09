@@ -104,7 +104,8 @@ const includeTable = {
         mango: [confInclude("layout")]
     },
     input: {
-        niri: [kdlInclude("input")]
+        niri: [kdlInclude("input")],
+        hyprland: [luaInclude("input")]
     },
     windowrules: {
         niri: [kdlInclude("windowrules")],

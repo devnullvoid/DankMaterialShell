@@ -35,8 +35,7 @@
       "wallpapers"
     ],
     "page": "personalization",
-    "description": "DMS stops drawing wallpapers on every display",
-    "conditionKey": "isNiri"
+    "description": "DMS stops drawing wallpapers on every display"
   },
   {
     "section": "notificationDndAllowCritical",
@@ -12383,6 +12382,77 @@
     "runtimeType": "pageLabel"
   },
   {
+    "section": "hyprlandGroupbarBlur",
+    "label": "Background blur",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "background",
+      "blur",
+      "groupbar",
+      "hyprland",
+      "integrations",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandBlurVariant",
+    "label": "Blur",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "acrylic",
+      "aurora",
+      "blur",
+      "default",
+      "frost",
+      "glass",
+      "hyprland",
+      "integrations",
+      "more",
+      "outside",
+      "style",
+      "styles",
+      "system",
+      "variant"
+    ],
+    "description": "Styles outside of Default use more GPU",
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandBorderGrabArea",
+    "label": "Border grab area",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "area",
+      "border",
+      "extend_border_grab_area",
+      "grab",
+      "hyprland",
+      "integrations",
+      "resize",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandBlurAcrylicClarity",
+    "label": "Clarity",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "acrylic",
+      "blur",
+      "clarity",
+      "hyprland",
+      "integrations",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
     "section": "closeNiriOverviewOnWindowFocus",
     "label": "Close on window focus",
     "tabIndex": 37,
@@ -12614,6 +12684,54 @@
     "conditionKey": "layoutCapable"
   },
   {
+    "section": "hyprlandGlowEnabled",
+    "label": "Glow",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "glow",
+      "hyprland",
+      "inner",
+      "integrations",
+      "range",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandGlowRenderPower",
+    "label": "Glow falloff",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "falloff",
+      "glow",
+      "hyprland",
+      "integrations",
+      "render_power",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandGroupbarDisableWhenOnly",
+    "label": "Hide with one window",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "disable_when_only",
+      "groupbar",
+      "hide",
+      "hyprland",
+      "integrations",
+      "one",
+      "single",
+      "system",
+      "window"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
     "section": "hyprlandLayoutGapsOverride",
     "label": "Inner gaps",
     "tabIndex": 37,
@@ -12643,6 +12761,53 @@
       "mango",
       "mangowc",
       "override",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandBlurAuroraIntensity",
+    "label": "Intensity",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "aurora",
+      "blur",
+      "hyprland",
+      "integrations",
+      "intensity",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandBlurHazeIntensity",
+    "label": "Intensity",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "blur",
+      "haze",
+      "hyprland",
+      "integrations",
+      "intensity",
+      "sheen",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandBlurHazeIridescence",
+    "label": "Iridescence",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "blur",
+      "color",
+      "haze",
+      "hyprland",
+      "integrations",
+      "iridescence",
       "system"
     ],
     "conditionKey": "layoutCapable"
@@ -12776,6 +12941,45 @@
       "size",
       "system"
     ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandGroupbarMiddleClickClose",
+    "label": "Middle click closes",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "click",
+      "close",
+      "closes",
+      "groupbar",
+      "hyprland",
+      "integrations",
+      "middle",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandMotionBlurEnabled",
+    "label": "Motion blur",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "blur",
+      "cost",
+      "hyprland",
+      "integrations",
+      "look",
+      "more",
+      "motion",
+      "move",
+      "resize",
+      "samples",
+      "smoother",
+      "system"
+    ],
+    "description": "More samples look smoother and cost more GPU",
     "conditionKey": "layoutCapable"
   },
   {
@@ -12963,6 +13167,38 @@
     "conditionKey": "layoutCapable"
   },
   {
+    "section": "hyprlandBlurRippleStrength",
+    "label": "Refraction",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "blur",
+      "hyprland",
+      "integrations",
+      "refraction",
+      "ripple",
+      "strength",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandBlurWaterStrength",
+    "label": "Refraction",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "blur",
+      "hyprland",
+      "integrations",
+      "refraction",
+      "strength",
+      "system",
+      "water"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
     "section": "hyprlandResizeOnBorder",
     "label": "Resize on border",
     "tabIndex": 37,
@@ -13017,6 +13253,22 @@
     "conditionKey": "layoutCapable"
   },
   {
+    "section": "hyprlandBlurAuroraSpeed",
+    "label": "Speed",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "animation",
+      "aurora",
+      "blur",
+      "hyprland",
+      "integrations",
+      "speed",
+      "system"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
     "section": "hyprlandTilingLayout",
     "label": "Tiling layout",
     "tabIndex": 37,
@@ -13043,6 +13295,48 @@
     "conditionKey": "isHyprland"
   },
   {
+    "section": "hyprlandGroupbarTextPadding",
+    "label": "Title padding",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "groupbar",
+      "hyprland",
+      "integrations",
+      "padding",
+      "system",
+      "text",
+      "text_padding",
+      "title"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandEffects",
+    "label": "Visual effects",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "blur",
+      "decoration",
+      "default",
+      "effects",
+      "glow",
+      "hyprland",
+      "integrations",
+      "more",
+      "motion",
+      "outside",
+      "styles",
+      "system",
+      "visual",
+      "wobble"
+    ],
+    "icon": "auto_awesome",
+    "description": "Styles outside of Default use more GPU",
+    "conditionKey": "isHyprland"
+  },
+  {
     "section": "niriLayoutGapsOverride",
     "label": "Window gaps",
     "tabIndex": 37,
@@ -13058,6 +13352,24 @@
     "conditionKey": "layoutCapable"
   },
   {
+    "section": "hyprlandGroupbar",
+    "label": "Window groups",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "group",
+      "groupbar",
+      "groups",
+      "hyprland",
+      "integrations",
+      "system",
+      "tabs",
+      "window"
+    ],
+    "icon": "tab",
+    "conditionKey": "isHyprland"
+  },
+  {
     "section": "hyprlandWindowOpacity",
     "label": "Window opacity",
     "tabIndex": 37,
@@ -13069,6 +13381,37 @@
       "system",
       "transparency",
       "window"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandWobbleStiffness",
+    "label": "Wobble stiffness",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "hyprland",
+      "integrations",
+      "spring",
+      "stiffness",
+      "system",
+      "wobble"
+    ],
+    "conditionKey": "layoutCapable"
+  },
+  {
+    "section": "hyprlandWobbleEnabled",
+    "label": "Wobbly windows",
+    "tabIndex": 37,
+    "category": "System & integrations",
+    "keywords": [
+      "hyprland",
+      "integrations",
+      "intensity",
+      "system",
+      "windows",
+      "wobble",
+      "wobbly"
     ],
     "conditionKey": "layoutCapable"
   },
@@ -13970,7 +14313,7 @@
       "touchpad"
     ],
     "parentLabel": "Input",
-    "conditionKey": "pointerCapable"
+    "conditionKey": "isNiri"
   },
   {
     "section": "touchpadDragLock",
@@ -14018,7 +14361,7 @@
       "touchpad"
     ],
     "parentLabel": "Input",
-    "conditionKey": "pointerCapable"
+    "conditionKey": "isNiri"
   },
   {
     "section": "touchpadMiddleEmulation",
@@ -14051,7 +14394,7 @@
     ],
     "parentLabel": "Input",
     "icon": "mouse",
-    "conditionKey": "isNiri"
+    "conditionKey": "inputCapable"
   },
   {
     "section": "_tab_44",
@@ -14282,7 +14625,7 @@
     ],
     "parentLabel": "Input",
     "icon": "trackpad_input_2",
-    "conditionKey": "isNiri"
+    "conditionKey": "inputCapable"
   },
   {
     "section": "keyboardBehaviorSettings",
@@ -14300,7 +14643,7 @@
     ],
     "parentLabel": "Input",
     "icon": "settings",
-    "conditionKey": "isNiri"
+    "conditionKey": "inputCapable"
   },
   {
     "section": "_tab_45",
@@ -14318,7 +14661,7 @@
     "icon": "keyboard",
     "parentLabel": "Input",
     "description": "Layouts, repeat rate, num lock",
-    "conditionKey": "isNiri"
+    "conditionKey": "inputCapable"
   },
   {
     "section": "keyboardLayoutsSettings",
@@ -14344,7 +14687,7 @@
     "parentLabel": "Input",
     "icon": "keyboard",
     "description": "Comma-separated list of layout names. Leave empty to use the system keyboard settings.",
-    "conditionKey": "isNiri"
+    "conditionKey": "inputCapable"
   },
   {
     "section": "keyboardNumlock",
@@ -14360,7 +14703,7 @@
       "startup"
     ],
     "parentLabel": "Input",
-    "conditionKey": "isNiri"
+    "conditionKey": "inputCapable"
   },
   {
     "section": "keyboardTrackLayout",
@@ -14390,7 +14733,7 @@
       "speed"
     ],
     "parentLabel": "Input",
-    "conditionKey": "isNiri"
+    "conditionKey": "inputCapable"
   },
   {
     "section": "keyboardRepeatRate",
@@ -14405,7 +14748,7 @@
       "speed"
     ],
     "parentLabel": "Input",
-    "conditionKey": "isNiri"
+    "conditionKey": "inputCapable"
   },
   {
     "section": "keyboardOptions",
@@ -14421,7 +14764,7 @@
       "xkb"
     ],
     "parentLabel": "Input",
-    "conditionKey": "isNiri"
+    "conditionKey": "inputCapable"
   },
   {
     "section": "networkCellular",

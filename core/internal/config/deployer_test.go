@@ -875,3 +875,16 @@ func TestDeployHyprlandConfigWritesLuaBeforeRemovingLegacyConf(t *testing.T) {
 	assert.Equal(t, userConfig, string(backup))
 	assert.Equal(t, filepath.Join(filepath.Dir(result.BackupPath), "hyprland.conf"), result.BackupPath)
 }
+
+func TestHyprlandLuaUnsupported(t *testing.T) {
+	for ver, refuse := range map[string]bool{
+		"0.54.2": true,
+		"0.41.0": true,
+		"0.55.0": false,
+		"0.56.1": false,
+		"":       false,
+	} {
+		err := hyprlandLuaUnsupported(ver)
+		assert.Equal(t, refuse, err != nil, ver)
+	}
+}
