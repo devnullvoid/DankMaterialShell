@@ -103,13 +103,13 @@ Singleton {
         case "hyprland":
             return configDir + "/hypr";
         case "mangowc":
-            return configDir + "/mango";
+            return MangoService.configDir + "/mango";
         default:
             return "";
         }
     }
     readonly property string includeCompositor: currentProvider === "mangowc" ? "mango" : currentProvider
-    readonly property var includePaths: ConfigIncludeResolve.includePaths("binds", includeCompositor, configDir)
+    readonly property var includePaths: ConfigIncludeResolve.includePaths("binds", includeCompositor, includeCompositor === "mango" ? MangoService.configDir : configDir)
     readonly property string dmsBindsPath: includePaths?.fragmentFiles[0] ?? ""
     readonly property string mainConfigPath: includePaths?.configFile ?? ""
     readonly property bool readOnly: currentProvider === "hyprland" && dmsStatus.readOnly === true
@@ -435,8 +435,9 @@ Singleton {
             return true;
         }
         if (provider === "mangowc") {
-            const mmsgParams = action.trim().split(/\s+/).join(",");
-            Quickshell.execDetached(["sh", "-c", "mmsg -d " + mmsgParams]);
+            const trimmed = action.trim();
+            const space = trimmed.indexOf(" ");
+            MangoService.dispatch(space < 0 ? trimmed : trimmed.slice(0, space) + "," + trimmed.slice(space + 1).trim());
             return true;
         }
 

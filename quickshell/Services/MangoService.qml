@@ -1,7 +1,6 @@
 pragma Singleton
 pragma ComponentBehavior: Bound
 
-import QtCore
 import QtQuick
 import Quickshell
 import Quickshell.Io
@@ -21,19 +20,22 @@ Singleton {
     readonly property string socketPath: Quickshell.env("MANGO_INSTANCE_SIGNATURE")
     readonly property bool available: socketPath.length > 0
 
-    readonly property string configDir: Paths.strip(StandardPaths.writableLocation(StandardPaths.ConfigLocation))
+    // Mango reads only $HOME/.config/mango, whatever XDG_CONFIG_HOME says.
+    readonly property string configDir: Quickshell.env("HOME") + "/.config"
     readonly property string configPath: configDir + "/mango/config.conf"
     readonly property string mangoDmsDir: configDir + "/mango/dms"
     readonly property string bindsPath: mangoDmsDir + "/binds.conf"
-    readonly property string colorsPath: mangoDmsDir + "/colors.conf"
     readonly property string outputsPath: mangoDmsDir + "/outputs.conf"
     readonly property string layoutPath: mangoDmsDir + "/layout.conf"
     readonly property string cursorPath: mangoDmsDir + "/cursor.conf"
     readonly property string windowRulesPath: mangoDmsDir + "/windowrules.conf"
 
+    // Mango after 0.17.5 renamed every config key to snake_case with no aliases.
+    property bool snakeKeys: false
     property int _lastGapValue: -1
     property real _ignoreWatchedReloadUntil: 0
-    property real _lastWatchedReloadAt: 0
+    property string _lastMonitorsLine: ""
+    property string _lastClientsLine: ""
 
     // name -> { name, active, x, y, width, height, scale, layoutIndex,
     //           layoutSymbol, lastOpenSurface, kbLayout, keymode,
@@ -63,13 +65,6 @@ Singleton {
     FileView {
         id: mangoBindsWatcher
         path: CompositorService.isMango ? root.bindsPath : ""
-        watchChanges: CompositorService.isMango
-        onFileChanged: root.handleWatchedConfigChanged()
-    }
-
-    FileView {
-        id: mangoColorsWatcher
-        path: CompositorService.isMango ? root.colorsPath : ""
         watchChanges: CompositorService.isMango
         onFileChanged: root.handleWatchedConfigChanged()
     }
@@ -193,8 +188,10 @@ Singleton {
     }
 
     function _handleMonitors(line) {
-        if (!line || !line.trim())
+        // Mango resends the full snapshot on every arrange/focus change, mostly unchanged.
+        if (!line || !line.trim() || line === root._lastMonitorsLine)
             return;
+        root._lastMonitorsLine = line;
         let data;
         try {
             data = JSON.parse(line);
@@ -220,7 +217,7 @@ Singleton {
             const tags = (m.tags || []).map(t => ({
                         // 0-based to match the legacy dwl tag model used by consumers
                         "tag": (t.index ?? 1) - 1,
-                        "state": t.is_urgent ? 2 : (!inOverview && t.is_active ? 1 : 0),
+                        "state": !inOverview && t.is_active ? 1 : (t.is_urgent ? 2 : 0),
                         "clients": t.client_count ?? 0,
                         "focused": !inOverview && !!t.is_active,
                         "urgent": !!t.is_urgent,
@@ -265,8 +262,9 @@ Singleton {
     }
 
     function _handleClients(line) {
-        if (!line || !line.trim())
+        if (!line || !line.trim() || line === root._lastClientsLine)
             return;
+        root._lastClientsLine = line;
         let data;
         try {
             data = JSON.parse(line);
@@ -381,7 +379,8 @@ Singleton {
                 "activated": !!client.is_focused,
                 "mangoWindowId": client.id,
                 "mangoTags": client.tags || [],
-                "mangoMonitor": client.monitor
+                "mangoMonitor": client.monitor,
+                "mangoVisible": client.is_visible === true
             };
             for (let prop in bestMatch) {
                 if (!(prop in enriched))
@@ -396,11 +395,10 @@ Singleton {
         if (!toplevels || toplevels.length === 0 || windows.length === 0)
             return [...toplevels];
         const enriched = _matchAndEnrich(toplevels, _orderedClients());
-        const used = new Set(enriched.map(e => e.mangoWindowId));
-        // Append wlr toplevels that had no mango client match (rare).
-        const matchedTitles = new Set(enriched.map(e => e.title + "\u0000" + e.appId));
+        // Toplevels with no mango client yet (the client list lags) go last instead of vanishing.
+        const matched = new Set(enriched.map(e => e.sourceToplevel));
         for (const t of toplevels) {
-            if (!matchedTitles.has((t.title || "") + "\u0000" + (t.appId || "")))
+            if (!matched.has(t))
                 enriched.push(t);
         }
         return enriched;
@@ -422,12 +420,13 @@ Singleton {
         if (active.size === 0)
             return toplevels;
 
+        // is_visible covers global windows; tags still keep minimized ones listed.
         const onActive = tags => (tags || []).some(t => active.has(t));
 
         if (toplevels.length > 0 && toplevels[0].mangoTags !== undefined)
-            return toplevels.filter(t => t.mangoMonitor === screenName && onActive(t.mangoTags));
+            return toplevels.filter(t => t.mangoMonitor === screenName && (t.mangoVisible || onActive(t.mangoTags)));
 
-        const clients = (windows || []).filter(c => c.monitor === screenName && onActive(c.tags));
+        const clients = (windows || []).filter(c => c.monitor === screenName && (c.is_visible === true || onActive(c.tags)));
         return _matchAndEnrich(toplevels, clients);
     }
 
@@ -447,16 +446,19 @@ Singleton {
         root._ignoreWatchedReloadUntil = Math.max(root._ignoreWatchedReloadUntil, Date.now() + (ms || 1500));
     }
 
+    // Trailing edge: an editor's save arrives as several events and the first may see a half-written file.
+    Timer {
+        id: watchedReloadTimer
+        interval: 400
+        onTriggered: root.reloadConfig(false, false)
+    }
+
     function handleWatchedConfigChanged() {
         if (!CompositorService.isMango || !root.available)
             return;
-        const now = Date.now();
-        if (now < root._ignoreWatchedReloadUntil)
+        if (Date.now() < root._ignoreWatchedReloadUntil)
             return;
-        if (now - root._lastWatchedReloadAt < 700)
-            return;
-        root._lastWatchedReloadAt = now;
-        root.reloadConfig(false, false);
+        watchedReloadTimer.restart();
     }
 
     function reloadConfig(showToast, suppressWatch) {
@@ -467,6 +469,9 @@ Singleton {
         if (shouldSuppressWatch)
             suppressWatchedConfigReloads(1500);
         dispatch("reload_config", line => {
+            // Empty means the socket dropped before replying; the reload may still have run.
+            if (!line)
+                return;
             let ok = false;
             try {
                 ok = JSON.parse(line).success === true;
@@ -567,8 +572,18 @@ Singleton {
         target: CompositorService
         function onIsMangoChanged() {
             if (CompositorService.isMango)
-                generateLayoutConfig();
+                detectDialect();
         }
+    }
+
+    // Also respells the DMS fragments for the installed Mango; an older dms keeps legacy keys.
+    function detectDialect() {
+        Proc.runCommand("mango-dialect", [Proc.dmsBin, "config", "mango-migrate"], (output, exitCode) => {
+            if (exitCode !== 0)
+                log.warn("mango-migrate exited", exitCode, "- some fragments may keep the old key spelling");
+            root.snakeKeys = output.trim().split("\n").pop() === "snake";
+            generateLayoutConfig();
+        });
     }
 
     function generateOutputsConfig(outputsData, callback, skipReload) {
@@ -577,59 +592,25 @@ Singleton {
                 callback(false);
             return;
         }
-        let lines = ["# Auto-generated by DMS - do not edit manually", ""];
+        // outputs.conf is sourced first, so its rules win over config.conf's; read both for carried fields.
+        Proc.runCommand("mango-read-outputs", ["sh", "-c", `cat "${outputsPath}" "${configPath}" 2>/dev/null`], existing => {
+            const lines = ["# Auto-generated by DMS - do not edit manually", ""].concat(OutputModel.mangoMonitorRuleLines(outputsData, existing, root.snakeKeys), [""]);
+            const content = lines.join("\n");
 
-        for (const outputName in outputsData) {
-            const output = outputsData[outputName];
-            if (!output)
-                continue;
-            let width = 1920;
-            let height = 1080;
-            let refreshRate = 60;
-            const configured = (output.configured_mode || "").match(/^(\d+)x(\d+)@([\d.]+)$/);
-            if (configured) {
-                width = parseInt(configured[1], 10);
-                height = parseInt(configured[2], 10);
-                refreshRate = Math.round(parseFloat(configured[3]));
-            } else if (output.modes && output.current_mode !== undefined) {
-                const mode = output.modes[output.current_mode];
-                if (mode) {
-                    width = mode.width || 1920;
-                    height = mode.height || 1080;
-                    refreshRate = Math.round((mode.refresh_rate || 60000) / 1000);
+            suppressWatchedConfigReloads(1500);
+            Proc.runCommand("mango-write-outputs", ["sh", "-c", `mkdir -p "${mangoDmsDir}" && cat > "${outputsPath}" << 'EOF'\n${content}EOF`], (output, exitCode) => {
+                if (exitCode !== 0) {
+                    log.warn("Failed to write outputs config:", output);
+                    if (callback)
+                        callback(false);
+                    return;
                 }
-            }
-
-            const x = output.logical?.x ?? 0;
-            const y = output.logical?.y ?? 0;
-            const scale = output.logical?.scale ?? 1.0;
-            const transform = OutputModel.transformIndex(output.logical?.transform ?? "Normal");
-            const vrr = output.vrr_enabled ? 1 : 0;
-
-            // Anchor the name regex: mango matches `name:` unanchored (first-match
-            // wins), so a bare "DP-1" would also match "eDP-1" and collapse outputs.
-            const rule = ["name:^" + outputName + "$", "width:" + width, "height:" + height, "refresh:" + refreshRate, "x:" + x, "y:" + y, "scale:" + scale, "rr:" + transform, "vrr:" + vrr].join(",");
-
-            lines.push("monitorrule=" + rule);
-        }
-
-        lines.push("");
-
-        const content = lines.join("\n");
-
-        suppressWatchedConfigReloads(1500);
-        Proc.runCommand("mango-write-outputs", ["sh", "-c", `mkdir -p "${mangoDmsDir}" && cat > "${outputsPath}" << 'EOF'\n${content}EOF`], (output, exitCode) => {
-            if (exitCode !== 0) {
-                log.warn("Failed to write outputs config:", output);
+                log.info("Generated outputs config at", outputsPath);
+                if (CompositorService.isMango && !skipReload)
+                    reloadConfig(false);
                 if (callback)
-                    callback(false);
-                return;
-            }
-            log.info("Generated outputs config at", outputsPath);
-            if (CompositorService.isMango && !skipReload)
-                reloadConfig(false);
-            if (callback)
-                callback(true);
+                    callback(true);
+            });
         });
     }
 
@@ -647,13 +628,18 @@ Singleton {
         const gapsOut = (gapsOverride >= 0 && SettingsData.mangoLayoutGapsOutOverride >= 0) ? SettingsData.mangoLayoutGapsOutOverride : gapsIn;
         const borderSize = (typeof SettingsData !== "undefined" && SettingsData.mangoLayoutBorderSize >= 0) ? SettingsData.mangoLayoutBorderSize : defaultBorderSize;
 
+        const snake = root.snakeKeys;
         let content = `# Auto-generated by DMS - do not edit manually
 border_radius=${cornerRadius}
-borderpx=${borderSize}
+${snake ? "border_px" : "borderpx"}=${borderSize}
 `;
 
         if (manageGaps)
-            content += `gappih=${gapsIn}
+            content += snake ? `gap_inner_horizontal=${gapsIn}
+gap_inner_vertical=${gapsIn}
+gap_outer_horizontal=${gapsOut}
+gap_outer_vertical=${gapsOut}
+` : `gappih=${gapsIn}
 gappiv=${gapsIn}
 gappoh=${gapsOut}
 gappov=${gapsOut}

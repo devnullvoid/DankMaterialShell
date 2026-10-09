@@ -355,7 +355,7 @@ function mangoRecord(index, tag, output) {
         output,
         active: state === 1,
         placeholder: false,
-        urgent: state === 2,
+        urgent: tag?.urgent ?? state === 2,
         occupied: (tag?.clients ?? 0) > 0
     };
 }

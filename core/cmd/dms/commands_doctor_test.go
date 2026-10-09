@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/mangoconf"
 )
 
 func TestQuickshellVersionFailureDetails(t *testing.T) {
@@ -234,4 +236,20 @@ func TestCheckQtPlatformThemePlugin(t *testing.T) {
 			t.Fatalf("got %+v, want one OK result", results)
 		}
 	})
+}
+
+func TestCheckMangoConfigFlagsWrongDialectAndOverviewBinds(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.MkdirAll(filepath.Join(dir, "dms"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	_ = os.WriteFile(filepath.Join(dir, "config.conf"), []byte("exec-once=dms run\nmousebind=NONE,btn_left,toggleoverview,1\n"), 0o644)
+	_ = os.WriteFile(filepath.Join(dir, "dms", "layout.conf"), []byte("border_px=2\n"), 0o644)
+
+	if got := checkMangoConfig(dir, mangoconf.Legacy); len(got) != 2 || got[0].message != "Not legacy keys: layout.conf" {
+		t.Fatalf("legacy: %+v", got)
+	}
+	if got := checkMangoConfig(dir, mangoconf.Snake); len(got) != 2 || got[0].message != "Not snake keys: config.conf" {
+		t.Fatalf("snake: %+v", got)
+	}
 }

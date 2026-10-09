@@ -491,7 +491,9 @@ MIRACLE_EOF
         if [[ -n "$COMPOSITOR_CONFIG" ]]; then
             exec_compositor "mango" mango -c "$COMPOSITOR_CONFIG" -s "$QS_CMD && mmsg dispatch quit"
         else
-            exec_compositor "mango" mango -s "$QS_CMD && mmsg dispatch quit"
+            # Without -c mango falls back to /etc/mango/config.conf, whose spawn/quit binds work at the login screen.
+            TEMP_CONFIG=$(mktemp)
+            exec_compositor "mango" mango -c "$TEMP_CONFIG" -s "$QS_CMD && mmsg dispatch quit"
         fi
         ;;
 

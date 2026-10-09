@@ -204,7 +204,7 @@ Column {
         }
 
         SettingsToggleRow {
-            visible: root.isActive && root.vrrSupported && !CompositorService.isMango && !CompositorService.isHyprland && !CompositorService.isNiri
+            visible: root.isActive && root.vrrSupported && !CompositorService.isHyprland && !CompositorService.isNiri
             text: I18n.tr("Variable refresh rate")
             checked: {
                 const pendingVrr = DisplayConfigState.getPendingValue(root.outputName, "vrr");

@@ -258,7 +258,7 @@ BasePill {
         // mango reports active_tags=0 while the overview is open; surface it as a pill
         Item {
             id: overviewPill
-            visible: CompositorService.workspacesHiddenByOverview(CompositorService.getFocusedScreenName())
+            visible: CompositorService.workspacesHiddenByOverview(root.effectiveScreenName)
             width: root.isVertical ? root.widgetThickness : overviewBg.width
             height: root.isVertical ? overviewBg.height : root.widgetThickness
 

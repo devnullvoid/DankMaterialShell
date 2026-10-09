@@ -258,6 +258,7 @@ test("mango tags come from the output state, visible or all", () => {
     assert.deepEqual(pick(visible, "occupied"), [true, true, true]);
     assert.deepEqual(pick(model.mangoWorkspacesForScreen(dp1, "DP-1", true), "id"), [0, 1, 2, 3, 4]);
     assert.deepEqual(pick(model.mangoWorkspacesForScreen(mango("available", "HDMI-A-1"), "HDMI-A-1", false), "active"), [true, true, false]);
+    assert.deepEqual(pick(model.mangoWorkspacesForScreen(mango("available", "HDMI-A-1"), "HDMI-A-1", false), "urgent"), [false, true, false]);
     assert.deepEqual(plain(model.mangoWorkspacesForScreen(mango("available", "DP-2"), "DP-2", false)), []);
     assert.deepEqual(plain(model.mangoWorkspacesForScreen(mango("unavailable", "DP-1"), "DP-1", true)), []);
     assert.equal(model.mangoCurrentTag(dp1), 2);

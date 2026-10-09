@@ -328,14 +328,85 @@ function parseMangoOutputs(content) {
     const result = {};
     for (const line of content.split("\n")) {
         const trimmed = line.trim();
-        if (!trimmed.startsWith("monitorrule="))
+        const match = trimmed.match(/^(?:monitorrule|monitor_rule)\s*=\s*(.*)$/);
+        if (!match)
             continue;
-        const entry = parseMangoRule(trimmed.substring("monitorrule=".length));
+        const entry = parseMangoRule(match[1]);
         if (!entry)
             continue;
         result[entry.name] = entry;
     }
     return result;
+}
+
+const mangoModeledRuleKeys = ["name", "width", "height", "refresh", "x", "y", "scale", "rr", "vrr"];
+
+function mangoRuleFields(rule) {
+    const fields = [];
+    for (const pair of rule.split(",")) {
+        const colonIdx = pair.indexOf(":");
+        if (colonIdx > 0)
+            fields.push([pair.substring(0, colonIdx).trim(), pair.substring(colonIdx + 1).trim()]);
+    }
+    return fields;
+}
+
+// Mango applies only the first matching monitor rule and resets hdr/icc/disable a rule omits,
+// so unmodeled fields of every existing rule for an output are carried into DMS's rule, first one winning.
+function mangoMonitorRuleLines(outputsData, existingText, snakeKeys) {
+    const carried = {};
+    for (const line of (existingText || "").split("\n")) {
+        const match = line.trim().match(/^(?:monitorrule|monitor_rule)\s*=\s*(.*)$/);
+        if (!match)
+            continue;
+        const fields = mangoRuleFields(match[1]);
+        const name = (fields.find(f => f[0] === "name")?.[1] || "").replace(/^\^/, "").replace(/\$$/, "");
+        if (!name)
+            continue;
+        if (!carried[name])
+            carried[name] = [];
+        const kept = carried[name];
+        for (const field of fields) {
+            if (!mangoModeledRuleKeys.includes(field[0]) && !kept.some(k => k[0] === field[0]))
+                kept.push(field);
+        }
+    }
+
+    const lines = [];
+    for (const outputName in outputsData) {
+        const output = outputsData[outputName];
+        if (!output)
+            continue;
+        let width = 1920;
+        let height = 1080;
+        let refreshRate = 60;
+        const configured = (output.configured_mode || "").match(/^(\d+)x(\d+)@([\d.]+)$/);
+        if (configured) {
+            width = parseInt(configured[1], 10);
+            height = parseInt(configured[2], 10);
+            refreshRate = parseFloat(configured[3]);
+        } else if (output.modes && output.current_mode !== undefined) {
+            const mode = output.modes[output.current_mode];
+            if (mode) {
+                width = mode.width || 1920;
+                height = mode.height || 1080;
+                refreshRate = (mode.refresh_rate || 60000) / 1000;
+            }
+        }
+
+        // Anchored: mango matches `name:` unanchored, so "DP-1" would also match "eDP-1".
+        // Mango picks the nearest mode, so the refresh keeps its fraction.
+        const fields = ["name:^" + outputName + "$", "width:" + width, "height:" + height, "refresh:" + Number(refreshRate.toFixed(3)), "x:" + (output.logical?.x ?? 0), "y:" + (output.logical?.y ?? 0), "scale:" + (output.logical?.scale ?? 1.0), "rr:" + transformIndex(output.logical?.transform ?? "Normal"), "vrr:" + (output.vrr_enabled ? 1 : 0)];
+        for (const [key, value] of carried[outputName] || []) {
+            if (key === "disable" && output.enabled !== undefined)
+                continue;
+            fields.push(key + ":" + value);
+        }
+        if (output.enabled === false)
+            fields.push("disable:1");
+        lines.push((snakeKeys ? "monitor_rule=" : "monitorrule=") + fields.join(","));
+    }
+    return lines;
 }
 
 function outputsFromWlr(wlrOutputs, liveMonitors) {

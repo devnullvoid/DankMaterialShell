@@ -17,6 +17,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/clipboard"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/config"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/distros"
+	"github.com/AvengeMedia/DankMaterialShell/core/internal/mangoconf"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/matugen"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/brightness"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/server/network"
@@ -25,6 +26,7 @@ import (
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/utils"
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/version"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/godbus/dbus/v5"
 	"github.com/spf13/cobra"
 )
 
@@ -222,6 +224,7 @@ func runDoctor(cmd *cobra.Command, args []string) {
 		checkOptionalDependencies(),
 		checkConfigurationFiles(),
 		checkSystemdServices(),
+		checkSettingsPortal(),
 		checkEnvironmentVars(),
 		checkFonts(),
 	)
@@ -791,8 +794,52 @@ func checkWindowManagers() []checkResult {
 		results = append(results, checkAqueousConfigHelper())
 	}
 
+	if utils.CommandExists("mango") {
+		results = append(results, checkMangoConfig(mangoconf.Dir(), mangoconf.Detect())...)
+	}
+
 	results = append(results, checkCompositorBlurSupport())
 
+	return results
+}
+
+func mangoWantsDMS() bool {
+	_, err := os.Stat(mangoconf.WantsLink())
+	return err == nil
+}
+
+var mangoLegacyOverviewBinds = regexp.MustCompile(`(?im)^\s*mousebind\s*=\s*none\s*,\s*(btn_left\s*,\s*toggleoverview\s*,\s*1|btn_right\s*,\s*killclient\s*,\s*0)\s*$`)
+
+func checkMangoConfig(mangoDir string, dialect mangoconf.Dialect) []checkResult {
+	url := doctorDocsURL + "#compositor-checks"
+	paths, _ := filepath.Glob(filepath.Join(mangoDir, "dms", "*.conf"))
+	paths = append([]string{filepath.Join(mangoDir, "config.conf")}, paths...)
+
+	var stale, overviewBinds []string
+	for _, path := range paths {
+		data, err := os.ReadFile(path)
+		if err != nil {
+			continue
+		}
+		if dialect.Translate(string(data)) != string(data) {
+			stale = append(stale, filepath.Base(path))
+		}
+		if mangoLegacyOverviewBinds.Match(data) {
+			overviewBinds = append(overviewBinds, filepath.Base(path))
+		}
+	}
+
+	var results []checkResult
+	if len(stale) > 0 {
+		results = append(results, checkResult{catCompositor, "Mango config keys", statusError,
+			fmt.Sprintf("Not %s keys: %s", dialect, strings.Join(stale, ", ")),
+			"This Mango rejects those lines as unknown keywords. Run `dms config mango-migrate --main` (config.conf is backed up).", url})
+	}
+	if len(overviewBinds) > 0 {
+		results = append(results, checkResult{catCompositor, "Mango mouse binds", statusWarn,
+			"Obsolete overview binds in " + strings.Join(overviewBinds, ", "),
+			"mousebind=NONE,btn_left,toggleoverview,1 and mousebind=NONE,btn_right,killclient,0 swallow normal clicks; remove them.", url})
+	}
 	return results
 }
 
@@ -1306,6 +1353,13 @@ func checkSystemdServices() []checkResult {
 		case dmsState.active == "failed":
 			status = statusError
 		case dmsState.active == "active":
+		case dmsState.enabled == "disabled" && os.Getenv("MANGO_INSTANCE_SIGNATURE") != "" && mangoWantsDMS():
+			message = "Started with " + mangoconf.SessionTarget
+			if dmsState.active != "" {
+				message += ", " + dmsState.active
+			}
+		case dmsState.enabled == "disabled" && os.Getenv("MANGO_INSTANCE_SIGNATURE") != "":
+			status, message = statusInfo, "Disabled (Mango starts DMS from its config)"
 		case dmsState.enabled == "disabled":
 			status, message = statusWarn, "Disabled"
 		case dmsState.active == "inactive":
@@ -1334,6 +1388,24 @@ func checkSystemdServices() []checkResult {
 	}
 
 	return results
+}
+
+// Chromium, Electron and libadwaita follow light/dark through the settings
+// portal; without it they fall back to GTK theme colours that never update.
+func checkSettingsPortal() []checkResult {
+	conn, err := dbus.SessionBus()
+	if err != nil {
+		return nil
+	}
+	var value dbus.Variant
+	err = conn.Object("org.freedesktop.portal.Desktop", "/org/freedesktop/portal/desktop").
+		Call("org.freedesktop.portal.Settings.ReadOne", 0, "org.freedesktop.appearance", "color-scheme").
+		Store(&value)
+	if err == nil {
+		return []checkResult{{catServices, "xdg-desktop-portal", statusOK, "Settings portal reachable", "", doctorDocsURL + "#services"}}
+	}
+	hint := "Apps cannot follow light/dark mode. The portal is D-Bus activated and needs graphical-session.target; without systemd, or a compositor that never starts that target (Mango before 0.17.1), exec the portal backend and xdg-desktop-portal at session start."
+	return []checkResult{{catServices, "xdg-desktop-portal", statusWarn, "Settings portal unreachable", hint, doctorDocsURL + "#services"}}
 }
 
 type serviceState struct {

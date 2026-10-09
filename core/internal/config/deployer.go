@@ -15,7 +15,8 @@ import (
 const hyprlandBackupDirName = ".dms-backups"
 
 type ConfigDeployer struct {
-	logChan chan<- string
+	logChan           chan<- string
+	replaceMangoBinds bool
 }
 
 type DeploymentResult struct {
@@ -117,6 +118,7 @@ func (cd *ConfigDeployer) deployConfigurationsInternal(_ context.Context, wm dep
 			}
 		}
 	case deps.WindowManagerMango:
+		cd.replaceMangoBinds = replaceConfigs[MangoBindsConfigType]
 		if shouldReplaceConfig("Mango") {
 			result, err := cd.deployMangoConfig(terminalCommand, useSystemd)
 			results = append(results, result)
@@ -272,84 +274,6 @@ func (cd *ConfigDeployer) deployNiriDmsConfigs(dmsDir, terminalCommand string) e
 		if info, err := os.Stat(path); err == nil && info.Size() > 0 {
 			cd.log(fmt.Sprintf("Skipping %s (already exists)", cfg.name))
 			continue
-		}
-		if err := os.WriteFile(path, []byte(cfg.content), 0o644); err != nil {
-			return fmt.Errorf("failed to write %s: %w", cfg.name, err)
-		}
-		cd.log(fmt.Sprintf("Deployed %s", cfg.name))
-	}
-
-	return nil
-}
-
-func (cd *ConfigDeployer) deployMangoConfig(terminalCommand string, _ bool) (DeploymentResult, error) {
-	result := DeploymentResult{
-		ConfigType: "Mango",
-		Path:       filepath.Join(os.Getenv("HOME"), ".config", "mango", "config.conf"),
-	}
-
-	configDir := filepath.Dir(result.Path)
-	if err := os.MkdirAll(configDir, 0o755); err != nil {
-		result.Error = fmt.Errorf("failed to create config directory: %w", err)
-		return result, result.Error
-	}
-
-	dmsDir := filepath.Join(configDir, "dms")
-	if err := os.MkdirAll(dmsDir, 0o755); err != nil {
-		result.Error = fmt.Errorf("failed to create dms directory: %w", err)
-		return result, result.Error
-	}
-
-	// DMS owns config.conf for mango (like niri/hyprland): back up and replace.
-	if existingData, err := os.ReadFile(result.Path); err == nil {
-		cd.log("Found existing Mango configuration")
-		timestamp := time.Now().Format("2006-01-02_15-04-05")
-		result.BackupPath = result.Path + ".backup." + timestamp
-		if err := os.WriteFile(result.BackupPath, existingData, 0o644); err != nil {
-			result.Error = fmt.Errorf("failed to create backup: %w", err)
-			return result, result.Error
-		}
-		cd.log(fmt.Sprintf("Backed up existing config to %s", result.BackupPath))
-	}
-
-	newConfig := strings.ReplaceAll(MangoConfig, "{{TERMINAL_COMMAND}}", terminalCommand)
-	if err := os.WriteFile(result.Path, []byte(newConfig), 0o644); err != nil {
-		result.Error = fmt.Errorf("failed to write config: %w", err)
-		return result, result.Error
-	}
-
-	if err := cd.deployMangoDmsConfigs(dmsDir, terminalCommand); err != nil {
-		result.Error = fmt.Errorf("failed to deploy dms configs: %w", err)
-		return result, result.Error
-	}
-
-	result.Deployed = true
-	cd.log("Successfully deployed Mango configuration")
-	return result, nil
-}
-
-func (cd *ConfigDeployer) deployMangoDmsConfigs(dmsDir, terminalCommand string) error {
-	configs := []struct {
-		name      string
-		content   string
-		overwrite bool
-	}{
-		// binds.conf is DMS-owned (overwrite); the rest are runtime/user-managed.
-		{"binds.conf", strings.ReplaceAll(MangoBindsConfig, "{{TERMINAL_COMMAND}}", terminalCommand), true},
-		{"colors.conf", MangoColorsConfig, false},
-		{"layout.conf", MangoLayoutConfig, false},
-		{"outputs.conf", "", false},
-		{"cursor.conf", "", false},
-		{"windowrules.conf", "", false},
-	}
-
-	for _, cfg := range configs {
-		path := filepath.Join(dmsDir, cfg.name)
-		if !cfg.overwrite {
-			if info, err := os.Stat(path); err == nil && info.Size() > 0 {
-				cd.log(fmt.Sprintf("Skipping %s (already exists)", cfg.name))
-				continue
-			}
 		}
 		if err := os.WriteFile(path, []byte(cfg.content), 0o644); err != nil {
 			return fmt.Errorf("failed to write %s: %w", cfg.name, err)

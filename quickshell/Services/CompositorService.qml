@@ -2099,7 +2099,10 @@ Singleton {
             NiriService.toggleOverview();
             return;
         case "mango":
-            MangoService.dispatch("toggleoverview");
+            if (MangoService.getOutputState(screenName))
+                MangoService.dispatchOnOutput(screenName, "toggleoverview");
+            else
+                MangoService.dispatch("toggleoverview");
             return;
         }
     }

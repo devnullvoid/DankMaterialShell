@@ -761,7 +761,7 @@ Singleton {
             return false;
         if (entry.soundsOnly && MultimediaService.unavailable)
             return false;
-        if (entry.hyprlandNiriOnly && !CompositorService.isNiri && !CompositorService.isHyprland)
+        if (entry.hyprlandNiriOnly && !CompositorService.isNiri && !CompositorService.isHyprland && !CompositorService.isMango)
             return false;
         if (entry.windowRulesCapable && !CompositorService.supportsWindowRules)
             return false;

@@ -70,7 +70,7 @@ Item {
         if (isMiracle)
             return "https://github.com/miracle-wm-org/miracle-wm";
         if (isMango)
-            return "https://github.com/DreamMaoMao/mangowc";
+            return "https://github.com/mangowm/mango";
         if (isLabwc)
             return "https://labwc.github.io/";
         if (isAqueous)
