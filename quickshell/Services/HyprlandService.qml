@@ -10,7 +10,7 @@ import "../Common/ConfigIncludeResolve.js" as ConfigIncludeResolve
 import qs.Services
 import "../Common/OutputModel.js" as OutputModel
 import "../Common/BlurStrength.js" as BlurStrength
-import "../Common/WorkspaceModel.js" as WorkspaceModel
+import "../Common/WorkspaceModel.js" as WorkspaceModel // qmllint disable unused-imports
 
 Singleton {
     id: root
@@ -549,6 +549,7 @@ hl.config({
 ${sections.join("\n")}
 })
 `;
+
         if (layoutXrayEnabled) {
             content += `
 hl.layer_rule({
@@ -967,6 +968,14 @@ hl.layer_rule({
             return;
         }
         Hyprland.dispatch(`hl.dsp.window.move({ workspace = ${luaValue(workspace)}, window = ${luaString(selector)}, follow = ${follow ? "true" : "false"} })`);
+    }
+
+    function cycleWindow(forward) {
+        if (!luaConfigActive) {
+            Hyprland.dispatch(forward ? "cyclenext" : "cyclenext prev");
+            return;
+        }
+        Hyprland.dispatch(`hl.dsp.window.cycle_next({ next = ${forward ? "true" : "false"} })`);
     }
 
     function focusMonitor(monitor) {

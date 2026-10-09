@@ -294,13 +294,12 @@ DCard {
                 acceptedButtons: Qt.NoButton
                 hoverEnabled: true
                 onWheel: wheel => {
-                    const horizontal = wheel.angleDelta.x !== 0 || wheel.pixelDelta.x !== 0 || (wheel.modifiers & Qt.ShiftModifier);
-                    if (!horizontal || !root.scrollable) {
+                    if (!WheelInput.isHorizontal(wheel) || !root.scrollable) {
                         wheel.accepted = false;
                         return;
                     }
-                    const pixels = WheelInput.isTouchpad(wheel) ? wheel.pixelDelta.x || wheel.pixelDelta.y : 0;
-                    const steps = (wheel.angleDelta.x || wheel.angleDelta.y) / 120;
+                    const pixels = WheelInput.isTouchpad(wheel) ? WheelInput.dominantDelta(wheel.pixelDelta) : 0;
+                    const steps = WheelInput.dominantDelta(wheel.angleDelta) / 120;
                     root.scrollTo(timeline.contentX - (pixels || steps * timeline.mouseWheelSpeed));
                     wheel.accepted = true;
                 }

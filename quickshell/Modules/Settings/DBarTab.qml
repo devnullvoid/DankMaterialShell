@@ -458,11 +458,12 @@ Item {
         }
 
         SettingsToggleCard {
+            id: scrollCard
             iconName: "mouse"
             settingKey: "barScrollWheel"
             resetStore: bar
             resetKeys: ["scrollEnabled"]
-            tags: ["scroll", "wheel", "workspace", "column", "axis"]
+            tags: ["scroll", "wheel", "workspace", "focus", "window", "axis"]
             title: I18n.tr("Scroll wheel")
             visible: (bar.selectedBarConfig?.enabled ?? false) && !bar.selectedBarIsIsland
             checked: bar.selectedBarConfig?.scrollEnabled ?? true
@@ -470,43 +471,23 @@ Item {
                     scrollEnabled: checked
                 })
 
+            readonly property var behaviors: CompositorService.canStepWindowFocus ? ["none", "workspace", "focusWindow"] : ["none", "workspace"]
+            readonly property var behaviorLabels: CompositorService.canStepWindowFocus ? [I18n.tr("None"), I18n.tr("Workspace"), I18n.tr("Focus window")] : [I18n.tr("None"), I18n.tr("Workspace")]
+
             SettingsButtonGroupRow {
                 text: I18n.tr("Y axis")
                 resetStore: bar
                 resetKeys: ["scrollYBehavior"]
-                model: CompositorService.isNiri ? [I18n.tr("None"), I18n.tr("Workspace"), I18n.tr("Column", "noun, bar scroll behavior option, niri window column")] : [I18n.tr("None"), I18n.tr("Workspace")]
+                model: scrollCard.behaviorLabels
                 buttonPadding: Theme.spacingS
                 minButtonWidth: 44
                 textSize: Theme.fontSizeSmall
-                currentIndex: {
-                    switch (bar.selectedBarConfig?.scrollYBehavior || "workspace") {
-                    case "none":
-                        return 0;
-                    case "workspace":
-                        return 1;
-                    case "column":
-                        return 2;
-                    default:
-                        return 1;
-                    }
-                }
+                currentIndex: Math.max(0, scrollCard.behaviors.indexOf(bar.selectedBarConfig?.scrollYBehavior || "workspace"))
                 onSelectionChanged: (index, selected) => {
                     if (!selected)
                         return;
-                    let behavior = "workspace";
-                    switch (index) {
-                    case 0:
-                        behavior = "none";
-                        break;
-                    case 1:
-                        behavior = "workspace";
-                        break;
-                    case 2:
-                        behavior = "column";
-                        break;
-                    }
                     SettingsData.updateBarConfig(bar.selectedBarId, {
-                        scrollYBehavior: behavior
+                        scrollYBehavior: scrollCard.behaviors[index]
                     });
                 }
             }
@@ -515,40 +496,16 @@ Item {
                 text: I18n.tr("X axis")
                 resetStore: bar
                 resetKeys: ["scrollXBehavior"]
-                visible: CompositorService.isNiri
-                model: [I18n.tr("None"), I18n.tr("Workspace"), I18n.tr("Column")]
+                model: scrollCard.behaviorLabels
                 buttonPadding: Theme.spacingS
                 minButtonWidth: 44
                 textSize: Theme.fontSizeSmall
-                currentIndex: {
-                    switch (bar.selectedBarConfig?.scrollXBehavior || "column") {
-                    case "none":
-                        return 0;
-                    case "workspace":
-                        return 1;
-                    case "column":
-                        return 2;
-                    default:
-                        return 2;
-                    }
-                }
+                currentIndex: Math.max(0, scrollCard.behaviors.indexOf(bar.selectedBarConfig?.scrollXBehavior || "focusWindow"))
                 onSelectionChanged: (index, selected) => {
                     if (!selected)
                         return;
-                    let behavior = "column";
-                    switch (index) {
-                    case 0:
-                        behavior = "none";
-                        break;
-                    case 1:
-                        behavior = "workspace";
-                        break;
-                    case 2:
-                        behavior = "column";
-                        break;
-                    }
                     SettingsData.updateBarConfig(bar.selectedBarId, {
-                        scrollXBehavior: behavior
+                        scrollXBehavior: scrollCard.behaviors[index]
                     });
                 }
             }

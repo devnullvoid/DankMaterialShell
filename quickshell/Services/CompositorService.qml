@@ -2126,6 +2126,35 @@ Singleton {
         }
     }
 
+    readonly property bool canStepWindowFocus: compositor === "niri" || compositor === "hyprland" || compositor === "mango"
+
+    function stepWindowFocus(screenName, direction) {
+        switch (compositor) {
+        case "niri":
+            if (direction > 0)
+                NiriService.focusColumnRight(screenName);
+            else
+                NiriService.focusColumnLeft(screenName);
+            return true;
+        case "hyprland":
+            if (screenName && screenName !== Hyprland.focusedMonitor?.name)
+                HyprlandService.focusMonitor(screenName);
+            HyprlandService.cycleWindow(direction > 0);
+            return true;
+        case "mango":
+            {
+                const command = direction > 0 ? "focusstack,next" : "focusstack,prev";
+                if (screenName)
+                    MangoService.dispatchOnOutput(screenName, command);
+                else
+                    MangoService.dispatch(command);
+                return true;
+            }
+        default:
+            return false;
+        }
+    }
+
     function focusWindow(windowId) {
         switch (compositor) {
         case "aqueous":

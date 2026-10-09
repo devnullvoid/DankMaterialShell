@@ -836,7 +836,7 @@ Singleton {
         });
     }
 
-    function moveColumnLeft(outputName) {
+    function focusColumnLeft(outputName) {
         if (outputName && outputName !== currentOutput)
             focusMonitor(outputName);
         return send({
@@ -846,7 +846,7 @@ Singleton {
         });
     }
 
-    function moveColumnRight(outputName) {
+    function focusColumnRight(outputName) {
         if (outputName && outputName !== currentOutput)
             focusMonitor(outputName);
         return send({

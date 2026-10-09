@@ -206,7 +206,8 @@ function toJson(root, setKeys) {
             value = withoutInstancePositions(value);
         if (k === "builtInPluginSettings")
             value = withoutSessionBackedPluginState(value);
-        if (!setKeys.has(k) && Util.isDefault(value, SPEC[k].def)) continue;
+        if (!setKeys.has(k) && Util.isDefault(value, SPEC[k].def))
+            continue;
         out[k] = value;
     }
     out.configVersion = root.settingsConfigVersion;
@@ -722,7 +723,24 @@ function migrateToVersion(obj, targetVersion) {
         settings.configVersion = 39;
     }
 
+    if (currentVersion < 40 && targetVersion >= 40) {
+        migrateScrollColumnBehavior(settings);
+        settings.configVersion = 40;
+    }
+
     return settings;
+}
+
+// v40: the niri-only "column" scroll behavior became the compositor-neutral "focusWindow"
+function migrateScrollColumnBehavior(settings) {
+    for (const bar of Array.isArray(settings.barConfigs) ? settings.barConfigs : []) {
+        if (!bar || typeof bar !== "object")
+            continue;
+        for (const key of ["scrollXBehavior", "scrollYBehavior"]) {
+            if (bar[key] === "column")
+                bar[key] = "focusWindow";
+        }
+    }
 }
 
 // v39: the per-island toggle folded into the global reduceMotion; any bar that had it on turns the global one on

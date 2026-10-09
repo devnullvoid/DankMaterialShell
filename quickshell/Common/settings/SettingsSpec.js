@@ -1553,7 +1553,7 @@ var LOCAL_SPEC = {
                 maximizeDetection: true,
                 useOverlayLayer: false,
                 scrollEnabled: true,
-                scrollXBehavior: "column",
+                scrollXBehavior: "focusWindow",
                 scrollYBehavior: "workspace",
                 middleClickAction: "none",
                 rightClickAction: "none",

@@ -4161,7 +4161,7 @@
     "keywords": [
       "axis",
       "bar",
-      "column",
+      "focus",
       "general",
       "panel",
       "scroll",
@@ -4169,6 +4169,7 @@
       "taskbar",
       "topbar",
       "wheel",
+      "window",
       "workspace"
     ],
     "parentLabel": "Bar",
