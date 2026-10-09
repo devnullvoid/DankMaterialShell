@@ -216,8 +216,6 @@ DModal {
                 NotificationHeader {
                     id: notificationHeader
                     modal: true
-                    keyboardController: modalKeyboardController
-                    historyView: historyList
                     transientSurfaceTracker: notificationModal.transientSurfaceTracker
                     onCloseRequested: notificationModal.hide()
                     onCurrentTabChanged: notificationModal.currentTab = currentTab

@@ -142,7 +142,6 @@ awk '$1 == "xray" { print FILENAME ":" FNR; exit }' $files 2>/dev/null`;
             SettingsToggleSliderRow {
                 tags: ["niri", "border", "override", "focus-ring"]
                 settingKey: "niriLayoutBorderSizeEnabled"
-                resetKeys: ["niriLayoutBorderSize"]
                 text: I18n.tr("Override border size")
                 checked: SettingsData.niriLayoutBorderSize >= 0
                 value: Math.max(0, SettingsData.niriLayoutBorderSize)
@@ -429,7 +428,6 @@ awk '$1 == "xray" { print FILENAME ":" FNR; exit }' $files 2>/dev/null`;
             SettingsToggleSliderRow {
                 tags: ["hyprland", "border", "override", "border_size"]
                 settingKey: "hyprlandLayoutBorderSizeEnabled"
-                resetKeys: ["hyprlandLayoutBorderSize"]
                 text: I18n.tr("Override border size")
                 checked: SettingsData.hyprlandLayoutBorderSize >= 0
                 value: Math.max(0, SettingsData.hyprlandLayoutBorderSize)
@@ -782,7 +780,6 @@ awk '$1 == "xray" { print FILENAME ":" FNR; exit }' $files 2>/dev/null`;
             SettingsToggleSliderRow {
                 tags: ["mangowc", "mango", "border", "override", "borderpx"]
                 settingKey: "mangoLayoutBorderSizeEnabled"
-                resetKeys: ["mangoLayoutBorderSize"]
                 text: I18n.tr("Override border size")
                 checked: SettingsData.mangoLayoutBorderSize >= 0
                 value: Math.max(0, SettingsData.mangoLayoutBorderSize)

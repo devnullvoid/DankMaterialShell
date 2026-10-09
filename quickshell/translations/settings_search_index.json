@@ -9652,7 +9652,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:MusicOptions.qml:2",
+    "section": "barWidgetOption:MusicOptions.qml:3",
     "label": "Adaptive width",
     "tabIndex": 22,
     "keywords": [],
@@ -9915,7 +9915,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:MusicOptions.qml:4",
+    "section": "barWidgetOption:MusicOptions.qml:5",
     "label": "Cover art",
     "tabIndex": 22,
     "keywords": [],
@@ -10235,7 +10235,7 @@
     "optionFile": "AppsDockOptions.qml"
   },
   {
-    "section": "barWidgetOption:MusicOptions.qml:3",
+    "section": "barWidgetOption:MusicOptions.qml:4",
     "label": "Lyrics",
     "tabIndex": 22,
     "keywords": [],
@@ -10283,7 +10283,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:MusicOptions.qml:6",
+    "section": "barWidgetOption:MusicOptions.qml:7",
     "label": "Media player",
     "tabIndex": 22,
     "keywords": [],
@@ -10435,7 +10435,7 @@
     "optionFile": "PrivacyOptions.qml"
   },
   {
-    "section": "barWidgetOption:MusicOptions.qml:5",
+    "section": "barWidgetOption:MusicOptions.qml:6",
     "label": "Scroll wheel",
     "tabIndex": 22,
     "keywords": [],
@@ -10595,7 +10595,7 @@
     "optionFile": "IslandOptions.qml"
   },
   {
-    "section": "barWidgetOption:MusicOptions.qml:1",
+    "section": "barWidgetOption:MusicOptions.qml:2",
     "label": "Size",
     "tabIndex": 22,
     "keywords": [],
@@ -10665,6 +10665,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "IslandOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:MusicOptions.qml:1",
+    "label": "Style",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "MusicOptions.qml"
   },
   {
     "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:2",
@@ -16425,14 +16433,17 @@
     "tabIndex": 54,
     "category": "Widget settings",
     "keywords": [
+      "background",
       "bar",
       "components",
       "modules",
       "panel",
+      "pill",
       "settings",
       "statusbar",
       "taskbar",
       "topbar",
+      "transparent",
       "widget",
       "widgets"
     ],

@@ -108,7 +108,6 @@ Column {
             tab: "theme"
             tags: ["foreground", "layers", "outline", "border", "opacity", "cards", "pills", "widgets", "notifications", "control center"]
             settingKey: "blurLayerOutline"
-            resetKeys: ["blurLayerOutlineOpacity"]
             text: I18n.tr("Layer outline")
             description: I18n.tr("Faint edge on cards, pills and widgets", "surface layer outline toggle description")
             checked: root.layerOutlineEnabled
@@ -293,7 +292,6 @@ Column {
             settingKey: "windowRadius"
             text: I18n.tr("Override window radius", "toggle: stop the window radius following the corner style setting")
             visible: root.windowRadiusKey !== ""
-            resetKeys: root.windowRadiusKey !== "" ? [root.windowRadiusKey] : []
             checked: Theme.compositorRadiusOverride >= 0
             value: Theme.windowRadius
             minimum: 0
@@ -457,7 +455,6 @@ Column {
             maximum: 100
             modified: target?.override ?? false
             valueModified: (target?.transparency ?? 1) !== 1
-            resetByKeys: true
             onResetRequested: root.setOpacityOverride(target, {
                 followInterfaceStyle: true,
                 transparency: 1

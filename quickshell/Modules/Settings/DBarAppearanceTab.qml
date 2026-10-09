@@ -154,8 +154,6 @@ Item {
                 settingKey: "islandHighContrast"
                 tags: ["island", "appearance", "contrast", "accessibility", "outline"]
                 visible: bar.selectedBarIsIsland
-                resetStore: bar
-                resetKeys: ["islandHighContrast"]
                 text: I18n.tr("High contrast", "island settings: high contrast toggle")
                 checked: bar.islandSetting("islandHighContrast")
                 onToggled: checked => bar.apply("islandHighContrast", checked)
@@ -214,8 +212,6 @@ Item {
                 text: I18n.tr("Goth corners")
                 description: I18n.tr("Adds concave curves where the bar meets the screen edge", "bar goth corners toggle description")
                 visible: !bar.selectedBarFrameSanitized && !bar.islandOwnsSelectedBarTop
-                resetStore: bar
-                resetKeys: ["gothCornersEnabled"]
                 checked: bar.selectedBarConfig?.gothCornersEnabled ?? false
                 onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
                         gothCornersEnabled: checked
@@ -223,11 +219,10 @@ Item {
             }
 
             SettingsToggleSliderRow {
+                resetStore: bar
                 text: I18n.tr("Custom radius")
                 tags: ["goth", "corners", "radius"]
                 visible: (bar.selectedBarConfig?.gothCornersEnabled ?? false) && !bar.selectedBarFrameSanitized && !bar.islandOwnsSelectedBarTop
-                resetStore: bar
-                resetKeys: ["gothCornerRadiusOverride"]
                 valueKeys: ["gothCornerRadiusValue"]
                 checked: bar.selectedBarConfig?.gothCornerRadiusOverride ?? false
                 unit: "px"
@@ -256,8 +251,6 @@ Item {
             iconName: "border_style"
             title: I18n.tr("Border", "noun, settings toggle card title for an outline around a surface")
             visible: (bar.selectedBarConfig?.enabled ?? false) && !bar.selectedBarFrameSanitized && !bar.islandOwnsSelectedBarTop
-            resetStore: bar
-            resetKeys: ["borderEnabled"]
             checked: bar.selectedBarConfig?.borderEnabled ?? false
             onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
                     borderEnabled: checked
@@ -477,7 +470,6 @@ Item {
                 visible: !bar.selectedBarFrameStyled && SettingsData.barConfigs.length > 1
                 text: I18n.tr("Sync inset padding")
                 tags: ["bar", "padding", "inset", "edge", "sync", "all", "global"]
-                resetKeys: ["barInsetPaddingSyncAll"]
                 checked: SettingsData.barInsetPaddingSyncAll
                 onToggled: checked => SettingsData.set("barInsetPaddingSyncAll", checked)
             }
@@ -500,8 +492,6 @@ Item {
             SettingsToggleRow {
                 settingKey: "islandSatellitesEnabled"
                 tags: ["island", "satellite", "widgets", "left", "right"]
-                resetStore: bar
-                resetKeys: ["islandSatellitesEnabled"]
                 text: I18n.tr("Show", "island settings: satellite widgets toggle")
                 checked: bar.islandSetting("islandSatellitesEnabled")
                 onToggled: checked => bar.apply("islandSatellitesEnabled", checked)
@@ -524,8 +514,6 @@ Item {
             SettingsToggleRow {
                 settingKey: "islandSatelliteBackground"
                 tags: ["island", "satellite", "widgets", "background", "chrome"]
-                resetStore: bar
-                resetKeys: ["islandSatelliteBackground"]
                 text: I18n.tr("Background", "island settings: satellite background toggle")
                 checked: bar.islandSetting("islandSatelliteBackground")
                 visible: bar.islandSetting("islandSatellitesEnabled")
@@ -535,8 +523,6 @@ Item {
             SettingsToggleRow {
                 settingKey: "islandSatelliteGothCorners"
                 tags: ["island", "satellite", "goth", "corners", "wing", "sweep"]
-                resetStore: bar
-                resetKeys: ["islandSatelliteGothCorners"]
                 text: I18n.tr("Goth corners", "island settings: satellite goth corners toggle")
                 checked: bar.islandSetting("islandSatelliteGothCorners")
                 visible: bar.islandSetting("islandSatellitesEnabled")
@@ -545,10 +531,9 @@ Item {
             }
 
             SettingsToggleSliderRow {
+                resetStore: bar
                 settingKey: "islandGothCornerRadius"
                 tags: ["island", "satellite", "notch", "goth", "corners", "radius", "sweep", "size"]
-                resetStore: bar
-                resetKeys: ["gothCornerRadiusOverride"]
                 valueKeys: ["gothCornerRadiusValue"]
                 text: I18n.tr("Custom radius")
                 checked: bar.selectedBarConfig?.gothCornerRadiusOverride ?? false
@@ -564,10 +549,9 @@ Item {
             }
 
             SettingsToggleSliderRow {
+                resetStore: bar
                 settingKey: "islandSatelliteTransparency"
                 tags: ["island", "satellite", "background", "opacity", "transparency", "blur", "override", "interface", "style"]
-                resetStore: bar
-                resetKeys: ["islandSatelliteFollowInterfaceStyle"]
                 valueKeys: ["islandSatelliteTransparency"]
                 text: I18n.tr("Override", "verb, toggle to override the global setting for this item")
                 description: I18n.tr("Opacity", "island settings: satellite background opacity slider")
@@ -610,8 +594,6 @@ Item {
                 settingKey: "barNoBackground"
                 tags: ["transparent", "background", "invisible"]
                 text: I18n.tr("Background")
-                resetStore: bar
-                resetKeys: ["noBackground"]
                 checked: !(bar.selectedBarConfig?.noBackground ?? false)
                 onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
                         noBackground: !checked
@@ -650,12 +632,11 @@ Item {
             }
 
             SettingsToggleSliderRow {
+                resetStore: bar
                 text: I18n.tr("Override", "verb, toggle to override the global setting for this item")
                 description: I18n.tr("Opacity")
                 tags: ["widget", "opacity", "transparency", "override", "foreground", "interface", "style"]
                 enabled: root.widgetBackgroundEnabled
-                resetStore: bar
-                resetKeys: ["widgetFollowInterfaceStyle"]
                 valueKeys: ["widgetTransparency"]
                 checked: bar.selectedBarConfig?.widgetFollowInterfaceStyle === false
                 value: Math.round(SettingsData.barWidgetTransparency(bar.selectedBarConfig) * 100)
@@ -687,8 +668,6 @@ Item {
                 settingKey: "barMaximizeWidgetIcons"
                 tags: ["maximize", "icons", "stretch"]
                 text: I18n.tr("Maximize widget icons")
-                resetStore: bar
-                resetKeys: ["maximizeWidgetIcons"]
                 checked: bar.selectedBarConfig?.maximizeWidgetIcons ?? false
                 onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
                         maximizeWidgetIcons: checked
@@ -699,8 +678,6 @@ Item {
                 settingKey: "barMaximizeWidgetText"
                 tags: ["maximize", "text", "stretch"]
                 text: I18n.tr("Maximize widget text")
-                resetStore: bar
-                resetKeys: ["maximizeWidgetText"]
                 checked: bar.selectedBarConfig?.maximizeWidgetText ?? false
                 onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
                         maximizeWidgetText: checked
@@ -714,8 +691,6 @@ Item {
             title: I18n.tr("Widget outline")
             visible: bar.selectedBarConfig?.enabled ?? false
             enabled: root.widgetBackgroundEnabled
-            resetStore: bar
-            resetKeys: ["widgetOutlineEnabled"]
             checked: bar.selectedBarConfig?.widgetOutlineEnabled ?? false
             onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
                     widgetOutlineEnabled: checked
