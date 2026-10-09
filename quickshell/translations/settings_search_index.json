@@ -1586,7 +1586,8 @@
       "tint",
       "wallpaper"
     ],
-    "page": "personalization"
+    "page": "personalization",
+    "icon": "restore"
   },
   {
     "section": "matugenTargetMonitor",
@@ -2680,7 +2681,7 @@
       "wallpaper"
     ],
     "page": "personalization",
-    "icon": "lock",
+    "icon": "restore",
     "description": "Theme colors come from this display's wallpaper"
   },
   {
