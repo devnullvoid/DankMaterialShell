@@ -116,11 +116,6 @@ Item {
 
     SettingsPage {
         SettingsHeroCard {
-            Item {
-                width: parent.width
-                height: Theme.spacingS
-            }
-
             DButton {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: I18n.tr("Support DMS", "about page hero button, opens the Ko-fi donation page")
