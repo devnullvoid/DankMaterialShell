@@ -328,6 +328,7 @@ Singleton {
 
     property bool blurEnabled: Spec.SPEC.blurEnabled.def
     onBlurEnabledChanged: saveSettings()
+    property int blurStrength: Spec.SPEC.blurStrength.def
     property bool blurBorderSeeded: Spec.SPEC.blurBorderSeeded.def
     onBlurBorderSeededChanged: saveSettings()
     property bool blurForegroundLayers: Spec.SPEC.blurForegroundLayers.def
@@ -1419,6 +1420,7 @@ Singleton {
     signal widgetDataChanged
     signal workspaceIconsUpdated
     signal compositorLayoutRefreshNeeded(bool frame)
+    signal blurStrengthRefreshNeeded
     signal compositorInputRefreshNeeded
     signal compositorCursorRefreshNeeded
     signal notificationPopupsInvalidated
@@ -1462,6 +1464,10 @@ Singleton {
 
     function updateCompositorInput() {
         compositorInputRefreshNeeded();
+    }
+
+    function updateBlurStrength() {
+        blurStrengthRefreshNeeded();
     }
 
     function updateFrameCompositorLayout() {
@@ -1716,6 +1722,7 @@ Singleton {
             "regenSystemThemes": regenSystemThemes,
             "updateCompositorLayout": updateCompositorLayout,
             "updateCompositorInput": updateCompositorInput,
+            "updateBlurStrength": updateBlurStrength,
             "applyStoredIconTheme": applyStoredIconTheme,
             "updateBarConfigs": updateBarConfigs,
             "updateCompositorCursor": updateCompositorCursor,
@@ -2043,7 +2050,7 @@ Singleton {
     function _saveSettings(userChanges) {
         let reason = null;
         if (isGreeterMode) {
-            reason = "running in greeter mode."
+            reason = "running in greeter mode.";
         } else if (_loading) {
             reason = "some files are being loaded";
         } else if (_parseError) {
@@ -3736,7 +3743,7 @@ Singleton {
         id: rightWidgetsModel
     }
 
-    component SettingsFile : QtObject {
+    component SettingsFile: QtObject {
         id: settingsFile
 
         required property string filePath
@@ -3823,7 +3830,7 @@ Singleton {
                     _loadSettingsOrStartIfReady();
                 }
             }
-            onLoadFailed: (error) => {
+            onLoadFailed: error => {
                 if (isGreeterMode) {
                     return;
                 }
@@ -3846,7 +3853,7 @@ Singleton {
                     unsavedUserChanges = _anySettingsFile(file => file.fileUnsavedUserChanges);
                 }
             }
-            onSaveFailed: (error) => {
+            onSaveFailed: error => {
                 selfWrite = false;
                 if (error === FileViewError.PermissionDenied) {
                     isFileReadOnly = true;
@@ -3860,7 +3867,12 @@ Singleton {
         }
     }
 
-    enum Stage { Discovering = 0, Loading = 1, Partial = 2, Ready = 3 }
+    enum Stage {
+        Discovering = 0,
+        Loading = 1,
+        Partial = 2,
+        Ready = 3
+    }
     property int _settingsStage: SettingsData.Stage.Discovering
 
     property var _settingsFiles: new Map()
@@ -3982,7 +3994,9 @@ Singleton {
             const filePath = folderModel.get(i, "filePath");
             folderPathsSet.add(filePath);
             if (!_settingsFiles.has(filePath)) {
-                listModel.append({ filePath });
+                listModel.append({
+                    filePath
+                });
             }
         }
         for (let i = listModel.count - 1; i >= 0; i--) {
@@ -3997,7 +4011,7 @@ Singleton {
         interval: 50
         repeat: false
         running: false
-        onTriggered: _syncSettingsFilesModels();
+        onTriggered: _syncSettingsFilesModels()
     }
     ListModel {
         id: settingsFilesListModel
@@ -4132,7 +4146,6 @@ Singleton {
             _resetPluginSettings();
         }
     }
-
 
     Timer {
         id: settingsSaveDebounce

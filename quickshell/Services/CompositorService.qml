@@ -2171,6 +2171,14 @@ Singleton {
                 MangoService.generateLayoutConfig();
         }
 
+        function onBlurStrengthRefreshNeeded() {
+            if (root.isAqueous && typeof AqueousConfigService !== "undefined") {
+                AqueousConfigService.applyBlurStrength();
+                return;
+            }
+            onCompositorLayoutRefreshNeeded(false);
+        }
+
         function onCompositorInputRefreshNeeded() {
             if (root.isNiri && typeof NiriService !== "undefined")
                 NiriService.generateNiriInputConfig();

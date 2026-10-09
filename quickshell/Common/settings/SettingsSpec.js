@@ -497,6 +497,10 @@ var LOCAL_SPEC = {
     blurEnabled: {
         def: false
     },
+    blurStrength: {
+        def: 0,
+        onChange: "updateBlurStrength"
+    },
     blurBorderSeeded: {
         def: false
     },

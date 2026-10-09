@@ -9,6 +9,7 @@ import qs.Common
 import "../Common/ConfigIncludeResolve.js" as ConfigIncludeResolve
 import qs.Services
 import "../Common/OutputModel.js" as OutputModel
+import "../Common/BlurStrength.js" as BlurStrength
 import "../Common/WorkspaceModel.js" as WorkspaceModel
 
 Singleton {
@@ -548,16 +549,6 @@ hl.config({
 ${sections.join("\n")}
 })
 `;
-        // Shell windows stay rigid like the rest of the shell chrome
-        if (SettingsData.hyprlandWobbleEnabled && hyprSupports("decoration:wobble:enabled")) {
-            content += `
-hl.window_rule({
-	match = { class = "^(com\\\\.danklinux\\\\.dms)$" },
-	no_wobble = true,
-})
-`;
-        }
-
         if (layoutXrayEnabled) {
             content += `
 hl.layer_rule({
@@ -622,11 +613,17 @@ hl.layer_rule({
     }
 
     function blurLines(s) {
+        const blur = BlurStrength.hyprlandBlur(s.blurStrength || BlurStrength.HYPRLAND_DEFAULT);
+        const lines = [];
+        if (blur.size !== 8)
+            lines.push(`size = ${blur.size},`);
+        if (blur.passes !== 1)
+            lines.push(`passes = ${blur.passes},`);
         const variant = s.hyprlandBlurVariant;
         if (!variant || variant === "kawase" || !hyprSupports("decoration:blur:variant"))
-            return [];
+            return lines;
         // A user config with blur disabled would otherwise hide the chosen variant
-        const lines = ["enabled = true,", `variant = ${luaString(variant)},`];
+        lines.push("enabled = true,", `variant = ${luaString(variant)},`);
         switch (variant) {
         case "ripple":
             return lines.concat(luaTable("ripple", [`strength = ${s.hyprlandBlurRippleStrength},`]));

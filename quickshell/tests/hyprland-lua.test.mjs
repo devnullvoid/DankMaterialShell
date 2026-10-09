@@ -5,6 +5,7 @@ import vm from "node:vm";
 import { loadScript } from "./qml-script.mjs";
 
 const OutputModel = loadScript(new URL("../Common/OutputModel.js", import.meta.url));
+const BlurStrength = loadScript(new URL("../Common/BlurStrength.js", import.meta.url));
 const SPEC = loadScript(new URL("../Common/settings/SettingsSpec.js", import.meta.url)).SPEC;
 const source = readFileSync(new URL("../Services/HyprlandService.qml", import.meta.url), "utf8");
 const extract = name => {
@@ -18,6 +19,7 @@ const live = {};
 // Every option is reported as supported unless a test shrinks the set
 const scope = vm.createContext({
     OutputModel,
+    BlurStrength,
     SettingsData: { displayNameMode: "system" },
     liveMonitor: name => live[name] ?? null,
     hyprOptionNames: new Proxy({}, { get: (names, key) => key in names ? names[key] : true })
@@ -43,7 +45,7 @@ const settingsFor = prefix => {
     const defaults = Object.fromEntries(Object.keys(SPEC).filter(key => prefix.test(key)).map(key => [key, SPEC[key].def]));
     return overrides => Object.assign({}, defaults, overrides);
 };
-const layout = settingsFor(/^hyprland/);
+const layout = settingsFor(/^(hyprland|blurStrength)/);
 const input = settingsFor(/^(mouse|touchpad|keyboard)[A-Z]/);
 const table = (lines, name) => {
     const start = lines.indexOf(`${name} = {`);
@@ -108,17 +110,24 @@ test("outputs: written scale snaps to Hyprland's n/120 grid so live float32 scal
 });
 
 test("layout: a blur variant forces blur on and writes only its own tuning table", () => {
-    assert.equal(table(decorationLines(layout({ hyprlandBlurVariant: "kawase" }), 0), "blur"), null);
-    const frost = table(decorationLines(layout({ hyprlandBlurVariant: "frost" }), 0), "blur");
+    assert.equal(table(decorationLines(layout({ hyprlandBlurVariant: "kawase", blurStrength: 16 }), 0), "blur"), null);
+    const frost = table(decorationLines(layout({ hyprlandBlurVariant: "frost", blurStrength: 16 }), 0), "blur");
     assert.deepEqual(frost, ["enabled = true,", 'variant = "frost",']);
-    const aurora = table(decorationLines(layout({ hyprlandBlurVariant: "aurora" }), 0), "blur");
+    const aurora = table(decorationLines(layout({ hyprlandBlurVariant: "aurora", blurStrength: 16 }), 0), "blur");
     assert.deepEqual(aurora.slice(0, 2), ["enabled = true,", 'variant = "aurora",']);
     assert.deepEqual(table(aurora, "aurora"), ["intensity = 0.35,", "speed = 1,"]);
     assert.equal(table(aurora, "haze"), null);
 });
 
+test("layout: blur strength writes Hyprland's size and passes, default reach gives two passes and skips the stock size", () => {
+    assert.deepEqual(table(decorationLines(layout(), 0), "blur"), ["passes = 2,"]);
+    assert.equal(table(decorationLines(layout({ blurStrength: 16 }), 0), "blur"), null);
+    assert.deepEqual(table(decorationLines(layout({ blurStrength: 112, hyprlandBlurVariant: "frost" }), 0), "blur"), ["passes = 3,", "enabled = true,", 'variant = "frost",']);
+});
+
 test("layout: effects the running Hyprland does not know are not written even when enabled", () => {
     const enabled = layout({
+        blurStrength: 16,
         hyprlandBlurVariant: "aurora",
         hyprlandGlowEnabled: true,
         hyprlandWobbleEnabled: true,

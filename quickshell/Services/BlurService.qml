@@ -6,6 +6,7 @@ import Quickshell
 import Quickshell.Io
 import qs.Common
 import qs.Services
+import "../Common/BlurStrength.js" as BlurStrength
 
 Singleton {
     id: root
@@ -20,6 +21,8 @@ Singleton {
             probe();
     }
     readonly property bool enabled: available && (SettingsData.blurEnabled ?? false)
+    readonly property int defaultStrength: BlurStrength.defaultReach(CompositorService.configKey)
+    readonly property int strength: SettingsData.blurStrength || defaultStrength
 
     // These settings predate non-blurred surface borders, so keep their keys for compatibility.
     readonly property color borderColor: {

@@ -251,18 +251,24 @@
     "keywords": [
       "background",
       "blur",
-      "compositor",
-      "does",
-      "effect",
+      "every",
       "frosted",
       "glass",
       "interface",
+      "just",
+      "passes",
+      "radius",
+      "reach",
+      "sets",
+      "shell",
+      "size",
+      "strength",
       "style",
-      "support",
-      "transparency"
+      "transparency",
+      "window"
     ],
     "page": "theme_surfaces",
-    "description": "Your compositor does not support background blur (ext-background-effect-v1)"
+    "description": "Sets the compositor's blur for every window, not just the shell"
   },
   {
     "section": "wallpaperBackgroundColorMode",

@@ -186,14 +186,19 @@ Column {
             }
         }
 
-        SettingsToggleRow {
+        SettingsToggleSliderRow {
             tab: "theme"
-            tags: ["blur", "background", "transparency", "glass", "frosted"]
+            tags: ["blur", "background", "transparency", "glass", "frosted", "strength", "radius", "size", "passes", "reach"]
             settingKey: "blurEnabled"
+            valueKeys: ["blurStrength"]
             text: I18n.tr("Background blur")
-            description: BlurService.available ? "" : I18n.tr("Your compositor does not support background blur (ext-background-effect-v1)")
+            description: BlurService.available ? I18n.tr("Sets the compositor's blur for every window, not just the shell", "Blur strength slider description") : I18n.tr("Your compositor does not support background blur (ext-background-effect-v1)")
             checked: SettingsData.blurEnabled ?? false
             enabled: BlurService.available
+            value: BlurService.strength
+            minimum: 16
+            maximum: 160
+            unit: "px"
             onToggled: checked => {
                 SettingsData.set("blurEnabled", checked);
                 if (!checked || SettingsData.blurBorderSeeded)
@@ -202,6 +207,7 @@ Column {
                 SettingsData.set("blurBorderEnabled", true);
                 SettingsSearchService.navigateToSection("blurBorderEnabled");
             }
+            onSliderValueChanged: newValue => SettingsData.set("blurStrength", newValue)
         }
 
         SettingsNavRow {
