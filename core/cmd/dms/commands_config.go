@@ -44,6 +44,7 @@ var resolveIncludeCmd = &cobra.Command{
 				"binds.kdl",
 				"input.kdl",
 				"cursor.conf",
+				"input.conf",
 				"layout.conf",
 				"outputs.conf",
 				"binds.conf",

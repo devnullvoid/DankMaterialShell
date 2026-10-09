@@ -192,9 +192,8 @@ Column {
             settingKey: "blurEnabled"
             valueKeys: ["blurStrength"]
             text: I18n.tr("Background blur")
-            description: BlurService.available ? I18n.tr("Sets the compositor's blur for every window, not just the shell", "Blur strength slider description") : I18n.tr("Your compositor does not support background blur (ext-background-effect-v1)")
+            visible: BlurService.available
             checked: SettingsData.blurEnabled ?? false
-            enabled: BlurService.available
             value: BlurService.strength
             minimum: 16
             maximum: 160
@@ -210,11 +209,19 @@ Column {
             onSliderValueChanged: newValue => SettingsData.set("blurStrength", newValue)
         }
 
+        SettingsNoteRow {
+            visible: BlurService.probed && !BlurService.available
+            noteIconName: "info"
+            tint: Theme.surfaceVariantText
+            tintBackground: Theme.surfaceVariantAlpha
+            text: I18n.tr("Your compositor does not support ext-background blur")
+        }
+
         SettingsNavRow {
             tab: "theme"
             tags: ["blur", "xray", "compositor", "layout"]
             settingKey: "blurXrayLink"
-            visible: CompositorService.isNiri || CompositorService.isHyprland
+            visible: BlurService.available && (CompositorService.isNiri || CompositorService.isHyprland)
             title: I18n.tr("Xray options are in Compositor → Layout")
             onClicked: keyboard => root.parentModal?.navigateTo("compositor_layout", keyboard)
         }

@@ -487,6 +487,10 @@ def find_settings_components(content, filename, wrappers, tab_meta, hub_meta):
                         condition_key = "isAqueous"
                 elif all(c in visible_raw for c in ("CompositorService.isNiri", "CompositorService.isHyprland", "CompositorService.isMango")):
                     condition_key = "windowRulesCapable"
+                elif all(c in visible_raw for c in ("CompositorService.isNiri", "CompositorService.isHyprland")):
+                    condition_key = "isHyprlandOrNiri"
+                elif all(c in visible_raw for c in ("CompositorService.isNiri", "CompositorService.isMango")):
+                    condition_key = "isNiriOrMango"
                 elif "CompositorService.isNiri" in visible_raw:
                     condition_key = "isNiri"
                 elif "CompositorService.isHyprland" in visible_raw:

@@ -315,10 +315,6 @@ var LOCAL_SPEC = {
         def: -1,
         onChange: "updateCompositorLayout"
     },
-    mangoTrackpadNaturalScrolling: {
-        def: true,
-        onChange: "updateCompositorCursor"
-    },
     mouseAccelProfile: {
         def: "default",
         onChange: "updateCompositorInput"

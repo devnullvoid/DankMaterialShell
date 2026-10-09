@@ -151,7 +151,7 @@ Singleton {
     readonly property bool supportsSmartDock: isNiri || isHyprland || isMango || isAqueous
     readonly property bool supportsNativeOverview: isNiri || isAqueous
     readonly property bool supportsPointerConfig: isNiri || isHyprland || isMango
-    readonly property bool supportsInputConfig: isNiri || isHyprland
+    readonly property bool supportsInputConfig: isNiri || isHyprland || isMango
 
     readonly property string displayName: {
         switch (compositor) {
@@ -2184,6 +2184,8 @@ Singleton {
                 NiriService.generateNiriInputConfig();
             if (root.isHyprland && typeof HyprlandService !== "undefined")
                 HyprlandService.generateInputConfig();
+            if (root.isMango && typeof MangoService !== "undefined")
+                MangoService.generateInputConfig();
         }
 
         function onCompositorCursorRefreshNeeded() {

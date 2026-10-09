@@ -14,6 +14,7 @@ Singleton {
 
     property bool compositorSupported: false
     property bool _probed: false
+    property bool probed: false
     readonly property bool available: compositorSupported
     readonly property bool blurRequested: SettingsData.blurEnabled ?? false
     onBlurRequestedChanged: {
@@ -64,6 +65,7 @@ Singleton {
         stdout: StdioCollector {
             onStreamFinished: {
                 root.compositorSupported = text.trim() === "supported";
+                root.probed = true;
                 if (root.compositorSupported)
                     log.info("Compositor supports ext-background-effect-v1");
                 else

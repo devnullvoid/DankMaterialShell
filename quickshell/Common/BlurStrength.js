@@ -1,7 +1,6 @@
 .pragma library
 
-// One shell-wide blur reach in logical px, solved into each compositor's own knobs.
-// Hyprland's stock 8/1 reaches 16px and reads as plain transparency, so DMS defaults it near niri.
+// One shell-wide blur reach in logical px, per-compositor
 var HYPRLAND_DEFAULT = 48;
 var NIRI_DEFAULT = 42;
 var AQUEOUS_DEFAULT = 40;

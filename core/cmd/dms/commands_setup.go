@@ -145,10 +145,12 @@ var dmsConfigSpecs = map[string]dmsConfigSpec{
 		niriContent: func(_ string) string { return config.NiriAlttabConfig },
 	},
 	"input": {
-		niriFile:    "input.kdl",
-		hyprFile:    "input.lua",
-		niriContent: func(_ string) string { return config.NiriInputConfig },
-		hyprContent: func(_ string) string { return config.DMSInputLuaConfig },
+		niriFile:     "input.kdl",
+		hyprFile:     "input.lua",
+		mangoFile:    "input.conf",
+		niriContent:  func(_ string) string { return config.NiriInputConfig },
+		hyprContent:  func(_ string) string { return config.DMSInputLuaConfig },
+		mangoContent: func(_ string) string { return "" },
 	},
 	"outputs": {
 		niriFile:     "outputs.kdl",

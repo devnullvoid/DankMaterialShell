@@ -114,6 +114,7 @@ Item {
             }
 
             SettingsTextFieldRow {
+                visible: CompositorService.isNiri || CompositorService.isHyprland
                 resetKeys: ["keyboardKeymapFile"]
                 leftIconName: "description"
                 text: I18n.tr("Keymap file")

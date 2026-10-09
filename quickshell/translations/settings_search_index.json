@@ -251,24 +251,18 @@
     "keywords": [
       "background",
       "blur",
-      "every",
       "frosted",
       "glass",
       "interface",
-      "just",
       "passes",
       "radius",
       "reach",
-      "sets",
-      "shell",
       "size",
       "strength",
       "style",
-      "transparency",
-      "window"
+      "transparency"
     ],
-    "page": "theme_surfaces",
-    "description": "Sets the compositor's blur for every window, not just the shell"
+    "page": "theme_surfaces"
   },
   {
     "section": "wallpaperBackgroundColorMode",
@@ -1229,7 +1223,7 @@
       "wallpaper"
     ],
     "page": "personalization",
-    "conditionKey": "isNiri"
+    "conditionKey": "isHyprlandOrNiri"
   },
   {
     "section": "notificationHistory",
@@ -2704,7 +2698,7 @@
       "xray"
     ],
     "page": "theme_surfaces",
-    "conditionKey": "isNiri"
+    "conditionKey": "isHyprlandOrNiri"
   },
   {
     "section": "_hub_personalization",
@@ -13040,7 +13034,7 @@
       "toast"
     ],
     "icon": "notifications",
-    "conditionKey": "isNiri"
+    "conditionKey": "isNiriOrMango"
   },
   {
     "section": "hyprlandLayoutGapsOutOverride",
@@ -14319,7 +14313,7 @@
       "touchpad"
     ],
     "parentLabel": "Input",
-    "conditionKey": "isNiri"
+    "conditionKey": "isNiriOrMango"
   },
   {
     "section": "touchpadDragLock",
@@ -14367,7 +14361,7 @@
       "touchpad"
     ],
     "parentLabel": "Input",
-    "conditionKey": "isNiri"
+    "conditionKey": "isNiriOrMango"
   },
   {
     "section": "touchpadMiddleEmulation",
@@ -14418,23 +14412,6 @@
     "icon": "mouse",
     "parentLabel": "Input",
     "description": "Speed, scrolling, tap to click",
-    "conditionKey": "pointerCapable"
-  },
-  {
-    "section": "mangoTrackpadNaturalScrolling",
-    "label": "Natural scrolling",
-    "tabIndex": 44,
-    "category": "Mouse & touchpad",
-    "keywords": [
-      "input",
-      "invert",
-      "mouse",
-      "natural",
-      "scrolling",
-      "touchpad",
-      "trackpad"
-    ],
-    "parentLabel": "Input",
     "conditionKey": "pointerCapable"
   },
   {
@@ -14596,24 +14573,6 @@
     ],
     "parentLabel": "Input",
     "conditionKey": "pointerCapable"
-  },
-  {
-    "section": "mangoTouchpadSettings",
-    "label": "Touchpad",
-    "tabIndex": 44,
-    "category": "Mouse & touchpad",
-    "keywords": [
-      "input",
-      "invert",
-      "mouse",
-      "natural",
-      "scrolling",
-      "touchpad",
-      "trackpad"
-    ],
-    "parentLabel": "Input",
-    "icon": "trackpad_input_2",
-    "conditionKey": "isMango"
   },
   {
     "section": "touchpadSettings",

@@ -68,6 +68,7 @@ Singleton {
             "smartDockCapable": () => CompositorService.supportsSmartDock,
             "workspaceFollowFocusCapable": () => CompositorService.supportsWorkspaceFollowFocus,
             "isHyprlandOrNiri": () => CompositorService.isHyprland || CompositorService.isNiri,
+            "isNiriOrMango": () => CompositorService.isNiri || CompositorService.isMango,
             "windowRulesCapable": () => CompositorService.supportsWindowRules,
             "layoutCapable": () => CompositorService.supportsLayoutConfig,
             "keybindsAvailable": () => KeybindsService.available,

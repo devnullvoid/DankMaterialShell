@@ -174,6 +174,7 @@ func (cd *ConfigDeployer) deployMangoDmsConfigs(dmsDir, terminalCommand string, 
 		{"layout.conf", MangoLayoutConfig},
 		{"outputs.conf", extractMangoLines(oldMain, mangoMonitorLine)},
 		{"cursor.conf", ""},
+		{"input.conf", ""},
 		{"windowrules.conf", extractMangoLines(oldMain, mangoWindowLine)},
 	}
 	for _, cfg := range configs {

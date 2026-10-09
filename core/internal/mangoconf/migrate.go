@@ -10,7 +10,7 @@ import (
 
 // DMS-owned fragments under mango/dms; config.conf is the user's and only
 // migrated on request.
-var fragments = []string{"binds.conf", "colors.conf", "layout.conf", "cursor.conf", "outputs.conf", "windowrules.conf"}
+var fragments = []string{"binds.conf", "colors.conf", "layout.conf", "cursor.conf", "input.conf", "outputs.conf", "windowrules.conf"}
 
 // Migrate respells the dms fragments, and config.conf (after a backup) when includeMain is set.
 // It returns the files rewritten; an unwritable file is reported without stopping the others.
