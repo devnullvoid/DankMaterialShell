@@ -60,15 +60,17 @@ Item {
         anchors.fill: parent
         acceptedButtons: Qt.NoButton
         onWheel: wheel => {
-            const delta = wheel.angleDelta.x || wheel.angleDelta.y;
-            if (wheel.angleDelta.x === 0 && !(wheel.modifiers & Qt.ShiftModifier)) {
+            const horizontal = wheel.angleDelta.x !== 0 || (wheel.modifiers & Qt.ShiftModifier);
+            if (!horizontal || root.maxStart === 0) {
                 wheel.accepted = false;
                 return;
             }
+            const delta = wheel.angleDelta.x || wheel.angleDelta.y;
             const step = delta > 0 ? -1 : 1;
-            wheel.accepted = delta !== 0 && root.start + step >= 0 && root.start + step <= root.maxStart;
-            if (wheel.accepted)
+            const next = root.start + step;
+            if (delta !== 0 && next >= 0 && next <= root.maxStart)
                 root.pageRequested(step);
+            wheel.accepted = true;
         }
     }
 
