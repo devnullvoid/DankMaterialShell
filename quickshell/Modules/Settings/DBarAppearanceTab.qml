@@ -22,6 +22,14 @@ Item {
     readonly property bool selectedIslandFree: bar.selectedBarIsIsland && SettingsData.islandFreePlacement(bar.selectedBarConfig)
     readonly property bool selectedIslandNotch: bar.selectedBarIsIsland && !root.selectedIslandFree && bar.islandSetting("islandNotch")
     readonly property int frameInsetPaddingDisplay: Math.round(SettingsData.frameBarContentGap)
+    readonly property var frameBar: SettingsData.frameBarConfig
+    readonly property bool frameBarOverridden: frameBar?.followInterfaceStyle === false
+
+    function updateFrameBar(updates) {
+        if (!frameBar)
+            return;
+        SettingsData.updateBarConfig(frameBar.id, updates);
+    }
 
     BarSelectionState {
         id: bar
@@ -52,7 +60,7 @@ Item {
             SettingsSliderRow {
                 settingKey: "frameThickness"
                 tags: ["frame", "border", "thickness", "size", "width"]
-                text: I18n.tr("Width")
+                text: I18n.tr("Thickness")
                 unit: "px"
                 minimum: 2
                 maximum: 100
@@ -77,10 +85,11 @@ Item {
                 settingKey: "frameBarInsetPadding"
                 tags: ["frame", "bar", "edge", "inset", "padding", "corner", "end"]
                 text: I18n.tr("Bar inset padding")
+                description: I18n.tr("Gap between the bar ends and the outermost widgets", "bar inset padding slider description")
                 minimumLabel: I18n.tr("Edge to edge", "slider minimum label, bar touches the screen edges")
                 unit: "px"
                 minimum: 0
-                maximum: 48
+                maximum: 100
                 step: 1
                 value: root.frameInsetPaddingDisplay
                 onSliderDragFinished: v => SettingsData.set("frameBarInsetPadding", v)
@@ -97,35 +106,62 @@ Item {
                 visible: BlurService.available
             }
 
-            SettingsRow {
+            SettingsControlledBy {
                 visible: BlurService.available && !SettingsData.blurEnabled
-                body: Item {
-                    width: parent.width
-                    height: blurToggleNote.height + Theme.spacingM * 2
+                target: "surfaces"
+                parentModal: root.parentModal
+                section: "blurEnabled"
+                settingLabel: I18n.tr("Background blur")
+            }
 
-                    Row {
-                        id: blurToggleNote
-                        x: Theme.spacingM
-                        width: parent.width - Theme.spacingM * 2
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: Theme.spacingS
+            SurfaceColorRow {
+                settingKey: "frameSurfaceColor"
+                tags: ["frame", "background", "color", "surface"]
+                visible: !!root.frameBar
+                text: I18n.tr("Background")
+                defaultColor: Theme.hostSurface
+                currentMode: root.frameBar?.surfaceColor ?? "default"
+                customColor: root.frameBar?.surfaceCustomColor ?? SettingsData.barConfigDefault("surfaceCustomColor")
+                pickerTitle: I18n.tr("Background")
+                modified: (root.frameBar?.surfaceColor ?? "default") !== "default"
+                resetByKeys: false
+                onResetRequested: root.updateFrameBar({
+                    surfaceColor: "default",
+                    surfaceCustomColor: SettingsData.barConfigDefault("surfaceCustomColor")
+                })
+                onModeSelected: mode => root.updateFrameBar({
+                        surfaceColor: mode
+                    })
+                onCustomColorSelected: selectedColor => root.updateFrameBar({
+                        surfaceCustomColor: selectedColor.toString()
+                    })
+            }
 
-                        DIcon {
-                            name: "blur_on"
-                            size: Theme.fontSizeMedium
-                            color: Theme.primary
-                            anchors.verticalCenter: parent.verticalCenter
-                        }
-
-                        StyledText {
-                            text: I18n.tr("Frame Blur follows Background Blur in Theme & Colors")
-                            font.pixelSize: Theme.fontSizeSmall
-                            color: Theme.surfaceVariantText
-                            wrapMode: Text.WordWrap
-                            width: parent.width - Theme.fontSizeMedium - Theme.spacingS
-                        }
-                    }
-                }
+            SettingsToggleSliderRow {
+                settingKey: "frameSurfaceOpacity"
+                tags: ["frame", "opacity", "transparency", "override", "interface", "style"]
+                visible: !!root.frameBar
+                text: I18n.tr("Opacity")
+                description: I18n.tr("Override")
+                checked: root.frameBarOverridden
+                value: Math.round((root.frameBar?.transparency ?? 1) * 100)
+                minimum: 0
+                maximum: 100
+                modified: root.frameBarOverridden
+                valueModified: (root.frameBar?.transparency ?? 1) !== 1
+                onResetRequested: root.updateFrameBar({
+                    followInterfaceStyle: true,
+                    transparency: 1
+                })
+                onValueResetRequested: root.updateFrameBar({
+                    transparency: 1
+                })
+                onToggled: checked => root.updateFrameBar({
+                        followInterfaceStyle: !checked
+                    })
+                onSliderDragFinished: finalValue => root.updateFrameBar({
+                        transparency: finalValue / 100
+                    })
             }
         }
 
@@ -244,6 +280,14 @@ Item {
                 section: "barShadow"
                 settingLabel: I18n.tr("Shadow", "bar shadow settings card")
             }
+
+            SettingsControlledBy {
+                visible: bar.selectedBarFrameSanitized && !bar.selectedBarFrameStyled && !bar.islandOwnsSelectedBarTop
+                parentModal: root.parentModal
+                section: "frameBorder"
+                settingLabel: [I18n.tr("Corner style"), I18n.tr("Border", "noun, settings toggle card title for an outline around a surface"), I18n.tr("Shadow", "bar shadow settings card")].join(" · ")
+                reason: I18n.tr("Disabled by Frame Mode")
+            }
         }
 
         SettingsToggleCard {
@@ -322,7 +366,6 @@ Item {
             SettingsSliderRow {
                 settingKey: "barSize"
                 tags: ["size", "thickness", "height", "inner"]
-                visible: !bar.selectedBarFrameStyled
                 text: I18n.tr("Size")
                 resetStore: bar
                 resetKeys: ["innerPadding"]

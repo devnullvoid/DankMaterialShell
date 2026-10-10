@@ -423,19 +423,9 @@ Singleton {
         _reconcileConnectedFrameBarStyles();
     }
 
-    function _frameBarConfig() {
-        return barConfigs.find(bc => bc.enabled !== false && !isIslandBarConfig(bc));
-    }
-
-    readonly property real frameSurfaceOpacity: {
-        barConfigs;
-        return barTransparency(_frameBarConfig());
-    }
-
-    readonly property color frameSurfaceBase: {
-        barConfigs;
-        return barSurfaceColor(_frameBarConfig());
-    }
+    readonly property var frameBarConfig: barConfigs.find(bc => bc.enabled !== false && !isIslandBarConfig(bc)) ?? null
+    readonly property real frameSurfaceOpacity: barTransparency(frameBarConfig)
+    readonly property color frameSurfaceBase: barSurfaceColor(frameBarConfig)
 
     property string systemTrayIconTintMode: Spec.SPEC.systemTrayIconTintMode.def
     property int systemTrayIconTintSaturation: Spec.SPEC.systemTrayIconTintSaturation.def

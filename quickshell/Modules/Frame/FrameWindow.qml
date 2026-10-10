@@ -1036,9 +1036,6 @@ PanelWindow {
         function onFrameBarSizeChanged() {
             win._scheduleBlurRebuild();
         }
-        function onFrameOpacityChanged() {
-            win._scheduleBlurRebuild();
-        }
         function onFrameRoundingChanged() {
             win._scheduleBlurRebuild();
         }

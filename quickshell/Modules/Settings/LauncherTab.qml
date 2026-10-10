@@ -14,6 +14,9 @@ Item {
     readonly property bool keybindsAvailable: KeybindsService.available
     readonly property string defaultLauncherKeybindSearch: "spotlight toggle"
     readonly property string spotlightBarKeybindSearch: "spotlight-bar"
+    readonly property bool spotlightIgnoresRows: SettingsData.launcherStyle === "spotlight" && !SettingsData.connectedFrameModeActive
+    // The niri overview launcher still uses size and footer when it is set to the full style.
+    readonly property bool spotlightIgnoresSize: spotlightIgnoresRows && !(CompositorService.isNiri && SettingsData.niriOverviewOverlayEnabled && SettingsData.niriOverviewLauncherStyle !== "spotlight")
     readonly property var builtInPluginIds: ["dms_settings", "dms_notepad", "dms_sysmon", "dms_colorpicker", "dms_settings_search", "dms_clipboard_search", "dms_power", "dms_vpn", "dms_qr_generator"]
 
     function openKeybindsSearch(query) {
@@ -141,6 +144,7 @@ Item {
             SettingsButtonGroupRow {
                 readonly property var sizes: ["micro", "compact", "medium", "large"]
 
+                enabled: !root.spotlightIgnoresSize
                 settingKey: "dankLauncherV2Size"
                 tags: ["launcher", "size", "micro", "compact", "medium", "large"]
                 text: I18n.tr("Size")
@@ -172,7 +176,7 @@ Item {
                 tags: ["launcher", "footer", "hints", "shortcuts", "modes", "filters"]
                 text: I18n.tr("Show footer")
                 checked: SettingsData.dankLauncherV2ShowFooter
-                enabled: SettingsData.dankLauncherV2Size !== "micro"
+                enabled: SettingsData.dankLauncherV2Size !== "micro" && !root.spotlightIgnoresSize
                 onToggled: checked => SettingsData.set("dankLauncherV2ShowFooter", checked)
             }
 
@@ -202,8 +206,18 @@ Item {
             }
         }
 
+        SettingsControlledBy {
+            visible: SettingsData.connectedFrameModeActive && !SettingsData.launcherUseOverlayLayer
+            parentModal: root.parentModal
+            section: "frameBorder"
+            settingLabel: I18n.tr("Border")
+            reason: I18n.tr("Managed by Frame in Connected Mode")
+        }
+
         SettingsToggleCard {
             width: parent.width
+            visible: !SettingsData.connectedFrameModeActive || SettingsData.launcherUseOverlayLayer
+            enabled: !root.spotlightIgnoresRows
             iconName: "border_style"
             title: I18n.tr("Border")
             settingKey: "dankLauncherV2BorderEnabled"
@@ -841,6 +855,7 @@ Item {
             }
 
             SettingsToggleRow {
+                enabled: !root.spotlightIgnoresRows
                 settingKey: "dankLauncherV2UnloadOnClose"
                 tags: ["launcher", "unload", "close", "memory", "vram"]
                 text: I18n.tr("Unload on close")

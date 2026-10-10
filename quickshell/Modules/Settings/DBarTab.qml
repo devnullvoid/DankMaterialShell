@@ -604,7 +604,7 @@ Item {
             SettingsToggleRow {
                 settingKey: "barUseOverlayLayer"
                 tags: ["bar", "fullscreen", "overlay", "layer"]
-                visible: !bar.islandOwnsSelectedBarTop
+                visible: !bar.islandOwnsSelectedBarTop && !(bar.selectedBarFrameStyled && !SettingsData.connectedFrameModeActive)
                 text: I18n.tr("Use overlay layer")
                 checked: bar.selectedBarConfig?.useOverlayLayer ?? false
                 onToggled: toggled => {
@@ -618,22 +618,38 @@ Item {
             SettingsToggleRow {
                 settingKey: "islandUseOverlayLayer"
                 tags: ["island", "fullscreen", "overlay", "layer"]
-                visible: bar.selectedBarIsIsland
+                visible: bar.selectedBarIsIsland && !bar.selectedBarFrameStyled
                 text: I18n.tr("Use overlay layer")
                 checked: bar.islandSetting("islandUseOverlayLayer")
                 onToggled: checked => bar.apply("islandUseOverlayLayer", checked)
             }
 
+            SettingsControlledBy {
+                visible: bar.selectedBarFrameStyled && (bar.selectedBarIsIsland || (!bar.islandOwnsSelectedBarTop && !SettingsData.connectedFrameModeActive))
+                parentModal: dankBarTab.parentModal
+                section: "frameBorder"
+                settingLabel: I18n.tr("Use overlay layer")
+                reason: I18n.tr("Disabled by Frame Mode")
+            }
+
             SettingsToggleRow {
                 settingKey: "barMaximizeDetection"
                 tags: ["maximize", "gaps", "border", "fullscreen"]
-                visible: CompositorService.supportsBarAutoHideReveal
+                visible: CompositorService.supportsBarAutoHideReveal && !bar.selectedBarFrameStyled
                 text: I18n.tr("Maximize detection")
                 description: I18n.tr("Drops bar gaps and rounding while a window is maximized", "bar maximize detection toggle description")
                 checked: bar.selectedBarConfig?.maximizeDetection ?? true
                 onToggled: toggled => SettingsData.updateBarConfig(bar.selectedBarId, {
                         maximizeDetection: toggled
                     })
+            }
+
+            SettingsControlledBy {
+                visible: CompositorService.supportsBarAutoHideReveal && bar.selectedBarFrameStyled
+                parentModal: dankBarTab.parentModal
+                section: "frameBorder"
+                settingLabel: I18n.tr("Maximize detection")
+                reason: I18n.tr("Disabled by Frame Mode")
             }
 
             SettingsSliderRow {
@@ -657,7 +673,7 @@ Item {
                 text: I18n.tr("Auto popup gaps")
                 description: I18n.tr("Gap between the bar and its popouts follows edge spacing", "bar auto popup gaps toggle description")
                 tags: ["popup", "gaps", "auto"]
-                visible: !bar.popupGapsZeroed
+                visible: !dankBarTab.popupGapsZeroed
                 checked: bar.selectedBarConfig?.popupGapsAuto ?? true
                 onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
                         popupGapsAuto: checked
@@ -665,7 +681,7 @@ Item {
             }
 
             SettingsSliderRow {
-                visible: !bar.popupGapsZeroed && !(bar.selectedBarConfig?.popupGapsAuto ?? true)
+                visible: !dankBarTab.popupGapsZeroed && !(bar.selectedBarConfig?.popupGapsAuto ?? true)
                 text: I18n.tr("Gap size")
                 tags: ["popup", "gaps", "size"]
                 resetStore: bar

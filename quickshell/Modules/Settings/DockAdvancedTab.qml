@@ -1,4 +1,5 @@
 import QtQuick
+import Quickshell
 import qs.Common
 import qs.Services
 import qs.Modules.Settings.Widgets
@@ -34,7 +35,7 @@ Item {
                 tags: ["dock", "fullscreen", "overlay", "show", "visibility"]
                 text: I18n.tr("Over fullscreen")
                 description: I18n.tr("Keeps the dock showing over fullscreen windows", "dock over fullscreen toggle description")
-                enabled: dock.config?.useOverlayLayer ?? false
+                enabled: (dock.config?.useOverlayLayer ?? false) || Quickshell.screens.some(screen => CompositorService.framePeerSurfacesUseOverlayForScreen(screen) && SettingsData.dockConfigsForScreen(screen).some(config => config.id === dock.config?.id))
                 checked: dock.config?.showOnFullscreen ?? false
                 onToggled: checked => dock.setOption("showOnFullscreen", checked)
             }

@@ -35,6 +35,7 @@ Column {
     readonly property var opacityTargets: {
         SettingsData.barConfigs;
         SettingsData.dockConfigs;
+        const frameBarId = SettingsData.frameEnabled ? SettingsData.frameBarConfig?.id : undefined;
         const bars = SettingsData.barConfigs.filter(config => !SettingsData.isDotBarConfig(config)).map(config => ({
                     key: "bar:" + config.id,
                     kind: "bar",
@@ -42,7 +43,8 @@ Column {
                     name: config.name || config.id,
                     enabled: config.enabled !== false,
                     override: config.followInterfaceStyle === false,
-                    transparency: config.transparency ?? 1
+                    transparency: config.transparency ?? 1,
+                    frame: config.id === frameBarId
                 }));
         const docks = SettingsData.dockConfigs.map(config => ({
                     key: "dock:" + config.id,
@@ -51,7 +53,8 @@ Column {
                     name: config.name,
                     enabled: config.enabled !== false,
                     override: config.followInterfaceStyle === false,
-                    transparency: config.transparency ?? 1
+                    transparency: config.transparency ?? 1,
+                    overlay: config.useOverlayLayer ?? false
                 }));
         return bars.concat(docks);
     }
@@ -183,6 +186,14 @@ Column {
                     SettingsData.set("blurBorderColor", "outline");
                 }
             }
+        }
+
+        SettingsControlledBy {
+            visible: SettingsData.connectedFrameModeActive && root.borderEnabled
+            parentModal: root.parentModal
+            section: "frameBorder"
+            settingLabel: I18n.tr("Border")
+            reason: I18n.tr("Managed by Frame in Connected Mode")
         }
 
         SettingsToggleSliderRow {
@@ -334,6 +345,14 @@ Column {
             settingKey: modelData.settingKey
             visible: targets.length > 0
 
+            SettingsControlledBy {
+                visible: targetCard.modelData.kind === "dock" && SettingsData.connectedFrameModeActive && targetCard.activeTargets.some(target => !target.overlay)
+                parentModal: root.parentModal
+                section: "frameSurfaceOpacity"
+                settingLabel: I18n.tr("Opacity")
+                reason: I18n.tr("Managed by Frame in Connected Mode")
+            }
+
             Repeater {
                 model: targetCard.activeKeys ? targetCard.activeKeys.split("\n") : []
                 delegate: opacityTargetRow
@@ -448,7 +467,7 @@ Column {
             tags: ["surface", "opacity", "transparency", "bar", "dock", "override"]
             settingKey: "surfaceOpacity_" + modelData.replace(":", "_")
             text: target?.name ?? ""
-            description: I18n.tr("Override")
+            description: target?.frame ? I18n.tr("Frame") + " · " + I18n.tr("Override") : I18n.tr("Override")
             checked: target?.override ?? false
             value: Math.round((target?.transparency ?? 1) * 100)
             minimum: 0
