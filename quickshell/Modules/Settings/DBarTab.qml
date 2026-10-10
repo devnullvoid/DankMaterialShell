@@ -20,6 +20,7 @@ Item {
     readonly property string clickThroughHint: I18n.tr("Disabled by Click through", "bar hover popouts card, Click through is the Advanced toggle name")
     readonly property bool selectedIslandFree: bar.selectedBarIsIsland && SettingsData.islandFreePlacement(bar.selectedBarConfig)
     readonly property bool selectedIslandDocked: bar.selectedBarIsIsland && !selectedIslandFree
+    readonly property bool popupGapsZeroed: SettingsData.barUsesConnectedFrameStyle(bar.selectedBarConfig) && !(bar.selectedBarConfig?.useOverlayLayer ?? false)
     readonly property int placementIndex: !bar.islandSetting("islandFloating") ? 0 : (bar.islandSetting("islandPlacement") === "free" ? 2 : 1)
 
     function setBarScreenPreferences(barId, prefs) {
@@ -656,7 +657,7 @@ Item {
                 text: I18n.tr("Auto popup gaps")
                 description: I18n.tr("Gap between the bar and its popouts follows edge spacing", "bar auto popup gaps toggle description")
                 tags: ["popup", "gaps", "auto"]
-                visible: !bar.selectedBarFrameStyled
+                visible: !bar.popupGapsZeroed
                 checked: bar.selectedBarConfig?.popupGapsAuto ?? true
                 onToggled: checked => SettingsData.updateBarConfig(bar.selectedBarId, {
                         popupGapsAuto: checked
@@ -664,7 +665,7 @@ Item {
             }
 
             SettingsSliderRow {
-                visible: !bar.selectedBarFrameStyled && !(bar.selectedBarConfig?.popupGapsAuto ?? true)
+                visible: !bar.popupGapsZeroed && !(bar.selectedBarConfig?.popupGapsAuto ?? true)
                 text: I18n.tr("Gap size")
                 tags: ["popup", "gaps", "size"]
                 resetStore: bar

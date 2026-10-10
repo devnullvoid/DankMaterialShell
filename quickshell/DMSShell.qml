@@ -1068,6 +1068,7 @@ Item {
             expandable: true
             expandedWidthValue: 960
             edgeGap: SettingsData.notepadEffectiveEdgeGap
+            frameSurfaceEnabled: true
             slideEdge: SettingsData.notepadSlideoutSide
             customTransparency: Theme.notepadTransparency
 

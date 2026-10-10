@@ -1816,7 +1816,7 @@ Item {
             WindowBlur {
                 id: popoutBlur
                 targetWindow: contentWindow
-                blurEnabled: Theme.connectedSurfaceBlurEnabled && !root.frameOwnsConnectedChrome
+                blurEnabled: !root.frameOwnsConnectedChrome && (!root.usesConnectedSurfaceChrome || Theme.connectedSurfaceBlurEnabled)
                 surfaceColor: chrome.surfaceColor
 
                 readonly property real s: Math.min(1, contentContainer.scaleValue)
