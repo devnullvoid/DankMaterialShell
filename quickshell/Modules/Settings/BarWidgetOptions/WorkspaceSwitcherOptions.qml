@@ -67,31 +67,20 @@ Column {
             onToggled: checked => root.page.set("workspaceIndicatorCompact", checked)
         }
 
-        SettingsToggleRow {
-            id: roundnessRow
-
-            readonly property bool overridden: root.page.value("workspaceIndicatorRoundness") >= 0
-
-            tags: ["workspace", "corner", "radius", "rounded", "square", "circle", "override"]
+        SettingsToggleSliderRow {
+            resetStore: root.page
+            tags: ["workspace", "corner", "radius", "rounded", "square", "circle", "override", "roundness"]
             text: I18n.tr("Override", "verb, toggle to override the global setting for this item")
-            description: I18n.tr("Follows the theme radius strength until overridden", "workspace indicator roundness override description")
-            checked: overridden
+            checked: root.page.value("workspaceIndicatorRoundness") >= 0
+            value: root.indicatorRoundness
+            minimum: 0
+            maximum: 100
+            unit: ""
             onToggled: checked => root.page.set("workspaceIndicatorRoundness", checked ? root.indicatorRoundness : -1)
-
-            body: SettingsSliderRow {
-                width: parent.width
-                enabled: roundnessRow.overridden
-                text: I18n.tr("Roundness", "workspace indicator corner rounding")
-                minimumLabel: I18n.tr("Square")
-                value: root.indicatorRoundness
-                minimum: 0
-                maximum: 100
-                unit: ""
-                onSliderValueChanged: newValue => root.draftRoundness = newValue
-                onSliderDragFinished: finalValue => {
-                    root.page.set("workspaceIndicatorRoundness", finalValue);
-                    root.draftRoundness = -1;
-                }
+            onSliderValueChanged: newValue => root.draftRoundness = newValue
+            onSliderDragFinished: finalValue => {
+                root.page.set("workspaceIndicatorRoundness", finalValue);
+                root.draftRoundness = -1;
             }
         }
 

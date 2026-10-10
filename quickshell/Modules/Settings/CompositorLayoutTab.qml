@@ -438,23 +438,17 @@ awk '$1 == "xray" { print FILENAME ":" FNR; exit }' $files 2>/dev/null`;
                 onSliderValueChanged: newValue => SettingsData.set("hyprlandLayoutBorderSize", newValue)
             }
 
-            SettingsToggleRow {
-                tags: ["hyprland", "resize", "border", "mouse", "drag"]
+            SettingsToggleSliderRow {
+                tags: ["hyprland", "resize", "border", "mouse", "drag", "grab", "area", "extend_border_grab_area"]
                 settingKey: "hyprlandResizeOnBorder"
+                valueKeys: ["hyprlandBorderGrabArea"]
                 text: I18n.tr("Resize on border")
                 checked: SettingsData.hyprlandResizeOnBorder
-                onToggled: checked => SettingsData.set("hyprlandResizeOnBorder", checked)
-            }
-
-            SettingsSliderRow {
-                tags: ["hyprland", "resize", "border", "grab", "area", "extend_border_grab_area"]
-                settingKey: "hyprlandBorderGrabArea"
-                visible: SettingsData.hyprlandResizeOnBorder
-                text: I18n.tr("Border grab area", "Hyprland slider, extra space around window borders that still starts a resize")
                 value: SettingsData.hyprlandBorderGrabArea
                 minimum: 0
                 maximum: 100
                 unit: "px"
+                onToggled: checked => SettingsData.set("hyprlandResizeOnBorder", checked)
                 onSliderValueChanged: newValue => SettingsData.set("hyprlandBorderGrabArea", newValue)
             }
 
