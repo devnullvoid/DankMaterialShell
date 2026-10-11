@@ -229,10 +229,18 @@ Item {
         width: root.trackWidth * trackScale.xScale + inset * 2
         height: CcMetrics.footerHeight + inset * 2
         radius: CcMetrics.dropZoneRadius
-        color: "transparent"
+        color: root.overTrash ? Theme.withAlpha(Theme.error, Theme.stateLayerDrag) : "transparent"
         border.width: Theme.outlineWidth
-        border.color: receiving ? Theme.primary : Theme.outlineVariant
+        border.color: root.overTrash ? Theme.error : receiving ? Theme.primary : Theme.outlineVariant
         visible: root.editMode
+
+        Behavior on color {
+            enabled: CcMetrics.animationsEnabled
+            ColorAnimation {
+                duration: Theme.shortDuration
+                easing.type: Theme.standardEasing
+            }
+        }
 
         Behavior on border.color {
             enabled: CcMetrics.animationsEnabled
@@ -472,7 +480,15 @@ Item {
             anchors.left: parent.left
             anchors.verticalCenter: parent.verticalCenter
             spacing: root.spacing
-            visible: !root.dragging
+            opacity: root.dragging ? Theme.pendingOpacity : 1
+
+            Behavior on opacity {
+                enabled: CcMetrics.animationsEnabled
+                NumberAnimation {
+                    duration: Theme.shortDuration
+                    easing.type: Theme.standardEasing
+                }
+            }
 
             DActionButton {
                 buttonSize: Theme.iconButtonSize
@@ -496,33 +512,36 @@ Item {
                 onClicked: editMenu.openAt(moreButton)
             }
         }
+    }
 
-        StyledRect {
-            id: trash
+    StyledRect {
+        id: trash
 
-            anchors.fill: parent
-            radius: Theme.fullRadius(width, height)
-            color: root.overTrash ? Theme.errorContainer : CcMetrics.tileInactiveColor
-            border.width: Theme.outlineWidth
-            border.color: root.overTrash ? Theme.error : Theme.outlineVariant
-            visible: root.dragging && root.dragRemovable
-            Accessible.role: Accessible.Graphic
-            Accessible.name: I18n.tr("Remove")
+        anchors.centerIn: parent
+        width: root.editActionsWidth
+        height: CcMetrics.footerHeight
+        radius: Theme.fullRadius(width, height)
+        color: root.overTrash ? Theme.error : Theme.errorContainer
+        border.width: Theme.outlineWidth
+        border.color: root.overTrash ? Theme.error : Theme.outlineVariant
+        visible: root.dragging && root.dragRemovable
+        Accessible.role: Accessible.Graphic
+        Accessible.name: I18n.tr("Remove")
 
-            Behavior on color {
-                ColorAnimation {
-                    duration: Theme.shortDuration
-                    easing.type: Theme.standardEasing
-                }
+        Behavior on color {
+            enabled: CcMetrics.animationsEnabled
+            ColorAnimation {
+                duration: Theme.shortDuration
+                easing.type: Theme.standardEasing
             }
+        }
 
-            DIcon {
-                anchors.centerIn: parent
-                name: "delete"
-                size: CcMetrics.iconBoxIconSize
-                filled: root.overTrash
-                color: root.overTrash ? Theme.onErrorContainer : CcMetrics.tileInactiveContent
-            }
+        DIcon {
+            anchors.centerIn: parent
+            name: "delete"
+            size: CcMetrics.iconBoxIconSize
+            filled: root.overTrash
+            color: root.overTrash ? Theme.onError : Theme.onErrorContainer
         }
     }
 

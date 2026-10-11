@@ -34,6 +34,7 @@ DEditableGrid {
 
     readonly property real gridHeight: layoutHeight
     readonly property real cellWidth: (width + CcMetrics.gridGap) / columns
+    readonly property bool dragging: draggingSourceIndex >= 0 || externalItem !== null
     readonly property CcTileSlot draggingSlot: tileRepeater.itemAt(draggingSourceIndex) as CcTileSlot
     readonly property string hoverGroup: heldOutside && draggingSourceIndex >= 0 ? (groupAt(dragScenePoint, draggingSourceIndex)?.groupId ?? "") : ""
 

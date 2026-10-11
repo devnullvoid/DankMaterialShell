@@ -47,8 +47,11 @@ FocusScope {
         ]) : items, [])
     readonly property bool footerOnTop: SettingsData.controlCenterFooterPosition === "top"
     readonly property var gridDragWidget: widgetGrid.draggingSourceIndex >= 0 ? (widgetGrid.sourceItems[widgetGrid.draggingSourceIndex] ?? null) : null
+    // A drag holds the panel at its lift height so the footer and trash never move under the pointer; a layout
+    // that grows past it is clipped by the flickable until the drop commits.
+    readonly property real heldGridHeight: widgetGrid.dragging ? widgetGrid.pinnedHeight : gridHeight
     readonly property real targetImplicitHeight: {
-        const total = CcMetrics.sheetPadding * 2 + gridHeight + chromeHeight;
+        const total = CcMetrics.sheetPadding * 2 + heldGridHeight + chromeHeight;
         if (detailPage.shownSection === "")
             return total;
         return Math.max(total, detailPage.topInset + detailPage.minimumHeight + CcMetrics.detailDialogInset);
@@ -57,10 +60,10 @@ FocusScope {
     property var pageHistory: []
     // One string so Discard and undo can compare and restore the whole session state at once.
     readonly property string editState: JSON.stringify({
-            "widgets": SettingsData.controlCenterWidgets || [],
-            "columns": SettingsData.controlCenterColumns,
-            "footerPosition": SettingsData.controlCenterFooterPosition
-        })
+        "widgets": SettingsData.controlCenterWidgets || [],
+        "columns": SettingsData.controlCenterColumns,
+        "footerPosition": SettingsData.controlCenterFooterPosition
+    })
     property string editSnapshot: ""
     property string undoBase: ""
     property var undoStack: []
@@ -233,9 +236,9 @@ FocusScope {
         undoBase = editState;
     }
 
-    // Goes by the dragged tile, not the pointer, against the grid edge as it was at drag start so the grid growing
-    // under the drag cannot move it. Below the grid the edge sits at the middle of the row that opens while the
-    // panel has room: the upper half still drops there, past it the footer takes the tile instead of running ahead.
+    // Goes by the dragged tile, not the pointer, against the grid edge as it was at drag start. Below the grid the
+    // edge sits at the middle of the row a drop would add while the panel has room: the upper half still drops
+    // there, past it the footer takes the tile.
     function footerTakesGridDrag(tile) {
         if (gridDragWidget === null || gridDragWidget.id === WidgetUtils.GROUP_ID || footer.freeCells() < WidgetUtils.footerMinCells(gridDragWidget.id))
             return false;
