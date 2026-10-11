@@ -87,6 +87,7 @@ DModal {
 
     Ref {
         service: ClipboardService
+        active: clipboardHistoryModal.shouldBeVisible
     }
 
     ConfirmModal {
