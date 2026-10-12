@@ -13,8 +13,13 @@ DPopout {
     resizeDuration: Theme.expressiveDurations.expressiveFastSpatial
     resizeMotion: true
     resizing: contentLoader.item?.panelResizing ?? false
-    surfacePadding: PopoutMetrics.editOverflow * 2
-    inputMargin: editMode ? PopoutMetrics.editOverflow * 2 : 0
+    surfacePadding: CcMetrics.editOverflow
+    // Hangs above wherever a strip below would push the panel off its resting spot (bottom bar, low side-bar trigger).
+    readonly property bool stripAbove: alignedYFor(0, CcMetrics.editActionsHeight) !== alignedYFor(0, 0)
+    readonly property bool growsFromTop: effectiveBarPosition === SettingsData.Position.Top
+    bottomOverflow: editMode && !stripAbove ? CcMetrics.editActionsHeight : 0
+    topOverflow: editMode && stripAbove ? CcMetrics.editActionsHeight : 0
+    inputMargin: editMode ? CcMetrics.editOverflow : 0
     minimumSurfaceWidth: editMode ? CcMetrics.sheetWidthFor(gridColumnCap) : 0
 
     property string expandedSection: ""
@@ -92,7 +97,7 @@ DPopout {
     function _maxPopupHeight() {
         if (maxBodyHeight <= 0)
             return CcMetrics.fallbackScreenHeight - CcMetrics.maxHeightInset;
-        return maxBodyHeight - PopoutMetrics.editOverflow * 2;
+        return maxBodyHeight - CcMetrics.editOverflow;
     }
 
     function collapseAll() {

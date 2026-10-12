@@ -541,9 +541,6 @@ var LOCAL_SPEC = {
     controlCenterIconScale: {
         def: 1.0
     },
-    controlCenterFooterPosition: {
-        def: "bottom"
-    },
     controlCenterWidgets: {
         def: [
             {
@@ -648,18 +645,16 @@ var LOCAL_SPEC = {
             {
                 id: "runningApps",
                 enabled: true,
-                w: 4,
+                w: 7,
                 h: 1,
-                footer: true
+                small: true
             },
             {
                 id: "edit",
                 enabled: true,
                 w: 1,
                 h: 1,
-                small: true,
-                footer: true,
-                footerEnd: true
+                small: true
             }
         ]
     },

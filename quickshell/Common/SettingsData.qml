@@ -23,7 +23,7 @@ Singleton {
     id: root
     readonly property var log: Log.scoped("SettingsData")
 
-    readonly property int settingsConfigVersion: 40
+    readonly property int settingsConfigVersion: 41
 
     readonly property bool isGreeterMode: Quickshell.env("DMS_RUN_GREETER") === "1" || Quickshell.env("DMS_RUN_GREETER") === "true"
 
@@ -433,7 +433,6 @@ Singleton {
 
     property int controlCenterColumns: Spec.SPEC.controlCenterColumns.def
     property real controlCenterIconScale: Spec.SPEC.controlCenterIconScale.def
-    property string controlCenterFooterPosition: Spec.SPEC.controlCenterFooterPosition.def
     property var controlCenterWidgets: Spec.SPEC.controlCenterWidgets.def
 
     property var workspaceNameIcons: Spec.SPEC.workspaceNameIcons.def

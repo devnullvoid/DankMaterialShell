@@ -31,6 +31,7 @@ DEditableGrid {
     property var runningToplevels: []
     // A member drag inside a quick-tiles group never reaches the grid's own interaction state.
     property bool memberDragging: false
+    property var swallowPoint: null
 
     readonly property real gridHeight: layoutHeight
     readonly property real cellWidth: (width + CcMetrics.gridGap) / columns
@@ -40,7 +41,7 @@ DEditableGrid {
 
     readonly property var savedWidgets: SettingsData.controlCenterWidgets || []
     readonly property var groupIds: WidgetUtils.groupIds(savedWidgets)
-    readonly property var shownIndices: savedWidgets.reduce((indices, widget, i) => !WidgetUtils.inFooter(widget) && !WidgetUtils.inGroup(widget, groupIds) && WidgetUtils.isShown(widget) && model?.componentForWidget(widget) ? indices.concat([i]) : indices, [])
+    readonly property var shownIndices: savedWidgets.reduce((indices, widget, i) => !WidgetUtils.inGroup(widget, groupIds) && WidgetUtils.isShown(widget) && model?.componentForWidget(widget) ? indices.concat([i]) : indices, [])
 
     sourceItems: shownIndices.map(i => Object.assign({}, savedWidgets[i], sizeWithHiddenTwin(i)))
     slotLayout: GridUtils.packCards(clamped(layoutItems), placementOrder, columns, width, CcMetrics.gridGap, cellWidth - CcMetrics.gridGap, I18n.isRtl, null, CcMetrics.gridStep, true)

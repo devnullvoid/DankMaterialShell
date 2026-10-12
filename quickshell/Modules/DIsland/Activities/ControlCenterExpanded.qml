@@ -64,6 +64,8 @@ FocusScope {
         readonly property real renderedAlignedY: root.resizeGeometry?.renderedY ?? 0
         readonly property bool shouldBeVisible: root.controller.activeActivity === "controlcenter" && root.controller.expanded
         readonly property bool headerTogglesClose: true
+        readonly property real editRoom: CcMetrics.islandEditRoom
+        readonly property bool growsFromTop: root.controller.edge === "top"
         readonly property bool powerMenuOpen: PopoutService.powerMenuModalLoader?.item?.shouldBeVisible ?? false
         readonly property var screen: root.effectiveScreen
         readonly property var triggerScreen: root.effectiveScreen
