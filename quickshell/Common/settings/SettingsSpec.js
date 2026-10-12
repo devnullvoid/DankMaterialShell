@@ -315,7 +315,7 @@ var LOCAL_SPEC = {
         def: -1,
         onChange: "updateCompositorLayout"
     },
-    hyprlandFollowMouse: {
+    focusFollowsMouse: {
         def: -1,
         onChange: "updateCompositorInput"
     },

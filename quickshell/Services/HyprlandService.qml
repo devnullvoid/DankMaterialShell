@@ -239,14 +239,6 @@ Singleton {
         });
     }
 
-    Connections {
-        target: CompositorService.isHyprland ? Hyprland : null
-        function onRawEvent(event) {
-            if (event.name === "configreloaded")
-                root.refreshFollowMouse();
-        }
-    }
-
     function loadHyprOptionNames() {
         if (!CompositorService.isHyprland || hyprOptionsReady || hyprOptionsLoading)
             return;
@@ -848,8 +840,8 @@ hl.layer_rule({
                 lines.push(line);
         };
         // -1 leaves existing follow_mouse modes untouched until the user operates the toggle.
-        if (s.hyprlandFollowMouse === 0 || s.hyprlandFollowMouse === 1)
-            add("input:follow_mouse", `follow_mouse = ${s.hyprlandFollowMouse},`);
+        if (s.focusFollowsMouse === 0 || s.focusFollowsMouse === 1)
+            add("input:follow_mouse", `follow_mouse = ${s.focusFollowsMouse},`);
         if (s.mouseAccelSpeed !== 0)
             add("input:sensitivity", `sensitivity = ${s.mouseAccelSpeed.toFixed(2)},`);
         if (s.mouseAccelProfile !== "default")

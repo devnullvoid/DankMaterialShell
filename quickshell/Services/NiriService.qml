@@ -1748,6 +1748,10 @@ window-rule {
 `;
 
         let inputContent = dmsWarning + "input {\n";
+        // Niri flags take no false, so off can only leave it out
+        if (typeof SettingsData !== "undefined" && SettingsData.focusFollowsMouse === 1) {
+            inputContent += "    focus-follows-mouse max-scroll-amount=\"0%\"\n";
+        }
 
         // Mouse block
         inputContent += "    mouse {\n";

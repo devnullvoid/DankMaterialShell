@@ -145,7 +145,7 @@ test("input: turning natural scroll off is written so the template's true cannot
 });
 
 test("input: focus follows mouse writes both on and off, leaves unmanaged modes alone, and skips unsupported options", () => {
-    const modeLine = mode => inputLines(input({ hyprlandFollowMouse: mode })).filter(line => line.startsWith("follow_mouse ="));
+    const modeLine = mode => inputLines(input({ focusFollowsMouse: mode })).filter(line => line.startsWith("follow_mouse ="));
     assert.deepEqual(modeLine(1), ["follow_mouse = 1,"]);
     assert.deepEqual(modeLine(0), ["follow_mouse = 0,"]);
     assert.deepEqual(modeLine(-1), []);

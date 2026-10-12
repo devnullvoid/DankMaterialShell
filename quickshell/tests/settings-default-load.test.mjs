@@ -53,11 +53,11 @@ test("a coerced key normalises a percentage and leaves a unit value alone", () =
 test("a focus override persists both off and on, and resetting removes it", () => {
     const root = defaultRoot();
     for (const mode of [0, 1]) {
-        root.hyprlandFollowMouse = mode;
+        root.focusFollowsMouse = mode;
         const json = store.toJson(root, new Set());
-        assert.equal(json.hyprlandFollowMouse, mode);
-        assert.equal(loaded(json).hyprlandFollowMouse, mode);
+        assert.equal(json.focusFollowsMouse, mode);
+        assert.equal(loaded(json).focusFollowsMouse, mode);
     }
-    root.hyprlandFollowMouse = -1;
-    assert.equal("hyprlandFollowMouse" in store.toJson(root, new Set()), false);
+    root.focusFollowsMouse = -1;
+    assert.equal("focusFollowsMouse" in store.toJson(root, new Set()), false);
 });
