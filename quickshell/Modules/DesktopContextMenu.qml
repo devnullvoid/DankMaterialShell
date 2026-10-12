@@ -2,12 +2,10 @@ pragma ComponentBehavior: Bound
 
 import Qt.labs.folderlistmodel
 import QtQuick
-import Quickshell.Widgets
 import qs.Common
 import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
-import "../DCommon/Common/WheelInput.js" as WheelInput
 
 DContextMenu {
     id: root
@@ -36,15 +34,15 @@ DContextMenu {
         const items = [
             {
                 type: "item",
-                icon: "add",
+                icon: "dashboard_customize",
                 text: I18n.tr("Add widget"),
                 action: () => DesktopWidgetRegistry.startEditing(root.targetScreen, true)
             },
             {
                 type: "item",
-                icon: "edit",
-                text: I18n.tr("Edit widgets"),
-                action: () => DesktopWidgetRegistry.startEditing(root.targetScreen, false)
+                icon: "extension",
+                text: I18n.tr("Plugins"),
+                action: () => PopoutService.openSettingsWithTab("plugins")
             },
             {
                 type: "item",
@@ -59,10 +57,9 @@ DContextMenu {
                 component: wallpaperStrip,
                 height: stripUnit * 2 + Theme.spacingS
             });
-        return items.concat([settingsEntry, allSettingsEntry, desktopWidgetsEntry, displaysEntry, pluginsEntry]);
+        return items.concat([settingsEntry, allSettingsEntry, desktopWidgetsEntry, displaysEntry]);
     }
 
-    // Stable objects so expanding Settings doesn't rebuild every row.
     component MenuEntry: QtObject {
         property string type: "item"
         property string icon
@@ -106,14 +103,6 @@ DContextMenu {
         action: () => PopoutService.openSettingsWithTab("displays")
     }
 
-    MenuEntry {
-        id: pluginsEntry
-        icon: "extension"
-        text: I18n.tr("Plugins")
-        hidden: !root.settingsExpanded
-        action: () => PopoutService.openSettingsWithTab("plugins")
-    }
-
     onBackdropRightClicked: (x, y) => open(targetScreen, x, y, false)
     onRenderActiveChanged: {
         if (renderActive)
@@ -134,7 +123,6 @@ DContextMenu {
         SessionData.saveSettings();
     }
 
-    // Current wallpaper leads; the order is fixed per open so a pick moves the check, not the list.
     function loadStrip(model) {
         const paths = [];
         for (let i = 0; i < model.count; i++)
@@ -166,67 +154,29 @@ DContextMenu {
         id: wallpaperStrip
 
         Item {
-            // Not a Dank* wrapper: DListView only scrolls vertically.
-            ListView {
-                id: strip
-
-                readonly property real unit: (width - spacing * (root.stripCount - 1)) / (root.stripCount + 1)
-                function scrollBy(wheel) {
-                    const delta = WheelInput.isTouchpad(wheel) ? WheelInput.dominantDelta(wheel.pixelDelta) : WheelInput.dominantDelta(wheel.angleDelta) / 120 * (unit + spacing);
-                    const maxX = originX + Math.max(0, contentWidth - width);
-                    contentX = Math.max(originX, Math.min(maxX, contentX - delta));
-                }
-
-                anchors.fill: parent
-                orientation: ListView.Horizontal
-                spacing: Theme.spacingS
-                clip: true
-                boundsBehavior: Flickable.StopAtBounds
+            DCarousel {
+                y: Theme.spacingXS
+                width: parent.width
+                height: root.stripUnit * 2
+                preferredItemWidth: width / 2
                 model: root.stripPaths
 
-                delegate: Item {
+                delegate: DCarouselItem {
                     id: thumb
 
                     required property string modelData
                     readonly property bool current: thumb.modelData === root.currentWallpaper
 
-                    y: Theme.spacingXS
-                    width: strip.unit * (thumb.current ? 2 : 1)
-                    height: root.stripUnit * 2
-
-                    Behavior on width {
-                        NumberAnimation {
-                            duration: SettingsData.reduceMotion ? 0 : Theme.expressiveDurations.expressiveDefaultSpatial
-                            easing.type: Easing.BezierSpline
-                            easing.bezierCurve: Theme.expressiveCurves.expressiveDefaultSpatial
-                        }
+                    onClicked: {
+                        if (!thumb.current)
+                            root.setWallpaper(thumb.modelData);
                     }
 
-                    ClippingRectangle {
-                        id: thumbClip
+                    CachingImage {
                         anchors.fill: parent
-                        radius: thumb.current ? Theme.cornerRadiusXL : Math.min(Theme.cornerRadiusFull, width / 2)
-                        color: Theme.surfaceContainerHigh
-
-                        Behavior on radius {
-                            NumberAnimation {
-                                duration: SettingsData.reduceMotion ? 0 : Theme.expressiveDurations.expressiveDefaultSpatial
-                                easing.type: Easing.BezierSpline
-                                easing.bezierCurve: Theme.expressiveCurves.expressiveDefaultSpatial
-                            }
-                        }
-
-                        CachingImage {
-                            anchors.fill: parent
-                            imagePath: thumb.modelData
-                            maxCacheSize: 256
-                            animate: false
-                        }
-
-                        Rectangle {
-                            anchors.fill: parent
-                            color: Theme.withAlpha(Theme.onSurface, thumbMouse.pressed ? Theme.stateLayerPressed : thumbMouse.containsMouse ? Theme.stateLayerHover : 0)
-                        }
+                        imagePath: thumb.modelData
+                        maxCacheSize: 256
+                        animate: false
                     }
 
                     Rectangle {
@@ -253,26 +203,6 @@ DContextMenu {
                             color: Theme.onPrimaryContainer
                         }
                     }
-
-                    MouseArea {
-                        id: thumbMouse
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            if (!thumb.current)
-                                root.setWallpaper(thumb.modelData);
-                        }
-                    }
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                acceptedButtons: Qt.NoButton
-                onWheel: wheel => {
-                    strip.scrollBy(wheel);
-                    wheel.accepted = true;
                 }
             }
         }
