@@ -442,26 +442,6 @@ FocusScope {
                 height: Math.max(root.gridHeight, root.heldGridHeight)
                 opacity: CcMetrics.hideCoveredContent ? 1 - root.coveredAmount : 1
 
-                Rectangle {
-                    readonly property bool receiving: widgetGrid.externalItem !== null || (widgetGrid.draggingSourceIndex >= 0 && !widgetGrid.heldOutside)
-
-                    anchors.fill: parent
-                    anchors.margins: -CcMetrics.dropZoneOuterInset
-                    radius: CcMetrics.dropZoneRadius
-                    color: "transparent"
-                    border.width: Theme.outlineWidth
-                    border.color: receiving ? Theme.primary : Theme.outlineVariant
-                    visible: root.host.editMode
-
-                    Behavior on border.color {
-                        enabled: CcMetrics.animationsEnabled
-                        ColorAnimation {
-                            duration: Theme.shortDuration
-                            easing.type: Theme.standardEasing
-                        }
-                    }
-                }
-
                 CcTileGrid {
                     id: widgetGrid
                     columns: root.gridColumns

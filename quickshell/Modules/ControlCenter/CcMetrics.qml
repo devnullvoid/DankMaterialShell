@@ -63,8 +63,6 @@ Singleton {
     readonly property real editOverflow: Math.max(PopoutMetrics.editOverflow * 2, editActionsHeight)
     // The island clips its faces, so its actions sit inside the sheet.
     readonly property real islandEditRoom: editActionsHeight + Theme.spacingS
-    readonly property real dropZoneOuterInset: Theme.spacingS
-    readonly property real dropZoneRadius: Theme.cornerRadiusL
     readonly property real runningAppsIconSize: Theme.iconSize * iconScale
     // The resize corner counts a small tile as this many rows and snaps to the nearer of this and a full row.
     readonly property real smallRowFraction: 0.5
