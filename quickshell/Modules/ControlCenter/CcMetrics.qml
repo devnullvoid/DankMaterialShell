@@ -55,9 +55,10 @@ Singleton {
     readonly property real tallMeterThickness: 28
     readonly property real pillMeterThickness: Math.round(18 * iconScale)
     readonly property real tileTextGap: Theme.spacingM
-    readonly property real editActionsPadding: Theme.spacingS
+    readonly property real smallRowHeight: Math.min(iconBoxSize, tileHeight)
     readonly property real trashSwallowScale: 0.6
-    readonly property real editActionsHeight: Theme.iconButtonSize + editActionsPadding * 2
+    // Joined to the sheet, whose own padding separates the buttons from the grid.
+    readonly property real editActionsHeight: Theme.iconButtonSize + sheetPadding
     // Room around the popout surface for the edit chrome and action strip.
     readonly property real editOverflow: Math.max(PopoutMetrics.editOverflow * 2, editActionsHeight)
     // The island clips its faces, so its actions sit inside the sheet.
