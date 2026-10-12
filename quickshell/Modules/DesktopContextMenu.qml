@@ -6,12 +6,13 @@ import qs.Common
 import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
+import "../DCommon/Common/MaterialWallpaper.js" as Art
 
 DContextMenu {
     id: root
 
     property bool settingsExpanded: false
-    property var stripPaths: []
+    property var stripItems: []
 
     readonly property int stripCount: 4
     readonly property real stripUnit: Theme.listItemHeight
@@ -21,22 +22,24 @@ DContextMenu {
         return SessionData.wallpaperPath || "";
     }
     readonly property string wallpaperDir: currentWallpaper.startsWith("/") ? currentWallpaper.substring(0, currentWallpaper.lastIndexOf("/")) : ""
+    readonly property bool materialWallpaper: currentWallpaper === ""
+    readonly property var materialTarget: SessionData.materialWallpaperTarget(targetScreen?.name ?? "")
+    readonly property var materialEntry: SessionData.materialWallpaperEntry(materialTarget)
+    readonly property string currentKey: materialWallpaper ? Art.resolvePreset(materialEntry.preset, SessionData.materialWallpaperProfiles) : currentWallpaper
 
     layerNamespace: "dms:desktop-context-menu"
     keyboardNavigable: true
     itemHeight: Theme.listItemHeight
-    itemRadius: Theme.cornerRadiusFull
     itemFontSize: Theme.fontSizeMedium
-    containerRadius: Theme.cornerRadiusXL
     minMenuWidth: stripUnit * (stripCount + 1) + Theme.spacingS * (stripCount + 1)
 
     menuItems: {
         const items = [
             {
                 type: "item",
-                icon: "dashboard_customize",
-                text: I18n.tr("Add widget"),
-                action: () => DesktopWidgetRegistry.startEditing(root.targetScreen, true)
+                icon: "edit",
+                text: I18n.tr("Edit widgets"),
+                action: () => DesktopWidgetRegistry.startEditing(root.targetScreen, false)
             },
             {
                 type: "item",
@@ -51,7 +54,7 @@ DContextMenu {
                 action: () => PopoutService.openSettingsWithTab("personalization")
             }
         ];
-        if (wallpaperDir)
+        if (wallpaperDir || materialWallpaper)
             items.push({
                 type: "component",
                 component: wallpaperStrip,
@@ -105,12 +108,18 @@ DContextMenu {
 
     onBackdropRightClicked: (x, y) => open(targetScreen, x, y, false)
     onRenderActiveChanged: {
-        if (renderActive)
-            return;
         settingsExpanded = false;
-        stripPaths = [];
+        stripItems = renderActive && materialWallpaper ? leadWithCurrent(presetItems()) : [];
     }
-    onWallpaperDirChanged: stripPaths = []
+    onWallpaperDirChanged: stripItems = []
+
+    function pick(item) {
+        if (item.path) {
+            setWallpaper(item.path);
+            return;
+        }
+        SessionData.setMaterialWallpaperPreset(materialTarget, item.key);
+    }
 
     function setWallpaper(path) {
         if (SessionData.perMonitorWallpaper && targetScreen) {
@@ -123,12 +132,34 @@ DContextMenu {
         SessionData.saveSettings();
     }
 
+    // Order is fixed per open so a pick moves the check, not the list.
+    function leadWithCurrent(items) {
+        const start = Math.max(0, items.findIndex(item => item.key === currentKey));
+        return items.slice(start).concat(items.slice(0, start));
+    }
+
+    function presetItems() {
+        const profiles = SessionData.materialWallpaperProfiles;
+        return Art.profiles(profiles).map(profile => ({
+                    key: profile.id,
+                    path: "",
+                    composition: Art.composition({
+                        preset: profile.id,
+                        seed: materialEntry.seed
+                    }, profiles)
+                }));
+    }
+
     function loadStrip(model) {
-        const paths = [];
-        for (let i = 0; i < model.count; i++)
-            paths.push(model.get(i, "filePath"));
-        const start = Math.max(0, paths.indexOf(currentWallpaper));
-        stripPaths = paths.slice(start).concat(paths.slice(0, start));
+        const items = [];
+        for (let i = 0; i < model.count; i++) {
+            const path = model.get(i, "filePath");
+            items.push({
+                key: path,
+                path
+            });
+        }
+        stripItems = leadWithCurrent(items);
     }
 
     Loader {
@@ -159,24 +190,41 @@ DContextMenu {
                 width: parent.width
                 height: root.stripUnit * 2
                 preferredItemWidth: width / 2
-                model: root.stripPaths
+                itemRadius: Theme.cornerRadiusM
+                model: root.stripItems
 
                 delegate: DCarouselItem {
                     id: thumb
 
-                    required property string modelData
-                    readonly property bool current: thumb.modelData === root.currentWallpaper
+                    required property var modelData
+                    readonly property bool current: thumb.modelData.key === root.currentKey
 
                     onClicked: {
                         if (!thumb.current)
-                            root.setWallpaper(thumb.modelData);
+                            root.pick(thumb.modelData);
                     }
 
-                    CachingImage {
+                    Loader {
                         anchors.fill: parent
-                        imagePath: thumb.modelData
-                        maxCacheSize: 256
-                        animate: false
+                        sourceComponent: thumb.modelData.path ? imageThumb : materialThumb
+
+                        Component {
+                            id: imageThumb
+
+                            CachingImage {
+                                imagePath: thumb.modelData.path
+                                maxCacheSize: 256
+                                animate: false
+                            }
+                        }
+
+                        Component {
+                            id: materialThumb
+
+                            MaterialWallpaper {
+                                composition: thumb.modelData.composition
+                            }
+                        }
                     }
 
                     Rectangle {
