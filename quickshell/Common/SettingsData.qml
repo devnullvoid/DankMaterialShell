@@ -2889,6 +2889,8 @@ Singleton {
             return "islandRouteWallpaper";
         case "clipboard":
             return "islandRouteClipboard";
+        case "powermenu":
+            return "islandRoutePowerMenu";
         }
         return "";
     }
