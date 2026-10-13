@@ -40,8 +40,6 @@ Item {
         }
     }
 
-    property real indicatorLane: 0
-    readonly property real laneOffset: (root.options.position === SettingsData.Position.Bottom || root.options.position === SettingsData.Position.Right ? -1 : 1) * root.indicatorLane / 2
     readonly property real hoverAnimOffset: hoverBounce.offset
 
     DockHoverBounce {
@@ -64,8 +62,6 @@ Item {
 
         Item {
             anchors.centerIn: parent
-            anchors.horizontalCenterOffset: root.isVertical ? root.laneOffset : 0
-            anchors.verticalCenterOffset: root.isVertical ? 0 : root.laneOffset
             width: actualIconSize
             height: actualIconSize
             scale: !root.options?.magnification && root.options?.enlargeOnHover && root.isHovered ? (root.options?.enlargePercentage ?? 125) / 100 : 1
