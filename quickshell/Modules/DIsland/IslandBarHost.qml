@@ -444,7 +444,7 @@ Item {
         id: launcherController
 
         active: controller.launcherSessionActive
-        retainResultsOnClose: true
+        retainResultsOnClose: !SettingsData.dankLauncherV2UnloadOnClose
         viewModeContext: "spotlight"
         forceLinearNavigation: true
     }

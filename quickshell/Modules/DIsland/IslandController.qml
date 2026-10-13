@@ -330,7 +330,7 @@ QtObject {
 
     // The launcher stays loaded once built, so reopening never waits on a rebuild.
     function keepsVisuals(activityId) {
-        return activityId === "launcher" && destinationState[activityId].ready;
+        return activityId === "launcher" && !SettingsData.dankLauncherV2UnloadOnClose && destinationState[activityId].ready;
     }
 
     function releaseIdleVisuals() {
