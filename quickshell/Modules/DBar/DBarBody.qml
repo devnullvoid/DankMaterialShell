@@ -21,6 +21,7 @@ Item {
     property var rightWidgetsModel
 
     readonly property bool barRevealed: inputMask.showing
+    readonly property bool autoHideActive: topBarCore.autoHide
 
     readonly property bool isIsland: barConfig?.island === true
     // Resolver-owned so the body, the frame and the dismiss window agree during the frame latch.
@@ -32,6 +33,7 @@ Item {
     property real hostOffsetY: 0
     // A free island's pill lives in IslandFreeHostWindow; this window only carries its satellites.
     readonly property bool islandFree: isIsland && SettingsData.islandFreePlacement(barConfig)
+    readonly property bool islandOverlay: isIsland && (islandHost?.floating ?? SettingsData.islandSetting(barConfig, "islandFloating")) && !islandFree
     readonly property var islandHost: islandLoader.item
     readonly property real islandStripThickness: isIsland ? SettingsData.islandStripThickness(barConfig) : 0
     readonly property string islandSatellitePosition: isIsland ? SettingsData.islandSetting(barConfig, "islandSatellitePosition") : "edges"
@@ -884,7 +886,7 @@ Item {
         anchors.fill: parent
         layer.enabled: false
 
-        property bool autoHide: !barWindow.isIsland && (barConfig?.autoHide ?? false)
+        property bool autoHide: (!barWindow.isIsland || barWindow.islandOverlay) && (barConfig?.autoHide ?? false)
         property bool revealSticky: false
         // In click-through mode the hidden bar's input mask covers the full
         // band while the revealed bar's mask covers only the widget sections,
@@ -998,7 +1000,7 @@ Item {
         readonly property var rootWindowBarConfig: rootWindow.barConfig
 
         onRootWindowBarConfigChanged: {
-            autoHide = !barWindow.isIsland && (barConfig?.autoHide ?? false);
+            autoHide = (!barWindow.isIsland || barWindow.islandOverlay) && (barConfig?.autoHide ?? false);
             evaluateReveal();
         }
 
