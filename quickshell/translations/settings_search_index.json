@@ -9753,7 +9753,7 @@
     "parentLabel": "Power & battery"
   },
   {
-    "section": "barWidgetOption:AppsDockOptions.qml:24",
+    "section": "barWidgetOption:AppsDockOptions.qml:23",
     "label": "Active color",
     "tabIndex": 22,
     "keywords": [],
@@ -9936,7 +9936,7 @@
     "optionFile": "LauncherButtonOptions.qml"
   },
   {
-    "section": "barWidgetOption:AppsDockOptions.qml:23",
+    "section": "barWidgetOption:AppsDockOptions.qml:22",
     "label": "Colorize active",
     "tabIndex": 22,
     "keywords": [],
@@ -10104,14 +10104,6 @@
     "optionFile": "WorkspaceSwitcherOptions.qml"
   },
   {
-    "section": "barWidgetOption:AppsDockOptions.qml:25",
-    "label": "Enlarge on hover",
-    "tabIndex": 22,
-    "keywords": [],
-    "runtimeType": "barWidgetOption",
-    "optionFile": "AppsDockOptions.qml"
-  },
-  {
     "section": "barWidgetOption:IslandOptions.qml:28",
     "label": "Expand by default",
     "tabIndex": 22,
@@ -10256,7 +10248,7 @@
     "optionFile": "LauncherButtonOptions.qml"
   },
   {
-    "section": "barWidgetOption:AppsDockOptions.qml:26",
+    "section": "barWidgetOption:AppsDockOptions.qml:25",
     "label": "Icon size",
     "tabIndex": 22,
     "keywords": [],
@@ -10286,14 +10278,6 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "WorkspaceSwitcherOptions.qml"
-  },
-  {
-    "section": "barWidgetOption:AppsDockOptions.qml:22",
-    "label": "Indicator style",
-    "tabIndex": 22,
-    "keywords": [],
-    "runtimeType": "barWidgetOption",
-    "optionFile": "AppsDockOptions.qml"
   },
   {
     "section": "barWidgetOption:AppsDockOptions.qml:21",
@@ -10350,6 +10334,14 @@
     "keywords": [],
     "runtimeType": "barWidgetOption",
     "optionFile": "MusicOptions.qml"
+  },
+  {
+    "section": "barWidgetOption:AppsDockOptions.qml:24",
+    "label": "Magnification",
+    "tabIndex": 22,
+    "keywords": [],
+    "runtimeType": "barWidgetOption",
+    "optionFile": "AppsDockOptions.qml"
   },
   {
     "section": "barWidgetOption:WorkspaceSwitcherOptions.qml:8",
@@ -10736,7 +10728,7 @@
     "optionFile": "SystemUpdateOptions.qml"
   },
   {
-    "section": "barWidgetOption:AppsDockOptions.qml:27",
+    "section": "barWidgetOption:AppsDockOptions.qml:26",
     "label": "Spacing",
     "tabIndex": 22,
     "keywords": [],
@@ -17043,6 +17035,28 @@
       "widget"
     ],
     "parentLabel": "Dock"
+  },
+  {
+    "section": "dockVisualEffects",
+    "label": "Visual effects",
+    "tabIndex": 58,
+    "category": "Appearance",
+    "keywords": [
+      "active",
+      "appearance",
+      "colorize",
+      "dock",
+      "effects",
+      "highlight",
+      "indicator",
+      "launcher bar",
+      "panel",
+      "running",
+      "taskbar",
+      "visual"
+    ],
+    "parentLabel": "Dock",
+    "icon": "auto_awesome"
   },
   {
     "section": "_tab_59",

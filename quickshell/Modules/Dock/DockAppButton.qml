@@ -447,7 +447,7 @@ Item {
             id: iconSlot
 
             anchors.fill: parent
-            scale: !root.options?.magnification && root.options?.enlargeOnHover && root.isHovered ? (root.options?.enlargePercentage ?? 125) / 100 : 1
+            scale: root.options?.enlargeOnHover && root.isHovered ? (root.options?.enlargePercentage ?? 125) / 100 : 1
 
             AppIconRenderer {
                 id: coreIcon
