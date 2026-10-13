@@ -5150,30 +5150,6 @@
     "conditionKey": "islandEnabled"
   },
   {
-    "section": "islandCompactThickness",
-    "label": "Compact width",
-    "tabIndex": 6,
-    "category": "Appearance",
-    "keywords": [
-      "appearance",
-      "bar",
-      "compact",
-      "height",
-      "island",
-      "panel",
-      "placement",
-      "satellite",
-      "size",
-      "statusbar",
-      "taskbar",
-      "thickness",
-      "topbar",
-      "width"
-    ],
-    "parentLabel": "Bar",
-    "conditionKey": "islandDocked"
-  },
-  {
     "section": "barCornerStyle",
     "label": "Corner style",
     "tabIndex": 6,
@@ -6012,6 +5988,30 @@
     "parentLabel": "Bar",
     "icon": "widgets",
     "description": "Opacity"
+  },
+  {
+    "section": "islandCompactThickness",
+    "label": "Width",
+    "tabIndex": 6,
+    "category": "Appearance",
+    "keywords": [
+      "appearance",
+      "bar",
+      "compact",
+      "height",
+      "island",
+      "panel",
+      "placement",
+      "satellite",
+      "size",
+      "statusbar",
+      "taskbar",
+      "thickness",
+      "topbar",
+      "width"
+    ],
+    "parentLabel": "Bar",
+    "conditionKey": "islandDocked"
   },
   {
     "section": "networkStatus",

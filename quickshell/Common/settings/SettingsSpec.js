@@ -1508,7 +1508,7 @@ var LOCAL_SPEC = {
                 centerWidgets: ["music", "clock", "weather"],
                 rightWidgets: ["systemTray", "clipboard", "cpuUsage", "memUsage", "notificationButton", "battery", "controlCenterButton"],
                 spacing: 4,
-                innerPadding: 4,
+                innerPadding: 2,
                 barInsetPadding: -1,
                 barLengthPadding: 0,
                 barLengthMode: "full",

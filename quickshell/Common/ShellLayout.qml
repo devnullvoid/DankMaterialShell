@@ -21,10 +21,11 @@ Singleton {
     readonly property var primaryBar: SettingsData.getPrimaryBarConfig()
     readonly property var layouts: screens.map(screen => Resolver.resolveScreen(SettingsData.barConfigs.map(config => ({
                     config,
-                    barThickness: Theme.barThickness(config.innerPadding ?? 4, screen.scale),
+                    barThickness: Theme.barThickness(config.innerPadding ?? 2, screen.scale),
                     wingSize: config.gothCornersEnabled && root.barSpansEdge(config) ? Math.max(0, config.gothCornerRadiusOverride ? config.gothCornerRadiusValue ?? 12 : Theme.windowRadius) : 0,
-                    popupThickness: Theme.barThickness(Resolver.option(config, "innerPadding", root.primaryBar, 4), screen.scale),
+                    popupThickness: Theme.barThickness(Resolver.option(config, "innerPadding", root.primaryBar, 2), screen.scale),
                     islandThickness: Resolver.islandThickness(SettingsData.islandSettings(config), SettingsData.islandDefaultsFor(config)),
+                    islandReserve: Resolver.islandReserve(SettingsData.islandSettings(config), SettingsData.islandDefaultsFor(config)),
                     islandFloating: SettingsData.islandSetting(config, "islandFloating"),
                     islandPlacement: SettingsData.islandFreePlacement(config) ? "free" : "edge",
                     islandSatellites: SettingsData.islandSetting(config, "islandSatellitesEnabled")

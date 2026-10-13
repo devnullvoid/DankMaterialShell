@@ -15,18 +15,28 @@ const bar = (id, position = 0, values = {}) => ({ id, position, enabled: true, .
 
 function resolve(configs, options = {}, screen = screens[0]) {
     return resolver.resolveScreen(configs.map(config => ({
-        config, wingSize: config.gothCornersEnabled ? 12 : 0, barThickness: 40, popupThickness: 40, islandThickness: resolver.islandThickness(config, islandDefaults)
+        config, wingSize: config.gothCornersEnabled ? 12 : 0, barThickness: 40, popupThickness: 40, islandThickness: resolver.islandThickness(config, islandDefaults),
+        islandReserve: resolver.islandReserve(config, islandDefaults)
     })), screen, {
         screens, displayNameMode: "name", framePreferences: ["all"], effectiveFrameEnabled: false,
         effectiveConnected: false, frameThickness: 12, frameBarSize: 48, ...options
     });
 }
 
-test("island metrics clamp each setting and reserve the larger of strip and gap plus compact", () => {
-    assert.deepEqual(plain(resolver.islandMetrics({}, islandDefaults)), { reserve: 40, compact: 38, gap: 4, thickness: 42 });
+test("island metrics clamp each setting and a default reservation follows the pill", () => {
+    assert.deepEqual(plain(resolver.islandMetrics({}, islandDefaults)), { reserve: 42, compact: 38, gap: 4, thickness: 42 });
+    assert.deepEqual(plain(resolver.islandMetrics({ islandCompactThickness: 60 }, islandDefaults)), { reserve: 64, compact: 60, gap: 4, thickness: 64 });
     assert.deepEqual(plain(resolver.islandMetrics({ islandReserveThickness: 500, islandCompactThickness: 1, islandOuterGap: -3 }, islandDefaults)), { reserve: 128, compact: 24, gap: 0, thickness: 128 });
     assert.equal(resolver.islandThickness({ islandReserveThickness: 30, islandCompactThickness: 60, islandOuterGap: 10 }, islandDefaults), 70);
     assert.deepEqual(plain(resolver.islandMetrics({ islandOuterGap: 10, islandNotch: true }, islandDefaults)), { reserve: 40, compact: 38, gap: 0, thickness: 40 });
+});
+
+test("an island set to reserve less than its pill paints the full pill but reserves only what was set", () => {
+    const island = bar("island", 0, { island: true, islandReserveThickness: 30 });
+    const alone = resolve([island]);
+    assert.deepEqual(plain([alone.instances[0].rowThickness, alone.instances[0].exclusiveZone, alone.edges.top.reservation]), [42, 30, 30]);
+    const stacked = resolve([island, bar("below")]);
+    assert.deepEqual(plain([stacked.instances[1].rowOffset, stacked.edges.top.reservation]), [42, 86]);
 });
 
 test("absent, empty, explicit and fallback assignments remain distinct", () => {

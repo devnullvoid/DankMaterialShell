@@ -38,19 +38,25 @@ function coversScreen(config, screen, screens, displayNameMode) {
 
 function islandMetrics(config, defaults) {
     const value = key => config?.[key] ?? defaults[key];
-    const reserve = Math.max(24, Math.min(128, value("islandReserveThickness")));
+    const strip = Math.max(24, Math.min(128, value("islandReserveThickness")));
     const compact = Math.max(24, Math.min(72, value("islandCompactThickness")));
     const gap = value("islandNotch") ? 0 : Math.max(0, Math.min(48, value("islandOuterGap")));
+    const thickness = Math.max(strip, gap + compact);
+    // The default reservation follows the pill; any other value is reserved as set.
     return {
-        reserve,
+        reserve: value("islandReserveThickness") === defaults.islandReserveThickness ? thickness : strip,
         compact,
         gap,
-        thickness: Math.max(reserve, gap + compact)
+        thickness
     };
 }
 
 function islandThickness(config, defaults) {
     return islandMetrics(config, defaults).thickness;
+}
+
+function islandReserve(config, defaults) {
+    return islandMetrics(config, defaults).reserve;
 }
 
 function isIsland(config) {
@@ -138,7 +144,8 @@ function resolveScreen(inputs, screen, options) {
             const thickness = kind === "island" ? input.islandThickness : frameStyled ? Math.round(Math.round(options.frameBarSize * (screen.scale || 1)) / (screen.scale || 1)) : input.barThickness + spacing + (config.bottomGap ?? 0);
             const paintedThickness = thickness + (kind !== "island" && !frameStyled ? input.wingSize ?? 0 : 0);
             const reserves = kind === "island" ? !(input.islandFloating ?? config.islandFloating) : config.visible !== false && (!config.autoHide || frameStyled);
-            const contribution = reserves ? Math.max(0, rowOffset + thickness - reservation) : 0;
+            const reserved = kind === "island" ? Math.min(thickness, input.islandReserve) : thickness;
+            const contribution = reserves ? Math.max(0, rowOffset + reserved - reservation) : 0;
             instances.push({
                 key: JSON.stringify([screen.name, config.id]),
                 screenName: screen.name,

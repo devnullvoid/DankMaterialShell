@@ -139,7 +139,6 @@ Item {
     readonly property bool isVertical: !root.dotMode && SettingsData.islandVertical(root.barConfig)
     readonly property string edge: root.freeMode ? (root.isVertical ? "left" : "top") : SettingsData.islandEdge(root.barConfig)
     readonly property bool farEdge: root.edge === "bottom" || root.edge === "right"
-    readonly property int reservedStripThickness: root.islandMetrics.thickness
     readonly property real windowWidth: root.hostWindow?.width ?? 0
     readonly property real windowHeight: root.hostWindow?.height ?? 0
     readonly property real windowMarginLeft: root.hostWindow?.margins?.left ?? 0
