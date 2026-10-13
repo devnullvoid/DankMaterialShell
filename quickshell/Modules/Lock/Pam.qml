@@ -335,7 +335,7 @@ Scope {
         readonly property int verifyStartSlackMs: 10000
         readonly property bool retrying: errorRetry.running
         readonly property int retryInterval: errorRetry.interval
-        readonly property bool allowed: available && SettingsData.enableFprint && root.lockSecured && !root.fprintSuppressedByPrimaryPam && !root.unlockInProgress && !root.u2fPending && !SessionService.preparingForSleep && !IdleService.monitorsOff && tries < SettingsData.maxFprintTries
+        readonly property bool allowed: available && SettingsData.enableFprint && root.lockSecured && !root.fprintSuppressedByPrimaryPam && !root.unlockInProgress && !root.u2fPending && !SessionService.preparingForSleep && !SessionService.sleepRequested && !IdleService.monitorsOff && tries < SettingsData.maxFprintTries
         readonly property string status: {
             if (!available || !SettingsData.enableFprint || !root.lockSecured || root.fprintSuppressedByPrimaryPam)
                 return "disabled";
