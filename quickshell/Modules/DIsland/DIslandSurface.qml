@@ -422,6 +422,7 @@ Item {
             id: contentHost
 
             controller: root.controller
+            surfaceColor: root.effectiveSurfaceColor
             freeMode: root.freeMode
             compactFaceOverride: root.compactFaceOverride
             resolveTarget: target => root.resolveTarget(target)

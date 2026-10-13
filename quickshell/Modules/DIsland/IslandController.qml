@@ -324,12 +324,17 @@ QtObject {
             destinationRevision++;
     }
 
+    // The launcher stays loaded once built, so reopening never waits on a rebuild.
+    function keepsVisuals(activityId) {
+        return activityId === "launcher" && destinationState[activityId].ready;
+    }
+
     function releaseIdleVisuals() {
         for (const id of destinations) {
             if (expanded && activeActivity === id)
                 continue;
             const entry = destinationState[id];
-            if (!entry.requested && !entry.ready)
+            if (root.keepsVisuals(id) || (!entry.requested && !entry.ready))
                 continue;
             visualsReleaseTimer.restart();
             return;
@@ -341,7 +346,7 @@ QtObject {
         for (const id of destinations) {
             if (expanded && activeActivity === id)
                 continue;
-            if (destinationState[id].pending)
+            if (destinationState[id].pending || root.keepsVisuals(id))
                 continue;
             dropVisuals(id);
         }
@@ -753,11 +758,21 @@ QtObject {
     }
 
     function requestLauncher(query, mode, shouldToggle) {
-        if (shouldToggle === true && activeActivity === "launcher" && expanded)
+        const open = activeActivity === "launcher" && expanded;
+        if (shouldToggle === true && open)
             return requestCollapse();
         launcherPendingQuery = query || "";
         launcherPendingMode = mode || "";
-        return requestActivity("launcher", true, true);
+        const handled = requestActivity("launcher", true, true);
+        // An open launcher applies a new query or mode in place.
+        if (handled && open && (launcherPendingQuery || launcherPendingMode))
+            sessionStarted("launcher");
+        // Only a launcher that is still loading reads these later.
+        if (!destinationState.launcher.pending) {
+            launcherPendingQuery = "";
+            launcherPendingMode = "";
+        }
+        return handled;
     }
 
     function requestControlCenter(section, shouldToggle) {
