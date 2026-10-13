@@ -83,7 +83,7 @@ QtObject {
     readonly property int controlCenterColumns: Math.min(CcMetrics.gridColumns, controlCenterColumnCap)
     readonly property real controlCenterSheetWidth: CcMetrics.sheetWidthFor(controlCenterColumns)
     readonly property real controlCenterMaxWidth: CcMetrics.sheetWidthFor(editingActivity === "controlcenter" ? controlCenterColumnCap : controlCenterColumns) + controlCenterSheetInset
-    readonly property real controlCenterHeight: Math.max(320, Math.min(controlCenterMaxHeight, destinationContentHeight("controlcenter")))
+    readonly property real controlCenterHeight: controlCenterHeightFor(editRoomGranted && editingActivity === "controlcenter")
 
     readonly property bool compactDense: compactThickness < 40
     readonly property real compactFaceThickness: BarMetrics.compactFaceThickness(compactThickness)
@@ -103,7 +103,7 @@ QtObject {
     readonly property real dashboardMaxWidth: Math.min(dashboardAvailableWidth, DashMetrics.widthFor(SettingsData.showWeekNumber, undefined, editingActivity !== "" ? dashboardColumnCap : DashRegistry.widestPanelColumns))
     property var dashboardContentHeights: ({})
     readonly property real dashChromeHeight: DashMetrics.islandHandleChromeHeight
-    readonly property real editSurfaceHeight: editRoom > 0 ? dashboardHeightFor(editingActivity, true) : 0
+    readonly property real editSurfaceHeight: editRoom <= 0 ? 0 : editingActivity === "controlcenter" ? controlCenterHeightFor(true) : dashboardHeightFor(editingActivity, true)
     readonly property real dashboardHeight: Math.min(dashboardAvailableHeight, Math.max(DashMetrics.tabDefaultHeight + root.dashChromeHeight, ...Object.values(dashboardContentHeights)))
     readonly property int dashboardRowBudget: Math.max(DashMetrics.minimumTabRows, Math.floor((dashboardAvailableHeight - DashMetrics.islandEditChromeHeight + DashMetrics.gridGap) / (DashMetrics.gridRowUnit + DashMetrics.gridGap)))
     readonly property real mediaCompactMaxLength: 360
@@ -154,6 +154,10 @@ QtObject {
         const minimum = DashMetrics.panelHeightFor(dashEntryIdFor(activityId));
         const height = Math.max(minimum + root.dashChromeHeight, dashboardContentHeights[activityId] ?? 0);
         return Math.min(dashboardAvailableHeight, height + (withEditRoom ? root.editRoom : 0));
+    }
+
+    function controlCenterHeightFor(withEditRoom) {
+        return Math.max(320, Math.min(controlCenterMaxHeight, destinationContentHeight("controlcenter") + (withEditRoom ? root.editRoom : 0)));
     }
 
     function dashboardTargetFor(activityId) {
