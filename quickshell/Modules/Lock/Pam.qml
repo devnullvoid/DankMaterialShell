@@ -28,11 +28,7 @@ Scope {
     property string authPromptText: ""
     property bool responseSubmitted: false
     property bool awaitingUserInput: false
-    property bool responseInFlight: false
-    // the conversation is held open while waiting, so passwd.active is not "busy"
-    readonly property bool authBusy: passwd.active && root.responseInFlight
-    // stops a conversation that never prompts from being reopened forever
-    property int autoRestartCount: 0
+    readonly property bool authBusy: passwd.active && !root.awaitingUserInput
     property var attemptInfoMessages: []
     property bool lockoutAnnouncedThisAttempt: false
 
@@ -62,19 +58,7 @@ Scope {
         u2f.checkAvail();
     }
 
-    // open the conversation without answering it, so the prompt is known before typing
-    function beginAuthSession(): void {
-        if (passwd.active || root.unlockInProgress || !root.lockSecured)
-            return;
-        if (root.autoRestartCount >= 3)
-            return;
-        root.autoRestartCount = root.autoRestartCount + 1;
-        root.responseSubmitted = false;
-        root.awaitingUserInput = false;
-        root.responseInFlight = false;
-        eagerStart.restart();
-    }
-
+    // start() runs every auth module before the first prompt (howdy, fprintd), so only on submit
     function submitPassword(): void {
         root.responseSubmitted = true;
         if (!passwd.active) {
@@ -84,7 +68,6 @@ Scope {
         if (passwd.responseRequired) {
             root.responseSubmitted = false;
             root.awaitingUserInput = false;
-            root.responseInFlight = true;
             passwdActiveTimeout.restart();
             passwd.respond(root.buffer);
         } else {
@@ -234,7 +217,6 @@ Scope {
                 return;
 
             root.authPromptText = (message || "").replace(/:\s*$/, "").trim();
-            root.autoRestartCount = 0;
 
             const notice = root.attemptInfoMessages.filter(m => m !== message);
             if (notice.length > 0) {
@@ -247,11 +229,9 @@ Scope {
             if (root.responseSubmitted) {
                 root.responseSubmitted = false;
                 root.awaitingUserInput = false;
-                root.responseInFlight = true;
                 respond(root.buffer);
             } else {
                 root.awaitingUserInput = true;
-                root.responseInFlight = false;
                 passwdActiveTimeout.running = false;
             }
         }
@@ -292,11 +272,6 @@ Scope {
                 root.state = "fail";
 
             root.responseSubmitted = false;
-            root.awaitingUserInput = false;
-            root.responseInFlight = false;
-            if (res !== PamResult.MaxTries)
-                root.beginAuthSession();
-
             root.flashMsg();
             stateReset.restart();
         }
@@ -306,10 +281,11 @@ Scope {
         target: passwd
 
         function onActiveChanged() {
+            root.authPromptText = "";
+            root.awaitingUserInput = false;
             if (passwd.active) {
                 root.attemptInfoMessages = [];
                 root.lockoutAnnouncedThisAttempt = false;
-                root.authPromptText = "";
                 if (root.responseSubmitted)
                     passwdActiveTimeout.restart();
                 else
@@ -614,16 +590,6 @@ Scope {
     }
 
     Timer {
-        id: eagerStart
-
-        interval: 50
-        onTriggered: {
-            if (!passwd.active && root.lockSecured && !root.unlockInProgress)
-                passwd.start();
-        }
-    }
-
-    Timer {
         id: passwdActiveTimeout
 
         interval: 15000
@@ -678,9 +644,6 @@ Scope {
         root.lockoutAnnouncedThisAttempt = false;
         root.resetAuthFlows();
         root.responseSubmitted = false;
-        root.awaitingUserInput = false;
-        root.autoRestartCount = 0;
-        root.beginAuthSession();
         fprint.tries = 0;
         fprint.errorTries = 0;
         if (!SettingsData.lockPamExternallyManaged && !dankshellConfigWatcher.loaded && !userPamWatcher.loaded)
