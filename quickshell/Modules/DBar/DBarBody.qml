@@ -57,6 +57,12 @@ Item {
     readonly property real islandChromeInset: islandSatelliteBackground ? islandChromePad : 0
     readonly property real islandSatelliteSweep: islandSatelliteBackground && SettingsData.islandSetting(barConfig, "islandSatelliteGothCorners") ? islandGothRadius : 0
     readonly property real islandFlareClearance: ((islandHost?.notch ?? false) ? islandHost.surface.joinRadius * 2.5 : 0) + islandSatelliteSweep
+    // Satellites centre on the idle pill face, not the strip; backed ones reach its far edge instead.
+    readonly property bool islandSatellitesTrackPill: isIsland && !!islandHost && !islandFree
+    readonly property real islandPillFace: islandSatellitesTrackPill ? islandHost.islandController.homeCompactFaceThickness : 0
+    readonly property real islandSatelliteDepth: islandSatellitesTrackPill ? Theme.px(Math.min(islandStripThickness, islandHost.outerGap + islandPillFace), _dpr) : islandStripThickness
+    readonly property real islandSatelliteCrossCenter: !islandSatellitesTrackPill || islandSatelliteBackground ? islandSatelliteDepth / 2 : islandHost.outerGap + islandPillFace / 2
+    readonly property real islandSatelliteCrossShift: Theme.px(islandSatelliteCrossCenter - islandStripThickness / 2, _dpr) * (axis.edge === "bottom" || axis.edge === "right" ? -1 : 1)
     readonly property bool islandSatellitesClipToIsland: islandSatelliteBackground && !islandSatellitesHugIsland && !!islandHost
     readonly property bool islandMotionRunning: islandHost?.motionRunning ?? false
     onIslandMotionRunningChanged: {
@@ -1123,7 +1129,8 @@ Item {
                         alongPos: barWindow.isVertical ? topBarContent.y + (barWindow._leftSection?.y ?? 0) : topBarContent.x + (barWindow._leftSection?.x ?? 0)
                         alongSize: barWindow.leadingSectionSize
                         alongExtent: barWindow.isVertical ? barUnitInset.height : barUnitInset.width
-                        crossSize: barWindow.isVertical ? barUnitInset.width : barUnitInset.height
+                        crossSize: barWindow.islandSatelliteDepth
+                        crossExtent: barWindow.isVertical ? barUnitInset.width : barUnitInset.height
                         isVertical: barWindow.isVertical
                         crossFar: axis.edge === "bottom" || axis.edge === "right"
                         edgeAligned: !barWindow.islandSatellitesHugIsland
@@ -1142,7 +1149,8 @@ Item {
                         alongPos: barWindow.isVertical ? topBarContent.y + (barWindow._rightSection?.y ?? 0) : topBarContent.x + (barWindow._rightSection?.x ?? 0)
                         alongSize: barWindow.trailingSectionSize
                         alongExtent: barWindow.isVertical ? barUnitInset.height : barUnitInset.width
-                        crossSize: barWindow.isVertical ? barUnitInset.width : barUnitInset.height
+                        crossSize: barWindow.islandSatelliteDepth
+                        crossExtent: barWindow.isVertical ? barUnitInset.width : barUnitInset.height
                         isVertical: barWindow.isVertical
                         crossFar: axis.edge === "bottom" || axis.edge === "right"
                         edgeAligned: !barWindow.islandSatellitesHugIsland
@@ -1190,6 +1198,7 @@ Item {
                         visible: barWindow.islandSatellitesEnabled
                         leadingSectionOffset: barWindow.islandLeadingOffset
                         trailingSectionOffset: barWindow.islandTrailingOffset
+                        sectionCrossOffset: barWindow.islandSatelliteCrossShift
                         reservedStart: barWindow.islandReservesStrip ? barWindow.islandReachStart - barWindow.islandStripClearance - barWindow.contentAlongStart : NaN
                         reservedEnd: barWindow.islandReservesStrip ? barWindow.islandReachEnd + barWindow.islandStripClearance - barWindow.contentAlongStart : NaN
                     }

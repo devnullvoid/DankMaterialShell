@@ -21,6 +21,7 @@ Item {
     property var hoverSections: null
     property real leadingSectionOffset: 0
     property real trailingSectionOffset: 0
+    property real sectionCrossOffset: 0
     property real reservedStart: NaN
     property real reservedEnd: NaN
     readonly property bool fitToWidgets: _hasBarWindow && (barWindow.fitToWidgets ?? false)
@@ -477,6 +478,7 @@ Item {
                     left: parent.left
                     leftMargin: topBarContent.leadingSectionOffset
                     verticalCenter: parent.verticalCenter
+                    verticalCenterOffset: topBarContent.sectionCrossOffset
                 }
                 axis: barWindow.axis
                 barContent: topBarContent
@@ -493,6 +495,7 @@ Item {
                     right: parent.right
                     rightMargin: topBarContent.trailingSectionOffset
                     verticalCenter: parent.verticalCenter
+                    verticalCenterOffset: topBarContent.sectionCrossOffset
                 }
                 axis: barWindow.axis
                 barContent: topBarContent
@@ -530,6 +533,7 @@ Item {
                     top: parent.top
                     topMargin: topBarContent.leadingSectionOffset
                     horizontalCenter: parent.horizontalCenter
+                    horizontalCenterOffset: topBarContent.sectionCrossOffset
                 }
                 axis: barWindow.axis
                 barContent: topBarContent
@@ -563,6 +567,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: topBarContent.trailingSectionOffset
                     horizontalCenter: parent.horizontalCenter
+                    horizontalCenterOffset: topBarContent.sectionCrossOffset
                 }
                 axis: barWindow.axis
                 barContent: topBarContent
