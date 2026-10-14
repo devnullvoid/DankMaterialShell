@@ -1398,6 +1398,9 @@ var LOCAL_SPEC = {
     osdCapsLockEnabled: {
         def: true
     },
+    osdTouchpadEnabled: {
+        def: true
+    },
     osdPowerProfileEnabled: {
         def: false
     },

@@ -850,6 +850,10 @@ const NIRI_ACTIONS = {
             label: "Toggle Shortcuts Inhibit"
         },
         {
+            id: "toggle-touchpad",
+            label: "Toggle Touchpad"
+        },
+        {
             id: "quit",
             label: "Quit niri"
         },

@@ -41,6 +41,10 @@ Singleton {
     property int currentKeyboardLayoutIndex: 0
     property var keyboardLayoutNames: []
 
+    // niri never reports toggle-touchpad state, so this only tracks toggles issued through DMS.
+    property bool touchpadDisabled: false
+    signal touchpadToggled
+
     property string configValidationOutput: ""
     property bool hasInitialConnection: false
     property bool suppressConfigToast: true
@@ -807,6 +811,19 @@ Singleton {
                     "delay_ms": 0
                 }
             }
+        });
+    }
+
+    function toggleTouchpad() {
+        if (!CompositorService.isNiri)
+            return;
+        Proc.runCommand("niri-toggle-touchpad", ["niri", "msg", "action", "toggle-touchpad"], (output, exitCode) => {
+            if (exitCode !== 0) {
+                log.warn("toggle-touchpad failed, exit code:", exitCode);
+                return;
+            }
+            touchpadDisabled = !touchpadDisabled;
+            touchpadToggled();
         });
     }
 
@@ -1921,6 +1938,14 @@ window-rule {
                 return "SCREENSHOT_WINDOW_SUCCESS";
             }
             return "SCREENSHOT_WINDOW_FAILED";
+        }
+
+        function toggleTouchpad(): string {
+            if (!CompositorService.isNiri) {
+                return "NIRI_NOT_AVAILABLE";
+            }
+            NiriService.toggleTouchpad();
+            return "TOUCHPAD_TOGGLED";
         }
 
         target: "niri"

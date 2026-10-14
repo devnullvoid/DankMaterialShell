@@ -1106,6 +1106,7 @@ Singleton {
     property bool osdMicMuteEnabled: Spec.SPEC.osdMicMuteEnabled.def
     property bool osdMicVolumeEnabled: Spec.SPEC.osdMicVolumeEnabled.def
     property bool osdCapsLockEnabled: Spec.SPEC.osdCapsLockEnabled.def
+    property bool osdTouchpadEnabled: Spec.SPEC.osdTouchpadEnabled.def
     property bool osdPowerProfileEnabled: Spec.SPEC.osdPowerProfileEnabled.def
     property bool osdAudioOutputEnabled: Spec.SPEC.osdAudioOutputEnabled.def
     property bool osdWorkspaceEnabled: Spec.SPEC.osdWorkspaceEnabled.def

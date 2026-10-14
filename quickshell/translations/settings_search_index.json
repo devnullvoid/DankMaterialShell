@@ -8793,6 +8793,21 @@
     ]
   },
   {
+    "section": "osdTouchpadEnabled",
+    "label": "Touchpad",
+    "tabIndex": 18,
+    "category": "On-screen displays",
+    "keywords": [
+      "displays",
+      "indicator",
+      "osd",
+      "popup",
+      "screen",
+      "touchpad"
+    ],
+    "conditionKey": "isNiri"
+  },
+  {
     "section": "osdVolumeEnabled",
     "label": "Volume",
     "tabIndex": 18,

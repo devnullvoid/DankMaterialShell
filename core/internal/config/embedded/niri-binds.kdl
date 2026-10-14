@@ -90,6 +90,11 @@ binds {
        spawn "dms" "ipc" "call" "brightness" "decrement" "5" "";
     }
 
+    // === Input ===
+    XF86TouchpadToggle allow-when-locked=true repeat=false {
+        spawn "dms" "ipc" "call" "niri" "toggleTouchpad";
+    }
+
     // === Window Management ===
     Mod+Q repeat=false { close-window; }
     Mod+F { maximize-column; }

@@ -1316,6 +1316,12 @@ Item {
                 }
 
                 Variants {
+                    model: (SettingsData.osdTouchpadEnabled && CompositorService.isNiri) ? root.legacySystemLevelOsdScreens : []
+
+                    delegate: TouchpadOSD {}
+                }
+
+                Variants {
                     model: SettingsData.osdAudioOutputEnabled ? SettingsData.getFilteredScreens("osd") : []
 
                     delegate: AudioOutputOSD {}

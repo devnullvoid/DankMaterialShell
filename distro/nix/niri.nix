@@ -155,6 +155,11 @@ in {
               allow-when-locked = true;
               action = dms-ipc "brightness" "decrement" "5" "";
             };
+            "XF86TouchpadToggle" = {
+              allow-when-locked = true;
+              repeat = false;
+              action = dms-ipc "niri" "toggleTouchpad";
+            };
             "Mod+Alt+N" = {
               allow-when-locked = true;
               action = dms-ipc "night" "toggle";
