@@ -185,7 +185,7 @@ test("free islands and dots keep their key but leave every band, reservation and
     for (const options of [{}, { effectiveFrameEnabled: true }, { effectiveFrameEnabled: true, effectiveConnected: true }]) {
         const layout = resolve(configs, options);
         const dot = layout.instances.find(instance => instance.barId === "dot");
-        assert.deepEqual(plain({ ...dot, paintedBounds: undefined, margins: undefined }), { key: JSON.stringify(["DP-1", "dot"]), screenName: "DP-1", barId: "dot", configOrder: 1, edge: "", kind: "island", free: true, dot: true, hostsIsland: true, satelliteEdge: "", row: 0, rowThickness: 0, rowOffset: 0, reservation: 0, exclusiveZone: -1, exclusionSize: 0 });
+        assert.deepEqual(plain({ ...dot, paintedBounds: undefined, margins: undefined }), { key: JSON.stringify(["DP-1", "dot"]), screenName: "DP-1", barId: "dot", configOrder: 1, edge: "", kind: "island", free: true, dot: true, hostsIsland: true, satelliteEdge: "", row: 0, rowThickness: 0, rowOffset: 0, reservation: 0, manualPlacement: false, exclusiveZone: -1, exclusionSize: 0 });
         assert.equal(layout.instances.find(instance => instance.barId === "free").dot, false);
         assert.equal(layout.edges.top.island, null);
         assert.equal(layout.edges.top.islandThickness, 0);
