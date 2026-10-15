@@ -40,6 +40,8 @@ const KEY_MAP = {
     16777329: "XF86AudioMute",
     16842808: "XF86AudioMicMute",
     16777488: "XF86TouchpadToggle",
+    16777489: "XF86TouchpadOn",
+    16777490: "XF86TouchpadOff",
     16777344: "XF86AudioPlay",
     16777345: "XF86AudioStop",
     16777346: "XF86AudioPrev",

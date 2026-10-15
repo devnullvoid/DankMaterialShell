@@ -13,13 +13,16 @@ DOSD {
     autoHideInterval: 2000
     enableMouseInteraction: false
 
+    property bool touchpadEnabled: true
+
     Connections {
         target: NiriService
 
-        function onTouchpadToggled() {
-            if (SettingsData.osdTouchpadEnabled) {
-                root.show();
-            }
+        function onTouchpadOsdRequested(enabled: bool) {
+            if (!SettingsData.osdTouchpadEnabled)
+                return;
+            root.touchpadEnabled = enabled;
+            root.show();
         }
     }
 
@@ -27,8 +30,8 @@ DOSD {
         OsdIcon {
             tonal: false
             anchors.centerIn: parent
-            iconName: NiriService.touchpadDisabled ? "touchpad_mouse_off" : "touchpad_mouse"
-            iconColor: NiriService.touchpadDisabled ? Theme.outline : Theme.primary
+            iconName: root.touchpadEnabled ? "touchpad_mouse" : "touchpad_mouse_off"
+            iconColor: root.touchpadEnabled ? Theme.primary : Theme.outline
         }
     }
 }
