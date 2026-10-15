@@ -15089,6 +15089,7 @@
       "applications",
       "background",
       "bg",
+      "color",
       "colors",
       "colour",
       "colours",
@@ -15099,14 +15100,17 @@
       "palette",
       "picture",
       "portal",
+      "shift",
       "terminal",
       "terminals",
       "theming",
       "tint",
+      "toward",
       "wallpaper"
     ],
     "parentLabel": "Wallpaper & colors",
-    "icon": "apps"
+    "icon": "apps",
+    "description": "How far terminal colors shift toward the wallpaper color"
   },
   {
     "section": "runDmsMatugenTemplates",
