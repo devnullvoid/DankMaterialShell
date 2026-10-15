@@ -140,7 +140,15 @@ Item {
         if (!loader.item)
             return;
         loader.item.screen = screen;
+        positionUnresolvedPopout(loader.item, systemUpdateButtonRef);
         PopoutManager.requestPopout(loader.item, undefined, "systemUpdate");
+    }
+
+    function positionUnresolvedPopout(popout, item) {
+        const section = item?.section || "right";
+        const anchor = item ?? dashSectionItem(section);
+        if (anchor)
+            topBarContent.surfaceContext.positionPopout(popout, anchor, section);
     }
 
     function triggerControlCenter() {
@@ -157,6 +165,7 @@ Item {
         if (!loader.item)
             return;
         loader.item.triggerScreen = screen;
+        positionUnresolvedPopout(loader.item, controlCenterButtonRef);
         loader.item.toggle();
         if (loader.item.shouldBeVisible && NetworkService.wifiEnabled)
             NetworkService.scanWifi();
