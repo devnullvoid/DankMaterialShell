@@ -160,16 +160,6 @@ in {
               repeat = false;
               action = spawn "niri" "msg" "action" "toggle-touchpad";
             };
-            "XF86TouchpadOn" = {
-              allow-when-locked = true;
-              repeat = false;
-              action = dms-ipc "niri" "showTouchpadOsd" "true";
-            };
-            "XF86TouchpadOff" = {
-              allow-when-locked = true;
-              repeat = false;
-              action = dms-ipc "niri" "showTouchpadOsd" "false";
-            };
             "Mod+Alt+N" = {
               allow-when-locked = true;
               action = dms-ipc "night" "toggle";
