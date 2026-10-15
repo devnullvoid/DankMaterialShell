@@ -3040,9 +3040,6 @@ Singleton {
         if (matugenScheme === normalized)
             return;
         set("matugenScheme", normalized);
-        if (typeof Theme !== "undefined") {
-            Theme.generateSystemThemesFromCurrentTheme();
-        }
     }
 
     function setMatugenSmartMode(enabled) {
@@ -3055,10 +3052,6 @@ Singleton {
         var normalized = mode || "dominant";
         if (matugenSourceMode === normalized)
             return;
-        // Regeneration comes from the regenSystemThemes onChange hook in
-        // SettingsSpec.js, which set() dispatches. matugenScheme above also
-        // calls Theme.generateSystemThemesFromCurrentTheme() directly, which is
-        // redundant with its own hook.
         set("matugenSourceMode", normalized);
     }
 
@@ -3092,9 +3085,6 @@ Singleton {
         if (matugenTargetMonitor === monitorName)
             return;
         set("matugenTargetMonitor", monitorName);
-        if (typeof Theme !== "undefined") {
-            Theme.generateSystemThemesFromCurrentTheme();
-        }
     }
 
     function setCornerRadius(radius) {
