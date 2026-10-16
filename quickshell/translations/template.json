@@ -3196,7 +3196,7 @@
     "translation": "",
     "context": "Center section",
     "reference": "",
-    "comment": ""
+    "comment": "widgets settings: bar section replaced by the island"
   },
   {
     "term": "Center single column",
@@ -3983,25 +3983,11 @@
     "comment": "adjective, dock style option, also notification compact mode toggle"
   },
   {
-    "term": "Compact height",
-    "translation": "",
-    "context": "Compact height",
-    "reference": "",
-    "comment": "island settings: compact pill height slider"
-  },
-  {
     "term": "Compact mode",
     "translation": "",
     "context": "Compact mode",
     "reference": "",
     "comment": ""
-  },
-  {
-    "term": "Compact width",
-    "translation": "",
-    "context": "Compact width",
-    "reference": "",
-    "comment": "island settings: compact pill width slider"
   },
   {
     "term": "Completed",
@@ -6457,13 +6443,6 @@
     "term": "End must be after start",
     "translation": "",
     "context": "End must be after start",
-    "reference": "",
-    "comment": ""
-  },
-  {
-    "term": "Enlarge on hover",
-    "translation": "",
-    "context": "Enlarge on hover",
     "reference": "",
     "comment": ""
   },
@@ -9023,6 +9002,13 @@
     "comment": ""
   },
   {
+    "term": "Hold Ctrl, Alt or Super and press a key. Esc cancels.",
+    "translation": "",
+    "context": "Hold Ctrl, Alt or Super and press a key. Esc cancels.",
+    "reference": "",
+    "comment": "launcher shortcut key combination capture hint"
+  },
+  {
     "term": "Hold duration",
     "translation": "",
     "context": "Hold duration",
@@ -9161,6 +9147,13 @@
     "context": "Hover popouts",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "How far terminal colors shift toward the wallpaper color",
+    "translation": "",
+    "context": "How far terminal colors shift toward the wallpaper color",
+    "reference": "",
+    "comment": "terminal wallpaper colors intensity description"
   },
   {
     "term": "Hue",
@@ -11575,7 +11568,7 @@
     "translation": "",
     "context": "Middle section",
     "reference": "",
-    "comment": ""
+    "comment": "widgets settings: bar section replaced by the island"
   },
   {
     "term": "Min H",
@@ -12283,6 +12276,13 @@
     "context": "Next Transition",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "Next category",
+    "translation": "",
+    "context": "Next category",
+    "reference": "",
+    "comment": "launcher shortcut that switches to the next mode tab"
   },
   {
     "term": "Next page",
@@ -13277,6 +13277,13 @@
     "context": "Not set",
     "reference": "",
     "comment": "wallpaper not set label"
+  },
+  {
+    "term": "Not shown on this bar, so its section widgets stay hidden",
+    "translation": "",
+    "context": "Not shown on this bar, so its section widgets stay hidden",
+    "reference": "",
+    "comment": "widgets settings: island satellites are not rendered on this bar"
   },
   {
     "term": "Not synchronized",
@@ -14935,7 +14942,7 @@
     "translation": "",
     "context": "Power menu",
     "reference": "",
-    "comment": ""
+    "comment": "island compact face: power menu label | island settings: route the power menu to the island"
   },
   {
     "term": "Power off",
@@ -15104,6 +15111,13 @@
     "context": "Previous",
     "reference": "",
     "comment": "button going to the previous track, page, day, month or match"
+  },
+  {
+    "term": "Previous category",
+    "translation": "",
+    "context": "Previous category",
+    "reference": "",
+    "comment": "launcher shortcut that switches to the previous mode tab"
   },
   {
     "term": "Previous page",
@@ -15589,6 +15603,13 @@
     "comment": "verb, power menu action"
   },
   {
+    "term": "Reboot now?",
+    "translation": "",
+    "context": "Reboot now?",
+    "reference": "",
+    "comment": "confirmation dialog title, reboot to finish a system update"
+  },
+  {
     "term": "Reboot recommended",
     "translation": "",
     "context": "Reboot recommended",
@@ -15867,6 +15888,13 @@
     "context": "Remove condition",
     "reference": "",
     "comment": "button in the notification rule editor, removes this match condition"
+  },
+  {
+    "term": "Remove from recent colors",
+    "translation": "",
+    "context": "Remove from recent colors",
+    "reference": "",
+    "comment": "button on a recently picked color swatch"
   },
   {
     "term": "Remove greeter access?",
@@ -16637,6 +16665,13 @@
     "context": "Save password",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "Save your work first. Open apps will close.",
+    "translation": "",
+    "context": "Save your work first. Open apps will close.",
+    "reference": "",
+    "comment": "reboot confirmation after a system update"
   },
   {
     "term": "Saved",
@@ -18802,6 +18837,13 @@
     "comment": ""
   },
   {
+    "term": "Switch to media when playback starts",
+    "translation": "",
+    "context": "Switch to media when playback starts",
+    "reference": "",
+    "comment": "island settings: auto-switch the compact face to media toggle"
+  },
+  {
     "term": "Switches to power saver at the low battery threshold",
     "translation": "",
     "context": "Switches to power saver at the low battery threshold",
@@ -19276,6 +19318,13 @@
     "context": "The Island holds this edge on a display this bar covers, so the bar stays hidden there",
     "reference": "",
     "comment": ""
+  },
+  {
+    "term": "The Island takes its place on this bar",
+    "translation": "",
+    "context": "The Island takes its place on this bar",
+    "reference": "",
+    "comment": "widgets settings: the island replaces the bar's center section"
   },
   {
     "term": "The WiFi adapter could not start access point mode.",

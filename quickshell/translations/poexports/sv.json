@@ -3797,6 +3797,9 @@
   "History size, retention, paste behavior": {
     "History size, retention, paste behavior": ""
   },
+  "Hold Ctrl, Alt or Super and press a key. Esc cancels.": {
+    "Hold Ctrl, Alt or Super and press a key. Esc cancels.": ""
+  },
   "Hold duration": {
     "Hold duration": ""
   },
@@ -3847,6 +3850,9 @@
   },
   "Hover popouts": {
     "Hover popouts": ""
+  },
+  "How far terminal colors shift toward the wallpaper color": {
+    "How far terminal colors shift toward the wallpaper color": ""
   },
   "Hue": {
     "Hue": ""
@@ -5159,6 +5165,9 @@
   "Next Transition": {
     "Next Transition": "Nästa övergång"
   },
+  "Next category": {
+    "Next category": ""
+  },
   "Next page": {
     "Next page": ""
   },
@@ -5581,6 +5590,9 @@
   },
   "Not set": {
     "Not set": "Inte inställt"
+  },
+  "Not shown on this bar, so its section widgets stay hidden": {
+    "Not shown on this bar, so its section widgets stay hidden": ""
   },
   "Not synchronized": {
     "Not synchronized": ""
@@ -6341,6 +6353,9 @@
   "Previous": {
     "Previous": ""
   },
+  "Previous category": {
+    "Previous category": ""
+  },
   "Previous page": {
     "Previous page": ""
   },
@@ -6542,6 +6557,9 @@
   "Reason": {
     "Reason": "Orsak"
   },
+  "Reboot now?": {
+    "Reboot now?": ""
+  },
   "Reboot recommended": {
     "Reboot recommended": ""
   },
@@ -6658,6 +6676,9 @@
   },
   "Remove condition": {
     "Remove condition": ""
+  },
+  "Remove from recent colors": {
+    "Remove from recent colors": ""
   },
   "Remove greeter access?": {
     "Remove greeter access?": "Ta bort välkomstskärmens behörigheter?"
@@ -6973,6 +6994,9 @@
   },
   "Save password": {
     "Save password": "Spara lösenord"
+  },
+  "Save your work first. Open apps will close.": {
+    "Save your work first. Open apps will close.": ""
   },
   "Saved": {
     "Saved": "Sparat"
@@ -7874,6 +7898,9 @@
   "Switch layout shortcut": {
     "Switch layout shortcut": ""
   },
+  "Switch to media when playback starts": {
+    "Switch to media when playback starts": ""
+  },
   "Switches to power saver at the low battery threshold": {
     "Switches to power saver at the low battery threshold": ""
   },
@@ -8071,6 +8098,9 @@
   },
   "The Island holds this edge on a display this bar covers, so the bar stays hidden there": {
     "The Island holds this edge on a display this bar covers, so the bar stays hidden there": ""
+  },
+  "The Island takes its place on this bar": {
+    "The Island takes its place on this bar": ""
   },
   "The WiFi adapter could not start access point mode.": {
     "The WiFi adapter could not start access point mode.": ""

@@ -3797,6 +3797,9 @@
   "History size, retention, paste behavior": {
     "History size, retention, paste behavior": "기록 크기, 보존 기간, 붙여넣기 동작"
   },
+  "Hold Ctrl, Alt or Super and press a key. Esc cancels.": {
+    "Hold Ctrl, Alt or Super and press a key. Esc cancels.": ""
+  },
   "Hold duration": {
     "Hold duration": "길게 누르는 시간"
   },
@@ -3847,6 +3850,9 @@
   },
   "Hover popouts": {
     "Hover popouts": "호버 팝아웃"
+  },
+  "How far terminal colors shift toward the wallpaper color": {
+    "How far terminal colors shift toward the wallpaper color": ""
   },
   "Hue": {
     "Hue": "색조"
@@ -5159,6 +5165,9 @@
   "Next Transition": {
     "Next Transition": "다음 전환"
   },
+  "Next category": {
+    "Next category": ""
+  },
   "Next page": {
     "Next page": "다음 페이지"
   },
@@ -5581,6 +5590,9 @@
   },
   "Not set": {
     "Not set": "설정되지 않음"
+  },
+  "Not shown on this bar, so its section widgets stay hidden": {
+    "Not shown on this bar, so its section widgets stay hidden": ""
   },
   "Not synchronized": {
     "Not synchronized": "동기화되지 않음"
@@ -6341,6 +6353,9 @@
   "Previous": {
     "Previous": "이전"
   },
+  "Previous category": {
+    "Previous category": ""
+  },
   "Previous page": {
     "Previous page": "이전 페이지"
   },
@@ -6542,6 +6557,9 @@
   "Reason": {
     "Reason": "이유"
   },
+  "Reboot now?": {
+    "Reboot now?": ""
+  },
   "Reboot recommended": {
     "Reboot recommended": ""
   },
@@ -6658,6 +6676,9 @@
   },
   "Remove condition": {
     "Remove condition": ""
+  },
+  "Remove from recent colors": {
+    "Remove from recent colors": ""
   },
   "Remove greeter access?": {
     "Remove greeter access?": "로그인 화면 접근 권한을 제거하시겠습니까?"
@@ -6973,6 +6994,9 @@
   },
   "Save password": {
     "Save password": "비밀번호 저장"
+  },
+  "Save your work first. Open apps will close.": {
+    "Save your work first. Open apps will close.": ""
   },
   "Saved": {
     "Saved": "저장됨"
@@ -7874,6 +7898,9 @@
   "Switch layout shortcut": {
     "Switch layout shortcut": "레이아웃 전환 단축키"
   },
+  "Switch to media when playback starts": {
+    "Switch to media when playback starts": ""
+  },
   "Switches to power saver at the low battery threshold": {
     "Switches to power saver at the low battery threshold": ""
   },
@@ -8071,6 +8098,9 @@
   },
   "The Island holds this edge on a display this bar covers, so the bar stays hidden there": {
     "The Island holds this edge on a display this bar covers, so the bar stays hidden there": "아일랜드가 이 표시줄이 표시되는 디스플레이의 이 가장자리를 점유하므로, 표시줄은 그곳에서 숨겨진 상태로 유지됩니다"
+  },
+  "The Island takes its place on this bar": {
+    "The Island takes its place on this bar": ""
   },
   "The WiFi adapter could not start access point mode.": {
     "The WiFi adapter could not start access point mode.": "Wi-Fi 어댑터가 액세스 포인트 모드를 시작하지 못했습니다."
