@@ -16286,23 +16286,6 @@
     "parentLabel": "Interface style"
   },
   {
-    "section": "m3ElevationToggle",
-    "label": "Shadows",
-    "tabIndex": 53,
-    "category": "Shadows",
-    "keywords": [
-      "elevation",
-      "interface",
-      "lift",
-      "m3",
-      "material",
-      "shadow",
-      "shadows",
-      "style"
-    ],
-    "parentLabel": "Interface style"
-  },
-  {
     "section": "_tab_54",
     "label": "Bar widgets: Widget settings",
     "tabIndex": 54,
