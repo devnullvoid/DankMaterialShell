@@ -886,11 +886,6 @@ func checkWindowManagers() []checkResult {
 	return results
 }
 
-func mangoWantsDMS() bool {
-	_, err := os.Stat(mangoconf.WantsLink())
-	return err == nil
-}
-
 var mangoLegacyOverviewBinds = regexp.MustCompile(`(?im)^\s*mousebind\s*=\s*none\s*,\s*(btn_left\s*,\s*toggleoverview\s*,\s*1|btn_right\s*,\s*killclient\s*,\s*0)\s*$`)
 
 func checkMangoConfig(mangoDir string, dialect mangoconf.Dialect) []checkResult {
@@ -1454,6 +1449,7 @@ func checkSystemdServices() []checkResult {
 	var results []checkResult
 
 	dmsState := getServiceState("dms", true)
+	wanted := config.SessionWanted()
 	if !dmsState.exists {
 		results = append(results, checkResult{catServices, "dms.service", statusInfo, "Not installed", "Optional user service", doctorDocsURL + "#services"})
 	} else {
@@ -1465,8 +1461,8 @@ func checkSystemdServices() []checkResult {
 		case dmsState.active == "failed":
 			status = statusError
 		case dmsState.active == "active":
-		case dmsState.enabled == "disabled" && os.Getenv("MANGO_INSTANCE_SIGNATURE") != "" && mangoWantsDMS():
-			message = "Started with " + mangoconf.SessionTarget
+		case dmsState.enabled == "disabled" && len(wanted) > 0:
+			message = "Started with " + strings.Join(wanted, ", ")
 			if dmsState.active != "" {
 				message += ", " + dmsState.active
 			}
@@ -1477,7 +1473,16 @@ func checkSystemdServices() []checkResult {
 		case dmsState.active == "inactive":
 			status = statusError
 		}
-		results = append(results, checkResult{catServices, "dms.service", status, message, "", doctorDocsURL + "#services"})
+		details := ""
+		if len(wanted) > 0 {
+			details = "Wanted by " + strings.Join(wanted, ", ")
+		}
+		if wm, ok := config.RunningCompositor(); ok && status != statusOK {
+			if unit := config.SessionUnitName(wm); !slices.Contains(wanted, unit) {
+				details = fmt.Sprintf("Nothing starts dms.service with %s. Run 'dms systemd enable'.", unit)
+			}
+		}
+		results = append(results, checkResult{catServices, "dms.service", status, message, details, doctorDocsURL + "#services"})
 	}
 
 	if dmsState.exists && dmsState.enabled == "enabled" {
@@ -1607,7 +1612,7 @@ func printResultLine(r checkResult, styles tui.Styles) {
 
 	fmt.Printf("    %s %s %s %s\n", style.Render(icon), name, styles.Subtle.Render(dots), r.message)
 
-	if doctorVerbose && r.details != "" {
+	if r.details != "" && (doctorVerbose || r.status != statusOK) {
 		fmt.Printf("      %s\n", styles.Subtle.Render("└─ "+r.details))
 	}
 
@@ -1666,7 +1671,7 @@ func formatResultsPlain(results []checkResult) string {
 
 		fmt.Fprintf(&sb, "- [%s] %s: %s\n", r.status, r.name, r.message)
 
-		if doctorVerbose && r.details != "" {
+		if r.details != "" && (doctorVerbose || r.status != statusOK) {
 			fmt.Fprintf(&sb, "  - %s\n", r.details)
 		}
 	}
