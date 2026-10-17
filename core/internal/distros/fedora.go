@@ -128,7 +128,7 @@ func (f *FedoraDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 
 	dependencies = append(dependencies, f.detectMatugen())
 	dependencies = append(dependencies, f.detectDanksearch())
-	dependencies = append(dependencies, f.detectDankCalendar())
+	dependencies = append(dependencies, f.detectDankCalendarVariant(f.packageInstalled("dankcalendar-git")))
 
 	return dependencies, nil
 }
@@ -163,7 +163,7 @@ func (f *FedoraDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 		"matugen":                 {Name: "matugen", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
 		"dms (DankMaterialShell)": f.getDmsMapping(variants["dms (DankMaterialShell)"]),
 		"danksearch":              {Name: "danksearch", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
-		"dankcalendar":            {Name: "dankcalendar-git", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
+		"dankcalendar":            dankCalendarMapping(variants["dankcalendar"], RepoTypeCOPR, "avengemedia/danklinux"),
 	}
 
 	switch wm {
