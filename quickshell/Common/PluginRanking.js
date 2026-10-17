@@ -301,3 +301,154 @@ function pickOfTheDay(plugins, now) {
     const week = pickOfTheWeek(plugins, t);
     return _pick(plugins, t, "day:" + _dayNumber(t), 30, week ? week.id : "");
 }
+
+// --- Search -----------------------------------------------------------------
+
+function _fold(text) {
+    return String(text || "").replace(/([a-z0-9])([A-Z])/g, "$1 $2").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+}
+
+// Lowercased first, so camelCase is not split: "AvengeMedia" stays "avengemedia".
+function _unsplit(text) {
+    return _fold(String(text || "").toLowerCase());
+}
+
+function _words(text) {
+    return _fold(text).split(/[^a-z0-9]+/).filter(w => w.length > 0);
+}
+
+// Matching costs grow with every word of the query, so a pasted wall of text must not freeze the shell.
+const MAX_QUERY_LENGTH = 100;
+const MAX_QUERY_WORDS = 8;
+
+function _queryWords(query) {
+    const text = String(query || "");
+    const words = _words(text.slice(0, MAX_QUERY_LENGTH));
+    // A word cut in half would match names it is not ("weather" cut to "w"); a lone word stays so it still finds nothing.
+    if (words.length > 1 && _words(text.charAt(MAX_QUERY_LENGTH)).length > 0)
+        words.pop();
+    return words.slice(0, MAX_QUERY_WORDS);
+}
+
+// The one-word form of a camelCase text, empty when it has no camelCase to undo.
+function _joined(text) {
+    const unsplit = _unsplit(text);
+    return unsplit === _fold(text) ? "" : unsplit;
+}
+
+// Edit distance, given up as soon as it is known to exceed max.
+function _distance(a, b, max) {
+    if (Math.abs(a.length - b.length) > max)
+        return max + 1;
+    let prev = [];
+    let prev2 = [];
+    for (let j = 0; j <= b.length; j++)
+        prev.push(j);
+    for (let i = 1; i <= a.length; i++) {
+        const row = [i];
+        let best = i;
+        for (let j = 1; j <= b.length; j++) {
+            let cost = Math.min(prev[j] + 1, row[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+            if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1])
+                cost = Math.min(cost, prev2[j - 2] + 1);
+            row.push(cost);
+            if (cost < best)
+                best = cost;
+        }
+        if (best > max)
+            return max + 1;
+        prev2 = prev;
+        prev = row;
+    }
+    return prev[b.length];
+}
+
+function _typos(word) {
+    return word.length < 4 ? 0 : word.length < 8 ? 1 : 2;
+}
+
+// What a query is matched against: the name first, then everything a user
+// may type to find a plugin (author, category, capabilities, dependencies).
+function _searchText(plugin) {
+    const p = plugin || {};
+    const name = [_fold(p.name), _fold(p.id), _joined(p.name), _joined(p.id)].join(" ");
+    const extra = [p.description, p.author, p.category].concat(_list(p.capabilities), _list(p.dependencies)).map(_fold).join(" ") + " " + _joined(p.author);
+    return {
+        name: name,
+        all: name + " " + extra,
+        words: (name + " " + _fold(p.category) + " " + _list(p.capabilities).map(_fold).join(" ")).split(/[^a-z0-9]+/).filter(w => w.length > 0)
+    };
+}
+
+function _nearWord(token, words, max) {
+    for (let i = 0; i < words.length; i++) {
+        const word = words[i];
+        if (_distance(token, word, max) <= max)
+            return true;
+        if (word.length > token.length && _distance(token, word.slice(0, token.length), max) <= max)
+            return true;
+    }
+    return false;
+}
+
+// A typo is forgiven only for a word no plugin contains as typed, so a correct
+// query never picks up look-alikes ("dark" does not match every "dank").
+function searchPlan(plugins, query) {
+    const tokens = _queryWords(query);
+    const texts = _list(plugins).map(_searchText);
+    return tokens.map(token => ({
+        token: token,
+        typos: texts.some(t => t.all.indexOf(token) >= 0) ? 0 : _typos(token)
+    }));
+}
+
+// 0 when the plugin does not match, higher for a better match.
+function searchRank(plugin, plan) {
+    const terms = _list(plan);
+    if (terms.length === 0)
+        return 1;
+    const text = _searchText(plugin);
+    let total = 0;
+    for (let i = 0; i < terms.length; i++) {
+        const term = terms[i];
+        if (text.name.indexOf(term.token) >= 0)
+            total += 3;
+        else if (text.all.indexOf(term.token) >= 0)
+            total += 2;
+        else if (term.typos > 0 && _nearWord(term.token, text.words, term.typos))
+            total += 1;
+        else
+            return 0;
+    }
+    return total;
+}
+
+// The plugins whose name is nearest to a query that found nothing.
+function closest(plugins, query, limit) {
+    const tokens = _queryWords(query);
+    if (tokens.length === 0)
+        return [];
+    const rows = [];
+    _list(plugins).forEach(p => {
+        const words = _words((p.name || "") + " " + (p.id || ""));
+        let total = 0;
+        for (let i = 0; i < tokens.length; i++) {
+            const max = Math.max(1, Math.floor(tokens[i].length / 2));
+            let best = max + 1;
+            for (let j = 0; j < words.length; j++) {
+                best = Math.min(best, _distance(tokens[i], words[j], max));
+                if (words[j].length > tokens[i].length)
+                    best = Math.min(best, _distance(tokens[i], words[j].slice(0, tokens[i].length), max));
+            }
+            if (best > max)
+                return;
+            total += best;
+        }
+        rows.push({
+            plugin: p,
+            distance: total
+        });
+    });
+    rows.sort((a, b) => a.distance - b.distance || (b.plugin.upvotes || 0) - (a.plugin.upvotes || 0) || String(a.plugin.id).localeCompare(String(b.plugin.id)));
+    return rows.slice(0, limit || 4).map(r => r.plugin);
+}

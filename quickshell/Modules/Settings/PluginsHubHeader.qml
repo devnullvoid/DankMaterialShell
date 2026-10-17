@@ -499,6 +499,8 @@ Column {
             width: parent.width
             text: root.searchQuery
             placeholderText: I18n.tr("Search plugins...", "plugin search placeholder")
+            // matches MAX_QUERY_LENGTH in PluginRanking.js
+            maximumLength: 100
             onTextEdited: root.searchQuery = text
         }
         Flow {

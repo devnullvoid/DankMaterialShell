@@ -7,6 +7,7 @@ import qs.Services
 import qs.DCommon.Widgets
 import qs.Widgets
 import qs.Modules.Settings.Widgets
+import "../../Common/PluginRanking.js" as PluginRanking
 
 RegistryBrowserWindow {
     id: root
@@ -23,14 +24,47 @@ RegistryBrowserWindow {
     property string operationMessage: ""
     property bool operationFailed: false
     property bool operationPending: false
+    property var discoverPicks: []
+    // Quick filters of this visit: usable (on the running compositor), fresh (new or updated), official.
+    property var quickFilters: ({})
+    property var searchSuggestions: []
+    property var discoverShelves: []
 
     readonly property var detailPlugin: resolveDetailPlugin(detailPluginId, allPlugins)
+    property bool discoverCollapsed: false
+    readonly property bool discoverVisible: {
+        if (isLoading || loadError !== "" || searchQuery !== "" || typeFilter !== "")
+            return false;
+        if (discoverPicks.length === 0 && discoverShelves.length === 0)
+            return false;
+        var mode = normalizedSortMode(SessionData.pluginBrowserSortMode);
+        return mode === "default" || mode === "recommended";
+    }
     readonly property bool activeCategorySort: normalizedSortMode(SessionData.pluginBrowserSortMode) === "category"
     readonly property bool showCategoryFilters: activeCategorySort && categoryFilterOptions.length > 1
     readonly property bool showLetterIndex: {
         var mode = normalizedSortMode(SessionData.pluginBrowserSortMode);
         return (mode === "name" || mode === "author") && availableLetters.length > 1;
     }
+
+    readonly property var quickFilterOptions: [
+        {
+            value: "usable",
+            label: I18n.tr("Works here", "plugin browser filter chip, plugins that run on the current compositor"),
+            icon: "desktop_windows"
+        },
+        {
+            value: "fresh",
+            label: I18n.tr("New & updated", "plugin browser filter chip"),
+            icon: "fiber_new"
+        },
+        {
+            value: "official",
+            label: I18n.tr("Official only", "plugin browser filter chip, first party plugins"),
+            icon: "verified"
+        }
+    ]
+    showLoadingSpinner: false
 
     readonly property var sortChipOptions: [
         {
@@ -46,6 +80,11 @@ RegistryBrowserWindow {
         {
             id: "default",
             label: I18n.tr("Votes", "plugin browser sort option"),
+            toggle: false
+        },
+        {
+            id: "recommended",
+            label: I18n.tr("For you", "plugin browser sort option, plugins ranked for this user"),
             toggle: false
         },
         {
@@ -68,9 +107,95 @@ RegistryBrowserWindow {
     function normalizedSortMode(mode) {
         if (mode === "type" || mode === "contributor")
             return "author";
-        if (mode === "name" || mode === "author" || mode === "category")
+        if (mode === "name" || mode === "author" || mode === "category" || mode === "recommended")
             return mode;
         return "default";
+    }
+
+    function rankingCompositor() {
+        if (CompositorService.isNiri)
+            return "niri";
+        if (CompositorService.isHyprland)
+            return "hyprland";
+        if (CompositorService.isSway)
+            return "sway";
+        if (CompositorService.isMango)
+            return "mangowc";
+        if (CompositorService.isLabwc)
+            return "labwc";
+        if (CompositorService.isMiracle)
+            return "miracle-wm";
+        return "";
+    }
+
+    function recommendationReason(key) {
+        switch (key) {
+        case "similar":
+            return I18n.tr("Like your plugins", "plugin recommendation reason, similar to installed plugins");
+        case "featured":
+            return I18n.tr("Featured plugin", "plugin recommendation reason");
+        case "new":
+            return I18n.tr("New", "plugin recommendation reason, recently published");
+        case "trending":
+            return I18n.tr("Trending", "plugin recommendation reason, gaining votes quickly");
+        case "category":
+            return I18n.tr("Fits your setup", "plugin recommendation reason, same category as installed plugins");
+        default:
+            return I18n.tr("Popular", "plugin recommendation reason, many votes");
+        }
+    }
+
+    function updateDiscover(pool) {
+        var now = Date.now();
+        var taste = PluginRanking.buildTaste(allPlugins);
+        var options = {
+            now: now,
+            taste: taste,
+            compositor: rankingCompositor(),
+            limit: 6
+        };
+
+        var picks = [];
+        var week = PluginRanking.pickOfTheWeek(pool, now);
+        if (week)
+            picks.push({
+                label: I18n.tr("Pick of the week", "plugin browser highlighted plugin"),
+                plugin: week
+            });
+        var day = PluginRanking.pickOfTheDay(pool, now);
+        if (day)
+            picks.push({
+                label: I18n.tr("Pick of the day", "plugin browser highlighted plugin"),
+                plugin: day
+            });
+
+        options.exclude = picks.map(pick => pick.plugin.id);
+
+        var shelves = [];
+        var recommended = PluginRanking.recommend(pool, options);
+        if (recommended.length > 0)
+            shelves.push({
+                label: taste.count > 0 ? I18n.tr("For you", "plugin browser shelf, plugins ranked for this user") : I18n.tr("Popular", "plugin browser shelf"),
+                plugins: recommended,
+                captions: recommended.map(p => recommendationReason(PluginRanking.reason(p, taste, now)))
+            });
+        var trending = PluginRanking.trendingNow(pool, options);
+        if (trending.length > 0)
+            shelves.push({
+                label: I18n.tr("Trending", "plugin browser shelf, gaining votes quickly"),
+                plugins: trending,
+                captions: []
+            });
+        var arrivals = PluginRanking.newArrivals(pool, options);
+        if (arrivals.length > 0)
+            shelves.push({
+                label: I18n.tr("New", "plugin browser shelf, recently published"),
+                plugins: arrivals,
+                captions: []
+            });
+
+        discoverPicks = picks;
+        discoverShelves = shelves;
     }
 
     function isSortChipSelected(chipId, toggle) {
@@ -230,7 +355,8 @@ RegistryBrowserWindow {
         if (!pluginGrid)
             return;
         pluginGrid.cancelFlick();
-        pluginGrid.contentY = 0;
+        discoverCollapsed = false;
+        pluginGrid.positionViewAtBeginning();
         Qt.callLater(() => {
             if (pluginGrid)
                 pluginGrid.forceLayout();
@@ -250,7 +376,8 @@ RegistryBrowserWindow {
 
     function updateFilteredPlugins() {
         var baseFiltered = [];
-        var query = searchQuery ? searchQuery.toLowerCase() : "";
+        var visiblePlugins = SessionData.showThirdPartyPlugins ? allPlugins : allPlugins.filter(p => p.firstParty || false);
+        var plan = PluginRanking.searchPlan(visiblePlugins, searchQuery);
 
         for (var i = 0; i < allPlugins.length; i++) {
             var plugin = allPlugins[i];
@@ -264,19 +391,14 @@ RegistryBrowserWindow {
                     continue;
             }
 
-            if (query.length === 0) {
-                baseFiltered.push(plugin);
-                continue;
-            }
-
-            var name = plugin.name ? plugin.name.toLowerCase() : "";
-            var description = plugin.description ? plugin.description.toLowerCase() : "";
-            var author = plugin.author ? plugin.author.toLowerCase() : "";
-
-            if (name.indexOf(query) !== -1 || description.indexOf(query) !== -1 || author.indexOf(query) !== -1)
+            if (PluginRanking.searchRank(plugin, plan) > 0)
                 baseFiltered.push(plugin);
         }
+        var compositor = rankingCompositor();
+        var filterNow = Date.now();
+        baseFiltered = baseFiltered.filter(p => PluginRanking.matchesFilters(p, quickFilters, compositor, filterNow));
 
+        updateDiscover(baseFiltered);
         categoryFilterOptions = buildCategoryFilterOptions(baseFiltered);
         if (categoryFilter !== "all") {
             var filterStillValid = false;
@@ -290,7 +412,7 @@ RegistryBrowserWindow {
                 categoryFilter = "all";
         }
 
-        var filtered = baseFiltered.slice();
+        var filtered = baseFiltered;
         if (SessionData.pluginBrowserHideInstalled)
             filtered = filtered.filter(p => !(p.installed || false));
         if (activeCategorySort && categoryFilter !== "all") {
@@ -302,6 +424,15 @@ RegistryBrowserWindow {
             });
         }
 
+        var sortMode = normalizedSortMode(SessionData.pluginBrowserSortMode);
+        var scores = {};
+        if (sortMode === "recommended") {
+            var now = Date.now();
+            var taste = PluginRanking.buildTaste(allPlugins);
+            for (var s = 0; s < filtered.length; s++)
+                scores[filtered[s].id] = PluginRanking.score(filtered[s], taste, now);
+        }
+
         filtered.sort((a, b) => {
             if (SessionData.pluginBrowserInstalledFirst) {
                 var instA = a.installed || false;
@@ -309,7 +440,13 @@ RegistryBrowserWindow {
                 if (instA !== instB)
                     return instA ? -1 : 1;
             }
-            var sortMode = normalizedSortMode(SessionData.pluginBrowserSortMode);
+            if (sortMode === "recommended") {
+                var scoreA = scores[a.id] || 0;
+                var scoreB = scores[b.id] || 0;
+                if (scoreA !== scoreB)
+                    return scoreB - scoreA;
+                return comparePluginName(a, b);
+            }
             if (sortMode === "name")
                 return comparePluginName(a, b);
             if (sortMode === "author")
@@ -328,6 +465,7 @@ RegistryBrowserWindow {
         });
 
         filteredPlugins = filtered;
+        searchSuggestions = filtered.length === 0 && plan.length > 0 ? PluginRanking.closest(visiblePlugins, searchQuery, 4) : [];
         updateAvailableLetters(filtered);
         selectedIndex = -1;
         keyboardNavigationActive = false;
@@ -546,6 +684,8 @@ RegistryBrowserWindow {
     function resetContent() {
         allPlugins = [];
         filteredPlugins = [];
+        discoverPicks = [];
+        discoverShelves = [];
         loadError = "";
         detailPluginId = "";
     }
@@ -664,14 +804,19 @@ RegistryBrowserWindow {
                 model: root.sortChipOptions.slice(0, 2).map(option => ({
                             label: option.label,
                             value: option.id
-                        }))
+                        })).concat(root.quickFilterOptions)
                 multiSelect: true
-                selectedValues: [SessionData.pluginBrowserHideInstalled ? "hideInstalled" : "", SessionData.pluginBrowserInstalledFirst ? "installed" : ""]
+                selectedValues: [SessionData.pluginBrowserHideInstalled ? "hideInstalled" : "", SessionData.pluginBrowserInstalledFirst ? "installed" : ""].concat(Object.keys(root.quickFilters).filter(key => root.quickFilters[key]))
                 onSelectionToggled: (index, selected) => {
-                    if (index === 0)
+                    if (index === 0) {
                         SessionData.setPluginBrowserHideInstalled(selected);
-                    else
+                    } else if (index === 1) {
                         SessionData.setPluginBrowserInstalledFirst(selected);
+                    } else {
+                        var next = Object.assign({}, root.quickFilters);
+                        next[model[index].value] = selected;
+                        root.quickFilters = next;
+                    }
                     root.updateFilteredPlugins();
                 }
             }
@@ -717,6 +862,39 @@ RegistryBrowserWindow {
     ]
 
     listContent: [
+        Item {
+            id: discoverPane
+
+            readonly property bool fits: discover.height + pluginGrid.cellHeight / 3 <= parent.height
+            readonly property bool shown: root.discoverVisible && fits && !root.discoverCollapsed
+
+            anchors.top: parent.top
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.rightMargin: pluginGrid.anchors.rightMargin
+            height: shown ? discover.height + Theme.spacingM : 0
+            clip: true
+            visible: height > 0 && pluginGrid.visible
+
+            Behavior on height {
+                NumberAnimation {
+                    duration: Theme.shortDuration
+                    easing.type: Theme.standardEasing
+                }
+            }
+
+            PluginDiscover {
+                id: discover
+                x: pluginGrid.cardSpacing / 2
+                width: pluginGrid.cellWidth * pluginGrid.columns - pluginGrid.cardSpacing
+                picks: root.discoverPicks
+                shelves: root.discoverShelves
+                columns: pluginGrid.columns
+                cardSpacing: pluginGrid.cardSpacing
+                onPluginOpened: plugin => root.openPluginDetail(plugin)
+                onInstallRequested: plugin => root.installPlugin(plugin.id, plugin.name, plugin.type === "desktop")
+            }
+        },
         DGridView {
             id: pluginGrid
 
@@ -726,6 +904,7 @@ RegistryBrowserWindow {
             readonly property int infoHeight: Theme.iconButtonSize + Theme.fontSizeSmall * 4 + Theme.spacingS
 
             anchors.fill: parent
+            anchors.topMargin: discoverPane.height
             anchors.rightMargin: root.showLetterIndex ? Theme.iconButtonSize : 0
             cellWidth: Math.floor(width / columns)
             cellHeight: previewHeight + infoHeight + Math.round(cardSpacing) + Theme.spacingS * 2 + Theme.spacingM
@@ -733,6 +912,15 @@ RegistryBrowserWindow {
             clip: true
             visible: !root.isLoading && root.loadError === ""
             cacheBuffer: cellHeight * 2
+            onContentYChanged: {
+                if (!root.discoverCollapsed) {
+                    if (contentY > cellHeight / 4)
+                        root.discoverCollapsed = true;
+                    return;
+                }
+                if (contentY <= 0 && contentHeight > height + cellHeight)
+                    root.discoverCollapsed = false;
+            }
 
             delegate: Item {
                 id: cardCell
@@ -751,10 +939,89 @@ RegistryBrowserWindow {
                     plugin: cardCell.modelData
                     busy: !!PluginService.installingPlugins[cardCell.modelData.id]
                     previewHeight: pluginGrid.previewHeight
+                    compositor: root.rankingCompositor()
                     installed: cardCell.modelData.installed || false
                     selected: root.keyboardNavigationActive && cardCell.index === root.selectedIndex
                     onClicked: root.openPluginDetail(cardCell.modelData)
                     onInstallRequested: root.installPlugin(cardCell.modelData.id, cardCell.modelData.name, cardCell.modelData.type === "desktop")
+                }
+            }
+        },
+        Grid {
+            id: loadingGrid
+            anchors.fill: pluginGrid
+            columns: pluginGrid.columns
+            clip: true
+            visible: root.isLoading
+
+            SequentialAnimation on opacity {
+                running: loadingGrid.visible && Theme.longDuration > 0
+                loops: Animation.Infinite
+                onRunningChanged: {
+                    if (!running)
+                        loadingGrid.opacity = 1;
+                }
+
+                NumberAnimation {
+                    to: 0.45
+                    duration: Theme.longDuration
+                    easing.type: Theme.standardEasing
+                }
+                NumberAnimation {
+                    to: 1
+                    duration: Theme.longDuration
+                    easing.type: Theme.standardEasing
+                }
+            }
+
+            Repeater {
+                model: root.isLoading ? pluginGrid.columns * Math.max(1, Math.ceil(pluginGrid.height / pluginGrid.cellHeight)) : 0
+
+                Item {
+                    width: pluginGrid.cellWidth
+                    height: pluginGrid.cellHeight
+
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.margins: pluginGrid.cardSpacing / 2
+                        radius: Theme.cornerRadiusM
+                        color: SettingsMetrics.rowColor
+                        border.color: Theme.outlineMedium
+                        border.width: Theme.layerOutlineWidth
+
+                        Rectangle {
+                            id: ghostPreview
+                            anchors.top: parent.top
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.margins: Theme.spacingS
+                            height: pluginGrid.previewHeight
+                            radius: Theme.cornerRadiusS
+                            color: SettingsMetrics.controlColor
+                        }
+
+                        Column {
+                            anchors.top: ghostPreview.bottom
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.topMargin: Theme.spacingM
+                            anchors.leftMargin: Theme.spacingM
+                            anchors.rightMargin: Theme.spacingM
+                            spacing: Theme.spacingS
+
+                            Repeater {
+                                model: [0.55, 0.3, 0.9]
+
+                                Rectangle {
+                                    required property real modelData
+                                    width: parent.width * modelData
+                                    height: Theme.fontSizeSmall
+                                    radius: height / 2
+                                    color: SettingsMetrics.controlColor
+                                }
+                            }
+                        }
+                    }
                 }
             }
         },
@@ -805,6 +1072,33 @@ RegistryBrowserWindow {
                 text: I18n.tr("No plugins found", "empty plugin list")
                 font.pixelSize: Theme.fontSizeMedium
                 color: Theme.surfaceVariantText
+            }
+
+            StyledText {
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: root.searchSuggestions.length > 0
+                text: I18n.tr("Did you mean", "plugin search, introduces plugins with a close name")
+                font.pixelSize: Theme.fontSizeSmall
+                color: Theme.surfaceVariantText
+            }
+
+            Row {
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: Theme.spacingXS
+                visible: root.searchSuggestions.length > 0
+
+                Repeater {
+                    model: root.searchSuggestions
+
+                    DButton {
+                        required property var modelData
+                        text: modelData.name || modelData.id
+                        iconName: modelData.icon || "extension"
+                        backgroundColor: Theme.secondaryContainer
+                        textColor: Theme.onSecondaryContainer
+                        onClicked: root.openPluginDetail(modelData)
+                    }
+                }
             }
         },
         Column {

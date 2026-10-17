@@ -128,3 +128,68 @@ test("lists that are not real arrays (QML sequences) are still read", () => {
     assert.equal(rank.isUsable(plugin("b", { status: seq(["broken"]) }), "niri"), false);
     assert.deepEqual(Array.from(rank.unsupportedOn(plugin("c", { compositors: seq(["hyprland"]) }), "niri")), ["hyprland"]);
 });
+
+const found = (list, query) => ids(list.filter(p => rank.searchRank(p, rank.searchPlan(list, query)) > 0));
+
+test("search reads name, author, category, capabilities and dependencies", () => {
+    const list = [plugin("clock", { name: "World Clock", author: "Ada" }), plugin("shot", { name: "Quick Capture", capabilities: ["launcher"], dependencies: ["grim"] }), plugin("music", { name: "Tunes", category: "media" })];
+    assert.deepEqual(found(list, "clock"), ["clock"]);
+    assert.deepEqual(found(list, "ada"), ["clock"]);
+    assert.deepEqual(found(list, "launcher"), ["shot"]);
+    assert.deepEqual(found(list, "grim"), ["shot"]);
+    assert.deepEqual(found(list, "media"), ["music"]);
+    assert.deepEqual(found(list, "quick launcher"), ["shot"]);
+    assert.deepEqual(found(list, ""), ["clock", "shot", "music"]);
+});
+
+test("a typo is forgiven, accents and camelCase do not matter", () => {
+    const list = [plugin("wallpaperCarousel", { name: "Wallpaper Carousel" }), plugin("cafe", { name: "Café Timer" }), plugin("dockerManager", { name: "dockerManager" })];
+    assert.deepEqual(found(list, "walpaper"), ["wallpaperCarousel"]);
+    assert.deepEqual(found(list, "wallpapre"), ["wallpaperCarousel"]);
+    assert.deepEqual(found(list, "carousle"), ["wallpaperCarousel"]);
+    assert.deepEqual(found(list, "cafe"), ["cafe"]);
+    assert.deepEqual(found(list, "manager"), ["dockerManager"]);
+    assert.deepEqual(found(list, "dokcer"), ["dockerManager"]);
+});
+
+test("a camelCase name, id or author typed as one word still matches", () => {
+    const list = [plugin("orbitBluetooth", { author: "AvengeMedia" }), plugin("clock", { name: "World Clock", author: "Ada" })];
+    assert.deepEqual(found(list, "avengemedia"), ["orbitBluetooth"]);
+    assert.deepEqual(found(list, "orbitbluetooth"), ["orbitBluetooth"]);
+    assert.deepEqual(found(list, "orbitbluetoth"), ["orbitBluetooth"]);
+    assert.deepEqual(found(list, "avenge"), ["orbitBluetooth"]);
+    assert.deepEqual(found(list, "media"), ["orbitBluetooth"]);
+    assert.deepEqual(found(list, "bluetooth"), ["orbitBluetooth"]);
+});
+
+test("a name without camelCase is indexed once", () => {
+    const words = Array.from(rank._searchText(plugin("clock", { name: "World Clock" })).words);
+    assert.equal(words.filter(w => w === "world").length, 1);
+});
+
+test("a huge query is cut to its first eight whole words of at most 100 characters", () => {
+    const list = [plugin("orbitBluetooth", { name: "Orbit Bluetooth" }), plugin("weather", { name: "Weather" }), plugin("clock", { name: "World Clock" })];
+    const tokens = query => Array.from(rank.searchPlan(list, query), t => t.token);
+    assert.equal(tokens("aA".repeat(5000)).length, 8);
+    assert.deepEqual(tokens("orbit " + "blutooth ".repeat(3000)), ["orbit", "blutooth", "blutooth", "blutooth", "blutooth", "blutooth", "blutooth", "blutooth"]);
+    assert.deepEqual(found(list, "orbit " + "blutooth ".repeat(3000)), ["orbitBluetooth"]);
+    assert.deepEqual(tokens("x".repeat(200)), ["x".repeat(100)]);
+    assert.deepEqual(tokens("clock" + " ".repeat(94) + "weather"), ["clock"]);
+    assert.deepEqual(ids(rank.closest(list, "weather ".repeat(8) + "qqqqqqqq qqqqqqqq", 4)), ["weather"]);
+});
+
+test("a correctly typed word never picks up look-alikes", () => {
+    const list = [plugin("dark", { name: "Dark Mode" }), plugin("dank", { name: "Dank Clock" }), plugin("lock", { name: "Lock" })];
+    assert.deepEqual(found(list, "dark"), ["dark"]);
+    assert.deepEqual(found(list, "lock"), ["dank", "lock"]);
+    assert.deepEqual(found(list, "zzzzzz"), []);
+    assert.deepEqual(found(list, "do"), []);
+});
+
+test("closest proposes the nearest names when nothing matches", () => {
+    const list = [plugin("weather", { name: "Weather", upvotes: 2 }), plugin("feather", { name: "Feather", upvotes: 9 }), plugin("notes", { name: "Notes" })];
+    assert.deepEqual(ids(rank.closest(list, "wether", 3)), ["weather", "feather"]);
+    assert.deepEqual(ids(rank.closest(list, "qqqqqqqq", 3)), []);
+    assert.deepEqual(ids(rank.closest(list, "", 3)), []);
+    assert.equal(rank.closest(list, "eather", 1).length, 1);
+});
