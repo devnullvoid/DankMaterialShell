@@ -125,9 +125,16 @@ DCard {
             anchors.right: parent.right
             anchors.margins: Theme.spacingXS
             iconName: "thumb_up"
-            label: root.plugin.upvotes || 0
+            label: PluginService.upvoteCount(root.plugin)
             tone: Theme.primary
             visible: !!root.plugin.issueUrl
+            // Stays clickable while a vote is sent, so the click never falls through to the card; upvotePlugin ignores it.
+            interactive: true
+            active: !!PluginService.upvotedPlugins[root.plugin.id]
+            tooltipText: active ? I18n.tr("Remove upvote", "plugin upvote button tooltip") : I18n.tr("Upvote on GitHub", "plugin upvote button tooltip")
+            Accessible.role: Accessible.Button
+            Accessible.name: tooltipText
+            onClicked: PluginService.upvotePlugin(root.plugin)
         }
 
         PluginBadge {
