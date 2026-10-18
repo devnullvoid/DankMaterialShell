@@ -1839,6 +1839,10 @@ Singleton {
         let loadedSettings = JSON.stringify(obj);
 
         const oldVersion = obj?.configVersion ?? 0;
+        if (oldVersion > settingsConfigVersion && !isGreeterMode) {
+            newerSettingsBackup.path = `${_configDir}/DankMaterialShell/settings.v${oldVersion}.json`;
+            newerSettingsBackup.setText(JSON.stringify(obj, null, 2));
+        }
         const legacyPins = oldVersion < 13 ? Store.extractPins(obj) : null;
         const sessionPayload = oldVersion < 15 ? Store.extractSessionPayload(obj) : null;
         const cachePayload = oldVersion < 15 ? Store.extractCachePayload(obj) : null;
@@ -4058,6 +4062,16 @@ Singleton {
             if (isGreeterMode)
                 loadGreeterSettings("");
         }
+    }
+
+    // Our first save drops the keys a newer shell wrote, so its settings are kept for going back.
+    FileView {
+        id: newerSettingsBackup
+
+        preload: false
+        blockWrites: true
+        atomicWrites: true
+        printErrors: false
     }
 
     FileView {

@@ -331,7 +331,7 @@ func (r *Runner) applyGitVariants(dependencies []deps.Dependency, hasGitVariant 
 
 	// InstallPackages skips StatusInstalled deps unless marked for reinstall
 	markGit := func(dep *deps.Dependency) {
-		if dep.Variant == deps.VariantStable && dep.Status == deps.StatusInstalled {
+		if dep.Variant == deps.VariantStable && dep.Status != deps.StatusMissing {
 			reinstallItems[dep.Name] = true
 		}
 		dep.Variant = deps.VariantGit

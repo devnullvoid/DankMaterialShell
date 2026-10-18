@@ -146,6 +146,7 @@ func (m Model) updateDetectingDepsState(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	m.dependencies = partitionOptionalLast(depsMsg.deps)
 	for _, dep := range m.dependencies {
+		m.detectedVariants[dep.Name] = dep.Variant
 		if dep.Required {
 			continue
 		}
@@ -210,11 +211,28 @@ func (m Model) toggleSelectedVariant() {
 		return
 	}
 
-	if m.dependencies[m.selectedDep].Variant == deps.VariantStable {
-		m.dependencies[m.selectedDep].Variant = deps.VariantGit
+	dep := &m.dependencies[m.selectedDep]
+	if dep.Variant == deps.VariantStable {
+		dep.Variant = deps.VariantGit
+	} else {
+		dep.Variant = deps.VariantStable
+	}
+
+	// The installer skips installed deps unless marked, and the mark is what triggers the variant swap.
+	if dep.Status == deps.StatusMissing {
 		return
 	}
-	m.dependencies[m.selectedDep].Variant = deps.VariantStable
+	switched := dep.Variant != m.detectedVariants[dep.Name]
+	if switched {
+		m.variantMarks[dep.Name] = !m.reinstallItems[dep.Name]
+		m.reinstallItems[dep.Name] = true
+		m.disabledItems[dep.Name] = false
+		return
+	}
+	if m.variantMarks[dep.Name] {
+		delete(m.reinstallItems, dep.Name)
+		delete(m.variantMarks, dep.Name)
+	}
 }
 
 func (m Model) installPackages() tea.Cmd {

@@ -113,8 +113,7 @@ func (b *BaseDistribution) detectDankCalendar() deps.Dependency {
 	return b.detectOptionalPackage("dankcalendar", "Calendar application", b.commandExists("dcal") || b.commandExists("dankcalendar"))
 }
 
-func (b *BaseDistribution) detectDankCalendarVariant(gitInstalled bool) deps.Dependency {
-	dep := b.detectDankCalendar()
+func withGitVariant(dep deps.Dependency, gitInstalled bool) deps.Dependency {
 	dep.CanToggle = true
 	if gitInstalled {
 		dep.Variant = deps.VariantGit
@@ -122,11 +121,12 @@ func (b *BaseDistribution) detectDankCalendarVariant(gitInstalled bool) deps.Dep
 	return dep
 }
 
-func dankCalendarMapping(variant deps.PackageVariant, repo RepositoryType, repoURL string) PackageMapping {
+// variantMapping is for packages whose git build is published as "<name>-git" in the same repo.
+func variantMapping(name string, variant deps.PackageVariant, repo RepositoryType, repoURL string) PackageMapping {
 	if variant == deps.VariantGit {
-		return PackageMapping{Name: "dankcalendar-git", Repository: repo, RepoURL: repoURL}
+		name += "-git"
 	}
-	return PackageMapping{Name: "dankcalendar", Repository: repo, RepoURL: repoURL}
+	return PackageMapping{Name: name, Repository: repo, RepoURL: repoURL}
 }
 
 func (b *BaseDistribution) detectDMS() deps.Dependency {

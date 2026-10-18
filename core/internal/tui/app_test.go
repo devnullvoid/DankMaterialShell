@@ -204,3 +204,35 @@ func TestConfigCheckKeepsBindsByDefault(t *testing.T) {
 		t.Fatalf("replaceConfigs = %v, want Mango replaced and its binds kept", m.replaceConfigs)
 	}
 }
+
+func TestToggleVariantMarksInstalledDepForSwap(t *testing.T) {
+	m := archModel()
+	m.dependencies = []deps.Dependency{
+		{Name: "dms-greeter", Status: deps.StatusInstalled, CanToggle: true},
+		{Name: "dankcalendar", Status: deps.StatusMissing, CanToggle: true},
+	}
+	m.detectedVariants["dms-greeter"] = deps.VariantStable
+	m.disabledItems["dms-greeter"] = true
+
+	m.toggleSelectedVariant()
+	if !m.reinstallItems["dms-greeter"] || m.disabledItems["dms-greeter"] {
+		t.Fatal("switching an installed dep's variant should queue it for install")
+	}
+	m.toggleSelectedVariant()
+	if m.reinstallItems["dms-greeter"] {
+		t.Fatal("switching back to the installed variant should clear the reinstall")
+	}
+
+	m.reinstallItems["dms-greeter"] = true
+	m.toggleSelectedVariant()
+	m.toggleSelectedVariant()
+	if !m.reinstallItems["dms-greeter"] {
+		t.Fatal("a reinstall the user marked by hand must survive toggling the variant and back")
+	}
+
+	m.selectedDep = 1
+	m.toggleSelectedVariant()
+	if m.reinstallItems["dankcalendar"] {
+		t.Fatal("a missing dep installs anyway and must not be marked for reinstall")
+	}
+}

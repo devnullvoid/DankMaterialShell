@@ -128,7 +128,7 @@ func (f *FedoraDistribution) DetectDependenciesWithTerminal(ctx context.Context,
 
 	dependencies = append(dependencies, f.detectMatugen())
 	dependencies = append(dependencies, f.detectDanksearch())
-	dependencies = append(dependencies, f.detectDankCalendarVariant(f.packageInstalled("dankcalendar-git")))
+	dependencies = append(dependencies, withGitVariant(f.detectDankCalendar(), f.packageInstalled("dankcalendar-git")))
 
 	return dependencies, nil
 }
@@ -141,6 +141,68 @@ func (f *FedoraDistribution) packageInstalled(pkg string) bool {
 	cmd := exec.Command("rpm", "-q", pkg)
 	err := cmd.Run()
 	return err == nil
+}
+
+func (f *FedoraDistribution) InstalledVariant(stable, git PackageMapping) (deps.PackageVariant, bool) {
+	if stable.Name != git.Name {
+		return installedVariantByName(f.packageInstalled, stable, git)
+	}
+	if !f.packageInstalled(stable.Name) {
+		return deps.VariantStable, false
+	}
+	if git.Repository == RepoTypeCOPR && fedoraInstalledFromCOPR(stable.Name, git.RepoURL) {
+		return deps.VariantGit, true
+	}
+	return deps.VariantStable, true
+}
+
+// fedoraInstalledFromCOPR tells same-named variants apart (dms, niri), which only differ by COPR.
+func fedoraInstalledFromCOPR(pkg, coprRepo string) bool {
+	out, err := exec.Command("dnf", "repoquery", "--installed", "--qf", "%{from_repo}", pkg).Output()
+	if err != nil {
+		return false
+	}
+	return strings.HasSuffix(strings.TrimSpace(string(out)), ":"+strings.ReplaceAll(coprRepo, "/", ":"))
+}
+
+func (f *FedoraDistribution) SwapVariants(ctx context.Context, swaps []VariantSwap, sudoPassword string, progressChan chan<- InstallProgressMsg) error {
+	if err := f.enableCOPRRepos(ctx, swapTargets(swaps, RepoTypeCOPR), sudoPassword, progressChan); err != nil {
+		return err
+	}
+
+	for _, swap := range swaps {
+		command := fmt.Sprintf("dnf swap -y %s %s", swap.From.Name, swap.To.Name)
+		disabledRepo := ""
+		if swap.From.Name == swap.To.Name {
+			// Left enabled, the old COPR wins distro-sync whenever its version sorts higher (dms-git has Epoch 2).
+			if swap.From.Repository == RepoTypeCOPR {
+				disable := privesc.ExecCommand(ctx, sudoPassword, "dnf copr disable -y "+swap.From.RepoURL)
+				if err := f.runWithProgress(disable, progressChan, PhaseSystemPackages, 0.30, 0.35); err != nil {
+					return fmt.Errorf("failed to disable COPR repo %s: %w", swap.From.RepoURL, err)
+				}
+				disabledRepo = swap.From.RepoURL
+			}
+			command = "dnf distro-sync -y " + swap.To.Name
+		}
+
+		progressChan <- InstallProgressMsg{
+			Phase:       PhaseSystemPackages,
+			Progress:    0.40,
+			Step:        fmt.Sprintf("Switching %s to %s...", swap.From.Name, swap.To.Name),
+			NeedsSudo:   true,
+			CommandInfo: "sudo " + command,
+		}
+		if err := f.runWithProgress(privesc.ExecCommand(ctx, sudoPassword, command), progressChan, PhaseSystemPackages, 0.40, 0.85); err != nil {
+			if disabledRepo != "" {
+				reenable := privesc.ExecCommand(ctx, sudoPassword, "dnf copr enable -y "+disabledRepo)
+				if reErr := reenable.Run(); reErr != nil {
+					f.log(fmt.Sprintf("Warning: could not re-enable COPR repo %s: %v", disabledRepo, reErr))
+				}
+			}
+			return fmt.Errorf("failed to switch %s to %s: %w", swap.From.Name, swap.To.Name, err)
+		}
+	}
+	return nil
 }
 
 func (f *FedoraDistribution) GetPackageMapping(wm deps.WindowManager) map[string]PackageMapping {
@@ -159,11 +221,11 @@ func (f *FedoraDistribution) GetPackageMappingWithVariants(wm deps.WindowManager
 
 		// COPR packages
 		"quickshell":              f.getQuickshellMapping(variants["quickshell"]),
-		"dms-greeter":             {Name: "dms-greeter", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
+		"dms-greeter":             variantMapping("dms-greeter", variants["dms-greeter"], RepoTypeCOPR, "avengemedia/danklinux"),
 		"matugen":                 {Name: "matugen", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
 		"dms (DankMaterialShell)": f.getDmsMapping(variants["dms (DankMaterialShell)"]),
 		"danksearch":              {Name: "danksearch", Repository: RepoTypeCOPR, RepoURL: "avengemedia/danklinux"},
-		"dankcalendar":            dankCalendarMapping(variants["dankcalendar"], RepoTypeCOPR, "avengemedia/danklinux"),
+		"dankcalendar":            variantMapping("dankcalendar", variants["dankcalendar"], RepoTypeCOPR, "avengemedia/danklinux"),
 	}
 
 	switch wm {
@@ -247,7 +309,9 @@ func (f *FedoraDistribution) detectAccountsService() deps.Dependency {
 }
 
 func (f *FedoraDistribution) detectDMSGreeter() deps.Dependency {
-	return f.detectOptionalPackage("dms-greeter", "DankMaterialShell greetd greeter", f.packageInstalled("dms-greeter"))
+	gitInstalled := f.packageInstalled("dms-greeter-git")
+	dep := f.detectOptionalPackage("dms-greeter", "DankMaterialShell greetd greeter", gitInstalled || f.packageInstalled("dms-greeter"))
+	return withGitVariant(dep, gitInstalled)
 }
 
 func (f *FedoraDistribution) getPrerequisites() []string {
@@ -367,7 +431,12 @@ func (f *FedoraDistribution) InstallPackages(ctx context.Context, dependencies [
 		return fmt.Errorf("failed to install prerequisites: %w", err)
 	}
 
-	dnfPkgs, coprPkgs, manualPkgs, variantMap := f.categorizePackages(dependencies, wm, reinstallFlags, disabledFlags)
+	skipFlags, err := swapReinstalledVariants(ctx, f, dependencies, wm, reinstallFlags, disabledFlags, sudoPassword, progressChan)
+	if err != nil {
+		return err
+	}
+
+	dnfPkgs, coprPkgs, manualPkgs, variantMap := f.categorizePackages(dependencies, wm, reinstallFlags, skipFlags)
 
 	// Phase 2: Enable COPR repositories
 	if len(coprPkgs) > 0 {
