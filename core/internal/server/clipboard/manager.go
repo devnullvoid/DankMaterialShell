@@ -1379,6 +1379,21 @@ func (m *Manager) SetClipboardEntry(entry *Entry) error {
 	return nil
 }
 
+const selectionWriteTimeout = 30 * time.Second
+
+// Runs off the shared dispatcher: a receiver that never drains its pipe
+// would otherwise stall every Wayland event in the daemon.
+func writeSelection(fd int, data []byte, timeout time.Duration) {
+	_ = syscall.SetNonblock(fd, true)
+	file := os.NewFile(uintptr(fd), "clipboard-pipe")
+	defer file.Close()
+
+	_ = file.SetWriteDeadline(time.Now().Add(timeout))
+	if _, err := file.Write(data); err != nil {
+		log.Errorf("Failed to write clipboard data: %v", err)
+	}
+}
+
 // takeSelection makes the daemon the selection owner, serving the given
 // offers until another client claims the clipboard.
 func (m *Manager) takeSelection(offers []wlclipboard.Offer) {
@@ -1406,19 +1421,12 @@ func (m *Manager) takeSelection(offers []wlclipboard.Offer) {
 		}
 
 		source.SetSendHandler(func(e ext_data_control.ExtDataControlSourceV1SendEvent) {
-			fd := e.Fd
-			defer syscall.Close(fd)
-
-			file := os.NewFile(uintptr(fd), "clipboard-pipe")
-			defer file.Close()
-
 			data, ok := offerData[e.MimeType]
 			if !ok {
+				syscall.Close(e.Fd)
 				return
 			}
-			if _, err := file.Write(data); err != nil {
-				log.Errorf("Failed to write clipboard data: %v", err)
-			}
+			go writeSelection(e.Fd, data, selectionWriteTimeout)
 		})
 
 		source.SetCancelledHandler(func(e ext_data_control.ExtDataControlSourceV1CancelledEvent) {
