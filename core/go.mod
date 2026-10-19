@@ -3,7 +3,7 @@ module github.com/AvengeMedia/DankMaterialShell/core
 go 1.27.1
 
 require (
-	github.com/AvengeMedia/dankgo v1.6.3-0.20261009141806-0a6056424f6d
+	github.com/AvengeMedia/dankgo v1.6.3-0.20261019011452-dbde56fb9274
 	github.com/AvengeMedia/dgop v1.6.3-0.20261015133851-bf93d6b75cf2
 	github.com/Wifx/gonetworkmanager/v2 v2.2.0
 	github.com/alecthomas/chroma/v2 v2.27.0
