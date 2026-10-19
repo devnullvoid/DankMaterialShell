@@ -329,17 +329,15 @@ Singleton {
     }
 
     function evaluateNightMode() {
-        if (!nightModeEnabled) {
-            return;
-        }
-
         if (SessionData.nightModeAutoEnabled) {
             restartTimer.nextAction = "automation";
             restartTimer.start();
-        } else {
-            restartTimer.nextAction = "direct";
-            restartTimer.start();
+            return;
         }
+        if (!nightModeEnabled)
+            return;
+        restartTimer.nextAction = "direct";
+        restartTimer.start();
     }
 
     function runResumeRecoveryPass() {
@@ -378,14 +376,16 @@ Singleton {
                 if (_gammaNeeded)
                     applyGammaAdjustments();
 
-                if (nightModeEnabled) {
-                    _setNightModeEnabled(!nightModePaused, true, success => {
-                        if (!success)
-                            return;
-                        evaluateNightMode();
-                        handleNightModeExceptions();
-                    });
+                if (!nightModeEnabled) {
+                    evaluateNightMode();
+                    return;
                 }
+                _setNightModeEnabled(!nightModePaused, true, success => {
+                    if (!success)
+                        return;
+                    evaluateNightMode();
+                    handleNightModeExceptions();
+                });
             }
         });
     }
