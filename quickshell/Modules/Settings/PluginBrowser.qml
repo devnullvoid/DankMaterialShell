@@ -37,7 +37,6 @@ RegistryBrowserWindow {
     property var discoverShelves: []
 
     readonly property var detailPlugin: resolveDetailPlugin(detailPluginId, allPlugins)
-    property bool discoverCollapsed: false
     readonly property bool discoverVisible: {
         if (isLoading || loadError !== "" || searchQuery !== "" || typeFilter !== "" || authorFilter !== "")
             return false;
@@ -361,7 +360,6 @@ RegistryBrowserWindow {
         if (!pluginGrid)
             return;
         pluginGrid.cancelFlick();
-        discoverCollapsed = false;
         pluginGrid.positionViewAtBeginning();
         Qt.callLater(() => {
             if (pluginGrid)
@@ -620,6 +618,46 @@ RegistryBrowserWindow {
             return;
         Quickshell.execDetached([Proc.dmsBin, "cl", "copy", url]);
         ToastService.showInfo(I18n.tr("Link copied", "plugin browser, link copied to clipboard"));
+    }
+
+    function linkMarkup(href, label) {
+        return `<a href="${String(href).replace(/&/g, "&amp;").replace(/"/g, "&quot;")}" style="text-decoration:none; color:${Theme.primary};">${label}</a>`;
+    }
+
+    function authorMarkup(plugin) {
+        if (!plugin.author)
+            return I18n.tr("by %1", "author attribution").arg(I18n.tr("Unknown", "unknown author"));
+        return I18n.tr("by %1", "author attribution").arg(linkMarkup("author:", String(plugin.author).replace(/&/g, "&amp;").replace(/</g, "&lt;")));
+    }
+
+    function detailLinksMarkup(plugin) {
+        const reportUrl = PluginRanking.issueReportUrl(plugin, {
+            "dms": ShellVersionService.shellVersion || DMSService.cliVersion,
+            "compositor": rankingCompositor()
+        });
+        const links = [];
+        if (plugin.repo)
+            links.push(linkMarkup(plugin.repo, I18n.tr("source", "source code link")));
+        if (plugin.issueUrl)
+            links.push(linkMarkup(plugin.issueUrl, I18n.tr("discuss", "plugin discussion link")));
+        if (reportUrl)
+            links.push(linkMarkup(reportUrl, I18n.tr("report a problem", "plugin detail link, opens a prefilled issue")));
+        if (PluginRanking.shareUrl(plugin))
+            links.push(linkMarkup("copy:", I18n.tr("copy link", "plugin detail link, copies the plugin page address")));
+        return links.join(" • ");
+    }
+
+    function openDetailLink(plugin, url) {
+        if (url === "author:") {
+            showAuthor(plugin.author);
+            return;
+        }
+        if (url === "copy:") {
+            copyLink(plugin);
+            return;
+        }
+        if (/^https:\/\//.test(url))
+            Qt.openUrlExternally(url);
     }
 
     function formatUpdatedDate(iso) {
@@ -975,39 +1013,6 @@ RegistryBrowserWindow {
     ]
 
     listContent: [
-        Item {
-            id: discoverPane
-
-            readonly property bool fits: discover.height + pluginGrid.cellHeight / 3 <= parent.height
-            readonly property bool shown: root.discoverVisible && fits && !root.discoverCollapsed
-
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.rightMargin: pluginGrid.anchors.rightMargin
-            height: shown ? discover.height + Theme.spacingM : 0
-            clip: true
-            visible: height > 0 && pluginGrid.visible
-
-            Behavior on height {
-                NumberAnimation {
-                    duration: Theme.shortDuration
-                    easing.type: Theme.standardEasing
-                }
-            }
-
-            PluginDiscover {
-                id: discover
-                x: pluginGrid.cardSpacing / 2
-                width: pluginGrid.cellWidth * pluginGrid.columns - pluginGrid.cardSpacing
-                picks: root.discoverPicks
-                shelves: root.discoverShelves
-                columns: pluginGrid.columns
-                cardSpacing: pluginGrid.cardSpacing
-                onPluginOpened: plugin => root.openPluginDetail(plugin)
-                onInstallRequested: plugin => root.installPlugin(plugin.id, plugin.name, plugin.type === "desktop")
-            }
-        },
         DGridView {
             id: pluginGrid
 
@@ -1017,7 +1022,6 @@ RegistryBrowserWindow {
             readonly property int infoHeight: Theme.iconButtonSize + Theme.fontSizeSmall * 4 + Theme.spacingS
 
             anchors.fill: parent
-            anchors.topMargin: discoverPane.height
             anchors.rightMargin: root.showLetterIndex ? Theme.iconButtonSize : 0
             cellWidth: Math.floor(width / columns)
             cellHeight: previewHeight + infoHeight + Math.round(cardSpacing) + Theme.spacingS * 2 + Theme.spacingM
@@ -1025,14 +1029,23 @@ RegistryBrowserWindow {
             clip: true
             visible: !root.isLoading && root.loadError === ""
             cacheBuffer: cellHeight * 2
-            onContentYChanged: {
-                if (!root.discoverCollapsed) {
-                    if (contentY > cellHeight / 4)
-                        root.discoverCollapsed = true;
-                    return;
+
+            header: Item {
+                width: pluginGrid.width
+                height: root.discoverVisible ? discover.height + Theme.spacingM : 0
+                visible: root.discoverVisible
+
+                PluginDiscover {
+                    id: discover
+                    x: pluginGrid.cardSpacing / 2
+                    width: pluginGrid.cellWidth * pluginGrid.columns - pluginGrid.cardSpacing
+                    picks: root.discoverPicks
+                    shelves: root.discoverShelves
+                    columns: pluginGrid.columns
+                    cardSpacing: pluginGrid.cardSpacing
+                    onPluginOpened: plugin => root.openPluginDetail(plugin)
+                    onInstallRequested: plugin => root.installPlugin(plugin.id, plugin.name, plugin.type === "desktop")
                 }
-                if (contentY <= 0 && contentHeight > height + cellHeight)
-                    root.discoverCollapsed = false;
             }
 
             delegate: Item {
@@ -1288,309 +1301,192 @@ RegistryBrowserWindow {
             }
         }
 
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-        }
+        Rectangle {
+            id: detailDialog
+            anchors.centerIn: parent
+            width: Math.min(SettingsMetrics.mediaMaxWidth + PopoutMetrics.contentPadding * 2, parent.width - Theme.spacingL * 2)
+            height: Math.min(parent.height - Theme.spacingL * 2, detailHeader.height + detailColumn.height + detailActions.height + PopoutMetrics.contentGap * 2 + PopoutMetrics.contentPadding * 2)
+            radius: Theme.windowRadius
+            color: Theme.foregroundColor(Theme.cardSurface, Theme.isFloatingWindow(root))
+            border.color: Theme.outlineMedium
+            border.width: Theme.layerOutlineWidth
 
-        Item {
-            id: detailHeader
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: Theme.buttonHeightS
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+            }
 
-            DActionButton {
-                id: detailBackButton
+            Item {
+                id: detailHeader
+                anchors.top: parent.top
                 anchors.left: parent.left
-                anchors.verticalCenter: parent.verticalCenter
-                iconName: "arrow_back"
-                Accessible.name: I18n.tr("Back")
-                iconSize: Theme.iconSize
-                iconColor: Theme.surfaceText
-                onClicked: root.closePluginDetail()
-            }
-
-            DIcon {
-                id: detailIcon
-                anchors.left: detailBackButton.right
-                anchors.leftMargin: Theme.spacingS
-                anchors.verticalCenter: parent.verticalCenter
-                name: detailPane.plugin.icon || "extension"
-                size: Theme.iconSize
-                color: Theme.primary
-            }
-
-            StyledText {
-                anchors.left: detailIcon.right
-                anchors.leftMargin: Theme.spacingS
-                anchors.right: detailUpvoteButton.visible ? detailUpvoteButton.left : detailInstallButton.left
-                anchors.rightMargin: Theme.spacingM
-                anchors.verticalCenter: parent.verticalCenter
-                text: detailPane.plugin.name || ""
-                font.pixelSize: Theme.fontSizeLarge
-                font.weight: Theme.fontWeightMedium
-                color: Theme.surfaceText
-                elide: Text.ElideRight
-                maximumLineCount: 1
-            }
-
-            DButton {
-                id: detailUpvoteButton
-                anchors.right: detailInstallButton.left
-                anchors.rightMargin: Theme.spacingS
-                anchors.verticalCenter: parent.verticalCenter
-                visible: !!detailPane.plugin.issueUrl
-                readonly property bool upvoted: !!PluginService.upvotedPlugins[detailPane.plugin.id]
-                text: PluginService.upvoteCount(detailPane.plugin)
-                iconName: "thumb_up"
-                enabled: !PluginService.upvotingPlugins[detailPane.plugin.id]
-                backgroundColor: upvoted ? Theme.primaryContainer : SettingsMetrics.controlSurface
-                textColor: upvoted ? Theme.onPrimaryContainer : Theme.surfaceText
-                tooltipText: upvoted ? I18n.tr("Remove upvote", "plugin upvote button tooltip") : I18n.tr("Upvote on GitHub", "plugin upvote button tooltip")
-                Accessible.name: tooltipText
-                onClicked: PluginService.upvotePlugin(detailPane.plugin)
-            }
-
-            DButton {
-                id: detailInstallButton
-                readonly property bool compatible: PluginService.checkPluginCompatibility(detailPane.plugin.requires_dms)
                 anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                text: detailPane.plugin.installed ? I18n.tr("Installed", "adjective, plugin or theme is already installed, button state and filter chip") : compatible ? I18n.tr("Install") : I18n.tr("Requires %1", "version requirement").arg(detailPane.plugin.requires_dms || "")
-                iconName: detailPane.plugin.installed ? "check" : "download"
-                enabled: !detailPane.plugin.installed && compatible && !PluginService.installingPlugins[detailPane.plugin.id]
-                onClicked: root.installPlugin(detailPane.plugin.id, detailPane.plugin.name, detailPane.plugin.type === "desktop")
-            }
-        }
+                anchors.margins: PopoutMetrics.contentPadding
+                height: Math.max(detailIcon.height, detailCloseButton.height, detailTitleColumn.implicitHeight)
 
-        DFlickable {
-            id: detailFlickable
-            anchors.top: detailHeader.bottom
-            anchors.topMargin: Theme.spacingM
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            clip: true
-            contentHeight: detailColumn.height + Theme.spacingL
-            contentWidth: width
-
-            Column {
-                id: detailColumn
-                width: parent.width
-                anchors.horizontalCenter: parent.horizontalCenter
-                spacing: Theme.spacingL
-
-                Rectangle {
-                    width: Math.min(SettingsMetrics.mediaMaxWidth, parent.width)
-                    height: Math.round(width * SettingsMetrics.choiceCardPreviewRatio)
-                    radius: Theme.cornerRadiusM
-                    color: SettingsMetrics.rowColor
-                    border.color: Theme.outlineMedium
-                    border.width: Theme.layerOutlineWidth
-
-                    ClippingRectangle {
-                        anchors.fill: parent
-                        anchors.margins: Theme.outlineWidth
-                        radius: Theme.cornerRadiusM - Theme.outlineWidth
-                        color: "transparent"
-
-                        CachingImage {
-                            id: heroImage
-                            anchors.fill: parent
-                            imagePath: detailPane.heroFallback ? PluginService.previewUrl(detailPane.plugin) : PluginService.heroUrl(detailPane.plugin)
-                            maxCacheSize: 1600
-                            fillMode: Image.PreserveAspectFit
-                            visible: status === Image.Ready
-                            onStatusChanged: {
-                                if (status !== Image.Error || detailPane.heroFallback)
-                                    return;
-                                detailPane.heroFallback = true;
-                            }
-                        }
-                    }
-
-                    DSpinner {
-                        anchors.centerIn: parent
-                        running: heroImage.status === Image.Loading
-                        visible: running
-                    }
-
-                    Column {
-                        anchors.centerIn: parent
-                        spacing: Theme.spacingXS
-                        visible: heroImage.imagePath.length === 0 || heroImage.status === Image.Error
-
-                        DIcon {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            name: "image_not_supported"
-                            size: Theme.iconSizeLarge
-                            color: Theme.onSurfaceVariant
-                        }
-
-                        StyledText {
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            text: heroImage.status === Image.Error ? I18n.tr("Screenshot unavailable", "plugin browser screenshot error") : I18n.tr("No screenshot provided", "plugin browser no screenshot")
-                            font.pixelSize: Theme.fontSizeSmall
-                            color: Theme.onSurfaceVariant
-                        }
-                    }
-                }
-
-                Flow {
-                    width: parent.width
-                    spacing: Theme.spacingXS
-
-                    Repeater {
-                        model: PluginService.badgeModel(detailPane.plugin)
-
-                        PluginBadge {
-                            required property var modelData
-                            label: modelData.label
-                            iconName: modelData.icon
-                            tone: PluginService.badgeTone(modelData.tone)
-                        }
-                    }
-
-                    Repeater {
-                        model: root.detailMetaBadges(detailPane.plugin)
-
-                        PluginBadge {
-                            required property var modelData
-                            label: modelData.label
-                            iconName: modelData.icon
-                            tone: Theme.outline
-                        }
-                    }
-                }
-
-                StyledText {
-                    width: parent.width
-                    text: {
-                        const plugin = detailPane.plugin;
-                        const anchor = (href, label) => `<a href="${String(href).replace(/&/g, "&amp;").replace(/"/g, "&quot;")}" style="text-decoration:none; color:${Theme.primary};">${label}</a>`;
-                        const link = (href, label) => ` • ${anchor(href, label)}`;
-                        const authorName = plugin.author ? anchor("author:", String(plugin.author).replace(/&/g, "&amp;").replace(/</g, "&lt;")) : I18n.tr("Unknown", "unknown author");
-                        const author = I18n.tr("by %1", "author attribution").arg(authorName);
-                        const reportUrl = PluginRanking.issueReportUrl(plugin, {
-                            "dms": ShellVersionService.shellVersion || DMSService.cliVersion,
-                            "compositor": root.rankingCompositor()
-                        });
-                        const report = reportUrl ? link(reportUrl, I18n.tr("report a problem", "plugin detail link, opens a prefilled issue")) : "";
-                        const copy = PluginRanking.shareUrl(plugin) ? link("copy:", I18n.tr("copy link", "plugin detail link, copies the plugin page address")) : "";
-                        const source = plugin.repo ? link(plugin.repo, I18n.tr("source", "source code link")) : "";
-                        const discuss = plugin.issueUrl ? link(plugin.issueUrl, I18n.tr("discuss", "plugin discussion link")) : "";
-                        return author + source + discuss + report + copy;
-                    }
-                    font.pixelSize: Theme.fontSizeSmall
-                    color: Theme.onSurfaceVariant
-                    linkColor: Theme.primary
-                    textFormat: Text.RichText
-                    onLinkActivated: url => {
-                        if (url === "author:")
-                            root.showAuthor(detailPane.plugin.author);
-                        else if (url === "copy:")
-                            root.copyLink(detailPane.plugin);
-                        else if (/^https:\/\//.test(url))
-                            Qt.openUrlExternally(url);
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-                        acceptedButtons: Qt.NoButton
-                        propagateComposedEvents: true
-                    }
-                }
-
-                StyledText {
-                    width: parent.width
-                    text: detailPane.plugin.description || ""
-                    font.pixelSize: Theme.fontSizeMedium
-                    color: Theme.surfaceText
-                    wrapMode: Text.WordWrap
-                    visible: (detailPane.plugin.description || "").length > 0
+                DIcon {
+                    id: detailIcon
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    name: detailPane.plugin.icon || "extension"
+                    size: Theme.iconSizeLarge
+                    color: Theme.primary
                 }
 
                 Column {
-                    width: parent.width
-                    spacing: Theme.spacingS
-                    visible: (detailPane.plugin.capabilities || []).length > 0
+                    id: detailTitleColumn
+                    anchors.left: detailIcon.right
+                    anchors.leftMargin: Theme.spacingM
+                    anchors.right: detailCloseButton.left
+                    anchors.rightMargin: Theme.spacingM
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: Theme.spacingXXS
 
                     StyledText {
-                        text: I18n.tr("Capabilities", "plugin detail section")
-                        font.pixelSize: Theme.fontSizeSmall
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.surfaceVariantText
-                    }
-
-                    Flow {
                         width: parent.width
-                        spacing: Theme.spacingXS
+                        text: detailPane.plugin.name || ""
+                        font.pixelSize: Theme.fontSizeLarge
+                        font.weight: Theme.fontWeightMedium
+                        color: Theme.surfaceText
+                        elide: Text.ElideRight
+                        maximumLineCount: 1
+                    }
 
-                        Repeater {
-                            model: detailPane.plugin.capabilities || []
+                    StyledText {
+                        width: parent.width
+                        text: root.authorMarkup(detailPane.plugin)
+                        font.pixelSize: Theme.fontSizeSmall
+                        color: Theme.onSurfaceVariant
+                        linkColor: Theme.primary
+                        textFormat: Text.RichText
+                        onLinkActivated: url => root.openDetailLink(detailPane.plugin, url)
 
-                            PluginBadge {
-                                required property string modelData
-                                label: modelData
-                                tone: Theme.primary
-                            }
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            acceptedButtons: Qt.NoButton
                         }
                     }
                 }
 
+                DActionButton {
+                    id: detailCloseButton
+                    anchors.right: parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    buttonSize: Theme.buttonHeightXS
+                    iconSize: Theme.iconSizeSmall
+                    iconName: "close"
+                    backgroundColor: Theme.secondaryContainer
+                    iconColor: Theme.onSecondaryContainer
+                    Accessible.name: I18n.tr("Close")
+                    onClicked: root.closePluginDetail()
+                }
+            }
+
+            Row {
+                id: detailActions
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.margins: PopoutMetrics.contentPadding
+                spacing: Theme.spacingS
+
+                DButton {
+                    id: detailUpvoteButton
+                    visible: !!detailPane.plugin.issueUrl
+                    readonly property bool upvoted: !!PluginService.upvotedPlugins[detailPane.plugin.id]
+                    text: PluginService.upvoteCount(detailPane.plugin)
+                    iconName: "thumb_up"
+                    enabled: !PluginService.upvotingPlugins[detailPane.plugin.id]
+                    backgroundColor: upvoted ? Theme.primaryContainer : SettingsMetrics.controlSurface
+                    textColor: upvoted ? Theme.onPrimaryContainer : Theme.surfaceText
+                    tooltipText: upvoted ? I18n.tr("Remove upvote", "plugin upvote button tooltip") : I18n.tr("Upvote on GitHub", "plugin upvote button tooltip")
+                    Accessible.name: tooltipText
+                    onClicked: PluginService.upvotePlugin(detailPane.plugin)
+                }
+
+                DButton {
+                    id: detailInstallButton
+                    readonly property bool compatible: PluginService.checkPluginCompatibility(detailPane.plugin.requires_dms)
+                    text: detailPane.plugin.installed ? I18n.tr("Installed", "adjective, plugin or theme is already installed, button state and filter chip") : compatible ? I18n.tr("Install") : I18n.tr("Requires %1", "version requirement").arg(detailPane.plugin.requires_dms || "")
+                    iconName: detailPane.plugin.installed ? "check" : "download"
+                    enabled: !detailPane.plugin.installed && compatible && !PluginService.installingPlugins[detailPane.plugin.id]
+                    onClicked: root.installPlugin(detailPane.plugin.id, detailPane.plugin.name, detailPane.plugin.type === "desktop")
+                }
+            }
+
+            DFlickable {
+                id: detailFlickable
+                anchors.top: detailHeader.bottom
+                anchors.bottom: detailActions.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.topMargin: PopoutMetrics.contentGap
+                anchors.bottomMargin: PopoutMetrics.contentGap
+                anchors.leftMargin: PopoutMetrics.contentPadding
+                anchors.rightMargin: PopoutMetrics.contentPadding
+                clip: true
+                contentHeight: detailColumn.height
+                contentWidth: width
+
                 Column {
+                    id: detailColumn
                     width: parent.width
-                    spacing: Theme.spacingS
-                    visible: (detailPane.plugin.permissions || []).length > 0
+                    spacing: Theme.spacingL
 
-                    StyledText {
-                        text: I18n.tr("This plugin can", "plugin detail section, introduces the permission list")
-                        font.pixelSize: Theme.fontSizeSmall
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.surfaceVariantText
-                    }
+                    Rectangle {
+                        width: parent.width
+                        height: Math.round(width * SettingsMetrics.choiceCardPreviewRatio)
+                        radius: Theme.cornerRadiusM
+                        color: SettingsMetrics.rowColor
+                        border.color: Theme.outlineMedium
+                        border.width: Theme.layerOutlineWidth
 
-                    Repeater {
-                        model: PluginRanking.sortPermissions(detailPane.plugin.permissions)
+                        ClippingRectangle {
+                            anchors.fill: parent
+                            anchors.margins: Theme.outlineWidth
+                            radius: Theme.cornerRadiusM - Theme.outlineWidth
+                            color: "transparent"
 
-                        Row {
-                            id: permissionRow
-                            required property string modelData
-                            readonly property bool sensitive: PluginRanking.permissionIsSensitive(modelData)
-                            width: parent.width
-                            spacing: Theme.spacingS
+                            CachingImage {
+                                id: heroImage
+                                anchors.fill: parent
+                                imagePath: detailPane.heroFallback ? PluginService.previewUrl(detailPane.plugin) : PluginService.heroUrl(detailPane.plugin)
+                                maxCacheSize: 1600
+                                fillMode: Image.PreserveAspectFit
+                                visible: status === Image.Ready
+                                onStatusChanged: {
+                                    if (status !== Image.Error || detailPane.heroFallback)
+                                        return;
+                                    detailPane.heroFallback = true;
+                                }
+                            }
+                        }
+
+                        DSpinner {
+                            anchors.centerIn: parent
+                            running: heroImage.status === Image.Loading
+                            visible: running
+                        }
+
+                        Column {
+                            anchors.centerIn: parent
+                            spacing: Theme.spacingXS
+                            visible: heroImage.imagePath.length === 0 || heroImage.status === Image.Error
 
                             DIcon {
-                                anchors.verticalCenter: parent.verticalCenter
-                                name: root.permissionIcon(permissionRow.modelData)
-                                size: Theme.iconSizeSmall
-                                color: permissionRow.sensitive ? Theme.warning : Theme.surfaceVariantText
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                name: "image_not_supported"
+                                size: Theme.iconSizeLarge
+                                color: Theme.onSurfaceVariant
                             }
 
                             StyledText {
-                                anchors.verticalCenter: parent.verticalCenter
-                                width: parent.width - Theme.iconSizeSmall - Theme.spacingS
-                                text: root.permissionLabel(permissionRow.modelData)
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                text: heroImage.status === Image.Error ? I18n.tr("Screenshot unavailable", "plugin browser screenshot error") : I18n.tr("No screenshot provided", "plugin browser no screenshot")
                                 font.pixelSize: Theme.fontSizeSmall
-                                color: permissionRow.sensitive ? Theme.surfaceText : Theme.surfaceVariantText
-                                wrapMode: Text.WordWrap
+                                color: Theme.onSurfaceVariant
                             }
                         }
-                    }
-                }
-
-                Column {
-                    width: parent.width
-                    spacing: Theme.spacingS
-                    visible: (detailPane.plugin.dependencies || []).length > 0
-
-                    StyledText {
-                        text: I18n.tr("Needs", "plugin detail section, introduces the programs a plugin depends on")
-                        font.pixelSize: Theme.fontSizeSmall
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.surfaceVariantText
                     }
 
                     Flow {
@@ -1598,45 +1494,182 @@ RegistryBrowserWindow {
                         spacing: Theme.spacingXS
 
                         Repeater {
-                            model: PluginRanking.dependencyStates(detailPane.plugin.dependencies, root.foundCommands, root.checkedCommands)
+                            model: PluginService.badgeModel(detailPane.plugin)
 
                             PluginBadge {
                                 required property var modelData
-                                label: modelData.state === "missing" ? I18n.tr("%1 not found", "plugin dependency missing, %1 is a program name").arg(modelData.name) : modelData.name
-                                iconName: modelData.state === "ok" ? "check_circle" : modelData.state === "missing" ? "warning" : "package_2"
-                                tone: modelData.state === "ok" ? Theme.primary : modelData.state === "missing" ? Theme.warning : Theme.outline
+                                label: modelData.label
+                                iconName: modelData.icon
+                                tone: PluginService.badgeTone(modelData.tone)
+                            }
+                        }
+
+                        Repeater {
+                            model: root.detailMetaBadges(detailPane.plugin)
+
+                            PluginBadge {
+                                required property var modelData
+                                label: modelData.label
+                                iconName: modelData.icon
+                                tone: Theme.outline
                             }
                         }
                     }
-                }
-
-                Column {
-                    width: parent.width
-                    spacing: Theme.spacingS
-                    visible: root.relatedPlugins(detailPane.plugin).length > 0
 
                     StyledText {
-                        text: I18n.tr("Related: %1", "related plugins").arg("").trim()
+                        width: parent.width
+                        text: root.detailLinksMarkup(detailPane.plugin)
+                        visible: text !== ""
                         font.pixelSize: Theme.fontSizeSmall
-                        font.weight: Theme.fontWeightMedium
-                        color: Theme.surfaceVariantText
+                        color: Theme.onSurfaceVariant
+                        linkColor: Theme.primary
+                        textFormat: Text.RichText
+                        wrapMode: Text.WordWrap
+                        onLinkActivated: url => root.openDetailLink(detailPane.plugin, url)
+
+                        MouseArea {
+                            anchors.fill: parent
+                            cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+                            acceptedButtons: Qt.NoButton
+                        }
                     }
 
-                    Flow {
+                    StyledText {
                         width: parent.width
-                        spacing: Theme.spacingXS
+                        text: detailPane.plugin.description || ""
+                        font.pixelSize: Theme.fontSizeMedium
+                        color: Theme.surfaceText
+                        wrapMode: Text.WordWrap
+                        visible: (detailPane.plugin.description || "").length > 0
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: Theme.spacingS
+                        visible: (detailPane.plugin.capabilities || []).length > 0
+
+                        StyledText {
+                            text: I18n.tr("Capabilities", "plugin detail section")
+                            font.pixelSize: Theme.fontSizeSmall
+                            font.weight: Theme.fontWeightMedium
+                            color: Theme.surfaceVariantText
+                        }
+
+                        Flow {
+                            width: parent.width
+                            spacing: Theme.spacingXS
+
+                            Repeater {
+                                model: detailPane.plugin.capabilities || []
+
+                                PluginBadge {
+                                    required property string modelData
+                                    label: modelData
+                                    tone: Theme.primary
+                                }
+                            }
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: Theme.spacingS
+                        visible: (detailPane.plugin.permissions || []).length > 0
+
+                        StyledText {
+                            text: I18n.tr("This plugin can", "plugin detail section, introduces the permission list")
+                            font.pixelSize: Theme.fontSizeSmall
+                            font.weight: Theme.fontWeightMedium
+                            color: Theme.surfaceVariantText
+                        }
 
                         Repeater {
-                            model: root.relatedPlugins(detailPane.plugin)
+                            model: PluginRanking.sortPermissions(detailPane.plugin.permissions)
 
-                            DButton {
-                                required property var modelData
-                                text: modelData.name
-                                iconName: "extension"
-                                backgroundColor: Theme.secondaryContainer
-                                textColor: Theme.onSecondaryContainer
-                                enabled: modelData.key !== ""
-                                onClicked: root.detailPluginId = modelData.key
+                            Row {
+                                id: permissionRow
+                                required property string modelData
+                                readonly property bool sensitive: PluginRanking.permissionIsSensitive(modelData)
+                                width: parent.width
+                                spacing: Theme.spacingS
+
+                                DIcon {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    name: root.permissionIcon(permissionRow.modelData)
+                                    size: Theme.iconSizeSmall
+                                    color: permissionRow.sensitive ? Theme.warning : Theme.surfaceVariantText
+                                }
+
+                                StyledText {
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width: parent.width - Theme.iconSizeSmall - Theme.spacingS
+                                    text: root.permissionLabel(permissionRow.modelData)
+                                    font.pixelSize: Theme.fontSizeSmall
+                                    color: permissionRow.sensitive ? Theme.surfaceText : Theme.surfaceVariantText
+                                    wrapMode: Text.WordWrap
+                                }
+                            }
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: Theme.spacingS
+                        visible: (detailPane.plugin.dependencies || []).length > 0
+
+                        StyledText {
+                            text: I18n.tr("Needs", "plugin detail section, introduces the programs a plugin depends on")
+                            font.pixelSize: Theme.fontSizeSmall
+                            font.weight: Theme.fontWeightMedium
+                            color: Theme.surfaceVariantText
+                        }
+
+                        Flow {
+                            width: parent.width
+                            spacing: Theme.spacingXS
+
+                            Repeater {
+                                model: PluginRanking.dependencyStates(detailPane.plugin.dependencies, root.foundCommands, root.checkedCommands)
+
+                                PluginBadge {
+                                    required property var modelData
+                                    label: modelData.state === "missing" ? I18n.tr("%1 not found", "plugin dependency missing, %1 is a program name").arg(modelData.name) : modelData.name
+                                    iconName: modelData.state === "ok" ? "check_circle" : modelData.state === "missing" ? "warning" : "package_2"
+                                    tone: modelData.state === "ok" ? Theme.primary : modelData.state === "missing" ? Theme.warning : Theme.outline
+                                }
+                            }
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: Theme.spacingS
+                        visible: root.relatedPlugins(detailPane.plugin).length > 0
+
+                        StyledText {
+                            text: I18n.tr("Related: %1", "related plugins").arg("").trim()
+                            font.pixelSize: Theme.fontSizeSmall
+                            font.weight: Theme.fontWeightMedium
+                            color: Theme.surfaceVariantText
+                        }
+
+                        Flow {
+                            width: parent.width
+                            spacing: Theme.spacingXS
+
+                            Repeater {
+                                model: root.relatedPlugins(detailPane.plugin)
+
+                                DButton {
+                                    required property var modelData
+                                    text: modelData.name
+                                    iconName: "extension"
+                                    buttonHeight: Theme.buttonHeightXS
+                                    backgroundColor: Theme.secondaryContainer
+                                    textColor: Theme.onSecondaryContainer
+                                    enabled: modelData.key !== ""
+                                    onClicked: root.detailPluginId = modelData.key
+                                }
                             }
                         }
                     }

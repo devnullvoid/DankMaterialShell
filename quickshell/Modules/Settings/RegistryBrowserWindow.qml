@@ -194,8 +194,6 @@ DFloatingWindow {
             Item {
                 id: browserBody
                 anchors.fill: parent
-                opacity: 1 - overlaySlot.opacity
-                visible: opacity > 0
 
                 Column {
                     id: aboveSearchSlot
@@ -253,20 +251,40 @@ DFloatingWindow {
                     }
                 }
             }
+        }
+
+        Item {
+            id: overlayLayer
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
+            anchors.fill: parent
+            opacity: root.overlayActive ? 1 : 0
+            visible: opacity > 0
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: Theme.expressiveDurations.expressiveEffects
+                    easing.type: Easing.BezierSpline
+                    easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
+                }
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                color: Theme.scrimColor
+                opacity: Theme.scrimAlpha
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: root.handleEscape()
+                onWheel: wheel => wheel.accepted = true
+            }
 
             Item {
                 id: overlaySlot
                 anchors.fill: parent
-                opacity: root.overlayActive ? 1 : 0
-                visible: opacity > 0
-
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: Theme.expressiveDurations.expressiveEffects
-                        easing.type: Easing.BezierSpline
-                        easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
-                    }
-                }
             }
         }
     }
