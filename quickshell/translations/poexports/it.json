@@ -147,7 +147,7 @@
     "%1 ms": "%1 ms"
   },
   "%1 not found": {
-    "%1 not found": ""
+    "%1 not found": "%1 non trovato"
   },
   "%1 notifications": {
     "%1 notifications": "%1 notifiche"
@@ -156,7 +156,7 @@
     "%1 online": "%1 online"
   },
   "%1 only": {
-    "%1 only": ""
+    "%1 only": "solo %1"
   },
   "%1 other": {
     "%1 other": "%1 altre"
@@ -186,7 +186,7 @@
     "%1 tasks": "%1 attività"
   },
   "%1 uninstalled": {
-    "%1 uninstalled": ""
+    "%1 uninstalled": "%1 disinstallato"
   },
   "%1 update": {
     "%1 update": "%1 aggiornamento"
@@ -269,8 +269,8 @@
   "A floating companion that works alongside any bar layout": {
     "A floating companion that works alongside any bar layout": "Un compagno fluttante che funziona insieme a qualsiasi stile della barra"
   },
-  "A modern desktop shell for Wayland compositors": {
-    "A modern desktop shell for Wayland compositors": "Una shell desktop moderna per i compositor Wayland"
+  "A modern desktop shell for Wayland": {
+    "A modern desktop shell for Wayland": ""
   },
   "A newer dms binary is installed.": {
     "A newer dms binary is installed.": "È installato un binario dms più recente."
@@ -510,7 +510,7 @@
     "All displays": "Tutti gli schermi"
   },
   "All plugins": {
-    "All plugins": ""
+    "All plugins": "Tutti i plugin"
   },
   "All settings": {
     "All settings": "Tutte le impostazioni"
@@ -543,7 +543,7 @@
     "Already on that session": "Già in quella sessione"
   },
   "Already upvoted, click again to remove": {
-    "Already upvoted, click again to remove": ""
+    "Already upvoted, click again to remove": "Hai già votato, fai di nuovo clic per rimuovere il voto"
   },
   "Also runs the templates in your matugen config.toml": {
     "Also runs the templates in your matugen config.toml": "Esegui anche i template nel tuo config.toml di matugen"
@@ -1107,7 +1107,7 @@
     "Blocked": "Bloccato"
   },
   "Bloom": {
-    "Bloom": ""
+    "Bloom": "Fioritura"
   },
   "Blue": {
     "Blue": "Blu"
@@ -1380,7 +1380,7 @@
     "Changes save to %1": "Le modifiche vengono salvate in %1"
   },
   "Changes volume and audio devices": {
-    "Changes volume and audio devices": ""
+    "Changes volume and audio devices": "Modifica il volume e i dispositivi audio"
   },
   "Channel": {
     "Channel": "Canale"
@@ -1800,7 +1800,7 @@
     "Connections and autoconnect": "Connessioni e connessione automatica"
   },
   "Connects to the internet": {
-    "Connects to the internet": ""
+    "Connects to the internet": "Si connette a internet"
   },
   "Consumes the key only when a dispatcher runs": {
     "Consumes the key only when a dispatcher runs": "Consuma il tasto solo quando viene eseguito un dispatcher"
@@ -1827,7 +1827,7 @@
     "Controls": "Controlli"
   },
   "Controls media players": {
-    "Controls media players": ""
+    "Controls media players": "Controlla i lettori multimediali"
   },
   "Convert to DMS": {
     "Convert to DMS": "Converti in DMS"
@@ -2063,8 +2063,8 @@
   "DMS chooser": {
     "DMS chooser": "Selettore DMS"
   },
-  "DMS is a highly customizable modern desktop shell with a %1 inspired design.<br/><br/>It is built with %2, a QT6 framework for building desktop shells, and %3, a statically typed, compiled programming language.": {
-    "DMS is a highly customizable modern desktop shell with a %1 inspired design.<br/><br/>It is built with %2, a QT6 framework for building desktop shells, and %3, a statically typed, compiled programming language.": "DMS è una shell desktop moderna e altamente personalizzabile con un design ispirato a %1. <br/> <br/>È costruita con %2, un framework QT6 per la creazione di shell desktop, e %3, un linguaggio di programmazione compilato e con tipizzazione statica."
+  "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": {
+    "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": ""
   },
   "DMS out of date": {
     "DMS out of date": "Versione di DMS obsoleta"
@@ -2310,7 +2310,7 @@
     "Dew point %1": "Punto di rugiada %1"
   },
   "Did you mean": {
-    "Did you mean": ""
+    "Did you mean": "Forse cercavi"
   },
   "Digital": {
     "Digital": "Digitale"
@@ -2580,7 +2580,7 @@
     "Drops bar gaps and rounding while a window is maximized": "Rimuove le spaziature e l'arrotondamento della barra quando una finestra è massimizzata"
   },
   "Dune": {
-    "Dune": ""
+    "Dune": "Duna"
   },
   "Duo": {
     "Duo": "Duo"
@@ -2864,8 +2864,8 @@
   "Expressive": {
     "Expressive": "Espressivo"
   },
-  "Extend DankMaterialShell with powerful plugins for widgets, launchers, and more": {
-    "Extend DankMaterialShell with powerful plugins for widgets, launchers, and more": "Espandi DankMaterialShell con potenti plugin per widget, luncher e altro"
+  "Extend %1 with powerful plugins for widgets, launchers, and more": {
+    "Extend %1 with powerful plugins for widgets, launchers, and more": ""
   },
   "Extend battery life": {
     "Extend battery life": "Prolunga la durata della batteria"
@@ -3156,7 +3156,7 @@
     "Family": "Famiglia"
   },
   "Featured plugin": {
-    "Featured plugin": ""
+    "Featured plugin": "Plugin in evidenza"
   },
   "Feels Like %1°": {
     "Feels Like %1°": "Percepiti %1°"
@@ -3255,7 +3255,7 @@
     "Fits the song title instead of keeping a fixed width": "Adatta il titolo del brano invece di mantenere una larghezza fissa"
   },
   "Fits your setup": {
-    "Fits your setup": ""
+    "Fits your setup": "Adatto alla tua configurazione"
   },
   "Fixed": {
     "Fixed": "Fisso"
@@ -3402,7 +3402,7 @@
     "For %1": "Per %1"
   },
   "For you": {
-    "For you": ""
+    "For you": "Per te"
   },
   "Force HDR": {
     "Force HDR": "Forza HDR"
@@ -3567,7 +3567,7 @@
     "Gaps, window borders, corner radius": "Spaziature, bordi finestra, raggio angoli"
   },
   "Garden": {
-    "Garden": ""
+    "Garden": "Giardino"
   },
   "Gaussian": {
     "Gaussian": "Gaussiana"
@@ -3766,6 +3766,9 @@
   },
   "Hide installed": {
     "Hide installed": "Nascondi installati"
+  },
+  "Hide on last display": {
+    "Hide on last display": ""
   },
   "Hide until typing": {
     "Hide until typing": "Nascondi finché non si digita"
@@ -4500,7 +4503,7 @@
     "Lightest": "Più chiaro"
   },
   "Like your plugins": {
-    "Like your plugins": ""
+    "Like your plugins": "Simile ai tuoi plugin"
   },
   "Limit": {
     "Limit": "Limite"
@@ -4521,7 +4524,7 @@
     "Lines: %1": "Righe: %1"
   },
   "Link copied": {
-    "Link copied": ""
+    "Link copied": "Link copiato"
   },
   "Link your DMS settings so the login screen follows them.": {
     "Link your DMS settings so the login screen follows them.": "Collega le tue impostazioni DMS affinché la schermata di accesso le segua."
@@ -5115,7 +5118,7 @@
     "Near island": "Vicino all'isola"
   },
   "Needs": {
-    "Needs": ""
+    "Needs": "Richiede"
   },
   "Nested chip": {
     "Nested chip": "Etichetta annidata"
@@ -5160,7 +5163,7 @@
     "New": "Nuovo"
   },
   "New & updated": {
-    "New & updated": ""
+    "New & updated": "Nuovi e aggiornati"
   },
   "New Session": {
     "New Session": "Nuova sessione"
@@ -5721,7 +5724,7 @@
     "Office": "Ufficio"
   },
   "Official only": {
-    "Official only": ""
+    "Official only": "Solo ufficiali"
   },
   "Offline Report": {
     "Offline Report": "Riepilogo offline"
@@ -5817,10 +5820,10 @@
     "Open with": "Apri con"
   },
   "Opening GitHub to remove the upvote": {
-    "Opening GitHub to remove the upvote": ""
+    "Opening GitHub to remove the upvote": "Apertura di GitHub per rimuovere il voto"
   },
   "Opening GitHub to upvote": {
-    "Opening GitHub to upvote": ""
+    "Opening GitHub to upvote": "Apertura di GitHub per votare"
   },
   "Opening terminal: ": {
     "Opening terminal: ": "Apertura del terminale: "
@@ -5859,7 +5862,7 @@
     "Orange": "Arancione"
   },
   "Orbit": {
-    "Orbit": ""
+    "Orbit": "Orbita"
   },
   "Order": {
     "Order": "Ordine"
@@ -6111,7 +6114,7 @@
     "Permission denied to set profile image.": "Permesso negato per impostare la foto profilo."
   },
   "Petal": {
-    "Petal": ""
+    "Petal": "Petalo"
   },
   "Pick Color": {
     "Pick Color": "Seleziona colore"
@@ -6129,10 +6132,10 @@
     "Pick how long to stay awake": "Scegli per quanto tempo rimanere attivo"
   },
   "Pick of the day": {
-    "Pick of the day": ""
+    "Pick of the day": "Scelta del giorno"
   },
   "Pick of the week": {
-    "Pick of the week": ""
+    "Pick of the week": "Scelta della settimana"
   },
   "Pill": {
     "Pill": "Pillola"
@@ -6240,7 +6243,7 @@
     "Plugins": "Plugin"
   },
   "Plugins by %1": {
-    "Plugins by %1": ""
+    "Plugins by %1": "Plugin di %1"
   },
   "Plugins shown in All mode without a trigger. Drag to reorder": {
     "Plugins shown in All mode without a trigger. Drag to reorder": "Plugin mostrati in modalità Tutto senza attivazione. Trascina per riordinare"
@@ -6267,7 +6270,7 @@
     "Popouts and modals use the main animation duration": "I pannelli a comparsa e le finestre modali usano la durata dell'animazione principale"
   },
   "Popular": {
-    "Popular": ""
+    "Popular": "Popolari"
   },
   "Popular Plugins": {
     "Popular Plugins": "Plugin popolari"
@@ -6609,22 +6612,22 @@
     "Read:": "Lettura:"
   },
   "Reads audio devices and volume": {
-    "Reads audio devices and volume": ""
+    "Reads audio devices and volume": "Legge i dispositivi audio e il volume"
   },
   "Reads its own settings": {
-    "Reads its own settings": ""
+    "Reads its own settings": "Legge le proprie impostazioni"
   },
   "Reads its saved state": {
-    "Reads its saved state": ""
+    "Reads its saved state": "Legge il proprio stato salvato"
   },
   "Reads the clipboard": {
-    "Reads the clipboard": ""
+    "Reads the clipboard": "Legge gli appunti"
   },
   "Reads the list of running programs": {
-    "Reads the list of running programs": ""
+    "Reads the list of running programs": "Legge l'elenco dei programmi in esecuzione"
   },
   "Reads your files": {
-    "Reads your files": ""
+    "Reads your files": "Legge i tuoi file"
   },
   "Ready": {
     "Ready": "Pronto"
@@ -6774,7 +6777,7 @@
     "Remove the shortcut %1? An unbind entry will be saved to dms/binds-user.lua so it stays removed across DMS updates.": "Rimuovere la scorciatoia %1? Una voce di rimozione verrà salvata in dms/binds-user.lua, in modo che resti rimossa anche dopo gli aggiornamenti di DMS."
   },
   "Remove upvote": {
-    "Remove upvote": ""
+    "Remove upvote": "Rimuovi voto"
   },
   "Removed administrator privileges": {
     "Removed administrator privileges": "Privilegi di amministratore rimossi"
@@ -7020,10 +7023,10 @@
     "Runs in a terminal.": "Viene eseguito in un terminale."
   },
   "Runs programs on your computer": {
-    "Runs programs on your computer": ""
+    "Runs programs on your computer": "Esegue programmi sul tuo computer"
   },
   "Runs shell commands": {
-    "Runs shell commands": ""
+    "Runs shell commands": "Esegue comandi shell"
   },
   "S": {
     "S": "S"
@@ -7098,10 +7101,10 @@
     "Saved networks": "Reti salvate"
   },
   "Saves its own settings": {
-    "Saves its own settings": ""
+    "Saves its own settings": "Salva le proprie impostazioni"
   },
   "Saves its state": {
-    "Saves its state": ""
+    "Saves its state": "Salva il proprio stato"
   },
   "Saving...": {
     "Saving...": "Salvataggio..."
@@ -7491,7 +7494,7 @@
     "Show discharge rate": "Mostra velocità di scarica"
   },
   "Show every author": {
-    "Show every author": ""
+    "Show every author": "Mostra tutti gli autori"
   },
   "Show filename": {
     "Show filename": "Mostra nome file"
@@ -7734,7 +7737,7 @@
     "Soft square": "Quadrato morbido"
   },
   "Software dimming": {
-    "Software dimming": ""
+    "Software dimming": "Attenuazione software"
   },
   "Software updates": {
     "Software updates": "Aggiornamenti software"
@@ -8327,8 +8330,8 @@
   "Third-party plugins": {
     "Third-party plugins": "Plugin di terze parti"
   },
-  "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.": {
-    "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.": "I plugin di terze parti sono creati dalla community e non sono ufficialmente supportati da DankMaterialShell.\n\nQuesti plugin possono comportare rischi per la sicurezza e la privacy; l'installazione è a proprio rischio."
+  "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": {
+    "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": ""
   },
   "This bar is the Island": {
     "This bar is the Island": "Questa barra è l’Isola"
@@ -8358,7 +8361,7 @@
     "This output is disabled in the current profile": "Questo output è disabilitato nel profilo corrente"
   },
   "This plugin can": {
-    "This plugin can": ""
+    "This plugin can": "Questo plugin può"
   },
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "Questo plugin non ha il permesso \"settings_write\".\n\nAggiungi \"permissions\": [\"settings_read\", \"settings_write\"] al plugin.json"
@@ -8589,7 +8592,7 @@
     "Tray icon tint": "Tinta delle icone del vassoio"
   },
   "Trending": {
-    "Trending": ""
+    "Trending": "Di tendenza"
   },
   "Trigger": {
     "Trigger": "Attivazione"
@@ -8820,13 +8823,13 @@
     "Uptime": "Tempo di attività"
   },
   "Upvote on GitHub": {
-    "Upvote on GitHub": ""
+    "Upvote on GitHub": "Vota su GitHub"
   },
   "Upvote removed": {
-    "Upvote removed": ""
+    "Upvote removed": "Voto rimosso"
   },
   "Upvoted on GitHub": {
-    "Upvoted on GitHub": ""
+    "Upvoted on GitHub": "Votato su GitHub"
   },
   "Urgent": {
     "Urgent": "Urgente"
@@ -9113,11 +9116,14 @@
   "Welcome": {
     "Welcome": "Benvenuto"
   },
-  "Welcome to DankMaterialShell": {
-    "Welcome to DankMaterialShell": "Benvenuto in DankMaterialShell"
+  "Welcome to %1": {
+    "Welcome to %1": ""
   },
   "What changed": {
     "What changed": "Cosa è cambiato"
+  },
+  "What's New": {
+    "What's New": ""
   },
   "When locked": {
     "When locked": "Quando bloccato"
@@ -9270,7 +9276,7 @@
     "Working...": "Elaborazione..."
   },
   "Works here": {
-    "Works here": ""
+    "Works here": "Funziona qui"
   },
   "Works in every submap": {
     "Works in every submap": "Funziona in ogni submap"
@@ -9300,7 +9306,7 @@
     "Write:": "Scrittura:"
   },
   "Writes to your files": {
-    "Writes to your files": ""
+    "Writes to your files": "Scrive nei tuoi file"
   },
   "X axis": {
     "X axis": "Asse X"
@@ -9411,7 +9417,7 @@
     "checked just now": "controllato proprio ora"
   },
   "copy link": {
-    "copy link": ""
+    "copy link": "copia link"
   },
   "deprecated": {
     "deprecated": "deprecato"
@@ -9588,7 +9594,7 @@
     "remote": "remoto"
   },
   "report a problem": {
-    "report a problem": ""
+    "report a problem": "segnala un problema"
   },
   "reviewed": {
     "reviewed": "revisionato"

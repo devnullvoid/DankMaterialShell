@@ -38,7 +38,7 @@
   {
     "term": "%1 Flatpak",
     "context": "%1 Flatpak",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:418",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:419",
     "comment": "count of flatpak updates, %1 is a number",
     "tags": [
       "settings"
@@ -128,7 +128,7 @@
   {
     "term": "%1 behind",
     "context": "%1 behind",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:370",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:371",
     "comment": "git channel badge, %1 is the number of commits master is ahead",
     "tags": [
       "settings"
@@ -227,7 +227,7 @@
   {
     "term": "%1 display",
     "context": "%1 display",
-    "reference": "Modules/Settings/BarHubHeader.qml:84",
+    "reference": "Modules/Settings/BarHubHeader.qml:85",
     "comment": "singular, bar summary of assigned monitors, %1 is 1",
     "tags": [
       "settings"
@@ -236,7 +236,7 @@
   {
     "term": "%1 displays",
     "context": "%1 displays",
-    "reference": "Modules/Settings/BarHubHeader.qml:84",
+    "reference": "Modules/Settings/BarHubHeader.qml:85",
     "comment": "plural, bar summary of assigned monitors, %1 is a count",
     "tags": [
       "settings"
@@ -488,7 +488,7 @@
   {
     "term": "%1 package will be installed via %2.",
     "context": "%1 package will be installed via %2.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:259",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:260",
     "comment": "singular, %1 is 1, %2 the package managers",
     "tags": [
       "settings"
@@ -497,7 +497,7 @@
   {
     "term": "%1 packages will be installed via %2.",
     "context": "%1 packages will be installed via %2.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:261",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:262",
     "comment": "plural, %1 is a package count, %2 the package managers",
     "tags": [
       "settings"
@@ -506,7 +506,7 @@
   {
     "term": "%1 position",
     "context": "%1 position",
-    "reference": "Modules/Settings/DBarTab.qml:55",
+    "reference": "Modules/Settings/DBarTab.qml:69",
     "comment": "bar info row title, %1 is the bar edge name",
     "tags": [
       "settings"
@@ -569,7 +569,7 @@
   {
     "term": "%1 update",
     "context": "%1 update",
-    "reference": "Services/SystemUpdateService.qml:307, Modules/SystemUpdate/SystemUpdatePanel.qml:117, Modules/Settings/SoftwareUpdatesTab.qml:129",
+    "reference": "Services/SystemUpdateService.qml:307, Modules/SystemUpdate/SystemUpdatePanel.qml:117, Modules/Settings/SoftwareUpdatesTab.qml:130",
     "comment": "singular, %1 is 1, available system update count",
     "tags": [
       "settings",
@@ -579,7 +579,7 @@
   {
     "term": "%1 updates",
     "context": "%1 updates",
-    "reference": "Services/SystemUpdateService.qml:307, Modules/SystemUpdate/SystemUpdatePanel.qml:119, Modules/Settings/SoftwareUpdatesTab.qml:129",
+    "reference": "Services/SystemUpdateService.qml:307, Modules/SystemUpdate/SystemUpdatePanel.qml:119, Modules/Settings/SoftwareUpdatesTab.qml:130",
     "comment": "plural, %1 is a count of available system updates",
     "tags": [
       "settings",
@@ -616,7 +616,7 @@
   {
     "term": "%1 will be downloaded and installed via %2.",
     "context": "%1 will be downloaded and installed via %2.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:257",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:258",
     "comment": "system update confirmation, %1 is a download size, %2 the package managers",
     "tags": [
       "settings"
@@ -796,7 +796,7 @@
   {
     "term": "A custom seed color overrides this",
     "context": "A custom seed color overrides this",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:655",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:662",
     "comment": "Material seed card status",
     "tags": [
       "settings"
@@ -805,7 +805,7 @@
   {
     "term": "A floating companion that works alongside any bar layout",
     "context": "A floating companion that works alongside any bar layout",
-    "reference": "Common/SettingsTabs.qml:129, Modules/Settings/BarHubHeader.qml:212",
+    "reference": "Common/SettingsTabs.qml:129, Modules/Settings/BarHubHeader.qml:213",
     "comment": "bar settings: what the dot is",
     "tags": [
       "settings",
@@ -813,9 +813,9 @@
     ]
   },
   {
-    "term": "A modern desktop shell for Wayland compositors",
-    "context": "A modern desktop shell for Wayland compositors",
-    "reference": "Modals/Greeter/GreeterWelcomePage.qml:185",
+    "term": "A modern desktop shell for Wayland",
+    "context": "A modern desktop shell for Wayland",
+    "reference": "Modals/Greeter/GreeterWelcomePage.qml:146",
     "comment": "greeter welcome page tagline",
     "tags": [
       "shell"
@@ -824,7 +824,7 @@
   {
     "term": "A newer dms binary is installed.",
     "context": "A newer dms binary is installed.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:399",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:400",
     "comment": "software updates row subtitle, the running shell is older than the installed binary",
     "tags": [
       "settings"
@@ -878,7 +878,7 @@
   {
     "term": "API",
     "context": "API",
-    "reference": "Modules/Settings/AboutTab.qml:250",
+    "reference": "Modules/Settings/AboutTab.qml:251",
     "comment": "about page card title, application programming interface version",
     "tags": [
       "settings"
@@ -1169,7 +1169,7 @@
   {
     "term": "Add",
     "context": "Add",
-    "reference": "Modules/Plugins/ListSettingWithInput.qml:53, Modules/Settings/DockHubHeader.qml:53, Modules/Settings/NotificationRuleEditorDialog.qml:109, Modules/Settings/GammaControlTab.qml:301, Modules/Settings/BarHubHeader.qml:99, Modules/Settings/MediaPlayerTab.qml:195, Modules/Settings/KeybindEditorDialog.qml:739, Modules/Settings/PluginsManageTab.qml:180, Modules/Settings/WindowRuleEditorDialog.qml:801, Modules/Settings/DesktopWidgetsTab.qml:152, Modules/Settings/BarWidgetOptions/KeyboardLayoutOptions.qml:94",
+    "reference": "Modules/Plugins/ListSettingWithInput.qml:53, Modules/Settings/DockHubHeader.qml:53, Modules/Settings/NotificationRuleEditorDialog.qml:109, Modules/Settings/GammaControlTab.qml:301, Modules/Settings/BarHubHeader.qml:100, Modules/Settings/MediaPlayerTab.qml:195, Modules/Settings/KeybindEditorDialog.qml:739, Modules/Settings/PluginsManageTab.qml:180, Modules/Settings/WindowRuleEditorDialog.qml:801, Modules/Settings/DesktopWidgetsTab.qml:152, Modules/Settings/BarWidgetOptions/KeyboardLayoutOptions.qml:94",
     "comment": "verb, button that adds a new item to a list",
     "tags": [
       "settings",
@@ -1443,7 +1443,7 @@
   {
     "term": "Advanced",
     "context": "Advanced",
-    "reference": "Common/SettingsTabs.qml:185, Modules/Settings/TypographyMotionTab.qml:277, Modules/Settings/GreeterTab.qml:439, Modules/Settings/WallpaperColorsTab.qml:1050, Modules/Settings/LauncherTab.qml:944, Modules/Settings/SoftwareUpdatesTab.qml:758, Modules/Settings/DBarTab.qml:586, Modules/Settings/LockScreenTab.qml:710, Modules/Settings/WindowRuleEditorDialog.qml:1405, Modules/Settings/ClipboardTab.qml:482, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:151",
+    "reference": "Common/SettingsTabs.qml:185, Modules/Settings/TypographyMotionTab.qml:277, Modules/Settings/GreeterTab.qml:439, Modules/Settings/WallpaperColorsTab.qml:1057, Modules/Settings/LauncherTab.qml:944, Modules/Settings/SoftwareUpdatesTab.qml:759, Modules/Settings/DBarTab.qml:603, Modules/Settings/LockScreenTab.qml:710, Modules/Settings/WindowRuleEditorDialog.qml:1405, Modules/Settings/ClipboardTab.qml:482, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:151",
     "comment": "adjective, settings section title for advanced options",
     "tags": [
       "settings",
@@ -1553,7 +1553,7 @@
   {
     "term": "All displays",
     "context": "All displays",
-    "reference": "Modules/Plugins/PluginSettings.qml:257, Modules/Settings/BarHubHeader.qml:82, Modules/Settings/Widgets/SettingsDisplayPicker.qml:36, Modules/Settings/Widgets/DockSelectionState.qml:55",
+    "reference": "Modules/Plugins/PluginSettings.qml:257, Modules/Settings/BarHubHeader.qml:83, Modules/Settings/Widgets/SettingsDisplayPicker.qml:39, Modules/Settings/Widgets/DockSelectionState.qml:55",
     "comment": "",
     "tags": [
       "settings",
@@ -1852,7 +1852,7 @@
   {
     "term": "Anchored popouts open at the cursor instead of their widget",
     "context": "Anchored popouts open at the cursor instead of their widget",
-    "reference": "Modules/Settings/DBarTab.qml:512",
+    "reference": "Modules/Settings/DBarTab.qml:529",
     "comment": "",
     "tags": [
       "settings"
@@ -2243,7 +2243,7 @@
   {
     "term": "Aqueous cursor",
     "context": "Aqueous cursor",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:942, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:20",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:949, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:20",
     "comment": "Aqueous compositor cursor synchronization settings",
     "tags": [
       "settings"
@@ -2261,7 +2261,7 @@
   {
     "term": "Arc extender",
     "context": "Arc extender",
-    "reference": "Modules/Settings/DBarTab.qml:399",
+    "reference": "Modules/Settings/DBarTab.qml:416",
     "comment": "",
     "tags": [
       "settings"
@@ -2725,7 +2725,7 @@
   {
     "term": "Auto popup gaps",
     "context": "Auto popup gaps",
-    "reference": "Modules/Settings/DBarTab.qml:674",
+    "reference": "Modules/Settings/DBarTab.qml:691",
     "comment": "",
     "tags": [
       "settings"
@@ -2788,7 +2788,7 @@
   {
     "term": "Auto-hide",
     "context": "Auto-hide",
-    "reference": "Modules/Settings/DBarTab.qml:252, Modules/Settings/DockGeneralTab.qml:86",
+    "reference": "Modules/Settings/DBarTab.qml:269, Modules/Settings/DockGeneralTab.qml:86",
     "comment": "toggle to automatically hide the bar or dock",
     "tags": [
       "settings"
@@ -2879,7 +2879,7 @@
   {
     "term": "Automatic cycling",
     "context": "Automatic cycling",
-    "reference": "Common/SettingsTabs.qml:42, Modules/Settings/WallpaperCyclingTab.qml:185, Modules/Settings/WallpaperColorsTab.qml:516, Modules/Settings/LockScreenTab.qml:477",
+    "reference": "Common/SettingsTabs.qml:42, Modules/Settings/WallpaperCyclingTab.qml:185, Modules/Settings/WallpaperColorsTab.qml:523, Modules/Settings/LockScreenTab.qml:477",
     "comment": "",
     "tags": [
       "settings",
@@ -2980,7 +2980,7 @@
   {
     "term": "Available displays (%1)",
     "context": "Available displays (%1)",
-    "reference": "Modules/Settings/DisplayWidgetsTab.qml:108",
+    "reference": "Modules/Settings/DisplayWidgetsTab.qml:130",
     "comment": "display widgets settings heading, %1 is the monitor count",
     "tags": [
       "settings"
@@ -3008,7 +3008,7 @@
   {
     "term": "Back",
     "context": "Back",
-    "reference": "Modals/Greeter/GreeterModal.qml:191, Modals/DLauncherV2/AppEditView.qml:73, Modals/Settings/SettingsContent.qml:407, Modals/Clipboard/ClipboardEditor.qml:268, Modules/DBar/Widgets/TrayMenuContent.qml:184",
+    "reference": "Modals/Greeter/GreeterModal.qml:190, Modals/DLauncherV2/AppEditView.qml:73, Modals/Settings/SettingsContent.qml:407, Modals/Clipboard/ClipboardEditor.qml:268, Modules/DBar/Widgets/TrayMenuContent.qml:184",
     "comment": "greeter back button",
     "tags": [
       "settings",
@@ -3018,7 +3018,7 @@
   {
     "term": "Backend",
     "context": "Backend",
-    "reference": "Modules/Settings/AboutTab.qml:242, Modules/Settings/NetworkStatusTab.qml:48",
+    "reference": "Modules/Settings/AboutTab.qml:243, Modules/Settings/NetworkStatusTab.qml:48",
     "comment": "noun, settings label for the backend service in use",
     "tags": [
       "settings"
@@ -3073,7 +3073,7 @@
   {
     "term": "Background color",
     "context": "Background color",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:428, Modules/Settings/WallpaperColorsTab.qml:459",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:435, Modules/Settings/WallpaperColorsTab.qml:466",
     "comment": "",
     "tags": [
       "settings"
@@ -3156,7 +3156,7 @@
   {
     "term": "Bar %1",
     "context": "Bar %1",
-    "reference": "Modules/Settings/BarHubHeader.qml:75, Modules/Settings/Widgets/BarSelectionState.qml:25",
+    "reference": "Modules/Settings/BarHubHeader.qml:76, Modules/Settings/Widgets/BarSelectionState.qml:25",
     "comment": "numbered name for an unnamed bar, %1 is its position",
     "tags": [
       "settings"
@@ -3192,7 +3192,7 @@
   {
     "term": "Bar visibility",
     "context": "Bar visibility",
-    "reference": "Modules/Settings/DBarTab.qml:243",
+    "reference": "Modules/Settings/DBarTab.qml:260",
     "comment": "",
     "tags": [
       "settings"
@@ -3229,7 +3229,7 @@
   {
     "term": "Bars",
     "context": "Bars",
-    "reference": "Modules/Settings/ThemeSurfacesTab.qml:320, Modules/Settings/BarHubHeader.qml:95, Modules/Settings/ShadowsTab.qml:200",
+    "reference": "Modules/Settings/ThemeSurfacesTab.qml:320, Modules/Settings/BarHubHeader.qml:96, Modules/Settings/ShadowsTab.qml:200",
     "comment": "plural noun, the shell bars or panels, settings title",
     "tags": [
       "settings"
@@ -3357,7 +3357,7 @@
   {
     "term": "Black",
     "context": "Black",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:435",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:442",
     "comment": "wallpaper background color option",
     "tags": [
       "settings"
@@ -3484,7 +3484,7 @@
   {
     "term": "Blur layer",
     "context": "Blur layer",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:1077",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:1084",
     "comment": "",
     "tags": [
       "settings"
@@ -3493,7 +3493,7 @@
   {
     "term": "Blur on overview",
     "context": "Blur on overview",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:625",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:632",
     "comment": "",
     "tags": [
       "settings"
@@ -3610,7 +3610,7 @@
   {
     "term": "Bottom",
     "context": "Bottom",
-    "reference": "Modules/Settings/DDashTab.qml:92, Modules/Settings/DBarTab.qml:386, Modules/Settings/ShadowsTab.qml:125, Modules/Settings/ShadowsTab.qml:135, Modules/Settings/ShadowsTab.qml:151, Modules/Settings/ShadowsTab.qml:316, Modules/Settings/ShadowsTab.qml:324, Modules/Settings/ShadowsTab.qml:338, Modules/Settings/DockGeneralTab.qml:65, Modules/Settings/CompositorLayoutTab.qml:275, Modules/Settings/Widgets/BarSelectionState.qml:62, Modules/Settings/Widgets/DockSelectionState.qml:84",
+    "reference": "Modules/Settings/DDashTab.qml:92, Modules/Settings/DBarTab.qml:403, Modules/Settings/ShadowsTab.qml:125, Modules/Settings/ShadowsTab.qml:135, Modules/Settings/ShadowsTab.qml:151, Modules/Settings/ShadowsTab.qml:316, Modules/Settings/ShadowsTab.qml:324, Modules/Settings/ShadowsTab.qml:338, Modules/Settings/DockGeneralTab.qml:65, Modules/Settings/CompositorLayoutTab.qml:275, Modules/Settings/Widgets/BarSelectionState.qml:62, Modules/Settings/Widgets/DockSelectionState.qml:84",
     "comment": "screen edge position | shadow direction option",
     "tags": [
       "settings"
@@ -3985,7 +3985,7 @@
   {
     "term": "Cancel",
     "context": "Cancel",
-    "reference": "DMSShell.qml:373, DMSShell.qml:400, Modals/PolkitAuthContent.qml:172, Modals/WorkspaceRenameModal.qml:127, Modals/BluetoothPairingModal.qml:269, Modals/BluetoothPairingModal.qml:358, Modals/WifiPasswordModal.qml:568, Modals/Common/InputModal.qml:17, Modals/Common/InputModal.qml:28, Modals/Common/InputModal.qml:41, Modals/Common/ConfirmModal.qml:14, Modals/Common/ConfirmModal.qml:32, Modals/Common/ConfirmDialogOverlay.qml:13, Modals/Common/ConfirmDialogOverlay.qml:36, Modals/DLauncherV2/AppEditView.qml:264, Modals/Clipboard/ClipboardEditor.qml:340, Modules/SystemUpdate/SystemUpdatePanel.qml:414, Modules/Settings/DockHubHeader.qml:99, Modules/Settings/NotificationRuleEditorDialog.qml:103, Modules/Settings/PluginBrowser.qml:744, Modules/Settings/PluginBrowser.qml:802, Modules/Settings/GreeterTab.qml:37, Modules/Settings/GreeterTab.qml:49, Modules/Settings/GreeterTab.qml:174, Modules/Settings/BarHubHeader.qml:161, Modules/Settings/WallpaperColorsTab.qml:154, Modules/Settings/WallpaperColorsTab.qml:184, Modules/Settings/PluginUpdatesDialog.qml:143, Modules/Settings/KeybindEditorDialog.qml:732, Modules/Settings/PrinterTab.qml:173, Modules/Settings/PrinterTab.qml:696, Modules/Settings/SoftwareUpdatesTab.qml:196, Modules/Settings/ThemeBrowser.qml:235, Modules/Settings/WindowRuleEditorDialog.qml:794, Modules/Settings/DisplayConfigTab.qml:240, Modules/Settings/DisplayConfigTab.qml:263, Modules/Settings/DisplayConfigTab.qml:311, Modules/Settings/NetworkWifiTab.qml:921, Modules/Settings/Widgets/SettingsRenameDialog.qml:79, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:142, Modules/DDash/Overview/CalendarEventEditor.qml:251, Modules/DDash/Overview/CalendarOverviewCard.qml:810",
+    "reference": "DMSShell.qml:373, DMSShell.qml:400, Modals/PolkitAuthContent.qml:172, Modals/WorkspaceRenameModal.qml:127, Modals/BluetoothPairingModal.qml:269, Modals/BluetoothPairingModal.qml:358, Modals/WifiPasswordModal.qml:568, Modals/Common/InputModal.qml:17, Modals/Common/InputModal.qml:28, Modals/Common/InputModal.qml:41, Modals/Common/ConfirmModal.qml:14, Modals/Common/ConfirmModal.qml:32, Modals/Common/ConfirmDialogOverlay.qml:13, Modals/Common/ConfirmDialogOverlay.qml:36, Modals/DLauncherV2/AppEditView.qml:264, Modals/Clipboard/ClipboardEditor.qml:340, Modules/SystemUpdate/SystemUpdatePanel.qml:414, Modules/Settings/DockHubHeader.qml:99, Modules/Settings/NotificationRuleEditorDialog.qml:103, Modules/Settings/PluginBrowser.qml:744, Modules/Settings/PluginBrowser.qml:802, Modules/Settings/GreeterTab.qml:37, Modules/Settings/GreeterTab.qml:49, Modules/Settings/GreeterTab.qml:174, Modules/Settings/BarHubHeader.qml:162, Modules/Settings/WallpaperColorsTab.qml:154, Modules/Settings/WallpaperColorsTab.qml:184, Modules/Settings/PluginUpdatesDialog.qml:143, Modules/Settings/KeybindEditorDialog.qml:732, Modules/Settings/PrinterTab.qml:173, Modules/Settings/PrinterTab.qml:696, Modules/Settings/SoftwareUpdatesTab.qml:197, Modules/Settings/ThemeBrowser.qml:235, Modules/Settings/WindowRuleEditorDialog.qml:794, Modules/Settings/DisplayConfigTab.qml:240, Modules/Settings/DisplayConfigTab.qml:263, Modules/Settings/DisplayConfigTab.qml:311, Modules/Settings/NetworkWifiTab.qml:921, Modules/Settings/Widgets/SettingsRenameDialog.qml:79, Modules/ControlCenter/BuiltinPlugins/CupsWidget.qml:142, Modules/DDash/Overview/CalendarEventEditor.qml:251, Modules/DDash/Overview/CalendarOverviewCard.qml:810",
     "comment": "cancel hotspot editing action",
     "tags": [
       "settings",
@@ -4069,7 +4069,7 @@
   {
     "term": "Capabilities",
     "context": "Capabilities",
-    "reference": "Modules/Settings/AboutTab.qml:265, Modules/Settings/PluginBrowser.qml:1552",
+    "reference": "Modules/Settings/AboutTab.qml:266, Modules/Settings/PluginBrowser.qml:1552",
     "comment": "plugin detail section",
     "tags": [
       "settings"
@@ -4115,7 +4115,7 @@
   {
     "term": "Cards",
     "context": "Cards",
-    "reference": "Modules/DDash/WeatherTab.qml:46, Modules/Settings/WallpaperColorsTab.qml:822, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:31, Modules/Settings/Widgets/SettingsSurfacePreview.qml:47",
+    "reference": "Modules/DDash/WeatherTab.qml:46, Modules/Settings/WallpaperColorsTab.qml:829, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:31, Modules/Settings/Widgets/SettingsSurfacePreview.qml:47",
     "comment": "noun, weather forecast display option | workspace indicator style",
     "tags": [
       "settings",
@@ -4261,7 +4261,7 @@
   {
     "term": "Channel",
     "context": "Channel",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:350, Modules/Settings/NetworkWifiTab.qml:43",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:351, Modules/Settings/NetworkWifiTab.qml:43",
     "comment": "wifi network detail label, radio channel number",
     "tags": [
       "settings"
@@ -4352,7 +4352,7 @@
   {
     "term": "Check for updates",
     "context": "Check for updates",
-    "reference": "Modules/Settings/PluginsHubHeader.qml:386, Modules/Settings/PluginsHubHeader.qml:408, Modules/Settings/SoftwareUpdatesTab.qml:204, Modules/Settings/SoftwareUpdatesTab.qml:318",
+    "reference": "Modules/Settings/PluginsHubHeader.qml:386, Modules/Settings/PluginsHubHeader.qml:408, Modules/Settings/SoftwareUpdatesTab.qml:205, Modules/Settings/SoftwareUpdatesTab.qml:319",
     "comment": "",
     "tags": [
       "settings"
@@ -4361,7 +4361,7 @@
   {
     "term": "Check interval",
     "context": "Check interval",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:559",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:560",
     "comment": "",
     "tags": [
       "settings"
@@ -4370,7 +4370,7 @@
   {
     "term": "Check on startup",
     "context": "Check on startup",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:597",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:598",
     "comment": "",
     "tags": [
       "settings"
@@ -4397,7 +4397,7 @@
   {
     "term": "Checking for updates...",
     "context": "Checking for updates...",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:292, Modules/Settings/PluginsHubHeader.qml:394, Modules/Settings/SoftwareUpdatesTab.qml:164",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:292, Modules/Settings/PluginsHubHeader.qml:394, Modules/Settings/SoftwareUpdatesTab.qml:165",
     "comment": "",
     "tags": [
       "settings",
@@ -4426,7 +4426,7 @@
   {
     "term": "Checks in the background at the check interval. Notifies only when the count grows.",
     "context": "Checks in the background at the check interval. Notifies only when the count grows.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:615",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:616",
     "comment": "notify on new updates toggle description",
     "tags": [
       "settings"
@@ -4435,7 +4435,7 @@
   {
     "term": "Chip",
     "context": "Chip",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:829, Modules/Settings/Widgets/SettingsSurfacePreview.qml:54",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:836, Modules/Settings/Widgets/SettingsSurfacePreview.qml:54",
     "comment": "surface role",
     "tags": [
       "settings"
@@ -4509,7 +4509,7 @@
   {
     "term": "Choose what middle-clicking empty bar space does",
     "context": "Choose what middle-clicking empty bar space does",
-    "reference": "Modules/Settings/DBarTab.qml:523",
+    "reference": "Modules/Settings/DBarTab.qml:540",
     "comment": "",
     "tags": [
       "settings"
@@ -4518,7 +4518,7 @@
   {
     "term": "Choose what right-clicking empty bar space does",
     "context": "Choose what right-clicking empty bar space does",
-    "reference": "Modules/Settings/DBarTab.qml:554",
+    "reference": "Modules/Settings/DBarTab.qml:571",
     "comment": "",
     "tags": [
       "settings"
@@ -4694,7 +4694,7 @@
   {
     "term": "Click actions",
     "context": "Click actions",
-    "reference": "Modules/Settings/DBarTab.qml:505",
+    "reference": "Modules/Settings/DBarTab.qml:522",
     "comment": "",
     "tags": [
       "settings"
@@ -4721,7 +4721,7 @@
   {
     "term": "Click through",
     "context": "Click through",
-    "reference": "Modules/Settings/DBarTab.qml:597, Modules/Settings/DesktopWidgetTab.qml:121",
+    "reference": "Modules/Settings/DBarTab.qml:614, Modules/Settings/DesktopWidgetTab.qml:121",
     "comment": "",
     "tags": [
       "settings"
@@ -4784,7 +4784,7 @@
   {
     "term": "Clicks on empty bar space reach the windows below",
     "context": "Clicks on empty bar space reach the windows below",
-    "reference": "Modules/Settings/DBarTab.qml:598",
+    "reference": "Modules/Settings/DBarTab.qml:615",
     "comment": "bar click through toggle description",
     "tags": [
       "settings"
@@ -4923,7 +4923,7 @@
   {
     "term": "Close Active Window",
     "context": "Close Active Window",
-    "reference": "Modules/Settings/DBarTab.qml:528, Modules/Settings/DBarTab.qml:559",
+    "reference": "Modules/Settings/DBarTab.qml:545, Modules/Settings/DBarTab.qml:576",
     "comment": "bar click action",
     "tags": [
       "settings"
@@ -5070,7 +5070,7 @@
   {
     "term": "Color previews unavailable",
     "context": "Color previews unavailable",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:767",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:774",
     "comment": "Material seed card status",
     "tags": [
       "settings"
@@ -5216,7 +5216,7 @@
   {
     "term": "Community",
     "context": "Community",
-    "reference": "Modules/Settings/AboutTab.qml:173",
+    "reference": "Modules/Settings/AboutTab.qml:174",
     "comment": "about page card title, chat and community links",
     "tags": [
       "settings"
@@ -5497,7 +5497,7 @@
   {
     "term": "Connected",
     "context": "Connected",
-    "reference": "Services/AppSearchService.qml:431, Modules/Settings/AboutTab.qml:256, Modules/Settings/DBarTab.qml:347, Modules/Settings/NetworkCellularTab.qml:250, Modules/Settings/NetworkEthernetTab.qml:138, Modules/Settings/DisplayConfigTab.qml:286, Modules/Settings/NetworkWifiTab.qml:355, Modules/Settings/NetworkWifiTab.qml:537, Modules/ControlCenter/Details/BluetoothDetail.qml:274, Modules/ControlCenter/Details/NetworkDetail.qml:444, Modules/ControlCenter/Details/NetworkDetail.qml:508, Modules/ControlCenter/Details/NetworkDetail.qml:536, Modules/ControlCenter/Details/NetworkDetail.qml:594, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:23, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:104, Modules/ControlCenter/Widgets/NetworkTile.qml:64, Modules/ControlCenter/Widgets/NetworkTile.qml:67, Modules/ControlCenter/Widgets/NetworkTile.qml:69, Modules/ControlCenter/Widgets/NetworkTile.qml:72, Modules/ControlCenter/Widgets/NetworkTile.qml:74",
+    "reference": "Services/AppSearchService.qml:431, Modules/Settings/AboutTab.qml:257, Modules/Settings/DBarTab.qml:364, Modules/Settings/NetworkCellularTab.qml:250, Modules/Settings/NetworkEthernetTab.qml:138, Modules/Settings/DisplayConfigTab.qml:286, Modules/Settings/NetworkWifiTab.qml:355, Modules/Settings/NetworkWifiTab.qml:537, Modules/ControlCenter/Details/BluetoothDetail.qml:274, Modules/ControlCenter/Details/NetworkDetail.qml:444, Modules/ControlCenter/Details/NetworkDetail.qml:508, Modules/ControlCenter/Details/NetworkDetail.qml:536, Modules/ControlCenter/Details/NetworkDetail.qml:594, Modules/ControlCenter/BuiltinPlugins/VpnWidget.qml:23, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:104, Modules/ControlCenter/Widgets/NetworkTile.qml:64, Modules/ControlCenter/Widgets/NetworkTile.qml:67, Modules/ControlCenter/Widgets/NetworkTile.qml:69, Modules/ControlCenter/Widgets/NetworkTile.qml:72, Modules/ControlCenter/Widgets/NetworkTile.qml:74",
     "comment": "Tailscale connection status: connected | network status",
     "tags": [
       "settings",
@@ -5873,7 +5873,7 @@
   {
     "term": "Create",
     "context": "Create",
-    "reference": "Modules/Settings/DisplayConfigTab.qml:230",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:390, Modules/Settings/DisplayConfigTab.qml:230",
     "comment": "",
     "tags": [
       "settings"
@@ -6127,7 +6127,7 @@
   {
     "term": "Cursor",
     "context": "Cursor",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:950",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:957",
     "comment": "settings card title for mouse cursor theme",
     "tags": [
       "settings"
@@ -6154,7 +6154,7 @@
   {
     "term": "Cursor auto-hide timeout",
     "context": "Cursor auto-hide timeout",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:1028",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:1035",
     "comment": "",
     "tags": [
       "settings"
@@ -6173,7 +6173,7 @@
   {
     "term": "Custom",
     "context": "Custom",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:147, Modules/Settings/ThemeColorsTab.qml:147, Modules/Settings/ThemeColorsTab.qml:413, Modules/Settings/ThemeSurfacesTab.qml:148, Modules/Settings/ThemeSurfacesTab.qml:154, Modules/Settings/ThemeSurfacesTab.qml:165, Modules/Settings/ThemeSurfacesTab.qml:181, Modules/Settings/WallpaperColorsTab.qml:454, Modules/Settings/KeybindEditorDialog.qml:68, Modules/Settings/SoftwareUpdatesTab.qml:48, Modules/Settings/TimeWeatherTab.qml:139, Modules/Settings/TimeWeatherTab.qml:178, Modules/Settings/TimeWeatherTab.qml:191, Modules/Settings/TimeWeatherTab.qml:218, Modules/Settings/TimeWeatherTab.qml:257, Modules/Settings/TimeWeatherTab.qml:270, Modules/Settings/LockScreenTab.qml:38, Modules/Settings/DBarAppearanceTab.qml:443, Modules/Settings/ShadowsTab.qml:63, Modules/Settings/ShadowsTab.qml:69, Modules/Settings/ShadowsTab.qml:80, Modules/Settings/ShadowsTab.qml:96, Modules/Settings/ShadowsTab.qml:376, Modules/Settings/WorkspaceAppearanceCard.qml:33, Modules/Settings/OSDTab.qml:76, Modules/Settings/CompositorLayoutTab.qml:99, Modules/Settings/CompositorLayoutTab.qml:373, Modules/Settings/CompositorLayoutTab.qml:719, Modules/Settings/DisplayConfig/OutputCard.qml:105, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:139, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:151, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:180, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:45, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:57, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:86, Modules/Settings/Widgets/SurfaceColorRow.qml:34, Modules/Settings/Widgets/WidgetBackgroundRow.qml:35, Modules/Settings/Widgets/SettingsColorPicker.qml:47, Modules/Settings/Widgets/SettingsWallpaperThumb.qml:107, Modules/Settings/Widgets/DeviceAliasRow.qml:25",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:147, Modules/Settings/ThemeColorsTab.qml:147, Modules/Settings/ThemeColorsTab.qml:413, Modules/Settings/ThemeSurfacesTab.qml:148, Modules/Settings/ThemeSurfacesTab.qml:154, Modules/Settings/ThemeSurfacesTab.qml:165, Modules/Settings/ThemeSurfacesTab.qml:181, Modules/Settings/WallpaperColorsTab.qml:461, Modules/Settings/KeybindEditorDialog.qml:68, Modules/Settings/SoftwareUpdatesTab.qml:49, Modules/Settings/TimeWeatherTab.qml:139, Modules/Settings/TimeWeatherTab.qml:178, Modules/Settings/TimeWeatherTab.qml:191, Modules/Settings/TimeWeatherTab.qml:218, Modules/Settings/TimeWeatherTab.qml:257, Modules/Settings/TimeWeatherTab.qml:270, Modules/Settings/LockScreenTab.qml:38, Modules/Settings/DBarAppearanceTab.qml:443, Modules/Settings/ShadowsTab.qml:63, Modules/Settings/ShadowsTab.qml:69, Modules/Settings/ShadowsTab.qml:80, Modules/Settings/ShadowsTab.qml:96, Modules/Settings/ShadowsTab.qml:376, Modules/Settings/WorkspaceAppearanceCard.qml:33, Modules/Settings/OSDTab.qml:76, Modules/Settings/CompositorLayoutTab.qml:99, Modules/Settings/CompositorLayoutTab.qml:373, Modules/Settings/CompositorLayoutTab.qml:719, Modules/Settings/DisplayConfig/OutputCard.qml:105, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:139, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:151, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:180, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:45, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:57, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:86, Modules/Settings/Widgets/SurfaceColorRow.qml:34, Modules/Settings/Widgets/WidgetBackgroundRow.qml:35, Modules/Settings/Widgets/SettingsColorPicker.qml:47, Modules/Settings/Widgets/SettingsWallpaperThumb.qml:107, Modules/Settings/Widgets/DeviceAliasRow.qml:25",
     "comment": "bar length option, the bar spans a percentage of the edge | custom PAM authentication source option | date format option | dropdown option that opens a custom value input | shadow color option | surface border color | surface color option | theme category option | widget background color option | workspace color option",
     "tags": [
       "settings"
@@ -6209,7 +6209,7 @@
   {
     "term": "Custom color",
     "context": "Custom color",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:683, Modules/Settings/ColorDropdownRow.qml:141, Modules/Settings/ColorDropdownRow.qml:177, Modules/Settings/ShadowsTab.qml:106",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:690, Modules/Settings/ColorDropdownRow.qml:141, Modules/Settings/ColorDropdownRow.qml:177, Modules/Settings/ShadowsTab.qml:106",
     "comment": "",
     "tags": [
       "settings"
@@ -6227,7 +6227,7 @@
   {
     "term": "Custom command and terminal params are split on whitespace; paths with spaces will break.",
     "context": "Custom command and terminal params are split on whitespace; paths with spaces will break.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:781",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:782",
     "comment": "",
     "tags": [
       "settings"
@@ -6245,7 +6245,7 @@
   {
     "term": "Custom interval in minutes (minimum 5)",
     "context": "Custom interval in minutes (minimum 5)",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:578",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:579",
     "comment": "",
     "tags": [
       "settings"
@@ -6308,7 +6308,7 @@
   {
     "term": "Custom update command",
     "context": "Custom update command",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:789",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:790",
     "comment": "",
     "tags": [
       "settings"
@@ -6335,7 +6335,7 @@
   {
     "term": "DMS %1 available",
     "context": "DMS %1 available",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:171",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:172",
     "comment": "software updates hero, %1 is the new DMS version",
     "tags": [
       "settings"
@@ -6388,10 +6388,10 @@
     ]
   },
   {
-    "term": "DMS is a highly customizable modern desktop shell with a %1 inspired design.<br/><br/>It is built with %2, a QT6 framework for building desktop shells, and %3, a statically typed, compiled programming language.",
-    "context": "DMS is a highly customizable modern desktop shell with a %1 inspired design.<br/><br/>It is built with %2, a QT6 framework for building desktop shells, and %3, a statically typed, compiled programming language.",
-    "reference": "Modules/Settings/AboutTab.qml:133",
-    "comment": "about page blurb, %1 is a Material 3 link, %2 is a Quickshell link, %3 is a Go link",
+    "term": "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.",
+    "context": "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.",
+    "reference": "Modules/Settings/AboutTab.qml:134",
+    "comment": "about page blurb, %1 is a Quickshell link, %2 is a Go link",
     "tags": [
       "settings"
     ]
@@ -6444,7 +6444,7 @@
   {
     "term": "DMS stops drawing wallpapers on every display",
     "context": "DMS stops drawing wallpapers on every display",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:1060",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:1067",
     "comment": "use external wallpaper manager toggle description",
     "tags": [
       "settings"
@@ -6600,7 +6600,7 @@
   {
     "term": "Dark mode theme",
     "context": "Dark mode theme",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:902",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:909",
     "comment": "",
     "tags": [
       "settings"
@@ -6765,7 +6765,7 @@
   {
     "term": "Default",
     "context": "Default",
-    "reference": "Common/Theme.qml:1208, Modules/Settings/TypographyMotionTab.qml:321, Modules/Settings/WallpaperColorsTab.qml:500, Modules/Settings/DBarAppearanceTab.qml:182, Modules/Settings/WindowRuleEditorDialog.qml:56, Modules/Settings/WindowRuleEditorDialog.qml:60, Modules/Settings/WindowRuleEditorDialog.qml:305, Modules/Settings/WindowRuleEditorDialog.qml:685, Modules/Settings/DDotTab.qml:140, Modules/Settings/NotificationRulesTab.qml:64, Modules/Settings/NotificationRulesTab.qml:87, Modules/Settings/WorkspaceAppearanceCard.qml:45, Modules/Settings/MouseTouchpadTab.qml:94, Modules/Settings/MouseTouchpadTab.qml:118, Modules/Settings/MouseTouchpadTab.qml:208, Modules/Settings/MouseTouchpadTab.qml:232, Modules/Settings/MouseTouchpadTab.qml:250, Modules/Settings/OSDTab.qml:14, Modules/Settings/OSDTab.qml:100, Modules/Settings/CompositorLayoutTab.qml:504, Modules/Settings/DisplayConfig/OutputCard.qml:308, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:122, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1672, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:39, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:171, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:77, Modules/Settings/Widgets/SurfaceColorRow.qml:10, Modules/Settings/Widgets/WidgetBackgroundRow.qml:10, Modules/Settings/Widgets/SettingsColorPicker.qml:31, Modules/Settings/Widgets/WidgetTextStyleRow.qml:8",
+    "reference": "Common/Theme.qml:1208, Modules/Settings/TypographyMotionTab.qml:321, Modules/Settings/WallpaperColorsTab.qml:507, Modules/Settings/DBarAppearanceTab.qml:182, Modules/Settings/WindowRuleEditorDialog.qml:56, Modules/Settings/WindowRuleEditorDialog.qml:60, Modules/Settings/WindowRuleEditorDialog.qml:305, Modules/Settings/WindowRuleEditorDialog.qml:685, Modules/Settings/DDotTab.qml:140, Modules/Settings/NotificationRulesTab.qml:64, Modules/Settings/NotificationRulesTab.qml:87, Modules/Settings/WorkspaceAppearanceCard.qml:45, Modules/Settings/MouseTouchpadTab.qml:94, Modules/Settings/MouseTouchpadTab.qml:118, Modules/Settings/MouseTouchpadTab.qml:208, Modules/Settings/MouseTouchpadTab.qml:232, Modules/Settings/MouseTouchpadTab.qml:250, Modules/Settings/OSDTab.qml:14, Modules/Settings/OSDTab.qml:100, Modules/Settings/CompositorLayoutTab.qml:504, Modules/Settings/DisplayConfig/OutputCard.qml:308, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:122, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1672, Modules/Settings/DesktopWidgetSettings/ClockSettings.qml:39, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:171, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:77, Modules/Settings/Widgets/SurfaceColorRow.qml:10, Modules/Settings/Widgets/WidgetBackgroundRow.qml:10, Modules/Settings/Widgets/SettingsColorPicker.qml:31, Modules/Settings/Widgets/WidgetTextStyleRow.qml:8",
     "comment": "Default | island settings: default surface tone | notification rule action option | notification rule urgency option | surface color option | widget background color option | widget style option | workspace color option",
     "tags": [
       "settings",
@@ -7325,7 +7325,7 @@
   {
     "term": "Disabled by Frame Mode",
     "context": "Disabled by Frame Mode",
-    "reference": "Modules/Settings/LauncherTab.qml:216, Modules/Settings/DBarTab.qml:633, Modules/Settings/DBarTab.qml:653, Modules/Settings/DBarAppearanceTab.qml:289, Modules/Settings/ShadowsTab.qml:233",
+    "reference": "Modules/Settings/LauncherTab.qml:216, Modules/Settings/DBarTab.qml:650, Modules/Settings/DBarTab.qml:670, Modules/Settings/DBarAppearanceTab.qml:289, Modules/Settings/ShadowsTab.qml:233",
     "comment": "",
     "tags": [
       "settings"
@@ -7362,7 +7362,7 @@
   {
     "term": "Disc",
     "context": "Disc",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:548",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:555",
     "comment": "wallpaper transition option",
     "tags": [
       "settings"
@@ -7655,7 +7655,7 @@
   {
     "term": "Displays",
     "context": "Displays",
-    "reference": "Modules/DesktopContextMenu.qml:113, Common/SettingsTabs.qml:299, Modals/Greeter/GreeterCompletePage.qml:387, Modules/Settings/DBarTab.qml:214, Modules/Settings/DockAdvancedTab.qml:72, Modules/Settings/LockScreenTab.qml:655, Modules/Settings/DDotTab.qml:158, Modules/Settings/DockGeneralTab.qml:20, Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:53",
+    "reference": "Modules/DesktopContextMenu.qml:113, Common/SettingsTabs.qml:299, Modals/Greeter/GreeterCompletePage.qml:387, Modules/Settings/DBarTab.qml:228, Modules/Settings/DockAdvancedTab.qml:72, Modules/Settings/LockScreenTab.qml:655, Modules/Settings/DDotTab.qml:158, Modules/Settings/DockGeneralTab.qml:20, Modules/Settings/DesktopWidgetSettings/DesktopWidgetInstanceSettings.qml:53",
     "comment": "greeter settings link",
     "tags": [
       "settings",
@@ -7765,7 +7765,7 @@
   {
     "term": "Docked",
     "context": "Docked",
-    "reference": "Modules/Settings/DBarTab.qml:99",
+    "reference": "Modules/Settings/DBarTab.qml:113",
     "comment": "island settings: island reserves its edge strip",
     "tags": [
       "settings"
@@ -7783,7 +7783,7 @@
   {
     "term": "Docs",
     "context": "Docs",
-    "reference": "Modals/Greeter/GreeterCompletePage.qml:482, Modals/Changelog/ChangelogContent.qml:306, Modules/Settings/AboutTab.qml:152, Modules/Settings/AutoStartTab.qml:389",
+    "reference": "Modals/Greeter/GreeterCompletePage.qml:482, Modals/Changelog/ChangelogContent.qml:282, Modules/Settings/AboutTab.qml:153, Modules/Settings/AutoStartTab.qml:389",
     "comment": "greeter documentation link",
     "tags": [
       "settings",
@@ -7847,7 +7847,7 @@
   {
     "term": "Dot",
     "context": "Dot",
-    "reference": "Common/SettingsData.qml:2860, Common/SettingsTabs.qml:126, Modules/Settings/BarHubHeader.qml:211",
+    "reference": "Common/SettingsData.qml:2860, Common/SettingsTabs.qml:126, Modules/Settings/BarHubHeader.qml:212",
     "comment": "bar layout: free-floating dot that opens island activities",
     "tags": [
       "settings",
@@ -7929,7 +7929,7 @@
   {
     "term": "Drag to move, click to open activities",
     "context": "Drag to move, click to open activities",
-    "reference": "Modules/Settings/DBarTab.qml:143",
+    "reference": "Modules/Settings/DBarTab.qml:157",
     "comment": "island settings: free placement hint",
     "tags": [
       "settings"
@@ -8001,7 +8001,7 @@
   {
     "term": "Drops bar gaps and rounding while a window is maximized",
     "context": "Drops bar gaps and rounding while a window is maximized",
-    "reference": "Modules/Settings/DBarTab.qml:641",
+    "reference": "Modules/Settings/DBarTab.qml:658",
     "comment": "bar maximize detection toggle description",
     "tags": [
       "settings"
@@ -8138,7 +8138,7 @@
   {
     "term": "Dynamic theme is off",
     "context": "Dynamic theme is off",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:645",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:652",
     "comment": "Material seed card status",
     "tags": [
       "settings"
@@ -8183,7 +8183,7 @@
   {
     "term": "Edge hover reveal",
     "context": "Edge hover reveal",
-    "reference": "Modules/Settings/DBarTab.qml:408",
+    "reference": "Modules/Settings/DBarTab.qml:425",
     "comment": "",
     "tags": [
       "settings"
@@ -8192,7 +8192,7 @@
   {
     "term": "Edge margin",
     "context": "Edge margin",
-    "reference": "Modules/Settings/DBarTab.qml:156, Modules/Settings/DDotTab.qml:44",
+    "reference": "Modules/Settings/DBarTab.qml:170, Modules/Settings/DDotTab.qml:44",
     "comment": "island settings: gap kept from the display edge",
     "tags": [
       "settings"
@@ -8723,7 +8723,7 @@
   {
     "term": "Every %1",
     "context": "Every %1",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:27, Modules/Settings/SoftwareUpdatesTab.qml:31, Modules/Settings/SoftwareUpdatesTab.qml:39, Modules/Settings/SoftwareUpdatesTab.qml:81, Modules/Settings/SoftwareUpdatesTab.qml:85",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:28, Modules/Settings/SoftwareUpdatesTab.qml:32, Modules/Settings/SoftwareUpdatesTab.qml:40, Modules/Settings/SoftwareUpdatesTab.qml:82, Modules/Settings/SoftwareUpdatesTab.qml:86",
     "comment": "update check interval option, %1 is a duration such as 30 minutes",
     "tags": [
       "settings"
@@ -8732,7 +8732,7 @@
   {
     "term": "Every check",
     "context": "Every check",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:77",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:78",
     "comment": "update notification frequency option, notify on every check",
     "tags": [
       "settings"
@@ -8750,7 +8750,7 @@
   {
     "term": "Every hour",
     "context": "Every hour",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:35",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:36",
     "comment": "",
     "tags": [
       "settings"
@@ -8786,7 +8786,7 @@
   {
     "term": "Exclusive zone offset",
     "context": "Exclusive zone offset",
-    "reference": "Modules/Settings/DBarTab.qml:660, Modules/Settings/DockAdvancedTab.qml:57",
+    "reference": "Modules/Settings/DBarTab.qml:677, Modules/Settings/DockAdvancedTab.qml:57",
     "comment": "",
     "tags": [
       "settings"
@@ -8868,7 +8868,7 @@
   {
     "term": "Expose the arcs",
     "context": "Expose the arcs",
-    "reference": "Modules/Settings/DBarTab.qml:376",
+    "reference": "Modules/Settings/DBarTab.qml:393",
     "comment": "",
     "tags": [
       "settings"
@@ -8885,10 +8885,10 @@
     ]
   },
   {
-    "term": "Extend DankMaterialShell with powerful plugins for widgets, launchers, and more",
-    "context": "Extend DankMaterialShell with powerful plugins for widgets, launchers, and more",
+    "term": "Extend %1 with powerful plugins for widgets, launchers, and more",
+    "context": "Extend %1 with powerful plugins for widgets, launchers, and more",
     "reference": "Modules/Settings/PluginsHubHeader.qml:496",
-    "comment": "",
+    "comment": "plugins hub description, %1 is the product name",
     "tags": [
       "settings"
     ]
@@ -8950,7 +8950,7 @@
   {
     "term": "Fade",
     "context": "Fade",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:544, Modules/Settings/PowerSleepTab.qml:138",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:551, Modules/Settings/PowerSleepTab.qml:138",
     "comment": "wallpaper transition option",
     "tags": [
       "settings"
@@ -9734,7 +9734,7 @@
   {
     "term": "Failed: %1",
     "context": "Failed: %1",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:287, Modules/Settings/SoftwareUpdatesTab.qml:166, Modules/Settings/SoftwareUpdatesTab.qml:523",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:287, Modules/Settings/SoftwareUpdatesTab.qml:167, Modules/Settings/SoftwareUpdatesTab.qml:524",
     "comment": "system update error status, %1 is the error message",
     "tags": [
       "settings",
@@ -9871,7 +9871,7 @@
   {
     "term": "Fill",
     "context": "Fill",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:394",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:401",
     "comment": "wallpaper fill mode",
     "tags": [
       "settings"
@@ -9880,7 +9880,7 @@
   {
     "term": "Fill mode",
     "context": "Fill mode",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:400",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:407",
     "comment": "",
     "tags": [
       "settings"
@@ -9925,7 +9925,7 @@
   {
     "term": "Fine-tune the seed around the color wheel",
     "context": "Fine-tune the seed around the color wheel",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:702",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:709",
     "comment": "Material seed hue slider description",
     "tags": [
       "settings"
@@ -9997,7 +9997,7 @@
   {
     "term": "Finish",
     "context": "Finish",
-    "reference": "Modals/Greeter/GreeterModal.qml:254, Modules/Dock/DockEditChrome.qml:77, Modules/ControlCenter/Components/CcEditActions.qml:170, Modules/DDash/Overview/DashEditControls.qml:183",
+    "reference": "Modals/Greeter/GreeterModal.qml:252, Modules/Dock/DockEditChrome.qml:77, Modules/ControlCenter/Components/CcEditActions.qml:170, Modules/DDash/Overview/DashEditControls.qml:183",
     "comment": "greeter finish button",
     "tags": [
       "shell"
@@ -10051,7 +10051,7 @@
   {
     "term": "Fit",
     "context": "Fit",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:394, Modules/Settings/DBarAppearanceTab.qml:447",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:401, Modules/Settings/DBarAppearanceTab.qml:447",
     "comment": "bar length option, the bar spans only its widgets | wallpaper fill mode",
     "tags": [
       "settings"
@@ -10168,7 +10168,7 @@
   {
     "term": "Floating",
     "context": "Floating",
-    "reference": "Modules/Settings/BarHubHeader.qml:79, Modules/Settings/DBarTab.qml:99, Modules/Settings/WindowRuleEditorDialog.qml:927, Modules/Settings/WindowRulesTab.qml:52",
+    "reference": "Modules/Settings/BarHubHeader.qml:80, Modules/Settings/DBarTab.qml:113, Modules/Settings/WindowRuleEditorDialog.qml:927, Modules/Settings/WindowRulesTab.qml:52",
     "comment": "adjective, window rule match condition for floating windows | bar summary: island can be dragged anywhere on the display | island settings: island can be dragged anywhere on the display",
     "tags": [
       "settings"
@@ -10303,7 +10303,7 @@
   {
     "term": "Focus window",
     "context": "Focus window",
-    "reference": "Modules/Settings/DBarTab.qml:464",
+    "reference": "Modules/Settings/DBarTab.qml:481",
     "comment": "",
     "tags": [
       "settings"
@@ -10348,7 +10348,7 @@
   {
     "term": "Focused display only",
     "context": "Focused display only",
-    "reference": "Modules/Settings/DisplayWidgetsTab.qml:163, Modules/Settings/NotificationsTab.qml:158",
+    "reference": "Modules/Settings/DisplayWidgetsTab.qml:188, Modules/Settings/NotificationsTab.qml:158",
     "comment": "",
     "tags": [
       "settings"
@@ -10440,7 +10440,7 @@
   {
     "term": "Follow mouse",
     "context": "Follow mouse",
-    "reference": "Modules/Settings/DBarTab.qml:511, Modules/Settings/CompositorLayoutTab.qml:260",
+    "reference": "Modules/Settings/DBarTab.qml:528, Modules/Settings/CompositorLayoutTab.qml:260",
     "comment": "Hyprland force split option, the split side follows the pointer",
     "tags": [
       "settings"
@@ -10695,7 +10695,7 @@
   {
     "term": "Frame",
     "context": "Frame",
-    "reference": "Modules/Settings/ThemeSurfacesTab.qml:470, Modules/Settings/DBarTab.qml:337, Modules/Settings/DBarAppearanceTab.qml:43, Modules/Settings/Widgets/SettingsLayoutPicker.qml:38",
+    "reference": "Modules/Settings/ThemeSurfacesTab.qml:470, Modules/Settings/DBarTab.qml:354, Modules/Settings/DBarAppearanceTab.qml:43, Modules/Settings/Widgets/SettingsLayoutPicker.qml:38",
     "comment": "",
     "tags": [
       "settings"
@@ -10976,7 +10976,7 @@
   {
     "term": "Gap between the bar and its popouts follows edge spacing",
     "context": "Gap between the bar and its popouts follows edge spacing",
-    "reference": "Modules/Settings/DBarTab.qml:675",
+    "reference": "Modules/Settings/DBarTab.qml:692",
     "comment": "bar auto popup gaps toggle description",
     "tags": [
       "settings"
@@ -10994,7 +10994,7 @@
   {
     "term": "Gap size",
     "context": "Gap size",
-    "reference": "Modules/Settings/DBarTab.qml:686",
+    "reference": "Modules/Settings/DBarTab.qml:703",
     "comment": "",
     "tags": [
       "settings"
@@ -11094,7 +11094,7 @@
   {
     "term": "Get Started",
     "context": "Get Started",
-    "reference": "Modals/Greeter/GreeterModal.qml:254",
+    "reference": "Modals/Greeter/GreeterModal.qml:252",
     "comment": "greeter first page button",
     "tags": [
       "shell"
@@ -11103,7 +11103,7 @@
   {
     "term": "Git",
     "context": "Git",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:151",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:152",
     "comment": "release channel that follows the master branch",
     "tags": [
       "settings"
@@ -11357,7 +11357,7 @@
   {
     "term": "Grows or shrinks the space windows keep clear",
     "context": "Grows or shrinks the space windows keep clear",
-    "reference": "Modules/Settings/DBarTab.qml:661, Modules/Settings/DockAdvancedTab.qml:58",
+    "reference": "Modules/Settings/DBarTab.qml:678, Modules/Settings/DockAdvancedTab.qml:58",
     "comment": "bar and dock exclusive zone offset slider description",
     "tags": [
       "settings"
@@ -11595,7 +11595,7 @@
   {
     "term": "Hide cursor on touch",
     "context": "Hide cursor on touch",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:1012",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:1019",
     "comment": "",
     "tags": [
       "settings"
@@ -11604,7 +11604,7 @@
   {
     "term": "Hide cursor when typing",
     "context": "Hide cursor when typing",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:991",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:998",
     "comment": "",
     "tags": [
       "settings"
@@ -11633,6 +11633,15 @@
     "context": "Hide installed",
     "reference": "Modules/Settings/PluginBrowser.qml:77",
     "comment": "plugin browser filter chip",
+    "tags": [
+      "settings"
+    ]
+  },
+  {
+    "term": "Hide on last display",
+    "context": "Hide on last display",
+    "reference": "Modules/Settings/Widgets/SettingsDisplayPicker.qml:53",
+    "comment": "bar display assignment option",
     "tags": [
       "settings"
     ]
@@ -11676,7 +11685,7 @@
   {
     "term": "Hide when windows open",
     "context": "Hide when windows open",
-    "reference": "Modules/Settings/DBarTab.qml:289",
+    "reference": "Modules/Settings/DBarTab.qml:306",
     "comment": "",
     "tags": [
       "settings"
@@ -11694,7 +11703,7 @@
   {
     "term": "Hides even while a bar popout or menu is open",
     "context": "Hides even while a bar popout or menu is open",
-    "reference": "Modules/Settings/DBarTab.qml:275",
+    "reference": "Modules/Settings/DBarTab.qml:292",
     "comment": "bar strict auto-hide toggle description",
     "tags": [
       "settings"
@@ -11876,7 +11885,7 @@
   {
     "term": "Horizontal",
     "context": "Horizontal",
-    "reference": "Modules/Settings/DBarTab.qml:64",
+    "reference": "Modules/Settings/DBarTab.qml:78",
     "comment": "island settings: free island orientation",
     "tags": [
       "settings"
@@ -11885,7 +11894,7 @@
   {
     "term": "Horizontal offset",
     "context": "Horizontal offset",
-    "reference": "Modules/Settings/DBarTab.qml:186",
+    "reference": "Modules/Settings/DBarTab.qml:200",
     "comment": "island settings: horizontal offset slider",
     "tags": [
       "settings"
@@ -11894,7 +11903,7 @@
   {
     "term": "Host",
     "context": "Host",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:815, Modules/Settings/PrinterTab.qml:239, Modules/Settings/Widgets/SettingsSurfacePreview.qml:40",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:822, Modules/Settings/PrinterTab.qml:239, Modules/Settings/Widgets/SettingsSurfacePreview.qml:40",
     "comment": "Label for printer IP address or hostname input field",
     "tags": [
       "settings"
@@ -11994,7 +12003,7 @@
   {
     "term": "Hover popouts",
     "context": "Hover popouts",
-    "reference": "Modules/Settings/DBarTab.qml:424",
+    "reference": "Modules/Settings/DBarTab.qml:441",
     "comment": "",
     "tags": [
       "settings"
@@ -12012,7 +12021,7 @@
   {
     "term": "Hue",
     "context": "Hue",
-    "reference": "Modules/ColorPicker/ColorPickerContent.qml:168, Modules/Settings/WallpaperColorsTab.qml:701",
+    "reference": "Modules/ColorPicker/ColorPickerContent.qml:168, Modules/Settings/WallpaperColorsTab.qml:708",
     "comment": "Hue angle in the color picker",
     "tags": [
       "settings",
@@ -12049,7 +12058,7 @@
   {
     "term": "Hyprland Discord server",
     "context": "Hyprland Discord server",
-    "reference": "Modules/Settings/AboutTab.qml:29",
+    "reference": "Modules/Settings/AboutTab.qml:30",
     "comment": "",
     "tags": [
       "settings"
@@ -12095,7 +12104,7 @@
   {
     "term": "Hyprland website",
     "context": "Hyprland website",
-    "reference": "Modules/Settings/AboutTab.qml:27",
+    "reference": "Modules/Settings/AboutTab.qml:28",
     "comment": "",
     "tags": [
       "settings"
@@ -12222,7 +12231,7 @@
   {
     "term": "Icons",
     "context": "Icons",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:862, Modules/Settings/WorkspaceAppearanceCard.qml:201",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:869, Modules/Settings/WorkspaceAppearanceCard.qml:201",
     "comment": "settings card title for icon theme and icon options",
     "tags": [
       "settings"
@@ -12349,7 +12358,7 @@
   {
     "term": "Ignore package",
     "context": "Ignore package",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:234, Modules/Settings/SoftwareUpdatesTab.qml:473, Modules/Settings/SoftwareUpdatesTab.qml:720",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:234, Modules/Settings/SoftwareUpdatesTab.qml:474, Modules/Settings/SoftwareUpdatesTab.qml:721",
     "comment": "tooltip, exclude a package from system updates",
     "tags": [
       "settings",
@@ -12368,7 +12377,7 @@
   {
     "term": "Ignored packages",
     "context": "Ignored packages",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:679",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:680",
     "comment": "",
     "tags": [
       "settings"
@@ -12377,7 +12386,7 @@
   {
     "term": "Ignored packages are hidden from the updater and skipped by 'Update All'.",
     "context": "Ignored packages are hidden from the updater and skipped by 'Update All'.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:711",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:712",
     "comment": "",
     "tags": [
       "settings"
@@ -12386,7 +12395,7 @@
   {
     "term": "Ignored packages only apply to the built-in updater. Your custom command controls its own exclusions.",
     "context": "Ignored packages only apply to the built-in updater. Your custom command controls its own exclusions.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:708",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:709",
     "comment": "",
     "tags": [
       "settings"
@@ -12440,7 +12449,7 @@
   {
     "term": "Import",
     "context": "Import",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:1107, Modules/Settings/Widgets/MaterialWallpaperPresets.qml:125, Modules/Settings/Widgets/MaterialWallpaperPresets.qml:142, Modules/ControlCenter/Details/VpnDetailContent.qml:35",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:1114, Modules/Settings/Widgets/MaterialWallpaperPresets.qml:125, Modules/Settings/Widgets/MaterialWallpaperPresets.qml:142, Modules/ControlCenter/Details/VpnDetailContent.qml:35",
     "comment": "verb, button that imports a vpn profile file",
     "tags": [
       "settings",
@@ -12469,7 +12478,7 @@
   {
     "term": "Include AUR updates",
     "context": "Include AUR updates",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:647",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:648",
     "comment": "",
     "tags": [
       "settings"
@@ -12478,7 +12487,7 @@
   {
     "term": "Include Flatpak updates",
     "context": "Include Flatpak updates",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:638",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:639",
     "comment": "",
     "tags": [
       "settings"
@@ -12514,7 +12523,7 @@
   {
     "term": "Include transitions",
     "context": "Include transitions",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:581",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:588",
     "comment": "",
     "tags": [
       "settings"
@@ -12796,7 +12805,7 @@
   {
     "term": "Install",
     "context": "Install",
-    "reference": "Modules/Settings/PluginBrowser.qml:801, Modules/Settings/PluginBrowser.qml:1410, Modules/Settings/WallpaperColorsTab.qml:153, Modules/Settings/SoftwareUpdatesTab.qml:198, Modules/Settings/SoftwareUpdatesTab.qml:231, Modules/Settings/ThemeBrowser.qml:234, Modules/Settings/PluginCard.qml:200",
+    "reference": "Modules/Settings/PluginBrowser.qml:801, Modules/Settings/PluginBrowser.qml:1410, Modules/Settings/WallpaperColorsTab.qml:153, Modules/Settings/SoftwareUpdatesTab.qml:199, Modules/Settings/SoftwareUpdatesTab.qml:232, Modules/Settings/ThemeBrowser.qml:234, Modules/Settings/PluginCard.qml:200",
     "comment": "install action button",
     "tags": [
       "settings"
@@ -12842,7 +12851,7 @@
   {
     "term": "Install matugen package for dynamic theming",
     "context": "Install matugen package for dynamic theming",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:287, Modules/Settings/WallpaperColorsTab.qml:640",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:287, Modules/Settings/WallpaperColorsTab.qml:647",
     "comment": "matugen installation hint",
     "tags": [
       "settings"
@@ -12860,7 +12869,7 @@
   {
     "term": "Install system updates?",
     "context": "Install system updates?",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:229",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:230",
     "comment": "confirmation dialog title before running the system upgrade",
     "tags": [
       "settings"
@@ -12914,7 +12923,7 @@
   {
     "term": "Installed %1, still running %2",
     "context": "Installed %1, still running %2",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:399",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:400",
     "comment": "%1 is the installed version, %2 the running one",
     "tags": [
       "settings"
@@ -13033,7 +13042,7 @@
   {
     "term": "Invalid JSON format: %1",
     "context": "Invalid JSON format: %1",
-    "reference": "Common/Theme.qml:2379, Modules/Settings/WallpaperColorsTab.qml:1095",
+    "reference": "Common/Theme.qml:2379, Modules/Settings/WallpaperColorsTab.qml:1102",
     "comment": "custom theme file error toast, %1 is the error message",
     "tags": [
       "settings",
@@ -13052,7 +13061,7 @@
   {
     "term": "Invalid package name — letters, digits and @._+:/- only.",
     "context": "Invalid package name — letters, digits and @._+:/- only.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:729",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:730",
     "comment": "ignored packages validation error",
     "tags": [
       "settings"
@@ -13070,7 +13079,7 @@
   {
     "term": "Invalid wallpaper layout",
     "context": "Invalid wallpaper layout",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:146, Modules/Settings/WallpaperColorsTab.qml:162, Modules/Settings/WallpaperColorsTab.qml:1098",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:146, Modules/Settings/WallpaperColorsTab.qml:162, Modules/Settings/WallpaperColorsTab.qml:1105",
     "comment": "material wallpaper import error",
     "tags": [
       "settings"
@@ -13088,7 +13097,7 @@
   {
     "term": "Iris Bloom",
     "context": "Iris Bloom",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:552",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:559",
     "comment": "wallpaper transition option",
     "tags": [
       "settings"
@@ -13097,7 +13106,7 @@
   {
     "term": "Island",
     "context": "Island",
-    "reference": "Common/BarWidgetCatalog.qml:55, Modules/Settings/BarHubHeader.qml:86, Modules/Settings/LauncherTab.qml:106, Modules/Settings/Widgets/SettingsLayoutPicker.qml:42",
+    "reference": "Common/BarWidgetCatalog.qml:55, Modules/Settings/BarHubHeader.qml:87, Modules/Settings/LauncherTab.qml:106, Modules/Settings/Widgets/SettingsLayoutPicker.qml:42",
     "comment": "",
     "tags": [
       "settings",
@@ -13325,7 +13334,7 @@
   {
     "term": "Keyboard shortcuts",
     "context": "Keyboard shortcuts",
-    "reference": "Common/SettingsTabs.qml:334, Modals/Clipboard/ClipboardActions.qml:36, Modules/Notepad/NotepadSettings.qml:530, Modules/Settings/BarHubHeader.qml:128, Modules/Settings/LauncherTab.qml:356",
+    "reference": "Common/SettingsTabs.qml:334, Modals/Clipboard/ClipboardActions.qml:36, Modules/Notepad/NotepadSettings.qml:530, Modules/Settings/BarHubHeader.qml:129, Modules/Settings/LauncherTab.qml:356",
     "comment": "",
     "tags": [
       "settings",
@@ -13380,7 +13389,7 @@
   {
     "term": "LabWC IRC channel",
     "context": "LabWC IRC channel",
-    "reference": "Modules/Settings/AboutTab.qml:233",
+    "reference": "Modules/Settings/AboutTab.qml:234",
     "comment": "",
     "tags": [
       "settings"
@@ -13389,7 +13398,7 @@
   {
     "term": "LabWC website",
     "context": "LabWC website",
-    "reference": "Modules/Settings/AboutTab.qml:61",
+    "reference": "Modules/Settings/AboutTab.qml:62",
     "comment": "",
     "tags": [
       "settings"
@@ -13452,7 +13461,7 @@
   {
     "term": "Last commit %1",
     "context": "Last commit %1",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:363",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:364",
     "comment": "git channel row, %1 is a localized date",
     "tags": [
       "settings"
@@ -13616,7 +13625,7 @@
   {
     "term": "Launcher emerge side",
     "context": "Launcher emerge side",
-    "reference": "Modules/Settings/DBarTab.qml:385",
+    "reference": "Modules/Settings/DBarTab.qml:402",
     "comment": "",
     "tags": [
       "settings"
@@ -13634,7 +13643,7 @@
   {
     "term": "Layer namespace dms:blurwallpaper, needs a niri blur rule",
     "context": "Layer namespace dms:blurwallpaper, needs a niri blur rule",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:1078",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:1085",
     "comment": "",
     "tags": [
       "settings"
@@ -13670,7 +13679,7 @@
   {
     "term": "Layout",
     "context": "Layout",
-    "reference": "Common/BarWidgetCatalog.qml:13, Modals/Greeter/GreeterCompletePage.qml:124, Modules/DDash/DashRegistry.qml:144, Modules/Settings/DockHubHeader.qml:129, Modules/Settings/BarHubHeader.qml:187, Modules/Settings/DockGeneralTab.qml:41, Modules/Settings/CompositorLayoutTab.qml:225, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1650, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:141, Modules/Settings/Widgets/IslandHomeCard.qml:26",
+    "reference": "Common/BarWidgetCatalog.qml:13, Modals/Greeter/GreeterCompletePage.qml:124, Modules/DDash/DashRegistry.qml:144, Modules/Settings/DockHubHeader.qml:129, Modules/Settings/BarHubHeader.qml:188, Modules/Settings/DockGeneralTab.qml:41, Modules/Settings/CompositorLayoutTab.qml:225, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1650, Modules/Settings/DesktopWidgetSettings/SystemMonitorSettings.qml:141, Modules/Settings/Widgets/IslandHomeCard.qml:26",
     "comment": "noun, settings section title for arrangement options",
     "tags": [
       "settings",
@@ -13899,7 +13908,7 @@
   {
     "term": "Light mode theme",
     "context": "Light mode theme",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:922",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:929",
     "comment": "",
     "tags": [
       "settings"
@@ -14217,7 +14226,7 @@
   {
     "term": "Lock screen",
     "context": "Lock screen",
-    "reference": "Common/SettingsTabs.qml:461, Modules/Settings/GreeterTab.qml:397, Modules/Settings/WallpaperColorsTab.qml:612, Modules/Settings/WeatherSettingsTab.qml:136, Modules/ControlCenter/Models/WidgetModel.qml:223",
+    "reference": "Common/SettingsTabs.qml:461, Modules/Settings/GreeterTab.qml:397, Modules/Settings/WallpaperColorsTab.qml:619, Modules/Settings/WeatherSettingsTab.qml:136, Modules/ControlCenter/Models/WidgetModel.qml:223",
     "comment": "",
     "tags": [
       "settings",
@@ -14401,7 +14410,7 @@
   {
     "term": "MIT License",
     "context": "MIT License",
-    "reference": "Modules/Settings/AboutTab.qml:310",
+    "reference": "Modules/Settings/AboutTab.qml:311",
     "comment": "",
     "tags": [
       "settings"
@@ -14457,7 +14466,7 @@
   {
     "term": "Managed by Nix",
     "context": "Managed by Nix",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:353",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:354",
     "comment": "badge on the DMS update row when the shell is installed through Nix",
     "tags": [
       "settings"
@@ -14529,7 +14538,7 @@
   {
     "term": "Manual show/hide",
     "context": "Manual show/hide",
-    "reference": "Modules/Settings/DBarTab.qml:312",
+    "reference": "Modules/Settings/DBarTab.qml:329",
     "comment": "",
     "tags": [
       "settings"
@@ -14628,7 +14637,7 @@
   {
     "term": "Master branch",
     "context": "Master branch",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:360",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:361",
     "comment": "git channel row, the branch the build tracks",
     "tags": [
       "settings"
@@ -14763,7 +14772,7 @@
   {
     "term": "Matugen source display",
     "context": "Matugen source display",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:496",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:503",
     "comment": "",
     "tags": [
       "settings"
@@ -14862,7 +14871,7 @@
   {
     "term": "Maximize detection",
     "context": "Maximize detection",
-    "reference": "Modules/Settings/DBarTab.qml:640, Modules/Settings/DBarTab.qml:652",
+    "reference": "Modules/Settings/DBarTab.qml:657, Modules/Settings/DBarTab.qml:669",
     "comment": "",
     "tags": [
       "settings"
@@ -15137,7 +15146,7 @@
   {
     "term": "Middle click",
     "context": "Middle click",
-    "reference": "Modules/Settings/DBarTab.qml:522",
+    "reference": "Modules/Settings/DBarTab.qml:539",
     "comment": "",
     "tags": [
       "settings"
@@ -15290,7 +15299,7 @@
   {
     "term": "Model",
     "context": "Model",
-    "reference": "Modules/Settings/KeyboardTab.qml:110, Modules/Settings/DisplayWidgetsTab.qml:114, Modules/Settings/PrinterTab.qml:560, Modules/Settings/DisplayConfigTab.qml:340, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1621",
+    "reference": "Modules/Settings/KeyboardTab.qml:110, Modules/Settings/DisplayWidgetsTab.qml:136, Modules/Settings/PrinterTab.qml:560, Modules/Settings/DisplayConfigTab.qml:340, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1621",
     "comment": "noun, hardware model of keyboard, display or printer",
     "tags": [
       "settings"
@@ -15772,7 +15781,7 @@
   {
     "term": "Name",
     "context": "Name",
-    "reference": "Modals/DLauncherV2/AppEditView.qml:147, Modals/DLauncherV2/LauncherContent.qml:618, Modals/DLauncherV2/LauncherContent.qml:627, Modals/DLauncherV2/LauncherContent.qml:632, Modules/ProcessList/ProcessesView.qml:309, Modules/DDash/WallpaperTab.qml:54, Modules/Settings/DockHubHeader.qml:80, Modules/Settings/DockHubHeader.qml:111, Modules/Settings/PaletteInjectTab.qml:106, Modules/Settings/PluginBrowser.qml:97, Modules/Settings/DisplayWidgetsTab.qml:114, Modules/Settings/BarHubHeader.qml:143, Modules/Settings/BarHubHeader.qml:173, Modules/Settings/AutoStartTab.qml:455, Modules/Settings/MediaPlayerTab.qml:186, Modules/Settings/PluginsHubHeader.qml:34, Modules/Settings/PrinterTab.qml:373, Modules/Settings/SoftwareUpdatesTab.qml:705, Modules/Settings/PluginsManageTab.qml:170, Modules/Settings/DesktopWidgetsTab.qml:136, Modules/Settings/DisplayConfigTab.qml:340, Modules/Settings/DesktopWidgetTab.qml:68, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1621, Modules/Settings/Widgets/SettingsRenameDialog.qml:11",
+    "reference": "Modals/DLauncherV2/AppEditView.qml:147, Modals/DLauncherV2/LauncherContent.qml:618, Modals/DLauncherV2/LauncherContent.qml:627, Modals/DLauncherV2/LauncherContent.qml:632, Modules/ProcessList/ProcessesView.qml:309, Modules/DDash/WallpaperTab.qml:54, Modules/Settings/DockHubHeader.qml:80, Modules/Settings/DockHubHeader.qml:111, Modules/Settings/PaletteInjectTab.qml:106, Modules/Settings/PluginBrowser.qml:97, Modules/Settings/DisplayWidgetsTab.qml:136, Modules/Settings/BarHubHeader.qml:144, Modules/Settings/BarHubHeader.qml:174, Modules/Settings/AutoStartTab.qml:455, Modules/Settings/MediaPlayerTab.qml:186, Modules/Settings/PluginsHubHeader.qml:34, Modules/Settings/PrinterTab.qml:373, Modules/Settings/SoftwareUpdatesTab.qml:706, Modules/Settings/PluginsManageTab.qml:170, Modules/Settings/DesktopWidgetsTab.qml:136, Modules/Settings/DisplayConfigTab.qml:340, Modules/Settings/DesktopWidgetTab.qml:68, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1621, Modules/Settings/Widgets/SettingsRenameDialog.qml:11",
     "comment": "plugin browser sort option",
     "tags": [
       "settings",
@@ -15782,7 +15791,7 @@
   {
     "term": "Name format",
     "context": "Name format",
-    "reference": "Modules/Settings/DisplayWidgetsTab.qml:113, Modules/Settings/DisplayConfigTab.qml:339",
+    "reference": "Modules/Settings/DisplayWidgetsTab.qml:135, Modules/Settings/DisplayConfigTab.qml:339",
     "comment": "",
     "tags": [
       "settings"
@@ -15854,7 +15863,7 @@
   {
     "term": "Nested chip",
     "context": "Nested chip",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:836, Modules/Settings/Widgets/SettingsSurfacePreview.qml:67",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:843, Modules/Settings/Widgets/SettingsSurfacePreview.qml:67",
     "comment": "surface role",
     "tags": [
       "settings"
@@ -16090,7 +16099,7 @@
   {
     "term": "Next",
     "context": "Next",
-    "reference": "Modals/Greeter/GreeterModal.qml:254, Modules/Lock/LockStatusRow.qml:231, Modules/Notepad/NotepadTextEditor.qml:476, Modules/Notepad/NotepadSettings.qml:565, Modules/OSD/MediaPlaybackOSD.qml:319, Modules/Settings/WallpaperCyclingTab.qml:175, Modules/DBar/Popouts/BatteryHistoryChart.qml:155, Modules/DDash/Media/MediaTransportButton.qml:49, Modules/DDash/Wellbeing/WeeklyChart.qml:182, Modules/DDash/Weather/WeatherForecastWidget.qml:96, Modules/DDash/Overview/MediaOverviewCard.qml:237, Modules/DDash/Overview/CalendarEventEditor.qml:173, Modules/DDash/Overview/CalendarOverviewCard.qml:297",
+    "reference": "Modals/Greeter/GreeterModal.qml:252, Modules/Lock/LockStatusRow.qml:231, Modules/Notepad/NotepadTextEditor.qml:476, Modules/Notepad/NotepadSettings.qml:565, Modules/OSD/MediaPlaybackOSD.qml:319, Modules/Settings/WallpaperCyclingTab.qml:175, Modules/DBar/Popouts/BatteryHistoryChart.qml:155, Modules/DDash/Media/MediaTransportButton.qml:49, Modules/DDash/Wellbeing/WeeklyChart.qml:182, Modules/DDash/Weather/WeatherForecastWidget.qml:96, Modules/DDash/Overview/MediaOverviewCard.qml:237, Modules/DDash/Overview/CalendarEventEditor.qml:173, Modules/DDash/Overview/CalendarOverviewCard.qml:297",
     "comment": "greeter next button",
     "tags": [
       "settings",
@@ -16831,7 +16840,7 @@
   {
     "term": "No packages ignored. Add one here or hover an update in the popout and click the hide button.",
     "context": "No packages ignored. Add one here or hover an update in the popout and click the hide button.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:711",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:712",
     "comment": "",
     "tags": [
       "settings"
@@ -17031,7 +17040,7 @@
   {
     "term": "No supported package manager found.",
     "context": "No supported package manager found.",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:113, Modules/SystemUpdate/SystemUpdatePanel.qml:290, Modules/Settings/SoftwareUpdatesTab.qml:168, Modules/Settings/SoftwareUpdatesTab.qml:414",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:113, Modules/SystemUpdate/SystemUpdatePanel.qml:290, Modules/Settings/SoftwareUpdatesTab.qml:169, Modules/Settings/SoftwareUpdatesTab.qml:415",
     "comment": "",
     "tags": [
       "settings",
@@ -17232,7 +17241,7 @@
   {
     "term": "None",
     "context": "None",
-    "reference": "Services/KeybindsService.qml:668, Services/KeybindsService.qml:673, Services/KeybindsService.qml:674, Services/CupsService.qml:670, Modules/Settings/UserAccountsTab.qml:54, Modules/Settings/WallpaperColorsTab.qml:542, Modules/Settings/DBarTab.qml:464, Modules/Settings/DBarTab.qml:464, Modules/Settings/DBarTab.qml:528, Modules/Settings/DBarTab.qml:559, Modules/Settings/WindowRuleEditorDialog.qml:60, Modules/Settings/WindowRuleEditorDialog.qml:297, Modules/Settings/WorkspaceAppearanceCard.qml:32, Modules/Settings/DesktopWidgetTab.qml:30, Modules/Settings/DesktopWidgetTab.qml:79, Modules/Settings/WindowRulesTab.qml:639, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:46, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:52, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:56, Modules/Settings/BarWidgetOptions/SystemTrayOptions.qml:71, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:52, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:292",
+    "reference": "Services/KeybindsService.qml:668, Services/KeybindsService.qml:673, Services/KeybindsService.qml:674, Services/CupsService.qml:670, Modules/Settings/UserAccountsTab.qml:54, Modules/Settings/WallpaperColorsTab.qml:549, Modules/Settings/DBarTab.qml:481, Modules/Settings/DBarTab.qml:481, Modules/Settings/DBarTab.qml:545, Modules/Settings/DBarTab.qml:576, Modules/Settings/WindowRuleEditorDialog.qml:60, Modules/Settings/WindowRuleEditorDialog.qml:297, Modules/Settings/WorkspaceAppearanceCard.qml:32, Modules/Settings/DesktopWidgetTab.qml:30, Modules/Settings/DesktopWidgetTab.qml:79, Modules/Settings/WindowRulesTab.qml:639, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:46, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:52, Modules/Settings/DisplayConfig/HyprlandOutputSettings.qml:56, Modules/Settings/BarWidgetOptions/SystemTrayOptions.qml:71, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:52, Modules/ControlCenter/BuiltinPlugins/TailscaleWidget.qml:292",
     "comment": "Tailscale exit node: none selected | bar click action | wallpaper transition option | workspace color option",
     "tags": [
       "settings",
@@ -17433,7 +17442,7 @@
   {
     "term": "Notch",
     "context": "Notch",
-    "reference": "Modules/Settings/DBarTab.qml:131",
+    "reference": "Modules/Settings/DBarTab.qml:145",
     "comment": "island style option, the island is fused to the screen edge like a notch",
     "tags": [
       "settings"
@@ -17563,7 +17572,7 @@
   {
     "term": "Notify at most",
     "context": "Notify at most",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:625",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:626",
     "comment": "software updates dropdown label, how often update notifications may repeat",
     "tags": [
       "settings"
@@ -17572,7 +17581,7 @@
   {
     "term": "Notify me on new updates",
     "context": "Notify me on new updates",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:614",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:615",
     "comment": "software updates toggle",
     "tags": [
       "settings"
@@ -17671,7 +17680,7 @@
   {
     "term": "Off",
     "context": "Off",
-    "reference": "Modules/ProcessList/SystemView.qml:276, Modules/DDash/NotificationsTab.qml:216, Modules/DDash/NotificationsTab.qml:218, Modules/DIsland/IslandSystemSource.qml:71, Modules/DIsland/IslandSystemSource.qml:75, Modules/Settings/TypographyMotionTab.qml:219, Modules/Settings/TypographyMotionTab.qml:347, Modules/Settings/TypographyMotionTab.qml:361, Modules/Settings/WallpaperColorsTab.qml:1029, Modules/Settings/DigitalWellbeingTab.qml:114, Modules/Settings/WindowRuleEditorDialog.qml:56, Modules/Settings/DesktopWidgetsTab.qml:111, Modules/Settings/NotificationsTab.qml:458, Modules/Settings/WindowRulesTab.qml:87, Modules/Settings/CompositorLayoutTab.qml:99, Modules/Settings/CompositorLayoutTab.qml:226, Modules/Settings/CompositorLayoutTab.qml:373, Modules/Settings/CompositorLayoutTab.qml:719, Modules/Settings/DisplayConfig/OutputCard.qml:225, Modules/Settings/DisplayConfig/OutputCard.qml:244, Modules/Settings/DisplayConfig/OutputCard.qml:251, Modules/Settings/DisplayConfig/OutputCard.qml:254, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:47, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:55, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:62, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1778, Modules/ControlCenter/Widgets/IdleInhibitTile.qml:12, Modules/ControlCenter/Widgets/DndTile.qml:11, Modules/ControlCenter/Widgets/BluetoothTile.qml:45, Modules/DBar/Widgets/IdleInhibitPresets.qml:15, Modules/Notifications/Center/NotificationHeader.qml:70, Modules/Notifications/Center/NotificationHeader.qml:72, Modules/Notifications/Center/NotificationHeader.qml:147, Modules/Notifications/Center/NotificationHeader.qml:148, Modules/Notifications/Center/NotificationHeader.qml:155, Modules/DDash/Wellbeing/AppLimitSheet.qml:31",
+    "reference": "Modules/ProcessList/SystemView.qml:276, Modules/DDash/NotificationsTab.qml:216, Modules/DDash/NotificationsTab.qml:218, Modules/DIsland/IslandSystemSource.qml:71, Modules/DIsland/IslandSystemSource.qml:75, Modules/Settings/TypographyMotionTab.qml:219, Modules/Settings/TypographyMotionTab.qml:347, Modules/Settings/TypographyMotionTab.qml:361, Modules/Settings/WallpaperColorsTab.qml:1036, Modules/Settings/DigitalWellbeingTab.qml:114, Modules/Settings/WindowRuleEditorDialog.qml:56, Modules/Settings/DesktopWidgetsTab.qml:111, Modules/Settings/NotificationsTab.qml:458, Modules/Settings/WindowRulesTab.qml:87, Modules/Settings/CompositorLayoutTab.qml:99, Modules/Settings/CompositorLayoutTab.qml:226, Modules/Settings/CompositorLayoutTab.qml:373, Modules/Settings/CompositorLayoutTab.qml:719, Modules/Settings/DisplayConfig/OutputCard.qml:225, Modules/Settings/DisplayConfig/OutputCard.qml:244, Modules/Settings/DisplayConfig/OutputCard.qml:251, Modules/Settings/DisplayConfig/OutputCard.qml:254, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:47, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:55, Modules/Settings/DisplayConfig/NiriOutputSettings.qml:62, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1778, Modules/ControlCenter/Widgets/IdleInhibitTile.qml:12, Modules/ControlCenter/Widgets/DndTile.qml:11, Modules/ControlCenter/Widgets/BluetoothTile.qml:45, Modules/DBar/Widgets/IdleInhibitPresets.qml:15, Modules/Notifications/Center/NotificationHeader.qml:70, Modules/Notifications/Center/NotificationHeader.qml:72, Modules/Notifications/Center/NotificationHeader.qml:147, Modules/Notifications/Center/NotificationHeader.qml:148, Modules/Notifications/Center/NotificationHeader.qml:155, Modules/DDash/Wellbeing/AppLimitSheet.qml:31",
     "comment": "bluetooth status",
     "tags": [
       "settings",
@@ -17681,7 +17690,7 @@
   {
     "term": "Off keeps the bar hidden until turned back on or shown over IPC",
     "context": "Off keeps the bar hidden until turned back on or shown over IPC",
-    "reference": "Modules/Settings/DBarTab.qml:313",
+    "reference": "Modules/Settings/DBarTab.qml:330",
     "comment": "bar manual visibility toggle description",
     "tags": [
       "settings"
@@ -17790,7 +17799,7 @@
   {
     "term": "Once a day",
     "context": "Once a day",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:43, Modules/Settings/SoftwareUpdatesTab.qml:89",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:44, Modules/Settings/SoftwareUpdatesTab.qml:90",
     "comment": "",
     "tags": [
       "settings"
@@ -17799,7 +17808,7 @@
   {
     "term": "Once a week",
     "context": "Once a week",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:93",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:94",
     "comment": "update notification frequency option",
     "tags": [
       "settings"
@@ -17927,7 +17936,7 @@
   {
     "term": "Open delay",
     "context": "Open delay",
-    "reference": "Modules/Settings/DBarTab.qml:436, Modules/Settings/Widgets/IslandBehaviorCard.qml:152",
+    "reference": "Modules/Settings/DBarTab.qml:453, Modules/Settings/Widgets/IslandBehaviorCard.qml:152",
     "comment": "island settings: hover open delay slider",
     "tags": [
       "settings"
@@ -17955,7 +17964,7 @@
   {
     "term": "Open in terminal",
     "context": "Open in terminal",
-    "reference": "Modals/DLauncherV2/Controller.qml:1889, Modules/Settings/SoftwareUpdatesTab.qml:532",
+    "reference": "Modals/DLauncherV2/Controller.qml:1889, Modules/Settings/SoftwareUpdatesTab.qml:533",
     "comment": "",
     "tags": [
       "settings",
@@ -18065,7 +18074,7 @@
   {
     "term": "Opens a floating window with the live output",
     "context": "Opens a floating window with the live output",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:666",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:667",
     "comment": "show upgrade in a window toggle description",
     "tags": [
       "settings"
@@ -18119,7 +18128,7 @@
   {
     "term": "Options",
     "context": "Options",
-    "reference": "Widgets/DGridEditChrome.qml:145, Modules/DDash/DashWidgetGrid.qml:236, Modules/Settings/KeybindEditorDialog.qml:1233, Modules/Settings/SoftwareUpdatesTab.qml:543, Modules/ControlCenter/Details/BluetoothDetail.qml:305, Modules/ControlCenter/Details/NetworkDetail.qml:458, Modules/ControlCenter/Details/NetworkDetail.qml:646, Modules/DDash/Overview/DashOptionsSheet.qml:31, Modules/DDash/Overview/DashEditControls.qml:148",
+    "reference": "Widgets/DGridEditChrome.qml:145, Modules/DDash/DashWidgetGrid.qml:236, Modules/Settings/KeybindEditorDialog.qml:1233, Modules/Settings/SoftwareUpdatesTab.qml:544, Modules/ControlCenter/Details/BluetoothDetail.qml:305, Modules/ControlCenter/Details/NetworkDetail.qml:458, Modules/ControlCenter/Details/NetworkDetail.qml:646, Modules/DDash/Overview/DashOptionsSheet.qml:31, Modules/DDash/Overview/DashEditControls.qml:148",
     "comment": "",
     "tags": [
       "settings",
@@ -18165,7 +18174,7 @@
   {
     "term": "Orientation",
     "context": "Orientation",
-    "reference": "Modules/Settings/DBarTab.qml:63",
+    "reference": "Modules/Settings/DBarTab.qml:77",
     "comment": "island settings: horizontal or vertical row for a free island",
     "tags": [
       "settings"
@@ -18219,7 +18228,7 @@
   {
     "term": "Outer gap",
     "context": "Outer gap",
-    "reference": "Modules/Settings/DBarTab.qml:171",
+    "reference": "Modules/Settings/DBarTab.qml:185",
     "comment": "island settings: gap between screen edge and island",
     "tags": [
       "settings"
@@ -18365,7 +18374,7 @@
   {
     "term": "Overlay",
     "context": "Overlay",
-    "reference": "Modules/Settings/LauncherTab.qml:136, Modules/Settings/DBarTab.qml:99, Modules/Settings/Widgets/WidgetBackgroundRow.qml:13",
+    "reference": "Modules/Settings/LauncherTab.qml:136, Modules/Settings/DBarTab.qml:113, Modules/Settings/Widgets/WidgetBackgroundRow.qml:13",
     "comment": "island settings: island floats over windows along its edge without reserving space | widget background color option",
     "tags": [
       "settings"
@@ -18510,7 +18519,7 @@
   {
     "term": "Package name (e.g., docker)",
     "context": "Package name (e.g., docker)",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:713",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:714",
     "comment": "",
     "tags": [
       "settings"
@@ -18519,7 +18528,7 @@
   {
     "term": "Pad",
     "context": "Pad",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:394",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:401",
     "comment": "wallpaper fill mode",
     "tags": [
       "settings"
@@ -18609,7 +18618,7 @@
   {
     "term": "Palette style",
     "context": "Palette style",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:780",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:787",
     "comment": "matugen scheme navigation row",
     "tags": [
       "settings"
@@ -18810,7 +18819,7 @@
   {
     "term": "Pause checks on battery",
     "context": "Pause checks on battery",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:606",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:607",
     "comment": "software updates toggle, skip background checks on battery power",
     "tags": [
       "settings"
@@ -19000,7 +19009,7 @@
   {
     "term": "Pill",
     "context": "Pill",
-    "reference": "Modules/Settings/DBarTab.qml:127, Modules/Settings/LockWidgetSettings/LockAuthSettings.qml:10",
+    "reference": "Modules/Settings/DBarTab.qml:141, Modules/Settings/LockWidgetSettings/LockAuthSettings.qml:10",
     "comment": "lock screen password field style",
     "tags": [
       "settings"
@@ -19065,7 +19074,7 @@
   {
     "term": "Pixelate",
     "context": "Pixelate",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:554",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:561",
     "comment": "wallpaper transition option",
     "tags": [
       "settings"
@@ -19083,7 +19092,7 @@
   {
     "term": "Placement",
     "context": "Placement",
-    "reference": "Modules/Settings/BarWidgetTab.qml:166, Modules/Settings/DBarTab.qml:98",
+    "reference": "Modules/Settings/BarWidgetTab.qml:166, Modules/Settings/DBarTab.qml:112",
     "comment": "island settings: docked, overlay or floating placement row",
     "tags": [
       "settings"
@@ -19310,7 +19319,7 @@
   {
     "term": "Plugins",
     "context": "Plugins",
-    "reference": "Modules/DesktopContextMenu.qml:58, Common/SettingsTabs.qml:615, Modals/Greeter/GreeterWelcomePage.qml:39, Modals/DLauncherV2/LauncherContent.qml:304, Modals/DLauncherV2/Components/LauncherSearchField.qml:28, Modules/Settings/AboutTab.qml:159, Modules/Settings/LauncherTab.qml:69, Modules/ControlCenter/Components/CcWidgetSheet.qml:46",
+    "reference": "Modules/DesktopContextMenu.qml:58, Common/SettingsTabs.qml:615, Modals/Greeter/GreeterWelcomePage.qml:39, Modals/DLauncherV2/LauncherContent.qml:304, Modals/DLauncherV2/Components/LauncherSearchField.qml:28, Modules/Settings/AboutTab.qml:160, Modules/Settings/LauncherTab.qml:69, Modules/ControlCenter/Components/CcWidgetSheet.qml:46",
     "comment": "greeter feature card title",
     "tags": [
       "settings",
@@ -19347,7 +19356,7 @@
   {
     "term": "Pointer at the launcher edge opens it, unless a bar or dock is there",
     "context": "Pointer at the launcher edge opens it, unless a bar or dock is there",
-    "reference": "Modules/Settings/DBarTab.qml:409",
+    "reference": "Modules/Settings/DBarTab.qml:426",
     "comment": "frame launcher edge hover toggle description",
     "tags": [
       "settings"
@@ -19501,7 +19510,7 @@
   {
     "term": "Portal",
     "context": "Portal",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:556",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:563",
     "comment": "wallpaper transition option",
     "tags": [
       "settings"
@@ -19519,7 +19528,7 @@
   {
     "term": "Position",
     "context": "Position",
-    "reference": "Modules/Settings/DDashTab.qml:76, Modules/Settings/DBarTab.qml:47, Modules/Settings/DBarAppearanceTab.qml:549, Modules/Settings/OSDTab.qml:97, Modules/Settings/NotificationsTab.qml:110, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1628",
+    "reference": "Modules/Settings/DDashTab.qml:76, Modules/Settings/DBarTab.qml:61, Modules/Settings/DBarAppearanceTab.qml:549, Modules/Settings/OSDTab.qml:97, Modules/Settings/NotificationsTab.qml:110, Modules/Settings/DisplayConfig/DisplayConfigState.qml:1628",
     "comment": "island settings: position card title",
     "tags": [
       "settings"
@@ -19893,7 +19902,7 @@
   {
     "term": "Primary",
     "context": "Primary",
-    "reference": "Modules/DDash/DashRegistry.qml:25, Modules/Settings/ThemeSurfacesTab.qml:148, Modules/Settings/ThemeSurfacesTab.qml:151, Modules/Settings/ThemeSurfacesTab.qml:159, Modules/Settings/ThemeSurfacesTab.qml:172, Modules/Settings/ThemeSurfacesTab.qml:521, Modules/Settings/ThemeSurfacesTab.qml:523, Modules/Settings/ThemeSurfacesTab.qml:537, Modules/Settings/ThemeSurfacesTab.qml:578, Modules/Settings/ThemeSurfacesTab.qml:580, Modules/Settings/ThemeSurfacesTab.qml:594, Modules/Settings/ThemeSurfacesTab.qml:638, Modules/Settings/ThemeSurfacesTab.qml:640, Modules/Settings/ThemeSurfacesTab.qml:654, Modules/Settings/UserAccountsTab.qml:62, Modules/Settings/WallpaperColorsTab.qml:445, Modules/Settings/LauncherTab.qml:265, Modules/Settings/DockAppearanceTab.qml:180, Modules/Settings/DockAppearanceTab.qml:215, Modules/Settings/DBarAppearanceTab.qml:18, Modules/Settings/ShadowsTab.qml:63, Modules/Settings/ShadowsTab.qml:67, Modules/Settings/ShadowsTab.qml:76, Modules/Settings/ShadowsTab.qml:87, Modules/Settings/ShadowsTab.qml:368, Modules/Settings/WorkspaceAppearanceCard.qml:21, Modules/Settings/WorkspaceAppearanceCard.qml:43, Modules/Settings/BarWidgetOptions/SystemTrayOptions.qml:71, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:21, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:174, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:80, Modules/Settings/Widgets/SettingsColorPicker.qml:37",
+    "reference": "Modules/DDash/DashRegistry.qml:25, Modules/Settings/ThemeSurfacesTab.qml:148, Modules/Settings/ThemeSurfacesTab.qml:151, Modules/Settings/ThemeSurfacesTab.qml:159, Modules/Settings/ThemeSurfacesTab.qml:172, Modules/Settings/ThemeSurfacesTab.qml:521, Modules/Settings/ThemeSurfacesTab.qml:523, Modules/Settings/ThemeSurfacesTab.qml:537, Modules/Settings/ThemeSurfacesTab.qml:578, Modules/Settings/ThemeSurfacesTab.qml:580, Modules/Settings/ThemeSurfacesTab.qml:594, Modules/Settings/ThemeSurfacesTab.qml:638, Modules/Settings/ThemeSurfacesTab.qml:640, Modules/Settings/ThemeSurfacesTab.qml:654, Modules/Settings/UserAccountsTab.qml:62, Modules/Settings/WallpaperColorsTab.qml:452, Modules/Settings/LauncherTab.qml:265, Modules/Settings/DockAppearanceTab.qml:180, Modules/Settings/DockAppearanceTab.qml:215, Modules/Settings/DBarAppearanceTab.qml:18, Modules/Settings/ShadowsTab.qml:63, Modules/Settings/ShadowsTab.qml:67, Modules/Settings/ShadowsTab.qml:76, Modules/Settings/ShadowsTab.qml:87, Modules/Settings/ShadowsTab.qml:368, Modules/Settings/WorkspaceAppearanceCard.qml:21, Modules/Settings/WorkspaceAppearanceCard.qml:43, Modules/Settings/BarWidgetOptions/SystemTrayOptions.qml:71, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:21, Modules/Settings/BarWidgetOptions/AppsDockOptions.qml:174, Modules/Settings/BarWidgetOptions/LauncherButtonOptions.qml:80, Modules/Settings/Widgets/SettingsColorPicker.qml:37",
     "comment": "button color option | color option | primary color | shadow color option | surface border color | tile color option | workspace color option",
     "tags": [
       "settings",
@@ -20401,7 +20410,7 @@
   {
     "term": "Random",
     "context": "Random",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:540, Modules/Settings/WallpaperColorsTab.qml:563, Modules/Settings/WallpaperColorsTab.qml:566",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:547, Modules/Settings/WallpaperColorsTab.qml:570, Modules/Settings/WallpaperColorsTab.qml:573",
     "comment": "wallpaper transition option",
     "tags": [
       "settings"
@@ -20545,7 +20554,7 @@
   {
     "term": "Reboot",
     "context": "Reboot",
-    "reference": "Services/SessionService.qml:679, Modules/SystemUpdate/SystemUpdatePanel.qml:63, Modules/SystemUpdate/SystemUpdatePanel.qml:414, Modules/Settings/PowerSleepTab.qml:201, Modules/Settings/PowerSleepTab.qml:428, Modules/Settings/SoftwareUpdatesTab.qml:200, Modules/Settings/SoftwareUpdatesTab.qml:239",
+    "reference": "Services/SessionService.qml:679, Modules/SystemUpdate/SystemUpdatePanel.qml:63, Modules/SystemUpdate/SystemUpdatePanel.qml:414, Modules/Settings/PowerSleepTab.qml:201, Modules/Settings/PowerSleepTab.qml:428, Modules/Settings/SoftwareUpdatesTab.qml:201, Modules/Settings/SoftwareUpdatesTab.qml:240",
     "comment": "verb, power menu action",
     "tags": [
       "settings",
@@ -20555,7 +20564,7 @@
   {
     "term": "Reboot now?",
     "context": "Reboot now?",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:61, Modules/Settings/SoftwareUpdatesTab.qml:237",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:61, Modules/Settings/SoftwareUpdatesTab.qml:238",
     "comment": "confirmation dialog title, reboot to finish a system update",
     "tags": [
       "settings",
@@ -20565,7 +20574,7 @@
   {
     "term": "Reboot recommended",
     "context": "Reboot recommended",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:306, Modules/Settings/SoftwareUpdatesTab.qml:183",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:306, Modules/Settings/SoftwareUpdatesTab.qml:184",
     "comment": "chip shown after a kernel or systemd upgrade",
     "tags": [
       "settings",
@@ -20756,7 +20765,7 @@
   {
     "term": "Release notes",
     "context": "Release notes",
-    "reference": "Common/SettingsTabs.qml:573, Modals/Changelog/ChangelogModal.qml:90, Modules/Settings/SoftwareUpdatesTab.qml:388",
+    "reference": "Common/SettingsTabs.qml:573, Modals/Changelog/ChangelogModal.qml:91, Modules/Settings/SoftwareUpdatesTab.qml:389",
     "comment": "settings page and card title, notes for a DMS release",
     "tags": [
       "settings",
@@ -20965,7 +20974,7 @@
   {
     "term": "Remove override",
     "context": "Remove override",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:663",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:670",
     "comment": "clear the custom matugen seed color",
     "tags": [
       "settings"
@@ -21019,7 +21028,7 @@
   {
     "term": "Rename",
     "context": "Rename",
-    "reference": "Modals/MuxModal.qml:471, Modals/MuxModal.qml:591, Modals/WorkspaceRenameModal.qml:135, Modules/Settings/DockHubHeader.qml:86, Modules/Settings/BarHubHeader.qml:148, Modules/Settings/DesktopWidgetsTab.qml:177, Modules/Settings/Widgets/SettingsRenameDialog.qml:9",
+    "reference": "Modals/MuxModal.qml:471, Modals/MuxModal.qml:591, Modals/WorkspaceRenameModal.qml:135, Modules/Settings/DockHubHeader.qml:86, Modules/Settings/BarHubHeader.qml:149, Modules/Settings/DesktopWidgetsTab.qml:177, Modules/Settings/Widgets/SettingsRenameDialog.qml:9",
     "comment": "verb, rename button",
     "tags": [
       "settings",
@@ -21065,7 +21074,7 @@
   {
     "term": "Reopen panel after update",
     "context": "Reopen panel after update",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:656",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:657",
     "comment": "",
     "tags": [
       "settings"
@@ -21247,7 +21256,7 @@
   {
     "term": "Requires restart",
     "context": "Requires restart",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:883, Modules/Settings/WallpaperColorsTab.qml:903, Modules/Settings/WallpaperColorsTab.qml:923, Modules/Settings/SoftwareUpdatesTab.qml:185, Modules/Settings/SoftwareUpdatesTab.qml:396",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:890, Modules/Settings/WallpaperColorsTab.qml:910, Modules/Settings/WallpaperColorsTab.qml:930, Modules/Settings/SoftwareUpdatesTab.qml:186, Modules/Settings/SoftwareUpdatesTab.qml:397",
     "comment": "",
     "tags": [
       "settings"
@@ -21265,7 +21274,7 @@
   {
     "term": "Reserved height",
     "context": "Reserved height",
-    "reference": "Modules/Settings/DBarTab.qml:201",
+    "reference": "Modules/Settings/DBarTab.qml:215",
     "comment": "island settings: reserved strip height slider",
     "tags": [
       "settings"
@@ -21274,7 +21283,7 @@
   {
     "term": "Reserved width",
     "context": "Reserved width",
-    "reference": "Modules/Settings/DBarTab.qml:201",
+    "reference": "Modules/Settings/DBarTab.qml:215",
     "comment": "island settings: reserved strip width slider",
     "tags": [
       "settings"
@@ -21283,7 +21292,7 @@
   {
     "term": "Reset",
     "context": "Reset",
-    "reference": "Modals/DLauncherV2/AppEditView.qml:256, Modules/Settings/WallpaperColorsTab.qml:486, Modules/Settings/WidgetsTab.qml:620, Modules/Settings/KeybindsTab.qml:375",
+    "reference": "Modals/DLauncherV2/AppEditView.qml:256, Modules/Settings/WallpaperColorsTab.qml:493, Modules/Settings/WidgetsTab.qml:620, Modules/Settings/KeybindsTab.qml:375",
     "comment": "verb, button that restores defaults",
     "tags": [
       "settings",
@@ -21348,7 +21357,7 @@
   {
     "term": "Restart DMS",
     "context": "Restart DMS",
-    "reference": "Services/SessionService.qml:721, Modules/Settings/PowerSleepTab.qml:201, Modules/Settings/SoftwareUpdatesTab.qml:202",
+    "reference": "Services/SessionService.qml:721, Modules/Settings/PowerSleepTab.qml:201, Modules/Settings/SoftwareUpdatesTab.qml:203",
     "comment": "",
     "tags": [
       "settings",
@@ -21405,7 +21414,7 @@
   {
     "term": "Retry",
     "context": "Retry",
-    "reference": "Modals/Greeter/GreeterPluginsPage.qml:166, Modules/Settings/ChangelogTab.qml:36, Modules/Settings/PluginBrowser.qml:1262, Modules/Settings/WallpaperColorsTab.qml:770, Modules/Settings/PrinterTab.qml:690, Modules/Settings/PluginsManageTab.qml:131, Modules/Settings/ThemeBrowser.qml:335, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:180, Modules/DDash/Media/LyricsOverlay.qml:434",
+    "reference": "Modals/Greeter/GreeterPluginsPage.qml:166, Modules/Settings/ChangelogTab.qml:36, Modules/Settings/PluginBrowser.qml:1262, Modules/Settings/WallpaperColorsTab.qml:777, Modules/Settings/PrinterTab.qml:690, Modules/Settings/PluginsManageTab.qml:131, Modules/Settings/ThemeBrowser.qml:335, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:180, Modules/DDash/Media/LyricsOverlay.qml:434",
     "comment": "retry failed action button",
     "tags": [
       "settings",
@@ -21471,7 +21480,7 @@
   {
     "term": "Right click",
     "context": "Right click",
-    "reference": "Modules/Settings/DBarTab.qml:553",
+    "reference": "Modules/Settings/DBarTab.qml:570",
     "comment": "",
     "tags": [
       "settings"
@@ -21762,7 +21771,7 @@
   {
     "term": "Running in terminal",
     "context": "Running in terminal",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:285, Modules/Settings/SoftwareUpdatesTab.qml:515",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:285, Modules/Settings/SoftwareUpdatesTab.qml:516",
     "comment": "",
     "tags": [
       "settings",
@@ -21772,7 +21781,7 @@
   {
     "term": "Runs in a terminal.",
     "context": "Runs in a terminal.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:264",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:265",
     "comment": "system update confirmation, the upgrade opens a terminal window",
     "tags": [
       "settings"
@@ -21880,7 +21889,7 @@
   {
     "term": "Save",
     "context": "Save",
-    "reference": "Modals/QRGeneratorModal.qml:238, Modals/DLauncherV2/AppEditView.qml:271, Modals/Clipboard/ClipboardEditor.qml:352, Modals/Clipboard/ClipboardEditor.qml:361, Modals/Clipboard/ClipboardEditor.qml:407, Modules/ColorPicker/ColorPickerContent.qml:439, Modules/Notepad/NotepadTextEditor.qml:834, Modules/Notepad/NotepadTextEditor.qml:842, Modules/Notepad/NotepadSettings.qml:549, Modules/Notepad/Notepad.qml:807, Modules/Settings/DockHubHeader.qml:86, Modules/Settings/NotificationRuleEditorDialog.qml:109, Modules/Settings/BarHubHeader.qml:148, Modules/Settings/KeybindEditorDialog.qml:400, Modules/Settings/KeybindEditorDialog.qml:507, Modules/Settings/KeybindEditorDialog.qml:739, Modules/Settings/WindowRuleEditorDialog.qml:801, Modules/Settings/DisplayConfigTab.qml:301, Modules/Settings/NetworkWifiTab.qml:941, Modules/Settings/Widgets/SettingsRenameDialog.qml:85, Modules/DDash/Overview/CalendarEventEditor.qml:244, Modules/DDash/Overview/CalendarOverviewCard.qml:830",
+    "reference": "Modals/QRGeneratorModal.qml:238, Modals/DLauncherV2/AppEditView.qml:271, Modals/Clipboard/ClipboardEditor.qml:352, Modals/Clipboard/ClipboardEditor.qml:361, Modals/Clipboard/ClipboardEditor.qml:407, Modules/ColorPicker/ColorPickerContent.qml:439, Modules/Notepad/NotepadTextEditor.qml:834, Modules/Notepad/NotepadTextEditor.qml:842, Modules/Notepad/NotepadSettings.qml:549, Modules/Notepad/Notepad.qml:807, Modules/Settings/DockHubHeader.qml:86, Modules/Settings/NotificationRuleEditorDialog.qml:109, Modules/Settings/BarHubHeader.qml:149, Modules/Settings/KeybindEditorDialog.qml:400, Modules/Settings/KeybindEditorDialog.qml:507, Modules/Settings/KeybindEditorDialog.qml:739, Modules/Settings/WindowRuleEditorDialog.qml:801, Modules/Settings/DisplayConfigTab.qml:301, Modules/Settings/NetworkWifiTab.qml:941, Modules/Settings/Widgets/SettingsRenameDialog.qml:85, Modules/DDash/Overview/CalendarEventEditor.qml:244, Modules/DDash/Overview/CalendarOverviewCard.qml:830",
     "comment": "save hotspot configuration action",
     "tags": [
       "settings",
@@ -21971,7 +21980,7 @@
   {
     "term": "Save your work first. Open apps will close.",
     "context": "Save your work first. Open apps will close.",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:62, Modules/Settings/SoftwareUpdatesTab.qml:238",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:62, Modules/Settings/SoftwareUpdatesTab.qml:239",
     "comment": "reboot confirmation after a system update",
     "tags": [
       "settings",
@@ -22185,7 +22194,7 @@
   {
     "term": "Scroll",
     "context": "Scroll",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:394, Modules/Settings/WindowRulesTab.qml:134",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:401, Modules/Settings/WindowRulesTab.qml:134",
     "comment": "wallpaper fill mode",
     "tags": [
       "settings"
@@ -22203,7 +22212,7 @@
   {
     "term": "Scroll GitHub",
     "context": "Scroll GitHub",
-    "reference": "Modules/Settings/AboutTab.qml:41",
+    "reference": "Modules/Settings/AboutTab.qml:42",
     "comment": "",
     "tags": [
       "settings"
@@ -22239,7 +22248,7 @@
   {
     "term": "Scroll wheel",
     "context": "Scroll wheel",
-    "reference": "Modules/Settings/DBarTab.qml:456, Modules/Settings/BarWidgetOptions/MusicOptions.qml:73",
+    "reference": "Modules/Settings/DBarTab.qml:473, Modules/Settings/BarWidgetOptions/MusicOptions.qml:73",
     "comment": "",
     "tags": [
       "settings"
@@ -22508,7 +22517,7 @@
   {
     "term": "Seed color",
     "context": "Seed color",
-    "reference": "Modules/Settings/ThemeColorsTab.qml:418, Modules/Settings/WallpaperColorsTab.qml:201, Modules/Settings/WallpaperColorsTab.qml:674",
+    "reference": "Modules/Settings/ThemeColorsTab.qml:418, Modules/Settings/WallpaperColorsTab.qml:201, Modules/Settings/WallpaperColorsTab.qml:681",
     "comment": "color picker title, the color the dynamic palette is built from",
     "tags": [
       "settings"
@@ -22609,7 +22618,7 @@
   {
     "term": "Select Wallpaper",
     "context": "Select Wallpaper",
-    "reference": "Modals/Settings/SettingsModal.qml:259, Modules/Settings/WallpaperColorsTab.qml:1121",
+    "reference": "Modals/Settings/SettingsModal.qml:259, Modules/Settings/WallpaperColorsTab.qml:1128",
     "comment": "wallpaper file browser title",
     "tags": [
       "settings"
@@ -22728,7 +22737,7 @@
   {
     "term": "Separate",
     "context": "Separate",
-    "reference": "Modules/Settings/DBarTab.qml:347",
+    "reference": "Modules/Settings/DBarTab.qml:364",
     "comment": "adjective, frame surfaces mode option, opposite of connected",
     "tags": [
       "settings"
@@ -22755,7 +22764,7 @@
   {
     "term": "Separate light and dark",
     "context": "Separate light and dark",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:468",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:475",
     "comment": "",
     "tags": [
       "settings"
@@ -22764,7 +22773,7 @@
   {
     "term": "Separate light and dark themes",
     "context": "Separate light and dark themes",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:869",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:876",
     "comment": "",
     "tags": [
       "settings"
@@ -22773,7 +22782,7 @@
   {
     "term": "Separate per display",
     "context": "Separate per display",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:477",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:484",
     "comment": "",
     "tags": [
       "settings"
@@ -22890,7 +22899,7 @@
   {
     "term": "Set under Theme & colors, Derived color",
     "context": "Set under Theme & colors, Derived color",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:656",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:663",
     "comment": "Material seed card status",
     "tags": [
       "settings"
@@ -22991,7 +23000,7 @@
   {
     "term": "Shapes use the %1 theme's colors",
     "context": "Shapes use the %1 theme's colors",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:646",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:653",
     "comment": "Material seed card status, %1 is a theme name",
     "tags": [
       "settings"
@@ -23437,7 +23446,7 @@
   {
     "term": "Show on last display",
     "context": "Show on last display",
-    "reference": "Modules/Settings/DockGeneralTab.qml:31, Modules/Settings/Widgets/SettingsDisplayPicker.qml:42",
+    "reference": "Modules/Settings/DockGeneralTab.qml:31, Modules/Settings/Widgets/SettingsDisplayPicker.qml:45",
     "comment": "",
     "tags": [
       "settings"
@@ -23455,7 +23464,7 @@
   {
     "term": "Show on overview",
     "context": "Show on overview",
-    "reference": "Modules/Settings/DBarTab.qml:301, Modules/Settings/DBarTab.qml:366, Modules/Settings/DockAdvancedTab.qml:46, Modules/Settings/DesktopWidgetTab.qml:107",
+    "reference": "Modules/Settings/DBarTab.qml:318, Modules/Settings/DBarTab.qml:383, Modules/Settings/DockAdvancedTab.qml:46, Modules/Settings/DesktopWidgetTab.qml:107",
     "comment": "",
     "tags": [
       "settings"
@@ -23637,7 +23646,7 @@
   {
     "term": "Show upgrade in a window",
     "context": "Show upgrade in a window",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:665",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:666",
     "comment": "software updates toggle",
     "tags": [
       "settings"
@@ -23673,7 +23682,7 @@
   {
     "term": "Show welcome",
     "context": "Show welcome",
-    "reference": "Modules/Settings/AboutTab.qml:297",
+    "reference": "Modules/Settings/AboutTab.qml:298",
     "comment": "",
     "tags": [
       "settings"
@@ -23682,7 +23691,7 @@
   {
     "term": "Show window",
     "context": "Show window",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:494",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:495",
     "comment": "button, brings back the floating system update window",
     "tags": [
       "settings"
@@ -23808,7 +23817,7 @@
   {
     "term": "Size",
     "context": "Size",
-    "reference": "Modals/DLauncherV2/LauncherContent.qml:622, Modals/DLauncherV2/LauncherContent.qml:627, Modals/DLauncherV2/LauncherContent.qml:634, Modules/DDash/WallpaperTab.qml:54, Modules/Settings/DockWidgetsTab.qml:162, Modules/Settings/WallpaperColorsTab.qml:977, Modules/Settings/LauncherTab.qml:170, Modules/Settings/DockAppearanceTab.qml:19, Modules/Settings/DBarAppearanceTab.qml:370, Modules/Settings/WindowRuleEditorDialog.qml:1539, Modules/Settings/DDotTab.qml:30, Modules/Settings/ClipboardTab.qml:465, Modules/Settings/DisplayConfig/ICCProfileInfoModal.qml:102, Modules/Settings/BarWidgetOptions/FocusedWindowOptions.qml:31, Modules/Settings/BarWidgetOptions/MusicOptions.qml:37, Modules/Settings/Widgets/IslandHomeCard.qml:160",
+    "reference": "Modals/DLauncherV2/LauncherContent.qml:622, Modals/DLauncherV2/LauncherContent.qml:627, Modals/DLauncherV2/LauncherContent.qml:634, Modules/DDash/WallpaperTab.qml:54, Modules/Settings/DockWidgetsTab.qml:162, Modules/Settings/WallpaperColorsTab.qml:984, Modules/Settings/LauncherTab.qml:170, Modules/Settings/DockAppearanceTab.qml:19, Modules/Settings/DBarAppearanceTab.qml:370, Modules/Settings/WindowRuleEditorDialog.qml:1539, Modules/Settings/DDotTab.qml:30, Modules/Settings/ClipboardTab.qml:465, Modules/Settings/DisplayConfig/ICCProfileInfoModal.qml:102, Modules/Settings/BarWidgetOptions/FocusedWindowOptions.qml:31, Modules/Settings/BarWidgetOptions/MusicOptions.qml:37, Modules/Settings/Widgets/IslandHomeCard.qml:160",
     "comment": "Size",
     "tags": [
       "settings",
@@ -23854,7 +23863,7 @@
   {
     "term": "Skip",
     "context": "Skip",
-    "reference": "Modals/Greeter/GreeterModal.qml:201",
+    "reference": "Modals/Greeter/GreeterModal.qml:200",
     "comment": "greeter skip button",
     "tags": [
       "shell"
@@ -24017,7 +24026,7 @@
   {
     "term": "Software updates",
     "context": "Software updates",
-    "reference": "Modals/SystemUpdateModal.qml:21, Common/SettingsTabs.qml:565, Modules/Settings/AboutTab.qml:290, Modules/Settings/BarWidgetOptions/SystemUpdateOptions.qml:24",
+    "reference": "Modals/SystemUpdateModal.qml:21, Common/SettingsTabs.qml:565, Modules/Settings/AboutTab.qml:291, Modules/Settings/BarWidgetOptions/SystemUpdateOptions.qml:24",
     "comment": "settings page, modal and bar widget title, DMS and system package updates",
     "tags": [
       "settings",
@@ -24307,7 +24316,7 @@
   {
     "term": "Stable",
     "context": "Stable",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:149",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:150",
     "comment": "release channel",
     "tags": [
       "settings"
@@ -24428,7 +24437,7 @@
   {
     "term": "Status",
     "context": "Status",
-    "reference": "Common/SettingsTabs.qml:419, Services/DesktopWidgetRegistry.qml:111, Modules/Settings/AboutTab.qml:255, Modules/Settings/GreeterTab.qml:283, Modules/Settings/NetworkStatusTab.qml:60, Modules/Settings/PrinterTab.qml:142, Modules/Settings/BatteryTab.qml:79, Modules/Settings/Widgets/IslandHomeCard.qml:94",
+    "reference": "Common/SettingsTabs.qml:419, Services/DesktopWidgetRegistry.qml:111, Modules/Settings/AboutTab.qml:256, Modules/Settings/GreeterTab.qml:283, Modules/Settings/NetworkStatusTab.qml:60, Modules/Settings/PrinterTab.qml:142, Modules/Settings/BatteryTab.qml:79, Modules/Settings/Widgets/IslandHomeCard.qml:94",
     "comment": "noun, settings row or section title showing current state",
     "tags": [
       "settings",
@@ -24447,7 +24456,7 @@
   {
     "term": "Stays visible while the workspace has no windows",
     "context": "Stays visible while the workspace has no windows",
-    "reference": "Modules/Settings/DBarTab.qml:290",
+    "reference": "Modules/Settings/DBarTab.qml:307",
     "comment": "bar hide when windows open toggle description",
     "tags": [
       "settings"
@@ -24465,7 +24474,7 @@
   {
     "term": "Stop ignoring %1",
     "context": "Stop ignoring %1",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:396, Modules/Settings/SoftwareUpdatesTab.qml:748",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:396, Modules/Settings/SoftwareUpdatesTab.qml:749",
     "comment": "system updater button tooltip, %1 is the package name",
     "tags": [
       "settings",
@@ -24511,7 +24520,7 @@
   {
     "term": "Stretch",
     "context": "Stretch",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:394",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:401",
     "comment": "wallpaper fill mode",
     "tags": [
       "settings"
@@ -24520,7 +24529,7 @@
   {
     "term": "Strict auto-hide",
     "context": "Strict auto-hide",
-    "reference": "Modules/Settings/DBarTab.qml:274",
+    "reference": "Modules/Settings/DBarTab.qml:291",
     "comment": "Dank bar setting: hide the bar when the pointer leaves even if a menu or bar popover is still open",
     "tags": [
       "settings"
@@ -24529,7 +24538,7 @@
   {
     "term": "Stripes",
     "context": "Stripes",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:550",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:557",
     "comment": "wallpaper transition option",
     "tags": [
       "settings"
@@ -24538,7 +24547,7 @@
   {
     "term": "Style",
     "context": "Style",
-    "reference": "Modules/DDash/DashRegistry.qml:221, Modules/DDash/DashRegistry.qml:343, Modules/Settings/DBarTab.qml:117, Modules/Settings/DockGeneralTab.qml:48, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:51, Modules/Settings/BarWidgetOptions/MusicOptions.qml:24, Modules/Settings/LockWidgetSettings/LockAuthSettings.qml:19, Modules/Settings/LockWidgetSettings/LockPowerSettings.qml:18",
+    "reference": "Modules/DDash/DashRegistry.qml:221, Modules/DDash/DashRegistry.qml:343, Modules/Settings/DBarTab.qml:131, Modules/Settings/DockGeneralTab.qml:48, Modules/Settings/BarWidgetOptions/WorkspaceSwitcherOptions.qml:51, Modules/Settings/BarWidgetOptions/MusicOptions.qml:24, Modules/Settings/LockWidgetSettings/LockAuthSettings.qml:19, Modules/Settings/LockWidgetSettings/LockPowerSettings.qml:18",
     "comment": "noun, visual style option label for a widget or the dock",
     "tags": [
       "settings",
@@ -24640,7 +24649,7 @@
   {
     "term": "Support DMS",
     "context": "Support DMS",
-    "reference": "Modules/Settings/AboutTab.qml:121",
+    "reference": "Modules/Settings/AboutTab.qml:122",
     "comment": "about page hero button, opens the Ko-fi donation page",
     "tags": [
       "settings"
@@ -24686,7 +24695,7 @@
   {
     "term": "Surface Container",
     "context": "Surface Container",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:450, Modules/Settings/WorkspaceAppearanceCard.qml:29, Modules/Settings/Widgets/SurfaceColorRow.qml:16, Modules/Settings/Widgets/WidgetBackgroundRow.qml:20",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:457, Modules/Settings/WorkspaceAppearanceCard.qml:29, Modules/Settings/Widgets/SurfaceColorRow.qml:16, Modules/Settings/Widgets/WidgetBackgroundRow.qml:20",
     "comment": "surface color option | widget background color option | workspace color option",
     "tags": [
       "settings"
@@ -24740,7 +24749,7 @@
   {
     "term": "Surfaces",
     "context": "Surfaces",
-    "reference": "Modules/Settings/ThemeSurfacesTab.qml:82, Modules/Settings/WallpaperColorsTab.qml:799, Modules/Settings/DBarTab.qml:346",
+    "reference": "Modules/Settings/ThemeSurfacesTab.qml:82, Modules/Settings/WallpaperColorsTab.qml:806, Modules/Settings/DBarTab.qml:363",
     "comment": "plural noun, settings title, shell surfaces like popouts and modals",
     "tags": [
       "settings"
@@ -24795,7 +24804,7 @@
   {
     "term": "Swatches show the seed color itself",
     "context": "Swatches show the seed color itself",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:768",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:775",
     "comment": "Material seed card status",
     "tags": [
       "settings"
@@ -24804,7 +24813,7 @@
   {
     "term": "Sway website",
     "context": "Sway website",
-    "reference": "Modules/Settings/AboutTab.qml:35",
+    "reference": "Modules/Settings/AboutTab.qml:36",
     "comment": "",
     "tags": [
       "settings"
@@ -25002,7 +25011,7 @@
   {
     "term": "System check",
     "context": "System check",
-    "reference": "Modals/Greeter/GreeterDoctorPage.qml:151, Modals/Greeter/GreeterDoctorPage.qml:214, Modules/Settings/AboutTab.qml:303",
+    "reference": "Modals/Greeter/GreeterDoctorPage.qml:151, Modals/Greeter/GreeterDoctorPage.qml:214, Modules/Settings/AboutTab.qml:304",
     "comment": "greeter doctor page title",
     "tags": [
       "settings",
@@ -25030,7 +25039,7 @@
   {
     "term": "System packages",
     "context": "System packages",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:406",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:407",
     "comment": "software updates card title, package manager updates",
     "tags": [
       "settings"
@@ -25275,7 +25284,7 @@
   {
     "term": "Terminal additional parameters",
     "context": "Terminal additional parameters",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:800",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:801",
     "comment": "",
     "tags": [
       "settings"
@@ -25457,7 +25466,7 @@
   {
     "term": "The Island holds this edge on a display this bar covers, so the bar stays hidden there",
     "context": "The Island holds this edge on a display this bar covers, so the bar stays hidden there",
-    "reference": "Modules/Settings/DBarTab.qml:56, Modules/Settings/DBarTab.qml:244",
+    "reference": "Modules/Settings/DBarTab.qml:70, Modules/Settings/DBarTab.qml:261",
     "comment": "",
     "tags": [
       "settings"
@@ -25709,7 +25718,7 @@
   {
     "term": "The shell palette is built from this color. Shapes take their colors from that palette.",
     "context": "The shell palette is built from this color. Shapes take their colors from that palette.",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:675",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:682",
     "comment": "Material seed picker description",
     "tags": [
       "settings"
@@ -25727,7 +25736,7 @@
   {
     "term": "Theme",
     "context": "Theme",
-    "reference": "Modules/DDash/DashRegistry.qml:363, Modules/Settings/ThemeColorsTab.qml:74, Modules/Settings/WallpaperColorsTab.qml:882, Modules/Settings/WallpaperColorsTab.qml:962, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:90, Modules/Settings/Widgets/IslandHomeCard.qml:147, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:144",
+    "reference": "Modules/DDash/DashRegistry.qml:363, Modules/Settings/ThemeColorsTab.qml:74, Modules/Settings/WallpaperColorsTab.qml:889, Modules/Settings/WallpaperColorsTab.qml:969, Modules/Settings/BarWidgetOptions/BatteryOptions.qml:90, Modules/Settings/Widgets/IslandHomeCard.qml:147, Modules/ControlCenter/Components/WidgetConfigOverlay.qml:144",
     "comment": "battery settings: theme accent indicator colors",
     "tags": [
       "settings",
@@ -25747,7 +25756,7 @@
   {
     "term": "Theme color",
     "context": "Theme color",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:634",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:641",
     "comment": "Material wallpaper seed card",
     "tags": [
       "settings"
@@ -25756,7 +25765,7 @@
   {
     "term": "Theme colors come from this display's wallpaper",
     "context": "Theme colors come from this display's wallpaper",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:497",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:504",
     "comment": "matugen source display dropdown description",
     "tags": [
       "settings"
@@ -25862,10 +25871,10 @@
     ]
   },
   {
-    "term": "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.",
-    "context": "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.",
+    "term": "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.",
+    "context": "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.",
     "reference": "Modules/Settings/PluginBrowser.qml:742",
-    "comment": "",
+    "comment": "third-party plugin warning, %1 is the product name",
     "tags": [
       "settings"
     ]
@@ -26054,7 +26063,7 @@
   {
     "term": "Tile",
     "context": "Tile",
-    "reference": "Modals/DLauncherV2/SectionHeader.qml:40, Modules/Settings/WallpaperColorsTab.qml:394, Modules/Settings/WindowRuleEditorDialog.qml:155, Modules/Settings/WindowRulesTab.qml:142",
+    "reference": "Modals/DLauncherV2/SectionHeader.qml:40, Modules/Settings/WallpaperColorsTab.qml:401, Modules/Settings/WindowRuleEditorDialog.qml:155, Modules/Settings/WindowRulesTab.qml:142",
     "comment": "wallpaper fill mode",
     "tags": [
       "settings",
@@ -26064,7 +26073,7 @@
   {
     "term": "Tile Horizontally",
     "context": "Tile Horizontally",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:394",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:401",
     "comment": "wallpaper fill mode",
     "tags": [
       "settings"
@@ -26073,7 +26082,7 @@
   {
     "term": "Tile Vertically",
     "context": "Tile Vertically",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:394",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:401",
     "comment": "wallpaper fill mode",
     "tags": [
       "settings"
@@ -26354,7 +26363,7 @@
   {
     "term": "Toggle Control Center",
     "context": "Toggle Control Center",
-    "reference": "Modules/Settings/DBarTab.qml:528, Modules/Settings/DBarTab.qml:559",
+    "reference": "Modules/Settings/DBarTab.qml:545, Modules/Settings/DBarTab.qml:576",
     "comment": "bar click action",
     "tags": [
       "settings"
@@ -26363,7 +26372,7 @@
   {
     "term": "Toggle Launcher",
     "context": "Toggle Launcher",
-    "reference": "Modules/Settings/DBarTab.qml:528, Modules/Settings/DBarTab.qml:559",
+    "reference": "Modules/Settings/DBarTab.qml:545, Modules/Settings/DBarTab.qml:576",
     "comment": "bar click action",
     "tags": [
       "settings"
@@ -26372,7 +26381,7 @@
   {
     "term": "Toggle Settings",
     "context": "Toggle Settings",
-    "reference": "Modules/Settings/DBarTab.qml:528, Modules/Settings/DBarTab.qml:559",
+    "reference": "Modules/Settings/DBarTab.qml:545, Modules/Settings/DBarTab.qml:576",
     "comment": "bar click action",
     "tags": [
       "settings"
@@ -26462,7 +26471,7 @@
   {
     "term": "Tools",
     "context": "Tools",
-    "reference": "Modules/Settings/AboutTab.qml:286",
+    "reference": "Modules/Settings/AboutTab.qml:287",
     "comment": "about page card title for welcome and system check",
     "tags": [
       "settings"
@@ -26471,7 +26480,7 @@
   {
     "term": "Top",
     "context": "Top",
-    "reference": "Modules/Settings/DBarTab.qml:386, Modules/Settings/ShadowsTab.qml:316, Modules/Settings/ShadowsTab.qml:326, Modules/Settings/DockGeneralTab.qml:65, Modules/Settings/CompositorLayoutTab.qml:275, Modules/Settings/Widgets/BarSelectionState.qml:68, Modules/Settings/Widgets/DockSelectionState.qml:90",
+    "reference": "Modules/Settings/DBarTab.qml:403, Modules/Settings/ShadowsTab.qml:316, Modules/Settings/ShadowsTab.qml:326, Modules/Settings/DockGeneralTab.qml:65, Modules/Settings/CompositorLayoutTab.qml:275, Modules/Settings/Widgets/BarSelectionState.qml:68, Modules/Settings/Widgets/DockSelectionState.qml:90",
     "comment": "screen edge position | shadow direction option",
     "tags": [
       "settings"
@@ -26589,7 +26598,7 @@
   {
     "term": "Transition",
     "context": "Transition",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:535",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:542",
     "comment": "noun, wallpaper change animation setting label",
     "tags": [
       "settings"
@@ -26835,7 +26844,7 @@
   {
     "term": "Unavailable",
     "context": "Unavailable",
-    "reference": "Modals/WorkspaceRenameModal.qml:28, Services/AqueousService.qml:355, Services/KeybindsService.qml:503, Services/KeybindsService.qml:589, Services/KeybindsService.qml:622, Modules/Settings/NetworkVpnTab.qml:61, Modules/Settings/PrinterTab.qml:143, Modules/Settings/SoftwareUpdatesTab.qml:160, Modules/Settings/WidgetsTab.qml:519, Modules/Settings/NetworkCellularTab.qml:40, Modules/Settings/NetworkEthernetTab.qml:142, Modules/Settings/NetworkWifiTab.qml:538, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:37, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:52, Modules/ControlCenter/Details/AudioPortSelector.qml:115, Modules/ControlCenter/Details/NetworkDetail.qml:477, Modules/DBar/Widgets/FocusedWindowContextMenu.qml:199, Modules/DDash/Media/LyricsOverlay.qml:44",
+    "reference": "Modals/WorkspaceRenameModal.qml:28, Services/AqueousService.qml:355, Services/KeybindsService.qml:503, Services/KeybindsService.qml:589, Services/KeybindsService.qml:622, Modules/Settings/NetworkVpnTab.qml:61, Modules/Settings/PrinterTab.qml:143, Modules/Settings/SoftwareUpdatesTab.qml:161, Modules/Settings/WidgetsTab.qml:519, Modules/Settings/NetworkCellularTab.qml:40, Modules/Settings/NetworkEthernetTab.qml:142, Modules/Settings/NetworkWifiTab.qml:538, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:37, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:52, Modules/ControlCenter/Details/AudioPortSelector.qml:115, Modules/ControlCenter/Details/NetworkDetail.qml:477, Modules/DBar/Widgets/FocusedWindowContextMenu.qml:199, Modules/DDash/Media/LyricsOverlay.qml:44",
     "comment": "audio port availability status",
     "tags": [
       "settings",
@@ -26950,7 +26959,7 @@
   {
     "term": "Unknown",
     "context": "Unknown",
-    "reference": "Common/Theme.qml:1742, Services/WeatherService.qml:134, Services/WeatherService.qml:721, Services/WeatherService.qml:722, Services/WeatherService.qml:763, Services/WeatherService.qml:764, Services/WeatherService.qml:799, Services/WeatherService.qml:800, Services/WeatherService.qml:1009, Services/WeatherService.qml:1010, Services/BatteryService.qml:697, Services/BluetoothService.qml:741, Services/BluetoothService.qml:825, Services/BluetoothService.qml:868, Modules/Settings/PluginBrowser.qml:629, Modules/Settings/PluginDiscover.qml:124, Modules/Settings/NetworkStatusTab.qml:53, Modules/Settings/NetworkStatusTab.qml:98, Modules/Settings/PluginsHubHeader.qml:728, Modules/Settings/PrinterTab.qml:736, Modules/Settings/SoftwareUpdatesTab.qml:153, Modules/Settings/PluginCard.qml:207, Modules/Settings/WidgetsTab.qml:516, Modules/Settings/NetworkCellularTab.qml:124, Modules/Settings/NetworkCellularTab.qml:135, Modules/Settings/NetworkCellularTab.qml:240, Modules/Settings/NetworkEthernetTab.qml:121, Modules/Settings/NetworkEthernetTab.qml:144, Modules/Settings/NetworkEthernetTab.qml:251, Modules/Settings/NetworkEthernetTab.qml:330, Modules/Settings/NotificationRulesTab.qml:282, Modules/Settings/NotificationsTab.qml:286, Modules/Settings/NetworkWifiTab.qml:352, Modules/Settings/NetworkWifiTab.qml:532, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:56, Modules/ControlCenter/Details/NetworkDetail.qml:507, Modules/ControlCenter/Details/NetworkDetail.qml:535, Modules/DBar/Popouts/BatteryPopoutContent.qml:111, Modules/DBar/Popouts/BatteryPopoutContent.qml:125, Modules/DBar/Popouts/BatteryPopoutContent.qml:144, Modules/DBar/Widgets/FocusedWindowContextMenu.qml:18, Modules/DBar/Widgets/TrayMenuContent.qml:105, Modules/Lock/Widgets/LockNotificationsWidget.qml:38",
+    "reference": "Common/Theme.qml:1742, Services/WeatherService.qml:134, Services/WeatherService.qml:721, Services/WeatherService.qml:722, Services/WeatherService.qml:763, Services/WeatherService.qml:764, Services/WeatherService.qml:799, Services/WeatherService.qml:800, Services/WeatherService.qml:1009, Services/WeatherService.qml:1010, Services/BatteryService.qml:697, Services/BluetoothService.qml:741, Services/BluetoothService.qml:825, Services/BluetoothService.qml:868, Modules/Settings/PluginBrowser.qml:629, Modules/Settings/PluginDiscover.qml:124, Modules/Settings/NetworkStatusTab.qml:53, Modules/Settings/NetworkStatusTab.qml:98, Modules/Settings/PluginsHubHeader.qml:728, Modules/Settings/PrinterTab.qml:736, Modules/Settings/SoftwareUpdatesTab.qml:154, Modules/Settings/PluginCard.qml:207, Modules/Settings/WidgetsTab.qml:516, Modules/Settings/NetworkCellularTab.qml:124, Modules/Settings/NetworkCellularTab.qml:135, Modules/Settings/NetworkCellularTab.qml:240, Modules/Settings/NetworkEthernetTab.qml:121, Modules/Settings/NetworkEthernetTab.qml:144, Modules/Settings/NetworkEthernetTab.qml:251, Modules/Settings/NetworkEthernetTab.qml:330, Modules/Settings/NotificationRulesTab.qml:282, Modules/Settings/NotificationsTab.qml:286, Modules/Settings/NetworkWifiTab.qml:352, Modules/Settings/NetworkWifiTab.qml:532, Modules/Settings/Widgets/AqueousAppearanceSettings.qml:56, Modules/ControlCenter/Details/NetworkDetail.qml:507, Modules/ControlCenter/Details/NetworkDetail.qml:535, Modules/DBar/Popouts/BatteryPopoutContent.qml:111, Modules/DBar/Popouts/BatteryPopoutContent.qml:125, Modules/DBar/Popouts/BatteryPopoutContent.qml:144, Modules/DBar/Widgets/FocusedWindowContextMenu.qml:18, Modules/DBar/Widgets/TrayMenuContent.qml:105, Modules/Lock/Widgets/LockNotificationsWidget.qml:38",
     "comment": "battery status | power profile option | unknown author",
     "tags": [
       "settings",
@@ -27005,7 +27014,7 @@
   {
     "term": "Unknown Model",
     "context": "Unknown Model",
-    "reference": "Modules/Settings/DisplayWidgetsTab.qml:136, Modules/Settings/Widgets/SettingsDisplayPicker.qml:56",
+    "reference": "Modules/Settings/DisplayWidgetsTab.qml:158, Modules/Settings/Widgets/SettingsDisplayPicker.qml:66",
     "comment": "",
     "tags": [
       "settings"
@@ -27250,7 +27259,7 @@
   {
     "term": "Up to date",
     "context": "Up to date",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:115, Modules/Settings/SoftwareUpdatesTab.qml:177, Modules/Settings/SoftwareUpdatesTab.qml:370, Modules/Settings/SoftwareUpdatesTab.qml:416",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:115, Modules/Settings/SoftwareUpdatesTab.qml:178, Modules/Settings/SoftwareUpdatesTab.qml:371, Modules/Settings/SoftwareUpdatesTab.qml:417",
     "comment": "",
     "tags": [
       "settings",
@@ -27360,7 +27369,7 @@
   {
     "term": "Upgrading...",
     "context": "Upgrading...",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:107, Modules/Settings/SoftwareUpdatesTab.qml:162, Modules/Settings/SoftwareUpdatesTab.qml:488",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:107, Modules/Settings/SoftwareUpdatesTab.qml:163, Modules/Settings/SoftwareUpdatesTab.qml:489",
     "comment": "system update popout status while packages upgrade",
     "tags": [
       "settings",
@@ -27424,7 +27433,7 @@
   {
     "term": "Use Dynamic",
     "context": "Use Dynamic",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:648",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:655",
     "comment": "switch the shell theme to the dynamic palette",
     "tags": [
       "settings"
@@ -27469,7 +27478,7 @@
   {
     "term": "Use custom command",
     "context": "Use custom command",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:766, Modules/Settings/MuxTab.qml:42",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:767, Modules/Settings/MuxTab.qml:42",
     "comment": "",
     "tags": [
       "settings"
@@ -27478,7 +27487,7 @@
   {
     "term": "Use default wallpaper",
     "context": "Use default wallpaper",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:484",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:491",
     "comment": "inherit the global wallpaper on this display",
     "tags": [
       "settings"
@@ -27487,7 +27496,7 @@
   {
     "term": "Use desktop wallpaper",
     "context": "Use desktop wallpaper",
-    "reference": "Modules/Settings/WallpaperCyclingTab.qml:195, Modules/Settings/WallpaperColorsTab.qml:613, Modules/Settings/LockScreenTab.qml:370",
+    "reference": "Modules/Settings/WallpaperCyclingTab.qml:195, Modules/Settings/WallpaperColorsTab.qml:620, Modules/Settings/LockScreenTab.qml:370",
     "comment": "",
     "tags": [
       "settings"
@@ -27496,7 +27505,7 @@
   {
     "term": "Use external manager",
     "context": "Use external manager",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:1059",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:1066",
     "comment": "",
     "tags": [
       "settings"
@@ -27532,7 +27541,7 @@
   {
     "term": "Use overlay layer",
     "context": "Use overlay layer",
-    "reference": "Modules/Settings/LauncherTab.qml:953, Modules/Settings/DBarTab.qml:609, Modules/Settings/DBarTab.qml:623, Modules/Settings/DBarTab.qml:632, Modules/Settings/DockAdvancedTab.qml:28, Modules/Settings/ClipboardTab.qml:501",
+    "reference": "Modules/Settings/LauncherTab.qml:953, Modules/Settings/DBarTab.qml:626, Modules/Settings/DBarTab.qml:640, Modules/Settings/DBarTab.qml:649, Modules/Settings/DockAdvancedTab.qml:28, Modules/Settings/ClipboardTab.qml:501",
     "comment": "",
     "tags": [
       "settings"
@@ -27834,7 +27843,7 @@
   {
     "term": "Version",
     "context": "Version",
-    "reference": "Modules/Settings/AboutTab.qml:245, Modules/Settings/SoftwareUpdatesTab.qml:337, Modules/Settings/DisplayConfig/ICCProfileInfoModal.qml:74",
+    "reference": "Modules/Settings/AboutTab.qml:246, Modules/Settings/SoftwareUpdatesTab.qml:338, Modules/Settings/DisplayConfig/ICCProfileInfoModal.qml:74",
     "comment": "Version",
     "tags": [
       "settings"
@@ -27861,7 +27870,7 @@
   {
     "term": "Vertical",
     "context": "Vertical",
-    "reference": "Modules/Settings/DBarTab.qml:64",
+    "reference": "Modules/Settings/DBarTab.qml:78",
     "comment": "island settings: free island orientation",
     "tags": [
       "settings"
@@ -27906,7 +27915,7 @@
   {
     "term": "Vertical offset",
     "context": "Vertical offset",
-    "reference": "Modules/Settings/DBarTab.qml:186",
+    "reference": "Modules/Settings/DBarTab.qml:200",
     "comment": "island settings: vertical offset slider",
     "tags": [
       "settings"
@@ -27980,7 +27989,7 @@
   {
     "term": "View on GitHub",
     "context": "View on GitHub",
-    "reference": "Widgets/ReleaseNotesCard.qml:131, Modules/Settings/ChangelogTab.qml:47, Modules/Settings/SoftwareUpdatesTab.qml:381",
+    "reference": "Widgets/ReleaseNotesCard.qml:131, Modules/Settings/ChangelogTab.qml:47, Modules/Settings/SoftwareUpdatesTab.qml:382",
     "comment": "link to the release on GitHub",
     "tags": [
       "settings",
@@ -27990,7 +27999,7 @@
   {
     "term": "Visibility",
     "context": "Visibility",
-    "reference": "Modules/Settings/DBarTab.qml:233, Modules/Settings/DockGeneralTab.qml:79",
+    "reference": "Modules/Settings/DBarTab.qml:250, Modules/Settings/DockGeneralTab.qml:79",
     "comment": "settings card title for bar or dock show and hide behavior",
     "tags": [
       "settings"
@@ -28284,10 +28293,10 @@
     ]
   },
   {
-    "term": "Welcome to DankMaterialShell",
-    "context": "Welcome to DankMaterialShell",
-    "reference": "Modals/Greeter/GreeterWelcomePage.qml:175",
-    "comment": "greeter welcome page title",
+    "term": "Welcome to %1",
+    "context": "Welcome to %1",
+    "reference": "Modals/Greeter/GreeterWelcomePage.qml:136",
+    "comment": "greeter welcome page title, %1 is the product name",
     "tags": [
       "shell"
     ]
@@ -28295,8 +28304,17 @@
   {
     "term": "What changed",
     "context": "What changed",
-    "reference": "Modals/Changelog/ChangelogContent.qml:321",
+    "reference": "Modals/Changelog/ChangelogContent.qml:297",
     "comment": "changelog section heading listing the changes in a release",
+    "tags": [
+      "shell"
+    ]
+  },
+  {
+    "term": "What's New",
+    "context": "What's New",
+    "reference": "Modals/Changelog/ChangelogModal.qml:26",
+    "comment": "changelog window title",
     "tags": [
       "shell"
     ]
@@ -28349,7 +28367,7 @@
   {
     "term": "White",
     "context": "White",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:440",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:447",
     "comment": "wallpaper background color option",
     "tags": [
       "settings"
@@ -28694,7 +28712,7 @@
   {
     "term": "Wipe",
     "context": "Wipe",
-    "reference": "Modules/Settings/WallpaperColorsTab.qml:546",
+    "reference": "Modules/Settings/WallpaperColorsTab.qml:553",
     "comment": "wallpaper transition option",
     "tags": [
       "settings"
@@ -28703,7 +28721,7 @@
   {
     "term": "With Shelly, only Flatpak packages in the current update list can be ignored.",
     "context": "With Shelly, only Flatpak packages in the current update list can be ignored.",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:710, Modules/Settings/SoftwareUpdatesTab.qml:729",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:711, Modules/Settings/SoftwareUpdatesTab.qml:730",
     "comment": "",
     "tags": [
       "settings"
@@ -28712,7 +28730,7 @@
   {
     "term": "With no bar, Dot or dock launcher on, shortcuts are the only way back to settings",
     "context": "With no bar, Dot or dock launcher on, shortcuts are the only way back to settings",
-    "reference": "Modules/Settings/BarHubHeader.qml:129",
+    "reference": "Modules/Settings/BarHubHeader.qml:130",
     "comment": "bars card hint shown when every bar, the Dot and every dock launcher button are off",
     "tags": [
       "settings"
@@ -28775,7 +28793,7 @@
   {
     "term": "Workspace",
     "context": "Workspace",
-    "reference": "Modules/OSD/WorkspaceOSD.qml:101, Modules/Settings/DBarTab.qml:464, Modules/Settings/DBarTab.qml:464, Modules/Settings/WindowRuleEditorDialog.qml:1047, Modules/Settings/WindowRuleEditorDialog.qml:1119, Modules/Settings/WindowRuleEditorDialog.qml:1397, Modules/Settings/WindowRulesTab.qml:67, Modules/Settings/WindowRulesTab.qml:128, Modules/Settings/WindowRulesTab.qml:157",
+    "reference": "Modules/OSD/WorkspaceOSD.qml:101, Modules/Settings/DBarTab.qml:481, Modules/Settings/DBarTab.qml:481, Modules/Settings/WindowRuleEditorDialog.qml:1047, Modules/Settings/WindowRuleEditorDialog.qml:1119, Modules/Settings/WindowRuleEditorDialog.qml:1397, Modules/Settings/WindowRulesTab.qml:67, Modules/Settings/WindowRulesTab.qml:128, Modules/Settings/WindowRulesTab.qml:157",
     "comment": "fallback label when workspace has no number or name",
     "tags": [
       "settings",
@@ -28867,7 +28885,7 @@
   {
     "term": "X axis",
     "context": "X axis",
-    "reference": "Modules/Settings/DBarTab.qml:485",
+    "reference": "Modules/Settings/DBarTab.qml:502",
     "comment": "",
     "tags": [
       "settings"
@@ -28930,7 +28948,7 @@
   {
     "term": "Y axis",
     "context": "Y axis",
-    "reference": "Modules/Settings/DBarTab.qml:467",
+    "reference": "Modules/Settings/DBarTab.qml:484",
     "comment": "",
     "tags": [
       "settings"
@@ -29083,7 +29101,7 @@
   {
     "term": "and %1 more",
     "context": "and %1 more",
-    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:482",
+    "reference": "Modules/Settings/SoftwareUpdatesTab.qml:483",
     "comment": "%1 is the number of update rows not shown",
     "tags": [
       "settings"
@@ -29119,7 +29137,7 @@
   {
     "term": "checked %1d ago",
     "context": "checked %1d ago",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:51, Modules/Settings/SoftwareUpdatesTab.qml:125",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:51, Modules/Settings/SoftwareUpdatesTab.qml:126",
     "comment": "system update last check time, %1 is days",
     "tags": [
       "settings",
@@ -29129,7 +29147,7 @@
   {
     "term": "checked %1h ago",
     "context": "checked %1h ago",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:50, Modules/Settings/SoftwareUpdatesTab.qml:124",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:50, Modules/Settings/SoftwareUpdatesTab.qml:125",
     "comment": "system update last check time, %1 is hours",
     "tags": [
       "settings",
@@ -29139,7 +29157,7 @@
   {
     "term": "checked %1m ago",
     "context": "checked %1m ago",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:48, Modules/Settings/SoftwareUpdatesTab.qml:122",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:48, Modules/Settings/SoftwareUpdatesTab.qml:123",
     "comment": "system update last check time, %1 is minutes",
     "tags": [
       "settings",
@@ -29149,7 +29167,7 @@
   {
     "term": "checked just now",
     "context": "checked just now",
-    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:46, Modules/Settings/SoftwareUpdatesTab.qml:120",
+    "reference": "Modules/SystemUpdate/SystemUpdatePanel.qml:46, Modules/Settings/SoftwareUpdatesTab.qml:121",
     "comment": "",
     "tags": [
       "settings",
@@ -29412,7 +29430,7 @@
   {
     "term": "mangowc Discord server",
     "context": "mangowc Discord server",
-    "reference": "Modules/Settings/AboutTab.qml:55",
+    "reference": "Modules/Settings/AboutTab.qml:56",
     "comment": "",
     "tags": [
       "settings"
@@ -29421,7 +29439,7 @@
   {
     "term": "mangowc GitHub",
     "context": "mangowc GitHub",
-    "reference": "Modules/Settings/AboutTab.qml:53",
+    "reference": "Modules/Settings/AboutTab.qml:54",
     "comment": "",
     "tags": [
       "settings"
@@ -29484,7 +29502,7 @@
   {
     "term": "niri GitHub",
     "context": "niri GitHub",
-    "reference": "Modules/Settings/AboutTab.qml:80, Modules/Settings/AboutTab.qml:88",
+    "reference": "Modules/Settings/AboutTab.qml:81, Modules/Settings/AboutTab.qml:89",
     "comment": "",
     "tags": [
       "settings"
@@ -29493,7 +29511,7 @@
   {
     "term": "niri Matrix chat",
     "context": "niri Matrix chat",
-    "reference": "Modules/Settings/AboutTab.qml:206",
+    "reference": "Modules/Settings/AboutTab.qml:207",
     "comment": "",
     "tags": [
       "settings"
@@ -29511,7 +29529,7 @@
   {
     "term": "niri/dms Discord",
     "context": "niri/dms Discord",
-    "reference": "Modules/Settings/AboutTab.qml:186",
+    "reference": "Modules/Settings/AboutTab.qml:187",
     "comment": "",
     "tags": [
       "settings"
@@ -29593,7 +29611,7 @@
   {
     "term": "r/niri subreddit",
     "context": "r/niri subreddit",
-    "reference": "Modules/Settings/AboutTab.qml:222",
+    "reference": "Modules/Settings/AboutTab.qml:223",
     "comment": "",
     "tags": [
       "settings"

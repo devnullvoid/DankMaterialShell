@@ -97,40 +97,6 @@ Item {
                 width: parent.width
                 height: Math.max(implicitHeight, flick.height - grid.height - content.spacing)
                 paddingV: Theme.spacingXL
-                backdrop: Item {
-                    DMaterialShape {
-                        width: parent.height * 1.6
-                        height: width
-                        x: parent.width - width * 0.72
-                        y: -height * 0.38
-                        shape: "cookie12"
-                        respectThemeShape: false
-                        color: Theme.withAlpha(Theme.primary, Theme.tonalTintAlpha)
-                        rotation: 10
-                    }
-
-                    DMaterialShape {
-                        width: parent.height * 1.1
-                        height: width
-                        x: parent.width - width * 1.35
-                        y: parent.height - height * 0.55
-                        shape: "softBurst"
-                        respectThemeShape: false
-                        color: Theme.withAlpha(Theme.tertiary, Theme.tonalTintAlpha)
-                        rotation: -12
-                    }
-
-                    DMaterialShape {
-                        width: parent.height * 0.75
-                        height: width
-                        x: parent.width * 0.6
-                        y: -height * 0.2
-                        shape: "pill"
-                        respectThemeShape: false
-                        color: Theme.withAlpha(Theme.secondary, Theme.tonalTintAlpha)
-                        rotation: -35
-                    }
-                }
 
                 Column {
                     width: parent.width
@@ -146,40 +112,40 @@ Item {
 
                             anchors.centerIn: parent
                             height: parent.height
-                            width: height
+                            width: height * (506.50931 / 569.94629)
                             // 2x raster plus mipmap keeps the thin rings smooth at fractional scales
                             sourceSize.height: Math.ceil(height * dpr * 2)
                             fillMode: Image.PreserveAspectFit
                             smooth: true
                             mipmap: true
                             asynchronous: true
-                            source: "file://" + Theme.shellDir + "/assets/danklogo.svg"
+                            source: "file://" + Theme.shellDir + "/assets/danklogonormal.svg"
                             layer.enabled: true
                             layer.smooth: true
                             layer.textureSize: Qt.size(Math.ceil(width * dpr), Math.ceil(height * dpr))
                             layer.effect: MultiEffect {
                                 saturation: 0
                                 colorization: 1
-                                colorizationColor: Theme.primary
+                                colorizationColor: hero.accentColor
                             }
                         }
                     }
 
                     StyledText {
                         width: parent.width
-                        text: I18n.tr("Welcome to DankMaterialShell", "greeter welcome page title")
+                        text: I18n.tr("Welcome to %1", "greeter welcome page title, %1 is the product name").arg("DankMaterialShell")
                         font.pixelSize: Theme.fontSizeXXLarge
                         font.weight: Theme.fontWeightBold
-                        color: Theme.onPrimaryContainer
+                        color: hero.contentColor
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WordWrap
                     }
 
                     StyledText {
                         width: parent.width
-                        text: I18n.tr("A modern desktop shell for Wayland compositors", "greeter welcome page tagline")
+                        text: I18n.tr("A modern desktop shell for Wayland", "greeter welcome page tagline")
                         font.pixelSize: Theme.fontSizeLarge
-                        color: Theme.onPrimaryContainer
+                        color: hero.contentColor
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WordWrap
                     }

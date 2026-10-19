@@ -493,7 +493,7 @@ Column {
             }
             StyledText {
                 Layout.fillWidth: true
-                text: I18n.tr("Extend DankMaterialShell with powerful plugins for widgets, launchers, and more")
+                text: I18n.tr("Extend %1 with powerful plugins for widgets, launchers, and more", "plugins hub description, %1 is the product name").arg("DankMaterialShell")
                 color: storeCard.mutedColor
                 wrapMode: Text.Wrap
             }

@@ -269,8 +269,8 @@
   "A floating companion that works alongside any bar layout": {
     "A floating companion that works alongside any bar layout": "رفيق عائم يعمل جنبًا إلى جنب مع أي تخطيط شريط"
   },
-  "A modern desktop shell for Wayland compositors": {
-    "A modern desktop shell for Wayland compositors": "سطح مكتب حديث لWayland"
+  "A modern desktop shell for Wayland": {
+    "A modern desktop shell for Wayland": ""
   },
   "A newer dms binary is installed.": {
     "A newer dms binary is installed.": "تم تثبيت ملف ثنائي (binary) أحدث لـ dms."
@@ -2063,8 +2063,8 @@
   "DMS chooser": {
     "DMS chooser": "مُختار DMS"
   },
-  "DMS is a highly customizable modern desktop shell with a %1 inspired design.<br/><br/>It is built with %2, a QT6 framework for building desktop shells, and %3, a statically typed, compiled programming language.": {
-    "DMS is a highly customizable modern desktop shell with a %1 inspired design.<br/><br/>It is built with %2, a QT6 framework for building desktop shells, and %3, a statically typed, compiled programming language.": "DMS هو غلاف سطح مكتب حديث قابل للتخصيص بدرجة عالية بتصميم مستوحى من %1.<br/><br/>تم بناؤه باستخدام %2، وهو إطار عمل QT6 لبناء أغلفة سطح المكتب، و%3، وهي لغة برمجة مجمعة ومكتوبة بشكل ثابت."
+  "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": {
+    "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": ""
   },
   "DMS out of date": {
     "DMS out of date": "نسخة DMS غير محدثة"
@@ -2864,8 +2864,8 @@
   "Expressive": {
     "Expressive": "تعبيري"
   },
-  "Extend DankMaterialShell with powerful plugins for widgets, launchers, and more": {
-    "Extend DankMaterialShell with powerful plugins for widgets, launchers, and more": "قم بتوسيع DankMaterialShell بإضافات قوية للواجهات والمشغلات والمزيد"
+  "Extend %1 with powerful plugins for widgets, launchers, and more": {
+    "Extend %1 with powerful plugins for widgets, launchers, and more": ""
   },
   "Extend battery life": {
     "Extend battery life": "إطالة عمر البطارية"
@@ -3766,6 +3766,9 @@
   },
   "Hide installed": {
     "Hide installed": "إخفاء المثبتة"
+  },
+  "Hide on last display": {
+    "Hide on last display": ""
   },
   "Hide until typing": {
     "Hide until typing": "إخفاء حتى الكتابة"
@@ -8327,8 +8330,8 @@
   "Third-party plugins": {
     "Third-party plugins": "إضافات الطرف الثالث"
   },
-  "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.": {
-    "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.": "الملحقات الخارجية تم إنشاؤها بواسطة المجتمع ولا يتم دعمها رسميًا بواسطة DankMaterialShell. قد تشكل هذه الملحقات مخاطر أمنية وخصوصية - التثبيت على مسؤوليتك الخاصة."
+  "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": {
+    "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": ""
   },
   "This bar is the Island": {
     "This bar is the Island": "هذا الشريط هو الجزيرة"
@@ -9113,11 +9116,14 @@
   "Welcome": {
     "Welcome": "أهلاً بك"
   },
-  "Welcome to DankMaterialShell": {
-    "Welcome to DankMaterialShell": "مرحباً بك في DankMaterialShell"
+  "Welcome to %1": {
+    "Welcome to %1": ""
   },
   "What changed": {
     "What changed": "ما الذي تغير"
+  },
+  "What's New": {
+    "What's New": ""
   },
   "When locked": {
     "When locked": "عند القفل"

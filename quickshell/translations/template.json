@@ -630,9 +630,9 @@
     "comment": "bar settings: what the dot is"
   },
   {
-    "term": "A modern desktop shell for Wayland compositors",
+    "term": "A modern desktop shell for Wayland",
     "translation": "",
-    "context": "A modern desktop shell for Wayland compositors",
+    "context": "A modern desktop shell for Wayland",
     "reference": "",
     "comment": "greeter welcome page tagline"
   },
@@ -4907,11 +4907,11 @@
     "comment": ""
   },
   {
-    "term": "DMS is a highly customizable modern desktop shell with a %1 inspired design.<br/><br/>It is built with %2, a QT6 framework for building desktop shells, and %3, a statically typed, compiled programming language.",
+    "term": "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.",
     "translation": "",
-    "context": "DMS is a highly customizable modern desktop shell with a %1 inspired design.<br/><br/>It is built with %2, a QT6 framework for building desktop shells, and %3, a statically typed, compiled programming language.",
+    "context": "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.",
     "reference": "",
-    "comment": "about page blurb, %1 is a Material 3 link, %2 is a Quickshell link, %3 is a Go link"
+    "comment": "about page blurb, %1 is a Quickshell link, %2 is a Go link"
   },
   {
     "term": "DMS out of date",
@@ -6818,11 +6818,11 @@
     "comment": "matugen color scheme option"
   },
   {
-    "term": "Extend DankMaterialShell with powerful plugins for widgets, launchers, and more",
+    "term": "Extend %1 with powerful plugins for widgets, launchers, and more",
     "translation": "",
-    "context": "Extend DankMaterialShell with powerful plugins for widgets, launchers, and more",
+    "context": "Extend %1 with powerful plugins for widgets, launchers, and more",
     "reference": "",
-    "comment": ""
+    "comment": "plugins hub description, %1 is the product name"
   },
   {
     "term": "Extend battery life",
@@ -8944,6 +8944,13 @@
     "context": "Hide installed",
     "reference": "",
     "comment": "plugin browser filter chip"
+  },
+  {
+    "term": "Hide on last display",
+    "translation": "",
+    "context": "Hide on last display",
+    "reference": "",
+    "comment": "bar display assignment option"
   },
   {
     "term": "Hide password",
@@ -19873,11 +19880,11 @@
     "comment": "community plugin discovery control"
   },
   {
-    "term": "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.",
+    "term": "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.",
     "translation": "",
-    "context": "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.",
+    "context": "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.",
     "reference": "",
-    "comment": ""
+    "comment": "third-party plugin warning, %1 is the product name"
   },
   {
     "term": "This bar is the Island",
@@ -21728,11 +21735,11 @@
     "comment": "greeter modal window title"
   },
   {
-    "term": "Welcome to DankMaterialShell",
+    "term": "Welcome to %1",
     "translation": "",
-    "context": "Welcome to DankMaterialShell",
+    "context": "Welcome to %1",
     "reference": "",
-    "comment": "greeter welcome page title"
+    "comment": "greeter welcome page title, %1 is the product name"
   },
   {
     "term": "What changed",
@@ -21740,6 +21747,13 @@
     "context": "What changed",
     "reference": "",
     "comment": "changelog section heading listing the changes in a release"
+  },
+  {
+    "term": "What's New",
+    "translation": "",
+    "context": "What's New",
+    "reference": "",
+    "comment": "changelog window title"
   },
   {
     "term": "When locked",

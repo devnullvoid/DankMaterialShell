@@ -269,8 +269,8 @@
   "A floating companion that works alongside any bar layout": {
     "A floating companion that works alongside any bar layout": "모든 바 레이아웃과 함께 사용할 수 있는 플로팅 도우미"
   },
-  "A modern desktop shell for Wayland compositors": {
-    "A modern desktop shell for Wayland compositors": "Wayland 컴포지터를 위한 모던 데스크톱 셸"
+  "A modern desktop shell for Wayland": {
+    "A modern desktop shell for Wayland": ""
   },
   "A newer dms binary is installed.": {
     "A newer dms binary is installed.": ""
@@ -2063,8 +2063,8 @@
   "DMS chooser": {
     "DMS chooser": "DMS 선택기"
   },
-  "DMS is a highly customizable modern desktop shell with a %1 inspired design.<br/><br/>It is built with %2, a QT6 framework for building desktop shells, and %3, a statically typed, compiled programming language.": {
-    "DMS is a highly customizable modern desktop shell with a %1 inspired design.<br/><br/>It is built with %2, a QT6 framework for building desktop shells, and %3, a statically typed, compiled programming language.": "DMS는 %1에서 영감을 받은 디자인을 갖춘, 고도로 사용자 지정 가능한 현대적인 데스크톱 셸입니다.<br/><br/>데스크톱 셸을 구축하기 위한 QT6 프레임워크인 %2와 정적 타입 컴파일 언어인 %3로 만들어졌습니다."
+  "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": {
+    "DMS is a modern, highly customizable desktop shell that looks great out of the box, without sacrificing the freedom to make it your own.<br/><br/>Built with %1 and %2, it brings together panels, widgets, system controls, and more into a cohesive desktop experience.": ""
   },
   "DMS out of date": {
     "DMS out of date": "DMS가 구버전임"
@@ -2864,8 +2864,8 @@
   "Expressive": {
     "Expressive": "표현력 풍부함"
   },
-  "Extend DankMaterialShell with powerful plugins for widgets, launchers, and more": {
-    "Extend DankMaterialShell with powerful plugins for widgets, launchers, and more": "위젯, 런처 등 강력한 플러그인으로 DankMaterialShell을 확장하세요"
+  "Extend %1 with powerful plugins for widgets, launchers, and more": {
+    "Extend %1 with powerful plugins for widgets, launchers, and more": ""
   },
   "Extend battery life": {
     "Extend battery life": "배터리 수명 연장"
@@ -3766,6 +3766,9 @@
   },
   "Hide installed": {
     "Hide installed": "설치됨 숨기기"
+  },
+  "Hide on last display": {
+    "Hide on last display": ""
   },
   "Hide until typing": {
     "Hide until typing": ""
@@ -8327,8 +8330,8 @@
   "Third-party plugins": {
     "Third-party plugins": "타사 플러그인"
   },
-  "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.": {
-    "Third-party plugins are created by the community and are not officially supported by DankMaterialShell.\n\nThese plugins may pose security and privacy risks - install at your own risk.": "타사 플러그인은 커뮤니티에서 만들었으며 DankMaterialShell에서 공식적으로 지원하지 않습니다.\n\n이러한 플러그인은 보안 및 개인 정보 보호 위험을 초래할 수 있습니다. 본인의 책임하에 설치하세요."
+  "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": {
+    "Third-party plugins are created by the community and are not officially supported by %1.\n\nThese plugins may pose security and privacy risks - install at your own risk.": ""
   },
   "This bar is the Island": {
     "This bar is the Island": ""
@@ -9113,11 +9116,14 @@
   "Welcome": {
     "Welcome": "환영합니다"
   },
-  "Welcome to DankMaterialShell": {
-    "Welcome to DankMaterialShell": "DankMaterialShell에 오신 것을 환영합니다"
+  "Welcome to %1": {
+    "Welcome to %1": ""
   },
   "What changed": {
     "What changed": ""
+  },
+  "What's New": {
+    "What's New": ""
   },
   "When locked": {
     "When locked": "잠겼을 때"
