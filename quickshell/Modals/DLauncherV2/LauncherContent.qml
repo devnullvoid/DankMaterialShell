@@ -257,7 +257,7 @@ FocusScope {
             if (actionPanel.expanded && actionPanel.selectedActionIndex > 0) {
                 actionPanel.executeSelectedAction();
             } else {
-                controller.executeSelected();
+                controller.executeSelected(!!(event.modifiers & Qt.ControlModifier));
             }
             return;
         case Qt.Key_Menu:

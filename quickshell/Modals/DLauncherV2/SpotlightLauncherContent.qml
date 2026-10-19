@@ -256,7 +256,7 @@ FocusScope {
             } else if (actionPanel.expanded && actionPanel.selectedActionIndex > 0) {
                 actionPanel.executeSelectedAction();
             } else {
-                root.controller.executeSelected();
+                root.controller.executeSelected(!!(event.modifiers & Qt.ControlModifier));
             }
             event.accepted = true;
             return;

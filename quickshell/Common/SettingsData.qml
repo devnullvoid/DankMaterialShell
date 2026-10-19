@@ -461,6 +461,7 @@ Singleton {
     property bool closeNiriOverviewOnWindowFocus: Spec.SPEC.closeNiriOverviewOnWindowFocus.def
     property bool rememberLastQuery: Spec.SPEC.rememberLastQuery.def
     property bool launcherHistoryEnabled: Spec.SPEC.launcherHistoryEnabled.def
+    property string launcherEnterAction: Spec.SPEC.launcherEnterAction.def
     property bool rememberLastMode: Spec.SPEC.rememberLastMode.def
     property var spotlightSectionViewModes: Spec.SPEC.spotlightSectionViewModes.def
     onSpotlightSectionViewModesChanged: saveSettings()

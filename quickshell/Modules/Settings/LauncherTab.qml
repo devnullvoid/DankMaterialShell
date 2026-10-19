@@ -304,6 +304,19 @@ Item {
                 onToggled: checked => SettingsData.set("launcherHistoryEnabled", checked)
             }
 
+            SettingsButtonGroupRow {
+                settingKey: "launcherEnterAction"
+                tags: ["launcher", "default", "action", "focus", "running", "window", "instance", "launch"]
+                text: I18n.tr("Default action")
+                model: [I18n.tr("Launch"), I18n.tr("Focus")]
+                currentIndex: SettingsData.launcherEnterAction === "focus" ? 1 : 0
+                onSelectionChanged: (index, selected) => {
+                    if (!selected)
+                        return;
+                    SettingsData.set("launcherEnterAction", index === 1 ? "focus" : "launch");
+                }
+            }
+
             SettingsToggleRow {
                 settingKey: "rememberLastQuery"
                 tags: ["launcher", "remember", "last", "search", "query"]

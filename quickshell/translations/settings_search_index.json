@@ -6133,6 +6133,29 @@
     ]
   },
   {
+    "section": "launcherEnterAction",
+    "label": "Default action",
+    "tabIndex": 9,
+    "category": "Launcher",
+    "keywords": [
+      "action",
+      "app drawer",
+      "app menu",
+      "applications",
+      "default",
+      "drawer",
+      "focus",
+      "instance",
+      "launch",
+      "launcher",
+      "menu",
+      "running",
+      "start",
+      "start menu",
+      "window"
+    ]
+  },
+  {
     "section": "launcherStyle",
     "label": "Default action",
     "tabIndex": 9,
