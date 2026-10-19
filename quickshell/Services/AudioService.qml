@@ -1281,6 +1281,11 @@ EOFCONFIG
         return "speaker";
     }
 
+    // QtMultimedia's pipewire stream carries no application.* props, only node.name set to the app name.
+    function isOwnStream(node) {
+        return !!node?.isStream && node.name === "quickshell";
+    }
+
     function displayName(node) {
         if (!node) {
             return "";
