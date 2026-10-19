@@ -173,16 +173,15 @@ DFloatingWindow {
 
         Item {
             id: footerRow
-            anchors.left: parent.left
-            anchors.right: parent.right
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
+            width: Math.min(640, parent.width - Theme.spacingXL * 2)
             height: Theme.buttonHeightM + Theme.spacingL * 2
             LayoutMirroring.enabled: I18n.isRtl
             LayoutMirroring.childrenInherit: true
 
             Row {
                 anchors.left: parent.left
-                anchors.leftMargin: Theme.spacingL
                 anchors.verticalCenter: parent.verticalCenter
                 spacing: Theme.spacingS
 
@@ -248,7 +247,6 @@ DFloatingWindow {
                 readonly property bool lastPage: root.currentPage === root.totalPages - 1
 
                 anchors.right: parent.right
-                anchors.rightMargin: Theme.spacingL
                 anchors.verticalCenter: parent.verticalCenter
                 enabled: !(root.currentPage === 1 && pageLoader.item && pageLoader.item.isRunning)
                 text: lastPage ? I18n.tr("Finish", "greeter finish button") : root.currentPage === 0 ? I18n.tr("Get Started", "greeter first page button") : I18n.tr("Next", "greeter next button")

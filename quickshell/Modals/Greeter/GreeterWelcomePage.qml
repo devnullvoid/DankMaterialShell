@@ -79,20 +79,23 @@ Item {
     }
 
     DFlickable {
+        id: flick
         anchors.fill: parent
         clip: true
         contentWidth: width
-        contentHeight: Math.max(height, content.height + Theme.spacingL * 2)
+        contentHeight: Math.max(height, content.height)
 
         Column {
             id: content
             anchors.horizontalCenter: parent.horizontalCenter
-            y: Math.max(Theme.spacingS, (parent.height - height) / 2)
+            y: 0
             width: Math.min(640, parent.width - Theme.spacingXL * 2)
             spacing: Theme.spacingL
 
-            ShapeHero {
+            DShapeHero {
+                id: hero
                 width: parent.width
+                height: Math.max(implicitHeight, flick.height - grid.height - content.spacing)
                 paddingV: Theme.spacingXL
                 backdrop: Item {
                     DMaterialShape {
@@ -129,17 +132,14 @@ Item {
                     }
                 }
 
-                Row {
+                Column {
                     width: parent.width
-                    spacing: Theme.spacingXL
-                    LayoutMirroring.enabled: I18n.isRtl
-                    LayoutMirroring.childrenInherit: true
+                    spacing: Theme.spacingM
 
                     Item {
-                        id: logo
-                        width: Theme.buttonHeightM * 1.6
+                        width: Theme.buttonHeightM * 2
                         height: width
-                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
 
                         Image {
                             readonly property real dpr: Screen.devicePixelRatio
@@ -165,29 +165,23 @@ Item {
                         }
                     }
 
-                    Column {
-                        width: parent.width - logo.width - parent.spacing
-                        anchors.verticalCenter: parent.verticalCenter
-                        spacing: Theme.spacingS
+                    StyledText {
+                        width: parent.width
+                        text: I18n.tr("Welcome to DankMaterialShell", "greeter welcome page title")
+                        font.pixelSize: Theme.fontSizeXXLarge
+                        font.weight: Theme.fontWeightBold
+                        color: Theme.onPrimaryContainer
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
+                    }
 
-                        StyledText {
-                            width: parent.width
-                            text: I18n.tr("Welcome to DankMaterialShell", "greeter welcome page title")
-                            font.pixelSize: Theme.fontSizeXXLarge
-                            font.weight: Theme.fontWeightBold
-                            color: Theme.onPrimaryContainer
-                            horizontalAlignment: Text.AlignLeft
-                            wrapMode: Text.WordWrap
-                        }
-
-                        StyledText {
-                            width: parent.width
-                            text: I18n.tr("A modern desktop shell for Wayland compositors", "greeter welcome page tagline")
-                            font.pixelSize: Theme.fontSizeLarge
-                            color: Theme.onPrimaryContainer
-                            horizontalAlignment: Text.AlignLeft
-                            wrapMode: Text.WordWrap
-                        }
+                    StyledText {
+                        width: parent.width
+                        text: I18n.tr("A modern desktop shell for Wayland compositors", "greeter welcome page tagline")
+                        font.pixelSize: Theme.fontSizeLarge
+                        color: Theme.onPrimaryContainer
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WordWrap
                     }
                 }
             }

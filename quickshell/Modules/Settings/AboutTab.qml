@@ -4,6 +4,7 @@ import qs.Common
 import qs.Services
 import qs.DCommon.Widgets
 import qs.Modules.Settings.Widgets
+import qs.Widgets
 
 Item {
     id: root
@@ -115,7 +116,7 @@ Item {
     }
 
     SettingsPage {
-        SettingsHeroCard {
+        ReleaseHero {
             DButton {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: I18n.tr("Support DMS", "about page hero button, opens the Ko-fi donation page")

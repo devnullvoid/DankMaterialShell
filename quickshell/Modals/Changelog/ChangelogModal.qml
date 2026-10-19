@@ -8,7 +8,7 @@ DFloatingWindow {
     id: root
 
     readonly property int modalWidth: 720
-    readonly property int modalHeight: heightWithin(800, 80)
+    readonly property int modalHeight: heightWithin(760, 80)
 
     signal changelogDismissed
 
@@ -23,7 +23,7 @@ DFloatingWindow {
     }
 
     objectName: "changelogModal"
-    title: "What's New"
+    title: I18n.tr("What's New", "changelog window title")
     minimumSize: Qt.size(modalWidth, modalHeight)
     maximumSize: Qt.size(modalWidth, modalHeight)
     visible: false
@@ -56,6 +56,7 @@ DFloatingWindow {
             anchors.right: parent.right
             anchors.top: parent.top
             controls: windowControls
+            title: root.title
             onCloseRequested: root.dismiss()
         }
 
@@ -65,7 +66,7 @@ DFloatingWindow {
             anchors.top: headerRow.bottom
             anchors.bottom: parent.bottom
             clip: true
-            contentHeight: mainColumn.height + fabBar.height + Theme.spacingL * 3
+            contentHeight: mainColumn.height + fabBar.height + Theme.spacingL * 2
             contentWidth: width
 
             ChangelogContent {

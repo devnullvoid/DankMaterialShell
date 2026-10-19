@@ -136,13 +136,6 @@ Column {
         }
     ]
 
-    readonly property var featurePairs: {
-        const pairs = [];
-        for (let i = 0; i < features.length; i += 2)
-            pairs.push(features.slice(i, i + 2));
-        return pairs;
-    }
-
     function open(target) {
         if (target.startsWith("https://")) {
             Qt.openUrlExternally(target);
@@ -151,62 +144,45 @@ Column {
         PopoutService.openSettingsWithTab(target);
     }
 
-    topPadding: Theme.spacingS
+    topPadding: 0
     spacing: Theme.spacingL
 
-    ChangelogHero {
+    ReleaseHero {
         width: parent.width
-        symbol: "He"
-        atomicNumber: 2
-        atomicMass: "4.0026"
-        remainder: "isenberg"
     }
 
-    Column {
+    Grid {
+        id: grid
+
+        readonly property real cardWidth: (width - columnSpacing * (columns - 1)) / columns
+        readonly property real cellHeight: {
+            let tallest = 0;
+            for (const card of children)
+                tallest = Math.max(tallest, card.implicitHeight ?? 0);
+            return tallest;
+        }
+
         width: parent.width
-        spacing: Theme.spacingS
+        columns: 3
+        rowSpacing: Theme.spacingS
+        columnSpacing: Theme.spacingS
+        layoutDirection: I18n.isRtl ? Qt.RightToLeft : Qt.LeftToRight
 
         Repeater {
-            model: root.featurePairs
+            model: root.features
 
-            delegate: Row {
-                id: pair
-
+            delegate: FeatureCard {
                 required property var modelData
-                required property int index
 
-                readonly property real cardWidth: (width - spacing) / 2
-                readonly property real rowHeight: Math.max(first.implicitHeight, second.implicitHeight)
-
-                width: parent.width
-                spacing: Theme.spacingS
-                LayoutMirroring.enabled: I18n.isRtl
-
-                FeatureCard {
-                    id: first
-                    width: pair.cardWidth
-                    height: pair.rowHeight
-                    iconName: pair.modelData[0].icon
-                    shape: pair.modelData[0].shape
-                    hoverShape: pair.modelData[0].hoverShape
-                    accent: pair.modelData[0].accent
-                    heading: pair.modelData[0].heading
-                    description: pair.modelData[0].description
-                    onClicked: root.open(pair.modelData[0].target)
-                }
-
-                FeatureCard {
-                    id: second
-                    width: pair.cardWidth
-                    height: pair.rowHeight
-                    iconName: pair.modelData[1].icon
-                    shape: pair.modelData[1].shape
-                    hoverShape: pair.modelData[1].hoverShape
-                    accent: pair.modelData[1].accent
-                    heading: pair.modelData[1].heading
-                    description: pair.modelData[1].description
-                    onClicked: root.open(pair.modelData[1].target)
-                }
+                width: grid.cardWidth
+                height: grid.cellHeight
+                iconName: modelData.icon
+                shape: modelData.shape
+                hoverShape: modelData.hoverShape
+                accent: modelData.accent
+                heading: modelData.heading
+                description: modelData.description
+                onClicked: root.open(modelData.target)
             }
         }
     }

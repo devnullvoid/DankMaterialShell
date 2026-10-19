@@ -7,6 +7,7 @@ import qs.DCommon.Widgets
 import qs.Modals.Common
 import qs.Modules.Settings.Widgets
 import qs.Modules.SystemUpdate
+import qs.Widgets
 import "../../Common/Format.js" as Format
 
 Item {
@@ -279,7 +280,7 @@ Item {
     SettingsPage {
         id: mainColumn
 
-        SettingsHeroCard {
+        ReleaseHero {
             M3WaveProgress {
                 width: parent.width
                 height: Theme.spacingM
