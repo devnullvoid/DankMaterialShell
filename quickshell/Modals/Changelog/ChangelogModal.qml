@@ -7,13 +7,19 @@ import qs.Widgets
 DFloatingWindow {
     id: root
 
-    readonly property int modalWidth: 680
-    readonly property int modalHeight: screen ? Math.min(720, screen.height - 80) : 720
+    readonly property int modalWidth: 720
+    readonly property int modalHeight: screen ? Math.min(800, screen.height - 80) : 800
 
     signal changelogDismissed
 
     function show() {
         visible = true;
+    }
+
+    function dismiss() {
+        ChangelogService.dismissChangelog();
+        changelogDismissed();
+        visible = false;
     }
 
     objectName: "changelogModal"
@@ -57,58 +63,55 @@ DFloatingWindow {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: headerRow.bottom
-            anchors.bottom: footerRow.top
+            anchors.bottom: parent.bottom
             clip: true
-            contentHeight: mainColumn.height + Theme.spacingL * 2
+            contentHeight: mainColumn.height + fabBar.height + Theme.spacingL * 3
             contentWidth: width
 
             ChangelogContent {
                 id: mainColumn
                 anchors.horizontalCenter: parent.horizontalCenter
-                width: Math.min(600, parent.width - Theme.spacingXL * 2)
+                width: Math.min(640, parent.width - Theme.spacingXL * 2)
             }
         }
 
-        Rectangle {
-            id: footerRow
-            anchors.left: parent.left
-            anchors.right: parent.right
+        Row {
+            id: fabBar
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
-            height: Math.round(Theme.fontSizeMedium * 4.5)
-            color: Theme.floatingWindowNestedSurface
-            border.width: Theme.layerOutlineWidth
-            border.color: Theme.outlineMedium
+            anchors.bottomMargin: Theme.spacingL
+            z: 2
+            spacing: Theme.spacingM
+            LayoutMirroring.enabled: I18n.isRtl
 
-            Rectangle {
-                anchors.top: parent.top
-                width: parent.width
-                height: 1
-                color: Theme.outlineMedium
-                opacity: 0.5
-            }
+            DButton {
+                id: notesButton
+                anchors.verticalCenter: parent.verticalCenter
+                text: I18n.tr("Release notes", "settings page and card title, notes for a DMS release")
+                iconName: "auto_awesome"
+                buttonHeight: Theme.buttonHeightM
+                backgroundColor: Theme.secondaryContainer
+                textColor: Theme.onSecondaryContainer
+                onClicked: PopoutService.openSettingsWithTab("updater_changelog")
 
-            Row {
-                anchors.centerIn: parent
-                spacing: Theme.spacingM
-
-                DButton {
-                    text: I18n.tr("Release notes", "settings page and card title, notes for a DMS release")
-                    iconName: "auto_awesome"
-                    backgroundColor: Theme.chipSurface
-                    textColor: Theme.surfaceText
-                    onClicked: {
-                        root.dismiss();
-                        PopoutService.openSettingsWithTab("updater_changelog");
+                Loader {
+                    anchors.fill: parent
+                    z: -1
+                    active: Theme.elevationEnabled
+                    sourceComponent: ElevationShadow {
+                        level: Theme.elevationLevel3
+                        targetColor: notesButton.color
+                        targetRadius: notesButton.radius
                     }
                 }
+            }
 
-                DButton {
-                    text: I18n.tr("OK")
-                    iconName: "check"
-                    backgroundColor: Theme.primary
-                    textColor: Theme.primaryText
-                    onClicked: root.dismiss()
-                }
+            DFab {
+                anchors.verticalCenter: parent.verticalCenter
+                text: "Let's go"
+                iconName: "rocket_launch"
+                colorRole: "primary"
+                onClicked: root.dismiss()
             }
         }
     }
@@ -116,11 +119,5 @@ DFloatingWindow {
     FloatingWindowControls {
         id: windowControls
         targetWindow: root
-    }
-
-    function dismiss() {
-        ChangelogService.dismissChangelog();
-        changelogDismissed();
-        visible = false;
     }
 }

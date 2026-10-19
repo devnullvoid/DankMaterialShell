@@ -17,7 +17,7 @@ Singleton {
         const m = v.match(/^\d+\.\d+/);
         return m ? m[0] : "";
     }
-    readonly property bool changelogEnabled: false
+    readonly property bool changelogEnabled: true
     readonly property bool ready: SessionData._hasLoaded && !SessionData.isGreeterMode && FirstLaunchService.checkComplete && currentVersion !== ""
 
     property bool changelogDismissed: false

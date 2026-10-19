@@ -323,7 +323,7 @@ Item {
                 settingKey: "matugenSpec"
                 text: I18n.tr("Material palette", "theme settings card title, matugen palette options")
                 enabled: Theme.matugenAvailable
-                model: ["2021", "2025", "DMS"]
+                model: ["2021", "2025", "dms"]
                 currentIndex: SettingsData.matugenSpec === "dms" ? 2 : SettingsData.matugenSpec === "2025" ? 1 : 0
                 onSelectionChanged: (index, selected) => {
                     if (!selected)

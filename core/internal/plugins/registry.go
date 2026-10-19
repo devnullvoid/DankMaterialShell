@@ -293,6 +293,12 @@ func (r *Registry) resetLegacyCache() {
 // declaration order (first occurrence of an ID wins). A failing registry is
 // reported in the joined error but does not block the others.
 func (r *Registry) Update() error {
+	unlock, err := registries.LockCache()
+	if err != nil {
+		return err
+	}
+	defer unlock()
+
 	r.resetLegacyCache()
 	r.plugins = []Plugin{}
 	seen := make(map[string]struct{})

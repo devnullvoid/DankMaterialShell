@@ -225,7 +225,7 @@ Singleton {
 
         function status(): string {
             if (!root.available)
-                return "Screen time tracking: unavailable (DMS server without wellbeing support)";
+                return "Screen time tracking: unavailable (dms server without wellbeing support)";
             const lines = ["Screen time tracking: " + (root.enabled ? "enabled" : "disabled")];
             if (root.tracking)
                 lines.push("Today: " + root.formatDuration(root.today.active ?? 0));

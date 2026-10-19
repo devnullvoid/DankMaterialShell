@@ -154,54 +154,6 @@ DFloatingWindow {
             title: root.title
             closeTooltipText: I18n.tr("Skip setup", "greeter skip button tooltip")
             onCloseRequested: root.skip()
-
-            Rectangle {
-                id: pageIndicatorContainer
-                readonly property real indicatorHeight: Math.round(Theme.fontSizeMedium * 2)
-
-                anchors.verticalCenter: parent.verticalCenter
-                width: pageIndicatorRow.width + Theme.spacingM * 2
-                height: indicatorHeight
-                radius: Theme.fullRadius(width, height)
-                color: Theme.floatingWindowNestedSurface
-                border.width: Theme.layerOutlineWidth
-                border.color: Theme.outlineMedium
-
-                Row {
-                    id: pageIndicatorRow
-                    anchors.centerIn: parent
-                    spacing: Theme.spacingS
-
-                    Repeater {
-                        model: root.totalPages
-
-                        Rectangle {
-                            required property int index
-                            property bool isActive: index === root.currentPage
-                            readonly property real dotSize: Math.round(Theme.spacingS * 1.3)
-
-                            width: isActive ? dotSize * 3 : dotSize
-                            height: dotSize
-                            radius: dotSize / 2
-                            color: dotColor.value
-                            anchors.verticalCenter: parent.verticalCenter
-
-                            DColorAnimation {
-                                id: dotColor
-                                to: isActive ? Theme.primary : Theme.surfaceTextAlpha
-                                duration: Theme.shortDuration
-                            }
-
-                            Behavior on width {
-                                NumberAnimation {
-                                    duration: Theme.shortDuration
-                                    easing.type: Theme.emphasizedEasing
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         Item {
@@ -219,65 +171,92 @@ DFloatingWindow {
             }
         }
 
-        Rectangle {
+        Item {
             id: footerRow
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            height: Math.round(Theme.fontSizeMedium * 4.5)
-            color: Theme.floatingWindowNestedSurface
-            border.width: Theme.layerOutlineWidth
-            border.color: Theme.outlineMedium
-
-            Rectangle {
-                anchors.top: parent.top
-                width: parent.width
-                height: 1
-                color: Theme.outlineMedium
-                opacity: 0.5
-            }
+            height: Theme.buttonHeightM + Theme.spacingL * 2
+            LayoutMirroring.enabled: I18n.isRtl
+            LayoutMirroring.childrenInherit: true
 
             Row {
-                anchors.right: parent.right
-                anchors.rightMargin: Theme.windowInset
+                anchors.left: parent.left
+                anchors.leftMargin: Theme.spacingL
                 anchors.verticalCenter: parent.verticalCenter
-                spacing: Theme.spacingM
-
-                DButton {
-                    visible: root.currentPage < root.totalPages - 1
-                    text: I18n.tr("Skip", "greeter skip button")
-                    backgroundColor: "transparent"
-                    textColor: Theme.surfaceVariantText
-                    onClicked: root.currentPage === 1 ? root.nextPage() : root.skip()
-                }
+                spacing: Theme.spacingS
 
                 DButton {
                     visible: root.currentPage > 0
                     text: I18n.tr("Back", "greeter back button")
                     iconName: "arrow_back"
-                    backgroundColor: Theme.chipSurface
-                    textColor: Theme.surfaceText
+                    buttonHeight: Theme.buttonHeightM
+                    backgroundColor: Theme.secondaryContainer
+                    textColor: Theme.onSecondaryContainer
                     onClicked: root.prevPage()
                 }
 
                 DButton {
                     visible: root.currentPage < root.totalPages - 1
-                    enabled: !(root.currentPage === 1 && pageLoader.item && pageLoader.item.isRunning)
-                    text: root.currentPage === 0 ? I18n.tr("Get Started", "greeter first page button") : I18n.tr("Next", "greeter next button")
-                    iconName: "arrow_forward"
-                    backgroundColor: Theme.primary
-                    textColor: Theme.primaryText
-                    onClicked: root.nextPage()
+                    text: I18n.tr("Skip", "greeter skip button")
+                    buttonHeight: Theme.buttonHeightM
+                    backgroundColor: "transparent"
+                    textColor: Theme.primary
+                    onClicked: root.currentPage === 1 ? root.nextPage() : root.skip()
                 }
+            }
 
-                DButton {
-                    visible: root.currentPage === root.totalPages - 1
-                    text: I18n.tr("Finish", "greeter finish button")
-                    iconName: "check"
-                    backgroundColor: Theme.primary
-                    textColor: Theme.primaryText
-                    onClicked: root.finish()
+            Row {
+                anchors.centerIn: parent
+                spacing: Theme.spacingS
+
+                Repeater {
+                    model: root.totalPages
+
+                    Rectangle {
+                        required property int index
+                        readonly property bool isActive: index === root.currentPage
+
+                        width: isActive ? Theme.spacingXL : Theme.spacingS
+                        height: Theme.spacingS
+                        radius: Theme.fullRadius(width, height)
+                        color: isActive ? Theme.primary : Theme.outlineVariant
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        Behavior on width {
+                            enabled: Theme.currentAnimationSpeed !== SettingsData.AnimationSpeed.None
+                            NumberAnimation {
+                                duration: Theme.expressiveDurations.expressiveFastSpatial
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: Theme.expressiveCurves.expressiveFastSpatial
+                            }
+                        }
+
+                        Behavior on color {
+                            enabled: Theme.currentAnimationSpeed !== SettingsData.AnimationSpeed.None
+                            ColorAnimation {
+                                duration: Theme.expressiveDurations.expressiveEffects
+                                easing.type: Easing.BezierSpline
+                                easing.bezierCurve: Theme.expressiveCurves.expressiveEffects
+                            }
+                        }
+                    }
                 }
+            }
+
+            DButton {
+                readonly property bool lastPage: root.currentPage === root.totalPages - 1
+
+                anchors.right: parent.right
+                anchors.rightMargin: Theme.spacingL
+                anchors.verticalCenter: parent.verticalCenter
+                enabled: !(root.currentPage === 1 && pageLoader.item && pageLoader.item.isRunning)
+                text: lastPage ? I18n.tr("Finish", "greeter finish button") : root.currentPage === 0 ? I18n.tr("Get Started", "greeter first page button") : I18n.tr("Next", "greeter next button")
+                iconName: lastPage ? "check" : "arrow_forward"
+                buttonHeight: Theme.buttonHeightM
+                backgroundColor: Theme.primary
+                textColor: Theme.onPrimary
+                onClicked: lastPage ? root.finish() : root.nextPage()
             }
         }
     }

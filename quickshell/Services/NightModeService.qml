@@ -615,7 +615,7 @@ Singleton {
 
         function gamma(value: string): string {
             if (!root.gammaAdjustAvailable)
-                return "Gamma adjustment not available (requires DMS API v34+)";
+                return "Gamma adjustment not available (requires dms API v34+)";
             if (!value)
                 return SessionData.displayGamma.toString();
 
@@ -629,7 +629,7 @@ Singleton {
 
         function contrast(value: string): string {
             if (!root.gammaAdjustAvailable)
-                return "Contrast adjustment not available (requires DMS API v34+)";
+                return "Contrast adjustment not available (requires dms API v34+)";
             if (!value)
                 return SessionData.displayContrast.toString();
 

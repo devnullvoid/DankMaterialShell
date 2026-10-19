@@ -877,7 +877,7 @@ func checkWindowManagers() []checkResult {
 		results = append(results, checkAqueousConfigHelper())
 	}
 
-	if utils.CommandExists("mango") {
+	if os.Getenv("MANGO_INSTANCE_SIGNATURE") != "" {
 		results = append(results, checkMangoConfig(mangoconf.Dir(), mangoconf.Detect())...)
 	}
 
