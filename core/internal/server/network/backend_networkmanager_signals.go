@@ -1,6 +1,8 @@
 package network
 
 import (
+	"time"
+
 	"github.com/AvengeMedia/DankMaterialShell/core/internal/log"
 	"github.com/Wifx/gonetworkmanager/v2"
 	"github.com/godbus/dbus/v5"
@@ -10,6 +12,8 @@ const (
 	dbusNMSettingsPath                = "/org/freedesktop/NetworkManager/Settings"
 	dbusNMSettingsInterface           = "org.freedesktop.NetworkManager.Settings"
 	dbusNMSettingsConnectionInterface = "org.freedesktop.NetworkManager.Settings.Connection"
+
+	wifiNetworksUpdateDelay = 500 * time.Millisecond
 )
 
 func (b *NetworkManagerBackend) startSignalPump() error {
@@ -287,7 +291,8 @@ func (b *NetworkManagerBackend) stopSignalPump() {
 	}
 
 	b.sigWG.Wait()
-
+	b.cancelWiFiNetworksUpdate()
+	b.wifiRefreshWG.Wait()
 }
 
 func (b *NetworkManagerBackend) handleDBusSignal(sig *dbus.Signal) {
@@ -537,7 +542,7 @@ func (b *NetworkManagerBackend) handleWiFiChange(changes map[string]dbus.Variant
 			needsStateUpdate = true
 			needsNetworkUpdate = true
 		case "AccessPoints":
-			needsNetworkUpdate = true
+			b.scheduleWiFiNetworksUpdate()
 		default:
 			continue
 		}
@@ -547,6 +552,7 @@ func (b *NetworkManagerBackend) handleWiFiChange(changes map[string]dbus.Variant
 		b.updateWiFiState()
 	}
 	if needsNetworkUpdate {
+		b.cancelWiFiNetworksUpdate()
 		b.updateWiFiNetworks()
 	}
 	if needsStateUpdate || needsNetworkUpdate {
@@ -554,6 +560,41 @@ func (b *NetworkManagerBackend) handleWiFiChange(changes map[string]dbus.Variant
 			b.onStateChange()
 		}
 	}
+}
+
+// A scan announces each new access point on its own, so rebuild the list
+// once per burst instead of once per access point.
+func (b *NetworkManagerBackend) scheduleWiFiNetworksUpdate() {
+	b.wifiRefreshMu.Lock()
+	defer b.wifiRefreshMu.Unlock()
+
+	if b.wifiRefreshTimer != nil {
+		return
+	}
+	b.wifiRefreshWG.Add(1)
+	b.wifiRefreshTimer = time.AfterFunc(wifiNetworksUpdateDelay, func() {
+		defer b.wifiRefreshWG.Done()
+
+		b.wifiRefreshMu.Lock()
+		b.wifiRefreshTimer = nil
+		b.wifiRefreshMu.Unlock()
+
+		b.updateWiFiNetworks()
+		if b.onStateChange != nil {
+			b.onStateChange()
+		}
+	})
+}
+
+func (b *NetworkManagerBackend) cancelWiFiNetworksUpdate() {
+	b.wifiRefreshMu.Lock()
+	defer b.wifiRefreshMu.Unlock()
+
+	if b.wifiRefreshTimer == nil || !b.wifiRefreshTimer.Stop() {
+		return
+	}
+	b.wifiRefreshTimer = nil
+	b.wifiRefreshWG.Done()
 }
 
 func (b *NetworkManagerBackend) handleAccessPointChange(changes map[string]dbus.Variant) {
