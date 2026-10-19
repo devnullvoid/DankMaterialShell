@@ -8,7 +8,7 @@ DFloatingWindow {
     id: root
 
     readonly property int modalWidth: 720
-    readonly property int modalHeight: screen ? Math.min(800, screen.height - 80) : 800
+    readonly property int modalHeight: heightWithin(800, 80)
 
     signal changelogDismissed
 
@@ -88,7 +88,7 @@ DFloatingWindow {
                 id: notesButton
                 anchors.verticalCenter: parent.verticalCenter
                 text: I18n.tr("Release notes", "settings page and card title, notes for a DMS release")
-                iconName: "auto_awesome"
+                iconName: "article"
                 buttonHeight: Theme.buttonHeightM
                 backgroundColor: Theme.secondaryContainer
                 textColor: Theme.onSecondaryContainer
@@ -109,7 +109,7 @@ DFloatingWindow {
             DFab {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "Let's go"
-                iconName: "rocket_launch"
+                iconName: "check"
                 colorRole: "primary"
                 onClicked: root.dismiss()
             }

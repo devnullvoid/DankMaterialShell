@@ -14,7 +14,7 @@ Item {
     readonly property real cardWidth: (content.width - Theme.spacingS * (columns - 1)) / columns
     readonly property var features: [
         {
-            "icon": "auto_awesome",
+            "icon": "palette",
             "shape": "softBurst",
             "hoverShape": "flower",
             "accent": "purple",

@@ -17,7 +17,7 @@ DFloatingWindow {
     property bool cheatsheetLoaded: false
 
     readonly property int modalWidth: 720
-    readonly property int modalHeight: screen ? Math.min(760, screen.height - 80) : 760
+    readonly property int modalHeight: heightWithin(760, 80)
 
     signal greeterCompleted
 

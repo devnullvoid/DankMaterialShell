@@ -386,7 +386,7 @@ Item {
             SettingsNavRow {
                 visible: root.notesRelease !== null
                 title: I18n.tr("Release notes", "settings page and card title, notes for a DMS release")
-                iconName: "auto_awesome"
+                iconName: "article"
                 hint: root.notesRelease?.codename ? "v" + root.notesRelease.version + " · " + root.notesRelease.codename : "v" + (root.notesRelease?.version ?? "")
                 onClicked: keyboard => root.parentModal?.navigateTo("updater_changelog", keyboard)
             }
