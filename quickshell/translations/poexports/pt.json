@@ -146,11 +146,17 @@
   "%1 ms": {
     "%1 ms": ""
   },
+  "%1 not found": {
+    "%1 not found": ""
+  },
   "%1 notifications": {
     "%1 notifications": "%1 notificações"
   },
   "%1 online": {
     "%1 online": "%1 online"
+  },
+  "%1 only": {
+    "%1 only": ""
   },
   "%1 other": {
     "%1 other": ""
@@ -178,6 +184,9 @@
   },
   "%1 tasks": {
     "%1 tasks": "%1 tarefas"
+  },
+  "%1 uninstalled": {
+    "%1 uninstalled": ""
   },
   "%1 update": {
     "%1 update": "%1 atualização"
@@ -500,6 +509,9 @@
   "All displays": {
     "All displays": "Todos as Telas"
   },
+  "All plugins": {
+    "All plugins": ""
+  },
   "All settings": {
     "All settings": ""
   },
@@ -529,6 +541,9 @@
   },
   "Already on that session": {
     "Already on that session": "Já está nessa sessão"
+  },
+  "Already upvoted, click again to remove": {
+    "Already upvoted, click again to remove": ""
   },
   "Also runs the templates in your matugen config.toml": {
     "Also runs the templates in your matugen config.toml": ""
@@ -1364,6 +1379,9 @@
   "Changes save to %1": {
     "Changes save to %1": ""
   },
+  "Changes volume and audio devices": {
+    "Changes volume and audio devices": ""
+  },
   "Channel": {
     "Channel": "Canal"
   },
@@ -1676,14 +1694,8 @@
   "Compact": {
     "Compact": "Compacto"
   },
-  "Compact height": {
-    "Compact height": ""
-  },
   "Compact mode": {
     "Compact mode": ""
-  },
-  "Compact width": {
-    "Compact width": ""
   },
   "Completed": {
     "Completed": "Completado"
@@ -1787,6 +1799,9 @@
   "Connections and autoconnect": {
     "Connections and autoconnect": ""
   },
+  "Connects to the internet": {
+    "Connects to the internet": ""
+  },
   "Consumes the key only when a dispatcher runs": {
     "Consumes the key only when a dispatcher runs": ""
   },
@@ -1810,6 +1825,9 @@
   },
   "Controls": {
     "Controls": ""
+  },
+  "Controls media players": {
+    "Controls media players": ""
   },
   "Convert to DMS": {
     "Convert to DMS": "Converter para DMS"
@@ -2291,6 +2309,9 @@
   "Dew point %1": {
     "Dew point %1": ""
   },
+  "Did you mean": {
+    "Did you mean": ""
+  },
   "Digital": {
     "Digital": "Digital"
   },
@@ -2710,9 +2731,6 @@
   },
   "End must be after start": {
     "End must be after start": "O fim deve ser depois do início"
-  },
-  "Enlarge on hover": {
-    "Enlarge on hover": ""
   },
   "Enter 6-digit passkey": {
     "Enter 6-digit passkey": "Entre a chave de acesso de 6 dígitos"
@@ -3137,8 +3155,8 @@
   "Family": {
     "Family": ""
   },
-  "Features": {
-    "Features": "Recursos"
+  "Featured plugin": {
+    "Featured plugin": ""
   },
   "Feels Like %1°": {
     "Feels Like %1°": "Sensação Térmica %1°"
@@ -3235,6 +3253,9 @@
   },
   "Fits the song title instead of keeping a fixed width": {
     "Fits the song title instead of keeping a fixed width": ""
+  },
+  "Fits your setup": {
+    "Fits your setup": ""
   },
   "Fixed": {
     "Fixed": ""
@@ -3379,6 +3400,9 @@
   },
   "For %1": {
     "For %1": ""
+  },
+  "For you": {
+    "For you": ""
   },
   "Force HDR": {
     "Force HDR": "Forçar HDR"
@@ -4475,6 +4499,9 @@
   "Lightest": {
     "Lightest": ""
   },
+  "Like your plugins": {
+    "Like your plugins": ""
+  },
   "Limit": {
     "Limit": ""
   },
@@ -4492,6 +4519,9 @@
   },
   "Lines: %1": {
     "Lines: %1": "Linhas: %1"
+  },
+  "Link copied": {
+    "Link copied": ""
   },
   "Link your DMS settings so the login screen follows them.": {
     "Link your DMS settings so the login screen follows them.": ""
@@ -5084,6 +5114,9 @@
   "Near island": {
     "Near island": ""
   },
+  "Needs": {
+    "Needs": ""
+  },
   "Nested chip": {
     "Nested chip": ""
   },
@@ -5125,6 +5158,9 @@
   },
   "New": {
     "New": "Novo"
+  },
+  "New & updated": {
+    "New & updated": ""
   },
   "New Session": {
     "New Session": "Nova Sessão"
@@ -5684,6 +5720,9 @@
   "Office": {
     "Office": "Escritório"
   },
+  "Official only": {
+    "Official only": ""
+  },
   "Offline Report": {
     "Offline Report": "Relatório Offline"
   },
@@ -5776,6 +5815,12 @@
   },
   "Open with": {
     "Open with": ""
+  },
+  "Opening GitHub to remove the upvote": {
+    "Opening GitHub to remove the upvote": ""
+  },
+  "Opening GitHub to upvote": {
+    "Opening GitHub to upvote": ""
   },
   "Opening terminal: ": {
     "Opening terminal: ": "Abrindo o terminal: "
@@ -6083,6 +6128,12 @@
   "Pick how long to stay awake": {
     "Pick how long to stay awake": ""
   },
+  "Pick of the day": {
+    "Pick of the day": ""
+  },
+  "Pick of the week": {
+    "Pick of the week": ""
+  },
   "Pill": {
     "Pill": ""
   },
@@ -6188,6 +6239,9 @@
   "Plugins": {
     "Plugins": "Plugins"
   },
+  "Plugins by %1": {
+    "Plugins by %1": ""
+  },
   "Plugins shown in All mode without a trigger. Drag to reorder": {
     "Plugins shown in All mode without a trigger. Drag to reorder": ""
   },
@@ -6211,6 +6265,9 @@
   },
   "Popouts and modals use the main animation duration": {
     "Popouts and modals use the main animation duration": ""
+  },
+  "Popular": {
+    "Popular": ""
   },
   "Popular Plugins": {
     "Popular Plugins": ""
@@ -6551,6 +6608,24 @@
   "Read:": {
     "Read:": "Leitura:"
   },
+  "Reads audio devices and volume": {
+    "Reads audio devices and volume": ""
+  },
+  "Reads its own settings": {
+    "Reads its own settings": ""
+  },
+  "Reads its saved state": {
+    "Reads its saved state": ""
+  },
+  "Reads the clipboard": {
+    "Reads the clipboard": ""
+  },
+  "Reads the list of running programs": {
+    "Reads the list of running programs": ""
+  },
+  "Reads your files": {
+    "Reads your files": ""
+  },
   "Ready": {
     "Ready": "Pronto"
   },
@@ -6697,6 +6772,9 @@
   },
   "Remove the shortcut %1? An unbind entry will be saved to dms/binds-user.lua so it stays removed across DMS updates.": {
     "Remove the shortcut %1? An unbind entry will be saved to dms/binds-user.lua so it stays removed across DMS updates.": "Remover o atalho %1? Uma entrada de desvinculação será salva em dms/binds-user.lua para que permaneça removido nas atualizações do DMS."
+  },
+  "Remove upvote": {
+    "Remove upvote": ""
   },
   "Removed administrator privileges": {
     "Removed administrator privileges": "Privilégios de administrador removidos"
@@ -6941,6 +7019,12 @@
   "Runs in a terminal.": {
     "Runs in a terminal.": ""
   },
+  "Runs programs on your computer": {
+    "Runs programs on your computer": ""
+  },
+  "Runs shell commands": {
+    "Runs shell commands": ""
+  },
   "S": {
     "S": ""
   },
@@ -7012,6 +7096,12 @@
   },
   "Saved networks": {
     "Saved networks": ""
+  },
+  "Saves its own settings": {
+    "Saves its own settings": ""
+  },
+  "Saves its state": {
+    "Saves its state": ""
   },
   "Saving...": {
     "Saving...": "Salvando..."
@@ -7400,6 +7490,9 @@
   "Show discharge rate": {
     "Show discharge rate": ""
   },
+  "Show every author": {
+    "Show every author": ""
+  },
   "Show filename": {
     "Show filename": ""
   },
@@ -7639,6 +7732,9 @@
   },
   "Soft square": {
     "Soft square": ""
+  },
+  "Software dimming": {
+    "Software dimming": ""
   },
   "Software updates": {
     "Software updates": ""
@@ -8261,6 +8357,9 @@
   "This output is disabled in the current profile": {
     "This output is disabled in the current profile": "Esta saída está desativada no perfil atual"
   },
+  "This plugin can": {
+    "This plugin can": ""
+  },
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "Este plugin não possui permissão de 'settings_write'.\n\nAdicione \"permissions\": [\"settings_read\", \"settings_write\"] ao plugin.json"
   },
@@ -8489,6 +8588,9 @@
   "Tray icon tint": {
     "Tray icon tint": ""
   },
+  "Trending": {
+    "Trending": ""
+  },
   "Trigger": {
     "Trigger": "Gatilho"
   },
@@ -8716,6 +8818,15 @@
   },
   "Uptime": {
     "Uptime": "Tempo de Atividade"
+  },
+  "Upvote on GitHub": {
+    "Upvote on GitHub": ""
+  },
+  "Upvote removed": {
+    "Upvote removed": ""
+  },
+  "Upvoted on GitHub": {
+    "Upvoted on GitHub": ""
   },
   "Urgent": {
     "Urgent": "Urgente"
@@ -9158,6 +9269,9 @@
   "Working...": {
     "Working...": "Trabalhando..."
   },
+  "Works here": {
+    "Works here": ""
+  },
   "Works in every submap": {
     "Works in every submap": ""
   },
@@ -9184,6 +9298,9 @@
   },
   "Write:": {
     "Write:": "Escrita:"
+  },
+  "Writes to your files": {
+    "Writes to your files": ""
   },
   "X axis": {
     "X axis": ""
@@ -9292,6 +9409,9 @@
   },
   "checked just now": {
     "checked just now": "verificado agora mesmo"
+  },
+  "copy link": {
+    "copy link": ""
   },
   "deprecated": {
     "deprecated": "obsoleto"
@@ -9466,6 +9586,9 @@
   },
   "remote": {
     "remote": "remoto"
+  },
+  "report a problem": {
+    "report a problem": ""
   },
   "reviewed": {
     "reviewed": "revisado"

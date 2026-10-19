@@ -146,11 +146,17 @@
   "%1 ms": {
     "%1 ms": "%1 мс"
   },
+  "%1 not found": {
+    "%1 not found": ""
+  },
   "%1 notifications": {
     "%1 notifications": "%1 сповіщень"
   },
   "%1 online": {
     "%1 online": "%1 онлайн"
+  },
+  "%1 only": {
+    "%1 only": ""
   },
   "%1 other": {
     "%1 other": "%1 інше"
@@ -178,6 +184,9 @@
   },
   "%1 tasks": {
     "%1 tasks": "%1 завдань"
+  },
+  "%1 uninstalled": {
+    "%1 uninstalled": ""
   },
   "%1 update": {
     "%1 update": "%1 оновлення"
@@ -500,6 +509,9 @@
   "All displays": {
     "All displays": "Усі дисплеї"
   },
+  "All plugins": {
+    "All plugins": ""
+  },
   "All settings": {
     "All settings": "Усі налаштування"
   },
@@ -529,6 +541,9 @@
   },
   "Already on that session": {
     "Already on that session": "Вже в цій сесії"
+  },
+  "Already upvoted, click again to remove": {
+    "Already upvoted, click again to remove": ""
   },
   "Also runs the templates in your matugen config.toml": {
     "Also runs the templates in your matugen config.toml": "Також запускає шаблони з вашого конфігураційного файлу matugen config.toml"
@@ -1364,6 +1379,9 @@
   "Changes save to %1": {
     "Changes save to %1": "Зміни зберігаються в %1"
   },
+  "Changes volume and audio devices": {
+    "Changes volume and audio devices": ""
+  },
   "Channel": {
     "Channel": "Канал"
   },
@@ -1676,14 +1694,8 @@
   "Compact": {
     "Compact": "Компактний"
   },
-  "Compact height": {
-    "Compact height": "Компактна висота"
-  },
   "Compact mode": {
     "Compact mode": "Компактний режим"
-  },
-  "Compact width": {
-    "Compact width": "Компактна ширина"
   },
   "Completed": {
     "Completed": "Завершено"
@@ -1787,6 +1799,9 @@
   "Connections and autoconnect": {
     "Connections and autoconnect": "Підключення та автопідключення"
   },
+  "Connects to the internet": {
+    "Connects to the internet": ""
+  },
   "Consumes the key only when a dispatcher runs": {
     "Consumes the key only when a dispatcher runs": "Використовує клавішу лише тоді, коли працює диспетчер"
   },
@@ -1810,6 +1825,9 @@
   },
   "Controls": {
     "Controls": "Елементи керування"
+  },
+  "Controls media players": {
+    "Controls media players": ""
   },
   "Convert to DMS": {
     "Convert to DMS": "Конвертувати в DMS"
@@ -2291,6 +2309,9 @@
   "Dew point %1": {
     "Dew point %1": "Точка роси %1"
   },
+  "Did you mean": {
+    "Did you mean": ""
+  },
   "Digital": {
     "Digital": "Цифровий"
   },
@@ -2710,9 +2731,6 @@
   },
   "End must be after start": {
     "End must be after start": "Кінець має бути після початку"
-  },
-  "Enlarge on hover": {
-    "Enlarge on hover": "Збільшити при наведенні"
   },
   "Enter 6-digit passkey": {
     "Enter 6-digit passkey": "Введіть 6-значний ключ доступу"
@@ -3137,8 +3155,8 @@
   "Family": {
     "Family": "Сімейство"
   },
-  "Features": {
-    "Features": "Особливості"
+  "Featured plugin": {
+    "Featured plugin": ""
   },
   "Feels Like %1°": {
     "Feels Like %1°": "Відчувається як %1°"
@@ -3235,6 +3253,9 @@
   },
   "Fits the song title instead of keeping a fixed width": {
     "Fits the song title instead of keeping a fixed width": "Підлаштовує назву пісні замість використання фіксованої ширини"
+  },
+  "Fits your setup": {
+    "Fits your setup": ""
   },
   "Fixed": {
     "Fixed": "Фіксовано"
@@ -3379,6 +3400,9 @@
   },
   "For %1": {
     "For %1": "Для %1"
+  },
+  "For you": {
+    "For you": ""
   },
   "Force HDR": {
     "Force HDR": "Примусовий HDR"
@@ -3798,7 +3822,7 @@
     "History size, retention, paste behavior": "Розмір історії, термін зберігання, поведінка вставки"
   },
   "Hold Ctrl, Alt or Super and press a key. Esc cancels.": {
-    "Hold Ctrl, Alt or Super and press a key. Esc cancels.": ""
+    "Hold Ctrl, Alt or Super and press a key. Esc cancels.": "Утримуйте Ctrl, Alt або Super і натисніть клавішу. Esc скасовує"
   },
   "Hold duration": {
     "Hold duration": "Тривалість утримування"
@@ -3852,7 +3876,7 @@
     "Hover popouts": "Спливаючі вікна при наведенні"
   },
   "How far terminal colors shift toward the wallpaper color": {
-    "How far terminal colors shift toward the wallpaper color": ""
+    "How far terminal colors shift toward the wallpaper color": "Наскільки кольори термінала зміщуються до кольору шпалер"
   },
   "Hue": {
     "Hue": "Відтінок"
@@ -4475,6 +4499,9 @@
   "Lightest": {
     "Lightest": "Найсвітліший"
   },
+  "Like your plugins": {
+    "Like your plugins": ""
+  },
   "Limit": {
     "Limit": "Ліміт"
   },
@@ -4492,6 +4519,9 @@
   },
   "Lines: %1": {
     "Lines: %1": "Рядків: %1"
+  },
+  "Link copied": {
+    "Link copied": ""
   },
   "Link your DMS settings so the login screen follows them.": {
     "Link your DMS settings so the login screen follows them.": "Прив'яжіть налаштування DMS, щоб екран входу слідував за ними"
@@ -5084,6 +5114,9 @@
   "Near island": {
     "Near island": "Поруч з островом"
   },
+  "Needs": {
+    "Needs": ""
+  },
   "Nested chip": {
     "Nested chip": "Вкладена мітка"
   },
@@ -5126,6 +5159,9 @@
   "New": {
     "New": "Новий"
   },
+  "New & updated": {
+    "New & updated": ""
+  },
   "New Session": {
     "New Session": "Нова сесія"
   },
@@ -5166,7 +5202,7 @@
     "Next Transition": "Наступний перехід"
   },
   "Next category": {
-    "Next category": ""
+    "Next category": "Наступна категорія"
   },
   "Next page": {
     "Next page": "Наступна сторінка"
@@ -5592,7 +5628,7 @@
     "Not set": "Не встановлено"
   },
   "Not shown on this bar, so its section widgets stay hidden": {
-    "Not shown on this bar, so its section widgets stay hidden": ""
+    "Not shown on this bar, so its section widgets stay hidden": "Не відображається на цій панелі, тому пристосунки її розділу залишаються прихованими"
   },
   "Not synchronized": {
     "Not synchronized": "Не синхронізовано"
@@ -5683,6 +5719,9 @@
   },
   "Office": {
     "Office": "Офіс"
+  },
+  "Official only": {
+    "Official only": ""
   },
   "Offline Report": {
     "Offline Report": "Звіт про автономну роботу"
@@ -5776,6 +5815,12 @@
   },
   "Open with": {
     "Open with": "Відкрити за допомогою"
+  },
+  "Opening GitHub to remove the upvote": {
+    "Opening GitHub to remove the upvote": ""
+  },
+  "Opening GitHub to upvote": {
+    "Opening GitHub to upvote": ""
   },
   "Opening terminal: ": {
     "Opening terminal: ": "Відкриття терміналу: "
@@ -6083,6 +6128,12 @@
   "Pick how long to stay awake": {
     "Pick how long to stay awake": "Виберіть, як довго залишатися в стані пробудження"
   },
+  "Pick of the day": {
+    "Pick of the day": ""
+  },
+  "Pick of the week": {
+    "Pick of the week": ""
+  },
   "Pill": {
     "Pill": "Пігулка"
   },
@@ -6188,6 +6239,9 @@
   "Plugins": {
     "Plugins": "Розширення"
   },
+  "Plugins by %1": {
+    "Plugins by %1": ""
+  },
   "Plugins shown in All mode without a trigger. Drag to reorder": {
     "Plugins shown in All mode without a trigger. Drag to reorder": "Розширення, що відображаються в режимі «Усі» без тригера. Перетягніть для зміни порядку"
   },
@@ -6211,6 +6265,9 @@
   },
   "Popouts and modals use the main animation duration": {
     "Popouts and modals use the main animation duration": "Спливаючі та модальні вікна використовують основну тривалість анімації"
+  },
+  "Popular": {
+    "Popular": ""
   },
   "Popular Plugins": {
     "Popular Plugins": "Популярні розширення"
@@ -6354,7 +6411,7 @@
     "Previous": "Попередній"
   },
   "Previous category": {
-    "Previous category": ""
+    "Previous category": "Попередня категорія"
   },
   "Previous page": {
     "Previous page": "Попередня сторінка"
@@ -6551,6 +6608,24 @@
   "Read:": {
     "Read:": "Читати:"
   },
+  "Reads audio devices and volume": {
+    "Reads audio devices and volume": ""
+  },
+  "Reads its own settings": {
+    "Reads its own settings": ""
+  },
+  "Reads its saved state": {
+    "Reads its saved state": ""
+  },
+  "Reads the clipboard": {
+    "Reads the clipboard": ""
+  },
+  "Reads the list of running programs": {
+    "Reads the list of running programs": ""
+  },
+  "Reads your files": {
+    "Reads your files": ""
+  },
   "Ready": {
     "Ready": "Готово"
   },
@@ -6558,7 +6633,7 @@
     "Reason": "Причина"
   },
   "Reboot now?": {
-    "Reboot now?": ""
+    "Reboot now?": "Перезавантажити зараз?"
   },
   "Reboot recommended": {
     "Reboot recommended": "Рекомендовано перезавантаження"
@@ -6678,7 +6753,7 @@
     "Remove condition": "Видалити умову"
   },
   "Remove from recent colors": {
-    "Remove from recent colors": ""
+    "Remove from recent colors": "Видалити з нещодавніх кольорів"
   },
   "Remove greeter access?": {
     "Remove greeter access?": "Видалити доступ до екрану входу?"
@@ -6697,6 +6772,9 @@
   },
   "Remove the shortcut %1? An unbind entry will be saved to dms/binds-user.lua so it stays removed across DMS updates.": {
     "Remove the shortcut %1? An unbind entry will be saved to dms/binds-user.lua so it stays removed across DMS updates.": "Видалити ярлик %1? Запис про розв'язку буде збережено в dms/binds-user.lua, щоб він залишався видаленим після оновлень DMS"
+  },
+  "Remove upvote": {
+    "Remove upvote": ""
   },
   "Removed administrator privileges": {
     "Removed administrator privileges": "Права адміністратора видалено"
@@ -6941,6 +7019,12 @@
   "Runs in a terminal.": {
     "Runs in a terminal.": "Запускається в терміналі"
   },
+  "Runs programs on your computer": {
+    "Runs programs on your computer": ""
+  },
+  "Runs shell commands": {
+    "Runs shell commands": ""
+  },
   "S": {
     "S": "Пд"
   },
@@ -6996,7 +7080,7 @@
     "Save password": "Зберегти пароль"
   },
   "Save your work first. Open apps will close.": {
-    "Save your work first. Open apps will close.": ""
+    "Save your work first. Open apps will close.": "Спочатку збережіть свою роботу. Відкриті програми будуть закриті"
   },
   "Saved": {
     "Saved": "Збережено"
@@ -7012,6 +7096,12 @@
   },
   "Saved networks": {
     "Saved networks": "Збережені мережі"
+  },
+  "Saves its own settings": {
+    "Saves its own settings": ""
+  },
+  "Saves its state": {
+    "Saves its state": ""
   },
   "Saving...": {
     "Saving...": "Збереження..."
@@ -7400,6 +7490,9 @@
   "Show discharge rate": {
     "Show discharge rate": "Показати швидкість розряду"
   },
+  "Show every author": {
+    "Show every author": ""
+  },
   "Show filename": {
     "Show filename": "Показати ім'я файлу"
   },
@@ -7639,6 +7732,9 @@
   },
   "Soft square": {
     "Soft square": "М'який квадрат"
+  },
+  "Software dimming": {
+    "Software dimming": ""
   },
   "Software updates": {
     "Software updates": "Оновлення програмного забезпечення"
@@ -7899,7 +7995,7 @@
     "Switch layout shortcut": "Комбінація перемикання розкладки"
   },
   "Switch to media when playback starts": {
-    "Switch to media when playback starts": ""
+    "Switch to media when playback starts": "Перемикатися на медіа, коли розпочнеться відтворення"
   },
   "Switches to power saver at the low battery threshold": {
     "Switches to power saver at the low battery threshold": "Перемикається в режим енергозбереження при досягненні порогу низького заряду батареї"
@@ -8100,7 +8196,7 @@
     "The Island holds this edge on a display this bar covers, so the bar stays hidden there": "Острів утримує край на дисплеї, який покриває ця панель, тому панель там залишається прихованою"
   },
   "The Island takes its place on this bar": {
-    "The Island takes its place on this bar": ""
+    "The Island takes its place on this bar": "Острів займає своє місце на цій панелі"
   },
   "The WiFi adapter could not start access point mode.": {
     "The WiFi adapter could not start access point mode.": "WiFi-адаптер не зміг запустити режим точки доступу"
@@ -8260,6 +8356,9 @@
   },
   "This output is disabled in the current profile": {
     "This output is disabled in the current profile": "Цей вивід вимкнено в поточному профілі"
+  },
+  "This plugin can": {
+    "This plugin can": ""
   },
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "Це розширення не має дозволу 'settings_write'.\n\nДодайте \"permissions\": [\"settings_read\", \"settings_write\"] до файлу plugin.json"
@@ -8489,6 +8588,9 @@
   "Tray icon tint": {
     "Tray icon tint": "Відтінок іконки трея"
   },
+  "Trending": {
+    "Trending": ""
+  },
   "Trigger": {
     "Trigger": "Тригер"
   },
@@ -8716,6 +8818,15 @@
   },
   "Uptime": {
     "Uptime": "Час роботи"
+  },
+  "Upvote on GitHub": {
+    "Upvote on GitHub": ""
+  },
+  "Upvote removed": {
+    "Upvote removed": ""
+  },
+  "Upvoted on GitHub": {
+    "Upvoted on GitHub": ""
   },
   "Urgent": {
     "Urgent": "Терміново"
@@ -9158,6 +9269,9 @@
   "Working...": {
     "Working...": "Працюю..."
   },
+  "Works here": {
+    "Works here": ""
+  },
   "Works in every submap": {
     "Works in every submap": "Працює в кожній підкарті"
   },
@@ -9184,6 +9298,9 @@
   },
   "Write:": {
     "Write:": "Записати:"
+  },
+  "Writes to your files": {
+    "Writes to your files": ""
   },
   "X axis": {
     "X axis": "Вісь X"
@@ -9292,6 +9409,9 @@
   },
   "checked just now": {
     "checked just now": "перевірено щойно"
+  },
+  "copy link": {
+    "copy link": ""
   },
   "deprecated": {
     "deprecated": "застаріло"
@@ -9466,6 +9586,9 @@
   },
   "remote": {
     "remote": "дистанційний"
+  },
+  "report a problem": {
+    "report a problem": ""
   },
   "reviewed": {
     "reviewed": "перевірено"

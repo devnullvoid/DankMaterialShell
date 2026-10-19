@@ -146,11 +146,17 @@
   "%1 ms": {
     "%1 ms": "%1 ms"
   },
+  "%1 not found": {
+    "%1 not found": ""
+  },
   "%1 notifications": {
     "%1 notifications": "%1 התראות"
   },
   "%1 online": {
     "%1 online": "%1 מקוונים"
+  },
+  "%1 only": {
+    "%1 only": ""
   },
   "%1 other": {
     "%1 other": "%1 אחרים"
@@ -178,6 +184,9 @@
   },
   "%1 tasks": {
     "%1 tasks": "%1 משימות"
+  },
+  "%1 uninstalled": {
+    "%1 uninstalled": ""
   },
   "%1 update": {
     "%1 update": "%1 עדכון"
@@ -500,6 +509,9 @@
   "All displays": {
     "All displays": "כל המסכים"
   },
+  "All plugins": {
+    "All plugins": ""
+  },
   "All settings": {
     "All settings": ""
   },
@@ -529,6 +541,9 @@
   },
   "Already on that session": {
     "Already on that session": "כבר בהפעלה זו"
+  },
+  "Already upvoted, click again to remove": {
+    "Already upvoted, click again to remove": ""
   },
   "Also runs the templates in your matugen config.toml": {
     "Also runs the templates in your matugen config.toml": "מריץ גם את התבניות שבconfig.toml של matugen שלך"
@@ -1364,6 +1379,9 @@
   "Changes save to %1": {
     "Changes save to %1": "השינויים נשמרים ב%1"
   },
+  "Changes volume and audio devices": {
+    "Changes volume and audio devices": ""
+  },
   "Channel": {
     "Channel": "ערוץ"
   },
@@ -1676,14 +1694,8 @@
   "Compact": {
     "Compact": "קומפקטי"
   },
-  "Compact height": {
-    "Compact height": "גובה קומפקטי"
-  },
   "Compact mode": {
     "Compact mode": "מצב קומפקטי"
-  },
-  "Compact width": {
-    "Compact width": "רוחב קומפקטי"
   },
   "Completed": {
     "Completed": "הושלם"
@@ -1787,6 +1799,9 @@
   "Connections and autoconnect": {
     "Connections and autoconnect": "חיבורים והתחברות אוטומטית"
   },
+  "Connects to the internet": {
+    "Connects to the internet": ""
+  },
   "Consumes the key only when a dispatcher runs": {
     "Consumes the key only when a dispatcher runs": ""
   },
@@ -1810,6 +1825,9 @@
   },
   "Controls": {
     "Controls": ""
+  },
+  "Controls media players": {
+    "Controls media players": ""
   },
   "Convert to DMS": {
     "Convert to DMS": "המר/י לDMS"
@@ -2291,6 +2309,9 @@
   "Dew point %1": {
     "Dew point %1": "נקודת טל %1"
   },
+  "Did you mean": {
+    "Did you mean": ""
+  },
   "Digital": {
     "Digital": "דיגיטלי"
   },
@@ -2710,9 +2731,6 @@
   },
   "End must be after start": {
     "End must be after start": "זמן הסיום חייב להיות אחרי זמן ההתחלה"
-  },
-  "Enlarge on hover": {
-    "Enlarge on hover": "הגדל/י בריחוף"
   },
   "Enter 6-digit passkey": {
     "Enter 6-digit passkey": "הזן/י מפתח גישה בן 6 ספרות"
@@ -3137,8 +3155,8 @@
   "Family": {
     "Family": "משפחת הגופן"
   },
-  "Features": {
-    "Features": "תכונות"
+  "Featured plugin": {
+    "Featured plugin": ""
   },
   "Feels Like %1°": {
     "Feels Like %1°": "מרגיש כמו %1°"
@@ -3235,6 +3253,9 @@
   },
   "Fits the song title instead of keeping a fixed width": {
     "Fits the song title instead of keeping a fixed width": "מתאים את הרוחב לכותרת השיר במקום לשמור על רוחב קבוע"
+  },
+  "Fits your setup": {
+    "Fits your setup": ""
   },
   "Fixed": {
     "Fixed": "קבוע"
@@ -3379,6 +3400,9 @@
   },
   "For %1": {
     "For %1": "למשך %1"
+  },
+  "For you": {
+    "For you": ""
   },
   "Force HDR": {
     "Force HDR": "אלץ/י HDR"
@@ -4475,6 +4499,9 @@
   "Lightest": {
     "Lightest": "הכי בהיר"
   },
+  "Like your plugins": {
+    "Like your plugins": ""
+  },
   "Limit": {
     "Limit": "מגבלה"
   },
@@ -4492,6 +4519,9 @@
   },
   "Lines: %1": {
     "Lines: %1": "שורות: %1"
+  },
+  "Link copied": {
+    "Link copied": ""
   },
   "Link your DMS settings so the login screen follows them.": {
     "Link your DMS settings so the login screen follows them.": "קשר/י את הגדרות DMS שלך כדי שמסך ההתחברות יעקוב אחריהן."
@@ -5084,6 +5114,9 @@
   "Near island": {
     "Near island": "קרוב לאי"
   },
+  "Needs": {
+    "Needs": ""
+  },
   "Nested chip": {
     "Nested chip": "לחצן מקונן"
   },
@@ -5125,6 +5158,9 @@
   },
   "New": {
     "New": "חדש"
+  },
+  "New & updated": {
+    "New & updated": ""
   },
   "New Session": {
     "New Session": "הפעלה חדשה"
@@ -5684,6 +5720,9 @@
   "Office": {
     "Office": "משרד"
   },
+  "Official only": {
+    "Official only": ""
+  },
   "Offline Report": {
     "Offline Report": "דו\"ח לא מקוון"
   },
@@ -5776,6 +5815,12 @@
   },
   "Open with": {
     "Open with": "פתח/י עם"
+  },
+  "Opening GitHub to remove the upvote": {
+    "Opening GitHub to remove the upvote": ""
+  },
+  "Opening GitHub to upvote": {
+    "Opening GitHub to upvote": ""
   },
   "Opening terminal: ": {
     "Opening terminal: ": "פותח מסוף: "
@@ -6083,6 +6128,12 @@
   "Pick how long to stay awake": {
     "Pick how long to stay awake": "בחר/י למשך כמה זמן להישאר פעיל"
   },
+  "Pick of the day": {
+    "Pick of the day": ""
+  },
+  "Pick of the week": {
+    "Pick of the week": ""
+  },
   "Pill": {
     "Pill": "כפתור"
   },
@@ -6188,6 +6239,9 @@
   "Plugins": {
     "Plugins": "תוספים"
   },
+  "Plugins by %1": {
+    "Plugins by %1": ""
+  },
   "Plugins shown in All mode without a trigger. Drag to reorder": {
     "Plugins shown in All mode without a trigger. Drag to reorder": "תוספים שמוצגים במצב ״הכל״ ללא טריגר. גרור/גררי כדי לשנות את הסדר"
   },
@@ -6211,6 +6265,9 @@
   },
   "Popouts and modals use the main animation duration": {
     "Popouts and modals use the main animation duration": "חלונות קופצים ומודלים משתמשים במשך האנימציה הראשי"
+  },
+  "Popular": {
+    "Popular": ""
   },
   "Popular Plugins": {
     "Popular Plugins": "תוספים פופולריים"
@@ -6551,6 +6608,24 @@
   "Read:": {
     "Read:": "קריאה:"
   },
+  "Reads audio devices and volume": {
+    "Reads audio devices and volume": ""
+  },
+  "Reads its own settings": {
+    "Reads its own settings": ""
+  },
+  "Reads its saved state": {
+    "Reads its saved state": ""
+  },
+  "Reads the clipboard": {
+    "Reads the clipboard": ""
+  },
+  "Reads the list of running programs": {
+    "Reads the list of running programs": ""
+  },
+  "Reads your files": {
+    "Reads your files": ""
+  },
   "Ready": {
     "Ready": "מוכנה"
   },
@@ -6697,6 +6772,9 @@
   },
   "Remove the shortcut %1? An unbind entry will be saved to dms/binds-user.lua so it stays removed across DMS updates.": {
     "Remove the shortcut %1? An unbind entry will be saved to dms/binds-user.lua so it stays removed across DMS updates.": "להסיר את קיצור הדרך %1? רשומת ביטולקישור תישמר בdms/binds-user.lua כדי שהוא יישאר מוסר גם לאחר עדכוני DMS."
+  },
+  "Remove upvote": {
+    "Remove upvote": ""
   },
   "Removed administrator privileges": {
     "Removed administrator privileges": "הוסרו הרשאות מנהל מערכת"
@@ -6941,6 +7019,12 @@
   "Runs in a terminal.": {
     "Runs in a terminal.": "פועל במסוף."
   },
+  "Runs programs on your computer": {
+    "Runs programs on your computer": ""
+  },
+  "Runs shell commands": {
+    "Runs shell commands": ""
+  },
   "S": {
     "S": "ד"
   },
@@ -7012,6 +7096,12 @@
   },
   "Saved networks": {
     "Saved networks": "רשתות שמורות"
+  },
+  "Saves its own settings": {
+    "Saves its own settings": ""
+  },
+  "Saves its state": {
+    "Saves its state": ""
   },
   "Saving...": {
     "Saving...": "שומר/ת..."
@@ -7400,6 +7490,9 @@
   "Show discharge rate": {
     "Show discharge rate": "הצגת קצב פריקה"
   },
+  "Show every author": {
+    "Show every author": ""
+  },
   "Show filename": {
     "Show filename": "הצג/י שם קובץ"
   },
@@ -7639,6 +7732,9 @@
   },
   "Soft square": {
     "Soft square": "ריבוע רך"
+  },
+  "Software dimming": {
+    "Software dimming": ""
   },
   "Software updates": {
     "Software updates": "עדכוני תוכנה"
@@ -8261,6 +8357,9 @@
   "This output is disabled in the current profile": {
     "This output is disabled in the current profile": "פלט זה מושבת בפרופיל הנוכחי"
   },
+  "This plugin can": {
+    "This plugin can": ""
+  },
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "לתוסף זה אין הרשאת 'settings_write'.\n\nהוסף/י \"permissions\": [\"settings_read\", \"settings_write\"] ל-plugin.json"
   },
@@ -8489,6 +8588,9 @@
   "Tray icon tint": {
     "Tray icon tint": "גוון סמל מגש המערכת"
   },
+  "Trending": {
+    "Trending": ""
+  },
   "Trigger": {
     "Trigger": "מפעיל"
   },
@@ -8716,6 +8818,15 @@
   },
   "Uptime": {
     "Uptime": "זמן פעילות"
+  },
+  "Upvote on GitHub": {
+    "Upvote on GitHub": ""
+  },
+  "Upvote removed": {
+    "Upvote removed": ""
+  },
+  "Upvoted on GitHub": {
+    "Upvoted on GitHub": ""
   },
   "Urgent": {
     "Urgent": "דחוף"
@@ -9158,6 +9269,9 @@
   "Working...": {
     "Working...": "עובד..."
   },
+  "Works here": {
+    "Works here": ""
+  },
   "Works in every submap": {
     "Works in every submap": ""
   },
@@ -9184,6 +9298,9 @@
   },
   "Write:": {
     "Write:": "כתיבה:"
+  },
+  "Writes to your files": {
+    "Writes to your files": ""
   },
   "X axis": {
     "X axis": "ציר X"
@@ -9292,6 +9409,9 @@
   },
   "checked just now": {
     "checked just now": "נבדק ממש עכשיו"
+  },
+  "copy link": {
+    "copy link": ""
   },
   "deprecated": {
     "deprecated": "מיושן"
@@ -9466,6 +9586,9 @@
   },
   "remote": {
     "remote": "מרוחק"
+  },
+  "report a problem": {
+    "report a problem": ""
   },
   "reviewed": {
     "reviewed": "נבדק"

@@ -146,11 +146,17 @@
   "%1 ms": {
     "%1 ms": "%1 ms"
   },
+  "%1 not found": {
+    "%1 not found": ""
+  },
   "%1 notifications": {
     "%1 notifications": "%1 Benachrichtigungen"
   },
   "%1 online": {
     "%1 online": "%1 online"
+  },
+  "%1 only": {
+    "%1 only": ""
   },
   "%1 other": {
     "%1 other": "%1 andere"
@@ -178,6 +184,9 @@
   },
   "%1 tasks": {
     "%1 tasks": "%1 Aufgaben"
+  },
+  "%1 uninstalled": {
+    "%1 uninstalled": ""
   },
   "%1 update": {
     "%1 update": "%1 Update"
@@ -500,6 +509,9 @@
   "All displays": {
     "All displays": "Alle Bildschirme"
   },
+  "All plugins": {
+    "All plugins": ""
+  },
   "All settings": {
     "All settings": "Alle Einstellungen"
   },
@@ -529,6 +541,9 @@
   },
   "Already on that session": {
     "Already on that session": "Bereits in dieser Sitzung"
+  },
+  "Already upvoted, click again to remove": {
+    "Already upvoted, click again to remove": ""
   },
   "Also runs the templates in your matugen config.toml": {
     "Also runs the templates in your matugen config.toml": "Führt auch die Vorlagen in Ihrer matugen config.toml aus"
@@ -1364,6 +1379,9 @@
   "Changes save to %1": {
     "Changes save to %1": "Änderungen speichern unter %1"
   },
+  "Changes volume and audio devices": {
+    "Changes volume and audio devices": ""
+  },
   "Channel": {
     "Channel": "Kanal"
   },
@@ -1676,14 +1694,8 @@
   "Compact": {
     "Compact": "Kompakt"
   },
-  "Compact height": {
-    "Compact height": "Kompakte Höhe"
-  },
   "Compact mode": {
     "Compact mode": "Kompaktmodus"
-  },
-  "Compact width": {
-    "Compact width": "Kompakte Breite"
   },
   "Completed": {
     "Completed": "Abgeschlossen"
@@ -1787,6 +1799,9 @@
   "Connections and autoconnect": {
     "Connections and autoconnect": "Verbindungen und automatisches Verbinden"
   },
+  "Connects to the internet": {
+    "Connects to the internet": ""
+  },
   "Consumes the key only when a dispatcher runs": {
     "Consumes the key only when a dispatcher runs": "Konsumiert die Taste nur, wenn ein Dispatcher ausgeführt wird"
   },
@@ -1810,6 +1825,9 @@
   },
   "Controls": {
     "Controls": "Steuerung"
+  },
+  "Controls media players": {
+    "Controls media players": ""
   },
   "Convert to DMS": {
     "Convert to DMS": "In DMS konvertieren"
@@ -2291,6 +2309,9 @@
   "Dew point %1": {
     "Dew point %1": "Taupunkt %1"
   },
+  "Did you mean": {
+    "Did you mean": ""
+  },
   "Digital": {
     "Digital": "Digital"
   },
@@ -2710,9 +2731,6 @@
   },
   "End must be after start": {
     "End must be after start": "Das Ende muss nach dem Beginn liegen"
-  },
-  "Enlarge on hover": {
-    "Enlarge on hover": "Beim Drüberfahren vergrößern"
   },
   "Enter 6-digit passkey": {
     "Enter 6-digit passkey": "6-stelligen Passkey eingeben"
@@ -3137,8 +3155,8 @@
   "Family": {
     "Family": "Familie"
   },
-  "Features": {
-    "Features": "Funktionen"
+  "Featured plugin": {
+    "Featured plugin": ""
   },
   "Feels Like %1°": {
     "Feels Like %1°": "Gefühlt %1°"
@@ -3235,6 +3253,9 @@
   },
   "Fits the song title instead of keeping a fixed width": {
     "Fits the song title instead of keeping a fixed width": "Passt die Breite an den Songtitel an, statt eine feste Breite beizubehalten"
+  },
+  "Fits your setup": {
+    "Fits your setup": ""
   },
   "Fixed": {
     "Fixed": "Fest"
@@ -3379,6 +3400,9 @@
   },
   "For %1": {
     "For %1": "Für %1"
+  },
+  "For you": {
+    "For you": ""
   },
   "Force HDR": {
     "Force HDR": "HDR erzwingen"
@@ -4475,6 +4499,9 @@
   "Lightest": {
     "Lightest": "Hellste"
   },
+  "Like your plugins": {
+    "Like your plugins": ""
+  },
   "Limit": {
     "Limit": "Limit"
   },
@@ -4492,6 +4519,9 @@
   },
   "Lines: %1": {
     "Lines: %1": "Zeilen: %1"
+  },
+  "Link copied": {
+    "Link copied": ""
   },
   "Link your DMS settings so the login screen follows them.": {
     "Link your DMS settings so the login screen follows them.": "Verknüpfen Sie Ihre DMS-Einstellungen, damit der Anmeldebildschirm ihnen folgt."
@@ -5084,6 +5114,9 @@
   "Near island": {
     "Near island": "In der Nähe der Insel"
   },
+  "Needs": {
+    "Needs": ""
+  },
   "Nested chip": {
     "Nested chip": "Verschachtelter Chip"
   },
@@ -5125,6 +5158,9 @@
   },
   "New": {
     "New": "Neu"
+  },
+  "New & updated": {
+    "New & updated": ""
   },
   "New Session": {
     "New Session": "Neue Sitzung"
@@ -5684,6 +5720,9 @@
   "Office": {
     "Office": "Büro"
   },
+  "Official only": {
+    "Official only": ""
+  },
   "Offline Report": {
     "Offline Report": "Offline Report"
   },
@@ -5776,6 +5815,12 @@
   },
   "Open with": {
     "Open with": "Öffnen mit"
+  },
+  "Opening GitHub to remove the upvote": {
+    "Opening GitHub to remove the upvote": ""
+  },
+  "Opening GitHub to upvote": {
+    "Opening GitHub to upvote": ""
   },
   "Opening terminal: ": {
     "Opening terminal: ": "Terminal wird geöffnet: "
@@ -6083,6 +6128,12 @@
   "Pick how long to stay awake": {
     "Pick how long to stay awake": "Wählen Sie aus, wie lange der Ruhezustand verhindert werden soll"
   },
+  "Pick of the day": {
+    "Pick of the day": ""
+  },
+  "Pick of the week": {
+    "Pick of the week": ""
+  },
   "Pill": {
     "Pill": "Pille"
   },
@@ -6188,6 +6239,9 @@
   "Plugins": {
     "Plugins": "Plugins"
   },
+  "Plugins by %1": {
+    "Plugins by %1": ""
+  },
   "Plugins shown in All mode without a trigger. Drag to reorder": {
     "Plugins shown in All mode without a trigger. Drag to reorder": "Plugins, die im Modus \"Alle\" ohne Trigger angezeigt werden. Zum Umordnen ziehen"
   },
@@ -6211,6 +6265,9 @@
   },
   "Popouts and modals use the main animation duration": {
     "Popouts and modals use the main animation duration": "Popouts und Modale nutzen die Dauer der Hauptanimation"
+  },
+  "Popular": {
+    "Popular": ""
   },
   "Popular Plugins": {
     "Popular Plugins": "Beliebte Plugins"
@@ -6551,6 +6608,24 @@
   "Read:": {
     "Read:": "Lesen:"
   },
+  "Reads audio devices and volume": {
+    "Reads audio devices and volume": ""
+  },
+  "Reads its own settings": {
+    "Reads its own settings": ""
+  },
+  "Reads its saved state": {
+    "Reads its saved state": ""
+  },
+  "Reads the clipboard": {
+    "Reads the clipboard": ""
+  },
+  "Reads the list of running programs": {
+    "Reads the list of running programs": ""
+  },
+  "Reads your files": {
+    "Reads your files": ""
+  },
   "Ready": {
     "Ready": "Bereit"
   },
@@ -6697,6 +6772,9 @@
   },
   "Remove the shortcut %1? An unbind entry will be saved to dms/binds-user.lua so it stays removed across DMS updates.": {
     "Remove the shortcut %1? An unbind entry will be saved to dms/binds-user.lua so it stays removed across DMS updates.": "Den Kurzbefehl %1 entfernen? Ein Unbind-Eintrag wird in dms/binds-user.lua gespeichert, damit er auch nach DMS-Updates entfernt bleibt."
+  },
+  "Remove upvote": {
+    "Remove upvote": ""
   },
   "Removed administrator privileges": {
     "Removed administrator privileges": "Administratorrechte entfernt"
@@ -6941,6 +7019,12 @@
   "Runs in a terminal.": {
     "Runs in a terminal.": "Läuft in einem Terminal."
   },
+  "Runs programs on your computer": {
+    "Runs programs on your computer": ""
+  },
+  "Runs shell commands": {
+    "Runs shell commands": ""
+  },
   "S": {
     "S": "S"
   },
@@ -7012,6 +7096,12 @@
   },
   "Saved networks": {
     "Saved networks": "Gespeicherte Netzwerke"
+  },
+  "Saves its own settings": {
+    "Saves its own settings": ""
+  },
+  "Saves its state": {
+    "Saves its state": ""
   },
   "Saving...": {
     "Saving...": "Speichert..."
@@ -7400,6 +7490,9 @@
   "Show discharge rate": {
     "Show discharge rate": "Entladerate anzeigen"
   },
+  "Show every author": {
+    "Show every author": ""
+  },
   "Show filename": {
     "Show filename": "Dateiname anzeigen"
   },
@@ -7639,6 +7732,9 @@
   },
   "Soft square": {
     "Soft square": "Abgerundetes Quadrat"
+  },
+  "Software dimming": {
+    "Software dimming": ""
   },
   "Software updates": {
     "Software updates": "Software-Updates"
@@ -8261,6 +8357,9 @@
   "This output is disabled in the current profile": {
     "This output is disabled in the current profile": "Diese Ausgabe ist im aktuellen Profil deaktiviert"
   },
+  "This plugin can": {
+    "This plugin can": ""
+  },
   "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": {
     "This plugin does not have 'settings_write' permission.\n\nAdd \"permissions\": [\"settings_read\", \"settings_write\"] to plugin.json": "Dieses Plugin hat keine 'settings_write'-Berechtigung.\n\nFügen Sie \"permissions\": [\"settings_read\", \"settings_write\"] zur plugin.json hinzu"
   },
@@ -8489,6 +8588,9 @@
   "Tray icon tint": {
     "Tray icon tint": "Tray-Icon-Tönung"
   },
+  "Trending": {
+    "Trending": ""
+  },
   "Trigger": {
     "Trigger": "Auslöser"
   },
@@ -8716,6 +8818,15 @@
   },
   "Uptime": {
     "Uptime": "Betriebszeit"
+  },
+  "Upvote on GitHub": {
+    "Upvote on GitHub": ""
+  },
+  "Upvote removed": {
+    "Upvote removed": ""
+  },
+  "Upvoted on GitHub": {
+    "Upvoted on GitHub": ""
   },
   "Urgent": {
     "Urgent": "Dringend"
@@ -9158,6 +9269,9 @@
   "Working...": {
     "Working...": "Wird ausgeführt..."
   },
+  "Works here": {
+    "Works here": ""
+  },
   "Works in every submap": {
     "Works in every submap": "Funktioniert in jeder Submap"
   },
@@ -9184,6 +9298,9 @@
   },
   "Write:": {
     "Write:": "Schreiben:"
+  },
+  "Writes to your files": {
+    "Writes to your files": ""
   },
   "X axis": {
     "X axis": "X-Achse"
@@ -9292,6 +9409,9 @@
   },
   "checked just now": {
     "checked just now": "gerade eben geprüft"
+  },
+  "copy link": {
+    "copy link": ""
   },
   "deprecated": {
     "deprecated": "veraltet"
@@ -9466,6 +9586,9 @@
   },
   "remote": {
     "remote": "entfernt"
+  },
+  "report a problem": {
+    "report a problem": ""
   },
   "reviewed": {
     "reviewed": "überprüft"
