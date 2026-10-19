@@ -8,4 +8,5 @@ Singleton {
     readonly property string docs: web + "/docs"
     readonly property string api: "https://api." + domain
     readonly property string plugins: "https://plugins." + domain
+    readonly property string wallpaperCreator: "https://wallpaper." + domain
 }
