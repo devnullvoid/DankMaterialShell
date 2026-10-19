@@ -382,7 +382,7 @@ PanelWindow {
             id: "notification-popup",
             screenPreferences: [screen.name],
             autoHide: false
-        });
+        }, true);
     }
 
     function _frameEdgeInset(side) {

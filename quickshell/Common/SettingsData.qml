@@ -2281,8 +2281,8 @@ Singleton {
         return ShellLayout.popupTrigger(pos, screen, barThickness, widgetWidth, barSpacing, barPosition, barConfig);
     }
 
-    function getAdjacentBarInfo(screen, barPosition, barConfig) {
-        return ShellLayout.adjacentInfo(screen, barConfig);
+    function getAdjacentBarInfo(screen, barPosition, barConfig, includeAutoHide) {
+        return ShellLayout.adjacentInfo(screen, barConfig, includeAutoHide);
     }
 
     function getBarBounds(screen, barThickness, barPosition, barConfig) {
